@@ -639,37 +639,37 @@ EOT
 ###[ CONSTANTS ] #############################################################
 
   1234             # decimal integer
-# ^^^^ constant.numeric.integer.perl
+# ^^^^ constant.numeric.integer.decimal.perl
   -1234            # decimal integer
-# ^^^^^ constant.numeric.integer.perl
+# ^^^^^ constant.numeric.integer.decimal.perl
   - 1234           # decimal integer
 # ^ keyword.operator.arithmetic.perl
-#   ^^^^ constant.numeric.integer.perl
+#   ^^^^ constant.numeric.integer.decimal.perl
   0b0              # binary integer
-# ^^^ constant.numeric.binary.perl
+# ^^^ constant.numeric.integer.binary.perl
   0b1110011        # binary integer
-# ^^^^^^^^^ constant.numeric.binary.perl
+# ^^^^^^^^^ constant.numeric.integer.binary.perl
   01234            # octal integer
-# ^^^^^ constant.numeric.integer.perl
+# ^^^^^ constant.numeric.integer.decimal.perl
   0x1234           # hexadecimal integer
-# ^^^^^^ constant.numeric.hex.perl
+# ^^^^^^ constant.numeric.integer.hexadecimal.perl
   0x9              # hexadecimal integer
-# ^^^ constant.numeric.hex.perl
+# ^^^ constant.numeric.integer.hexadecimal.perl
   12.34e56         # exponential notation
-# ^^^^^^^^ constant.numeric.float.perl
+# ^^^^^^^^ constant.numeric.float.decimal.perl
   -12.34e-56       # exponential notation
-# ^^^^^^^^^^ constant.numeric.float.perl
+# ^^^^^^^^^^ constant.numeric.float.decimal.perl
   - 12.34e-56      # exponential notation
 # ^ keyword.operator.arithmetic.perl
-#   ^^^^^^^^^ constant.numeric.float.perl
+#   ^^^^^^^^^ constant.numeric.float.decimal.perl
   12.34e+56        # exponential notation
-# ^^^^^^^^^ constant.numeric.float.perl
+# ^^^^^^^^^ constant.numeric.float.decimal.perl
   "-12.34e56"      # number specified as a string
 # ^^^^^^^^^^^ string.quoted.double.perl
-#  ^^^^^^^^^ constant.numeric.float.perl
+#  ^^^^^^^^^ constant.numeric.float.decimal.perl
   "1234"           # number specified as a string
 # ^^^^^^ string.quoted.double.perl
-#  ^^^^ constant.numeric.integer.perl
+#  ^^^^ constant.numeric.integer.decimal.perl
   '0.00_01'
 #  ^^^^^^^ - constant.numeric
   '01bau'
@@ -1328,7 +1328,7 @@ sub AUTOLOAD () {}
 # ^^^^ entity.name.label.perl
 #     ^ punctuation.separator.perl
 #      ^^^^ keyword.other.flow.perl
-#           ^^ constant.numeric.integer.perl
+#           ^^ constant.numeric.integer.decimal.perl
 
   if(exists($curargs{$index}))
 # ^^ keyword.control.conditional.perl
