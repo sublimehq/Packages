@@ -84,14 +84,6 @@
 --  ^^^^^^^^^^^^ constant.numeric.hexadecimal
 --  ^^ punctuation.definition.numeric.hexadecimal
 
-    0xa.bc;
---  ^^^^^^ constant.numeric.hexadecimal
---  ^^ punctuation.definition.numeric.hexadecimal
-
-    0x1p10;
---  ^^^^^^ constant.numeric.hexadecimal
---  ^^ punctuation.definition.numeric.hexadecimal
-
     'foo';
 --  ^^^^^ string.quoted.single
 --  ^ punctuation.definition.string.begin
@@ -133,7 +125,7 @@
 --   ^^^^^ constant.character.escape.unicode
 --         ^^^^^^^^ constant.character.escape.unicode
 
-    '\z  
+    '\z
 --   ^^^^^ constant.character.escape - invalid
     ';
 
@@ -403,6 +395,15 @@
         2 + 2
     end
 -- ^^^^ meta.block
+--  ^^^ keyword.control.end
+
+    if 2 > .2 then
+--  ^^ keyword.control.conditional
+--     ^ constant.numeric.decimal
+--         ^^ constant.numeric.decimal
+--            ^^^^ keyword.control.conditional
+
+    end
 --  ^^^ keyword.control.end
 
     do 2 + 2 end
