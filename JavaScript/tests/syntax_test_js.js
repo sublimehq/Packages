@@ -256,6 +256,9 @@ someFunction({
 
     }
 
+    async /**//**//**/ function foo() {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+
 // Better highlighting when typing
 function
 function() {}
@@ -755,6 +758,13 @@ while (true)
     foo;
 //  ^^^ variable.other.readwrite - variable.label
 
+    break/**/foo;
+//           ^^^ variable.label - variable.other.readwrite
+
+    break/*
+    */foo;
+//    ^^^ variable.other.readwrite - variable.label
+
     break function;
 //        ^^^^^^^^ invalid.illegal.identifier variable.label
 
@@ -768,6 +778,13 @@ while (true)
     continue
     foo;
 //  ^^^ variable.other.readwrite - variable.label
+
+    continue/**/foo;
+//              ^^^ variable.label - variable.other.readwrite
+
+    continue/*
+    */ foo;
+//     ^^^ variable.other.readwrite - variable.label
 
     goto;
 //  ^^^^ variable.other.readwrite - keyword
@@ -1684,9 +1701,16 @@ return;
 {a: 1};
 // ^ meta.block - meta.object-literal
 
+return/**/{a: 1}
+//        ^^^^^^ meta.object-literal - meta.block
+
 return
 {a: 1};
 // ^ meta.block - meta.object-literal
+
+return/*
+*/{a: 1}
+//^^^^^^ meta.block - meta.object-literal
 
 const abc = new Set
 if (true) {};
