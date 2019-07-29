@@ -697,7 +697,7 @@ contexts:
     - match: \bx\b
       scope: keyword.operator.arithmetic.perl
       push: regexp-pop
-    - match: \b(and|or|xor|as|cmp|eq|gt|ge|lg|le|ne|not){{break}}
+    - match: \b(and|or|xor|as|cmp|eq|gt|ge|lt|le|ne|not){{break}}
       scope: keyword.operator.logical.perl
       push: regexp-pop
 
