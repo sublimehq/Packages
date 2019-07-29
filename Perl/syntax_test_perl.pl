@@ -857,7 +857,7 @@ EOT
 #   ^ punctuation.section.braces.begin.perl
     bar[a-z]{1,3} \/ .+
 # <- meta.function-call.perl meta.braces.perl string.regexp.perl
-  } [repl] gx; # comment
+  } [repl]gx; # comment
 # <- meta.function-call.perl meta.braces.perl string.regexp.perl
 #^^^^^^^^ meta.function-call.perl
 # ^ meta.braces.perl punctuation.section.braces.end.perl
@@ -865,10 +865,10 @@ EOT
 #   ^ punctuation.section.brackets.begin.perl
 #    ^^^^ string.unquoted.perl
 #        ^ punctuation.section.brackets.end.perl
-#          ^^ constant.language.flags.regexp.perl
-#            ^ punctuation.terminator.statement.perl
-#              ^^^^^^^^^ comment.line.number-sign.perl
-#              ^ punctuation.definition.comment.begin.perl
+#         ^^ constant.language.flags.regexp.perl
+#           ^ punctuation.terminator.statement.perl
+#             ^^^^^^^^^ comment.line.number-sign.perl
+#             ^ punctuation.definition.comment.begin.perl
   s/foo[a-z]{1,3} \/ .+/ bar $1 \/ /g; # comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
@@ -975,6 +975,33 @@ EOT
 #    ^^^^ string.regexp.perl source.regexp
 #        ^ punctuation.section.generic.end.perl
 #         ^ punctuation.terminator.statement.perl
+
+###[ REGEXP FLAGS ]###########################################################
+
+  /^<pattern>$/g;
+#              ^ constant.language.flags.regexp.perl
+  /^<pattern>$/ g;
+#               ^ - constant.language.flags.regexp.perl
+  m/^<pattern>$/g;
+#               ^ constant.language.flags.regexp.perl
+  m/^<pattern>$/ g;
+#                ^ - constant.language.flags.regexp.perl
+  m{^<pattern>$}g;
+#               ^ constant.language.flags.regexp.perl
+  m{^<pattern>$} g;
+#                ^ - constant.language.flags.regexp.perl
+  m<^[pattern]$>g;
+#               ^ constant.language.flags.regexp.perl
+  m<^[pattern]$> g;
+#                ^ - constant.language.flags.regexp.perl
+  s/<pattern>/<repl>/g;
+#                    ^ constant.language.flags.regexp.perl
+  s/<pattern>/<repl>/ g;
+#                     ^ - constant.language.flags.regexp.perl
+  s[<pattern>] [<repl>]g;
+#                      ^ constant.language.flags.regexp.perl
+  s[<pattern>] [<repl>] g;
+#                       ^ - constant.language.flags.regexp.perl
 
 ###[ DECLARATIONS ]###########################################################
 
