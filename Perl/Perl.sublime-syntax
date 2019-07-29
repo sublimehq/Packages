@@ -279,7 +279,7 @@ contexts:
     - include: function-call
     - include: comment-line
     # /<find>/<flags> statement at line start
-    - match: ^ *(?=/.*[^\\]/)
+    - match: ^\s*(?=/.*[^\\]/)
       push: regexp-pop
 
 ###[ BLOCKS AND GROUPS ]######################################################

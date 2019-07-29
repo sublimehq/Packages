@@ -770,6 +770,8 @@ EOT
 #  ^^^^^^^^^^^^^^ string.regexp.perl source.regexp
 #                ^ punctuation.section.generic.end.perl - string.regexp - source.regexp
 #                 ^ constant.language.flags.regexp.perl
+	/[a-z]test\d{3}/g;
+#^ punctuation.section.generic.begin.perl
   ( /[a-z]test\d{3}/g );
 #   ^ punctuation.section.generic.begin.perl - string.regexp - source.regexp
 #    ^^^^^^^^^^^^^^ string.regexp.perl source.regexp
