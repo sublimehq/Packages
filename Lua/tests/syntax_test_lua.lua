@@ -84,14 +84,6 @@
 --  ^^^^^^^^^^^^ constant.numeric.hexadecimal
 --  ^^ punctuation.definition.numeric.hexadecimal
 
-    0xa.bc;
---  ^^^^^^ constant.numeric.hexadecimal
---  ^^ punctuation.definition.numeric.hexadecimal
-
-    0x1p10;
---  ^^^^^^ constant.numeric.hexadecimal
---  ^^ punctuation.definition.numeric.hexadecimal
-
     'foo';
 --  ^^^^^ string.quoted.single
 --  ^ punctuation.definition.string.begin
@@ -133,7 +125,7 @@
 --   ^^^^^ constant.character.escape.unicode
 --         ^^^^^^^^ constant.character.escape.unicode
 
-    '\z  
+    '\z
 --   ^^^^^ constant.character.escape - invalid
     ';
 
@@ -314,6 +306,24 @@
 --     ^ punctuation.section.brackets.begin
 --               ^ punctuation.section.brackets.end
 
+    (not nil)
+--   ^^^ keyword.operator.logical.lua
+--       ^^^ constant.language.null.lua
+
+    (function () return; end)
+--   ^^^^^^^^^^^^^^^^^^^^^^^ - illegal
+
+    (return)
+--   ^^^^^^ meta.group.lua invalid.unexpected-keyword.lua
+
+    foo[return] foo[false]
+--      ^^^^^^ invalid.unexpected-keyword.lua
+--            ^ - meta.brackets
+--                  ^^^^^ constant.language.boolean.true.lua
+
+    some.return
+--       ^^^^^^ invalid.unexpected-keyword.lua
+
 --FUNCTION CALLS
 
     f(42);
@@ -337,6 +347,11 @@
     f {};
 --  ^ variable.function
 --    ^^ meta.function-call.arguments meta.mapping
+
+    f( 'unclosed)
+    return x
+--  ^^^^^^ meta.function-call.arguments.lua meta.group.lua invalid.unexpected-keyword.lua
+--         ^ - meta.function-call
 
 --FUNCTIONS
 
@@ -392,6 +407,9 @@
     foo.bar = function() end;
 --      ^^^ meta.property entity.name.function
 
+    function (return) end;
+--            ^^^^^^ invalid.unexpected-keyword.lua
+
 --STATEMENTS
 
     end;
@@ -403,6 +421,15 @@
         2 + 2
     end
 -- ^^^^ meta.block
+--  ^^^ keyword.control.end
+
+    if 2 > .2 then
+--  ^^ keyword.control.conditional
+--     ^ constant.numeric.decimal
+--         ^^ constant.numeric.decimal
+--            ^^^^ keyword.control.conditional
+
+    end
 --  ^^^ keyword.control.end
 
     do 2 + 2 end
@@ -421,6 +448,9 @@
 --  ^^^^ keyword.control.conditional
     end
 
+    if true end
+--  ^^^^^^^^^^^ - meta.block
+--          ^^^ invalid.illegal.unexpected-end
 
     while true do
 --  ^^^^^ keyword.control.loop
@@ -428,6 +458,10 @@
         2 + 2
     end
 --  ^^^ keyword.control.end
+
+    while true end
+--  ^^^^^^^^^^^^^^ - meta.block
+--             ^^^ invalid.illegal.unexpected-end
 
     repeat
 --  ^^^^^^ keyword.control.loop
@@ -463,6 +497,10 @@
 --                   ^^^^^^ meta.block
 --                   ^^ keyword.control
 --                      ^^^ keyword.control.end
+
+    for x in a end
+--  ^^^^^^^^^^^^^^ - meta.block
+--             ^^^ invalid.illegal.unexpected-end
 
 
     :: foo ::;
