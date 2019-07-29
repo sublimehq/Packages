@@ -140,16 +140,6 @@ contexts:
     - match: if{{identifier_break}}
       scope: keyword.control.conditional.lua
       push:
-        - - include: end
-          - match: elseif{{identifier_break}}
-            scope: keyword.control.conditional.lua
-            push:
-              - if-then
-              - expression
-          - match: else{{identifier_break}}
-            scope: keyword.control.conditional.lua
-            push: if-block
-
         - if-then
         - expression
 
@@ -220,8 +210,15 @@ contexts:
 
   if-block:
     - meta_scope: meta.block.lua
-    - match: (?=(?:end|elseif|else){{identifier_break}})
-      pop: true
+    - include: end
+    - match: elseif{{identifier_break}}
+      scope: keyword.control.conditional.lua
+      set:
+        - if-then
+        - expression
+    - match: else{{identifier_break}}
+      scope: keyword.control.conditional.lua
+      set: if-block
     - include: statements
 
   expression:

@@ -421,6 +421,9 @@
 --  ^^^^ keyword.control.conditional
     end
 
+    if true end
+--  ^^^^^^^^^^^ - meta.block
+--          ^^^ invalid.illegal.unexpected-end
 
     while true do
 --  ^^^^^ keyword.control.loop
@@ -428,6 +431,10 @@
         2 + 2
     end
 --  ^^^ keyword.control.end
+
+    while true end
+--  ^^^^^^^^^^^^^^ - meta.block
+--             ^^^ invalid.illegal.unexpected-end
 
     repeat
 --  ^^^^^^ keyword.control.loop
@@ -463,6 +470,10 @@
 --                   ^^^^^^ meta.block
 --                   ^^ keyword.control
 --                      ^^^ keyword.control.end
+
+    for x in a end
+--  ^^^^^^^^^^^^^^ - meta.block
+--             ^^^ invalid.illegal.unexpected-end
 
 
     :: foo ::;
