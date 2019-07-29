@@ -8,7 +8,11 @@ file_extensions:
   - pod
   - t
   - PL
-first_line_match: ^#!.*\bperl\b
+first_line_match: |-
+  (?x:
+    ^\#! .* \bperl\b |                     # shebang
+    ^\# \s* -\*- [^*]* [Pp]erl [^*]* -\*-  # editorconfig
+  )
 scope: source.perl
 
 variables:
