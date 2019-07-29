@@ -727,7 +727,8 @@ EOT
 #             ^^ keyword.accessor.arrow.perl
 #               ^^^ variable.function.member.perl
 #                  ^ punctuation.section.arguments.begin.perl
-#                   ^^^ constant.other.perl
+#                   ^^^ constant.other.key.perl
+#                      ^ - constant
 #                       ^^ keyword.operator.assignment.perl
 #                          ^^^^^^^ string.quoted.single.perl
 #                                 ^ punctuation.section.arguments.end.perl
