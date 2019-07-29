@@ -533,6 +533,86 @@ EOT
   %#_
 # ^^^ variable.other.readwrite.global.perl
 # ^^ punctuation.definition.variable.perl
+  $&[0]
+# ^^ variable.other.regexp.match.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  $`[0]
+# ^^ variable.other.regexp.pre-match.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  $'[0]
+# ^^ variable.other.regexp.post-match.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  $+[0]
+# ^^ variable.other.regexp.last-paren-match.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  $"[0]
+# ^^ variable.other.readwrite.list-separator.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  $0[0]
+# ^^ variable.other.predefined.program-name.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  @0[0]
+# ^^ variable.other.readwrite.global.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  %0[0]
+# ^^ variable.other.readwrite.global.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  $1[0]
+# ^^ variable.other.subpattern.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  @1[0]
+# ^^ variable.other.readwrite.global.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  %1[0]
+# ^^ variable.other.readwrite.global.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  $_[0]
+# ^^ variable.other.predefined.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  @_[0]
+# ^^ variable.other.readwrite.global.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  %_[0]
+# ^^ variable.other.readwrite.global.perl
+# ^ punctuation.definition.variable.perl
+#   ^^^ meta.item-access.perl
+  $#0[0]
+# ^^^ variable.other.readwrite.global.perl
+# ^^ punctuation.definition.variable.perl
+#    ^^^ meta.item-access.perl
+  @#0[0]
+# ^^^ variable.other.readwrite.global.perl
+# ^^ punctuation.definition.variable.perl
+#    ^^^ meta.item-access.perl
+  %#0[0]
+# ^^^ variable.other.readwrite.global.perl
+# ^^ punctuation.definition.variable.perl
+#    ^^^ meta.item-access.perl
+  $#_[0]
+# ^^^ variable.other.readwrite.global.perl
+# ^^ punctuation.definition.variable.perl
+#    ^^^ meta.item-access.perl
+  @#_[0]
+# ^^^ variable.other.readwrite.global.perl
+# ^^ punctuation.definition.variable.perl
+#    ^^^ meta.item-access.perl
+  %#_[0]
+# ^^^ variable.other.readwrite.global.perl
+# ^^ punctuation.definition.variable.perl
+#    ^^^ meta.item-access.perl
   $Foo::Bar::baz
 # ^^^^^^^^^^^^^^ variable.other.readwrite.global.perl
 # ^ punctuation.definition.variable.perl
@@ -549,7 +629,52 @@ EOT
 #         ^^^ support.class.perl
 #             ^^ punctuation.accessor.double-colon.perl
 #                ^^^ variable.other.member.perl
-  $Foo::Bar->$baz
+  $Foo::Bar::baz[4]
+# ^^^^^^^^^^^^^^^^^ variable.other.readwrite.global.perl
+# ^ punctuation.definition.variable.perl
+#  ^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^ support.class.perl
+#          ^^ punctuation.accessor.double-colon.perl
+#            ^^^ variable.other.member.perl - meta.item-access.perl
+#               ^ meta.item-access.perl punctuation.section.item-access.begin.perl
+#                ^ meta.item-access.perl constant.numeric.integer
+#                 ^ meta.item-access.perl punctuation.section.item-access.end.perl
+  $Foo::Bar->baz
+# ^^^^^^^^^ variable.other.readwrite.global.perl
+# ^ punctuation.definition.variable.perl
+#  ^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^ support.class.perl
+#          ^^ keyword.accessor.arrow.perl
+#            ^^^ variable.other.member.perl
+  $Foo::Bar->[0]
+# ^^^^^^^^^ variable.other.readwrite.global.perl
+# ^ punctuation.definition.variable.perl
+#  ^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^ support.class.perl
+#          ^^ keyword.accessor.arrow.perl
+#            ^^^ meta.item-access.perl
+  $Foo::Bar->baz[0]
+# ^^^^^^^^^ variable.other.readwrite.global.perl
+# ^ punctuation.definition.variable.perl
+#  ^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^ support.class.perl
+#          ^^ keyword.accessor.arrow.perl
+#            ^^^ variable.other.member.perl
+#               ^^^ meta.item-access.perl
+  $Foo::Bar->baz{'key'}
+# ^^^^^^^^^ variable.other.readwrite.global.perl
+# ^ punctuation.definition.variable.perl
+#  ^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^ support.class.perl
+#          ^^ keyword.accessor.arrow.perl
+#            ^^^ variable.other.member.perl
+#               ^^^^^^^ meta.item-access.perl
+  $Foo::Bar->$baz->[-1]
 # ^^^^^^^^^ variable.other.readwrite.global.perl
 # ^ punctuation.definition.variable.perl
 #  ^^^ support.class.perl
@@ -558,6 +683,9 @@ EOT
 #          ^^ keyword.accessor.arrow.perl - variable
 #            ^^^^ variable.other.readwrite.global.perl
 #            ^ punctuation.definition.variable.perl
+#                  ^ punctuation.section.item-access.begin.perl
+#                  ^^^^ meta.item-access.perl
+#                     ^ punctuation.section.item-access.end.perl
   $Foo :: Bar -> $baz
 # ^^^^^^^^^^^ variable.other.readwrite.global.perl
 # ^ punctuation.definition.variable.perl
@@ -612,6 +740,9 @@ EOT
 #           ^^ punctuation.accessor.double-colon.perl
 #             ^^^ variable.other.member.perl
 #                ^ punctuation.definition.variable.end.perl
+  ${Foo::Bar::baz}[$var]
+# ^^^^^^^^^^^^^^^^^^^^^^ variable.other.readwrite.global.perl
+#                 ^^^^^^ meta.item-access.perl
   ${
 #^ - variable
 # ^^ punctuation.definition.variable.begin.perl
@@ -630,7 +761,8 @@ EOT
 # ^ punctuation.definition.variable.end.perl
 #  ^ - variable
   $::Config{'cf_email'}
-# ^^^^^^^^^ variable.other.readwrite.global.perl
+# ^^^^^^^^^^^^^^^^^^^^^ variable.other.readwrite.global.perl
+#          ^^^^^^^^^^^^ meta.item-access.perl
 # ^ punctuation.definition.variable.perl
 #  ^^ punctuation.accessor.double-colon.perl
 #    ^^^^^^ support.class.perl
@@ -656,6 +788,7 @@ EOT
 #              ^ punctuation.terminator.statement.perl
   %{$foo{'bar'}{'bar'}} = 'excl';
 # ^^^^^^^^^^^^^^^^^^^^^ meta.braces.perl variable.other.readwrite.global.perl
+#       ^^^^^^^^^^^^^^ meta.item-access.perl
 # ^^ punctuation.definition.variable.begin.perl
 #   ^ punctuation.definition.variable.perl
 #   ^^^^ variable.other.readwrite.global.perl variable.other.readwrite.global.perl
@@ -663,6 +796,36 @@ EOT
 #                       ^ keyword.operator.assignment.perl
 #                         ^^^^^^ string.quoted.single.perl
 #                               ^ punctuation.terminator.statement.perl
+
+  # addin items to an array
+  $AoA[$i] = [ somefunc($i) ];
+# ^^^^ variable.other.readwrite.global.perl - meta.item-access
+#     ^^^^ meta.item-access.perl
+#     ^ punctuation.section.item-access.begin.perl
+#      ^^ variable.other.readwrite.global.perl
+#        ^ punctuation.section.item-access.end.perl
+#          ^ keyword.operator.assignment.perl
+#            ^ punctuation.section.brackets.begin.perl
+#                           ^ punctuation.section.brackets.end.perl
+#                            ^ punctuation.terminator.statement.perl
+  # add new columns to an existing row
+  push @{ $AoA[0] }, "wilma", "betty";   # explicit deref
+# ^^^^ support.function.perl
+#      ^^^^^^^^^^^^ meta.braces.perl variable.other.readwrite.global.perl
+#         ^^^^ variable.other.readwrite.global.perl - meta.item-access
+#             ^^^ meta.item-access.perl
+#      ^^  punctuation.definition.variable.begin.perl
+#         ^ punctuation.definition.variable.perl
+#             ^ punctuation.section.item-access.begin.perl
+#              ^ constant.numeric.integer
+#               ^ punctuation.section.item-access.end.perl
+#                 ^ punctuation.definition.variable.end.perl
+#                  ^ punctuation.separator.sequence.perl
+#                    ^^^^^^^ string.quoted.double.perl
+#                           ^ punctuation.separator.sequence.perl
+#                             ^^^^^^^ string.quoted.double.perl
+#                                    ^ punctuation.terminator.statement.perl
+
 ###[ CONSTANTS ] #############################################################
 
   1234             # decimal integer
