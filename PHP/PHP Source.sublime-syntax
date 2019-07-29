@@ -237,11 +237,13 @@ contexts:
       scope: keyword.operator.increment-decrement.php
     - match: (\-|\+|\*|/|%)
       scope: keyword.operator.arithmetic.php
+    - match: '&&|\|\|'
+      scope: keyword.operator.logical.php
     - match: '<<|>>|~|\^|&|\|'
       scope: keyword.operator.bitwise.php
-    - match: (===|==|!==|!=|<=>|<=|>=|<>|<|>)
+    - match: (===|!==|<=>|==|!=|<=|>=|<>|<|>)
       scope: keyword.operator.comparison.php
-    - match: (?i)(!|&&|\|\|)|\b(and|or|xor|as)\b
+    - match: (?i)(!)|\b(and|or|xor|as)\b
       scope: keyword.operator.logical.php
     - include: function-call
     - match: \.\.\.

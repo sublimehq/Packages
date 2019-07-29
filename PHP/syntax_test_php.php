@@ -1123,8 +1123,14 @@ $a .= 1;
 $a ??= 1;
 // ^^^ keyword.operator.assignment.augmented.php
 
-if ($a !== $b);
-//     ^^^ keyword.operator.comparison.php
+if ($a && $b || !$c);
+//     ^^ keyword.operator.logical
+//           ^^ keyword.operator.logical
+//              ^ keyword.operator.logical
+
+if ($a !== $b || $a == $b);
+//     ^^^ keyword.operator.comparison
+//                  ^^ keyword.operator.comparison
 
 if ():
 else:
