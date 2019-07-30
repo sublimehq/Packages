@@ -1258,6 +1258,10 @@ using namespace NAME __attribute__((visibility ("hidden")));
 /*                   ^ storage.modifier */
 /*                                               ^ string */
 
+using namespace 
+/* <- keyword.control */
+/*    ^ keyword.control */
+
 using namespace myNameSpace;
 /* <- keyword.control */
 /*    ^ keyword.control */

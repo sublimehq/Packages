@@ -511,7 +511,7 @@ contexts:
         - include: expressions
 
   using-namespace:
-    - match: '\b(using)\s+(namespace)\s+(?={{path_lookahead}})'
+    - match: '\b(using)\s+(namespace)\b'
       captures:
         1: keyword.control.objc++
         2: keyword.control.objc++

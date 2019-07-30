@@ -435,7 +435,7 @@ contexts:
         - include: expressions
 
   using-namespace:
-    - match: '\b(using)\s+(namespace)'
+    - match: '\b(using)\s+(namespace)\b'
       captures:
         1: keyword.control.c++
         2: keyword.control.c++
