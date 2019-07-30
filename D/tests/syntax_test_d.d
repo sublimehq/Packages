@@ -188,9 +188,9 @@ bin = 0b10__1;
 bin = 0B1;
 //    ^^ punctuation.definition.numeric.binary.d
 //      ^ constant.numeric.integer.binary.d
-auto hex = 0xF;
+auto hex = 0xFf;
 //         ^^ punctuation.definition.numeric.hexadecimal.d
-//           ^ constant.numeric.integer.hexadecimal.d
+//           ^^ constant.numeric.integer.hexadecimal.d
 hex = 0x012_3;
 //    ^^ punctuation.definition.numeric.hexadecimal.d
 //      ^^^^^ constant.numeric.integer.hexadecimal.d
@@ -215,10 +215,10 @@ f = .4E+4L;
 f =  1f;
 //   ^ constant.numeric.float.d
 //    ^ storage.type.float.d
-f = 0x123f;
+f = 0x123p2f;
 //  ^^ punctuation.definition.numeric.hexadecimal.d
-//    ^^^ constant.numeric.float.hexadecimal.d
-//       ^ storage.type.float.d
+//    ^^^^^ constant.numeric.float.hexadecimal.d
+//         ^ storage.type.float.d
 f = 0b10101101f;
 //  ^^ punctuation.definition.numeric.binary.d
 //    ^^^^^^^^ constant.numeric.float.binary.d
@@ -753,6 +753,13 @@ extern(1)
 //                                 ^ keyword.operator.assignment.d
 //                                   ^^^ string.quoted.double.d
 //                                      ^ punctuation.terminator.d
+  enum foo : int;
+//^^^^^^^^^^^^^^^ meta.enum.d
+//^^^^ storage.type.enum.d keyword.declaration.enum.d
+//     ^^^ entity.name.enum.d
+//         ^ punctuation.separator.mapping.d
+//           ^^^ meta.path.d storage.type.d
+//              ^ punctuation.terminator.d
   enum ulong
 //^^^^^^^^^^^ meta.enum.d
 //^^^^ storage.type.enum.d keyword.declaration.enum.d
@@ -1431,9 +1438,10 @@ extern(1)
   unittest {
 //^^^^^^^^ keyword.control.conditional.d
 //         ^ punctuation.section.block.begin.d
-    unittest {
+    unittest @safe {
   //^^^^^^^^ keyword.control.conditional.d
-  //         ^ punctuation.section.block.begin.d
+  //         ^^^^^ meta.block.d storage.modifier.d
+  //               ^ meta.block.d meta.block.d punctuation.section.block.begin.d
     }
   //^ punctuation.section.block.end.d
   }
@@ -1775,9 +1783,8 @@ extern(1)
 //        ^ punctuation.section.parens.begin.d
 //         ^^^^^^^^^ storage.type.d
 //                  ^ invalid.illegal.d
-//                    ^^^ variable.parameter.d
-//                        ^ invalid.illegal.d
-//                         ^ punctuation.section.parens.end.d
+//                    ^^^ meta.path.d storage.type.d
+//                         ^ invalid.illegal.d
 //                           ^ punctuation.section.block.begin.d
   }
 //^ punctuation.section.block.end.d
@@ -2629,3 +2636,66 @@ extern(1)
 //^ invalid.illegal.d
   ]
 //^ invalid.illegal.d
+
+  extern extern(C) int a;
+//^^^^^^ storage.modifier.external.d
+//       ^^^^^^ keyword.other.external.d
+//             ^ punctuation.section.parens.begin.d
+//              ^ string.other.d
+//               ^ punctuation.section.parens.end.d
+//                 ^^^ meta.path.d storage.type.d
+//                     ^ variable.other.d
+//                      ^ punctuation.terminator.d
+
+  assert(foo !is bar);
+//^^^^^^ keyword.other.assert.d
+//      ^ punctuation.section.parens.begin.d
+//       ^^^ meta.path.d variable.other.d
+//           ^^^ keyword.operator.comparison.d
+//               ^^^ meta.path.d variable.other.d
+//                  ^ punctuation.section.parens.end.d
+//                   ^ punctuation.terminator.d
+
+  a = (immutable ref Outer.Inner inner) => inner.x;
+//^ meta.path.d variable.other.d
+//  ^ keyword.operator.assignment.d
+//    ^ punctuation.section.group.begin.d
+//     ^^^^^^^^^ storage.modifier.d
+//               ^^^ storage.modifier.d
+//                   ^^^^^^^^^^^ meta.path.d
+//                   ^^^^^ storage.type.d
+//                        ^ punctuation.accessor.dot.d
+//                         ^^^^^ storage.type.d
+//                               ^^^^^ variable.parameter.d
+//                                    ^ punctuation.section.group.end.d
+//                                      ^^^^^^^^^^ meta.function.d
+//                                      ^^ storage.type.function.d keyword.declaration.function.lambda.d
+//                                         ^^^^^^^ meta.path.d
+//                                         ^^^^^ variable.other.d
+//                                              ^ punctuation.accessor.dot.d
+//                                               ^ variable.other.d
+
+  pure Pair!int* makePair(int x) {}
+//^^^^ storage.modifier.d
+//     ^^^^^^^^ meta.function-call.d
+//     ^^^^ meta.path.d variable.function.d
+//         ^ keyword.operator.d
+//          ^^^ storage.type.d
+//             ^ keyword.operator.pointer.d
+//               ^^^^^^^^ meta.function.d entity.name.function.d
+//                       ^^^^^^^ meta.function.parameters.d
+//                       ^ punctuation.section.group.begin.d
+//                        ^^^ meta.path.d storage.type.d
+//                            ^ variable.parameter.d
+//                             ^ punctuation.section.group.end.d
+//                               ^^ meta.function.d meta.block.d
+//                               ^ punctuation.section.block.begin.d
+//                                ^ punctuation.section.block.end.d
+  alias const(int) constInt;
+//^^^^^ keyword.control.alias.d
+//      ^^^^^ storage.modifier.d
+//           ^ punctuation.section.group.begin.d
+//            ^^^ meta.path.d storage.type.d
+//               ^ punctuation.section.group.end.d
+//                 ^^^^^^^^ entity.name.type.d
+//                         ^ punctuation.terminator.d

@@ -87,9 +87,9 @@ contexts:
     - include: expressions
 
   expressions:
+    - include: constants
     - include: class
     - include: module
-    - include: constants
     - include: invalid
     - include: blocks
     - include: keywords
