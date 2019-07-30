@@ -1455,18 +1455,41 @@ sub
 # <- meta.function.perl storage.type.function.perl
 #^^ meta.function.perl storage.type.function.perl
 #  ^ - invalid
+sub # comment
+# <- meta.function.perl storage.type.function.perl
+#^^ meta.function.perl storage.type.function.perl
+#  ^^^^^^^^^^ meta.function.perl
+#  ^ - comment - entity - keyword - invalid
+#   ^^^^^^^^^ comment.line.number-sign.perl
 sub name
 # <- meta.function.perl storage.type.function.perl
 #^^^^^^^ meta.function.perl
 #^^ storage.type.function.perl
 #   ^^^^ entity.name.function.perl
-#       ^ - invalid
+#       ^ - entity - invalid
+sub name # comment
+# <- meta.function.perl storage.type.function.perl
+#^^^^^^^^^^^^^^^^^ meta.function.perl
+#^^ storage.type.function.perl
+#   ^^^^ entity.name.function.perl
+#       ^ - comment - entity - invalid
+#        ^^^^^^^^^ comment.line.number-sign.perl
 sub name invalid
 # <- meta.function.perl storage.type.function.perl
 #^^^^^^^^^^^^^^^ meta.function.perl
 #^^ storage.type.function.perl
 #   ^^^^ entity.name.function.perl
+#       ^ - entity - invalid
 #        ^^^^^^^ invalid.illegal.function-name.perl
+sub name invalid # comment
+# <- meta.function.perl storage.type.function.perl
+#^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.perl
+#^^ storage.type.function.perl
+#   ^^^^ entity.name.function.perl
+#       ^ - entity - invalid
+#        ^^^^^^^ invalid.illegal.function-name.perl
+#               ^ - comment - entity - invalid
+#                ^^^^^^^^^ comment.line.number-sign.perl
 sub name;
 # <- meta.function.perl storage.type.function.perl
 #^^^^^^^ meta.function.perl
@@ -1508,8 +1531,18 @@ sub name {
 # ^^^ support.function.perl
 }
 # <- meta.function.perl punctuation.section.block.end.perl
-
 sub name
+{
+# <- meta.function.perl punctuation.section.block.begin.perl
+}
+# <- meta.function.perl punctuation.section.block.end.perl
+sub name # comment
+{
+# <- meta.function.perl punctuation.section.block.begin.perl
+}
+# <- meta.function.perl punctuation.section.block.end.perl
+sub name # comment
+#        ^^^^^^^^^ comment.line.number-sign.perl
 {
 # <- meta.function.perl punctuation.section.block.begin.perl
 }
@@ -1528,7 +1561,6 @@ sub name invalid
 # <- meta.function.perl punctuation.section.block.begin.perl
 }
 # <- meta.function.perl punctuation.section.block.end.perl
-
 sub name ($arg, $arg) {
 # <- meta.function.perl storage.type.function.perl
 #^^^^^^^^ meta.function.perl - meta.function.parameters.perl
@@ -1545,6 +1577,12 @@ sub name ($arg, $arg) {
 }
 # <- meta.function.perl punctuation.section.block.end.perl
 sub name ($arg, $arg)
+{
+# <- meta.function.perl punctuation.section.block.begin.perl
+}
+# <- meta.function.perl punctuation.section.block.end.perl
+sub name ($arg, $arg) # comment
+#                     ^^^^^^^^^ comment.line.number-sign.perl
 {
 # <- meta.function.perl punctuation.section.block.begin.perl
 }
