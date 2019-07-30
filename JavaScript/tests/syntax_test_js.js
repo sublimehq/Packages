@@ -395,20 +395,24 @@ tag`Hello ${ a + b } world\nanother ${expression}.`;
 // <- variable.function.tagged-template
 // ^ punctuation.definition.string.begin
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string
-// ^^^^^^^ string.template
-//        ^ punctuation.definition.template-expression.begin
+// ^^^^^^^ string.quoted.other
+//        ^^^^^^^^^^ meta.interpolation - string
+//        ^ punctuation.section.interpolation.begin
 //           ^ variable.other.readwrite
 //             ^ keyword.operator.arithmetic
-//               ^ meta.template.expression source.js.embedded.expression
-//                 ^ punctuation.definition.template-expression.end
-//                  ^^^^^^^^^^^^^^^^ string.template
+//               ^ source.js.embedded
+//                 ^ punctuation.section.interpolation.end
+//                  ^^^^^^^^^^^^^^^^ string.quoted.other
 //                        ^ constant.character.escape
-//                                               ^^ string.template
+//                                  ^^^^^^^^^^^^^ meta.interpolation - string
+//                                  ^^ punctuation.section.interpolation.begin
+//                                              ^ punctuation.section.interpolation.end
+//                                               ^^ string.quoted.other
 //                                                ^ punctuation.definition.string.end
 
 tag `template`;
 // <- variable.function.tagged-template
-//  ^^^^^^^^^^ meta.string string.template
+//  ^^^^^^^^^^ meta.string string.quoted.other
 
 x ? y // y is a template tag!
 `template` : z;
@@ -1804,12 +1808,12 @@ var query = {
 
 var str = `Hello, ${name}!`;
 //        ^^^^^^^^^^^^^^^^^ meta.string
-//        ^^^^^^^^ string.template
-//                ^^^^^^^ meta.template.expression - string
-//                       ^^ string.template
-//                ^^ punctuation.definition.template-expression.begin
-//                  ^^^^ source.js.embedded.expression variable.other.readwrite
-//                      ^ punctuation.definition.template-expression.end
+//        ^^^^^^^^ string.quoted.other
+//                ^^^^^^^ meta.interpolation - string
+//                       ^^ string.quoted.other
+//                ^^ punctuation.section.interpolation.begin
+//                  ^^^^ source.js.embedded variable.other.readwrite
+//                      ^ punctuation.section.interpolation.end
 
 function yy (a, b) {
 // ^^^^^^^^^^^^^^^^^ meta.function
