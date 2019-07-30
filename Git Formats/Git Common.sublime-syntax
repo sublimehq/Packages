@@ -91,14 +91,32 @@ contexts:
 
   email:
     # email reference
-    - match: (<)(\S+(\@)\S+?(\.)\S+)(>)
-      scope: meta.reference.email.git
-      captures:
-        1: punctuation.definition.reference.email.begin.git
-        2: entity.name.reference.email.git
-        3: punctuation.separator.email.git
-        4: punctuation.separator.email.git
-        5: punctuation.definition.reference.email.end.git
+    - match: <(?=\S+?@\S+?\.\S+?>)
+      scope: punctuation.definition.reference.email.begin.git
+      push: [email-meta, email-name]
+
+  email-meta:
+    - meta_scope: meta.reference.email.git
+    - match: ''
+      pop: true
+
+  email-name:
+    - meta_content_scope: entity.name.reference.email.git
+    - match: '@'
+      scope: punctuation.separator.email.git
+      set: email-domain
+    - include: email-end
+
+  email-domain:
+    - meta_content_scope: entity.name.reference.email.git
+    - match: \.
+      scope: punctuation.separator.domain.git
+    - include: email-end
+
+  email-end:
+    - match: '>'
+      scope: punctuation.definition.reference.email.end.git
+      pop: true
 
   username:
     # user reference
