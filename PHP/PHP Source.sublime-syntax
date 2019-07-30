@@ -935,13 +935,9 @@ contexts:
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
             1: keyword.operator.heredoc.php
-          push:
-            - meta_scope: meta.embedded.js
-            - meta_content_scope: source.js
-            - match: (?=^\s*JAVASCRIPT\b)
-              pop: true
-            - include: interpolation
-            - include: scope:source.js
+          embed: heredoc-javascript
+          embed_scope: meta.embedded.js source.js
+          escape: (?=^\s*JAVASCRIPT\b)
         - match: <<<\s*('JAVASCRIPT')\s*$\n?
           scope: meta.embedded.js punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
@@ -1004,6 +1000,12 @@ contexts:
             - meta_scope: string.unquoted.nowdoc.php
             - match: (?=^\s*\2\b)
               pop: true
+  heredoc-javascript:
+    - meta_include_prototype: false
+    - match: ''
+      push: scope:source.js
+      with_prototype:
+        - include: interpolation
   instantiation:
     # anonymous class ( http://php.net/manual/en/language.oop5.anonymous.php )
     - match: '(?i)(new)\s+(class)\b\s*'
