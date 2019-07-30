@@ -626,6 +626,13 @@ contexts:
     - match: ','
       scope: punctuation.separator.parameters.python
       push: allow-unpack-operators
+    - match: /
+      scope: storage.modifier.positional-args-only.python
+      push:
+        - match: (?=[,)])
+          pop: true
+        - match: \S
+          scope: invalid.illegal.expected-comma.python
     - match: '(?==)'
       set:
         - match: '='
@@ -1426,6 +1433,8 @@ contexts:
           pop: true
         - match: '![ars]'
           scope: storage.modifier.conversion.python
+        - match: =
+          scope: storage.modifier.debug.python
         - match: ':'
           push:
             - meta_scope: meta.format-spec.python constant.other.format-spec.python
@@ -1438,7 +1447,7 @@ contexts:
         - match: ''
           push:
             - meta_content_scope: source.python.embedded
-            - match: (?=![^=]|:|\})
+            - match: (?==?(![^=]|:|\}))
               pop: true
             - match: \\
               scope: invalid.illegal.backslash-in-fstring.python
