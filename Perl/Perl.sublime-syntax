@@ -86,10 +86,10 @@ contexts:
 
   comment-line:
     - match: \#+
-      scope: punctuation.definition.comment.begin.perl
+      scope: punctuation.definition.comment.perl
       push:
         - meta_scope: comment.line.number-sign.perl
-        - match: $
+        - match: \n
           pop: true
 
   comment-pod:
@@ -99,7 +99,7 @@ contexts:
       push:
         - meta_scope: comment.block.documentation.perl
         - meta_content_scope: string.unquoted.perl
-        - match: $\n?
+        - match: \n
           set: comment-pod-body
         - include: comment-pod-formatting
 
