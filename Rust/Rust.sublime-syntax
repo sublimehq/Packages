@@ -9,7 +9,7 @@ variables:
   identifier: '(?:(?:[[:alpha:]][_[:alnum:]]*|_[_[:alnum:]]+)\b)' # include a word boundary at the end to ensure all possible characters are consumed, to prevent catastrophic backtracking
   escaped_byte: '\\(x\h{2}|n|r|t|0|"|''|\\)'
   escaped_char: '\\(x\h{2}|n|r|t|0|"|''|\\|u\{\h{1,6}\})'
-  int_suffixes: 'i8|i16|i32|i64|isize|u8|u16|u32|u64|usize'
+  int_suffixes: 'i8|i16|i32|i64|i128|isize|u8|u16|u32|u64|u128|usize'
   support_type: \b(Copy|Send|Sized|Sync|Drop|Fn|FnMut|FnOnce|Box|ToOwned|Clone|PartialEq|PartialOrd|Eq|Ord|AsRef|AsMut|Into|From|Default|Iterator|Extend|IntoIterator|DoubleEndedIterator|ExactSizeIterator|Option|Some|None|Result|Ok|Err|SliceConcatExt|String|ToString|Vec)\b
 contexts:
   main:
@@ -455,7 +455,7 @@ contexts:
       captures:
         1: support.type.rust
       push: generic-angles
-    - match: \b(Self|i8|i16|i32|i64|isize|u8|u16|u32|u64|usize|f32|f64|bool|char|str)\b
+    - match: \b(Self|i8|i16|i32|i64|i128|isize|u8|u16|u32|u64|u128|usize|f32|f64|bool|char|str)\b
       scope: storage.type.rust
 
   generic-angles:
