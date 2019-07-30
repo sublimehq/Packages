@@ -776,7 +776,7 @@ contexts:
         1: keyword.control.objc++
     - match: '\b(using)\b\s+({{identifier}})(?!\s*(<|::))'
       captures:
-        1: storage.type.objc++
+        1: keyword.control.objc++
         2: entity.name.type.using.objc++
 
   typedef:

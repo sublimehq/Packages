@@ -706,7 +706,7 @@ contexts:
         1: keyword.control.c++
     - match: '\b(using)\b\s+({{identifier}})(?!\s*(<|::))'
       captures:
-        1: storage.type.c++
+        1: keyword.control.c++
         2: entity.name.type.using.c++
 
   typedef:

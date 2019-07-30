@@ -379,7 +379,7 @@ typedef struct Books Book;
 /*                   ^ entity.name.type.typedef */
 
 using Alias = Foo;
-/* <- storage.type */
+/* <- keyword.control */
 /*    ^^^^^ entity.name.type.using */
 
 using Alias
@@ -401,11 +401,11 @@ using std::
 class MyClass : public SuperClass
 {
     using This = MyClass;
-/*  ^ storage.type */
+/*  ^ keyword.control */
 /*        ^^^^ entity.name.type.using */
 
     using MyInt
-/*  ^ storage.type */
+/*  ^ keyword.control */
         = int32_t;
 
     using SuperClass::SuperClass;
