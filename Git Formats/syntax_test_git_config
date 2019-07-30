@@ -467,6 +467,7 @@ stray-bracket]
 #           ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
 #           ^^^^ string.unquoted.value
 #                ^^^^^^^^^^^^^^^^^^ string.unquoted.value
+#                                  ^ - string
     sla = log --oneline --decorate --graph --all
 # <- meta.mapping
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping
@@ -480,6 +481,7 @@ stray-bracket]
 #                       ^^^^^^^^^^ string.unquoted.value
 #                                  ^^^^^^^ string.unquoted.value
 #                                          ^^^^^ string.unquoted.value
+#                                               ^ - string
    serve = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git  # shell comment
 # <- meta.mapping
 #^^ meta.mapping
