@@ -626,7 +626,7 @@ stray-bracket]
 #                                         ^ punctuation.definition.comment
 #                                         ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git
   lg1 = log --graph --format=tformat:'%C(bold yellow)%h%C(reset) %C(green)%ar%C(reset) %s %C(dim white)<%aN>%C(reset) %w(0,0,9)%C(auto)%+d%C(reset)'
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.git.config string.unquoted.value.git.config
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.git.config string.unquoted.value.git.config
 #                            ^^^^^^^ keyword.declaration.pretty-formats.git
 #                                   ^ keyword.operator.assignment.option.pretty-formats.git
 #                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single.shell
