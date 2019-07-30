@@ -13,11 +13,13 @@ file_extensions:
   - opml
   - svg
 first_line_match: |-
-    (?x)
-    ^(?:
-        <\?xml\s
-     |  \s*<([\w-]+):Envelope\s+xmlns:\1\s*=\s*"http://schemas.xmlsoap.org/soap/envelope/"\s*>
-     )
+    (?x:
+      ^(?:
+          <\?xml\s
+        | \s*<([\w-]+):Envelope\s+xmlns:\1\s*=\s*"http://schemas.xmlsoap.org/soap/envelope/"\s*>
+        | \s*(?i:<!DOCTYPE\s+(?!html[ \t\n\f>]))
+      )
+    )
 scope: text.xml
 variables:
   # The atomic part of a tag or attribute name without namespace separator `:`
