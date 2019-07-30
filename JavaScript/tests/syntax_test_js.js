@@ -567,6 +567,18 @@ var obj = {
 //     ^^^^^^^^ meta.function-call
 //     ^^^ variable.function
 //             ^ punctuation.separator.comma
+
+    get foo() {},
+//  ^^^^^^^^^^^^ meta.function
+//  ^^^ storage.type.accessor
+//      ^^^ entity.name.function
+
+    get() {},
+//  ^^^^^^^^ meta.function
+//  ^^^ entity.name.function
+
+    get: 42,
+//  ^^^ meta.object-literal.key
 }
 // <- meta.object-literal - meta.block
 
