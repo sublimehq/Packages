@@ -1158,6 +1158,7 @@ contexts:
 
   sub-expect-block:
     - meta_content_scope: meta.function.perl
+    - include: comment-line
     - include: term-pop
     - match: $|(?=\{)
       set:
