@@ -18,6 +18,11 @@ variables:
   dollar_only_identifier: (?:\${{identifier_break}})
   dollar_identifier: '(?:(\$){{identifier_part}}*{{identifier_break}})'
 
+  block_comment_contents: (?:(?:[^*]|\*(?!/))*)
+  block_comment: (?:/\*{{block_comment_contents}}\*/)
+  nothing: (?x:(?:\s+|{{block_comment}})*)
+  line_ending_ahead: (?={{nothing}}(?:/\*{{block_comment_contents}})?$)
+
   # https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar
   reserved_word: |-
     (?x:
@@ -52,7 +57,7 @@ variables:
   func_lookahead: |-
     (?x:
       \s*
-      (?:async\s+)?
+      (?:async{{identifier_break}}{{nothing}})?
       function{{identifier_break}}
     )
 
@@ -338,15 +343,17 @@ contexts:
     - include: else-pop
 
   expect-label:
-    - match: '{{non_reserved_identifier}}'
-      scope: variable.label.js
-      pop: true
-    - match: '{{identifier}}'
-      scope: invalid.illegal.identifier.js variable.label.js
-      pop: true
-    - match: $
-      pop: true
-    - include: else-pop
+    - meta_include_prototype: false
+    - match: '(?={{nothing}}{{identifier}})'
+      set:
+        - match: '{{non_reserved_identifier}}'
+          scope: variable.label.js
+          pop: true
+        - match: '{{identifier}}'
+          scope: invalid.illegal.identifier.js variable.label.js
+          pop: true
+        - include: else-pop
+    - include: immediately-pop
 
   block:
     - match: '\{'
@@ -434,7 +441,7 @@ contexts:
     - include: else-pop
 
   variable-binding-list-top:
-    - match: \n
+    - match: '{{line_ending_ahead}}'
       set:
         - match: '{{line_continuation_lookahead}}'
           set: variable-binding-top
@@ -552,7 +559,7 @@ contexts:
         - expression-begin
 
   expression-statement-end:
-    - match: \n
+    - match: '{{line_ending_ahead}}'
       set:
         - match: '{{line_continuation_lookahead}}'
           set: expression-statement-end
@@ -560,9 +567,10 @@ contexts:
     - include: expression-end
 
   restricted-production:
-    - match: \n
+    - meta_include_prototype: false
+    - match: '{{line_ending_ahead}}'
       pop: true
-    - match: (?=\S)
+    - match: ''
       set: expression-statement
 
   expect-case-colon:
@@ -910,7 +918,7 @@ contexts:
       scope: punctuation.definition.string.begin.js
       set:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.single.js
+        - meta_scope: meta.string.js string.quoted.single.js
         - match: \'
           scope: punctuation.definition.string.end.js
           pop: true
@@ -922,7 +930,7 @@ contexts:
       scope: punctuation.definition.string.begin.js
       set:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.js
+        - meta_scope: meta.string.js string.quoted.double.js
         - match: \"
           scope: punctuation.definition.string.end.js
           pop: true
@@ -941,7 +949,7 @@ contexts:
       scope: punctuation.definition.string.begin.js
       set:
         - meta_include_prototype: false
-        - meta_scope: string.template.js
+        - meta_scope: meta.string.js string.template.js
         - match: "`"
           scope: punctuation.definition.string.end.js
           pop: true
@@ -971,12 +979,12 @@ contexts:
 
   regexp:
       - meta_include_prototype: false
-      - meta_scope: string.regexp.js
+      - meta_scope: meta.string.js string.regexp.js
       - match: "/"
         scope: punctuation.definition.string.end.js
         set:
           - meta_include_prototype: false
-          - meta_content_scope: string.regexp.js
+          - meta_content_scope: meta.string.js string.regexp.js
           - match: '[gimyus]'
             scope: keyword.other.js
           - match: '[A-Za-z0-9]' # Ignore unknown flags for future-compatibility
@@ -1570,7 +1578,7 @@ contexts:
       scope: punctuation.definition.string.begin.js
       set:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.single.js
+        - meta_scope: meta.string.js string.quoted.single.js
         - meta_content_scope: entity.name.function.js
         - match: \'
           scope: punctuation.definition.string.end.js
@@ -1583,7 +1591,7 @@ contexts:
       scope: punctuation.definition.string.begin.js
       set:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.js
+        - meta_scope: meta.string.js string.quoted.double.js
         - meta_content_scope: entity.name.function.js
         - match: \"
           scope: punctuation.definition.string.end.js
@@ -1611,7 +1619,7 @@ contexts:
       scope: punctuation.definition.string.begin.js
       set:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.single.js
+        - meta_scope: meta.string.js string.quoted.single.js
         - meta_content_scope: variable.other.readwrite.js
         - match: \'
           scope: punctuation.definition.string.end.js
@@ -1624,7 +1632,7 @@ contexts:
       scope: punctuation.definition.string.begin.js
       set:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.js
+        - meta_scope: meta.string.js string.quoted.double.js
         - meta_content_scope: variable.other.readwrite.js
         - match: \"
           scope: punctuation.definition.string.end.js
@@ -2073,16 +2081,11 @@ contexts:
       scope: support.class.builtin.js
       pop: true
     - match: (?:Eval|Range|Reference|Syntax|Type|URI)?Error{{identifier_break}}
-      scope: support.class.error.js
+      scope: support.class.builtin.js
       pop: true
 
     - match: (?:eval|isFinite|isNaN|parseFloat|parseInt|decodeURI|decodeURIComponent|encodeURI|encodeURIComponent){{identifier_break}}
       scope: support.function.js
-      pop: true
-
-    # Annex B
-    - match: (?:escape|unescape){{identifier_break}}
-      scope: invalid.deprecated.js support.function.js
       pop: true
 
   support-property-ecma-array:
@@ -2283,6 +2286,11 @@ contexts:
       pop: true
     - match: '{{identifier_part}}+{{identifier_break}}'
       scope: invalid.illegal.illegal-identifier.js
+      pop: true
+    - match: (#)({{identifier}})
+      captures:
+        1: punctuation.definition.variable.js
+        2: meta.property.object.js
       pop: true
 
   support-property:
