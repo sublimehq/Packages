@@ -33,22 +33,22 @@ const [ x = 42, y = [a, b, c] ] = value;
 
 const { a, b: c, ...d } = value;
 //    ^^^^^^^^^^^^^^^^^ meta.binding.destructuring.mapping
-//      ^ meta.object-literal.key meta.binding.name variable.other.readwrite
+//      ^ meta.mapping.key meta.binding.name variable.other.readwrite
 //       ^ punctuation.separator.comma
-//         ^ meta.object-literal.key - variable
+//         ^ meta.mapping.key - variable
 //          ^ punctuation.separator.key-value
 //               ^^^ keyword.operator.spread
 //                  ^ meta.binding.name variable.other.readwrite
 
 const { 'a': x, "b": y, [c]: z } = value;
 //    ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring.mapping
-//      ^^^ meta.object-literal.key string.quoted.single
+//      ^^^ meta.mapping.key string.quoted.single
 //         ^ punctuation.separator.key-value
 //           ^ meta.binding.name variable.other.readwrite
-//              ^^^ meta.object-literal.key string.quoted.double
+//              ^^^ meta.mapping.key string.quoted.double
 //                 ^ punctuation.separator.key-value
 //                   ^ meta.binding.name variable.other.readwrite
-//                      ^^^ meta.object-literal.key
+//                      ^^^ meta.mapping.key
 //                       ^ variable.other.readwrite
 //                         ^ punctuation.separator.key-value
 //                           ^ meta.binding.name variable.other.readwrite
@@ -112,22 +112,22 @@ function f ([ x = 42, y = [a, b, c] ]) {}
 
 function f ({ a, b: c, ...d }) {}
 //          ^^^^^^^^^^^^^^^^^ meta.binding.destructuring.mapping
-//            ^ meta.object-literal.key meta.binding.name variable.parameter.function
+//            ^ meta.mapping.key meta.binding.name variable.parameter.function
 //             ^ punctuation.separator.parameter
-//               ^ meta.object-literal.key - variable
+//               ^ meta.mapping.key - variable
 //                ^ punctuation.separator.key-value
 //                     ^^^ keyword.operator.spread
 //                        ^ meta.binding.name variable.parameter.function
 
 function f ({ 'a': x, "b": y, [c]: z }) = value;
 //          ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring.mapping
-//            ^^^ meta.object-literal.key string.quoted.single
+//            ^^^ meta.mapping.key string.quoted.single
 //               ^ punctuation.separator.key-value
 //                 ^ meta.binding.name variable.parameter.function
-//                    ^^^ meta.object-literal.key string.quoted.double
+//                    ^^^ meta.mapping.key string.quoted.double
 //                       ^ punctuation.separator.key-value
 //                         ^ meta.binding.name variable.parameter.function
-//                            ^^^ meta.object-literal.key
+//                            ^^^ meta.mapping.key
 //                             ^ variable.other.readwrite
 //                               ^ punctuation.separator.key-value
 //                                 ^ meta.binding.name variable.parameter.function
@@ -174,22 +174,22 @@ let f = ({ a, b: c, ...d }) => {};
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
 //  ^ entity.name.function variable.other.readwrite
 //       ^^^^^^^^^^^^^^^^^ meta.binding.destructuring.mapping
-//         ^ meta.object-literal.key meta.binding.name variable.parameter.function
+//         ^ meta.mapping.key meta.binding.name variable.parameter.function
 //          ^ punctuation.separator.parameter
-//            ^ meta.object-literal.key - variable
+//            ^ meta.mapping.key - variable
 //             ^ punctuation.separator.key-value
 //                  ^^^ keyword.operator.spread
 //                     ^ meta.binding.name variable.parameter.function
 
 let f = ({ 'a': x, "b": y, [c]: z }) => {};
 //       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring.mapping
-//         ^^^ meta.object-literal.key string.quoted.single
+//         ^^^ meta.mapping.key string.quoted.single
 //            ^ punctuation.separator.key-value
 //              ^ meta.binding.name variable.parameter.function
-//                 ^^^ meta.object-literal.key string.quoted.double
+//                 ^^^ meta.mapping.key string.quoted.double
 //                    ^ punctuation.separator.key-value
 //                      ^ meta.binding.name variable.parameter.function
-//                         ^^^ meta.object-literal.key
+//                         ^^^ meta.mapping.key
 //                          ^ variable.other.readwrite
 //                            ^ punctuation.separator.key-value
 //                              ^ meta.binding.name variable.parameter.function
