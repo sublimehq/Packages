@@ -434,12 +434,6 @@ var obj = {
     // ^ meta.mapping.key
     //   ^ - constant.other
     //     ^^^^^^^^^^^^^^ meta.string string.quoted.double
-    $key3: 0,
-    // <- meta.mapping.key.dollar punctuation.dollar
-     // <- meta.mapping.key.dollar - punctuation.dollar
-
-    $: 0,
-//  ^ meta.mapping.key.dollar.only punctuation.dollar
 
     $keyFunc: function() {
 //  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
@@ -1743,7 +1737,7 @@ var query = {
 //                          ^^^^ constant.language.null
 //                               ^ keyword.operator.ternary
 //                                 ^ punctuation.section.block.begin
-//                                   ^^ meta.mapping.key.dollar.js
+//                                   ^^ meta.mapping.key.js
 //                                     ^ punctuation.separator.key-value.js
 //                                                      ^ punctuation.section.block.end
 };

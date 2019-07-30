@@ -1496,19 +1496,27 @@ contexts:
 
     - match: '{{identifier}}(?=\s*(?:[},]|$|//|/\*))'
       scope: variable.other.readwrite.js
+
     - match: (?=\[)
       push:
         - object-literal-meta-key
         - computed-property-name
+
     - match: (?=\"|')
       push:
         - object-literal-meta-key
         - literal-string
-    - include: bare-property-name
+
     - match: (?=[-+]?(?:\.[0-9]|0[bxo]|\d))
       push:
-        - meta_scope: meta.mapping.key.js
-        - include: literal-number
+        - object-literal-meta-key
+        - literal-number
+
+    # - include: bare-property-name
+    - match: (?={{identifier}})
+      push:
+        - object-literal-meta-key
+        - bare-property-name
 
     - include: comma-separator
     - match: ':'
@@ -1522,14 +1530,8 @@ contexts:
       push: expression-no-comma
 
   bare-property-name:
-    - match: '{{dollar_only_identifier}}'
-      scope: meta.mapping.key.dollar.only.js punctuation.dollar.js
-    - match: '{{dollar_identifier}}'
-      scope: meta.mapping.key.dollar.js
-      captures:
-        1: punctuation.dollar.js
     - match: '{{identifier}}'
-      scope: meta.mapping.key.js
+      pop: true
 
   computed-property-name:
     - match: \[
