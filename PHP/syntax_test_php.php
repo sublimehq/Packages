@@ -1351,7 +1351,7 @@ echo <<<SQL
 SELECT * FROM users WHERE first_name = 'John'
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.sql source.sql
 // <- keyword.other.DML
-//     ^ keyword.operator.star
+//     ^ variable.language.star
 //                                     ^^^^^^ string.quoted.single
 SQL;
 // <- punctuation.section.embedded.end keyword.operator.heredoc
@@ -1363,7 +1363,7 @@ echo <<<'SQL'
 SELECT * FROM users WHERE first_name = 'John'\n
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.sql source.sql
 // <- keyword.other.DML
-//     ^ keyword.operator.star
+//     ^ variable.language.star
 //                                     ^^^^^^ string.quoted.single
 //                                           ^^^ - constant.character.escape.php
 SQL;
