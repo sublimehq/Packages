@@ -256,6 +256,9 @@ someFunction({
 
     }
 
+    async /**//**//**/ function foo() {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+
 // Better highlighting when typing
 function
 function() {}
@@ -380,20 +383,23 @@ var str2 = NaN;
 //         ^^^ constant.language.nan
 
 tag`Hello ${ a + b } world\nanother ${expression}.`;
-// <- variable.function.tagged-template.js
-// ^ punctuation.definition.string.begin.js
-//   ^ string.template.js
-//        ^ punctuation.definition.template-expression.begin.js
-//           ^ variable.other.readwrite.js
-//             ^ keyword.operator.arithmetic.js
-//               ^ meta.template.expression.js source.js.embedded.expression
-//                 ^ punctuation.definition.template-expression.end.js
-//                        ^ constant.character.escape.js
-//                                                ^ punctuation.definition.string.end.js
+// <- variable.function.tagged-template
+// ^ punctuation.definition.string.begin
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string
+// ^^^^^^^ string.template
+//        ^ punctuation.definition.template-expression.begin
+//           ^ variable.other.readwrite
+//             ^ keyword.operator.arithmetic
+//               ^ meta.template.expression source.js.embedded.expression
+//                 ^ punctuation.definition.template-expression.end
+//                  ^^^^^^^^^^^^^^^^ string.template
+//                        ^ constant.character.escape
+//                                               ^^ string.template
+//                                                ^ punctuation.definition.string.end
 
 tag `template`;
 // <- variable.function.tagged-template
-//  ^^^^^^^^^^ string.template
+//  ^^^^^^^^^^ meta.string string.template
 
 x ? y // y is a template tag!
 `template` : z;
@@ -427,7 +433,7 @@ var obj = {
     $key2: "string value",
     // ^ meta.object-literal.key
     //   ^ - constant.other
-    //        ^ string.quoted.double
+    //     ^^^^^^^^^^^^^^ meta.string string.quoted.double
     $key3: 0,
     // <- meta.object-literal.key.dollar punctuation.dollar
      // <- meta.object-literal.key.dollar - punctuation.dollar
@@ -454,10 +460,10 @@ var obj = {
     // <- meta.object-literal.key
 
     "key4": true,
-//  ^^^^^^ meta.object-literal.key string.quoted.double
+//  ^^^^^^ meta.object-literal.key meta.string string.quoted.double
 //        ^ punctuation.separator.key-value - string
     'key5': false,
-//  ^^^^^^meta.object-literal.key string.quoted.single
+//  ^^^^^^meta.object-literal.key meta.string string.quoted.single
 //        ^ punctuation.separator.key-value - string
 //          ^^^^^ constant.language.boolean.false
 
@@ -478,38 +484,42 @@ var obj = {
 
     funcKey: function() {
 //  ^^^^^^^^^^^^^^^^^^^ meta.function.declaration
-    // ^ meta.object-literal.key entity.name.function
+//  ^^^^^^^ meta.object-literal.key entity.name.function
     },
 
     func2Key: function func2Key() {
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
-    // ^ meta.object-literal.key entity.name.function
+//  ^^^^^^^^ meta.object-literal.key entity.name.function
     },
 
     funcKeyArrow: () => {
 //  ^^^^^^^^^^^^^^^^^^^ meta.function.declaration
-    // ^ meta.object-literal.key entity.name.function
+//  ^^^^^^^^^^^^ meta.object-literal.key entity.name.function
     },
 
     "funcStringKey": function funcStringKey()
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
-    // ^ meta.object-literal.key string.quoted.double entity.name.function
+//  ^^^^^^^^^^^^^^^ meta.object-literal.key meta.string string.quoted.double
+//   ^^^^^^^^^^^^^ entity.name.function
     { },
 
     'funcStringKey': function() {
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
-    // ^ meta.object-literal.key string.quoted.single entity.name.function
+//  ^^^^^^^^^^^^^^^ meta.object-literal.key meta.string string.quoted.single
+//   ^^^^^^^^^^^^^ entity.name.function
     },
 
     'funcStringKeyArrow': () => {
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
-    // ^ meta.object-literal.key string.quoted.single entity.name.function
+//  ^^^^^^^^^^^^^^^^^^^^ meta.object-literal.key meta.string string.quoted.single
+//   ^^^^^^^^^^^^^^^^^^ entity.name.function
     },
 
     "func\\String2KeyArrow": (foo) => {
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
-    // ^ meta.object-literal.key string.quoted.double entity.name.function
-    //    ^ constant.character.escape
+//  ^^^^^^^^^^^^^^^^^^^^^^^ meta.object-literal.key meta.string string.quoted.double
+//   ^^^^^^^^^^^^^^^^^^^^^ entity.name.function
+//       ^^ constant.character.escape
     },
 
     key: 'str' + (true ? 'true' : 'false'),
@@ -517,34 +527,34 @@ var obj = {
 
     qux()
 //  ^^^^^ meta.function.declaration
-    // <- entity.name.function
+//  ^^^ entity.name.function
     {},
 
     'funcStringMethod'() {
 //  ^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
-    // ^ entity.name.function
+//   ^^^^^^^^^^^^^^^^ entity.name.function
     },
 
     'funcStringMethodWithSameLineColon'() { var foo = { name: 'jeff' }; },
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
-    // ^ entity.name.function
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.function
 
     "key (": true,
-    // <- meta.object-literal.key
+//  ^^^^^^^ meta.object-literal.key
 
     "key \"(": true,
-    // <- meta.object-literal.key
+//  ^^^^^^^^^ meta.object-literal.key
 
     "key '(": true,
-    // <- meta.object-literal.key
+//  ^^^^^^^^ meta.object-literal.key
 
     static,
 //  ^^^^^^ variable.other.readwrite
 
     *baz(){
 //  ^^^^^^ meta.function.declaration
-    // <- keyword.generator.asterisk
-    // ^ entity.name.function
+//  ^ keyword.generator.asterisk
+//   ^^^ entity.name.function
     }
 
     ...foo,
@@ -563,7 +573,7 @@ var obj = {
 +{
 // <- keyword.operator
   '': +{1:} / undefined
-//^^ string.quoted
+//^^ meta.string string.quoted
 //  ^ punctuation.separator.key-value
 //    ^ keyword.operator
 //      ^ constant.numeric
@@ -611,7 +621,7 @@ $foo = null;
 
 baz = "";
 // <- variable.other.readwrite
-//     ^ string.quoted.double
+//    ^^ meta.string string.quoted.double
 
 var qux = 100;
 // <- storage.type
@@ -755,6 +765,13 @@ while (true)
     foo;
 //  ^^^ variable.other.readwrite - variable.label
 
+    break/**/foo;
+//           ^^^ variable.label - variable.other.readwrite
+
+    break/*
+    */foo;
+//    ^^^ variable.other.readwrite - variable.label
+
     break function;
 //        ^^^^^^^^ invalid.illegal.identifier variable.label
 
@@ -768,6 +785,13 @@ while (true)
     continue
     foo;
 //  ^^^ variable.other.readwrite - variable.label
+
+    continue/**/foo;
+//              ^^^ variable.label - variable.other.readwrite
+
+    continue/*
+    */ foo;
+//     ^^^ variable.other.readwrite - variable.label
 
     goto;
 //  ^^^^ variable.other.readwrite - keyword
@@ -863,13 +887,13 @@ class MyClass extends TheirClass {
 //      ^^ constant.numeric
 
     'y' = 42;
-//  ^^^ string.quoted.single
+//  ^^^ meta.string string.quoted.single
 //   ^ variable.other.readwrite
 //      ^ keyword.operator.assignment
 //        ^^ constant.numeric
 
     "z" = 42;
-//  ^^^ string.quoted.double
+//  ^^^ meta.string string.quoted.double
 //   ^ variable.other.readwrite
 //      ^ keyword.operator.assignment
 //        ^^ constant.numeric
@@ -909,14 +933,14 @@ class MyClass extends TheirClass {
 
     static 'y' = 42;
 //  ^^^^^^ storage.modifier.js
-//         ^^^ string.quoted.single
+//         ^^^ meta.string string.quoted.single
 //          ^ variable.other.readwrite
 //             ^ keyword.operator.assignment
 //               ^^ constant.numeric
 
     static "z" = 42;
 //  ^^^^^^ storage.modifier.js
-//         ^^^ string.quoted.double
+//         ^^^ meta.string string.quoted.double
 //          ^ variable.other.readwrite
 //             ^ keyword.operator.assignment
 //               ^^ constant.numeric
@@ -968,6 +992,10 @@ class MyClass extends TheirClass {
 //             ^ punctuation.definition.variable
 //              ^ variable.other.readwrite
 //                ^ keyword.operator.arithmetic
+
+        for (const param of this.#data.get('value')) {}
+//                               ^ punctuation.definition.variable
+//                                ^^^^ meta.property.object
     }
 
     constructor(el)
@@ -1423,23 +1451,23 @@ width/2 + lineStart * Math.sin(i * 30 * π/180)
 //                         ^^^^^^^^^^^^^^^^^^^ meta.function-call.method
 
 var reg = /a+/gimy.exec('aabb')
-//        ^^^^^^^^ string.regexp
+//        ^^^^^^^^ meta.string string.regexp
 //            ^^^^ keyword.other
 //                ^ punctuation.accessor
 
 'aabbcc'.replace(/b+/, 'd');
-//               ^^^^ string.regexp
+//               ^^^^ meta.string string.regexp
 //                 ^ keyword.operator.quantifier.regexp
 
 /a+(?:bc)/;
-// <- string.regexp
+// <- meta.string string.regexp
 //  ^^ punctuation.definition.group.no-capture.regexp
 
 'str'.match(/[" ]+/g);
-//          ^^^^^^^^ string.regexp.js
+//          ^^^^^^^^ meta.string string.regexp.js
 
 myvar = myvar.replace(/RTP\/SAVPF .*/, 'RTP/SAVPF ' + suffix);
-//                    ^^^^^^^^^^^^^^^ string.regexp.js
+//                    ^^^^^^^^^^^^^^^ meta.string string.regexp.js
 
 'foo'.bar() / baz
 //            ^ variable.other.readwrite
@@ -1470,18 +1498,17 @@ var result = 200 / 400 + 500 /
 var re = /
 [a-z]
 /g
-// <- string.regexp.js punctuation.definition.string.end
+// <- meta.string string.regexp.js punctuation.definition.string.end
  // <- keyword.other
 
 const a = 1 / /This is regex./ / 'This should be a string, not a regex.';
 //          ^ keyword.operator
-//            ^ string.regexp
-//                           ^ string.regexp
+//            ^^^^^^^^^^^^^^^^ meta.string string.regexp
 //                             ^ keyword.operator
-//                               ^ string.quoted
+//                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string string.quoted
 
 a = /\//u + 0;
-//  ^^^^ string.regexp
+//  ^^^^ meta.string string.regexp
 //      ^ keyword.other
 //        ^ keyword.operator
 //          ^ constant.numeric
@@ -1525,7 +1552,7 @@ undefined / (8 * 5) / "1"
 //      ^ keyword.operator.arithmetic
 
 a = /foo\/bar/g // Ensure handling of escape / in regex detection
-//    ^ string.regexp
+//  ^^^^^^^^^^^ meta.string string.regexp
 //       ^ constant.character.escape
 
 var re = /^\/[^/]+/;
@@ -1684,9 +1711,16 @@ return;
 {a: 1};
 // ^ meta.block - meta.object-literal
 
+return/**/{a: 1}
+//        ^^^^^^ meta.object-literal - meta.block
+
 return
 {a: 1};
 // ^ meta.block - meta.object-literal
+
+return/*
+*/{a: 1}
+//^^^^^^ meta.block - meta.object-literal
 
 const abc = new Set
 if (true) {};
@@ -1714,6 +1748,7 @@ var query = {
 };
 
 var str = `Hello, ${name}!`;
+//        ^^^^^^^^^^^^^^^^^ meta.string
 //        ^^^^^^^^ string.template
 //                ^^^^^^^ meta.template.expression - string
 //                       ^^ string.template
