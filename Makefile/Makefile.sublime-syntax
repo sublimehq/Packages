@@ -310,7 +310,7 @@ contexts:
   recipe-common:
     - include: control-flow
     - match: ^\n
-    
+
   shell:
     # Due to how the shell syntax handles comments, we must account for the case
     # where a recipe-line is a single comment in combination with an "@" or "-"
@@ -376,7 +376,8 @@ contexts:
       scope: constant.character.escape.makefile
 
   comments-pop-on-line-end:
-    - match: \n
+    - include: line-continuation
+    - match: $\n?
       pop: true
 
   comments:
@@ -411,6 +412,9 @@ contexts:
       push: textual-parenthesis-balancer
     - match: \,
       scope: punctuation.separator.makefile
+    # eat escaped or unbalanced quotation marks in front of the `,` separator
+    # to highlight them as ordinary part of the surrounding unquoted string
+    - match: '\\[''""]|[''""](?=\s*,)'
     - include: variable-substitutions
     - include: quoted-string
 
@@ -588,7 +592,7 @@ contexts:
           scope: punctuation.definition.comment.makefile
           set:
             - meta_scope: comment.line.number-sign.makefile
-            - include: pop-on-line-end
+            - include: comments-pop-on-line-end
     - include: variable-substitutions
     - include: continuation-or-pop-on-line-end
 

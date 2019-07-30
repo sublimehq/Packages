@@ -1037,9 +1037,15 @@ contexts:
     - match: '{{identifier}}(?={{data_structures_forward_decl_lookahead}})'
       scope: entity.name.class.forward-decl.c++
       set: data-structures-class-definition-after-identifier
-    - match: '{{identifier}}'
-      scope: entity.name.class.c++
-      set: data-structures-class-definition-after-identifier
+    - match: '(?={{path_lookahead}})'
+      set:
+        - meta_scope: meta.class.c++
+        - match: '{{identifier}}(?!\s*::)'
+          scope: entity.name.class.c++
+          set: data-structures-class-definition-after-identifier
+        - include: identifiers
+        - match: '(?=[^\w\s])'
+          set: data-structures-class-definition-after-identifier
     - match: '(?=[:{])'
       set: data-structures-class-definition-after-identifier
     - match: '(?=;)'
@@ -1065,9 +1071,15 @@ contexts:
     - match: '{{identifier}}(?={{data_structures_forward_decl_lookahead}})'
       scope: entity.name.struct.forward-decl.c++
       set: data-structures-struct-definition-after-identifier
-    - match: '{{identifier}}'
-      scope: entity.name.struct.c++
-      set: data-structures-struct-definition-after-identifier
+    - match: '(?={{path_lookahead}})'
+      set:
+        - meta_scope: meta.struct.c++
+        - match: '{{identifier}}(?!\s*::)'
+          scope: entity.name.struct.c++
+          set: data-structures-struct-definition-after-identifier
+        - include: identifiers
+        - match: '(?=[^\w\s])'
+          set: data-structures-struct-definition-after-identifier
     - match: '(?=[:{])'
       set: data-structures-struct-definition-after-identifier
     - match: '(?=;)'
@@ -1093,9 +1105,15 @@ contexts:
     - match: '{{identifier}}(?={{data_structures_forward_decl_lookahead}})'
       scope: entity.name.enum.forward-decl.c++
       set: data-structures-enum-definition-after-identifier
-    - match: '{{identifier}}'
-      scope: entity.name.enum.c++
-      set: data-structures-enum-definition-after-identifier
+    - match: '(?={{path_lookahead}})'
+      set:
+        - meta_scope: meta.enum.c++
+        - match: '{{identifier}}(?!\s*::)'
+          scope: entity.name.enum.c++
+          set: data-structures-enum-definition-after-identifier
+        - include: identifiers
+        - match: '(?=[^\w\s])'
+          set: data-structures-enum-definition-after-identifier
     - match: '(?=[:{])'
       set: data-structures-enum-definition-after-identifier
     - match: '(?=;)'
@@ -1122,9 +1140,15 @@ contexts:
     - match: '{{identifier}}(?={{data_structures_forward_decl_lookahead}})'
       scope: entity.name.union.forward-decl.c++
       set: data-structures-union-definition-after-identifier
-    - match: '{{identifier}}'
-      scope: entity.name.union.c++
-      set: data-structures-union-definition-after-identifier
+    - match: '(?={{path_lookahead}})'
+      set:
+        - meta_scope: meta.union.c++
+        - match: '{{identifier}}(?!\s*::)'
+          scope: entity.name.union.c++
+          set: data-structures-union-definition-after-identifier
+        - include: identifiers
+        - match: '(?=[^\w\s])'
+          set: data-structures-union-definition-after-identifier
     - match: '(?=[{])'
       set: data-structures-union-definition-after-identifier
     - match: '(?=;)'

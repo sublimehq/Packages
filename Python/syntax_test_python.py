@@ -232,8 +232,8 @@ def _():
 #         ^^^^ - keyword
 
     a if b else c
-#     ^^ keyword.control.flow
-#          ^^^^ keyword.control.flow
+#     ^^ keyword.control.conditional.if
+#          ^^^^ keyword.control.conditional.else
 
     c = lambda: pass
 #       ^^^^^^^ meta.function.inline
@@ -417,23 +417,23 @@ def _():
 ##################
 def _():
     for
-#   ^^^ keyword.control.flow.for
+#   ^^^ keyword.control.loop.for
     b = c in d
-#         ^^ keyword.operator.logical - keyword.control.flow.for.in
+#         ^^ keyword.operator.logical - keyword.control.loop.for.in
 
     for \
         a \
         in \
         b:
-#       ^^ meta.statement.for
-#        ^ punctuation.section.block.for.python
+#       ^^ meta.statement.loop.for
+#        ^ punctuation.section.block.loop.for.python
 
     async for i in myfunc():
-#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.for
+#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for
 #   ^^^^^ storage.modifier.async
-#         ^^^ keyword.control.flow.for
-#               ^^ keyword.control.flow.for.in
-#                          ^ punctuation.section.block.for
+#         ^^^ keyword.control.loop.for
+#               ^^ keyword.control.loop.for.in
+#                          ^ punctuation.section.block.loop.for
         pass
 
     for i:
@@ -519,35 +519,35 @@ def _():
 #       ^^^^^ keyword.other.await
 
     try:
-#   ^^^^ meta.statement.try.python
-#   ^^^ keyword.control.flow.try.python
-#      ^ punctuation.section.block.try.python
+#   ^^^^ meta.statement.exception.try.python
+#   ^^^ keyword.control.exception.try.python
+#      ^ punctuation.section.block.exception.try.python
         raise
 #       ^^^^^ meta.statement.raise.python keyword.control.flow.raise.python
     except Exception as x:
-#   ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.except.python - meta.statement.except.python meta.statement.except.python
-#   ^^^^^^ keyword.control.flow.except.python
+#   ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.exception.catch.python - meta.statement.exception.catch.python meta.statement.exception.catch.python
+#   ^^^^^^ keyword.control.exception.catch.python
 #          ^^^^^^^^^ support.type.exception.python
-#                    ^^ keyword.control.flow.as.python
+#                    ^^ keyword.control.exception.catch.as.python
 #                       ^ meta.generic-name.python
-#                        ^ punctuation.section.block.except.python
+#                        ^ punctuation.section.block.exception.catch.python
         pass
     finally :
-#   ^^^^^^^^^ meta.statement.finally.python
-#   ^^^^^^^ keyword.control.flow.finally.python
-#           ^ punctuation.section.block.finally.python
+#   ^^^^^^^^^ meta.statement.exception.finally.python
+#   ^^^^^^^ keyword.control.exception.finally.python
+#           ^ punctuation.section.block.exception.finally.python
     try_except_raise:
 #   ^^^ - keyword
 
     while (
-#   ^^^^^^^^ meta.statement.while.python
-#   ^^^^^ keyword.control.flow.while.python
-#         ^ meta.statement.while.python meta.group.python punctuation.section.group.begin.python
+#   ^^^^^^^^ meta.statement.loop.while.python
+#   ^^^^^ keyword.control.loop.while.python
+#         ^ meta.statement.loop.while.python meta.group.python punctuation.section.group.begin.python
         a is b
-#       ^^^^^^ meta.statement.while.python
+#       ^^^^^^ meta.statement.loop.while.python
 #         ^^ keyword.operator.logical.python
     ):
-#    ^ meta.statement.while.python punctuation.section.block.while.python
+#    ^ meta.statement.loop.while.python punctuation.section.block.loop.while.python
         sleep()
         if a:
             break
@@ -557,46 +557,46 @@ def _():
 #           ^^^^^^^^ keyword.control.flow.continue.python
 
     if 213 is 231:
-#   ^^^^^^^^^^^^^^ meta.statement.if.python
-#   ^^ keyword.control.flow.conditional.python
+#   ^^^^^^^^^^^^^^ meta.statement.conditional.if.python
+#   ^^ keyword.control.conditional.if.python
 #      ^^^ constant.numeric.integer.decimal.python
 #          ^^ keyword.operator.logical.python
-#                ^ punctuation.section.block.conditional.python
+#                ^ punctuation.section.block.conditional.if.python
         pass
     elif:
-#   ^^^^^ meta.statement.conditional.python
-#       ^ punctuation.section.block.python
+#   ^^^^^ meta.statement.conditional.elseif.python
+#       ^ punctuation.section.block.conditional.elseif.python
         pass
     elif False :
-#   ^^^^^^^^^^^^ meta.statement.conditional.python
+#   ^^^^^^^^^^^^ meta.statement.conditional.elseif.python
 #        ^^^^^ constant.language
-#              ^ punctuation.section.block.python
+#              ^ punctuation.section.block.conditional.elseif.python
         pass
     else  :
-#   ^^^^^^^ meta.statement.conditional.python
-#         ^ punctuation.section.block.python
+#   ^^^^^^^ meta.statement.conditional.else.python
+#         ^ punctuation.section.block.conditional.else.python
         pass
 
     if \
         True:
-#       ^^^^^ meta.statement.if.python
+#       ^^^^^ meta.statement.conditional.if.python
 #       ^^^^ constant.language.python
-#           ^ punctuation.section.block.conditional.python
+#           ^ punctuation.section.block.conditional.if.python
 #
 
     # verify that keywords also work when they are bare (useful when typing)
     for
-#   ^^^ keyword.control.flow.for.python
+#   ^^^ keyword.control.loop.for.python
     with
 #   ^^^^ keyword.control.flow.with.python
     if
-#   ^^ keyword.control.flow.conditional.python
+#   ^^ keyword.control.conditional.if.python
     finally
-#   ^^^^^^^ keyword.control.flow.finally.python
+#   ^^^^^^^ keyword.control.exception.finally.python
     else
-#   ^^^^ keyword.control.flow.conditional.python
+#   ^^^^ keyword.control.conditional.else.python
     while
-#   ^^^^^ keyword.control.flow.while.python
+#   ^^^^^ keyword.control.loop.while.python
     return
 #   ^^^^^^ keyword.control.flow.return.python
     raise
@@ -984,18 +984,18 @@ complex_mapping = {(): "value"}
 generator = (i for i in range(100))
 #           ^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 #              ^^^^^^^^ meta.expression.generator
-#              ^^^ keyword.control.flow.for.generator
-#                    ^^ keyword.control.flow.for.in
+#              ^^^ keyword.control.loop.for.generator
+#                    ^^ keyword.control.loop.for.in
 list_ = [i for i in range(100)]
 #       ^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence
 #          ^^^^^^^^ meta.expression.generator
-#          ^^^ keyword.control.flow.for.generator
-#                ^^ keyword.control.flow.for.in
+#          ^^^ keyword.control.loop.for.generator
+#                ^^ keyword.control.loop.for.in
 set_ = {i for i in range(100)}
 #      ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping-or-set
 #         ^^^^^^^^ meta.expression.generator
-#         ^^^ keyword.control.flow.for.generator
-#               ^^ keyword.control.flow.for.in
+#         ^^^ keyword.control.loop.for.generator
+#               ^^ keyword.control.loop.for.in
 dict_ = {i: i for i in range(100)}
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
 #        ^ meta.mapping.key.python
@@ -1003,17 +1003,17 @@ dict_ = {i: i for i in range(100)}
 #           ^ meta.mapping.value.python
 #            ^^^^^^^^^^^^^^^^^^^^^ - meta.mapping.value
 #             ^^^^^^^^ meta.expression.generator
-#             ^^^ keyword.control.flow.for.generator
-#                   ^^ keyword.control.flow.for.in
+#             ^^^ keyword.control.loop.for.generator
+#                   ^^ keyword.control.loop.for.in
 list_ = [i for i in range(100) if i > 0 else -1]
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence
 #          ^^^^^^^^ meta.expression.generator
-#                              ^^ keyword.control.flow.if.inline
-#                                       ^^^^ keyword.control.flow.else.inline
+#                              ^^ keyword.control.conditional.if
+#                                       ^^^^ keyword.control.conditional.else
 
 list2_ = [i in range(10) for i in range(100) if i in range(5, 15)]
 #           ^^ keyword.operator.logical
-#                              ^^ keyword.control.flow.for.in
+#                              ^^ keyword.control.loop.for.in
 #                                                 ^^ keyword.operator.logical
 
 generator = ((k1, k2, v) for ((k1, k2), v) in xs)
@@ -1059,11 +1059,11 @@ list((i for i in generator), 123)
 
 _ = [m
      for cls in self.__class__.mro()
-#    ^^^ keyword.control.flow.for.generator
-#            ^^ keyword.control.flow.for.in
+#    ^^^ keyword.control.loop.for.generator
+#            ^^ keyword.control.loop.for.in
      for m in cls.__dict__]
-#    ^^^ keyword.control.flow.for.generator
-#          ^^ keyword.control.flow.for.in
+#    ^^^ keyword.control.loop.for.generator
+#          ^^ keyword.control.loop.for.in
 
 result = [i async for i in aiter() if i % 2]
 #           ^^^^^ storage.modifier.async
@@ -1111,10 +1111,10 @@ s = {*d, *set()}
 generator = (
     i
     for
-#   ^^^ keyword.control.flow.for.generator
+#   ^^^ keyword.control.loop.for.generator
     i
     in
-#   ^^ keyword.control.flow.for.in
+#   ^^ keyword.control.loop.for.in
     range(100)
 )
 
@@ -1124,30 +1124,30 @@ generator = (
 ##################
 
 except Exception:
-#^^^^^^^^^^^^^^^^ meta.statement.except
-#^^^^^ keyword.control.flow.except
+#^^^^^^^^^^^^^^^^ meta.statement.exception.catch
+#^^^^^ keyword.control.exception.catch
 #      ^^^^^^^^^ support.type.exception
 #               ^ punctuation.section.block
 except (KeyError, NameError) as e:
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.except
-#^^^^^ keyword.control.flow.except
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.exception.catch
+#^^^^^ keyword.control.exception.catch
 #       ^^^^^^^^ support.type.exception
 #               ^ punctuation.separator.target-list
 #                 ^^^^^^^^^ support.type.exception
-#                            ^^ keyword.control.flow.as
+#                            ^^ keyword.control.exception.catch.as
 #                                ^ punctuation.section.block
 except \
     StopIteration \
     as \
     err:
-#   ^^^^ meta.statement.except
+#   ^^^^ meta.statement.exception.catch
 
 except StopIteration
     as
-#   ^^ invalid.illegal.name - meta.statement.except
+#   ^^ invalid.illegal.name - meta.statement.exception.catch
 
 except
-#^^^^^ keyword.control.flow.except
+#^^^^^ keyword.control.exception.catch
 
 raise
 #^^^^ meta.statement.raise keyword.control.flow.raise

@@ -1,10 +1,12 @@
 {
     "cmd": ["cargo", "build"],
-    "selector": "source.rust",
     "file_regex": "(?|, ([^,<\n]*\\.[A-z]{2}):([0-9]+)|[ \t]*-->[ \t]*([^<\n]*):([0-9]+):([0-9]+))",
     "syntax": "Packages/Rust/Cargo.sublime-syntax",
+    "keyfiles": ["Cargo.toml"],
+    "working_dir": "${folder:${project_path:${file_path}}}",
 
-    "variants": [
+    "variants":
+    [
         {
             "cmd": ["cargo", "run"],
             "name": "Run"

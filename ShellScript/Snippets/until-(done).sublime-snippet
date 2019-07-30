@@ -3,6 +3,6 @@
 	${0:#statements}
 done]]></content>
 	<tabTrigger>until</tabTrigger>
-	<scope>source.shell</scope>
+	<scope>source.shell.bash</scope>
 	<description>until … done</description>
 </snippet>

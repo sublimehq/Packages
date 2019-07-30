@@ -89,6 +89,20 @@ Symbol === :foo
 # ^^^^ variable.other.constant.ruby -meta.constant.ruby
 #          ^^^^
 
+##################
+# Constant reserved keyword symbols
+##################
+
+begin: 'begin'
+# ^^^^ constant.other.symbol
+end: 'end'
+# ^^ constant.other.symbol
+require: 'require'
+# ^^^^^^ constant.other.symbol
+class: 'class'
+# ^^^^ constant.other.symbol
+module: 'module'
+# ^^^^^ constant.other.symbol
 
 ##################
 # Blocks
