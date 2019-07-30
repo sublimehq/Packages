@@ -381,7 +381,7 @@ using Alias = Foo;
 
 using Alias
   = NewLineFoo;
-/*^ - entity.name */
+/*^ - entity.name */ 
 
 template <typename T>
 using TemplateAlias = Foo<T>;
@@ -1293,6 +1293,10 @@ void func() {
 /*                       ^ storage.modifier */
 /*                                                   ^ string */
 }
+
+using namespace 
+/* <- keyword.control */
+/*    ^ keyword.control */
 
 using namespace myNameSpace;
 /* <- keyword.control */

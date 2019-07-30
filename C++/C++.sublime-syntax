@@ -435,7 +435,7 @@ contexts:
         - include: expressions
 
   using-namespace:
-    - match: '\b(using)\s+(namespace)\s+(?={{path_lookahead}})'
+    - match: '\b(using)\s+(namespace)'
       captures:
         1: keyword.control.c++
         2: keyword.control.c++
@@ -699,8 +699,6 @@ contexts:
       scope: punctuation.accessor.arrow.c++
       push: members-after-accessor-junction
 
-  
-
   using-alias:
     # consume keyword if followed by typename
     - match: '\b(using)\b(?=\s+typename\b)'
@@ -710,7 +708,7 @@ contexts:
       captures:
         1: storage.type.c++
         2: entity.name.type.using.c++
-        
+
   typedef:
     - match: \btypedef\b
       scope: storage.type.c++
