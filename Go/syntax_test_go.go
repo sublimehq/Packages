@@ -48,6 +48,16 @@ You may have to disable Go-specific linters when working on this file.
 //  ^^^^^^^ comment.block.go
 //         ^ -comment
 
+    /**
+// ^ -comment
+//  ^^^^ comment.block.go
+     *
+//   ^ comment.block.go
+//    ^ punctuation.definition.comment.go
+    */
+//  ^^ comment.block.go
+//    ^ -comment
+
     //go
 // ^ -comment -punctuation
 //  ^^ punctuation.definition.comment.go

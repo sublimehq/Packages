@@ -9,6 +9,14 @@
 // ^^^^^^^^^^ comment.block.dot
 //         ^^ punctuation.definition.comment.dot
 
+/**
+// <-         punctuation.definition.comment.dot
+//^^          comment.block.dot
+    * Me as well!
+//  ^         punctuation.definition.comment.dot
+*/
+// <-         punctuation.definition.comment.dot
+
 # Me also!
 // <-      punctuation.definition.comment.dot
 // ^^^^^^^ comment.line.number-sign.dot

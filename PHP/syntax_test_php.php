@@ -538,6 +538,7 @@ $var->meth()[10];
  * @author
  * @package
  * @version
+// <- punctuation.definition.comment
  NOTE: Modified */
 //^^^^^^^^^^^^^^^^ comment.block - comment.block.documentation
 //              ^^ punctuation.definition.comment.end

@@ -305,6 +305,8 @@ type Foo = Bar[A] forSome { type A }
 
 /**
 // <- comment.block.documentation.scala
+    *
+//  ^ punctuation.definition.comment.scala
 */
 
   /**/0xff

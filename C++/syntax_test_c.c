@@ -223,6 +223,10 @@ struct X
     /* <- storage.type */
 };
 
+/**
+    *
+/*  ^ comment.block.c punctuation.definition.comment.c */
+
 /////////////////////////////////////////////
 // Preprocessor branches starting blocks
 /////////////////////////////////////////////
