@@ -869,7 +869,7 @@ contexts:
           scope: punctuation.separator.php
         - include: expressions
   heredoc:
-    - match: '(?=<<<\s*''?({{identifier}})''?\s*$)'
+    - match: (?=<<<\s*'?({{identifier}})'?\s*$)
       push:
         - match: ^\s*(\1)\b(?:(;)(\s*$\n?))?
           captures:
@@ -990,12 +990,10 @@ contexts:
             - match: (?=^\s*\1\b)
               pop: true
             - include: interpolation
-        - match: '<<<\s*('')({{identifier}})('')'
+        - match: <<<\s*('({{identifier}})')
           scope: punctuation.definition.string.php
           captures:
             1: keyword.operator.nowdoc.php
-            2: keyword.operator.nowdoc.php
-            3: keyword.operator.nowdoc.php
           push:
             - meta_scope: string.unquoted.nowdoc.php
             - match: (?=^\s*\2\b)
