@@ -32,6 +32,16 @@ module foo.a.b1_3;
   +/
 //^^ comment.block.nested.d punctuation.definition.comment.d
 
+ /++
+      +
+//    ^ comment.block.nested.d punctuation.definition.comment.d
+ +/
+
+ /**
+      *
+//    ^ comment.block.d punctuation.definition.comment.d
+ */
+
 auto wysiwyg = r"f// \n\";
 //             ^^^^^^^^^^ meta.string.d string.quoted.double.raw.d
 //             ^ storage.modifier.string.d
