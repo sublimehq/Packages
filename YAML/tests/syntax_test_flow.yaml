@@ -32,7 +32,7 @@
 #^^^^^^^^^^^^ string.quoted.double
 #           ^ punctuation.definition.string.end
 
-"\" \0 \\ \x12 \u1234 \U12345678"
+"\" \0 \\ \x1b \u12c4 \U1234F678"
 #^^                              constant.character.escape
 #   ^^                           constant.character.escape
 #      ^^                        constant.character.escape

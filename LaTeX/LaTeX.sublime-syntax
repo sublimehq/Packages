@@ -165,7 +165,7 @@ contexts:
         - include: macro-braces
 
   general-constants:
-    - match: '(\\\\)(?:(\[)\s*-?([[:digit:]]*)\s*(\w*)\s*(\]))?'
+    - match: '(\\\\)(?:(\[)\s*-?((?:[[:digit:]]|\.)*)\s*(\w*)\s*(\]))?'
       captures:
         1: constant.character.newline.latex
         2: punctuation.definition.group.bracket.begin.newline.latex

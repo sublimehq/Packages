@@ -490,7 +490,7 @@ contexts:
       scope: invalid.illegal.unescaped-quote.matlab
   variable:
     - match: '\b{{id}}\b'
-      comment: Valid variable. Added meta to disable hilightinh
+      comment: Valid variable. Added meta to disable highlighting
       scope: meta.variable.other.valid.matlab
   variable_assignment:
     - match: '=\s*\.{0,2}\s*;?\s*$\n?'

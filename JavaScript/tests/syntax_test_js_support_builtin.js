@@ -13,7 +13,7 @@
 //  ^^^^^ support.function
 
     new Error();
-//      ^^^^^ support.class.error
+//      ^^^^^ support.class.builtin
 
     Array;
 //  ^^^^^ support.class.builtin
@@ -75,19 +75,19 @@
 //  ^^^^^^^ support.class.builtin
 
     Error;
-//  ^^^^^ support.class.error
+//  ^^^^^ support.class.builtin
     EvalError;
-//  ^^^^^^^^^ support.class.error
+//  ^^^^^^^^^ support.class.builtin
     RangeError;
-//  ^^^^^^^^^^ support.class.error
+//  ^^^^^^^^^^ support.class.builtin
     ReferenceError;
-//  ^^^^^^^^^^^^^^ support.class.error
+//  ^^^^^^^^^^^^^^ support.class.builtin
     SyntaxError;
-//  ^^^^^^^^^^^ support.class.error
+//  ^^^^^^^^^^^ support.class.builtin
     TypeError;
-//  ^^^^^^^^^ support.class.error
+//  ^^^^^^^^^ support.class.builtin
     URIError;
-//  ^^^^^^^^ support.class.error
+//  ^^^^^^^^ support.class.builtin
 
     Atomics;
 //  ^^^^^^^ support.constant.builtin
@@ -116,11 +116,6 @@
 //  ^^^^^^^^^ support.function
     encodeURIComponent;
 //  ^^^^^^^^^^^^^^^^^^ support.function
-
-    escape;
-//  ^^^^^^ invalid.deprecated support.function
-    unescape;
-//  ^^^^^^^^ invalid.deprecated support.function
 
 
 foo.constructor;
