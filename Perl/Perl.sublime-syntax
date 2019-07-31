@@ -55,8 +55,12 @@ variables:
     \b(?x:
       # control keywords
       default|else|elsif|given|if|unless|when|break|caller|continue|die|
-      do|dump|exit|goto|last|next|redo|return|wait|for|foreach|until|while
-    ){{break}}
+      do|dump|exit|goto|last|next|redo|return|wait|for|foreach|until|while|
+      # declaration keywords
+      local|my|no|our|package|require|state|sub|use|
+      # word operators
+      and|or|xor|as|cmp|eq|gt|ge|lt|le|ne|not
+    )\b
 
 contexts:
   main:
