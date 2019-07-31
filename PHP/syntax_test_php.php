@@ -268,6 +268,11 @@ $var->meth()[10];
  */
 // ^ source - comment.block
 
+/**
+    *
+//  ^ text.html.basic meta.embedded.block.php source.php comment.block.documentation.phpdoc.php punctuation.definition.comment.php
+*/
+
 /** @var Properties: class properties. */
 //  ^ keyword.other.phpdoc
 
@@ -573,7 +578,6 @@ $var->meth()[10];
  * @author
  * @package
  * @version
-// <- punctuation.definition.comment
  NOTE: Modified */
 //^^^^^^^^^^^^^^^^ comment.block - comment.block.documentation
 //              ^^ punctuation.definition.comment.end
