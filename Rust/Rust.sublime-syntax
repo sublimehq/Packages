@@ -951,6 +951,9 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.rust
           pop: true
+        - match: ^\s*(\*)(?!/)
+          captures:
+            1: punctuation.definition.comment.rust
         - include: block-comments
     - match: /\*
       scope: punctuation.definition.comment.rust

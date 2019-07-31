@@ -19,6 +19,11 @@ Block doc comments
 // ^^^^^^^^^^^^^^^^^^ comment.block.documentation comment.block
 */
 
+/**
+    *
+//  ^ comment.block.documentation.rust punctuation.definition.comment.rust 
+*/
+
 let c = 'c';
 // <- storage.type
 //    ^ keyword.operator.assignment
