@@ -288,6 +288,11 @@ if (true)
 */
 // <- comment.block.documentation punctuation.definition.comment.end
 
+/**
+    * 
+//  ^ comment.block.documentation.js punctuation.definition.comment.js
+*/
+
 /*
 // <- comment.block punctuation.definition.comment
 */

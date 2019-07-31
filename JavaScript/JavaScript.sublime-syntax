@@ -113,6 +113,9 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.end.js
           pop: true
+        - match: ^\s*(\*)(?!/)
+          captures:
+            1: punctuation.definition.comment.js
     - match: /\*
       scope: punctuation.definition.comment.begin.js
       push:
