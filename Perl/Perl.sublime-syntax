@@ -55,8 +55,19 @@ variables:
     \b(?x:
       # control keywords
       default|else|elsif|given|if|unless|when|break|caller|continue|die|
-      do|dump|exit|goto|last|next|redo|return|wait|for|foreach|until|while
-    ){{break}}
+      do|dump|exit|goto|last|next|redo|return|wait|for|foreach|until|while|
+      # declaration keywords
+      package|require|use|no|sub|format|{{storage_keywords}}|
+      # word operators
+      {{operator_keywords}}|
+      # quoted like functions (are handled like keywords)
+      {{quoted_like_keywords}}
+    )\b
+
+  # certain classes of keywords
+  operator_keywords: and|or|xor|as|cmp|eq|gt|ge|lt|le|ne|not|x
+  quoted_like_keywords: m|q|qq|qr|qw|qx|s|tr|y
+  storage_keywords: local|my|our|state
 
 contexts:
   main:
@@ -257,7 +268,7 @@ contexts:
     - match: \bpackage{{break}}
       scope: keyword.declaration.package.perl
     # KEYWORD 'my' and its friends
-    - match: \b(?:local|my|our|state){{break}}
+    - match: \b(?:{{storage_keywords}}){{break}}
       scope: keyword.declaration.variable.perl
     # KEYWORD no
     - match: \bno{{break}}
@@ -905,10 +916,10 @@ contexts:
       push: expressions-begin
     # string concation
     #  "string" x 10
-    - match: \bx\b
+    - match: \bx{{break}}
       scope: keyword.operator.arithmetic.perl
       push: expressions-begin
-    - match: \b(and|or|xor|as|cmp|eq|gt|ge|lt|le|ne|not){{break}}
+    - match: \b(?:{{operator_keywords}}){{break}}
       scope: keyword.operator.logical.perl
       push: expressions-begin
 
@@ -945,7 +956,7 @@ contexts:
         2: constant.language.flags.regexp.perl
 
   quoted-like-replace:
-    - match: \b(s|ty|y)(?=\s*[\(\[\{<])
+    - match: \b(s|tr|y)(?=\s*[\(\[\{<])
       scope: support.function.perl
       push:
         - quoted-like-meta
