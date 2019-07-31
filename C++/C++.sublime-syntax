@@ -204,6 +204,9 @@ contexts:
           - match: \*/
             scope: punctuation.definition.comment.c
             pop: true
+          - match: ^\s*(\*)(?!/)
+            captures:
+              1: punctuation.definition.comment.c
     - include: early-expressions
     - match: ^\s*\b(extern)(?=\s+"C(\+\+)?")
       scope: storage.modifier.c++
