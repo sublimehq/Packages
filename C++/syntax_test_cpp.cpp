@@ -2329,3 +2329,7 @@ void sayHi()
 /*      ^ punctuation.definition.string.begin */
 /*       ^^^^^^^^ string.quoted.other.lt-gt.include */
 /*               ^ punctuation.definition.string.end */
+
+/**
+      *
+/*    ^ comment.block.c punctuation.definition.comment.c */
