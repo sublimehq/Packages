@@ -1207,7 +1207,7 @@ contexts:
         1: punctuation.definition.variable.perl
       push: maybe-item-access
     - match: (\$)0\b
-      scope: variable.other.predefined.program-name.perl
+      scope: variable.language.program-name.perl
       captures:
         1: punctuation.definition.variable.perl
       push: maybe-item-access
@@ -1227,7 +1227,7 @@ contexts:
           - include: immediately-pop
         - class-members-pop
     - match: (\$)(\^[A-Z]|[_ab\*\.\/\|,\\;#%=\-~^:?!\$<>\(\)\[\]@])(?!\w)
-      scope: variable.other.predefined.perl
+      scope: variable.language.perl
       captures:
         1: punctuation.definition.variable.perl
       push: maybe-item-access

@@ -489,7 +489,7 @@ EOT
 # ^^ variable.other.readwrite.list-separator.perl
 # ^ punctuation.definition.variable.perl
   $0
-# ^^ variable.other.predefined.program-name.perl
+# ^^ variable.language.program-name.perl
 # ^ punctuation.definition.variable.perl
   @0
 # ^^ variable.other.readwrite.global.perl
@@ -507,7 +507,7 @@ EOT
 # ^^ variable.other.readwrite.global.perl
 # ^ punctuation.definition.variable.perl
   $_
-# ^^ variable.other.predefined.perl
+# ^^ variable.language.perl
 # ^ punctuation.definition.variable.perl
   @_
 # ^^ variable.other.readwrite.global.perl
@@ -554,7 +554,7 @@ EOT
 # ^ punctuation.definition.variable.perl
 #   ^^^ meta.item-access.perl
   $0[0]
-# ^^ variable.other.predefined.program-name.perl
+# ^^ variable.language.program-name.perl
 # ^ punctuation.definition.variable.perl
 #   ^^^ meta.item-access.perl
   @0[0]
@@ -578,7 +578,7 @@ EOT
 # ^ punctuation.definition.variable.perl
 #   ^^^ meta.item-access.perl
   $_[0]
-# ^^ variable.other.predefined.perl
+# ^^ variable.language.perl
 # ^ punctuation.definition.variable.perl
 #   ^^^ meta.item-access.perl
   @_[0]
