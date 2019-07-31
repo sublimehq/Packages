@@ -29,7 +29,7 @@ contexts:
     - include: commands
     - match: \b(?i)exit\b
       scope: keyword.control.statement.dosbatch
-    - match: \b(?i)(goto|call)\s*(:)(?:(eof)|(\w+))
+    - match: \b(?i)(goto|call)\b(?:\s*(:)?(?:(eof)|(\w+)))?
       captures:
         1: keyword.control.statement.dosbatch
         2: punctuation.separator.dosbatch
