@@ -767,6 +767,9 @@ EOT
 # ^ punctuation.definition.variable.perl
 #  ^^ punctuation.accessor.double-colon.perl
 #    ^^^^^^ support.class.perl
+#          ^ punctuation.section.item-access.begin.perl
+#           ^^^^^^^^^^ string.quoted.single.perl
+#                     ^ punctuation.section.item-access.end.perl
   -f
 # ^^ keyword.operator.filetest.perl
   -foo
@@ -787,12 +790,56 @@ EOT
 #         ^^^^^ string.quoted.double.perl
 #             ^ punctuation.definition.string.end.perl
 #              ^ punctuation.terminator.statement.perl
+  $foo{bar}
+# ^^^^ variable.other.readwrite.global.perl
+# ^ punctuation.definition.variable.perl
+#     ^ punctuation.section.item-access.begin.perl
+#     ^^^^^ meta.item-access.perl
+#      ^^^ string.unquoted.perl
+#         ^ punctuation.section.item-access.end.perl
+  $foo{bar()}
+# ^^^^ variable.other.readwrite.global.perl
+# ^ punctuation.definition.variable.perl
+#     ^ punctuation.section.item-access.begin.perl
+#     ^^^^^ meta.item-access.perl
+#      ^^^ variable.function.perl
+#           ^ punctuation.section.item-access.end.perl
+  $foo{10 + $bar}
+# ^^^^ variable.other.readwrite.global.perl
+# ^ punctuation.definition.variable.perl
+#     ^ punctuation.section.item-access.begin.perl
+#     ^^^^^^^^^^^ meta.item-access.perl
+#      ^^ constant.numeric.integer.decimal.perl
+#         ^ keyword.operator.arithmetic.perl
+#           ^^^^ variable.other.readwrite.global.perl
+#               ^ punctuation.section.item-access.end.perl
+  %{$foo{bar}{baz}} = 'excl';
+# ^^^^^^^^^^^^^^^^^ meta.braces.perl variable.other.readwrite.global.perl
+#       ^^^^^^^^^^ meta.item-access.perl
+# ^^ punctuation.definition.variable.begin.perl
+#   ^ punctuation.definition.variable.perl
+#   ^^^^ variable.other.readwrite.global.perl variable.other.readwrite.global.perl
+#       ^ punctuation.section.item-access.begin.perl
+#        ^^^ string.unquoted.perl
+#           ^ punctuation.section.item-access.end.perl
+#             ^^^ string.unquoted.perl
+#                ^ punctuation.section.item-access.end.perl
+#                 ^ punctuation.definition.variable.end.perl
+#                   ^ keyword.operator.assignment.perl
+#                     ^^^^^^ string.quoted.single.perl
+#                           ^ punctuation.terminator.statement.perl
   %{$foo{'bar'}{'bar'}} = 'excl';
 # ^^^^^^^^^^^^^^^^^^^^^ meta.braces.perl variable.other.readwrite.global.perl
 #       ^^^^^^^^^^^^^^ meta.item-access.perl
 # ^^ punctuation.definition.variable.begin.perl
 #   ^ punctuation.definition.variable.perl
 #   ^^^^ variable.other.readwrite.global.perl variable.other.readwrite.global.perl
+#       ^ punctuation.section.item-access.begin.perl
+#        ^^^^^ string.quoted.single.perl
+#             ^ punctuation.section.item-access.end.perl
+#              ^ punctuation.section.item-access.begin.perl
+#               ^^^^^ string.quoted.single.perl
+#                    ^ punctuation.section.item-access.end.perl
 #                     ^ punctuation.definition.variable.end.perl
 #                       ^ keyword.operator.assignment.perl
 #                         ^^^^^^ string.quoted.single.perl

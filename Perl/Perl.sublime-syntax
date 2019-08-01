@@ -1264,6 +1264,12 @@ contexts:
           - include: groups-nested
           - include: expressions
         - regexp-pop
+    - match: (\{)\s*({{identifier}})\s*(\})
+      scope: meta.item-access.perl
+      captures:
+        1: punctuation.section.item-access.begin.perl
+        2: string.unquoted.perl
+        3: punctuation.section.item-access.end.perl
     - match: \{
       scope: punctuation.section.item-access.begin.perl
       push:
