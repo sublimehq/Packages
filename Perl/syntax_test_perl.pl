@@ -893,6 +893,32 @@ EOT
   1.1-             # normal float
 # ^^^ constant.numeric.float.decimal.perl
 #    ^ keyword.operator.arithmetic.perl
+  .1               # normal float
+# ^^ constant.numeric.float.decimal.perl
+  -.1              # normal float
+# ^ keyword.operator.arithmetic.perl
+#  ^^ constant.numeric.float.decimal.perl
+  .1-              # normal float
+# ^^ constant.numeric.float.decimal.perl
+#   ^ keyword.operator.arithmetic.perl
+  1.               # normal float
+# ^^ constant.numeric.float.decimal.perl
+  -1.              # normal float
+# ^ keyword.operator.arithmetic.perl
+#  ^^ constant.numeric.float.decimal.perl
+  1.-              # normal float
+# ^^ constant.numeric.float.decimal.perl
+#   ^ keyword.operator.arithmetic.perl
+  1e5              # exponential notation
+# ^^^ constant.numeric.float.decimal.perl
+  -1e5             # exponential notation
+# ^ keyword.operator.arithmetic.perl
+#  ^^^ constant.numeric.float.decimal.perl
+  1e5-             # exponential notation
+# ^^^ constant.numeric.float.decimal.perl
+#    ^ keyword.operator.arithmetic.perl
+  1.e5             # exponential notation
+# ^^^^ constant.numeric.float.decimal.perl
   12.34e56         # exponential notation
 # ^^^^^^^^ constant.numeric.float.decimal.perl
   -12.34e-56       # exponential notation
@@ -918,9 +944,39 @@ EOT
   "-01234"          # number specified as a string
 # ^^^^^^^^ string.quoted.double.perl
 #  ^^^^^^ constant.numeric.integer.octal.perl
-  "-12.34e56"      # number specified as a string
-# ^^^^^^^^^^^ string.quoted.double.perl
-#  ^^^^^^^^^ constant.numeric.float.decimal.perl
+  "1.1"            # normal float
+# ^^^^^ string.quoted.double.perl
+#  ^^^ constant.numeric.float.decimal.perl
+  "-1.1"           # normal float
+# ^^^^^^ string.quoted.double.perl
+#  ^^^^ constant.numeric.float.decimal.perl
+  ".1"             # normal float
+# ^^^^ string.quoted.double.perl
+#  ^^ constant.numeric.float.decimal.perl
+  "-.1"            # normal float
+# ^^^^^ string.quoted.double.perl
+#  ^^^ constant.numeric.float.decimal.perl
+  "1."             # normal float
+# ^^^^ string.quoted.double.perl
+#  ^^ constant.numeric.float.decimal.perl
+  "-1."            # normal float
+# ^^^^^ string.quoted.double.perl
+#  ^^^ constant.numeric.float.decimal.perl
+  "1e5"            # exponential notation
+# ^^^^^ string.quoted.double.perl
+#  ^^^ constant.numeric.float.decimal.perl
+  "-1e5"           # exponential notation
+# ^^^^^^ string.quoted.double.perl
+#  ^^^^ constant.numeric.float.decimal.perl
+  "1.e5"           # exponential notation
+# ^^^^^^ string.quoted.double.perl
+#  ^^^^ constant.numeric.float.decimal.perl
+  "12.34e56"       # exponential notation
+# ^^^^^^^^^^ string.quoted.double.perl
+#  ^^^^^^^^ constant.numeric.float.decimal.perl
+  "-12.34e-56"     # exponential notation
+# ^^^^^^^^^^^^ string.quoted.double.perl
+#  ^^^^^^^^^^ constant.numeric.float.decimal.perl
   '0.00_01'
 #  ^^^^^^^ - constant.numeric
   '01bau'
@@ -1907,6 +1963,21 @@ _EOD_
 #     ^ punctuation.section.group.begin.perl
 #                           ^ punctuation.section.group.end.perl
 #                             ^ punctuation.section.block.begin.perl
+    break;
+#   ^^^^^ keyword.control.flow.break.perl
+  }
+# ^ punctuation.section.block.end.perl
+
+  for my $i (0..9) {
+# ^^^ keyword.control.loop.for.perl
+#     ^^ keyword.declaration.variable.perl
+#        ^^ variable.other.readwrite.global.perl
+#           ^ punctuation.section.group.begin.perl
+#            ^ constant.numeric.integer.decimal.perl
+#             ^^ keyword.operator.range.perl
+#               ^ constant.numeric.integer.decimal.perl
+#                ^ punctuation.section.group.end.perl
+#                  ^ punctuation.section.block.begin.perl
     break;
 #   ^^^^^ keyword.control.flow.break.perl
   }
