@@ -887,27 +887,36 @@ EOT
 #     ^^^^ constant.numeric.integer.hexadecimal.perl
   1.1              # normal float
 # ^^^ constant.numeric.float.decimal.perl
+#  ^ punctuation.separator.decimal.perl
   -1.1             # normal float
 # ^ keyword.operator.arithmetic.perl
 #  ^^^ constant.numeric.float.decimal.perl
+#   ^ punctuation.separator.decimal.perl
   1.1-             # normal float
 # ^^^ constant.numeric.float.decimal.perl
+#  ^ punctuation.separator.decimal.perl
 #    ^ keyword.operator.arithmetic.perl
   .1               # normal float
+# ^ punctuation.separator.decimal.perl
 # ^^ constant.numeric.float.decimal.perl
   -.1              # normal float
 # ^ keyword.operator.arithmetic.perl
+#  ^ punctuation.separator.decimal.perl
 #  ^^ constant.numeric.float.decimal.perl
   .1-              # normal float
+# ^ punctuation.separator.decimal.perl
 # ^^ constant.numeric.float.decimal.perl
 #   ^ keyword.operator.arithmetic.perl
   1.               # normal float
 # ^^ constant.numeric.float.decimal.perl
+#  ^ punctuation.separator.decimal.perl
   -1.              # normal float
 # ^ keyword.operator.arithmetic.perl
 #  ^^ constant.numeric.float.decimal.perl
+#   ^ punctuation.separator.decimal.perl
   1.-              # normal float
 # ^^ constant.numeric.float.decimal.perl
+#  ^ punctuation.separator.decimal.perl
 #   ^ keyword.operator.arithmetic.perl
   1e5              # exponential notation
 # ^^^ constant.numeric.float.decimal.perl
@@ -919,18 +928,24 @@ EOT
 #    ^ keyword.operator.arithmetic.perl
   1.e5             # exponential notation
 # ^^^^ constant.numeric.float.decimal.perl
+#  ^ punctuation.separator.decimal.perl
   12.34e56         # exponential notation
 # ^^^^^^^^ constant.numeric.float.decimal.perl
+#   ^ punctuation.separator.decimal.perl
   -12.34e-56       # exponential notation
 # ^ keyword.operator.arithmetic.perl
 #  ^^^^^^^^^ constant.numeric.float.decimal.perl
+#    ^ punctuation.separator.decimal.perl
   - 12.34e-56      # exponential notation
 # ^ keyword.operator.arithmetic.perl
 #   ^^^^^^^^^ constant.numeric.float.decimal.perl
+#     ^ punctuation.separator.decimal.perl
   12.34e+56        # exponential notation
 # ^^^^^^^^^ constant.numeric.float.decimal.perl
+#   ^ punctuation.separator.decimal.perl
   12.34e+56-       # exponential notation
 # ^^^^^^^^^ constant.numeric.float.decimal.perl
+#   ^ punctuation.separator.decimal.perl
 #          ^ keyword.operator.arithmetic.perl
   "1234"           # number specified as a string
 # ^^^^^^ string.quoted.double.perl
@@ -947,21 +962,27 @@ EOT
   "1.1"            # normal float
 # ^^^^^ string.quoted.double.perl
 #  ^^^ constant.numeric.float.decimal.perl
+#   ^ punctuation.separator.decimal.perl
   "-1.1"           # normal float
 # ^^^^^^ string.quoted.double.perl
 #  ^^^^ constant.numeric.float.decimal.perl
+#    ^ punctuation.separator.decimal.perl
   ".1"             # normal float
 # ^^^^ string.quoted.double.perl
+#  ^ punctuation.separator.decimal.perl
 #  ^^ constant.numeric.float.decimal.perl
   "-.1"            # normal float
 # ^^^^^ string.quoted.double.perl
 #  ^^^ constant.numeric.float.decimal.perl
+#   ^ punctuation.separator.decimal.perl
   "1."             # normal float
 # ^^^^ string.quoted.double.perl
 #  ^^ constant.numeric.float.decimal.perl
+#   ^ punctuation.separator.decimal.perl
   "-1."            # normal float
 # ^^^^^ string.quoted.double.perl
 #  ^^^ constant.numeric.float.decimal.perl
+#    ^ punctuation.separator.decimal.perl
   "1e5"            # exponential notation
 # ^^^^^ string.quoted.double.perl
 #  ^^^ constant.numeric.float.decimal.perl
@@ -971,12 +992,15 @@ EOT
   "1.e5"           # exponential notation
 # ^^^^^^ string.quoted.double.perl
 #  ^^^^ constant.numeric.float.decimal.perl
+#   ^ punctuation.separator.decimal.perl
   "12.34e56"       # exponential notation
 # ^^^^^^^^^^ string.quoted.double.perl
 #  ^^^^^^^^ constant.numeric.float.decimal.perl
+#    ^ punctuation.separator.decimal.perl
   "-12.34e-56"     # exponential notation
 # ^^^^^^^^^^^^ string.quoted.double.perl
 #  ^^^^^^^^^^ constant.numeric.float.decimal.perl
+#     ^ punctuation.separator.decimal.perl
   '0.00_01'
 #  ^^^^^^^ - constant.numeric
   '01bau'

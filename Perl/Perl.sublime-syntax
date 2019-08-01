@@ -406,43 +406,50 @@ contexts:
     - match:  |-
         (?x:
           (") ( [-+]? (?:
-          \.\d+ (?: e[-+]?\d+ )?  |  # .1 .1e1 .1e-1 .1e+1
-            \d+ (?: \. (?:
-            \d+ (?: e[-+]?\d+ )?  |  # 1.1 1.1e1 1.1e-1 1.1e+1
-                    e[-+]?\d+ )?  |  # 1. 1.e1 1.e-1 1.e+1
-                    e[-+]?\d+ )      # 1e1 1e-1 1e+1
+          (\.)\d+ (?: e[-+]?\d+ )?  |  # .1 .1e1 .1e-1 .1e+1
+              \d+ (?: (\.) (?:
+              \d+ (?: e[-+]?\d+ )?  |  # 1.1 1.1e1 1.1e-1 1.1e+1
+                      e[-+]?\d+ )?  |  # 1. 1.e1 1.e-1 1.e+1
+                      e[-+]?\d+ )      # 1e1 1e-1 1e+1
           ) ) (")
         )
       scope: string.quoted.double.perl
       captures:
         1: punctuation.definition.string.begin.perl
         2: constant.numeric.float.decimal.perl
-        3: punctuation.definition.string.end.perl
+        3: punctuation.separator.decimal.perl
+        4: punctuation.separator.decimal.perl
+        5: punctuation.definition.string.end.perl
     - match:  |-
         (?x:
           (') ( [-+]? (?:
-          \.\d+ (?: e[-+]?\d+ )?  |  # .1 .1e1 .1e-1 .1e+1
-            \d+ (?: \. (?:
-            \d+ (?: e[-+]?\d+ )?  |  # 1.1 1.1e1 1.1e-1 1.1e+1
-                    e[-+]?\d+ )?  |  # 1. 1.e1 1.e-1 1.e+1
-                    e[-+]?\d+ )      # 1e1 1e-1 1e+1
+          (\.)\d+ (?: e[-+]?\d+ )?  |  # .1 .1e1 .1e-1 .1e+1
+              \d+ (?: (\.) (?:
+              \d+ (?: e[-+]?\d+ )?  |  # 1.1 1.1e1 1.1e-1 1.1e+1
+                      e[-+]?\d+ )?  |  # 1. 1.e1 1.e-1 1.e+1
+                      e[-+]?\d+ )      # 1e1 1e-1 1e+1
           ) ) (')
         )
       scope: string.quoted.single.perl
       captures:
         1: punctuation.definition.string.begin.perl
         2: constant.numeric.float.decimal.perl
-        3: punctuation.definition.string.end.perl
+        3: punctuation.separator.decimal.perl
+        4: punctuation.separator.decimal.perl
+        5: punctuation.definition.string.end.perl
     - match: |-
         (?x:
-          \.\d+ (?: e[-+]?\d+   )? \b |  # .1 .1e1 .1e-1 .1e+1
-            \d+ (?: \. (?: (?:
-            \d+ (?: e[-+]?\d+   )? \b |  # 1.1 1.1e1 1.1e-1 1.1e+1
-                    e[-+]?\d+\b )     |  # 1.e1 1.e-1 1.e+1
-                    (?=[^.]))         |  # 1. (protect the .. operator)
-                    e[-+]?\d+\b )        # 1e1 1e-1 1e+1
+          (\.)\d+ (?: e[-+]?\d+   )? \b |  # .1 .1e1 .1e-1 .1e+1
+              \d+ (?: (\.) (?: (?:
+              \d+ (?: e[-+]?\d+   )? \b |  # 1.1 1.1e1 1.1e-1 1.1e+1
+                      e[-+]?\d+\b )     |  # 1.e1 1.e-1 1.e+1
+                      (?=[^.]))         |  # 1. (protect the .. operator)
+                      e[-+]?\d+\b )        # 1e1 1e-1 1e+1
         )
       scope: constant.numeric.float.decimal.perl
+      captures:
+        1: punctuation.separator.decimal.perl
+        2: punctuation.separator.decimal.perl
 
   constants-numbers-integer:
     - match: (")(?:([-+]?0[0-7]+)|([-+]?\d+))(")
