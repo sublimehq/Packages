@@ -831,30 +831,81 @@ EOT
 
   1234             # decimal integer
 # ^^^^ constant.numeric.integer.decimal.perl
+  +1234            # decimal integer
+# ^ keyword.operator.arithmetic.perl
+#  ^^^^ constant.numeric.integer.decimal.perl
+  + 1234           # decimal integer
+# ^ keyword.operator.arithmetic.perl
+#   ^^^^ constant.numeric.integer.decimal.perl
+  1234+            # decimal integer
+# ^^^^ constant.numeric.integer.decimal.perl
+#     ^ keyword.operator.arithmetic.perl
   -1234            # decimal integer
-# ^^^^^ constant.numeric.integer.decimal.perl
+# ^ keyword.operator.arithmetic.perl
+#  ^^^^ constant.numeric.integer.decimal.perl
   - 1234           # decimal integer
 # ^ keyword.operator.arithmetic.perl
 #   ^^^^ constant.numeric.integer.decimal.perl
+  1234-            # decimal integer
+# ^^^^ constant.numeric.integer.decimal.perl
+#     ^ keyword.operator.arithmetic.perl
   0b0              # binary integer
 # ^^^ constant.numeric.integer.binary.perl
+  -0b0             # binary integer
+# ^ keyword.operator.arithmetic.perl
+#  ^^^ constant.numeric.integer.binary.perl
+  0b0-             # binary integer
+# ^^^ constant.numeric.integer.binary.perl
+#    ^ keyword.operator.arithmetic.perl
+  0b1.0b1
+# ^^^ constant.numeric.integer.binary.perl
+#    ^ keyword.operator.concat.perl
+#     ^^^ constant.numeric.integer.binary.perl
   0b1110011        # binary integer
 # ^^^^^^^^^ constant.numeric.integer.binary.perl
   01234            # octal integer
 # ^^^^^ constant.numeric.integer.decimal.perl
+  -01234            # octal integer
+# ^ keyword.operator.arithmetic.perl
+#  ^^^^^ constant.numeric.integer.decimal.perl
+  01234-           # octal integer
+# ^^^^^ constant.numeric.integer.decimal.perl
+#      ^ keyword.operator.arithmetic.perl
   0x1234           # hexadecimal integer
 # ^^^^^^ constant.numeric.integer.hexadecimal.perl
   0x9              # hexadecimal integer
 # ^^^ constant.numeric.integer.hexadecimal.perl
+  +0x9             # hexadecimal integer
+# ^ keyword.operator.arithmetic.perl
+#  ^^^ constant.numeric.integer.hexadecimal.perl
+  0x9-             # hexadecimal integer
+# ^^^ constant.numeric.integer.hexadecimal.perl
+#    ^ keyword.operator.arithmetic.perl
+  0x9.0x10         # hexadecimal integer
+# ^^^ constant.numeric.integer.hexadecimal.perl
+#    ^ keyword.operator.concat.perl
+#     ^^^^ constant.numeric.integer.hexadecimal.perl
+  1.1              # normal float
+# ^^^ constant.numeric.float.decimal.perl
+  -1.1             # normal float
+# ^ keyword.operator.arithmetic.perl
+#  ^^^ constant.numeric.float.decimal.perl
+  1.1-             # normal float
+# ^^^ constant.numeric.float.decimal.perl
+#    ^ keyword.operator.arithmetic.perl
   12.34e56         # exponential notation
 # ^^^^^^^^ constant.numeric.float.decimal.perl
   -12.34e-56       # exponential notation
-# ^^^^^^^^^^ constant.numeric.float.decimal.perl
+# ^ keyword.operator.arithmetic.perl
+#  ^^^^^^^^^ constant.numeric.float.decimal.perl
   - 12.34e-56      # exponential notation
 # ^ keyword.operator.arithmetic.perl
 #   ^^^^^^^^^ constant.numeric.float.decimal.perl
   12.34e+56        # exponential notation
 # ^^^^^^^^^ constant.numeric.float.decimal.perl
+  12.34e+56-       # exponential notation
+# ^^^^^^^^^ constant.numeric.float.decimal.perl
+#          ^ keyword.operator.arithmetic.perl
   "-12.34e56"      # number specified as a string
 # ^^^^^^^^^^^ string.quoted.double.perl
 #  ^^^^^^^^^ constant.numeric.float.decimal.perl
@@ -1757,7 +1808,8 @@ sub AUTOLOAD () {}
 # ^^^^ entity.name.label.perl
 #     ^ punctuation.separator.perl
 #      ^^^^ keyword.control.flow.exit.perl
-#           ^^ constant.numeric.integer.decimal.perl
+#           ^ keyword.operator.arithmetic.perl
+#            ^ constant.numeric.integer.decimal.perl
 
 ###[ FUNCTION CALLS ]#########################################################
 

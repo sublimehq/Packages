@@ -395,9 +395,9 @@ contexts:
 
   constants-numbers:
     # SEE: http://perldoc.perl.org/perlnumber.html
-    - match: 0b[01]+(?![\.\w+])
+    - match: 0b[01]+\b
       scope: constant.numeric.integer.binary.perl
-    - match: 0x[\h_]+(?![\.\w+])
+    - match: 0x[\h_]+\b
       scope: constant.numeric.integer.hexadecimal.perl
     - include: constants-numbers-float
     - include: constants-numbers-integer
@@ -415,7 +415,7 @@ contexts:
         1: punctuation.definition.string.begin.perl
         2: constant.numeric.float.decimal.perl
         3: punctuation.definition.string.end.perl
-    - match: (?:[-+]|\b)\d+\.\d+(?:e[-+]?\d+)?(?![\.\w+])
+    - match: \b\d+\.\d+(?:e[-+]?\d+)?\b
       scope: constant.numeric.float.decimal.perl
 
   constants-numbers-integer:
@@ -431,7 +431,7 @@ contexts:
         1: punctuation.definition.string.begin.perl
         2: constant.numeric.integer.decimal.perl
         3: punctuation.definition.string.end.perl
-    - match: (?:[-+]|\b)\d+(?![\.\w+])
+    - match: \b\d+\b
       scope: constant.numeric.integer.decimal.perl
 
   constants-language:
