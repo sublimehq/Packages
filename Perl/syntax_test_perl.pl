@@ -864,12 +864,12 @@ EOT
   0b1110011        # binary integer
 # ^^^^^^^^^ constant.numeric.integer.binary.perl
   01234            # octal integer
-# ^^^^^ constant.numeric.integer.decimal.perl
+# ^^^^^ constant.numeric.integer.octal.perl
   -01234            # octal integer
 # ^ keyword.operator.arithmetic.perl
-#  ^^^^^ constant.numeric.integer.decimal.perl
+#  ^^^^^ constant.numeric.integer.octal.perl
   01234-           # octal integer
-# ^^^^^ constant.numeric.integer.decimal.perl
+# ^^^^^ constant.numeric.integer.octal.perl
 #      ^ keyword.operator.arithmetic.perl
   0x1234           # hexadecimal integer
 # ^^^^^^ constant.numeric.integer.hexadecimal.perl
@@ -906,12 +906,21 @@ EOT
   12.34e+56-       # exponential notation
 # ^^^^^^^^^ constant.numeric.float.decimal.perl
 #          ^ keyword.operator.arithmetic.perl
-  "-12.34e56"      # number specified as a string
-# ^^^^^^^^^^^ string.quoted.double.perl
-#  ^^^^^^^^^ constant.numeric.float.decimal.perl
   "1234"           # number specified as a string
 # ^^^^^^ string.quoted.double.perl
 #  ^^^^ constant.numeric.integer.decimal.perl
+  "-1234"           # number specified as a string
+# ^^^^^^^ string.quoted.double.perl
+#  ^^^^^ constant.numeric.integer.decimal.perl
+  "01234"          # number specified as a string
+# ^^^^^^^ string.quoted.double.perl
+#  ^^^^^ constant.numeric.integer.octal.perl
+  "-01234"          # number specified as a string
+# ^^^^^^^^ string.quoted.double.perl
+#  ^^^^^^ constant.numeric.integer.octal.perl
+  "-12.34e56"      # number specified as a string
+# ^^^^^^^^^^^ string.quoted.double.perl
+#  ^^^^^^^^^ constant.numeric.float.decimal.perl
   '0.00_01'
 #  ^^^^^^^ - constant.numeric
   '01bau'

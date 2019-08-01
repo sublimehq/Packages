@@ -419,18 +419,22 @@ contexts:
       scope: constant.numeric.float.decimal.perl
 
   constants-numbers-integer:
-    - match: (")([-+]?\d+)(")
+    - match: (")(?:([-+]?0[0-7]+)|([-+]?\d+))(")
       scope: string.quoted.double.perl
       captures:
         1: punctuation.definition.string.begin.perl
-        2: constant.numeric.integer.decimal.perl
-        3: punctuation.definition.string.end.perl
-    - match: (')([-+]?\d+)(')
+        2: constant.numeric.integer.octal.perl
+        3: constant.numeric.integer.decimal.perl
+        4: punctuation.definition.string.end.perl
+    - match: (')(?:([-+]?0[0-7]+)|([-+]?\d+))(')
       scope: string.quoted.single.perl
       captures:
         1: punctuation.definition.string.begin.perl
-        2: constant.numeric.integer.decimal.perl
-        3: punctuation.definition.string.end.perl
+        2: constant.numeric.integer.octal.perl
+        3: constant.numeric.integer.decimal.perl
+        4: punctuation.definition.string.end.perl
+    - match: \b0[0-7]+\b
+      scope: constant.numeric.integer.octal.perl
     - match: \b\d+\b
       scope: constant.numeric.integer.decimal.perl
 
