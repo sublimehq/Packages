@@ -1469,12 +1469,12 @@ class Foo extends Bar(42)
 //                      ^ punctuation.section.parens.end.scala
 
 class Foo extends (Int => String)
-//                ^ punctuation.section.parens.begin.scala
-//                              ^ punctuation.section.parens.end.scala
+//                ^ punctuation.definition.parens.begin.scala
+//                              ^ punctuation.definition.parens.end.scala
 
 class Foo extends Bar[Int]
-//                   ^ punctuation.section.brackets.begin.scala
-//                       ^ punctuation.section.brackets.end.scala
+//                   ^ punctuation.definition.generic.begin.scala
+//                       ^ punctuation.definition.generic.end.scala
 
    object Underscore_
 // ^^^^^^ storage.type.class.scala

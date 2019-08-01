@@ -715,10 +715,10 @@ contexts:
       scope: entity.other.inherited-class.scala
       set: class-inheritance-extends-token-after
     - match: \(
-      scope: punctuation.section.parens.begin.scala
+      scope: punctuation.definition.parens.begin.scala
       set:
         - match: \)
-          scope: punctuation.section.parens.end.scala
+          scope: punctuation.definition.parens.end.scala
           set: class-inheritance-with
         - include: delimited-type-expression
     - match: '\n'
@@ -732,6 +732,7 @@ contexts:
       set: class-inheritance-extends-token
 
   class-inheritance-extends-token-after:
+    # we don't use punctuation.definition here because it's not part of the type anymore
     - match: \(
       scope: punctuation.section.parens.begin.scala
       push:
@@ -740,10 +741,10 @@ contexts:
           pop: true
         - include: main
     - match: \[
-      scope: punctuation.section.brackets.begin.scala
+      scope: punctuation.definition.generic.begin.scala
       push:
         - match: \]
-          scope: punctuation.section.brackets.end.scala
+          scope: punctuation.definition.generic.end.scala
           pop: true
         - include: delimited-type-expression
     - match: (?=\b(?:with|extends)\b)
