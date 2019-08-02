@@ -456,22 +456,18 @@ contexts:
         2: punctuation.separator.decimal.perl
 
   constants-numbers-integer:
-    - match: (")(?:([-+]?(0)[0-7]+)|([-+]?\d+))(")
+    - match: (")([-+]?\d+)(")
       scope: string.quoted.double.perl
       captures:
         1: punctuation.definition.string.begin.perl
-        2: constant.numeric.integer.octal.perl
-        3: punctuation.definition.numeric.octal.perl
-        4: constant.numeric.integer.decimal.perl
-        5: punctuation.definition.string.end.perl
-    - match: (')(?:([-+]?(0)[0-7]+)|([-+]?\d+))(')
+        2: constant.numeric.integer.decimal.perl
+        3: punctuation.definition.string.end.perl
+    - match: (')([-+]?\d+)(')
       scope: string.quoted.single.perl
       captures:
         1: punctuation.definition.string.begin.perl
-        2: constant.numeric.integer.octal.perl
-        3: punctuation.definition.numeric.octal.perl
-        4: constant.numeric.integer.decimal.perl
-        5: punctuation.definition.string.end.perl
+        2: constant.numeric.integer.decimal.perl
+        3: punctuation.definition.string.end.perl
     - match: \b(0)[0-7]+\b
       scope: constant.numeric.integer.octal.perl
       captures:

@@ -970,13 +970,10 @@ EOT
 #  ^^^^^ constant.numeric.integer.decimal.perl
   "01234"          # number specified as a string
 # ^^^^^^^ string.quoted.double.perl
-#  ^ constant.numeric.integer.octal.perl punctuation.definition.numeric.octal.perl
-#   ^^^^ constant.numeric.integer.octal.perl - punctuation
+#  ^^^^^ constant.numeric.integer.decimal.perl - punctuation
   "-01234"          # number specified as a string
 # ^^^^^^^^ string.quoted.double.perl
-#  ^ constant.numeric.integer.octal.perl - punctuation
-#   ^ constant.numeric.integer.octal.perl punctuation.definition.numeric.octal.perl
-#    ^^^^ constant.numeric.integer.octal.perl - punctuation
+#  ^^^^^^ constant.numeric.integer.decimal.perl - punctuation
   "1.1"            # normal float
 # ^^^^^ string.quoted.double.perl
 #  ^^^ constant.numeric.float.decimal.perl
