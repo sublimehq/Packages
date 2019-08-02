@@ -140,7 +140,7 @@ contexts:
     - include: optional-block-statement
 
   comment-in:
-    - match: /\*\*?
+    - match: /\*(\*(?!/))?
       scope: punctuation.definition.comment.d
       push:
         - meta_scope: comment.block.d
@@ -156,7 +156,7 @@ contexts:
         1: punctuation.definition.comment.d
     - include: nested-comment
   nested-comment:
-    - match: /\+\+?
+    - match: /\+(\+(?!/))?
       scope: punctuation.definition.comment.d
       push:
         - meta_scope: comment.block.nested.d
