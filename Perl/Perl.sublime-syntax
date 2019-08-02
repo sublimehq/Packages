@@ -99,10 +99,6 @@ contexts:
     - match: $|(?=[;#])
       pop: true
 
-  term-pop:
-    - match: (?=;)
-      pop: true
-
 ###[ COMMENTS ]###############################################################
 
   comment-line:
@@ -401,6 +397,116 @@ contexts:
     - meta_scope: meta.preprocessor.require.perl
     - include: comment-line
     - include: else-pop
+
+###[ SUB STATEMENTS ]#########################################################
+
+  sub:
+    - match: \bsub{{break}}
+      scope: storage.type.function.perl
+      push: [sub-end, sub-parameters, sub-path]
+    # special functions which are executed at compile time
+    # SEE: https://perldoc.perl.org/perlmod.html#BEGIN%2c-UNITCHECK%2c-CHECK%2c-INIT-and-END
+    # NOTE: may not start with double colon when used without `sub` keyword
+    - match: (::)?(BEGIN|CHECK|END|INIT|UNITCHECK)(?=\s*(?:[;#{]|$))
+      captures:
+        1: invalid.illegal.accessor.perl
+        2: entity.name.function.prepocessor.perl
+      push: [sub-end, sub-parameters]
+
+  sub-path:
+    - match: ({{identifier}})?(::)
+      captures:
+        1: support.class.perl
+        2: punctuation.accessor.double-colon.perl
+      set:
+        - meta_scope: meta.path.perl
+        - include: qualifier
+        - include: sub-name
+        - include: immediately-pop
+    - include: sub-name
+    - include: sub-common
+
+  sub-name:
+    # callback hook to auto load or destroy objects/functions
+    - match: \b(AUTOLOAD|DESTROY){{break}}
+      scope: entity.name.function.callback.perl
+      pop: true
+    # special functions which are executed at compile time
+    - match: \b(BEGIN|CHECK|END|INIT|UNITCHECK){{break}}
+      scope: entity.name.function.prepocessor.perl
+      pop: true
+    # ordinary function identifier
+    - match: (?!{{reserved_words}}){{identifier}}
+      scope: entity.name.function.perl
+      pop: true
+
+  sub-parameters:
+    - match: (?=\()
+      set:
+        - - clear_scopes: 1
+          - meta_scope: meta.function.parameters.perl
+          - include: parameters-end
+          - match: '[$@%*]+'
+            scope: variable.parameter.perl
+          - match: ;
+            scope: punctuation.separator.sequence.perl
+          - match: \S
+            scope: invalid.illegal.parameter.perl
+        - parameters-begin
+    - include: sub-attributes
+    - include: sub-common
+
+  sub-attributes:
+    - match: '::'
+      scope: invalid.illegal.identifier.perl
+    - match: ':'
+      scope: punctuation.definition.annotation.perl
+      push: sub-attributes-name
+
+  sub-attributes-name:
+    - meta_scope: meta.annotation.perl
+    - match: '{{identifier}}'
+      scope: variable.annotation.attribute.perl
+      set:
+        - meta_content_scope: meta.annotation.perl
+        - include: sub-attributes-parameters
+    - include: sub-attributes-parameters
+
+  sub-attributes-parameters:
+    # NOTE: doesn't look like prototype parameters
+    - match: (?=\((?!\s*[$@%*]+\s*[;)]))
+      set:
+        - - meta_scope: meta.annotation.parameters.perl
+          - include: parameters-end
+          - include: blocks-nested
+          - include: brackets-nested
+          - include: groups-nested
+          - include: expressions
+        - expressions-begin
+        - parameters-begin
+    - include: sub-common
+
+  sub-common:
+    - match: (?=[:;({]|{{qualified_reserved_words}})
+      pop: true
+    - include: comment-line
+    - match: \S
+      scope: invalid.illegal.identifier.perl
+
+  sub-end:
+    - meta_scope: meta.function.perl
+    - include: sub-attributes
+    - include: sub-common
+
+  parameters-begin:
+    - match: \(
+      scope: punctuation.section.parameters.begin.perl
+      pop: true
+
+  parameters-end:
+    - match: \)
+      scope: punctuation.section.parameters.end.perl
+      pop: true
 
 ###[ DECLARATIONS ]###########################################################
 
@@ -1276,76 +1382,13 @@ contexts:
           - include: main
         - expressions-begin
 
-###[ SUB ]####################################################################
-
-  sub:
-    - match: \bsub\b
-      scope: storage.type.function.perl
-      push: sub-name
-    # special functions which are executed at compile time
-    # SEE: https://perldoc.perl.org/perlmod.html#BEGIN%2c-UNITCHECK%2c-CHECK%2c-INIT-and-END
-    - match: \b(BEGIN|CHECK|END|INIT|UNITCHECK){{break}}
-      scope: meta.function.perl entity.name.function.prepocessor.perl
-      push: sub-expect-parameters
-
-  sub-name:
-    - meta_scope: meta.function.perl
-    # callback hook to auto load or destroy objects/functions
-    - match: \b(AUTOLOAD|DESTROY){{break}}
-      scope: entity.name.function.callback.perl
-      set: sub-expect-parameters
-    # special functions which are executed at compile time
-    - match: \b(BEGIN|CHECK|END|INIT|UNITCHECK){{break}}
-      scope: entity.name.function.prepocessor.perl
-      set: sub-expect-parameters
-    # ordinary function identifier
-    - match: '{{identifier}}'
-      scope: entity.name.function.perl
-      set: sub-expect-parameters
-    - include: sub-expect-block
-
-  sub-expect-parameters:
-    - meta_content_scope: meta.function.perl
-    - match: (?=\()
-      set: sub-parameters
-    - include: sub-expect-block
-    - match: \S
-      scope: invalid.illegal.function-name.perl
-
-  sub-parameters:
-    - match: \(
-      scope: punctuation.section.group.begin.perl
-      set:
-        - meta_scope: meta.function.parameters.perl
-        - match: \)
-          scope: punctuation.section.group.end.perl
-          set: sub-expect-block
-        - match: '[\$\@\*;][^\s,\)]*'
-          scope: variable.parameter.perl
-        - include: expressions
-
-  sub-expect-block:
-    - meta_content_scope: meta.function.perl
-    - include: comment-line
-    - include: term-pop
-    - match: $|(?=\{)
-      set:
-        - match: \{
-          scope: punctuation.section.block.begin.perl
-          set: [sub-block-body, expressions-begin]
-        - include: comment-line
-        - include: comment-pod
-        - match: (?=\S)
-          pop: true
-
-  sub-block-body:
-    - meta_scope: meta.function.perl meta.block.perl
-    - match: \}
-      scope: punctuation.section.block.end.perl
-      pop: true
-    - include: main
-
 ###[ VARIABLES ]##############################################################
+
+  qualifier:
+    - match: ({{identifier}})?(::)
+      captures:
+        1: support.class.perl
+        2: punctuation.accessor.double-colon.perl
 
   variables:
     # SEE: http://perldoc.perl.org/perlvar.html

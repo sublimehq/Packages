@@ -1876,253 +1876,809 @@ state
 ###[ PREPROCESSOR ]###########################################################
 
   BEGIN {
-# ^^^^^^ meta.function.perl - meta.block
+# ^^^^^^ meta.function.perl
 # ^^^^^ entity.name.function.prepocessor.perl
-#       ^ meta.function.perl meta.block.perl punctuation.section.block.begin.perl
+#       ^ punctuation.section.block.begin.perl
   }
-# ^ meta.function.perl meta.block.perl punctuation.section.block.end.perl
+# ^ punctuation.section.block.end.perl
+  ::BEGIN {
+# ^^^^^^^^ meta.function.perl
+# ^^ invalid.illegal.accessor.perl
+#   ^^^^^ entity.name.function.prepocessor.perl
+#         ^ punctuation.section.block.begin.perl
+  }
+# ^ punctuation.section.block.end.perl
   sub BEGIN {
-# ^^^^^^^^^^ meta.function.perl - meta.block
+# ^^^^^^^^^^ meta.function.perl
 # ^^^ storage.type.function.perl
 #     ^^^^^ entity.name.function.prepocessor.perl
-#           ^ meta.function.perl meta.block.perl punctuation.section.block.begin.perl
+#           ^ punctuation.section.block.begin.perl
   }
-# ^ meta.function.perl meta.block.perl punctuation.section.block.end.perl
+# ^ punctuation.section.block.end.perl
+  sub ::BEGIN {
+# ^^^^ meta.function.perl - meta.path.perl - meta.block
+#     ^^^^^^^ meta.function.perl meta.path.perl - meta.block
+#            ^ meta.function.perl - meta.path.perl - meta.block
+# ^^^ storage.type.function.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^^^ entity.name.function.prepocessor.perl
+#             ^ punctuation.section.block.begin.perl
+  }
+# ^ punctuation.section.block.end.perl
   CHECK {
-# ^^^^^^ meta.function.perl - meta.block
+# ^^^^^^ meta.function.perl
 # ^^^^^ entity.name.function.prepocessor.perl
-#       ^ meta.function.perl meta.block.perl punctuation.section.block.begin.perl
+#       ^ punctuation.section.block.begin.perl
   }
-# ^ meta.function.perl meta.block.perl punctuation.section.block.end.perl
+# ^ punctuation.section.block.end.perl
   sub CHECK {
-# ^^^^^^^^^^ meta.function.perl - meta.block
+# ^^^^^^^^^^ meta.function.perl
 # ^^^ storage.type.function.perl
 #     ^^^^^ entity.name.function.prepocessor.perl
-#           ^ meta.function.perl meta.block.perl punctuation.section.block.begin.perl
+#           ^ punctuation.section.block.begin.perl
   }
-# ^ meta.function.perl meta.block.perl punctuation.section.block.end.perl
+# ^ punctuation.section.block.end.perl
   END {
-# ^^^^ meta.function.perl - meta.block
+# ^^^^ meta.function.perl
 # ^^^ entity.name.function.prepocessor.perl
-#     ^ meta.function.perl meta.block.perl punctuation.section.block.begin.perl
+#     ^ punctuation.section.block.begin.perl
   }
-# ^ meta.function.perl meta.block.perl punctuation.section.block.end.perl
+# ^ punctuation.section.block.end.perl
   sub END {
-# ^^^^^^^^ meta.function.perl - meta.block
+# ^^^^^^^^ meta.function.perl
 # ^^^ storage.type.function.perl
 #     ^^^ entity.name.function.prepocessor.perl
-#         ^ meta.function.perl meta.block.perl punctuation.section.block.begin.perl
+#         ^ punctuation.section.block.begin.perl
   }
-# ^ meta.function.perl meta.block.perl punctuation.section.block.end.perl
+# ^ punctuation.section.block.end.perl
   INIT {
-# ^^^^^ meta.function.perl - meta.block
+# ^^^^^ meta.function.perl
 # ^^^^ entity.name.function.prepocessor.perl
-#      ^ meta.function.perl meta.block.perl punctuation.section.block.begin.perl
+#      ^ punctuation.section.block.begin.perl
   }
-# ^ meta.function.perl meta.block.perl punctuation.section.block.end.perl
+# ^ punctuation.section.block.end.perl
   sub INIT {
-# ^^^^^^^^^ meta.function.perl - meta.block
+# ^^^^^^^^^ meta.function.perl
 # ^^^ storage.type.function.perl
 #     ^^^^ entity.name.function.prepocessor.perl
-#          ^ meta.function.perl meta.block.perl punctuation.section.block.begin.perl
+#          ^ punctuation.section.block.begin.perl
   }
-# ^ meta.function.perl meta.block.perl punctuation.section.block.end.perl
+# ^ punctuation.section.block.end.perl
   UNITCHECK {
-# ^^^^^^^^^^ meta.function.perl - meta.block
+# ^^^^^^^^^^ meta.function.perl
 # ^^^^^^^^^ entity.name.function.prepocessor.perl
-#           ^ meta.function.perl meta.block.perl punctuation.section.block.begin.perl
+#           ^ punctuation.section.block.begin.perl
   }
-# ^ meta.function.perl meta.block.perl punctuation.section.block.end.perl
+# ^ punctuation.section.block.end.perl
   sub UNITCHECK {
-# ^^^^^^^^^^^^^^ meta.function.perl - meta.block
+# ^^^^^^^^^^^^^^ meta.function.perl
 # ^^^ storage.type.function.perl
 #     ^^^^^^^^^ entity.name.function.prepocessor.perl
-#               ^ meta.function.perl meta.block.perl punctuation.section.block.begin.perl
+#               ^ punctuation.section.block.begin.perl
   }
-# ^ meta.function.perl meta.block.perl punctuation.section.block.end.perl
+# ^ punctuation.section.block.end.perl
+  sub AUTOLOAD () {}
+# ^^^^^^^^^^^^^ meta.function.perl
+#              ^^ meta.function.parameters.perl
+#                ^ meta.function.perl
+# ^^^ storage.type.function.perl
+#     ^^^^^^^^ entity.name.function.callback.perl
+  sub ::AUTOLOAD () {}
+# ^^^^ meta.function.perl - meta.path
+#     ^^^^^^^^^^ meta.function.perl meta.path.perl - meta.function.parameters.perl
+#               ^ meta.function.perl - meta.function.parameters.perl - meta.path
+#                ^^ meta.function.parameters.perl - meta.function.perl - meta.path
+#                  ^ meta.function.perl - meta.function.parameters.perl - meta.path
+# ^^^ storage.type.function.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^^^^^^ entity.name.function.callback.perl
 
-###[ SUB ]####################################################################
+###[ UNQUALIFIED SUBROUTINE DEFINITIONS ]######################################
 
-sub
-# <- meta.function.perl storage.type.function.perl
-#^^ meta.function.perl storage.type.function.perl
-#  ^ - invalid
-sub # comment
-# <- meta.function.perl storage.type.function.perl
-#^^ meta.function.perl storage.type.function.perl
-#  ^^^^^^^^^^ meta.function.perl
-#  ^ - comment - entity - keyword - invalid
-#   ^^^^^^^^^ comment.line.number-sign.perl
-sub name
-# <- meta.function.perl storage.type.function.perl
-#^^^^^^^ meta.function.perl
-#^^ storage.type.function.perl
-#   ^^^^ entity.name.function.perl
-#       ^ - entity - invalid
-sub name # comment
-# <- meta.function.perl storage.type.function.perl
-#^^^^^^^^^^^^^^^^^ meta.function.perl
-#^^ storage.type.function.perl
-#   ^^^^ entity.name.function.perl
-#       ^ - comment - entity - invalid
-#        ^^^^^^^^^ comment.line.number-sign.perl
-sub name invalid
-# <- meta.function.perl storage.type.function.perl
-#^^^^^^^^^^^^^^^ meta.function.perl
-#^^ storage.type.function.perl
-#   ^^^^ entity.name.function.perl
-#       ^ - entity - invalid
-#        ^^^^^^^ invalid.illegal.function-name.perl
-sub name invalid # comment
-# <- meta.function.perl storage.type.function.perl
-#^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.perl
-#^^ storage.type.function.perl
-#   ^^^^ entity.name.function.perl
-#       ^ - entity - invalid
-#        ^^^^^^^ invalid.illegal.function-name.perl
-#               ^ - comment - entity - invalid
-#                ^^^^^^^^^ comment.line.number-sign.perl
-sub name;
-# <- meta.function.perl storage.type.function.perl
-#^^^^^^^ meta.function.perl
-#^^ storage.type.function.perl
-#   ^^^^ entity.name.function.perl
-#       ^ punctuation.terminator.statement.perl
-sub name invalid;
-# <- meta.function.perl storage.type.function.perl
-#^^^^^^^^^^^^^^^ meta.function.perl
-#^^ storage.type.function.perl
-#   ^^^^ entity.name.function.perl
-#        ^^^^^^^ invalid.illegal.function-name.perl
-#               ^ punctuation.terminator.statement.perl
-sub {
-# <- meta.function.perl storage.type.function.perl
-#^^^^^^^^^^ meta.function.perl
-#^^ storage.type.function.perl
-#   ^ punctuation.section.block.begin.perl
-  say "Hello";
-# <- meta.function.perl
-#^^^^^^^^^^^^^^ meta.function.perl
-# ^^^ support.function.perl
-}
-# <- meta.function.perl punctuation.section.block.end.perl
-sub
-{
-# <- meta.function.perl punctuation.section.block.begin.perl
-}
-# <- meta.function.perl punctuation.section.block.end.perl
-sub name {
-# <- meta.function.perl storage.type.function.perl
-#^^^^^^^^^^ meta.function.perl
-#^^ storage.type.function.perl
-#   ^^^^ entity.name.function.perl
-#        ^ punctuation.section.block.begin.perl
-  say "Hello";
-# <- meta.function.perl
-#^^^^^^^^^^^^^^ meta.function.perl
-# ^^^ support.function.perl
-}
-# <- meta.function.perl punctuation.section.block.end.perl
-sub name
-{
-# <- meta.function.perl punctuation.section.block.begin.perl
-}
-# <- meta.function.perl punctuation.section.block.end.perl
-sub name # comment
-{
-# <- meta.function.perl punctuation.section.block.begin.perl
-}
-# <- meta.function.perl punctuation.section.block.end.perl
-sub name # comment
-#        ^^^^^^^^^ comment.line.number-sign.perl
-{
-# <- meta.function.perl punctuation.section.block.begin.perl
-}
-# <- meta.function.perl punctuation.section.block.end.perl
-sub name invalid {
-# <- meta.function.perl storage.type.function.perl
-#^^^^^^^^^^^^^^^^^ meta.function.perl
-#^^ storage.type.function.perl
-#   ^^^^ entity.name.function.perl
-#        ^^^^^^^ invalid.illegal.function-name.perl
-#                ^ punctuation.section.block.begin.perl
-}
-# <- meta.function.perl punctuation.section.block.end.perl
-sub name invalid
-{
-# <- meta.function.perl punctuation.section.block.begin.perl
-}
-# <- meta.function.perl punctuation.section.block.end.perl
-sub name ($arg, $arg) {
-# <- meta.function.perl storage.type.function.perl
-#^^^^^^^^ meta.function.perl - meta.function.parameters.perl
-#        ^^^^^^^^^^^^ meta.function.parameters.perl - meta.function.perl
-#                    ^^ meta.function.perl - meta.function.parameters.perl
-#^^ storage.type.function.perl
-#   ^^^^ entity.name.function.perl
-#        ^ punctuation.section.group.begin.perl
-#         ^^^^ variable.parameter.perl
+  sub
+# ^^^ meta.function.perl storage.type.function.perl
+#    ^ - invalid
+  sub # comment
+# ^^^^^^^^^^^^^^ meta.function.perl
+# ^^^ storage.type.function.perl
+#    ^ - comment - entity - keyword - invalid
+#     ^^^^^^^^^ comment.line.number-sign.perl
+  sub func
+# ^^^^^^^^^ meta.function.perl
+# ^^^ storage.type.function.perl
+#     ^^^^ entity.name.function.perl
+#         ^ - entity - invalid
+  sub func # comment
+# ^^^^^^^^^^^^^^^^^^^ meta.function.perl
+# ^^^ storage.type.function.perl
+#     ^^^^ entity.name.function.perl
+#         ^ - comment - entity - invalid
+#          ^^^^^^^^^ comment.line.number-sign.perl
+  sub func invalid
+# ^^^^^^^^^^^^^^^^ meta.function.perl
+# ^^^ storage.type.function.perl
+#     ^^^^ entity.name.function.perl
+#         ^ - entity - invalid
+#          ^^^^^^^ invalid.illegal.identifier.perl
+  sub func invalid # comment
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.perl
+# ^^^ storage.type.function.perl
+#     ^^^^ entity.name.function.perl
+#         ^ - entity - invalid
+#          ^^^^^^^ invalid.illegal.identifier.perl
+#                 ^ - comment - entity - invalid
+#                  ^^^^^^^^^ comment.line.number-sign.perl
+  sub func;
+# ^^^^^^^^ meta.function.perl
+# ^^^ storage.type.function.perl
+#     ^^^^ entity.name.function.perl
+#         ^ punctuation.terminator.statement.perl
+  sub func invalid;
+# ^^^^^^^^^^^^^^^^ meta.function.perl
+# ^^^ storage.type.function.perl
+#     ^^^^ entity.name.function.perl
+#          ^^^^^^^ invalid.illegal.identifier.perl
+#                 ^ punctuation.terminator.statement.perl
+  sub :attr ;
+# ^^^^ meta.function.perl - meta.annotation
+#     ^^^^^^ meta.function.perl meta.annotation.perl
+#           ^ - meta.function
+# ^^^ storage.type.function.perl
+#     ^ punctuation.definition.annotation.perl
+#      ^^^^ variable.annotation.attribute.perl
+#           ^ punctuation.terminator.statement.perl
+  sub func : Attr ;
+# ^^^^^^^^^ meta.function.perl - meta.annotation
+#          ^^^^^^^ meta.function.perl meta.annotation.perl
+#                 ^ - meta.function
+# ^^^ storage.type.function.perl
+#     ^^^^ entity.name.function.perl
+#          ^ punctuation.definition.annotation.perl
+#            ^^^^ variable.annotation.attribute.perl
+#                 ^ punctuation.terminator.statement.perl
+  sub func : Attr :attr2 ;
+# ^^^^^^^^^ meta.function.perl - meta.annotation
+#          ^^^^^^^^^^^^^^ meta.function.perl meta.annotation.perl
+#                        ^ - meta.function
+# ^^^ storage.type.function.perl
+#     ^^^^ entity.name.function.perl
+#          ^ punctuation.definition.annotation.perl
+#            ^^^^ variable.annotation.attribute.perl
+#                 ^ punctuation.definition.annotation.perl
+#                  ^^^^^ variable.annotation.attribute.perl
+#                        ^ punctuation.terminator.statement.perl
+  sub func : attr invalid;
+# ^^^^^^^^^ meta.function.perl - meta.annotation
+#          ^^^^^^^^^^^^^^ meta.function.perl meta.annotation.perl
+#                        ^ - meta.function
+# ^^^ storage.type.function.perl
+#     ^^^^ entity.name.function.perl
+#          ^ punctuation.definition.annotation.perl
+#            ^^^^ variable.annotation.attribute.perl
+#                 ^^^^^^^ invalid.illegal.identifier.perl
+#                        ^ punctuation.terminator.statement.perl
+  sub func invalid :attr;
+# ^^^^^^^^^^^^^^^^^ meta.function.perl - meta.annotation
+#                  ^^^^^ meta.function.perl meta.annotation.perl
+#                       ^ - meta.function
+# ^^^ storage.type.function.perl
+#     ^^^^ entity.name.function.perl
+#          ^^^^^^^ invalid.illegal.identifier.perl
+#                  ^ punctuation.definition.annotation.perl
+#                   ^^^^ variable.annotation.attribute.perl
+#                       ^ punctuation.terminator.statement.perl
+
+  sub # comment
+# ^^^^^^^^^^^^^^ meta.function.perl - meta.annotation
+# ^^^ storage.type.function.perl
+#    ^ - comment - entity - keyword - invalid
+#     ^^^^^^^^^ comment.line.number-sign.perl
+  func
+# ^^^^ meta.function.perl entity.name.function.perl - meta.annotation
+  :
+#^ meta.function.perl - meta.annotation
+# ^^ meta.function.perl meta.annotation.perl
+# ^ punctuation.definition.annotation.perl
+  attr
+#^^^^^^ meta.function.perl meta.annotation.perl
+# ^^^^ variable.annotation.attribute.perl
+  :
+#^^^ meta.function.perl meta.annotation.perl
+# ^ punctuation.definition.annotation.perl
+  attr
+#^^^^^^ meta.function.perl meta.annotation.perl
+# ^^^^ variable.annotation.attribute.perl
+  ;
+#^ meta.function.perl meta.annotation.perl
+# ^ punctuation.terminator.statement.perl - meta.function
+
+## subroutine with code block
+
+  sub { say "Hello"; }
+# ^^^^ meta.function.perl - meta.annotation
+#     ^^^^^^^^^^^^^^^^ - meta.function - meta.annotation
+# ^^^ storage.type.function.perl
+#     ^ punctuation.section.block.begin.perl
+#       ^^^ support.function.perl
+#                    ^ punctuation.section.block.end.perl
+  sub func { say "Hello"; }
+# ^^^^^^^^^ meta.function.perl - meta.annotation
+#          ^^^^^^^^^^^^^^^^ - meta.function - meta.annotation
+# ^^^ storage.type.function.perl
+#     ^^^^ entity.name.function.perl
+#          ^ punctuation.section.block.begin.perl
+#            ^^^ support.function.perl
+#                         ^ punctuation.section.block.end.perl
+  sub func invalid { say "Hello"; }
+# ^^^^^^^^^^^^^^^^^ meta.function.perl - meta.annotation
+#                  ^^^^^^^^^^^^^^^^ - meta.function - meta.annotation
+# ^^^ storage.type.function.perl
+#     ^^^^ entity.name.function.perl
+#          ^^^^^^^ invalid.illegal.identifier.perl
+#                  ^ punctuation.section.block.begin.perl
+#                    ^^^ support.function.perl
+#                                 ^ punctuation.section.block.end.perl
+  sub :attr { say "Hello"; }
+# ^^^^ meta.function.perl - meta.annotation
+#     ^^^^^^ meta.function.perl meta.annotation.perl
+#           ^^^^^^^^^^^^^^^^ - meta.function - meta.annotation
+# ^^^ storage.type.function.perl
+#     ^ punctuation.definition.annotation.perl
+#      ^^^^ variable.annotation.attribute.perl
+#           ^ punctuation.section.block.begin.perl
+#             ^^^ support.function.perl
+#                          ^ punctuation.section.block.end.perl
+  sub :attr invalid { say "Hello"; }
+# ^^^^ meta.function.perl - meta.annotation
+#     ^^^^^^^^^^^^^^ meta.function.perl meta.annotation.perl
+#                   ^^^^^^^^^^^^^^^^ - meta.function - meta.annotation
+# ^^^ storage.type.function.perl
+#     ^ punctuation.definition.annotation.perl
+#      ^^^^ variable.annotation.attribute.perl
+#           ^^^^^^^ invalid.illegal.identifier.perl
+#                   ^ punctuation.section.block.begin.perl
+#                     ^^^ support.function.perl
+#                                  ^ punctuation.section.block.end.perl
+  sub func:attr { say "Hello"; }
+# ^^^^^^^^ meta.function.perl - meta.annotation
+#         ^^^^^^ meta.function.perl meta.annotation.perl
+#               ^^^^^^^^^^^^^^^^ - meta.function - meta.annotation
+# ^^^ storage.type.function.perl
+#     ^^^^ entity.name.function.perl
+#         ^ punctuation.definition.annotation.perl
+#          ^^^^ variable.annotation.attribute.perl
+#               ^ punctuation.section.block.begin.perl
+#                 ^^^ support.function.perl
+#                              ^ punctuation.section.block.end.perl
+  sub func:attr invalid { say "Hello"; }
+# ^^^^^^^^ meta.function.perl - meta.annotation
+#         ^^^^^^^^^^^^^^ meta.function.perl meta.annotation.perl
+#                       ^^^^^^^^^^^^^^^^ - meta.function - meta.annotation
+# ^^^ storage.type.function.perl
+#     ^^^^ entity.name.function.perl
+#         ^ punctuation.definition.annotation.perl
+#          ^^^^ variable.annotation.attribute.perl
+#               ^^^^^^^ invalid.illegal.identifier.perl
+#                       ^ punctuation.section.block.begin.perl
+#                         ^^^ support.function.perl
+#                                      ^ punctuation.section.block.end.perl
+
+  sub
+# ^^^ meta.function.perl storage.type.function.perl
+  { }
+# ^ punctuation.section.block.begin.perl
+#   ^ punctuation.section.block.end.perl
+
+  sub
+# ^^^ meta.function.perl storage.type.function.perl
+  func
+# ^^^^ meta.function.perl entity.name.function.perl
+  { }
+# ^ punctuation.section.block.begin.perl
+#   ^ punctuation.section.block.end.perl
+
+  sub
+# ^^^ meta.function.perl storage.type.function.perl
+  func
+# ^^^^ meta.function.perl entity.name.function.perl
+  invalid
+# ^^^^^^^ meta.function.perl invalid.illegal.identifier.perl
+  { }
+# ^ punctuation.section.block.begin.perl
+#   ^ punctuation.section.block.end.perl
+
+  sub
+# ^^^ meta.function.perl storage.type.function.perl
+  :
+# ^ meta.function.perl meta.annotation.perl punctuation.definition.annotation.perl
+  attr
+# ^^^^ meta.function.perl meta.annotation.perl variable.annotation.attribute.perl
+  { }
+# ^ punctuation.section.block.begin.perl
+#   ^ punctuation.section.block.end.perl
+
+  sub
+# ^^^ meta.function.perl storage.type.function.perl
+  :
+# ^ meta.function.perl meta.annotation.perl punctuation.definition.annotation.perl
+  attr
+# ^^^^ meta.function.perl meta.annotation.perl variable.annotation.attribute.perl
+  invalid
+# ^^^^^^^ meta.function.perl meta.annotation.perl invalid.illegal.identifier.perl
+  { }
+# ^ punctuation.section.block.begin.perl
+#   ^ punctuation.section.block.end.perl
+
+  sub
+# ^^^ meta.function.perl storage.type.function.perl
+  func
+# ^^^^ meta.function.perl entity.name.function.perl
+  invalid
+# ^^^^^^^ meta.function.perl invalid.illegal.identifier.perl
+  :
+# ^ meta.function.perl meta.annotation.perl punctuation.definition.annotation.perl
+  attr
+# ^^^^ meta.function.perl meta.annotation.perl variable.annotation.attribute.perl
+  { }
+# ^ punctuation.section.block.begin.perl
+#   ^ punctuation.section.block.end.perl
+
+  sub
+# ^^^ meta.function.perl storage.type.function.perl
+  func
+# ^^^^ meta.function.perl entity.name.function.perl
+  invalid
+# ^^^^^^^ meta.function.perl invalid.illegal.identifier.perl
+  :
+# ^ meta.function.perl meta.annotation.perl punctuation.definition.annotation.perl
+  attr
+# ^^^^ meta.function.perl meta.annotation.perl variable.annotation.attribute.perl
+  :
+# ^ meta.function.perl meta.annotation.perl punctuation.definition.annotation.perl
+  attr
+# ^^^^ meta.function.perl meta.annotation.perl variable.annotation.attribute.perl
+  invalid
+# ^^^^^^^ meta.function.perl meta.annotation.perl invalid.illegal.identifier.perl
+  { }
+# ^ punctuation.section.block.begin.perl
+#   ^ punctuation.section.block.end.perl
+
+  ## prototypes
+
+  sub ($) ;
+# ^^^^ meta.function.perl - meta.function.parameters - meta.annotation
+#     ^^^ meta.function.parameters.perl - meta.function.perl - meta.annotation
+#        ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
+#         ^ - meta.function
+# ^^^ storage.type.function.perl
+#     ^ punctuation.section.parameters.begin.perl
+#      ^ variable.parameter.perl
+#       ^ punctuation.section.parameters.end.perl
+#         ^ punctuation.terminator.statement.perl
+  sub ($) {}
+# ^^^^ meta.function.perl - meta.function.parameters - meta.annotation
+#     ^^^ meta.function.parameters.perl - meta.function.perl - meta.annotation
+#        ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
+#         ^^ - meta.annotation
+#           ^ - meta.function
+# ^^^ storage.type.function.perl
+#     ^ punctuation.section.parameters.begin.perl
+#      ^ variable.parameter.perl
+#       ^ punctuation.section.parameters.end.perl
+#         ^ punctuation.section.block.begin.perl
+#          ^ punctuation.section.block.end.perl
+  sub ($;$) {}
+# ^^^^ meta.function.perl - meta.function.parameters - meta.annotation
+#     ^^^^^ meta.function.parameters.perl - meta.function.perl - meta.annotation
+#          ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
+#           ^^ - meta.annotation
+#             ^ - meta.function
+# ^^^ storage.type.function.perl
+#     ^ punctuation.section.parameters.begin.perl
+#      ^ variable.parameter.perl
+#       ^ punctuation.separator.sequence.perl
+#        ^ variable.parameter.perl
+#         ^ punctuation.section.parameters.end.perl
+#           ^ punctuation.section.block.begin.perl
+#            ^ punctuation.section.block.end.perl
+  sub func($;$;$) {}
+# ^^^^^^^^ meta.function.perl - meta.function.parameters - meta.annotation
+#         ^^^^^^^ meta.function.parameters.perl - meta.function.perl - meta.annotation
+#                ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
+#                 ^^ - meta.annotation
+#                   ^ - meta.function
+# ^^^ storage.type.function.perl
+#     ^^^^ entity.name.function.perl
+#         ^ punctuation.section.parameters.begin.perl
+#          ^ variable.parameter.perl
+#           ^ punctuation.separator.sequence.perl
+#            ^ variable.parameter.perl
 #             ^ punctuation.separator.sequence.perl
-#               ^^^^ variable.parameter.perl
-#                   ^ punctuation.section.group.end.perl
+#              ^ variable.parameter.perl
+#               ^ punctuation.section.parameters.end.perl
+#                 ^ punctuation.section.block.begin.perl
+#                  ^ punctuation.section.block.end.perl
+  sub func:attr($) {}
+# ^^^^^^^^ meta.function.perl - meta.function.parameters - meta.annotation
+#         ^^^^^ meta.function.perl meta.annotation.perl - meta.function.parameters
+#              ^^^ meta.function.parameters.perl - meta.function.perl - meta.annotation
+#                 ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
+#                  ^^ - meta.annotation
+#                    ^ - meta.function
+# ^^^ storage.type.function.perl
+#     ^^^^ entity.name.function.perl
+#         ^ punctuation.definition.annotation.perl
+#          ^^^^ variable.annotation.attribute.perl
+#              ^ punctuation.section.parameters.begin.perl
+#               ^ variable.parameter.perl
+#                ^ punctuation.section.parameters.end.perl
+#                  ^ punctuation.section.block.begin.perl
+#                   ^ punctuation.section.block.end.perl
+  sub func : attr ( $ ) { }
+# ^^^^^^^^^ meta.function.perl - meta.function.parameters - meta.annotation
+#           ^^^^^^ meta.function.perl meta.annotation.perl - meta.function.parameters
+#                 ^^^^^ meta.function.parameters.perl - meta.function.perl - meta.annotation
+#                      ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
+#                       ^^^ - meta.annotation
+#                          ^ - meta.function
+# ^^^ storage.type.function.perl
+#     ^^^^ entity.name.function.perl
+#          ^ punctuation.definition.annotation.perl
+#            ^^^^ variable.annotation.attribute.perl
+#                 ^ punctuation.section.parameters.begin.perl
+#                   ^ variable.parameter.perl
+#                     ^ punctuation.section.parameters.end.perl
+#                       ^ punctuation.section.block.begin.perl
+#                         ^ punctuation.section.block.end.perl
+  sub func($) :attr {}
+# ^^^^^^^^ meta.function.perl - meta.function.parameters- meta.annotation
+#         ^^^ meta.function.parameters.perl - meta.function.perl- meta.annotation
+#            ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
+#             ^^^^^^ meta.function.perl meta.annotation.perl - meta.block
+#                   ^^
+#                     ^ - meta.function
+# ^^^ storage.type.function.perl
+#     ^^^^ entity.name.function.perl
+#         ^ punctuation.section.parameters.begin.perl
+#          ^ variable.parameter.perl
+#           ^ punctuation.section.parameters.end.perl
+#             ^ punctuation.definition.annotation.perl
+#              ^^^^ variable.annotation.attribute.perl
+#                   ^ punctuation.section.block.begin.perl
+#                    ^ punctuation.section.block.end.perl
+  sub func :attr($) :attr {}
+# ^^^^^^^^^ meta.function.perl - meta.function.parameters - meta.annotation
+#          ^^^^^ meta.function.perl meta.annotation.perl - meta.function.parameters
+#               ^^^ meta.function.parameters.perl - meta.function.perl - meta.annotation
+#                  ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
+#                   ^^^^^^ meta.function.perl meta.annotation.perl - meta.function.parameters
+#                         ^^
+#                           ^ - meta.function
+# ^^^ storage.type.function.perl
+#     ^^^^ entity.name.function.perl
+#          ^ punctuation.definition.annotation.perl
+#           ^^^^ variable.annotation.attribute.perl
+#               ^ punctuation.section.parameters.begin.perl
+#                ^ variable.parameter.perl
+#                 ^ punctuation.section.parameters.end.perl
+#                   ^ punctuation.definition.annotation.perl
+#                    ^^^^ variable.annotation.attribute.perl
+#                         ^ punctuation.section.block.begin.perl
+#                          ^ punctuation.section.block.end.perl
+  sub func : ($var, 5) ($) : ([0, 10]) {}
+# ^^^^^^^^^ meta.function.perl - meta.function.parameters - meta.annotation
+#          ^^ meta.function.perl meta.annotation.perl - meta.function.parameters - meta.annotation.parameters
+#            ^^^^^^^^^ meta.function.perl meta.annotation.parameters.perl - meta.function.parameters
+#                     ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
+#                      ^^^ meta.function.parameters.perl - meta.function.perl - meta.annotation
+#                         ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
+#                          ^^ meta.function.perl meta.annotation.perl - meta.function.parameters - meta.annotation.parameters
+#                            ^^^^^^^^^ meta.function.perl meta.annotation.parameters.perl - meta.function.parameters
+#                                     ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
+#                                      ^^
+#                                        ^ - meta.function
+# ^^^ storage.type.function.perl
+#     ^^^^ entity.name.function.perl
+#          ^ punctuation.definition.annotation.perl
+#            ^ punctuation.section.parameters.begin.perl
+#             ^^^^ variable.other.readwrite.global.perl
+#                 ^ punctuation.separator.sequence.perl
+#                   ^ constant.numeric.integer.decimal.perl
+#                    ^ punctuation.section.parameters.end.perl
+#                      ^ punctuation.section.parameters.begin.perl
+#                       ^ variable.parameter.perl
+#                        ^ punctuation.section.parameters.end.perl
+#                          ^ punctuation.definition.annotation.perl
+#                            ^ punctuation.section.parameters.begin.perl
+#                             ^ punctuation.section.brackets.begin.perl
+#                              ^ constant.numeric.integer.decimal.perl
+#                               ^ punctuation.separator.sequence.perl
+#                                 ^^ constant.numeric.integer.decimal.perl
+#                                   ^ punctuation.section.brackets.end.perl
+#                                    ^ punctuation.section.parameters.end.perl
+#                                      ^ punctuation.section.block.begin.perl
+#                                       ^ punctuation.section.block.end.perl
+  sub func : attr ($var, 5) ($) : attr ([0, 10]) {}
+# ^^^^^^^^^ meta.function.perl - meta.function.parameters - meta.annotation
+#          ^^^^^^^ meta.function.perl meta.annotation.perl - meta.function.parameters - meta.annotation.parameters
+#                 ^^^^^^^^^ meta.function.perl meta.annotation.parameters.perl - meta.function.parameters
+#                          ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
+#                           ^^^ meta.function.parameters.perl - meta.function.perl - meta.annotation
+#                              ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
+#                               ^^^^^^^ meta.function.perl meta.annotation.perl - meta.function.parameters - meta.annotation.parameters
+#                                      ^^^^^^^^^ meta.function.perl meta.annotation.parameters.perl - meta.function.parameters
+#                                               ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
+#                                                ^^
+#                                                  ^ - meta.function
+# ^^^ storage.type.function.perl
+#     ^^^^ entity.name.function.perl
+#          ^ punctuation.definition.annotation.perl
+#            ^^^^ variable.annotation.attribute.perl
+#                 ^ punctuation.section.parameters.begin.perl
+#                  ^^^^ variable.other.readwrite.global.perl
+#                      ^ punctuation.separator.sequence.perl
+#                        ^ constant.numeric.integer.decimal.perl
+#                         ^ punctuation.section.parameters.end.perl
+#                           ^ punctuation.section.parameters.begin.perl
+#                            ^ variable.parameter.perl
+#                             ^ punctuation.section.parameters.end.perl
+#                               ^ punctuation.definition.annotation.perl
+#                                 ^^^^ variable.annotation.attribute.perl
+#                                      ^ punctuation.section.parameters.begin.perl
+#                                       ^ punctuation.section.brackets.begin.perl
+#                                        ^ constant.numeric.integer.decimal.perl
+#                                         ^ punctuation.separator.sequence.perl
+#                                           ^^ constant.numeric.integer.decimal.perl
+#                                             ^ punctuation.section.brackets.end.perl
+#                                              ^ punctuation.section.parameters.end.perl
+#                                                ^ punctuation.section.block.begin.perl
+#                                                 ^ punctuation.section.block.end.perl
+
+  sub func inv : attr inv ($var, 5) inv ($inv;%@$) inv : attr inv ([0, 10]) inv {}
+# ^^^^^^^^^^^^^ meta.function.perl - meta.function.parameters - meta.annotation
+#              ^^^^^^^^^^^ meta.function.perl meta.annotation.perl - meta.function.parameters - meta.annotation.parameters
+#                         ^^^^^^^^^ meta.function.perl meta.annotation.parameters.perl - meta.function.parameters
+#                                  ^^^^^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
+#                                       ^^^^^^^^^^ meta.function.parameters.perl - meta.function.perl - meta.annotation
+#                                                 ^^^^^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
+#                                                      ^^^^^^^^^^^ meta.function.perl meta.annotation.perl - meta.function.parameters - meta.annotation.parameters
+#                                                                 ^^^^^^^^^ meta.function.perl meta.annotation.parameters.perl - meta.function.parameters
+#                                                                          ^^^^^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
+#                                                                               ^^
+#                                                                                 ^ - meta.function
+# ^^^ storage.type.function.perl
+#     ^^^^ entity.name.function.perl
+#          ^^^ invalid.illegal.identifier.perl
+#              ^ punctuation.definition.annotation.perl
+#                ^^^^ variable.annotation.attribute.perl
+#                     ^^^ invalid.illegal.identifier.perl
+#                         ^ punctuation.section.parameters.begin.perl
+#                          ^^^^ variable.other.readwrite.global.perl
+#                              ^ punctuation.separator.sequence.perl
+#                                ^ constant.numeric.integer.decimal.perl
+#                                 ^ punctuation.section.parameters.end.perl
+#                                   ^^^ invalid.illegal.identifier.perl
+#                                       ^ punctuation.section.parameters.begin.perl
+#                                        ^ variable.parameter.perl
+#                                         ^^^ invalid.illegal.parameter.perl
+#                                            ^ punctuation.separator.sequence.perl
+#                                             ^^^ variable.parameter.perl
+#                                                ^ punctuation.section.parameters.end.perl
+#                                                  ^^^ invalid.illegal.identifier.perl
+#                                                      ^ punctuation.definition.annotation.perl
+#                                                        ^^^^ variable.annotation.attribute.perl
+#                                                             ^^^ invalid.illegal.identifier.perl
+#                                                                 ^ punctuation.section.parameters.begin.perl
+#                                                                  ^ punctuation.section.brackets.begin.perl
+#                                                                   ^ constant.numeric.integer.decimal.perl
+#                                                                    ^ punctuation.separator.sequence.perl
+#                                                                      ^^ constant.numeric.integer.decimal.perl
+#                                                                        ^ punctuation.section.brackets.end.perl
+#                                                                         ^ punctuation.section.parameters.end.perl
+#                                                                           ^^^ invalid.illegal.identifier.perl
+#                                                                               ^ punctuation.section.block.begin.perl
+#                                                                                ^ punctuation.section.block.end.perl
+
+###[ QUALIFIED SUBROUTINE DEFINITIONS ]########################################
+
+  sub ::func
+# ^^^^ meta.function.perl - meta.path - meta.annotation
+#     ^^^^^^ meta.function.perl meta.path.perl - meta.annotation
+#           ^ meta.function.perl - meta.path - meta.annotation
+# ^^^ storage.type.function.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^^ entity.name.function.perl
+#           ^ - entity - invalid
+  sub ::func # comment
+# ^^^^ meta.function.perl - meta.path - meta.annotation
+#     ^^^^^^ meta.function.perl meta.path.perl - meta.annotation
+#           ^^^^^^^^^^ meta.function.perl - meta.path - meta.annotation
+# ^^^ storage.type.function.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^^ entity.name.function.perl
+#           ^ - comment - entity - invalid
+#            ^^^^^^^^^ comment.line.number-sign.perl
+  sub ::func invalid
+# ^^^^ meta.function.perl - meta.path - meta.annotation
+#     ^^^^^^ meta.function.perl meta.path.perl - meta.annotation
+#           ^^^^^^^^^^ meta.function.perl - meta.path - meta.annotation
+# ^^^ storage.type.function.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^^ entity.name.function.perl
+#           ^ - entity - invalid
+#            ^^^^^^^ invalid.illegal.identifier.perl
+  sub ::func invalid # comment
+# ^^^^ meta.function.perl - meta.path - meta.annotation
+#     ^^^^^^ meta.function.perl meta.path.perl - meta.annotation
+#           ^^^^^^^^^^^^^^^^^^ meta.function.perl - meta.path - meta.annotation
+# ^^^ storage.type.function.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^^ entity.name.function.perl
+#           ^ - entity - invalid
+#            ^^^^^^^ invalid.illegal.identifier.perl
+#                   ^ - comment - entity - invalid
+#                    ^^^^^^^^^ comment.line.number-sign.perl
+  sub ::func;
+# ^^^^ meta.function.perl - meta.path - meta.annotation
+#     ^^^^^^ meta.function.perl meta.path.perl - meta.annotation
+#           ^ - meta.function.perl - meta.path - meta.annotation
+# ^^^ storage.type.function.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^^ entity.name.function.perl
+#           ^ punctuation.terminator.statement.perl
+  sub ::func invalid;
+# ^^^^ meta.function.perl - meta.path - meta.annotation
+#     ^^^^^^ meta.function.perl meta.path.perl - meta.annotation
+#           ^^^^^^^^ meta.function.perl - meta.path - meta.annotation
+# ^^^ storage.type.function.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^^ entity.name.function.perl
+#            ^^^^^^^ invalid.illegal.identifier.perl
+#                   ^ punctuation.terminator.statement.perl
+  sub ::func:attr:attr2 invalid;
+# ^^^^ meta.function.perl - meta.path - meta.annotation
+#     ^^^^^^ meta.function.perl meta.path.perl - meta.annotation
+#           ^^^^^^^^^^^^^^^^^^^ meta.function.perl meta.annotation.perl - meta.path
+# ^^^ storage.type.function.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^^ entity.name.function.perl
+#           ^ punctuation.definition.annotation.perl
+#            ^^^^ variable.annotation.attribute.perl
+#                ^ punctuation.definition.annotation.perl
+#                 ^^^^^ variable.annotation.attribute.perl
+#                       ^^^^^^^ invalid.illegal.identifier.perl
+#                              ^ punctuation.terminator.statement.perl
+  sub ::func:attr:attr2 invalid :attr3;
+# ^^^^ meta.function.perl - meta.path - meta.annotation
+#     ^^^^^^ meta.function.perl meta.path.perl - meta.annotation
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.perl meta.annotation.perl - meta.path
+# ^^^ storage.type.function.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^^ entity.name.function.perl
+#           ^ punctuation.definition.annotation.perl
+#            ^^^^ variable.annotation.attribute.perl
+#                ^ punctuation.definition.annotation.perl
+#                 ^^^^^ variable.annotation.attribute.perl
+#                       ^^^^^^^ invalid.illegal.identifier.perl
+#                               ^ punctuation.definition.annotation.perl
+#                                ^^^^^ variable.annotation.attribute.perl
+#                                     ^ punctuation.terminator.statement.perl
+  sub
+# ^^^^ meta.function.perl - meta.path
+  if::func
+# ^^^^^^^^ meta.function.perl meta.path.perl
+# ^^ support.class.perl
+#   ^^ punctuation.accessor.double-colon.perl
+#     ^^^^ entity.name.function.perl
+  sub NS::func
+# ^^^^ meta.function.perl - meta.path
+#     ^^^^^^^^ meta.function.perl meta.path.perl
+#     ^^ support.class.perl
+#       ^^ punctuation.accessor.double-colon.perl
+#         ^^^^ entity.name.function.perl
+  sub ::NS::func
+# ^^^^ meta.function.perl - meta.path
+#     ^^^^^^^^^^ meta.function.perl meta.path.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^ support.class.perl
+#         ^^ punctuation.accessor.double-colon.perl
+#           ^^^^ entity.name.function.perl
+  sub B::NS::func
+# ^^^^ meta.function.perl - meta.path
+#     ^^^^^^^^^^^ meta.function.perl meta.path.perl
+#     ^ support.class.perl
+#      ^^ punctuation.accessor.double-colon.perl
+#        ^^ support.class.perl
+#          ^^ punctuation.accessor.double-colon.perl
+#            ^^^^ entity.name.function.perl
+  sub B::NS::func invalid
+# ^^^^ meta.function.perl - meta.path
+#     ^^^^^^^^^^^ meta.function.perl meta.path.perl
+#                ^^^^^^^^ meta.function.perl - meta.path
+#     ^ support.class.perl
+#      ^^ punctuation.accessor.double-colon.perl
+#        ^^ support.class.perl
+#          ^^ punctuation.accessor.double-colon.perl
+#            ^^^^ entity.name.function.perl
+#                 ^^^^^^^ invalid.illegal.identifier.perl
+  sub B::NS ::invalid;
+# ^^^^ meta.function.perl - meta.path
+#     ^^^^^ meta.function.perl meta.path.perl
+#          ^^^^^^^^^^ meta.function.perl - meta.path
+#     ^ support.class.perl
+#      ^^ punctuation.accessor.double-colon.perl
+#        ^^ entity.name.function.perl
+#           ^^^^^^^^^ invalid.illegal.identifier.perl
+#                    ^ punctuation.terminator.statement.perl
+  sub B::NS:: invalid {};
+# ^^^^ meta.function.perl - meta.path
+#     ^^^^^^^ meta.function.perl meta.path.perl
+#            ^^^^^^^^^ meta.function.perl - meta.path
+#     ^ support.class.perl
+#      ^^ punctuation.accessor.double-colon.perl
+#        ^^ support.class.perl
+#          ^^ punctuation.accessor.double-colon.perl
+#             ^^^^^^^ invalid.illegal.identifier.perl
 #                     ^ punctuation.section.block.begin.perl
+#                      ^ punctuation.section.block.end.perl
+#                       ^ punctuation.terminator.statement.perl
+  sub B::NS::func # comment
+# ^^^^ meta.function.perl - meta.path
+#     ^^^^^^^^^^^ meta.function.perl meta.path.perl
+#     ^ support.class.perl
+#      ^^ punctuation.accessor.double-colon.perl
+#        ^^ support.class.perl
+#          ^^ punctuation.accessor.double-colon.perl
+#            ^^^^ entity.name.function.perl
+#                 ^^^^^^^^^ comment.line.number-sign.perl
+  sub B::NS::func() # comment
+# ^^^^ meta.function.perl - meta.path
+#     ^^^^^^^^^^^ meta.function.perl meta.path.perl
+#                ^^ meta.function.parameters.perl
+#     ^ support.class.perl
+#      ^^ punctuation.accessor.double-colon.perl
+#        ^^ support.class.perl
+#          ^^ punctuation.accessor.double-colon.perl
+#            ^^^^ entity.name.function.perl
+#                ^ punctuation.section.parameters.begin.perl
+#                 ^ punctuation.section.parameters.end.perl
+#                   ^^^^^^^^^ comment.line.number-sign.perl
+  sub B::NS::func {
+# ^^^^ meta.function.perl - meta.path
+#     ^^^^^^^^^^^ meta.function.perl meta.path.perl
+#                ^ meta.function.perl - meta.path - meta.block
+#                 ^
+#     ^ support.class.perl
+#      ^^ punctuation.accessor.double-colon.perl
+#        ^^ support.class.perl
+#          ^^ punctuation.accessor.double-colon.perl
+#            ^^^^ entity.name.function.perl
+#                 ^ punctuation.section.block.begin.perl
 }
-# <- meta.function.perl punctuation.section.block.end.perl
-sub name ($arg, $arg)
-{
-# <- meta.function.perl punctuation.section.block.begin.perl
-}
-# <- meta.function.perl punctuation.section.block.end.perl
-sub name ($arg, $arg) # comment
-#                     ^^^^^^^^^ comment.line.number-sign.perl
-{
-# <- meta.function.perl punctuation.section.block.begin.perl
-}
-# <- meta.function.perl punctuation.section.block.end.perl
-
-sub name invalid ($arg, $arg) {
-# <- meta.function.perl storage.type.function.perl
-#^^^^^^^^^^^^^^^^ meta.function.perl - meta.function.parameters.perl
-#                ^^^^^^^^^^^^ meta.function.parameters.perl - meta.function.perl
-#                            ^^ meta.function.perl - meta.function.parameters.perl
-#^^ storage.type.function.perl
-#   ^^^^ entity.name.function.perl
-#        ^^^^^^^ invalid.illegal.function-name.perl
-#                ^ punctuation.section.group.begin.perl
-#                 ^^^^ variable.parameter.perl
-#                     ^ punctuation.separator.sequence.perl
-#                       ^^^^ variable.parameter.perl
-#                           ^ punctuation.section.group.end.perl
-#                             ^ punctuation.section.block.begin.perl
-}
-# <- meta.function.perl punctuation.section.block.end.perl
-sub name invalid ($arg, $arg)
-{
-# <- meta.function.perl punctuation.section.block.begin.perl
-}
-# <- meta.function.perl punctuation.section.block.end.perl
-$var = sub {
-# <- variable.other.readwrite.global.perl punctuation.definition.variable.perl
-#^^^ variable.other.readwrite.global.perl
-#    ^ keyword.operator.assignment.perl
-#      ^^^^^^^ meta.function.perl
-#      ^^^ storage.type.function.perl
-  say "hello";
-# <- meta.function.perl
-# ^^^ meta.function.perl support.function.perl
-}
-# <- meta.function.perl punctuation.section.block.end.perl
-sub name ($) {}
-#        ^ punctuation.section.group.begin.perl - variable.parameter.perl
-#        ^^^ meta.function.parameters.perl
-#         ^ variable.parameter.perl
-#          ^ punctuation.section.group.end.perl - variable.parameter.perl
-
-sub AUTOLOAD () {}
-#^^^^^^^^^^^^ meta.function.perl
-#            ^^ meta.function.parameters.perl
-#              ^^^ meta.function.perl
-#   ^^^^^^^^ entity.name.function.callback.perl
+# <- punctuation.section.block.end.perl
+  sub
+# ^^^^ meta.function.perl - meta.path
+  B::NS::func
+#^ meta.function.perl - meta.path
+# ^^^^^^^^^^^ meta.function.perl meta.path.perl
+#            ^^ meta.function.perl - meta.path
+# ^ support.class.perl
+#  ^^ punctuation.accessor.double-colon.perl
+#    ^^ support.class.perl
+#      ^^ punctuation.accessor.double-colon.perl
+#        ^^^^ entity.name.function.perl
+  (
+# ^ meta.function.parameters.perl punctuation.section.parameters.begin.perl
+    $arg,;
+#   ^ meta.function.parameters.perl variable.parameter.perl
+#    ^^^^ meta.function.parameters.perl invalid.illegal.parameter.perl
+#        ^ meta.function.parameters.perl punctuation.separator.sequence.perl
+  )
+# ^ meta.function.parameters.perl punctuation.section.parameters.end.perl
+  {
+# ^ punctuation.section.block.begin.perl
+  }
+# ^ punctuation.section.block.end.perl
 
 ###[ CONTROL KEYWORDS ]#######################################################
 
