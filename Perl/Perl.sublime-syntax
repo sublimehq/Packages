@@ -396,12 +396,12 @@ contexts:
   constants-numbers:
     # SEE: http://perldoc.perl.org/perlnumber.html
     # binary integers
-    - match: (0b)[01]+\b
+    - match: \b(0b)[01]+\b
       scope: constant.numeric.integer.binary.perl
       captures:
         1: punctuation.definition.numeric.binary.perl
     # hexadecimal integers
-    - match: (0x)[\h_]+\b
+    - match: \b(0x)[\h_]+\b
       scope: constant.numeric.integer.hexadecimal.perl
       captures:
         1: punctuation.definition.numeric.hexadecimal.perl
@@ -448,7 +448,7 @@ contexts:
     - match: |-
         (?x:
           (\.)\d+ (?: e[-+]?\d+   )? \b |  # .1 .1e1 .1e-1 .1e+1
-              \d+ (?: (\.) (?: (?:
+            \b\d+ (?: (\.) (?: (?:
               \d+ (?: e[-+]?\d+   )? \b |  # 1.1 1.1e1 1.1e-1 1.1e+1
                       e[-+]?\d+\b )     |  # 1.e1 1.e-1 1.e+1
                       (?=[^.]))         |  # 1. (protect the .. operator)
