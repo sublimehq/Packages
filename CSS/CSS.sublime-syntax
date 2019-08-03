@@ -1014,6 +1014,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: literal-string
           - include: unquoted-string
 
       # Transform Functions
