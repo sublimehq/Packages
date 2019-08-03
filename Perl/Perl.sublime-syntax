@@ -118,7 +118,7 @@ contexts:
     - include: constants
     - include: qualified-function-call
     - include: qualified-variables
-    - include: variables
+    - include: unqualified-variables
     - include: operators
     - include: unqualified-function-call
     - include: comment-line
@@ -743,6 +743,7 @@ contexts:
           pop: true
         - include: literal-angle-nested
         - include: character-escape
+        - include: variables-interpolation
 
   string-quoted-backtick:
     - match: \`
@@ -753,6 +754,7 @@ contexts:
           scope: punctuation.definition.string.end.perl
           pop: true
         - include: character-escape
+        - include: variables-interpolation
 
   string-quoted-double:
     - match: \"
@@ -763,6 +765,7 @@ contexts:
           scope: punctuation.definition.string.end.perl
           pop: true
         - include: character-escape
+        - include: variables-interpolation
 
   string-quoted-single:
     - match: \'
@@ -801,8 +804,7 @@ contexts:
           scope: constant.other.placeholder.numeric.perl
           captures:
             1: punctuation.definition.placeholder.begin.perl
-        - include: qualified-variables
-        - include: variables
+        - include: variables-interpolation
 
   string-heredoc:
     # SEE: http://www.perlmeme.org/howtos/syntax/here_document.html
@@ -1375,7 +1377,7 @@ contexts:
           scope: support.class.perl
           pop: true
         - include: qualifier
-        - include: variables
+        - include: unqualified-variables
         - include: function-identifier
 
   function-identifier:
@@ -1401,6 +1403,16 @@ contexts:
 
 ###[ VARIABLES ]##############################################################
 
+  variables-interpolation:
+    # note: coderefs `&` are not interpolated
+    - match: (?=[@$%])
+      push:
+        - clear_scopes: 1  # remove 'string'
+        - meta_scope: meta.interpolation.perl
+        - include: qualified-variables
+        - include: unqualified-variables
+        - include: immediately-pop
+
   qualified-variables:
     # $Module::SubModule::variable
     # $::SubModule::variable
@@ -1415,7 +1427,7 @@ contexts:
         - match: '{{identifier}}'
           scope: variable.other.readwrite.perl
           set: maybe-item-access
-        - include: variables
+        - include: unqualified-variables
         - include: immediately-pop
 
   qualifier:
@@ -1424,7 +1436,7 @@ contexts:
         1: support.class.perl
         2: punctuation.accessor.double-colon.perl
 
-  variables:
+  unqualified-variables:
     # SEE: http://perldoc.perl.org/perlvar.html
     # regexp match
     - match: ([$@%*]#?)[`&']
