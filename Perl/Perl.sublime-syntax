@@ -63,6 +63,12 @@ contexts:
     - include: comment-pod
     - include: declarations
     - include: expressions
+    - match: ^
+      push:
+        - match: (?=/.*[^\\]/)
+          set: maybe-regexp-match
+        - include: string-quoted-angle-pop
+        - include: else-pop
 
 ###[ PROTOTYPES ]#############################################################
 
@@ -242,7 +248,7 @@ contexts:
       scope: punctuation.definition.tag.end.perl
       pop: true
     - include: comment-pod-formatting
-    - include: literal-ltgt-nested
+    - include: literal-angle-nested
 
 ###[ DECLARATIONS ]###########################################################
 
@@ -317,9 +323,11 @@ contexts:
     - include: variables
     - include: function-call
     - include: comment-line
-    # /<find>/<flags> statement at line start
-    - match: ^\s*(?=/.*[^\\]/)
-      push: regexp-pop
+
+  expressions-begin:
+    # valid at the beginning of expressions only
+    - include: string-quoted-angle-pop
+    - include: maybe-regexp-match
 
 ###[ BLOCKS AND GROUPS ]######################################################
 
@@ -327,14 +335,14 @@ contexts:
     # can't push into scope due to HEREDOCs!
     - match: \{
       scope: punctuation.section.block.begin.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: \}
       scope: punctuation.section.block.end.perl
 
   blocks-nested:
     - match: \{
       scope: punctuation.section.block.begin.perl
-      push: [blocks-nested-body, regexp-pop]
+      push: [blocks-nested-body, expressions-begin]
 
   blocks-nested-body:
     - match: \}
@@ -346,14 +354,14 @@ contexts:
     # can't push into scope due to HEREDOCs!
     - match: \[
       scope: punctuation.section.brackets.begin.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: \]
       scope: punctuation.section.brackets.end.perl
 
   brackets-nested:
     - match: \[
       scope: punctuation.section.brackets.begin.perl
-      push: [brackets-nested-body, regexp-pop]
+      push: [brackets-nested-body, expressions-begin]
 
   brackets-nested-body:
     - match: \]
@@ -367,14 +375,14 @@ contexts:
     # can't push into scope due to HEREDOCs!
     - match: \(
       scope: punctuation.section.group.begin.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: \)
       scope: punctuation.section.group.end.perl
 
   groups-nested:
     - match: \(
       scope: punctuation.section.group.begin.perl
-      push: [groups-nested-body, regexp-pop]
+      push: [groups-nested-body, expressions-begin]
 
   groups-nested-body:
     - match: \)
@@ -495,6 +503,20 @@ contexts:
     - include: string-quoted-single
     - include: string-format
     - include: string-heredoc
+
+  string-quoted-angle-pop:
+    # NOTE: match only if...
+    # - doesn't look like an operator (`<=>`, `<<`)
+    # - closing punctuation `>` found on the same line
+    - match: \<(?!<|=>)(?=.*?>)
+      scope: punctuation.definition.string.begin.perl
+      set:
+        - meta_scope: string.quoted.angle.perl
+        - match: \>
+          scope: punctuation.definition.string.end.perl
+          pop: true
+        - include: literal-angle-nested
+        - include: character-escape
 
   string-quoted-backtick:
     - match: \`
@@ -745,50 +767,50 @@ contexts:
     # conditional
     - match: \bdefault{{break}}
       scope: keyword.control.conditional.default.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: \belse{{break}}
       scope: keyword.control.conditional.else.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: \belsif{{break}}
       scope: keyword.control.conditional.elseif.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: \bgiven{{break}}
       scope: keyword.control.conditional.given.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: \bif{{break}}
       scope: keyword.control.conditional.if.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: \bunless{{break}}
       scope: keyword.control.conditional.unless.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: \bwhen{{break}}
       scope: keyword.control.conditional.when.perl
-      push: regexp-pop
+      push: expressions-begin
     # flow
     - match: \bbreak{{break}}
       scope: keyword.control.flow.break.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: \bcaller{{break}}
       scope: keyword.control.flow.caller.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: \bcontinue{{break}}
       scope: keyword.control.flow.continue.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: \bdie{{break}}
       scope: keyword.control.flow.die.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: \bdo{{break}}
       scope: keyword.control.flow.do.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: \bdump{{break}}
       scope: keyword.control.flow.dump.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: \bexit{{break}}
       scope: keyword.control.flow.exit.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: \bgoto{{break}}
       scope: keyword.control.flow.goto.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: \blast{{break}}
       scope: keyword.control.flow.last.perl
       push: label-usage
@@ -800,23 +822,23 @@ contexts:
       push: label-usage
     - match: \breturn{{break}}
       scope: keyword.control.flow.return.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: \bwait{{break}}
       scope: keyword.control.flow.wait.perl
-      push: regexp-pop
+      push: expressions-begin
     # loop
     - match: \bfor{{break}}
       scope: keyword.control.loop.for.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: \bforeach{{break}}
       scope: keyword.control.loop.foreach.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: \buntil{{break}}
       scope: keyword.control.loop.until.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: \bwhile{{break}}
       scope: keyword.control.loop.while.perl
-      push: regexp-pop
+      push: expressions-begin
 
   label-usage:
     # reserved words indicate an expression like label
@@ -825,14 +847,14 @@ contexts:
     - match: '{{identifier}}'
       scope: variable.label.perl
       pop: true
-    - include: regexp-pop
+    - include: expressions-begin
 
   label:
     - match: ({{identifier}})(:)(?!:)
       captures:
         1: entity.name.label.perl
         2: punctuation.separator.perl
-      push: regexp-pop
+      push: expressions-begin
 
 ###[ OPERATORS ]##############################################################
 
@@ -840,52 +862,55 @@ contexts:
     # SEE: https://www.tutorialspoint.com/perl/perl_operators.htm
     - match: ','
       scope: punctuation.separator.sequence.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: ;
       scope: punctuation.terminator.statement.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: -[rwx0RWXOezsfdlpSbctugkTBMAC]\b
       scope: keyword.operator.filetest.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: '->'
       scope: keyword.accessor.arrow.perl
       push: object-members-pop
     - match: '[!~=]~'
       scope: keyword.operator.binary.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: <<|>>
       scope: keyword.operator.bitwise.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: <=>|//|\&\&|\|\||==|!=|>=|<=|[<>:!?]
       scope: keyword.operator.logical.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: '\*\*=|[-+*/%]='
       scope: keyword.operator.assignment.perl
-      push: regexp-pop
-    - match: '[-+*]{1,2}|/'
+      push: expressions-begin
+    - match: '--|\+\+'
       scope: keyword.operator.arithmetic.perl
-      push: regexp-pop
+      push: maybe-regexp-match
+    - match: '\*{1,2}|[-+/]'
+      scope: keyword.operator.arithmetic.perl
+      push: expressions-begin
     - match: '[&|^~]'
       scope: keyword.operator.bitwise.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: =>?
       scope: keyword.operator.assignment.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: \.\.
       scope: keyword.operator.range.perl
-      push: regexp-pop
+      push: expressions-begin
     # string concat
     - match: \.=?
       scope: keyword.operator.concat.perl
-      push: regexp-pop
+      push: expressions-begin
     # string concation
     #  "string" x 10
     - match: \bx\b
       scope: keyword.operator.arithmetic.perl
-      push: regexp-pop
+      push: expressions-begin
     - match: \b(and|or|xor|as|cmp|eq|gt|ge|lt|le|ne|not){{break}}
       scope: keyword.operator.logical.perl
-      push: regexp-pop
+      push: expressions-begin
 
 ###[ QUOTED LIKE ]############################################################
 
@@ -994,7 +1019,7 @@ contexts:
   quoted-like-args-find-literal:
     - include: literal-braces-pop
     - include: literal-brackets-pop
-    - include: literal-ltgt-pop
+    - include: literal-angle-pop
     - include: literal-parens-pop
     - include: literal-generic-pop
     - include: else-pop
@@ -1002,7 +1027,7 @@ contexts:
   quoted-like-args-replace:
     - include: literal-braces-pop
     - include: literal-brackets-pop
-    - include: literal-ltgt-pop
+    - include: literal-angle-pop
     - include: literal-parens-pop
     - include: else-pop
 
@@ -1046,7 +1071,7 @@ contexts:
         - include: literal-brackets-nested
         - include: character-escape
 
-  literal-ltgt-pop:
+  literal-angle-pop:
     - match: \<
       scope: punctuation.section.generic.begin.perl
       set:
@@ -1055,15 +1080,15 @@ contexts:
         - match: \>
           scope: punctuation.section.generic.end.perl
           pop: true
-        - include: literal-ltgt-nested
+        - include: literal-angle-nested
         - include: character-escape
 
-  literal-ltgt-nested:
+  literal-angle-nested:
     - match: \<
       push:
         - match: \>
           pop: true
-        - include: literal-ltgt-nested
+        - include: literal-angle-nested
         - include: character-escape
 
   literal-parens-pop:
@@ -1103,7 +1128,7 @@ contexts:
 
 ###[ REGEXP ]#################################################################
 
-  regexp-pop:
+  maybe-regexp-match:
     # /<pattern>/<flags>
     - match: /
       scope: punctuation.section.generic.begin.perl
@@ -1113,15 +1138,6 @@ contexts:
       escape_captures:
         1: punctuation.section.generic.end.perl
         2: constant.language.flags.regexp.perl
-    # angle quoted strings
-    - match: \<(?=[^<])
-      scope: punctuation.definition.string.begin.perl
-      set:
-        - meta_scope: string.quoted.angle.perl
-        - match: \>
-          scope: punctuation.definition.string.end.perl
-          pop: true
-        - include: character-escape
     - include: else-pop
 
 ###[ FUNCTIONS ]##############################################################
@@ -1130,7 +1146,7 @@ contexts:
     # builtin function calls
     - match: '{{builtin_functions}}'
       scope: support.function.perl
-      push: regexp-pop
+      push: expressions-begin
     # user defined function calls
     - match: \b({{member}})\s*(?=\()
       scope: meta.function-call.name.perl
@@ -1147,7 +1163,7 @@ contexts:
             scope: punctuation.section.arguments.end.perl
             pop: true
           - include: main
-        - regexp-pop
+        - expressions-begin
 
 ###[ SUB ]####################################################################
 
@@ -1205,7 +1221,7 @@ contexts:
       set:
         - match: \{
           scope: punctuation.section.block.begin.perl
-          set: [sub-block-body, regexp-pop]
+          set: [sub-block-body, expressions-begin]
         - include: comment-line
         - include: comment-pod
         - match: (?=\S)
@@ -1279,7 +1295,7 @@ contexts:
       push: maybe-item-access
     - match: ([\$\@\%])(\{)
       scope: punctuation.definition.variable.begin.perl
-      push: [maybe-item-access, variable-body, regexp-pop]
+      push: [maybe-item-access, variable-body, expressions-begin]
 
   variable-body:
     - meta_scope: meta.variable.perl
@@ -1304,7 +1320,7 @@ contexts:
           - include: brackets-nested
           - include: groups-nested
           - include: expressions
-        - regexp-pop
+        - expressions-begin
     - match: (\{)\s*({{identifier}})\s*(\})
       scope: meta.item-access.perl
       captures:
@@ -1322,5 +1338,5 @@ contexts:
           - include: brackets-nested
           - include: groups-nested
           - include: expressions
-        - regexp-pop
+        - expressions-begin
     - include: immediately-pop

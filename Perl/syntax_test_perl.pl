@@ -1128,6 +1128,14 @@ EOT
 #                            ^^ constant.character.escape.perl
 #                                 ^^ constant.character.escape.perl
 #                                       ^ punctuation.definition.string.end.perl
+  <=quoted "interpolated" foo <bar> baz\>>
+# ^ punctuation.definition.string.begin.perl
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.angle.perl
+# ^^ - keyword.operator
+#                              ^ - punctuation
+#                                  ^ - punctuation
+#                                      ^^ constant.character.escape.perl
+#                                        ^ punctuation.definition.string.end.perl
   q/quoted "interpolated" foo 'bar' \/ baz/
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
@@ -2130,12 +2138,23 @@ _EOD_
 #                                                                           ^^^^ variable.label.perl
 #                                                                                ^^ keyword.control.conditional.if.perl
 
-  LINE: while ($foo) { next LINE if /^#/; redo LINE if $bar }
+  LINE: while ($foo++ < 10 && $bar > 5) { next LINE if /^#/; redo LINE if $bar }
 # ^^^^ entity.name.label.perl
 #       ^^^^^ keyword.control.loop.while.perl
-#                      ^^^^ keyword.control.flow.next.perl
-#                           ^^^^ variable.label.perl
-#                                ^^ keyword.control.conditional.if.perl
-#                                         ^^^^ keyword.control.flow.redo.perl
+#             ^ punctuation.section.group.begin.perl
+#              ^^^^ variable.other.readwrite.global.perl
+#                  ^^ keyword.operator.arithmetic.perl
+#                     ^ keyword.operator.logical.perl
+#                     ^^^^^^^^^^^^^^ - string
+#                       ^^ constant.numeric.integer.decimal.perl
+#                          ^^ keyword.operator.logical.perl
+#                             ^^^^ variable.other.readwrite.global.perl
+#                                  ^ keyword.operator.logical.perl
+#                                    ^ constant.numeric.integer.decimal.perl
+#                                     ^ punctuation.section.group.end.perl
+#                                         ^^^^ keyword.control.flow.next.perl
 #                                              ^^^^ variable.label.perl
 #                                                   ^^ keyword.control.conditional.if.perl
+#                                                            ^^^^ keyword.control.flow.redo.perl
+#                                                                 ^^^^ variable.label.perl
+#                                                                      ^^ keyword.control.conditional.if.perl
