@@ -75,6 +75,7 @@ contexts:
   main:
     - include: comment-pod
     - include: package
+    - include: imports
     - include: declarations
     - include: expressions
     - match: ^
@@ -339,59 +340,73 @@ contexts:
       scope: entity.name.namespace.perl
       pop: true
 
-###[ DECLARATIONS ]###########################################################
+###[ IMPORT STATEMENTS ]######################################################
 
-  declarations:
-    # KEYWORD 'my' and its friends
-    - match: \b(?:{{storage_keywords}}){{break}}
-      scope: keyword.declaration.variable.perl
-    # KEYWORD no
-    - match: \bno{{break}}
-      scope: keyword.declaration.no.perl
-      push:
-        - meta_scope: meta.no.perl
-        - include: eol-pop
-        - include: pragma
-        - include: expressions
-    # KEYWORD use
+  imports:
+    # https://perldoc.perl.org/functions/require.html
+    # require MODULE
+    # require EXPR
+    - match: \brequire{{break}}
+      scope: keyword.control.import.require.perl
+      push: [require-end, require-body]
+    # https://perldoc.perl.org/functions/use.html
+    # use MODULE VERSION LIST
+    # use MODULE VERSION
+    # use MODULE LIST
+    # use MODULE
+    # use VERSION
     - match: \buse{{break}}
       scope: keyword.control.import.use.perl
       push:
-        - meta_scope: meta.use.perl
-        - include: eol-pop
-        - include: pragma
-        - include: expressions
-    # KEYWORD require
-    - match: \brequire{{break}}
-      scope: keyword.control.import.require.perl
+        - - meta_scope: meta.preprocessor.use.perl
+          - include: require-expression
+        - expressions-begin
+        - package-version
+        - package-namespace
+    # https://perldoc.perl.org/functions/no.html
+    # no MODULE VERSION LIST
+    # no MODULE VERSION
+    # no MODULE LIST
+    # no MODULE
+    # no VERSION
+    - match: \bno{{break}}
+      scope: keyword.control.import.no.perl
       push:
-        - meta_scope: meta.import.require.perl
-        - include: eol-pop
-        - include: expressions
+        - - meta_scope: meta.preprocessor.no.perl
+          - include: require-expression
+        - expressions-begin
+        - package-version
+        - package-namespace
 
-  pragma:
-    # SEE: http://perldoc.perl.org/index-pragmas.html
-    #      http://perldoc.perl.org/perlmodlib.html#Pragmatic-Modules
-    - match: |-
-        \b(?x:
-           attributes|autodie(?:::(?:exception(?:::system)|hints|skip))?|autouse
-          |base|bigint|bignum|bigrat|blib|bytes
-          |charnames|constant
-          |diagnostics
-          |encoding
-          |feature|fields|filetest
-          |if|integer
-          |less|lib|locale
-          |mro
-          |ok|open|ops|overload|overloading
-          |parent
-          |re
-          |sigtrap|sort|strict|subs
-          |threads|threads::shared
-          |utf8
-          |vars|vmsish
-          |warnings|warnings::register){{break}}
-      scope: storage.modifier.perl
+  require-body:
+    - include: require-namespace
+    - include: comment-line
+    - match: (?=\S)
+      set: [require-expression, expressions-begin]
+
+  require-namespace:
+    - include: qualified-namespace
+    - match: '{{identifier}}(?=\s*(?:[;)}#]|$))'
+      scope: entity.name.namespace.perl
+      pop: true
+
+  require-expression:
+    - match: (?=[;)}])
+      pop: true
+    - include: expressions
+    - match: \S
+      scope: string.unquoted.perl
+
+  require-end:
+    - meta_scope: meta.preprocessor.require.perl
+    - include: comment-line
+    - include: else-pop
+
+###[ DECLARATIONS ]###########################################################
+
+  declarations:
+    - match: \b(?:{{storage_keywords}}){{break}}
+      scope: keyword.declaration.variable.perl
 
 ###[ EXPRESSIONS ]############################################################
 
@@ -482,6 +497,7 @@ contexts:
 ###[ CONSTANTS ]##############################################################
 
   constants:
+    - include: constants-version
     - include: constants-numbers
     - include: constants-language
     - include: constants-other
@@ -580,6 +596,15 @@ contexts:
       scope: constant.other.key.perl
     - match: \b[A-Z0-9_]+{{break}}
       scope: constant.other.perl
+
+  constants-version:
+    # SEE: https://perldoc.perl.org/functions/require.html
+    - match: (v?)[\d_](\.)[\d_]+(\.)[\d_]+\b
+      scope: constant.numeric.version.perl
+      captures:
+        1: punctuation.definition.version.perl
+        2: punctuation.separator.decimal.perl
+        3: punctuation.separator.decimal.perl
 
 ###[ STRINGS ]################################################################
 

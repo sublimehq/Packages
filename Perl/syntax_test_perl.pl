@@ -1528,6 +1528,214 @@ EOT
   package::name;
 # ^^^^^^^^^^^^^^ - meta.namespace.perl - meta.path
 
+###[ PACKAGE IMPORTS ]########################################################
+
+  require
+# ^^^^^^^^ meta.preprocessor.require.perl
+# ^^^^^^^ keyword.control.import.require.perl
+  require;
+# ^^^^^^^ meta.preprocessor.require.perl entity.name.namespace.perl
+#        ^ punctuation.terminator.statement.perl
+  require # comment
+# ^^^^^^^^^^^^^^^^^^ meta.preprocessor.require.perl
+# ^^^^^^^ keyword.control.import.require.perl
+#         ^ comment.line.number-sign.perl
+  if ; # Perl allows namespaces looking like keywords
+# ^^^ meta.preprocessor.require.perl
+# ^^ entity.name.namespace.perl
+#    ^ punctuation.terminator.statement.perl
+#      ^ comment.line.number-sign.perl
+  require 5.024;
+# ^^^^^^^^^^^^^ meta.preprocessor.require.perl
+#              ^ - meta.preprocessor
+# ^^^^^^^ keyword.control.import.require.perl
+#         ^^^^^ constant.numeric.float.decimal.perl
+#          ^ punctuation.separator.decimal.perl
+#              ^ punctuation.terminator.statement.perl
+  require v5.24.1;    # run time version check
+# ^^^^^^^^^^^^^^^ meta.preprocessor.require.perl
+#                 ^ - meta.preprocessor
+# ^^^^^^^ keyword.control.import.require.perl
+#         ^ punctuation.definition.version.perl
+#         ^^^^^^^ constant.numeric.version.perl
+#           ^ punctuation.separator.decimal.perl
+#              ^ punctuation.separator.decimal.perl
+#                ^ punctuation.terminator.statement.perl
+#                     ^ comment.line.number-sign.perl
+  require 5.24.1;     # ditto
+# ^^^^^^^^^^^^^^ meta.preprocessor.require.perl
+#                ^ - meta.preprocessor
+# ^^^^^^^ keyword.control.import.require.perl
+#         ^^^^^^ constant.numeric.version.perl
+#          ^ punctuation.separator.decimal.perl
+#             ^ punctuation.separator.decimal.perl
+#               ^ punctuation.terminator.statement.perl
+#                     ^ comment.line.number-sign.perl
+  require 5.024_001;  # ditto; older syntax compatible
+# ^^^^^^^^^^^^^^^^^ meta.preprocessor.require.perl
+#                  ^ - meta.preprocessor
+# ^^^^^^^ keyword.control.import.require.perl
+#         ^^^^^^^^^ constant.numeric.float.decimal.perl
+#          ^ punctuation.separator.decimal.perl
+#                  ^ punctuation.terminator.statement.perl
+#                     ^ comment.line.number-sign.perl
+  require
+# ^^^^^^^^ meta.preprocessor.require.perl
+# ^^^^^^^ keyword.control.import.require.perl
+    5.024_001;  # ditto; older syntax compatible
+# ^^^^^^^^^^^ meta.preprocessor.require.perl
+#            ^ - meta.preprocessor
+#   ^^^^^^^^^ constant.numeric.float.decimal.perl
+#    ^ punctuation.separator.decimal.perl
+#            ^ punctuation.terminator.statement.perl
+#               ^ comment.line.number-sign.perl
+  require English;
+# ^^^^^^^^^^^^^^^ meta.preprocessor.require.perl - meta.path
+#                ^ - meta.preprocessor
+# ^^^^^^^ keyword.control.import.require.perl
+#         ^^^^^^^ entity.name.namespace.perl
+  require utf8;
+# ^^^^^^^^^^^^ meta.preprocessor.require.perl - meta.path
+#             ^ - meta.preprocessor
+# ^^^^^^^ keyword.control.import.require.perl
+#         ^^^^ entity.name.namespace.perl
+  require ::utf8;
+# ^^^^^^^^ meta.preprocessor.require.perl - meta.path
+#         ^^^^^^ meta.preprocessor.require.perl meta.path.perl
+#               ^ - meta.preprocessor
+# ^^^^^^^ keyword.control.import.require.perl
+#         ^^ punctuation.accessor.double-colon.perl
+#           ^^^^ entity.name.namespace.perl
+  require Foo::bar;
+# ^^^^^^^^ meta.preprocessor.require.perl - meta.path
+#         ^^^^^^^^ meta.preprocessor.require.perl meta.path.perl
+#                 ^ - meta.preprocessor
+# ^^^^^^^ keyword.control.import.require.perl
+#         ^^^ entity.name.namespace.perl
+#            ^^ punctuation.accessor.double-colon.perl
+#              ^^^ entity.name.namespace.perl
+#                 ^ punctuation.terminator.statement.perl
+  require
+# ^^^^^^^^ meta.preprocessor.require.perl - meta.path
+# ^^^^^^^ keyword.control.import.require.perl
+    Foo::Bar;
+# ^^ meta.preprocessor.require.perl - meta.path
+#   ^^^^^^^^ meta.preprocessor.require.perl meta.path.perl
+#           ^ - meta.preprocessor
+#   ^^^ entity.name.namespace.perl
+#      ^^ punctuation.accessor.double-colon.perl
+#        ^^^ entity.name.namespace.perl
+#           ^ punctuation.terminator.statement.perl
+  require "foo/bar.pm";
+# ^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.require.perl - meta.path
+# ^^^^^^^ keyword.control.import.require.perl
+#         ^^^^^^^^^^^^ string.quoted.double.perl
+#                     ^ punctuation.terminator.statement.perl
+  require $name;
+# ^^^^^^^^^^^^^ meta.preprocessor.require.perl - meta.path
+# ^^^^^^^ keyword.control.import.require.perl
+#         ^^^^^ variable.other.readwrite.global.perl
+#              ^ punctuation.terminator.statement.perl
+  require foo.$bar.pm;
+# ^^^^^^^^^^^^^^^^^^^ meta.preprocessor.require.perl - meta.path
+# ^^^^^^^ keyword.control.import.require.perl
+#         ^^^ string.unquoted.perl
+#            ^ keyword.operator.concat.perl
+#             ^^^^ variable.other.readwrite.global.perl
+#                 ^ keyword.operator.concat.perl
+#                  ^^ string.unquoted.perl
+#                    ^ punctuation.terminator.statement.perl
+  require-name;
+# ^^^^^^^^^^^^ meta.preprocessor.require.perl - meta.path
+#             ^ - meta.preprocessor.require
+# ^^^^^^^ keyword.control.import.require.perl
+#        ^ keyword.operator.arithmetic.perl
+#         ^^^^ string.unquoted.perl
+#             ^ punctuation.terminator.statement.perl
+  require.name;
+# ^^^^^^^^^^^^ meta.preprocessor.require.perl - meta.path
+#             ^ - meta.preprocessor.require
+# ^^^^^^^ keyword.control.import.require.perl
+#        ^ keyword.operator.concat.perl
+#         ^^^^ string.unquoted.perl
+#             ^ punctuation.terminator.statement.perl
+  require::name;
+# ^^^^^^^^^^^^^^ - meta.preprocessor.require.perl - meta.path
+#              ^ punctuation.terminator.statement.perl
+
+eval { require Mail::Send };
+#      ^^^^^^^^ meta.preprocessor.require.perl - meta.path
+#              ^^^^^^^^^^ meta.preprocessor.require.perl meta.path.perl
+#                        ^ meta.preprocessor.require.perl - meta.path
+#                         ^^ - meta.preprocessor.require.perl
+#      ^^^^^^^ keyword.control.import.require.perl
+eval { require Mail.'::'.Send };
+#      ^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.require.perl
+#                             ^^ - meta.preprocessor.require.perl
+#      ^^^^^^^ keyword.control.import.require.perl
+eval { require B::Flags and $var++ };
+#      ^^^^^^^^ meta.preprocessor.require.perl - meta.path
+#              ^^^^^^^^ meta.preprocessor.require.perl meta.path.perl
+#                      ^ meta.preprocessor.require.perl - meta.path
+#                       ^^^^^^^^^^^^^ - meta.preprocessor.require.perl
+#      ^^^^^^^ keyword.control.import.require.perl
+#              ^ meta.path.perl entity.name.namespace.perl
+#               ^^ meta.path.perl punctuation.accessor.double-colon.perl
+#                 ^^^^^ meta.path.perl entity.name.namespace.perl
+#                       ^^^ keyword.operator.logical.perl
+use strict;
+# <- meta.preprocessor.use.perl keyword.control.import.use.perl
+#^^^^^^^^^ meta.preprocessor.use.perl
+#^^ keyword.control.import.use.perl
+#   ^^^^^^ entity.name.namespace.perl
+#         ^ punctuation.terminator.statement.perl
+use strict "vars";
+# <- meta.preprocessor.use.perl keyword.control.import.use.perl
+#^^^^^^^^^^^^^^^^ meta.preprocessor.use.perl
+#^^ keyword.control.import.use.perl
+#   ^^^^^^ entity.name.namespace.perl
+#          ^ punctuation.definition.string.begin.perl
+#          ^^^^^^ string.quoted.double.perl
+#               ^ punctuation.definition.string.end.perl
+#                ^ punctuation.terminator.statement.perl
+  use attributes __PACKAGE__, \&foo, 'method';
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.use.perl
+# ^^^ keyword.control.import.use.perl
+#     ^^^^^^^^^^ entity.name.namespace.perl
+#                ^^^^^^^^^^^ constant.language.perl
+#                           ^ punctuation.separator.sequence.perl
+  use if;
+# ^^^^^^ meta.preprocessor.use.perl - meta.path
+#       ^ - meta.preprocessor - meta.path
+# ^^^ keyword.control.import.use.perl
+#     ^^ entity.name.namespace.perl
+#       ^ punctuation.terminator.statement.perl
+  use if::else;
+# ^^^^ meta.preprocessor.use.perl - meta.path
+#     ^^^^^^^^ meta.preprocessor.use.perl meta.path.perl
+#             ^ - meta.preprocessor - meta.path
+# ^^^ keyword.control.import.use.perl
+#     ^^ entity.name.namespace.perl
+#       ^^ punctuation.accessor.double-colon.perl
+#         ^^^^ entity.name.namespace.perl
+#             ^ punctuation.terminator.statement.perl
+  use warnings::register Foo::func;
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.use.perl
+# ^^^ keyword.control.import.use.perl
+#     ^^^^^^^^ entity.name.namespace.perl
+#             ^^ meta.path.perl punctuation.accessor.double-colon.perl
+#               ^^^^^^^^ entity.name.namespace.perl
+#                        ^^^ support.class.perl
+#                           ^^ punctuation.accessor.double-colon.perl
+#                             ^^^^ variable.other.member.perl
+#                                 ^ punctuation.terminator.statement.perl
+  no strict;
+# ^^^^^^^^^ meta.preprocessor.no.perl
+#          ^ - meta.preprocessor - meta.path
+# ^^ keyword.control.import.no.perl
+#    ^^^^^^ entity.name.namespace.perl
+#          ^ punctuation.terminator.statement.perl
+
 ###[ DECLARATIONS ]###########################################################
 
 my
@@ -1664,72 +1872,6 @@ state
 #       ^ punctuation.definition.variable.perl
 #       ^^^^ variable.other.readwrite
 #           ^ - variable.other.readwrite
-require
-# <- meta.import.require.perl keyword.control.import.require.perl
-#^^^^^^ meta.import.require.perl keyword.control.import.require.perl
-require "v5.1.0";
-# <- meta.import.require.perl keyword.control.import.require.perl
-#^^^^^^^^^^^^^^^ meta.import.require.perl
-#^^^^^^ keyword.control.import.require.perl
-#       ^^^^^^^^ string.quoted.double.perl - constant.numeric
-#               ^ punctuation.terminator.statement.perl
-eval { require Mail::Send; };
-#<- support.function.perl
-#^^^ support.function.perl
-#    ^ punctuation.section.block.begin.perl
-#      ^^^^^^^^^^^^^^^^^^ meta.import.require.perl
-#                        ^^^^ - meta.import.require.perl
-#      ^^^^^^^ keyword.control.import.require.perl
-use strict;
-# <- meta.use.perl keyword.control.import.use.perl
-#^^^^^^^^^ meta.use.perl
-#^^ keyword.control.import.use.perl
-#   ^^^^^^ storage.modifier.perl
-#         ^ punctuation.terminator.statement.perl
-use strict "vars";
-# <- meta.use.perl keyword.control.import.use.perl
-#^^^^^^^^^^^^^^^^ meta.use.perl
-#^^ keyword.control.import.use.perl
-#   ^^^^^^ storage.modifier.perl
-#          ^ punctuation.definition.string.begin.perl
-#          ^^^^^^ string.quoted.double.perl
-#               ^ punctuation.definition.string.end.perl
-#                ^ punctuation.terminator.statement.perl
-  use attributes __PACKAGE__, \&foo, 'method';
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use.perl
-# ^^^ keyword.control.import.use.perl
-#     ^^^^^^^^^^ storage.modifier.perl
-#                ^^^^^^^^^^^ constant.language.perl
-#                           ^ punctuation.separator.sequence.perl
-use File;
-# <- meta.use.perl keyword.control.import.use.perl
-#^^^^^^^ meta.use.perl
-#^^ keyword.control.import.use.perl
-#   ^^^^ support.class.perl
-#       ^ punctuation.terminator.statement.perl
-use File::data;
-# <- meta.use.perl keyword.control.import.use.perl
-#^^^^^^^^^^^^^ meta.use.perl
-#^^ keyword.control.import.use.perl
-#   ^^^^ support.class.perl
-#       ^^ punctuation.accessor.double-colon.perl
-#         ^^^^ variable.other.member.perl
-#             ^ punctuation.terminator.statement.perl
-use warnings::register File::data;
-# <- meta.use.perl keyword.control.import.use.perl
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use.perl
-#^^ keyword.control.import.use.perl
-#   ^^^^^^^^^^^^^^^^^^ storage.modifier.perl
-#                      ^^^^ support.class.perl
-#                          ^^ punctuation.accessor.double-colon.perl
-#                            ^^^^ variable.other.member.perl
-#                                ^ punctuation.terminator.statement.perl
-no strict;
-# <- meta.no.perl keyword.declaration.no.perl
-#^^^^^^^^ meta.no.perl
-#^ keyword.declaration.no.perl
-#  ^^^^^^ storage.modifier.perl
-#        ^ punctuation.terminator.statement.perl
 
 ###[ PREPROCESSOR ]###########################################################
 
