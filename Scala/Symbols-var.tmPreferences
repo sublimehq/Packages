@@ -4,7 +4,7 @@
   <key>name</key>
   <string>Symbols (var)</string>
   <key>scope</key>
-  <string>source.scala entity.name.var</string>
+  <string>source.scala variable.other.readwrite</string>
   <key>settings</key>
   <dict>
     <key>showInSymbolList</key>
