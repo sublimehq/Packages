@@ -1779,7 +1779,7 @@ sub ::name invalid;
 #                 ^ punctuation.terminator.statement.perl
 sub
 #^^^ meta.function.perl - meta.path
-  NS::name
+  if::name
 # ^^^^^^^^ meta.function.perl meta.path.perl
 # ^^ support.class
 #   ^^ punctuation.accessor.double-colon.perl

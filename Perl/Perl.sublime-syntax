@@ -1133,7 +1133,7 @@ contexts:
 
   sub-path:
     # namespace
-    - match: (::)?((?!{{reserved_words}}){{identifier}})(?=::)
+    - match: (::)?({{identifier}})(?=::)
       scope: meta.path.perl
       captures:
         1: punctuation.accessor.double-colon.perl
