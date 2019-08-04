@@ -51,6 +51,8 @@ variables:
       utime|values|vec|wait|waitpid|wantarray|warn|write
     ){{break}}
 
+  qualified_reserved_words: (?:CORE::)?{{reserved_words}}
+
   reserved_words: |-
     \b(?x:
       # control keywords
@@ -72,6 +74,7 @@ variables:
 contexts:
   main:
     - include: comment-pod
+    - include: package
     - include: declarations
     - include: expressions
     - match: ^
@@ -261,12 +264,84 @@ contexts:
     - include: comment-pod-formatting
     - include: literal-angle-nested
 
+###[ PACKAGE DEFINITION ]#####################################################
+
+  package:
+    # https://perldoc.perl.org/functions/package.html
+    # package NAMESPACE
+    # package NAMESPACE VERSION
+    # package NAMESPACE BLOCK
+    # package NAMESPACE VERSION BLOCK
+    - match: \bpackage{{break}}
+      scope: storage.type.namespace.perl
+      push: [package-end, package-version, package-namespace]
+
+  package-namespace:
+    - include: qualified-namespace
+    - include: unqualified-namespace
+    - include: comment-line
+    - match: (?=\S)
+      pop: true
+
+  package-version:
+    - match: (")((v?)[\d_](\.)[\d_]+(?:(\.)[\d_]+)?)(")
+      scope: string.quoted.double.perl
+      captures:
+        1: punctuation.definition.string.begin.perl
+        2: constant.numeric.version.perl
+        3: punctuation.definition.version.perl
+        4: punctuation.separator.decimal.perl
+        5: punctuation.separator.decimal.perl
+        6: punctuation.definition.string.end.perl
+      pop: true
+    - match: (')((v?)[\d_](\.)[\d_]+(?:(\.)[\d_]+)?)(')
+      scope: string.quoted.single.perl
+      captures:
+        1: punctuation.definition.string.begin.perl
+        2: constant.numeric.version.perl
+        3: punctuation.definition.version.perl
+        4: punctuation.separator.decimal.perl
+        5: punctuation.separator.decimal.perl
+        6: punctuation.definition.string.end.perl
+      pop: true
+    - match: (v?)[\d_](\.)[\d_]+(?:(\.)[\d_]+)?\b
+      scope: constant.numeric.version.perl
+      captures:
+        1: punctuation.definition.version.perl
+        2: punctuation.separator.decimal.perl
+        3: punctuation.separator.decimal.perl
+      pop: true
+    - include: comment-line
+    - match: (?=\S)
+      pop: true
+
+  package-end:
+    - meta_scope: meta.namespace.perl
+    - include: comment-line
+    - include: else-pop
+
+  qualified-namespace:
+    - match: ({{identifier}})?(::)
+      captures:
+        1: entity.name.namespace.perl
+        2: punctuation.accessor.double-colon.perl
+      set:
+        - meta_scope: meta.path.perl
+        - match: ({{identifier}})(::)
+          captures:
+            1: entity.name.namespace.perl
+            2: punctuation.accessor.double-colon.perl
+        - include: unqualified-namespace
+        - include: immediately-pop
+
+  unqualified-namespace:
+    - match: '{{identifier}}'
+      scope: entity.name.namespace.perl
+      pop: true
+
 ###[ DECLARATIONS ]###########################################################
 
   declarations:
-    # KEYWORD package
-    - match: \bpackage{{break}}
-      scope: keyword.declaration.package.perl
     # KEYWORD 'my' and its friends
     - match: \b(?:{{storage_keywords}}){{break}}
       scope: keyword.declaration.variable.perl

@@ -1379,6 +1379,155 @@ EOT
   s[<pattern>] [<repl>] g;
 #                       ^ - constant.language.flags.regexp.perl
 
+###[ PACKAGE DEFINITION ]#####################################################
+
+  package;
+# ^^^^^^^ meta.namespace.perl storage.type.namespace.perl
+#        ^ punctuation.terminator.statement.perl - meta.namespace
+  package; # comment
+# ^^^^^^^ meta.namespace.perl storage.type.namespace.perl
+#        ^^^^^^^^^^^ - meta.namespace
+#        ^ punctuation.terminator.statement.perl
+#          ^^^^^^^^^ comment.line.number-sign.perl
+  package package;
+# ^^^^^^^^^^^^^^^ meta.namespace.perl - meta.path
+#                ^ - meta.namespace
+# ^^^^^^^ storage.type.namespace.perl
+#         ^^^^^^^ entity.name.namespace.perl
+#                ^ punctuation.terminator.statement.perl
+  package Package;
+# ^^^^^^^^^^^^^^^ meta.namespace.perl - meta.path
+#                ^ - meta.namespace
+# ^^^^^^^ storage.type.namespace.perl
+#         ^^^^^^^ entity.name.namespace.perl
+#                ^ punctuation.terminator.statement.perl
+  package PACKAGE;
+# ^^^^^^^^^^^^^^^ meta.namespace.perl - meta.path
+#                ^ - meta.namespace
+# ^^^^^^^ storage.type.namespace.perl
+#         ^^^^^^^ entity.name.namespace.perl
+#                ^ punctuation.terminator.statement.perl
+  package # comment
+# ^^^^^^^ meta.namespace.perl storage.type.namespace.perl
+#         ^^^^^^^^^ meta.namespace.perl comment.line.number-sign.perl
+  if; # Perl allows namespaces looking like keywords
+# ^^ meta.namespace.perl entity.name.namespace.perl
+#   ^ punctuation.terminator.statement.perl
+  package name 5.023_234;
+# ^^^^^^^^^^^^^^^^^^^^^^ meta.namespace.perl - meta.path
+#                       ^ - meta.namespace
+# ^^^^^^^ storage.type.namespace.perl
+#         ^^^^ entity.name.namespace.perl
+#              ^^^^^^^^^ constant.numeric.version.perl
+#               ^ punctuation.separator.decimal.perl
+#                       ^ punctuation.terminator.statement.perl
+  package name 5.023_234 { print "block" };
+# ^^^^^^^^^^^^^^^^^^^^^^^ meta.namespace.perl - meta.path
+#                        ^^^^^^^^^^^^^^^^^^ - meta.namespace
+# ^^^^^^^ storage.type.namespace.perl
+#         ^^^^ entity.name.namespace.perl
+#              ^^^^^^^^^ constant.numeric.version.perl
+#               ^ punctuation.separator.decimal.perl
+#                        ^ punctuation.section.block.begin.perl
+#                                         ^ punctuation.terminator.statement.perl
+  package ::name;
+# ^^^^^^^^ meta.namespace.perl - meta.path
+#         ^^^^^^ meta.namespace.perl meta.path.perl
+#               ^ - meta.namespace
+# ^^^^^^^ storage.type.namespace.perl
+#         ^^ punctuation.accessor.double-colon.perl
+#           ^^^^ entity.name.namespace.perl
+#               ^ punctuation.terminator.statement.perl
+  package
+# ^^^^^^^^ meta.namespace.perl
+# ^^^^^^^ storage.type.namespace.perl
+    ::name;
+# ^^ meta.namespace.perl - meta.path
+#   ^^^^^^ meta.namespace.perl meta.path.perl
+#         ^ - meta.namespace
+#   ^^ punctuation.accessor.double-colon.perl
+#     ^^^^ entity.name.namespace.perl
+#         ^ punctuation.terminator.statement.perl
+  package ns::name;
+# ^^^^^^^^ meta.namespace.perl - meta.path
+#         ^^^^^^^^ meta.namespace.perl meta.path.perl
+#                 ^ - meta.namespace
+# ^^^^^^^ storage.type.namespace.perl
+#         ^^ entity.name.namespace.perl
+#           ^^ punctuation.accessor.double-colon.perl
+#             ^^^^ entity.name.namespace.perl
+#                 ^ punctuation.terminator.statement.perl
+  package Ns::Name;
+# ^^^^^^^^ meta.namespace.perl - meta.path
+#         ^^^^^^^^ meta.namespace.perl meta.path.perl
+#                 ^ - meta.namespace
+# ^^^^^^^ storage.type.namespace.perl
+#         ^^ entity.name.namespace.perl
+#           ^^ punctuation.accessor.double-colon.perl
+#             ^^^^ entity.name.namespace.perl
+#                 ^ punctuation.terminator.statement.perl
+  package NS::NAME;
+# ^^^^^^^^ meta.namespace.perl - meta.path
+#         ^^^^^^^^ meta.namespace.perl meta.path.perl
+#                 ^ - meta.namespace
+# ^^^^^^^ storage.type.namespace.perl
+#         ^^ entity.name.namespace.perl
+#           ^^ punctuation.accessor.double-colon.perl
+#             ^^^^ entity.name.namespace.perl
+#                 ^ punctuation.terminator.statement.perl
+  package if::else::name;
+# ^^^^^^^^ meta.namespace.perl - meta.path
+#         ^^^^^^^^^^^^^^ meta.namespace.perl meta.path.perl
+#                       ^ - meta.namespace
+# ^^^^^^^ storage.type.namespace.perl
+#         ^^ entity.name.namespace.perl
+#           ^^ punctuation.accessor.double-colon.perl
+#             ^^^^ entity.name.namespace.perl
+#                 ^^ punctuation.accessor.double-colon.perl
+#                   ^^^^ entity.name.namespace.perl
+#                       ^ punctuation.terminator.statement.perl
+  package
+# ^^^^^^^^ meta.namespace.perl - meta.path
+# ^^^^^^^ storage.type.namespace.perl
+    NS::NAME
+# ^^ meta.namespace.perl - meta.path
+#   ^^^^^^^^ meta.namespace.perl meta.path.perl
+#   ^^ entity.name.namespace.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^^ entity.name.namespace.perl
+    v5.24.1;
+#^^^^^^^^^^ meta.namespace.perl
+#          ^ - meta.namespace
+#   ^^^^^^^ constant.numeric.version.perl
+#   ^ punctuation.definition.version.perl
+#     ^ punctuation.separator.decimal.perl
+#        ^ punctuation.separator.decimal.perl
+#          ^ punctuation.terminator.statement.perl
+  package 5.0;
+# ^^^^^^^^^^^ meta.namespace.perl - meta.path
+#            ^ - meta.namespace
+# ^^^^^^^ storage.type.namespace.perl
+#         ^^^ constant.numeric.version.perl
+  package "5.0";
+# ^^^^^^^^^^^^^ meta.namespace.perl - meta.path
+#              ^ - meta.namespace
+# ^^^^^^^ storage.type.namespace.perl
+#         ^^^^^ string.quoted.double.perl
+  package $name;
+# ^^^^^^^^ meta.namespace.perl - meta.path
+#         ^^^^^^ - meta.namespace
+# ^^^^^^^ storage.type.namespace.perl
+  package-name;
+# ^^^^^^^ meta.namespace.perl - meta.path
+#        ^^^^^^ - meta.namespace
+# ^^^^^^^ storage.type.namespace.perl
+  package.name;
+# ^^^^^^^ meta.namespace.perl - meta.path
+#        ^^^^^^ - meta.namespace
+# ^^^^^^^ storage.type.namespace.perl
+  package::name;
+# ^^^^^^^^^^^^^^ - meta.namespace.perl - meta.path
+
 ###[ DECLARATIONS ]###########################################################
 
 my
