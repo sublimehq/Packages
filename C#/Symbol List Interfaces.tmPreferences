@@ -11,10 +11,6 @@
 		<integer>1</integer>
 		<key>showInIndexedSymbolList</key>
 		<string>1</string>
-		<key>symbolTransformation</key>
-		<string>
-		s/^/interface /;
-		</string>
 	</dict>
 </dict>
 </plist>
