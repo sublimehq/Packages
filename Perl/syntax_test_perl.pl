@@ -1815,6 +1815,27 @@ sub B::NS::name invalid
 #        ^^ punctuation.accessor.double-colon.perl
 #          ^^^^ entity.name.function.perl
 #               ^^^^^^^ invalid.illegal.function-name.perl
+sub B::NS ::invalid;
+#^^^ meta.function.perl - meta.path
+#   ^^^^^ meta.function.perl meta.path.perl
+#        ^^^^^^^^^^ meta.function.perl - meta.path
+#   ^ support.class
+#    ^^ punctuation.accessor.double-colon.perl
+#      ^^ entity.name.function.perl
+#         ^^^^^^^^^ invalid.illegal.function-name.perl
+#                  ^ punctuation.terminator.statement.perl
+sub B::NS:: invalid {};
+#^^^ meta.function.perl - meta.path
+#   ^^^^^^^ meta.function.perl meta.path.perl
+#          ^^^^^^^^^^^ meta.function.perl - meta.path
+#   ^ support.class
+#    ^^ punctuation.accessor.double-colon.perl
+#      ^^ support.class
+#        ^^ punctuation.accessor.double-colon.perl
+#           ^^^^^^^ invalid.illegal.function-name.perl
+#                   ^ punctuation.section.block.begin.perl
+#                    ^ punctuation.section.block.end.perl
+#                     ^ punctuation.terminator.statement.perl
 sub B::NS::name # comment
 #^^^ meta.function.perl - meta.path
 #   ^^^^^^^^^^^ meta.function.perl meta.path.perl

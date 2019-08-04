@@ -1117,7 +1117,7 @@ contexts:
   sub:
     - match: \bsub\b
       scope: storage.type.function.perl
-      push: [sub-meta, sub-path]
+      push: [sub-meta, sub-parameters, sub-path]
     # special functions which are executed at compile time
     # SEE: https://perldoc.perl.org/perlmod.html#BEGIN%2c-UNITCHECK%2c-CHECK%2c-INIT-and-END
     # NOTE: may not start with double colon when used without `sub` keyword
@@ -1132,35 +1132,36 @@ contexts:
     - include: immediately-pop
 
   sub-path:
-    # namespace
-    - match: (::)?({{identifier}})(?=::)
-      scope: meta.path.perl
+    - match: ({{identifier}})?(::)
       captures:
-        1: punctuation.accessor.double-colon.perl
-        2: support.class.perl
-    # function identifier
-    - match: '::'
-      scope: punctuation.accessor.double-colon.perl
+        1: support.class.perl
+        2: punctuation.accessor.double-colon.perl
       set:
         - meta_scope: meta.path.perl
+        - match: ({{identifier}})(::)
+          captures:
+            1: support.class.perl
+            2: punctuation.accessor.double-colon.perl
         - include: sub-name
+        - include: immediately-pop
     - include: sub-name
+    - include: comment-line
+    - match: (?=\S)
+      pop: true
 
   sub-name:
     # callback hook to auto load or destroy objects/functions
     - match: \b(AUTOLOAD|DESTROY){{break}}
       scope: entity.name.function.callback.perl
-      set: sub-parameters
+      pop: true
     # special functions which are executed at compile time
     - match: \b(BEGIN|CHECK|END|INIT|UNITCHECK){{break}}
       scope: entity.name.function.prepocessor.perl
-      set: sub-parameters
+      pop: true
     # ordinary function identifier
     - match: (?!{{reserved_words}}){{identifier}}
       scope: entity.name.function.perl
-      set: sub-parameters
-    # anonymous sub routine with parameter list
-    - include: sub-parameters
+      pop: true
 
   sub-parameters:
     - match: (?=\()
