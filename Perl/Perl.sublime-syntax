@@ -16,7 +16,7 @@ first_line_match: |-
 scope: source.perl
 
 variables:
-  break: (?!\w|\s*::)
+  break: \b(?!::)
   identifier: '\b[_[:alpha:]]\w*\b'
   module: '\b[_[:upper:]]\w*\b'
   member: '\b[_[:lower:]]\w*\b'
@@ -288,7 +288,7 @@ contexts:
     #      http://perldoc.perl.org/perlmodlib.html#Pragmatic-Modules
     - match: |-
         \b(?x:
-           attributes|autodie(?:\s*::\s*(?:exception(?:\s*::\s*system)|hints|skip))?|autouse
+           attributes|autodie(?:::(?:exception(?:::system)|hints|skip))?|autouse
           |base|bigint|bignum|bigrat|blib|bytes
           |charnames|constant
           |diagnostics
@@ -304,7 +304,7 @@ contexts:
           |threads|threads::shared
           |utf8
           |vars|vmsish
-          |warnings|warnings\s*::\s*register){{break}}
+          |warnings|warnings::register){{break}}
       scope: storage.modifier.perl
 
 ###[ EXPRESSIONS ]############################################################
@@ -719,26 +719,26 @@ contexts:
 ###[ CLASSES ]################################################################
 
   class:
-    - match: '{{module}}(?=\s*(?:::|[#;]|$))'
+    - match: '{{module}}(?=(?:::|\s*[#;]|\s*$))'
       scope: support.class.perl
       push: class-members-pop
 
   class-members-pop:
     # nested class
-    - match: \s*(::)\s*({{module}})
+    - match: (::)({{module}})
       captures:
         1: punctuation.accessor.double-colon.perl
         2: support.class.perl
       push: maybe-item-access
     # member function
-    - match: \s*(::)\s*(({{member}})\s*)(?=\()
+    - match: (::)(({{member}})\s*)(?=\()
       captures:
         1: punctuation.accessor.double-colon.perl
         2: meta.function-call.name.perl
         3: variable.function.member.perl
       set: function-call-arguments
     # member variable
-    - match: \s*(::)\s*({{identifier}})
+    - match: (::)({{identifier}})
       captures:
         1: punctuation.accessor.double-colon.perl
         2: variable.other.member.perl
@@ -1275,7 +1275,7 @@ contexts:
       push: maybe-item-access
     # $Module::SubModule::member
     # $::SubModule::member
-    - match: ([\$\@\%]#?)({{module}})?(?=\s*::)
+    - match: ([\$\@\%]#?)({{module}})?(?=::)
       captures:
         1: punctuation.definition.variable.perl
         2: support.class.perl
