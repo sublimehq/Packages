@@ -3,11 +3,12 @@
 # http://www.sublimetext.com/docs/3/syntax.html
 name: Perl
 file_extensions:
+  - pc
   - pl
   - pm
+  - pmc
   - pod
   - t
-  - PL
 first_line_match: |-
   (?x:
     ^\#! .* \bperl\b |                     # shebang
