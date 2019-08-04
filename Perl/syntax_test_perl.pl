@@ -621,14 +621,6 @@ EOT
 #       ^^^ support.class.perl
 #          ^^ punctuation.accessor.double-colon.perl
 #            ^^^ variable.other.member.perl
-  $Foo :: Bar :: baz
-# ^^^^^^^^^^^^^^^^^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-#  ^^^ support.class.perl
-#      ^^ punctuation.accessor.double-colon.perl
-#         ^^^ support.class.perl
-#             ^^ punctuation.accessor.double-colon.perl
-#                ^^^ variable.other.member.perl
   $Foo::Bar::baz[4]
 # ^^^^^^^^^^^^^^^^^ variable.other.readwrite.global.perl
 # ^ punctuation.definition.variable.perl
@@ -686,15 +678,6 @@ EOT
 #                  ^ punctuation.section.item-access.begin.perl
 #                  ^^^^ meta.item-access.perl
 #                     ^ punctuation.section.item-access.end.perl
-  $Foo :: Bar -> $baz
-# ^^^^^^^^^^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-#  ^^^ support.class.perl
-#      ^^ punctuation.accessor.double-colon.perl
-#         ^^^ support.class.perl
-#             ^^ keyword.accessor.arrow.perl - variable
-#                ^^^^ variable.other.readwrite.global.perl
-#                ^ punctuation.definition.variable.perl
   $Foo::Bar::baz()
 # ^^^^^^^^^^^^^^^^ variable.other.readwrite.global.perl
 # ^ punctuation.definition.variable.perl
@@ -705,17 +688,6 @@ EOT
 #            ^^^ meta.function-call.name.perl variable.function.member.perl
 #               ^ meta.function-call.arguments.perl punctuation.section.arguments.begin.perl
 #                ^ meta.function-call.arguments.perl punctuation.section.arguments.end.perl
-  $Foo :: Bar :: baz ()
-# ^^^^^^^^^^^^^^^^^^^^^ variable.other.readwrite.global.perl
-# ^ punctuation.definition.variable.perl
-#  ^^^ support.class.perl
-#      ^^ punctuation.accessor.double-colon.perl
-#         ^^^ support.class.perl
-#             ^^ punctuation.accessor.double-colon.perl
-#                ^^^^ meta.function-call.name.perl
-#                ^^^ variable.function.member.perl
-#                    ^ meta.function-call.arguments.perl punctuation.section.arguments.begin.perl
-#                     ^ meta.function-call.arguments.perl punctuation.section.arguments.end.perl
   $c = C::Scan->new(KEY => 'value')
 #               ^^^ meta.function-call.name.perl
 #                  ^^^^^^^^^^^^^^^^ meta.function-call.arguments.perl
@@ -1366,17 +1338,6 @@ eval { require Mail::Send; };
 #      ^^^^^^^^^^^^^^^^^^ meta.import.require.perl
 #                        ^^^^ - meta.import.require.perl
 #      ^^^^^^^ keyword.control.import.require.perl
-eval { require Mail :: Send; };
-#<- support.function.perl
-#^^^ support.function.perl
-#    ^ punctuation.section.block.begin.perl
-#      ^^^^^^^^^^^^^^^^^^^^ meta.import.require.perl
-#              ^^^^ support.class.perl
-#                  ^^^^ - support.class
-#                   ^^ punctuation.accessor.double-colon.perl
-#                      ^^^^ support.class.perl
-#                          ^^^^ - meta.import.require.perl
-#      ^^^^^^^ keyword.control.import.require.perl
 use strict;
 # <- meta.use.perl keyword.control.import.use.perl
 #^^^^^^^^^ meta.use.perl
@@ -1412,15 +1373,15 @@ use File::data;
 #       ^^ punctuation.accessor.double-colon.perl
 #         ^^^^ variable.other.member.perl
 #             ^ punctuation.terminator.statement.perl
-use warnings :: register File :: data;
+use warnings::register File::data;
 # <- meta.use.perl keyword.control.import.use.perl
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use.perl
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.use.perl
 #^^ keyword.control.import.use.perl
-#   ^^^^^^^^^^^^^^^^^^^^ storage.modifier.perl
-#                        ^^^^ support.class.perl
-#                             ^^ punctuation.accessor.double-colon.perl
-#                                ^^^^ variable.other.member.perl
-#                                    ^ punctuation.terminator.statement.perl
+#   ^^^^^^^^^^^^^^^^^^ storage.modifier.perl
+#                      ^^^^ support.class.perl
+#                          ^^ punctuation.accessor.double-colon.perl
+#                            ^^^^ variable.other.member.perl
+#                                ^ punctuation.terminator.statement.perl
 no strict;
 # <- meta.no.perl keyword.declaration.no.perl
 #^^^^^^^^ meta.no.perl
@@ -1696,7 +1657,7 @@ sub AUTOLOAD () {}
   default:word
 # ^^^^^^^ - keyword.control
   default :: word
-# ^^^^^^^ - keyword.control
+# ^^^^^^^ keyword.control.conditional.default.perl
   default::word
 # ^^^^^^^ - keyword.control
   else -> word
@@ -1712,7 +1673,7 @@ sub AUTOLOAD () {}
   else:word
 # ^^^^ - keyword.control
   else :: word
-# ^^^^ - keyword.control
+# ^^^^ keyword.control.conditional.else.perl
   else::word
 # ^^^^ - keyword.control
   elsif
