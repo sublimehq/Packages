@@ -305,6 +305,116 @@ stray-bracket]
 #             ^ invalid.illegal.unexpected.eol
           "
 
+[pretty-formats]
+    foo = log --pretty=%h
+#                      ^^ constant.other.placeholder.pretty-formats.git
+    foo = log --pretty=%<(5)%h
+#                      ^^ meta.function-call.pretty-formats.git variable.function.pretty-formats.git
+#                        ^^^ meta.function-call.arguments.pretty-formats.git
+#                        ^   punctuation.section.parens.begin.pretty-formats.git
+#                         ^  constant.numeric.integer.pretty-formats.git
+#                          ^ punctuation.section.parens.end.pretty-formats.git
+#                           ^^ constant.other.placeholder.pretty-formats.git
+    foo = log --pretty=%<(5,ltrunc)%h
+#                      ^^ meta.function-call.pretty-formats.git variable.function.pretty-formats.git
+#                        ^^^^^^^^^^ meta.function-call.arguments.pretty-formats.git
+#                        ^   punctuation.section.parens.begin.pretty-formats.git
+#                         ^  constant.numeric.integer.pretty-formats.git
+#                          ^ punctuation.separator.parameters.pretty-formats.git
+#                           ^^^^^^ support.constant.truncation.pretty-formats.git
+#                                 ^ punctuation.section.parens.end.pretty-formats.git
+#                                  ^^ constant.other.placeholder.pretty-formats.git
+    foo = log --pretty=%<|(5)%h
+#                      ^^^ meta.function-call.pretty-formats.git variable.function.pretty-formats.git
+#                         ^^^ meta.function-call.arguments.pretty-formats.git
+#                         ^   punctuation.section.parens.begin.pretty-formats.git
+#                          ^  constant.numeric.integer.pretty-formats.git
+#                           ^ punctuation.section.parens.end.pretty-formats.git
+#                            ^^ constant.other.placeholder.pretty-formats.git
+    foo = log --pretty=%<<(5)%h
+#                      ^^^^^^ - meta.function-call - variable.function
+    foo = log --pretty=%<<|(5)%h
+#                      ^^^^^^^ - meta.function-call - variable.function
+    foo = log --pretty=%>(5)%h
+#                      ^^ meta.function-call.pretty-formats.git variable.function.pretty-formats.git
+#                        ^^^ meta.function-call.arguments.pretty-formats.git
+#                        ^   punctuation.section.parens.begin.pretty-formats.git
+#                         ^  constant.numeric.integer.pretty-formats.git
+#                          ^ punctuation.section.parens.end.pretty-formats.git
+#                           ^^ constant.other.placeholder.pretty-formats.git
+    foo = log --pretty=%>|(5)%h
+#                      ^^^ meta.function-call.pretty-formats.git variable.function.pretty-formats.git
+#                         ^^^ meta.function-call.arguments.pretty-formats.git
+#                         ^   punctuation.section.parens.begin.pretty-formats.git
+#                          ^  constant.numeric.integer.pretty-formats.git
+#                           ^ punctuation.section.parens.end.pretty-formats.git
+#                            ^^ constant.other.placeholder.pretty-formats.git
+    foo = log --pretty=%>>(5)%h
+#                      ^^^ meta.function-call.pretty-formats.git variable.function.pretty-formats.git
+#                         ^^^ meta.function-call.arguments.pretty-formats.git
+#                         ^   punctuation.section.parens.begin.pretty-formats.git
+#                          ^  constant.numeric.integer.pretty-formats.git
+#                           ^ punctuation.section.parens.end.pretty-formats.git
+#                            ^^ constant.other.placeholder.pretty-formats.git
+    foo = log --pretty=%>>|(5)%h
+#                      ^^^^ meta.function-call.pretty-formats.git variable.function.pretty-formats.git
+#                          ^^^ meta.function-call.arguments.pretty-formats.git
+#                          ^   punctuation.section.parens.begin.pretty-formats.git
+#                           ^  constant.numeric.integer.pretty-formats.git
+#                            ^ punctuation.section.parens.end.pretty-formats.git
+#                             ^^ constant.other.placeholder.pretty-formats.git
+    foo = log --pretty=%><(5)%h
+#                      ^^^ meta.function-call.pretty-formats.git variable.function.pretty-formats.git
+#                         ^^^ meta.function-call.arguments.pretty-formats.git
+#                         ^   punctuation.section.parens.begin.pretty-formats.git
+#                          ^  constant.numeric.integer.pretty-formats.git
+#                           ^ punctuation.section.parens.end.pretty-formats.git
+#                            ^^ constant.other.placeholder.pretty-formats.git
+    foo = log --pretty=%><|(5)%h
+#                      ^^^ meta.function-call.pretty-formats.git variable.function.pretty-formats.git
+#                          ^^^ meta.function-call.arguments.pretty-formats.git
+#                          ^   punctuation.section.parens.begin.pretty-formats.git
+#                           ^  constant.numeric.integer.pretty-formats.git
+#                            ^ punctuation.section.parens.end.pretty-formats.git
+#                             ^^ constant.other.placeholder.pretty-formats.git
+    foo = log --pretty=%a
+#                      ^^ - constant
+    foo = log --pretty=%aD
+#                      ^^^ constant.other.placeholder.pretty-formats.git
+    foo = log --pretty=%+aD
+#                      ^^^^ constant.other.placeholder.pretty-formats.git
+    foo = log --pretty=%-aD
+#                      ^^^^ constant.other.placeholder.pretty-formats.git
+    foo = log --pretty=% aD
+#                      ^^^^ constant.other.placeholder.pretty-formats.git
+    foo = log --pretty=%C(bold yellow)%h%C(reset) %C(green)%ar%C(reset) %s
+#                      ^^ meta.function-call.pretty-formats.git variable.function.pretty-formats.git
+#                        ^^^^^^^^^^^^^ meta.function-call.arguments.pretty-formats.git
+#                         ^^^^         support.constant.color-attribute.git.config
+#                             ^        - support
+#                              ^^^^^^  support.constant.color.git.config
+#                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.pretty-formats.git
+    foo = log --pretty='%C(bold yellow)%h%C(reset) %C(green)%ar%C(reset) %s'
+#                       ^^ meta.function-call.pretty-formats.git variable.function.pretty-formats.git
+#                         ^^^^^^^^^^^^^ meta.function-call.arguments.pretty-formats.git
+#                          ^^^^         support.constant.color-attribute.git.config
+#                              ^        - support
+#                               ^^^^^^  support.constant.color.git.config
+#                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.pretty-formats.git
+    foo = log --pretty='%C(dim white)<%aN>%C(reset) %w(0,0,9)%C(auto)%+d%C(reset)'
+#                                    ^ - constant
+#                                     ^^^ constant.other.placeholder.pretty-formats.git
+#                                                   ^^ meta.function-call.pretty-formats.git variable.function.pretty-formats.git
+#                                                     ^^^^^^^ meta.function-call.arguments.pretty-formats.git
+#                                                     ^ punctuation.section.parens.begin.pretty-formats.git
+#                                                      ^ constant.numeric.integer.pretty-formats.git
+#                                                       ^ punctuation.separator.parameters.pretty-formats.git
+#                                                        ^ constant.numeric.integer.pretty-formats.git
+#                                                         ^ punctuation.separator.parameters.pretty-formats.git
+#                                                          ^ constant.numeric.integer.pretty-formats.git
+#                                                           ^ punctuation.section.parens.end.pretty-formats.git
+#                                                                    ^^^ constant.other.placeholder.pretty-formats.git
+
 # REAL WORLD SAMPLE TESTS
 [alias]
 # <- meta.brackets punctuation.definition.brackets.begin
@@ -357,6 +467,7 @@ stray-bracket]
 #           ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value
 #           ^^^^ string.unquoted.value
 #                ^^^^^^^^^^^^^^^^^^ string.unquoted.value
+#                                  ^ - string
     sla = log --oneline --decorate --graph --all
 # <- meta.mapping
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping
@@ -370,6 +481,7 @@ stray-bracket]
 #                       ^^^^^^^^^^ string.unquoted.value
 #                                  ^^^^^^^ string.unquoted.value
 #                                          ^^^^^ string.unquoted.value
+#                                               ^ - string
    serve = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git  # shell comment
 # <- meta.mapping
 #^^ meta.mapping
@@ -513,3 +625,73 @@ stray-bracket]
 #                                       ^ string.quoted.double punctuation.definition.string.end
 #                                         ^ punctuation.definition.comment
 #                                         ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git
+  lg1 = log --graph --format=tformat:'%C(bold yellow)%h%C(reset) %C(green)%ar%C(reset) %s %C(dim white)<%aN>%C(reset) %w(0,0,9)%C(auto)%+d%C(reset)'
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.git.config string.unquoted.value.git.config
+#                            ^^^^^^^ keyword.declaration.pretty-formats.git
+#                                   ^ keyword.operator.assignment.option.pretty-formats.git
+#                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single.shell
+#                                    ^ punctuation.definition.string.begin.shell
+#                                     ^^ meta.function-call.pretty-formats.git variable.function.pretty-formats.git
+#                                       ^^^^^^^^^^^^^ meta.function-call.arguments.pretty-formats.git
+#                                       ^ punctuation.section.parens.begin.pretty-formats.git
+#                                        ^^^^ support.constant.color-attribute.git.config
+#                                            ^ - support
+#                                             ^^^^^^ support.constant.color.git.config
+#                                                   ^ punctuation.section.parens.end.pretty-formats.git
+#                                                    ^^ constant.other.placeholder.pretty-formats.git
+#                                                                         ^^^ constant.other.placeholder.pretty-formats.git
+#                                                                                     ^ - constant
+#                                                                                                       ^^^ constant.other.placeholder.pretty-formats.git
+#                                                                                                                     ^^ meta.function-call.pretty-formats.git variable.function.pretty-formats.git
+  lgs = log --graph --format=format:'%h - [%ar] %s%n%-w(80,9)%+d'
+#                                                   ^^^ meta.function-call.pretty-formats.git variable.function.pretty-formats.git
+#                                                      ^^^^^^ meta.function-call.arguments.pretty-formats.git
+#                                                            ^^^ constant.other.placeholder.pretty-formats.git
+#                                                                ^ - text.pretty-formats.git
+  foo = --format=tformat:'%(trailers
+#                          ^ punctuation.section.parens.begin.pretty-formats.git
+#                           ^^^^^^^^ keyword.other.trailers.pretty-formats.git
+#                                   ^ invalid.illegal.unexpected.eol.git
+  foo = --format=tformat:'%(trailers)'
+#                          ^ punctuation.section.parens.begin.pretty-formats.git
+#                           ^^^^^^^^ keyword.other.trailers.pretty-formats.git
+#                                   ^ punctuation.section.parens.end.pretty-formats.git
+  foo = --format=tformat:'%(trailers:
+#                          ^ punctuation.section.parens.begin.pretty-formats.git
+#                           ^^^^^^^^ keyword.other.trailers.pretty-formats.git
+#                                   ^ keyword.operator.assignment.option.pretty-formats.git
+#                                    ^ invalid.illegal.unexpected.eol.git
+  foo = --format=tformat:'%(trailers: only
+#                          ^ punctuation.section.parens.begin.pretty-formats.git
+#                           ^^^^^^^^ keyword.other.trailers.pretty-formats.git
+#                                   ^ keyword.operator.assignment.option.pretty-formats.git
+#                                     ^^^^ support.constant.trailer.git.config
+#                                         ^ invalid.illegal.unexpected.eol.git
+  foo = --format=tformat:'%(trailers:)'
+#                          ^ punctuation.section.parens.begin.pretty-formats.git
+#                           ^^^^^^^^ keyword.other.trailers.pretty-formats.git
+#                                   ^ keyword.operator.assignment.option.pretty-formats.git
+#                                    ^ punctuation.section.parens.end.pretty-formats.git
+
+  foo = --format=tformat:'%(trailers: only)
+#                          ^ punctuation.section.parens.begin.pretty-formats.git
+#                           ^^^^^^^^ keyword.other.trailers.pretty-formats.git
+#                                   ^ keyword.operator.assignment.option.pretty-formats.git
+#                                     ^^^^ support.constant.trailer.git.config
+#                                         ^ punctuation.section.parens.end.pretty-formats.git
+  foo = --format=tformat:'%(trailers
+      :
+#     ^ - punctuation.separator
+  foo = --format=tformat:'%(trailers\
+      :
+#     ^ keyword.operator.assignment.option.pretty-formats.git
+#      ^ invalid.illegal.unexpected.eol.git
+  foo = --format=tformat:'%(trailers\
+      :\
+      only)
+#     ^^^^ support.constant.trailer.git.config
+  foo = --format=tformat:'%(trailers\
+      :\
+      only\
+      )
+#     ^ punctuation.section.parens.end.pretty-formats.git

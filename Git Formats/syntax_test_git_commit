@@ -30,8 +30,11 @@ Thanks to @username <name@mail-host.domain>.
 #                   ^ punctuation.definition.reference.email.begin.git
 #                    ^^^^^^^^^^^^^^^^^^^^^ entity.name.reference.email.git
 #                        ^ punctuation.separator.email.git
-#                                  ^ punctuation.separator.email.git
+#                                  ^ punctuation.separator.domain.git
 #                                         ^ punctuation.definition.reference.email.end.git
+This is a <tag> name <tag.name>
+#         ^^^^^ - meta.reference - entity
+#                    ^^^^^^^^^^ - meta.reference - entity
 Issue user/repo#230 is not closed yet.
 # <- meta.message.git.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
@@ -119,7 +122,7 @@ This commit applies all changes required to satisfy the JSON format unittest.
 #                          ^^^^^^^^^^^^^^^^^^^^ entity.name.reference.email.git
 #                              ^ - punctuation.separator.email.git
 #                                   ^ punctuation.separator.email.git
-#                                          ^ punctuation.separator.email.git
+#                                          ^ punctuation.separator.domain.git
 #                                              ^ punctuation.definition.reference.email.end.git
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #

@@ -1,0 +1,16 @@
+%YAML 1.2
+---
+name: DMD Output
+hidden: true
+scope: source.build_output.dmd
+contexts:
+  main:
+    - match: '^(.*?)\(([0-9]+)(?:,\s*([0-9]+))?\): '
+      captures:
+        1: entity.name.filename.dmd
+        2: constant.numeric.line-number.dmd
+        3: constant.numeric.line-number.dmd
+    - match: '\b(Warning|Error)(:) '
+      captures:
+        1: message.error.dmd
+        2: punctuation.separator.dmd

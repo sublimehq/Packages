@@ -39,7 +39,8 @@ graph n { page="" }
 
 graph cluster_n {
 //    ^^^^^^^^^ entity.name.graph.dot
-//    ^^^^^^^   meta.annotation.dot variable.annotation.cluster.dot
+//    ^^^^^^^^  meta.annotation.dot variable.annotation.cluster.dot
+//            ^ - meta.annotation.dot variable.annotation.cluster.dot
     t -> n;
 //    ^^        punctuation.operator.relationship.dot
 }

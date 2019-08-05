@@ -2766,3 +2766,107 @@ every function individually.
     var close
 //  ^^^ storage.type.keyword.var.go
 //      ^^^^^ variable.declaration.go -support
+
+
+/*
+Templates
+*/
+func template() {
+    t := "{{.Count}} items are made of {{.Material}}"
+    //    ^^^^^^^^^^ meta.interpolation
+    //    ^^ punctuation.section.interpolation.begin
+    //      ^ punctuation.accessor.dot
+    //       ^^^^^ variable.other.member
+    //            ^^ punctuation.section.interpolation.end
+    t := `{{.Count}} items are made of {{.Material}}`
+    //    ^^^^^^^^^^ meta.interpolation
+    //    ^^ punctuation.section.interpolation.begin
+    //      ^ punctuation.accessor.dot
+    //       ^^^^^ variable.other.member
+    //            ^^ punctuation.section.interpolation.end
+    t = "{{23 -}} < {{- 45}}"
+    //   ^^^^^^^^ meta.interpolation
+    //   ^^ punctuation.section.interpolation.begin
+    //        ^ keyword.operator.template.right.trim
+    //         ^^ punctuation.section.interpolation.end
+    //                ^ keyword.operator.template.left.trim
+    t = "{{/* a comment */}}"
+    //     ^^ punctuation.definition.comment
+    //                  ^^ punctuation.definition.comment
+    //     ^^^^^^^^^^^^^^^ comment.block
+    t = "{{if pipeline}} T1 {{else}}{{if pipeline}} T0 {{end}}{{end}}"
+    //     ^^ keyword.control
+    //                        ^^^^ keyword.control
+    //                                ^^ keyword.control
+    //                                                   ^^^ keyword.control
+    //                                                          ^^^ keyword.control
+    t = "{{range pipeline}} T1 {{else}} T0 {{end}}"
+    //     ^^^^^ keyword.control
+    //                           ^^^^ keyword.control
+    //                                       ^^^ keyword.control
+    t = "{{template "name" pipeline}}"
+    //     ^^^^^^^^ keyword.control
+    //              ^ punctuation.definition.string.begin
+    //              ^^^^^^ string.quoted.double
+    //                   ^ punctuation.definition.string.end
+    t = "{{block "name" pipeline}} T1 {{end}}"
+    //     ^^^^^ keyword.control
+    //                                  ^^^ keyword.control
+    t = "{{with pipeline}} T1 {{else}} T0 {{end}}"
+    //     ^^^^ keyword.control
+    //                          ^^^^ keyword.control
+    //                                      ^^^ keyword.control
+    t = "{{$piOver2}}"
+    //     ^^^^^^^^ variable.other.template
+    t = "{{.Field1.Field2}}"
+    //     ^ punctuation.accessor.dot
+    //      ^^^^^^ variable.other.member
+    //            ^ punctuation.accessor.dot
+    //             ^^^^^^ variable.other.member
+    t = "{{$x.Field1.Field2}}"
+    //     ^^ variable.other.template
+    //       ^ punctuation.accessor.dot
+    //        ^^^^^^ variable.other.member
+    //              ^ punctuation.accessor.dot
+    //               ^^^^^^ variable.other.member
+    t = "{{$variable := pipeline}}"
+    //     ^^^^^^^^^ variable.other.template
+    //               ^^ keyword.operator.assignment
+    t = "{{range $index, $element := pipeline}}"
+    //     ^^^^^ keyword.control.
+    //           ^^^^^^ variable.other.template
+    //                   ^^^^^^^^ variable.other.template
+    //                            ^^ keyword.operator.assignment
+    t = "{{`"output"`}}"
+    t = "{{printf "%q" "output"}}"
+    //     ^^^^^^ support.function.builtin
+    t = "{{"output" | printf "%q"}}"
+    //              ^ keyword.operator.template
+    //                ^^^^^^ support.function.builtin
+    t = "{{printf "%q" (print "out" "put")}}"
+    //     ^^^^^^ support.function.builtin
+    //                  ^^^^^ support.function.builtin
+    t = "{{"put" | printf "%s%s" "out" | printf "%q"}}"
+    //           ^ keyword.operator.template
+    //             ^^^^^^ support.function.builtin
+    //                                 ^ keyword.operator.template
+    //                                   ^^^^^^ support.function.builtin
+    t = "{{"output" | printf "%s" | printf "%q"}}"
+    //     ^^^^^^^^ string.quoted.double
+    //              ^ keyword.operator.template
+    //                ^^^^^^ support.function.builtin
+    //                       ^^^^ string.quoted.double
+    //                            ^ keyword.operator.template
+    //                              ^^^^^^ support.function.builtin
+    //                                     ^^^^ string.quoted.double
+    t = "{{with "output"}}{{printf "%q" .}}{{end}}"
+    //     ^^^^ keyword.control
+    //                                  ^ variable.other.template
+    t = "{{with $x := "output" | printf "%q"}}{{$x}}{{end}}"
+    //          ^^ variable.other.template
+    //             ^^ keyword.operator.assignment
+    //                                          ^^ variable.other.template
+    t = "{{with $x := "output"}}{{$x | printf "%q"}}{{end}}"
+    //                            ^^ variable.other.template
+    //                               ^ keyword.operator.template.pipe
+    //                                 ^^^^^^ support.function.builtin

@@ -1,5 +1,5 @@
 <snippet>
-	<content><![CDATA[after_validation_on_update ]]></content>
+	<content><![CDATA[after_validation :${1:attr}, :on => :update]]></content>
 	<tabTrigger>aftvou</tabTrigger>
 	<scope>source.ruby.rails</scope>
 	<description>after_validation_on_update</description>

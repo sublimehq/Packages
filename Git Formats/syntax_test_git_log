@@ -15,6 +15,7 @@ Author: username <user-name.last@host.com>
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git
 #                 ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.reference.email.git
 #                               ^ punctuation.separator.email.git
+#                                    ^ punctuation.separator.domain.git
 #                                        ^ punctuation.definition.reference.email.end.git
 Date:   Thu Sep 21 22:53:04 2017 +0200
 # <- meta.header.git.commit markup.raw.block.git.log keyword.other.header.git.log

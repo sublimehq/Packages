@@ -19,6 +19,11 @@ Block doc comments
 // ^^^^^^^^^^^^^^^^^^ comment.block.documentation comment.block
 */
 
+/**
+    *
+//  ^ comment.block.documentation.rust punctuation.definition.comment.rust 
+*/
+
 let c = 'c';
 // <- storage.type
 //    ^ keyword.operator.assignment
@@ -929,34 +934,47 @@ macro_rules! alternate_group (
 )
 
 macro_rules! kleene_star {
+// ^^^^^^^^^^^^^^^^^^^^^^^^ meta.macro.rust - meta.macro.rust meta.macro.rust
+//                       ^ meta.block.rust punctuation.section.block.begin.rust
     ($($arg:tt)+) => (
-//   ^ meta.macro meta.block meta.group keyword.operator
-//    ^ meta.macro meta.block meta.group punctuation.section.group.begin
-//     ^^^^ meta.macro meta.block meta.group variable.other
-//         ^^^^^ meta.macro meta.block meta.group
-//              ^ meta.macro meta.block meta.group punctuation.section.group.end
-//                ^ meta.macro meta.block keyword.operator
+//  ^^^^^^^^^^^^^^^^^^ meta.macro meta.block
+//  ^^^^^^^^^^^^^ meta.group.macro-matcher
+//   ^^^^^^^^^^ meta.group.macro-matcher meta.group
+//   ^^ punctuation.section.group.begin
+//   ^ keyword.operator
+//     ^^^^ variable.parameter.macro.rust
+//          ^^ storage.type.rust
+//             ^ keyword.operator.rust
+//              ^ meta.group punctuation.section.group.end
+//                ^^ keyword.operator
+//                   ^ meta.group.macro-body.rust punctuation.section.group.begin.rust
         println!($($arg));
     ),
     ($($arg:tt)*) => (
-//     ^^^^ meta.macro meta.block meta.group variable.other
-//         ^^^^^ meta.macro meta.block meta.group
-//              ^ meta.macro meta.block meta.group punctuation.section.group.end
-//                ^ meta.macro meta.block keyword.operator
+//  ^^^^^^^^^^^^^ meta.macro meta.block meta.group.macro-matcher
+//     ^^^^ variable.parameter.macro.rust
+//                ^^ meta.macro meta.block keyword.operator
         println!($($arg)*);
+//                 ^^^^ variable.other.rust
+//               ^^^^^^^^^ meta.macro.rust meta.block.rust meta.group.macro-body.rust meta.group.rust
     ),
-    ($($arg:tt);+) => (
-//     ^^^^ meta.macro meta.block meta.group variable.other
-//         ^^^^^^ meta.macro meta.block meta.group
-//               ^ meta.macro meta.block meta.group punctuation.section.group.end
-//                 ^ meta.macro meta.block keyword.operator
+    ($($arg:tt) ; +) => (
+//  ^^^^^^^^^^^^^^^^ meta.macro meta.block meta.group.macro-matcher
+//     ^^^^ variable.parameter.macro.rust
+//                   ^^ meta.macro meta.block keyword.operator
         println!($($arg));
     ),
     ($($arg:tt),*) => (
-//     ^^^^ meta.macro meta.block meta.group variable.other
-//         ^^^^^^ meta.macro meta.block meta.group
-//               ^ meta.macro meta.block meta.group punctuation.section.group.end
-//                 ^ meta.macro meta.block keyword.operator
+//  ^^^^^^^^^^^^^^ meta.macro meta.block meta.group.macro-matcher
+//     ^^^^ variable.parameter.macro.rust
+//                 ^^ meta.macro meta.block keyword.operator
+        println!($($arg)*);
+    ),
+
+// incomplete blocks
+    ($($arg:tt),*) ,
+//                 ^ meta.macro.rust meta.block.rust punctuation.terminator.macro-matcher.rust
+    ($($x:tt),*) => ($x) ,
         println!($($arg)*);
     )
 }
