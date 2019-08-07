@@ -76,7 +76,6 @@ contexts:
     - include: comment-pod
     - include: package
     - include: imports
-    - include: declarations
     - include: expressions
     - match: ^
       push:
@@ -508,12 +507,6 @@ contexts:
       scope: punctuation.section.parameters.end.perl
       pop: true
 
-###[ DECLARATIONS ]###########################################################
-
-  declarations:
-    - match: \b(?:{{storage_keywords}}){{break}}
-      scope: keyword.declaration.variable.perl
-
 ###[ EXPRESSIONS ]############################################################
 
   expressions:
@@ -526,7 +519,7 @@ contexts:
     - include: constants
     - include: class
     - include: operators
-    - include: control
+    - include: keywords
     - include: variables
     - include: function-call
     - include: comment-line
@@ -978,9 +971,12 @@ contexts:
       set: maybe-item-access
     - include: else-pop
 
-###[ CONTROL KEYWORDS ]#######################################################
+###[ KEYWORDS ]###############################################################
 
-  control:
+  keywords:
+    # declaration
+    - match: \b(?:{{storage_keywords}}){{break}}
+      scope: keyword.declaration.variable.perl
     # conditional
     - match: \bdefault{{break}}
       scope: keyword.control.conditional.default.perl
