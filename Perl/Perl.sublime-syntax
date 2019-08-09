@@ -84,6 +84,26 @@ contexts:
         - include: string-quoted-angle-pop
         - include: else-pop
 
+  expressions:
+    - include: blocks
+    - include: brackets
+    - include: groups
+    - include: sub
+    - include: quoted-like
+    - include: label
+    - include: constants
+    - include: class
+    - include: operators
+    - include: keywords
+    - include: variables
+    - include: function-call
+    - include: comment-line
+
+  expressions-begin:
+    # valid at the beginning of expressions only
+    - include: string-quoted-angle-pop
+    - include: maybe-regexp-match
+
 ###[ PROTOTYPES ]#############################################################
 
   immediately-pop:
@@ -506,28 +526,6 @@ contexts:
     - match: \)
       scope: punctuation.section.parameters.end.perl
       pop: true
-
-###[ EXPRESSIONS ]############################################################
-
-  expressions:
-    - include: blocks
-    - include: brackets
-    - include: groups
-    - include: sub
-    - include: quoted-like
-    - include: label
-    - include: constants
-    - include: class
-    - include: operators
-    - include: keywords
-    - include: variables
-    - include: function-call
-    - include: comment-line
-
-  expressions-begin:
-    # valid at the beginning of expressions only
-    - include: string-quoted-angle-pop
-    - include: maybe-regexp-match
 
 ###[ BLOCKS AND GROUPS ]######################################################
 
