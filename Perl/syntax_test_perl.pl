@@ -831,6 +831,8 @@ EOT
 
   1234             # decimal integer
 # ^^^^ constant.numeric.integer.decimal.perl
+  12_4             # decimal integer
+# ^^^^ constant.numeric.integer.decimal.perl
   +1234            # decimal integer
 # ^ keyword.operator.arithmetic.perl
 #  ^^^^ constant.numeric.integer.decimal.perl
@@ -869,24 +871,24 @@ EOT
 #    ^ keyword.operator.concat.perl
 #     ^^ constant.numeric.integer.binary.perl punctuation.definition.numeric.binary.perl
 #       ^  constant.numeric.integer.binary.perl - punctuation
-  0b1110011        # binary integer
+  0b11__011        # binary integer
 # ^^ constant.numeric.integer.binary.perl punctuation.definition.numeric.binary.perl
 #   ^^^^^^^  constant.numeric.integer.binary.perl - punctuation
-  01234            # octal integer
+  01_34            # octal integer
 # ^ constant.numeric.integer.octal.perl punctuation.definition.numeric.octal.perl
 #  ^^^^ constant.numeric.integer.octal.perl - punctuation
   -01234            # octal integer
 # ^ keyword.operator.arithmetic.perl
 #  ^ constant.numeric.integer.octal.perl punctuation.definition.numeric.octal.perl
 #   ^^^^ constant.numeric.integer.octal.perl - punctuation
-  01234-           # octal integer
+  012_4-           # octal integer
 # ^ constant.numeric.integer.octal.perl punctuation.definition.numeric.octal.perl
 #  ^^^^ constant.numeric.integer.octal.perl - punctuation
 #      ^ keyword.operator.arithmetic.perl
-  0x1234           # hexadecimal integer
+  0x_234           # hexadecimal integer
 # ^^ constant.numeric.integer.hexadecimal.perl punctuation.definition.numeric.hexadecimal.perl
 #   ^^^^ constant.numeric.integer.hexadecimal.perl - punctuation
-  0X1234           # hexadecimal integer
+  0X123_           # hexadecimal integer
 # ^^ constant.numeric.integer.hexadecimal.perl punctuation.definition.numeric.hexadecimal.perl
 #   ^^^^ constant.numeric.integer.hexadecimal.perl - punctuation
   0x9              # hexadecimal integer
@@ -958,7 +960,7 @@ EOT
   12.34e56         # exponential notation
 # ^^^^^^^^ constant.numeric.float.decimal.perl
 #   ^ punctuation.separator.decimal.perl
-  12.34E56         # exponential notation
+  _2._4E_6         # exponential notation
 # ^^^^^^^^ constant.numeric.float.decimal.perl
 #   ^ punctuation.separator.decimal.perl
   -12.34e-56       # exponential notation
@@ -976,7 +978,7 @@ EOT
 # ^^^^^^^^^ constant.numeric.float.decimal.perl
 #   ^ punctuation.separator.decimal.perl
 #          ^ keyword.operator.arithmetic.perl
-  "1234"           # number specified as a string
+  "12_4"           # number specified as a string
 # ^^^^^^ string.quoted.double.perl
 #  ^^^^ constant.numeric.integer.decimal.perl
   "-1234"           # number specified as a string
