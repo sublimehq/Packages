@@ -395,21 +395,6 @@ contexts:
 
   constants-numbers:
     # SEE: http://perldoc.perl.org/perlnumber.html
-    # binary integers
-    - match: \b(0b)[01]+\b
-      scope: constant.numeric.integer.binary.perl
-      captures:
-        1: punctuation.definition.numeric.binary.perl
-    # hexadecimal integers
-    - match: \b(0x)[\h_]+\b
-      scope: constant.numeric.integer.hexadecimal.perl
-      captures:
-        1: punctuation.definition.numeric.hexadecimal.perl
-    # octal integers
-    - match: \b(0)[0-7]+\b
-      scope: constant.numeric.integer.octal.perl
-      captures:
-        1: punctuation.definition.numeric.octal.perl
     # decimal floats
     - match:  |-
         (?x:
@@ -471,6 +456,22 @@ contexts:
         1: punctuation.definition.string.begin.perl
         2: constant.numeric.integer.decimal.perl
         3: punctuation.definition.string.end.perl
+    # binary integers
+    - match: \b(0b)[01]+\b
+      scope: constant.numeric.integer.binary.perl
+      captures:
+        1: punctuation.definition.numeric.binary.perl
+    # hexadecimal integers
+    - match: \b(0x)[\h_]+\b
+      scope: constant.numeric.integer.hexadecimal.perl
+      captures:
+        1: punctuation.definition.numeric.hexadecimal.perl
+    # octal integers
+    - match: \b(0)[0-7]+\b
+      scope: constant.numeric.integer.octal.perl
+      captures:
+        1: punctuation.definition.numeric.octal.perl
+    # decimal integers
     - match: \b\d+\b
       scope: constant.numeric.integer.decimal.perl
 

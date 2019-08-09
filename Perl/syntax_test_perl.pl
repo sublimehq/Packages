@@ -900,6 +900,9 @@ EOT
 #    ^ keyword.operator.concat.perl
 #     ^^ constant.numeric.integer.hexadecimal.perl punctuation.definition.numeric.hexadecimal.perl
 #       ^ constant.numeric.integer.hexadecimal.perl - punctuation
+  01.1             # normal float
+# ^^^^ constant.numeric.float.decimal.perl
+#   ^ punctuation.separator.decimal.perl
   1.1              # normal float
 # ^^^ constant.numeric.float.decimal.perl
 #  ^ punctuation.separator.decimal.perl
