@@ -179,8 +179,6 @@ contexts:
     - include: comment-pod-embedded
     - include: comment-pod-keyword
     - include: comment-pod-formatting
-    - match: \t+
-      scope: invalid.deprecated.perl
 
   comment-pod-embedded:
     - match: ^=begin\b
