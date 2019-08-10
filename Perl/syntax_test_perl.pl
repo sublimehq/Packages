@@ -397,6 +397,8 @@ EOT
 # ^^ keyword.operator.arithmetic.perl
   /
 # ^ keyword.operator.arithmetic.perl
+  %
+# ^ keyword.operator.arithmetic.perl
   !~
 # ^^ keyword.operator.binary.perl
   =~

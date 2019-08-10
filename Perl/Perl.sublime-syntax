@@ -1075,7 +1075,7 @@ contexts:
     - match: '--|\+\+'
       scope: keyword.operator.arithmetic.perl
       push: maybe-regexp-match
-    - match: '\*{1,2}|[-+/]'
+    - match: '\*{1,2}|[-+/%]'
       scope: keyword.operator.arithmetic.perl
       push: expressions-begin
     - match: '[&|^~]'
