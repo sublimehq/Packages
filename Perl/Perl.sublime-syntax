@@ -49,6 +49,22 @@ variables:
       utime|values|vec|wait|waitpid|wantarray|warn|write
     ){{break}}
 
+  builtin_variables: |-
+    (?x:
+      [_0abF]|ACCUMULATOR|ARG[CV]?|BASETIME|CHILD_ERROR|COMPILING|DEBUGGING|
+      EFFECTIVE_GROUP_ID|EFFECTIVE_USER_ID|EGID|ENV|ERRNO|EUID|EVAL_ERROR|
+      EXCEPTIONS_BEING_CAUGHT|EXECUTABLE_NAME|EXTENDED_OS_ERROR|FORMAT_FORMFEED|
+      FORMAT_LINE_BREAK_CHARACTERS|FORMAT_LINES_LEFT|FORMAT_LINES_PER_PAGE|
+      FORMAT_NAME|FORMAT_PAGE_NUMBER|FORMAT_TOP_NAME|GID|INPLACE_EDIT|
+      INPUT_LINE_NUMBER|INPUT_RECORD_SEPARATOR|INC|ISA|LAST_MATCH_END|
+      LAST_MATCH_START|LAST_PAREN_MATCH|LAST_REGEXP_CODE_RESULT|
+      LAST_SUBMATCH_RESULT|LIST_SEPARATOR|MATCH|NR|OFS|OLD_PERL_VERSION|ORS|
+      OS_ERROR|OSNAME|OUTPUT_AUTOFLUSH|OUTPUT_FIELD_SEPARATOR|
+      OUTPUT_RECORD_SEPARATOR|PERL_VERSION|PERLDB|PID|POSTMATCH|PREMATCH|
+      PROCESS_ID|PROGRAM_NAME|REAL_GROUP_ID|REAL_USER_ID|RS|SIG|
+      SUBSCRIPT_SEPARATOR|SUBSEP|SYSTEM_FD_MAX|UID|WARNING
+    ){{break}}
+
   qualified_reserved_words: (?:CORE::)?{{reserved_words}}
 
   reserved_words: |-
@@ -102,14 +118,15 @@ contexts:
     - include: constants
     - include: qualified-function-call
     - include: qualified-variables
-    - include: operators
     - include: variables
+    - include: operators
     - include: unqualified-function-call
     - include: comment-line
 
   expressions-begin:
     # valid at the beginning of expressions only
     - include: string-quoted-angle-pop
+    - include: variable-not-operator
     - include: maybe-regexp-match
 
 ###[ PROTOTYPES ]#############################################################
@@ -1374,7 +1391,7 @@ contexts:
   qualified-variables:
     # $Module::SubModule::variable
     # $::SubModule::variable
-    - match: ([\$\@\%]#?)({{identifier}})?(::)
+    - match: ([$@%*]#?)({{identifier}})?(::)
       captures:
         1: punctuation.definition.variable.perl
         2: support.class.perl
@@ -1396,54 +1413,80 @@ contexts:
 
   variables:
     # SEE: http://perldoc.perl.org/perlvar.html
-    - match: (\$)&(?!\w)
-      scope: variable.other.regexp.match.perl
+    # regexp match
+    - match: ([$@%*]#?)[`&']
+      scope: variable.language.regexp.match.perl
       captures:
         1: punctuation.definition.variable.perl
       push: maybe-item-access
-    - match: (\$)`(?!\w)
-      scope: variable.other.regexp.pre-match.perl
+    # note: `*` may look like an operator
+    - match: ([$@%]#?)(?:[-+]|[1-9]+)
+      scope: variable.language.regexp.match-group.perl
       captures:
         1: punctuation.definition.variable.perl
       push: maybe-item-access
-    - match: (\$)\'(?!\w)
-      scope: variable.other.regexp.post-match.perl
+    # builtin
+    - match: ([$@%*]#?){{builtin_variables}}
+      scope: variable.language.perl
       captures:
         1: punctuation.definition.variable.perl
       push: maybe-item-access
-    - match: (\$)\+(?!\w)
-      scope: variable.other.regexp.last-paren-match.perl
+    - match: |-
+        (?x:
+          ([$@%*]\#?)
+          (?:
+            \^[A-Z]? |
+            [".:,;\]~?!/\\|()<>] |
+            [$@%](?![-+])                # no regexp match
+          )(?![$@%\w])
+        )
+      scope: variable.language.perl
       captures:
         1: punctuation.definition.variable.perl
       push: maybe-item-access
-    - match: (\$)\"(?!\w)
-      scope: variable.other.readwrite.list-separator.perl
+    # builtin variable, which may look like an operator
+    - match: ([$@]\#?)=
+      scope: variable.language.perl
       captures:
         1: punctuation.definition.variable.perl
       push: maybe-item-access
-    - match: (\$)0\b
-      scope: variable.other.predefined.program-name.perl
-      captures:
-        1: punctuation.definition.variable.perl
-      push: maybe-item-access
-    - match: (\$)[0-9]+\b
-      scope: variable.other.subpattern.perl
-      captures:
-        1: punctuation.definition.variable.perl
-      push: maybe-item-access
-    - match: (\$)(\^[A-Z]|[_ab\*\.\/\|,\\;#%=\-~^:?!\$<>\(\)\[\]@])(?!\w)
-      scope: variable.other.predefined.perl
-      captures:
-        1: punctuation.definition.variable.perl
-      push: maybe-item-access
-    - match: ([\$\@\%]#?)\w+\b
+    # user defined variables
+    - match: ([$@%*]#?){{identifier}}
       scope: variable.other.readwrite.perl
       captures:
         1: punctuation.definition.variable.perl
       push: maybe-item-access
-    - match: ([\$\@\%])(\{)
+    - match: ([$@%*]#?)(\{)\s*({{identifier}})\s*(\})
+      scope: meta.variable.perl
+      captures:
+        1: keyword.operator.dereference.perl
+        2: punctuation.definition.variable.begin.perl
+        3: string.unquoted.perl
+        4: punctuation.definition.variable.end.perl
+      push: maybe-item-access
+    - match: '[$@%*]#?\{'
       scope: punctuation.definition.variable.begin.perl
       push: [maybe-item-access, variable-body, expressions-begin]
+    # deprecated/legacy variables
+    # - $# and $* were variables up to Perl v5.10.0
+    - match: (\$)[#*\[](?=[^\w{$@%*])
+      scope: variable.language.deprecated.perl
+      captures:
+        1: punctuation.definition.variable.perl
+      push: maybe-item-access
+
+  variable-not-operator:
+    # variables that look like operators need special treatment
+    - match: (\*#?)(?:[-+]|[1-9]+)
+      scope: variable.language.regexp.match-group.perl
+      captures:
+        1: punctuation.definition.variable.perl
+      set: maybe-item-access
+    - match: ([%*])=
+      scope: variable.language.perl
+      captures:
+        1: punctuation.definition.variable.perl
+      set: maybe-item-access
 
   variable-body:
     - meta_scope: meta.variable.perl

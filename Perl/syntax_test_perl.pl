@@ -1152,146 +1152,413 @@ EOT
 
 ###[ LANGUAGE VARIABLES ]#####################################################
 
-  $&
-# ^^ variable.other.regexp.match.perl
+# Special Variables
+
+  $_ $#_ $ARG $_[0] $_{'key'} $#_[0] $#_{'key'}
 # ^ punctuation.definition.variable.perl
-  $`
-# ^^ variable.other.regexp.pre-match.perl
+# ^^ variable.language.perl
+#    ^^ punctuation.definition.variable.perl
+#    ^^^ variable.language.perl
+#        ^ punctuation.definition.variable.perl
+#        ^^^^ variable.language.perl
+#             ^ punctuation.definition.variable.perl
+#             ^^ variable.language.perl
+#               ^^^ meta.item-access.perl
+#                   ^ punctuation.definition.variable.perl
+#                   ^^ variable.language.perl
+#                     ^^^^^^^ meta.item-access.perl
+#                             ^^ punctuation.definition.variable.perl
+#                             ^^^ variable.language.perl
+#                                ^^^ meta.item-access.perl
+#                                    ^^ punctuation.definition.variable.perl
+#                                    ^^^ variable.language.perl
+#                                       ^^^^^^^ meta.item-access.perl
+  @_ @#_ @ARG @_[0] @_{'key'} @#_[0] @#_{'key'}
 # ^ punctuation.definition.variable.perl
-  $'
-# ^^ variable.other.regexp.post-match.perl
+# ^^ variable.language.perl
+#    ^^ punctuation.definition.variable.perl
+#    ^^^ variable.language.perl
+#        ^ punctuation.definition.variable.perl
+#        ^^^^ variable.language.perl
+#             ^ punctuation.definition.variable.perl
+#             ^^ variable.language.perl
+#               ^^^ meta.item-access.perl
+#                   ^ punctuation.definition.variable.perl
+#                   ^^ variable.language.perl
+#                     ^^^^^^^ meta.item-access.perl
+#                             ^^ punctuation.definition.variable.perl
+#                             ^^^ variable.language.perl
+#                                ^^^ meta.item-access.perl
+#                                    ^^ punctuation.definition.variable.perl
+#                                    ^^^ variable.language.perl
+#                                       ^^^^^^^ meta.item-access.perl
+  %_ %#_ %ARG %_[0] %_{'key'} %#_[0] %#_{'key'}
 # ^ punctuation.definition.variable.perl
-  $+
-# ^^ variable.other.regexp.last-paren-match.perl
+# ^^ variable.language.perl
+#    ^^ punctuation.definition.variable.perl
+#    ^^^ variable.language.perl
+#        ^ punctuation.definition.variable.perl
+#        ^^^^ variable.language.perl
+#             ^ punctuation.definition.variable.perl
+#             ^^ variable.language.perl
+#               ^^^ meta.item-access.perl
+#                   ^ punctuation.definition.variable.perl
+#                   ^^ variable.language.perl
+#                     ^^^^^^^ meta.item-access.perl
+#                             ^^ punctuation.definition.variable.perl
+#                             ^^^ variable.language.perl
+#                                ^^^ meta.item-access.perl
+#                                    ^^ punctuation.definition.variable.perl
+#                                    ^^^ variable.language.perl
+#                                       ^^^^^^^ meta.item-access.perl
+  *_ *ARG *_[0] *_{'key'}
 # ^ punctuation.definition.variable.perl
-  $"
-# ^^ variable.other.readwrite.list-separator.perl
+# ^^ variable.language.perl
+#    ^ punctuation.definition.variable.perl
+#    ^^^^ variable.language.perl
+#         ^ punctuation.definition.variable.perl
+#         ^^ variable.language.perl
+#           ^^^ meta.item-access.perl
+#               ^ punctuation.definition.variable.perl
+#               ^^ variable.language.perl
+#                 ^^^^^^^ meta.item-access.perl
+  $" $LIST_SEPARATOR
 # ^ punctuation.definition.variable.perl
-  $0
-# ^^ variable.other.predefined.program-name.perl
+# ^^ variable.language.perl
+#    ^ punctuation.definition.variable.perl
+#    ^^^^^^^^^^^^^^^ variable.language.perl
+  $$ $PID $PROCESS_ID
 # ^ punctuation.definition.variable.perl
-  @0
-# ^^ variable.other.readwrite.perl
+# ^^ variable.language.perl
+#    ^ punctuation.definition.variable.perl
+#    ^^^^ variable.language.perl
+#         ^ punctuation.definition.variable.perl
+#         ^^^^^^^^^^^ variable.language.perl
+  $0 $PROGRAM_NAME
 # ^ punctuation.definition.variable.perl
-  %0
-# ^^ variable.other.readwrite.perl
+# ^^ variable.language.perl
+  $( $GID $REAL_GROUP_ID
 # ^ punctuation.definition.variable.perl
-  $1
-# ^^ variable.other.subpattern.perl
+# ^^ variable.language.perl
+  $) $EGID $EFFECTIVE_GROUP_ID
 # ^ punctuation.definition.variable.perl
-  @1
-# ^^ variable.other.readwrite.perl
+# ^^ variable.language.perl
+  $< $UID $REAL_USER_ID
 # ^ punctuation.definition.variable.perl
-  %1
-# ^^ variable.other.readwrite.perl
+# ^^ variable.language.perl
+  $> $EUID $EFFECTIVE_USER_ID
 # ^ punctuation.definition.variable.perl
-  $_
-# ^^ variable.other.predefined.perl
+# ^^ variable.language.perl
+  $; $SUBSEP $SUBSCRIPT_SEPARATOR
 # ^ punctuation.definition.variable.perl
-  @_
-# ^^ variable.other.readwrite.perl
+# ^^ variable.language.perl
+  $@;
 # ^ punctuation.definition.variable.perl
-  %_
-# ^^ variable.other.readwrite.perl
+# ^^ variable.language.perl
+#   ^ punctuation.terminator.statement.perl
+  $a
 # ^ punctuation.definition.variable.perl
-  $#0
-# ^^^ variable.other.readwrite.perl
-# ^^ punctuation.definition.variable.perl
-  @#0
-# ^^^ variable.other.readwrite.perl
-# ^^ punctuation.definition.variable.perl
-  %#0
-# ^^^ variable.other.readwrite.perl
-# ^^ punctuation.definition.variable.perl
-  $#_
-# ^^^ variable.other.readwrite.perl
-# ^^ punctuation.definition.variable.perl
-  @#_
-# ^^^ variable.other.readwrite.perl
-# ^^ punctuation.definition.variable.perl
-  %#_
-# ^^^ variable.other.readwrite.perl
-# ^^ punctuation.definition.variable.perl
-  $&[0]
-# ^^ variable.other.regexp.match.perl
+# ^^ variable.language.perl
+  $b
 # ^ punctuation.definition.variable.perl
+# ^^ variable.language.perl
+  %ENV $ENV{'bar'}
+# ^ punctuation.definition.variable.perl
+# ^^^^ variable.language.perl
+#      ^ punctuation.definition.variable.perl
+#      ^^^^ variable.language.perl
+  $] $OLD_PERL_VERSION
+# ^ punctuation.definition.variable.perl
+# ^^ variable.language.perl
+  $^F $SYSTEM_FD_MAX
+# ^ punctuation.definition.variable.perl
+# ^^ variable.language.perl
+  @F  # array of fields of each line with autosplit mode on
+# ^ punctuation.definition.variable.perl
+# ^^ variable.language.perl
+  %INC
+# ^ punctuation.definition.variable.perl
+# ^^^^ variable.language.perl
+  $^I $INPLACE_EDIT
+# ^ punctuation.definition.variable.perl
+# ^^ variable.language.perl
+  @ISA  # list of that class's parent classes
+# ^ punctuation.definition.variable.perl
+# ^^^^ variable.language.perl
+  $^O $OSNAME
+# ^ punctuation.definition.variable.perl
+# ^^^ variable.language.perl
+  %SIG $SIG{"PIPE"} # hash of signal handlers for signals
+# ^ punctuation.definition.variable.perl
+# ^^^^ variable.language.perl
+#      ^ punctuation.definition.variable.perl
+#      ^^^^ variable.language.perl
+  $^O $OSNAME
+# ^ punctuation.definition.variable.perl
+# ^^ variable.language.perl
+  $^V $PERL_VERSION
+# ^ punctuation.definition.variable.perl
+# ^^ variable.language.perl
+  $^X $EXECUTABLE_NAME
+# ^ punctuation.definition.variable.perl
+# ^^ variable.language.perl
+
+# Variables related to regular expressions
+
+  $& $MATCH $&[0]
+# ^ punctuation.definition.variable.perl
+# ^^ variable.language.regexp.match.perl
+#    ^ punctuation.definition.variable.perl
+#    ^^^^^^ variable.language.perl
+#           ^ punctuation.definition.variable.perl
+#           ^^ variable.language.regexp.match.perl
+#             ^^^ meta.item-access.perl
+  $` $PREMATCH
+# ^ punctuation.definition.variable.perl
+# ^^ variable.language.regexp.match.perl
+  $' $POSTMATCH
+# ^ punctuation.definition.variable.perl
+# ^^ variable.language.regexp.match.perl
+  $+ $LAST_PAREN_MATCH
+# ^ punctuation.definition.variable.perl
+# ^^ variable.language.regexp.match-group.perl
+  @+ @LAST_MATCH_END
+# ^ punctuation.definition.variable.perl
+# ^^ variable.language.regexp.match-group.perl
+  %+ %LAST_PAREN_MATCH
+# ^ punctuation.definition.variable.perl
+# ^^ variable.language.regexp.match-group.perl
+  $- $LAST_MATCH_START
+# ^ punctuation.definition.variable.perl
+# ^^ variable.language.regexp.match-group.perl
+  @- @LAST_MATCH_START
+# ^ punctuation.definition.variable.perl
+# ^^ variable.language.regexp.match-group.perl
+  %- %LAST_MATCH_START
+# ^ punctuation.definition.variable.perl
+# ^^ variable.language.regexp.match-group.perl
+  $1 $#1 $1[0] $#1[0] $1{key}
+# ^ punctuation.definition.variable.perl
+# ^^ variable.language.regexp.match-group.perl
+#    ^^ punctuation.definition.variable.perl
+#    ^^^ variable.language.regexp.match-group.perl
+#        ^ punctuation.definition.variable.perl
+#        ^^ variable.language.regexp.match-group.perl
+#          ^^^ meta.item-access.perl
+#              ^^ punctuation.definition.variable.perl
+#              ^^^ variable.language.regexp.match-group.perl
+#                 ^^^ meta.item-access.perl
+#                     ^ punctuation.definition.variable.perl
+#                     ^^ variable.language.regexp.match-group.perl
+#                       ^^^^^ meta.item-access.perl
+  1*2*3*4*5*6
+# ^^^^^^^^^^^ - variable
+  $+[0]-$+[$#-]
+# ^ punctuation.definition.variable.perl
+# ^^ variable.language.regexp.match-group.perl
 #   ^^^ meta.item-access.perl
-  $`[0]
-# ^^ variable.other.regexp.pre-match.perl
+#      ^ keyword.operator.arithmetic.perl
+#       ^ punctuation.definition.variable.perl
+#       ^^ variable.language.regexp.match-group.perl
+#         ^^^^^ meta.item-access.perl
+#          ^^ punctuation.definition.variable.perl
+#          ^^^ variable.language.regexp.match-group.perl
+  $-[0]*$-[$-[2]]
 # ^ punctuation.definition.variable.perl
+# ^^ variable.language.regexp.match-group.perl
 #   ^^^ meta.item-access.perl
-  $'[0]
-# ^^ variable.other.regexp.post-match.perl
+#      ^ keyword.operator.arithmetic.perl
+#       ^ punctuation.definition.variable.perl
+#       ^^ variable.language.regexp.match-group.perl
+#         ^^^ meta.item-access.perl - meta.item-access meta.item-access
+#            ^^^ meta.item-access.perl meta.item-access.perl
+#               ^ meta.item-access.perl - meta.item-access meta.item-access
+#         ^ punctuation.section.item-access.begin.perl
+#          ^^ variable.language.regexp.match-group.perl
+#            ^ punctuation.section.item-access.begin.perl
+#             ^ constant.numeric.integer.decimal.perl
+#              ^^ punctuation.section.item-access.end.perl
+
+# Variables related to input/output formating
+
+  $, @, %, *, $OFS $OUTPUT_FIELD_SEPARATOR
 # ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  $+[0]
-# ^^ variable.other.regexp.last-paren-match.perl
+# ^^ variable.language.perl
+#    ^ punctuation.definition.variable.perl
+#    ^^ variable.language.perl
+#       ^ punctuation.definition.variable.perl
+#       ^^ variable.language.perl
+#          ^ punctuation.definition.variable.perl
+#          ^^ variable.language.perl
+  $. @. %. *. $NR $INPUT_LINE_NUMBER
 # ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  $"[0]
-# ^^ variable.other.readwrite.list-separator.perl
+# ^^ variable.language.perl
+#    ^ punctuation.definition.variable.perl
+#    ^^ variable.language.perl
+#       ^ punctuation.definition.variable.perl
+#       ^^ variable.language.perl
+#          ^ punctuation.definition.variable.perl
+#          ^^ variable.language.perl
+  $/ @/ %/ */ $RS $INPUT_RECORD_SEPARATOR
 # ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  $0[0]
-# ^^ variable.other.predefined.program-name.perl
+# ^^ variable.language.perl
+#    ^ punctuation.definition.variable.perl
+#    ^^ variable.language.perl
+#       ^ punctuation.definition.variable.perl
+#       ^^ variable.language.perl
+#          ^ punctuation.definition.variable.perl
+#          ^^ variable.language.perl
+  $\ @\ %\ *\ $ORS $OUTPUT_RECORD_SEPARATOR
 # ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  @0[0]
-# ^^ variable.other.readwrite.perl
+# ^^ variable.language.perl
+#    ^ punctuation.definition.variable.perl
+#    ^^ variable.language.perl
+#       ^ punctuation.definition.variable.perl
+#       ^^ variable.language.perl
+#          ^ punctuation.definition.variable.perl
+#          ^^ variable.language.perl
+  $| @| %| *| $OUTPUT_AUTOFLUSH
 # ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  %0[0]
-# ^^ variable.other.readwrite.perl
+# ^^ variable.language.perl
+#    ^ punctuation.definition.variable.perl
+#    ^^ variable.language.perl
+#       ^ punctuation.definition.variable.perl
+#       ^^ variable.language.perl
+#          ^ punctuation.definition.variable.perl
+#          ^^ variable.language.perl
+  $: @: %: *: $FORMAT_LINE_BREAK_CHARACTERS
 # ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  $1[0]
-# ^^ variable.other.subpattern.perl
+# ^^ variable.language.perl
+#             ^ punctuation.definition.variable.perl
+#             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.language.perl
+#    ^ punctuation.definition.variable.perl
+#    ^^ variable.language.perl
+#       ^ punctuation.definition.variable.perl
+#       ^^ variable.language.perl
+#          ^ punctuation.definition.variable.perl
+#          ^^ variable.language.perl
+  $= @=,%=,*= $FORMAT_LINES_PER_PAGE
 # ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  @1[0]
-# ^^ variable.other.readwrite.perl
+# ^^ variable.language.perl
+#    ^ punctuation.definition.variable.perl
+#    ^^ variable.language.perl
+#       ^ punctuation.definition.variable.perl
+#       ^^ variable.language.perl
+#          ^ punctuation.definition.variable.perl
+#          ^^ variable.language.perl
+#             ^ punctuation.definition.variable.perl
+#             ^^^^^^^^^^^^^^^^^^^^^^ variable.language.perl
+  $^ @^ %^ *^ $FORMAT_TOP_NAME
 # ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  %1[0]
-# ^^ variable.other.readwrite.perl
+# ^^ variable.language.perl
+#    ^ punctuation.definition.variable.perl
+#    ^^ variable.language.perl
+#       ^ punctuation.definition.variable.perl
+#       ^^ variable.language.perl
+#          ^ punctuation.definition.variable.perl
+#          ^^ variable.language.perl
+#             ^ punctuation.definition.variable.perl
+#             ^^^^^^^^^^^^^^^^ variable.language.perl
+  $~ @~ %~ *~ $FORMAT_NAME
 # ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  $_[0]
-# ^^ variable.other.predefined.perl
+# ^^ variable.language.perl
+#    ^ punctuation.definition.variable.perl
+#    ^^ variable.language.perl
+#       ^ punctuation.definition.variable.perl
+#       ^^ variable.language.perl
+#          ^ punctuation.definition.variable.perl
+#          ^^ variable.language.perl
+#             ^ punctuation.definition.variable.perl
+#             ^^^^^^^^^^^^ variable.language.perl
+
+# Error Variables
+
+  $^E @^E %^E *^E $EXTENDED_OS_ERROR
 # ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  @_[0]
-# ^^ variable.other.readwrite.perl
+# ^^^ variable.language.perl
 # ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  %_[0]
-# ^^ variable.other.readwrite.perl
+# ^^^ variable.language.perl
+#     ^ punctuation.definition.variable.perl
+#     ^^^ variable.language.perl
+#         ^ punctuation.definition.variable.perl
+#         ^^^ variable.language.perl
+#             ^ punctuation.definition.variable.perl
+#             ^^^ variable.language.perl
+#                 ^ punctuation.definition.variable.perl
+#                 ^^^^^^^^^^^^^^^^^^ variable.language.perl
+  $^S @^S %^S *^S $EXCEPTIONS_BEING_CAUGHT
 # ^ punctuation.definition.variable.perl
-#   ^^^ meta.item-access.perl
-  $#0[0]
-# ^^^ variable.other.readwrite.perl
-# ^^ punctuation.definition.variable.perl
-#    ^^^ meta.item-access.perl
-  @#0[0]
-# ^^^ variable.other.readwrite.perl
-# ^^ punctuation.definition.variable.perl
-#    ^^^ meta.item-access.perl
-  %#0[0]
-# ^^^ variable.other.readwrite.perl
-# ^^ punctuation.definition.variable.perl
-#    ^^^ meta.item-access.perl
-  $#_[0]
-# ^^^ variable.other.readwrite.perl
-# ^^ punctuation.definition.variable.perl
-#    ^^^ meta.item-access.perl
-  @#_[0]
-# ^^^ variable.other.readwrite.perl
-# ^^ punctuation.definition.variable.perl
-#    ^^^ meta.item-access.perl
-  %#_[0]
-# ^^^ variable.other.readwrite.perl
-# ^^ punctuation.definition.variable.perl
-#    ^^^ meta.item-access.perl
+# ^^^ variable.language.perl
+# ^ punctuation.definition.variable.perl
+# ^^^ variable.language.perl
+#     ^ punctuation.definition.variable.perl
+#     ^^^ variable.language.perl
+#         ^ punctuation.definition.variable.perl
+#         ^^^ variable.language.perl
+#             ^ punctuation.definition.variable.perl
+#             ^^^ variable.language.perl
+#                 ^ punctuation.definition.variable.perl
+#                 ^^^^^^^^^^^^^^^^^^^^^^^^ variable.language.perl
+  $^W @^W %^W *^W $WARNING
+# ^ punctuation.definition.variable.perl
+# ^^^ variable.language.perl
+# ^ punctuation.definition.variable.perl
+# ^^^ variable.language.perl
+#     ^ punctuation.definition.variable.perl
+#     ^^^ variable.language.perl
+#         ^ punctuation.definition.variable.perl
+#         ^^^ variable.language.perl
+#             ^ punctuation.definition.variable.perl
+#             ^^^ variable.language.perl
+#                 ^ punctuation.definition.variable.perl
+#                 ^^^^^^^^ variable.language.perl
+  $! @! %! *! $ERRNO $OS_ERROR
+# ^ punctuation.definition.variable.perl
+# ^^ variable.language.perl
+#    ^ punctuation.definition.variable.perl
+#    ^^ variable.language.perl
+#       ^ punctuation.definition.variable.perl
+#       ^^ variable.language.perl
+#          ^ punctuation.definition.variable.perl
+#          ^^ variable.language.perl
+#             ^ punctuation.definition.variable.perl
+#             ^^^^^^ variable.language.perl
+#                    ^ punctuation.definition.variable.perl
+#                    ^^^^^^^^^ variable.language.perl
+  $@ @@ %@ *@ $EVAL_ERROR
+# ^ punctuation.definition.variable.perl
+# ^^ variable.language.perl
+#    ^ punctuation.definition.variable.perl
+#    ^^ variable.language.perl
+#       ^ punctuation.definition.variable.perl
+#       ^^ variable.language.perl
+#          ^ punctuation.definition.variable.perl
+#          ^^ variable.language.perl
+#             ^ punctuation.definition.variable.perl
+#             ^^^^^^^^^^^ variable.language.perl
+  $? @? %? *? $CHILD_ERROR
+# ^ punctuation.definition.variable.perl
+# ^^ variable.language.perl
+#    ^ punctuation.definition.variable.perl
+#    ^^ variable.language.perl
+#       ^ punctuation.definition.variable.perl
+#       ^^ variable.language.perl
+#          ^ punctuation.definition.variable.perl
+#          ^^ variable.language.perl
+#             ^ punctuation.definition.variable.perl
+#             ^^^^^^^^^^^^ variable.language.perl
+
+# Deprecated and removed variables
+
+  $#  # format printed numbers
+# ^^ variable.language.deprecated.perl
+# ^ punctuation.definition.variable.perl
+  $*  # enable multiline matching
+# ^^ variable.language.deprecated.perl
+# ^ punctuation.definition.variable.perl
+  $[  # index of the first element in an array
+# ^^ variable.language.deprecated.perl
+# ^ punctuation.definition.variable.perl
 
 ###[ UNQUALIFIED VARIABLES ]##################################################
 
@@ -1303,7 +1570,7 @@ EOT
 #         ^^^^^ string.quoted.double.perl
 #             ^ punctuation.definition.string.end.perl
 #              ^ punctuation.terminator.statement.perl
-  %_foo = "bar";
+  $_foo = "bar";
 # ^ punctuation.definition.variable.perl
 # ^^^^^ variable.other.readwrite.perl
 #       ^ keyword.operator.assignment.perl
@@ -1337,13 +1604,13 @@ EOT
 
 ###[ QUALIFIED VARIABLES ]####################################################
 
-  $::var # scalar in the 'main' namespace
+  $::foo # scalar in the 'main' namespace
 # ^^^^^^ meta.path.perl
 #       ^ - meta.path
 # ^ punctuation.definition.variable.perl
 #  ^^ punctuation.accessor.double-colon.perl
 #    ^^^ variable.other.readwrite.perl
-  $::Var[$idx] # array in the 'main' namespace
+  $::Foo[$bar] # array in the 'main' namespace
 # ^^^^^^ meta.path.perl - meta.item-access
 #       ^^^^^^ meta.item-access.perl - meta.path
 # ^ punctuation.definition.variable.perl
@@ -1352,7 +1619,7 @@ EOT
 #       ^ punctuation.section.item-access.begin.perl
 #        ^^^^ variable.other.readwrite.perl
 #            ^ punctuation.section.item-access.end.perl
-  $::VAR{'key'} # hash in the 'main' namespace
+  $::FOO{'bar'} # hash in the 'main' namespace
 # ^^^^^^ meta.path.perl - meta.item-access
 #       ^^^^^^^ meta.item-access.perl - meta.path
 # ^ punctuation.definition.variable.perl
@@ -1361,7 +1628,7 @@ EOT
 #       ^ punctuation.section.item-access.begin.perl
 #        ^^^^^ string.quoted.single.perl
 #             ^ punctuation.section.item-access.end.perl
-  $::var->[$idx] # reference in the 'main' namespace
+  $::foo->[$bar] # reference in the 'main' namespace
 # ^^^^^^ meta.path.perl - meta.item-access
 #       ^^ - meta.path - meta.item-access
 #         ^^^^^^ meta.item-access.perl - meta.path
@@ -1372,7 +1639,7 @@ EOT
 #         ^ punctuation.section.item-access.begin.perl
 #          ^^^^ variable.other.readwrite.perl
 #              ^ punctuation.section.item-access.end.perl
-  $::var->{'key'} # reference in the 'main' namespace
+  $::foo->{'bar'} # reference in the 'main' namespace
 # ^^^^^^ meta.path.perl - meta.item-access
 #       ^^ - meta.path - meta.item-access
 #         ^^^^^^^ meta.item-access.perl - meta.path
@@ -1446,7 +1713,7 @@ EOT
 #  ^^^ support.class.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^^^ meta.variable.perl
-#         ^^^ variable.function.perl
+#         ^^^ string.unquoted.perl
 #             ^^ punctuation.accessor.double-colon.perl
 #               ^^^ variable.other.readwrite.perl
   $Foo::Bar::baz() # baz is not a function
@@ -1507,6 +1774,16 @@ EOT
 # ^^ punctuation.definition.variable.begin.perl
 #   ^^^^^^^^^^^^ variable.function.perl
 #                 ^ punctuation.definition.variable.end.perl
+  ${the_var_name}[0]
+# ^^^^^^^^^^^^^^^ meta.variable.perl
+#                ^^^ meta.item-access.perl
+# ^ keyword.operator.dereference.perl
+#  ^ punctuation.definition.variable.begin.perl
+#   ^^^^^^^^^^^^ string.unquoted.perl
+#               ^ punctuation.definition.variable.end.perl
+#                ^ punctuation.section.item-access.begin.perl
+#                 ^ constant.numeric.integer.decimal.perl
+#                  ^ punctuation.section.item-access.end.perl
   ${/\w+$/g = $var}
 # ^^^^^^^^^^^^^^^^^ meta.variable.perl
 # ^^ punctuation.definition.variable.begin.perl
@@ -2026,7 +2303,7 @@ my
 # ^^ keyword.declaration.variable
 #   ^ - keyword.declaration.variable - variable.other.readwrite
 #    ^ punctuation.definition.variable.perl
-#    ^^^^ variable.other.readwrite
+#    ^^^^ variable.other.readwrite.perl
 #        ^ - variable.other.readwrite
 my $foo;
 # <-  keyword.declaration.variable.perl
@@ -2094,7 +2371,7 @@ our
 # ^^^ keyword.declaration.variable
 #    ^ - keyword.declaration.variable - variable.other.readwrite
 #     ^ punctuation.definition.variable.perl
-#     ^^^^ variable.other.readwrite
+#     ^^^^ variable.other.readwrite.perl
 #         ^ - variable.other.readwrite
 our $foo;
 # <-  keyword.declaration.variable.perl
@@ -2163,7 +2440,7 @@ state
 # ^^^^^ keyword.declaration.variable
 #      ^ - keyword.declaration.variable - variable.other.readwrite
 #       ^ punctuation.definition.variable.perl
-#       ^^^^ variable.other.readwrite
+#       ^^^^ variable.other.readwrite.perl
 #           ^ - variable.other.readwrite
 
 ###[ PREPROCESSOR ]###########################################################
