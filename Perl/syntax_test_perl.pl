@@ -1033,7 +1033,7 @@ EOT
 #  ^^^^^^^^^^ constant.numeric.float.decimal.perl
 #     ^ punctuation.separator.decimal.perl
   '0.00_01'
-#  ^^^^^^^ - constant.numeric
+#  ^^^^^^^ constant.numeric.float.decimal.perl
   '01bau'
 #  ^^^^^ - constant.numeric
   __PACKAGE__
