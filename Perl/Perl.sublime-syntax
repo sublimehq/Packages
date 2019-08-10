@@ -488,7 +488,7 @@ contexts:
         - - clear_scopes: 1
           - meta_scope: meta.function.parameters.perl
           - include: parameters-end
-          - match: '[$@%*\\]+'
+          - match: '[$@%*&\\]+'
             scope: variable.parameter.perl
           - match: ;
             scope: punctuation.separator.sequence.perl
@@ -516,7 +516,7 @@ contexts:
 
   sub-attributes-parameters:
     # NOTE: doesn't look like prototype parameters
-    - match: (?=\((?!\s*[$@%*]+\s*[;)]))
+    - match: (?=\((?!\s*[$@%*&]+\s*[;)]))
       set:
         - - meta_scope: meta.annotation.parameters.perl
           - include: parameters-end
@@ -1460,17 +1460,6 @@ contexts:
       captures:
         1: punctuation.definition.variable.perl
       push: maybe-item-access
-    - match: ([$@%*]#?)(\{)\s*({{identifier}})\s*(\})
-      scope: meta.variable.perl
-      captures:
-        1: keyword.operator.dereference.perl
-        2: punctuation.definition.variable.begin.perl
-        3: string.unquoted.perl
-        4: punctuation.definition.variable.end.perl
-      push: maybe-item-access
-    - match: '[$@%*]#?\{'
-      scope: punctuation.definition.variable.begin.perl
-      push: [maybe-item-access, variable-body, expressions-begin]
     # deprecated/legacy variables
     # - $# and $* were variables up to Perl v5.10.0
     - match: (\$)[#*\[](?=[^\w{$@%*])
@@ -1478,6 +1467,23 @@ contexts:
       captures:
         1: punctuation.definition.variable.perl
       push: maybe-item-access
+    # dereferenced variables
+    - match: ([$@%*&]#?)(\{)\s*({{identifier}})\s*(\})
+      scope: meta.variable.perl
+      captures:
+        1: keyword.operator.dereference.perl
+        2: punctuation.definition.variable.begin.perl
+        3: string.unquoted.perl
+        4: punctuation.definition.variable.end.perl
+      push: maybe-item-access
+    - match: ([$@%*&]#?)(\{)
+      captures:
+        1: keyword.operator.dereference.perl
+        2: punctuation.definition.variable.begin.perl
+      push: [maybe-item-access, variable-body, expressions-begin]
+    - match: '[$@%&]#?(?=[\w$@%*]|::)'
+      scope: keyword.operator.dereference.perl
+      push: function-identifier
 
   variable-not-operator:
     # variables that look like operators need special treatment

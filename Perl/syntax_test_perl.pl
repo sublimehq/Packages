@@ -1798,11 +1798,73 @@ EOT
 #                  ^^^^ meta.item-access.perl
 #                     ^ punctuation.section.item-access.end.perl
 
-###[ VARIABLE EXPRESSIONS ]###################################################
+###[ VARIABLE DEREFERENCING ]#################################################
 
+  $$ref  $$$refref $$$$refrefref
+# ^ keyword.operator.dereference.perl
+#  ^ punctuation.definition.variable.perl
+#  ^^^^ variable.other.readwrite.perl
+#        ^^ keyword.operator.dereference.perl
+#          ^ punctuation.definition.variable.perl
+#           ^^^^^^ variable.other.readwrite.perl
+#                  ^^^ keyword.operator.dereference.perl
+#                     ^ punctuation.definition.variable.perl
+#                     ^^^^^^^^^^ variable.other.readwrite.perl
+  $@ref  $$@refref $%$@refrefref
+# ^ keyword.operator.dereference.perl
+#  ^ punctuation.definition.variable.perl
+#  ^^^^ variable.other.readwrite.perl
+#        ^^ keyword.operator.dereference.perl
+#          ^ punctuation.definition.variable.perl
+#           ^^^^^^ variable.other.readwrite.perl
+#                  ^^^ keyword.operator.dereference.perl
+#                     ^ punctuation.definition.variable.perl
+#                     ^^^^^^^^^^ variable.other.readwrite.perl
+  $%ref  $$%refref $@$%refrefref
+# ^ keyword.operator.dereference.perl
+#  ^ punctuation.definition.variable.perl
+#  ^^^^ variable.other.readwrite.perl
+#        ^^ keyword.operator.dereference.perl
+#          ^ punctuation.definition.variable.perl
+#           ^^^^^^ variable.other.readwrite.perl
+#                  ^^^ keyword.operator.dereference.perl
+#                     ^ punctuation.definition.variable.perl
+#                     ^^^^^^^^^^ variable.other.readwrite.perl
+  $#$ref #=> 2 ## Last element index, -1 if empty
+# ^^ keyword.operator.dereference.perl
+#   ^ punctuation.definition.variable.perl
+#   ^^^^ variable.other.readwrite.perl
+  $#{$ref} #=> 2 ## Last element index, alternate syntax
+# ^^^^^^^^ meta.variable.perl
+# ^^ keyword.operator.dereference.perl
+#   ^ punctuation.definition.variable.begin.perl
+#    ^^^^  variable.other.readwrite.perl
+#        ^ punctuation.definition.variable.end.perl
+  @{$ref}[2,1,0] #=> (3, 2, 1) # Also: @$aref[2,1,0]
+# ^^^^^^^ meta.variable.perl
+#        ^^^^^^^ meta.item-access.perl
+# ^ keyword.operator.dereference.perl
+#  ^ punctuation.definition.variable.begin.perl
+#   ^^^^  variable.other.readwrite.perl
+#       ^ punctuation.definition.variable.end.perl
+#        ^ punctuation.section.item-access.begin.perl
+#         ^ constant.numeric.integer.decimal.perl
+#          ^ punctuation.separator.sequence.perl
+#              ^ punctuation.section.item-access.end.perl
+  ${ &$coderef() };    # Call by function reference
+# ^^^^^^^^^^^^^^^^ meta.variable.perl
+# ^ keyword.operator.dereference.perl
+#  ^ punctuation.definition.variable.begin.perl
+#    ^ keyword.operator.dereference.perl
+#     ^ punctuation.definition.variable.perl
+#     ^^^^^^^^ variable.other.readwrite.perl
+#             ^ punctuation.section.group.begin.perl
+#              ^ punctuation.section.group.end.perl
+#                ^ punctuation.definition.variable.end.perl
   ${get_var_name()}
 # ^^^^^^^^^^^^^^^^^ meta.variable.perl
-# ^^ punctuation.definition.variable.begin.perl
+# ^ keyword.operator.dereference.perl
+#  ^ punctuation.definition.variable.begin.perl
 #   ^^^^^^^^^^^^ variable.function.perl
 #                 ^ punctuation.definition.variable.end.perl
   ${the_var_name}[0]
@@ -1817,7 +1879,8 @@ EOT
 #                  ^ punctuation.section.item-access.end.perl
   ${/\w+$/g = $var}
 # ^^^^^^^^^^^^^^^^^ meta.variable.perl
-# ^^ punctuation.definition.variable.begin.perl
+# ^ keyword.operator.dereference.perl
+#  ^ punctuation.definition.variable.begin.perl
 #   ^ punctuation.section.generic.begin.perl
 #    ^^^^ string.regexp.perl
 #        ^ punctuation.section.generic.end.perl
@@ -1827,7 +1890,8 @@ EOT
   %{$foo{bar}{baz}} = 'excl';
 # ^^^^^^^^^^^^^^^^^ meta.variable.perl
 #       ^^^^^^^^^^ meta.item-access.perl
-# ^^ punctuation.definition.variable.begin.perl
+# ^ keyword.operator.dereference.perl
+#  ^ punctuation.definition.variable.begin.perl
 #   ^ punctuation.definition.variable.perl
 #   ^^^^ variable.other.readwrite.perl
 #       ^ punctuation.section.item-access.begin.perl
@@ -1842,7 +1906,8 @@ EOT
   %{$foo{'bar'}{'bar'}} = 'excl';
 # ^^^^^^^^^^^^^^^^^^^^^ meta.variable.perl
 #       ^^^^^^^^^^^^^^ meta.item-access.perl
-# ^^ punctuation.definition.variable.begin.perl
+# ^ keyword.operator.dereference.perl
+#  ^ punctuation.definition.variable.begin.perl
 #   ^ punctuation.definition.variable.perl
 #   ^^^^ variable.other.readwrite.perl
 #       ^ punctuation.section.item-access.begin.perl
@@ -1857,7 +1922,8 @@ EOT
 #                               ^ punctuation.terminator.statement.perl
   ${Foo::Bar::baz}
 # ^^^^^^^^^^^^^^^^ meta.variable.perl
-# ^^ punctuation.definition.variable.begin.perl
+# ^ keyword.operator.dereference.perl
+#  ^ punctuation.definition.variable.begin.perl
 #   ^^^ support.class.perl
 #      ^^ punctuation.accessor.double-colon.perl
 #        ^^^ support.class.perl
@@ -1869,7 +1935,8 @@ EOT
 #                 ^^^^^^ meta.item-access.perl
   ${
 #^ - variable
-# ^^ punctuation.definition.variable.begin.perl
+# ^ keyword.operator.dereference.perl
+#  ^ punctuation.definition.variable.begin.perl
 # ^^^ meta.variable.perl
     Foo::bar->baz()
 # <- meta.variable.perl
@@ -1884,7 +1951,105 @@ EOT
 #^^ meta.variable.perl
 # ^ punctuation.definition.variable.end.perl
 #  ^ - variable
-
+  ${ &$coderef() };    # Call by function reference
+# ^^^^^^^^^^^^^^^^ meta.variable.perl
+# ^ keyword.operator.dereference.perl
+#  ^ punctuation.definition.variable.begin.perl
+#    ^ keyword.operator.dereference.perl
+#     ^ punctuation.definition.variable.perl
+#     ^^^^^^^^ variable.other.readwrite.perl
+#             ^ punctuation.section.group.begin.perl
+#              ^ punctuation.section.group.end.perl
+#                ^ punctuation.definition.variable.end.perl
+  &$coderef;
+# ^ keyword.operator.dereference.perl
+#  ^ punctuation.definition.variable.perl
+#  ^^^^^^^^ variable.other.readwrite.perl
+#          ^ punctuation.terminator.statement.perl
+  &$coderef();
+# ^ keyword.operator.dereference.perl
+#  ^ punctuation.definition.variable.perl
+#  ^^^^^^^^ variable.other.readwrite.perl
+#          ^ punctuation.section.group.begin.perl
+#           ^ punctuation.section.group.end.perl
+#            ^ punctuation.terminator.statement.perl
+  &$::coderef();
+#^^ - meta.path.perl
+#  ^^^^^^^^^^ meta.path.perl
+#            ^^^ - meta.path.perl
+# ^ keyword.operator.dereference.perl
+#  ^ punctuation.definition.variable.perl
+#   ^^ punctuation.accessor.double-colon.perl
+#     ^^^^^^^ variable.other.readwrite.perl
+#            ^ punctuation.section.group.begin.perl
+#             ^ punctuation.section.group.end.perl
+#              ^ punctuation.terminator.statement.perl
+  &$ns::coderef();
+#^^ - meta.path.perl
+#  ^^^^^^^^^^^^ meta.path.perl
+#              ^^^ - meta.path.perl
+# ^ keyword.operator.dereference.perl
+#  ^ punctuation.definition.variable.perl
+#   ^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^^^^^ variable.other.readwrite.perl
+#              ^ punctuation.section.group.begin.perl
+#               ^ punctuation.section.group.end.perl
+  &{$coderef}();
+#^ - meta.variable.function
+# ^^^^^^^^^^^ meta.variable.perl
+#            ^^^ - meta.variable.function
+# ^ keyword.operator.dereference.perl
+#  ^ punctuation.definition.variable.begin.perl
+#   ^ punctuation.definition.variable.perl
+#   ^^^^^^^^ variable.other.readwrite.perl
+#           ^ punctuation.definition.variable.end.perl
+#            ^ punctuation.section.group.begin.perl
+#             ^ punctuation.section.group.end.perl
+  &{*coderef{NAME}}();
+#^ - meta.variable
+# ^^^^^^^^^^^^^^^^^ meta.variable.perl
+#           ^^^^^^ meta.item-access.perl
+#                  ^^^ - meta.variable.function
+# ^ keyword.operator.dereference.perl
+#  ^ punctuation.definition.variable.begin.perl
+#   ^ punctuation.definition.variable.perl
+#   ^^^^^^^^ variable.other.readwrite.perl
+#           ^ punctuation.section.item-access.begin.perl
+#            ^^^^ string.unquoted.perl
+#                ^ punctuation.section.item-access.end.perl
+#                 ^ punctuation.definition.variable.end.perl
+#                  ^ punctuation.section.group.begin.perl
+#                   ^ punctuation.section.group.end.perl
+  &{$Module::coderef}();
+# ^^^^^^^^^^^^^^^^^^^ meta.variable.perl
+#                    ^^^ - meta.variable.function
+# ^^ - meta.path.perl
+#   ^^^^^^^^^^^^^^^^ meta.path.perl
+#                   ^^^ - meta.path.perl
+# ^ keyword.operator.dereference.perl
+#  ^ punctuation.definition.variable.begin.perl
+#   ^ punctuation.definition.variable.perl
+#    ^^^^^^ support.class.perl
+#          ^^ punctuation.accessor.double-colon.perl
+#            ^^^^^^^ variable.other.readwrite.perl
+#                   ^ punctuation.definition.variable.end.perl
+#                    ^ punctuation.section.group.begin.perl
+#                     ^ punctuation.section.group.end.perl
+#                      ^ punctuation.terminator.statement.perl
+  &{ get_sub_reference() }(); #=> Calls returned subroutine reference
+#^ - meta.variable.function
+# ^^^^^^^^^^^^^^^^^^^^^^^^ meta.variable.perl
+#                         ^^^ - meta.variable.function
+# ^ keyword.operator.dereference.perl
+#  ^ punctuation.definition.variable.begin.perl
+#    ^^^^^^^^^^^^^^^^^ variable.function.perl
+#                     ^ punctuation.section.group.begin.perl
+#                      ^ punctuation.section.group.end.perl
+#                        ^ punctuation.definition.variable.end.perl
+#                         ^ punctuation.section.group.begin.perl
+#                          ^ punctuation.section.group.end.perl
+#                           ^ punctuation.terminator.statement.perl
   # addin items to an array
   $AoA[$i] = [ somefunc($i) ];
 # ^^^^ variable.other.readwrite.perl - meta.item-access
@@ -1902,7 +2067,8 @@ EOT
 #      ^^^^^^^^^^^^ meta.variable.perl
 #         ^^^^ variable.other.readwrite.perl - meta.item-access
 #             ^^^ meta.item-access.perl
-#      ^^  punctuation.definition.variable.begin.perl
+#      ^ keyword.operator.dereference.perl
+#       ^  punctuation.definition.variable.begin.perl
 #         ^ punctuation.definition.variable.perl
 #             ^ punctuation.section.item-access.begin.perl
 #              ^ constant.numeric.integer
@@ -2011,6 +2177,32 @@ EOT
 #                    ^^ variable.other.readwrite.perl
 #                      ^ punctuation.section.group.end.perl
 #                       ^ punctuation.terminator.statement.perl
+  $coderef = \&func;   # Reference to function
+#          ^ keyword.operator.assignment.perl
+#            ^ keyword.operator.reference.perl
+#             ^ keyword.operator.dereference.perl
+#              ^^^^ variable.function.perl
+#                  ^ punctuation.terminator.statement.perl
+  $coderef = \&if::func;
+#          ^^^^ - meta.path
+#              ^^^^^^^^ meta.path.perl
+#          ^ keyword.operator.assignment.perl
+#            ^ keyword.operator.reference.perl
+#             ^ keyword.operator.dereference.perl
+#              ^^ support.class.perl
+#                ^^ punctuation.accessor.double-colon.perl
+#                  ^^^^ variable.function.perl
+#                      ^ punctuation.terminator.statement.perl
+  $coderef = \&{ get_sub_reference() }
+#             ^^^^^^^^^^^^^^^^^^^^^^^^ meta.variable.perl
+#          ^ keyword.operator.assignment.perl
+#            ^ keyword.operator.reference.perl
+#             ^ keyword.operator.dereference.perl
+#              ^ punctuation.definition.variable.begin.perl
+#                ^^^^^^^^^^^^^^^^^ variable.function.perl
+#                                 ^ punctuation.section.group.begin.perl
+#                                  ^ punctuation.section.group.end.perl
+#                                    ^ punctuation.definition.variable.end.perl
 
 ###[ PACKAGE DEFINITION ]#####################################################
 
@@ -3544,6 +3736,9 @@ state
   print;
 # ^^^^^ support.function.perl
 #      ^ punctuation.terminator.statement.perl
+  &print
+# ^ keyword.operator.dereference.perl
+#  ^^^^^ support.function.perl
   print /pattern/g;
 # ^^^^^ support.function.perl
 #       ^ punctuation.section.generic.begin.perl
@@ -3569,6 +3764,11 @@ state
 #       ^ support.class.perl
 #        ^^ punctuation.accessor.double-colon.perl
 #          ^^^^ variable.function.perl
+  print $$$$refrefref;
+# ^^^^^ support.function.perl
+#       ^^^ keyword.operator.dereference.perl
+#          ^ punctuation.definition.variable.perl
+#          ^^^^^^^^^^ variable.other.readwrite.perl
   print + 1
 # ^^^^^ support.function.perl
 #       ^ keyword.operator.arithmetic.perl
@@ -3639,7 +3839,18 @@ state
 _EOD_
 #<- meta.heredoc.perl constant.language.heredoc.plain.perl
 #^^^^ meta.heredoc.perl constant.language.heredoc.plain.perl
-
+  &func + 1
+# ^ keyword.operator.dereference.perl
+#  ^^^^ variable.function.perl
+#       ^ keyword.operator.arithmetic.perl
+  &func x 1
+# ^ keyword.operator.dereference.perl
+#  ^^^^ variable.function.perl
+#       ^ keyword.operator.arithmetic.perl
+  &func and 1
+# ^ keyword.operator.dereference.perl
+#  ^^^^ variable.function.perl
+#       ^^^ keyword.operator.logical.perl
   no_func + 1
 # ^^^^^^^ - variable.function
 #         ^ keyword.operator.arithmetic.perl
@@ -3724,6 +3935,12 @@ _EOD_
 #     ^ punctuation.section.group.begin.perl
 #      ^ punctuation.section.group.end.perl
 #        ^ keyword.operator.arithmetic.perl
+  &func() + 1
+# ^ keyword.operator.dereference.perl
+#  ^^^^ variable.function.perl
+#      ^ punctuation.section.group.begin.perl
+#       ^ punctuation.section.group.end.perl
+#         ^ keyword.operator.arithmetic.perl
 
 ###[ QUALIFIED FUNCTION CALL ]################################################
 
@@ -3731,6 +3948,12 @@ _EOD_
 # ^^^^^^^ meta.path.perl
 # ^^ punctuation.accessor.double-colon.perl
 #   ^^^^^ support.function.perl
+  &::print
+# ^ - meta.path
+#  ^^^^^^^ meta.path.perl
+# ^ keyword.operator.dereference.perl
+#  ^^ punctuation.accessor.double-colon.perl
+#    ^^^^^ support.function.perl
   ::print(/pattern/g);
 # ^^^^^^^ meta.path.perl
 #        ^ - meta.path
@@ -3745,6 +3968,11 @@ _EOD_
 # ^^^^^^ meta.path.perl
 # ^^ punctuation.accessor.double-colon.perl
 #   ^^^^ variable.function.perl
+  &::func
+#  ^^^^^^ meta.path.perl
+# ^ keyword.operator.dereference.perl
+#  ^^ punctuation.accessor.double-colon.perl
+#    ^^^^ variable.function.perl
   ::func "string";
 # ^^^^^^ meta.path.perl
 # ^^ punctuation.accessor.double-colon.perl
@@ -3801,6 +4029,12 @@ _EOD_
 # ^^^^ support.class.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^^ support.function.perl
+  &main::print
+#  ^^^^^^^^^^^ meta.path.perl
+# ^ keyword.operator.dereference.perl
+#  ^^^^ support.class.perl
+#      ^^ punctuation.accessor.double-colon.perl
+#        ^^^^^ support.function.perl
   If::func
 # ^^^^^^^^ meta.path.perl
 # ^^ support.class.perl
@@ -3859,6 +4093,14 @@ _EOD_
 #    ^ support.class.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^ variable.function.perl
+  &i::f::func
+#  ^^^^^^^^^^ meta.path.perl
+# ^ keyword.operator.dereference.perl
+#  ^ support.class.perl
+#   ^^ punctuation.accessor.double-colon.perl
+#     ^ support.class.perl
+#      ^^ punctuation.accessor.double-colon.perl
+#        ^^^^ variable.function.perl
 
 ###[ METHOD CALLS ]###########################################################
 
@@ -4034,6 +4276,17 @@ _EOD_
 #    ^^^^ variable.function.perl
 #         ^^^^^^^^ variable.other.readwrite.perl
 #                         ^ punctuation.section.group.end.perl
+  if (&$coderef()) {&$coderef()}
+#     ^ keyword.operator.dereference.perl
+#      ^ punctuation.definition.variable.perl
+#      ^^^^^^^^ variable.other.readwrite.perl
+#              ^ punctuation.section.group.begin.perl
+#               ^ punctuation.section.group.end.perl
+#                   ^ keyword.operator.dereference.perl
+#                    ^ punctuation.definition.variable.perl
+#                    ^^^^^^^^ variable.other.readwrite.perl
+#                            ^ punctuation.section.group.begin.perl
+#                             ^ punctuation.section.group.end.perl
   if ($self->value <= $self->other);
 #            ^^^^^ variable.function.member.perl
 #                  ^^ keyword.operator.logical.perl
