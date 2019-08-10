@@ -799,6 +799,53 @@ EOT
   '>
 # ^ string
 #  ^ punctuation.section.generic.end.perl - string
+  qr:\\:;
+# ^^^^^^ meta.function-call.perl
+# ^^ support.function.perl
+#   ^ punctuation.section.generic.begin.perl
+#    ^^ string.regexp.perl source.regexp constant.character.escape.regexp
+#      ^ punctuation.section.generic.end.perl
+#       ^ punctuation.terminator.statement.perl
+  qr:\\\\:/;
+# ^^^^^^^^ meta.function-call.perl
+# ^ support.function.perl
+#   ^ punctuation.section.generic.begin.perl
+#    ^^^^ string.regexp.perl source.regexp constant.character.escape.regexp
+#        ^ punctuation.section.generic.end.perl
+#         ^ keyword.operator.arithmetic.perl
+#          ^ punctuation.terminator.statement.perl
+  qr/^\s+/;
+# ^^^^^^^^ meta.function-call.perl
+# ^^ support.function.perl
+#   ^ punctuation.section.generic.begin.perl
+#    ^^^^ string.regexp.perl source.regexp
+#        ^ punctuation.section.generic.end.perl
+#         ^ punctuation.terminator.statement.perl
+
+  CORE::q//
+# ^^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^ support.function.perl
+#        ^ punctuation.section.generic.begin.perl
+#         ^ punctuation.section.generic.end.perl
+  CORE::qq//
+# ^^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^ support.function.perl
+#         ^ punctuation.section.generic.begin.perl
+#          ^ punctuation.section.generic.end.perl
+  CORE::qx//
+# ^^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^ support.function.perl
+#         ^ punctuation.section.generic.begin.perl
+#          ^ punctuation.section.generic.end.perl
+  CORE::qw//
+# ^^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^ support.function.perl
+#         ^ punctuation.section.generic.begin.perl
+#          ^ punctuation.section.generic.end.perl
 
 ###[ REGEX ]##################################################################
 
@@ -860,6 +907,27 @@ EOT
 #                                             ^ constant.language.flags.regexp.perl
 #                                              ^ punctuation.terminator.statement.perl
 #                                                ^ comment.line.number-sign.perl punctuation.definition.comment.perl
+  CORE::m
+# ^^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^ support.function.perl
+  CORE::m//g
+# ^^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^ support.function.perl
+#        ^ punctuation.section.generic.begin.perl
+#         ^ punctuation.section.generic.end.perl
+#          ^ constant.language.flags.regexp.perl
+  core::m
+# ^^^^ meta.path.perl support.class.perl
+#     ^^ meta.path.perl punctuation.accessor.double-colon.perl
+#       ^ meta.path.perl variable.function.perl
+  m::core
+# ^ support.function.perl
+#  ^ punctuation.section.generic.begin.perl
+#   ^ punctuation.section.generic.end.perl
+#    ^^^^ constant.language.flags.regexp.perl
+
   s {
 # ^^^^ meta.function-call.perl
 #   ^^ meta.braces.perl
@@ -963,28 +1031,97 @@ EOT
 #    ^ punctuation.section.generic.end.perl
 #     ^^^^^^^^^^^^^^^ constant.language.flags.regexp.perl
 #                    ^ punctuation.terminator.statement.perl
-  qr:\\:;
-# ^^^^^^ meta.function-call.perl
-# ^^ support.function.perl
-#   ^ punctuation.section.generic.begin.perl
-#    ^^ string.regexp.perl source.regexp constant.character.escape.regexp
-#      ^ punctuation.section.generic.end.perl
-#       ^ punctuation.terminator.statement.perl
-  qr:\\\\:/;
-# ^^^^^^^^ meta.function-call.perl
+  CORE::s
+# ^^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^ support.function.perl
+  CORE::s///g
+# ^^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^ support.function.perl
+#        ^ punctuation.section.generic.begin.perl
+#         ^ punctuation.separator.sequence.perl
+#          ^ punctuation.section.generic.end.perl
+#           ^ constant.language.flags.regexp.perl
+  core::s
+# ^^^^ meta.path.perl support.class.perl
+#     ^^ meta.path.perl punctuation.accessor.double-colon.perl
+#       ^ meta.path.perl variable.function.perl
+  s::core:s
 # ^ support.function.perl
-#   ^ punctuation.section.generic.begin.perl
-#    ^^^^ string.regexp.perl source.regexp constant.character.escape.regexp
+#  ^ punctuation.section.generic.begin.perl
+#   ^ punctuation.separator.sequence.perl
+#    ^^^^ string.unquoted.perl
 #        ^ punctuation.section.generic.end.perl
-#         ^ keyword.operator.arithmetic.perl
-#          ^ punctuation.terminator.statement.perl
-  qr/^\s+/;
-# ^^^^^^^^ meta.function-call.perl
+#         ^ constant.language.flags.regexp.perl
+
+  tr/h-k/foo $bar baz/cdsr;
+# ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^^ support.function.perl
 #   ^ punctuation.section.generic.begin.perl
-#    ^^^^ string.regexp.perl source.regexp
+#    ^^^ string.regexp.perl
+#       ^ punctuation.separator.sequence.perl
+#        ^^^^^^^^^^^^ string.unquoted.perl
+#                    ^ punctuation.section.generic.end.perl
+#                     ^^^^ constant.language.flags.regexp.perl
+#                         ^ punctuation.terminator.statement.perl
+  CORE::tr
+# ^^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^ support.function.perl
+  CORE::tr///g
+# ^^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^ support.function.perl
+#         ^ punctuation.section.generic.begin.perl
+#          ^ punctuation.separator.sequence.perl
+#           ^ punctuation.section.generic.end.perl
+#            ^ constant.language.flags.regexp.perl
+  core::tr
+# ^^^^ meta.path.perl support.class.perl
+#     ^^ meta.path.perl punctuation.accessor.double-colon.perl
+#       ^^ meta.path.perl variable.function.perl
+  tr::core:s
+# ^^ support.function.perl
+#   ^ punctuation.section.generic.begin.perl
+#    ^ punctuation.separator.sequence.perl
+#     ^^^^ string.unquoted.perl
+#         ^ punctuation.section.generic.end.perl
+#          ^ constant.language.flags.regexp.perl
+
+  y/\x68-k/\foo $bar baz/cdsr;
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
+# ^ support.function.perl
+#  ^ punctuation.section.generic.begin.perl
+#   ^^^^^^ string.regexp.perl
+#         ^ punctuation.separator.sequence.perl
+#          ^^^^^^^^^^^^^ string.unquoted.perl
+#                       ^ punctuation.section.generic.end.perl
+#                        ^^^^ constant.language.flags.regexp.perl
+#                            ^ punctuation.terminator.statement.perl
+  CORE::y
+# ^^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^ support.function.perl
+  CORE::y///g
+# ^^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^ support.function.perl
+#        ^ punctuation.section.generic.begin.perl
+#         ^ punctuation.separator.sequence.perl
+#          ^ punctuation.section.generic.end.perl
+#           ^ constant.language.flags.regexp.perl
+  core::y
+# ^^^^ meta.path.perl support.class.perl
+#     ^^ meta.path.perl punctuation.accessor.double-colon.perl
+#       ^ meta.path.perl variable.function.perl
+  y::core:s
+# ^ support.function.perl
+#  ^ punctuation.section.generic.begin.perl
+#   ^ punctuation.separator.sequence.perl
+#    ^^^^ string.unquoted.perl
 #        ^ punctuation.section.generic.end.perl
-#         ^ punctuation.terminator.statement.perl
+#         ^ constant.language.flags.regexp.perl
 
 ###[ REGEXP FLAGS ]###########################################################
 
@@ -1615,8 +1752,14 @@ EOT
 # ^^^^^^^ meta.namespace.perl - meta.path
 #        ^^^^^^ - meta.namespace
 # ^^^^^^^ storage.type.namespace.perl
+  CORE::package;
+#       ^^^^^^^ storage.type.namespace.perl
+  core::package;
+# ^^^^^^^^^^^^^^ - meta.namespace.perl
+#       ^^^^^^^ - storage
   package::name;
 # ^^^^^^^^^^^^^^ - meta.namespace.perl
+# ^^^^^^^ - storage
 
 ###[ PACKAGE IMPORTS ]########################################################
 
@@ -1749,8 +1892,20 @@ EOT
 #        ^ keyword.operator.concat.perl
 #         ^^^^ variable.function.perl
 #             ^ punctuation.terminator.statement.perl
+  CORE::require;
+# ^^^^^^ - meta.preprocessor
+#       ^^^^^^^ meta.preprocessor.require.perl
+# ^^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^^^^^ keyword.control.import.require.perl
+#              ^ punctuation.terminator.statement.perl
+  core::require;
+# ^^^^^^^^^^ - meta.preprocessor.require.perl
+#       ^^^^^^^ - keyword
+#              ^ punctuation.terminator.statement.perl
   require::name;
 # ^^^^^^^^^^^^^^ - meta.preprocessor.require.perl
+# ^^^^^^^ - keyword
 #              ^ punctuation.terminator.statement.perl
 
 eval { require Mail::Send };
@@ -1823,12 +1978,43 @@ use strict "vars";
 #                           ^^ punctuation.accessor.double-colon.perl
 #                             ^^^^ variable.function.perl
 #                                 ^ punctuation.terminator.statement.perl
+  CORE::use;
+# ^^^^^^ - meta.preprocessor
+#       ^^^ meta.preprocessor.use.perl
+# ^^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^ keyword.control.import.use.perl
+#          ^ punctuation.terminator.statement.perl
+  core::use;
+# ^^^^^^^^^^ - meta.preprocessor.use.perl
+#       ^^^ - keyword
+#          ^ punctuation.terminator.statement.perl
+  use::name;
+# ^^^^^^^^^^ - meta.preprocessor.use.perl
+# ^^^ - keyword
+#          ^ punctuation.terminator.statement.perl
+
   no strict;
 # ^^^^^^^^^ meta.preprocessor.no.perl
 #          ^ - meta.preprocessor - meta.path
 # ^^ keyword.control.import.no.perl
 #    ^^^^^^ entity.name.namespace.perl
 #          ^ punctuation.terminator.statement.perl
+  CORE::no;
+# ^^^^^^ - meta.preprocessor
+#       ^^ meta.preprocessor.no.perl
+# ^^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^ keyword.control.import.no.perl
+#         ^ punctuation.terminator.statement.perl
+  core::no;
+# ^^^^^^^^^ - meta.preprocessor.no.perl
+#       ^^ - keyword
+#         ^ punctuation.terminator.statement.perl
+  no::name;
+# ^^^^^^^^^^ - meta.preprocessor.no.perl
+# ^^ - keyword
+#         ^ punctuation.terminator.statement.perl
 
 ###[ DECLARATIONS ]###########################################################
 
@@ -1884,8 +2070,21 @@ my (
 #                          ^ punctuation.section.generic.end.perl
 #                           ^ punctuation.terminator.statement.perl
 #                             ^ punctuation.section.block.end.perl
-  my::foo::bar
-# ^^ - keyword.declaration.variable.perl
+  CORE::my
+# ^^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^ keyword.declaration.variable.perl
+  core::my
+# ^^^^^^^^ meta.path.perl
+# ^^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^ variable.function.perl
+  my::core
+# ^^^^^^^^ meta.path.perl
+# ^^ support.class.perl
+#   ^^ punctuation.accessor.double-colon.perl
+#     ^^^^ variable.function.perl
+
 our
 # <-  keyword.declaration.variable
 #^^ keyword.declaration.variable
@@ -2773,6 +2972,21 @@ state
 # ^ punctuation.section.block.begin.perl
   }
 # ^ punctuation.section.block.end.perl
+  CORE::sub ;
+# ^^^^^^ - meta.function.perl
+#       ^^^^ meta.function.perl
+# ^^^^ support.class.perl
+#     ^^ punctuation.accessor.double-colon.perl
+#       ^^^ storage.type.function.perl
+#           ^ punctuation.terminator.statement.perl
+  core::sub;
+# ^^^^^^^^^ - meta.function.perl
+#       ^^^ - keyword
+#          ^ punctuation.terminator.statement.perl
+  sub::name;
+# ^^^^^^^^^ - meta.function.perl
+# ^^^ - keyword
+#          ^ punctuation.terminator.statement.perl
 
 ###[ CONTROL KEYWORDS ]#######################################################
 
@@ -2792,6 +3006,10 @@ state
 # ^^^^^^^ - keyword.control
   default :: word
 # ^^^^^^^ keyword.control.conditional.default.perl
+  CORE::default
+#       ^^^^^^^ keyword.control.conditional.default.perl
+  core::default
+#       ^^^^^^^ - keyword.control
   default::word
 # ^^^^^^^ - keyword.control
   else -> word
@@ -2808,6 +3026,10 @@ state
 # ^^^^ - keyword.control
   else :: word
 # ^^^^ keyword.control.conditional.else.perl
+  CORE::else
+#       ^^^^ keyword.control.conditional.else.perl
+  core::else
+#       ^^^^ - keyword.control
   else::word
 # ^^^^ - keyword.control
   elsif
@@ -3439,8 +3661,10 @@ _EOD_
 #               ^ constant.numeric.integer.decimal.perl
 #                ^ punctuation.section.group.end.perl
 #                  ^ punctuation.section.block.begin.perl
-    break;
-#   ^^^^^ keyword.control.flow.break.perl
+    CORE::break;
+#   ^^^^ support.class.perl
+#       ^^ punctuation.accessor.double-colon.perl
+#         ^^^^^ keyword.control.flow.break.perl
   }
 # ^ punctuation.section.block.end.perl
 

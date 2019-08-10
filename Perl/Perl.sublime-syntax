@@ -928,6 +928,13 @@ contexts:
 ###[ KEYWORDS ]###############################################################
 
   keywords:
+    # All keywords can be prefixed with the case sensitive `CORE` namespace.
+    # This context makes sure not to highlight the keywords as functions.
+    # The `meta.path` is not applied for simplicity reasons.
+    - match: \b(CORE)(::)(?={{reserved_words}})
+      captures:
+        1: support.class.perl
+        2: punctuation.accessor.double-colon.perl
     # declaration
     - match: \b(?:{{storage_keywords}}){{break}}
       scope: keyword.declaration.variable.perl
@@ -1082,6 +1089,9 @@ contexts:
     # SEE: http://perldoc.perl.org/perlop.html#Regexp-Quote-Like-Operators
     - include: quoted-like-match
     - include: quoted-like-replace
+    # fallback
+    - match: \b(?:{{quoted_like_keywords}}){{break}}
+      scope: support.function.perl
 
   quoted-like-match:
     - match: \bq[qwx]?\b
