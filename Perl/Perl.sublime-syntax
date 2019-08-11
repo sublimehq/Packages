@@ -791,13 +791,32 @@ contexts:
 
   string-format:
     # SEE: http://perldoc.perl.org/perlform.html
-    - match: ^\s*(format)\s+(\w+)\s*(=)\s*$
+    - match: \bformat{{break}}
+      scope: storage.type.format.perl
+      push: [string-format-meta, string-format-body, string-format-variable]
+
+  string-format-meta:
+    - meta_scope: meta.format.perl
+    - include: immediately-pop
+
+  string-format-variable:
+    - match: ({{identifier}})?(::)
       captures:
-        1: storage.type.format.perl
-        2: variable.other.readwrite.perl
-        3: keyword.operator.assignment.perl
+        1: support.class.perl
+        2: punctuation.accessor.double-colon.perl
       push:
-        - meta_scope: meta.block.format.perl
+        - meta_scope: meta.path.perl
+        - include: qualifier
+        - include: variable-identifier
+        - include: immediately-pop
+    - include: variable-identifier
+    - include: comment-line
+    - include: else-pop
+
+  string-format-body:
+    - match: '=(?!=)'
+      scope: keyword.operator.assignment.perl
+      set:
         - meta_content_scope: meta.string.perl string.unquoted.perl
         - match: ^\.(?=\s*$)
           scope: punctuation.terminator.format.perl
@@ -817,6 +836,10 @@ contexts:
           captures:
             1: punctuation.definition.placeholder.begin.perl
         - include: variables-interpolation
+    - include: comment-line
+    - match: \S+
+      scope: invalid.illegal.identifier.perl
+      pop: true
 
   string-heredoc:
     # SEE: http://www.perlmeme.org/howtos/syntax/here_document.html

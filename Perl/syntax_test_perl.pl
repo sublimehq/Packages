@@ -146,12 +146,105 @@
 
 ###[ FORMAT ]#################################################################
 
-format name =
-# <- meta.block.format.perl storage.type.format.perl
-#^^^^^^^^^^^^^ meta.block.format.perl
+format.
+#^^^^^ meta.format.perl storage.type.format.perl
+#     ^ meta.format.perl invalid.illegal.identifier.perl
+
+format =
+#^^^^^ meta.format.perl storage.type.format.perl
+#      ^ meta.format.perl keyword.operator.assignment.perl
+  text
+# ^^^^^ meta.format.perl meta.string.perl string.unquoted.perl
+.
+# <- meta.format.perl punctuation.terminator.format.perl
+
+format
+#^^^^^ meta.format.perl storage.type.format.perl
+  =
+# ^ meta.format.perl keyword.operator.assignment.perl
+  text
+# ^^^^^ meta.format.perl meta.string.perl string.unquoted.perl
+.
+# <- meta.format.perl punctuation.terminator.format.perl
+
+format format
+#^^^^^ meta.format.perl storage.type.format.perl
+#      ^^^^^^ meta.format.perl variable.other.readwrite.perl
+illegal
+#^^^^^^ meta.format.perl invalid.illegal.identifier.perl
+
+format format =
+#^^^^^ meta.format.perl storage.type.format.perl
+#      ^^^^^^ meta.format.perl variable.other.readwrite.perl
+#             ^ meta.format.perl keyword.operator.assignment.perl
+  text
+# ^^^^^ meta.format.perl meta.string.perl string.unquoted.perl
+.
+# <- meta.format.perl punctuation.terminator.format.perl
+
+format
+#^^^^^ meta.format.perl storage.type.format.perl
+  format
+# ^^^^^^ meta.format.perl variable.other.readwrite.perl
+  =
+# ^ meta.format.perl keyword.operator.assignment.perl
+  text
+# ^^^^^ meta.format.perl meta.string.perl string.unquoted.perl
+.
+# <- meta.format.perl punctuation.terminator.format.perl
+
+format if::format =
+#^^^^^^^^^^^^^^^^^^^ meta.format.perl
 #^^^^^ storage.type.format.perl
-#      ^^^^ variable.other.readwrite.perl
+#      ^^ meta.path.perl support.class.perl
+#        ^^ meta.path.perl punctuation.accessor.double-colon.perl
+#          ^^^^^^ meta.path.perl variable.other.readwrite.perl
+#                 ^ keyword.operator.assignment.perl
+  text
+# ^^^^^ meta.format.perl meta.string.perl string.unquoted.perl
+.
+# <- meta.format.perl punctuation.terminator.format.perl
+
+CORE::format if::format =
+#^^^ support.class.perl - meta.format
+#     ^^^^^^^^^^^^^^^^^^^^ meta.format.perl
+#   ^^ punctuation.accessor.double-colon.perl
+#     ^^^^^^ storage.type.format.perl
+#            ^^ meta.path.perl support.class.perl
+#              ^^ meta.path.perl punctuation.accessor.double-colon.perl
+#                ^^^^^^ meta.path.perl variable.other.readwrite.perl
+#                       ^ keyword.operator.assignment.perl
+  text
+# ^^^^^ meta.format.perl meta.string.perl string.unquoted.perl
+.
+# <- meta.format.perl punctuation.terminator.format.perl
+
+core::format
+#     ^^^^^^ - storage.type.format.perl
+format::func
+#^^^^^ - storage.type.format.perl
+format $var =
+#^^^^^^^^^^ meta.format.perl
+#           ^^ - meta.format.perl
+#      ^^^^ invalid.illegal.identifier.perl
 #           ^ keyword.operator.assignment.perl
+format var[0] =
+#^^^^^^^^^^^^ meta.format.perl
+#             ^^ - meta.format.perl
+#      ^^^ variable.other.readwrite.perl
+#         ^^^ invalid.illegal.identifier.perl
+#             ^ keyword.operator.assignment.perl
+format ns::$ns::var =
+#^^^^^^^^^^^^^^^^^^ meta.format.perl
+#                   ^^ - meta.format.perl
+#      ^^ variable.namespace.perl
+#          ^^^^^^^^ invalid.illegal.identifier.perl
+#                   ^ keyword.operator.assignment.perl
+format var =
+# <- storage.type.format.perl
+#^^^^^ meta.format.perl storage.type.format.perl
+#      ^^^ variable.other.readwrite.perl
+#          ^ keyword.operator.assignment.perl
   ...  terminate a text field, show "..." as truncation evidence
 #^ meta.string.perl string.unquoted.perl - constant
 # ^^^ meta.string.perl string.unquoted.perl constant.other.placeholder.text.perl
@@ -448,7 +541,7 @@ format name =
 #                         ^^^^^^^^^^ meta.string.perl meta.interpolation.perl meta.item-access.perl - string.unquoted
 #                                   ^ meta.string.perl string.unquoted.perl - meta.interpolation
 .
-# <- punctuation.terminator.format.perl
+# <- meta.format.perl punctuation.terminator.format.perl
 
 ###[ SPRINTF FORMAT ]#########################################################
 
