@@ -1,0 +1,6 @@
+<snippet>
+	<content><![CDATA[<${1:p}>${0:$SELECTION}</${1/([^ ]+).*/$1/}>]]></content>
+	<tabTrigger>lt</tabTrigger>
+	<scope>text.xml - meta.tag - comment - string</scope>
+	<description>Long Tag</description>
+</snippet>

@@ -67,6 +67,18 @@ ECHO "
 
    GOTO:EOF
 :: ^^^^ keyword.control.statement.dosbatch
+::     ^ punctuation.separator.dosbatch
+::      ^^^ keyword.control.flow.return.dosbatch
+
+   GOTO :End
+:: ^^^^ keyword.control.statement.dosbatch
+::      ^ punctuation.separator.dosbatch
+::       ^^^ meta.function-call.dosbatch variable.function.dosbatch
+
+   GOTO:End
+:: ^^^^ keyword.control.statement.dosbatch
+::     ^ punctuation.separator.dosbatch
+::      ^^^ meta.function-call.dosbatch variable.function.dosbatch
 
 :: Redirection
    ECHO Hello World! > hello.txt

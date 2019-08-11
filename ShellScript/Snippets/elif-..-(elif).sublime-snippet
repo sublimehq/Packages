@@ -2,6 +2,6 @@
 	<content><![CDATA[elif ${2:[[ ${1:condition} ]]}; then
 	${0:#statements}]]></content>
 	<tabTrigger>elif</tabTrigger>
-	<scope>source.shell</scope>
+	<scope>source.shell.bash</scope>
 	<description>elif …</description>
 </snippet>

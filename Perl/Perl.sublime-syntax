@@ -8,17 +8,55 @@ file_extensions:
   - pod
   - t
   - PL
-first_line_match: ^#!.*\bperl\b
+first_line_match: |-
+  (?x:
+    ^\#! .* \bperl\b |                     # shebang
+    ^\# \s* -\*- [^*]* [Pp]erl [^*]* -\*-  # editorconfig
+  )
 scope: source.perl
 
 variables:
   break: (?!\w|\s*::)
-  identifier: '\b[_[:alpha:]]\w*{{break}}'
+  identifier: '\b[_[:alpha:]]\w*\b'
   module: '\b[_[:upper:]]\w*\b'
   member: '\b[_[:lower:]]\w*\b'
   pod: '={{identifier}}'
   regexp_delim: '[^\w\s\)\]\}\>]'
   regexp_flags: '[msixpodualngcer]+\b'
+
+  # SEE: https://perldoc.perl.org/index-functions.html
+  builtin_functions: |-
+    \b(?x:
+      abs|accept|alarm|atan2|bind|binmode|bless|chdir|chmod|
+      chomp|chop|chown|chr|chroot|close|closedir|connect|cos|crypt|
+      dbmclose|dbmopen|defined|delete|each|endgrent|endhostent|
+      endnetent|endprotoent|endpwent|endservent|eof|eval|evalbytes|exec|
+      exists|exp|fc|fcntl|fileno|flock|fork|formline|getc|
+      getgrent|getgrgid|getgrnam|gethostbyaddr|gethostbyname|gethostent|
+      getlogin|getnetbyaddr|getnetbyname|getnetent|getpeername|getpgrp|
+      getppid|getpriority|getprotobyname|getprotobynumber|getprotoent|
+      getpwent|getpwnam|getpwuid|getservbyname|getservbyport|getservent|
+      getsockname|getsockopt|glob|gmtime|grep|hex|index|int|ioctl|join|
+      keys|kill|lc|lcfirst|length|link|listen|localtime|lock|log|
+      lstat|map|mkdir|msgctl|msgget|msgrcv|msgsnd|oct|open|opendir|ord|
+      pack|pipe|pop|pos|print|printf|prototype|push|quotemeta|
+      rand|read|readdir|readline|readlink|readpipe|recv|ref|rename|
+      reset|reverse|rewinddir|rindex|rmdir|say|scalar|seek|seekdir|select|
+      semctl|semget|semop|send|setgrent|sethostent|setnetent|setpgrp|
+      setpriority|setprotoent|setpwent|setservent|setsockopt|shift|shmctl|
+      shmget|shmread|shmwrite|shutdown|sin|sleep|socket|socketpair|sort|
+      splice|split|sprintf|sqrt|srand|stat|study|substr|symlink|syscall|
+      sysopen|sysread|sysseek|system|syswrite|tell|telldir|tie|tied|time|
+      times|truncate|uc|ucfirst|umask|undef|unlink|unpack|unshift|untie|
+      utime|values|vec|wait|waitpid|wantarray|warn|write
+    ){{break}}
+
+  reserved_words: |-
+    \b(?x:
+      # control keywords
+      default|else|elsif|given|if|unless|when|break|caller|continue|die|
+      do|dump|exit|goto|last|next|redo|return|wait|for|foreach|until|while
+    ){{break}}
 
 contexts:
   main:
@@ -26,7 +64,7 @@ contexts:
     - include: declarations
     - include: expressions
 
-### [ PROTOTYPES ] ###########################################################
+###[ PROTOTYPES ]#############################################################
 
   immediately-pop:
     - match: ''
@@ -44,14 +82,14 @@ contexts:
     - match: (?=;)
       pop: true
 
-### [ COMMENTS ] #############################################################
+###[ COMMENTS ]###############################################################
 
   comment-line:
     - match: \#+
-      scope: punctuation.definition.comment.begin.perl
+      scope: punctuation.definition.comment.perl
       push:
         - meta_scope: comment.line.number-sign.perl
-        - match: $
+        - match: \n
           pop: true
 
   comment-pod:
@@ -61,7 +99,7 @@ contexts:
       push:
         - meta_scope: comment.block.documentation.perl
         - meta_content_scope: string.unquoted.perl
-        - match: $\n?
+        - match: \n
           set: comment-pod-body
         - include: comment-pod-formatting
 
@@ -206,7 +244,7 @@ contexts:
     - include: comment-pod-formatting
     - include: literal-ltgt-nested
 
-### [ DECLARATIONS ]##########################################################
+###[ DECLARATIONS ]###########################################################
 
   declarations:
     # KEYWORD package
@@ -263,25 +301,27 @@ contexts:
           |warnings|warnings\s*::\s*register){{break}}
       scope: storage.modifier.perl
 
-### [ EXPRESSIONS ]###########################################################
+###[ EXPRESSIONS ]############################################################
 
   expressions:
     - include: blocks
+    - include: brackets
     - include: groups
+    - include: sub
+    - include: quoted-like
+    - include: label
     - include: constants
     - include: class
     - include: operators
-    - include: quoted-like
     - include: control
-    - include: sub
     - include: variables
-    - include: functions
+    - include: function-call
     - include: comment-line
     # /<find>/<flags> statement at line start
-    - match: ^ *(?=/.*[^\\]/)
+    - match: ^\s*(?=/.*[^\\]/)
       push: regexp-pop
 
-### [ BLOCKS AND GROUPS ]#####################################################
+###[ BLOCKS AND GROUPS ]######################################################
 
   blocks:
     # can't push into scope due to HEREDOCs!
@@ -302,6 +342,27 @@ contexts:
       pop: true
     - include: expressions
 
+  brackets:
+    # can't push into scope due to HEREDOCs!
+    - match: \[
+      scope: punctuation.section.brackets.begin.perl
+      push: regexp-pop
+    - match: \]
+      scope: punctuation.section.brackets.end.perl
+
+  brackets-nested:
+    - match: \[
+      scope: punctuation.section.brackets.begin.perl
+      push: [brackets-nested-body, regexp-pop]
+
+  brackets-nested-body:
+    - match: \]
+      scope: punctuation.section.brackets.end.perl
+      pop: true
+    - include: blocks-nested
+    - include: brackets-nested
+    - include: expressions
+
   groups:
     # can't push into scope due to HEREDOCs!
     - match: \(
@@ -311,31 +372,33 @@ contexts:
       scope: punctuation.section.group.end.perl
 
   groups-nested:
-    - match: \{
+    - match: \(
       scope: punctuation.section.group.begin.perl
       push: [groups-nested-body, regexp-pop]
 
   groups-nested-body:
-    - match: \}
+    - match: \)
       scope: punctuation.section.group.end.perl
       pop: true
+    - include: blocks-nested
+    - include: brackets-nested
+    - include: groups-nested
     - include: expressions
 
-### [ CONSTANTS ]#############################################################
+###[ CONSTANTS ]##############################################################
 
   constants:
     - include: constants-numbers
     - include: constants-language
+    - include: constants-other
     - include: string
-    - match: \b\w+\s*(?==>)
-      scope: constant.other.key.perl
 
   constants-numbers:
     # SEE: http://perldoc.perl.org/perlnumber.html
     - match: 0b[01]+(?![\.\w+])
-      scope: constant.numeric.binary.perl
+      scope: constant.numeric.integer.binary.perl
     - match: 0x[\h_]+(?![\.\w+])
-      scope: constant.numeric.hex.perl
+      scope: constant.numeric.integer.hexadecimal.perl
     - include: constants-numbers-float
     - include: constants-numbers-integer
 
@@ -344,42 +407,46 @@ contexts:
       scope: string.quoted.double.perl
       captures:
         1: punctuation.definition.string.begin.perl
-        2: constant.numeric.float.perl
+        2: constant.numeric.float.decimal.perl
         3: punctuation.definition.string.end.perl
     - match: (')([-+]?\d+\.\d+(?:e[-+]?\d+)?)(')
       scope: string.quoted.single.perl
       captures:
         1: punctuation.definition.string.begin.perl
-        2: constant.numeric.float.perl
+        2: constant.numeric.float.decimal.perl
         3: punctuation.definition.string.end.perl
     - match: (?:[-+]|\b)\d+\.\d+(?:e[-+]?\d+)?(?![\.\w+])
-      scope: constant.numeric.float.perl
+      scope: constant.numeric.float.decimal.perl
 
   constants-numbers-integer:
     - match: (")([-+]?\d+)(")
       scope: string.quoted.double.perl
       captures:
         1: punctuation.definition.string.begin.perl
-        2: constant.numeric.integer.perl
+        2: constant.numeric.integer.decimal.perl
         3: punctuation.definition.string.end.perl
     - match: (')([-+]?\d+)(')
       scope: string.quoted.single.perl
       captures:
         1: punctuation.definition.string.begin.perl
-        2: constant.numeric.integer.perl
+        2: constant.numeric.integer.decimal.perl
         3: punctuation.definition.string.end.perl
     - match: (?:[-+]|\b)\d+(?![\.\w+])
-      scope: constant.numeric.integer.perl
+      scope: constant.numeric.integer.decimal.perl
 
   constants-language:
     - match: \b__(?:END|DATA|FILE|LINE|PACKAGE|SUB)__\b
       scope: constant.language.perl
     - match: \b(?:ARGV|ARGVOUT|STDERR|STDIN|STDOUT|DATA|IN|OUT){{break}}
       scope: constant.language.filehandle.perl
+
+  constants-other:
+    - match: \b\w+(?=\s*=>)
+      scope: constant.other.key.perl
     - match: \b[A-Z0-9_]+{{break}}
       scope: constant.other.perl
 
-### [ STRINGS ]###############################################################
+###[ STRINGS ]################################################################
 
   string:
     - include: string-quoted-backtick
@@ -586,37 +653,138 @@ contexts:
       scope: constant.language.heredoc.plain.perl
       pop: true
 
-### [ CLASSES ]################################################################
+###[ CLASSES ]################################################################
 
   class:
     - match: '{{module}}(?=\s*(?:::|[#;]|$))'
       scope: support.class.perl
-      push: members-pop
+      push: class-members-pop
 
-  members-pop:
+  class-members-pop:
+    # nested class
     - match: \s*(::)\s*({{module}})
       captures:
         1: punctuation.accessor.double-colon.perl
         2: support.class.perl
+      push: maybe-item-access
+    # member function
+    - match: \s*(::)\s*(({{member}})\s*)(?=\()
+      captures:
+        1: punctuation.accessor.double-colon.perl
+        2: meta.function-call.name.perl
+        3: variable.function.member.perl
+      set: function-call-arguments
+    # member variable
     - match: \s*(::)\s*({{identifier}})
       captures:
         1: punctuation.accessor.double-colon.perl
         2: variable.other.member.perl
+      set: maybe-item-access
     - include: else-pop
 
-### [ CONTROL KEYWORDS ]#######################################################
+  object-members-pop:
+    # member function
+    - match: ({{member}})\s*(?=\()
+      scope: meta.function-call.name.perl
+      captures:
+        1: variable.function.member.perl
+      set: function-call-arguments
+    # member variable
+    - match: '{{identifier}}'
+      scope: variable.other.member.perl
+      set: maybe-item-access
+    # item access like $array->[0]
+    - match: (?=[{\[])
+      set: maybe-item-access
+    - include: else-pop
+
+###[ CONTROL KEYWORDS ]#######################################################
 
   control:
-    - match: \b(?:default|else|elsif|given|if|unless|when){{break}}
-      scope: keyword.control.conditional.perl
+    # conditional
+    - match: \bdefault{{break}}
+      scope: keyword.control.conditional.default.perl
       push: regexp-pop
-    - match: \b(?:break|caller|continue|die|dump|exit|goto|last|next|redo|return|wait){{break}}
-      scope: keyword.other.flow.perl
+    - match: \belse{{break}}
+      scope: keyword.control.conditional.else.perl
       push: regexp-pop
-    - match: \b(?:do|for|foreach|until|while){{break}}
-      scope: keyword.control.flow.perl
+    - match: \belsif{{break}}
+      scope: keyword.control.conditional.elseif.perl
       push: regexp-pop
-    - include: label
+    - match: \bgiven{{break}}
+      scope: keyword.control.conditional.given.perl
+      push: regexp-pop
+    - match: \bif{{break}}
+      scope: keyword.control.conditional.if.perl
+      push: regexp-pop
+    - match: \bunless{{break}}
+      scope: keyword.control.conditional.unless.perl
+      push: regexp-pop
+    - match: \bwhen{{break}}
+      scope: keyword.control.conditional.when.perl
+      push: regexp-pop
+    # flow
+    - match: \bbreak{{break}}
+      scope: keyword.control.flow.break.perl
+      push: regexp-pop
+    - match: \bcaller{{break}}
+      scope: keyword.control.flow.caller.perl
+      push: regexp-pop
+    - match: \bcontinue{{break}}
+      scope: keyword.control.flow.continue.perl
+      push: regexp-pop
+    - match: \bdie{{break}}
+      scope: keyword.control.flow.die.perl
+      push: regexp-pop
+    - match: \bdo{{break}}
+      scope: keyword.control.flow.do.perl
+      push: regexp-pop
+    - match: \bdump{{break}}
+      scope: keyword.control.flow.dump.perl
+      push: regexp-pop
+    - match: \bexit{{break}}
+      scope: keyword.control.flow.exit.perl
+      push: regexp-pop
+    - match: \bgoto{{break}}
+      scope: keyword.control.flow.goto.perl
+      push: regexp-pop
+    - match: \blast{{break}}
+      scope: keyword.control.flow.last.perl
+      push: label-usage
+    - match: \bnext{{break}}
+      scope: keyword.control.flow.next.perl
+      push: label-usage
+    - match: \bredo{{break}}
+      scope: keyword.control.flow.redo.perl
+      push: label-usage
+    - match: \breturn{{break}}
+      scope: keyword.control.flow.return.perl
+      push: regexp-pop
+    - match: \bwait{{break}}
+      scope: keyword.control.flow.wait.perl
+      push: regexp-pop
+    # loop
+    - match: \bfor{{break}}
+      scope: keyword.control.loop.for.perl
+      push: regexp-pop
+    - match: \bforeach{{break}}
+      scope: keyword.control.loop.foreach.perl
+      push: regexp-pop
+    - match: \buntil{{break}}
+      scope: keyword.control.loop.until.perl
+      push: regexp-pop
+    - match: \bwhile{{break}}
+      scope: keyword.control.loop.while.perl
+      push: regexp-pop
+
+  label-usage:
+    # reserved words indicate an expression like label
+    - match: (?={{reserved_words}}|{{builtin_functions}})
+      pop: true
+    - match: '{{identifier}}'
+      scope: variable.label.perl
+      pop: true
+    - include: regexp-pop
 
   label:
     - match: ({{identifier}})(:)(?!:)
@@ -625,7 +793,7 @@ contexts:
         2: punctuation.separator.perl
       push: regexp-pop
 
-### [ OPERATORS ]#############################################################
+###[ OPERATORS ]##############################################################
 
   operators:
     # SEE: https://www.tutorialspoint.com/perl/perl_operators.htm
@@ -639,10 +807,13 @@ contexts:
       scope: keyword.operator.filetest.perl
       push: regexp-pop
     - match: '->'
-      scope: keyword.operator.arrow.perl
-      push: regexp-pop
+      scope: keyword.accessor.arrow.perl
+      push: object-members-pop
     - match: '[!~=]~'
       scope: keyword.operator.binary.perl
+      push: regexp-pop
+    - match: <<|>>
+      scope: keyword.operator.bitwise.perl
       push: regexp-pop
     - match: <=>|//|\&\&|\|\||==|!=|>=|<=|[<>:!?]
       scope: keyword.operator.logical.perl
@@ -671,11 +842,11 @@ contexts:
     - match: \bx\b
       scope: keyword.operator.arithmetic.perl
       push: regexp-pop
-    - match: \b(and|or|xor|as|cmp|eq|gt|ge|lg|le|ne|not){{break}}
+    - match: \b(and|or|xor|as|cmp|eq|gt|ge|lt|le|ne|not){{break}}
       scope: keyword.operator.logical.perl
       push: regexp-pop
 
-### [ QUOTED LIKE ]###########################################################
+###[ QUOTED LIKE ]############################################################
 
   quoted-like:
     # SEE: http://perldoc.perl.org/perlop.html#Regexp-Quote-Like-Operators
@@ -738,7 +909,7 @@ contexts:
     - match: '{{regexp_flags}}'
       scope: constant.language.flags.regexp.perl
       pop: true
-    - include: else-pop
+    - include: immediately-pop
 
   quoted-like-args-find-rexexp:
     - match: \{
@@ -889,7 +1060,7 @@ contexts:
     - match: \\.
       scope: constant.character.escape.perl
 
-### [ REGEXP ] ###############################################################
+###[ REGEXP ]#################################################################
 
   regexp-pop:
     # /<pattern>/<flags>
@@ -901,55 +1072,65 @@ contexts:
       escape_captures:
         1: punctuation.section.generic.end.perl
         2: constant.language.flags.regexp.perl
+    # angle quoted strings
+    - match: \<(?=[^<])
+      scope: punctuation.definition.string.begin.perl
+      set:
+        - meta_scope: string.quoted.angle.perl
+        - match: \>
+          scope: punctuation.definition.string.end.perl
+          pop: true
+        - include: character-escape
     - include: else-pop
 
-### [ FUNCTIONS ]#############################################################
+###[ FUNCTIONS ]##############################################################
 
-  functions:
-    - match: |-
-        \b(?x:
-           abs|accept|alarm|atan2|bind|binmode|bless|chdir|chmod
-          |chomp|chop|chown|chr|chroot|close|closedir|connect|cos|crypt
-          |dbmclose|dbmopen|defined|delete|each|endgrent|endhostent
-          |endnetent|endprotoent|endpwent|endservent|eof|eval|evalbytes|exec
-          |exists|exp|fc|fcntl|fileno|flock|fork|formline|getc
-          |getgrent|getgrgid|getgrnam|gethostbyaddr|gethostbyname|gethostent
-          |getlogin|getnetbyaddr|getnetbyname|getnetent|getpeername|getpgrp
-          |getppid|getpriority|getprotobyname|getprotobynumber|getprotoent
-          |getpwent|getpwnam|getpwuid|getservbyname|getservbyport|getservent
-          |getsockname|getsockopt|glob|gmtime|grep|hex|index|int|ioctl|join
-          |keys|kill|lc|lcfirst|length|link|listen|localtime|lock|log
-          |lstat|map|mkdir|msgctl|msgget|msgrcv|msgsnd|oct|open|opendir|ord
-          |pack|pipe|pop|pos|print|printf|prototype|push|quotemeta
-          |rand|read|readdir|readline|readlink|readpipe|recv|ref|rename
-          |reset|reverse|rewinddir|rindex|rmdir|say|scalar|seek|seekdir|select
-          |semctl|semget|semop|send|setgrent|sethostent|setnetent|setpgrp
-          |setpriority|setprotoent|setpwent|setservent|setsockopt|shift|shmctl
-          |shmget|shmread|shmwrite|shutdown|sin|sleep|socket|socketpair|sort
-          |splice|split|sprintf|sqrt|srand|stat|study|substr|symlink|syscall
-          |sysopen|sysread|sysseek|system|syswrite|tell|telldir|tie|tied|time
-          |times|truncate|uc|ucfirst|umask|undef|unlink|unpack|unshift|untie
-          |utime|values|vec|wait|waitpid|wantarray|warn|write
-        ){{break}}
+  function-call:
+    # builtin function calls
+    - match: '{{builtin_functions}}'
       scope: support.function.perl
       push: regexp-pop
-    - match: ^\s*(AUTOLOAD|BEGIN|CHECK|DESTROY|END|INIT|UNITCHECK){{break}}
-      scope: meta.function.perl
+    # user defined function calls
+    - match: \b({{member}})\s*(?=\()
+      scope: meta.function-call.name.perl
       captures:
-        1: entity.name.function.perl
-    - match: \b{{member}}{{break}}
-      scope: variable.function.perl
-      push: regexp-pop
+        1: variable.function.perl
+      push: function-call-arguments
 
-### [ SUB ]###################################################################
+  function-call-arguments:
+    - match: \(
+      scope: punctuation.section.arguments.begin.perl
+      set:
+        - - meta_scope: meta.function-call.arguments.perl
+          - match: \)
+            scope: punctuation.section.arguments.end.perl
+            pop: true
+          - include: main
+        - regexp-pop
+
+###[ SUB ]####################################################################
 
   sub:
     - match: \bsub\b
-      scope: keyword.control.sub.perl
+      scope: storage.type.function.perl
       push: sub-name
+    # special functions which are executed at compile time
+    # SEE: https://perldoc.perl.org/perlmod.html#BEGIN%2c-UNITCHECK%2c-CHECK%2c-INIT-and-END
+    - match: \b(BEGIN|CHECK|END|INIT|UNITCHECK){{break}}
+      scope: meta.function.perl entity.name.function.prepocessor.perl
+      push: sub-expect-parameters
 
   sub-name:
     - meta_scope: meta.function.perl
+    # callback hook to auto load or destroy objects/functions
+    - match: \b(AUTOLOAD|DESTROY){{break}}
+      scope: entity.name.function.callback.perl
+      set: sub-expect-parameters
+    # special functions which are executed at compile time
+    - match: \b(BEGIN|CHECK|END|INIT|UNITCHECK){{break}}
+      scope: entity.name.function.prepocessor.perl
+      set: sub-expect-parameters
+    # ordinary function identifier
     - match: '{{identifier}}'
       scope: entity.name.function.perl
       set: sub-expect-parameters
@@ -977,6 +1158,7 @@ contexts:
 
   sub-expect-block:
     - meta_content_scope: meta.function.perl
+    - include: comment-line
     - include: term-pop
     - match: $|(?=\{)
       set:
@@ -995,7 +1177,7 @@ contexts:
       pop: true
     - include: main
 
-### [ VARIABLES ]#############################################################
+###[ VARIABLES ]##############################################################
 
   variables:
     # SEE: http://perldoc.perl.org/perlvar.html
@@ -1003,30 +1185,37 @@ contexts:
       scope: variable.other.regexp.match.perl
       captures:
         1: punctuation.definition.variable.perl
+      push: maybe-item-access
     - match: (\$)`(?!\w)
       scope: variable.other.regexp.pre-match.perl
       captures:
         1: punctuation.definition.variable.perl
+      push: maybe-item-access
     - match: (\$)\'(?!\w)
       scope: variable.other.regexp.post-match.perl
       captures:
         1: punctuation.definition.variable.perl
+      push: maybe-item-access
     - match: (\$)\+(?!\w)
       scope: variable.other.regexp.last-paren-match.perl
       captures:
         1: punctuation.definition.variable.perl
+      push: maybe-item-access
     - match: (\$)\"(?!\w)
       scope: variable.other.readwrite.list-separator.perl
       captures:
         1: punctuation.definition.variable.perl
+      push: maybe-item-access
     - match: (\$)0\b
       scope: variable.other.predefined.program-name.perl
       captures:
         1: punctuation.definition.variable.perl
+      push: maybe-item-access
     - match: (\$)[0-9]+\b
       scope: variable.other.subpattern.perl
       captures:
         1: punctuation.definition.variable.perl
+      push: maybe-item-access
     # $Module::SubModule::member
     # $::SubModule::member
     - match: ([\$\@\%]#?)({{module}})?(?=\s*::)
@@ -1034,22 +1223,63 @@ contexts:
         1: punctuation.definition.variable.perl
         2: support.class.perl
       push:
-        - meta_scope: variable.other.readwrite.global.perl
-        - include: members-pop
+        - - meta_scope: variable.other.readwrite.global.perl
+          - include: immediately-pop
+        - class-members-pop
     - match: (\$)(\^[A-Z]|[_ab\*\.\/\|,\\;#%=\-~^:?!\$<>\(\)\[\]@])(?!\w)
       scope: variable.other.predefined.perl
       captures:
         1: punctuation.definition.variable.perl
-    - match: ([\$\@\%]#?)(\w+)\b
+      push: maybe-item-access
+    - match: ([\$\@\%]#?)\w+\b
       scope: variable.other.readwrite.global.perl
       captures:
         1: punctuation.definition.variable.perl
+      push: maybe-item-access
     - match: ([\$\@\%])(\{)
       scope: punctuation.definition.variable.begin.perl
       push:
         - meta_scope: meta.braces.perl variable.other.readwrite.global.perl
         - match: \}
           scope: punctuation.definition.variable.end.perl
-          pop: true
+          set:
+            - meta_content_scope: variable.other.readwrite.global.perl
+            - include: maybe-item-access
         - include: blocks-nested
+        - include: brackets-nested
+        - include: groups-nested
         - include: expressions
+
+  maybe-item-access:
+    # SEE: https://perldoc.perl.org/perllol.html
+    - match: \[
+      scope: punctuation.section.item-access.begin.perl
+      push:
+        - - meta_scope: meta.item-access.perl
+          - match: \]
+            scope: punctuation.section.item-access.end.perl
+            pop: true
+          - include: blocks-nested
+          - include: brackets-nested
+          - include: groups-nested
+          - include: expressions
+        - regexp-pop
+    - match: (\{)\s*({{identifier}})\s*(\})
+      scope: meta.item-access.perl
+      captures:
+        1: punctuation.section.item-access.begin.perl
+        2: string.unquoted.perl
+        3: punctuation.section.item-access.end.perl
+    - match: \{
+      scope: punctuation.section.item-access.begin.perl
+      push:
+        - - meta_scope: meta.item-access.perl
+          - match: \}
+            scope: punctuation.section.item-access.end.perl
+            pop: true
+          - include: blocks-nested
+          - include: brackets-nested
+          - include: groups-nested
+          - include: expressions
+        - regexp-pop
+    - include: immediately-pop

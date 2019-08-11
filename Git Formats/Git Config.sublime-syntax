@@ -180,6 +180,7 @@ contexts:
         - include: line-continuation
         - include: escape
         - include: illegal-line-end  # newlines only permitted after trailing \
+        - include: Git Common.sublime-syntax#pretty-formats-as-arg-minimal
 
   string-unquoted:
     - match: (?=\S)
@@ -188,6 +189,7 @@ contexts:
         - include: line-continuation
         - include: escape
         - include: line-end
+        - include: Git Common.sublime-syntax#pretty-formats-as-arg-minimal
 
 ##[ PROTOTYPES ]#######################################################
 
@@ -211,7 +213,7 @@ contexts:
           pop: true
 
   line-end:
-    - match: $\n?
+    - match: $
       pop: true
 
   expect-line-end:
