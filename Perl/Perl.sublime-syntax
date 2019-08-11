@@ -573,7 +573,7 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.perl
       pop: true
-    - include: expressions
+    - include: main
 
   brackets:
     # can't push into scope due to HEREDOCs!
