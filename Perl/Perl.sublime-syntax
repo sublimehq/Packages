@@ -747,8 +747,10 @@ contexts:
       scope: punctuation.definition.string.begin.perl
       set:
         - meta_scope: meta.string.perl string.quoted.angle.perl
-        - match: \>
-          scope: punctuation.definition.string.end.perl
+        # prevent variable interpolation to break string termination
+        - match: (?:[$@%&*]#?)?(\>)
+          captures:
+            1: punctuation.definition.string.end.perl
           pop: true
         - include: interpolated-angle-nested
         - include: character-escape
@@ -759,8 +761,10 @@ contexts:
       scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: meta.string.perl string.quoted.backtick.perl
-        - match: \`
-          scope: punctuation.definition.string.end.perl
+        # prevent variable interpolation to break string termination
+        - match: (?:[$@%&*]#?)?(\`)
+          captures:
+            1: punctuation.definition.string.end.perl
           pop: true
         - include: character-escape
         - include: variables-interpolation
@@ -770,8 +774,10 @@ contexts:
       scope: punctuation.definition.string.begin.perl
       push:
         - meta_scope: meta.string.perl string.quoted.double.perl
-        - match: \"
-          scope: punctuation.definition.string.end.perl
+        # prevent variable interpolation to break string termination
+        - match: (?:[$@%&*]#?)?(\")
+          captures:
+            1: punctuation.definition.string.end.perl
           pop: true
         - include: character-escape
         - include: variables-interpolation
@@ -1220,8 +1226,11 @@ contexts:
       scope: punctuation.separator.sequence.perl
       set:
         - meta_content_scope: meta.string.perl string.unquoted.perl
-        - match: \1
-          scope: punctuation.section.generic.end.perl
+        # prevent variable interpolation to break string termination
+        - match: ([$@%&*]#?)?(\1)
+          captures:
+            1: meta.string.perl string.unquoted.perl
+            2: punctuation.section.generic.end.perl
           pop: true
         - include: character-escape
         - include: variables-interpolation
@@ -1288,8 +1297,11 @@ contexts:
       set:
         - meta_scope: meta.braces.perl
         - meta_content_scope: meta.string.perl string.unquoted.perl
-        - match: \}
-          scope: punctuation.section.braces.end.perl
+        # prevent variable interpolation to break string termination
+        - match: ([$@%&*]#?)?(\})
+          captures:
+            1: meta.string.perl string.unquoted.perl
+            2: punctuation.section.braces.end.perl
           pop: true
         - include: interpolated-braces-nested
         - include: character-escape
@@ -1298,7 +1310,8 @@ contexts:
   interpolated-braces-nested:
     - match: \{
       push:
-        - match: \}
+        # prevent variable interpolation to break string termination
+        - match: (?:[$@%&*]#?)?\}
           pop: true
         - include: interpolated-braces-nested
         - include: character-escape
@@ -1310,8 +1323,11 @@ contexts:
       set:
         - meta_scope: meta.brackets.perl
         - meta_content_scope: meta.string.perl string.unquoted.perl
-        - match: \]
-          scope: punctuation.section.brackets.end.perl
+        # prevent variable interpolation to break string termination
+        - match: ([$@%&*]#?)?(\])
+          captures:
+            1: meta.string.perl string.unquoted.perl
+            2: punctuation.section.brackets.end.perl
           pop: true
         - include: interpolated-brackets-nested
         - include: character-escape
@@ -1320,7 +1336,8 @@ contexts:
   interpolated-brackets-nested:
     - match: \[
       push:
-        - match: \]
+        # prevent variable interpolation to break string termination
+        - match: (?:[$@%&*]#?)?\]
           pop: true
         - include: interpolated-brackets-nested
         - include: character-escape
@@ -1332,8 +1349,11 @@ contexts:
       set:
         - meta_scope: meta.generic.perl
         - meta_content_scope: meta.string.perl string.unquoted.perl
-        - match: \>
-          scope: punctuation.section.generic.end.perl
+        # prevent variable interpolation to break string termination
+        - match: ([$@%&*]#?)?(\>)
+          captures:
+            1: meta.string.perl string.unquoted.perl
+            2: punctuation.section.generic.end.perl
           pop: true
         - include: interpolated-angle-nested
         - include: character-escape
@@ -1342,7 +1362,8 @@ contexts:
   interpolated-angle-nested:
     - match: \<
       push:
-        - match: \>
+        # prevent variable interpolation to break string termination
+        - match: (?:[$@%&*]#?)?\>
           pop: true
         - include: interpolated-angle-nested
         - include: character-escape
@@ -1354,8 +1375,11 @@ contexts:
       set:
         - meta_scope: meta.parens.perl
         - meta_content_scope: meta.string.perl string.unquoted.perl
-        - match: \)
-          scope: punctuation.section.parens.end.perl
+        # prevent variable interpolation to break string termination
+        - match: ([$@%&*]#?)?(\))
+          captures:
+            1: meta.string.perl string.unquoted.perl
+            2: punctuation.section.parens.end.perl
           pop: true
         - include: interpolated-parens-nested
         - include: character-escape
@@ -1364,7 +1388,8 @@ contexts:
   interpolated-parens-nested:
     - match: \(
       push:
-        - match: \)
+        # prevent variable interpolation to break string termination
+        - match: (?:[$@%&*]#?)?\)
           pop: true
         - include: interpolated-parens-nested
         - include: character-escape
@@ -1376,8 +1401,11 @@ contexts:
       set:
         - meta_scope: meta.generic.perl
         - meta_content_scope: meta.string.perl string.unquoted.perl
-        - match: \1
-          scope: punctuation.section.generic.end.perl
+        # prevent variable interpolation to break string termination
+        - match: ([$@%&*]#?)?(\1)
+          captures:
+            1: meta.string.perl string.unquoted.perl
+            2: punctuation.section.generic.end.perl
           pop: true
         - include: character-escape
         - include: variables-interpolation
@@ -1546,40 +1574,134 @@ contexts:
       scope: variable.function.perl
       push: expressions-begin
 
-###[ VARIABLES ]##############################################################
+###[ VARIABLES INTERPOLATION ]################################################
 
   variables-interpolation:
     # note: coderefs `&` are not interpolated
     - match: (?=[@$%])
       push:
-        - clear_scopes: 1  # remove 'string'
-        - meta_scope: meta.interpolation.perl
-        - include: qualified-variables
-        - include: unqualified-variables
-        - include: immediately-pop
+        - - clear_scopes: 1  # remove 'string'
+          - meta_scope: meta.interpolation.perl
+          - include: maybe-item-access
+        - variables-interpolation-body
 
-  qualified-variables:
-    # $Module::SubModule::variable
-    # $::SubModule::variable
+  variables-interpolation-body:
+    ###########################################################################
+    #  1) This context is a merge of
+    #     `qualified-variables` and `unqualified-variables`
+    #
+    #     a) The `push: maybe-item-access` is replaced by `pop: true` as the
+    #        item access is matched globally.
+    #     b) The `&` coderef parts are removed as they are not supported within
+    #        string interpolations.
+    #
+    #  2) The interpolation needs to be poped off from after each variable
+    #     to ensure to correctly pop off from the owning context if needed.
+    #     Otherwise the variable `$/` could break the statement `s//$repl$/g`.
+    ###########################################################################
+
+    # qualified variable
     - match: ([$@%*]#?)({{identifier}})?(::)
       captures:
         1: punctuation.definition.variable.perl
         2: support.class.perl
         3: punctuation.accessor.double-colon.perl
-      push:
-        - meta_scope: meta.path.perl
-        - include: qualifier
-        - match: '{{identifier}}'
-          scope: variable.other.readwrite.perl
-          set: maybe-item-access
-        - include: unqualified-variables
-        - include: immediately-pop
+      set: qualified-variables-path
+
+    # regexp match
+    - match: ([$@%*]#?)[`&']
+      scope: variable.language.regexp.match.perl
+      captures:
+        1: punctuation.definition.variable.perl
+      pop: true
+    # note: `*` may look like an operator
+    - match: ([$@%]#?)(?:[-+]|[1-9]+)
+      scope: variable.language.regexp.match-group.perl
+      captures:
+        1: punctuation.definition.variable.perl
+      pop: true
+    # builtin
+    - match: ([$@%*]#?){{builtin_variables}}
+      scope: variable.language.perl
+      captures:
+        1: punctuation.definition.variable.perl
+      pop: true
+    - match: |-
+        (?x:
+          ([$@%*]\#?)
+          (?:
+            \^[A-Z]? |
+            [".:,;\]~?!/\\|()<>] |
+            [$@%](?![-+])                # no regexp match
+          )(?![$@%\w])
+        )
+      scope: variable.language.perl
+      captures:
+        1: punctuation.definition.variable.perl
+      pop: true
+    # builtin variable, which may look like an operator
+    - match: ([$@]\#?)=
+      scope: variable.language.perl
+      captures:
+        1: punctuation.definition.variable.perl
+      pop: true
+    # user defined variables
+    - match: ([$@%*]#?){{identifier}}
+      scope: variable.other.readwrite.perl
+      captures:
+        1: punctuation.definition.variable.perl
+      pop: true
+    # deprecated/legacy variables
+    # - $# and $* were variables up to Perl v5.10.0
+    - match: (\$)[#*\[](?=[^\w{$@%*])
+      scope: variable.language.deprecated.perl
+      captures:
+        1: punctuation.definition.variable.perl
+      pop: true
+    # dereferenced variables (without `&`)
+    - match: ([$@%*]#?)(\{)\s*({{identifier}})\s*(\})
+      scope: meta.variable.perl
+      captures:
+        1: keyword.operator.dereference.perl
+        2: punctuation.definition.variable.begin.perl
+        3: meta.string.perl string.unquoted.perl
+        4: punctuation.definition.variable.end.perl
+      pop: true
+    - match: ([$@%*]#?)(\{)
+      captures:
+        1: keyword.operator.dereference.perl
+        2: punctuation.definition.variable.begin.perl
+      set: [variable-body, expressions-begin]
+    # nothing matches, give up
+    - include: immediately-pop
+
+###[ VARIABLES ]##############################################################
+
+  qualified-variables:
+    - match: ([$@%*]#?)({{identifier}})?(::)
+      captures:
+        1: punctuation.definition.variable.perl
+        2: support.class.perl
+        3: punctuation.accessor.double-colon.perl
+      push: [maybe-item-access, qualified-variables-path]
+
+  qualified-variables-path:
+    - meta_scope: meta.path.perl
+    - include: qualifier
+    - include: variable-identifier
+    - include: unqualified-variables
+    - include: immediately-pop
 
   qualifier:
     - match: ({{identifier}})?(::)
       captures:
         1: support.class.perl
         2: punctuation.accessor.double-colon.perl
+
+  variable-identifier:
+    - match: '{{identifier}}'
+      scope: variable.other.readwrite.perl
+      pop: true
 
   unqualified-variables:
     # SEE: http://perldoc.perl.org/perlvar.html

@@ -1074,32 +1074,116 @@ EOT
 
 ###[ STRINGS ]################################################################
 
-  "quoted \"interpolated\" foo 'bar' $baz"
+  "$" "@" "%" "*" "$repl$" "%repl%"
+# ^ punctuation.definition.string.begin.perl
+# ^^^ meta.string.perl string.quoted.double.perl
+#   ^ punctuation.definition.string.end.perl
+#    ^ - meta.string - string
+#     ^ punctuation.definition.string.begin.perl
+#     ^^^ meta.string.perl string.quoted.double.perl
+#       ^ punctuation.definition.string.end.perl
+#        ^ - meta.string - string
+#         ^ punctuation.definition.string.begin.perl
+#         ^^^ meta.string.perl string.quoted.double.perl
+#           ^ punctuation.definition.string.end.perl
+#            ^ - meta.string - string
+#             ^ punctuation.definition.string.begin.perl
+#             ^^^ meta.string.perl string.quoted.double.perl
+#               ^ punctuation.definition.string.end.perl
+#                ^ - meta.string - string
+#                 ^ meta.string.perl string.quoted.double.perl punctuation.definition.string.begin.perl
+#                  ^^^^^ meta.string.perl meta.interpolation.perl variable.other.readwrite.perl
+#                       ^ meta.string.perl string.quoted.double.perl
+#                        ^ meta.string.perl string.quoted.double.perl punctuation.definition.string.end.perl
+#                         ^ - meta.string - string
+#                          ^ meta.string.perl string.quoted.double.perl punctuation.definition.string.begin.perl
+#                           ^^^^^ meta.string.perl meta.interpolation.perl variable.other.readwrite.perl
+#                                ^ meta.string.perl string.quoted.double.perl
+#                                 ^ meta.string.perl string.quoted.double.perl punctuation.definition.string.end.perl
+#                                  ^ - meta.string - string
+  `$` `@` `%` `*` `$repl$` `%repl%`
+# ^ punctuation.definition.string.begin.perl
+# ^^^ meta.string.perl string.quoted.backtick.perl
+#   ^ punctuation.definition.string.end.perl
+#    ^ - meta.string - string
+#     ^ punctuation.definition.string.begin.perl
+#     ^^^ meta.string.perl string.quoted.backtick.perl
+#       ^ punctuation.definition.string.end.perl
+#        ^ - meta.string - string
+#         ^ punctuation.definition.string.begin.perl
+#         ^^^ meta.string.perl string.quoted.backtick.perl
+#           ^ punctuation.definition.string.end.perl
+#            ^ - meta.string - string
+#             ^ punctuation.definition.string.begin.perl
+#             ^^^ meta.string.perl string.quoted.backtick.perl
+#               ^ punctuation.definition.string.end.perl
+#                ^ - meta.string - string
+#                 ^ meta.string.perl string.quoted.backtick.perl punctuation.definition.string.begin.perl
+#                  ^^^^^ meta.string.perl meta.interpolation.perl variable.other.readwrite.perl
+#                       ^ meta.string.perl string.quoted.backtick.perl
+#                        ^ meta.string.perl string.quoted.backtick.perl punctuation.definition.string.end.perl
+#                         ^ - meta.string - string
+#                          ^ meta.string.perl string.quoted.backtick.perl punctuation.definition.string.begin.perl
+#                           ^^^^^ meta.string.perl meta.interpolation.perl variable.other.readwrite.perl
+#                                ^ meta.string.perl string.quoted.backtick.perl
+#                                 ^ meta.string.perl string.quoted.backtick.perl punctuation.definition.string.end.perl
+#                                  ^ - meta.string - string
+  <$>.<@>.<%>.<*>.<$repl$>.<%repl%>
+# ^ punctuation.definition.string.begin.perl
+# ^^^ meta.string.perl string.quoted.angle.perl
+#   ^ punctuation.definition.string.end.perl
+#    ^ - meta.string - string
+#     ^ punctuation.definition.string.begin.perl
+#     ^^^ meta.string.perl string.quoted.angle.perl
+#       ^ punctuation.definition.string.end.perl
+#        ^ - meta.string - string
+#         ^ punctuation.definition.string.begin.perl
+#         ^^^ meta.string.perl string.quoted.angle.perl
+#           ^ punctuation.definition.string.end.perl
+#            ^ - meta.string - string
+#             ^ punctuation.definition.string.begin.perl
+#             ^^^ meta.string.perl string.quoted.angle.perl
+#               ^ punctuation.definition.string.end.perl
+#                ^ - meta.string - string
+#                 ^ meta.string.perl string.quoted.angle.perl punctuation.definition.string.begin.perl
+#                  ^^^^^ meta.string.perl meta.interpolation.perl variable.other.readwrite.perl
+#                       ^ meta.string.perl string.quoted.angle.perl
+#                        ^ meta.string.perl string.quoted.angle.perl punctuation.definition.string.end.perl
+#                         ^ - meta.string - string
+#                          ^ meta.string.perl string.quoted.angle.perl punctuation.definition.string.begin.perl
+#                           ^^^^^ meta.string.perl meta.interpolation.perl variable.other.readwrite.perl
+#                                ^ meta.string.perl string.quoted.angle.perl
+#                                 ^ meta.string.perl string.quoted.angle.perl punctuation.definition.string.end.perl
+#                                  ^ - meta.string - string
+  "quoted \"interpolated\" foo 'bar' $baz $"
 # ^ punctuation.definition.string.begin.perl
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.perl string.quoted.double.perl - meta.interpolation
 #                                    ^^^^ meta.string.perl meta.interpolation.perl - string
-#                                        ^ meta.string.perl string.quoted.double.perl - meta.interpolation
+#                                        ^^^ meta.string.perl string.quoted.double.perl - meta.interpolation
 #         ^^ constant.character.escape.perl
 #                       ^^ constant.character.escape.perl
 #                                    ^^^^ variable.other.readwrite.perl
-#                                        ^ punctuation.definition.string.end.perl
-  'quoted "interpolated" foo \'bar\' $baz'
+#                                         ^ - variable
+#                                          ^ punctuation.definition.string.end.perl
+  'quoted "interpolated" foo \'bar\' $baz $'
 # ^ punctuation.definition.string.begin.perl
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.perl string.quoted.single.perl
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.perl string.quoted.single.perl
 #                            ^^ constant.character.escape.perl
 #                                 ^^ constant.character.escape.perl
 #                                    ^^^^ - variable
-#                                        ^ punctuation.definition.string.end.perl
-  `quoted "interpolated" foo \`bar\` $baz`
+#                                         ^ - variable
+#                                          ^ punctuation.definition.string.end.perl
+  `quoted "interpolated" foo \`bar\` $baz $`
 # ^ punctuation.definition.string.begin.perl
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.perl string.quoted.backtick.perl - meta.interpolation
 #                                    ^^^^ meta.string.perl meta.interpolation.perl - string
-#                                        ^ meta.string.perl string.quoted.backtick.perl - meta.interpolation
+#                                        ^^^ meta.string.perl string.quoted.backtick.perl - meta.interpolation
 #                            ^^ constant.character.escape.perl
 #                                 ^^ constant.character.escape.perl
 #                                    ^^^^ variable.other.readwrite.perl
-#                                        ^ punctuation.definition.string.end.perl
-  <=quoted < ${"interpolated" . @foo{bar}}> $baz\>>
+#                                         ^ - variable
+#                                          ^ punctuation.definition.string.end.perl
+  <=quoted < ${"interpolated" . @foo{bar}}> $baz\> $> >
 # ^ punctuation.definition.string.begin.perl
 # ^^^^^^^^^^^ meta.string.perl string.quoted.angle.perl - meta.interpolation
 #            ^^ meta.string.perl meta.interpolation.perl meta.variable.perl - string
@@ -1110,7 +1194,8 @@ EOT
 #                                       ^^ meta.string.perl meta.interpolation.perl meta.variable.perl - string
 #                                         ^^ meta.string.perl string.quoted.angle.perl - meta.interpolation
 #                                           ^^^^ meta.string.perl meta.interpolation.perl - string
-#                                               ^^^ meta.string.perl string.quoted.angle.perl - meta.interpolation
+#                                               ^^^^^ meta.string.perl string.quoted.angle.perl - meta.interpolation
+#                                                    ^^^ - meta.string - string
 # ^^ - keyword.operator
 #          ^ - punctuation
 #            ^ keyword.operator.dereference.perl
@@ -1125,7 +1210,9 @@ EOT
 #                                         ^ - punctuation
 #                                           ^^^^ variable.other.readwrite.perl
 #                                               ^^ constant.character.escape.perl
-#                                                 ^ punctuation.definition.string.end.perl
+#                                                  ^ - variable
+#                                                   ^ punctuation.definition.string.end.perl
+#                                                     ^ keyword.operator.logical.perl
   q/quoted "interpolated" foo 'bar' \/ $baz/
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
@@ -1196,22 +1283,24 @@ EOT
 # ^ string
 #  ^ punctuation.section.generic.end.perl - string
 
-  qq/foo $bar/;
-# ^^^^^^^^^^ meta.function-call.perl
+  qq/foo $bar $/;
+# ^^^^^^^^^^^^^^ meta.function-call.perl
 # ^^ support.function.perl
 #   ^ punctuation.section.generic.begin.perl
 #    ^^^^ meta.string.perl string.unquoted.perl - variable
 #        ^^^^ meta.string.perl meta.interpolation.perl variable.other.readwrite.perl - string
-#            ^ punctuation.section.generic.end.perl
-#             ^ punctuation.terminator.statement.perl
-  qx/foo $bar/;
-# ^^^^^^^^^^ meta.function-call.perl
+#            ^^ meta.string.perl string.unquoted.perl - variable
+#              ^ punctuation.section.generic.end.perl
+#               ^ punctuation.terminator.statement.perl
+  qx:foo $bar $:;
+# ^^^^^^^^^^^^^^ meta.function-call.perl
 # ^^ support.function.perl
 #   ^ punctuation.section.generic.begin.perl
 #    ^^^^ meta.string.perl string.unquoted.perl - bariable
 #        ^^^^ meta.string.perl meta.interpolation.perl variable.other.readwrite.perl - string
-#            ^ punctuation.section.generic.end.perl
-#             ^ punctuation.terminator.statement.perl
+#            ^^ meta.string.perl string.unquoted.perl - variable
+#              ^ punctuation.section.generic.end.perl
+#               ^ punctuation.terminator.statement.perl
   qw/foo $bar/;
 # ^^^^^^^^^^ meta.function-call.perl
 # ^^ support.function.perl
@@ -1390,76 +1479,76 @@ EOT
 #   ^^^ constant.language.flags.regexp.perl
 #      ^ punctuation.terminator.statement.perl
 
-  s/foo[a-z]{1,3} \/ .+/ bar $1 \/ /g; # comment
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
+  s/foo[a-z]{1,3} \/ .+/ bar $1 \/ %/g; # comment
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
 #  ^ punctuation.section.generic.begin.perl
 #   ^^^^^^^^^^^^^^^^^^^ meta.string.perl string.regexp.perl source.regexp
 #                      ^ punctuation.separator.sequence.perl
 #                       ^^^^^ meta.string.perl string.unquoted.perl - meta.interpolation - variable
 #                            ^^ meta.string.perl meta.interpolation.perl variable.language.regexp.match-group.perl - string
-#                              ^^^^ meta.string.perl string.unquoted.perl - meta.interpolation - variable
-#                                  ^ punctuation.section.generic.end.perl
-#                                   ^ constant.language.flags.regexp.perl
-#                                    ^ punctuation.terminator.statement.perl
-#                                      ^^^^^^^^^ comment.line.number-sign.perl
-#                                      ^ punctuation.definition.comment.perl
-  s\foo[a-z]{1,3} / .+\ bar $1 / \g; # comment
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
+#                              ^^^^^ meta.string.perl string.unquoted.perl - meta.interpolation - variable
+#                                   ^ punctuation.section.generic.end.perl
+#                                    ^ constant.language.flags.regexp.perl
+#                                     ^ punctuation.terminator.statement.perl
+#                                       ^^^^^^^^^ comment.line.number-sign.perl
+#                                       ^ punctuation.definition.comment.perl
+  s\foo[a-z]{1,3} / .+\ bar $1 / $\g; # comment
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
 #  ^ punctuation.section.generic.begin.perl
 #   ^^^^^^^^^^^^^^^^^^ string.regexp.perl source.regexp
 #                     ^ punctuation.separator.sequence.perl
 #                      ^^^^^ meta.string.perl string.unquoted.perl
 #                           ^^ meta.string.perl meta.interpolation.perl variable.language.regexp.match-group.perl
-#                              ^^ meta.function-call.perl meta.string.perl string.unquoted.perl
-#                                ^ punctuation.section.generic.end.perl
-#                                 ^ constant.language.flags.regexp.perl
-#                                  ^ punctuation.terminator.statement.perl
-#                                    ^^^^^^^^^ comment.line.number-sign.perl
-#                                    ^ punctuation.definition.comment.perl
-  s#foo[a-z]{1,3} \# .+# bar $1 \# #g; # comment
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
+#                              ^^^ meta.function-call.perl meta.string.perl string.unquoted.perl
+#                                 ^ punctuation.section.generic.end.perl
+#                                  ^ constant.language.flags.regexp.perl
+#                                   ^ punctuation.terminator.statement.perl
+#                                     ^^^^^^^^^ comment.line.number-sign.perl
+#                                     ^ punctuation.definition.comment.perl
+  s#foo[a-z]{1,3} \# .+# bar $1 \# $#g; # comment
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
 #  ^ punctuation.section.generic.begin.perl
 #   ^^^^^^^^^^^^^^^^^^^ meta.string.perl string.regexp.perl source.regexp
 #                      ^ punctuation.separator.sequence.perl
 #                       ^^^^^ meta.string.perl string.unquoted.perl - meta.interpolation - variable
 #                            ^^ meta.string.perl meta.interpolation.perl variable.language.regexp.match-group.perl - string
-#                              ^^^^ meta.string.perl string.unquoted.perl - meta.interpolation - variable
-#                                  ^ punctuation.section.generic.end.perl
-#                                   ^ constant.language.flags.regexp.perl
-#                                    ^ punctuation.terminator.statement.perl
-#                                      ^^^^^^^^^ comment.line.number-sign.perl
-#                                      ^ punctuation.definition.comment.perl
-  s;foo[a-z]{1,3} \; .+; bar $1 \; ;g; # comment
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
+#                              ^^^^^ meta.string.perl string.unquoted.perl - meta.interpolation - variable
+#                                   ^ punctuation.section.generic.end.perl
+#                                    ^ constant.language.flags.regexp.perl
+#                                     ^ punctuation.terminator.statement.perl
+#                                       ^^^^^^^^^ comment.line.number-sign.perl
+#                                       ^ punctuation.definition.comment.perl
+  s;foo[a-z]{1,3} \; .+; bar $1 \; %;g; # comment
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
 #  ^ punctuation.section.generic.begin.perl
 #   ^^^^^^^^^^^^^^^^^^^ meta.string.perl string.regexp.perl source.regexp
 #                      ^ punctuation.separator.sequence.perl
 #                       ^^^^^ meta.string.perl string.unquoted.perl - meta.interpolation - variable
 #                            ^^ meta.string.perl meta.interpolation.perl variable.language.regexp.match-group.perl - string
-#                              ^^^^ meta.string.perl string.unquoted.perl - meta.interpolation - variable
-#                                  ^ punctuation.section.generic.end.perl
-#                                   ^ constant.language.flags.regexp.perl
-#                                    ^ punctuation.terminator.statement.perl
-#                                      ^^^^^^^^^ comment.line.number-sign.perl
-#                                      ^ punctuation.definition.comment.perl
-  s!foo[a-z]{1,3} \! .+! bar $1 \! !g; # comment
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
+#                              ^^^^^ meta.string.perl string.unquoted.perl - meta.interpolation - variable
+#                                   ^ punctuation.section.generic.end.perl
+#                                    ^ constant.language.flags.regexp.perl
+#                                     ^ punctuation.terminator.statement.perl
+#                                       ^^^^^^^^^ comment.line.number-sign.perl
+#                                       ^ punctuation.definition.comment.perl
+  s!foo[a-z]{1,3} \! .+! bar $1 \! @!g; # comment
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
 #  ^ punctuation.section.generic.begin.perl
 #   ^^^^^^^^^^^^^^^^^^^ meta.string.perl string.regexp.perl source.regexp
 #                      ^ punctuation.separator.sequence.perl
 #                       ^^^^^ meta.string.perl string.unquoted.perl - meta.interpolation - variable
 #                            ^^ meta.string.perl meta.interpolation.perl variable.language.regexp.match-group.perl - string
-#                              ^^^^ meta.string.perl string.unquoted.perl - meta.interpolation - variable
-#                                  ^ punctuation.section.generic.end.perl
-#                                   ^ constant.language.flags.regexp.perl
-#                                    ^ punctuation.terminator.statement.perl
-#                                      ^^^^^^^^^ comment.line.number-sign.perl
-#                                      ^ punctuation.definition.comment.perl
+#                              ^^^^^ meta.string.perl string.unquoted.perl - meta.interpolation - variable
+#                                   ^ punctuation.section.generic.end.perl
+#                                    ^ constant.language.flags.regexp.perl
+#                                     ^ punctuation.terminator.statement.perl
+#                                       ^^^^^^^^^ comment.line.number-sign.perl
+#                                       ^ punctuation.definition.comment.perl
   s:\\:/:;
 # ^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
