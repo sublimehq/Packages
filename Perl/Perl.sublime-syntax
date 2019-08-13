@@ -1013,7 +1013,7 @@ contexts:
         2: punctuation.accessor.double-colon.perl
     # declaration
     - match: \b(?:{{storage_keywords}}){{break}}
-      scope: keyword.declaration.variable.perl
+      scope: storage.type.variable.perl
     # conditional
     - match: \bdefault{{break}}
       scope: keyword.control.conditional.default.perl

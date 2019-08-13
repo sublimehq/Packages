@@ -3009,7 +3009,7 @@ EOT
 # ^^ variable.language.perl
 #    ^ keyword.operator.assignment.perl
 #      ^ keyword.operator.reference.perl
-#       ^^ keyword.declaration.variable.perl
+#       ^^ storage.type.variable.perl
 #          ^ punctuation.definition.variable.perl
 #          ^^ variable.language.perl
 #            ^ punctuation.terminator.statement.perl
@@ -3539,24 +3539,24 @@ use strict "vars";
 ###[ DECLARATIONS ]###########################################################
 
 my
-# <- keyword.declaration.variable
-#^ keyword.declaration.variable
+# <- storage.type.variable.perl
+#^ storage.type.variable.perl
   my $foo
 #^ - storage
-# ^^ keyword.declaration.variable
-#   ^ - keyword.declaration.variable - variable.other.readwrite
+# ^^ storage.type.variable.perl
+#   ^ - storage.type.variable - variable.other.readwrite
 #    ^ punctuation.definition.variable.perl
 #    ^^^^ variable.other.readwrite.perl
 #        ^ - variable.other.readwrite
 my $foo;
-# <-  keyword.declaration.variable.perl
-#^ keyword.declaration.variable.perl
+# <-  storage.type.variable.perl
+#^ storage.type.variable.perl
 #  ^ punctuation.definition.variable.perl
 #  ^^^^ variable.other.readwrite.perl
 #      ^ punctuation.terminator.statement.perl
 my $foo = "bar";
-# <-  keyword.declaration.variable.perl
-#^ keyword.declaration.variable.perl
+# <-  storage.type.variable.perl
+#^ storage.type.variable.perl
 #  ^ punctuation.definition.variable.perl
 #  ^^^^ variable.other.readwrite.perl
 #       ^ keyword.operator.assignment.perl
@@ -3565,8 +3565,8 @@ my $foo = "bar";
 #             ^ punctuation.definition.string.end.perl
 #              ^ punctuation.terminator.statement.perl
 my (
-# <- keyword.declaration.variable.perl
-#^ keyword.declaration.variable.perl
+# <- storage.type.variable.perl
+#^ storage.type.variable.perl
   $foo, $bar,
 # ^ punctuation.definition.variable.perl
 # ^^^^ variable.other.readwrite.perl
@@ -3582,7 +3582,7 @@ my (
   eval { my $foo = /pattern/; }
 # ^^^^ support.function.perl
 #      ^ punctuation.section.block.begin.perl
-#        ^^ keyword.declaration.variable.perl
+#        ^^ storage.type.variable.perl
 #           ^^^^ variable.other.readwrite.perl
 #                ^ keyword.operator.assignment.perl
 #                  ^ punctuation.section.generic.begin.perl
@@ -3593,7 +3593,7 @@ my (
   CORE::my
 # ^^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
-#       ^^ keyword.declaration.variable.perl
+#       ^^ storage.type.variable.perl
   core::my
 # ^^^^^^^^ meta.path.perl
 # ^^^^ variable.namespace.perl
@@ -3606,25 +3606,25 @@ my (
 #     ^^^^ variable.function.perl
 
 our
-# <-  keyword.declaration.variable
-#^^ keyword.declaration.variable
+# <-  storage.type.variable.perl
+#^^ storage.type.variable.perl
   our $foo
 # <-
 #^ - storage
-# ^^^ keyword.declaration.variable
-#    ^ - keyword.declaration.variable - variable.other.readwrite
+# ^^^ storage.type.variable.perl
+#    ^ - storage.type.variable - variable.other.readwrite
 #     ^ punctuation.definition.variable.perl
 #     ^^^^ variable.other.readwrite.perl
 #         ^ - variable.other.readwrite
 our $foo;
-# <-  keyword.declaration.variable.perl
-#^^ keyword.declaration.variable.perl
+# <-  storage.type.variable.perl
+#^^ storage.type.variable.perl
 #   ^ punctuation.definition.variable.perl
 #   ^^^^ variable.other.readwrite.perl
 #       ^ punctuation.terminator.statement.perl
 our $foo = "bar";
-# <-  keyword.declaration.variable.perl
-#^^ keyword.declaration.variable.perl
+# <-  storage.type.variable.perl
+#^^ storage.type.variable.perl
 #   ^ punctuation.definition.variable.perl
 #   ^^^^ variable.other.readwrite.perl
 #        ^ keyword.operator.assignment.perl
@@ -3633,8 +3633,8 @@ our $foo = "bar";
 #              ^ punctuation.definition.string.end.perl
 #               ^ punctuation.terminator.statement.perl
 our (
-# <- keyword.declaration.variable.perl
-#^^ keyword.declaration.variable.perl
+# <- storage.type.variable.perl
+#^^ storage.type.variable.perl
   $foo, $bar,
 # ^ punctuation.definition.variable.perl
 # ^^^^ variable.other.readwrite.perl
@@ -3648,14 +3648,14 @@ our (
 # ^ punctuation.section.group.end.perl
 #  ^ punctuation.terminator.statement.perl
 our $VERSION = do {
-# <- keyword.declaration.variable.perl
-#^^ keyword.declaration.variable.perl
+# <- storage.type.variable.perl
+#^^ storage.type.variable.perl
 #   ^^^^^^^^ variable.other.readwrite.perl
 #            ^ keyword.operator.assignment.perl
 #              ^^ keyword.control.flow.do.perl
 #                 ^ punctuation.section.block.begin.perl
   my @r = (q$Revision: 2.20 $ =~ /\d+/g);
-# ^^ keyword.declaration.variable.perl
+# ^^ storage.type.variable.perl
 #    ^^ variable.other.readwrite.perl
 #       ^ keyword.operator.assignment.perl
 #         ^ punctuation.section.group.begin.perl
@@ -3684,13 +3684,13 @@ our $VERSION = do {
 };
 # <- punctuation.section.block.end.perl
 state
-# <- keyword.declaration.variable
-#^^^^ keyword.declaration.variable
+# <- storage.type.variable.perl
+#^^^^ storage.type.variable.perl
   state $foo
 # <-
 #^ - storage
-# ^^^^^ keyword.declaration.variable
-#      ^ - keyword.declaration.variable - variable.other.readwrite
+# ^^^^^ storage.type.variable.perl
+#      ^ - storage.type.variable - variable.other.readwrite
 #       ^ punctuation.definition.variable.perl
 #       ^^^^ variable.other.readwrite.perl
 #           ^ - variable.other.readwrite
@@ -5263,7 +5263,7 @@ _EOT_
 
   for my $i (0..9) {
 # ^^^ keyword.control.loop.for.perl
-#     ^^ keyword.declaration.variable.perl
+#     ^^ storage.type.variable.perl
 #        ^^ variable.other.readwrite.perl
 #           ^ punctuation.section.group.begin.perl
 #            ^ constant.numeric.integer.decimal.perl
@@ -5280,7 +5280,7 @@ _EOT_
 
   foreach my $vsn_mk (<lib/*/vsn.mk>, <erts/vsn.mk>) {
 # ^^^^^^^ keyword.control.loop.foreach.perl
-#         ^^ keyword.declaration.variable.perl
+#         ^^ storage.type.variable.perl
 #            ^ punctuation.definition.variable.perl
 #            ^^^^^^^ variable.other.readwrite.perl
 #                    ^ punctuation.section.group.begin.perl
