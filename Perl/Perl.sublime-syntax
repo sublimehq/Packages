@@ -465,7 +465,7 @@ contexts:
   sub-path:
     - match: ({{identifier}})?(::)
       captures:
-        1: support.class.perl
+        1: variable.namespace.perl
         2: punctuation.accessor.double-colon.perl
       set:
         - meta_scope: meta.path.perl
@@ -800,7 +800,7 @@ contexts:
   string-format-variable:
     - match: ({{identifier}})?(::)
       captures:
-        1: support.class.perl
+        1: variable.namespace.perl
         2: punctuation.accessor.double-colon.perl
       push:
         - meta_scope: meta.path.perl
@@ -1009,7 +1009,7 @@ contexts:
     # The `meta.path` is not applied for simplicity reasons.
     - match: \b(CORE)(::)(?={{reserved_words}})
       captures:
-        1: support.class.perl
+        1: variable.namespace.perl
         2: punctuation.accessor.double-colon.perl
     # declaration
     - match: \b(?:{{storage_keywords}}){{break}}
@@ -1566,17 +1566,17 @@ contexts:
         - include: else-pop
     # Class->member
     - match: '{{identifier}}(?=\s*->)'
-      scope: support.class.perl
+      scope: variable.namespace.perl
     # Module::SubModule::function
     # ::SubModule::function
     - match: ({{identifier}})?(::)
       captures:
-        1: support.class.perl
+        1: variable.namespace.perl
         2: punctuation.accessor.double-colon.perl
       push:
         - meta_scope: meta.path.perl
         - match: '{{identifier}}(?=\s*->)'
-          scope: support.class.perl
+          scope: variable.namespace.perl
           pop: true
         - include: qualifier
         - include: unqualified-variables
@@ -1633,7 +1633,7 @@ contexts:
     - match: ([$@%*]#?)({{identifier}})?(::)
       captures:
         1: punctuation.definition.variable.perl
-        2: support.class.perl
+        2: variable.namespace.perl
         3: punctuation.accessor.double-colon.perl
       set: qualified-variables-path
 
@@ -1710,7 +1710,7 @@ contexts:
     - match: ([$@%*]#?)({{identifier}})?(::)
       captures:
         1: punctuation.definition.variable.perl
-        2: support.class.perl
+        2: variable.namespace.perl
         3: punctuation.accessor.double-colon.perl
       push: [maybe-item-access, qualified-variables-path]
 
@@ -1724,7 +1724,7 @@ contexts:
   qualifier:
     - match: ({{identifier}})?(::)
       captures:
-        1: support.class.perl
+        1: variable.namespace.perl
         2: punctuation.accessor.double-colon.perl
 
   variable-identifier:

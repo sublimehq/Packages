@@ -196,7 +196,7 @@ format
 format if::format =
 #^^^^^^^^^^^^^^^^^^^ meta.format.perl
 #^^^^^ storage.type.format.perl
-#      ^^ meta.path.perl support.class.perl
+#      ^^ meta.path.perl variable.namespace.perl
 #        ^^ meta.path.perl punctuation.accessor.double-colon.perl
 #          ^^^^^^ meta.path.perl variable.other.readwrite.perl
 #                 ^ keyword.operator.assignment.perl
@@ -206,11 +206,11 @@ format if::format =
 # <- meta.format.perl punctuation.terminator.format.perl
 
 CORE::format if::format =
-#^^^ support.class.perl - meta.format
+#^^^ variable.namespace.perl - meta.format
 #     ^^^^^^^^^^^^^^^^^^^^ meta.format.perl
 #   ^^ punctuation.accessor.double-colon.perl
 #     ^^^^^^ storage.type.format.perl
-#            ^^ meta.path.perl support.class.perl
+#            ^^ meta.path.perl variable.namespace.perl
 #              ^^ meta.path.perl punctuation.accessor.double-colon.perl
 #                ^^^^^^ meta.path.perl variable.other.readwrite.perl
 #                       ^ keyword.operator.assignment.perl
@@ -530,9 +530,9 @@ format var =
 #                                                ^^^^^^^ meta.string.perl meta.interpolation.perl meta.item-access.perl - string.unquoted
 #                                                       ^ meta.string.perl string.unquoted.perl - meta.interpolation
 # ^ punctuation.definition.variable.perl
-#  ^^^ support.class.perl
+#  ^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
-#       ^^^ support.class.perl
+#       ^^^ variable.namespace.perl
 #          ^^ punctuation.accessor.double-colon.perl
 #            ^^^ variable.other.readwrite.perl
   ${ $foo[4] + $bar{baz} }[0]{'key'}
@@ -1391,9 +1391,9 @@ EOT
   URI
 # ^^^ constant.other.perl
   URI::
-# ^^^ support.class.perl
+# ^^^ variable.namespace.perl
   URI->func
-# ^^^ support.class.perl
+# ^^^ variable.namespace.perl
   URI()
 # ^^^ variable.function.perl
 
@@ -1636,25 +1636,25 @@ EOT
 #             ^ punctuation.terminator.statement.perl
 
   CORE::q//
-# ^^^^ support.class.perl
+# ^^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^ support.function.perl
 #        ^ punctuation.section.generic.begin.perl
 #         ^ punctuation.section.generic.end.perl
   CORE::qq//
-# ^^^^ support.class.perl
+# ^^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^ support.function.perl
 #         ^ punctuation.section.generic.begin.perl
 #          ^ punctuation.section.generic.end.perl
   CORE::qx//
-# ^^^^ support.class.perl
+# ^^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^ support.function.perl
 #         ^ punctuation.section.generic.begin.perl
 #          ^ punctuation.section.generic.end.perl
   CORE::qw//
-# ^^^^ support.class.perl
+# ^^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^ support.function.perl
 #         ^ punctuation.section.generic.begin.perl
@@ -1730,18 +1730,18 @@ EOT
 #             ^ punctuation.terminator.statement.perl
 #               ^ comment.line.number-sign.perl punctuation.definition.comment.perl
   CORE::m
-# ^^^^ support.class.perl
+# ^^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^ support.function.perl
   CORE::m//g
-# ^^^^ support.class.perl
+# ^^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^ support.function.perl
 #        ^ punctuation.section.generic.begin.perl
 #         ^ punctuation.section.generic.end.perl
 #          ^ constant.language.flags.regexp.perl
   core::m
-# ^^^^ meta.path.perl support.class.perl
+# ^^^^ meta.path.perl variable.namespace.perl
 #     ^^ meta.path.perl punctuation.accessor.double-colon.perl
 #       ^ meta.path.perl variable.function.perl
   m::core
@@ -1926,11 +1926,11 @@ EOT
 #                ^ constant.language.flags.regexp.perl
 #                 ^ punctuation.terminator.statement.perl
   CORE::s
-# ^^^^ support.class.perl
+# ^^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^ support.function.perl
   CORE::s///g
-# ^^^^ support.class.perl
+# ^^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^ support.function.perl
 #        ^ punctuation.section.generic.begin.perl
@@ -1938,7 +1938,7 @@ EOT
 #          ^ punctuation.section.generic.end.perl
 #           ^ constant.language.flags.regexp.perl
   core::s
-# ^^^^ meta.path.perl support.class.perl
+# ^^^^ meta.path.perl variable.namespace.perl
 #     ^^ meta.path.perl punctuation.accessor.double-colon.perl
 #       ^ meta.path.perl variable.function.perl
   s::core:s
@@ -1962,11 +1962,11 @@ EOT
 #                     ^^^^ constant.language.flags.regexp.perl
 #                         ^ punctuation.terminator.statement.perl
   CORE::tr
-# ^^^^ support.class.perl
+# ^^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^ support.function.perl
   CORE::tr///g
-# ^^^^ support.class.perl
+# ^^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^ support.function.perl
 #         ^ punctuation.section.generic.begin.perl
@@ -1974,7 +1974,7 @@ EOT
 #           ^ punctuation.section.generic.end.perl
 #            ^ constant.language.flags.regexp.perl
   core::tr
-# ^^^^ meta.path.perl support.class.perl
+# ^^^^ meta.path.perl variable.namespace.perl
 #     ^^ meta.path.perl punctuation.accessor.double-colon.perl
 #       ^^ meta.path.perl variable.function.perl
   tr::core:s
@@ -1998,11 +1998,11 @@ EOT
 #                        ^^^^ constant.language.flags.regexp.perl
 #                            ^ punctuation.terminator.statement.perl
   CORE::y
-# ^^^^ support.class.perl
+# ^^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^ support.function.perl
   CORE::y///g
-# ^^^^ support.class.perl
+# ^^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^ support.function.perl
 #        ^ punctuation.section.generic.begin.perl
@@ -2010,7 +2010,7 @@ EOT
 #          ^ punctuation.section.generic.end.perl
 #           ^ constant.language.flags.regexp.perl
   core::y
-# ^^^^ meta.path.perl support.class.perl
+# ^^^^ meta.path.perl variable.namespace.perl
 #     ^^ meta.path.perl punctuation.accessor.double-colon.perl
 #       ^ meta.path.perl variable.function.perl
   y::core:s
@@ -2607,7 +2607,7 @@ EOT
 # ^^^^^^^^^ meta.path.perl
 #          ^ - meta.path
 # ^ punctuation.definition.variable.perl
-#  ^^^ support.class.perl
+#  ^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^ variable.other.readwrite.perl
   $Foo::bar->[0] # 'bar' is a reference of an array
@@ -2615,7 +2615,7 @@ EOT
 #          ^^ - meta.path - meta.item-access
 #            ^^^ meta.item-access.perl - meta.path
 # ^ punctuation.definition.variable.perl
-#  ^^^ support.class.perl
+#  ^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^ variable.other.readwrite.perl
 #          ^^ punctuation.accessor.arrow.perl
@@ -2625,7 +2625,7 @@ EOT
 #          ^^ - meta.path - meta.item-access
 #            ^^^^^ meta.item-access.perl - meta.path
 # ^ punctuation.definition.variable.perl
-#  ^^^ support.class.perl
+#  ^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^ variable.other.readwrite.perl
 #          ^^ punctuation.accessor.arrow.perl
@@ -2636,7 +2636,7 @@ EOT
 # ^^^^^^^^^ meta.path.perl
 #          ^ - meta.path
 # ^ punctuation.definition.variable.perl
-#  ^^^ support.class.perl
+#  ^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^ variable.other.readwrite.perl
 #          ^^ punctuation.accessor.arrow.perl
@@ -2645,16 +2645,16 @@ EOT
 # ^^^^^^^^^^^^^^ meta.path.perl
 #               ^ - meta.path
 # ^ punctuation.definition.variable.perl
-#  ^^^ support.class.perl
+#  ^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
-#       ^^^ support.class.perl
+#       ^^^ variable.namespace.perl
 #          ^^ punctuation.accessor.double-colon.perl
 #            ^^^ variable.other.readwrite.perl
   $Foo::$bar::baz # a part of the qualifier is a variable
 # ^^^^^^^^^^^^^^^ meta.path.perl
 #                ^ - meta.path
 # ^ punctuation.definition.variable.perl
-#  ^^^ support.class.perl
+#  ^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^ variable.other.readwrite.perl
 #           ^^ punctuation.accessor.double-colon.perl
@@ -2663,7 +2663,7 @@ EOT
 # ^^^^^^^^^^^^^^^^^ meta.path.perl
 #                  ^ - meta.path
 # ^ punctuation.definition.variable.perl
-#  ^^^ support.class.perl
+#  ^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^^^ meta.variable.perl
 #         ^^^ string.unquoted.perl
@@ -2673,9 +2673,9 @@ EOT
 # ^^^^^^^^^^^^^^ meta.path.perl
 #               ^^ - meta.path
 # ^ punctuation.definition.variable.perl
-#  ^^^ support.class.perl
+#  ^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
-#       ^^^ support.class.perl
+#       ^^^ variable.namespace.perl
 #          ^^ punctuation.accessor.double-colon.perl
 #            ^^^ variable.other.readwrite.perl
 #               ^ punctuation.section.group.begin.perl
@@ -2684,9 +2684,9 @@ EOT
 # ^^^^^^^^^^^^^^ meta.path.perl - meta.item-access
 #               ^^^ meta.item-access.perl - meta.path
 # ^ punctuation.definition.variable.perl
-#  ^^^ support.class.perl
+#  ^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
-#       ^^^ support.class.perl
+#       ^^^ variable.namespace.perl
 #          ^^ punctuation.accessor.double-colon.perl
 #            ^^^ variable.other.readwrite.perl
 #               ^ punctuation.section.item-access.begin.perl
@@ -2696,9 +2696,9 @@ EOT
 # ^^^^^^^^^^^^^^ meta.path.perl - meta.item-access
 #               ^^^^^ meta.item-access.perl - meta.path
 # ^ punctuation.definition.variable.perl
-#  ^^^ support.class.perl
+#  ^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
-#       ^^^ support.class.perl
+#       ^^^ variable.namespace.perl
 #          ^^ punctuation.accessor.double-colon.perl
 #            ^^^ variable.other.readwrite.perl
 #               ^ punctuation.section.item-access.begin.perl
@@ -2708,7 +2708,7 @@ EOT
 # ^^^^^^^^^ meta.path.perl
 #          ^ - meta.path
 # ^ punctuation.definition.variable.perl
-#  ^^^ support.class.perl
+#  ^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^ variable.other.readwrite.perl
 #          ^^ punctuation.accessor.arrow.perl - variable
@@ -2846,9 +2846,9 @@ EOT
 # ^^^^^^^^^^^^^^^^ meta.variable.perl
 # ^ keyword.operator.dereference.perl
 #  ^ punctuation.definition.variable.begin.perl
-#   ^^^ support.class.perl
+#   ^^^ variable.namespace.perl
 #      ^^ punctuation.accessor.double-colon.perl
-#        ^^^ support.class.perl
+#        ^^^ variable.namespace.perl
 #           ^^ punctuation.accessor.double-colon.perl
 #             ^^^ variable.function.perl
 #                ^ punctuation.definition.variable.end.perl
@@ -2863,9 +2863,9 @@ EOT
     Foo::bar->baz()
 # <- meta.variable.perl
 #^^^^^^^^^^^^^^^^^^^ meta.variable.perl
-#   ^^^ support.class.perl
+#   ^^^ variable.namespace.perl
 #      ^^ punctuation.accessor.double-colon.perl
-#        ^^^ support.class.perl
+#        ^^^ variable.namespace.perl
 #           ^^ punctuation.accessor.arrow.perl
 #             ^^^ variable.function.member.perl
   }
@@ -2912,7 +2912,7 @@ EOT
 #              ^^^ - meta.path.perl
 # ^ keyword.operator.dereference.perl
 #  ^ punctuation.definition.variable.perl
-#   ^^ support.class.perl
+#   ^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^^^^ variable.other.readwrite.perl
 #              ^ punctuation.section.group.begin.perl
@@ -2952,7 +2952,7 @@ EOT
 # ^ keyword.operator.dereference.perl
 #  ^ punctuation.definition.variable.begin.perl
 #   ^ punctuation.definition.variable.perl
-#    ^^^^^^ support.class.perl
+#    ^^^^^^ variable.namespace.perl
 #          ^^ punctuation.accessor.double-colon.perl
 #            ^^^^^^^ variable.other.readwrite.perl
 #                   ^ punctuation.definition.variable.end.perl
@@ -3111,7 +3111,7 @@ EOT
 #          ^ keyword.operator.assignment.perl
 #            ^ keyword.operator.reference.perl
 #             ^ keyword.operator.dereference.perl
-#              ^^ support.class.perl
+#              ^^ variable.namespace.perl
 #                ^^ punctuation.accessor.double-colon.perl
 #                  ^^^^ variable.function.perl
 #                      ^ punctuation.terminator.statement.perl
@@ -3415,7 +3415,7 @@ EOT
   CORE::require;
 # ^^^^^^ - meta.preprocessor
 #       ^^^^^^^ meta.preprocessor.require.perl
-# ^^^^ support.class.perl
+# ^^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^^^^ keyword.control.import.require.perl
 #              ^ punctuation.terminator.statement.perl
@@ -3494,14 +3494,14 @@ use strict "vars";
 #     ^^^^^^^^ entity.name.namespace.perl
 #             ^^ meta.path.perl punctuation.accessor.double-colon.perl
 #               ^^^^^^^^ entity.name.namespace.perl
-#                        ^^^ support.class.perl
+#                        ^^^ variable.namespace.perl
 #                           ^^ punctuation.accessor.double-colon.perl
 #                             ^^^^ variable.function.perl
 #                                 ^ punctuation.terminator.statement.perl
   CORE::use;
 # ^^^^^^ - meta.preprocessor
 #       ^^^ meta.preprocessor.use.perl
-# ^^^^ support.class.perl
+# ^^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^ keyword.control.import.use.perl
 #          ^ punctuation.terminator.statement.perl
@@ -3523,7 +3523,7 @@ use strict "vars";
   CORE::no;
 # ^^^^^^ - meta.preprocessor
 #       ^^ meta.preprocessor.no.perl
-# ^^^^ support.class.perl
+# ^^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^ keyword.control.import.no.perl
 #         ^ punctuation.terminator.statement.perl
@@ -3591,17 +3591,17 @@ my (
 #                           ^ punctuation.terminator.statement.perl
 #                             ^ punctuation.section.block.end.perl
   CORE::my
-# ^^^^ support.class.perl
+# ^^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^ keyword.declaration.variable.perl
   core::my
 # ^^^^^^^^ meta.path.perl
-# ^^^^ support.class.perl
+# ^^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^ variable.function.perl
   my::core
 # ^^^^^^^^ meta.path.perl
-# ^^ support.class.perl
+# ^^ variable.namespace.perl
 #   ^^ punctuation.accessor.double-colon.perl
 #     ^^^^ variable.function.perl
 
@@ -4389,37 +4389,37 @@ state
 # ^^^^ meta.function.perl - meta.path
   if::func
 # ^^^^^^^^ meta.function.perl meta.path.perl
-# ^^ support.class.perl
+# ^^ variable.namespace.perl
 #   ^^ punctuation.accessor.double-colon.perl
 #     ^^^^ entity.name.function.perl
   sub NS::func
 # ^^^^ meta.function.perl - meta.path
 #     ^^^^^^^^ meta.function.perl meta.path.perl
-#     ^^ support.class.perl
+#     ^^ variable.namespace.perl
 #       ^^ punctuation.accessor.double-colon.perl
 #         ^^^^ entity.name.function.perl
   sub ::NS::func
 # ^^^^ meta.function.perl - meta.path
 #     ^^^^^^^^^^ meta.function.perl meta.path.perl
 #     ^^ punctuation.accessor.double-colon.perl
-#       ^^ support.class.perl
+#       ^^ variable.namespace.perl
 #         ^^ punctuation.accessor.double-colon.perl
 #           ^^^^ entity.name.function.perl
   sub B::NS::func
 # ^^^^ meta.function.perl - meta.path
 #     ^^^^^^^^^^^ meta.function.perl meta.path.perl
-#     ^ support.class.perl
+#     ^ variable.namespace.perl
 #      ^^ punctuation.accessor.double-colon.perl
-#        ^^ support.class.perl
+#        ^^ variable.namespace.perl
 #          ^^ punctuation.accessor.double-colon.perl
 #            ^^^^ entity.name.function.perl
   sub B::NS::func invalid
 # ^^^^ meta.function.perl - meta.path
 #     ^^^^^^^^^^^ meta.function.perl meta.path.perl
 #                ^^^^^^^^ meta.function.perl - meta.path
-#     ^ support.class.perl
+#     ^ variable.namespace.perl
 #      ^^ punctuation.accessor.double-colon.perl
-#        ^^ support.class.perl
+#        ^^ variable.namespace.perl
 #          ^^ punctuation.accessor.double-colon.perl
 #            ^^^^ entity.name.function.perl
 #                 ^^^^^^^ invalid.illegal.identifier.perl
@@ -4427,7 +4427,7 @@ state
 # ^^^^ meta.function.perl - meta.path
 #     ^^^^^ meta.function.perl meta.path.perl
 #          ^^^^^^^^^^ meta.function.perl - meta.path
-#     ^ support.class.perl
+#     ^ variable.namespace.perl
 #      ^^ punctuation.accessor.double-colon.perl
 #        ^^ entity.name.function.perl
 #           ^^^^^^^^^ invalid.illegal.identifier.perl
@@ -4436,9 +4436,9 @@ state
 # ^^^^ meta.function.perl - meta.path
 #     ^^^^^^^ meta.function.perl meta.path.perl
 #            ^^^^^^^^^ meta.function.perl - meta.path
-#     ^ support.class.perl
+#     ^ variable.namespace.perl
 #      ^^ punctuation.accessor.double-colon.perl
-#        ^^ support.class.perl
+#        ^^ variable.namespace.perl
 #          ^^ punctuation.accessor.double-colon.perl
 #             ^^^^^^^ invalid.illegal.identifier.perl
 #                     ^ punctuation.section.block.begin.perl
@@ -4447,9 +4447,9 @@ state
   sub B::NS::func # comment
 # ^^^^ meta.function.perl - meta.path
 #     ^^^^^^^^^^^ meta.function.perl meta.path.perl
-#     ^ support.class.perl
+#     ^ variable.namespace.perl
 #      ^^ punctuation.accessor.double-colon.perl
-#        ^^ support.class.perl
+#        ^^ variable.namespace.perl
 #          ^^ punctuation.accessor.double-colon.perl
 #            ^^^^ entity.name.function.perl
 #                 ^^^^^^^^^ comment.line.number-sign.perl
@@ -4457,9 +4457,9 @@ state
 # ^^^^ meta.function.perl - meta.path
 #     ^^^^^^^^^^^ meta.function.perl meta.path.perl
 #                ^^ meta.function.parameters.perl
-#     ^ support.class.perl
+#     ^ variable.namespace.perl
 #      ^^ punctuation.accessor.double-colon.perl
-#        ^^ support.class.perl
+#        ^^ variable.namespace.perl
 #          ^^ punctuation.accessor.double-colon.perl
 #            ^^^^ entity.name.function.perl
 #                ^ punctuation.section.parameters.begin.perl
@@ -4470,9 +4470,9 @@ state
 #     ^^^^^^^^^^^ meta.function.perl meta.path.perl
 #                ^ meta.function.perl - meta.path - meta.block
 #                 ^
-#     ^ support.class.perl
+#     ^ variable.namespace.perl
 #      ^^ punctuation.accessor.double-colon.perl
-#        ^^ support.class.perl
+#        ^^ variable.namespace.perl
 #          ^^ punctuation.accessor.double-colon.perl
 #            ^^^^ entity.name.function.perl
 #                 ^ punctuation.section.block.begin.perl
@@ -4484,9 +4484,9 @@ state
 #^ meta.function.perl - meta.path
 # ^^^^^^^^^^^ meta.function.perl meta.path.perl
 #            ^^ meta.function.perl - meta.path
-# ^ support.class.perl
+# ^ variable.namespace.perl
 #  ^^ punctuation.accessor.double-colon.perl
-#    ^^ support.class.perl
+#    ^^ variable.namespace.perl
 #      ^^ punctuation.accessor.double-colon.perl
 #        ^^^^ entity.name.function.perl
   (
@@ -4504,7 +4504,7 @@ state
   CORE::sub ;
 # ^^^^^^ - meta.function.perl
 #       ^^^^ meta.function.perl
-# ^^^^ support.class.perl
+# ^^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^ storage.type.function.perl
 #           ^ punctuation.terminator.statement.perl
@@ -4692,7 +4692,7 @@ state
   print x::func;
 # ^^^^^ support.function.perl
 #       ^^^^^^^ meta.path.perl
-#       ^ support.class.perl
+#       ^ variable.namespace.perl
 #        ^^ punctuation.accessor.double-colon.perl
 #          ^^^^ variable.function.perl
   print $$$$refrefref;
@@ -4732,7 +4732,7 @@ state
   Func x::path
 # ^^^^ variable.function.perl
 #      ^^^^^^^ meta.path.perl
-#      ^ support.class.perl
+#      ^ variable.namespace.perl
 #       ^^ punctuation.accessor.double-colon.perl
 #         ^^^^ variable.function.perl
   _func $var;
@@ -4923,7 +4923,7 @@ _EOD_
 # ^^ punctuation.accessor.double-colon.perl
 #   ^^^^ variable.function.perl
 #        ^^^^^^^ meta.path.perl
-#        ^ support.class.perl
+#        ^ variable.namespace.perl
 #         ^^ punctuation.accessor.double-colon.perl
 #           ^^^^ variable.function.perl
   ::_func $var;
@@ -4957,79 +4957,79 @@ _EOD_
 #        ^^^ keyword.operator.logical.perl
   main::print
 # ^^^^^^^^^^^ meta.path.perl
-# ^^^^ support.class.perl
+# ^^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^^ support.function.perl
   &main::print
 #  ^^^^^^^^^^^ meta.path.perl
 # ^ keyword.operator.dereference.perl
-#  ^^^^ support.class.perl
+#  ^^^^ variable.namespace.perl
 #      ^^ punctuation.accessor.double-colon.perl
 #        ^^^^^ support.function.perl
   If::func
 # ^^^^^^^^ meta.path.perl
-# ^^ support.class.perl
+# ^^ variable.namespace.perl
 #   ^^ punctuation.accessor.double-colon.perl
 #     ^^^^ variable.function.perl
   If::_Func
 # ^^^^^^^^^ meta.path.perl
-# ^^ support.class.perl
+# ^^ variable.namespace.perl
 #   ^^ punctuation.accessor.double-colon.perl
 #     ^^^^ variable.function.perl
   If::Func
 # ^^^^^^^^ meta.path.perl
-# ^^ support.class.perl
+# ^^ variable.namespace.perl
 #   ^^ punctuation.accessor.double-colon.perl
 #     ^^^^ variable.function.perl
   IF::func
 # ^^^^^^^^ meta.path.perl
-# ^^ support.class.perl
+# ^^ variable.namespace.perl
 #   ^^ punctuation.accessor.double-colon.perl
 #     ^^^^ variable.function.perl
   IF::_Func
 # ^^^^^^^^^ meta.path.perl
-# ^^ support.class.perl
+# ^^ variable.namespace.perl
 #   ^^ punctuation.accessor.double-colon.perl
 #     ^^^^ variable.function.perl
   IF::Func
 # ^^^^^^^^ meta.path.perl
-# ^^ support.class.perl
+# ^^ variable.namespace.perl
 #   ^^ punctuation.accessor.double-colon.perl
 #     ^^^^ variable.function.perl
   if::func
 # ^^^^^^^^ meta.path.perl
-# ^^ support.class.perl
+# ^^ variable.namespace.perl
 #   ^^ punctuation.accessor.double-colon.perl
 #     ^^^^ variable.function.perl
   if::_Func
 # ^^^^^^^^^ meta.path.perl
-# ^^ support.class.perl
+# ^^ variable.namespace.perl
 #   ^^ punctuation.accessor.double-colon.perl
 #     ^^^^ variable.function.perl
   if::Func
 # ^^^^^^^^ meta.path.perl
-# ^^ support.class.perl
+# ^^ variable.namespace.perl
 #   ^^ punctuation.accessor.double-colon.perl
 #     ^^^^ variable.function.perl
   ::if::func
 # ^^^^^^^^^^ meta.path.perl
 # ^^ punctuation.accessor.double-colon.perl
-#   ^^ support.class.perl
+#   ^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^ variable.function.perl
   i::f::func
 # ^^^^^^^^^^ meta.path.perl
-# ^ support.class.perl
+# ^ variable.namespace.perl
 #  ^^ punctuation.accessor.double-colon.perl
-#    ^ support.class.perl
+#    ^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^ variable.function.perl
   &i::f::func
 #  ^^^^^^^^^^ meta.path.perl
 # ^ keyword.operator.dereference.perl
-#  ^ support.class.perl
+#  ^ variable.namespace.perl
 #   ^^ punctuation.accessor.double-colon.perl
-#     ^ support.class.perl
+#     ^ variable.namespace.perl
 #      ^^ punctuation.accessor.double-colon.perl
 #        ^^^^ variable.function.perl
 
@@ -5038,13 +5038,13 @@ _EOD_
   $obj = URI->new
 # ^^^^ variable.other.readwrite.perl
 #      ^ keyword.operator.assignment.perl
-#        ^^^ support.class.perl - constant - meta.path
+#        ^^^ variable.namespace.perl - constant - meta.path
 #           ^^ punctuation.accessor.arrow.perl
 #             ^^^ variable.function.member.perl
   $obj = Class->new
 # ^^^^ variable.other.readwrite.perl
 #      ^ keyword.operator.assignment.perl
-#        ^^^^^ support.class.perl - meta.path
+#        ^^^^^ variable.namespace.perl - meta.path
 #             ^^ punctuation.accessor.arrow.perl
 #               ^^^ variable.function.member.perl
   $obj = Class::Scan->new
@@ -5053,9 +5053,9 @@ _EOD_
 #                   ^ - meta.path
 # ^^^^ variable.other.readwrite.perl
 #      ^ keyword.operator.assignment.perl
-#        ^^^^^ support.class.perl
+#        ^^^^^ variable.namespace.perl
 #             ^^ punctuation.accessor.double-colon.perl
-#               ^^^^ support.class.perl
+#               ^^^^ variable.namespace.perl
 #                   ^^ punctuation.accessor.arrow.perl
 #                     ^^^ variable.function.member.perl
   $obj = Class::Scan->new # comment
@@ -5064,9 +5064,9 @@ _EOD_
 #                   ^ - meta.path
 # ^^^^ variable.other.readwrite.perl
 #      ^ keyword.operator.assignment.perl
-#        ^^^^^ support.class.perl
+#        ^^^^^ variable.namespace.perl
 #             ^^ punctuation.accessor.double-colon.perl
-#               ^^^^ support.class.perl
+#               ^^^^ variable.namespace.perl
 #                   ^^ punctuation.accessor.arrow.perl
 #                     ^^^ variable.function.member.perl
 #                         ^^^^^^^^^ comment.line.number-sign.perl
@@ -5076,9 +5076,9 @@ _EOD_
 #                   ^ - meta.path
 # ^^^^ variable.other.readwrite.perl
 #      ^ keyword.operator.assignment.perl
-#        ^^^^^ support.class.perl
+#        ^^^^^ variable.namespace.perl
 #             ^^ punctuation.accessor.double-colon.perl
-#               ^^^^ support.class.perl
+#               ^^^^ variable.namespace.perl
 #                   ^^ punctuation.accessor.arrow.perl
 #                     ^^^ variable.function.member.perl
 #                        ^ punctuation.section.group.begin.perl
@@ -5182,7 +5182,7 @@ _EOD_
 #               ^ - meta.path
 # ^^^^ variable.other.readwrite.perl
 #     ^^ punctuation.accessor.arrow.perl
-#       ^^ support.class.perl
+#       ^^ variable.namespace.perl
 #         ^^ punctuation.accessor.double-colon.perl
 #           ^^^^ variable.function.perl
 
@@ -5272,7 +5272,7 @@ _EOT_
 #                ^ punctuation.section.group.end.perl
 #                  ^ punctuation.section.block.begin.perl
     CORE::break;
-#   ^^^^ support.class.perl
+#   ^^^^ variable.namespace.perl
 #       ^^ punctuation.accessor.double-colon.perl
 #         ^^^^^ keyword.control.flow.break.perl
   }
