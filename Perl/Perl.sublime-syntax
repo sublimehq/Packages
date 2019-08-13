@@ -713,7 +713,7 @@ contexts:
       scope: constant.language.filehandle.perl
 
   constants-other:
-    - match: \b\w+(?=\s*=>)
+    - match: '{{identifier}}(?=\s*=>)'
       scope: constant.other.key.perl
     # Not looking like a namespace, class, object or function?
     - match: \b[A-Z_][A-Z0-9_]+\b(?!::|\s*(?:\(|->))
@@ -1837,7 +1837,7 @@ contexts:
       scope: meta.item-access.perl
       captures:
         1: punctuation.section.item-access.begin.perl
-        2: meta.string.perl string.unquoted.perl
+        2: constant.other.key.perl
         3: punctuation.section.item-access.end.perl
     - match: \{
       scope: punctuation.section.item-access.begin.perl

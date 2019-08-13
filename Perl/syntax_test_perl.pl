@@ -1515,7 +1515,7 @@ EOT
 #              ^^^^^^^^^^^^^^ meta.string.perl meta.interpolation.perl meta.variable.perl meta.string.perl
 #                            ^^^^^^^^ meta.string.perl meta.interpolation.perl meta.variable.perl - string
 #                                   ^^^^^ meta.item-access.perl
-#                                    ^^^ meta.string.perl meta.interpolation.perl meta.variable.perl meta.item-access.perl meta.string.perl
+#                                    ^^^ meta.string.perl meta.interpolation.perl meta.variable.perl meta.item-access.perl
 #                                       ^^ meta.string.perl meta.interpolation.perl meta.variable.perl - string
 #                                         ^^ meta.string.perl string.quoted.angle.perl - meta.interpolation
 #                                           ^^^^ meta.string.perl meta.interpolation.perl - string
@@ -1529,7 +1529,7 @@ EOT
 #                             ^ keyword.operator.concat.perl
 #                               ^^^^ variable.other.readwrite.perl
 #                                   ^ punctuation.section.item-access.begin.perl
-#                                    ^^^ string.unquoted.perl
+#                                    ^^^ constant.other.key.perl
 #                                       ^ punctuation.section.item-access.end.perl
 #                                        ^  punctuation.definition.variable.end.perl
 #                                         ^ - punctuation
@@ -2536,7 +2536,7 @@ EOT
 # ^ punctuation.definition.variable.perl
 #     ^ punctuation.section.item-access.begin.perl
 #     ^^^^^ meta.item-access.perl
-#      ^^^ meta.string.perl string.unquoted.perl
+#      ^^^ constant.other.key.perl
 #         ^ punctuation.section.item-access.end.perl
   $foo{bar()}
 # ^^^^ variable.other.readwrite.perl
@@ -2630,7 +2630,7 @@ EOT
 #       ^^^ variable.other.readwrite.perl
 #          ^^ punctuation.accessor.arrow.perl
 #            ^ punctuation.section.item-access.begin.perl
-#             ^^^ meta.string.perl string.unquoted.perl
+#             ^^^ constant.other.key.perl
 #                ^ punctuation.section.item-access.end.perl
   $Foo::bar->baz # 'Bar' is a reference to a class or namespace
 # ^^^^^^^^^ meta.path.perl
@@ -2702,7 +2702,7 @@ EOT
 #          ^^ punctuation.accessor.double-colon.perl
 #            ^^^ variable.other.readwrite.perl
 #               ^ punctuation.section.item-access.begin.perl
-#                ^^^ meta.string.perl string.unquoted.perl
+#                ^^^ constant.other.key.perl
 #                   ^ punctuation.section.item-access.end.perl
   $Foo::Bar->$baz->[-1]
 # ^^^^^^^^^ meta.path.perl
@@ -2817,9 +2817,9 @@ EOT
 #   ^ punctuation.definition.variable.perl
 #   ^^^^ variable.other.readwrite.perl
 #       ^ punctuation.section.item-access.begin.perl
-#        ^^^ meta.string.perl string.unquoted.perl
+#        ^^^ constant.other.key.perl
 #           ^ punctuation.section.item-access.end.perl
-#             ^^^ meta.string.perl string.unquoted.perl
+#             ^^^ constant.other.key.perl
 #                ^ punctuation.section.item-access.end.perl
 #                 ^ punctuation.definition.variable.end.perl
 #                   ^ keyword.operator.assignment.perl
@@ -2938,7 +2938,7 @@ EOT
 #   ^ punctuation.definition.variable.perl
 #   ^^^^^^^^ variable.other.readwrite.perl
 #           ^ punctuation.section.item-access.begin.perl
-#            ^^^^ meta.string.perl string.unquoted.perl
+#            ^^^^ constant.other.key.perl
 #                ^ punctuation.section.item-access.end.perl
 #                 ^ punctuation.definition.variable.end.perl
 #                  ^ punctuation.section.group.begin.perl
