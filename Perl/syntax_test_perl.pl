@@ -5188,6 +5188,16 @@ _EOD_
 
 ###[ CONDITIONAL EXPRESSIONS ]################################################
 
+  if ($flags & (SVf_POK|SVf_IOkK))
+# ^^ keyword.control.conditional.if.perl
+#    ^ punctuation.section.group.begin.perl
+#     ^^^^^^ variable.other.readwrite.perl
+#            ^ keyword.operator.bitwise.perl
+#              ^ punctuation.section.group.begin.perl
+#               ^^^^^^^ constant.other.perl
+#                      ^ keyword.operator.bitwise.perl
+#                       ^^^^^^^^ constant.other.perl
+#                               ^^ punctuation.section.group.end.perl
   if(exists($curargs{$index}))
 # ^^ keyword.control.conditional.if.perl
 #   ^ punctuation.section.group.begin.perl

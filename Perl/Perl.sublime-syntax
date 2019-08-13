@@ -98,6 +98,7 @@ contexts:
     - include: package
     - include: imports
     - include: expressions
+    - include: constants-identifier
     - match: ^
       push:
         - match: (?=/.*?[^\\](?:[\\]{2}|[\\]{4})?/)
@@ -717,6 +718,10 @@ contexts:
       scope: constant.other.key.perl
     # Not looking like a namespace, class, object or function?
     - match: \b[A-Z_][A-Z0-9_]+\b(?!::|\s*(?:\(|->))
+      scope: constant.other.perl
+
+  constants-identifier:
+    - match: '{{identifier}}'
       scope: constant.other.perl
 
   constants-version:
@@ -1599,7 +1604,7 @@ contexts:
       scope: support.function.perl
       push: expressions-begin
     # user defined function calls
-    - match: '{{identifier}}(?=\s*(?:$|[;#/()\]}''"`$@%]|<<|(?!(?:{{operator_keywords}}){{break}})\w))'
+    - match: '{{identifier}}(?=\s*(?:$|[;#/(''"`$@%]|<<|(?!(?:{{operator_keywords}}){{break}})\w))'
       scope: variable.function.perl
       push: expressions-begin
 
