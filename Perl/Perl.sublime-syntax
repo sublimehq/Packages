@@ -88,6 +88,15 @@ contexts:
     - include: blocks
     - include: brackets
     - include: groups
+    - include: expressions-common
+
+  expressions-nested:
+    - include: blocks-nested
+    - include: brackets-nested
+    - include: groups-nested
+    - include: expressions-common
+
+  expressions-common:
     - include: sub
     - include: quoted-like
     - include: label
@@ -497,10 +506,7 @@ contexts:
       set:
         - - meta_scope: meta.annotation.parameters.perl
           - include: parameters-end
-          - include: blocks-nested
-          - include: brackets-nested
-          - include: groups-nested
-          - include: expressions
+          - include: expressions-nested
         - expressions-begin
         - parameters-begin
     - include: sub-common
@@ -586,10 +592,7 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.perl
       pop: true
-    - include: blocks-nested
-    - include: brackets-nested
-    - include: groups-nested
-    - include: expressions
+    - include: expressions-nested
 
 ###[ CONSTANTS ]##############################################################
 
@@ -1450,10 +1453,7 @@ contexts:
     - match: \}
       scope: punctuation.definition.variable.end.perl
       pop: true
-    - include: blocks-nested
-    - include: brackets-nested
-    - include: groups-nested
-    - include: expressions
+    - include: expressions-nested
 
   maybe-item-access:
     # SEE: https://perldoc.perl.org/perllol.html
@@ -1464,10 +1464,7 @@ contexts:
           - match: \]
             scope: punctuation.section.item-access.end.perl
             pop: true
-          - include: blocks-nested
-          - include: brackets-nested
-          - include: groups-nested
-          - include: expressions
+          - include: expressions-nested
         - expressions-begin
     - match: (\{)\s*({{identifier}})\s*(\})
       scope: meta.item-access.perl
@@ -1482,9 +1479,6 @@ contexts:
           - match: \}
             scope: punctuation.section.item-access.end.perl
             pop: true
-          - include: blocks-nested
-          - include: brackets-nested
-          - include: groups-nested
-          - include: expressions
+          - include: expressions-nested
         - expressions-begin
     - include: immediately-pop
