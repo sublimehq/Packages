@@ -395,43 +395,84 @@ contexts:
 
   constants-numbers:
     # SEE: http://perldoc.perl.org/perlnumber.html
-    - match: 0b[01]+(?![\.\w+])
-      scope: constant.numeric.integer.binary.perl
-    - match: 0x[\h_]+(?![\.\w+])
-      scope: constant.numeric.integer.hexadecimal.perl
-    - include: constants-numbers-float
-    - include: constants-numbers-integer
-
-  constants-numbers-float:
-    - match: (")([-+]?\d+\.\d+(?:e[-+]?\d+)?)(")
+    # decimal floats
+    - match:  |-
+        (?ix:
+          (") ( [-+]? (?:
+          (\.)[\d_]+ (?: e[-+]?[\d_]+ )?  |  # .1 .1e1 .1e-1 .1e+1
+              [\d_]+ (?: (\.) (?:
+              [\d_]+ (?: e[-+]?[\d_]+ )?  |  # 1.1 1.1e1 1.1e-1 1.1e+1
+                         e[-+]?[\d_]+ )?  |  # 1. 1.e1 1.e-1 1.e+1
+                         e[-+]?[\d_]+ )      # 1e1 1e-1 1e+1
+          ) ) (")
+        )
       scope: string.quoted.double.perl
       captures:
         1: punctuation.definition.string.begin.perl
         2: constant.numeric.float.decimal.perl
-        3: punctuation.definition.string.end.perl
-    - match: (')([-+]?\d+\.\d+(?:e[-+]?\d+)?)(')
+        3: punctuation.separator.decimal.perl
+        4: punctuation.separator.decimal.perl
+        5: punctuation.definition.string.end.perl
+    - match:  |-
+        (?ix:
+          (') ( [-+]? (?:
+          (\.)[\d_]+ (?: e[-+]?[\d_]+ )?  |  # .1 .1e1 .1e-1 .1e+1
+              [\d_]+ (?: (\.) (?:
+              [\d_]+ (?: e[-+]?[\d_]+ )?  |  # 1.1 1.1e1 1.1e-1 1.1e+1
+                         e[-+]?[\d_]+ )?  |  # 1. 1.e1 1.e-1 1.e+1
+                         e[-+]?[\d_]+ )      # 1e1 1e-1 1e+1
+          ) ) (')
+        )
       scope: string.quoted.single.perl
       captures:
         1: punctuation.definition.string.begin.perl
         2: constant.numeric.float.decimal.perl
-        3: punctuation.definition.string.end.perl
-    - match: (?:[-+]|\b)\d+\.\d+(?:e[-+]?\d+)?(?![\.\w+])
+        3: punctuation.separator.decimal.perl
+        4: punctuation.separator.decimal.perl
+        5: punctuation.definition.string.end.perl
+    - match: |-
+        (?ix:
+          (\.)[\d_]+ (?: e[-+]?[\d_]+   )? \b |  # .1 .1e1 .1e-1 .1e+1
+            \b[\d_]+ (?: (\.) (?: (?:
+              [\d_]+ (?: e[-+]?[\d_]+   )? \b |  # 1.1 1.1e1 1.1e-1 1.1e+1
+                         e[-+]?[\d_]+\b )     |  # 1.e1 1.e-1 1.e+1
+                         (?=[^.]))            |  # 1. (protect the .. operator)
+                         e[-+]?[\d_]+\b )        # 1e1 1e-1 1e+1
+        )
       scope: constant.numeric.float.decimal.perl
-
-  constants-numbers-integer:
-    - match: (")([-+]?\d+)(")
+      captures:
+        1: punctuation.separator.decimal.perl
+        2: punctuation.separator.decimal.perl
+    # decimal integers
+    - match: (")([-+]?[\d_]+)(")
       scope: string.quoted.double.perl
       captures:
         1: punctuation.definition.string.begin.perl
         2: constant.numeric.integer.decimal.perl
         3: punctuation.definition.string.end.perl
-    - match: (')([-+]?\d+)(')
+    - match: (')([-+]?[\d_]+)(')
       scope: string.quoted.single.perl
       captures:
         1: punctuation.definition.string.begin.perl
         2: constant.numeric.integer.decimal.perl
         3: punctuation.definition.string.end.perl
-    - match: (?:[-+]|\b)\d+(?![\.\w+])
+    # binary integers
+    - match: \b(0[bB])[01_]+\b
+      scope: constant.numeric.integer.binary.perl
+      captures:
+        1: punctuation.definition.numeric.binary.perl
+    # hexadecimal integers
+    - match: \b(0[xX])[\h_]+\b
+      scope: constant.numeric.integer.hexadecimal.perl
+      captures:
+        1: punctuation.definition.numeric.hexadecimal.perl
+    # octal integers
+    - match: \b(0)[0-7_]+\b
+      scope: constant.numeric.integer.octal.perl
+      captures:
+        1: punctuation.definition.numeric.octal.perl
+    # decimal integers
+    - match: \b[\d_]+\b
       scope: constant.numeric.integer.decimal.perl
 
   constants-language:
