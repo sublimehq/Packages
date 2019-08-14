@@ -162,7 +162,7 @@ contexts:
           pop: true
 
   comment-pod:
-    # SEE: http://perldoc.perl.org/perlpod.html
+    # SEE: https://perldoc.perl.org/perlpod.html
     - match: ^{{pod}}
       scope: entity.name.tag.pod.perl
       push:
@@ -626,7 +626,7 @@ contexts:
     - include: string
 
   constants-numbers:
-    # SEE: http://perldoc.perl.org/perlnumber.html
+    # SEE: https://perldoc.perl.org/perlnumber.html
     # decimal floats
     - match:  |-
         (?ix:
@@ -793,7 +793,7 @@ contexts:
         - include: literal-common
 
   string-format:
-    # SEE: http://perldoc.perl.org/perlform.html
+    # SEE: https://perldoc.perl.org/perlform.html
     - match: \bformat{{break}}
       scope: storage.type.format.perl
       push: [string-format-meta, string-format-body, string-format-variable]
@@ -1171,7 +1171,7 @@ contexts:
 ###[ QUOTED LIKE ]############################################################
 
   quoted-like:
-    # SEE: http://perldoc.perl.org/perlop.html#Regexp-Quote-Like-Operators
+    # SEE: https://perldoc.perl.org/perlop.html#Regexp-Quote-Like-Operators
     - include: quoted-like-match
     - include: quoted-like-substitution
     # fallback
@@ -1738,7 +1738,7 @@ contexts:
       pop: true
 
   unqualified-variables:
-    # SEE: http://perldoc.perl.org/perlvar.html
+    # SEE: https://perldoc.perl.org/perlvar.html
     # regexp match
     - match: ([$@%*]#?)[`&']
       scope: variable.language.regexp.match.perl
