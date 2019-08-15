@@ -2918,9 +2918,9 @@ EOT
 #              ^ punctuation.section.group.begin.perl
 #               ^ punctuation.section.group.end.perl
   &{$coderef}();
-#^ - meta.variable.function
+#^ - meta.variable
 # ^^^^^^^^^^^ meta.variable.perl
-#            ^^^ - meta.variable.function
+#            ^^^ - meta.variable
 # ^ keyword.operator.dereference.perl
 #  ^ punctuation.definition.variable.begin.perl
 #   ^ punctuation.definition.variable.perl
@@ -2932,7 +2932,7 @@ EOT
 #^ - meta.variable
 # ^^^^^^^^^^^^^^^^^ meta.variable.perl
 #           ^^^^^^ meta.item-access.perl
-#                  ^^^ - meta.variable.function
+#                  ^^^ - meta.variable
 # ^ keyword.operator.dereference.perl
 #  ^ punctuation.definition.variable.begin.perl
 #   ^ punctuation.definition.variable.perl
@@ -2945,7 +2945,7 @@ EOT
 #                   ^ punctuation.section.group.end.perl
   &{$Module::coderef}();
 # ^^^^^^^^^^^^^^^^^^^ meta.variable.perl
-#                    ^^^ - meta.variable.function
+#                    ^^^ - meta.variable
 # ^^ - meta.path.perl
 #   ^^^^^^^^^^^^^^^^ meta.path.perl
 #                   ^^^ - meta.path.perl
@@ -2960,9 +2960,9 @@ EOT
 #                     ^ punctuation.section.group.end.perl
 #                      ^ punctuation.terminator.statement.perl
   &{ get_sub_reference() }(); #=> Calls returned subroutine reference
-#^ - meta.variable.function
+#^ - meta.variable
 # ^^^^^^^^^^^^^^^^^^^^^^^^ meta.variable.perl
-#                         ^^^ - meta.variable.function
+#                         ^^^ - meta.variable
 # ^ keyword.operator.dereference.perl
 #  ^ punctuation.definition.variable.begin.perl
 #    ^^^^^^^^^^^^^^^^^ variable.function.perl
