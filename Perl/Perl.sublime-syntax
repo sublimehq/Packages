@@ -1562,7 +1562,7 @@ contexts:
       push:
         # member function
         - match: '{{identifier}}(?!::)'
-          scope: variable.function.member.perl
+          scope: meta.function-call.perl variable.function.member.perl
           pop: true
         # item access like $array->[0]
         - match: (?=[{\[])
@@ -1590,22 +1590,22 @@ contexts:
   function-identifier:
     # builtin function calls
     - match: '{{builtin_functions}}'
-      scope: support.function.perl
+      scope: meta.function-call.perl support.function.perl
       set: expressions-begin
     # user defined function calls
     - match: '{{identifier}}{{break}}'
-      scope: variable.function.perl
+      scope: meta.function-call.perl variable.function.perl
       set: expressions-begin
     - include: immediately-pop
 
   unqualified-function-call:
     # builtin function calls
     - match: '{{builtin_functions}}'
-      scope: support.function.perl
+      scope: meta.function-call.perl support.function.perl
       push: expressions-begin
     # user defined function calls
     - match: '{{identifier}}(?=\s*(?:$|[;#/(''"`$@%]|<<|(?!(?:{{operator_keywords}}){{break}})\w))'
-      scope: variable.function.perl
+      scope: meta.function-call.perl variable.function.perl
       push: expressions-begin
 
 ###[ VARIABLES INTERPOLATION ]################################################
