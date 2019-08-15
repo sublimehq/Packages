@@ -466,7 +466,7 @@ contexts:
               | (extra|semi|ultra)-(condensed|expanded)
               | farthest-(corner|side)?
               | fill(-box|-opacity)?
-              | filter|fixed|flat
+              | filter|first|fixed|flat
               | flex((-basis|-end|-grow|-shrink|-start)|box)?
               | flip|flood-color
               | font(-size(-adjust)?|-stretch|-weight)?
@@ -527,6 +527,7 @@ contexts:
               | run-in
               | ruby(-base|-text)?(-container)?
               | rtl|running|saturat(e|ion)|screen
+              | safe
               | scroll(-position|bar)?
               | separate|sepia
               | scale-down
@@ -537,7 +538,7 @@ contexts:
               | slashed-zero|slice
               | small(-caps|er)?
               | smooth|snap|solid|soft-light
-              | space(-around|-between)?
+              | space(-around|-between|-evenly)?
               | span|sRGB
               | stack(ed-fractions)?
               | start(ColorStr)?
@@ -560,7 +561,7 @@ contexts:
               | touch|traditional
               | transform(-origin)?
               | under(-edge|line)?
-              | unicase|unset|uppercase|upright
+              | unicase|unsafe|unset|uppercase|upright
               | use-(glyph-orientation|script)
               | verso
               | vertical(-align|-ideographic|-lr|-rl|-text)?
