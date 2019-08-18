@@ -61,20 +61,51 @@ str = sprintf("%1$*2$s %2$d", "hello", -8)
 #                      ^^^^ string.quoted.double.ruby constant.other.placeholder.ruby
 
   "#{MyParams.new.require(:filename)}"
-# ^ - meta.interpolation
-#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation - string
-#                                    ^ - meta.interpolation
-# ^ string.quoted.double.ruby punctuation.definition.string.begin.ruby
+# ^ meta.string.ruby string.quoted.double.ruby  - meta.interpolation
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.ruby meta.interpolation.ruby - string
+#                                    ^ meta.string.ruby string.quoted.double.ruby  - meta.interpolation
+# ^ punctuation.definition.string.begin.ruby
 #  ^^ punctuation.section.interpolation.begin.ruby
 #                                   ^ punctuation.section.interpolation.end.ruby
-#                                    ^ string.quoted.double.ruby punctuation.definition.string.end.ruby
-  %I[#{ENV['APP_NAME']} apple orange]
+#                                    ^ punctuation.definition.string.end.ruby
+  %I[#{ENV['APP_NAME']} apple #@orange#@@juice banana]
+# ^^^ meta.string.ruby - meta.interpolation
+#    ^^^^^^ meta.string.ruby meta.interpolation.ruby - string
+#      ^^^^^^^^^^^^^^^ meta.environment-variable.ruby
+#          ^^^^^^^^^^ meta.string.ruby meta.interpolation.ruby meta.string.ruby
+#                    ^^ meta.string.ruby meta.interpolation.ruby - string
+#                      ^^^^^^^ meta.string.ruby - meta.interpolation
+#                             ^^^^^^^^^^^^^^^^ meta.string.ruby meta.interpolation.ruby - string
+#                                             ^^^^^^^ meta.string.ruby - meta.interpolation
 # ^^^ punctuation.definition.string.begin.ruby
 # ^^^ string.quoted.other.literal.upper.ruby
-#    ^^^^^^^^^^^^^^^^^^ meta.interpolation
-#    ^^^^^^ - string
-#      ^ meta.environment-variable.ruby variable.other.constant.ruby
-#                      ^^^^^^^^^^^^^^ string.quoted.other.literal.upper.ruby
+#    ^^ punctuation.section.interpolation.begin.ruby
+#      ^^^ variable.other.constant.ruby
+#          ^^^^^^^^^^ string.quoted.single.ruby
+#                      ^^^^^^^ string.quoted.other.literal.upper.ruby
+#                             ^^ punctuation.definition.variable.ruby
+#                             ^^^^^^^^ variable.other.readwrite.instance.ruby
+#                                     ^^^ punctuation.definition.variable.ruby
+#                                     ^^^^^^^^ variable.other.readwrite.class.ruby
+#                                                    ^ punctuation.definition.string.end.ruby
+#                                                    ^ string.quoted.other.literal.upper.ruby
+  %x[ foo #@bar [ foo #@bar [ foo #@bar ] baz ] baz ]
+# ^^^^^^^^ meta.string.ruby string.interpolated.ruby - meta.interpolation
+#         ^^^^^ meta.string.ruby meta.interpolation.ruby - string
+#              ^^^^^^^ meta.string.ruby string.interpolated.ruby - meta.interpolation
+#                     ^^^^^ meta.string.ruby meta.interpolation.ruby - string
+#                          ^^^^^^^ meta.string.ruby string.interpolated.ruby - meta.interpolation
+#                                 ^^^^^ meta.string.ruby meta.interpolation.ruby - string
+#                                      ^^^^^^^^^^^^^^ meta.string.ruby string.interpolated.ruby - meta.interpolation
+# ^^^ punctuation.definition.string.begin.ruby
+#         ^^^^^ variable.other.readwrite.instance.ruby
+#               ^ punctuation.section.scope.ruby
+#                     ^^^^^ variable.other.readwrite.instance.ruby
+#                           ^ punctuation.section.scope.ruby
+#                                 ^^^^^ variable.other.readwrite.instance.ruby
+#                                       ^ punctuation.section.scope.ruby
+#                                             ^ punctuation.section.scope.ruby
+#                                                   ^ punctuation.definition.string.end.ruby
 
 ##################
 # Constants
@@ -96,6 +127,26 @@ A, B, C = 0
 Symbol === :foo
 # ^^^^ variable.other.constant.ruby -meta.constant.ruby
 #          ^^^^
+
+  :'foo #{ } #@bar baz'
+# ^^^^^^^^^^^^^^^^^^^^^ meta.constant.ruby - meta.interpolation
+# ^^ punctuation.definition.constant.ruby
+# ^^^^^^^^^^^^^^^^^^^^^ constant.other.symbol.single-quoted.ruby
+#                     ^ punctuation.definition.constant.ruby
+  :"foo #{ } #@bar baz"
+# ^^^^^^ meta.constant.ruby - meta.interpolation
+#       ^^^^ meta.constant.ruby meta.interpolation.ruby - constant
+#           ^ meta.constant.ruby - meta.interpolation
+#            ^^^^^ meta.constant.ruby meta.interpolation.ruby - constant
+#                 ^^^^^ meta.constant.ruby - meta.interpolation
+# ^^ punctuation.definition.constant.ruby
+# ^^^^^^ constant.other.symbol.double-quoted.ruby
+#       ^^ punctuation.section.interpolation.begin.ruby
+#          ^ punctuation.section.interpolation.end.ruby
+#            ^^ punctuation.definition.variable.ruby
+#            ^^^^^ variable.other.readwrite.instance.ruby
+#                  ^^^^ constant.other.symbol.double-quoted.ruby
+#                     ^ punctuation.definition.constant.ruby
 
 ##################
 # Constant reserved keyword symbols

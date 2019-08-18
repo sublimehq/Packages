@@ -1254,26 +1254,41 @@ contexts:
     - match: '#\{'
       scope: punctuation.section.interpolation.begin.ruby
       push:
-        - clear_scopes: 1
-        - meta_scope: meta.interpolation
-        - meta_content_scope: source.ruby.embedded
-        - match: '\}'
-          scope: punctuation.section.interpolation.end.ruby
-          pop: true
-        - include: nest-curly-expressions
-        - include: expressions
+        - clear_scopes: 1 # remove `string`/`constant`
+        - meta_scope: meta.interpolation.ruby
+        - meta_content_scope: source.ruby.embedded.ruby
+        - include: interpolated-ruby-expressions
+    - match: '(?=#[@$])'
+      push:
+        - clear_scopes: 1 # remove `string`/`constant`
+        - meta_scope: meta.interpolation.ruby
+        - include: interpolated-ruby-variables
+
+  interpolated-ruby-expressions:
+    - match: '\}'
+      scope: punctuation.section.interpolation.end.ruby
+      pop: true
+    - include: nest-curly-expressions
+    - include: expressions
+
+  interpolated-ruby-variables:
     - match: '(#@)[[:alpha:]_]\w*'
       scope: variable.other.readwrite.instance.ruby
       captures:
         1: punctuation.definition.variable.ruby
+      pop: true
     - match: '(#@@)[[:alpha:]_]\w*'
       scope: variable.other.readwrite.class.ruby
       captures:
         1: punctuation.definition.variable.ruby
+      pop: true
     - match: '(#\$)[[:alpha:]_]\w*'
       scope: variable.other.readwrite.global.ruby
       captures:
         1: punctuation.definition.variable.ruby
+      pop: true
+    - match: ''
+      pop: true
 
   nest-curly-expressions:
     - match: '\{'
