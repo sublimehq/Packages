@@ -842,7 +842,7 @@ contexts:
     - match: "'"
       scope: punctuation.definition.string.begin.ruby
       push:
-        - meta_scope: string.quoted.single.ruby
+        - meta_scope: meta.string.ruby string.quoted.single.ruby
         - match: "'"
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -853,7 +853,7 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.ruby
       push:
-        - meta_scope: string.quoted.double.ruby
+        - meta_scope: meta.string.ruby string.quoted.double.ruby
         - match: '"'
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -864,7 +864,7 @@ contexts:
     - match: "`"
       scope: punctuation.definition.string.begin.ruby
       push:
-        - meta_scope: string.interpolated.ruby
+        - meta_scope: meta.string.ruby string.interpolated.ruby
         - match: "`"
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -874,7 +874,7 @@ contexts:
     - match: '%x\{'
       scope: punctuation.definition.string.begin.ruby
       push:
-        - meta_scope: string.interpolated.ruby
+        - meta_scope: meta.string.ruby string.interpolated.ruby
         - match: '\}'
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -885,7 +885,7 @@ contexts:
     - match: '%x\['
       scope: punctuation.definition.string.begin.ruby
       push:
-        - meta_scope: string.interpolated.ruby
+        - meta_scope: meta.string.ruby string.interpolated.ruby
         - match: '\]'
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -896,7 +896,7 @@ contexts:
     - match: '%x\<'
       scope: punctuation.definition.string.begin.ruby
       push:
-        - meta_scope: string.interpolated.ruby
+        - meta_scope: meta.string.ruby string.interpolated.ruby
         - match: \>
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -907,7 +907,7 @@ contexts:
     - match: '%x\('
       scope: punctuation.definition.string.begin.ruby
       push:
-        - meta_scope: string.interpolated.ruby
+        - meta_scope: meta.string.ruby string.interpolated.ruby
         - match: \)
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -918,7 +918,7 @@ contexts:
     - match: '%x([^\w])'
       scope: punctuation.definition.string.begin.ruby
       push:
-        - meta_scope: string.interpolated.ruby
+        - meta_scope: meta.string.ruby string.interpolated.ruby
         - match: \1
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -930,7 +930,7 @@ contexts:
     - match: '%[QWI]?\('
       scope: punctuation.definition.string.begin.ruby
       push:
-        - meta_scope: string.quoted.other.literal.upper.ruby
+        - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
         - match: \)
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -941,7 +941,7 @@ contexts:
     - match: '%[QWI]?\['
       scope: punctuation.definition.string.begin.ruby
       push:
-        - meta_scope: string.quoted.other.literal.upper.ruby
+        - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
         - match: '\]'
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -952,7 +952,7 @@ contexts:
     - match: '%[QWI]?\<'
       scope: punctuation.definition.string.begin.ruby
       push:
-        - meta_scope: string.quoted.other.literal.upper.ruby
+        - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
         - match: \>
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -963,7 +963,7 @@ contexts:
     - match: '%[QWI]?\{'
       scope: punctuation.definition.string.begin.ruby
       push:
-        - meta_scope: string.quoted.double.ruby.mod
+        - meta_scope: meta.string.ruby string.quoted.double.ruby.mod
         - match: '\}'
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -974,7 +974,7 @@ contexts:
     - match: '%[QWI]([^\w])'
       scope: punctuation.definition.string.begin.ruby
       push:
-        - meta_scope: string.quoted.other.literal.upper.ruby
+        - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
         - match: \1
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -984,7 +984,7 @@ contexts:
     - match: '%([^\w\s=])'
       scope: punctuation.definition.string.begin.ruby
       push:
-        - meta_scope: string.quoted.other.literal.other.ruby
+        - meta_scope: meta.string.ruby string.quoted.other.literal.other.ruby
         - match: \1
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -994,7 +994,7 @@ contexts:
     - match: '%[qwsi]\('
       scope: punctuation.definition.string.begin.ruby
       push:
-        - meta_scope: string.quoted.other.literal.lower.ruby
+        - meta_scope: meta.string.ruby string.quoted.other.literal.lower.ruby
         - match: \)
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -1005,7 +1005,7 @@ contexts:
     - match: '%[qwsi]\<'
       scope: punctuation.definition.string.begin.ruby
       push:
-        - meta_scope: string.quoted.other.literal.lower.ruby
+        - meta_scope: meta.string.ruby string.quoted.other.literal.lower.ruby
         - match: \>
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -1016,7 +1016,7 @@ contexts:
     - match: '%[qwsi]\['
       scope: punctuation.definition.string.begin.ruby
       push:
-        - meta_scope: string.quoted.other.literal.lower.ruby
+        - meta_scope: meta.string.ruby string.quoted.other.literal.lower.ruby
         - match: '\]'
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -1027,7 +1027,7 @@ contexts:
     - match: '%[qwsi]\{'
       scope: punctuation.definition.string.begin.ruby
       push:
-        - meta_scope: string.quoted.other.literal.lower.ruby
+        - meta_scope: meta.string.ruby string.quoted.other.literal.lower.ruby
         - match: '\}'
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -1038,7 +1038,7 @@ contexts:
     - match: '%[qwsi]([^\w])'
       scope: punctuation.definition.string.begin.ruby
       push:
-        - meta_scope: string.quoted.other.literal.lower.ruby
+        - meta_scope: meta.string.ruby string.quoted.other.literal.lower.ruby
         - match: \1
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -1058,9 +1058,9 @@ contexts:
       captures:
         1: string.regexp.classic.ruby punctuation.definition.string.ruby
       push:
-        - meta_content_scope: string.regexp.classic.ruby
+        - meta_content_scope: meta.string.ruby string.regexp.classic.ruby
         - match: "(/)([eimnosux]*)"
-          scope: string.regexp.classic.ruby
+          scope: meta.string.ruby string.regexp.classic.ruby
           captures:
             1: punctuation.definition.string.ruby
             2: keyword.other.ruby
@@ -1081,7 +1081,7 @@ contexts:
     - match: '%r\{'
       scope: punctuation.definition.string.begin.ruby
       push:
-        - meta_scope: string.regexp.mod-r.ruby
+        - meta_scope: meta.string.ruby string.regexp.mod-r.ruby
         - match: '\}[eimnosux]*'
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -1091,7 +1091,7 @@ contexts:
     - match: '%r\['
       scope: punctuation.definition.string.begin.ruby
       push:
-        - meta_scope: string.regexp.mod-r.ruby
+        - meta_scope: meta.string.ruby string.regexp.mod-r.ruby
         - match: '\][eimnosux]*'
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -1101,7 +1101,7 @@ contexts:
     - match: '%r\('
       scope: punctuation.definition.string.begin.ruby
       push:
-        - meta_scope: string.regexp.mod-r.ruby
+        - meta_scope: meta.string.ruby string.regexp.mod-r.ruby
         - match: '\)[eimnosux]*'
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -1111,7 +1111,7 @@ contexts:
     - match: '%r\<'
       scope: punctuation.definition.string.begin.ruby
       push:
-        - meta_scope: string.regexp.mod-r.ruby
+        - meta_scope: meta.string.ruby string.regexp.mod-r.ruby
         - match: '\>[eimnosux]*'
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -1121,7 +1121,7 @@ contexts:
     - match: '%r([^\w])'
       scope: punctuation.definition.string.begin.ruby
       push:
-        - meta_scope: string.regexp.mod-r.ruby
+        - meta_scope: meta.string.ruby string.regexp.mod-r.ruby
         - match: '\1[eimnosux]*'
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -1131,14 +1131,14 @@ contexts:
     - include: interpolated-ruby
     - include: escaped-char
     - match: '(\{)\d+(,\d+)?(\})'
-      scope: string.regexp.arbitrary-repetition.ruby
+      scope: meta.string.ruby string.regexp.arbitrary-repetition.ruby
       captures:
         1: punctuation.definition.arbitrary-repetition.ruby
         3: punctuation.definition.arbitrary-repetition.ruby
     - match: '\[(?:\^?\])?'
       scope: punctuation.definition.character-class.ruby
       push:
-        - meta_scope: string.regexp.character-class.ruby
+        - meta_scope: meta.string.ruby string.regexp.character-class.ruby
         - match: '\]'
           scope: punctuation.definition.character-class.ruby
           pop: true
@@ -1146,7 +1146,7 @@ contexts:
     - match: \(
       scope: punctuation.definition.group.ruby
       push:
-        - meta_scope: string.regexp.group.ruby
+        - meta_scope: meta.string.ruby string.regexp.group.ruby
         - match: \)
           scope: punctuation.definition.group.ruby
           pop: true
@@ -1392,7 +1392,7 @@ contexts:
       push: [heredoc-plain, trailing-heredoc-no-embedding-start]
 
   heredoc-html:
-    - meta_scope: string.unquoted.embedded.html.ruby
+    - meta_scope: meta.string.ruby string.unquoted.embedded.html.ruby
     - meta_content_scope: text.html.embedded.ruby
     - match: ^\s*\2$
       scope: punctuation.definition.string.end.ruby
@@ -1402,7 +1402,7 @@ contexts:
     - include: escaped-char
 
   heredoc-sql:
-    - meta_scope: string.unquoted.embedded.sql.ruby
+    - meta_scope: meta.string.ruby string.unquoted.embedded.sql.ruby
     - meta_content_scope: text.sql.embedded.ruby
     - match: ^\s*\2$
       scope: punctuation.definition.string.end.ruby
@@ -1412,7 +1412,7 @@ contexts:
     - include: escaped-char
 
   heredoc-css:
-    - meta_scope: string.unquoted.embedded.css.ruby
+    - meta_scope: meta.string.ruby string.unquoted.embedded.css.ruby
     - meta_content_scope: text.css.embedded.ruby
     - match: ^\s*\2$
       scope: punctuation.definition.string.end.ruby
@@ -1422,7 +1422,7 @@ contexts:
     - include: escaped-char
 
   heredoc-js:
-    - meta_scope: string.unquoted.embedded.js.ruby
+    - meta_scope: meta.string.ruby string.unquoted.embedded.js.ruby
     - meta_content_scope: text.js.embedded.ruby
     - match: ^\s*\2$
       scope: punctuation.definition.string.end.ruby
@@ -1432,7 +1432,7 @@ contexts:
     - include: escaped-char
 
   heredoc-ruby:
-    - meta_scope: string.unquoted.embedded.ruby.ruby
+    - meta_scope: meta.string.ruby string.unquoted.embedded.ruby.ruby
     - meta_content_scope: text.ruby.embedded.ruby
     - match: ^\s*\2$
       scope: punctuation.definition.string.end.ruby
@@ -1442,7 +1442,7 @@ contexts:
     - include: expressions
 
   #heredoc-shell:
-  #  - meta_scope: string.unquoted.embedded.shell.ruby
+  #  - meta_scope: meta.string.ruby string.unquoted.embedded.shell.ruby
   #  - meta_content_scope: text.shell.embedded.ruby
   #  - match: ^\s*\2$
   #    scope: punctuation.definition.string.end.ruby
@@ -1463,7 +1463,7 @@ contexts:
     - include: expressions
 
   heredoc-assign:
-    - meta_scope: string.unquoted.heredoc.ruby
+    - meta_scope: meta.string.ruby string.unquoted.heredoc.ruby
     - match: ^\s*\3$
       scope: punctuation.definition.string.end.ruby
       pop: true
@@ -1471,7 +1471,7 @@ contexts:
     - include: escaped-char
 
   heredoc-plain:
-    - meta_scope: string.unquoted.heredoc.ruby
+    - meta_scope: meta.string.ruby string.unquoted.heredoc.ruby
     - match: ^\s*\2$
       scope: punctuation.definition.string.end.ruby
       pop: true
@@ -1491,7 +1491,7 @@ contexts:
 
   data-section:
     - match: ^__END__\n
-      scope: string.unquoted.program-block.ruby
+      scope: meta.string.ruby string.unquoted.program-block.ruby
       push:
         - meta_content_scope: text.plain
         - match: (?=<?xml|<(?i:html\b)|!DOCTYPE (?i:html\b))
