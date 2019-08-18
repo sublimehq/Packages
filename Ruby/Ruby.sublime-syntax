@@ -1418,7 +1418,7 @@ contexts:
 
   heredoc-sql:
     - meta_scope: meta.string.ruby string.unquoted.embedded.sql.ruby
-    - meta_content_scope: text.sql.embedded.ruby
+    - meta_content_scope: source.sql.embedded.ruby
     - match: ^\s*\2$
       scope: punctuation.definition.string.end.ruby
       pop: true
@@ -1428,7 +1428,7 @@ contexts:
 
   heredoc-css:
     - meta_scope: meta.string.ruby string.unquoted.embedded.css.ruby
-    - meta_content_scope: text.css.embedded.ruby
+    - meta_content_scope: source.css.embedded.ruby
     - match: ^\s*\2$
       scope: punctuation.definition.string.end.ruby
       pop: true
@@ -1438,7 +1438,7 @@ contexts:
 
   heredoc-js:
     - meta_scope: meta.string.ruby string.unquoted.embedded.js.ruby
-    - meta_content_scope: text.js.embedded.ruby
+    - meta_content_scope: source.js.embedded.ruby
     - match: ^\s*\2$
       scope: punctuation.definition.string.end.ruby
       pop: true
@@ -1448,7 +1448,7 @@ contexts:
 
   heredoc-ruby:
     - meta_scope: meta.string.ruby string.unquoted.embedded.ruby.ruby
-    - meta_content_scope: text.ruby.embedded.ruby
+    - meta_content_scope: source.ruby.embedded.ruby
     - match: ^\s*\2$
       scope: punctuation.definition.string.end.ruby
       pop: true

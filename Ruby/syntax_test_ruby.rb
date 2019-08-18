@@ -33,7 +33,7 @@ DB.fetch(<<-SQL, conn).name
 #              ^ punctuation.separator
 #                    ^ punctuation.definition.group.end
 SELECT * FROM users;
-#^^^^^^^^^^^^^^^^^^^ text.sql.embedded
+#^^^^^^^^^^^^^^^^^^^ source.sql.embedded.ruby
 SQL
 
 foo, bar = <<BAR, 2
