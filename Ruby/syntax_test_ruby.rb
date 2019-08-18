@@ -7,34 +7,73 @@
 puts 'test'
 
 puts <<~EOF
+#^^^^ - meta.string - string.unquoted
+#    ^^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
   Indented string!
+# ^^^^^^^^^^^^^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby
+    #{ sym } #@var
+#  ^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby - meta.interpolation
+#   ^^^^^^^^ meta.string.heredoc.ruby meta.interpolation.ruby
+#           ^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby - meta.interpolation
+#            ^^^^^ meta.string.heredoc.ruby meta.interpolation.ruby variable.other.readwrite.instance.ruby
+#                 ^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby - meta.interpolation
+#   ^^ punctuation.section.interpolation.begin.ruby
+#     ^^^^^ source.ruby.embedded.ruby
+#          ^ punctuation.section.interpolation.end.ruby
+#            ^^ punctuation.definition.variable.ruby
+#            ^^^^^ variable.other.readwrite.instance.ruby
   EOF
-# ^ string.unquoted.heredoc
-#    ^ - string.unquoted.heredoc
+# ^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.end.ruby
+#    ^ - meta.string - string.unquoted
 
 puts <<-HTML
+#^^^^ - meta.string - string.unquoted
+#    ^^^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
   <body>
-# ^^^^^^ meta.tag.structure
+# ^^^^^^ meta.string.heredoc.ruby text.html.embedded.ruby meta.tag.structure
+    #{ sym } #@var
+#  ^ meta.string.heredoc.ruby text.html.embedded.ruby - meta.interpolation
+#   ^^^^^^^^ meta.string.heredoc.ruby meta.interpolation.ruby
+#           ^ meta.string.heredoc.ruby text.html.embedded.ruby - meta.interpolation
+#            ^^^^^ meta.string.heredoc.ruby meta.interpolation.ruby variable.other.readwrite.instance.ruby
+#                 ^ meta.string.heredoc.ruby text.html.embedded.ruby - meta.interpolation
+#   ^^ punctuation.section.interpolation.begin.ruby
+#     ^^^^^ source.ruby.embedded.ruby
+#          ^ punctuation.section.interpolation.end.ruby
+#            ^^ punctuation.definition.variable.ruby
+#            ^^^^^ variable.other.readwrite.instance.ruby
   </body>
+# ^^^^^^^ meta.string.heredoc.ruby text.html.embedded.ruby meta.tag.structure.any.html
   HTML
+# ^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.end.ruby
+#     ^ - meta.string - string.unquoted
 
 class_eval <<-RUBY, __FILE__, __LINE__ + 1
   def #{sym}(*args, &block)
-#     ^^ punctuation.section.interpolation.begin
-#          ^ punctuation.section.interpolation.end
+# ^^^^ meta.string.heredoc.ruby - meta.interpolation
+#     ^^^^^^ meta.string.heredoc.ruby source.ruby.embedded.ruby meta.interpolation.ruby
+#           ^^^^^^^^^^^^^^^ meta.string.heredoc.ruby source.ruby.embedded.ruby - meta.interpolation
+#     ^^ punctuation.section.interpolation.begin.ruby
+#          ^ punctuation.section.interpolation.end.ruby
     custom(Mime[:#{sym}], *args, &block)
   end
 RUBY
+#^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.end.ruby
+#   ^ - meta.string - string.unquoted
 
 DB.fetch(<<-SQL, conn).name
 #^^^^^^^^^^^^^^^^^^^^^^^^^^ source.ruby
-#        ^^^^^^ string.unquoted
-#              ^^^^^^^^^^^^ - string.unquoted
+#        ^^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby
+#              ^^^^^^^^^^^^ - meta.string - string
 #              ^ punctuation.separator
 #                    ^ punctuation.definition.group.end
-SELECT * FROM users;
-#^^^^^^^^^^^^^^^^^^^ source.sql.embedded.ruby
+SELECT * FROM #$users;
+#^^^^^^^^^^^^^ meta.string.heredoc.ruby source.sql.embedded.ruby - meta.interpolation
+#             ^^^^^^^ meta.string.heredoc.ruby source.sql.embedded.ruby meta.interpolation.ruby variable.other.readwrite.global
+#                    ^ meta.string.heredoc.ruby source.sql.embedded.ruby - meta.interpolation
 SQL
+#^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.end.ruby
+#  ^ - meta.string - string.unquoted
 
 foo, bar = <<BAR, 2
 #^^^^^^^^^^^^^^^^^^ source.ruby
@@ -43,6 +82,8 @@ foo, bar = <<BAR, 2
 #               ^ punctuation.separator
 #                 ^ constant.numeric
 BAR
+#^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.end.ruby
+#  ^ - meta.string - string.unquoted
 
 str = "number %d" %  11
             # ^^ string.quoted.double.ruby constant.other.placeholder.ruby
