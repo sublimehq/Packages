@@ -210,7 +210,7 @@ contexts:
     - match: ":'"
       scope: punctuation.definition.constant.ruby
       push:
-        - meta_scope: constant.other.symbol.single-quoted.ruby
+        - meta_scope: meta.constant.ruby constant.other.symbol.single-quoted.ruby
         - match: "'"
           scope: punctuation.definition.constant.ruby
           pop: true
@@ -219,7 +219,7 @@ contexts:
     - match: ':"'
       scope: punctuation.definition.constant.ruby
       push:
-        - meta_scope: constant.other.symbol.double-quoted.ruby
+        - meta_scope: meta.constant.ruby constant.other.symbol.double-quoted.ruby
         - match: '"'
           scope: punctuation.definition.constant.ruby
           pop: true
