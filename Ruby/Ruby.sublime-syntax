@@ -1434,7 +1434,6 @@ contexts:
     - include: unindented-heredoc-end
     - include: scope:source.css
     - include: escaped-char
-    - include: expressions
 
   heredoc-css-unindented-literal:
     - meta_scope: meta.string.heredoc.ruby
@@ -1476,7 +1475,6 @@ contexts:
     - include: unindented-heredoc-end
     - include: scope:source.js
     - include: escaped-char
-    - include: expressions
 
   heredoc-js-unindented-literal:
     - meta_scope: meta.string.heredoc.ruby
@@ -1518,7 +1516,6 @@ contexts:
     - include: unindented-heredoc-end
     - include: scope:text.html.basic
     - include: escaped-char
-    - include: expressions
 
   heredoc-html-unindented-literal:
     - meta_scope: meta.string.heredoc.ruby
@@ -1640,7 +1637,6 @@ contexts:
     - include: unindented-heredoc-end
     - include: scope:source.shell
     - include: escaped-char
-    - include: expressions
 
   heredoc-shell-unindented-literal:
     - meta_scope: meta.string.heredoc.ruby
@@ -1682,7 +1678,6 @@ contexts:
     - include: unindented-heredoc-end
     - include: scope:source.sql
     - include: escaped-char
-    - include: expressions
 
   heredoc-sql-unindented-literal:
     - meta_scope: meta.string.heredoc.ruby
