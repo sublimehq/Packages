@@ -1115,6 +1115,9 @@ contexts:
 
   operators:
     # SEE: https://www.tutorialspoint.com/perl/perl_operators.htm
+    - match: =>
+      scope: punctuation.separator.key-value.perl
+      push: expressions-begin
     - match: ','
       scope: punctuation.separator.sequence.perl
       push: expressions-begin
@@ -1130,23 +1133,23 @@ contexts:
     - match: <<|>>
       scope: keyword.operator.bitwise.perl
       push: expressions-begin
-    - match: <=>|//|\&\&|\|\||==|!=|>=|<=|[<>:!?]
+    - match: <=>|==|!=|>=|<=|[<>]
+      scope: keyword.operator.comparison.perl
+      push: expressions-begin
+    - match: \&\&|\|\||//|[:!?]
       scope: keyword.operator.logical.perl
       push: expressions-begin
-    - match: '\*\*=|[-+*/%]='
+    - match: \*\*=|[-+*/%]=|=
       scope: keyword.operator.assignment.perl
       push: expressions-begin
-    - match: '--|\+\+'
+    - match: --|\+\+
       scope: keyword.operator.arithmetic.perl
       push: maybe-regexp-match
-    - match: '\*{1,2}|[-+/%]'
+    - match: \*{1,2}|[-+/%]
       scope: keyword.operator.arithmetic.perl
       push: expressions-begin
     - match: '[&|^~]'
       scope: keyword.operator.bitwise.perl
-      push: expressions-begin
-    - match: =>?
-      scope: keyword.operator.assignment.perl
       push: expressions-begin
     - match: \.\.
       scope: keyword.operator.range.perl

@@ -1083,7 +1083,7 @@ EOT
   ~~
 # ^^ keyword.operator.binary.perl
   <=>
-# ^^^ keyword.operator.logical.perl
+# ^^^ keyword.operator.comparison.perl
   //
 # ^^ keyword.operator.logical.perl
   &&
@@ -1091,17 +1091,17 @@ EOT
   ||
 # ^^ keyword.operator.logical.perl
   ==
-# ^^ keyword.operator.logical.perl
+# ^^ keyword.operator.comparison.perl
   !=
-# ^^ keyword.operator.logical.perl
+# ^^ keyword.operator.comparison.perl
   >=
-# ^^ keyword.operator.logical.perl
+# ^^ keyword.operator.comparison.perl
   <=
-# ^^ keyword.operator.logical.perl
+# ^^ keyword.operator.comparison.perl
   >
-# ^ keyword.operator.logical.perl
+# ^ keyword.operator.comparison.perl
   <
-# ^ keyword.operator.logical.perl
+# ^ keyword.operator.comparison.perl
   !
 # ^ keyword.operator.logical.perl
   ?
@@ -1537,7 +1537,7 @@ EOT
 #                                               ^^ constant.character.escape.perl
 #                                                  ^ - variable
 #                                                   ^ punctuation.definition.string.end.perl
-#                                                     ^ keyword.operator.logical.perl
+#                                                     ^ keyword.operator.comparison.perl
   q/quoted "interpolated" foo 'bar' \/ $baz/
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
@@ -5084,7 +5084,7 @@ _EOD_
 #                        ^ punctuation.section.group.begin.perl
 #                         ^^^ constant.other.key.perl
 #                            ^ - constant
-#                             ^^ keyword.operator.assignment.perl
+#                             ^^ punctuation.separator.key-value.perl
 #                                ^^^^^^^ meta.string.perl string.quoted.single.perl
 #                                       ^ punctuation.section.group.end.perl
   $obj->method
@@ -5230,11 +5230,11 @@ _EOD_
 #                             ^ punctuation.section.group.end.perl
   if ($self->value <= $self->other);
 #            ^^^^^ variable.function.member.perl
-#                  ^^ keyword.operator.logical.perl
+#                  ^^ keyword.operator.comparison.perl
 #                  ^^^^^^^^^^ - string
 #                          ^^ punctuation.accessor.arrow.perl
   if ($value <= $self->other);
-#            ^^ keyword.operator.logical.perl
+#            ^^ keyword.operator.comparison.perl
 #            ^^^^^^^^^^ - string
 #                    ^^ punctuation.accessor.arrow.perl
 #                      ^^^^^ variable.function.member.perl
@@ -5325,12 +5325,12 @@ _EOT_
 #             ^ punctuation.section.group.begin.perl
 #              ^^^^ variable.other.readwrite.perl
 #                  ^^ keyword.operator.arithmetic.perl
-#                     ^ keyword.operator.logical.perl
+#                     ^ keyword.operator.comparison.perl
 #                     ^^^^^^^^^^^^^^ - string
 #                       ^^ constant.numeric.integer.decimal.perl
 #                          ^^ keyword.operator.logical.perl
 #                             ^^^^ variable.other.readwrite.perl
-#                                  ^ keyword.operator.logical.perl
+#                                  ^ keyword.operator.comparison.perl
 #                                    ^ constant.numeric.integer.decimal.perl
 #                                     ^ punctuation.section.group.end.perl
 #                                         ^^^^ keyword.control.flow.next.perl
