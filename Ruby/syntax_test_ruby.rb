@@ -105,6 +105,97 @@ module: 'module'
 # ^^^^^ constant.other.symbol
 
 ##################
+# Operators
+##################
+
+  ,
+# ^ punctuation.separator.sequence.ruby
+  ;
+# ^ punctuation.terminator.statement.ruby
+  .
+# ^ punctuation.accessor.dot.ruby
+  ::
+# ^^ punctuation.accessor.double-colon.ruby
+  <<=
+# ^^^ keyword.operator.assignment.augmented.ruby
+  &&=
+# ^^^ keyword.operator.assignment.augmented.ruby
+  ||=
+# ^^^ keyword.operator.assignment.augmented.ruby
+  **=
+# ^^^ keyword.operator.assignment.augmented.ruby
+  +=
+# ^^ keyword.operator.assignment.augmented.ruby
+  -=
+# ^^ keyword.operator.assignment.augmented.ruby
+  *=
+# ^^ keyword.operator.assignment.augmented.ruby
+  /=
+# ^^ keyword.operator.assignment.augmented.ruby
+  &=
+# ^^ keyword.operator.assignment.augmented.ruby
+  |=
+# ^^ keyword.operator.assignment.augmented.ruby
+  ^=
+# ^^ keyword.operator.assignment.augmented.ruby
+  <<
+# ^^ keyword.operator.assignment.augmented.ruby
+  >>
+# ^^ keyword.operator.other.ruby
+  +
+# ^ keyword.operator.arithmetic.ruby
+  -
+# ^ keyword.operator.arithmetic.ruby
+  *
+# ^ keyword.operator.arithmetic.ruby
+  **
+# ^^ keyword.operator.arithmetic.ruby
+  /
+# ^ keyword.operator.arithmetic.ruby
+  %
+# ^ keyword.operator.arithmetic.ruby
+  !~
+# ^^ keyword.operator.comparison.ruby
+  =~
+# ^^ keyword.operator.comparison.ruby
+  <=>
+# ^^^ keyword.operator.comparison.ruby
+  ==
+# ^^ keyword.operator.comparison.ruby
+  !=
+# ^^ keyword.operator.comparison.ruby
+  >=
+# ^^ keyword.operator.comparison.ruby
+  <=
+# ^^ keyword.operator.comparison.ruby
+  >
+# ^ keyword.operator.comparison.ruby
+  <
+# ^ keyword.operator.comparison.ruby
+  &&
+# ^^ keyword.operator.logical.ruby
+  ||
+# ^^ keyword.operator.logical.ruby
+  !
+# ^ keyword.operator.logical.ruby
+  ?
+# ^ keyword.operator.conditional.ruby
+  :
+# ^ keyword.operator.conditional.ruby
+  ~
+# ^ keyword.operator.bitwise.ruby
+  &
+# ^ keyword.operator.bitwise.ruby
+  |
+# ^ keyword.operator.bitwise.ruby
+  ^
+# ^ keyword.operator.bitwise.ruby
+  ..
+# ^^ keyword.operator.range.ruby
+  ...
+# ^^^ keyword.operator.range.ruby
+
+##################
 # Blocks
 ##################
 
@@ -318,9 +409,9 @@ class MyClass
 
   A, B, C = :a, :b, :c
 # ^ meta.constant.ruby entity.name.constant.ruby
-#  ^ punctuation.separator.ruby
+#  ^ punctuation.separator.sequence.ruby
 #    ^ meta.constant.ruby entity.name.constant.ruby
-#     ^ punctuation.separator.ruby
+#     ^ punctuation.separator.sequence.ruby
 #       ^ meta.constant.ruby entity.name.constant.ruby
 end
 

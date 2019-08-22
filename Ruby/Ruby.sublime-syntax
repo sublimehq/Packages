@@ -100,6 +100,7 @@ contexts:
     - include: comments
     - include: data-section
     - include: heredocs
+    - include: punctuation
     - include: operators
     - include: identifiers-accessors
 
@@ -326,78 +327,85 @@ contexts:
     - match: \b(and|not|or)\b
       scope: keyword.operator.logical.ruby
       push: after-keyword
-    - match: '!+|&&|\|\||\^'
-      scope: keyword.operator.logical.ruby
-      push: after-operator
     - match: '\b(alias|alias_method|break|next|redo|retry|return|super|undef|yield)\b(?![?!])|\bdefined\?|\bblock_given\?'
       scope: keyword.control.pseudo-method.ruby
 
   operators:
-    - match: '=>'
-      scope: punctuation.separator.key-value.ruby
+    - match: '>>'
+      scope: keyword.operator.other.ruby
       push: after-operator
-    - match: '<<=|%=|&=|\*=|\*\*=|\+=|\-=|\^=|\|{1,2}=|<<'
+    # note: `/=` is matched in the `regexes` context
+    - match: <<=|&&=|\|\|=|\*\*=|[-+*&|^]=|<<
       scope: keyword.operator.assignment.augmented.ruby
       push: after-operator
-    - match: '<=>|<(?!<|=)|>(?!<|=|>)|<=|>=|===|==|=~|!=|!~'
+    - match: <=>|===|<=|>=|==|=~|!=|!~|<|>
       scope: keyword.operator.comparison.ruby
       push: after-operator
-    - match: (%|&|\*\*|\*|\+|\-|/)
+    - match: \*\*|[-+*/%]
       scope: keyword.operator.arithmetic.ruby
       push: after-operator
-    - match: '='
+    - match: =
       scope: keyword.operator.assignment.ruby
       push: after-operator
-    - match: \||~|>>
-      scope: keyword.operator.other.ruby
+    - match: '!+|&&|\|\|'
+      scope: keyword.operator.logical.ruby
+      push: after-operator
+    - match: '[~&|^]'
+      scope: keyword.operator.bitwise.ruby
       push: after-operator
     - match: \?
       scope: keyword.operator.conditional.ruby
       push:
         # Handle hash-key-lookalike of identifier: in ternary
-        - match: '\s*{{identifier}}(:)(?!:)'
+        - match: \s*{{identifier}}(:)(?!:)
           captures:
             1: keyword.operator.conditional.ruby
+          set: after-operator
         - include: after-operator
-    - match: ':(?!:)'
+    - match: :(?!:)
       scope: keyword.operator.conditional.ruby
       push: after-operator
-    - match: \;
+    - match: \.\.\.?
+      scope: keyword.operator.range.ruby
+      push: after-operator
+
+  punctuation:
+    - match: =>
+      scope: punctuation.separator.key-value.ruby
+      push: after-operator
+    - match: ','
+      scope: punctuation.separator.sequence.ruby
+      push: after-operator
+    - match: ;
       scope: punctuation.terminator.statement.ruby
       push: after-operator
-    - match: ","
-      scope: punctuation.separator.ruby
-      push: after-operator
-    - match: '\['
+    - match: \[
       scope: punctuation.section.array.ruby
       push: after-operator
     - match: \(
       scope: punctuation.definition.group.begin.ruby
       push: after-operator
     # Opening { is handled by "block" context to try and detect parameters
-    - match: '\}'
+    - match: \}
       scope: punctuation.section.scope.ruby
-    - match: '\]'
+    - match: \]
       scope: punctuation.section.array.ruby
     - match: \)
       scope: punctuation.definition.group.end.ruby
-    - match: '\.\.\.?'
-      scope: keyword.operator.ruby
-      push: after-operator
 
   identifiers-accessors:
     # This consumes class/module access to prevent issues parsing : as part
     # of a ternary operator
-    - match: '(::)(?={{identifier}}{{method_punctuation}})'
-      scope: punctuation.accessor.ruby
+    - match: ::(?={{identifier}}{{method_punctuation}})
+      scope: punctuation.accessor.double-colon.ruby
       push:
         - include: well-known-methods
         - match: '{{identifier}}{{method_punctuation}}'
         - match: ''
           set: after-identifier
     # This consumes attribute access so we don't need a lookbehind for .
-    - match: '(\.)(?={{identifier}}{{method_punctuation}})'
-      scope: punctuation.accessor.ruby
+    - match: \.(?={{identifier}}{{method_punctuation}})
+      scope: punctuation.accessor.dot.ruby
       push:
         - include: well-known-methods
         - match: '{{identifier}}{{method_punctuation}}'
@@ -407,8 +415,10 @@ contexts:
     - match: '{{identifier}}{{method_punctuation}}'
     # This consumes module/class accessor so we don't need a lookbehind for ::
       push: after-identifier
-    - match: '::|\.'
-      scope: punctuation.accessor.ruby
+    - match: \.
+      scope: punctuation.accessor.dot.ruby
+    - match: '::'
+      scope: punctuation.accessor.double-colon.ruby
 
   after-identifier:
     # Handles a : right after an identifier. In this case it can't be the
