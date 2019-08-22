@@ -1,6 +1,33 @@
 # SYNTAX TEST "Packages/Ruby/Ruby.sublime-syntax"
 
 ##################
+# block comments
+##################
+
+=begin
+#<- comment.block.documentation.ruby punctuation.definition.comment.begin.ruby
+#^^^^^ comment.block.documentation.ruby punctuation.definition.comment.begin.ruby
+  =end
+# ^^^^^ comment.block.documentation.ruby - punctuation
+=end
+#<- comment.block.documentation.ruby punctuation.definition.comment.end.ruby
+#^^^ comment.block.documentation.ruby punctuation.definition.comment.end.ruby
+
+##################
+# line comments
+##################
+
+## comment
+#<- comment.line.number-sign.ruby punctuation.definition.comment.ruby
+#^ comment.line.number-sign.ruby punctuation.definition.comment.ruby
+# ^^^^^^^^ comment.line.number-sign.ruby - punctuation
+
+  ## comment
+#^ - comment - punctuation
+# ^^ comment.line.number-sign.ruby punctuation.definition.comment.ruby
+#   ^^^^^^^^^ comment.line.number-sign.ruby - punctuation
+
+##################
 # Strings and heredocs
 ##################
 
