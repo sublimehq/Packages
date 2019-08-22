@@ -177,14 +177,11 @@ contexts:
       pop: true
 
   name-parts:
-    - match: '::'
-      scope: punctuation.accessor.ruby
-    - match: '\.'
-      scope: punctuation.accessor.ruby
-    - match: '({{identifier}})(::|\.)'
+    - match: ({{identifier}})?(?:(::)|(\.))
       captures:
         1: support.other.namespace.ruby
-        2: punctuation.accessor.ruby
+        2: punctuation.accessor.double-colon.ruby
+        3: punctuation.accessor.dot.ruby
     - match: '{{identifier}}'
 
   invalid:
@@ -456,7 +453,7 @@ contexts:
         - include: expressions
     - match: '(::)?(\b[[:upper:]]\w*)(?=((\.|::)[[:alpha:]_]|\[))'
       captures:
-        1: punctuation.accessor.ruby
+        1: punctuation.accessor.double-colon.ruby
         2: support.class.ruby
     - match: '\b[[:upper:]]\w*\b'
       scope: variable.other.constant.ruby
@@ -723,17 +720,18 @@ contexts:
         - match: '(self)(\.)({{identifier}}{{method_punctuation}}|===?|>[>=]?|<=>|<[<=]?|[%&`/\|]|\*\*?|=?~|[-+]@?|\[\]=?)'
           captures:
             1: variable.language.ruby
-            2: punctuation.accessor.ruby
+            2: punctuation.accessor.dot.ruby
             3: entity.name.function.ruby
           set: method-parameters-start
         - match: '===?|>[>=]?|<=>|<[<=]?|[%&`/\|]|\*\*?|=?~|[-+]@?|\[\]=?'
           scope: entity.name.function.ruby
           set: method-parameters-start
-        - match: '(?:({{identifier}})(::|\.))?{{identifier}}{{method_punctuation}}'
+        - match: '(?:({{identifier}})(?:(::)|(\.)))?{{identifier}}{{method_punctuation}}'
           scope: entity.name.function.ruby
           captures:
             1: support.other.namespace.ruby
-            2: punctuation.accessor.ruby
+            2: punctuation.accessor.double-colon.ruby
+            3: punctuation.accessor.dot.ruby
           set: method-parameters-start
         - match: '$'
           pop: true

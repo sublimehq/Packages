@@ -263,16 +263,16 @@ module MyModule::OtherModule
 # <- keyword.control.module
 #      ^^^^^^^^^^^^^^^^^^^^^ entity.name.module
 #      ^^^^^^^^ support.other.namespace
-#              ^^ punctuation.accessor
+#              ^^ punctuation.accessor.double-colon
 end
 
 class ::MyModule::MyClass < MyModule::InheritedClass
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
-#     ^^ punctuation.accessor
-#               ^^ punctuation.accessor
+#     ^^ punctuation.accessor.double-colon
+#               ^^ punctuation.accessor.double-colon
 #                         ^ punctuation.separator.inheritance
 #                           ^^^^^^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class
-#                                   ^^ punctuation.accessor
+#                                   ^^ punctuation.accessor.double-colon
 
   def my_method(param1, param2)
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
@@ -286,7 +286,7 @@ class ::MyModule::MyClass < MyModule::InheritedClass
   def self.my_second_method *arg_without_parens # comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 #     ^^^^ variable.language
-#         ^ punctuation.accessor
+#         ^ punctuation.accessor.dot
 #          ^^^^^^^^^^^^^^^^ entity.name.function
 #                           ^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 #                           ^ keyword.operator.splat
@@ -297,7 +297,7 @@ class ::MyModule::MyClass < MyModule::InheritedClass
   def self.my_third_method(a, b="foo", c=[], d=foo(), *args)
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 #     ^^^^ variable.language
-#         ^ punctuation.accessor
+#         ^ punctuation.accessor.dot
 #          ^^^^^^^^^^^^^^^ entity.name.function
 #                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 #                         ^ punctuation.definition.group.begin
@@ -374,7 +374,7 @@ def MyModule::module_method
 #^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 #   ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.function
 #   ^^^^^^^^ support.other.namespace
-#           ^^ punctuation.accessor
+#           ^^ punctuation.accessor.double-colon
 
 end
 
@@ -384,12 +384,12 @@ def my_function
 end
 
 f = MyModule::MyClass.new
-#           ^^ punctuation.accessor
+#           ^^ punctuation.accessor.double-colon
 
 def f.my_instance_method
 #^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 #   ^^^^^^^^^^^^^^^^^^^^ entity.name.function
-#    ^ punctuation.accessor
+#    ^ punctuation.accessor.dot
 end
 
 class MyClass
@@ -466,7 +466,7 @@ puts 1 ? foo:bar
 
 puts 1 ? foo::baz:bar
 #      ^ keyword.operator.conditional
-#           ^^ punctuation.accessor
+#           ^^ punctuation.accessor.double-colon
 #             ^^^ - constant.other.symbol
 #                ^ keyword.operator.conditional
 
