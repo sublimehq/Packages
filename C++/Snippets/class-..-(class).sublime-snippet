@@ -1,5 +1,4 @@
 <snippet>
-	<name>Class</name>
 	<content><![CDATA[class ${1:${TM_FILENAME/(.+)\..+|.*/$1/:name}}
 {
 public:
@@ -8,5 +7,5 @@ public:
 	$0
 };]]></content>
 	<tabTrigger>class</tabTrigger>
-	<scope>source.c++, source.objc++</scope>
+	<scope>(source.c++ | source.objc++) - meta.preprocessor.include</scope>
 </snippet>
