@@ -421,7 +421,7 @@ contexts:
       scope: punctuation.definition.comment.java
       push:
         - meta_scope: comment.line.double-slash.java
-        - match: $\n?
+        - match: \n
           pop: true
         - match: (?=%>)
           pop: true
