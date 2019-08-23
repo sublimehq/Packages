@@ -2,5 +2,5 @@
 	<description>#include "…"</description>
 	<content><![CDATA[#include "${1:${TM_FILENAME/\..+$/.h/}}"]]></content>
 	<tabTrigger>inc</tabTrigger>
-	<scope>(source.c | source.objc | source.c++ | source.objc++) - meta.preprocessor.incomplete - meta.preprocessor.include</scope>
+	<scope>(source.c | source.objc | source.c++ | source.objc++) - meta.preprocessor.incomplete - meta.preprocessor.include - comment - string</scope>
 </snippet>

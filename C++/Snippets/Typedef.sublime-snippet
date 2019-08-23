@@ -2,5 +2,5 @@
 	<description>Typedef</description>
 	<content><![CDATA[typedef ${1:int} ${2:MyCustomType};]]></content>
 	<tabTrigger>td</tabTrigger>
-	<scope>(source.c | source.objc | source.c++ | source.objc++) - meta.preprocessor.include</scope>
+	<scope>(source.c | source.objc | source.c++ | source.objc++) - meta.preprocessor.include - comment - string</scope>
 </snippet>

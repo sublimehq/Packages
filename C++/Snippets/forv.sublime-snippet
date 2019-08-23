@@ -5,5 +5,5 @@
 	$0
 }]]></content>
 	<tabTrigger>forv</tabTrigger>
-	<scope>(source.c | source.objc | source.c++ | source.objc++) - meta.preprocessor.include</scope>
+	<scope>(source.c | source.objc | source.c++ | source.objc++) - meta.preprocessor.include - comment - string</scope>
 </snippet>
