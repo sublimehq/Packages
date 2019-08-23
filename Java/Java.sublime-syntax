@@ -800,7 +800,7 @@ contexts:
     - include: inherited-object-type-reference-no-fqn
 
   inherited-object-type-reference-no-fqn:
-    - match: '{{classcase_id}}'
+    - match: (?!class|extends|implements|interface){{id}}
       scope: entity.other.inherited-class.java
       set: after-inherited-object-type-reference
     - include: any_POP
