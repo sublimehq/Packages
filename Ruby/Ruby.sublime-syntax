@@ -1250,7 +1250,21 @@ contexts:
       scope: constant.other.placeholder.ruby
 
   escaped-char:
-    - match: '\\(?:[0-7]{1,3}|x[\da-fA-F]{1,2}|.)'
+    # SEE: https://ruby-doc.org/core-2.6.3/doc/syntax/literals_rdoc.html
+    # meta control sequence
+    - match: (?:\\(?:[MC]-|c)){1,2}[[:ascii:]]
+      scope: constant.character.escape.ruby
+    # extended unicode character
+    - match: \\u\{
+      push:
+        - meta_scope: constant.character.escape.ruby
+        - match: \}
+          pop: true
+        - match: \h{0,6}
+        - match: \S
+          scope: invalid.illegal.escape.ruby
+    # octal, hex, unicode, normal escaped character
+    - match: \\(?:n[0-7]{1,3}|x\h{1,2}|u\h{4}|.)
       scope: constant.character.escape.ruby
 
   interpolated-ruby:

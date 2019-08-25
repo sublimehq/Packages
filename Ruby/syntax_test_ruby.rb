@@ -60,6 +60,88 @@ str = sprintf("%1$*2$s %2$d", "hello", -8)
 #              ^^^^^^^ string.quoted.double.ruby constant.other.placeholder.ruby
 #                      ^^^^ string.quoted.double.ruby constant.other.placeholder.ruby
 
+##################
+# Escape sequences
+##################
+
+  "This string has a quote: \".  As you can see, it is escaped"
+#                           ^^ constant.character.escape.ruby
+  "\a             bell, ASCII 07h (BEL)"
+#  ^^ constant.character.escape.ruby
+  "\b             backspace, ASCII 08h (BS)"
+#  ^^ constant.character.escape.ruby
+  "\t             horizontal tab, ASCII 09h (TAB)"
+#  ^^ constant.character.escape.ruby
+  "\n             newline (line feed), ASCII 0Ah (LF)"
+#  ^^ constant.character.escape.ruby
+  "\v             vertical tab, ASCII 0Bh (VT)"
+#  ^^ constant.character.escape.ruby
+  "\f             form feed, ASCII 0Ch (FF)"
+#  ^^ constant.character.escape.ruby
+  "\r             carriage return, ASCII 0Dh (CR)"
+#  ^^ constant.character.escape.ruby
+  "\e             escape, ASCII 1Bh (ESC)"
+#  ^^ constant.character.escape.ruby
+  "\s             space, ASCII 20h (SPC)"
+#  ^^ constant.character.escape.ruby
+  "\\             backslash"
+#  ^^ constant.character.escape.ruby
+  "\n0 \n7 \n07 \n007 \n0170 octal bit pattern, where nnn is 1-3 octal digits ([0-7])"
+#  ^^^ constant.character.escape.ruby
+#     ^ - constant
+#      ^^^ constant.character.escape.ruby
+#         ^ - constant
+#          ^^^^ constant.character.escape.ruby
+#              ^ - constant
+#               ^^^^^ constant.character.escape.ruby
+#                    ^ - constant
+#                     ^^^^^ constant.character.escape.ruby
+#                          ^ - constant
+  "\x0 \xF \x0F \x0FF  hexadecimal bit pattern, where nn is 1-2 hexadecimal digits ([0-9a-fA-F])"
+#  ^^^ constant.character.escape.ruby
+#     ^ - constant
+#      ^^^ constant.character.escape.ruby
+#         ^ - constant
+#          ^^^^ constant.character.escape.ruby
+#              ^ - constant
+#               ^^^^ constant.character.escape.ruby
+#                   ^ - constant
+  "\u0B \u0AF4              Unicode character, where nnnn is exactly 4 hexadecimal digits ([0-9a-fA-F])"
+#  ^^ constant.character.escape.ruby
+#    ^^ - constant
+#       ^^^^^^ constant.character.escape.ruby
+  "\u{nnnn Ab0 09AFaf ...}  Unicode character(s), where each nnnn is 1-6 hexadecimal digits ([0-9a-fA-F])"
+#  ^^^^^^^^^^^^^^^^^^^^^^^ constant.character.escape.ruby
+#     ^^^^ invalid.illegal.escape.ruby
+#                     ^^^ invalid.illegal.escape.ruby
+#                         ^ - constant
+  "\cx or \C-x    control character, where x is an ASCII printable character"
+#  ^^^ constant.character.escape.ruby
+#     ^^^^ - constant
+#         ^^^^ constant.character.escape.ruby
+#             ^ - constant
+  "\M-x           meta character, where x is an ASCII printable character"
+#  ^^^^ constant.character.escape.ruby
+#      ^ - constant
+  "\M-\C-x        meta control character, where x is an ASCII printable character"
+#  ^^^^^^^ constant.character.escape.ruby
+#         ^ - constant
+  "\M-\cx         same as above"
+#  ^^^^^^ constant.character.escape.ruby
+#        ^ - constant
+  "\c\M-x         same as above"
+#  ^^^^^^ constant.character.escape.ruby
+#        ^ - constant
+  "\c? or \C-?    delete, ASCII 7Fh (DEL)"
+#  ^^^ constant.character.escape.ruby
+#     ^^^^ - constant
+#         ^^^^ constant.character.escape.ruby
+#             ^ - constant
+
+##################
+# Interpolation
+##################
+
   %I[#{ENV['APP_NAME']} apple orange]
 # ^^^ punctuation.definition.string.begin.ruby
 # ^^^ string.quoted.other.literal.upper.ruby
