@@ -209,17 +209,17 @@ Symbol === :foo
 #    ^^^^ meta.constant.ruby meta.braces.ruby - constant.character.ruby
 # ^ punctuation.definition.constant.ruby
 #    ^ punctuation.section.braces.begin.ruby
-#     ^^ constant.numeric.ruby
+#     ^^ constant.numeric.integer.hexadecimal.ruby
 #       ^ punctuation.section.braces.end.ruby
-  ?\u{$ofs + 1}
+  ?\u{012ACF 0gxs}
 # ^^^ meta.constant.ruby - meta.braces.ruby constant.character.ruby
-#    ^^^^^^^^^^ meta.constant.ruby meta.braces.ruby - constant.character.ruby
+#    ^^^^^^^^^^^^^ meta.constant.ruby meta.braces.ruby - constant.character.ruby
 # ^ punctuation.definition.constant.ruby
 #    ^ punctuation.section.braces.begin.ruby
-#     ^^^^ variable.other.readwrite.global.ruby
-#          ^ keyword.operator.arithmetic.ruby
-#            ^ constant.numeric.ruby
-#             ^ punctuation.section.braces.end.ruby
+#     ^^^^^^ constant.numeric.integer.hexadecimal.ruby
+#            ^ constant.numeric.integer.hexadecimal.ruby
+#             ^^^ invalid.illegal.escape.ruby
+#                ^ punctuation.section.braces.end.ruby
 
   ## normal character literals
 

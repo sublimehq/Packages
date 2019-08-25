@@ -253,13 +253,15 @@ contexts:
         2: punctuation.definition.constant.ruby
         3: meta.braces.ruby punctuation.section.braces.begin.ruby
       push:
-        - - meta_scope: meta.constant.ruby
-          - meta_content_scope: meta.braces.ruby
-          - match: \}
-            scope: meta.braces.ruby punctuation.section.braces.end.ruby
-            pop: true
-          - include: expressions
-        - after-operator
+        - meta_scope: meta.constant.ruby
+        - meta_content_scope: meta.braces.ruby
+        - match: \}
+          scope: meta.braces.ruby punctuation.section.braces.end.ruby
+          pop: true
+        - match: \h{0,6}
+          scope: constant.numeric.integer.hexadecimal.ruby
+        - match: \S
+          scope: invalid.illegal.escape.ruby
     - match: |-
         (?x: (\?)(?:
           # examples (meta control sequences):
