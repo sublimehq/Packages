@@ -90,6 +90,183 @@ Symbol === :foo
 #          ^^^^
 
 ##################
+# Character literals
+##################
+
+  ## meta control sequences
+
+  ?\C-a    #=> "\x01"
+#^ - constant
+# ^ punctuation.definition.constant.ruby
+# ^^^^^ constant.character.ruby
+#      ^ - constant
+  ?\M-a    #=> "\xE1"
+#^ - constant
+# ^ punctuation.definition.constant.ruby
+# ^^^^^ constant.character.ruby
+#      ^ - constant
+  ?\M-\C-a #=> "\x81"
+#^ - constant
+# ^ punctuation.definition.constant.ruby
+# ^^^^^^^^ constant.character.ruby
+#         ^ - constant
+  ?\C-\M-a #=> "\x81", same as above
+#^ - constant
+# ^ punctuation.definition.constant.ruby
+# ^^^^^^^^ constant.character.ruby
+#         ^ - constant
+
+  ## hexadecimal
+
+  ?\x10 ?\xAF ?\xAG ?\x0AF
+#^ - constant
+# ^ punctuation.definition.constant.ruby
+# ^^^^^ constant.character.ruby
+#      ^ - constant
+#       ^ punctuation.definition.constant.ruby
+#       ^^^^^ constant.character.ruby
+#            ^ - constant
+#             ^ punctuation.definition.constant.ruby
+#             ^^^^^ constant.character.ruby
+#              ^^^^ invalid.illegal.character.ruby
+#                  ^ - constant
+#                   ^ punctuation.definition.constant.ruby
+#                   ^^^^^^ constant.character.ruby
+#                    ^^^^^ invalid.illegal.character.ruby
+#                         ^ - constant
+
+  ## octal
+
+  ?\00 ?\07 ?\000 ?\077 ?\080 ?\0777
+#^ - constant
+# ^ punctuation.definition.constant.ruby
+# ^^^^ constant.character.ruby
+#     ^ - constant
+#      ^ punctuation.definition.constant.ruby
+#      ^^^^ constant.character.ruby
+#          ^ - constant
+#           ^ punctuation.definition.constant.ruby
+#           ^^^^^ constant.character.ruby
+#                ^ - constant
+#                 ^ punctuation.definition.constant.ruby
+#                 ^^^^^ constant.character.ruby
+#                      ^ - constant
+#                       ^ punctuation.definition.constant.ruby
+#                       ^^^^^ constant.character.ruby
+#                        ^^^^ invalid.illegal.character.ruby
+#                            ^ - constant
+#                             ^ punctuation.definition.constant.ruby
+#                             ^^^^^^ constant.character.ruby
+#                              ^^^^^ invalid.illegal.character.ruby
+#                                   ^ - constant
+
+  ## escape sequences
+
+  ?\b ?\n ?\s ?\\ ?\\n ?\bn
+#^ - constant
+# ^ punctuation.definition.constant.ruby
+# ^^^ constant.character.ruby
+#    ^ - constant
+#     ^ punctuation.definition.constant.ruby
+#     ^^^ constant.character.ruby
+#        ^ - constant
+#         ^ punctuation.definition.constant.ruby
+#         ^^^ constant.character.ruby
+#            ^ - constant
+#             ^ punctuation.definition.constant.ruby
+#             ^^^ constant.character.ruby
+#                ^ - constant
+#                 ^ constant.character.ruby punctuation.definition.constant.ruby
+#                  ^^^ constant.character.ruby invalid.illegal.character.ruby
+#                     ^ - constant
+#                      ^ constant.character.ruby punctuation.definition.constant.ruby
+#                       ^^^ constant.character.ruby invalid.illegal.character.ruby
+#                          ^ - constant
+
+  ## unicode
+
+  ?\u{41}  #=> "A"
+# ^^^ meta.constant.ruby - meta.braces.ruby constant.character.ruby
+#    ^^^^ meta.constant.ruby meta.braces.ruby - constant.character.ruby
+# ^ punctuation.definition.constant.ruby
+#    ^ punctuation.section.braces.begin.ruby
+#     ^^ constant.numeric.ruby
+#       ^ punctuation.section.braces.end.ruby
+  ?\u{$ofs + 1}
+# ^^^ meta.constant.ruby - meta.braces.ruby constant.character.ruby
+#    ^^^^^^^^^^ meta.constant.ruby meta.braces.ruby - constant.character.ruby
+# ^ punctuation.definition.constant.ruby
+#    ^ punctuation.section.braces.begin.ruby
+#     ^^^^ variable.other.readwrite.global.ruby
+#          ^ keyword.operator.arithmetic.ruby
+#            ^ constant.numeric.ruby
+#             ^ punctuation.section.braces.end.ruby
+
+  ## normal character literals
+
+  ?0 ?1 ?9 ?20
+#^ - constant
+# ^ punctuation.definition.constant.ruby
+# ^^ constant.character.ruby
+#   ^ - constant
+#    ^ punctuation.definition.constant.ruby
+#    ^^ constant.character.ruby
+#      ^ - constant
+#       ^ punctuation.definition.constant.ruby
+#       ^^ constant.character.ruby
+#         ^ - constant
+#          ^ keyword.operator.conditional.ruby
+#           ^^ constant.numeric.ruby
+  ?a ?A ?あ ?abc ?a0
+#^ - constant
+# ^ punctuation.definition.constant.ruby
+# ^^ constant.character.ruby
+#   ^ - constant
+#    ^ punctuation.definition.constant.ruby
+#    ^^ constant.character.ruby
+#      ^ - constant
+#       ^ punctuation.definition.constant.ruby
+#       ^^ constant.character.ruby
+#         ^ - constant
+#          ^ punctuation.definition.constant.ruby
+#          ^^^^ constant.character.ruby
+#           ^^^ invalid.illegal.character.ruby
+#              ^ - constant
+#               ^ punctuation.definition.constant.ruby
+#               ^^^ constant.character.ruby
+#                ^^ invalid.illegal.character.ruby
+#                  ^ - constant
+  ?* ?" ?( ?[ ?{ ?. ?# ?_ ?\
+#^ - constant
+# ^ punctuation.definition.constant.ruby
+# ^^ constant.character.ruby
+#   ^ - constant
+#    ^ punctuation.definition.constant.ruby
+#    ^^ constant.character.ruby
+#      ^ - constant
+#       ^ punctuation.definition.constant.ruby
+#       ^^ constant.character.ruby
+#         ^ - constant
+#          ^ punctuation.definition.constant.ruby
+#          ^^ constant.character.ruby
+#            ^ - constant
+#             ^ punctuation.definition.constant.ruby
+#             ^^ constant.character.ruby
+#               ^ - constant
+#                ^ punctuation.definition.constant.ruby
+#                ^^ constant.character.ruby
+#                  ^ - constant
+#                   ^ punctuation.definition.constant.ruby
+#                   ^^ constant.character.ruby
+#                     ^ - constant
+#                      ^ punctuation.definition.constant.ruby
+#                      ^^ constant.character.ruby
+#                        ^ - constant
+#                         ^ punctuation.definition.constant.ruby
+#                         ^^ constant.character.ruby
+#                           ^ - constant
+
+##################
 # Constant reserved keyword symbols
 ##################
 
@@ -366,7 +543,7 @@ puts 1 ?12 : 2
 #          ^ keyword.operator.conditional
 
 puts ?1
-#    ^^ constant.numeric
+#    ^^ constant.character.ruby
 
 puts 1 ? foo:bar
 #      ^ keyword.operator.conditional
@@ -487,3 +664,4 @@ assert_no_match /1/, "2"
 # <- support.function.builtin.ruby
 #               ^ punctuation.definition.string.ruby
 #                    ^ string.quoted.double.ruby
+
