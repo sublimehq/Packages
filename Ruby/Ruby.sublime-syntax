@@ -263,8 +263,8 @@ contexts:
     - match: |-
         (?x: (\?)(?:
           # examples (meta control sequences):
-          # ?\C-a    ?\M-a    ?\C-\M-\C-\M-a
-          (?: \\[MC]-)+\w\b |
+          # ?\C-a    ?\M-a    ?\M-\C-a    ?\ca    ?\M-ca
+          (?:\\(?:[MC]-|c)){1,2}[[:ascii:]] |
           \\(?:
             # examples (hex):
             # ?\x1     ?\x61

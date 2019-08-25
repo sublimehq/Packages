@@ -95,26 +95,45 @@ Symbol === :foo
 
   ## meta control sequences
 
-  ?\C-a    #=> "\x01"
+  ?\C-a ?\ca ?\c-a  #=> "\x01"
 #^ - constant
 # ^ punctuation.definition.constant.ruby
 # ^^^^^ constant.character.ruby
 #      ^ - constant
-  ?\M-a    #=> "\xE1"
+#       ^ punctuation.definition.constant.ruby
+#       ^^^^ constant.character.ruby
+#           ^ - constant
+#            ^ punctuation.definition.constant.ruby
+#             ^^^ constant.character.ruby
+#                ^ - constant
+  ?\M-a ?\m-a ?\ma #=> "\xE1"
 #^ - constant
 # ^ punctuation.definition.constant.ruby
 # ^^^^^ constant.character.ruby
 #      ^ - constant
-  ?\M-\C-a #=> "\x81"
+#       ^ punctuation.definition.constant.ruby
+#        ^^ constant.character.ruby
+#          ^^^ - constant
+#             ^ punctuation.definition.constant.ruby
+#             ^^^^ constant.character.ruby
+#              ^^^ invalid.illegal.character.ruby
+#                 ^ - constant
+  ?\M-\C-a ?\M-\ca #=> "\x81"
 #^ - constant
 # ^ punctuation.definition.constant.ruby
 # ^^^^^^^^ constant.character.ruby
 #         ^ - constant
-  ?\C-\M-a #=> "\x81", same as above
+#          ^ punctuation.definition.constant.ruby
+#          ^^^^^^^ constant.character.ruby
+#                 ^ - constant
+  ?\C-\M-a ?\c\M-a #=> "\x81", same as above
 #^ - constant
 # ^ punctuation.definition.constant.ruby
 # ^^^^^^^^ constant.character.ruby
 #         ^ - constant
+#          ^ punctuation.definition.constant.ruby
+#          ^^^^^^^ constant.character.ruby
+#                 ^ - constant
 
   ## hexadecimal
 
