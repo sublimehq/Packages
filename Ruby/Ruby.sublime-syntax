@@ -17,14 +17,6 @@ name: Ruby
 # • Nested heredocs are not really supportable at present
 #
 # text:
-# print <<-'THERE'
-# This is single quoted.
-# The above used #{Time.now}
-# THERE
-# symtoms:
-# From Programming Ruby p306; should be a non-interpolated heredoc.
-#
-# text:
 # "a\332a"
 # symptoms:
 # '\332' is not recognized as slash3.. which should be octal 332.
