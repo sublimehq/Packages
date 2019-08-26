@@ -25,13 +25,6 @@ name: Ruby
 # From Programming Ruby p306; should be a non-interpolated heredoc.
 #
 # text:
-# "a\332a"
-# symptoms:
-# '\332' is not recognized as slash3.. which should be octal 332.
-# solution:
-# plain regexp.. should be easy.
-#
-# text:
 # val?(a):p(b)
 # val?'a':'b'
 # symptoms:
@@ -1264,7 +1257,7 @@ contexts:
         - match: \S
           scope: invalid.illegal.escape.ruby
     # octal, hex, unicode, normal escaped character
-    - match: \\(?:n[0-7]{1,3}|x\h{1,2}|u\h{4}|.)
+    - match: \\(?:[0-7]{1,3}|x\h{1,2}|u\h{4}|.)
       scope: constant.character.escape.ruby
 
   interpolated-ruby:

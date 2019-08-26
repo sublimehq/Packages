@@ -86,17 +86,17 @@ str = sprintf("%1$*2$s %2$d", "hello", -8)
 #  ^^ constant.character.escape.ruby
   "\\             backslash"
 #  ^^ constant.character.escape.ruby
-  "\n0 \n7 \n07 \n007 \n0170 octal bit pattern, where nnn is 1-3 octal digits ([0-7])"
-#  ^^^ constant.character.escape.ruby
-#     ^ - constant
-#      ^^^ constant.character.escape.ruby
-#         ^ - constant
-#          ^^^^ constant.character.escape.ruby
-#              ^ - constant
-#               ^^^^^ constant.character.escape.ruby
-#                    ^ - constant
-#                     ^^^^^ constant.character.escape.ruby
-#                          ^ - constant
+  "\0 \7 \07 \007 \0170 octal bit pattern, where nnn is 1-3 octal digits ([0-7])"
+#  ^^ constant.character.escape.ruby
+#    ^ - constant
+#     ^^ constant.character.escape.ruby
+#       ^ - constant
+#        ^^^ constant.character.escape.ruby
+#           ^ - constant
+#            ^^^^ constant.character.escape.ruby
+#                ^ - constant
+#                 ^^^^ constant.character.escape.ruby
+#                     ^ - constant
   "\x0 \xF \x0F \x0FF  hexadecimal bit pattern, where nn is 1-2 hexadecimal digits ([0-9a-fA-F])"
 #  ^^^ constant.character.escape.ruby
 #     ^ - constant
