@@ -1644,7 +1644,7 @@ contexts:
           scope: punctuation.section.block.end.d
           pop: true
         - include: attribute-in
-        - match: '(?=\b({{name}})\s*(=|,|}|$))'
+        - match: '(?=\b({{name}})\s*(=|,|}|/|$))'
           push: enum-member
         - match: '(?=\S)'
           push: [enum-member, type]

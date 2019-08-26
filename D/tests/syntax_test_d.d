@@ -685,9 +685,10 @@ extern(1)
 //             ^ keyword.operator.assignment.d
 //               ^^ constant.numeric.integer.d
 //                 ^ punctuation.separator.sequence.d
-    Foo
-  //^^^^ meta.enum.d
-  //^^^ entity.name.constant.d
+    Foo // f
+//  ^^^^^^^^^ meta.enum.d
+//  ^^^ entity.name.constant.d
+//      ^^^^^ comment.line.double-slash.d
     2
   //^ meta.enum.d invalid.illegal.d
   }
