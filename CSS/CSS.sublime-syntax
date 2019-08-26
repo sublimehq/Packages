@@ -733,7 +733,7 @@ contexts:
         - include: property-values
 
   selector:
-    - match: '\s*(?=[:.*#a-zA-Z\[])'
+    - match: (?=[:.*#a-zA-Z\[])
       push:
         - meta_scope: meta.selector.css
         - match: "(?=[/@{)])"
