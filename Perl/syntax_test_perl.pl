@@ -777,15 +777,15 @@ format var =
 
 ###[ HEREDOC ]################################################################
 
-$var = << CSS;
+$var = <<CSS;
 # <- variable.other.readwrite.perl
 #^^^ variable.other.readwrite.perl
 #    ^ keyword.operator.assignment.perl
 #      ^^^^^^^^ meta.heredoc.perl
 #      ^^ keyword.operator.heredoc.perl
-#         ^^^ meta.string.perl string.other.heredoc.perl constant.other.language-name.css.perl
-#            ^ punctuation.terminator.statement.perl
-#             ^ - source.css.embedded.perl
+#        ^^^ meta.string.perl string.other.heredoc.perl constant.other.language-name.css.perl
+#           ^ punctuation.terminator.statement.perl
+#            ^ - source.css.embedded.perl
   a {  };
 # ^^^^^^^ meta.heredoc.perl source.css.embedded.perl source.css
 CSS
@@ -942,6 +942,11 @@ HEREDOC \$with _&a_$var interpolation.
 _EOD_
 # <- meta.heredoc.perl constant.other.language-name.plain.perl
 #^^^^ meta.heredoc.perl constant.other.language-name.plain.perl
+
+$var = << _EOD_
+#      ^^^^^^^^^ - meta.heredoc
+#      ^^ keyword.operator.bitwise.perl
+#         ^^^^^ constant.other.perl
 
 $var = << '    _EOD_';
 #      ^^^^^^^^^^^^^^^ meta.heredoc.perl

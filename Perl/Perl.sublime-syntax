@@ -846,9 +846,8 @@ contexts:
 
   string-heredoc:
     # SEE: http://www.perlmeme.org/howtos/syntax/here_document.html
-    - match: (<<) *(?=['"]? *{{identifier}})
-      captures:
-        1: keyword.operator.heredoc.perl
+    - match: <<(?=(\s*['"]\s*)?{{identifier}})
+      scope: keyword.operator.heredoc.perl
       push: [string-heredoc-meta, string-heredoc-body]
 
   string-heredoc-meta:
@@ -857,7 +856,7 @@ contexts:
 
   string-heredoc-body:
     # embedded css
-    - match: ((['"]?)( *CSS)(\2))
+    - match: \s*((['"]?)(\s*CSS)(\2))
       captures:
         1: meta.string.perl string.other.heredoc.perl
         2: punctuation.definition.string.begin.perl
@@ -865,7 +864,7 @@ contexts:
         4: punctuation.definition.string.end.perl
       set: [string-heredoc-css, string-heredoc-expr]
     # embedded html
-    - match: ((['"]?)( *HTML)(\2))
+    - match: \s*((['"]?)(\s*HTML)(\2))
       captures:
         1: meta.string.perl string.other.heredoc.perl
         2: punctuation.definition.string.begin.perl
@@ -873,7 +872,7 @@ contexts:
         4: punctuation.definition.string.end.perl
       set: [string-heredoc-html, string-heredoc-expr]
     # embedded javascript
-    - match: ((['"]?)( *JAVASCRIPT)(\2))
+    - match: \s*((['"]?)(\s*JAVASCRIPT)(\2))
       captures:
         1: meta.string.perl string.other.heredoc.perl
         2: punctuation.definition.string.begin.perl
@@ -881,7 +880,7 @@ contexts:
         4: punctuation.definition.string.end.perl
       set: [string-heredoc-javascript, string-heredoc-expr]
     # embedded json
-    - match: ((['"]?)( *JSON)(\2))
+    - match: \s*((['"]?)(\s*JSON)(\2))
       captures:
         1: meta.string.perl string.other.heredoc.perl
         2: punctuation.definition.string.begin.perl
@@ -889,7 +888,7 @@ contexts:
         4: punctuation.definition.string.end.perl
       set: [string-heredoc-json, string-heredoc-expr]
     # embedded sql
-    - match: ((['"]?)( *SQL)(\2))
+    - match: \s*((['"]?)(\s*SQL)(\2))
       captures:
         1: meta.string.perl string.other.heredoc.perl
         2: punctuation.definition.string.begin.perl
@@ -897,7 +896,7 @@ contexts:
         4: punctuation.definition.string.end.perl
       set: [string-heredoc-sql, string-heredoc-expr]
     # embedded xml
-    - match: ((['"]?)( *XML)(\2))
+    - match: \s*((['"]?)(\s*XML)(\2))
       captures:
         1: meta.string.perl string.other.heredoc.perl
         2: punctuation.definition.string.begin.perl
@@ -905,7 +904,7 @@ contexts:
         4: punctuation.definition.string.end.perl
       set: [string-heredoc-xml, string-heredoc-expr]
     # single quoted heredoc string without interpolation
-    - match: ((')( *{{identifier}})('))
+    - match: \s*((')(\s*{{identifier}})('))
       captures:
         1: meta.string.perl string.other.heredoc.perl
         2: punctuation.definition.string.begin.perl
@@ -913,14 +912,14 @@ contexts:
         4: punctuation.definition.string.end.perl
       set: [string-heredoc-other, string-heredoc-expr-other]
     # unquoted or double quoted heredoc string with interpolation
-    - match: (("?)( *{{identifier}})(\2))
+    - match: \s*(("?)(\s*{{identifier}})(\2))
       captures:
         1: meta.string.perl string.other.heredoc.perl
         2: punctuation.definition.string.begin.perl
         3: constant.other.language-name.plain.perl
         4: punctuation.definition.string.end.perl
       set: [string-heredoc-interpolated, string-heredoc-expr-other]
-    - include: else-pop
+    - include: immediately-pop
 
   string-heredoc-expr:
     # The rest of the line right after the heredoc tag needs to be handled
