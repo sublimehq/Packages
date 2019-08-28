@@ -781,99 +781,99 @@ $var = <<CSS;
 # <- variable.other.readwrite.perl
 #^^^ variable.other.readwrite.perl
 #    ^ keyword.operator.assignment.perl
-#      ^^^^^^^^ meta.heredoc.perl
+#      ^^^^^^^^ meta.string.heredoc.perl
 #      ^^ keyword.operator.heredoc.perl
-#        ^^^ meta.string.perl string.other.heredoc.perl constant.other.language-name.css.perl
+#        ^^^ meta.tag.heredoc.perl entity.name.tag.heredoc.css.perl
 #           ^ punctuation.terminator.statement.perl
 #            ^ - source.css.embedded.perl
   a {  };
-# ^^^^^^^ meta.heredoc.perl source.css.embedded.perl source.css
+# ^^^^^^^ meta.string.heredoc.perl source.css.embedded.perl source.css
 CSS
-# <- meta.heredoc.perl constant.other.language-name.css.perl
-#^^ meta.heredoc.perl constant.other.language-name.css.perl
+# <- meta.string.heredoc.perl entity.name.tag.heredoc.css.perl
+#^^ meta.string.heredoc.perl entity.name.tag.heredoc.css.perl
 
 $var = <<HTML;
 # <- variable.other.readwrite.perl
 #^^^ variable.other.readwrite.perl
 #    ^ keyword.operator.assignment.perl
-#      ^^^^^^^^ meta.heredoc.perl
+#      ^^^^^^^^ meta.string.heredoc.perl
 #      ^^ keyword.operator.heredoc.perl
-#        ^^^^ meta.string.perl string.other.heredoc.perl constant.other.language-name.html.perl
+#        ^^^^ meta.tag.heredoc.perl entity.name.tag.heredoc.html.perl
 #            ^ punctuation.terminator.statement.perl
 #             ^ - source.html.embedded.perl
   <div />
-# <- meta.heredoc.perl text.html.embedded.perl
-#^^^^^^^^^ meta.heredoc.perl text.html.embedded.perl
+# <- meta.string.heredoc.perl text.html.embedded.perl
+#^^^^^^^^^ meta.string.heredoc.perl text.html.embedded.perl
 HTML
-# <- meta.heredoc.perl constant.other.language-name.html.perl
-#^^^ meta.heredoc.perl constant.other.language-name.html.perl
+# <- meta.string.heredoc.perl entity.name.tag.heredoc.html.perl
+#^^^ meta.string.heredoc.perl entity.name.tag.heredoc.html.perl
 
 $var = <<'HTML';
 # <- variable.other.readwrite.perl
 #^^^ variable.other.readwrite.perl
 #    ^ keyword.operator.assignment.perl
-#      ^^^^^^^^^^ meta.heredoc.perl
+#      ^^^^^^^^^^ meta.string.heredoc.perl
 #      ^^ keyword.operator.heredoc.perl
-#        ^^^^^^ meta.string.perl string.other.heredoc.perl
-#        ^ punctuation.definition.string.begin.perl
-#         ^^^^ constant.other.language-name.html.perl
-#             ^ punctuation.definition.string.end.perl
+#        ^ punctuation.definition.tag.begin.perl
+#        ^^^^^^ meta.tag.heredoc.perl
+#         ^^^^ entity.name.tag.heredoc.html.perl
+#             ^ punctuation.definition.tag.end.perl
 #              ^ punctuation.terminator.statement.perl
 #               ^ - source.html.embedded.perl
   <div />
-# <- meta.heredoc.perl text.html.embedded.perl
-#^^^^^^^^^ meta.heredoc.perl text.html.embedded.perl
+# <- meta.string.heredoc.perl text.html.embedded.perl
+#^^^^^^^^^ meta.string.heredoc.perl text.html.embedded.perl
 HTML
-# <- meta.heredoc.perl constant.other.language-name.html.perl
-#^^^ meta.heredoc.perl constant.other.language-name.html.perl
+# <- meta.string.heredoc.perl entity.name.tag.heredoc.html.perl
+#^^^ meta.string.heredoc.perl entity.name.tag.heredoc.html.perl
 
 $var = <<"HTML";
 # <- variable.other.readwrite.perl
 #^^^ variable.other.readwrite.perl
 #    ^ keyword.operator.assignment.perl
-#      ^^^^^^^^^^ meta.heredoc.perl
+#      ^^^^^^^^^^ meta.string.heredoc.perl
 #      ^^ keyword.operator.heredoc.perl
-#        ^^^^^^ meta.string.perl string.other.heredoc.perl
-#        ^ punctuation.definition.string.begin.perl
-#         ^^^^ constant.other.language-name.html.perl
-#             ^ punctuation.definition.string.end.perl
+#        ^ punctuation.definition.tag.begin.perl
+#        ^^^^^^ meta.tag.heredoc.perl
+#         ^^^^ entity.name.tag.heredoc.html.perl
+#             ^ punctuation.definition.tag.end.perl
 #              ^ punctuation.terminator.statement.perl
 #               ^ - source.html.embedded.perl
   <div />
-# <- meta.heredoc.perl text.html.embedded.perl
-#^^^^^^^^^ meta.heredoc.perl text.html.embedded.perl
+# <- meta.string.heredoc.perl text.html.embedded.perl
+#^^^^^^^^^ meta.string.heredoc.perl text.html.embedded.perl
 HTML
-# <- meta.heredoc.perl constant.other.language-name.html.perl
-#^^^ meta.heredoc.perl constant.other.language-name.html.perl
+# <- meta.string.heredoc.perl entity.name.tag.heredoc.html.perl
+#^^^ meta.string.heredoc.perl entity.name.tag.heredoc.html.perl
 
 $var ? <<HTML : <<HTML;
 # <- variable.other.readwrite.perl
 #^^^ variable.other.readwrite.perl
 #    ^ keyword.operator.logical.perl
-#      ^^^^^^^^^^^^^^^^ meta.heredoc.perl
+#      ^^^^^^^^^^^^^^^^ meta.string.heredoc.perl
 #      ^^ keyword.operator.heredoc.perl
-#        ^^^^ meta.string.perl string.other.heredoc.perl constant.other.language-name.html.perl
+#        ^^^^ meta.tag.heredoc.perl entity.name.tag.heredoc.html.perl
 #             ^ keyword.operator.logical.perl
 #               ^^ keyword.operator.heredoc.perl
-#                 ^^^^ meta.string.perl string.other.heredoc.perl constant.other.language-name.html.perl
+#                 ^^^^ meta.tag.heredoc.perl entity.name.tag.heredoc.html.perl
 #                     ^ punctuation.terminator.statement.perl
 #                      ^ - source.html.embedded.perl
   <div />
-# <- meta.heredoc.perl text.html.embedded.perl
-#^^^^^^^^^ meta.heredoc.perl text.html.embedded.perl
+# <- meta.string.heredoc.perl text.html.embedded.perl
+#^^^^^^^^^ meta.string.heredoc.perl text.html.embedded.perl
 HTML
-# <- meta.heredoc.perl constant.other.language-name.html.perl
-#^^^ meta.heredoc.perl constant.other.language-name.html.perl
+# <- meta.string.heredoc.perl entity.name.tag.heredoc.html.perl
+#^^^ meta.string.heredoc.perl entity.name.tag.heredoc.html.perl
 #   ^ - source.html.embedded.perl
   <div />
-# <- meta.heredoc.perl text.html.embedded.perl
-#^^^^^^^^^ meta.heredoc.perl text.html.embedded.perl
+# <- meta.string.heredoc.perl text.html.embedded.perl
+#^^^^^^^^^ meta.string.heredoc.perl text.html.embedded.perl
    HTML
-#  ^^^^ meta.heredoc.perl text.html.embedded.perl - constant.other.language-name.html.perl
+#  ^^^^ meta.string.heredoc.perl text.html.embedded.perl - constant.other.language-name.html.perl
 HTML
-# <- meta.heredoc.perl constant.other.language-name.html.perl
-#^^^ meta.heredoc.perl constant.other.language-name.html.perl
-#   ^ - meta.heredoc.perl
+# <- meta.string.heredoc.perl entity.name.tag.heredoc.html.perl
+#^^^ meta.string.heredoc.perl entity.name.tag.heredoc.html.perl
+#   ^ - meta.string.heredoc.perl
 HTML
 # <- constant.other.perl
 #^^^ constant.other.perl
@@ -882,172 +882,172 @@ $var = <<JAVASCRIPT;
 # <- variable.other.readwrite.perl punctuation.definition.variable.perl
 #^^^ variable.other.readwrite.perl
 #    ^ keyword.operator.assignment.perl
-#      ^^^^^^^^^^^^^^ meta.heredoc.perl
+#      ^^^^^^^^^^^^^^ meta.string.heredoc.perl
 #      ^^ keyword.operator.heredoc.perl
-#        ^^^^^^^^^^ meta.string.perl string.other.heredoc.perl constant.other.language-name.js.perl
+#        ^^^^^^^^^^ meta.tag.heredoc.perl entity.name.tag.heredoc.js.perl
 #                   ^ - source.js.embedded.perl
   var basic;
-# <- meta.heredoc.perl source.js.embedded.perl source.js
-# ^^^ meta.heredoc.perl source.js.embedded.perl source.js storage.type.js
+# <- meta.string.heredoc.perl source.js.embedded.perl source.js
+# ^^^ meta.string.heredoc.perl source.js.embedded.perl source.js storage.type.js
 JAVASCRIPT
-# <- meta.heredoc.perl constant.other.language-name.js.perl
-#^^^^^^^^^ meta.heredoc.perl constant.other.language-name.js.perl
+# <- meta.string.heredoc.perl entity.name.tag.heredoc.js.perl
+#^^^^^^^^^ meta.string.heredoc.perl entity.name.tag.heredoc.js.perl
 
 $var = <<JSON;
-#      ^^^^^^^ meta.heredoc.perl
+#      ^^^^^^^ meta.string.heredoc.perl
 #      ^^ keyword.operator.heredoc.perl
-#        ^^^^ meta.string.perl string.other.heredoc.perl constant.other.language-name.json.perl
+#        ^^^^ meta.tag.heredoc.perl entity.name.tag.heredoc.json.perl
 #            ^ punctuation.terminator.statement.perl
 #             ^ - source.json.embedded.perl
 JSON
-# <- meta.heredoc.perl constant.other.language-name.json.perl
-#^^^ meta.heredoc.perl constant.other.language-name.json.perl
+# <- meta.string.heredoc.perl entity.name.tag.heredoc.json.perl
+#^^^ meta.string.heredoc.perl entity.name.tag.heredoc.json.perl
 
 $var = <<SQL;
-#      ^^^^^^ meta.heredoc.perl
+#      ^^^^^^ meta.string.heredoc.perl
 #      ^^ keyword.operator.heredoc.perl
-#        ^^^ meta.string.perl string.other.heredoc.perl constant.other.language-name.sql.perl
+#        ^^^ meta.tag.heredoc.perl entity.name.tag.heredoc.sql.perl
 #           ^ punctuation.terminator.statement.perl
 #            ^ - source.sql.embedded.perl
   SELECT * FROM `table`
-# ^^^^^^^^^^^^^^^^^^^^^ meta.heredoc.perl source.sql.embedded.perl
+# ^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.perl source.sql.embedded.perl
 SQL
-# <- meta.heredoc.perl constant.other.language-name.sql.perl
-#^^ meta.heredoc.perl constant.other.language-name.sql.perl
+# <- meta.string.heredoc.perl entity.name.tag.heredoc.sql.perl
+#^^ meta.string.heredoc.perl entity.name.tag.heredoc.sql.perl
 
 $var = <<XML;
-#      ^^^^^^ meta.heredoc.perl
+#      ^^^^^^ meta.string.heredoc.perl
 #      ^^ keyword.operator.heredoc.perl
-#        ^^^ meta.string.perl string.other.heredoc.perl constant.other.language-name.xml.perl
+#        ^^^ meta.tag.heredoc.perl entity.name.tag.heredoc.xml.perl
 #           ^ punctuation.terminator.statement.perl
 #            ^ - source.xml.embedded.perl
   <t:tag></t:tag>
-# ^^^^^^^^^^^^^^^ meta.heredoc.perl text.xml.embedded.perl
+# ^^^^^^^^^^^^^^^ meta.string.heredoc.perl text.xml.embedded.perl
 XML
-# <- meta.heredoc.perl constant.other.language-name.xml.perl
-#^^ meta.heredoc.perl constant.other.language-name.xml.perl
+# <- meta.string.heredoc.perl entity.name.tag.heredoc.xml.perl
+#^^ meta.string.heredoc.perl entity.name.tag.heredoc.xml.perl
 
 $var = <<_EOD_;
-#      ^^^^^^^^^ meta.heredoc.perl
+#      ^^^^^^^^^ meta.string.heredoc.perl
 #      ^^ keyword.operator.heredoc.perl
-#        ^^^^^ constant.other.language-name.plain.perl
+#        ^^^^^ meta.tag.heredoc.perl entity.name.tag.heredoc.plain.perl
 #             ^ punctuation.terminator.statement.perl
-#              ^ - string.quoted.other.perl
+#              ^ - string.unquoted.heredoc.perl
 HEREDOC \$with _&a_$var interpolation.
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.heredoc.perl meta.string.perl
-#^^^^^^^^^^^^^^^^^^ string.quoted.other.perl - meta.interpolation
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.perl
+#^^^^^^^^^^^^^^^^^^ string.unquoted.heredoc.perl - meta.interpolation
 #       ^^ constant.character.escape.perl
 #                  ^^^^ meta.interpolation.perl - string
-#                      ^^^^^^^^^^^^^^^ string.quoted.other.perl - meta.interpolation
+#                      ^^^^^^^^^^^^^^^ string.unquoted.heredoc.perl - meta.interpolation
 _EOD_
-# <- meta.heredoc.perl constant.other.language-name.plain.perl
-#^^^^ meta.heredoc.perl constant.other.language-name.plain.perl
+# <- meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
+#^^^^ meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
 
 $var = << _EOD_
-#      ^^^^^^^^^ - meta.heredoc
+#      ^^^^^^^^^ - meta.string.heredoc
 #      ^^ keyword.operator.bitwise.perl
 #         ^^^^^ constant.other.perl
 
 $var = << '    _EOD_';
-#      ^^^^^^^^^^^^^^^ meta.heredoc.perl
+#      ^^^^^^^^^^^^^^^ meta.string.heredoc.perl
 #      ^^ keyword.operator.heredoc.perl
-#         ^ punctuation.definition.string.begin.perl
-#         ^^^^^^^^^^^ meta.string.perl string.other.heredoc.perl
-#          ^^^^^^^^^ constant.other.language-name.plain.perl
-#                   ^ punctuation.definition.string.end.perl
+#         ^ punctuation.definition.tag.begin.perl
+#         ^^^^^^^^^^^ meta.tag.heredoc.perl
+#          ^^^^^^^^^ entity.name.tag.heredoc.plain.perl
+#                   ^ punctuation.definition.tag.end.perl
 #                    ^ punctuation.terminator.statement.perl
-#                     ^ - string.quoted.other.perl
+#                     ^ - string.unquoted.heredoc.perl
 HEREDOC \$without $var interpolation.
-# <- meta.heredoc.perl meta.string.perl string.quoted.other.perl
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.heredoc.perl meta.string.perl string.quoted.other.perl
+# <- meta.string.heredoc.perl string.unquoted.heredoc.perl
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl
   _EOD_
-# ^^^^^^ meta.heredoc.perl meta.string.perl string.quoted.other.perl
+# ^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl
     _EOD_
-# <- meta.heredoc.perl constant.other.language-name.plain.perl
-#^^^^^^^^ meta.heredoc.perl constant.other.language-name.plain.perl
+# <- meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
+#^^^^^^^^ meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
 
 $var = << "    _EOD_";
-#      ^^^^^^^^^^^^^^^ meta.heredoc.perl
+#      ^^^^^^^^^^^^^^^ meta.string.heredoc.perl
 #      ^^ keyword.operator.heredoc.perl
-#         ^ punctuation.definition.string.begin.perl
-#         ^^^^^^^^^^^ meta.string.perl string.other.heredoc.perl
-#          ^^^^^^^^^ constant.other.language-name.plain.perl
-#                   ^ punctuation.definition.string.end.perl
+#         ^ punctuation.definition.tag.begin.perl
+#         ^^^^^^^^^^^ meta.tag.heredoc.perl
+#          ^^^^^^^^^ entity.name.tag.heredoc.plain.perl
+#                   ^ punctuation.definition.tag.end.perl
 #                    ^ punctuation.terminator.statement.perl
-#                     ^ - string.quoted.other.perl
+#                     ^ - string.unquoted.heredoc.perl
 HEREDOC \$with $var interpolation.
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.heredoc.perl meta.string.perl
-#^^^^^^^^^^^^^^ string.quoted.other.perl - meta.interpolation
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.perl
+#^^^^^^^^^^^^^^ string.unquoted.heredoc - meta.interpolation
 #       ^^ constant.character.escape.perl
 #              ^^^^ meta.interpolation.perl - string
-#                  ^^^^^^^^^^^^^^^ string.quoted.other.perl - meta.interpolation
+#                  ^^^^^^^^^^^^^^^ string.unquoted.heredoc - meta.interpolation
   _EOD_
-# ^^^^^^ meta.heredoc.perl meta.string.perl string.quoted.other.perl
+# ^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl
     _EOD_
-# <- meta.heredoc.perl constant.other.language-name.plain.perl
-#^^^^^^^^ meta.heredoc.perl constant.other.language-name.plain.perl
+# <- meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
+#^^^^^^^^ meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
 
 $var = <<EOF # comment
 # no comment
-# <- meta.heredoc.perl meta.string.perl string.quoted.other.perl - comment
-#^^^^^^^^^^^^ meta.heredoc.perl meta.string.perl string.quoted.other.perl - comment
+# <- meta.string.heredoc.perl string.unquoted.heredoc.perl - comment
+#^^^^^^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl - comment
 EOF
 
 $var = <<'EOF' # comment
 # no comment
-# <- meta.heredoc.perl meta.string.perl string.quoted.other.perl - comment
-#^^^^^^^^^^^^ meta.heredoc.perl meta.string.perl string.quoted.other.perl - comment
+# <- meta.string.heredoc.perl string.unquoted.heredoc.perl - comment
+#^^^^^^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl - comment
 EOF
 
 $var = <<"EOF" # comment
 # no comment
-# <- meta.heredoc.perl meta.string.perl string.quoted.other.perl - comment
-#^^^^^^^^^^^^ meta.heredoc.perl meta.string.perl string.quoted.other.perl - comment
+# <- meta.string.heredoc.perl string.unquoted.heredoc.perl - comment
+#^^^^^^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl - comment
 EOF
 
 chomp (my $common_end = <<"EOF") =~ s/(.*)/$1/g if $opt_o;
 # <- support.function.perl
 #^^^^ support.function.perl
-#                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.heredoc.perl
+#                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.perl
 #                       ^^ keyword.operator.heredoc.perl
 #                                ^^ keyword.operator.binary.perl
   foo bar baz
-# <- meta.heredoc.perl meta.string.perl string.quoted.other.perl
-# ^^^^^^^^^^^^ meta.heredoc.perl meta.string.perl string.quoted.other.perl
+# <- meta.string.heredoc.perl string.unquoted.heredoc.perl
+# ^^^^^^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl
 EOF
-# <- meta.heredoc.perl constant.other.language-name.plain.perl
-#^^ meta.heredoc.perl constant.other.language-name.plain.perl
+# <- meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
+#^^ meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
 
 $var ? <<'EOT' : <<'EOT';
 # <- variable.other.readwrite.perl
 #^^^ variable.other.readwrite.perl
 #    ^ keyword.operator.logical.perl
-#      ^^^^^^^^^^^^^^^^^^^ meta.heredoc.perl
+#      ^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.perl
 #      ^^ keyword.operator.heredoc.perl
-#         ^^^ constant.other.language-name.plain.perl
+#         ^^^ entity.name.tag.heredoc.plain.perl
 #              ^ keyword.operator.logical.perl
 #                ^^ keyword.operator.heredoc.perl
-#                   ^^^ constant.other.language-name.plain.perl
+#                   ^^^ entity.name.tag.heredoc.plain.perl
 #                       ^punctuation.terminator.statement.perl
   foo bar baz
-# <- meta.heredoc.perl meta.string.perl string.quoted.other.perl
-# ^^^^^^^^^^^^ meta.heredoc.perl meta.string.perl string.quoted.other.perl
+# <- meta.string.heredoc.perl string.unquoted.heredoc.perl
+# ^^^^^^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl
 EOT
-# <- meta.heredoc.perl constant.other.language-name.plain.perl
-#^^ meta.heredoc.perl constant.other.language-name.plain.perl
+# <- meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
+#^^ meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
   foo bar baz
-# <- meta.heredoc.perl meta.string.perl string.quoted.other.perl
-# ^^^^^^^^^^^^ meta.heredoc.perl meta.string.perl string.quoted.other.perl
+# <- meta.string.heredoc.perl string.unquoted.heredoc.perl
+# ^^^^^^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl
 EOT
-# <- meta.heredoc.perl constant.other.language-name.plain.perl
-#^^ meta.heredoc.perl constant.other.language-name.plain.perl
+# <- meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
+#^^ meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
 
 # MUST NOT BE HEREDOC
   (1 << 0) ;
-#    ^^^^^^^ - meta.heredoc.perl
+#    ^^^^^^^ - meta.string.heredoc.perl
 #    ^^ - keyword.operator.heredoc.perl
   (1 << $var) ;
-#    ^^^^^^^^^^ - meta.heredoc.perl
+#    ^^^^^^^^^^ - meta.string.heredoc.perl
 #    ^^ - keyword.operator.heredoc.perl
 
 ###[ OPERATORS ]##############################################################
@@ -4763,18 +4763,18 @@ state
 #                             ^ punctuation.terminator.statement.perl
   func <<_EOD_, $var;
 # ^^^^ variable.function.perl
-#      ^^^^^^^^^^^^^^^ meta.heredoc.perl
+#      ^^^^^^^^^^^^^^^ meta.string.heredoc.perl
 #      ^^ keyword.operator.heredoc.perl
-#        ^^^^^ constant.other.language-name.plain.perl
+#        ^^^^^ entity.name.tag.heredoc.plain.perl
 #             ^ punctuation.separator.sequence.perl
 #               ^^^^ variable.other.readwrite.perl
 #                   ^ punctuation.terminator.statement.perl
   foo bar baz
-# <- meta.heredoc.perl string.quoted.other.perl
-#^^^^^^^^^^^^^ meta.heredoc.perl string.quoted.other.perl
+# <- meta.string.heredoc.perl string.unquoted.heredoc.perl
+#^^^^^^^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl
 _EOD_
-#<- meta.heredoc.perl constant.other.language-name.plain.perl
-#^^^^ meta.heredoc.perl constant.other.language-name.plain.perl
+#<- meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
+#^^^^ meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
   &func + 1
 # ^ keyword.operator.dereference.perl
 #  ^^^^ variable.function.perl
@@ -4829,17 +4829,17 @@ _EOD_
   Func(<<_EOD_;
 # ^^^^ variable.function.perl
 #     ^ punctuation.section.group.begin.perl
-#      ^^^^^^^^^ meta.heredoc.perl
+#      ^^^^^^^^^ meta.string.heredoc.perl
 #      ^^ keyword.operator.heredoc.perl
-#        ^^^^^ constant.other.language-name.plain.perl
+#        ^^^^^ entity.name.tag.heredoc.plain.perl
 #             ^ punctuation.terminator.statement.perl
   foo bar baz
-# <- meta.heredoc.perl meta.string.perl string.quoted.other.perl
-#^^^^^^^^^^^^^ meta.heredoc.perl meta.string.perl string.quoted.other.perl
+# <- meta.string.heredoc.perl string.unquoted.heredoc.perl
+#^^^^^^^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl
 _EOD_
-#<- meta.heredoc.perl constant.other.language-name.plain.perl
-#^^^^ meta.heredoc.perl constant.other.language-name.plain.perl
-#    ^ - meta.heredoc
+#<- meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
+#^^^^ meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
+#    ^ - meta.string.heredoc
   , $var
 # ^ punctuation.separator.sequence.perl
 #   ^^^^ variable.other.readwrite.perl
@@ -4852,19 +4852,19 @@ _EOD_
   func(<<_EOD_, $var);
 # ^^^^ variable.function.perl
 #     ^ punctuation.section.group.begin.perl
-#      ^^^^^^^^^ meta.heredoc.perl
+#      ^^^^^^^^^ meta.string.heredoc.perl
 #      ^^ keyword.operator.heredoc.perl
-#        ^^^^^ constant.other.language-name.plain.perl
+#        ^^^^^ entity.name.tag.heredoc.plain.perl
 #             ^ punctuation.separator.sequence.perl
 #               ^^^^ variable.other.readwrite.perl
 #                   ^ punctuation.section.group.end.perl
 #                    ^ punctuation.terminator.statement.perl
   foo bar baz
-# <- meta.heredoc.perl string.quoted.other.perl
-#^^^^^^^^^^^^^ meta.heredoc.perl string.quoted.other.perl
+# <- meta.string.heredoc.perl string.unquoted.heredoc.perl
+#^^^^^^^^^^^^^ meta.string.heredoc.perl string.unquoted.heredoc.perl
 _EOD_
-#<- meta.heredoc.perl constant.other.language-name.plain.perl
-#^^^^ meta.heredoc.perl constant.other.language-name.plain.perl
+#<- meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
+#^^^^ meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
 
   func() + 1
 # ^^^^ variable.function.perl
@@ -5246,10 +5246,10 @@ _EOD_
 
   # HEREDOC can start within a normal code block
   if ($var) { $text = <<_EOT_; } else { $text = "foo"}
-# ^^^^^^^^^^^^^^^^^^^^ - meta.heredoc.perl
-#                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.heredoc.perl
+# ^^^^^^^^^^^^^^^^^^^^ - meta.string.heredoc.perl
+#                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.heredoc.perl
 #                     ^^ keyword.operator.heredoc.perl
-#                       ^^^^^ constant.other.language-name.plain.perl
+#                       ^^^^^ entity.name.tag.heredoc.plain.perl
 #                            ^ punctuation.terminator.statement.perl
 #                              ^ punctuation.section.block.end.perl
 #                                ^^^^ keyword.control.conditional.else.perl
@@ -5259,10 +5259,10 @@ _EOD_
 #                                               ^^^^^ meta.string.perl string.quoted.double.perl
 #                                                    ^ punctuation.section.block.end.perl
 _EOT_
-# <- meta.heredoc.perl constant.other.language-name.plain.perl
-#^^^^ meta.heredoc.perl constant.other.language-name.plain.perl
+# <- meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
+#^^^^ meta.string.heredoc.perl entity.name.tag.heredoc.plain.perl
 
-# <- - meta.heredoc.perl
+# <- - meta.string.heredoc.perl
 
 ###[ LOOP EXPRESSIONS ]#######################################################
 
