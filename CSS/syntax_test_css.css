@@ -48,11 +48,15 @@
 /*  ^   punctuation.definition.entity.css  */
 /*   ^^ entity.other.attribute-name.id.css */
 
-    html {}
+    html, h1 {}
 /*^^ - meta.selector.css  */
-/*  ^^^^^ meta.selector.css */
-/*       ^^ - meta.selector.css  */
+/*  ^^^^^^^^^ meta.selector.css */
+/*           ^^ - meta.selector.css  */
 /*  ^^^^ entity.name.tag.css */
+/*      ^ punctuation.separator.sequence.css */
+/*        ^^ entity.name.tag.css */
+/*           ^ punctuation.section.property-list.css */
+/*            ^ punctuation.section.property-list.css */
 
     @charset "UTF-8";
 /*  ^^^^^^^^^^^^^^^^ meta.at-rule.charset.css */

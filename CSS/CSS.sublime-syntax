@@ -788,6 +788,8 @@ contexts:
             - match: '\]'
               scope: punctuation.definition.entity.css
               pop: true
+        - match: ','
+          scope: punctuation.separator.sequence.css
 
   # Pseudo Elements
   # https://drafts.csswg.org/selectors-4/#pseudo-elements
