@@ -454,6 +454,7 @@ contexts:
   well-known-methods:
     - match: '\b(initialize|new|loop|include|extend|prepend|raise|fail|attr_reader|attr_writer|attr_accessor|attr|catch|throw|module_function|public|protected|private)\b(?![?!])'
       scope: keyword.other.special-method.ruby
+      push: function-call-arguments
     - match: \b(require|require_relative|gem)\b
       captures:
         1: keyword.other.special-method.ruby
@@ -487,26 +488,29 @@ contexts:
           (?![!?=])
         )
       scope: support.function.builtin.ruby
+      push: function-call-arguments
     # Methods that may be followed by a regex
     - match: |-
         (?x:
           \b(
-            gsub!|
-            sub!
-          )(?=\s)
+            gsub|
+            sub
+          )(!|\b)
+          |
+          \b(
+            match
+          )(\?|\b)
           |
           \b(
             assert_match|
             assert_no_match|
-            gsub|
             index|
-            match|
-            scan|
-            sub
-          )\b
+            rindex|
+            scan
+          )\b(?![!?=])
         )
       scope: support.function.builtin.ruby
-      push: try-regex
+      push: function-call-arguments
     # Methods from the Object class not handled elsewhere, ending in punctuation
     - match: |-
         (?x:
@@ -524,6 +528,7 @@ contexts:
           )
         )
       scope: support.function.builtin.ruby
+      push: function-call-arguments
     # Methods from the Object class not handled elsewhere
     - match: |-
         (?x:
@@ -565,7 +570,7 @@ contexts:
           (?![!?=])
         )
       scope: support.function.builtin.ruby
-
+      push: function-call-arguments
     # Methods from the Kernel class not handled elsewhere, ending in punctuation
     - match: |-
         (?x:
@@ -576,6 +581,7 @@ contexts:
           )
         )
       scope: support.function.builtin.ruby
+      push: function-call-arguments
     # Methods from the Kernel class not handled elsewhere
     - match: |-
         (?x:
@@ -640,6 +646,7 @@ contexts:
           (?![!?=])
         )
       scope: support.function.builtin.ruby
+      push: function-call-arguments
     # Methods from the Kernel class not handled elsewhere, ending in punctuation
     - match: |-
         (?x:
@@ -656,6 +663,7 @@ contexts:
           )
         )
       scope: support.function.builtin.ruby
+      push: function-call-arguments
     # Methods from the Module class not handled elsewhere
     - match: |-
         (?x:
@@ -704,6 +712,10 @@ contexts:
           (?![!?=])
         )
       scope: support.function.builtin.ruby
+      push: function-call-arguments
+
+  function-call-arguments:
+    - include: try-regex
 
   method:
     - match: \b(def)\b
