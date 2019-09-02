@@ -516,7 +516,7 @@ contexts:
         - match: '{{identifier}}(?=\s*=)'
           scope: meta.key.lua string.unquoted.key.lua
 
-        - match: =
+        - match: =(?!=)
           scope: punctuation.separator.key-value.lua
           push: expression
 

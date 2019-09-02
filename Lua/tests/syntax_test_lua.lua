@@ -283,6 +283,11 @@
 --   ^^ meta.mapping.lua string.quoted.multiline.lua punctuation.definition.string.begin.lua
 --                          ^^^ meta.mapping.lua string.quoted.multiline.lua punctuation.definition.string.begin.lua
 
+    {some = 2}, {some == 2}
+--   ^^^^ string.unquoted.key.lua
+--        ^ punctuation.separator.key-value.lua
+--                    ^^ keyword.operator.comparison
+
 --PARENS
 
     (foo + bar);
