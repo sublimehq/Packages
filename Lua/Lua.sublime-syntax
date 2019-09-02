@@ -24,9 +24,9 @@ variables:
       |band|bor|bxor|bnot|shl|shr
       # comparison
       |eq|lt|le
-    ))
+    ){{identifier_break}})
   # __metatable and __mode don't use functions
-  metaproperty: (?:__(?:metatable|mode))
+  metaproperty: (?:__(?:metatable|mode){{identifier_break}})
 
   identifier_start: (?:[A-Za-z_])
   identifier_char: (?:[A-Za-z0-9_])
