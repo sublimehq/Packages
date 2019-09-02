@@ -291,6 +291,10 @@
 --               ^^^^ variable.other.lua - meta.mapping.key
 --                    ^^ keyword.operator.comparison
 
+    {method = function ()
+--   ^^^^^^ meta.mapping.key.lua entity.name.function.lua
+     end}
+
 --PARENS
 
     (foo + bar);

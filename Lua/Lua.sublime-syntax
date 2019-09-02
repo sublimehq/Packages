@@ -518,6 +518,9 @@ contexts:
           push:
             - clear_scopes: 1
             - meta_scope: meta.mapping.key.lua
+            - match: '{{identifier}}(?=\s*=\s*function\b)'
+              scope: entity.name.function.lua
+              pop: true
             - match: '{{identifier}}'
               scope: string.unquoted.key.lua
               pop: true
