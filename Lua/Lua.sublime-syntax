@@ -506,20 +506,29 @@ contexts:
         - match: \[(?!=*\[)
           scope: punctuation.section.brackets.begin.lua
           push:
-            - meta_scope: meta.brackets.lua
+            - clear_scopes: 1
+            - meta_scope: meta.mapping.key.lua meta.brackets.lua
             - match: \]
               scope: punctuation.section.brackets.end.lua
               pop: true
             - match: (?=\S)
               push: expression
 
-        - match: '{{identifier}}(?=\s*=)'
-          scope: meta.key.lua string.unquoted.key.lua
+        - match: (?={{identifier}}\s*=(?!=))
+          push:
+            - clear_scopes: 1
+            - meta_scope: meta.mapping.key.lua
+            - match: '{{identifier}}'
+              scope: string.unquoted.key.lua
+              pop: true
 
         - match: =(?!=)
-          scope: punctuation.separator.key-value.lua
-          push: expression
-
+          scope: meta.mapping.lua punctuation.separator.key-value.lua
+          push:
+            - - clear_scopes: 1
+              - meta_content_scope: meta.mapping.value.lua
+              - include: immediately-pop
+            - expression
         - match: (?=\S)
           push: expression
 

@@ -268,14 +268,15 @@
 --              ^ punctuation.section.block.end
 
     {[a] = x, b = y};
---   ^^^ meta.brackets
+--  ^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
+--   ^^^ meta.mapping.key meta.brackets
 --   ^ punctuation.section.brackets.begin
 --    ^ variable.other
 --     ^ punctuation.section.brackets.end
 --       ^ punctuation.separator.key-value
---         ^ variable.other
---          ^ punctuation.separator.field
---            ^ meta.key string.unquoted.key
+--         ^ meta.mapping.value variable.other
+--          ^ meta.mapping.lua punctuation.separator.field
+--            ^ meta.mapping.key string.unquoted.key
 --              ^ punctuation.separator.key-value
 --                ^ meta.mapping variable.other
 
@@ -284,8 +285,10 @@
 --                          ^^^ meta.mapping.lua string.quoted.multiline.lua punctuation.definition.string.begin.lua
 
     {some = 2}, {some == 2}
---   ^^^^ string.unquoted.key.lua
+--   ^^^^ meta.mapping.key string.unquoted.key.lua
 --        ^ punctuation.separator.key-value.lua
+--          ^ meta.mapping.value constant.numeric.decimal
+--               ^^^^ variable.other.lua - meta.mapping.key
 --                    ^^ keyword.operator.comparison
 
 --PARENS
