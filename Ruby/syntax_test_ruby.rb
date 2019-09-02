@@ -656,8 +656,10 @@ foo / "bar/bla"
 # ^^^^^ string.regexp.classic.ruby
 }
 
-assert_no_match /1/, "2"
-# <- source.ruby
-# <- support.function.builtin.ruby
-#               ^ punctuation.definition.string.ruby
-#                    ^ string.quoted.double.ruby
+  assert_no_match /1/, "2"
+# ^^^^^^^^^^^^^^^ support.function.builtin.ruby
+#                 ^ punctuation.definition.string.begin.ruby
+#                 ^^^ meta.string.regexp.ruby string.regexp.classic.ruby
+#                   ^ punctuation.definition.string.end.ruby
+#                    ^ punctuation.separator.ruby
+#                      ^^^ string.quoted.double.ruby
