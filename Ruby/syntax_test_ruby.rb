@@ -577,6 +577,16 @@ puts foo: bar
 a = /(foo)*baz/m
 #   ^^^^^^^^^^^^ string.regexp
 
+a = /{foo}*baz/m
+#   ^^^^^^^^^^^^ string.regexp
+
+a = /?foo*baz/m
+#   ^^^^^^^^^^^ string.regexp
+
+a = /=foo/m
+#   ^^ keyword.operator.assignment.augmented.ruby
+#   ^^^^^^^ - string.regexp
+
 begin
 end while /foo/ =~ bar
 #         ^^^^^ string.regexp
