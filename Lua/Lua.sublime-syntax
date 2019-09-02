@@ -14,6 +14,17 @@ variables:
       and|break|do|elseif|else|end|for|goto|if|in|
       local|or|repeat|return|then|until|while
     ){{identifier_break}})
+  metamethod: |- # http://lua-users.org/wiki/MetatableEvents
+    (?x:__(?:
+      # special
+      index|newindex|mode|call|tostring|len|i?pairs|gc
+      # math operators
+      |unm|add|sub|mul|i?div|mod|pow|concat
+      # bitwise operators
+      |band|bor|bxor|bnot|shl|shr
+      # comparison
+      |eq|lt|le
+    ))
 
   identifier_start: (?:[A-Za-z_])
   identifier_char: (?:[A-Za-z0-9_])
@@ -132,6 +143,9 @@ contexts:
   function-name-property:
     - match: '{{identifier}}(?=\s*[.:])'
       scope: meta.property.lua
+      pop: true
+    - match: '{{metamethod}}'
+      scope: meta.property.lua entity.name.function.lua support.function.metamethod.lua
       pop: true
     - match: '{{identifier}}'
       scope: meta.property.lua entity.name.function.lua
@@ -315,6 +329,9 @@ contexts:
           push: expression
 
   property:
+    - match: '{{metamethod}}{{function_assignment_ahead}}'
+      scope: meta.property.lua entity.name.function.lua support.function.metamethod.lua
+      pop: true
     - match: '{{identifier}}{{function_assignment_ahead}}'
       scope: meta.property.lua entity.name.function.lua
       pop: true
@@ -518,8 +535,13 @@ contexts:
           push:
             - clear_scopes: 1
             - meta_scope: meta.mapping.key.lua
-            - match: '{{identifier}}(?=\s*=\s*function\b)'
+            - match: (?:({{metamethod}})|{{identifier}})(?=\s*=\s*function\b)
               scope: entity.name.function.lua
+              captures:
+                1: support.function.metamethod.lua
+              pop: true
+            - match: '{{metamethod}}'
+              scope: entity.name.function.lua support.function.metamethod.lua
               pop: true
             - match: '{{identifier}}'
               scope: string.unquoted.key.lua

@@ -291,9 +291,16 @@
 --               ^^^^ variable.other.lua - meta.mapping.key
 --                    ^^ keyword.operator.comparison
 
-    {method = function ()
---   ^^^^^^ meta.mapping.key.lua entity.name.function.lua
-     end}
+    {__index = function(i) end,
+--   ^^^^^^^ meta.mapping.key entity.name.function support.function.metamethod.lua
+     method = function ()
+--   ^^^^^^ meta.mapping.key.lua entity.name.function.lua - support
+     end,
+     __call = some_func,
+--   ^^^^^^ meta.mapping.key.lua entity.name.function.lua support.function.metamethod.lua
+     not_method = some_var,
+--   ^^^^^^^^^^ meta.mapping.key.lua string.unquoted.key.lua - entity - support
+ }
 
 --PARENS
 
@@ -410,6 +417,9 @@
 --                       ^^^^^ meta.group
 --                             ^^^ keyword.control.end
 
+    function foo.bar:__index (...) end
+--                   ^^^^^^^ meta.name.function meta.property.lua entity.name.function.lua support.function.metamethod.lua
+
     function foo
         .bar () end
 --      ^^^^^^^^^^^ meta.function
@@ -436,6 +446,9 @@
 
     foo.bar = function() end;
 --      ^^^ meta.property entity.name.function
+
+    foo.__call = function() end;
+--      ^^^^^^ meta.property.lua entity.name.function.lua support.function.metamethod.lua
 
     function (return) end;
 --            ^^^^^^ invalid.unexpected-keyword.lua
