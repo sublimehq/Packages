@@ -300,6 +300,8 @@
 --   ^^^^^^ meta.mapping.key.lua entity.name.function.lua support.function.metamethod.lua
      not_method = some_var,
 --   ^^^^^^^^^^ meta.mapping.key.lua string.unquoted.key.lua - entity - support
+     __metatable = nil,
+--   ^^^^^^^^^^^ meta.mapping.key.lua string.unquoted.key.lua support.other.metaproperty.lua
  }
 
 --PARENS
@@ -312,6 +314,9 @@
     foo.bar;
 --     ^ punctuation.accessor
 --      ^^^ meta.property
+
+    foo.__mode = "kv";
+--      ^^^^^^ meta.property.lua support.other.metaproperty.lua
 
     foo:bar;
 --     ^ punctuation.accessor

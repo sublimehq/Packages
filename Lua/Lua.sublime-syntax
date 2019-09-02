@@ -17,7 +17,7 @@ variables:
   metamethod: |- # http://lua-users.org/wiki/MetatableEvents
     (?x:__(?:
       # special
-      index|newindex|mode|call|tostring|len|i?pairs|gc
+      index|newindex|call|tostring|len|i?pairs|gc
       # math operators
       |unm|add|sub|mul|i?div|mod|pow|concat
       # bitwise operators
@@ -25,6 +25,8 @@ variables:
       # comparison
       |eq|lt|le
     ))
+  # __metatable and __mode don't use functions
+  metaproperty: (?:__(?:metatable|mode))
 
   identifier_start: (?:[A-Za-z_])
   identifier_char: (?:[A-Za-z0-9_])
@@ -338,6 +340,9 @@ contexts:
     - match: '{{identifier}}{{function_call_ahead}}'
       scope: meta.property.lua variable.function.lua
       pop: true
+    - match: '{{metaproperty}}'
+      scope: meta.property.lua support.other.metaproperty.lua
+      pop: true
     - match: '{{identifier}}'
       scope: meta.property.lua
       pop: true
@@ -542,6 +547,9 @@ contexts:
               pop: true
             - match: '{{metamethod}}'
               scope: entity.name.function.lua support.function.metamethod.lua
+              pop: true
+            - match: '{{metaproperty}}'
+              scope: string.unquoted.key.lua support.other.metaproperty.lua
               pop: true
             - match: '{{identifier}}'
               scope: string.unquoted.key.lua
