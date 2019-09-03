@@ -1298,23 +1298,31 @@ contexts:
     - include: preprocessor-expressions
     - include: expressions-minus-generic-type
 
+  data-structures-modifier-friend:
+    - match: (?=;)
+      pop: true
+    - match: '\{'
+      scope: punctuation.section.block.begin.objc++
+      set:
+        - meta_scope: meta.block.objc++
+        - match: '\}'
+          scope: punctuation.section.block.end.objc++
+          pop: true
+        - include: statements
+    - include: expressions-minus-function-call
+
   data-structures-modifier:
     - match: '\bfriend\b'
       scope: storage.modifier.objc++
       push:
-        - match: (?=;)
-          pop: true
-        - match: '\{'
-          scope: punctuation.section.block.begin.objc++
-          set:
-            - meta_scope: meta.block.objc++
-            - match: '\}'
-              scope: punctuation.section.block.end.objc++
-              pop: true
-            - include: statements
+        - include: comments
         - match: '\b({{before_tag}})\b'
           scope: storage.type.objc++
-        - include: expressions-minus-function-call
+          set: data-structures-modifier-friend
+        - match: '(?=\S)(?=[^;]+;)'
+          set: data-structures-modifier-friend
+        - match: '(?=\S)'
+          pop: true
     - include: comments
     - include: modifiers-parens
     - include: modifiers
