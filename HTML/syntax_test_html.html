@@ -298,6 +298,13 @@ class="foo"></div>
         ##   ^^^^^^^ meta.attribute-with-value.id
         ##      ^^^^ string.unquoted meta.toc-list.id
 
+        <div id=My&#x49;d></div>
+        ##  ^ - meta.attribute-with-value.id
+        ##   ^^ entity.other.attribute-name.id
+        ##   ^^^^^^^^^^^^ meta.attribute-with-value.id
+        ##      ^^^^^^^^^ string.unquoted meta.toc-list.id
+        ##        ^^^^^^ constant.character.entity.hexadecimal
+
         <div id='MyId2'></div>
         ##  ^ - meta.attribute-with-value.id
         ##   ^^^^^^^^^^ meta.attribute-with-value.id
@@ -321,6 +328,13 @@ class="foo"></div>
         ##   ^^^^^ entity.other.attribute-name.class
         ##   ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.class
         ##         ^^^^^^^^^^^^^ string.unquoted meta.class-name
+
+        <div class=element&#xAD;class></div>
+        ##  ^ - meta.attribute-with-value.class
+        ##   ^^^^^ entity.other.attribute-name.class
+        ##   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.class
+        ##         ^^^^^^^^^^^^^^^^^^ string.unquoted meta.class-name
+        ##                ^^^^^^ constant.character.entity.hexadecimal
 
         <div class='element-class'></div>
         ##  ^ - meta.attribute-with-value.class

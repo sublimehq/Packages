@@ -521,6 +521,7 @@ contexts:
           pop: true
         - match: '["''`<]'
           scope: invalid.illegal.attribute-value.html
+        - include: entities
     - include: else-pop
 
   tag-class-attribute:
@@ -566,6 +567,7 @@ contexts:
           pop: true
         - match: '["''`<]'
           scope: invalid.illegal.attribute-value.html
+        - include: entities
     - include: else-pop
 
   tag-id-attribute:
@@ -611,6 +613,7 @@ contexts:
           pop: true
         - match: '["''`<]'
           scope: invalid.illegal.attribute-value.html
+        - include: entities
     - include: else-pop
 
   tag-style-attribute:
