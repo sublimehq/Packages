@@ -2772,6 +2772,8 @@ every function individually.
 Templates
 */
 func template() {
+    t := "\{{ foo }} bar }} {{baz} foo {{baz "
+    //    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.interpolation
     t := "{{.Count}} items are made of {{.Material}}"
     //    ^^^^^^^^^^ meta.interpolation
     //    ^^ punctuation.section.interpolation.begin
