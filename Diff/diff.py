@@ -8,18 +8,24 @@ import sublime_plugin
 
 
 def read_file_lines(fname):
-    with open(fname, mode="rt", encoding="utf-8", newline=None) as f:
-        lines = f.readlines()
+    with open(fname, mode="rt", encoding="utf-8") as f:
+        lines = f.read().split('\n')
+
+    # Need to insert back the newline characters between lines
+    if len(lines) > 0:
+        for i in range(len(lines) - 1):
+            lines[i] += '\n'
 
     # as `difflib` doesn't work properly when the file does not end
     # with a new line character (https://bugs.python.org/issue2142),
     # we add a warning ourselves to fix it
     add_no_eol_warning_if_applicable(lines)
+
     return lines
 
 
 def add_no_eol_warning_if_applicable(lines):
-    if len(lines) > 0 and not lines[-1].endswith('\n'):
+    if len(lines) > 0 and lines[-1]:
         # note we update the last line rather than adding a new one
         # so that the diff will show the warning with the last line
         lines[-1] += '\n\\ No newline at end of file\n'
@@ -74,7 +80,13 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
             sublime.status_message("Diff only works with UTF-8 files")
             return
 
-        b = self.view.substr(sublime.Region(0, self.view.size())).splitlines(True)
+        b = self.view.substr(sublime.Region(0, self.view.size())).split('\n')
+        # Need to insert back the newline characters between lines, difflib
+        # requires this.
+        if len(b) > 0:
+            for i in range(len(b) - 1):
+                b[i] += '\n'
+
         add_no_eol_warning_if_applicable(b)
 
         adate = time.ctime(os.stat(fname).st_mtime)
