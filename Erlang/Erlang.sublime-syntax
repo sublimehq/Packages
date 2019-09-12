@@ -1131,6 +1131,7 @@ contexts:
               pop: true
             - include: expressions
             - include: value-end-pop
+    - include: map-separator
 
   map-of-types:
     # http://erlang.org/doc/reference_manual/data_types.html#map
@@ -1155,6 +1156,11 @@ contexts:
               pop: true
             - include: type-expressions
             - include: value-end-pop
+    - include: map-separator
+
+  map-separator:
+    - match: =>|\:=
+      scope: punctuation.separator.mapping.key-value.erlang
 
   map-common:
     - match: \}
@@ -1335,15 +1341,15 @@ contexts:
 ###[ NAMESPACE ]##############################################################
 
   namespace:
-    - match: (?={{ident}}\s*:[^:])
+    - match: (?={{ident}}\s*:[^:=])
       push: [namespace-member, namespace-accessor, namespace-qualifier]
 
   namespace-pop:
-    - match: (?={{ident}}\s*:[^:])
+    - match: (?={{ident}}\s*:[^:=])
       set: [namespace-member, namespace-accessor, namespace-qualifier]
 
   type-namespace:
-    - match: (?={{ident}}\s*:[^:])
+    - match: (?={{ident}}\s*:[^:=])
       push: [type-namespace-member, namespace-accessor, namespace-qualifier]
 
   namespace-member:

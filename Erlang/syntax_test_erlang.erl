@@ -511,7 +511,7 @@ map_tests() -> .
 %                  ^ punctuation.separator.mapping.pair.erlang
 %                           ^ punctuation.section.mapping.end.erlang
 
-    Expr#{name=>"adam",{age,24}:=fct(),4.0=>{july,29}}
+    Expr#{name=>"adam",{age,24}:=fct(),4.0=>{july,29},kay:=value}
 %      ^ - meta.mapping
 %       ^^ meta.mapping.erlang - meta.mapping.key.erlang - meta.mapping.value.erlang
 %         ^^^^ meta.mapping.key.erlang - meta.mapping.value.erlang - meta.mapping.erlang
@@ -526,7 +526,11 @@ map_tests() -> .
 %                                         ^^ meta.mapping.erlang - meta.mapping.key.erlang - meta.mapping.value.erlang
 %                                           ^^^^^^^^^ meta.mapping.value.erlang - meta.mapping.key.erlang - meta.mapping.erlang meta.sequence.tuple.erlang
 %                                                    ^ meta.mapping.erlang - meta.mapping.key.erlang - meta.mapping.value.erlang
-%                                                     ^ - meta.mapping
+%                                                     ^^^ meta.mapping.key.erlang meta.atom.erlang
+%                                                        ^^ meta.mapping.erlang
+%                                                          ^^^^^ meta.mapping.value.erlang meta.atom.erlang
+%                                                               ^ meta.mapping.erlang - meta.atom
+%                                                                ^ - meta.mapping
 %   ^^^^ variable.other.erlang
 %       ^^ punctuation.section.mapping.begin.erlang
 %         ^^^^ constant.other.symbol.erlang
@@ -550,7 +554,12 @@ map_tests() -> .
 %                                                ^ punctuation.separator.sequence.erlang
 %                                                 ^^ constant.numeric.integer.decimal.erlang
 %                                                   ^ punctuation.section.sequence.end.erlang
-%                                                    ^ punctuation.section.mapping.end.erlang
+%                                                    ^ punctuation.separator.mapping.pair.erlang
+%                                                     ^^^ constant.other.symbol.erlang
+%                                                        ^^ punctuation.separator.mapping.key-value.erlang
+%                                                          ^^^^^ constant.other.symbol.erlang
+%                                                               ^ punctuation.section.mapping.end.erlang
+%                                                    
 
     #{ name => "adam" , { age , 24 } => fct () , 4.0 := { july , 29 } }
 %  ^ - meta.mapping
@@ -1111,6 +1120,16 @@ operator_tests() -> .
 %                   ^ constant.numeric.integer.decimal.erlang
 %                    ^ punctuation.separator.expressions.erlang
 %                      ^ variable.other.erlang
+
+    a := b
+%   ^ meta.atom.erlang constant.other.symbol.erlang
+%     ^^ punctuation.separator.mapping.key-value.erlang
+%        ^ meta.atom.erlang constant.other.symbol.erlang
+
+    a => b
+%   ^ meta.atom.erlang constant.other.symbol.erlang
+%     ^^ punctuation.separator.mapping.key-value.erlang
+%        ^ meta.atom.erlang constant.other.symbol.erlang
 
 % directive-control-flow tests
 
