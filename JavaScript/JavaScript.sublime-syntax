@@ -1069,14 +1069,14 @@ contexts:
     - match: \+|\-
       scope: keyword.operator.arithmetic.js
     - match: (?:delete|typeof|void){{identifier_break}}
-      scope: keyword.operator.js
+      scope: keyword.operator.word.js
 
   binary-operators:
     - match: instanceof{{identifier_break}}
-      scope: keyword.operator.js
+      scope: keyword.operator.word.js
       push: expression-begin
     - match: in{{identifier_break}}
-      scope: keyword.operator.js
+      scope: keyword.operator.word.js
       push: expression-begin
     - match: '&&|\|\|'
       scope: keyword.operator.logical.js

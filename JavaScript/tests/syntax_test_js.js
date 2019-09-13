@@ -708,7 +708,7 @@ for (var i = 0; i < 10; i++) {
 //  ^^^ keyword.control.loop
 //      ^^^^^^^^^^^^^^ meta.group
 //       ^ punctuation.separator.expression
-//           ^^ keyword.operator
+//           ^^ keyword.operator.word
 //                  ^ punctuation.separator.expression
 
     for (a[x in list];;) {}
@@ -716,7 +716,7 @@ for (var i = 0; i < 10; i++) {
 //  ^^^ keyword.control.loop
 //      ^^^^^^^^^^^^^^^^ meta.group
 //        ^^^^^^^^^^^ meta.brackets
-//           ^^ keyword.operator
+//           ^^ keyword.operator.word
 //                   ^ punctuation.separator.expression
 //                    ^ punctuation.separator.expression
 
@@ -1479,6 +1479,7 @@ new $Dollar();
 //  ^ variable.type.dollar punctuation.dollar
 
 void {
+//^^ keyword.operator.word
     'test1': [],
     'test2': new SomeObjectHash["default"],
 //               ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.constructor
@@ -1584,11 +1585,11 @@ a = /\//u + 0;
 
     x
     in y;
-//  ^^ keyword.operator
+//  ^^ keyword.operator.word
 
     x
     instanceof y;
-//  ^^^^^^^^^^ keyword.operator
+//  ^^^^^^^^^^ keyword.operator.word
 
 var π = 3.141592653
 //  ^ variable.other.readwrite
