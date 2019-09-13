@@ -144,7 +144,7 @@ contexts:
       push: after-operator
 
     - match: \b(as|in|box)\b
-      scope: keyword.operator.rust
+      scope: keyword.operator.word.rust
 
     - match: \b(virtual|proc|alignof|become|offsetof|priv|pure|sizeof|typeof|unsized|yield|do|abstract|final|override|macro)\b
       scope: invalid.illegal.rust
@@ -517,7 +517,7 @@ contexts:
     - match: '\+'
       scope: keyword.operator.rust
     - match: '\bas\b'
-      scope: keyword.operator.rust
+      scope: keyword.operator.word.rust
 
   constant-integer-expression:
     - include: integers

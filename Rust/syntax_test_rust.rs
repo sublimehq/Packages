@@ -472,7 +472,7 @@ while n < 50 {
 
 for i in 1..10 {
 // <- keyword.control
-//    ^^ keyword.operator
+//    ^^ keyword.operator.word
 //       ^ constant.numeric.integer.decimal
 //        ^^ keyword.operator.range
 //          ^^ constant.numeric.integer.decimal
@@ -881,7 +881,7 @@ macro_rules! forward_ref_binop [
 //                                           ^ meta.macro meta.group meta.block meta.impl meta.block punctuation.section.block.begin
             type Output = <$t as $imp<$u>>::Output;
 //                        ^^^^^^^^^^^^^^^^ meta.generic
-//                            ^^ keyword.operator
+//                            ^^ keyword.operator.word
 //                                        ^^ meta.path punctuation.accessor
 
             #[inline]
@@ -898,7 +898,7 @@ macro_rules! forward_ref_binop [
 //                                      ^^ variable.other
 //                                          ^^ punctuation.separator
 //                                             ^^^^^^^^^^^^^^^^ meta.generic
-//                                                 ^^ keyword.operator
+//                                                 ^^ keyword.operator.word
 //                                                             ^^ meta.path punctuation.accessor
 //                                                                      ^ meta.macro meta.group meta.block meta.impl meta.block meta.block punctuation.section.block.begin
                 #![cfg(all(unix, target_pointer_width = "32"))]
