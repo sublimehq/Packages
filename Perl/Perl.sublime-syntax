@@ -9,9 +9,9 @@ file_extensions:
   - t
   - PL
 first_line_match: |-
-  (?x:
+  (?xi:
     ^\#! .* \bperl\b |                     # shebang
-    ^\# \s* -\*- [^*]* [Pp]erl [^*]* -\*-  # editorconfig
+    ^\# \s* -\*- [^*]* perl [^*]* -\*-     # editorconfig
   )
 scope: source.perl
 
