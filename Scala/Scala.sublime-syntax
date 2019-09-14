@@ -569,6 +569,11 @@ contexts:
   class-type-parameter-list:
     - match: '\b(private|protected)\b'
       scope: storage.modifier.access.scala
+    - match: (?=@{{plainid}})
+      set:
+        - include: annotation
+        - match: '(?=\S)'
+          set: class-type-parameter-list
     - match: '(?=\()'
       set: class-parameter-list
     - match: '\['
