@@ -16,6 +16,7 @@ file_extensions:
   - sublime-color-scheme
   - ipynb
   - Pipfile.lock
+  - tfstate
 scope: source.json
 contexts:
   prototype:
