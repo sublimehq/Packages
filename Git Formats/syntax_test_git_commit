@@ -183,6 +183,10 @@ This commit applies all changes required to satisfy the JSON format unittest.
 #    ^^^^^^^^ keyword.other.change-list.git.commit
 #            ^ punctuation.separator.mapping.pair.change-list.git.commit
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.changed.file.content.git.commit
+#    renamed:    gitconfig/old_name -> gitconfig/new_name
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
+#                                   ^^ punctuation.separator.mapping.pair.path.git.commit
 #    deleted:    gitconfig/Symbol List.tmPreferences
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
@@ -205,6 +209,10 @@ This commit applies all changes required to satisfy the JSON format unittest.
 #    ^^^^^^^^ keyword.other.change-list.git.commit
 #            ^ punctuation.separator.mapping.pair.change-list.git.commit
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.changed.file.content.git.commit
+#    renommé:    gitconfig/old_name -> gitconfig/new_name
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
+#                                   ^^ punctuation.separator.mapping.pair.path.git.commit
 #    gelöscht:   gitconfig/Symbol List.tmPreferences
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
@@ -227,6 +235,10 @@ This commit applies all changes required to satisfy the JSON format unittest.
 #    ^^ keyword.other.change-list.git.commit
 #      ^ punctuation.separator.mapping.pair.change-list.git.commit
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.changed.file.content.git.commit
+#    重命名:    gitconfig/old_name -> gitconfig/new_name
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
+#                               ^^ punctuation.separator.mapping.pair.path.git.commit
 #    删除:         gitconfig/Symbol List.tmPreferences
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
