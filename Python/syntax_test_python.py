@@ -518,6 +518,9 @@ def _():
         await something()
 #       ^^^^^ keyword.other.await
 
+    assert foo == bar
+#   ^^^^^^ keyword.control.flow.assert.python
+
     try:
 #   ^^^^ meta.statement.exception.try.python
 #   ^^^ keyword.control.exception.try.python

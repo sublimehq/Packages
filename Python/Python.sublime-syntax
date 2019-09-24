@@ -97,7 +97,7 @@ contexts:
             - include: expressions
         - include: expressions
     - match: \b(assert)\b
-      scope: keyword.other.assert.python
+      scope: keyword.control.flow.assert.python
     - match: \b(del)\b
       scope: keyword.other.del.python
     - match: \b(print)\b(?! *([,.()\]}]))
