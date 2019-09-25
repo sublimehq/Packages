@@ -52,10 +52,24 @@ contexts:
     - include: module
     - include: class
     - include: annotations
-    # Get modifiers defined on a different line than the class
-    - include: storage-modifiers
     - include: stray-braces
     - include: code
+
+  code:
+    - include: code-block
+    - include: constants-and-special-vars
+    - include: assignment
+    - include: lambdas
+    - include: strings
+    - include: anonymous-classes-and-new
+    - include: keywords-control
+    - include: method-invocations
+    - include: uppercase-identifiers
+    - include: storage-modifiers
+    - include: primitive-types
+    - include: object-types
+    - include: keywords
+    - include: parens
 
   punctuation-accessor-dot:
     - match: \.
@@ -152,10 +166,6 @@ contexts:
     - match: '{{lowercase_id}}'
       scope: support.type.package.java
     - include: punctuation-accessor-dot
-
-  all-types:
-    - include: primitive-types
-    - include: object-types
 
   import-constant:
     - match: '{{uppercase_id}}'
@@ -402,7 +412,8 @@ contexts:
     - include: fields-and-methods
     - include: constants-and-special-vars
     - include: storage-modifiers
-    - include: all-types
+    - include: primitive-types
+    - include: object-types
     - include: static-code-block
     - include: punctuation-separator-comma
     - include: punctuation-terminator-semicolon
@@ -442,40 +453,50 @@ contexts:
         - include: punctuation-separator-comma
     - include: class-body
 
-  code:
-    - include: constants-and-special-vars
-    - include: assignment
-    - include: lambdas
-    - include: strings
-    - include: anonymous-classes-and-new
-    - include: keywords-control
-    - include: method-invocations
-    - include: uppercase-identifiers
-    - include: all-types
-    - include: keywords
-    - include: code-block-include
-    - include: parens
-  code-block-include:
+###[ CODE BLOCKS ]############################################################
+
+  block-begin:
     - match: \{
       scope: punctuation.section.block.begin.java
-      push:
-        - meta_scope: meta.block.java
-        - match: \}
-          scope: punctuation.section.block.end.java
-          pop: true
-        - include: code-block
+      pop: true
+
+  block-end:
+    - match: \}
+      scope: punctuation.section.block.end.java
+      pop: true
+
+  static-code-block:
+    - match: (?=\{)
+      push: [static-code-block-common, block-begin]
+
+  static-code-block-common:
+    - meta_scope: meta.static.body.java meta.block.java
+    - include: block-end
+    - include: code-block-body
+
   code-block:
-    - include: storage-modifiers
+    - match: (?=\{)
+      push: [code-block-common, block-begin]
+
+  code-block-common:
+    - meta_scope: meta.block.java
+    - include: block-end
+    - include: code-block-body
+
+  code-block-body:
     - include: var-type
-    - include: code
     - include: annotations
-    - include: code-block-include
+    - include: code
     - include: stray-parens
+
+###[ COMMENTS ]###############################################################
+
   comments:
     - match: /\*\*/
       scope: comment.block.empty.java punctuation.definition.comment.java
     - include: scope:text.html.javadoc
     - include: comments-inline
+
   comments-inline:
     - match: /\*
       scope: punctuation.definition.comment.java
@@ -780,7 +801,7 @@ contexts:
         - match: \}
           scope: punctuation.section.block.end.java
           pop: true
-        - include: code-block
+        - include: code-block-body
     - include: any_POP
 
   throws:
@@ -1048,7 +1069,7 @@ contexts:
           scope: punctuation.section.parens.end.java
           pop: true
         - include: illegal-open-block
-        - include: code-block
+        - include: code-block-body
     - include: any_POP
 
   primitive-types:
@@ -1085,21 +1106,15 @@ contexts:
         - match: (?=;|\)|\}|,)
           pop: true
         - include: code
-  static-code-block:
-    - match: \{
-      scope: punctuation.section.block.begin.java
-      push:
-        - meta_scope: meta.static.body.java
-        - match: \}
-          scope: punctuation.section.block.end.java
-          pop: true
-        - include: code-block
+
   storage-modifiers:
     - match: \b{{storage_modifiers}}\b
       scope: storage.modifier.java
+
   stray-braces:
     - match: \}
       scope: invalid.illegal.stray-brace-end
+
   stray-parens:
     - match: \)
       scope: invalid.illegal.stray-parens-end
