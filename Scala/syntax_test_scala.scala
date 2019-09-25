@@ -1347,6 +1347,12 @@ class Foo @Inject(z = "a")(a: String)
 //                ^^^^^^^ meta.annotation.parameters
 //                         ^ variable.parameter.scala
 
+class Foo[A] @Inject()(a: String)
+//        ^ support.class
+//            ^^^^^^ meta.annotation.identifier
+//                    ^- meta.annotation
+//                     ^ variable.parameter.scala
+
 // annotation examples from: http://www.scala-lang.org/files/archive/spec/2.11/11-annotations.html
 @deprecated("Use D", "1.0") class C { ... }
 // <- meta.annotation
