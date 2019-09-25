@@ -74,9 +74,8 @@ contexts:
           - include: immediate_POP
         - - match: '{{id}}'
             set:
-              - - meta_scope: entity.name.namespace.java
-                - include: immediate_POP
-              - dot-separated-identifier
+              - meta_scope: meta.path.java entity.name.namespace.java
+              - include: dot-separated-identifier
           - include: any_POP
 
   import-statement:
