@@ -182,21 +182,31 @@ contexts:
           set: annotation-parameters
     - match: '(@)({{alphaplainid}})'
       captures:
-        1: meta.annotation.scala punctuation.definition.annotation.scala
-        2: meta.annotation.identifier.scala variable.annotation.scala
+       1: meta.annotation.scala punctuation.definition.annotation.scala
+       2: meta.annotation.identifier.scala variable.annotation.scala
       push: annotation-parameters
 
   annotation-parameters:
     - meta_content_scope: meta.annotation.parameters.scala
+    - match: (?=\(\))
+      push:
+      - match: \(
+        scope: punctuation.section.arguments.annotation.begin.scala
+      - match: (?=\))
+        scope: punctuation.section.arguments.annotation.end.scala
+        pop: true
     - match: \(
       scope: punctuation.section.arguments.annotation.begin.scala
       push:
-        - match: ','
-          scope: punctuation.separator.arguments.annotation.scala
-        - match: \)
+        - match: (?=\))
           scope: punctuation.section.arguments.annotation.end.scala
           pop: true
+        - match: ','
+          scope: punctuation.separator.arguments.annotation.scala
         - include: main
+    - match: \)
+      scope: punctuation.section.arguments.annotation.end.scala
+      pop: true
     - match: \[
       scope: punctuation.section.arguments.annotation.begin.scala
       push:
