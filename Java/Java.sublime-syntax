@@ -1004,31 +1004,33 @@ contexts:
   stray-parens:
     - match: \)
       scope: invalid.illegal.stray-parens-end
+
   strings:
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.java
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.double.java
-        - match: (")|(\n)
-          captures:
-            1: punctuation.definition.string.end.java
-            2: invalid.illegal.newline.java
+        - match: \"
+          scope: punctuation.definition.string.end.java
           pop: true
-        - match: \\.
-          scope: constant.character.escape.java
-    - match: "'"
+        - include: strings-common
+    - match: \'
       scope: punctuation.definition.string.begin.java
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.single.java
-        - match: (')|(\n)
-          captures:
-            1: punctuation.definition.string.end.java
-            2: invalid.illegal.newline.java
+        - match: \'
+          scope: punctuation.definition.string.end.java
           pop: true
-        - match: \\.
-          scope: constant.character.escape.java
+        - include: strings-common
+
+  strings-common:
+    - match: \n
+      scope: invalid.illegal.newline.java
+      pop: true
+    - match: \\.
+      scope: constant.character.escape.java
 
   module:
     - match: (?=\b(?:open\s+)?module\b)
