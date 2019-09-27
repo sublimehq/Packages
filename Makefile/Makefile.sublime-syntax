@@ -136,7 +136,7 @@ contexts:
     - match: "'"
       scope: punctuation.definition.string.begin.makefile
       push:
-        - meta_scope: string.quoted.single.makefile
+        - meta_scope: meta.string.makefile string.quoted.single.makefile
         - match: "'"
           scope: punctuation.definition.string.end.makefile
           pop: true
@@ -146,7 +146,7 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.makefile
       push:
-        - meta_scope: string.quoted.double.makefile
+        - meta_scope: meta.string.makefile string.quoted.double.makefile
         - match: '"'
           scope: punctuation.definition.string.end.makefile
           pop: true
@@ -174,7 +174,7 @@ contexts:
         - include: highlight-wildcard-sign
         - match: \s
           set:
-            - meta_content_scope: string.unquoted.makefile
+            - meta_content_scope: meta.string.makefile string.unquoted.makefile
             - include: pop-on-line-end
         - include: pop-on-line-end
     - match: ^\s*(vpath)$
@@ -183,7 +183,7 @@ contexts:
       captures:
         1: keyword.control.import.makefile
       push:
-        - meta_content_scope: string.unquoted.makefile
+        - meta_content_scope: meta.string.makefile string.unquoted.makefile
         - include: continuation-or-pop-on-line-end
         - include: variable-substitutions
         - include: comments
@@ -353,7 +353,7 @@ contexts:
     - match: "'"
       scope: punctuation.definition.string.begin.makefile
       push:
-        - meta_scope: string.quoted.single.makefile
+        - meta_scope: meta.string.makefile string.quoted.single.makefile
         - match: "'"
           scope: punctuation.definition.string.end.makefile
           pop: true
@@ -363,7 +363,7 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.makefile
       push:
-        - meta_scope: string.quoted.double.makefile
+        - meta_scope: meta.string.makefile string.quoted.double.makefile
         - match: '"'
           scope: punctuation.definition.string.end.makefile
           pop: true
@@ -617,7 +617,7 @@ contexts:
           captures:
             1: keyword.operator.assignment.makefile
           set:
-            - meta_content_scope: string.unquoted.makefile
+            - meta_content_scope: meta.string.makefile string.unquoted.makefile
             - match: ^\s*(endef)
               captures:
                 1: keyword.control.makefile
@@ -626,7 +626,7 @@ contexts:
     # string.unquoted scope on the next line.
     - match: $\n
       set:
-        - meta_content_scope: string.unquoted.makefile
+        - meta_content_scope: meta.string.makefile string.unquoted.makefile
         - match: ^\s*(endef)
           captures:
             1: keyword.control.makefile
