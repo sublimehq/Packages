@@ -159,9 +159,131 @@ ECHO "
 ::                         ^^^^ keyword.command.dosbatch
 ::                                 ^ punctuation.section.group.end.dosbatch
 
+
+:: Loops
+
    FOR %%G IN (0,9) DO (md %%G)
 :: ^^^ keyword.control.loop.for.dosbatch
+::     ^^ punctuation.definition.variable.dosbatch
+::     ^^^ variable.other.readwrite.dosbatch
+::         ^^ keyword.operator.logical.dosbatch
+::            ^ punctuation.section.set.begin.dosbatch
 ::             ^ constant.numeric.integer.decimal.dosbatch
+::              ^ punctuation.separator.comma.dosbatch
+::               ^ constant.numeric.integer.decimal.dosbatch
+::                ^ punctuation.section.set.end.dosbatch
+::                  ^^ keyword.control.loop.do.dosbatch
+
+   FOR /D /r %%foo IN (folder1, ..\folder2, C:\folder) DO command
+:: ^^^ keyword.control.loop.for.dosbatch
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^ variable.parameter.dir.dosbatch
+::        ^ punctuation.definition.variable.dosbatch
+::        ^^ variable.parameter.recursive.dosbatch
+::           ^^ punctuation.definition.variable.dosbatch
+::           ^^^^^ variable.other.readwrite.dosbatch
+::                 ^^ keyword.operator.logical.dosbatch
+::                    ^ punctuation.section.set.begin.dosbatch
+::                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.set.dosbatch
+::                            ^ punctuation.separator.comma.dosbatch
+::                              ^^ constant.language.path.parent.dosbatch
+::                                        ^ punctuation.separator.comma.dosbatch
+::                                                   ^ punctuation.section.set.end.dosbatch
+::                                                     ^^ keyword.control.loop.do.dosbatch
+
+   for /F "tokens=*" %%f in ('dir /S /b C:\*\temp.dat') do (echo "%%f".)
+:: ^^^ keyword.control.loop.for.dosbatch
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^ variable.parameter.files.dosbatch
+::        ^ punctuation.definition.string.begin.dosbatch
+::        ^^^^^^^^^^ meta.string.dosbatch string.quoted.double.dosbatch
+::         ^^^^^^ constant.language.dosbatch
+::               ^ punctuation.separator.mapping.key-value.dosbatch
+::                 ^ punctuation.definition.string.end.dosbatch
+::                   ^^ punctuation.definition.variable.dosbatch
+::                   ^^^ variable.other.readwrite.dosbatch
+::                       ^^ keyword.operator.logical.dosbatch
+::                          ^ punctuation.section.set.begin.dosbatch
+::                          ^ meta.set.dosbatch punctuation.section.set.begin.dosbatch - meta.embedded
+::                           ^ punctuation.section.embedded.begin.dosbatch
+::                           ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.set.dosbatch meta.embedded.dosbatch
+::                            ^^^ keyword.command.dosbatch
+::                                                   ^ punctuation.section.embedded.end.dosbatch
+::                                                    ^ meta.set.dosbatch punctuation.section.set.end.dosbatch - meta.embedded
+
+   for /f %%f in ('dir /S /b C:\fol'der
+      ') do echo %%f
+::    ^ meta.set.dosbatch meta.embedded.dosbatch - source.dosbatch.embedded
+::     ^ meta.set.dosbatch punctuation.section.set.end.dosbatch
+::       ^^ keyword.control.loop.do.dosbatch
+
+   for /L %i in (1,1,100) do echo %i
+:: ^^^ keyword.control.loop.for.dosbatch
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^ variable.parameter.range.dosbatch
+::        ^ punctuation.definition.variable.dosbatch
+::        ^^ variable.other.readwrite.dosbatch
+::           ^^ keyword.operator.logical.dosbatch
+::              ^ punctuation.section.set.begin.dosbatch
+::              ^^^^^^^^^ meta.set.dosbatch
+::               ^ constant.numeric.integer.decimal.dosbatch
+::                ^ punctuation.separator.comma.dosbatch
+::                 ^ constant.numeric.integer.decimal.dosbatch
+::                  ^ punctuation.separator.comma.dosbatch
+::                   ^^^ constant.numeric.integer.decimal.dosbatch
+::                      ^ punctuation.section.set.end.dosbatch
+::                        ^^ keyword.control.loop.do.dosbatch
+::                           ^^^^ keyword.command.dosbatch
+
+   FOR /R C:\dir\file-name.ext %%foo IN (file1.*, another?.log) DO command
+:: ^^^ keyword.control.loop.for.dosbatch
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^ variable.parameter.recursive.dosbatch
+::        ^^^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
+::                             ^^ punctuation.definition.variable.dosbatch
+::                             ^^^^^ variable.other.readwrite.dosbatch
+::                                   ^^ keyword.operator.logical.dosbatch
+
+   FOR /R C:\dir name\file name.ext %%foo IN (.) DO command
+:: ^^^ keyword.control.loop.for.dosbatch
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^ variable.parameter.recursive.dosbatch
+::        ^^^^^^ string.unquoted.dosbatch
+::               ^^^^^^^^^ invalid.illegal.parameter.dosbatch
+::                         ^^^^^^^^ invalid.illegal.parameter.dosbatch
+::                                  ^^ punctuation.definition.variable.dosbatch
+::                                  ^^^^^ variable.other.readwrite.dosbatch
+::                                        ^^ keyword.operator.logical.dosbatch
+
+   FOR /R 'C:\dir name\file name.ext' %%foo IN (*.ext) DO command
+:: ^^^ keyword.control.loop.for.dosbatch
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^ variable.parameter.recursive.dosbatch
+::        ^^^^^^^ string.unquoted.dosbatch
+::                ^^^^^^^^^ invalid.illegal.parameter.dosbatch
+::                          ^^^^^^^^^ invalid.illegal.parameter.dosbatch
+::                                    ^^ punctuation.definition.variable.dosbatch
+::                                    ^^^^^ variable.other.readwrite.dosbatch
+::                                          ^^ keyword.operator.logical.dosbatch
+
+   FOR /R "C:\dir name\file-name.ext" %%foo IN (set) DO command
+:: ^^^ keyword.control.loop.for.dosbatch
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^ variable.parameter.recursive.dosbatch
+::        ^ punctuation.definition.string.begin.dosbatch
+::        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.dosbatch
+::                                  ^ punctuation.definition.string.end.dosbatch
+::                                    ^^ punctuation.definition.variable.dosbatch
+::                                    ^^^^^ variable.other.readwrite.dosbatch
+::                                          ^^ keyword.operator.logical.dosbatch
+
+   FOR /Z %%foo IN (set) DO command
+::     ^^ invalid.illegal.parameter.dosbatch
+::        ^^^^^ variable.other.readwrite.dosbatch
+::              ^^ keyword.operator.logical.dosbatch
+
+
+:: Commands
 
    FIND "a" |
 ::          ^ keyword.operator.pipe.dosbatch

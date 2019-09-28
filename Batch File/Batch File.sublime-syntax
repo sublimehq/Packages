@@ -82,6 +82,15 @@ contexts:
 
 ###[ BLOCKS ]#################################################################
 
+  embedded:
+    - match: (['`])
+      scope: meta.embedded.dosbatch punctuation.section.embedded.begin.dosbatch
+      embed: expressions
+      embed_scope: meta.embedded.dosbatch source.dosbatch.embedded
+      escape: \1(?=\s*($|['`&|><)]))
+      escape_captures:
+        0: meta.embedded.dosbatch punctuation.section.embedded.end.dosbatch
+
   groups:
     - match: \(
       scope: punctuation.section.group.begin.dosbatch
@@ -113,8 +122,7 @@ contexts:
     - match: \b(?i:else)\b
       scope: keyword.control.conditional.else.dosbatch
     # loop
-    - match: \b(?i:for)\b
-      scope: keyword.control.loop.for.dosbatch
+    - include: control-for
 
   stmt-call-body:
     - match: (:)\w+\b
@@ -152,6 +160,104 @@ contexts:
       scope: keyword.other.dosbatch
       pop: true
     - include: operator-not
+    - include: else-pop
+
+###[ CONTROL FOR ]############################################################
+
+  control-for:
+    # https://ss64.com/nt/for.html
+    - match: \b(?i:for)\b
+      scope: keyword.control.loop.for.dosbatch
+      push:
+        - control-for-do
+        - control-for-set
+        - control-for-in
+        - control-for-parameter
+        - control-for-switches
+
+  control-for-switches:
+    # https://ss64.com/nt/for_d.html
+    - match: (?i:(/)d)\b
+      scope: variable.parameter.dir.dosbatch
+      captures:
+        1: punctuation.definition.variable.dosbatch
+    # https://ss64.com/nt/for_l.html
+    - match: (?i:(/)l)\b
+      scope: variable.parameter.range.dosbatch
+      captures:
+        1: punctuation.definition.variable.dosbatch
+    # https://ss64.com/nt/for_f.html
+    - match: (?i:(/)f)\b
+      scope: variable.parameter.files.dosbatch
+      push: control-for-switches-f-body
+      captures:
+        1: punctuation.definition.variable.dosbatch
+    # https://ss64.com/nt/for_r.html
+    - match: (?i:(/)r)\b
+      scope: variable.parameter.recursive.dosbatch
+      captures:
+        1: punctuation.definition.variable.dosbatch
+      push: path-patterns
+    - match: (?i:/\S+)\b
+      scope: invalid.illegal.parameter.dosbatch
+      pop: true
+    - include: else-pop
+
+  control-for-switches-f-body:
+    - match: \"
+      scope: punctuation.definition.string.begin.dosbatch
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
+        - include: strings-common
+        - match: =
+          scope: punctuation.separator.mapping.key-value.dosbatch
+        - match: \b(delims|eol|skip|tokens)\b
+          scope: constant.language.dosbatch
+        - match: \busebackq\b
+          scope: constant.language.dosbatch
+    - include: else-pop
+
+  control-for-parameter:
+    - match: (?=(?i:in|do)\b|\()
+      pop: true
+    - match: (%%?)\w+\b
+      scope: variable.other.readwrite.dosbatch
+      captures:
+        1: punctuation.definition.variable.dosbatch
+      pop: true
+    - match: \S
+      scope: invalid.illegal.parameter.dosbatch
+    - include: eol-pop
+
+  control-for-in:
+    - match: \b(?i:in)\b
+      scope: keyword.operator.logical.dosbatch
+      pop: true
+    - include: else-pop
+
+  control-for-set:
+    - match: \(
+      scope: punctuation.section.set.begin.dosbatch
+      set:
+        - - meta_scope: meta.set.dosbatch
+          - include: immediatelly-pop
+        - - match: \)
+            scope: punctuation.section.set.end.dosbatch
+            pop: true
+          - include: separator-comma
+          - include: constants
+          - include: numbers
+          - include: embedded
+          - include: variables
+          - match: (?=\S)
+            push: path-patterns
+    - include: else-pop
+
+  control-for-do:
+    - match: \b(?i:do)\b
+      scope: keyword.control.loop.do.dosbatch
+      pop: true
     - include: else-pop
 
 ###[ COMMANDS ]###############################################################
