@@ -44,10 +44,10 @@ ECHO &:: A comment
 ::    ^^ punctuation.definition.comment.dosbatch
 ::    ^^^^^^^^^^^^ comment.line.colon.dosbatch
 
-   ECHO "foo"
-::      ^       punctuation.definition.string.begin.dosbatch
-::      ^^^^^   string.quoted.double.dosbatch
-::          ^   punctuation.definition.string.end.dosbatch
+ECHO "foo"
+::   ^ punctuation.definition.string.begin.dosbatch
+::   ^^^^^ string.quoted.double.dosbatch
+::       ^ punctuation.definition.string.end.dosbatch
 
 ECHO "
 ::    ^ invalid.illegal.newline.dosbatch
@@ -491,8 +491,9 @@ set test="c:\program files (x86)\%example%_%%test"abc
 ::  ^^^^ variable.other.readwrite.dosbatch
 ::      ^ keyword.operator.assignment.dosbatch
 ::       ^ punctuation.definition.string.begin.dosbatch
-::       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.dosbatch
-::                               ^^^^^^^^^ variable.other.readwrite.dosbatch
+::       ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.quoted.double.dosbatch - meta.interpolation
+::                               ^^^^^^^^^ meta.string.dosbatch meta.interpolation.dosbatch variable.other.readwrite.dosbatch - string
+::                                        ^^^^^^^^ meta.string.dosbatch string.quoted.double.dosbatch - meta.interpolation
 ::                                         ^^ constant.character.escape.dosbatch
 ::                                               ^ punctuation.definition.string.end.dosbatch
 ::                                                ^^^ string.unquoted.dosbatch

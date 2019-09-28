@@ -147,7 +147,7 @@ contexts:
           2: variable.other.readwrite.dosbatch
           3: keyword.operator.assignment.dosbatch
         push:
-          - meta_scope: string.quoted.double.dosbatch
+          - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
           - match: '"(?=\s*(?:{{command_terminators}}))'
             scope: punctuation.definition.string.end.dosbatch
             pop: true
@@ -160,20 +160,16 @@ contexts:
           1: variable.other.readwrite.dosbatch
           2: keyword.operator.assignment.dosbatch
         push:
-          - meta_content_scope: string.unquoted.dosbatch
+          - meta_content_scope: meta.string.dosbatch string.unquoted.dosbatch
           - match: '{{command_terminators}}'
             pop: true
           - include: variables
-          - match: '"'
+          - match: \"
             scope: punctuation.definition.string.begin.dosbatch
             push:
-              - meta_scope: string.quoted.double.dosbatch
+              - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
               - clear_scopes: 1
-              - match: '"'
-                scope: punctuation.definition.string.end.dosbatch
-                pop: true
-              - include: escaped-characters
-              - include: variables
+              - include: strings-common
       - include: numbers
       - include: groups
       - match: \b([^ ][^=\n]*)$
@@ -204,7 +200,7 @@ contexts:
                     scope: comment.line.ignored.dosbatch
               - match: ''
                 push:
-                  - meta_content_scope: string.unquoted.dosbatch
+                  - meta_content_scope: meta.string.dosbatch string.unquoted.dosbatch
                   - match: '{{command_terminators}}'
                     pop: true
                   - include: variables
@@ -216,7 +212,7 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.dosbatch
       push: command-set-group-unquoted
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.dosbatch
       push: set-arithmetic-quoted
     - include: inside-command-set-arithmetic
@@ -226,7 +222,7 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.dosbatch
       pop: true
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.dosbatch
       set: command-set-group-newly-quoted
     - include: set-arithmetic-unquoted
@@ -255,8 +251,8 @@ contexts:
     - include: set-arithmetic-operator-common
 
   set-arithmetic-quoted:
-    - meta_scope: string.quoted.double.dosbatch
-    - match: '"'
+    - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
+    - match: \"
       scope: punctuation.definition.string.end.dosbatch
       pop: true
     - match: \(
@@ -274,7 +270,7 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.dosbatch
       pop: true
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.end.dosbatch
       set:
         - match: ''
@@ -282,7 +278,7 @@ contexts:
     - include: set-arithmetic-quoted
 
   command-set-group-newly-quoted:
-    - meta_scope: string.quoted.double.dosbatch meta.group.dosbatch
+    - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch meta.group.dosbatch
     - match: \(
       scope: punctuation.section.group.begin.dosbatch
       push: command-set-group-already-quoted
@@ -344,23 +340,33 @@ contexts:
 ###[ STRINGS ]################################################################
 
   strings:
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.dosbatch
       push:
-        - meta_scope: string.quoted.double.dosbatch
-        - match: (")|(\n)
-          captures:
-            1: punctuation.definition.string.end.dosbatch
-            2: invalid.illegal.newline.dosbatch
-          pop: true
-        - include: escaped-characters
-        - include: variables
+        - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
+        - include: strings-common
+
+  strings-common:
+    - match: \"
+      scope: punctuation.definition.string.end.dosbatch
+      pop: true
+    - include: illegal-eol-pop
+    - include: escaped-characters
+    - include: variables-interpolation
 
   escaped-characters:
   - match: '%%|\^\^!|\^.|\^\n'
     scope: constant.character.escape.dosbatch
 
 ###[ VARIABLES ]##############################################################
+
+  variables-interpolation:
+    - match: (?=%)
+      push:
+        - clear_scopes: 1
+        - meta_scope: meta.interpolation.dosbatch
+        - include: variables
+        - include: immediatelly-pop
 
   variables:
     # global parameters
@@ -409,7 +415,7 @@ contexts:
                   pop: true
                 - include: variable-delayed-expansion
                 - match: '[^%]+'
-                  scope: string.unquoted.dosbatch
+                  scope: meta.string.dosbatch string.unquoted.dosbatch
 
   variable-delayed-expansion:
     # variable with delayed expansion
@@ -445,11 +451,11 @@ contexts:
                   pop: true
                 - include: variable
                 - match: '[^!]+'
-                  scope: string.unquoted.dosbatch
+                  scope: meta.string.dosbatch string.unquoted.dosbatch
 
   variable-substitution-replacee:
     - match: '[^=]+'
-      scope: string.unquoted.dosbatch
+      scope: meta.string.dosbatch string.unquoted.dosbatch
 
   inside-variable-substring:
     - match: '[+-]?\d+'
