@@ -20,7 +20,7 @@ contexts:
     - include: comments
     - include: labels
     - include: strings
-    - include: parens
+    - include: groups
     - include: numbers
     - include: constants
     - include: operators
@@ -56,6 +56,18 @@ contexts:
           pop: true
         - match: '[(|)]'
           scope: invalid.illegal.unexpected-character.dosbatch
+
+  groups:
+    - match: \(
+      scope: punctuation.section.group.begin.dosbatch
+      push:
+        - meta_scope: meta.group.dosbatch
+        - match: \)
+          scope: punctuation.section.group.end.dosbatch
+          pop: true
+        - match: ',|;'
+          scope: punctuation.separator.dosbatch
+        - include: expressions
 
   control:
     - match: \b(?i)exit\b
@@ -113,7 +125,7 @@ contexts:
           - include: escaped-characters
           - include: variables
           - include: numbers
-          - include: parens
+          - include: groups
       - match: ([^ ][^=]*)(=)
         captures:
           1: variable.other.readwrite.dosbatch
@@ -134,7 +146,7 @@ contexts:
               - include: escaped-characters
               - include: variables
       - include: numbers
-      - include: parens
+      - include: groups
       - match: \b([^ ][^=\n]*)$
         scope: variable.other.readwrite.dosbatch
       - include: strings
@@ -409,18 +421,6 @@ contexts:
           pop: true
         - include: escaped-characters
         - include: variables
-
-  parens:
-    - match: \(
-      scope: punctuation.section.group.begin.dosbatch
-      push:
-        - meta_scope: meta.group.dosbatch
-        - match: \)
-          scope: punctuation.section.group.end.dosbatch
-          pop: true
-        - match: ',|;'
-          scope: punctuation.separator.dosbatch
-        - include: expressions
 
   escaped-characters:
   - match: '%%|\^\^!|\^.|\^\n'
