@@ -29,6 +29,34 @@ contexts:
     - include: commands
     - include: control
 
+  comments:
+    - match: '(?:^|(&))\s*(?=({{colon_comment_start}}))'
+      captures:
+        1: keyword.operator.conditional.dosbatch
+      push:
+        - match: '\n'
+          scope: comment.line.rem.dosbatch
+          pop: true
+        - match: '({{colon_comment_start}})'
+          scope: punctuation.definition.comment.dosbatch
+          push:
+            - meta_scope: comment.line.colon.dosbatch
+            - match: '(?=\n)'
+              pop: true
+    # REM command
+    # https://technet.microsoft.com/en-us/library/bb490986.aspx
+    - match: \b(?i)rem\b
+      scope: keyword.command.rem.dosbatch
+      push:
+        # meta_content_scope is used since rem should not be
+        # highlighted as a comment, but a command
+        - meta_content_scope: comment.line.rem.dosbatch
+        - match: \n
+          scope: comment.line.rem.dosbatch
+          pop: true
+        - match: '[(|)]'
+          scope: invalid.illegal.unexpected-character.dosbatch
+
   control:
     - match: \b(?i)exit\b
       scope: keyword.control.statement.dosbatch
@@ -368,34 +396,6 @@ contexts:
       captures:
         1: punctuation.separator.dosbatch
         2: entity.name.label.dosbatch
-
-  comments:
-    - match: '(?:^|(&))\s*(?=({{colon_comment_start}}))'
-      captures:
-        1: keyword.operator.conditional.dosbatch
-      push:
-        - match: '\n'
-          scope: comment.line.rem.dosbatch
-          pop: true
-        - match: '({{colon_comment_start}})'
-          scope: punctuation.definition.comment.dosbatch
-          push:
-            - meta_scope: comment.line.colon.dosbatch
-            - match: '(?=\n)'
-              pop: true
-    # REM command
-    # https://technet.microsoft.com/en-us/library/bb490986.aspx
-    - match: \b(?i)rem\b
-      scope: keyword.command.rem.dosbatch
-      push:
-        # meta_content_scope is used since rem should not be
-        # highlighted as a comment, but a command
-        - meta_content_scope: comment.line.rem.dosbatch
-        - match: \n
-          scope: comment.line.rem.dosbatch
-          pop: true
-        - match: '[(|)]'
-          scope: invalid.illegal.unexpected-character.dosbatch
 
   strings:
     - match: '"'
