@@ -29,6 +29,8 @@ contexts:
     - include: commands
     - include: control
 
+###[ COMMENTS ]###############################################################
+
   comments:
     - match: '(?:^|(&))\s*(?=({{colon_comment_start}}))'
       captures:
@@ -57,11 +59,15 @@ contexts:
         - match: '[(|)]'
           scope: invalid.illegal.unexpected-character.dosbatch
 
+###[ LABELS ]#################################################################
+
   labels:
     - match: '^\s*(:)([^+=,;:\s].*)$'
       captures:
         1: punctuation.separator.dosbatch
         2: entity.name.label.dosbatch
+
+###[ BLOCKS ]#################################################################
 
   groups:
     - match: \(
@@ -74,6 +80,8 @@ contexts:
         - match: ',|;'
           scope: punctuation.separator.dosbatch
         - include: expressions
+
+###[ CONTROL ]################################################################
 
   control:
     - match: \b(?i)exit\b
@@ -93,6 +101,8 @@ contexts:
       scope: keyword.control.conditional.dosbatch
     - match: \b(?i)for\b
       scope: keyword.control.repeat.dosbatch
+
+###[ COMMANDS ]###############################################################
 
   commands:
     - match: \b(?i:echo)\b
@@ -281,6 +291,8 @@ contexts:
     - match: (?:(?!{{set_arithmetic_operators_unquoted}}|{{set_arithmetic_operators_quoted}}|[=")])\S)+
       scope: variable.other.readwrite.dosbatch
 
+###[ OPERATORS ]##############################################################
+
   operators:
     - match: '@(?=\S)'
       scope: keyword.operator.at.dosbatch
@@ -299,6 +311,8 @@ contexts:
     - match: ','
       scope: punctuation.separator.dosbatch
 
+###[ CONSTANTS ]##############################################################
+
   constants:
     - match: \b(?i:NUL)\b
       scope: constant.language.dosbatch
@@ -314,6 +328,8 @@ contexts:
         1: punctuation.definition.numeric.octal.dosbatch
     - match: '\b(?:0|[1-9][0-9]*)\b'
       scope: constant.numeric.integer.decimal.dosbatch
+
+###[ STRINGS ]################################################################
 
   strings:
     - match: '"'
@@ -331,6 +347,8 @@ contexts:
   escaped-characters:
   - match: '%%|\^\^!|\^.|\^\n'
     scope: constant.character.escape.dosbatch
+
+###[ VARIABLES ]##############################################################
 
   variables:
     # global parameters
