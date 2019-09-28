@@ -281,6 +281,20 @@ contexts:
     - match: (?:(?!{{set_arithmetic_operators_unquoted}}|{{set_arithmetic_operators_quoted}}|[=")])\S)+
       scope: variable.other.readwrite.dosbatch
 
+  operators:
+    - match: '@(?=\S)'
+      scope: keyword.operator.at.dosbatch
+    - match: \b(?i:EQU|NEQ|LSS|LEQ|GTR|GEQ)\b|==
+      scope: keyword.operator.comparison.dosbatch
+    - match: \b(?i:NOT)\b
+      scope: keyword.operator.logical.dosbatch
+    - match: '&&?|\|\|'
+      scope: keyword.operator.conditional.dosbatch
+    - match: '\|'
+      scope: keyword.operator.pipe.dosbatch
+    - match: '<&?|>[&>]?'
+      scope: keyword.operator.redirection.dosbatch
+
   comma-separator:
     - match: ','
       scope: punctuation.separator.dosbatch
@@ -300,20 +314,6 @@ contexts:
   constants:
     - match: \b(?i:NUL)\b
       scope: constant.language.dosbatch
-
-  operators:
-    - match: '@(?=\S)'
-      scope: keyword.operator.at.dosbatch
-    - match: \b(?i:EQU|NEQ|LSS|LEQ|GTR|GEQ)\b|==
-      scope: keyword.operator.comparison.dosbatch
-    - match: \b(?i:NOT)\b
-      scope: keyword.operator.logical.dosbatch
-    - match: '&&?|\|\|'
-      scope: keyword.operator.conditional.dosbatch
-    - match: '\|'
-      scope: keyword.operator.pipe.dosbatch
-    - match: '<&?|>[&>]?'
-      scope: keyword.operator.redirection.dosbatch
 
   strings:
     - match: '"'
