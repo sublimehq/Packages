@@ -24,7 +24,7 @@ contexts:
     - include: numbers
     - include: constants
     - include: operators
-    - include: escaped_characters
+    - include: escaped-characters
     - include: variables
     - include: commands
     - match: \b(?i)exit\b
@@ -51,23 +51,23 @@ contexts:
       push:
         - match: '{{command_terminators}}'
           pop: true
-        - include: escaped_characters
+        - include: escaped-characters
         - include: variables
         - include: numbers
         - include: strings
-    - include: command_set
+    - include: command-set
     - match: \b(?i:aciniupd|adprep|append|arp|assoc|at|atmadm|attrib|autofail|backup|basica|bcdedit|bootcfg|break|cacls|cd|cdburn|certreq|certutil|change logon|change port|change user|change|chcp|chdir|chglogon|chgport|chgusr|chkdsk|chkntfs|choice|cipher|cleanmgr|clip|cls|cluadmin|cluster|cmd|cmdkey|cmstp|color|comp|compact|control|convert|copy|cprofile|cscript|csvde|ctty|date|dcgpofix|debug|defrag|del|deltree|devcon|dfscmd|dhcploc|diantz|dir|diskcomp|diskcopy|diskpart|doskey|dpath|driverquery|dsadd|dsget|dsmod|dsmove|dsquery|dsrm|dvdburn|edit|edlin|endlocal|epal|erase|eventcreate|eventtriggers|evntcmd|exe2bin|expand|explorer|extract|fastopen|fc|fdisk|filever|find|findramd|findstr|finger|flattemp|forcedos|forfiles|format|freedisk|fsutil|ftp|ftype|getmac|gettype|gpresult|gpupdate|graftabl|gwbasic|help|helpctr|hostname|icacls|iexpress|ifconfig|iisreset|inuse|ipconfig|ipxroute|irftp|jt|keyb|label|ldifde|lfnfor|lh|loadhigh|lock|lodctr|logman|logoff|lpq|lpr|macfile|makecab|md|mem|mkdir|mklink|mmc|mode|more|mountvol|move|mrinfo|msd|msg|msiexec|msinfo32|mstsc|mtrace|nbtstat|net accounts|net computer|net config|net continue|net file|net group|net help|net helpmsg|net localgroup|net name|net pause|net print|net send|net session|net share|net start|net statistics|net stop|net time|net use|net user|net view|net|netdom|netsh|netstat|nlb|nlbmgr|nltest|notepad|nslookup|ntbackup|ntcmdprompt|ntdsutil|ntsd|ocsetup|odbcconf|openfiles|path|pathping|pause|pbadmin|pentnt|perfmon|ping|ping6|pkgmgr|popd|powercfg|print|prompt|pushd|qappsrv|qbasic|qchain|qfarm|qprocess|qserver|query process|query session|query termserver|query user|query|quser|qwinsta|rasdial|rasphone|rcp|rd|readline|recimg|recover|reg|regedit|regedt32|regini|register|regsvr32|relog|rem|ren|rename|replace|reset session|reset|restore|rexec|risetup|rmdir|robocopy|route|rsh|rsm|rss|runas|rundll|rundll32|sc|schtasks|secedit|set|setlocal|setx|sfc|shadow|shift|shutdown|sort|start|subinacl|subst|sysocmgr|systeminfo|takeown|tapicfg|taskkill|tasklist|tcmsetup|tftp|time|timeout|title|tracerpt|tracert|tracert6|tracerte|tree|truename|tscon|tsdiscon|tsecimp|tskill|tsprof|tsshutdn|type|typeperf|tzchange|unlock|unlodctr|ver|verify|vhdmount|vol|vssadmin|w32tm|waitfor|where|whoami|winmsd|winmsdp|winnt|winnt32|winpop|winsat|wlbs|wmic|wscript|wupdmgr|xcacls|xcopy)\b
       scope: keyword.command.dosbatch
 
-  command_set:
+  command-set:
     - match: '(?i)\bSET\b'
       scope: keyword.command.dosbatch
-      push: inside_command_set
+      push: inside-command-set
 
-  inside_command_set:
+  inside-command-set:
       - match: '{{command_terminators}}'
         pop: true
-      - include: escaped_characters
+      - include: escaped-characters
       - include: variables
       - match: (")\s*([^ ][^=]*)(=)
         captures:
@@ -79,7 +79,7 @@ contexts:
           - match: '"(?=\s*(?:{{command_terminators}}))'
             scope: punctuation.definition.string.end.dosbatch
             pop: true
-          - include: escaped_characters
+          - include: escaped-characters
           - include: variables
           - include: numbers
           - include: parens
@@ -100,7 +100,7 @@ contexts:
               - match: '"'
                 scope: punctuation.definition.string.end.dosbatch
                 pop: true
-              - include: escaped_characters
+              - include: escaped-characters
               - include: variables
       - include: numbers
       - include: parens
@@ -110,7 +110,7 @@ contexts:
       - match: '\s+/[aA]\s+' # SET arithmetic
         push:
           - meta_content_scope: meta.expression.set.dosbatch
-          - include: set_arithmetic_unquoted
+          - include: set-arithmetic-unquoted
       - match: '\s+/[pP]\s+' # SET from standard input
         push:
           - match: '{{command_terminators}}'
@@ -137,29 +137,29 @@ contexts:
                     pop: true
                   - include: variables
 
-  set_arithmetic_unquoted:
+  set-arithmetic-unquoted:
     - match: '{{command_terminators}}'
       pop: true
-    - include: set_arithmetic_operator_common
+    - include: set-arithmetic-operator-common
     - match: \(
       scope: punctuation.section.group.begin.dosbatch
-      push: command_set_group_unquoted
+      push: command-set-group-unquoted
     - match: '"'
       scope: punctuation.definition.string.begin.dosbatch
-      push: set_arithmetic_quoted
-    - include: inside_command_set_arithmetic
+      push: set-arithmetic-quoted
+    - include: inside-command-set-arithmetic
 
-  command_set_group_unquoted:
+  command-set-group-unquoted:
     - meta_scope: meta.group.dosbatch
     - match: \)
       scope: punctuation.section.group.end.dosbatch
       pop: true
     - match: '"'
       scope: punctuation.definition.string.begin.dosbatch
-      set: command_set_group_newly_quoted
-    - include: set_arithmetic_unquoted
+      set: command-set-group-newly-quoted
+    - include: set-arithmetic-unquoted
 
-  set_arithmetic_operator_common:
+  set-arithmetic-operator-common:
     - match: ({{set_arithmetic_operators_unquoted}})=
       scope: keyword.operator.assignment.augmented.dosbatch
     - match: (\^)(\^=)
@@ -175,14 +175,14 @@ contexts:
     - match: =
       scope: keyword.operator.assignment.dosbatch
 
-  set_arithmetic_operator_quoted:
+  set-arithmetic-operator-quoted:
     - match: ({{set_arithmetic_operators_quoted}})=
       scope: keyword.operator.assignment.augmented.dosbatch
     - match: ({{set_arithmetic_operators_quoted}})
       scope: keyword.operator.arithmetic.dosbatch
-    - include: set_arithmetic_operator_common
+    - include: set-arithmetic-operator-common
 
-  set_arithmetic_quoted:
+  set-arithmetic-quoted:
     - meta_scope: string.quoted.double.dosbatch
     - match: $
       pop: true
@@ -194,11 +194,11 @@ contexts:
       set:
         - meta_scope: meta.group.dosbatch
         - match: ''
-          set: command_set_group_newly_quoted
-    - include: set_arithmetic_operator_quoted
-    - include: inside_command_set_arithmetic
+          set: command-set-group-newly-quoted
+    - include: set-arithmetic-operator-quoted
+    - include: inside-command-set-arithmetic
 
-  command_set_group_already_quoted:
+  command-set-group-already-quoted:
     - meta_scope: meta.group.dosbatch
     - match: \)
       scope: punctuation.section.group.end.dosbatch
@@ -207,28 +207,28 @@ contexts:
       scope: punctuation.definition.string.end.dosbatch
       set:
         - match: ''
-          set: command_set_group_unquoted
-    - include: set_arithmetic_quoted
+          set: command-set-group-unquoted
+    - include: set-arithmetic-quoted
 
-  command_set_group_newly_quoted:
+  command-set-group-newly-quoted:
     - meta_scope: string.quoted.double.dosbatch meta.group.dosbatch
     - match: \(
       scope: punctuation.section.group.begin.dosbatch
-      push: command_set_group_already_quoted
+      push: command-set-group-already-quoted
     - match: \)
       scope: punctuation.section.group.end.dosbatch
       set:
         - match: ''
-          set: set_arithmetic_quoted
-    - include: command_set_group_already_quoted
+          set: set-arithmetic-quoted
+    - include: command-set-group-already-quoted
 
-  inside_command_set_arithmetic:
+  inside-command-set-arithmetic:
     - match: '!'
       scope: keyword.operator.logical.dosbatch
     - include: numbers
-    - include: comma_separator
+    - include: comma-separator
     - include: variables
-    - include: escaped_characters
+    - include: escaped-characters
     - match: (?:(?!{{set_arithmetic_operators_unquoted}}|{{set_arithmetic_operators_quoted}}|[=")])\S)+
       scope: variable.other.readwrite.dosbatch
 
@@ -244,7 +244,7 @@ contexts:
         1: punctuation.definition.variable.begin.dosbatch
         2: punctuation.definition.variable.end.dosbatch
     - include: variable
-    - include: variable_delayed_expansion
+    - include: variable-delayed-expansion
 
   variable:
     # variable
@@ -263,7 +263,7 @@ contexts:
             - meta_content_scope: meta.variable.substring.dosbatch
             - match: '(?=%|\n)'
               pop: true
-            - include: inside_variable_substring
+            - include: inside-variable-substring
           # string substitution
         - match: ':'
           scope: punctuation.separator.dosbatch
@@ -271,17 +271,17 @@ contexts:
             - meta_content_scope: meta.variable.substitution.dosbatch
             - match: '(?=%|\n)'
               pop: true
-            - include: variable_substitution_replacee
+            - include: variable-substitution-replacee
             - match: '='
               scope: punctuation.separator.dosbatch
               push:
                 - match: '(?=%|\n)'
                   pop: true
-                - include: variable_delayed_expansion
+                - include: variable-delayed-expansion
                 - match: '[^%]+'
                   scope: string.unquoted.dosbatch
 
-  variable_delayed_expansion:
+  variable-delayed-expansion:
     # variable with delayed expansion
     - match: '!(?=[^!]+!)'
       scope: punctuation.definition.variable.begin.dosbatch
@@ -298,7 +298,7 @@ contexts:
             - meta_content_scope: meta.variable.substring.dosbatch
             - match: '(?=!|\n)'
               pop: true
-            - include: inside_variable_substring
+            - include: inside-variable-substring
           # string substitution
         - match: ':'
           scope: punctuation.separator.dosbatch
@@ -307,7 +307,7 @@ contexts:
             - match: '(?=!|\n)'
               pop: true
             - include: variable
-            - include: variable_substitution_replacee
+            - include: variable-substitution-replacee
             - match: '='
               scope: punctuation.separator.dosbatch
               push:
@@ -317,16 +317,16 @@ contexts:
                 - match: '[^!]+'
                   scope: string.unquoted.dosbatch
 
-  variable_substitution_replacee:
+  variable-substitution-replacee:
     - match: '[^=]+'
       scope: string.unquoted.dosbatch
 
-  inside_variable_substring:
+  inside-variable-substring:
     - match: '[+-]?\d+'
       scope: constant.numeric.dosbatch
-    - include: comma_separator
+    - include: comma-separator
 
-  comma_separator:
+  comma-separator:
     - match: ','
       scope: punctuation.separator.dosbatch
 
@@ -404,7 +404,7 @@ contexts:
             1: punctuation.definition.string.end.dosbatch
             2: invalid.illegal.newline.dosbatch
           pop: true
-        - include: escaped_characters
+        - include: escaped-characters
         - include: variables
 
   parens:
@@ -419,6 +419,6 @@ contexts:
           scope: punctuation.separator.dosbatch
         - include: expressions
 
-  escaped_characters:
+  escaped-characters:
   - match: '%%|\^\^!|\^.|\^\n'
     scope: constant.character.escape.dosbatch
