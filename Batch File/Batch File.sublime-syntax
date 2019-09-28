@@ -344,6 +344,46 @@ contexts:
     - match: '\b(?:0|[1-9][0-9]*)\b'
       scope: constant.numeric.integer.decimal.dosbatch
 
+###[ PATH PATTERNS ]##########################################################
+
+  path-patterns:
+    - match: \"
+      scope: punctuation.definition.string.begin.dosbatch
+      set:
+        - - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
+          - include: strings-common
+          - include: path-patterns-common
+        - path-patterns-relative
+    - match: (?=(?!%%)\S)
+      set:
+        - - meta_scope: meta.string.dosbatch string.unquoted.dosbatch
+          - include: escaped-characters
+          - include: variables-interpolation
+          - include: path-patterns-common
+          - match: (?=[\s<>",;|)])
+            pop: true
+        - path-patterns-relative
+    - include: else-pop
+
+  path-patterns-common:
+    - match: '[.:\\/]'
+      scope: punctuation.separator.path.dosbatch
+      push: path-patterns-relative
+    - match: \.
+      scope: punctuation.separator.path.dosbatch
+    - match: '[*?]'
+      scope: constant.other.placeholder.dosbatch
+
+  path-patterns-relative:
+    - match: \.\.(?=[\\/])
+      scope: constant.language.path.parent.dosbatch
+      pop: true
+    - match: \.(?=[\\/])
+      scope: constant.language.path.self.dosbatch
+      pop: true
+    - match: ''
+      pop: true
+
 ###[ STRINGS ]################################################################
 
   strings:
