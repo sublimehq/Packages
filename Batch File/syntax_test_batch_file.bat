@@ -170,7 +170,7 @@ ECHO %substr:~0,-2% !substr:~0,-2!
 ::          ^^ punctuation.separator.dosbatch
 ::            ^^^^ meta.variable.substring.dosbatch
 ::            ^ constant.numeric.dosbatch
-::             ^ punctuation.separator.dosbatch
+::             ^ punctuation.separator.comma.dosbatch
 ::              ^^ constant.numeric.dosbatch
 ::                ^ punctuation.definition.variable.end.dosbatch
 ::                  ^^^^^^^^^^^^^^ variable.other.readwrite.dosbatch
@@ -178,7 +178,7 @@ ECHO %substr:~0,-2% !substr:~0,-2!
 ::                         ^^ punctuation.separator.dosbatch
 ::                           ^^^^ meta.variable.substring.dosbatch
 ::                           ^ constant.numeric.dosbatch
-::                            ^ punctuation.separator.dosbatch
+::                            ^ punctuation.separator.comma.dosbatch
 ::                             ^^ constant.numeric.dosbatch
 ::                               ^ punctuation.definition.variable.end.dosbatch
 
@@ -278,7 +278,7 @@ ECHO %% ^^! ^&
 
    set /a "num=2,result=num*5"
 ::            ^ keyword.operator.assignment.dosbatch
-::              ^ punctuation.separator.dosbatch
+::              ^ punctuation.separator.comma.dosbatch
 ::                     ^ keyword.operator.assignment.dosbatch
 ::                         ^ keyword.operator.arithmetic.dosbatch
 
@@ -338,7 +338,7 @@ ECHO %% ^^! ^&
    set /a century=year/100, next=century+1
 ::               ^ keyword.operator.assignment.dosbatch
 ::                    ^ keyword.operator.arithmetic.dosbatch
-::                        ^ punctuation.separator.dosbatch
+::                        ^ punctuation.separator.comma.dosbatch
 ::                              ^ keyword.operator.assignment.dosbatch
 ::                                      ^ keyword.operator.arithmetic.dosbatch
 
@@ -650,7 +650,7 @@ set /a "wow"+="2"
 ::      ^^^ variable.other.readwrite
 ::          ^^ keyword.operator.assignment.augmented - string
 ::            ^^^ string.quoted.double
-::             ^ constant.numeric.integer.decimal 
+::             ^ constant.numeric.integer.decimal
 set /a wow"+="2
 ::     ^^^ variable.other.readwrite
 ::        ^^^^ string.quoted.double

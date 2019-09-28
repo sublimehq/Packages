@@ -90,8 +90,8 @@ contexts:
         - match: \)
           scope: punctuation.section.group.end.dosbatch
           pop: true
-        - match: ',|;'
-          scope: punctuation.separator.dosbatch
+        - include: separator-semicolon
+        - include: separator-comma
         - include: expressions
 
 ###[ CONTROL ]################################################################
@@ -293,7 +293,7 @@ contexts:
     - match: '!'
       scope: keyword.operator.logical.dosbatch
     - include: numbers
-    - include: comma-separator
+    - include: separator-comma
     - include: variables
     - include: escaped-characters
     - match: (?:(?!{{set_arithmetic_operators_unquoted}}|{{set_arithmetic_operators_quoted}}|[=")])\S)+
@@ -315,9 +315,13 @@ contexts:
     - match: '<&?|>[&>]?'
       scope: keyword.operator.redirection.dosbatch
 
-  comma-separator:
+  separator-comma:
     - match: ','
-      scope: punctuation.separator.dosbatch
+      scope: punctuation.separator.comma.dosbatch
+
+  separator-semicolon:
+    - match: ';'
+      scope: punctuation.separator.semicolon.dosbatch
 
 ###[ CONSTANTS ]##############################################################
 
@@ -460,4 +464,4 @@ contexts:
   inside-variable-substring:
     - match: '[+-]?\d+'
       scope: constant.numeric.dosbatch
-    - include: comma-separator
+    - include: separator-comma
