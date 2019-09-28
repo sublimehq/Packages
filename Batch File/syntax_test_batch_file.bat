@@ -58,22 +58,125 @@ ECHO "
    @
 :: ^ - keyword.operator.at.dosbatch
 
+
+:: Control Flow
+
+   CALL:EOF
+:: ^^^^ keyword.control.flow.call.dosbatch
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^^^ variable.label.dosbatch - keyword
+
+   CALL :End
+:: ^^^^ keyword.control.flow.call.dosbatch
+::      ^ punctuation.definition.variable.dosbatch
+::      ^^^^ variable.label.dosbatch - keyword
+
+   CALL:End
+:: ^^^^ keyword.control.flow.call.dosbatch
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^^^ variable.label.dosbatch - keyword
+
+   CALL End
+:: ^^^^ keyword.control.flow.call.dosbatch
+::      ^^^ meta.function-call.dosbatch variable.function.dosbatch
+
    GOTO:EOF
-:: ^^^^ keyword.control.statement.dosbatch
-::     ^ punctuation.separator.dosbatch
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^^ variable.label.dosbatch
 ::      ^^^ keyword.control.flow.return.dosbatch
 
    GOTO :End
-:: ^^^^ keyword.control.statement.dosbatch
-::      ^ punctuation.separator.dosbatch
-::       ^^^ meta.function-call.dosbatch variable.function.dosbatch
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::      ^ punctuation.definition.variable.dosbatch
+::      ^^^^ variable.label.dosbatch - keyword
 
    GOTO:End
-:: ^^^^ keyword.control.statement.dosbatch
-::     ^ punctuation.separator.dosbatch
-::      ^^^ meta.function-call.dosbatch variable.function.dosbatch
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^^^ variable.label.dosbatch - keyword
+
+   GOTO End
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::      ^^^ variable.label.dosbatch - keyword
+
+
+:: Conditionals
+
+   IF foo EQU bar
+:: ^^  keyword.control.conditional.if.dosbatch
+::        ^^^ keyword.operator.comparison.dosbatch
+
+   IF NOT foo EQU bar
+:: ^^  keyword.control.conditional.if.dosbatch
+::    ^^^  keyword.operator.logical.dosbatch
+::            ^^^ keyword.operator.comparison.dosbatch
+
+
+   IF %ERRORLEVEL% NEQ 0 EXIT /B 1
+:: ^^              keyword.control.conditional.dosbatch
+::    ^^^^^^^^^^^^ variable.language.dosbatch
+::    ^ punctuation.definition.variable.begin.dosbatch
+::               ^ variable.language.dosbatch punctuation.definition.variable.end.dosbatch
+
+   IF foo == bar
+:: ^^ keyword.control.conditional.if.dosbatch
+::        ^^  keyword.operator.comparison.dosbatch
+
+   IF errorlevel == 0
+:: ^^ keyword.control.conditional.if.dosbatch
+::    ^^^^^^^^^^ variable.language.dosbatch
+::               ^^ keyword.operator.comparison.dosbatch
+::                  ^ constant.numeric.integer.decimal.dosbatch
+
+   IF not errorlevel == 0
+:: ^^ keyword.control.conditional.if.dosbatch
+::    ^^^ keyword.operator.logical.dosbatch
+::        ^^^^^^^^^^ variable.language.dosbatch
+::                   ^^ keyword.operator.comparison.dosbatch
+::                      ^ constant.numeric.integer.decimal.dosbatch
+
+   IF exist "C:\file.log"
+:: ^^ keyword.control.conditional.if.dosbatch
+::    ^^^^^ keyword.other.dosbatch
+::          ^^^^^^^^^^^^^ string.quoted.double.dosbatch
+
+   IF not exist "C:\file.log"
+:: ^^ keyword.control.conditional.if.dosbatch
+::    ^^^ keyword.operator.logical.dosbatch
+::        ^^^^^ keyword.other.dosbatch
+::              ^^^^^^^^^^^^^ string.quoted.double.dosbatch
+
+   IF foo (ECHO bar) ELSE (ECHO baz)
+:: ^^ keyword.control.conditional.if.dosbatch
+::        ^^^^^^^^^^ meta.group.dosbatch
+::        ^ punctuation.section.group.begin.dosbatch
+::         ^^^^ keyword.command.dosbatch
+::                 ^ punctuation.section.group.end.dosbatch
+::                   ^^^^ keyword.control.conditional.else.dosbatch
+::                        ^^^^^^^^^^ meta.group.dosbatch
+::                        ^ punctuation.section.group.begin.dosbatch
+::                         ^^^^ keyword.command.dosbatch
+::                                 ^ punctuation.section.group.end.dosbatch
+
+   FOR %%G IN (0,9) DO (md %%G)
+:: ^^^ keyword.control.loop.for.dosbatch
+::             ^ constant.numeric.integer.decimal.dosbatch
+
+   FIND "a" |
+::          ^ keyword.operator.pipe.dosbatch
+
+  :This is a #%@$虎 strange label
+::^    punctuation.separator.dosbatch
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.label.dosbatch
+
+  :End
+::^    punctuation.separator.dosbatch
+:: ^^^ entity.name.label.dosbatch
+
 
 :: Redirection
+
    ECHO Hello World! > hello.txt
 :: ^^^^                keyword.command.dosbatch
 ::                   ^ keyword.operator.redirection.dosbatch
@@ -90,42 +193,6 @@ ECHO "
 ::      ^^ keyword.operator.conditional.dosbatch
 ::              ^^ keyword.operator.conditional.dosbatch
 ::                      ^ keyword.operator.conditional.dosbatch
-
-:: Conditionals
-   IF foo EQU bar
-:: ^^         keyword.control.conditional.dosbatch
-::        ^^^ keyword.operator.comparison.dosbatch
-
-   IF NOT foo EQU bar
-:: ^^             keyword.control.conditional.dosbatch
-::    ^^^         keyword.operator.logical.dosbatch
-::            ^^^ keyword.operator.comparison.dosbatch
-
-
-   IF %ERRORLEVEL% NEQ 0 EXIT /B 1
-:: ^^              keyword.control.conditional.dosbatch
-::    ^^^^^^^^^^^^ variable.language.dosbatch
-::    ^ punctuation.definition.variable.begin.dosbatch
-::               ^ variable.language.dosbatch punctuation.definition.variable.end.dosbatch
-
-   IF foo == bar
-:: ^^         keyword.control.conditional.dosbatch
-::        ^^  keyword.operator.comparison.dosbatch
-
-   FOR %%G IN (0,9) DO (md %%G)
-:: ^^^                 keyword.control.repeat.dosbatch
-::             ^       constant.numeric.integer.decimal.dosbatch
-
-   FIND "a" |
-::          ^ keyword.operator.pipe.dosbatch
-
-  :This is a #%@$虎 strange label
-::^    punctuation.separator.dosbatch
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.label.dosbatch
-
-  :End
-::^    punctuation.separator.dosbatch
-:: ^^^ entity.name.label.dosbatch
 
    ECHO %1 %* %~dpf$PATH:5 %~1
 ::      ^ punctuation.definition.variable.dosbatch
@@ -356,14 +423,14 @@ IF "%FOO%" == "BAR" ( SET BAZ=42 )
 
 :: See http://ss64.com/nt/syntax-brackets.html
 IF EXIST MyFile.txt (ECHO Some(more)Potatoes)
-:: <- keyword.control
+:: <- keyword.control.conditional.if
 :: ^ keyword.other
 ::                  ^^^^^^^^^^^^^^^^ meta.group
 ::                   ^ keyword.command
 ::                                  ^ - meta.group
 
 IF EXIST MyFile.txt (ECHO Some[more]Potatoes)
-:: <- keyword.control
+:: <- keyword.control.conditional.if
 :: ^ keyword.other
 ::                  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 ::                   ^ keyword.command

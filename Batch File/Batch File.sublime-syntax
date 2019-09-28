@@ -97,23 +97,62 @@ contexts:
 ###[ CONTROL ]################################################################
 
   control:
-    - match: \b(?i)exit\b
-      scope: keyword.control.statement.dosbatch
-    - match: \b(?i)(goto|call)\b(?:\s*(:)?(?:(eof)|(\w+)))?
+    # flow
+    - match: \b(?i:call)\b
+      scope: keyword.control.flow.call.dosbatch
+      push: stmt-call-body
+    - match: \b(?i:exit)\b
+      scope: keyword.control.flow.exit.dosbatch
+    - match: \b(?i:goto)\b
+      scope: keyword.control.flow.goto.dosbatch
+      push: stmt-goto-body
+    # conditional
+    - match: \b(?i:if)\b
+      scope: keyword.control.conditional.if.dosbatch
+      push: stmt-if-condition
+    - match: \b(?i:else)\b
+      scope: keyword.control.conditional.else.dosbatch
+    # loop
+    - match: \b(?i:for)\b
+      scope: keyword.control.loop.for.dosbatch
+
+  stmt-call-body:
+    - match: (:)\w+\b
+      scope: variable.label.dosbatch
       captures:
-        1: keyword.control.statement.dosbatch
-        2: punctuation.separator.dosbatch
-        3: keyword.control.flow.return.dosbatch
-        4: meta.function-call.dosbatch variable.function.dosbatch
-    - match: \b(?i)(if)\s+(?:(not)\s+)?(exist|defined|errorlevel|cmdextversion)\b
+        1: punctuation.definition.variable.dosbatch
+      pop: true
+    - match: \w+\b
+      scope: meta.function-call.dosbatch variable.function.dosbatch
+      pop: true
+    - include: else-pop
+
+  stmt-goto-body:
+    - match: (:)(?i:(eof))\b
+      scope: variable.label.dosbatch
       captures:
-        1: keyword.control.conditional.dosbatch
-        2: keyword.operator.logical.dosbatch
-        3: keyword.other.dosbatch
-    - match: \b(?i)(?:if|else)\b
-      scope: keyword.control.conditional.dosbatch
-    - match: \b(?i)for\b
-      scope: keyword.control.repeat.dosbatch
+        1: punctuation.definition.variable.dosbatch
+        2: keyword.control.flow.return.dosbatch
+      pop: true
+    - match: (:)?\w+\b
+      scope: variable.label.dosbatch
+      captures:
+        1: punctuation.definition.variable.dosbatch
+      pop: true
+    - include: else-pop
+
+  stmt-if-condition:
+    - match: \b(?i:errorlevel|cmdextversion)\b
+      scope: variable.language.dosbatch
+      pop: true
+    - match: \b(?i:exist)\b
+      scope: keyword.other.dosbatch
+      set: path-patterns
+    - match: \b(?i:defined)\b
+      scope: keyword.other.dosbatch
+      pop: true
+    - include: operator-not
+    - include: else-pop
 
 ###[ COMMANDS ]###############################################################
 
