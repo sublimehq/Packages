@@ -277,7 +277,7 @@ contexts:
       scope: keyword.command.dosbatch
 
   command-set:
-    - match: '(?i)\bSET\b'
+    - match: \b(?i:set)\b
       scope: keyword.command.dosbatch
       push: inside-command-set
 
