@@ -57,6 +57,12 @@ contexts:
         - match: '[(|)]'
           scope: invalid.illegal.unexpected-character.dosbatch
 
+  labels:
+    - match: '^\s*(:)([^+=,;:\s].*)$'
+      captures:
+        1: punctuation.separator.dosbatch
+        2: entity.name.label.dosbatch
+
   groups:
     - match: \(
       scope: punctuation.section.group.begin.dosbatch
@@ -308,12 +314,6 @@ contexts:
       scope: keyword.operator.pipe.dosbatch
     - match: '<&?|>[&>]?'
       scope: keyword.operator.redirection.dosbatch
-
-  labels:
-    - match: '^\s*(:)([^+=,;:\s].*)$'
-      captures:
-        1: punctuation.separator.dosbatch
-        2: entity.name.label.dosbatch
 
   strings:
     - match: '"'
