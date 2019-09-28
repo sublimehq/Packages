@@ -315,23 +315,29 @@ contexts:
     - include: label
     - include: variable-declaration
 
-    - match: throw{{identifier_break}}
-      scope: keyword.control.trycatch.js
-      set: restricted-production
-
-    - match: (?:break|continue){{identifier_break}}
-      scope: keyword.control.loop.js
+    - match: break{{identifier_break}}
+      scope: keyword.control.flow.break.js
       set:
         - expect-semicolon
         - expect-label
 
-    - match: return{{identifier_break}}
-      scope: keyword.control.flow.js
-      set: restricted-production
+    - match: continue{{identifier_break}}
+      scope: keyword.control.flow.continue.js
+      set:
+        - expect-semicolon
+        - expect-label
 
     - match: debugger{{identifier_break}}
-      scope: keyword.other.debugger.js
+      scope: keyword.control.flow.debugger.js
       set: expect-semicolon
+
+    - match: return{{identifier_break}}
+      scope: keyword.control.flow.return.js
+      set: restricted-production
+
+    - match: throw{{identifier_break}}
+      scope: keyword.control.flow.throw.js
+      set: restricted-production
 
     - include: function-or-class-declaration
 
@@ -584,21 +590,21 @@ contexts:
 
   conditional:
     - match: switch{{identifier_break}}
-      scope: keyword.control.switch.js
+      scope: keyword.control.conditional.switch.js
       set:
         - switch-meta
         - switch-block
         - expect-parenthesized-expression
 
     - match: do{{identifier_break}}
-      scope: keyword.control.loop.js
+      scope: keyword.control.loop.do-while.js
       set:
         - do-while-meta
         - do-while-condition
         - block-scope
 
     - match: for{{identifier_break}}
-      scope: keyword.control.loop.js
+      scope: keyword.control.loop.for.js
       set:
         - for-meta
         - block-scope
@@ -606,46 +612,53 @@ contexts:
         - for-await
 
     - match: while{{identifier_break}}
-      scope: keyword.control.loop.js
+      scope: keyword.control.loop.while.js
       set:
         - while-meta
         - block-scope
         - expect-parenthesized-expression
 
     - match: with{{identifier_break}}
-      scope: keyword.control.with.js
+      scope: keyword.control.flow.with.js
       set:
         - with-meta
         - block-scope
         - expect-parenthesized-expression
 
-    - match: (?:else\s+if|if){{identifier_break}}
-      scope: keyword.control.conditional.js
+    - match: if{{identifier_break}}
+      scope: keyword.control.conditional.if.js
+      set:
+        - conditional-meta
+        - block-scope
+        - expect-parenthesized-expression
+
+    - match: else\s+if{{identifier_break}}
+      scope: keyword.control.conditional.elseif.js
       set:
         - conditional-meta
         - block-scope
         - expect-parenthesized-expression
 
     - match: else{{identifier_break}}
-      scope: keyword.control.conditional.js
+      scope: keyword.control.conditional.else.js
       set:
         - conditional-meta
         - block-scope
 
     - match: try{{identifier_break}}
-      scope: keyword.control.trycatch.js
+      scope: keyword.control.exception.try.js
       set:
         - try-meta
         - block-scope
 
     - match: finally{{identifier_break}}
-      scope: keyword.control.trycatch.js
+      scope: keyword.control.exception.finally.js
       set:
         - finally-meta
         - block-scope
 
     - match: catch{{identifier_break}}
-      scope: keyword.control.trycatch.js
+      scope: keyword.control.exception.catch.js
       set:
         - catch-meta
         - block-scope
@@ -702,7 +715,7 @@ contexts:
 
   for-await:
     - match: await{{identifier_break}}
-      scope: keyword.control.loop.js
+      scope: keyword.control.flow.await.js
       pop: true
     - include: else-pop
 
@@ -778,13 +791,13 @@ contexts:
       pop: true
 
     - match: case{{identifier_break}}
-      scope: keyword.control.switch.js
+      scope: keyword.control.conditional.case.js
       push:
         - expect-case-colon
         - expression
 
     - match: default{{identifier_break}}
-      scope: keyword.control.switch.js
+      scope: keyword.control.conditional.default.js
       push:
         - expect-case-colon
 
@@ -792,7 +805,7 @@ contexts:
 
   do-while-condition:
     - match: while{{identifier_break}}
-      scope: keyword.control.loop.js
+      scope: keyword.control.loop.while.js
       set: parenthesized-expression
     - include: else-pop
 
@@ -1159,7 +1172,7 @@ contexts:
 
   yield-expression:
     - match: yield{{identifier_break}}
-      scope: keyword.control.flow.js
+      scope: keyword.control.flow.yield.js
       set:
         - match: $
           pop: true
@@ -1171,7 +1184,7 @@ contexts:
 
   await-expression:
     - match: await{{identifier_break}}
-      scope: keyword.control.flow.js
+      scope: keyword.control.flow.await.js
 
   class:
     - match: class{{identifier_break}}

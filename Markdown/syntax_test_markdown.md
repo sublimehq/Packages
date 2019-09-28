@@ -1173,7 +1173,7 @@ __test!*test__ Issue 1163
 | <- punctuation.definition.raw.code-fence.begin
 |  ^^ constant.other.language-name
 for (var i = 0; i < 10; i++) {
-| ^ keyword.control.loop.js
+| ^ source.js keyword.control.loop
     console.log(i);
 }
 ```
