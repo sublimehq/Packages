@@ -27,6 +27,9 @@ contexts:
     - include: escaped-characters
     - include: variables
     - include: commands
+    - include: control
+
+  control:
     - match: \b(?i)exit\b
       scope: keyword.control.statement.dosbatch
     - match: \b(?i)(goto|call)\b(?:\s*(:)?(?:(eof)|(\w+)))?
