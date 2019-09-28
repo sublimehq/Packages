@@ -1,11 +1,8 @@
 :: SYNTAX TEST "Packages/Batch File/Batch File.sublime-syntax"
 
    REM I'm a (com|ment)
-:: ^^^                  keyword.command.rem.dosbatch
-::     ^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
-::           ^          invalid.illegal.unexpected-character.dosbatch
-::               ^      invalid.illegal.unexpected-character.dosbatch
-::                    ^ invalid.illegal.unexpected-character.dosbatch
+:: ^^^ keyword.declaration.rem.dosbatch - comment
+::    ^^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
 
 REM
    not a comment
@@ -16,23 +13,23 @@ REM This follows a REM command
 :: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
 
    :: Me too!
-:: ^^         punctuation.definition.comment.dosbatch
+:: ^^ punctuation.definition.comment.dosbatch
 :: ^^^^^^^^^^ comment.line.colon.dosbatch
 
    :+ Me too!
-:: ^^         punctuation.definition.comment.dosbatch
+:: ^^ punctuation.definition.comment.dosbatch
 
    := Me too!
-:: ^^         punctuation.definition.comment.dosbatch
+:: ^^ punctuation.definition.comment.dosbatch
 
    :, Me too!
-:: ^^         punctuation.definition.comment.dosbatch
+:: ^^ punctuation.definition.comment.dosbatch
 
    :; Me too!
-:: ^^         punctuation.definition.comment.dosbatch
+:: ^^ punctuation.definition.comment.dosbatch
 
    : Me too!
-:: ^^         punctuation.definition.comment.dosbatch
+:: ^^ punctuation.definition.comment.dosbatch
 
 ECHO : Not a comment
 ::   ^^^^^^^^^^^^^^^ - comment
@@ -46,10 +43,6 @@ ECHO &:: A comment
 ::   ^ keyword.operator.conditional.dosbatch
 ::    ^^ punctuation.definition.comment.dosbatch
 ::    ^^^^^^^^^^^^ comment.line.colon.dosbatch
-
-  :: an indented comment
-::^^ punctuation.definition.comment.dosbatch
-::^^^^^^^^^^^^^^^^^^^^^^ comment.line.colon.dosbatch
 
    ECHO "foo"
 ::      ^       punctuation.definition.string.begin.dosbatch

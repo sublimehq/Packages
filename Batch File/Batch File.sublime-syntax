@@ -7,7 +7,7 @@ file_extensions:
   - cmd
 scope: source.dosbatch
 variables:
-  colon_comment_start: '(?::[+=,;: ])'
+  colon_comment_start: ':[+=,;: ]'
   command_terminators: (?=$\n|[&|><)])
   set_arithmetic_operators_unquoted: (?:\+|-|\*|/|%%|~)
   set_arithmetic_operators_quoted: (?:\||<<|>>|&|\^)
@@ -55,22 +55,14 @@ contexts:
 ###[ COMMENTS ]###############################################################
 
   comments:
-    - match: '(?:^|(&))\s*(?=({{colon_comment_start}}))'
+    - match: (?:^|(&))\s*(({{colon_comment_start}}).*\n)
       captures:
         1: keyword.operator.conditional.dosbatch
-      push:
-        - match: '\n'
-          scope: comment.line.rem.dosbatch
-          pop: true
-        - match: '({{colon_comment_start}})'
-          scope: punctuation.definition.comment.dosbatch
-          push:
-            - meta_scope: comment.line.colon.dosbatch
-            - match: '(?=\n)'
-              pop: true
+        2: comment.line.colon.dosbatch
+        3: punctuation.definition.comment.dosbatch
     # REM command
     # https://technet.microsoft.com/en-us/library/bb490986.aspx
-    - match: \b(?i)rem\b
+    - match: \b(?i:rem)\b
       scope: keyword.command.rem.dosbatch
       push:
         # meta_content_scope is used since rem should not be
@@ -79,8 +71,6 @@ contexts:
         - match: \n
           scope: comment.line.rem.dosbatch
           pop: true
-        - match: '[(|)]'
-          scope: invalid.illegal.unexpected-character.dosbatch
 
 ###[ LABELS ]#################################################################
 
