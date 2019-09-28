@@ -302,18 +302,21 @@ contexts:
 ###[ OPERATORS ]##############################################################
 
   operators:
+    - include: operator-not
     - match: '@(?=\S)'
       scope: keyword.operator.at.dosbatch
     - match: \b(?i:EQU|NEQ|LSS|LEQ|GTR|GEQ)\b|==
       scope: keyword.operator.comparison.dosbatch
-    - match: \b(?i:NOT)\b
-      scope: keyword.operator.logical.dosbatch
     - match: '&&?|\|\|'
       scope: keyword.operator.conditional.dosbatch
     - match: '\|'
       scope: keyword.operator.pipe.dosbatch
     - match: '<&?|>[&>]?'
       scope: keyword.operator.redirection.dosbatch
+
+  operator-not:
+    - match: \b(?i:not)\b
+      scope: keyword.operator.logical.dosbatch
 
   separator-comma:
     - match: ','
