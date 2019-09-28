@@ -29,6 +29,29 @@ contexts:
     - include: commands
     - include: control
 
+###[ PROTOTYPES ]#############################################################
+
+  any-pop:
+    - match: (?=\S)
+      pop: true
+
+  eol-pop:
+    - match: $
+      pop: true
+
+  else-pop:
+    - include: any-pop
+    - include: eol-pop
+
+  immediatelly-pop:
+    - match: ''
+      pop: true
+
+  illegal-eol-pop:
+    - match: \n
+      scope: invalid.illegal.newline.dosbatch
+      pop: true
+
 ###[ COMMENTS ]###############################################################
 
   comments:
@@ -243,8 +266,6 @@ contexts:
 
   set-arithmetic-quoted:
     - meta_scope: string.quoted.double.dosbatch
-    - match: $
-      pop: true
     - match: '"'
       scope: punctuation.definition.string.end.dosbatch
       pop: true
@@ -256,6 +277,7 @@ contexts:
           set: command-set-group-newly-quoted
     - include: set-arithmetic-operator-quoted
     - include: inside-command-set-arithmetic
+    - include: eol-pop
 
   command-set-group-already-quoted:
     - meta_scope: meta.group.dosbatch
