@@ -299,6 +299,10 @@ contexts:
     - match: ','
       scope: punctuation.separator.dosbatch
 
+  constants:
+    - match: \b(?i:NUL)\b
+      scope: constant.language.dosbatch
+
   numbers:
     - match: '\b(0[xX])\h*\b'
       scope: constant.numeric.integer.hexadecimal.dosbatch
@@ -310,10 +314,6 @@ contexts:
         1: punctuation.definition.numeric.octal.dosbatch
     - match: '\b(?:0|[1-9][0-9]*)\b'
       scope: constant.numeric.integer.decimal.dosbatch
-
-  constants:
-    - match: \b(?i:NUL)\b
-      scope: constant.language.dosbatch
 
   strings:
     - match: '"'
