@@ -59,6 +59,17 @@ ECHO "
 :: ^ - keyword.operator.at.dosbatch
 
 
+:: Labels
+
+  :This is a #%@$虎 strange label
+::^ punctuation.definition.label.dosbatch
+::^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.label.dosbatch
+
+  :End
+::^ punctuation.definition.label.dosbatch
+::^^^^ entity.name.label.dosbatch
+
+
 :: Control Flow
 
    CALL:EOF
@@ -287,14 +298,6 @@ ECHO "
 
    FIND "a" |
 ::          ^ keyword.operator.pipe.dosbatch
-
-  :This is a #%@$虎 strange label
-::^    punctuation.separator.dosbatch
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.label.dosbatch
-
-  :End
-::^    punctuation.separator.dosbatch
-:: ^^^ entity.name.label.dosbatch
 
 
 :: Redirection

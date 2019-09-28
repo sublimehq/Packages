@@ -75,10 +75,10 @@ contexts:
 ###[ LABELS ]#################################################################
 
   labels:
-    - match: '^\s*(:)([^+=,;:\s].*)$'
+    - match: ^\s*((:)[^+=,;:\s].*$)
       captures:
-        1: punctuation.separator.dosbatch
-        2: entity.name.label.dosbatch
+        1: entity.name.label.dosbatch
+        2: punctuation.definition.label.dosbatch
 
 ###[ BLOCKS ]#################################################################
 
