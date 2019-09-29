@@ -13,12 +13,57 @@ variables:
   set_arithmetic_operators_unquoted: (?:\+|-|\*|/|%%|~)
   set_arithmetic_operators_quoted: (?:\||<<|>>|&|\^)
 
+  builtin_commands:  |-
+    \b(?xi:
+      assoc|break|cd|chdir|cls|color|copy|date|del|dir|dpath|erase|ftype|
+      keys|md|mkdir|mklink|move|path|pause|popd|prompt|pushd|ren|rename|rd|
+      rmdir|set|shift|start|time|title|type|ver|verify|vol
+    )(?=[\s{{command_terminator_chars}}])
+
+  external_commands:  |-
+    \b(?xi:
+      aciniupd|adprep|append|arp|at|atmadm|attrib|autofail|backup|basica|
+      bcdboot|bcdedit|bitsadmin|bootcfg|cacls|cdburn|certreq|certutil|
+      change logon|change port|change user|change|chcp|chglogon|chgport|chgusr|
+      chkdsk|chkntfs|choice|cipher|cleanmgr|clip|cluadmin|cluster|cmd|cmdkey|cmstp|
+      comp|compact|compress|control|convert|cprofile|cscript|csvde|ctty|
+      dcgpofix|debug|defrag|deltree|devcon|dfscmd|dhcploc|diantz|diskcomp|
+      diskcopy|diskpart|doskey|driverquery|dsadd|dsget|dsmod|dsmove|dsquery|
+      dsrm|dvdburn|edit|edlin|epal|eventcreate|eventtriggers|evntcmd|
+      exe2bin|expand|explorer|extract|fastopen|fc|fdisk|filever|find|findramd|
+      findstr|finger|flattemp|forcedos|forfiles|format|freedisk|fsutil|ftp|
+      getmac|gettype|gpresult|gpupdate|graftabl|gwbasic|help|helpctr|hostname|
+      icacls|iexpress|ifconfig|iisreset|inuse|ipconfig|ipxroute|irftp|jt|keyb|
+      label|ldifde|lfnfor|lh|loadhigh|lock|lodctr|logman|logoff|lpq|lpr|macfile|
+      makecab|mem|mklink|mmc|mode|more|mountvol|mrinfo|msd|msg|
+      msiexec|msinfo32|mstsc|mtrace|nbtstat|net accounts|net computer|net config|
+      net continue|net file|net group|net help|net helpmsg|net localgroup|
+      net name|net pause|net print|net send|net session|net share|net start|
+      net statistics|net stop|net time|net use|net user|net view|net|netdom|netsh|
+      netstat|nlb|nlbmgr|nltest|notepad|nslookup|ntbackup|ntcmdprompt|ntdsutil|
+      ntsd|ocsetup|odbcconf|openfiles|pathping|pbadmin|pentnt|perfmon|
+      ping|ping6|pkgmgr|powercfg|powershell|print|qappsrv|qbasic|
+      qchain|qfarm|qprocess|qserver|query process|query session|query termserver|
+      query user|query|quser|qwinsta|rasdial|rasphone|rcp|readline|recimg|
+      recover|reg|regedit|regedt32|regini|register|regsvr32|relog|
+      replace|reset session|reset|restore|rexec|risetup|robocopy|route|rsh|
+      rsm|rss|runas|rundll|rundll32|sc|schtasks|secedit|setx|sfc|
+      shadow|shutdown|sort|subinacl|subst|sysocmgr|systeminfo|takeown|
+      tapicfg|taskkill|tasklist|tcmsetup|tftp|timeout|tracerpt|tracert|
+      tracert6|tracerte|tree|truename|tscon|tsdiscon|tsecimp|tskill|tsprof|
+      tsshutdn|typeperf|tzchange|unlock|unlodctr|vhdmount|
+      vssadmin|w32tm|waitfor|where|whoami|winmsd|winmsdp|winnt|winnt32|winpop|
+      winsat|wlbs|wmic|wscript|wupdmgr|xcacls|xcopy
+    )(?=[\s{{command_terminator_chars}}])
+
 contexts:
   main:
     - include: statements
 
   statements:
     - include: comments
+    - include: command-echo
+    - include: command-set
     - include: commands
     - include: control-for
     - include: control
@@ -140,6 +185,8 @@ contexts:
     - match: \b(?i:goto)\b
       scope: keyword.control.flow.goto.dosbatch
       push: stmt-goto-body
+    - match: \b(?i:pause)\b
+      scope: keyword.control.flow.pause.dosbatch
     # conditional
     - match: \b(?i:if)\b
       scope: keyword.control.conditional.if.dosbatch
@@ -286,10 +333,18 @@ contexts:
 ###[ COMMANDS ]###############################################################
 
   commands:
-    - include: command-echo
-    - include: command-set
-    - match: \b(?i:aciniupd|adprep|append|arp|assoc|at|atmadm|attrib|autofail|backup|basica|bcdedit|bootcfg|break|cacls|cd|cdburn|certreq|certutil|change logon|change port|change user|change|chcp|chdir|chglogon|chgport|chgusr|chkdsk|chkntfs|choice|cipher|cleanmgr|clip|cls|cluadmin|cluster|cmd|cmdkey|cmstp|color|comp|compact|control|convert|copy|cprofile|cscript|csvde|ctty|date|dcgpofix|debug|defrag|del|deltree|devcon|dfscmd|dhcploc|diantz|dir|diskcomp|diskcopy|diskpart|doskey|dpath|driverquery|dsadd|dsget|dsmod|dsmove|dsquery|dsrm|dvdburn|edit|edlin|endlocal|epal|erase|eventcreate|eventtriggers|evntcmd|exe2bin|expand|explorer|extract|fastopen|fc|fdisk|filever|find|findramd|findstr|finger|flattemp|forcedos|forfiles|format|freedisk|fsutil|ftp|ftype|getmac|gettype|gpresult|gpupdate|graftabl|gwbasic|help|helpctr|hostname|icacls|iexpress|ifconfig|iisreset|inuse|ipconfig|ipxroute|irftp|jt|keyb|label|ldifde|lfnfor|lh|loadhigh|lock|lodctr|logman|logoff|lpq|lpr|macfile|makecab|md|mem|mkdir|mklink|mmc|mode|more|mountvol|move|mrinfo|msd|msg|msiexec|msinfo32|mstsc|mtrace|nbtstat|net accounts|net computer|net config|net continue|net file|net group|net help|net helpmsg|net localgroup|net name|net pause|net print|net send|net session|net share|net start|net statistics|net stop|net time|net use|net user|net view|net|netdom|netsh|netstat|nlb|nlbmgr|nltest|notepad|nslookup|ntbackup|ntcmdprompt|ntdsutil|ntsd|ocsetup|odbcconf|openfiles|path|pathping|pause|pbadmin|pentnt|perfmon|ping|ping6|pkgmgr|popd|powercfg|print|prompt|pushd|qappsrv|qbasic|qchain|qfarm|qprocess|qserver|query process|query session|query termserver|query user|query|quser|qwinsta|rasdial|rasphone|rcp|rd|readline|recimg|recover|reg|regedit|regedt32|regini|register|regsvr32|relog|rem|ren|rename|replace|reset session|reset|restore|rexec|risetup|rmdir|robocopy|route|rsh|rsm|rss|runas|rundll|rundll32|sc|schtasks|secedit|set|setlocal|setx|sfc|shadow|shift|shutdown|sort|start|subinacl|subst|sysocmgr|systeminfo|takeown|tapicfg|taskkill|tasklist|tcmsetup|tftp|time|timeout|title|tracerpt|tracert|tracert6|tracerte|tree|truename|tscon|tsdiscon|tsecimp|tskill|tsprof|tsshutdn|type|typeperf|tzchange|unlock|unlodctr|ver|verify|vhdmount|vol|vssadmin|w32tm|waitfor|where|whoami|winmsd|winmsdp|winnt|winnt32|winpop|winsat|wlbs|wmic|wscript|wupdmgr|xcacls|xcopy)\b
+    - match: '{{builtin_commands}}'
       scope: support.function.builtin.dosbatch
+      push:
+        - meta_scope: meta.command.builtin.dosbatch
+        - include: expressions
+        - include: eoc-pop
+    - match: '{{external_commands}}'
+      scope: support.function.external.dosbatch
+      push:
+        - meta_scope: meta.command.builtin.dosbatch
+        - include: expressions
+        - include: eoc-pop
 
 ###[ COMMAND ECHO ]###########################################################
 
