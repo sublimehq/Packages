@@ -14,20 +14,24 @@ variables:
 
 contexts:
   main:
+    - include: statements
+
+  statements:
+    - include: comments
+    - include: commands
+    - include: control-for
+    - include: control
+    - include: labels
     - include: expressions
 
   expressions:
-    - include: comments
-    - include: labels
-    - include: strings
     - include: groups
-    - include: numbers
     - include: constants
+    - include: numbers
+    - include: strings
     - include: operators
     - include: escaped-characters
     - include: variables
-    - include: commands
-    - include: control
 
 ###[ PROTOTYPES ]#############################################################
 
@@ -85,7 +89,7 @@ contexts:
   embedded:
     - match: (['`])
       scope: meta.embedded.dosbatch punctuation.section.embedded.begin.dosbatch
-      embed: expressions
+      embed: statements
       embed_scope: meta.embedded.dosbatch source.dosbatch.embedded
       escape: \1(?=\s*($|['`&|><)]))
       escape_captures:
@@ -101,7 +105,7 @@ contexts:
           pop: true
         - include: separator-semicolon
         - include: separator-comma
-        - include: expressions
+        - include: statements
 
 ###[ CONTROL ]################################################################
 
@@ -121,8 +125,6 @@ contexts:
       push: stmt-if-condition
     - match: \b(?i:else)\b
       scope: keyword.control.conditional.else.dosbatch
-    # loop
-    - include: control-for
 
   stmt-call-body:
     - match: (:)\w+\b
