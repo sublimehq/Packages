@@ -282,6 +282,8 @@ $var->meth()[10];
  */
 
 /**
+ * {@inheritdoc}
+ *   ^ keyword.other.phpdoc
  * @api Methods: declares that elements are suitable for consumption by third parties.
 //  ^ keyword.other.phpdoc
  */
