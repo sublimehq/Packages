@@ -79,6 +79,7 @@ contexts:
     - include: escaped-characters
     - include: line-continuation
     - include: variables
+    - include: switches
 
 ###[ PROTOTYPES ]#############################################################
 
@@ -345,6 +346,13 @@ contexts:
         - meta_scope: meta.command.builtin.dosbatch
         - include: expressions
         - include: eoc-pop
+
+  switches:
+    - match: \s+(/\?|([-/][-/]?)[-_[:alnum:]]+)(?:([=:])|(?=\s))
+      captures:
+        1: variable.parameter.switch.dosbatch
+        2: punctuation.definition.variable.dosbatch
+        3: punctuation.separator.mapping.key-value.dosbatch
 
 ###[ COMMAND ECHO ]###########################################################
 
