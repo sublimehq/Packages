@@ -271,19 +271,12 @@ $var->meth()[10];
 /** @var Properties: class properties. */
 //  ^ keyword.other.phpdoc
 
-/**
- * @return
-//  ^ keyword.other.phpdoc
- */
-
 /* No phpdoc highlight since there are not two * after the opening /
  * @return
 //   ^ comment.block - keyword.other.phpdoc
  */
 
 /**
- * {@inheritdoc}
- *   ^ keyword.other.phpdoc
  * @api Methods: declares that elements are suitable for consumption by third parties.
 //  ^ keyword.other.phpdoc
  */
