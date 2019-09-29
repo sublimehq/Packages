@@ -852,7 +852,7 @@ while(false){}/**/
 //            ^ - meta.while
 
 with (undefined) {
-// <- keyword.control.flow.with
+// <- keyword.control.import.with
 //^^^^^^^^^^ meta.with
 //    ^^^^^^^^^ constant.language.undefined
     return;

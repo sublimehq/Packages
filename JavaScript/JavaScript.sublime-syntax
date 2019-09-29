@@ -619,7 +619,7 @@ contexts:
         - expect-parenthesized-expression
 
     - match: with{{identifier_break}}
-      scope: keyword.control.flow.with.js
+      scope: keyword.control.import.with.js
       set:
         - with-meta
         - block-scope
