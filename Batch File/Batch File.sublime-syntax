@@ -8,7 +8,8 @@ file_extensions:
 scope: source.dosbatch
 variables:
   colon_comment_start: ':[+=,;: ]'
-  command_terminators: (?=$\n|[&|><)])
+  command_terminator_chars: '&<|>\)'
+  command_terminators: $|(?=[{{command_terminator_chars}}])
   set_arithmetic_operators_unquoted: (?:\+|-|\*|/|%%|~)
   set_arithmetic_operators_quoted: (?:\||<<|>>|&|\^)
 
@@ -31,6 +32,7 @@ contexts:
     - include: strings
     - include: operators
     - include: escaped-characters
+    - include: line-continuation
     - include: variables
 
 ###[ PROTOTYPES ]#############################################################
@@ -40,12 +42,13 @@ contexts:
       pop: true
 
   eol-pop:
+    - include: line-continuation
     - match: $
       pop: true
 
   else-pop:
-    - include: any-pop
     - include: eol-pop
+    - include: any-pop
 
   immediatelly-pop:
     - match: ''
@@ -56,14 +59,26 @@ contexts:
       scope: invalid.illegal.newline.dosbatch
       pop: true
 
+  line-continuation:
+    - match: \^\n
+      scope: punctuation.separator.continuation.line.dosbatch
+      push:
+        - match: ^
+          pop: true
+
 ###[ COMMENTS ]###############################################################
 
   comments:
-    - match: (?:^|(&))\s*(({{colon_comment_start}}).*\n)
+    - match: (?:^|(&))\s*({{colon_comment_start}})
       captures:
         1: keyword.operator.conditional.dosbatch
-        2: comment.line.colon.dosbatch
-        3: punctuation.definition.comment.dosbatch
+        2: comment.line.colon.dosbatch punctuation.definition.comment.dosbatch
+      push:
+        - meta_content_scope: comment.line.colon.dosbatch
+        - include: line-continuation
+        - match: \n
+          scope: comment.line.colon.dosbatch
+          pop: true
     # REM command
     # https://technet.microsoft.com/en-us/library/bb490986.aspx
     - match: \b(?i:rem)\b
@@ -72,6 +87,7 @@ contexts:
         # meta_content_scope is used since rem should not be
         # highlighted as a comment, but a command
         - meta_content_scope: comment.line.rem.dosbatch
+        - include: line-continuation
         - match: \n
           scope: comment.line.rem.dosbatch
           pop: true
@@ -79,7 +95,7 @@ contexts:
 ###[ LABELS ]#################################################################
 
   labels:
-    - match: ^\s*((:)[^+=,;:\s].*$)
+    - match: ^\s*((:)[^+=,;:\s{{command_terminator_chars}}][^{{command_terminator_chars}}]*)
       captures:
         1: entity.name.label.dosbatch
         2: punctuation.definition.label.dosbatch
@@ -91,7 +107,7 @@ contexts:
       scope: meta.embedded.dosbatch punctuation.section.embedded.begin.dosbatch
       embed: statements
       embed_scope: meta.embedded.dosbatch source.dosbatch.embedded
-      escape: \1(?=\s*($|['`&|><)]))
+      escape: \1(?=\s*($|['`{{command_terminator_chars}}]))
       escape_captures:
         0: meta.embedded.dosbatch punctuation.section.embedded.end.dosbatch
 
@@ -271,6 +287,7 @@ contexts:
         - match: '{{command_terminators}}'
           pop: true
         - include: escaped-characters
+        - include: line-continuation
         - include: variables
         - include: numbers
         - include: strings
@@ -287,6 +304,7 @@ contexts:
       - match: '{{command_terminators}}'
         pop: true
       - include: escaped-characters
+      - include: line-continuation
       - include: variables
       - match: (")\s*([^ ][^=]*)(=)
         captures:
@@ -299,6 +317,7 @@ contexts:
             scope: punctuation.definition.string.end.dosbatch
             pop: true
           - include: escaped-characters
+          - include: line-continuation
           - include: variables
           - include: numbers
           - include: groups
@@ -443,6 +462,7 @@ contexts:
     - include: separator-comma
     - include: variables
     - include: escaped-characters
+    - include: line-continuation
     - match: (?:(?!{{set_arithmetic_operators_unquoted}}|{{set_arithmetic_operators_quoted}}|[=")])\S)+
       scope: variable.other.readwrite.dosbatch
 
@@ -505,9 +525,10 @@ contexts:
       set:
         - - meta_scope: meta.string.dosbatch string.unquoted.dosbatch
           - include: escaped-characters
+          - include: line-continuation
           - include: variables-interpolation
           - include: path-patterns-common
-          - match: (?=[\s<>",;|)])
+          - match: (?=[\s,;"{{command_terminator_chars}}])
             pop: true
         - path-patterns-relative
     - include: else-pop
@@ -549,7 +570,7 @@ contexts:
     - include: variables-interpolation
 
   escaped-characters:
-  - match: '%%|\^\^!|\^.|\^\n'
+  - match: '%%|\^\^!|\^.'
     scope: constant.character.escape.dosbatch
 
 ###[ VARIABLES ]##############################################################

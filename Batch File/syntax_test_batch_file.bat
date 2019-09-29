@@ -35,8 +35,23 @@ REM This follows a REM command
    : Me too!
 :: ^^ punctuation.definition.comment.dosbatch
 
-ECHO : Not a comment
+   ::^
+   Me too!
+:: ^^^^^^^ comment.line.colon.dosbatch
+
+   : ^
+   Me too!
+:: ^^^^^^^ comment.line.colon.dosbatch
+
+   : ^
+   A contineued comment.^
+   Me too!
+:: ^^^^^^^ comment.line.colon.dosbatch
+
+
+ECHO : Not a comment ^
 ::   ^^^^^^^^^^^^^^^ - comment
+::                   ^^ punctuation.separator.continuation.line.dosbatch
 
 ECHO : Not a comment ^
   do not break out of an echo with an escaped newline
@@ -55,6 +70,15 @@ ECHO "foo"
 
 ECHO "
 ::    ^ invalid.illegal.newline.dosbatch
+
+ECHO "^
+::     ^ invalid.illegal.newline.dosbatch
+
+ECHO "^
+   no string"
+:: ^^^^^^^^^ - string.quoted.double
+::          ^ string.quoted.double.dosbatch punctuation.definition.string.begin.dosbatch
+::           ^ string.quoted.double.dosbatch invalid.illegal.newline.dosbatch
 
    @ECHO OFF
 :: ^ keyword.operator.at.dosbatch
@@ -81,6 +105,11 @@ ECHO "
 ::     ^ punctuation.definition.variable.dosbatch
 ::     ^^^^ variable.label.dosbatch - keyword
 
+   CALL ^
+   :EOF
+:: ^ punctuation.definition.variable.dosbatch
+:: ^^^^ variable.label.dosbatch - keyword
+
    CALL :End
 :: ^^^^ keyword.control.flow.call.dosbatch
 ::      ^ punctuation.definition.variable.dosbatch
@@ -95,11 +124,21 @@ ECHO "
 :: ^^^^ keyword.control.flow.call.dosbatch
 ::      ^^^ meta.function-call.dosbatch variable.function.dosbatch
 
+   CALL ^
+   End
+:: ^^^ meta.function-call.dosbatch variable.function.dosbatch
+
    GOTO:EOF
 :: ^^^^ keyword.control.flow.goto.dosbatch
 ::     ^ punctuation.definition.variable.dosbatch
 ::     ^^^ variable.label.dosbatch
 ::      ^^^ keyword.control.flow.return.dosbatch
+
+   GOTO ^
+   :EOF
+:: ^ punctuation.definition.variable.dosbatch
+:: ^^^ variable.label.dosbatch
+::  ^^^ keyword.control.flow.return.dosbatch
 
    GOTO :End
 :: ^^^^ keyword.control.flow.goto.dosbatch
@@ -114,6 +153,10 @@ ECHO "
    GOTO End
 :: ^^^^ keyword.control.flow.goto.dosbatch
 ::      ^^^ variable.label.dosbatch - keyword
+
+   GOTO ^
+   End
+:: ^^^ variable.label.dosbatch - keyword
 
 
 :: Conditionals
@@ -162,6 +205,24 @@ ECHO "
 ::        ^^^^^ support.function.builtin.dosbatch
 ::              ^^^^^^^^^^^^^ string.quoted.double.dosbatch
 
+   IF^
+   not exist "C:\file.log"
+:: ^^^ keyword.operator.logical.dosbatch
+::     ^^^^^ support.function.builtin.dosbatch
+::           ^^^^^^^^^^^^^ string.quoted.double.dosbatch
+
+   IF^
+   not^
+   exist "C:\file.log"
+:: ^^^^^ support.function.builtin.dosbatch
+::       ^^^^^^^^^^^^^ string.quoted.double.dosbatch
+
+   IF^
+   not^
+   exist^
+   "C:\file.log"
+:: ^^^^^^^^^^^^^ string.quoted.double.dosbatch
+
    IF foo (ECHO bar) ELSE (ECHO baz)
 :: ^^ keyword.control.conditional.if.dosbatch
 ::        ^^^^^^^^^^ meta.group.dosbatch
@@ -206,6 +267,79 @@ ECHO "
 ::                                                   ^ punctuation.section.set.end.dosbatch
 ::                                                     ^^ keyword.control.loop.do.dosbatch
 
+   FOR^
+   /D /r %%foo IN (folder1, ..\folder2, C:\folder) DO command
+:: ^ punctuation.definition.variable.dosbatch
+:: ^^ variable.parameter.dir.dosbatch
+::    ^ punctuation.definition.variable.dosbatch
+::    ^^ variable.parameter.recursive.dosbatch
+::       ^^ punctuation.definition.variable.dosbatch
+::       ^^^^^ variable.other.readwrite.dosbatch
+::             ^^ keyword.operator.logical.dosbatch
+::                ^ punctuation.section.set.begin.dosbatch
+::                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.set.dosbatch
+::                        ^ punctuation.separator.comma.dosbatch
+::                          ^^ constant.language.path.parent.dosbatch
+::                                    ^ punctuation.separator.comma.dosbatch
+::                                               ^ punctuation.section.set.end.dosbatch
+::                                                 ^^ keyword.control.loop.do.dosbatch
+
+   FOR ^
+   /D /r ^
+   %%foo IN (folder1, ..\folder2, C:\folder) DO command
+:: ^^ punctuation.definition.variable.dosbatch
+:: ^^^^^ variable.other.readwrite.dosbatch
+::       ^^ keyword.operator.logical.dosbatch
+::          ^ punctuation.section.set.begin.dosbatch
+::          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.set.dosbatch
+::                  ^ punctuation.separator.comma.dosbatch
+::                    ^^ constant.language.path.parent.dosbatch
+::                              ^ punctuation.separator.comma.dosbatch
+::                                         ^ punctuation.section.set.end.dosbatch
+::                                           ^^ keyword.control.loop.do.dosbatch
+
+   FOR ^
+   /D /r ^
+   %%foo ^
+   IN (folder1, ..\folder2, C:\folder) DO command
+:: ^^ keyword.operator.logical.dosbatch
+::    ^ punctuation.section.set.begin.dosbatch
+::    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.set.dosbatch
+::            ^ punctuation.separator.comma.dosbatch
+::              ^^ constant.language.path.parent.dosbatch
+::                        ^ punctuation.separator.comma.dosbatch
+::                                   ^ punctuation.section.set.end.dosbatch
+::                                     ^^ keyword.control.loop.do.dosbatch
+
+   FOR ^
+   /D /r ^
+   %%foo ^
+   IN ^
+   (folder1, ..\folder2, C:\folder) DO command
+:: ^ punctuation.section.set.begin.dosbatch
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.set.dosbatch
+::         ^ punctuation.separator.comma.dosbatch
+::           ^^ constant.language.path.parent.dosbatch
+::                     ^ punctuation.separator.comma.dosbatch
+::                                ^ punctuation.section.set.end.dosbatch
+::                                  ^^ keyword.control.loop.do.dosbatch
+
+   FOR ^
+   /D /r ^
+   %%foo ^
+   IN ^
+   (
+:: ^ punctuation.section.set.begin.dosbatch
+      folder1,
+::           ^ punctuation.separator.comma.dosbatch
+      ..\folder2,
+::    ^^ constant.language.path.parent.dosbatch
+::              ^ punctuation.separator.comma.dosbatch
+      C:\folder
+   ) ^
+   DO command
+:: ^^ keyword.control.loop.do.dosbatch
+
    for /F "tokens=*" %%f in ('dir /S /b C:\*\temp.dat') do (echo "%%f".)
 :: ^^^ keyword.control.loop.for.dosbatch
 ::     ^ punctuation.definition.variable.dosbatch
@@ -225,6 +359,13 @@ ECHO "
 ::                            ^^^ support.function.builtin.dosbatch
 ::                                                   ^ punctuation.section.embedded.end.dosbatch
 ::                                                    ^ meta.set.dosbatch punctuation.section.set.end.dosbatch - meta.embedded
+
+   for /f %%f in ('dir /S /b^
+      C:\fol'der') do echo %%f
+::  ^^^^^^^^^^^^ meta.set.dosbatch meta.embedded.dosbatch source.dosbatch.embedded
+::              ^ meta.set.dosbatch meta.embedded.dosbatch - source.dosbatch.embedded
+::               ^ meta.set.dosbatch punctuation.section.set.end.dosbatch
+::                 ^^ keyword.control.loop.do.dosbatch
 
    for /f %%f in ('dir /S /b C:\fol'der
       ') do echo %%f
