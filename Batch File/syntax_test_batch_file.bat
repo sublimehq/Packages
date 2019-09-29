@@ -4,13 +4,17 @@
 :: ^^^ keyword.declaration.rem.dosbatch - comment
 ::    ^^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
 
+   REM ^
+   I'm a (com|ment)
+:: ^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
+
 REM
    not a comment
-:: ^^^^^^^^^^^^^ - comment.line.rem.dosbatch
+:: ^^^^^^^^^^^^^ - comment
 
 REM This follows a REM command
-:: <- keyword.command - comment
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
+:: <- keyword.declaration.rem.dosbatch - comment
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
 
    :: Me too!
 :: ^^ punctuation.definition.comment.dosbatch
@@ -37,7 +41,7 @@ ECHO : Not a comment
 ECHO : Not a comment ^
   do not break out of an echo with an escaped newline
 ::   ^^^ - keyword.operator
-::       ^^^^^ - keyword.command
+::       ^^^^^ - support.function
 
 ECHO &:: A comment
 ::   ^ keyword.operator.conditional.dosbatch
@@ -149,25 +153,25 @@ ECHO "
 
    IF exist "C:\file.log"
 :: ^^ keyword.control.conditional.if.dosbatch
-::    ^^^^^ keyword.other.dosbatch
+::    ^^^^^ support.function.builtin.dosbatch
 ::          ^^^^^^^^^^^^^ string.quoted.double.dosbatch
 
    IF not exist "C:\file.log"
 :: ^^ keyword.control.conditional.if.dosbatch
 ::    ^^^ keyword.operator.logical.dosbatch
-::        ^^^^^ keyword.other.dosbatch
+::        ^^^^^ support.function.builtin.dosbatch
 ::              ^^^^^^^^^^^^^ string.quoted.double.dosbatch
 
    IF foo (ECHO bar) ELSE (ECHO baz)
 :: ^^ keyword.control.conditional.if.dosbatch
 ::        ^^^^^^^^^^ meta.group.dosbatch
 ::        ^ punctuation.section.group.begin.dosbatch
-::         ^^^^ keyword.command.dosbatch
+::         ^^^^ support.function.builtin.dosbatch
 ::                 ^ punctuation.section.group.end.dosbatch
 ::                   ^^^^ keyword.control.conditional.else.dosbatch
 ::                        ^^^^^^^^^^ meta.group.dosbatch
 ::                        ^ punctuation.section.group.begin.dosbatch
-::                         ^^^^ keyword.command.dosbatch
+::                         ^^^^ support.function.builtin.dosbatch
 ::                                 ^ punctuation.section.group.end.dosbatch
 
 
@@ -218,7 +222,7 @@ ECHO "
 ::                          ^ meta.set.dosbatch punctuation.section.set.begin.dosbatch - meta.embedded
 ::                           ^ punctuation.section.embedded.begin.dosbatch
 ::                           ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.set.dosbatch meta.embedded.dosbatch
-::                            ^^^ keyword.command.dosbatch
+::                            ^^^ support.function.builtin.dosbatch
 ::                                                   ^ punctuation.section.embedded.end.dosbatch
 ::                                                    ^ meta.set.dosbatch punctuation.section.set.end.dosbatch - meta.embedded
 
@@ -244,7 +248,7 @@ ECHO "
 ::                   ^^^ constant.numeric.integer.decimal.dosbatch
 ::                      ^ punctuation.section.set.end.dosbatch
 ::                        ^^ keyword.control.loop.do.dosbatch
-::                           ^^^^ keyword.command.dosbatch
+::                           ^^^^ support.function.builtin.dosbatch
 
    FOR /R C:\dir\file-name.ext %%foo IN (file1.*, another?.log) DO command
 :: ^^^ keyword.control.loop.for.dosbatch
@@ -303,7 +307,7 @@ ECHO "
 :: Redirection
 
    ECHO Hello World! > hello.txt
-:: ^^^^                keyword.command.dosbatch
+:: ^^^^                support.function.builtin.dosbatch
 ::                   ^ keyword.operator.redirection.dosbatch
 
    ECHO >> NUL
@@ -535,7 +539,7 @@ ECHO %% ^^! ^&
 ::                                      ^ keyword.operator.arithmetic.dosbatch
 
   SET T=%TIME: =0%
-::^^^ keyword.command
+::^^^ support.function.builtin.dosbatch
 ::    ^ variable.other.readwrite
 ::     ^ keyword.operator.assignment
 ::      ^^^^^^^^^^ variable.other.readwrite
@@ -549,19 +553,19 @@ IF "%FOO%" == "BAR" ( SET BAZ=42 )
 :: See http://ss64.com/nt/syntax-brackets.html
 IF EXIST MyFile.txt (ECHO Some(more)Potatoes)
 :: <- keyword.control.conditional.if
-:: ^ keyword.other
+:: ^^^^^ support.function.builtin.dosbatch
 ::                  ^^^^^^^^^^^^^^^^ meta.group
-::                   ^ keyword.command
+::                   ^^^^ support.function.builtin.dosbatch
 ::                                  ^ - meta.group
 
 IF EXIST MyFile.txt (ECHO Some[more]Potatoes)
 :: <- keyword.control.conditional.if
-:: ^ keyword.other
+:: ^^^^^ support.function.builtin.dosbatch
 ::                  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
-::                   ^ keyword.command
+::                   ^^^^ support.function.builtin.dosbatch
 
 set "hello"="world"
-:: <- keyword.command
+:: <- support.function.builtin.dosbatch
 ::  ^ - variable.other.readwrite
 ::   ^^^^^^ variable.other.readwrite
 ::         ^ keyword.operator.assignment
@@ -570,58 +574,58 @@ set "hello"="world"
 ::                 ^ - string
 
 set foo=bar
-:: <- keyword.command
+:: <- support.function.builtin.dosbatch
 ::  ^^^ variable.other.readwrite
 ::     ^ keyword.operator.assignment
 ::      ^^^ string.unquoted
 
 set  foo = bar
-:: <- keyword.command
+:: <- support.function.builtin.dosbatch
 ::  ^ - variable.other.readwrite
 ::   ^^^^ variable.other.readwrite
 ::       ^ keyword.operator.assignment
 ::         ^^^ string.unquoted
 
 set  hello world = bar
-:: <- keyword.command
+:: <- support.function.builtin.dosbatch
 ::  ^ - variable.other.readwrite
 ::   ^^^^^^^^^^^^ variable.other.readwrite
 ::               ^ keyword.operator.assignment
 ::                 ^^^ string.unquoted
 
 set abc /a = 1+2
-:: <- keyword.command
+:: <- support.function.builtin.dosbatch
 ::  ^^^^^^^ variable.other.readwrite
 ::         ^ keyword.operator.assignment - meta.expression.set
 ::           ^^^ string.unquoted
 
 set "foobar=test"
-:: <- keyword.command
+:: <- support.function.builtin.dosbatch
 ::  ^ - variable.other.readwrite
 ::   ^^^^^^ variable.other.readwrite
 ::         ^ keyword.operator.assignment
 ::              ^ punctuation.definition.string.end
 
 set  " foo = bar"
-:: <- keyword.command
+:: <- support.function.builtin.dosbatch
 ::   ^^ - variable.other.readwrite
 ::     ^^^^ variable.other.readwrite
 ::         ^ keyword.operator.assignment
 ::              ^ punctuation.definition.string.end
 
 set test rem = hi
-:: <- keyword.command
+:: <- support.function.builtin.dosbatch
 ::       ^^^^^^^^^ - comment
 ::  ^^^^^^^^^ variable.other.readwrite
 ::           ^ keyword.operator.assignment
 ::             ^^ - variable.other
 
 set hello_world
-:: <- keyword.command
+:: <- support.function.builtin.dosbatch
 ::  ^^^^^^^^^^^ variable.other.readwrite.dosbatch
 
 set /A hello_world
-:: <- keyword.command
+:: <- support.function.builtin.dosbatch
 ::     ^^^^^^^^^^^ meta.expression.set
 ::                ^ - meta.expression.set
 
@@ -691,7 +695,7 @@ set test="c:\program files (x86)\%example%_%%test"abc
 ::                                                ^^^ string.unquoted.dosbatch
 
 SETLOCAL EnableDelayedExpansion
-::^^^^^^ keyword.command.dosbatch
+::^^^^^^ support.function.builtin.dosbatch
   SET /P example="what is the answer? ;) " & echo you have answered: !example!
 ::   ^^^^ - variable.other.readwrite.dosbatch
 ::       ^^^^^^^ variable.other.readwrite.dosbatch
@@ -700,10 +704,10 @@ SETLOCAL EnableDelayedExpansion
 ::               ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.prompt.set.dosbatch string.quoted
 ::                                       ^ punctuation.definition.string.end.dosbatch
 ::                                         ^ keyword.operator.conditional.dosbatch - meta.prompt.set.dosbatch - string
-::                                           ^^^^ keyword.command.dosbatch
+::                                           ^^^^ support.function.builtin.dosbatch
 ::                                                                   ^^^^^^^^^ variable.other.readwrite.dosbatch
 ENDLOCAL
-::^^^^^^ keyword.command.dosbatch
+::^^^^^^ support.function.builtin.dosbatch
 
 set "X="
 ::  ^^^^ string.quoted.double
@@ -718,12 +722,12 @@ set /p OUTPUT="( ... )|&... "
 set /p OUTPUT=hi|echo
 ::            ^^ meta.prompt.set string.unquoted
 ::              ^ keyword.operator.pipe - meta.prompt
-::               ^^^^ keyword.command
+::               ^^^^ support.function.builtin.dosbatch
 set /p OUTPUT="( ... )|&... "ignored & echo
 ::            ^^^^^^^^^^^^^^^ meta.prompt.set string.quoted.double - string.unquoted
 ::                           ^^^^^^^ meta.prompt.set comment.line.ignored
 ::                                   ^ keyword.operator.conditional - comment
-::                                     ^^^^ keyword.command
+::                                     ^^^^ support.function.builtin.dosbatch
 set /p today="enter a date: " REM :: this is a comment & echo !today!
 :: ^^^^ - variable.other.readwrite.dosbatch
 ::     ^^^^^ variable.other.readwrite.dosbatch
@@ -731,7 +735,7 @@ set /p today="enter a date: " REM :: this is a comment & echo !today!
 ::           ^^^^^^^^^^^^^^^^ meta.prompt.set.dosbatch string.quoted - variable.other.readwrite.dosbatch - comment
 ::                            ^^^^^^^^^^^^^^^^^^^^^^^^ comment
 ::                                                     ^ keyword.operator.conditional - comment - meta.prompt
-::                                                       ^^^^ keyword.command
+::                                                       ^^^^ support.function.builtin.dosbatch
 ::                                                            ^^^^^^^ variable.other.readwrite
 
 set hello=4
