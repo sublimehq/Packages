@@ -756,7 +756,7 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.end.php
           pop: true
-        - include: php_doc
+        - include: php-doc
     - match: /\*
       scope: punctuation.definition.comment.begin.php
       push:
@@ -1185,7 +1185,7 @@ contexts:
           pop: true
         - include: class-name
     - include: constants
-  php_doc:
+  php-doc:
     # If the next line doesn't start with whitespace then an asterisk, the use
     # is either writing an invalid phpdoc comment, or not using phpdoc. Instead
     # of marking the comment as invalid, we just switch to a normal block-level
