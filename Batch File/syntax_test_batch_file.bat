@@ -459,10 +459,153 @@ ECHO "^
 ::     ^ keyword.operator.redirection.dosbatch
 ::              ^^ keyword.operator.redirection.dosbatch
 
+
+:: Command ECHO
+
+   @
+:: ^ - keyword.operator.at.dosbatch
+
    ECHO || ECHO && ECHO &
+:: ^^^^ support.function.builtin.dosbatch
 ::      ^^ keyword.operator.conditional.dosbatch
+::         ^^^^ support.function.builtin.dosbatch
 ::              ^^ keyword.operator.conditional.dosbatch
+::                 ^^^^ support.function.builtin.dosbatch
 ::                      ^ keyword.operator.conditional.dosbatch
+
+   @ECHO OFF
+:: ^ - meta.command
+::  ^^^^^^^^ meta.command.echo.dosbatch
+::          ^ - meta.command
+:: ^ keyword.operator.at.dosbatch
+::  ^^^^ support.function.builtin.dosbatch
+::       ^^^ constant.language.dosbatch
+
+   @ECHO OFF :: no comment & :: comment
+:: ^ - meta.command
+::  ^^^^^ meta.command.echo.dosbatch - meta.string - string
+::       ^^^^^^^^^^^^^^^^^ meta.command.echo.dosbatch meta.string.dosbatch string.unquoted.dosbatch
+::                        ^^^^^^^^^^^^^ - meta.command
+:: ^ keyword.operator.at.dosbatch
+::  ^^^^ support.function.builtin.dosbatch
+::                         ^ keyword.operator.conditional.dosbatch
+::                           ^^ comment.line.colon.dosbatch punctuation.definition.comment.dosbatch
+
+   @ECHO ON & :: comment
+:: ^ - meta.command
+::  ^^^^^^^ meta.command.echo.dosbatch
+::         ^^^^^^^^^^^^^ - meta.command
+:: ^ keyword.operator.at.dosbatch
+::  ^^^^ support.function.builtin.dosbatch
+::       ^^ constant.language.dosbatch
+::          ^ keyword.operator.conditional.dosbatch
+::            ^^ comment.line.colon.dosbatch punctuation.definition.comment.dosbatch
+
+   ECHO /?
+:: ^^^^^^^ meta.command.echo.dosbatch
+:: ^^^^ support.function.builtin.dosbatch
+::      ^ punctuation.definition.variable.dosbatch
+::      ^^ variable.parameter.help.dosbatch
+
+   ECHO /? illegal
+::^ - meta.command
+:: ^^^^^ meta.command.echo.dosbatch - meta.string - string
+:: ^^^^ support.function.builtin.dosbatch
+::      ^^^^^^^^^^ meta.command.echo.dosbatch meta.string.dosbatch string.unquoted.dosbatch
+::                 ^ - meta.command
+
+   ECHO .
+::^ - meta.command
+:: ^^^^^^ meta.command.echo.dosbatch
+::       ^ - meta.command
+:: ^^^^ support.function.builtin.dosbatch
+::      ^ meta.string.dosbatch string.unquoted.dosbatch
+
+   ECHO.
+::^ - meta.command
+:: ^^^^^ meta.command.echo.dosbatch
+::      ^ - meta.command
+:: ^^^^ support.function.builtin.dosbatch
+::     ^ punctuation.separator.arguments.dosbatch
+
+   ECHO./? will display help
+::^ - meta.command
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.echo.dosbatch
+::      ^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch
+::                          ^ - meta.command
+:: ^^^^ support.function.builtin.dosbatch
+::     ^ punctuation.separator.arguments.dosbatch
+
+   ECHO :
+::^ - meta.command
+:: ^^^^^^ meta.command.echo.dosbatch
+::       ^ - meta.command
+:: ^^^^ support.function.builtin.dosbatch
+::      ^ meta.string.dosbatch string.unquoted.dosbatch
+
+   ECHO:
+::^ - meta.command
+:: ^^^^^ meta.command.echo.dosbatch
+::      ^ - meta.command
+:: ^^^^ support.function.builtin.dosbatch
+::     ^ punctuation.separator.arguments.dosbatch
+
+   ECHO:/? will display help
+::^ - meta.command
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.echo.dosbatch
+::      ^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch
+::                          ^ - meta.command
+:: ^^^^ support.function.builtin.dosbatch
+::     ^ punctuation.separator.arguments.dosbatch
+
+   ECHO "foo"bar"baz"
+::      ^ punctuation.definition.string.begin.dosbatch
+::      ^^^^^ string.quoted.double.dosbatch
+::           ^^^ string.unquoted.dosbatch
+::              ^^^^^ string.quoted.double.dosbatch
+::          ^ punctuation.definition.string.end.dosbatch
+
+   ECHO "
+::       ^ invalid.illegal.newline.dosbatch
+
+   ECHO "^
+::        ^ invalid.illegal.newline.dosbatch
+
+   ECHO "^
+   no string"
+:: ^^^^^^^^^ - string.quoted.double
+::          ^ string.quoted.double.dosbatch punctuation.definition.string.begin.dosbatch
+::           ^ string.quoted.double.dosbatch invalid.illegal.newline.dosbatch
+
+
+:: Escape Characters
+
+   ECHO %% ^^! ^& ^| ^( ^)
+:: ^^^^^^^^^^^^^^^^^^^^^^^ meta.command.echo.dosbatch
+:: ^^^^ support.function.builtin.dosbatch
+::      ^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch
+::      ^^ constant.character.escape.dosbatch
+::         ^^^ constant.character.escape.dosbatch
+::             ^^ constant.character.escape.dosbatch
+::                ^^ constant.character.escape.dosbatch
+::                   ^^ constant.character.escape.dosbatch
+::                      ^^ constant.character.escape.dosbatch
+
+   ECHO "%% ^^! ^& ^| ^( ^)"
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.echo.dosbatch
+:: ^^^^ support.function.builtin.dosbatch
+::      ^ punctuation.definition.string.begin.dosbatch
+::      ^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.quoted.double.dosbatch
+::       ^^ constant.character.escape.dosbatch
+::          ^^^ constant.character.escape.dosbatch
+::              ^^ constant.character.escape.dosbatch
+::                 ^^ constant.character.escape.dosbatch
+::                    ^^ constant.character.escape.dosbatch
+::                       ^^ constant.character.escape.dosbatch
+::                         ^ punctuation.definition.string.end.dosbatch
+
+
+:: Variables
 
    ECHO %1 %* %~dpf$PATH:5 %~1
 ::      ^ punctuation.definition.variable.dosbatch
@@ -482,87 +625,87 @@ ECHO "^
 ::                 ^^^^^^^^^^ variable.other.readwrite.dosbatch
 ::                          ^ punctuation.definition.variable.end.dosbatch
 
-ECHO %sub:str1=str2% !sub:str1=str2!
-::   ^^^^^^^^^^^^^^^ variable.other.readwrite.dosbatch
-::   ^ punctuation.definition.variable.begin.dosbatch
-::       ^ punctuation.separator.dosbatch
-::        ^^^^^^^^^ meta.variable.substitution.dosbatch
-::        ^^^^ string.unquoted.dosbatch
-::            ^ punctuation.separator.dosbatch
-::             ^^^^ string.unquoted.dosbatch
-::                 ^ punctuation.definition.variable.end.dosbatch
-::                   ^^^^^^^^^^^^^^^ variable.other.readwrite.dosbatch
-::                   ^ punctuation.definition.variable.begin.dosbatch
-::                       ^ punctuation.separator.dosbatch
-::                        ^^^^^^^^^ meta.variable.substitution.dosbatch
-::                        ^^^^ string.unquoted.dosbatch
-::                            ^ punctuation.separator.dosbatch
-::                             ^^^^ string.unquoted.dosbatch
-::                                 ^ punctuation.definition.variable.end.dosbatch
+   ECHO %sub:str1=str2% !sub:str1=str2!
+::      ^^^^^^^^^^^^^^^ variable.other.readwrite.dosbatch
+::      ^ punctuation.definition.variable.begin.dosbatch
+::          ^ punctuation.separator.dosbatch
+::           ^^^^^^^^^ meta.variable.substitution.dosbatch
+::           ^^^^ string.unquoted.dosbatch
+::               ^ punctuation.separator.dosbatch
+::                ^^^^ string.unquoted.dosbatch
+::                    ^ punctuation.definition.variable.end.dosbatch
+::                      ^^^^^^^^^^^^^^^ variable.other.readwrite.dosbatch
+::                      ^ punctuation.definition.variable.begin.dosbatch
+::                          ^ punctuation.separator.dosbatch
+::                           ^^^^^^^^^ meta.variable.substitution.dosbatch
+::                           ^^^^ string.unquoted.dosbatch
+::                               ^ punctuation.separator.dosbatch
+::                                ^^^^ string.unquoted.dosbatch
+::                                    ^ punctuation.definition.variable.end.dosbatch
 
 
-ECHO %substr:~0,-2% !substr:~0,-2!
-::   ^^^^^^^^^^^^^^ variable.other.readwrite.dosbatch
-::   ^ punctuation.definition.variable.begin.dosbatch
-::          ^^ punctuation.separator.dosbatch
-::            ^^^^ meta.variable.substring.dosbatch
-::            ^ constant.numeric.dosbatch
-::             ^ punctuation.separator.comma.dosbatch
-::              ^^ constant.numeric.dosbatch
-::                ^ punctuation.definition.variable.end.dosbatch
-::                  ^^^^^^^^^^^^^^ variable.other.readwrite.dosbatch
-::                  ^ punctuation.definition.variable.begin.dosbatch
-::                         ^^ punctuation.separator.dosbatch
-::                           ^^^^ meta.variable.substring.dosbatch
-::                           ^ constant.numeric.dosbatch
-::                            ^ punctuation.separator.comma.dosbatch
-::                             ^^ constant.numeric.dosbatch
-::                               ^ punctuation.definition.variable.end.dosbatch
-
-ECHO %b:~-5% !b:~+5!
-::   ^^^^^^^ variable.other.readwrite.dosbatch
-::   ^ punctuation.definition.variable.begin.dosbatch
-::     ^^ punctuation.separator.dosbatch
-::       ^^ meta.variable.substring.dosbatch
-::       ^^ constant.numeric.dosbatch
-::         ^ punctuation.definition.variable.end.dosbatch
-::           ^^^^^^^ variable.other.readwrite.dosbatch
-::           ^ punctuation.definition.variable.begin.dosbatch
+   ECHO %substr:~0,-2% !substr:~0,-2!
+::      ^^^^^^^^^^^^^^ variable.other.readwrite.dosbatch
+::      ^ punctuation.definition.variable.begin.dosbatch
 ::             ^^ punctuation.separator.dosbatch
-::               ^^ meta.variable.substring.dosbatch
-::               ^^ constant.numeric.dosbatch
-::                 ^ punctuation.definition.variable.end.dosbatch
+::               ^^^^ meta.variable.substring.dosbatch
+::               ^ constant.numeric.dosbatch
+::                ^ punctuation.separator.comma.dosbatch
+::                 ^^ constant.numeric.dosbatch
+::                   ^ punctuation.definition.variable.end.dosbatch
+::                     ^^^^^^^^^^^^^^ variable.other.readwrite.dosbatch
+::                     ^ punctuation.definition.variable.begin.dosbatch
+::                            ^^ punctuation.separator.dosbatch
+::                              ^^^^ meta.variable.substring.dosbatch
+::                              ^ constant.numeric.dosbatch
+::                               ^ punctuation.separator.comma.dosbatch
+::                                ^^ constant.numeric.dosbatch
+::                                  ^ punctuation.definition.variable.end.dosbatch
 
-ECHO !t:%foo%=%bar:~0,-4%!
-::   ^^^^^^^^^^^^^^^^^^^^^ variable.other.readwrite.dosbatch
-::   ^ punctuation.definition.variable.begin.dosbatch
-::      ^^^^^ meta.variable.substitution.dosbatch variable.other.readwrite.dosbatch
-::      ^ meta.variable.substitution.dosbatch punctuation.definition.variable.begin.dosbatch
-::          ^ meta.variable.substitution.dosbatch punctuation.definition.variable.end.dosbatch
-::            ^ meta.variable.substitution.dosbatch punctuation.definition.variable.begin.dosbatch
-::            ^^^^^^^^^^^ meta.variable.substitution.dosbatch variable.other.readwrite.dosbatch
-::                  ^^^^ meta.variable.substitution.dosbatch meta.variable.substring.dosbatch
-::                      ^ meta.variable.substitution.dosbatch punctuation.definition.variable.end.dosbatch
-::                    ^^ meta.variable.substitution.dosbatch constant.numeric.dosbatch
-::                       ^ punctuation.definition.variable.end.dosbatch
+   ECHO %b:~-5% !b:~+5!
+::      ^^^^^^^ variable.other.readwrite.dosbatch
+::      ^ punctuation.definition.variable.begin.dosbatch
+::        ^^ punctuation.separator.dosbatch
+::          ^^ meta.variable.substring.dosbatch
+::          ^^ constant.numeric.dosbatch
+::            ^ punctuation.definition.variable.end.dosbatch
+::              ^^^^^^^ variable.other.readwrite.dosbatch
+::              ^ punctuation.definition.variable.begin.dosbatch
+::                ^^ punctuation.separator.dosbatch
+::                  ^^ meta.variable.substring.dosbatch
+::                  ^^ constant.numeric.dosbatch
+::                    ^ punctuation.definition.variable.end.dosbatch
 
-ECHO %t:foo=!bar:~0,-4!%
-::   ^^^^^^^^^^^^^^^^^^^ variable.other.readwrite.dosbatch
-::   ^ punctuation.definition.variable.begin.dosbatch
-::          ^ meta.variable.substitution.dosbatch punctuation.definition.variable.begin.dosbatch
-::          ^^^^^^^^^^^ meta.variable.substitution.dosbatch variable.other.readwrite.dosbatch
-::                ^^^^ meta.variable.substitution.dosbatch meta.variable.substring.dosbatch
-::                    ^ meta.variable.substitution.dosbatch punctuation.definition.variable.end.dosbatch
-::                  ^^ meta.variable.substitution.dosbatch constant.numeric.dosbatch
-::                     ^ punctuation.definition.variable.end.dosbatch
+   ECHO !t:%foo%=%bar:~0,-4%!
+::      ^^^^^^^^^^^^^^^^^^^^^ variable.other.readwrite.dosbatch
+::      ^ punctuation.definition.variable.begin.dosbatch
+::         ^^^^^ meta.variable.substitution.dosbatch variable.other.readwrite.dosbatch
+::         ^ meta.variable.substitution.dosbatch punctuation.definition.variable.begin.dosbatch
+::             ^ meta.variable.substitution.dosbatch punctuation.definition.variable.end.dosbatch
+::               ^ meta.variable.substitution.dosbatch punctuation.definition.variable.begin.dosbatch
+::               ^^^^^^^^^^^ meta.variable.substitution.dosbatch variable.other.readwrite.dosbatch
+::                     ^^^^ meta.variable.substitution.dosbatch meta.variable.substring.dosbatch
+::                         ^ meta.variable.substitution.dosbatch punctuation.definition.variable.end.dosbatch
+::                       ^^ meta.variable.substitution.dosbatch constant.numeric.dosbatch
+::                          ^ punctuation.definition.variable.end.dosbatch
 
-ECHO Not% a variable
-::      ^^^^^^^^^^^^ - variable.other.readwrite.dosbatch
-::   ^^^             - keyword.operator.logical.dosbatch
+   ECHO %t:foo=!bar:~0,-4!%
+::      ^^^^^^^^^^^^^^^^^^^ variable.other.readwrite.dosbatch
+::      ^ punctuation.definition.variable.begin.dosbatch
+::             ^ meta.variable.substitution.dosbatch punctuation.definition.variable.begin.dosbatch
+::             ^^^^^^^^^^^ meta.variable.substitution.dosbatch variable.other.readwrite.dosbatch
+::                   ^^^^ meta.variable.substitution.dosbatch meta.variable.substring.dosbatch
+::                       ^ meta.variable.substitution.dosbatch punctuation.definition.variable.end.dosbatch
+::                     ^^ meta.variable.substitution.dosbatch constant.numeric.dosbatch
+::                        ^ punctuation.definition.variable.end.dosbatch
 
-ECHO Not! a variable
-::      ^^^^^^^^^^^^ - variable.other.readwrite.dosbatch
-::   ^^^             - keyword.operator.logical.dosbatch
+   ECHO Not% a variable
+::      ^^^ - keyword.operator
+::         ^^^^^^^^^^^^ - variable.other
+
+   ECHO Not! a variable
+::      ^^^ - keyword.operator
+::         ^^^^^^^^^^^^ - variable.other
 
 :: Numerics
 SET /A r = 010 + 0x20 - 24
@@ -572,11 +715,6 @@ SET /A r = 010 + 0x20 - 24
 ::               ^^ punctuation.definition.numeric.hexadecimal.dosbatch
 ::                      ^^ constant.numeric.integer.decimal.dosbatch
 
-:: Escape Characters
-ECHO %% ^^! ^&
-::   ^^ constant.character.escape.dosbatch
-::      ^^^ constant.character.escape.dosbatch
-::          ^^ constant.character.escape.dosbatch
 
 :: command SET /A specific operators
    set /a "num%%=5"
