@@ -62,14 +62,21 @@ contexts:
 
   statements:
     - include: comments
-    - include: command-echo
-    - include: command-set
     - include: commands
-    - include: control-for
-    - include: control-setlocal
     - include: control
     - include: labels
     - include: expressions
+
+  commands:
+    - include: command-echo
+    - include: command-set
+    - include: command-other
+
+  control:
+    - include: control-conditional
+    - include: control-for
+    - include: control-flow
+    - include: control-setlocal
 
   expressions:
     - include: groups
@@ -180,64 +187,25 @@ contexts:
         - include: separator-comma
         - include: statements
 
-###[ CONTROL ]################################################################
+###[ CONTROL CONDITIONAL ]####################################################
 
-  control:
-    # flow
-    - match: \b(?i:call)\b
-      scope: keyword.control.flow.call.dosbatch
-      push: stmt-call-body
-    - match: \b(?i:exit)\b
-      scope: keyword.control.flow.exit.dosbatch
-    - match: \b(?i:goto)\b
-      scope: keyword.control.flow.goto.dosbatch
-      push: stmt-goto-body
-    - match: \b(?i:pause)\b
-      scope: keyword.control.flow.pause.dosbatch
-    # conditional
+  control-conditional:
     - match: \b(?i:if)\b
       scope: keyword.control.conditional.if.dosbatch
-      push: stmt-if-condition
+      push:
+        - match: \b(?i:errorlevel|cmdextversion)\b
+          scope: variable.language.dosbatch
+          pop: true
+        - match: \b(?i:exist)\b
+          scope: support.function.builtin.dosbatch
+          set: path-patterns
+        - match: \b(?i:defined)\b
+          scope: support.function.builtin.dosbatch
+          pop: true
+        - include: operator-not
+        - include: else-pop
     - match: \b(?i:else)\b
       scope: keyword.control.conditional.else.dosbatch
-
-  stmt-call-body:
-    - match: (:)\w+\b
-      scope: variable.label.dosbatch
-      captures:
-        1: punctuation.definition.variable.dosbatch
-      pop: true
-    - match: \w+\b
-      scope: meta.function-call.dosbatch variable.function.dosbatch
-      pop: true
-    - include: else-pop
-
-  stmt-goto-body:
-    - match: (:)(?i:(eof))\b
-      scope: variable.label.dosbatch
-      captures:
-        1: punctuation.definition.variable.dosbatch
-        2: keyword.control.flow.return.dosbatch
-      pop: true
-    - match: (:)?\w+\b
-      scope: variable.label.dosbatch
-      captures:
-        1: punctuation.definition.variable.dosbatch
-      pop: true
-    - include: else-pop
-
-  stmt-if-condition:
-    - match: \b(?i:errorlevel|cmdextversion)\b
-      scope: variable.language.dosbatch
-      pop: true
-    - match: \b(?i:exist)\b
-      scope: support.function.builtin.dosbatch
-      set: path-patterns
-    - match: \b(?i:defined)\b
-      scope: support.function.builtin.dosbatch
-      pop: true
-    - include: operator-not
-    - include: else-pop
 
 ###[ CONTROL FOR ]############################################################
 
@@ -337,6 +305,46 @@ contexts:
       pop: true
     - include: else-pop
 
+###[ CONTROL FLOW ]###########################################################
+
+  control-flow:
+    # flow
+    - match: \b(?i:call)\b
+      scope: keyword.control.flow.call.dosbatch
+      push: control-call-body
+    - match: \b(?i:exit)\b
+      scope: keyword.control.flow.exit.dosbatch
+    - match: \b(?i:goto)\b
+      scope: keyword.control.flow.goto.dosbatch
+      push: control-goto-body
+    - match: \b(?i:pause)\b
+      scope: keyword.control.flow.pause.dosbatch
+
+  control-call-body:
+    - match: (:)\w+\b
+      scope: variable.label.dosbatch
+      captures:
+        1: punctuation.definition.variable.dosbatch
+      pop: true
+    - match: \w+\b
+      scope: meta.function-call.dosbatch variable.function.dosbatch
+      pop: true
+    - include: else-pop
+
+  control-goto-body:
+    - match: (:)(?i:(eof))\b
+      scope: variable.label.dosbatch
+      captures:
+        1: punctuation.definition.variable.dosbatch
+        2: keyword.control.flow.return.dosbatch
+      pop: true
+    - match: (:)?\w+\b
+      scope: variable.label.dosbatch
+      captures:
+        1: punctuation.definition.variable.dosbatch
+      pop: true
+    - include: else-pop
+
 ###[ CONTROL SETLOCAL ]#######################################################
 
   control-setlocal:
@@ -361,7 +369,7 @@ contexts:
 
 ###[ COMMANDS ]###############################################################
 
-  commands:
+  command-other:
     - match: '{{builtin_commands}}'
       scope: support.function.builtin.dosbatch
       push:
