@@ -439,6 +439,55 @@ ECHO "^
 ::              ^^ keyword.operator.logical.dosbatch
 
 
+:: setlocal
+
+   SETLOCAL
+:: ^^^^^^^^ meta.command.setlocal.dosbatch keyword.control.namespace.setlocal.dosbatch
+   ENDLOCAL
+:: ^^^^^^^^ meta.command.endlocal.dosbatch keyword.control.namespace.endlocal.dosbatch
+
+   setlocal endlocal & echo hello & endlocal illegal
+:: ^^^^^^^^^^^^^^^^^ meta.command.setlocal.dosbatch
+::                  ^^^ - meta.command
+::                     ^^^^^^^^^^ meta.command.echo.dosbatch
+::                               ^^^ - meta.command
+::                                  ^^^^^^^^^^^^^^^^ meta.command.endlocal.dosbatch
+::                                                  ^ - meta.command
+:: ^^^^^^^^ keyword.control.namespace.setlocal.dosbatch
+::          ^^^^^^^^ invalid.illegal.expect-end-of-command.dosbatch
+::                   ^ keyword.operator.conditional.dosbatch
+::                     ^^^^ support.function.builtin.dosbatch
+::                          ^^^^^ string.unquoted.dosbatch
+::                                ^ keyword.operator.conditional.dosbatch
+::                                  ^^^^^^^^ keyword.control.namespace.endlocal.dosbatch
+::                                           ^^^^^^^ invalid.illegal.expect-end-of-command.dosbatch
+
+   SETLOCAL EnableDelayedExpansion but DisableExtensions
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.setlocal.dosbatch
+::                                                      ^ - meta.command
+:: ^^^^^^^^ keyword.control.namespace.setlocal.dosbatch
+::          ^^^^^^^^^^^^^^^^^^^^^^ constant.language.dosbatch
+::                                 ^^^ invalid.illegal.expect-end-of-command.dosbatch
+::                                     ^^^^^^^^^^^^^^^^^ constant.language.dosbatch
+     SET /P example="what is the answer? ;) " & echo you have answered: !example!
+::      ^^^^ - variable.other.readwrite.dosbatch
+::          ^^^^^^^ variable.other.readwrite.dosbatch
+::                 ^ keyword.operator.assignment.dosbatch
+::                  ^ punctuation.definition.string.begin.dosbatch
+::                  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.prompt.set.dosbatch string.quoted
+::                                          ^ punctuation.definition.string.end.dosbatch
+::                                            ^ keyword.operator.conditional.dosbatch - meta.prompt.set.dosbatch - string
+::                                              ^^^^ support.function.builtin.dosbatch
+::                                                                      ^^^^^^^^^ variable.other.readwrite.dosbatch
+   ENDLOCAL & set return=%example%
+:: ^^^^^^^^ keyword.control.namespace.endlocal.dosbatch
+::          ^ keyword.operator.conditional.dosbatch
+::            ^^^ support.function.builtin.dosbatch
+::                ^^^^^^ variable.other.readwrite.dosbatch
+::                      ^ keyword.operator.assignment.dosbatch
+::                       ^^^^^^^^^ variable.other.readwrite.dosbatch
+
+
 :: Commands
 
    FIND "a" |
@@ -972,21 +1021,6 @@ set test="c:\program files (x86)\%example%_%%test"abc
 ::                                         ^^ constant.character.escape.dosbatch
 ::                                               ^ punctuation.definition.string.end.dosbatch
 ::                                                ^^^ string.unquoted.dosbatch
-
-SETLOCAL EnableDelayedExpansion
-::^^^^^^ support.function.builtin.dosbatch
-  SET /P example="what is the answer? ;) " & echo you have answered: !example!
-::   ^^^^ - variable.other.readwrite.dosbatch
-::       ^^^^^^^ variable.other.readwrite.dosbatch
-::              ^ keyword.operator.assignment.dosbatch
-::               ^ punctuation.definition.string.begin.dosbatch
-::               ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.prompt.set.dosbatch string.quoted
-::                                       ^ punctuation.definition.string.end.dosbatch
-::                                         ^ keyword.operator.conditional.dosbatch - meta.prompt.set.dosbatch - string
-::                                           ^^^^ support.function.builtin.dosbatch
-::                                                                   ^^^^^^^^^ variable.other.readwrite.dosbatch
-ENDLOCAL
-::^^^^^^ support.function.builtin.dosbatch
 
 set "X="
 ::  ^^^^ string.quoted.double

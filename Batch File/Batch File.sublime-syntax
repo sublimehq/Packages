@@ -66,6 +66,7 @@ contexts:
     - include: command-set
     - include: commands
     - include: control-for
+    - include: control-setlocal
     - include: control
     - include: labels
     - include: expressions
@@ -104,6 +105,11 @@ contexts:
   immediatelly-pop:
     - match: ''
       pop: true
+
+  expect-eoc-pop:
+    - include: eoc-pop
+    - match: \S
+      scope: invalid.illegal.expect-end-of-command.dosbatch
 
   illegal-eol-pop:
     - match: \n
@@ -330,6 +336,28 @@ contexts:
       scope: keyword.control.loop.do.dosbatch
       pop: true
     - include: else-pop
+
+###[ CONTROL SETLOCAL ]#######################################################
+
+  control-setlocal:
+    # https://ss64.com/nt/setlocal.html
+    - match: \b(?i:setlocal)\b
+      scope: keyword.control.namespace.setlocal.dosbatch
+      push:
+        - meta_scope: meta.command.setlocal.dosbatch
+        - match: |-
+            \b(?xi:
+              EnableDelayedExpansion | DisableDelayedExpansion |
+              EnableExtensions | DisableExtensions
+            )\b
+          scope: constant.language.dosbatch
+        - include: expect-eoc-pop
+    # https://ss64.com/nt/endlocal.html
+    - match: \b(?i:endlocal)\b
+      scope: keyword.control.namespace.endlocal.dosbatch
+      push:
+        - meta_scope: meta.command.endlocal.dosbatch
+        - include: expect-eoc-pop
 
 ###[ COMMANDS ]###############################################################
 
