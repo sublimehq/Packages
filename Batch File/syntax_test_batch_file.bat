@@ -235,6 +235,26 @@ ECHO "^
 ::                         ^^^^ support.function.builtin.dosbatch
 ::                                 ^ punctuation.section.group.end.dosbatch
 
+   IF "%FOO%" == "BAR" ( SET BAZ=42 )
+::                     ^ punctuation.section.group.begin
+::                     ^^^^^^^^^^^^^^ meta.group
+::                                  ^ punctuation.section.group.end
+::                               ^^ string.unquoted
+
+:: See http://ss64.com/nt/syntax-brackets.html
+   IF EXIST MyFile.txt (ECHO Some(more)Potatoes)
+:: ^^ keyword.control.conditional.if
+::    ^^^^^ support.function.builtin.dosbatch
+::                     ^^^^^^^^^^^^^^^^ meta.group
+::                      ^^^^ support.function.builtin.dosbatch
+::                                     ^ - meta.group
+
+   IF EXIST MyFile.txt (ECHO Some[more]Potatoes)
+:: ^^ keyword.control.conditional.if
+::    ^^^^^ support.function.builtin.dosbatch
+::                     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
+::                      ^^^^ support.function.builtin.dosbatch
+
 
 :: Loops
 
@@ -871,26 +891,6 @@ SET /A r = 010 + 0x20 - 24
 ::    ^ variable.other.readwrite
 ::     ^ keyword.operator.assignment
 ::      ^^^^^^^^^^ variable.other.readwrite
-
-IF "%FOO%" == "BAR" ( SET BAZ=42 )
-::                  ^ punctuation.section.group.begin
-::                  ^^^^^^^^^^^^^^ meta.group
-::                               ^ punctuation.section.group.end
-::                            ^^ string.unquoted
-
-:: See http://ss64.com/nt/syntax-brackets.html
-IF EXIST MyFile.txt (ECHO Some(more)Potatoes)
-:: <- keyword.control.conditional.if
-:: ^^^^^ support.function.builtin.dosbatch
-::                  ^^^^^^^^^^^^^^^^ meta.group
-::                   ^^^^ support.function.builtin.dosbatch
-::                                  ^ - meta.group
-
-IF EXIST MyFile.txt (ECHO Some[more]Potatoes)
-:: <- keyword.control.conditional.if
-:: ^^^^^ support.function.builtin.dosbatch
-::                  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
-::                   ^^^^ support.function.builtin.dosbatch
 
 set "hello"="world"
 :: <- support.function.builtin.dosbatch
