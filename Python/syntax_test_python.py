@@ -1360,5 +1360,73 @@ class Starship:
 #                                   ^ keyword.operator.assignment
 
 
+##################
+# Assignment Expressions
+##################
+
+# Examples from https://www.python.org/dev/peps/pep-0572/
+
+y := f(x)
+# ^^ invalid.illegal.not-allowed-here.python
+
+(y := f(x))
+#  ^^ keyword.operator.assignment.inline.python
+
+y0 = y1 := f(x)
+#       ^^ invalid.illegal.not-allowed-here.python
+
+y0 = (y1 := f(x))
+#        ^^ keyword.operator.assignment.inline.python
+
+foo(x=(y := f(x)))
+#        ^^ keyword.operator.assignment.inline.python
+
+if (match := pattern.search(data)) is not None:
+#         ^^ keyword.operator.assignment.inline.python
+    pass
+
+if tz := self._tzstr():
+#     ^^ keyword.operator.assignment.inline.python
+    s += tz
+
+while chunk := file.read(8192):
+#           ^^ keyword.operator.assignment.inline.python
+    process(chunk)
+
+[y := f(x), y**2, y**3]
+#  ^^ keyword.operator.assignment.inline.python
+
+filtered_data = [y for x in data if (y := f(x)) is not None]
+#                                      ^^ keyword.operator.assignment.inline.python
+
+def foo(answer=(p := 42)):
+#                 ^^ keyword.operator.assignment.inline.python
+
+lambda: (x := 1)
+#          ^^ keyword.operator.assignment.inline.python
+
+lambda line: (m := re.match(pattern, line)) and m.group(1) # Valid
+#               ^^ keyword.operator.assignment.inline.python
+
+f'{(x:=10)}'
+#    ^^ keyword.operator.assignment.inline.python
+
+f'{x:=10}'
+#   ^^ - keyword.operator.assignment.inline.python
+
+
+if any(len(longline := line) >= 100 for line in lines):
+#                   ^^ keyword.operator.assignment.inline.python
+    print("Extremely long line:", longline)
+
+# These are invalid, but we let linters handle them
+def foo(x: y:=f(x)) -> a:=None: pass
+foo(x = y := f(x))
+{a := 1: 2}
+{1, b := 2}
+[1][x:=0]
+def foo(answer = p := 42):  pass
+(lambda: x := 1)
+
 # <- - meta
 # ensure we're not leaking a context
