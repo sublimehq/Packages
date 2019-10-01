@@ -442,10 +442,8 @@ contexts:
       push: inside-command-set
 
   inside-command-set:
-      - match: '{{command_terminators}}'
-        pop: true
+      - include: eoc-pop
       - include: escaped-characters
-      - include: line-continuation
       - include: variables
       - match: (")\s*([^ ][^=]*)(=)
         captures:
@@ -457,8 +455,8 @@ contexts:
           - match: '"(?=\s*(?:$|[{{command_terminator_chars}}]))'
             scope: punctuation.definition.string.end.dosbatch
             pop: true
-          - include: escaped-characters
           - include: line-continuation
+          - include: escaped-characters
           - include: variables
           - include: numbers
           - include: groups
@@ -468,8 +466,8 @@ contexts:
           2: keyword.operator.assignment.dosbatch
         push:
           - meta_content_scope: meta.string.dosbatch string.unquoted.dosbatch
-          - match: '{{command_terminators}}'
-            pop: true
+          - include: eoc-pop
+          - include: escaped-characters
           - include: variables
           - match: \"
             scope: punctuation.definition.string.begin.dosbatch
@@ -488,33 +486,29 @@ contexts:
           - include: set-arithmetic-unquoted
       - match: '\s+/[pP]\s+' # SET from standard input
         push:
-          - match: '{{command_terminators}}'
-            pop: true
+          - include: eoc-pop
           - match: ([^ ][^=]*)(=)
             captures:
               1: variable.other.readwrite.dosbatch
               2: keyword.operator.assignment.dosbatch
             set:
               - meta_scope: meta.prompt.set.dosbatch
-              - match: '{{command_terminators}}'
-                pop: true
+              - include: eoc-pop
               - match: (?=")
                 push:
                   - include: strings
-                  - match: '{{command_terminators}}'
-                    pop: true
+                  - include: eoc-pop
                   - match: .
                     scope: comment.line.ignored.dosbatch
               - match: ''
                 push:
                   - meta_content_scope: meta.string.dosbatch string.unquoted.dosbatch
-                  - match: '{{command_terminators}}'
-                    pop: true
+                  - include: eoc-pop
+                  - include: escaped-characters
                   - include: variables
 
   set-arithmetic-unquoted:
-    - match: '{{command_terminators}}'
-      pop: true
+    - include: eoc-pop
     - include: set-arithmetic-operator-common
     - match: \(
       scope: punctuation.section.group.begin.dosbatch
