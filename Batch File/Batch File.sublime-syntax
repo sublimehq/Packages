@@ -190,6 +190,7 @@ contexts:
 ###[ CONTROL CONDITIONAL ]####################################################
 
   control-conditional:
+    # https://ss64.com/nt/if.html
     - match: \b(?i:if)\b
       scope: keyword.control.conditional.if.dosbatch
       push:
@@ -202,6 +203,10 @@ contexts:
         - match: \b(?i:defined)\b
           scope: support.function.builtin.dosbatch
           pop: true
+        - match: (?i:(/)i)\b
+          scope: variable.parameter.dosbatch
+          captures:
+            1: punctuation.definition.variable.dosbatch
         - include: operator-not
         - include: else-pop
     - match: \b(?i:else)\b
