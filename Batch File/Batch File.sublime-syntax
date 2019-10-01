@@ -290,6 +290,7 @@ contexts:
         - - match: \)
             scope: punctuation.section.set.end.dosbatch
             pop: true
+          - include: invalid-operators
           - include: separator-comma
           - include: constants
           - include: numbers
@@ -627,6 +628,10 @@ contexts:
   separator-semicolon:
     - match: ';'
       scope: punctuation.separator.semicolon.dosbatch
+
+  invalid-operators:
+    - match: '[{{command_terminator_chars}}]'
+      scope: invalid.illegal.operator.dosbatch
 
 ###[ CONSTANTS ]##############################################################
 

@@ -453,11 +453,16 @@ ECHO "^
 ::                                    ^^^^^ variable.other.readwrite.dosbatch
 ::                                          ^^ keyword.operator.logical.dosbatch
 
-   FOR /Z %%foo IN (set) DO command
+   FOR /Z %%foo IN (foo & bar | < baz > && no || false) DO command
 ::     ^^ invalid.illegal.parameter.dosbatch
 ::        ^^^^^ variable.other.readwrite.dosbatch
 ::              ^^ keyword.operator.logical.dosbatch
-
+::                      ^ invalid.illegal.operator.dosbatch
+::                            ^ invalid.illegal.operator.dosbatch
+::                              ^ invalid.illegal.operator.dosbatch
+::                                    ^ invalid.illegal.operator.dosbatch
+::                                      ^^ invalid.illegal.operator.dosbatch
+::                                            ^^ invalid.illegal.operator.dosbatch
 
 :: setlocal
 
