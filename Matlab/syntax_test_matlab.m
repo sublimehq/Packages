@@ -157,8 +157,9 @@ end
 % <- constant.numeric.matlab
 1e1
 % <- constant.numeric.matlab
-1i
+1i - (4i)
 % <- constant.numeric.matlab
+%     ^^ constant.numeric.matlab
 1j
 % <- constant.numeric.matlab
 1e2j
