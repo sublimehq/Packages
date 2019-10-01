@@ -272,7 +272,7 @@ contexts:
     - match: (?=(?i:in|do)\b|\()
       pop: true
     - match: (%%?)\w+\b
-      scope: variable.other.readwrite.dosbatch
+      scope: meta.variable.dosbatch variable.other.readwrite.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
       pop: true
@@ -454,7 +454,7 @@ contexts:
           3: keyword.operator.assignment.dosbatch
         push:
           - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
-          - match: '"(?=\s*(?:{{command_terminators}}))'
+          - match: '"(?=\s*(?:$|[{{command_terminator_chars}}]))'
             scope: punctuation.definition.string.end.dosbatch
             pop: true
           - include: escaped-characters
@@ -721,7 +721,7 @@ contexts:
 ###[ VARIABLES ]##############################################################
 
   variables-interpolation:
-    - match: (?=[!%])
+    - match: (?=[!%][^%])
       push:
         - clear_scopes: 1
         - meta_scope: meta.interpolation.dosbatch
@@ -729,95 +729,104 @@ contexts:
         - include: immediatelly-pop
 
   variables:
-    # global parameters
-    - match: '(%)((~([fdpnxsatz]|\$PATH:)*)?\d|\*)'
+    - include: variable-parameter
+    - include: variable-expansion
+    - include: variable-delayed
+
+  variable-parameter:
+    - match: (%)(?:(?:~([fdpnxsatz]|\$PATH:)*)?\d|\*)
       scope: variable.parameter.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
-    - match: (?i)(%)errorlevel(%)
+
+  variable-expansion:
+    - match: '%(?=[^{{command_terminator_chars}}%]*(?:%|\^$))'
+      scope: punctuation.definition.variable.begin.dosbatch
+      push:
+        - meta_scope: meta.variable.dosbatch
+        - match: '%'
+          scope: punctuation.definition.variable.end.dosbatch
+          pop: true
+          # substring expansion
+        - match: ':~'
+          scope: punctuation.separator.dosbatch
+          push:
+            - meta_content_scope: meta.substring.dosbatch
+            - include: variable-expansion-end
+            - include: variable-substring
+          # string substitution
+        - match: ':'
+          scope: punctuation.separator.dosbatch
+          push:
+            - meta_content_scope: meta.substitution.dosbatch
+            - match: '='
+              scope: punctuation.separator.dosbatch
+              set:
+                - meta_content_scope: meta.substitution.dosbatch
+                - include: variable-expansion-substitution
+            - include: variable-expansion-substitution
+        - include: variable-name
+
+  variable-expansion-substitution:
+    - include: variable-expansion-end
+    - include: variable-delayed
+    - include: variable-substitution
+
+  variable-expansion-end:
+    - match: (?=%)
+      pop: true
+    - include: eol-pop
+
+  variable-delayed:
+    - match: '!(?=[^{{command_terminator_chars}}!]*(?:!|\^$))'
+      scope: punctuation.definition.variable.begin.dosbatch
+      push:
+        - meta_scope: meta.variable.dosbatch
+        - match: '!'
+          scope: punctuation.definition.variable.end.dosbatch
+          pop: true
+          # substring expansion
+        - match: ':~'
+          scope: punctuation.separator.dosbatch
+          push:
+            - meta_content_scope: meta.substring.dosbatch
+            - include: variable-delayed-end
+            - include: variable-substring
+          # string substitution
+        - match: ':'
+          scope: punctuation.separator.dosbatch
+          push:
+            - meta_content_scope: meta.substitution.dosbatch
+            - match: '='
+              scope: punctuation.separator.dosbatch
+              set:
+                - meta_content_scope: meta.substitution.dosbatch
+                - include: variable-delayed-substitution
+            - include: variable-delayed-substitution
+        - include: variable-name
+
+  variable-delayed-substitution:
+    - include: variable-delayed-end
+    - include: variable-expansion
+    - include: variable-substitution
+
+  variable-delayed-end:
+    - match: (?=!)
+      pop: true
+    - include: eol-pop
+
+  variable-name:
+    - include: eol-pop
+    - match: \b(?i:errorlevel)\b
       scope: variable.language.dosbatch
-      captures:
-        1: punctuation.definition.variable.begin.dosbatch
-        2: punctuation.definition.variable.end.dosbatch
-    - include: variable
-    - include: variable-delayed-expansion
+    - match: .
+      scope: variable.other.readwrite.dosbatch
 
-  variable:
-    # variable
-    - match: '%(?=[^%]+%)'
-      scope: punctuation.definition.variable.begin.dosbatch
-      push:
-        - meta_scope: variable.other.readwrite.dosbatch
-        - match: '(%)|\n'
-          captures:
-            1: punctuation.definition.variable.end.dosbatch
-          pop: true
-          # substring expansion
-        - match: ':~'
-          scope: punctuation.separator.dosbatch
-          push:
-            - meta_content_scope: meta.variable.substring.dosbatch
-            - match: '(?=%|\n)'
-              pop: true
-            - include: inside-variable-substring
-          # string substitution
-        - match: ':'
-          scope: punctuation.separator.dosbatch
-          push:
-            - meta_content_scope: meta.variable.substitution.dosbatch
-            - match: '(?=%|\n)'
-              pop: true
-            - include: variable-substitution-replacee
-            - match: '='
-              scope: punctuation.separator.dosbatch
-              push:
-                - match: '(?=%|\n)'
-                  pop: true
-                - include: variable-delayed-expansion
-                - match: '[^%]+'
-                  scope: meta.string.dosbatch string.unquoted.dosbatch
+  variable-substitution:
+    - match: .
+      scope: string.unquoted.dosbatch
 
-  variable-delayed-expansion:
-    # variable with delayed expansion
-    - match: '!(?=[^!]+!)'
-      scope: punctuation.definition.variable.begin.dosbatch
-      push:
-        - meta_scope: variable.other.readwrite.dosbatch
-        - match: '(!)|\n'
-          captures:
-            1: punctuation.definition.variable.end.dosbatch
-          pop: true
-          # substring expansion
-        - match: ':~'
-          scope: punctuation.separator.dosbatch
-          push:
-            - meta_content_scope: meta.variable.substring.dosbatch
-            - match: '(?=!|\n)'
-              pop: true
-            - include: inside-variable-substring
-          # string substitution
-        - match: ':'
-          scope: punctuation.separator.dosbatch
-          push:
-            - meta_content_scope: meta.variable.substitution.dosbatch
-            - match: '(?=!|\n)'
-              pop: true
-            - include: variable
-            - include: variable-substitution-replacee
-            - match: '='
-              scope: punctuation.separator.dosbatch
-              push:
-                - match: '(?=!|\n)'
-                  pop: true
-                - include: variable
-                - match: '[^!]+'
-                  scope: meta.string.dosbatch string.unquoted.dosbatch
-
-  variable-substitution-replacee:
-    - match: '[^=]+'
-      scope: meta.string.dosbatch string.unquoted.dosbatch
-
-  inside-variable-substring:
-    - match: '[+-]?\d+'
-      scope: constant.numeric.dosbatch
+  variable-substring:
+    - match: '[-+]?(?:0|[1-9][0-9]*)'
+      scope: constant.numeric.integer.decimal.dosbatch
     - include: separator-comma
