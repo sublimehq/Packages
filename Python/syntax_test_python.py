@@ -236,13 +236,13 @@ def _():
 #          ^^^^ keyword.control.conditional.else
 
     c = lambda: pass
-#       ^^^^^^^ meta.function.inline
+#       ^^^^^^^^^^^^ meta.function.inline
 #       ^^^^^^ storage.type.function.inline
 #             ^ punctuation.section.function.begin
-#               ^^^^ keyword
+#               ^^^^ invalid.illegal.name.python
 
     _(lambda x, y: 10)
-#     ^^^^^^^^^^^^ meta.function.inline
+#     ^^^^^^^^^^^^^^^ meta.function.inline
 #     ^^^^^^ storage.type.function.inline
 #           ^^^^^ meta.function.inline.parameters
 #            ^ variable.parameter
@@ -252,13 +252,14 @@ def _():
 
     lambda \
         a, \
-        b=2: pass
-#       ^^^^ meta.function.inline
+        b=2: True
+#       ^^^^^^^^^ meta.function.inline
 #        ^ keyword.operator.assignment
 #          ^ punctuation.section.function.begin
-#            ^^^^ keyword
+#           ^^^^^ meta.function.inline.body
+#            ^^^^ constant.language.python
 
-    lambda as, in=2: pass
+    lambda as, in=2: 0
 #          ^^ invalid.illegal.name
 #              ^^ invalid.illegal.name
 
@@ -273,9 +274,10 @@ def _():
     lambda x
 #   ^^^^^^ storage.type.function.inline
 
-    lambda (x, y): pass
-#   ^^^^^^^^^^^^^^ meta.function.inline.python
-#         ^^^^^^^ meta.function.inline.parameters.python
+    lambda (x, y): 0
+#   ^^^^^^^^^^^^^^^^ meta.function.inline
+#         ^^^^^^^^ meta.function.inline.parameters.python
+#                 ^^ meta.function.inline.body.python
 #          ^^^^^^ meta.group.python
 #          ^ punctuation.section.group.begin.python
 #           ^ variable.parameter.python
@@ -283,7 +285,6 @@ def _():
 #              ^ variable.parameter.python
 #               ^ punctuation.section.group.end.python
 #                ^ punctuation.section.function.begin.python
-#                  ^^^^ keyword.control.flow.pass.python
     lambda (
 #   ^^^^^^^^^ meta.function.inline.python
 #         ^^^ meta.function.inline.parameters.python
@@ -1419,14 +1420,25 @@ if any(len(longline := line) >= 100 for line in lines):
 #                   ^^ keyword.operator.assignment.inline.python
     print("Extremely long line:", longline)
 
-# These are invalid, but we let linters handle them
+# These are all invalid. We could let linters handle them,
+# but these weren't hard to implement.
 def foo(x: y:=f(x)) -> a:=None: pass
-foo(x = y := f(x))
+#           ^^ invalid.illegal.not-allowed-here.python
+#                       ^^ invalid.illegal.not-allowed-here.python
+foo(x = y := f(x), y=x:=2)
+#         ^^ invalid.illegal.not-allowed-here.python
+#                     ^^ invalid.illegal.not-allowed-here.python
 {a := 1: 2}
+#  ^^ invalid.illegal.not-allowed-here.python
 {1, b := 2}
+#     ^^ invalid.illegal.not-allowed-here.python
 [1][x:=0]
+#    ^^ invalid.illegal.not-allowed-here.python
 def foo(answer = p := 42):  pass
+#                  ^^ invalid.illegal.not-allowed-here.python
 (lambda: x := 1)
+#          ^^ invalid.illegal.not-allowed-here.python
+
 
 # <- - meta
 # ensure we're not leaking a context

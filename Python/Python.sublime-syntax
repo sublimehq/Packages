@@ -389,6 +389,7 @@ contexts:
         - match: \]
           scope: meta.item-access.python punctuation.section.brackets.end.python
           pop: true
+        - include: illegal-assignment-expression
         - match: ':'
           scope: punctuation.separator.slice.python
         - include: expression-in-a-group
@@ -520,9 +521,12 @@ contexts:
     - match: :=
       scope: keyword.operator.assignment.inline.python
 
-  assignments:
+  illegal-assignment-expression:
     - match: :=
       scope: invalid.illegal.not-allowed-here.python
+
+  assignments:
+    - include: illegal-assignment-expression
     - match: ':'
       scope: punctuation.separator.annotation.variable.python
     - match: \+=|-=|\*=|/=|//=|%=|@=|&=|\|=|\^=|>>=|<<=|\*\*=
@@ -654,6 +658,7 @@ contexts:
             - meta_scope: meta.function.parameters.default-value.python
             - match: '(?=[,)])'
               set: [function-parameters, allow-unpack-operators]
+            - include: illegal-assignment-expression
             - include: expression-in-a-group
     - match: '(?=:)'
       set:
@@ -663,6 +668,7 @@ contexts:
             - meta_scope: meta.function.parameters.annotation.python
             - match: '(?=[,)=])'
               set: function-parameters
+            - include: illegal-assignment-expression
             - include: expression-in-a-group
     - include: function-parameters-tuple
     - include: illegal-names
@@ -708,6 +714,7 @@ contexts:
         - meta_content_scope: meta.function.annotation.return.python
         - match: ->
           scope: punctuation.separator.annotation.return.python
+        - include: illegal-assignment-expression
         - match: '(?=:)'
           set: function-after-parameters
         - include: line-continuation-or-pop
@@ -858,7 +865,8 @@ contexts:
         - match: '='
           scope: keyword.operator.assignment.python
           set:
-            - match: (?=\s*[,):])
+            - include: illegal-assignment-expression
+            - match: (?=[,):])
               pop: true
             - include: expression-in-a-group
         - include: illegal-names
@@ -876,7 +884,19 @@ contexts:
     - include: line-continuation-or-pop
     - match: '\:'
       scope: punctuation.section.function.begin.python
-      pop: true
+      set:
+        # clear meta_scope
+        - match: ''
+          set:
+            - meta_scope: meta.function.inline.body.python
+            - include: illegal-assignment-expression
+            # We don't know whether we are within a grouped
+            # or line-statement context at this point.
+            # If we're in a group, the underlying context will take over
+            # at the end of the line.
+            - match: (?=[,):])|$
+              pop: true
+            - include: expression-in-a-statement
     - match: ','
       scope: punctuation.separator.parameters.python
       push: allow-unpack-operators
@@ -980,7 +1000,8 @@ contexts:
         - match: ','
           scope: punctuation.separator.set.python
           set: inside-set
-        - match: ':(?!=)'
+        - include: illegal-assignment-expression
+        - match: ':'
           scope: punctuation.separator.mapping.key-value.python
           set: inside-directory-value
         - include: inline-for
@@ -991,6 +1012,7 @@ contexts:
     - match: \}
       scope: punctuation.section.mapping.end.python
       set: after-expression
+    - include: illegal-assignment-expression
     - match: ':'
       scope: punctuation.separator.mapping.key-value.python
       set: inside-directory-value
@@ -1047,6 +1069,7 @@ contexts:
     - match: \}
       scope: punctuation.section.set.end.python
       set: after-expression
+    - include: illegal-assignment-expression
     - match: ':'
       scope: invalid.illegal.colon-inside-set.python
     - match: ','
