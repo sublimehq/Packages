@@ -101,34 +101,79 @@ ECHO "^
 :: Control Flow
 
    CALL:EOF
+:: ^^^^^^^^ meta.command.call.dosbatch
 :: ^^^^ keyword.control.flow.call.dosbatch
 ::     ^ punctuation.definition.variable.dosbatch
 ::     ^^^^ variable.label.dosbatch - keyword
 
    CALL ^
    :EOF
+:: ^^^^ meta.command.call.dosbatch
 :: ^ punctuation.definition.variable.dosbatch
 :: ^^^^ variable.label.dosbatch - keyword
 
-   CALL :End
+   CALL :End 10 %1
+:: ^^^^^^^^^^^^^^^ meta.command.call.dosbatch
 :: ^^^^ keyword.control.flow.call.dosbatch
 ::      ^ punctuation.definition.variable.dosbatch
 ::      ^^^^ variable.label.dosbatch - keyword
+::           ^^ constant.numeric.integer.decimal.dosbatch
+::              ^^ variable.parameter.dosbatch
 
    CALL:End
+:: ^^^^^^^^ meta.command.call.dosbatch
 :: ^^^^ keyword.control.flow.call.dosbatch
 ::     ^ punctuation.definition.variable.dosbatch
 ::     ^^^^ variable.label.dosbatch - keyword
 
-   CALL End
+   CALL End %par%
+:: ^^^^^^^^^^^^^^ meta.command.call.dosbatch
 :: ^^^^ keyword.control.flow.call.dosbatch
 ::      ^^^ meta.function-call.dosbatch variable.function.dosbatch
+::          ^^^^^ meta.variable.dosbatch
 
    CALL ^
    End
-:: ^^^ meta.function-call.dosbatch variable.function.dosbatch
+:: ^^^ meta.command.call.dosbatch meta.function-call.dosbatch variable.function.dosbatch
+
+   CALL SET _str=%%_var:~%_start%,%_length%%%
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.call.dosbatch
+:: ^^^^ keyword.control.flow.call.dosbatch
+::      ^^^ support.function.builtin.dosbatch
+::          ^^^^ variable.other.readwrite.dosbatch
+::              ^ keyword.operator.assignment.dosbatch
+::               ^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch
+::               ^^ constant.character.escape.dosbatch
+::                       ^ punctuation.definition.variable.begin.dosbatch
+::                       ^^^^^^^^ meta.variable.dosbatch
+::                              ^ punctuation.definition.variable.end.dosbatch
+::                                ^ punctuation.definition.variable.begin.dosbatch
+::                                ^^^^^^^^^ meta.variable.dosbatch
+::                                        ^ punctuation.definition.variable.end.dosbatch
+::                                         ^^ constant.character.escape.dosbatch
+
+
+   EXIT
+:: ^^^^ meta.command.exit.dosbatch keyword.control.flow.exit.dosbatch
+
+   EXIT /b 12 illegal
+:: ^^^^^^^^^^^^^^^^^^ meta.command.exit.dosbatch
+:: ^^^^ keyword.control.flow.exit.dosbatch
+::      ^ punctuation.definition.variable.dosbatch
+::      ^^ variable.parameter.dosbatch
+::         ^^ constant.numeric.integer.decimal.dosbatch
+::            ^^^^^^^ invalid.illegal.expect-end-of-command.dosbatch
+
+   EXIT /b %var% illegal
+:: ^^^^^^^^^^^^^^^^^^^^^ meta.command.exit.dosbatch
+:: ^^^^ keyword.control.flow.exit.dosbatch
+::      ^ punctuation.definition.variable.dosbatch
+::      ^^ variable.parameter.dosbatch
+::         ^^^^^ meta.variable.dosbatch
+::               ^^^^^^^ invalid.illegal.expect-end-of-command.dosbatch
 
    GOTO:EOF
+:: ^^^^^^^^ meta.command.goto.dosbatch
 :: ^^^^ keyword.control.flow.goto.dosbatch
 ::     ^ punctuation.definition.variable.dosbatch
 ::     ^^^ variable.label.dosbatch
@@ -136,27 +181,32 @@ ECHO "^
 
    GOTO ^
    :EOF
+:: ^^^^ meta.command.goto.dosbatch
 :: ^ punctuation.definition.variable.dosbatch
 :: ^^^ variable.label.dosbatch
 ::  ^^^ keyword.control.flow.return.dosbatch
 
    GOTO :End
+:: ^^^^^^^^^ meta.command.goto.dosbatch
 :: ^^^^ keyword.control.flow.goto.dosbatch
 ::      ^ punctuation.definition.variable.dosbatch
 ::      ^^^^ variable.label.dosbatch - keyword
 
    GOTO:End
+:: ^^^^^^^^ meta.command.goto.dosbatch
 :: ^^^^ keyword.control.flow.goto.dosbatch
 ::     ^ punctuation.definition.variable.dosbatch
 ::     ^^^^ variable.label.dosbatch - keyword
 
-   GOTO End
+   GOTO End illegal
+:: ^^^^^^^^^^^^^^^^ meta.command.goto.dosbatch
 :: ^^^^ keyword.control.flow.goto.dosbatch
 ::      ^^^ variable.label.dosbatch - keyword
+::          ^^^^^^^ invalid.illegal.expect-end-of-command.dosbatch
 
    GOTO ^
    End
-:: ^^^ variable.label.dosbatch - keyword
+:: ^^^ meta.command.goto.dosbatch variable.label.dosbatch - keyword
 
 
 :: Conditionals
