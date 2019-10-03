@@ -65,6 +65,7 @@ contexts:
     - include: commands
     - include: control
     - include: labels
+    - include: operators
     - include: expressions
 
   commands:
@@ -87,7 +88,8 @@ contexts:
     - include: constants
     - include: numbers
     - include: strings
-    - include: operators
+    - include: operators-comparison
+    - include: operators-logical
     - include: escaped-characters
     - include: line-continuation
     - include: variables
@@ -211,7 +213,7 @@ contexts:
           scope: variable.parameter.dosbatch
           captures:
             1: punctuation.definition.variable.dosbatch
-        - include: operator-not
+        - include: operators-logical
         - include: else-pop
     - match: \b(?i:else)\b
       scope: keyword.control.conditional.else.dosbatch
@@ -633,11 +635,8 @@ contexts:
 ###[ OPERATORS ]##############################################################
 
   operators:
-    - include: operator-not
     - match: '@(?=\S)'
       scope: keyword.operator.at.dosbatch
-    - match: \b(?i:EQU|NEQ|LSS|LEQ|GTR|GEQ)\b|==
-      scope: keyword.operator.comparison.dosbatch
     - match: '&&?|\|\|'
       scope: keyword.operator.conditional.dosbatch
     - match: '\|'
@@ -645,7 +644,11 @@ contexts:
     - match: '<&?|>[&>]?'
       scope: keyword.operator.redirection.dosbatch
 
-  operator-not:
+  operators-comparison:
+    - match: \b(?i:EQU|NEQ|LSS|LEQ|GTR|GEQ)\b|==
+      scope: keyword.operator.comparison.dosbatch
+
+  operators-logical:
     - match: \b(?i:not)\b
       scope: keyword.operator.logical.dosbatch
 
