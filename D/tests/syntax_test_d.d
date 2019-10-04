@@ -2058,6 +2058,14 @@ extern(1)
   //       ^^ keyword.operator.arithmetic.d
   //          ^ constant.numeric.integer.d
   //           ^ punctuation.separator.case-statement.d
+    case 2, "foo":
+  //^^^^ keyword.control.flow.d
+  //     ^ constant.numeric.integer.d
+  //      ^ punctuation.separator.sequence.d
+  //        ^ meta.string.d string.quoted.double.d punctuation.definition.string.begin.d
+  //         ^^^^ meta.string.d string.quoted.double.d
+  //             ^ punctuation.separator.case-statement.d
+  //^^^^^^^^^^^^^^ meta.block.d
     case 2: .. case 4:
   //^^^^ keyword.control.flow.d
   //     ^ constant.numeric.integer.d
