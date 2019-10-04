@@ -72,7 +72,7 @@ contexts:
   commands:
     - include: command-echo
     - include: command-set
-    - include: command-other
+    - include: command-builtin
 
   control:
     - include: control-call
@@ -326,23 +326,18 @@ contexts:
       scope: keyword.control.flow.call.dosbatch
       push:
         - - meta_scope: meta.command.call.dosbatch
-          - include: expressions
-          - include: eoc-pop
-        - - include: line-continuation
-          - include: commands
+          - include: immediatelly-pop
+        - - include: eoc-pop
           - match: ':'
             scope: punctuation.definition.variable.dosbatch
             set:
-              - meta_scope: variable.label.dosbatch
+              - meta_scope: meta.function-call.name.dosbatch variable.label.dosbatch
               - match: (?=\s)
-                pop: true
-              - include: variables
+                set: function-arguments
+              - include: variables-interpolation
               - include: eoc-pop
-          - match: '[^\s{{command_terminator_chars}}]+'
-            scope: meta.function-call.dosbatch variable.function.dosbatch
-            pop: true
-          - include: path-patterns
-          - include: else-pop
+          - include: commands
+          - include: command-other
 
   control-exit:
     # https://ss64.com/nt/exit.html
@@ -411,19 +406,38 @@ contexts:
 
 ###[ COMMANDS ]###############################################################
 
-  command-other:
+  command-builtin:
     - match: '{{builtin_commands}}'
-      scope: support.function.builtin.dosbatch
-      push:
-        - meta_scope: meta.command.builtin.dosbatch
-        - include: expressions
-        - include: eoc-pop
+      scope: meta.function-call.name.dosbatch support.function.builtin.dosbatch
+      push: function-arguments
     - match: '{{external_commands}}'
-      scope: support.function.external.dosbatch
+      scope: meta.function-call.name.dosbatch support.function.external.dosbatch
+      push: function-arguments
+
+  command-other:
+    - match: \"
+      scope: punctuation.definition.variable.begin.dosbatch
       push:
-        - meta_scope: meta.command.builtin.dosbatch
-        - include: expressions
-        - include: eoc-pop
+        - - meta_scope: meta.function-call.name.dosbatch variable.function.dosbatch
+          - match: \"
+            scope: punctuation.definition.variable.end.dosbatch
+            set: function-arguments
+          - include: path-patterns-common
+          - include: illegal-eol-pop
+        - path-patterns-relative
+    - match: (?=[^&<|>\s])
+      push:
+        - - meta_scope: meta.function-call.name.dosbatch variable.function.dosbatch
+          - match: (?=\s)
+            set: function-arguments
+          - include: path-patterns-common
+          - include: eoc-pop
+        - path-patterns-relative
+
+  function-arguments:
+    - meta_content_scope: meta.function-call.arguments.dosbatch
+    - include: expressions
+    - include: eoc-pop
 
   switches:
     - match: \s+(/\?|([-/][-/]?)[-_[:alnum:]]+)(?:([=:])|(?=\s))
@@ -694,22 +708,25 @@ contexts:
       scope: punctuation.definition.string.begin.dosbatch
       set:
         - - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
-          - include: strings-common
+          - match: \"
+            scope: punctuation.definition.string.end.dosbatch
+            pop: true
+          - include: illegal-eol-pop
           - include: path-patterns-common
         - path-patterns-relative
     - match: (?=(?!%%)\S)
       set:
         - - meta_scope: meta.string.dosbatch string.unquoted.dosbatch
-          - include: escaped-characters
-          - include: line-continuation
-          - include: variables-interpolation
-          - include: path-patterns-common
           - match: (?=[\s,;"{{command_terminator_chars}}])
             pop: true
+          - include: line-continuation
+          - include: path-patterns-common
         - path-patterns-relative
     - include: else-pop
 
   path-patterns-common:
+    - include: escaped-characters
+    - include: variables-interpolation
     - match: '[.:\\/]'
       scope: punctuation.separator.path.dosbatch
       push: path-patterns-relative

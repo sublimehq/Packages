@@ -101,32 +101,38 @@ ECHO "^
 :: Control Flow
 
    CALL:This is a #@$虎 strange label
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.call.dosbatch
+::^ - meta.command - meta.function-call
+:: ^^^^ meta.command.call.dosbatch - meta.function-call
+::     ^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch
+::          ^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch
+::                                  ^ - meta.command - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
 ::     ^ punctuation.definition.variable.dosbatch
 ::     ^^^^^ variable.label.dosbatch - keyword
 ::          ^^^^^^^^^^^^^^^^^^^^^^^^ - variable
 
    CALL:EOF
-:: ^^^^^^^^ meta.command.call.dosbatch
+::^ - meta.command - meta.function-call
+:: ^^^^ meta.command.call.dosbatch - meta.function-call
+::     ^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch
+::         ^ - meta.command - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
 ::     ^ punctuation.definition.variable.dosbatch
 ::     ^^^^ variable.label.dosbatch - keyword
 
    CALL ^
    :EOF
-:: ^^^^ meta.command.call.dosbatch
+:: ^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch
+::     ^ - meta.command - meta.function-call
 :: ^ punctuation.definition.variable.dosbatch
 :: ^^^^ variable.label.dosbatch - keyword
 
-   CALL:foo
-:: ^^^^^^^^ meta.command.call.dosbatch
-:: ^^^^ keyword.control.flow.call.dosbatch
-::     ^ punctuation.definition.variable.dosbatch
-::     ^^^^ variable.label.dosbatch - keyword
-
    CALL :foo 10 %1
-:: ^^^^^^^^^^^^^^^ meta.command.call.dosbatch
+::^ - meta.command - meta.function-call
+:: ^^^^^ meta.command.call.dosbatch - meta.function-call
+::      ^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch
+::          ^^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch
+::                ^ - meta.command - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
 ::      ^ punctuation.definition.variable.dosbatch
 ::      ^^^^ variable.label.dosbatch - keyword
@@ -134,14 +140,22 @@ ECHO "^
 ::              ^^ variable.parameter.dosbatch
 
    CALL :foo%bar% 10
-:: ^^^^^^^^^^^^^^^^^ meta.command.call.dosbatch
+::^ - meta.command - meta.function-call
+:: ^^^^^ meta.command.call.dosbatch - meta.function-call
+::      ^^^^^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch
+::                ^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch
+::                  ^ - meta.command - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
 ::      ^ punctuation.definition.variable.dosbatch
-::      ^^^^^^^^^ variable.label.dosbatch - keyword
+::      ^^^^ variable.label.dosbatch - keyword
 ::                ^^ constant.numeric.integer.decimal.dosbatch
 
    CALL :foo %bar% 10
-:: ^^^^^^^^^^^^^^^^^^ meta.command.call.dosbatch
+::^ - meta.command - meta.function-call
+:: ^^^^^ meta.command.call.dosbatch - meta.function-call
+::      ^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch
+::           ^^^^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch
+::                   ^ - meta.command - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
 ::      ^ punctuation.definition.variable.dosbatch
 ::      ^^^^ variable.label.dosbatch - keyword
@@ -149,14 +163,19 @@ ECHO "^
 ::                 ^^ constant.numeric.integer.decimal.dosbatch
 
    CALL foo %bar%
-:: ^^^^^^^^^^^^^^ meta.command.call.dosbatch
+::^ - meta.command - meta.function-call
+:: ^^^^^ meta.command.call.dosbatch - meta.function-call
+::      ^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch
+::         ^^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch
+::               ^ - meta.command - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
-::      ^^^ meta.function-call.dosbatch variable.function.dosbatch
+::      ^^^ meta.function-call.name.dosbatch variable.function.dosbatch
+::         ^^^^^^ meta.function-call.arguments.dosbatch
 ::          ^^^^^ meta.variable.dosbatch
 
    CALL ^
    foo
-:: ^^^ meta.command.call.dosbatch meta.function-call.dosbatch variable.function.dosbatch
+:: ^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch variable.function.dosbatch
 
    CALL SET _str=%%_var:~%_start%,%_length%%%
 :: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.call.dosbatch
@@ -173,6 +192,94 @@ ECHO "^
 ::                                ^^^^^^^^^ meta.variable.dosbatch
 ::                                        ^ punctuation.definition.variable.end.dosbatch
 ::                                         ^^ constant.character.escape.dosbatch
+
+   CALL ..\foo\bar.exe /param:10
+::^ - meta.command - meta.function-call
+:: ^^^^^ meta.command.call.dosbatch - meta.function-call
+::      ^^^^^^^^^^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch
+::                    ^^^^^^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch
+::                              ^ - meta.command - meta.function-call
+:: ^^^^ keyword.control.flow.call.dosbatch
+::      ^^ constant.language.path.parent.dosbatch
+::        ^ punctuation.separator.path.dosbatch
+::            ^ punctuation.separator.path.dosbatch
+::                ^ punctuation.separator.path.dosbatch
+::                     ^ punctuation.definition.variable.dosbatch
+::                     ^^^^^^ variable.parameter.switch.dosbatch
+::                           ^ punctuation.separator.mapping.key-value.dosbatch
+::                            ^^ constant.numeric.integer.decimal.dosbatch
+
+   CALL ..\%foo%\bar.exe /param:str
+::^ - meta.command - meta.function-call
+:: ^^^^^ meta.command.call.dosbatch - meta.function-call
+::      ^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch variable.function.dosbatch - meta.interpolation
+::         ^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch
+::              ^^^^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch variable.function.dosbatch - meta.interpolation
+::                      ^^^^^^^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch
+::                                 ^ - meta.command - meta.function-call
+:: ^^^^ keyword.control.flow.call.dosbatch
+::      ^^ constant.language.path.parent.dosbatch
+::        ^ punctuation.separator.path.dosbatch
+::         ^ punctuation.definition.variable.begin.dosbatch
+::          ^^^ variable.other.readwrite.dosbatch
+::             ^ punctuation.definition.variable.end.dosbatch
+::              ^ punctuation.separator.path.dosbatch
+::                  ^ punctuation.separator.path.dosbatch
+::                       ^ punctuation.definition.variable.dosbatch
+::                       ^^^^^^ variable.parameter.switch.dosbatch
+::                             ^ punctuation.separator.mapping.key-value.dosbatch
+
+   CALL foo\bar.exe /pa_am:%var%
+::^ - meta.command - meta.function-call
+:: ^^^^^ meta.command.call.dosbatch - meta.function-call
+::      ^^^^^^^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch variable.function.dosbatch
+::                 ^^^^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch - meta.variable
+::                         ^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch meta.variable.dosbatch
+::                              ^ - meta.command - meta.function-call
+:: ^^^^ keyword.control.flow.call.dosbatch
+::         ^ punctuation.separator.path.dosbatch
+::             ^ punctuation.separator.path.dosbatch
+::                  ^ punctuation.definition.variable.dosbatch
+::                  ^^^^^^ variable.parameter.switch.dosbatch
+::                        ^ punctuation.separator.mapping.key-value.dosbatch
+
+   CALL %foo%\bar.exe /pa-am:-10
+::^ - meta.command - meta.function-call
+:: ^^^^^ meta.command.call.dosbatch - meta.function-call
+::      ^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch
+::           ^^^^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch variable.function.dosbatch - meta.interpolation
+::                   ^^^^^^^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch
+::                              ^ - meta.command - meta.function-call
+:: ^^^^ keyword.control.flow.call.dosbatch
+::      ^ punctuation.definition.variable.begin.dosbatch
+::       ^^^ variable.other.readwrite.dosbatch
+::          ^ punctuation.definition.variable.end.dosbatch
+::           ^ punctuation.separator.path.dosbatch
+::               ^ punctuation.separator.path.dosbatch
+::                    ^ punctuation.definition.variable.dosbatch
+::                    ^^^^^^ variable.parameter.switch.dosbatch
+::                          ^ punctuation.separator.mapping.key-value.dosbatch
+
+   CALL "d:\foo %bar%\baz.exe" /par-am=10 /D
+::^ - meta.command - meta.function-call
+:: ^^^^^ meta.command.call.dosbatch - meta.function-call
+::      ^^^^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch variable.function.dosbatch - meta.interpolation
+::              ^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch
+::                   ^^^^^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch variable.function.dosbatch - meta.interpolation
+::                            ^^^^^^^^^^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch
+::                                          ^ - meta.command - meta.function-call
+:: ^^^^ keyword.control.flow.call.dosbatch
+::      ^ punctuation.definition.variable.begin.dosbatch
+::        ^^ punctuation.separator.path.dosbatch
+::              ^ punctuation.definition.variable.begin.dosbatch
+::               ^^^ variable.other.readwrite.dosbatch
+::                  ^ punctuation.definition.variable.end.dosbatch
+::                   ^ punctuation.separator.path.dosbatch
+::                       ^ punctuation.separator.path.dosbatch
+::                           ^ punctuation.definition.variable.end.dosbatch
+::                             ^ punctuation.definition.variable.dosbatch
+::                             ^^^^^^^ variable.parameter.switch.dosbatch
+::                                    ^ punctuation.separator.mapping.key-value.dosbatch
 
 
    EXIT
