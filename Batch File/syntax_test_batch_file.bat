@@ -89,9 +89,9 @@ ECHO "^
 
 :: Labels
 
-  :This is a #%@$虎 strange label
+  :This is a #@$虎 strange label
 ::^ punctuation.definition.label.dosbatch
-::^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.label.dosbatch
+::^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.label.dosbatch
 
   :End
 ::^ punctuation.definition.label.dosbatch
@@ -99,6 +99,13 @@ ECHO "^
 
 
 :: Control Flow
+
+   CALL:This is a #@$虎 strange label
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.call.dosbatch
+:: ^^^^ keyword.control.flow.call.dosbatch
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^^^^ variable.label.dosbatch - keyword
+::          ^^^^^^^^^^^^^^^^^^^^^^^^ - variable
 
    CALL:EOF
 :: ^^^^^^^^ meta.command.call.dosbatch
@@ -112,7 +119,13 @@ ECHO "^
 :: ^ punctuation.definition.variable.dosbatch
 :: ^^^^ variable.label.dosbatch - keyword
 
-   CALL :End 10 %1
+   CALL:foo
+:: ^^^^^^^^ meta.command.call.dosbatch
+:: ^^^^ keyword.control.flow.call.dosbatch
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^^^ variable.label.dosbatch - keyword
+
+   CALL :foo 10 %1
 :: ^^^^^^^^^^^^^^^ meta.command.call.dosbatch
 :: ^^^^ keyword.control.flow.call.dosbatch
 ::      ^ punctuation.definition.variable.dosbatch
@@ -120,20 +133,29 @@ ECHO "^
 ::           ^^ constant.numeric.integer.decimal.dosbatch
 ::              ^^ variable.parameter.dosbatch
 
-   CALL:End
-:: ^^^^^^^^ meta.command.call.dosbatch
+   CALL :foo%bar% 10
+:: ^^^^^^^^^^^^^^^^^ meta.command.call.dosbatch
 :: ^^^^ keyword.control.flow.call.dosbatch
-::     ^ punctuation.definition.variable.dosbatch
-::     ^^^^ variable.label.dosbatch - keyword
+::      ^ punctuation.definition.variable.dosbatch
+::      ^^^^^^^^^ variable.label.dosbatch - keyword
+::                ^^ constant.numeric.integer.decimal.dosbatch
 
-   CALL End %par%
+   CALL :foo %bar% 10
+:: ^^^^^^^^^^^^^^^^^^ meta.command.call.dosbatch
+:: ^^^^ keyword.control.flow.call.dosbatch
+::      ^ punctuation.definition.variable.dosbatch
+::      ^^^^ variable.label.dosbatch - keyword
+::           ^^^^^ meta.variable.dosbatch - variable.label - keyword
+::                 ^^ constant.numeric.integer.decimal.dosbatch
+
+   CALL foo %bar%
 :: ^^^^^^^^^^^^^^ meta.command.call.dosbatch
 :: ^^^^ keyword.control.flow.call.dosbatch
 ::      ^^^ meta.function-call.dosbatch variable.function.dosbatch
 ::          ^^^^^ meta.variable.dosbatch
 
    CALL ^
-   End
+   foo
 :: ^^^ meta.command.call.dosbatch meta.function-call.dosbatch variable.function.dosbatch
 
    CALL SET _str=%%_var:~%_start%,%_length%%%
@@ -198,15 +220,31 @@ ECHO "^
 ::     ^ punctuation.definition.variable.dosbatch
 ::     ^^^^ variable.label.dosbatch - keyword
 
-   GOTO End illegal
-:: ^^^^^^^^^^^^^^^^ meta.command.goto.dosbatch
+   GOTO:This is a #@$虎 strange label
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.goto.dosbatch
 :: ^^^^ keyword.control.flow.goto.dosbatch
-::      ^^^ variable.label.dosbatch - keyword
-::          ^^^^^^^ invalid.illegal.expect-end-of-command.dosbatch
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.label.dosbatch - keyword
 
-   GOTO ^
-   End
-:: ^^^ meta.command.goto.dosbatch variable.label.dosbatch - keyword
+   GOTO This is a #@$虎 strange label
+:: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.goto.dosbatch
+:: ^^^^ keyword.control.flow.goto.dosbatch
+::      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.label.dosbatch - keyword
+
+   GOTO This is^
+   a #%@$虎 strange label
+:: ^^^^^^^^^^^^^^^^^^^^^ meta.command.goto.dosbatch variable.label.dosbatch - keyword
+
+   GOTO %%i
+:: ^^^^ meta.command.goto.dosbatch keyword.control.flow.goto.dosbatch - meta.variable
+::     ^ meta.command.goto.dosbatch - keyword - meta.variable
+::      ^^ meta.command.goto.dosbatch constant.character.escape.dosbatch
+::        ^ meta.command.goto.dosbatch variable.label.dosbatch
+
+   GOTO %var%
+:: ^^^^ meta.command.goto.dosbatch keyword.control.flow.goto.dosbatch - meta.variable
+::     ^ meta.command.goto.dosbatch - keyword - meta.variable
+::      ^^^^^ meta.command.goto.dosbatch meta.variable.dosbatch
 
 
 :: Conditionals

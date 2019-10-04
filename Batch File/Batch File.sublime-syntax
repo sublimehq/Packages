@@ -10,6 +10,7 @@ variables:
   colon_comment_start: ':[+=,;: ]'
   command_terminator_chars: '&<|>\)'
   command_terminators: (?:$|(?=\s*[{{command_terminator_chars}}]))
+  label: '[^+=,;:\s%!{{command_terminator_chars}}][^%!{{command_terminator_chars}}]*'
   set_arithmetic_operators_unquoted: (?:\+|-|\*|/|%%|~)
   set_arithmetic_operators_quoted: (?:\||<<|>>|&|\^)
 
@@ -165,7 +166,7 @@ contexts:
 ###[ LABELS ]#################################################################
 
   labels:
-    - match: ^\s*((:)[^+=,;:\s{{command_terminator_chars}}][^{{command_terminator_chars}}]*)
+    - match: ^\s*((:){{label}})
       captures:
         1: entity.name.label.dosbatch
         2: punctuation.definition.label.dosbatch
@@ -327,14 +328,17 @@ contexts:
         - - meta_scope: meta.command.call.dosbatch
           - include: expressions
           - include: eoc-pop
-        - - match: (:)\w+\b
-            scope: variable.label.dosbatch
-            captures:
-              1: punctuation.definition.variable.dosbatch
-            pop: true
-          - include: line-continuation
+        - - include: line-continuation
           - include: commands
-          - match: \w+(?=\s)
+          - match: ':'
+            scope: punctuation.definition.variable.dosbatch
+            set:
+              - meta_scope: variable.label.dosbatch
+              - match: (?=\s)
+                pop: true
+              - include: variables
+              - include: eoc-pop
+          - match: '[^\s{{command_terminator_chars}}]+'
             scope: meta.function-call.dosbatch variable.function.dosbatch
             pop: true
           - include: path-patterns
@@ -359,20 +363,21 @@ contexts:
     - match: \b(?i:goto)\b
       scope: keyword.control.flow.goto.dosbatch
       push:
-        - - meta_scope: meta.command.goto.dosbatch
-          - include: expect-eoc-pop
-        - - match: (:)(?i:(eof))\b
-            scope: variable.label.dosbatch
-            captures:
-              1: punctuation.definition.variable.dosbatch
-              2: keyword.control.flow.return.dosbatch
-            pop: true
-          - match: (:)?\w+\b
-            scope: variable.label.dosbatch
-            captures:
-              1: punctuation.definition.variable.dosbatch
-            pop: true
-          - include: else-pop
+        - meta_scope: meta.command.goto.dosbatch
+        - include: eoc-pop
+        - match: (:)(?i:(eof))\b
+          scope: variable.label.dosbatch
+          captures:
+            1: punctuation.definition.variable.dosbatch
+            2: keyword.control.flow.return.dosbatch
+          pop: true
+        - match: (:)?(?=\S)
+          scope: variable.label.dosbatch punctuation.definition.variable.dosbatch
+          set:
+            - meta_content_scope: meta.command.goto.dosbatch variable.label.dosbatch
+            - include: escaped-characters
+            - include: variables
+            - include: eoc-pop
 
   control-pause:
     # https://ss64.com/nt/pause.html
