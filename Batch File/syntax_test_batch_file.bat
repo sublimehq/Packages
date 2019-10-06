@@ -1026,16 +1026,140 @@ ECHO "^
 ::      ^^^ - keyword.operator
 ::         ^^^^^^^^^^^^ - variable.other
 
-:: Numerics
-SET /A r = 010 + 0x20 - 24
-::         ^^^ constant.numeric.integer.octal.dosbatch
-::         ^ punctuation.definition.numeric.octal.dosbatch
-::               ^^^^ constant.numeric.integer.hexadecimal.dosbatch
-::               ^^ punctuation.definition.numeric.hexadecimal.dosbatch
-::                      ^^ constant.numeric.integer.decimal.dosbatch
+   ren example.txt example_%today%.txt
+::                         ^ punctuation.definition.variable.begin.dosbatch
+::                         ^^^^^^^ meta.variable.dosbatch
+::                               ^ punctuation.definition.variable.end.dosbatch
+
+   powershell get-date -uformat "%%Y%%m%%d" > today.txt
+::                              ^^^^^^^^^^^ string.quoted.double.dosbatch
+::                               ^^ constant.character.escape.dosbatch
+::                                 ^ - constant.character.escape.dosbatch
+::                                  ^^ constant.character.escape.dosbatch
+::                                    ^ - constant.character.escape.dosbatch
+::                                     ^^ constant.character.escape.dosbatch
+::                                       ^ - constant.character.escape.dosbatch
 
 
-:: command SET /A specific operators
+:: command SET variable=string
+
+   set hello_world
+:: ^^^ support.function.builtin.dosbatch
+::     ^^^^^^^^^^^ variable.other.readwrite.dosbatch
+
+   SET T=%TIME: =0%
+:: ^^^ support.function.builtin.dosbatch
+::     ^ variable.other.readwrite
+::      ^ keyword.operator.assignment
+::       ^^^^^^^^^^ meta.variable.dosbatch
+
+   set "hello"="world"
+:: ^^^ support.function.builtin.dosbatch
+::     ^ - variable.other.readwrite
+::      ^^^^^^ variable.other.readwrite
+::            ^ keyword.operator.assignment
+::             ^ - punctuation
+::                   ^ punctuation.definition.string.end
+::                    ^ - string
+
+   set foo=bar
+:: ^^^ support.function.builtin.dosbatch
+::     ^^^ variable.other.readwrite
+::        ^ keyword.operator.assignment
+::         ^^^ string.unquoted
+
+   set foo = bar
+:: ^^^ support.function.builtin.dosbatch
+::    ^ - variable.other.readwrite
+::     ^^^^ variable.other.readwrite
+::         ^ keyword.operator.assignment
+::           ^^^ string.unquoted
+
+   set hello world = bar
+:: ^^^ support.function.builtin.dosbatch
+::    ^ - variable.other.readwrite
+::     ^^^^^^^^^^^^ variable.other.readwrite
+::                 ^ keyword.operator.assignment
+::                   ^^^ string.unquoted
+
+   set abc /a = 1+2
+:: ^^^ support.function.builtin.dosbatch
+::     ^^^^^^^ variable.other.readwrite
+::            ^ keyword.operator.assignment - meta.expression.set
+::              ^^^ string.unquoted
+
+   set "foobar=test"
+:: ^^^ support.function.builtin.dosbatch
+::     ^ - variable.other.readwrite
+::      ^^^^^^ variable.other.readwrite
+::            ^ keyword.operator.assignment
+::                 ^ punctuation.definition.string.end
+
+   set  " foo = bar"
+:: ^^^ support.function.builtin.dosbatch
+::      ^^ - variable.other.readwrite
+::        ^^^^ variable.other.readwrite
+::            ^ keyword.operator.assignment
+::                 ^ punctuation.definition.string.end
+
+   set test rem = hi
+:: ^^^ support.function.builtin.dosbatch
+::          ^^^^^^^^^ - comment
+::     ^^^^^^^^^ variable.other.readwrite
+::              ^ keyword.operator.assignment
+::                ^^ - variable.other
+
+
+:: Double quotes after the equal sign, or part of a quoted assignment are literal chars
+   set "XML=<foo bar="%ATTR1%" baz="prefix-%ATTR2%" />"
+::     ^ punctuation.definition.string.begin
+::                   ^ - punctuation
+::                    ^^^^^^^ meta.variable.dosbatch
+::                           ^ - punctuation
+::                                 ^ - punctuation
+::                                         ^^^^^^^ meta.variable.dosbatch
+::                                                ^ - punctuation
+::                                                    ^ punctuation.definition.string.end
+
+   set folder=%TEMP%\subfolder\
+::     ^^^^^^ variable.other.readwrite.dosbatch
+::            ^^^^^^ meta.variable.dosbatch
+::                  ^^^^^^^^^^^ string.unquoted - variable.other
+
+   set test="c:\program files (x86)\%example%_%%test"abc
+::     ^^^^ variable.other.readwrite.dosbatch
+::         ^ keyword.operator.assignment.dosbatch
+::          ^ punctuation.definition.string.begin.dosbatch
+::          ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.quoted.double.dosbatch - meta.interpolation
+::                                  ^^^^^^^^^ meta.string.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch - string
+::                                           ^^^^^^^^ meta.string.dosbatch string.quoted.double.dosbatch - meta.interpolation
+::                                            ^^ constant.character.escape.dosbatch
+::                                                  ^ punctuation.definition.string.end.dosbatch
+::                                                   ^^^ string.unquoted.dosbatch
+
+   set "X="
+::     ^^^^ string.quoted.double
+::     ^ punctuation.definition.string.begin
+::      ^ variable.other.readwrite
+::       ^ keyword.operator.assignment
+::        ^ punctuation.definition.string.end
+::         ^ - string
+
+
+:: command SET /A "variable=expression"
+
+   set /A hello_world
+:: ^^^ support.function.builtin.dosbatch
+::        ^^^^^^^^^^^ meta.expression.set
+::                   ^ - meta.expression.set
+
+   SET /A r = 010 + 0x20 - 24
+::            ^^^ constant.numeric.integer.octal.dosbatch
+::            ^ punctuation.definition.numeric.octal.dosbatch
+::                  ^^^^ constant.numeric.integer.hexadecimal.dosbatch
+::                  ^^ punctuation.definition.numeric.hexadecimal.dosbatch
+::                         ^^ constant.numeric.integer.decimal.dosbatch
+
    set /a "num%%=5"
 ::        ^^^^^^^^^ meta.expression.set.dosbatch
 ::            ^^^ keyword.operator.assignment.augmented.dosbatch
@@ -1136,388 +1260,291 @@ SET /A r = 010 + 0x20 - 24
 ::                              ^ keyword.operator.assignment.dosbatch
 ::                                      ^ keyword.operator.arithmetic.dosbatch
 
-  SET T=%TIME: =0%
-::^^^ support.function.builtin.dosbatch
-::    ^ variable.other.readwrite
-::     ^ keyword.operator.assignment
-::      ^^^^^^^^^^ meta.variable.dosbatch
-
-set "hello"="world"
-:: <- support.function.builtin.dosbatch
-::  ^ - variable.other.readwrite
-::   ^^^^^^ variable.other.readwrite
-::         ^ keyword.operator.assignment
-::          ^ - punctuation
-::                ^ punctuation.definition.string.end
-::                 ^ - string
-
-set foo=bar
-:: <- support.function.builtin.dosbatch
-::  ^^^ variable.other.readwrite
-::     ^ keyword.operator.assignment
-::      ^^^ string.unquoted
-
-set  foo = bar
-:: <- support.function.builtin.dosbatch
-::  ^ - variable.other.readwrite
-::   ^^^^ variable.other.readwrite
-::       ^ keyword.operator.assignment
-::         ^^^ string.unquoted
-
-set  hello world = bar
-:: <- support.function.builtin.dosbatch
-::  ^ - variable.other.readwrite
-::   ^^^^^^^^^^^^ variable.other.readwrite
-::               ^ keyword.operator.assignment
-::                 ^^^ string.unquoted
-
-set abc /a = 1+2
-:: <- support.function.builtin.dosbatch
-::  ^^^^^^^ variable.other.readwrite
-::         ^ keyword.operator.assignment - meta.expression.set
-::           ^^^ string.unquoted
-
-set "foobar=test"
-:: <- support.function.builtin.dosbatch
-::  ^ - variable.other.readwrite
-::   ^^^^^^ variable.other.readwrite
-::         ^ keyword.operator.assignment
-::              ^ punctuation.definition.string.end
-
-set  " foo = bar"
-:: <- support.function.builtin.dosbatch
-::   ^^ - variable.other.readwrite
-::     ^^^^ variable.other.readwrite
-::         ^ keyword.operator.assignment
-::              ^ punctuation.definition.string.end
-
-set test rem = hi
-:: <- support.function.builtin.dosbatch
-::       ^^^^^^^^^ - comment
-::  ^^^^^^^^^ variable.other.readwrite
-::           ^ keyword.operator.assignment
-::             ^^ - variable.other
-
-set hello_world
-:: <- support.function.builtin.dosbatch
-::  ^^^^^^^^^^^ variable.other.readwrite.dosbatch
-
-set /A hello_world
-:: <- support.function.builtin.dosbatch
-::     ^^^^^^^^^^^ meta.expression.set
-::                ^ - meta.expression.set
-
-powershell get-date -uformat "%%Y%%m%%d" > today.txt
-::                           ^^^^^^^^^^^ string.quoted.double.dosbatch
-::                            ^^ constant.character.escape.dosbatch
-::                              ^ - constant.character.escape.dosbatch
-::                               ^^ constant.character.escape.dosbatch
-::                                 ^ - constant.character.escape.dosbatch
-::                                  ^^ constant.character.escape.dosbatch
-::                                    ^ - constant.character.escape.dosbatch
-
-:: the following example was inspired by http://stackoverflow.com/a/14634551/4473405
-set /p today=<today.txt
-:: ^^^^ - variable.other.readwrite.dosbatch
-::     ^^^^^ variable.other.readwrite.dosbatch
-::          ^ keyword.operator.assignment.dosbatch
-::           ^ keyword.operator.redirection.dosbatch
-ren example.txt example_%today%.txt
-::                      ^ punctuation.definition.variable.begin.dosbatch
-::                      ^^^^^^^ meta.variable.dosbatch
-::                            ^ punctuation.definition.variable.end.dosbatch
-
-set /p today=enter a date:
-:: ^^^^ - variable.other.readwrite.dosbatch
-::     ^^^^^ variable.other.readwrite.dosbatch
-::          ^ keyword.operator.assignment.dosbatch
-::           ^^^^^^^^^^^^^ meta.prompt.set.dosbatch string.unquoted - variable.other.readwrite.dosbatch
-::                        ^ - meta.prompt.set.dosbatch
-set /p today=enter a date: REM :: this is not a comment
-:: ^^^^ - variable.other.readwrite.dosbatch
-::     ^^^^^ variable.other.readwrite.dosbatch
-::          ^ keyword.operator.assignment.dosbatch
-::           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.prompt.set.dosbatch string.unquoted - variable.other.readwrite.dosbatch - comment
-::                                                     ^ - meta.prompt.set.dosbatch
-set /p today=
-:: ^^^^ - variable.other.readwrite.dosbatch
-::     ^^^^^ variable.other.readwrite.dosbatch
-::          ^ keyword.operator.assignment.dosbatch
-::           ^ - meta.prompt.set.dosbatch
-
-:: Double quotes after the equal sign, or part of a quoted assignment are literal chars
-SET "XML=<foo bar="%ATTR1%" baz="prefix-%ATTR2%" />"
-::  ^ punctuation.definition.string.begin
-::                ^ - punctuation
-::                 ^^^^^^^ meta.variable.dosbatch
-::                        ^ - punctuation
-::                              ^ - punctuation
-::                                      ^^^^^^^ meta.variable.dosbatch
-::                                             ^ - punctuation
-::                                                 ^ punctuation.definition.string.end
-
-set folder=%TEMP%\subfolder\
-::  ^^^^^^ variable.other.readwrite.dosbatch
-::         ^^^^^^ meta.variable.dosbatch
-::               ^^^^^^^^^^^ string.unquoted - variable.other
-
-set test="c:\program files (x86)\%example%_%%test"abc
-::  ^^^^ variable.other.readwrite.dosbatch
-::      ^ keyword.operator.assignment.dosbatch
-::       ^ punctuation.definition.string.begin.dosbatch
-::       ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.quoted.double.dosbatch - meta.interpolation
-::                               ^^^^^^^^^ meta.string.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch - string
-::                                        ^^^^^^^^ meta.string.dosbatch string.quoted.double.dosbatch - meta.interpolation
-::                                         ^^ constant.character.escape.dosbatch
-::                                               ^ punctuation.definition.string.end.dosbatch
-::                                                ^^^ string.unquoted.dosbatch
-
-set "X="
-::  ^^^^ string.quoted.double
-::  ^ punctuation.definition.string.begin
-::   ^ variable.other.readwrite
-::    ^ keyword.operator.assignment
-::     ^ punctuation.definition.string.end
-::      ^ - string
-
-set /p OUTPUT="( ... )|&... "
-::            ^^^^^^^^^^^^^^^ meta.prompt.set string.quoted.double - string.unquoted
-set /p OUTPUT=hi|echo
-::            ^^ meta.prompt.set string.unquoted
-::              ^ keyword.operator.pipe - meta.prompt
-::               ^^^^ support.function.builtin.dosbatch
-set /p OUTPUT="( ... )|&... "ignored & echo
-::            ^^^^^^^^^^^^^^^ meta.prompt.set string.quoted.double - string.unquoted
-::                           ^^^^^^^ meta.prompt.set comment.line.ignored
-::                                   ^ keyword.operator.conditional - comment
-::                                     ^^^^ support.function.builtin.dosbatch
-set /p today="enter a date: " REM :: this is a comment & echo !today!
-:: ^^^^ - variable.other.readwrite.dosbatch
-::     ^^^^^ variable.other.readwrite.dosbatch
-::          ^ keyword.operator.assignment.dosbatch - variable.other.readwrite.dosbatch
-::           ^^^^^^^^^^^^^^^^ meta.prompt.set.dosbatch string.quoted - variable.other.readwrite.dosbatch - comment
-::                            ^^^^^^^^^^^^^^^^^^^^^^^^ comment
-::                                                     ^ keyword.operator.conditional - comment - meta.prompt
-::                                                       ^^^^ support.function.builtin.dosbatch
-::                                                            ^^^^^^^ meta.variable.dosbatch
-
-set hello=4
-set wow=2
-set /A hello*=wow*=2
-::     ^^^^^ variable.other.readwrite
-::          ^^ keyword.operator.assignment.augmented
-::            ^^^ variable.other.readwrite
-::               ^^ keyword.operator.assignment.augmented
-::                 ^ constant.numeric.integer.decimal
-
-set /A "hello*=wow"
-::     ^^^^^^^^^^^^ meta.expression.set string.quoted.double
-::     ^ punctuation.definition.string.begin
-::      ^^^^^ variable.other.readwrite
-::           ^^ keyword.operator.assignment.augmented
-::                ^ punctuation.definition.string.end
-
-set /A "%hello%+%wow%"
-::     ^^^^^^^^^^^^^^^ meta.expression.set string.quoted.double
-::     ^ punctuation.definition.string.begin
-::      ^^^^^^^ meta.variable.dosbatch
-::      ^ punctuation.definition.variable.begin
-::            ^ punctuation.definition.variable.end
-::             ^ keyword.operator.arithmetic
-::              ^^^^^ meta.variable.dosbatch
-::              ^ punctuation.definition.variable.begin
+   set hello=4
+   set wow=2
+   set /A hello*=wow*=2
+::        ^^^^^ variable.other.readwrite
+::             ^^ keyword.operator.assignment.augmented
 ::               ^^^ variable.other.readwrite
-::                  ^ punctuation.definition.variable.end
+::                  ^^ keyword.operator.assignment.augmented
+::                    ^ constant.numeric.integer.decimal
+
+   set /A "hello*=wow"
+::        ^^^^^^^^^^^^ meta.expression.set string.quoted.double
+::        ^ punctuation.definition.string.begin
+::         ^^^^^ variable.other.readwrite
+::              ^^ keyword.operator.assignment.augmented
 ::                   ^ punctuation.definition.string.end
-set /A "%hello%+wow"
-::     ^^^^^^^^^^^^^ meta.expression.set string.quoted.double
-::      ^^^^^^^ meta.variable.dosbatch
-::      ^ punctuation.definition.variable.begin
-::            ^ punctuation.definition.variable.end
-::             ^ keyword.operator.arithmetic
 
-set /A 1+"%hello%"
-::     ^ constant.numeric.integer.decimal
-::      ^ keyword.operator.arithmetic
-::       ^^^^^^^^^ string.quoted.double
-::       ^ punctuation.definition.string.begin
-::        ^ punctuation.definition.variable.begin
-::        ^^^^^^^ meta.variable.dosbatch
-::              ^ punctuation.definition.variable.end
-::               ^ punctuation.definition.string.end
+   set /A "%hello%+%wow%"
+::        ^^^^^^^^^^^^^^^ meta.expression.set string.quoted.double
+::        ^ punctuation.definition.string.begin
+::         ^^^^^^^ meta.variable.dosbatch
+::         ^ punctuation.definition.variable.begin
+::               ^ punctuation.definition.variable.end
+::                ^ keyword.operator.arithmetic
+::                 ^^^^^ meta.variable.dosbatch
+::                 ^ punctuation.definition.variable.begin
+::                  ^^^ variable.other.readwrite
+::                     ^ punctuation.definition.variable.end
+::                      ^ punctuation.definition.string.end
 
-set a12b=21
-REM    the line below is actually invalid, as % is not expected to be used in variables before an augmented operator
-set /a %a12b%*=2
-::      ^^^^ variable.other.readwrite
-::           ^^ keyword.operator.assignment.augmented
-::             ^ constant.numeric.integer.decimal
+   set /A "%hello%+wow"
+::        ^^^^^^^^^^^^^ meta.expression.set string.quoted.double
+::         ^^^^^^^ meta.variable.dosbatch
+::         ^ punctuation.definition.variable.begin
+::               ^ punctuation.definition.variable.end
+::                ^ keyword.operator.arithmetic
 
-set /a a12b*=2
-::     ^^^^ variable.other.readwrite
-::         ^^ keyword.operator.assignment.augmented
-::           ^ constant.numeric.integer.decimal
-set /a  a12b *= 2
-::     ^ - variable
-::      ^^^^ variable.other.readwrite
-::          ^ - variable
-::           ^^ meta.expression.set keyword.operator.assignment.augmented
+   set /A 1+"%hello%"
+::        ^ constant.numeric.integer.decimal
+::         ^ keyword.operator.arithmetic
+::          ^^^^^^^^^ string.quoted.double
+::          ^ punctuation.definition.string.begin
+::           ^ punctuation.definition.variable.begin
+::           ^^^^^^^ meta.variable.dosbatch
+::                 ^ punctuation.definition.variable.end
+::                  ^ punctuation.definition.string.end
+
+   set a12b=21
+   REM the line below is actually invalid, as % is not expected to be used in variables before an augmented operator
+   set /a %a12b%*=2
+::         ^^^^ variable.other.readwrite
+::              ^^ keyword.operator.assignment.augmented
+::                ^ constant.numeric.integer.decimal
+
+   set /a a12b*=2
+::        ^^^^ variable.other.readwrite
+::            ^^ keyword.operator.assignment.augmented
 ::              ^ constant.numeric.integer.decimal
 
-set /a ! a12b
-::     ^ keyword.operator.logical
-::       ^^^^ variable.other.readwrite
-set /a !a12b
-::     ^ keyword.operator.logical
-::      ^^^^ variable.other.readwrite
-set /a "! a12b"
-::     ^^^^^^^^ meta.expression.set string.quoted.double
-::     ^ punctuation.definition.string.begin
-::      ^ keyword.operator.logical
-::        ^^^^ variable.other.readwrite
-::            ^ punctuation.definition.string.end
-set /a "! %a12b%"
-::     ^^^^^^^^^^ meta.expression.set string.quoted.double
-::     ^ punctuation.definition.string.begin
-::      ^ keyword.operator.logical
-::        ^^^^^^ meta.variable.dosbatch
-::        ^ punctuation.definition.variable.begin
-::             ^ punctuation.definition.variable.end
-::              ^ punctuation.definition.string.end
-set /a ! "a12b"
-::     ^ keyword.operator.logical
-::       ^ punctuation.definition.string.begin
-::        ^^^^ variable.other.readwrite
-::            ^ punctuation.definition.string.end
-set /a !"%a12b%"
-::     ^ keyword.operator.logical
-::      ^ punctuation.definition.string.begin
-::       ^^^^^^ meta.variable.dosbatch
-::             ^ punctuation.definition.string.end
+   set /a  a12b *= 2
+::        ^ - variable
+::         ^^^^ variable.other.readwrite
+::             ^ - variable
+::              ^^ meta.expression.set keyword.operator.assignment.augmented
+::                 ^ constant.numeric.integer.decimal
 
-set /a a&=a12b
-::      ^ keyword.operator.conditional - meta.expression.set
-set /a " world"=12
-::     ^^^^^^^^ string.quoted.double
-::       ^^^^^ variable.other.readwrite
-::            ^ punctuation.definition.string.end
-::             ^ keyword.operator.assignment
-::              ^^ constant.numeric.integer.decimal
+   set /a ! a12b
+::        ^ keyword.operator.logical
+::          ^^^^ variable.other.readwrite
 
-set /a "wow"+="2"
-::     ^^^^^  string.quoted.double
-::      ^^^ variable.other.readwrite
-::          ^^ keyword.operator.assignment.augmented - string
-::            ^^^ string.quoted.double
-::             ^ constant.numeric.integer.decimal
-set /a wow"+="2
-::     ^^^ variable.other.readwrite
-::        ^^^^ string.quoted.double
-::         ^^ keyword.operator.assignment.augmented
-::            ^ constant.numeric.integer.decimal - string
-set /a 4*"2+-wow+(3"-2)
-::     ^^^^^^^^^^^^^^^^ meta.expression.set - string string - meta.group meta.group
-::     ^ constant.numeric.integer.decimal
-::      ^ keyword.operator.arithmetic
-::       ^^^^^^^^^^^ string.quoted.double
-::       ^ punctuation.definition.string.begin
-::        ^ constant.numeric.integer.decimal
-::         ^^ keyword.operator.arithmetic
-::           ^^^ variable.other.readwrite
-::              ^ keyword.operator.arithmetic
-::               ^^^^^^ meta.group
-::               ^ punctuation.section.group.begin
-::                ^ constant.numeric.integer.decimal
+   set /a !a12b
+::        ^ keyword.operator.logical
+::         ^^^^ variable.other.readwrite
+
+   set /a "! a12b"
+::        ^^^^^^^^ meta.expression.set string.quoted.double
+::        ^ punctuation.definition.string.begin
+::         ^ keyword.operator.logical
+::           ^^^^ variable.other.readwrite
+::               ^ punctuation.definition.string.end
+
+   set /a "! %a12b%"
+::        ^^^^^^^^^^ meta.expression.set string.quoted.double
+::        ^ punctuation.definition.string.begin
+::         ^ keyword.operator.logical
+::           ^^^^^^ meta.variable.dosbatch
+::           ^ punctuation.definition.variable.begin
+::                ^ punctuation.definition.variable.end
 ::                 ^ punctuation.definition.string.end
-::                  ^ keyword.operator.arithmetic
-::                   ^ constant.numeric.integer.decimal
-::                    ^ punctuation.section.group.end
-::                  ^^^ - string
-::               ^^^ string.quoted.double meta.group
 
-set /a (8"2")
-::     ^^^^^^ meta.group
-::     ^ punctuation.section.group.begin
-::      ^ constant.numeric.integer.decimal
-::       ^ punctuation.definition.string.begin
-::       ^^^ string.quoted.double
-::        ^ constant.numeric.integer.decimal
-::         ^ punctuation.definition.string.end
-::          ^ punctuation.section.group.end
+   set /a ! "a12b"
+::        ^ keyword.operator.logical
+::          ^ punctuation.definition.string.begin
+::           ^^^^ variable.other.readwrite
+::               ^ punctuation.definition.string.end
 
-set /a 4*"2+1"1
-::     ^ constant.numeric.integer.decimal
-::      ^ keyword.operator.arithmetic
-::       ^^^^^ string.quoted.double
+   set /a !"%a12b%"
+::        ^ keyword.operator.logical
+::         ^ punctuation.definition.string.begin
+::          ^^^^^^ meta.variable.dosbatch
+::                ^ punctuation.definition.string.end
+
+   set /a a&=a12b
+::         ^ keyword.operator.conditional - meta.expression.set
+
+   set /a " world"=12
+::        ^^^^^^^^ string.quoted.double
+::          ^^^^^ variable.other.readwrite
+::               ^ punctuation.definition.string.end
+::                ^ keyword.operator.assignment
+::                 ^^ constant.numeric.integer.decimal
+
+   set /a "wow"+="2"
+::        ^^^^^  string.quoted.double
+::         ^^^ variable.other.readwrite
+::             ^^ keyword.operator.assignment.augmented - string
+::               ^^^ string.quoted.double
+::                ^ constant.numeric.integer.decimal
+
+   set /a wow"+="2
+::        ^^^ variable.other.readwrite
+::           ^^^^ string.quoted.double
+::            ^^ keyword.operator.assignment.augmented
+::               ^ constant.numeric.integer.decimal - string
+
+   set /a 4*"2+-wow+(3"-2)
+::        ^^^^^^^^^^^^^^^^ meta.expression.set - string string - meta.group meta.group
 ::        ^ constant.numeric.integer.decimal
 ::         ^ keyword.operator.arithmetic
-::          ^ constant.numeric.integer.decimal
-::            ^ constant.numeric.integer.decimal
-set /a 4*"2++1"
-::     ^ constant.numeric.integer.decimal
-::      ^ keyword.operator.arithmetic
-::       ^^^^^^ string.quoted.double
-::        ^ constant.numeric.integer.decimal
-::         ^^ keyword.operator.arithmetic
+::          ^^^^^^^^^^^ string.quoted.double
+::          ^ punctuation.definition.string.begin
 ::           ^ constant.numeric.integer.decimal
-set /a 4*"2++w"ow
-::       ^^^^^^ string.quoted.double
+::            ^^ keyword.operator.arithmetic
+::              ^^^ variable.other.readwrite
+::                 ^ keyword.operator.arithmetic
+::                  ^^^^^^ meta.group
+::                  ^ punctuation.section.group.begin
+::                   ^ constant.numeric.integer.decimal
+::                    ^ punctuation.definition.string.end
+::                     ^ keyword.operator.arithmetic
+::                      ^ constant.numeric.integer.decimal
+::                       ^ punctuation.section.group.end
+::                     ^^^ - string
+::                  ^^^ string.quoted.double meta.group
+
+   set /a (8"2")
+::        ^^^^^^ meta.group
+::        ^ punctuation.section.group.begin
+::         ^ constant.numeric.integer.decimal
+::          ^ punctuation.definition.string.begin
+::          ^^^ string.quoted.double
+::           ^ constant.numeric.integer.decimal
+::            ^ punctuation.definition.string.end
+::             ^ punctuation.section.group.end
+
+   set /a 4*"2+1"1
 ::        ^ constant.numeric.integer.decimal
-::         ^^ keyword.operator.arithmetic
-::           ^ variable.other.readwrite
-::             ^^ variable.other.readwrite
-set /a (8"2")^^1
-::           ^ constant.character.escape
+::         ^ keyword.operator.arithmetic
+::          ^^^^^ string.quoted.double
+::           ^ constant.numeric.integer.decimal
 ::            ^ keyword.operator.arithmetic
-set /a (8"2")^
+::             ^ constant.numeric.integer.decimal
+::               ^ constant.numeric.integer.decimal
+
+   set /a 4*"2++1"
+::        ^ constant.numeric.integer.decimal
+::         ^ keyword.operator.arithmetic
+::          ^^^^^^ string.quoted.double
+::           ^ constant.numeric.integer.decimal
+::            ^^ keyword.operator.arithmetic
+::              ^ constant.numeric.integer.decimal
+
+   set /a 4*"2++w"ow
+::          ^^^^^^ string.quoted.double
+::           ^ constant.numeric.integer.decimal
+::            ^^ keyword.operator.arithmetic
+::              ^ variable.other.readwrite
+::                ^^ variable.other.readwrite
+
+   set /a (8"2")^^1
+::              ^ constant.character.escape
+::               ^ keyword.operator.arithmetic
+
+   set /a (8"2")^
 +1
 :: <- keyword.operator.arithmetic
-set /a (abc*(def-(2))/4)"+((1))"
-::     ^^^^^^^^^^^^^^^^^ meta.group
-::                      ^ - meta.group
-::          ^^^^^^^^^ meta.group meta.group
-::               ^^^ meta.group meta.group meta.group
-::     ^ punctuation.section.group.begin
-::      ^^^ variable.other.readwrite
-::         ^ keyword.operator.arithmetic
-::          ^ punctuation.section.group.begin
-::           ^^^ variable.other.readwrite
-::              ^ keyword.operator.arithmetic
-::               ^ punctuation.section.group.begin
-::                ^ constant.numeric.integer.decimal
-::                 ^ punctuation.section.group.end
-::                  ^ punctuation.section.group.end
-::                   ^ keyword.operator.arithmetic
-::                    ^ constant.numeric.integer.decimal
+
+   set /a (abc*(def-(2))/4)"+((1))"
+::        ^^^^^^^^^^^^^^^^^ meta.group
+::                         ^ - meta.group
+::             ^^^^^^^^^ meta.group meta.group
+::                  ^^^ meta.group meta.group meta.group
+::        ^ punctuation.section.group.begin
+::         ^^^ variable.other.readwrite
+::            ^ keyword.operator.arithmetic
+::             ^ punctuation.section.group.begin
+::              ^^^ variable.other.readwrite
+::                 ^ keyword.operator.arithmetic
+::                  ^ punctuation.section.group.begin
+::                   ^ constant.numeric.integer.decimal
+::                    ^ punctuation.section.group.end
 ::                     ^ punctuation.section.group.end
-::                      ^^^^^^^^ string.quoted.double
-::                      ^ punctuation.definition.string.begin
-::                       ^ keyword.operator.arithmetic
-::                        ^ meta.group punctuation.section.group.begin
-::                         ^ meta.group meta.group punctuation.section.group.begin
-::                          ^ meta.group meta.group constant.numeric.integer.decimal
-::                           ^ meta.group meta.group punctuation.section.group.end
-::                            ^ meta.group punctuation.section.group.end
-::                             ^ punctuation.definition.string.end - meta.group
-set /a ("a"+b&"c+d")
-::     ^^^^^^ meta.expression.set meta.group
-::      ^^^ string.quoted.double
-::       ^ variable.other.readwrite
-::         ^ keyword.operator.arithmetic
+::                      ^ keyword.operator.arithmetic
+::                       ^ constant.numeric.integer.decimal
+::                        ^ punctuation.section.group.end
+::                         ^^^^^^^^ string.quoted.double
+::                         ^ punctuation.definition.string.begin
+::                          ^ keyword.operator.arithmetic
+::                           ^ meta.group punctuation.section.group.begin
+::                            ^ meta.group meta.group punctuation.section.group.begin
+::                             ^ meta.group meta.group constant.numeric.integer.decimal
+::                              ^ meta.group meta.group punctuation.section.group.end
+::                               ^ meta.group punctuation.section.group.end
+::                                ^ punctuation.definition.string.end - meta.group
+
+   set /a ("a"+b&"c+d")
+::        ^^^^^^ meta.expression.set meta.group
+::         ^^^ string.quoted.double
 ::          ^ variable.other.readwrite
-::           ^ keyword.operator.conditional
-::            ^^^^^ string.quoted.double - keyword - variable
-set /a (a+"b)*2"-1
-::     ^^^^^^ meta.group
-::     ^ punctuation.section.group.begin
-::      ^ variable.other.readwrite
-::       ^ keyword.operator.arithmetic
-::        ^ punctuation.definition.string.begin
-::        ^^^^^^ string.quoted.double
+::            ^ keyword.operator.arithmetic
+::             ^ variable.other.readwrite
+::              ^ keyword.operator.conditional
+::               ^^^^^ string.quoted.double - keyword - variable
+
+   set /a (a+"b)*2"-1
+::        ^^^^^^ meta.group
+::        ^ punctuation.section.group.begin
 ::         ^ variable.other.readwrite
-::          ^ punctuation.section.group.end
-::           ^ keyword.operator.arithmetic - meta.group
-::            ^ constant.numeric.integer.decimal
-::             ^ punctuation.definition.string.end
+::          ^ keyword.operator.arithmetic
+::           ^ punctuation.definition.string.begin
+::           ^^^^^^ string.quoted.double
+::            ^ variable.other.readwrite
+::             ^ punctuation.section.group.end
 ::              ^ keyword.operator.arithmetic - meta.group
 ::               ^ constant.numeric.integer.decimal
+::                ^ punctuation.definition.string.end
+::                 ^ keyword.operator.arithmetic - meta.group
+::                  ^ constant.numeric.integer.decimal
+
+
+:: command SET /P variable=[promptString]
+
+   set /p today=
+::    ^^^^ - variable.other.readwrite.dosbatch
+::        ^^^^^ variable.other.readwrite.dosbatch
+::             ^ keyword.operator.assignment.dosbatch
+::              ^ - meta.prompt.set.dosbatch
+
+   set /p today=enter a date:
+::    ^^^^ - variable.other.readwrite.dosbatch
+::        ^^^^^ variable.other.readwrite.dosbatch
+::             ^ keyword.operator.assignment.dosbatch
+::              ^^^^^^^^^^^^^ meta.prompt.set.dosbatch string.unquoted - variable.other.readwrite.dosbatch
+::                           ^ - meta.prompt.set.dosbatch
+
+   set /p today=enter a date: REM :: this is not a comment
+::    ^^^^ - variable.other.readwrite.dosbatch
+::        ^^^^^ variable.other.readwrite.dosbatch
+::             ^ keyword.operator.assignment.dosbatch
+::              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.prompt.set.dosbatch string.unquoted - variable.other.readwrite.dosbatch - comment
+::                                                        ^ - meta.prompt.set.dosbatch
+
+   set /p today=<today.txt
+::    ^^^^ - variable.other.readwrite.dosbatch
+::        ^^^^^ variable.other.readwrite.dosbatch
+::             ^ keyword.operator.assignment.dosbatch
+::              ^ keyword.operator.redirection.dosbatch
+
+
+   set /p OUTPUT="( ... )|&... "
+::               ^^^^^^^^^^^^^^^ meta.prompt.set string.quoted.double - string.unquoted
+   set /p OUTPUT=hi|echo
+::               ^^ meta.prompt.set string.unquoted
+::                 ^ keyword.operator.pipe - meta.prompt
+::                  ^^^^ support.function.builtin.dosbatch
+   set /p OUTPUT="( ... )|&... "ignored & echo
+::               ^^^^^^^^^^^^^^^ meta.prompt.set string.quoted.double - string.unquoted
+::                              ^^^^^^^ meta.prompt.set comment.line.ignored
+::                                      ^ keyword.operator.conditional - comment
+::                                        ^^^^ support.function.builtin.dosbatch
+   set /p today="enter a date: " REM :: this is a comment & echo !today!
+::    ^^^^ - variable.other.readwrite.dosbatch
+::        ^^^^^ variable.other.readwrite.dosbatch
+::             ^ keyword.operator.assignment.dosbatch - variable.other.readwrite.dosbatch
+::              ^^^^^^^^^^^^^^^^ meta.prompt.set.dosbatch string.quoted - variable.other.readwrite.dosbatch - comment
+::                               ^^^^^^^^^^^^^^^^^^^^^^^^ comment
+::                                                        ^ keyword.operator.conditional - comment - meta.prompt
+::                                                          ^^^^ support.function.builtin.dosbatch
+::                                                               ^^^^^^^ meta.variable.dosbatch
