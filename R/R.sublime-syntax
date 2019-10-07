@@ -16,6 +16,7 @@ variables:
 contexts:
   main:
     - include: roxygen
+    - include: codesection
     - include: comments
     - include: constants
     - include: operators
@@ -29,8 +30,15 @@ contexts:
     - include: function-calls
     - include: general-variables
 
+  codesection:
+    - match: ^\s*(\#+)\s*(.+?)\s*[-=#]{4,}$\n?
+      scope: comment.line.number-sign.r
+      captures:
+        1: punctuation.definition.comment.r
+        2: entity.name.section.r
+
   comments:
-    - match: "#"
+    - match: \#+
       scope: punctuation.definition.comment.r
       push:
         - meta_scope: comment.line.number-sign.r
