@@ -600,9 +600,171 @@ contexts:
 ###[ COMMAND SET ]############################################################
 
   command-set:
+    # https://ss64.com/nt/set.html
     - match: \b(?i:set)\b
       scope: support.function.builtin.dosbatch
-      push: inside-command-set
+      push:
+        - command-set-comment
+        - command-set-meta
+        - command-set-type
+
+  command-set-end:
+    - include: line-continuation
+    - match: $|(?=[&<|>])
+      pop: true
+
+  command-set-comment:
+    - include: eoc-pop
+    - match: '{{colon_comment_start}}'
+      scope: punctuation.definition.comment.dosbatch
+      set:
+        - meta_scope: comment.line.colon.dosbatch
+        - include: eoc-pop
+    - match: (?i:rem)\b
+      scope: keyword.declaration.rem.dosbatch
+      set:
+        - meta_scope: comment.line.rem.dosbatch
+        - include: eoc-pop
+    - match: (?=\S)
+      set:
+        - meta_scope: comment.line.ignored.dosbatch
+        - include: eoc-pop
+
+  command-set-meta:
+    - meta_scope: meta.command.set.dosbatch
+    - include: immediatelly-pop
+
+  command-set-type:
+    # SET
+    - include: eoc-pop
+    # SET /A "variable=expression"
+    # SET /A variable=expression
+    - match: (?i:(/)a)\b
+      scope: variable.parameter.expression.dosbatch
+      captures:
+        1: punctuation.definition.variable.dosbatch
+      set: command-set-expression
+    # SET /P "variable=[promptString]" REM ...
+    # SET /P variable="[promptString]" REM ...
+    # SET /P variable=[promptString]
+    - match: (?i:(/)p)\b
+      scope: variable.parameter.prompt.dosbatch
+      captures:
+        1: punctuation.definition.variable.dosbatch
+      set: command-set-prompt
+    # SET /illegal
+    - match: /[^=\s{{command_terminator_chars}}]+
+      scope: invalid.illegal.parameter.dosbatch
+    # SET "variable=string"
+    # SET "variable="
+    # SET variable
+    # SET variable=string
+    - match: \"
+      scope: punctuation.definition.string.begin.dosbatch
+      set: [command-set-quoted, command-set-variable]
+    - match: (?=\S)
+      scope: punctuation.definition.string.begin.dosbatch
+      set: [command-set-unquoted, command-set-variable]
+
+  command-set-quoted:
+    - include: line-continuation
+    - include: strings-common
+
+  command-set-unquoted:
+    - include: constants
+    - include: numbers
+    - include: path-patterns
+    - include: eoc-pop
+
+  command-set-variable:
+    - include: eoc-pop
+    - match: =
+      scope: keyword.operator.assignment.dosbatch
+      pop: true
+    - match: .
+      scope: variable.other.readwrite.dosbatch
+
+###[ COMMAND SET /A ]#########################################################
+
+  command-set-expression:
+    - meta_scope: meta.expression.dosbatch
+    - include: set-arithmetic-unquoted
+
+###[ COMMAND SET /P ]#########################################################
+
+  command-set-prompt:
+    - match: \"
+      scope: punctuation.definition.prompt.begin.dosbatch
+      set:
+        - command-set-prompt-meta
+        - command-set-prompt-quoted
+        - command-set-variable
+    - match: (?=\S)
+      set:
+        - command-set-prompt-meta
+        - command-set-prompt-unquoted
+        - command-set-variable
+
+  command-set-prompt-meta:
+    - meta_scope: meta.prompt.dosbatch
+    - include: immediatelly-pop
+
+  command-set-prompt-quoted:
+    # quoted value in quoted prompt
+    - match: \"(?=[^&<|>]*\")
+      scope: punctuation.definition.string.begin.dosbatch
+      set:
+        - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
+        - match: \"
+          scope:
+            punctuation.definition.prompt.end.dosbatch
+            punctuation.definition.string.end.dosbatch
+          pop: true
+        - include: command-set-prompt-output
+    # unquoted value in quoted prompt
+    - match: (?=\S)
+      set:
+        - meta_content_scope: meta.string.dosbatch string.unquoted.dosbatch
+        - match: \"
+          scope: punctuation.definition.prompt.end.dosbatch
+          pop: true
+        - include: command-set-prompt-output
+    - include: eol-pop
+
+  command-set-prompt-unquoted:
+    # quoted value in unquoted prompt
+    - match: \"
+      scope: punctuation.definition.string.begin.dosbatch
+      set:
+        - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
+        - match: \"
+          scope: punctuation.definition.string.end.dosbatch
+          pop: true
+        - include: command-set-prompt-output
+    # unquoted value in unquoted prompt
+    - match: (?=\S)
+      set:
+        - meta_content_scope: meta.string.dosbatch string.unquoted.dosbatch
+        - match: '<&?|>[&>]?'
+          scope: keyword.operator.redirection.dosbatch
+          push:
+            - - clear_scopes: 1
+              - meta_scope: meta.redirection.dosbatch
+              - include: immediatelly-pop
+            - path-redirection
+        - include: escaped-characters
+        - include: variables-interpolation
+        - include: eoc-pop
+    - include: eol-pop
+
+  command-set-prompt-output:
+    - include: escaped-characters
+    - include: variables-interpolation
+    - include: line-continuation
+    - include: illegal-eol-pop
+
+
+
 
   inside-command-set:
       - include: eoc-pop
@@ -774,6 +936,9 @@ contexts:
     - match: '\|'
       scope: keyword.operator.pipe.dosbatch
       push: illegal-comment-pop
+    - include: operators-redirction
+
+  operators-redirction:
     - match: '<&?|>[&>]?'
       scope: keyword.operator.redirection.dosbatch
       push: path-redirection

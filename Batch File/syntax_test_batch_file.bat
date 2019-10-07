@@ -1650,49 +1650,293 @@ ECHO "^
 :: command SET /P variable=[promptString]
 
    set /p today=
-::    ^^^^ - variable.other.readwrite.dosbatch
+:: ^^^ support.function.builtin.dosbatch
+::    ^ - keyword - variable
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^ variable.parameter.prompt.dosbatch
+::       ^ - variable
 ::        ^^^^^ variable.other.readwrite.dosbatch
 ::             ^ keyword.operator.assignment.dosbatch
-::              ^ - meta.prompt.set.dosbatch
 
-   set /p today=enter a date:
-::    ^^^^ - variable.other.readwrite.dosbatch
-::        ^^^^^ variable.other.readwrite.dosbatch
-::             ^ keyword.operator.assignment.dosbatch
-::              ^^^^^^^^^^^^^ meta.prompt.set.dosbatch string.unquoted - variable.other.readwrite.dosbatch
-::                           ^ - meta.prompt.set.dosbatch
+   set^
+   /p today=
+::^ - keyword - variable
+:: ^ punctuation.definition.variable.dosbatch
+:: ^^ variable.parameter.prompt.dosbatch
+::   ^ - variable
+::    ^^^^^ variable.other.readwrite.dosbatch
+::         ^ keyword.operator.assignment.dosbatch
 
-   set /p today=enter a date: REM :: this is not a comment
-::    ^^^^ - variable.other.readwrite.dosbatch
+   set /p^
+   today=
+::^^^^^^ variable.other.readwrite.dosbatch
+::      ^ keyword.operator.assignment.dosbatch
+
+   set /p^
+   today^
+   =
+:: ^ keyword.operator.assignment.dosbatch
+
+   set /p today=enter a %date%: REM this ^is not a comment
+:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+::        ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::              ^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
+::                      ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch
+::                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
+::                                                        ^ - meta.command
+:: ^^^ support.function.builtin.dosbatch
+::    ^ - keyword - variable
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^ variable.parameter.prompt.dosbatch
+::       ^ - variable
 ::        ^^^^^ variable.other.readwrite.dosbatch
 ::             ^ keyword.operator.assignment.dosbatch
-::              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.prompt.set.dosbatch string.unquoted - variable.other.readwrite.dosbatch - comment
-::                                                        ^ - meta.prompt.set.dosbatch
+::              ^^^^^^^^ string.unquoted.dosbatch
+::                      ^^^^^^ - string
+::                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
+::                                       ^^ constant.character.escape.dosbatch
+
+   set /p today="enter a %date%: " REM :: this is a comment & echo !today!
+:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+::        ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::              ^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
+::                       ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch
+::                             ^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
+::                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.command
+::                                                            ^^^^^^^^^^^^ meta.command.echo.dosbatch
+::                                                                        ^ - meta.command
+:: ^^^ support.function.builtin.dosbatch
+::    ^ - keyword - variable
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^ variable.parameter.prompt.dosbatch
+::       ^ - variable
+::        ^^^^^ variable.other.readwrite.dosbatch
+::             ^ keyword.operator.assignment.dosbatch
+::              ^ punctuation.definition.string.begin.dosbatch
+::              ^^^^^^^^^ string.quoted.double.dosbatch
+::                       ^^^^^^ - string
+::                             ^^^ string.quoted.double.dosbatch
+::                               ^ punctuation.definition.string.end.dosbatch
+::                                 ^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
+::                                 ^^^ keyword.declaration.rem.dosbatch
+::                                                          ^ keyword.operator.conditional - comment
+::                                                            ^^^^ support.function.builtin.dosbatch
+::                                                                 ^^^^^^^ meta.variable.dosbatch
+
+   set /p today="enter a !date!: " this is a comment & echo !today!
+:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+::        ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::              ^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
+::                       ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch
+::                             ^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
+::                                ^^^^^^^^^^^^^^^^^^^^^ - meta.command
+::                                                     ^^^^^^^^^^^^ meta.command.echo.dosbatch
+::                                                                 ^ - meta.command
+:: ^^^ support.function.builtin.dosbatch
+::    ^ - keyword - variable
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^ variable.parameter.prompt.dosbatch
+::       ^ - variable
+::        ^^^^^ variable.other.readwrite.dosbatch
+::             ^ keyword.operator.assignment.dosbatch
+::              ^ punctuation.definition.string.begin.dosbatch
+::              ^^^^^^^^^ string.quoted.double.dosbatch
+::                       ^^^^^^ - string
+::                             ^^^ string.quoted.double.dosbatch
+::                               ^ punctuation.definition.string.end.dosbatch
+::                                 ^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                                                   ^ keyword.operator.conditional - comment
+::                                                     ^^^^ support.function.builtin.dosbatch
+::                                                          ^^^^^^^ meta.variable.dosbatch
+
+   set /p today="enter a^
+   date: " this is a comment || set today=nothing
+:: ^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
+::        ^^^^^^^^^^^^^^^^^^^^^^ - meta.command
+::                              ^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
+::                                               ^ - meta.command
+:: ^^^^^^^ string.quoted.double.dosbatch - comment
+::         ^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                           ^^ keyword.operator.conditional - comment
+::                              ^^^ support.function.builtin.dosbatch
+
+   set /p today="enter a^
+   date: " this is ^
+   a comment || set today=nothing
+:: ^^^^^^^^^^^^^ - meta.command
+::              ^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
+::                               ^ - meta.command
+:: ^^^^^^^^^^ comment.line.ignored.dosbatch
+::           ^^ keyword.operator.conditional - comment
+::              ^^^ support.function.builtin.dosbatch
+
+   set /p "today"="enter a) %date%: " REM this is a comment & echo !today!
+:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+::        ^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::                ^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
+::                          ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch
+::                                ^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
+::                                   ^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.command
+::                                                            ^^^^^^^^^^^^ meta.command.echo.dosbatch
+::                                                                        ^ - meta.command
+:: ^^^ support.function.builtin.dosbatch
+::    ^ - keyword - variable
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^ variable.parameter.prompt.dosbatch
+::        ^ punctuation.definition.prompt.begin.dosbatch
+::         ^^^^^^ variable.other.readwrite.dosbatch
+::               ^ keyword.operator.assignment.dosbatch
+::                ^ punctuation.definition.string.begin.dosbatch
+::                ^^^^^^^^^^ string.quoted.double.dosbatch
+::                          ^^^^^^ - string
+::                                ^^^ string.quoted.double.dosbatch
+::                                  ^ punctuation.definition.prompt.end.dosbatch punctuation.definition.string.end.dosbatch
+::                                    ^^^^^^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
+::                                    ^^^ keyword.declaration.rem.dosbatch
+::                                                          ^ keyword.operator.conditional - comment
+::                                                            ^^^^ support.function.builtin.dosbatch
+::                                                                 ^^^^^^^ meta.variable.dosbatch
+
+   set /p "today=%enter% a date: " this is a comment & echo !today!
+:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+::        ^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::               ^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch
+::                      ^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
+::                               ^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::                                ^^^^^^^^^^^^^^^^^^^^^ - meta.command
+::                                                     ^^^^^^^^^^^^ meta.command.echo.dosbatch
+::                                                                 ^ - meta.command
+:: ^^^ support.function.builtin.dosbatch
+::    ^ - keyword - variable
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^ variable.parameter.prompt.dosbatch
+::        ^ punctuation.definition.prompt.begin.dosbatch
+::         ^^^^^ variable.other.readwrite.dosbatch
+::              ^ keyword.operator.assignment.dosbatch
+::               ^^^^^^^ - string
+::                      ^^^^^^^^^ string.unquoted.dosbatch
+::                               ^ punctuation.definition.prompt.end.dosbatch
+::                                 ^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                                                   ^ keyword.operator.conditional - comment
+::                                                     ^^^^ support.function.builtin.dosbatch
+::                                                          ^^^^^^^ meta.variable.dosbatch
+
+   set /p "today="%enter% a date: this is a comment & echo !today!
+:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+::        ^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.command
+::                                                    ^^^^^^^^^^^^ meta.command.echo.dosbatch
+::                                                                ^ - meta.command
+:: ^^^ support.function.builtin.dosbatch
+::    ^ - keyword - variable
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^ variable.parameter.prompt.dosbatch
+::        ^ punctuation.definition.prompt.begin.dosbatch
+::         ^^^^^ variable.other.readwrite.dosbatch
+::              ^ keyword.operator.assignment.dosbatch
+::               ^ punctuation.definition.prompt.end.dosbatch
+::                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                                                  ^ keyword.operator.conditional - comment
+::                                                    ^^^^ support.function.builtin.dosbatch
+::                                                         ^^^^^^^ meta.variable.dosbatch
 
    set /p today=<today.txt
-::    ^^^^ - variable.other.readwrite.dosbatch
+:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+::        ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::              ^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.redirection.dosbatch
+:: ^^^ support.function.builtin.dosbatch
+::    ^ - keyword - variable
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^ variable.parameter.prompt.dosbatch
 ::        ^^^^^ variable.other.readwrite.dosbatch
 ::             ^ keyword.operator.assignment.dosbatch
 ::              ^ keyword.operator.redirection.dosbatch
 
-
-   set /p OUTPUT="( ... )|&... "
-::               ^^^^^^^^^^^^^^^ meta.prompt.set string.quoted.double - string.unquoted
-   set /p OUTPUT=hi|echo
-::               ^^ meta.prompt.set string.unquoted
-::                 ^ keyword.operator.pipe - meta.prompt
-::                  ^^^^ support.function.builtin.dosbatch
-   set /p OUTPUT="( ... )|&... "ignored & echo
-::               ^^^^^^^^^^^^^^^ meta.prompt.set string.quoted.double - string.unquoted
-::                              ^^^^^^^ meta.prompt.set comment.line.ignored
-::                                      ^ keyword.operator.conditional - comment
-::                                        ^^^^ support.function.builtin.dosbatch
-   set /p today="enter a date: " REM :: this is a comment & echo !today!
-::    ^^^^ - variable.other.readwrite.dosbatch
+   set /p today=Enter <today.txt a date
+:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+::        ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::              ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
+::                    ^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.redirection.dosbatch
+::                              ^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
+:: ^^^ support.function.builtin.dosbatch
+::    ^ - keyword - variable
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^ variable.parameter.prompt.dosbatch
 ::        ^^^^^ variable.other.readwrite.dosbatch
-::             ^ keyword.operator.assignment.dosbatch - variable.other.readwrite.dosbatch
-::              ^^^^^^^^^^^^^^^^ meta.prompt.set.dosbatch string.quoted - variable.other.readwrite.dosbatch - comment
-::                               ^^^^^^^^^^^^^^^^^^^^^^^^ comment
-::                                                        ^ keyword.operator.conditional - comment - meta.prompt
-::                                                          ^^^^ support.function.builtin.dosbatch
-::                                                               ^^^^^^^ meta.variable.dosbatch
+::             ^ keyword.operator.assignment.dosbatch
+::                    ^ keyword.operator.redirection.dosbatch
+
+   set /p today=Enter < "..\to day.txt" a date
+:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+::        ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::              ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
+::                    ^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.redirection.dosbatch
+::                                     ^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
+:: ^^^ support.function.builtin.dosbatch
+::    ^ - keyword - variable
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^ variable.parameter.prompt.dosbatch
+::        ^^^^^ variable.other.readwrite.dosbatch
+::             ^ keyword.operator.assignment.dosbatch
+::                    ^ keyword.operator.redirection.dosbatch
+
+   set /p "today=<today.txt"
+:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+::        ^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::               ^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
+::                         ^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::                          ^ - meta.command
+:: ^^^ support.function.builtin.dosbatch
+::    ^ - keyword - variable
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^ variable.parameter.prompt.dosbatch
+::        ^ punctuation.definition.prompt.begin.dosbatch
+::         ^^^^^ variable.other.readwrite.dosbatch
+::              ^ keyword.operator.assignment.dosbatch
+::               ^ - keyword
+::               ^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch
+::                         ^ punctuation.definition.prompt.end.dosbatch
+
+   set /p "today="<today.txt
+:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+::        ^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::                ^^^^^^^^^^^ - meta.command
+:: ^^^ support.function.builtin.dosbatch
+::    ^ - keyword - variable
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^ variable.parameter.prompt.dosbatch
+::        ^ punctuation.definition.prompt.begin.dosbatch
+::         ^^^^^ variable.other.readwrite.dosbatch
+::              ^ keyword.operator.assignment.dosbatch
+::               ^ punctuation.definition.prompt.end.dosbatch
+::                ^ keyword.operator.redirection.dosbatch
+
+   set /p "today=" this is ignored <today.txt
+:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+::        ^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::                ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.command
+:: ^^^ support.function.builtin.dosbatch
+::    ^ - keyword - variable
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^ variable.parameter.prompt.dosbatch
+::        ^ punctuation.definition.prompt.begin.dosbatch
+::         ^^^^^ variable.other.readwrite.dosbatch
+::              ^ keyword.operator.assignment.dosbatch
+::               ^ punctuation.definition.prompt.end.dosbatch
+::                 ^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                                 ^ keyword.operator.redirection.dosbatch
+
+   set /p "today="<"c:\this week\to day.txt"
+:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+::        ^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
+::                ^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.command
+:: ^^^ support.function.builtin.dosbatch
+::    ^ - keyword - variable
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^ variable.parameter.prompt.dosbatch
+::        ^ punctuation.definition.prompt.begin.dosbatch
+::         ^^^^^ variable.other.readwrite.dosbatch
+::              ^ keyword.operator.assignment.dosbatch
+::               ^ punctuation.definition.prompt.end.dosbatch
+::                ^ keyword.operator.redirection.dosbatch
+::                 ^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.dosbatch
