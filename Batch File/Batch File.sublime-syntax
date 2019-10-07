@@ -57,22 +57,24 @@ variables:
       winsat|wlbs|wmic|wscript|wupdmgr|xcacls|xcopy
     )(?=[\s{{command_terminator_chars}}])
 
+  operator_comparison: (?i:equ|neq|lss|leq|gtr|geq)\b
+
 contexts:
   main:
     - include: statements
 
   statements:
     - include: comments
-    - include: commands
-    - include: control
     - include: labels
     - include: operators
-    - include: expressions
+    - include: control
+    - include: commands
 
   commands:
     - include: command-echo
     - include: command-set
     - include: command-builtin
+    - include: command-other
 
   control:
     - include: control-call
@@ -89,8 +91,6 @@ contexts:
     - include: constants
     - include: numbers
     - include: strings
-    - include: operators-comparison
-    - include: operators-logical
     - include: escaped-characters
     - include: line-continuation
     - include: variables
@@ -129,6 +129,12 @@ contexts:
     - match: \n
       scope: invalid.illegal.newline.dosbatch
       pop: true
+
+  illegal-token-pop:
+    - match: \S+
+      scope: invalid.illegal.unexpected.dosbatch
+      set: else-pop
+    - include: eol-pop
 
   line-continuation:
     - match: \^\n
@@ -176,11 +182,23 @@ contexts:
   embedded:
     - match: (['`])
       scope: meta.embedded.dosbatch punctuation.section.embedded.begin.dosbatch
-      embed: statements
+      embed: commands
       embed_scope: meta.embedded.dosbatch source.dosbatch.embedded
       escape: \1(?=\s*($|['`{{command_terminator_chars}}]))
       escape_captures:
         0: meta.embedded.dosbatch punctuation.section.embedded.end.dosbatch
+
+  control-block:
+    - match: \(
+      scope: punctuation.section.group.begin.dosbatch
+      set:
+        - meta_scope: meta.group.dosbatch
+        - match: \)
+          scope: punctuation.section.group.end.dosbatch
+          pop: true
+        - include: statements
+    - include: eoc-pop
+    - include: statements
 
   groups:
     - match: \(
@@ -192,32 +210,103 @@ contexts:
           pop: true
         - include: separator-semicolon
         - include: separator-comma
-        - include: statements
+        - include: expressions
 
 ###[ CONTROL CONDITIONAL ]####################################################
 
   control-conditional:
     # https://ss64.com/nt/if.html
-    - match: \b(?i:if)\b
+    - match: (?i:if)\b
       scope: keyword.control.conditional.if.dosbatch
       push:
-        - match: \b(?i:errorlevel|cmdextversion)\b
-          scope: variable.language.dosbatch
-          pop: true
-        - match: \b(?i:exist)\b
-          scope: support.function.builtin.dosbatch
-          set: path-patterns
-        - match: \b(?i:defined)\b
-          scope: support.function.builtin.dosbatch
-          pop: true
-        - match: (?i:(/)i)\b
-          scope: variable.parameter.dosbatch
-          captures:
-            1: punctuation.definition.variable.dosbatch
-        - include: operators-logical
-        - include: else-pop
-    - match: \b(?i:else)\b
+        - control-if-meta
+        - control-if-block
+        - control-if-condition
+    - match: (?i:else)\b
+      scope: invalid.illegal.stray.dosbatch
+
+  control-if-meta:
+      - meta_scope: meta.if.dosbatch
+      - include: immediatelly-pop
+
+  control-if-condition:
+      - include: eoc-pop
+      - match: (?i:(/)i)\b
+        scope: variable.parameter.dosbatch
+        captures:
+          1: punctuation.definition.variable.dosbatch
+        set:
+          - expect-operand
+          - expect-operator-comparison
+          - expect-operand
+          - maybe-operator-not
+      - match: (?=\S)
+        set:
+          - control-if-checks
+          - maybe-operator-not
+
+  control-if-block:
+    - match: (?=\()
+      set: [control-else, control-block]
+    - include: eoc-pop
+    - include: statements
+
+  control-if-checks:
+    - include: eoc-pop
+    - match: (?i:errorlevel|cmdextversion)\b
+      scope: variable.language.dosbatch
+      set: [expect-operand, maybe-operator-equal]
+    - match: (?i:exist)\b
+      scope: support.function.builtin.dosbatch
+      set: [path-patterns, else-pop]
+    - match: (?i:defined)\b
+      scope: support.function.builtin.dosbatch
+      set: [else-pop, expect-operand, else-pop]
+    - match: (?=\S)
+      set: [expect-operand, expect-operator-comparison, expect-operand]
+
+  expect-operand:
+    - match: (?={{operator_comparison}}|==)
+      pop: true
+    - include: groups
+    - include: numbers
+    - include: strings
+    - include: variables
+    - match: '[^-+*\s{{command_terminator_chars}})][^\s{{command_terminator_chars}}]*'
+      scope: variable.other.readwrite.dosbatch
+      pop: true
+    - include: immediatelly-pop
+
+  expect-operator-comparison:
+    - match: '{{operator_comparison}}|=='
+      scope: keyword.operator.comparison.dosbatch
+      set: else-pop
+    - include: illegal-token-pop
+
+  maybe-operator-equal:
+    - match: ==
+      scope: keyword.operator.comparison.dosbatch
+      set: else-pop
+    - match: '{{operator_comparison}}'
+      scope: invalid.illegal.unexpected.dosbatch
+      set: else-pop
+    - include: else-pop
+
+  maybe-operator-not:
+    - match: (?i:not)\b
+      scope: keyword.operator.logical.dosbatch
+      set: else-pop
+    - include: else-pop
+
+  control-else:
+    - match: (?i:else)\b|(?=\()
       scope: keyword.control.conditional.else.dosbatch
+      set: control-block
+    - match: $|(?=[&<|>])
+      pop: true
+    - include: line-continuation
+    - match: \S
+      scope: invalid.illegal.dosbatch
 
 ###[ CONTROL FOR ]############################################################
 
@@ -226,11 +315,17 @@ contexts:
     - match: \b(?i:for)\b
       scope: keyword.control.loop.for.dosbatch
       push:
+        - control-for-meta
+        - control-block
         - control-for-do
         - control-for-set
         - control-for-in
         - control-for-parameter
         - control-for-switches
+
+  control-for-meta:
+    - meta_scope: meta.for.dosbatch
+    - include: immediatelly-pop
 
   control-for-switches:
     # https://ss64.com/nt/for_d.html
@@ -663,14 +758,6 @@ contexts:
     - match: '<&?|>[&>]?'
       scope: keyword.operator.redirection.dosbatch
 
-  operators-comparison:
-    - match: \b(?i:EQU|NEQ|LSS|LEQ|GTR|GEQ)\b|==
-      scope: keyword.operator.comparison.dosbatch
-
-  operators-logical:
-    - match: \b(?i:not)\b
-      scope: keyword.operator.logical.dosbatch
-
   separator-comma:
     - match: ','
       scope: punctuation.separator.comma.dosbatch
@@ -717,9 +804,9 @@ contexts:
     - match: (?=(?!%%)\S)
       set:
         - - meta_scope: meta.string.dosbatch string.unquoted.dosbatch
-          - match: (?=[\s,;"{{command_terminator_chars}}])
+          - match: (?=[\s,;"])
             pop: true
-          - include: line-continuation
+          - include: eoc-pop
           - include: path-patterns-common
         - path-patterns-relative
     - include: else-pop
