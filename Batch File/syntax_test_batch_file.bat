@@ -842,9 +842,9 @@ ECHO "^
 ::          ^^^^^^^ variable.other.readwrite.dosbatch
 ::                 ^ keyword.operator.assignment.dosbatch
 ::                  ^ punctuation.definition.string.begin.dosbatch
-::                  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.prompt.set.dosbatch string.quoted
+::                  ^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted
 ::                                          ^ punctuation.definition.string.end.dosbatch
-::                                            ^ keyword.operator.conditional.dosbatch - meta.prompt.set.dosbatch - string
+::                                            ^ keyword.operator.conditional.dosbatch - string
 ::                                              ^^^^ support.function.builtin.dosbatch
 ::                                                                      ^^^^^^^^^ meta.variable.dosbatch
    ENDLOCAL & set return=%example%
@@ -898,15 +898,16 @@ ECHO "^
 ::  ^^^^ support.function.builtin.dosbatch
 ::       ^^^ constant.language.dosbatch
 
-   @ECHO OFF :: no comment & :: comment
+   @ECHO OFF :: no (comment) & :: comment
 :: ^ - meta.command
 ::  ^^^^^ meta.command.echo.dosbatch - meta.string - string
 ::       ^^^^^^^^^^^^^^^^^ meta.command.echo.dosbatch meta.string.dosbatch string.unquoted.dosbatch
 ::                        ^^^^^^^^^^^^^ - meta.command
 :: ^ keyword.operator.at.dosbatch
 ::  ^^^^ support.function.builtin.dosbatch
-::                         ^ keyword.operator.conditional.dosbatch
-::                           ^^ comment.line.colon.dosbatch punctuation.definition.comment.dosbatch
+::       ^^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
+::                           ^ keyword.operator.conditional.dosbatch
+::                             ^^ comment.line.colon.dosbatch punctuation.definition.comment.dosbatch
 
    @ECHO ON & :: comment
 :: ^ - meta.command
@@ -1191,71 +1192,158 @@ ECHO "^
 
 :: command SET variable=string
 
-   set hello_world
+   set foo_bar
+:: ^^^^^^^^^^^ meta.command.set.dosbatch
+::            ^ - meta.command
 :: ^^^ support.function.builtin.dosbatch
-::     ^^^^^^^^^^^ variable.other.readwrite.dosbatch
+::     ^^^^^^^ variable.other.readwrite.dosbatch
 
-   SET T=%TIME: =0%
-:: ^^^ support.function.builtin.dosbatch
-::     ^ variable.other.readwrite
-::      ^ keyword.operator.assignment
-::       ^^^^^^^^^^ meta.variable.dosbatch
-
-   set "hello"="world"
-:: ^^^ support.function.builtin.dosbatch
-::     ^ - variable.other.readwrite
-::      ^^^^^^ variable.other.readwrite
-::            ^ keyword.operator.assignment
-::             ^ - punctuation
-::                   ^ punctuation.definition.string.end
-::                    ^ - string
-
-   set foo=bar
+   set rem=bar
+:: ^^^^^^^^^^^ meta.command.set.dosbatch
+::            ^ - meta.command
 :: ^^^ support.function.builtin.dosbatch
 ::     ^^^ variable.other.readwrite
 ::        ^ keyword.operator.assignment
 ::         ^^^ string.unquoted
 
-   set foo = bar
+   set rem bar = baz
+:: ^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
+::                  ^ - meta.command
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - variable.other.readwrite
-::     ^^^^ variable.other.readwrite
-::         ^ keyword.operator.assignment
-::           ^^^ string.unquoted
+::     ^^^^^^^^ variable.other.readwrite
+::             ^ keyword.operator.assignment
+::               ^^^ string.unquoted
 
-   set hello world = bar
+   set "foo"="bar" & echo !foo"!
+:: ^^^^^^^^^^^^^^^ meta.command.set.dosbatch
+::                ^^^ - meta.command
+::                   ^^^^^^^^^^^ meta.command.echo.dosbatch
 :: ^^^ support.function.builtin.dosbatch
-::    ^ - variable.other.readwrite
-::     ^^^^^^^^^^^^ variable.other.readwrite
-::                 ^ keyword.operator.assignment
-::                   ^^^ string.unquoted
+::     ^ - variable.other.readwrite
+::      ^^^^ variable.other.readwrite
+::         ^ - punctuation
+::          ^ keyword.operator.assignment
+::           ^ - punctuation
+::           ^^^^^ string.quoted.double.dosbatch
+::               ^ punctuation.definition.string.end
+::                ^ - string
+::                 ^ keyword.operator.conditional.dosbatch
+::                   ^^^^ support.function.builtin.dosbatch
+
+   set "foo"=bar" & echo !foo"!
+:: ^^^^^^^^^^^^^^ meta.command.set.dosbatch
+::               ^^^ - meta.command
+::                  ^^^^^^^^^^^ meta.command.echo.dosbatch
+:: ^^^ support.function.builtin.dosbatch
+::     ^ - variable.other.readwrite
+::      ^^^^ variable.other.readwrite
+::         ^ - punctuation
+::          ^ keyword.operator.assignment
+::           ^^^^ string.quoted.double.dosbatch
+::              ^ punctuation.definition.string.end
+::               ^ - string
+::                ^ keyword.operator.conditional.dosbatch
+::                  ^^^^ support.function.builtin.dosbatch
+
+   set "foo"="bar & echo !foo"!
+:: ^^^^^^^^^^^ meta.command.set.dosbatch
+::            ^^^^^^ - meta.command
+::                  ^^^^^^^^^^^ meta.command.echo.dosbatch
+:: ^^^ support.function.builtin.dosbatch
+::     ^ - variable.other.readwrite
+::      ^^^^ variable.other.readwrite
+::         ^ - punctuation
+::          ^ keyword.operator.assignment
+::           ^ punctuation.definition.string.end
+::            ^^^ comment.line.ignored.dosbatch
+::                ^ keyword.operator.conditional.dosbatch
+::                  ^^^^ support.function.builtin.dosbatch
+
+   set "foo"=ba"r & echo !foo"!
+:: ^^^^^^^^^^^^^ meta.command.set.dosbatch
+::              ^^^^ - meta.command
+::                  ^^^^^^^^^^^ meta.command.echo.dosbatch
+:: ^^^ support.function.builtin.dosbatch
+::     ^ - variable.other.readwrite
+::      ^^^^ variable.other.readwrite
+::         ^ - punctuation
+::          ^ keyword.operator.assignment
+::           ^^^ string.quoted.double.dosbatch
+::             ^ punctuation.definition.string.end
+::              ^ comment.line.ignored.dosbatch
+::                ^ keyword.operator.conditional.dosbatch
+::                  ^^^^ support.function.builtin.dosbatch
+
+   set "foo"=b"ar ba"z & echo !foo"!
+:: ^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
+::                   ^^ - meta.command
+::                       ^^^^^^^^^^^ meta.command.echo.dosbatch
+:: ^^^ support.function.builtin.dosbatch
+::     ^ - variable.other.readwrite
+::      ^^^^ variable.other.readwrite
+::         ^ - punctuation
+::          ^ keyword.operator.assignment
+::           ^^^^^^^^ string.quoted.double.dosbatch
+::                  ^ punctuation.definition.string.end
+::                   ^ comment.line.ignored.dosbatch
+::                     ^ keyword.operator.conditional.dosbatch
+::                       ^^^^ support.function.builtin.dosbatch
+
+   set "foo"=b"ar "ba"z & echo !foo"!
+:: ^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
+::                    ^^ - meta.command
+::                        ^^^^^^^^^^^ meta.command.echo.dosbatch
+:: ^^^ support.function.builtin.dosbatch
+::     ^ - variable.other.readwrite
+::      ^^^^ variable.other.readwrite
+::         ^ - punctuation
+::          ^ keyword.operator.assignment
+::           ^^^^^^^^^ string.quoted.double.dosbatch
+::                   ^ punctuation.definition.string.end
+::                    ^ comment.line.ignored.dosbatch
+::                      ^ keyword.operator.conditional.dosbatch
+::                        ^^^^ support.function.builtin.dosbatch
+
+   set "foo"=b"ar^
+    b)a"z & echo !foo"!
+:: ^^^^^^^^^ - meta.command.set - string
+::          ^^^^^^^^^^^ meta.command.echo.dosbatch
+::        ^ keyword.operator.conditional.dosbatch
+::          ^^^^ support.function.builtin.dosbatch
+
+   set "foo"=b"a"r^
+    b)a"z & echo !foo"!
+:: ^^^^^ string.quoted.double.dosbatch
+::     ^ punctuation.definition.string.end
+::      ^ comment.line.ignored.dosbatch
+::        ^ keyword.operator.conditional.dosbatch
+::          ^^^^ support.function.builtin.dosbatch
+
+   set "foo=b"ar^
+    b)a"z & echo !foo"!
+:: ^^^^^ string.quoted.double.dosbatch
+::     ^ punctuation.definition.string.end
+::      ^ comment.line.ignored.dosbatch
+::        ^ keyword.operator.conditional.dosbatch
+::          ^^^^ support.function.builtin.dosbatch
+
+   SET T=%TIME: =0%
+:: ^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
+::       ^^^^^^^^^^ meta.variable.dosbatch
+::                 ^ - meta.command
+:: ^^^ support.function.builtin.dosbatch
+::     ^ variable.other.readwrite
+::      ^ keyword.operator.assignment
+::       ^ punctuation.definition.variable.begin.dosbatch
+::        ^^^^ variable.other.readwrite.dosbatch
+::                ^ punctuation.definition.variable.end.dosbatch
 
    set abc /a = 1+2
 :: ^^^ support.function.builtin.dosbatch
 ::     ^^^^^^^ variable.other.readwrite
-::            ^ keyword.operator.assignment - meta.expression.set
+::            ^ keyword.operator.assignment - meta.expression.dosbatch
 ::              ^^^ string.unquoted
-
-   set "foobar=test"
-:: ^^^ support.function.builtin.dosbatch
-::     ^ - variable.other.readwrite
-::      ^^^^^^ variable.other.readwrite
-::            ^ keyword.operator.assignment
-::                 ^ punctuation.definition.string.end
-
-   set  " foo = bar"
-:: ^^^ support.function.builtin.dosbatch
-::      ^^ - variable.other.readwrite
-::        ^^^^ variable.other.readwrite
-::            ^ keyword.operator.assignment
-::                 ^ punctuation.definition.string.end
-
-   set test rem = hi
-:: ^^^ support.function.builtin.dosbatch
-::          ^^^^^^^^^ - comment
-::     ^^^^^^^^^ variable.other.readwrite
-::              ^ keyword.operator.assignment
-::                ^^ - variable.other
 
 
 :: Double quotes after the equal sign, or part of a quoted assignment are literal chars
@@ -1298,8 +1386,8 @@ ECHO "^
 
    set /A hello_world
 :: ^^^ support.function.builtin.dosbatch
-::        ^^^^^^^^^^^ meta.expression.set
-::                   ^ - meta.expression.set
+::        ^^^^^^^^^^^ meta.expression.dosbatch
+::                   ^ - meta.expression.dosbatch
 
    SET /A r = 010 + 0x20 - 24
 ::            ^^^ constant.numeric.integer.octal.dosbatch
@@ -1309,7 +1397,7 @@ ECHO "^
 ::                         ^^ constant.numeric.integer.decimal.dosbatch
 
    set /a "num%%=5"
-::        ^^^^^^^^^ meta.expression.set.dosbatch
+::        ^^^^^^^^^ meta.expression.dosbatch
 ::            ^^^ keyword.operator.assignment.augmented.dosbatch
 
    set /a "num&=3"
@@ -1418,14 +1506,14 @@ ECHO "^
 ::                    ^ constant.numeric.integer.decimal
 
    set /A "hello*=wow"
-::        ^^^^^^^^^^^^ meta.expression.set string.quoted.double
+::        ^^^^^^^^^^^^ meta.expression.dosbatch string.quoted.double
 ::        ^ punctuation.definition.string.begin
 ::         ^^^^^ variable.other.readwrite
 ::              ^^ keyword.operator.assignment.augmented
 ::                   ^ punctuation.definition.string.end
 
    set /A "%hello%+%wow%"
-::        ^^^^^^^^^^^^^^^ meta.expression.set string.quoted.double
+::        ^^^^^^^^^^^^^^^ meta.expression.dosbatch string.quoted.double
 ::        ^ punctuation.definition.string.begin
 ::         ^^^^^^^ meta.variable.dosbatch
 ::         ^ punctuation.definition.variable.begin
@@ -1438,7 +1526,7 @@ ECHO "^
 ::                      ^ punctuation.definition.string.end
 
    set /A "%hello%+wow"
-::        ^^^^^^^^^^^^^ meta.expression.set string.quoted.double
+::        ^^^^^^^^^^^^^ meta.expression.dosbatch string.quoted.double
 ::         ^^^^^^^ meta.variable.dosbatch
 ::         ^ punctuation.definition.variable.begin
 ::               ^ punctuation.definition.variable.end
@@ -1470,7 +1558,7 @@ ECHO "^
 ::        ^ - variable
 ::         ^^^^ variable.other.readwrite
 ::             ^ - variable
-::              ^^ meta.expression.set keyword.operator.assignment.augmented
+::              ^^ meta.expression.dosbatch keyword.operator.assignment.augmented
 ::                 ^ constant.numeric.integer.decimal
 
    set /a ! a12b
@@ -1482,14 +1570,14 @@ ECHO "^
 ::         ^^^^ variable.other.readwrite
 
    set /a "! a12b"
-::        ^^^^^^^^ meta.expression.set string.quoted.double
+::        ^^^^^^^^ meta.expression.dosbatch string.quoted.double
 ::        ^ punctuation.definition.string.begin
 ::         ^ keyword.operator.logical
 ::           ^^^^ variable.other.readwrite
 ::               ^ punctuation.definition.string.end
 
    set /a "! %a12b%"
-::        ^^^^^^^^^^ meta.expression.set string.quoted.double
+::        ^^^^^^^^^^ meta.expression.dosbatch string.quoted.double
 ::        ^ punctuation.definition.string.begin
 ::         ^ keyword.operator.logical
 ::           ^^^^^^ meta.variable.dosbatch
@@ -1510,7 +1598,7 @@ ECHO "^
 ::                ^ punctuation.definition.string.end
 
    set /a a&=a12b
-::         ^ keyword.operator.conditional - meta.expression.set
+::         ^ keyword.operator.conditional - meta.expression.dosbatch
 
    set /a " world"=12
 ::        ^^^^^^^^ string.quoted.double
@@ -1533,7 +1621,7 @@ ECHO "^
 ::               ^ constant.numeric.integer.decimal - string
 
    set /a 4*"2+-wow+(3"-2)
-::        ^^^^^^^^^^^^^^^^ meta.expression.set - string string - meta.group meta.group
+::        ^^^^^^^^^^^^^^^^ meta.expression.dosbatch - string string - meta.group meta.group
 ::        ^ constant.numeric.integer.decimal
 ::         ^ keyword.operator.arithmetic
 ::          ^^^^^^^^^^^ string.quoted.double
@@ -1623,13 +1711,18 @@ ECHO "^
 ::                                ^ punctuation.definition.string.end - meta.group
 
    set /a ("a"+b&"c+d")
-::        ^^^^^^ meta.expression.set meta.group
+:: ^^^^^^^^^^^^^ meta.command.set.dosbatch
+::        ^^^^^^ meta.expression.dosbatch meta.group
+::               ^^^^^^ - meta.command.set
+:: ^^^ support.function.builtin.dosbatch
+::     ^ punctuation.definition.variable.dosbatch
+::     ^^ variable.parameter.expression.dosbatch
 ::         ^^^ string.quoted.double
 ::          ^ variable.other.readwrite
 ::            ^ keyword.operator.arithmetic
 ::             ^ variable.other.readwrite
 ::              ^ keyword.operator.conditional
-::               ^^^^^ string.quoted.double - keyword - variable
+::               ^^^^^^ variable.function.dosbatch
 
    set /a (a+"b)*2"-1
 ::        ^^^^^^ meta.group
@@ -1678,7 +1771,7 @@ ECHO "^
 :: ^ keyword.operator.assignment.dosbatch
 
    set /p today=enter a %date%: REM this ^is not a comment
-:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+:: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
 ::              ^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
 ::                      ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch
@@ -1697,7 +1790,7 @@ ECHO "^
 ::                                       ^^ constant.character.escape.dosbatch
 
    set /p today="enter a %date%: " REM :: this is a comment & echo !today!
-:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+:: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
 ::              ^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
 ::                       ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch
@@ -1724,7 +1817,7 @@ ECHO "^
 ::                                                                 ^^^^^^^ meta.variable.dosbatch
 
    set /p today="enter a !date!: " this is a comment & echo !today!
-:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+:: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
 ::              ^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
 ::                       ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch
@@ -1771,7 +1864,7 @@ ECHO "^
 ::              ^^^ support.function.builtin.dosbatch
 
    set /p "today"="enter a) %date%: " REM this is a comment & echo !today!
-:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+:: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
 ::                ^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
 ::                          ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch
@@ -1798,7 +1891,7 @@ ECHO "^
 ::                                                                 ^^^^^^^ meta.variable.dosbatch
 
    set /p "today=%enter% a date: " this is a comment & echo !today!
-:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+:: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
 ::               ^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch
 ::                      ^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
@@ -1822,7 +1915,7 @@ ECHO "^
 ::                                                          ^^^^^^^ meta.variable.dosbatch
 
    set /p "today="%enter% a date: this is a comment & echo !today!
-:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+:: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
 ::                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.command
 ::                                                    ^^^^^^^^^^^^ meta.command.echo.dosbatch
@@ -1841,7 +1934,7 @@ ECHO "^
 ::                                                         ^^^^^^^ meta.variable.dosbatch
 
    set /p today=<today.txt
-:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+:: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
 ::              ^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.redirection.dosbatch
 :: ^^^ support.function.builtin.dosbatch
@@ -1853,7 +1946,7 @@ ECHO "^
 ::              ^ keyword.operator.redirection.dosbatch
 
    set /p today=Enter <today.txt a date
-:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+:: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
 ::              ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
 ::                    ^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.redirection.dosbatch
@@ -1867,7 +1960,7 @@ ECHO "^
 ::                    ^ keyword.operator.redirection.dosbatch
 
    set /p today=Enter < "..\to day.txt" a date
-:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+:: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
 ::              ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
 ::                    ^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.redirection.dosbatch
@@ -1881,7 +1974,7 @@ ECHO "^
 ::                    ^ keyword.operator.redirection.dosbatch
 
    set /p "today=<today.txt"
-:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+:: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
 ::               ^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
 ::                         ^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
@@ -1898,7 +1991,7 @@ ECHO "^
 ::                         ^ punctuation.definition.prompt.end.dosbatch
 
    set /p "today="<today.txt
-:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+:: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
 ::                ^^^^^^^^^^^ - meta.command
 :: ^^^ support.function.builtin.dosbatch
@@ -1912,7 +2005,7 @@ ECHO "^
 ::                ^ keyword.operator.redirection.dosbatch
 
    set /p "today=" this is ignored <today.txt
-:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+:: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
 ::                ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.command
 :: ^^^ support.function.builtin.dosbatch
@@ -1927,7 +2020,7 @@ ECHO "^
 ::                                 ^ keyword.operator.redirection.dosbatch
 
    set /p "today="<"c:\this week\to day.txt"
-:: ^^^^^^^ meta.command.set.dosbatch - meta.prompt - meta.string
+:: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
 ::                ^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.command
 :: ^^^ support.function.builtin.dosbatch
