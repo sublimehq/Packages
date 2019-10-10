@@ -1991,20 +1991,6 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                                                            ^^ punctuation.separator.exponent.go
 //                                                               ^ storage.type.numeric.imaginary.go
 
-    0.i; .0i; -0.i; -.0i;
-//  ^^^ invalid.deprecated.go
-//       ^^^ invalid.deprecated.go
-//            ^ keyword.operator.go
-//             ^^^ invalid.deprecated.go
-//                  ^ keyword.operator.go
-//                   ^^^ invalid.deprecated.go
-
-    0.e+0i; .0e+0i; 0.e-0i; .0e-0i;
-//  ^^^^^^ invalid.deprecated.go
-//          ^^^^^^ invalid.deprecated.go
-//                  ^^^^^^ invalid.deprecated.go
-//                          ^^^^^^ invalid.deprecated.go
-
     0o6i; 0O35i;
 //  ^^ constant.numeric.octal.go punctuation.definition.numeric.octal.go
 //    ^ constant.numeric.octal.go
@@ -2028,6 +2014,17 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //           ^^ constant.numeric.binary.go punctuation.definition.numeric.binary.go
 //             ^^^^^ constant.numeric.binary.go
 //                  ^ constant.numeric.binary.go storage.type.numeric.imaginary.go
+
+    0x1p-2i; 0x1.0P-1021i; 0x1.Fp+0i;
+//  ^^ constant.numeric.float.go punctuation.definition.numeric.hexadecimal.go
+//    ^^^^ constant.numeric.float.go
+//        ^ constant.numeric.float.go storage.type.numeric.imaginary.go
+//           ^^ constant.numeric.float.go punctuation.definition.numeric.hexadecimal.go
+//             ^^^^^^^^^ constant.numeric.float.go
+//                      ^ constant.numeric.float.go storage.type.numeric.imaginary.go
+//                         ^^ constant.numeric.float.go punctuation.definition.numeric.hexadecimal.go
+//                           ^^^^^^ constant.numeric.float.go
+//                                 ^ constant.numeric.float.go storage.type.numeric.imaginary.go
 
 // ## Runes
 
