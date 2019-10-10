@@ -426,13 +426,21 @@ contexts:
       captures:
         1: punctuation.separator.decimal.go
         2: punctuation.separator.exponent.go
-    # Hex float literal, no decimal
+    # Hex float literal, no fraction
     - match: (0[x|X])\h+([p|P])([\+|\-])?\d+
       scope: constant.numeric.float.go
       captures:
         1: punctuation.definition.numeric.hexadecimal.go
         2: punctuation.section.exponent.go
         3: keyword.operator.go
+    # Hex float literal, with fraction
+    - match: (0[x|X])\h*(\.)\h*([p|P])([\+|\-])?\d+
+      scope: constant.numeric.float.go
+      captures:
+        1: punctuation.definition.numeric.hexadecimal.go
+        2: punctuation.separator.decimal.go
+        3: punctuation.section.exponent.go
+        4: keyword.operator.go
     # Dot without fraction
     - match: \d+\.(?:{{exponent}}\d+)?
       scope: invalid.deprecated.go
