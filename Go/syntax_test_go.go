@@ -2013,6 +2013,14 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //          ^^ constant.numeric.octal.go
 //            ^ constant.numeric.octal.go storage.type.numeric.imaginary.go
 
+    0x0i; 0x0123456789ABCDEFabcdefi;
+//  ^^ constant.numeric.hex.go punctuation.definition.numeric.hexadecimal.go
+//    ^ constant.numeric.hex.go
+//     ^ constant.numeric.hex.go storage.type.numeric.imaginary.go
+//        ^^ constant.numeric.hex.go punctuation.definition.numeric.hexadecimal.go
+//          ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.hex.go
+//                                ^ constant.numeric.hex.go storage.type.numeric.imaginary.go
+
 // ## Runes
 
     ' '

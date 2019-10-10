@@ -476,10 +476,11 @@ contexts:
       scope: invalid.illegal.go
 
   match-hex-integer:
-    - match: (0[Xx])\h+
+    - match: (0[Xx])\h+(i)?
       scope: constant.numeric.hex.go
       captures:
         1: punctuation.definition.numeric.hexadecimal.go
+        2: storage.type.numeric.imaginary.go
 
   match-binary-integer:
     - match: (0[b|B])[1|0]+
