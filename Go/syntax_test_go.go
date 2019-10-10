@@ -2021,6 +2021,14 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //          ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.hex.go
 //                                ^ constant.numeric.hex.go storage.type.numeric.imaginary.go
 
+    0b1011i; 0B00001i;
+//  ^^ constant.numeric.binary.go punctuation.definition.numeric.binary.go
+//    ^^^^ constant.numeric.binary.go
+//        ^ constant.numeric.binary.go storage.type.numeric.imaginary.go
+//           ^^ constant.numeric.binary.go punctuation.definition.numeric.binary.go
+//             ^^^^^ constant.numeric.binary.go
+//                  ^ constant.numeric.binary.go storage.type.numeric.imaginary.go
+
 // ## Runes
 
     ' '

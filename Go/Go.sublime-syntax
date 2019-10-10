@@ -483,10 +483,11 @@ contexts:
         2: storage.type.numeric.imaginary.go
 
   match-binary-integer:
-    - match: (0[b|B])[1|0]+
+    - match: (0[b|B])[1|0]+(i)?
       scope: constant.numeric.binary.go
       captures:
         1: punctuation.definition.numeric.binary.go
+        2: storage.type.numeric.imaginary.go
     - match: 0[b|B]
       scope: invalid.illegal.go
 
