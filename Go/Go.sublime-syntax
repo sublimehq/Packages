@@ -467,10 +467,11 @@ contexts:
         1: punctuation.definition.numeric.octal.go
     - match: 0[0-7]*[8-9]+
       scope: invalid.illegal.go
-    - match: (0[o|O])[0-7]+
+    - match: (0[o|O])[0-7]+(i)?
       scope: constant.numeric.octal.go
       captures:
         1: punctuation.definition.numeric.octal.go
+        2: storage.type.numeric.imaginary.go
     - match: 0[o|O]
       scope: invalid.illegal.go
 

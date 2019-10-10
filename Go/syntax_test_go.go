@@ -2005,6 +2005,14 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                  ^^^^^^ invalid.deprecated.go
 //                          ^^^^^^ invalid.deprecated.go
 
+    0o6i; 0O35i;
+//  ^^ constant.numeric.octal.go punctuation.definition.numeric.octal.go
+//    ^ constant.numeric.octal.go
+//     ^ constant.numeric.octal.go storage.type.numeric.imaginary.go
+//        ^^ constant.numeric.octal.go punctuation.definition.numeric.octal.go
+//          ^^ constant.numeric.octal.go
+//            ^ constant.numeric.octal.go storage.type.numeric.imaginary.go
+
 // ## Runes
 
     ' '
