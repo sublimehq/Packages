@@ -1848,6 +1848,14 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                    ^^ invalid.deprecated.go
 //                        ^^ invalid.deprecated.go
 
+    0_1.0_1; 1_23.4_6;
+//  ^^^
+//     ^ constant.numeric.float.go punctuation.separator.decimal.go
+//      ^^^ constant.numeric.float.go
+//           ^^^^ constant.numeric.float.go
+//               ^ constant.numeric.float.go punctuation.separator.decimal.go
+//                ^^^ constant.numeric.float.go
+
     -000.000; -123.456; -.0; -1.;
 //  ^ keyword.operator.go
 //   ^^^^^^^ constant.numeric.float.go
@@ -1874,6 +1882,20 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                              ^^^^^^^^^^^^ constant.numeric.float.go
 //                                 ^ punctuation.separator.decimal.go
 //                                     ^^ punctuation.separator.exponent.go
+
+    1_2e+0; 1E+0_1; 0.1_2e2; 1_23.4_56e+78_9;
+//  ^^^ constant.numeric.float.go
+//     ^^ constant.numeric.float.go punctuation.separator.exponent.go
+//       ^ constant.numeric.float.go
+//          ^ constant.numeric.float.go
+//           ^^ constant.numeric.float.go punctuation.separator.exponent.go
+//             ^^^ constant.numeric.float.go
+//                  ^^^^^ constant.numeric.float.go
+//                       ^ constant.numeric.float.go punctuation.separator.exponent.go
+//                        ^ constant.numeric.float.go
+//                           ^^^^^^^^^ constant.numeric.float.go
+//                                    ^^ constant.numeric.float.go punctuation.separator.exponent.go
+//                                      ^^^^ constant.numeric.float.go
 
     0e-0; 0E-0; 0.0e-0; 0.0E-0; 123.456e-789;
 //  ^^^^ constant.numeric.float.go

@@ -415,12 +415,12 @@ contexts:
 
   match-floats:
     # Integer, no fraction, exponent
-    - match: \d+({{exponent}})\d+
+    - match: \d+(?:_\d+)*({{exponent}})\d+(?:_\d+)*
       scope: constant.numeric.float.go
       captures:
         1: punctuation.separator.exponent.go
     # Integer, fraction, optional exponent
-    - match: \d+(\.)\d+(?:({{exponent}})\d+)?
+    - match: \d+(?:_\d+)*(\.)\d+(?:_\d+)*(?:({{exponent}})\d+(?:_\d+)*)?
       scope: constant.numeric.float.go
       captures:
         1: punctuation.separator.decimal.go
