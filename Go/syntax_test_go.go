@@ -1773,17 +1773,21 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 
 // ### Octal
 
-    00; 01234567; -01234567;
+    00; 01234567; -01234567; 0_0; 012_45;
 //  ^^ constant.numeric.octal.go
 //      ^^^^^^^^ constant.numeric.octal.go
 //                ^ keyword.operator.go
 //                 ^^^^^^^^ constant.numeric.octal.go
+//                           ^ constant.numeric.octal.go punctuation.definition.numeric.octal.go
+//                            ^^ constant.numeric.octal.go
+//                                ^ constant.numeric.octal.go punctuation.definition.numeric.octal.go
+//                                 ^^^^^ constant.numeric.octal.go
 
     08; 09;
 //  ^^ invalid.illegal.go
 //      ^^ invalid.illegal.go
 
-    0o660; 0O061; -0o02;
+    0o660; 0O061; -0o02; 0o_660; 0O0_6_1;
 //  ^^ constant.numeric.octal.go punctuation.definition.numeric.octal.go
 //    ^^^ constant.numeric.octal.go
 //         ^^ constant.numeric.octal.go punctuation.definition.numeric.octal.go
@@ -1791,6 +1795,10 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                ^ keyword.operator.go
 //                 ^^ constant.numeric.octal.go punctuation.definition.numeric.octal.go
 //                   ^^ constant.numeric.octal.go
+//                       ^^ constant.numeric.octal.go punctuation.definition.numeric.octal.go
+//                         ^^^^ constant.numeric.octal.go
+//                               ^^ constant.numeric.octal.go punctuation.definition.numeric.octal.go
+//                                 ^^^^^ constant.numeric.octal.go
 
     0o; 0O;
 //  ^^ invalid.illegal.go

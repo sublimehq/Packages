@@ -462,13 +462,13 @@ contexts:
     - include: match-decimal-integer
 
   match-octal-integer:
-    - match: (0)[0-7]+(?=\D)
+    - match: (0)(?:_)?[0-7]+(?:_[0-7]+)*(?=\D)
       scope: constant.numeric.octal.go
       captures:
         1: punctuation.definition.numeric.octal.go
     - match: 0[0-7]*[8-9]+
       scope: invalid.illegal.go
-    - match: (0[o|O])[0-7]+(i)?
+    - match: (0[o|O])(?:_)?[0-7]+(?:_[0-7]+)*(i)?
       scope: constant.numeric.octal.go
       captures:
         1: punctuation.definition.numeric.octal.go
