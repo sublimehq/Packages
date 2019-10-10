@@ -40,19 +40,25 @@ underlined heading followed by another one that should be treated as a normal pa
 
 Paragraph of text that should be scoped as meta.paragraph.
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paragraph
-A [link](https://example.com), *italic text* and **bold**.
-| ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inline
+A [link](https://example.com){ :_attr = value }, *italic text* and **bold**.
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inline
 | ^ punctuation.definition.link.begin
 |      ^ punctuation.definition.link.end
 |       ^ punctuation.definition.metadata
 |        ^^^^^^^^^^^^^^^^^^^ markup.underline.link
 |                           ^ punctuation.definition.metadata
-|                              ^^^^^^^^^^^^^ markup.italic
-|                              ^ punctuation.definition.italic
-|                                          ^ punctuation.definition.italic
-|                                                ^^ punctuation.definition.bold
-|                                                ^^^^^^^^ markup.bold
-|                                                      ^^ punctuation.definition.bold
+|                            ^ punctuation.definition.attributes.begin.markdown
+|                              ^^^^^^^^^^^^^^ meta.attribute-with-value.markdown
+|                              ^^^^^^ entity.other.attribute-name.markdown
+|                                     ^ punctuation.separator.key-value.markdown
+|                                       ^^^^^ string.unquoted.markdown
+|                                             ^ punctuation.definition.attributes.end.markdown
+|                                                ^^^^^^^^^^^^^ markup.italic
+|                                                ^ punctuation.definition.italic
+|                                                            ^ punctuation.definition.italic
+|                                                                  ^^ punctuation.definition.bold
+|                                                                  ^^^^^^^^ markup.bold
+|                                                                        ^^ punctuation.definition.bold
 
 Inline `code sample`.
 |      ^^^^^^^^^^^^^ markup.raw.inline
@@ -67,16 +73,44 @@ Here is a [](https://example.com).
 |            ^^^^^^^^^^^^^^^^^^^ markup.underline.link
 |                               ^ punctuation.definition.metadata
 
+Here is a [](https://example.com){_attr="value"}.
+|         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.inline
+|         ^ punctuation.definition.link.begin
+|          ^ punctuation.definition.link.end
+|           ^ punctuation.definition.metadata
+|            ^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|                               ^ punctuation.definition.metadata
+|                                ^ punctuation.definition.attributes.begin.markdown
+|                                 ^^^^^^^^^^^^^ meta.attribute-with-value.markdown
+|                                 ^^^^^ entity.other.attribute-name.markdown
+|                                      ^ punctuation.separator.key-value.markdown
+|                                       ^^^^^^^ string.quoted.double.markdown
+|                                              ^ punctuation.definition.attributes.end.markdown
+
 Here is a [reference link][name].
 |         ^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference
 |                         ^ punctuation.definition.constant.begin
 |                          ^^^^ constant.other.reference.link
 |                              ^ punctuation.definition.constant.end
 
-Here is a [blank reference link][].
-|         ^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference
+Here is a [reference link][name]{_attr='value' :att2}.
+|         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference
+|                         ^ punctuation.definition.constant.begin
+|                          ^^^^ constant.other.reference.link
+|                              ^ punctuation.definition.constant.end
+|                               ^ punctuation.definition.attributes.begin.markdown
+|                                ^^^^^ entity.other.attribute-name.markdown
+|                                     ^ punctuation.separator.key-value.markdown
+|                                      ^^^^^^^ string.quoted.single.markdown
+|                                              ^^^^^ entity.other.attribute-name.markdown
+|                                                   ^ punctuation.definition.attributes.end.markdown
+
+Here is a [blank reference link][]{}.
+|         ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference
 |                               ^ punctuation.definition.constant.begin
 |                                ^ punctuation.definition.constant.end
+|                                 ^ punctuation.definition.attributes.begin.markdown
+|                                  ^ punctuation.definition.attributes.end.markdown
 
 Here is a ![](https://example.com/cat.gif).
 |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.image.inline
@@ -85,6 +119,21 @@ Here is a ![](https://example.com/cat.gif).
 |            ^ punctuation.definition.metadata
 |             ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
 |                                        ^ punctuation.definition.metadata
+
+Here is a ![](https://example.com/cat.gif){_at"r=value :att2}.
+|         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.image.inline
+|          ^ punctuation.definition.image.begin
+|           ^ punctuation.definition.image.end - string
+|            ^ punctuation.definition.metadata
+|             ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.image
+|                                        ^ punctuation.definition.metadata
+|                                         ^ punctuation.definition.attributes.begin.markdown
+|                                          ^^^^^ entity.other.attribute-name.markdown
+|                                             ^ invalid.illegal.attribute-name.markdown
+|                                               ^ punctuation.separator.key-value.markdown
+|                                                ^^^^^ string.unquoted.markdown
+|                                                      ^^^^^ entity.other.attribute-name.markdown
+|                                                           ^ punctuation.definition.attributes.end.markdown
 
 Here is a ![Image Alt Text](https://example.com/cat.gif).
 |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.image.inline
