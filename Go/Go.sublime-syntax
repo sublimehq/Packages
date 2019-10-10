@@ -436,6 +436,7 @@ contexts:
   match-integers:
     - include: match-octal-integer
     - include: match-hex-integer
+    - include: match-binary-integer
     - include: match-decimal-integer
 
   match-octal-integer:
@@ -451,6 +452,12 @@ contexts:
       scope: constant.numeric.hex.go
       captures:
         1: punctuation.definition.numeric.hexadecimal.go
+
+  match-binary-integer:
+    - match: (0[b|B])[1|0]+
+      scope: constant.numeric.binary.go
+      captures:
+        1: punctuation.definition.numeric.binary.go
 
   match-decimal-integer:
     - match: \d+

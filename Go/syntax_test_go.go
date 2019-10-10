@@ -1790,6 +1790,14 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                                 ^ keyword.operator.go
 //                                  ^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.hex.go
 
+// ### Binary
+
+    0b1011; 0B00001;
+//  ^^ constant.numeric.binary.go punctuation.definition.numeric.binary.go
+//    ^^^^ constant.numeric.binary.go
+//          ^^ constant.numeric.binary.go punctuation.definition.numeric.binary.go
+//            ^^^^^ constant.numeric.binary.go
+
 // ## Floats
 
     000.000; 123.456; .0; 1.;
