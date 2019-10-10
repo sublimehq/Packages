@@ -484,7 +484,7 @@ contexts:
         2: storage.type.numeric.imaginary.go
 
   match-binary-integer:
-    - match: (0[b|B])[1|0]+(i)?
+    - match: (0[b|B])[_]?[1|0]+(?:_[0|1]+)*(i)?
       scope: constant.numeric.binary.go
       captures:
         1: punctuation.definition.numeric.binary.go
