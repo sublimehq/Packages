@@ -401,7 +401,7 @@ contexts:
 
   match-imaginary:
     # Mandatory integer, optional fraction, optional exponent, mandatory imaginary
-    - match: \d+(?:(\.)\d+)?(?:({{exponent}})\d+)?(i)
+    - match: \d+(?:_\d+)*(?:(\.)\d+(?:_\d+)*)?(?:({{exponent}})\d+(?:_\d+)*)?(i)
       scope: constant.numeric.imaginary.go
       captures:
         1: punctuation.separator.decimal.go
