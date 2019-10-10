@@ -1792,11 +1792,18 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 
 // ### Binary
 
-    0b1011; 0B00001;
+    0b1011; 0B00001; -0b1
 //  ^^ constant.numeric.binary.go punctuation.definition.numeric.binary.go
 //    ^^^^ constant.numeric.binary.go
 //          ^^ constant.numeric.binary.go punctuation.definition.numeric.binary.go
 //            ^^^^^ constant.numeric.binary.go
+//                   ^ keyword.operator.go
+//                    ^^ constant.numeric.binary.go punctuation.definition.numeric.binary.go
+//                      ^ constant.numeric.binary.go
+
+    0b; 0B;
+//  ^^ invalid.illegal.go
+//      ^^ invalid.illegal.go
 
 // ## Floats
 

@@ -458,6 +458,8 @@ contexts:
       scope: constant.numeric.binary.go
       captures:
         1: punctuation.definition.numeric.binary.go
+    - match: 0[b|B]
+      scope: invalid.illegal.go
 
   match-decimal-integer:
     - match: \d+
