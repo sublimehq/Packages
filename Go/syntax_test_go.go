@@ -1762,13 +1762,14 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 
 // ### Decimal
 
-    0; 123456789; -0; -123456789;
+    0; 123456789; -0; -123456789; 1777_000_000;
 //  ^ constant.numeric.integer.go
 //     ^^^^^^^^^ constant.numeric.integer.go
 //                ^ keyword.operator.go
 //                 ^ constant.numeric.integer.go
 //                    ^ keyword.operator.go
 //                     ^^^^^^^^^ constant.numeric.integer.go
+//                                ^^^^^^^^^^^^ constant.numeric.integer.go
 
 // ### Octal
 

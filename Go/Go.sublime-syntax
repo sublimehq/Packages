@@ -493,7 +493,7 @@ contexts:
       scope: invalid.illegal.go
 
   match-decimal-integer:
-    - match: \d+
+    - match: \d+(?:_\d+)*
       scope: constant.numeric.integer.go
 
   # https://golang.org/ref/spec#Rune_literals
