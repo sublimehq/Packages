@@ -433,7 +433,7 @@ contexts:
     - match: \.\d+(?:{{exponent}}\d+)?
       scope: invalid.deprecated.go
     # Hex float literal, no fraction
-    - match: (0[x|X])(?:_)?\h+(?:_\h+)*([p|P])([\+|\-])?\d+(?:_\d+)*(i)?
+    - match: (0[xX])(?:_)?\h+(?:_\h+)*([pP])([\+\-])?\d+(?:_\d+)*(i)?
       scope: constant.numeric.float.go
       captures:
         1: punctuation.definition.numeric.hexadecimal.go
@@ -441,7 +441,7 @@ contexts:
         3: keyword.operator.go
         4: storage.type.numeric.imaginary.go
     # Hex float literal, with fraction
-    - match: (0[x|X])(?:_)?\h*(?:_\h+)*(\.)\h*(?:_\h+)*([p|P])([\+|\-])?\d+(?:_\d+)*(i)?
+    - match: (0[xX])(?:_)?\h*(?:_\h+)*(\.)\h*(?:_\h+)*([pP])([\+\-])?\d+(?:_\d+)*(i)?
       scope: constant.numeric.float.go
       captures:
         1: punctuation.definition.numeric.hexadecimal.go
@@ -450,10 +450,10 @@ contexts:
         4: keyword.operator.go
         5: storage.type.numeric.imaginary.go
     # Hex float literal, no fraction, missing exponent digits
-    - match: (0[x|X])\h+([p|P])([\+|\-])?
+    - match: (0[xX])\h+([pP])([\+\-])?
       scope: invalid.illegal.go
     # Hex float literal, with fraction, missing exponent digits
-    - match: (0[x|X])\h*(\.)\h*([p|P])([\+|\-])?
+    - match: (0[xX])\h*(\.)\h*([pP])([\+\-])?
       scope: invalid.illegal.go
 
   match-integers:
@@ -469,12 +469,12 @@ contexts:
         1: punctuation.definition.numeric.octal.go
     - match: 0[0-7]*[8-9]+
       scope: invalid.illegal.go
-    - match: (0[o|O])(?:_)?[0-7]+(?:_[0-7]+)*(i)?
+    - match: (0[oO])(?:_)?[0-7]+(?:_[0-7]+)*(i)?
       scope: constant.numeric.octal.go
       captures:
         1: punctuation.definition.numeric.octal.go
         2: storage.type.numeric.imaginary.go
-    - match: 0[o|O]
+    - match: 0[oO]
       scope: invalid.illegal.go
 
   match-hex-integer:
@@ -485,12 +485,12 @@ contexts:
         2: storage.type.numeric.imaginary.go
 
   match-binary-integer:
-    - match: (0[b|B])[_]?[1|0]+(?:_[0|1]+)*(i)?
+    - match: (0[bB])[_]?[01]+(?:_[01]+)*(i)?
       scope: constant.numeric.binary.go
       captures:
         1: punctuation.definition.numeric.binary.go
         2: storage.type.numeric.imaginary.go
-    - match: 0[b|B]
+    - match: 0[bB]
       scope: invalid.illegal.go
 
   match-decimal-integer:
