@@ -1804,9 +1804,15 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                                 ^ keyword.operator.go
 //                                  ^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.hex.go
 
+    0x_0; 0x012_3456_7_8_9ABCDEFabcd_ef;
+//  ^^ constant.numeric.hex.go punctuation.definition.numeric.hexadecimal.go
+//    ^^ constant.numeric.hex.go
+//        ^^ constant.numeric.hex.go punctuation.definition.numeric.hexadecimal.go
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.hex.go
+
 // ### Binary
 
-    0b1011; 0B00001; -0b1; 0b_1; 0B_1_0;
+    0b1011; 0B00001; -0b1; 0b_1; 0B1_0;
 //  ^^ constant.numeric.binary.go punctuation.definition.numeric.binary.go
 //    ^^^^ constant.numeric.binary.go
 //          ^^ constant.numeric.binary.go punctuation.definition.numeric.binary.go
@@ -1817,7 +1823,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                         ^^ constant.numeric.binary.go punctuation.definition.numeric.binary.go
 //                           ^^ constant.numeric.binary.go
 //                               ^^ constant.numeric.binary.go punctuation.definition.numeric.binary.go
-//                                 ^^^^ constant.numeric.binary.go
+//                                 ^^^ constant.numeric.binary.go
 
     0b; 0B;
 //  ^^ invalid.illegal.go

@@ -477,7 +477,7 @@ contexts:
       scope: invalid.illegal.go
 
   match-hex-integer:
-    - match: (0[Xx])\h+(i)?
+    - match: (0[Xx])(?:_)?\h+(?:_\h+)*(i)?
       scope: constant.numeric.hex.go
       captures:
         1: punctuation.definition.numeric.hexadecimal.go
