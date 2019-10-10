@@ -1872,6 +1872,21 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                                 ^ punctuation.separator.decimal.go
 //                                     ^^ punctuation.separator.exponent.go
 
+    0x1p-2; 0X1P+2; 0x1p2;
+//  ^^ constant.numeric.float.go punctuation.definition.numeric.hexadecimal.go
+//    ^^ constant.numeric.float.go
+//      ^ constant.numeric.float.go keyword.operator.go
+//       ^ constant.numeric.float.go
+//          ^^ constant.numeric.float.go punctuation.definition.numeric.hexadecimal.go
+//            ^ constant.numeric.float.go
+//             ^ constant.numeric.float.go punctuation.section.exponent.go
+//              ^ constant.numeric.float.go keyword.operator.go
+//               ^ constant.numeric.float.go
+//                  ^^ constant.numeric.float.go punctuation.definition.numeric.hexadecimal.go
+//                    ^ constant.numeric.float.go
+//                     ^ constant.numeric.float.go punctuation.section.exponent.go
+//                      ^ constant.numeric.float.go
+
     0.e+0; .0e+0; 0.e-0; .0e-0;
 //  ^^^^^ invalid.deprecated.go
 //         ^^^^^ invalid.deprecated.go
