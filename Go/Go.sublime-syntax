@@ -450,6 +450,8 @@ contexts:
       scope: constant.numeric.octal.go
       captures:
         1: punctuation.definition.numeric.octal.go
+    - match: 0[o|O]
+      scope: invalid.illegal.go
 
   match-hex-integer:
     - match: (0[Xx])\h+
