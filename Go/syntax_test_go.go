@@ -1934,6 +1934,22 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                     ^ constant.numeric.float.go punctuation.section.exponent.go
 //                      ^ constant.numeric.float.go
 
+    0x_1p-2; 0X1_1P+2; 0x_1p2_1;
+//  ^^ constant.numeric.float.go punctuation.definition.numeric.hexadecimal.go
+//    ^^ constant.numeric.float.go
+//      ^ constant.numeric.float.go punctuation.section.exponent.go
+//       ^ constant.numeric.float.go keyword.operator.go
+//        ^ constant.numeric.float.go
+//           ^^ constant.numeric.float.go punctuation.definition.numeric.hexadecimal.go
+//             ^^^ constant.numeric.float.go
+//                ^ constant.numeric.float.go punctuation.section.exponent.go
+//                 ^ constant.numeric.float.go keyword.operator.go
+//                  ^ constant.numeric.float.go
+//                     ^^ constant.numeric.float.go punctuation.definition.numeric.hexadecimal.go
+//                       ^^ constant.numeric.float.go
+//                         ^ constant.numeric.float.go punctuation.section.exponent.go
+//                          ^^^ constant.numeric.float.go
+
     0x1p-; 0X1P+; 0x1p;
 //  ^^^^^ invalid.illegal.go
 //         ^^^^^ invalid.illegal.go
@@ -1955,6 +1971,15 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                     ^ constant.numeric.float.go keyword.operator.go
 //                      ^^^^ constant.numeric.float.go
 
+    0x_1_1.0_7P-1_021;
+//  ^^ constant.numeric.float.go punctuation.definition.numeric.hexadecimal.go
+//    ^^^^ constant.numeric.float.go
+//        ^ constant.numeric.float.go punctuation.separator.decimal.go
+//         ^^^ constant.numeric.float.go
+//            ^ constant.numeric.float.go punctuation.section.exponent.go
+//             ^ constant.numeric.float.go keyword.operator.go
+//              ^^^^^ constant.numeric.float.go
+
     0x2.p10; 0x1.Fp+0; 0X.8p-0;
 //  ^^ constant.numeric.float.go punctuation.definition.numeric.hexadecimal.go
 //    ^ constant.numeric.float.go
@@ -1974,6 +1999,20 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                         ^ constant.numeric.float.go punctuation.section.exponent.go
 //                          ^ constant.numeric.float.go keyword.operator.go
 //                           ^ constant.numeric.float.go
+
+    0x_2.p1_0; 0x1.F_Ap+0;
+//  ^^ constant.numeric.float.go punctuation.definition.numeric.hexadecimal.go
+//    ^^ constant.numeric.float.go
+//      ^ constant.numeric.float.go punctuation.separator.decimal.go
+//       ^ constant.numeric.float.go punctuation.section.exponent.go
+//        ^^^ constant.numeric.float.go
+//             ^^ constant.numeric.float.go punctuation.definition.numeric.hexadecimal.go
+//               ^ constant.numeric.float.go
+//                ^ constant.numeric.float.go punctuation.separator.decimal.go
+//                 ^^^ constant.numeric.float.go
+//                    ^ constant.numeric.float.go punctuation.section.exponent.go
+//                     ^ constant.numeric.float.go keyword.operator.go
+//                      ^ constant.numeric.float.go
 
     0x1.0P-; 0X1.0p-; 0x2.p; 0x1.Fp; 0X.8p-;
 //  ^^^^^^^ invalid.illegal.go
