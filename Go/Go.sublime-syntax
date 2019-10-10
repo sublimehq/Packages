@@ -446,6 +446,10 @@ contexts:
         1: punctuation.definition.numeric.octal.go
     - match: 0[0-7]*[8-9]+
       scope: invalid.illegal.go
+    - match: (0[o|O])[0-7]+
+      scope: constant.numeric.octal.go
+      captures:
+        1: punctuation.definition.numeric.octal.go
 
   match-hex-integer:
     - match: (0[Xx])\h+

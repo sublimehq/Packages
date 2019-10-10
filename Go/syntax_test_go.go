@@ -1778,6 +1778,15 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                ^ keyword.operator.go
 //                 ^^^^^^^^ constant.numeric.octal.go
 
+    0o660; 0O061; -0o02;
+//  ^^ constant.numeric.octal.go punctuation.definition.numeric.octal.go
+//    ^^^ constant.numeric.octal.go
+//         ^^ constant.numeric.octal.go punctuation.definition.numeric.octal.go
+//           ^^^ constant.numeric.octal.go
+//                ^ keyword.operator.go
+//                 ^^ constant.numeric.octal.go punctuation.definition.numeric.octal.go
+//                   ^^ constant.numeric.octal.go
+
     08; 09;
 //  ^^ invalid.illegal.go
 //      ^^ invalid.illegal.go
