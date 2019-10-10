@@ -1872,6 +1872,12 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                                 ^ punctuation.separator.decimal.go
 //                                     ^^ punctuation.separator.exponent.go
 
+    0.e+0; .0e+0; 0.e-0; .0e-0;
+//  ^^^^^ invalid.deprecated.go
+//         ^^^^^ invalid.deprecated.go
+//                ^^^^^ invalid.deprecated.go
+//                       ^^^^^ invalid.deprecated.go
+
     0x1p-2; 0X1P+2; 0x1p2;
 //  ^^ constant.numeric.float.go punctuation.definition.numeric.hexadecimal.go
 //    ^^ constant.numeric.float.go
@@ -1886,6 +1892,11 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                    ^ constant.numeric.float.go
 //                     ^ constant.numeric.float.go punctuation.section.exponent.go
 //                      ^ constant.numeric.float.go
+
+    0x1p-; 0X1P+; 0x1p;
+//  ^^^^^ invalid.illegal.go
+//         ^^^^^ invalid.illegal.go
+//                ^^^^ invalid.illegal.go
 
     0x1.0P-1021; 0X1.0p-1021;
 //  ^^ constant.numeric.float.go punctuation.definition.numeric.hexadecimal.go
@@ -1903,7 +1914,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                     ^ constant.numeric.float.go keyword.operator.go
 //                      ^^^^ constant.numeric.float.go
 
-    0x2.p10; 0x1.Fp+0; 0X.8p-0
+    0x2.p10; 0x1.Fp+0; 0X.8p-0;
 //  ^^ constant.numeric.float.go punctuation.definition.numeric.hexadecimal.go
 //    ^ constant.numeric.float.go
 //     ^ constant.numeric.float.go punctuation.separator.decimal.go
@@ -1923,12 +1934,12 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                          ^ constant.numeric.float.go keyword.operator.go
 //                           ^ constant.numeric.float.go
 
-
-    0.e+0; .0e+0; 0.e-0; .0e-0;
-//  ^^^^^ invalid.deprecated.go
-//         ^^^^^ invalid.deprecated.go
-//                ^^^^^ invalid.deprecated.go
-//                       ^^^^^ invalid.deprecated.go
+    0x1.0P-; 0X1.0p-; 0x2.p; 0x1.Fp; 0X.8p-;
+//  ^^^^^^^ invalid.illegal.go
+//           ^^^^^^^ invalid.illegal.go
+//                    ^^^^^ invalid.illegal.go
+//                           ^^^^^^ invalid.illegal.go
+//                                   ^^^^^^ invalid.illegal.go
 
 // ## Imaginary
 
