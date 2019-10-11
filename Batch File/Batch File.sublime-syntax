@@ -757,6 +757,7 @@ contexts:
       scope: keyword.operator.pipe.dosbatch
     - match: '<&?|>[&>]?'
       scope: keyword.operator.redirection.dosbatch
+      push: path-redirection
 
   separator-comma:
     - match: ','
@@ -789,6 +790,15 @@ contexts:
       scope: constant.numeric.integer.decimal.dosbatch
 
 ###[ PATH PATTERNS ]##########################################################
+
+  path-redirection:
+    - match: (?i:nul)\b
+      scope: constant.language.dosbatch
+      pop: true
+    - match: \d\b
+      scope: constant.numeric.integer.decimal.dosbatch
+      pop: true
+    - include: path-patterns
 
   path-patterns:
     - match: \"
