@@ -58,10 +58,24 @@ ECHO : Not a comment ^
 ::   ^^^ - keyword.operator
 ::       ^^^^^ - support.function
 
+ECHO &&:: A comment
+::   ^^ keyword.operator.conditional.dosbatch
+::     ^^ punctuation.definition.comment.dosbatch
+::     ^^^^^^^^^^^^ comment.line.colon.dosbatch
+
 ECHO &:: A comment
 ::   ^ keyword.operator.conditional.dosbatch
 ::    ^^ punctuation.definition.comment.dosbatch
 ::    ^^^^^^^^^^^^ comment.line.colon.dosbatch
+
+ECHO ||:: A comment
+::   ^^ keyword.operator.conditional.dosbatch
+::     ^^ punctuation.definition.comment.dosbatch
+::     ^^^^^^^^^^^^ comment.line.colon.dosbatch
+
+ECHO |:: Not a comment
+::   ^ keyword.operator.pipe.dosbatch
+::    ^^^^^^^^^^^^^^^^ invalid.illegal.unexpected.dosbatch
 
 ECHO "foo"
 ::   ^ punctuation.definition.string.begin.dosbatch

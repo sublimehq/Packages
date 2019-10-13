@@ -61,10 +61,11 @@ variables:
 
 contexts:
   main:
+    - include: comments
     - include: statements
 
   statements:
-    - include: comments
+    - include: block
     - include: labels
     - include: operators
     - include: control
@@ -72,6 +73,7 @@ contexts:
 
   commands:
     - include: command-echo
+    - include: command-rem
     - include: command-set
     - include: command-builtin
     - include: command-other
@@ -130,6 +132,13 @@ contexts:
       scope: invalid.illegal.newline.dosbatch
       pop: true
 
+  illegal-comment-pop:
+    - match: '{{colon_comment_start}}'
+      set:
+        - meta_scope: invalid.illegal.unexpected.dosbatch
+        - include: eol-pop
+    - include: else-pop
+
   illegal-token-pop:
     - match: \S+
       scope: invalid.illegal.unexpected.dosbatch
@@ -146,27 +155,13 @@ contexts:
 ###[ COMMENTS ]###############################################################
 
   comments:
-    - match: (?:^|(&))\s*({{colon_comment_start}})
-      captures:
-        1: keyword.operator.conditional.dosbatch
-        2: comment.line.colon.dosbatch punctuation.definition.comment.dosbatch
+    # https://ss64.com/nt/rem.html
+    - match: '{{colon_comment_start}}'
+      scope: punctuation.definition.comment.dosbatch
       push:
-        - meta_content_scope: comment.line.colon.dosbatch
+        - meta_scope: comment.line.colon.dosbatch
         - include: line-continuation
         - match: \n
-          scope: comment.line.colon.dosbatch
-          pop: true
-    # REM command
-    # https://technet.microsoft.com/en-us/library/bb490986.aspx
-    - match: \b(?i:rem)\b
-      scope: keyword.declaration.rem.dosbatch
-      push:
-        # meta_content_scope is used since rem should not be
-        # highlighted as a comment, but a command
-        - meta_content_scope: comment.line.rem.dosbatch
-        - include: line-continuation
-        - match: \n
-          scope: comment.line.rem.dosbatch
           pop: true
 
 ###[ LABELS ]#################################################################
@@ -191,14 +186,21 @@ contexts:
   control-block:
     - match: \(
       scope: punctuation.section.group.begin.dosbatch
-      set:
-        - meta_scope: meta.group.dosbatch
-        - match: \)
-          scope: punctuation.section.group.end.dosbatch
-          pop: true
-        - include: statements
+      set: block-common
     - include: eoc-pop
     - include: statements
+
+  block:
+    - match: \(
+      scope: punctuation.section.group.begin.dosbatch
+      push: block-common
+
+  block-common:
+    - meta_scope: meta.group.dosbatch
+    - match: \)
+      scope: punctuation.section.group.end.dosbatch
+      pop: true
+    - include: main
 
   groups:
     - match: \(
@@ -579,6 +581,22 @@ contexts:
     - include: variables-interpolation
     - include: eoc-pop
 
+###[ COMMAND REM ]############################################################
+
+  command-rem:
+    # https://ss64.com/nt/rem.html
+    - match: \b(?i:rem)\b
+      scope: keyword.declaration.rem.dosbatch
+      push:
+        - meta_scope: meta.command.rem.dosbatch
+        # meta_content_scope is used since rem should not be
+        # highlighted as a comment, but a command
+        - meta_content_scope: comment.line.rem.dosbatch
+        - include: line-continuation
+        - match: \n
+          scope: comment.line.rem.dosbatch
+          pop: true
+
 ###[ COMMAND SET ]############################################################
 
   command-set:
@@ -755,6 +773,7 @@ contexts:
       scope: keyword.operator.conditional.dosbatch
     - match: '\|'
       scope: keyword.operator.pipe.dosbatch
+      push: illegal-comment-pop
     - match: '<&?|>[&>]?'
       scope: keyword.operator.redirection.dosbatch
       push: path-redirection
