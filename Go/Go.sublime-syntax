@@ -433,7 +433,7 @@ contexts:
     - match: \.\d+(?:{{exponent}}\d+)?
       scope: invalid.deprecated.go
     # Hex float literal, no fraction
-    - match: (0[xX])(?:_)?\h+(?:_\h+)*([pP])([\+\-])?\d+(?:_\d+)*(i)?
+    - match: (0[xX])_?\h+(?:_\h+)*([pP])([\+\-])?\d+(?:_\d+)*(i)?
       scope: constant.numeric.float.go
       captures:
         1: punctuation.definition.numeric.hexadecimal.go
@@ -441,7 +441,7 @@ contexts:
         3: keyword.operator.go
         4: storage.type.numeric.imaginary.go
     # Hex float literal, with fraction
-    - match: (0[xX])(?:_)?\h*(?:_\h+)*(\.)\h*(?:_\h+)*([pP])([\+\-])?\d+(?:_\d+)*(i)?
+    - match: (0[xX])_?\h*(?:_\h+)*(\.)\h*(?:_\h+)*([pP])([\+\-])?\d+(?:_\d+)*(i)?
       scope: constant.numeric.float.go
       captures:
         1: punctuation.definition.numeric.hexadecimal.go
@@ -457,27 +457,27 @@ contexts:
     - include: match-decimal-integer
 
   match-octal-integer:
-    - match: (0)(?:_)?[0-7]+(?:_[0-7]+)*(?=\D)
+    - match: (0)_?[0-7]+(?:_[0-7]+)*(?=\D)
       scope: constant.numeric.octal.go
       captures:
         1: punctuation.definition.numeric.octal.go
     - match: 0[0-7]*[8-9]+
       scope: invalid.illegal.go
-    - match: (0[oO])(?:_)?[0-7]+(?:_[0-7]+)*(i)?
+    - match: (0[oO])_?[0-7]+(?:_[0-7]+)*(i)?
       scope: constant.numeric.octal.go
       captures:
         1: punctuation.definition.numeric.octal.go
         2: storage.type.numeric.imaginary.go
 
   match-hex-integer:
-    - match: (0[Xx])(?:_)?\h+(?:_\h+)*(i)?
+    - match: (0[Xx])_?\h+(?:_\h+)*(i)?
       scope: constant.numeric.hex.go
       captures:
         1: punctuation.definition.numeric.hexadecimal.go
         2: storage.type.numeric.imaginary.go
 
   match-binary-integer:
-    - match: (0[bB])[_]?[01]+(?:_[01]+)*(i)?
+    - match: (0[bB])_?[01]+(?:_[01]+)*(i)?
       scope: constant.numeric.binary.go
       captures:
         1: punctuation.definition.numeric.binary.go
