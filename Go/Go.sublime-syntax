@@ -449,12 +449,6 @@ contexts:
         3: punctuation.section.exponent.go
         4: keyword.operator.go
         5: storage.type.numeric.imaginary.go
-    # Hex float literal, no fraction, missing exponent digits
-    - match: (0[xX])\h+([pP])([\+\-])?
-      scope: invalid.illegal.go
-    # Hex float literal, with fraction, missing exponent digits
-    - match: (0[xX])\h*(\.)\h*([pP])([\+\-])?
-      scope: invalid.illegal.go
 
   match-integers:
     - include: match-octal-integer
@@ -474,8 +468,6 @@ contexts:
       captures:
         1: punctuation.definition.numeric.octal.go
         2: storage.type.numeric.imaginary.go
-    - match: 0[oO]
-      scope: invalid.illegal.go
 
   match-hex-integer:
     - match: (0[Xx])(?:_)?\h+(?:_\h+)*(i)?
@@ -490,8 +482,6 @@ contexts:
       captures:
         1: punctuation.definition.numeric.binary.go
         2: storage.type.numeric.imaginary.go
-    - match: 0[bB]
-      scope: invalid.illegal.go
 
   match-decimal-integer:
     - match: \d+(?:_\d+)*
