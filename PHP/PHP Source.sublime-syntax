@@ -1196,11 +1196,15 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.end.php
           pop: true
-    - match: ^\s*\*\s*(@access)\s+((var|public|private|protected)|(.+))\s*$
+    - match: ^\s*(\*)\s*(@access)\s+((var|public|private|protected)|(.+))\s*$
       captures:
-        1: keyword.other.phpdoc.php
-        3: storage.modifier.php
-        4: invalid.illegal.wrong-access-type.phpdoc.php
+        1: punctuation.definition.comment.php
+        2: keyword.other.phpdoc.php
+        4: storage.modifier.php
+        5: invalid.illegal.wrong-access-type.phpdoc.php
+    - match: ^\s*(\*)(?!/)
+      captures:
+        1: punctuation.definition.comment.php
     - match: "((https?|s?ftp|ftps|file|smb|afp|nfs|(x-)?man|gopher|txmt)://|mailto:)[-:@a-zA-Z0-9_.~%+/?=&#]*[-@a-zA-Z0-9_~%+/=&#]"
       scope: markup.underline.link.php
     - match: (@xlink)\s+(.+)\s*$

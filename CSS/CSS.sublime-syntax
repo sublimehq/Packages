@@ -127,6 +127,9 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.css
           pop: true
+        - match: ^\s*(\*)(?!/)
+          captures:
+            1: punctuation.definition.comment.css
 
   at-charset:
     - match: \s*((@)charset\b)\s*

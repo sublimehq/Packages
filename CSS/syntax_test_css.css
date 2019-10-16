@@ -5,6 +5,10 @@
 /* ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.css                  */
 /*                          ^^ punctuation.definition.comment.css */
 
+   /**
+    *
+/*  ^ comment.block.css punctuation.definition.comment.css */
+
 .test-strings {
     content: "double";
 /*           ^^^^^^^^  string.quoted.double.css                */
