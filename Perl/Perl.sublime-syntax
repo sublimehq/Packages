@@ -1279,17 +1279,17 @@ contexts:
       push: maybe-item-access
     - match: ([\$\@\%])(\{)
       scope: punctuation.definition.variable.begin.perl
-      push:
-        - meta_scope: meta.braces.perl variable.other.readwrite.global.perl
-        - match: \}
-          scope: punctuation.definition.variable.end.perl
-          set:
-            - meta_content_scope: variable.other.readwrite.global.perl
-            - include: maybe-item-access
-        - include: blocks-nested
-        - include: brackets-nested
-        - include: groups-nested
-        - include: expressions
+      push: [maybe-item-access, variable-body, regexp-pop]
+
+  variable-body:
+    - meta_scope: meta.variable.perl
+    - match: \}
+      scope: punctuation.definition.variable.end.perl
+      pop: true
+    - include: blocks-nested
+    - include: brackets-nested
+    - include: groups-nested
+    - include: expressions
 
   maybe-item-access:
     # SEE: https://perldoc.perl.org/perllol.html
