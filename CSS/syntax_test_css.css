@@ -987,6 +987,18 @@
   src: local(Gentium-Bold);
 /*     ^^^^^              support.function.font-face.css */
 /*           ^^^^^^^^^^^^ string.unquoted.css            */
+
+  src: local('Gentium-Bold');
+/*     ^^^^^              support.function.font-face.css          */
+/*           ^^^^^^^^^^^^^^ string.quoted.single.css              */
+/*           ^ punctuation.definition.string.begin.css            */
+/*                        ^ punctuation.definition.string.end.css */
+
+  src: local("Gentium-Bold");
+/*     ^^^^^              support.function.font-face.css          */
+/*           ^^^^^^^^^^^^^^ string.quoted.double.css              */
+/*           ^ punctuation.definition.string.begin.css            */
+/*                        ^ punctuation.definition.string.end.css */
 }
 
 @font-face {
