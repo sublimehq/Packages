@@ -46,10 +46,13 @@ contexts:
         - match: \]\1\]
           scope: punctuation.definition.comment.end.lua
           pop: true
-    - match: (--).*
-      scope: comment.line.lua
-      captures:
-        1: punctuation.definition.comment.lua
+    - match: --
+      scope: punctuation.definition.comment.lua
+      push:
+        - meta_include_prototype: false
+        - meta_scope: comment.line.lua
+        - match: \n
+          pop: true
 
   end:
     - match: end{{identifier_break}}
