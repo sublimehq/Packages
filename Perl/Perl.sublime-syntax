@@ -4,10 +4,11 @@
 name: Perl
 file_extensions:
   - pl
+  - pc
   - pm
+  - pmc
   - pod
   - t
-  - PL
 first_line_match: |-
   (?x:
     ^\#! .* \bperl\b |                     # shebang
