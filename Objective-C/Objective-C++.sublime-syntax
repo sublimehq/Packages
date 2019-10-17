@@ -888,28 +888,41 @@ contexts:
     - include: modifiers-parens
     - include: modifiers
     # Constructors and destructors don't have a type
-    - match: '(?={{path_lookahead}}\s*::\s*{{identifier}}\s*(\(|$))'
+    - match: '(?={{path_lookahead}}\s*(?:{{generic_lookahead}})?\s*::\s*{{identifier}}\s*\()'
       set:
-        - meta_content_scope: meta.function.objc++ entity.name.function.constructor.objc++
-        - include: scope:source.c++#identifiers
+        - meta_content_scope: meta.function.objc++ meta.function.local-symbol.objc++
+        - include: scope:source.c++#identifier-path-generic
+        - match: '(?:(::)\s*)?({{identifier}})'
+          captures:
+            1: punctuation.accessor.double-colon.objc++
+            2: entity.name.function.constructor.objc++
         - match: '(?=[^\w\s])'
           set: function-definition-params
-    - match: '(?={{path_lookahead}}\s*::\s*~{{identifier}}\s*(\(|$))'
+    - match: '(?={{path_lookahead}}\s*(?:{{generic_lookahead}})?\s*::\s*~{{identifier}}\s*(\(|$))'
       set:
-        - meta_content_scope: meta.function.objc++ entity.name.function.destructor.objc++
-        - include: scope:source.c++#identifiers
-        - match: '~{{identifier}}'
+        - meta_content_scope: meta.function.objc++ meta.function.local-symbol.objc++
+        - include: scope:source.c++#identifier-path-generic
+        - match: '(?:(::)\s*)?(~{{identifier}})'
+          captures:
+            1: punctuation.accessor.double-colon.objc++
+            2: entity.name.function.destructor.objc++
         - match: '(?=[^\w\s])'
           set: function-definition-params
     # If we see a path ending in :: before a newline, we don't know if it is
     # a constructor or destructor, or a long return type, so we are just going
     # to treat it like a regular function. Most likely it is a constructor,
     # since it doesn't seem most developers would create such a long typename.
-    - match: '(?={{path_lookahead}}\s*::\s*$)'
+    - match: '(?={{path_lookahead}}\s*(?:{{generic_lookahead}})?::\s*$)'
       set:
-        - meta_content_scope: meta.function.objc++ entity.name.function.objc++
-        - include: scope:source.c++#identifiers
-        - match: '~{{identifier}}'
+        - meta_content_scope: meta.function.objc++ meta.function.local-symbol.objc++
+        - include: scope:source.c++#identifier-path-generic
+        - match: '(::)\s*$'
+          captures:
+            1: punctuation.accessor.double-colon.objc++
+        - match: '(?:(::)\s*)?(~?{{identifier}})(?=\s*\()'
+          captures:
+            1: punctuation.accessor.double-colon.objc++
+            2: entity.name.function.objc++
         - match: '(?=[^\w\s])'
           set: function-definition-params
     - include: scope:source.c++#unique-strings
@@ -995,8 +1008,12 @@ contexts:
     # Operator overloading
     - match: '(?=({{path_lookahead}}\s*(?:{{generic_lookahead}})?::\s*)?{{operator_method_name}}\s*(\(|$))'
       set:
-        - meta_content_scope: meta.function.objc++ entity.name.function.objc++
-        - include: scope:source.c++#identifiers
+        - meta_content_scope: meta.function.objc++ meta.function.local-symbol.objc++
+        - include: scope:source.c++#identifier-path-generic
+        - match: '(?:(::)\s*)?({{operator_method_name}})(?=\s*\()'
+          captures:
+            1: punctuation.accessor.double-colon.objc++
+            2: entity.name.function.objc++
         - match: '(?=\s*(\(|$))'
           set: function-definition-params
     # Identifier that is not the function name - likely a macro or type
@@ -1016,26 +1033,21 @@ contexts:
       pop: true
 
   global-function-identifier-generic:
-    - include: angle-brackets
-    - match: '::'
-      scope: punctuation.accessor.objc++
-    - match: '(?={{identifier}}<.*>\s*\()'
-      push:
-        - meta_content_scope: entity.name.function.objc++
-        - include: scope:source.c++#identifiers
-        - match: '(?=<)'
-          pop: true
-    - match: '(?={{identifier}}\s*\()'
-      push:
-        - meta_content_scope: entity.name.function.objc++
-        - include: scope:source.c++#identifiers
-        - match: ''
-          pop: true
+    - meta_content_scope: meta.function.local-symbol.objc++
+    - include: scope:source.c++#identifier-path-generic
+    - match: '(?:(::)\s*)?({{identifier}})(?=\s*(<.*>)?\s*\()'
+      captures:
+        1: punctuation.accessor.double-colon.objc++
+        2: entity.name.function.objc++
     - match: '(?=\()'
       pop: true
 
   global-function-identifier:
-    - meta_content_scope: entity.name.function.objc++
+    - meta_content_scope: meta.function.local-symbol.objc++
+    - match: '(?:(::)\s*)?({{identifier}})(?!\s*(::))'
+      captures:
+        1: punctuation.accessor.double-colon.c++
+        2: entity.name.function.c++
     - include: scope:source.c++#identifiers
     - match: '(?=\S)'
       pop: true

@@ -106,7 +106,8 @@ int main() {
 // constructor.
 FOOLIB_RESULT
 some_namespace::some_function(int a_parameter, double another_parameter) {
-  /* <- meta.function entity.name.function - entity.name.function.constructor */
+  /* <- meta.function meta.function.local-symbol */
+  /*            ^ entity.name.function - entity.name.function.constructor */
   return FOOLIB_SUCCESS;
 }
 
@@ -490,19 +491,37 @@ void funcName<C>() {
 }
 bool A::operator<(const A& a) { return false; }
 /* ^ storage.type */
-/*   ^^^^^^^^^^^^ meta.function entity.name.function */
+/*   ^^^^^^^^^ meta.function meta.function.local-symbol */
+/*      ^^^^^^^^^ entity.name.function */
 /*               ^ meta.function.parameters punctuation.section.group.begin */
 template <class T> bool A<T>::operator<(const A& a) { return false; }
 /*     ^ storage.type.template */
 /*       ^ punctuation.section.generic.begin */
 /*               ^ punctuation.section.generic.end */
-/*                      ^^^^^^^^^^^^^^^ meta.function entity.name.function */
+/*                      ^^^^^^^^^^^^^^^ meta.function meta.function.local-symbol */
+/*                            ^^^^^^^^^ entity.name.function */
 /*                                     ^ meta.function.parameters meta.group punctuation.section.group.begin */
 template <typename Foo>
 SomeType<OtherType> A<Foo>::foobar(YetAnotherType&& asRValue) {}
-/*                          ^^^^^^ meta.function entity.name.function */
+/*                  ^^^^^^^^^^^^^^ meta.function meta.function.local-symbol */
+/*                          ^^^^^^ entity.name.function */
+
 template <typename Foo> SomeType<OtherType> A<Foo>::foobar(YetAnotherType&& asRValue) {}
-/*                                                  ^^^^^^ meta.function entity.name.function */
+/*                                          ^^^^^^^^^^^^^^ meta.function meta.function.local-symbol */
+/*                                                  ^^^^^^ entity.name.function */
+
+template <typename Foo> A<Foo>::A(YetAnotherType&& asRValue) {}
+/*                      ^^^^^^^^^ meta.function meta.function.local-symbol */
+/*                              ^ entity.name.function */
+
+template <typename Foo> A<Foo>::A(YetAnotherType&& asRValue) {}
+/*                      ^^^^^^^^^ meta.function meta.function.local-symbol */
+/*                              ^ entity.name.function.constructor */
+
+template <typename Foo> A<Foo>::~A(YetAnotherType&& asRValue) {}
+/*                      ^^^^^^^^^ meta.function meta.function.local-symbol */
+/*                              ^ entity.name.function.destructor */
+
 template <class T>
 bool A<T>::operator   >    (const A& other) { return false; }
 /*         ^^^^^^^^^^^^ meta.function entity.name.function */
@@ -1169,7 +1188,8 @@ static const uint32_t * const MACRO funcname();
 
 void FooBar :: baz(int a)
 /*   ^^^^^^^^^^^^^^^^^^^^ meta.function */
-/*   ^^^^^^^^^^^^^ entity.name.function */
+/*   ^^^^^^^^^^^^^ meta.function.local-symbol */
+/*             ^^^ entity.name.function */
 /*          ^^ punctuation.accessor */
 /*                ^^^^^^^ meta.function.parameters meta.group */
 /*                ^ punctuation.section.group.begin */
@@ -1179,7 +1199,8 @@ void FooBar :: baz(int a)
 }
 /* A comment. */ void FooBar :: baz(int a)
 /*                    ^^^^^^^^^^^^^^^^^^^^ meta.function */
-/*                    ^^^^^^^^^^^^^ entity.name.function */
+/*                    ^^^^^^^^^^^^^ meta.function.local-symbol */
+/*                              ^^^ entity.name.function */
 /*                           ^^ punctuation.accessor */
 /*                                 ^^^^^^^ meta.function.parameters meta.group */
 /*                                 ^ punctuation.section.group.begin */
@@ -1189,13 +1210,15 @@ void FooBar :: baz(int a)
 }
 // prevent leading comment from function recognition
 /**/ HRESULT A::b()
-/*           ^ meta.function entity.name.function */
+/*           ^ meta.function */
+/*              ^ entity.name.function */
 {
     return S_OK;
 }
 FooBar::FooBar(int a)
 /*^^^^^^^^^^^^^^^^^^^ meta.function */
-/*^^^^^^^^^^^^ entity.name.function */
+/*^^^^^^^^^^^^ meta.function.local-symbol */
+/*      ^^^^^^ entity.name.function */
 /*            ^^^^^^^ meta.function.parameters meta.group */
 /*            ^ punctuation.section.group.begin */
 /*             ^^^ storage.type */
@@ -1205,7 +1228,8 @@ FooBar::FooBar(int a)
 
 FooBar :: FooBar(int a) & =
 /*^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
-/*^^^^^^^^^^^^^^ entity.name.function */
+/*^^^^^^^^^^^^^^ meta.function.local-symbol */
+/*        ^^^^^^ entity.name.function */
 /*              ^^^^^^^ meta.function.parameters meta.group */
 /*              ^ punctuation.section.group.begin */
 /*               ^^^ storage.type */
@@ -1217,7 +1241,8 @@ default;
 /*^^^^^ meta.function storage.modifier */
 
 FooBar::~FooBar
-/*^^^^^^^^^^^^^ meta.function entity.name.function */
+/*^^^^^^^^^^^^^ meta.function meta.function.local-symbol */
+/*      ^^^^^^^ entity.name.function */
 () { }
 /* <- meta.function.parameters meta.group punctuation.section.group.begin */
  /* <- meta.function.parameters meta.group punctuation.section.group.end */
@@ -1225,13 +1250,14 @@ FooBar::~FooBar
 
 ThisIsAReallyReallyLongClassNameThatRequiresWrappingCodeInTheMiddleOfAPath::
     ThisIsAReallyReallyLongClassNameThatRequiresWrappingCodeInTheMiddleOfAPath()
-/* <- entity.name.function */
+/* <- meta.function meta.function.local-symbol */
     : var_name(nullptr) {
 }
 
 bool FooBar::operator==() {}
 /*   ^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
-/*   ^^^^^^^^^^^^^^^^^^ entity.name.function */
+/*   ^^^^^^^^^^^^^^^^^^ meta.function.local-symbol */
+/*           ^^^^^^^^^^ entity.name.function */
 /*                     ^^ meta.function.parameters meta.group */
 /*                     ^ punctuation.section.group.begin */
 /*                      ^ punctuation.section.group.end */
@@ -1248,7 +1274,8 @@ myns::FooBar::~FooBar() { }
 /*                      ^^^ meta.block */
 /*                      ^ punctuation.section.block.begin */
 /*                        ^ punctuation.section.block.end */
-/*^^^^^^^^^^^^^^^^^^^ entity.name.function */
+/*^^^^^^^^^^^^^^^^^^^ meta.function.local-symbol */
+/*            ^^^^^^^ entity.name.function */
 
     extern "C" void test_in_extern_c_block()
 /*                  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
