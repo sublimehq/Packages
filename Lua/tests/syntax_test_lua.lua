@@ -3,22 +3,28 @@
 --COMMENTS
 
     -- Foo!
---  ^^^^^^^ comment.line
+-- ^ - comment
+--  ^^^^^^^^ comment.line
 --  ^^ punctuation.definition.comment
 
 
     --[[ Foo! ]]
+-- ^ - comment
 --  ^^^^^^^^^^^^ comment.block
 --  ^^^^ punctuation.definition.comment.begin
 --            ^^ punctuation.definition.comment.end
+--              ^ - comment
 
     --[=[ Foo! ]] ]=]
+-- ^ - comment
 --  ^^^^^^^^^^^^^^^^^ comment.block
 --  ^^^^^ punctuation.definition.comment.begin
 --             ^^ - punctuation
 --                ^^^ punctuation.definition.comment.end
+--                   ^ - comment
 
     --[=[
+-- ^ - comment
 --  ^^^^^ comment.block punctuation.definition.comment.begin
         ]]
 --      ^^^ comment.block - punctuation
@@ -30,6 +36,7 @@
 --      ^^ - punctuation
     ]=]
 --  ^^^ comment.block punctuation.definition.comment.end
+--     ^ - comment
 
 --VARIABLES
 
