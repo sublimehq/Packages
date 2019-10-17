@@ -392,6 +392,51 @@ typedef struct Books Book;
 /*             ^ - entity.name.type.struct */
 /*                   ^ entity.name.type.typedef */
 
+using Alias = Foo;
+/* <- keyword.control */
+/*    ^^^^^ entity.name.type.using */
+
+using Alias
+  = NewLineFoo;
+/*^ - entity.name */
+
+template <typename T>
+using TemplateAlias = Foo<T>;
+/*    ^^^^^^^^^^^^^ entity.name.type.using */
+
+using std::cout;
+/* <- keyword.control */
+/*    ^ - entity.name */
+
+using std::
+  cout;
+/*^ - entity.name */
+
+class MyClass : public SuperClass
+{
+    using This = MyClass;
+/*  ^ keyword.control */
+/*        ^^^^ entity.name.type.using */
+
+    using MyInt
+/*  ^ keyword.control */
+        = int32_t;
+
+    using SuperClass::SuperClass;
+/*  ^ keyword.control */
+/*        ^ - entity.name */
+};
+
+class MyClass : public CrtpClass<MyClass>
+{
+    using typename CrtpClass<MyClass>::PointerType;
+/*  ^ keyword.control */
+/*        ^ storage.modifier */ 
+    using CrtpClass<
+/*  ^ keyword.control */
+        MyClass>::method;
+};
+
 template class MyStack<int, 6>;
 /* <- storage.type.template */
 /*                    ^ punctuation.section.generic */
@@ -1296,9 +1341,21 @@ using namespace NAME __attribute__((visibility ("hidden")));
 /*                   ^ storage.modifier */
 /*                                               ^ string */
 
+using namespace 
+/* <- keyword.control */
+/*    ^ keyword.control */
+
 using namespace myNameSpace;
 /* <- keyword.control */
 /*    ^ keyword.control */
+
+void func() {
+    using namespace NAME __attribute__((visibility ("hidden")));
+/*  ^ keyword.control */
+/*        ^ keyword.control */
+/*                       ^ storage.modifier */
+/*                                                   ^ string */
+}
 
 namespace ns :: abc /* Neither this comment... */
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.namespace */
