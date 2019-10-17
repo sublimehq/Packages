@@ -1,0 +1,8 @@
+{
+    "shell_cmd": "dub build",
+    "file_regex": "^(.*?)\\(([0-9]+)(,[0-9]+)?\\)",
+    "working_dir": "${folder:${project_path:${file_path}}}",
+    "selector": "source.d",
+    "syntax": "Packages/D/DMD Output.sublime-syntax",
+    "keyfiles": ["dub.sdl", "dub.json"],
+}

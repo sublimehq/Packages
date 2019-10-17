@@ -1,6 +1,5 @@
 // SYNTAX TEST "Go.sublime-syntax"
 
-
 /*
 NOTES
 
@@ -48,6 +47,11 @@ You may have to disable Go-specific linters when working on this file.
 // ^ -comment
 //  ^^^^^^^ comment.block.go
 //         ^ -comment
+
+    /**
+     *
+//   ^ comment.block.go punctuation.definition.comment.go
+    */
 
     //go
 // ^ -comment -punctuation
@@ -103,11 +107,15 @@ You may have to disable Go-specific linters when working on this file.
     )
 
 
-// # Types
+// # Type Keywords and Syntax
 
-// Types are covered early because they're involved in most tests.
-// Note: Go permits an arbitrary number of parens around a type.
+/*
+Type keywords are tested early because they're used in many other tests.
 
+Note: Go permits an arbitrary number of parens around a type.
+
+Note: built-ins are tested separately. Search for "# Built-in Types".
+*/
 
 // ## chan
 
@@ -334,8 +342,7 @@ You may have to disable Go-specific linters when working on this file.
     func()
 //  ^^^^ storage.type.keyword.function.go
     ident
-//  ^^^^^ -storage
-//  ^^^^^ variable.other.go
+//  ^^^^^ variable.other.go -storage
 
     func(true false) (nil iota)
 //  ^^^^ storage.type.keyword.function.go
@@ -415,10 +422,10 @@ You may have to disable Go-specific linters when working on this file.
     )
 
     func(
-        param, param []byte,
+        param, param []typ,
 //      ^^^^^ variable.parameter.go
 //             ^^^^^ variable.parameter.go
-//                     ^^^^ storage.type.go
+//                     ^^^ storage.type.go
         param ...typ,
 //      ^^^^^ variable.parameter.go
 //            ^^^ keyword.operator.variadic.go
@@ -426,10 +433,10 @@ You may have to disable Go-specific linters when working on this file.
     )
 
     func(
-        param, param (([]byte)),
+        param, param (([]typ)),
 //      ^^^^^ variable.parameter.go
 //             ^^^^^ variable.parameter.go
-//                       ^^^^ storage.type.go
+//                       ^^^ storage.type.go
         param typ,
 //      ^^^^^ variable.parameter.go
 //            ^^^ storage.type.go
@@ -751,8 +758,7 @@ You may have to disable Go-specific linters when working on this file.
 //      ^^^ storage.type.go
 //         ^ punctuation.section.brackets.end.go
 //          ^^^ storage.type.go
-//              ^^^^^ -storage
-//              ^^^^^ variable.other.go
+//              ^^^^^ variable.other.go -storage
 
     map[typ]
 //  ^^^ storage.type.keyword.map.go
@@ -1239,8 +1245,7 @@ You may have to disable Go-specific linters when working on this file.
 
     [0]
     ident
-//  ^^^^^ -storage
-//  ^^^^^ variable.other.go
+//  ^^^^^ variable.other.go -storage
 
     [/**/
 //   ^^^^ comment.block.go
@@ -1251,8 +1256,7 @@ You may have to disable Go-specific linters when working on this file.
 
     []
     ident
-//  ^^^^^ -storage
-//  ^^^^^ variable.other.go
+//  ^^^^^ variable.other.go -storage
 
     []func(
 //    ^^^^ storage.type.keyword.function.go
@@ -1264,7 +1268,12 @@ You may have to disable Go-specific linters when working on this file.
 //        ^^^^^ variable.other.go
 
 
-// # Type Definitions
+// ## type
+
+    type _ typ
+//  ^^^^ storage.type.keyword.type.go
+//       ^ variable.language.blank.go
+//         ^^^ storage.type.go
 
     type Type typ
 //  ^^^^ storage.type.keyword.type.go
@@ -1432,7 +1441,6 @@ You may have to disable Go-specific linters when working on this file.
 // cause identifiers in those expressions to be incorrectly scoped as constants
 // or variables.
 
-// Empty identifier is NOT scoped
     const _ = 10
 //  ^^^^^ storage.type.keyword.const.go
 //        ^ variable.language.blank.go
@@ -1582,56 +1590,55 @@ You may have to disable Go-specific linters when working on this file.
 //             ^^^^ constant.numeric.integer.go
     )
 
-const ident typ = ident +
-// ^^ storage.type.keyword.const.go
-//    ^^^^^ variable.other.constant.declaration.go
-//          ^^^ storage.type.go
-//              ^ keyword.operator.assignment.go
-//                ^^^^^ variable.other.go
-//                      ^ keyword.operator.go
-    ident +
-//  ^^^^^ variable.other.go
-//        ^ keyword.operator.go
-    ident +
-//  ^^^^^ variable.other.go
-//        ^ keyword.operator.go
-    ident
-//  ^^^^^ variable.other.go
-
-const (
-// ^^ storage.type.keyword.const.go
-    ident typ = ident +
-//  ^^^^^ variable.other.constant.declaration.go
-//        ^^^ storage.type.go
-//            ^ keyword.operator.assignment.go
-//              ^^^^^ variable.other.go
-//                    ^ keyword.operator.go
+    const ident typ = ident +
+//  ^^^^^ storage.type.keyword.const.go
+//        ^^^^^ variable.other.constant.declaration.go
+//              ^^^ storage.type.go
+//                  ^ keyword.operator.assignment.go
+//                    ^^^^^ variable.other.go
+//                          ^ keyword.operator.go
         ident +
-//      ^^^^^ variable.other.constant.declaration.go
+//      ^^^^^ variable.other.go
 //            ^ keyword.operator.go
+        ident +
+//      ^^^^^ variable.other.go
+//            ^ keyword.operator.go
+        ident
+//      ^^^^^ variable.other.go
+
+    const (
+//  ^^^^^ storage.type.keyword.const.go
+        ident typ = ident +
+//      ^^^^^ variable.other.constant.declaration.go
+//            ^^^ storage.type.go
+//                ^ keyword.operator.assignment.go
+//                  ^^^^^ variable.other.go
+//                        ^ keyword.operator.go
+            ident +
+//          ^^^^^ variable.other.constant.declaration.go
+//                ^ keyword.operator.go
 
 // BUG: this is incorrectly scoped as a type. TODO consider detecting multiline
 // expressions, or find another way of handling this properly.
-        ident +
+            ident +
 
-        ident
-//      ^^^^^ variable.other.constant.declaration.go
-)
+            ident
+//          ^^^^^ variable.other.constant.declaration.go
+    )
 
 // iota is predefined only in constant declarations. It's not a reserved word.
-func _() {
-    var iota = 0
-//  ^^^ storage.type.keyword.var.go
-//      ^^^^ variable.declaration.go
-//           ^ keyword.operator.assignment.go
-//             ^ constant.numeric.integer.go
-    var _ = iota
-//  ^^^ storage.type.keyword.var.go
-//      ^ variable.language.blank.go
-//        ^ keyword.operator.assignment.go
-//          ^^^^ variable.other.go
-//          ^^^^ -constant
-}
+    func _() {
+        var iota = 0
+//      ^^^ storage.type.keyword.var.go
+//          ^^^^ variable.declaration.go
+//               ^ keyword.operator.assignment.go
+//                 ^ constant.numeric.integer.go
+        var _ = iota
+//      ^^^ storage.type.keyword.var.go
+//          ^ variable.language.blank.go
+//            ^ keyword.operator.assignment.go
+//              ^^^^ variable.other.go -constant
+    }
 
     var _ = log.Println
 //  ^^^ storage.type.keyword.var.go
@@ -1966,13 +1973,24 @@ func _() {
     "one %1.2d two"
 //  ^^^^^^^^^^^^^^^ string.quoted.double.go
 //       ^^^^^ constant.other.placeholder.go
+    "one %[1] two"
+//  ^^^^^^^^^^^ string.quoted.double.go
+//       ^^^^^^ constant.other.placeholder.go
+    "one %[1]v two"
+//  ^^^^^^^^^^^^ string.quoted.double.go
+//       ^^^^^ constant.other.placeholder.go
+    "one %[1]+v two"
+//  ^^^^^^^^^^^^^ string.quoted.double.go
+//       ^^^^^^ constant.other.placeholder.go
+    "one %[1]1.2d two"
+//  ^^^^^^^^^^^^^^^ string.quoted.double.go
+//       ^^^^^^^^ constant.other.placeholder.go
     "%"
 //  ^^^ string.quoted.double.go
 //   ^ -constant.other.placeholder
 
     "one /* two */ three"
-//  ^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.go
-//  ^^^^^^^^^^^^^^^^^^^^^ -comment
+//  ^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.go -comment
 
     "_\n_"
 //  ^^^^^^ string.quoted.double.go
@@ -2009,8 +2027,7 @@ func _() {
 //  ^^^^^^^^^ string.quoted.other.go
 //          ^ punctuation.definition.string.end.go
     `one \\ \n two`
-//  ^^^^^^^^^^^^^^^ string.quoted.other.go
-//  ^^^^^^^^^^^^^^^ -constant.character.escape
+//  ^^^^^^^^^^^^^^^ string.quoted.other.go -constant.character.escape
     `one %% two`
 //  ^^^^^^^^^^^^ string.quoted.other.go
 //       ^^ constant.character.escape.go
@@ -2026,6 +2043,18 @@ func _() {
     `one %1.2d two`
 //  ^^^^^^^^^^^^^^^ string.quoted.other.go
 //       ^^^^^ constant.other.placeholder.go
+    `one %[1] two`
+//  ^^^^^^^^^^^ string.quoted.other.go
+//       ^^^^^^ constant.other.placeholder.go
+    `one %[1]v two`
+//  ^^^^^^^^^^^^ string.quoted.other.go
+//       ^^^^^ constant.other.placeholder.go
+    `one %[1]+v two`
+//  ^^^^^^^^^^^^^ string.quoted.other.go
+//       ^^^^^^ constant.other.placeholder.go
+    `one %[1]1.2d two`
+//  ^^^^^^^^^^^^^^^ string.quoted.other.go
+//       ^^^^^^^^ constant.other.placeholder.go
     `%`
 //  ^^^ string.quoted.other.go
 //   ^ -constant.other.placeholder
@@ -2042,8 +2071,7 @@ func _() {
 //  ^ string.quoted.other.go punctuation.definition.string.end.go
 
     `one /* two */ three`
-//  ^^^^^^^^^^^^^^^^^^^^^ string.quoted.other.go
-//  ^^^^^^^^^^^^^^^^^^^^^ -comment
+//  ^^^^^^^^^^^^^^^^^^^^^ string.quoted.other.go -comment
 
 
 // # Operators
@@ -2362,13 +2390,13 @@ func _() {
 //           ^^^ storage.type.go
 //                ^^^^^ variable.other.go
 
-    []byte(ident)
-//    ^^^^ storage.type.go
-//         ^^^^^ variable.other.go
+    []typ(ident)
+//    ^^^ storage.type.go
+//        ^^^^^ variable.other.go
 
-    ([]byte)(ident)
-//     ^^^^ storage.type.go
-//           ^^^^^ variable.other.go
+    ([]typ)(ident)
+//     ^^^ storage.type.go
+//          ^^^^^ variable.other.go
 
 
 // # Keywords
@@ -2495,43 +2523,355 @@ func _() {
 //        ^ meta.block.go punctuation.section.braces.begin.go
 //         ^ meta.block.go punctuation.section.braces.end.go
 
-// # Identifiers
+
+// # Predeclared Constants
 
     true false nil
 //  ^^^^ constant.language.go
 //       ^^^^^ constant.language.go
 //             ^^^ constant.language.go
 
-    new(typ)
-//  ^^^ variable.function.go
-//     ^ punctuation.section.parens.begin.go
-//      ^^^ storage.type.go
-//         ^ punctuation.section.parens.end.go
 
-    new /**/ (
-//  ^^^ variable.function.go
-//      ^^^^ comment.block.go
-        /**/ typ /**/ ,
-//      ^^^^ comment.block.go
-//           ^^^ storage.type.go
-//               ^^^^ comment.block.go
-    )
+// # Built-in Types
+
+/*
+These tests make sure that the treatment of built-ins is consistent with
+non-built-ins and is purely additive.
+
+Due to how they're combined in the syntax definition, we don't need to test
+every type individually.
+*/
+
+    chan typ
+//  ^^^^ storage.type.keyword.chan.go
+//       ^^^ storage.type.go -support
+
+    chan int
+//  ^^^^ storage.type.keyword.chan.go
+//       ^^^ storage.type.go support.type.builtin.go
+
+    func(typ)
+//  ^^^^ storage.type.keyword.function.go
+//       ^^^ storage.type.go -support
+
+    func(int)
+//  ^^^^ storage.type.keyword.function.go
+//       ^^^ storage.type.go support.type.builtin.go
+
+    map[typ]typ
+//  ^^^ storage.type.keyword.map.go
+//      ^^^ storage.type.go -support
+//          ^^^ storage.type.go -support
+
+    map[int]int
+//  ^^^ storage.type.keyword.map.go
+//      ^^^ storage.type.go support.type.builtin.go
+//          ^^^ storage.type.go support.type.builtin.go
+
+    struct { ident typ; typ }
+//  ^^^^^^ storage.type.keyword.struct.go
+//           ^^^^^ meta.type.go variable.other.member.declaration.go
+//                 ^^^ meta.type.go storage.type.go -support
+//                      ^^^ meta.type.go entity.other.inherited-class.go -support
+
+    struct { ident int; int }
+//  ^^^^^^ storage.type.keyword.struct.go
+//           ^^^^^ meta.type.go variable.other.member.declaration.go
+//                 ^^^ meta.type.go storage.type.go support.type.builtin.go
+//                      ^^^ meta.type.go entity.other.inherited-class.go support.type.builtin.go
+
+    interface { typ }
+//  ^^^^^^^^^ storage.type.keyword.interface.go
+//              ^^^ meta.type.go entity.other.inherited-class.go -support
+
+    interface { error }
+//  ^^^^^^^^^ storage.type.keyword.interface.go
+//              ^^^^^ meta.type.go entity.other.inherited-class.go support.type.builtin.go
+
+    [...]typ
+//   ^^^ keyword.operator.variadic.go
+//       ^^^ storage.type.go -support
+
+    [...]int
+//   ^^^ keyword.operator.variadic.go
+//       ^^^ storage.type.go support.type.builtin.go
+
+    []typ
+//    ^^^ storage.type.go -support
+
+    []int
+//    ^^^ storage.type.go support.type.builtin.go
+
+    type _ typ
+//  ^^^^ storage.type.keyword.type.go
+//       ^ variable.language.blank.go
+//         ^^^ storage.type.go -support
+
+    type _ int
+//  ^^^^ storage.type.keyword.type.go
+//       ^ variable.language.blank.go
+//         ^^^ storage.type.go support.type.builtin.go
+
+    const ident typ
+//  ^^^^^ storage.type.keyword.const.go
+//        ^^^^^ variable.other.constant.declaration.go
+//              ^^^ storage.type.go -support
+
+    const ident int
+//  ^^^^^ storage.type.keyword.const.go
+//        ^^^^^ variable.other.constant.declaration.go
+//              ^^^ storage.type.go support.type.builtin.go
+
+    var ident typ
+//  ^^^ storage.type.keyword.var.go
+//      ^^^^^ variable.declaration.go
+//            ^^^ storage.type.go -support
+
+    var ident int
+//  ^^^ storage.type.keyword.var.go
+//      ^^^^^ variable.declaration.go
+//            ^^^ storage.type.go support.type.builtin.go
+
+    ident.(typ)
+//  ^^^^^ variable.other.go
+//         ^^^ storage.type.go -support
+
+    ident.(int)
+//  ^^^^^ variable.other.go
+//         ^^^ storage.type.go support.type.builtin.go
+
+    (typ)(ident)
+//   ^^^ variable.function.go -support
+//        ^^^^^ variable.other.go
+
+    (int)(ident)
+//   ^^^ variable.function.go support.type.builtin.go
+//        ^^^^^ variable.other.go
+
+
+// # Built-in Functions
+
+// ## Special Functions
 
     make(typ)
-//  ^^^^ variable.function.go
-//      ^ punctuation.section.parens.begin.go
-//       ^^^ storage.type.go
-//          ^ punctuation.section.parens.end.go
+//  ^^^^ variable.function.go support.function.builtin.go
+//       ^^^ storage.type.go -support
+
+    make(int)
+//  ^^^^ variable.function.go support.function.builtin.go
+//       ^^^ storage.type.go support.type.builtin.go
 
     make /**/ (
-//  ^^^^ variable.function.go
+//  ^^^^ variable.function.go support.function.builtin.go
 //       ^^^^ comment.block.go
         /**/ typ /**/,
 //      ^^^^ comment.block.go
-//           ^^^ storage.type.go
+//           ^^^ storage.type.go -support
 //               ^^^^ comment.block.go
         ident,
 //      ^^^^^ variable.other.go
         ident,
 //      ^^^^^ variable.other.go
     )
+
+    make /**/ (
+//  ^^^^ variable.function.go support.function.builtin.go
+//       ^^^^ comment.block.go
+        /**/ int /**/,
+//      ^^^^ comment.block.go
+//           ^^^ storage.type.go support.type.builtin.go
+//               ^^^^ comment.block.go
+        ident,
+//      ^^^^^ variable.other.go
+        ident,
+//      ^^^^^ variable.other.go
+    )
+
+    make
+//  ^^^^ variable.other.go -support
+
+    var make
+//  ^^^ storage.type.keyword.var.go
+//      ^^^^ variable.declaration.go -support
+
+    new(typ, ident)
+//  ^^^ variable.function.go support.function.builtin.go
+//      ^^^ storage.type.go -support
+//           ^^^^^ variable.other.go
+
+    new(int, ident)
+//  ^^^ variable.function.go support.function.builtin.go
+//      ^^^ storage.type.go support.type.builtin.go
+//           ^^^^^ variable.other.go
+
+    ((new))(typ, ident)
+//    ^^^ variable.function.go support.function.builtin.go
+//          ^^^ storage.type.go -support
+//               ^^^^^ variable.other.go
+
+    ((new))(int, ident)
+//    ^^^ variable.function.go support.function.builtin.go
+//          ^^^ storage.type.go support.type.builtin.go
+//               ^^^^^ variable.other.go
+
+    new /**/ (
+//  ^^^ variable.function.go support.function.builtin.go
+//      ^^^^ comment.block.go
+        /**/ typ /**/ ,
+//      ^^^^ comment.block.go
+//           ^^^ storage.type.go -support
+//               ^^^^ comment.block.go
+    )
+
+    new /**/ (
+//  ^^^ variable.function.go support.function.builtin.go
+//      ^^^^ comment.block.go
+        /**/ int /**/ ,
+//      ^^^^ comment.block.go
+//           ^^^ storage.type.go support.type.builtin.go
+//               ^^^^ comment.block.go
+    )
+
+    new
+//  ^^^ variable.other.go -support
+
+    var new
+//  ^^^ storage.type.keyword.var.go
+//      ^^^ variable.declaration.go -support
+
+// ## Other Functions
+
+/*
+These tests make sure that the treatment of built-ins is consistent with
+non-built-ins, is purely additive, and sufficiently limited.
+
+Due to how they're combined in the syntax definition, we don't need to test
+every function individually.
+*/
+
+    ident(ident)
+//  ^^^^^ variable.function.go -support
+//        ^^^^^ variable.other.go
+
+    close(ident)
+//  ^^^^^ variable.function.go support.function.builtin.go
+//        ^^^^^ variable.other.go
+
+    ((ident))(ident)
+//    ^^^^^ variable.function.go -support
+//            ^^^^^ variable.other.go
+
+    ((close))(ident)
+//    ^^^^^ variable.function.go support.function.builtin.go
+//            ^^^^^ variable.other.go
+
+    close
+//  ^^^^^ variable.other.go -support
+
+    var close
+//  ^^^ storage.type.keyword.var.go
+//      ^^^^^ variable.declaration.go -support
+
+
+/*
+Templates
+*/
+func template() {
+    t := "{{.Count}} items are made of {{.Material}}"
+    //    ^^^^^^^^^^ meta.interpolation
+    //    ^^ punctuation.section.interpolation.begin
+    //      ^ punctuation.accessor.dot
+    //       ^^^^^ variable.other.member
+    //            ^^ punctuation.section.interpolation.end
+    t := `{{.Count}} items are made of {{.Material}}`
+    //    ^^^^^^^^^^ meta.interpolation
+    //    ^^ punctuation.section.interpolation.begin
+    //      ^ punctuation.accessor.dot
+    //       ^^^^^ variable.other.member
+    //            ^^ punctuation.section.interpolation.end
+    t = "{{23 -}} < {{- 45}}"
+    //   ^^^^^^^^ meta.interpolation
+    //   ^^ punctuation.section.interpolation.begin
+    //        ^ keyword.operator.template.right.trim
+    //         ^^ punctuation.section.interpolation.end
+    //                ^ keyword.operator.template.left.trim
+    t = "{{/* a comment */}}"
+    //     ^^ punctuation.definition.comment
+    //                  ^^ punctuation.definition.comment
+    //     ^^^^^^^^^^^^^^^ comment.block
+    t = "{{if pipeline}} T1 {{else}}{{if pipeline}} T0 {{end}}{{end}}"
+    //     ^^ keyword.control
+    //                        ^^^^ keyword.control
+    //                                ^^ keyword.control
+    //                                                   ^^^ keyword.control
+    //                                                          ^^^ keyword.control
+    t = "{{range pipeline}} T1 {{else}} T0 {{end}}"
+    //     ^^^^^ keyword.control
+    //                           ^^^^ keyword.control
+    //                                       ^^^ keyword.control
+    t = "{{template "name" pipeline}}"
+    //     ^^^^^^^^ keyword.control
+    //              ^ punctuation.definition.string.begin
+    //              ^^^^^^ string.quoted.double
+    //                   ^ punctuation.definition.string.end
+    t = "{{block "name" pipeline}} T1 {{end}}"
+    //     ^^^^^ keyword.control
+    //                                  ^^^ keyword.control
+    t = "{{with pipeline}} T1 {{else}} T0 {{end}}"
+    //     ^^^^ keyword.control
+    //                          ^^^^ keyword.control
+    //                                      ^^^ keyword.control
+    t = "{{$piOver2}}"
+    //     ^^^^^^^^ variable.other.template
+    t = "{{.Field1.Field2}}"
+    //     ^ punctuation.accessor.dot
+    //      ^^^^^^ variable.other.member
+    //            ^ punctuation.accessor.dot
+    //             ^^^^^^ variable.other.member
+    t = "{{$x.Field1.Field2}}"
+    //     ^^ variable.other.template
+    //       ^ punctuation.accessor.dot
+    //        ^^^^^^ variable.other.member
+    //              ^ punctuation.accessor.dot
+    //               ^^^^^^ variable.other.member
+    t = "{{$variable := pipeline}}"
+    //     ^^^^^^^^^ variable.other.template
+    //               ^^ keyword.operator.assignment
+    t = "{{range $index, $element := pipeline}}"
+    //     ^^^^^ keyword.control.
+    //           ^^^^^^ variable.other.template
+    //                   ^^^^^^^^ variable.other.template
+    //                            ^^ keyword.operator.assignment
+    t = "{{`"output"`}}"
+    t = "{{printf "%q" "output"}}"
+    //     ^^^^^^ support.function.builtin
+    t = "{{"output" | printf "%q"}}"
+    //              ^ keyword.operator.template
+    //                ^^^^^^ support.function.builtin
+    t = "{{printf "%q" (print "out" "put")}}"
+    //     ^^^^^^ support.function.builtin
+    //                  ^^^^^ support.function.builtin
+    t = "{{"put" | printf "%s%s" "out" | printf "%q"}}"
+    //           ^ keyword.operator.template
+    //             ^^^^^^ support.function.builtin
+    //                                 ^ keyword.operator.template
+    //                                   ^^^^^^ support.function.builtin
+    t = "{{"output" | printf "%s" | printf "%q"}}"
+    //     ^^^^^^^^ string.quoted.double
+    //              ^ keyword.operator.template
+    //                ^^^^^^ support.function.builtin
+    //                       ^^^^ string.quoted.double
+    //                            ^ keyword.operator.template
+    //                              ^^^^^^ support.function.builtin
+    //                                     ^^^^ string.quoted.double
+    t = "{{with "output"}}{{printf "%q" .}}{{end}}"
+    //     ^^^^ keyword.control
+    //                                  ^ variable.other.template
+    t = "{{with $x := "output" | printf "%q"}}{{$x}}{{end}}"
+    //          ^^ variable.other.template
+    //             ^^ keyword.operator.assignment
+    //                                          ^^ variable.other.template
+    t = "{{with $x := "output"}}{{$x | printf "%q"}}{{end}}"
+    //                            ^^ variable.other.template
+    //                               ^ keyword.operator.template.pipe
+    //                                 ^^^^^^ support.function.builtin

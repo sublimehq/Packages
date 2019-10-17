@@ -1,0 +1,42 @@
+{
+    "shell_cmd": "dot \"${file}\" -O -Tpng",
+    "file_regex": "^Error: (..[^:]*):.*line (\\d+).*$",
+    "working_dir": "${file_path}",
+    "selector": "source.dot",
+
+    "variants":
+    [
+        {
+            "name": "dot SVG",
+            "shell_cmd": "dot \"${file}\" -O -Tsvg"
+        },
+        {
+            "name": "neato",
+            "shell_cmd": "neato \"${file}\" -O -Tpng"
+        },
+        {
+            "name": "twopi",
+            "shell_cmd": "twopi \"${file}\" -O -Tpng"
+        },
+        {
+            "name": "circo",
+            "shell_cmd": "circo \"${file}\" -O -Tpng"
+        },
+        {
+            "name": "fdp",
+            "shell_cmd": "fdp \"${file}\" -O -Tpng"
+        },
+        {
+            "name": "sfdp",
+            "shell_cmd": "sfdp \"${file}\" -O -Tpng"
+        },
+        {
+            "name": "patchwork",
+            "shell_cmd": "patchwork \"${file}\" -O -Tpng"
+        },
+        {
+            "name": "osage",
+            "shell_cmd": "osage \"${file}\" -O -Tpng"
+        },
+    ]
+}

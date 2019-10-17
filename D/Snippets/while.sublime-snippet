@@ -1,5 +1,5 @@
 <snippet>
-	<content><![CDATA[while(${1:condition})
+	<content><![CDATA[while (${1:condition})
 {
 	$0
 }]]></content>

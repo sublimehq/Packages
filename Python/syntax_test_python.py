@@ -232,8 +232,8 @@ def _():
 #         ^^^^ - keyword
 
     a if b else c
-#     ^^ keyword.control.flow
-#          ^^^^ keyword.control.flow
+#     ^^ keyword.control.conditional.if
+#          ^^^^ keyword.control.conditional.else
 
     c = lambda: pass
 #       ^^^^^^^ meta.function.inline
@@ -364,7 +364,7 @@ range(20)[10:2:-2]
 #                     ^^^ meta.item-access - meta.structure
 
 [1, 2, 3][2]
-#^^^^^^^^ meta.structure.list
+#^^^^^^^^ meta.sequence
 #        ^^^ meta.item-access - meta.structure
 
 {True: False}.get(True)
@@ -417,23 +417,23 @@ def _():
 ##################
 def _():
     for
-#   ^^^ keyword.control.flow.for
+#   ^^^ keyword.control.loop.for
     b = c in d
-#         ^^ keyword.operator.logical - keyword.control.flow.for.in
+#         ^^ keyword.operator.logical - keyword.control.loop.for.in
 
     for \
         a \
         in \
         b:
-#       ^^ meta.statement.for
-#        ^ punctuation.section.block.for.python
+#       ^^ meta.statement.loop.for
+#        ^ punctuation.section.block.loop.for.python
 
     async for i in myfunc():
-#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.for
+#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for
 #   ^^^^^ storage.modifier.async
-#         ^^^ keyword.control.flow.for
-#               ^^ keyword.control.flow.for.in
-#                          ^ punctuation.section.block.for
+#         ^^^ keyword.control.loop.for
+#               ^^ keyword.control.loop.for.in
+#                          ^ punctuation.section.block.loop.for
         pass
 
     for i:
@@ -491,23 +491,23 @@ def _():
 #                ^ punctuation.section.arguments.begin
 #                 ^ punctuation.section.arguments.end
 #                   ^^ keyword.control.flow.with.as
-#                      ^ punctuation.section.list.begin
+#                      ^ punctuation.section.sequence.begin
 #                       ^^^ meta.generic-name
-#                          ^ punctuation.separator.list
+#                          ^ punctuation.separator.sequence
 #                            ^^^ meta.generic-name
-#                               ^ punctuation.section.list.end
+#                               ^ punctuation.section.sequence.end
 #                                ^ punctuation.section.block.with
 
     with captured() \
     as [
-#      ^ punctuation.section.list.begin
+#      ^ punctuation.section.sequence.begin
         out,
 #       ^^^ meta.generic-name
-#          ^ punctuation.separator.list
+#          ^ punctuation.separator.sequence
         err
 #       ^^^ meta.generic-name
     ]:
-#   ^ punctuation.section.list.end
+#   ^ punctuation.section.sequence.end
 #    ^ punctuation.section.block.with
 
     async with context_manager() as c:
@@ -519,35 +519,35 @@ def _():
 #       ^^^^^ keyword.other.await
 
     try:
-#   ^^^^ meta.statement.try.python
-#   ^^^ keyword.control.flow.try.python
-#      ^ punctuation.section.block.try.python
+#   ^^^^ meta.statement.exception.try.python
+#   ^^^ keyword.control.exception.try.python
+#      ^ punctuation.section.block.exception.try.python
         raise
 #       ^^^^^ meta.statement.raise.python keyword.control.flow.raise.python
     except Exception as x:
-#   ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.except.python - meta.statement.except.python meta.statement.except.python
-#   ^^^^^^ keyword.control.flow.except.python
+#   ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.exception.catch.python - meta.statement.exception.catch.python meta.statement.exception.catch.python
+#   ^^^^^^ keyword.control.exception.catch.python
 #          ^^^^^^^^^ support.type.exception.python
-#                    ^^ keyword.control.flow.as.python
+#                    ^^ keyword.control.exception.catch.as.python
 #                       ^ meta.generic-name.python
-#                        ^ punctuation.section.block.except.python
+#                        ^ punctuation.section.block.exception.catch.python
         pass
     finally :
-#   ^^^^^^^^^ meta.statement.finally.python
-#   ^^^^^^^ keyword.control.flow.finally.python
-#           ^ punctuation.section.block.finally.python
+#   ^^^^^^^^^ meta.statement.exception.finally.python
+#   ^^^^^^^ keyword.control.exception.finally.python
+#           ^ punctuation.section.block.exception.finally.python
     try_except_raise:
 #   ^^^ - keyword
 
     while (
-#   ^^^^^^^^ meta.statement.while.python
-#   ^^^^^ keyword.control.flow.while.python
-#         ^ meta.statement.while.python meta.group.python punctuation.section.group.begin.python
+#   ^^^^^^^^ meta.statement.loop.while.python
+#   ^^^^^ keyword.control.loop.while.python
+#         ^ meta.statement.loop.while.python meta.group.python punctuation.section.group.begin.python
         a is b
-#       ^^^^^^ meta.statement.while.python
+#       ^^^^^^ meta.statement.loop.while.python
 #         ^^ keyword.operator.logical.python
     ):
-#    ^ meta.statement.while.python punctuation.section.block.while.python
+#    ^ meta.statement.loop.while.python punctuation.section.block.loop.while.python
         sleep()
         if a:
             break
@@ -557,46 +557,46 @@ def _():
 #           ^^^^^^^^ keyword.control.flow.continue.python
 
     if 213 is 231:
-#   ^^^^^^^^^^^^^^ meta.statement.if.python
-#   ^^ keyword.control.flow.conditional.python
+#   ^^^^^^^^^^^^^^ meta.statement.conditional.if.python
+#   ^^ keyword.control.conditional.if.python
 #      ^^^ constant.numeric.integer.decimal.python
 #          ^^ keyword.operator.logical.python
-#                ^ punctuation.section.block.conditional.python
+#                ^ punctuation.section.block.conditional.if.python
         pass
     elif:
-#   ^^^^^ meta.statement.conditional.python
-#       ^ punctuation.section.block.python
+#   ^^^^^ meta.statement.conditional.elseif.python
+#       ^ punctuation.section.block.conditional.elseif.python
         pass
     elif False :
-#   ^^^^^^^^^^^^ meta.statement.conditional.python
+#   ^^^^^^^^^^^^ meta.statement.conditional.elseif.python
 #        ^^^^^ constant.language
-#              ^ punctuation.section.block.python
+#              ^ punctuation.section.block.conditional.elseif.python
         pass
     else  :
-#   ^^^^^^^ meta.statement.conditional.python
-#         ^ punctuation.section.block.python
+#   ^^^^^^^ meta.statement.conditional.else.python
+#         ^ punctuation.section.block.conditional.else.python
         pass
 
     if \
         True:
-#       ^^^^^ meta.statement.if.python
+#       ^^^^^ meta.statement.conditional.if.python
 #       ^^^^ constant.language.python
-#           ^ punctuation.section.block.conditional.python
+#           ^ punctuation.section.block.conditional.if.python
 #
 
     # verify that keywords also work when they are bare (useful when typing)
     for
-#   ^^^ keyword.control.flow.for.python
+#   ^^^ keyword.control.loop.for.python
     with
 #   ^^^^ keyword.control.flow.with.python
     if
-#   ^^ keyword.control.flow.conditional.python
+#   ^^ keyword.control.conditional.if.python
     finally
-#   ^^^^^^^ keyword.control.flow.finally.python
+#   ^^^^^^^ keyword.control.exception.finally.python
     else
-#   ^^^^ keyword.control.flow.conditional.python
+#   ^^^^ keyword.control.conditional.else.python
     while
-#   ^^^^^ keyword.control.flow.while.python
+#   ^^^^^ keyword.control.loop.while.python
     return
 #   ^^^^^^ keyword.control.flow.return.python
     raise
@@ -695,7 +695,7 @@ def func(args, (x, y)=(0,0)):
 #                          ^ meta.function.parameters.python
 #              ^^^^^^ meta.group.python
 #                    ^ - meta.group.python
-#                     ^^^^^ meta.group.python
+#                     ^^^^^ meta.sequence.tuple.python
 #                          ^ - meta.group.python
 #       ^ punctuation.section.parameters.begin.python
 #            ^ punctuation.separator.parameters.python
@@ -705,18 +705,18 @@ def func(args, (x, y)=(0,0)):
 #                  ^ variable.parameter.python
 #                   ^ punctuation.section.group.end.python
 #                    ^ keyword.operator.assignment.python
-#                     ^ punctuation.section.group.begin.python
+#                     ^ punctuation.section.sequence.begin.python
 #                      ^ constant.numeric.integer.decimal.python
-#                       ^ punctuation.separator.tuple.python
+#                       ^ punctuation.separator.sequence.python
 #                        ^ constant.numeric.integer.decimal.python
-#                         ^ punctuation.section.group.end.python
+#                         ^ punctuation.section.sequence.end.python
 #                          ^ punctuation.section.parameters.end.python
     pass
 
 def foo(arg: int = 0, (x: float, y=20) = (0.0, "default")):
 #                     ^^^^^^^^^^^^^^^^ meta.group.python
 #                                     ^^^ - meta.group.python
-#                                        ^^^^^^^^^^^^^^^^ meta.group.python
+#                                        ^^^^^^^^^^^^^^^^ meta.sequence.tuple.python
 #                     ^ punctuation.section.group.begin.python
 #                      ^ variable.parameter.python
 #                       ^^^^^^^ invalid.illegal.annotation.python
@@ -725,9 +725,18 @@ def foo(arg: int = 0, (x: float, y=20) = (0.0, "default")):
 #                                 ^^^ invalid.illegal.default-value.python
 #                                    ^ punctuation.section.group.end.python
 #                                      ^ keyword.operator.assignment.python
-#                                        ^ punctuation.section.group.begin.python
-#                                                       ^ punctuation.section.group.end.python
+#                                        ^ punctuation.section.sequence.begin.python
+#                                                       ^ punctuation.section.sequence.end.python
     pass
+
+def name(p1, p2=None, /, p_or_kw=None, *, kw): pass
+#                     ^ storage.modifier.positional-args-only.python
+#                      ^ punctuation.separator.parameters.python
+#                                      ^ keyword.operator.unpacking.sequence.python
+def name(p1, p2, /): pass
+#                ^ storage.modifier.positional-args-only.python
+#                 ^ punctuation.section.parameters.end.python
+
 
 ##################
 # Class definitions
@@ -881,139 +890,174 @@ class AClass:
 ##################
 
 mytuple = ("this", 'is', 4, tuple)
-#         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
-#         ^ punctuation.section.group.begin
+#         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.python
+#         ^ punctuation.section.sequence.begin
 #          ^^^^^^ string.quoted.double
-#                ^ punctuation.separator.tuple
+#                ^ punctuation.separator.sequence
 #                  ^^^^ string.quoted.single
-#                      ^ punctuation.separator.tuple
+#                      ^ punctuation.separator.sequence
 #                        ^ constant.numeric
-#                         ^ punctuation.separator.tuple
+#                         ^ punctuation.separator.sequence
 #                           ^^^^^ support.type
-#                                ^ punctuation.section.group.end
+#                                ^ punctuation.section.sequence.end
+
+also_a_tuple = ()[-1]
+#              ^^ meta.sequence.tuple.empty.python
+#                ^^^^ meta.item-access
+
 not_a_tuple = (a = 2, b += 3)
+#             ^^^^^^^^^^^^^^^ - meta.sequence
 #                ^ - keyword
 #                        ^ - keyword
 
+just_a_group = (1)
+#              ^^^ meta.group.python
+
 mylist = []
-#        ^^ meta.structure.list.python
-#        ^ punctuation.section.list.begin
-#         ^ punctuation.section.list.end
+#        ^^ meta.sequence.list.empty.python
+#        ^ punctuation.section.sequence.begin
+#         ^ punctuation.section.sequence.end
 
 mylist = [1, "testing", ["sublist", True]]
-#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list
-#        ^ punctuation.section.list.begin
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence
+#        ^ punctuation.section.sequence.begin
 #         ^ constant.numeric
-#          ^ punctuation.separator.list
+#          ^ punctuation.separator.sequence
 #            ^^^^^^^^^ string.quoted.double
 #                     ^ punctuation.separator
-#                       ^^^^^^^^^^^^^^^^^ meta.structure.list meta.structure.list
-#                       ^ punctuation.section.list.begin
+#                       ^^^^^^^^^^^^^^^^^ meta.sequence meta.sequence
+#                       ^ punctuation.section.sequence.begin
 #                        ^^^^^^^^^ string.quoted.double
-#                                 ^ punctuation.separator.list
+#                                 ^ punctuation.separator.sequence
 #                                   ^^^^ constant.language
-#                                       ^ punctuation.section.list.end
-#                                        ^ punctuation.section.list.end
+#                                       ^ punctuation.section.sequence.end
+#                                        ^ punctuation.section.sequence.end
 
 mydict = {}
-#        ^^ meta.structure.dictionary
-#        ^ punctuation.section.dictionary.begin
-#         ^ punctuation.section.dictionary.end
+#        ^^ meta.mapping.empty.python
+#        ^ punctuation.section.mapping.begin
+#         ^ punctuation.section.mapping.end
 
 key2 = "my_key"
-mydict = {"key": True, key2: (1, 2, [-1, -2])}
-#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
-#         ^^^^^ string.quoted.double
-#              ^ punctuation.separator.key-value
-#                ^^^^ constant.language
-#                    ^ punctuation.separator.dictionary-or-set
-#                          ^ punctuation.separator.key-value
-#                            ^^^^^^^^^^^^^^^^ meta.group
-#                            ^ punctuation.section.group.begin
+mydict = {"key": True, key2: (1, 2, [-1, -2]), ,}
+#        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
+#        ^ punctuation.section.mapping.begin
+#         ^^^^^ meta.mapping.key.python string.quoted.double
+#              ^ punctuation.separator.mapping.key-value
+#                ^^^^ meta.mapping.value.python constant.language
+#                    ^ punctuation.separator.mapping
+#                      ^^^^ meta.mapping.key.python meta.qualified-name
+#                          ^ punctuation.separator.mapping
+#                            ^^^^^^^^^^^^^^^^ meta.sequence.tuple
+#                            ^ punctuation.section.sequence.begin
 #                             ^ constant.numeric
 #                                ^ constant.numeric
-#                                   ^^^^^^^ meta.structure.list
-#                                      ^ punctuation.separator.list
-#                                           ^ punctuation.section.group.end
-#        ^ punctuation.section.dictionary-or-set.begin
-#                                            ^ punctuation.section.dictionary-or-set.end
+#                                   ^^^^^^^^ meta.sequence.list
+#                                      ^ punctuation.separator.sequence
+#                                           ^ punctuation.section.sequence.end
+#                                            ^ punctuation.separator.mapping.python
+#                                              ^ invalid.illegal.expected-colon.python
+#                                               ^ punctuation.section.mapping.end - meta.mapping.key
 
-myset = {"key", True, key2, [-1], {}}
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
+mydict = { 'a' : xform, 'b' : form, 'c' : frm }
+#                                 ^ meta.mapping.python punctuation.separator.mapping.python
+#                                       ^ punctuation.separator.mapping.key-value.python
+
+myset = {"key", True, key2, [-1], {}:1}
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.set
+#       ^ punctuation.section.set.begin.python
 #        ^^^^^ string.quoted.double
-#             ^ punctuation.separator.dictionary-or-set
+#             ^ punctuation.separator.set
 #               ^^^^ constant.language
-#                   ^ punctuation.separator.dictionary-or-set
-#                         ^ punctuation.separator.dictionary-or-set
-#                           ^^^^ meta.structure.list
+#                   ^ punctuation.separator.set
+#                         ^ punctuation.separator.set
+#                           ^^^^ meta.sequence
 #                             ^ constant.numeric
-#                               ^ punctuation.separator.dictionary-or-set
-#                                 ^^ meta.structure.dictionary
+#                               ^ punctuation.separator.set
+#                                 ^^ meta.mapping.empty.python
+#                                   ^ invalid.illegal.colon-inside-set.python
+#                                     ^ punctuation.section.set.end.python
+
+mapping_or_set = {
+#                ^ meta.mapping-or-set.python punctuation.section.mapping-or-set.begin.python
+    1: True
+#   ^ meta.mapping.key.python constant.numeric.integer.decimal.python
+#    ^ punctuation.separator.mapping.key-value.python
+}
+# <- meta.mapping.python punctuation.section.mapping.end.python
+
+complex_mapping = {(): "value"}
+#                 ^^^ meta.mapping-or-set.python
+#                    ^^^^^^^^^^ meta.mapping - meta.mapping-or-set
 
 generator = (i for i in range(100))
 #           ^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 #              ^^^^^^^^ meta.expression.generator
-#              ^^^ keyword.control.flow.for.generator
-#                    ^^ keyword.control.flow.for.in
+#              ^^^ keyword.control.loop.for.generator
+#                    ^^ keyword.control.loop.for.in
 list_ = [i for i in range(100)]
-#       ^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list
+#       ^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence
 #          ^^^^^^^^ meta.expression.generator
-#          ^^^ keyword.control.flow.for.generator
-#                ^^ keyword.control.flow.for.in
+#          ^^^ keyword.control.loop.for.generator
+#                ^^ keyword.control.loop.for.in
 set_ = {i for i in range(100)}
-#      ^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
+#      ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping-or-set
 #         ^^^^^^^^ meta.expression.generator
-#         ^^^ keyword.control.flow.for.generator
-#               ^^ keyword.control.flow.for.in
+#         ^^^ keyword.control.loop.for.generator
+#               ^^ keyword.control.loop.for.in
 dict_ = {i: i for i in range(100)}
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
+#        ^ meta.mapping.key.python
+#         ^^^^^^^^^^^^^^^^^^^^^^^^ - meta.mapping.key.python
+#           ^ meta.mapping.value.python
+#            ^^^^^^^^^^^^^^^^^^^^^ - meta.mapping.value
 #             ^^^^^^^^ meta.expression.generator
-#             ^^^ keyword.control.flow.for.generator
-#                   ^^ keyword.control.flow.for.in
+#             ^^^ keyword.control.loop.for.generator
+#                   ^^ keyword.control.loop.for.in
 list_ = [i for i in range(100) if i > 0 else -1]
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence
 #          ^^^^^^^^ meta.expression.generator
-#                              ^^ keyword.control.flow.if.inline
-#                                       ^^^^ keyword.control.flow.else.inline
+#                              ^^ keyword.control.conditional.if
+#                                       ^^^^ keyword.control.conditional.else
 
 list2_ = [i in range(10) for i in range(100) if i in range(5, 15)]
 #           ^^ keyword.operator.logical
-#                              ^^ keyword.control.flow.for.in
+#                              ^^ keyword.control.loop.for.in
 #                                                 ^^ keyword.operator.logical
 
 generator = ((k1, k2, v) for ((k1, k2), v) in xs)
-#           ^ meta.group.python
-#            ^^^^^^^^^^^ meta.group.python meta.group.python
-#                       ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.python
-#           ^^ punctuation.section.group.begin.python
-#                      ^ punctuation.section.group.end.python
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.python
+#            ^^^^^^^^^^^ meta.sequence.tuple.python
+#           ^ punctuation.section.group.begin.python
+#            ^ punctuation.section.sequence.begin.python
+#                      ^ punctuation.section.sequence.end.python
 #                            ^^ punctuation.section.target-list.begin.python
 #                                    ^ punctuation.section.target-list.end.python
 #                                        ^ punctuation.section.target-list.end.python
 #                                               ^ punctuation.section.group.end.python
 
 list_ = [(k1, k2, v) for ((k1, k2), v) in xs]
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.list.python
-#        ^^^^^^^^^^^ meta.group.python
-#                   ^ - meta.group.python - meta.expression.generator.python
-#       ^ punctuation.section.list.begin.python
-#        ^ punctuation.section.group.begin.python
-#                  ^ punctuation.section.group.end.python
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.list.python
+#        ^^^^^^^^^^^ meta.sequence.tuple.python
+#                   ^ - meta.sequence.tuple.python - meta.expression.generator.python
+#       ^ punctuation.section.sequence.begin.python
+#        ^ punctuation.section.sequence.begin.python
+#                  ^ punctuation.section.sequence.end.python
 #                        ^^ punctuation.section.target-list.begin.python
 #                                ^ punctuation.section.target-list.end.python
 #                                    ^ punctuation.section.target-list.end.python
-#                                           ^ punctuation.section.list.end.python
+#                                           ^ punctuation.section.sequence.end.python
 
 dict_ = {k1: (k2, v) for ((k1, k2), v) in xs}
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.structure.dictionary-or-set.python
-#       ^ punctuation.section.dictionary-or-set.begin.python
-#            ^^^^^^^ meta.group.python
-#            ^ punctuation.section.group.begin.python
-#                  ^ punctuation.section.group.end.python
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
+#       ^ punctuation.section.mapping.begin.python
+#            ^^^^^^^ meta.sequence.tuple.python
+#            ^ punctuation.section.sequence.begin.python
+#                  ^ punctuation.section.sequence.end.python
 #                        ^^ punctuation.section.target-list.begin.python
 #                                ^ punctuation.section.target-list.end.python
 #                                    ^ punctuation.section.target-list.end.python
-#                                           ^ punctuation.section.dictionary-or-set.end.python
+#                                           ^ punctuation.section.mapping.end.python
 
 list(i for i in generator)
 #      ^^^^^^^^ meta.expression.generator
@@ -1024,11 +1068,11 @@ list((i for i in generator), 123)
 
 _ = [m
      for cls in self.__class__.mro()
-#    ^^^ keyword.control.flow.for.generator
-#            ^^ keyword.control.flow.for.in
+#    ^^^ keyword.control.loop.for.generator
+#            ^^ keyword.control.loop.for.in
      for m in cls.__dict__]
-#    ^^^ keyword.control.flow.for.generator
-#          ^^ keyword.control.flow.for.in
+#    ^^^ keyword.control.loop.for.generator
+#          ^^ keyword.control.loop.for.in
 
 result = [i async for i in aiter() if i % 2]
 #           ^^^^^ storage.modifier.async
@@ -1036,54 +1080,83 @@ result = [await fun() for fun in funcs]
 #         ^^^^^ keyword.other.await.python
 
 
+t = (*tuple(), *[1, 2], 3*1)
+#   ^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.python
+#    ^ keyword.operator.arithmetic.python
+#     ^^^^^ support.type.python
+#              ^ keyword.operator.unpacking.sequence.python
+#                        ^ keyword.operator.arithmetic.python
+
 l = [1 * 2, 2**10, *result]
 #      ^ keyword.operator.arithmetic.python
 #            ^^ keyword.operator.arithmetic.python
 #                  ^ keyword.operator.unpacking.sequence.python
 
+l = [*l]
+#    ^ keyword.operator.unpacking.sequence.python
+
 d = {1: 3**4, **dict_}
 #        ^^ keyword.operator.arithmetic.python
 #             ^^ keyword.operator.unpacking.mapping.python
 
+d = {**d, **dict()}
+#   ^^^^^^^^^^^^^^^ meta.mapping.python
+#    ^^^ - meta.mapping.key
+#    ^^ keyword.operator.unpacking.mapping.python
+#      ^ meta.qualified-name.python
+#       ^ punctuation.separator.mapping.python
+#         ^^^^^^^^ - meta.mapping.key
+#         ^^ keyword.operator.unpacking.mapping.python
+#           ^^^^ support.type.python
+
+s = {*d, *set()}
+#   ^^^^^^^^^^^^ meta.set.python
+#    ^ keyword.operator.unpacking.sequence.python
+#     ^ meta.qualified-name.python
+#      ^ punctuation.separator.set.python
+#        ^ keyword.operator.unpacking.sequence.python
+#         ^^^ support.type.python
+
 generator = (
     i
     for
-#   ^^^ keyword.control.flow.for.generator
+#   ^^^ keyword.control.loop.for.generator
     i
     in
-#   ^^ keyword.control.flow.for.in
+#   ^^ keyword.control.loop.for.in
     range(100)
 )
+
 
 ##################
 # Exception handling
 ##################
 
 except Exception:
-#^^^^^^^^^^^^^^^^ meta.statement.except
-#^^^^^ keyword.control.flow.except
+#^^^^^^^^^^^^^^^^ meta.statement.exception.catch
+#^^^^^ keyword.control.exception.catch
 #      ^^^^^^^^^ support.type.exception
 #               ^ punctuation.section.block
 except (KeyError, NameError) as e:
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.except
-#^^^^^ keyword.control.flow.except
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.exception.catch
+#^^^^^ keyword.control.exception.catch
 #       ^^^^^^^^ support.type.exception
 #               ^ punctuation.separator.target-list
 #                 ^^^^^^^^^ support.type.exception
-#                            ^^ keyword.control.flow.as
+#                            ^^ keyword.control.exception.catch.as
 #                                ^ punctuation.section.block
 except \
     StopIteration \
     as \
     err:
-#   ^^^^ meta.statement.except
+#   ^^^^ meta.statement.exception.catch
 
 except StopIteration
     as
-#   ^^ invalid.illegal.name - meta.statement.except
+#   ^^ invalid.illegal.name - meta.statement.exception.catch
 
 except
-#^^^^^ keyword.control.flow.except
+#^^^^^ keyword.control.exception.catch
 
 raise
 #^^^^ meta.statement.raise keyword.control.flow.raise
@@ -1247,7 +1320,7 @@ x = [
 for x in y:
     break
 #   ^^^^^ invalid.illegal.name
-#        ^ - meta.structure.list
+#        ^ - meta.sequence
 
 
 with open(x) as y:
@@ -1285,3 +1358,7 @@ class Starship:
     stats: ClassVar[Dict[str, int]] = {}
 #        ^ punctuation.separator.annotation.variable.python
 #                                   ^ keyword.operator.assignment
+
+
+# <- - meta
+# ensure we're not leaking a context

@@ -1,0 +1,7 @@
+{
+    "scope": "source.dot - meta",
+    "completions": [
+        {"trigger": "graph\tobject", "contents": "graph ${1:name} {\n\t${2}\n}"},
+        {"trigger": "digraph\tobject", "contents": "digraph ${1:name} {\n\t${2}\n}"},
+    ]
+}

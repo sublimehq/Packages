@@ -3,6 +3,6 @@
 	${0:#statements}
 done]]></content>
 	<tabTrigger>forin</tabTrigger>
-	<scope>source.shell</scope>
+	<scope>source.shell.bash</scope>
 	<description>for … in … done</description>
 </snippet>

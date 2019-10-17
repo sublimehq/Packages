@@ -4,6 +4,6 @@
 		$0;;
 esac]]></content>
 	<tabTrigger>case</tabTrigger>
-	<scope>source.shell</scope>
+	<scope>source.shell.bash</scope>
 	<description>case … esac</description>
 </snippet>

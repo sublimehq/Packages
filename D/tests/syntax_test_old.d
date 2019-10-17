@@ -21,7 +21,8 @@ shared int b = 5000;
 //              ^ constant.numeric
 
 int c = 0x0;
-//       ^ constant.numeric
+//      ^^ punctuation.definition.numeric.hexadecimal
+//        ^ constant.numeric
 int d = 0x0_00;
 //          ^ constant.numeric
 float e = .0_0;
@@ -52,36 +53,36 @@ template testTemplate(X)
 }
 
 @safe pure nothrow @nogc unittest {}
-// ^ storage.attribute
+// ^ storage.modifier
 //     ^ storage.modifier
 //            ^ storage.modifier
-//                  ^ storage.attribute
+//                  ^ storage.modifier
 
 auto takeByRef(ref int h)
-// ^ storage.type
+// ^ storage.modifier
 //              ^ storage.modifier
 //                 ^ storage.type
 {
     synchronized
-    // ^ storage.modifier
+    // ^ keyword.other
     {
         h += 1;
     }
 }
 
 void main(char[][] args)
-//    ^ meta.function entity.name.function
+//    ^ entity.name.function
 {
-// <- meta.function meta.block
+// <- meta.block
     foreach(argc, argv; args)
     {
-    // <- meta.function meta.block meta.block
+    // <- meta.block meta.block
         auto cl = new CmdLin(argc, argv);
-        //         ^ keyword.other
+        //         ^ keyword.operator.word
         //              ^ meta.block - keyword.type
         writefln("%s%s arg: %s", cl.argnum, cl.suffix, cl.argv);
         delete cl;
-        // ^ keyword.other
+        // ^ keyword.operator.word
     }
 
     struct specs
@@ -91,7 +92,7 @@ void main(char[][] args)
 
     specs argspecs(char[][] args)
     in {
-    // ^ meta.function meta.block meta.function meta.block
+    // ^ meta.block meta.block
         assert (args.length > 0);
     }
     out (result) {
@@ -100,8 +101,8 @@ void main(char[][] args)
         assert(result.allocated > 0);
     }
     body {
-    // ^ meta.function meta.block meta.function keyword.control.statement
-    //   ^ meta.function meta.block meta.function meta.block
+    // ^ meta.block keyword.other
+    //   ^ meta.block meta.block
         specs* s = new specs;
          s.count = args.length;
          s.allocated = typeof(args).sizeof;
@@ -119,9 +120,9 @@ void main(char[][] args)
 
 class CmdLin
 {
-// <- meta.class meta.block
+// <- meta.block
     private {
-        //  ^ meta.class meta.block meta.block
+        //  ^ meta.block meta.block
         int _argc;
         char[] _argv;
         static uint _totalc;
@@ -176,7 +177,7 @@ class CmdLin
 
     static typeof(_totalc) total()
     // ^ storage.modifier
-    //      ^ storage.type
+    //      ^ meta.block.d keyword.other.d
     //                      ^ entity.name
     {
         return _totalc;
@@ -205,5 +206,5 @@ in {
     assert(true);
 }
 do {
-// <- meta.function keyword.control
+// <- keyword.other
 }

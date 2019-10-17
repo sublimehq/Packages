@@ -1,6 +1,6 @@
 <snippet>
-	<content><![CDATA[after_validation_on_create ]]></content>
+	<content><![CDATA[after_validation :${1:attr}, :on => :create]]></content>
 	<tabTrigger>aftvoc</tabTrigger>
 	<scope>source.ruby.rails</scope>
-	<description>after_validation_on_create</description>
+	<description>after_validation on create</description>
 </snippet>

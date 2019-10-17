@@ -95,6 +95,57 @@ NaN
   99.9999i
 # ^^^^^^^^ constant.numeric.imaginary.decimal.r
 
+  %*% %/% %% %o% %x% %:% %+%
+# ^^^ keyword.operator.arithmetic.r
+#     ^^^ keyword.operator.arithmetic.r
+#         ^^ keyword.operator.arithmetic.r
+#            ^^^ keyword.operator.arithmetic.r
+#                ^^^ keyword.operator.arithmetic.r
+#                    ^^^ keyword.operator.other.r
+#                        ^^^ keyword.operator.other.r
+
+  ** * - + / ^
+# ^^ keyword.operator.arithmetic.r
+#    ^ keyword.operator.arithmetic.r
+#      ^ keyword.operator.arithmetic.r
+#        ^ keyword.operator.arithmetic.r
+#          ^ keyword.operator.arithmetic.r
+#            ^ keyword.operator.arithmetic.r
+
+  <<- <- = -> ->>
+# ^^^ keyword.operator.assignment.r
+#     ^^ keyword.operator.assignment.r
+#        ^ keyword.operator.assignment.r
+#          ^^ keyword.operator.assignment.r
+#             ^^^ keyword.operator.assignment.r
+
+  == != <= >= <> < > && & || | !
+# ^^ keyword.operator.logical.r
+#    ^^ keyword.operator.logical.r
+#       ^^ keyword.operator.logical.r
+#          ^^ keyword.operator.logical.r
+#             ^^ keyword.operator.logical.r
+#                ^ keyword.operator.logical.r
+#                  ^ keyword.operator.logical.r
+#                    ^^ keyword.operator.logical.r
+#                       ^ keyword.operator.logical.r
+#                         ^^ keyword.operator.logical.r
+#                            ^ keyword.operator.logical.r
+#                              ^ keyword.operator.logical.r
+
+  %:% := ::: ::
+# ^^^ keyword.operator.other.r
+#     ^^ keyword.operator.other.r
+#        ^^^ punctuation.accessor.colons.r
+#            ^^ punctuation.accessor.colons.r
+
+  ... : ~ @ $
+# ^^^ keyword.other.r
+#     ^ keyword.other.r
+#       ^ keyword.other.r
+#         ^ keyword.other.r
+#           ^ keyword.other.r
+
   foo.99 <- 1
 #    ^^^ - constant.numeric
 #        ^^ keyword.operator.assignment.r
@@ -114,14 +165,32 @@ x <- 'abc'
 "\n\r"
 #^^^^ constant.character.escape.r
 
+
+if (1) {} else {return()}
+#<- keyword.control.conditional.if.r
+#         ^^^^ keyword.control.conditional.else.r
+#               ^^^^^^ keyword.control.flow.return.r
+
+
 for (i in 1:10) {
-# <- keyword.control.r
+# <- keyword.control.loop.for.r
 #   ^ punctuation.section.parens.begin.r
-#      ^^ keyword.control.r
+#      ^^ keyword.operator.word.r
 #             ^ punctuation.section.parens.end.r
 #               ^ punctuation.section.braces.begin.r
 }
 # <- punctuation.section.braces.end.r
+
+
+repeat {next}
+#^^^^^ keyword.control.loop.repeat.r
+#       ^^^^ keyword.control.flow.continue.r
+
+
+while (1) {break}
+#^^^^ keyword.control.loop.while.r
+#          ^^^^^ keyword.control.flow.break.r
+
 
 foo[bar]
 #  ^ punctuation.section.brackets.single.begin.r
@@ -140,16 +209,19 @@ foo[[bar]]
 foo[1:10]
 #    ^ meta.item-access.r meta.item-access.arguments.r keyword.other.r
 
+
 f = function(x, y){ }
-#^^^^^^^^^^^^^^^^^ meta.function.r
+# <- meta.function.name.r
+#^ meta.function.name.r - meta.function.r
+# ^^^^^^^^^^ meta.function.r - meta.function.parameters.r
 # <- entity.name.function.r
 # ^ keyword.operator.assignment.r
-#   ^^^^^^^^ keyword.control.r
-#           ^ punctuation.section.parens.begin.r
-#            ^^^^ meta.function.parameters.r
+#   ^^^^^^^^ storage.type.function.r
+#           ^ punctuation.section.parameters.begin.r
+#            ^^^^ meta.function.parameters.r - meta.function.r
 #            ^ variable.parameter.r
 #             ^ punctuation.separator.parameters.r
-#                ^ punctuation.section.parens.end.r
+#                ^ punctuation.section.parameters.end.r
 #                 ^ punctuation.section.braces.begin.r
 #                   ^ punctuation.section.braces.end.r
 
@@ -160,34 +232,37 @@ function(x = "string", y = 2) {}
 #                          ^ meta.function.parameters.r constant.numeric.float.decimal.r
 
 foo(200, x = function(x) {x + y})
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.r
+#^^ meta.function-call.name.r - meta.function-call.arguments.r
 # <- variable.function.r
-#  ^ punctuation.section.parens.begin.r
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.parameters.r
+#  ^ punctuation.section.arguments.begin.r
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.r - meta.function-call.name.r
 #   ^^^ constant.numeric.float.decimal.r
 #        ^ variable.parameter.r
 #          ^ keyword.operator.assignment.r
-#            ^^^^^^^^^^^ meta.function.r
-#                               ^ punctuation.section.parens.end.r
+#            ^^^^^^^^ meta.function.r storage.type.function.r - meta.function.parameters.r
+#                    ^^^ meta.function.parameters.r
+#                               ^ punctuation.section.arguments.end.r
 
 .foo(200, x = function(x) {x + y})
-# <- meta.function-call.r
-#^^^^^^^^^^^^^^^^^^^^^ meta.function-call.r
+# <- meta.function-call.name.r
+#^^^ meta.function-call.name.r - meta.function-call.arguments.r
 # <- variable.function.r
-#   ^ punctuation.section.parens.begin.r
-#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.parameters.r
+#   ^ punctuation.section.arguments.begin.r
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.r - meta.function-call.name.r
 #    ^^^ constant.numeric.float.decimal.r
 #         ^ variable.parameter.r
 #           ^ keyword.operator.assignment.r
-#             ^^^^^^^^^^^ meta.function.r
-#                                ^ punctuation.section.parens.end.r
+#             ^^^^^^^^ meta.function.r - meta.function.parameters.r
+#                     ^^^ meta.function.parameters.r
+#                                ^ punctuation.section.arguments.end.r
 
 
 print.foo()
 #^^^^^^^^ variable.function.r
 
   plot()
-# ^^^^^^ meta.function-call.r
+# ^^^^ meta.function-call.name.r - meta.function-call.arguments.r
+#     ^^ meta.function-call.arguments.r - meta.function-call.name.r
 # ^^^^ support.function.r
 
 #' @param xyz abcde
@@ -208,7 +283,7 @@ foo[[bar[1]]] #
 # issue #1120
 sum(x == 1)
 #   ^^^^^^ - variable.parameter.r
-#     ^^ meta.function-call.r meta.function-call.parameters.r keyword.operator.assignment.r
+#     ^^ keyword.operator.logical.r
 
 function(
   x = 1, # this should be comment

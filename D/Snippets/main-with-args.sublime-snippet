@@ -1,9 +1,9 @@
 <snippet>
-	<content><![CDATA[void main(string[] args)
+	<content><![CDATA[int main(string[] args)
 {
 	$0
 }]]></content>
 	<tabTrigger>maina</tabTrigger>
 	<scope>source.d</scope>
-	<description>void main(string[] args) { … }</description>
+	<description>int main(string[] args) { … }</description>
 </snippet>

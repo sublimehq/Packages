@@ -310,7 +310,7 @@ contexts:
   recipe-common:
     - include: control-flow
     - match: ^\n
-    
+
   shell:
     # Due to how the shell syntax handles comments, we must account for the case
     # where a recipe-line is a single comment in combination with an "@" or "-"
@@ -376,7 +376,8 @@ contexts:
       scope: constant.character.escape.makefile
 
   comments-pop-on-line-end:
-    - match: \n
+    - include: line-continuation
+    - match: $\n?
       pop: true
 
   comments:
@@ -411,6 +412,9 @@ contexts:
       push: textual-parenthesis-balancer
     - match: \,
       scope: punctuation.separator.makefile
+    # eat escaped or unbalanced quotation marks in front of the `,` separator
+    # to highlight them as ordinary part of the surrounding unquoted string
+    - match: '\\[''""]|[''""](?=\s*,)'
     - include: variable-substitutions
     - include: quoted-string
 
@@ -588,33 +592,37 @@ contexts:
           scope: punctuation.definition.comment.makefile
           set:
             - meta_scope: comment.line.number-sign.makefile
-            - include: pop-on-line-end
+            - include: comments-pop-on-line-end
     - include: variable-substitutions
     - include: continuation-or-pop-on-line-end
 
   inside-define-directive-context:
     - meta_content_scope: variable.other.makefile
-    - match: \s*(?=(!|\?|\+|::?)?=\s*$\n)
+    - match: (?=(!|\?|\+|::?)?=\s*\n)
       set:
-        - match: ((!|\?|\+|::?)?=)\s*$\n
+        - match: ((!|\?|\+|::?)?=)\s*\n
           captures:
             1: keyword.operator.assignment.makefile
-          set:
-            - meta_content_scope: string.unquoted.makefile
-            - match: ^\s*(endef)
-              captures:
-                1: keyword.control.makefile
-              pop: true
+          set: inside-define-directive-value
+
     # Need to eat the actual newline character in order to start the
     # string.unquoted scope on the next line.
-    - match: $\n
-      set:
-        - meta_content_scope: string.unquoted.makefile
-        - match: ^\s*(endef)
-          captures:
-            1: keyword.control.makefile
-          pop: true
+    - match: \n
+      set: inside-define-directive-value
     - include: variable-substitutions
+
+  inside-define-directive-value:
+    - meta_content_scope: string.unquoted.makefile
+    - match: ^\s*(endef)\b
+      captures:
+        1: keyword.control.makefile
+      pop: true
+    # keep in balance with nested define statements
+    # see: https://github.com/sublimehq/Packages/issues/1998
+    - match: ^\s*define\b
+      push:
+        - match: ^\s*endef\b
+          pop: true
 
   variable-sub-common:
     - match: ':'

@@ -1,5 +1,14 @@
 {
-	"cmd": ["dmd", "$file"],
-	"file_regex": "^(.*?)\\(([0-9]+)\\)",
-	"selector": "source.d"
+    "shell_cmd": "dmd \"$file\"",
+    "file_regex": "^(.*?)\\(([0-9]+)(,[0-9]+)?\\)",
+    "selector": "source.d",
+    "syntax": "Packages/D/DMD Output.sublime-syntax",
+
+    "variants":
+    [
+        {
+            "name": "Run",
+            "shell_cmd": "rdmd \"$file\"",
+        }
+    ]
 }

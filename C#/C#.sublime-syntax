@@ -79,6 +79,9 @@ contexts:
         - match: '\*/'
           scope: punctuation.definition.comment.end.cs
           pop: true
+        - match: ^\s*(\*)(?!/)
+          captures:
+            1: punctuation.definition.comment.cs
         - include: comments_in
 
   comments_in:
@@ -955,7 +958,7 @@ contexts:
         2: variable.other.cs
         3: keyword.operator.assignment.variable.cs
       set: line_of_code_in
-    - match: (?=var\s+\()
+    - match: (?=var\s*\()
       push: var_declaration
     - include: lambdas
     - match: (?:\b(ref)\s+)?\b(?={{namespaced_name}}{{type_suffix}}\s+{{name}}(?!\s*(?:[(:])))
@@ -1558,11 +1561,16 @@ contexts:
   string:
     - meta_include_prototype: false
     - meta_scope: string.quoted.double.cs
-    - include: escaped
+    - include: string_escaped
     - match: '"'
       scope: punctuation.definition.string.end.cs
       pop: true
     - include: string_placeholders
+    - match: '(\{)(\d+)'
+      captures:
+        1: punctuation.definition.placeholder.begin.cs
+        2: constant.numeric.cs
+      push: string_placeholder
     - match: $\n?
       scope: invalid.illegal.unclosed-string.cs
       pop: true
@@ -1573,15 +1581,17 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.end.cs
       pop: true
-    - include: escaped
+    - include: string_escaped
     - include: string_placeholder_escape
     - match: \{
       scope: punctuation.section.interpolation.begin.cs
       push:
-        - meta_scope: meta.string.interpolated.cs source.cs
+        - meta_scope: meta.string.interpolated.cs
+        - meta_content_scope: source.cs
         - clear_scopes: 2
         - match: $
           pop: true
+        - include: string_placeholder_format
         - include: string_interpolation
     - match: $\n?
       scope: invalid.illegal.unclosed-string.cs
@@ -1590,8 +1600,7 @@ contexts:
   long_format_string:
     - meta_include_prototype: false
     - meta_scope: meta.string.interpolated.cs string.quoted.double.raw.cs
-    - match: '""'
-      scope: constant.character.escape.cs
+    - include: long_string_escaped
     - match: '"'
       scope: punctuation.definition.string.end.cs
       pop: true
@@ -1599,8 +1608,10 @@ contexts:
     - match: \{
       scope: punctuation.section.interpolation.begin.cs
       push:
-        - meta_scope: meta.string.interpolated.cs source.cs
+        - meta_scope: meta.string.interpolated.cs
+        - meta_content_scope: source.cs
         - clear_scopes: 2
+        - include: long_string_placeholder_format
         - include: string_interpolation
 
   string_placeholder_escape:
@@ -1616,26 +1627,53 @@ contexts:
       captures:
         1: punctuation.definition.placeholder.begin.cs
         2: constant.numeric.cs invalid.illegal.unclosed-string-placeholder.cs
-    - match: '(\{)(\d+)'
-      captures:
-        1: punctuation.definition.placeholder.begin.cs
-        2: constant.numeric.cs
-      push: string_placeholder
 
-  string_placeholder:
-    - meta_scope: constant.other.placeholder.cs
+  inside_string_placeholder:
     - match: '(\})(\}(?!\}))?'
       captures:
         1: punctuation.definition.placeholder.end.cs
         2: invalid.illegal.unescaped-placeholder.cs
       pop: true
-    - match: '(?=[}"])'
+    - match: (?=[}"])
       pop: true
+
+  string_placeholder:
+    - meta_scope: constant.other.placeholder.cs
+    - include: inside_string_placeholder
     - include: string_placeholder_format
     - match: '[^"}]+'
       scope: invalid.illegal.unexpected-character-in-placeholder.cs
 
+  long_string_placeholder:
+    - meta_scope: constant.other.placeholder.cs
+    - include: inside_string_placeholder
+    - include: long_string_placeholder_format
+    - match: '[^"}]+'
+      scope: invalid.illegal.unexpected-character-in-placeholder.cs
+
   string_placeholder_format:
+    - match: '\s*(?:(,)\s*(-?\d+)\s*)?'
+      captures:
+        1: punctuation.separator.arguments.cs
+        2: constant.numeric.formatting.cs
+    - match: ':(?=")'
+      scope: invalid.illegal.unclosed-string-placeholder.cs
+      pop: true
+    - match: ':'
+      scope: punctuation.separator.cs
+      push:
+        - meta_scope: constant.other.format-spec.cs
+        - include: string_placeholder_escape
+        - include: string_escaped
+        - match: '(?=\})'
+          pop: true
+        - match: '([^}"\\]+(\\.)*)+(?=")'
+          scope: invalid.illegal.unclosed-string-placeholder.cs
+          pop: true
+        - match: '\{'
+          scope: invalid.illegal.unescaped-placeholder.cs
+
+  long_string_placeholder_format:
     - match: '\s*(?:(,)\s*(-?\d+)\s*)?'
       captures:
         1: punctuation.separator.arguments.cs
@@ -1648,17 +1686,18 @@ contexts:
       push:
         - meta_scope: constant.other.format-spec.cs
         - include: string_placeholder_escape
-        - include: escaped
-        - match: '(?=\})'
+        - include: long_string_escaped
+        - match: (?=\})
           pop: true
-        - match: '([^}"\\]+(\\.)*)+(?="(?!"))'
+        - match: \\(?:""|[^"])
+          scope: constant.character.escape.cs
+        - match: (?:[^}"]+|"")+(?="(?!"))
           scope: invalid.illegal.unclosed-string-placeholder.cs
           pop: true
-        - match: '\{'
+        - match: \{
           scope: invalid.illegal.unescaped-placeholder.cs
 
   string_interpolation:
-    - include: string_placeholder_format
     - match: '\}'
       scope: punctuation.section.interpolation.end.cs
       pop: true
@@ -1667,9 +1706,13 @@ contexts:
   long_string:
     - meta_include_prototype: false
     - meta_scope: string.quoted.double.raw.cs
-    - match: '""'
-      scope: constant.character.escape.cs
+    - include: long_string_escaped
     - include: string_placeholders
+    - match: '(\{)(\d+)'
+      captures:
+        1: punctuation.definition.placeholder.begin.cs
+        2: constant.numeric.cs
+      push: long_string_placeholder
     - match: '"'
       scope: punctuation.definition.string.end.cs
       pop: true
@@ -1677,8 +1720,15 @@ contexts:
   escaped:
     - match: '{{escaped_char}}'
       scope: constant.character.escape.cs
+
+  string_escaped:
+    - include: escaped
     - match: \\
       scope: invalid.illegal.lone-escape.cs
+
+  long_string_escaped:
+    - match: '""'
+      scope: constant.character.escape.cs
 
   initializer_constructor:
     - meta_content_scope: meta.instance.cs meta.braces.cs
@@ -1907,7 +1957,7 @@ contexts:
       pop: true
 
   var_declaration:
-    - match: (var)\s+(\()
+    - match: (var)\s*(\()
       captures:
         1: storage.type.variable.cs
         2: meta.group.tuple.cs punctuation.definition.group.begin.cs

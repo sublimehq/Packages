@@ -1,10 +1,10 @@
 <snippet>
 	<content><![CDATA[unwind_protect
 	$1
-unwnd_protect_cleanup 
+unwind_protect_cleanup 
 	$0
 end_unwind_protect]]></content>
 	<tabTrigger>unwind</tabTrigger>
-	<scope>source.matlab</scope>
+	<scope>source.matlab, source.octave</scope>
 	<description>unwind_protect … cleanup … end</description>
 </snippet>

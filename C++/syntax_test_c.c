@@ -9,6 +9,40 @@ int main(){
     /*          ^^ keyword.operator.arithmetic */
 }
 
+enum Foo { kFoo, kBar };
+#define FOO Foo
+enum FOO do_the_foo(void);
+/*       ^ entity.name.function */
+/*                  ^ storage.type */
+
+#define APIC_CAPABILITY TheEnum
+enum TheEnum { kFoo, kBar };
+static enum APIC_CAPABILITY apic_capabilities(void) { return kFoo; };
+/*                          ^ entity.name.function */
+/*                                            ^ storage.type */
+
+struct __declspec(dllimport) X {};
+/*     ^ storage.modifier */
+/*                           ^ entity.name.struct */
+
+struct __declspec(dllimport) baz X {};
+/*     ^ storage.modifier */
+/*                           ^ entity.name.struct */
+
+struct foo {
+/*     ^ entity.name.struct */
+    union {
+/*  ^ storage.type */
+        struct {
+/*      ^ storage.type */
+            int a;
+/*          ^ storage.type */
+            int b;
+/*          ^ storage.type */
+        }
+    }
+}
+
 #define EXTTS_BUFSIZE (PTP_BUF_TIMESTAMPS /* comment block */ * sizeof(struct ptp_extts_event)) // comment line
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.macro */
 /*                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group */
@@ -222,6 +256,10 @@ struct X
     float bar;
     /* <- storage.type */
 };
+
+/**
+    *
+/*  ^ comment.block.c punctuation.definition.comment.c */
 
 /////////////////////////////////////////////
 // Preprocessor branches starting blocks

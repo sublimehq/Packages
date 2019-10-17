@@ -70,6 +70,8 @@ variables:
       | [\x{10000}-\x{EFFFF}]
     )
 
+  script_close_lookahead: (?i:(?=(?:-->\s*)?</script))
+
 contexts:
   immediately-pop:
     - match: ''
@@ -370,7 +372,7 @@ contexts:
         - match: (?=\S)
           embed: scope:source.js
           embed_scope: source.js.embedded.html
-          escape: (?i)(?=(?:-->\s*)?</script)
+          escape: '{{script_close_lookahead}}'
 
   script-html:
     - meta_content_scope: meta.tag.script.begin.html
@@ -379,8 +381,9 @@ contexts:
       scope: punctuation.definition.tag.end.html
       set:
         - meta_content_scope: text.html.embedded.html
-        - include: main
+        - include: comment
         - include: script-close-tag
+        - include: main
 
   script-other:
     - meta_content_scope: meta.tag.script.begin.html
@@ -393,14 +396,18 @@ contexts:
   script-close-tag:
     - match: <!--
       scope: comment.block.html punctuation.definition.comment.begin.html
-    - match: (?i)(?:(-->)\s*)?(</)(script)(>)
-      scope: meta.tag.script.end.html
-      captures:
-        1: comment.block.html punctuation.definition.comment.end.html
-        2: punctuation.definition.tag.begin.html
-        3: entity.name.tag.script.html
-        4: punctuation.definition.tag.end.html
-      pop: true
+    - match: '{{script_close_lookahead}}'
+      set:
+        - match: '-->'
+          scope: comment.block.html punctuation.definition.comment.end.html
+        - match: (?i:(</)(script))
+          captures:
+            1: punctuation.definition.tag.begin.html
+            2: entity.name.tag.script.html
+          set: 
+            - meta_scope: meta.tag.script.end.html
+            - include: tag-end
+            - include: tag-attributes
 
   script-common:
     - include: script-type-attribute

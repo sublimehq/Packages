@@ -390,6 +390,51 @@ typedef struct Books {
 } Book;
 /*^ entity.name.type */
 
+using Alias = Foo;
+/* <- keyword.control */
+/*    ^^^^^ entity.name.type.using */
+
+using Alias
+  = NewLineFoo;
+/*^ - entity.name */ 
+
+template <typename T>
+using TemplateAlias = Foo<T>;
+/*    ^^^^^^^^^^^^^ entity.name.type.using */
+
+using std::cout;
+/* <- keyword.control */
+/*    ^ - entity.name */
+
+using std::
+  cout;
+/*^ - entity.name */
+
+class MyClass : public SuperClass
+{
+    using This = MyClass;
+/*  ^ keyword.control */
+/*        ^^^^ entity.name.type.using */
+
+    using MyInt
+/*  ^ keyword.control */
+        = int32_t;
+
+    using SuperClass::SuperClass;
+/*  ^ keyword.control */
+/*        ^ - entity.name */
+};
+
+class MyClass : public CrtpClass<MyClass>
+{
+    using typename CrtpClass<MyClass>::PointerType;
+/*  ^ keyword.control */
+/*        ^ storage.modifier */ 
+    using CrtpClass<
+/*  ^ keyword.control */
+        MyClass>::method;
+};
+
 typedef struct Books Book;
 /*             ^ - entity.name.type.struct */
 /*                   ^ entity.name.type.typedef */
@@ -499,7 +544,7 @@ template <typename T = float, int a = 3, bool b = true>
                   /*                  ^ meta.template constant.numeric              */
                   /*                            ^ meta.template keyword.operator    */
                   /*                              ^ meta.template constant.language */
-struct Foo 
+struct Foo
 {
 
 /* <- meta.struct - meta.template */
@@ -536,7 +581,7 @@ template<class T, class U = T> class B { /* ... */ };
 /*                            ^ - meta.template            */
 template <class ...Types> class C { /* ... */ };
 
-// templates inside templates... it's templates all the way down 
+// templates inside templates... it's templates all the way down
 template<template<class> class P> class X { /* ... */ };
 /*      ^ meta.template punctuation                              */
 /*               ^ meta.template meta.template punctuation       */
@@ -636,7 +681,7 @@ int main() {
 
 // Example from section 14.2/4 of
 // http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3690.pdf
-struct X 
+struct X
 {
     template <std::size_t>
     X* alloc();
@@ -644,12 +689,12 @@ struct X
     template <std::size_t>
     static X* adjust();
 };
-template <class T> 
-void f(T* p) 
+template <class T>
+void f(T* p)
 {
     // Be optimistic: scope it as a template member function call anyway.
     T* p1 = p->alloc<200>(); // ill-formed: < means less than
-    
+
     T* p2 = p->template alloc<200>(); // OK: < starts template argument list
     /*        ^ punctuation.accessor           */
     /*         ^ storage.type - variable.other */
@@ -657,7 +702,7 @@ void f(T* p)
 
     // Be optimistic: scope it as a template member function call anyway.
     T::adjust<100>(); // ill-formed: < means less than
-    
+
     T::template adjust<100>(); // OK: < starts template argument list
     /* <- - variable.function                    */
     /*^ punctuation.accessor                     */
@@ -695,15 +740,15 @@ void f()
 template<typename T> C<T> f(T t)
 {
     return C<T> { g<X<T>>(t) };
-    /*     ^ - variable.function */
-    /*          ^ punctuation.section.block.begin */
+    /*     ^ variable.function */
+    /*          ^ punctuation.section.group.begin */
 }
 
 template<typename T> C<X<T>> f(T t)
 {
     return C<X<T>> { g<X<T>>(t) };
-    /*     ^ - variable.function */
-    /*             ^ punctuation.section.block.begin */
+    /*     ^ variable.function */
+    /*             ^ punctuation.section.group.begin */
 }
 
 struct A { int foo; };
@@ -826,7 +871,7 @@ try
 {
     throw std :: string("xyz");
     /* <- keyword.control.flow.throw */
-    /*    ^^^^^^^^^^^^^ variable.function */
+    /*           ^^^^^^ variable.function */
     /*        ^^ punctuation.accessor */
 }
 catch (...)
@@ -1354,6 +1399,18 @@ using namespace NAME __attribute__((visibility ("hidden")));
 /*                   ^ storage.modifier */
 /*                                               ^ string */
 
+void func() {
+    using namespace NAME __attribute__((visibility ("hidden")));
+/*  ^ keyword.control */
+/*        ^ keyword.control */
+/*                       ^ storage.modifier */
+/*                                                   ^ string */
+}
+
+using namespace 
+/* <- keyword.control */
+/*    ^ keyword.control */
+
 using namespace myNameSpace;
 /* <- keyword.control */
 /*    ^ keyword.control */
@@ -1813,7 +1870,7 @@ public:
                                  /* ^ meta.method.constructor.initializer-list   */
                                  /*   ^ - meta.function-call - variable.function */
 private:
-    int var1, var2, var3, var4;    
+    int var1, var2, var3, var4;
 };
 
 class X {
@@ -2007,6 +2064,60 @@ template <class T> class Sample {
      return T;
   }
 };
+
+class Namespace::MyClass MACRO1 MACRO2 : public SuperClass
+/*               ^^^^^^^ entity.name.class */
+/*             ^^ punctuation.accessor */
+/*                       ^ - entity.name */
+{
+};
+
+struct Namespace::MyStruct
+/*                ^^^^^^^^ entity.name.struct */
+/*              ^^ punctuation.accessor */
+{
+};
+
+union Namespace::MyUnion
+/*               ^^^^^^^ entity.name.union */
+/*             ^^ punctuation.accessor */
+{
+};
+
+enum class Namespace::MyEnum
+/*                    ^^^^^^ entity.name.enum */
+/*                  ^^ punctuation.accessor */
+{
+};
+
+class Namespace::
+MyClass MACRO1 
+/* <- entity.name.class */
+/*      ^ - entity.name */
+{
+};
+
+struct Namespace::
+MyStruct MACRO1
+/* <- entity.name.struct */
+/*       ^ - entity.name */
+{
+};
+
+union Namespace::
+MyUnion MACRO1
+/* <- entity.name.union */
+/*      ^ - entity.name */
+{
+};
+
+enum class Namespace::
+MyEnum MACRO1
+/* <- entity.name.enum */
+/*     ^ - entity.name */
+{
+};
+
 
 /////////////////////////////////////////////
 // Test preprocessor branching and C blocks
@@ -2298,7 +2409,7 @@ void sayHi()
     );
 
     if (::std::foo()) {}
-/*      ^^^^^^^^^^ variable.function */
+/*             ^^^ variable.function */
 /*      ^^ punctuation.accessor */
 /*           ^^ punctuation.accessor */
 
@@ -2323,6 +2434,25 @@ void sayHi()
 /*         ^ constant.numeric */
 /*          ^ punctuation.section.generic.end */
 /*           ^^ meta.group */
+
+    ::myns::foo<int>();
+/*  ^^ punctuation.accessor.double-colon */
+/*        ^^ punctuation.accessor.double-colon */
+/*  ^^^^^^^^^^^^^^^^^^ meta.function-call */
+/*          ^^^ variable.function */
+/*              ^^^ storage.type */
+
+    myns::FooClass{42};
+/*      ^^ punctuation.accessor.double-colon */
+/*  ^^^^^^^^^^^^^^^^^^ meta.function-call */
+/*        ^^^^^^^^ variable.function */
+
+    ::myns::BarClass<int>{};
+/*  ^^ punctuation.accessor.double-colon */
+/*        ^^ punctuation.accessor.double-colon */
+/*  ^^^^^^^^^^^^^^^^^^^^^ meta.function-call */
+/*          ^^^^^^^^ variable.function */
+/*                   ^^^ storage.type */
 
     int a[5];
 /*       ^^^ meta.brackets */
@@ -2359,3 +2489,7 @@ void sayHi()
 /*      ^ punctuation.definition.string.begin */
 /*       ^^^^^^^^ string.quoted.other.lt-gt.include */
 /*               ^ punctuation.definition.string.end */
+
+/**
+      *
+/*    ^ comment.block.c punctuation.definition.comment.c */

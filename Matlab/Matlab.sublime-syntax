@@ -29,6 +29,7 @@ contexts:
     - match: ({{id}})(\.)({{id}})
       captures:
         2: punctuation.accessor.dot.matlab
+      push: transpose_post_parens
   all_matlab_comments:
     - match: (%%).*$\n?
       scope: comment.double.percentage.matlab
@@ -193,7 +194,7 @@ contexts:
       comment: Data Analysis
       scope: keyword.analysis.matlab
   matlab_keyword_control:
-    - match: \b(break|case|catch|continue|else|elseif|end|for|if|otherwise|pause|rethrow|return|start|startat|stop|switch|try|wait|while)\b
+    - match: \b(break|case|catch|continue|else|elseif|end|for|parfor|if|otherwise|pause|rethrow|return|start|startat|stop|switch|try|wait|while)\b
       comment: Control keywords
       scope: keyword.control.matlab
   matlab_keyword_desktop:
@@ -490,7 +491,7 @@ contexts:
       scope: invalid.illegal.unescaped-quote.matlab
   variable:
     - match: '\b{{id}}\b'
-      comment: Valid variable. Added meta to disable hilightinh
+      comment: Valid variable. Added meta to disable highlighting
       scope: meta.variable.other.valid.matlab
   variable_assignment:
     - match: '=\s*\.{0,2}\s*;?\s*$\n?'

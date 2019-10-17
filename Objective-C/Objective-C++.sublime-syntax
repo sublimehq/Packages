@@ -52,6 +52,7 @@ contexts:
         - include: template
         - match: (?=\S)
           set: global-modifier
+    - include: using-namespace
     - include: namespace
     - include: keywords-angle-brackets
     - match: '(?={{path_lookahead}}\s*<)'
@@ -118,7 +119,9 @@ contexts:
   early-expressions-before-generic-type:
     - include: comments
     - include: case-default
+    - include: using-namespace
     - include: typedef
+    - include: using-alias
     - include: keywords-angle-brackets
     - include: keywords-parens
     - include: keywords
@@ -527,8 +530,8 @@ contexts:
           pop: true
         - include: expressions
 
-  namespace:
-    - match: '\b(using)\s+(namespace)\s+(?={{path_lookahead}})'
+  using-namespace:
+    - match: '\b(using)\s+(namespace)\b'
       captures:
         1: keyword.control.objc++
         2: keyword.control.objc++
@@ -536,6 +539,8 @@ contexts:
         - include: scope:source.c++#identifiers
         - match: ''
           pop: true
+
+  namespace:
     - match: '\b(namespace)\s+(?=({{path_lookahead}})?(?!\s*[;,]))'
       scope: meta.namespace.objc++
       captures:
@@ -601,15 +606,11 @@ contexts:
             - include: template-common
 
   generic-type:
-    - match: '(?=(?!template){{path_lookahead}}\s*{{generic_lookahead}}\s*\()'
+    - match: '(?=(?!template){{path_lookahead}}\s*{{generic_lookahead}}\s*(\(|\{))'
       push:
         - meta_scope: meta.function-call.objc++
         - match: \btemplate\b
           scope: storage.type.template.objc++
-        - match: '(?:(::)\s*)?{{identifier}}\s*(::)\s*'
-          captures:
-            1: punctuation.accessor.double-colon.objc++
-            2: punctuation.accessor.double-colon.objc++
         - match: (?:(::)\s*)?({{identifier}})\s*(<)
           captures:
             1: punctuation.accessor.double-colon.objc++
@@ -632,6 +633,19 @@ contexts:
               scope: meta.group.objc++ punctuation.section.group.end.objc++
               pop: true
             - include: expressions
+        - match: (?:(::)\s*)?({{identifier}})\s*(\{)
+          captures:
+            1: punctuation.accessor.double-colon.objc++
+            2: variable.function.objc++
+            3: punctuation.section.group.begin.objc++
+          set:
+            - meta_scope: meta.function-call.objc++
+            - meta_content_scope: meta.group.objc++
+            - match: '\}'
+              scope: meta.group.objc++ punctuation.section.group.end.objc++
+              pop: true
+            - include: expressions
+        - include: scope:source.c++#identifiers
         - include: angle-brackets
         - match: '\('
           scope: meta.group.objc++ punctuation.section.group.begin.objc++
@@ -639,6 +653,15 @@ contexts:
             - meta_scope: meta.function-call.objc++
             - meta_content_scope: meta.group.objc++
             - match: '\)'
+              scope: meta.group.objc++ punctuation.section.group.end.objc++
+              pop: true
+            - include: expressions
+        - match: '\{'
+          scope: meta.group.objc++ punctuation.section.group.begin.objc++
+          set:
+            - meta_scope: meta.function-call.objc++
+            - meta_content_scope: meta.group.objc++
+            - match: '\}'
               scope: meta.group.objc++ punctuation.section.group.end.objc++
               pop: true
             - include: expressions
@@ -675,19 +698,18 @@ contexts:
         - include: statements
 
   function-call:
-    - match: (?={{path_lookahead}}\s*\()
+    - match: (?={{path_lookahead}}\s*(\(|\{))
       push:
         - meta_scope: meta.function-call.objc++
         - include: scope:source.c#c99
         - match: '(?:(::)\s*)?{{identifier}}\s*(::)\s*'
-          scope: variable.function.objc++
           captures:
-            1: punctuation.accessor.objc++
-            2: punctuation.accessor.objc++
-        - match: '(?:(::)\s*)?{{identifier}}'
-          scope: variable.function.objc++
+            1: punctuation.accessor.double-colon.objc++
+            2: punctuation.accessor.double-colon.objc++
+        - match: '(?:(::)\s*)?({{identifier}})'
           captures:
-            1: punctuation.accessor.objc++
+            1: punctuation.accessor.double-colon.objc++
+            2: variable.function.objc++
         - match: '\('
           scope: meta.group.objc++ punctuation.section.group.begin.objc++
           set:
@@ -695,6 +717,14 @@ contexts:
             - meta_content_scope: meta.group.objc++
             - match: '\)'
               scope: meta.group.objc++ punctuation.section.group.end.objc++
+              pop: true
+            - include: expressions
+        - match: '\{'
+          scope: meta.group.objc++ punctuation.section.group.begin.objc++
+          set:
+            - meta_content_scope: meta.function-call.objc++ meta.group.objc++
+            - match: '\}'
+              scope: meta.function-call.objc++ meta.group.objc++ punctuation.section.group.end.objc++
               pop: true
             - include: expressions
 
@@ -783,6 +813,16 @@ contexts:
     - match: ->
       scope: punctuation.accessor.arrow.objc++
       push: members-after-accessor-junction
+
+  using-alias:
+    # consume keyword if followed by typename
+    - match: '\b(using)\b(?=\s+typename\b)'
+      captures:
+        1: keyword.control.objc++
+    - match: '\b(using)\b\s+({{identifier}})(?!\s*(<|::))'
+      captures:
+        1: keyword.control.objc++
+        2: entity.name.type.using.objc++
 
   typedef:
     - match: \btypedef\b
@@ -1119,9 +1159,16 @@ contexts:
     - match: '{{identifier}}(?={{data_structures_forward_decl_lookahead}})'
       scope: entity.name.class.forward-decl.objc++
       set: data-structures-class-definition-after-identifier
-    - match: '{{identifier}}'
-      scope: entity.name.class.objc++
-      set: data-structures-class-definition-after-identifier
+    - match: '(?={{path_lookahead}})'
+      set:
+        - meta_scope: meta.class.objc++
+        - match: '{{identifier}}(?!\s*::)'
+          scope: entity.name.class.objc++
+          set: data-structures-class-definition-after-identifier
+        - include: scope:source.c++#identifiers
+        - match: data-structures-class-definition-after-identifier
+        - match: '(?=[^\w\s])'
+          set: data-structures-class-definition-after-identifier
     - match: '(?=[:{])'
       set: data-structures-class-definition-after-identifier
     - match: '(?=;)'
@@ -1147,9 +1194,16 @@ contexts:
     - match: '{{identifier}}(?={{data_structures_forward_decl_lookahead}})'
       scope: entity.name.struct.forward-decl.objc++
       set: data-structures-struct-definition-after-identifier
-    - match: '{{identifier}}'
-      scope: entity.name.struct.objc++
-      set: data-structures-struct-definition-after-identifier
+    - match: '(?={{path_lookahead}})'
+      set:
+        - meta_scope: meta.struct.objc++
+        - match: '{{identifier}}(?!\s*::)'
+          scope: entity.name.struct.objc++
+          set: data-structures-struct-definition-after-identifier
+        - include: scope:source.c++#identifiers
+        - match: data-structures-struct-definition-after-identifier
+        - match: '(?=[^\w\s])'
+          set: data-structures-struct-definition-after-identifier
     - match: '(?=[:{])'
       set: data-structures-struct-definition-after-identifier
     - match: '(?=;)'
@@ -1175,9 +1229,16 @@ contexts:
     - match: '{{identifier}}(?={{data_structures_forward_decl_lookahead}})'
       scope: entity.name.enum.forward-decl.objc++
       set: data-structures-enum-definition-after-identifier
-    - match: '{{identifier}}'
-      scope: entity.name.enum.objc++
-      set: data-structures-enum-definition-after-identifier
+    - match: '(?={{path_lookahead}})'
+      set:
+        - meta_scope: meta.enum.objc++
+        - match: '{{identifier}}(?!\s*::)'
+          scope: entity.name.enum.objc++
+          set: data-structures-enum-definition-after-identifier
+        - include: scope:source.c++#identifiers
+        - match: data-structures-enum-definition-after-identifier
+        - match: '(?=[^\w\s])'
+          set: data-structures-enum-definition-after-identifier
     - match: '(?=[:{])'
       set: data-structures-enum-definition-after-identifier
     - match: '(?=;)'
@@ -1204,9 +1265,16 @@ contexts:
     - match: '{{identifier}}(?={{data_structures_forward_decl_lookahead}})'
       scope: entity.name.union.forward-decl.objc++
       set: data-structures-union-definition-after-identifier
-    - match: '{{identifier}}'
-      scope: entity.name.union.objc++
-      set: data-structures-union-definition-after-identifier
+    - match: '(?={{path_lookahead}})'
+      set:
+        - meta_scope: meta.union.objc++
+        - match: '{{identifier}}(?!\s*::)'
+          scope: entity.name.union.objc++
+          set: data-structures-union-definition-after-identifier
+        - include: scope:source.c++#identifiers
+        - match: data-structures-union-definition-after-identifier
+        - match: '(?=[^\w\s])'
+          set: data-structures-union-definition-after-identifier
     - match: '(?=[{])'
       set: data-structures-union-definition-after-identifier
     - match: '(?=;)'
@@ -2003,6 +2071,16 @@ contexts:
       scope: punctuation.section.block.begin.objc++
     - match: '\}'
       scope: punctuation.section.block.end.objc++
+    # Captures the namespace macro idiom
+    - match: '\b(namespace)\s+(?={{path_lookahead}}\s*\{)'
+      scope: meta.namespace.objc++
+      captures: 
+        1: keyword.control.objc++
+      push:
+        - meta_content_scope: meta.namespace.objc++ entity.name.namespace.objc++
+        - include: scope:source.c++#identifiers
+        - match: '(?=\S)'
+          pop: true
     - include: expressions
 
   preprocessor-other:

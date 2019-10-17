@@ -73,7 +73,7 @@ variables:
   ns_anchor_name: '{{ns_anchor_char}}+'
 
   # double-quoted scalar
-  c_ns_esc_char: \\([0abtnvfre "/\\N_Lp]|x\d\d|u\d{4}|U\d{8})
+  c_ns_esc_char: \\(?:[0abtnvfre "/\\N_Lp]|x[\dA-Fa-f]{2}|u[\dA-Fa-f]{4}|U[\dA-Fa-f]{8})
 
   # plain scalar begin and end patterns
   ns_plain_first_plain_in: |- # c=plain-in
@@ -142,11 +142,12 @@ variables:
         : \d{2}                         # (minute)
         : \d{2}                         # (second)
         (?: \.\d*)?                     # (fraction)
+        [ \t]*
         (?:
-            (?:[ \t]*) Z
-          | [-+] \d{1,2} (?: :\d{1,2})?
+          Z | [-+] \d{1,2} (?: :\d{1,2})?
         )?                              # (time zone)
     )
+
   _type_value: '=' # http://yaml.org/type/value.html
   _type_merge: '<<' # http://yaml.org/type/merge.html
 

@@ -465,6 +465,23 @@ class Foo {
         {
             Console.WriteLine($"{name} is {age} years old.");
         }
+
+        var positions = new List<(int, int)> { (0, 1), (1, 2), (2, 4) };
+        foreach (var(x, y) in positions)
+///             ^ punctuation.section.group.begin
+///              ^^^storage.type.variable
+///                 ^^^^^^ meta.group.tuple
+///                 ^ punctuation.definition.group.begin
+///                  ^ variable.other
+///                   ^ punctuation.separator.tuple
+///                     ^ variable.other
+///                      ^ punctuation.definition.group.end
+///                        ^^ keyword.control.flow
+///                           ^^^^^^^^^ variable.other
+///                                    ^ punctuation.section.group.end
+        {
+            Console.WriteLine($"x={x} y={y}");
+        }
     }
 
     private static (int Max, int Min) Range(IEnumerable<int> numbers)

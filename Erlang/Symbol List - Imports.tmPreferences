@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-	<key>name</key>
-	<string>Symbol List: Method / Constructor</string>
 	<key>scope</key>
-	<string>source.d meta.block entity.name</string>
+	<string>source.erlang meta.preprocessor.import meta.reference.function</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
 		<key>symbolTransformation</key>
-		<string>s/^\s*([^\)]+)/ $1/;  # pad</string>
+		<string>
+			s/^/-import /
+		</string>
 	</dict>
 </dict>
 </plist>

@@ -83,6 +83,12 @@
         </script>
 ##     ^ text.html.basic text.html.embedded.html
 ##      ^^^^^^^^^ text.html.basic - text.html.embedded.html meta.tag.script.end
+##               ^ text.html.basic - text.html.embedded.html
+
+        <script>42</script >
+##      ^^^^^^^^ meta.tag.script.begin
+##              ^^ source.js.embedded
+##                ^^^^^^^^^^ meta.tag.script.end
 
         <script
         type

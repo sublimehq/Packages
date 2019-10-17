@@ -24,4 +24,12 @@ class ApplicationController < ApplicationController
   end
 end
 
+class PictureFile < ApplicationRecord
+  after_commit :delete_picture_file_from_disk, on: :destroy
+# ^ support.function.activerecord.rails
+
+  after_destroy_commit :delete_picture_file_from_disk
+# ^ support.function.activerecord.rails
+end
+
 # <- source.ruby.rails

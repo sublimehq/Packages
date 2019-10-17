@@ -50,6 +50,9 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.c
           pop: true
+        - match: ^\s*(\*)(?!/)
+          captures:
+            1: punctuation.definition.comment.c
     - match: \*/(?!\*)
       scope: invalid.illegal.stray-comment-end.c
     - match: ^// =(\s*.*?)\s*=\s*$\n?
@@ -337,14 +340,11 @@ contexts:
     - include: comments
     - match: \*
       scope: keyword.operator.c
-    # If a struct/union/enum followed by a name that is not a macro or declspec
-    # then this is likely a return type of a function. This is uncommon.
     - match: |-
         (?x:
           ({{before_tag}})
           \s+
           (?=
-            (?![[:upper:][:digit:]_]+\b|__declspec)
             {{identifier}}
             (\s+{{identifier}}(?!\s*[{=;])|\s*\*+)
           )
@@ -468,12 +468,24 @@ contexts:
   data-structures-struct-definition:
     - meta_scope: meta.struct.c
     - include: data-structures-definition-common-begin
+    - include: data-structures-definition-common-macro
     - match: '{{identifier}}(?=\s*;)'
       scope: entity.name.struct.forward-decl.c
     - match: '{{identifier}}'
       scope: entity.name.struct.c
+      set: data-structures-struct-definition-after-name
+    - include: data-structures-struct-definition-block-start
     - match: '(?=;)'
       pop: true
+
+  data-structures-struct-definition-after-name:
+    - meta_scope: meta.struct.c
+    - include: data-structures-definition-common-begin
+    - match: '(?=;)'
+      pop: true
+    - include: data-structures-struct-definition-block-start
+
+  data-structures-struct-definition-block-start:
     - match: '\{'
       scope: meta.block.c punctuation.section.block.begin.c
       set:
@@ -486,12 +498,24 @@ contexts:
   data-structures-enum-definition:
     - meta_scope: meta.enum.c
     - include: data-structures-definition-common-begin
+    - include: data-structures-definition-common-macro
     - match: '{{identifier}}(?=\s*;)'
       scope: entity.name.enum.forward-decl.c
     - match: '{{identifier}}'
       scope: entity.name.enum.c
+      set: data-structures-enum-definition-after-name
+    - include: data-structures-enum-definition-block-start
     - match: '(?=;)'
       pop: true
+
+  data-structures-enum-definition-after-name:
+    - meta_scope: meta.enum.c
+    - include: data-structures-definition-common-begin
+    - match: '(?=;)'
+      pop: true
+    - include: data-structures-enum-definition-block-start
+
+  data-structures-enum-definition-block-start:
     - match: '\{'
       scope: meta.block.c punctuation.section.block.begin.c
       set:
@@ -505,12 +529,24 @@ contexts:
   data-structures-union-definition:
     - meta_scope: meta.union.c
     - include: data-structures-definition-common-begin
+    - include: data-structures-definition-common-macro
     - match: '{{identifier}}(?=\s*;)'
       scope: entity.name.union.forward-decl.c
     - match: '{{identifier}}'
       scope: entity.name.union.c
+      set: data-structures-union-definition-after-name
+    - include: data-structures-union-definition-block-start
     - match: '(?=;)'
       pop: true
+
+  data-structures-union-definition-after-name:
+    - meta_scope: meta.union.c
+    - include: data-structures-definition-common-begin
+    - match: '(?=;)'
+      pop: true
+    - include: data-structures-union-definition-block-start
+
+  data-structures-union-definition-block-start:
     - match: '\{'
       scope: meta.block.c punctuation.section.block.begin.c
       set:
@@ -526,8 +562,10 @@ contexts:
       pop: true
     - include: modifiers-parens
     - include: modifiers
+
+  data-structures-definition-common-macro:
     # Handle macros so they aren't matched as the class name
-    - match: '\b[[:upper:][:digit:]_]+\b'
+    - match: '\b[[:upper:][:digit:]_]+\b(?!\s*($|\{))'
 
   data-structures-definition-common-end:
     - match: '(?=;)'

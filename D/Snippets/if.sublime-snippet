@@ -1,5 +1,5 @@
 <snippet>
-	<content><![CDATA[if(${1:condition})
+	<content><![CDATA[if (${1:condition})
 {
 	$0
 }]]></content>
