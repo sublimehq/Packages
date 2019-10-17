@@ -60,6 +60,14 @@ str = sprintf("%1$*2$s %2$d", "hello", -8)
 #              ^^^^^^^ string.quoted.double.ruby constant.other.placeholder.ruby
 #                      ^^^^ string.quoted.double.ruby constant.other.placeholder.ruby
 
+  "#{MyParams.new.require(:filename)}"
+# ^ - meta.interpolation
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation - string
+#                                    ^ - meta.interpolation
+# ^ string.quoted.double.ruby punctuation.definition.string.begin.ruby
+#  ^^ punctuation.section.interpolation.begin.ruby
+#                                   ^ punctuation.section.interpolation.end.ruby
+#                                    ^ string.quoted.double.ruby punctuation.definition.string.end.ruby
   %I[#{ENV['APP_NAME']} apple orange]
 # ^^^ punctuation.definition.string.begin.ruby
 # ^^^ string.quoted.other.literal.upper.ruby

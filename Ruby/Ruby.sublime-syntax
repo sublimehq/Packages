@@ -455,13 +455,10 @@ contexts:
     - match: '\b(initialize|new|loop|include|extend|prepend|raise|fail|attr_reader|attr_writer|attr_accessor|attr|catch|throw|module_function|public|protected|private)\b(?![?!])'
       scope: keyword.other.special-method.ruby
     - match: \b(require|require_relative|gem)\b
-      captures:
-        1: keyword.other.special-method.ruby
+      scope: keyword.other.special-method.ruby
       push:
         - meta_scope: meta.require.ruby
-        - match: $|(?=#)
-          captures:
-            1: keyword.other.special-method.ruby
+        - match: $|(?=[#}])
           pop: true
         - include: expressions
     # Conversion methods
