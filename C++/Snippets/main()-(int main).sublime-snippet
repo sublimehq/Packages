@@ -6,5 +6,5 @@
 	return 0;
 }]]></content>
 	<tabTrigger>main</tabTrigger>
-	<scope>(source.c | source.objc | source.c++ | source.objc++) &amp; entity.name.function</scope>
+	<scope>(source.c | source.objc | source.c++ | source.objc++) &amp; entity.name.function - meta.preprocessor.include - comment - string</scope>
 </snippet>
