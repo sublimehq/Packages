@@ -125,6 +125,9 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.scala
           pop: true
+        - match: ^\s*(\*)(?!/)
+          captures:
+            1: punctuation.definition.comment.scala
         - match: (@\w+\s)
           scope: keyword.other.documentation.scaladoc.scala
         - match: '\{@link\s+[^\}]*\}'
