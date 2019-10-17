@@ -762,5 +762,5 @@ foo / "bar/bla"
 #                 ^ punctuation.definition.string.begin.ruby
 #                 ^^^ meta.string.regexp.ruby string.regexp.classic.ruby
 #                   ^ punctuation.definition.string.end.ruby
-#                    ^ punctuation.separator.ruby
+#                    ^ punctuation.separator.sequence.ruby
 #                      ^^^ string.quoted.double.ruby
