@@ -105,16 +105,18 @@ contexts:
   comments:
     # multiline comments
     - match: ^=begin
-      scope: punctuation.definition.comment.ruby
+      scope: punctuation.definition.comment.begin.ruby
       push:
         - meta_scope: comment.block.documentation.ruby
         - match: ^=end
-          scope: punctuation.definition.comment.ruby
+          scope: punctuation.definition.comment.end.ruby
           pop: true
-    - match: '(#).*$\n?'
-      scope: comment.line.number-sign.ruby
-      captures:
-        1: punctuation.definition.comment.ruby
+    - match: \#+
+      scope: punctuation.definition.comment.ruby
+      push:
+        - meta_scope: comment.line.number-sign.ruby
+        - match: \n
+          pop: true
 
   class:
     # Defining a class method
