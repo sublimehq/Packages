@@ -164,7 +164,6 @@ contexts:
     - include: string
     - include: operator-unary
     - include: variable-anonymous
-    - include: variable-erlang
     - include: atom
 
   common:
@@ -1443,10 +1442,6 @@ contexts:
   variable-any:
     - match: \.{3}
       scope: variable.language.any.erlang
-
-  variable-erlang:
-    - match: erlang{{ident_break}}
-      scope: support.namespace.erlang
 
   variable-other:
     - match: '{{variable}}'
