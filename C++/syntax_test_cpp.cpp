@@ -719,15 +719,15 @@ void f()
 template<typename T> C<T> f(T t)
 {
     return C<T> { g<X<T>>(t) };
-    /*     ^ - variable.function */
-    /*          ^ punctuation.section.block.begin */
+    /*     ^ variable.function */
+    /*          ^ punctuation.section.group.begin */
 }
 
 template<typename T> C<X<T>> f(T t)
 {
     return C<X<T>> { g<X<T>>(t) };
-    /*     ^ - variable.function */
-    /*             ^ punctuation.section.block.begin */
+    /*     ^ variable.function */
+    /*             ^ punctuation.section.group.begin */
 }
 
 struct A { int foo; };
@@ -850,7 +850,7 @@ try
 {
     throw std :: string("xyz");
     /* <- keyword.control.flow.throw */
-    /*    ^^^^^^^^^^^^^ variable.function */
+    /*           ^^^^^^ variable.function */
     /*        ^^ punctuation.accessor */
 }
 catch (...)
@@ -2379,7 +2379,7 @@ void sayHi()
     );
 
     if (::std::foo()) {}
-/*      ^^^^^^^^^^ variable.function */
+/*             ^^^ variable.function */
 /*      ^^ punctuation.accessor */
 /*           ^^ punctuation.accessor */
 
@@ -2404,6 +2404,25 @@ void sayHi()
 /*         ^ constant.numeric */
 /*          ^ punctuation.section.generic.end */
 /*           ^^ meta.group */
+
+    ::myns::foo<int>();
+/*  ^^ punctuation.accessor.double-colon */
+/*        ^^ punctuation.accessor.double-colon */
+/*  ^^^^^^^^^^^^^^^^^^ meta.function-call */
+/*          ^^^ variable.function */
+/*              ^^^ storage.type */
+
+    myns::FooClass{42};
+/*      ^^ punctuation.accessor.double-colon */
+/*  ^^^^^^^^^^^^^^^^^^ meta.function-call */
+/*        ^^^^^^^^ variable.function */
+
+    ::myns::BarClass<int>{};
+/*  ^^ punctuation.accessor.double-colon */
+/*        ^^ punctuation.accessor.double-colon */
+/*  ^^^^^^^^^^^^^^^^^^^^^ meta.function-call */
+/*          ^^^^^^^^ variable.function */
+/*                   ^^^ storage.type */
 
     int a[5];
 /*       ^^^ meta.brackets */

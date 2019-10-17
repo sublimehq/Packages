@@ -164,12 +164,13 @@ contexts:
       scope: constant.numeric.c++
 
   identifiers:
-    - match: '{{identifier}}\s*(::)\s*'
+    - match: '(?:(::)\s*)?{{identifier}}\s*(::)\s*'
       captures:
-        1: punctuation.accessor.c++
+        1: punctuation.accessor.double-colon.c++
+        2: punctuation.accessor.double-colon.c++
     - match: '(?:(::)\s*)?{{identifier}}'
       captures:
-        1: punctuation.accessor.c++
+        1: punctuation.accessor.double-colon.c++
 
   function-specifiers:
     - match: \b(const|final|noexcept|override)\b
@@ -533,15 +534,11 @@ contexts:
             - include: template-common
 
   generic-type:
-    - match: '(?=(?!template){{path_lookahead}}\s*{{generic_lookahead}}\s*\()'
+    - match: '(?=(?!template){{path_lookahead}}\s*{{generic_lookahead}}\s*(\(|\{))'
       push:
         - meta_scope: meta.function-call.c++
         - match: \btemplate\b
           scope: storage.type.template.c++
-        - match: '(?:(::)\s*)?{{identifier}}\s*(::)\s*'
-          captures:
-            1: punctuation.accessor.double-colon.c++
-            2: punctuation.accessor.double-colon.c++
         - match: (?:(::)\s*)?({{identifier}})\s*(<)
           captures:
             1: punctuation.accessor.double-colon.c++
@@ -564,6 +561,19 @@ contexts:
               scope: meta.group.c++ punctuation.section.group.end.c++
               pop: true
             - include: expressions
+        - match: (?:(::)\s*)?({{identifier}})\s*(\{)
+          captures:
+            1: punctuation.accessor.double-colon.c++
+            2: variable.function.c++
+            3: punctuation.section.group.begin.c++
+          set:
+            - meta_scope: meta.function-call.c++
+            - meta_content_scope: meta.group.c++
+            - match: '\}'
+              scope: meta.group.c++ punctuation.section.group.end.c++
+              pop: true
+            - include: expressions
+        - include: identifiers
         - include: angle-brackets
         - match: '\('
           scope: meta.group.c++ punctuation.section.group.begin.c++
@@ -571,6 +581,15 @@ contexts:
             - meta_scope: meta.function-call.c++
             - meta_content_scope: meta.group.c++
             - match: '\)'
+              scope: meta.group.c++ punctuation.section.group.end.c++
+              pop: true
+            - include: expressions
+        - match: '\{'
+          scope: meta.group.c++ punctuation.section.group.begin.c++
+          set:
+            - meta_scope: meta.function-call.c++
+            - meta_content_scope: meta.group.c++
+            - match: '\}'
               scope: meta.group.c++ punctuation.section.group.end.c++
               pop: true
             - include: expressions
@@ -607,24 +626,31 @@ contexts:
         - include: statements
 
   function-call:
-    - match: (?={{path_lookahead}}\s*\()
+    - match: (?={{path_lookahead}}\s*(\(|\{))
       push:
         - meta_scope: meta.function-call.c++
         - include: scope:source.c#c99
         - match: '(?:(::)\s*)?{{identifier}}\s*(::)\s*'
-          scope: variable.function.c++
+          captures:
+            1: punctuation.accessor.double-colon.c++
+            2: punctuation.accessor.double-colon.c++
+        - match: '(?:(::)\s*)?({{identifier}})'
           captures:
             1: punctuation.accessor.c++
-            2: punctuation.accessor.c++
-        - match: '(?:(::)\s*)?{{identifier}}'
-          scope: variable.function.c++
-          captures:
-            1: punctuation.accessor.c++
+            2: variable.function.c++
         - match: '\('
           scope: meta.group.c++ punctuation.section.group.begin.c++
           set:
             - meta_content_scope: meta.function-call.c++ meta.group.c++
             - match: '\)'
+              scope: meta.function-call.c++ meta.group.c++ punctuation.section.group.end.c++
+              pop: true
+            - include: expressions
+        - match: '\{'
+          scope: meta.group.c++ punctuation.section.group.begin.c++
+          set:
+            - meta_content_scope: meta.function-call.c++ meta.group.c++
+            - match: '\}'
               scope: meta.function-call.c++ meta.group.c++ punctuation.section.group.end.c++
               pop: true
             - include: expressions
@@ -1964,6 +1990,16 @@ contexts:
       scope: punctuation.section.block.begin.c++
     - match: '\}'
       scope: punctuation.section.block.end.c++
+    # Captures the namespace macro idiom
+    - match: '\b(namespace)\s+(?={{path_lookahead}}\s*\{)'
+      scope: meta.namespace.c++
+      captures: 
+        1: keyword.control.c++
+      push:
+        - meta_content_scope: meta.namespace.c++ entity.name.namespace.c++
+        - include: identifiers
+        - match: '(?=\S)'
+          pop: true
     - include: expressions
 
   preprocessor-practical-workarounds:

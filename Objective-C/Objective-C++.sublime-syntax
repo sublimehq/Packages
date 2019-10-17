@@ -606,15 +606,11 @@ contexts:
             - include: template-common
 
   generic-type:
-    - match: '(?=(?!template){{path_lookahead}}\s*{{generic_lookahead}}\s*\()'
+    - match: '(?=(?!template){{path_lookahead}}\s*{{generic_lookahead}}\s*(\(|\{))'
       push:
         - meta_scope: meta.function-call.objc++
         - match: \btemplate\b
           scope: storage.type.template.objc++
-        - match: '(?:(::)\s*)?{{identifier}}\s*(::)\s*'
-          captures:
-            1: punctuation.accessor.double-colon.objc++
-            2: punctuation.accessor.double-colon.objc++
         - match: (?:(::)\s*)?({{identifier}})\s*(<)
           captures:
             1: punctuation.accessor.double-colon.objc++
@@ -637,6 +633,19 @@ contexts:
               scope: meta.group.objc++ punctuation.section.group.end.objc++
               pop: true
             - include: expressions
+        - match: (?:(::)\s*)?({{identifier}})\s*(\{)
+          captures:
+            1: punctuation.accessor.double-colon.objc++
+            2: variable.function.objc++
+            3: punctuation.section.group.begin.objc++
+          set:
+            - meta_scope: meta.function-call.objc++
+            - meta_content_scope: meta.group.objc++
+            - match: '\}'
+              scope: meta.group.objc++ punctuation.section.group.end.objc++
+              pop: true
+            - include: expressions
+        - include: scope:source.c++#identifiers
         - include: angle-brackets
         - match: '\('
           scope: meta.group.objc++ punctuation.section.group.begin.objc++
@@ -644,6 +653,15 @@ contexts:
             - meta_scope: meta.function-call.objc++
             - meta_content_scope: meta.group.objc++
             - match: '\)'
+              scope: meta.group.objc++ punctuation.section.group.end.objc++
+              pop: true
+            - include: expressions
+        - match: '\{'
+          scope: meta.group.objc++ punctuation.section.group.begin.objc++
+          set:
+            - meta_scope: meta.function-call.objc++
+            - meta_content_scope: meta.group.objc++
+            - match: '\}'
               scope: meta.group.objc++ punctuation.section.group.end.objc++
               pop: true
             - include: expressions
@@ -680,19 +698,18 @@ contexts:
         - include: statements
 
   function-call:
-    - match: (?={{path_lookahead}}\s*\()
+    - match: (?={{path_lookahead}}\s*(\(|\{))
       push:
         - meta_scope: meta.function-call.objc++
         - include: scope:source.c#c99
         - match: '(?:(::)\s*)?{{identifier}}\s*(::)\s*'
-          scope: variable.function.objc++
           captures:
-            1: punctuation.accessor.objc++
-            2: punctuation.accessor.objc++
-        - match: '(?:(::)\s*)?{{identifier}}'
-          scope: variable.function.objc++
+            1: punctuation.accessor.double-colon.objc++
+            2: punctuation.accessor.double-colon.objc++
+        - match: '(?:(::)\s*)?({{identifier}})'
           captures:
-            1: punctuation.accessor.objc++
+            1: punctuation.accessor.double-colon.objc++
+            2: variable.function.objc++
         - match: '\('
           scope: meta.group.objc++ punctuation.section.group.begin.objc++
           set:
@@ -700,6 +717,14 @@ contexts:
             - meta_content_scope: meta.group.objc++
             - match: '\)'
               scope: meta.group.objc++ punctuation.section.group.end.objc++
+              pop: true
+            - include: expressions
+        - match: '\{'
+          scope: meta.group.objc++ punctuation.section.group.begin.objc++
+          set:
+            - meta_content_scope: meta.function-call.objc++ meta.group.objc++
+            - match: '\}'
+              scope: meta.function-call.objc++ meta.group.objc++ punctuation.section.group.end.objc++
               pop: true
             - include: expressions
 
@@ -2034,6 +2059,16 @@ contexts:
       scope: punctuation.section.block.begin.objc++
     - match: '\}'
       scope: punctuation.section.block.end.objc++
+    # Captures the namespace macro idiom
+    - match: '\b(namespace)\s+(?={{path_lookahead}}\s*\{)'
+      scope: meta.namespace.objc++
+      captures: 
+        1: keyword.control.objc++
+      push:
+        - meta_content_scope: meta.namespace.objc++ entity.name.namespace.objc++
+        - include: scope:source.c++#identifiers
+        - match: '(?=\S)'
+          pop: true
     - include: expressions
 
   preprocessor-other:
