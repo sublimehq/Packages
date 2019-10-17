@@ -268,6 +268,11 @@ $var->meth()[10];
  */
 // ^ source - comment.block
 
+/**
+    *
+//  ^ text.html.basic meta.embedded.block.php source.php comment.block.documentation.phpdoc.php punctuation.definition.comment.php
+*/
+
 /** @var Properties: class properties. */
 //  ^ keyword.other.phpdoc
 
@@ -1341,18 +1346,20 @@ h2 {font-family: 'Arial';}
 // <- entity.name.tag
 // ^ punctuation.section.property-list
 //               ^^^^^^^ string.quoted.single
-h3 {}
+h3 {font-size: "$h3_size";}
+//              ^^^^^^^^ variable.other.php
 CSS;
 // <- punctuation.section.embedded.end keyword.operator.heredoc
 
 echo <<<SQL
 //   ^^^^^^ punctuation.section.embedded.begin punctuation.definition.string
 //      ^^^ keyword.operator.heredoc
-SELECT * FROM users WHERE first_name = 'John'
+SELECT * FROM users WHERE first_name = 'John' LIMIT $limit
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.sql source.sql
 // <- keyword.other.DML
 //     ^ variable.language.star
 //                                     ^^^^^^ string.quoted.single
+//                                                  ^^^^^^ variable.other.php
 SQL;
 // <- punctuation.section.embedded.end keyword.operator.heredoc
 
@@ -1365,7 +1372,7 @@ SELECT * FROM users WHERE first_name = 'John'\n
 // <- keyword.other.DML
 //     ^ variable.language.star
 //                                     ^^^^^^ string.quoted.single
-//                                           ^^^ - constant.character.escape.php
+//                                           ^^ - constant.character.escape.php
 SQL;
 // <- punctuation.section.embedded.end
 

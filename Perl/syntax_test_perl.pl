@@ -1318,13 +1318,13 @@ EOT
   "12_4"           # number specified as a string
 # ^^^^^^ meta.string.perl string.quoted.double.perl
 #  ^^^^ constant.numeric.integer.decimal.perl
-  "-1234"           # number specified as a string
+  "-1234"          # number specified as a string
 # ^^^^^^^ meta.string.perl string.quoted.double.perl
 #  ^^^^^ constant.numeric.integer.decimal.perl
   "01234"          # number specified as a string
 # ^^^^^^^ meta.string.perl string.quoted.double.perl
 #  ^^^^^ constant.numeric.integer.decimal.perl - punctuation
-  "-01234"          # number specified as a string
+  "-01234"         # number specified as a string
 # ^^^^^^^^ meta.string.perl string.quoted.double.perl
 #  ^^^^^^ constant.numeric.integer.decimal.perl - punctuation
   "1.1"            # normal float

@@ -147,6 +147,9 @@ contexts:
         - meta_scope: comment.block.c
         - match: \*/
           pop: true
+        - match: ^\s*(\*)(?!/)
+          captures:
+            1: punctuation.definition.comment.sql
   regexps:
     - match: /(?=\S.*/)
       captures:

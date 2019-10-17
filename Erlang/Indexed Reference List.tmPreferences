@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>
+		source.erlang meta.record.name variable.other.record,
+		source.erlang meta.function-call.name constant.language.macro,
+		source.erlang meta.function-call.name constant.other.macro,
+		source.erlang meta.type-call.name storage.type,
+		source.erlang meta.type-call.name support.type
+	</string>
+	<key>settings</key>
+	<dict>
+		<key>showInIndexedReferenceList</key>
+		<integer>1</integer>
+		<key>symbolIndexTransformation</key>
+		<string>
+			s/^[?#'']//
+			s/'$//
+		</string>
+	</dict>
+</dict>
+</plist>
