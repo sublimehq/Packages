@@ -1385,7 +1385,7 @@ contexts:
       scope: support.function.gmp.php
     - match: (?i)\bhash(_(hmac(_file)?|hkdf|copy|init|update(_(stream|file))?|fi(nal|le)|algos))?\b
       scope: support.function.hash.php
-    - match: (?i)\b(http_(s(upport|end_(st(atus|ream)|content_(type|disposition)|data|file|last_modified))|head|negotiate_(c(harset|ontent_type)|language)|c(hunked_decode|ache_(etag|last_modified))|throttle|inflate|d(eflate|ate)|p(ost_(data|fields)|ut_(stream|data|file)|ersistent_handles_(c(ount|lean)|ident)|arse_(headers|cookie|params|message))|re(direct|quest(_(method_(name|unregister|exists|register)|body_encode))?)|get(_request_(headers|body(_stream)?))?|match_(etag|request_header|modified)|build_(str|cookie|url))|ob_(inflatehandler|deflatehandler|etaghandler))\b
+    - match: (?i)\b(http_(s(upport|end_(st(atus|ream)|content_(type|disposition)|data|file|last_modified))|response_code|head|negotiate_(c(harset|ontent_type)|language)|c(hunked_decode|ache_(etag|last_modified))|throttle|inflate|d(eflate|ate)|p(ost_(data|fields)|ut_(stream|data|file)|ersistent_handles_(c(ount|lean)|ident)|arse_(headers|cookie|params|message))|re(direct|quest(_(method_(name|unregister|exists|register)|body_encode))?)|get(_request_(headers|body(_stream)?))?|match_(etag|request_header|modified)|build_(str|cookie|url))|ob_(inflatehandler|deflatehandler|etaghandler))\b
       scope: support.function.http.php
     - match: (?i)\b(iconv(_(s(tr(pos|len|rpos)|ubstr|et_encoding)|get_encoding|mime_(decode(_headers)?|encode)))?|ob_iconv_handler)\b
       scope: support.function.iconv.php
