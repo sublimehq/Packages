@@ -402,31 +402,55 @@ contexts:
       pop: true
 
   comments:
-    # Type-ignore must be the only hint allowed!
-    - match: '(#)\s*(type)(:)\s*(ignore)'
+    # Type-ignore can only be used by itself.
+    - match: '(#)\s*(type)(:)\s*(ignore)\b'
+      scope: comment.line.type-hint.python
       captures:
         1: punctuation.definition.comment.python comment.line.number-sign.python
-        2: keyword.other.annotation.type-comment
-        3: punctuation.separator.annotation.type-comment
-        4: keyword.other.annotation.type-comment.ignore
-      set:
-        - meta_scope: comment.line.type-hint
-        - include: comments_noannotation
-        - match: \n
-          pop: true
-        - match: \S
-          scope: invalid.illegal
+        2: keyword.other.annotation.type-comment.python
+        3: punctuation.separator.annotation.type-comment.python
+        4: keyword.other.annotation.type-comment.ignore.python
+      set: comments_afterignore
     - match: '(#)\s*(type)(:)'
-      scope: comment.line.type-hint
+      scope: comment.line.type-hint.python
       captures:
         1: punctuation.definition.comment.python comment.line.number-sign.python
-        2: keyword.other.annotation.type-comment
-        3: punctuation.separator.annotation.type-comment
+        2: keyword.other.annotation.type-comment.python
+        3: punctuation.separator.annotation.type-comment.python
       embed: type-comment
       escape: '\n'
-      embed_scope: comment.line.type-hint
+      embed_scope: comment.line.type-hint.python
 
     - include: comments_noannotation
+
+  comments_afterignore:
+    - meta_scope: comment.line.type-hint.python
+    - include: comments_noannotation
+    - match: \n
+      pop: true
+    - match: \[
+      # Mypy's # type: ignore[error-code1, error-code2]
+      scope: punctuation.section.brackets.begin.python
+      set:
+        - meta_scope: comment.line.type-hint.python
+        - match: \[
+          scope: invalid.illegal.python
+        - match: '[a-zA-Z_-][a-zA-Z_0-9-]+'
+          scope: comment.line.type-hint.python.mypy-errorcode
+        - match: '[0-9]'
+          scope: invalid.illegal.python
+        - match: ','
+          scope: punctuation.separator.sequence.python.mypy-errorcode
+        - match: \]
+          scope: punctuation.section.brackets.end.python
+          set:
+              # Don't allow a second block.
+            - match: \[
+              scope: invalid.illegal.python
+              pop: true
+            - include: comments_afterignore
+    - match: \S
+      scope: invalid.illegal.python
 
   type-comment:
     - include: comments_noannotation
@@ -489,7 +513,7 @@ contexts:
     - match: \}
       scope: invalid.illegal.stray.brace.curly.python
     - match: \S
-      scope: invalid.illegal
+      scope: invalid.illegal.python
 
   comments_noannotation:
     - match: "#"
