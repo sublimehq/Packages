@@ -2337,7 +2337,7 @@ contexts:
       set: import-meta-expression-dot
 
   import-meta-expression-dot:
-    - match: '{{dot_accessor}}'
+    - match: \.
       scope: punctuation.accessor.js
       set:
         - match: meta{{identifier_break}}
