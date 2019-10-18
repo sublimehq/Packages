@@ -339,7 +339,10 @@ contexts:
           scope: keyword.declaration.extends.java
           push:
             - - meta_scope: meta.class.extends.java
-              - include: immediate_POP
+              - match: \,
+                scope: punctuation.separator.comma.java
+                push: inherited-object-type-reference
+              - include: any_POP
             - inherited-object-type-reference
         - match: \b(implements)\b
           scope: keyword.declaration.implements.java
