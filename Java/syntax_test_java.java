@@ -1627,6 +1627,16 @@ public class Generic<T> implements fully.qualified.Other<T> {
 }
 // <- punctuation.section.block.end.java
 
+public class Generic<T> extends iNtf implements iNterface<T> {
+//                              ^^^^ entity.other.inherited-class.java
+//                                              ^^^^^^^^^ entity.other.inherited-class.java
+//                                                       ^^^ meta.generic.java
+//                                                       ^ punctuation.definition.generic.begin.java
+//                                                        ^ support.class.java
+//                                                         ^ punctuation.definition.generic.end.java
+}
+// <- punctuation.section.block.end.java
+
 public class Bar {
   public void missingSemiColon() {
     boolean foo = foo
