@@ -27,8 +27,14 @@ contexts:
     - include: escaped_characters
     - include: variables
     - include: commands
-    - match: \b(?i)(?:goto|call|exit)\b
+    - match: \b(?i)exit\b
       scope: keyword.control.statement.dosbatch
+    - match: \b(?i)(goto|call)\b(?:\s*(:)?(?:(eof)|(\w+)))?
+      captures:
+        1: keyword.control.statement.dosbatch
+        2: punctuation.separator.dosbatch
+        3: keyword.control.flow.return.dosbatch
+        4: meta.function-call.dosbatch variable.function.dosbatch
     - match: \b(?i)(if)\s+(?:(not)\s+)?(exist|defined|errorlevel|cmdextversion)\b
       captures:
         1: keyword.control.conditional.dosbatch
@@ -232,6 +238,11 @@ contexts:
       scope: variable.parameter.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
+    - match: (?i)(%)errorlevel(%)
+      scope: variable.language.dosbatch
+      captures:
+        1: punctuation.definition.variable.begin.dosbatch
+        2: punctuation.definition.variable.end.dosbatch
     - include: variable
     - include: variable_delayed_expansion
 

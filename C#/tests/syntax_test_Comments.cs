@@ -30,6 +30,10 @@ namespace HelloWorld
 //*              ^ punctuation.separator.argument.value
 //*                               ^ punctuation.definition.tag.end
 //*                                ^^^^^^^^^ text.documentation
+    /**
+        *
+//*     ^ meta.namespace.cs meta.block.cs comment.block.cs punctuation.definition.comment.cs 
+    */
     class Hello
     {
         /// <summary>

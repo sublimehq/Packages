@@ -213,7 +213,7 @@ contexts:
           pop: true
 
   line-end:
-    - match: $\n?
+    - match: $
       pop: true
 
   expect-line-end:

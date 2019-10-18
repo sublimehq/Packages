@@ -8,14 +8,15 @@ package fubar
 package fubar {
 // ^^^^ keyword.control.scala
 //      ^^^^^ entity.name.namespace.scoped.scala
+//            ^ punctuation.section.block.begin.scala
 // <- meta.namespace.scala
-}
+   }
+// ^ punctuation.section.block.end.scala
 
 import fubar.{Unit, Foo}
 // ^^^ keyword.other.import
 // <- meta.import.scala
-//     ^^^^^ variable.package.scala
-//            ^^^^ variable.import.scala
+//                ^ punctuation.separator.scala
 
 def foo: Baz = 42
 //^ storage.type.function.scala
@@ -24,10 +25,11 @@ def foo: Baz = 42
 //           ^ keyword.operator.assignment.scala
 //             ^^ constant.numeric.integer.scala
 
-def foo: Baz => Bar = 42
+def foo: Baz => Bar = 42;
 //       ^^^ support.class
 //              ^^^ support.class
 //                  ^ keyword.operator.assignment.scala
+//                      ^ punctuation.terminator.scala
 
 
 def foo(a: Int, b: Bar): Baz = 42
@@ -83,15 +85,19 @@ def foo(a: Int, b: Bar): Baz = 42
 
    def foo(implicit bar: Int): Unit
 //         ^^^^^^^^ storage.modifier.other
+//                     ^ punctuation.ascription.scala
+//                           ^ punctuation.ascription.scala
 
-   val foo: Unit
+   val foo: Unit; 42
 // ^^^ storage.type.stable.scala
-//     ^^^ entity.name.val
+//     ^^^ variable.other.constant.scala
 //          ^^^^ storage.type.primitive.scala
+//              ^ punctuation.terminator.scala
+//                ^^ constant.numeric.integer.scala
 
    var foo: Unit
 // ^^^ storage.type.volatile.scala
-//     ^^^ entity.name.var
+//     ^^^ variable.other.readwrite.scala
 //          ^^^^ storage.type.primitive.scala
 
    class Foo[A](a: Bar) extends Baz with Bin
@@ -146,7 +152,9 @@ object Foo
 
   type Foo[A, B, C] = Bar
 //         ^ support.class
+//          ^ punctuation.separator.scala
 //            ^ support.class
+//             ^ punctuation.separator.scala
 //               ^ support.class
 //                  ^ keyword.operator.assignment.scala
 
@@ -261,7 +269,7 @@ type Foo = Bar[A] forSome { type A }
 
    f"formatted: x: $x%+,.3f ca"
 // ^ support.function
-//                  ^ variable.other.scala
+//                  ^ variable.other.scala - string
 //                   ^^^^^^ constant.other.formatting.scala
 
    f"formatted: date: $x%T "
@@ -305,6 +313,8 @@ type Foo = Bar[A] forSome { type A }
 
 /**
 // <- comment.block.documentation.scala
+    *
+//  ^ punctuation.definition.comment.scala
 */
 
   /**/0xff
@@ -504,7 +514,7 @@ type Foo = Bar[A] forSome { type A }
 
    val abc @ `abc`
 // ^^^ storage.type.stable.scala
-//     ^^^ entity.name.val
+//     ^^^ variable.other.constant.scala
 //         ^ keyword.operator.at.scala
 //           ^ punctuation.definition.identifier.scala
 //               ^ punctuation.definition.identifier.scala
@@ -515,7 +525,7 @@ type Foo = Bar[A] forSome { type A }
 
    val ble @ `abc` = _
 // ^^^ storage.type.stable.scala
-//     ^^^ entity.name.val
+//     ^^^ variable.other.constant.scala
 //         ^ keyword.operator.at.scala
 //           ^^^^^ - entity.name
 //                 ^ keyword.operator.assignment.scala
@@ -624,7 +634,10 @@ type Foo = Bar[A] forSome { type A }
      back <- Traverse[Option]
 //   ^^^^ variable.parameter
 //           ^^^^^^^^ support.constant
+//                   ^^^^^^^^ meta.generic.scala
+//                   ^ punctuation.definition.generic.begin.scala
 //                    ^^^^^^ support.class
+//                          ^ punctuation.definition.generic.end.scala
        .traverse[Free, Stuff](res) { r => }
 //      ^^^^^^^^ - entity.name
 //                            ^^^ - entity.name
@@ -633,16 +646,18 @@ type Foo = Bar[A] forSome { type A }
 
 
   val baseSettings: Seq[Def.Setting[_]] = _
-//    ^^^^^^^^^^^^ entity.name.val.scala
+//    ^^^^^^^^^^^^ variable.other.constant.scala
 //                  ^^^ support.class
-//                                  ^ - keyword
+//                                  ^ variable.language.underscore.scala - keyword
 
   for {
     r <- blah
   } yield r.copy(foo = a)
-//        ^ - entity.name
-//          ^^^^ - entity.name
-//               ^^^ - entity.name
+//        ^ - variable
+//          ^^^^ - variable
+//              ^ punctuation.section.group.begin.scala
+//               ^^^ - variable
+//                      ^ punctuation.section.group.end.scala
 
   {
     case foo.Bar => 42
@@ -654,52 +669,52 @@ type Foo = Bar[A] forSome { type A }
   }
 
    val Foo = 42
-//     ^^^ entity.name.val
+//     ^^^ variable.other.constant.scala
 
    val * = 42
-//     ^ entity.name.val
+//     ^ variable.other.constant.scala
 
    val *: abc = 42
-//     ^ entity.name.val
+//     ^ variable.other.constant.scala
 //      ^ invalid.ascription.following-operator.scala
 //        ^^^ support.type.scala
 
    val foo_::: abc
-//     ^^^^^^ entity.name.val.scala
+//     ^^^^^^ variable.other.constant.scala
 //           ^ invalid.ascription.following-operator.scala
 
    val ::: abc
 //       ^ invalid.ascription.following-operator.scala
 
    val :: : abc
-//     ^^ entity.name.val.scala
-//        ^ - invalid
+//     ^^ variable.other.constant.scala
+//        ^ punctuation.ascription.scala - invalid
 
   val foo_:::: = 42
-//    ^^^^^^^^ entity.name.val.scala
+//    ^^^^^^^^ variable.other.constant.scala
 //           ^ - invalid
 
   val :::: = 42
-//    ^^^^ entity.name.val.scala
+//    ^^^^ variable.other.constant.scala
 //       ^ - invalid
 
    val foo_: : abc
-//     ^^^^^ entity.name.val.scala
+//     ^^^^^ variable.other.constant.scala
 //         ^ - invalid
 //           ^ - invalid
    val foo_:: : abc
-//     ^^^^^^ entity.name.val.scala
+//     ^^^^^^ variable.other.constant.scala
 //          ^ - invalid
 //            ^ - invalid
 
    val * : abc = 42
-//     ^ entity.name.val
+//     ^ variable.other.constant.scala
 //       ^ punctuation.ascription.scala - invalid
 //         ^^^ support.type.scala
 
    val (Foo, x) = 42
 //      ^^^ support.constant.scala
-//           ^ entity.name.val
+//           ^ variable.other.constant.scala
 
 {
   Set[Foo[A, A] forSome { type A }, A]
@@ -783,8 +798,10 @@ type Foo >: Bar
 //   ^ variable.parameter
 
    { (a, b) => ??? }
-//    ^ variable.parameter
-//       ^ variable.parameter
+//   ^ punctuation.section.group.begin.scala
+//    ^ variable.parameter.scala
+//       ^ variable.parameter.scala
+//        ^ punctuation.section.group.end.scala
 
    { a: Int => ??? }
 //   ^ variable.parameter
@@ -926,31 +943,27 @@ class Foo(a: A :: B)
 
 import foo
 // <- meta.import.scala
-//     ^^^ variable.import.scala
+
+import foo, bar
+//        ^ punctuation.separator.scala
 
 import foo; import bar
-//     ^^^ variable.import.scala
+//        ^ punctuation.terminator.scala
 //          ^^^^^^ keyword.other.import.scala
-//                 ^^^ variable.import.scala
 
 import foo.bar
-//     ^^^^^^^ variable.package.scala
+//        ^ punctuation.accessor.dot.scala
 
 import foo.{bar, bar => baz, bar=>baz}
 //         ^^^^^^^^^^^^^^^^^ meta.import.selector.scala
-//          ^^^ variable.import.scala
-//               ^^^ variable.import.renamed-from.scala
 //                   ^^ keyword.operator.arrow.scala
-//                      ^^^ variable.import.renamed-to.scala
-//                           ^^^ variable.import.renamed-from.scala
 //                              ^^ keyword.operator.arrow.scala
-//                                ^^^ variable.import.renamed-to.scala
 
 
 import foo.{
    bar => bin
-// ^^^ variable.import.renamed-from.scala
-//        ^^^ variable.import.renamed-to.scala
+// ^^^ meta.import.scala
+//        ^^^ meta.import.scala
 }
 
 import foo._
@@ -972,8 +985,8 @@ for {} yield ()
 foo: m.type
 //     ^^^^ keyword.other.scala
 
-   ==
-// ^^ - keyword
+   ===
+// ^^^ - keyword
 
 offset >= 0
 //     ^^ - keyword
@@ -984,7 +997,7 @@ offset >= 0
 }
 
 val chunk #: h = ???
-//           ^ entity.name.val
+//           ^ variable.other.constant.scala
 
 for {
   if things >= stuff
@@ -1047,16 +1060,16 @@ val (foo, bar) = ???
 //      ^ punctuation.separator.scala
 
 foo eq bar
-//  ^^ keyword.operator.word.scala
+//  ^^ keyword.operator.comparison.scala
 
 foo ne bar
-//  ^^ keyword.operator.word.scala
+//  ^^ keyword.operator.comparison.scala
 
 new Config()
 //        ^^ - constant
 
 val A: Foo = stuff
-//  ^ entity.name.val.scala
+//  ^ variable.other.constant.scala
 
 type Maybe[A] = { type Inner = A; def x: Int }
 //                                ^^ storage.type.function.scala
@@ -1113,8 +1126,8 @@ xs: Foo with Bar
 }
 
 val Stuff(thing, other) = ???
-//        ^^^^^ entity.name.val.scala
-//               ^^^^^ entity.name.val.scala
+//        ^^^^^ variable.other.constant.scala
+//               ^^^^^ variable.other.constant.scala
 
    x: List[Int] => ()
 // ^ variable.parameter.scala
@@ -1311,10 +1324,17 @@ def foo(a: String*, b: (Int => String)*, c: Int*): Negative*
 //               ^ keyword.operator.varargs.scala
 //                                    ^ keyword.operator.varargs.scala
 //                                             ^ keyword.operator.varargs.scala
-//                                                         ^ support.type.scala - keyword
+//                                                         ^ - support
 
-def foo(a: Int * String): Unit
-//             ^ support.type.scala - keyword
+def foo[A[_] <: B](a: Int + String): Unit
+//     ^ punctuation.definition.generic.begin.scala
+//       ^ punctuation.definition.generic.begin.scala
+//         ^ punctuation.definition.generic.end.scala
+//               ^ punctuation.definition.generic.end.scala
+//     ^^^^^^^^^^^ meta.generic.scala
+//                ^ punctuation.section.group.begin.scala
+//                        ^ support.type.scala - keyword
+//                                ^ punctuation.section.group.end.scala
 
 class Foo(a: String*)
 //                 ^ keyword.operator.varargs.scala
@@ -1333,6 +1353,7 @@ trait AlgebraF[F[_]] { type f[x] = Algebra[F,x] }
 @deprecated("Use D", "1.0") class C { ... }
 // <- meta.annotation
 // ^^ variable.annotation
+//         ^ meta.annotation.parameters.scala punctuation.section.arguments.annotation.begin.scala
 //            ^^ string
 //                        ^ meta.annotation
 //                         ^ - meta.annotation
@@ -1450,12 +1471,12 @@ class Foo extends Bar(42)
 //                      ^ punctuation.section.parens.end.scala
 
 class Foo extends (Int => String)
-//                ^ punctuation.section.parens.begin.scala
-//                              ^ punctuation.section.parens.end.scala
+//                ^ punctuation.definition.parens.begin.scala
+//                              ^ punctuation.definition.parens.end.scala
 
 class Foo extends Bar[Int]
-//                   ^ punctuation.section.brackets.begin.scala
-//                       ^ punctuation.section.brackets.end.scala
+//                   ^ punctuation.definition.generic.begin.scala
+//                       ^ punctuation.definition.generic.end.scala
 
    object Underscore_
 // ^^^^^^ storage.type.class.scala
@@ -1521,7 +1542,6 @@ var foo: Thing =42
 class Foo extends Bar with {
    import Thing._
 // ^^^^^^ keyword.other.import.scala
-//        ^^^^^ variable.package.scala
 }
 
 class Foo extends Bar.Baz with bin.Baz
@@ -1538,9 +1558,9 @@ final case class
 }
 
   val ~ = 42
-//    ^ entity.name.val.scala
+//    ^ variable.other.constant.scala
   val \/- = 42
-//    ^^^ entity.name.val.scala
+//    ^^^ variable.other.constant.scala
 
 type ~[+A] = A
 //     ^ keyword.operator
@@ -1616,10 +1636,18 @@ new Monad[Catenable] with Traverse
 //                        ^^^^^^^^ support.class.scala
 
    final class A
-   final class B
+   final class B[A[_] <: B](a: B)
 // ^^^^^ storage.modifier.other.scala
 //       ^^^^^ storage.type.class.scala
 //             ^ entity.name.class.scala
+//              ^^^^^^^^^^^ meta.generic.scala
+//              ^ punctuation.definition.generic.begin.scala
+//                ^ punctuation.definition.generic.begin.scala
+//                  ^ punctuation.definition.generic.end.scala
+//                    ^^ keyword.operator.bound.scala
+//                        ^ punctuation.definition.generic.end.scala
+//                         ^ punctuation.section.group.begin.scala
+//                              ^ punctuation.section.group.end.scala
 
 abc match {
   case $foo(bar) => ()
@@ -1665,7 +1693,9 @@ new RangeColumn(range) with LongColumn { def apply(row: Int) = a + row }
 
 type =?>[A] = Any
 //   ^^^ entity.name.type.scala
-
+//      ^^^ meta.generic.scala
+//      ^ punctuation.definition.generic.begin.scala
+//        ^ punctuation.definition.generic.end.scala
   val x: Foo @> Bar
 //           ^^ support.type.scala
 
@@ -1680,20 +1710,17 @@ val x: = 42
    IO
 // ^^ support.constant.scala
 
-val foo' = 42
-//  ^^^^ entity.name.val.scala
-
-val foo'' = 42
-//  ^^^^^ entity.name.val.scala
-
-def foo' = ()
-//  ^^^^ entity.name.function.scala
+val a' = 42
+//   ^ - entity.name
 
 val ' = 42
 //  ^ - entity.name
 
 type Foo = Monad[OptionT[IO, ?]]
-//                           ^ variable.language.qmark.scala
+//                           ^ variable.language.hole.scala
+
+type Foo = Monad[OptionT[IO, *]]
+//                           ^ variable.language.hole.scala
 
 type Foo = Monad[λ[α => OptionT[IO, α]]]
 //               ^ keyword.operator.type-lambda.scala
@@ -1703,15 +1730,17 @@ type Foo = Monad[Lambda[α => OptionT[IO, α]]]
 
 import scalaz._,
    Scalaz._
-// ^^^^^^^ meta.import.scala variable.package.scala
+// ^^^^^^ meta.import.scala
 
 import scalaz._
    Scalaz._
-// ^^^^^^ support.constant.scala
+// ^^^^^^ support.constant.scala - meta.import
 
    for {
+//     ^ punctuation.section.block.begin.scala
        _ <_
    } yield true
+// ^ punctuation.section.block.end.scala
 //   ^^^^^ keyword.control.flow.scala
 
    x: ResourceError \/ Resource
@@ -1722,6 +1751,16 @@ import scalaz._
    type TS1 = trans.TransSpec1
    import library._
 // ^^^^^^ - support.type
+
+  type Foo = Thing { val a: Int }
+  //               ^ punctuation.definition.block.begin.scala
+  //                            ^ punctuation.definition.block.end.scala
+
+  type Foo = (Bar op (Baz))
+  //         ^ punctuation.definition.group.begin.scala
+  //                 ^ punctuation.definition.group.begin.scala
+  //                     ^ punctuation.definition.group.end.scala
+  //                      ^ punctuation.definition.group.end.scala
 
    def identity: CFId
    override final def equals(other: Any): Boolean
@@ -1737,6 +1776,7 @@ import scalaz._
 //               ^^^^^ variable.language.scala
 
 a match {
+//      ^ punctuation.section.block.begin.scala
   case x: b if Foo =>
 //          ^^ keyword.control.flow.scala
 //             ^^^ support.constant.scala
@@ -1765,14 +1805,14 @@ tail: _ *
 
     val Message(
       Address(from),
-//            ^^^^ entity.name.val.scala
+//            ^^^^ variable.other.constant.scala
       Address(to),
-//            ^^ entity.name.val.scala
+//            ^^ variable.other.constant.scala
       subject,
-//    ^^^^^^^ entity.name.val.scala
+//    ^^^^^^^ variable.other.constant.scala
       Content(tpe, value)) = m
-//            ^^^ entity.name.val.scala
-//                 ^^^^^ entity.name.val.scala
+//            ^^^ variable.other.constant.scala
+//                 ^^^^^ variable.other.constant.scala
 
 {
   case Foo() =>
@@ -1828,12 +1868,14 @@ for {
 }
 
 for (_<- fu; _← fu; _= fu)
+//  ^ punctuation.section.group.begin.scala
 //   ^ variable.language.underscore.scala
 //    ^^ keyword.operator.assignment.scala
 //           ^ variable.language.underscore.scala
 //            ^ keyword.operator.assignment.scala
 //                  ^ variable.language.underscore.scala
 //                   ^ keyword.operator.assignment.scala
+//                       ^ punctuation.section.group.end.scala
 
    raw"foo\nbar\rbaz"
 // ^^^ string.quoted.raw.interpolated.scala support.function.scala
@@ -1914,7 +1956,8 @@ s"testing '$foo' bar"
    new DataCodec {
      import PreciseKeys._
 //   ^^^^^^ meta.import.scala keyword.other.import.scala
-//          ^^^^^^^^^^^^ meta.import.scala variable.package.scala
+//          ^^^^^^^^^^^ meta.import.scala
+//                     ^ meta.import.scala punctuation.accessor.dot.scala
 //                      ^ meta.import.scala variable.language.underscore.scala
    } foo
    bar
@@ -1928,7 +1971,7 @@ type Foo = (Bar, Baz) => Result
   case _: NumberFormatException =>
     val col = foo
 //  ^^^ storage.type.stable.scala
-//      ^^^ entity.name.val.scala
+//      ^^^ variable.other.constant.scala
 //          ^ keyword.operator.assignment.scala
   case _: (NumberFormatException => Bar) => Bar
   //                                ^^^ support.class.scala
@@ -1991,21 +2034,21 @@ class Foo(bar: Baz)
 //           ^ punctuation.ascription.scala
 
 val firstA :: firstB :: Nil = results
-//  ^^^^^^ entity.name.val.scala
+//  ^^^^^^ variable.other.constant.scala
 //         ^^ - entity
-//            ^^^^^^ entity.name.val.scala
+//            ^^^^^^ variable.other.constant.scala
 //                   ^^ - entity
 //                      ^^^ support.constant.scala - entity
 
 val (firstA :: firstB :: Nil) :: (secondA :: secondB :: Nil) :: Nil = results
-//   ^^^^^^ entity.name.val.scala
+//   ^^^^^^ variable.other.constant.scala
 //          ^^ - entity
-//             ^^^^^^ entity.name.val.scala
+//             ^^^^^^ variable.other.constant.scala
 //                    ^^ - entity
 //                       ^^^ support.constant.scala - entity
-//                                ^^^^^^^ entity.name.val.scala
+//                                ^^^^^^^ variable.other.constant.scala
 //                                        ^^ - entity
-//                                            ^^^^^^ entity.name.val.scala
+//                                            ^^^^^^ variable.other.constant.scala
 //                                                      ^^^ support.constant.scala - entity
 //                                                           ^^ - entity
 //                                                              ^^^ support.constant.scala - entity
@@ -2063,3 +2106,15 @@ val (firstA :: firstB :: Nil) :: (secondA :: secondB :: Nil) :: Nil = results
    42d
 // ^^^ constant.numeric.float.scala
 //   ^ storage.type.numeric.scala
+
+foo == bar
+//  ^^ keyword.operator.comparison.scala
+
+foo != bar
+//  ^^ keyword.operator.comparison.scala
+
+foo eq bar
+//  ^^ keyword.operator.comparison.scala
+
+foo ne bar
+//  ^^ keyword.operator.comparison.scala

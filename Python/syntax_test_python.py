@@ -729,6 +729,15 @@ def foo(arg: int = 0, (x: float, y=20) = (0.0, "default")):
 #                                                       ^ punctuation.section.sequence.end.python
     pass
 
+def name(p1, p2=None, /, p_or_kw=None, *, kw): pass
+#                     ^ storage.modifier.positional-args-only.python
+#                      ^ punctuation.separator.parameters.python
+#                                      ^ keyword.operator.unpacking.sequence.python
+def name(p1, p2, /): pass
+#                ^ storage.modifier.positional-args-only.python
+#                 ^ punctuation.section.parameters.end.python
+
+
 ##################
 # Class definitions
 ##################

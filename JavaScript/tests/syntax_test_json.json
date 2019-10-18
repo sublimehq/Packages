@@ -79,4 +79,9 @@
 
   "ke//y": "value"
 //^^^^^^^ meta.mapping.key.json string.quoted.double.json - comment
+
+/**
+    *
+//  ^ meta.mapping.json comment.block.documentation.json punctuation.definition.comment.json
+*/
 }

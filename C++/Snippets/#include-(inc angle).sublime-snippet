@@ -2,5 +2,5 @@
 	<description>#include &lt;…&gt;</description>
 	<content><![CDATA[#include <${1:.h}>]]></content>
 	<tabTrigger>Inc</tabTrigger>
-	<scope>(source.c | source.objc | source.c++ | source.objc++) - meta.preprocessor.incomplete</scope>
+	<scope>(source.c | source.objc | source.c++ | source.objc++) - meta.preprocessor.incomplete - meta.preprocessor.include - comment - string</scope>
 </snippet>

@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Symbol List</string>
 	<key>scope</key>
-	<string>source.scala entity.name.function, source.scala entity.name.class, source.scala entity.name.val, source.scala entity.name.type, source.scala entity.name.namespace.scoped</string>
+	<string>source.scala entity.name.function, source.scala entity.name.class, source.scala variable.other.constant, source.scala variable.other.readwrite, source.scala entity.name.type, source.scala entity.name.namespace.scoped</string>
 	<key>settings</key>
 	<dict>
 		<key>showInIndexedSymbolList</key>

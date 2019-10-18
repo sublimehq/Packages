@@ -4,10 +4,12 @@
 	<key>name</key>
 	<string>Symbol List</string>
 	<key>scope</key>
-	<string>source.dosbatch entity.name.label.dosbatch</string>
+	<string>source.dosbatch entity.name.label - meta.function-call</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
+		<integer>1</integer>
+		<key>showInIndexedSymbolList</key>
 		<integer>1</integer>
 	</dict>
 </dict>

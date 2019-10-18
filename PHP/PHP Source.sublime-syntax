@@ -869,7 +869,7 @@ contexts:
           scope: punctuation.separator.php
         - include: expressions
   heredoc:
-    - match: '(?=<<<\s*''?({{identifier}})''?\s*$)'
+    - match: (?=<<<\s*'?({{identifier}})'?\s*$)
       push:
         - match: ^\s*(\1)\b(?:(;)(\s*$\n?))?
           captures:
@@ -881,13 +881,9 @@ contexts:
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
             1: keyword.operator.heredoc.php
-          push:
-            - meta_scope: meta.embedded.html
-            - meta_content_scope: text.html
-            - match: (?=^\s*HTML\b)
-              pop: true
-            - include: interpolation
-            - include: scope:text.html.basic
+          embed: heredoc-html
+          embed_scope: meta.embedded.html text.html
+          escape: (?=^\s*HTML\b)
         - match: <<<\s*('HTML')\s*$\n?
           scope: meta.embedded.html punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
@@ -899,13 +895,9 @@ contexts:
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
             1: keyword.operator.heredoc.php
-          push:
-            - meta_scope: meta.embedded.xml
-            - meta_content_scope: text.xml
-            - match: (?=^\s*XML\b)
-              pop: true
-            - include: interpolation
-            - include: scope:text.xml
+          embed: heredoc-xml
+          embed_scope: meta.embedded.xml text.xml
+          escape: (?=^\s*XML\b)
         - match: <<<\s*('XML')\s*$\n?
           scope: meta.embedded.xml punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
@@ -917,13 +909,9 @@ contexts:
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
             1: keyword.operator.heredoc.php
-          push:
-            - meta_scope: meta.embedded.sql
-            - meta_content_scope: source.sql
-            - match: (?=^\s*SQL\b)
-              pop: true
-            - include: interpolation
-            - include: scope:source.sql
+          embed: heredoc-sql
+          embed_scope: meta.embedded.sql source.sql
+          escape: (?=^\s*SQL\b)
         - match: <<<\s*('SQL')\s*$\n?
           scope: meta.embedded.sql punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
@@ -935,13 +923,9 @@ contexts:
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
             1: keyword.operator.heredoc.php
-          push:
-            - meta_scope: meta.embedded.js
-            - meta_content_scope: source.js
-            - match: (?=^\s*JAVASCRIPT\b)
-              pop: true
-            - include: interpolation
-            - include: scope:source.js
+          embed: heredoc-javascript
+          embed_scope: meta.embedded.js source.js
+          escape: (?=^\s*JAVASCRIPT\b)
         - match: <<<\s*('JAVASCRIPT')\s*$\n?
           scope: meta.embedded.js punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
@@ -953,13 +937,9 @@ contexts:
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
             1: keyword.operator.heredoc.php
-          push:
-            - meta_scope: meta.embedded.json
-            - meta_content_scope: source.json
-            - match: (?=^\s*JSON\b)
-              pop: true
-            - include: interpolation
-            - include: scope:source.json
+          embed: heredoc-json
+          embed_scope: meta.embedded.json source.json
+          escape: (?=^\s*JSON\b)
         - match: (<<<)\s*('JSON')\s*$\n?
           scope: meta.embedded.json punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
@@ -971,13 +951,9 @@ contexts:
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
             1: keyword.operator.heredoc.php
-          push:
-            - meta_scope: meta.embedded.css
-            - meta_content_scope: source.css
-            - match: (?=^\s*CSS\b)
-              pop: true
-            - include: interpolation
-            - include: scope:source.css
+          embed: heredoc-css
+          embed_scope: meta.embedded.css source.css
+          escape: (?=^\s*CSS\b)
         - match: <<<\s*('CSS')\s*$\n?
           scope: meta.embedded.css punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
@@ -994,16 +970,50 @@ contexts:
             - match: (?=^\s*\1\b)
               pop: true
             - include: interpolation
-        - match: '<<<\s*('')({{identifier}})('')'
+        - match: <<<\s*('({{identifier}})')
           scope: punctuation.definition.string.php
           captures:
             1: keyword.operator.nowdoc.php
-            2: keyword.operator.nowdoc.php
-            3: keyword.operator.nowdoc.php
           push:
             - meta_scope: string.unquoted.nowdoc.php
             - match: (?=^\s*\2\b)
               pop: true
+  heredoc-html:
+    - meta_include_prototype: false
+    - match: ''
+      push: scope:text.html.basic
+      with_prototype:
+        - include: interpolation
+  heredoc-xml:
+    - meta_include_prototype: false
+    - match: ''
+      push: scope:text.xml
+      with_prototype:
+        - include: interpolation
+  heredoc-sql:
+    - meta_include_prototype: false
+    - match: ''
+      push: scope:source.sql
+      with_prototype:
+        - include: interpolation
+  heredoc-javascript:
+    - meta_include_prototype: false
+    - match: ''
+      push: scope:source.js
+      with_prototype:
+        - include: interpolation
+  heredoc-json:
+    - meta_include_prototype: false
+    - match: ''
+      push: scope:source.json
+      with_prototype:
+        - include: interpolation
+  heredoc-css:
+    - meta_include_prototype: false
+    - match: ''
+      push: scope:source.css
+      with_prototype:
+        - include: interpolation
   instantiation:
     # anonymous class ( http://php.net/manual/en/language.oop5.anonymous.php )
     - match: '(?i)(new)\s+(class)\b\s*'
@@ -1194,11 +1204,15 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.end.php
           pop: true
-    - match: ^\s*\*\s*(@access)\s+((var|public|private|protected)|(.+))\s*$
+    - match: ^\s*(\*)\s*(@access)\s+((var|public|private|protected)|(.+))\s*$
       captures:
-        1: keyword.other.phpdoc.php
-        3: storage.modifier.php
-        4: invalid.illegal.wrong-access-type.phpdoc.php
+        1: punctuation.definition.comment.php
+        2: keyword.other.phpdoc.php
+        4: storage.modifier.php
+        5: invalid.illegal.wrong-access-type.phpdoc.php
+    - match: ^\s*(\*)(?!/)
+      captures:
+        1: punctuation.definition.comment.php
     - match: "((https?|s?ftp|ftps|file|smb|afp|nfs|(x-)?man|gopher|txmt)://|mailto:)[-:@a-zA-Z0-9_.~%+/?=&#]*[-@a-zA-Z0-9_~%+/=&#]"
       scope: markup.underline.link.php
     - match: (@xlink)\s+(.+)\s*$

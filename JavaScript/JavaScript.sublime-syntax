@@ -75,7 +75,7 @@ variables:
 
   method_lookahead: |-
     (?x:(?=
-      (?: get|set|async ){{identifier_break}}
+      (?: get|set|async ){{identifier_break}}(?!\s*:)
       | \*
       | {{property_name}} \s* \(
     ))
@@ -93,15 +93,13 @@ variables:
 
 contexts:
   main:
-    - include: comments
     - include: comments-top-level
 
     - match: '\)|\}|\]'
       scope: invalid.illegal.stray-bracket-end.js
       # Don't pop or embedding could break.
 
-    - match: (?=\S)
-      push: statement
+    - include: statements
 
   prototype:
     - include: comments
@@ -115,6 +113,9 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.end.js
           pop: true
+        - match: ^\s*(\*)(?!/)
+          captures:
+            1: punctuation.definition.comment.js
     - match: /\*
       scope: punctuation.definition.comment.begin.js
       push:
@@ -171,6 +172,7 @@ contexts:
         - export-extended
 
   import-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.import.js
     - include: immediately-pop
 
@@ -237,6 +239,7 @@ contexts:
     - include: else-pop
 
   export-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.export.js
     - include: immediately-pop
 
@@ -334,8 +337,7 @@ contexts:
 
     - include: decorator
 
-    - match: (?=\S)
-      set: expression-statement
+    - include: expression-statement
 
   expect-semicolon:
     - match: \;
@@ -654,38 +656,47 @@ contexts:
     - include: else-pop
 
   switch-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.switch.js
     - include: immediately-pop
 
   do-while-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.do-while.js
     - include: immediately-pop
 
   for-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.for.js
     - include: immediately-pop
 
   while-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.while.js
     - include: immediately-pop
 
   with-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.with.js
     - include: immediately-pop
 
   conditional-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.conditional.js
     - include: immediately-pop
 
   try-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.try.js
     - include: immediately-pop
 
   finally-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.finally.js
     - include: immediately-pop
 
   catch-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.catch.js
     - include: immediately-pop
 
@@ -749,6 +760,7 @@ contexts:
     - include: else-pop
 
   block-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.block.js
     - include: immediately-pop
 
@@ -793,6 +805,7 @@ contexts:
         - decorator-expression-begin
 
   decorator-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.annotation.js
     - include: immediately-pop
 
@@ -819,11 +832,13 @@ contexts:
       pop: true
 
   expression:
-    - match: (?=\S)
+    - meta_include_prototype: false
+    - match: ''
       set: [ expression-end, expression-begin ]
 
   expression-no-comma:
-    - match: (?=\S)
+    - meta_include_prototype: false
+    - match: ''
       set: [ expression-end-no-comma, expression-begin ]
 
   expression-list:
@@ -937,18 +952,18 @@ contexts:
       scope: punctuation.definition.string.begin.js
       set:
         - meta_include_prototype: false
-        - meta_scope: meta.string.js string.template.js
+        - meta_scope: meta.string.js string.quoted.other.js
         - match: "`"
           scope: punctuation.definition.string.end.js
           pop: true
         - match: '\$\{'
-          scope: punctuation.definition.template-expression.begin.js
+          scope: punctuation.section.interpolation.begin.js
           push:
             - clear_scopes: 1
-            - meta_scope: meta.template.expression.js
-            - meta_content_scope: source.js.embedded.expression
+            - meta_scope: meta.interpolation.js
+            - meta_content_scope: source.js.embedded
             - match: '\}'
-              scope: punctuation.definition.template-expression.end.js
+              scope: punctuation.section.interpolation.end.js
               pop: true
             - match: (?=\S)
               push: expression
@@ -998,6 +1013,7 @@ contexts:
             - constructor-body-expect-class-begin
 
   constructor-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.function-call.constructor.js
     - include: immediately-pop
 
@@ -1167,6 +1183,7 @@ contexts:
         - class-name
 
   class-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.class.js
     - include: immediately-pop
 
@@ -1339,6 +1356,7 @@ contexts:
     - include: else-pop
 
   function-name-meta:
+    - meta_include_prototype: false
     - meta_scope: entity.name.function.js
     - include: immediately-pop
 
@@ -1349,6 +1367,7 @@ contexts:
       set: arrow-function-declaration
 
   function-declaration:
+    - meta_include_prototype: false
     - match: ''
       set:
         - function-meta
@@ -1409,6 +1428,7 @@ contexts:
     - include: else-pop
 
   arrow-function-declaration:
+    - meta_include_prototype: false
     - match: ''
       set:
         - function-meta
@@ -1639,6 +1659,7 @@ contexts:
     - include: else-pop
 
   method-declaration:
+    - meta_include_prototype: false
     - match: ''
       set:
         - function-meta
@@ -1796,10 +1817,12 @@ contexts:
     - include: else-pop
 
   call-function-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.function-call.js
     - include: else-pop
 
   call-method-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.function-call.method.js
     - include: else-pop
 
@@ -2200,6 +2223,7 @@ contexts:
     # Module-level variables
     - match: (?:__dirname|__filename|exports){{identifier_break}}
       scope: support.constant.node.js
+      pop: true
     - match: module{{identifier_break}}
       scope: support.constant.node.js
       set:
@@ -2298,6 +2322,7 @@ contexts:
       pop: true
     - match: (?:__defineGetter__|__defineSetter__|__lookupGetter__){{identifier_break}}
       scope: invalid.deprecated.js support.function.js
+      pop: true
 
   import-meta-expression:
     - match: import{{identifier_break}}

@@ -32,6 +32,9 @@ import
 import;
 // <- keyword.control.import-export
 
+import;/**/
+//     ^ - meta.import
+
 export { name1, name2 as name3 };
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
@@ -157,6 +160,9 @@ export
 export;
 // <- keyword.control.import-export
 
+export;/**/
+//     ^ - meta.export
+
 import * as
     alias from "module";
 // ^^^^^^^^^^^^^^^^^^^^^ meta.import.js
@@ -264,6 +270,9 @@ function
 function() {}
 // <- storage.type.function - entity.name.function
 
+function foo(){}/**/
+//              ^ - meta.function
+
 if (true)
 // <- keyword.control.conditional
 {
@@ -278,6 +287,11 @@ if (true)
 // <- comment.block.documentation punctuation.definition.comment.begin
 */
 // <- comment.block.documentation punctuation.definition.comment.end
+
+/**
+    * 
+//  ^ comment.block.documentation.js punctuation.definition.comment.js
+*/
 
 /*
 // <- comment.block punctuation.definition.comment
@@ -386,20 +400,24 @@ tag`Hello ${ a + b } world\nanother ${expression}.`;
 // <- variable.function.tagged-template
 // ^ punctuation.definition.string.begin
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string
-// ^^^^^^^ string.template
-//        ^ punctuation.definition.template-expression.begin
+// ^^^^^^^ string.quoted.other
+//        ^^^^^^^^^^ meta.interpolation - string
+//        ^ punctuation.section.interpolation.begin
 //           ^ variable.other.readwrite
 //             ^ keyword.operator.arithmetic
-//               ^ meta.template.expression source.js.embedded.expression
-//                 ^ punctuation.definition.template-expression.end
-//                  ^^^^^^^^^^^^^^^^ string.template
+//               ^ source.js.embedded
+//                 ^ punctuation.section.interpolation.end
+//                  ^^^^^^^^^^^^^^^^ string.quoted.other
 //                        ^ constant.character.escape
-//                                               ^^ string.template
+//                                  ^^^^^^^^^^^^^ meta.interpolation - string
+//                                  ^^ punctuation.section.interpolation.begin
+//                                              ^ punctuation.section.interpolation.end
+//                                               ^^ string.quoted.other
 //                                                ^ punctuation.definition.string.end
 
 tag `template`;
 // <- variable.function.tagged-template
-//  ^^^^^^^^^^ meta.string string.template
+//  ^^^^^^^^^^ meta.string string.quoted.other
 
 x ? y // y is a template tag!
 `template` : z;
@@ -562,6 +580,18 @@ var obj = {
 //     ^^^^^^^^ meta.function-call
 //     ^^^ variable.function
 //             ^ punctuation.separator.comma
+
+    get foo() {},
+//  ^^^^^^^^^^^^ meta.function
+//  ^^^ storage.type.accessor
+//      ^^^ entity.name.function
+
+    get() {},
+//  ^^^^^^^^ meta.function
+//  ^^^ entity.name.function
+
+    get: 42,
+//  ^^^ meta.object-literal.key
 }
 // <- meta.mapping - meta.block
 
@@ -623,6 +653,9 @@ var qux = 100;
 //   ^ variable.other.readwrite
 //         ^ constant.numeric
 
+{}/**/
+//^ - meta.block
+
 if (Infinity > qux) {
 // ^^^^^^^^^^^^^^^ meta.conditional
 //  ^^^^^^^^ constant.language.infinity
@@ -633,6 +666,9 @@ if (Infinity > qux) {
 
 if (foo bar)
     baz = "test"
+
+if(false){}/**/
+//         ^ - meta.conditional
 
 do {
 // <- meta.do-while
@@ -648,6 +684,9 @@ do {
 do // Incomplete statement
     42;
 //  ^^ constant.numeric - meta.do-while
+
+do {} while (false)/**/
+//                 ^^ - meta.do-while
 
 for (var i = 0; i < 10; i++) {
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
@@ -712,6 +751,9 @@ for (var i = 0; i < 10; i++) {
 for
     42;
 //  ^^ constant.numeric - meta.for
+
+for(;;){}/**/
+//       ^ - meta.for
 
 while (true)
 // ^^^^^^^^^ meta.while
@@ -797,6 +839,9 @@ while // Incomplete statement
     42;
 //  ^^ constant.numeric - meta.while
 
+while(false){}/**/
+//            ^ - meta.while
+
 with (undefined) {
 // <- keyword.control.with
 //^^^^^^^^^^ meta.with
@@ -807,6 +852,9 @@ with (undefined) {
 with // Incomplete statement
     42;
 //  ^^ constant.numeric - meta.while
+
+with(false){}/**/
+//           ^ - meta.with
 
 switch ($foo) {
 // ^^^^^^^^^^^^ meta.switch
@@ -868,6 +916,16 @@ try {
 switch // Incomplete statement
     42;
 //  ^^ constant.numeric - meta.switch
+
+switch(x){}/**/
+//         ^^ - meta.switch
+
+try{}/**/
+//   ^ - meta.try
+catch{}/**/
+//     ^ - meta.catch
+finally{}/**/
+//       ^ - meta.finally
 
 class MyClass extends TheirClass {
 // <- storage.type.class
@@ -1140,6 +1198,9 @@ class
 class
 // <- storage.type.class - entity.name.class
 
+class{}/**/
+//     ^ - meta.class
+
     () => {}
 //  ^^^^^^^^ meta.function - meta.function meta.function
 //  ^^^^^ meta.function.declaration
@@ -1384,6 +1445,9 @@ var abc = new ABC(
 //      ^^^^^^^^^^^^ meta.function-call.constructor meta.function-call.constructor meta.group meta.block
     })
 );
+
+new foo()/**/;
+//       ^ - meta.function-call.constructor
 
 function f() {
     new.target;
@@ -1744,12 +1808,12 @@ var query = {
 
 var str = `Hello, ${name}!`;
 //        ^^^^^^^^^^^^^^^^^ meta.string
-//        ^^^^^^^^ string.template
-//                ^^^^^^^ meta.template.expression - string
-//                       ^^ string.template
-//                ^^ punctuation.definition.template-expression.begin
-//                  ^^^^ source.js.embedded.expression variable.other.readwrite
-//                      ^ punctuation.definition.template-expression.end
+//        ^^^^^^^^ string.quoted.other
+//                ^^^^^^^ meta.interpolation - string
+//                       ^^ string.quoted.other
+//                ^^ punctuation.section.interpolation.begin
+//                  ^^^^ source.js.embedded variable.other.readwrite
+//                      ^ punctuation.section.interpolation.end
 
 function yy (a, b) {
 // ^^^^^^^^^^^^^^^^^ meta.function

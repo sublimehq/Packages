@@ -2,13 +2,15 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>Symbol Overrides</string>
+	<string>Symbol List: Struct</string>
 	<key>scope</key>
-	<string>source.erlang entity.name.function, source.erlang entity.name.type.class</string>
+	<string>source.cs entity.name.struct</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
-		<string>0</string>
+		<integer>1</integer>
+		<key>showInIndexedSymbolList</key>
+		<string>1</string>
 	</dict>
 </dict>
 </plist>

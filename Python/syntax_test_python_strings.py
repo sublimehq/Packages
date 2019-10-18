@@ -4,7 +4,7 @@
 # Strings and embedded syntaxes
 ###############################
 
-var = "\x00 \xaa \xAF \070 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SPACE}"
+var = "\x00 \xaa \xAF \070 \0 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SPACE}"
 #     ^ meta.string.python
 #      ^^^^ constant.character.escape.hex
 #           ^^^^ constant.character.escape.hex
@@ -19,14 +19,14 @@ var = "\x00 \xaa \xAF \070 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SPACE
 #                                            ^^ constant.character.escape
 #                                               ^^ constant.character.escape
 #                                                  ^^ constant.character.escape
-#                                                     ^^^^^^ constant.character.escape.unicode
-#                                                            ^^^^^^^^^^ constant.character.escape.unicode
-#                                                                       ^^^^^^^^^ constant.character.escape.unicode
+#                                                     ^^ constant.character.escape
+#                                                        ^^^^^^ constant.character.escape.unicode
+#                                                               ^^^^^^^^^^ constant.character.escape.unicode
+#                                                                          ^^^^^^^^^ constant.character.escape.unicode
 
-invalid_escapes = "\.  \7 \-"
+invalid_escapes = "\.  \-"
 #                  ^^ invalid.deprecated.character.escape.python
 #                      ^^ invalid.deprecated.character.escape.python
-#                         ^^ invalid.deprecated.character.escape.python
 
 conn.execute("SELECT * FROM foobar")
 #              ^ meta.string.python keyword.other.DML.sql
@@ -645,6 +645,33 @@ F""" {} {\} }
 #        ^ invalid.illegal.backslash-in-fstring
 #           ^ invalid.illegal.stray-brace
 """
+
+# Most of these were inspired by
+# https://github.com/python/cpython/commit/9a4135e939bc223f592045a38e0f927ba170da32
+f'{x=:}'
+#   ^ storage.modifier.debug.python
+f'{x=:.2f}'
+#   ^ storage.modifier.debug.python
+f'{x=!r}'
+#   ^ storage.modifier.debug.python
+f'{x=!a}'
+#   ^ storage.modifier.debug.python
+f'{x=!s:*^20}'
+#   ^ storage.modifier.debug.python
+#    ^^ storage.modifier.conversion.python
+#      ^^^^^ meta.format-spec.python
+f'{"Σ"=}'
+#     ^ storage.modifier.debug.python
+f'{0==1}'
+#   ^^ -storage.modifier.debug.python
+f'{0!=1}'
+#    ^ -storage.modifier.debug.python
+f'{0<=1}'
+#    ^ -storage.modifier.debug.python
+f'{0>=1}'
+#    ^ -storage.modifier.debug.python
+f'{f(a="3=")}'
+#     ^^^^ -storage.modifier.debug.python
 
 f" {
 %   ^ invalid.illegal.unclosed-string

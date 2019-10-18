@@ -415,13 +415,13 @@ contexts:
       pop: true
 
   number:
-    - match: (0[Xx])\h*
+    - match: (0[Xx])\h*(?:\.\h*)?(?:[Pp][-+]?\d*)?
       scope: constant.numeric.hexadecimal.lua
       captures:
         1: punctuation.definition.numeric.hexadecimal.lua
       pop: true
 
-    - match: (\d+(?:\.\d+)?|\.\d+)([Ee][-+]?\d+)?
+    - match: (?:\d+(?:\.\d*)?|\.\d+)([Ee][-+]?\d+)?
       scope: constant.numeric.decimal.lua
       pop: true
 
