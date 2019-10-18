@@ -203,14 +203,22 @@ contexts:
       scope: constant.language.ruby
     - match: '\b(__(FILE|LINE|ENCODING)__|self)\b(?![?!])'
       scope: variable.language.ruby
-    - match: '\b0[dD]\d(?:_?\d)*\b'
+    - match: '\b(0[dD])\d(?:_?\d)*\b'
       scope: constant.numeric.integer.decimal.ruby
-    - match: '\b0[xX]\h(?:_?\h)*\b'
+      captures:
+        1: punctuation.definition.numeric.decimal.ruby
+    - match: '\b(0[xX])\h(?:_?\h)*\b'
       scope: constant.numeric.integer.hexadecimal.ruby
-    - match: '\b0[oO]?[0-7](?:_?[0-7])*\b'
+      captures:
+        1: punctuation.definition.numeric.hexadecimal.ruby
+    - match: '\b(0[oO]?)[0-7](?:_?[0-7])*\b'
       scope: constant.numeric.integer.octal.ruby
-    - match: '\b0[bB][01](?:_?[01])*\b'
+      captures:
+        1: punctuation.definition.numeric.octal.ruby
+    - match: '\b(0[bB])[01](?:_?[01])*\b'
       scope: constant.numeric.integer.binary.ruby
+      captures:
+        1: punctuation.definition.numeric.binary.ruby
     - match: '\b\d(?:_?\d)*\.\d(?:_?\d)*r\b'
       scope: constant.numeric.float.rational.ruby
     - match: '\b\d(?:_?\d)*r\b'
