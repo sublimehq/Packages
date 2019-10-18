@@ -591,7 +591,7 @@ var obj = {
 //  ^^^ entity.name.function
 
     get: 42,
-//  ^^^ meta.object-literal.key
+//  ^^^ meta.mapping.key
 }
 // <- meta.mapping - meta.block
 
