@@ -219,12 +219,19 @@ contexts:
       scope: constant.numeric.integer.binary.ruby
       captures:
         1: punctuation.definition.numeric.binary.ruby
-    - match: '\b\d(?:_?\d)*\.\d(?:_?\d)*r\b'
+    - match: '\b\d(?:_?\d)*\.\d(?:_?\d)*(r)\b'
       scope: constant.numeric.float.rational.ruby
-    - match: '\b\d(?:_?\d)*r\b'
+      captures:
+        1: storage.type.numeric.rational.ruby
+    - match: '\b\d(?:_?\d)*(r)\b'
       scope: constant.numeric.integer.rational.ruby
-    - match: '\b\d(?:_?\d)*(?:\.\d(?:_?\d)*)?r?i\b'
+      captures:
+        1: storage.type.numeric.rational.ruby
+    - match: '\b\d(?:_?\d)*(?:\.\d(?:_?\d)*)?(r)?(i)\b'
       scope: constant.numeric.complex.imaginary.ruby
+      captures:
+        1: storage.type.numeric.rational.ruby
+        2: storage.type.numeric.imaginary.ruby
     - match: '\b\d(?:_?\d)*(?:\.\d(?:_?\d)*)?ir\b'
       scope: invalid.illegal.ruby
     - match: '\b\d(?:_?\d)*(?:\.\d(?:_?\d)*)?[eE][-+]?\d(?:_?\d)*\b'

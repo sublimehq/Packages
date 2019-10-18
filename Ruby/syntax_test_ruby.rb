@@ -241,14 +241,19 @@ BAR
 
  12r         #=> (12/1)
 #^^^ constant.numeric.integer.rational
+#  ^ storage.type.numeric.rational
  12.3r       #=> (123/10)
 #^^^^^ constant.numeric.float.rational
+#    ^ storage.type.numeric.rational
 
  1i          #=> (0+1i)
-#^^ constant.numeric.complex.imaginary 
+#^^ constant.numeric.complex.imaginary
+# ^ storage.type.numeric.imaginary
 
  12.3ri      #=> (0+(123/10)*i)
 #^^^^^^ constant.numeric.complex.imaginary
+#    ^ storage.type.numeric.rational
+#     ^ storage.type.numeric.imaginary
 
  12.3ir      #=> syntax error
 #^^^^^^ invalid.illegal - constant.numeric
