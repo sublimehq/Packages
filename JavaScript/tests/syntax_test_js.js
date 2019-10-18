@@ -1848,10 +1848,12 @@ function yy (a, b) {
 //       ^^^ meta.property.object
 
     +123;
-//  ^^^^ constant.numeric.decimal - keyword
+//  ^ keyword.operator.arithmetic
+//   ^^^ constant.numeric.decimal - keyword
 
     -123;
-//  ^^^^ constant.numeric.decimal - keyword
+//  ^ keyword.operator.arithmetic
+//   ^^^ constant.numeric.decimal - keyword
 
     + 123;
 //  ^ keyword.operator.arithmetic
