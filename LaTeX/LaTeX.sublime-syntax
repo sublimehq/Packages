@@ -820,6 +820,12 @@ contexts:
           embed: scope:source.java
           embed_scope: meta.environment.embedded.java.latex source.java.embedded
           escape: '(?=\\end\{lstlisting\})'
+        - match: '.*(%\s*(?i:html))$'
+          captures:
+            1: comment.line.percentage.latex
+          embed: scope:text.html.basic
+          embed_scope: meta.environment.embedded.html.latex source.html.embedded
+          escape: '(?=\\end\{lstlisting\})'
         - match: '.*(%\s*(?i:tex|latex))$'
           captures:
             1: comment.line.percentage.latex
@@ -879,6 +885,12 @@ contexts:
             1: comment.line.percentage.latex
           embed: scope:source.sql
           embed_scope: meta.environment.embedded.sql.latex source.sql.embedded
+          escape: '(?=\\end\{lstlisting\})'
+        - match: '.*(%\s*(?i:xml))$'
+          captures:
+            1: comment.line.percentage.latex
+          embed: scope:text.xml
+          embed_scope: meta.environment.embedded.xml.latex source.xml.embedded
           escape: '(?=\\end\{lstlisting\})'
         - match: '.*(%\s*(?i:yaml))$'
           captures:
@@ -955,6 +967,14 @@ contexts:
             3: punctuation.definition.group.brace.end.latex
           embed: scope:source.haskell
           embed_scope: meta.environment.embedded.haskell.latex source.haskell.embedded
+          escape: '(?=\\end\{minted\})'
+        - match: '(\{)(html)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.latex
+            2: variable.parameter.function.latex
+            3: punctuation.definition.group.brace.end.latex
+          embed: scope:text.html.basic
+          embed_scope: meta.environment.embedded.html.latex text.html.embedded
           escape: '(?=\\end\{minted\})'
         - match: '(\{)(java)(\})'
           captures:
@@ -1076,6 +1096,14 @@ contexts:
           embed: scope:source.sql
           embed_scope: meta.environment.embedded.sql.latex source.sql.embedded
           escape: '(?=\\end\{minted\})'
+        - match: '(\{)(xml)(\})'
+          captures:
+            1: punctuation.definition.group.brace.begin.latex
+            2: variable.parameter.function.latex
+            3: punctuation.definition.group.brace.end.latex
+          embed: scope:text.xml
+          embed_scope: meta.environment.embedded.xml.latex text.xml.embedded
+          escape: '(?=\\end\{minted\})'
         - match: '(\{)(yaml)(\})'
           captures:
             1: punctuation.definition.group.brace.begin.latex
@@ -1166,6 +1194,20 @@ contexts:
             6: punctuation.definition.verb.latex
           embed: scope:source.haskell
           embed_scope: meta.environment.verbatim.minted.latex meta.environment.embedded.haskell.latex source.haskell.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.latex
+            2: punctuation.definition.verb.latex
+        - match: '(\{)(html)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.latex
+          captures:
+            1: punctuation.definition.group.brace.begin.latex
+            2: variable.parameter.function.latex
+            3: punctuation.definition.group.brace.end.latex
+            5: punctuation.definition.group.brace.begin.latex
+            6: punctuation.definition.verb.latex
+          embed: scope:text.html.basic
+          embed_scope: meta.environment.verbatim.minted.latex meta.environment.embedded.html.latex text.html.embedded
           escape: '(\})|(\4)'
           escape_captures:
             1: punctuation.definition.group.brace.begin.latex
@@ -1376,6 +1418,20 @@ contexts:
             6: punctuation.definition.verb.latex
           embed: scope:source.sql
           embed_scope: meta.environment.verbatim.minted.latex meta.environment.embedded.sql.latex source.sql.embedded
+          escape: '(\})|(\4)'
+          escape_captures:
+            1: punctuation.definition.group.brace.begin.latex
+            2: punctuation.definition.verb.latex
+        - match: '(\{)(xml)(\})((\{)|(\W))'
+          scope: meta.environment.verbatim.minted.latex
+          captures:
+            1: punctuation.definition.group.brace.begin.latex
+            2: variable.parameter.function.latex
+            3: punctuation.definition.group.brace.end.latex
+            5: punctuation.definition.group.brace.begin.latex
+            6: punctuation.definition.verb.latex
+          embed: scope:text.xml
+          embed_scope: meta.environment.verbatim.minted.latex meta.environment.embedded.xml.latex text.xml.embedded
           escape: '(\})|(\4)'
           escape_captures:
             1: punctuation.definition.group.brace.begin.latex
