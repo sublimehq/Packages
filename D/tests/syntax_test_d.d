@@ -691,9 +691,10 @@ extern(1)
 //             ^ keyword.operator.assignment.d
 //               ^^ constant.numeric.integer.d
 //                 ^ punctuation.separator.sequence.d
-    Foo
-  //^^^^ meta.enum.d
-  //^^^ entity.name.constant.d
+    Foo // f
+//  ^^^^^^^^^ meta.enum.d
+//  ^^^ entity.name.constant.d
+//      ^^^^^ comment.line.double-slash.d
     2
   //^ meta.enum.d invalid.illegal.d
   }
@@ -2715,3 +2716,35 @@ extern(1)
 //               ^ punctuation.section.group.end.d
 //                 ^^^^^^^^ entity.name.type.d
 //                         ^ punctuation.terminator.d
+
+  S s = { a: 1, b: "hi",
+//^ meta.path.d storage.type.d
+//  ^ variable.other.d
+//    ^ keyword.operator.assignment.d
+//      ^^^^^^^^^^^^^^^^^ meta.block.d
+//      ^ punctuation.section.block.begin.d
+//        ^ entity.name.label.d
+//         ^ punctuation.separator.d
+//           ^ constant.numeric.integer.d
+//            ^ punctuation.separator.sequence.d
+//              ^ variable.other.d
+//               ^ punctuation.separator.mapping.key-value.d
+//                 ^^^^ meta.string.d string.quoted.double.d
+//                     ^ punctuation.separator.sequence.d
+    c: 5.sqrt(12) }.foo();
+//  ^^^^^^^^^^^^^^^ meta.block.d
+//  ^ variable.other.d
+//   ^ punctuation.separator.mapping.key-value.d
+//     ^ constant.numeric.integer.d
+//      ^ meta.path.d punctuation.accessor.dot.d
+//       ^^^^ meta.function-call.d meta.path.d variable.function.d
+//           ^ meta.function-call.d punctuation.section.parens.begin.d
+//            ^^ meta.function-call.d constant.numeric.integer.d
+//              ^ meta.function-call.d punctuation.section.parens.end.d
+//                ^ punctuation.section.block.end.d
+//                 ^ meta.path.d punctuation.accessor.dot.d
+//                  ^^^^^ meta.function-call.d
+//                  ^^^ meta.path.d variable.function.d
+//                     ^ punctuation.section.parens.begin.d
+//                      ^ punctuation.section.parens.end.d
+//                       ^ punctuation.terminator.d
