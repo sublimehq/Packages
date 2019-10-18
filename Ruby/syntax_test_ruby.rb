@@ -181,6 +181,69 @@ BAR
 #  ^ - meta.string - string.unquoted
 
 ##################
+# Numbers
+##################
+
+ 1234
+#^^^^ constant.numeric.integer 
+ 1_234
+#^^^^^ constant.numeric.integer
+ 
+ 12.34
+#^^^^^ constant.numeric.float
+ 1234e-2
+#^^^^^^^ constant.numeric.float
+ 1.234E1
+#^^^^^^^ constant.numeric.float
+ 
+ 0d170
+#^^^^^ constant.numeric.integer.decimal
+ 0D170
+#^^^^^ constant.numeric.integer.decimal
+ 
+ 0xaa
+#^^^^ constant.numeric.integer.hexadecimal
+ 0xAa
+#^^^^ constant.numeric.integer.hexadecimal
+ 0xAA
+#^^^^ constant.numeric.integer.hexadecimal
+ 0Xaa
+#^^^^ constant.numeric.integer.hexadecimal
+ 0XAa
+#^^^^ constant.numeric.integer.hexadecimal
+ 0XaA
+#^^^^ constant.numeric.integer.hexadecimal
+ 
+ 0252
+#^^^^ constant.numeric.integer.octal
+ 0o252
+#^^^^^ constant.numeric.integer.octal
+ 0O252
+#^^^^^ constant.numeric.integer.octal
+ 
+ 0b10101010
+#^^^^^^^^^^ constant.numeric.integer.binary
+ 0B10101010
+#^^^^^^^^^^ constant.numeric.integer.binary
+ 
+ 12r         #=> (12/1)
+#^^^ constant.numeric.integer.rational
+ 12.3r       #=> (123/10)
+#^^^^^ constant.numeric.float.rational
+ 
+ 1i          #=> (0+1i)
+#^^ constant.numeric.complex.imaginary 
+ 
+ 12.3ri      #=> (0+(123/10)*i)
+#^^^^^^ constant.numeric.complex.imaginary
+ 
+ 12.3ir      #=> syntax error
+#^^^^^^ invalid.illegal - constant.numeric
+
+ 1.
+# ^ constant.numeric.float - punctuation.accessor
+
+##################
 # Strings
 ##################
 
@@ -436,7 +499,7 @@ Symbol === :foo
 #       ^^ constant.character.ruby
 #         ^ - constant
 #          ^ keyword.operator.conditional.ruby
-#           ^^ constant.numeric.ruby
+#           ^^ constant.numeric.integer.ruby
   ?a ?A ?あ ?abc ?a0
 #^ - constant
 # ^ punctuation.definition.constant.ruby

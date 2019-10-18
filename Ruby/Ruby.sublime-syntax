@@ -203,8 +203,28 @@ contexts:
       scope: constant.language.ruby
     - match: '\b(__(FILE|LINE|ENCODING)__|self)\b(?![?!])'
       scope: variable.language.ruby
-    - match: '\b(0[xX]\h(_?\h)*|\d(_?\d)*(\.(?![^[:space:][:digit:]])(_?\d)*)?([eE][-+]?\d(_?\d)*)?|0[bB][01]+)\b'
-      scope: constant.numeric.ruby
+    - match: '\b0[dD]\d(_?\d)*\b'
+      scope: constant.numeric.integer.decimal.ruby
+    - match: '\b0[xX]\h(_?\h)*\b'
+      scope: constant.numeric.integer.hexadecimal.ruby
+    - match: '\b0[oO]?[0-7](_?[0-7])*\b'
+      scope: constant.numeric.integer.octal.ruby
+    - match: '\b0[bB][01](_?[01])*\b'
+      scope: constant.numeric.integer.binary.ruby
+    - match: '\b\d(_?\d)*\.\d(_?\d)*r\b'
+      scope: constant.numeric.float.rational.ruby
+    - match: '\b\d(_?\d)*r\b'
+      scope: constant.numeric.integer.rational.ruby
+    - match: '\b\d(_?\d)*(\.\d(_?\d)*)?r?i\b'
+      scope: constant.numeric.complex.imaginary.ruby
+    - match: '\b\d(_?\d)*(\.\d(_?\d)*)?ir\b'
+      scope: invalid.illegal.ruby
+    - match: '\b\d(_?\d)*(\.\d(_?\d)*)?[eE][-+]?\d(_?\d)*\b'
+      scope: constant.numeric.float.ruby
+    - match: '\b\d(_?\d)*\.(\d(_?\d)*\b)?'
+      scope: constant.numeric.float.ruby
+    - match: '\b\d(_?\d)*\b'
+      scope: constant.numeric.integer.ruby
     - match: ":'"
       scope: punctuation.definition.constant.ruby
       push:
