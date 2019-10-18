@@ -95,8 +95,7 @@ variables:
         )
     fenced_code_block_start: |-
         (?x:
-          [ ]*
-          ([ ]{0,3})   # up to 3 spaces
+          ([ \t]*)
           (
             (`){3,}    #   3 or more backticks
             (?![^`]*`) #   not followed by any more backticks on the same line
@@ -118,7 +117,7 @@ variables:
     code_fence_escape: |-
       (?x:
         ^             # the beginning of the line
-        [ ]*
+        [ \t]*
         (
           \2          # the backtick/tilde combination that opened the code fence
           (?:\3|\4)*  # plus optional additional closing characters

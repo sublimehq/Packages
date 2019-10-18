@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>source.erlang</string>
+	<key>settings</key>
+	<dict>
+		<key>cancelCompletion</key>
+		<string><![CDATA[(?x:
+			# anything up to a comment sign
+			^[^%]* (
+				# cancel after control keywords
+				\-\s*(else|endif) |
+				# line ends with `of`
+				(^|[^\w@])(endif|else|elsif|of)
+			)
+		)]]></string>
+	</dict>
+</dict>
+</plist>

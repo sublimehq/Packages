@@ -79,6 +79,9 @@ contexts:
         - match: '\*/'
           scope: punctuation.definition.comment.end.cs
           pop: true
+        - match: ^\s*(\*)(?!/)
+          captures:
+            1: punctuation.definition.comment.cs
         - include: comments_in
 
   comments_in:
