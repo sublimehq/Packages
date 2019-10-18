@@ -2143,7 +2143,7 @@ contexts:
       pop: true
 
   support-property-ecma-promise:
-    - match: (?:all|race|reject|resolve){{identifier_break}}
+    - match: (?:all|race|reject|resolve|allSettled|any){{identifier_break}}
       scope: support.function.builtin.js
       pop: true
 

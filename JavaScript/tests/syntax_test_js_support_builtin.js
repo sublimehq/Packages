@@ -361,6 +361,10 @@ Promise.reject;
 //      ^^^^^^ support.function.builtin
 Promise.resolve;
 //      ^^^^^^^ support.function.builtin
+Promise.allSettled;
+//      ^^^^^^^^^^ support.function.builtin
+Promise.any;
+//      ^^^ support.function.builtin
 
 Reflect.apply;
 //      ^^^^^ support.function.builtin
