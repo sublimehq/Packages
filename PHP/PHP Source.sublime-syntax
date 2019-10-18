@@ -1361,7 +1361,7 @@ contexts:
       scope: support.function.ctype.php
     - match: (?i)\bcurl_(setopt(_array)?|c(opy_handle|lose)|init|e(rr(no|or)|xec)|version|getinfo|multi_(select|close|in(it|fo_read)|exec|add_handle|remove_handle|getcontent))\b
       scope: support.function.curl.php
-    - match: (?i)\b(str(totime|ptime|ftime)|checkdate|time(zone_(name_(from_abbr|get)|transitions_get|identifiers_list|o(pen|ffset_get)|version_get|location_get|abbreviations_list))?|idate|date(_(su(n(set|_info|rise)|b)|create(_from_format)?|time(stamp_(set|get)|zone_(set|get)|_set)|i(sodate_set|nterval_(create_from_date_string|format))|offset_get|d(iff|efault_timezone_(set|get)|ate_set)|parse(_from_format)?|format|add|get_last_errors|modify))?|localtime|g(et(timeofday|date)|m(strftime|date|mktime))|m(icrotime|ktime))\b
+    - match: (?i)\b(str(totime|ptime|ftime)|checkdate|hrtime|time(zone_(name_(from_abbr|get)|transitions_get|identifiers_list|o(pen|ffset_get)|version_get|location_get|abbreviations_list))?|idate|date(_(su(n(set|_info|rise)|b)|create(_from_format)?|time(stamp_(set|get)|zone_(set|get)|_set)|i(sodate_set|nterval_(create_from_date_string|format))|offset_get|d(iff|efault_timezone_(set|get)|ate_set)|parse(_from_format)?|format|add|get_last_errors|modify))?|localtime|g(et(timeofday|date)|m(strftime|date|mktime))|m(icrotime|ktime))\b
       scope: support.function.datetime.php
     - match: (?i)\bdba_(sync|handlers|nextkey|close|insert|op(timize|en)|delete|popen|exists|key_split|f(irstkey|etch)|list|replace)\b
       scope: support.function.dba.php
@@ -1377,7 +1377,7 @@ contexts:
       scope: support.function.enchant.php
     - match: (?i)\b(s(plit(i)?|ql_regcase)|ereg(i(_replace)?|_replace)?)\b
       scope: support.function.ereg.php
-    - match: (?i)\b(set_e(rror_handler|xception_handler)|trigger_error|debug_(print_backtrace|backtrace)|user_error|error_(log|reporting|get_last)|restore_e(rror_handler|xception_handler))\b
+    - match: (?i)\b(set_e(rror_handler|xception_handler)|trigger_error|debug_(print_backtrace|backtrace)|user_error|error_(log|reporting|get_last|clear_last)|restore_e(rror_handler|xception_handler))\b
       scope: support.function.errorfunc.php
     - match: (?i)\b(s(hell_exec|ystem)|p(assthru|roc_(nice|close|terminate|open|get_status))|e(scapeshell(cmd|arg)|xec))\b
       scope: support.function.exec.php
@@ -1393,11 +1393,11 @@ contexts:
       scope: support.function.funchand.php
     - match: (?i)\b(ngettext|textdomain|d(ngettext|c(ngettext|gettext)|gettext)|gettext|bind(textdomain|_textdomain_codeset))\b
       scope: support.function.gettext.php
-    - match: (?i)\bgmp_(s(can(1|0)|trval|ign|ub|etbit|qrt(rem)?)|hamdist|ne(g|xtprime)|c(om|lrbit|mp)|testbit|in(tval|it|vert)|or|div(_(q(r)?|r)|exact)?|jacobi|p(o(pcount|w(m)?)|erfect_square|rob_prime)|fact|legendre|a(nd|dd|bs)|random|gcd(ext)?|xor|m(od|ul))\b
+    - match: (?i)\bgmp_(s(can(1|0)|trval|ign|ub|etbit|qrt(rem)?)|hamdist|ne(g|xtprime)|c(om|lrbit|mp)|testbit|in(tval|it|vert)|or|div|lcm|binomial|kronecker(_(q(r)?|r)|exact)?|jacobi|p(o(pcount|w(m)?)|erfect_(square|power)|rob_prime)|fact|legendre|a(nd|dd|bs)|random|gcd(ext)?|xor|m(od|ul))\b
       scope: support.function.gmp.php
-    - match: (?i)\bhash(_(hmac(_file)?|copy|init|update(_(stream|file))?|fi(nal|le)|algos))?\b
+    - match: (?i)\bhash(_(hmac(_file)?|hkdf|copy|init|update(_(stream|file))?|fi(nal|le)|algos))?\b
       scope: support.function.hash.php
-    - match: (?i)\b(http_(s(upport|end_(st(atus|ream)|content_(type|disposition)|data|file|last_modified))|head|negotiate_(c(harset|ontent_type)|language)|c(hunked_decode|ache_(etag|last_modified))|throttle|inflate|d(eflate|ate)|p(ost_(data|fields)|ut_(stream|data|file)|ersistent_handles_(c(ount|lean)|ident)|arse_(headers|cookie|params|message))|re(direct|quest(_(method_(name|unregister|exists|register)|body_encode))?)|get(_request_(headers|body(_stream)?))?|match_(etag|request_header|modified)|build_(str|cookie|url))|ob_(inflatehandler|deflatehandler|etaghandler))\b
+    - match: (?i)\b(http_(s(upport|end_(st(atus|ream)|content_(type|disposition)|data|file|last_modified))|response_code|head|negotiate_(c(harset|ontent_type)|language)|c(hunked_decode|ache_(etag|last_modified))|throttle|inflate|d(eflate|ate)|p(ost_(data|fields)|ut_(stream|data|file)|ersistent_handles_(c(ount|lean)|ident)|arse_(headers|cookie|params|message))|re(direct|quest(_(method_(name|unregister|exists|register)|body_encode))?)|get(_request_(headers|body(_stream)?))?|match_(etag|request_header|modified)|build_(str|cookie|url))|ob_(inflatehandler|deflatehandler|etaghandler))\b
       scope: support.function.http.php
     - match: (?i)\b(iconv(_(s(tr(pos|len|rpos)|ubstr|et_encoding)|get_encoding|mime_(decode(_headers)?|encode)))?|ob_iconv_handler)\b
       scope: support.function.iconv.php
@@ -1445,9 +1445,9 @@ contexts:
       scope: support.function.nsapi.php
     - match: (?i)\b(deaggregate|aggregat(ion_info|e(_(info|properties(_by_(list|regexp))?|methods(_by_(list|regexp))?))?))\b
       scope: support.function.objaggregation.php
-    - match: (?i)\boci(s(tatementtype|e(tprefetch|rverversion)|avelob(file)?)|n(umcols|ew(c(ollection|ursor)|descriptor)|logon)|c(o(l(umn(s(cale|ize)|name|type(raw)?|isnull|precision)|l(size|trim|a(ssign(elem)?|ppend)|getelem|max))|mmit)|loselob|ancel)|internaldebug|definebyname|_(s(tatement_type|e(t_(client_i(nfo|dentifier)|prefetch|edition|action|module_name)|rver_version))|n(um_(fields|rows)|ew_(c(o(nnect|llection)|ursor)|descriptor))|c(o(nnect|mmit)|l(ient_version|ose)|ancel)|internal_debug|define_by_name|p(connect|a(ssword_change|rse))|e(rror|xecute)|f(ield_(s(cale|ize)|name|type(_raw)?|is_null|precision)|etch(_(object|a(ssoc|ll|rray)|row))?|ree_statement)|lob_(copy|is_equal)|r(ollback|esult)|bind_(array_by_name|by_name))|p(logon|arse)|e(rror|xecute)|f(etch(statement|into)?|ree(statement|c(ollection|ursor)|desc))|write(temporarylob|lobtofile)|lo(adlob|go(n|ff))|r(o(wcount|llback)|esult)|bindbyname)\b
+    - match: (?i)\boci(s(tatementtype|e(tprefetch|rverversion)|avelob(file)?)|n(umcols|ew(c(ollection|ursor)|descriptor)|logon)|c(o(l(umn(s(cale|ize)|name|type(raw)?|isnull|precision)|l(size|trim|a(ssign(elem)?|ppend)|getelem|max))|mmit)|loselob|ancel)|internaldebug|definebyname|_(s(tatement_type|e(t_(db_operation|call_timeout|client_i(nfo|dentifier)|prefetch|edition|action|module_name)|rver_version))|n(um_(fields|rows)|ew_(c(o(nnect|llection)|ursor)|descriptor))|c(o(nnect|mmit)|l(ient_version|ose)|ancel)|internal_debug|define_by_name|p(connect|a(ssword_change|rse))|e(rror|xecute)|f(ield_(s(cale|ize)|name|type(_raw)?|is_null|precision)|etch(_(object|a(ssoc|ll|rray)|row))?|ree_statement)|lob_(copy|is_equal)|r(ollback|esult)|bind_(array_by_name|by_name))|p(logon|arse)|e(rror|xecute)|f(etch(statement|into)?|ree(statement|c(ollection|ursor)|desc))|write(temporarylob|lobtofile)|lo(adlob|go(n|ff))|r(o(wcount|llback)|esult)|bindbyname)\b
       scope: support.function.oci8.php
-    - match: (?i)\bopenssl_(s(ign|eal)|c(sr_(sign|new|export(_to_file)?|get_(subject|public_key))|ipher_iv_length)|open|d(h_compute_key|igest|ecrypt)|p(ublic_(decrypt|encrypt)|k(cs(12_(export(_to_file)?|read)|7_(sign|decrypt|encrypt|verify))|ey_(new|export(_to_file)?|free|get_(details|p(ublic|rivate))))|rivate_(decrypt|encrypt))|e(ncrypt|rror_string)|verify|free_key|random_pseudo_bytes|get_(cipher_methods|p(ublickey|rivatekey)|md_methods)|x509_(check(_private_key|purpose)|parse|export(_to_file)?|free|read))\b
+    - match: (?i)\bopenssl_(s(ign|eal)|c(sr_(sign|new|export(_to_file)?|get_(subject|public_key))|ipher_iv_length)|open|d(h_compute_key|igest|ecrypt)|p(ublic_(decrypt|encrypt)|k(cs(12_(export(_to_file)?|read)|7_(sign|decrypt|encrypt|verify))|ey_(derive|new|export(_to_file)?|free|get_(details|p(ublic|rivate))))|rivate_(decrypt|encrypt))|e(ncrypt|rror_string)|verify|free_key|random_pseudo_bytes|get_(cipher_methods|p(ublickey|rivatekey)|md_methods)|x509_(check(_private_key|purpose)|parse|export(_to_file)?|free|read))\b
       scope: support.function.openssl.php
     - match: (?i)\b(o(utput_(add_rewrite_var|reset_rewrite_vars)|b_(start|clean|implicit_flush|end_(clean|flush)|flush|list_handlers|g(zhandler|et_(status|c(ontents|lean)|flush|le(ngth|vel)))))|flush)\b
       scope: support.function.output.php
@@ -1471,7 +1471,7 @@ contexts:
       scope: support.function.php_odbc.php
     - match: (?i)\bpreg_(split|quote|filter|last_error|replace(_callback(_array)?)?|grep|match(_all)?)\b
       scope: support.function.php_pcre.php
-    - match: (?i)\b(spl_(classes|object_hash|autoload(_(call|unregister|extensions|functions|register))?)|class_(implements|parents)|iterator_(count|to_array|apply))\b
+    - match: (?i)\b(spl_(classes|object_(hash|id)|autoload(_(call|unregister|extensions|functions|register))?)|class_(implements|parents)|iterator_(count|to_array|apply))\b
       scope: support.function.php_spl.php
     - match: (?i)\bzip_(close|open|entry_(name|c(ompress(ionmethod|edsize)|lose)|open|filesize|read)|read)\b
       scope: support.function.php_zip.php
@@ -1499,7 +1499,7 @@ contexts:
       scope: support.function.snmp.php
     - match: (?i)\b(is_soap_fault|use_soap_error_handler)\b
       scope: support.function.soap.php
-    - match: (?i)\bsocket_(s(hutdown|trerror|e(nd(to)?|t_(nonblock|option|block)|lect))|c(onnect|l(ose|ear_error)|reate(_(pair|listen))?)|write|l(isten|ast_error)|accept|re(cv(from)?|ad)|get(sockname|_option|peername)|bind)\b
+    - match: (?i)\bsocket_(s(hutdown|trerror|e(nd(to)?|t_(nonblock|option|block)|lect))|c(onnect|l(ose|ear_error)|reate(_(pair|listen))?)|write|l(isten|ast_error)|accept|re(cv(from)?|ad)|get(sockname|_option|peername)|bind|export_stream\b)
       scope: support.function.sockets.php
     - match: (?i)\bsqlite_(s(ingle_query|eek)|has_(prev|more)|n(um_(fields|rows)|ext)|c(hanges|olumn|urrent|lose|reate_(function|aggregate))|open|u(nbuffered_query|df_(decode_binary|encode_binary))|p(open|rev)|e(scape_string|rror_string|xec)|valid|key|query|f(ield_name|etch_(s(tring|ingle)|column_types|object|a(ll|rray))|actory)|l(ib(encoding|version)|ast_(insert_rowid|error))|array_query|rewind|busy_timeout)\b
       scope: support.function.sqlite.php
@@ -1517,7 +1517,7 @@ contexts:
       scope: support.function.tokenizer.php
     - match: (?i)\b(http_build_query|url(decode|encode)|parse_url|rawurl(decode|encode)|get_(headers|meta_tags)|base64_(decode|encode))\b
       scope: support.function.url.php
-    - match: (?i)\b(s(trval|e(ttype|rialize))|i(s(set|_(s(calar|tring)|nu(ll|meric)|callable|int(eger)?|object|double|float|long|array|re(source|al)|bool))|ntval|mport_request_variables)|d(oubleval|ebug_zval_dump)|unse(t|rialize)|print_r|empty|var_(dump|export)|boolval|floatval|get(type|_(defined_vars|resource_type)))\b
+    - match: (?i)\b(s(trval|e(ttype|rialize))|i(s(set|_(s(calar|tring)|nu(ll|meric)|(call|count)able|int(eger)?|iterable|object|double|float|long|array|re(source|al)|bool))|ntval|mport_request_variables)|d(oubleval|ebug_zval_dump)|unse(t|rialize)|print_r|empty|var_(dump|export)|boolval|floatval|get(type|_(defined_vars|resource_type)))\b
       scope: support.function.var.php
     - match: (?i)\bwddx_(serialize_va(lue|rs)|deserialize|packet_(start|end)|add_vars)\b
       scope: support.function.wddx.php
