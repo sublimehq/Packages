@@ -108,6 +108,13 @@ ECHO "
 ::    ^^^         keyword.operator.logical.dosbatch
 ::            ^^^ keyword.operator.comparison.dosbatch
 
+
+   IF %ERRORLEVEL% NEQ 0 EXIT /B 1
+:: ^^              keyword.control.conditional.dosbatch
+::    ^^^^^^^^^^^^ variable.language.dosbatch
+::    ^ punctuation.definition.variable.begin.dosbatch
+::               ^ variable.language.dosbatch punctuation.definition.variable.end.dosbatch
+
    IF foo == bar
 :: ^^         keyword.control.conditional.dosbatch
 ::        ^^  keyword.operator.comparison.dosbatch
