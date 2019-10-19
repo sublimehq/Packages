@@ -240,6 +240,14 @@ BAR
  1i          #=> (0+1i)
 #^^ constant.numeric.complex.imaginary
 # ^ storage.type.numeric.imaginary
+ 1.i         #=> (0+1i)
+#^^^ constant.numeric.complex.imaginary
+# ^ punctuation.separator.decimal
+#  ^ storage.type.numeric.imaginary
+ 1.0i        #=> (0+1.0i)
+#^^^^ constant.numeric.complex.imaginary
+# ^ punctuation.separator.decimal
+#   ^ storage.type.numeric.imaginary
 
  12.3ri      #=> (0+(123/10)*i)
 #^^^^^^ constant.numeric.complex.imaginary
