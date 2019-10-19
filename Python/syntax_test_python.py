@@ -1199,13 +1199,13 @@ decimal = 1234567890 + 9876543210L + -1 + -42L * 0000
 #                                                ^^^^ constant.numeric.integer
 
 floating = 0.1 - .1 * 10e-20 - 0.0e2 % 2.
-#          ^^^ constant.numeric.float.python
+#          ^^^ constant.numeric.float.decimal.python
 #                ^ punctuation.separator.decimal.python
-#                ^^ constant.numeric.float.python
-#                     ^^^^^^ constant.numeric.float.python
+#                ^^ constant.numeric.float.decimal.python
+#                     ^^^^^^ constant.numeric.float.decimal.python
 #                               ^ punctuation.separator.decimal.python
-#                              ^^^^^ constant.numeric.float.python
-#                                      ^^ constant.numeric.float.python
+#                              ^^^^^ constant.numeric.float.decimal.python
+#                                      ^^ constant.numeric.float.decimal.python
 #                                       ^ punctuation.separator.decimal.python
 
 binary = 0b1010011 | 0b0110110L
@@ -1253,17 +1253,17 @@ illegal = 1LL << 08 | 0b010203 | 0xAbraCadabra
 #                                    ^^^^^^^^^ - constant.numeric
 
 amount = 10_000_000.0_2e2_0 + .e2 + 2_2._2
-#        ^^^^^^^^^^^^^^^^^^ constant.numeric.float
+#        ^^^^^^^^^^^^^^^^^^ constant.numeric.float.decimal.python
 #                  ^ punctuation.separator.decimal.python
 #                             ^^^ - constant
 #                                       ^^ - constant
 
 very_complex = 23_2.2e2_0J + 2_1j
-#              ^^^^^^^^^^^ constant.numeric.complex.python
+#              ^^^^^^^^^^^ constant.numeric.complex.imaginary.python
 #                  ^ punctuation.separator.decimal.python
-#                            ^^^^ constant.numeric.complex.python
-#                        ^ storage.type.numeric.complex.python
-#                               ^ storage.type.numeric.complex.python
+#                            ^^^^ constant.numeric.complex.imaginary.python
+#                        ^ storage.type.numeric.imaginary.python
+#                               ^ storage.type.numeric.imaginary.python
 
 addr = 0xCAFE_F00D
 #      ^^^^^^^^^^^ constant.numeric

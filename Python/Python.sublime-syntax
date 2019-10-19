@@ -33,7 +33,8 @@ variables:
   identifier_continue: '[[:alnum:]_]'
   identifier: '\b[[:alpha:]_]{{identifier_continue}}*\b'
   identifier_constant: '\b(?:[\p{Lu}_][\p{Lu}_\d]*)?[\p{Lu}]{2,}[\p{Lu}_\d]*\b'  # require 2 consecutive upper-case letters
-  digitpart: (?:\d(?:_?\d)*)
+  digit: (?:\d(?:_?\d)*)
+  exponent: (?:[Ee][-+]?{{digit}})
   path: '({{identifier}}[ ]*\.[ ]*)*{{identifier}}'
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER|WITH)\b
   illegal_names: (?:and|as|assert|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|not|or|pass|raise|return|try|while|with|yield)
@@ -454,36 +455,26 @@ contexts:
       captures:
         1: punctuation.definition.numeric.binary.python
     # complex
-    - match: (?i){{digitpart}}?(\.){{digitpart}}(?:e[\-\+]?{{digitpart}})?(j) # mandatory fraction
-      scope: constant.numeric.complex.python
-      captures:
-        1: punctuation.separator.decimal.python
-        2: storage.type.numeric.complex.python
-    - match: \b(?i)(?:{{digitpart}}(?:(\.){{digitpart}}?)?|(\.){{digitpart}})(?:e[\-\+]?{{digitpart}})(j) # mandatory exponent
-      scope: constant.numeric.complex.python
+    - match: |-
+        (?x:
+                      (\.)  {{digit}}  {{exponent}}? |
+          \b{{digit}} (\.)? {{digit}}? {{exponent}}?
+        )([Jj])
+      scope: constant.numeric.complex.imaginary.python
       captures:
         1: punctuation.separator.decimal.python
         2: punctuation.separator.decimal.python
-        3: storage.type.numeric.complex.python
-    - match: (?i){{digitpart}}(\.)?(j) # mandatory digitpart
-      scope: constant.numeric.complex.python
-      captures:
-        1: punctuation.separator.decimal.python
-        2: storage.type.numeric.complex.python
+        3: storage.type.numeric.imaginary.python
     # floating point
-    - match: (?i){{digitpart}}?(\.){{digitpart}}(?:e[\-\+]?{{digitpart}})? # mandatory fraction
-      scope: constant.numeric.float.python
-      captures:
-        1: punctuation.separator.decimal.python
-    - match: \b(?i)(?:{{digitpart}}(?:(\.){{digitpart}}?)?|(\.){{digitpart}})(?:e[\-\+]?{{digitpart}}) # mandatory exponent
-      scope: constant.numeric.float.python
+    - match: |-
+        (?x:
+                          (\.) {{digit}}  {{exponent}}? |
+          \b{{digit}} (?: (\.) {{digit}}? {{exponent}}? | {{exponent}} )
+        )
+      scope: constant.numeric.float.decimal.python
       captures:
         1: punctuation.separator.decimal.python
         2: punctuation.separator.decimal.python
-    - match: (?i){{digitpart}}(\.) # mandatory digitpart
-      scope: constant.numeric.float.python
-      captures:
-        1: punctuation.separator.decimal.python
     # integer
     - match: \b(?i)(?:[1-9]\d*|0)(L)\b # py2
       scope: constant.numeric.integer.long.decimal.python
