@@ -422,7 +422,7 @@ contexts:
     # https://docs.python.org/3/reference/lexical_analysis.html#numeric-literals
     # hexadecimal
     - match: \b(?i)(0x)\h*(L) # py2
-      scope: constant.numeric.integer.long.hexadecimal.python
+      scope: constant.numeric.integer.hexadecimal.python
       captures:
         1: punctuation.definition.numeric.hexadecimal.python
         2: storage.type.numeric.long.python
@@ -432,7 +432,7 @@ contexts:
         1: punctuation.definition.numeric.hexadecimal.python
     # octal
     - match: \b(?i)(0o?)(?=o|[0-7])[0-7]*(L) # py2
-      scope: constant.numeric.integer.long.octal.python
+      scope: constant.numeric.integer.octal.python
       captures:
         1: punctuation.definition.integer.octal.python
         2: storage.type.numeric.long.python
@@ -446,7 +446,7 @@ contexts:
         1: punctuation.definition.numeric.octal.python
     # binary
     - match: \b(?i)(0b)[01]*(L) # py2
-      scope: constant.numeric.integer.long.binary.python
+      scope: constant.numeric.integer.binary.python
       captures:
         1: punctuation.definition.numeric.binary.python
         2: storage.type.numeric.long.python
@@ -477,7 +477,7 @@ contexts:
         2: punctuation.separator.decimal.python
     # integer
     - match: \b(?i)(?:[1-9]\d*|0)(L)\b # py2
-      scope: constant.numeric.integer.long.decimal.python
+      scope: constant.numeric.integer.decimal.python
       captures:
         1: storage.type.numeric.long.python
     - match: \b(?i)([1-9][\d_]*|0)\b
