@@ -203,41 +203,68 @@ contexts:
       scope: constant.language.ruby
     - match: '\b(__(FILE|LINE|ENCODING)__|self)\b(?![?!])'
       scope: variable.language.ruby
-    - match: '\b(0[dD])\d(?:_?\d)*\b'
+    # numbers with 'ir' suffix are invalid
+    - match: '\b(?:\d(?:_?\d)*(?:\.\d(?:_?\d)*)?(?:[eE][-+]?\d(?:_?\d)*)?|0[dDxXoObB]?\h(?:_?\h)*)ir\b'
+      scope: invalid.illegal.ruby
+    - match: '\b(0[dD])\d(?:_?\d)*(r)?(i)?\b'
       scope: constant.numeric.integer.decimal.ruby
       captures:
         1: punctuation.definition.numeric.decimal.ruby
-    - match: '\b(0[xX])\h(?:_?\h)*\b'
+        2: storage.type.numeric.rational.ruby
+        3: storage.type.numeric.imaginary.ruby
+    - match: '\b(0[xX])\h(?:_?\h)*(r)?(i)?\b'
       scope: constant.numeric.integer.hexadecimal.ruby
       captures:
         1: punctuation.definition.numeric.hexadecimal.ruby
-    - match: '\b(0[oO]?)[0-7](?:_?[0-7])*\b'
+        2: storage.type.numeric.rational.ruby
+        3: storage.type.numeric.imaginary.ruby
+    - match: '\b(0[oO]?)[0-7](?:_?[0-7])*(r)?(i)?\b'
       scope: constant.numeric.integer.octal.ruby
       captures:
         1: punctuation.definition.numeric.octal.ruby
-    - match: '\b(0[bB])[01](?:_?[01])*\b'
+        2: storage.type.numeric.rational.ruby
+        3: storage.type.numeric.imaginary.ruby
+    - match: '\b(0[bB])[01](?:_?[01])*(r)?(i)?\b'
       scope: constant.numeric.integer.binary.ruby
       captures:
         1: punctuation.definition.numeric.binary.ruby
-    - match: '\b\d(?:_?\d)*\.\d(?:_?\d)*(r)\b'
-      scope: constant.numeric.float.rational.ruby
-      captures:
-        1: storage.type.numeric.rational.ruby
-    - match: '\b\d(?:_?\d)*(r)\b'
-      scope: constant.numeric.integer.rational.ruby
-      captures:
-        1: storage.type.numeric.rational.ruby
-    - match: '\b\d(?:_?\d)*(?:\.\d(?:_?\d)*)?(r)?(i)\b'
+        2: storage.type.numeric.rational.ruby
+        3: storage.type.numeric.imaginary.ruby
+    # 1.1e1i, 1e1i
+    - match: '\b\d(?:_?\d)*(?:(\.)\d(?:_?\d)*)?[eE][-+]?\d(?:_?\d)*(i)\b'
       scope: constant.numeric.complex.imaginary.ruby
       captures:
-        1: storage.type.numeric.rational.ruby
+        1: punctuation.separator.decimal.ruby
         2: storage.type.numeric.imaginary.ruby
-    - match: '\b\d(?:_?\d)*(?:\.\d(?:_?\d)*)?ir\b'
-      scope: invalid.illegal.ruby
-    - match: '\b\d(?:_?\d)*(?:\.\d(?:_?\d)*)?[eE][-+]?\d(?:_?\d)*\b'
+    # 1.1ri, 1.1i, 1ri, 1i
+    - match: '\b\d(?:_?\d)*(?:(\.)\d(?:_?\d)*)?(r)?(i)\b'
+      scope: constant.numeric.complex.imaginary.ruby
+      captures:
+        1: punctuation.separator.decimal.ruby
+        2: storage.type.numeric.rational.ruby
+        3: storage.type.numeric.imaginary.ruby
+    # 1.i
+    - match: '\b\d(?:_?\d)*(\.)(i)\b'
+      scope: constant.numeric.complex.imaginary.ruby
+      captures:
+        1: punctuation.separator.decimal.ruby
+        2: storage.type.numeric.imaginary.ruby
+    # 1.1r, 1r
+    - match: '\b\d(?:_?\d)*(?:(\.)\d(?:_?\d)*)?(r)\b'
+      scope: constant.numeric.rational.ruby
+      captures:
+        1: punctuation.separator.decimal.ruby
+        2: storage.type.numeric.rational.ruby
+    # 1.1e1, 1e1
+    - match: '\b\d(?:_?\d)*(?:(\.)\d(?:_?\d)*)?[eE][-+]?\d(?:_?\d)*\b'
       scope: constant.numeric.float.ruby
-    - match: '\b\d(?:_?\d)*\.(?:\d(?:_?\d)*\b)?'
+      captures:
+        1: punctuation.separator.decimal.ruby
+    # 1.1, 1.
+    - match: '\b\d(?:_?\d)*(\.)(?:\d(?:_?\d)*\b)?'
       scope: constant.numeric.float.ruby
+      captures:
+        1: punctuation.separator.decimal.ruby
     - match: '\b\d(?:_?\d)*\b'
       scope: constant.numeric.integer.ruby
     - match: ":'"
