@@ -33,8 +33,8 @@ variables:
   identifier_continue: '[[:alnum:]_]'
   identifier: '\b[[:alpha:]_]{{identifier_continue}}*\b'
   identifier_constant: '\b(?:[\p{Lu}_][\p{Lu}_\d]*)?[\p{Lu}]{2,}[\p{Lu}_\d]*\b'  # require 2 consecutive upper-case letters
-  digit: (?:\d+(?:_\d+)*)
-  exponent: (?:[Ee][-+]?{{digit}})
+  digits: (?:\d+(?:_\d+)*)
+  exponent: (?:[eE][-+]?{{digits}})
   path: '({{identifier}}[ ]*\.[ ]*)*{{identifier}}'
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER|WITH)\b
   illegal_names: (?:and|as|assert|break|class|continue|def|del|elif|else|except|finally|for|from|global|if|import|in|is|lambda|not|or|pass|raise|return|try|while|with|yield)
@@ -457,10 +457,12 @@ contexts:
     # complex
     - match: |-
         (?x:
-                      (\.)  {{digit}}  {{exponent}}? |
-          \b{{digit}} (\.)? {{digit}}? {{exponent}}?
-        )([Jj])
-      scope: constant.numeric.complex.imaginary.python
+          # 1.j, 1.1j, 1.1e1j, 1.1e-1j, 1.e1j, 1.e-1 | 1e1j, 1e-1j
+          \b{{digits}} (\.)? {{digits}}? {{exponent}}?
+          # .1j, .1e1j, .1e-1j
+          | (\.) {{digits}} {{exponent}}?
+        )([jJ])
+      scope: constant.numeric.complex.imaginary.decimal.python
       captures:
         1: punctuation.separator.decimal.python
         2: punctuation.separator.decimal.python
@@ -468,8 +470,10 @@ contexts:
     # floating point
     - match: |-
         (?x:
-                          (\.) {{digit}}  {{exponent}}? |
-          \b{{digit}} (?: (\.) {{digit}}? {{exponent}}? | {{exponent}} )
+          # 1., 1.1, 1.1e1, 1.1e-1, 1.e1, 1.e-1 | 1e1, 1e-1
+          \b{{digits}} (?: (\.) {{digits}}? {{exponent}}? | {{exponent}} )
+          # .1, .1e1, .1e-1
+          | (\.) {{digits}} {{exponent}}?
         )
       scope: constant.numeric.float.decimal.python
       captures:

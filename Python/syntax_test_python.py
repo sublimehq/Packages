@@ -1259,9 +1259,9 @@ amount = 10_000_000.0_2e2_0 + .e2 + 2_2._2
 #                                       ^^ - constant
 
 very_complex = 23_2.2e2_0J + 2_1j
-#              ^^^^^^^^^^^ constant.numeric.complex.imaginary.python
+#              ^^^^^^^^^^^ constant.numeric.complex.imaginary.decimal.python
 #                  ^ punctuation.separator.decimal.python
-#                            ^^^^ constant.numeric.complex.imaginary.python
+#                            ^^^^ constant.numeric.complex.imaginary.decimal.python
 #                        ^ storage.type.numeric.imaginary.python
 #                               ^ storage.type.numeric.imaginary.python
 
