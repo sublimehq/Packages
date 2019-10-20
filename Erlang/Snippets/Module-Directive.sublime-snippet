@@ -1,5 +1,5 @@
 <snippet>
-	<content><![CDATA[-module (${1:${TM_FILEPATH/^.*\/(.*)\.erl$/$1/g}}).]]></content>
+	<content><![CDATA[-module(${1:${TM_FILEPATH/^.*\/(.*)\.erl$/$1/g}}).]]></content>
 	<tabTrigger>mod</tabTrigger>
 	<scope>source.erlang</scope>
 	<description>Module Directive</description>

@@ -611,27 +611,31 @@ contexts:
 
   inside-define-directive-context:
     - meta_content_scope: variable.other.makefile
-    - match: \s*(?=(!|\?|\+|::?)?=\s*$\n)
+    - match: (?=(!|\?|\+|::?)?=\s*\n)
       set:
-        - match: ((!|\?|\+|::?)?=)\s*$\n
+        - match: ((!|\?|\+|::?)?=)\s*\n
           captures:
             1: keyword.operator.assignment.makefile
-          set:
-            - meta_content_scope: meta.string.makefile string.unquoted.makefile
-            - match: ^\s*(endef)
-              captures:
-                1: keyword.control.makefile
-              pop: true
+          set: inside-define-directive-value
+
     # Need to eat the actual newline character in order to start the
     # string.unquoted scope on the next line.
-    - match: $\n
-      set:
-        - meta_content_scope: meta.string.makefile string.unquoted.makefile
-        - match: ^\s*(endef)
-          captures:
-            1: keyword.control.makefile
-          pop: true
+    - match: \n
+      set: inside-define-directive-value
     - include: variable-substitutions
+
+  inside-define-directive-value:
+    - meta_content_scope: meta.string.makefile string.unquoted.makefile
+    - match: ^\s*(endef)\b
+      captures:
+        1: keyword.control.makefile
+      pop: true
+    # keep in balance with nested define statements
+    # see: https://github.com/sublimehq/Packages/issues/1998
+    - match: ^\s*define\b
+      push:
+        - match: ^\s*endef\b
+          pop: true
 
   variable-sub-common:
     - match: ':'

@@ -20,17 +20,17 @@ variables:
   before_fqn: (?={{lowercase_id}}\s*\.)
 
   # utility lookaround
-  lambda_lookahead: '(?:\(.*\)|{{id}})\s*->'
+  lambda_lookahead: (?:\(.*\)|{{id}})\s*->
 
 contexts:
   prototype:
-    - match: '(?=%>)'
+    - match: (?=%>)
       pop: true
     - include: comments
     - include: illegal-keywords
 
   any_POP:
-    - match: '(?=\S)'
+    - match: (?=\S)
       pop: true
 
   immediate_POP:
@@ -155,7 +155,7 @@ contexts:
     - include: object-types
 
   annotations:
-    - match: '@'
+    - match: \@
       scope: punctuation.definition.annotation.java
       push:
         - - meta_scope: meta.annotation.java
@@ -339,7 +339,10 @@ contexts:
           scope: keyword.declaration.extends.java
           push:
             - - meta_scope: meta.class.extends.java
-              - include: immediate_POP
+              - match: \,
+                scope: punctuation.separator.comma.java
+                push: inherited-object-type-reference
+              - include: any_POP
             - inherited-object-type-reference
         - match: \b(implements)\b
           scope: keyword.declaration.implements.java
@@ -387,11 +390,11 @@ contexts:
     - include: code-block-include
     - include: parens
   code-block-include:
-    - match: "{"
+    - match: \{
       scope: punctuation.section.block.begin.java
       push:
         - meta_scope: meta.block.java
-        - match: "}"
+        - match: \}
           scope: punctuation.section.block.end.java
           pop: true
         - include: code-block
@@ -421,9 +424,9 @@ contexts:
       scope: punctuation.definition.comment.java
       push:
         - meta_scope: comment.line.double-slash.java
-        - match: $\n?
+        - match: \n
           pop: true
-        - match: '(?=%>)'
+        - match: (?=%>)
           pop: true
   constants-and-special-vars:
     - match: \b(true|false|null)\b
@@ -639,7 +642,7 @@ contexts:
 
   before-next-field:
     # Prevent style from being removed from whole file when making a new expression
-    - match: '(?=\b(?:{{storage_modifiers}}|{{primitives}}|void)\b)'
+    - match: (?=\b(?:{{storage_modifiers}}|{{primitives}}|void)\b)
       pop: true
 
   method:
@@ -663,11 +666,11 @@ contexts:
           pop: true
     - include: throws
     - include: annotation-default
-    - match: "{"
+    - match: \{
       scope: punctuation.section.block.begin.java
       set:
         - meta_scope: meta.method.java meta.method.body.java
-        - match: "}"
+        - match: \}
           scope: punctuation.section.block.end.java
           pop: true
         - include: code-block
@@ -800,7 +803,7 @@ contexts:
     - include: inherited-object-type-reference-no-fqn
 
   inherited-object-type-reference-no-fqn:
-    - match: '{{classcase_id}}'
+    - match: (?!class|extends|implements|interface){{id}}
       scope: entity.other.inherited-class.java
       set: after-inherited-object-type-reference
     - include: any_POP
@@ -892,7 +895,7 @@ contexts:
     - include: punctuation-separator-comma
 
   lambdas:
-    - match: '(?={{lambda_lookahead}})'
+    - match: (?={{lambda_lookahead}})
       push: lambda-params
 
   lambda-params:
@@ -971,15 +974,15 @@ contexts:
       scope: keyword.operator.assignment.java
       push:
         - meta_scope: meta.assignment.rhs.java
-        - match: '(?=;|\)|\}|,)'
+        - match: (?=;|\)|\}|,)
           pop: true
         - include: code
   static-code-block:
-    - match: "{"
+    - match: \{
       scope: punctuation.section.block.begin.java
       push:
         - meta_scope: meta.static.body.java
-        - match: "}"
+        - match: \}
           scope: punctuation.section.block.end.java
           pop: true
         - include: code-block
@@ -987,7 +990,7 @@ contexts:
     - match: \b{{storage_modifiers}}\b
       scope: storage.modifier.java
   stray-braces:
-    - match: '\}'
+    - match: \}
       scope: invalid.illegal.stray-brace-end
   stray-parens:
     - match: \)

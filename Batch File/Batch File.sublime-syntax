@@ -238,6 +238,11 @@ contexts:
       scope: variable.parameter.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
+    - match: (?i)(%)errorlevel(%)
+      scope: variable.language.dosbatch
+      captures:
+        1: punctuation.definition.variable.begin.dosbatch
+        2: punctuation.definition.variable.end.dosbatch
     - include: variable
     - include: variable_delayed_expansion
 
