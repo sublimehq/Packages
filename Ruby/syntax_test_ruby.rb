@@ -189,6 +189,9 @@ BAR
  1_234
 #^^^^^ constant.numeric.integer
 
+ 1.
+#^^ constant.numeric.float
+# ^ punctuation.separator.decimal
  12.34
 #^^^^^ constant.numeric.float
 #  ^ punctuation.separator.decimal
@@ -197,6 +200,14 @@ BAR
  1.234E1
 #^^^^^^^ constant.numeric.float
 # ^ punctuation.separator.decimal
+ 12.e1
+#^^^^^ constant.numeric.float
+#  ^ punctuation.separator.decimal
+#   ^^ invalid.illegal.numeric.exponent
+ 12.e-1
+#^^^^^ constant.numeric.float
+#  ^ punctuation.separator.decimal
+#   ^^^ invalid.illegal.numeric.exponent
 
  0d170
 #^^^^^ constant.numeric.integer.decimal
@@ -322,9 +333,6 @@ BAR
 #^^ punctuation.definition.numeric.hexadecimal
 #    ^ storage.type.numeric.rational
 #     ^ storage.type.numeric.imaginary
-
- 1.
-# ^ constant.numeric.float - punctuation.accessor
 
 ##################
 # Strings

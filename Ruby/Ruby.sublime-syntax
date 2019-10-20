@@ -263,18 +263,25 @@ contexts:
         3: punctuation.separator.decimal.ruby
         4: invalid.illegal.numeric.exponent.ruby
         5: storage.type.numeric.rational.ruby
-    # 1.1e1, 1e1
-    - match: '\b{{digit}}(?:(\.){{digit}})?{{exponent}}\b'
+    # floating numbers
+    - match: |-
+       \b(?x:
+          {{digit}} (?:
+            # 1e1, 1.1e1
+            (?: (\.)    {{digit}}  )?  {{exponent}} \b
+            # 1., 1.1, 1.e1
+            |   (\.)(?: {{digit}}\b | ({{exponent}})\b )?
+          )
+       )
       scope: constant.numeric.float.ruby
       captures:
         1: punctuation.separator.decimal.ruby
-    # 1.1, 1.
-    - match: '\b{{digit}}(\.)(?:{{digit}}\b)?'
-      scope: constant.numeric.float.ruby
-      captures:
-        1: punctuation.separator.decimal.ruby
+        2: punctuation.separator.decimal.ruby
+        3: invalid.illegal.numeric.exponent.ruby
+    # integer decimal
     - match: '\b{{digit}}\b'
       scope: constant.numeric.integer.ruby
+    # Quoted symbols
     - match: ":'"
       scope: punctuation.definition.constant.ruby
       push:
