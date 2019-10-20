@@ -11,6 +11,7 @@ file_extensions:
 scope: source.r
 
 variables:
+  exponent: (?:[eE][-+]?\d+)
   var: '(?:[a-zA-Z._][a-zA-Z0-9._]*|`[^`]+`)'
 
 contexts:
@@ -42,22 +43,49 @@ contexts:
       scope: support.constant.misc.r
     - match: \b(TRUE|FALSE|NULL|NA|NA_integer_|NA_real_|NA_complex_|NA_character_|Inf|NaN)\b
       scope: constant.language.r
-    - match: \b0(x|X)[0-9a-fA-F]+i\b
-      scope: constant.numeric.imaginary.hexadecimal.r
-    - match: \b[0-9]+\.?[0-9]*(?:(e|E)(\+|-)?[0-9]+)?i\b
-      scope: constant.numeric.imaginary.decimal.r
-    - match: \.[0-9]+(?:(e|E)(\+|-)?[0-9]+)?i\b
-      scope: constant.numeric.imaginary.decimal.r
-    - match: \b0(x|X)[0-9a-fA-F]+L\b
+    # complex imaginary
+    - match: \b(0[xX])\h+(?:(i)|(I))\b
+      scope: constant.numeric.complex.imaginary.hexadecimal.r
+      captures:
+        1: punctuation.definition.numeric.hexadecimal.r
+        2: storage.type.numeric.imaginary.r
+        3: invalid.illegal.numeric.imaginary.r
+    - match: (?:(\.)\d+|\b\d+(\.)?\d*){{exponent}}?(?:(i)|(I))\b
+      scope: constant.numeric.complex.imaginary.decimal.r
+      captures:
+        1: punctuation.separator.decimal.r
+        2: punctuation.separator.decimal.r
+        3: storage.type.numeric.imaginary.r
+        4: invalid.illegal.numeric.imaginary.r
+    # integers
+    - match: \b(0[xX])\h+(?:(L)|(l))\b
       scope: constant.numeric.integer.hexadecimal.r
-    - match: \b(?:[0-9]+\.?[0-9]*)L\b
+      captures:
+        1: punctuation.definition.numeric.hexadecimal.r
+        2: storage.type.numeric.integer.r
+        3: invalid.illegal.numeric.integer.r
+    - match: \b\d+(\.)?\d*(?:(L)|(l))\b
       scope: constant.numeric.integer.decimal.r
-    - match: \b0(x|X)[0-9a-fA-F]+\b
+      captures:
+        1: punctuation.separator.decimal.r
+        2: storage.type.numeric.integer.r
+        3: invalid.illegal.numeric.integer.r
+    # floats
+    - match: \b(0[xX])\h+\b
       scope: constant.numeric.float.hexadecimal.r
-    - match: \b[0-9]+\.?[0-9]*(?:(e|E)(\+|-)?[0-9]+)?\b
+      captures:
+        1: punctuation.definition.numeric.hexadecimal.r
+    - match: |-
+        (?x:
+          # 1., 1.1, 1.1e1, 1.1e-1, 1.e1, 1.e-1 | 1, 1e1, 1e-1
+          \b\d+ (?: (\.) (?: \d* {{exponent}}? \b )? | {{exponent}}? \b )
+          # .1, .1e1, .1e-1
+          | (\.) \d+ {{exponent}}? \b
+        )
       scope: constant.numeric.float.decimal.r
-    - match: \.[0-9]+(?:(e|E)(\+|-)?[0-9]+)?\b
-      scope: constant.numeric.float.decimal.r
+      captures:
+        1: punctuation.separator.decimal.r
+        2: punctuation.separator.decimal.r
 
   general-variables:
     - match: '{{var}}'
