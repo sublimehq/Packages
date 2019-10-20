@@ -140,7 +140,7 @@ contexts:
     - include: optional-block-statement
 
   comment-in:
-    - match: /\*\*?
+    - match: /\*(\*(?!/))?
       scope: punctuation.definition.comment.d
       push:
         - meta_scope: comment.block.d
@@ -156,7 +156,7 @@ contexts:
         1: punctuation.definition.comment.d
     - include: nested-comment
   nested-comment:
-    - match: /\+\+?
+    - match: /\+(\+(?!/))?
       scope: punctuation.definition.comment.d
       push:
         - meta_scope: comment.block.nested.d
@@ -1163,6 +1163,11 @@ contexts:
     - match: \.
       scope: meta.path.d punctuation.accessor.dot.d
       set: [value-after, value-identifier]
+    - match: '\b({{name}})\s*(:)'
+      captures:
+        1: variable.other.d
+        2: punctuation.separator.mapping.key-value.d
+      set: value
     - match: '{{name_lookahead}}'
       set: [value-after, value-identifier]
     - include: not-whitespace-illegal-pop
@@ -1639,7 +1644,7 @@ contexts:
           scope: punctuation.section.block.end.d
           pop: true
         - include: attribute-in
-        - match: '(?=\b({{name}})\s*(=|,|}|$))'
+        - match: '(?=\b({{name}})\s*(=|,|}|/|$))'
           push: enum-member
         - match: '(?=\S)'
           push: [enum-member, type]

@@ -93,6 +93,18 @@ define $(dir)_print =
 lpr $($(dir)_sources)
 endef
 
+define FOO
+  BAR := 1
+  define BAZ
+# ^^^^^^ string.unquoted.makefile - keyword
+    X := 1
+  endef
+# ^^^^^^ string.unquoted.makefile - keyword
+Y := 3
+endef   # comment
+#^^^^ keyword.control.makefile
+#       ^^^ comment.line.number-sign.makefile
+
 #########################
 # 6.5 setting variables #
 #########################

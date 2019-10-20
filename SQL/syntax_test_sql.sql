@@ -30,6 +30,12 @@ This is a
 multiline comment
 -- ^ source.sql comment.block.c
 */
+
+/**
+    *
+--  ^ punctuation.definition.comment.sql
+*/
+
 select
 
 
