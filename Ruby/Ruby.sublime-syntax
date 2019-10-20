@@ -250,12 +250,19 @@ contexts:
         4: invalid.illegal.numeric.rational.ruby
         5: invalid.illegal.numeric.exponent.ruby
         6: storage.type.numeric.imaginary.ruby
-    # 1.1r, 1r
-    - match: '\b{{digit}}(?:(\.){{digit}})?(r)\b'
+    # rational numbers
+    - match: |-
+        \b(?x:
+          # 1.r | 1r, 1.1r, 1.e1r, 1.1e1r
+          {{digit}} (?: (\.) (r) | (?: (\.) {{digit}}? ({{exponent}})? )? (r) )
+        )\b
       scope: constant.numeric.rational.ruby
       captures:
         1: punctuation.separator.decimal.ruby
-        2: storage.type.numeric.rational.ruby
+        2: invalid.illegal.numeric.rational.ruby
+        3: punctuation.separator.decimal.ruby
+        4: invalid.illegal.numeric.exponent.ruby
+        5: storage.type.numeric.rational.ruby
     # 1.1e1, 1e1
     - match: '\b{{digit}}(?:(\.){{digit}})?{{exponent}}\b'
       scope: constant.numeric.float.ruby
