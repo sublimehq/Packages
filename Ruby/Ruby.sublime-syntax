@@ -232,25 +232,24 @@ contexts:
         1: punctuation.definition.numeric.binary.ruby
         2: storage.type.numeric.rational.ruby
         3: storage.type.numeric.imaginary.ruby
-    # 1.1e1i, 1e1i
-    - match: '\b{{digit}}(?:(\.){{digit}})?{{exponent}}(i)\b'
-      scope: constant.numeric.complex.imaginary.ruby
-      captures:
-        1: punctuation.separator.decimal.ruby
-        2: storage.type.numeric.imaginary.ruby
-    # 1.1ri, 1.1i, 1ri, 1i
-    - match: '\b{{digit}}(?:(\.){{digit}})?(r)?(i)\b'
+    # complex imaginary numbers
+    - match: |-
+        \b(?x:
+            {{digit}} (?:
+                # 1ri, 1.1ri, 1i, 1.1i | 1e1i, 1.1e1i
+              (?: (\.) {{digit}} )? (?: (r) | {{exponent}}? )
+              | # 1.ri, 1.1ri, 1.e1ri, 1.1e1ri | 1.i 1.e1i
+              (\.) (?: {{digit}}? {{exponent}}? (r) | ({{exponent}})? )
+            )
+        )(i)\b
       scope: constant.numeric.complex.imaginary.ruby
       captures:
         1: punctuation.separator.decimal.ruby
         2: storage.type.numeric.rational.ruby
-        3: storage.type.numeric.imaginary.ruby
-    # 1.i
-    - match: '\b{{digit}}(\.)(i)\b'
-      scope: constant.numeric.complex.imaginary.ruby
-      captures:
-        1: punctuation.separator.decimal.ruby
-        2: storage.type.numeric.imaginary.ruby
+        3: punctuation.separator.decimal.ruby
+        4: invalid.illegal.numeric.rational.ruby
+        5: invalid.illegal.numeric.exponent.ruby
+        6: storage.type.numeric.imaginary.ruby
     # 1.1r, 1r
     - match: '\b{{digit}}(?:(\.){{digit}})?(r)\b'
       scope: constant.numeric.rational.ruby
