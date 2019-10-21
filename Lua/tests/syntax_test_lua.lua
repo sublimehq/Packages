@@ -268,20 +268,41 @@
 --              ^ punctuation.section.block.end
 
     {[a] = x, b = y};
---   ^^^ meta.brackets
+--  ^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
+--   ^^^ meta.mapping.key meta.brackets
 --   ^ punctuation.section.brackets.begin
 --    ^ variable.other
 --     ^ punctuation.section.brackets.end
 --       ^ punctuation.separator.key-value
---         ^ variable.other
---          ^ punctuation.separator.field
---            ^ meta.key string.unquoted.key
+--         ^ meta.mapping.value variable.other
+--          ^ meta.mapping.lua punctuation.separator.field
+--            ^ meta.mapping.key string.unquoted.key
 --              ^ punctuation.separator.key-value
 --                ^ meta.mapping variable.other
 
     {[[actually a string]], [=[this too]=]}
 --   ^^ meta.mapping.lua string.quoted.multiline.lua punctuation.definition.string.begin.lua
 --                          ^^^ meta.mapping.lua string.quoted.multiline.lua punctuation.definition.string.begin.lua
+
+    {some = 2}, {some == 2}
+--   ^^^^ meta.mapping.key string.unquoted.key.lua
+--        ^ punctuation.separator.key-value.lua
+--          ^ meta.mapping.value constant.numeric.decimal
+--               ^^^^ variable.other.lua - meta.mapping.key
+--                    ^^ keyword.operator.comparison
+
+    {__index = function(i) end,
+--   ^^^^^^^ meta.mapping.key entity.name.function support.function.metamethod.lua
+     method = function ()
+--   ^^^^^^ meta.mapping.key.lua entity.name.function.lua - support
+     end,
+     __call = some_func,
+--   ^^^^^^ meta.mapping.key.lua entity.name.function.lua support.function.metamethod.lua
+     not_method = some_var,
+--   ^^^^^^^^^^ meta.mapping.key.lua string.unquoted.key.lua - entity - support
+     __metatable = nil,
+--   ^^^^^^^^^^^ meta.mapping.key.lua string.unquoted.key.lua support.other.metaproperty.lua
+ }
 
 --PARENS
 
@@ -293,6 +314,9 @@
     foo.bar;
 --     ^ punctuation.accessor
 --      ^^^ meta.property
+
+    foo.__mode = "kv";
+--      ^^^^^^ meta.property.lua support.other.metaproperty.lua
 
     foo:bar;
 --     ^ punctuation.accessor
@@ -398,6 +422,9 @@
 --                       ^^^^^ meta.group
 --                             ^^^ keyword.control.end
 
+    function foo.bar:__index (...) end
+--                   ^^^^^^^ meta.name.function meta.property.lua entity.name.function.lua support.function.metamethod.lua
+
     function foo
         .bar () end
 --      ^^^^^^^^^^^ meta.function
@@ -424,6 +451,9 @@
 
     foo.bar = function() end;
 --      ^^^ meta.property entity.name.function
+
+    foo.__call = function() end;
+--      ^^^^^^ meta.property.lua entity.name.function.lua support.function.metamethod.lua
 
     function (return) end;
 --            ^^^^^^ invalid.unexpected-keyword.lua
