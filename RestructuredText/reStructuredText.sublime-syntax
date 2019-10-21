@@ -16,7 +16,7 @@ contexts:
           pop: true
         - include: inline
   inline:
-    - match: '^(\s*)((\.\.)\sraw(::)) html'
+    - match: '^(\s*)((\.\.)\s+raw(::)) html'
       comment: directives.html
       captures:
         2: meta.directive.restructuredtext
@@ -27,7 +27,7 @@ contexts:
           pop: true
         - meta_content_scope: text.html.basic
         - include: scope:text.html.basic
-    - match: '^(\s*)((\.\.)\s[A-z][A-z0-9\-_]+(::))\s*'
+    - match: '^(\s*)((\.\.)\s+[A-z][A-z0-9\-_]+(::))\s*'
       comment: directives
       captures:
         2: meta.other.directive.restructuredtext

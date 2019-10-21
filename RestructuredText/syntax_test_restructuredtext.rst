@@ -72,19 +72,21 @@ this is **bold**.
 Directive tests
 --------------
 
-.. not possible to test a multi-line directive, since comments cannot appear
-.. mid-directive
+.. note that comments within multiline directives must be indented, else they
+   convert the contents of that directive into a comment
 
 .. note:: Single line note
 .. <- punctuation.definition.directive.restructuredtext
 .. ^^^^ meta.other.directive.restructuredtext
 ..     ^^ punctuation.separator.key-value.restructuredtext
 
-.. note::
+..     note::
+    .. ^^^^ meta.other.directive.restructuredtext
+    ..     ^^ punctuation.separator.key-value.restructuredtext
 
     Outer note
 
-    .. note:: inner Single line note
+    .. note:: Inner single line note
     .. <- punctuation.definition.directive.restructuredtext
     .. ^^^^ meta.other.directive.restructuredtext
     ..     ^^ punctuation.separator.key-value.restructuredtext
