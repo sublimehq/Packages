@@ -24,10 +24,6 @@ contexts:
         4: punctuation.separator.key-value.restructuredtext
       push:
         - match: '^(?!\1[ \t])'
-          captures:
-            2: meta.directive.restructuredtext
-            3: punctuation.definition.directive.restructuredtext
-            4: punctuation.separator.key-value.restructuredtext
           pop: true
         - include: scope:text.html.basic
     - match: '(\.\.)\s[A-z][A-z0-9-_]+(::)\s*$'
@@ -44,9 +40,6 @@ contexts:
       push:
         - meta_scope: meta.raw.block.restructuredtext
         - match: '^(?=\1[^\s]+)'
-          captures:
-            2: markup.raw.restructuredtext
-            3: punctuation.definition.raw.restructuredtext
           pop: true
         - match: .+
           scope: markup.raw.restructuredtext
