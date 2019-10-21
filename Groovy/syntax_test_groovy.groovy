@@ -70,3 +70,16 @@ def greeting = "Hello ${true ? 'World' : 'Home'}"
 //                                             ^ punctuation.section.embedded
 //                                              ^ punctuation.definition.string.end
 //                                               ^ - string.quoted - invalid
+
+def str = "
+//        ^ string.quoted.double.groovy punctuation.definition.string.begin.groovy
+//         ^ string.quoted.double.groovy invalid.illegal.unclosed-string.groovy
+  "
+//^ string.quoted.double.groovy punctuation.definition.string.begin.groovy
+// ^ string.quoted.double.groovy invalid.illegal.unclosed-string.groovy
+def str = "\
+//        ^ string.quoted.double.groovy punctuation.definition.string.begin.groovy
+//         ^^ string.quoted.double.groovy constant.character.escape.groovy
+def str = "\
+  "
+//^ string.quoted.double.groovy punctuation.definition.string.end.groovy
