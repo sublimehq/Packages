@@ -69,6 +69,8 @@ file_extensions:
 first_line_match: ^#!\s*/.*\bj?ruby\b
 scope: source.ruby
 variables:
+  digit: (?:\d(?:_?\d)*)
+  exponent: (?:[Ee][-+]?{{digit}})
   heredoc_type_css: (?:[[:upper:]_]_)?CSS
   heredoc_type_html: (?:[[:upper:]_]_)?HTML
   heredoc_type_js: (?:[[:upper:]_]_)?(?:JS|JAVASCRIPT)
@@ -204,9 +206,9 @@ contexts:
     - match: '\b(__(FILE|LINE|ENCODING)__|self)\b(?![?!])'
       scope: variable.language.ruby
     # numbers with 'ir' suffix are invalid
-    - match: '\b(?:\d(?:_?\d)*(?:\.\d(?:_?\d)*)?(?:[eE][-+]?\d(?:_?\d)*)?|0[dDxXoObB]?\h(?:_?\h)*)ir\b'
+    - match: '\b(?:{{digit}}(?:\.{{digit}})?{{exponent}}?|0[dDxXoObB]?\h(?:_?\h)*)ir\b'
       scope: invalid.illegal.ruby
-    - match: '\b(0[dD])\d(?:_?\d)*(r)?(i)?\b'
+    - match: '\b(0[dD]){{digit}}(r)?(i)?\b'
       scope: constant.numeric.integer.decimal.ruby
       captures:
         1: punctuation.definition.numeric.decimal.ruby
@@ -230,43 +232,56 @@ contexts:
         1: punctuation.definition.numeric.binary.ruby
         2: storage.type.numeric.rational.ruby
         3: storage.type.numeric.imaginary.ruby
-    # 1.1e1i, 1e1i
-    - match: '\b\d(?:_?\d)*(?:(\.)\d(?:_?\d)*)?[eE][-+]?\d(?:_?\d)*(i)\b'
-      scope: constant.numeric.complex.imaginary.ruby
-      captures:
-        1: punctuation.separator.decimal.ruby
-        2: storage.type.numeric.imaginary.ruby
-    # 1.1ri, 1.1i, 1ri, 1i
-    - match: '\b\d(?:_?\d)*(?:(\.)\d(?:_?\d)*)?(r)?(i)\b'
+    # complex imaginary numbers
+    - match: |-
+        \b(?x:
+          {{digit}} (?:
+            # 1ri, 1.1ri, 1i, 1.1i | 1e1i, 1.1e1i
+            (?: (\.) {{digit}} )? (?: (r) | {{exponent}}? )
+            # 1.ri, 1.e1ri, 1.1e1ri | 1.i 1.e1i
+            |   (\.) (?: {{digit}}? {{exponent}}? (r) | ({{exponent}})? )
+          )
+        )(i)\b
       scope: constant.numeric.complex.imaginary.ruby
       captures:
         1: punctuation.separator.decimal.ruby
         2: storage.type.numeric.rational.ruby
-        3: storage.type.numeric.imaginary.ruby
-    # 1.i
-    - match: '\b\d(?:_?\d)*(\.)(i)\b'
-      scope: constant.numeric.complex.imaginary.ruby
-      captures:
-        1: punctuation.separator.decimal.ruby
-        2: storage.type.numeric.imaginary.ruby
-    # 1.1r, 1r
-    - match: '\b\d(?:_?\d)*(?:(\.)\d(?:_?\d)*)?(r)\b'
+        3: punctuation.separator.decimal.ruby
+        4: invalid.illegal.numeric.rational.ruby
+        5: invalid.illegal.numeric.exponent.ruby
+        6: storage.type.numeric.imaginary.ruby
+    # rational numbers
+    - match: |-
+        \b(?x:
+          # 1.r | 1r, 1.1r, 1.e1r, 1.1e1r
+          {{digit}} (?: (\.) (r) | (?: (\.) {{digit}}? ({{exponent}})? )? (r) )
+        )\b
       scope: constant.numeric.rational.ruby
       captures:
         1: punctuation.separator.decimal.ruby
-        2: storage.type.numeric.rational.ruby
-    # 1.1e1, 1e1
-    - match: '\b\d(?:_?\d)*(?:(\.)\d(?:_?\d)*)?[eE][-+]?\d(?:_?\d)*\b'
+        2: invalid.illegal.numeric.rational.ruby
+        3: punctuation.separator.decimal.ruby
+        4: invalid.illegal.numeric.exponent.ruby
+        5: storage.type.numeric.rational.ruby
+    # floating point numbers
+    - match: |-
+       \b(?x:
+          {{digit}} (?:
+            # 1e1, 1.1e1
+            (?: (\.)     {{digit}}  )?  {{exponent}} \b
+            # 1., 1.1, 1.e1
+            |   (\.) (?: {{digit}}\b | ({{exponent}})\b )?
+          )
+       )
       scope: constant.numeric.float.ruby
       captures:
         1: punctuation.separator.decimal.ruby
-    # 1.1, 1.
-    - match: '\b\d(?:_?\d)*(\.)(?:\d(?:_?\d)*\b)?'
-      scope: constant.numeric.float.ruby
-      captures:
-        1: punctuation.separator.decimal.ruby
-    - match: '\b\d(?:_?\d)*\b'
+        2: punctuation.separator.decimal.ruby
+        3: invalid.illegal.numeric.exponent.ruby
+    # integer decimal
+    - match: '\b{{digit}}\b'
       scope: constant.numeric.integer.ruby
+    # Quoted symbols
     - match: ":'"
       scope: punctuation.definition.constant.ruby
       push:
