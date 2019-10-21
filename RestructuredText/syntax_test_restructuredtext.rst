@@ -13,6 +13,13 @@
 ..
   a multi-line comment ends at the first character in the
   first column
+This is not a comment
+.. <- meta.paragraph.restructuredtext
+
+.. multi line comments can contain blank lines.
+
+ These are still part of the comment if they're indented.
+.. <- comment.line.double-dot.restructuredtext
 
 Some text
 .. <- meta.paragraph.restructuredtext
@@ -60,3 +67,69 @@ This is *italic*.
 
 this is **bold**.
 ..      ^^^^^^^^ markup.bold.restructuredtext
+
+
+Directive tests
+--------------
+
+.. not possible to test a multi-line directive, since comments cannot appear
+.. mid-directive
+
+.. note:: Single line note
+.. <- punctuation.definition.directive.restructuredtext
+.. ^^^^ meta.other.directive.restructuredtext
+..     ^^ punctuation.separator.key-value.restructuredtext
+
+.. note::
+
+    Outer note
+
+    .. note:: inner Single line note
+    .. <- punctuation.definition.directive.restructuredtext
+    .. ^^^^ meta.other.directive.restructuredtext
+    ..     ^^ punctuation.separator.key-value.restructuredtext
+
+
+Verbatim tests
+--------------
+
+::
+
+    Verbatim
+..  ^^^^^^^^ meta.raw.block.restructuredtext
+
+Can start with other text::
+
+    Verbatim
+..  ^^^^^^^^ meta.raw.block.restructuredtext
+
+.. blank lines should not cause scopes to be left
+
+::
+
+    Verbatim
+
+    Also Verbatim
+..  ^^^^^^^^^^^^^ meta.raw.block.restructuredtext
+
+::
+
+    Verbatim
+
+      Also Verbatim
+..    ^^^^^^^^^^^^^ meta.raw.block.restructuredtext
+
+
+::
+
+    Verbatim
+
+Not verbatim
+.. <- meta.paragraph.restructuredtext
+
+.. raw:: html
+    <b>
+    Blank lines are fine
+
+    </b>
+..  ^^^^ text.html.basic
