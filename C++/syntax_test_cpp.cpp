@@ -2458,6 +2458,9 @@ void sayHi()
 /*       ^^^ meta.brackets */
 /*       ^ punctuation.section.brackets.begin */
 /*         ^ punctuation.section.brackets.end */
+
+    std::cout << ">> Hi!\n";
+/*            ^^ keyword.operator.arithmetic.c */
 }
 
 /////////////////////////////////////////////
