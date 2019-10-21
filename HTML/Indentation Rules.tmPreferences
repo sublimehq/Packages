@@ -9,7 +9,7 @@
 		<string><![CDATA[(?x)
 			# the beginning of the line followed by any amount of whitespace
 			# a valid HTML close tag except "html"
-			  ^[^<>]*+ </ [^\t\n\f /<>]+ [^>]* >
+			  ^[^<>]*+ </ (?!html[\t\n\f /<>])[^\t\n\f /<>]+ [^>]* >
 			| ^[\t\n\f ]*+
 			(
 				# closing comment punctuation, optionally preceded by an end "comment selector"
