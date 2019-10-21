@@ -247,7 +247,7 @@ contexts:
             # 1ri, 1.1ri, 1i, 1.1i | 1e1i, 1.1e1i
             (?: (\.) {{ddigits}} )? (?: (r) | {{exponent}}? )
             # 1.ri, 1.e1ri, 1.1e1ri | 1.i 1.e1i
-            |   (\.) (?: {{ddigits}}? {{exponent}}? (r) | ({{exponent}})? )
+            | (\.) (?: {{ddigits}}? {{exponent}}? (r) | ({{exponent}})? )
           )
         )(i)(r)?\b
       scope: constant.numeric.complex.imaginary.ruby
@@ -277,7 +277,7 @@ contexts:
         \b(?x:
           {{ddigits}} (?:
             # 1e1, 1.1e1
-            (?: (\.)     {{ddigits}}  )?  {{exponent}} \b
+            (?: (\.) {{ddigits}} )? {{exponent}}\b
             # 1., 1.1, 1.e1
             | (\.) (?: {{ddigits}}\b | ({{exponent}})\b )?
           )
