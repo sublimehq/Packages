@@ -235,12 +235,12 @@ contexts:
     # complex imaginary numbers
     - match: |-
         \b(?x:
-            {{digit}} (?:
-                # 1ri, 1.1ri, 1i, 1.1i | 1e1i, 1.1e1i
-              (?: (\.) {{digit}} )? (?: (r) | {{exponent}}? )
-              | # 1.ri, 1.1ri, 1.e1ri, 1.1e1ri | 1.i 1.e1i
-              (\.) (?: {{digit}}? {{exponent}}? (r) | ({{exponent}})? )
-            )
+          {{digit}} (?:
+            # 1ri, 1.1ri, 1i, 1.1i | 1e1i, 1.1e1i
+            (?: (\.) {{digit}} )? (?: (r) | {{exponent}}? )
+            # 1.ri, 1.e1ri, 1.1e1ri | 1.i 1.e1i
+            |   (\.) (?: {{digit}}? {{exponent}}? (r) | ({{exponent}})? )
+          )
         )(i)\b
       scope: constant.numeric.complex.imaginary.ruby
       captures:
@@ -263,14 +263,14 @@ contexts:
         3: punctuation.separator.decimal.ruby
         4: invalid.illegal.numeric.exponent.ruby
         5: storage.type.numeric.rational.ruby
-    # floating numbers
+    # floating point numbers
     - match: |-
        \b(?x:
           {{digit}} (?:
             # 1e1, 1.1e1
-            (?: (\.)    {{digit}}  )?  {{exponent}} \b
+            (?: (\.)     {{digit}}  )?  {{exponent}} \b
             # 1., 1.1, 1.e1
-            |   (\.)(?: {{digit}}\b | ({{exponent}})\b )?
+            |   (\.) (?: {{digit}}\b | ({{exponent}})\b )?
           )
        )
       scope: constant.numeric.float.ruby

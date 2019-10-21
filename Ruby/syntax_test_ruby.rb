@@ -263,12 +263,12 @@ BAR
  1.e3i       #=> incomplete
 #^^^^^ constant.numeric.complex.imaginary
 # ^ punctuation.separator.decimal
-#  ^^ invalid.illegal.numeric.exponent.ruby
+#  ^^ invalid.illegal.numeric.exponent
 #    ^ storage.type.numeric.imaginary
  1.e-3i      #=> incomplete
 #^^^^^^ constant.numeric.complex.imaginary
 # ^ punctuation.separator.decimal
-#  ^^^ invalid.illegal.numeric.exponent.ruby
+#  ^^^ invalid.illegal.numeric.exponent
 #     ^ storage.type.numeric.imaginary
  1.2e3i      #=> (0+1200i)
 #^^^^^^ constant.numeric.complex.imaginary
@@ -287,12 +287,12 @@ BAR
 
  12ri        #=> (0+(12/3)*i)
 #^^^^ constant.numeric.complex.imaginary
-#  ^ storage.type.numeric.rational.ruby
+#  ^ storage.type.numeric.rational
 #   ^ storage.type.numeric.imaginary
  12.ri       #=> illegal
 #^^^^^ constant.numeric.complex.imaginary
-#  ^ punctuation.separator.decimal.ruby
-#   ^ invalid.illegal.numeric.rational.ruby
+#  ^ punctuation.separator.decimal
+#   ^ invalid.illegal.numeric.rational
 #    ^ storage.type.numeric.imaginary
  12.3ri      #=> (0+(123/10)*i)
 #^^^^^^ constant.numeric.complex.imaginary
@@ -302,17 +302,17 @@ BAR
  1.e3ri      #=> illegal, incomplete
 #^^^^^^ constant.numeric.complex.imaginary
 # ^ punctuation.separator.decimal
-#    ^ invalid.illegal.numeric.rational.ruby
+#    ^ invalid.illegal.numeric.rational
 #     ^ storage.type.numeric.imaginary
  1.2e3ri     #=> illegal
 #^^^^^^^ constant.numeric.complex.imaginary
 # ^ punctuation.separator.decimal
-#     ^ invalid.illegal.numeric.rational.ruby
+#     ^ invalid.illegal.numeric.rational
 #      ^ storage.type.numeric.imaginary
  1.2e-3ri    #=> illegal
 #^^^^^^^ constant.numeric.complex.imaginary
 # ^ punctuation.separator.decimal
-#      ^ invalid.illegal.numeric.rational.ruby
+#      ^ invalid.illegal.numeric.rational
 #       ^ storage.type.numeric.imaginary
 
  12.3ir      #=> syntax error
