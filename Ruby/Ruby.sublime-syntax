@@ -205,33 +205,38 @@ contexts:
       scope: constant.language.ruby
     - match: '\b(__(FILE|LINE|ENCODING)__|self)\b(?![?!])'
       scope: variable.language.ruby
-    # numbers with 'ir' suffix are invalid
-    - match: '\b(?:{{digit}}(?:\.{{digit}})?{{exponent}}?|0[dDxXoObB]?\h(?:_?\h)*)ir\b'
-      scope: invalid.illegal.ruby
-    - match: '\b(0[dD]){{digit}}(r)?(i)?\b'
+    # numbers with decimal base prefix
+    - match: '\b(0[dD]){{digit}}(r)?(?:(i)(r)?)?\b'
       scope: constant.numeric.integer.decimal.ruby
       captures:
         1: punctuation.definition.numeric.decimal.ruby
         2: storage.type.numeric.rational.ruby
         3: storage.type.numeric.imaginary.ruby
-    - match: '\b(0[xX])\h(?:_?\h)*(r)?(i)?\b'
+        4: invalid.illegal.numeric.rational.ruby
+    # numbers with hexadecimal base prefix
+    - match: '\b(0[xX])\h(?:_?\h)*(r)?(?:(i)(r)?)?\b'
       scope: constant.numeric.integer.hexadecimal.ruby
       captures:
         1: punctuation.definition.numeric.hexadecimal.ruby
         2: storage.type.numeric.rational.ruby
         3: storage.type.numeric.imaginary.ruby
-    - match: '\b(0[oO]?)[0-7](?:_?[0-7])*(r)?(i)?\b'
+        4: invalid.illegal.numeric.rational.ruby
+    # numbers with octal base prefix
+    - match: '\b(0[oO]?)[0-7](?:_?[0-7])*(r)?(?:(i)(r)?)?\b'
       scope: constant.numeric.integer.octal.ruby
       captures:
         1: punctuation.definition.numeric.octal.ruby
         2: storage.type.numeric.rational.ruby
         3: storage.type.numeric.imaginary.ruby
-    - match: '\b(0[bB])[01](?:_?[01])*(r)?(i)?\b'
+        4: invalid.illegal.numeric.rational.ruby
+    # numbers with binary base prefix
+    - match: '\b(0[bB])[01](?:_?[01])*(r)?(?:(i)(r)?)?\b'
       scope: constant.numeric.integer.binary.ruby
       captures:
         1: punctuation.definition.numeric.binary.ruby
         2: storage.type.numeric.rational.ruby
         3: storage.type.numeric.imaginary.ruby
+        4: invalid.illegal.numeric.rational.ruby
     # complex imaginary numbers
     - match: |-
         \b(?x:
@@ -241,7 +246,7 @@ contexts:
             # 1.ri, 1.e1ri, 1.1e1ri | 1.i 1.e1i
             |   (\.) (?: {{digit}}? {{exponent}}? (r) | ({{exponent}})? )
           )
-        )(i)\b
+        )(i)(r)?\b
       scope: constant.numeric.complex.imaginary.ruby
       captures:
         1: punctuation.separator.decimal.ruby
@@ -250,6 +255,7 @@ contexts:
         4: invalid.illegal.numeric.rational.ruby
         5: invalid.illegal.numeric.exponent.ruby
         6: storage.type.numeric.imaginary.ruby
+        7: invalid.illegal.numeric.rational.ruby
     # rational numbers
     - match: |-
         \b(?x:
@@ -265,14 +271,14 @@ contexts:
         5: storage.type.numeric.rational.ruby
     # floating point numbers
     - match: |-
-       \b(?x:
+        \b(?x:
           {{digit}} (?:
             # 1e1, 1.1e1
             (?: (\.)     {{digit}}  )?  {{exponent}} \b
             # 1., 1.1, 1.e1
             |   (\.) (?: {{digit}}\b | ({{exponent}})\b )?
           )
-       )
+        )
       scope: constant.numeric.float.ruby
       captures:
         1: punctuation.separator.decimal.ruby

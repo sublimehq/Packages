@@ -284,6 +284,11 @@ BAR
  12e-3i      #=> (0+0.012i)
 #^^^^^^ constant.numeric.complex.imaginary
 #     ^ storage.type.numeric.imaginary
+ 12.3ir      #=> illegal
+#^^^^^^ constant.numeric.complex.imaginary
+#  ^ punctuation.separator.decimal
+#    ^ storage.type.numeric.imaginary
+#     ^ invalid.illegal.numeric.rational
 
  12ri        #=> (0+(12/3)*i)
 #^^^^ constant.numeric.complex.imaginary
@@ -315,24 +320,24 @@ BAR
 #      ^ invalid.illegal.numeric.rational
 #       ^ storage.type.numeric.imaginary
 
- 12.3ir      #=> syntax error
-#^^^^^^ invalid.illegal - constant.numeric
-
  0xAAr
 #^^^^^ constant.numeric.integer.hexadecimal
 #^^ punctuation.definition.numeric.hexadecimal
 #    ^ storage.type.numeric.rational
-
  0xAAi
 #^^^^^ constant.numeric.integer.hexadecimal
 #^^ punctuation.definition.numeric.hexadecimal
 #    ^ storage.type.numeric.imaginary
-
  0xAAri
 #^^^^^^ constant.numeric.integer.hexadecimal
 #^^ punctuation.definition.numeric.hexadecimal
 #    ^ storage.type.numeric.rational
 #     ^ storage.type.numeric.imaginary
+ 0xAAir
+#^^^^^^ constant.numeric.integer.hexadecimal
+#^^ punctuation.definition.numeric.hexadecimal
+#    ^ storage.type.numeric.imaginary
+#     ^ invalid.illegal.numeric.rational
 
 ##################
 # Strings
