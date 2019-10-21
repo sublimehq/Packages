@@ -963,12 +963,33 @@ puts foo: bar
 "foo".sub! /t{1,}/i
 #          ^^^^^^^^ string.regexp
 #                 ^ keyword.other
+"foo".sub!(/t{1,}/i)
+#          ^^^^^^^^ string.regexp
+#                 ^ keyword.other
 "foo".gsub /t{1,}/i
 #          ^^^^^^^^ string.regexp
 #                 ^ keyword.other
 "foo".gsub! /t{1,}/i
 #           ^^^^^^^^ string.regexp
 #                  ^ keyword.other
+"foo".gsub!(/t{1,}/i)
+#           ^^^^^^^^ string.regexp
+#                  ^ keyword.other
+"foo".eql? /t{1,}/i
+#          ^^^^^^^^ string.regexp
+#                 ^ keyword.other
+"foo".eql?(/t{1,}/i)
+#          ^^^^^^^^ string.regexp
+#                 ^ keyword.other
+'foo'.match? /t{1,}/i
+#            ^^^^^^^^ string.regexp
+#                   ^ keyword.other
+'foo'.match?(/t{1,}/i)
+#            ^^^^^^^^ string.regexp
+#                   ^ keyword.other
+'foo'.matches?(/t{1,}/i)
+#              ^^^^^^^^ string.regexp
+#                     ^ keyword.other
 
 a = /(foo)*baz/m
 #   ^^^^^^^^^^^^ string.regexp
