@@ -513,7 +513,7 @@ contexts:
          scope: keyword.operator.template.right.trim.go
        - match: "-\\s"
          scope: keyword.operator.template.left.trim.go
-       - match: ":="
+       - match: ":=|="
          scope: keyword.operator.assignment.go
        - match: \|
          scope: keyword.operator.template.pipe.go

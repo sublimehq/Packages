@@ -2875,5 +2875,9 @@ func template() {
     //                            ^^ variable.other.template
     //                               ^ keyword.operator.template.pipe
     //                                 ^^^^^^ support.function.builtin
+    t = "{{with $x := "output"}}{{$x = "new value"}}{{$x | printf "%q"}}{{end}}"
+    //                            ^ meta.interpolation.go variable.other.template.go punctuation.definition.variable.go
+    //                             ^ meta.interpolation.go variable.other.template.go
+    //                               ^ meta.interpolation.go keyword.operator.assignment.go
     t = "{{slice x 1 2}}"
     //     ^^^^^ meta.interpolation.go variable.function.go support.function.builtin.go
