@@ -75,6 +75,8 @@ contexts:
           pop: true
         - include: Git Common.sublime-syntax#references
         - include: signed-off
+        - match: '{{hash}}'
+          scope: constant.numeric.hex.hash.git.commit
 
   signed-off:
     - match: ^\s*(Signed-off-by)\s*(:)

@@ -124,6 +124,9 @@ This commit applies all changes required to satisfy the JSON format unittest.
 #                                   ^ punctuation.separator.email.git
 #                                          ^ punctuation.separator.domain.git
 #                                              ^ punctuation.definition.reference.email.end.git
+  This commit references a hash: 21dde213
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+#                                ^^^^^^^^ constant.numeric.hex.hash.git.commit
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #
 # Please enter the commit message for your changes. Lines starting
