@@ -276,17 +276,16 @@ contexts:
     - match: |-
         \b(?x:
           {{ddigits}} (?:
-            # 1e1, 1.1e1
-            (?: (\.) {{ddigits}} )? {{exponent}}\b
-            # 1., 1.1, 1.e1
-            | (\.) (?: {{ddigits}}\b | ({{exponent}})\b )?
+            # 1.1, 1.1e1, 1.e1
+            (\.) (?: {{ddigits}} {{exponent}}? | ({{exponent}}) )
+            # 1e1
+            | {{exponent}}
           )
-        )
+        )\b
       scope: constant.numeric.float.ruby
       captures:
         1: punctuation.separator.decimal.ruby
-        2: punctuation.separator.decimal.ruby
-        3: invalid.illegal.numeric.exponent.ruby
+        2: invalid.illegal.numeric.exponent.ruby
     # integer decimal
     - match: '\b{{ddigits}}\b'
       scope: constant.numeric.integer.ruby

@@ -188,10 +188,10 @@ BAR
 #^^^^ constant.numeric.integer
  1_234
 #^^^^^ constant.numeric.integer
+ 1.          #=> dot after integer indicates method call
+#^ constant.numeric.integer
+# ^ punctuation.accessor - constant.numeric
 
- 1.
-#^^ constant.numeric.float
-# ^ punctuation.separator.decimal
  12.34
 #^^^^^ constant.numeric.float
 #  ^ punctuation.separator.decimal
