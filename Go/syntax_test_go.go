@@ -2875,3 +2875,5 @@ func template() {
     //                            ^^ variable.other.template
     //                               ^ keyword.operator.template.pipe
     //                                 ^^^^^^ support.function.builtin
+    t = "{{slice x 1 2}}"
+    //     ^^^^^ meta.interpolation.go variable.function.go support.function.builtin.go

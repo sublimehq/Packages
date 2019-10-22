@@ -529,7 +529,7 @@ contexts:
          scope: variable.other.template.go
        - match: \b(if|else|range|template|with|end|nil|define|block)\b
          scope: keyword.control.go
-       - match: \b(and|call|html|index|js|len|not|or|print|printf|println|urlquery|eq|ne|lt|le|gt|ge)\b
+       - match: \b(and|call|html|index|slice|js|len|not|or|print|printf|println|urlquery|eq|ne|lt|le|gt|ge)\b
          scope: variable.function.go support.function.builtin.go
        - include: match-comments
        - include: match-strings
