@@ -90,6 +90,9 @@ variables:
   # not allowing a numeric separator as the last or first character.
   ddigit: (?:\d+(?:_\d+)*)
 
+  # Hexideciaml counterpart to ddigit.
+  hdigit: (?:\h+(?:_\h+)*)
+
 contexts:
   main:
     - include: match-any
@@ -437,7 +440,7 @@ contexts:
     - match: \.\d+(?:{{exponent}}\d+)?
       scope: invalid.deprecated.go
     # Hex float literal, no fraction
-    - match: '(0[xX])_?\h+(?:_\h+)*([pP])([\+\-])?{{ddigit}}(i)?'
+    - match: '(0[xX])_?{{hdigit}}([pP])([\+\-])?{{ddigit}}(i)?'
       scope: constant.numeric.float.go
       captures:
         1: punctuation.definition.numeric.hexadecimal.go
@@ -474,7 +477,7 @@ contexts:
         2: storage.type.numeric.imaginary.go
 
   match-hex-integer:
-    - match: (0[Xx])_?\h+(?:_\h+)*(i)?
+    - match: (0[Xx])_?{{hdigit}}(i)?
       scope: constant.numeric.hex.go
       captures:
         1: punctuation.definition.numeric.hexadecimal.go
