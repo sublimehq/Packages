@@ -59,7 +59,11 @@ file_extensions:
   - thor
   - Thorfile
   - Vagrantfile
-first_line_match: ^#!\s*/.*\bj?ruby\b
+first_line_match: |-
+  (?xi:
+    ^\#! .* \bj?ruby\b |                # shebang
+    ^\# \s* -\*- [^*]* ruby [^*]* -\*-  # editorconfig
+  )
 scope: source.ruby
 variables:
   heredoc_type_css: (?:[[:upper:]_]_)?CSS
