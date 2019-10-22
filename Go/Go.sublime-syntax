@@ -409,7 +409,7 @@ contexts:
   match-imaginary:
     # Mandatory integer, optional fraction, optional exponent, mandatory imaginary
     - match: '{{ddigits}}(?:(\.){{ddigits}})?(?:({{exponent}}){{ddigits}})?(i)'
-      scope: constant.numeric.imaginary.go
+      scope: constant.numeric.complex.imaginary.go
       captures:
         1: punctuation.separator.decimal.go
         2: punctuation.separator.exponent.go
