@@ -88,10 +88,10 @@ variables:
 
   # Matches a digit with any number of numeric separators, while
   # not allowing a numeric separator as the last or first character.
-  ddigit: (?:\d+(?:_\d+)*)
+  ddigits: (?:\d+(?:_\d+)*)
 
-  # Hexideciaml counterpart to ddigit.
-  hdigit: (?:\h+(?:_\h+)*)
+  # Hexideciaml counterpart to ddigits.
+  hdigits: (?:\h+(?:_\h+)*)
 
 contexts:
   main:
@@ -408,7 +408,7 @@ contexts:
 
   match-imaginary:
     # Mandatory integer, optional fraction, optional exponent, mandatory imaginary
-    - match: '{{ddigit}}(?:(\.){{ddigit}})?(?:({{exponent}}){{ddigit}})?(i)'
+    - match: '{{ddigits}}(?:(\.){{ddigits}})?(?:({{exponent}}){{ddigits}})?(i)'
       scope: constant.numeric.imaginary.go
       captures:
         1: punctuation.separator.decimal.go
@@ -423,12 +423,12 @@ contexts:
 
   match-floats:
     # Integer, no fraction, exponent
-    - match: '{{ddigit}}({{exponent}}){{ddigit}}'
+    - match: '{{ddigits}}({{exponent}}){{ddigits}}'
       scope: constant.numeric.float.go
       captures:
         1: punctuation.separator.exponent.go
     # Integer, fraction, optional exponent
-    - match: '{{ddigit}}(\.){{ddigit}}(?:({{exponent}}){{ddigit}})?'
+    - match: '{{ddigits}}(\.){{ddigits}}(?:({{exponent}}){{ddigits}})?'
       scope: constant.numeric.float.go
       captures:
         1: punctuation.separator.decimal.go
@@ -440,7 +440,7 @@ contexts:
     - match: \.\d+(?:{{exponent}}\d+)?
       scope: invalid.deprecated.go
     # Hex float literal, no fraction
-    - match: '(0[xX])_?{{hdigit}}([pP])([\+\-])?{{ddigit}}(i)?'
+    - match: '(0[xX])_?{{hdigits}}([pP])([\+\-])?{{ddigits}}(i)?'
       scope: constant.numeric.float.go
       captures:
         1: punctuation.definition.numeric.hexadecimal.go
@@ -448,7 +448,7 @@ contexts:
         3: keyword.operator.go
         4: storage.type.numeric.imaginary.go
     # Hex float literal, with fraction
-    - match: '(0[xX])_?\h*(?:_\h+)*(\.)\h*(?:_\h+)*([pP])([\+\-])?{{ddigit}}(i)?'
+    - match: '(0[xX])_?\h*(?:_\h+)*(\.)\h*(?:_\h+)*([pP])([\+\-])?{{ddigits}}(i)?'
       scope: constant.numeric.float.go
       captures:
         1: punctuation.definition.numeric.hexadecimal.go
@@ -477,7 +477,7 @@ contexts:
         2: storage.type.numeric.imaginary.go
 
   match-hex-integer:
-    - match: (0[Xx])_?{{hdigit}}(i)?
+    - match: (0[Xx])_?{{hdigits}}(i)?
       scope: constant.numeric.hex.go
       captures:
         1: punctuation.definition.numeric.hexadecimal.go
@@ -491,7 +491,7 @@ contexts:
         2: storage.type.numeric.imaginary.go
 
   match-decimal-integer:
-    - match: '{{ddigit}}'
+    - match: '{{ddigits}}'
       scope: constant.numeric.integer.go
 
   # https://golang.org/ref/spec#Rune_literals
