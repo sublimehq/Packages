@@ -220,7 +220,7 @@ contexts:
 
   anonymous-classes-and-new:
     - match: \bnew\b
-      scope: keyword.control.new.java
+      scope: keyword.other.storage.new.java
       push:
         - - meta_scope: meta.instantiation.java
           - include: immediate_POP
@@ -312,17 +312,6 @@ contexts:
     - include: code
     - include: punctuation-separator-comma
 
-  assertions:
-    - match: \b(assert)\b
-      scope: keyword.control.assert.java
-      push:
-        - meta_scope: meta.declaration.assertion.java
-        - match: $
-          pop: true
-        - match: ":"
-          scope: keyword.operator.assert.expression-separator.java
-        - include: code
-
   class:
     - match: '(?=\w?[\w\s]*(?:class|(?:@)?interface|enum)\s+\w+)'
       push:
@@ -385,7 +374,6 @@ contexts:
     - include: method-invocations
     - include: uppercase-identifiers
     - include: all-types
-    - include: assertions
     - include: keywords
     - include: code-block-include
     - include: parens
@@ -401,8 +389,6 @@ contexts:
   code-block:
     - include: storage-modifiers
     - include: var-type
-    - include: keywords-control
-    - include: catch-block
     - include: code
     - include: annotations
     - include: code-block-include
@@ -527,11 +513,10 @@ contexts:
         - match: '{{id}}'
           scope: variable.function.reference.java
           pop: true
-        - match: (?=\S)
-          pop: true
+        - include: any_POP
     - match: '\?|:'
       scope: keyword.operator.ternary.java
-    - match: \b(instanceof)\b
+    - match: \binstanceof\b
       scope: keyword.operator.word.instanceof.java
     - match: (<<|>>>?)
       scope: keyword.operator.bitshift.java
@@ -550,46 +535,88 @@ contexts:
         1: punctuation.accessor.dot.java
         2: variable.language.java
     - include: punctuation-terminator-semicolon
+
+  keywords-control:
+    # exceptions
+    - match: \bcatch\b
+      scope: keyword.control.exception.catch.java
+      push:
+        - meta_scope: meta.catch.java
+        - match: (?=\()
+          set:
+            - match: \(
+              scope: punctuation.section.parens.begin.java
+              set:
+                - meta_scope: meta.catch.parameters.java meta.parens.java
+                - match: \)
+                  scope: punctuation.section.parens.end.java
+                  pop: true
+                - match: \|
+                  scope: punctuation.separator.bar.java
+                - include: parameters
+        - include: any_POP
+    - match: \bfinally\b
+      scope: keyword.control.exception.finally.java
+    - match: \btry\b
+      scope: keyword.control.exception.try.java
+      push: declaration-statement-parens
+    # flow
+    - match: \bassert\b
+      scope: keyword.control.flow.assert.java
+      push:
+        - meta_scope: meta.assertion.java
+        - match: (?=;)
+          pop: true
+        - match: ':'
+          scope: punctuation.separator.expressions.java
+        - include: code
+    - match: \bbreak\b
+      scope: keyword.control.flow.break.java
+    - match: \bcontinue\b
+      scope: keyword.control.flow.continue.java
+    - match: \breturn\b
+      scope: keyword.control.flow.return.java
+    - match: \bthrow\b
+      scope: keyword.control.flow.throw.java
+    # conditional
+    - match: \bif\b
+      scope: keyword.control.conditional.if.java
+    - match: \belse\b
+      scope: keyword.control.conditional.else.java
+    - match: \bswitch\b
+      scope: keyword.control.conditional.switch.java
+    - match: \bcase\b
+      scope: keyword.control.conditional.case.java
+    - match: \bdefault\b
+      scope: keyword.control.conditional.default.java
+    # loop
+    - match: \bdo\b
+      scope: keyword.control.loop.do-while.java
+    - match: \bfor\b
+      scope: keyword.control.loop.for.java
+      push: declaration-statement-parens
+    - match: \bwhile\b
+      scope: keyword.control.loop.while.java
+
   illegal-keywords:
     - match: \b(goto|const)\b
-      scope: invalid.illegal.java
-  catch-block:
-    - match: \b(catch)\s*(\()
-      scope: meta.catch.java
-      captures:
-        1: keyword.control.catch-exception.java
-        2: punctuation.section.parens.begin.java
-      push:
-        - meta_content_scope: meta.catch.parameters.java
-        - match: \)
-          scope: meta.catch.java punctuation.section.parens.end.java
-          pop: true
-        - match: \|
-          scope: punctuation.separator.bar.java
-        - include: parameters
-  keywords-control:
-    - match: \btry\b
-      scope: keyword.control.catch-exception.java
-      push: declaration-statement-parens
-    - match: \b(finally|throw)\b
-      scope: keyword.control.catch-exception.java
-    - match: \b(return|break|case|continue|default|do|while|switch|if|else)\b
-      scope: keyword.control.java
-    - match: \bfor\b
-      scope: keyword.control.java
-      push: declaration-statement-parens
+      scope: invalid.illegal.keyword.java
+
   illegal-open-block:
     - match: \s?(?={)
       scope: invalid.illegal.stray-terminator-end
       pop: true
+
   illegal-semicolon:
     - match: ;
       scope: invalid.illegal.stray-terminator-end
       pop: true
+
   illegal-parens-terminators:
     # Pops the stack if anything matches
     - include: illegal-semicolon
     - include: illegal-open-block
+
   method-invocations:
     - match: (\.)\s*(?=<)
       captures:

@@ -145,16 +145,16 @@ public class SyntaxTest {
 //                                          ^ meta.method.body.java punctuation.section.block.begin.java
         String[] strings = new String[5];
 //                        ^^^^^^^^^^^^^^ meta.assignment.rhs.java
-//                         ^^^ keyword.control.new.java
+//                         ^^^ keyword.other.storage.new.java
 //                                    ^ constant.numeric.integer.decimal
         printList(Arrays.stream(args)
             .collect(Collectors.toCollection(ArrayList::new)));
-//                                                      ^^^ meta.method.body.java - keyword.control.new.java
+//                                                      ^^^ meta.method.body.java - keyword.other.storage.new.java
 //                                                      ^^^ variable.function.reference.java
 //                                                    ^^ punctuation.accessor.double-colon.java
         anotherMethod();
         try (Stream<String> lines = Files.lines(path)) {
-//      ^^^ keyword.control.catch-exception.java
+//      ^^^ keyword.control.exception.try.java
 //                                 ^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
 //                                                    ^ - meta.parens.java
 //                                                   ^ meta.method.body.java - meta.assignment.rhs.java
@@ -162,11 +162,17 @@ public class SyntaxTest {
 //                                    ^^^^^^^ variable.function.reference.java
 
         } catch (IOException ignore) {
-//        ^^^^^ keyword.control.catch-exception.java
+//        ^^^^^^ meta.catch.java
+//              ^^^^^^^^^^^^^^^^^^^^ meta.catch.parameters.java meta.parens.java
+//        ^^^^^ keyword.control.exception.catch.java
+//              ^ punctuation.section.parens.begin.java
 //               ^^^^^^^^^^^ support.class.java
 //                           ^^^^^^ variable.parameter
+//                                 ^ punctuation.section.parens.end.java
         } catch (final MyException | com.net.org.Foo.Bar |
-//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.catch
+//        ^^^^^^ meta.catch.java
+//              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.catch.parameters.java meta.parens.java
+//        ^^^^^ keyword.control.exception.catch.java
 //              ^ punctuation.section.parens.begin
 //               ^ meta.catch.parameters storage.modifier.java
 //                     ^^^^^^^^^^^ support.class
@@ -186,7 +192,7 @@ public class SyntaxTest {
 //              ^ support.class
 //                            ^ variable.parameter
 //                                 ^ meta.catch.parameters
-//                                  ^ punctuation.section.parens.end - meta.catch.parameters
+//                                  ^ punctuation.section.parens.end
 
         try (final InputStream is = new FileInputStream(args[0]);
 //           ^^^^^ storage.modifier
@@ -198,13 +204,13 @@ public class SyntaxTest {
         }
 
         try {
-//      ^^^ keyword.control.catch-exception.java
+//      ^^^ keyword.control.exception.try.java
           Class.forName(args[2]);
         } catch (Exception e) {
-//        ^^^^^ keyword.control.catch-exception.java
+//        ^^^^^ keyword.control.exception.catch.java
           log.error(e);
         } finally {
-//        ^^^^^^^ keyword.control.catch-exception.java
+//        ^^^^^^^ keyword.control.exception.finally.java
         }
 
       for (final int x = 10;;) { System.out.println(x); break; }
@@ -932,7 +938,7 @@ public class Foo {
 //  ^ support.class.java
 //         ^ variable.parameter.java
     return;
-//  ^ keyword.control.java
+//  ^^^^^^ keyword.control.flow.return.java
   }
 
   void bar$() {}
@@ -1076,7 +1082,7 @@ public class Foo {
 //                                    ^ storage.type.function.anonymous.java
 //                                       ^ meta.block punctuation.section.block.begin
     return 1;
-//  ^ keyword.control.java
+//  ^^^^^^ keyword.control.flow.return.java
   };
 //^ meta.block punctuation.section.block.end
 // ^ punctuation.terminator
@@ -1104,8 +1110,14 @@ public class Foo {
 //^ meta.static.body.java punctuation.section.block.end.java
 
   int operators() {
+
+    assert scale > -100 : foo == true;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assertion.java
+//  ^^^^^^ keyword.control.flow.assert.java
+//                      ^ punctuation.separator.expressions.java
+//
     if (this.scale<0) {
-//  ^^ keyword.control.java
+//  ^^ keyword.control.conditional.if.java
 //     ^^^^^^^^^^^^^^ meta.parens.java
 //     ^ punctuation.section.parens.begin
 //          ^ punctuation.accessor.dot.java
@@ -1113,7 +1125,7 @@ public class Foo {
 //                 ^ constant.numeric.integer.decimal
 //                   ^ - meta.parens.java
       return foo<<32;
-//    ^^^^^^ keyword.control.java
+//    ^^^^^^ keyword.control.flow.return.java
 //              ^^ keyword.operator.bitshift.java
 //                ^^ constant.numeric.integer.decimal
 //                  ^ punctuation.terminator.java
@@ -1129,6 +1141,7 @@ public class Foo {
 //                        ^ punctuation.terminator.java
 
     return foo<bar;
+//  ^^^^^^ keyword.control.flow.return.java
 
     if (a == false) {
 //        ^^ keyword.operator.comparison
@@ -1320,10 +1333,10 @@ public class Foo {
 //                    ^ meta.function-call.java variable.function.java
 //                                         ^ punctuation.terminator.java
     OtherObject bob = new OtherObject(foo);
-//                    ^ keyword.control.new.java
+//                    ^ keyword.other.storage.new.java
 //                        ^ support.class.java
     this.foo = new SubClass[0];
-//             ^ keyword.control.new.java
+//             ^ keyword.other.storage.new.java
 //                 ^ support.class.java
 //                         ^^^ meta.brackets
 
@@ -1340,7 +1353,7 @@ public class Foo {
 //  ^^^^^^ support.class.java
 //        ^^ storage.modifier.array.java
 //                       ^ keyword.operator.assignment.java
-//                         ^^^ keyword.control.new.java
+//                         ^^^ keyword.other.storage.new.java
 //                             ^^^^^^ support.class.java
 //                                   ^ punctuation.section.brackets.begin.java
 //                                    ^ punctuation.section.brackets.end.java
@@ -1355,7 +1368,7 @@ public class Foo {
     int[] data = new int[]{0, 0, 0};
 //  ^^^ storage.type.primitive.java
 //     ^^ storage.modifier.array.java
-//               ^^^ keyword.control.new.java
+//               ^^^ keyword.other.storage.new.java
 //                   ^^^ storage.type.primitive.java
 //                      ^ punctuation.section.brackets.begin.java
 //                       ^ punctuation.section.brackets.end.java
@@ -1374,7 +1387,7 @@ public class Foo {
 //  ^^^^ storage.type.primitive.java
 //       ^^ storage.modifier.array.java
 //          ^ keyword.operator.assignment.java
-//           ^^^ keyword.control.new.java
+//           ^^^ keyword.other.storage.new.java
 //               ^^^^ storage.type.primitive.java
 
     int[][][] threeDimArr = new int[][][] {
@@ -1430,13 +1443,13 @@ public class Foo {
 //                        ^ punctuation.section.block.begin
 
       return;
-//    ^ keyword.control.java
+//    ^^^^^^ keyword.control.flow.return.java
 //          ^ punctuation.terminator
     });
 //  ^ punctuation.section.block.end.java
 //    ^ punctuation.terminator
     this.foo = new SubClass(new SubClass[0], true);
-//             ^ keyword.control.new.java
+//             ^ keyword.other.storage.new.java
 //                 ^ support.class.java
 //                                      ^^^ meta.brackets
 //                                           ^ constant.language.java
