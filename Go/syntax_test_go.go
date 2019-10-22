@@ -48,6 +48,11 @@ You may have to disable Go-specific linters when working on this file.
 //  ^^^^^^^ comment.block.go
 //         ^ -comment
 
+    /**
+     *
+//   ^ comment.block.go punctuation.definition.comment.go
+    */
+
     //go
 // ^ -comment -punctuation
 //  ^^ punctuation.definition.comment.go
@@ -2772,6 +2777,8 @@ every function individually.
 Templates
 */
 func template() {
+    t := "\{{ foo }} bar }} {{baz} foo {{baz "
+    //    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.interpolation
     t := "{{.Count}} items are made of {{.Material}}"
     //    ^^^^^^^^^^ meta.interpolation
     //    ^^ punctuation.section.interpolation.begin

@@ -127,6 +127,9 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.css
           pop: true
+        - match: ^\s*(\*)(?!/)
+          captures:
+            1: punctuation.definition.comment.css
 
   at-charset:
     - match: \s*((@)charset\b)\s*
@@ -466,7 +469,7 @@ contexts:
               | (extra|semi|ultra)-(condensed|expanded)
               | farthest-(corner|side)?
               | fill(-box|-opacity)?
-              | filter|fixed|flat
+              | filter|first|fixed|flat
               | flex((-basis|-end|-grow|-shrink|-start)|box)?
               | flip|flood-color
               | font(-size(-adjust)?|-stretch|-weight)?
@@ -527,6 +530,7 @@ contexts:
               | run-in
               | ruby(-base|-text)?(-container)?
               | rtl|running|saturat(e|ion)|screen
+              | safe
               | scroll(-position|bar)?
               | separate|sepia
               | scale-down
@@ -537,7 +541,7 @@ contexts:
               | slashed-zero|slice
               | small(-caps|er)?
               | smooth|snap|solid|soft-light
-              | space(-around|-between)?
+              | space(-around|-between|-evenly)?
               | span|sRGB
               | stack(ed-fractions)?
               | start(ColorStr)?
@@ -560,7 +564,7 @@ contexts:
               | touch|traditional
               | transform(-origin)?
               | under(-edge|line)?
-              | unicase|unset|uppercase|upright
+              | unicase|unsafe|unset|uppercase|upright
               | use-(glyph-orientation|script)
               | verso
               | vertical(-align|-ideographic|-lr|-rl|-text)?
@@ -733,7 +737,7 @@ contexts:
         - include: property-values
 
   selector:
-    - match: '\s*(?=[:.*#a-zA-Z\[])'
+    - match: (?=[:.*#a-zA-Z\[])
       push:
         - meta_scope: meta.selector.css
         - match: "(?=[/@{)])"
@@ -788,6 +792,8 @@ contexts:
             - match: '\]'
               scope: punctuation.definition.entity.css
               pop: true
+        - match: ','
+          scope: punctuation.separator.sequence.css
 
   # Pseudo Elements
   # https://drafts.csswg.org/selectors-4/#pseudo-elements
@@ -1014,6 +1020,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: literal-string
           - include: unquoted-string
 
       # Transform Functions

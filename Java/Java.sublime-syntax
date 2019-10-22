@@ -20,17 +20,17 @@ variables:
   before_fqn: (?={{lowercase_id}}\s*\.)
 
   # utility lookaround
-  lambda_lookahead: '(?:\(.*\)|{{id}})\s*->'
+  lambda_lookahead: (?:\(.*\)|{{id}})\s*->
 
 contexts:
   prototype:
-    - match: '(?=%>)'
+    - match: (?=%>)
       pop: true
     - include: comments
     - include: illegal-keywords
 
   any_POP:
-    - match: '(?=\S)'
+    - match: (?=\S)
       pop: true
 
   immediate_POP:
@@ -74,9 +74,8 @@ contexts:
           - include: immediate_POP
         - - match: '{{id}}'
             set:
-              - - meta_scope: entity.name.namespace.java
-                - include: immediate_POP
-              - dot-separated-identifier
+              - meta_scope: meta.path.java entity.name.namespace.java
+              - include: dot-separated-identifier
           - include: any_POP
 
   import-statement:
@@ -106,10 +105,8 @@ contexts:
           set:
             - include: before-next-import
             - include: punctuation-accessor-dot
-            - match: ({{classcase_id}})|(\*)
-              captures:
-                1: support.class.import.java
-                2: keyword.operator.wildcard.asterisk.java
+            - include: import-class
+            - include: import-wildcard
             - include: any_POP
         - include: any_POP
     - include: any_POP
@@ -127,12 +124,10 @@ contexts:
           set:
             - include: before-next-import
             - include: punctuation-accessor-dot
-            - match: ({{uppercase_id}})|({{classcase_id}})|({{id}})|(\*)
-              captures:
-                1: constant.other.import.java
-                2: support.class.import.java
-                3: support.function.import.java
-                4: keyword.operator.wildcard.asterisk.java
+            - include: import-constant
+            - include: import-class
+            - include: import-function
+            - include: import-wildcard
             - include: any_POP
         - include: any_POP
     - include: any_POP
@@ -154,8 +149,24 @@ contexts:
     - include: primitive-types
     - include: object-types
 
+  import-constant:
+    - match: '{{uppercase_id}}'
+      scope: constant.other.import.java
+
+  import-class:
+    - match: '{{classcase_id}}'
+      scope: support.class.import.java
+
+  import-function:
+    - match: '{{id}}'
+      scope: support.function.import.java
+
+  import-wildcard:
+    - match: \*
+      scope: keyword.operator.wildcard.asterisk.java
+
   annotations:
-    - match: '@'
+    - match: \@
       scope: punctuation.definition.annotation.java
       push:
         - - meta_scope: meta.annotation.java
@@ -219,7 +230,7 @@ contexts:
 
   anonymous-classes-and-new:
     - match: \bnew\b
-      scope: keyword.control.new.java
+      scope: keyword.other.storage.new.java
       push:
         - - meta_scope: meta.instantiation.java
           - include: immediate_POP
@@ -309,17 +320,6 @@ contexts:
       scope: punctuation.section.braces.begin.java
       push: array-initialization
     - include: code
-
-  assertions:
-    - match: \b(assert)\b
-      scope: keyword.control.assert.java
-      push:
-        - meta_scope: meta.declaration.assertion.java
-        - match: $
-          pop: true
-        - match: ":"
-          scope: keyword.operator.assert.expression-separator.java
-        - include: code
 
   class:
     - match: (?=({{storage_modifiers}}\s+)*(?:class|(?:@)?interface|enum)\b)
@@ -444,24 +444,21 @@ contexts:
     - include: method-invocations
     - include: uppercase-identifiers
     - include: all-types
-    - include: assertions
     - include: keywords
     - include: code-block-include
     - include: parens
   code-block-include:
-    - match: "{"
+    - match: \{
       scope: punctuation.section.block.begin.java
       push:
         - meta_scope: meta.block.java
-        - match: "}"
+        - match: \}
           scope: punctuation.section.block.end.java
           pop: true
         - include: code-block
   code-block:
     - include: storage-modifiers
     - include: var-type
-    - include: keywords-control
-    - include: catch-block
     - include: code
     - include: annotations
     - include: code-block-include
@@ -483,9 +480,9 @@ contexts:
       scope: punctuation.definition.comment.java
       push:
         - meta_scope: comment.line.double-slash.java
-        - match: $\n?
+        - match: \n
           pop: true
-        - match: '(?=%>)'
+        - match: (?=%>)
           pop: true
   constants-and-special-vars:
     - match: \b(true|false|null)\b
@@ -565,11 +562,10 @@ contexts:
         - match: '{{id}}'
           scope: variable.function.reference.java
           pop: true
-        - match: (?=\S)
-          pop: true
+        - include: any_POP
     - match: '\?|:'
       scope: keyword.operator.ternary.java
-    - match: \b(instanceof)\b
+    - match: \binstanceof\b
       scope: keyword.operator.word.instanceof.java
     - match: (<<|>>>?)
       scope: keyword.operator.bitshift.java
@@ -589,46 +585,88 @@ contexts:
         2: variable.language.java
     - include: punctuation-separator-comma
     - include: punctuation-terminator-semicolon
+
+  keywords-control:
+    # exceptions
+    - match: \bcatch\b
+      scope: keyword.control.exception.catch.java
+      push:
+        - meta_scope: meta.catch.java
+        - match: (?=\()
+          set:
+            - match: \(
+              scope: punctuation.section.parens.begin.java
+              set:
+                - meta_scope: meta.catch.parameters.java meta.parens.java
+                - match: \)
+                  scope: punctuation.section.parens.end.java
+                  pop: true
+                - match: \|
+                  scope: punctuation.separator.bar.java
+                - include: parameters
+        - include: any_POP
+    - match: \bfinally\b
+      scope: keyword.control.exception.finally.java
+    - match: \btry\b
+      scope: keyword.control.exception.try.java
+      push: declaration-statement-parens
+    # flow
+    - match: \bassert\b
+      scope: keyword.control.flow.assert.java
+      push:
+        - meta_scope: meta.assertion.java
+        - match: (?=;)
+          pop: true
+        - match: ':'
+          scope: punctuation.separator.expressions.java
+        - include: code
+    - match: \bbreak\b
+      scope: keyword.control.flow.break.java
+    - match: \bcontinue\b
+      scope: keyword.control.flow.continue.java
+    - match: \breturn\b
+      scope: keyword.control.flow.return.java
+    - match: \bthrow\b
+      scope: keyword.control.flow.throw.java
+    # conditional
+    - match: \bif\b
+      scope: keyword.control.conditional.if.java
+    - match: \belse\b
+      scope: keyword.control.conditional.else.java
+    - match: \bswitch\b
+      scope: keyword.control.conditional.switch.java
+    - match: \bcase\b
+      scope: keyword.control.conditional.case.java
+    - match: \bdefault\b
+      scope: keyword.control.conditional.default.java
+    # loop
+    - match: \bdo\b
+      scope: keyword.control.loop.do-while.java
+    - match: \bfor\b
+      scope: keyword.control.loop.for.java
+      push: declaration-statement-parens
+    - match: \bwhile\b
+      scope: keyword.control.loop.while.java
+
   illegal-keywords:
     - match: \b(goto|const)\b
-      scope: invalid.illegal.java
-  catch-block:
-    - match: \b(catch)\s*(\()
-      scope: meta.catch.java
-      captures:
-        1: keyword.control.catch-exception.java
-        2: punctuation.section.parens.begin.java
-      push:
-        - meta_content_scope: meta.catch.parameters.java
-        - match: \)
-          scope: meta.catch.java punctuation.section.parens.end.java
-          pop: true
-        - match: \|
-          scope: punctuation.separator.bar.java
-        - include: parameters
-  keywords-control:
-    - match: \btry\b
-      scope: keyword.control.catch-exception.java
-      push: declaration-statement-parens
-    - match: \b(finally|throw)\b
-      scope: keyword.control.catch-exception.java
-    - match: \b(return|break|case|continue|default|do|while|switch|if|else)\b
-      scope: keyword.control.java
-    - match: \bfor\b
-      scope: keyword.control.java
-      push: declaration-statement-parens
+      scope: invalid.illegal.keyword.java
+
   illegal-open-block:
     - match: \s?(?={)
       scope: invalid.illegal.stray-terminator-end
       pop: true
+
   illegal-semicolon:
     - match: ;
       scope: invalid.illegal.stray-terminator-end
       pop: true
+
   illegal-parens-terminators:
     # Pops the stack if anything matches
     - include: illegal-semicolon
     - include: illegal-open-block
+
   method-invocations:
     - match: (\.)\s*(?=<)
       captures:
@@ -677,7 +715,7 @@ contexts:
 
   before-next-field:
     # Prevent style from being removed from whole file when making a new expression
-    - match: '(?=\b(?:{{storage_modifiers}}|{{primitives}}|void)\b)'
+    - match: (?=\b(?:{{storage_modifiers}}|{{primitives}}|void)\b)
       pop: true
 
   method:
@@ -701,11 +739,11 @@ contexts:
           pop: true
     - include: throws
     - include: annotation-default
-    - match: "{"
+    - match: \{
       scope: punctuation.section.block.begin.java
       set:
         - meta_scope: meta.method.java meta.method.body.java
-        - match: "}"
+        - match: \}
           scope: punctuation.section.block.end.java
           pop: true
         - include: code-block
@@ -838,7 +876,7 @@ contexts:
     - include: inherited-object-type-reference-no-fqn
 
   inherited-object-type-reference-no-fqn:
-    - match: '{{classcase_id}}'
+    - match: (?!class|extends|implements|interface){{id}}
       scope: entity.other.inherited-class.java
       set: after-inherited-object-type-reference
     - include: any_POP
@@ -930,7 +968,7 @@ contexts:
     - include: punctuation-separator-comma
 
   lambdas:
-    - match: '(?={{lambda_lookahead}})'
+    - match: (?={{lambda_lookahead}})
       push: lambda-params
 
   lambda-params:
@@ -1010,15 +1048,15 @@ contexts:
       scope: keyword.operator.assignment.java
       push:
         - meta_scope: meta.assignment.rhs.java
-        - match: '(?=;|\)|\}|,)'
+        - match: (?=;|\)|\}|,)
           pop: true
         - include: code
   static-code-block:
-    - match: "{"
+    - match: \{
       scope: punctuation.section.block.begin.java
       push:
         - meta_scope: meta.static.body.java
-        - match: "}"
+        - match: \}
           scope: punctuation.section.block.end.java
           pop: true
         - include: code-block
@@ -1026,36 +1064,38 @@ contexts:
     - match: \b{{storage_modifiers}}\b
       scope: storage.modifier.java
   stray-braces:
-    - match: '\}'
+    - match: \}
       scope: invalid.illegal.stray-brace-end
   stray-parens:
     - match: \)
       scope: invalid.illegal.stray-parens-end
+
   strings:
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.java
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.double.java
-        - match: (")|(\n)
-          captures:
-            1: punctuation.definition.string.end.java
-            2: invalid.illegal.newline.java
+        - match: \"
+          scope: punctuation.definition.string.end.java
           pop: true
-        - match: \\.
-          scope: constant.character.escape.java
-    - match: "'"
+        - include: strings-common
+    - match: \'
       scope: punctuation.definition.string.begin.java
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.single.java
-        - match: (')|(\n)
-          captures:
-            1: punctuation.definition.string.end.java
-            2: invalid.illegal.newline.java
+        - match: \'
+          scope: punctuation.definition.string.end.java
           pop: true
-        - match: \\.
-          scope: constant.character.escape.java
+        - include: strings-common
+
+  strings-common:
+    - match: \n
+      scope: invalid.illegal.newline.java
+      pop: true
+    - match: \\.
+      scope: constant.character.escape.java
 
   module:
     - match: (?=\b(?:open\s+)?module\b)

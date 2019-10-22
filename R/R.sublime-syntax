@@ -5,8 +5,6 @@ name: R
 file_extensions:
   - R
   - r
-  - s
-  - S
   - Rprofile
 scope: source.r
 

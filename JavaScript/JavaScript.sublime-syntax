@@ -1489,7 +1489,7 @@ contexts:
       set: object-literal-contents
 
   object-literal-contents:
-    - meta_scope: meta.object-literal.js
+    - meta_scope: meta.mapping.js
 
     - match: '\}'
       scope: punctuation.section.block.end.js
@@ -1516,17 +1516,27 @@ contexts:
 
     - match: '{{identifier}}(?=\s*(?:[},]|$|//|/\*))'
       scope: variable.other.readwrite.js
+
     - match: (?=\[)
-      push: computed-property-name
+      push:
+        - object-literal-meta-key
+        - computed-property-name
+
     - match: (?=\"|')
       push:
         - object-literal-meta-key
         - literal-string
-    - include: bare-property-name
+
     - match: (?=[-+]?(?:\.[0-9]|0[bxo]|\d))
       push:
-        - meta_scope: meta.object-literal.key.js
-        - include: literal-number
+        - object-literal-meta-key
+        - literal-number
+
+    # - include: bare-property-name
+    - match: (?={{identifier}})
+      push:
+        - object-literal-meta-key
+        - bare-property-name
 
     - include: comma-separator
     - match: ':'
@@ -1540,14 +1550,8 @@ contexts:
       push: expression-no-comma
 
   bare-property-name:
-    - match: '{{dollar_only_identifier}}'
-      scope: meta.object-literal.key.dollar.only.js punctuation.dollar.js
-    - match: '{{dollar_identifier}}'
-      scope: meta.object-literal.key.dollar.js
-      captures:
-        1: punctuation.dollar.js
     - match: '{{identifier}}'
-      scope: meta.object-literal.key.js
+      pop: true
 
   computed-property-name:
     - match: \[
@@ -1560,7 +1564,7 @@ contexts:
           push: expression
 
   object-literal-meta-key:
-    - meta_scope: meta.object-literal.key.js
+    - meta_scope: meta.mapping.key.js
     - include: else-pop
 
   object-literal-expect-colon:
@@ -1570,7 +1574,7 @@ contexts:
 
   method-name:
     - match: '{{dollar_identifier}}'
-      scope: meta.object-literal.key.dollar.js entity.name.function.js
+      scope: meta.mapping.key.dollar.js entity.name.function.js
       captures:
         1: punctuation.dollar.js
       pop: true
@@ -1611,7 +1615,7 @@ contexts:
 
   field-name:
     - match: '{{dollar_identifier}}'
-      scope: meta.object-literal.key.dollar.js variable.other.readwrite.js
+      scope: meta.mapping.key.dollar.js variable.other.readwrite.js
       captures:
         1: punctuation.dollar.js
       pop: true

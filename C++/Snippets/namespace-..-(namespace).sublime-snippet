@@ -6,5 +6,5 @@
 }
 ]]></content>
 	<tabTrigger>ns</tabTrigger>
-	<scope>source.c++, source.objc++</scope>
+	<scope>(source.c++ | source.objc++) - meta.preprocessor.include - comment - string</scope>
 </snippet>

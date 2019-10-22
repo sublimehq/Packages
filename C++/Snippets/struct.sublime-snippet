@@ -1,9 +1,9 @@
 <snippet>
 	<name>Struct</name>
-	<content><![CDATA[struct ${1:${TM_FILENAME/(.+)\..+|.*/$/:name}}
+	<content><![CDATA[struct ${1:${TM_FILENAME/(.+)\..+|.*/$1/:name}}
 {
 	$0
 };]]></content>
 	<tabTrigger>struct</tabTrigger>
-	<scope>source.c, source.objc, source.c++, source.objc++</scope>
+	<scope>(source.c | source.objc | source.c++ | source.objc++) - meta.preprocessor.include - comment - string</scope>
 </snippet>

@@ -64,7 +64,6 @@ variables:
     )*
 
 
-
 contexts:
   main:
     - include: statements
@@ -79,7 +78,7 @@ contexts:
     - include: assignments
     - match: ;
       scope: punctuation.terminator.statement.python
-    - include: line-expressions
+    - include: expression-as-a-statement
 
   line-statements:
     - include: imports
@@ -94,10 +93,10 @@ contexts:
           set:
             - meta_scope: meta.statement.raise.python
             - include: line-continuation-or-pop
-            - include: expressions
-        - include: expressions
+            - include: expression-in-a-statement
+        - include: expression-in-a-statement
     - match: \b(assert)\b
-      scope: keyword.other.assert.python
+      scope: keyword.control.flow.assert.python
     - match: \b(del)\b
       scope: keyword.other.del.python
     - match: \b(print)\b(?! *([,.()\]}]))
@@ -112,8 +111,6 @@ contexts:
       scope: keyword.control.flow.continue.python
     - match: \b(pass)\b
       scope: keyword.control.flow.pass.python
-    - match: ':'
-      scope: punctuation.separator.annotation.variable.python
 
   imports:
     - match: \b(import)\b
@@ -215,11 +212,11 @@ contexts:
           set:
             - meta_content_scope: meta.statement.loop.for.python
             - include: line-continuation-or-pop
-            - match: ':'
+            - match: ':(?!=)'
               scope: meta.statement.loop.for.python punctuation.section.block.loop.for.python
               pop: true
-            - include: expressions
-        - match: ':'
+            - include: expression-in-a-statement
+        - match: ':(?!=)'
           scope: invalid.illegal.missing-in.python
           pop: true
         - include: target-list
@@ -235,7 +232,7 @@ contexts:
       push:
         - meta_scope: meta.statement.exception.catch.python
         - include: line-continuation-or-pop
-        - match: ':'
+        - match: ':(?!=)'
           scope: punctuation.section.block.exception.catch.python
           pop: true
         - match: '\bas\b'
@@ -253,19 +250,19 @@ contexts:
       push:
         - meta_scope: meta.statement.conditional.if.python
         - include: line-continuation-or-pop
-        - match: ':'
+        - match: ':(?!=)'
           scope: punctuation.section.block.conditional.if.python
           pop: true
-        - include: expressions
+        - include: expression-in-a-statement
     - match: \bwhile\b
       scope: keyword.control.loop.while.python
       push:
         - meta_scope: meta.statement.loop.while.python
         - include: line-continuation-or-pop
-        - match: ':'
+        - match: ':(?!=)'
           scope: punctuation.section.block.loop.while.python
           pop: true
-        - include: expressions
+        - include: expression-in-a-statement
     - match: \b(else)\b(?:\s*(:))?
       scope: meta.statement.conditional.else.python
       captures:
@@ -285,12 +282,12 @@ contexts:
       scope: keyword.control.conditional.elseif.python
       push:
         - meta_scope: meta.statement.conditional.elseif.python
-        - match: ':'
+        - match: ':(?!=)'
           scope: punctuation.section.block.conditional.elseif.python
           pop: true
         - match: $\n?
           pop: true
-        - include: line-expressions
+        - include: expression-in-a-statement
 
   with-body:
     - meta_scope: meta.statement.with.python
@@ -298,12 +295,12 @@ contexts:
     - match: \b(as)\b
       scope: keyword.control.flow.with.as.python
       set: with-as
-    - match: ':'
+    - match: ':(?!=)'
       scope: punctuation.section.block.with.python
       pop: true
     - match: ','
       scope: punctuation.separator.with-resources.python
-    - include: expressions
+    - include: expression-in-a-statement
 
   with-as:
     - meta_scope: meta.statement.with.python
@@ -343,16 +340,24 @@ contexts:
       scope: invalid.illegal.stray.brace.curly.python
     - include: line-continuation
 
-  line-expressions: # Always include this last!
+  # Always include these last and only one at a time!
+  expression-as-a-statement:
     - include: expressions-common
     - include: qualified-name
 
-  expressions: # Always include this last!
-    # Differs from the line scope in that invalid-name matches will pop the current context
-    # and matches accessors continued on a different line
+  expression-in-a-statement:
+    # Differs from expression-as-a-statement in that:
+    # - invalid-name matches will pop the current context
+    # - assignment expressions
     - include: expressions-common
     - include: illegal-names-pop
     - include: qualified-name
+    - include: assignment-expression
+
+  expression-in-a-group:  # Always include this last!
+    # Differs from expression-in-a-statement in that:
+    # - accessor matching continues into the next line
+    - include: expression-in-a-statement
     - match: '(\.) *(?={{identifier}})'
       captures:
         1: punctuation.accessor.dot.python
@@ -384,9 +389,10 @@ contexts:
         - match: \]
           scope: meta.item-access.python punctuation.section.brackets.end.python
           pop: true
+        - include: illegal-assignment-expression
         - match: ':'
           scope: punctuation.separator.slice.python
-        - include: expressions
+        - include: expression-in-a-group
     # indirect function call following attribute access
     - include: function-calls
     # arbitrary attribute access
@@ -511,7 +517,18 @@ contexts:
         1: keyword.control.flow.yield.python
         2: keyword.control.flow.yield-from.python
 
+  assignment-expression:
+    - match: :=
+      scope: keyword.operator.assignment.inline.python
+
+  illegal-assignment-expression:
+    - match: :=
+      scope: invalid.illegal.not-allowed-here.python
+
   assignments:
+    - include: illegal-assignment-expression
+    - match: ':'
+      scope: punctuation.separator.annotation.variable.python
     - match: \+=|-=|\*=|/=|//=|%=|@=|&=|\|=|\^=|>>=|<<=|\*\*=
       scope: keyword.operator.assignment.augmented.python
     - match: '=(?!=)'
@@ -592,7 +609,7 @@ contexts:
                     1: punctuation.accessor.dot.python
                 - match: ''
                   pop: true
-            - include: expressions
+            - include: expression-in-a-group
 
   functions:
     - match: '^\s*(?:(async)\s+)?(def)\b'
@@ -641,7 +658,8 @@ contexts:
             - meta_scope: meta.function.parameters.default-value.python
             - match: '(?=[,)])'
               set: [function-parameters, allow-unpack-operators]
-            - include: expressions
+            - include: illegal-assignment-expression
+            - include: expression-in-a-group
     - match: '(?=:)'
       set:
         - match: ':'
@@ -650,7 +668,8 @@ contexts:
             - meta_scope: meta.function.parameters.annotation.python
             - match: '(?=[,)=])'
               set: function-parameters
-            - include: expressions
+            - include: illegal-assignment-expression
+            - include: expression-in-a-group
     - include: function-parameters-tuple
     - include: illegal-names
     - match: '{{identifier}}'
@@ -695,10 +714,11 @@ contexts:
         - meta_content_scope: meta.function.annotation.return.python
         - match: ->
           scope: punctuation.separator.annotation.return.python
+        - include: illegal-assignment-expression
         - match: '(?=:)'
           set: function-after-parameters
         - include: line-continuation-or-pop
-        - include: expressions
+        - include: expression-in-a-statement
     - match: ':'
       scope: meta.function.python punctuation.section.function.begin.python
       pop: true
@@ -794,7 +814,7 @@ contexts:
               pop: true
             - match: ':'
               scope: punctuation.separator.slice.python
-            - include: expressions
+            - include: expression-in-a-group
 
   function-calls:
     - match: '(?=(\.\s*)?{{path}}\s*\()'
@@ -836,7 +856,7 @@ contexts:
       scope: punctuation.separator.arguments.python
       push: allow-unpack-operators
     - include: inline-for
-    - include: expressions
+    - include: expression-in-a-group
 
   keyword-arguments:
     - match: '(?={{identifier}}\s*=(?!=))'
@@ -845,9 +865,10 @@ contexts:
         - match: '='
           scope: keyword.operator.assignment.python
           set:
-            - match: (?=\s*[,):])
+            - include: illegal-assignment-expression
+            - match: (?=[,):])
               pop: true
-            - include: expressions
+            - include: expression-in-a-group
         - include: illegal-names
         - match: '{{identifier}}'
           scope: variable.parameter.python
@@ -863,7 +884,19 @@ contexts:
     - include: line-continuation-or-pop
     - match: '\:'
       scope: punctuation.section.function.begin.python
-      pop: true
+      set:
+        # clear meta_scope
+        - match: ''
+          set:
+            - meta_scope: meta.function.inline.body.python
+            - include: illegal-assignment-expression
+            # We don't know whether we are within a grouped
+            # or line-statement context at this point.
+            # If we're in a group, the underlying context will take over
+            # at the end of the line.
+            - match: (?=[,):])|$
+              pop: true
+            - include: expression-in-a-statement
     - match: ','
       scope: punctuation.separator.parameters.python
       push: allow-unpack-operators
@@ -886,7 +919,7 @@ contexts:
         - match: ','
           scope: punctuation.separator.tuple.python
         - include: inline-for
-        - include: expressions
+        - include: expression-in-a-group
 
   tuples:
     # We don't know for certain, whether a parenthesized expression is a tuple,
@@ -912,7 +945,7 @@ contexts:
       scope: punctuation.separator.sequence.python
       push: allow-unpack-operators
     - include: inline-for
-    - include: expressions
+    - include: expression-in-a-group
 
   lists:
     - match: (\[)\s*(\])
@@ -934,7 +967,7 @@ contexts:
       scope: punctuation.separator.sequence.python
       push: allow-unpack-operators
     - include: inline-for
-    - include: expressions
+    - include: expression-in-a-group
 
   dictionaries-and-sets:
     # Dictionaries and set literals use the same punctuation,
@@ -967,17 +1000,19 @@ contexts:
         - match: ','
           scope: punctuation.separator.set.python
           set: inside-set
+        - include: illegal-assignment-expression
         - match: ':'
           scope: punctuation.separator.mapping.key-value.python
           set: inside-directory-value
         - include: inline-for
-        - include: expressions
+        - include: expression-in-a-group
 
   inside-dictionary:
     - meta_scope: meta.mapping.python
     - match: \}
       scope: punctuation.section.mapping.end.python
       set: after-expression
+    - include: illegal-assignment-expression
     - match: ':'
       scope: punctuation.separator.mapping.key-value.python
       set: inside-directory-value
@@ -991,7 +1026,7 @@ contexts:
         - match: ','
           scope: punctuation.separator.mapping.python
           pop: true
-        - include: expressions
+        - include: expression-in-a-group
     - include: comments
     - match: (?=\S)
       push:
@@ -999,7 +1034,7 @@ contexts:
         - meta_scope: meta.mapping.key.python
         - match: \s*(?=\}|,|:)
           pop: true
-        - include: expressions
+        - include: expression-in-a-group
 
   inside-directory-value:
     - meta_content_scope: meta.mapping.python
@@ -1019,7 +1054,7 @@ contexts:
         - match: ','
           scope: invalid.illegal.unexpected-comma.python
         - include: inline-for
-        - include: expressions
+        - include: expression-in-a-group
     - include: comments
     - match: (?=\S)
       push:
@@ -1027,13 +1062,14 @@ contexts:
         - meta_content_scope: meta.mapping.value.python
         - match: (?=\s*(\}|,|for\b))
           pop: true
-        - include: expressions
+        - include: expression-in-a-group
 
   inside-set:
     - meta_scope: meta.set.python
     - match: \}
       scope: punctuation.section.set.end.python
       set: after-expression
+    - include: illegal-assignment-expression
     - match: ':'
       scope: invalid.illegal.colon-inside-set.python
     - match: ','
@@ -1046,9 +1082,9 @@ contexts:
         - match: ','
           scope: punctuation.separator.set.python
           pop: true
-        - include: expressions
+        - include: expression-in-a-group
     - include: inline-for
-    - include: expressions
+    - include: expression-in-a-group
 
   builtin-exceptions:
     - match: |-
@@ -1452,7 +1488,7 @@ contexts:
             - match: \\
               scope: invalid.illegal.backslash-in-fstring.python
             - include: inline-for
-            - include: expressions
+            - include: expression-in-a-group
 
   f-string-replacement-reset:
     # Same as f-string-replacement, but with clear_scopes: true
@@ -1483,7 +1519,7 @@ contexts:
             - match: \\
               scope: invalid.illegal.backslash-in-fstring.python
             - include: inline-for
-            - include: expressions
+            - include: expression-in-a-group
 
   string-quoted-double-block:
     # Triple-quoted capital R raw string, unicode or not, no syntax embedding
