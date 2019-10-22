@@ -21,7 +21,11 @@ file_extensions:
   - OCamlMakefile
   - mak
   - mk
-first_line_match: ^#!\s*/usr/bin/make\b
+first_line_match: |-
+  (?xi:
+    ^\#! .* \bmake\b |                     # shebang
+    ^\# \s* -\*- [^*]* makefile [^*]* -\*- # editorconfig
+  )
 scope: source.makefile
 #-------------------------------------------------------------------------------
 variables:
