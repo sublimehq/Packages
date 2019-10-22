@@ -501,7 +501,7 @@ contexts:
         - include: match-fmt
 
   match-template-string:
-   - match: "{{"
+   - match: '{{(?=.*}})'
      scope: punctuation.section.interpolation.begin.go
      push:
        - meta_scope: meta.interpolation.go
