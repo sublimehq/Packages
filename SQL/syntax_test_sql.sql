@@ -10,6 +10,11 @@ SELECT "My "" Crazy Column Name" FROM my_table;
  -- <- keyword.other.create
 --^^^^^ keyword.other.create
 
+select *
+from some_table
+where exists(select * from other_table where id = some_table.id)
+--    ^^^^^^ keyword.operator.logical
+
 SELECT
 (
 SELECT CASE field

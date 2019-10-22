@@ -86,7 +86,7 @@ contexts:
         1: keyword.operator.logical.sql
         2: keyword.operator.logical.sql
         3: constant.language.sql
-    - match: (?i:\b(and|or|like|having|between|in)\b)
+    - match: (?i:\b(and|or|like|having|exists|between|in)\b)
       scope: keyword.operator.logical.sql
     - match: (?i:\bvalues\b)
       scope: keyword.other.DML.II.sql
