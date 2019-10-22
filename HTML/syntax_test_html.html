@@ -298,6 +298,13 @@ class="foo"></div>
         ##   ^^^^^^^ meta.attribute-with-value.id
         ##      ^^^^ string.unquoted meta.toc-list.id
 
+        <div id=My&#x49;d></div>
+        ##  ^ - meta.attribute-with-value.id
+        ##   ^^ entity.other.attribute-name.id
+        ##   ^^^^^^^^^^^^ meta.attribute-with-value.id
+        ##      ^^^^^^^^^ string.unquoted meta.toc-list.id
+        ##        ^^^^^^ constant.character.entity.hexadecimal
+
         <div id='MyId2'></div>
         ##  ^ - meta.attribute-with-value.id
         ##   ^^^^^^^^^^ meta.attribute-with-value.id
@@ -316,11 +323,54 @@ class="foo"></div>
         ##       ^^^^^^^^^ meta.toc-list.id
         ##                ^ punctuation.definition.string.end - meta.toc-list.id
 
+        <div id=el-&foo;" bar&baz;></div>
+        ##  ^ - meta.attribute-with-value.id
+        ##   ^^ entity.other.attribute-name.id
+        ##   ^^^^^^^^^^^^ meta.attribute-with-value.id
+        ##      ^^^^^^^^^ string.unquoted meta.toc-list.id
+        ##         ^^^^^ constant.character.entity.named
+        ##              ^ invalid.illegal.attribute-value.html
+        ##               ^ - meta.attribute-with-value - entity - constant - string - punctuation
+        ##                ^^^^^^^^ meta.attribute-with-value entity.other.attribute-name
+
+        <div id='el-&foo;" bar&baz;'></div>
+        ##  ^ - meta.attribute-with-value.id
+        ##   ^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.id
+        ##   ^^ entity.other.attribute-name.id
+        ##      ^^^^^^^^^^^^^^^^^^^^ string.quoted.single
+        ##      ^ punctuation.definition.string.begin - meta.toc-list.id
+        ##       ^^^^^^^^^ meta.toc-list.id
+        ##          ^^^^^ constant.character.entity
+        ##                ^ - meta.toc-list.id
+        ##                 ^^^^^^^^ meta.toc-list.id
+        ##                    ^^^^^ constant.character.entity
+        ##                         ^ punctuation.definition.string.end - meta.toc-list.id
+
+        <div id="el-&foo;' bar&baz;"></div>
+        ##  ^ - meta.attribute-with-value.id
+        ##   ^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.id
+        ##   ^^ entity.other.attribute-name.id
+        ##      ^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+        ##      ^ punctuation.definition.string.begin - meta.toc-list.id
+        ##       ^^^^^^^^^ meta.toc-list.id
+        ##          ^^^^^ constant.character.entity
+        ##                ^ - meta.toc-list.id
+        ##                 ^^^^^^^^ meta.toc-list.id
+        ##                    ^^^^^ constant.character.entity
+        ##                         ^ punctuation.definition.string.end - meta.toc-list.id
+
         <div class=element-class></div>
         ##  ^ - meta.attribute-with-value.class
         ##   ^^^^^ entity.other.attribute-name.class
         ##   ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.class
         ##         ^^^^^^^^^^^^^ string.unquoted meta.class-name
+
+        <div class=element&#xAD;class></div>
+        ##  ^ - meta.attribute-with-value.class
+        ##   ^^^^^ entity.other.attribute-name.class
+        ##   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.class
+        ##         ^^^^^^^^^^^^^^^^^^ string.unquoted meta.class-name
+        ##                ^^^^^^ constant.character.entity.hexadecimal
 
         <div class='element-class'></div>
         ##  ^ - meta.attribute-with-value.class
@@ -339,6 +389,42 @@ class="foo"></div>
         ##         ^ punctuation.definition.string.begin - meta.class-name
         ##          ^^^^^^^^^^^^^ meta.class-name
         ##                       ^ punctuation.definition.string.end - meta.class-name
+
+        <div class=el-&foo;" bar&baz;></div>
+        ##  ^ - meta.attribute-with-value.class
+        ##   ^^^^^ entity.other.attribute-name.class
+        ##   ^^^^^^^^^^^^^^^ meta.attribute-with-value.class
+        ##         ^^^^^^^^^ string.unquoted meta.class-name
+        ##            ^^^^^ constant.character.entity.named
+        ##                 ^ invalid.illegal.attribute-value.html
+        ##                  ^ - meta.attribute-with-value - entity - constant - string - punctuation
+        ##                   ^^^^^^^^ meta.attribute-with-value entity.other.attribute-name
+
+        <div class='el-&foo;" bar&baz;'></div>
+        ##  ^ - meta.attribute-with-value.class
+        ##   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.class
+        ##   ^^^^^ entity.other.attribute-name.class
+        ##         ^^^^^^^^^^^^^^^^^^^^ string.quoted.single
+        ##         ^ punctuation.definition.string.begin - meta.class-name
+        ##          ^^^^^^^^^ meta.class-name
+        ##             ^^^^^ constant.character.entity
+        ##                   ^ - meta.class-name
+        ##                    ^^^^^^^^ meta.class-name
+        ##                       ^^^^^ constant.character.entity
+        ##                            ^ punctuation.definition.string.end - meta.class-name
+
+        <div class="el-&foo;' bar&baz;"></div>
+        ##  ^ - meta.attribute-with-value.class
+        ##   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.class
+        ##   ^^^^^ entity.other.attribute-name.class
+        ##         ^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+        ##         ^ punctuation.definition.string.begin - meta.class-name
+        ##          ^^^^^^^^^ meta.class-name
+        ##             ^^^^^ constant.character.entity
+        ##                   ^ - meta.class-name
+        ##                    ^^^^^^^^ meta.class-name
+        ##                       ^^^^^ constant.character.entity
+        ##                            ^ punctuation.definition.string.end - meta.class-name
 
         <div style="width: 100%"></div>
         ##  ^ - meta.attribute-with-value.style
