@@ -7,14 +7,21 @@ import sublime
 import sublime_plugin
 
 
-def read_file_lines(fname):
-    with open(fname, mode="rt", encoding="utf-8") as f:
-        lines = f.read().split('\n')
+def splitlines_keep_ends(text):
+    lines = text.split('\n')
 
-    # Need to insert back the newline characters between lines
+    # Need to insert back the newline characters between lines, difflib
+    # requires this.
     if len(lines) > 0:
         for i in range(len(lines) - 1):
             lines[i] += '\n'
+
+    return lines
+
+
+def read_file_lines(fname):
+    with open(fname, mode="rt", encoding="utf-8") as f:
+        lines = splitlines_keep_ends(f.read())
 
     # as `difflib` doesn't work properly when the file does not end
     # with a new line character (https://bugs.python.org/issue2142),
@@ -80,12 +87,7 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
             sublime.status_message("Diff only works with UTF-8 files")
             return
 
-        b = self.view.substr(sublime.Region(0, self.view.size())).split('\n')
-        # Need to insert back the newline characters between lines, difflib
-        # requires this.
-        if len(b) > 0:
-            for i in range(len(b) - 1):
-                b[i] += '\n'
+        b = splitlines_keep_ends(self.view.substr(sublime.Region(0, self.view.size())))
 
         add_no_eol_warning_if_applicable(b)
 
