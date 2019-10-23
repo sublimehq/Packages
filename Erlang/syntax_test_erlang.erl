@@ -4397,7 +4397,7 @@ function_call_tests() ->
 % erlang is a special autoimported namespace
 
     erlang
-%   ^^^^^^ support.namespace.erlang
+%   ^^^^^^ meta.atom.erlang constant.other.symbol.erlang - meta.path - support.namespace
 
     erlang:
 %  ^ - meta.path
