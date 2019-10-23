@@ -1423,6 +1423,9 @@ contexts:
 ###[ LINK/IMAGE/REFERENCE ATTRIBUTES ]########################################
 
   tag-attributes:
+    # https://kramdown.gettalong.org/syntax.html#span-ials
+    # https://michelf.ca/projects/php-markdown/extra/
+    # https://pandoc.org/MANUAL.html#extension-link_attributes
     - match: \}
       scope: punctuation.definition.attributes.end.markdown
       pop: true
