@@ -250,63 +250,33 @@ BAR
  1i          #=> (0+1i)
 #^^ constant.numeric.complex.imaginary
 # ^ storage.type.numeric.imaginary
- 1.i         #=> (0+1i)
-#^^^ constant.numeric.complex.imaginary
-# ^^ storage.type.numeric.imaginary
  1.0i        #=> (0+1.0i)
 #^^^^ constant.numeric.complex.imaginary
 # ^ punctuation.separator.decimal
 #   ^ storage.type.numeric.imaginary
- 1.0.i       #=> (0+1.0i)
-#^^^^^ constant.numeric.complex.imaginary
-# ^ punctuation.separator.decimal
-#   ^^ storage.type.numeric.imaginary
  12e3i       #=> (0+12000.0i)
 #^^^^^ constant.numeric.complex.imaginary
 #    ^ storage.type.numeric.imaginary
- 12e3.i      #=> (0+12000.0i)
-#^^^^^^ constant.numeric.complex.imaginary
-#    ^^ storage.type.numeric.imaginary
  12e-3i      #=> (0+0.012i)
 #^^^^^^ constant.numeric.complex.imaginary
 #     ^ storage.type.numeric.imaginary
- 12e-3.i     #=> (0+0.012i)
-#^^^^^^^ constant.numeric.complex.imaginary
-#     ^^ storage.type.numeric.imaginary
  1.2e3i      #=> (0+1200.0i)
 #^^^^^^ constant.numeric.complex.imaginary
 # ^ punctuation.separator.decimal
 #     ^ storage.type.numeric.imaginary
- 1.2e3.i     #=> (0+1200.0i)
-#^^^^^^^ constant.numeric.complex.imaginary
-# ^ punctuation.separator.decimal
-#     ^^ storage.type.numeric.imaginary
  1.2e-3i     #=> (0+0.0012i)
 #^^^^^^^ constant.numeric.complex.imaginary
 # ^ punctuation.separator.decimal
 #      ^ storage.type.numeric.imaginary
- 1.2e-3.i    #=> (0+0.0012i)
-#^^^^^^^^ constant.numeric.complex.imaginary
-# ^ punctuation.separator.decimal
-#      ^^ storage.type.numeric.imaginary
  12ri        #=> (0+(12/1)*i)
 #^^^^ constant.numeric.complex.imaginary
 #  ^ storage.type.numeric.rational
 #   ^ storage.type.numeric.imaginary
- 12r.i       #=> (0+(12/1)*i)
-#^^^^^ constant.numeric.complex.imaginary
-#  ^ storage.type.numeric.rational
-#   ^^ storage.type.numeric.imaginary
  12.3ri      #=> (0+(123/10)*i)
 #^^^^^^ constant.numeric.complex.imaginary
 #  ^ punctuation.separator.decimal
 #    ^ storage.type.numeric.rational
 #     ^ storage.type.numeric.imaginary
- 12.3r.i     #=> (0+(123/10)*i)
-#^^^^^^^ constant.numeric.complex.imaginary
-#  ^ punctuation.separator.decimal
-#    ^ storage.type.numeric.rational
-#     ^^ storage.type.numeric.imaginary
  12e3ri      #=> syntax error
 #^^^^^^ constant.numeric.complex.imaginary
 #    ^ invalid.illegal.numeric.rational
