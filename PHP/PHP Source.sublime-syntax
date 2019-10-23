@@ -128,7 +128,12 @@ contexts:
           pop: true
         - match: (?=\S)
           pop: true
-    - match: \b(break|c(ase|ontinue)|d(e(clare|fault)|ie|o)|e(lse(if)?|nd(declare|for(each)?|if|switch|while)|xit)|for(each)?|if|return|switch|use|while)\b
+    - match: |-
+        \b(?xi:
+          break | case | continue | declare | default | die | do | else |
+          elseif | enddeclare | endfor | endforeach | endif | endswitch | endwhile | exit |
+          for | foreach | if | return | switch | use | while
+        )\b
       scope: keyword.control.php
     - match: \b(catch)\b\s*\(\s*
       captures:
@@ -211,11 +216,19 @@ contexts:
     - match: (?i)\s*\(\s*(array|real|double|float|int(eger)?|bool(ean)?|string|object|binary|unset)\s*\)
       captures:
         1: storage.type.php
-    - match: (?i)\b(array|real|double|float|int(eger)?|bool(ean)?|string|class|clone|function|interface|object)\b
+    - match: |-
+        \b(?xi:
+          array | bool | boolean | class | clone | double | float | function |
+          int | integer | interface | object | real | string
+        )\b
       scope: storage.type.php
     - match: (?i)\b(parent|self)\b
       scope: variable.language.php
-    - match: (?i)\b(global|abstract|const|extends|implements|final|p(r(ivate|otected)|ublic)|static)\b
+    - match: |-
+        \b(?xi:
+          abstract | const | extends | final | global | implements | private | protected |
+          public | static
+        )\b
       scope: storage.modifier.php
     - include: object
     - match: ;
@@ -311,7 +324,7 @@ contexts:
 
   class-builtin:
     - match: |-
-        (?i)(\\)?\b
+        (?i)(\\)?\b(
           AMQPConnection | AMQPExchange | AMQPQueue | APCIterator | AppendIterator | ArrayAccess | ArrayIterator | ArrayObject |
           BadFunctionCallException | BadMethodCallException | CachingIterator | Collator | Countable | DOMAttr | DOMCharacterData | DOMComment |
           DOMDocument | DOMDocumentFragment | DOMElement | DOMEntityReference | DOMImplementation | DOMNamedNodeMap | DOMNode | DOMNodelist |
