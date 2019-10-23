@@ -310,7 +310,39 @@ contexts:
         - include: expressions
 
   class-builtin:
-    - match: (?i)(\\)?\b(st(dClass|reamWrapper)|R(RD(Graph|Creator|Updater)|untimeException|e(sourceBundle|cursive(RegexIterator|CachingIterator|TreeIterator|Iterator(Iterator)?|DirectoryIterator|FilterIterator|ArrayIterator)|flect(ion(Method|Class|Object|P(arameter|roperty)|Extension|Function(Abstract)?)?|or)|gexIterator)|angeException)|G(lobIterator|magick(Draw|Pixel)?)|X(ML(Reader|Writer)|SLTProcessor)|M(ongo(Regex|Grid(fsFile|FS(Cursor|File)?)|BinData|C(o(de|llection)|ursor)|Timestamp|I(nt(32|64)|d)|D(B(Ref)?|ate))?|ultipleIterator|e(ssageFormatter|mcache(d)?))|Bad(MethodCallException|FunctionCallException)|tidy(Node)?|S(impleXML(Iterator|Element)|oap(Server|Header|Client|Param|Var|Fault)|NMP|CA(_(SoapProxy|LocalProxy))?|p(hinxClient|l(M(inHeap|axHeap)|Bool|S(t(ack|ring)|ubject)|Heap|TempFileObject|Int|Ob(server|jectStorage)|DoublyLinkedList|PriorityQueue|Enum|Queue|F(i(le(Info|Object)|xedArray)|loat)))|e(ekableIterator|rializable)|DO_(Model_(ReflectionDataObject|Type|Property)|Sequence|D(ata(Object|Factory)|AS_(Relational|XML(_Document)?|Setting|ChangeSummary|Data(Object|Factory)))|Exception|List)|wish(Result(s)?|Search)?|VM(Model)?|QLite(Result|3(Result|Stmt)?|Database|Unbuffered)|AM(Message|Connection))|H(ttp(Re(sponse|quest(Pool)?)|Message|InflateStream|DeflateStream|QueryString)|aru(Image|Outline|D(oc|estination)|Page|Encoder|Font|Annotation))|N(o(RewindIterator|rmalizer)|umberFormatter)|C(o(untable|llator)|achingIterator)|T(okyoTyrant(Table|Query)?|ra(nsliterator|versable))|I(n(tlDateFormatter|validArgumentException|finiteIterator)|terator(Iterator|Aggregate)?|magick(Draw|Pixel(Iterator)?)?)|ZipArchive|O(CI-(Collection|Lob)|ut(erIterator|Of(RangeException|BoundsException))|verflowException)|D(irectoryIterator|om(XsltStylesheet|Node|Document(Type)?|ProcessingInstruction|Element|ainException|Attribute)|OM(XPath|N(ode(list)?|amedNodeMap)|C(haracterData|omment)|Text|Implementation|Document(Fragment)?|ProcessingInstruction|E(ntityReference|lement)|Attr)|ate(Time(Zone)?|Interval|Period))|Un(derflowException|expectedValueException)|finfo|P(har(Data|FileInfo)?|DO(Statement)?|arentIterator)|E(rrorException|xception|mptyIterator)|V8Js(Exception)?|KTaglib_(MPEG_(File|AudioProperties)|Tag|ID3v2_(Tag|Frame|AttachedPictureFrame))|Fil(terIterator|esystemIterator)|mysqli(_(stmt|driver|warning|result))?|L(imitIterator|o(cale|gicException)|engthException)|A(MQP(Connection|Exchange|Queue)|ppendIterator|PCIterator|rray(Iterator|Object|Access))|Json(Exception|Serializable))\b
+    - match: |-
+        (?i)(\\)?\b
+          AMQPConnection | AMQPExchange | AMQPQueue | APCIterator | AppendIterator | ArrayAccess | ArrayIterator | ArrayObject |
+          BadFunctionCallException | BadMethodCallException | CachingIterator | Collator | Countable | DOMAttr | DOMCharacterData | DOMComment |
+          DOMDocument | DOMDocumentFragment | DOMElement | DOMEntityReference | DOMImplementation | DOMNamedNodeMap | DOMNode | DOMNodelist |
+          DOMProcessingInstruction | DOMText | DOMXPath | DateInterval | DatePeriod | DateTime | DateTimeZone | DirectoryIterator |
+          DomAttribute | DomDocument | DomDocumentType | DomElement | DomNode | DomProcessingInstruction | DomXsltStylesheet | DomainException |
+          EmptyIterator | ErrorException | Exception | FilesystemIterator | FilterIterator | GlobIterator | Gmagick | GmagickDraw |
+          GmagickPixel | HaruAnnotation | HaruDestination | HaruDoc | HaruEncoder | HaruFont | HaruImage | HaruOutline |
+          HaruPage | HttpDeflateStream | HttpInflateStream | HttpMessage | HttpQueryString | HttpRequest | HttpRequestPool | HttpResponse |
+          Imagick | ImagickDraw | ImagickPixel | ImagickPixelIterator | InfiniteIterator | IntlDateFormatter | InvalidArgumentException | Iterator |
+          IteratorAggregate | IteratorIterator | JsonException | JsonSerializable | KTaglib_ID3v2_AttachedPictureFrame | KTaglib_ID3v2_Frame | KTaglib_ID3v2_Tag | KTaglib_MPEG_AudioProperties |
+          KTaglib_MPEG_File | KTaglib_Tag | LengthException | LimitIterator | Locale | LogicException | Memcache | Memcached |
+          MessageFormatter | Mongo | MongoBinData | MongoCode | MongoCollection | MongoCursor | MongoDB | MongoDBRef |
+          MongoDate | MongoGridFS | MongoGridFSCursor | MongoGridFSFile | MongoGridfsFile | MongoId | MongoInt32 | MongoInt64 |
+          MongoRegex | MongoTimestamp | MultipleIterator | NoRewindIterator | Normalizer | NumberFormatter | OCI-Collection | OCI-Lob |
+          OutOfBoundsException | OutOfRangeException | OuterIterator | OverflowException | PDO | PDOStatement | ParentIterator | Phar |
+          PharData | PharFileInfo | RRDCreator | RRDGraph | RRDUpdater | RangeException | RecursiveArrayIterator | RecursiveCachingIterator |
+          RecursiveDirectoryIterator | RecursiveFilterIterator | RecursiveIterator | RecursiveIteratorIterator | RecursiveRegexIterator | RecursiveTreeIterator | Reflection | ReflectionClass |
+          ReflectionExtension | ReflectionFunction | ReflectionFunctionAbstract | ReflectionMethod | ReflectionObject | ReflectionParameter | ReflectionProperty | Reflector |
+          RegexIterator | ResourceBundle | RuntimeException | SAMConnection | SAMMessage | SCA | SCA_LocalProxy | SCA_SoapProxy |
+          SDO_DAS_ChangeSummary | SDO_DAS_DataFactory | SDO_DAS_DataObject | SDO_DAS_Relational | SDO_DAS_Setting | SDO_DAS_XML | SDO_DAS_XML_Document | SDO_DataFactory |
+          SDO_DataObject | SDO_Exception | SDO_List | SDO_Model_Property | SDO_Model_ReflectionDataObject | SDO_Model_Type | SDO_Sequence | SNMP |
+          SQLite3 | SQLite3Result | SQLite3Stmt | SQLiteDatabase | SQLiteResult | SQLiteUnbuffered | SVM | SVMModel |
+          SeekableIterator | Serializable | SimpleXMLElement | SimpleXMLIterator | SoapClient | SoapFault | SoapHeader | SoapParam |
+          SoapServer | SoapVar | SphinxClient | SplBool | SplDoublyLinkedList | SplEnum | SplFileInfo | SplFileObject |
+          SplFixedArray | SplFloat | SplHeap | SplInt | SplMaxHeap | SplMinHeap | SplObjectStorage | SplObserver |
+          SplPriorityQueue | SplQueue | SplStack | SplString | SplSubject | SplTempFileObject | Swish | SwishResult |
+          SwishResults | SwishSearch | TokyoTyrant | TokyoTyrantQuery | TokyoTyrantTable | Transliterator | Traversable | UnderflowException |
+          UnexpectedValueException | V8Js | V8JsException | XMLReader | XMLWriter | XSLTProcessor | ZipArchive | finfo |
+          mysqli | mysqli_driver | mysqli_result | mysqli_stmt | mysqli_warning | stdClass | streamWrapper | tidy |
+          tidyNode
+        )\b
       captures:
         1: punctuation.separator.namespace.php
         2: support.class.builtin.php
