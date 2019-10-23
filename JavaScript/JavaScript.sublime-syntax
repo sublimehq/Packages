@@ -1731,32 +1731,32 @@ contexts:
         - include: object-property
 
   literal-number:
-    - match: '[+-]?0[0-9]+{{identifier_break}}'
+    - match: '0[0-9]+{{identifier_break}}'
       scope: constant.numeric.octal.js invalid.deprecated.numeric.octal.js
       pop: true
 
-    - match: '[+-]?(0[Xx])[0-9a-fA-F_]*(n)?{{identifier_break}}'
+    - match: '(0[Xx])[0-9a-fA-F_]*(n)?{{identifier_break}}'
       scope: constant.numeric.hexadecimal.js
       captures:
         1: punctuation.definition.numeric.hexadecimal.js
         2: storage.type.numeric.bigint.js
       pop: true
 
-    - match: '[+-]?(0[Oo])[0-7_]*(n)?{{identifier_break}}'
+    - match: '(0[Oo])[0-7_]*(n)?{{identifier_break}}'
       scope: constant.numeric.octal.js
       captures:
         1: punctuation.definition.numeric.octal.js
         2: storage.type.numeric.bigint.js
       pop: true
 
-    - match: '[+-]?(0[Bb])[0-1_]*(n)?{{identifier_break}}'
+    - match: '(0[Bb])[0-1_]*(n)?{{identifier_break}}'
       scope: constant.numeric.binary.js
       captures:
         1: punctuation.definition.numeric.binary.js
         2: storage.type.numeric.bigint.js
       pop: true
 
-    - match: '[+-]?(?:0|[1-9][0-9_]*)(n){{identifier_break}}'
+    - match: '(?:0|[1-9][0-9_]*)(n){{identifier_break}}'
       scope: constant.numeric.decimal.js
       captures:
         1: storage.type.numeric.bigint.js
@@ -1764,7 +1764,6 @@ contexts:
 
     - match: |-
         (?x)
-        [-+]?
         (
           (?:0|[1-9][0-9_]*)
           (?:\.[0-9_]*|(?!\.))
@@ -1776,23 +1775,23 @@ contexts:
       scope: constant.numeric.decimal.js
       pop: true
 
-    - match: '[+-]?0[Xx]{{identifier_part}}+{{identifier_break}}'
+    - match: '0[Xx]{{identifier_part}}+{{identifier_break}}'
       scope: invalid.illegal.numeric.hexadecimal.js
       pop: true
 
-    - match: '[+-]?0[Oo]{{identifier_part}}+{{identifier_break}}'
+    - match: '0[Oo]{{identifier_part}}+{{identifier_break}}'
       scope: invalid.illegal.numeric.octal.js
       pop: true
 
-    - match: '[+-]?0[Bb]{{identifier_part}}+{{identifier_break}}'
+    - match: '0[Bb]{{identifier_part}}+{{identifier_break}}'
       scope: invalid.illegal.numeric.binary.js
       pop: true
 
-    - match: '[+-]?0{{identifier_part}}+{{identifier_break}}'
+    - match: '0{{identifier_part}}+{{identifier_break}}'
       scope: invalid.illegal.numeric.octal.js
       pop: true
 
-    - match: '[+-]?[1-9]{{identifier_part}}+{{identifier_break}}(?:\.{{identifier_part}}*{{identifier_break}})?'
+    - match: '[1-9]{{identifier_part}}+{{identifier_break}}(?:\.{{identifier_part}}*{{identifier_break}})?'
       scope: invalid.illegal.numeric.decimal.js
       pop: true
 
