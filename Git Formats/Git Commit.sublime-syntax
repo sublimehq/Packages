@@ -76,7 +76,7 @@ contexts:
         - include: Git Common.sublime-syntax#references
         - include: signed-off
         - match: '{{hash}}'
-          scope: constant.numeric.hex.hash.git.commit
+          scope: constant.other.hash.git.commit
 
   signed-off:
     - match: ^\s*(Signed-off-by)\s*(:)
@@ -146,7 +146,7 @@ contexts:
       scope: meta.command-list.git.commit
       captures:
         1: keyword.operator.git.commit
-        2: constant.numeric.hex.hash.git.commit
+        2: constant.other.hash.git.commit
         3: string.unquoted.subject.git.commit
 
   date-line:
