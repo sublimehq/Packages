@@ -110,8 +110,8 @@ contexts:
     - include: all_matlab_keywords
     - include: all_matlab_comments
     - include: variable
-    - include: variable_invalid
     - include: number
+    - include: variable_invalid
     - include: operators
     - match: \.\.\.
       scope: punctuation.separator.continuation.matlab
