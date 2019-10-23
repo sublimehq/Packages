@@ -276,11 +276,6 @@ $var->meth()[10];
 /** @var Properties: class properties. */
 //  ^ keyword.other.phpdoc
 
-/**
- * @return
-//  ^ keyword.other.phpdoc
- */
-
 /* No phpdoc highlight since there are not two * after the opening /
  * @return
 //   ^ comment.block - keyword.other.phpdoc

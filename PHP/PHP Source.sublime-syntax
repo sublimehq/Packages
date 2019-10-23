@@ -756,7 +756,7 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.end.php
           pop: true
-        - include: php_doc
+        - include: php-doc
     - match: /\*
       scope: punctuation.definition.comment.begin.php
       push:
@@ -1193,7 +1193,7 @@ contexts:
           pop: true
         - include: class-name
     - include: constants
-  php_doc:
+  php-doc:
     # If the next line doesn't start with whitespace then an asterisk, the use
     # is either writing an invalid phpdoc comment, or not using phpdoc. Instead
     # of marking the comment as invalid, we just switch to a normal block-level
@@ -1221,6 +1221,9 @@ contexts:
         2: markup.underline.link.php
     - match: \@(a(bstract|pi|uthor)|c(ategory|opyright)|example|global|i(nternal|gnore)|li(cense|nk)|pa(ckage|ram)|return|s(ee|ince|tatic|ubpackage)|t(hrows|odo)|v(ar|ersion)|uses|deprecated|fi(nal|lesource)|property(-(read|write))?|method|source)\b
       scope: keyword.other.phpdoc.php
+    - match: \{(@inheritdoc)\}
+      captures:
+        1: keyword.other.phpdoc.php
     # Annotations from PHPUnit
     - match: \@(author|after(?:Class)?|backup(?:Globals|StaticAttributes)|before(?:Class)?|codeCoverageIgnore*|covers(?:DefaultClass|Nothing)?|dataProvider|depends|doesNotPerformAssertions|expectedException(?:Code|Message(?:RegExp)?)?|group|large|medium|preserveGlobalState|requires|run(TestsInSeparateProcesses|InSeparateProcess)|small|test(dox|With)?|ticket|uses)\b
       scope: keyword.other.phpunit.php
