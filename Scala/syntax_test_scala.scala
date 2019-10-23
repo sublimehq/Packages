@@ -1349,13 +1349,37 @@ trait AlgebraF[F[_]] { type f[x] = Algebra[F,x] }
 //                     ^^^^ storage.type.scala
 //                               ^ keyword.operator.assignment.scala
 
+class Foo @Inject()(a: String)
+//         ^^^^^^ meta.annotation.identifier
+//                 ^- meta.annotation
+//                  ^ variable.parameter.scala
+
+class Foo @Inject() @Provided(scope = "test")(a: String)
+//         ^^^^^^ meta.annotation.identifier
+//                 ^- meta.annotation
+//                   ^^^^^^^ meta.annotation.identifier
+//                           ^^^^^^^ meta.annotation.parameters
+//                                           ^- meta.annotation
+//                                            ^ variable.parameter.scala
+
+class Foo @Inject(z = "a")(a: String)
+//         ^^^^^^ variable.annotation
+//                ^^^^^^^ meta.annotation.parameters
+//                         ^ variable.parameter.scala
+
+class Foo[A] @Inject()(a: String)
+//        ^ support.class
+//            ^^^^^^ meta.annotation.identifier
+//                    ^- meta.annotation
+//                     ^ variable.parameter.scala
+
 // annotation examples from: http://www.scala-lang.org/files/archive/spec/2.11/11-annotations.html
 @deprecated("Use D", "1.0") class C { ... }
 // <- meta.annotation
 // ^^ variable.annotation
 //         ^ meta.annotation.parameters.scala punctuation.section.arguments.annotation.begin.scala
 //            ^^ string
-//                        ^ meta.annotation
+//                       ^ meta.annotation
 //                         ^ - meta.annotation
 
 @transient @volatile var m: Int
@@ -1393,7 +1417,7 @@ trait Function0[@specialized(Unit, Int, Double) T] {
 //                                              ^ support.class
 //              ^ punctuation.definition.annotation
 //              ^ meta.annotation
-//                                            ^ meta.annotation.parameters
+//                                           ^ meta.annotation.parameters
 //                                             ^ - meta.annotation
 //                               ^ punctuation.separator.arguments.annotation
   def apply: T
