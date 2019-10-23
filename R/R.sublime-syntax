@@ -31,11 +31,11 @@ contexts:
     - include: general-variables
 
   codesection:
-    - match: ^\s*(\#+)\s*(.+?)\s*[-=#]{4,}$\n?
-      scope: comment.line.number-sign.r
+    - match: ^\s*((\#+)\s*(.+?)\s*(?:-{4,}|={4,}|#{4,})[ \t]*$\n?)
       captures:
-        1: punctuation.definition.comment.r
-        2: entity.name.section.r
+        1: comment.line.number-sign.r
+        2: punctuation.definition.comment.r
+        3: entity.name.section.r
 
   comments:
     - match: \#+

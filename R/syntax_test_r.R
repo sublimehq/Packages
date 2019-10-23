@@ -1,25 +1,26 @@
 # SYNTAX TEST "Packages/R/R.sublime-syntax"
 
 # comment
-# ^^^^^^^ comment.line.number-sign.r
+# ^^^^^^^^ comment.line.number-sign.r
 
 # no section ---
-# ^^^^^^^^^^^^^^ comment.line.number-sign.r - entity
+# ^^^^^^^^^^^^^^^ comment.line.number-sign.r - entity
 
 # section 1 ----
 #^ comment.line.number-sign.r - entity
 # ^^^^^^^^^ entity.name.section.r
-#          ^^^^^ comment.line.number-sign.r - entity
+#          ^^^^^^ comment.line.number-sign.r - entity
 
 ## section 1.1 ----
 #^^ comment.line.number-sign.r - entity
 #  ^^^^^^^^^^^ entity.name.section.r
-#             ^^^^^ comment.line.number-sign.r - entity
+#             ^^^^^^ comment.line.number-sign.r - entity
 
-#### section 1.1.1 ----
-#^^^^ comment.line.number-sign.r - entity
-#    ^^^^^^^^^^^^^ entity.name.section.r
-#                 ^^^^^ comment.line.number-sign.r - entity
+  #### section 1.1.1 ----
+#^ - comment
+# ^^^^^ comment.line.number-sign.r - entity
+#      ^^^^^^^^^^^^^ entity.name.section.r
+#                   ^^^^^^ comment.line.number-sign.r - entity
 
 # no section ===
 # ^^^^^^^^^^^^^^ comment.line.number-sign.r - entity
@@ -27,35 +28,38 @@
 # section 2 ====
 #^ comment.line.number-sign.r - entity
 # ^^^^^^^^^ entity.name.section.r
-#          ^^^^^ comment.line.number-sign.r - entity
+#          ^^^^^^ comment.line.number-sign.r - entity
 
 ## section 2.1 ====
 #^^ comment.line.number-sign.r - entity
 #  ^^^^^^^^^^^ entity.name.section.r
-#             ^^^^^ comment.line.number-sign.r - entity
+#             ^^^^^^ comment.line.number-sign.r - entity
 
 #### section 2.1.1 ====
 #^^^^ comment.line.number-sign.r - entity
 #    ^^^^^^^^^^^^^ entity.name.section.r
-#                 ^^^^^ comment.line.number-sign.r - entity
+#                 ^^^^^^ comment.line.number-sign.r - entity
 
 # no section ###
-# ^^^^^^^^^^^^^^ comment.line.number-sign.r - entity
+# ^^^^^^^^^^^^^^^ comment.line.number-sign.r - entity
+
+# no section -=#=-
+# ^^^^^^^^^^^^^^^^^ comment.line.number-sign.r - entity
 
 # section 3 ####
 #^ comment.line.number-sign.r - entity
 # ^^^^^^^^^ entity.name.section.r
-#          ^^^^^ comment.line.number-sign.r - entity
+#          ^^^^^^ comment.line.number-sign.r - entity
 
 ## section 3.1 ####
 #^^ comment.line.number-sign.r - entity
 #  ^^^^^^^^^^^ entity.name.section.r
-#             ^^^^^ comment.line.number-sign.r - entity
+#             ^^^^^^ comment.line.number-sign.r - entity
 
 #### section 3.1.1 ####
 #^^^^ comment.line.number-sign.r - entity
 #    ^^^^^^^^^^^^^ entity.name.section.r
-#                 ^^^^^ comment.line.number-sign.r - entity
+#                 ^^^^^^ comment.line.number-sign.r - entity
 
 # constants
 pi
