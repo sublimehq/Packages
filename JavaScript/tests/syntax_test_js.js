@@ -1944,3 +1944,29 @@ debugger;
 debugger
 []
 // <- meta.sequence
+
+    a ?? b;
+//    ^^ keyword.operator.logical
+
+    a.?b.?c;
+//   ^^ punctuation.accessor
+//     ^ meta.property.object
+//      ^^ punctuation.accessor
+//        ^ meta.property.object
+
+    a.?[propName];
+//   ^^^^^^^^^^^^ meta.brackets
+//   ^^ punctuation.accessor
+//     ^ punctuation.section.brackets.begin
+
+    a.?();
+//  ^^^^^ meta.function-call
+//  ^ variable.function
+//   ^^^^ meta.group
+//   ^^ punctuation.accessor
+//     ^ punctuation.section.group.begin
+
+    a.b.?();
+//  ^^^^^^^ meta.function-call.method
+//    ^ variable.function
+//     
