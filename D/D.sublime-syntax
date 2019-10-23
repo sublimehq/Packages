@@ -1411,12 +1411,12 @@ contexts:
     - include: not-whitespace-illegal-pop
 
   value-list:
-    - match: '(?=\)|}|]|;)'
+    - match: '(?=\)|}|]|;|:)'
       pop: true
     - match: '(?=\S)'
       set: [value-list-after, value]
   value-list-after:
-    - match: '(?=\)|}|]|;)'
+    - match: '(?=\)|}|]|;|:)'
       pop: true
     - match: ','
       scope: punctuation.separator.sequence.d
@@ -2009,7 +2009,7 @@ contexts:
           set: [switch-after, value]
     - match: '\bcase\b'
       scope: keyword.control.flow.d
-      push: [case-after, value]
+      push: [case-after, value-list]
     - match: '\bdefault\b'
       scope: keyword.control.flow.d
       push:
