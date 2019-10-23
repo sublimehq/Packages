@@ -257,14 +257,14 @@ contexts:
         2: storage.type.numeric.rational.ruby
     # floating point numbers: 1.1, 1e1, 1.1e1
     - match: '\b{{ddigits}}(?:(\.){{ddigits}}|(?:(\.){{ddigits}})?{{exponent}}(r)?)\b'
-      scope: constant.numeric.float.ruby
+      scope: constant.numeric.float.decimal.ruby
       captures:
         1: punctuation.separator.decimal.ruby
         2: punctuation.separator.decimal.ruby
         3: invalid.illegal.numeric.rational.ruby
     # integer numbers
     - match: '\b{{ddigits}}\b'
-      scope: constant.numeric.integer.ruby
+      scope: constant.numeric.integer.decimal.ruby
     # Quoted symbols
     - match: ":'"
       scope: punctuation.definition.constant.ruby

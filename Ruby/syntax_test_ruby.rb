@@ -185,26 +185,26 @@ BAR
 ##################
 
  1234
-#^^^^ constant.numeric.integer
+#^^^^ constant.numeric.integer.decimal
  1_234
-#^^^^^ constant.numeric.integer
+#^^^^^ constant.numeric.integer.decimal
  1.
-#^ constant.numeric.integer
+#^ constant.numeric.integer.decimal
 # ^ punctuation.accessor - constant.numeric
 
  12.34
-#^^^^^ constant.numeric.float
+#^^^^^ constant.numeric.float.decimal
 #  ^ punctuation.separator.decimal
  1234e-2
-#^^^^^^^ constant.numeric.float
+#^^^^^^^ constant.numeric.float.decimal
  1.234E1
-#^^^^^^^ constant.numeric.float
+#^^^^^^^ constant.numeric.float.decimal
 # ^ punctuation.separator.decimal
  12e3r       #=> syntax error
-#^^^^^ constant.numeric.float
+#^^^^^ constant.numeric.float.decimal
 #    ^ invalid.illegal.numeric.rational
  1.2e3r      #=> syntax error
-#^^^^^^ constant.numeric.float
+#^^^^^^ constant.numeric.float.decimal
 # ^ punctuation.separator.decimal
 #     ^ invalid.illegal.numeric.rational
 
@@ -584,7 +584,7 @@ Symbol === :foo
 #       ^^ constant.character.ruby
 #         ^ - constant
 #          ^ keyword.operator.conditional.ruby
-#           ^^ constant.numeric.integer.ruby
+#           ^^ constant.numeric.integer.decimal.ruby
   ?a ?A ?あ ?abc ?a0
 #^ - constant
 # ^ punctuation.definition.constant.ruby
