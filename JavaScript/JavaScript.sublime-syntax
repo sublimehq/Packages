@@ -158,14 +158,14 @@ contexts:
       scope: punctuation.separator.comma.js
 
   import-export:
-    - match: import{{identifier_break}}(?!\s*\.)
+    - match: import{{identifier_break}}(?!{{nothing}}[.(])
       scope: keyword.control.import-export.js
       set:
         - meta_scope: meta.import.js
-        - match: (?=\.) # Recovery for import.meta
+        - match: (?=[.(]) # Recovery for import expressions
           set:
             - expression-statement-end
-            - import-meta-expression-dot
+            - import-expression-end
         - match: (?=\S)
           set:
             - import-meta
@@ -2336,10 +2336,12 @@ contexts:
 
   import-meta-expression:
     - match: import{{identifier_break}}
-      scope: variable.language.import.js
-      set: import-meta-expression-dot
+      scope: keyword.import.js
+      set: import-expression-end
 
-  import-meta-expression-dot:
+  import-expression-end:
+    - match: (?=\()
+      set: function-call-arguments
     - match: \.
       scope: punctuation.accessor.js
       set:
