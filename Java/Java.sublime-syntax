@@ -218,7 +218,6 @@ contexts:
         - include: annotation-array-initialization
         - include: annotations
         - include: code
-        - include: punctuation-separator-comma
     - include: any_POP
 
   annotation-array-initialization:
@@ -321,59 +320,119 @@ contexts:
       scope: punctuation.section.braces.begin.java
       push: array-initialization
     - include: code
-    - include: punctuation-separator-comma
 
   class:
-    - match: '(?=\w?[\w\s]*(?:class|(?:@)?interface|enum)\s+\w+)'
+    - match: (?=({{storage_modifiers}}\s+)*(?:class|(?:@)?interface|enum)\b)
+      push: [class-meta, class-type]
+
+  class-meta:
+    - meta_scope: meta.class.java
+    - include: immediate_POP
+
+  class-type:
+    - include: storage-modifiers
+    - match: (?:class|(\@?)interface)\b
+      scope: storage.type.java
+      captures:
+        1: punctuation.definition.type.java
+      set:
+        - class-block
+        - class-extends
+        - generic-type-declaration
+        - class-name
+    - match: enum\b
+      scope: storage.type.java
+      set:
+        - enum-block
+        - class-extends
+        - generic-type-declaration
+        - class-name
+    - include: any_POP
+
+  class-name:
+    - meta_scope: meta.class.identifier.java
+    - match: (?!extends|implements){{id}}\b
+      scope: entity.name.class.java
+      pop: true
+    - include: any_POP
+
+  class-extends:
+    - match: extends\b
+      scope: keyword.declaration.extends.java
       push:
-        - meta_scope: meta.class.java
-        # Needed because the modifers are part of the meta scope
-        - include: storage-modifiers
-        - match: (\bclass|(?:@)?\binterface|\benum)\s+(\w+)
-          scope: meta.class.identifier.java
-          captures:
-            1: storage.type.java
-            2: entity.name.class.java
-          push: generic-type-declaration
-        - match: \bextends\b
-          scope: keyword.declaration.extends.java
-          push:
-            - - meta_scope: meta.class.extends.java
-              - match: \,
-                scope: punctuation.separator.comma.java
-                push: inherited-object-type-reference
-              - include: any_POP
-            - inherited-object-type-reference
-        - match: \b(implements)\b
-          scope: keyword.declaration.implements.java
-          push:
-            - - meta_scope: meta.class.implements.java
-              - match: \,
-                scope: punctuation.separator.comma.java
-                push: inherited-object-type-reference
-              - include: any_POP
-            - inherited-object-type-reference
-        - match: "{"
-          scope: punctuation.section.block.begin.java
-          push:
-            - meta_scope: meta.class.body.java
-            - match: "}"
-              scope: punctuation.section.block.end.java
-              pop: true
-            - include: class-body
-        - include: any_POP
+        - - meta_scope: meta.class.extends.java
+          - match: \,
+            scope: punctuation.separator.comma.java
+            push: inherited-object-type-reference
+          - include: any_POP
+        - inherited-object-type-reference
+    - match: implements\b
+      scope: keyword.declaration.implements.java
+      push:
+        - - meta_scope: meta.class.implements.java
+          - match: \,
+            scope: punctuation.separator.comma.java
+            push: inherited-object-type-reference
+          - include: any_POP
+        - inherited-object-type-reference
+    - include: any_POP
+
+  class-block:
+    - match: \{
+      scope: punctuation.section.block.begin.java
+      set:
+        - meta_scope: meta.class.body.java meta.block.java
+        - match: \}
+          scope: punctuation.section.block.end.java
+          pop: true
+        - include: class-body
+    - include: any_POP
 
   class-body:
-    - include: storage-modifiers
     - include: class
     - include: annotations
-    - include: enums
     - include: fields-and-methods
     - include: constants-and-special-vars
+    - include: storage-modifiers
     - include: all-types
     - include: static-code-block
+    - include: punctuation-separator-comma
+    - include: punctuation-terminator-semicolon
     - match: (?=<)
       push: generic-type-declaration
+
+  enum-block:
+    - match: \{
+      scope: punctuation.section.block.begin.java
+      set:
+        - meta_scope: meta.class.body.java meta.block.java
+        - match: \}
+          scope: punctuation.section.block.end.java
+          pop: true
+        - include: enum-body
+    - include: any_POP
+
+  enum-body:
+    - match: ^(?=\s*([[:upper:]_][[:upper:][:digit:]_]*|(?!{{primitives}}|{{storage_modifiers}})[[:lower:]_][[:alnum:]_]*)\s*[,;{(])
+      push:
+        - match: (?=[;}])
+          pop: true
+        - match: \w+
+          scope: constant.other.enum.java
+          push:
+            - meta_scope: meta.enum.java
+            - match: \{
+              scope: punctuation.section.block.begin.java
+              push:
+                - meta_scope: meta.enum.body.java meta.block.java
+                - match: \}
+                  scope: punctuation.section.block.end.java
+                  pop: true
+                - include: enum-body
+            - include: parens
+            - include: any_POP
+        - include: punctuation-separator-comma
+    - include: class-body
 
   code:
     - include: constants-and-special-vars
@@ -496,27 +555,6 @@ contexts:
       scope: constant.numeric.integer.decimal.java
       captures:
         1: storage.type.numeric.long.java
-
-  enums:
-    - match: '^(?=\s*[A-Z0-9_]+\s*({|\(|,|;))'
-      push:
-        - match: "(?=;|})"
-          pop: true
-        - match: \w+
-          scope: constant.other.enum.java
-          push:
-            - meta_scope: meta.enum.java
-            - match: "(?=,|;|})"
-              pop: true
-            - include: parens
-            - match: "{"
-              scope: punctuation.section.braces.begin.java
-              push:
-                - meta_scope: meta.enum.body.java
-                - match: "}"
-                  scope: punctuation.section.braces.end.java
-                  pop: true
-                - include: class-body
   keywords:
     - match: '::'
       scope: punctuation.accessor.double-colon.java
@@ -545,6 +583,7 @@ contexts:
       captures:
         1: punctuation.accessor.dot.java
         2: variable.language.java
+    - include: punctuation-separator-comma
     - include: punctuation-terminator-semicolon
 
   keywords-control:
@@ -644,7 +683,6 @@ contexts:
           pop: true
         - include: illegal-parens-terminators
         - include: code
-        - include: punctuation-separator-comma
 
   fields-and-methods:
     - match: \bvoid\b
@@ -673,9 +711,6 @@ contexts:
           2: meta.field.java
         push: [static-assignment, array-brackets]
       - include: punctuation-separator-comma
-      - match: ';'
-        scope: punctuation.terminator.java
-        pop: true
       - include: any_POP
 
   before-next-field:
@@ -969,6 +1004,7 @@ contexts:
           pop: true
         - include: illegal-parens-terminators
         - include: code
+
   declaration-statement-parens:
     - match: \(
       scope: punctuation.section.parens.begin.java
