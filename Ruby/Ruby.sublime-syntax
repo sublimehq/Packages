@@ -209,84 +209,65 @@ contexts:
     - match: '\b(__(FILE|LINE|ENCODING)__|self)\b(?![?!])'
       scope: variable.language.ruby
     # numbers with decimal base prefix
-    - match: '\b(0[dD]){{ddigits}}(r)?(?:(i)(r)?)?\b'
+    - match: '\b(0[dD]){{ddigits}}(r)?(?:(\.i)|(i)(r)?)?\b'
       scope: constant.numeric.integer.decimal.ruby
       captures:
         1: punctuation.definition.numeric.decimal.ruby
         2: storage.type.numeric.rational.ruby
         3: storage.type.numeric.imaginary.ruby
-        4: invalid.illegal.numeric.rational.ruby
+        4: storage.type.numeric.imaginary.ruby
+        5: invalid.illegal.numeric.rational.ruby
     # numbers with hexadecimal base prefix
-    - match: '\b(0[xX]){{hdigits}}(r)?(?:(i)(r)?)?\b'
+    - match: '\b(0[xX]){{hdigits}}(r)?(?:(\.i)|(i)(r)?)?\b'
       scope: constant.numeric.integer.hexadecimal.ruby
       captures:
         1: punctuation.definition.numeric.hexadecimal.ruby
         2: storage.type.numeric.rational.ruby
         3: storage.type.numeric.imaginary.ruby
-        4: invalid.illegal.numeric.rational.ruby
+        4: storage.type.numeric.imaginary.ruby
+        5: invalid.illegal.numeric.rational.ruby
     # numbers with octal base prefix
-    - match: '\b(0[oO]?){{odigits}}(r)?(?:(i)(r)?)?\b'
+    - match: '\b(0[oO]?){{odigits}}(r)?(?:(\.i)|(i)(r)?)?\b'
       scope: constant.numeric.integer.octal.ruby
       captures:
         1: punctuation.definition.numeric.octal.ruby
         2: storage.type.numeric.rational.ruby
         3: storage.type.numeric.imaginary.ruby
-        4: invalid.illegal.numeric.rational.ruby
+        4: storage.type.numeric.imaginary.ruby
+        5: invalid.illegal.numeric.rational.ruby
     # numbers with binary base prefix
-    - match: '\b(0[bB]){{bdigits}}(r)?(?:(i)(r)?)?\b'
+    - match: '\b(0[bB]){{bdigits}}(r)?(?:(\.i)|(i)(r)?)?\b'
       scope: constant.numeric.integer.binary.ruby
       captures:
         1: punctuation.definition.numeric.binary.ruby
         2: storage.type.numeric.rational.ruby
         3: storage.type.numeric.imaginary.ruby
-        4: invalid.illegal.numeric.rational.ruby
-    # complex imaginary numbers
-    - match: |-
-        \b(?x:
-          {{ddigits}} (?:
-            # 1ri, 1.1ri, 1i, 1.1i | 1e1i, 1.1e1i
-            (?: (\.) {{ddigits}} )? (?: (r) | {{exponent}}? )
-            # 1.ri, 1.e1ri, 1.1e1ri | 1.i 1.e1i
-            | (\.) (?: {{ddigits}}? {{exponent}}? (r) | ({{exponent}})? )
-          )
-        )(i)(r)?\b
+        4: storage.type.numeric.imaginary.ruby
+        5: invalid.illegal.numeric.rational.ruby
+    # complex imaginary numbers: 1i, 1.i, 1.1i, 1.1.i, 1e1i, 1e1.i, 1.1e1i, 1.1e1.i, 1ri, 1r.i, 1.1ri, 1.1r.i
+    - match: '\b{{ddigits}}(?:(\.){{ddigits}})?(?:(r)|{{exponent}}(r)?)?(?:(\.i)|(i)(r)?)\b'
       scope: constant.numeric.complex.imaginary.ruby
       captures:
         1: punctuation.separator.decimal.ruby
         2: storage.type.numeric.rational.ruby
-        3: punctuation.separator.decimal.ruby
-        4: invalid.illegal.numeric.rational.ruby
-        5: invalid.illegal.numeric.exponent.ruby
-        6: storage.type.numeric.imaginary.ruby
-        7: invalid.illegal.numeric.rational.ruby
-    # rational numbers
-    - match: |-
-        \b(?x:
-          # 1.r | 1r, 1.1r, 1.e1r, 1.1e1r
-          {{ddigits}} (?: (\.) (r) | (?: (\.) {{ddigits}}? ({{exponent}})? )? (r) )
-        )\b
+        3: invalid.illegal.numeric.rational.ruby
+        4: storage.type.numeric.imaginary.ruby
+        5: storage.type.numeric.imaginary.ruby
+        6: invalid.illegal.numeric.rational.ruby
+    # rational numbers: 1r, 1.1r
+    - match: '\b{{ddigits}}(?:(\.){{ddigits}})?(r)'
       scope: constant.numeric.rational.ruby
       captures:
         1: punctuation.separator.decimal.ruby
-        2: invalid.illegal.numeric.rational.ruby
-        3: punctuation.separator.decimal.ruby
-        4: invalid.illegal.numeric.exponent.ruby
-        5: storage.type.numeric.rational.ruby
-    # floating point numbers
-    - match: |-
-        \b(?x:
-          {{ddigits}} (?:
-            # 1.1, 1.1e1, 1.e1
-            (\.) (?: {{ddigits}} {{exponent}}? | ({{exponent}}) )
-            # 1e1
-            | {{exponent}}
-          )
-        )\b
+        2: storage.type.numeric.rational.ruby
+    # floating point numbers: 1.1, 1e1, 1.1e1
+    - match: '\b{{ddigits}}(?:(\.){{ddigits}}|(?:(\.){{ddigits}})?{{exponent}}(r)?)\b'
       scope: constant.numeric.float.ruby
       captures:
         1: punctuation.separator.decimal.ruby
-        2: invalid.illegal.numeric.exponent.ruby
-    # integer decimal
+        2: punctuation.separator.decimal.ruby
+        3: invalid.illegal.numeric.rational.ruby
+    # integer numbers
     - match: '\b{{ddigits}}\b'
       scope: constant.numeric.integer.ruby
     # Quoted symbols

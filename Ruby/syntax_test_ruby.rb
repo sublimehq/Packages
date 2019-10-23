@@ -188,7 +188,7 @@ BAR
 #^^^^ constant.numeric.integer
  1_234
 #^^^^^ constant.numeric.integer
- 1.          #=> dot after integer indicates method call
+ 1.
 #^ constant.numeric.integer
 # ^ punctuation.accessor - constant.numeric
 
@@ -200,14 +200,13 @@ BAR
  1.234E1
 #^^^^^^^ constant.numeric.float
 # ^ punctuation.separator.decimal
- 12.e1
+ 12e3r       #=> syntax error
 #^^^^^ constant.numeric.float
-#  ^ punctuation.separator.decimal
-#   ^^ invalid.illegal.numeric.exponent
- 12.e-1
-#^^^^^ constant.numeric.float
-#  ^ punctuation.separator.decimal
-#   ^^^ invalid.illegal.numeric.exponent
+#    ^ invalid.illegal.numeric.rational
+ 1.2e3r      #=> syntax error
+#^^^^^^ constant.numeric.float
+# ^ punctuation.separator.decimal
+#     ^ invalid.illegal.numeric.rational
 
  0d170
 #^^^^^ constant.numeric.integer.decimal
@@ -243,9 +242,6 @@ BAR
  12r         #=> (12/1)
 #^^^ constant.numeric.rational
 #  ^ storage.type.numeric.rational
- 12.r        #=> illegal
-#^^^^ constant.numeric.rational
-#   ^ invalid.illegal.numeric.rational
  12.3r       #=> (123/10)
 #^^^^^ constant.numeric.rational
 #  ^ punctuation.separator.decimal
@@ -256,69 +252,92 @@ BAR
 # ^ storage.type.numeric.imaginary
  1.i         #=> (0+1i)
 #^^^ constant.numeric.complex.imaginary
-#  ^ storage.type.numeric.imaginary
- 1.0i        #=> (0+1i)
+# ^^ storage.type.numeric.imaginary
+ 1.0i        #=> (0+1.0i)
 #^^^^ constant.numeric.complex.imaginary
+# ^ punctuation.separator.decimal
 #   ^ storage.type.numeric.imaginary
- 1.e3i       #=> incomplete
+ 1.0.i       #=> (0+1.0i)
 #^^^^^ constant.numeric.complex.imaginary
 # ^ punctuation.separator.decimal
-#  ^^ invalid.illegal.numeric.exponent
+#   ^^ storage.type.numeric.imaginary
+ 12e3i       #=> (0+12000.0i)
+#^^^^^ constant.numeric.complex.imaginary
 #    ^ storage.type.numeric.imaginary
- 1.e-3i      #=> incomplete
+ 12e3.i      #=> (0+12000.0i)
+#^^^^^^ constant.numeric.complex.imaginary
+#    ^^ storage.type.numeric.imaginary
+ 12e-3i      #=> (0+0.012i)
+#^^^^^^ constant.numeric.complex.imaginary
+#     ^ storage.type.numeric.imaginary
+ 12e-3.i     #=> (0+0.012i)
+#^^^^^^^ constant.numeric.complex.imaginary
+#     ^^ storage.type.numeric.imaginary
+ 1.2e3i      #=> (0+1200.0i)
 #^^^^^^ constant.numeric.complex.imaginary
 # ^ punctuation.separator.decimal
-#  ^^^ invalid.illegal.numeric.exponent
 #     ^ storage.type.numeric.imaginary
- 1.2e3i      #=> (0+1200i)
-#^^^^^^ constant.numeric.complex.imaginary
+ 1.2e3.i     #=> (0+1200.0i)
+#^^^^^^^ constant.numeric.complex.imaginary
 # ^ punctuation.separator.decimal
-#     ^ storage.type.numeric.imaginary
+#     ^^ storage.type.numeric.imaginary
  1.2e-3i     #=> (0+0.0012i)
 #^^^^^^^ constant.numeric.complex.imaginary
 # ^ punctuation.separator.decimal
 #      ^ storage.type.numeric.imaginary
- 12e3i       #=> (0+12000i)
-#^^^^^ constant.numeric.complex.imaginary
-#    ^ storage.type.numeric.imaginary
- 12e-3i      #=> (0+0.012i)
-#^^^^^^ constant.numeric.complex.imaginary
-#     ^ storage.type.numeric.imaginary
- 12.3ir      #=> illegal
-#^^^^^^ constant.numeric.complex.imaginary
-#  ^ punctuation.separator.decimal
-#    ^ storage.type.numeric.imaginary
-#     ^ invalid.illegal.numeric.rational
-
- 12ri        #=> (0+(12/3)*i)
+ 1.2e-3.i    #=> (0+0.0012i)
+#^^^^^^^^ constant.numeric.complex.imaginary
+# ^ punctuation.separator.decimal
+#      ^^ storage.type.numeric.imaginary
+ 12ri        #=> (0+(12/1)*i)
 #^^^^ constant.numeric.complex.imaginary
 #  ^ storage.type.numeric.rational
 #   ^ storage.type.numeric.imaginary
- 12.ri       #=> illegal
+ 12r.i       #=> (0+(12/1)*i)
 #^^^^^ constant.numeric.complex.imaginary
-#  ^ punctuation.separator.decimal
-#   ^ invalid.illegal.numeric.rational
-#    ^ storage.type.numeric.imaginary
+#  ^ storage.type.numeric.rational
+#   ^^ storage.type.numeric.imaginary
  12.3ri      #=> (0+(123/10)*i)
 #^^^^^^ constant.numeric.complex.imaginary
 #  ^ punctuation.separator.decimal
 #    ^ storage.type.numeric.rational
 #     ^ storage.type.numeric.imaginary
- 1.e3ri      #=> illegal, incomplete
+ 12.3r.i     #=> (0+(123/10)*i)
+#^^^^^^^ constant.numeric.complex.imaginary
+#  ^ punctuation.separator.decimal
+#    ^ storage.type.numeric.rational
+#     ^^ storage.type.numeric.imaginary
+ 12e3ri      #=> syntax error
 #^^^^^^ constant.numeric.complex.imaginary
-# ^ punctuation.separator.decimal
 #    ^ invalid.illegal.numeric.rational
-#     ^ storage.type.numeric.imaginary
- 1.2e3ri     #=> illegal
+#     ^ storage.type.numeric.imaginary 
+ 1.2e3ri     #=> syntax error
 #^^^^^^^ constant.numeric.complex.imaginary
 # ^ punctuation.separator.decimal
 #     ^ invalid.illegal.numeric.rational
 #      ^ storage.type.numeric.imaginary
- 1.2e-3ri    #=> illegal
+ 12ir        #=> syntax error
+#^^^^ constant.numeric.complex.imaginary
+#  ^ storage.type.numeric.imaginary
+#   ^ invalid.illegal.numeric.rational
+ 12.3ir      #=> syntax error
+#^^^^^^ constant.numeric.complex.imaginary
+#  ^ punctuation.separator.decimal
+#    ^ storage.type.numeric.imaginary
+#     ^ invalid.illegal.numeric.rational
+ 1.2e3ir     #=> syntax error
 #^^^^^^^ constant.numeric.complex.imaginary
 # ^ punctuation.separator.decimal
+#     ^ storage.type.numeric.imaginary
 #      ^ invalid.illegal.numeric.rational
-#       ^ storage.type.numeric.imaginary
+ 12e3ir      #=> syntax error
+#^^^^^^ constant.numeric.complex.imaginary
+#    ^ storage.type.numeric.imaginary
+#     ^ invalid.illegal.numeric.rational
+
+ 12.ir
+#  ^^^ - constant.numeric - storage.type.numeric - invalid.illegal
+#  ^ punctuation.accessor
 
  0xAAr
 #^^^^^ constant.numeric.integer.hexadecimal
@@ -333,7 +352,7 @@ BAR
 #^^ punctuation.definition.numeric.hexadecimal
 #    ^ storage.type.numeric.rational
 #     ^ storage.type.numeric.imaginary
- 0xAAir
+ 0xAAir      #=> syntax error
 #^^^^^^ constant.numeric.integer.hexadecimal
 #^^ punctuation.definition.numeric.hexadecimal
 #    ^ storage.type.numeric.imaginary
