@@ -45,13 +45,13 @@ contexts:
       scope: constant.language.r
     # complex imaginary
     - match: \b(0[xX])\h+(?:(i)|(I))\b
-      scope: constant.numeric.complex.imaginary.hexadecimal.r
+      scope: constant.numeric.imaginary.hexadecimal.r
       captures:
         1: punctuation.definition.numeric.hexadecimal.r
         2: storage.type.numeric.imaginary.r
         3: invalid.illegal.numeric.imaginary.r
     - match: (?:(\.)\d+|\b\d+(\.)?\d*){{exponent}}?(?:(i)|(I))\b
-      scope: constant.numeric.complex.imaginary.decimal.r
+      scope: constant.numeric.imaginary.decimal.r
       captures:
         1: punctuation.separator.decimal.r
         2: punctuation.separator.decimal.r

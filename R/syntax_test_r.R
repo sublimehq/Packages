@@ -39,61 +39,61 @@ NaN
 
   0x1afi
 # ^^ punctuation.definition.numeric.hexadecimal.r
-# ^^^^^^ constant.numeric.complex.imaginary.hexadecimal.r
+# ^^^^^^ constant.numeric.imaginary.hexadecimal.r
 #      ^ storage.type.numeric.imaginary.r
 
   0X1afi 0X1afI
 # ^^ punctuation.definition.numeric.hexadecimal.r
-# ^^^^^^ constant.numeric.complex.imaginary.hexadecimal.r
+# ^^^^^^ constant.numeric.imaginary.hexadecimal.r
 #      ^ storage.type.numeric.imaginary.r
 #        ^^ punctuation.definition.numeric.hexadecimal.r
-#        ^^^^^^ constant.numeric.complex.imaginary.hexadecimal.r
+#        ^^^^^^ constant.numeric.imaginary.hexadecimal.r
 #             ^ invalid.illegal.numeric.imaginary.r
 
   12i 12I
-# ^^^ constant.numeric.complex.imaginary.decimal.r
+# ^^^ constant.numeric.imaginary.decimal.r
 #   ^ storage.type.numeric.imaginary.r
-#     ^^^ constant.numeric.complex.imaginary.decimal.r
+#     ^^^ constant.numeric.imaginary.decimal.r
 #       ^ invalid.illegal.numeric.imaginary.r
 
   12.i 12.I
-# ^^^^ constant.numeric.complex.imaginary.decimal.r
+# ^^^^ constant.numeric.imaginary.decimal.r
 #   ^ punctuation.separator.decimal.r
 #    ^ storage.type.numeric.imaginary.r
-#      ^^^^ constant.numeric.complex.imaginary.decimal.r
+#      ^^^^ constant.numeric.imaginary.decimal.r
 #        ^ punctuation.separator.decimal.r
 #         ^ invalid.illegal.numeric.imaginary.r
 
   .345i
-# ^^^^^ constant.numeric.complex.imaginary.decimal.r
+# ^^^^^ constant.numeric.imaginary.decimal.r
 # ^ punctuation.separator.decimal.r
 #     ^ storage.type.numeric.imaginary.r
 
   12.34e-12i
-# ^^^^^^^^^^ constant.numeric.complex.imaginary.decimal.r
+# ^^^^^^^^^^ constant.numeric.imaginary.decimal.r
 #   ^ punctuation.separator.decimal.r
 #          ^ storage.type.numeric.imaginary.r
 
   12.34E-12i
-# ^^^^^^^^^^ constant.numeric.complex.imaginary.decimal.r
+# ^^^^^^^^^^ constant.numeric.imaginary.decimal.r
 #   ^ punctuation.separator.decimal.r
 #          ^ storage.type.numeric.imaginary.r
 
   12.34e+12i
-# ^^^^^^^^^^ constant.numeric.complex.imaginary.decimal.r
+# ^^^^^^^^^^ constant.numeric.imaginary.decimal.r
 #   ^ punctuation.separator.decimal.r
 #          ^ storage.type.numeric.imaginary.r
 
   12.34E+12i
-# ^^^^^^^^^^ constant.numeric.complex.imaginary.decimal.r
+# ^^^^^^^^^^ constant.numeric.imaginary.decimal.r
 #   ^ punctuation.separator.decimal.r
 #          ^ storage.type.numeric.imaginary.r
 
   12.3456i 12.3456I
-# ^^^^^^^^ constant.numeric.complex.imaginary.decimal.r
+# ^^^^^^^^ constant.numeric.imaginary.decimal.r
 #   ^ punctuation.separator.decimal.r
 #        ^ storage.type.numeric.imaginary.r
-#          ^^^^^^^^ constant.numeric.complex.imaginary.decimal.r
+#          ^^^^^^^^ constant.numeric.imaginary.decimal.r
 #            ^ punctuation.separator.decimal.r
 #                 ^ invalid.illegal.numeric.imaginary.r
 
