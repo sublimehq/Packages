@@ -2448,7 +2448,14 @@ void sayHi()
 @property (readonly) NSString *firstName;
 /* <- keyword.other punctuation.definition.keyword */
 /*^ keyword.other */
-@property (readonly) NSString *lastName;
+@property (readonly, nullable, class) NSString *lastName;
+/* <- keyword.other punctuation.definition.keyword                  */
+/*         ^ keyword.other.property.attribute                       */
+/*                 ^ punctuation.separator.objc                     */
+/*                   ^ keyword.other.property.attribute             */
+/*                           ^ punctuation.separator.objc           */
+/*                             ^ keyword.other.property.attribute.  */
+/*                                  ^ punctuation.section.scope.end */
 @end
 /* <- storage.type punctuation.definition.storage.type */
 /*^ storage.type */
