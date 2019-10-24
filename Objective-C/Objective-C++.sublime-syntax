@@ -891,7 +891,7 @@ contexts:
     # Constructors and destructors don't have a type
     - match: '(?={{path_lookahead}}\s*(?:{{generic_lookahead}})?\s*::\s*{{identifier}}\s*\()'
       set:
-        - meta_content_scope: meta.function.objc++ meta.function.local-symbol.objc++
+        - meta_content_scope: meta.function.objc++ meta.toc-list.full-identifier.objc++
         - include: scope:source.c++#identifier-path-generic
         - match: '(?:(::)\s*)?({{identifier}})'
           captures:
@@ -901,7 +901,7 @@ contexts:
           set: function-definition-params
     - match: '(?={{path_lookahead}}\s*(?:{{generic_lookahead}})?\s*::\s*~{{identifier}}\s*(\(|$))'
       set:
-        - meta_content_scope: meta.function.objc++ meta.function.local-symbol.objc++
+        - meta_content_scope: meta.function.objc++ meta.toc-list.full-identifier.objc++
         - include: scope:source.c++#identifier-path-generic
         - match: '(?:(::)\s*)?(~{{identifier}})'
           captures:
@@ -915,7 +915,7 @@ contexts:
     # since it doesn't seem most developers would create such a long typename.
     - match: '(?={{path_lookahead}}\s*(?:{{generic_lookahead}})?::\s*$)'
       set:
-        - meta_content_scope: meta.function.objc++ meta.function.local-symbol.objc++
+        - meta_content_scope: meta.function.objc++ meta.toc-list.full-identifier.objc++
         - include: scope:source.c++#identifier-path-generic
         - match: '(::)\s*$'
           captures:
@@ -1009,7 +1009,7 @@ contexts:
     # Operator overloading
     - match: '(?=({{path_lookahead}}\s*(?:{{generic_lookahead}})?::\s*)?{{operator_method_name}}\s*(\(|$))'
       set:
-        - meta_content_scope: meta.function.objc++ meta.function.local-symbol.objc++
+        - meta_content_scope: meta.function.objc++ meta.toc-list.full-identifier.objc++
         - include: scope:source.c++#identifier-path-generic
         - match: '(?:(::)\s*)?({{operator_method_name}})(?=\s*\()'
           captures:
@@ -1034,7 +1034,7 @@ contexts:
       pop: true
 
   global-function-identifier-generic:
-    - meta_content_scope: meta.function.local-symbol.objc++
+    - meta_content_scope: meta.toc-list.full-identifier.objc++
     - include: scope:source.c++#identifier-path-generic
     - match: '(?:(::)\s*)?({{identifier}})(?=\s*(<.*>)?\s*\()'
       captures:
@@ -1044,7 +1044,7 @@ contexts:
       pop: true
 
   global-function-identifier:
-    - meta_content_scope: meta.function.local-symbol.objc++
+    - meta_content_scope: meta.toc-list.full-identifier.objc++
     - match: '(?:(::)\s*)?({{identifier}})(?!\s*(::))'
       captures:
         1: punctuation.accessor.double-colon.c++
