@@ -6,6 +6,10 @@ file_extensions:
   - ddl
   - dml
 scope: source.sql
+
+variables:
+  end_identifier: (?=[ \t]*(?:[^\w'"`. \t]|$))
+
 contexts:
   main:
     - include: comments
@@ -230,13 +234,19 @@ contexts:
           pop: true
         - include: string_interpolation
   identifier_create:
-    - meta_content_scope: entity.name.function.sql
-    - match: \w+
-    - match: \'[^']+\'
-    - match: \"[^"]+\"
-    - match: \`[^`]+\`
-    - match: \.
-      scope: punctuation.accessor.dot.sql
-    - match: \s*(?=[\w'"`.])
-    - match: ''
+    - meta_content_scope: meta.toc-list.full-identifier.sql
+    - match: '(?:(\w+)|''([^'']+)''|"([^"]+)"|`([^`]+)`){{end_identifier}}'
+      scope: meta.toc-list.full-identifier.sql
+      captures:
+        1: entity.name.function.sql
+        2: entity.name.function.sql
+        3: entity.name.function.sql
+        4: entity.name.function.sql
+      pop: true
+      # Schema identifiers
+    - match: (?:\w+|'[^']+'|"[^"]+"|`[^`]+`)\s*(\.)
+      captures:
+        1: punctuation.accessor.dot.sql
+      # Handle situations where the schema and . 
+    - match: '{{end_identifier}}'
       pop: true
