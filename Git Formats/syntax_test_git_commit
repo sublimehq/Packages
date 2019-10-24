@@ -124,6 +124,9 @@ This commit applies all changes required to satisfy the JSON format unittest.
 #                                   ^ punctuation.separator.email.git
 #                                          ^ punctuation.separator.domain.git
 #                                              ^ punctuation.definition.reference.email.end.git
+  This commit references a hash: 21dde213
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+#                                ^^^^^^^^ constant.other.hash.git.commit
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #
 # Please enter the commit message for your changes. Lines starting
@@ -145,17 +148,17 @@ This commit applies all changes required to satisfy the JSON format unittest.
 #    squash 26b2cc6 Fix: JSON resource format errors
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command-list.git.commit
 #    ^^^^^^ keyword.operator.git.commit
-#          ^ - keyword.operator.git.commit - constant.numeric.hex.hash.git.commit
-#           ^^^^^^^ constant.numeric.hex.hash.git.commit
-#                  ^ - constant.numeric.hex.hash.git.commit - string.unquoted.subject.git.commit
+#          ^ - keyword.operator.git.commit - constant.other.hash.git.commit
+#           ^^^^^^^ constant.other.hash.git.commit
+#                  ^ - constant.other.hash.git.commit - string.unquoted.subject.git.commit
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.subject.git.commit
 #                                                   ^ - string.unquoted.subject.git.commit
 #    fixup 8e9e7bc fixup! Fix: JSON resource format errors
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command-list.git.commit
 #    ^^^^^ keyword.operator.git.commit
-#         ^ - keyword.operator.git.commit - constant.numeric.hex.hash.git.commit
-#          ^^^^^^^ constant.numeric.hex.hash.git.commit
-#                 ^ - constant.numeric.hex.hash.git.commit - string.unquoted.subject.git.commit
+#         ^ - keyword.operator.git.commit - constant.other.hash.git.commit
+#          ^^^^^^^ constant.other.hash.git.commit
+#                 ^ - constant.other.hash.git.commit - string.unquoted.subject.git.commit
 #                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.subject.git.commit
 #                                                         ^ - string.unquoted.subject.git.commit
 # No commands remaining.
