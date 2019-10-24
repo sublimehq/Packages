@@ -9,6 +9,29 @@ SELECT "My "" Crazy Column Name" FROM my_table;
 ;CREATE TABLE foo (id INTEGER PRIMARY KEY);
  -- <- keyword.other.create
 --^^^^^ keyword.other.create
+--      ^^^^^ keyword.other
+--            ^^^ entity.name.function
+--               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - entity.name.function
+
+create table some_schema.test2( id serial );
+--^^^^ meta.create keyword.other.create
+--     ^^^^^ meta.create keyword.other
+--           ^^^^^^^^^^^^^^^^^ entity.name.function
+--                      ^ punctuation.accessor.dot
+--                            ^^^^^^^^^^^^^^^ - entity.name.function
+
+create table "testing123" (id integer);
+--^^^^ meta.create keyword.other.create
+--     ^^^^^ meta.create keyword.other
+--           ^^^^^^^^^^^^ entity.name.function
+--                       ^^^^^^^^^^^^^^^ - entity.name.function
+
+create table `dbo`."testing123" (id integer);
+--^^^^ meta.create keyword.other.create
+--     ^^^^^ meta.create keyword.other
+--           ^^^^^^^^^^^^^^^^^^ entity.name.function
+--                ^ punctuation.accessor.dot
+--                             ^^^^^^^^^^^^^^^ - entity.name.function
 
 select *
 from some_table
