@@ -45,6 +45,8 @@ contexts:
           pop: true
         - match: \b(getter|setter|readonly|readwrite|assign|retain|copy|nonatomic|strong|weak|class|nonnull|nullable|null_unspecified|null_resettable)\b
           scope: keyword.other.property.attribute.objc
+        - match: ','
+          scope: punctuation.separator.objc
     - match: ((@)property)\b
       scope: meta.property.objc
       captures:
