@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Symbol List</string>
 	<key>scope</key>
-	<string><![CDATA[(source.c | source.c++ | source.objc | source.objc++) & (entity.name.class | entity.name.struct | entity.name.union | entity.name.enum | meta.function.local-symbol)]]></string>
+	<string><![CDATA[(source.c | source.c++ | source.objc | source.objc++) & (entity.name.class | entity.name.struct | entity.name.union | entity.name.enum)]]></string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
