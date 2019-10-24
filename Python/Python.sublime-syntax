@@ -462,7 +462,7 @@ contexts:
           # .1j, .1e1j, .1e-1j
           | (\.) {{digits}} {{exponent}}?
         )([jJ])
-      scope: constant.numeric.complex.imaginary.decimal.python
+      scope: constant.numeric.imaginary.decimal.python
       captures:
         1: punctuation.separator.decimal.python
         2: punctuation.separator.decimal.python
