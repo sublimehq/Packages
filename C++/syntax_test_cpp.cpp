@@ -106,7 +106,7 @@ int main() {
 // constructor.
 FOOLIB_RESULT
 some_namespace::some_function(int a_parameter, double another_parameter) {
-  /* <- meta.function meta.function.local-symbol */
+  /* <- meta.function meta.toc-list.full-identifier */
   /*            ^ entity.name.function - entity.name.function.constructor */
   return FOOLIB_SUCCESS;
 }
@@ -492,43 +492,43 @@ void funcName<C>() {
 }
 bool A::operator<(const A& a) { return false; }
 /* ^ storage.type */
-/*   ^^^^^^^^^ meta.function meta.function.local-symbol */
+/*   ^^^^^^^^^ meta.function meta.toc-list.full-identifier */
 /*      ^^^^^^^^^ entity.name.function */
 /*               ^ meta.function.parameters punctuation.section.group.begin */
 template <class T> bool A<T>::operator<(const A& a) { return false; }
 /*     ^ storage.type.template */
 /*       ^ punctuation.section.generic.begin */
 /*               ^ punctuation.section.generic.end */
-/*                      ^^^^^^^^^^^^^^^ meta.function meta.function.local-symbol */
+/*                      ^^^^^^^^^^^^^^^ meta.function meta.toc-list.full-identifier */
 /*                            ^^^^^^^^^ entity.name.function */
 /*                                     ^ meta.function.parameters meta.group punctuation.section.group.begin */
 template <typename Foo>
 SomeType<OtherType> A<Foo>::foobar(YetAnotherType&& asRValue) {}
-/*                  ^^^^^^^^^^^^^^ meta.function meta.function.local-symbol */
+/*                  ^^^^^^^^^^^^^^ meta.function meta.toc-list.full-identifier */
 /*                          ^^^^^^ entity.name.function */
 template <typename Foo> SomeType<OtherType> A<Foo>::foobar(YetAnotherType&& asRValue) {}
-/*                                          ^^^^^^^^^^^^^^ meta.function meta.function.local-symbol */
+/*                                          ^^^^^^^^^^^^^^ meta.function meta.toc-list.full-identifier */
 /*                                                  ^^^^^^ entity.name.function */
 
 template <typename Foo> A<Foo>::A(YetAnotherType&& asRValue) {}
-/*                      ^^^^^^^^^ meta.function meta.function.local-symbol */
+/*                      ^^^^^^^^^ meta.function meta.toc-list.full-identifier */
 /*                              ^ entity.name.function */
 
 template <typename Foo> A<Foo>::A(YetAnotherType&& asRValue) {}
-/*                      ^^^^^^^^^ meta.function meta.function.local-symbol */
+/*                      ^^^^^^^^^ meta.function meta.toc-list.full-identifier */
 /*                              ^ entity.name.function.constructor */
 
 template <typename Foo> A<Foo>::~A(YetAnotherType&& asRValue) {}
-/*                      ^^^^^^^^^ meta.function meta.function.local-symbol */
+/*                      ^^^^^^^^^ meta.function meta.toc-list.full-identifier */
 /*                              ^ entity.name.function.destructor */
 
 template <class T>
 bool A<T>::operator   >    (const A& other) { return false; }
-/*   ^^^^^^^^^^^^^^^^^^ meta.function meta.function.local-symbol */
+/*   ^^^^^^^^^^^^^^^^^^ meta.function meta.toc-list.full-identifier */
 /*         ^^^^^^^^^^^^ entity.name.function */
 template <class T>
 bool A<T>::operator    ==    (const A& other) { return false; }
-/*   ^^^^^^^^^^^^^^^^^^^^ meta.function meta.function.local-symbol */
+/*   ^^^^^^^^^^^^^^^^^^^^ meta.function meta.toc-list.full-identifier */
 /*         ^^^^^^^^^^^^^^ entity.name.function */
 
 typedef std :: vector<std::vector<int> > Table;
@@ -1218,7 +1218,7 @@ static const uint32_t * const MACRO funcname();
 
 void FooBar :: baz(int a)
 /*   ^^^^^^^^^^^^^^^^^^^^ meta.function */
-/*   ^^^^^^^^^^^^^ meta.function.local-symbol */
+/*   ^^^^^^^^^^^^^ meta.toc-list.full-identifier */
 /*             ^^^ entity.name.function */
 /*          ^^ punctuation.accessor */
 /*                ^^^^^^^ meta.function.parameters meta.group */
@@ -1229,7 +1229,7 @@ void FooBar :: baz(int a)
 }
 /* A comment. */ void FooBar :: baz(int a)
 /*                    ^^^^^^^^^^^^^^^^^^^^ meta.function */
-/*                    ^^^^^^^^^^^^^ meta.function.local-symbol */
+/*                    ^^^^^^^^^^^^^ meta.toc-list.full-identifier */
 /*                              ^^^ entity.name.function */
 /*                           ^^ punctuation.accessor */
 /*                                 ^^^^^^^ meta.function.parameters meta.group */
@@ -1247,7 +1247,7 @@ void FooBar :: baz(int a)
 }
 FooBar::FooBar(int a)
 /*^^^^^^^^^^^^^^^^^^^ meta.function */
-/*^^^^^^^^^^^^ meta.function.local-symbol */
+/*^^^^^^^^^^^^ meta.toc-list.full-identifier */
 /*      ^^^^^^ entity.name.function */
 /*            ^^^^^^^ meta.function.parameters meta.group */
 /*            ^ punctuation.section.group.begin */
@@ -1258,7 +1258,7 @@ FooBar::FooBar(int a)
 
 FooBar :: FooBar(int a) & =
 /*^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
-/*^^^^^^^^^^^^^^ meta.function.local-symbol */
+/*^^^^^^^^^^^^^^ meta.toc-list.full-identifier */
 /*        ^^^^^^ entity.name.function */
 /*              ^^^^^^^ meta.function.parameters meta.group */
 /*              ^ punctuation.section.group.begin */
@@ -1271,7 +1271,7 @@ default;
 /*^^^^^ meta.function storage.modifier */
 
 FooBar::~FooBar
-/*^^^^^^^^^^^^^ meta.function meta.function.local-symbol */
+/*^^^^^^^^^^^^^ meta.function meta.toc-list.full-identifier */
 /*      ^^^^^^^ entity.name.function */
 () { }
 /* <- meta.function.parameters meta.group punctuation.section.group.begin */
@@ -1280,13 +1280,13 @@ FooBar::~FooBar
 
 ThisIsAReallyReallyLongClassNameThatRequiresWrappingCodeInTheMiddleOfAPath::
     ThisIsAReallyReallyLongClassNameThatRequiresWrappingCodeInTheMiddleOfAPath()
-/* <- meta.function meta.function.local-symbol */
+/* <- meta.function meta.toc-list.full-identifier */
     : var_name(nullptr) {
 }
 
 bool FooBar::operator==() {}
 /*   ^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
-/*   ^^^^^^^^^^^^^^^^^^ meta.function.local-symbol */
+/*   ^^^^^^^^^^^^^^^^^^ meta.toc-list.full-identifier */
 /*           ^^^^^^^^^^ entity.name.function */
 /*                     ^^ meta.function.parameters meta.group */
 /*                     ^ punctuation.section.group.begin */
@@ -1298,14 +1298,14 @@ bool FooBar::operator==() {}
 
 myns::FooBar::~FooBar() { }
 /*^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function */
-/*^^^^^^^^^^^^^^^^^^^ meta.function.local-symbol */
+/*^^^^^^^^^^^^^^^^^^^ meta.toc-list.full-identifier */
 /*                   ^^ meta.function.parameters meta.group */
 /*                   ^ punctuation.section.group.begin */
 /*                    ^ punctuation.section.group.end */
 /*                      ^^^ meta.block */
 /*                      ^ punctuation.section.block.begin */
 /*                        ^ punctuation.section.block.end */
-/*^^^^^^^^^^^^^^^^^^^ meta.function.local-symbol */
+/*^^^^^^^^^^^^^^^^^^^ meta.toc-list.full-identifier */
 /*            ^^^^^^^ entity.name.function */
 
     extern "C" void test_in_extern_c_block()
