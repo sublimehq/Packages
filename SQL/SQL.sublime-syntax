@@ -157,26 +157,22 @@ contexts:
             1: punctuation.definition.comment.sql
   regexps:
     - match: /(?=\S.*/)
-      captures:
-        0: punctuation.definition.string.begin.sql
+      scope: punctuation.definition.string.begin.sql
       push:
         - meta_scope: string.regexp.sql
         - match: /
-          captures:
-            0: punctuation.definition.string.end.sql
+          scope: punctuation.definition.string.end.sql
           pop: true
         - include: string_interpolation
         - match: \\/
           scope: constant.character.escape.slash.sql
     - match: '%r\{'
       comment: We should probably handle nested bracket pairs!?! -- Allan
-      captures:
-        0: punctuation.definition.string.begin.sql
+      scope: punctuation.definition.string.begin.sql
       push:
         - meta_scope: string.regexp.modr.sql
         - match: '\}'
-          captures:
-            0: punctuation.definition.string.end.sql
+          scope: punctuation.definition.string.end.sql
           pop: true
         - include: string_interpolation
   string_escape:
@@ -190,47 +186,39 @@ contexts:
         3: punctuation.definition.string.end.sql
   strings:
     - match: "'"
-      captures:
-        0: punctuation.definition.string.begin.sql
+      scope: punctuation.definition.string.begin.sql
       push:
         - meta_scope: string.quoted.single.sql
         - match: "''"
           scope: constant.character.escape.sql
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.sql
+          scope: punctuation.definition.string.end.sql
           pop: true
         - include: string_escape
     - match: "`"
-      captures:
-        0: punctuation.definition.string.begin.sql
+      scope: punctuation.definition.string.begin.sql
       push:
         - meta_scope: string.quoted.other.backtick.sql
         - match: "`"
-          captures:
-            0: punctuation.definition.string.end.sql
+          scope: punctuation.definition.string.end.sql
           pop: true
         - include: string_escape
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.sql
+      scope: punctuation.definition.string.begin.sql
       push:
         - meta_scope: string.quoted.double.sql
         - match: '""'
           scope: constant.character.escape.sql
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.sql
+          scope: punctuation.definition.string.end.sql
           pop: true
         - include: string_interpolation
     - match: '%\{'
-      captures:
-        0: punctuation.definition.string.begin.sql
+      scope: punctuation.definition.string.begin.sql
       push:
         - meta_scope: string.other.quoted.brackets.sql
         - match: '\}'
-          captures:
-            0: punctuation.definition.string.end.sql
+          scope: punctuation.definition.string.end.sql
           pop: true
         - include: string_interpolation
   identifier_create:
