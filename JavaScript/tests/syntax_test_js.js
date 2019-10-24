@@ -282,7 +282,7 @@ function foo(){}/**/
 //              ^ - meta.function
 
 if (true)
-// <- keyword.control.conditional
+// <- keyword.control.conditional.if
 {
     bar()
 }
@@ -297,7 +297,7 @@ if (true)
 // <- comment.block.documentation punctuation.definition.comment.end
 
 /**
-    * 
+    *
 //  ^ comment.block.documentation.js punctuation.definition.comment.js
 */
 
@@ -665,6 +665,7 @@ var qux = 100;
 //^ - meta.block
 
 if (Infinity > qux) {
+// <- meta.conditional.js keyword.control.conditional.if
 // ^^^^^^^^^^^^^^^ meta.conditional
 //  ^^^^^^^^ constant.language.infinity
     a;
@@ -679,14 +680,14 @@ if(false){}/**/
 //         ^ - meta.conditional
 
 do {
-// <- meta.do-while
+// <- meta.do-while keyword.control.loop.do-while
 // ^ meta.block
     qux += 1
 //  ^^^^^^^^ meta.do-while meta.block
 } while(qux < 20);
 // <- meta.block
 // ^^^^^^^^^^^^^^ meta.do-while - meta.block
-// ^^^^ keyword.control.loop
+// ^^^^ keyword.control.loop.while
 //      ^^^^^^^^ meta.group
 
 do // Incomplete statement
@@ -694,7 +695,10 @@ do // Incomplete statement
 //  ^^ constant.numeric - meta.do-while
 
 do {} while (false)/**/
+// <- meta.do-while keyword.control.loop.do-while
+//^^^^^^^^^^^^^^^^^ meta.do-while.js
 //                 ^^ - meta.do-while
+//    ^^^^^ keyword.control.loop.while.js
 
 for (var i = 0; i < 10; i++) {
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
@@ -708,7 +712,7 @@ for (var i = 0; i < 10; i++) {
 
     for (; x in list;) {}
 //  ^^^^^^^^^^^^^^^^^^^^^ meta.for
-//  ^^^ keyword.control.loop
+//  ^^^ keyword.control.loop.for
 //      ^^^^^^^^^^^^^^ meta.group
 //       ^ punctuation.separator.expression
 //           ^^ keyword.operator
@@ -716,7 +720,7 @@ for (var i = 0; i < 10; i++) {
 
     for (a[x in list];;) {}
 //  ^^^^^^^^^^^^^^^^^^^^^^^ meta.for
-//  ^^^ keyword.control.loop
+//  ^^^ keyword.control.loop.for
 //      ^^^^^^^^^^^^^^^^ meta.group
 //        ^^^^^^^^^^^ meta.brackets
 //           ^^ keyword.operator
@@ -728,33 +732,33 @@ for (var i = 0; i < 10; i++) {
 
     for (const x in list) {}
 //  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
-//  ^^^ keyword.control.loop
+//  ^^^ keyword.control.loop.for
 //      ^^^^^^^^^^^^^^^^^ meta.group
 //       ^^^^^ storage.type
 //               ^^ keyword.operator.word
 
     for (const x of list) {}
 //  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.for
-//  ^^^ keyword.control.loop
+//  ^^^ keyword.control.loop.for
 //      ^^^^^^^^^^^^^^^^^ meta.group
 //       ^^^^^ storage.type
 //               ^^ keyword.operator.word
 
     for (x in list) {}
 //  ^^^^^^^^^^^^^^^^^^ meta.for
-//  ^^^ keyword.control.loop
+//  ^^^ keyword.control.loop.for
 //      ^^^^^^^^^^^ meta.group
 //         ^^ keyword.operator.word
 
     for (x of list) {}
 //  ^^^^^^^^^^^^^^^^^^ meta.for
-//  ^^^ keyword.control.loop
+//  ^^^ keyword.control.loop.for
 //      ^^^^^^^^^^^ meta.group
 //         ^^ keyword.operator.word
 
     for await (const x of list) {}
-//  ^^^ keyword.control.loop
-//      ^^^^^ keyword.control.loop
+//  ^^^ keyword.control.loop.for
+//      ^^^^^ keyword.control.flow.await
 
 for
     42;
@@ -769,10 +773,10 @@ while (true)
 {
 // <- meta.block
     x = yield;
-//      ^^^^^ keyword.control.flow
+//      ^^^^^ keyword.control.flow.yield
 
     x = yield * 42;
-//      ^^^^^ keyword.control.flow
+//      ^^^^^ keyword.control.flow.yield
 //            ^ keyword.generator.asterisk
 
     x = yield
@@ -787,23 +791,23 @@ while (true)
 //  ^^ meta.brackets - meta.sequence
 
     y = await 42;
-//      ^^^^^ keyword.control.flow
+//      ^^^^^ keyword.control.flow.await
 
     y = yield await 42;
-//      ^^^^^ keyword.control.flow
-//            ^^^^^ keyword.control.flow
+//      ^^^^^ keyword.control.flow.yield
+//            ^^^^^ keyword.control.flow.await
 
     yield (parenthesized_expression);
-//  ^^^^^ keyword.control.flow
+//  ^^^^^ keyword.control.flow.yield
 
     yield `template`;
-//  ^^^^^ keyword.control.flow
+//  ^^^^^ keyword.control.flow.yield
 
     break;
-//  ^^^^^ keyword.control.loop
+//  ^^^^^ keyword.control.flow.break
 
     break foo;
-//  ^^^^^ keyword.control.loop
+//  ^^^^^ keyword.control.flow.break
 //        ^^^ variable.label
 
     break
@@ -821,10 +825,10 @@ while (true)
 //        ^^^^^^^^ invalid.illegal.identifier variable.label
 
     continue;
-//  ^^^^^^^^ keyword.control.loop
+//  ^^^^^^^^ keyword.control.flow.continue
 
     continue foo;
-//  ^^^^^^^^ keyword.control.loop
+//  ^^^^^^^^ keyword.control.flow.continue
 //           ^^^ variable.label
 
     continue
@@ -851,10 +855,11 @@ while(false){}/**/
 //            ^ - meta.while
 
 with (undefined) {
-// <- keyword.control.with
+// <- keyword.control.import.with
 //^^^^^^^^^^ meta.with
 //    ^^^^^^^^^ constant.language.undefined
     return;
+//  ^^^^^^ meta.with.js meta.block.js keyword.control.flow.return
 }
 
 with // Incomplete statement
@@ -865,23 +870,25 @@ with(false){}/**/
 //           ^ - meta.with
 
 switch ($foo) {
+// <- meta.switch.js keyword.control.conditional.switch
 // ^^^^^^^^^^^^ meta.switch
+//^^^^ keyword.control.conditional.switch
 //      ^^^^ meta.group
 //            ^ meta.block punctuation.section.block.begin
     case foo:
-    // ^ meta.switch meta.block keyword.control.switch
+    // ^ meta.switch meta.block keyword.control.conditional.case
     //      ^ - punctuation.separator.key-value
         qux = 1;
         break;
-        // ^ keyword.control.loop
+        // ^ keyword.control.flow.break
     case "baz":
-    // ^ keyword.control.switch
+    // ^ keyword.control.conditional.case
     //        ^ - punctuation.separator.key-value string
         qux = 2;
         break;
-        // ^ keyword.control.loop
+        // ^ keyword.control.flow.break
     default:
-    // ^ meta.switch meta.block keyword.control.switch
+    // ^ meta.switch meta.block keyword.control.conditional.default
     //     ^ - punctuation.separator.key-value
         qux = 3;
 
@@ -895,26 +902,28 @@ switch ($foo) {
 
     case 0: {}
     case 1:
-//  ^^^^ keyword.control.switch
+//  ^^^^ keyword.control.conditional.case
 }
 // <- meta.block punctuation.section.block.end
 
 try {
-// <- meta.try keyword.control.trycatch
+// <- meta.try keyword.control.exception.try
 // ^^ meta.try
 //  ^ meta.block
     foobar = qux.bar();
 //  ^^^^^^^^^^^^^^^^^^^ meta.try meta.block
 } catch (e) {
 // <- meta.block
-// ^^^^^^^ meta.catch
+//^^^^^^^^^^^^ meta.catch
+//^^^^^ keyword.control.exception.catch
 //       ^ meta.group
 //          ^ meta.block
     foobar = 0
 //  ^^^^^^^^^^ meta.catch meta.block
 } finally {
 // <- meta.block
-// ^^^^^^^^ meta.finally
+//^^^^^^^^^^ meta.finally
+//^^^^^^^ keyword.control.exception.finally
 //        ^ meta.block
     foobar += 1
 //  ^^^^^^^^^^^ meta.finally meta.block
@@ -1925,7 +1934,7 @@ function yy (a, b) {
 
     12345e6_7_8;
 //  ^^^^^^^^^^^ constant.numeric.decimal
-    
+
     123.456e+789;
 //  ^^^^^^^^^^^^ constant.numeric.decimal
 
@@ -1947,7 +1956,7 @@ function yy (a, b) {
 //       ^^^ meta.property.object
 
 debugger;
-// <- keyword.other.debugger
+// <- keyword.control.flow.debugger.js
 
 debugger
 []
