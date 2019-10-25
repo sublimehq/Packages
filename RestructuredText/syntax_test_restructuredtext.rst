@@ -135,3 +135,18 @@ Not verbatim
 
     </b>
 ..  ^^^^ text.html.basic
+
+.. math::
+
+    \sum_{i=0}^N x_i^2
+..  ^^^^ text.tex.latex support.function.math.tex
+..  ^^^^^^^^^^^^^^^^^^^ text.tex.latex meta.environment.math.block.restructuredtext
+
+
+:test:
+
+   :math:`\alpha + \beta`
+.. ^^^^^^ support.function.role.builtin.restructuredtext
+..       ^ punctuation.definition.interpreted.restructuredtext
+..        ^^^^^^^^^^^^^^ text.tex.latex meta.environment.math.inline.restructuredtext
+..                      ^ punctuation.definition.interpreted.restructuredtext

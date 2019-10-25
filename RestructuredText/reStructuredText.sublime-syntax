@@ -27,6 +27,17 @@ contexts:
           pop: true
         - meta_content_scope: text.html.basic
         - include: scope:text.html.basic
+    - match: '^(\s*)((\.\.)\s+math(::))\s*'
+      comment: directives.math
+      captures:
+        2: meta.directive.restructuredtext
+        3: punctuation.definition.directive.restructuredtext
+        4: punctuation.separator.key-value.restructuredtext
+      push:
+        - match: '^(?!\1\s+)(?=\s*\S+)'
+          pop: true
+        - meta_content_scope: text.tex.latex meta.environment.math.block.restructuredtext
+        - include: scope:text.tex.latex#math-content
     - match: '^(\s*)((\.\.)\s+[A-z][A-z0-9\-_]+(::))\s*'
       comment: directives
       captures:
@@ -77,6 +88,17 @@ contexts:
       scope: markup.underline.substitution.restructuredtext
       captures:
         1: punctuation.definition.substitution.restructuredtext
+    - match: (:math:)(`)
+      comment: links `...`_ or `...`__
+      captures:
+        1: support.function.role.builtin.restructuredtext
+        2: punctuation.definition.interpreted.restructuredtext
+      push:
+        - match: '`'
+          scope: punctuation.definition.interpreted.restructuredtext
+          pop: true
+        - meta_content_scope: text.tex.latex meta.environment.math.inline.restructuredtext
+        - include: scope:text.tex.latex#math-content
     - match: \b(\w+)(_)\b
       comment: links `...`_ or `...`__
       scope: meta.link.reference
