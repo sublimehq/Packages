@@ -247,11 +247,11 @@ contexts:
   operators:
     - match: \.{2,3}
       scope: keyword.operator.range.rust
-    - match: '[!<>=]=|[<>]'
-      scope: keyword.operator.comparison.rust
     - match: '(?:[-+%/*^&|]|<<|>>)?='
       scope: keyword.operator.assignment.rust
       push: after-operator
+    - match: '[!<>=]=|[<>]'
+      scope: keyword.operator.comparison.rust
     - match: '&&|\|\||!'
       scope: keyword.operator.logical.rust
     - match: '[-+%/*]'
