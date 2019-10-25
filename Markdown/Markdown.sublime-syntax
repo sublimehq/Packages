@@ -194,6 +194,7 @@ contexts:
                         pattern will only match stuff matched by the sub-patterns.
       push:
         - meta_scope: meta.block-level.markdown
+        - include: ligatures
         - include: block-quote
         - include: indented-code-block
         - include: atx-heading
@@ -319,6 +320,9 @@ contexts:
         Markdown will convert this for us. We match it so that the
                         HTML grammar will not mark it up as invalid.
       scope: meta.other.valid-ampersand.markdown
+  ligatures:
+    - match: '<=>'          # <=>
+    - match: '<[-=<]'       # <- <= <<
   block-quote:
     - match: '[ ]{,3}(>)[ ]?'
       comment: |
@@ -388,6 +392,7 @@ contexts:
     - match: '{{indented_code_block}}.*$\n?'
       scope: markup.raw.block.markdown
   bold:
+    - include: ligatures
     - match: '(\*\*)(\*)(?=\S)(?!\*)'
       captures:
         1: punctuation.definition.bold.begin.markdown
@@ -662,6 +667,7 @@ contexts:
   inline:
     - include: escape
     - include: ampersand
+    - include: ligatures
     - include: bracket
     - include: raw
     - include: image-inline
