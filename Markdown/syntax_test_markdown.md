@@ -629,7 +629,7 @@ because it doesn't begin with the number one:
 |            ^^^^^^ meta.tag.inline.any.html
 |                              ^^^^^^^ meta.tag.inline.any.html
 
-_italic text <span>HTML element</span> end of italic text_
+_italic text <SPAN>HTML element</SPAN> end of italic text_
 | <- punctuation.definition.italic
 |                                                        ^ punctuation.definition.italic
 |            ^^^^^^ meta.tag.inline.any.html

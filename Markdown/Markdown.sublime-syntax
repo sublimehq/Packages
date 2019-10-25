@@ -523,7 +523,7 @@ contexts:
         - include: italic
         - include: bold-italic-trailing
   bracket:
-    - match: '<(?![a-z/?\$!])'
+    - match: '<(?![A-Za-z/?!$])'
       comment: |
         Markdown will convert this for us. We match it so that the
                         HTML grammar will not mark it up as invalid.
