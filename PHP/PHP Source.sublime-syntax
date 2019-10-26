@@ -830,9 +830,8 @@ contexts:
   constants:
     - match: |-
         \b(?xi:
-          BR | FALSE | NL | NO | NULL | OFF | ON | TAB |
-          TRUE | YES | __CLASS__ | __DIR__ | __FILE__ | __FUNCTION__ | __LINE__ | __METHOD__ |
-          __NAMESPACE__
+          TRUE | FALSE | NULL |
+          __CLASS__ | __DIR__ | __FILE__ | __FUNCTION__ | __LINE__ | __METHOD__ | __NAMESPACE__
         )\b
       scope: constant.language.php
     - match: (?=\\?{{identifier}}\\{{path}})
