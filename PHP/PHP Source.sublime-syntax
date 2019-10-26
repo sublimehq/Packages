@@ -324,7 +324,7 @@ contexts:
 
   class-builtin:
     - match: |-
-        (?i)(\\)?\b(
+        (\\)?\b(?xi:
           AMQPConnection | AMQPExchange | AMQPQueue | APCIterator | AppendIterator | ArrayAccess | ArrayIterator | ArrayObject |
           BadFunctionCallException | BadMethodCallException | CachingIterator | Collator | Countable | DOMAttr | DOMCharacterData | DOMComment |
           DOMDocument | DOMDocumentFragment | DOMElement | DOMEntityReference | DOMImplementation | DOMNamedNodeMap | DOMNode | DOMNodelist |
@@ -849,7 +849,7 @@ contexts:
         - match: '(?=[^\\_[:alnum:]])'
           pop: true
         - match: |-
-            (\\)?\b(
+            (\\)?\b(?x:
               DEFAULT_INCLUDE_PATH | E_ALL | E_COMPILE_ERROR | E_COMPILE_WARNING | E_CORE_ERROR | E_CORE_WARNING | E_DEPRECATED | E_ERROR |
               E_NOTICE | E_PARSE | E_RECOVERABLE_ERROR | E_STRICT | E_USER_DEPRECATED | E_USER_ERROR | E_USER_NOTICE | E_USER_WARNING |
               E_WARNING | MT_RAND_PHP | PEAR_EXTENSION_DIR | PEAR_INSTALL_DIR | PHP_BINDIR | PHP_CONFIG_FILE_PATH | PHP_CONFIG_FILE_SCAN_DIR | PHP_DATADIR |
@@ -866,7 +866,7 @@ contexts:
           captures:
             1: punctuation.separator.namespace.php
         - match: |-
-            (\\)?\b(
+            (\\)?\b(?x:
               ABDAY_[1-7] | ABMON_(?:[1-9]|1[0-2]) | ALT_DIGITS | AM_STR | ASSERT_ACTIVE | ASSERT_BAIL | ASSERT_CALLBACK |
               ASSERT_QUIET_EVAL | ASSERT_WARNING | CASE_LOWER | CASE_UPPER | CHAR_MAX | CODESET | CONNECTION_ABORTED | CONNECTION_NORMAL |
               CONNECTION_TIMEOUT | COUNT_NORMAL | COUNT_RECURSIVE | CREDITS_ALL | CREDITS_DOCS | CREDITS_FULLPAGE | CREDITS_GENERAL | CREDITS_GROUP |
@@ -897,7 +897,7 @@ contexts:
           captures:
             1: punctuation.separator.namespace.php
         - match: |-
-            (\\)?\b(
+            (\\)?\b(?x:
               CURLAUTH_ANY | CURLAUTH_ANYSAFE | CURLAUTH_BASIC | CURLAUTH_DIGEST | CURLAUTH_GSSNEGOTIATE | CURLAUTH_NTLM | CURLCLOSEPOLICY_CALLBACK | CURLCLOSEPOLICY_LEAST_RECENTLY_USED |
               CURLCLOSEPOLICY_LEAST_TRAFFIC | CURLCLOSEPOLICY_OLDEST | CURLCLOSEPOLICY_SLOWEST | CURLE_ABORTED_BY_CALLBACK | CURLE_BAD_CALLING_ORDER | CURLE_BAD_CONTENT_ENCODING | CURLE_BAD_FUNCTION_ARGUMENT | CURLE_BAD_PASSWORD_ENTERED |
               CURLE_COULDNT_CONNECT | CURLE_COULDNT_RESOLVE_HOST | CURLE_COULDNT_RESOLVE_PROXY | CURLE_FAILED_INIT | CURLE_FILESIZE_EXCEEDED | CURLE_FILE_COULDNT_READ_FILE | CURLE_FTP_ACCESS_DENIED | CURLE_FTP_BAD_DOWNLOAD_RESUME |
@@ -1009,7 +1009,7 @@ contexts:
           captures:
             1: punctuation.separator.namespace.php
         - match: |-
-            (\\)?\b(
+            (\\)?\b(?x:
               T_ABSTRACT | T_AND_EQUAL | T_ARRAY | T_ARRAY_CAST | T_AS | T_BAD_CHARACTER | T_BOOLEAN_AND | T_BOOLEAN_OR |
               T_BOOL_CAST | T_BREAK | T_CASE | T_CATCH | T_CHARACTER | T_CLASS | T_CLASS_C | T_CLONE |
               T_CLOSE_TAG | T_COMMENT | T_CONCAT_EQUAL | T_CONST | T_CONSTANT_ENCAPSED_STRING | T_CONTINUE | T_CURLY_OPEN | T_DEC |
