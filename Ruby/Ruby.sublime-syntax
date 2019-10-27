@@ -117,10 +117,10 @@ contexts:
 
   class:
     # Defining a class method
-    - match: \b(class)\b(?=\s*<)
-      scope: keyword.control.class.ruby
-    - match: '\b(class)\b'
-      scope: meta.class.ruby keyword.control.class.ruby
+    - match: \bclass\b(?=\s*<)
+      scope: storage.type.class.ruby
+    - match: \bclass\b
+      scope: meta.class.ruby storage.type.class.ruby
       push: class-declaration
 
   class-declaration:
@@ -332,7 +332,7 @@ contexts:
   keywords:
     - match: '\b(BEGIN|END)\b(?![?!])'
       scope: keyword.control.ruby
-    - match: '\b(class|module)\b(?![?!])'
+    - match: '\b(module)\b(?![?!])'
       scope: keyword.control.ruby
     - match: '\b(begin|end|ensure|rescue)\b(?![?!])'
       scope: keyword.control.ruby

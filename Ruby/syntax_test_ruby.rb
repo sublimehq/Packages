@@ -872,7 +872,7 @@ def f.my_instance_method
 end
 
 class MyClass
-# ^ meta.class.ruby keyword.control.class.ruby
+# ^ meta.class.ruby storage.type.class.ruby
 #     ^ meta.class.ruby entity.name.class.ruby
 
   prepend Module.new
