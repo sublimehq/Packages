@@ -388,6 +388,13 @@ contexts:
       scope: keyword.control.flow.super.ruby
     - match: \byield\b(?![?!])
       scope: keyword.control.flow.yield.ruby
+    # declarations
+    - match: \b(?:alias|alias_method)\b(?![?!])
+      scope: keyword.declaration.alias.ruby
+      push: after-keyword
+    - match: \bundef\b(?![?!])
+      scope: keyword.declaration.undef.ruby
+      push: after-keyword
     # operators
     - match: \b(?:and|not|or)\b
       scope: keyword.operator.logical.ruby
@@ -395,11 +402,12 @@ contexts:
     - match: \bin\b(?![?!])
       scope: keyword.operator.logical.ruby
       push: after-keyword
-    # other
+    # other functions
     - match: \b(?:BEGIN|END)\b(?![?!])
       scope: entity.name.function.prepocessor.ruby
-    - match: \b(?:(?:alias|alias_method|undef)\b(?![?!])|(defined|block_given)\?)
+    - match: \b(?:defined|block_given)\?
       scope: support.function.builtin.ruby
+      push: after-keyword
 
   operators:
     - match: '>>'
