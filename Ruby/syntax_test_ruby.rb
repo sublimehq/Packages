@@ -734,12 +734,12 @@ do |&bl| end
 ##################
 
 module MyModule
-# <- keyword.control.module
+# <- storage.type.module
 #      ^^^^^^^^ entity.name.module
 end
 
 module MyModule::OtherModule
-# <- keyword.control.module
+# <- storage.type.module
 #      ^^^^^^^^^^^^^^^^^^^^^ entity.name.module
 #      ^^^^^^^^ support.other.namespace
 #              ^^ punctuation.accessor.double-colon

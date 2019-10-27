@@ -157,8 +157,8 @@ contexts:
       pop: true
 
   module:
-    - match: \b(module)\b
-      scope: meta.module.ruby keyword.control.module.ruby
+    - match: \bmodule\b
+      scope: meta.module.ruby storage.type.module.ruby
       push: module-declaration
 
   module-declaration:
@@ -331,8 +331,6 @@ contexts:
 
   keywords:
     - match: '\b(BEGIN|END)\b(?![?!])'
-      scope: keyword.control.ruby
-    - match: '\b(module)\b(?![?!])'
       scope: keyword.control.ruby
     - match: '\b(begin|end|ensure|rescue)\b(?![?!])'
       scope: keyword.control.ruby
