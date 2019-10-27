@@ -289,9 +289,8 @@ contexts:
         2: invalid.illegal.character.ruby
 
   blocks:
-    - match: \b(do)\b\s*
-      captures:
-        1: keyword.control.start-block.ruby
+    - match: \bdo\b
+      scope: keyword.control.block.do.ruby
       push: maybe-block-parameters
     - match: \{
       scope: punctuation.section.scope.ruby
@@ -330,20 +329,77 @@ contexts:
             - include: expressions
 
   keywords:
-    - match: '\b(BEGIN|END)\b(?![?!])'
-      scope: keyword.control.ruby
-    - match: '\b(begin|end|ensure|rescue)\b(?![?!])'
-      scope: keyword.control.ruby
-    - match: '\b(case|else|ensure|for|in|then)\b(?![?!])'
-      scope: keyword.control.ruby
-    - match: '\b(elsif|if|unless|when|while|until)\b(?![?!])'
-      scope: keyword.control.ruby
+    # blocks
+    - match: \bbegin\b(?![?!])
+      scope: keyword.control.block.begin.ruby
       push: after-keyword
-    - match: \b(and|not|or)\b
+    - match: \bend\b(?![?!])
+      scope: keyword.control.block.end.ruby
+    # conditional
+    - match: \bcase\b(?![?!])
+      scope: keyword.control.conditional.case.ruby
+      push: after-keyword
+    - match: \belse\b(?![?!])
+      scope: keyword.control.conditional.if.ruby
+      push: after-keyword
+    - match: \belsif\b(?![?!])
+      scope: keyword.control.conditional.elseif.ruby
+      push: after-keyword
+    - match: \bif\b(?![?!])
+      scope: keyword.control.conditional.if.ruby
+      push: after-keyword
+    - match: \bthen\b(?![?!])
+      scope: keyword.control.conditional.then.ruby
+    - match: \bunless\b(?![?!])
+      scope: keyword.control.conditional.unless.ruby
+      push: after-keyword
+    - match: \bwhen\b(?![?!])
+      scope: keyword.control.conditional.when.ruby
+      push: after-keyword
+    # exception
+    - match: \bensure\b(?![?!])
+      scope: keyword.control.exception.ensure.ruby
+      push: after-keyword
+    - match: \brescue\b(?![?!])
+      scope: keyword.control.exception.rescue.ruby
+      push: after-keyword
+    # loop
+    - match: \bfor\b(?![?!])
+      scope: keyword.control.loop.for.ruby
+      push: after-keyword
+    - match: \buntil\b(?![?!])
+      scope: keyword.control.loop.until.ruby
+      push: after-keyword
+    - match: \bwhile\b(?![?!])
+      scope: keyword.control.loop.while.ruby
+      push: after-keyword
+    # flow
+    - match: \bbreak\b(?![?!])
+      scope: keyword.control.flow.break.ruby
+    - match: \bnext\b(?![?!])
+      scope: keyword.control.flow.next.ruby
+    - match: \bredo\b(?![?!])
+      scope: keyword.control.flow.redo.ruby
+    - match: \bretry\b(?![?!])
+      scope: keyword.control.flow.retry.ruby
+    - match: \breturn\b(?![?!])
+      scope: keyword.control.flow.return.ruby
+    - match: \bsuper(?![?!])
+      scope: keyword.control.flow.super.ruby
+    - match: \byield\b(?![?!])
+      scope: keyword.control.flow.yield.ruby
+    # operators
+    - match: \b(?:and|not|or)\b
       scope: keyword.operator.logical.ruby
       push: after-keyword
-    - match: '\b(alias|alias_method|break|next|redo|retry|return|super|undef|yield)\b(?![?!])|\bdefined\?|\bblock_given\?'
-      scope: keyword.control.pseudo-method.ruby
+    - match: \bin\b(?![?!])
+      scope: keyword.operator.logical.ruby
+      push: after-keyword
+    # other
+    - match: \b(?:BEGIN|END)\b(?![?!])
+      scope: entity.name.function.prepocessor.ruby
+    - match: \b(?:(?:alias|alias_method|undef)\b(?![?!])|(defined|block_given)\?)
+      scope: support.function.builtin.ruby
 
   operators:
     - match: '>>'
@@ -477,11 +533,30 @@ contexts:
       scope: variable.other.constant.ruby
 
   well-known-methods:
-    - match: '\b(initialize|new|loop|include|extend|prepend|raise|fail|attr_reader|attr_writer|attr_accessor|attr|catch|throw|module_function|public|protected|private)\b(?![?!])'
+    # exceptions
+    - match: \bcatch\b(?![?!])
+      scope: keyword.control.exception.catch.ruby
+      push: function-call-arguments
+    # flow
+    - match: \braise\b(?![?!])
+      scope: keyword.control.flow.raise.ruby
+      push: function-call-arguments
+    - match: \bfail\b(?![?!])
+      scope: keyword.control.flow.fail.ruby
+      push: function-call-arguments
+    - match: \bthrow\b(?![?!])
+      scope: keyword.control.flow.throw.ruby
+      push: function-call-arguments
+    # loop
+    - match: \bloop\b(?![?!])
+      scope: keyword.control.loop.loop.ruby
+      push: function-call-arguments
+    # other
+    - match: \b(initialize|new|include|extend|prepend|attr_reader|attr_writer|attr_accessor|attr|module_function|public|protected|private)\b(?![?!])
       scope: keyword.other.special-method.ruby
       push: function-call-arguments
     - match: \b(require|require_relative|gem)\b
-      scope: keyword.other.special-method.ruby
+      scope: keyword.control.import.ruby
       push:
         - meta_scope: meta.require.ruby
         - match: $|(?=[#}])

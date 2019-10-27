@@ -703,7 +703,7 @@ end
 #                   ^ punctuation.section.scope
 
 do |&bl| end
-# <- keyword.control
+# <- keyword.control.block.do.ruby
 #  ^^^^^ meta.block.parameters
 #  ^ punctuation.definition.parameters
 #   ^ keyword.operator
@@ -1005,18 +1005,22 @@ a = /=foo/m
 #   ^^^^^^^ - string.regexp
 
 begin
+# <- keyword.control.block.begin
 end while /foo/ =~ bar
 #         ^^^^^ string.regexp
 
 if /foo/i =~ baz
+# <- keyword.control.conditional.if
 #  ^^^^^^ string.regexp
 #         ^^ keyword.operator
 end
+# <- keyword.control.block.end.ruby
 
 if baz =~ /foo/i
 #      ^^ keyword.operator
 #         ^^^^^^ string.regexp
 end
+# <- keyword.control.block.end.ruby
 
 ['a()', 'b()'].select { |var| /^a\(/ =~ var }
 #                             ^^^^^^ string.regexp
@@ -1043,6 +1047,7 @@ b = testing! / foo
 rule /`/ do
 #    ^^^ string.regexp
 #    ^ - string.regexp string.regexp
+#        ^^ keyword.control.block.do
 end
 
 ##################
