@@ -1055,6 +1055,7 @@ def huh?(a, b=def huh?(a); "h?"; end)
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 #             ^^^^^^^^^^^ meta.function meta.function
 #                     ^^^ meta.function.parameters meta.function.parameters
+#^^ support.type.function
 #                      ^ variable.parameter
   a
 end

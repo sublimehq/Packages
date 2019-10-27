@@ -740,8 +740,8 @@ contexts:
     - include: try-regex
 
   method:
-    - match: \b(def)\b
-      scope: meta.function.ruby keyword.control.def.ruby
+    - match: \bdef\b
+      scope: meta.function.ruby support.type.function.ruby
       push:
         - meta_content_scope: meta.function.ruby
         - match: '(self)(\.)({{identifier}}{{method_punctuation}}|===?|>[>=]?|<=>|<[<=]?|[%&`/\|]|\*\*?|=?~|[-+]@?|\[\]=?)'
