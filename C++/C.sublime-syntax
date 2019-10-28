@@ -894,8 +894,17 @@ contexts:
     - meta_scope: debug.type-declaration
     - include: comments
     - include: modifiers
+    - match: (?={{identifier}};)
+      pop: true
+      comment: Used for typedefing things defined in types.
     - include: modifiers-macros
     - include: modifiers-parens
+    - match: \btypedef\b
+      scope: storage.type.c
+      comment: There could be modifiers before typedef
+      set:
+        - typedef-identifier-list
+        - type-declaration
     # Make sure to pop when a data structure keyword is found
     - match: (?=\bstruct\b)
       set:
@@ -912,9 +921,6 @@ contexts:
         - meta_scope: debug.type-declaration.union
         - include: union-keyword
         - include: or_pop
-    - match: (?={{identifier}};)
-      pop: true
-      comment: Used for typedefing things defined in types.
     - include: types
     - match: ({{identifier}})\s*(?={{identifier}}|\(\*|\n|\*)
       captures:

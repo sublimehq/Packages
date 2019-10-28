@@ -457,6 +457,23 @@ typedef   __s8    int8_t;
 /*        ^^^^ constant.other.macro.c */
 /*                ^^^^^^ entity.name.type.typedef.c */
 
+typedef unsigned long long __u64;
+/* <- storage.type.c */
+/*      ^^^^^^^^ storage.type.c */
+/*               ^^^^ storage.type.c */
+/*                    ^^^^ storage.type.c */
+/*                         ^^^^^ entity.name.type.typedef.c */
+/*                              ^ punctuation.terminator.c */
+
+__extension__ typedef unsigned long long __u64;
+/* <- constant.other.macro.c */
+/*            ^^^^^^^ storage.type.c */
+/*                    ^^^^^^^^ storage.type.c */
+/*                             ^^^^ storage.type.c */
+/*                                  ^^^^ storage.type.c */
+/*                                       ^^^^^ entity.name.type.typedef.c */
+/*                                            ^ punctuation.terminator.c */
+
 /////////////////////////////////////////////
 // Parameter Declarations
 /////////////////////////////////////////////
