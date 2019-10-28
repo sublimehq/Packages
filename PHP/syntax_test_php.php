@@ -1098,6 +1098,28 @@ $var4 = 0b0_1_1_1;
 //      ^^^^^^^^^ constant.numeric.integer.binary
 //      ^^ punctuation.definition.numeric.binary
 
+// class name should be case-insensitive
+$object = new ArRaYoBjEcT();
+//            ^^^^^^^^^^^ support.class.builtin
+
+// constant name should be case-sensitive
+$const = E_aLL;
+//       ^^^^^ - support.constant.core
+
+// function name should be case-sensitive
+$random = ArRaY_RaNd($array);
+//        ^^^^^^^^^^ support.function.array
+
+// test for constants for each group in the syntax definition
+$const = E_ALL;
+//       ^^^^^ support.constant.core
+$const = CASE_LOWER;
+//       ^^^^^^^^^^ support.constant.std
+$const = CURLAUTH_BASIC;
+//       ^^^^^^^^^^^^^^ support.constant.ext
+$const = T_ABSTRACT;
+//       ^^^^^^^^^^ support.constant.parser-token
+
   foo_bar:
 //^^^^^^^ entity.name.label.php - keyword.control.php
 
