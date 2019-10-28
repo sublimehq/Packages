@@ -12,7 +12,7 @@ variables:
   identifier: \b[[:alpha:]_][[:alnum:]_]*\b # upper and lowercase
   macro_identifier: \b[[:upper:]_][[:upper:][:digit:]_]{2,}\b # only uppercase, at least 3 chars
   attr_macro_identifier: \b__[[:alnum:]_]{2,}\b # __aligned, __pci_driver
-  common_identifier: \b[[:lower:]]{1,4}\b # host, dev, i, port, attr, buf, args
+  common_identifier: '\b[[:lower:]]{1,4}\b|\bstate\b' # host, dev, i, port, attr, buf, args
   control_keywords: 'break|case|continue|default|do|else|for|goto|if|_Pragma|return|switch|while'
   basic_types: 'asm|__asm__|auto|bool|_Bool|char|_Complex|double|float|_Imaginary|int|long|short|signed|unsigned|void'
   microsoft_types: '__int8|__int16|__int32|__int64'
