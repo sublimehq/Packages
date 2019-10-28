@@ -17,7 +17,7 @@ contexts:
       scope: meta.header.git.commit markup.raw.block.git.log
       captures:
         1: keyword.other.commit.git.log
-        2: constant.numeric.hex.hash.git.log
+        2: constant.other.hash.git.log
       embed: commit-header
       escape: (?=^commit\s)
 
