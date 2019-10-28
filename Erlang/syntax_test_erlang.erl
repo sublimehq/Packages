@@ -1630,6 +1630,34 @@ preprocessor_define_tests() -> .
 % <- punctuation.section.arguments.end.erlang
 %^ punctuation.terminator.clause.erlang
 
+-define(_get_stacktrace_(),
+        try exit('$get_stacktrace') catch exit:'$get_stacktrace':Stacktrace -> Stacktrace end).
+%       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.define.arguments.erlang
+%       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.exception.try.erlang
+%                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.exception.catch.erlang
+%                                                                                         ^^^ meta.exception.try.erlang
+%           ^^^^ meta.function-call.name.erlang
+%               ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.erlang
+%       ^^^ keyword.control.exception.try.erlang
+%           ^^^^ support.function.erlang
+%               ^ punctuation.section.arguments.begin.erlang
+%                ^ punctuation.definition.atom.begin.erlang
+%                ^^^^^^^^^^^^^^^^^ constant.other.symbol.erlang
+%                                ^ punctuation.definition.atom.end.erlang
+%                                 ^ punctuation.section.arguments.end.erlang
+%                                   ^^^^^ keyword.control.exception.catch.erlang
+%                                         ^^^^ constant.language.exception.type.erlang
+%                                             ^ punctuation.separator.patterns.erlang
+%                                              ^ punctuation.definition.atom.begin.erlang
+%                                              ^^^^^^^^^^^^^^^^^ constant.other.symbol.erlang
+%                                                              ^ punctuation.definition.atom.end.erlang
+%                                                               ^ punctuation.separator.patterns.erlang
+%                                                                ^^^^^^^^^^ variable.other.erlang
+%                                                                           ^^ punctuation.separator.clause-head-body.erlang
+%                                                                              ^^^^^^^^^^ variable.other.erlang
+%                                                                                         ^^^ keyword.control.exception.end.erlang
+%           
+
 % directive-export tests
 
 preprocessor_export_tests() -> .

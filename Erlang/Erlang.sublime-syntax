@@ -33,12 +33,15 @@ variables:
   # end of identifier lookahead
   # Note: avoid negative lookahead as it is 6-8% slower
   ident_break: (?={{ident_break_char}})
+  # a quoted identifier with possibly escaped single quote
+  # preceeded by an arbitary number of excaped backslashes
+  ident_quoted: \'((?:\\\\)*\\\'|[^''])*\'
   # an identifier can be an atom or a variable
   ident_unquoted: '[_A-Za-z]{{ident_char}}*'
   # all characters not being used to indicate a context change
   illegal_ident: '[^\s,:.;''(){}\[\]%=|/]+'
   # quoted/unquoted/macro identifier
-  ident: \?{,2}(?:{{ident_unquoted}}|\'.*?(?=[^\\])\')
+  ident: \?{,2}(?:{{ident_unquoted}}|{{ident_quoted}})
 
   # http://erlang.org/doc/reference_manual/macros.html#predefined-macros
   erlang_macros: |-
