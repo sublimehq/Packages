@@ -27,8 +27,8 @@ variables:
 
 contexts:
   or_pop:
+    # Pop if nothing matched (whitespace is ignored).
     - match: '(?=\S)'
-      comment: Pop if nothing matched (whitespace are ignored).
       pop: true
 
   main:
@@ -135,6 +135,9 @@ contexts:
       scope: storage.modifier.c
 
   modifiers-macros:
+    # Preprocessor Attributes with parameters.
+    # We only support a very limited definition so it doesn't gobble up
+    # actual function definitions.
     - match: |-
         (?x:
           (?:{{macro_identifier}}|{{attr_macro_identifier}})
@@ -155,15 +158,12 @@ contexts:
           )
         )
       scope: constant.other.macro.c debug.modifiers-macros
-      comment: Preprocessor Attributes with parameters.
-        We only support a very limited definition so it doesn't gobble up
-        actual function definitions.
       push:
         - meta_scope: meta.function-call.c
         - include: function-call-params
+    # Preprocessor Attributes
     - match: '{{attr_macro_identifier}}(?!\s*\()'
       scope: constant.other.macro.c debug.modifiers-macros.underscore
-      comment: Preprocessor Attributes
     - match: '{{macro_identifier}}(?=\s{{identifier}}|\s\*|\)|\s*\n)'
       scope: constant.other.macro.c debug.modifiers-macros.caps
 
@@ -346,10 +346,10 @@ contexts:
   # We can't merge this with the variables scope because it will break the C++
   # syntax.
   variables-c:
+    # There are a lot of common variable names 4 characters or under.
+    # They cause a lot of noise when indexed. So we skip them.
     - match: '{{common_identifier}}'
       scope: variable.other.c
-      comment: There are a lot of common variable names 4 characters or under.
-        They cause a lot of noise when indexed. So we skip them.
     - match: '{{identifier}}'
       scope: variable.other.indexed.c
 
@@ -453,9 +453,9 @@ contexts:
     - include: modifiers-macros
     - match: \*
       scope: storage.modifier.c
+    # Function pointer declaration
     - match: \(
       scope: punctuation.section.group.begin.c debug.parameter-identifier.function-pointer
-      comment: Function pointer declaration
       push:
         - meta_scope: meta.group.c
         - match: \)
@@ -510,9 +510,9 @@ contexts:
   parameter-variable-identifier:
     - match: \*
       scope: storage.modifier.c
+    # Function pointer declaration as variable
     - match: \(
       scope: punctuation.section.group.begin.c debug.parameter-variable-identifier.function-pointer
-      comment: Function pointer declaration as variable
       push:
         - meta_scope: meta.parens
         - match: \)
@@ -555,9 +555,9 @@ contexts:
           - include: comments
           - include: function-definition-params-group
           - include: or_pop
+    # Function pointer declaration
     - match: \((?=\s*\*)
       scope: punctuation.section.group.begin.c debug.variable-identifier-list.function-pointer
-      comment: Function pointer declaration
       push:
         - meta_scope: meta.parens
         - match: \)
@@ -598,9 +598,9 @@ contexts:
     - include: modifiers-macros
     - match: \*
       scope: storage.modifier.c
+    # Function pointer declaration
     - match: \(
       scope: punctuation.section.group.begin.c debug.member-variable-identifier-list.function-pointer
-      comment: Function pointer declaration
       push:
         - meta_scope: meta.parens
         - match: \)
@@ -612,9 +612,10 @@ contexts:
           scope: storage.modifier.c
         - match: '{{identifier}}'
           scope: entity.name.member.indexed.c debug.member-variable-identifier-list.function-pointer
+    # There are a lot of common variable names 4 characters or under.
+    # We want to make sure to not index those.
     - match: '{{common_identifier}}'
       scope: entity.name.member.c debug.member-variable-identifier-list
-      comment: There are a lot of common variable names 4 characters or under.
       push:
         - meta_scope: debug.member-variable-identifier-list.array
         - include: declaration-brackets
@@ -638,16 +639,16 @@ contexts:
       push:
         - meta_scope: meta.struct.c debug.struct-keyword
         - include: data-structures-definition-common-begin
+        # struct definition
         - match: '{{identifier}}(?=\s*{|\s*\n)'
           scope: entity.name.struct.c
-          comment: Struct definition
           set: struct-body
+        # struct declaration
         - match: '{{identifier}}'
           scope: support.type.c
-          comment: Struct declaration
           pop: true
+        # Anonymous struct definition
         - match: '(?={)'
-          comment: Anonymous struct definition
           set: struct-body
         - include: or_pop
   struct-body:
@@ -670,16 +671,16 @@ contexts:
       push:
         - meta_scope: meta.enum.c debug.enum-keyword
         - include: data-structures-definition-common-begin
+        # enum definition
         - match: '{{identifier}}(?=\s*{|\s*\n)'
           scope: entity.name.enum.c
-          comment: Struct definition
           set: enum-body
+        # enum declaration
         - match: '{{identifier}}'
           scope: support.type.c
-          comment: Struct declaration
           pop: true
+        # Anonymous enum definition
         - match: '(?={)'
-          comment: Anonymous enum definition
           set: enum-body
         - include: or_pop
   enum-body:
@@ -723,16 +724,16 @@ contexts:
       push:
         - meta_scope: meta.union.c debug.union-keyword
         - include: data-structures-definition-common-begin
+        # union definition
         - match: '{{identifier}}(?=\s*{|\s*\n)'
           scope: entity.name.union.c
-          comment: Struct definition
           set: union-body
+        # union declaration
         - match: '{{identifier}}'
           scope: support.type.c
-          comment: Struct declaration
           pop: true
+        # Anonymous union definition
         - match: '(?={)'
-          comment: Anonymous union definition
           set: union-body
         - include: or_pop
   union-body:
@@ -894,14 +895,14 @@ contexts:
     - meta_scope: debug.type-declaration
     - include: comments
     - include: modifiers
+    # Used for typedefing things defined in types.
     - match: (?={{identifier}};)
       pop: true
-      comment: Used for typedefing things defined in types.
     - include: modifiers-macros
     - include: modifiers-parens
+    # There could be modifiers before typedef
     - match: \btypedef\b
       scope: storage.type.c
-      comment: There could be modifiers before typedef
       set:
         - typedef-identifier-list
         - type-declaration
@@ -943,9 +944,9 @@ contexts:
       push:
         - include: declaration-brackets
         - include: or_pop
+    # Function pointers
     - match: '\((?=\s*\*)'
       scope: punctuation.section.group.begin.c debug.typedef.function-pointer
-      comment: Function pointers
       set:
         - meta_scope: meta.parens
         - match: \)
@@ -997,9 +998,9 @@ contexts:
         - match: '{{macro_identifier}}(?!\()'
           scope: constant.other.macro.c
         - include: expressions
+        # Inside macro params, the identifiers can start with numbers
         - match: '\b\w+\b'
           scope: variable.other.c
-          comment: Inside macro params, the identifiers can start with numbers
 
   ## Preprocessor for data-structures
 
