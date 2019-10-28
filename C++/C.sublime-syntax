@@ -514,9 +514,9 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.c debug.parameter-variable-identifier.function-pointer
       push:
-        - meta_scope: meta.parens
+        - meta_scope: meta.parens.c
         - match: \)
-          scope: punctuation.section.parens.end
+          scope: punctuation.section.parens.end.c
           set:
             - include: function-definition-params-group
             - include: or_pop
@@ -559,9 +559,9 @@ contexts:
     - match: \((?=\s*\*)
       scope: punctuation.section.group.begin.c debug.variable-identifier-list.function-pointer
       push:
-        - meta_scope: meta.parens
+        - meta_scope: meta.parens.c
         - match: \)
-          scope: punctuation.section.parens.end
+          scope: punctuation.section.parens.end.c
           set:
             - include: function-definition-params-group
             - include: or_pop
@@ -602,9 +602,9 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.c debug.member-variable-identifier-list.function-pointer
       push:
-        - meta_scope: meta.parens
+        - meta_scope: meta.parens.c
         - match: \)
-          scope: punctuation.section.parens.end
+          scope: punctuation.section.parens.end.c
           set:
             - include: function-definition-params-group
             - include: or_pop
@@ -948,9 +948,9 @@ contexts:
     - match: '\((?=\s*\*)'
       scope: punctuation.section.group.begin.c debug.typedef.function-pointer
       set:
-        - meta_scope: meta.parens
+        - meta_scope: meta.parens.c
         - match: \)
-          scope: punctuation.section.parens.end
+          scope: punctuation.section.parens.end.c
           set:
             - include: function-definition-params-group
             - include: or_pop
