@@ -814,11 +814,11 @@ contexts:
 
   declaration-brackets:
     - match: \[
-      scope: punctuation.section.brackets.begin.c storage.modifier.c
+      scope: punctuation.section.brackets.begin.c
       push:
         - meta_scope: meta.brackets.c
         - match: \]
-          scope: punctuation.section.brackets.end.c storage.modifier.c
+          scope: punctuation.section.brackets.end.c
           pop: true
         - include: expressions
 

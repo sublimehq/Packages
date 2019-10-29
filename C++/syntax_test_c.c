@@ -416,17 +416,17 @@ typedef char arrType[6];
 /*<- storage.type.c */
 /*      ^^^^ storage.type.c */
 /*           ^^^^^^^ entity.name.type */
-/*                  ^ storage.modifier */
+/*                  ^ punctuation.section.brackets.begin.c */
 /*                   ^ constant.numeric.c */
-/*                    ^ storage.modifier */
+/*                    ^ punctuation.section.brackets.end.c */
 
 typedef char arrType[NUMBER_OF_ELEMENTS];
 /*<- storage.type.c */
 /*      ^^^^ storage.type.c */
 /*           ^^^^^^^ entity.name.type.typedef.c */
-/*                  ^ storage.modifier */
+/*                  ^ punctuation.section.brackets.begin.c */
 /*                   ^^^^^^^^^^^^^^^^^^ constant.other.macro.c */
-/*                                     ^ storage.modifier */
+/*                                     ^ punctuation.section.brackets.end.c */
 
 typedef unsigned long ulong, *ulongptr;
 /*<- storage.type.c */
@@ -743,7 +743,9 @@ struct {
 /*        ^ keyword.operator.assignment.c */
 /*                  ^ punctuation.separator */
 /*                    ^^^^^^^^ entity.name.variable.indexed.c  */
-/*                            ^^ meta.brackets.c storage.modifier.c */
+/*                            ^^ meta.brackets.c */
+/*                            ^ punctuation.section.brackets.begin.c */
+/*                             ^ punctuation.section.brackets.end.c */
 /*                               ^ keyword.operator.assignment.c */
 /*                                                     ^ punctuation.separator */
 /*                                                       ^^^^^^ entity.name.variable.indexed.c  */
@@ -1108,7 +1110,8 @@ struct UI_MenuBoxData
 /*  ^^^^^^ storage.type.c */
 /*         ^^^^^^^^^^^^^^^^ support.type.c */
 /*                          ^^^^^^^^^^^ entity.name.member.indexed.c */
-/*                                     ^ storage.modifier.c */
+/*                                     ^ punctuation.section.brackets.begin.c */
+/*                                      ^ punctuation.section.brackets.end.c */
 /*                                       ^ punctuation.terminator.c */
 
     struct delayed_work monitor_work ____cacheline_aligned_in_smp;
@@ -1126,8 +1129,8 @@ struct UI_MenuBoxData
 /*  ^^^^^^^^^^^^^^^^^^ entity.name.member.indexed.c */
 /*                    ^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets.c */
 /*                     ^^^^^^^^^^^^^^^^^^^^^^ constant.other.macro.c */
-/*                    ^ punctuation.section.brackets.begin.c storage.modifier.c */
-/*                                           ^ punctuation.section.brackets.end.c storage.modifier.c */
+/*                    ^ punctuation.section.brackets.begin.c */
+/*                                           ^ punctuation.section.brackets.end.c */
 
 #if 0
     struct UI_BoundingBox bb1;
@@ -1374,7 +1377,9 @@ static const struct spd_info {
 /*         ^^^^^^^ entity.name.member.indexed.c */
 } spd_mem_info[] = {
 /*^^^^^^^^^^^^  entity.name.variable.indexed.c */
-/*            ^^ meta.brackets.c storage.modifier.c */
+/*            ^^ meta.brackets.c */
+/*            ^ punctuation.section.brackets.begin.c */
+/*             ^ punctuation.section.brackets.end.c */
     [SPD_INFO_DDR4] = {
 /*  ^ meta.brackets.c punctuation.section.brackets.begin.c */
 /*   ^^^^^^^^^^^^^ constant.other.macro.c */
@@ -1400,8 +1405,8 @@ void * const compat_sys_call_table[__NR_compat_syscalls] __aligned(4096) = {
 /*   ^ storage.modifier.c */
 /*     ^^^^^ storage.modifier.c */
 /*           ^^^^^^^^^^^^^^^^^^^^^ entity.name.variable.indexed.c */
-/*                                ^ meta.brackets.c punctuation.section.brackets.begin.c storage.modifier.c */
-/*                                                     ^ meta.brackets.c punctuation.section.brackets.end.c storage.modifier.c */
+/*                                ^ meta.brackets.c punctuation.section.brackets.begin.c */
+/*                                                     ^ meta.brackets.c punctuation.section.brackets.end.c */
 /*                                                       ^^^^^^^^^ meta.function-call.c constant.other.macro.c */
 /*                                                                ^^^^^^ meta.function-call.parameters.c */
 /*                                                                 ^^^^ constant.numeric.c */
@@ -1427,9 +1432,9 @@ pgd_t swapper_pg_dir[PTRS_PER_PGD] __aligned(PAGE_SIZE);
 /* <- support.type.c */
 /*    ^^^^^^^^^^^^^^ entity.name.variable.indexed.c */
 /*                  ^^^^^^^^^^^^^^ meta.brackets.c */
-/*                  ^ punctuation.section.brackets.begin.c storage.modifier.c */
+/*                  ^ punctuation.section.brackets.begin.c */
 /*                   ^^^^^^^^^^^^ constant.other.macro.c */
-/*                               ^ punctuation.section.brackets.end.c storage.modifier.c */
+/*                               ^ punctuation.section.brackets.end.c */
 /*                                 ^^^^^^^^^ meta.function-call.c constant.other.macro.c */
 /*                                          ^^^^^^^^^^^ meta.function-call.parameters.c */
 /*                                          ^ meta.group.c punctuation.section.group.begin.c */
@@ -1464,8 +1469,8 @@ struct mac_tfm_ctx {
 /*             ^ constant.numeric.c */
 /*              ^ meta.group.c punctuation.section.group.end.c */
 /*                ^^^^^^ entity.name.member.indexed.c */
-/*                      ^ meta.brackets.c punctuation.section.brackets.begin.c storage.modifier.c */
-/*                       ^ meta.brackets.c punctuation.section.brackets.end.c storage.modifier.c */
+/*                      ^ meta.brackets.c punctuation.section.brackets.begin.c */
+/*                       ^ meta.brackets.c punctuation.section.brackets.end.c */
 /*                        ^ punctuation.terminator.c */
 } __packed __aligned(4);
 /* <- meta.struct.body.c meta.block.c punctuation.section.block.end.c */
@@ -1698,7 +1703,8 @@ static const struct print_field const err_flags[];
 /*     ^^^^^ storage.modifier.c */
 /*                              ^^^^^ storage.modifier.c */
 /*                                    ^^^^^^^^^ entity.name.variable.indexed.c */
-/*                                             ^^ storage.modifier.c */
+/*                                             ^ punctuation.section.brackets.begin.c */
+/*                                              ^ punctuation.section.brackets.end.c */
 /*                                               ^ punctuation.terminator.c */
 
 enum {
@@ -1768,10 +1774,10 @@ int foo(int val, float val2[][])
 /*          ^^^ variable.parameter */
 /*             ^ punctuation.separator */
 /*                     ^^^^ variable.parameter */
-/*                         ^^ meta.brackets.c storage.modifier.c */
+/*                         ^^ meta.brackets.c */
 /*                         ^ punctuation.section.brackets.begin */
 /*                          ^ punctuation.section.brackets.end */
-/*                           ^^ meta.brackets.c storage.modifier.c */
+/*                           ^^ meta.brackets.c */
 /*                           ^ punctuation.section.brackets.begin */
 /*                            ^ punctuation.section.brackets.end */
 /*                             ^ punctuation.section.group.end */
