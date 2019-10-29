@@ -932,13 +932,11 @@ contexts:
     - include: comments
     - match: \*
       scope: storage.modifier.c
-    - match: ({{identifier}})(?=\s*;)
-      captures:
-        1: entity.name.type.typedef.c
+    - match: '{{identifier}}(?=\s*;)'
+      scope: entity.name.type.typedef.c
       pop: true
-    - match: ({{identifier}})(?=\s*,)
-      captures:
-        1: entity.name.type.typedef.c
+    - match: '{{identifier}}(?=\s*,)'
+      scope: entity.name.type.typedef.c
     - match: '{{identifier}}(?=\s*\[)'
       scope: entity.name.type.typedef.c debug.typedef.array
       push:
