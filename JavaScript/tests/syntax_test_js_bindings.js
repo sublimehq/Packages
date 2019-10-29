@@ -26,7 +26,7 @@ const [ x, [a, b], z] = value;
 const [ x = 42, y = [a, b, c] ] = value;
 //    ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
 //        ^ keyword.operator.assignment
-//          ^^ meta.binding.destructuring.sequence.js constant.numeric.decimal.js
+//          ^^ meta.binding.destructuring.sequence.js constant.numeric.integer.decimal.js
 //                ^ keyword.operator.assignment
 //                  ^^^^^^^^^ meta.sequence
 //                   ^ variable.other.readwrite - meta.binding.name
@@ -105,7 +105,7 @@ function f ([ x, [a, b], z]) {}
 function f ([ x = 42, y = [a, b, c] ]) {}
 //          ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
 //              ^ keyword.operator.assignment
-//                ^^ meta.binding.destructuring.sequence.js constant.numeric.decimal.js
+//                ^^ meta.binding.destructuring.sequence.js constant.numeric.integer.decimal.js
 //                      ^ keyword.operator.assignment
 //                        ^^^^^^^^^ meta.sequence
 //                         ^ variable.other.readwrite - meta.binding.name
@@ -165,7 +165,7 @@ let f = ([ x = 42, y = [a, b, c] ]) => {};
 //  ^ entity.name.function variable.other.readwrite
 //       ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
 //           ^ keyword.operator.assignment
-//             ^^ meta.binding.destructuring.sequence.js constant.numeric.decimal.js
+//             ^^ meta.binding.destructuring.sequence.js constant.numeric.integer.decimal.js
 //                   ^ keyword.operator.assignment
 //                     ^^^^^^^^^ meta.sequence
 //                      ^ variable.other.readwrite - meta.binding.name
