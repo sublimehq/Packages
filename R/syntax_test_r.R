@@ -40,94 +40,94 @@ NaN
   0x1afi
 # ^^ punctuation.definition.numeric.hexadecimal.r
 # ^^^^^^ constant.numeric.imaginary.hexadecimal.r
-#      ^ storage.type.numeric.imaginary.r
+#      ^ storage.type.numeric.r
 
   0X1afi 0X1afI
 # ^^ punctuation.definition.numeric.hexadecimal.r
 # ^^^^^^ constant.numeric.imaginary.hexadecimal.r
-#      ^ storage.type.numeric.imaginary.r
+#      ^ storage.type.numeric.r
 #        ^^ punctuation.definition.numeric.hexadecimal.r
 #        ^^^^^^ constant.numeric.imaginary.hexadecimal.r
-#             ^ invalid.illegal.numeric.imaginary.r
+#             ^ invalid.illegal.numeric.r
 
   12i 12I
 # ^^^ constant.numeric.imaginary.decimal.r
-#   ^ storage.type.numeric.imaginary.r
+#   ^ storage.type.numeric.r
 #     ^^^ constant.numeric.imaginary.decimal.r
-#       ^ invalid.illegal.numeric.imaginary.r
+#       ^ invalid.illegal.numeric.r
 
   12.i 12.I
 # ^^^^ constant.numeric.imaginary.decimal.r
 #   ^ punctuation.separator.decimal.r
-#    ^ storage.type.numeric.imaginary.r
+#    ^ storage.type.numeric.r
 #      ^^^^ constant.numeric.imaginary.decimal.r
 #        ^ punctuation.separator.decimal.r
-#         ^ invalid.illegal.numeric.imaginary.r
+#         ^ invalid.illegal.numeric.r
 
   .345i
 # ^^^^^ constant.numeric.imaginary.decimal.r
 # ^ punctuation.separator.decimal.r
-#     ^ storage.type.numeric.imaginary.r
+#     ^ storage.type.numeric.r
 
   12.34e-12i
 # ^^^^^^^^^^ constant.numeric.imaginary.decimal.r
 #   ^ punctuation.separator.decimal.r
-#          ^ storage.type.numeric.imaginary.r
+#          ^ storage.type.numeric.r
 
   12.34E-12i
 # ^^^^^^^^^^ constant.numeric.imaginary.decimal.r
 #   ^ punctuation.separator.decimal.r
-#          ^ storage.type.numeric.imaginary.r
+#          ^ storage.type.numeric.r
 
   12.34e+12i
 # ^^^^^^^^^^ constant.numeric.imaginary.decimal.r
 #   ^ punctuation.separator.decimal.r
-#          ^ storage.type.numeric.imaginary.r
+#          ^ storage.type.numeric.r
 
   12.34E+12i
 # ^^^^^^^^^^ constant.numeric.imaginary.decimal.r
 #   ^ punctuation.separator.decimal.r
-#          ^ storage.type.numeric.imaginary.r
+#          ^ storage.type.numeric.r
 
   12.3456i 12.3456I
 # ^^^^^^^^ constant.numeric.imaginary.decimal.r
 #   ^ punctuation.separator.decimal.r
-#        ^ storage.type.numeric.imaginary.r
+#        ^ storage.type.numeric.r
 #          ^^^^^^^^ constant.numeric.imaginary.decimal.r
 #            ^ punctuation.separator.decimal.r
-#                 ^ invalid.illegal.numeric.imaginary.r
+#                 ^ invalid.illegal.numeric.r
 
 # integers
 
   0x1afL 0x1afl 0x1afx
 # ^^ punctuation.definition.numeric.hexadecimal.r
 # ^^^^^^ constant.numeric.integer.hexadecimal.r
-#      ^ storage.type.numeric.integer.r
+#      ^ storage.type.numeric.r
 #        ^^ punctuation.definition.numeric.hexadecimal.r
 #        ^^^^^^ constant.numeric.integer.hexadecimal.r
-#             ^ invalid.illegal.numeric.integer.r
+#             ^ invalid.illegal.numeric.r
 #               ^^^^^^ - constant
 
   0X1afL
 # ^^ punctuation.definition.numeric.hexadecimal.r
 # ^^^^^^ constant.numeric.integer.hexadecimal.r
-#      ^ storage.type.numeric.integer.r
+#      ^ storage.type.numeric.r
 
   12L 12l
 # ^^^ constant.numeric.integer.decimal.r
-#   ^ storage.type.numeric.integer.r
+#   ^ storage.type.numeric.r
 #     ^^^ constant.numeric.integer.decimal.r
-#       ^ invalid.illegal.numeric.integer.r
+#       ^ invalid.illegal.numeric.r
 
   12.L
 # ^^^^ constant.numeric.integer.decimal.r
 #   ^ punctuation.separator.decimal.r
-#    ^ storage.type.numeric.integer.r
+#    ^ storage.type.numeric.r
 
   12.000L
 # ^^^^^^^ constant.numeric.integer.decimal.r
 #   ^ punctuation.separator.decimal.r
-#       ^ storage.type.numeric.integer.r
+#       ^ storage.type.numeric.r
 
 # floats
 

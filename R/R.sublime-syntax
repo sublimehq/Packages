@@ -48,28 +48,28 @@ contexts:
       scope: constant.numeric.imaginary.hexadecimal.r
       captures:
         1: punctuation.definition.numeric.hexadecimal.r
-        2: storage.type.numeric.imaginary.r
-        3: invalid.illegal.numeric.imaginary.r
+        2: storage.type.numeric.r
+        3: invalid.illegal.numeric.r
     - match: (?:(\.)\d+|\b\d+(\.)?\d*){{exponent}}?(?:(i)|(I))\b
       scope: constant.numeric.imaginary.decimal.r
       captures:
         1: punctuation.separator.decimal.r
         2: punctuation.separator.decimal.r
-        3: storage.type.numeric.imaginary.r
-        4: invalid.illegal.numeric.imaginary.r
+        3: storage.type.numeric.r
+        4: invalid.illegal.numeric.r
     # integers
     - match: \b(0[xX])\h+(?:(L)|(l))\b
       scope: constant.numeric.integer.hexadecimal.r
       captures:
         1: punctuation.definition.numeric.hexadecimal.r
-        2: storage.type.numeric.integer.r
-        3: invalid.illegal.numeric.integer.r
+        2: storage.type.numeric.r
+        3: invalid.illegal.numeric.r
     - match: \b\d+(\.)?\d*(?:(L)|(l))\b
       scope: constant.numeric.integer.decimal.r
       captures:
         1: punctuation.separator.decimal.r
-        2: storage.type.numeric.integer.r
-        3: invalid.illegal.numeric.integer.r
+        2: storage.type.numeric.r
+        3: invalid.illegal.numeric.r
     # floats
     - match: \b(0[xX])\h+\b
       scope: constant.numeric.float.hexadecimal.r
