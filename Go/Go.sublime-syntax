@@ -90,7 +90,7 @@ variables:
   # not allowing a numeric separator as the last or first character.
   ddigits: (?:\d+(?:_\d+)*)
 
-  # Hexideciaml counterpart to ddigits.
+  # Hexadeciaml counterpart to ddigits.
   hdigits: (?:\h+(?:_\h+)*)
 
 contexts:
@@ -477,7 +477,7 @@ contexts:
         2: storage.type.numeric.imaginary.go
 
   match-hex-integer:
-    - match: (0[Xx])_?{{hdigits}}(i)?
+    - match: (0[xX])_?{{hdigits}}(i)?
       scope: constant.numeric.hex.go
       captures:
         1: punctuation.definition.numeric.hexadecimal.go
