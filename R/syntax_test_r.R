@@ -93,65 +93,146 @@ Inf
 NaN
 # <- constant.language.r
 
-  12L
+# complex imaginary
+
+  0x1afi
+# ^^ punctuation.definition.numeric.hexadecimal.r
+# ^^^^^^ constant.numeric.imaginary.hexadecimal.r
+#      ^ storage.type.numeric.r
+
+  0X1afi 0X1afI
+# ^^ punctuation.definition.numeric.hexadecimal.r
+# ^^^^^^ constant.numeric.imaginary.hexadecimal.r
+#      ^ storage.type.numeric.r
+#        ^^ punctuation.definition.numeric.hexadecimal.r
+#        ^^^^^^ constant.numeric.imaginary.hexadecimal.r
+#             ^ invalid.illegal.numeric.r
+
+  12i 12I
+# ^^^ constant.numeric.imaginary.decimal.r
+#   ^ storage.type.numeric.r
+#     ^^^ constant.numeric.imaginary.decimal.r
+#       ^ invalid.illegal.numeric.r
+
+  12.i 12.I
+# ^^^^ constant.numeric.imaginary.decimal.r
+#   ^ punctuation.separator.decimal.r
+#    ^ storage.type.numeric.r
+#      ^^^^ constant.numeric.imaginary.decimal.r
+#        ^ punctuation.separator.decimal.r
+#         ^ invalid.illegal.numeric.r
+
+  .345i
+# ^^^^^ constant.numeric.imaginary.decimal.r
+# ^ punctuation.separator.decimal.r
+#     ^ storage.type.numeric.r
+
+  12.34e-12i
+# ^^^^^^^^^^ constant.numeric.imaginary.decimal.r
+#   ^ punctuation.separator.decimal.r
+#          ^ storage.type.numeric.r
+
+  12.34E-12i
+# ^^^^^^^^^^ constant.numeric.imaginary.decimal.r
+#   ^ punctuation.separator.decimal.r
+#          ^ storage.type.numeric.r
+
+  12.34e+12i
+# ^^^^^^^^^^ constant.numeric.imaginary.decimal.r
+#   ^ punctuation.separator.decimal.r
+#          ^ storage.type.numeric.r
+
+  12.34E+12i
+# ^^^^^^^^^^ constant.numeric.imaginary.decimal.r
+#   ^ punctuation.separator.decimal.r
+#          ^ storage.type.numeric.r
+
+  12.3456i 12.3456I
+# ^^^^^^^^ constant.numeric.imaginary.decimal.r
+#   ^ punctuation.separator.decimal.r
+#        ^ storage.type.numeric.r
+#          ^^^^^^^^ constant.numeric.imaginary.decimal.r
+#            ^ punctuation.separator.decimal.r
+#                 ^ invalid.illegal.numeric.r
+
+# integers
+
+  0x1afL 0x1afl 0x1afx
+# ^^ punctuation.definition.numeric.hexadecimal.r
+# ^^^^^^ constant.numeric.integer.hexadecimal.r
+#      ^ storage.type.numeric.r
+#        ^^ punctuation.definition.numeric.hexadecimal.r
+#        ^^^^^^ constant.numeric.integer.hexadecimal.r
+#             ^ invalid.illegal.numeric.r
+#               ^^^^^^ - constant
+
+  0X1afL
+# ^^ punctuation.definition.numeric.hexadecimal.r
+# ^^^^^^ constant.numeric.integer.hexadecimal.r
+#      ^ storage.type.numeric.r
+
+  12L 12l
 # ^^^ constant.numeric.integer.decimal.r
+#   ^ storage.type.numeric.r
+#     ^^^ constant.numeric.integer.decimal.r
+#       ^ invalid.illegal.numeric.r
+
+  12.L
+# ^^^^ constant.numeric.integer.decimal.r
+#   ^ punctuation.separator.decimal.r
+#    ^ storage.type.numeric.r
+
+  12.000L
+# ^^^^^^^ constant.numeric.integer.decimal.r
+#   ^ punctuation.separator.decimal.r
+#       ^ storage.type.numeric.r
+
+# floats
+
+  0x1af
+# ^^ punctuation.definition.numeric.hexadecimal.r
+# ^^^^^ constant.numeric.float.hexadecimal.r
+
+  0X1af
+# ^^ punctuation.definition.numeric.hexadecimal.r
+# ^^^^^ constant.numeric.float.hexadecimal.r
 
   12
 # ^^ constant.numeric.float.decimal.r
 
-  0x1afL
-# ^^^^^^ constant.numeric.integer.hexadecimal.r
+  12.
+# ^^^ constant.numeric.float.decimal.r
+#   ^ punctuation.separator.decimal.r
 
-  0X1afL
-# ^^^^^^ constant.numeric.integer.hexadecimal.r
+  .3456
+# ^ punctuation.separator.decimal.r
+# ^^^^^ constant.numeric.float.decimal.r
 
-  0x1af
-# ^^^^^ constant.numeric.float.hexadecimal.r
-
-  0X1af
-# ^^^^^ constant.numeric.float.hexadecimal.r
-
-  99.99e-12
-# ^^^^^^^^^ constant.numeric.float.decimal.r
-
-  99.99E-12
-# ^^^^^^^^^ constant.numeric.float.decimal.r
-
-  99.99e+12
-# ^^^^^^^^^ constant.numeric.float.decimal.r
-
-  99.99E+12
-# ^^^^^^^^^ constant.numeric.float.decimal.r
-
-  99.9999
+  12.3456
 # ^^^^^^^ constant.numeric.float.decimal.r
+#   ^ punctuation.separator.decimal.r
 
- .9999
-# ^^^^ constant.numeric.float.decimal.r
+  12.34e-12
+# ^^^^^^^^^ constant.numeric.float.decimal.r
+#   ^ punctuation.separator.decimal.r
 
-  12i
-# ^^^ constant.numeric.imaginary.decimal.r
+  12.34E-12
+# ^^^^^^^^^ constant.numeric.float.decimal.r
+#   ^ punctuation.separator.decimal.r
 
-  0x1afi
-# ^^^^^^ constant.numeric.imaginary.hexadecimal.r
+  12.34e+12
+# ^^^^^^^^^ constant.numeric.float.decimal.r
+#   ^ punctuation.separator.decimal.r
 
-  0x1afi
-# ^^^^^^ constant.numeric.imaginary.hexadecimal.r
+  12.34E+12
+# ^^^^^^^^^ constant.numeric.float.decimal.r
+#   ^ punctuation.separator.decimal.r
 
-  99.99e-12i
-# ^^^^^^^^^^ constant.numeric.imaginary.decimal.r
+  12e34
+# ^^^^^ constant.numeric.float.decimal.r
 
-  99.99E-12i
-# ^^^^^^^^^^ constant.numeric.imaginary.decimal.r
-
-  99.99e+12i
-# ^^^^^^^^^^ constant.numeric.imaginary.decimal.r
-
-  99.99E+12i
-# ^^^^^^^^^^ constant.numeric.imaginary.decimal.r
-
-  99.9999i
-# ^^^^^^^^ constant.numeric.imaginary.decimal.r
+  12e-34
+# ^^^^^^ constant.numeric.float.decimal.r
 
   %*% %/% %% %o% %x% %:% %+%
 # ^^^ keyword.operator.arithmetic.r
