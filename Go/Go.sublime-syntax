@@ -90,8 +90,12 @@ variables:
   # not allowing a numeric separator as the last or first character.
   ddigits: (?:\d+(?:_\d+)*)
 
-  # Hexadeciaml counterpart to ddigits.
+  # Hexadecimal counterpart to ddigits.
   hdigits: _?(?:\h+(?:_\h+)*)
+
+  # Same as hdigits, except the leading hex character
+  # coefficient is optional in this case.
+  ohdigits: _?(?:\h*(?:_\h+)*)
 
   # Octal counterpart to ddigits.
   odigits: _?(?:[0-7]+(?:_[0-7]+)*)
@@ -454,7 +458,7 @@ contexts:
         3: keyword.operator.go
         4: storage.type.numeric.imaginary.go
     # Hex float literal, with fraction
-    - match: '(0[xX])_?\h*(?:_\h+)*(\.)\h*(?:_\h+)*([pP])([+-])?{{ddigits}}(i)?'
+    - match: '(0[xX]){{ohdigits}}(\.){{ohdigits}}([pP])([+-])?{{ddigits}}(i)?'
       scope: constant.numeric.float.go
       captures:
         1: punctuation.definition.numeric.hexadecimal.go
