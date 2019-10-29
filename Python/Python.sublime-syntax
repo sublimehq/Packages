@@ -425,7 +425,7 @@ contexts:
       scope: constant.numeric.integer.hexadecimal.python
       captures:
         1: punctuation.definition.numeric.hexadecimal.python
-        2: storage.type.numeric.long.python
+        2: storage.type.numeric.python
     - match: \b(?i)(0x)(_?\h)+
       scope: constant.numeric.integer.hexadecimal.python
       captures:
@@ -435,7 +435,7 @@ contexts:
       scope: constant.numeric.integer.octal.python
       captures:
         1: punctuation.definition.integer.octal.python
-        2: storage.type.numeric.long.python
+        2: storage.type.numeric.python
     - match: \b(?i)(0)[0-7]+ # py2
       scope: constant.numeric.integer.octal.python
       captures:
@@ -449,7 +449,7 @@ contexts:
       scope: constant.numeric.integer.binary.python
       captures:
         1: punctuation.definition.numeric.binary.python
-        2: storage.type.numeric.long.python
+        2: storage.type.numeric.python
     - match: \b(?i)(0b)(_?[01])*
       scope: constant.numeric.integer.binary.python
       captures:
@@ -466,7 +466,7 @@ contexts:
       captures:
         1: punctuation.separator.decimal.python
         2: punctuation.separator.decimal.python
-        3: storage.type.numeric.imaginary.python
+        3: storage.type.numeric.python
     # floating point
     - match: |-
         (?x:
@@ -483,7 +483,7 @@ contexts:
     - match: \b(?i)(?:[1-9]\d*|0)(L)\b # py2
       scope: constant.numeric.integer.decimal.python
       captures:
-        1: storage.type.numeric.long.python
+        1: storage.type.numeric.python
     - match: \b(?i)([1-9][\d_]*|0)\b
       scope: constant.numeric.integer.decimal.python
 
