@@ -495,6 +495,12 @@ a.b-c_d@a.b.
 this is a raw ampersand & does not require HTML escaping
 |                       ^ meta.other.valid-ampersand
 
+this is a raw bracket < <= <- << does not require HTML escaping
+|                     ^ meta.other.valid-bracket
+|                       ^^ - meta.other-valid-bracket - meta.tag
+|                          ^^ - meta.other-valid-bracket - meta.tag
+|                             ^^ - meta.other-valid-bracket - meta.tag
+
 [2]: https://github.com/sublimehq/Packages "Packages Repo"
 | <- meta.link.reference.def
 |^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def
@@ -2027,3 +2033,16 @@ end
 
 \~/.bashrc
 |^ constant.character.escape
+
+  -= += /= %= -- ++ ** !~ =~ ~~ <= >= => <=> // && == !=
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta - constant - keyword - variable - punctuation
+
+    -= += /= %= -- ++ ** !~ =~ ~~ <= >= => <=> // && == !=
+|   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-level markup.raw - constant - keyword - variable - punctuation
+
+>  -= += /= %= -- ++ ** !~ =~ ~~ <= >= => <=> // && == !=
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-level - constant - keyword - variable
+
+> > -= += /= %= -- ++ ** !~ =~ ~~ <= >= => <=> // && == !=
+| ^ meta.block-level.markdown markup.quote.markdown markup.quote.markdown punctuation.definition.blockquote.markdown
+|  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-level - constant - keyword - variable
