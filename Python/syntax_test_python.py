@@ -1195,35 +1195,35 @@ raise KeyError() from z
 
 decimal = 1234567890 + 9876543210L + -1 + -42L * 0000
 #         ^^^^^^^^^^ constant.numeric.integer.decimal.python
-#                      ^^^^^^^^^^^ constant.numeric.integer.long.decimal.python
-#                                ^ storage.type.numeric.long.python
+#                      ^^^^^^^^^^^ constant.numeric.integer.decimal.python
+#                                ^ storage.type.numeric.python
 #                                    ^ keyword.operator.arithmetic.python - constant.numeric
 #                                         ^ keyword.operator.arithmetic.python - constant.numeric
-#                                            ^ storage.type.numeric.long.python
+#                                            ^ storage.type.numeric.python
 #                                                ^^^^ constant.numeric.integer
 
 floating = 0.1 - .1 * 10e-20 - 0.0e2 % 2.
-#          ^^^ constant.numeric.float.python
+#          ^^^ constant.numeric.float.decimal.python
 #                ^ punctuation.separator.decimal.python
-#                ^^ constant.numeric.float.python
-#                     ^^^^^^ constant.numeric.float.python
+#                ^^ constant.numeric.float.decimal.python
+#                     ^^^^^^ constant.numeric.float.decimal.python
 #                               ^ punctuation.separator.decimal.python
-#                              ^^^^^ constant.numeric.float.python
-#                                      ^^ constant.numeric.float.python
+#                              ^^^^^ constant.numeric.float.decimal.python
+#                                      ^^ constant.numeric.float.decimal.python
 #                                       ^ punctuation.separator.decimal.python
 
 binary = 0b1010011 | 0b0110110L
 #        ^^^^^^^^^ constant.numeric.integer.binary.python
 #        ^^ punctuation.definition.numeric.binary.python
-#                    ^^^^^^^^^^ constant.numeric.integer.long.binary.python
+#                    ^^^^^^^^^^ constant.numeric.integer.binary.python
 #                    ^^ punctuation.definition.numeric.binary.python
-#                             ^ storage.type.numeric.long.python
+#                             ^ storage.type.numeric.python
 
 octal = 0o755 ^ 0o644L
 #       ^^^^^ constant.numeric.integer.octal.python
 #       ^^ punctuation.definition.numeric.octal.python
-#                    ^ storage.type.numeric.long.python
-#               ^^^^^^ constant.numeric.integer.long.octal.python
+#                    ^ storage.type.numeric.python
+#               ^^^^^^ constant.numeric.integer.octal.python
 #               ^^ punctuation.definition.integer.octal.python
 
 old_style_octal = 010 + 007 - 012345670L
@@ -1231,24 +1231,24 @@ old_style_octal = 010 + 007 - 012345670L
 #                 ^ punctuation.definition.numeric.octal.python
 #                       ^^^ constant.numeric.integer.octal.python
 #                       ^ punctuation.definition.numeric.octal.python
-#                             ^^^^^^^^^^ constant.numeric.integer.long.octal.python
+#                             ^^^^^^^^^^ constant.numeric.integer.octal.python
 #                             ^ punctuation.definition.integer.octal.python
-#                                      ^ storage.type.numeric.long.python
+#                                      ^ storage.type.numeric.python
 
 hexadecimal = 0x100af - 0XDEADF00L
 #             ^^^^^^^ constant.numeric.integer.hexadecimal.python
 #             ^^ punctuation.definition.numeric.hexadecimal.python
-#                       ^^^^^^^^^^ constant.numeric.integer.long.hexadecimal.python
+#                       ^^^^^^^^^^ constant.numeric.integer.hexadecimal.python
 #                       ^^ punctuation.definition.numeric.hexadecimal.python
-#                                ^ storage.type.numeric.long.python
+#                                ^ storage.type.numeric.python
 
 unintuitive = 0B101 + 0O101 + 10l
 #             ^^^^^ constant.numeric.integer.binary.python
 #             ^^ punctuation.definition.numeric.binary.python
 #                     ^^^^^ constant.numeric.integer.octal.python
 #                     ^^ punctuation.definition.numeric.octal.python
-#                             ^^^ constant.numeric.integer.long.decimal.python
-#                               ^ storage.type.numeric.long.python
+#                             ^^^ constant.numeric.integer.decimal.python
+#                               ^ storage.type.numeric.python
 
 illegal = 1LL << 08 | 0b010203 | 0xAbraCadabra
 #           ^ - constant.numeric
@@ -1257,17 +1257,17 @@ illegal = 1LL << 08 | 0b010203 | 0xAbraCadabra
 #                                    ^^^^^^^^^ - constant.numeric
 
 amount = 10_000_000.0_2e2_0 + .e2 + 2_2._2
-#        ^^^^^^^^^^^^^^^^^^ constant.numeric.float
+#        ^^^^^^^^^^^^^^^^^^ constant.numeric.float.decimal.python
 #                  ^ punctuation.separator.decimal.python
 #                             ^^^ - constant
 #                                       ^^ - constant
 
 very_complex = 23_2.2e2_0J + 2_1j
-#              ^^^^^^^^^^^ constant.numeric.complex.python
+#              ^^^^^^^^^^^ constant.numeric.imaginary.decimal.python
 #                  ^ punctuation.separator.decimal.python
-#                            ^^^^ constant.numeric.complex.python
-#                        ^ storage.type.numeric.complex.python
-#                               ^ storage.type.numeric.complex.python
+#                            ^^^^ constant.numeric.imaginary.decimal.python
+#                        ^ storage.type.numeric.python
+#                               ^ storage.type.numeric.python
 
 addr = 0xCAFE_F00D
 #      ^^^^^^^^^^^ constant.numeric
