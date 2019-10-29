@@ -93,6 +93,9 @@ variables:
   # Hexadeciaml counterpart to ddigits.
   hdigits: _?(?:\h+(?:_\h+)*)
 
+  # Octal counterpart to ddigits.
+  odigits: _?(?:[0-7]+(?:_[0-7]+)*)
+
 contexts:
   main:
     - include: match-any
@@ -464,13 +467,13 @@ contexts:
     - include: match-decimal-integer
 
   match-octal-integer:
-    - match: (0)_?[0-7]+(?:_[0-7]+)*(?=\D)
+    - match: (0){{odigits}}(?=\D)
       scope: constant.numeric.octal.go
       captures:
         1: punctuation.definition.numeric.octal.go
     - match: 0[0-7]*[8-9]+
       scope: invalid.illegal.go
-    - match: (0[oO])_?[0-7]+(?:_[0-7]+)*(i)?
+    - match: (0[oO]){{odigits}}(i)?
       scope: constant.numeric.octal.go
       captures:
         1: punctuation.definition.numeric.octal.go
