@@ -96,6 +96,9 @@ variables:
   # Octal counterpart to ddigits.
   odigits: _?(?:[0-7]+(?:_[0-7]+)*)
 
+  # Binary counterpart to ddigits.
+  bdigits: _?(?:[01]+(?:_[01]+)*)
+
 contexts:
   main:
     - include: match-any
@@ -487,7 +490,7 @@ contexts:
         2: storage.type.numeric.imaginary.go
 
   match-binary-integer:
-    - match: (0[bB])_?[01]+(?:_[01]+)*(i)?
+    - match: (0[bB]){{bdigits}}(i)?
       scope: constant.numeric.binary.go
       captures:
         1: punctuation.definition.numeric.binary.go
