@@ -91,7 +91,7 @@ variables:
   ddigits: (?:\d+(?:_\d+)*)
 
   # Hexadeciaml counterpart to ddigits.
-  hdigits: (?:\h+(?:_\h+)*)
+  hdigits: _?(?:\h+(?:_\h+)*)
 
 contexts:
   main:
@@ -440,7 +440,7 @@ contexts:
     - match: \.\d+(?:{{exponent}}\d+)?
       scope: invalid.deprecated.go
     # Hex float literal, no fraction
-    - match: '(0[xX])_?{{hdigits}}([pP])([\+\-])?{{ddigits}}(i)?'
+    - match: '(0[xX]){{hdigits}}([pP])([+-])?{{ddigits}}(i)?'
       scope: constant.numeric.float.go
       captures:
         1: punctuation.definition.numeric.hexadecimal.go
@@ -448,7 +448,7 @@ contexts:
         3: keyword.operator.go
         4: storage.type.numeric.imaginary.go
     # Hex float literal, with fraction
-    - match: '(0[xX])_?\h*(?:_\h+)*(\.)\h*(?:_\h+)*([pP])([\+\-])?{{ddigits}}(i)?'
+    - match: '(0[xX])_?\h*(?:_\h+)*(\.)\h*(?:_\h+)*([pP])([+-])?{{ddigits}}(i)?'
       scope: constant.numeric.float.go
       captures:
         1: punctuation.definition.numeric.hexadecimal.go
@@ -477,7 +477,7 @@ contexts:
         2: storage.type.numeric.imaginary.go
 
   match-hex-integer:
-    - match: (0[xX])_?{{hdigits}}(i)?
+    - match: (0[xX]){{hdigits}}(i)?
       scope: constant.numeric.hex.go
       captures:
         1: punctuation.definition.numeric.hexadecimal.go
