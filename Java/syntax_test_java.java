@@ -1325,16 +1325,16 @@ public class Foo {
 //         ^ punctuation.separator.decimal
 //                  ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.float.hexadecimal
 //                  ^^ punctuation.definition.numeric.hexadecimal
-//                    ^ invalid.illegal.numeric.digit
+//                    ^ invalid.illegal.numeric
 //                      ^ - invalid
-//                        ^ invalid.illegal.numeric.digit
+//                        ^ invalid.illegal.numeric
 //                         ^ punctuation.separator.decimal
-//                          ^ invalid.illegal.numeric.digit
+//                          ^ invalid.illegal.numeric
 //                            ^ - invalid
-//                              ^ invalid.illegal.numeric.digit
-//                                 ^ invalid.illegal.numeric.digit
+//                              ^ invalid.illegal.numeric
+//                                 ^ invalid.illegal.numeric
 //                                    ^ - invalid
-//                                       ^ invalid.illegal.numeric.digit
+//                                       ^ invalid.illegal.numeric
 
 //  decimal floats
 
@@ -1346,7 +1346,7 @@ public class Foo {
 //                    ^^^^^^ constant.numeric.float.decimal
 //                         ^ storage.type.numeric
 //                             ^^^^^^^^^ constant.numeric.float.decimal
-//                                    ^ invalid.illegal.numeric.digit
+//                                    ^ invalid.illegal.numeric
 //                                     ^ storage.type.numeric
 //                                         ^^^^^^^^^ - constant.numeric
 //                                                     ^^^^^^ - constant.numeric
@@ -1359,7 +1359,7 @@ public class Foo {
 //                    ^^^^^^ constant.numeric.float.decimal
 //                         ^ storage.type.numeric
 //                             ^^^^^^^^^ constant.numeric.float.decimal
-//                                    ^ invalid.illegal.numeric.digit
+//                                    ^ invalid.illegal.numeric
 //                                     ^ storage.type.numeric
 //                                         ^^^^^^^^^ - constant.numeric
 //                                                     ^^^^^^ - constant.numeric
@@ -1368,7 +1368,7 @@ public class Foo {
 //      ^^ constant.numeric.float.decimal
 //       ^ punctuation.separator.decimal
 //           ^^^ constant.numeric.float.decimal
-//            ^ invalid.illegal.numeric.digit
+//            ^ invalid.illegal.numeric
 //             ^ punctuation.separator.decimal
 //                 ^^^^ constant.numeric.float.decimal
 //                    ^ punctuation.separator.decimal
@@ -1379,7 +1379,7 @@ public class Foo {
 //       ^ punctuation.separator.decimal
 //        ^ storage.type.numeric
 //            ^^^^ constant.numeric.float.decimal
-//             ^ invalid.illegal.numeric.digit
+//             ^ invalid.illegal.numeric
 //              ^ punctuation.separator.decimal
 //               ^ storage.type.numeric
 //                   ^^^^^ constant.numeric.float.decimal
@@ -1391,14 +1391,14 @@ public class Foo {
 //      ^^^ constant.numeric.float.decimal
 //       ^ punctuation.separator.decimal
 //            ^^^^^ constant.numeric.float.decimal
-//             ^ invalid.illegal.numeric.digit
+//             ^ invalid.illegal.numeric
 //              ^ punctuation.separator.decimal
 //                    ^^^^^^^ constant.numeric.float.decimal
 //                       ^ punctuation.separator.decimal
 //                              ^^^^^^^^^^ constant.numeric.float.decimal
-//                                 ^ invalid.illegal.numeric.digit
+//                                 ^ invalid.illegal.numeric
 //                                  ^ punctuation.separator.decimal
-//                                   ^ invalid.illegal.numeric.digit
+//                                   ^ invalid.illegal.numeric
 //                                           ^^ - constant.numeric
 //                                             ^ punctuation.separator.decimal
 //                                             ^^ constant.numeric.float.decimal
@@ -1408,19 +1408,19 @@ public class Foo {
 //       ^ punctuation.separator.decimal
 //         ^ storage.type.numeric
 //             ^^^^^^ constant.numeric.float.decimal
-//              ^ invalid.illegal.numeric.digit
+//              ^ invalid.illegal.numeric
 //               ^ punctuation.separator.decimal
-//                 ^ invalid.illegal.numeric.digit
+//                 ^ invalid.illegal.numeric
 //                  ^ storage.type.numeric
 //                      ^^^^^^^^ constant.numeric.float.decimal
 //                         ^ punctuation.separator.decimal
 //                             ^ storage.type.numeric
 //                                 ^^^^^^^^^^^ constant.numeric.float.decimal
-//                                    ^ invalid.illegal.numeric.digit
+//                                    ^ invalid.illegal.numeric
 //                                     ^ punctuation.separator.decimal
-//                                      ^ invalid.illegal.numeric.digit
+//                                      ^ invalid.illegal.numeric
 //                                           ^ storage.type.numeric
-//                                          ^ invalid.illegal.numeric.digit
+//                                          ^ invalid.illegal.numeric
 //                                               ^^ - constant.numeric
 //                                                 ^ punctuation.separator.decimal
 //                                                 ^^^ constant.numeric.float.decimal
@@ -1431,10 +1431,10 @@ public class Foo {
 //              ^^^^^^ constant.numeric.float.decimal
 //                       ^^^^^^^ constant.numeric.float.decimal
 //                                 ^^^^^^^^^ constant.numeric.float.decimal
-//                                    ^ invalid.illegal.numeric.digit
+//                                    ^ invalid.illegal.numeric
 //                                             ^^^^^^^^^ constant.numeric.float.decimal
-//                                                ^ invalid.illegal.numeric.digit
-//                                                  ^ invalid.illegal.numeric.digit
+//                                                ^ invalid.illegal.numeric
+//                                                  ^ invalid.illegal.numeric
 //                                                         ^^^^^^ constant.numeric.float.decimal
 //                                                                  ^^^^^^ constant.numeric.float.decimal
 //                                                                           ^^^^^^^ constant.numeric.float.decimal
@@ -1444,17 +1444,17 @@ public class Foo {
 //      ^^^^^^ constant.numeric.float.decimal
 //           ^ storage.type.numeric
 //               ^^^^^^^ constant.numeric.float.decimal
-//                    ^ invalid.illegal.numeric.digit
+//                    ^ invalid.illegal.numeric
 //                     ^ storage.type.numeric
 //                         ^^^^^^^^ constant.numeric.float.decimal
 //                                ^ storage.type.numeric
 //                                    ^^^^^^^^^^ constant.numeric.float.decimal
-//                                       ^ invalid.illegal.numeric.digit
-//                                            ^ invalid.illegal.numeric.digit
+//                                       ^ invalid.illegal.numeric
+//                                            ^ invalid.illegal.numeric
 //                                             ^ storage.type.numeric
 //                                                 ^^^^^^^^^^ constant.numeric.float.decimal
-//                                                    ^ invalid.illegal.numeric.digit
-//                                                      ^ invalid.illegal.numeric.digit
+//                                                    ^ invalid.illegal.numeric
+//                                                      ^ invalid.illegal.numeric
 //                                                          ^ storage.type.numeric
 //                                                              ^^^^^^^ constant.numeric.float.decimal
 //                                                                    ^ storage.type.numeric
@@ -1472,12 +1472,12 @@ public class Foo {
 //                         ^^^^^^^^ constant.numeric.float.decimal
 //                            ^ punctuation.separator.decimal
 //                                    ^^^^^^^^^^ constant.numeric.float.decimal
-//                                       ^ invalid.illegal.numeric.digit
+//                                       ^ invalid.illegal.numeric
 //                                        ^ punctuation.separator.decimal
 //                                                 ^^^^^^^^^^ constant.numeric.float.decimal
-//                                                    ^ invalid.illegal.numeric.digit
+//                                                    ^ invalid.illegal.numeric
 //                                                     ^ punctuation.separator.decimal
-//                                                       ^ invalid.illegal.numeric.digit
+//                                                       ^ invalid.illegal.numeric
 //                                                              ^^^^^^^ constant.numeric.float.decimal
 //                                                                ^ punctuation.separator.decimal
 //                                                                        ^^^^^^^ constant.numeric.float.decimal
@@ -1492,20 +1492,20 @@ public class Foo {
 //            ^ storage.type.numeric
 //                ^^^^^^^^ constant.numeric.float.decimal
 //                  ^ punctuation.separator.decimal
-//                      ^ invalid.illegal.numeric.digit
+//                      ^ invalid.illegal.numeric
 //                       ^ storage.type.numeric
 //                           ^^^^^^^^^ constant.numeric.float.decimal
 //                              ^ punctuation.separator.decimal
 //                                   ^ storage.type.numeric
 //                                       ^^^^^^^^^^^ constant.numeric.float.decimal
-//                                          ^ invalid.illegal.numeric.digit
+//                                          ^ invalid.illegal.numeric
 //                                           ^ punctuation.separator.decimal
-//                                                ^ invalid.illegal.numeric.digit
+//                                                ^ invalid.illegal.numeric
 //                                                 ^ storage.type.numeric
 //                                                     ^^^^^^^^^^^ constant.numeric.float.decimal
-//                                                        ^ invalid.illegal.numeric.digit
+//                                                        ^ invalid.illegal.numeric
 //                                                         ^ punctuation.separator.decimal
-//                                                           ^ invalid.illegal.numeric.digit
+//                                                           ^ invalid.illegal.numeric
 //                                                               ^ storage.type.numeric
 //                                                                   ^^^^^^^^ constant.numeric.float.decimal
 //                                                                     ^ punctuation.separator.decimal
@@ -1522,17 +1522,17 @@ public class Foo {
 //      ^^^^^^^^ constant.numeric.float.decimal
 //        ^ punctuation.separator.decimal
 //                 ^^^^^^^^^^^ constant.numeric.float.decimal
-//                   ^ invalid.illegal.numeric.digit
+//                   ^ invalid.illegal.numeric
 //                    ^ punctuation.separator.decimal
 //                               ^^^^^^^^^^^ constant.numeric.float.decimal
 //                                  ^ punctuation.separator.decimal
 //                                             ^^^^^^^^^^^^^^ constant.numeric.float.decimal
-//                                                ^ invalid.illegal.numeric.digit
+//                                                ^ invalid.illegal.numeric
 //                                                 ^ punctuation.separator.decimal
 //                                                              ^^^^^^^^^^^^^^ constant.numeric.float.decimal
-//                                                                 ^ invalid.illegal.numeric.digit
+//                                                                 ^ invalid.illegal.numeric
 //                                                                  ^ punctuation.separator.decimal
-//                                                                   ^ invalid.illegal.numeric.digit
+//                                                                   ^ invalid.illegal.numeric
 //                                                                               ^^^^^^^^^ constant.numeric.float.decimal
 //                                                                                 ^ punctuation.separator.decimal
 //                                                                                           ^^^^^^^^^ constant.numeric.float.decimal
@@ -1546,23 +1546,23 @@ public class Foo {
 //        ^ punctuation.separator.decimal
 //              ^ storage.type.numeric
 //                  ^^^^^^^^^^^^ constant.numeric.float.decimal
-//                    ^ invalid.illegal.numeric.digit
+//                    ^ invalid.illegal.numeric
 //                     ^ punctuation.separator.decimal
-//                        ^ invalid.illegal.numeric.digit
-//                            ^ invalid.illegal.numeric.digit
+//                        ^ invalid.illegal.numeric
+//                            ^ invalid.illegal.numeric
 //                             ^ storage.type.numeric
 //                                 ^^^^^^^^^^^^ constant.numeric.float.decimal
 //                                    ^ punctuation.separator.decimal
 //                                            ^ storage.type.numeric
 //                                                ^^^^^^^^^^^^^^^ constant.numeric.float.decimal
-//                                                   ^ invalid.illegal.numeric.digit
+//                                                   ^ invalid.illegal.numeric
 //                                                    ^ punctuation.separator.decimal
-//                                                             ^ invalid.illegal.numeric.digit
+//                                                             ^ invalid.illegal.numeric
 //                                                              ^ storage.type.numeric
 //                                                                  ^^^^^^^^^^^^^^^ constant.numeric.float.decimal
-//                                                                     ^ invalid.illegal.numeric.digit
+//                                                                     ^ invalid.illegal.numeric
 //                                                                      ^ punctuation.separator.decimal
-//                                                                       ^ invalid.illegal.numeric.digit
+//                                                                       ^ invalid.illegal.numeric
 //                                                                                ^ storage.type.numeric
 //                                                                                    ^^^^^^^^^^ constant.numeric.float.decimal
 //                                                                                      ^ punctuation.separator.decimal
@@ -1584,20 +1584,20 @@ public class Foo {
 //                 ^ punctuation.separator.decimal
 //                        ^^^^^^ constant.numeric.float.decimal
 //                        ^ punctuation.separator.decimal
-//                         ^ invalid.illegal.numeric.digit
+//                         ^ invalid.illegal.numeric
 
     a = .2d + .2_d + .3_4d + ._3_4_d;
 //      ^^^ constant.numeric.float.decimal
 //      ^ punctuation.separator.decimal
 //            ^^^^ constant.numeric.float.decimal
 //            ^ punctuation.separator.decimal
-//              ^ invalid.illegal.numeric.digit
+//              ^ invalid.illegal.numeric
 //                   ^^^^^ constant.numeric.float.decimal
 //                   ^ punctuation.separator.decimal
 //                           ^^^^^^^ constant.numeric.float.decimal
 //                           ^ punctuation.separator.decimal
-//                            ^ invalid.illegal.numeric.digit
-//                                ^ invalid.illegal.numeric.digit
+//                            ^ invalid.illegal.numeric
+//                                ^ invalid.illegal.numeric
 
     a = .34e56 + .34_e+5_ + .3_4e5_6 + .3_4_e5_6_ + ._3_4e_5_6 + .34e+56 + .34e-56 + .34e+5_6;
 //      ^^^^^^ constant.numeric.float.decimal
@@ -1610,7 +1610,7 @@ public class Foo {
 //                                     ^ punctuation.separator.decimal
 //                                                  ^^^^^^^^^^ constant.numeric.float.decimal
 //                                                  ^ punctuation.separator.decimal
-//                                                   ^ invalid.illegal.numeric.digit
+//                                                   ^ invalid.illegal.numeric
 //                                                               ^^^^^^^ constant.numeric.float.decimal
 //                                                               ^ punctuation.separator.decimal
 //                                                                         ^^^^^^^ constant.numeric.float.decimal
@@ -1651,10 +1651,10 @@ public class Foo {
 //                 ^^^^^^^^^^ constant.numeric.integer.binary
 //                              ^^ punctuation.definition.numeric.binary
 //                              ^^^^^^^^^^^ constant.numeric.integer.binary
-//                                        ^ invalid.illegal.numeric.digit
+//                                        ^ invalid.illegal.numeric
 //                                            ^^ punctuation.definition.numeric.binary
 //                                            ^^^^^^^^^ constant.numeric.integer.binary
-//                                              ^ invalid.illegal.numeric.digit
+//                                              ^ invalid.illegal.numeric
 //                                                        ^^^^^^^^^^ - constant.numeric
 //                                                                     ^^ - constant.numeric
 
@@ -1667,11 +1667,11 @@ public class Foo {
 //                            ^ storage.type.numeric
 //                                ^^ punctuation.definition.numeric.binary
 //                                ^^^^^^^^^^^^ constant.numeric.integer.binary
-//                                          ^ invalid.illegal.numeric.digit
+//                                          ^ invalid.illegal.numeric
 //                                           ^ storage.type.numeric
 //                                               ^^ punctuation.definition.numeric.binary
 //                                               ^^^^^^^^^^ constant.numeric.integer.binary
-//                                                 ^ invalid.illegal.numeric.digit
+//                                                 ^ invalid.illegal.numeric
 //                                                        ^ storage.type.numeric
 //                                                            ^^^^^^^^^^^ - constant.numeric
 
@@ -1684,10 +1684,10 @@ public class Foo {
 //               ^^^^^^ constant.numeric.integer.hexadecimal
 //                         ^^ punctuation.definition.numeric.hexadecimal
 //                         ^^^^^^^^ constant.numeric.integer.hexadecimal
-//                                ^ invalid.illegal.numeric.digit
+//                                ^ invalid.illegal.numeric
 //                                    ^^ punctuation.definition.numeric.hexadecimal
 //                                    ^^^^^^^^ constant.numeric.integer.hexadecimal
-//                                      ^ invalid.illegal.numeric.digit
+//                                      ^ invalid.illegal.numeric
 //                                               ^^^^^^^^ - constant.numeric
 //                                                          ^^ - constant.numeric
 
@@ -1700,11 +1700,11 @@ public class Foo {
 //                       ^ storage.type.numeric
 //                           ^^ punctuation.definition.numeric.hexadecimal
 //                           ^^^^^^^^^ constant.numeric.integer.hexadecimal
-//                                  ^ invalid.illegal.numeric.digit
+//                                  ^ invalid.illegal.numeric
 //                                   ^ storage.type.numeric
 //                                       ^^ punctuation.definition.numeric.hexadecimal
 //                                       ^^^^^^^^^ constant.numeric.integer.hexadecimal
-//                                         ^ invalid.illegal.numeric.digit
+//                                         ^ invalid.illegal.numeric
 //                                               ^ storage.type.numeric
 //                                                   ^^^^^^^^^ - constant.numeric
 
@@ -1715,21 +1715,21 @@ public class Foo {
 //      ^ punctuation.definition.numeric.octal
 //           ^ punctuation.definition.numeric.octal
 //           ^^ constant.numeric.integer.octal
-//            ^ invalid.illegal.numeric.digit
+//            ^ invalid.illegal.numeric
 //                ^ punctuation.definition.numeric.octal
 //                ^^^ constant.numeric.integer.octal
 //                      ^ punctuation.definition.numeric.octal
 //                      ^^^ constant.numeric.integer.octal
-//                        ^ invalid.illegal.numeric.digit
+//                        ^ invalid.illegal.numeric
 //                            ^ punctuation.definition.numeric.octal
 //                            ^^^ constant.numeric.integer.octal
-//                             ^^ invalid.illegal.numeric.digit
+//                             ^^ invalid.illegal.numeric
 //                                  ^ punctuation.definition.numeric.octal
 //                                  ^^^^ constant.numeric.integer.octal
-//                                   ^^^ invalid.illegal.numeric.digit
+//                                   ^^^ invalid.illegal.numeric
 //                                         ^ punctuation.definition.numeric.octal
 //                                         ^^^^^ constant.numeric.integer.octal
-//                                          ^^^^ invalid.illegal.numeric.digit
+//                                          ^^^^ invalid.illegal.numeric
 //                                                 ^^ - constant.numeric
 //                                                      ^^^ - constant.numeric
 
@@ -1739,19 +1739,19 @@ public class Foo {
 //        ^ storage.type.numeric
 //            ^ punctuation.definition.numeric.octal
 //            ^^^ constant.numeric.integer.octal
-//             ^ invalid.illegal.numeric.digit
+//             ^ invalid.illegal.numeric
 //                  ^ punctuation.definition.numeric.octal
 //                  ^^^^ constant.numeric.integer.octal
 //                         ^ punctuation.definition.numeric.octal
 //                         ^^^^ constant.numeric.integer.octal
-//                           ^ invalid.illegal.numeric.digit
+//                           ^ invalid.illegal.numeric
 //                            ^ storage.type.numeric
 //                                ^^^^^ constant.numeric.integer.octal
 //                                ^ punctuation.definition.numeric.octal
-//                                 ^^^ invalid.illegal.numeric.digit
+//                                 ^^^ invalid.illegal.numeric
 //                                    ^ storage.type.numeric
 //                                        ^ punctuation.definition.numeric.octal
-//                                         ^^^^^ invalid.illegal.numeric.digit
+//                                         ^^^^^ invalid.illegal.numeric
 //                                              ^ storage.type.numeric
 //                                                  ^^^ - constant.numeric
 //                                                        ^^^^^ - constant.numeric
@@ -1768,7 +1768,7 @@ public class Foo {
 //              ^^^^^^^ constant.numeric.integer.decimal
 //                        ^^^^^^^ constant.numeric.integer.decimal
 //                                  ^^^^^^^^ constant.numeric.integer.decimal
-//                                         ^ invalid.illegal.numeric.digit
+//                                         ^ invalid.illegal.numeric
 //                                             ^^^^^^^^ - constant.numeric
 //                                                        ^^^^^ - constant.numeric
 
@@ -1778,14 +1778,14 @@ public class Foo {
 //               ^^^^^^ constant.numeric.integer.decimal
 //                    ^ storage.type.numeric
 //                        ^^^^^^^^^ constant.numeric.integer.decimal
-//                               ^ invalid.illegal.numeric.digit
+//                               ^ invalid.illegal.numeric
 //                                ^ storage.type.numeric
 //                                    ^^^^^^^^^ - constant.numeric
 //                                                ^^^^^^ - constant.numeric
 
     a = 123_-_456;
 //      ^^^^ constant.numeric.integer.decimal
-//         ^ invalid.illegal.numeric.digit
+//         ^ invalid.illegal.numeric
 //          ^ keyword.operator
 //           ^^^^ - constant.numeric
   }
