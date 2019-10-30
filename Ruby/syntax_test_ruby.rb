@@ -188,40 +188,18 @@ BAR
 #^^^^ constant.numeric.integer.decimal
  1_234
 #^^^^^ constant.numeric.integer.decimal
- 1.
-#^ constant.numeric.integer.decimal
-# ^ punctuation.accessor - constant.numeric
-
- 12.34
-#^^^^^ constant.numeric.float.decimal
-#  ^ punctuation.separator.decimal
- 1234e-2
-#^^^^^^^ constant.numeric.float.decimal
- 1.234E1
-#^^^^^^^ constant.numeric.float.decimal
-# ^ punctuation.separator.decimal
- 12e3r       #=> syntax error
-#^^^^^ constant.numeric.float.decimal
-#    ^ invalid.illegal.numeric.rational
- 1.2e3r      #=> syntax error
-#^^^^^^ constant.numeric.float.decimal
-# ^ punctuation.separator.decimal
-#     ^ invalid.illegal.numeric.rational
-
  0d170
 #^^^^^ constant.numeric.integer.decimal
 #^^ punctuation.definition.numeric.decimal
  0D170
 #^^^^^ constant.numeric.integer.decimal
 #^^ punctuation.definition.numeric.decimal
-
  0xAa
 #^^^^ constant.numeric.integer.hexadecimal
 #^^ punctuation.definition.numeric.hexadecimal
  0XAa
 #^^^^ constant.numeric.integer.hexadecimal
 #^^ punctuation.definition.numeric.hexadecimal
-
  0252
 #^^^^ constant.numeric.integer.octal
 #^ punctuation.definition.numeric.octal
@@ -231,102 +209,167 @@ BAR
  0O252
 #^^^^^ constant.numeric.integer.octal
 #^^ punctuation.definition.numeric.octal
-
  0b10101010
 #^^^^^^^^^^ constant.numeric.integer.binary
 #^^ punctuation.definition.numeric.binary
  0B10101010
 #^^^^^^^^^^ constant.numeric.integer.binary
 #^^ punctuation.definition.numeric.binary
-
- 12r         #=> (12/1)
-#^^^ constant.numeric.rational
-#  ^ storage.type.numeric.rational
- 12.3r       #=> (123/10)
-#^^^^^ constant.numeric.rational
-#  ^ punctuation.separator.decimal
-#    ^ storage.type.numeric.rational
-
- 1i          #=> (0+1i)
-#^^ constant.numeric.complex.imaginary
-# ^ storage.type.numeric.imaginary
- 1.0i        #=> (0+1.0i)
-#^^^^ constant.numeric.complex.imaginary
-# ^ punctuation.separator.decimal
-#   ^ storage.type.numeric.imaginary
- 12e3i       #=> (0+12000.0i)
-#^^^^^ constant.numeric.complex.imaginary
-#    ^ storage.type.numeric.imaginary
- 12e-3i      #=> (0+0.012i)
-#^^^^^^ constant.numeric.complex.imaginary
-#     ^ storage.type.numeric.imaginary
- 1.2e3i      #=> (0+1200.0i)
-#^^^^^^ constant.numeric.complex.imaginary
-# ^ punctuation.separator.decimal
-#     ^ storage.type.numeric.imaginary
- 1.2e-3i     #=> (0+0.0012i)
-#^^^^^^^ constant.numeric.complex.imaginary
-# ^ punctuation.separator.decimal
-#      ^ storage.type.numeric.imaginary
- 12ri        #=> (0+(12/1)*i)
-#^^^^ constant.numeric.complex.imaginary
-#  ^ storage.type.numeric.rational
-#   ^ storage.type.numeric.imaginary
- 12.3ri      #=> (0+(123/10)*i)
-#^^^^^^ constant.numeric.complex.imaginary
-#  ^ punctuation.separator.decimal
-#    ^ storage.type.numeric.rational
-#     ^ storage.type.numeric.imaginary
- 12e3ri      #=> syntax error
-#^^^^^^ constant.numeric.complex.imaginary
-#    ^ invalid.illegal.numeric.rational
-#     ^ storage.type.numeric.imaginary 
- 1.2e3ri     #=> syntax error
-#^^^^^^^ constant.numeric.complex.imaginary
-# ^ punctuation.separator.decimal
-#     ^ invalid.illegal.numeric.rational
-#      ^ storage.type.numeric.imaginary
- 12ir        #=> syntax error
-#^^^^ constant.numeric.complex.imaginary
-#  ^ storage.type.numeric.imaginary
-#   ^ invalid.illegal.numeric.rational
- 12.3ir      #=> syntax error
-#^^^^^^ constant.numeric.complex.imaginary
-#  ^ punctuation.separator.decimal
-#    ^ storage.type.numeric.imaginary
-#     ^ invalid.illegal.numeric.rational
- 1.2e3ir     #=> syntax error
-#^^^^^^^ constant.numeric.complex.imaginary
-# ^ punctuation.separator.decimal
-#     ^ storage.type.numeric.imaginary
-#      ^ invalid.illegal.numeric.rational
- 12e3ir      #=> syntax error
-#^^^^^^ constant.numeric.complex.imaginary
-#    ^ storage.type.numeric.imaginary
-#     ^ invalid.illegal.numeric.rational
-
+ 12.
+#^^ constant.numeric.integer.decimal
+#  ^ punctuation.accessor - constant.numeric - invalid.illegal
  12.ir
-#  ^^^ - constant.numeric - storage.type.numeric - invalid.illegal
-#  ^ punctuation.accessor
+#^^ constant.numeric.integer.decimal
+#  ^ punctuation.accessor - constant.numeric - invalid.illegal
+#   ^^ - constant.numeric - invalid.illegal - storage.type.numeric
 
- 0xAAr
-#^^^^^ constant.numeric.integer.hexadecimal
+ 12.34
+#^^^^^ constant.numeric.float.decimal
+#  ^ punctuation.separator.decimal
+ 1234e-2
+#^^^^^^^ constant.numeric.float.decimal
+ 1.234E1
+#^^^^^^^ constant.numeric.float.decimal
+# ^ punctuation.separator.decimal
+ 12e3r
+#^^^^^ constant.numeric.float.decimal
+#    ^ invalid.illegal.numeric
+ 1.2e3r
+#^^^^^^ constant.numeric.float.decimal
+# ^ punctuation.separator.decimal
+#     ^ invalid.illegal.numeric
+
+ 12r
+#^^^ constant.numeric.rational.decimal
+#  ^ storage.type.numeric
+ 12.3r
+#^^^^^ constant.numeric.rational.decimal
+#  ^ punctuation.separator.decimal
+#    ^ storage.type.numeric
+ 0d170r
+#^^^^^^ constant.numeric.rational.decimal
+#^^ punctuation.definition.numeric.decimal
+#     ^ storage.type.numeric
+ 0xAar
+#^^^^^ constant.numeric.rational.hexadecimal
 #^^ punctuation.definition.numeric.hexadecimal
-#    ^ storage.type.numeric.rational
- 0xAAi
-#^^^^^ constant.numeric.integer.hexadecimal
+#    ^ storage.type.numeric
+ 0o252r
+#^^^^^^ constant.numeric.rational.octal
+#^^ punctuation.definition.numeric.octal
+#     ^ storage.type.numeric
+ 0b10101010r
+#^^^^^^^^^^^ constant.numeric.rational.binary
+#^^ punctuation.definition.numeric.binary
+#          ^ storage.type.numeric
+
+ 12i
+#^^^ constant.numeric.imaginary.decimal
+#  ^ storage.type.numeric
+ 12.3i
+#^^^^^ constant.numeric.imaginary.decimal
+#  ^ punctuation.separator.decimal
+#    ^ storage.type.numeric
+ 12e3i
+#^^^^^ constant.numeric.imaginary.decimal
+#    ^ storage.type.numeric
+ 12e-3i
+#^^^^^^ constant.numeric.imaginary.decimal
+#     ^ storage.type.numeric
+ 1.2e3i
+#^^^^^^ constant.numeric.imaginary.decimal
+# ^ punctuation.separator.decimal
+#     ^ storage.type.numeric
+ 1.2e-3i
+#^^^^^^^ constant.numeric.imaginary.decimal
+# ^ punctuation.separator.decimal
+#      ^ storage.type.numeric
+ 12ri
+#^^^^ constant.numeric.imaginary.decimal
+#  ^^ storage.type.numeric
+ 12.3ri
+#^^^^^^ constant.numeric.imaginary.decimal
+#  ^ punctuation.separator.decimal
+#    ^^ storage.type.numeric
+ 0d170i
+#^^^^^^ constant.numeric.imaginary.decimal
+#^^ punctuation.definition.numeric.decimal
+#     ^ storage.type.numeric
+ 0d170ri
+#^^^^^^^ constant.numeric.imaginary.decimal
+#^^ punctuation.definition.numeric.decimal
+#     ^^ storage.type.numeric
+ 0xAai
+#^^^^^ constant.numeric.imaginary.hexadecimal
 #^^ punctuation.definition.numeric.hexadecimal
-#    ^ storage.type.numeric.imaginary
- 0xAAri
-#^^^^^^ constant.numeric.integer.hexadecimal
+#    ^ storage.type.numeric
+ 0xAari
+#^^^^^^ constant.numeric.imaginary.hexadecimal
 #^^ punctuation.definition.numeric.hexadecimal
-#    ^ storage.type.numeric.rational
-#     ^ storage.type.numeric.imaginary
- 0xAAir      #=> syntax error
-#^^^^^^ constant.numeric.integer.hexadecimal
+#    ^^ storage.type.numeric
+ 0o252i
+#^^^^^^ constant.numeric.imaginary.octal
+#^^ punctuation.definition.numeric.octal
+#     ^ storage.type.numeric
+ 0o252ri
+#^^^^^^^ constant.numeric.imaginary.octal
+#^^ punctuation.definition.numeric.octal
+#     ^^ storage.type.numeric
+ 0b10101010i
+#^^^^^^^^^^^ constant.numeric.imaginary.binary
+#^^ punctuation.definition.numeric.binary
+#          ^ storage.type.numeric
+ 0b10101010ri
+#^^^^^^^^^^^^ constant.numeric.imaginary.binary
+#^^ punctuation.definition.numeric.binary
+#          ^^ storage.type.numeric
+ 12e3ri
+#^^^^^^ constant.numeric.imaginary.decimal
+#    ^ invalid.illegal.numeric
+#     ^ storage.type.numeric 
+ 1.2e3ri
+#^^^^^^^ constant.numeric.imaginary.decimal
+# ^ punctuation.separator.decimal
+#     ^ invalid.illegal.numeric
+#      ^ storage.type.numeric
+ 12ir
+#^^^^ constant.numeric.imaginary.decimal
+#  ^ storage.type.numeric
+#   ^ invalid.illegal.numeric
+ 12.3ir
+#^^^^^^ constant.numeric.imaginary.decimal
+#  ^ punctuation.separator.decimal
+#    ^ storage.type.numeric
+#     ^ invalid.illegal.numeric
+ 12e3ir
+#^^^^^^ constant.numeric.imaginary.decimal
+#    ^ storage.type.numeric
+#     ^ invalid.illegal.numeric
+ 1.2e3ir
+#^^^^^^^ constant.numeric.imaginary.decimal
+# ^ punctuation.separator.decimal
+#     ^ storage.type.numeric
+#      ^ invalid.illegal.numeric
+ 0d170ir
+#^^^^^^^ constant.numeric.imaginary.decimal
+#^^ punctuation.definition.numeric.decimal
+#     ^ storage.type.numeric
+#      ^ invalid.illegal.numeric
+ 0xAair
+#^^^^^^ constant.numeric.imaginary.hexadecimal
 #^^ punctuation.definition.numeric.hexadecimal
-#    ^ storage.type.numeric.imaginary
-#     ^ invalid.illegal.numeric.rational
+#    ^ storage.type.numeric
+#     ^ invalid.illegal.numeric
+ 0o252ir
+#^^^^^^^ constant.numeric.imaginary.octal
+#^^ punctuation.definition.numeric.octal
+#     ^ storage.type.numeric
+#      ^ invalid.illegal.numeric
+ 0b10101010ir
+#^^^^^^^^^^^^ constant.numeric.imaginary.binary
+#^^ punctuation.definition.numeric.binary
+#          ^ storage.type.numeric
+#           ^ invalid.illegal.numeric
 
 ##################
 # Strings

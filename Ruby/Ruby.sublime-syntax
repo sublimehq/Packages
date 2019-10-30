@@ -208,63 +208,98 @@ contexts:
       scope: constant.language.ruby
     - match: '\b(__(FILE|LINE|ENCODING)__|self)\b(?![?!])'
       scope: variable.language.ruby
-    # numbers with decimal base prefix
-    - match: '\b(0[dD]){{ddigits}}(r)?(?:(i)(r)?)?\b'
-      scope: constant.numeric.integer.decimal.ruby
-      captures:
-        1: punctuation.definition.numeric.decimal.ruby
-        2: storage.type.numeric.rational.ruby
-        3: storage.type.numeric.imaginary.ruby
-        4: invalid.illegal.numeric.rational.ruby
-    # numbers with hexadecimal base prefix
-    - match: '\b(0[xX]){{hdigits}}(r)?(?:(i)(r)?)?\b'
-      scope: constant.numeric.integer.hexadecimal.ruby
+    # hexadecimal imaginary numbers: 0xAi, 0xAri
+    - match: '\b(0[xX]){{hdigits}}(r?i)(r)?\b'
+      scope: constant.numeric.imaginary.hexadecimal.ruby
       captures:
         1: punctuation.definition.numeric.hexadecimal.ruby
-        2: storage.type.numeric.rational.ruby
-        3: storage.type.numeric.imaginary.ruby
-        4: invalid.illegal.numeric.rational.ruby
-    # numbers with octal base prefix
-    - match: '\b(0[oO]?){{odigits}}(r)?(?:(i)(r)?)?\b'
-      scope: constant.numeric.integer.octal.ruby
+        2: storage.type.numeric.ruby
+        3: invalid.illegal.numeric.ruby
+    # octal imaginary numbers: 0o1i, 0o1ri, 01i, 01ri
+    - match: '\b(0[oO]?){{odigits}}(r?i)(r)?\b'
+      scope: constant.numeric.imaginary.octal.ruby
       captures:
         1: punctuation.definition.numeric.octal.ruby
-        2: storage.type.numeric.rational.ruby
-        3: storage.type.numeric.imaginary.ruby
-        4: invalid.illegal.numeric.rational.ruby
-    # numbers with binary base prefix
-    - match: '\b(0[bB]){{bdigits}}(r)?(?:(i)(r)?)?\b'
-      scope: constant.numeric.integer.binary.ruby
+        2: storage.type.numeric.ruby
+        3: invalid.illegal.numeric.ruby
+    # binary imaginary numbers: 0b1i, 0b1ri
+    - match: '\b(0[bB]){{bdigits}}(r?i)(r)?\b'
+      scope: constant.numeric.imaginary.binary.ruby
       captures:
         1: punctuation.definition.numeric.binary.ruby
-        2: storage.type.numeric.rational.ruby
-        3: storage.type.numeric.imaginary.ruby
-        4: invalid.illegal.numeric.rational.ruby
-    # complex imaginary numbers: 1i, 1.1i, 1e1i, 1.1e1i, 1ri, 1.1ri
-    - match: '\b{{ddigits}}(?:(\.){{ddigits}})?(?:(r)|{{exponent}}(r)?)?(i)(r)?\b'
-      scope: constant.numeric.complex.imaginary.ruby
+        2: storage.type.numeric.ruby
+        3: invalid.illegal.numeric.ruby
+    # decimal imaginary numbers: 0d1i, 0d1ri, 1i, 1ri, 1.1i, 1.1ri, 1e1i, 1.1e1i
+    - match: |-
+        \b(?x:
+          (?:
+            # 0d1i, 0d1ri, 1i, 1ri | 1.1i, 1.1ri
+            (?: (0[dD])? {{ddigits}} | {{ddigits}} (\.) {{ddigits}} ) (r?i)
+            # 1e1i, 1.1e1i
+            | {{ddigits}} (?: (\.) {{ddigits}} )? {{exponent}} (r)? (i)
+          ) (r)?
+        )\b
+      scope: constant.numeric.imaginary.decimal.ruby
       captures:
-        1: punctuation.separator.decimal.ruby
-        2: storage.type.numeric.rational.ruby
-        3: invalid.illegal.numeric.rational.ruby
-        4: storage.type.numeric.imaginary.ruby
-        5: invalid.illegal.numeric.rational.ruby
-    # rational numbers: 1r, 1.1r
-    - match: '\b{{ddigits}}(?:(\.){{ddigits}})?(r)'
-      scope: constant.numeric.rational.ruby
+        1: punctuation.definition.numeric.decimal.ruby
+        2: punctuation.separator.decimal.ruby
+        3: storage.type.numeric.ruby
+        4: punctuation.separator.decimal.ruby
+        5: invalid.illegal.numeric.ruby
+        6: storage.type.numeric.ruby
+        7: invalid.illegal.numeric.ruby
+    # hexadecimal rational numbers: 0xAr
+    - match: '\b(0[xX]){{hdigits}}(r)\b'
+      scope: constant.numeric.rational.hexadecimal.ruby
       captures:
-        1: punctuation.separator.decimal.ruby
-        2: storage.type.numeric.rational.ruby
-    # floating point numbers: 1.1, 1e1, 1.1e1
+        1: punctuation.definition.numeric.hexadecimal.ruby
+        2: storage.type.numeric.ruby
+    # octal rational numbers: 0o1r, 01r
+    - match: '\b(0[oO]?){{odigits}}(r)\b'
+      scope: constant.numeric.rational.octal.ruby
+      captures:
+        1: punctuation.definition.numeric.octal.ruby
+        2: storage.type.numeric.ruby
+    # binary rational numbers: 0b1r
+    - match: '\b(0[bB]){{bdigits}}(r)\b'
+      scope: constant.numeric.rational.binary.ruby
+      captures:
+        1: punctuation.definition.numeric.binary.ruby
+        2: storage.type.numeric.ruby
+    # decimal rational numbers: 0d1r, 1r, 1.1r
+    - match: '\b(?:(0[dD])?{{ddigits}}|{{ddigits}}(\.){{ddigits}})(r)\b'
+      scope: constant.numeric.rational.decimal.ruby
+      captures:
+        1: punctuation.definition.numeric.decimal.ruby
+        2: punctuation.separator.decimal.ruby
+        3: storage.type.numeric.ruby
+    # decimal floating point numbers: 1.1, 1e1, 1.1e1
     - match: '\b{{ddigits}}(?:(\.){{ddigits}}|(?:(\.){{ddigits}})?{{exponent}}(r)?)\b'
       scope: constant.numeric.float.decimal.ruby
       captures:
         1: punctuation.separator.decimal.ruby
         2: punctuation.separator.decimal.ruby
         3: invalid.illegal.numeric.rational.ruby
-    # integer numbers
-    - match: '\b{{ddigits}}\b'
+    # hexadecimal integer numbers: 0xA
+    - match: '\b(0[xX]){{hdigits}}\b'
+      scope: constant.numeric.integer.hexadecimal.ruby
+      captures:
+        1: punctuation.definition.numeric.hexadecimal.ruby
+    # octal integer numbers: 0o1, 01
+    - match: '\b(0[oO]?){{odigits}}\b'
+      scope: constant.numeric.integer.octal.ruby
+      captures:
+        1: punctuation.definition.numeric.octal.ruby
+    # binary integer numbers: 0b1
+    - match: '\b(0[bB]){{bdigits}}\b'
+      scope: constant.numeric.integer.binary.ruby
+      captures:
+        1: punctuation.definition.numeric.binary.ruby
+    # decimal integer numbers: 0d1, 1
+    - match: '\b(0[dD])?{{ddigits}}\b'
       scope: constant.numeric.integer.decimal.ruby
+      captures:
+        1: punctuation.definition.numeric.decimal.ruby
     # Quoted symbols
     - match: ":'"
       scope: punctuation.definition.constant.ruby
