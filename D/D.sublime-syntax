@@ -13,17 +13,29 @@ variables:
   name_lookahead: '(?=\b{{name}}\b)'
   identifier_ref: '\.?\s*{{name}}(\s*\.\s*{{name}})*'
   string_postfix: '[cwd]?'
-  escape_sequence: '\\([''"?\\0abfnrtv]|x{{hex_char}}{2}|[0-7]{1,3}|u{{hex_char}}{4}|U{{hex_char}}{8}|&\w+;)'
-  hex_char: '[0-9a-fA-F]'
-  hex_or_under: '(?:{{hex_char}}|_)'
+  escape_sequence: '\\([''"?\\0abfnrtv]|x\h{2}|[0-7]{1,3}|u\h{4}|U\h{8}|&\w+;)'
 
-  number_lookahead: '(?=(\b|\.)[0-9])'
-  integer_lookahead: '(?=\b[0-9])'
+  # number lookaheads
+  number_lookahead: '(?=(\b|\.)\d)'
+  integer_lookahead: '(?=\b\d)'
+
+  # number digits
+  bin_digits: '(?:[01][01_]*)'
+  hex_digits: '(?:\h[\h_]*)'
+  dec_digits: '(?:\d[\d_]*)'
+  dec_integer: '(?:0_*|[1-9][0-9_]*)'
+
+  # number suffixes
+  imaginary_suffix: '[fFL]?i'
   integer_suffix: 'L[uU]|[uU]L|[LuU]'
-  integer_float_suffix: '[fF]i?|i'
-  float_suffix: '[fFL]i?|i'
-  float_exponent: '[eE][+\-]?[0-9]+'
-  hex_float_exponent: '[pP][+\-]?[0-9]+'
+  integer_float_suffix: '[fFL]'
+  float_suffix: '[fF]'
+
+  # number exponents
+  exponent: '[-+]??\d+'
+  dec_exponent: '(?:[eE]{{exponent}})'
+  hex_exponent: '(?:[pP]{{exponent}})'
+
   character_lookahead: (?=')
   string_lookahead: '(?=`|[rxq]?"|q{)'
 
@@ -182,74 +194,103 @@ contexts:
     - include: integer-opt
     - include: not-whitespace-illegal-pop
   integer-opt:
-    - match: '\b(0|[1-9][0-9_]*)({{integer_suffix}})?\b'
+    - match: '(0[bB])(_?){{bin_digits}}({{integer_suffix}})?'
+      scope: constant.numeric.integer.binary.d
       captures:
-        1: constant.numeric.integer.d
-        2: storage.type.integer.d
+        1: punctuation.definition.numeric.base.d
+        2: invalid.illegal.numeric.d
+        3: storage.type.numeric.d
       pop: true
-    - match: '\b(0[bB])([01][01_]*)({{integer_suffix}})?\b'
+    - match: '(0[xX])(_?){{hex_digits}}({{integer_suffix}})?'
+      scope: constant.numeric.integer.hexadecimal.d
       captures:
-        1: punctuation.definition.numeric.binary.d
-        2: constant.numeric.integer.binary.d
-        3: storage.type.integer.d
+        1: punctuation.definition.numeric.base.d
+        2: invalid.illegal.numeric.d
+        3: storage.type.numeric.d
       pop: true
-    - match: '\b(0[xX])({{hex_char}}(?:_|{{hex_char}})*)({{integer_suffix}})?\b'
+    - match: '{{dec_integer}}({{integer_suffix}})?'
+      scope: constant.numeric.integer.decimal.d
       captures:
-        1: punctuation.definition.numeric.hexadecimal.d
-        2: constant.numeric.integer.hexadecimal.d
-        3: storage.type.integer.d
+        1: storage.type.numeric.d
       pop: true
 
   floating-point:
     - include: floating-point-opt
     - include: not-whitespace-illegal-pop
   floating-point-opt:
-    - match: '\b(0[xX])({{hex_or_under}}*\.?{{hex_or_under}}+)({{hex_float_exponent}})({{float_suffix}})?\b'
+    # decimal imaginary numbers
+    - match: '{{dec_integer}}?(?:(\.){{dec_digits}}?)?{{dec_exponent}}?({{imaginary_suffix}})'
+      scope: constant.numeric.imaginary.decimal.d
       captures:
-        1: punctuation.definition.numeric.hexadecimal.d
-        2: constant.numeric.float.hexadecimal.d
-        3: constant.numeric.float.hexadecimal.d
-        4: storage.type.float.d
+        1: punctuation.separator.decimal.d
+        2: storage.type.numeric.d
       pop: true
-    - match: '\b(0|[1-9][0-9_]*)({{integer_float_suffix}})\b'
+    # decimal floats
+    - match: |-
+        (?x:
+          {{dec_integer}}
+          (?:
+            (?:
+              (\.)
+              (?:
+                # 1.1, 1.1e1, 1.1e-1, 1.1f, 1.1e1f, 1.1e-1f, 1.1L, 1.1e1L, 1.1e-1L
+                {{dec_digits}} {{dec_exponent}}?
+                # 1.e1, 1.e-1, 1.e1f, 1.e-1f, 1.e1L, 1.e-1L
+                | {{dec_exponent}}
+                # 1., 1.f, 1.L # but not `..` or method/attribute access
+                | (?!\.|\s*[[:alpha:]_]) )
+              # 1e1 1e1f 1e1L
+              | {{dec_exponent}}
+            ) ({{integer_float_suffix}})?
+            # 1f
+            | ({{float_suffix}})
+          )
+          # .1, .1e1, .1e-1, .1f, .1e1f, .1e-1f, .1L, .1e1L, .1e-1L
+          | (\.) {{dec_digits}} {{dec_exponent}}? ({{integer_float_suffix}})?
+        )
+      scope: constant.numeric.float.decimal.d
       captures:
-        1: constant.numeric.float.d
-        2: storage.type.float.d
+        1: punctuation.separator.decimal.d
+        2: storage.type.numeric.d
+        3: storage.type.numeric.d
+        4: punctuation.separator.decimal.d
+        5: storage.type.numeric.d
       pop: true
-    - match: '\b(0[bB])([01][01_]*)({{integer_float_suffix}})\b'
+
+    # hexadecimal imaginary numbers
+    - match: (0[xX])(_?){{hex_digits}}?(?:(\.){{hex_digits}}?)?{{hex_exponent}}?({{imaginary_suffix}})
+      scope: constant.numeric.imaginary.hexadecimal.d
       captures:
-        1: punctuation.definition.numeric.binary.d
-        2: constant.numeric.float.binary.d
-        3: storage.type.float.d
+        1: punctuation.definition.numeric.base.d
+        2: invalid.illegal.numeric.d
+        3: punctuation.separator.decimal.d
+        4: storage.type.numeric.d
       pop: true
-    - match: '\b(0[xX])({{hex_char}}{{hex_or_under}}*)({{hex_float_exponent}})({{integer_float_suffix}})\b'
+    # hexadecimal floats
+    - match: (0[xX])(_?){{hex_digits}}?(?:(\.){{hex_digits}}?)?{{hex_exponent}}({{integer_float_suffix}})?
+      scope: constant.numeric.float.hexadecimal.d
       captures:
-        1: punctuation.definition.numeric.hexadecimal.d
-        2: constant.numeric.float.hexadecimal.d
-        3: storage.type.float.d
+        1: punctuation.definition.numeric.base.d
+        2: invalid.illegal.numeric.d
+        3: punctuation.separator.decimal.d
+        4: storage.type.numeric.d
       pop: true
-    - match: '\b([0-9][0-9_]*\.[0-9][0-9_]*)({{float_exponent}})?({{float_suffix}})?\b'
+
+    # binary imaginary numbers
+    - match: (0[bB])(_?){{bin_digits}}({{imaginary_suffix}})
+      scope: constant.numeric.imaginary.binary.d
       captures:
-        1: constant.numeric.float.d
-        2: constant.numeric.float.d
-        3: storage.type.float.d
+        1: punctuation.definition.numeric.base.d
+        2: invalid.illegal.numeric.d
+        3: storage.type.numeric.d
       pop: true
-    - match: '\b([0-9][0-9_]*\.(?!\.|\s*[a-zA-Z]))({{float_suffix}})?'
+    # binary floats
+    - match: (0[bB])(_?){{bin_digits}}({{float_suffix}})
+      scope: constant.numeric.float.binary.d
       captures:
-        1: constant.numeric.float.d
-        2: storage.type.float.d
-      pop: true
-    - match: '(\.[0-9][0-9_]*)({{float_exponent}})?({{float_suffix}})?\b'
-      captures:
-        1: constant.numeric.float.d
-        2: constant.numeric.float.d
-        3: storage.type.float.d
-      pop: true
-    - match: '\b([0-9][0-9_]*)({{float_exponent}})({{float_suffix}})?\b'
-      captures:
-        1: constant.numeric.float.d
-        2: constant.numeric.float.d
-        3: storage.type.float.d
+        1: punctuation.definition.numeric.base.d
+        2: invalid.illegal.numeric.d
+        3: storage.type.numeric.d
       pop: true
 
   character-in:
@@ -325,7 +366,7 @@ contexts:
             1: punctuation.definition.string.end.d
             2: storage.type.string.d
           pop: true
-        - match: '{{hex_char}}\s*{{hex_char}}'
+        - match: '\h\s*\h'
           scope: constant.character.escape.d
         - match: '\S'
           scope: invalid.illegal.unknown-escape.d
