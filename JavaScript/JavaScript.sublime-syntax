@@ -885,8 +885,6 @@ contexts:
 
     - include: property-access
 
-    - include: fallthrough
-
     - include: else-pop
 
   expression-end:
@@ -927,7 +925,11 @@ contexts:
     - include: either-function-declaration
     - include: object-literal
 
-    - include: parenthesized-expression
+    - match: (?=\()
+      branch_point: parens
+      branch:
+        - parens1
+        - parens2
     - include: array-literal
 
     - include: literal-call
@@ -935,13 +937,37 @@ contexts:
 
     - include: else-pop
 
-  fallthrough:
-    # If an arrow function has the ( and ) on different lines, we won't have matched
-    - match: =>
-      scope: storage.type.function.arrow.js
+  parens1:
+    - match: \(
+      scope: punctuation.section.group.begin.js
       push:
-        - function-meta
+        - meta_scope: meta.group.js
+        - match: \)
+          scope: punctuation.section.group.end.js
+          set:
+            - match: (?==>)
+              fail: parens
+            - include: comments
+            - match: (?=\S)
+              pop: 3
+        - match: (?=\S)
+          push: expression
+
+  parens2:
+    - match: ''
+      push:
+        - function-meta-parens
         - arrow-function-expect-body
+        - function-declaration-meta
+        - arrow-function-expect-arrow
+        - arrow-function-expect-parameters
+        - function-declaration-expect-async
+
+  function-meta-parens:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.js
+    - match: ''
+      pop: 3
 
   literal-string:
     - match: "'"
