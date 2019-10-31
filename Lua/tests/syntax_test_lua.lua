@@ -66,44 +66,61 @@
 --NUMBERS
 
     0;
---  ^ constant.numeric.decimal
+--  ^ constant.numeric.integer.decimal
 
     1234567890;
---  ^^^^^^^^^^ constant.numeric.decimal
+--  ^^^^^^^^^^ constant.numeric.integer.decimal
 
     12.345;
---  ^^^^^^ constant.numeric.decimal
+--  ^^^^^^ constant.numeric.float.decimal
+--    ^ punctuation.separator.decimal
 
     1.;
---  ^^ constant.numeric.decimal
+--  ^^ constant.numeric.float.decimal
+--   ^ punctuation.separator.decimal
 
     .2;
---  ^^ constant.numeric.decimal
+--  ^^ constant.numeric.float.decimal
+--  ^ punctuation.separator.decimal
 
     1e10;
---  ^^^^ constant.numeric.decimal
+--  ^^^^ constant.numeric.float.decimal
 
     0.5e+0;
---  ^^^^^^ constant.numeric.decimal
+--  ^^^^^^ constant.numeric.float.decimal
+--   ^ punctuation.separator.decimal
 
     9e-1;
---  ^^^^ constant.numeric.decimal
+--  ^^^^ constant.numeric.float.decimal
 
     0x0;
---  ^^^ constant.numeric.hexadecimal
+--  ^^^ constant.numeric.integer.hexadecimal
 --  ^^ punctuation.definition.numeric.hexadecimal
 
     0XdeafBEEF42;
---  ^^^^^^^^^^^^ constant.numeric.hexadecimal
+--  ^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
 --  ^^ punctuation.definition.numeric.hexadecimal
 
-    0xa.bc;
---  ^^^^^^ constant.numeric.hexadecimal
+    0xa.bc + 0xa. + 0x.b;
+--  ^^^^^^ constant.numeric.float.hexadecimal
 --  ^^ punctuation.definition.numeric.hexadecimal
+--     ^ punctuation.separator.decimal
+--           ^^^^ constant.numeric.float.hexadecimal
+--           ^^ punctuation.definition.numeric.hexadecimal
+--              ^ punctuation.separator.decimal
+--                  ^^^^ constant.numeric.float.hexadecimal
+--                  ^^ punctuation.definition.numeric.hexadecimal
+--                    ^ punctuation.separator.decimal
 
-    0x1p10;
---  ^^^^^^ constant.numeric.hexadecimal
+    0x1p10 + 0x1.p10 + 0x.1p10;
+--  ^^^^^^ constant.numeric.float.hexadecimal
 --  ^^ punctuation.definition.numeric.hexadecimal
+--           ^^^^^^^ constant.numeric.float.hexadecimal
+--           ^^ punctuation.definition.numeric.hexadecimal
+--              ^ punctuation.separator.decimal
+--                     ^^^^^^^ constant.numeric.float.hexadecimal
+--                     ^^ punctuation.definition.numeric.hexadecimal
+--                       ^ punctuation.separator.decimal
 
     'foo';
 --  ^^^^^ string.quoted.single
@@ -212,11 +229,11 @@
 
     -1;
 --  ^ keyword.operator.arithmetic
---   ^ constant.numeric.decimal
+--   ^ constant.numeric.integer.decimal
 
     ~1;
 --  ^ keyword.operator.bitwise
---   ^ constant.numeric.decimal
+--   ^ constant.numeric.integer.decimal
 
     not true;
 --  ^^^ keyword.operator.logical
@@ -294,7 +311,7 @@
     {some = 2}, {some == 2}
 --   ^^^^ meta.mapping.key string.unquoted.key.lua
 --        ^ punctuation.separator.key-value.lua
---          ^ meta.mapping.value constant.numeric.decimal
+--          ^ meta.mapping.value constant.numeric.integer.decimal
 --               ^^^^ variable.other.lua - meta.mapping.key
 --                    ^^ keyword.operator.comparison
 
@@ -572,9 +589,9 @@
 --  ^^^^^ storage.modifier
 --        ^ variable.other
 --          ^ keyword.operator.assignment
---            ^ constant.numeric.decimal
+--            ^ constant.numeric.integer.decimal
 --             ^ punctuation.separator.comma
 --               ^ variable.other
 --                 ^ keyword.operator.assignment
---                   ^ constant.numeric.decimal
+--                   ^ constant.numeric.integer.decimal
 --                    ^ punctuation.terminator.statement

@@ -38,6 +38,9 @@ variables:
   function_call_ahead: (?=\s*{{function_args_begin}})
   function_assignment_ahead: (?=\s*=\s*function{{identifier_break}})
 
+  dec_exponent: (?:[Ee][-+]?\d*)
+  hex_exponent: (?:[Pp][-+]?\d*)
+
 contexts:
   main:
     - include: statements
@@ -440,14 +443,28 @@ contexts:
       pop: true
 
   number:
-    - match: (0[Xx])\h*(?:\.\h*)?(?:[Pp][-+]?\d*)?
-      scope: constant.numeric.hexadecimal.lua
+    - match: (0[Xx])\h*(?:(\.)\h*{{hex_exponent}}?|{{hex_exponent}})
+      scope: constant.numeric.float.hexadecimal.lua
+      captures:
+        1: punctuation.definition.numeric.hexadecimal.lua
+        2: punctuation.separator.decimal.lua
+      pop: true
+
+    - match: (0[Xx])\h+
+      scope: constant.numeric.integer.hexadecimal.lua
       captures:
         1: punctuation.definition.numeric.hexadecimal.lua
       pop: true
 
-    - match: (?:\d+(?:\.\d*)?|\.\d+)([Ee][-+]?\d+)?
-      scope: constant.numeric.decimal.lua
+    - match: \d+(?:(\.)\d*{{dec_exponent}}?|{{dec_exponent}})|(\.)\d+{{dec_exponent}}?
+      scope: constant.numeric.float.decimal.lua
+      captures:
+        1: punctuation.separator.decimal.lua
+        2: punctuation.separator.decimal.lua
+      pop: true
+
+    - match: \d+
+      scope: constant.numeric.integer.decimal.lua
       pop: true
 
   string:
