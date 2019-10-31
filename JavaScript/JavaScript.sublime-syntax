@@ -8,9 +8,12 @@ file_extensions:
 first_line_match: ^#!\s*/.*\b(node|js)\b
 scope: source.js
 variables:
-  ddigits: (?:[0-9_]+)
-  ddigits0: (?:0|[1-9][0-9_]*)
-  exponent: (?:[Ee](?:[-+]|(?![-+]))[0-9_]*)
+  bin_digit: '[01_]'
+  oct_digit: '[0-7_]'
+  dec_digit: '[0-9_]'
+  hex_digit: '[\h_]'
+  integer: (?:0|[1-9]{{dec_digit}}*)
+  exponent: (?:[Ee](?:[-+]|(?![-+])){{dec_digit}}*)
 
   identifier_escape: (?:\\u(?:\h{4}|\{\h+\}))
   identifier_start: (?:[_$\p{L}\p{Nl}]|{{identifier_escape}})
@@ -1763,9 +1766,9 @@ contexts:
     - match: |-
         (?x:
           # 1., 1.1, 1.1e1, 1.1e-1, 1.e1, 1.e-1 | 1e1, 1e-1
-          {{ddigits0}} (?: (\.) {{ddigits}}? {{exponent}}? | {{exponent}} )
+          {{integer}} (?: (\.) {{dec_digit}}* {{exponent}}? | {{exponent}} )
           # .1, .1e1, .1e-1
-          | (\.) {{ddigits}} {{exponent}}?
+          | (\.) {{dec_digit}}+ {{exponent}}?
         ){{identifier_break}}
       scope: constant.numeric.float.decimal.js
       captures:
@@ -1774,47 +1777,47 @@ contexts:
       pop: true
 
     # integers
-    - match: '0[0-9]+{{identifier_break}}'
+    - match: 0{{dec_digit}}+{{identifier_break}}
       scope: constant.numeric.integer.octal.js invalid.deprecated.numeric.octal.js
       pop: true
 
-    - match: '(0[Xx])[0-9a-fA-F_]*(n)?{{identifier_break}}'
+    - match: (0[Xx]){{hex_digit}}*(n)?{{identifier_break}}
       scope: constant.numeric.integer.hexadecimal.js
       captures:
         1: punctuation.definition.numeric.hexadecimal.js
         2: storage.type.numeric.js
       pop: true
 
-    - match: '(0[Oo])[0-7_]*(n)?{{identifier_break}}'
+    - match: (0[Oo]){{oct_digit}}*(n)?{{identifier_break}}
       scope: constant.numeric.integer.octal.js
       captures:
         1: punctuation.definition.numeric.octal.js
         2: storage.type.numeric.js
       pop: true
 
-    - match: '(0[Bb])[0-1_]*(n)?{{identifier_break}}'
+    - match: (0[Bb]){{bin_digit}}*(n)?{{identifier_break}}
       scope: constant.numeric.integer.binary.js
       captures:
         1: punctuation.definition.numeric.binary.js
         2: storage.type.numeric.js
       pop: true
 
-    - match: '{{ddigits0}}(n|(?!\.)){{identifier_break}}'
+    - match: '{{integer}}(n|(?!\.)){{identifier_break}}'
       scope: constant.numeric.integer.decimal.js
       captures:
         1: storage.type.numeric.js
       pop: true
 
     # illegal numbers
-    - match: '0[Xx]{{identifier_part}}+{{identifier_break}}'
+    - match: 0[Xx]{{identifier_part}}+{{identifier_break}}
       scope: invalid.illegal.numeric.hexadecimal.js
       pop: true
 
-    - match: '0[Bb]{{identifier_part}}+{{identifier_break}}'
+    - match: 0[Bb]{{identifier_part}}+{{identifier_break}}
       scope: invalid.illegal.numeric.binary.js
       pop: true
 
-    - match: '0{{identifier_part}}+{{identifier_break}}'
+    - match: 0{{identifier_part}}+{{identifier_break}}
       scope: invalid.illegal.numeric.octal.js
       pop: true
 
