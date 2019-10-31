@@ -25,13 +25,12 @@ variables:
   # Similar to the number regexps in the Clojure reader.
   # This doesn't include evil octals and dot-terminated decimals.
   sign: '[-+]?'
-  integer: '({{sign}})\d+(N?)(?=[{{non_number_chars}}])'
-  hex_integer: '({{sign}})(0[Xx])[0-9A-Fa-f]+(N?)(?=[{{non_number_chars}}])'
-  n_radix_integer: '({{sign}})((?:[2-9]|[1-9]\d+)[Rr])[0-9A-Za-z]+(?=[{{non_number_chars}}])'
-  ratio: '({{sign}})\d+(/)\d+(?=[{{non_number_chars}}])'
-  # Why are we calling the dot notation "decimal"?
-  # It could be used with any radix...
-  decimal: '({{sign}})\d+(?:(\.)\d+)?(?:[Ee][-+]?\d+)?(M?)(?=[{{non_number_chars}}])'
+  exponent: (?:[eE]{{sign}}\d+)
+  dec_integer: ({{sign}})\d+(N?)(?=[{{non_number_chars}}])
+  hex_integer: ({{sign}})(0[Xx])\h+(N?)(?=[{{non_number_chars}}])
+  other_integer: ({{sign}})((?:[2-9]|[1-9]\d+)[Rr])[0-9A-Za-z]+(?=[{{non_number_chars}}])
+  rational: ({{sign}})\d+(/)\d+(?=[{{non_number_chars}}])
+  float: ({{sign}})\d+(?:(?:(\.)\d+{{exponent}}?|{{exponent}})(M)?|(M))(?=[{{non_number_chars}}])
 
 contexts:
   main:
@@ -77,33 +76,34 @@ contexts:
         1: punctuation.definition.keyword.clojure
     - match: '{{evil_octal}}'
       scope: invalid.deprecated.clojure
-    - match: '{{integer}}'
-      scope: constant.numeric.integer.clojure
+    - match: '{{dec_integer}}'
+      scope: constant.numeric.integer.decimal.clojure
       captures:
         1: punctuation.definition.numeric.sign.clojure
-        2: storage.type.numeric.bigint.clojure
+        2: storage.type.numeric.clojure
     - match: '{{hex_integer}}'
       scope: constant.numeric.integer.hexadecimal.clojure
       captures:
         1: punctuation.definition.numeric.sign.clojure
         2: punctuation.definition.numeric.hexadecimal.clojure
-        3: storage.type.numeric.bigint.clojure
-    - match: '{{n_radix_integer}}'
-      scope: constant.numeric.integer.clojure
+        3: storage.type.numeric.clojure
+    - match: '{{other_integer}}'
+      scope: constant.numeric.integer.other.clojure
       captures:
         1: punctuation.definition.numeric.sign.clojure
-        2: punctuation.definition.numeric.radix.clojure
-    - match: '{{ratio}}'
-      scope: constant.numeric.ratio.clojure
+        2: punctuation.definition.numeric.other.clojure
+    - match: '{{rational}}'
+      scope: constant.numeric.rational.decimal.clojure
       captures:
         1: punctuation.definition.numeric.sign.clojure
-        2: punctuation.separator.ratio.clojure
-    - match: '{{decimal}}'
-      scope: constant.numeric.float.clojure
+        2: punctuation.separator.rational.clojure
+    - match: '{{float}}'
+      scope: constant.numeric.float.decimal.clojure
       captures:
         1: punctuation.definition.numeric.sign.clojure
         2: punctuation.separator.decimal.clojure
-        3: storage.type.numeric.bigdec.clojure
+        3: storage.type.numeric.clojure
+        4: storage.type.numeric.clojure
     - match: '{{atom}}'
 
   pop-expr:
@@ -151,37 +151,38 @@ contexts:
     - match: '{{evil_octal}}'
       scope: invalid.deprecated.clojure
       pop: true
-    - match: '{{integer}}'
-      scope: constant.numeric.integer.clojure
+    - match: '{{dec_integer}}'
+      scope: constant.numeric.integer.decimal.clojure
       captures:
         1: punctuation.definition.numeric.sign.clojure
-        2: storage.type.numeric.bigint.clojure
+        2: storage.type.numeric.clojure
       pop: true
     - match: '{{hex_integer}}'
       scope: constant.numeric.integer.hexadecimal.clojure
       captures:
         1: punctuation.definition.numeric.sign.clojure
         2: punctuation.definition.numeric.hexadecimal.clojure
-        3: storage.type.numeric.bigint.clojure
+        3: storage.type.numeric.clojure
       pop: true
-    - match: '{{n_radix_integer}}'
-      scope: constant.numeric.integer.clojure
+    - match: '{{other_integer}}'
+      scope: constant.numeric.integer.other.clojure
       captures:
         1: punctuation.definition.numeric.sign.clojure
-        2: punctuation.definition.numeric.radix.clojure
+        2: punctuation.definition.numeric.other.clojure
       pop: true
-    - match: '{{ratio}}'
-      scope: constant.numeric.ratio.clojure
+    - match: '{{rational}}'
+      scope: constant.numeric.rational.decimal.clojure
       captures:
         1: punctuation.definition.numeric.sign.clojure
-        2: punctuation.separator.ratio.clojure
+        2: punctuation.separator.rational.clojure
       pop: true
-    - match: '{{decimal}}'
-      scope: constant.numeric.float.clojure
+    - match: '{{float}}'
+      scope: constant.numeric.float.decimal.clojure
       captures:
         1: punctuation.definition.numeric.sign.clojure
         2: punctuation.separator.decimal.clojure
-        3: storage.type.numeric.bigdec.clojure
+        3: storage.type.numeric.clojure
+        4: storage.type.numeric.clojure
       pop: true
     - match: '{{atom}}'
       pop: true
