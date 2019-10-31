@@ -1766,48 +1766,47 @@ contexts:
 
   number:
     # http://erlang.org/doc/reference_manual/data_types.html#number
-    - match: \d+(\.)\d+(([eE])[-+]?\d+)?\b
+    - match: \d+(\.)\d+([eE][-+]?\d+)?\b
       scope: constant.numeric.float.decimal.erlang
       captures:
         1: punctuation.separator.decimal.erlang
-        3: punctuation.definition.exponent.erlang
     - match: |-
-        (?x:(2(\#)[0-1]+)       # binary
-          | (8(\#)[0-7]+)       # octal
-          | (10(\#)[0-9]+)      # decimal
-          | (16(\#)[\da-fA-F]+) # hexadecimal
-          | (3(\#)[0-2]+
-          |  4(\#)[0-3]+
-          |  5(\#)[0-4]+
-          |  6(\#)[0-5]+
-          |  7(\#)[0-6]+
-          |  9(\#)[0-8]+
-          |  11(\#)[\daA]+
-          |  12(\#)[\da-bA-B]+
-          |  13(\#)[\da-cA-C]+
-          |  14(\#)[\da-dA-D]+
-          |  15(\#)[\da-eA-E]+
-          |  17(\#)[\da-gA-G]+
-          |  18(\#)[\da-hA-H]+
-          |  19(\#)[\da-iA-I]+
-          |  20(\#)[\da-jA-J]+
-          |  21(\#)[\da-kA-K]+
-          |  22(\#)[\da-lA-L]+
-          |  23(\#)[\da-mA-M]+
-          |  24(\#)[\da-nA-N]+
-          |  25(\#)[\da-oA-O]+
-          |  26(\#)[\da-pA-P]+
-          |  27(\#)[\da-qA-Q]+
-          |  28(\#)[\da-rA-R]+
-          |  29(\#)[\da-sA-S]+
-          |  30(\#)[\da-tA-T]+
-          |  31(\#)[\da-uA-U]+
-          |  32(\#)[\da-vA-V]+
-          |  33(\#)[\da-wA-W]+
-          |  34(\#)[\da-xA-X]+
-          |  35(\#)[\da-yA-Y]+
-          |  36(\#)[\da-zA-Z]+) # other
-          | (\d+(\#)\S+)        # illegal
+        (?x:((2\#)[0-1]+)       # binary
+          | ((8\#)[0-7]+)       # octal
+          | ((10\#)[0-9]+)      # decimal
+          | ((16\#)[\da-fA-F]+) # hexadecimal
+          | ((3\#)[0-2]+
+          |  (4\#)[0-3]+
+          |  (5\#)[0-4]+
+          |  (6\#)[0-5]+
+          |  (7\#)[0-6]+
+          |  (9\#)[0-8]+
+          |  (11\#)[\daA]+
+          |  (12\#)[\da-bA-B]+
+          |  (13\#)[\da-cA-C]+
+          |  (14\#)[\da-dA-D]+
+          |  (15\#)[\da-eA-E]+
+          |  (17\#)[\da-gA-G]+
+          |  (18\#)[\da-hA-H]+
+          |  (19\#)[\da-iA-I]+
+          |  (20\#)[\da-jA-J]+
+          |  (21\#)[\da-kA-K]+
+          |  (22\#)[\da-lA-L]+
+          |  (23\#)[\da-mA-M]+
+          |  (24\#)[\da-nA-N]+
+          |  (25\#)[\da-oA-O]+
+          |  (26\#)[\da-pA-P]+
+          |  (27\#)[\da-qA-Q]+
+          |  (28\#)[\da-rA-R]+
+          |  (29\#)[\da-sA-S]+
+          |  (30\#)[\da-tA-T]+
+          |  (31\#)[\da-uA-U]+
+          |  (32\#)[\da-vA-V]+
+          |  (33\#)[\da-wA-W]+
+          |  (34\#)[\da-xA-X]+
+          |  (35\#)[\da-yA-Y]+
+          |  (36\#)[\da-zA-Z]+) # other
+          | ((\d+\#)\S+)        # illegal
         )\b
       captures:
         1: constant.numeric.integer.binary.erlang
