@@ -271,27 +271,30 @@ contexts:
     # TODO negation
     # source: http://www.scala-lang.org/files/archive/spec/2.11/01-lexical-syntax.html#floating-point-literals
     - match: |-
-        (?x)
-          \b(?:[0-9]+\.[0-9]+(?:[eE][+\-]?[0-9]+)?([fFdD]?))\b|
-          (?:\.[0-9]+(?:[eE][+\-]?[0-9]+)?([fFdD]?))\b|
-          \b(?:[0-9]+(?:[eE][+\-]?[0-9]+)([fFdD]?))\b|
-          \b(?:[0-9]+(?:[eE][+\-]?[0-9]+)?([fFdD]))\b
-      scope: constant.numeric.float.scala
+        (?x:
+          # 1.1, 1.1e1, 1.1e-1, 1.1d, 1.1e1d, 1.1e-1d, 1.e1d | 1e1 1e1d | 1d
+          \b\d+ (?: (?: (\.) \d+ (?:[eE][-+]?\d+)? | (?:[eE][-+]?\d+) ) ([dDfF])? | ([dDfF]) )
+          # .1, .1e1, .1e-1
+          | (\.) \d+ (?:[eE][-+]?\d+)? ([dDfF])?
+        )\b
+      scope: constant.numeric.float.decimal.scala
       captures:
-        1: storage.type.numeric.scala
+        1: punctuation.separator.decimal.scala
         2: storage.type.numeric.scala
         3: storage.type.numeric.scala
-        4: storage.type.numeric.scala
+        4: punctuation.separator.decimal.scala
+        5: storage.type.numeric.scala
     # source: http://www.scala-lang.org/files/archive/spec/2.11/01-lexical-syntax.html#integer-literals
-    - match: '\b(?:0[xX][0-9a-fA-F]+([lL]?))\b'
-      scope: constant.numeric.hex.scala
+    - match: \b(0[xX])\h+([lL]?)\b
+      scope: constant.numeric.integer.hexadecimal.scala
       captures:
-        1: storage.type.numeric.long.scala
-    - match: '\b(?:(?:0|[1-9][0-9]*)([lL]?))\b'
-      scope: constant.numeric.integer.scala
+        1: punctuation.definition.numeric.scala
+        2: storage.type.numeric.scala
+    - match: \b(?:0|[1-9][0-9]*)([lL]?)\b
+      scope: constant.numeric.integer.decimal.scala
       captures:
-        1: storage.type.numeric.long.scala
-    - match: '\(\)'
+        1: storage.type.numeric.scala
+    - match: \(\)
       scope: constant.language.scala
   base-constants:
     - include: literal-constants
