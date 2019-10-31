@@ -1263,11 +1263,10 @@ contexts:
     # a number in that base. When specifying n, the digits greater than 9 are
     # represented by the lowercase letters, the uppercase letters, ‘@’, and ‘_’,
     # in that order.
-    - match: \b(\d+)(#)([a-zA-Z0-9@_]+)
+    - match: \b(\d+#)[a-zA-Z0-9@_]+
+      scope: constant.numeric.integer.other.shell
       captures:
-        1: constant.numeric.integer.decimal.base.shell
-        2: punctuation.definition.numeric.base.shell
-        3: constant.numeric.integer.generic-base.shell
+        1: punctuation.definition.numeric.other.shell
     # If base# is omitted, then base 10 is used.
     - match: \b\d+
       scope: constant.numeric.integer.decimal.shell

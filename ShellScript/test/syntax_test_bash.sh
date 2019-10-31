@@ -1325,11 +1325,11 @@ exec >&${tee[1]} 2>&1
 #                          ^^^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
 #                                          ^ constant.numeric.integer.hexadecimal invalid.illegal.not-a-hex-character
 (( 64#123@_ ))
-#  ^^ constant.numeric.integer.decimal.base
-#    ^ punctuation.definition.numeric.base
-#     ^^^^^ constant.numeric.integer.generic-base
+#  ^^^^^^^^ constant.numeric.integer.other
+#  ^^^ punctuation.definition.numeric.other
 (( 0x1f ))
 #  ^^^^ constant.numeric.integer.hexadecimal
+#  ^^ punctuation.definition.numeric.hexadecimal.shell
 (( a * b ))
 #    ^ keyword.operator.arithmetic - keyword.operator.regexp
 ((a+=b))
