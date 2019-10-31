@@ -734,27 +734,40 @@ do |&bl| end
 ##################
 
 module MyModule
-# <- storage.type.module
-#      ^^^^^^^^ entity.name.module
+#^^^^^^^^^^^^^^ meta.namespace
+# <- meta.namespace storage.type.namespace keyword.declaration.namespace
+#^^^^^ storage.type.namespace keyword.declaration.namespace
+#     ^ - entity - keyword - storage
+#      ^^^^^^^^ entity.name.namespace
 end
 
 module MyModule::OtherModule
-# <- storage.type.module
-#      ^^^^^^^^^^^^^^^^^^^^^ entity.name.module
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.namespace
+# <- meta.namespace storage.type.namespace keyword.declaration.namespace
+#      ^^^^^^^^^^^^^^^^^^^^^ entity.name.namespace
+#^^^^^ storage.type.namespace keyword.declaration.namespace
+#     ^ - entity - keyword - storage
 #      ^^^^^^^^ support.other.namespace
 #              ^^ punctuation.accessor.double-colon
+#                ^^^^^^^^^^^ entity.name.namespace
 end
 
 class ::MyModule::MyClass < MyModule::InheritedClass
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
+# <- meta.class storage.type.class keyword.declaration.class
+#^^^^ storage.type.class keyword.declaration.class
+#    ^ - entity - keyword - storage - punctuation
 #     ^^ punctuation.accessor.double-colon
+#       ^^^^^^^^ support.other.namespace
 #               ^^ punctuation.accessor.double-colon
+#                 ^^^^^^^ entity.name.class
 #                         ^ punctuation.separator.inheritance
 #                           ^^^^^^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class
 #                                   ^^ punctuation.accessor.double-colon
 
   def my_method(param1, param2)
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+# ^^^ storage.type.function keyword.declaration.function
 #     ^^^^^^^^^ entity.name.function
 #              ^^^^^^^^^^^^^^^^ meta.function.parameters
 #              ^ punctuation.definition.group.begin
@@ -764,6 +777,7 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 
   def self.my_second_method *arg_without_parens # comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+# ^^^ storage.type.function keyword.declaration.function
 #     ^^^^ variable.language
 #         ^ punctuation.accessor.dot
 #          ^^^^^^^^^^^^^^^^ entity.name.function
@@ -775,6 +789,7 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 
   def self.my_third_method(a, b="foo", c=[], d=foo(), *args)
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+# ^^^ storage.type.function keyword.declaration.function
 #     ^^^^ variable.language
 #         ^ punctuation.accessor.dot
 #          ^^^^^^^^^^^^^^^ entity.name.function
@@ -802,6 +817,7 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 
   def nested((a, b), c, (d, *e))
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+# ^^^ storage.type.function keyword.declaration.function
 #     ^^^^^^ entity.name.function
 #           ^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 #           ^ punctuation.definition.group.begin
@@ -822,6 +838,7 @@ class ::MyModule::MyClass < MyModule::InheritedClass
   end
 
   def block_param(&block)
+# ^^^ storage.type.function keyword.declaration.function
 #                ^^^^^^^^ meta.function.parameters
 #                 ^ keyword.operator
 #                  ^^^^^ variable.parameter
@@ -1060,7 +1077,7 @@ def huh?(a, b=def huh?(a); "h?"; end)
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 #             ^^^^^^^^^^^ meta.function meta.function
 #                     ^^^ meta.function.parameters meta.function.parameters
-#^^ support.type.function
+#^^ storage.type.function keyword.declaration.function
 #                      ^ variable.parameter
   a
 end

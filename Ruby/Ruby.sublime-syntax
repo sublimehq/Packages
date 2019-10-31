@@ -118,13 +118,13 @@ contexts:
   class:
     # Defining a class method
     - match: \bclass\b(?=\s*<)
-      scope: storage.type.class.ruby
+      scope: storage.type.class.ruby keyword.declaration.class.ruby
     - match: \bclass\b
-      scope: meta.class.ruby storage.type.class.ruby
+      scope: storage.type.class.ruby keyword.declaration.class.ruby
       push: class-declaration
 
   class-declaration:
-    - meta_content_scope: meta.class.ruby
+    - meta_scope: meta.class.ruby
     - match: '(?={{path_lookahead}})'
       set: class-name
     # Escape if no valid match
@@ -158,14 +158,14 @@ contexts:
 
   module:
     - match: \bmodule\b
-      scope: meta.module.ruby storage.type.module.ruby
+      scope: storage.type.namespace.ruby keyword.declaration.namespace.ruby
       push: module-declaration
 
   module-declaration:
-    - meta_content_scope: meta.module.ruby
+    - meta_scope: meta.namespace.ruby
     - match: '(?=(::)?({{identifier}}::)*{{identifier}})'
       set:
-        - meta_content_scope: meta.module.ruby entity.name.module.ruby
+        - meta_content_scope: meta.namespace.ruby entity.name.namespace.ruby
         - include: name-parts
         - match: ''
           pop: true
@@ -824,7 +824,7 @@ contexts:
 
   method:
     - match: \bdef\b
-      scope: meta.function.ruby support.type.function.ruby
+      scope: meta.function.ruby storage.type.function.ruby keyword.declaration.function.ruby
       push:
         - meta_content_scope: meta.function.ruby
         - match: '(self)(\.)({{identifier}}{{method_punctuation}}|===?|>[>=]?|<=>|<[<=]?|[%&`/\|]|\*\*?|=?~|[-+]@?|\[\]=?)'
