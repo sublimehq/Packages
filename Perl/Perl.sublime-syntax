@@ -323,7 +323,7 @@ contexts:
     # package NAMESPACE BLOCK
     # package NAMESPACE VERSION BLOCK
     - match: \bpackage{{break}}
-      scope: storage.type.namespace.perl
+      scope: storage.type.namespace.perl keyword.declaration.namespace.perl
       push: [package-end, package-version, package-namespace]
 
   package-namespace:
@@ -453,7 +453,7 @@ contexts:
 
   sub:
     - match: \bsub{{break}}
-      scope: storage.type.function.perl
+      scope: storage.type.function.perl keyword.declaration.function.perl
       push: [sub-end, sub-parameters, sub-path]
     # special functions which are executed at compile time
     # SEE: https://perldoc.perl.org/perlmod.html#BEGIN%2c-UNITCHECK%2c-CHECK%2c-INIT-and-END

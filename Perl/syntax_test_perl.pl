@@ -3134,33 +3134,33 @@ EOT
 ###[ PACKAGE DEFINITION ]#####################################################
 
   package;
-# ^^^^^^^ meta.namespace.perl storage.type.namespace.perl
+# ^^^^^^^ meta.namespace.perl storage.type.namespace.perl keyword.declaration.namespace.perl
 #        ^ punctuation.terminator.statement.perl - meta.namespace
   package; # comment
-# ^^^^^^^ meta.namespace.perl storage.type.namespace.perl
+# ^^^^^^^ meta.namespace.perl storage.type.namespace.perl keyword.declaration.namespace.perl
 #        ^^^^^^^^^^^ - meta.namespace
 #        ^ punctuation.terminator.statement.perl
 #          ^^^^^^^^^ comment.line.number-sign.perl
   package package;
 # ^^^^^^^^^^^^^^^ meta.namespace.perl - meta.path
 #                ^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl
+# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
 #         ^^^^^^^ entity.name.namespace.perl
 #                ^ punctuation.terminator.statement.perl
   package Package;
 # ^^^^^^^^^^^^^^^ meta.namespace.perl - meta.path
 #                ^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl
+# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
 #         ^^^^^^^ entity.name.namespace.perl
 #                ^ punctuation.terminator.statement.perl
   package PACKAGE;
 # ^^^^^^^^^^^^^^^ meta.namespace.perl - meta.path
 #                ^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl
+# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
 #         ^^^^^^^ entity.name.namespace.perl
 #                ^ punctuation.terminator.statement.perl
   package # comment
-# ^^^^^^^ meta.namespace.perl storage.type.namespace.perl
+# ^^^^^^^ meta.namespace.perl storage.type.namespace.perl keyword.declaration.namespace.perl
 #         ^^^^^^^^^ meta.namespace.perl comment.line.number-sign.perl
   if; # Perl allows namespaces looking like keywords
 # ^^ meta.namespace.perl entity.name.namespace.perl
@@ -3168,7 +3168,7 @@ EOT
   package name 5.023_234;
 # ^^^^^^^^^^^^^^^^^^^^^^ meta.namespace.perl - meta.path
 #                       ^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl
+# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
 #         ^^^^ entity.name.namespace.perl
 #              ^^^^^^^^^ constant.numeric.version.perl
 #               ^ punctuation.separator.decimal.perl
@@ -3176,7 +3176,7 @@ EOT
   package name 5.023_234 { print "block" };
 # ^^^^^^^^^^^^^^^^^^^^^^^ meta.namespace.perl - meta.path
 #                        ^^^^^^^^^^^^^^^^^^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl
+# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
 #         ^^^^ entity.name.namespace.perl
 #              ^^^^^^^^^ constant.numeric.version.perl
 #               ^ punctuation.separator.decimal.perl
@@ -3186,13 +3186,13 @@ EOT
 # ^^^^^^^^ meta.namespace.perl - meta.path
 #         ^^^^^^ meta.namespace.perl meta.path.perl
 #               ^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl
+# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
 #         ^^ punctuation.accessor.double-colon.perl
 #           ^^^^ entity.name.namespace.perl
 #               ^ punctuation.terminator.statement.perl
   package
 # ^^^^^^^^ meta.namespace.perl
-# ^^^^^^^ storage.type.namespace.perl
+# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
     ::name;
 # ^^ meta.namespace.perl - meta.path
 #   ^^^^^^ meta.namespace.perl meta.path.perl
@@ -3204,7 +3204,7 @@ EOT
 # ^^^^^^^^ meta.namespace.perl - meta.path
 #         ^^^^^^^^ meta.namespace.perl meta.path.perl
 #                 ^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl
+# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
 #         ^^ entity.name.namespace.perl
 #           ^^ punctuation.accessor.double-colon.perl
 #             ^^^^ entity.name.namespace.perl
@@ -3213,7 +3213,7 @@ EOT
 # ^^^^^^^^ meta.namespace.perl - meta.path
 #         ^^^^^^^^ meta.namespace.perl meta.path.perl
 #                 ^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl
+# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
 #         ^^ entity.name.namespace.perl
 #           ^^ punctuation.accessor.double-colon.perl
 #             ^^^^ entity.name.namespace.perl
@@ -3222,7 +3222,7 @@ EOT
 # ^^^^^^^^ meta.namespace.perl - meta.path
 #         ^^^^^^^^ meta.namespace.perl meta.path.perl
 #                 ^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl
+# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
 #         ^^ entity.name.namespace.perl
 #           ^^ punctuation.accessor.double-colon.perl
 #             ^^^^ entity.name.namespace.perl
@@ -3231,7 +3231,7 @@ EOT
 # ^^^^^^^^ meta.namespace.perl - meta.path
 #         ^^^^^^^^^^^^^^ meta.namespace.perl meta.path.perl
 #                       ^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl
+# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
 #         ^^ entity.name.namespace.perl
 #           ^^ punctuation.accessor.double-colon.perl
 #             ^^^^ entity.name.namespace.perl
@@ -3240,7 +3240,7 @@ EOT
 #                       ^ punctuation.terminator.statement.perl
   package
 # ^^^^^^^^ meta.namespace.perl - meta.path
-# ^^^^^^^ storage.type.namespace.perl
+# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
     NS::NAME
 # ^^ meta.namespace.perl - meta.path
 #   ^^^^^^^^ meta.namespace.perl meta.path.perl
@@ -3258,27 +3258,27 @@ EOT
   package 5.0;
 # ^^^^^^^^^^^ meta.namespace.perl - meta.path
 #            ^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl
+# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
 #         ^^^ constant.numeric.version.perl
   package "5.0";
 # ^^^^^^^^^^^^^ meta.namespace.perl - meta.path
 #              ^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl
+# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
 #         ^^^^^ meta.string.perl string.quoted.double.perl
   package $name;
 # ^^^^^^^^ meta.namespace.perl - meta.path
 #         ^^^^^^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl
+# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
   package-name;
 # ^^^^^^^ meta.namespace.perl - meta.path
 #        ^^^^^^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl
+# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
   package.name;
 # ^^^^^^^ meta.namespace.perl - meta.path
 #        ^^^^^^ - meta.namespace
-# ^^^^^^^ storage.type.namespace.perl
+# ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
   CORE::package;
-#       ^^^^^^^ storage.type.namespace.perl
+#       ^^^^^^^ storage.type.namespace.perl keyword.declaration.namespace.perl
   core::package;
 # ^^^^^^^^^^^^^^ - meta.namespace.perl
 #       ^^^^^^^ - storage
@@ -3717,7 +3717,7 @@ state
 # ^ punctuation.section.block.end.perl
   sub BEGIN {
 # ^^^^^^^^^^ meta.function.perl
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^^ entity.name.function.prepocessor.perl
 #           ^ punctuation.section.block.begin.perl
   }
@@ -3726,7 +3726,7 @@ state
 # ^^^^ meta.function.perl - meta.path.perl - meta.block
 #     ^^^^^^^ meta.function.perl meta.path.perl - meta.block
 #            ^ meta.function.perl - meta.path.perl - meta.block
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^^ entity.name.function.prepocessor.perl
 #             ^ punctuation.section.block.begin.perl
@@ -3740,7 +3740,7 @@ state
 # ^ punctuation.section.block.end.perl
   sub CHECK {
 # ^^^^^^^^^^ meta.function.perl
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^^ entity.name.function.prepocessor.perl
 #           ^ punctuation.section.block.begin.perl
   }
@@ -3753,7 +3753,7 @@ state
 # ^ punctuation.section.block.end.perl
   sub END {
 # ^^^^^^^^ meta.function.perl
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^ entity.name.function.prepocessor.perl
 #         ^ punctuation.section.block.begin.perl
   }
@@ -3766,7 +3766,7 @@ state
 # ^ punctuation.section.block.end.perl
   sub INIT {
 # ^^^^^^^^^ meta.function.perl
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^ entity.name.function.prepocessor.perl
 #          ^ punctuation.section.block.begin.perl
   }
@@ -3779,7 +3779,7 @@ state
 # ^ punctuation.section.block.end.perl
   sub UNITCHECK {
 # ^^^^^^^^^^^^^^ meta.function.perl
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^^^^^^ entity.name.function.prepocessor.perl
 #               ^ punctuation.section.block.begin.perl
   }
@@ -3788,7 +3788,7 @@ state
 # ^^^^^^^^^^^^^ meta.function.perl
 #              ^^ meta.function.parameters.perl
 #                ^ meta.function.perl
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^^^^^ entity.name.function.callback.perl
   sub ::AUTOLOAD () {}
 # ^^^^ meta.function.perl - meta.path
@@ -3796,40 +3796,40 @@ state
 #               ^ meta.function.perl - meta.function.parameters.perl - meta.path
 #                ^^ meta.function.parameters.perl - meta.function.perl - meta.path
 #                  ^ meta.function.perl - meta.function.parameters.perl - meta.path
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^^^^^ entity.name.function.callback.perl
 
 ###[ UNQUALIFIED SUBROUTINE DEFINITIONS ]######################################
 
   sub
-# ^^^ meta.function.perl storage.type.function.perl
+# ^^^ meta.function.perl storage.type.function.perl keyword.declaration.function.perl
 #    ^ - invalid
   sub # comment
 # ^^^^^^^^^^^^^^ meta.function.perl
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #    ^ - comment - entity - keyword - invalid
 #     ^^^^^^^^^ comment.line.number-sign.perl
   sub func
 # ^^^^^^^^^ meta.function.perl
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #         ^ - entity - invalid
   sub func # comment
 # ^^^^^^^^^^^^^^^^^^^ meta.function.perl
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #         ^ - comment - entity - invalid
 #          ^^^^^^^^^ comment.line.number-sign.perl
   sub func invalid
 # ^^^^^^^^^^^^^^^^ meta.function.perl
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #         ^ - entity - invalid
 #          ^^^^^^^ invalid.illegal.identifier.perl
   sub func invalid # comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.perl
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #         ^ - entity - invalid
 #          ^^^^^^^ invalid.illegal.identifier.perl
@@ -3837,12 +3837,12 @@ state
 #                  ^^^^^^^^^ comment.line.number-sign.perl
   sub func;
 # ^^^^^^^^ meta.function.perl
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #         ^ punctuation.terminator.statement.perl
   sub func invalid;
 # ^^^^^^^^^^^^^^^^ meta.function.perl
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #          ^^^^^^^ invalid.illegal.identifier.perl
 #                 ^ punctuation.terminator.statement.perl
@@ -3850,7 +3850,7 @@ state
 # ^^^^ meta.function.perl - meta.annotation
 #     ^^^^^^ meta.function.perl meta.annotation.perl
 #           ^ - meta.function
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^ punctuation.definition.annotation.perl
 #      ^^^^ variable.annotation.attribute.perl
 #           ^ punctuation.terminator.statement.perl
@@ -3858,7 +3858,7 @@ state
 # ^^^^^^^^^ meta.function.perl - meta.annotation
 #          ^^^^^^^ meta.function.perl meta.annotation.perl
 #                 ^ - meta.function
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #          ^ punctuation.definition.annotation.perl
 #            ^^^^ variable.annotation.attribute.perl
@@ -3867,7 +3867,7 @@ state
 # ^^^^^^^^^ meta.function.perl - meta.annotation
 #          ^^^^^^^^^^^^^^ meta.function.perl meta.annotation.perl
 #                        ^ - meta.function
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #          ^ punctuation.definition.annotation.perl
 #            ^^^^ variable.annotation.attribute.perl
@@ -3878,7 +3878,7 @@ state
 # ^^^^^^^^^ meta.function.perl - meta.annotation
 #          ^^^^^^^^^^^^^^ meta.function.perl meta.annotation.perl
 #                        ^ - meta.function
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #          ^ punctuation.definition.annotation.perl
 #            ^^^^ variable.annotation.attribute.perl
@@ -3888,7 +3888,7 @@ state
 # ^^^^^^^^^^^^^^^^^ meta.function.perl - meta.annotation
 #                  ^^^^^ meta.function.perl meta.annotation.perl
 #                       ^ - meta.function
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #          ^^^^^^^ invalid.illegal.identifier.perl
 #                  ^ punctuation.definition.annotation.perl
@@ -3897,7 +3897,7 @@ state
 
   sub # comment
 # ^^^^^^^^^^^^^^ meta.function.perl - meta.annotation
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #    ^ - comment - entity - keyword - invalid
 #     ^^^^^^^^^ comment.line.number-sign.perl
   func
@@ -3924,14 +3924,14 @@ state
   sub { say "Hello"; }
 # ^^^^ meta.function.perl - meta.annotation
 #     ^^^^^^^^^^^^^^^^ - meta.function - meta.annotation
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^ punctuation.section.block.begin.perl
 #       ^^^ support.function.perl
 #                    ^ punctuation.section.block.end.perl
   sub func { say "Hello"; }
 # ^^^^^^^^^ meta.function.perl - meta.annotation
 #          ^^^^^^^^^^^^^^^^ - meta.function - meta.annotation
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #          ^ punctuation.section.block.begin.perl
 #            ^^^ support.function.perl
@@ -3939,7 +3939,7 @@ state
   sub func invalid { say "Hello"; }
 # ^^^^^^^^^^^^^^^^^ meta.function.perl - meta.annotation
 #                  ^^^^^^^^^^^^^^^^ - meta.function - meta.annotation
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #          ^^^^^^^ invalid.illegal.identifier.perl
 #                  ^ punctuation.section.block.begin.perl
@@ -3949,7 +3949,7 @@ state
 # ^^^^ meta.function.perl - meta.annotation
 #     ^^^^^^ meta.function.perl meta.annotation.perl
 #           ^^^^^^^^^^^^^^^^ - meta.function - meta.annotation
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^ punctuation.definition.annotation.perl
 #      ^^^^ variable.annotation.attribute.perl
 #           ^ punctuation.section.block.begin.perl
@@ -3959,7 +3959,7 @@ state
 # ^^^^ meta.function.perl - meta.annotation
 #     ^^^^^^^^^^^^^^ meta.function.perl meta.annotation.perl
 #                   ^^^^^^^^^^^^^^^^ - meta.function - meta.annotation
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^ punctuation.definition.annotation.perl
 #      ^^^^ variable.annotation.attribute.perl
 #           ^^^^^^^ invalid.illegal.identifier.perl
@@ -3970,7 +3970,7 @@ state
 # ^^^^^^^^ meta.function.perl - meta.annotation
 #         ^^^^^^ meta.function.perl meta.annotation.perl
 #               ^^^^^^^^^^^^^^^^ - meta.function - meta.annotation
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #         ^ punctuation.definition.annotation.perl
 #          ^^^^ variable.annotation.attribute.perl
@@ -3981,7 +3981,7 @@ state
 # ^^^^^^^^ meta.function.perl - meta.annotation
 #         ^^^^^^^^^^^^^^ meta.function.perl meta.annotation.perl
 #                       ^^^^^^^^^^^^^^^^ - meta.function - meta.annotation
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #         ^ punctuation.definition.annotation.perl
 #          ^^^^ variable.annotation.attribute.perl
@@ -3991,13 +3991,13 @@ state
 #                                      ^ punctuation.section.block.end.perl
 
   sub
-# ^^^ meta.function.perl storage.type.function.perl
+# ^^^ meta.function.perl storage.type.function.perl keyword.declaration.function.perl
   { }
 # ^ punctuation.section.block.begin.perl
 #   ^ punctuation.section.block.end.perl
 
   sub
-# ^^^ meta.function.perl storage.type.function.perl
+# ^^^ meta.function.perl storage.type.function.perl keyword.declaration.function.perl
   func
 # ^^^^ meta.function.perl entity.name.function.perl
   { }
@@ -4005,7 +4005,7 @@ state
 #   ^ punctuation.section.block.end.perl
 
   sub
-# ^^^ meta.function.perl storage.type.function.perl
+# ^^^ meta.function.perl storage.type.function.perl keyword.declaration.function.perl
   func
 # ^^^^ meta.function.perl entity.name.function.perl
   invalid
@@ -4015,7 +4015,7 @@ state
 #   ^ punctuation.section.block.end.perl
 
   sub
-# ^^^ meta.function.perl storage.type.function.perl
+# ^^^ meta.function.perl storage.type.function.perl keyword.declaration.function.perl
   :
 # ^ meta.function.perl meta.annotation.perl punctuation.definition.annotation.perl
   attr
@@ -4025,7 +4025,7 @@ state
 #   ^ punctuation.section.block.end.perl
 
   sub
-# ^^^ meta.function.perl storage.type.function.perl
+# ^^^ meta.function.perl storage.type.function.perl keyword.declaration.function.perl
   :
 # ^ meta.function.perl meta.annotation.perl punctuation.definition.annotation.perl
   attr
@@ -4037,7 +4037,7 @@ state
 #   ^ punctuation.section.block.end.perl
 
   sub
-# ^^^ meta.function.perl storage.type.function.perl
+# ^^^ meta.function.perl storage.type.function.perl keyword.declaration.function.perl
   func
 # ^^^^ meta.function.perl entity.name.function.perl
   invalid
@@ -4051,7 +4051,7 @@ state
 #   ^ punctuation.section.block.end.perl
 
   sub
-# ^^^ meta.function.perl storage.type.function.perl
+# ^^^ meta.function.perl storage.type.function.perl keyword.declaration.function.perl
   func
 # ^^^^ meta.function.perl entity.name.function.perl
   invalid
@@ -4077,7 +4077,7 @@ state
 #     ^^^ meta.function.parameters.perl - meta.function.perl - meta.annotation
 #        ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
 #         ^ - meta.function
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^ punctuation.section.parameters.begin.perl
 #      ^ variable.parameter.perl
 #       ^ punctuation.section.parameters.end.perl
@@ -4088,7 +4088,7 @@ state
 #        ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
 #         ^^ - meta.annotation
 #           ^ - meta.function
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^ punctuation.section.parameters.begin.perl
 #      ^ variable.parameter.perl
 #       ^ punctuation.section.parameters.end.perl
@@ -4100,7 +4100,7 @@ state
 #          ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
 #           ^^ - meta.annotation
 #             ^ - meta.function
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^ punctuation.section.parameters.begin.perl
 #      ^ variable.parameter.perl
 #       ^ punctuation.separator.sequence.perl
@@ -4114,7 +4114,7 @@ state
 #                ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
 #                 ^^ - meta.annotation
 #                   ^ - meta.function
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #         ^ punctuation.section.parameters.begin.perl
 #          ^ variable.parameter.perl
@@ -4132,7 +4132,7 @@ state
 #                 ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
 #                  ^^ - meta.annotation
 #                    ^ - meta.function
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #         ^ punctuation.definition.annotation.perl
 #          ^^^^ variable.annotation.attribute.perl
@@ -4148,7 +4148,7 @@ state
 #                      ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
 #                       ^^^ - meta.annotation
 #                          ^ - meta.function
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #          ^ punctuation.definition.annotation.perl
 #            ^^^^ variable.annotation.attribute.perl
@@ -4164,7 +4164,7 @@ state
 #             ^^^^^^ meta.function.perl meta.annotation.perl - meta.block
 #                   ^^
 #                     ^ - meta.function
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #         ^ punctuation.section.parameters.begin.perl
 #          ^ variable.parameter.perl
@@ -4181,7 +4181,7 @@ state
 #                   ^^^^^^ meta.function.perl meta.annotation.perl - meta.function.parameters
 #                         ^^
 #                           ^ - meta.function
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #          ^ punctuation.definition.annotation.perl
 #           ^^^^ variable.annotation.attribute.perl
@@ -4204,7 +4204,7 @@ state
 #                                     ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
 #                                      ^^
 #                                        ^ - meta.function
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #          ^ punctuation.definition.annotation.perl
 #            ^ punctuation.section.parameters.begin.perl
@@ -4237,7 +4237,7 @@ state
 #                                               ^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
 #                                                ^^
 #                                                  ^ - meta.function
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #          ^ punctuation.definition.annotation.perl
 #            ^^^^ variable.annotation.attribute.perl
@@ -4273,7 +4273,7 @@ state
 #                                                                          ^^^^^ meta.function.perl - meta.function.parameters - meta.annotation - meta.block
 #                                                                               ^^
 #                                                                                 ^ - meta.function
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^^^ entity.name.function.perl
 #          ^^^ invalid.illegal.identifier.perl
 #              ^ punctuation.definition.annotation.perl
@@ -4312,7 +4312,7 @@ state
 # ^^^^ meta.function.perl - meta.path - meta.annotation
 #     ^^^^^^ meta.function.perl meta.path.perl - meta.annotation
 #           ^ meta.function.perl - meta.path - meta.annotation
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^ entity.name.function.perl
 #           ^ - entity - invalid
@@ -4320,7 +4320,7 @@ state
 # ^^^^ meta.function.perl - meta.path - meta.annotation
 #     ^^^^^^ meta.function.perl meta.path.perl - meta.annotation
 #           ^^^^^^^^^^ meta.function.perl - meta.path - meta.annotation
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^ entity.name.function.perl
 #           ^ - comment - entity - invalid
@@ -4329,7 +4329,7 @@ state
 # ^^^^ meta.function.perl - meta.path - meta.annotation
 #     ^^^^^^ meta.function.perl meta.path.perl - meta.annotation
 #           ^^^^^^^^^^ meta.function.perl - meta.path - meta.annotation
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^ entity.name.function.perl
 #           ^ - entity - invalid
@@ -4338,7 +4338,7 @@ state
 # ^^^^ meta.function.perl - meta.path - meta.annotation
 #     ^^^^^^ meta.function.perl meta.path.perl - meta.annotation
 #           ^^^^^^^^^^^^^^^^^^ meta.function.perl - meta.path - meta.annotation
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^ entity.name.function.perl
 #           ^ - entity - invalid
@@ -4349,7 +4349,7 @@ state
 # ^^^^ meta.function.perl - meta.path - meta.annotation
 #     ^^^^^^ meta.function.perl meta.path.perl - meta.annotation
 #           ^ - meta.function.perl - meta.path - meta.annotation
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^ entity.name.function.perl
 #           ^ punctuation.terminator.statement.perl
@@ -4357,7 +4357,7 @@ state
 # ^^^^ meta.function.perl - meta.path - meta.annotation
 #     ^^^^^^ meta.function.perl meta.path.perl - meta.annotation
 #           ^^^^^^^^ meta.function.perl - meta.path - meta.annotation
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^ entity.name.function.perl
 #            ^^^^^^^ invalid.illegal.identifier.perl
@@ -4366,7 +4366,7 @@ state
 # ^^^^ meta.function.perl - meta.path - meta.annotation
 #     ^^^^^^ meta.function.perl meta.path.perl - meta.annotation
 #           ^^^^^^^^^^^^^^^^^^^ meta.function.perl meta.annotation.perl - meta.path
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^ entity.name.function.perl
 #           ^ punctuation.definition.annotation.perl
@@ -4379,7 +4379,7 @@ state
 # ^^^^ meta.function.perl - meta.path - meta.annotation
 #     ^^^^^^ meta.function.perl meta.path.perl - meta.annotation
 #           ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.perl meta.annotation.perl - meta.path
-# ^^^ storage.type.function.perl
+# ^^^ storage.type.function.perl keyword.declaration.function.perl
 #     ^^ punctuation.accessor.double-colon.perl
 #       ^^^^ entity.name.function.perl
 #           ^ punctuation.definition.annotation.perl
@@ -4511,7 +4511,7 @@ state
 #       ^^^^ meta.function.perl
 # ^^^^ variable.namespace.perl
 #     ^^ punctuation.accessor.double-colon.perl
-#       ^^^ storage.type.function.perl
+#       ^^^ storage.type.function.perl keyword.declaration.function.perl
 #           ^ punctuation.terminator.statement.perl
   core::sub;
 # ^^^^^^^^^ - meta.function.perl
