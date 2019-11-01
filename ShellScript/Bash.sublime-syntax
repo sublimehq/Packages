@@ -1239,8 +1239,8 @@ contexts:
 
   expression:
     # A leading ‘0x’ or ‘0X’ denotes hexadecimal.
-    - match: \b(?i)0x
-      scope: punctuation.definition.numeric.hexadecimal.shell
+    - match: \b0[xX]
+      scope: punctuation.definition.numeric.base.shell
       push:
         - meta_scope: constant.numeric.integer.hexadecimal.shell
         - match: '[g-zG-Z]'
@@ -1250,7 +1250,7 @@ contexts:
           pop: true
     # Constants with a leading 0 are interpreted as octal numbers.
     - match: \b0(?=[0-7])
-      scope: punctuation.definition.numeric.octal.shell
+      scope: punctuation.definition.numeric.base.shell
       push:
         - meta_scope: constant.numeric.integer.octal.shell
         - match: '[89]'
@@ -1266,7 +1266,7 @@ contexts:
     - match: \b(\d+#)[a-zA-Z0-9@_]+
       scope: constant.numeric.integer.other.shell
       captures:
-        1: punctuation.definition.numeric.other.shell
+        1: punctuation.definition.numeric.base.shell
     # If base# is omitted, then base 10 is used.
     - match: \b\d+
       scope: constant.numeric.integer.decimal.shell

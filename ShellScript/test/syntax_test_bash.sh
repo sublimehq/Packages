@@ -1229,7 +1229,7 @@ exec >&${tee[1]} 2>&1
 # Misc. operators #
 ###################
 (( 0123456708 ))
-#  ^ constant.numeric.integer.octal punctuation.definition.numeric.octal
+#  ^ constant.numeric.integer.octal punctuation.definition.numeric.base
 #  ^^^^^^^^^ constant.numeric.integer.octal
 #           ^ constant.numeric.integer.octal invalid.illegal.not-an-octal-character
 (( 0 ))
@@ -1317,19 +1317,19 @@ exec >&${tee[1]} 2>&1
 #                     ^^^^^^^^^ meta.group.parens
 #                              ^^ - meta.group.parens
 (( 0xDEADBEEF 0xdeadbeef 0x1234567890abcdefg ))
-#  ^^ constant.numeric.integer.hexadecimal punctuation.definition.numeric.hexadecimal
+#  ^^ constant.numeric.integer.hexadecimal punctuation.definition.numeric.base
 #    ^^^^^^^^ constant.numeric.integer.hexadecimal
-#             ^^ constant.numeric.integer.hexadecimal punctuation.definition.numeric.hexadecimal
+#             ^^ constant.numeric.integer.hexadecimal punctuation.definition.numeric.base
 #               ^^^^^^^^ constant.numeric.integer.hexadecimal
-#                        ^^ constant.numeric.integer.hexadecimal punctuation.definition.numeric.hexadecimal
+#                        ^^ constant.numeric.integer.hexadecimal punctuation.definition.numeric.base
 #                          ^^^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
 #                                          ^ constant.numeric.integer.hexadecimal invalid.illegal.not-a-hex-character
 (( 64#123@_ ))
 #  ^^^^^^^^ constant.numeric.integer.other
-#  ^^^ punctuation.definition.numeric.other
+#  ^^^ punctuation.definition.numeric.base
 (( 0x1f ))
 #  ^^^^ constant.numeric.integer.hexadecimal
-#  ^^ punctuation.definition.numeric.hexadecimal.shell
+#  ^^ punctuation.definition.numeric.base
 (( a * b ))
 #    ^ keyword.operator.arithmetic - keyword.operator.regexp
 ((a+=b))
