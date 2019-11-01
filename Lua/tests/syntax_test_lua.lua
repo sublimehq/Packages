@@ -95,31 +95,31 @@
 
     0x0;
 --  ^^^ constant.numeric.integer.hexadecimal
---  ^^ punctuation.definition.numeric.hexadecimal
+--  ^^ punctuation.definition.numeric.base
 
     0XdeafBEEF42;
 --  ^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
---  ^^ punctuation.definition.numeric.hexadecimal
+--  ^^ punctuation.definition.numeric.base
 
     0xa.bc + 0xa. + 0x.b;
 --  ^^^^^^ constant.numeric.float.hexadecimal
---  ^^ punctuation.definition.numeric.hexadecimal
+--  ^^ punctuation.definition.numeric.base
 --     ^ punctuation.separator.decimal
 --           ^^^^ constant.numeric.float.hexadecimal
---           ^^ punctuation.definition.numeric.hexadecimal
+--           ^^ punctuation.definition.numeric.base
 --              ^ punctuation.separator.decimal
 --                  ^^^^ constant.numeric.float.hexadecimal
---                  ^^ punctuation.definition.numeric.hexadecimal
+--                  ^^ punctuation.definition.numeric.base
 --                    ^ punctuation.separator.decimal
 
     0x1p10 + 0x1.p10 + 0x.1p10;
 --  ^^^^^^ constant.numeric.float.hexadecimal
---  ^^ punctuation.definition.numeric.hexadecimal
+--  ^^ punctuation.definition.numeric.base
 --           ^^^^^^^ constant.numeric.float.hexadecimal
---           ^^ punctuation.definition.numeric.hexadecimal
+--           ^^ punctuation.definition.numeric.base
 --              ^ punctuation.separator.decimal
 --                     ^^^^^^^ constant.numeric.float.hexadecimal
---                     ^^ punctuation.definition.numeric.hexadecimal
+--                     ^^ punctuation.definition.numeric.base
 --                       ^ punctuation.separator.decimal
 
     'foo';
