@@ -85,13 +85,13 @@ contexts:
       scope: constant.numeric.integer.hexadecimal.clojure
       captures:
         1: punctuation.definition.numeric.sign.clojure
-        2: punctuation.definition.numeric.hexadecimal.clojure
+        2: punctuation.definition.numeric.base.clojure
         3: storage.type.numeric.clojure
     - match: '{{other_integer}}'
       scope: constant.numeric.integer.other.clojure
       captures:
         1: punctuation.definition.numeric.sign.clojure
-        2: punctuation.definition.numeric.other.clojure
+        2: punctuation.definition.numeric.base.clojure
     - match: '{{rational}}'
       scope: constant.numeric.rational.decimal.clojure
       captures:
@@ -161,14 +161,14 @@ contexts:
       scope: constant.numeric.integer.hexadecimal.clojure
       captures:
         1: punctuation.definition.numeric.sign.clojure
-        2: punctuation.definition.numeric.hexadecimal.clojure
+        2: punctuation.definition.numeric.base.clojure
         3: storage.type.numeric.clojure
       pop: true
     - match: '{{other_integer}}'
       scope: constant.numeric.integer.other.clojure
       captures:
         1: punctuation.definition.numeric.sign.clojure
-        2: punctuation.definition.numeric.other.clojure
+        2: punctuation.definition.numeric.base.clojure
       pop: true
     - match: '{{rational}}'
       scope: constant.numeric.rational.decimal.clojure
