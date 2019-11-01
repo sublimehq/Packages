@@ -26,7 +26,7 @@ class Foo {
 ///     ^^^ storage.type
 ///         ^ - entity.name
 ///           ^ keyword.operator.assignment
-///             ^^ constant.numeric
+///             ^^ constant.numeric.integer.decimal
 ///               ^ punctuation.terminator
 
         // simple nested function
@@ -138,23 +138,26 @@ class Foo {
 ///                       ^^^ variable.function
 ///                          ^^^ meta.group meta.group
 ///                          ^ punctuation.section.group.begin
-///                           ^ constant.numeric
+///                           ^ constant.numeric.integer.decimal
 ///                            ^ punctuation.section.group.end
 ///                             ^ punctuation.section.group.end
 
         // https://github.com/dotnet/roslyn/pull/2950
         int bin = 0b1001_1010_0001_0100;
 ///               ^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.binary
-///               ^^ punctuation.definition.numeric.binary
+///               ^^ punctuation.definition.numeric.base
         int hex = 0x1b_a0_44_fe;
 ///               ^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
-///               ^^ punctuation.definition.numeric.hexadecimal
+///               ^^ punctuation.definition.numeric.base
         int dec = 33_554_432;
 ///               ^^^^^^^^^^ constant.numeric.integer.decimal
         int weird = 1_2__3___4____5_____6______7_______8________9;
 ///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.decimal
         double real = 1_000.111_1e-1_000;
 ///                   ^^^^^^^^^^^^^^^^^^ constant.numeric.float.decimal
+///                        ^ punctuation.separator.decimal.cs
+        double real = 1_000e-1_000;
+///                   ^^^^^^^^^^^^ constant.numeric.float.decimal
         double dbl = 33_554_432.5_2;
 ///                  ^^^^^^^^^^^^^^ constant.numeric.float.decimal
         long lng = 33_554_4321L;
@@ -163,15 +166,15 @@ class Foo {
         bin = _0b1001_1010_0001_0100;
 ///           ^^^^^^^^^^^^^^^^^^^^^^ variable.other
         bin = 0b1001_1010_0001_0100_;
-///                                ^ - constant.numeric
+///                                ^ - constant.numeric.integer.binary
         bin = 0b_1001_1010_0001_0100;
-///           ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric
+///           ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.binary
         bin = 0b__1001__1010__0001__0_1_0_0;
-///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric
+///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.binary
         hex = _0x1b_a0_44_fe;
 ///           ^^^^^^^^^^^^^^ variable.other
         hex = 0x_1b_a0_44_fe;
-///           ^^^^^^^^^^^^^^ constant.numeric
+///           ^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
         int abc = _123;
 ///               ^^^^ variable.other
 
@@ -185,7 +188,7 @@ class Foo {
 ///                                 ^ punctuation.accessor.dot
 ///                                  ^^^^ variable.other
 ///                                       ^^ keyword.operator
-///                                          ^ constant.numeric
+///                                          ^ constant.numeric.integer.decimal
 ///                                           ^ punctuation.separator.case-statement
                 Console.WriteLine($"The shape: {sh.GetType().Name} with no dimensions");
                 break;
@@ -197,7 +200,7 @@ class Foo {
 ///                           ^^^^ keyword.control.switch.case.when
 ///                                ^^^^^^^ variable.other
 ///                                        ^^ keyword.operator
-///                                           ^ constant.numeric
+///                                           ^ constant.numeric.integer.decimal
 ///                                            ^ punctuation.separator.case-statement
             case Shape<Shape> shape when shape.Area > 0:
 ///         ^^^^ keyword.control.switch.case
@@ -211,7 +214,7 @@ class Foo {
 ///                                           ^ punctuation.accessor.dot
 ///                                            ^^^^ variable.other
 ///                                                 ^ keyword.operator
-///                                                   ^ constant.numeric
+///                                                   ^ constant.numeric.integer.decimal
 ///                                                    ^ punctuation.separator.case-statement
         }
 
@@ -439,7 +442,7 @@ class Foo {
 ///                                            ^ meta.group.tuple punctuation.section.group.begin
 ///                                             ^^^^^^^^^^^^^^^^ meta.function.anonymous
 ///                                                             ^ punctuation.separator.tuple - meta.function.anonymous
-///                                                               ^ constant.numeric.float.decimal
+///                                                               ^ constant.numeric.integer.decimal
 ///                                                                ^ punctuation.accessor.dot
 ///                                                                 ^^^^^^^^ variable.function
 ///                                                                         ^ punctuation.section.group.begin

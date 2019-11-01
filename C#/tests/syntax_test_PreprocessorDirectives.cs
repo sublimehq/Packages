@@ -13,7 +13,7 @@ using System;
 #pragma checksum "file.cs" "{3673e4ca-6098-4ec1-890f-8fceb2a794a2}" "{012345678AB}" // New checksum
 //       ^ keyword.other.preprocessor
 //                 ^ stirng.quoted.double
-//                                     ^ constant.numeric
+//                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
 
 #region
 /// ^^ meta.preprocessor keyword.other.preprocessor
