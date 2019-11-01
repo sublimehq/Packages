@@ -12,8 +12,8 @@ variables:
   oct_digit: '[0-7_]'
   dec_digit: '[0-9_]'
   hex_digit: '[\h_]'
-  integer: (?:0|[1-9]{{dec_digit}}*)
-  exponent: (?:[Ee](?:[-+]|(?![-+])){{dec_digit}}*)
+  dec_integer: (?:0|[1-9]{{dec_digit}}*)
+  dec_exponent: (?:[Ee](?:[-+]|(?![-+])){{dec_digit}}*)
 
   identifier_escape: (?:\\u(?:\h{4}|\{\h+\}))
   identifier_start: (?:[_$\p{L}\p{Nl}]|{{identifier_escape}})
@@ -1766,9 +1766,9 @@ contexts:
     - match: |-
         (?x:
           # 1., 1.1, 1.1e1, 1.1e-1, 1.e1, 1.e-1 | 1e1, 1e-1
-          {{integer}} (?: (\.) {{dec_digit}}* {{exponent}}? | {{exponent}} )
+          {{dec_integer}} (?: (\.) {{dec_digit}}* {{dec_exponent}}? | {{dec_exponent}} )
           # .1, .1e1, .1e-1
-          | (\.) {{dec_digit}}+ {{exponent}}?
+          | (\.) {{dec_digit}}+ {{dec_exponent}}?
         ){{identifier_break}}
       scope: constant.numeric.float.decimal.js
       captures:
@@ -1802,7 +1802,7 @@ contexts:
         2: storage.type.numeric.js
       pop: true
 
-    - match: '{{integer}}(n|(?!\.)){{identifier_break}}'
+    - match: '{{dec_integer}}(n|(?!\.)){{identifier_break}}'
       scope: constant.numeric.integer.decimal.js
       captures:
         1: storage.type.numeric.js
