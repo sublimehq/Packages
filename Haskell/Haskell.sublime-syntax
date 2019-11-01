@@ -82,11 +82,20 @@ contexts:
       scope: keyword.operator.haskell
     - match: \b(do|if|then|else)\b
       scope: keyword.control.haskell
-    - match: '\b([0-9]+\.[0-9]+([eE][+-]?[0-9]+)?|[0-9]+[eE][+-]?[0-9]+)\b'
-      comment: Floats are always decimal
-      scope: constant.numeric.float.haskell
-    - match: '\b([0-9]+|0([xX][0-9a-fA-F]+|[oO][0-7]+))\b'
-      scope: constant.numeric.haskell
+    - match: \b\d+(?:(\.)\d+(?:[eE][-+]?\d+)?|(?:[eE][-+]?\d+))\b
+      scope: constant.numeric.float.decimal.haskell
+      captures:
+        1: punctuation.separator.decimal.haskell
+    - match: \b(0[oO])[0-7]+\b
+      scope: constant.numeric.integer.octal.haskell
+      captures:
+        1: punctuation.definition.numeric.base.haskell
+    - match: \b(0[xX])\h+\b
+      scope: constant.numeric.integer.hexadecimal.haskell
+      captures:
+        1: punctuation.definition.numeric.base.haskell
+    - match: \b\d+\b
+      scope: constant.numeric.integer.decimal.haskell
     - match: ^\s*(#)\s*\w+
       comment: In addition to Haskell's "native" syntax, GHC permits the C preprocessor to be run on a source file.
       scope: meta.preprocessor.c
