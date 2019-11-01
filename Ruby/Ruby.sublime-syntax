@@ -209,21 +209,21 @@ contexts:
     - match: '\b(0[xX]){{hdigits}}(r?i)(r)?\b'
       scope: constant.numeric.imaginary.hexadecimal.ruby
       captures:
-        1: punctuation.definition.numeric.hexadecimal.ruby
+        1: punctuation.definition.numeric.base.ruby
         2: storage.type.numeric.ruby
         3: invalid.illegal.numeric.ruby
     # octal imaginary numbers: 0o1i, 0o1ri, 01i, 01ri
     - match: '\b(0[oO]?){{odigits}}(r?i)(r)?\b'
       scope: constant.numeric.imaginary.octal.ruby
       captures:
-        1: punctuation.definition.numeric.octal.ruby
+        1: punctuation.definition.numeric.base.ruby
         2: storage.type.numeric.ruby
         3: invalid.illegal.numeric.ruby
     # binary imaginary numbers: 0b1i, 0b1ri
     - match: '\b(0[bB]){{bdigits}}(r?i)(r)?\b'
       scope: constant.numeric.imaginary.binary.ruby
       captures:
-        1: punctuation.definition.numeric.binary.ruby
+        1: punctuation.definition.numeric.base.ruby
         2: storage.type.numeric.ruby
         3: invalid.illegal.numeric.ruby
     # decimal imaginary numbers: 0d1i, 0d1ri, 1i, 1ri, 1.1i, 1.1ri, 1e1i, 1.1e1i
@@ -238,7 +238,7 @@ contexts:
         )\b
       scope: constant.numeric.imaginary.decimal.ruby
       captures:
-        1: punctuation.definition.numeric.decimal.ruby
+        1: punctuation.definition.numeric.base.ruby
         2: punctuation.separator.decimal.ruby
         3: storage.type.numeric.ruby
         4: punctuation.separator.decimal.ruby
@@ -249,25 +249,25 @@ contexts:
     - match: '\b(0[xX]){{hdigits}}(r)\b'
       scope: constant.numeric.rational.hexadecimal.ruby
       captures:
-        1: punctuation.definition.numeric.hexadecimal.ruby
+        1: punctuation.definition.numeric.base.ruby
         2: storage.type.numeric.ruby
     # octal rational numbers: 0o1r, 01r
     - match: '\b(0[oO]?){{odigits}}(r)\b'
       scope: constant.numeric.rational.octal.ruby
       captures:
-        1: punctuation.definition.numeric.octal.ruby
+        1: punctuation.definition.numeric.base.ruby
         2: storage.type.numeric.ruby
     # binary rational numbers: 0b1r
     - match: '\b(0[bB]){{bdigits}}(r)\b'
       scope: constant.numeric.rational.binary.ruby
       captures:
-        1: punctuation.definition.numeric.binary.ruby
+        1: punctuation.definition.numeric.base.ruby
         2: storage.type.numeric.ruby
     # decimal rational numbers: 0d1r, 1r, 1.1r
     - match: '\b(?:(0[dD])?{{ddigits}}|{{ddigits}}(\.){{ddigits}})(r)\b'
       scope: constant.numeric.rational.decimal.ruby
       captures:
-        1: punctuation.definition.numeric.decimal.ruby
+        1: punctuation.definition.numeric.base.ruby
         2: punctuation.separator.decimal.ruby
         3: storage.type.numeric.ruby
     # decimal floating point numbers: 1.1, 1e1, 1.1e1
@@ -281,22 +281,22 @@ contexts:
     - match: '\b(0[xX]){{hdigits}}\b'
       scope: constant.numeric.integer.hexadecimal.ruby
       captures:
-        1: punctuation.definition.numeric.hexadecimal.ruby
+        1: punctuation.definition.numeric.base.ruby
     # octal integer numbers: 0o1, 01
     - match: '\b(0[oO]?){{odigits}}\b'
       scope: constant.numeric.integer.octal.ruby
       captures:
-        1: punctuation.definition.numeric.octal.ruby
+        1: punctuation.definition.numeric.base.ruby
     # binary integer numbers: 0b1
     - match: '\b(0[bB]){{bdigits}}\b'
       scope: constant.numeric.integer.binary.ruby
       captures:
-        1: punctuation.definition.numeric.binary.ruby
+        1: punctuation.definition.numeric.base.ruby
     # decimal integer numbers: 0d1, 1
     - match: '\b(0[dD])?{{ddigits}}\b'
       scope: constant.numeric.integer.decimal.ruby
       captures:
-        1: punctuation.definition.numeric.decimal.ruby
+        1: punctuation.definition.numeric.base.ruby
     # Quoted symbols
     - match: ":'"
       scope: punctuation.definition.constant.ruby

@@ -190,31 +190,31 @@ BAR
 #^^^^^ constant.numeric.integer.decimal
  0d170
 #^^^^^ constant.numeric.integer.decimal
-#^^ punctuation.definition.numeric.decimal
+#^^ punctuation.definition.numeric.base
  0D170
 #^^^^^ constant.numeric.integer.decimal
-#^^ punctuation.definition.numeric.decimal
+#^^ punctuation.definition.numeric.base
  0xAa
 #^^^^ constant.numeric.integer.hexadecimal
-#^^ punctuation.definition.numeric.hexadecimal
+#^^ punctuation.definition.numeric.base
  0XAa
 #^^^^ constant.numeric.integer.hexadecimal
-#^^ punctuation.definition.numeric.hexadecimal
+#^^ punctuation.definition.numeric.base
  0252
 #^^^^ constant.numeric.integer.octal
-#^ punctuation.definition.numeric.octal
+#^ punctuation.definition.numeric.base
  0o252
 #^^^^^ constant.numeric.integer.octal
-#^^ punctuation.definition.numeric.octal
+#^^ punctuation.definition.numeric.base
  0O252
 #^^^^^ constant.numeric.integer.octal
-#^^ punctuation.definition.numeric.octal
+#^^ punctuation.definition.numeric.base
  0b10101010
 #^^^^^^^^^^ constant.numeric.integer.binary
-#^^ punctuation.definition.numeric.binary
+#^^ punctuation.definition.numeric.base
  0B10101010
 #^^^^^^^^^^ constant.numeric.integer.binary
-#^^ punctuation.definition.numeric.binary
+#^^ punctuation.definition.numeric.base
  12.
 #^^ constant.numeric.integer.decimal
 #  ^ punctuation.accessor - constant.numeric - invalid.illegal
@@ -248,19 +248,19 @@ BAR
 #    ^ storage.type.numeric
  0d170r
 #^^^^^^ constant.numeric.rational.decimal
-#^^ punctuation.definition.numeric.decimal
+#^^ punctuation.definition.numeric.base
 #     ^ storage.type.numeric
  0xAar
 #^^^^^ constant.numeric.rational.hexadecimal
-#^^ punctuation.definition.numeric.hexadecimal
+#^^ punctuation.definition.numeric.base
 #    ^ storage.type.numeric
  0o252r
 #^^^^^^ constant.numeric.rational.octal
-#^^ punctuation.definition.numeric.octal
+#^^ punctuation.definition.numeric.base
 #     ^ storage.type.numeric
  0b10101010r
 #^^^^^^^^^^^ constant.numeric.rational.binary
-#^^ punctuation.definition.numeric.binary
+#^^ punctuation.definition.numeric.base
 #          ^ storage.type.numeric
 
  12i
@@ -293,40 +293,40 @@ BAR
 #    ^^ storage.type.numeric
  0d170i
 #^^^^^^ constant.numeric.imaginary.decimal
-#^^ punctuation.definition.numeric.decimal
+#^^ punctuation.definition.numeric.base
 #     ^ storage.type.numeric
  0d170ri
 #^^^^^^^ constant.numeric.imaginary.decimal
-#^^ punctuation.definition.numeric.decimal
+#^^ punctuation.definition.numeric.base
 #     ^^ storage.type.numeric
  0xAai
 #^^^^^ constant.numeric.imaginary.hexadecimal
-#^^ punctuation.definition.numeric.hexadecimal
+#^^ punctuation.definition.numeric.base
 #    ^ storage.type.numeric
  0xAari
 #^^^^^^ constant.numeric.imaginary.hexadecimal
-#^^ punctuation.definition.numeric.hexadecimal
+#^^ punctuation.definition.numeric.base
 #    ^^ storage.type.numeric
  0o252i
 #^^^^^^ constant.numeric.imaginary.octal
-#^^ punctuation.definition.numeric.octal
+#^^ punctuation.definition.numeric.base
 #     ^ storage.type.numeric
  0o252ri
 #^^^^^^^ constant.numeric.imaginary.octal
-#^^ punctuation.definition.numeric.octal
+#^^ punctuation.definition.numeric.base
 #     ^^ storage.type.numeric
  0b10101010i
 #^^^^^^^^^^^ constant.numeric.imaginary.binary
-#^^ punctuation.definition.numeric.binary
+#^^ punctuation.definition.numeric.base
 #          ^ storage.type.numeric
  0b10101010ri
 #^^^^^^^^^^^^ constant.numeric.imaginary.binary
-#^^ punctuation.definition.numeric.binary
+#^^ punctuation.definition.numeric.base
 #          ^^ storage.type.numeric
  12e3ri
 #^^^^^^ constant.numeric.imaginary.decimal
 #    ^ invalid.illegal.numeric
-#     ^ storage.type.numeric 
+#     ^ storage.type.numeric
  1.2e3ri
 #^^^^^^^ constant.numeric.imaginary.decimal
 # ^ punctuation.separator.decimal
@@ -352,22 +352,22 @@ BAR
 #      ^ invalid.illegal.numeric
  0d170ir
 #^^^^^^^ constant.numeric.imaginary.decimal
-#^^ punctuation.definition.numeric.decimal
+#^^ punctuation.definition.numeric.base
 #     ^ storage.type.numeric
 #      ^ invalid.illegal.numeric
  0xAair
 #^^^^^^ constant.numeric.imaginary.hexadecimal
-#^^ punctuation.definition.numeric.hexadecimal
+#^^ punctuation.definition.numeric.base
 #    ^ storage.type.numeric
 #     ^ invalid.illegal.numeric
  0o252ir
 #^^^^^^^ constant.numeric.imaginary.octal
-#^^ punctuation.definition.numeric.octal
+#^^ punctuation.definition.numeric.base
 #     ^ storage.type.numeric
 #      ^ invalid.illegal.numeric
  0b10101010ir
 #^^^^^^^^^^^^ constant.numeric.imaginary.binary
-#^^ punctuation.definition.numeric.binary
+#^^ punctuation.definition.numeric.base
 #          ^ storage.type.numeric
 #           ^ invalid.illegal.numeric
 
