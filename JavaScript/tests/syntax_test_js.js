@@ -1848,24 +1848,24 @@ function yy (a, b) {
 // Integers
 
     123_456_789_0n;
-//  ^^^^^^^^^^^^^^ constant.numeric.decimal
-//               ^ storage.type.numeric.bigint
+//  ^^^^^^^^^^^^^^ constant.numeric.integer.decimal
+//               ^ storage.type.numeric
 
     0;
-//  ^ constant.numeric.decimal
+//  ^ constant.numeric.integer.decimal
 
     123 .foo;
-//  ^^^ constant.numeric.decimal
+//  ^^^ constant.numeric.integer.decimal
 //      ^ punctuation.accessor
 //       ^^^ meta.property.object
 
     +123;
 //  ^ keyword.operator.arithmetic
-//   ^^^ constant.numeric.decimal - keyword
+//   ^^^ constant.numeric.integer.decimal - keyword
 
     -123;
 //  ^ keyword.operator.arithmetic
-//   ^^^ constant.numeric.decimal - keyword
+//   ^^^ constant.numeric.integer.decimal - keyword
 
     + 123;
 //  ^ keyword.operator.arithmetic
@@ -1874,7 +1874,7 @@ function yy (a, b) {
 //  ^^^^^^ invalid.illegal.numeric.decimal
 
     0123456789;
-//  ^^^^^^^^^^ constant.numeric.octal invalid.deprecated.numeric.octal
+//  ^^^^^^^^^^ constant.numeric.integer.octal invalid.deprecated.numeric.octal
 
     0123456789xyz;
 //  ^^^^^^^^^^^^^ invalid.illegal.numeric.octal
@@ -1890,33 +1890,38 @@ function yy (a, b) {
 //             ^^^ invalid.illegal.illegal-identifier
 
     0b0110_1001_1001_0110n;
-//  ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.binary
-//  ^^ punctuation.definition.numeric.binary
-//                       ^ storage.type.numeric.bigint
+//  ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.binary
+//  ^^ punctuation.definition.numeric.base
+//                       ^ storage.type.numeric
 
     0o0123_4567n;
-//  ^^^^^^^^^^^^ constant.numeric.octal
-//  ^^ punctuation.definition.numeric.octal
-//             ^ storage.type.numeric.bigint
+//  ^^^^^^^^^^^^ constant.numeric.integer.octal
+//  ^^ punctuation.definition.numeric.base
+//             ^ storage.type.numeric
 
     0x01_23_45_67_89_ab_CD_efn;
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.hexadecimal
-//  ^^ punctuation.definition.numeric.hexadecimal
-//                           ^ storage.type.numeric.bigint
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
+//  ^^ punctuation.definition.numeric.base
+//                           ^ storage.type.numeric
 
     0B0; 0O0; 0X0;
-//  ^^^ constant.numeric.binary
-//       ^^^ constant.numeric.octal
-//            ^^^ constant.numeric.hexadecimal
+//  ^^^ constant.numeric.integer.binary
+//  ^^ punctuation.definition.numeric.base
+//       ^^^ constant.numeric.integer.octal
+//       ^^ punctuation.definition.numeric.base
+//            ^^^ constant.numeric.integer.hexadecimal
+//            ^^ punctuation.definition.numeric.base
 
     0b1.foo;
 //  ^^^^^^^ - invalid
-//  ^^^ constant.numeric.binary
+//  ^^^ constant.numeric.integer.binary
+//  ^^ punctuation.definition.numeric.base
 //     ^ punctuation.accessor
 //      ^^^ meta.property.object
 
     0b1.0;
-//  ^^^ constant.numeric.binary
+//  ^^^ constant.numeric.integer.binary
+//  ^^ punctuation.definition.numeric.base
 //     ^ punctuation.accessor
 //      ^ invalid.illegal.illegal-identifier
 
@@ -1927,21 +1932,26 @@ function yy (a, b) {
 // Floats
 
     1_234_567_890.123_456_789_0;
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.decimal
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.float.decimal
 
     .123_456_789_0;
-//  ^^^^^^^^^^^^^^ constant.numeric.decimal
+//  ^^^^^^^^^^^^^^ constant.numeric.float.decimal
+//  ^ punctuation.separator.decimal
 
     12345e6_7_8;
-//  ^^^^^^^^^^^ constant.numeric.decimal
+//  ^^^^^^^^^^^ constant.numeric.float.decimal
 
     123.456e+789;
-//  ^^^^^^^^^^^^ constant.numeric.decimal
+//  ^^^^^^^^^^^^ constant.numeric.float.decimal
+//     ^ punctuation.separator.decimal
 
     .123E-7_8_9;
-//  ^^^^^^^^^^^ constant.numeric.decimal
+//  ^^^^^^^^^^^ constant.numeric.float.decimal
+//  ^ punctuation.separator.decimal
 
     0123.45;
+//  ^^^^ constant.numeric.integer.octal invalid.deprecated.numeric.octal
+//      ^ punctuation.accessor
 //       ^^ invalid.illegal - constant.numeric
 
     123.4foo;
@@ -1951,7 +1961,7 @@ function yy (a, b) {
 //  ^^^^^^ invalid.illegal.numeric.decimal
 
     123..foo;
-//  ^^^^ constant.numeric.decimal
+//  ^^^^ constant.numeric.float.decimal
 //      ^ punctuation.accessor
 //       ^^^ meta.property.object
 

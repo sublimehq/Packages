@@ -8,6 +8,13 @@ file_extensions:
 first_line_match: ^#!\s*/.*\b(node|js)\b
 scope: source.js
 variables:
+  bin_digit: '[01_]'
+  oct_digit: '[0-7_]'
+  dec_digit: '[0-9_]'
+  hex_digit: '[\h_]'
+  dec_integer: (?:0|[1-9]{{dec_digit}}*)
+  dec_exponent: (?:[Ee](?:[-+]|(?![-+])){{dec_digit}}*)
+
   identifier_escape: (?:\\u(?:\h{4}|\{\h+\}))
   identifier_start: (?:[_$\p{L}\p{Nl}]|{{identifier_escape}})
   identifier_part: (?:[_$\p{L}\p{Nl}\p{Mn}\p{Mc}\p{Nd}\p{Pc}\x{200C}\x{200D}]|{{identifier_escape}})
@@ -1755,63 +1762,62 @@ contexts:
         - include: object-property
 
   literal-number:
-    - match: '0[0-9]+{{identifier_break}}'
-      scope: constant.numeric.octal.js invalid.deprecated.numeric.octal.js
-      pop: true
-
-    - match: '(0[Xx])[0-9a-fA-F_]*(n)?{{identifier_break}}'
-      scope: constant.numeric.hexadecimal.js
-      captures:
-        1: punctuation.definition.numeric.hexadecimal.js
-        2: storage.type.numeric.bigint.js
-      pop: true
-
-    - match: '(0[Oo])[0-7_]*(n)?{{identifier_break}}'
-      scope: constant.numeric.octal.js
-      captures:
-        1: punctuation.definition.numeric.octal.js
-        2: storage.type.numeric.bigint.js
-      pop: true
-
-    - match: '(0[Bb])[0-1_]*(n)?{{identifier_break}}'
-      scope: constant.numeric.binary.js
-      captures:
-        1: punctuation.definition.numeric.binary.js
-        2: storage.type.numeric.bigint.js
-      pop: true
-
-    - match: '(?:0|[1-9][0-9_]*)(n){{identifier_break}}'
-      scope: constant.numeric.decimal.js
-      captures:
-        1: storage.type.numeric.bigint.js
-      pop: true
-
+    # floats
     - match: |-
-        (?x)
-        (
-          (?:0|[1-9][0-9_]*)
-          (?:\.[0-9_]*|(?!\.))
-          |
-          \.[0-9_]+
-        )
-        (?:[Ee](?:[+-]|(?![-+]))[0-9_]*)?
-        {{identifier_break}}
-      scope: constant.numeric.decimal.js
+        (?x:
+          # 1., 1.1, 1.1e1, 1.1e-1, 1.e1, 1.e-1 | 1e1, 1e-1
+          {{dec_integer}} (?: (\.) {{dec_digit}}* {{dec_exponent}}? | {{dec_exponent}} )
+          # .1, .1e1, .1e-1
+          | (\.) {{dec_digit}}+ {{dec_exponent}}?
+        ){{identifier_break}}
+      scope: constant.numeric.float.decimal.js
+      captures:
+        1: punctuation.separator.decimal.js
+        2: punctuation.separator.decimal.js
       pop: true
 
-    - match: '0[Xx]{{identifier_part}}+{{identifier_break}}'
+    # integers
+    - match: 0{{dec_digit}}+{{identifier_break}}
+      scope: constant.numeric.integer.octal.js invalid.deprecated.numeric.octal.js
+      pop: true
+
+    - match: (0[Xx]){{hex_digit}}*(n)?{{identifier_break}}
+      scope: constant.numeric.integer.hexadecimal.js
+      captures:
+        1: punctuation.definition.numeric.base.js
+        2: storage.type.numeric.js
+      pop: true
+
+    - match: (0[Oo]){{oct_digit}}*(n)?{{identifier_break}}
+      scope: constant.numeric.integer.octal.js
+      captures:
+        1: punctuation.definition.numeric.base.js
+        2: storage.type.numeric.js
+      pop: true
+
+    - match: (0[Bb]){{bin_digit}}*(n)?{{identifier_break}}
+      scope: constant.numeric.integer.binary.js
+      captures:
+        1: punctuation.definition.numeric.base.js
+        2: storage.type.numeric.js
+      pop: true
+
+    - match: '{{dec_integer}}(n|(?!\.)){{identifier_break}}'
+      scope: constant.numeric.integer.decimal.js
+      captures:
+        1: storage.type.numeric.js
+      pop: true
+
+    # illegal numbers
+    - match: 0[Xx]{{identifier_part}}+{{identifier_break}}
       scope: invalid.illegal.numeric.hexadecimal.js
       pop: true
 
-    - match: '0[Oo]{{identifier_part}}+{{identifier_break}}'
-      scope: invalid.illegal.numeric.octal.js
-      pop: true
-
-    - match: '0[Bb]{{identifier_part}}+{{identifier_break}}'
+    - match: 0[Bb]{{identifier_part}}+{{identifier_break}}
       scope: invalid.illegal.numeric.binary.js
       pop: true
 
-    - match: '0{{identifier_part}}+{{identifier_break}}'
+    - match: 0{{identifier_part}}+{{identifier_break}}
       scope: invalid.illegal.numeric.octal.js
       pop: true
 
