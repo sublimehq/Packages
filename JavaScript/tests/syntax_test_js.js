@@ -1891,32 +1891,37 @@ function yy (a, b) {
 
     0b0110_1001_1001_0110n;
 //  ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.binary
-//  ^^ punctuation.definition.numeric.binary
+//  ^^ punctuation.definition.numeric.base
 //                       ^ storage.type.numeric
 
     0o0123_4567n;
 //  ^^^^^^^^^^^^ constant.numeric.integer.octal
-//  ^^ punctuation.definition.numeric.octal
+//  ^^ punctuation.definition.numeric.base
 //             ^ storage.type.numeric
 
     0x01_23_45_67_89_ab_CD_efn;
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
-//  ^^ punctuation.definition.numeric.hexadecimal
+//  ^^ punctuation.definition.numeric.base
 //                           ^ storage.type.numeric
 
     0B0; 0O0; 0X0;
 //  ^^^ constant.numeric.integer.binary
+//  ^^ punctuation.definition.numeric.base
 //       ^^^ constant.numeric.integer.octal
+//       ^^ punctuation.definition.numeric.base
 //            ^^^ constant.numeric.integer.hexadecimal
+//            ^^ punctuation.definition.numeric.base
 
     0b1.foo;
 //  ^^^^^^^ - invalid
 //  ^^^ constant.numeric.integer.binary
+//  ^^ punctuation.definition.numeric.base
 //     ^ punctuation.accessor
 //      ^^^ meta.property.object
 
     0b1.0;
 //  ^^^ constant.numeric.integer.binary
+//  ^^ punctuation.definition.numeric.base
 //     ^ punctuation.accessor
 //      ^ invalid.illegal.illegal-identifier
 
