@@ -134,7 +134,7 @@ variables:
     )
   _type_timestamp: |- # http://yaml.org/type/timestamp.html
     (?x:
-        \d{4} (-) \d{2} (-) \d{2}        # (y-m-d)
+        \d{4} (-) \d{2} (-) \d{2}       # (y-m-d)
       | \d{4}                           # (year)
         (-) \d{1,2}                     # (month)
         (-) \d{1,2}                     # (day)
