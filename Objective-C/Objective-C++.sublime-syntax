@@ -225,8 +225,7 @@ contexts:
     - include: scope:source.c#strings
 
   numbers:
-    - include: scope:source.c++#unique-numbers
-    - include: scope:source.c#numbers
+    - include: scope:source.c++#numbers
 
   ##########################################
   # Directly from Objective-C.sublime-syntax
@@ -379,7 +378,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc++
         2: keyword.control.import.objc++
-        3: constant.numeric.preprocessor.objc++
+        3: constant.numeric.integer.decimal.objc++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -405,7 +404,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc++
         2: keyword.control.import.objc++
-        3: constant.numeric.preprocessor.objc++
+        3: constant.numeric.integer.decimal.objc++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1637,7 +1636,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc++
         2: keyword.control.import.objc++
-        3: constant.numeric.preprocessor.objc++
+        3: constant.numeric.integer.decimal.objc++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1663,7 +1662,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc++
         2: keyword.control.import.objc++
-        3: constant.numeric.preprocessor.objc++
+        3: constant.numeric.integer.decimal.objc++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1707,7 +1706,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc++
         2: keyword.control.import.objc++
-        3: constant.numeric.preprocessor.objc++
+        3: constant.numeric.integer.decimal.objc++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1734,7 +1733,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc++
         2: keyword.control.import.objc++
-        3: constant.numeric.preprocessor.objc++
+        3: constant.numeric.integer.decimal.objc++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1839,7 +1838,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc++
         2: keyword.control.import.objc++
-        3: constant.numeric.preprocessor.objc++
+        3: constant.numeric.integer.decimal.objc++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1865,7 +1864,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc++
         2: keyword.control.import.objc++
-        3: constant.numeric.preprocessor.objc++
+        3: constant.numeric.integer.decimal.objc++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -2083,7 +2082,7 @@ contexts:
     # Captures the namespace macro idiom
     - match: '\b(namespace)\s+(?={{path_lookahead}}\s*\{)'
       scope: meta.namespace.objc++
-      captures: 
+      captures:
         1: keyword.control.objc++
       push:
         - meta_content_scope: meta.namespace.objc++ entity.name.namespace.objc++
