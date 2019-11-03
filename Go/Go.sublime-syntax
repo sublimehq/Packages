@@ -419,11 +419,11 @@ contexts:
   match-imaginary:
     # Mandatory integer, optional fraction, optional exponent, mandatory imaginary
     - match: '{{ddigits}}(?:(\.){{ddigits}})?(?:({{exponent}}){{ddigits}})?(i)'
-      scope: constant.numeric.complex.imaginary.go
+      scope: constant.numeric.imaginary.go
       captures:
         1: punctuation.separator.decimal.go
         2: punctuation.separator.exponent.go
-        3: storage.type.numeric.imaginary.go
+        3: storage.type.numeric.go
     # Dot without fraction
     - match: \d+\.(?:{{exponent}}\d+)?i
       scope: invalid.deprecated.go
@@ -456,7 +456,7 @@ contexts:
         1: punctuation.definition.numeric.hexadecimal.go
         2: punctuation.section.exponent.go
         3: keyword.operator.go
-        4: storage.type.numeric.imaginary.go
+        4: storage.type.numeric.go
     # Hex float literal, with fraction
     - match: '(0[xX]){{ohdigits}}(\.){{ohdigits}}([pP])([+-])?{{ddigits}}(i)?'
       scope: constant.numeric.float.go
@@ -465,7 +465,7 @@ contexts:
         2: punctuation.separator.decimal.go
         3: punctuation.section.exponent.go
         4: keyword.operator.go
-        5: storage.type.numeric.imaginary.go
+        5: storage.type.numeric.go
 
   match-integers:
     - include: match-octal-integer
@@ -484,21 +484,21 @@ contexts:
       scope: constant.numeric.octal.go
       captures:
         1: punctuation.definition.numeric.octal.go
-        2: storage.type.numeric.imaginary.go
+        2: storage.type.numeric.go
 
   match-hex-integer:
     - match: (0[xX]){{hdigits}}(i)?
       scope: constant.numeric.hex.go
       captures:
         1: punctuation.definition.numeric.hexadecimal.go
-        2: storage.type.numeric.imaginary.go
+        2: storage.type.numeric.go
 
   match-binary-integer:
     - match: (0[bB]){{bdigits}}(i)?
       scope: constant.numeric.binary.go
       captures:
         1: punctuation.definition.numeric.binary.go
-        2: storage.type.numeric.imaginary.go
+        2: storage.type.numeric.go
 
   match-decimal-integer:
     - match: '{{ddigits}}'
