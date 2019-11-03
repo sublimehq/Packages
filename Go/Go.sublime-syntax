@@ -432,16 +432,13 @@ contexts:
 
   match-floats:
     # Integer, no fraction, exponent
-    - match: '{{ddigits}}({{exponent}}){{ddigits}}'
+    - match: '{{ddigits}}{{exponent}}{{ddigits}}'
       scope: constant.numeric.float.go
-      captures:
-        1: punctuation.separator.exponent.go
     # Integer, fraction, optional exponent
-    - match: '{{ddigits}}(\.){{ddigits}}(?:({{exponent}}){{ddigits}})?'
+    - match: '{{ddigits}}(\.){{ddigits}}(?:{{exponent}}{{ddigits}})?'
       scope: constant.numeric.float.go
       captures:
         1: punctuation.separator.decimal.go
-        2: punctuation.separator.exponent.go
     # Dot without fraction
     - match: \d+\.(?:{{exponent}}\d+)?
       scope: invalid.deprecated.go

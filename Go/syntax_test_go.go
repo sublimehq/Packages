@@ -1862,48 +1862,39 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 
     0e+0; 0E+0; 0.0e+0; 0.0E+0; 123.456e+789;
 //  ^^^^ constant.numeric.float.go
-//   ^^ punctuation.separator.exponent.go
 //        ^^^^ constant.numeric.float.go
-//         ^^ punctuation.separator.exponent.go
-//              ^^^^^^ constant.numeric.float.go
-//                      ^^^^^^ constant.numeric.float.go
-//                       ^ punctuation.separator.decimal.go
-//                         ^^ punctuation.separator.exponent.go
-//                           ^ constant.numeric.float.go
-//                            ^ punctuation.terminator.go
-//                              ^^^^^^^^^^^^ constant.numeric.float.go
-//                                 ^ punctuation.separator.decimal.go
-//                                     ^^ punctuation.separator.exponent.go
+//              ^ constant.numeric.float.go
+//               ^ constant.numeric.float.go punctuation.separator.decimal.go
+//                ^^^^ constant.numeric.float.go
+//                      ^ constant.numeric.float.go
+//                       ^ constant.numeric.float.go punctuation.separator.decimal.go
+//                        ^^^^ constant.numeric.float.go
+//                              ^^^ constant.numeric.float.go
+//                                 ^ constant.numeric.float.go punctuation.separator.decimal.go
+//                                  ^^^^^^^^ constant.numeric.float.go
 
     1_2e+0; 1E+0_1; 0.1_2e2; 1_23.4_56e+78_9;
-//  ^^^ constant.numeric.float.go
-//     ^^ constant.numeric.float.go punctuation.separator.exponent.go
-//       ^ constant.numeric.float.go
-//          ^ constant.numeric.float.go
-//           ^^ constant.numeric.float.go punctuation.separator.exponent.go
-//             ^^^ constant.numeric.float.go
-//                  ^^^^^ constant.numeric.float.go
-//                       ^ constant.numeric.float.go punctuation.separator.exponent.go
-//                        ^ constant.numeric.float.go
-//                           ^^^^^^^^^ constant.numeric.float.go
-//                                    ^^ constant.numeric.float.go punctuation.separator.exponent.go
-//                                      ^^^^ constant.numeric.float.go
+//  ^^^^^^ constant.numeric.float.go
+//          ^^^^^^ constant.numeric.float.go
+//                  ^ constant.numeric.float.go
+//                   ^ constant.numeric.float.go punctuation.separator.decimal.go
+//                    ^^^^^ constant.numeric.float.go
+//                           ^^^^ constant.numeric.float.go
+//                               ^ constant.numeric.float.go punctuation.separator.decimal.go
+//                                ^^^^^^^^^^ constant.numeric.float.go
 
     0e-0; 0E-0; 0.0e-0; 0.0E-0; 123.456e-789;
 //  ^^^^ constant.numeric.float.go
-//   ^^ punctuation.separator.exponent.go
 //        ^^^^ constant.numeric.float.go
-//         ^^ punctuation.separator.exponent.go
-//           ^ constant.numeric.float.go
-//              ^^^^^^ constant.numeric.float.go
-//               ^ punctuation.separator.decimal.go
-//                 ^^ punctuation.separator.exponent.go
-//                      ^^^^^^ constant.numeric.float.go
-//                       ^ punctuation.separator.decimal.go
-//                         ^^ punctuation.separator.exponent.go
-//                              ^^^^^^^^^^^^ constant.numeric.float.go
-//                                 ^ punctuation.separator.decimal.go
-//                                     ^^ punctuation.separator.exponent.go
+//              ^ constant.numeric.float.go
+//               ^ constant.numeric.float.go punctuation.separator.decimal.go
+//                ^^^^ constant.numeric.float.go
+//                      ^ constant.numeric.float.go
+//                       ^ constant.numeric.float.go punctuation.separator.decimal.go
+//                        ^^^^ constant.numeric.float.go
+//                              ^^^ constant.numeric.float.go
+//                                 ^ constant.numeric.float.go punctuation.separator.decimal.go
+//                                  ^^^^^^^^ constant.numeric.float.go
 
     0.e+0; .0e+0; 0.e-0; .0e-0;
 //  ^^^^^ invalid.deprecated.go
