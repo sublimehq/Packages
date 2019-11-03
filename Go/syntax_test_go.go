@@ -1994,43 +1994,39 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                                ^ constant.numeric.imaginary.go storage.type.numeric.go
 
     1e+2i; 1e-2i; 1.2e+3i; 1.2e-3i; 1E+2i; 1E-2i; 1.2E+3i; 1.2E-3i;
-//  ^^^^^ constant.numeric.imaginary.go
-//   ^^ punctuation.separator.exponent.go
-//      ^ storage.type.numeric.go
-//         ^^^^^ constant.numeric.imaginary.go
-//          ^^ punctuation.separator.exponent.go
-//             ^ storage.type.numeric.go
-//                ^^^^^^^ constant.numeric.imaginary.go
-//                 ^ punctuation.separator.decimal.go
-//                   ^^ punctuation.separator.exponent.go
-//                      ^ storage.type.numeric.go
-//                         ^^^^^^^ constant.numeric.imaginary.go
-//                          ^ punctuation.separator.decimal.go
-//                            ^^ punctuation.separator.exponent.go
-//                               ^ storage.type.numeric.go
-//                                  ^^^^^ constant.numeric.imaginary.go
-//                                   ^^ punctuation.separator.exponent.go
-//                                      ^ storage.type.numeric.go
-//                                         ^^^^^ constant.numeric.imaginary.go
-//                                          ^^ punctuation.separator.exponent.go
-//                                             ^ storage.type.numeric.go
-//                                                ^^^^^^^ constant.numeric.imaginary.go
-//                                                 ^ punctuation.separator.decimal.go
-//                                                   ^^ punctuation.separator.exponent.go
-//                                                      ^ storage.type.numeric.go
-//                                                         ^^^^^^^ constant.numeric.imaginary.go
-//                                                          ^ punctuation.separator.decimal.go
-//                                                            ^^ punctuation.separator.exponent.go
-//                                                               ^ storage.type.numeric.go
+//  ^^^^ constant.numeric.imaginary.go
+//      ^ constant.numeric.imaginary.go storage.type.numeric.go
+//       ^ punctuation.terminator.go
+//         ^^^^ constant.numeric.imaginary.go
+//             ^ constant.numeric.imaginary.go storage.type.numeric.go
+//              ^ punctuation.terminator.go
+//                ^ constant.numeric.imaginary.go
+//                 ^ constant.numeric.imaginary.go punctuation.separator.decimal.go
+//                  ^^^^ constant.numeric.imaginary.go
+//                      ^ constant.numeric.imaginary.go storage.type.numeric.go
+//                         ^ constant.numeric.imaginary.go
+//                          ^ constant.numeric.imaginary.go punctuation.separator.decimal.go
+//                           ^^^^ constant.numeric.imaginary.go
+//                               ^ constant.numeric.imaginary.go storage.type.numeric.go
+//                                  ^^^^ constant.numeric.imaginary.go
+//                                      ^ constant.numeric.imaginary.go storage.type.numeric.go
+//                                         ^^^^ constant.numeric.imaginary.go
+//                                             ^ constant.numeric.imaginary.go storage.type.numeric.go
+//                                                ^ constant.numeric.imaginary.go
+//                                                 ^ constant.numeric.imaginary.go punctuation.separator.decimal.go
+//                                                  ^^^^ constant.numeric.imaginary.go
+//                                                      ^ constant.numeric.imaginary.go storage.type.numeric.go
+//                                                         ^ constant.numeric.imaginary.go
+//                                                          ^ constant.numeric.imaginary.go punctuation.separator.decimal.go
+//                                                           ^^^^ constant.numeric.imaginary.go
+//                                                               ^ constant.numeric.imaginary.go storage.type.numeric.go
 
         1_1e+2_1i; 1.2_1E-3_5i;
-//      ^^^ constant.numeric.imaginary.go
-//         ^^ constant.numeric.imaginary.go punctuation.separator.exponent.go
-//           ^^^ constant.numeric.imaginary.go
+//      ^^^^^^^^ constant.numeric.imaginary.go
 //              ^ constant.numeric.imaginary.go storage.type.numeric.go
-//                 ^^^^^ constant.numeric.imaginary.go
-//                      ^^ constant.numeric.imaginary.go punctuation.separator.exponent.go
-//                        ^^^ constant.numeric.imaginary.go
+//                 ^ constant.numeric.imaginary.go
+//                  ^ constant.numeric.imaginary.go punctuation.separator.decimal.go
+//                   ^^^^^^^^ constant.numeric.imaginary.go
 //                           ^ constant.numeric.imaginary.go storage.type.numeric.go
 
     0o6i; 0O35i; 0o_6i; 0O3_5i;
