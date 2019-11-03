@@ -450,22 +450,18 @@ contexts:
     - match: \.\d+(?:{{exponent}}\d+)?
       scope: invalid.deprecated.go
     # Hex float literal, no fraction
-    - match: '(0[xX]){{hdigits}}([pP])([+-])?{{ddigits}}(i)?'
+    - match: '(0[xX]){{hdigits}}[pP][+-]?{{ddigits}}(i)?'
       scope: constant.numeric.float.go
       captures:
         1: punctuation.definition.numeric.hexadecimal.go
-        2: punctuation.section.exponent.go
-        3: keyword.operator.go
-        4: storage.type.numeric.go
+        2: storage.type.numeric.go
     # Hex float literal, with fraction
-    - match: '(0[xX]){{ohdigits}}(\.){{ohdigits}}([pP])([+-])?{{ddigits}}(i)?'
+    - match: '(0[xX]){{ohdigits}}(\.){{ohdigits}}[pP][+-]?{{ddigits}}(i)?'
       scope: constant.numeric.float.go
       captures:
         1: punctuation.definition.numeric.hexadecimal.go
         2: punctuation.separator.decimal.go
-        3: punctuation.section.exponent.go
-        4: keyword.operator.go
-        5: storage.type.numeric.go
+        3: storage.type.numeric.go
 
   match-integers:
     - include: match-octal-integer
