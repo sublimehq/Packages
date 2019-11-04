@@ -1609,7 +1609,6 @@ contexts:
           with_prototype:
             - match: '(?=""")'
               pop: true
-            - include: line-continuation-inside-string
             - include: f-string-content-with-regex
     # Triple-quoted f-string
     - match: ([fF])(""")
@@ -1926,7 +1925,6 @@ contexts:
           with_prototype:
             - match: (?=''')
               pop: true
-            - include: line-continuation-inside-string
             - include: f-string-content-with-regex
     # Triple-quoted f-string
     - match: ([fF])(''')
