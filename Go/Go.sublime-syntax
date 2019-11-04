@@ -449,13 +449,13 @@ contexts:
     - match: '(0[xX]){{hdigits}}[pP][+-]?{{ddigits}}(i)?'
       scope: constant.numeric.float.hexadecimal.go
       captures:
-        1: punctuation.definition.numeric.hexadecimal.go
+        1: punctuation.definition.numeric.base.go
         2: storage.type.numeric.go
     # Hex float literal, with fraction
     - match: '(0[xX]){{ohdigits}}(\.){{ohdigits}}[pP][+-]?{{ddigits}}(i)?'
       scope: constant.numeric.float.hexadecimal.go
       captures:
-        1: punctuation.definition.numeric.hexadecimal.go
+        1: punctuation.definition.numeric.base.go
         2: punctuation.separator.decimal.go
         3: storage.type.numeric.go
 
@@ -469,27 +469,27 @@ contexts:
     - match: (0){{odigits}}(?=\D)
       scope: constant.numeric.octal.go
       captures:
-        1: punctuation.definition.numeric.octal.go
+        1: punctuation.definition.numeric.base.go
     - match: 0[0-7]*[8-9]+
       scope: invalid.illegal.go
     - match: (0[oO]){{odigits}}(i)?
       scope: constant.numeric.octal.go
       captures:
-        1: punctuation.definition.numeric.octal.go
+        1: punctuation.definition.numeric.base.go
         2: storage.type.numeric.go
 
   match-hex-integer:
     - match: (0[xX]){{hdigits}}(i)?
       scope: constant.numeric.hex.go
       captures:
-        1: punctuation.definition.numeric.hexadecimal.go
+        1: punctuation.definition.numeric.base.go
         2: storage.type.numeric.go
 
   match-binary-integer:
     - match: (0[bB]){{bdigits}}(i)?
       scope: constant.numeric.binary.go
       captures:
-        1: punctuation.definition.numeric.binary.go
+        1: punctuation.definition.numeric.base.go
         2: storage.type.numeric.go
 
   match-decimal-integer:
