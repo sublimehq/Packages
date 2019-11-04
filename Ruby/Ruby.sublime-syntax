@@ -546,13 +546,7 @@ contexts:
       scope: keyword.control.exception.catch.ruby
       push: function-call-arguments
     # flow
-    - match: \braise\b(?![?!])
-      scope: keyword.control.flow.raise.ruby
-      push: function-call-arguments
-    - match: \bfail\b(?![?!])
-      scope: keyword.control.flow.fail.ruby
-      push: function-call-arguments
-    - match: \bthrow\b(?![?!])
+    - match: \b(?:fail|raise|throw)\b(?![?!])
       scope: keyword.control.flow.throw.ruby
       push: function-call-arguments
     # loop
