@@ -136,10 +136,14 @@ string = """
 
 string = """
 #        ^^^ string.quoted.double.block - string string
+\
+# <- punctuation.separator.continuation.line.python
 """
 
 string = r"""
 #         ^^^ meta.string.python string.quoted.double.block
+\
+# <- - punctuation
 """
 
 string = r"""
