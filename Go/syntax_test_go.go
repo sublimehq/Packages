@@ -1192,7 +1192,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 
     [0x10]typ
 //  ^ punctuation.section.brackets.begin.go
-//   ^^^^ constant.numeric.hex.go
+//   ^^^^ constant.numeric.integer.hexadecimal.go
 //       ^ punctuation.section.brackets.end.go
 //        ^^^ storage.type.go
 
@@ -1806,16 +1806,16 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 // ### Hex
 
     0x0; 0x0123456789ABCDEFabcdef; -0x0123456789ABCDEFabcdef;
-//  ^^^ constant.numeric.hex.go
-//       ^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.hex.go
+//  ^^^ constant.numeric.integer.hexadecimal.go
+//       ^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal.go
 //                                 ^ keyword.operator.go
-//                                  ^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.hex.go
+//                                  ^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal.go
 
     0x_0; 0x012_3456_7_8_9ABCDEFabcd_ef;
-//  ^^ constant.numeric.hex.go punctuation.definition.numeric.base.go
-//    ^^ constant.numeric.hex.go
-//        ^^ constant.numeric.hex.go punctuation.definition.numeric.base.go
-//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.hex.go
+//  ^^ constant.numeric.integer.hexadecimal.go punctuation.definition.numeric.base.go
+//    ^^ constant.numeric.integer.hexadecimal.go
+//        ^^ constant.numeric.integer.hexadecimal.go punctuation.definition.numeric.base.go
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal.go
 
 // ### Binary
 
@@ -2038,15 +2038,15 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                           ^ constant.numeric.integer.octal.go storage.type.numeric.go
 
     0x0i; 0x0123456789ABCDEFabcdefi; 0x_012_CD_Efi;
-//  ^^ constant.numeric.hex.go punctuation.definition.numeric.base.go
-//    ^ constant.numeric.hex.go
-//     ^ constant.numeric.hex.go storage.type.numeric.go
-//        ^^ constant.numeric.hex.go punctuation.definition.numeric.base.go
-//          ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.hex.go
-//                                ^ constant.numeric.hex.go storage.type.numeric.go
-//                                   ^^ constant.numeric.hex.go punctuation.definition.numeric.base.go
-//                                     ^^^^^^^^^^ constant.numeric.hex.go
-//                                               ^ constant.numeric.hex.go storage.type.numeric.go
+//  ^^ constant.numeric.integer.hexadecimal.go punctuation.definition.numeric.base.go
+//    ^ constant.numeric.integer.hexadecimal.go
+//     ^ constant.numeric.integer.hexadecimal.go storage.type.numeric.go
+//        ^^ constant.numeric.integer.hexadecimal.go punctuation.definition.numeric.base.go
+//          ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal.go
+//                                ^ constant.numeric.integer.hexadecimal.go storage.type.numeric.go
+//                                   ^^ constant.numeric.integer.hexadecimal.go punctuation.definition.numeric.base.go
+//                                     ^^^^^^^^^^ constant.numeric.integer.hexadecimal.go
+//                                               ^ constant.numeric.integer.hexadecimal.go storage.type.numeric.go
 
     0b1011i; 0B00001i; 0b_1011i; 0B000_01i;
 //  ^^ constant.numeric.binary.go punctuation.definition.numeric.base.go

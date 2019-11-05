@@ -480,7 +480,7 @@ contexts:
 
   match-hex-integer:
     - match: (0[xX]){{hdigits}}(i)?
-      scope: constant.numeric.hex.go
+      scope: constant.numeric.integer.hexadecimal.go
       captures:
         1: punctuation.definition.numeric.base.go
         2: storage.type.numeric.go
