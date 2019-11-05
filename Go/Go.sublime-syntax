@@ -467,13 +467,13 @@ contexts:
 
   match-octal-integer:
     - match: (0){{odigits}}(?=\D)
-      scope: constant.numeric.octal.go
+      scope: constant.numeric.integer.octal.go
       captures:
         1: punctuation.definition.numeric.base.go
     - match: 0[0-7]*[8-9]+
       scope: invalid.illegal.go
     - match: (0[oO]){{odigits}}(i)?
-      scope: constant.numeric.octal.go
+      scope: constant.numeric.integer.octal.go
       captures:
         1: punctuation.definition.numeric.base.go
         2: storage.type.numeric.go

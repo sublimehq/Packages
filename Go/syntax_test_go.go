@@ -1774,31 +1774,34 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 // ### Octal
 
     00; 01234567; -01234567; 0_0; 012_45;
-//  ^^ constant.numeric.octal.go
-//      ^^^^^^^^ constant.numeric.octal.go
+//  ^ constant.numeric.integer.octal.go punctuation.definition.numeric.base.go
+//   ^ constant.numeric.integer.octal.go
+//      ^ constant.numeric.integer.octal.go punctuation.definition.numeric.base.go
+//       ^^^^^^^ constant.numeric.integer.octal.go
 //                ^ keyword.operator.go
-//                 ^^^^^^^^ constant.numeric.octal.go
-//                           ^ constant.numeric.octal.go punctuation.definition.numeric.base.go
-//                            ^^ constant.numeric.octal.go
-//                                ^ constant.numeric.octal.go punctuation.definition.numeric.base.go
-//                                 ^^^^^ constant.numeric.octal.go
+//                 ^ constant.numeric.integer.octal.go punctuation.definition.numeric.base.go
+//                  ^^^^^^^ constant.numeric.integer.octal.go
+//                           ^ constant.numeric.integer.octal.go punctuation.definition.numeric.base.go
+//                            ^^ constant.numeric.integer.octal.go
+//                                ^ constant.numeric.integer.octal.go punctuation.definition.numeric.base.go
+//                                 ^^^^^ constant.numeric.integer.octal.go
 
     08; 09;
 //  ^^ invalid.illegal.go
 //      ^^ invalid.illegal.go
 
     0o660; 0O061; -0o02; 0o_660; 0O0_6_1;
-//  ^^ constant.numeric.octal.go punctuation.definition.numeric.base.go
-//    ^^^ constant.numeric.octal.go
-//         ^^ constant.numeric.octal.go punctuation.definition.numeric.base.go
-//           ^^^ constant.numeric.octal.go
+//  ^^ constant.numeric.integer.octal.go punctuation.definition.numeric.base.go
+//    ^^^ constant.numeric.integer.octal.go
+//         ^^ constant.numeric.integer.octal.go punctuation.definition.numeric.base.go
+//           ^^^ constant.numeric.integer.octal.go
 //                ^ keyword.operator.go
-//                 ^^ constant.numeric.octal.go punctuation.definition.numeric.base.go
-//                   ^^ constant.numeric.octal.go
-//                       ^^ constant.numeric.octal.go punctuation.definition.numeric.base.go
-//                         ^^^^ constant.numeric.octal.go
-//                               ^^ constant.numeric.octal.go punctuation.definition.numeric.base.go
-//                                 ^^^^^ constant.numeric.octal.go
+//                 ^^ constant.numeric.integer.octal.go punctuation.definition.numeric.base.go
+//                   ^^ constant.numeric.integer.octal.go
+//                       ^^ constant.numeric.integer.octal.go punctuation.definition.numeric.base.go
+//                         ^^^^ constant.numeric.integer.octal.go
+//                               ^^ constant.numeric.integer.octal.go punctuation.definition.numeric.base.go
+//                                 ^^^^^ constant.numeric.integer.octal.go
 
 // ### Hex
 
@@ -2021,18 +2024,18 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                           ^ constant.numeric.imaginary.go storage.type.numeric.go
 
     0o6i; 0O35i; 0o_6i; 0O3_5i;
-//  ^^ constant.numeric.octal.go punctuation.definition.numeric.base.go
-//    ^ constant.numeric.octal.go
-//     ^ constant.numeric.octal.go storage.type.numeric.go
-//        ^^ constant.numeric.octal.go punctuation.definition.numeric.base.go
-//          ^^ constant.numeric.octal.go
-//            ^ constant.numeric.octal.go storage.type.numeric.go
-//               ^^ constant.numeric.octal.go punctuation.definition.numeric.base.go
-//                 ^^ constant.numeric.octal.go
-//                   ^ constant.numeric.octal.go storage.type.numeric.go
-//                      ^^ constant.numeric.octal.go punctuation.definition.numeric.base.go
-//                        ^^^ constant.numeric.octal.go
-//                           ^ constant.numeric.octal.go storage.type.numeric.go
+//  ^^ constant.numeric.integer.octal.go punctuation.definition.numeric.base.go
+//    ^ constant.numeric.integer.octal.go
+//     ^ constant.numeric.integer.octal.go storage.type.numeric.go
+//        ^^ constant.numeric.integer.octal.go punctuation.definition.numeric.base.go
+//          ^^ constant.numeric.integer.octal.go
+//            ^ constant.numeric.integer.octal.go storage.type.numeric.go
+//               ^^ constant.numeric.integer.octal.go punctuation.definition.numeric.base.go
+//                 ^^ constant.numeric.integer.octal.go
+//                   ^ constant.numeric.integer.octal.go storage.type.numeric.go
+//                      ^^ constant.numeric.integer.octal.go punctuation.definition.numeric.base.go
+//                        ^^^ constant.numeric.integer.octal.go
+//                           ^ constant.numeric.integer.octal.go storage.type.numeric.go
 
     0x0i; 0x0123456789ABCDEFabcdefi; 0x_012_CD_Efi;
 //  ^^ constant.numeric.hex.go punctuation.definition.numeric.base.go
