@@ -1281,3 +1281,13 @@ foo / "bar/bla"
 #                   ^ punctuation.definition.string.end.ruby
 #                    ^ punctuation.separator.sequence.ruby
 #                      ^^^ string.quoted.double.ruby
+
+# issue #2181
+foo << bar if baz.include?(x)
+#          ^^ keyword.control.ruby
+foo << bar.baz if baz.include?(x)
+#              ^^ keyword.control.ruby
+foo << bar.assert_match if baz.include?(x)
+#                       ^^ keyword.control.ruby
+foo << bar.to_s if baz.include?(x)
+#               ^^ keyword.control.ruby

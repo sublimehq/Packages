@@ -1190,8 +1190,9 @@ contexts:
   try-regex:
     # Generally for multiline regexes, one of the %r forms below will be used,
     # so we bail out if we can't find a second / on the current line
-    - match: /(?=(?!=).*/)
-      scope: punctuation.definition.string.begin.ruby
+    - match: \s*(/)(?=(?!=).*/)
+      captures:
+        1: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: meta.string.regexp.ruby string.regexp.classic.ruby
         - match: (/)([eimnosux]*)
@@ -1200,7 +1201,7 @@ contexts:
             2: keyword.other.ruby
           pop: true
         - include: regex-sub
-    - match: $|(?=\S)
+    - match: ''
       pop: true
 
   regexes:
