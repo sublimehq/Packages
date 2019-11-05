@@ -896,20 +896,20 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 
     map[[0]typ][0]typ
 //  ^^^ storage.type.keyword.map.go
-//       ^ constant.numeric.integer.go
+//       ^ constant.numeric.integer.decimal.go
 //         ^^^ storage.type.go
-//              ^ constant.numeric.integer.go
+//              ^ constant.numeric.integer.decimal.go
 //                ^^^ storage.type.go
 
     map[/**/ [0] /**/ typ /**/ ] /**/ [0] /**/ typ
 //  ^^^ storage.type.keyword.map.go
 //      ^^^^ comment.block.go
-//            ^ constant.numeric.integer.go
+//            ^ constant.numeric.integer.decimal.go
 //               ^^^^ comment.block.go
 //                    ^^^ storage.type.go
 //                        ^^^^ comment.block.go
 //                               ^^^^ comment.block.go
-//                                     ^ constant.numeric.integer.go
+//                                     ^ constant.numeric.integer.decimal.go
 //                                        ^^^^ comment.block.go
 //                                             ^^^ storage.type.go
 
@@ -1176,7 +1176,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
         field [0]typ
 //      ^^^^^ meta.type.go variable.other.member.declaration.go
 //            ^ meta.type.go punctuation.section.brackets.begin.go
-//             ^ meta.type.go constant.numeric.integer.go
+//             ^ meta.type.go constant.numeric.integer.decimal.go
 //              ^ meta.type.go punctuation.section.brackets.end.go
 //               ^^^ meta.type.go storage.type.go
     }
@@ -1186,7 +1186,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 
     [0]typ
 //  ^ punctuation.section.brackets.begin.go
-//   ^ constant.numeric.integer.go
+//   ^ constant.numeric.integer.decimal.go
 //    ^ punctuation.section.brackets.end.go
 //     ^^^ storage.type.go
 
@@ -1198,7 +1198,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 
     [0]typ ident
 //  ^ punctuation.section.brackets.begin.go
-//   ^ constant.numeric.integer.go
+//   ^ constant.numeric.integer.decimal.go
 //    ^ punctuation.section.brackets.end.go
 //     ^^^ storage.type.go
 //         ^^^^^ variable.other.go
@@ -1233,7 +1233,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //   ^^^^ comment.block.go
      /**/ 0 /**/ ] /**/ typ
 //   ^^^^ comment.block.go
-//        ^ constant.numeric.integer.go
+//        ^ constant.numeric.integer.decimal.go
 //          ^^^^ comment.block.go
 //                 ^^^^ comment.block.go
 //                      ^^^ storage.type.go
@@ -1440,7 +1440,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //  ^^^^^ storage.type.keyword.const.go
 //        ^ variable.language.blank.go
 //          ^ keyword.operator.assignment.go
-//            ^^ constant.numeric.integer.go
+//            ^^ constant.numeric.integer.decimal.go
 
     /**/ const
 //  ^^^^ comment.block.go
@@ -1453,7 +1453,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                      ^^^^ comment.block.go
 //                           ^ keyword.operator.assignment.go
 //                             ^^^^ comment.block.go
-//                                  ^^^^ constant.numeric.integer.go
+//                                  ^^^^ constant.numeric.integer.decimal.go
 //                                       ^^^^ comment.block.go
 
     const ident, ident = 10, 20
@@ -1497,9 +1497,9 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                          ^^^^ comment.block.go
 //                               ^ keyword.operator.assignment.go
 //                                 ^^^^ comment.block.go
-//                                      ^^^^ constant.numeric.integer.go
+//                                      ^^^^ constant.numeric.integer.decimal.go
 //                                           ^ keyword.operator.go
-//                                             ^^^^ constant.numeric.integer.go
+//                                             ^^^^ constant.numeric.integer.decimal.go
 //                                                  ^^^^ comment.block.go
 
         /**/ ident /**/ = /**/ ident + 100 /**/
@@ -1510,7 +1510,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                        ^^^^ comment.block.go
 //                             ^^^^^ variable.other.go
 //                                   ^ keyword.operator.go
-//                                     ^^^ constant.numeric.integer.go
+//                                     ^^^ constant.numeric.integer.decimal.go
 //                                         ^^^^ comment.block.go
 
         /**/ ident /**/
@@ -1530,9 +1530,9 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //      ^^^^^ variable.other.constant.declaration.go
 //            ^^^ storage.type.go
 //                ^ keyword.operator.assignment.go
-//                  ^^ constant.numeric.integer.go
+//                  ^^ constant.numeric.integer.decimal.go
 //                    ^ punctuation.separator.go
-//                      ^^ constant.numeric.integer.go
+//                      ^^ constant.numeric.integer.decimal.go
 
         ident,
 //      ^^^^^ variable.other.constant.declaration.go
@@ -1569,20 +1569,20 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //      ^^^^^ variable.other.constant.declaration.go
 //            ^ keyword.operator.assignment.go
         10
-//      ^^ constant.numeric.integer.go
+//      ^^ constant.numeric.integer.decimal.go
 
         ident =
 //      ^^^^^ variable.other.constant.declaration.go
 //            ^ keyword.operator.assignment.go
         iota + iota
-//      ^^^^ constant.numeric.integer.go
+//      ^^^^ constant.numeric.integer.decimal.go
 //           ^ keyword.operator.go
-//             ^^^^ constant.numeric.integer.go
+//             ^^^^ constant.numeric.integer.decimal.go
 
         iota = iota
 //      ^^^^ variable.other.constant.declaration.go
 //           ^ keyword.operator.assignment.go
-//             ^^^^ constant.numeric.integer.go
+//             ^^^^ constant.numeric.integer.decimal.go
     )
 
     const ident typ = ident +
@@ -1627,7 +1627,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //      ^^^ storage.type.keyword.var.go
 //          ^^^^ variable.declaration.go
 //               ^ keyword.operator.assignment.go
-//                 ^ constant.numeric.integer.go
+//                 ^ constant.numeric.integer.decimal.go
         var _ = iota
 //      ^^^ storage.type.keyword.var.go
 //          ^ variable.language.blank.go
@@ -1654,7 +1654,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                      ^^^^ comment.block.go
 //                           ^ keyword.operator.assignment.go
 //                             ^^^^ comment.block.go
-//                                  ^^ constant.numeric.integer.go
+//                                  ^^ constant.numeric.integer.decimal.go
 //                                     ^^^^ comment.block.go
 
     var ident, ident = 10, 20
@@ -1702,7 +1702,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                                            ^^^^ comment.block.go
 //                                                 ^ keyword.operator.go
 //                                                   ^^^^ comment.block.go
-//                                                        ^^ constant.numeric.integer.go
+//                                                        ^^ constant.numeric.integer.decimal.go
 //                                                           ^^^^ comment.block.go
 
         /**/ ident /**/ = /**/ ident + 20 /**/
@@ -1713,7 +1713,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                        ^^^^ comment.block.go
 //                             ^^^^^ variable.other.go
 //                                   ^ keyword.operator.go
-//                                     ^^ constant.numeric.integer.go
+//                                     ^^ constant.numeric.integer.decimal.go
 //                                        ^^^^ comment.block.go
 
         ident,
@@ -1763,13 +1763,13 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 // ### Decimal
 
     0; 123456789; -0; -123456789; 1777_000_000;
-//  ^ constant.numeric.integer.go
-//     ^^^^^^^^^ constant.numeric.integer.go
+//  ^ constant.numeric.integer.decimal.go
+//     ^^^^^^^^^ constant.numeric.integer.decimal.go
 //                ^ keyword.operator.go
-//                 ^ constant.numeric.integer.go
+//                 ^ constant.numeric.integer.decimal.go
 //                    ^ keyword.operator.go
-//                     ^^^^^^^^^ constant.numeric.integer.go
-//                                ^^^^^^^^^^^^ constant.numeric.integer.go
+//                     ^^^^^^^^^ constant.numeric.integer.decimal.go
+//                                ^^^^^^^^^^^^ constant.numeric.integer.decimal.go
 
 // ### Octal
 

@@ -494,7 +494,7 @@ contexts:
 
   match-decimal-integer:
     - match: '{{ddigits}}'
-      scope: constant.numeric.integer.go
+      scope: constant.numeric.integer.decimal.go
 
   # https://golang.org/ref/spec#Rune_literals
   match-runes:
@@ -1144,7 +1144,7 @@ contexts:
       set:
         - include: pop-on-terminator
         - match: \biota\b
-          scope: constant.numeric.integer.go
+          scope: constant.numeric.integer.decimal.go
         - include: match-any
 
   pop-var-type-and-or-assignment:
