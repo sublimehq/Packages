@@ -871,7 +871,9 @@ def MyModule::module_method
 #   ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.function
 #   ^^^^^^^^ support.other.namespace
 #           ^^ punctuation.accessor.double-colon
-
+  super /pattern/
+# ^^^^^ support.function.builtin.ruby
+#       ^^^^^^^^^ meta.string.regexp.ruby
 end
 
 def my_function

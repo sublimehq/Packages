@@ -408,6 +408,7 @@ contexts:
       push: after-keyword
     - match: \bsuper\b(?![?!])
       scope: support.function.builtin.ruby
+      push: after-keyword
 
   operators:
     - match: '>>'
