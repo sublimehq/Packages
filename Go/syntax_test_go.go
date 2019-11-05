@@ -1820,17 +1820,17 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 // ### Binary
 
     0b1011; 0B00001; -0b1; 0b_1; 0B1_0;
-//  ^^ constant.numeric.binary.go punctuation.definition.numeric.base.go
-//    ^^^^ constant.numeric.binary.go
-//          ^^ constant.numeric.binary.go punctuation.definition.numeric.base.go
-//            ^^^^^ constant.numeric.binary.go
+//  ^^ constant.numeric.integer.binary.go punctuation.definition.numeric.base.go
+//    ^^^^ constant.numeric.integer.binary.go
+//          ^^ constant.numeric.integer.binary.go punctuation.definition.numeric.base.go
+//            ^^^^^ constant.numeric.integer.binary.go
 //                   ^ keyword.operator.go
-//                    ^^ constant.numeric.binary.go punctuation.definition.numeric.base.go
-//                      ^ constant.numeric.binary.go
-//                         ^^ constant.numeric.binary.go punctuation.definition.numeric.base.go
-//                           ^^ constant.numeric.binary.go
-//                               ^^ constant.numeric.binary.go punctuation.definition.numeric.base.go
-//                                 ^^^ constant.numeric.binary.go
+//                    ^^ constant.numeric.integer.binary.go punctuation.definition.numeric.base.go
+//                      ^ constant.numeric.integer.binary.go
+//                         ^^ constant.numeric.integer.binary.go punctuation.definition.numeric.base.go
+//                           ^^ constant.numeric.integer.binary.go
+//                               ^^ constant.numeric.integer.binary.go punctuation.definition.numeric.base.go
+//                                 ^^^ constant.numeric.integer.binary.go
 
 // ## Floats
 
@@ -2049,18 +2049,18 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                                               ^ constant.numeric.integer.hexadecimal.go storage.type.numeric.go
 
     0b1011i; 0B00001i; 0b_1011i; 0B000_01i;
-//  ^^ constant.numeric.binary.go punctuation.definition.numeric.base.go
-//    ^^^^ constant.numeric.binary.go
-//        ^ constant.numeric.binary.go storage.type.numeric.go
-//           ^^ constant.numeric.binary.go punctuation.definition.numeric.base.go
-//             ^^^^^ constant.numeric.binary.go
-//                  ^ constant.numeric.binary.go storage.type.numeric.go
-//                     ^^ constant.numeric.binary.go punctuation.definition.numeric.base.go
-//                       ^^^^^ constant.numeric.binary.go
-//                            ^ constant.numeric.binary.go storage.type.numeric.go
-//                               ^^ constant.numeric.binary.go punctuation.definition.numeric.base.go
-//                                 ^^^^^^ constant.numeric.binary.go
-//                                       ^ constant.numeric.binary.go storage.type.numeric.go
+//  ^^ constant.numeric.integer.binary.go punctuation.definition.numeric.base.go
+//    ^^^^ constant.numeric.integer.binary.go
+//        ^ constant.numeric.integer.binary.go storage.type.numeric.go
+//           ^^ constant.numeric.integer.binary.go punctuation.definition.numeric.base.go
+//             ^^^^^ constant.numeric.integer.binary.go
+//                  ^ constant.numeric.integer.binary.go storage.type.numeric.go
+//                     ^^ constant.numeric.integer.binary.go punctuation.definition.numeric.base.go
+//                       ^^^^^ constant.numeric.integer.binary.go
+//                            ^ constant.numeric.integer.binary.go storage.type.numeric.go
+//                               ^^ constant.numeric.integer.binary.go punctuation.definition.numeric.base.go
+//                                 ^^^^^^ constant.numeric.integer.binary.go
+//                                       ^ constant.numeric.integer.binary.go storage.type.numeric.go
 
     0x1p-2i; 0x1.0P-1021i; 0x1.Fp+0i;
 //  ^^ constant.numeric.float.hexadecimal.go punctuation.definition.numeric.base.go
