@@ -384,8 +384,6 @@ contexts:
       scope: keyword.control.flow.retry.ruby
     - match: \breturn\b(?![?!])
       scope: keyword.control.flow.return.ruby
-    - match: \bsuper\b(?![?!])
-      scope: keyword.control.flow.super.ruby
     - match: \byield\b(?![?!])
       scope: keyword.control.flow.yield.ruby
     # declarations
@@ -408,6 +406,8 @@ contexts:
     - match: \b(?:defined|block_given)\?
       scope: support.function.builtin.ruby
       push: after-keyword
+    - match: \bsuper\b(?![?!])
+      scope: support.function.builtin.ruby
 
   operators:
     - match: '>>'
