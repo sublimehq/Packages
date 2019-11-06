@@ -412,6 +412,7 @@ contexts:
   match-literals:
     - include: match-imaginary
     - include: match-floats
+    - include: match-deprecated
     - include: match-integers
     - include: match-runes
     - include: match-strings
@@ -423,12 +424,6 @@ contexts:
       captures:
         1: punctuation.separator.decimal.go
         2: storage.type.numeric.go
-    # Dot without fraction
-    - match: \d+\.(?:{{exponent}}\d+)?i
-      scope: invalid.deprecated.go
-    # Dot without integer
-    - match: \.\d+(?:{{exponent}}\d+)?i
-      scope: invalid.deprecated.go
 
   match-floats:
     # Integer, no fraction, exponent
@@ -439,12 +434,6 @@ contexts:
       scope: constant.numeric.float.decimal.go
       captures:
         1: punctuation.separator.decimal.go
-    # Dot without fraction
-    - match: \d+\.(?:{{exponent}}\d+)?
-      scope: invalid.deprecated.go
-    # Dot without integer
-    - match: \.\d+(?:{{exponent}}\d+)?
-      scope: invalid.deprecated.go
     # Hex float literal, no fraction
     - match: '(0[xX]){{hdigits}}[pP][+-]?{{ddigits}}(i)?'
       scope: constant.numeric.float.hexadecimal.go
@@ -458,6 +447,11 @@ contexts:
         1: punctuation.definition.numeric.base.go
         2: punctuation.separator.decimal.go
         3: storage.type.numeric.go
+
+  match-deprecated:
+    # Dot without fraction or dot without integer.
+    - match: (?:\d+\.|\.\d+)(?:{{exponent}}\d+)?i?
+      scope: invalid.deprecated.go
 
   match-integers:
     - include: match-octal-integer
