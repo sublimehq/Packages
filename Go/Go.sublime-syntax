@@ -424,6 +424,38 @@ contexts:
       captures:
         1: punctuation.separator.decimal.go
         2: storage.type.numeric.go
+    # Hex float literal, no fraction
+    - match: '(0[xX]){{hdigits}}[pP][+-]?{{ddigits}}(i)'
+      scope: constant.numeric.imaginary.hexadecimal.go
+      captures:
+        1: punctuation.definition.numeric.base.go
+        2: storage.type.numeric.go
+    # Hex float literal, with fraction
+    - match: '(0[xX]){{ohdigits}}(\.){{ohdigits}}[pP][+-]?{{ddigits}}(i)'
+      scope: constant.numeric.imaginary.hexadecimal.go
+      captures:
+        1: punctuation.definition.numeric.base.go
+        2: punctuation.separator.decimal.go
+        3: storage.type.numeric.go
+    # Hex integers.
+    - match: (0[xX]){{hdigits}}(i)
+      scope: constant.numeric.imaginary.hexadecimal.go
+      captures:
+        1: punctuation.definition.numeric.base.go
+        2: storage.type.numeric.go
+    # Octal numbers.
+    - match: (0[oO]){{odigits}}(i)
+      scope: constant.numeric.imaginary.octal.go
+      captures:
+        1: punctuation.definition.numeric.base.go
+        2: storage.type.numeric.go
+    # Binary numbers.
+    - match: (0[bB]){{bdigits}}(i)
+      scope: constant.numeric.imaginary.binary.go
+      captures:
+        1: punctuation.definition.numeric.base.go
+        2: storage.type.numeric.go
+
 
   match-floats:
     # Integer, no fraction, exponent
@@ -435,18 +467,16 @@ contexts:
       captures:
         1: punctuation.separator.decimal.go
     # Hex float literal, no fraction
-    - match: '(0[xX]){{hdigits}}[pP][+-]?{{ddigits}}(i)?'
+    - match: '(0[xX]){{hdigits}}[pP][+-]?{{ddigits}}'
       scope: constant.numeric.float.hexadecimal.go
       captures:
         1: punctuation.definition.numeric.base.go
-        2: storage.type.numeric.go
     # Hex float literal, with fraction
-    - match: '(0[xX]){{ohdigits}}(\.){{ohdigits}}[pP][+-]?{{ddigits}}(i)?'
+    - match: '(0[xX]){{ohdigits}}(\.){{ohdigits}}[pP][+-]?{{ddigits}}'
       scope: constant.numeric.float.hexadecimal.go
       captures:
         1: punctuation.definition.numeric.base.go
         2: punctuation.separator.decimal.go
-        3: storage.type.numeric.go
 
   match-deprecated:
     # Dot without fraction or dot without integer.
@@ -466,25 +496,22 @@ contexts:
         1: punctuation.definition.numeric.base.go
     - match: 0[0-7]*[8-9]+
       scope: invalid.illegal.go
-    - match: (0[oO]){{odigits}}(i)?
+    - match: (0[oO]){{odigits}}
       scope: constant.numeric.integer.octal.go
       captures:
         1: punctuation.definition.numeric.base.go
-        2: storage.type.numeric.go
 
   match-hex-integer:
-    - match: (0[xX]){{hdigits}}(i)?
+    - match: (0[xX]){{hdigits}}
       scope: constant.numeric.integer.hexadecimal.go
       captures:
         1: punctuation.definition.numeric.base.go
-        2: storage.type.numeric.go
 
   match-binary-integer:
-    - match: (0[bB]){{bdigits}}(i)?
+    - match: (0[bB]){{bdigits}}
       scope: constant.numeric.integer.binary.go
       captures:
         1: punctuation.definition.numeric.base.go
-        2: storage.type.numeric.go
 
   match-decimal-integer:
     - match: '{{ddigits}}'
