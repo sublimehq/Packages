@@ -178,19 +178,23 @@
 @keyframes test-keyframes-keywords {
     from, to {}
 /*  ^^^^ keyword.keyframe-selector.css */
+/*      ^ punctuation.separator.sequence.css */
 /*        ^^ keyword.keyframe-selector.css */
 
     0%, 100% {}
-/*  ^^ constant.numeric.css */
-/*      ^^^^ constant.numeric.css */
+/*  ^^ constant.numeric.integer.decimal.css */
+/*    ^ punctuation.separator.sequence.css */
+/*      ^^^^ constant.numeric.integer.decimal.css */
 
 
     .99%, 100.99% {}
-/*  ^^^^ constant.numeric.css */
-/*        ^^^^^^^ constant.numeric.css */
+/*  ^^^^ constant.numeric.float.decimal.css */
+/*      ^ punctuation.separator.sequence.css */
+/*        ^^^^^^^ constant.numeric.float.decimal.css */
 
     0%, to {}
-/*  ^^ constant.numeric.css */
+/*  ^^ constant.numeric.integer.decimal.css */
+/*    ^ punctuation.separator.sequence.css */
 /*      ^^ keyword.keyframe-selector.css */
 }
 

@@ -260,11 +260,11 @@ contexts:
           push:
             - match: '(?=\})'
               pop: true
-            - match: '\s*(?:(from|to)|((?:\.[0-9]+|[0-9]+(?:\.[0-9]*)?)(%)))\s*,?\s*'
-              captures:
-                1: keyword.keyframe-selector.css
-                2: constant.numeric.css
-                3: keyword.other.unit.css
+            - match: \b(from|to)\b
+              scope: keyword.keyframe-selector.css
+            - match: ','
+              scope: punctuation.separator.sequence.css
+            - include: numeric-values
             - include: main
 
   at-media:
