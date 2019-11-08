@@ -19,7 +19,7 @@ variables:
   # Types
   # https://www.w3.org/TR/css3-values/#numeric-types
   integer: '(?:[-+]?\d+)'
-  number: '[-+]?(?:(?:\d*\.\d+(?:[eE]{{integer}})*)|{{integer}})'
+  float:  '(?:[-+]?\d*\.\d+(?:[eE]{{integer}})*)'
 
   # Units
   # https://www.w3.org/TR/css3-values/#lengths
@@ -330,9 +330,9 @@ contexts:
           scope: support.constant.property-value.css
         - match: \s*(\d+)(/)(\d+)
           captures:
-            1: constant.numeric.css
+            1: constant.numeric.integer.decimal.css
             2: keyword.operator.arithmetic.css
-            3: constant.numeric.css
+            3: constant.numeric.integer.decimal.css
         - include: numeric-values
 
   media-query-list:
@@ -1576,7 +1576,7 @@ contexts:
           - include: resolution-type
           - include: image-type
           - match: '[0-9]+(x)'
-            scope: constant.numeric.css
+            scope: constant.numeric.integer.decimal.css
             captures:
               1: keyword.other.unit.css
           - include: unquoted-string
@@ -1968,19 +1968,27 @@ contexts:
     - include: percentage-type
     - include: number-type
 
+  float-type:
+    - match: '{{float}}'
+      scope: constant.numeric.float.decimal.css
+
   integer-type:
     - match: '{{integer}}'
-      scope: constant.numeric.css
+      scope: constant.numeric.integer.decimal.css
 
   # Make sure `number-type` is included after any other numeric values
   # as `number-type` will consume all numeric values.
   number-type:
-    - match: '{{number}}'
-      scope: constant.numeric.css
+    - include: float-type
+    - include: integer-type
 
   percentage-type:
-    - match: '{{number}}(%)'
-      scope: constant.numeric.css
+    - match: '{{float}}(%)'
+      scope: constant.numeric.float.decimal.css
+      captures:
+        1: keyword.other.unit.css
+    - match: '{{integer}}(%)'
+      scope: constant.numeric.integer.decimal.css
       captures:
         1: keyword.other.unit.css
 
@@ -1992,38 +2000,58 @@ contexts:
     - include: time-type
 
   length-type:
-    - match: '{{number}}({{font_relative_lengths}}|{{viewport_percentage_lengths}}|{{absolute_lengths}})\b'
-      scope: constant.numeric.css
+    - match: '{{float}}({{font_relative_lengths}}|{{viewport_percentage_lengths}}|{{absolute_lengths}})\b'
+      scope: constant.numeric.float.decimal.css
+      captures:
+        1: keyword.other.unit.css
+    - match: '{{integer}}({{font_relative_lengths}}|{{viewport_percentage_lengths}}|{{absolute_lengths}})\b'
+      scope: constant.numeric.integer.decimal.css
       captures:
         1: keyword.other.unit.css
     - match: '0\b(?!%)'
-      scope: constant.numeric.css
+      scope: constant.numeric.integer.decimal.css
 
   time-type:
-    - match: '{{number}}({{duration_units}})\b'
-      scope: constant.numeric.css
+    - match: '{{float}}({{duration_units}})\b'
+      scope: constant.numeric.float.decimal.css
+      captures:
+        1: keyword.other.unit.css
+    - match: '{{integer}}({{duration_units}})\b'
+      scope: constant.numeric.integer.decimal.css
       captures:
         1: keyword.other.unit.css
 
   frequency-type:
-    - match: '{{number}}({{frequency_units}})\b'
-      scope: constant.numeric.css
+    - match: '{{float}}({{frequency_units}})\b'
+      scope: constant.numeric.float.decimal.css
+      captures:
+        1: keyword.other.unit.css
+    - match: '{{integer}}({{frequency_units}})\b'
+      scope: constant.numeric.integer.decimal.css
       captures:
         1: keyword.other.unit.css
 
   resolution-type:
-    - match: '{{number}}({{resolution_units}})\b'
-      scope: constant.numeric.css
+    - match: '{{float}}({{resolution_units}})\b'
+      scope: constant.numeric.float.decimal.css
+      captures:
+        1: keyword.other.unit.css
+    - match: '{{integer}}({{resolution_units}})\b'
+      scope: constant.numeric.integer.decimal.css
       captures:
         1: keyword.other.unit.css
 
   angle-type:
-    - match: '{{number}}({{angle_units}})\b'
-      scope: constant.numeric.css
+    - match: '{{float}}({{angle_units}})\b'
+      scope: constant.numeric.float.decimal.css
+      captures:
+        1: keyword.other.unit.css
+    - match: '{{integer}}({{angle_units}})\b'
+      scope: constant.numeric.integer.decimal.css
       captures:
         1: keyword.other.unit.css
     - match: '0\b(?!%)'
-      scope: constant.numeric.css
+      scope: constant.numeric.integer.decimal.css
 
   # https://drafts.csswg.org/css-images-3/#typedef-image
   image-type:
