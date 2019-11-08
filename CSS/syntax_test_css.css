@@ -392,17 +392,42 @@
 /*             ^ punctuation.definition.group.begin.css */
 /*                  ^ punctuation.definition.group.end.css */
 
+.test:nth-child(+2n + 3) {}
+/*              ^^^ constant.numeric.integer.decimal.css */
+/*                 ^ - constant */
+/*                  ^^^ constant.numeric.integer.decimal.css */
+
+.test:nth-child(-n+ 3) {}
+/*              ^^^^^ constant.numeric.integer.decimal.css */
+
+.test:nth-child(-n +3) {}
+/*              ^^ constant.numeric.integer.decimal.css */
+/*                ^ - constant */
+/*                 ^^ constant.numeric.integer.decimal.css */
+
+.test:nth-child(+3) {}
+/*              ^^ constant.numeric.integer.decimal.css */
+
+.test:nth-child(+ 3) {}
+/*              ^^^ invalid.illegal.numeric.css */
+
+.test:nth-child(+ 3n) {}
+/*              ^^^ invalid.illegal.numeric.css */
+
+.test:nth-child(+3 n) {}
+/*              ^^^^ invalid.illegal.numeric.css */
+
 .test-pseudo-classes:nth-child(2):hover {}
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css */
 /*                                      ^ - meta.selector.css */
 /*                   ^^^^^^^^^ entity.other.pseudo-class.css */
-/*                             ^ constant.numeric.css */
+/*                             ^ constant.numeric.integer.decimal.css */
 /*                               ^ punctuation.definition.entity.css */
 /*                                ^^^^^ entity.other.pseudo-class.css */
 
 .test-pseudo-class-numerics:nth-last-of-type(-n+3) {}
 /*                         ^^^^^^^^^^^^^^^^^ entity.other.pseudo-class.css */
-/*                                           ^^^^ constant.numeric.css */
+/*                                           ^^^^ constant.numeric.integer.decimal.css */
 
 .test-pseudo-class-keywords:nth-of-type(odd) {}
 /*                         ^^^^^^^^^^^^ entity.other.pseudo-class.css */

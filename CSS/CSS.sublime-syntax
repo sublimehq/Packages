@@ -882,10 +882,14 @@ contexts:
             pop: true
           - match: \b(even|odd)\b
             scope: keyword.other.pseudo-class.css
-          - match: '(?:[-+]?(?:\d+)?(n)(\s*[-+]\s*\d+)?|[-+]?\s*\d+)'
-            scope: constant.numeric.css
+          - match: '([-+]?\d*(n))\s*([-+]\s*\d+)?'
             captures:
-              1: keyword.other.unit.css
+              1: constant.numeric.integer.decimal.css
+              2: keyword.other.unit.css
+              3: constant.numeric.integer.decimal.css
+          - match: '[-+]\s+\d+n?|[-+]?\d+\s+n'
+            scope: invalid.illegal.numeric.css
+          - include: integer-type
 
       # Regular Pseudo Classes
     - match: '(:)({{ident}})'
