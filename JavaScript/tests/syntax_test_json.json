@@ -36,13 +36,13 @@
 //                 ^ punctuation.definition.string.end.json
 
   "num": 20.09,
-//       ^^^^^ constant.numeric.json
+//       ^^^^^ constant.numeric.float.decimal.json
 
   "neg": -9,
-//       ^^ constant.numeric.json
+//       ^^ constant.numeric.integer.decimal.json
 
   "E": 20e10,
-//     ^^^^^ constant.numeric.json
+//     ^^^^^ constant.numeric.float.decimal.json
 //^^^ meta.mapping.key.json string.quoted.double.json
 //   ^ punctuation.separator.mapping.key-value.json - meta.mapping.key
 
