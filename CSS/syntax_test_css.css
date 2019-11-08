@@ -30,7 +30,7 @@
 /*          ^ punctuation.terminator.rule.css */
 
     top: cubic-bezier(0.2, 0, 0.13, 2);
-/*                       ^ punctuation.separator.css*/
+/*                       ^ punctuation.separator.sequence.css*/
 
     top: url("image");
 /*          ^ punctuation.definition.group.begin.css */
@@ -209,7 +209,7 @@
 @document url(http://www),
 /*        ^^^ support.function.url.css */
 /*            ^^^^^^^^^^ string.unquoted.css */
-/*                       ^ punctuation.separator.css */
+/*                       ^ punctuation.separator.sequence.css */
           url-prefix("http://www"),
 /*        ^^^^^^^^^^ support.function.url-prefix.css */
 /*                   ^^^^^^^^^^^^ string.quoted.double.css */
@@ -596,7 +596,7 @@
     top: rgb(1, 4.5%);
 /*       ^^^ support.function.color.css */
 /*           ^ constant.numeric.integer.decimal.css */
-/*            ^ punctuation.separator.css */
+/*            ^ punctuation.separator.sequence.css */
 /*              ^^^^ constant.numeric.float.decimal.css */
 
     top: rgba();
@@ -605,7 +605,7 @@
     top: hsl(1deg, 4.5%);
 /*       ^^^ support.function.color.css */
 /*           ^^^^ constant.numeric.integer.decimal.css */
-/*               ^ punctuation.separator.css */
+/*               ^ punctuation.separator.sequence.css */
 /*                 ^^^^ constant.numeric.float.decimal.css */
 
     top: hsla();
@@ -618,13 +618,13 @@
     top: gray(1, 4.5%);
 /*       ^^^^ support.function.color.css */
 /*            ^ constant.numeric.integer.decimal.css */
-/*             ^ punctuation.separator.css */
+/*             ^ punctuation.separator.sequence.css */
 /*               ^^^^ constant.numeric.float.decimal.css */
 
     top: device-cmyk(0.5, 1%, red());
 /*       ^^^^^^^^^^^ support.function.color.css */
 /*                   ^^^ constant.numeric.float.decimal.css */
-/*                      ^ punctuation.separator.css */
+/*                      ^ punctuation.separator.sequence.css */
 /*                        ^^ constant.numeric.integer.decimal.css */
 /*                            ^^^ support.function.color.css */
 
@@ -695,13 +695,13 @@
     top: matrix3d(1, 0);
 /*       ^^^^^^^^ support.function.transform.css */
 /*                ^ constant.numeric.integer.decimal.css */
-/*                 ^ punctuation.separator.css */
+/*                 ^ punctuation.separator.sequence.css */
 /*                   ^ constant.numeric.integer.decimal.css */
 
     top: translate3d(1, 2px, 3%);
 /*       ^^^^^^^^^^^ support.function.transform.css */
 /*                   ^ constant.numeric.integer.decimal.css */
-/*                    ^ punctuation.separator.css */
+/*                    ^ punctuation.separator.sequence.css */
 /*                      ^^^ constant.numeric.integer.decimal.css */
 /*                           ^^ constant.numeric.integer.decimal.css */
 
@@ -724,7 +724,7 @@
     top: skew(1deg, 2turn);
 /*       ^^^^ support.function.transform.css */
 /*            ^^^^ constant.numeric.integer.decimal.css */
-/*                ^ punctuation.separator.css */
+/*                ^ punctuation.separator.sequence.css */
 /*                  ^^^^^ constant.numeric.integer.decimal.css */
 
     top: perspective(17px);
@@ -856,7 +856,7 @@
     top: attr(size px, auto);
 /*            ^^^^ entity.other.attribute-name.css */
 /*                 ^^ keyword.other.unit.css */
-/*                   ^ punctuation.separator.css */
+/*                   ^ punctuation.separator.sequence.css */
 /*                     ^^^^ support.constant.property-value.css */
 
     top: attr(preserve-3d);
@@ -881,14 +881,14 @@
 /*             ^ string.unquoted.css */
 
     top: image("a", rgb(0, 0, 0));
-/*                ^ punctuation.separator.css */
+/*                ^ punctuation.separator.sequence.css */
 /*                      ^ constant.numeric.integer.decimal.css */
 
     top: image-set("a" 1x, a 4dpi);
 /*                 ^^^ string.quoted.double.css */
 /*                     ^^ constant.numeric.integer.decimal.css */
 /*                      ^ keyword.other.unit.css */
-/*                       ^ punctuation.separator.css */
+/*                       ^ punctuation.separator.sequence.css */
 /*                         ^ string.unquoted.css */
 /*                           ^^^^ constant.numeric.integer.decimal.css */
 
@@ -896,7 +896,7 @@
 /*       ^^^^^^^^^^ support.function.image.css */
 /*                  ^^^ constant.numeric.integer.decimal.css */
 /*                      ^^^ string.quoted.double.css */
-/*                         ^ punctuation.separator.css */
+/*                         ^ punctuation.separator.sequence.css */
 /*                           ^ string.unquoted.css */
 }
 
@@ -906,7 +906,7 @@
 
     top: linear-gradient(45deg, white);
 /*                       ^^^^^ constant.numeric.integer.decimal.css */
-/*                            ^ punctuation.separator.css */
+/*                            ^ punctuation.separator.sequence.css */
 /*                              ^^^^^ support.constant.color.w3c-standard-color-name.css */
 
     top: linear-gradient(to top left);
@@ -932,7 +932,7 @@
 
     top: radial-gradient(red, blue);
 /*                       ^^^ support.constant.color.w3c-standard-color-name.css */
-/*                          ^ punctuation.separator.css */
+/*                          ^ punctuation.separator.sequence.css */
 
     top: repeating-radial-gradient();
 /*       ^^^^^^^^^^^^^^^^^^^^^^^^^ support.function.gradient.css */
@@ -942,15 +942,15 @@
     top: counter(name, decimal-leading-zero);
 /*       ^^^^^^^ support.function.counter.css */
 /*               ^^^^ entity.other.counter-name.css string.unquoted.css */
-/*                   ^ punctuation.separator.css */
+/*                   ^ punctuation.separator.sequence.css */
 /*                     ^^^^^^^^^^^^^^^^^^^^ support.constant.property-value.counter-style.css */
 
     top: counters(name, "str", none);
 /*       ^^^^^^^^ support.function.counter.css */
 /*                ^^^^ entity.other.counter-name.css string.unquoted.css */
-/*                    ^ punctuation.separator.css */
+/*                    ^ punctuation.separator.sequence.css */
 /*                      ^^^^^ string.quoted.double.css */
-/*                           ^ punctuation.separator.css */
+/*                           ^ punctuation.separator.sequence.css */
 /*                             ^^^^ support.constant.property-value.counter-style.css */
 
     top: symbols(fixed "\2020" url());
@@ -968,7 +968,7 @@
 
     top: repeat(auto-fit, 2fr minmax(auto) 5%);
 /*              ^^^^^^^^ support.keyword.repetitions.css */
-/*                      ^ punctuation.separator.css */
+/*                      ^ punctuation.separator.sequence.css */
 /*                        ^^^ constant.numeric.integer.decimal.css */
 /*                            ^^^^^^ support.function.grid.css */
 /*                                   ^^^^ support.constant.property-value.css */
@@ -977,7 +977,7 @@
     top: minmax(min-content, 1fr, 10%);
 /*       ^^^^^^ support.function.grid.css */
 /*              ^^^^^^^^^^^ support.constant.property-value.css */
-/*                         ^ punctuation.separator.css */
+/*                         ^ punctuation.separator.sequence.css */
 /*                           ^^^ constant.numeric.integer.decimal.css */
 /*                                ^^^ constant.numeric.integer.decimal.css */
     grid-template: repeat(2, var(--size)) / repeat(2, 50%);

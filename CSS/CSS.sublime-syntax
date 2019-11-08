@@ -262,8 +262,7 @@ contexts:
               pop: true
             - match: \b(from|to)\b
               scope: keyword.keyframe-selector.css
-            - match: ','
-              scope: punctuation.separator.sequence.css
+            - include: comma-delimiter
             - include: numeric-values
             - include: main
 
@@ -640,10 +639,9 @@ contexts:
                     1: punctuation.terminator.rule.css
                   pop: true
                 - include: property-values
+                - include: comma-delimiter
                 - match: '{{ident}}(\s+{{ident}})*'
                   scope: string.unquoted.css
-                - match: ','
-                  scope: punctuation.separator.css
             - match: ''
               pop: true
         # Property names are sorted by popularity in descending order.
@@ -792,8 +790,7 @@ contexts:
             - match: '\]'
               scope: punctuation.definition.entity.css
               pop: true
-        - match: ','
-          scope: punctuation.separator.sequence.css
+        - include: comma-delimiter
 
   # Pseudo Elements
   # https://drafts.csswg.org/selectors-4/#pseudo-elements
@@ -1278,8 +1275,7 @@ contexts:
           - include: length-type
           - include: percentage-type
           - include: calc-function
-          - match: ','
-            scope: punctuation.separator.sequence.css
+          - include: comma-delimiter
 
       # toggle()
       # https://www.w3.org/TR/css3-values/#toggle-notation
@@ -1905,7 +1901,7 @@ contexts:
   comma-delimiter:
     - match: '\s*(,)\s*'
       captures:
-        1: punctuation.separator.css
+        1: punctuation.separator.sequence.css
 
   vendor-prefix:
     - match: "-(?:webkit|moz|ms|o)-"
