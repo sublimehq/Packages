@@ -462,6 +462,15 @@ class CSSCompletions(sublime_plugin.EventListener):
         prop_value_scope = "meta.property-value.css"
         pt = locations[0]
 
+        def followed_by(pt, what):
+            while True:
+                ch = view.substr(pt)
+                if ch == what:
+                    return True
+                elif ch not in (' ', '\t'):
+                    return False
+                pt += 1
+
         def match_selector(pt, scope):
             # This will catch scenarios like:
             # - .foo {font-style: |}
@@ -476,41 +485,41 @@ class CSSCompletions(sublime_plugin.EventListener):
             self.props = parse_css_data()
             self.regex = re.compile(r"([a-zA-Z-]+):\s*$")
 
+        # complete property values
         if match_selector(pt, prop_value_scope):
             line = view.substr(sublime.Region(view.line(pt).begin(), pt - len(prefix)))
 
             match = re.search(self.regex, line)
-            if match:
-                prop_name = match.group(1)
-                if prop_name in self.props:
-                    values = self.props[prop_name]
+            if not match:
+                return None
 
-                    add_semi_colon = view.substr(sublime.Region(pt, pt + 1)) != ';'
+            prop_name = match.group(1)
+            values = self.props.get(prop_name)
+            if not values:
+                return None
 
-                    items = []
-                    for value in values:
-                        desc = value + "\t" + prop_name
-                        snippet = value
-
-                        if add_semi_colon:
-                            snippet += ";"
-
-                        if "$1" in snippet:
-                            desc = desc.replace("$1", "")
-
-                        items.append((desc, snippet))
-
-                    return (items, sublime.INHIBIT_WORD_COMPLETIONS)
-
-            return None
-        else:
-            add_colon = not view.match_selector(pt, prop_name_scope)
+            add_semi_colon = not followed_by(pt, ";")
 
             items = []
-            for prop in self.props:
-                if add_colon:
-                    items.append((prop + "\tproperty", prop + ": "))
-                else:
-                    items.append((prop + "\tproperty", prop))
+            for value in values:
+                desc = value + "\t" + prop_name
+                if "$1" in desc:
+                    desc = desc.replace("$1", "")
 
-            return (items, sublime.INHIBIT_WORD_COMPLETIONS)
+                snippet = value
+                if add_semi_colon:
+                    snippet += ";"
+
+                items.append((desc, snippet))
+
+        # complete property names
+        else:
+            if view.match_selector(pt, prop_name_scope):
+                suffix = ""
+            elif followed_by(pt, ";"):
+                suffix = ": "
+            else:
+                suffix = ": $0;"
+            items = [(prop + "\tproperty", prop + suffix) for prop in self.props]
+
+        return (items, sublime.INHIBIT_WORD_COMPLETIONS)
