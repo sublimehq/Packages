@@ -1094,7 +1094,7 @@ contexts:
     - match: '&'
       scope: keyword.operator.objc++
     - match: \b0\b
-      scope: constant.numeric.objc++
+      scope: constant.numeric.integer.decimal.objc++
     - match: \b(default|delete)\b
       scope: storage.modifier.objc++
     - match: '(?=\{)'
@@ -1563,7 +1563,7 @@ contexts:
     - match: '&'
       scope: keyword.operator.objc++
     - match: \b0\b
-      scope: constant.numeric.objc++
+      scope: constant.numeric.integer.decimal.objc++
     - match: \b(default|delete)\b
       scope: storage.modifier.objc++
     - match: '(?=:)'
