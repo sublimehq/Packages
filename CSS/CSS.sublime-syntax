@@ -1935,31 +1935,30 @@ contexts:
       scope: string.unquoted.css
 
   literal-string:
-    - match: "'"
+    - match: \'
       scope: punctuation.definition.string.begin.css
       push:
         - meta_scope: string.quoted.single.css
-        - match: (')|(\n)
-          captures:
-            1: punctuation.definition.string.end.css
-            2: invalid.illegal.newline.css
+        - match: \'
+          scope: punctuation.definition.string.end.css
           pop: true
         - include: string-content
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.css
       push:
         - meta_scope: string.quoted.double.css
-        - match: (")|(\n)
-          captures:
-            1: punctuation.definition.string.end.css
-            2: invalid.illegal.newline.css
+        - match: \"
+          scope: punctuation.definition.string.end.css
           pop: true
         - include: string-content
 
   string-content:
+    - match: \n
+      scope: invalid.illegal.newline.css
+      pop: true
     - match: \\\s*\n
       scope: constant.character.escape.newline.css
-    - match: '\\(\h{1,6}|.)'
+    - match: \\(?:\h{1,6}|.)
       scope: constant.character.escape.css
 
   # https://www.w3.org/TR/css3-values/#numeric-types
