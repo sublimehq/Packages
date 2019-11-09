@@ -462,29 +462,21 @@ class CSSCompletions(sublime_plugin.EventListener):
         prop_value_scope = "meta.property-value.css"
         pt = locations[0]
 
-        # When not inside CSS, don’t trigger
-        if not view.match_selector(pt, selector_scope):
-            # if the text immediately after the caret is a HTML style tag beginning, and the character before the
-            # caret matches the CSS scope, then probably the user is typing here (where | represents the caret):
-            # <style type="text/css">.test { f|</style>
-            # i.e. after a "style" HTML open tag and immediately before the closing tag.
-            # so we want to offer CSS completions here.
-            if view.match_selector(pt, 'text.html meta.tag.style.end punctuation.definition.tag.begin.html') and \
-               view.match_selector(pt - 1, selector_scope):
-                pass
-            else:
-                return []
+        def match_selector(pt, scope):
+            # This will catch scenarios like:
+            # - .foo {font-style: |}
+            # - <style type="text/css">.foo { font-weight: b|</style>
+            return any(view.match_selector(p, scope) for p in (pt, pt - 1))
+
+        # When not inside or at the end of a CSS, don’t trigger
+        if not match_selector(pt, selector_scope):
+            return None
 
         if not self.props:
             self.props = parse_css_data()
             self.regex = re.compile(r"([a-zA-Z-]+):\s*$")
 
-        if (view.match_selector(pt, prop_value_scope) or
-            # This will catch scenarios like:
-            # - .foo {font-style: |}
-            # - <style type="text/css">.foo { font-weight: b|</style>
-            view.match_selector(pt - 1, prop_value_scope)):
-
+        if match_selector(pt, prop_value_scope):
             line = view.substr(sublime.Region(view.line(pt).begin(), pt - len(prefix)))
 
             match = re.search(self.regex, line)
