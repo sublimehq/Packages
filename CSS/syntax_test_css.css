@@ -30,7 +30,13 @@
 /*          ^ punctuation.terminator.rule.css */
 
     top: cubic-bezier(0.2, 0, 0.13, 2);
+/*                    ^^^ constant.numeric.float.decimal.css */
+/*                     ^ punctuation.separator.decimal.css */
 /*                       ^ punctuation.separator.sequence.css*/
+/*                         ^ constant.numeric.integer.decimal.css  */
+/*                          ^ punctuation.separator.sequence.css*/
+/*                            ^^^^ constant.numeric.float.decimal.css */
+/*                             ^ punctuation.separator.decimal.css */
 
     top: url("image");
 /*          ^ punctuation.definition.group.begin.css */
@@ -183,17 +189,23 @@
 
     0%, 100% {}
 /*  ^^ constant.numeric.integer.decimal.css */
+/*   ^ keyword.other.unit.css */
 /*    ^ punctuation.separator.sequence.css */
 /*      ^^^^ constant.numeric.integer.decimal.css */
-
+/*         ^ keyword.other.unit.css */
 
     .99%, 100.99% {}
 /*  ^^^^ constant.numeric.float.decimal.css */
+/*  ^ punctuation.separator.decimal.css */
+/*     ^ keyword.other.unit.css */
 /*      ^ punctuation.separator.sequence.css */
 /*        ^^^^^^^ constant.numeric.float.decimal.css */
+/*           ^ punctuation.separator.decimal.css */
+/*              ^ keyword.other.unit.css */
 
     0%, to {}
 /*  ^^ constant.numeric.integer.decimal.css */
+/*   ^ keyword.other.unit.css */
 /*    ^ punctuation.separator.sequence.css */
 /*      ^^ keyword.keyframe-selector.css */
 }
@@ -327,8 +339,10 @@
 /*       ^^ constant.numeric.integer.decimal.css */
     top: +.95e-20;
 /*       ^^^^^^^^ constant.numeric.float.decimal.css */
+/*        ^ punctuation.separator.decimal.css */
     top: -1.5e+93%;
 /*       ^^^^^^^^^ constant.numeric.float.decimal.css */
+/*         ^ punctuation.separator.decimal.css */
 }
 
 .test-units {
@@ -337,12 +351,15 @@
 /*        ^^ keyword.other.unit.css */
     top: 1.1em;
 /*       ^^^^^ constant.numeric.float.decimal.css */
+/*        ^ punctuation.separator.decimal.css */
 /*          ^^ keyword.other.unit.css */
     top: -100%;
 /*       ^^^^^ constant.numeric.integer.decimal.css */
 /*           ^ keyword.other.unit.css */
     top: 1.1.1deg;
 /*       ^^^^^^^^ constant.numeric.float.decimal.css */
+/*        ^ punctuation.separator.decimal.css */
+/*          ^ punctuation.separator.decimal.css */
 /*            ^^^ keyword.other.unit.css */
 }
 
