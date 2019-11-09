@@ -470,6 +470,7 @@ contexts:
               | farthest-(corner|side)?
               | fill(-box|-opacity)?
               | filter|first|fixed|flat
+              | fit-content
               | flex((-basis|-end|-grow|-shrink|-start)|box)?
               | flip|flood-color
               | font(-size(-adjust)?|-stretch|-weight)?
