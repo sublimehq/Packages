@@ -476,7 +476,6 @@ class CSSCompletions(sublime_plugin.EventListener):
             self.props = parse_css_data()
             self.regex = re.compile(r"([a-zA-Z-]+):\s*$")
 
-        items = []
         if (view.match_selector(loc, prop_value_scope) or
             # This will catch scenarios like:
             # - .foo {font-style: |}
@@ -494,6 +493,7 @@ class CSSCompletions(sublime_plugin.EventListener):
 
                     add_semi_colon = view.substr(sublime.Region(loc, loc + 1)) != ';'
 
+                    items = []
                     for value in values:
                         desc = value + "\t" + prop_name
                         snippet = value
@@ -512,6 +512,7 @@ class CSSCompletions(sublime_plugin.EventListener):
         else:
             add_colon = not view.match_selector(loc, prop_name_scope)
 
+            items = []
             for prop in self.props:
                 if add_colon:
                     items.append((prop + "\tproperty", prop + ": "))
