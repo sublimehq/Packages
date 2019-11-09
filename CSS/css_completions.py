@@ -482,8 +482,7 @@ class CSSCompletions(sublime_plugin.EventListener):
             # - <style type="text/css">.foo { font-weight: b|</style>
             view.match_selector(pt - 1, prop_value_scope)):
 
-            alt_loc = pt - len(prefix)
-            line = view.substr(sublime.Region(view.line(alt_loc).begin(), alt_loc))
+            line = view.substr(sublime.Region(view.line(pt).begin(), pt - len(prefix)))
 
             match = re.search(self.regex, line)
             if match:
