@@ -444,17 +444,20 @@ def parse_css_data():
 
     return props
 
+
 class CSSCompletions(sublime_plugin.EventListener):
     props = None
     regex = None
 
     def on_query_completions(self, view, prefix, locations):
-        # match inside a CSS document and
-        # match inside the style attribute of HTML tags, incl. just before the quote that closes the attribute value
-        css_selector_scope = "source.css - meta.selector.css"
-        html_style_attr_selector_scope = "text.html meta.attribute-with-value.style.html " + \
-                                    "string.quoted - punctuation.definition.string.begin.html"
-        selector_scope = css_selector_scope + ', ' + html_style_attr_selector_scope
+        selector_scope = (
+            # match inside a CSS document and
+            "source.css - meta.selector.css, "
+            # match inside the style attribute of HTML tags, incl. just before
+            # the quote that closes the attribute value
+            "text.html meta.attribute-with-value.style.html "
+            "string.quoted - punctuation.definition.string.begin.html"
+        )
         prop_name_scope = "meta.property-name.css"
         prop_value_scope = "meta.property-value.css"
         pt = locations[0]
