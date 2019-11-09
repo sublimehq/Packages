@@ -476,7 +476,7 @@ class CSSCompletions(sublime_plugin.EventListener):
             self.props = parse_css_data()
             self.regex = re.compile(r"([a-zA-Z-]+):\s*$")
 
-        l = []
+        items = []
         if (view.match_selector(loc, prop_value_scope) or
             # This will catch scenarios like:
             # - .foo {font-style: |}
@@ -504,9 +504,9 @@ class CSSCompletions(sublime_plugin.EventListener):
                         if "$1" in snippet:
                             desc = desc.replace("$1", "")
 
-                        l.append((desc, snippet))
+                        items.append((desc, snippet))
 
-                    return (l, sublime.INHIBIT_WORD_COMPLETIONS)
+                    return (items, sublime.INHIBIT_WORD_COMPLETIONS)
 
             return None
         else:
@@ -514,8 +514,8 @@ class CSSCompletions(sublime_plugin.EventListener):
 
             for prop in self.props:
                 if add_colon:
-                    l.append((prop + "\tproperty", prop + ": "))
+                    items.append((prop + "\tproperty", prop + ": "))
                 else:
-                    l.append((prop + "\tproperty", prop))
+                    items.append((prop + "\tproperty", prop))
 
-            return (l, sublime.INHIBIT_WORD_COMPLETIONS)
+            return (items, sublime.INHIBIT_WORD_COMPLETIONS)
