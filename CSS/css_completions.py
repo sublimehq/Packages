@@ -510,7 +510,7 @@ class CSSCompletions(sublime_plugin.EventListener):
 
                 snippet = value
                 if add_semi_colon:
-                    snippet += ";"
+                    snippet += "$0;"
 
                 items.append((desc, snippet))
 
