@@ -1,5 +1,6 @@
-import sublime, sublime_plugin
 import re
+import sublime
+import sublime_plugin
 
 
 # Prepare some common property values for when there is more than one way to
