@@ -445,6 +445,23 @@ def parse_css_data():
     return props
 
 
+def match_selector(view, pt, scope):
+    # This will catch scenarios like:
+    # - .foo {font-style: |}
+    # - <style type="text/css">.foo { font-weight: b|</style>
+    return any(view.match_selector(p, scope) for p in (pt, pt - 1))
+
+
+def is_next_none_whitespace(view, pt, what):
+    while True:
+        ch = view.substr(pt)
+        if ch == what:
+            return True
+        elif ch not in (' ', '\t'):
+            return False
+        pt += 1
+
+
 class CSSCompletions(sublime_plugin.EventListener):
     props = None
     regex = None
@@ -462,23 +479,8 @@ class CSSCompletions(sublime_plugin.EventListener):
         prop_value_scope = "meta.property-value.css"
         pt = locations[0]
 
-        def followed_by(pt, what):
-            while True:
-                ch = view.substr(pt)
-                if ch == what:
-                    return True
-                elif ch not in (' ', '\t'):
-                    return False
-                pt += 1
-
-        def match_selector(pt, scope):
-            # This will catch scenarios like:
-            # - .foo {font-style: |}
-            # - <style type="text/css">.foo { font-weight: b|</style>
-            return any(view.match_selector(p, scope) for p in (pt, pt - 1))
-
         # When not inside or at the end of a CSS, don’t trigger
-        if not match_selector(pt, selector_scope):
+        if not match_selector(view, pt, selector_scope):
             return None
 
         if not self.props:
@@ -486,7 +488,7 @@ class CSSCompletions(sublime_plugin.EventListener):
             self.regex = re.compile(r"([a-zA-Z-]+):\s*$")
 
         # complete property values
-        if match_selector(pt, prop_value_scope):
+        if match_selector(view, pt, prop_value_scope):
             line = view.substr(sublime.Region(view.line(pt).begin(), pt - len(prefix)))
 
             match = re.search(self.regex, line)
@@ -498,7 +500,7 @@ class CSSCompletions(sublime_plugin.EventListener):
             if not values:
                 return None
 
-            add_semi_colon = not followed_by(pt, ";")
+            add_semi_colon = not is_next_none_whitespace(view, pt, ";")
 
             items = []
             for value in values:
@@ -516,7 +518,7 @@ class CSSCompletions(sublime_plugin.EventListener):
         else:
             if view.match_selector(pt, prop_name_scope):
                 suffix = ""
-            elif followed_by(pt, ";"):
+            elif is_next_none_whitespace(view, pt, ";"):
                 suffix = ": "
             else:
                 suffix = ": $0;"
