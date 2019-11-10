@@ -453,14 +453,11 @@ def match_selector(view, pt, scope):
     return any(view.match_selector(p, scope) for p in (pt, pt - 1))
 
 
-def is_next_none_whitespace(view, pt, what):
-    while True:
+def next_none_whitespace(view, pt):
+    for pt in range(pt, view.size()):
         ch = view.substr(pt)
-        if ch == what:
-            return True
-        elif ch not in (' ', '\t'):
-            return False
-        pt += 1
+        if ch not in (' ', '\t'):
+            return ch
 
 
 class CSSCompletions(sublime_plugin.EventListener):
@@ -501,7 +498,7 @@ class CSSCompletions(sublime_plugin.EventListener):
             if not values:
                 return None
 
-            add_semi_colon = not is_next_none_whitespace(view, pt, ";")
+            add_semi_colon = next_none_whitespace(view, pt) != ";"
 
             items = []
             for value in values:
@@ -517,9 +514,10 @@ class CSSCompletions(sublime_plugin.EventListener):
 
         # complete property names
         else:
-            if view.match_selector(pt, prop_name_scope):
+            ch = next_none_whitespace(view, pt)
+            if ch == ":" or view.match_selector(pt, prop_name_scope):
                 suffix = ""
-            elif is_next_none_whitespace(view, pt, ";"):
+            elif ch == ";":
                 suffix = ": "
             else:
                 suffix = ": $0;"
