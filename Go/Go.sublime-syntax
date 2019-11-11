@@ -429,7 +429,6 @@ contexts:
   match-literals:
     - include: match-imaginary
     - include: match-floats
-    - include: match-deprecated
     - include: match-integers
     - include: match-runes
     - include: match-strings
