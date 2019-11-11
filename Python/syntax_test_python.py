@@ -994,6 +994,18 @@ complex_mapping = {(): "value"}
 #                 ^^^ meta.mapping-or-set.python
 #                    ^^^^^^^^^^ meta.mapping - meta.mapping-or-set
 
+more_complex_mapping = {**{1: 1}, 2: 2}
+#                      ^ meta.mapping.python
+#                               ^ meta.mapping.python punctuation.separator.mapping.python
+#                                  ^ meta.mapping.python punctuation.separator.mapping.key-value.python
+
+more_complex_set = {
+#                  ^ meta.mapping-or-set.python
+    *{1}, 2: 2}
+#   ^ meta.set.python
+#       ^ meta.set.python punctuation.separator.set.python
+#          ^ meta.set.python invalid.illegal.colon-inside-set.python
+
 generator = (i for i in range(100))
 #           ^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 #              ^^^^^^^^ meta.expression.generator

@@ -973,10 +973,10 @@ contexts:
         1: punctuation.section.mapping.begin.python
         2: punctuation.section.mapping.end.python
       push: after-expression
-    - match: \{(?={{simple_expression}}:|\s*\*\*{{path}})
+    - match: \{(?={{simple_expression}}:|\s*\*\*)
       scope: punctuation.section.mapping.begin.python
       push: inside-dictionary
-    - match: \{(?={{simple_expression}}[,}]|\s*\*{{path}})
+    - match: \{(?={{simple_expression}}[,}]|\s*\*)
       scope: punctuation.section.set.begin.python
       push: inside-set
     # If the expression is "more complex" or on the next line,
@@ -988,9 +988,9 @@ contexts:
         - match: \}
           scope: punctuation.section.mapping-or-set.end.python
           set: after-expression
-        - match: (?={{simple_expression}}:|\s*\*\*{{path}})
+        - match: (?={{simple_expression}}:|\s*\*\*)
           set: inside-dictionary
-        - match: (?={{simple_expression}}[,}]|\s*\*{{path}})
+        - match: (?={{simple_expression}}[,}]|\s*\*)
           set: inside-set
         - match: ','
           scope: punctuation.separator.set.python
