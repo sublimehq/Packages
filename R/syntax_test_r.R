@@ -278,12 +278,11 @@ NaN
 #        ^^^ punctuation.accessor.colons.r
 #            ^^ punctuation.accessor.colons.r
 
-  ... : ~ @ $
+  ... : ~ @
 # ^^^ keyword.other.r
 #     ^ keyword.other.r
 #       ^ keyword.other.r
 #         ^ keyword.other.r
-#           ^ keyword.other.r
 
   foo.99 <- 1
 #    ^^^ - constant.numeric
@@ -449,3 +448,9 @@ a[[1, 2]]
 
 foo:::bar
 #  ^^^ punctuation.accessor.colons.r
+
+
+foo$update()
+#  ^ keyword.accessor.dollar.r
+#   ^^^^^^ meta.function-call.name.r variable.function.r
+#   ^^^^^^ - support.function.r

@@ -18,6 +18,7 @@ contexts:
     - include: codesection
     - include: comments
     - include: constants
+    - include: accessor
     - include: operators
     - include: keywords
     - include: storage-types
@@ -116,6 +117,15 @@ contexts:
     - match: \bin\b
       scope: keyword.operator.word.r
 
+  accessor:
+    - match: '\$'
+      scope: keyword.accessor.dollar.r
+      push:
+        - include: function-calls
+        - include: general-variables
+        - match: ''
+          pop: true
+
   operators:
     # NOTE: sorted by length to ensure not to break ligatures
 
@@ -146,7 +156,7 @@ contexts:
       scope: keyword.operator.assignment.r
     - match: '[!&|<>]'
       scope: keyword.operator.logical.r
-    - match: '[$:~@]'
+    - match: '[:~@]'
       scope: keyword.other.r
     - match: ;
       scope: punctuation.terminator.semicolon.r
