@@ -294,7 +294,7 @@ contexts:
     - include: comment-block
     - match: \b(?i:all|aural|braille|embossed|handheld|print|projection|screen|speech|tty|tv)\b
       scope: support.constant.media.css
-    - match: '\b(?i:and|or|not|only)\b'
+    - match: \b(?i:and|or|not|only)\b
       scope: keyword.operator.logic.media.css
     - match: ','
       scope: punctuation.definition.arbitrary-repetition.css
@@ -308,25 +308,23 @@ contexts:
         - match: |-
             (?x)
             (
+              (?:
                 (-webkit-|-o-)?
-                ((min|max)-)?
+                (?:min-|max-)?
                 (-moz-)?
-                (
-                    ((device-)?(height|width|aspect-ratio|pixel-ratio))|
-                    (color(-index)?)|monochrome|resolution
+                (?:
+                  (?:device-)?(?:height|width|aspect-ratio|pixel-ratio)
+                  |color(?:-index)?|monochrome|resolution
                 )
-            )|grid|scan|orientation
-            \s*(?=[:)])
+              )
+              |grid|scan|orientation
+            )\s*(:)?
           captures:
-            0: support.type.property-name.media.css
+            1: support.type.property-name.media.css
             2: support.type.vendor-prefix.css
-            5: support.type.vendor-prefix.css
-          push:
-            - match: (:)|(?=\))
-              captures:
-                1: punctuation.separator.key-value.css
-              pop: true
-        - match: \b(portrait|landscape|progressive|interlace)
+            3: support.type.vendor-prefix.css
+            4: punctuation.separator.key-value.css
+        - match: \b(portrait|landscape|progressive|interlace)\b
           scope: support.constant.property-value.css
         - match: \s*(\d+)(/)(\d+)
           captures:
