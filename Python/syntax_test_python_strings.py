@@ -136,10 +136,14 @@ string = """
 
 string = """
 #        ^^^ string.quoted.double.block - string string
+\
+# <- punctuation.separator.continuation.line.python
 """
 
 string = r"""
 #         ^^^ meta.string.python string.quoted.double.block
+\
+# <- - punctuation
 """
 
 string = r"""
@@ -645,6 +649,10 @@ F""" {} {\} }
 #        ^ invalid.illegal.backslash-in-fstring
 #           ^ invalid.illegal.stray-brace
 """
+
+fr'''
+#    ^ - invalid
+'''
 
 # Most of these were inspired by
 # https://github.com/python/cpython/commit/9a4135e939bc223f592045a38e0f927ba170da32

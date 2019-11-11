@@ -1366,6 +1366,10 @@ contexts:
       scope: invalid.illegal.unclosed-string.python
       set: after-expression
 
+  line-continuation-inside-block-string:
+    - match: \\$
+      scope: punctuation.separator.continuation.line.python
+
   constant-placeholder:
     - match: |- # printf style
         (?x)
@@ -1609,7 +1613,6 @@ contexts:
           with_prototype:
             - match: '(?=""")'
               pop: true
-            - include: line-continuation-inside-string
             - include: f-string-content-with-regex
     # Triple-quoted f-string
     - match: ([fF])(""")
@@ -1621,6 +1624,7 @@ contexts:
         - match: '"""'
           scope: punctuation.definition.string.begin.python
           set: after-expression
+        - include: line-continuation-inside-block-string
         - include: escaped-fstring-escape
         - include: escaped-unicode-char
         - include: escaped-char
@@ -1643,6 +1647,7 @@ contexts:
               with_prototype:
                 - match: '(?=""")'
                   pop: true
+                - include: line-continuation-inside-block-string
                 - include: escaped-unicode-char
                 - include: escaped-char
                 - include: constant-placeholder
@@ -1652,6 +1657,7 @@ contexts:
             - match: '"""'
               scope: punctuation.definition.string.end.python
               set: after-expression
+            - include: line-continuation-inside-block-string
             - include: escaped-unicode-char
             - include: escaped-char
             - include: constant-placeholder
@@ -1665,6 +1671,7 @@ contexts:
         - match: '"""'
           scope: punctuation.definition.string.end.python
           set: after-expression
+        - include: line-continuation-inside-block-string
         - include: escaped-char
         - include: constant-placeholder
 
@@ -1926,7 +1933,6 @@ contexts:
           with_prototype:
             - match: (?=''')
               pop: true
-            - include: line-continuation-inside-string
             - include: f-string-content-with-regex
     # Triple-quoted f-string
     - match: ([fF])(''')
@@ -1938,6 +1944,7 @@ contexts:
         - match: "'''"
           scope: punctuation.definition.string.begin.python
           set: after-expression
+        - include: line-continuation-inside-block-string
         - include: escaped-fstring-escape
         - include: escaped-unicode-char
         - include: escaped-char
@@ -1960,6 +1967,7 @@ contexts:
               with_prototype:
                 - match: (?=''')
                   pop: true
+                - include: line-continuation-inside-block-string
                 - include: escaped-unicode-char
                 - include: escaped-char
                 - include: constant-placeholder
@@ -1969,6 +1977,7 @@ contexts:
             - match: "'''"
               scope: punctuation.definition.string.end.python
               set: after-expression
+            - include: line-continuation-inside-block-string
             - include: escaped-unicode-char
             - include: escaped-char
             - include: constant-placeholder
@@ -1982,6 +1991,7 @@ contexts:
         - match: "'''"
           scope: punctuation.definition.string.end.python
           set: after-expression
+        - include: line-continuation-inside-block-string
         - include: escaped-char
         - include: constant-placeholder
 
