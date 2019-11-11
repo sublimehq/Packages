@@ -29,6 +29,7 @@ contexts:
     - match: ({{id}})(\.)({{id}})
       captures:
         2: punctuation.accessor.dot.matlab
+      push: transpose_post_parens
   all_matlab_comments:
     - match: (%%).*$\n?
       scope: comment.double.percentage.matlab
@@ -109,8 +110,8 @@ contexts:
     - include: all_matlab_keywords
     - include: all_matlab_comments
     - include: variable
-    - include: variable_invalid
     - include: number
+    - include: variable_invalid
     - include: operators
     - match: \.\.\.
       scope: punctuation.separator.continuation.matlab

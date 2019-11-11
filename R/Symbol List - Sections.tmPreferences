@@ -2,13 +2,13 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>Symbol Overrides</string>
+	<string>Symbol List: Sections</string>
 	<key>scope</key>
-	<string>source.erlang entity.name.function, source.erlang entity.name.type.class</string>
+	<string>entity.name.section.r</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
-		<string>0</string>
+		<integer>1</integer>
 	</dict>
 </dict>
 </plist>

@@ -93,6 +93,18 @@ define $(dir)_print =
 lpr $($(dir)_sources)
 endef
 
+define FOO
+  BAR := 1
+  define BAZ
+# ^^^^^^ string.unquoted.makefile - keyword
+    X := 1
+  endef
+# ^^^^^^ string.unquoted.makefile - keyword
+Y := 3
+endef   # comment
+#^^^^ keyword.control.makefile
+#       ^^^ comment.line.number-sign.makefile
+
 #########################
 # 6.5 setting variables #
 #########################
@@ -905,3 +917,18 @@ target2:
 	@# # Regular Message
 	#^ comment - variable
 	@FeedProcessorSIAC -origin CTS -decodeData "binData"
+
+TESTTOOL = sh -c '\
+#        ^ keyword.operator.assignment.makefile
+#          ^^^^^^ meta.string.makefile - meta.interpolation
+#                ^^^ meta.string.makefile meta.interpolation.makefile
+#          ^^^^^^ string.unquoted.makefile
+#                ^ punctuation.section.interpolation.begin.makefile
+#                 ^ source.shell punctuation.separator.continuation.line.shell
+  if something; then
+    build_thisway $$1 $$2;
+  fi' TESTTOOL
+# ^^^ meta.string.makefile meta.interpolation.makefile
+#    ^^^^^^^^^ meta.string.makefile string.unquoted.makefile - meta.interpolation
+# ^^ source.shell keyword.control.conditional.end.shell
+#   ^ punctuation.section.interpolation.end.makefile

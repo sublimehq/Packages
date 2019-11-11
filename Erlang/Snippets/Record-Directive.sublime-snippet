@@ -1,5 +1,5 @@
 <snippet>
-	<content><![CDATA[-record (${1:record}, {${2:field}${3: = ${4:value}}}).]]></content>
+	<content><![CDATA[-record(${1:record}, {${2:field}${3: = ${4:value}}}).]]></content>
 	<tabTrigger>rec</tabTrigger>
 	<scope>source.erlang</scope>
 	<description>Record Directive</description>

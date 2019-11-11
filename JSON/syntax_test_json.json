@@ -30,19 +30,47 @@
 //           ^^^^ comment.block.json
 //                ^ punctuation.section.sequence.end.json
 
+  "dict": {"foo": },
+//               ^ invalid.illegal.expected-mapping-value.json
+//                ^ punctuation.section.mapping.end.json
+  "dict": {"foo":
+   },
+//^ invalid.illegal.expected-mapping-value.json
+// ^ punctuation.section.mapping.end.json
+
+  "dict": {"foo"/*comment*/:/*comment*/"bar"/*comment*/},
+//              ^^^^^^^^^^^ comment.block.json
+//                          ^^^^^^^^^^^ comment.block.json
+//                                          ^^^^^^^^^^^ comment.block.json
+
+  "dict": {
+    "foo": "bar"
+    // comment
+// ^ - invalid
+//  ^^^^^^^^^^ comment.line.double-slash.js
+    ,
+//  ^ punctuation.separator.mapping.pair.json
+    "foo": "bar"
+    /* comment */
+// ^ - invalid
+//  ^^^^^^^^^^^^^ comment.block.json
+  },
+//^ punctuation.section.mapping.end.json
+// ^ punctuation.separator.mapping.pair.json
+
   "string": "string",
 //          ^        punctuation.definition.string.begin.json
 //          ^^^^^^^^ meta.mapping.value.json string.quoted.double.json
 //                 ^ punctuation.definition.string.end.json
 
   "num": 20.09,
-//       ^^^^^ constant.numeric.json
+//       ^^^^^ constant.numeric.float.decimal.json
 
   "neg": -9,
-//       ^^ constant.numeric.json
+//       ^^ constant.numeric.integer.decimal.json
 
   "E": 20e10,
-//     ^^^^^ constant.numeric.json
+//     ^^^^^ constant.numeric.float.decimal.json
 //^^^ meta.mapping.key.json string.quoted.double.json
 //   ^ punctuation.separator.mapping.key-value.json - meta.mapping.key
 

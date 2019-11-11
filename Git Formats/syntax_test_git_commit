@@ -124,6 +124,9 @@ This commit applies all changes required to satisfy the JSON format unittest.
 #                                   ^ punctuation.separator.email.git
 #                                          ^ punctuation.separator.domain.git
 #                                              ^ punctuation.definition.reference.email.end.git
+  This commit references a hash: 21dde213
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.message.git.commit
+#                                ^^^^^^^^ constant.other.hash.git.commit
 # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
 #
 # Please enter the commit message for your changes. Lines starting
@@ -145,17 +148,17 @@ This commit applies all changes required to satisfy the JSON format unittest.
 #    squash 26b2cc6 Fix: JSON resource format errors
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command-list.git.commit
 #    ^^^^^^ keyword.operator.git.commit
-#          ^ - keyword.operator.git.commit - constant.numeric.hex.hash.git.commit
-#           ^^^^^^^ constant.numeric.hex.hash.git.commit
-#                  ^ - constant.numeric.hex.hash.git.commit - string.unquoted.subject.git.commit
+#          ^ - keyword.operator.git.commit - constant.other.hash.git.commit
+#           ^^^^^^^ constant.other.hash.git.commit
+#                  ^ - constant.other.hash.git.commit - string.unquoted.subject.git.commit
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.subject.git.commit
 #                                                   ^ - string.unquoted.subject.git.commit
 #    fixup 8e9e7bc fixup! Fix: JSON resource format errors
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command-list.git.commit
 #    ^^^^^ keyword.operator.git.commit
-#         ^ - keyword.operator.git.commit - constant.numeric.hex.hash.git.commit
-#          ^^^^^^^ constant.numeric.hex.hash.git.commit
-#                 ^ - constant.numeric.hex.hash.git.commit - string.unquoted.subject.git.commit
+#         ^ - keyword.operator.git.commit - constant.other.hash.git.commit
+#          ^^^^^^^ constant.other.hash.git.commit
+#                 ^ - constant.other.hash.git.commit - string.unquoted.subject.git.commit
 #                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.subject.git.commit
 #                                                         ^ - string.unquoted.subject.git.commit
 # No commands remaining.
@@ -183,6 +186,10 @@ This commit applies all changes required to satisfy the JSON format unittest.
 #    ^^^^^^^^ keyword.other.change-list.git.commit
 #            ^ punctuation.separator.mapping.pair.change-list.git.commit
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.changed.file.content.git.commit
+#    renamed:    gitconfig/old_name -> gitconfig/new_name
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
+#                                   ^^ punctuation.separator.mapping.pair.path.git.commit
 #    deleted:    gitconfig/Symbol List.tmPreferences
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
@@ -205,6 +212,10 @@ This commit applies all changes required to satisfy the JSON format unittest.
 #    ^^^^^^^^ keyword.other.change-list.git.commit
 #            ^ punctuation.separator.mapping.pair.change-list.git.commit
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.changed.file.content.git.commit
+#    renommé:    gitconfig/old_name -> gitconfig/new_name
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
+#                                   ^^ punctuation.separator.mapping.pair.path.git.commit
 #    gelöscht:   gitconfig/Symbol List.tmPreferences
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
@@ -227,6 +238,10 @@ This commit applies all changes required to satisfy the JSON format unittest.
 #    ^^ keyword.other.change-list.git.commit
 #      ^ punctuation.separator.mapping.pair.change-list.git.commit
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.git.commit markup.changed.file.content.git.commit
+#    重命名:    gitconfig/old_name -> gitconfig/new_name
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit
+#                               ^^ punctuation.separator.mapping.pair.path.git.commit
 #    删除:         gitconfig/Symbol List.tmPreferences
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.commit
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.change-list.git.commit

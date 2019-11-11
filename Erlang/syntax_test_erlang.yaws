@@ -1,0 +1,86 @@
+% SYNTAX TEST "Packages/Erlang/HTML (Erlang).sublime-syntax"
+<!DOCTYPE html>
+<html>
+<body>
+
+    <erl attrib=value> </erl illegal>
+%  ^ - meta.tag - source.erlang
+%   ^^^^^^^^^^^^^^^^^^ meta.tag.erl.begin.html - source.erlang
+%        ^^^^^^^^^^^^ meta.attribute-with-value.html
+%                     ^ source.erlang.embedded.html - meta.tag
+%                      ^^^^^^^^^^^^^^ meta.tag.erl.end.html - source.erlang
+%                                    ^ - meta.tag - source.erlang
+%   ^ punctuation.definition.tag.begin.html
+%    ^^^ entity.name.tag.erl.html
+%        ^^^^^^ entity.other.attribute-name.html
+%              ^ punctuation.separator.key-value.html
+%               ^^^^^ string.unquoted.html
+%                    ^ punctuation.definition.tag.end.html
+%                      ^^ punctuation.definition.tag.begin.html
+%                        ^^^ entity.name.tag.erl.html
+%                            ^^^^^^^ invalid.illegal.attributes-unexpected.html
+%                                   ^ punctuation.definition.tag.end.html
+
+    <erl></erla></erl>
+%  ^ - meta.tag - source.erlang
+%   ^^^^^ meta.tag.erl.begin.html - source.erlang
+%   ^ punctuation.definition.tag.begin.html
+%    ^^^ entity.name.tag.erl.html
+%       ^ punctuation.definition.tag.end.html
+%        ^^^^^^^ source.erlang.embedded.html - meta.tag
+%               ^^^^^^ meta.tag.erl.end.html - source.erlang
+%                     ^ - meta.tag - source.erlang
+%               ^^ punctuation.definition.tag.begin.html
+%                 ^^^ entity.name.tag.erl.html
+%                    ^ punctuation.definition.tag.end.html
+
+    <erl>
+%  ^ - meta.tag - source.erlang
+%   ^^^^^ meta.tag.erl.begin.html - source.erlang
+%   ^ punctuation.definition.tag.begin.html
+%    ^^^ entity.name.tag.erl.html
+%       ^ punctuation.definition.tag.end.html
+%        ^ source.erlang.embedded.html
+    func_name(Arg1, Arg2) ->
+%   ^^^^^^^^^^^^^^^^^^^^^^^^^ source.erlang.embedded.html meta.function
+        ok.
+%       ^^ source.erlang.embedded.html constant.language.exception.type.erlang
+%         ^ source.erlang.embedded.html punctuation.terminator.clause.erlang
+
+    </erla>
+%   ^^^^^^^ - meta.tag
+
+    </erl>
+%^^^ source.erlang.embedded.html
+%   ^^^^^^ meta.tag.erl.end.html - source.erlang
+%         ^ - meta.tag - source.erlang
+%   ^^ punctuation.definition.tag.begin.html
+%     ^^^ entity.name.tag.erl.html
+%        ^ punctuation.definition.tag.end.html
+
+    <erl
+%  ^ - meta.tag - source.erlang
+%   ^^^^^ meta.tag.erl.begin.html - source.erlang
+%   ^ punctuation.definition.tag.begin.html
+%    ^^^ entity.name.tag.erl.html
+    >
+%^^^^ meta.tag.erl.begin.html - source.erlang
+%   ^ punctuation.definition.tag.end.html
+%    ^ source.erlang.embedded.html
+    func_name(Arg1, Arg2) ->
+%   ^^^^^^^^^^^^^^^^^^^^^^^^^ source.erlang.embedded.html meta.function
+        ok.
+%       ^^ source.erlang.embedded.html constant.language.exception.type.erlang
+%         ^ source.erlang.embedded.html punctuation.terminator.clause.erlang
+    </erl
+%^^^ source.erlang.embedded.html
+%   ^^^^^^ meta.tag.erl.end.html - source.erlang
+%   ^^ punctuation.definition.tag.begin.html
+%     ^^^ entity.name.tag.erl.html
+    >
+%^^^^ meta.tag.erl.end.html - source.erlang
+%    ^ - meta.tag - source.erlang
+%   ^ punctuation.definition.tag.end.html
+
+</body>
+</html>

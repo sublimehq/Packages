@@ -268,13 +268,13 @@ $var->meth()[10];
  */
 // ^ source - comment.block
 
+/**
+    *
+//  ^ text.html.basic meta.embedded.block.php source.php comment.block.documentation.phpdoc.php punctuation.definition.comment.php
+*/
+
 /** @var Properties: class properties. */
 //  ^ keyword.other.phpdoc
-
-/**
- * @return
-//  ^ keyword.other.phpdoc
- */
 
 /* No phpdoc highlight since there are not two * after the opening /
  * @return
@@ -1098,6 +1098,28 @@ $var4 = 0b0_1_1_1;
 //      ^^^^^^^^^ constant.numeric.integer.binary
 //      ^^ punctuation.definition.numeric.binary
 
+// class name should be case-insensitive
+$object = new ArRaYoBjEcT();
+//            ^^^^^^^^^^^ support.class.builtin
+
+// constant name should be case-sensitive
+$const = E_aLL;
+//       ^^^^^ - support.constant.core
+
+// function name should be case-sensitive
+$random = ArRaY_RaNd($array);
+//        ^^^^^^^^^^ support.function.array
+
+// test for constants for each group in the syntax definition
+$const = E_ALL;
+//       ^^^^^ support.constant.core
+$const = CASE_LOWER;
+//       ^^^^^^^^^^ support.constant.std
+$const = CURLAUTH_BASIC;
+//       ^^^^^^^^^^^^^^ support.constant.ext
+$const = T_ABSTRACT;
+//       ^^^^^^^^^^ support.constant.parser-token
+
   foo_bar:
 //^^^^^^^ entity.name.label.php - keyword.control.php
 
@@ -1341,18 +1363,20 @@ h2 {font-family: 'Arial';}
 // <- entity.name.tag
 // ^ punctuation.section.property-list
 //               ^^^^^^^ string.quoted.single
-h3 {}
+h3 {font-size: "$h3_size";}
+//              ^^^^^^^^ variable.other.php
 CSS;
 // <- punctuation.section.embedded.end keyword.operator.heredoc
 
 echo <<<SQL
 //   ^^^^^^ punctuation.section.embedded.begin punctuation.definition.string
 //      ^^^ keyword.operator.heredoc
-SELECT * FROM users WHERE first_name = 'John'
+SELECT * FROM users WHERE first_name = 'John' LIMIT $limit
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.sql source.sql
 // <- keyword.other.DML
 //     ^ variable.language.star
 //                                     ^^^^^^ string.quoted.single
+//                                                  ^^^^^^ variable.other.php
 SQL;
 // <- punctuation.section.embedded.end keyword.operator.heredoc
 
@@ -1365,7 +1389,7 @@ SELECT * FROM users WHERE first_name = 'John'\n
 // <- keyword.other.DML
 //     ^ variable.language.star
 //                                     ^^^^^^ string.quoted.single
-//                                           ^^^ - constant.character.escape.php
+//                                           ^^ - constant.character.escape.php
 SQL;
 // <- punctuation.section.embedded.end
 

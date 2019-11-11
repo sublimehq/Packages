@@ -3,66 +3,66 @@
 pick d284bb2 Initial commit
 # <- meta.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
-#                           ^ -meta.commit
+#                           ^ - meta.commit
 # <- keyword.operator.commit.pick
 #^^^ keyword.operator.commit.pick
-#   ^ -storage.type.commit
-#    ^^^^^^^ constant.numeric.hex.hash
-#           ^ -constant.numeric.hex.hash -meta.subject.git.commit
+#   ^ - storage.type.commit
+#    ^^^^^^^ constant.other.hash
+#           ^ - constant.other.hash -meta.subject.git.commit
 #            ^^^^^^^^^^^^^^ meta.subject.git.commit
-#                          ^ -meta.subject.git.commit
+#                          ^ - meta.subject.git.commit
 p 6746220 Second pick commit # no comment
 # <- meta.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
-#                                         ^ -meta.commit
+#                                         ^ - meta.commit
 # <- keyword.operator.commit.pick
-#^ -keyword.operator.commit
-# ^^^^^^^ constant.numeric.hex.hash
-#        ^ -constant.numeric.hex.hash -meta.subject.git.commit
+#^ - keyword.operator.commit
+# ^^^^^^^ constant.other.hash
+#        ^ - constant.other.hash -meta.subject.git.commit
 #         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit
-#                                        ^ -meta.subject.git.commit
-#                ^^^^ -keyword
+#                                        ^ - meta.subject.git.commit
+#                ^^^^ - keyword
    p 6746220 Third pick commit # no comment
 # <- meta.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
-#                                            ^ -meta.commit
-# ^ -keyword.operator.commit
+#                                            ^ - meta.commit
+# ^ - keyword.operator.commit
 #  ^ keyword.operator.commit.pick
-#   ^ -keyword.operator.commit -constant.numeric.hex.hash
-#    ^^^^^^^ constant.numeric.hex.hash
-#           ^ -constant.numeric.hex.hash -meta.subject.git.commit
+#   ^ - keyword.operator.commit -constant.other.hash
+#    ^^^^^^^ constant.other.hash
+#           ^ - constant.other.hash -meta.subject.git.commit
 #            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit
-#                                          ^ -meta.subject.git.commit
-#                  ^^^^ -keyword
+#                                          ^ - meta.subject.git.commit
+#                  ^^^^ - keyword
 puck 6746220 Invalid command
 # <- meta.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
 # <- invalid.illegal.command-expected
 #^^^ invalid.illegal.command-expected
-#   ^ -storage.type.commit -invalid.illegal.command-expected
-#    ^^^^^^^ constant.numeric.hex.hash
-#           ^ -constant.numeric.hex.hash -meta.subject.git.commit
+#   ^ - storage.type.commit -invalid.illegal.command-expected
+#    ^^^^^^^ constant.other.hash
+#           ^ - constant.other.hash -meta.subject.git.commit
 #            ^^^^^^^^^^^^^^^ meta.subject.git.commit
 p 6746x20 Invalid hash # no comment
 # <- meta.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
 # <- keyword.operator.commit.pick
-#^ -storage.type.commit
+#^ - storage.type.commit
 # ^^^^^^^ invalid.illegal.hash-expected
-#        ^ -constant.numeric.hex.hash -meta.subject.git.commit
+#        ^ - constant.other.hash -meta.subject.git.commit
 #         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit
-#                                  ^ -meta.subject.git.commit
+#                                  ^ - meta.subject.git.commit
 a 6746x20 Invalid command and hash # no comment (#403)
 # <- meta.commit
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.commit
 # <- invalid.illegal.command-expected
-#^ -storage.type.commit
+#^ - storage.type.commit
 # ^^^^^^^ invalid.illegal.hash-expected
-#        ^ -constant.numeric.hex.hash -meta.subject.git.commit
+#        ^ - constant.other.hash -meta.subject.git.commit
 #         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.subject.git.commit
 #                                                ^ punctuation.definition.reference.issue.git
 #                                                ^^^^ meta.reference.issue.git constant.other.reference.issue.git
-#                                                     ^ -meta.subject.git.commit
+#                                                     ^ - meta.subject.git.commit
   # p 6746220 Second pick commit # no comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.git.rebase
   d d284bb2 Drop commit
@@ -89,10 +89,10 @@ a 6746x20 Invalid command and hash # no comment (#403)
 # Rebase 9e73d21..6746220 onto 9e73d21 (2 commands)
 # <- comment.line punctuation.definition.comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line meta.rebase-msg
-#        ^^^^^^^ constant.numeric.hex.hash
+#        ^^^^^^^ constant.other.hash
 #               ^^ punctuation.separator.commit-range
-#                 ^^^^^^^ constant.numeric.hex.hash
-#                              ^^^^^^^ constant.numeric.hex.hash
+#                 ^^^^^^^ constant.other.hash
+#                              ^^^^^^^ constant.other.hash
 #
 # Commands:
 #^^^^^^^^^^^ comment.line.git.rebase

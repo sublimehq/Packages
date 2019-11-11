@@ -95,8 +95,7 @@ variables:
         )
     fenced_code_block_start: |-
         (?x:
-          [ ]*
-          ([ ]{0,3})   # up to 3 spaces
+          ([ \t]*)
           (
             (`){3,}    #   3 or more backticks
             (?![^`]*`) #   not followed by any more backticks on the same line
@@ -118,7 +117,7 @@ variables:
     code_fence_escape: |-
       (?x:
         ^             # the beginning of the line
-        [ ]*
+        [ \t]*
         (
           \2          # the backtick/tilde combination that opened the code fence
           (?:\3|\4)*  # plus optional additional closing characters
@@ -167,6 +166,11 @@ variables:
         (?i:address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h1|h2|h3|h4|h5|h6|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|meta|nav|noframes|ol|optgroup|option|p|param|section|source|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul)
         (?:\s|$|/?>)
       )
+    ascii_space: '\t\n\f '
+    tag_attribute_name_start: (?=[^{{ascii_space}}=/>}])
+    tag_attribute_name_break: (?=[{{ascii_space}}=/>}])
+    tag_unquoted_attribute_start: (?=[^{{ascii_space}}=/>}])
+    tag_unquoted_attribute_break: (?=[{{ascii_space}}}]|/?>)
     # code_fence_escape: |-
     #   (?x:
     #     ^         # the beginning of the line
@@ -190,6 +194,7 @@ contexts:
                         pattern will only match stuff matched by the sub-patterns.
       push:
         - meta_scope: meta.block-level.markdown
+        - include: ligatures
         - include: block-quote
         - include: indented-code-block
         - include: atx-heading
@@ -315,6 +320,9 @@ contexts:
         Markdown will convert this for us. We match it so that the
                         HTML grammar will not mark it up as invalid.
       scope: meta.other.valid-ampersand.markdown
+  ligatures:
+    - match: '<=>'          # <=>
+    - match: '<[-=<]'       # <- <= <<
   block-quote:
     - match: '[ ]{,3}(>)[ ]?'
       comment: |
@@ -384,6 +392,7 @@ contexts:
     - match: '{{indented_code_block}}.*$\n?'
       scope: markup.raw.block.markdown
   bold:
+    - include: ligatures
     - match: '(\*\*)(\*)(?=\S)(?!\*)'
       captures:
         1: punctuation.definition.bold.begin.markdown
@@ -519,7 +528,7 @@ contexts:
         - include: italic
         - include: bold-italic-trailing
   bracket:
-    - match: '<(?![a-z/?\$!])'
+    - match: '<(?![A-Za-z/?!$])'
       comment: |
         Markdown will convert this for us. We match it so that the
                         HTML grammar will not mark it up as invalid.
@@ -570,7 +579,7 @@ contexts:
          )
       captures:
         1: meta.image.inline.markdown punctuation.definition.image.begin.markdown
-      push: [image-inline-after-text, image-link-text]
+      push: [image-inline-attr, image-inline-after-text, image-link-text]
   image-link-text:
     - meta_content_scope: meta.image.inline.description.markdown
     - include: link-text
@@ -608,6 +617,15 @@ contexts:
               scope: invalid.illegal.unexpected-whitespace.markdown
             - match: (?=\s*(?!\)))
               push: link-title
+  image-inline-attr:
+    - match: '([ ]*)(\{)(?=[^}]*\})'
+      captures:
+        1: invalid.illegal.whitespace.markdown
+        2: punctuation.definition.attributes.begin.markdown
+      set:
+        - meta_scope: meta.image.inline.markdown
+        - include: tag-attributes
+    - include: immediately-pop
   image-ref:
     - match: |-
         (?x:
@@ -622,7 +640,7 @@ contexts:
         )
       captures:
         1: meta.image.reference.markdown punctuation.definition.image.begin.markdown
-      push: [image-ref-after-text, image-ref-text]
+      push: [image-ref-attr, image-ref-after-text, image-ref-text]
   image-ref-text:
     - meta_content_scope: meta.image.reference.description.markdown
     - include: link-text
@@ -637,9 +655,19 @@ contexts:
         3: punctuation.definition.constant.end.markdown
       scope: meta.image.reference.markdown
       pop: true
+  image-ref-attr:
+    - match: '([ ]*)(\{)(?=[^}]*\})'
+      captures:
+        1: invalid.illegal.whitespace.markdown
+        2: punctuation.definition.attributes.begin.markdown
+      set:
+        - meta_scope: meta.image.reference.markdown
+        - include: tag-attributes
+    - include: immediately-pop
   inline:
     - include: escape
     - include: ampersand
+    - include: ligatures
     - include: bracket
     - include: raw
     - include: image-inline
@@ -764,7 +792,7 @@ contexts:
         )
       captures:
         1: meta.link.inline.markdown punctuation.definition.link.begin.markdown
-      push: [link-inline-after-text, link-inline-link-text]
+      push: [link-inline-attr, link-inline-after-text, link-inline-link-text]
   link-inline-after-text:
     - match: '([ ]*)(\()' # spaces not allowed before the open paren, but we check for it anyway to mark it as invalid
       captures:
@@ -795,6 +823,15 @@ contexts:
               scope: invalid.illegal.unexpected-whitespace.markdown
             - match: (?=\s*(?!\)))
               push: link-title
+  link-inline-attr:
+    - match: '([ ]*)(\{)(?=[^}]*\})'
+      captures:
+        1: invalid.illegal.whitespace.markdown
+        2: punctuation.definition.attributes.begin.markdown
+      set:
+        - meta_scope: meta.link.inline.markdown
+        - include: tag-attributes
+    - include: immediately-pop
   link-inline-link-text:
     - meta_content_scope: meta.link.inline.description.markdown
     - include: link-text-allow-image
@@ -815,7 +852,7 @@ contexts:
         )
       captures:
         1: meta.link.reference.markdown punctuation.definition.link.begin.markdown
-      push: [link-ref-after-text, link-ref-link-text]
+      push: [link-ref-attr, link-ref-after-text, link-ref-link-text]
   link-ref-link-text:
     - meta_content_scope: meta.link.reference.description.markdown
     - include: link-text-allow-image
@@ -830,6 +867,15 @@ contexts:
         3: punctuation.definition.constant.end.markdown
       scope: meta.link.reference.markdown
       pop: true
+  link-ref-attr:
+    - match: '([ ]*)(\{)(?=[^}]*\})'
+      captures:
+        1: invalid.illegal.whitespace.markdown
+        2: punctuation.definition.attributes.begin.markdown
+      set:
+        - meta_scope: meta.link.reference.markdown
+        - include: tag-attributes
+    - include: immediately-pop
   link-ref-literal:
     - match: |-
         (?x:
@@ -844,7 +890,7 @@ contexts:
         )
       captures:
         1: meta.link.reference.literal.markdown punctuation.definition.link.begin.markdown
-      push: [link-ref-literal-after-text, link-ref-literal-link-text]
+      push: [link-ref-literal-attr, link-ref-literal-after-text, link-ref-literal-link-text]
   link-ref-literal-link-text:
     - meta_content_scope: meta.link.reference.literal.description.markdown
     - include: link-text-allow-image
@@ -858,6 +904,15 @@ contexts:
         1: punctuation.definition.constant.begin.markdown
         2: punctuation.definition.constant.end.markdown
       pop: true
+  link-ref-literal-attr:
+    - match: '([ ]*)(\{)(?=[^}]*\})'
+      captures:
+        1: invalid.illegal.whitespace.markdown
+        2: punctuation.definition.attributes.begin.markdown
+      set:
+        - meta_scope: meta.link.reference.literal.markdown
+        - include: tag-attributes
+    - include: immediately-pop
   link-ref-footnote:
     - match: |-
         (?x:
@@ -1369,6 +1424,64 @@ contexts:
       captures:
         1: invalid.illegal.expected-eol.markdown
       pop: true
+
+###[ LINK/IMAGE/REFERENCE ATTRIBUTES ]########################################
+
+  tag-attributes:
+    # https://kramdown.gettalong.org/syntax.html#span-ials
+    # https://michelf.ca/projects/php-markdown/extra/
+    # https://pandoc.org/MANUAL.html#extension-link_attributes
+    - match: \}
+      scope: punctuation.definition.attributes.end.markdown
+      pop: true
+    - match: \,
+      scope: punctuation.separator.mapping.pair.markdown
+    - match: '{{tag_attribute_name_start}}'
+      push: [tag-attr-meta, tag-attr-equals, tag-attr-name]
+
+  tag-attr-name:
+    - meta_scope: entity.other.attribute-name.markdown
+    - match: '{{tag_attribute_name_break}}'
+      pop: true
+    - match: '["''`<]'
+      scope: invalid.illegal.attribute-name.markdown
+
+  tag-attr-meta:
+    - meta_scope: meta.attribute-with-value.markdown
+    - include: immediately-pop
+
+  tag-attr-equals:
+    - match: =
+      scope: punctuation.separator.key-value.markdown
+      set: tag-attr-value
+    - include: else-pop
+
+  tag-attr-value:
+    - match: \"
+      scope: punctuation.definition.string.begin.markdown
+      set:
+        - meta_scope: string.quoted.double.markdown
+        - match: \"
+          scope: punctuation.definition.string.end.markdown
+          pop: true
+    - match: \'
+      scope: punctuation.definition.string.begin.markdown
+      set:
+        - meta_scope: string.quoted.single.markdown
+        - match: \'
+          scope: punctuation.definition.string.end.markdown
+          pop: true
+    - match: '{{tag_unquoted_attribute_start}}'
+      set:
+        - meta_scope: string.unquoted.markdown
+        - match: '{{tag_unquoted_attribute_break}}'
+          pop: true
+        - match: '["''`<]'
+          scope: invalid.illegal.attribute-value.markdown
+    - include: else-pop
+
+###[ TABLE ]##################################################################
+
   table:
     - match: ^(?={{table_first_row}})
       push:
@@ -1414,3 +1527,13 @@ contexts:
                       scope: invalid.deprecated.unescaped-backticks.markdown
                     - include: inline
                     - include: scope:text.html.basic
+
+###[ PROTOTYPES ]#############################################################
+
+  else-pop:
+    - match: (?=\S)
+      pop: true
+
+  immediately-pop:
+    - match: ''
+      pop: true

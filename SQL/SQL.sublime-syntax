@@ -6,18 +6,23 @@ file_extensions:
   - ddl
   - dml
 scope: source.sql
+
+variables:
+  end_identifier: (?=[ \t]*(?:[^\w'"`. \t]|$))
+
 contexts:
   main:
     - include: comments
-    - match: '(?i:\s*\b(create(?:\s+or\s+replace)?)\s+(aggregate|conversion|database|domain|function|group|(?:unique\s+)?index|language|operator class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view)\s+)(?:(\w+)|''(\w+)''|"(\w+)"|`(\w+)`)'
+    - match: |-
+        (?xi)
+        \b(create(?:\s+or\s+replace)?)\s+
+        (aggregate|conversion|database|domain|function|group|(?:unique\s+)?index|language|operator class|operator|procedure|rule|schema|sequence|table(?:space)?|trigger|type|user|view)
+        \b\s*
       scope: meta.create.sql
       captures:
         1: keyword.other.create.sql
         2: keyword.other.sql
-        3: entity.name.function.sql
-        4: entity.name.function.sql
-        5: entity.name.function.sql
-        6: entity.name.function.sql
+      push: identifier_create
     - match: (?i:\s*\b(drop)\s+(aggregate|conversion|database|domain|function|group|index|language|operator class|operator|procedure|rule|schema|sequence|table|tablespace|trigger|type|user|view))
       scope: meta.drop.sql
       captures:
@@ -38,23 +43,23 @@ contexts:
     - match: |-
         (?xi)
 
-        				# normal stuff, capture 1
-        				 \b(bigint|bigserial|bit|boolean|box|bytea|cidr|circle|date|datetime|double\sprecision|inet|int|integer|line|lseg|macaddr|money|ntext|oid|path|point|polygon|real|serial|smallint|sysdate|sysname|text)\b
+                # normal stuff, capture 1
+                 \b(bigint|bigserial|bit|boolean|box|bytea|cidr|circle|date|datetime|double\sprecision|inet|int|integer|line|lseg|macaddr|money|ntext|oid|path|point|polygon|real|serial|smallint|sysdate|sysname|text)\b
 
-        				# numeric suffix, capture 2 + 3i
-        				|\b(bit\svarying|character\s(?:varying)?|tinyint|var\schar|float|interval)\((\d+)\)
+                # numeric suffix, capture 2 + 3i
+                |\b(bit\svarying|character\s(?:varying)?|tinyint|var\schar|float|interval)\((\d+)\)
 
-        				# optional numeric suffix, capture 4 + 5i
-        				|\b(char|number|nvarchar|varbinary|varchar\d?)\b(?:\((\d+)\))?
+                # optional numeric suffix, capture 4 + 5i
+                |\b(char|number|nvarchar|varbinary|varchar\d?)\b(?:\((\d+)\))?
 
-        				# special case, capture 6 + 7i + 8i
-        				|\b(numeric|decimal)\b(?:\((\d+),(\d+)\))?
+                # special case, capture 6 + 7i + 8i
+                |\b(numeric|decimal)\b(?:\((\d+),(\d+)\))?
 
-        				# special case, captures 9, 10i, 11
-        				|\b(times?)\b(?:\((\d+)\))?(\swith(?:out)?\stime\szone\b)?
+                # special case, captures 9, 10i, 11
+                |\b(times?)\b(?:\((\d+)\))?(\swith(?:out)?\stime\szone\b)?
 
-        				# special case, captures 12, 13, 14i, 15
-        				|\b(timestamp)(?:(s|tz))?\b(?:\((\d+)\))?(\s(with|without)\stime\szone\b)?
+                # special case, captures 12, 13, 14i, 15
+                |\b(timestamp)(?:(s|tz))?\b(?:\((\d+)\))?(\s(with|without)\stime\szone\b)?
 
 
       captures:
@@ -86,7 +91,7 @@ contexts:
         1: keyword.operator.logical.sql
         2: keyword.operator.logical.sql
         3: constant.language.sql
-    - match: (?i:\b(and|or|like|having|between|in)\b)
+    - match: (?i:\b(and|or|like|having|exists|between|in)\b)
       scope: keyword.operator.logical.sql
     - match: (?i:\bvalues\b)
       scope: keyword.other.DML.II.sql
@@ -147,28 +152,27 @@ contexts:
         - meta_scope: comment.block.c
         - match: \*/
           pop: true
+        - match: ^\s*(\*)(?!/)
+          captures:
+            1: punctuation.definition.comment.sql
   regexps:
     - match: /(?=\S.*/)
-      captures:
-        0: punctuation.definition.string.begin.sql
+      scope: punctuation.definition.string.begin.sql
       push:
         - meta_scope: string.regexp.sql
         - match: /
-          captures:
-            0: punctuation.definition.string.end.sql
+          scope: punctuation.definition.string.end.sql
           pop: true
         - include: string_interpolation
         - match: \\/
           scope: constant.character.escape.slash.sql
     - match: '%r\{'
       comment: We should probably handle nested bracket pairs!?! -- Allan
-      captures:
-        0: punctuation.definition.string.begin.sql
+      scope: punctuation.definition.string.begin.sql
       push:
         - meta_scope: string.regexp.modr.sql
         - match: '\}'
-          captures:
-            0: punctuation.definition.string.end.sql
+          scope: punctuation.definition.string.end.sql
           pop: true
         - include: string_interpolation
   string_escape:
@@ -182,46 +186,55 @@ contexts:
         3: punctuation.definition.string.end.sql
   strings:
     - match: "'"
-      captures:
-        0: punctuation.definition.string.begin.sql
+      scope: punctuation.definition.string.begin.sql
       push:
         - meta_scope: string.quoted.single.sql
         - match: "''"
           scope: constant.character.escape.sql
         - match: "'"
-          captures:
-            0: punctuation.definition.string.end.sql
+          scope: punctuation.definition.string.end.sql
           pop: true
         - include: string_escape
     - match: "`"
-      captures:
-        0: punctuation.definition.string.begin.sql
+      scope: punctuation.definition.string.begin.sql
       push:
         - meta_scope: string.quoted.other.backtick.sql
         - match: "`"
-          captures:
-            0: punctuation.definition.string.end.sql
+          scope: punctuation.definition.string.end.sql
           pop: true
         - include: string_escape
     - match: '"'
-      captures:
-        0: punctuation.definition.string.begin.sql
+      scope: punctuation.definition.string.begin.sql
       push:
         - meta_scope: string.quoted.double.sql
         - match: '""'
           scope: constant.character.escape.sql
         - match: '"'
-          captures:
-            0: punctuation.definition.string.end.sql
+          scope: punctuation.definition.string.end.sql
           pop: true
         - include: string_interpolation
     - match: '%\{'
-      captures:
-        0: punctuation.definition.string.begin.sql
+      scope: punctuation.definition.string.begin.sql
       push:
         - meta_scope: string.other.quoted.brackets.sql
         - match: '\}'
-          captures:
-            0: punctuation.definition.string.end.sql
+          scope: punctuation.definition.string.end.sql
           pop: true
         - include: string_interpolation
+  identifier_create:
+    - meta_content_scope: meta.toc-list.full-identifier.sql
+    - match: '(?:(\w+)|''([^'']+)''|"([^"]+)"|`([^`]+)`){{end_identifier}}'
+      scope: meta.toc-list.full-identifier.sql
+      captures:
+        1: entity.name.function.sql
+        2: entity.name.function.sql
+        3: entity.name.function.sql
+        4: entity.name.function.sql
+      pop: true
+      # Schema identifiers
+    - match: (?:\w+|'[^']+'|"[^"]+"|`[^`]+`)\s*(\.)
+      captures:
+        1: punctuation.accessor.dot.sql
+      # Handle situations where the schema and . 
+    - match: '{{end_identifier}}'
+      pop: true

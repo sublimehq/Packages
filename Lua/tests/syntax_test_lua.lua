@@ -3,22 +3,28 @@
 --COMMENTS
 
     -- Foo!
---  ^^^^^^^ comment.line
+-- ^ - comment
+--  ^^^^^^^^ comment.line
 --  ^^ punctuation.definition.comment
 
 
     --[[ Foo! ]]
+-- ^ - comment
 --  ^^^^^^^^^^^^ comment.block
 --  ^^^^ punctuation.definition.comment.begin
 --            ^^ punctuation.definition.comment.end
+--              ^ - comment
 
     --[=[ Foo! ]] ]=]
+-- ^ - comment
 --  ^^^^^^^^^^^^^^^^^ comment.block
 --  ^^^^^ punctuation.definition.comment.begin
 --             ^^ - punctuation
 --                ^^^ punctuation.definition.comment.end
+--                   ^ - comment
 
     --[=[
+-- ^ - comment
 --  ^^^^^ comment.block punctuation.definition.comment.begin
         ]]
 --      ^^^ comment.block - punctuation
@@ -30,6 +36,7 @@
 --      ^^ - punctuation
     ]=]
 --  ^^^ comment.block punctuation.definition.comment.end
+--     ^ - comment
 
 --VARIABLES
 
@@ -59,44 +66,61 @@
 --NUMBERS
 
     0;
---  ^ constant.numeric.decimal
+--  ^ constant.numeric.integer.decimal
 
     1234567890;
---  ^^^^^^^^^^ constant.numeric.decimal
+--  ^^^^^^^^^^ constant.numeric.integer.decimal
 
     12.345;
---  ^^^^^^ constant.numeric.decimal
+--  ^^^^^^ constant.numeric.float.decimal
+--    ^ punctuation.separator.decimal
 
     1.;
---  ^^ constant.numeric.decimal
+--  ^^ constant.numeric.float.decimal
+--   ^ punctuation.separator.decimal
 
     .2;
---  ^^ constant.numeric.decimal
+--  ^^ constant.numeric.float.decimal
+--  ^ punctuation.separator.decimal
 
     1e10;
---  ^^^^ constant.numeric.decimal
+--  ^^^^ constant.numeric.float.decimal
 
     0.5e+0;
---  ^^^^^^ constant.numeric.decimal
+--  ^^^^^^ constant.numeric.float.decimal
+--   ^ punctuation.separator.decimal
 
     9e-1;
---  ^^^^ constant.numeric.decimal
+--  ^^^^ constant.numeric.float.decimal
 
     0x0;
---  ^^^ constant.numeric.hexadecimal
---  ^^ punctuation.definition.numeric.hexadecimal
+--  ^^^ constant.numeric.integer.hexadecimal
+--  ^^ punctuation.definition.numeric.base
 
     0XdeafBEEF42;
---  ^^^^^^^^^^^^ constant.numeric.hexadecimal
---  ^^ punctuation.definition.numeric.hexadecimal
+--  ^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
+--  ^^ punctuation.definition.numeric.base
 
-    0xa.bc;
---  ^^^^^^ constant.numeric.hexadecimal
---  ^^ punctuation.definition.numeric.hexadecimal
+    0xa.bc + 0xa. + 0x.b;
+--  ^^^^^^ constant.numeric.float.hexadecimal
+--  ^^ punctuation.definition.numeric.base
+--     ^ punctuation.separator.decimal
+--           ^^^^ constant.numeric.float.hexadecimal
+--           ^^ punctuation.definition.numeric.base
+--              ^ punctuation.separator.decimal
+--                  ^^^^ constant.numeric.float.hexadecimal
+--                  ^^ punctuation.definition.numeric.base
+--                    ^ punctuation.separator.decimal
 
-    0x1p10;
---  ^^^^^^ constant.numeric.hexadecimal
---  ^^ punctuation.definition.numeric.hexadecimal
+    0x1p10 + 0x1.p10 + 0x.1p10;
+--  ^^^^^^ constant.numeric.float.hexadecimal
+--  ^^ punctuation.definition.numeric.base
+--           ^^^^^^^ constant.numeric.float.hexadecimal
+--           ^^ punctuation.definition.numeric.base
+--              ^ punctuation.separator.decimal
+--                     ^^^^^^^ constant.numeric.float.hexadecimal
+--                     ^^ punctuation.definition.numeric.base
+--                       ^ punctuation.separator.decimal
 
     'foo';
 --  ^^^^^ string.quoted.single
@@ -205,11 +229,11 @@
 
     -1;
 --  ^ keyword.operator.arithmetic
---   ^ constant.numeric.decimal
+--   ^ constant.numeric.integer.decimal
 
     ~1;
 --  ^ keyword.operator.bitwise
---   ^ constant.numeric.decimal
+--   ^ constant.numeric.integer.decimal
 
     not true;
 --  ^^^ keyword.operator.logical
@@ -268,20 +292,41 @@
 --              ^ punctuation.section.block.end
 
     {[a] = x, b = y};
---   ^^^ meta.brackets
+--  ^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
+--   ^^^ meta.mapping.key meta.brackets
 --   ^ punctuation.section.brackets.begin
 --    ^ variable.other
 --     ^ punctuation.section.brackets.end
 --       ^ punctuation.separator.key-value
---         ^ variable.other
---          ^ punctuation.separator.field
---            ^ meta.key string.unquoted.key
+--         ^ meta.mapping.value variable.other
+--          ^ meta.mapping.lua punctuation.separator.field
+--            ^ meta.mapping.key string.unquoted.key
 --              ^ punctuation.separator.key-value
 --                ^ meta.mapping variable.other
 
     {[[actually a string]], [=[this too]=]}
 --   ^^ meta.mapping.lua string.quoted.multiline.lua punctuation.definition.string.begin.lua
 --                          ^^^ meta.mapping.lua string.quoted.multiline.lua punctuation.definition.string.begin.lua
+
+    {some = 2}, {some == 2}
+--   ^^^^ meta.mapping.key string.unquoted.key.lua
+--        ^ punctuation.separator.key-value.lua
+--          ^ meta.mapping.value constant.numeric.integer.decimal
+--               ^^^^ variable.other.lua - meta.mapping.key
+--                    ^^ keyword.operator.comparison
+
+    {__index = function(i) end,
+--   ^^^^^^^ meta.mapping.key entity.name.function support.function.metamethod.lua
+     method = function ()
+--   ^^^^^^ meta.mapping.key.lua entity.name.function.lua - support
+     end,
+     __call = some_func,
+--   ^^^^^^ meta.mapping.key.lua entity.name.function.lua support.function.metamethod.lua
+     not_method = some_var,
+--   ^^^^^^^^^^ meta.mapping.key.lua string.unquoted.key.lua - entity - support
+     __metatable = nil,
+--   ^^^^^^^^^^^ meta.mapping.key.lua string.unquoted.key.lua support.other.metaproperty.lua
+ }
 
 --PARENS
 
@@ -293,6 +338,9 @@
     foo.bar;
 --     ^ punctuation.accessor
 --      ^^^ meta.property
+
+    foo.__mode = "kv";
+--      ^^^^^^ meta.property.lua support.other.metaproperty.lua
 
     foo:bar;
 --     ^ punctuation.accessor
@@ -398,6 +446,9 @@
 --                       ^^^^^ meta.group
 --                             ^^^ keyword.control.end
 
+    function foo.bar:__index (...) end
+--                   ^^^^^^^ meta.name.function meta.property.lua entity.name.function.lua support.function.metamethod.lua
+
     function foo
         .bar () end
 --      ^^^^^^^^^^^ meta.function
@@ -424,6 +475,9 @@
 
     foo.bar = function() end;
 --      ^^^ meta.property entity.name.function
+
+    foo.__call = function() end;
+--      ^^^^^^ meta.property.lua entity.name.function.lua support.function.metamethod.lua
 
     function (return) end;
 --            ^^^^^^ invalid.unexpected-keyword.lua
@@ -535,9 +589,9 @@
 --  ^^^^^ storage.modifier
 --        ^ variable.other
 --          ^ keyword.operator.assignment
---            ^ constant.numeric.decimal
+--            ^ constant.numeric.integer.decimal
 --             ^ punctuation.separator.comma
 --               ^ variable.other
 --                 ^ keyword.operator.assignment
---                   ^ constant.numeric.decimal
+--                   ^ constant.numeric.integer.decimal
 --                    ^ punctuation.terminator.statement

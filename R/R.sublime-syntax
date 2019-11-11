@@ -5,19 +5,20 @@ name: R
 file_extensions:
   - R
   - r
-  - s
-  - S
   - Rprofile
 scope: source.r
 
 variables:
+  exponent: (?:[eE][-+]?\d+)
   var: '(?:[a-zA-Z._][a-zA-Z0-9._]*|`[^`]+`)'
 
 contexts:
   main:
     - include: roxygen
+    - include: codesection
     - include: comments
     - include: constants
+    - include: accessor
     - include: operators
     - include: keywords
     - include: storage-types
@@ -29,8 +30,15 @@ contexts:
     - include: function-calls
     - include: general-variables
 
+  codesection:
+    - match: ^\s*((\#+)\s*(.+?)\s*(?:-{4,}|={4,}|#{4,})[ \t]*$\n?)
+      captures:
+        1: comment.line.number-sign.r
+        2: punctuation.definition.comment.r
+        3: entity.name.section.r
+
   comments:
-    - match: "#"
+    - match: \#+
       scope: punctuation.definition.comment.r
       push:
         - meta_scope: comment.line.number-sign.r
@@ -42,22 +50,49 @@ contexts:
       scope: support.constant.misc.r
     - match: \b(TRUE|FALSE|NULL|NA|NA_integer_|NA_real_|NA_complex_|NA_character_|Inf|NaN)\b
       scope: constant.language.r
-    - match: \b0(x|X)[0-9a-fA-F]+i\b
+    # complex imaginary
+    - match: \b(0[xX])\h+(?:(i)|(I))\b
       scope: constant.numeric.imaginary.hexadecimal.r
-    - match: \b[0-9]+\.?[0-9]*(?:(e|E)(\+|-)?[0-9]+)?i\b
+      captures:
+        1: punctuation.definition.numeric.hexadecimal.r
+        2: storage.type.numeric.r
+        3: invalid.illegal.numeric.r
+    - match: (?:(\.)\d+|\b\d+(\.)?\d*){{exponent}}?(?:(i)|(I))\b
       scope: constant.numeric.imaginary.decimal.r
-    - match: \.[0-9]+(?:(e|E)(\+|-)?[0-9]+)?i\b
-      scope: constant.numeric.imaginary.decimal.r
-    - match: \b0(x|X)[0-9a-fA-F]+L\b
+      captures:
+        1: punctuation.separator.decimal.r
+        2: punctuation.separator.decimal.r
+        3: storage.type.numeric.r
+        4: invalid.illegal.numeric.r
+    # integers
+    - match: \b(0[xX])\h+(?:(L)|(l))\b
       scope: constant.numeric.integer.hexadecimal.r
-    - match: \b(?:[0-9]+\.?[0-9]*)L\b
+      captures:
+        1: punctuation.definition.numeric.hexadecimal.r
+        2: storage.type.numeric.r
+        3: invalid.illegal.numeric.r
+    - match: \b\d+(\.)?\d*(?:(L)|(l))\b
       scope: constant.numeric.integer.decimal.r
-    - match: \b0(x|X)[0-9a-fA-F]+\b
+      captures:
+        1: punctuation.separator.decimal.r
+        2: storage.type.numeric.r
+        3: invalid.illegal.numeric.r
+    # floats
+    - match: \b(0[xX])\h+\b
       scope: constant.numeric.float.hexadecimal.r
-    - match: \b[0-9]+\.?[0-9]*(?:(e|E)(\+|-)?[0-9]+)?\b
+      captures:
+        1: punctuation.definition.numeric.hexadecimal.r
+    - match: |-
+        (?x:
+          # 1., 1.1, 1.1e1, 1.1e-1, 1.e1, 1.e-1 | 1, 1e1, 1e-1
+          \b\d+ (?: (\.) (?: \d* {{exponent}}? \b )? | {{exponent}}? \b )
+          # .1, .1e1, .1e-1
+          | (\.) \d+ {{exponent}}? \b
+        )
       scope: constant.numeric.float.decimal.r
-    - match: \.[0-9]+(?:(e|E)(\+|-)?[0-9]+)?\b
-      scope: constant.numeric.float.decimal.r
+      captures:
+        1: punctuation.separator.decimal.r
+        2: punctuation.separator.decimal.r
 
   general-variables:
     - match: '{{var}}'
@@ -81,6 +116,15 @@ contexts:
       scope: keyword.control.loop.while.r
     - match: \bin\b
       scope: keyword.operator.word.r
+
+  accessor:
+    - match: '\$'
+      scope: keyword.accessor.dollar.r
+      push:
+        - include: function-calls
+        - include: general-variables
+        - match: ''
+          pop: true
 
   operators:
     # NOTE: sorted by length to ensure not to break ligatures
@@ -112,7 +156,7 @@ contexts:
       scope: keyword.operator.assignment.r
     - match: '[!&|<>]'
       scope: keyword.operator.logical.r
-    - match: '[$:~@]'
+    - match: '[:~@]'
       scope: keyword.other.r
     - match: ;
       scope: punctuation.terminator.semicolon.r

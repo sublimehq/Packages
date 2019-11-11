@@ -3,7 +3,7 @@
 name: Git Log
 file_extensions:
   - gitlog   # no real extention but why not?
-first_line_match: commit\s+\h{7,}
+first_line_match: ^commit\s+\h{7,}
 scope: text.git.log
 
 contexts:
@@ -17,12 +17,9 @@ contexts:
       scope: meta.header.git.commit markup.raw.block.git.log
       captures:
         1: keyword.other.commit.git.log
-        2: constant.numeric.hex.hash.git.log
-      push: commit-header
-      with_prototype:
-        # make sure to pop off stack for next commit
-        - match: ^(?=commit)
-          pop: true
+        2: constant.other.hash.git.log
+      embed: commit-header
+      escape: (?=^commit\s)
 
   commit-header:
     # All header attributes are mappings of `key: value` format.
@@ -39,4 +36,7 @@ contexts:
         - match: \n
           pop: true
         - include: Git Common.sublime-syntax#email
-    - include: Git Commit.sublime-syntax
+    # using push instead of include as workaround for
+    # https://github.com/SublimeTextIssues/Core/issues/2395
+    - match: ^
+      push: Git Commit.sublime-syntax

@@ -8,6 +8,13 @@ file_extensions:
 first_line_match: ^#!\s*/.*\b(node|js)\b
 scope: source.js
 variables:
+  bin_digit: '[01_]'
+  oct_digit: '[0-7_]'
+  dec_digit: '[0-9_]'
+  hex_digit: '[\h_]'
+  dec_integer: (?:0|[1-9]{{dec_digit}}*)
+  dec_exponent: (?:[Ee](?:[-+]|(?![-+])){{dec_digit}}*)
+
   identifier_escape: (?:\\u(?:\h{4}|\{\h+\}))
   identifier_start: (?:[_$\p{L}\p{Nl}]|{{identifier_escape}})
   identifier_part: (?:[_$\p{L}\p{Nl}\p{Mn}\p{Mc}\p{Nd}\p{Pc}\x{200C}\x{200D}]|{{identifier_escape}})
@@ -91,6 +98,13 @@ variables:
       )
     ))
 
+  dot_accessor: |-
+    (?x: # Match . and .?, but not .?( or .?[
+      \.
+      (?! \? [\[(] )
+      \??
+    )
+
 contexts:
   main:
     - include: comments-top-level
@@ -151,14 +165,14 @@ contexts:
       scope: punctuation.separator.comma.js
 
   import-export:
-    - match: import{{identifier_break}}(?!\s*\.)
+    - match: import{{identifier_break}}(?!{{nothing}}[.(])
       scope: keyword.control.import-export.js
       set:
         - meta_scope: meta.import.js
-        - match: (?=\.) # Recovery for import.meta
+        - match: (?=[.(]) # Recovery for import expressions
           set:
             - expression-statement-end
-            - import-meta-expression-dot
+            - import-expression-end
         - match: (?=\S)
           set:
             - import-meta
@@ -315,23 +329,29 @@ contexts:
     - include: label
     - include: variable-declaration
 
-    - match: throw{{identifier_break}}
-      scope: keyword.control.trycatch.js
-      set: restricted-production
-
-    - match: (?:break|continue){{identifier_break}}
-      scope: keyword.control.loop.js
+    - match: break{{identifier_break}}
+      scope: keyword.control.flow.break.js
       set:
         - expect-semicolon
         - expect-label
 
-    - match: return{{identifier_break}}
-      scope: keyword.control.flow.js
-      set: restricted-production
+    - match: continue{{identifier_break}}
+      scope: keyword.control.flow.continue.js
+      set:
+        - expect-semicolon
+        - expect-label
 
     - match: debugger{{identifier_break}}
-      scope: keyword.other.debugger.js
+      scope: keyword.control.flow.debugger.js
       set: expect-semicolon
+
+    - match: return{{identifier_break}}
+      scope: keyword.control.flow.return.js
+      set: restricted-production
+
+    - match: throw{{identifier_break}}
+      scope: keyword.control.flow.throw.js
+      set: restricted-production
 
     - include: function-or-class-declaration
 
@@ -584,21 +604,21 @@ contexts:
 
   conditional:
     - match: switch{{identifier_break}}
-      scope: keyword.control.switch.js
+      scope: keyword.control.conditional.switch.js
       set:
         - switch-meta
         - switch-block
         - expect-parenthesized-expression
 
     - match: do{{identifier_break}}
-      scope: keyword.control.loop.js
+      scope: keyword.control.loop.do-while.js
       set:
         - do-while-meta
         - do-while-condition
         - block-scope
 
     - match: for{{identifier_break}}
-      scope: keyword.control.loop.js
+      scope: keyword.control.loop.for.js
       set:
         - for-meta
         - block-scope
@@ -606,46 +626,53 @@ contexts:
         - for-await
 
     - match: while{{identifier_break}}
-      scope: keyword.control.loop.js
+      scope: keyword.control.loop.while.js
       set:
         - while-meta
         - block-scope
         - expect-parenthesized-expression
 
     - match: with{{identifier_break}}
-      scope: keyword.control.with.js
+      scope: keyword.control.import.with.js
       set:
         - with-meta
         - block-scope
         - expect-parenthesized-expression
 
-    - match: (?:else\s+if|if){{identifier_break}}
-      scope: keyword.control.conditional.js
+    - match: if{{identifier_break}}
+      scope: keyword.control.conditional.if.js
+      set:
+        - conditional-meta
+        - block-scope
+        - expect-parenthesized-expression
+
+    - match: else\s+if{{identifier_break}}
+      scope: keyword.control.conditional.elseif.js
       set:
         - conditional-meta
         - block-scope
         - expect-parenthesized-expression
 
     - match: else{{identifier_break}}
-      scope: keyword.control.conditional.js
+      scope: keyword.control.conditional.else.js
       set:
         - conditional-meta
         - block-scope
 
     - match: try{{identifier_break}}
-      scope: keyword.control.trycatch.js
+      scope: keyword.control.exception.try.js
       set:
         - try-meta
         - block-scope
 
     - match: finally{{identifier_break}}
-      scope: keyword.control.trycatch.js
+      scope: keyword.control.exception.finally.js
       set:
         - finally-meta
         - block-scope
 
     - match: catch{{identifier_break}}
-      scope: keyword.control.trycatch.js
+      scope: keyword.control.exception.catch.js
       set:
         - catch-meta
         - block-scope
@@ -702,7 +729,7 @@ contexts:
 
   for-await:
     - match: await{{identifier_break}}
-      scope: keyword.control.loop.js
+      scope: keyword.control.flow.await.js
       pop: true
     - include: else-pop
 
@@ -778,13 +805,13 @@ contexts:
       pop: true
 
     - match: case{{identifier_break}}
-      scope: keyword.control.switch.js
+      scope: keyword.control.conditional.case.js
       push:
         - expect-case-colon
         - expression
 
     - match: default{{identifier_break}}
-      scope: keyword.control.switch.js
+      scope: keyword.control.conditional.default.js
       push:
         - expect-case-colon
 
@@ -792,7 +819,7 @@ contexts:
 
   do-while-condition:
     - match: while{{identifier_break}}
-      scope: keyword.control.loop.js
+      scope: keyword.control.loop.while.js
       set: parenthesized-expression
     - include: else-pop
 
@@ -815,7 +842,7 @@ contexts:
       pop: true
 
   decorator-expression-end:
-    - match: \.
+    - match: '{{dot_accessor}}'
       scope: punctuation.accessor.js
       push:
         - include: decorator-name
@@ -850,13 +877,13 @@ contexts:
   left-expression-end:
     - include: expression-break
 
-    - include: property-access
-
     - match: (?=`)
       push: literal-string-template
 
-    - match: (?=\()
+    - match: (?=(?:\.\?)?\()
       push: function-call-arguments
+
+    - include: property-access
 
     - include: fallthrough
 
@@ -1078,7 +1105,7 @@ contexts:
     - match: in{{identifier_break}}
       scope: keyword.operator.js
       push: expression-begin
-    - match: '&&|\|\|'
+    - match: '&&|\|\||\?\?'
       scope: keyword.operator.logical.js
       push: expression-begin
     - match: '=(?![=>])'
@@ -1159,7 +1186,7 @@ contexts:
 
   yield-expression:
     - match: yield{{identifier_break}}
-      scope: keyword.control.flow.js
+      scope: keyword.control.flow.yield.js
       set:
         - match: $
           pop: true
@@ -1171,7 +1198,7 @@ contexts:
 
   await-expression:
     - match: await{{identifier_break}}
-      scope: keyword.control.flow.js
+      scope: keyword.control.flow.await.js
 
   class:
     - match: class{{identifier_break}}
@@ -1235,7 +1262,7 @@ contexts:
       pop: true
 
   inherited-class-expression-end:
-    - match: \.
+    - match: '{{dot_accessor}}'
       scope: punctuation.accessor.js
       push:
         - include: inherited-class-name
@@ -1332,7 +1359,7 @@ contexts:
         - literal-variable-base
 
   expect-dot-accessor:
-    - match: '\.'
+    - match: '{{dot_accessor}}'
       scope: punctuation.accessor.js
       pop: true
     - include: else-pop
@@ -1489,7 +1516,7 @@ contexts:
       set: object-literal-contents
 
   object-literal-contents:
-    - meta_scope: meta.object-literal.js
+    - meta_scope: meta.mapping.js
 
     - match: '\}'
       scope: punctuation.section.block.end.js
@@ -1516,17 +1543,27 @@ contexts:
 
     - match: '{{identifier}}(?=\s*(?:[},]|$|//|/\*))'
       scope: variable.other.readwrite.js
+
     - match: (?=\[)
-      push: computed-property-name
+      push:
+        - object-literal-meta-key
+        - computed-property-name
+
     - match: (?=\"|')
       push:
         - object-literal-meta-key
         - literal-string
-    - include: bare-property-name
+
     - match: (?=[-+]?(?:\.[0-9]|0[bxo]|\d))
       push:
-        - meta_scope: meta.object-literal.key.js
-        - include: literal-number
+        - object-literal-meta-key
+        - literal-number
+
+    # - include: bare-property-name
+    - match: (?={{identifier}})
+      push:
+        - object-literal-meta-key
+        - bare-property-name
 
     - include: comma-separator
     - match: ':'
@@ -1540,14 +1577,8 @@ contexts:
       push: expression-no-comma
 
   bare-property-name:
-    - match: '{{dollar_only_identifier}}'
-      scope: meta.object-literal.key.dollar.only.js punctuation.dollar.js
-    - match: '{{dollar_identifier}}'
-      scope: meta.object-literal.key.dollar.js
-      captures:
-        1: punctuation.dollar.js
     - match: '{{identifier}}'
-      scope: meta.object-literal.key.js
+      pop: true
 
   computed-property-name:
     - match: \[
@@ -1560,7 +1591,7 @@ contexts:
           push: expression
 
   object-literal-meta-key:
-    - meta_scope: meta.object-literal.key.js
+    - meta_scope: meta.mapping.key.js
     - include: else-pop
 
   object-literal-expect-colon:
@@ -1570,7 +1601,7 @@ contexts:
 
   method-name:
     - match: '{{dollar_identifier}}'
-      scope: meta.object-literal.key.dollar.js entity.name.function.js
+      scope: meta.mapping.key.dollar.js entity.name.function.js
       captures:
         1: punctuation.dollar.js
       pop: true
@@ -1611,7 +1642,7 @@ contexts:
 
   field-name:
     - match: '{{dollar_identifier}}'
-      scope: meta.object-literal.key.dollar.js variable.other.readwrite.js
+      scope: meta.mapping.key.dollar.js variable.other.readwrite.js
       captures:
         1: punctuation.dollar.js
       pop: true
@@ -1685,8 +1716,10 @@ contexts:
           push: expression
 
   function-call-arguments:
-    - match: \(
-      scope: punctuation.section.group.begin.js
+    - match: (\.\?)?(\()
+      captures:
+        1: punctuation.accessor.js
+        2: punctuation.section.group.begin.js
       set:
         - meta_scope: meta.group.js
         - match: \)
@@ -1705,8 +1738,10 @@ contexts:
         - include: expression-list
 
   property-access:
-    - match: '\['
-      scope: punctuation.section.brackets.begin.js
+    - match: (\.\?)?(\[)
+      captures:
+        1: punctuation.accessor.js
+        2: punctuation.section.brackets.begin.js
       push:
         - meta_scope: meta.brackets.js
         - match: '\]'
@@ -1715,10 +1750,10 @@ contexts:
         - match: (?=\S)
           push: expression
 
-    - match: \.
+    - match: \.(?:\?)?
       scope: punctuation.accessor.js
       push:
-        - match: '(?={{identifier}}\s*\()'
+        - match: '(?={{identifier}}\s*(?:\.\?)?\()'
           set:
             - call-method-meta
             - function-call-arguments
@@ -1727,79 +1762,77 @@ contexts:
         - include: object-property
 
   literal-number:
-    - match: '[+-]?0[0-9]+{{identifier_break}}'
-      scope: constant.numeric.octal.js invalid.deprecated.numeric.octal.js
-      pop: true
-
-    - match: '[+-]?(0[Xx])[0-9a-fA-F_]*(n)?{{identifier_break}}'
-      scope: constant.numeric.hexadecimal.js
-      captures:
-        1: punctuation.definition.numeric.hexadecimal.js
-        2: storage.type.numeric.bigint.js
-      pop: true
-
-    - match: '[+-]?(0[Oo])[0-7_]*(n)?{{identifier_break}}'
-      scope: constant.numeric.octal.js
-      captures:
-        1: punctuation.definition.numeric.octal.js
-        2: storage.type.numeric.bigint.js
-      pop: true
-
-    - match: '[+-]?(0[Bb])[0-1_]*(n)?{{identifier_break}}'
-      scope: constant.numeric.binary.js
-      captures:
-        1: punctuation.definition.numeric.binary.js
-        2: storage.type.numeric.bigint.js
-      pop: true
-
-    - match: '[+-]?(?:0|[1-9][0-9_]*)(n){{identifier_break}}'
-      scope: constant.numeric.decimal.js
-      captures:
-        1: storage.type.numeric.bigint.js
-      pop: true
-
+    # floats
     - match: |-
-        (?x)
-        [-+]?
-        (
-          (?:0|[1-9][0-9_]*)
-          (?:\.[0-9_]*|(?!\.))
-          |
-          \.[0-9_]+
-        )
-        (?:[Ee](?:[+-]|(?![-+]))[0-9_]*)?
-        {{identifier_break}}
-      scope: constant.numeric.decimal.js
+        (?x:
+          # 1., 1.1, 1.1e1, 1.1e-1, 1.e1, 1.e-1 | 1e1, 1e-1
+          {{dec_integer}} (?: (\.) {{dec_digit}}* {{dec_exponent}}? | {{dec_exponent}} )
+          # .1, .1e1, .1e-1
+          | (\.) {{dec_digit}}+ {{dec_exponent}}?
+        ){{identifier_break}}
+      scope: constant.numeric.float.decimal.js
+      captures:
+        1: punctuation.separator.decimal.js
+        2: punctuation.separator.decimal.js
       pop: true
 
-    - match: '[+-]?0[Xx]{{identifier_part}}+{{identifier_break}}'
+    # integers
+    - match: 0{{dec_digit}}+{{identifier_break}}
+      scope: constant.numeric.integer.octal.js invalid.deprecated.numeric.octal.js
+      pop: true
+
+    - match: (0[Xx]){{hex_digit}}*(n)?{{identifier_break}}
+      scope: constant.numeric.integer.hexadecimal.js
+      captures:
+        1: punctuation.definition.numeric.base.js
+        2: storage.type.numeric.js
+      pop: true
+
+    - match: (0[Oo]){{oct_digit}}*(n)?{{identifier_break}}
+      scope: constant.numeric.integer.octal.js
+      captures:
+        1: punctuation.definition.numeric.base.js
+        2: storage.type.numeric.js
+      pop: true
+
+    - match: (0[Bb]){{bin_digit}}*(n)?{{identifier_break}}
+      scope: constant.numeric.integer.binary.js
+      captures:
+        1: punctuation.definition.numeric.base.js
+        2: storage.type.numeric.js
+      pop: true
+
+    - match: '{{dec_integer}}(n|(?!\.)){{identifier_break}}'
+      scope: constant.numeric.integer.decimal.js
+      captures:
+        1: storage.type.numeric.js
+      pop: true
+
+    # illegal numbers
+    - match: 0[Xx]{{identifier_part}}+
       scope: invalid.illegal.numeric.hexadecimal.js
       pop: true
 
-    - match: '[+-]?0[Oo]{{identifier_part}}+{{identifier_break}}'
-      scope: invalid.illegal.numeric.octal.js
-      pop: true
-
-    - match: '[+-]?0[Bb]{{identifier_part}}+{{identifier_break}}'
+    - match: 0[Bb]{{identifier_part}}+
       scope: invalid.illegal.numeric.binary.js
       pop: true
 
-    - match: '[+-]?0{{identifier_part}}+{{identifier_break}}'
+    - match: 0{{identifier_part}}+
       scope: invalid.illegal.numeric.octal.js
       pop: true
 
-    - match: '[+-]?[1-9]{{identifier_part}}+{{identifier_break}}(?:\.{{identifier_part}}*{{identifier_break}})?'
+    - match: '[1-9]{{identifier_part}}+(?:\.{{identifier_part}}*)?'
       scope: invalid.illegal.numeric.decimal.js
       pop: true
 
   literal-call:
-    - match: (?={{identifier}}\s*\()
+    - match: (?={{identifier}}\s*(?:\.\?)?\()
       set:
         - call-function-meta
         - function-call-arguments
         - literal-variable
 
-    - match: (?={{identifier}}\s*(?:\.\s*{{identifier}}\s*)+\()
+    - match: (?={{identifier}}\s*(?:\.\s*{{identifier}}\s*)+(?:\.\?)?\()
       set:
         - call-method-meta
         - function-call-arguments
@@ -1807,7 +1840,7 @@ contexts:
         - literal-variable
 
   call-path:
-    - match: \.
+    - match: '{{dot_accessor}}'
       scope: punctuation.accessor.js
       push: object-property
     - include: else-pop
@@ -1846,7 +1879,7 @@ contexts:
       scope: support.class.js
       pop: true
 
-    - match: (?={{identifier}}\s*\()
+    - match: (?={{identifier}}\s*(?:\.\?)?\()
       set: call-function-name
 
     - include: literal-variable-base
@@ -1907,7 +1940,7 @@ contexts:
     - match: Array{{identifier_break}}
       scope: support.class.builtin.js
       set:
-        - match: \.
+        - match: '{{dot_accessor}}'
           scope: punctuation.accessor.js
           set:
             - include: support-property-ecma-array
@@ -1918,7 +1951,7 @@ contexts:
     - match: ArrayBuffer{{identifier_break}}
       scope: support.class.builtin.js
       set:
-        - match: \.
+        - match: '{{dot_accessor}}'
           scope: punctuation.accessor.js
           set:
             - include: support-property-ecma-arraybuffer
@@ -1929,7 +1962,7 @@ contexts:
     - match: Atomics{{identifier_break}}
       scope: support.constant.builtin.js
       set:
-        - match: \.
+        - match: '{{dot_accessor}}'
           scope: punctuation.accessor.js
           set:
             - include: support-property-ecma-atomics
@@ -1940,7 +1973,7 @@ contexts:
     - match: BigInt{{identifier_break}}
       scope: support.class.builtin.js
       set:
-        - match: \.
+        - match: '{{dot_accessor}}'
           scope: punctuation.accessor.js
           set:
             - include: support-property-ecma-bigint
@@ -1951,7 +1984,7 @@ contexts:
     - match: Date{{identifier_break}}
       scope: support.class.builtin.js
       set:
-        - match: \.
+        - match: '{{dot_accessor}}'
           scope: punctuation.accessor.js
           set:
             - include: support-property-ecma-date
@@ -1962,7 +1995,7 @@ contexts:
     - match: JSON{{identifier_break}}
       scope: support.constant.builtin.js
       set:
-        - match: \.
+        - match: '{{dot_accessor}}'
           scope: punctuation.accessor.js
           set:
             - include: support-property-ecma-json
@@ -1973,7 +2006,7 @@ contexts:
     - match: Math{{identifier_break}}
       scope: support.constant.builtin.js
       set:
-        - match: \.
+        - match: '{{dot_accessor}}'
           scope: punctuation.accessor.js
           set:
             - include: support-property-ecma-math
@@ -1984,7 +2017,7 @@ contexts:
     - match: Number{{identifier_break}}
       scope: support.class.builtin.js
       set:
-        - match: \.
+        - match: '{{dot_accessor}}'
           scope: punctuation.accessor.js
           set:
             - include: support-property-ecma-number
@@ -1995,7 +2028,7 @@ contexts:
     - match: Object{{identifier_break}}
       scope: support.class.builtin.js
       set:
-        - match: \.
+        - match: '{{dot_accessor}}'
           scope: punctuation.accessor.js
           set:
             - include: support-property-ecma-object
@@ -2006,7 +2039,7 @@ contexts:
     - match: Promise{{identifier_break}}
       scope: support.class.builtin.js
       set:
-        - match: \.
+        - match: '{{dot_accessor}}'
           scope: punctuation.accessor.js
           set:
             - include: support-property-ecma-promise
@@ -2017,7 +2050,7 @@ contexts:
     - match: Proxy{{identifier_break}}
       scope: support.class.builtin.js
       set:
-        - match: \.
+        - match: '{{dot_accessor}}'
           scope: punctuation.accessor.js
           set:
             - include: support-property-ecma-proxy
@@ -2028,7 +2061,7 @@ contexts:
     - match: Reflect{{identifier_break}}
       scope: support.constant.builtin.js
       set:
-        - match: \.
+        - match: '{{dot_accessor}}'
           scope: punctuation.accessor.js
           set:
             - include: support-property-ecma-reflect
@@ -2039,7 +2072,7 @@ contexts:
     - match: String{{identifier_break}}
       scope: support.class.builtin.js
       set:
-        - match: \.
+        - match: '{{dot_accessor}}'
           scope: punctuation.accessor.js
           set:
             - include: support-property-ecma-string
@@ -2050,7 +2083,7 @@ contexts:
     - match: Symbol{{identifier_break}}
       scope: support.class.builtin.js
       set:
-        - match: \.
+        - match: '{{dot_accessor}}'
           scope: punctuation.accessor.js
           set:
             - include: support-property-ecma-symbol
@@ -2071,7 +2104,7 @@ contexts:
         )
       scope: support.class.builtin.js
       set:
-        - match: \.
+        - match: '{{dot_accessor}}'
           scope: punctuation.accessor.js
           set:
             - include: support-property-ecma-typedarray
@@ -2143,7 +2176,7 @@ contexts:
       pop: true
 
   support-property-ecma-promise:
-    - match: (?:all|race|reject|resolve){{identifier_break}}
+    - match: (?:all|race|reject|resolve|allSettled|any){{identifier_break}}
       scope: support.function.builtin.js
       pop: true
 
@@ -2180,7 +2213,7 @@ contexts:
     - match: console{{identifier_break}}
       scope: support.type.object.console.js
       set:
-        - match: \.
+        - match: '{{dot_accessor}}'
           scope: punctuation.accessor.js
           set: builtin-console-properties
         - include: else-pop
@@ -2208,7 +2241,7 @@ contexts:
     - match: process{{identifier_break}}
       scope: support.constant.node.js
       set:
-        - match: \.
+        - match: '{{dot_accessor}}'
           scope: punctuation.accessor.js
           set:
             - include: support-property-node-process
@@ -2223,7 +2256,7 @@ contexts:
     - match: module{{identifier_break}}
       scope: support.constant.node.js
       set:
-        - match: \.
+        - match: '{{dot_accessor}}'
           scope: punctuation.accessor.js
           set:
             - include: support-property-node-module
@@ -2270,7 +2303,7 @@ contexts:
 
     - include: support-property
 
-    - match: '(?={{identifier}}\s*\()'
+    - match: '(?={{identifier}}\s*(?:\.\?)?\()'
       set: call-method-name
 
     - include: object-property-base
@@ -2322,10 +2355,12 @@ contexts:
 
   import-meta-expression:
     - match: import{{identifier_break}}
-      scope: variable.language.import.js
-      set: import-meta-expression-dot
+      scope: keyword.import.js
+      set: import-expression-end
 
-  import-meta-expression-dot:
+  import-expression-end:
+    - match: (?=\()
+      set: function-call-arguments
     - match: \.
       scope: punctuation.accessor.js
       set:
