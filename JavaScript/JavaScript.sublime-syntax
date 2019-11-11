@@ -1809,19 +1809,19 @@ contexts:
       pop: true
 
     # illegal numbers
-    - match: 0[Xx]{{identifier_part}}+{{identifier_break}}
+    - match: 0[Xx]{{identifier_part}}+
       scope: invalid.illegal.numeric.hexadecimal.js
       pop: true
 
-    - match: 0[Bb]{{identifier_part}}+{{identifier_break}}
+    - match: 0[Bb]{{identifier_part}}+
       scope: invalid.illegal.numeric.binary.js
       pop: true
 
-    - match: 0{{identifier_part}}+{{identifier_break}}
+    - match: 0{{identifier_part}}+
       scope: invalid.illegal.numeric.octal.js
       pop: true
 
-    - match: '[1-9]{{identifier_part}}+{{identifier_break}}(?:\.{{identifier_part}}*{{identifier_break}})?'
+    - match: '[1-9]{{identifier_part}}+(?:\.{{identifier_part}}*)?'
       scope: invalid.illegal.numeric.decimal.js
       pop: true
 
