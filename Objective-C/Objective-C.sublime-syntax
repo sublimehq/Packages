@@ -262,7 +262,6 @@ contexts:
     - include: preprocessor-expressions
     - include: comments
     - include: case-default
-    - include: access
     - include: typedef
     - include: keywords-parens
     - include: keywords
@@ -273,6 +272,7 @@ contexts:
     - include: block
     - include: variables
     - include: constants
+    - include: access
     - match: ','
       scope: punctuation.separator.objc
     - match: '\)|\}'
@@ -477,7 +477,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.preprocessor.objc
+        3: constant.numeric.integer.decimal.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -503,7 +503,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.preprocessor.objc
+        3: constant.numeric.integer.decimal.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -911,7 +911,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.preprocessor.objc
+        3: constant.numeric.integer.decimal.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -937,7 +937,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.preprocessor.objc
+        3: constant.numeric.integer.decimal.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -981,7 +981,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.preprocessor.objc
+        3: constant.numeric.integer.decimal.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1008,7 +1008,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.preprocessor.objc
+        3: constant.numeric.integer.decimal.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1113,7 +1113,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.preprocessor.objc
+        3: constant.numeric.integer.decimal.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1139,7 +1139,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.preprocessor.objc
+        3: constant.numeric.integer.decimal.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:

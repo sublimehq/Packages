@@ -432,7 +432,7 @@ class MyClass : public CrtpClass<MyClass>
 {
     using typename CrtpClass<MyClass>::PointerType;
 /*  ^ keyword.control */
-/*        ^ storage.modifier */ 
+/*        ^ storage.modifier */
     using CrtpClass<
 /*  ^ keyword.control */
         MyClass>::method;
@@ -678,7 +678,7 @@ int main() {
 
 // Example from section 14.2/4 of
 // http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3690.pdf
-struct X 
+struct X
 {
     template <std::size_t>
     X* alloc();
@@ -686,12 +686,12 @@ struct X
     template <std::size_t>
     static X* adjust();
 };
-template <class T> 
-void f(T* p) 
+template <class T>
+void f(T* p)
 {
     // Be optimistic: scope it as a template member function call anyway.
     T* p1 = p->alloc<200>(); // ill-formed: < means less than
-    
+
     T* p2 = p->template alloc<200>(); // OK: < starts template argument list
     /*        ^ punctuation.accessor           */
     /*         ^ storage.type - variable.other */
@@ -699,7 +699,7 @@ void f(T* p)
 
     // Be optimistic: scope it as a template member function call anyway.
     T::adjust<100>(); // ill-formed: < means less than
-    
+
     T::template adjust<100>(); // OK: < starts template argument list
     /* <- - variable.function                    */
     /*^ punctuation.accessor                     */
@@ -934,135 +934,266 @@ std::cout << __LINE__ << '\n';
 /////////////////////////////////////////////
 
 dec1 = 1234567890;
-/*     ^ constant.numeric */
-/*              ^ constant.numeric */
+/*     ^^^^^^^^^^ constant.numeric.integer.decimal */
+/*               ^ punctuation.terminator - constant */
 
 dec2 = 1'924'013;
-/*     ^ constant.numeric */
-/*             ^ constant.numeric */
+/*     ^^^^^^^^^ constant.numeric.integer.decimal */
+/*              ^ punctuation.terminator - constant */
 
 dec3 = 124ul;
-/*     ^ constant.numeric */
-/*         ^ constant.numeric */
+/*     ^^^^^ constant.numeric.integer.decimal */
+/*        ^^ storage.type.numeric */
+/*          ^ punctuation.terminator - constant */
 
 dec4 = 9'204lu;
-/*     ^ constant.numeric */
-/*           ^ constant.numeric */
+/*     ^^^^^^^ constant.numeric.integer.decimal */
+/*          ^^ storage.type.numeric */
+/*            ^ punctuation.terminator - constant */
 
 dec5 = 2'354'202'076LL;
-/*     ^ constant.numeric */
-/*                   ^ constant.numeric */
+/*     ^^^^^^^^^^^^^^^ constant.numeric.integer.decimal */
+/*                  ^^ storage.type.numeric */
+/*                    ^ punctuation.terminator - constant */
 
-int oct1 = 01234567;
-/*         ^ constant.numeric */
-/*                ^ constant.numeric */
+oct1 = 0123_567;
+/*     ^^^^^^^^ constant.numeric.integer.octal */
+/*     ^ punctuation.definition.numeric.base */
+/*         ^^^^ storage.type.numeric */
+/*             ^ punctuation.terminator - constant */
 
-int oct2 = 014'70;
-/*         ^ constant.numeric */
-/*              ^ constant.numeric */
+oct2 = 014'70;
+/*     ^^^^^^ constant.numeric.integer.octal */
+/*     ^ punctuation.definition.numeric.base */
+/*           ^ punctuation.terminator - constant */
 
-int hex1 = 0x1234567890ABCDEF;
-/*         ^ constant.numeric */
-/*                          ^ constant.numeric */
+hex1 = 0x1234567890ABCDEF;
+/*     ^^^^^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal */
+/*     ^^ punctuation.definition.numeric.base */
+/*                       ^ punctuation.terminator - constant */
 
-int hex2 = 0X1234567890ABCDEF;
-/*         ^ constant.numeric */
-/*                          ^ constant.numeric */
+hex2 = 0X1234567890ABCDEF;
+/*     ^^^^^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal */
+/*     ^^ punctuation.definition.numeric.base */
+/*                       ^ punctuation.terminator - constant */
 
-int hex3 = 0x1234567890abcdef;
-/*         ^ constant.numeric */
-/*                          ^ constant.numeric */
+hex3 = 0x1234567890abcdef;
+/*     ^^^^^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal */
+/*     ^^ punctuation.definition.numeric.base */
+/*                       ^ punctuation.terminator - constant */
 
-int hex4 = 0xA7'45'8C'38;
-/*         ^ constant.numeric */
-/*                     ^ constant.numeric */
+hex4 = 0xA7'45'8C'38;
+/*     ^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal */
+/*     ^^ punctuation.definition.numeric.base */
+/*                  ^ punctuation.terminator - constant */
 
-int bin1 = 0b010110;
-/*         ^ constant.numeric */
-/*                ^ constant.numeric */
+hex5 = 0x0+0xFL+0xaull+0xallu+0xfu+0xf'12_4_uz;
+/*     ^^^ constant.numeric.integer.hexadecimal */
+/*     ^^ punctuation.definition.numeric.base */
+/*         ^^^^ constant.numeric.integer.hexadecimal */
+/*         ^^ punctuation.definition.numeric.base */
+/*            ^ storage.type.numeric */
+/*              ^^^^^^ constant.numeric.integer.hexadecimal */
+/*              ^^ punctuation.definition.numeric.base */
+/*                 ^^^ storage.type.numeric */
+/*                     ^^^^^^ constant.numeric.integer.hexadecimal */
+/*                     ^^ punctuation.definition.numeric.base */
+/*                        ^^^ storage.type.numeric */
+/*                            ^^^^ constant.numeric.integer.hexadecimal */
+/*                            ^^ punctuation.definition.numeric.base */
+/*                               ^ storage.type.numeric */
+/*                                 ^^^^^^^^^^ constant.numeric.integer.hexadecimal */
+/*                                 ^^ punctuation.definition.numeric.base */
+/*                                       ^^^^^ storage.type.numeric */
+/*                                            ^ punctuation.terminator - constant */
 
-int bin2 = 0B010010;
-/*         ^ constant.numeric */
-/*                ^ constant.numeric */
+hex2 = 0xc1.01AbFp-1;
+/*     ^^^^^^^^^^^^^ constant.numeric.float.hexadecimal */
+/*     ^^ punctuation.definition.numeric.base */
+/*         ^ punctuation.separator.decimal */
+/*                  ^ punctuation.terminator - constant */
 
-int bin3 = 0b1001'1101'0010'1100;
-/*         ^ constant.numeric */
-/*                             ^ constant.numeric */
+bin1 = 0b010110;
+/*     ^^^^^^^^ constant.numeric.integer.binary */
+/*     ^^ punctuation.definition.numeric.base */
+/*             ^ punctuation.terminator - constant */
 
-units1 = 134h;
-/*       ^ constant.numeric */
-/*          ^ constant.numeric */
+bin2 = 0B010010;
+/*     ^^^^^^^^ constant.numeric.integer.binary */
+/*     ^^ punctuation.definition.numeric.base */
+/*             ^ punctuation.terminator - constant */
 
-units2 = 147min;
-/*       ^ constant.numeric */
-/*            ^ constant.numeric */
+bin3 = 0b1001'1101'0010'1100;
+/*     ^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.binary */
+/*     ^^ punctuation.definition.numeric.base */
+/*                          ^ punctuation.terminator - constant */
 
-units3 = 357s;
-/*       ^ constant.numeric */
-/*          ^ constant.numeric */
+f = 1.1+1.1e1+1.1e-1+1.1f+1.1e1f+1.1e-1f+1.1L+1.1e1L+1.1e-1L;
+/*  ^^^ constant.numeric.float.decimal */
+/*   ^ punctuation.separator.decimal */
+/*     ^ keyword.operator.arithmetic */
+/*      ^^^^^ constant.numeric.float.decimal */
+/*       ^ punctuation.separator.decimal */
+/*           ^ keyword.operator.arithmetic */
+/*            ^^^^^^ constant.numeric.float.decimal */
+/*             ^ punctuation.separator.decimal */
+/*                  ^ keyword.operator.arithmetic */
+/*                   ^^^^ constant.numeric.float.decimal */
+/*                    ^ punctuation.separator.decimal */
+/*                      ^ storage.type.numeric */
+/*                       ^ keyword.operator.arithmetic */
+/*                        ^^^^^^ constant.numeric.float.decimal */
+/*                         ^ punctuation.separator.decimal */
+/*                             ^ storage.type.numeric */
+/*                              ^ keyword.operator.arithmetic */
+/*                               ^^^^^^^ constant.numeric.float.decimal */
+/*                                ^ punctuation.separator.decimal */
+/*                                     ^ storage.type.numeric */
+/*                                      ^ keyword.operator.arithmetic */
+/*                                       ^^^^ constant.numeric.float.decimal */
+/*                                        ^ punctuation.separator.decimal */
+/*                                          ^ storage.type.numeric */
+/*                                           ^ keyword.operator.arithmetic */
+/*                                            ^^^^^^ constant.numeric.float.decimal */
+/*                                             ^ punctuation.separator.decimal */
+/*                                                 ^ storage.type.numeric */
+/*                                                  ^ keyword.operator.arithmetic */
+/*                                                   ^^^^^^^ constant.numeric.float.decimal */
+/*                                                    ^ punctuation.separator.decimal */
+/*                                                         ^ storage.type.numeric */
+/*                                                          ^ punctuation.terminator - constant */
 
-units4 = 234_custom;
-/*       ^ constant.numeric */
-/*                ^ constant.numeric */
+f = 1.e1+1.e-1+1.e1f+1.e-1f+1.e1L+1.e-1L;
+/*  ^^^^ constant.numeric.float.decimal */
+/*   ^ punctuation.separator.decimal */
+/*      ^ keyword.operator.arithmetic */
+/*       ^^^^^ constant.numeric.float.decimal */
+/*        ^ punctuation.separator.decimal */
+/*            ^ keyword.operator.arithmetic */
+/*             ^^^^^ constant.numeric.float.decimal */
+/*              ^ punctuation.separator.decimal */
+/*                 ^ storage.type.numeric */
+/*                  ^ keyword.operator.arithmetic */
+/*                   ^^^^^^ constant.numeric.float.decimal */
+/*                    ^ punctuation.separator.decimal */
+/*                        ^ storage.type.numeric */
+/*                         ^ keyword.operator.arithmetic */
+/*                          ^^^^^ constant.numeric.float.decimal */
+/*                           ^ punctuation.separator.decimal */
+/*                              ^ storage.type.numeric */
+/*                               ^ keyword.operator.arithmetic */
+/*                                ^^^^^^ constant.numeric.float.decimal */
+/*                                 ^ punctuation.separator.decimal */
+/*                                     ^ storage.type.numeric */
+/*                                      ^ punctuation.terminator - constant */
 
-fixed1 = 123.456;
-/*       ^ constant.numeric */
-/*             ^ constant.numeric */
+f = 1.+1.f+1.L+1..;
+/*  ^^ constant.numeric.float.decimal */
+/*   ^ punctuation.separator.decimal */
+/*    ^ keyword.operator.arithmetic */
+/*     ^^^ constant.numeric.float.decimal */
+/*      ^ punctuation.separator.decimal */
+/*       ^ storage.type.numeric */
+/*        ^ keyword.operator.arithmetic */
+/*         ^^^ constant.numeric.float.decimal */
+/*          ^ punctuation.separator.decimal */
+/*           ^ storage.type.numeric */
+/*            ^ keyword.operator.arithmetic */
+/*             ^ constant.numeric.integer.decimal */
+/*              ^^ invalid.illegal.syntax */
+/*                ^ punctuation.terminator - constant */
 
-fixed2 = 12.;
-/*       ^ constant.numeric */
-/*         ^ constant.numeric */
+f = 1e1+1e1f+1e1L;
+/*  ^^^ constant.numeric.float.decimal */
+/*     ^ keyword.operator.arithmetic */
+/*      ^^^^ constant.numeric.float.decimal */
+/*         ^ storage.type.numeric */
+/*          ^ keyword.operator.arithmetic */
+/*           ^^^^ constant.numeric.float.decimal */
+/*              ^ storage.type.numeric */
+/*               ^ punctuation.terminator - constant */
 
-fixed3 = .35;
-/*       ^ constant.numeric */
-/*         ^ constant.numeric */
+f = .1+.1e1+.1e-1+.1f+.1e1f+.1e-1f+.1L+.1e1L+.1e-1L;
+/*  ^^ constant.numeric.float.decimal */
+/*  ^ punctuation.separator.decimal */
+/*    ^ keyword.operator.arithmetic */
+/*     ^^^^ constant.numeric.float.decimal */
+/*     ^ punctuation.separator.decimal */
+/*         ^ keyword.operator.arithmetic */
+/*          ^^^^^ constant.numeric.float.decimal */
+/*          ^ punctuation.separator.decimal */
+/*               ^ keyword.operator.arithmetic */
+/*                ^^^ constant.numeric.float.decimal */
+/*                ^ punctuation.separator.decimal */
+/*                  ^ storage.type.numeric */
+/*                   ^ keyword.operator.arithmetic */
+/*                    ^^^^^ constant.numeric.float.decimal */
+/*                    ^ punctuation.separator.decimal */
+/*                        ^ storage.type.numeric */
+/*                         ^ keyword.operator.arithmetic */
+/*                          ^^^^^^ constant.numeric.float.decimal */
+/*                          ^ punctuation.separator.decimal */
+/*                               ^ storage.type.numeric */
+/*                                 ^^^ constant.numeric.float.decimal */
+/*                                 ^ punctuation.separator.decimal */
+/*                                   ^ storage.type.numeric */
+/*                                    ^ keyword.operator.arithmetic */
+/*                                     ^^^^^ constant.numeric.float.decimal */
+/*                                     ^ punctuation.separator.decimal */
+/*                                         ^ storage.type.numeric */
+/*                                          ^ keyword.operator.arithmetic */
+/*                                           ^^^^^^ constant.numeric.float.decimal */
+/*                                           ^ punctuation.separator.decimal */
+/*                                                ^ storage.type.numeric */
+/*                                                 ^ punctuation.terminator - constant */
 
-fixed4 = 1'843'290.245'123;
-/*       ^ constant.numeric */
-/*                       ^ constant.numeric */
+f = 1'843'290.245'123;
+/*  ^^^^^^^^^^^^^^^^^ constant.numeric.float.decimal */
+/*           ^ punctuation.separator.decimal */
+/*                   ^ punctuation.terminator - constant */
 
-fixed5 = 0.3f;
-/*       ^ constant.numeric */
-/*          ^ constant.numeric */
+f = 2'837e1'000;
+/*  ^^^^^^^^^^^ constant.numeric.float.decimal */
+/*             ^ punctuation.terminator - constant */
 
-fixed6 = 0.82L;
-/*       ^ constant.numeric */
-/*           ^ constant.numeric */
+f = 23e-1'000;
+/*  ^^^^^^^^^ constant.numeric.float.decimal */
+/*           ^ punctuation.terminator - constant */
 
-float sci1 = 1.23e10;
-/*           ^ constant.numeric */
-/*                 ^ constant.numeric */
+units1 = 134h + 123.45h;
+/*       ^^^^ constant.numeric.integer.decimal */
+/*          ^ storage.type.numeric */
+/*           ^^^ - constant */
+/*              ^^^^^^^ constant.numeric.float.decimal */
+/*                 ^ punctuation.separator.decimal */
+/*                    ^ storage.type.numeric */
+/*                     ^ punctuation.terminator - constant */
 
-float sci2 = 13e5;
-/*           ^ constant.numeric */
-/*              ^ constant.numeric */
+units2 = 147min + 147.min;
+/*       ^^^^^^ constant.numeric.integer.decimal */
+/*          ^^^ storage.type.numeric */
+/*             ^^^ - constant */
+/*                ^^^^^^^ constant.numeric.float.decimal */
+/*                   ^ punctuation.separator.decimal */
+/*                    ^^^ storage.type.numeric */
+/*                       ^ punctuation.terminator - constant */
 
-float sci3 = 14.23e+14;
-/*           ^ constant.numeric */
-/*                   ^ constant.numeric */
+units3 = 357s + 34.7s;
+/*       ^^^^ constant.numeric.integer.decimal */
+/*          ^ storage.type.numeric */
+/*           ^^^ - constant */
+/*              ^^^^^ constant.numeric.float.decimal */
+/*                ^ punctuation.separator.decimal */
+/*                  ^ storage.type.numeric */
+/*                   ^ punctuation.terminator - constant */
 
-float sci4 = 14e+14;
-/*           ^ constant.numeric */
-/*                ^ constant.numeric */
-
-float sci5 = 18.84e-12;
-/*           ^ constant.numeric */
-/*                   ^ constant.numeric */
-
-float sci6 = 46e-14;
-/*           ^ constant.numeric */
-/*                ^ constant.numeric */
-
-float sci7 = 2'837e1'000;
-/*           ^ constant.numeric */
-/*                     ^ constant.numeric */
-
-float sci8 = 23e-1'000;
-/*           ^ constant.numeric */
-/*                   ^ constant.numeric */
-
-double sci_hex = 0xc1.01AbFp-1;
-/*               ^^^^^^^^^^^^^ constant.numeric */
+units4 = 234_custom + 10e-1_custom;
+/*       ^^^^^^^^^^ constant.numeric.integer.decimal */
+/*          ^^^^^^^ storage.type.numeric */
+/*                 ^^^ - constant */
+/*                    ^^^^^^^^^^^^ constant.numeric.float.decimal */
+/*                         ^^^^^^^ storage.type.numeric */
+/*                                ^ punctuation.terminator - constant */
 
 /////////////////////////////////////////////
 // Functions
@@ -1368,7 +1499,7 @@ using namespace NAME __attribute__((visibility ("hidden")));
 /*                   ^ storage.modifier */
 /*                                               ^ string */
 
-using namespace 
+using namespace
 /* <- keyword.control */
 /*    ^ keyword.control */
 
@@ -2067,7 +2198,7 @@ enum class Namespace::MyEnum
 };
 
 class Namespace::
-MyClass MACRO1 
+MyClass MACRO1
 /* <- entity.name.class */
 /*      ^ - entity.name */
 {
@@ -2409,7 +2540,7 @@ void sayHi()
 /*         ^ constant.numeric */
 /*          ^ punctuation.section.generic.end */
 /*           ^^ meta.group */
-    
+
     ::myns::foo<int>();
 /*  ^^ punctuation.accessor.double-colon */
 /*        ^^ punctuation.accessor.double-colon */

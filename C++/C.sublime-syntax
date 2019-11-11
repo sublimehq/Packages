@@ -9,6 +9,15 @@ first_line_match: "-[*]-( Mode:)? C -[*]-"
 scope: source.c
 
 variables:
+  # number exponents
+  dec_exponent: '(?:[eE][-+]??\d+)'
+  hex_exponent: '(?:[pP][-+]??\d+)'
+
+  # number suffixes
+  dec_suffix: '[a-zA-Z_][[:alnum:]_]*'
+  hex_suffix: '[g-zG-Z_][[:alnum:]_]*'
+  integer_suffix: '[lL]{1,2}[uU]?|[uU][lL]{0,2}'
+
   identifier: \b[[:alpha:]_][[:alnum:]_]*\b # upper and lowercase
   macro_identifier: \b[[:upper:]_][[:upper:][:digit:]_]{2,}\b # only uppercase, at least 3 chars
   control_keywords: 'break|case|continue|default|do|else|for|goto|if|_Pragma|return|switch|while'
@@ -169,8 +178,80 @@ contexts:
       scope: support.type.mac-classic.c
 
   numbers:
-    - match: '\b((0(x|X)[0-9a-fA-F]*(\.[0-9a-fA-F]+p-?\d+)?)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)([fF]|(l{1,2}|L{1,2})[uU]?|[uU](l{0,2}|L{0,2}))?\b'
-      scope: constant.numeric.c
+    # https://en.cppreference.com/w/c/language/floating_constant
+
+    # decimal floats
+    - match: |-
+        (?x:
+          \b\d+
+          (?:
+            (?: (\.) (?: \d+ {{dec_exponent}}? | {{dec_exponent}} | (?=[^.])) | {{dec_exponent}} )
+            (?: ([fFlL])\b | ({{dec_suffix}})? ) | ([fF])\b
+          )
+          | (\.) \d+ {{dec_exponent}}? (?: ([fFlL])\b | ({{dec_suffix}})? )
+        )
+      scope: constant.numeric.float.decimal.c
+      captures:
+        1: punctuation.separator.decimal.c
+        2: storage.type.numeric.c
+        3: invalid.illegal.numeric.suffix.c
+        4: storage.type.numeric.c
+        5: punctuation.separator.decimal.c
+        6: storage.type.numeric.c
+        7: invalid.illegal.numeric.suffix.c
+    # hexadecimal float (C99)
+    - match: \b0[xX](?=[[:alnum:].]+?[pP])
+      scope: punctuation.definition.numeric.base.c
+      push:
+        - meta_include_prototype: false
+        - meta_scope: constant.numeric.float.hexadecimal.c
+        - match: '{{hex_exponent}}\b'
+          pop: true
+        - match: \.
+          scope: punctuation.separator.decimal.c
+        - match: \H
+          scope: invalid.illegal.numeric.digit.c
+
+    # https://en.cppreference.com/w/c/language/integer_constant
+
+    # hexadecimal integer
+    - match: \b0[xX]
+      scope: punctuation.definition.numeric.base.c
+      push:
+        - meta_include_prototype: false
+        - meta_scope: constant.numeric.integer.hexadecimal.c
+        - include: hexadecimal-suffix
+    # octal integer
+    - match: \b0(?=\d)
+      scope: punctuation.definition.numeric.base.c
+      push:
+        - meta_include_prototype: false
+        - meta_scope: constant.numeric.integer.octal.c
+        - match: '[89]'
+          scope: invalid.illegal.numeric.digit.c
+        - include: decimal-suffix
+    # decimal integer
+    - match: \b\d+
+      push:
+        - meta_include_prototype: false
+        - meta_scope: constant.numeric.integer.decimal.c
+        - include: decimal-suffix
+
+  decimal-suffix:
+    - match: (?:{{integer_suffix}})?\b
+      scope: storage.type.numeric.c
+      pop: true
+    - match: '{{dec_suffix}}'
+      scope: invalid.illegal.numeric.suffix.c
+      pop: true
+
+  hexadecimal-suffix:
+    - match: (?:{{integer_suffix}})?\b
+      scope: storage.type.numeric.c
+      pop: true
+    - match: '{{hex_suffix}}'
+      scope: invalid.illegal.numeric.suffix.c
+      pop: true
 
   operators:
     - match: (?:\+\+|--)
@@ -302,7 +383,6 @@ contexts:
     - include: preprocessor-expressions
     - include: comments
     - include: case-default
-    - include: access
     - include: typedef
     - include: keywords-parens
     - include: keywords
@@ -314,6 +394,7 @@ contexts:
     - include: block
     - include: variables
     - include: constants
+    - include: access
     - match: ','
       scope: punctuation.separator.c
     - match: '\)|\}'
@@ -712,7 +793,7 @@ contexts:
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-        3: constant.numeric.preprocessor.c
+        3: constant.numeric.integer.decimal.c
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -738,7 +819,7 @@ contexts:
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-        3: constant.numeric.preprocessor.c
+        3: constant.numeric.integer.decimal.c
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -782,7 +863,7 @@ contexts:
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-        3: constant.numeric.preprocessor.c
+        3: constant.numeric.integer.decimal.c
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -809,7 +890,7 @@ contexts:
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-        3: constant.numeric.preprocessor.c
+        3: constant.numeric.integer.decimal.c
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -914,7 +995,7 @@ contexts:
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-        3: constant.numeric.preprocessor.c
+        3: constant.numeric.integer.decimal.c
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -940,7 +1021,7 @@ contexts:
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-        3: constant.numeric.preprocessor.c
+        3: constant.numeric.integer.decimal.c
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
