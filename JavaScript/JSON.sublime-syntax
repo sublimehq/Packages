@@ -93,9 +93,8 @@ contexts:
         - match: ":"
           scope: punctuation.separator.mapping.key-value.json
           push:
-            - match: '(,)|(?=\})'
-              captures:
-                1: invalid.illegal.expected-mapping-value.json
+            - match: ',|\s?(?=\})'
+              scope: invalid.illegal.expected-mapping-value.json
               pop: true
             - match: (?=\S)
               set:
@@ -104,11 +103,12 @@ contexts:
                 - include: value
                 - match: ''
                   set:
-                    - match: '(,)|(?=\s*\})'
-                      captures:
-                        1: punctuation.separator.mapping.pair.json
+                    - match: ','
+                      scope: punctuation.separator.mapping.pair.json
                       pop: true
-                    - match: '\s(?=[^\s,])|[^\s,]'
+                    - match: \s*(?=\})
+                      pop: true
+                    - match: \s(?!/[/*])(?=[^\s,])|[^\s,]
                       scope: invalid.illegal.expected-mapping-separator.json
                       pop: true
         - match: '[^\s\}]'
