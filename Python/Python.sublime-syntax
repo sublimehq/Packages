@@ -560,7 +560,7 @@ contexts:
   classes:
     - match: '^\s*(class)\b'
       captures:
-        1: storage.type.class.python
+        1: storage.type.class.python keyword.declaration.class.python
       push:
         - meta_scope: meta.class.python
         - include: line-continuation-or-pop
@@ -610,7 +610,7 @@ contexts:
     - match: '^\s*(?:(async)\s+)?(def)\b'
       captures:
         1: storage.modifier.async.python
-        2: storage.type.function.python
+        2: storage.type.function.python keyword.declaration.function.python
       push:
         - meta_scope: meta.function.python
         - include: line-continuation-or-pop
@@ -870,7 +870,7 @@ contexts:
 
   lambda:
     - match: \b(lambda)(?=\s|:|$)
-      scope: storage.type.function.inline.python
+      scope: storage.type.function.inline.python keyword.declaration.function.inline.python
       push: [lambda-parameters, allow-unpack-operators]
 
   lambda-parameters:

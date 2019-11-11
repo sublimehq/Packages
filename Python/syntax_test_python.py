@@ -109,9 +109,9 @@ identifier
 #^^^^^^^^^ meta.qualified-name meta.generic-name
 
 class
-#^^^^ storage.type.class
+#^^^^ storage.type.class keyword.declaration.class.python
 def
-#^^ storage.type.function
+#^^ storage.type.function keyword.declaration.function.python
 
 # async and await are still recognized as valid identifiers unless in an "async" block
 async
@@ -237,13 +237,13 @@ def _():
 
     c = lambda: pass
 #       ^^^^^^^^^^^^ meta.function.inline
-#       ^^^^^^ storage.type.function.inline
+#       ^^^^^^ storage.type.function.inline keyword.declaration.function.inline.python
 #             ^ punctuation.section.function.begin
 #               ^^^^ invalid.illegal.name.python
 
     _(lambda x, y: 10)
 #     ^^^^^^^^^^^^^^^ meta.function.inline
-#     ^^^^^^ storage.type.function.inline
+#     ^^^^^^ keyword.declaration.function.inline.python
 #           ^^^^^ meta.function.inline.parameters
 #            ^ variable.parameter
 #             ^ punctuation.separator.parameters
@@ -272,7 +272,7 @@ def _():
 #                            ^ invalid.illegal.expected-parameter.python
 
     lambda x
-#   ^^^^^^ storage.type.function.inline
+#   ^^^^^^ storage.type.function.inline keyword.declaration.function.inline.python
 
     lambda (x, y): 0
 #   ^^^^^^^^^^^^^^^^ meta.function.inline
@@ -877,7 +877,7 @@ class Class():
     @deco \
 
     def f(): pass
-#   ^^^ storage.type.function - meta.decorator
+#   ^^^ storage.type.function keyword.declaration.function.python - meta.decorator
 
 
 class AClass:
