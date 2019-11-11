@@ -1,20 +1,20 @@
 # SYNTAX TEST "Packages/Diff/Diff.sublime-syntax"
 
 --- Path to Original File
-#^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.header.from-file
+#^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.header.from-file meta.header.from-file.diff
 # <-                      punctuation.definition.from-file.diff
 #^^                       punctuation.definition.from-file.diff
 
 +++ Path to Modified File
-#^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.header.to-file
+#^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.header.to-file meta.header.to-file.diff
 # <-                      punctuation.definition.to-file.diff
 #^^                       punctuation.definition.to-file.diff
 
 28a211
-#^^^^^ meta.diff.range.normal
+#^^^^^ meta.diff.range.normal meta.range.normal.diff
 
 @@ -2,8 +2,11 @@
-#^^^^^^^^^^^^^^^ meta.diff.range.unified
+#^^^^^^^^^^^^^^^ meta.diff.range.unified meta.range.unified.diff
 # <-             punctuation.definition.range.diff
 #^               punctuation.definition.range.diff
 # ^ - punctuation
@@ -24,7 +24,7 @@
 #               ^ - entity - punctuation
 
 @@ -2,8 +2,11 @@ function_hint(int var)
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.range.unified
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.diff.range.unified meta.range.unified.diff
 # <-             punctuation.definition.range.diff
 #^               punctuation.definition.range.diff
 # ^ - punctuation
@@ -36,13 +36,13 @@
 #                                      ^ - entity.name.section.diff
 
 --- Range ----
-#^^^^^^^^^^^^^ meta.diff.range.context
+#^^^^^^^^^^^^^ meta.diff.range.context meta.range.context.diff
 # <-           punctuation.definition.range.diff
 #^^            punctuation.definition.range.diff
 #         ^^^^ punctuation.definition.range.diff
 
 *** Range ****
-#^^^^^^^^^^^^^ meta.diff.range.context
+#^^^^^^^^^^^^^ meta.diff.range.context meta.range.context.diff
 # <-           punctuation.definition.range.diff
 #^^            punctuation.definition.range.diff
 #         ^^^^ punctuation.definition.range.diff
@@ -91,6 +91,6 @@ Plain Text
 # ^^^^^^^^ markup.changed.diff
 
 Index: value
-#^^^^^^^^^^^ meta.diff.index
+#^^^^^^^^^^^ meta.diff.index meta.index.diff
 #    ^       punctuation.separator.key-value.diff
 #      ^^^^^ meta.toc-list.file-name.diff
