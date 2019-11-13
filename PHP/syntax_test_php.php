@@ -202,6 +202,15 @@ $fn = fn($x) => fn($y) => $x * $y + $z;
 //                   ^ punctuation.section.group.end
 //                     ^^ punctuation.definition.arrow-function.php
 
+$var = fn($x)
+//     ^^ meta.function.arrow-function.php - meta.function-call
+   => $x * 2;
+// ^^ punctuation.definition.arrow-function
+
+$var = fn($x)
+//     ^^ meta.function-call - meta.function.arrow-function.php
+;
+
 $var = function(array $ar=array(), ClassName $cls) use ($var1, $var2) {
 //     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //     ^^^^^^^^ meta.function.closure
