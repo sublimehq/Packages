@@ -456,71 +456,70 @@ def match_selector(view, pt, scope):
 def next_none_whitespace(view, pt):
     for pt in range(pt, view.size()):
         ch = view.substr(pt)
-        if ch not in (' ', '\t'):
+        if ch not in ' \t':
             return ch
 
 
 class CSSCompletions(sublime_plugin.EventListener):
+    selector_scope = (
+        # match inside a CSS document and
+        "source.css - meta.selector.css, "
+        # match inside the style attribute of HTML tags, incl. just before
+        # the quote that closes the attribute value
+        "text.html meta.attribute-with-value.style.html "
+        "string.quoted - punctuation.definition.string.begin.html"
+    )
     props = None
-    regex = None
+    re_name = None
+    re_value = None
 
     def on_query_completions(self, view, prefix, locations):
-        selector_scope = (
-            # match inside a CSS document and
-            "source.css - meta.selector.css, "
-            # match inside the style attribute of HTML tags, incl. just before
-            # the quote that closes the attribute value
-            "text.html meta.attribute-with-value.style.html "
-            "string.quoted - punctuation.definition.string.begin.html"
-        )
-        prop_name_scope = "meta.property-name.css"
-        prop_value_scope = "meta.property-value.css"
         pt = locations[0]
 
-        # When not inside or at the end of a CSS, don’t trigger
-        if not match_selector(view, pt, selector_scope):
+        if not match_selector(view, pt, self.selector_scope):
             return None
 
         if not self.props:
             self.props = parse_css_data()
-            self.regex = re.compile(r"([a-zA-Z-]+):\s*$")
+            self.re_name = re.compile(r"([a-zA-Z-]+)\s*:[^:;{}]*$")
+            self.re_value = re.compile(r"^(?:\s*(:)|([ \t]*))([^:]*)[;}]")
 
-        # complete property values
-        if match_selector(view, pt, prop_value_scope):
-            line = view.substr(sublime.Region(view.line(pt).begin(), pt - len(prefix)))
-
-            match = re.search(self.regex, line)
-            if not match:
-                return None
-
-            prop_name = match.group(1)
-            values = self.props.get(prop_name)
-            if not values:
-                return None
-
-            add_semi_colon = next_none_whitespace(view, pt) != ";"
-
-            items = []
-            for value in values:
-                desc = value + "\t" + prop_name
-                if "$1" in desc:
-                    desc = desc.replace("$1", "")
-
-                snippet = value
-                if add_semi_colon:
-                    snippet += "$0;"
-
-                items.append((desc, snippet))
-
-        # complete property names
+        if match_selector(view, pt, "meta.property-value.css"):
+            items = self.complete_property_value(view, prefix, pt)
         else:
-            ch = next_none_whitespace(view, pt)
-            if ch == ":" or view.match_selector(pt, prop_name_scope):
-                suffix = ""
-            elif ch == ";":
-                suffix = ": "
-            else:
-                suffix = ": $0;"
-            items = [(prop + "\tproperty", prop + suffix) for prop in self.props]
+            items = self.complete_property_name(view, prefix, pt)
 
-        return (items, sublime.INHIBIT_WORD_COMPLETIONS)
+        return (items, sublime.INHIBIT_WORD_COMPLETIONS) if items else None
+
+    def complete_property_name(self, view, prefix, pt):
+        suffix = ": $0;"
+        text = view.substr(sublime.Region(pt, view.line(pt).end()))
+        matches = self.re_value.search(text)
+        if matches:
+            colon, space, value = matches.groups()
+            if colon:
+                # don't append anything if the next character is a colon
+                suffix = ""
+            elif value:
+                # only append colon if value already exists
+                suffix = ":" if space else ": "
+
+        return ((prop + "\tproperty", prop + suffix) for prop in self.props)
+
+    def complete_property_value(self, view, prefix, pt):
+        text = view.substr(sublime.Region(view.line(pt).begin(), pt - len(prefix)))
+        matches = self.re_name.search(text)
+        if not matches:
+            return None
+
+        prop = matches.group(1)
+        values = self.props.get(prop)
+        if not values:
+            return None
+
+        if next_none_whitespace(view, pt) == ";":
+            suffix = ""
+        else:
+            suffix = "$0;"
+
+        return ((value.replace("$1", "") + "\t" + prop, value + suffix) for value in values)
