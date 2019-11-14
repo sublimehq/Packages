@@ -1,13 +1,13 @@
 [
 	// Add a colon followed by space and semicolon after a property name,
-	// if the next none-whitespace character is no semicolon.
+	// if the next following token doesn't look like a value.
 	{ "keys": [":"], "command": "insert_snippet", "args": {"contents": ": $0;"}, "context":
 		[
 			{ "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
 			{ "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
 			{ "key": "selector", "operator": "equal", "operand": "source.css - meta.selector.css", "match_all": true },
 			{ "key": "preceding_text", "operator": "regex_contains", "operand": "\\w$", "match_all": false },
-			{ "key": "following_text", "operator": "not_regex_contains", "operand": "^\\s*;", "match_all": false }
+			{ "key": "following_text", "operator": "not_regex_contains", "operand": "^[^:}]*;", "match_all": false }
 		]
 	},
 	// Add a colon followed by space after a property name,
