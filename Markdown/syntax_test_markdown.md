@@ -21,10 +21,12 @@ http://spec.commonmark.org/0.28/#example-44
 |             ^ - punctuation.definition.heading.end.markdown
 
 Alternate Heading
+| <- markup.heading.1
 =================
 |^^^^^^^^^^^^^^^^ markup.heading.1 punctuation.definition
 
 heading underlined with dashes
+| <- markup.heading.2
 ------------------------------
 | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.heading.2 punctuation.definition.heading
 
