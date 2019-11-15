@@ -635,7 +635,18 @@ contexts:
 
   # https://wiki.php.net/rfc/arrow_functions_v2
   arrow-function:
-    - match: '(?i)\b(fn)\b\s*(&)?\s*(?=\()'
+    # "fn" can be a function name before PHP 7.4
+    # Since PHP 7.4, "fn" is a reserved word
+    - match: (?i)(?=\bfn\b\s*&?\s*\()
+      branch_point: arrow-function-branch
+      branch:
+        # Anonymous function definition: fn($a) => $a * 2;
+        - is-arrow-function
+        # Function call, where "fn" is the function name: fn($a);
+        - fn-function-call
+
+  is-arrow-function:
+    - match: (?i)\b(fn)\b\s*(&)?\s*(?=\()
       scope: meta.function.arrow-function.php
       captures:
         1: storage.type.function.php
@@ -643,19 +654,21 @@ contexts:
       push:
         - match: \(
           scope: meta.function.parameters.php meta.group.php punctuation.section.group.begin.php
-          push:
-            - include: function-parameters
-            - match: (?==>)
-              pop: true
-        - match: "=>"
+          push: function-parameters
+        - match: '=>'
           scope: punctuation.definition.arrow-function.php
-          push:
+          set:
             - match: '(?=;|,|\)|\s*\?>)'
-              pop: true
+              pop: 2
             - include: expressions
-        # Exit on unexpected content
+        - include: comments
         - match: (?=\S)
-          pop: true
+          fail: arrow-function-branch
+
+  fn-function-call:
+    - include: function-call
+    - match: ''
+      pop: true
 
   closure:
     - match: (?i)\b(function)\s*(&)?\s*(?=\()
