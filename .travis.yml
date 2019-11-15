@@ -1,10 +1,14 @@
+dist: bionic
 sudo: false
 language: c
 branches:
   except:
     - /^v[0-9]{4}$/
+before_install:
+  - sudo apt-get -y install libgl1-mesa-glx
+  - sudo apt-get -y install libglu1-mesa
 install:
-  - wget --content-disposition https://download.sublimetext.com/st_syntax_tests_build_4050_x64.tar.bz2
+  - wget --content-disposition https://download.sublimetext.com/st_syntax_tests_build_4052_x64.tar.bz2
   - tar xf "$(ls st_syntax_tests_build_*_x64.tar.bz2)"
   - mv st_syntax_tests/syntax_tests ./
   - rm -R st_syntax_tests*
