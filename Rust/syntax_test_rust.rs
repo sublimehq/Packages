@@ -624,7 +624,8 @@ impl Point
     //  ^^^^ variable.language
     //      ^ punctuation.accessor.dot
     //         ^^ keyword.operator.assignment
-        self.y *= 2;
+        self.y >>= 2;
+    //         ^^^ keyword.operator.assignment.rust
     }
 
     fn sum((x, y): (i32, i32)) -> i32 {
