@@ -18,8 +18,14 @@ variables:
 
   # Types
   # https://www.w3.org/TR/css3-values/#numeric-types
+  # https://www.w3.org/TR/css-syntax-3/#number-token-diagram
   integer: '(?:[-+]?\d+)'
-  float:  '(?:[-+]?\d*(\.)\d+(?:[eE]{{integer}})*)'
+  exponent: '(?:[eE]{{integer}})'
+  float: |-
+    (?x:
+      [-+]? \d* (\.) \d+ {{exponent}}?
+    | [-+]? \d+          {{exponent}}
+    )
 
   # Units
   # https://www.w3.org/TR/css3-values/#lengths
