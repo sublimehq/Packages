@@ -2,6 +2,9 @@ import re
 import sublime
 import sublime_plugin
 
+KIND_CSS_PROPERTY = (sublime.KIND_ID_VARIABLE, "p", "property")
+KIND_CSS_FUNCTION = (sublime.KIND_ID_FUNCTION, "f", "function")
+KIND_CSS_CONSTANT = (sublime.KIND_ID_VARIABLE, "c", "constant")
 
 # Prepare some common property values for when there is more than one way to
 # specify a certain value type. The color value for example can be specified
@@ -489,7 +492,9 @@ class CSSCompletions(sublime_plugin.EventListener):
         else:
             items = self.complete_property_name(view, prefix, pt)
 
-        return (items, sublime.INHIBIT_WORD_COMPLETIONS) if items else None
+        if items:
+            return sublime.CompletionList(items, sublime.INHIBIT_WORD_COMPLETIONS)
+        return None
 
     def complete_property_name(self, view, prefix, pt):
         suffix = ": $0;"
@@ -504,7 +509,13 @@ class CSSCompletions(sublime_plugin.EventListener):
                 # only append colon if value already exists
                 suffix = ":" if space else ": "
 
-        return ((prop + "\tproperty", prop + suffix) for prop in self.props)
+        return (
+            sublime.CompletionItem.snippet_completion(
+                trigger=prop,
+                snippet=prop + suffix,
+                kind=KIND_CSS_PROPERTY
+            ) for prop in self.props
+        )
 
     def complete_property_value(self, view, prefix, pt):
         text = view.substr(sublime.Region(view.line(pt).begin(), pt - len(prefix)))
@@ -522,4 +533,10 @@ class CSSCompletions(sublime_plugin.EventListener):
         else:
             suffix = "$0;"
 
-        return ((value.replace("$1", "") + "\t" + prop, value + suffix) for value in values)
+        return (
+            sublime.CompletionItem.snippet_completion(
+                trigger=value.replace("$1", ""),
+                snippet=value + suffix,
+                kind=KIND_CSS_FUNCTION if "(" in value else KIND_CSS_CONSTANT
+            ) for value in values
+        )
