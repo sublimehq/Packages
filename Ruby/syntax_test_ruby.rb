@@ -1309,10 +1309,10 @@ foo / "bar/bla"
 
 # issue #2181
 foo << bar if baz.include?(x)
-#          ^^ keyword.control.ruby
+#          ^^ keyword.control.conditional.if.ruby
 foo << bar.baz if baz.include?(x)
-#              ^^ keyword.control.ruby
+#              ^^ keyword.control.conditional.if.ruby
 foo << bar.assert_match if baz.include?(x)
-#                       ^^ keyword.control.ruby
+#                       ^^ keyword.control.conditional.if.ruby
 foo << bar.to_s if baz.include?(x)
-#               ^^ keyword.control.ruby
+#               ^^ keyword.control.conditional.if.ruby
