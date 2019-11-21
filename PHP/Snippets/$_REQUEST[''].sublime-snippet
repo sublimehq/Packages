@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[\$_REQUEST['${1:variable}']]]></content>
-	<tabTrigger>$_</tabTrigger>
+	<tabTrigger>$_REQUEST</tabTrigger>
 	<scope>source.php - string.quoted.single - comment</scope>
 	<description>REQUEST['…']</description>
 </snippet>
