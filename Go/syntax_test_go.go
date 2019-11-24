@@ -75,7 +75,7 @@ You may have to disable Go-specific linters when working on this file.
 
     package main
 //  ^^^^^^^ keyword.other.package.go
-//         ^^^^^ -keyword
+//          ^^^^ entity.name.package.go
 
     import "module"
 //  ^^^^^^ keyword.other.import.go
