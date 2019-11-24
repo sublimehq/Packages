@@ -727,6 +727,14 @@ contexts:
   match-keyword-package:
     - match: \bpackage\b
       scope: keyword.other.package.go
+      push:
+        - match: \b_\b
+          scope: variable.language.blank.go
+
+        - match: '{{ident}}'
+          scope: entity.name.package.go
+
+        - include: pop-before-nonblank
 
   match-keyword-range:
     - match: \brange\b
