@@ -33,5 +33,3 @@ contexts:
           LAST_PAREN_MATCH | MATCH | PREMATCH | POSTMATCH | LAST_SUBMATCH_RESULT
         )
       scope: variable.language.match.regexp-replace
-    - match: .
-      scope: meta.literal.regexp-replace

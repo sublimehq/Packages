@@ -4,10 +4,10 @@
 #######################
 
   $
-# ^ meta.literal.regexp-replace - constant - variable
+# ^ - constant - variable
 
   $foo
-# ^^^^ meta.literal.regexp-replace - constant - variable
+# ^^^^ - constant - variable
 
   $$              Outputs a literal $
 # ^^ constant.character.escape.regexp-replace
@@ -92,7 +92,7 @@
 
   \cX         Outputs the ANSI escape sequence "escape-X".
 # ^^ constant.character.escape.regexp-replace
-#   ^ meta.literal.regexp-replace - constant
+#   ^ - constant
 
   \2          If D is a decimal digit in the range 1-9, then outputs the text that matched sub-expression D.
 # ^^ variable.language.backref.regexp-replace
