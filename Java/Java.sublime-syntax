@@ -977,6 +977,7 @@ contexts:
       push: generic-type-bounds
     - include: generic-type-terminator
     - include: object-and-array-types
+    - include: annotations
     - include: punctuation-separator-comma
 
   annotation-default:
