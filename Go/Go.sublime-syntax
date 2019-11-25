@@ -732,7 +732,7 @@ contexts:
           scope: variable.language.blank.go
 
         - match: '{{ident}}'
-          scope: entity.name.package.go
+          scope: entity.name.namespace.go
 
         - include: pop-before-nonblank
 
