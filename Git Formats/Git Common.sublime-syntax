@@ -273,7 +273,7 @@ contexts:
           %{{pretty_formats_empty_value_modifiers}}
           (?:
             [HhTtPpdDesSfbBNmn]| # single-char
-            [ac][nNeEdDrtiI]|    # author and committer
+            [ac][nNeElLdDrtiI]|  # author and committer
             G[G?DKFP]|           # GPG
             g[dnNeEs]            # reflog
           )

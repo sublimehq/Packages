@@ -414,6 +414,23 @@ stray-bracket]
 #                                                          ^ constant.numeric.integer.pretty-formats.git
 #                                                           ^ punctuation.section.parens.end.pretty-formats.git
 #                                                                    ^^^ constant.other.placeholder.pretty-formats.git
+    foo = log --pretty='%%f%x26f%H%h%T%t%P%p%d%D%e%s%S%f%b%B%N%m%n'
+#                       ^^ constant.character.escape.pretty-formats.git
+#                         ^ - constant
+#                          ^^^^ constant.character.byte.pretty-formats.git
+#                              ^ - constant
+#                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.placeholder.pretty-formats.git
+    foo = log --pretty='%E%l%L%r%i%I%G%?%K%F%E'
+#                       ^^^^^^^^^^^^^^^^^^^^^^ - constant
+    foo = log --pretty='%an%aN%ae%aE%al%aL%ad%aD%ar%at%ai%aI'
+#                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.placeholder.pretty-formats.git
+    foo = log --pretty='%cn%cN%ce%cE%cl%cL%cd%cD%cr%ct%ci%cI'
+#                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.placeholder.pretty-formats.git
+    foo = log --pretty='%GG%G?%GD%GK%GF%GP'
+#                       ^^^^^^^^^^^^^^^^^^ constant.other.placeholder.pretty-formats.git
+    foo = log --pretty='%gd%gn%gN%ge%gE%gs'
+#                       ^^^^^^^^^^^^^^^^^^ constant.other.placeholder.pretty-formats.git
+
 
 # REAL WORLD SAMPLE TESTS
 [alias]
