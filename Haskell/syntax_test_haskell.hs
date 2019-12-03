@@ -42,9 +42,18 @@
 --                      ^^ punctuation.definition.comment.end.haskell
 --                        ^ - comment.block.haskell
 
+--DECLARATIONS
+
+   module Name where
+-- ^^^^^^^^^^^^^^^^^ meta.declaration.module.haskell
+-- ^^^^^^ keyword.declaration.namespace.haskell
+--        ^^^^ entity.name.namespace.haskell
+--             ^^^^^ keyword.control.context.haskell
+
    class (Functor t, Foldable t) => Traversable t where
--- ^^^^^ keyword.other.haskell
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
+-- ^^^^^ keyword.declaration.class.haskell
+--                                                ^^^^^ keyword.control.context.haskell
    {-# MINIMAL traverse | sequenceA LANGUAGE #-}
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.haskell
 --                                              ^ - meta.preprocessor.haskell
@@ -127,6 +136,8 @@
 
    instance TooMany Int where
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.instance.haskell
+-- ^^^^^^^^ keyword.declaration..haskell
+--                      ^^^^^ keyword.control.context.haskell
      tooMany n = n > 42
 
    foldBoolGuard :: a -> a -> Bool -> a
@@ -151,6 +162,29 @@
 -- ^^^^^^^^^^^^ meta.function.type-declaration.haskell
    countTheBeforeVowel = undefined
 
+
+--KEYWORDS
+
+test =
+--   ^ keyword.operator.haskell
+    let x = 2 in x * y
+--  ^^^ keyword.declaration.variable.haskell
+--            ^^ keyword.control.context.haskell
+    where
+--  ^^^^^ keyword.control.context.haskell
+        y = 1
+--        ^ keyword.operator.haskell
+
+test a = case a of
+--       ^^^^ keyword.control.conditional.select.haskell
+--              ^^ keyword.control.conditional.select.haskell
+    Nothing -> 0
+    Just n -> if n > 0
+--            ^^ keyword.control.conditional.if.haskell
+        then n
+--      ^^^^ keyword.control.conditional.then.haskell
+        else 0
+--      ^^^^ keyword.control.conditional.else.haskell
 
 --NUMBERS
 
