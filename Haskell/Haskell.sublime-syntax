@@ -5,14 +5,24 @@ name: Haskell
 file_extensions:
   - hs
 scope: source.haskell
+
+variables:
+  # In case this regex seems overly general,
+  # note that Haskell permits the definition of new operators
+  # which can be nearly any string of punctuation characters,
+  # such as $%^&*.
+  operator_infix: '[*|!%$?~+:\-.=</>\\]+'
+  operator_parens: '(?:{{operator_infix}}|,+)'
+
 contexts:
   main:
-    - match: "(`)[a-zA-Z_']*?(`)"
-      comment: "In case this regex seems unusual for an infix operator, note that Haskell allows any ordinary function application (elem 4 [1..10]) to be rewritten as an infix expression (4 `elem` [1..10])."
+    - match: (`)[a-zA-Z_']+(`)
+      # Haskell allows any ordinary function application (elem 4 [1..10]) 
+      # to be rewritten as an infix expression (4 `elem` [1..10])."
       scope: keyword.operator.function.infix.haskell
       captures:
-        1: punctuation.definition.entity.haskell
-        2: punctuation.definition.entity.haskell
+        1: punctuation.definition.function.begin.haskell
+        2: punctuation.definition.function.end.haskell
     - match: \(\)
       scope: constant.language.unit.haskell
     - match: '\[\]'
@@ -166,10 +176,11 @@ contexts:
         4: constant.character.escape.hexadecimal.haskell
         5: constant.character.escape.control.haskell
         6: punctuation.definition.string.end.haskell
-    - match: '^(\s*)([a-z_][a-zA-Z0-9_'']*|\([|!%$+\-.,=</>]+\))\s*(::|∷)'
+    - match: '^(\s*)([a-z_][a-zA-Z0-9_'']*|\(({{operator_parens}})\))\s*(::|∷)'
       captures:
         2: entity.name.function.haskell
-        3: keyword.other.double-colon.haskell
+        3: keyword.operator.infix.haskell
+        4: keyword.other.double-colon.haskell
       push:
         - meta_scope: meta.function.type-declaration.haskell
         - match: ^(?!\s*(?:--|{-|$)|\1\s)
@@ -179,8 +190,7 @@ contexts:
       scope: constant.other.haskell
     - include: comments
     - include: infix_op
-    - match: '[|!%$?~+:\-.=</>\\]+'
-      comment: In case this regex seems overly general, note that Haskell permits the definition of new operators which can be nearly any string of punctuation characters, such as $%^&*.
+    - match: '{{operator_infix}}'
       scope: keyword.operator.haskell
     - match: ","
       scope: punctuation.separator.comma.haskell
@@ -207,8 +217,10 @@ contexts:
           pop: true
     - include: block_comment
   infix_op:
-    - match: \([-+*/,|!%$:.=<>]+\)
-      scope: entity.name.function.infix.haskell
+    - match: \(({{operator_parens}})\)
+      scope: variable.function.infix.haskell
+      captures:
+        1: keyword.operator.haskell
   module_exports:
     - match: \(
       push:

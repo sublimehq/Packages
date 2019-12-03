@@ -93,20 +93,27 @@
 --
    a a = (+) a 2
 --     ^ keyword.operator.haskell
---       ^^^ entity.name.function.infix.haskell
+--       ^^^ variable.function.infix.haskell
+--        ^ keyword.operator.haskell
 --             ^ constant.numeric.integer.decimal.haskell
    a a = (-) a 2
 --     ^ keyword.operator.haskell
---       ^^^ entity.name.function.infix.haskell
+--       ^^^ variable.function.infix.haskell
 --             ^ constant.numeric.integer.decimal.haskell
    a a = (*) a 2
 --     ^ keyword.operator.haskell
---       ^^^ entity.name.function.infix.haskell
+--       ^^^ variable.function.infix.haskell
 --             ^ constant.numeric.integer.decimal.haskell
    a a = (/) a 2
 --     ^ keyword.operator.haskell
---       ^^^ entity.name.function.infix.haskell
+--       ^^^ variable.function.infix.haskell
 --             ^ constant.numeric.integer.decimal.haskell
+
+
+   a `member` x
+--   ^^^^^^^^ keyword.operator.function.infix.haskell
+--   ^ punctuation.definition.function.begin.haskell
+--          ^ punctuation.definition.function.end.haskell
 
 -- Tests for #1320, #1880.
 
