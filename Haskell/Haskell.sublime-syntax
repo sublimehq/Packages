@@ -14,6 +14,18 @@ variables:
   operator_infix: '[*|!%$?~+:\-.=</>\\]+'
   operator_parens: '(?:{{operator_infix}}|,+)'
   module_name: (?:[A-Z][A-Za-z._']*)
+  escape_chars: |-
+    (?x:NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI
+      |DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL
+      |[abfnrtv\\\"'\&])
+  escape_sequence: |-
+    (?x:
+      (\\{{escape_chars}})   # Escapes
+      | (\\[0-9]+)          # Decimal Escapes
+      | (\\o[0-7]+)          # Octal Escapes
+      | (\\x[0-9A-Fa-f]+)    # Hexadecimal Escapes
+      | (\^[A-Z@\[\]\\\^_])  # Control Chars
+    )
 
 contexts:
   main:
@@ -175,33 +187,32 @@ contexts:
         - match: $|"
           scope: punctuation.definition.string.end.haskell
           pop: true
-        - match: '\\(NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL|[abfnrtv\\\"''\&])'
-          scope: constant.character.escape.haskell
-        - match: '\\o[0-7]+|\\x[0-9A-Fa-f]+|\\[0-9]+'
-          scope: constant.character.escape.octal.haskell
-        - match: '\^[A-Z@\[\]\\\^_]'
-          scope: constant.character.escape.control.haskell
+        - match: '{{escape_sequence}}'
+          captures:
+            1: constant.character.escape.haskell
+            2: constant.character.escape.decimal.haskell
+            3: constant.character.escape.octal.haskell
+            4: constant.character.escape.hexadecimal.haskell
+            5: constant.character.escape.control.haskell
     - match: |-
         (?x)
         (')
         (?:
-          [\ -\[\]-~]                             # Basic Char
-          | (\\(?:NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE
-            |DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS
-            |US|SP|DEL|[abfnrtv\\\"'\&]))       # Escapes
-          | (\\o[0-7]+)                             # Octal Escapes
-          | (\\x[0-9A-Fa-f]+)                       # Hexadecimal Escapes
-          | (\^[A-Z@\[\]\\\^_])                     # Control Chars
+          [\ -\[\]-~]            # Basic Char
+          | {{escape_sequence}}  # Escapes
         )
+        ([^']*)
         (')
       scope: string.quoted.single.haskell
       captures:
         1: punctuation.definition.string.begin.haskell
         2: constant.character.escape.haskell
-        3: constant.character.escape.octal.haskell
-        4: constant.character.escape.hexadecimal.haskell
-        5: constant.character.escape.control.haskell
-        6: punctuation.definition.string.end.haskell
+        3: constant.character.escape.decimal.haskell
+        4: constant.character.escape.octal.haskell
+        5: constant.character.escape.hexadecimal.haskell
+        6: constant.character.escape.control.haskell
+        7: invalid.illegal.expected-closing-quotation.haskell
+        8: punctuation.definition.string.end.haskell
 
   splice:
     - match: '\[(?:|e|d|t|p)\|'

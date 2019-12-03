@@ -227,3 +227,25 @@ test a = case a of
     0XdeafBEEF42
 --  ^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
 --  ^^ punctuation.definition.numeric.base
+
+--STRINGS
+
+
+   'ab'
+-- ^^^^ string.quoted.single.haskell
+-- ^ punctuation.definition.string.begin.haskell
+--   ^ invalid.illegal.expected-closing-quotation.haskell
+--    ^ punctuation.definition.string.end.haskell
+
+   '\129x'
+-- ^^^^ string.quoted.single.haskell
+--  ^^^^ constant.character.escape.decimal.haskell
+--      ^ invalid.illegal.expected-closing-quotation.haskell
+--       ^ punctuation.definition.string.end.haskell
+
+   "\o129x\NUL"
+-- ^^^^^^^^^^^^ string.quoted.double.haskell
+--  ^^^^ constant.character.escape.octal.haskell
+--      ^ - constant
+--            ^ punctuation.definition.string.end.haskell
+--        ^^^^ constant.character.escape.haskell
