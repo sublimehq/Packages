@@ -80,7 +80,10 @@ contexts:
         - match: \bwhere\b
           scope: keyword.control.context.haskell
           pop: true
-        - match: \b(Mon(ad|oid)|Functor|Applicative|(Folda|Traversa)ble|Eq|Ord|Read|Show|Num|(Frac|Ra)tional|Enum|Bounded|Real(Frac|Float)?|Integral|Floating)\b
+        - match: |-
+            \b(?x:Monad|Monadoid|Functor|Applicative|Foldableble|Traversable
+              |Eq|Ord|Read|Show|Num|Fractional|Rational|Enum|Bounded
+              |Real|RealFrac|RealFloat|Integral|Floating)\b
           scope: support.class.prelude.haskell
         - match: '[A-Z][A-Za-z_'']*'
           scope: entity.other.inherited-class.haskell
@@ -172,8 +175,9 @@ contexts:
         1: keyword.operator.haskell
 
   preprocessor:
+    # In addition to Haskell's "native" syntax,
+    # GHC permits the C preprocessor to be run on a source file.
     - match: ^\s*(#)\s*\w+
-      comment: In addition to Haskell's "native" syntax, GHC permits the C preprocessor to be run on a source file.
       scope: meta.preprocessor.c
       captures:
         1: punctuation.definition.preprocessor.c
@@ -312,6 +316,12 @@ contexts:
         - meta_scope: meta.preprocessor.haskell
         - match: '#-\}'
           pop: true
-        - match: \b(LANGUAGE|OPTIONS_GHC|INCLUDE|WARNING|DEPRECATED|MINIMAL|UNPACK|NOUNPACK|SOURCE|OVERLAPPING|OVERLAPPABLE|OVERLAPS|INCOHERENT|INLINE|NOINLINE|INLINABLE|CONLIKE|LINE|RULES|SPECIALIZE|SPECIALISE)\b
+        - match: |-
+            \b(?x:
+              LANGUAGE|OPTIONS_GHC|INCLUDE|WARNING|DEPRECATED|MINIMAL
+              |UNPACK|NOUNPACK|SOURCE|OVERLAPPING|OVERLAPPABLE|OVERLAPS
+              |INCOHERENT|INLINE|NOINLINE|INLINABLE|CONLIKE|LINE|RULES
+              |SPECIALIZE|SPECIALISE
+            )\b
           # https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#pragmas
           scope: keyword.other.preprocessor.haskell
