@@ -17,17 +17,40 @@ variables:
 
 contexts:
   main:
-    - match: (`)[a-zA-Z_']+(`)
-      # Haskell allows any ordinary function application (elem 4 [1..10]) 
-      # to be rewritten as an infix expression (4 `elem` [1..10])."
-      scope: keyword.operator.function.infix.haskell
-      captures:
-        1: punctuation.definition.function.begin.haskell
-        2: punctuation.definition.function.end.haskell
+    - include: comment
+    - include: preprocessor
+    - include: declaration
+    - include: keyword
+    - include: import
+    - include: operator
+    - include: constant
+    - include: string
+    - include: splice
+    - match: ","
+      scope: punctuation.separator.comma.haskell
+
+  constant:
     - match: \(\)
       scope: constant.language.unit.haskell
     - match: '\[\]'
       scope: constant.language.empty-list.haskell
+    - include: number
+    - match: '\b[A-Z]\w*\b'
+      scope: constant.other.haskell
+
+  number:
+    - match: \b(0[oO])[0-7]+\b
+      scope: constant.numeric.integer.octal.haskell
+      captures:
+        1: punctuation.definition.numeric.base.haskell
+    - match: \b(0[xX])\h+\b
+      scope: constant.numeric.integer.hexadecimal.haskell
+      captures:
+        1: punctuation.definition.numeric.base.haskell
+    - match: \b\d+\b
+      scope: constant.numeric.integer.decimal.haskell
+
+  declaration:
     - match: \bmodule\b
       scope: keyword.declaration.namespace.haskell
       push:
@@ -59,6 +82,28 @@ contexts:
           scope: keyword.control.context.haskell
           pop: true
         - include: type_signature
+    - match: '^(\s*)([a-z_][a-zA-Z0-9_'']*|\(({{operator_parens}})\))\s*(::|∷)'
+      captures:
+        2: entity.name.function.haskell
+        3: keyword.operator.infix.haskell
+        4: keyword.other.double-colon.haskell
+      push:
+        - meta_scope: meta.function.type-declaration.haskell
+        - match: ^(?!\s*(?:--|{-|$)|\1\s)
+          pop: true
+        - include: type_signature
+    - match: (deriving)\s*\(
+      captures:
+        1: keyword.other.haskell
+      push:
+        - meta_scope: meta.deriving.haskell
+        - match: \)
+          pop: true
+        - match: '\b[A-Z][a-zA-Z_'']*'
+          scope: entity.other.inherited-class.haskell
+
+
+  import:
     - match: \bimport\b
       scope: keyword.control.import.haskell
       push:
@@ -69,16 +114,9 @@ contexts:
           scope: keyword.control.import.haskell
         - include: module_name
         - include: module_exports
-        - include: comments
-    - match: (deriving)\s*\(
-      captures:
-        1: keyword.other.haskell
-      push:
-        - meta_scope: meta.deriving.haskell
-        - match: \)
-          pop: true
-        - match: '\b[A-Z][a-zA-Z_'']*'
-          scope: entity.other.inherited-class.haskell
+        - include: comment
+  
+  keyword:
     - match: \b(?:do|where|in)\b
       scope: keyword.control.context.haskell
     - match: \b(?:newtype|type)\b
@@ -89,35 +127,47 @@ contexts:
       scope: keyword.control.conditional.select.haskell  # the construct is commonly called "select"
     - match: \b(?:let)\b
       scope: keyword.declaration.variable.haskell
-    - match: \b(deriving|default)\b
+    - match: \bdefault\b
       scope: keyword.other.haskell
     - match: \b(?:(if)|(then)|(else))\b
       captures:
         1: keyword.control.conditional.if.haskell
         2: keyword.control.conditional.then.haskell
         3: keyword.control.conditional.else.haskell
+
+  operator:
+    - match: (`)[a-zA-Z_']+(`)
+      # Haskell allows any ordinary function application (elem 4 [1..10])
+      # to be rewritten as an infix expression (4 `elem` [1..10])."
+      scope: keyword.operator.function.infix.haskell
+      captures:
+        1: punctuation.definition.function.begin.haskell
+        2: punctuation.definition.function.end.haskell
     - match: '\binfix[lr]?\b'
       scope: keyword.operator.haskell
     - match: \b\d+(?:(\.)\d+(?:[eE][-+]?\d+)?|(?:[eE][-+]?\d+))\b
       scope: constant.numeric.float.decimal.haskell
       captures:
         1: punctuation.separator.decimal.haskell
-    - match: \b(0[oO])[0-7]+\b
-      scope: constant.numeric.integer.octal.haskell
+    - match: '{{operator_infix}}'
+      scope: keyword.operator.haskell
+    - include: operator_paren
+
+  operator_paren:
+    - match: \(({{operator_parens}})\)
+      scope: variable.function.infix.haskell
       captures:
-        1: punctuation.definition.numeric.base.haskell
-    - match: \b(0[xX])\h+\b
-      scope: constant.numeric.integer.hexadecimal.haskell
-      captures:
-        1: punctuation.definition.numeric.base.haskell
-    - match: \b\d+\b
-      scope: constant.numeric.integer.decimal.haskell
+        1: keyword.operator.haskell
+
+  preprocessor:
     - match: ^\s*(#)\s*\w+
       comment: In addition to Haskell's "native" syntax, GHC permits the C preprocessor to be run on a source file.
       scope: meta.preprocessor.c
       captures:
         1: punctuation.definition.preprocessor.c
     - include: pragma
+
+  string:
     - match: '"'
       scope: punctuation.definition.string.begin.haskell
       push:
@@ -131,6 +181,29 @@ contexts:
           scope: constant.character.escape.octal.haskell
         - match: '\^[A-Z@\[\]\\\^_]'
           scope: constant.character.escape.control.haskell
+    - match: |-
+        (?x)
+        (')
+        (?:
+          [\ -\[\]-~]                             # Basic Char
+          | (\\(?:NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE
+            |DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS
+            |US|SP|DEL|[abfnrtv\\\"'\&]))       # Escapes
+          | (\\o[0-7]+)                             # Octal Escapes
+          | (\\x[0-9A-Fa-f]+)                       # Hexadecimal Escapes
+          | (\^[A-Z@\[\]\\\^_])                     # Control Chars
+        )
+        (')
+      scope: string.quoted.single.haskell
+      captures:
+        1: punctuation.definition.string.begin.haskell
+        2: constant.character.escape.haskell
+        3: constant.character.escape.octal.haskell
+        4: constant.character.escape.hexadecimal.haskell
+        5: constant.character.escape.control.haskell
+        6: punctuation.definition.string.end.haskell
+
+  splice:
     - match: '\[(?:|e|d|t|p)\|'
       comment: Points out splices in ast quotes
       scope: keyword.other.quasibracket.haskell
@@ -161,45 +234,16 @@ contexts:
           pop: true
         - match: .*
           scope: string.quasiquoted.haskell
-    - match: |-
-        (?x)
-        (')
-        (?:
-          [\ -\[\]-~]                             # Basic Char
-          | (\\(?:NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI|DLE
-            |DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS
-            |US|SP|DEL|[abfnrtv\\\"'\&]))       # Escapes
-          | (\\o[0-7]+)                             # Octal Escapes
-          | (\\x[0-9A-Fa-f]+)                       # Hexadecimal Escapes
-          | (\^[A-Z@\[\]\\\^_])                     # Control Chars
-        )
-        (')
-      scope: string.quoted.single.haskell
-      captures:
-        1: punctuation.definition.string.begin.haskell
-        2: constant.character.escape.haskell
-        3: constant.character.escape.octal.haskell
-        4: constant.character.escape.hexadecimal.haskell
-        5: constant.character.escape.control.haskell
-        6: punctuation.definition.string.end.haskell
-    - match: '^(\s*)([a-z_][a-zA-Z0-9_'']*|\(({{operator_parens}})\))\s*(::|∷)'
-      captures:
-        2: entity.name.function.haskell
-        3: keyword.operator.infix.haskell
-        4: keyword.other.double-colon.haskell
+
+  comment:
+    - match: '--'
+      scope: punctuation.definition.comment.haskell
       push:
-        - meta_scope: meta.function.type-declaration.haskell
-        - match: ^(?!\s*(?:--|{-|$)|\1\s)
+        - meta_scope: comment.line.double-dash.haskell
+        - match: $\n?
           pop: true
-        - include: type_signature
-    - match: '\b[A-Z]\w*\b'
-      scope: constant.other.haskell
-    - include: comments
-    - include: infix_op
-    - match: '{{operator_infix}}'
-      scope: keyword.operator.haskell
-    - match: ","
-      scope: punctuation.separator.comma.haskell
+    - include: block_comment
+
   block_comment:
     - match: '\{-(?!#)'
       scope: punctuation.definition.comment.begin.haskell
@@ -214,19 +258,7 @@ contexts:
         - match: '-\}'
           scope: punctuation.definition.comment.end.haskell
           pop: true
-  comments:
-    - match: '--'
-      scope: punctuation.definition.comment.haskell
-      push:
-        - meta_scope: comment.line.double-dash.haskell
-        - match: $\n?
-          pop: true
-    - include: block_comment
-  infix_op:
-    - match: \(({{operator_parens}})\)
-      scope: variable.function.infix.haskell
-      captures:
-        1: keyword.operator.haskell
+  
   module_exports:
     - match: \(
       push:
@@ -239,23 +271,16 @@ contexts:
           scope: storage.type.haskell
         - match: ","
           scope: punctuation.separator.comma.haskell
-        - include: infix_op
+        - include: operator_paren
         - match: \(.*?\)
           comment: So named because I don't know what to call this.
           scope: meta.other.unknown.haskell
-        - include: comments
+        - include: comment
+  
   module_name:
     - match: '\b{{module_name}}\b'
       scope: support.other.module.haskell
-  pragma:
-    - match: '\{-#'
-      push:
-        - meta_scope: meta.preprocessor.haskell
-        - match: '#-\}'
-          pop: true
-        - match: \b(LANGUAGE|OPTIONS_GHC|INCLUDE|WARNING|DEPRECATED|MINIMAL|UNPACK|NOUNPACK|SOURCE|OVERLAPPING|OVERLAPPABLE|OVERLAPS|INCOHERENT|INLINE|NOINLINE|INLINABLE|CONLIKE|LINE|RULES|SPECIALIZE|SPECIALISE)\b
-          # https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#pragmas
-          scope: keyword.other.preprocessor.haskell
+  
   type_signature:
     - include: pragma
     - match: "(->|→)"
@@ -268,4 +293,14 @@ contexts:
       scope: storage.type.haskell
     - match: \(\)
       scope: support.constant.unit.haskell
-    - include: comments
+    - include: comment
+
+  pragma:
+    - match: '\{-#'
+      push:
+        - meta_scope: meta.preprocessor.haskell
+        - match: '#-\}'
+          pop: true
+        - match: \b(LANGUAGE|OPTIONS_GHC|INCLUDE|WARNING|DEPRECATED|MINIMAL|UNPACK|NOUNPACK|SOURCE|OVERLAPPING|OVERLAPPABLE|OVERLAPS|INCOHERENT|INLINE|NOINLINE|INLINABLE|CONLIKE|LINE|RULES|SPECIALIZE|SPECIALISE)\b
+          # https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#pragmas
+          scope: keyword.other.preprocessor.haskell
