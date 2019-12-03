@@ -186,6 +186,15 @@ test a = case a of
         else 0
 --      ^^^^ keyword.control.conditional.else.haskell
 
+
+--MISC
+
+    (group)
+--  ^^^^^^^ meta.group.haskell
+--  ^ punctuation.section.group.begin.haskell
+--        ^ punctuation.section.group.end.haskell
+
+
 --NUMBERS
 
     0

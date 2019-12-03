@@ -28,18 +28,37 @@ variables:
     )
 
 contexts:
-  main:
+  prototype:
     - include: comment
     - include: preprocessor
+  
+  main:
+    - include: statement
+    - include: expression
+
+  statement:
     - include: declaration
-    - include: keyword
     - include: import
+
+  expression:
+    - include: keyword
     - include: operator
     - include: constant
     - include: string
     - include: splice
+    - include: group
     - match: ','
       scope: punctuation.separator.comma.haskell
+
+  group:
+    - match: \(
+      scope: punctuation.section.group.begin.haskell
+      push:
+        - meta_scope: meta.group.haskell
+        - match: \)
+          scope: punctuation.section.group.end.haskell
+          pop: true
+        - include: expression
 
   constant:
     - match: \(\)
@@ -129,8 +148,7 @@ contexts:
           scope: keyword.control.import.haskell
         - include: module_name
         - include: module_exports
-        - include: comment
-  
+
   keyword:
     - match: \b(?:do|where|in)\b
       scope: keyword.control.context.haskell
@@ -187,6 +205,7 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.haskell
       push:
+        - meta_include_prototype: false
         - meta_scope: string.quoted.double.haskell
         - match: $|"
           scope: punctuation.definition.string.end.haskell
@@ -290,7 +309,6 @@ contexts:
         - match: \(.*?\)
           comment: So named because I don't know what to call this.
           scope: meta.other.unknown.haskell
-        - include: comment
   
   module_name:
     - match: '\b{{module_name}}\b'
@@ -308,7 +326,6 @@ contexts:
       scope: storage.type.haskell
     - match: \(\)
       scope: support.constant.unit.haskell
-    - include: comment
 
   pragma:
     - match: '\{-#'
