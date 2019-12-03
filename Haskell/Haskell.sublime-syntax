@@ -26,7 +26,7 @@ contexts:
     - include: constant
     - include: string
     - include: splice
-    - match: ","
+    - match: ','
       scope: punctuation.separator.comma.haskell
 
   constant:
@@ -70,7 +70,7 @@ contexts:
           pop: true
         - match: \b(Mon(ad|oid)|Functor|Applicative|(Folda|Traversa)ble|Eq|Ord|Read|Show|Num|(Frac|Ra)tional|Enum|Bounded|Real(Frac|Float)?|Integral|Floating)\b
           scope: support.class.prelude.haskell
-        - match: "[A-Z][A-Za-z_']*"
+        - match: '[A-Z][A-Za-z_'']*'
           scope: entity.other.inherited-class.haskell
         - match: '\b[a-z][a-zA-Z0-9_'']*\b'
           scope: variable.other.generic-type.haskell
@@ -218,7 +218,7 @@ contexts:
           scope: keyword.other.splice.haskell
         - match: \$
           scope: string.quasiquoted.haskell
-        - match: "[^$]*"
+        - match: '[^$]*'
           scope: string.quasiquoted.haskell
     - match: \$\(
       comment: Highlight the beginning of a splice.
@@ -269,7 +269,7 @@ contexts:
           scope: entity.name.function.haskell
         - match: '\b[A-Z][A-Za-z_''0-9]*'
           scope: storage.type.haskell
-        - match: ","
+        - match: ','
           scope: punctuation.separator.comma.haskell
         - include: operator_paren
         - match: \(.*?\)
@@ -283,9 +283,9 @@ contexts:
   
   type_signature:
     - include: pragma
-    - match: "(->|→)"
+    - match: '(?:->|→)'
       scope: keyword.other.arrow.haskell
-    - match: "(=>|⇒)"
+    - match: '(?:=>|⇒)'
       scope: keyword.other.big-arrow.haskell
     - match: '\b[a-z][a-zA-Z0-9_'']*\b'
       scope: variable.other.generic-type.haskell
