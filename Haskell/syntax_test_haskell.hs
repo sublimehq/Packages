@@ -210,6 +210,14 @@ test a = case a of
 --  ^ punctuation.section.group.begin.haskell
 --        ^ punctuation.section.group.end.haskell
 
+    [1,2]
+--  ^^^^^ meta.sequence.haskell
+--  ^ punctuation.section.sequence.begin.haskell
+--   ^ constant.numeric.integer.decimal.haskell
+--    ^ punctuation.separator.sequence.haskell
+--     ^ constant.numeric.integer.decimal.haskell
+--      ^ punctuation.section.sequence.end.haskell
+
 
 --NUMBERS
 

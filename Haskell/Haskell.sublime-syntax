@@ -21,7 +21,7 @@ variables:
   escape_sequence: |-
     (?x:
       (\\{{escape_chars}})   # Escapes
-      | (\\[0-9]+)          # Decimal Escapes
+      | (\\[0-9]+)           # Decimal Escapes
       | (\\o[0-7]+)          # Octal Escapes
       | (\\x[0-9A-Fa-f]+)    # Hexadecimal Escapes
       | (\^[A-Z@\[\]\\\^_])  # Control Chars
@@ -47,6 +47,7 @@ contexts:
     - include: string
     - include: splice
     - include: group
+    - include: list
     - match: ','
       scope: punctuation.separator.comma.haskell
 
@@ -58,6 +59,18 @@ contexts:
         - match: \)
           scope: punctuation.section.group.end.haskell
           pop: true
+        - include: expression
+
+  list:
+    - match: \[
+      scope: punctuation.section.sequence.begin.haskell
+      push:
+        - meta_scope: meta.sequence.haskell
+        - match: \]
+          scope: punctuation.section.sequence.end.haskell
+          pop: true
+        - match: ','
+          scope: punctuation.separator.sequence.haskell
         - include: expression
 
   constant:
