@@ -165,6 +165,22 @@
 
 --KEYWORDS
 
+import qualified Data.Vector.Mutable as MutableVector
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+-- ^^^ keyword.control.import.haskell
+--     ^^^^^^^^^ keyword.control.import.haskell
+--               ^^^^^^^^^^^^^^^^^^^ support.other.module.haskell
+--                                   ^^ keyword.control.import.haskell
+--                                      ^^^^^^^^^^^^^ support.other.module.haskell
+import Data.List.Split (splitOn)
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+-- ^^^ keyword.control.import.haskell
+--     ^^^^^^^^^^^^^^^ support.other.module.haskell
+--                     ^^^^^^^^^ meta.declaration.exports.haskell
+--                     ^ punctuation.section.group.begin.haskell
+--                      ^^^^^^^ variable.function.haskell
+--                             ^ punctuation.section.group.end.haskell
+
 test =
 --   ^ keyword.operator.haskell
     let x = 2 in x * y

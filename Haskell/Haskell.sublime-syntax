@@ -295,12 +295,14 @@ contexts:
   
   module_exports:
     - match: \(
+      scope: punctuation.section.group.begin.haskell
       push:
         - meta_scope: meta.declaration.exports.haskell
         - match: \)
+          scope: punctuation.section.group.end.haskell
           pop: true
         - match: '\b[a-z][a-zA-Z_''0-9]*'
-          scope: entity.name.function.haskell
+          scope: variable.function.haskell
         - match: '\b[A-Z][A-Za-z_''0-9]*'
           scope: storage.type.haskell
         - match: ','
