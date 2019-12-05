@@ -4,7 +4,7 @@
   <key>name</key>
   <string>Symbols (class)</string>
   <key>scope</key>
-  <string>source.scala meta.class.identifier</string>
+  <string>source.scala entity.name.class</string>
   <key>settings</key>
   <dict>
     <key>showInSymbolList</key>
