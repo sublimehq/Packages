@@ -1,87 +1,293 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
+# https://www.oracle.com/technetwork/java/syntaxref12-149806.pdf
+# https://www.sublimetext.com/docs/3/syntax.html
 name: Java Server Page (JSP)
 file_extensions:
   - jsp
 scope: text.html.jsp
+
+variables:
+  # https://html.spec.whatwg.org/multipage/parsing.html#tag-name-state
+  break_char: '[\t\n\f /<>]'
+
 contexts:
   main:
-    - match: <%--
-      scope: punctuation.definition.comment.jsp
+    - include: tag-jsp-declaration
+    - include: tag-jsp-directive
+    - include: tag-jsp-expression
+    - include: tag-jsp-scriptlet
+    - include: tag-jsp-text
+    - include: tag-jsp-other
+    - match: (?=\S)
       push:
-        - meta_scope: comment.block.jsp
-        - match: "--%>"
-          scope: punctuation.definition.comment.jsp
+        - include: scope:text.html.basic
+      with_prototype:
+        - match: (?=</?(?i:jsp):)
           pop: true
-    - match: <%@
-      scope: punctuation.section.directive.jsp
+        - match: <%--
+          scope: punctuation.definition.comment.begin.jsp
+          push:
+            - meta_scope: comment.block.jsp
+            - match: '--%>'
+              scope: punctuation.definition.comment.end.jsp
+              pop: true
+        - match: <%@
+          scope: punctuation.section.directive.begin.jsp
+          push:
+            - meta_scope: meta.directive.jsp
+            - match: '%>'
+              scope: punctuation.section.directive.end.jsp
+              pop: true
+            - include: jsp-directive
+        - match: <%!
+          scope: punctuation.section.declaration.begin.jsp
+          push:
+            - meta_scope: meta.declaration.jsp
+            - meta_content_scope: source.java.embedded.html
+            - match: '%>'
+              scope: punctuation.section.declaration.end.jsp
+              pop: true
+            - match: ''
+              embed: java
+              escape: (?=%>)
+        - match: <%=
+          scope: punctuation.section.expression.begin.jsp
+          push:
+            - meta_scope: meta.expression.jsp
+            - meta_content_scope: source.java.embedded.html
+            - match: '%>'
+              scope: punctuation.section.expression.end.jsp
+              pop: true
+            - match: ''
+              embed: java
+              escape: (?=%>)
+        - match: <%
+          scope: punctuation.section.scriptlet.begin.jsp
+          push:
+            - meta_scope: meta.scriptlet.jsp
+            - meta_content_scope: source.java.embedded.html
+            - match: '%>'
+              scope: punctuation.section.scriptlet.end.jsp
+              pop: true
+            - match: ''
+              embed: java
+              escape: (?=%>)
+
+  jsp-directive:
+    - match: \w+
+      scope: keyword.control.directive.jsp
       push:
-        - meta_scope: meta.directive.jsp
-        - match: "%>"
-          scope: punctuation.section.directive.jsp
-          pop: true
         - match: \w+
-          scope: keyword.other.directive.jsp
+          scope: entity.other.attribute-name.jsp
+        - match: =
+          scope: punctuation.separator.key-value.jsp
+        - match: \"
+          scope: punctuation.definition.string.begin.jsp
           push:
-            - match: \w+
-              scope: constant.other.directive.attribute.jsp
-            - match: "="
-              scope: keyword.operator.assignment.jsp
-            - match: '"'
-              scope: punctuation.definition.string.begin.jsp
-              push:
-                - meta_scope: string.quoted.double.jsp
-                - match: '"'
-                  scope: punctuation.definition.string.end.jsp
-                  pop: true
-                - match: \\.
-                  scope: constant.character.escape.jsp
-            - match: "'"
-              scope: punctuation.definition.string.begin.jsp
-              push:
-                - meta_scope: string.quoted.single.jsp
-                - match: "'"
-                  scope: punctuation.definition.string.end.jsp
-                  pop: true
-                - match: \\.
-                  scope: constant.character.escape.jsp
-            - match: '(?=\S)'
+            - meta_scope: meta.string.jsp string.quoted.double.jsp
+            - match: \"
+              scope: punctuation.definition.string.end.jsp
               pop: true
-    - match: "(<%[!=]?)|(<jsp:scriptlet>|<jsp:expression>|<jsp:declaration>)"
-      captures:
-        1: punctuation.section.embedded.begin.jsp
-        2: meta.tag.block.jsp
-      push:
-        - match: (</jsp:scriptlet>|</jsp:expression>|</jsp:declaration>)|(%>)
-          captures:
-            1: meta.tag.block.jsp
-            2: punctuation.section.embedded.end.jsp
+            - match: \\.
+              scope: constant.character.escape.jsp
+        - match: \'
+          scope: punctuation.definition.string.begin.jsp
+          push:
+            - meta_scope: meta.string.jsp string.quoted.single.jsp
+            - match: \'
+              scope: punctuation.definition.string.end.jsp
+              pop: true
+            - match: \\.
+              scope: constant.character.escape.jsp
+        - match: (?=\S)
           pop: true
-        - match: '(?<!\n)(?!</jsp:scriptlet>|</jsp:expression>|</jsp:declaration>|%>|\{|\})'
-          push:
-            - meta_scope: source.java.embedded.html
-            - match: '(?=</jsp:scriptlet>|</jsp:expression>|</jsp:declaration>|%>|\{|\})|\n'
-              pop: true
-            - include: scope:source.java
-        - match: "{"
-          push:
-            - match: "}"
-              pop: true
-            - match: (</jsp:scriptlet>|</jsp:expression>|</jsp:declaration>)|(%>)
-              captures:
-                1: meta.tag.block.jsp
-                2: punctuation.section.embedded.end.jsp
-              push:
-                - match: "(<jsp:scriptlet>|<jsp:expression>|<jsp:declaration>)|(<%(?!--)[!=]?)"
-                  captures:
-                    1: meta.tag.block.jsp
-                    2: punctuation.section.embedded.begin.jsp
-                  pop: true
-                - include: scope:text.html.jsp
-            - include: scope:source.java
-        # Prevent stray brace detection since brace matching won't work with
-        # %> pop pattern
-        - match: "}"
-        - include: scope:source.java
-    - include: scope:text.html.basic
+
+###[ DECLARATION ]############################################################
+
+  tag-jsp-declaration:
+    - match: (?i)(<)(jsp)(:)(declaration)(?={{break_char}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.namespace.html
+        3: entity.name.tag.html punctuation.separator.namespace.html
+        4: entity.name.tag.localname.html
+      push: [tag-jsp-declaration-body, tag-jsp-declaration-attributes]
+
+  tag-jsp-declaration-attributes:
+    - meta_scope: meta.tag.jsp.declaration.begin.html
+    - include: tag-end
+    - include: tag-attributes
+
+  tag-jsp-declaration-body:
+    - match: (?i)(</)(jsp)(:)(declaration)(?={{break_char}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.namespace.html
+        3: entity.name.tag.html punctuation.separator.namespace.html
+        4: entity.name.tag.localname.html
+      set:
+        - meta_scope: meta.tag.jsp.declaration.end.html
+        - include: tag-end
+        - include: illegal-attributes
+    - match: ''
+      embed: java
+      embed_scope: source.java.embedded.html
+      escape: (?=(?i)</jsp:declaration{{break_char}})
+
+###[ DIRECTIVE ]###############################################################
+
+  tag-jsp-directive:
+    - match: (?i)(<)(jsp)(:)(directive)(.)([^{{break_char}}]+)
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.namespace.html
+        3: entity.name.tag.html punctuation.separator.namespace.html
+        4: entity.name.tag.localname.html
+        5: punctuation.accessor.dot.jsp
+        6: keyword.control.directive.jsp
+      push:
+        - meta_scope: meta.tag.jsp.directive.html
+        - include: tag-end-self-closing
+        - include: tag-attributes
+
+###[ EXPRESSION ]#############################################################
+
+  tag-jsp-expression:
+    - match: (?i)(<)(jsp)(:)(expression)(?={{break_char}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.namespace.html
+        3: entity.name.tag.html punctuation.separator.namespace.html
+        4: entity.name.tag.localname.html
+      push: [tag-jsp-expression-body, tag-jsp-expression-attributes]
+
+  tag-jsp-expression-attributes:
+    - meta_scope: meta.tag.jsp.expression.begin.html
+    - include: tag-end
+    - include: tag-attributes
+
+  tag-jsp-expression-body:
+    - match: (?i)(</)(jsp)(:)(expression)(?={{break_char}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.namespace.html
+        3: entity.name.tag.html punctuation.separator.namespace.html
+        4: entity.name.tag.localname.html
+      set:
+        - meta_scope: meta.tag.jsp.expression.end.html
+        - include: tag-end
+        - include: illegal-attributes
+    - match: ''
+      embed: java
+      embed_scope: source.java.embedded.html
+      escape: (?=(?i)</jsp:expression{{break_char}})
+
+###[ OTHER ]##################################################################
+
+  tag-jsp-other:
+    - match: (?i)(<)(jsp)(:)([^{{break_char}}]+)
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.namespace.html
+        3: entity.name.tag.html punctuation.separator.namespace.html
+        4: entity.name.tag.localname.html
+      push:
+        - meta_scope: meta.tag.jsp.other.begin.html
+        - include: tag-end-maybe-self-closing
+        - include: tag-attributes
+    - match: (?i)(</)(jsp)(:)([^{{break_char}}]+)
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.namespace.html
+        3: entity.name.tag.html punctuation.separator.namespace.html
+        4: entity.name.tag.localname.html
+      push:
+        - meta_scope: meta.tag.jsp.other.end.html
+        - include: tag-end
+        - include: illegal-attributes
+
+###[ SCRIPTLETS ]#############################################################
+
+  tag-jsp-scriptlet:
+    - match: (?i)(<)(jsp)(:)(scriptlet)(?={{break_char}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.namespace.html
+        3: entity.name.tag.html punctuation.separator.namespace.html
+        4: entity.name.tag.localname.html
+      push: [tag-jsp-scriptlet-body, tag-jsp-scriptlet-attributes]
+
+  tag-jsp-scriptlet-attributes:
+    - meta_scope: meta.tag.jsp.scriptlet.begin.html
+    - include: tag-end
+    - include: tag-attributes
+
+  tag-jsp-scriptlet-body:
+    - match: (?i)(</)(jsp)(:)(scriptlet)(?={{break_char}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.namespace.html
+        3: entity.name.tag.html punctuation.separator.namespace.html
+        4: entity.name.tag.localname.html
+      set:
+        - meta_scope: meta.tag.jsp.expression.end.html
+        - include: tag-end
+        - include: illegal-attributes
+    - match: ''
+      embed: java
+      embed_scope: source.java.embedded.html
+      escape: (?=(?i)</jsp:scriptlet{{break_char}})
+
+###[ TEXT ]###################################################################
+
+  tag-jsp-text:
+    - match: (?i)(<)(jsp)(:)(text)(?={{break_char}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.namespace.html
+        3: entity.name.tag.html punctuation.separator.namespace.html
+        4: entity.name.tag.localname.html
+      push: [tag-jsp-text-body, tag-jsp-text-attributes]
+
+  tag-jsp-text-attributes:
+    - meta_scope: meta.tag.jsp.text.begin.html
+    - include: tag-end
+    - include: illegal-attributes
+
+  tag-jsp-text-body:
+    - match: (?i)(</)(jsp)(:)(text)(?={{break_char}})
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: entity.name.tag.namespace.html
+        3: entity.name.tag.html punctuation.separator.namespace.html
+        4: entity.name.tag.localname.html
+      set:
+        - meta_scope: meta.tag.jsp.text.end.html
+        - include: tag-end
+        - include: illegal-attributes
+
+###[ PROTOTYPES ]#############################################################
+
+  tag-end:
+    - include: scope:text.html.basic#tag-end
+
+  tag-end-self-closing:
+    - include: scope:text.html.basic#tag-end-self-closing
+
+  tag-end-maybe-self-closing:
+    - include: scope:text.html.basic#tag-end-maybe-self-closing
+
+  tag-attributes:
+    - include: scope:text.html.basic#tag-attributes
+
+  illegal-attributes:
+    - match: '[^{{break_char}}]+'
+      scope: invalid.illegal.attributes-unexpected.html
+
+  java:
+    # Prevent stray brace detection since brace matching won't work with
+    # %> pop pattern
+    - match: \}
+      scope: punctuation.section.block.end.java
+    - include: scope:source.java
