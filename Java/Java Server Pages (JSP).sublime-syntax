@@ -10,6 +10,7 @@ scope: text.html.jsp
 variables:
   # https://html.spec.whatwg.org/multipage/parsing.html#tag-name-state
   break_char: '[\t\n\f /<>]'
+  break: (?={{break_char}})
 
 contexts:
   main:
@@ -105,7 +106,7 @@ contexts:
 ###[ DECLARATION ]############################################################
 
   tag-jsp-declaration:
-    - match: (?i)(<)(jsp)(:)(declaration)(?={{break_char}})
+    - match: (?i)(<)(jsp)(:)(declaration){{break}}
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.namespace.html
@@ -119,7 +120,7 @@ contexts:
     - include: tag-attributes
 
   tag-jsp-declaration-body:
-    - match: (?i)(</)(jsp)(:)(declaration)(?={{break_char}})
+    - match: (?i)(</)(jsp)(:)(declaration){{break}}
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.namespace.html
@@ -153,7 +154,7 @@ contexts:
 ###[ EXPRESSION ]#############################################################
 
   tag-jsp-expression:
-    - match: (?i)(<)(jsp)(:)(expression)(?={{break_char}})
+    - match: (?i)(<)(jsp)(:)(expression){{break}}
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.namespace.html
@@ -167,7 +168,7 @@ contexts:
     - include: tag-attributes
 
   tag-jsp-expression-body:
-    - match: (?i)(</)(jsp)(:)(expression)(?={{break_char}})
+    - match: (?i)(</)(jsp)(:)(expression){{break}}
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.namespace.html
@@ -209,7 +210,7 @@ contexts:
 ###[ SCRIPTLETS ]#############################################################
 
   tag-jsp-scriptlet:
-    - match: (?i)(<)(jsp)(:)(scriptlet)(?={{break_char}})
+    - match: (?i)(<)(jsp)(:)(scriptlet){{break}}
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.namespace.html
@@ -223,7 +224,7 @@ contexts:
     - include: tag-attributes
 
   tag-jsp-scriptlet-body:
-    - match: (?i)(</)(jsp)(:)(scriptlet)(?={{break_char}})
+    - match: (?i)(</)(jsp)(:)(scriptlet){{break}}
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.namespace.html
@@ -241,7 +242,7 @@ contexts:
 ###[ TEXT ]###################################################################
 
   tag-jsp-text:
-    - match: (?i)(<)(jsp)(:)(text)(?={{break_char}})
+    - match: (?i)(<)(jsp)(:)(text){{break}}
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.namespace.html
@@ -255,7 +256,7 @@ contexts:
     - include: illegal-attributes
 
   tag-jsp-text-body:
-    - match: (?i)(</)(jsp)(:)(text)(?={{break_char}})
+    - match: (?i)(</)(jsp)(:)(text){{break}}
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.namespace.html
