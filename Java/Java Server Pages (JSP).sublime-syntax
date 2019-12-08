@@ -291,21 +291,21 @@ contexts:
 
 ###[ PROTOTYPES ]#############################################################
 
-  tag-end:
-    - include: scope:text.html.basic#tag-end
-
-  tag-end-self-closing:
-    - include: scope:text.html.basic#tag-end-self-closing
-
-  tag-end-maybe-self-closing:
-    - include: scope:text.html.basic#tag-end-maybe-self-closing
+  illegal-attributes:
+    - match: '[^{{break_char}}]+'
+      scope: invalid.illegal.attributes-unexpected.html
 
   tag-attributes:
     - include: scope:text.html.basic#tag-attributes
 
-  illegal-attributes:
-    - match: '[^{{break_char}}]+'
-      scope: invalid.illegal.attributes-unexpected.html
+  tag-end:
+    - include: scope:text.html.basic#tag-end
+
+  tag-end-maybe-self-closing:
+    - include: scope:text.html.basic#tag-end-maybe-self-closing
+
+  tag-end-self-closing:
+    - include: scope:text.html.basic#tag-end-self-closing
 
   tag-end-set-java:
     - match: '>'
