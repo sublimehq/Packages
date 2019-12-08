@@ -15,7 +15,7 @@ variables:
   dec_digit: '[0-9_]'
   hex_digit: '[\h_]'
   dec_integer: (?:0|[1-9]{{dec_digit}}*)
-  dec_exponent: (?:[Ee](?:[-+]|(?![-+])){{dec_digit}}*)
+  dec_exponent: ([Ee](?:[-+]|(?![-+])){{dec_digit}}*)
 
   identifier_escape: (?:\\u(?:\h{4}|\{\h+\}))
   identifier_start: (?:[_$\p{L}\p{Nl}]|{{identifier_escape}})
@@ -1831,46 +1831,53 @@ contexts:
     - match: |-
         (?x:
           # 1., 1.1, 1.1e1, 1.1e-1, 1.e1, 1.e-1 | 1e1, 1e-1
-          {{dec_integer}} (?: (\.) {{dec_digit}}* {{dec_exponent}}? | {{dec_exponent}} )
+          ({{dec_integer}}) (?: ((\.) {{dec_digit}}*) {{dec_exponent}}? | {{dec_exponent}} )
           # .1, .1e1, .1e-1
-          | (\.) {{dec_digit}}+ {{dec_exponent}}?
+          | ((\.) {{dec_digit}}+) {{dec_exponent}}?
         ){{identifier_break}}
-      scope: constant.numeric.float.decimal.js
       captures:
-        1: punctuation.separator.decimal.js
-        2: punctuation.separator.decimal.js
+        1: meta.number.mantissa.js constant.numeric.float.decimal.js
+        2: meta.number.mantissa.js constant.numeric.float.decimal.js
+        3: punctuation.separator.decimal.js
+        4: meta.number.exponent.js constant.numeric.float.decimal.js
+        5: meta.number.exponent.js constant.numeric.float.decimal.js
+        6: meta.number.mantissa.js constant.numeric.float.decimal.js
+        7: punctuation.separator.decimal.js
+        8: meta.number.exponent.js constant.numeric.float.decimal.js
       pop: true
 
     # integers
-    - match: 0{{dec_digit}}+{{identifier_break}}
-      scope: constant.numeric.integer.octal.js invalid.deprecated.numeric.octal.js
+    - match: (0)({{dec_digit}}+){{identifier_break}}
+      captures:
+        1: meta.number.base.js constant.numeric.integer.octal.js invalid.deprecated.numeric.octal.js
+        2: meta.number.mantissa.js constant.numeric.integer.octal.js invalid.deprecated.numeric.octal.js
       pop: true
 
-    - match: (0[Xx]){{hex_digit}}*(n)?{{identifier_break}}
-      scope: constant.numeric.integer.hexadecimal.js
+    - match: (0[Xx])({{hex_digit}}*)(n)?{{identifier_break}}
       captures:
-        1: punctuation.definition.numeric.base.js
-        2: storage.type.numeric.js
+        1: meta.number.base.js constant.numeric.integer.hexadecimal.js
+        2: meta.number.mantissa.js constant.numeric.integer.hexadecimal.js
+        3: meta.number.type.js constant.numeric.integer.hexadecimal.js
       pop: true
 
-    - match: (0[Oo]){{oct_digit}}*(n)?{{identifier_break}}
-      scope: constant.numeric.integer.octal.js
+    - match: (0[Oo])({{oct_digit}}*)(n)?{{identifier_break}}
       captures:
-        1: punctuation.definition.numeric.base.js
-        2: storage.type.numeric.js
+        1: meta.number.base.js constant.numeric.integer.octal.js
+        2: meta.number.mantissa.js constant.numeric.integer.octal.js
+        3: meta.number.type.js constant.numeric.integer.octal.js
       pop: true
 
-    - match: (0[Bb]){{bin_digit}}*(n)?{{identifier_break}}
-      scope: constant.numeric.integer.binary.js
+    - match: (0[Bb])({{bin_digit}}*)(n)?{{identifier_break}}
       captures:
-        1: punctuation.definition.numeric.base.js
-        2: storage.type.numeric.js
+        1: meta.number.base.js constant.numeric.integer.binary.js
+        2: meta.number.mantissa.js constant.numeric.integer.binary.js
+        3: meta.number.type.js constant.numeric.integer.binary.js
       pop: true
 
-    - match: '{{dec_integer}}(n|(?!\.)){{identifier_break}}'
-      scope: constant.numeric.integer.decimal.js
+    - match: ({{dec_integer}})(n|(?!\.)){{identifier_break}}
       captures:
-        1: storage.type.numeric.js
+        1: meta.number.mantissa.js constant.numeric.integer.decimal.js
+        2: meta.number.type.js constant.numeric.integer.decimal.js
       pop: true
 
     # illegal numbers

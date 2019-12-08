@@ -1857,11 +1857,11 @@ function yy (a, b) {
 // Integers
 
     123_456_789_0n;
-//  ^^^^^^^^^^^^^^ constant.numeric.integer.decimal
-//               ^ storage.type.numeric
+//  ^^^^^^^^^^^^^ meta.number.mantissa.js constant.numeric.integer.decimal.js
+//               ^ meta.number.type.js constant.numeric.integer.decimal.js
 
     0;
-//  ^ constant.numeric.integer.decimal
+//  ^ meta.number.mantissa.js constant.numeric.integer.decimal.js
 
     123 .foo;
 //  ^^^ constant.numeric.integer.decimal
@@ -1883,54 +1883,60 @@ function yy (a, b) {
 //  ^^^^^^ invalid.illegal.numeric.decimal
 
     0123456789;
-//  ^^^^^^^^^^ constant.numeric.integer.octal invalid.deprecated.numeric.octal
+//  ^ meta.number.base.js constant.numeric.integer.octal.js invalid.deprecated.numeric.octal.js
+//   ^^^^^^^^^ meta.number.mantissa.js constant.numeric.integer.octal.js invalid.deprecated.numeric.octal.js
 
     0123456789xyz;
 //  ^^^^^^^^^^^^^ invalid.illegal.numeric.octal
 
     0123456789.xyz;
-//  ^^^^^^^^^^ invalid.deprecated.numeric.octal
+//  ^ meta.number.base.js constant.numeric.integer.octal.js invalid.deprecated.numeric.octal.js
+//   ^^^^^^^^^ meta.number.mantissa.js constant.numeric.integer.octal.js invalid.deprecated.numeric.octal.js
 //            ^ punctuation.accessor
 //             ^^^ meta.property.object
 
     0123456789.123;
-//  ^^^^^^^^^^ invalid.deprecated.numeric.octal
-//            ^ punctuation.accessor
+//  ^ meta.number.base.js constant.numeric.integer.octal.js invalid.deprecated.numeric.octal.js
+//   ^^^^^^^^^ meta.number.mantissa.js constant.numeric.integer.octal.js invalid.deprecated.numeric.octal.js
+//            ^ punctuation.accessor.js
 //             ^^^ invalid.illegal.illegal-identifier
 
     0b0110_1001_1001_0110n;
-//  ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.binary
-//  ^^ punctuation.definition.numeric.base
-//                       ^ storage.type.numeric
+//  ^^ meta.number.base.js constant.numeric.integer.binary.js
+//    ^^^^^^^^^^^^^^^^^^^ meta.number.mantissa.js constant.numeric.integer.binary.js
+//                       ^ meta.number.type.js constant.numeric.integer.binary.js
 
     0o0123_4567n;
-//  ^^^^^^^^^^^^ constant.numeric.integer.octal
-//  ^^ punctuation.definition.numeric.base
-//             ^ storage.type.numeric
+//  ^^ meta.number.base.js constant.numeric.integer.octal.js
+//    ^^^^^^^^^ meta.number.mantissa.js constant.numeric.integer.octal.js
+//             ^ meta.number.type.js constant.numeric.integer.octal.js
 
     0x01_23_45_67_89_ab_CD_efn;
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
-//  ^^ punctuation.definition.numeric.base
-//                           ^ storage.type.numeric
+//  ^^ meta.number.base.js constant.numeric.integer.hexadecimal.js
+//    ^^^^^^^^^^^^^^^^^^^^^^^ meta.number.mantissa.js constant.numeric.integer.hexadecimal.js
+//                           ^ meta.number.type.js constant.numeric.integer.hexadecimal.js
 
     0B0; 0O0; 0X0;
-//  ^^^ constant.numeric.integer.binary
-//  ^^ punctuation.definition.numeric.base
-//       ^^^ constant.numeric.integer.octal
-//       ^^ punctuation.definition.numeric.base
-//            ^^^ constant.numeric.integer.hexadecimal
-//            ^^ punctuation.definition.numeric.base
+//  ^^ meta.number.base.js constant.numeric.integer.binary.js
+//    ^ meta.number.mantissa.js constant.numeric.integer.binary.js
+//     ^ punctuation.terminator.statement.js
+//       ^^ meta.number.base.js constant.numeric.integer.octal.js
+//         ^ meta.number.mantissa.js constant.numeric.integer.octal.js
+//          ^ punctuation.terminator.statement.js
+//            ^^ meta.number.base.js constant.numeric.integer.hexadecimal.js
+//              ^ meta.number.mantissa.js constant.numeric.integer.hexadecimal.js
+//               ^ punctuation.terminator.statement.js
 
     0b1.foo;
 //  ^^^^^^^ - invalid
-//  ^^^ constant.numeric.integer.binary
-//  ^^ punctuation.definition.numeric.base
+//  ^^ meta.number.base.js constant.numeric.integer.binary.js
+//    ^ meta.number.mantissa.js constant.numeric.integer.binary.js
 //     ^ punctuation.accessor
 //      ^^^ meta.property.object
 
     0b1.0;
-//  ^^^ constant.numeric.integer.binary
-//  ^^ punctuation.definition.numeric.base
+//  ^^ meta.number.base.js constant.numeric.integer.binary.js
+//    ^ meta.number.mantissa.js constant.numeric.integer.binary.js
 //     ^ punctuation.accessor
 //      ^ invalid.illegal.illegal-identifier
 
@@ -1941,25 +1947,30 @@ function yy (a, b) {
 // Floats
 
     1_234_567_890.123_456_789_0;
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.float.decimal
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number.mantissa.js constant.numeric.float.decimal.js
+//               ^ punctuation.separator.decimal.js
 
     .123_456_789_0;
-//  ^^^^^^^^^^^^^^ constant.numeric.float.decimal
+//  ^^^^^^^^^^^^^^ meta.number.mantissa.js constant.numeric.float.decimal.js
 //  ^ punctuation.separator.decimal
 
     12345e6_7_8;
-//  ^^^^^^^^^^^ constant.numeric.float.decimal
+//  ^^^^^ meta.number.mantissa.js constant.numeric.float.decimal.js
+//       ^^^^^^ meta.number.exponent.js constant.numeric.float.decimal.js
 
     123.456e+789;
-//  ^^^^^^^^^^^^ constant.numeric.float.decimal
+//  ^^^^^^^ meta.number.mantissa.js constant.numeric.float.decimal.js
 //     ^ punctuation.separator.decimal
+//         ^^^^^ meta.number.exponent.js constant.numeric.float.decimal.js
 
     .123E-7_8_9;
-//  ^^^^^^^^^^^ constant.numeric.float.decimal
+//  ^^^^ meta.number.mantissa.js constant.numeric.float.decimal.js
 //  ^ punctuation.separator.decimal
+//      ^^^^^^^ meta.number.exponent.js constant.numeric.float.decimal.js
 
     0123.45;
-//  ^^^^ constant.numeric.integer.octal invalid.deprecated.numeric.octal
+//  ^ meta.number.base.js constant.numeric.integer.octal.js invalid.deprecated.numeric.octal.js
+//   ^^^ meta.number.mantissa.js constant.numeric.integer.octal.js invalid.deprecated.numeric.octal.js
 //      ^ punctuation.accessor
 //       ^^ invalid.illegal - constant.numeric
 
@@ -1970,7 +1981,7 @@ function yy (a, b) {
 //  ^^^^^^ invalid.illegal.numeric.decimal
 
     123..foo;
-//  ^^^^ constant.numeric.float.decimal
+//  ^^^^ meta.number.mantissa.js constant.numeric.float.decimal.js
 //      ^ punctuation.accessor
 //       ^^^ meta.property.object
 
