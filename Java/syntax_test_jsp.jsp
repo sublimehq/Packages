@@ -41,7 +41,7 @@
     <!-- DIRECTIVE TESTS -->
 
     <jsp:directive.include file="foo.bar" />
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.jsp.directive.html
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.jsp.directive.begin.html
 //  ^ punctuation.definition.tag.begin.html
 //   ^^^ entity.name.tag.namespace.html
 //      ^ entity.name.tag.html punctuation.separator.namespace.html
@@ -52,6 +52,25 @@
 //                             ^ meta.attribute-with-value.html punctuation.separator.key-value.html
 //                              ^^^^^^^^^ meta.attribute-with-value.html string.quoted.double.html
 //                                        ^^ punctuation.definition.tag.end.html
+
+    <jsp:directive.include file="foo.bar"></jsp:directive>
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.jsp.directive.begin.html
+//                                        ^^^^^^^^^^^^^^^^ meta.tag.jsp.directive.end.html
+//  ^ punctuation.definition.tag.begin.html
+//   ^^^ entity.name.tag.namespace.html
+//      ^ entity.name.tag.html punctuation.separator.namespace.html
+//       ^^^^^^^^^ entity.name.tag.localname.html
+//                ^ punctuation.accessor.dot.jsp
+//                 ^^^^^^^ keyword.control.directive.jsp
+//                         ^^^^ meta.attribute-with-value.html entity.other.attribute-name.html
+//                             ^ meta.attribute-with-value.html punctuation.separator.key-value.html
+//                              ^^^^^^^^^ meta.attribute-with-value.html string.quoted.double.html
+//                                       ^ punctuation.definition.tag.end.html
+//                                        ^^ punctuation.definition.tag.begin.html
+//                                          ^^^ entity.name.tag.namespace.html
+//                                             ^ entity.name.tag.html punctuation.separator.namespace.html
+//                                              ^^^^^^^^^ entity.name.tag.localname.html
+//                                                       ^ punctuation.definition.tag.end.html
 
     <%@ include file="foo.bar" %>
 // ^ - meta
@@ -65,6 +84,21 @@
 //                             ^^ punctuation.section.embedded.end.jsp
 
     <!-- DECLARATION TESTS -->
+
+    <jsp:declaration/>int i = 0;</jsp:declaration>
+//  ^^^^^^^^^^^^^^^^^^ meta.tag.jsp.declaration.begin.html
+//  ^ punctuation.definition.tag.begin.html
+//   ^^^ entity.name.tag.namespace.html
+//      ^ entity.name.tag.html punctuation.separator.namespace.html
+//       ^^^^^^^^^^^ entity.name.tag.localname.html
+//                  ^^ punctuation.definition.tag.end.html
+//                    ^^^^^^^^^^ - source.java.embedded
+//                              ^^^^^^^^^^^^^^^^^^ meta.tag.jsp.declaration.end.html
+//                              ^^ punctuation.definition.tag.begin.html
+//                                ^^^ entity.name.tag.namespace.html
+//                                   ^ entity.name.tag.html punctuation.separator.namespace.html
+//                                    ^^^^^^^^^^^ entity.name.tag.localname.html
+//                                               ^ punctuation.definition.tag.end.html
 
     <jsp:declaration>int i = 0;</jsp:declaration>
 //  ^^^^^^^^^^^^^^^^^ meta.tag.jsp.declaration.begin.html
@@ -125,6 +159,24 @@
 //                                                                      ^^^^^^^^^^ entity.name.tag.localname.html
 //                                                                                ^ punctuation.definition.tag.end.html
 //                                                                                 ^^^^ meta.tag.inline.any.html
+
+    Good guess, but nope. Try<b><jsp:expression/>numguess.getHint()</jsp:expression></b>.
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^ - meta
+//                           ^^^ meta.tag.inline.any.html
+//                              ^^^^^^^^^^^^^^^^ meta.tag.jsp.expression.begin.html
+//                              ^ punctuation.definition.tag.begin.html
+//                               ^^^ entity.name.tag.namespace.html
+//                                  ^ entity.name.tag.html punctuation.separator.namespace.html
+//                                   ^^^^^^^^^^ entity.name.tag.localname.html
+//                                             ^^ punctuation.definition.tag.end.html
+//                                               ^^^^^^^^^^^^^^^^^^ - source.java.embedded
+//                                                                 ^^^^^^^^^^^^^^^^^ meta.tag.jsp.expression.end.html
+//                                                                 ^^ punctuation.definition.tag.begin.html
+//                                                                   ^^^ entity.name.tag.namespace.html
+//                                                                      ^ entity.name.tag.html punctuation.separator.namespace.html
+//                                                                       ^^^^^^^^^^ entity.name.tag.localname.html
+//                                                                                 ^ punctuation.definition.tag.end.html
+//                                                                                  ^^^^ meta.tag.inline.any.html
 
     <!-- FORWARD TESTS -->
 
@@ -222,6 +274,21 @@
     Plain text
 //  ^^^^^^^^^^ text.html.jsp - meta
 
+    <jsp:text/>Plain text</jsp:text>
+//  ^^^^^^^^^^^ meta.tag.jsp.text.begin.html
+//  ^ punctuation.definition.tag.begin.html
+//   ^^^ entity.name.tag.namespace.html
+//      ^ punctuation.separator.namespace.html
+//       ^^^^ entity.name.tag.localname.html
+//           ^^ punctuation.definition.tag.end.html
+//             ^^^^^^^^^^ - text.plain.jsp
+//                       ^^^^^^^^^^^ meta.tag.jsp.text.end.html
+//                       ^^ punctuation.definition.tag.begin.html
+//                         ^^^ entity.name.tag.namespace.html
+//                            ^ punctuation.separator.namespace.html
+//                             ^^^^ entity.name.tag.localname.html
+//                                 ^ punctuation.definition.tag.end.html
+
     <jsp:text>Plain text</jsp:text>
 //  ^^^^^^^^^^ meta.tag.jsp.text.begin.html
 //  ^ punctuation.definition.tag.begin.html
@@ -229,6 +296,7 @@
 //      ^ punctuation.separator.namespace.html
 //       ^^^^ entity.name.tag.localname.html
 //           ^ punctuation.definition.tag.end.html
+//            ^^^^^^^^^^ text.plain.jsp
 //                      ^^^^^^^^^^^ meta.tag.jsp.text.end.html
 //                      ^^ punctuation.definition.tag.begin.html
 //                        ^^^ entity.name.tag.namespace.html
