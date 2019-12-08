@@ -20,8 +20,7 @@ contexts:
     - include: tag-jsp-text
     - include: tag-jsp-other
     - match: (?=\S)
-      push:
-        - include: scope:text.html.basic
+      push: scope:text.html.basic
       with_prototype:
         - match: (?=</?(?i:jsp):)
           pop: true
