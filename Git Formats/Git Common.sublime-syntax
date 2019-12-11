@@ -8,7 +8,7 @@ scope: text.git.common
 
 variables:
   comment_char: '[#;]'
-  pretty_formats_builtins: oneline|short|medium|fuller|full|email|raw
+  pretty_formats_builtins: oneline|short|medium|fuller|full|email|raw|reference
   pretty_formats_empty_value_modifiers: '[-+ ]?'
 
 contexts:
@@ -228,7 +228,7 @@ contexts:
         # 1: punctuation.definition.parameter.shell
         # 2: variable.parameter.option.shell
         # 3: keyword.operator.assignment.option.shell
-        # 4: constant.language.pretty-formats.git
+        4: constant.language.pretty-formats.git
         5: keyword.declaration.pretty-formats.git
         6: keyword.operator.assignment.option.pretty-formats.git
       push: include-pretty-formats
@@ -273,7 +273,7 @@ contexts:
           %{{pretty_formats_empty_value_modifiers}}
           (?:
             [HhTtPpdDesSfbBNmn]| # single-char
-            [ac][nNeElLdDrtiI]|  # author and committer
+            [ac][nNeElLdDsrtiI]| # author and committer
             G[G?DKFP]|           # GPG
             g[dnNeEs]            # reflog
           )

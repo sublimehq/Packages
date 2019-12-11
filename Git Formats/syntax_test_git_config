@@ -306,6 +306,10 @@ stray-bracket]
           "
 
 [pretty-formats]
+    foo = log --pretty=oneline
+#                      ^^^^^^^ constant.language.pretty-formats.git
+    foo = log --pretty=reference
+#                      ^^^^^^^^^ constant.language.pretty-formats.git
     foo = log --pretty=%h
 #                      ^^ constant.other.placeholder.pretty-formats.git
     foo = log --pretty=%<(5)%h
@@ -377,6 +381,14 @@ stray-bracket]
 #                           ^  constant.numeric.integer.pretty-formats.git
 #                            ^ punctuation.section.parens.end.pretty-formats.git
 #                             ^^ constant.other.placeholder.pretty-formats.git
+    foo = log --pretty=format:%h
+#                      ^^^^^^ keyword.declaration.pretty-formats.git
+#                            ^ keyword.operator.assignment.option.pretty-formats.git
+#                             ^^ constant.other.placeholder.pretty-formats.git
+    foo = log --pretty=tformat:%h
+#                      ^^^^^^^ keyword.declaration.pretty-formats.git
+#                             ^ keyword.operator.assignment.option.pretty-formats.git
+#                              ^^ constant.other.placeholder.pretty-formats.git
     foo = log --pretty=%a
 #                      ^^ - constant
     foo = log --pretty=%aDx%cD
@@ -426,10 +438,10 @@ stray-bracket]
 #                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.placeholder.pretty-formats.git
     foo = log --pretty='%E%l%L%r%i%I%G%?%K%F%E'
 #                       ^^^^^^^^^^^^^^^^^^^^^^ - constant
-    foo = log --pretty='%an%aN%ae%aE%al%aL%ad%aD%ar%at%ai%aI'
-#                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.placeholder.pretty-formats.git
-    foo = log --pretty='%cn%cN%ce%cE%cl%cL%cd%cD%cr%ct%ci%cI'
-#                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.placeholder.pretty-formats.git
+    foo = log --pretty='%an%aN%ae%aE%al%aL%ad%aD%as%ar%at%ai%aI'
+#                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.placeholder.pretty-formats.git
+    foo = log --pretty='%cn%cN%ce%cE%cl%cL%cd%cD%cs%cr%ct%ci%cI'
+#                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.placeholder.pretty-formats.git
     foo = log --pretty='%GG%G?%GD%GK%GF%GP'
 #                       ^^^^^^^^^^^^^^^^^^ constant.other.placeholder.pretty-formats.git
     foo = log --pretty='%gd%gn%gN%ge%gE%gs'
