@@ -13,7 +13,7 @@ variables:
   dec_digit: '[0-9_]'
   hex_digit: '[\h_]'
   dec_integer: (?:0|[1-9]{{dec_digit}}*)
-  dec_exponent: ([Ee](?:[-+]|(?![-+])){{dec_digit}}*)
+  dec_exponent: '[Ee](?:[-+]|(?![-+])){{dec_digit}}*'
 
   identifier_escape: (?:\\u(?:\h{4}|\{\h+\}))
   identifier_start: (?:[_$\p{L}\p{Nl}]|{{identifier_escape}})
@@ -1792,9 +1792,9 @@ contexts:
     - match: |-
         (?x:
           # 1., 1.1, 1.1e1, 1.1e-1, 1.e1, 1.e-1 | 1e1, 1e-1
-          ({{dec_integer}}) (?: ((\.) {{dec_digit}}*) {{dec_exponent}}? | {{dec_exponent}} )
+          ({{dec_integer}}) (?: ((\.) {{dec_digit}}*) ({{dec_exponent}})? | ({{dec_exponent}}) )
           # .1, .1e1, .1e-1
-          | ((\.) {{dec_digit}}+) {{dec_exponent}}?
+          | ((\.) {{dec_digit}}+) ({{dec_exponent}})?
         ){{identifier_break}}
       captures:
         1: meta.number.value.mantissa.js constant.numeric.float.decimal.js
