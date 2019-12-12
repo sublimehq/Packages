@@ -1928,13 +1928,13 @@ contexts:
   operator:
     # http://erlang.org/doc/reference_manual/expressions.html#arithmetic-expressions
     - match: (div|rem){{ident_break}}
-      scope: keyword.operator.arithmetic.erlang
+      scope: keyword.operator.word.arithmetic.erlang
     - match: (band|bor|bxor|bnot|bsl|bsr){{ident_break}}
-      scope: keyword.operator.bitwise.erlang
+      scope: keyword.operator.word.bitwise.erlang
     # http://erlang.org/doc/reference_manual/expressions.html#boolean-expressions
     # http://erlang.org/doc/reference_manual/expressions.html#short-circuit-expressions
     - match: (and|or|xor|not|andalso|orelse){{ident_break}}
-      scope: keyword.operator.logical.erlang
+      scope: keyword.operator.word.logical.erlang
 
 ###[ SEPARATORS ]#############################################################
 

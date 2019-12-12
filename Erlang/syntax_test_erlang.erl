@@ -1128,6 +1128,22 @@ operator_tests() -> .
 %     ^^ punctuation.separator.mapping.key-value.erlang
 %        ^ meta.atom.erlang constant.other.symbol.erlang
 
+    10 div 3
+%   ^^ constant.numeric.integer.decimal.erlang
+%      ^^^ keyword.operator.word.arithmetic.erlang
+%          ^ constant.numeric.integer.decimal.erlang
+
+    2#10 bor 2#01
+%   ^^^^ constant.numeric.integer.binary.erlang
+%        ^^^ keyword.operator.word.bitwise.erlang
+%            ^^^^ constant.numeric.integer.binary.erlang
+
+    true and false
+%   ^^^^ constant.language.boolean.erlang
+%        ^^^ keyword.operator.word.logical.erlang
+%            ^^^^^ constant.language.boolean.erlang
+
+
 % directive-control-flow tests
 
 preprocessor_control_tests() -> .
