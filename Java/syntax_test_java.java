@@ -103,12 +103,16 @@ import static a.b.Class.*;
 //                      ^ keyword.operator.wildcard.asterisk.java
 
 public class SyntaxTest {
-//^^^^^^^^^^^^^^^^^^^^^^^ meta.class
+//^^^^^^^^^^ meta.class.java
+//          ^^^^^^^^^^^^ meta.class.identifier
+//                      ^^ meta.class.body.java meta.block.java
 // ^^^ storage.modifier.java
-//     ^^^^^ storage.type.java
-//           ^^^^^^^^^^ meta.class.identifier entity.name.class.java
-//                     ^ - meta.class.identifier.java - meta.class.body.java
-//                      ^ meta.class.body.java
+//    ^ - storage
+//     ^^^^^ storage.type.class.java
+//          ^ - storage - entity
+//           ^^^^^^^^^^ entity.name.class.java
+//                     ^ - entity
+//                      ^ punctuation.section.block.begin.java
     private String memberString = "Hello";
     private String memberString2 = new String("Hello");
 //                                     ^^^^^^ support.class.java
@@ -273,55 +277,80 @@ public class SyntaxTest {
 }
 
 class ExtendsTest extends Foo {}
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
-//                ^^^^^^^^^^^ meta.class.extends
+//^^^ meta.class.java
+//   ^^^^^^^^^^^^^ meta.class.identifier.java
+//                ^^^^^^^^^^^^ meta.class.extends.java
+//                            ^^ meta.class.body.java meta.block.java
+//^^^ storage.type.class.java
+//    ^^^^^^^^^^^ entity.name.class.java
 //                ^^^^^^^ keyword.declaration.extends.java
 //                        ^^^ entity.other.inherited-class.java
-//                            ^ - meta.class.extends
 
 class ExtendsTest implements Foo {}
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
-//                ^^^^^^^^^^^^^^ meta.class.implements.java
+//^^^ meta.class.java
+//   ^^^^^^^^^^^^^ meta.class.identifier.java
+//                ^^^^^^^^^^^^^^^ meta.class.implements.java
+//                               ^^ meta.class.body.java meta.block.java
+//^^^ storage.type.class.java
+//    ^^^^^^^^^^^ entity.name.class.java
 //                ^^^^^^^^^^ keyword.declaration.implements.java
 //                           ^^^ entity.other.inherited-class.java
-//                               ^ - meta.class.implements.java
 
 class Foo<A> extends Bar<? extends A> {}
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
-//       ^^^ meta.generic.declaration.java
+//^^^ meta.class.java
+//   ^^^^ meta.class.identifier.java - meta.generic
+//       ^^^ meta.class.identifier.java meta.generic.declaration.java
+//          ^ meta.class.identifier.java - meta.generic
+//           ^^^^^^^^^^^ meta.class.extends.java - meta.generic
+//                      ^^^^^^^^^^^^^ meta.class.extends.java meta.generic.java
+//                                   ^ meta.class.extends.java - meta.generic
+//                                    ^^ meta.class.body.java meta.block.java
+//^^^ storage.type.class.java
+//    ^^^ entity.name.class.java
+//       ^ punctuation.definition.generic.begin.java
 //        ^ variable.parameter.type.java
-//           ^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.extends
+//         ^ punctuation.definition.generic.end.java
+//           ^^^^^^^ keyword.declaration.extends.java
+//                   ^^^ entity.other.inherited-class.java
+//                      ^ punctuation.definition.generic.begin.java
+//                       ^ keyword.operator.wildcard.java
 //                         ^^^^^^^ keyword.declaration.extends.java
+//                                 ^ support.class.java
+//                                  ^ punctuation.definition.generic.end.java
 
 class ExtendsAndImplementsTest extends Foo implements Bar<Foo>, OtherBar {}
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
-//                             ^^^^^^^^^^^ meta.class.extends
+//^^^ meta.class.java
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.identifier.java
+//                             ^^^^^^^^^^^^ meta.class.extends.java
+//                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.implements.java
+//                                                                       ^^ meta.class.body.java meta.block.java
+//^^^ storage.type.class.java
+//    ^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.class.java
 //                             ^^^^^^^ keyword.declaration.extends.java
 //                                     ^^^ entity.other.inherited-class.java
-//                                         ^ - meta.class.extends
-//                                         ^^^^^^^^^^^^^^ meta.class.implements.java
 //                                         ^^^^^^^^^^ keyword.declaration.implements.java
 //                                                    ^^^ entity.other.inherited-class.java
 //                                                       ^^^^^ meta.generic.java
 //                                                            ^ punctuation.separator.comma.java
 //                                                              ^^^^^^^^ entity.other.inherited-class.java
-//                                                                       ^ - meta.class.implements.java
 
 class ExtendsAndImplementsTest extends Foo, Bar implements Bar<Foo>, OtherBar {}
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
-//                             ^^^^^^^^^^^^^^^^^ meta.class.extends
+//^^^ meta.class.java
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.identifier.java
+//                             ^^^^^^^^^^^^^^^^^ meta.class.extends.java
+//                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.implements.java
+//                                                                            ^^ meta.class.body.java meta.block.java
+//^^^ storage.type.class.java
+//    ^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.class.java
 //                             ^^^^^^^ keyword.declaration.extends.java
 //                                     ^^^ entity.other.inherited-class.java
 //                                        ^ punctuation.separator.comma.java
 //                                          ^^^ entity.other.inherited-class.java
-//                                              ^ - meta.class.extends
-//                                              ^^^^^^^^^^^^^^ meta.class.implements.java
 //                                              ^^^^^^^^^^ keyword.declaration.implements.java
 //                                                         ^^^ entity.other.inherited-class.java
 //                                                            ^^^^^ meta.generic.java
 //                                                                 ^ punctuation.separator.comma.java
 //                                                                   ^^^^^^^^ entity.other.inherited-class.java
-//                                                                            ^ - meta.class.implements.java
 
 class AnyClass {
 //    ^^^^^^^^ entity.name.class.java
@@ -350,10 +379,11 @@ class AnyClass {
 // <- punctuation.section.block.end.java
 
 interface T extends A, BB {}
-//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java
-//       ^^ meta.class.identifier.java
+//^^^^^^^ meta.class.java
+//       ^^^ meta.class.identifier.java
 //          ^^^^^^^^^^^^^^ meta.class.extends.java
-//                        ^^ meta.class.body.java
+//                        ^^ meta.class.body.java meta.block.java
+//^^^^^^^ storage.type.interface.java
 //        ^ entity.name.class.java
 //          ^^^^^^^ keyword.declaration.extends.java
 //                  ^ entity.other.inherited-class.java
@@ -363,10 +393,12 @@ interface T extends A, BB {}
 //                         ^ punctuation.section.block.end.java
 
 public enum FooBaz {
-//     ^^^^ storage.type.java
-//^^^^^^^^^^^^^^^^^^ meta.class
-//          ^^^^^^ meta.class.identifier.java entity.name.class.java
-//                 ^ meta.class.body
+//^^^^^^^^^ meta.class.java
+//         ^^^^^^^^ meta.class.identifier.java
+//                 ^^ meta.class.body meta.block.java
+//^^^^ storage.modifier.java
+//     ^^^^ storage.type.enum.java
+//          ^^^^^^ entity.name.class.java
     // This is a test
 //  ^^^^^^^^^^^^^^^^^^ comment.line
     UPLOAD("foo bar"), /* This a comment */
@@ -394,9 +426,13 @@ enum MyEnum {
 
 public enum TokenKind extends MyEnum, FooBaz implements Foo, Bar {
 //<- meta.class.java storage.modifier.java
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java
+//^^^^^^^^^ meta.class.java
+//         ^^^^^^^^^^^ meta.class.identifier.java
+//                    ^^^^^^^^^^^^^^^^^^^^^^^ meta.class.extends.java
+//                                           ^^^^^^^^^^^^^^^^^^^^ meta.class.implements.java
+//                                                               ^^ meta.class.body.java meta.block.java
 //^^^^ storage.modifier.java
-//     ^^^^ storage.type.java
+//     ^^^^ storage.type.enum.java
 //          ^^^^^^^^^ entity.name.class.java
 //                    ^^^^^^^ keyword.declaration.extends.java
 //                            ^^^^^^ entity.other.inherited-class.java
@@ -478,8 +514,8 @@ public enum TokenKind extends MyEnum, FooBaz implements Foo, Bar {
 //                      ^ punctuation.section.block.begin.java
 //                       ^ punctuation.section.block.end.java
     public static void main(String[]a){}
-//  ^^^^^^^^^^^^^^ meta.class.java meta.class.body.java meta.block.java
-//                ^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.class.body.java meta.block.java meta.method.java
+//                ^^^^ meta.class.body.java meta.block.java meta.method.java
+//                    ^^^^^^^^^^^^^^^^^^ meta.class.body.java meta.block.java meta.method.java
 //                     ^^^^ meta.method.identifier.java
 //                         ^^^^^^^^^^^ meta.method.parameters.java meta.parens.java
 //                                    ^^ meta.method.body.java
@@ -499,25 +535,25 @@ public enum TokenKind extends MyEnum, FooBaz implements Foo, Bar {
 public          // comment
 //<- storage.modifier.java
 enum            // comment
-//<- meta.class.java meta.class.identifier.java storage.type.java
+//<- meta.class.java storage.type.enum.java
 TokenKind       // comment
-//<- meta.class.java meta.class.identifier.java entity.name.class.java
+//<- meta.class.identifier.java entity.name.class.java
 extends         // comment
-//<- meta.class.java meta.class.extends.java keyword.declaration.extends.java
+//<- meta.class.extends.java keyword.declaration.extends.java
 MyEnum,         // comment
-//<- meta.class.java meta.class.extends.java entity.other.inherited-class.java
+//<- meta.class.extends.java entity.other.inherited-class.java
 FooBaz          // comment
-//<- meta.class.java meta.class.extends.java entity.other.inherited-class.java
+//<- meta.class.extends.java entity.other.inherited-class.java
 implements      // comment
-//<- meta.class.java meta.class.implements.java keyword.declaration.implements.java
+//<- meta.class.implements.java keyword.declaration.implements.java
 Foo,            // comment
-//<- meta.class.java meta.class.implements.java entity.other.inherited-class.java
+//<- meta.class.implements.java entity.other.inherited-class.java
 Bar             // comment
-//<- meta.class.java meta.class.implements.java entity.other.inherited-class.java
+//<- meta.class.implements.java entity.other.inherited-class.java
 {
-//<- meta.class.java meta.class.body.java meta.block.java punctuation.section.block.begin.java
+//<- meta.class.body.java meta.block.java punctuation.section.block.begin.java
 }
-//<- meta.class.java meta.class.body.java meta.block.java punctuation.section.block.end.java
+//<- meta.class.body.java meta.block.java punctuation.section.block.end.java
 
 class InvalidStuff
 {
@@ -862,14 +898,14 @@ public class GrafoTest {
 }
 
 public enum FooEnum {
-//     ^^^^ storage.type.java
+//     ^^^^ storage.type.enum.java
   FOO;
 //^^^ constant.other.enum
 }
-// <- meta.class.java meta.class.body.java punctuation.section.block.end.java
+// <- meta.class.body.java punctuation.section.block.end.java
 
 public enum FooBarEnum {
-//     ^^^^ storage.type.java
+//     ^^^^ storage.type.enum.java
   FOO,
 //^^^ constant.other.enum
   BAR;
@@ -877,22 +913,29 @@ public enum FooBarEnum {
 }
 
 public enum AbstractEnum {
-//     ^^^^ storage.type.java
+//     ^^^^ storage.type.enum.java
   FOO {
+//^^^^ meta.enum.java
+//    ^^ meta.enum.body.java meta.block.java
 //^^^ constant.other.enum
-//    ^ meta.enum.java meta.enum.body.java meta.block.java punctuation.section.block.begin.java
+//    ^ punctuation.section.block.begin.java
     public void doSomething() { return; }
-//              ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.java
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.java
   },
-//^ meta.enum.java meta.enum.body.java meta.block.java punctuation.section.block.end.java
+//^ meta.enum.body.java meta.block.java punctuation.section.block.end.java
   BAR {
+//^^^^ meta.enum.java
+//    ^^ meta.enum.body.java meta.block.java
 //^^^ constant.other.enum
+//    ^ punctuation.section.block.begin.java
     public void doSomething() { return; }
-//              ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.java
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.java
   };
+//^ meta.enum.body.java meta.block.java punctuation.section.block.end.java
+// ^ punctuation.terminator.java - meta.enum
 
   public abstract void doSomething();
-//                     ^^^^^^^^^^^^^ meta.method.java
+//                ^^^^^^^^^^^^^^^^^^ meta.method.java
 }
 
 public final class SomeClass<V extends OtherClass, T> extends BaseClass<V> {
@@ -904,7 +947,7 @@ public final class SomeClass<V extends OtherClass, T> extends BaseClass<V> {
 }
 
 public @interface PublicAnnotation {
-//     ^^^^^^^^^^ storage.type.java
+//     ^^^^^^^^^^ storage.type.interface.java
   int numericValue() default 42;
 //                   ^^^^^^^ keyword.declaration.default.java
 //                           ^^ constant.numeric
@@ -930,7 +973,7 @@ public @interface PublicAnnotation {
 }
 
 @interface PackageAnnotation {}
-//^^^^^^^^ storage.type.java
+//^^^^^^^^ storage.type.interface.java
 
 @MultiLineAnnotation(
 // <- meta.annotation.java
@@ -1043,8 +1086,10 @@ class Bàr {
 // <- punctuation.definition.annotation.java
 public class Foo {
 // <- meta.class.java storage.modifier.java
-//     ^ meta.class.java meta.class.identifier.java storage.type.java
-//               ^ punctuation.section.block.begin.java
+//^^^^ meta.class.java storage.modifier.java
+//     ^^^^^ meta.class.java storage.type.class.java
+//           ^^^ meta.class.identifier.java entity.name.class.java
+//               ^ meta.class.body.java meta.block.java punctuation.section.block.begin.java
 
   FooBar MY_CONST = new FooBar();
 //       ^^^^^^^^ entity.name.constant.java
@@ -2142,13 +2187,13 @@ public class Foo {
 //                                                  ^ - meta.method.throws
   }
 }}
-// <- meta.class.java meta.class.body.java punctuation.section.block.end.java
+// <- meta.class.body.java punctuation.section.block.end.java
  //<- invalid.illegal.stray-brace-end
 
 public
 // <- storage.modifier.java
 class IOException { }
-// <- storage.type.java
+// <- storage.type.class.java
 
 public class Generic<T> implements fully.qualified.Other<T> {
 //                                 ^^^^^^^^^^^^^^^^^^^^^ meta.path.java

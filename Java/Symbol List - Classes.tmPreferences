@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Symbol List: Classes</string>
 	<key>scope</key>
-	<string>source.java meta.class meta.class.identifier</string>
+	<string>source.java meta.class.identifier entity.name.class</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>

@@ -424,38 +424,48 @@ contexts:
 ###[ CLASS ]###################################################################
 
   class:
-    - match: (?=({{storage_modifiers}}\s+)*(?:class|(?:@)?interface|enum)\b)
-      push: [class-meta, class-type]
-
-  class-meta:
-    - meta_scope: meta.class.java
-    - include: immediate_POP
+    - match: (?=({{storage_modifiers}}\s+)*(class|enum|@?interface)\b)
+      push: class-type
 
   class-type:
+    - meta_scope: meta.class.java
     - include: storage-modifiers
-    - match: (?:class|(\@?)interface)\b
-      scope: storage.type.java
-      captures:
-        1: punctuation.definition.type.java
+    - match: class\b
+      scope: storage.type.class.java
       set:
-        - class-block
+        - class-body-block
         - class-extends
+        - class-name-meta
         - generic-type-declaration
         - class-name
     - match: enum\b
-      scope: storage.type.java
+      scope: storage.type.enum.java
       set:
-        - enum-block
+        - enum-body-block
         - class-extends
+        - class-name-meta
+        - generic-type-declaration
+        - class-name
+    - match: (@?)interface\b
+      scope: storage.type.interface.java
+      captures:
+        1: punctuation.definition.type.java
+      set:
+        - class-body-block
+        - class-extends
+        - class-name-meta
         - generic-type-declaration
         - class-name
     - include: any_POP
 
   class-name:
-    - meta_scope: meta.class.identifier.java
     - match: (?!extends|implements){{id}}\b
       scope: entity.name.class.java
       pop: true
+    - include: any_POP
+
+  class-name-meta:
+    - meta_content_scope: meta.class.identifier.java
     - include: any_POP
 
   class-extends:
@@ -479,16 +489,15 @@ contexts:
         - inherited-object-type-reference
     - include: any_POP
 
-  class-block:
-    - match: \{
-      scope: punctuation.section.block.begin.java
-      set:
-        - meta_scope: meta.class.body.java meta.block.java
-        - match: \}
-          scope: punctuation.section.block.end.java
-          pop: true
-        - include: class-body
+  class-body-block:
+    - match: (?=\{)
+      set: [class-body-block-common, block-begin]
     - include: any_POP
+
+  class-body-block-common:
+    - meta_scope: meta.class.body.java meta.block.java
+    - include: block-end
+    - include: class-body
 
   class-body:
     - include: class
@@ -504,16 +513,15 @@ contexts:
     - match: (?=<)
       push: generic-type-declaration
 
-  enum-block:
-    - match: \{
-      scope: punctuation.section.block.begin.java
-      set:
-        - meta_scope: meta.class.body.java meta.block.java
-        - match: \}
-          scope: punctuation.section.block.end.java
-          pop: true
-        - include: enum-body
+  enum-body-block:
+    - match: (?=\{)
+      set: [enum-body-block-common, block-begin]
     - include: any_POP
+
+  enum-body-block-common:
+    - meta_scope: meta.class.body.java meta.block.java
+    - include: block-end
+    - include: enum-body
 
   enum-body:
     - match: ^(?=\s*([[:upper:]_][[:upper:][:digit:]_]*|(?!{{primitives}}|{{storage_modifiers}})[[:lower:]_][[:alnum:]_]*)\s*[,;{(])
@@ -524,18 +532,20 @@ contexts:
           scope: constant.other.enum.java
           push:
             - meta_scope: meta.enum.java
-            - match: \{
-              scope: punctuation.section.block.begin.java
-              push:
-                - meta_scope: meta.enum.body.java meta.block.java
-                - match: \}
-                  scope: punctuation.section.block.end.java
-                  pop: true
-                - include: enum-body
+            - include: enum-item-block
             - include: parens
             - include: any_POP
         - include: punctuation-separator-comma
     - include: class-body
+
+  enum-item-block:
+    - match: (?=\{)
+      set: [enum-item-block-common, block-begin]
+
+  enum-item-block-common:
+    - meta_scope: meta.enum.body.java meta.block.java
+    - include: block-end
+    - include: enum-body
 
 ###[ FIELDS AND METHODS ]######################################################
 
