@@ -379,12 +379,16 @@ stray-bracket]
 #                             ^^ constant.other.placeholder.pretty-formats.git
     foo = log --pretty=%a
 #                      ^^ - constant
-    foo = log --pretty=%aD
+    foo = log --pretty=%aDx%cD
 #                      ^^^ constant.other.placeholder.pretty-formats.git
-    foo = log --pretty=%+aD
+#                         ^ - constant
+#                          ^^^ constant.other.placeholder.pretty-formats.git
+    foo = log --pretty=%+aDy
 #                      ^^^^ constant.other.placeholder.pretty-formats.git
-    foo = log --pretty=%-aD
+#                          ^ - constant
+    foo = log --pretty=%-aDz
 #                      ^^^^ constant.other.placeholder.pretty-formats.git
+#                          ^ - constant
     foo = log --pretty=% aD
 #                      ^^^^ constant.other.placeholder.pretty-formats.git
     foo = log --pretty=%C(bold yellow)%h%C(reset) %C(green)%ar%C(reset) %s
