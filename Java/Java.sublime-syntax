@@ -88,6 +88,8 @@ contexts:
     - include: punctuation-accessor-dot
     - include: immediate_POP
 
+###[ PACKAGE ]#################################################################
+
   package-statement:
     - match: \bpackage\b
       scope: keyword.other.package.java
@@ -99,6 +101,8 @@ contexts:
               - meta_scope: meta.path.java entity.name.namespace.java
               - include: dot-separated-identifier
           - include: any_POP
+
+###[ IMPORT ]##################################################################
 
   import-statement:
     - match: \bimport\b
@@ -183,6 +187,8 @@ contexts:
     - match: \*
       scope: keyword.operator.wildcard.asterisk.java
 
+###[ ANNOTATIONS ]#############################################################
+
   annotations:
     - match: \@
       scope: punctuation.definition.annotation.java
@@ -245,6 +251,8 @@ contexts:
         - meta_scope: meta.braces.annotation-array-initialization.java
         - include: array-initialization-common
         - include: annotations
+
+###[ INSTANTIATION ]###########################################################
 
   anonymous-classes-and-new:
     - match: \bnew\b
@@ -338,6 +346,8 @@ contexts:
       scope: punctuation.section.braces.begin.java
       push: array-initialization
     - include: code
+
+###[ CLASS ]###################################################################
 
   class:
     - match: (?=({{storage_modifiers}}\s+)*(?:class|(?:@)?interface|enum)\b)
@@ -514,6 +524,8 @@ contexts:
         - match: (?=%>)
           pop: true
 
+###[ CONSTANTS ]###############################################################
+
   constants-and-special-vars:
     - match: \b(true|false|null)\b
       scope: constant.language.java
@@ -610,6 +622,8 @@ contexts:
         1: invalid.illegal.numeric.java
         2: storage.type.numeric.java
 
+###[ KEYWORDS ]################################################################
+
   keywords:
     - match: '::'
       scope: punctuation.accessor.double-colon.java
@@ -703,6 +717,8 @@ contexts:
     - match: \bwhile\b
       scope: keyword.control.loop.while.java
 
+###[ ILLEGALS ]################################################################
+
   illegal-keywords:
     - match: \b(goto|const)\b
       scope: invalid.illegal.keyword.java
@@ -721,6 +737,8 @@ contexts:
     # Pops the stack if anything matches
     - include: illegal-semicolon
     - include: illegal-open-block
+
+###[ FIELDS AND METHODS ]######################################################
 
   method-invocations:
     - match: (\.)\s*(?=<)
@@ -814,6 +832,8 @@ contexts:
           push: object-type-reference
         - include: any_POP
       - object-type-reference
+
+###[ TYPES ]###################################################################
 
   # Stand-along uppercase id, either type or constant.
   # Should be used only inside code blocks.
@@ -943,6 +963,8 @@ contexts:
       scope: punctuation.accessor.dot.java
       set: inherited-object-type-reference-no-fqn
     - include: any_POP
+
+###[ GENERIC TYPES ]###########################################################
 
   generic-type-declaration:
     - match: <
@@ -1145,6 +1167,8 @@ contexts:
       pop: true
     - match: \\.
       scope: constant.character.escape.java
+
+###[ MODULE ]##################################################################
 
   module:
     - match: (?=\b(?:open\s+)?module\b)
