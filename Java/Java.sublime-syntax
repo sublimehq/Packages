@@ -49,7 +49,7 @@ contexts:
     - include: strings
     - include: anonymous-classes-and-new
     - include: keywords-control
-    - include: method-invocations
+    - include: method-call
     - include: uppercase-identifiers
     - include: storage-modifiers
     - include: primitive-types
@@ -665,22 +665,24 @@ contexts:
     - include: block-end
     - include: code-block-body
 
-  method-invocations:
+###[ METHOD CALL ]#############################################################
+
+  method-call:
     - match: (\.)\s*(?=<)
       captures:
         1: punctuation.accessor.dot.java
       push: generic-type-invocation
-    - match: ({{id}})\s*(\()
+    - match: ({{id}})\s*(?=\()
+      scope: meta.function-call.java
       captures:
         1: variable.function.java
-        2: punctuation.section.parens.begin.java
-      push:
-        - meta_scope: meta.function-call.java
-        - match: \)
-          scope: punctuation.section.parens.end.java
-          pop: true
-        - include: illegal-parens-terminators
-        - include: code
+      push: [method-call-arguments, parens-begin]
+
+  method-call-arguments:
+    - meta_scope: meta.function-call.arguments.java meta.parens.java
+    - include: parens-end
+    - include: illegal-parens-terminators
+    - include: code
 
 ###[ CODE BLOCKS ]#############################################################
 

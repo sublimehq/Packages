@@ -597,7 +597,8 @@ public class Lambdas {
 //                                         ^^ constant.numeric.integer.decimal
 //                                           ^ punctuation.terminator.java
      foo(a -> 42);
-//   ^^^^^^^^^^^^ meta.function-call.java
+//   ^^^ meta.function-call.java
+//      ^^^^^^^^^ meta.function-call.arguments.java meta.parens.java
 //   ^^^ variable.function.java
 //      ^ punctuation.section.parens.begin.java
 //       ^ variable.parameter.java
@@ -1158,19 +1159,42 @@ public class Foo {
           SimpleSyncReferenceNumberOperation>>() {};
 
   Object bar = SomeStaticClass.newBuilder().doThings(1)
-//                             ^ meta.function-call.java variable.function.java
-//                                          ^ meta.function-call.java variable.function.java
-//                                                   ^ meta.function-call.java constant.numeric.integer.decimal
+//                             ^^^^^^^^^^ meta.function-call.java
+//                                       ^^ meta.function-call.arguments.java meta.parens.java
+//                                          ^^^^^^^^ meta.function-call.java
+//                                                  ^^^ meta.function-call.arguments.java meta.parens.java
+//                             ^^^^^^^^^^ variable.function.java
+//                                       ^ punctuation.section.parens.begin.java
+//                                        ^ punctuation.section.parens.end.java
+//                                         ^ punctuation.accessor.dot.java
+//                                          ^^^^^^^^ variable.function.java
+//                                                  ^ punctuation.section.parens.begin.java
+//                                                   ^ constant.numeric.integer.decimal.java
+//                                                    ^ punctuation.section.parens.end.java
       .withString("I am a string");
-//     ^ meta.function-call.java variable.function.java
-//                ^ meta.function-call.java string.quoted.double.java
+//    ^ punctuation.accessor.dot.java
+//     ^^^^^^^^^^ meta.function-call.java
+//               ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.java meta.parens.java
+//     ^^^^^^^^^^ variable.function.java
+//               ^ punctuation.section.parens.begin.java
+//                ^^^^^^^^^^^^^^^ string.quoted.double.java
+//                               ^ punctuation.section.parens.end.java
 
   Object bah = someStaticMethodCall(4)
-//             ^ meta.function-call.java variable.function.java
-//                                  ^ meta.function-call.java constant.numeric.integer.decimal
+//             ^^^^^^^^^^^^^^^^^^^^ meta.function-call.java
+//                                 ^^^ meta.function-call.arguments.java meta.parens.java
+//             ^^^^^^^^^^^^^^^^^^^^ variable.function.java
+//                                 ^ punctuation.section.parens.begin.java
+//                                  ^ constant.numeric.integer.decimal.java
+//                                   ^ punctuation.section.parens.end.java
       .withString("I am a string");
-//     ^ meta.function-call.java variable.function.java
-//                ^ meta.function-call.java string.quoted.double.java
+//    ^ punctuation.accessor.dot.java
+//     ^^^^^^^^^^ meta.function-call.java
+//               ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.java meta.parens.java
+//     ^^^^^^^^^^ variable.function.java
+//               ^ punctuation.section.parens.begin.java
+//                ^^^^^^^^^^^^^^^ string.quoted.double.java
+//                               ^ punctuation.section.parens.end.java
 
   private static final String DEFAULT_IDEMPOTENCY_KEY = 44493;
 //                            ^ entity.name.constant
@@ -2114,7 +2138,7 @@ public class Foo {
 //    ^ meta.method.body
     }, executor);
 //  ^ meta.class.body.anonymous.java punctuation.section.braces.end.java
-//             ^ meta.function-call.java punctuation.section.parens.end.java
+//             ^ meta.function-call.arguments.java punctuation.section.parens.end.java
   }
 //^ meta.method.body.java punctuation.section.block.end.java
 
