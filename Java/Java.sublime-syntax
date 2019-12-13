@@ -31,20 +31,6 @@ variables:
   pexponent: (?:[pP]{{exponent}})
 
 contexts:
-  prototype:
-    - match: (?=%>)
-      pop: true
-    - include: comments
-    - include: illegal-keywords
-
-  any_POP:
-    - match: (?=\S)
-      pop: true
-
-  immediate_POP:
-    - match: ''
-      pop: true
-
   main:
     - include: prototype
     - include: package-statement
@@ -70,6 +56,22 @@ contexts:
     - include: object-types
     - include: keywords
     - include: parens
+
+###[ PROTOTYPES ]##############################################################
+
+  prototype:
+    - match: (?=%>)
+      pop: true
+    - include: comments
+    - include: illegal-keywords
+
+  any_POP:
+    - match: (?=\S)
+      pop: true
+
+  immediate_POP:
+    - match: ''
+      pop: true
 
   punctuation-accessor-dot:
     - match: \.
