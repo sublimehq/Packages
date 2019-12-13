@@ -32,8 +32,6 @@ variables:
 
 contexts:
   prototype:
-    - match: (?=%>)
-      pop: true
     - include: comments
     - include: illegal-keywords
 
