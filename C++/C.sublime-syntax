@@ -639,6 +639,9 @@ contexts:
       push:
         - meta_scope: meta.struct.c debug.struct-keyword
         - include: data-structures-definition-common-begin
+        # function name
+        - match: '(?={{identifier}}\s*\()'
+          pop: true
         # struct definition
         - match: '{{identifier}}(?=\s*{|\s*\n)'
           scope: entity.name.struct.c
@@ -671,6 +674,9 @@ contexts:
       push:
         - meta_scope: meta.enum.c debug.enum-keyword
         - include: data-structures-definition-common-begin
+        # function name
+        - match: '(?={{identifier}}\s*\()'
+          pop: true
         # enum definition
         - match: '{{identifier}}(?=\s*{|\s*\n)'
           scope: entity.name.enum.c
@@ -724,6 +730,9 @@ contexts:
       push:
         - meta_scope: meta.union.c debug.union-keyword
         - include: data-structures-definition-common-begin
+        # function name
+        - match: '(?={{identifier}}\s*\()'
+          pop: true
         # union definition
         - match: '{{identifier}}(?=\s*{|\s*\n)'
           scope: entity.name.union.c
