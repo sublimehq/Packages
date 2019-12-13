@@ -488,8 +488,6 @@ contexts:
         - meta_scope: comment.line.double-slash.java
         - match: \n
           pop: true
-        - match: (?=%>)
-          pop: true
 
   constants-and-special-vars:
     - match: \b(true|false|null)\b
