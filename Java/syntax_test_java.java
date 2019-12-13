@@ -498,7 +498,7 @@ public enum TokenKind extends MyEnum, FooBaz implements Foo, Bar {
 //  ^^^^^^ storage.modifier.java
     String image = "";
 //  ^^^^^^ support.class.java
-//         ^^^^^ meta.field.java
+//         ^^^^^ variable.other.member.java
 //               ^ keyword.operator.assignment.java
 //                 ^^ string.quoted.double.java
 //                   ^ punctuation.terminator.java
@@ -1213,6 +1213,7 @@ public class Foo {
 
   private URI uri = new URI();
 //        ^^^ support.class.java
+//            ^^^ variable.other.member.java
 //                      ^^^ support.class.java
 
   private URI URI2 = new URI();

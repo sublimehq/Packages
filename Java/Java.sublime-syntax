@@ -574,19 +574,38 @@ contexts:
     - match: (?={{id}}\s*\()
       set: method
     - match: (?=\S)
-      set:
-      - include: before-next-field
-      - match: (?:({{uppercase_id}})|({{id}}))
-        captures:
-          1: entity.name.constant.java
-          2: meta.field.java
-        push: [static-assignment, array-brackets]
-      - include: punctuation-separator-comma
-      - include: any_POP
+      set: field-name
 
-  before-next-field:
+  field-name:
+    - include: field-terminator
+    - match: '{{uppercase_id}}'
+      scope: entity.name.constant.java
+      push: [field-meta, field-value, array-brackets]
+    - match: '{{id}}'
+      scope: variable.other.member.java
+      push: [field-meta, field-value, array-brackets]
+    - include: punctuation-separator-comma
+    - include: any_POP
+
+  field-meta:
+    - meta_scope: meta.field.java
+    - include: immediate_POP
+
+  field-value:
+    - match: =
+      scope: keyword.operator.assignment.java
+      set:
+        - meta_scope: meta.assignment.rhs.java
+        - match: (?=[,;}])
+          pop: true
+        - include: field-terminator
+        - include: code
+        - include: stray-parens
+    - include: any_POP
+
+  field-terminator:
     # Prevent style from being removed from whole file when making a new expression
-    - match: (?=\b(?:{{storage_modifiers}}|{{primitives}}|void)\b)
+    - match: (?=(?:{{storage_modifiers}}|{{primitives}}|void)\b)
       pop: true
 
   method:
@@ -1270,18 +1289,6 @@ contexts:
   array-brackets:
     - match: \[\s*\]
       scope: storage.modifier.array.java
-    - include: any_POP
-
-  static-assignment:
-    - match: \=
-      scope: keyword.operator.assignment.java
-      set:
-        - meta_scope: meta.assignment.rhs.java
-        - match: (?=[,;])
-          pop: true
-        - include: before-next-field
-        - include: code
-        - include: stray-parens
     - include: any_POP
 
   assignment:
