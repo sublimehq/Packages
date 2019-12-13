@@ -223,7 +223,7 @@ contexts:
     - include: tag-end
     - include: illegal-attributes
 
-###[ SCRIPTLETS ]#############################################################
+###[ SCRIPTLET ]##############################################################
 
   tag-jsp-scriptlet:
     - match: (?i)(<)(jsp)(:)(scriptlet){{break}}
