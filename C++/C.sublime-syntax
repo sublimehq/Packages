@@ -128,7 +128,7 @@ contexts:
     - match: \b({{control_keywords}})\b
       scope: keyword.control.c
     - match: \bsizeof\b
-      scope: keyword.operator.word.c
+      scope: keyword.operator.word.c debug.keywords
 
   modifiers:
     - match: \b({{modifiers}})\b
@@ -157,15 +157,15 @@ contexts:
             \)
           )
         )
-      scope: constant.other.macro.c
+      scope: constant.other.macro.c debug.modifiers-macros
       push:
         - meta_scope: meta.function-call.c
         - include: function-call-params
     # Preprocessor Attributes
     - match: '{{attr_macro_identifier}}(?!\s*\()'
-      scope: constant.other.macro.c
+      scope: constant.other.macro.c debug.modifiers-macros.underscore
     - match: '{{macro_identifier}}(?=\s{{identifier}}|\s\*|\)|\s*\n)'
-      scope: constant.other.macro.c
+      scope: constant.other.macro.c debug.modifiers-macros.caps
 
   variables:
     - match: '\bg[A-Z]\w*\b'
@@ -287,7 +287,7 @@ contexts:
   # comment without a line continuation ends at the newline.
   preprocessor-comments:
     - match: /\*
-      scope: punctuation.definition.comment.c
+      scope: punctuation.definition.comment.c debug.preprocessor-comments
       push:
         - meta_scope: comment.block.c
         - match: '\\$\n'
@@ -296,7 +296,7 @@ contexts:
           scope: punctuation.definition.comment.c
           pop: true
     - match: //
-      scope: punctuation.definition.comment.c
+      scope: punctuation.definition.comment.c debug.preprocessor-comments
       push:
         - meta_scope: comment.line.double-slash.c
         - match: '(\\)$\n'
@@ -328,6 +328,7 @@ contexts:
     - include: early-expressions
     - match: '(?=\w+)'
       push:
+        - meta_scope: debug.global.token
         - include: comments
         - include: modifiers-parens
         - include: modifiers
@@ -392,9 +393,10 @@ contexts:
   global-function-call:
     - match: (?={{identifier}}\s*\((?!\s*\*))
       set:
-        - - include: comments
+        - - meta_scope: debug.global-function-call.type-or-terminator
+          - include: comments
           - match: ';'
-            scope: punctuation.terminator.c
+            scope: punctuation.terminator.c debug.global-function-call
             pop: true
           - match: \n
             comments: Macro invocations sometimes don't require a ; to terminate
@@ -404,7 +406,8 @@ contexts:
             pop: true
           - match: '(?=\S)'
             set: global-declaration
-        - - include: function-call-params
+        - - meta_scope: debug.global-function-call.params
+          - include: function-call-params
         - - meta_scope: meta.function-call.c
           - match: '{{identifier}}'
             scope: constant.other.macro.c
@@ -417,7 +420,7 @@ contexts:
         - type-declaration
 
   function-definition-params:
-    - meta_content_scope: meta.function.c
+    - meta_content_scope: meta.function.c debug.function-definition-params
     - include: comments
     - match: '(?=\()'
       set:
@@ -443,6 +446,7 @@ contexts:
             - type-declaration
 
   parameter-identifier:
+    - meta_scope: debug.parameter-identifier
     - include: comments
     - include: modifiers
     - include: modifiers-parens
@@ -451,7 +455,7 @@ contexts:
       scope: storage.modifier.c
     # Function pointer declaration
     - match: \(
-      scope: punctuation.section.group.begin.c
+      scope: punctuation.section.group.begin.c debug.parameter-identifier.function-pointer
       push:
         - meta_scope: meta.group.c
         - match: \)
@@ -462,10 +466,11 @@ contexts:
         - match: \*
           scope: storage.modifier.c
         - match: '{{identifier}}'
-          scope: variable.parameter.c
+          scope: variable.parameter.c debug.parameter-identifier.function-pointer
     - match: '{{identifier}}'
-      scope: variable.parameter.c
+      scope: variable.parameter.c debug.parameter-identifier
       push:
+        - meta_scope: debug.parameter-identifier.array-or-assignment
         - include: declaration-brackets
         - include: or_pop
     - include: or_pop
@@ -485,7 +490,7 @@ contexts:
     - match: '\{'
       scope: punctuation.section.block.begin.c
       set:
-        - meta_scope: meta.function.c meta.block.c
+        - meta_scope: meta.function.c meta.block.c debug.function-definition-body
         - match: '\}'
           scope: punctuation.section.block.end.c
           pop: true
@@ -507,7 +512,7 @@ contexts:
       scope: storage.modifier.c
     # Function pointer declaration as variable
     - match: \(
-      scope: punctuation.section.group.begin.c
+      scope: punctuation.section.group.begin.c debug.parameter-variable-identifier.function-pointer
       push:
         - meta_scope: meta.parens.c
         - match: \)
@@ -518,11 +523,12 @@ contexts:
         - match: \*
           scope: storage.modifier.c
         - match: '{{identifier}}'
-          scope: variable.parameter.c
+          scope: variable.parameter.c debug.parameter-variable-identifier.function-pointer
     - match: '{{identifier}}'
-      scope: variable.parameter.c
+      scope: variable.parameter.c debug.parameter-variable-identifier
 
   variable-identifier-list:
+    - meta_scope: debug.variable-identifier-list
     - include: comments
     - include: modifiers
     - include: modifiers-parens
@@ -530,25 +536,28 @@ contexts:
     - match: \*
       scope: storage.modifier.c
     - match: '{{identifier}}(?=\s*\(|\s*\n)'
-      scope: meta.function.c entity.name.function.c
+      scope: meta.function.c entity.name.function.c debug.variable-identifier-list.function
       set:
-        - - include: comments
+        - - meta_scope: debug.variable-identifier-list.function-body
+          - include: comments
           - include: function-definition-body
           - match: '(?=\S)'
             set: variable-identifier-list
-        - - include: comments
+        - - meta_scope: debug.variable-identifier-list.function-modifiers
+          - include: comments
           - include: modifiers-parens
           # Macro invocations
           - include: function-call-c
           - match: '{{identifier}}'
-            scope: constant.other.macro.c
+            scope: constant.other.macro.c debug.variable-identifier-list.function-attribute
           - include: or_pop
-        - - include: comments
+        - - meta_scope: debug.variable-identifier-list.function-params
+          - include: comments
           - include: function-definition-params-group
           - include: or_pop
     # Function pointer declaration
     - match: \((?=\s*\*)
-      scope: punctuation.section.group.begin.c
+      scope: punctuation.section.group.begin.c debug.variable-identifier-list.function-pointer
       push:
         - meta_scope: meta.parens.c
         - match: \)
@@ -559,27 +568,30 @@ contexts:
         - match: \*
           scope: storage.modifier.c
         - match: '{{identifier}}'
-          scope: entity.name.variable.indexed.c
+          scope: entity.name.variable.indexed.c debug.variable-identifier-list.function-pointer
     - match: '{{identifier}}'
-      scope: entity.name.variable.indexed.c
+      scope: entity.name.variable.indexed.c debug.variable-identifier-list
       push:
+        - meta_scope: debug.variable-identifier-list.array-or-assignment
         - include: declaration-brackets
         - match: \=
           scope: keyword.operator.assignment.c
           set:
+            - meta_scope: debug.variable-identifier-list.assignment
             - match: '(?=,|;)'
               pop: true
             - include: expressions
             - include: or_pop
         - include: or_pop
     - match: ','
-      scope: punctuation.separator.c
+      scope: punctuation.separator.c debug.variable-identifier-list
     - match: ';'
       scope: punctuation.terminator.c
       pop: true
     - include: or_pop
 
   member-variable-identifier-list:
+    - meta_scope: debug.member-variable-identifier-list
     - include: comments
     - include: modifiers
     - include: modifiers-parens
@@ -588,7 +600,7 @@ contexts:
       scope: storage.modifier.c
     # Function pointer declaration
     - match: \(
-      scope: punctuation.section.group.begin.c
+      scope: punctuation.section.group.begin.c debug.member-variable-identifier-list.function-pointer
       push:
         - meta_scope: meta.parens.c
         - match: \)
@@ -599,21 +611,23 @@ contexts:
         - match: \*
           scope: storage.modifier.c
         - match: '{{identifier}}'
-          scope: entity.name.member.indexed.c
+          scope: entity.name.member.indexed.c debug.member-variable-identifier-list.function-pointer
     # There are a lot of common variable names 4 characters or under.
     # We want to make sure to not index those.
     - match: '{{common_identifier}}'
-      scope: entity.name.member.c
+      scope: entity.name.member.c debug.member-variable-identifier-list
       push:
+        - meta_scope: debug.member-variable-identifier-list.array
         - include: declaration-brackets
         - include: or_pop
     - match: '{{identifier}}'
-      scope: entity.name.member.indexed.c
+      scope: entity.name.member.indexed.c debug.member-variable-identifier-list
       push:
+        - meta_scope: debug.member-variable-identifier-list.array
         - include: declaration-brackets
         - include: or_pop
     - match: ','
-      scope: punctuation.separator.c
+      scope: punctuation.separator.c debug.member-variable-identifier-list
     - match: ';'
       scope: punctuation.terminator.c
       pop: true
@@ -623,7 +637,7 @@ contexts:
     - match: '\bstruct\b'
       scope: storage.type.c
       push:
-        - meta_scope: meta.struct.c
+        - meta_scope: meta.struct.c debug.struct-keyword
         - include: data-structures-definition-common-begin
         # struct definition
         - match: '{{identifier}}(?=\s*{|\s*\n)'
@@ -638,11 +652,12 @@ contexts:
           set: struct-body
         - include: or_pop
   struct-body:
+    - meta_content_scope: debug.struct-body
     - include: comments
     - match: '\{'
       scope: punctuation.section.block.begin.c
       set:
-        - meta_scope: meta.struct.body.c meta.block.c
+        - meta_scope: meta.struct.body.c meta.block.c debug.struct-body.block
         - include: comments
         - match: '\}'
           scope: punctuation.section.block.end.c
@@ -654,7 +669,7 @@ contexts:
     - match: '\benum\b'
       scope: storage.type.c
       push:
-        - meta_scope: meta.enum.c
+        - meta_scope: meta.enum.c debug.enum-keyword
         - include: data-structures-definition-common-begin
         # enum definition
         - match: '{{identifier}}(?=\s*{|\s*\n)'
@@ -669,11 +684,12 @@ contexts:
           set: enum-body
         - include: or_pop
   enum-body:
+    - meta_content_scope: debug.enum-body
     - include: comments
     - match: '\{'
       scope: punctuation.section.block.begin.c
       set:
-        - meta_scope: meta.enum.c meta.block.c
+        - meta_scope: meta.enum.c meta.block.c debug.data-structures-enum-definition
         - include: comments
         - match: '\}'
           scope: meta.enum.c meta.block.c punctuation.section.block.end.c
@@ -682,10 +698,12 @@ contexts:
         - match: '{{identifier}}'
           scope: entity.name.constant.enum.c
           push:
+            - meta_scope: debug.data-structures-enum-definition.pre-assignment
             - include: comments
             - match: '='
               scope: keyword.operator.assignment.c
               set:
+                - meta_scope: debug.data-structures-enum-definition.post
                 - include: comments
                 # expressions gobbles up the , and } (which it shouldn't)
                 # so we need to match before so we break out of the scope
@@ -704,7 +722,7 @@ contexts:
     - match: '\bunion\b'
       scope: storage.type.c
       push:
-        - meta_scope: meta.union.c
+        - meta_scope: meta.union.c debug.union-keyword
         - include: data-structures-definition-common-begin
         # union definition
         - match: '{{identifier}}(?=\s*{|\s*\n)'
@@ -719,11 +737,12 @@ contexts:
           set: union-body
         - include: or_pop
   union-body:
+    - meta_content_scope: debug.union-body
     - include: comments
     - match: '\{'
       scope: punctuation.section.block.begin.c
       set:
-        - meta_scope: meta.union.body.c meta.block.c
+        - meta_scope: meta.union.body.c meta.block.c debug.union-body.block
         - include: comments
         - match: '\}'
           scope: punctuation.section.block.end.c
@@ -754,7 +773,8 @@ contexts:
   data-structures-body-function-call:
     - match: (?={{identifier}}\s*\((?!\s*\*))
       push:
-        - - include: function-call-params
+        - - meta_scope: debug.data-structures-body-function-call.params
+          - include: function-call-params
         - - meta_scope: meta.function-call.c
           - match: '{{identifier}}'
             scope: constant.other.macro.c
@@ -762,13 +782,13 @@ contexts:
 
   block:
     - match: '\{'
-      scope: punctuation.section.block.begin.c
+      scope: punctuation.section.block.begin.c debug.block.open-brace
       push:
-        - meta_scope: meta.block.c
+        - meta_scope: meta.block.c debug.block
         - match: (?=^\s*#\s*(elif|else|endif)\b)
           pop: true
         - match: '\}'
-          scope: punctuation.section.block.end.c
+          scope: punctuation.section.block.end.c debug.block.close-brace
           pop: true
         - include: statements
 
@@ -856,7 +876,7 @@ contexts:
   keywords-parens:
     - match: '\b(sizeof)\b\s*(\()'
       captures:
-        1: keyword.operator.word.c
+        1: keyword.operator.word.c debug.keywords-parens
         2: meta.group.c punctuation.section.group.begin.c
       push:
         - meta_content_scope: meta.group.c
@@ -872,6 +892,7 @@ contexts:
         - typedef-identifier-list
         - type-declaration
   type-declaration:
+    - meta_scope: debug.type-declaration
     - include: comments
     - include: modifiers
     # Used for typedefing things defined in types.
@@ -888,22 +909,26 @@ contexts:
     # Make sure to pop when a data structure keyword is found
     - match: (?=\bstruct\b)
       set:
+        - meta_scope: debug.type-declaration.struct
         - include: struct-keyword
         - include: or_pop
     - match: (?=\benum\b)
       set:
+        - meta_scope: debug.type-declaration.enum
         - include: enum-keyword
         - include: or_pop
     - match: (?=\bunion\b)
       set:
+        - meta_scope: debug.type-declaration.union
         - include: union-keyword
         - include: or_pop
     - include: types
     - match: ({{identifier}})\s*(?={{identifier}}|\(\*|\n|\*)
       captures:
-        1: support.type.c
+        1: support.type.c debug.type-declaration.identifier
     - include: or_pop
   typedef-identifier-list:
+    - meta_scope: debug.typedef-identifier-list
     - include: comments
     - match: \*
       scope: storage.modifier.c
@@ -913,13 +938,13 @@ contexts:
     - match: '{{identifier}}(?=\s*,)'
       scope: entity.name.type.typedef.c
     - match: '{{identifier}}(?=\s*\[)'
-      scope: entity.name.type.typedef.c
+      scope: entity.name.type.typedef.c debug.typedef.array
       push:
         - include: declaration-brackets
         - include: or_pop
     # Function pointers
     - match: '\((?=\s*\*)'
-      scope: punctuation.section.group.begin.c
+      scope: punctuation.section.group.begin.c debug.typedef.function-pointer
       set:
         - meta_scope: meta.parens.c
         - match: \)
@@ -930,7 +955,7 @@ contexts:
         - match: \*
           scope: storage.modifier.c
         - match: '{{identifier}}'
-          scope: entity.name.type.c
+          scope: entity.name.type.c debug.typedef.function-pointer
         - include: or_pop
     - match: \,
       scope: punctuation.separator.c
@@ -963,7 +988,7 @@ contexts:
     - match: '\('
       scope: punctuation.section.group.begin.c
       set:
-        - meta_scope: meta.function-call.parameters.c meta.group.c
+        - meta_scope: meta.function-call.parameters.c meta.group.c debug.function-call.params
         - match : \)
           scope: punctuation.section.group.end.c
           pop: true
@@ -1110,7 +1135,7 @@ contexts:
       captures:
         1: keyword.control.import.c
       push:
-        - meta_scope: meta.preprocessor.c
+        - meta_scope: meta.preprocessor.c debug.preprocessor-rule-other-global
         - include: preprocessor-line-continuation
         - include: preprocessor-comments
         - match: \bdefined\b
@@ -1135,7 +1160,7 @@ contexts:
     - match: (?=^\s*#\s*(elif|else)\b)
       push: preprocessor-elif-else-branch-global
     - match: \{
-      scope: punctuation.section.block.begin.c
+      scope: punctuation.section.block.begin.c debug.preprocessor-if-branch-global
       set: preprocessor-block-if-branch-global
     - include: preprocessor-global
     - include: negated-block
@@ -1241,7 +1266,7 @@ contexts:
       captures:
         1: keyword.control.import.c
       push:
-        - meta_scope: meta.preprocessor.c
+        - meta_scope: meta.preprocessor.c debug.preprocessor-rule-other-statements
         - include: preprocessor-line-continuation
         - include: preprocessor-comments
         - match: \bdefined\b
@@ -1258,6 +1283,7 @@ contexts:
   # when the preprocessor is used to create different scope beginnings, such
   # as a different if/while condition
   preprocessor-if-branch-statements:
+    - meta_scope: debug.preprocessor-if-branch-statements
     - match: ^\s*(#\s*endif)\b
       captures:
         1: meta.preprocessor.c keyword.control.import.c
@@ -1265,7 +1291,7 @@ contexts:
     - match: (?=^\s*#\s*(elif|else)\b)
       push: preprocessor-elif-else-branch-statements
     - match: \{
-      scope: punctuation.section.block.begin.c
+      scope: punctuation.section.block.begin.c debug.preprocessor-if-branch-statements.opening-brace
       set: preprocessor-block-if-branch-statements
     - match: (?=(?!{{non_func_keywords}}){{identifier}}\s*\()
       set: preprocessor-if-branch-function-call
@@ -1273,7 +1299,7 @@ contexts:
     - include: statements
 
   preprocessor-if-branch-function-call:
-    - meta_content_scope: meta.function-call.c
+    - meta_content_scope: meta.function-call.c debug.preprocessor-if-branch-function-call
     - include: c99
     - match: '{{identifier}}'
       scope: variable.function.c
@@ -1282,7 +1308,7 @@ contexts:
       set: preprocessor-if-branch-function-call-arguments
 
   preprocessor-if-branch-function-call-arguments:
-    - meta_content_scope: meta.function-call.c meta.group.c
+    - meta_content_scope: meta.function-call.c meta.group.c debug.preprocessor-if-branch-function-call-arguments
     - match : \)
       scope: meta.function-call.c meta.group.c punctuation.section.group.end.c
       set: preprocessor-if-branch-statements
@@ -1297,33 +1323,33 @@ contexts:
     - include: expressions
 
   preprocessor-if-branch-function-call-arguments-finish:
-    - meta_content_scope: meta.function-call.c meta.group.c
+    - meta_content_scope: meta.function-call.c meta.group.c debug.preprocessor-if-branch-function-call-arguments-finish
     - match: \)
       scope: meta.function-call.c meta.group.c punctuation.section.group.end.c
       pop: true
     - include: expressions
 
   preprocessor-block-if-branch-statements:
-    - meta_scope: meta.block.c
+    - meta_scope: meta.block.c debug.preprocessor-block-if-branch-statements
     - match: ^\s*(#\s*endif)\b
       captures:
-        1: meta.preprocessor.c keyword.control.import.c
+        1: meta.preprocessor.c keyword.control.import.c debug.preprocessor-block-if-branch-statements.endif
       set: preprocessor-block-finish-statements
     - match: (?=^\s*#\s*(elif|else)\b)
       push: preprocessor-elif-else-branch-statements
     - match: \}
-      scope: punctuation.section.block.end.c
+      scope: punctuation.section.block.end.c debug.preprocessor-block-if-branch-statements.closing-brace
       set: preprocessor-if-branch-statements
     - include: statements
 
   preprocessor-block-finish-statements:
-    - meta_scope: meta.block.c
+    - meta_scope: meta.block.c debug.preprocessor-block-finish-statements
     - match: ^\s*(#\s*(?:if|ifdef|ifndef))\b
       captures:
         1: meta.preprocessor.c keyword.control.import.c
       set: preprocessor-block-finish-if-branch-statements
     - match: \}
-      scope: punctuation.section.block.end.c
+      scope: punctuation.section.block.end.c debug.preprocessor-block-finish-statements.closing-brace
       pop: true
     - include: statements
 
@@ -1338,6 +1364,7 @@ contexts:
     - include: statements
 
   preprocessor-elif-else-branch-statements:
+    - meta_scope: debug.preprocessor-elif-else-branch-statements
     - match: (?=^\s*#\s*endif\b)
       pop: true
     - include: negated-block
@@ -1347,8 +1374,9 @@ contexts:
 
   negated-block:
     - match: '\}'
-      scope: punctuation.section.block.end.c
+      scope: punctuation.section.block.end.c debug.negated-block
       push:
+        - meta_scope: debug.negated-block.new-block
         - match: '\{'
           scope: punctuation.section.block.begin.c
           pop: true
@@ -1420,9 +1448,9 @@ contexts:
     - include: preprocessor-comments
     # Don't define blocks in define statements
     - match: '\{'
-      scope: punctuation.section.block.begin.c
+      scope: punctuation.section.block.begin.c debug.preprocessor-macro-definition.begin-block
     - match: '\}'
-      scope: punctuation.section.block.end.c
+      scope: punctuation.section.block.end.c debug.preprocessor-macro-definition.end-block
     - include: expressions
 
   preprocessor-practical-workarounds:
@@ -1431,13 +1459,13 @@ contexts:
 
   preprocessor-convention-ignore-uppercase-ident-lines:
     - match: ^(\s*{{macro_identifier}})+\s*$
-      scope: meta.assumed-macro.c
+      scope: meta.assumed-macro.c debug.preprocessor-convention-ignore-uppercase-ident-lines
       push:
         # It's possible that we are dealing with a function return type on its own line, and the
         # name of the function is on the subsequent line.
         - match: \s*({{identifier}})(?=\s*\()
           captures:
-            1: meta.function.c entity.name.function.c
+            1: meta.function.c entity.name.function.c debug.preprocessor-convention-ignore-uppercase-ident-lines.params
           set: function-definition-params
         - match: ^
           pop: true
@@ -1446,10 +1474,10 @@ contexts:
   preprocessor-convention-ignore-uppercase-calls-without-semicolon:
     - match: ^\s*({{macro_identifier}})\s*(\()(?=[^)]*\)\s*$)
       captures:
-        1: variable.function.assumed-macro.c
+        1: variable.function.assumed-macro.c debug.preprocessor-convention-ignore-uppercase-calls-without-semicolon
         2: punctuation.section.group.begin.c
       push:
-        - meta_scope: meta.assumed-macro.c
+        - meta_scope: meta.assumed-macro.c debug.preprocessor-convention-ignore-uppercase-calls-without-semicolon
         - match: \)
           scope: punctuation.section.group.end.c
           pop: true
@@ -1460,7 +1488,7 @@ contexts:
       captures:
         1: keyword.control.import.c
       push:
-        - meta_scope: meta.preprocessor.c
+        - meta_scope: meta.preprocessor.c debug.preprocessor-other
         - meta_include_prototype: false
         - include: preprocessor-line-continuation
         - include: preprocessor-line-ending

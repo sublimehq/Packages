@@ -1316,10 +1316,10 @@ static ssize_t function_with_params_on_newline
 /*         ^^^ variable.other.c */
 /*            ^ punctuation.section.group.end.c */
 {
-/* <- meta.block.c punctuation.section.block.begin.c */
+/* <- meta.block.c debug.block punctuation.section.block.begin.c */
   return 0;
 }
-/* <- meta.block.c punctuation.section.block.end.c */
+/* <- meta.block.c debug.block punctuation.section.block.end.c */
 
 
 static const struct pci_driver my_driver __pci_driver __driver = {
