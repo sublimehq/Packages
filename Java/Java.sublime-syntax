@@ -557,10 +557,10 @@ contexts:
 
   fields-and-methods:
     - match: \bvoid\b
-      scope: storage.type.void.java
-      push: method
+      scope: meta.method.return-type.java storage.type.void.java
+      push: [method-body-block, method-attributes, method-parameters, method-name]
     - match: (?={{id}}\s*\()
-      push: method
+      push: [method-body-block, method-attributes, method-parameters, method-name]
     - match: '{{before_fqn}}'
       push: [field-or-method, after-object-and-array-types, object-type-fqn]
     - match: \b{{classcase_id}}
@@ -572,7 +572,7 @@ contexts:
 
   field-or-method:
     - match: (?={{id}}\s*\()
-      set: method
+      set: [method-body-block, method-attributes, method-parameters, method-name]
     - match: (?=\S)
       set: field-name
 
@@ -608,47 +608,62 @@ contexts:
     - match: (?=(?:{{storage_modifiers}}|{{primitives}}|void)\b)
       pop: true
 
-  method:
-    - meta_scope: meta.method.java
-    - match: ({{classcase_id}})\s*(?=\()
-      captures:
-        1: meta.method.identifier.java entity.name.function.constructor.java
-    - match: ({{id}})\s*(?=\()
-      captures:
-        1: meta.method.identifier.java entity.name.function.java
-    - match: \(
-      scope: punctuation.section.parens.begin.java
-      push:
-        - meta_scope: meta.method.parameters.java meta.parens.java
-        - match: \)
-          scope: punctuation.section.parens.end.java
-          pop: true
-        - include: parameters
-        - match: \S
-          scope: invalid.illegal.missing-parameter-end
-          pop: true
-    - include: throws
-    - include: annotation-default
-    - match: \{
-      scope: punctuation.section.block.begin.java
-      set:
-        - meta_scope: meta.method.java meta.method.body.java
-        - match: \}
-          scope: punctuation.section.block.end.java
-          pop: true
-        - include: code-block-body
+  method-name:
+    - match: '{{classcase_id}}'
+      scope: entity.name.function.constructor.java
+      pop: true
+    - match: '{{id}}'
+      scope: entity.name.function.java
+      pop: true
     - include: any_POP
 
-  throws:
-    - match: \bthrows\b
-      scope: keyword.declaration.throws.java
-      push:
-      - - meta_scope: meta.method.throws.java
-        - match: \,
-          scope: punctuation.separator.comma.java
-          push: object-type-reference
+  method-parameters:
+    - meta_content_scope: meta.method.identifier.java
+    - match: (?=\()
+      set: [method-parameters-common, parens-begin]
+    - include: any_POP
+
+  method-parameters-common:
+    - meta_scope: meta.method.parameters.java meta.parens.java
+    - include: parens-end
+    - include: parameters
+    - match: \S
+      scope: invalid.illegal.missing-parameter-end
+      pop: true
+
+  method-attributes:
+    - match: ''
+      set:
+        - meta_scope: meta.method.java
+        - match: default\b
+          scope: keyword.declaration.default.java
+          set:
+            - clear_scopes: 1
+            - meta_scope: meta.method.default.java
+            - match: (?=[;}])
+              pop: true
+            - include: code
+        - match: throws\b
+          scope: keyword.declaration.throws.java
+          push:
+          - - clear_scopes: 1
+            - meta_scope: meta.method.throws.java
+            - match: \,
+              scope: punctuation.separator.comma.java
+              push: object-type-reference
+            - include: any_POP
+          - object-type-reference
         - include: any_POP
-      - object-type-reference
+
+  method-body-block:
+    - match: (?=\{)
+      set: [method-body-common, block-begin]
+    - include: any_POP
+
+  method-body-common:
+    - meta_scope: meta.method.body.java meta.block.java
+    - include: block-end
+    - include: code-block-body
 
   method-invocations:
     - match: (\.)\s*(?=<)
@@ -1205,15 +1220,6 @@ contexts:
     - include: object-and-array-types
     - include: punctuation-separator-comma
 
-  annotation-default:
-    - match: \bdefault\b
-      scope: keyword.declaration.default.java
-      push:
-        - meta_scope: meta.annotation.default.java
-        - match: (?=;)
-          pop: true
-        - include: code
-
   parameters:
     - match: \bfinal\b
       scope: storage.modifier.java
@@ -1253,6 +1259,16 @@ contexts:
         - match: (?=[)};])
           pop: true
         - include: code
+
+  parens-begin:
+    - match: \(
+      scope: punctuation.section.parens.begin.java
+      pop: true
+
+  parens-end:
+    - match: \)
+      scope: punctuation.section.parens.end.java
+      pop: true
 
   parens:
     - match: \(

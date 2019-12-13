@@ -4,16 +4,20 @@
 	<key>name</key>
 	<string>Symbol List: Methods</string>
 	<key>scope</key>
-	<string>source.java meta.class.body meta.method.identifier</string>
+	<string>source.java meta.method.identifier &amp; (meta.path, entity.name.class)</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
 		<key>symbolTransformation</key>
-		<string>
-		s/\s{2,}/ /g;
-		s/.*/  $0/g;
-	</string>
+        <string>
+            # remove line comments
+            s/\/\/[^\n]*\n//g
+            # remove block comments
+            s/\/\*.*\*\///g
+            # remove whitespace
+            s/\s+//g
+        </string>
 	</dict>
 </dict>
 </plist>
