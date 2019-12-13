@@ -1117,14 +1117,12 @@ contexts:
     - include: inherited-object-type-reference-no-fqn
 
   inherited-object-type-reference-no-fqn:
-    - match: (?!class|extends|implements|interface){{id}}
+    - match: (?!class|enum|extends|implements|interface){{id}}
       scope: entity.other.inherited-class.java
-      set: after-inherited-object-type-reference
+      set: [inherrited-object-type-reference-child, generic-type-invocation]
     - include: any_POP
 
-  after-inherited-object-type-reference:
-    - match: (?=<)
-      set: generic-type-invocation
+  inherrited-object-type-reference-child:
     - match: \.
       scope: punctuation.accessor.dot.java
       set: inherited-object-type-reference-no-fqn
