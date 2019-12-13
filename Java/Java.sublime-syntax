@@ -155,6 +155,122 @@ contexts:
               - include: dot-separated-identifier
           - include: any_POP
 
+###[ MODULE ]##################################################################
+
+  module:
+    - match: (?=\b(?:open\s+)?module\b)
+      push:
+      - - meta_scope: meta.module.java
+        - include: immediate_POP
+      - - match: \bopen\b
+          scope: storage.modifier.java
+        - match: \bmodule\b
+          scope: storage.type.java
+          set: [module-body, module-identifier-scope, module-identifier]
+
+  module-identifier-scope:
+    - meta_scope: meta.module.identifier.java
+    - include: immediate_POP
+
+  module-identifier:
+    - match: '{{id}}'
+      set:
+        - - meta_scope: entity.name.module.java
+          - include: immediate_POP
+        - dot-separated-identifier
+    - include: any_POP
+
+  module-body:
+    - match: \{
+      scope: punctuation.section.braces.begin.java
+      set:
+        - meta_scope: meta.module.body.java
+        - include: module-body-content
+        - match: \}
+          scope: punctuation.section.braces.end.java
+          pop: true
+    - include: any_POP
+
+  module-body-content:
+    - match: \bexports\b
+      scope: keyword.other.module.exports.java
+      push: [exports-statement-scope, exports-or-opens-statement]
+    - match: \bopens\b
+      scope: keyword.other.module.opens.java
+      push: [opens-statement-scope, exports-or-opens-statement]
+    - match: \brequires\b
+      scope: keyword.other.module.requires.java
+      push: requires-statement
+    - match: \buses\b
+      scope: keyword.other.module.uses.java
+      push: [uses-statement-scope, object-type-reference]
+    - match: \bprovides\b
+      scope: keyword.other.module.provides.java
+      push: [provides-statement-scope, provides-with-statement, object-type-reference]
+    - include: punctuation-terminator-semicolon
+
+  # Should always come before module/package patterns
+  module-statement-terminator:
+    - match: (?=[;\}])
+      pop: true
+    - match: (?=\b(?:requires|exports|uses|provides|opens)\b)
+      pop: true
+
+  support-type-module:
+    - match: '{{id}}'
+      push:
+        - - meta_scope: support.type.module.java
+          - include: immediate_POP
+        - dot-separated-identifier
+
+  exports-statement-scope:
+    - meta_scope: meta.exports.java
+    - include: immediate_POP
+
+  opens-statement-scope:
+    - meta_scope: meta.opens.java
+    - include: immediate_POP
+
+  exports-or-opens-statement:
+    - match: \bto\b
+      scope: keyword.other.module.to.java
+      set:
+        - include: module-statement-terminator
+        - include: support-type-module
+        - include: punctuation-separator-comma
+    - include: module-statement-terminator
+    - match: '{{id}}'
+      push:
+        - - meta_scope: support.type.package.java
+          - include: immediate_POP
+        - dot-separated-identifier
+
+  requires-statement:
+    - meta_scope: meta.requires.java
+    - match: \btransitive\b
+      scope: keyword.other.module.transitive.java
+    - include: module-statement-terminator
+    - include: support-type-module
+
+  uses-statement-scope:
+    - meta_scope: meta.uses.java
+    - include: immediate_POP
+
+  provides-statement-scope:
+    - meta_scope: meta.provides.java
+    - include: immediate_POP
+
+  provides-with-statement:
+    - match: \bwith\b
+      scope: keyword.other.module.with.java
+      set:
+        - - match: \,
+            scope: punctuation.separator.comma.java
+            push: object-type-reference
+          - include: any_POP
+        - object-type-reference
+    - include: any_POP
+
 ###[ IMPORT ]##################################################################
 
   import-statement:
@@ -1166,119 +1282,3 @@ contexts:
       pop: true
     - match: \\.
       scope: constant.character.escape.java
-
-###[ MODULE ]##################################################################
-
-  module:
-    - match: (?=\b(?:open\s+)?module\b)
-      push:
-      - - meta_scope: meta.module.java
-        - include: immediate_POP
-      - - match: \bopen\b
-          scope: storage.modifier.java
-        - match: \bmodule\b
-          scope: storage.type.java
-          set: [module-body, module-identifier-scope, module-identifier]
-
-  module-identifier-scope:
-    - meta_scope: meta.module.identifier.java
-    - include: immediate_POP
-
-  module-identifier:
-    - match: '{{id}}'
-      set:
-        - - meta_scope: entity.name.module.java
-          - include: immediate_POP
-        - dot-separated-identifier
-    - include: any_POP
-
-  module-body:
-    - match: \{
-      scope: punctuation.section.braces.begin.java
-      set:
-        - meta_scope: meta.module.body.java
-        - include: module-body-content
-        - match: \}
-          scope: punctuation.section.braces.end.java
-          pop: true
-    - include: any_POP
-
-  module-body-content:
-    - match: \bexports\b
-      scope: keyword.other.module.exports.java
-      push: [exports-statement-scope, exports-or-opens-statement]
-    - match: \bopens\b
-      scope: keyword.other.module.opens.java
-      push: [opens-statement-scope, exports-or-opens-statement]
-    - match: \brequires\b
-      scope: keyword.other.module.requires.java
-      push: requires-statement
-    - match: \buses\b
-      scope: keyword.other.module.uses.java
-      push: [uses-statement-scope, object-type-reference]
-    - match: \bprovides\b
-      scope: keyword.other.module.provides.java
-      push: [provides-statement-scope, provides-with-statement, object-type-reference]
-    - include: punctuation-terminator-semicolon
-
-  # Should always come before module/package patterns
-  module-statement-terminator:
-    - match: (?=[;\}])
-      pop: true
-    - match: (?=\b(?:requires|exports|uses|provides|opens)\b)
-      pop: true
-
-  support-type-module:
-    - match: '{{id}}'
-      push:
-        - - meta_scope: support.type.module.java
-          - include: immediate_POP
-        - dot-separated-identifier
-
-  exports-statement-scope:
-    - meta_scope: meta.exports.java
-    - include: immediate_POP
-
-  opens-statement-scope:
-    - meta_scope: meta.opens.java
-    - include: immediate_POP
-
-  exports-or-opens-statement:
-    - match: \bto\b
-      scope: keyword.other.module.to.java
-      set:
-        - include: module-statement-terminator
-        - include: support-type-module
-        - include: punctuation-separator-comma
-    - include: module-statement-terminator
-    - match: '{{id}}'
-      push:
-        - - meta_scope: support.type.package.java
-          - include: immediate_POP
-        - dot-separated-identifier
-
-  requires-statement:
-    - meta_scope: meta.requires.java
-    - match: \btransitive\b
-      scope: keyword.other.module.transitive.java
-    - include: module-statement-terminator
-    - include: support-type-module
-
-  uses-statement-scope:
-    - meta_scope: meta.uses.java
-    - include: immediate_POP
-
-  provides-statement-scope:
-    - meta_scope: meta.provides.java
-    - include: immediate_POP
-
-  provides-with-statement:
-    - match: \bwith\b
-      scope: keyword.other.module.with.java
-      set:
-        - - match: \,
-            scope: punctuation.separator.comma.java
-            push: object-type-reference
-          - include: any_POP
-        - object-type-reference
-    - include: any_POP
