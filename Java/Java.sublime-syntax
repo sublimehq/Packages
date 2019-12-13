@@ -90,6 +90,35 @@ contexts:
     - include: punctuation-accessor-dot
     - include: immediate_POP
 
+###[ ILLEGALS ]################################################################
+
+  illegal-keywords:
+    - match: \b(goto|const)\b
+      scope: invalid.illegal.keyword.java
+
+  illegal-open-block:
+    - match: \s?(?={)
+      scope: invalid.illegal.stray-terminator-end
+      pop: true
+
+  illegal-semicolon:
+    - match: ;
+      scope: invalid.illegal.stray-terminator-end
+      pop: true
+
+  illegal-parens-terminators:
+    # Pops the stack if anything matches
+    - include: illegal-semicolon
+    - include: illegal-open-block
+
+  stray-braces:
+    - match: \}
+      scope: invalid.illegal.stray-brace-end
+
+  stray-parens:
+    - match: \)
+      scope: invalid.illegal.stray-parens-end
+
 ###[ COMMENTS ]################################################################
 
   comments:
@@ -716,27 +745,6 @@ contexts:
     - match: \bwhile\b
       scope: keyword.control.loop.while.java
 
-###[ ILLEGALS ]################################################################
-
-  illegal-keywords:
-    - match: \b(goto|const)\b
-      scope: invalid.illegal.keyword.java
-
-  illegal-open-block:
-    - match: \s?(?={)
-      scope: invalid.illegal.stray-terminator-end
-      pop: true
-
-  illegal-semicolon:
-    - match: ;
-      scope: invalid.illegal.stray-terminator-end
-      pop: true
-
-  illegal-parens-terminators:
-    # Pops the stack if anything matches
-    - include: illegal-semicolon
-    - include: illegal-open-block
-
 ###[ FIELDS AND METHODS ]######################################################
 
   method-invocations:
@@ -1131,14 +1139,6 @@ contexts:
   storage-modifiers:
     - match: \b{{storage_modifiers}}\b
       scope: storage.modifier.java
-
-  stray-braces:
-    - match: \}
-      scope: invalid.illegal.stray-brace-end
-
-  stray-parens:
-    - match: \)
-      scope: invalid.illegal.stray-parens-end
 
   strings:
     - match: \"
