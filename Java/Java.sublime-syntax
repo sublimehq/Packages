@@ -537,7 +537,102 @@ contexts:
         - include: punctuation-separator-comma
     - include: class-body
 
-###[ CODE BLOCKS ]############################################################
+###[ FIELDS AND METHODS ]######################################################
+
+  fields-and-methods:
+    - match: \bvoid\b
+      scope: storage.type.void.java
+      push: method
+    - match: (?={{id}}\s*\()
+      push: method
+    - match: '{{before_fqn}}'
+      push: [field-or-method, after-object-and-array-types, object-type-fqn]
+    - match: \b{{classcase_id}}
+      scope: support.class.java
+      push: [field-or-method, after-object-and-array-types]
+    - match: \b{{primitives}}\b
+      scope: storage.type.primitive.java
+      push: [field-or-method, array-brackets]
+
+  field-or-method:
+    - match: (?={{id}}\s*\()
+      set: method
+    - match: (?=\S)
+      set:
+      - include: before-next-field
+      - match: (?:({{uppercase_id}})|({{id}}))
+        captures:
+          1: entity.name.constant.java
+          2: meta.field.java
+        push: [static-assignment, array-brackets]
+      - include: punctuation-separator-comma
+      - include: any_POP
+
+  before-next-field:
+    # Prevent style from being removed from whole file when making a new expression
+    - match: (?=\b(?:{{storage_modifiers}}|{{primitives}}|void)\b)
+      pop: true
+
+  method:
+    - meta_scope: meta.method.java
+    - match: ({{classcase_id}})\s*(?=\()
+      captures:
+        1: meta.method.identifier.java entity.name.function.constructor.java
+    - match: ({{id}})\s*(?=\()
+      captures:
+        1: meta.method.identifier.java entity.name.function.java
+    - match: \(
+      scope: punctuation.section.parens.begin.java
+      push:
+        - meta_scope: meta.method.parameters.java meta.parens.java
+        - match: \)
+          scope: punctuation.section.parens.end.java
+          pop: true
+        - include: parameters
+        - match: \S
+          scope: invalid.illegal.missing-parameter-end
+          pop: true
+    - include: throws
+    - include: annotation-default
+    - match: \{
+      scope: punctuation.section.block.begin.java
+      set:
+        - meta_scope: meta.method.java meta.method.body.java
+        - match: \}
+          scope: punctuation.section.block.end.java
+          pop: true
+        - include: code-block-body
+    - include: any_POP
+
+  throws:
+    - match: \bthrows\b
+      scope: keyword.declaration.throws.java
+      push:
+      - - meta_scope: meta.method.throws.java
+        - match: \,
+          scope: punctuation.separator.comma.java
+          push: object-type-reference
+        - include: any_POP
+      - object-type-reference
+
+  method-invocations:
+    - match: (\.)\s*(?=<)
+      captures:
+        1: punctuation.accessor.dot.java
+      push: generic-type-invocation
+    - match: ({{id}})\s*(\()
+      captures:
+        1: variable.function.java
+        2: punctuation.section.parens.begin.java
+      push:
+        - meta_scope: meta.function-call.java
+        - match: \)
+          scope: punctuation.section.parens.end.java
+          pop: true
+        - include: illegal-parens-terminators
+        - include: code
+
+###[ CODE BLOCKS ]#############################################################
 
   block-begin:
     - match: \{
@@ -860,101 +955,6 @@ contexts:
       push: declaration-statement-parens
     - match: \bwhile\b
       scope: keyword.control.loop.while.java
-
-###[ FIELDS AND METHODS ]######################################################
-
-  method-invocations:
-    - match: (\.)\s*(?=<)
-      captures:
-        1: punctuation.accessor.dot.java
-      push: generic-type-invocation
-    - match: ({{id}})\s*(\()
-      captures:
-        1: variable.function.java
-        2: punctuation.section.parens.begin.java
-      push:
-        - meta_scope: meta.function-call.java
-        - match: \)
-          scope: punctuation.section.parens.end.java
-          pop: true
-        - include: illegal-parens-terminators
-        - include: code
-
-  fields-and-methods:
-    - match: \bvoid\b
-      scope: storage.type.void.java
-      push: method
-    - match: (?={{id}}\s*\()
-      push: method
-    - match: '{{before_fqn}}'
-      push: [field-or-method, after-object-and-array-types, object-type-fqn]
-    - match: \b{{classcase_id}}
-      scope: support.class.java
-      push: [field-or-method, after-object-and-array-types]
-    - match: \b{{primitives}}\b
-      scope: storage.type.primitive.java
-      push: [field-or-method, array-brackets]
-
-  field-or-method:
-    - match: (?={{id}}\s*\()
-      set: method
-    - match: (?=\S)
-      set:
-      - include: before-next-field
-      - match: (?:({{uppercase_id}})|({{id}}))
-        captures:
-          1: entity.name.constant.java
-          2: meta.field.java
-        push: [static-assignment, array-brackets]
-      - include: punctuation-separator-comma
-      - include: any_POP
-
-  before-next-field:
-    # Prevent style from being removed from whole file when making a new expression
-    - match: (?=\b(?:{{storage_modifiers}}|{{primitives}}|void)\b)
-      pop: true
-
-  method:
-    - meta_scope: meta.method.java
-    - match: ({{classcase_id}})\s*(?=\()
-      captures:
-        1: meta.method.identifier.java entity.name.function.constructor.java
-    - match: ({{id}})\s*(?=\()
-      captures:
-        1: meta.method.identifier.java entity.name.function.java
-    - match: \(
-      scope: punctuation.section.parens.begin.java
-      push:
-        - meta_scope: meta.method.parameters.java meta.parens.java
-        - match: \)
-          scope: punctuation.section.parens.end.java
-          pop: true
-        - include: parameters
-        - match: \S
-          scope: invalid.illegal.missing-parameter-end
-          pop: true
-    - include: throws
-    - include: annotation-default
-    - match: \{
-      scope: punctuation.section.block.begin.java
-      set:
-        - meta_scope: meta.method.java meta.method.body.java
-        - match: \}
-          scope: punctuation.section.block.end.java
-          pop: true
-        - include: code-block-body
-    - include: any_POP
-
-  throws:
-    - match: \bthrows\b
-      scope: keyword.declaration.throws.java
-      push:
-      - - meta_scope: meta.method.throws.java
-        - match: \,
-          scope: punctuation.separator.comma.java
-          push: object-type-reference
-        - include: any_POP
-      - object-type-reference
 
 ###[ TYPES ]###################################################################
 
