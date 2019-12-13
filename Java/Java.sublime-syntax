@@ -88,6 +88,28 @@ contexts:
     - include: punctuation-accessor-dot
     - include: immediate_POP
 
+###[ COMMENTS ]################################################################
+
+  comments:
+    - match: /\*\*/
+      scope: comment.block.empty.java punctuation.definition.comment.java
+    - include: scope:text.html.javadoc
+    - match: /\*
+      scope: punctuation.definition.comment.begin.java
+      push:
+        - meta_scope: comment.block.java
+        - match: \*/
+          scope: punctuation.definition.comment.end.java
+          pop: true
+    - match: //
+      scope: punctuation.definition.comment.java
+      push:
+        - meta_scope: comment.line.double-slash.java
+        - match: \n
+          pop: true
+        - match: (?=%>)
+          pop: true
+
 ###[ PACKAGE ]#################################################################
 
   package-statement:
@@ -498,28 +520,6 @@ contexts:
     - include: annotations
     - include: code
     - include: stray-parens
-
-###[ COMMENTS ]###############################################################
-
-  comments:
-    - match: /\*\*/
-      scope: comment.block.empty.java punctuation.definition.comment.java
-    - include: scope:text.html.javadoc
-    - match: /\*
-      scope: punctuation.definition.comment.begin.java
-      push:
-        - meta_scope: comment.block.java
-        - match: \*/
-          scope: punctuation.definition.comment.end.java
-          pop: true
-    - match: //
-      scope: punctuation.definition.comment.java
-      push:
-        - meta_scope: comment.line.double-slash.java
-        - match: \n
-          pop: true
-        - match: (?=%>)
-          pop: true
 
 ###[ CONSTANTS ]###############################################################
 
