@@ -505,15 +505,12 @@ contexts:
     - match: /\*\*/
       scope: comment.block.empty.java punctuation.definition.comment.java
     - include: scope:text.html.javadoc
-    - include: comments-inline
-
-  comments-inline:
     - match: /\*
-      scope: punctuation.definition.comment.java
+      scope: punctuation.definition.comment.begin.java
       push:
         - meta_scope: comment.block.java
         - match: \*/
-          scope: punctuation.definition.comment.java
+          scope: punctuation.definition.comment.end.java
           pop: true
     - match: //
       scope: punctuation.definition.comment.java
