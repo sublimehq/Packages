@@ -1286,7 +1286,7 @@ contexts:
       scope: support.class.java
       push: after-object-type
     # Uppercase constants
-    - match: \b{{uppercase_id}}
+    - match: '{{uppercase_id}}'
       scope: constant.other.java
 
   # Stand-alone type, maybe type of the variable or class object reference.
@@ -1294,9 +1294,9 @@ contexts:
   object-types:
     # Here the match is more complex than 'before_fqn'.
     # In code block we can't simply distinguish package from variable.
-    - match: (?=\b(?:{{lowercase_id}}\.)+\p{Lu})
+    - match: (?=(?:{{lowercase_id}}\.)+\p{Lu})
       push: [after-object-type, object-type-fqn]
-    - match: \b{{classcase_id}}\b
+    - match: '{{classcase_id}}'
       scope: support.class.java
       push: after-object-type
 
@@ -1316,10 +1316,11 @@ contexts:
       set:
         - match: (?=<)
           set: generic-type-invocation
-        - match: (?:(class)\b|({{uppercase_id}}))
-          captures:
-            1: variable.language.java
-            2: constant.other.java
+        - match: class\b
+          scope: variable.language.java
+          pop: true
+        - match: '{{uppercase_id}}'
+          scope: constant.other.java
           pop: true
         - match: '{{classcase_id}}'
           scope: support.class.java
@@ -1357,10 +1358,10 @@ contexts:
         - meta_scope: meta.path.java
         - include: variable-namespace
         - include: object-and-array-types-no-fqn
-    - match: \b({{primitives}})(?=\s*\[)
+    - match: '{{primitives}}(?=\s*\[)'
       scope: storage.type.primitive.java
       push: array-brackets
-    - match: \b{{classcase_id}}
+    - match: '{{classcase_id}}'
       scope: support.class.java
       push: after-object-and-array-types
 
