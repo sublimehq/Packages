@@ -682,7 +682,12 @@ class InvalidStuff
 //  ^^^^^ invalid.illegal
 }
 
-public class Lambdas {
+
+/******************************************************************************
+ * Lambda Statement Tests
+ *****************************************************************************/
+
+class LambdasStatementTests {
   volatile int foo;
 //^^^^^^^^ storage.modifier.java
 
@@ -734,6 +739,9 @@ public class Lambdas {
 //             ^^ constant.numeric.integer.decimal
 
      (int a, Foo<Integer>[] b) -> 42;
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java meta.parens.java - meta.function meta.function
+//                            ^^^ meta.function.anonymous.java - meta.function meta.function
+//                               ^^^ meta.function.anonymous.body.java - meta.function meta.function
 //    ^^^ storage.type.primitive
 //        ^ variable.parameter.java
 //           ^^^ support.class.java
@@ -743,6 +751,32 @@ public class Lambdas {
 //                          ^ variable.parameter.java
 //                             ^^ storage.type.function.anonymous.java
 //                                ^^ constant.numeric.integer
+
+    (
+//  ^^ meta.function.anonymous.parameters.java meta.parens.java - meta.function meta.function
+//  ^ punctuation.section.parens.begin.java
+        int a,
+//     ^^^^^^^^ meta.function.anonymous.parameters.java meta.parens.java - meta.function meta.function
+//      ^^^ storage.type.primitive
+//          ^ variable.parameter.java
+//           ^ punctuation.separator.comma.java
+        Foo<Integer>[] b
+//     ^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java meta.parens.java - meta.function meta.function
+//      ^^^ support.class.java
+//         ^ punctuation.definition.generic.begin.java
+//          ^^^^^^^ support.class.java
+//                 ^ punctuation.definition.generic.end.java
+//                     ^ variable.parameter.java
+    )
+//  ^ meta.function.anonymous.parameters.java meta.parens.java punctuation.section.parens.end.java - meta.function meta.function
+//   ^ meta.function.anonymous.java - meta.function meta.function
+     ->
+//  ^^^ meta.function.anonymous.java - meta.function meta.function
+//   ^^ storage.type.function.anonymous.java
+     42;
+//  ^^^ meta.function.anonymous.body.java - meta.function meta.function
+//   ^^ constant.numeric.integer
+//     ^ punctuation.terminator.java
 
   // Lambda parameter tests
   Function<String, String> lambda1 = (final @MyAnnotation String foo) -> foo;

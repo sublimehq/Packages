@@ -19,9 +19,6 @@ variables:
   # One dot is mandatory to not compete with other regexes that match an id.
   before_fqn: (?={{lowercase_id}}\s*\.)
 
-  # utility lookaround
-  lambda_lookahead: (?:\(.*\)|{{id}})\s*->
-
   # digits
   ddigits0: '\d[\d_]*?(_*)'
   ddigits: (?:(_*){{ddigits0}})
@@ -43,9 +40,9 @@ contexts:
 
   code:
     - include: code-block
+    - include: parens-or-lambda
     - include: constants-and-special-vars
     - include: assignment
-    - include: lambdas
     - include: strings
     - include: anonymous-classes-and-new
     - include: keywords-control
@@ -55,7 +52,7 @@ contexts:
     - include: primitive-types
     - include: object-types
     - include: keywords
-    - include: parens
+    - include: variables
 
 ###[ PROTOTYPES ]##############################################################
 
@@ -68,6 +65,10 @@ contexts:
   any_POP:
     - match: (?=\S)
       pop: true
+
+  any_POP2:
+    - match: (?=\S)
+      pop: 2
 
   immediate_POP:
     - match: ''
@@ -769,6 +770,121 @@ contexts:
       push: array-initialization
     - include: code
 
+###[ LAMBDAS AND PARENS ]######################################################
+
+  parens-or-lambda:
+    - match: \(
+      scope: punctuation.section.parens.begin.java
+      branch_point: lambda-or-parens
+      branch:
+        - parens-with-expressions
+        - parens-with-lambda-parameters
+    - match: ->
+      scope:
+        meta.function.anonymous.java
+        storage.type.function.anonymous.java
+      push:
+        - meta_content_scope: meta.function.anonymous.body.java
+        - match: (?=[,;)}\]])
+          pop: true
+        - include: code
+
+  parens-with-expressions:
+    - meta_scope: meta.parens.java
+    - match: \)
+      scope: meta.parens.java punctuation.section.parens.end.java
+      push:
+        - clear_scopes: 1
+        - match: (?=->)
+          fail: lambda-or-parens
+        - include: any_POP2
+    - include: illegal-parens-terminators
+    - include: code
+
+  parens-with-lambda-parameters:
+    - meta_scope: meta.function.anonymous.parameters.java meta.parens.java
+    - match: \)
+      scope: punctuation.section.parens.end.java
+      set:
+        - meta_content_scope: meta.function.anonymous.java
+        - include: any_POP
+    - include: parameters
+
+  parameters:
+    - match: \bfinal\b
+      scope: storage.modifier.java
+    - include: annotation
+    - include: primitive-types
+    - include: object-and-array-types
+    - match: \.\.\.
+      scope: keyword.operator.variadic.java
+    - match: '{{id}}'
+      scope: variable.parameter.java
+      push: array-brackets
+    - include: punctuation-separator-comma
+
+  parens:
+    - match: \(
+      scope: punctuation.section.parens.begin.java
+      push: parens-common
+
+  parens-common:
+    - meta_scope: meta.parens.java
+    - include: parens-end
+    - include: illegal-parens-terminators
+    - include: code
+
+  parens-begin:
+    - match: \(
+      scope: punctuation.section.parens.begin.java
+      pop: true
+
+  parens-end:
+    - match: \)
+      scope: punctuation.section.parens.end.java
+      pop: true
+
+  declaration-statement-parens:
+    - match: \(
+      scope: punctuation.section.parens.begin.java
+      set:
+        - meta_scope: meta.parens.java
+        - include: parens-end
+        - include: illegal-open-block
+        - include: code-block-body
+    - include: any_POP
+
+###[ VARIABLES ]###############################################################
+
+  variables:
+    - match: (?={{id}})
+      branch_point: variables-type
+      branch:
+        - variable-maybe-lambda-parameter
+        - variable-other
+
+  variable-maybe-lambda-parameter:
+    - match: '{{id}}'
+      scope:
+        meta.function.anonymous.parameters.java
+        variable.parameter.java
+      push:
+        - meta_content_scope: meta.function.anonymous.java
+        - match: (?=->)
+          pop: 2
+        - match: (?=\S)
+          fail: variables-type
+
+  variable-other:
+    - match: '{{id}}'
+      scope: variable.other.readwrite.java
+      pop: true
+
+  variable-namespace:
+    - match: '{{lowercase_id}}'
+      scope: variable.namespace.java
+    - include: punctuation-accessor-dot
+
 ###[ CONSTANTS ]###############################################################
 
   constants-and-special-vars:
@@ -1318,78 +1434,7 @@ contexts:
     - include: object-and-array-types
     - include: punctuation-separator-comma
 
-  parameters:
-    - match: \bfinal\b
-      scope: storage.modifier.java
-    - include: annotation
-    - include: primitive-types
-    - include: object-and-array-types
-    - match: \.\.\.
-      scope: keyword.operator.variadic.java
-    - match: '{{id}}'
-      scope: variable.parameter.java
-      push: array-brackets
-    - include: punctuation-separator-comma
-
-  lambdas:
-    - match: (?={{lambda_lookahead}})
-      push: lambda-params
-
-  lambda-params:
-    - meta_scope: meta.function.anonymous.parameters.java
-    - match: \(
-      scope: punctuation.section.parens.begin.java
-      set:
-        - meta_scope: meta.function.anonymous.parameters.java
-        - match: \)
-          scope: punctuation.section.parens.end.java
-          set: lambda-arrow
-        - include: parameters
-    - match: '{{id}}'
-      scope: variable.parameter.java
-      set: lambda-arrow
-
-  lambda-arrow:
-    - match: ->
-      scope: storage.type.function.anonymous.java
-      set:
-        - meta_scope: meta.function.anonymous.body.java
-        - match: (?=[)};])
-          pop: true
-        - include: code
-
-  parens-begin:
-    - match: \(
-      scope: punctuation.section.parens.begin.java
-      pop: true
-
-  parens-end:
-    - match: \)
-      scope: punctuation.section.parens.end.java
-      pop: true
-
-  parens:
-    - match: \(
-      scope: punctuation.section.parens.begin.java
-      push:
-        - meta_scope: meta.parens.java
-        - match: \)
-          scope: punctuation.section.parens.end.java
-          pop: true
-        - include: illegal-parens-terminators
-        - include: code
-
-  declaration-statement-parens:
-    - match: \(
-      scope: punctuation.section.parens.begin.java
-      set:
-        - meta_scope: meta.parens.java
-        - match: \)
-          scope: punctuation.section.parens.end.java
-          pop: true
-        - include: illegal-open-block
-        - include: code-block-body
-    - include: any_POP
+###[ PRIMITIVE TYPES ]#########################################################
 
   primitive-types:
     - match: \b{{primitives}}\b
@@ -1417,8 +1462,3 @@ contexts:
   storage-modifiers:
     - match: \b{{storage_modifiers}}\b
       scope: storage.modifier.java
-
-  variable-namespace:
-    - match: '{{lowercase_id}}'
-      scope: variable.namespace.java
-    - include: punctuation-accessor-dot
