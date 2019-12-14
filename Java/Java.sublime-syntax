@@ -861,6 +861,33 @@ contexts:
         1: invalid.illegal.numeric.java
         2: storage.type.numeric.java
 
+  strings:
+    - match: \"
+      scope: punctuation.definition.string.begin.java
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.double.java
+        - match: \"
+          scope: punctuation.definition.string.end.java
+          pop: true
+        - include: strings-common
+    - match: \'
+      scope: punctuation.definition.string.begin.java
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.single.java
+        - match: \'
+          scope: punctuation.definition.string.end.java
+          pop: true
+        - include: strings-common
+
+  strings-common:
+    - match: \n
+      scope: invalid.illegal.newline.java
+      pop: true
+    - match: \\.
+      scope: constant.character.escape.java
+
 ###[ KEYWORDS ]################################################################
 
   keywords:
@@ -1255,30 +1282,3 @@ contexts:
   storage-modifiers:
     - match: \b{{storage_modifiers}}\b
       scope: storage.modifier.java
-
-  strings:
-    - match: \"
-      scope: punctuation.definition.string.begin.java
-      push:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.double.java
-        - match: \"
-          scope: punctuation.definition.string.end.java
-          pop: true
-        - include: strings-common
-    - match: \'
-      scope: punctuation.definition.string.begin.java
-      push:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.single.java
-        - match: \'
-          scope: punctuation.definition.string.end.java
-          pop: true
-        - include: strings-common
-
-  strings-common:
-    - match: \n
-      scope: invalid.illegal.newline.java
-      pop: true
-    - match: \\.
-      scope: constant.character.escape.java
