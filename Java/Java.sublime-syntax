@@ -37,7 +37,7 @@ contexts:
     - include: import-statement
     - include: module
     - include: class
-    - include: annotations
+    - include: annotation
     - include: stray-braces
     - include: code
 
@@ -358,68 +358,65 @@ contexts:
 
 ###[ ANNOTATIONS ]#############################################################
 
-  annotations:
+  annotation:
     - match: \@
       scope: punctuation.definition.annotation.java
-      push:
-        - - meta_scope: meta.annotation.java
-          - include: immediate_POP
-        - annotation-parameters
-        - - meta_content_scope: meta.annotation.identifier.java
-          - include: immediate_POP
-        - annotation-type-reference
+      push: [annotation-parameters, annotation-qualified-name]
 
-  annotation-type-reference:
+  annotation-qualified-name:
     - match: '{{before_fqn}}'
       set:
         - meta_scope: meta.path.java
         - match: '{{lowercase_id}}'
           scope: variable.annotation.package.java
         - include: punctuation-accessor-dot
-        - include: annotation-type-no-fqn
-    - include: annotation-type-no-fqn
+        - include: annotation-unqualified-name
+    - include: annotation-unqualified-name
 
-  annotation-type-no-fqn:
+  annotation-unqualified-name:
     - match: '{{classcase_id}}'
       scope: variable.annotation.java
-      set: after-annotation-type-reference
+      set: annotation-nested-name
     - include: any_POP
 
-  after-annotation-type-reference:
+  annotation-nested-name:
     - match: \.
       scope: punctuation.accessor.dot.java
-      set: annotation-type-no-fqn
+      set: annotation-unqualified-name
     - include: any_POP
 
   annotation-parameters:
-    - match: \(
-      scope: punctuation.section.parens.begin.java
-      set:
-        - meta_scope: meta.annotation.parameters.java
-        - match: \)
-          scope: punctuation.section.parens.end.java
-          pop: true
-        - match: ({{id}})\s*(=)
-          captures:
-            1: variable.parameter.java
-            2: keyword.operator.assignment.java
-          push:
-            - match: (?=[,})])
-              pop: true
-            - include: annotations
-            - include: code
-        - include: annotation-array-initialization
-        - include: annotations
-        - include: code
+    - meta_scope: meta.annotation.identifier.java
+    - match: (?=\()
+      set: [annotation-parameters-common, parens-begin]
     - include: any_POP
+
+  annotation-parameters-common:
+    - meta_scope: meta.annotation.parameters.java meta.parens.java
+    - include: parens-end
+    - include: annotation-array-initialization
+    - include: annotation-parameter
+    - include: annotation
+    - include: code
 
   annotation-array-initialization:
     - match: \{
       scope: punctuation.section.braces.begin.java
       push:
-        - meta_scope: meta.braces.annotation-array-initialization.java
+        - meta_scope: meta.braces.java
         - include: array-initialization-common
-        - include: annotations
+        - include: annotation
+
+  annotation-parameter:
+    - match: ({{id}})\s*(=)
+      captures:
+        1: variable.parameter.java
+        2: keyword.operator.assignment.java
+      push:
+        - match: (?=[,})])
+          pop: true
+        - include: annotation
+        - include: code
 
 ###[ CLASS ]###################################################################
 
@@ -507,7 +504,7 @@ contexts:
 
   class-body:
     - include: class
-    - include: annotations
+    - include: annotation
     - include: fields-and-methods
     - include: constants-and-special-vars
     - include: storage-modifiers
@@ -716,7 +713,7 @@ contexts:
 
   code-block-body:
     - include: var-type
-    - include: annotations
+    - include: annotation
     - include: code
     - include: stray-parens
 
@@ -1225,7 +1222,7 @@ contexts:
   parameters:
     - match: \bfinal\b
       scope: storage.modifier.java
-    - include: annotations
+    - include: annotation
     - include: primitive-types
     - include: object-and-array-types
     - match: \.\.\.
