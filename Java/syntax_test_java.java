@@ -851,21 +851,23 @@ public class GrafoTest {
 //       ^ entity.name.function
     }
 
-    @Author(first = "Oompah", last = "Loompah")
+    @Author(first = "Oompah", last 
 //  ^ meta.annotation.identifier.java
 //   ^^^^^^ meta.annotation.identifier.java
-//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.parameters.java
+//         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.parameters.java
 //  ^ punctuation.definition.annotation
-//   ^^^^^^  variable.annotation.java
+//   ^^^^^^ variable.annotation.java
 //         ^ punctuation.section.parens.begin
 //          ^^^^^ variable.parameter.java
 //                ^ keyword.operator
 //                  ^^^^^^^^ string
 //                          ^ punctuation.separator.comma.java
 //                            ^^^^ variable.parameter.java
-//                                 ^ keyword.operator
-//                                   ^^^^^^^^ string
-//                                            ^ punctuation.section.parens.end
+        = "Loompah")
+//^^^^^^^^^^^^^^^^^^ meta.annotation.parameters.java
+//      ^ keyword.operator.assignment.java
+//        ^^^^^^^^ string
+//                 ^ punctuation.section.parens.end
     void test2() {
 //       ^ entity.name.function
 

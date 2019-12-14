@@ -408,15 +408,23 @@ contexts:
         - include: annotation
 
   annotation-parameter:
-    - match: ({{id}})\s*(=)
-      captures:
-        1: variable.parameter.java
-        2: keyword.operator.assignment.java
-      push:
-        - match: (?=[,})])
-          pop: true
-        - include: annotation
-        - include: code
+    - match: (?={{id}})
+      branch_point: annotation-parameter
+      branch:
+        - - match: '{{id}}'
+            scope: variable.parameter.java
+            push:
+              - match: =
+                scope: keyword.operator.assignment.java
+                set:
+                  - match: (?=[,})])
+                    pop: 2
+                  - include: annotation
+                  - include: code
+              - match: (?=\S)
+                fail: annotation-parameter
+        - - include: code
+          - include: immediate_POP
 
 ###[ CLASS ]###################################################################
 
