@@ -145,15 +145,17 @@ contexts:
 
   package-statement:
     - match: \bpackage\b
-      scope: keyword.other.package.java
-      push:
-        - - meta_scope: meta.package-declaration.java
-          - include: immediate_POP
-        - - match: '{{id}}'
-            set:
-              - meta_scope: meta.path.java entity.name.namespace.java
-              - include: dot-separated-identifier
-          - include: any_POP
+      scope: 
+        meta.namespace.package.java
+        storage.type.namespace.package.java
+        keyword.declaration.namespace.package.java
+      push: [package-identifier, any_POP]
+
+  package-identifier:
+    - meta_content_scope: meta.namespace.package.identifier.java
+    - include: import-statement-terminator
+    - include: entity-package
+    - include: immediate_POP
 
 ###[ MODULE ]##################################################################
 
@@ -1039,6 +1041,51 @@ contexts:
       push: declaration-statement-parens
     - match: \bwhile\b
       scope: keyword.control.loop.while.java
+
+###[ ENTITY PACKAGE ]##########################################################
+
+  entity-package:
+    - match: (?={{id}})
+      branch_point: entity-package-identifier
+      branch:
+        - entity-package-qualified-identifier
+        - entity-package-unqualified-identifier
+
+  entity-package-qualified-identifier:
+    - match: '{{id}}'
+      scope: variable.namespace.java
+      push:
+        - meta_scope: meta.path.java
+        - match: \.
+          scope: punctuation.accessor.dot.java
+          push:
+            - match: (?={{id}})
+              branch_point: entity-package-qualified-identifier
+              branch: [entity-package-qualifier, entity-package-name]
+            - match: (?=\S)
+              pop: 3
+        - match: (?=\S)
+          fail: entity-package-identifier
+
+  entity-package-qualifier:
+    - match: '{{id}}'
+      scope: variable.namespace.java
+      push:
+        - match: \.
+          scope: punctuation.accessor.dot.java
+          pop: 2
+        - match: (?=\S)
+          fail: entity-package-qualified-identifier
+
+  entity-package-name:
+    - match: '{{id}}'
+      scope: entity.name.namespace.package.java
+      pop: 4
+
+  entity-package-unqualified-identifier:
+    - match: '{{id}}'
+      scope: entity.name.namespace.package.java
+      pop: true
 
 ###[ TYPES ]###################################################################
 

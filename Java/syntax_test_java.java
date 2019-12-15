@@ -1,16 +1,51 @@
 // SYNTAX TEST "Packages/Java/Java.sublime-syntax"
 
+/******************************************************************************
+ * Package Declaration Tests
+ *****************************************************************************/
+
 package apple;
-// <- source.java meta.package-declaration.java keyword.other.package.java
-//      ^^^^^ entity.name.namespace.java
+// <- meta.namespace.package.java storage.type.namespace.package.java keyword.declaration.namespace.package.java
+//^^^^^ meta.namespace.package.java - meta.path
+//     ^^^^^^ meta.namespace.package.identifier.java - meta.path
+//^^^^^ keyword.declaration.namespace.package.java
+//      ^^^^^ entity.name.namespace.package.java
 //           ^ punctuation.terminator.java
 
+package
+// <- meta.namespace.package.java storage.type.namespace.package.java keyword.declaration.namespace.package.java
+//^^^^^ meta.namespace.package.java storage.type.namespace.package.java keyword.declaration.namespace.package.java
+apple
+//^^^ meta.namespace.package.identifier.java entity.name.namespace.package.java - meta.path
+;
+// <- punctuation.terminator.java
+
 package com.example.apple;
-//^^^^^^^^^^^^^^^^^^^^^^^ meta.package-declaration.java
-//      ^^^^^^^^^^^^^^^^^ entity.name.namespace.java
+// <- meta.namespace.package.java storage.type.namespace.package.java keyword.declaration.namespace.package.java
+//^^^^^ meta.namespace.package.java - meta.path
+//     ^ meta.namespace.package.identifier.java - meta.path
+//      ^^^^^^^^^^^^^^^^^ meta.namespace.package.identifier.java meta.path.java
+//      ^^^ variable.namespace.java
 //         ^ punctuation.accessor.dot.java
+//          ^^^^^^^ variable.namespace.java
 //                 ^ punctuation.accessor.dot.java
+//                  ^^^^^ entity.name.namespace.package.java
 //                       ^ punctuation.terminator.java
+
+package
+// <- meta.namespace.package.java storage.type.namespace.package.java keyword.declaration.namespace.package.java
+//^^^^^ meta.namespace.package.java storage.type.namespace.package.java keyword.declaration.namespace.package.java
+    com
+//  ^^^ meta.namespace.package.identifier.java meta.path.java variable.namespace.java
+    .
+//  ^ meta.namespace.package.identifier.java meta.path.java punctuation.accessor.dot.java
+    example.
+//  ^^^^^^^ meta.namespace.package.identifier.java meta.path.java variable.namespace.java
+//         ^ meta.namespace.package.identifier.java meta.path.java punctuation.accessor.dot.java
+    apple
+//  ^^^^^ meta.namespace.package.identifier.java meta.path.java entity.name.namespace.package.java
+;
+// <- punctuation.terminator.java
 
 import a.b.Class;
 // <- meta.import.java keyword.control.import.java
