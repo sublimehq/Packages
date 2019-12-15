@@ -537,6 +537,42 @@ contexts:
         - include: punctuation-separator-comma
     - include: class-body
 
+###[ CODE BLOCKS ]############################################################
+
+  block-begin:
+    - match: \{
+      scope: punctuation.section.block.begin.java
+      pop: true
+
+  block-end:
+    - match: \}
+      scope: punctuation.section.block.end.java
+      pop: true
+
+  static-code-block:
+    - match: (?=\{)
+      push: [static-code-block-common, block-begin]
+
+  static-code-block-common:
+    - meta_scope: meta.static.body.java meta.block.java
+    - include: block-end
+    - include: code-block-body
+
+  code-block:
+    - match: (?=\{)
+      push: [code-block-common, block-begin]
+
+  code-block-common:
+    - meta_scope: meta.block.java
+    - include: block-end
+    - include: code-block-body
+
+  code-block-body:
+    - include: var-type
+    - include: annotations
+    - include: code
+    - include: stray-parens
+
 ###[ INSTANTIATION ]###########################################################
 
   anonymous-classes-and-new:
@@ -631,42 +667,6 @@ contexts:
       scope: punctuation.section.braces.begin.java
       push: array-initialization
     - include: code
-
-###[ CODE BLOCKS ]############################################################
-
-  block-begin:
-    - match: \{
-      scope: punctuation.section.block.begin.java
-      pop: true
-
-  block-end:
-    - match: \}
-      scope: punctuation.section.block.end.java
-      pop: true
-
-  static-code-block:
-    - match: (?=\{)
-      push: [static-code-block-common, block-begin]
-
-  static-code-block-common:
-    - meta_scope: meta.static.body.java meta.block.java
-    - include: block-end
-    - include: code-block-body
-
-  code-block:
-    - match: (?=\{)
-      push: [code-block-common, block-begin]
-
-  code-block-common:
-    - meta_scope: meta.block.java
-    - include: block-end
-    - include: code-block-body
-
-  code-block-body:
-    - include: var-type
-    - include: annotations
-    - include: code
-    - include: stray-parens
 
 ###[ CONSTANTS ]###############################################################
 
