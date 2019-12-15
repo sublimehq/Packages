@@ -2571,43 +2571,81 @@ class Javadoc {
 // ^^ comment.block.documentation.javadoc punctuation.definition.comment.end.javadoc
 }
 
+
+/******************************************************************************
+ * Module Declaration Tests
+ *****************************************************************************/
+
 module java.base {
-//^^^^^^^^^^^^^^^^ meta.module.java
-//^^^^^^^^^^^^^^ meta.module.identifier.java
-//              ^ -meta.module.identifier.java
-//^^^^ storage.type.java
-//     ^^^^^^^^^ entity.name.module.java
-//               ^ meta.module.body.java punctuation.section.braces.begin.java
+//^^^^ meta.namespace.module.java - meta.namespace.module.identifier
+//    ^ meta.namespace.module.identifier.java - meta.path
+//     ^^^^^^^^^ meta.namespace.module.identifier.java meta.path.java
+//              ^ meta.namespace.module.identifier - meta.namespace.module.body - meta.path
+//               ^^ meta.namespace.module.body.java meta.block.java
+//^^^^ storage.type.namespace.module.java keyword.declaration.namespace.module.java
+//     ^^^^ variable.namespace.java
+//         ^ punctuation.accessor.dot.java
+//          ^^^^ entity.name.namespace.module.java
+//               ^ punctuation.section.block.begin.java
+  exports java;
+//^^^^^^^^^^^^ meta.namespace.module.body.java meta.block.java meta.exports.java
+//            ^ meta.namespace.module.body.java meta.block.java - meta.exports
+//^^^^^^^ keyword.other.module.exports.java
+//        ^^^^ entity.name.namespace.package.java
+//            ^ punctuation.terminator.java
 
   exports java.io;
-//^^^^^^^^^^^^^^^^ meta.module.java meta.module.body.java
-//^^^^^^^^^^^^^^^ meta.exports.java
-//^^^^^^ keyword.other.module.exports.java
-//        ^^^^^^^ support.type.package.java
+//^^^^^^^^^^^^^^^ meta.namespace.module.body.java meta.block.java meta.exports.java
+//        ^^^^^^^ meta.path.java
+//               ^ meta.namespace.module.body.java meta.block.java - meta.exports
+//^^^^^^^ keyword.other.module.exports.java
+//        ^^^^ variable.namespace.java
 //            ^ punctuation.accessor.dot.java
+//             ^^ entity.name.namespace.package.java
 //               ^ punctuation.terminator.java
 
   exports jdk.internal.jmod to jdk.compiler, jdk.jlink;
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.exports.java
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.namespace.module.body.java meta.block.java meta.exports.java
+//        ^^^^^^^^^^^^^^^^^ meta.path.java
+//                             ^^^^^^^^^^^^ meta.path.java
+//                                           ^^^^^^^^^ meta.path.java
+//                                                    ^ meta.namespace.module.body.java meta.block.java - meta.exports
+//^^^^^^^ keyword.other.module.exports.java
+//        ^^^ variable.namespace.java
+//           ^ punctuation.accessor.dot.java
+//            ^^^^^^^^ variable.namespace.java
+//                    ^ punctuation.accessor.dot.java
+//                     ^^^^ entity.name.namespace.package.java
 //                          ^^ keyword.other.module.to.java
-//                             ^^^^^^^^^^^^ support.type.module.java
+//                             ^^^ variable.namespace.java
+//                                ^ punctuation.accessor.dot.java
+//                                 ^^^^^^^^ entity.name.namespace.module.java
 //                                         ^ punctuation.separator.comma.java
-//                                           ^^^^^^^^^ support.type.module.java
+//                                           ^^^ variable.namespace.java
+//                                              ^ punctuation.accessor.dot.java
+//                                               ^^^^^ entity.name.namespace.module.java
 //                                                    ^ punctuation.terminator.java
 
   opens java.io;
-//^^^^^^^^^^^^^ meta.opens.java
+//^^^^^^^^^^^^^ meta.namespace.module.body.java meta.block.java meta.opens.java
+//             ^ meta.namespace.module.body.java meta.block.java - meta.opens
 //^^^^^ keyword.other.module.opens.java
-//      ^^^^^^^ support.type.package.java
+//      ^^^^  variable.namespace.java
 //          ^ punctuation.accessor.dot.java
+//           ^^ entity.name.namespace.package.java
 //             ^ punctuation.terminator.java
 
   opens jdk.internal.jmod to jdk.compiler, jdk.jlink;
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.opens.java
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.namespace.module.body.java meta.block.java meta.opens.java
+//                                                  ^ meta.namespace.module.body.java meta.block.java - meta.opens
 //                        ^^ keyword.other.module.to.java
-//                           ^^^^^^^^^^^^ support.type.module.java
+//                           ^^^ variable.namespace.java
+//                              ^ punctuation.accessor.dot.java
+//                               ^^^^^^^^ entity.name.namespace.module.java
 //                                       ^ punctuation.separator.comma.java
-//                                         ^^^^^^^^^ support.type.module.java
+//                                         ^^^ variable.namespace.java
+//                                            ^ punctuation.accessor.dot.java
+//                                             ^^^^^ entity.name.namespace.module.java
 //                                                  ^ punctuation.terminator.java
 
   opens // incomplete to check if it affects the next statement
@@ -2616,11 +2654,11 @@ module java.base {
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.uses.java
 //^^^^ keyword.other.module.uses.java
 //     ^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
-//     ^^^^ support.type.package.java
+//     ^^^^ variable.namespace.java
 //         ^ punctuation.accessor.dot.java
-//          ^^^^^^^^ support.type.package.java
+//          ^^^^^^^^ variable.namespace.java
 //                  ^ punctuation.accessor.dot.java
-//                   ^^^^^^^^ support.class.java
+//                   ^^^^^^^^ entity.name.class.java
 //                           ^ punctuation.terminator.java
 
   provides java.nio.file.spi.FileSystemProvider with jdk.internal.jrtfs.JrtFileSystemProvider;
@@ -2642,25 +2680,50 @@ module java.base {
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.provides.java meta.path.java
 
   requires java.xml;
-//^^^^^^^^^^^^^^^^^ meta.requires.java
+//^^^^^^^^^^^^^^^^^ meta.namespace.module.body.java meta.block.java meta.requires.java
+//                 ^ meta.namespace.module.body.java meta.block.java - meta.requires
 //^^^^^^^^ keyword.other.module.requires.java
-//         ^^^^^^^^ support.type.module.java
+//         ^^^^ variable.namespace.java
+//             ^ punctuation.accessor.dot.java
+//              ^^^ entity.name.namespace.module.java
 //                 ^ punctuation.terminator.java
 
   requires transitive javafx.base;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.namespace.module.body.java meta.block.java meta.requires.java
+//                               ^ meta.namespace.module.body.java meta.block.java - meta.requires
 //^^^^^^^^ keyword.other.module.requires.java
 //         ^^^^^^^^^^ keyword.other.module.transitive.java
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.requires.java
-//                    ^^^^^^^^^^^ support.type.module.java
+//                    ^^^^^^ variable.namespace.java
+//                          ^ punctuation.accessor.dot.java
+//                           ^^^^ entity.name.namespace.module.java
 //                               ^ punctuation.terminator.java
 
 }
-//<- meta.module.body.java punctuation.section.braces.end.java
+//<- meta.namespace.module.body.java meta.block.java punctuation.section.block.end.java
 
 open module open.module {}
-//^^^^^^^^^^^^^^^^^^^^^^^^ meta.module.java
-//^^^ -meta.module.identifier.java
+//^^^^^^^^^ meta.namespace.module.java - meta.namespace.module.identifier
+//         ^ meta.namespace.module.identifier.java - meta.path
+//          ^^^^^^^^^^^ meta.namespace.module.identifier.java meta.path.java
+//                     ^ meta.namespace.module.identifier - meta.namespace.module.body - meta.path
+//                      ^^ meta.namespace.module.body.java meta.block.java
 //^^ storage.modifier.java
-//   ^^^^^^ storage.type.java
-//   ^^^^^^^^^^^^^^^^^^ meta.module.identifier.java
-//                      ^^ meta.module.body.java
+//   ^^^^^^ storage.type.namespace.module.java keyword.declaration.namespace.module.java
+//          ^^^^ variable.namespace.java
+//              ^ punctuation.accessor.dot.java
+//               ^^^^^^ entity.name.namespace.module.java
+//                      ^ punctuation.section.block.begin.java
+//                       ^ punctuation.section.block.end.java
+
+open module
+//^^^^^^^^^ meta.namespace.module.java - meta.namespace.module.identifier
+    open
+//  ^^^^ meta.namespace.module.identifier.java meta.path.java variable.namespace.java
+    .
+//  ^ meta.namespace.module.identifier.java meta.path.java punctuation.accessor.dot.java
+    module
+//  ^^^^^^ meta.namespace.module.identifier.java meta.path.java entity.name.namespace.module.java
+    {
+//  ^ meta.namespace.module.body.java meta.block.java punctuation.section.block.begin.java
+    }
+//  ^ meta.namespace.module.body.java meta.block.java punctuation.section.block.end.java

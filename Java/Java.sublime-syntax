@@ -85,11 +85,6 @@ contexts:
     - match: ;
       scope: punctuation.terminator.java
 
-  dot-separated-identifier:
-    - match: '{{id}}'
-    - include: punctuation-accessor-dot
-    - include: immediate_POP
-
 ###[ ILLEGALS ]################################################################
 
   illegal-keywords:
@@ -160,118 +155,91 @@ contexts:
 ###[ MODULE ]##################################################################
 
   module:
-    - match: (?=\b(?:open\s+)?module\b)
-      push:
-      - - meta_scope: meta.module.java
-        - include: immediate_POP
-      - - match: \bopen\b
-          scope: storage.modifier.java
-        - match: \bmodule\b
-          scope: storage.type.java
-          set: [module-body, module-identifier-scope, module-identifier]
-
-  module-identifier-scope:
-    - meta_scope: meta.module.identifier.java
-    - include: immediate_POP
+    - match: \b(?:(open)\s+)?(module)\b
+      scope: meta.namespace.module.java
+      captures:
+        1: storage.modifier.java
+        2: storage.type.namespace.module.java
+           keyword.declaration.namespace.module.java
+      push: [module-body-block, module-identifier, any_POP]
 
   module-identifier:
-    - match: '{{id}}'
-      set:
-        - - meta_scope: entity.name.module.java
-          - include: immediate_POP
-        - dot-separated-identifier
+    - include: import-statement-terminator
+    - include: entity-module
+    - include: immediate_POP
+
+  module-body-block:
+    - meta_content_scope: meta.namespace.module.identifier.java
+    - match: (?=\{)
+      set: [module-body-common, block-begin]
     - include: any_POP
 
-  module-body:
-    - match: \{
-      scope: punctuation.section.braces.begin.java
-      set:
-        - meta_scope: meta.module.body.java
-        - include: module-body-content
-        - match: \}
-          scope: punctuation.section.braces.end.java
-          pop: true
-    - include: any_POP
-
-  module-body-content:
-    - match: \bexports\b
-      scope: keyword.other.module.exports.java
-      push: [exports-statement-scope, exports-or-opens-statement]
-    - match: \bopens\b
-      scope: keyword.other.module.opens.java
-      push: [opens-statement-scope, exports-or-opens-statement]
-    - match: \brequires\b
-      scope: keyword.other.module.requires.java
-      push: requires-statement
-    - match: \buses\b
-      scope: keyword.other.module.uses.java
-      push: [uses-statement-scope, object-type-reference]
-    - match: \bprovides\b
-      scope: keyword.other.module.provides.java
-      push: [provides-statement-scope, provides-with-statement, object-type-reference]
+  module-body-common:
+    - meta_scope: meta.namespace.module.body.java meta.block.java
+    - include: block-end
     - include: punctuation-terminator-semicolon
+    - match: exports\b
+      scope: keyword.other.module.exports.java
+      push: [module-exports-meta, module-exports-or-opens-body]
+    - match: opens\b
+      scope: keyword.other.module.opens.java
+      push: [module-opens-meta, module-exports-or-opens-body]
+    - match: requires\b
+      scope: keyword.other.module.requires.java
+      push: module-requires-body
+    - match: uses\b
+      scope: keyword.other.module.uses.java
+      push: [module-uses-meta, module-provides-or-uses-body]
+    - match: provides\b
+      scope: keyword.other.module.provides.java
+      push: [module-provides-meta, module-provides-or-uses-body]
 
-  # Should always come before module/package patterns
-  module-statement-terminator:
-    - match: (?=[;\}])
-      pop: true
-    - match: (?=\b(?:requires|exports|uses|provides|opens)\b)
-      pop: true
-
-  support-type-module:
-    - match: '{{id}}'
-      push:
-        - - meta_scope: support.type.module.java
-          - include: immediate_POP
-        - dot-separated-identifier
-
-  exports-statement-scope:
+  module-exports-meta:
     - meta_scope: meta.exports.java
     - include: immediate_POP
 
-  opens-statement-scope:
+  module-opens-meta:
     - meta_scope: meta.opens.java
     - include: immediate_POP
 
-  exports-or-opens-statement:
-    - match: \bto\b
+  module-exports-or-opens-body:
+    - include: module-statement-terminator
+    - match: to\b
       scope: keyword.other.module.to.java
       set:
         - include: module-statement-terminator
-        - include: support-type-module
         - include: punctuation-separator-comma
-    - include: module-statement-terminator
-    - match: '{{id}}'
-      push:
-        - - meta_scope: support.type.package.java
-          - include: immediate_POP
-        - dot-separated-identifier
+        - include: entity-module
+    - include: entity-package
 
-  requires-statement:
+  module-requires-body:
     - meta_scope: meta.requires.java
-    - match: \btransitive\b
+    - match: transitive\b
       scope: keyword.other.module.transitive.java
     - include: module-statement-terminator
-    - include: support-type-module
+    - include: entity-module
 
-  uses-statement-scope:
+  module-uses-meta:
     - meta_scope: meta.uses.java
     - include: immediate_POP
 
-  provides-statement-scope:
+  module-provides-meta:
     - meta_scope: meta.provides.java
     - include: immediate_POP
 
-  provides-with-statement:
-    - match: \bwith\b
+  module-provides-or-uses-body:
+    - include: module-statement-terminator
+    - match: with\b
       scope: keyword.other.module.with.java
       set:
-        - - match: \,
-            scope: punctuation.separator.comma.java
-            push: object-type-reference
-          - include: any_POP
-        - object-type-reference
-    - include: any_POP
+        - include: module-statement-terminator
+        - include: punctuation-separator-comma
+        - include: entity-class
+    - include: entity-class
+
+  module-statement-terminator:
+    - match: (?=[;}]|(?:exports|opens|requires|provides|uses)\b)
+      pop: true
 
 ###[ IMPORT ]##################################################################
 
@@ -1041,6 +1009,103 @@ contexts:
       push: declaration-statement-parens
     - match: \bwhile\b
       scope: keyword.control.loop.while.java
+
+###[ ENTITY CLASS ]############################################################
+
+  entity-class:
+    - match: (?={{id}})
+      branch_point: entity-class-identifier
+      branch:
+        - entity-class-qualified-identifier
+        - entity-class-unqualified-identifier
+
+  entity-class-qualified-identifier:
+    - match: '{{id}}'
+      scope: variable.namespace.java
+      push: [entity-class-qualified-identifier-path, generic-type-invocation]
+
+  entity-class-qualified-identifier-path:
+    - meta_scope: meta.path.java
+    - match: \.
+      scope: punctuation.accessor.dot.java
+      push:
+        - match: (?={{id}})
+          branch_point: entity-class-qualified-identifier
+          branch: [entity-class-qualifier, entity-class-name]
+        - match: (?=\S)
+          pop: 3
+    - match: (?=\S)
+      fail: entity-class-identifier
+
+  entity-class-qualifier:
+    - match: '{{id}}'
+      scope: variable.namespace.java
+      push: [entity-class-qualifier-accessor, generic-type-invocation]
+
+  entity-class-qualifier-accessor:
+    - match: \.
+      scope: punctuation.accessor.dot.java
+      pop: 2
+    - match: (?=\S)
+      fail: entity-class-qualified-identifier
+
+  entity-class-name:
+    - match: '{{id}}'
+      scope: entity.name.class.java
+      set:
+        - - match: ''
+            pop: 4
+        - generic-type-invocation
+
+  entity-class-unqualified-identifier:
+    - match: '{{id}}'
+      scope: entity.name.class.java
+      set: generic-type-invocation
+
+###[ ENTITY MODULE ]###########################################################
+
+  entity-module:
+    - match: (?={{id}})
+      branch_point: entity-module-identifier
+      branch:
+        - entity-module-qualified-identifier
+        - entity-module-unqualified-identifier
+
+  entity-module-qualified-identifier:
+    - match: '{{id}}'
+      scope: variable.namespace.java
+      push:
+        - meta_scope: meta.path.java
+        - match: \.
+          scope: punctuation.accessor.dot.java
+          push:
+            - match: (?={{id}})
+              branch_point: entity-module-qualified-identifier
+              branch: [entity-module-qualifier, entity-module-name]
+            - match: (?=\S)
+              pop: 3
+        - match: (?=\S)
+          fail: entity-module-identifier
+
+  entity-module-qualifier:
+    - match: '{{id}}'
+      scope: variable.namespace.java
+      push:
+        - match: \.
+          scope: punctuation.accessor.dot.java
+          pop: 2
+        - match: (?=\S)
+          fail: entity-module-qualified-identifier
+
+  entity-module-name:
+    - match: '{{id}}'
+      scope: entity.name.namespace.module.java
+      pop: 4
+
+  entity-module-unqualified-identifier:
+    - match: '{{id}}'
+      scope: entity.name.namespace.module.java
+      pop: true
 
 ###[ ENTITY PACKAGE ]##########################################################
 

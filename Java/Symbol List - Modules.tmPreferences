@@ -4,11 +4,20 @@
     <key>name</key>
     <string>Symbol List: Modules</string>
     <key>scope</key>
-    <string>source.java meta.module meta.module.identifier</string>
+    <string>source.java meta.namespace.module.identifier &amp; (meta.path, entity.name.namespace)</string>
     <key>settings</key>
     <dict>
         <key>showInSymbolList</key>
         <integer>1</integer>
+        <key>symbolTransformation</key>
+        <string>
+            # remove line comments
+            s/\/\/[^\n]*\n//g
+            # remove block comments
+            s/\/\*.*\*\///g
+            # remove whitespace
+            s/\s+//g
+        </string>
     </dict>
 </dict>
 </plist>
