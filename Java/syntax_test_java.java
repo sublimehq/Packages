@@ -50,17 +50,17 @@ package
 import a.b.Class;
 // <- meta.import.java keyword.control.import.java
 //     ^^^^^^^^^ meta.path.java
-//     ^ support.type.package.java
+//     ^ variable.namespace.java
 //      ^ punctuation.accessor.dot.java
-//       ^ support.type.package.java
+//       ^ variable.namespace.java
 //        ^ punctuation.accessor.dot.java
-//         ^^^^^ support.class.import.java
+//         ^^^^^ entity.name.class.java
 //              ^ punctuation.terminator.java
 
 import a.b.Class.SubClass;
 //^^^^^^^^^^^^^^^^^^^^^^^ meta.import.java
 //              ^ punctuation.accessor.dot.java
-//               ^^^^^^^^ support.class.import.java
+//               ^^^^^^^^ entity.name.class.java
 
 import a.b.Class.*;
 //^^^^^^^^^^^^^^^^ meta.import.java
@@ -70,15 +70,15 @@ import a.b.Class.*;
 import com.google
 //     ^^^^^^^^^^ meta.import.java meta.path.java
 //        ^ punctuation.accessor.dot.java
-//         ^^^^^^ support.type.package.java
+//         ^^^^^^ variable.namespace.java
   .common.collect
 //^ punctuation.accessor.dot.java
 //       ^ punctuation.accessor.dot.java
-//        ^^^^^^^ support.type.package.java
+//        ^^^^^^^ variable.namespace.java
 //^^^^^^^^^^^^^^^ meta.import.java meta.path.java
   .ListMultimap;
 //^ punctuation.accessor.dot.java
-// ^^^^^^^^^^^^ support.class.import.java
+// ^^^^^^^^^^^^ entity.name.class.java
 //^^^^^^^^^^^^^ meta.import.java meta.path.java
 //             ^ punctuation.terminator.java
 
@@ -96,44 +96,126 @@ import static
 
 import java.net.URL;
 // <- meta.import.java keyword.control.import.java
-//^^^^^^^^^^^^^^^^^ meta.import.java
-//     ^^^^^^^^^^^^ meta.path.java
-//              ^^^ support.class.import.java
-//     ^^^^ support.type.package.java
+//^^^^^ meta.import.java - meta.path
+//     ^^^^^^^^^^^^ meta.import.java meta.path.java
+//     ^^^^ variable.namespace.java
 //         ^ punctuation.accessor.dot.java
-//          ^^^ support.type.package.java
+//          ^^^ variable.namespace.java
 //             ^ punctuation.accessor.dot.java
+//              ^^^ entity.name.class.java
 //                 ^ punctuation.terminator.java
 
 import java.util.*;
-//^^^^^^^^^^^^^^^^ meta.import.java
-//     ^^^^^^^^^^^ meta.path.java
-//     ^^^^ support.type.package.java
+// <- meta.import.java keyword.control.import.java
+//^^^^^ meta.import.java - meta.path
+//     ^^^^^^^^^^^ meta.import.java meta.path.java
+//     ^^^^ variable.namespace.java
 //         ^ punctuation.accessor.dot.java
-//          ^^^^ support.type.package.java
+//          ^^^^ variable.namespace.java
 //              ^ punctuation.accessor.dot.java
 //               ^ keyword.operator.wildcard.asterisk.java
+//                ^ punctuation.terminator.java
 
 import static a.b.Class.fooMethod;
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.java
 // <- meta.import.java keyword.control.import.java
-//     ^^^^^^ meta.import.java keyword.control.import.static.java
-//             ^ punctuation.accessor.dot.java
+//^^^^^^^^^^^^ meta.import.java - meta.path
+//            ^^^^^^^^^^^^^^^^^^^ meta.import.java meta.path.java
+//     ^^^^^^ storage.modifier.java
 //            ^^^^^^^^^ meta.path.java
-//                 ^^^^ support.class.import.java
+//            ^ variable.namespace.java
+//             ^ punctuation.accessor.dot.java
+//              ^ variable.namespace.java
 //               ^ punctuation.accessor.dot.java
+//                ^^^^^ entity.name.class.java
 //                     ^ punctuation.accessor.dot.java
-//                      ^^^^^^^^^ meta.import.java support.function.import.java
+//                      ^^^^^^^^^ meta.import.java entity.name.function.java
 //                               ^ punctuation.terminator.java
 
-import static a.b.Class.CONSTANT;
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.java
-//            ^^^^^^^^^ meta.path.java
-//                 ^^^^ support.class.import.java
+import static a.b.Class.CONSTANT ;
+// <- meta.import.java keyword.control.import.java
+//^^^^^^^^^^^^ meta.import.java - meta.path
+//            ^^^^^^^^^^^^^^^^^^ meta.import.java meta.path.java
+//                              ^^ - meta.import.java - meta.path
+//            ^ variable.namespace.java
+//             ^ punctuation.accessor.dot.java
+//              ^ variable.namespace.java
+//               ^ punctuation.accessor.dot.java
+//                ^^^^^ entity.name.class.java
 //                     ^ punctuation.accessor.dot.java
-//                      ^^^^^^^^ constant.other.import.java
+//                      ^^^^^^^^ entity.name.constant.java
+//                               ^ punctuation.terminator.java
+
+import static /**/ a /**/ . /**/ b /**/ . /**/ Class /**/ . /**/ CONSTANT;
+// <- meta.import.java keyword.control.import.java
+//^^^^^^^^^^^^^^^^^ meta.import.java - meta.path
+//                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.java meta.path.java
+//                                                                       ^ - meta.import.java - meta.path
+//            ^^^^ comment.block.empty.java
+//                 ^ variable.namespace.java
+//                   ^^^^ comment.block.empty.java
+//                        ^ punctuation.accessor.dot.java
+//                          ^^^^ comment.block.empty.java
+//                               ^ variable.namespace.java
+//                                 ^^^^ comment.block.empty.java
+//                                      ^ punctuation.accessor.dot.java
+//                                        ^^^^ comment.block.empty.java
+//                                             ^^^^^ entity.name.class.java
+//                                                   ^^^^ comment.block.empty.java
+//                                                        ^ punctuation.accessor.dot.java
+//                                                          ^^^^ comment.block.empty.java
+//                                                               ^^^^^^^^ entity.name.constant.java
+//                                                                       ^ punctuation.terminator.java
+
+import
+// <- meta.import.java keyword.control.import.java
+//^^^^^ meta.import.java - meta.path
+    static
+//^^^^^^^^^ meta.import.java - meta.path
+//  ^^^^^^ storage.modifier.java
+    /**/ a
+//^^^^^^^ meta.import.java - meta.path
+//  ^^^^ comment.block.empty.java
+//       ^^ meta.import.java meta.path.java
+//       ^ variable.namespace.java
+    /**/ .
+//^^^^^^^^^ meta.import.java meta.path.java
+//  ^^^^ comment.block.empty.java
+//       ^ punctuation.accessor.dot.java
+    /**/ b
+//^^^^^^^^^ meta.import.java meta.path.java
+//  ^^^^ comment.block.empty.java
+//       ^ variable.namespace.java
+    /**/ .
+//^^^^^^^^^ meta.import.java meta.path.java
+//  ^^^^ comment.block.empty.java
+//       ^ punctuation.accessor.dot.java
+    /**/ Class
+//^^^^^^^^^^^^ meta.import.java meta.path.java
+//  ^^^^ comment.block.empty.java
+//       ^^^^^ entity.name.class.java
+    /**/ .
+//^^^^^^^^^^^^ meta.import.java meta.path.java
+//  ^^^^ comment.block.empty.java
+//       ^ punctuation.accessor.dot.java
+    /**/ CONSTANT
+//^^^^^^^^^^^^^^^ meta.import.java meta.path.java
+//               ^ - meta.import.java - meta.path
+//  ^^^^ comment.block.empty.java
+//       ^^^^^^^^ entity.name.constant.java
+    /**/ ;
+//^^^^^^^ - meta.import.java - meta.path
+//  ^^^^ comment.block.empty.java
+//       ^ punctuation.terminator.java
 
 import static a.b.Class.*;
+//^^^^^^^^^^^^ meta.import.java - meta.path
+//            ^^^^^^^^^^^ meta.import.java meta.path.java
+//                       ^ - meta.import.java - meta.path
+//            ^ variable.namespace.java
+//             ^ punctuation.accessor.dot.java
+//              ^ variable.namespace.java
+//               ^ punctuation.accessor.dot.java
+//                ^^^^^ entity.name.class.java
 //                     ^ punctuation.accessor.dot.java
 //                      ^ keyword.operator.wildcard.asterisk.java
 
@@ -217,11 +299,11 @@ public class SyntaxTest {
 //               ^ meta.catch.parameters storage.modifier.java
 //                     ^^^^^^^^^^^ support.class
 //                                 ^ punctuation.separator.bar.java
-//                                   ^^^ support.type.package.java
+//                                   ^^^ variable.namespace.java
 //                                      ^ punctuation.accessor.dot.java
-//                                       ^^^ support.type.package.java
+//                                       ^^^ variable.namespace.java
 //                                          ^ punctuation.accessor.dot.java
-//                                           ^^^ support.type.package.java
+//                                           ^^^ variable.namespace.java
 //                                              ^ punctuation.accessor.dot.java
 //                                               ^^^ support.class.java
 //                                                  ^ punctuation.accessor.dot.java
@@ -735,9 +817,9 @@ class Generics {
 //    ^^^^^^^^^^^^^^ meta.generic.java
 //    ^ punctuation.definition.generic.begin.java
 //     ^^^^^^^^^^^^ meta.path.java
-//     ^^^^ support.type.package.java
+//     ^^^^ variable.namespace.java
 //         ^ punctuation.accessor.dot.java
-//          ^^^ support.type.package.java
+//          ^^^ variable.namespace.java
 //             ^ punctuation.accessor.dot.java
 //              ^^^ support.class.java
 
@@ -750,9 +832,9 @@ class Generics {
     List<java.lang.String> x;
 //      ^^^^^^^^^^^^^^^^^^ meta.generic.java
 //       ^^^^^^^^^^^^^^^^ meta.path.java
-//       ^^^^ support.type.package.java
+//       ^^^^ variable.namespace.java
 //           ^ punctuation.accessor.dot.java
-//            ^^^^ support.type.package.java
+//            ^^^^ variable.namespace.java
 //                ^ punctuation.accessor.dot.java
 //                 ^^^^^^ support.class.java
 //                       ^ punctuation.definition.generic.end.java
@@ -820,9 +902,9 @@ class Generics {
   new Foo<a.b.FooBar>();
 //       ^^^^^^^^^^^^ meta.generic.java
 //        ^^^^^^^^^^ meta.path.java
-//        ^ support.type.package.java
+//        ^ variable.namespace.java
 //         ^ punctuation.accessor.dot.java
-//          ^ support.type.package.java
+//          ^ variable.namespace.java
 //           ^ punctuation.accessor.dot.java
 
     new Foo<?>[] { new Foo(1), new Foo(2) };
@@ -1176,7 +1258,7 @@ public class Foo {
 //                                       ^^^^^^ support.class.java
 //                                              ^^^^ support.class.java
 //                                                    ^^^^^^^^ variable.parameter.java
-//                                                                ^ support.type.package.java
+//                                                                ^ variable.namespace.java
 //                                                                 ^ punctuation.accessor.dot.java
 //                                                                   ^ punctuation.accessor.dot.java
 //                                                                    ^^^ support.class.java
@@ -1265,9 +1347,9 @@ public class Foo {
 
   private MyObject object = a.b.ErrorCode.COMMUNICATION_ERROR;
 //                          ^^^^^^^^^^^^^ meta.path.java
-//                          ^ support.type.package.java
+//                          ^ variable.namespace.java
 //                           ^ punctuation.accessor.dot.java
-//                            ^ support.type.package.java
+//                            ^ variable.namespace.java
 //                             ^ punctuation.accessor.dot.java
 //                              ^^^^^^^^^ support.class.java
 //                                       ^ punctuation.accessor.dot.java
