@@ -56,6 +56,9 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.c
           pop: true
+        - match: ^\s*(\*)(?!/)
+          captures:
+            1: punctuation.definition.comment.c
     - match: \*/(?!\*)
       scope: invalid.illegal.stray-comment-end.c
     - match: ^// =(\s*.*?)\s*=\s*$\n?

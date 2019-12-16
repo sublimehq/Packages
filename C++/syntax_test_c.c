@@ -299,6 +299,10 @@ struct X
 /* <- meta.struct.body.c meta.block.c punctuation.section.block.end.c */
  /* <- punctuation.terminator.c - meta.struct.body.c - meta.block.c*/
 
+/**
+    *
+/*  ^ comment.block.c punctuation.definition.comment.c */
+
 /////////////////////////////////////////////
 // Preprocessor branches starting blocks
 /////////////////////////////////////////////
