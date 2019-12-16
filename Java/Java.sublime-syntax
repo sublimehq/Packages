@@ -1,6 +1,7 @@
 %YAML 1.2
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
+# https://docs.oracle.com/javase/specs/jls/se13/html/index.html
 name: Java
 file_extensions:
   - java
@@ -8,9 +9,45 @@ file_extensions:
 scope: source.java
 
 variables:
-  primitives: (?:boolean|byte|char|short|int|float|long|double)
-  storage_modifiers: (?:public|private|protected|static|final|native|synchronized|strictfp|abstract|transient|default|volatile)
+  # Reserved keywords
+  # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9
+  reserved_words: |-
+    (?x:
+      {{keywords}} |
+      {{storage_types}} |
+      {{storage_modifiers}} |
+      {{constants}} |
+      {{variables}}
+    )
+  keywords: |-
+    (?x:
+      {{declaration_keywords}} |
+      {{control_keywords}} |
+      {{operator_keywords}} |
+      {{illegal_keywords}}
+    )
+  declaration_keywords: |-
+    (?:class|enum|interface|var|void|extends|implements|import|package)
+  control_keywords: |-
+    (?x:
+      assert|break|case|catch|continue|do|else|finally|for|if|return|switch|
+      throw|throws|try|while
+    )
+  operator_keywords: (?:new|instanceof)
+  illegal_keywords: (?:const|goto)
 
+  storage_modifiers: |-
+    (?x:
+      public|private|protected|static|final|native|synchronized|strictfp|
+      abstract|transient|default|volatile
+    )
+  storage_types: (?:boolean|byte|char|short|int|float|long|double)
+
+  # Literals
+  constants: (?:false|null|true)
+  variables: (?:_|super|this)
+
+  # Identifiers
   id: (?:[\p{L}_$][\p{L}\p{N}_$]*)
   classcase_id: (?:\p{Lu}[\p{L}\p{N}_$]*)
   lowercase_id: (?:[_$]*\p{Ll}[\p{Ll}\p{N}_$]*\b)
@@ -89,7 +126,7 @@ contexts:
 ###[ ILLEGALS ]################################################################
 
   illegal-keywords:
-    - match: \b(goto|const)\b
+    - match: \b{{illegal_keywords}}\b
       scope: invalid.illegal.keyword.java
 
   illegal-newline:
@@ -154,7 +191,6 @@ contexts:
 
   package-identifier:
     - meta_content_scope: meta.namespace.package.identifier.java
-    - include: import-statement-terminator
     - include: entity-package
     - include: immediate_POP
 
@@ -170,7 +206,6 @@ contexts:
       push: [module-body-block, module-identifier, any_POP]
 
   module-identifier:
-    - include: import-statement-terminator
     - include: entity-module
     - include: immediate_POP
 
@@ -289,7 +324,7 @@ contexts:
     - include: any_POP
 
   import-statement-terminator:
-    - match: (?=;|(?:import|{{storage_modifiers}}|class|interface|enum)\b)
+    - match: (?=;|{{reserved_words}}\b)
       pop: true
 
   import-constant:
@@ -425,7 +460,7 @@ contexts:
     - include: any_POP
 
   class-name:
-    - match: (?!extends|implements){{id}}\b
+    - match: (?!{{reserved_words}}\b){{id}}
       scope: entity.name.class.java
       pop: true
     - include: any_POP
@@ -485,7 +520,7 @@ contexts:
     - include: enum-body
 
   enum-body:
-    - match: ^(?=\s*([[:upper:]_][[:upper:][:digit:]_]*|(?!{{primitives}}|{{storage_modifiers}})[[:lower:]_][[:alnum:]_]*)\s*[,;{(])
+    - match: ^(?=\s*([[:upper:]_][[:upper:][:digit:]_]*|(?!{{reserved_words}})[[:lower:]_][[:alnum:]_]*)\s*[,;{(])
       push:
         - match: (?=[;}])
           pop: true
@@ -521,7 +556,7 @@ contexts:
     - match: \b{{classcase_id}}
       scope: support.class.java
       push: [field-or-method, after-object-and-array-types]
-    - match: \b{{primitives}}\b
+    - match: \b{{storage_types}}\b
       scope: storage.type.primitive.java
       push: [field-or-method, array-brackets]
 
@@ -560,7 +595,7 @@ contexts:
 
   field-terminator:
     # Prevent style from being removed from whole file when making a new expression
-    - match: (?=(?:{{storage_modifiers}}|{{primitives}}|void)\b)
+    - match: (?=(?:{{storage_modifiers}}|{{storage_types}}|void)\b)
       pop: true
 
   method-name:
@@ -667,7 +702,7 @@ contexts:
         - instantiation
 
   instantiation:
-    - match: \b{{primitives}}\b
+    - match: \b{{storage_types}}\b
       scope: storage.type.primitive.java
       set: array-definition
     - match: '{{before_fqn}}'
@@ -842,7 +877,9 @@ contexts:
 ###[ VARIABLES ]###############################################################
 
   variables:
-    - match: (?:this|super)\b
+    - match: \b_\b
+      scope: variable.language.blank.java
+    - match: '{{variables}}\b'
       scope: variable.language.java
     - match: (?={{id}})
       branch_point: variables-type
@@ -1133,7 +1170,7 @@ contexts:
 ###[ ENTITY CLASS ]############################################################
 
   entity-class:
-    - match: (?={{id}})
+    - match: (?=(?!{{reserved_words}}\b){{id}})
       branch_point: entity-class-identifier
       branch:
         - entity-class-qualified-identifier
@@ -1185,7 +1222,7 @@ contexts:
 ###[ ENTITY MODULE ]###########################################################
 
   entity-module:
-    - match: (?={{id}})
+    - match: (?=(?!{{reserved_words}}\b){{id}})
       branch_point: entity-module-identifier
       branch:
         - entity-module-qualified-identifier
@@ -1230,7 +1267,7 @@ contexts:
 ###[ ENTITY PACKAGE ]##########################################################
 
   entity-package:
-    - match: (?={{id}})
+    - match: (?=(?!{{reserved_words}}\b){{id}})
       branch_point: entity-package-identifier
       branch:
         - entity-package-qualified-identifier
@@ -1358,7 +1395,7 @@ contexts:
         - meta_scope: meta.path.java
         - include: variable-namespace
         - include: object-and-array-types-no-fqn
-    - match: '{{primitives}}(?=\s*\[)'
+    - match: '{{storage_types}}(?=\s*\[)'
       scope: storage.type.primitive.java
       push: array-brackets
     - match: '{{classcase_id}}'
@@ -1391,7 +1428,7 @@ contexts:
     - include: inherited-object-type-reference-no-fqn
 
   inherited-object-type-reference-no-fqn:
-    - match: (?!class|enum|extends|implements|interface){{id}}
+    - match: (?!{{reserved_words}}\b){{id}}
       scope: entity.other.inherited-class.java
       set: [inherrited-object-type-reference-child, generic-type-invocation]
     - include: any_POP
@@ -1463,7 +1500,7 @@ contexts:
 ###[ PRIMITIVE TYPES ]#########################################################
 
   primitive-types:
-    - match: \b{{primitives}}\b
+    - match: \b{{storage_types}}\b
       scope: storage.type.primitive.java
       push: array-brackets
 
