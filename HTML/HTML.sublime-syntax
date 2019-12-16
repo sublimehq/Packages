@@ -381,8 +381,9 @@ contexts:
       scope: punctuation.definition.tag.end.html
       set:
         - meta_content_scope: text.html.embedded.html
-        - include: main
+        - include: comment
         - include: script-close-tag
+        - include: main
 
   script-other:
     - meta_content_scope: meta.tag.script.begin.html
@@ -403,7 +404,7 @@ contexts:
           captures:
             1: punctuation.definition.tag.begin.html
             2: entity.name.tag.script.html
-          set: 
+          set:
             - meta_scope: meta.tag.script.end.html
             - include: tag-end
             - include: tag-attributes
@@ -520,6 +521,7 @@ contexts:
           pop: true
         - match: '["''`<]'
           scope: invalid.illegal.attribute-value.html
+        - include: entities
     - include: else-pop
 
   tag-class-attribute:
@@ -548,6 +550,7 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.html
           pop: true
+        - include: tag-attribute-value-separator
         - include: entities
     - match: "'"
       scope: punctuation.definition.string.begin.html
@@ -557,6 +560,7 @@ contexts:
         - match: "'"
           scope: punctuation.definition.string.end.html
           pop: true
+        - include: tag-attribute-value-separator
         - include: entities
     - match: '{{unquoted_attribute_start}}'
       set:
@@ -565,6 +569,7 @@ contexts:
           pop: true
         - match: '["''`<]'
           scope: invalid.illegal.attribute-value.html
+        - include: entities
     - include: else-pop
 
   tag-id-attribute:
@@ -593,6 +598,7 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.html
           pop: true
+        - include: tag-attribute-value-separator
         - include: entities
     - match: "'"
       scope: punctuation.definition.string.begin.html
@@ -602,6 +608,7 @@ contexts:
         - match: "'"
           scope: punctuation.definition.string.end.html
           pop: true
+        - include: tag-attribute-value-separator
         - include: entities
     - match: '{{unquoted_attribute_start}}'
       set:
@@ -610,6 +617,7 @@ contexts:
           pop: true
         - match: '["''`<]'
           scope: invalid.illegal.attribute-value.html
+        - include: entities
     - include: else-pop
 
   tag-style-attribute:
@@ -701,6 +709,12 @@ contexts:
     - include: tag-style-attribute
     - include: tag-event-attribute
     - include: tag-generic-attribute
+
+  tag-attribute-value-separator:
+    - match: (?=[{{ascii_space}}])
+      push:
+        - clear_scopes: 1 # clear `meta.class-name` or `meta.toc-list.id`
+        - include: else-pop
 
   tag-end:
     - match: '>'

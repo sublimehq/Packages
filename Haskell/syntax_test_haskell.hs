@@ -72,7 +72,6 @@
 -- ^^^^^^^^^^^^ meta.function.type-declaration.haskell
 --  ^^ keyword.other.arrow.haskell
    traverse f = sequenceA . fmap f
--- ^^^^^^^^^^^^^ meta.function.type-declaration.haskell
 --            ^ keyword.operator.haskell
 --                        ^ keyword.operator.haskell
 
@@ -95,16 +94,95 @@
    a a = (+) a 2
 --     ^ keyword.operator.haskell
 --       ^^^ entity.name.function.infix.haskell
---             ^ constant.numeric.haskell
+--             ^ constant.numeric.integer.decimal.haskell
    a a = (-) a 2
 --     ^ keyword.operator.haskell
 --       ^^^ entity.name.function.infix.haskell
---             ^ constant.numeric.haskell
+--             ^ constant.numeric.integer.decimal.haskell
    a a = (*) a 2
 --     ^ keyword.operator.haskell
 --       ^^^ entity.name.function.infix.haskell
---             ^ constant.numeric.haskell
+--             ^ constant.numeric.integer.decimal.haskell
    a a = (/) a 2
 --     ^ keyword.operator.haskell
 --       ^^^ entity.name.function.infix.haskell
---             ^ constant.numeric.haskell
+--             ^ constant.numeric.integer.decimal.haskell
+
+-- Tests for #1320, #1880.
+
+   class TooMany a where
+     tooMany :: a -> Bool
+-- ^^^^^^^^^^^^^^^^^^^^^^ meta.function.type-declaration.haskell
+     tooManyToo ::
+-- ^^^^^^^^^^^^^^^ meta.function.type-declaration.haskell
+       a -> Bool
+-- ^^^^^^^^^^^^^ meta.function.type-declaration.haskell
+
+   instance TooMany Int where
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.instance.haskell
+     tooMany n = n > 42
+
+   foldBoolGuard :: a -> a -> Bool -> a
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.type-declaration.haskell
+   foldBoolGuard x y z
+-- ^^^^^^^^^^^^^^^^^^^ source.haskell
+     | z         = y
+--   ^ keyword.operator.haskell
+     | otherwise = x
+
+   countTheBeforeVowel :: String
+   -- This comment should not interrupt the type signature.
+
+   -- The blank line above should not interrupt the type signature.
+
+   {-
+      This multiline comment should
+      not interrupt the type signature.
+   -}
+
+     -> Integer
+-- ^^^^^^^^^^^^ meta.function.type-declaration.haskell
+   countTheBeforeVowel = undefined
+
+
+--NUMBERS
+
+    0
+--  ^ constant.numeric.integer.decimal
+
+    1234567890
+--  ^^^^^^^^^^ constant.numeric.integer.decimal
+
+    0o1234567
+--  ^^^^^^^^^ constant.numeric.integer.octal
+--  ^^ punctuation.definition.numeric.base.haskell
+
+    1.
+--  ^ constant.numeric.integer.decimal
+--   ^ keyword.operator.haskell
+
+    .2
+--  ^ keyword.operator.haskell
+--   ^ constant.numeric.integer.decimal
+
+    12.345
+--  ^^^^^^ constant.numeric.float.decimal
+--    ^ punctuation.separator.decimal
+
+    1e10
+--  ^^^^ constant.numeric.float.decimal
+
+    0.5e+0
+--  ^^^^^^ constant.numeric.float.decimal
+--   ^ punctuation.separator.decimal
+
+    9e-1
+--  ^^^^ constant.numeric.float.decimal
+
+    0x0
+--  ^^^ constant.numeric.integer.hexadecimal
+--  ^^ punctuation.definition.numeric.base
+
+    0XdeafBEEF42
+--  ^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
+--  ^^ punctuation.definition.numeric.base

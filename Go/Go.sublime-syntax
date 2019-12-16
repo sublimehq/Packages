@@ -2,10 +2,8 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 
-
 # The structure and terminology of this syntax reflects the spec:
 # https://golang.org/ref/spec
-
 
 # The following is a simplified model of Sublime Text's syntax engine, reverse-
 # engineered through experience. This model uses assertive language for brevity,
@@ -67,6 +65,12 @@ variables:
   # These are the only words that can't be used as identifiers.
   keyword: \b(?:break|case|chan|const|continue|default|defer|else|fallthrough|for|func|go|goto|if|import|interface|map|package|range|return|select|struct|switch|type|var)\b
 
+  # https://golang.org/ref/spec#Predeclared_identifiers
+  predeclared_type: \b(?:bool|byte|complex64|complex128|error|float32|float64|int|int8|int16|int32|int64|rune|string|uint|uint8|uint16|uint32|uint64|uintptr)\b
+
+  # https://golang.org/ref/spec#Predeclared_identifiers
+  predeclared_func: \b(?:append|cap|close|complex|copy|delete|imag|len|make|new|panic|print|println|real|recover)\b
+
   # Note: this matches ALL valid identifiers, including predeclared constants,
   # functions and types.
   ident: \b(?!{{keyword}})[[:alpha:]_][[:alnum:]_]*\b
@@ -80,7 +84,38 @@ variables:
 
   char_escape: \\x\h{2}|\\u\h{4}|\\U\h{8}|\\[0-7]{3}|\\.
 
-  exponent: '[Ee][+-]?'
+  dec_exponent: (?:[eE][-+]??{{dec_digits}})
+  hex_exponent: (?:[pP][-+]??{{dec_digits}})
+
+  # Matches a digit with any number of numeric separators, while
+  # not allowing a numeric separator as the last or first character.
+  dec_digits: (?:\d+(?:_\d+)*)
+
+  # Hexadecimal counterpart to dec_digits.
+  hex_digits: (?:_?\h+(?:_\h+)*)
+
+  # Octal counterpart to dec_digits.
+  oct_digits: (?:_?[0-7]+(?:_[0-7]+)*)
+
+  # Binary counterpart to dec_digits.
+  bin_digits: (?:_?[01]+(?:_[01]+)*)
+
+  # Matches a digit with any number of numeric separators, while
+  # not allowing a numeric separator as the last or first character.
+  ddigits: (?:\d+(?:_\d+)*)
+
+  # Hexadecimal counterpart to ddigits.
+  hdigits: _?(?:\h+(?:_\h+)*)
+
+  # Same as hdigits, except the leading hex character
+  # coefficient is optional in this case.
+  ohdigits: _?(?:\h*(?:_\h+)*)
+
+  # Octal counterpart to ddigits.
+  odigits: _?(?:[0-7]+(?:_[0-7]+)*)
+
+  # Binary counterpart to ddigits.
+  bdigits: _?(?:[01]+(?:_[01]+)*)
 
 contexts:
   main:
@@ -129,13 +164,16 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.end.go
           pop: true
+        - match: ^\s*(\*)(?!/)
+          captures:
+            1: punctuation.definition.comment.go
 
   pop-line-comment:
     - meta_scope: comment.line.go
     # Including the newline allows the scope to visually stretch to the right,
     # and ensures that functionality that relies on comment scoping, such as
     # contextual hotkeys, works properly at EOL while typing a comment. This
-    # should also match \r\n due to internal conversions.
+    # should also match \r\n due to Sublime's internal normalization.
     - match: $\n?
       pop: true
 
@@ -177,7 +215,7 @@ contexts:
 
   # See `match-selector` for field scoping.
   match-identifiers:
-    - include: match-predefined-identifiers
+    - include: match-predeclared-constants
     - include: match-call-or-cast
     - include: match-short-variable-declarations
     - match: \b_\b
@@ -186,25 +224,67 @@ contexts:
       scope: variable.other.go
 
   # https://golang.org/ref/spec#Predeclared_identifiers
-  match-predefined-identifiers:
-    # Note: these are NOT keywords, but rather predeclared identifiers that can
-    # be redefined. We treat them as regular identifiers in variable
-    # declarations, types, function names, etc. This rule should be used in
-    # places that are "left over". Detecting redefinition is beyond the scope of
-    # this syntax engine.
+  #
+  # In Go, the predeclared constants are not keywords, and can be redefined. In
+  # many places such as variable declarations, types, function names, etc, we
+  # allow them to be scoped the same way as other identifiers. This "constant"
+  # rule should be used in places that are "left over". Detecting redefinition
+  # would be ideal, but is beyond the scope of this syntax engine; we simply
+  # expect it to be very rare.
+  match-predeclared-constants:
     - match: \b(?:true|false|nil)\b
       scope: constant.language.go
-    - include: match-new
-    - include: match-make
 
-  # Note: calls and casts are syntactically identical. Detecting casts and
-  # scoping them as types is beyond the capabilities of this syntax engine.
+  # Note: in Go, calls and casts are syntactically identical. Detecting casts
+  # and scoping them as types is beyond the capabilities of this syntax engine.
   #
-  # This is somewhat duplicated in `match-selector`, which must be included
-  # before this rule.
+  # https://golang.org/ref/spec#Predeclared_identifiers
+  #
+  # Notes on built-in functions
+  #
+  # Most built-in functions don't need special syntactic support. We scope them
+  # for the benefit of the users who prefer to distinguish them from
+  # user-defined identifiers. Two exceptions are `make` and `new`, where the
+  # first argument is scoped as a type, matching the special-case support in
+  # the compiler. When built-ins are redefined, this leads to incorrect
+  # scoping; like with constants, we expect such redefinition to be very rare.
+  #
+  # Note that we limit this detection to plain function calls, ignoring method
+  # calls and other identifier occurrences. The language currently allows
+  # built-in functions ONLY in a function call position. This helps minimize
+  # false positives.
+  #
+  # Notes on built-in types
+  #
+  # Unlike casts involving a user-defined type, casts involving a built-in
+  # types could be scoped purely as types rather than function calls. However,
+  # we stick to `variable.function.go` to make the treatment of built-ins
+  # purely additive, allowing the user to opt out.
   match-call-or-cast:
+    - match: \b(?:make|new)\b(?=(?:{{noise}}\))*{{noise}}\()
+      scope: variable.function.go support.function.builtin.go
+      push: pop-arguments-starting-with-type
+    - match: '{{predeclared_type}}(?=(?:{{noise}}\))*{{noise}}\()'
+      scope: variable.function.go support.type.builtin.go
+    - match: '{{predeclared_func}}(?=(?:{{noise}}\))*{{noise}}\()'
+      scope: variable.function.go support.function.builtin.go
     - match: '{{ident}}(?=(?:{{noise}}\))*{{noise}}\()'
       scope: variable.function.go
+
+  # See notes on `match-call-or-cast`.
+  pop-call-or-cast:
+    - match: \b(?:make|new)\b(?=(?:{{noise}}\))*{{noise}}\()
+      scope: variable.function.go support.function.builtin.go
+      set: pop-arguments-starting-with-type
+    - match: '{{predeclared_type}}(?=(?:{{noise}}\))*{{noise}}\()'
+      scope: variable.function.go support.type.builtin.go
+      pop: true
+    - match: '{{predeclared_func}}(?=(?:{{noise}}\))*{{noise}}\()'
+      scope: variable.function.go support.function.builtin.go
+      pop: true
+    - match: '{{ident}}(?=(?:{{noise}}\))*{{noise}}\()'
+      scope: variable.function.go
+      pop: true
 
   # Note: this currently doesn't work across multiple lines.
   match-short-variable-declarations:
@@ -217,20 +297,6 @@ contexts:
           scope: variable.declaration.go
         - include: match-comma
         - include: pop-before-nonblank
-
-  # Note: `new` can be redefined, invalidating this scoping, but such
-  # redefinition should be very uncommon.
-  match-new:
-    - match: \bnew\b(?={{noise}}\()
-      scope: variable.function.go
-      push: pop-first-argument-as-type
-
-  # Note: `make` can be redefined, invalidating this scoping, but such
-  # redefinition should be very uncommon.
-  match-make:
-    - match: \bmake\b(?={{noise}}\()
-      scope: variable.function.go
-      push: pop-first-argument-as-type
 
   # https://golang.org/ref/spec#Operators_and_punctuation
   match-operators: [
@@ -310,13 +376,12 @@ contexts:
         - include: match-comments
         - include: pop-type-assertion
 
-        # See `match-call-or-cast` on notes about call/cast ambiguity.
+        # Note: calls and casts are syntactically identical.
         - match: '{{ident}}(?=(?:{{noise}}\))*{{noise}}\()'
           scope: variable.function.go
           pop: true
 
         - include: pop-member
-
         # Note: newlines between dot and assertion/field are ok
         - include: pop-before-nonblank
 
@@ -327,9 +392,7 @@ contexts:
         - match: \)
           scope: punctuation.section.parens.end.go
           pop: true
-        - match: '{{ident}}(?={{noise}}\){{noise}}\()'
-          scope: variable.function.go
-          pop: true
+        - include: pop-call-or-cast
         - include: match-any
     - match: \)
       scope: punctuation.section.parens.end.go
@@ -348,9 +411,7 @@ contexts:
         - match: \b_\b
           scope: variable.language.blank.go
           pop: true
-        - match: '{{ident}}'
-          scope: storage.type.go
-          pop: true
+        - include: pop-type-identifier
         - include: pop-before-nonblank
 
   match-braces:
@@ -373,61 +434,83 @@ contexts:
     - include: match-strings
 
   match-imaginary:
-    # Mandatory integer, optional fraction, optional exponent, mandatory imaginary
-    - match: \d+(?:(\.)\d+)?(?:({{exponent}})\d+)?(i)
-      scope: constant.numeric.imaginary.go
+    # Decimal imaginary numbers
+    - match: '{{dec_digits}}(?:(\.){{dec_digits}}?)?{{dec_exponent}}?(i)'
+      scope: constant.numeric.imaginary.decimal.go
       captures:
         1: punctuation.separator.decimal.go
-        2: punctuation.separator.exponent.go
-        3: storage.type.numeric.imaginary.go
-    # Dot without fraction
-    - match: \d+\.(?:{{exponent}}\d+)?i
-      scope: invalid.deprecated.go
-    # Dot without integer
-    - match: \.\d+(?:{{exponent}}\d+)?i
-      scope: invalid.deprecated.go
+        2: storage.type.numeric.go
+    # Hexadecimal imaginary numbers
+    - match: (0[xX]){{hex_digits}}?(?:(\.){{hex_digits}}?)?{{hex_exponent}}?(i)
+      scope: constant.numeric.imaginary.hexadecimal.go
+      captures:
+        1: punctuation.definition.numeric.base.go
+        2: punctuation.separator.decimal.go
+        3: storage.type.numeric.go
+    # Octal imaginary numbers
+    - match: (0[oO]){{oct_digits}}(i)
+      scope: constant.numeric.imaginary.octal.go
+      captures:
+        1: punctuation.definition.numeric.base.go
+        2: storage.type.numeric.go
+    # Binary imaginary numbers
+    - match: (0[bB]){{bin_digits}}(i)
+      scope: constant.numeric.imaginary.binary.go
+      captures:
+        1: punctuation.definition.numeric.base.go
+        2: storage.type.numeric.go
 
   match-floats:
-    # Integer, no fraction, exponent
-    - match: \d+({{exponent}})\d+
-      scope: constant.numeric.float.go
-      captures:
-        1: punctuation.separator.exponent.go
-    # Integer, fraction, optional exponent
-    - match: \d+(\.)\d+(?:({{exponent}})\d+)?
-      scope: constant.numeric.float.go
+    # Decimal float literal
+    - match: |-
+        (?x:
+         {{dec_digits}}(?:(\.){{dec_digits}}?{{dec_exponent}}?|{{dec_exponent}})
+         | (\.){{dec_digits}}{{dec_exponent}}?
+        )
+      scope: constant.numeric.float.decimal.go
       captures:
         1: punctuation.separator.decimal.go
-        2: punctuation.separator.exponent.go
-    # Dot without fraction
-    - match: \d+\.(?:{{exponent}}\d+)?
-      scope: invalid.deprecated.go
-    # Dot without integer
-    - match: \.\d+(?:{{exponent}}\d+)?
-      scope: invalid.deprecated.go
+        2: punctuation.separator.decimal.go
+    # Hexadecimal float literal
+    - match: (0[xX]){{hex_digits}}?(?:(\.){{hex_digits}}?)?{{hex_exponent}}
+      scope: constant.numeric.float.hexadecimal.go
+      captures:
+        1: punctuation.definition.numeric.base.go
+        2: punctuation.separator.decimal.go
 
   match-integers:
     - include: match-octal-integer
     - include: match-hex-integer
+    - include: match-binary-integer
     - include: match-decimal-integer
 
   match-octal-integer:
-    - match: (0)[0-7]+(?=\D)
-      scope: constant.numeric.octal.go
+    - match: (0){{oct_digits}}(?=\D)
+      scope: constant.numeric.integer.octal.go
       captures:
-        1: punctuation.definition.numeric.octal.go
+        1: punctuation.definition.numeric.base.go
     - match: 0[0-7]*[8-9]+
       scope: invalid.illegal.go
+    - match: (0[oO]){{oct_digits}}
+      scope: constant.numeric.integer.octal.go
+      captures:
+        1: punctuation.definition.numeric.base.go
 
   match-hex-integer:
-    - match: (0[Xx])\h+
-      scope: constant.numeric.hex.go
+    - match: (0[xX]){{hex_digits}}
+      scope: constant.numeric.integer.hexadecimal.go
       captures:
-        1: punctuation.definition.numeric.hexadecimal.go
+        1: punctuation.definition.numeric.base.go
+
+  match-binary-integer:
+    - match: (0[bB]){{bin_digits}}
+      scope: constant.numeric.integer.binary.go
+      captures:
+        1: punctuation.definition.numeric.base.go
 
   match-decimal-integer:
-    - match: \d+
-      scope: constant.numeric.integer.go
+    - match: '{{dec_digits}}'
+      scope: constant.numeric.integer.decimal.go
 
   # https://golang.org/ref/spec#Rune_literals
   match-runes:
@@ -450,6 +533,7 @@ contexts:
         - match: '`'
           scope: punctuation.definition.string.end.go
           pop: true
+        - include: match-template-string
         - match: \%%
           scope: constant.character.escape.go
         - include: match-fmt
@@ -462,11 +546,46 @@ contexts:
         - match: '"'
           scope: punctuation.definition.string.end.go
           pop: true
+        - include: match-template-string
         - match: '{{char_escape}}'
           scope: constant.character.escape.go
         - match: \%%
           scope: constant.character.escape.go
         - include: match-fmt
+
+  match-template-string:
+   - match: '{{(?=.*}})'
+     scope: punctuation.section.interpolation.begin.go
+     push:
+       - meta_scope: meta.interpolation.go
+       - clear_scopes: 1
+       - match: "}}"
+         scope: punctuation.section.interpolation.end.go
+         pop: true
+       - match: "\\s-"
+         scope: keyword.operator.template.right.trim.go
+       - match: "-\\s"
+         scope: keyword.operator.template.left.trim.go
+       - match: ":=|="
+         scope: keyword.operator.assignment.go
+       - match: \|
+         scope: keyword.operator.template.pipe.go
+       - match: '(\.)([\w]+)'
+         captures:
+           1: punctuation.accessor.dot.go
+           2: variable.other.member.go
+       - match: '(\$)[\w]+'
+         scope: variable.other.template.go
+         captures:
+           1: punctuation.definition.variable.go
+       - match: '[.$]'
+         scope: variable.other.template.go
+       - match: \b(if|else|range|template|with|end|nil|define|block)\b
+         scope: keyword.control.go
+       - match: \b(and|call|html|index|slice|js|len|not|or|print|printf|println|urlquery|eq|ne|lt|le|gt|ge)\b
+         scope: variable.function.go support.function.builtin.go
+       - include: match-comments
+       - include: match-strings
 
   # https://godoc.org/fmt
   #
@@ -474,7 +593,7 @@ contexts:
   # false positives in non-fmt strings that just happen to contain %, but don't
   # want too much coupling with the current version of fmt.
   match-fmt:
-    - match: '\%[ .\d#+-]*[A-Za-z]'
+    - match: '\%(?:\[\d+\])?[ .\d#+-]*[A-Za-z]'
       scope: constant.other.placeholder.go
 
   match-keyword-break:
@@ -890,6 +1009,8 @@ contexts:
               scope: variable.other.go
             - match: \.
               scope: punctuation.accessor.dot.go
+            - match: '{{predeclared_type}}(?={{noise}}(?:"|`|//|;|\}|$))'
+              scope: entity.other.inherited-class.go support.type.builtin.go
             - match: '{{ident}}(?={{noise}}(?:"|`|//|;|\}|$))'
               scope: entity.other.inherited-class.go
 
@@ -929,6 +1050,8 @@ contexts:
               scope: variable.other.go
             - match: \.
               scope: punctuation.accessor.dot.go
+            - match: '{{predeclared_type}}(?={{noise}}(?://|;|\}|$))'
+              scope: entity.other.inherited-class.go support.type.builtin.go
             - match: '{{ident}}(?={{noise}}(?://|;|\}|$))'
               scope: entity.other.inherited-class.go
 
@@ -985,10 +1108,16 @@ contexts:
     - match: \b_\b
       scope: variable.language.blank.go
       pop: true
+    - include: pop-type-identifier
+    - include: pop-before-nonblank
+
+  pop-type-identifier:
+    - match: '{{predeclared_type}}'
+      scope: storage.type.go support.type.builtin.go
+      pop: true
     - match: '{{ident}}'
       scope: storage.type.go
       pop: true
-    - include: pop-before-nonblank
 
   pop-type-alias-or-typedef:
     - include: pop-on-terminator
@@ -1031,7 +1160,7 @@ contexts:
       set:
         - include: pop-on-terminator
         - match: \biota\b
-          scope: constant.numeric.integer.go
+          scope: constant.numeric.integer.decimal.go
         - include: match-any
 
   pop-var-type-and-or-assignment:
@@ -1077,8 +1206,10 @@ contexts:
       scope: variable.other.member.go
       pop: true
 
-  pop-first-argument-as-type:
+  pop-arguments-starting-with-type:
     - include: match-comments
+    - match: \)
+      scope: punctuation.section.parens.end.go
     - match: \(
       scope: punctuation.section.parens.begin.go
       set:

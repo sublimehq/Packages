@@ -73,7 +73,7 @@ variables:
   ns_anchor_name: '{{ns_anchor_char}}+'
 
   # double-quoted scalar
-  c_ns_esc_char: \\([0abtnvfre "/\\N_Lp]|x\d\d|u\d{4}|U\d{8})
+  c_ns_esc_char: \\(?:[0abtnvfre "/\\N_Lp]|x[\dA-Fa-f]{2}|u[\dA-Fa-f]{4}|U[\dA-Fa-f]{8})
 
   # plain scalar begin and end patterns
   ns_plain_first_plain_in: |- # c=plain-in
@@ -119,34 +119,35 @@ variables:
     )
   _type_int: |- # http://yaml.org/type/int.html
     (?x:
-        [-+]? 0b [0-1_]+ # (base 2)
-      | [-+]? 0  [0-7_]+ # (base 8)
-      | [-+]? (?: 0|[1-9][0-9_]*) # (base 10)
-      | [-+]? 0x [0-9a-fA-F_]+ # (base 16)
-      | [-+]? [1-9] [0-9_]* (?: :[0-5]?[0-9])+ # (base 60)
+        ([-+]? (0b) [0-1_]+) # (base 2)
+      | ([-+]? (0)  [0-7_]+) # (base 8)
+      | ([-+]? (?: 0|[1-9][0-9_]*)) # (base 10)
+      | ([-+]? (0x) [0-9a-fA-F_]+) # (base 16)
+      | ([-+]? [1-9] [0-9_]* (?: :[0-5]?[0-9])+) # (base 60)
     )
   _type_float: |- # http://yaml.org/type/float.html
     (?x:
-        [-+]? (?: [0-9] [0-9_]*)? \. [0-9.]* (?: [eE] [-+] [0-9]+)? # (base 10)
-      | [-+]? [0-9] [0-9_]* (?: :[0-5]?[0-9])+ \. [0-9_]* # (base 60)
-      | [-+]? \. (?: inf|Inf|INF) # (infinity)
-      |       \. (?: nan|NaN|NAN) # (not a number)
+        ([-+]? (?: [0-9] [0-9_]*)? (\.) [0-9.]* (?: [eE] [-+] [0-9]+)?) # (base 10)
+      | ([-+]? [0-9] [0-9_]* (?: :[0-5]?[0-9])+ (\.) [0-9_]*) # (base 60)
+      | ([-+]? (\.) (?: inf|Inf|INF)) # (infinity)
+      | (      (\.) (?: nan|NaN|NAN)) # (not a number)
     )
   _type_timestamp: |- # http://yaml.org/type/timestamp.html
     (?x:
-        \d{4} - \d{2} - \d{2}           # (y-m-d)
+        \d{4} (-) \d{2} (-) \d{2}       # (y-m-d)
       | \d{4}                           # (year)
-        - \d{1,2}                       # (month)
-        - \d{1,2}                       # (day)
+        (-) \d{1,2}                     # (month)
+        (-) \d{1,2}                     # (day)
         (?: [Tt] | [ \t]+) \d{1,2}      # (hour)
-        : \d{2}                         # (minute)
-        : \d{2}                         # (second)
-        (?: \.\d*)?                     # (fraction)
+        (:) \d{2}                       # (minute)
+        (:) \d{2}                       # (second)
+        (?: (\.)\d*)?                   # (fraction)
+        [ \t]*
         (?:
-            (?:[ \t]*) Z
-          | [-+] \d{1,2} (?: :\d{1,2})?
+          Z | [-+] \d{1,2} (?: (:)\d{1,2})?
         )?                              # (time zone)
     )
+
   _type_value: '=' # http://yaml.org/type/value.html
   _type_merge: '<<' # http://yaml.org/type/merge.html
 
@@ -331,11 +332,44 @@ contexts:
       captures: # &implicit_type_captures
         1: constant.language.null.yaml
         2: constant.language.boolean.yaml
-        3: constant.numeric.integer.yaml
-        4: constant.numeric.float.yaml
-        5: constant.other.timestamp.yaml
-        6: constant.language.value.yaml
-        7: constant.language.merge.yaml
+        # binary integer
+        4: constant.numeric.integer.binary.yaml
+        5: punctuation.definition.numeric.base.yaml
+        # octal integer
+        6: constant.numeric.integer.octal.yaml
+        7: punctuation.definition.numeric.base.yaml
+        # decimal integer
+        8: constant.numeric.integer.decimal.yaml
+        # hexadecimal integer
+        9: constant.numeric.integer.hexadecimal.yaml
+        10: punctuation.definition.numeric.base.yaml
+        # other integer
+        11: constant.numeric.integer.other.yaml
+        # decimal float
+        13: constant.numeric.float.decimal.yaml
+        14: punctuation.separator.decimal.yaml
+        # other float
+        15: constant.numeric.float.other.yaml
+        16: punctuation.separator.decimal.yaml
+        # infinity float
+        17: constant.numeric.float.other.yaml
+        18: punctuation.separator.decimal.yaml
+        # not a number
+        19: constant.numeric.float.other.yaml
+        20: punctuation.separator.decimal.yaml
+        # timestamp
+        21: constant.other.timestamp.yaml
+        22: punctuation.separator.date.yaml
+        23: punctuation.separator.date.yaml
+        24: punctuation.separator.date.yaml
+        25: punctuation.separator.date.yaml
+        26: punctuation.separator.time.yaml
+        27: punctuation.separator.time.yaml
+        28: punctuation.separator.time.yaml
+        29: punctuation.separator.time.yaml
+        # constants
+        30: constant.language.value.yaml
+        31: constant.language.merge.yaml
 
   flow-scalar-plain-out-implicit-type:
     - match: |
@@ -346,11 +380,44 @@ contexts:
         # Alias does not work, see https://github.com/SublimeTextIssues/Core/issues/967
         1: constant.language.null.yaml
         2: constant.language.boolean.yaml
-        3: constant.numeric.integer.yaml
-        4: constant.numeric.float.yaml
-        5: constant.other.timestamp.yaml
-        6: constant.language.value.yaml
-        7: constant.language.merge.yaml
+        # binary integer
+        4: constant.numeric.integer.binary.yaml
+        5: punctuation.definition.numeric.base.yaml
+        # octal integer
+        6: constant.numeric.integer.octal.yaml
+        7: punctuation.definition.numeric.base.yaml
+        # decimal integer
+        8: constant.numeric.integer.decimal.yaml
+        # hexadecimal integer
+        9: constant.numeric.integer.hexadecimal.yaml
+        10: punctuation.definition.numeric.base.yaml
+        # other integer
+        11: constant.numeric.integer.other.yaml
+        # decimal float
+        13: constant.numeric.float.decimal.yaml
+        14: punctuation.separator.decimal.yaml
+        # other float
+        15: constant.numeric.float.other.yaml
+        16: punctuation.separator.decimal.yaml
+        # infinity float
+        17: constant.numeric.float.other.yaml
+        18: punctuation.separator.decimal.yaml
+        # not a number
+        19: constant.numeric.float.other.yaml
+        20: punctuation.separator.decimal.yaml
+        # timestamp
+        21: constant.other.timestamp.yaml
+        22: punctuation.separator.date.yaml
+        23: punctuation.separator.date.yaml
+        24: punctuation.separator.date.yaml
+        25: punctuation.separator.date.yaml
+        26: punctuation.separator.time.yaml
+        27: punctuation.separator.time.yaml
+        28: punctuation.separator.time.yaml
+        29: punctuation.separator.time.yaml
+        # constants
+        30: constant.language.value.yaml
+        31: constant.language.merge.yaml
 
   flow-scalar-plain-out:
     # http://yaml.org/spec/1.2/spec.html#style/flow/plain
@@ -459,7 +526,7 @@ contexts:
       captures:
         1: keyword.control.flow.block-scalar.literal.yaml
         2: keyword.control.flow.block-scalar.folded.yaml
-        3: constant.numeric.indentation-indicator.yaml
+        3: constant.numeric.integer.decimal.indentation-indicator.yaml
         4: storage.modifier.chomping-indicator.yaml
       push:
         - meta_include_prototype: false

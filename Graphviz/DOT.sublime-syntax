@@ -12,7 +12,7 @@ contexts:
     - include: expressions
 
   expressions:
-    - match: \b((sub|di)?graph)\b\s+((cluster)?\w+)\b
+    - match: \b((sub|di)?graph)\b\s+((cluster_)?\w+)\b
       captures:
         1: storage.type.dot
         3: entity.name.graph.dot
@@ -107,3 +107,6 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.dot
           pop: true
+        - match: ^\s*(\*)(?!/)
+          captures:
+            1: punctuation.definition.comment.dot

@@ -4,7 +4,7 @@
 # Strings and embedded syntaxes
 ###############################
 
-var = "\x00 \xaa \xAF \070 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SPACE}"
+var = "\x00 \xaa \xAF \070 \0 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SPACE}"
 #     ^ meta.string.python
 #      ^^^^ constant.character.escape.hex
 #           ^^^^ constant.character.escape.hex
@@ -19,14 +19,14 @@ var = "\x00 \xaa \xAF \070 \r \n \t \\ \a \b \' \v \f \u0aF1 \UFe0a182f \N{SPACE
 #                                            ^^ constant.character.escape
 #                                               ^^ constant.character.escape
 #                                                  ^^ constant.character.escape
-#                                                     ^^^^^^ constant.character.escape.unicode
-#                                                            ^^^^^^^^^^ constant.character.escape.unicode
-#                                                                       ^^^^^^^^^ constant.character.escape.unicode
+#                                                     ^^ constant.character.escape
+#                                                        ^^^^^^ constant.character.escape.unicode
+#                                                               ^^^^^^^^^^ constant.character.escape.unicode
+#                                                                          ^^^^^^^^^ constant.character.escape.unicode
 
-invalid_escapes = "\.  \7 \-"
+invalid_escapes = "\.  \-"
 #                  ^^ invalid.deprecated.character.escape.python
 #                      ^^ invalid.deprecated.character.escape.python
-#                         ^^ invalid.deprecated.character.escape.python
 
 conn.execute("SELECT * FROM foobar")
 #              ^ meta.string.python keyword.other.DML.sql
@@ -136,10 +136,14 @@ string = """
 
 string = """
 #        ^^^ string.quoted.double.block - string string
+\
+# <- punctuation.separator.continuation.line.python
 """
 
 string = r"""
 #         ^^^ meta.string.python string.quoted.double.block
+\
+# <- - punctuation
 """
 
 string = r"""
@@ -579,6 +583,18 @@ expr = fr"^\s*({label}|{notlabel})"
 #               ^^^^^ source.python.embedded meta.qualified-name.python meta.generic-name.python
 #                                ^ source.regexp.python meta.group.regexp punctuation.definition.group.end.regexp
 
+line = re.sub(rf" ?\{{\\i.?\}}({x})\{{\\i.?\}}", r"\1", line)
+#                  ^^^^^ constant.character.escape.backslash.regexp
+#                   ^^ constant.character.escape.python
+#                          ^^^ constant.character.escape.backslash.regexp
+#                           ^^ constant.character.escape.python
+#                              ^ punctuation.section.interpolation.begin.python
+
+f"\{{{x}\}} test"
+# ^ invalid.deprecated.character.escape.python
+#  ^^ constant.character.escape.python
+#    ^ punctuation.section.interpolation.begin.python
+
 f"{something}"
 #^^^^^^^^^^^^ meta.string.interpolated
 # <- storage.type.string
@@ -634,6 +650,37 @@ F""" {} {\} }
 #           ^ invalid.illegal.stray-brace
 """
 
+fr'''
+#    ^ - invalid
+'''
+
+# Most of these were inspired by
+# https://github.com/python/cpython/commit/9a4135e939bc223f592045a38e0f927ba170da32
+f'{x=:}'
+#   ^ storage.modifier.debug.python
+f'{x=:.2f}'
+#   ^ storage.modifier.debug.python
+f'{x=!r}'
+#   ^ storage.modifier.debug.python
+f'{x=!a}'
+#   ^ storage.modifier.debug.python
+f'{x=!s:*^20}'
+#   ^ storage.modifier.debug.python
+#    ^^ storage.modifier.conversion.python
+#      ^^^^^ meta.format-spec.python
+f'{"Σ"=}'
+#     ^ storage.modifier.debug.python
+f'{0==1}'
+#   ^^ -storage.modifier.debug.python
+f'{0!=1}'
+#    ^ -storage.modifier.debug.python
+f'{0<=1}'
+#    ^ -storage.modifier.debug.python
+f'{0>=1}'
+#    ^ -storage.modifier.debug.python
+f'{f(a="3=")}'
+#     ^^^^ -storage.modifier.debug.python
+
 f" {
 %   ^ invalid.illegal.unclosed-string
    # TODO make this test pass
@@ -645,7 +692,7 @@ f'   \
 # ^^^^^ source source.python.embedded
 
 f"{d for d in range(10)}"  # yes, this doesn't make sense
-#    ^^^ keyword.control.flow.for.generator.python
+#    ^^^ keyword.control.loop.for.generator.python
 
 f'
 # ^ invalid.illegal.unclosed-string

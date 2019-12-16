@@ -8,15 +8,24 @@
 	<key>settings</key>
 	<dict>
 		<key>decreaseIndentPattern</key>
-		<string>^(.*\*/)?\s*\}([^}{"']*\{)?[;\s]*(//.*|/\*.*\*/\s*)?$|^\s*(public|private|protected):\s*$</string>
+		<string>(?x)
+		^ (.*\*/)? \s* \}
+		|   ^ \s* (public|private|protected|package): \s* $
+		</string>
 		<key>increaseIndentPattern</key>
-		<string>^.*\{[^}"']*$|^\s*(public|private|protected):\s*$</string>
+		<string>(?x)
+		^ .* \{ [^}"']* $
+		|   ^ \s* (public|private|protected|package): \s* $
+		</string>
 
 		<key>bracketIndentNextLinePattern</key>
 		<string>(?x)
-		^ \s* \b(if|while|else|foreach)\b [^;]* $
-		| ^ \s* \b(for)\b .* $
+		^ \s* \b(if|while|else)\b [^;]* $
+		| ^ \s* \b(for|foreach|foreach_reverse)\b .* $
 		</string>
+
+		<key>indentSquareBrackets</key>
+		<false/>
 	</dict>
 </dict>
 </plist>

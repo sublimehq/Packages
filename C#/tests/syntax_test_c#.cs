@@ -149,52 +149,64 @@ public class Coo
 class Syntax
 {
     public decimal decimal1 = 1.0m;
-    //                        ^^^  constant.numeric
+    //                        ^^^^ constant.numeric.float.decimal
+    //                         ^ punctuation.separator.decimal.cs
     //                           ^ storage.type.numeric
     public decimal decimal2 = 2.0M;
-    //                        ^^^  constant.numeric
+    //                        ^^^^ constant.numeric.float.decimal
+    //                         ^ punctuation.separator.decimal.cs
     //                           ^ storage.type.numeric
     public double double1 = 1.0d;
-    //                      ^^^  constant.numeric
+    //                      ^^^^ constant.numeric.float.decimal
+    //                       ^ punctuation.separator.decimal.cs
     //                         ^ storage.type.numeric
     public double double2 = 2.0D;
-    //                      ^^^  constant.numeric
+    //                      ^^^^ constant.numeric.float.decimal
+    //                       ^ punctuation.separator.decimal.cs
     //                         ^ storage.type.numeric
+    public double double3 = 2D;
+    //                      ^^ constant.numeric.float.decimal
+    //                       ^ storage.type.numeric
     public float float1 = 1.0f;
-    //                    ^^^  constant.numeric
+    //                    ^^^^ constant.numeric.float.decimal
+    //                     ^ punctuation.separator.decimal.cs
     //                       ^ storage.type.numeric
     public float float2 = 2.0F;
-    //                    ^^^  constant.numeric
+    //                    ^^^^ constant.numeric.float.decimal
+    //                     ^ punctuation.separator.decimal.cs
+    //                       ^ storage.type.numeric
+    public double double3 = 2f;
+    //                      ^^ constant.numeric.float.decimal
     //                       ^ storage.type.numeric
     public long long1 = 1l;
-    //                  ^  constant.numeric
+    //                  ^^ constant.numeric
     //                   ^ storage.type.numeric
     public long long2 = 2L;
-    //                  ^  constant.numeric
+    //                  ^^ constant.numeric
     //                   ^ storage.type.numeric
     public ulong ulong1 = 1ul;
-    //                    ^   constant.numeric
+    //                    ^^^ constant.numeric
     //                     ^^ storage.type.numeric
     public ulong ulong2 = 2UL;
-    //                    ^   constant.numeric
+    //                    ^^^ constant.numeric
     //                     ^^ storage.type.numeric
     public ulong ulong3 = 3lu;
-    //                    ^   constant.numeric
+    //                    ^^^ constant.numeric
     //                     ^^ storage.type.numeric
     public ulong ulong4 = 4LU;
-    //                    ^   constant.numeric
+    //                    ^^^ constant.numeric
     //                     ^^ storage.type.numeric
     public ulong ulong5 = 5uL;
-    //                    ^   constant.numeric
+    //                    ^^^ constant.numeric
     //                     ^^ storage.type.numeric
     public ulong ulong6 = 6Ul;
-    //                    ^   constant.numeric
+    //                    ^^^ constant.numeric
     //                     ^^ storage.type.numeric
     public ulong ulong7 = 7lU;
-    //                    ^   constant.numeric
+    //                    ^^^ constant.numeric
     //                     ^^ storage.type.numeric
     public ulong ulong8 = 8Lu;
-    //                    ^   constant.numeric
+    //                    ^^^ constant.numeric
     //                     ^^ storage.type.numeric
     public ulong bad = 1UU;
     //                   ^ - storage.type.numeric

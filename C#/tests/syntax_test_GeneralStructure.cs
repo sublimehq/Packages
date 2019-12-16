@@ -1236,6 +1236,25 @@ namespace TestNamespace.Test
 ///                                     ^^^^^ variable.other - variable.parameter
 ///                                                    ^^^^^ variable.other - variable.parameter
 ///                                           ^^ keyword.operator - keyword.operator.assignment
+        formatted = string.Format(@"GMT is {0:yyyyMMdd\THHmmss\Z}", DateTime.Now.ToUniversalTime());
+///                                        ^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.raw constant.other.placeholder
+        formatted = string.Format("GMT is {0:yyyyMMdd\\THHmmss\\Z}", DateTime.Now.ToUniversalTime());
+///                                       ^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double constant.other.placeholder
+        Console.WriteLine($@"GMT is {DateTime.Now:yyyyMMdd\THHmmss\Z}");
+///                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated
+///                                              ^ punctuation.separator
+///                                              ^^^^^^^^^^^^^^^^^^^ constant.other.format-spec
+        Console.WriteLine($"GMT is {DateTime.Now:yyyyMMdd\THHmmss\Z}");
+///                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated
+///                                             ^ punctuation.separator
+///                                             ^^^^^^^^^^^^^^^^^^^ constant.other.format-spec
+///                                                      ^ invalid.illegal.lone-escape
+///                                                              ^ invalid.illegal.lone-escape
+        Console.WriteLine($@"GMT is {DateTime.Now:yyyyMMdd\T\""\x1043HHmmss\Z}");
+///                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.format-spec - invalid
+///                                                       ^^^^^^^ constant.character.escape
+///                                                              ^^^^^^^^^^ - constant.character.escape
+///                                                                        ^^ constant.character.escape
     }
 }
 ///<- punctuation.section.block.end

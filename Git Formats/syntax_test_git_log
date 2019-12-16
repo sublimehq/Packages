@@ -3,7 +3,7 @@ commit e2077c6e006acfd2f060aef03c4ef8f89c4db362
 # <- meta.header.git.commit markup.raw.block.git.log keyword.other.commit.git.log
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit markup.raw.block.git.log
 #^^^^^ keyword.other.commit.git.log
-#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.hex.hash.git.log
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.hash.git.log
 Author: username <user-name.last@host.com>
 # <- meta.header.git.commit markup.raw.block.git.log keyword.other.header.git.log
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.header.git.commit markup.raw.block.git.log
@@ -15,6 +15,7 @@ Author: username <user-name.last@host.com>
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.reference.email.git
 #                 ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.reference.email.git
 #                               ^ punctuation.separator.email.git
+#                                    ^ punctuation.separator.domain.git
 #                                        ^ punctuation.definition.reference.email.end.git
 Date:   Thu Sep 21 22:53:04 2017 +0200
 # <- meta.header.git.commit markup.raw.block.git.log keyword.other.header.git.log

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
-<dict>
-	<key>name</key>
-	<string>Indent</string>
-	<key>scope</key>
-	<string>source.lua</string>
-	<key>settings</key>
 	<dict>
-		<key>decreaseIndentPattern</key>
-		<string>^\s*(elseif|else|end|\})\s*$</string>
-		<key>increaseIndentPattern</key>
-		<string>^\s*(else|elseif|for|(local\s+)?function|if|repeat|until|while)\b((?!end).)*$|\{\s*$</string>
+		<key>name</key>
+		<string>Indent</string>
+		<key>scope</key>
+		<string>source.lua</string>
+		<key>settings</key>
+		<dict>
+			<key>decreaseIndentPattern</key>
+			<string>(^\s*\b(elsei|elseif|else|end|until)\b.*$|^((?!\{).)*\}\;?.*$)</string>
+			<key>increaseIndentPattern</key>
+			<string>(^\s*\b(((local)?[\s\w=]+)?function|repeat|else|elseif|if|while)\b((?!\bend\b).)*$|^.*\b(do|then)\b((?!\bend\b).)*$|^.*\{((?!\}).)*$)</string>
+		</dict>
 	</dict>
-</dict>
 </plist>

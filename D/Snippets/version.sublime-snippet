@@ -1,5 +1,5 @@
 <snippet>
-	<content><![CDATA[version(${1:Posix})
+	<content><![CDATA[version (${1:Posix})
 {
 	$0
 }]]></content>

@@ -459,7 +459,7 @@ typedef char arrType[6];
 /*      ^^^^ storage.type.c */
 /*           ^^^^^^^ entity.name.type */
 /*                  ^ punctuation.section.brackets.begin.c */
-/*                   ^ constant.numeric.c */
+/*                   ^ constant.numeric.integer.decimal.c */
 /*                    ^ punctuation.section.brackets.end.c */
 
 typedef char arrType[NUMBER_OF_ELEMENTS];
@@ -827,7 +827,7 @@ TRACE_EVENT(mmc_request_start,
 TRACE_EVENT(802154_rdev_add_virtual_intf,
 /* <-meta.function-call.c constant.other.macro.c */
 /*         ^ meta.function-call.parameters.c punctuation.section.group.begin.c */
-/*          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.other.c */
+/*          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - variable.other.c TODO: Figure this out */
 /*                                      ^ punctuation.separator.c */
   TP_STRUCT__entry(
 /*^^^^^^^^^^^^^^^^ meta.function-call.parameters.c meta.function-call.c variable.function.c */
@@ -1451,16 +1451,16 @@ void * const compat_sys_call_table[__NR_compat_syscalls] __aligned(4096) = {
 /*                                                     ^ meta.brackets.c punctuation.section.brackets.end.c */
 /*                                                       ^^^^^^^^^ meta.function-call.c constant.other.macro.c */
 /*                                                                ^^^^^^ meta.function-call.parameters.c */
-/*                                                                 ^^^^ constant.numeric.c */
+/*                                                                 ^^^^ constant.numeric.integer.decimal.c */
 /*                                                                       ^ keyword.operator.assignment.c */
 /*                                                                         ^ meta.block.c punctuation.section.block.begin.c */
   [0 ... __NR_compat_syscalls - 1] = sys_ni_syscall,
 /*^ meta.brackets.c punctuation.section.brackets.begin.c */
-/* ^ constant.numeric.c */
+/* ^ constant.numeric.integer.decimal.c */
 /*   ^^^ keyword.operator.variadic.c */
 /*       ^^^^^^^^^^^^^^^^^^^^ variable.other.indexed.c */
 /*                            ^ keyword.operator.arithmetic.c */
-/*                              ^ constant.numeric.c */
+/*                              ^ constant.numeric.integer.decimal.c */
 /*                               ^ meta.brackets.c punctuation.section.brackets.end.c */
 /*                                 ^ keyword.operator.assignment.c */
 /*                                   ^^^^^^^^^^^^^^ variable.other.indexed.c */
@@ -1499,7 +1499,7 @@ struct mac_tfm_ctx {
 /*                      ^^^^^^^^^ meta.function-call.c constant.other.macro.c */
 /*                               ^^^ meta.function-call.parameters.c */
 /*                               ^ meta.group.c punctuation.section.group.begin.c */
-/*                                ^ constant.numeric.c */
+/*                                ^ constant.numeric.integer.decimal.c */
 /*                                 ^ meta.group.c punctuation.section.group.end.c */
 /*                                   ^^^^ entity.name.member.indexed.c */
 /*                                       ^ punctuation.terminator.c */
@@ -1508,7 +1508,7 @@ struct mac_tfm_ctx {
 /*   ^^^^^^^^^ meta.function-call.c constant.other.macro.c */
 /*            ^^^ meta.function-call.parameters.c */
 /*            ^ meta.group.c punctuation.section.group.begin.c */
-/*             ^ constant.numeric.c */
+/*             ^ constant.numeric.integer.decimal.c */
 /*              ^ meta.group.c punctuation.section.group.end.c */
 /*                ^^^^^^ entity.name.member.indexed.c */
 /*                      ^ meta.brackets.c punctuation.section.brackets.begin.c */
@@ -1520,7 +1520,7 @@ struct mac_tfm_ctx {
 /*         ^^^^^^^^^ meta.function-call.c constant.other.macro.c */
 /*                  ^^^ meta.function-call.parameters.c */
 /*                  ^ meta.group.c punctuation.section.group.begin.c */
-/*                   ^ constant.numeric.c */
+/*                   ^ constant.numeric.integer.decimal.c */
 /*                    ^ meta.group.c punctuation.section.group.end.c */
 /*                     ^ punctuation.terminator.c */
 
@@ -1690,47 +1690,47 @@ TYPE(int) UPPER_VAR;
 void __printf(1)
 /* <- storage.type.c */
 /*   ^^^^^^^^ meta.function-call.c constant.other.macro.c  */
-/*            ^ constant.numeric.c */
+/*            ^ constant.numeric.integer.decimal.c */
 /*           ^^^ meta.function-call.parameters.c */
 __printf(1,)
 /* ^^^^^ meta.function-call.c constant.other.macro.c */
 /*      ^^^^ meta.function-call.parameters.c */
 /*      ^ punctuation.section.group.begin.c */
-/*       ^ constant.numeric.c */
+/*       ^ constant.numeric.integer.decimal.c */
 /*        ^ punctuation.separator.c */
 /*         ^ punctuation.section.group.end.c */
 __printf(1, )
 /* ^^^^^ meta.function-call.c constant.other.macro.c */
 /*      ^^^^^ meta.function-call.parameters.c */
 /*      ^ punctuation.section.group.begin.c */
-/*       ^ constant.numeric.c */
+/*       ^ constant.numeric.integer.decimal.c */
 /*        ^ punctuation.separator.c */
 /*          ^ punctuation.section.group.end.c */
 __printf(1, 2)
 /* ^^^^^ meta.function-call.c constant.other.macro.c */
 /*      ^^^^^^ meta.function-call.parameters.c */
 /*      ^ punctuation.section.group.begin.c */
-/*       ^ constant.numeric.c */
+/*       ^ constant.numeric.integer.decimal.c */
 /*        ^ punctuation.separator.c */
-/*          ^ constant.numeric.c */
+/*          ^ constant.numeric.integer.decimal.c */
 /*           ^ punctuation.section.group.end.c */
 __printf(1, 2, 3)
 /* ^^^^^ meta.function-call.c constant.other.macro.c */
 /*      ^^^^^^^^^ meta.function-call.parameters.c */
 /*      ^ punctuation.section.group.begin.c */
-/*       ^ constant.numeric.c */
+/*       ^ constant.numeric.integer.decimal.c */
 /*        ^ punctuation.separator.c */
-/*          ^ constant.numeric.c */
+/*          ^ constant.numeric.integer.decimal.c */
 /*           ^ punctuation.separator.c */
-/*             ^ constant.numeric.c */
+/*             ^ constant.numeric.integer.decimal.c */
 /*              ^ punctuation.section.group.end.c */
 __printf(0x1, 0xA, sizeof(int))
 /* ^^^^^ meta.function-call.c constant.other.macro.c */
 /*      ^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.parameters.c */
 /*      ^ punctuation.section.group.begin.c */
-/*       ^^^ constant.numeric.c */
+/*       ^^^ constant.numeric.integer.hexadecimal.c */
 /*          ^ punctuation.separator.c */
-/*            ^^^ constant.numeric.c */
+/*            ^^^ constant.numeric.integer.hexadecimal.c */
 /*               ^ punctuation.separator.c */
 /*                 ^^^^^^ keyword.operator */
 /*                        ^^^ storage.type.c */
@@ -1757,7 +1757,7 @@ enum {
     ENUM_B = 6,
 /*  ^ entity.name.constant.enum.c */
 /*         ^ keyword.operator.assignment */
-/*           ^ constant.numeric.c */
+/*           ^ constant.numeric.integer.decimal.c */
 /*            ^ punctuation.separator.c */
 #ifdef ENABLED_FEATURE
 /* <- meta.preprocessor.c keyword.control.import.c */
@@ -1788,7 +1788,7 @@ enum typec_mux {
   TYPEC_MUX_NONE = 0,
 /*^^^^^^^^^^^^^^ entity.name.constant.enum.c */
 /*               ^ keyword.operator.assignment.c */
-/*                 ^ constant.numeric.c */
+/*                 ^ constant.numeric.integer.decimal.c */
 /*                  ^ punctuation.separator.c */
   TYPEC_MUX_USB  = MUX_USB_ENABLED,
 /*^^^^^^^^^^^^^ entity.name.constant.enum.c */
@@ -2174,34 +2174,242 @@ func_call(foo
 // Numeric Constants
 /////////////////////////////////////////////
 
+dec0 = 0;
+/*     ^ constant.numeric.integer.decimal */
+/*      ^ punctuation.terminator - constant */
 dec1 = 1234567890;
-/*     ^ constant.numeric */
-/*              ^ constant.numeric */
+/*     ^^^^^^^^^^ constant.numeric.integer.decimal */
+/*               ^ punctuation.terminator - constant */
 
 dec2 = 1234567890f;
-/*     ^ constant.numeric */
-/*               ^ constant.numeric */
+/*     ^^^^^^^^^^^ constant.numeric.float.decimal */
+/*               ^ storage.type.numeric */
+/*                ^ punctuation.terminator - constant */
 
-dec2 = 1234567890L;
-/*     ^ constant.numeric */
-/*               ^ constant.numeric */
+dec3 = 1234567890L;
+/*     ^^^^^^^^^^^ constant.numeric.integer.decimal */
+/*               ^ storage.type.numeric */
+/*                ^ punctuation.terminator - constant */
 
-dec2 = 1234567890ul;
-/*     ^ constant.numeric */
-/*                ^ constant.numeric */
+dec4 = 1234567890ul;
+/*     ^^^^^^^^^^^^ constant.numeric.integer.decimal */
+/*               ^^ storage.type.numeric */
+/*                 ^ punctuation.terminator - constant */
 
-dec4 = 1234567890Lu;
-/*     ^ constant.numeric */
-/*                ^ constant.numeric */
+dec5 = 1234567890Lu;
+/*     ^^^^^^^^^^^^ constant.numeric.integer.decimal */
+/*               ^^ storage.type.numeric */
+/*                 ^ punctuation.terminator - constant */
 
-dec3 = 1234567890LLU;
-/*     ^ constant.numeric */
-/*                 ^ constant.numeric */
+dec6 = 1234567890LLU;
+/*     ^^^^^^^^^^^^^ constant.numeric.integer.decimal */
+/*               ^^^ storage.type.numeric */
+/*                  ^ punctuation.terminator - constant */
 
-dec3 = 1234567890uLL;
-/*     ^ constant.numeric */
-/*                 ^ constant.numeric */
+dec7 = 1234567890uLL;
+/*     ^^^^^^^^^^^^^ constant.numeric.integer.decimal */
+/*               ^^^ storage.type.numeric */
+/*                  ^ punctuation.terminator - constant */
 
+dec8 = 1'234_567'890s0f;
+/*     ^ constant.numeric.integer.decimal */
+/*      ^^^^^^^^^ string.quoted.single */
+/*               ^^^^^^ constant.numeric.integer.decimal */
+/*                  ^^^ invalid.illegal.numeric.suffix */
+/*                     ^ punctuation.terminator - constant */
+
+oct1 = 01234567;
+/*     ^^^^^^^^ constant.numeric.integer.octal */
+/*     ^ punctuation.definition.numeric.base */
+/*             ^ punctuation.terminator - constant */
+
+oct2 = 01234567L;
+/*     ^^^^^^^^ constant.numeric.integer.octal */
+/*     ^ punctuation.definition.numeric.base */
+/*             ^ storage.type.numeric */
+/*              ^ punctuation.terminator - constant */
+
+oct3 = 01234567LL;
+/*     ^^^^^^^^^^ constant.numeric.integer.octal */
+/*     ^ punctuation.definition.numeric.base */
+/*             ^^ storage.type.numeric */
+/*               ^ punctuation.terminator - constant */
+
+oct4 = 01234567ulL;
+/*     ^^^^^^^^^^^ constant.numeric.integer.octal */
+/*     ^ punctuation.definition.numeric.base */
+/*             ^^^ storage.type.numeric */
+/*                ^ punctuation.terminator - constant */
+
+oct2 = 01284967Z0L;
+/*     ^^^^^^^^^^^ constant.numeric.integer.octal */
+/*     ^ punctuation.definition.numeric.base */
+/*        ^ invalid.illegal.numeric.digit */
+/*          ^ invalid.illegal.numeric.digit */
+/*             ^^^ invalid.illegal.numeric.suffix */
+/*                ^ punctuation.terminator - constant */
+
+hex1 = 0x0+0xFL+0xaull+0xallu+0xfu+0x'f'12_4uz;
+/*     ^^^ constant.numeric.integer.hexadecimal */
+/*     ^^ punctuation.definition.numeric.base */
+/*         ^^^^ constant.numeric.integer.hexadecimal */
+/*         ^^ punctuation.definition.numeric.base */
+/*            ^ storage.type.numeric */
+/*              ^^^^^^ constant.numeric.integer.hexadecimal */
+/*              ^^ punctuation.definition.numeric.base */
+/*                 ^^^ storage.type.numeric */
+/*                     ^^^^^^ constant.numeric.integer.hexadecimal */
+/*                     ^^ punctuation.definition.numeric.base */
+/*                        ^^^ storage.type.numeric */
+/*                            ^^^^ constant.numeric.integer.hexadecimal */
+/*                            ^^ punctuation.definition.numeric.base */
+/*                               ^ storage.type.numeric */
+/*                                 ^^ constant.numeric.integer.hexadecimal */
+/*                                 ^^ punctuation.definition.numeric.base */
+/*                                   ^^^ string.quoted.single */
+/*                                      ^^^^^^ constant.numeric.integer.decimal */
+/*                                        ^^^^ invalid.illegal.numeric.suffix */
+/*                                            ^ punctuation.terminator - constant */
+
+hex2 = 0xc1.01AbFp-1;
+/*     ^^^^^^^^^^^^^ constant.numeric.float.hexadecimal */
+/*     ^^ punctuation.definition.numeric.base */
+/*         ^ punctuation.separator.decimal */
+/*                  ^ punctuation.terminator - constant */
+
+f = 1.1+1.1e1+1.1e-1+1.1f+1.1e1f+1.1e-1f+1.1L+1.1e1L+1.1e-1L;
+/*  ^^^ constant.numeric.float.decimal */
+/*   ^ punctuation.separator.decimal */
+/*     ^ keyword.operator.arithmetic */
+/*      ^^^^^ constant.numeric.float.decimal */
+/*       ^ punctuation.separator.decimal */
+/*           ^ keyword.operator.arithmetic */
+/*            ^^^^^^ constant.numeric.float.decimal */
+/*             ^ punctuation.separator.decimal */
+/*                  ^ keyword.operator.arithmetic */
+/*                   ^^^^ constant.numeric.float.decimal */
+/*                    ^ punctuation.separator.decimal */
+/*                      ^ storage.type.numeric */
+/*                       ^ keyword.operator.arithmetic */
+/*                        ^^^^^^ constant.numeric.float.decimal */
+/*                         ^ punctuation.separator.decimal */
+/*                             ^ storage.type.numeric */
+/*                              ^ keyword.operator.arithmetic */
+/*                               ^^^^^^^ constant.numeric.float.decimal */
+/*                                ^ punctuation.separator.decimal */
+/*                                     ^ storage.type.numeric */
+/*                                      ^ keyword.operator.arithmetic */
+/*                                       ^^^^ constant.numeric.float.decimal */
+/*                                        ^ punctuation.separator.decimal */
+/*                                          ^ storage.type.numeric */
+/*                                           ^ keyword.operator.arithmetic */
+/*                                            ^^^^^^ constant.numeric.float.decimal */
+/*                                             ^ punctuation.separator.decimal */
+/*                                                 ^ storage.type.numeric */
+/*                                                  ^ keyword.operator.arithmetic */
+/*                                                   ^^^^^^^ constant.numeric.float.decimal */
+/*                                                    ^ punctuation.separator.decimal */
+/*                                                         ^ storage.type.numeric */
+/*                                                          ^ punctuation.terminator - constant */
+
+f = 1.e1+1.e-1+1.e1f+1.e-1f+1.e1L+1.e-1L;
+/*  ^^^^ constant.numeric.float.decimal */
+/*   ^ punctuation.separator.decimal */
+/*      ^ keyword.operator.arithmetic */
+/*       ^^^^^ constant.numeric.float.decimal */
+/*        ^ punctuation.separator.decimal */
+/*            ^ keyword.operator.arithmetic */
+/*             ^^^^^ constant.numeric.float.decimal */
+/*              ^ punctuation.separator.decimal */
+/*                 ^ storage.type.numeric */
+/*                  ^ keyword.operator.arithmetic */
+/*                   ^^^^^^ constant.numeric.float.decimal */
+/*                    ^ punctuation.separator.decimal */
+/*                        ^ storage.type.numeric */
+/*                         ^ keyword.operator.arithmetic */
+/*                          ^^^^^ constant.numeric.float.decimal */
+/*                           ^ punctuation.separator.decimal */
+/*                              ^ storage.type.numeric */
+/*                               ^ keyword.operator.arithmetic */
+/*                                ^^^^^^ constant.numeric.float.decimal */
+/*                                 ^ punctuation.separator.decimal */
+/*                                     ^ storage.type.numeric */
+/*                                      ^ punctuation.terminator - constant */
+
+f = 1.+1.f+1.L+1..;
+/*  ^^ constant.numeric.float.decimal */
+/*   ^ punctuation.separator.decimal */
+/*    ^ keyword.operator.arithmetic */
+/*     ^^^ constant.numeric.float.decimal */
+/*      ^ punctuation.separator.decimal */
+/*       ^ storage.type.numeric */
+/*        ^ keyword.operator.arithmetic */
+/*         ^^^ constant.numeric.float.decimal */
+/*          ^ punctuation.separator.decimal */
+/*           ^ storage.type.numeric */
+/*            ^ keyword.operator.arithmetic */
+/*             ^ constant.numeric.integer.decimal */
+/*              ^^ invalid.illegal.syntax */
+/*                ^ punctuation.terminator - constant */
+
+f = 1e1+1e1f+1e1L;
+/*  ^^^ constant.numeric.float.decimal */
+/*     ^ keyword.operator.arithmetic */
+/*      ^^^^ constant.numeric.float.decimal */
+/*         ^ storage.type.numeric */
+/*          ^ keyword.operator.arithmetic */
+/*           ^^^^ constant.numeric.float.decimal */
+/*              ^ storage.type.numeric */
+/*               ^ punctuation.terminator - constant */
+
+f = .1+.1e1+.1e-1+.1f+.1e1f+.1e-1f+.1L+.1e1L+.1e-1L;
+/*  ^^ constant.numeric.float.decimal */
+/*  ^ punctuation.separator.decimal */
+/*    ^ keyword.operator.arithmetic */
+/*     ^^^^ constant.numeric.float.decimal */
+/*     ^ punctuation.separator.decimal */
+/*         ^ keyword.operator.arithmetic */
+/*          ^^^^^ constant.numeric.float.decimal */
+/*          ^ punctuation.separator.decimal */
+/*               ^ keyword.operator.arithmetic */
+/*                ^^^ constant.numeric.float.decimal */
+/*                ^ punctuation.separator.decimal */
+/*                  ^ storage.type.numeric */
+/*                   ^ keyword.operator.arithmetic */
+/*                    ^^^^^ constant.numeric.float.decimal */
+/*                    ^ punctuation.separator.decimal */
+/*                        ^ storage.type.numeric */
+/*                         ^ keyword.operator.arithmetic */
+/*                          ^^^^^^ constant.numeric.float.decimal */
+/*                          ^ punctuation.separator.decimal */
+/*                               ^ storage.type.numeric */
+/*                                 ^^^ constant.numeric.float.decimal */
+/*                                 ^ punctuation.separator.decimal */
+/*                                   ^ storage.type.numeric */
+/*                                    ^ keyword.operator.arithmetic */
+/*                                     ^^^^^ constant.numeric.float.decimal */
+/*                                     ^ punctuation.separator.decimal */
+/*                                         ^ storage.type.numeric */
+/*                                          ^ keyword.operator.arithmetic */
+/*                                           ^^^^^^ constant.numeric.float.decimal */
+/*                                           ^ punctuation.separator.decimal */
+/*                                                ^ storage.type.numeric */
+/*                                                 ^ punctuation.terminator - constant */
+
+f = 1.0suff+1.suff*.0suff/{1suff}
+/*  ^^^ constant.numeric.float.decimal - invalid */
+/*     ^^^^ constant.numeric.float.decimal invalid.illegal.numeric.suffix */
+/*         ^ keyword.operator.arithmetic */
+/*          ^^ constant.numeric.float.decimal - invalid */
+/*            ^^^^ constant.numeric.float.decimal invalid.illegal.numeric.suffix */
+/*                ^ keyword.operator */
+/*                 ^^ constant.numeric.float.decimal - invalid */
+/*                   ^^^^ constant.numeric.float.decimal invalid.illegal.numeric.suffix */
+/*                       ^ keyword.operator.arithmetic */
+/*                        ^ punctuation.section.block.begin */
+/*                         ^ constant.numeric.integer.decimal - invalid */
+/*                          ^^^^ constant.numeric.integer.decimal invalid.illegal.numeric.suffix */
+/*                              ^ punctuation.section.block.end */
 
 scanf("%ms %as %*[, ]", &buf);
 /*     ^^^ constant.other.placeholder */
@@ -2267,7 +2475,7 @@ int control_keywords()
 /*            ^ punctuation.accessor.c */
 /*             ^^^^^^^^^ variable.other.member.indexed.c */
 /*                       ^ keyword.operator.assignment.c */
-/*                         ^ constant.numeric.c */
+/*                         ^ constant.numeric.integer.decimal.c */
 /*                          ^ punctuation.terminator.c */
   do
   /* <- keyword.control */

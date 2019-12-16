@@ -29,6 +29,6 @@ $0
 
 endfunction]]></content>
 	<tabTrigger>octfun</tabTrigger>
-	<scope>source.matlab</scope>
+	<scope>source.matlab, source.octave</scope>
 	<description>Octave function</description>
 </snippet>

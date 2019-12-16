@@ -75,6 +75,8 @@ contexts:
           pop: true
         - include: Git Common.sublime-syntax#references
         - include: signed-off
+        - match: '{{hash}}'
+          scope: constant.other.hash.git.commit
 
   signed-off:
     - match: ^\s*(Signed-off-by)\s*(:)
@@ -112,7 +114,16 @@ contexts:
         1: keyword.other.change-list.git.commit
         2: punctuation.separator.mapping.pair.change-list.git.commit
         3: string.unquoted.git.commit markup.inserted.file.git.commit
-    - match: \b({{copied}}|{{renamed}}|{{typechange}})\s*(:)\s*(.*)
+    - match: \b({{copied}}|{{renamed}})\s*(:)\s*((.+)\s+(->)\s+(.+))
+      scope: meta.change-list.git.commit
+      captures:
+        1: keyword.other.change-list.git.commit
+        2: punctuation.separator.mapping.pair.change-list.git.commit
+        3: string.unquoted.git.commit
+        4: markup.changed.file.name.git.commit
+        5: punctuation.separator.mapping.pair.path.git.commit
+        6: markup.changed.file.name.git.commit
+    - match: \b({{typechange}})\s*(:)\s*(.*)
       scope: meta.change-list.git.commit
       captures:
         1: keyword.other.change-list.git.commit
@@ -144,7 +155,7 @@ contexts:
       scope: meta.command-list.git.commit
       captures:
         1: keyword.operator.git.commit
-        2: constant.numeric.hex.hash.git.commit
+        2: constant.other.hash.git.commit
         3: string.unquoted.subject.git.commit
 
   date-line:
