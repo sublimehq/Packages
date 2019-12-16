@@ -431,7 +431,9 @@ contexts:
     - meta_scope: meta.class.java
     - include: storage-modifiers
     - match: class\b
-      scope: storage.type.class.java
+      scope:
+        storage.type.class.java
+        keyword.declaration.class.java
       set:
         - class-body-block
         - class-extends
@@ -439,7 +441,9 @@ contexts:
         - generic-type-declaration
         - class-name
     - match: enum\b
-      scope: storage.type.enum.java
+      scope:
+        storage.type.enum.java
+        keyword.declaration.enum.java
       set:
         - enum-body-block
         - class-extends
@@ -447,7 +451,9 @@ contexts:
         - generic-type-declaration
         - class-name
     - match: (@?)interface\b
-      scope: storage.type.interface.java
+      scope:
+        storage.type.interface.java
+        keyword.declaration.interface.java
       captures:
         1: punctuation.definition.type.java
       set:
