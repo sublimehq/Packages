@@ -487,7 +487,9 @@ class CSSCompletions(sublime_plugin.EventListener):
             self.re_name = re.compile(r"([a-zA-Z-]+)\s*:[^:;{}]*$")
             self.re_value = re.compile(r"^(?:\s*(:)|([ \t]*))([^:]*)[;}]")
 
-        if match_selector(view, pt, "meta.property-value.css"):
+        if match_selector(view, pt, "meta.property-value.css meta.function-call"):
+            items = self.complete_function_argument(view, prefix, pt)
+        elif match_selector(view, pt, "meta.property-value.css"):
             items = self.complete_property_value(view, prefix, pt)
         else:
             items = self.complete_property_name(view, prefix, pt)
@@ -540,3 +542,6 @@ class CSSCompletions(sublime_plugin.EventListener):
                 kind=KIND_CSS_FUNCTION if "(" in value else KIND_CSS_CONSTANT
             ) for value in values
         )
+
+    def complete_function_argument(self, view, prefix, pt):
+        return None
