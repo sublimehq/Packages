@@ -40,7 +40,11 @@ COMMON_VALUES = {
     'break_inside': [
         'auto', 'avoid', 'avoid-page', 'avoid-column', 'avoid-region'
     ],
-    'color': ['currentColor', 'rgb($1)', 'rgba($1)', 'hsl($1)', 'hsla($1)', 'transparent'],
+    'color': [
+        'currentColor', 'transparent',
+        'rgb(${1:0}, ${2:0}, ${3:0})', 'rgba(${1:0}, ${2:0}, ${3:0}, ${4:0.0})',
+        'hsl(${1:0}, ${2:0}%, ${3:0}%)', 'hsla(${1:0}, ${2:0}%, ${3:0}%, ${4:0.0})'
+    ],
     'font_variant_alternates': [
         'normal', 'historical-forms', 'stylistic($1)', 'styleset($1)',
         'character-variant($1)', 'swash($1)', 'ornaments($1)', 'annotation($1)'
@@ -357,7 +361,7 @@ PROPERTY_DICT = {
     'shape-margin': ['<length>', '<percentage>'],
     'shape-outside': [
         'none', 'margin-box', 'content-box', 'border-box', 'padding-box',
-        'circle($1)', 'ellipse($1)', 'inset($1)', 'polygon($1)', '<uri>'
+        '<uri>', '<basic_shape>'
     ],
     'shape-rendering': ['auto', 'optimizeSpeed', 'crispEdges', 'geometricPrecision'],
     'size': [
@@ -475,6 +479,7 @@ class CSSCompletions(sublime_plugin.EventListener):
     props = None
     re_name = None
     re_value = None
+    re_trigger = None
 
     def on_query_completions(self, view, prefix, locations):
         pt = locations[0]
@@ -486,6 +491,7 @@ class CSSCompletions(sublime_plugin.EventListener):
             self.props = parse_css_data()
             self.re_name = re.compile(r"([a-zA-Z-]+)\s*:[^:;{}]*$")
             self.re_value = re.compile(r"^(?:\s*(:)|([ \t]*))([^:]*)[;}]")
+            self.re_trigger = re.compile(r"\$(?:\d+|\{\d+\:([^}]+)\})")
 
         if match_selector(view, pt, "meta.property-value.css meta.function-call"):
             items = self.complete_function_argument(view, prefix, pt)
@@ -537,7 +543,7 @@ class CSSCompletions(sublime_plugin.EventListener):
 
         return (
             sublime.CompletionItem.snippet_completion(
-                trigger=value.replace("$1", ""),
+                trigger=self.re_trigger.sub(r"\1", value),
                 snippet=value + suffix,
                 kind=KIND_CSS_FUNCTION if "(" in value else KIND_CSS_CONSTANT
             ) for value in values
