@@ -877,7 +877,23 @@ contexts:
 
   variable-other:
     - match: '{{id}}'
-      scope: variable.other.readwrite.java
+      scope: meta.variable.identifier.java variable.other.readwrite.java
+      set: variable-maybe-item-access
+    - match: (?=\S)
+      fail: variables-type
+
+  variable-maybe-item-access:
+    - meta_content_scope: meta.variable.item-access.java
+    - match: \[
+      scope: punctuation.section.brackets.begin.java
+      push:
+        - meta_scope: meta.brackets.java
+        - match: \]
+          scope: punctuation.section.brackets.end.java
+          pop: true
+        - include: illegal-parens-terminators
+        - include: code
+    - match: (?!\s*\[)
       pop: true
 
   variable-namespace:
