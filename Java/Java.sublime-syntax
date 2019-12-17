@@ -78,7 +78,6 @@ contexts:
   code:
     - include: code-block
     - include: parens-or-lambda
-    - include: assignment
     - include: constants
     - include: numbers
     - include: strings
@@ -88,7 +87,8 @@ contexts:
     - include: storage-modifiers
     - include: primitive-types
     - include: object-types
-    - include: keywords
+    - include: punctuations
+    - include: operators
     - include: variables
 
 ###[ PROTOTYPES ]##############################################################
@@ -110,18 +110,6 @@ contexts:
   immediate_POP:
     - match: ''
       pop: true
-
-  punctuation-accessor-dot:
-    - match: \.
-      scope: punctuation.accessor.dot.java
-
-  punctuation-separator-comma:
-    - match: \,
-      scope: punctuation.separator.comma.java
-
-  punctuation-terminator-semicolon:
-    - match: ;
-      scope: punctuation.terminator.java
 
 ###[ ILLEGALS ]################################################################
 
@@ -897,6 +885,8 @@ contexts:
         - include: parens-end
         - include: illegal-open-block
         - include: code-block-body
+        - match: ':'
+          scope: keyword.operator.assignment.java
     - include: any_POP
 
   method-call-arguments:
@@ -968,6 +958,17 @@ contexts:
     - match: '{{lowercase_id}}'
       scope: variable.namespace.java
     - include: punctuation-accessor-dot
+
+  variable-language-class:
+    - match: class\b
+      scope: variable.language.java
+      pop: true
+
+  variable-maybe-function-reference:
+    - match: '{{id}}'
+      scope: variable.function.reference.java
+      pop: true
+    - include: any_POP
 
 ###[ CONSTANTS ]###############################################################
 
@@ -1099,41 +1100,6 @@ contexts:
 
 ###[ KEYWORDS ]################################################################
 
-  keywords:
-    - match: '::'
-      scope: punctuation.accessor.double-colon.java
-      push:
-        - match: '{{id}}'
-          scope: variable.function.reference.java
-          pop: true
-        - include: any_POP
-    - match: '\?|:'
-      scope: keyword.operator.ternary.java
-    - match: \binstanceof\b
-      scope: keyword.operator.word.instanceof.java
-    - match: (<<|>>>?)
-      scope: keyword.operator.bitshift.java
-    - match: (==|!=|<=|>=|<>|<|>)
-      scope: keyword.operator.comparison.java
-    - match: (\-\-|\+\+)
-      scope: keyword.operator.increment-decrement.java
-    - match: (\-|\+|\*|\/|%)
-      scope: keyword.operator.arithmetic.java
-    - match: (!|&&|\|\|)
-      scope: keyword.operator.logical.java
-    - match: (~|\^|&|\|)
-      scope: keyword.operator.bitwise.java
-    - match: \.
-      scope: punctuation.accessor.dot.java
-      push:
-        - match: class\b
-          scope: variable.language.java
-          pop: true
-        - include: generic-type-invocation
-        - include: any_POP
-    - include: punctuation-separator-comma
-    - include: punctuation-terminator-semicolon
-
   keywords-control:
     # exceptions
     - match: \bcatch\b
@@ -1195,6 +1161,73 @@ contexts:
       push: declaration-statement-parens
     - match: \bwhile\b
       scope: keyword.control.loop.while.java
+    # operator
+    - match: instanceof\b
+      scope: keyword.operator.word.instanceof.java
+
+###[ OPERATORS ]###############################################################
+
+  operators:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.12
+    - match: (<<|>>>?|[-+*/%|&\^])=
+      scope: keyword.operator.assignment.augmented.java
+      push: assignment-body
+    - match: '<<|>>>?'
+      scope: keyword.operator.bitwise.java
+    - match: '==|!=|<=|>=|<>|<|>'
+      scope: keyword.operator.comparison.java
+    - match: '='
+      scope: keyword.operator.assignment.java
+      push: assignment-body
+    - match: '\+\+?|\-\-?|[*/%]'
+      scope: keyword.operator.arithmetic.java
+    - match: '!|&&|\|\|'
+      scope: keyword.operator.logical.java
+    - match: '[~|&\^]'
+      scope: keyword.operator.bitwise.java
+    - match: '\?'
+      scope: keyword.operator.ternary.java
+      push: ternary-body
+
+  assignment-body:
+    - meta_scope: meta.assignment.rhs.java
+    - match: (?=[,;)}\]])
+      pop: true
+    - include: code
+
+  ternary-body:
+    - match: ':'
+      scope: keyword.operator.ternary.java
+      pop: true
+    - match: (?=[,;)}\]])
+      pop: true
+    - include: code
+
+###[ PUNCTUATIONS ]############################################################
+
+  punctuations:
+    - match: '::'
+      scope: punctuation.accessor.double-colon.java
+      push: variable-maybe-function-reference
+    - match: \.
+      scope: punctuation.accessor.dot.java
+      push:
+        - include: variable-language-class
+        - include: generic-type-invocation
+    - include: punctuation-separator-comma
+    - include: punctuation-terminator-semicolon
+
+  punctuation-accessor-dot:
+    - match: \.
+      scope: punctuation.accessor.dot.java
+
+  punctuation-separator-comma:
+    - match: \,
+      scope: punctuation.separator.comma.java
+
+  punctuation-terminator-semicolon:
+    - match: ;
+      scope: punctuation.terminator.java
 
 ###[ ENTITY CLASS ]############################################################
 
@@ -1382,9 +1415,7 @@ contexts:
       set:
         - match: (?=<)
           set: generic-type-invocation
-        - match: class\b
-          scope: variable.language.java
-          pop: true
+        - include: variable-language-class
         - match: '{{uppercase_id}}'
           scope: constant.other.java
           pop: true
@@ -1541,15 +1572,6 @@ contexts:
     - match: \[\s*\]
       scope: storage.modifier.array.java
     - include: any_POP
-
-  assignment:
-    - match: ([|&^*/+-]\=|\=(?!=))
-      scope: keyword.operator.assignment.java
-      push:
-        - meta_scope: meta.assignment.rhs.java
-        - match: (?=;|\)|\}|,)
-          pop: true
-        - include: code
 
   storage-modifiers:
     - match: \b{{storage_modifiers}}\b

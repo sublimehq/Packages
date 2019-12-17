@@ -432,7 +432,7 @@ public class SyntaxTest {
 //                        ^ keyword.operator.comparison.java
 //                          ^^ constant.numeric.integer.decimal.java
 //                            ^ punctuation.terminator.java
-//                               ^^ keyword.operator.assignment.java
+//                               ^^ keyword.operator.assignment.augmented.java
 //                                 ^^ meta.assignment.rhs.java
 //                                   ^ - meta.assignment.rhs.java
             System.out.println(i);
@@ -1550,28 +1550,72 @@ public class Foo {
   }
 //^ meta.static.body.java punctuation.section.block.end.java
 
-  int operators() {
 
-    assert scale > -100 : foo == true;
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assertion.java
-//  ^^^^^^ keyword.control.flow.assert.java
-//                      ^ punctuation.separator.expressions.java
-//
-    if (this.scale<0) {
-//  ^^ keyword.control.conditional.if.java
-//     ^^^^^^^^^^^^^^ meta.parens.java
-//     ^ punctuation.section.parens.begin
-//          ^ punctuation.accessor.dot.java
-//                ^ keyword.operator.comparison.java
-//                 ^ constant.numeric.integer.decimal.java
-//                   ^ - meta.parens.java
-      return foo<<32;
-//    ^^^^^^ keyword.control.flow.return.java
-//              ^^ keyword.operator.bitshift.java
-//                ^^ constant.numeric.integer.decimal.java
-//                  ^ punctuation.terminator.java
-    }
-//  ^ meta.block.java punctuation.section.block.end.java
+/******************************************************************************
+ * Operators Tests
+ *****************************************************************************/
+
+  int operatorsTests() {
+
+    ==  !=  <=  >=  <>  <  >
+//  ^^ keyword.operator.comparison.java
+//      ^^ keyword.operator.comparison.java
+//          ^^ keyword.operator.comparison.java
+//              ^^ keyword.operator.comparison.java
+//                  ^^ keyword.operator.comparison.java
+//                      ^ keyword.operator.comparison.java
+//                         ^ keyword.operator.comparison.java
+
+    !  &&  ||
+//  ^ keyword.operator.logical.java
+//     ^^ keyword.operator.logical.java
+//         ^^ keyword.operator.logical.java
+
+    <<  >>  >>>  ~   &   |   ^
+//  ^^ keyword.operator.bitwise.java
+//      ^^ keyword.operator.bitwise.java
+//          ^^^ keyword.operator.bitwise.java
+//               ^ keyword.operator.bitwise.java
+//                   ^ keyword.operator.bitwise.java
+//                       ^ keyword.operator.bitwise.java
+//                           ^ keyword.operator.bitwise.java
+
+      ++  --  +   -   *   /   %
+//    ^^ keyword.operator.arithmetic.java
+//        ^^ keyword.operator.arithmetic.java
+//            ^ keyword.operator.arithmetic.java
+//                ^ keyword.operator.arithmetic.java
+//                    ^ keyword.operator.arithmetic.java
+//                        ^ keyword.operator.arithmetic.java
+//                            ^ keyword.operator.arithmetic.java
+
+    x = (e & 1) << c^2 >> 10;
+//    ^ keyword.operator.assignment.java
+//         ^ keyword.operator.bitwise.java
+//              ^^ keyword.operator.bitwise.java
+//                  ^ keyword.operator.bitwise.java
+//                     ^^ keyword.operator.bitwise.java
+
+    y = ~e >>> (c | 2);
+//    ^ keyword.operator.assignment.java
+//      ^ keyword.operator.bitwise.java
+//         ^^^ keyword.operator.bitwise.java
+//                ^ keyword.operator.bitwise.java
+
+    z += x; z -= x; z *= x; z /= x; z %= x;
+//    ^^ keyword.operator.assignment.augmented.java
+//            ^^ keyword.operator.assignment.augmented.java
+//                    ^^ keyword.operator.assignment.augmented.java
+//                            ^^ keyword.operator.assignment.augmented.java
+//                                    ^^ keyword.operator.assignment.augmented.java
+
+    z &= x; z ^= x; z |= x; z <<= x; z >>= x; z >>>= x;
+//    ^^ keyword.operator.assignment.augmented.java
+//            ^^ keyword.operator.assignment.augmented.java
+//                    ^^ keyword.operator.assignment.augmented.java
+//                            ^^^ keyword.operator.assignment.augmented.java
+//                                     ^^^ keyword.operator.assignment.augmented.java
+//                                              ^^^^ keyword.operator.assignment.augmented.java
 
     int foo = true ? 1 : 2;
 //            ^^^^ constant.language.boolean.java
@@ -1581,29 +1625,38 @@ public class Foo {
 //                       ^ constant.numeric.integer.decimal.java
 //                        ^ punctuation.terminator.java
 
+    assert scale > -100 : foo == true;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assertion.java
+//  ^^^^^^ keyword.control.flow.assert.java
+//               ^ keyword.operator.comparison.java
+//                      ^ punctuation.separator.expressions.java
+//                            ^^ keyword.operator.comparison.java
+
+    for (var iter : iters.asMap()) {}
+//                ^ keyword.operator.assignment.java
+
+    if (a == false) {}
+//        ^^ keyword.operator.comparison.java
+
+    if (this.scale<0) {
+//  ^^ keyword.control.conditional.if.java
+//     ^^^^^^^^^^^^^^ meta.parens.java
+//     ^ punctuation.section.parens.begin
+//          ^ punctuation.accessor.dot.java
+//                ^ keyword.operator.comparison.java
+//                 ^ constant.numeric.integer.decimal.java
+//                   ^ - meta.parens.java
+    return foo<<32;
+//  ^^^^^^ keyword.control.flow.return.java
+//            ^^ keyword.operator.bitwise.java
+//              ^^ constant.numeric.integer.decimal.java
+//                ^ punctuation.terminator.java
+    }
+//  ^ meta.block.java punctuation.section.block.end.java
+
     return foo<bar;
 //  ^^^^^^ keyword.control.flow.return.java
-
-    if (a == false) {
-//        ^^ keyword.operator.comparison
-
-        x = (e & 1) << c^2;
-//             ^ keyword.operator.bitwise
-//                  ^^ keyword.operator.bitshift
-//                      ^ keyword.operator.bitwise
-
-        y = ~e >>> (c | 2);
-//          ^ keyword.operator.bitwise
-//             ^^^ keyword.operator.bitshift
-//                    ^ keyword.operator.bitwise
-
-        z &= x; z ^= x; z *= x; z /= x;
-//        ^^ keyword.operator.assignment
-//                ^^ keyword.operator.assignment
-//                        ^^ keyword.operator.assignment
-//                                ^^ keyword.operator.assignment
-
-    }
+//            ^ keyword.operator.comparison.java
 
     boolean inst = a instanceof Object;
 //                   ^^^^^^^^^^ keyword.operator.word.instanceof
