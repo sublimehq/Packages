@@ -1490,7 +1490,7 @@ public class Foo {
 //  ^ meta.block.java punctuation.section.block.end.java
 
     int foo = true ? 1 : 2;
-//            ^^^^ constant.language.java
+//            ^^^^ constant.language.boolean.java
 //                 ^ keyword.operator.ternary.java
 //                   ^ constant.numeric.integer.decimal
 //                     ^ keyword.operator.ternary.java
@@ -2206,7 +2206,7 @@ public class Foo {
 //             ^ keyword.other.storage.new.java
 //                 ^ support.class.java
 //                                      ^^^ meta.brackets
-//                                           ^ constant.language.java
+//                                           ^ constant.language.boolean.java
 /* We can't support this yet.*/
     some.other.path.
 /*  ^^^^^^^^^^^^^^^^ support.class.java */

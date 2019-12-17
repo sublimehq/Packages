@@ -41,8 +41,9 @@ contexts:
   code:
     - include: code-block
     - include: parens-or-lambda
-    - include: constants-and-special-vars
     - include: assignment
+    - include: constants
+    - include: numbers
     - include: strings
     - include: anonymous-classes-and-new
     - include: keywords-control
@@ -463,15 +464,10 @@ contexts:
     - include: class
     - include: annotation
     - include: fields-and-methods
-    - include: constants-and-special-vars
-    - include: storage-modifiers
-    - include: primitive-types
-    - include: object-types
     - include: static-code-block
-    - include: punctuation-separator-comma
-    - include: punctuation-terminator-semicolon
     - match: (?=<)
       push: generic-type-declaration
+    - include: code
 
   enum-body-block:
     - match: (?=\{)
@@ -841,6 +837,8 @@ contexts:
 ###[ VARIABLES ]###############################################################
 
   variables:
+    - match: (?:this|super)\b
+      scope: variable.language.java
     - match: (?={{id}})
       branch_point: variables-type
       branch:
@@ -902,11 +900,13 @@ contexts:
 
 ###[ CONSTANTS ]###############################################################
 
-  constants-and-special-vars:
-    - match: \b(true|false|null)\b
-      scope: constant.language.java
-    - match: \b(this|super)\b
-      scope: variable.language.java
+  constants:
+    - match: (?:false|true)\b
+      scope: constant.language.boolean.java
+    - match: null\b
+      scope: constant.language.null.java
+
+  numbers:
     # hexadecimal floats
     - match: |-
         \b(0[xX])(?x:
