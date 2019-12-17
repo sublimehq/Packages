@@ -82,7 +82,7 @@ contexts:
     - include: numbers
     - include: strings
     - include: anonymous-classes-and-new
-    - include: keywords-control
+    - include: keywords
     - include: uppercase-identifiers
     - include: storage-modifiers
     - include: primitive-types
@@ -1100,25 +1100,11 @@ contexts:
 
 ###[ KEYWORDS ]################################################################
 
-  keywords-control:
+  keywords:
     # exceptions
     - match: \bcatch\b
       scope: keyword.control.exception.catch.java
-      push:
-        - meta_scope: meta.catch.java
-        - match: (?=\()
-          set:
-            - match: \(
-              scope: punctuation.section.parens.begin.java
-              set:
-                - meta_scope: meta.catch.parameters.java meta.parens.java
-                - match: \)
-                  scope: punctuation.section.parens.end.java
-                  pop: true
-                - match: \|
-                  scope: punctuation.separator.bar.java
-                - include: parameters
-        - include: any_POP
+      push: catch-statement-body
     - match: \bfinally\b
       scope: keyword.control.exception.finally.java
     - match: \btry\b
@@ -1127,13 +1113,7 @@ contexts:
     # flow
     - match: \bassert\b
       scope: keyword.control.flow.assert.java
-      push:
-        - meta_scope: meta.assertion.java
-        - match: (?=;)
-          pop: true
-        - match: ':'
-          scope: punctuation.separator.expressions.java
-        - include: code
+      push: assert-statement-body
     - match: \bbreak\b
       scope: keyword.control.flow.break.java
     - match: \bcontinue\b
@@ -1164,6 +1144,27 @@ contexts:
     # operator
     - match: instanceof\b
       scope: keyword.operator.word.instanceof.java
+
+  assert-statement-body:
+    - meta_scope: meta.assertion.java
+    - match: (?=;)
+      pop: true
+    - match: ':'
+      scope: punctuation.separator.expressions.java
+    - include: code
+
+  catch-statement-body:
+    - meta_scope: meta.catch.java
+    - match: (?=\()
+      set: [catch-parameters-common, parens-begin]
+    - include: any_POP
+
+  catch-parameters-common:
+    - meta_scope: meta.catch.parameters.java meta.parens.java
+    - match: \|
+      scope: punctuation.separator.bar.java
+    - include: parens-end
+    - include: parameters
 
 ###[ OPERATORS ]###############################################################
 
