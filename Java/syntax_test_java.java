@@ -2080,7 +2080,27 @@ public class Foo {
 //                                                   ^^^^ constant.character.escape
 //                                                                    ^^ constant.character.escape
 
-    char escape = '\t' + '\1' + '\'' + '\\';
+    String octal = "\0 \7 \8 \77 \377 \477"
+//                  ^^ constant.character.escape.octal.java
+//                    ^ - constant.character.escape
+//                     ^^ constant.character.escape.octal.java
+//                       ^^^^ - constant.character.escape
+//                           ^^^ constant.character.escape.octal.java
+//                              ^ - constant.character.escape
+//                               ^^^^ constant.character.escape.octal.java
+//                                   ^ - constant.character.escape
+//                                    ^^^ constant.character.escape.octal.java
+//                                       ^ - constant.character.escape
+
+    String unicode = "\\u2122=\u2122 \uAF \u005cu005a \uu21AF"
+//                    ^^^^^^^^ - constant.character.escape.unicode
+//                            ^^^^^^ constant.character.escape.unicode.java
+//                                  ^^^^^^ - constant.character.escape.unicode
+//                                        ^^^^^^ constant.character.escape.unicode.java
+//                                              ^^^^^^ - constant.character.escape.unicode
+//                                                    ^^^^^^^ constant.character.escape.unicode.java
+
+    char escape = '\b' + '\t' + '\n' + '\f' + '\r' + '\"' + '\'' + '\\' + '\0' + '\12' + '\123' + '\u00e4' + '\uu00E4';
 //                ^^^^ string.quoted.single
 //                 ^^ constant.character.escape
 //                       ^^^^ string.quoted.single
@@ -2089,6 +2109,39 @@ public class Foo {
 //                               ^^ constant.character.escape
 //                                     ^^^^ string.quoted.single
 //                                      ^^ constant.character.escape
+//                                            ^^^^ string.quoted.single
+//                                             ^^ constant.character.escape
+//                                                   ^^^^ string.quoted.single
+//                                                    ^^ constant.character.escape
+//                                                          ^^^^ string.quoted.single
+//                                                           ^^ constant.character.escape
+//                                                                 ^^^^ string.quoted.single
+//                                                                  ^^ constant.character.escape
+//                                                                        ^^^^ string.quoted.single
+//                                                                         ^^ constant.character.escape.octal
+//                                                                               ^^^^^ string.quoted.single
+//                                                                                ^^^ constant.character.escape.octal
+//                                                                                       ^^^^^^ string.quoted.single
+//                                                                                        ^^^^ constant.character.escape.octal
+//                                                                                                ^^^^^^^^ string.quoted.single
+//                                                                                                 ^^^^^^ constant.character.escape.unicode
+//                                                                                                           ^^^^^^^^^ string.quoted.single
+//                                                                                                            ^^^^^^^ constant.character.escape.unicode
+
+    String illegalEscapes = "\x \+ \8 \9" + '\x' + '\+' + '\8' + '\9'
+//                          ^^^^^^^^^^^^^ string.quoted.double
+//                           ^^ invalid.illegal.escape
+//                              ^^ invalid.illegal.escape
+//                                 ^^ invalid.illegal.escape
+//                                    ^^ invalid.illegal.escape
+//                                          ^^^^ string.quoted.single
+//                                           ^^ invalid.illegal.escape
+//                                                 ^^^^ string.quoted.single
+//                                                  ^^ invalid.illegal.escape
+//                                                        ^^^^ string.quoted.single
+//                                                         ^^ invalid.illegal.escape
+//                                                               ^^^^ string.quoted.single
+//                                                                ^^ invalid.illegal.escape
 
     String text = "String without closing quote
 //                                             ^ invalid.illegal.newline

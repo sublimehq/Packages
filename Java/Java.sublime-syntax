@@ -1002,8 +1002,16 @@ contexts:
     - match: \n
       scope: invalid.illegal.newline.java
       pop: true
-    - match: \\.
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.3
+    - match: \\u+\h{4}
+      scope: constant.character.escape.unicode.java
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.6
+    - match: \\[0-3]?[0-7]{1,2}
+      scope: constant.character.escape.octal.java
+    - match: \\[btnfr"'\\]
       scope: constant.character.escape.java
+    - match: \\.
+      scope: invalid.illegal.escape.java
 
 ###[ KEYWORDS ]################################################################
 
