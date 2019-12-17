@@ -697,7 +697,7 @@ class LambdasStatementTests {
 
 // Capital names are usually used for classes
      Foo();
-//   ^^^ variable.function.java
+//   ^^^ support.class.java
 
      foo ();
 //   ^^^ variable.function.java
@@ -719,7 +719,7 @@ class LambdasStatementTests {
 //                                         ^^ constant.numeric.integer.decimal
 //                                           ^ punctuation.terminator.java
      foo(a -> 42);
-//   ^^^ meta.function-call.java
+//   ^^^ meta.function-call.identifier.java
 //      ^^^^^^^^^ meta.function-call.arguments.java meta.parens.java
 //   ^^^ variable.function.java
 //      ^ punctuation.section.parens.begin.java
@@ -1318,9 +1318,9 @@ public class Foo {
           SimpleSyncReferenceNumberOperation>>() {};
 
   Object bar = SomeStaticClass.newBuilder().doThings(1)
-//                             ^^^^^^^^^^ meta.function-call.java
+//                             ^^^^^^^^^^ meta.function-call.identifier.java
 //                                       ^^ meta.function-call.arguments.java meta.parens.java
-//                                          ^^^^^^^^ meta.function-call.java
+//                                          ^^^^^^^^ meta.function-call.identifier.java
 //                                                  ^^^ meta.function-call.arguments.java meta.parens.java
 //                             ^^^^^^^^^^ variable.function.java
 //                                       ^ punctuation.section.parens.begin.java
@@ -1332,7 +1332,7 @@ public class Foo {
 //                                                    ^ punctuation.section.parens.end.java
       .withString("I am a string");
 //    ^ punctuation.accessor.dot.java
-//     ^^^^^^^^^^ meta.function-call.java
+//     ^^^^^^^^^^ meta.function-call.identifier.java
 //               ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.java meta.parens.java
 //     ^^^^^^^^^^ variable.function.java
 //               ^ punctuation.section.parens.begin.java
@@ -1340,7 +1340,7 @@ public class Foo {
 //                               ^ punctuation.section.parens.end.java
 
   Object bah = someStaticMethodCall(4)
-//             ^^^^^^^^^^^^^^^^^^^^ meta.function-call.java
+//             ^^^^^^^^^^^^^^^^^^^^ meta.function-call.identifier.java
 //                                 ^^^ meta.function-call.arguments.java meta.parens.java
 //             ^^^^^^^^^^^^^^^^^^^^ variable.function.java
 //                                 ^ punctuation.section.parens.begin.java
@@ -1348,7 +1348,7 @@ public class Foo {
 //                                   ^ punctuation.section.parens.end.java
       .withString("I am a string");
 //    ^ punctuation.accessor.dot.java
-//     ^^^^^^^^^^ meta.function-call.java
+//     ^^^^^^^^^^ meta.function-call.identifier.java
 //               ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.java meta.parens.java
 //     ^^^^^^^^^^ variable.function.java
 //               ^ punctuation.section.parens.begin.java
@@ -1393,7 +1393,7 @@ public class Foo {
 //                     ^ support.class.java
 //                          ^ entity.name.constant
 //                                      ^ support.class.java
-//                                           ^ meta.function-call.java variable.function.java
+//                                           ^ meta.function-call.identifier.java variable.function.java
 
   private URI uri = new URI();
 //        ^^^ support.class.java
@@ -2084,7 +2084,7 @@ public class Foo {
     Object otherFoo = methodInvocation(foo);
 //  ^  support.class.java
 //                  ^ keyword.operator.assignment.java
-//                    ^ meta.function-call.java variable.function.java
+//                    ^ meta.function-call.identifier.java variable.function.java
 //                                         ^ punctuation.terminator.java
     OtherObject bob = new OtherObject(foo);
 //                    ^ keyword.other.storage.new.java

@@ -46,7 +46,6 @@ contexts:
     - include: strings
     - include: anonymous-classes-and-new
     - include: keywords-control
-    - include: method-call
     - include: uppercase-identifiers
     - include: storage-modifiers
     - include: primitive-types
@@ -620,25 +619,6 @@ contexts:
     - include: block-end
     - include: code-block-body
 
-###[ METHOD CALL ]#############################################################
-
-  method-call:
-    - match: (\.)\s*(?=<)
-      captures:
-        1: punctuation.accessor.dot.java
-      push: generic-type-invocation
-    - match: ({{id}})\s*(?=\()
-      scope: meta.function-call.java
-      captures:
-        1: variable.function.java
-      push: [method-call-arguments, parens-begin]
-
-  method-call-arguments:
-    - meta_scope: meta.function-call.arguments.java meta.parens.java
-    - include: parens-end
-    - include: illegal-parens-terminators
-    - include: code
-
 ###[ CODE BLOCKS ]#############################################################
 
   block-begin:
@@ -854,14 +834,33 @@ contexts:
         - include: code-block-body
     - include: any_POP
 
+  method-call-arguments:
+    - meta_scope: meta.function-call.arguments.java meta.parens.java
+    - include: parens-common
+
 ###[ VARIABLES ]###############################################################
 
   variables:
     - match: (?={{id}})
       branch_point: variables-type
       branch:
+        - variable-maybe-method-name
         - variable-maybe-lambda-parameter
         - variable-other
+
+  variables-branch-success:
+    - match: ''
+      pop: 2
+
+  variable-maybe-method-name:
+    - match: '{{id}}'
+      scope: variable.function.java
+      push:
+        - meta_scope: meta.function-call.identifier.java
+        - match: (?=\()
+          set: [variables-branch-success, method-call-arguments, parens-begin]
+        - match: (?=\S)
+          fail: variables-type
 
   variable-maybe-lambda-parameter:
     - match: '{{id}}'
@@ -1052,10 +1051,14 @@ contexts:
       scope: keyword.operator.logical.java
     - match: (~|\^|&|\|)
       scope: keyword.operator.bitwise.java
-    - match: (\.)(class\b)?
-      captures:
-        1: punctuation.accessor.dot.java
-        2: variable.language.java
+    - match: \.
+      scope: punctuation.accessor.dot.java
+      push:
+        - match: class\b
+          scope: variable.language.java
+          pop: true
+        - include: generic-type-invocation
+        - include: any_POP
     - include: punctuation-separator-comma
     - include: punctuation-terminator-semicolon
 
