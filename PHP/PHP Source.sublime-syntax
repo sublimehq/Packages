@@ -55,6 +55,7 @@ contexts:
       captures:
         1: storage.type.trait.php
         2: entity.name.trait.php
+    - include: typed-property
     - include: function
     - match: '^\s*((?!default|else){{identifier}})\s*(:)(?!:)'
       captures:
@@ -591,6 +592,9 @@ contexts:
               pop: true
         - match: ','
           scope: punctuation.separator.php
+    - include: statements
+
+  typed-property:
     # https://wiki.php.net/rfc/typed_properties_v2
     - match: (?=\b(?:var|public|private|protected|static)\b)
       push:
@@ -606,7 +610,6 @@ contexts:
         # Exit on unexpected content
         - match: (?=\S)
           pop: true
-    - include: statements
 
   function:
     - match: (?i)(?=(?:\b(?:final|abstract|var|public|private|protected|static)\s+)*\bfunction\b\s*(&\s*)?{{identifier_start}})
