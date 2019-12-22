@@ -47,9 +47,94 @@ package
 ;
 // <- punctuation.terminator.java
 
+/******************************************************************************
+ * Import Statement Tests
+ *****************************************************************************/
+
+import
+// <- meta.import.java keyword.control.import.java
+//^^^^ keyword.control.import.java
+
+import no.terminator
+// <- meta.import.java keyword.control.import.java
+//^^^^^ meta.import.java - meta.path
+//     ^^^^^^^^^^^^^^ meta.import.java meta.path.java
+    variable
+//  ^^^^^^^^ variable.other.readwrite.java - meta.import
+
+import static
+// <- meta.import.java keyword.control.import.java
+//^^^^^^^^^^^^ meta.import.java - meta.path
+
+import static no.terminator
+// <- meta.import.java keyword.control.import.java
+//^^^^^^^^^^^^ meta.import.java - meta.path
+//            ^^^^^^^^^^^^^^ meta.import.java meta.path.java
+    variable
+//  ^^^^^^^^ variable.other.readwrite.java - meta.import
+
+import * ;
+// <- meta.import.java keyword.control.import.java
+//^^^^^ meta.import.java - meta.path
+//     ^ meta.import.java meta.path.java keyword.operator.wildcard.asterisk.java
+//      ^^ - meta.import - meta.path
+//       ^ punctuation.terminator.java
+
+import *. ;
+// <- meta.import.java keyword.control.import.java
+//^^^^^ meta.import.java - meta.path
+//     ^ meta.import.java meta.path.java
+//      ^^^ - meta.import - meta.path
+//     ^ keyword.operator.wildcard.asterisk.java
+//      ^ invalid.illegal.expect-semicolon.java
+//        ^ punctuation.terminator.java
+
+import *.* ;
+// <- meta.import.java keyword.control.import.java
+//^^^^^ meta.import.java - meta.path
+//     ^ meta.import.java meta.path.java
+//      ^^^^ - meta.import - meta.path
+//     ^ keyword.operator.wildcard.asterisk.java
+//      ^^ invalid.illegal.expect-semicolon.java
+//         ^ punctuation.terminator.java
+
+import *.a ;
+// <- meta.import.java keyword.control.import.java
+//^^^^^ meta.import.java - meta.path
+//     ^ meta.import.java meta.path.java
+//      ^^^^ - meta.import - meta.path
+//     ^ keyword.operator.wildcard.asterisk.java
+//      ^^ invalid.illegal.expect-semicolon.java
+//         ^ punctuation.terminator.java
+
+import a . * . b ;
+// <- meta.import.java keyword.control.import.java
+//^^^^^ meta.import.java - meta.path
+//     ^^^^^ meta.import.java meta.path.java
+//          ^^^^^^ - meta.import - meta.path
+//     ^ variable.namespace.java
+//       ^ punctuation.accessor.dot.java
+//         ^ keyword.operator.wildcard.asterisk.java
+//           ^ invalid.illegal.expect-semicolon.java
+//             ^ invalid.illegal.expect-semicolon.java
+//               ^ punctuation.terminator.java
+
+import a . b . * ;
+// <- meta.import.java keyword.control.import.java
+//^^^^^ meta.import.java - meta.path
+//     ^^^^^^^^^ meta.import.java meta.path.java
+//              ^ - meta.import - meta.path
+//     ^ variable.namespace.java
+//       ^ punctuation.accessor.dot.java
+//         ^ variable.namespace.java
+//           ^ punctuation.accessor.dot.java
+//             ^ keyword.operator.wildcard.asterisk.java
+//               ^ punctuation.terminator.java
+
 import a.b.Class;
 // <- meta.import.java keyword.control.import.java
-//     ^^^^^^^^^ meta.path.java
+//^^^^^ meta.import.java - meta.path
+//     ^^^^^^^^^ meta.import.java meta.path.java
 //     ^ variable.namespace.java
 //      ^ punctuation.accessor.dot.java
 //       ^ variable.namespace.java
@@ -57,42 +142,52 @@ import a.b.Class;
 //         ^^^^^ entity.name.class.java
 //              ^ punctuation.terminator.java
 
-import a.b.Class.SubClass;
-//^^^^^^^^^^^^^^^^^^^^^^^ meta.import.java
-//              ^ punctuation.accessor.dot.java
-//               ^^^^^^^^ entity.name.class.java
-
 import a.b.Class.*;
-//^^^^^^^^^^^^^^^^ meta.import.java
+//^^^^^ meta.import.java - meta.path
+//     ^^^^^^^^^^^ meta.import.java meta.path.java
+//     ^ variable.namespace.java
+//      ^ punctuation.accessor.dot.java
+//       ^ variable.namespace.java
+//        ^ punctuation.accessor.dot.java
+//         ^^^^^ entity.name.class.java
 //              ^ punctuation.accessor.dot.java
 //               ^ keyword.operator.wildcard.asterisk.java
 
-import com.google
-//     ^^^^^^^^^^ meta.import.java meta.path.java
+import a.b.Class.SubClass;
+//^^^^^ meta.import.java - meta.path
+//     ^^^^^^^^^^^^^^^^^^ meta.import.java meta.path.java
+//     ^ variable.namespace.java
+//      ^ punctuation.accessor.dot.java
+//       ^ variable.namespace.java
 //        ^ punctuation.accessor.dot.java
-//         ^^^^^^ variable.namespace.java
-  .common.collect
-//^ punctuation.accessor.dot.java
-//       ^ punctuation.accessor.dot.java
-//        ^^^^^^^ variable.namespace.java
-//^^^^^^^^^^^^^^^ meta.import.java meta.path.java
-  .ListMultimap;
-//^ punctuation.accessor.dot.java
-// ^^^^^^^^^^^^ entity.name.class.java
-//^^^^^^^^^^^^^ meta.import.java meta.path.java
-//             ^ punctuation.terminator.java
+//         ^^^^^ entity.name.class.java
+//              ^ punctuation.accessor.dot.java
+//               ^^^^^^^^ entity.name.class.java
 
-import no.terminator
-// <- meta.import.java keyword.control.import.java
-
-import static no.terminator
-// <- meta.import.java keyword.control.import.java
-
-import
-// <- meta.import.java keyword.control.import.java
-
-import static
-// <- meta.import.java keyword.control.import.java
+import 
+//^^^^^ meta.import.java - meta.path
+    a
+//^^ meta.import.java - meta.path
+//  ^^ meta.import.java meta.path.java
+//  ^ variable.namespace.java
+    .
+//^^^^ meta.import.java meta.path.java
+//  ^ punctuation.accessor.dot.java
+    b
+//^^^^ meta.import.java meta.path.java
+//  ^ variable.namespace.java
+    .Class
+//^^^^^^^^^^^ meta.import.java meta.path.java
+//  ^ punctuation.accessor.dot.java
+//   ^^^^^ entity.name.class.java
+    .
+//^^^^ meta.import.java meta.path.java
+//  ^ punctuation.accessor.dot.java
+    SubClass ;
+//  ^^^^^^^^ entity.name.class.java
+//^^^^^^^^^^ meta.import.java meta.path.java
+//          ^^ - meta.import - meta.path
+//           ^ punctuation.terminator.java
 
 import java.net.URL;
 // <- meta.import.java keyword.control.import.java
@@ -104,17 +199,6 @@ import java.net.URL;
 //             ^ punctuation.accessor.dot.java
 //              ^^^ entity.name.class.java
 //                 ^ punctuation.terminator.java
-
-import java.util.*;
-// <- meta.import.java keyword.control.import.java
-//^^^^^ meta.import.java - meta.path
-//     ^^^^^^^^^^^ meta.import.java meta.path.java
-//     ^^^^ variable.namespace.java
-//         ^ punctuation.accessor.dot.java
-//          ^^^^ variable.namespace.java
-//              ^ punctuation.accessor.dot.java
-//               ^ keyword.operator.wildcard.asterisk.java
-//                ^ punctuation.terminator.java
 
 import static a.b.Class.fooMethod;
 // <- meta.import.java keyword.control.import.java
@@ -135,7 +219,7 @@ import static a.b.Class.CONSTANT ;
 // <- meta.import.java keyword.control.import.java
 //^^^^^^^^^^^^ meta.import.java - meta.path
 //            ^^^^^^^^^^^^^^^^^^ meta.import.java meta.path.java
-//                              ^^ - meta.import.java - meta.path
+//                              ^^ - meta.import - meta.path
 //            ^ variable.namespace.java
 //             ^ punctuation.accessor.dot.java
 //              ^ variable.namespace.java
@@ -149,7 +233,7 @@ import static /**/ a /**/ . /**/ b /**/ . /**/ Class /**/ . /**/ CONSTANT;
 // <- meta.import.java keyword.control.import.java
 //^^^^^^^^^^^^^^^^^ meta.import.java - meta.path
 //                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.java meta.path.java
-//                                                                       ^ - meta.import.java - meta.path
+//                                                                       ^ - meta.import - meta.path
 //            ^^^^ comment.block.empty.java
 //                 ^ variable.namespace.java
 //                   ^^^^ comment.block.empty.java
@@ -199,18 +283,18 @@ import
 //       ^ punctuation.accessor.dot.java
     /**/ CONSTANT
 //^^^^^^^^^^^^^^^ meta.import.java meta.path.java
-//               ^ - meta.import.java - meta.path
+//               ^ - meta.import - meta.path
 //  ^^^^ comment.block.empty.java
 //       ^^^^^^^^ entity.name.constant.java
     /**/ ;
-//^^^^^^^ - meta.import.java - meta.path
+//^^^^^^^ - meta.import - meta.path
 //  ^^^^ comment.block.empty.java
 //       ^ punctuation.terminator.java
 
 import static a.b.Class.*;
 //^^^^^^^^^^^^ meta.import.java - meta.path
 //            ^^^^^^^^^^^ meta.import.java meta.path.java
-//                       ^ - meta.import.java - meta.path
+//                       ^ - meta.import - meta.path
 //            ^ variable.namespace.java
 //             ^ punctuation.accessor.dot.java
 //              ^ variable.namespace.java

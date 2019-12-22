@@ -68,7 +68,7 @@ contexts:
   main:
     - include: prototype
     - include: package-statement
-    - include: import-statement
+    - include: import
     - include: module
     - include: class
     - include: annotation
@@ -284,67 +284,96 @@ contexts:
 
 ###[ IMPORT ]##################################################################
 
-  import-statement:
-    - match: \bimport\b
+  import:
+    - match: import\b
       scope: keyword.control.import.java
-      push: 
-        - meta_scope: meta.import.java
-        - match: static\b
-          scope: storage.modifier.java
-          set:
-            - meta_content_scope: meta.import.java
-            - match: (?=\S)
-              set: [import-statement-static, import-statement-namespace]
+      push: import-modifier
+
+  import-modifier:
+    - meta_scope: meta.import.java
+    - match: static\b
+      scope: storage.modifier.java
+      set:
+        - meta_content_scope: meta.import.java
         - match: (?=\S)
-          set: [import-statement-class, import-statement-namespace]
+          set: import-static-namespace
+    - match: (?=\S)
+      set: import-normal-namespace
 
-  import-statement-class:
-    - meta_scope: meta.import.java meta.path.java
-    - include: import-statement-terminator
-    - include: import-class
+  import-normal-namespace:
+    - meta_content_scope: meta.import.java meta.path.java
+    - include: import-terminator
+    - include: import-package-name
+    - match: (?=\S)
+      set: import-normal-class
+
+  import-normal-class:
+    - meta_content_scope: meta.import.java meta.path.java
+    - include: import-terminator
+    - include: import-class-name
     - include: import-wildcard
-    - include: punctuation-accessor-dot
     - include: any_POP
 
-  import-statement-static:
-    - meta_scope: meta.import.java meta.path.java
-    - include: import-statement-terminator
-    - include: import-constant
-    - include: import-class
-    - include: import-function
+  import-static-namespace:
+    - meta_content_scope: meta.import.java meta.path.java
+    - include: import-terminator
+    - include: import-package-name
+    - match: (?=\S)
+      set: import-static-class
+
+  import-static-class:
+    - meta_content_scope: meta.import.java meta.path.java
+    - include: import-terminator
+    - include: import-constant-name
+    - include: import-class-name
+    - include: import-function-name
     - include: import-wildcard
-    - include: punctuation-accessor-dot
     - include: any_POP
 
-  import-statement-namespace:
-    - match: \*
-      scope: keyword.operator.wildcard.asterisk.java
-    - include: import-statement-terminator
-    - include: variable-namespace
-    - include: any_POP
-
-  import-statement-terminator:
-    - match: (?=;|{{reserved_words}}\b)
-      pop: true
-
-  import-constant:
-    - match: '{{uppercase_id}}'
+  import-constant-name:
+    - match: '{{uppercase_id}}\b(?!\s*\.)'
       scope: entity.name.constant.java
-      pop: true
+      set: import-expect-terminator
 
-  import-class:
+  import-package-name:
+    - match: '{{lowercase_id}}'
+      scope: variable.namespace.java
+      push: import-acessor-or-termintor
+    - include: punctuation-accessor-dot
+
+  import-class-name:
     - match: '{{classcase_id}}'
       scope: entity.name.class.java
+      push: import-acessor-or-termintor
+    - include: punctuation-accessor-dot
 
-  import-function:
+  import-function-name:
     - match: '{{id}}'
       scope: entity.name.function.java
-      pop: true
+      set: import-expect-terminator
 
   import-wildcard:
     - match: \*
       scope: keyword.operator.wildcard.asterisk.java
-      pop: true
+      set: import-expect-terminator
+
+  import-acessor-or-termintor:
+    # continue with the import context
+    - match: \.
+      scope: punctuation.accessor.dot.java
+      pop: 1
+    # pop the import context
+    - match: (?=\s*;|\S)
+      pop: 2
+
+  import-expect-terminator:
+    - include: import-terminator
+    - match: \S
+      scope: invalid.illegal.expect-semicolon.java
+
+  import-terminator:
+    - match: (?=\s*;|{{reserved_words}}\b)
+      pop: 1
 
 ###[ ANNOTATIONS ]#############################################################
 
