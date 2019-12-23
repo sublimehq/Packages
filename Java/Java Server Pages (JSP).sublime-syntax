@@ -29,14 +29,14 @@ contexts:
           scope: punctuation.definition.comment.begin.jsp
           push:
             - meta_scope: comment.block.jsp
-            - match: '--%>'
+            - match: --%>
               scope: punctuation.definition.comment.end.jsp
               pop: true
         - match: <%@
           scope: punctuation.section.embedded.begin.jsp
           push:
             - meta_scope: meta.embedded.directive.jsp
-            - match: '%>'
+            - match: \%>
               scope: punctuation.section.embedded.end.jsp
               pop: true
             - include: jsp-directive
@@ -45,10 +45,10 @@ contexts:
           push:
             - meta_scope: meta.embedded.declaration.jsp
             - meta_content_scope: source.java.embedded.html
-            - match: '%>'
+            - match: \%>
               scope: punctuation.section.embedded.end.jsp
               pop: true
-            - match: ''
+            - match: (?=\S)
               embed: java
               escape: (?=%>)
         - match: <%=
@@ -56,10 +56,10 @@ contexts:
           push:
             - meta_scope: meta.embedded.expression.jsp
             - meta_content_scope: source.java.embedded.html
-            - match: '%>'
+            - match: \%>
               scope: punctuation.section.embedded.end.jsp
               pop: true
-            - match: ''
+            - match: (?=\S)
               embed: java
               escape: (?=%>)
         - match: <%
@@ -67,10 +67,10 @@ contexts:
           push:
             - meta_scope: meta.embedded.scriptlet.jsp
             - meta_content_scope: source.java.embedded.html
-            - match: '%>'
+            - match: \%>
               scope: punctuation.section.embedded.end.jsp
               pop: true
-            - match: ''
+            - match: (?=\S)
               embed: java
               escape: (?=%>)
 
@@ -273,7 +273,7 @@ contexts:
 
   tag-jsp-text-attributes:
     - meta_scope: meta.tag.jsp.text.begin.html
-    - match: '>'
+    - match: \>
       scope: punctuation.definition.tag.end.html
       set: tag-jsp-text-body
     - include: tag-end-self-closing
@@ -308,7 +308,7 @@ contexts:
     - include: scope:text.html.basic#tag-end-self-closing
 
   tag-end-set-java:
-    - match: '>'
+    - match: \>
       scope: punctuation.definition.tag.end.html
       set: java
 
