@@ -103,7 +103,7 @@ contexts:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.style.html
       push: style-css
-    - match: '(<)((?i:script)){{tag_name_break}}'
+    - match: (<)((?i:script)){{tag_name_break}}
       captures:
         0: meta.tag.script.begin.html
         1: punctuation.definition.tag.begin.html
@@ -308,24 +308,24 @@ contexts:
         - match: (?=\S)
           embed: scope:source.css
           embed_scope: source.css.embedded.html
-          escape: (?i)(?=(?:-->\s*)?</style)
+          escape: (?=(?:-->\s*)?</(?i:style){{tag_name_break}})
 
   style-other:
     - meta_content_scope: meta.tag.style.begin.html
     - include: style-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
-      set:
-        - include: style-close-tag
+      set: style-close-tag
 
   style-close-tag:
-    - match: (?i)(</)(style)(>)
-      scope: meta.tag.style.end.html
+    - match: (</)((?i:style){{tag_name_break}})
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.style.html
-        3: punctuation.definition.tag.end.html
-      pop: true
+      set:
+        - meta_scope: meta.tag.style.end.html
+        - include: tag-end
+        - include: tag-attributes
 
   style-common:
     - include: style-type-attribute
@@ -333,7 +333,7 @@ contexts:
     - include: tag-end-self-closing
 
   style-type-attribute:
-    - match: (?i)\btype\b
+    - match: (?i:type){{attribute_name_break}}
       scope: meta.attribute-with-value.html entity.other.attribute-name.html
       set:
         - meta_content_scope: meta.tag.style.begin.html meta.attribute-with-value.html
@@ -346,12 +346,12 @@ contexts:
           set: style-css
 
   style-type-decider:
-    - match: (?i)(?=text/css{{unquoted_attribute_break}}|'text/css'|"text/css")
+    - match: (?=(?i:text/css{{unquoted_attribute_break}}|'text/css'|"text/css"))
       set:
         - style-css
         - tag-generic-attribute-meta
         - tag-generic-attribute-value
-    - match: (?i)(?=>|''|"")
+    - match: (?=>|''|"")
       set:
         - style-css
         - tag-generic-attribute-meta
@@ -390,8 +390,7 @@ contexts:
     - include: script-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
-      set:
-        - include: script-close-tag
+      set: script-close-tag
 
   script-close-tag:
     - match: <!--
@@ -400,7 +399,7 @@ contexts:
       set:
         - match: '-->'
           scope: comment.block.html punctuation.definition.comment.end.html
-        - match: (?i:(</)(script))
+        - match: (</)((?i:script){{tag_name_break}})
           captures:
             1: punctuation.definition.tag.begin.html
             2: entity.name.tag.script.html
@@ -415,7 +414,7 @@ contexts:
     - include: tag-end-self-closing
 
   script-type-attribute:
-    - match: (?i)\btype\b
+    - match: (?i:type){{attribute_name_break}}
       scope: meta.attribute-with-value.html entity.other.attribute-name.html
       set:
         - meta_content_scope: meta.tag.script.begin.html meta.attribute-with-value.html
@@ -428,22 +427,22 @@ contexts:
           set: script-javascript
 
   script-type-decider:
-    - match: (?i)(?={{javascript_mime_type}}{{unquoted_attribute_break}}|'{{javascript_mime_type}}'|"{{javascript_mime_type}}")
+    - match: (?={{javascript_mime_type}}{{unquoted_attribute_break}}|'{{javascript_mime_type}}'|"{{javascript_mime_type}}")
       set:
         - script-javascript
         - tag-generic-attribute-meta
         - tag-generic-attribute-value
-    - match: (?i)(?=module{{unquoted_attribute_break}}|'module'|"module")
+    - match: (?=(?i:module{{unquoted_attribute_break}}|'module'|"module"))
       set:
         - script-javascript
         - tag-generic-attribute-meta
         - tag-generic-attribute-value
-    - match: (?i)(?=>|''|"")
+    - match: (?=>|''|"")
       set:
         - script-javascript
         - tag-generic-attribute-meta
         - tag-generic-attribute-value
-    - match: (?i)(?=text/html{{unquoted_attribute_break}}|'text/html'|"text/html")
+    - match: (?=(?i:text/html{{unquoted_attribute_break}}|'text/html'|"text/html"))
       set:
         - script-html
         - tag-generic-attribute-meta
@@ -525,7 +524,7 @@ contexts:
     - include: else-pop
 
   tag-class-attribute:
-    - match: '\bclass\b'
+    - match: (?i:class){{attribute_name_break}}
       scope: entity.other.attribute-name.class.html
       push:
         - tag-class-attribute-meta
@@ -573,7 +572,7 @@ contexts:
     - include: else-pop
 
   tag-id-attribute:
-    - match: '\bid\b'
+    - match: (?i:id){{attribute_name_break}}
       scope: entity.other.attribute-name.id.html
       push:
         - tag-id-attribute-meta
@@ -621,7 +620,7 @@ contexts:
     - include: else-pop
 
   tag-style-attribute:
-    - match: '\bstyle\b'
+    - match: (?i:style){{attribute_name_break}}
       scope: entity.other.attribute-name.style.html
       push:
         - tag-style-attribute-meta
@@ -656,7 +655,7 @@ contexts:
 
   tag-event-attribute:
     - match: |-
-        (?x)\bon(
+        (?ix:on(?:
           abort|autocomplete|autocompleteerror|auxclick|blur|cancel|canplay
           |canplaythrough|change|click|close|contextmenu|cuechange|dblclick|drag
           |dragend|dragenter|dragexit|dragleave|dragover|dragstart|drop
@@ -666,7 +665,7 @@ contexts:
           |pause|play|playing|progress|ratechange|reset|resize|scroll|seeked
           |seeking|select|show|sort|stalled|submit|suspend|timeupdate|toggle
           |volumechange|waiting
-        )\b
+        )){{attribute_name_break}}
       scope: entity.other.attribute-name.event.html
       push:
         - tag-event-attribute-meta
