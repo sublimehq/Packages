@@ -2144,12 +2144,12 @@ public class Foo {
 //                                                                ^^ invalid.illegal.escape
 
     String text = "String without closing quote
-//                                             ^ invalid.illegal.newline
+//                                             ^ invalid.illegal.unexpected-newline
     System.out.println(text);
 //  ^^^^^^ support.class
 
     char letter = 'z
-//                  ^ invalid.illegal.newline
+//                  ^ invalid.illegal.unexpected-newline
     System.out.println(letter);
 //  ^^^^^^ support.class
   }

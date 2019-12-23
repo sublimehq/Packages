@@ -92,6 +92,11 @@ contexts:
     - match: \b(goto|const)\b
       scope: invalid.illegal.keyword.java
 
+  illegal-newline:
+    - match: \n
+      scope: invalid.illegal.unexpected-newline.java
+      pop: true
+
   illegal-open-block:
     - match: \s?(?={)
       scope: invalid.illegal.stray-terminator-end
@@ -987,7 +992,8 @@ contexts:
         - match: \"
           scope: punctuation.definition.string.end.java
           pop: true
-        - include: strings-common
+        - include: illegal-newline
+        - include: string-escapes
     - match: \'
       scope: punctuation.definition.string.begin.java
       push:
@@ -996,12 +1002,10 @@ contexts:
         - match: \'
           scope: punctuation.definition.string.end.java
           pop: true
-        - include: strings-common
+        - include: illegal-newline
+        - include: string-escapes
 
-  strings-common:
-    - match: \n
-      scope: invalid.illegal.newline.java
-      pop: true
+  string-escapes:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.3
     - match: \\u+\h{4}
       scope: constant.character.escape.unicode.java
