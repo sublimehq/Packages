@@ -984,6 +984,19 @@ contexts:
         3: meta.number.type.java constant.numeric.integer.decimal.java
 
   strings:
+    # https://docs.oracle.com/en/java/javase/13/text_blocks/index.html
+    - match: (\"{3})(.*)$
+      captures:
+        1: punctuation.definition.string.begin.java
+        2: invalid.illegal.unexpected-content.java
+      push:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.triple.java
+        - match: \"{3}
+          scope: punctuation.definition.string.end.java
+          pop: true
+        - include: string-escapes
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.5
     - match: \"
       scope: punctuation.definition.string.begin.java
       push:
@@ -994,6 +1007,7 @@ contexts:
           pop: true
         - include: illegal-newline
         - include: string-escapes
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.4
     - match: \'
       scope: punctuation.definition.string.begin.java
       push:

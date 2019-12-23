@@ -2062,7 +2062,36 @@ public class Foo {
 //           ^^^^ - constant.numeric
   }
 
-  String stringAndChars() {
+
+/******************************************************************************
+ * String and Character Constants Tests
+ *
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.3
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.4
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.5
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.6
+ * https://docs.oracle.com/en/java/javase/13/text_blocks/index.html
+ *****************************************************************************/
+
+  String stringAndCharsTests() {
+
+    String trippleQuotes = """
+//                         ^^^ string.quoted.triple.java punctuation.definition.string.begin.java
+        String with
+        several lines.
+        """;
+//      ^^^ string.quoted.triple.java punctuation.definition.string.end.java
+//         ^ punctuation.terminator.java - string
+
+    String trippleQuotes = """illegal content
+//                         ^^^ string.quoted.triple.java punctuation.definition.string.begin.java
+//                            ^^^^^^^^^^^^^^^ string.quoted.triple.java invalid.illegal.unexpected-content.java
+        String with
+        several lines.""";
+//      ^^^^^^^^^^^^^^^^^ string.quoted.triple.java
+//                    ^^^ punctuation.definition.string.end.java
+//                       ^ punctuation.terminator.java - string
+
     String doubleQuotes = "String with double quotes";
 //                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
 //                        ^ punctuation.definition.string.begin
