@@ -257,7 +257,7 @@ contexts:
           scope: invalid.illegal.bad-comments-or-CDATA.html
 
   doctype:
-    - match: (<!)(DOCTYPE)
+    - match: (<!)((?i:DOCTYPE))
       captures:
         1: punctuation.definition.tag.begin.html
         2: keyword.declaration.doctype.html
@@ -280,7 +280,7 @@ contexts:
     - include: else-pop
 
   doctype-content-type:
-    - match: (?:PUBLIC|SYSTEM)\b
+    - match: (?i:PUBLIC|SYSTEM)\b
       scope: keyword.content.external.html
       pop: true
     - include: else-pop
