@@ -67,7 +67,7 @@ variables:
 contexts:
   main:
     - include: prototype
-    - include: package-statement
+    - include: package
     - include: import
     - include: module
     - include: class
@@ -169,7 +169,7 @@ contexts:
 
 ###[ PACKAGE ]#################################################################
 
-  package-statement:
+  package:
     - match: \bpackage\b
       scope: 
         meta.namespace.package.java
