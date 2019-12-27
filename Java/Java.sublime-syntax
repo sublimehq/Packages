@@ -71,6 +71,8 @@ contexts:
     - include: import
     - include: module
     - include: class
+    - include: enum
+    - include: interface
     - include: annotation
     - include: stray-braces
     - include: code
@@ -433,48 +435,25 @@ contexts:
         - - include: code
           - include: immediate_POP
 
-###[ CLASS ]###################################################################
+###[ CLASSES ]#################################################################
 
   class:
-    - match: (?=({{storage_modifiers}}\s+)*(class|enum|@?interface)\b)
-      push: class-type
-
-  class-type:
-    - meta_scope: meta.class.java
-    - include: storage-modifiers
-    - match: class\b
-      scope:
-        storage.type.class.java
-        keyword.declaration.class.java
-      set:
-        - class-body-block
-        - class-extends
-        - class-name-meta
-        - generic-type-declaration
-        - class-name
-    - match: enum\b
-      scope:
-        storage.type.enum.java
-        keyword.declaration.enum.java
-      set:
-        - enum-body-block
-        - class-extends
-        - class-name-meta
-        - generic-type-declaration
-        - class-name
-    - match: (@?)interface\b
-      scope:
-        storage.type.interface.java
-        keyword.declaration.interface.java
-      captures:
-        1: punctuation.definition.type.java
-      set:
-        - class-body-block
-        - class-extends
-        - class-name-meta
-        - generic-type-declaration
-        - class-name
-    - include: any_POP
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1
+    - match: (?=({{storage_modifiers}}\s+)*class\b)
+      push:
+        - meta_scope: meta.class.java
+        - include: storage-modifiers
+        - match: class\b
+          scope:
+            storage.type.class.java
+            keyword.declaration.class.java
+          set:
+            - class-body-block
+            - class-extends
+            - class-name-meta
+            - generic-type-declaration
+            - class-name
+        - include: any_POP
 
   class-name:
     - match: (?!{{reserved_words}}\b){{id}}
@@ -519,6 +498,8 @@ contexts:
 
   class-body:
     - include: class
+    - include: enum
+    - include: interface
     - include: annotation
     - include: fields-and-methods
     - include: static-code-block
@@ -526,39 +507,164 @@ contexts:
       push: generic-type-declaration
     - include: code
 
+###[ ENUMS ]###################################################################
+
+  enum:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.9
+    - match: (?=({{storage_modifiers}}\s+)*enum\b)
+      push:
+        - meta_scope: meta.enum.java
+        - include: storage-modifiers
+        - match: enum\b
+          scope:
+            storage.type.enum.java
+            keyword.declaration.enum.java
+          set:
+            - enum-body-block
+            - enum-extends
+            - enum-name-meta
+            - enum-type-parameters
+            - enum-name
+        - include: any_POP
+
+  enum-name:
+    - match: (?!{{reserved_words}}\b){{id}}
+      scope: entity.name.enum.java
+      pop: true
+    - include: any_POP
+
+  enum-type-parameters:
+    - match: \<
+      set:
+        - meta_scope: invalid.illegal.unexpected-type-parameters.java
+        - match: \>
+          pop: true
+    - include: any_POP
+
+  enum-name-meta:
+    - meta_content_scope: meta.enum.identifier.java
+    - include: any_POP
+
+  enum-extends:
+    - match: extends\b
+      scope: invalid.illegal.unexpected-extends.java
+      push:
+        - - meta_scope: meta.enum.extends.java
+          - match: \,
+            scope: punctuation.separator.comma.java
+            push: inherited-object-type-reference
+          - include: any_POP
+        - inherited-object-type-reference
+    - match: implements\b
+      scope: keyword.declaration.implements.java
+      push:
+        - - meta_scope: meta.enum.implements.java
+          - match: \,
+            scope: punctuation.separator.comma.java
+            push: inherited-object-type-reference
+          - include: any_POP
+        - inherited-object-type-reference
+    - include: any_POP
+
   enum-body-block:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.9.1
     - match: (?=\{)
-      set: [class-body-block-common, enum-constants-list, block-begin]
+      set: [enum-body-block-common, enum-constants-list, block-begin]
     - include: any_POP
 
+  enum-body-block-common:
+    - meta_scope: meta.enum.body.java meta.block.java
+    - include: block-end
+    - include: class-body
+
   enum-constants-list:
-    - meta_content_scope: meta.sequence.enum.java
+    - meta_content_scope: meta.sequence.constants.java
     - match: (?!{{reserved_words}}\b){{id}}
-      scope: constant.other.enum.java
+      scope: entity.name.constant.java
       push: enum-constant-arguments
     - include: punctuation-separator-comma
     - include: any_POP
 
   enum-constant-arguments:
-    - meta_scope: meta.enum.identifier.java
+    - meta_scope: meta.constant.identifier.java
     - match: (?=\()
       set: [enum-constant-body-block, enum-constant-arguments-common, parens-begin]
     - include: enum-constant-body-block
 
   enum-constant-arguments-common:
     - clear_scopes: 1
-    - meta_scope: meta.enum.arguments.java meta.parens.java
+    - meta_scope: meta.constant.arguments.java meta.parens.java
     - include: parens-common
 
   enum-constant-body-block:
-    - meta_scope: meta.enum.java
+    - meta_scope: meta.constant.java
     - match: (?=\{)
       set: [enum-constant-body-block-common, block-begin]
     - include: any_POP
 
   enum-constant-body-block-common:
-    - meta_scope: meta.enum.body.java meta.block.java
+    - meta_scope: meta.constant.body.java meta.block.java
+    - include: block-end
+    - include: class-body
+
+###[ INTERFACES ]##############################################################
+
+  interface:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.1
+    - match: (?=({{storage_modifiers}}\s+)*@?interface\b)
+      push:
+        - meta_scope: meta.interface.java
+        - include: storage-modifiers
+        - match: (@?)interface\b
+          scope:
+            storage.type.interface.java
+            keyword.declaration.interface.java
+          set:
+            - interface-body-block
+            - interface-extends
+            - interface-name-meta
+            - generic-type-declaration
+            - interface-name
+        - include: any_POP
+
+  interface-name:
+    - match: (?!{{reserved_words}}\b){{id}}
+      scope: entity.name.interface.java
+      pop: true
+    - include: any_POP
+
+  interface-name-meta:
+    - meta_content_scope: meta.interface.identifier.java
+    - include: any_POP
+
+  interface-extends:
+    - match: extends\b
+      scope: keyword.declaration.extends.java
+      push:
+        - - meta_scope: meta.interface.extends.java
+          - match: \,
+            scope: punctuation.separator.comma.java
+            push: inherited-object-type-reference
+          - include: any_POP
+        - inherited-object-type-reference
+    - match: implements\b
+      scope: keyword.declaration.implements.java
+      push:
+        - - meta_scope: meta.interface.implements.java
+          - match: \,
+            scope: punctuation.separator.comma.java
+            push: inherited-object-type-reference
+          - include: any_POP
+        - inherited-object-type-reference
+    - include: any_POP
+
+  interface-body-block:
+    - match: (?=\{)
+      set: [interface-body-block-common, block-begin]
+    - include: any_POP
+
+  interface-body-block-common:
+    - meta_scope: meta.interface.body.java meta.block.java
     - include: block-end
     - include: class-body
 

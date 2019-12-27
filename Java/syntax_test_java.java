@@ -303,6 +303,11 @@ import static a.b.Class.*;
 //                     ^ punctuation.accessor.dot.java
 //                      ^ keyword.operator.wildcard.asterisk.java
 
+
+/******************************************************************************
+ * General Syntax Tests
+ *****************************************************************************/
+
 public class SyntaxTest {
 //^^^^^^^^^^ meta.class.java
 //          ^^^^^^^^^^^^ meta.class.identifier
@@ -310,10 +315,19 @@ public class SyntaxTest {
 // ^^^ storage.modifier.java
 //    ^ - storage
 //     ^^^^^ storage.type.class.java
-//          ^ - storage - entity
+//          ^ - entity - keyword - storage
 //           ^^^^^^^^^^ entity.name.class.java
 //                     ^ - entity
 //                      ^ punctuation.section.block.begin.java
+
+    const int bar; // this comment() is recognized as code
+//  ^^^^^ invalid.illegal.keyword.java
+//        ^^^ storage.type.primitive.java
+//            ^^^ variable.other.member.java
+//               ^ punctuation.terminator.java
+//                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
+//                 ^^ punctuation.definition.comment.java
+
     private String memberString = "Hello";
     private String memberString2 = new String("Hello");
 //                                     ^^^^^^ support.class.java
@@ -478,70 +492,189 @@ public class SyntaxTest {
 //               ^^^^^^^ meta.method.parameters
 }
 
-class ExtendsTest extends Foo {}
-//^^^ meta.class.java
-//   ^^^^^^^^^^^^^ meta.class.identifier.java
-//                ^^^^^^^^^^^^ meta.class.extends.java
-//                            ^^ meta.class.body.java meta.block.java
+
+/******************************************************************************
+ * Class Declaration Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1
+ *****************************************************************************/
+
+class
+// <- meta.class.java storage.type.class.java keyword.declaration.class.java
+//^^^ meta.class.java storage.type.class.java keyword.declaration.class.java
+
+class ClassTest
+// <- meta.class.java storage.type.class.java keyword.declaration.class.java
+//^^^ meta.class.java storage.type.class.java keyword.declaration.class.java
+//   ^^^^^^^^^^^ meta.class.identifier.java
+//   ^ - entity - keyword - storage
+//    ^^^^^^^^^ entity.name.class.java
+//             ^ - entity - keyword - storage
+
+class ClassTest {}
+// <- meta.class.java - meta.class meta.class
+//^^^ meta.class.java - meta.class meta.class
+//   ^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class
+//              ^^ meta.class.body.java meta.block.java - meta.class meta.class
+//                ^ - meta.class
+// <- storage.type.class.java keyword.declaration.class.java
+//^^^ storage.type.class.java keyword.declaration.class.java
+//   ^ - entity - keyword - storage
+//    ^^^^^^^^^ entity.name.class.java
+//             ^ - entity - keyword - storage
+//              ^ punctuation.section.block.begin.java
+//               ^ punctuation.section.block.end.java
+
+class ExtendsTest extends
+//^^^ meta.class.java - meta.class meta.class
+//   ^^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class
+//                ^^^^^^^^ meta.class.extends.java - meta.class meta.class
 //^^^ storage.type.class.java
+//   ^ - entity - keyword - storage
 //    ^^^^^^^^^^^ entity.name.class.java
+//               ^ - entity - keyword - storage
 //                ^^^^^^^ keyword.declaration.extends.java
-//                        ^^^ entity.other.inherited-class.java
+//                       ^ - entity - keyword - storage
 
-class ExtendsTest implements Foo {}
-//^^^ meta.class.java
-//   ^^^^^^^^^^^^^ meta.class.identifier.java
-//                ^^^^^^^^^^^^^^^ meta.class.implements.java
-//                               ^^ meta.class.body.java meta.block.java
+class ExtendsTest extends Foo {}
+//^^^ meta.class.java - meta.class meta.class
+//   ^^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class
+//                ^^^^^^^^^^^^ meta.class.extends.java - meta.class meta.class
+//                            ^^ meta.class.body.java meta.block.java - meta.class meta.class
 //^^^ storage.type.class.java
+//   ^ - entity - keyword - storage
 //    ^^^^^^^^^^^ entity.name.class.java
-//                ^^^^^^^^^^ keyword.declaration.implements.java
-//                           ^^^ entity.other.inherited-class.java
+//               ^ - entity - keyword - storage
+//                ^^^^^^^ keyword.declaration.extends.java
+//                       ^ - entity - keyword - storage
+//                        ^^^ entity.other.inherited-class.java
+//                           ^ - entity - keyword - storage
+//                            ^ punctuation.section.block.begin.java
+//                             ^ punctuation.section.block.end.java
 
-class Foo<A> extends Bar<? extends A> {}
-//^^^ meta.class.java
-//   ^^^^ meta.class.identifier.java - meta.generic
-//       ^^^ meta.class.identifier.java meta.generic.declaration.java
-//          ^ meta.class.identifier.java - meta.generic
-//           ^^^^^^^^^^^ meta.class.extends.java - meta.generic
-//                      ^^^^^^^^^^^^^ meta.class.extends.java meta.generic.java
-//                                   ^ meta.class.extends.java - meta.generic
-//                                    ^^ meta.class.body.java meta.block.java
+class ExtendsTest<A> extends Foo<? extends A> {}
+//^^^ meta.class.java - meta.class meta.class
+//   ^^^^^^^^^^^^ meta.class.identifier.java - meta.generic - meta.class meta.class
+//               ^^^ meta.class.identifier.java meta.generic.declaration.java - meta.class meta.class
+//                  ^ meta.class.identifier.java - meta.generic - meta.class meta.class
+//                   ^^^^^^^^^^^ meta.class.extends.java - meta.generic - meta.class meta.class
+//                              ^^^^^^^^^^^^^ meta.class.extends.java meta.generic.java - meta.class meta.class
+//                                           ^ meta.class.extends.java - meta.generic - meta.class meta.class
+//                                            ^^ meta.class.body.java meta.block.java - meta.class meta.class
 //^^^ storage.type.class.java
-//    ^^^ entity.name.class.java
-//       ^ punctuation.definition.generic.begin.java
-//        ^ variable.parameter.type.java
-//         ^ punctuation.definition.generic.end.java
-//           ^^^^^^^ keyword.declaration.extends.java
-//                   ^^^ entity.other.inherited-class.java
-//                      ^ punctuation.definition.generic.begin.java
-//                       ^ keyword.operator.wildcard.java
-//                         ^^^^^^^ keyword.declaration.extends.java
-//                                 ^ support.class.java
-//                                  ^ punctuation.definition.generic.end.java
+//   ^ - entity - keyword - storage
+//    ^^^^^^^^^^^ entity.name.class.java
+//               ^^^^ - entity - keyword - storage
+//               ^ punctuation.definition.generic.begin.java
+//                ^ variable.parameter.type.java
+//                 ^ punctuation.definition.generic.end.java
+//                   ^^^^^^^ keyword.declaration.extends.java
+//                          ^ - entity - keyword - storage
+//                           ^^^ entity.other.inherited-class.java
+//                              ^ punctuation.definition.generic.begin.java
+//                               ^ keyword.operator.wildcard.java
+//                                 ^^^^^^^ keyword.declaration.extends.java
+//                                         ^ support.class.java
+//                                          ^ punctuation.definition.generic.end.java
+//                                           ^ - entity - keyword - storage
+//                                            ^ punctuation.section.block.begin.java
+//                                             ^ punctuation.section.block.end.java
+
+class ImplementsTest implements
+//^^^ meta.class.java - meta.class meta.class
+//   ^^^^^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class
+//                   ^^^^^^^^^^^ meta.class.implements.java - meta.class meta.class
+//^^^ storage.type.class.java
+//   ^ - entity - keyword - storage
+//    ^^^^^^^^^^^^^^ entity.name.class.java
+//                  ^ - entity - keyword - storage
+//                   ^^^^^^^^^^ keyword.declaration.implements.java
+
+class ImplementsTest implements Foo {}
+//^^^ meta.class.java - meta.class meta.class
+//   ^^^^^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class
+//                   ^^^^^^^^^^^^^^^ meta.class.implements.java - meta.class meta.class
+//                                  ^^ meta.class.body.java meta.block.java - meta.class meta.class
+//^^^ storage.type.class.java
+//   ^ - entity - keyword - storage
+//    ^^^^^^^^^^^^^^ entity.name.class.java
+//                  ^ - entity - keyword - storage
+//                   ^^^^^^^^^^ keyword.declaration.implements.java
+//                              ^^^ entity.other.inherited-class.java
+//                                  ^ punctuation.section.block.begin.java
+//                                   ^ punctuation.section.block.end.java
+
+class lowerCaseTest<T> implements fully.qualified.Other<T> {
+//^^^ meta.class.java - meta.class meta.class
+//   ^^^^^^^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class
+//                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.implements.java - meta.class meta.class
+//                                ^^^^^^^^^^^^^^^^^^^^^ meta.path.java
+//                                                         ^^ meta.class.body.java meta.block.java - meta.class meta.class
+//^^^ storage.type.class.java
+//   ^ - entity - keyword - storage
+//    ^^^^^^^^^^^^^ entity.name.class.java
+//                 ^ punctuation.definition.generic.begin.java
+//                  ^ variable.parameter.type.java
+//                   ^ punctuation.definition.generic.end.java
+//                    ^ - entity - keyword - storage
+//                     ^^^^^^^^^^ keyword.declaration.implements.java
+//                                ^^^^^ variable.namespace.java
+//                                     ^ punctuation.accessor.dot.java
+//                                      ^^^^^^^^^ variable.namespace.java
+//                                               ^ punctuation.accessor.dot.java
+//                                                ^^^^^ entity.other.inherited-class.java
+//                                                     ^^^ meta.generic.java
+//                                                     ^ punctuation.definition.generic.begin.java
+//                                                      ^ support.class.java
+//                                                       ^ punctuation.definition.generic.end.java
+}
+// <- punctuation.section.block.end.java
+
+class extends implements {}
+//^^^ meta.class.java - meta.class meta.class
+//   ^ meta.class.identifier.java - meta.class meta.class
+//    ^^^^^^^^ meta.class.extends.java - meta.class meta.class
+//            ^^^^^^^^^^^ meta.class.implements.java - meta.class meta.class
+//                       ^^ meta.class.body.java meta.block.java - meta.class meta.class
+//^^^ storage.type.class.java
+//   ^ - entity - keyword - storage
+//    ^^^^^^^ keyword.declaration.extends.java
+//           ^ - entity - keyword - storage
+//            ^^^^^^^^^^ keyword.declaration.implements.java
+//                      ^ - entity - keyword - storage
+//                       ^ punctuation.section.block.begin.java
+//                        ^ punctuation.section.block.end.java
 
 class ExtendsAndImplementsTest extends Foo implements Bar<Foo>, OtherBar {}
-//^^^ meta.class.java
-//   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.identifier.java
-//                             ^^^^^^^^^^^^ meta.class.extends.java
-//                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.implements.java
-//                                                                       ^^ meta.class.body.java meta.block.java
+//^^^ meta.class.java - meta.class meta.class
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class
+//                             ^^^^^^^^^^^^ meta.class.extends.java - meta.class meta.class
+//                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.implements.java - meta.class meta.class
+//                                                                       ^^ meta.class.body.java meta.block.java - meta.class meta.class
 //^^^ storage.type.class.java
+//   ^ - entity - keyword - storage
 //    ^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.class.java
+//                            ^ - entity - keyword - storage
 //                             ^^^^^^^ keyword.declaration.extends.java
+//                                    ^ - entity - keyword - storage
 //                                     ^^^ entity.other.inherited-class.java
+//                                        ^ - entity - keyword - storage
 //                                         ^^^^^^^^^^ keyword.declaration.implements.java
+//                                                   ^ - entity - keyword - storage
 //                                                    ^^^ entity.other.inherited-class.java
 //                                                       ^^^^^ meta.generic.java
 //                                                            ^ punctuation.separator.comma.java
+//                                                            ^^ - entity - keyword - storage
 //                                                              ^^^^^^^^ entity.other.inherited-class.java
+//                                                                      ^ - entity - keyword - storage
+//                                                                       ^ punctuation.section.block.begin.java
+//                                                                        ^ punctuation.section.block.end.java
 
-class ExtendsAndImplementsTest extends Foo, Bar implements Bar<Foo>, OtherBar {}
-//^^^ meta.class.java
-//   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.identifier.java
-//                             ^^^^^^^^^^^^^^^^^ meta.class.extends.java
-//                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.implements.java
-//                                                                            ^^ meta.class.body.java meta.block.java
+class ExtendsAndImplementsTest extends Foo, bar implements bar<Foo>, OtherBar {}
+//^^^ meta.class.java - meta.class meta.class
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class
+//                             ^^^^^^^^^^^^^^^^^ meta.class.extends.java - meta.class meta.class
+//                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.implements.java - meta.class meta.class
+//                                                                            ^^ meta.class.body.java meta.block.java - meta.class meta.class
 //^^^ storage.type.class.java
 //    ^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.class.java
 //                             ^^^^^^^ keyword.declaration.extends.java
@@ -553,151 +686,208 @@ class ExtendsAndImplementsTest extends Foo, Bar implements Bar<Foo>, OtherBar {}
 //                                                            ^^^^^ meta.generic.java
 //                                                                 ^ punctuation.separator.comma.java
 //                                                                   ^^^^^^^^ entity.other.inherited-class.java
+//                                                                            ^ punctuation.section.block.begin.java
+//                                                                             ^ punctuation.section.block.end.java
 
-class AnyClass {
+class AnyClass { // comment
+//^^^ meta.class.java storage.type.class.java keyword.declaration.class.java
+//   ^^^^^^^^^^ meta.class.identifier.java
+//             ^^^^^^^^^^^^^ meta.class.body.java meta.block.java
 //    ^^^^^^^^ entity.name.class.java
-    int bar; // this comment() is recognized as code
-//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
-//           ^^ punctuation.definition.comment.java
+//             ^ punctuation.section.block.begin.java
+//               ^^^^^^^^^^^^ comment.line.double-slash.java
 
-    public void anyMethod(String finality){
-//              ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
-//              ^^^^^^^^^ meta.method.identifier
-//                       ^^^^^^^^^^^^^^^^^ meta.method.parameters
-//                               ^^^^^^^^ variable.parameter - storage.modifier
-//                                        ^^ meta.method.body.java - meta.method.identifier.java
-        System.out.println("Printed: " + finality);
-//                                     ^ keyword.operator
+    const class NestedClass {
+//  ^^^^^ invalid.illegal.keyword.java
+//        ^^^^^ meta.class.body.java meta.block.java meta.class.java storage.type.class.java keyword.declaration.class.java
+//             ^^^^^^^^^^^^^ meta.class.body.java meta.block.java meta.class.identifier.java
+//                          ^^ meta.class.body.java meta.block.java meta.class.body.java meta.block.java
+//              ^^^^^^^^^^^ entity.name.class.java
+//                          ^ punctuation.section.block.begin.java
+
+      void test1() {
+        Foo.class; // comment
+//      ^^^ support.class.java
+//         ^ punctuation.accessor.dot.java
+//          ^^^^^ variable.language.java - storage.type.java
+//               ^ punctuation.terminator.java
+//                 ^^^^^^^^^^^ comment.line.double-slash.java
+        super.class;
+//      ^^^^^ variable.language.java
+//           ^ punctuation.accessor.dot.java
+//            ^^^^^ variable.language.java - storage.type.java
+//                 ^ punctuation.terminator.java
+
+        this.class;
+//      ^^^^ variable.language.java
+//          ^ punctuation.accessor.dot.java
+//           ^^^^^ variable.language.java - storage.type.java
+//                ^ punctuation.terminator.java
+
+        this
+//      ^^^^ variable.language.java
+        /**/ .
+//      ^^^^ comment.block.empty.java
+//           ^ punctuation.accessor.dot.java
+        /**/ class
+//      ^^^^ comment.block.empty.java
+//           ^^^^^ variable.language.java - storage.type.java
+        /**/ ;
+//      ^^^^ comment.block.empty.java
+//           ^ punctuation.terminator.java
+      }
     }
-
-    public abstract <A> void test(A thing);
-//                  ^^^ meta.generic.declaration.java
-//                   ^ variable.parameter.type.java
-
-    public void test2(Type) abc
-//                          ^^^ - variable.parameter
-//                          ^ - meta.method.java
+//  ^ meta.class.body.java meta.block.java meta.class.body.java meta.block.java punctuation.section.block.end.java
+//   ^ meta.class.body.java meta.block.java - meta.class meta.class
 }
-// <- punctuation.section.block.end.java
+//<- meta.class.body.java meta.block.java punctuation.section.block.end.java
 
-interface T extends A, BB {}
-//^^^^^^^ meta.class.java
-//       ^^^ meta.class.identifier.java
-//          ^^^^^^^^^^^^^^ meta.class.extends.java
-//                        ^^ meta.class.body.java meta.block.java
-//^^^^^^^ storage.type.interface.java
-//        ^ entity.name.class.java
-//          ^^^^^^^ keyword.declaration.extends.java
-//                  ^ entity.other.inherited-class.java
-//                   ^ punctuation.separator.comma.java
-//                     ^^ entity.other.inherited-class.java
-//                        ^ punctuation.section.block.begin.java
-//                         ^ punctuation.section.block.end.java
 
 /******************************************************************************
- * Eumeration Statement Tests
+ * Eumeration Declaration Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.9
  *****************************************************************************/
 
+enum
+//<- meta.enum.java storage.type.enum.java keyword.declaration.enum.java
+//^^ meta.enum.java storage.type.enum.java keyword.declaration.enum.java
+
+enum EnumTest
+//<- meta.enum.java storage.type.enum.java keyword.declaration.enum.java
+//^^ meta.enum.java storage.type.enum.java keyword.declaration.enum.java
+//  ^^^^^^^^^^ meta.enum.identifier.java
+//  ^ - entity - keyword - storage
+//   ^^^^^^^^ entity.name.enum.java
+//           ^ - entity
+
+enum EnumTest {}
+//<- meta.enum.java storage.type.enum.java keyword.declaration.enum.java
+//^^ meta.enum.java storage.type.enum.java keyword.declaration.enum.java
+//  ^^^^^^^^^^ meta.enum.identifier.java
+//            ^^ meta.enum.body.java meta.block.java
+//  ^ - entity - keyword - storage
+//   ^^^^^^^^ entity.name.enum.java
+//           ^ - entity
+//            ^ punctuation.section.block.begin.java
+//             ^ punctuation.section.block.end.java
+
+public enum EnumTest { int {} }
+//^^^^^^^^^ meta.enum.java
+//         ^^^^^^^^^^ meta.enum.identifier.java
+//                   ^^^^^^^^^^ meta.enum.body.java meta.block.java
+//     ^^^^ storage.type.enum.java
+//         ^ - entity - keyword - storage
+//          ^^^^^^^^ entity.name.enum.java
+//                  ^ - entity - punctuation
+//                   ^ punctuation.section.block.begin.java
+//                     ^^^ storage.type.primitive.java
+//                         ^ punctuation.section.block.begin.java
+//                          ^ punctuation.section.block.end.java
+//                            ^ punctuation.section.block.end.java
+
+public enum EnumTest {FOO, BAR}
+//^^^^^^^^^ meta.enum.java
+//         ^^^^^^^^^^ meta.enum.identifier.java
+//                   ^^^^^^^^^^ meta.enum.body.java meta.block.java
+//     ^^^^ storage.type.enum.java
+//         ^ - entity - keyword - storage
+//          ^^^^^^^^ entity.name.enum.java
+//                  ^ - entity - punctuation
+//                   ^ punctuation.section.block.begin.java
+//                    ^^^ meta.constant.identifier.java entity.name.constant.java
+//                       ^ punctuation.separator.comma.java
+//                         ^^^ meta.constant.identifier.java entity.name.constant.java
+//                            ^ punctuation.section.block.end.java
+
 public enum FooEnum {
-//^^^^^^^^^ meta.class.java
-//         ^^^^^^^^^ meta.class.identifier.java
-//                  ^^ meta.class.body.java meta.block.java
+//^^^^^^^^^ meta.enum.java
+//         ^^^^^^^^^ meta.enum.identifier.java
+//                  ^^ meta.enum.body.java meta.block.java
 //^^^^ storage.modifier.java
 //     ^^^^ storage.type.enum.java
-//          ^^^^^^^ entity.name.class.java
+//          ^^^^^^^ entity.name.enum.java
 //                  ^ punctuation.section.block.begin.java
   FOO;
-//^^^ meta.enum.identifier.java constant.other.enum.java
-//   ^ punctuation.terminator.java - meta.enum
+//^^^ meta.constant.identifier.java entity.name.constant.java
+//   ^ punctuation.terminator.java - meta.constant
 }
-// <- meta.class.body.java punctuation.section.block.end.java
+// <- meta.enum.body.java punctuation.section.block.end.java
 
 public enum FooBarEnum {
-//^^^^^^^^^ meta.class.java
-//         ^^^^^^^^^^^^ meta.class.identifier.java
-//                     ^^ meta.class.body.java meta.block.java
+//^^^^^^^^^ meta.enum.java
+//         ^^^^^^^^^^^^ meta.enum.identifier.java
+//                     ^^ meta.enum.body.java meta.block.java
 //     ^^^^ storage.type.enum.java
-//          ^^^^^^^^^^ entity.name.class.java
+//          ^^^^^^^^^^ entity.name.enum.java
 //                     ^ punctuation.section.block.begin.java
   FOO,
-//^^^ meta.enum.identifier.java constant.other.enum.java
+//^^^ meta.constant.identifier.java entity.name.constant.java
 //   ^ punctuation.separator.comma.java
   BAR;
-//^^^ meta.enum.identifier.java constant.other.enum.java
-//   ^ punctuation.terminator.java - meta.enum
+//^^^ meta.constant.identifier.java entity.name.constant.java
+//   ^ punctuation.terminator.java - meta.constant
 }
-// <- meta.class.body.java punctuation.section.block.end.java
-
-public enum FooBarEnum {FOO, BAR}
-//^^^^^^^^^ meta.class.java
-//         ^^^^^^^^^^^^ meta.class.identifier.java
-//                     ^^^^^^^^^^ meta.class.body.java meta.block.java
-//     ^^^^ storage.type.enum.java
-//          ^^^^^^^^^^ entity.name.class.java
-//                     ^ punctuation.section.block.begin.java
-//                      ^^^ meta.enum.identifier.java constant.other.enum.java
-//                         ^ punctuation.separator.comma.java
-//                           ^^^ meta.enum.identifier.java constant.other.enum.java
-//                              ^ punctuation.section.block.end.java
+// <- meta.enum.body.java punctuation.section.block.end.java
 
 public enum FooBarBazEnum {
-//^^^^^^^^^ meta.class.java
-//         ^^^^^^^^^^^^^^^ meta.class.identifier.java
-//                        ^^ meta.class.body.java meta.block.java
+//^^^^^^^^^ meta.enum.java
+//         ^^^^^^^^^^^^^^^ meta.enum.identifier.java
+//                        ^^ meta.enum.body.java meta.block.java
 //     ^^^^ storage.type.enum.java
-//          ^^^^^^^^^^^^^ entity.name.class.java
+//          ^^^^^^^^^^^^^ entity.name.enum.java
 //                        ^ punctuation.section.block.begin.java
   FOO,  // comment
-//^^^ meta.enum.identifier.java constant.other.enum.java
+//^^^ meta.constant.identifier.java entity.name.constant.java
 //   ^ punctuation.separator.comma.java
 //      ^^^^^^^^^^^ comment.line.double-slash.java
   BAR,  /* comment */
-//^^^ meta.enum.identifier.java constant.other.enum.java
+//^^^ meta.constant.identifier.java entity.name.constant.java
 //   ^ punctuation.separator.comma.java
 //      ^^^^^^^^^^^^^ comment.block.java
   BAZ  // comment
-//^^^ meta.enum.identifier.java constant.other.enum.java
+//^^^ meta.constant.identifier.java entity.name.constant.java
 //     ^^^^^^^^^^^ comment.line.double-slash.java
 }
-// <- meta.class.body.java punctuation.section.block.end.java
+// <- meta.enum.body.java punctuation.section.block.end.java
 
-public enum TokenKind extends MyEnum, FooBaz<? super T<TT>> implements Foo, Bar {
-//<- meta.class.java storage.modifier.java
-//^^^^^^^^^ meta.class.java
-//         ^^^^^^^^^^^ meta.class.identifier.java
-//                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.extends.java
-//                                                          ^^^^^^^^^^^^^^^^^^^^ meta.class.implements.java
-//                                                                              ^^ meta.class.body.java meta.block.java
+public enum TokenKind<T> extends MyEnum, FooBaz<? super T<TT>> implements Foo, Bar {
+//<- meta.enum.java storage.modifier.java
+//^^^^^^^^^ meta.enum.java
+//         ^^^^^^^^^^^^^^ meta.enum.identifier.java
+//                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.extends.java
+//                                                             ^^^^^^^^^^^^^^^^^^^^ meta.enum.implements.java
+//                                                                                 ^^ meta.enum.body.java meta.block.java
 //^^^^ storage.modifier.java
 //     ^^^^ storage.type.enum.java
-//          ^^^^^^^^^ entity.name.class.java
-//                    ^^^^^^^ keyword.declaration.extends.java
-//                            ^^^^^^ entity.other.inherited-class.java
-//                                  ^ punctuation.separator.comma.java
-//                                    ^^^^^^ entity.other.inherited-class.java
-//                                          ^ punctuation.definition.generic.begin.java
-//                                          ^^^^^^^^^^ meta.generic.java - meta.generic meta.generic
-//                                           ^ keyword.operator.wildcard.java
-//                                             ^^^^^ keyword.declaration.super.java
-//                                                   ^ support.class.java
-//                                                    ^ punctuation.definition.generic.begin.java
-//                                                    ^^^^ meta.generic.java meta.generic.java
-//                                                     ^^ support.class.java
-//                                                       ^ punctuation.definition.generic.end.java
-//                                                        ^ meta.generic.java punctuation.definition.generic.end.java - meta.generic meta.generic
-//                                                          ^^^^^^^^^^ keyword.declaration.implements.java
-//                                                                     ^^^ entity.other.inherited-class.java
-//                                                                        ^ punctuation.separator.comma.java
-//                                                                          ^^^ entity.other.inherited-class.java
-//                                                                              ^ punctuation.section.block.begin.java
+//          ^^^^^^^^^ entity.name.enum.java
+//                   ^^^ invalid.illegal.unexpected-type-parameters.java
+//                       ^^^^^^^ invalid.illegal.unexpected-extends.java
+//                               ^^^^^^ entity.other.inherited-class.java
+//                                     ^ punctuation.separator.comma.java
+//                                       ^^^^^^ entity.other.inherited-class.java
+//                                             ^ punctuation.definition.generic.begin.java
+//                                             ^^^^^^^^^^ meta.generic.java - meta.generic meta.generic
+//                                              ^ keyword.operator.wildcard.java
+//                                                ^^^^^ keyword.declaration.super.java
+//                                                      ^ support.class.java
+//                                                       ^ punctuation.definition.generic.begin.java
+//                                                       ^^^^ meta.generic.java meta.generic.java
+//                                                        ^^ support.class.java
+//                                                          ^ punctuation.definition.generic.end.java
+//                                                           ^ meta.generic.java punctuation.definition.generic.end.java - meta.generic meta.generic
+//                                                             ^^^^^^^^^^ keyword.declaration.implements.java
+//                                                                        ^^^ entity.other.inherited-class.java
+//                                                                           ^ punctuation.separator.comma.java
+//                                                                             ^^^ entity.other.inherited-class.java
+//                                                                                 ^ punctuation.section.block.begin.java
 
     a,
-//  ^ meta.enum.identifier.java constant.other.enum.java - meta.enum meta.enum
-//   ^ punctuation.separator.comma.java - meta.enum
+//  ^ meta.constant.identifier.java entity.name.constant.java - meta.constant meta.constant
+//   ^ punctuation.separator.comma.java - meta.constant
 
     a(1, 2, 3),
-//  ^ meta.enum.identifier.java constant.other.enum.java - meta.enum meta.enum
-//   ^^^^^^^^^ meta.enum.arguments.java meta.parens.java - meta.enum meta.enum
+//  ^ meta.constant.identifier.java entity.name.constant.java - meta.constant meta.constant
+//   ^^^^^^^^^ meta.constant.arguments.java meta.parens.java - meta.constant meta.constant
 //   ^ punctuation.section.parens.begin.java
 //    ^ constant.numeric.integer.decimal.java
 //     ^ punctuation.separator.comma.java
@@ -708,30 +898,30 @@ public enum TokenKind extends MyEnum, FooBaz<? super T<TT>> implements Foo, Bar 
 //            ^ punctuation.separator.comma.java
 
     a
-//  ^ meta.enum.identifier.java constant.other.enum.java
+//  ^ meta.constant.identifier.java entity.name.constant.java
     (),
-//  ^ meta.enum.arguments.java meta.parens.java punctuation.section.parens.begin.java
-//   ^ meta.enum.arguments.java meta.parens.java punctuation.section.parens.end.java
+//  ^ meta.constant.arguments.java meta.parens.java punctuation.section.parens.begin.java
+//   ^ meta.constant.arguments.java meta.parens.java punctuation.section.parens.end.java
 //    ^ punctuation.separator.comma.java
 
     a
-//  ^ meta.enum.identifier.java constant.other.enum.java
+//  ^ meta.constant.identifier.java entity.name.constant.java
     {
-//  ^^ meta.enum.body.java meta.block.java
+//  ^^ meta.constant.body.java meta.block.java
 //  ^ punctuation.section.block.begin.java
     },
-//^^^ meta.enum.body.java meta.block.java
+//^^^ meta.constant.body.java meta.block.java
 //  ^ punctuation.section.block.end.java
 //   ^ punctuation.separator.comma.java
 
     a { public void doSomething() { return; } },
-//  ^^ meta.enum.identifier.java - meta.enum meta.enum
-//    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.body.java meta.block.java - meta.enum meta.enum
+//  ^^ meta.constant.identifier.java - meta.constant meta.constant
+//    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.constant.body.java meta.block.java - meta.constant meta.constant
 //                 ^^^^^^^^^^^^ meta.method.identifier.java
 //                             ^^ meta.method.parameters.java meta.parens.java
 //                               ^ meta.method.java
 //                                ^^^^^^^^^^^ meta.method.body.java meta.block.java
-//  ^ constant.other.enum.java
+//  ^ entity.name.constant.java
 //    ^ punctuation.section.block.begin.java
 //      ^^^^^^ storage.modifier.java
 //             ^^^^ meta.method.return-type.java
@@ -748,16 +938,16 @@ public enum TokenKind extends MyEnum, FooBaz<? super T<TT>> implements Foo, Bar 
 //                                             ^ punctuation.separator.comma.java
 
     a ( 1 , 2 , 3 ) { public void doSomething() { return; } },
-//  ^^ meta.enum.identifier.java - meta.enum meta.enum
-//    ^^^^^^^^^^^^^ meta.enum.arguments.java meta.parens.java - meta.enum meta.enum
-//                 ^ meta.enum.java - meta.enum meta.enum
-//                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.body.java meta.block.java - meta.enum meta.enum
+//  ^^ meta.constant.identifier.java - meta.constant meta.constant
+//    ^^^^^^^^^^^^^ meta.constant.arguments.java meta.parens.java - meta.constant meta.constant
+//                 ^ meta.constant.java - meta.constant meta.constant
+//                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.constant.body.java meta.block.java - meta.constant meta.constant
 //                           ^^^^ meta.method.return-type.java
 //                               ^^^^^^^^^^^^ meta.method.identifier.java
 //                                           ^^ meta.method.parameters.java meta.parens.java
 //                                             ^ meta.method.java
 //                                              ^^^^^^^^^^^ meta.method.body.java meta.block.java
-//  ^ constant.other.enum.java
+//  ^ entity.name.constant.java
 //    ^ punctuation.section.parens.begin.java
 //      ^ constant.numeric.integer.decimal.java
 //        ^ punctuation.separator.comma.java
@@ -779,52 +969,58 @@ public enum TokenKind extends MyEnum, FooBaz<? super T<TT>> implements Foo, Bar 
 //                                                           ^ punctuation.separator.comma.java
 
     A,
-//  ^ meta.enum.identifier.java constant.other.enum.java
+//  ^ meta.constant.identifier.java entity.name.constant.java
 //   ^ punctuation.separator.comma.java
 
     A(1),
-//  ^ meta.enum.identifier.java constant.other.enum.java
-//   ^ meta.enum.arguments.java meta.parens.java punctuation.section.parens.begin.java
-//    ^ meta.enum.arguments.java meta.parens.java constant.numeric.integer.decimal.java
-//     ^ meta.enum.arguments.java meta.parens.java punctuation.section.parens.end.java
+//  ^ meta.constant.identifier.java entity.name.constant.java
+//   ^ meta.constant.arguments.java meta.parens.java punctuation.section.parens.begin.java
+//    ^ meta.constant.arguments.java meta.parens.java constant.numeric.integer.decimal.java
+//     ^ meta.constant.arguments.java meta.parens.java punctuation.section.parens.end.java
 //      ^ punctuation.separator.comma.java
 
     A {},
-//  ^^ meta.enum.identifier.java
-//  ^ constant.other.enum.java
-//    ^ meta.enum.body.java meta.block.java punctuation.section.block.begin.java
-//     ^ meta.enum.body.java meta.block.java punctuation.section.block.end.java
+//  ^^ meta.constant.identifier.java
+//  ^ entity.name.constant.java
+//    ^ meta.constant.body.java meta.block.java punctuation.section.block.begin.java
+//     ^ meta.constant.body.java meta.block.java punctuation.section.block.end.java
 //      ^ punctuation.separator.comma.java
 
     integerToken,
-//  ^^^^^^^^^^^^ meta.enum.identifier.java constant.other.enum.java
+//  ^^^^^^^^^^^^ meta.constant.identifier.java entity.name.constant.java
 //              ^ punctuation.separator.comma.java
 
     integerToken("integer literal"),
-//  ^^^^^^^^^^^^ meta.enum.identifier.java constant.other.enum.java
-//              ^^^^^^^^^^^^^^^^^^^ meta.enum.arguments.java meta.parens.java
+//  ^^^^^^^^^^^^ meta.constant.identifier.java entity.name.constant.java
+//              ^^^^^^^^^^^^^^^^^^^ meta.constant.arguments.java meta.parens.java
 //              ^ punctuation.section.parens.begin.java
 //               ^^^^^^^^^^^^^^^^^ string.quoted.double.java
 //                                ^ punctuation.section.parens.end.java
 //                                 ^ punctuation.separator.comma.java
 
     integerToken {};
-//  ^^^^^^^^^^^^ meta.enum.identifier.java constant.other.enum.java
-//              ^ meta.enum.identifier.java - constant
-//               ^ meta.enum.body.java meta.block.java punctuation.section.block.begin.java
-//                ^ meta.enum.body.java meta.block.java punctuation.section.block.end.java
+//  ^^^^^^^^^^^^ meta.constant.identifier.java entity.name.constant.java
+//              ^ meta.constant.identifier.java - constant
+//               ^ meta.constant.body.java meta.block.java punctuation.section.block.begin.java
+//                ^ meta.constant.body.java meta.block.java punctuation.section.block.end.java
 //                 ^ punctuation.terminator.java
 
     int {}
 //  ^^^ storage.type.primitive.java
+
+    const {}
+//  ^^^^^ invalid.illegal.keyword.java
+
     static {}
 //  ^^^^^^ storage.modifier.java
+
     String image = "";
 //  ^^^^^^ support.class.java
 //         ^^^^^ variable.other.member.java
 //               ^ keyword.operator.assignment.java
 //                 ^^ string.quoted.double.java
 //                   ^ punctuation.terminator.java
+
     TokenKind(String s) {}
 //  ^^^^^^^^^ meta.method.identifier.java - meta.method meta.method - meta.method.parameters
 //           ^^^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method - meta.method.identifier
@@ -837,6 +1033,7 @@ public enum TokenKind extends MyEnum, FooBaz<? super T<TT>> implements Foo, Bar 
 //                    ^ punctuation.section.parens.end.java
 //                      ^ punctuation.section.block.begin.java
 //                       ^ punctuation.section.block.end.java
+
     public static void main(String[]a){}
 //                ^^^^ meta.method.return-type.java - meta.method meta.method - meta.method.parameters - meta.method.body
 //                    ^^^^^ meta.method.identifier.java - meta.method meta.method - meta.method.parameters
@@ -858,33 +1055,98 @@ public enum TokenKind extends MyEnum, FooBaz<? super T<TT>> implements Foo, Bar 
 public          // comment
 //<- storage.modifier.java
 enum            // comment
-//<- meta.class.java storage.type.enum.java
+//<- meta.enum.java storage.type.enum.java
 TokenKind       // comment
-//<- meta.class.identifier.java entity.name.class.java
+//<- meta.enum.identifier.java entity.name.enum.java
 extends         // comment
-//<- meta.class.extends.java keyword.declaration.extends.java
+//<- meta.enum.extends.java invalid.illegal.unexpected-extends.java
 MyEnum,         // comment
-//<- meta.class.extends.java entity.other.inherited-class.java
+//<- meta.enum.extends.java entity.other.inherited-class.java
 FooBaz          // comment
-//<- meta.class.extends.java entity.other.inherited-class.java
+//<- meta.enum.extends.java entity.other.inherited-class.java
 implements      // comment
-//<- meta.class.implements.java keyword.declaration.implements.java
+//<- meta.enum.implements.java keyword.declaration.implements.java
 Foo,            // comment
-//<- meta.class.implements.java entity.other.inherited-class.java
+//<- meta.enum.implements.java entity.other.inherited-class.java
 Bar             // comment
-//<- meta.class.implements.java entity.other.inherited-class.java
+//<- meta.enum.implements.java entity.other.inherited-class.java
 {
-//<- meta.class.body.java meta.block.java punctuation.section.block.begin.java
+//<- meta.enum.body.java meta.block.java punctuation.section.block.begin.java
 }
-//<- meta.class.body.java meta.block.java punctuation.section.block.end.java
+//<- meta.enum.body.java meta.block.java punctuation.section.block.end.java
+
+
+/******************************************************************************
+ * Interface Declaration Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.1
+ *****************************************************************************/
+
+interface
+//<- meta.interface.java storage.type.interface.java keyword.declaration.interface.java
+//^^^^^^^ meta.interface.java storage.type.interface.java keyword.declaration.interface.java
+//       ^ meta.interface.identifier.java
+
+interface TestIntf
+//<- meta.interface.java storage.type.interface.java keyword.declaration.interface.java
+//^^^^^^^ meta.interface.java
+//       ^^^^^^^^^^ meta.interface.identifier.java
+//^^^^^^^ storage.type.interface.java keyword.declaration.interface.java
+//        ^^^^^^^^ entity.name.interface.java
+
+interface TestIntf extends
+//<- meta.interface.java storage.type.interface.java keyword.declaration.interface.java
+//^^^^^^^ meta.interface.java
+//       ^^^^^^^^^^ meta.interface.identifier.java
+//                 ^^^^^^^^ meta.interface.extends.java
+//^^^^^^^ storage.type.interface.java keyword.declaration.interface.java
+//        ^^^^^^^^ entity.name.interface.java
+//                 ^^^^^^^ keyword.declaration.extends.java
+
+interface TestIntf extends A, BB {}
+//<- meta.interface.java storage.type.interface.java keyword.declaration.interface.java
+//^^^^^^^ meta.interface.java
+//       ^^^^^^^^^^ meta.interface.identifier.java
+//                 ^^^^^^^^^^^^^^ meta.interface.extends.java
+//                               ^^ meta.interface.body.java meta.block.java
+//^^^^^^^ storage.type.interface.java keyword.declaration.interface.java
+//        ^^^^^^^^ entity.name.interface.java
+//                 ^^^^^^^ keyword.declaration.extends.java
+//                         ^ entity.other.inherited-class.java
+//                          ^ punctuation.separator.comma.java
+//                            ^^ entity.other.inherited-class.java
+//                               ^ punctuation.section.block.begin.java
+//                                ^ punctuation.section.block.end.java
+
+interface /**/ TestIntf /**/ extends /**/ A /**/, /**/ BB /**/ {}
+//<- meta.interface.java storage.type.interface.java keyword.declaration.interface.java
+//^^^^^^^ meta.interface.java
+//       ^^^^^^^^^^^^^^^^^^^^ meta.interface.identifier.java
+//                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.extends.java
+//                                                             ^^ meta.interface.body.java meta.block.java
+//^^^^^^^ storage.type.interface.java keyword.declaration.interface.java
+//        ^^^^ comment.block.empty.java
+//             ^^^^^^^^ entity.name.interface.java
+//                      ^^^^ comment.block.empty.java
+//                           ^^^^^^^ keyword.declaration.extends.java
+//                                   ^^^^ comment.block.empty.java
+//                                        ^ entity.other.inherited-class.java
+//                                          ^^^^ comment.block.empty.java
+//                                              ^ punctuation.separator.comma.java
+//                                                ^^^^ comment.block.empty.java
+//                                                     ^^ entity.other.inherited-class.java
+//                                                        ^^^^ comment.block.empty.java
+//                                                             ^ punctuation.section.block.begin.java
+//                                                              ^ punctuation.section.block.end.java
+
+
+/******************************************************************************
+ * Illegal Keywords Tests
+ *****************************************************************************/
 
 class InvalidStuff
 {
     goto
 //  ^^^^ invalid.illegal
-
-    const int 3;
-//  ^^^^^ invalid.illegal
 }
 
 
@@ -1046,6 +1308,8 @@ class LambdasStatementTests {
 
 class Generics {
 
+  List<int> field;
+
   List<String> field;
 //    ^^^^^^^^ meta.generic.java
 //    ^ punctuation.definition.generic.begin.java
@@ -1170,22 +1434,6 @@ class Generics {
   }
 }
 
-public class Test {
-
-    void test1() {
-        Foo.abc();
-//         ^ punctuation.accessor.dot.java
-//          ^^^ variable.function.java
-        Foo.class;
-//         ^ punctuation.accessor.dot.java
-//          ^^^^^ variable.language.java - storage.type.java
-//               ^ punctuation.terminator.java
-    }
-
-    void test2() {
-//       ^^^^^ entity.name.function.java
-    }
-}
 
 @ClassName.FixMethodOrder( MethodSorters.NAME_ASCENDING )
 // <- meta.annotation.identifier.java punctuation.definition.annotation.java - meta.annotation meta.annotation
@@ -1258,14 +1506,6 @@ public class GrafoTest {
 //                                               ^ storage.modifier - meta.annotation
 //                                                     ^ support.class
 
-}
-
-public final class SomeClass<V extends OtherClass, T> extends BaseClass<V> {
-//                          ^ punctuation.definition.generic.begin.java
-//                                                  ^ punctuation.definition.generic.end.java
-//                                               ^ punctuation.separator.comma.java
-//                                     ^ support.class.java
-//                                                                         ^ punctuation.section.block.begin.java
 }
 
 public @interface PublicAnnotation {
@@ -2717,35 +2957,6 @@ public class Foo {
 }}
 // <- meta.class.body.java punctuation.section.block.end.java
  //<- invalid.illegal.stray-brace-end
-
-public
-// <- storage.modifier.java
-class IOException { }
-// <- storage.type.class.java
-
-public class Generic<T> implements fully.qualified.Other<T> {
-//                                 ^^^^^^^^^^^^^^^^^^^^^ meta.path.java
-//                                 ^^^^^ entity.other.inherited-class.package.java
-//                                      ^ punctuation.accessor.dot.java
-//                                       ^^^^^^^^^ entity.other.inherited-class.package.java
-//                                                ^ punctuation.accessor.dot.java
-//                                                 ^^^^^ entity.other.inherited-class.java
-//                                                      ^^^ meta.generic.java
-//                                                      ^ punctuation.definition.generic.begin.java
-//                                                       ^ support.class.java
-//                                                        ^ punctuation.definition.generic.end.java
-}
-// <- punctuation.section.block.end.java
-
-public class Generic<T> extends iNtf implements iNterface<T> {
-//                              ^^^^ entity.other.inherited-class.java
-//                                              ^^^^^^^^^ entity.other.inherited-class.java
-//                                                       ^^^ meta.generic.java
-//                                                       ^ punctuation.definition.generic.begin.java
-//                                                        ^ support.class.java
-//                                                         ^ punctuation.definition.generic.end.java
-}
-// <- punctuation.section.block.end.java
 
 public class Bar {
   public void missingSemiColon() {

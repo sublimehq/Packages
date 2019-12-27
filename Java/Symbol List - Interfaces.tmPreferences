@@ -2,9 +2,9 @@
 <plist version="1.0">
 <dict>
 	<key>name</key>
-	<string>Symbol List: Classes</string>
+	<string>Symbol List: Interfaces</string>
 	<key>scope</key>
-	<string>source.java meta.class.identifier entity.name.class</string>
+	<string>source.java meta.interface.identifier entity.name.interface</string>
 	<key>settings</key>
 	<dict>
 		<key>showInIndexedSymbolList</key>
