@@ -594,45 +594,80 @@ interface T extends A, BB {}
 //                        ^ punctuation.section.block.begin.java
 //                         ^ punctuation.section.block.end.java
 
-public enum FooBaz {
+/******************************************************************************
+ * Eumeration Statement Tests
+ *****************************************************************************/
+
+public enum FooEnum {
 //^^^^^^^^^ meta.class.java
-//         ^^^^^^^^ meta.class.identifier.java
-//                 ^^ meta.class.body meta.block.java
+//         ^^^^^^^^^ meta.class.identifier.java
+//                  ^^ meta.class.body.java meta.block.java
 //^^^^ storage.modifier.java
 //     ^^^^ storage.type.enum.java
-//          ^^^^^^ entity.name.class.java
-    // This is a test
-//  ^^^^^^^^^^^^^^^^^^ comment.line
-    UPLOAD("foo bar"), /* This a comment */
-//  ^^^^^^ constant.other.enum
-//         ^^^^^^^^^ string.quoted.double.java
-//                     ^^^^^^^^^^^^^^^^^^^^ comment.block
-//                                         ^ - comment.block
-    DELETE("baz"),
-//  ^^^^^^ constant.other.enum
-    // Comment here
-//  ^^^^^^^^^^^^^^^^ comment.line
+//          ^^^^^^^ entity.name.class.java
+//                  ^ punctuation.section.block.begin.java
+  FOO;
+//^^^ meta.enum.identifier.java constant.other.enum.java
+//   ^ punctuation.terminator.java - meta.enum
 }
+// <- meta.class.body.java punctuation.section.block.end.java
 
-enum MyEnum {
-  FIRST_VALUE, // comment1
-//^^^^^^^^^^^ constant.other.enum
-//             ^^^^^^^^^^^ comment
-  MID_VALUE,   // comment2
-//^^^^^^^^^ constant.other.enum
-//             ^^^^^^^^^^^ comment
-  LAST_VALUE   // comment3
-//^^^^^^^^^^ constant.other.enum
-//             ^^^^^^^^^^^ comment
+public enum FooBarEnum {
+//^^^^^^^^^ meta.class.java
+//         ^^^^^^^^^^^^ meta.class.identifier.java
+//                     ^^ meta.class.body.java meta.block.java
+//     ^^^^ storage.type.enum.java
+//          ^^^^^^^^^^ entity.name.class.java
+//                     ^ punctuation.section.block.begin.java
+  FOO,
+//^^^ meta.enum.identifier.java constant.other.enum.java
+//   ^ punctuation.separator.comma.java
+  BAR;
+//^^^ meta.enum.identifier.java constant.other.enum.java
+//   ^ punctuation.terminator.java - meta.enum
 }
+// <- meta.class.body.java punctuation.section.block.end.java
 
-public enum TokenKind extends MyEnum, FooBaz implements Foo, Bar {
+public enum FooBarEnum {FOO, BAR}
+//^^^^^^^^^ meta.class.java
+//         ^^^^^^^^^^^^ meta.class.identifier.java
+//                     ^^^^^^^^^^ meta.class.body.java meta.block.java
+//     ^^^^ storage.type.enum.java
+//          ^^^^^^^^^^ entity.name.class.java
+//                     ^ punctuation.section.block.begin.java
+//                      ^^^ meta.enum.identifier.java constant.other.enum.java
+//                         ^ punctuation.separator.comma.java
+//                           ^^^ meta.enum.identifier.java constant.other.enum.java
+//                              ^ punctuation.section.block.end.java
+
+public enum FooBarBazEnum {
+//^^^^^^^^^ meta.class.java
+//         ^^^^^^^^^^^^^^^ meta.class.identifier.java
+//                        ^^ meta.class.body.java meta.block.java
+//     ^^^^ storage.type.enum.java
+//          ^^^^^^^^^^^^^ entity.name.class.java
+//                        ^ punctuation.section.block.begin.java
+  FOO,  // comment
+//^^^ meta.enum.identifier.java constant.other.enum.java
+//   ^ punctuation.separator.comma.java
+//      ^^^^^^^^^^^ comment.line.double-slash.java
+  BAR,  /* comment */
+//^^^ meta.enum.identifier.java constant.other.enum.java
+//   ^ punctuation.separator.comma.java
+//      ^^^^^^^^^^^^^ comment.block.java
+  BAZ  // comment
+//^^^ meta.enum.identifier.java constant.other.enum.java
+//     ^^^^^^^^^^^ comment.line.double-slash.java
+}
+// <- meta.class.body.java punctuation.section.block.end.java
+
+public enum TokenKind extends MyEnum, FooBaz<? super T<TT>> implements Foo, Bar {
 //<- meta.class.java storage.modifier.java
 //^^^^^^^^^ meta.class.java
 //         ^^^^^^^^^^^ meta.class.identifier.java
-//                    ^^^^^^^^^^^^^^^^^^^^^^^ meta.class.extends.java
-//                                           ^^^^^^^^^^^^^^^^^^^^ meta.class.implements.java
-//                                                               ^^ meta.class.body.java meta.block.java
+//                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.extends.java
+//                                                          ^^^^^^^^^^^^^^^^^^^^ meta.class.implements.java
+//                                                                              ^^ meta.class.body.java meta.block.java
 //^^^^ storage.modifier.java
 //     ^^^^ storage.type.enum.java
 //          ^^^^^^^^^ entity.name.class.java
@@ -640,17 +675,29 @@ public enum TokenKind extends MyEnum, FooBaz implements Foo, Bar {
 //                            ^^^^^^ entity.other.inherited-class.java
 //                                  ^ punctuation.separator.comma.java
 //                                    ^^^^^^ entity.other.inherited-class.java
-//                                           ^^^^^^^^^^ keyword.declaration.implements.java
-//                                                      ^^^ entity.other.inherited-class.java
-//                                                         ^ punctuation.separator.comma.java
-//                                                           ^^^ entity.other.inherited-class.java
-//                                                               ^ punctuation.section.block.begin.java
+//                                          ^ punctuation.definition.generic.begin.java
+//                                          ^^^^^^^^^^ meta.generic.java - meta.generic meta.generic
+//                                           ^ keyword.operator.wildcard.java
+//                                             ^^^^^ keyword.declaration.super.java
+//                                                   ^ support.class.java
+//                                                    ^ punctuation.definition.generic.begin.java
+//                                                    ^^^^ meta.generic.java meta.generic.java
+//                                                     ^^ support.class.java
+//                                                       ^ punctuation.definition.generic.end.java
+//                                                        ^ meta.generic.java punctuation.definition.generic.end.java - meta.generic meta.generic
+//                                                          ^^^^^^^^^^ keyword.declaration.implements.java
+//                                                                     ^^^ entity.other.inherited-class.java
+//                                                                        ^ punctuation.separator.comma.java
+//                                                                          ^^^ entity.other.inherited-class.java
+//                                                                              ^ punctuation.section.block.begin.java
+
     a,
-//  ^ constant.other.enum.java
-//   ^ punctuation.separator.comma.java
+//  ^ meta.enum.identifier.java constant.other.enum.java - meta.enum meta.enum
+//   ^ punctuation.separator.comma.java - meta.enum
+
     a(1, 2, 3),
-//  ^ constant.other.enum.java
-//   ^^^^^^^^^ meta.parens.java
+//  ^ meta.enum.identifier.java constant.other.enum.java - meta.enum meta.enum
+//   ^^^^^^^^^ meta.enum.arguments.java meta.parens.java - meta.enum meta.enum
 //   ^ punctuation.section.parens.begin.java
 //    ^ constant.numeric.integer.decimal.java
 //     ^ punctuation.separator.comma.java
@@ -659,41 +706,115 @@ public enum TokenKind extends MyEnum, FooBaz implements Foo, Bar {
 //          ^ constant.numeric.integer.decimal.java
 //           ^ punctuation.section.parens.end.java
 //            ^ punctuation.separator.comma.java
-    a {},
-//  ^ constant.other.enum.java
-//    ^ meta.block.java punctuation.section.block.begin.java
-//     ^ meta.block.java punctuation.section.block.end.java
-//      ^ punctuation.separator.comma.java
-    A,
-//  ^ constant.other.enum.java
+
+    a
+//  ^ meta.enum.identifier.java constant.other.enum.java
+    (),
+//  ^ meta.enum.arguments.java meta.parens.java punctuation.section.parens.begin.java
+//   ^ meta.enum.arguments.java meta.parens.java punctuation.section.parens.end.java
+//    ^ punctuation.separator.comma.java
+
+    a
+//  ^ meta.enum.identifier.java constant.other.enum.java
+    {
+//  ^^ meta.enum.body.java meta.block.java
+//  ^ punctuation.section.block.begin.java
+    },
+//^^^ meta.enum.body.java meta.block.java
+//  ^ punctuation.section.block.end.java
 //   ^ punctuation.separator.comma.java
+
+    a { public void doSomething() { return; } },
+//  ^^ meta.enum.identifier.java - meta.enum meta.enum
+//    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.body.java meta.block.java - meta.enum meta.enum
+//                 ^^^^^^^^^^^^ meta.method.identifier.java
+//                             ^^ meta.method.parameters.java meta.parens.java
+//                               ^ meta.method.java
+//                                ^^^^^^^^^^^ meta.method.body.java meta.block.java
+//  ^ constant.other.enum.java
+//    ^ punctuation.section.block.begin.java
+//      ^^^^^^ storage.modifier.java
+//             ^^^^ meta.method.return-type.java
+//      ^^^^^^ storage.modifier.java
+//             ^^^^ storage.type.void.java
+//                  ^^^^^^^^^^^ entity.name.function.java
+//                             ^ punctuation.section.parens.begin.java
+//                              ^ punctuation.section.parens.end.java
+//                                ^ punctuation.section.block.begin.java
+//                                  ^^^^^^ keyword.control.flow.return.java
+//                                        ^ punctuation.terminator.java
+//                                          ^ punctuation.section.block.end.java
+//                                            ^ punctuation.section.block.end.java
+//                                             ^ punctuation.separator.comma.java
+
+    a ( 1 , 2 , 3 ) { public void doSomething() { return; } },
+//  ^^ meta.enum.identifier.java - meta.enum meta.enum
+//    ^^^^^^^^^^^^^ meta.enum.arguments.java meta.parens.java - meta.enum meta.enum
+//                 ^ meta.enum.java - meta.enum meta.enum
+//                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.body.java meta.block.java - meta.enum meta.enum
+//                           ^^^^ meta.method.return-type.java
+//                               ^^^^^^^^^^^^ meta.method.identifier.java
+//                                           ^^ meta.method.parameters.java meta.parens.java
+//                                             ^ meta.method.java
+//                                              ^^^^^^^^^^^ meta.method.body.java meta.block.java
+//  ^ constant.other.enum.java
+//    ^ punctuation.section.parens.begin.java
+//      ^ constant.numeric.integer.decimal.java
+//        ^ punctuation.separator.comma.java
+//          ^ constant.numeric.integer.decimal.java
+//            ^ punctuation.separator.comma.java
+//              ^ constant.numeric.integer.decimal.java
+//                ^ punctuation.section.parens.end.java
+//                  ^ punctuation.section.block.begin.java
+//                    ^^^^^^ storage.modifier.java
+//                           ^^^^ storage.type.void.java
+//                                ^^^^^^^^^^^ entity.name.function.java
+//                                           ^ punctuation.section.parens.begin.java
+//                                            ^ punctuation.section.parens.end.java
+//                                              ^ punctuation.section.block.begin.java
+//                                                ^^^^^^ keyword.control.flow.return.java
+//                                                      ^ punctuation.terminator.java
+//                                                        ^ punctuation.section.block.end.java
+//                                                          ^ punctuation.section.block.end.java
+//                                                           ^ punctuation.separator.comma.java
+
+    A,
+//  ^ meta.enum.identifier.java constant.other.enum.java
+//   ^ punctuation.separator.comma.java
+
     A(1),
-//  ^ constant.other.enum.java
-//   ^^^ meta.parens.java
-//   ^ punctuation.section.parens.begin.java
-//    ^ constant.numeric.integer.decimal.java
-//     ^ punctuation.section.parens.end.java
+//  ^ meta.enum.identifier.java constant.other.enum.java
+//   ^ meta.enum.arguments.java meta.parens.java punctuation.section.parens.begin.java
+//    ^ meta.enum.arguments.java meta.parens.java constant.numeric.integer.decimal.java
+//     ^ meta.enum.arguments.java meta.parens.java punctuation.section.parens.end.java
 //      ^ punctuation.separator.comma.java
+
     A {},
+//  ^^ meta.enum.identifier.java
 //  ^ constant.other.enum.java
-//    ^ meta.block.java punctuation.section.block.begin.java
-//     ^ meta.block.java punctuation.section.block.end.java
+//    ^ meta.enum.body.java meta.block.java punctuation.section.block.begin.java
+//     ^ meta.enum.body.java meta.block.java punctuation.section.block.end.java
 //      ^ punctuation.separator.comma.java
+
     integerToken,
-//  ^^^^^^^^^^^^ constant.other.enum.java
+//  ^^^^^^^^^^^^ meta.enum.identifier.java constant.other.enum.java
 //              ^ punctuation.separator.comma.java
+
     integerToken("integer literal"),
-//              ^^^^^^^^^^^^^^^^^^^ meta.parens.java
-//  ^^^^^^^^^^^^ constant.other.enum.java
+//  ^^^^^^^^^^^^ meta.enum.identifier.java constant.other.enum.java
+//              ^^^^^^^^^^^^^^^^^^^ meta.enum.arguments.java meta.parens.java
 //              ^ punctuation.section.parens.begin.java
 //               ^^^^^^^^^^^^^^^^^ string.quoted.double.java
 //                                ^ punctuation.section.parens.end.java
 //                                 ^ punctuation.separator.comma.java
+
     integerToken {};
-//  ^^^^^^^^^^^^ constant.other.enum.java
-//               ^ meta.block.java punctuation.section.block.begin.java
-//                ^ meta.block.java punctuation.section.block.end.java
+//  ^^^^^^^^^^^^ meta.enum.identifier.java constant.other.enum.java
+//              ^ meta.enum.identifier.java - constant
+//               ^ meta.enum.body.java meta.block.java punctuation.section.block.begin.java
+//                ^ meta.enum.body.java meta.block.java punctuation.section.block.end.java
 //                 ^ punctuation.terminator.java
+
     int {}
 //  ^^^ storage.type.primitive.java
     static {}
@@ -1137,47 +1258,6 @@ public class GrafoTest {
 //                                               ^ storage.modifier - meta.annotation
 //                                                     ^ support.class
 
-}
-
-public enum FooEnum {
-//     ^^^^ storage.type.enum.java
-  FOO;
-//^^^ constant.other.enum
-}
-// <- meta.class.body.java punctuation.section.block.end.java
-
-public enum FooBarEnum {
-//     ^^^^ storage.type.enum.java
-  FOO,
-//^^^ constant.other.enum
-  BAR;
-//^^^ constant.other.enum
-}
-
-public enum AbstractEnum {
-//     ^^^^ storage.type.enum.java
-  FOO {
-//^^^^ meta.enum.java
-//    ^^ meta.enum.body.java meta.block.java
-//^^^ constant.other.enum
-//    ^ punctuation.section.block.begin.java
-    public void doSomething() { return; }
-//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
-  },
-//^ meta.enum.body.java meta.block.java punctuation.section.block.end.java
-  BAR {
-//^^^^ meta.enum.java
-//    ^^ meta.enum.body.java meta.block.java
-//^^^ constant.other.enum
-//    ^ punctuation.section.block.begin.java
-    public void doSomething() { return; }
-//         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
-  };
-//^ meta.enum.body.java meta.block.java punctuation.section.block.end.java
-// ^ punctuation.terminator.java - meta.enum
-
-  public abstract void doSomething();
-//                ^^^^^^^^^^^^^^^^^^ meta.method
 }
 
 public final class SomeClass<V extends OtherClass, T> extends BaseClass<V> {

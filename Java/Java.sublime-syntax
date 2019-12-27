@@ -527,38 +527,40 @@ contexts:
     - include: code
 
   enum-body-block:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.9.1
     - match: (?=\{)
-      set: [enum-body-block-common, block-begin]
+      set: [class-body-block-common, enum-constants-list, block-begin]
     - include: any_POP
 
-  enum-body-block-common:
-    - meta_scope: meta.class.body.java meta.block.java
-    - include: block-end
-    - include: enum-body
+  enum-constants-list:
+    - meta_content_scope: meta.sequence.enum.java
+    - match: (?!{{reserved_words}}\b){{id}}
+      scope: constant.other.enum.java
+      push: enum-constant-arguments
+    - include: punctuation-separator-comma
+    - include: any_POP
 
-  enum-body:
-    - match: ^(?=\s*([[:upper:]_][[:upper:][:digit:]_]*|(?!{{reserved_words}})[[:lower:]_][[:alnum:]_]*)\s*[,;{(])
-      push:
-        - match: (?=[;}])
-          pop: true
-        - match: \w+
-          scope: constant.other.enum.java
-          push:
-            - meta_scope: meta.enum.java
-            - include: enum-item-block
-            - include: parens
-            - include: any_POP
-        - include: punctuation-separator-comma
-    - include: class-body
+  enum-constant-arguments:
+    - meta_scope: meta.enum.identifier.java
+    - match: (?=\()
+      set: [enum-constant-body-block, enum-constant-arguments-common, parens-begin]
+    - include: enum-constant-body-block
 
-  enum-item-block:
+  enum-constant-arguments-common:
+    - clear_scopes: 1
+    - meta_scope: meta.enum.arguments.java meta.parens.java
+    - include: parens-common
+
+  enum-constant-body-block:
+    - meta_scope: meta.enum.java
     - match: (?=\{)
-      set: [enum-item-block-common, block-begin]
+      set: [enum-constant-body-block-common, block-begin]
+    - include: any_POP
 
-  enum-item-block-common:
+  enum-constant-body-block-common:
     - meta_scope: meta.enum.body.java meta.block.java
     - include: block-end
-    - include: enum-body
+    - include: class-body
 
 ###[ FIELDS AND METHODS ]######################################################
 
@@ -831,8 +833,7 @@ contexts:
         - match: (?=->)
           fail: lambda-or-parens
         - include: any_POP2
-    - include: illegal-parens-terminators
-    - include: code
+    - include: parens-body
 
   parens-with-lambda-parameters:
     - meta_scope: meta.function.anonymous.parameters.java meta.parens.java
@@ -856,14 +857,11 @@ contexts:
       push: array-brackets
     - include: punctuation-separator-comma
 
-  parens:
-    - match: \(
-      scope: punctuation.section.parens.begin.java
-      push: parens-common
-
   parens-common:
-    - meta_scope: meta.parens.java
     - include: parens-end
+    - include: parens-body
+
+  parens-body:
     - include: illegal-parens-terminators
     - include: code
 
