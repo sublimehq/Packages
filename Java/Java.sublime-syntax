@@ -79,8 +79,8 @@ contexts:
     - include: enum
     - include: interface
     - include: annotation
-    - include: stray-braces
     - include: code
+    - include: stray-braces
 
   code:
     - include: code-block
