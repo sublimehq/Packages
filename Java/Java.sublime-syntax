@@ -1133,9 +1133,7 @@ contexts:
   strings-escape:
     - match: \\u+\h{4}
       scope: constant.character.escape.unicode.java
-    - match: \\[0-3][0-7]{2}
-      scope: constant.character.escape.octal.java
-    - match: \\[0-7]{1,2}
+    - match: \\[0-3]?[0-7]{1,2}
       scope: constant.character.escape.octal.java
     - match: \\[btnfr"'\\]
       scope: constant.character.escape.java
