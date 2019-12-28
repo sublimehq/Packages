@@ -2642,9 +2642,29 @@ public class Foo {
 //  ^^^^^^ support.class
   }
 
-  void varType() {
+
+/******************************************************************************
+ * Var Type Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.4
+ *****************************************************************************/
+
+  void varTypeTests() {
     var x = "String";
 //  ^^^ storage.type.var.java
+//      ^ variable.other.readwrite.java
+//        ^ keyword.operator.assignment.java
+
+    final var y = 10;
+//  ^^^^^ storage.modifier.java
+//        ^^^ storage.type.var.java
+//            ^ variable.other.readwrite.java
+//              ^ keyword.operator.assignment.java
+
+    for (var foo : new BufferedReader()) {
+//       ^^^ storage.type.var.java
+        var bar = foo.read();
+//      ^^^ storage.type.var.java
+    }
 
     try (var in = new BufferedReader()) {
 //       ^^^ storage.type.var.java
