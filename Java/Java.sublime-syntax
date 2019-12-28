@@ -121,6 +121,10 @@ contexts:
 
 ###[ ILLEGALS ]################################################################
 
+  illegal-array-modifier:
+    - match: \[\s*\]
+      scope: invalid.illegal.unexpected-modifier.java
+
   illegal-keywords:
     - match: \b{{illegal_keywords}}\b
       scope: invalid.illegal.keyword.java
@@ -795,6 +799,52 @@ contexts:
     - include: block-end
     - include: code-block-body
 
+###[ VAR DECLARATION ]#########################################################
+
+  var-declaration:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.4
+    - match: var\b
+      scope: storage.type.var.java
+      push:
+        - var-expect-terminator
+        - var-value
+        - var-variable-name
+        - var-array-modifier
+
+  var-array-modifier:
+    - include: illegal-array-modifier
+    - include: annotation
+    - include: any_POP
+
+  var-variable-name:
+    - include: var-terminator
+    - match: '{{uppercase_id}}'
+      scope: entity.name.constant.java
+      set: var-array-modifier
+    - match: '{{id}}'
+      scope: variable.other.readwrite.java
+      set: var-array-modifier
+    - include: any_POP
+
+  var-value:
+    - match: =
+      scope: keyword.operator.assignment.java
+      set:
+        - meta_scope: meta.assignment.rhs.java
+        - include: var-terminator
+        - include: code
+    - include: any_POP
+
+  var-expect-terminator:
+    - match: ','
+      scope: invalid.illegal.expect-terminator.java
+      pop: true
+    - include: var-terminator
+
+  var-terminator:
+    - match: (?=\s*[,:;)}\]]|{{reserved_words}}\b)
+      pop: true
+
 ###[ CODE BLOCKS ]#############################################################
 
   block-begin:
@@ -826,7 +876,7 @@ contexts:
     - include: code-block-body
 
   code-block-body:
-    - include: var-type
+    - include: var-declaration
     - include: annotation
     - include: code
     - include: stray-parens
@@ -1699,13 +1749,10 @@ contexts:
       scope: storage.type.primitive.java
       push: array-modifier
 
-  var-type:
-    - match: \bvar\b
-      scope: storage.type.var.java
-
   array-modifier:
     - match: \[\s*\]
       scope: storage.modifier.array.java
+    - include: annotation
     - include: any_POP
 
   storage-modifiers:

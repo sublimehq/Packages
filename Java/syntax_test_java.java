@@ -2638,6 +2638,17 @@ public class Foo {
  *****************************************************************************/
 
   void varTypeTests() {
+
+    var
+//  ^^^ storage.type.var.java
+
+    var x, y;
+//  ^^^ storage.type.var.java
+//      ^ variable.other.readwrite.java
+//       ^ invalid.illegal.expect-terminator.java
+//         ^ variable.other.readwrite.java
+//          ^ punctuation.terminator.java
+
     var x = "String";
 //  ^^^ storage.type.var.java
 //      ^ variable.other.readwrite.java
@@ -2648,6 +2659,29 @@ public class Foo {
 //        ^^^ storage.type.var.java
 //            ^ variable.other.readwrite.java
 //              ^ keyword.operator.assignment.java
+
+    final var[] y = 10, z[] = 5;
+//  ^^^^^ storage.modifier.java
+//        ^^^ storage.type.var.java
+//           ^^ invalid.illegal.unexpected-modifier.java
+//              ^ variable.other.readwrite.java
+//                ^ keyword.operator.assignment.java
+//                  ^^ constant.numeric.integer.decimal.java
+//                    ^ invalid.illegal.expect-terminator.java
+//                             ^ punctuation.terminator.java
+
+    @Number final var y @Dim1 [] @Dim2 [] = { {10, 1}, {5, 2} };
+//  ^^^^^^^ meta.annotation.identifier.java
+//          ^^^^^ storage.modifier.java
+//                ^^^ storage.type.var.java
+//                    ^ variable.other.readwrite.java
+//                      ^^^^^ meta.annotation.identifier.java
+//                            ^^ invalid.illegal.unexpected-modifier.java
+//                               ^^^^^ meta.annotation.identifier.java
+//                                     ^^ invalid.illegal.unexpected-modifier.java
+
+    for (var foo = 0; foo < 10; ++foo) {}
+//       ^^^ storage.type.var.java
 
     for (var foo : new BufferedReader()) {
 //       ^^^ storage.type.var.java
