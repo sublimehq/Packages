@@ -698,7 +698,7 @@ contexts:
       push: [field-or-method, after-object-and-array-types]
     - match: \b{{storage_types}}\b
       scope: storage.type.primitive.java
-      push: [field-or-method, array-brackets]
+      push: [field-or-method, array-modifier]
 
   field-or-method:
     - match: (?={{id}}\s*\()
@@ -710,10 +710,10 @@ contexts:
     - include: field-terminator
     - match: '{{uppercase_id}}'
       scope: entity.name.constant.java
-      push: [field-meta, field-value, array-brackets]
+      push: [field-meta, field-value, array-modifier]
     - match: '{{id}}'
       scope: variable.other.member.java
-      push: [field-meta, field-value, array-brackets]
+      push: [field-meta, field-value, array-modifier]
     - include: punctuation-separator-comma
     - include: any_POP
 
@@ -975,7 +975,7 @@ contexts:
       scope: keyword.operator.variadic.java
     - match: '{{id}}'
       scope: variable.parameter.java
-      push: array-brackets
+      push: array-modifier
     - include: punctuation-separator-comma
 
   parens-common:
@@ -1544,7 +1544,7 @@ contexts:
 
   after-object-type:
     - match: (?=<)
-      set: [array-brackets, generic-type-invocation]
+      set: [array-modifier, generic-type-invocation]
     - match: \.(?!\.)
       scope: punctuation.accessor.dot.java
       set:
@@ -1558,7 +1558,7 @@ contexts:
           scope: support.class.java
           set: after-object-type
         - include: any_POP
-    - include: array-brackets
+    - include: array-modifier
 
   # Used in 'throws' and generic bounds
   object-type-reference:
@@ -1592,7 +1592,7 @@ contexts:
         - include: object-and-array-types-no-fqn
     - match: '{{storage_types}}(?=\s*\[)'
       scope: storage.type.primitive.java
-      push: array-brackets
+      push: array-modifier
     - match: '{{classcase_id}}'
       scope: support.class.java
       push: after-object-and-array-types
@@ -1605,11 +1605,11 @@ contexts:
 
   after-object-and-array-types:
     - match: (?=<)
-      set: [array-brackets, generic-type-invocation]
+      set: [array-modifier, generic-type-invocation]
     - match: \.(?!\.)
       scope: punctuation.accessor.dot.java
       set: object-and-array-types-no-fqn
-    - include: array-brackets
+    - include: array-modifier
 
   # Used in class-level 'extends' and 'implements'
   inherited-object-type-reference:
@@ -1697,13 +1697,13 @@ contexts:
   primitive-types:
     - match: \b{{storage_types}}\b
       scope: storage.type.primitive.java
-      push: array-brackets
+      push: array-modifier
 
   var-type:
     - match: \bvar\b
       scope: storage.type.var.java
 
-  array-brackets:
+  array-modifier:
     - match: \[\s*\]
       scope: storage.modifier.array.java
     - include: any_POP
