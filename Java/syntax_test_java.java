@@ -1142,17 +1142,6 @@ interface /**/ TestIntf /**/ extends /**/ A /**/, /**/ BB /**/ {}
 
 
 /******************************************************************************
- * Illegal Keywords Tests
- *****************************************************************************/
-
-class InvalidStuff
-{
-    goto
-//  ^^^^ invalid.illegal
-}
-
-
-/******************************************************************************
  * Lambda Statement Tests
  *****************************************************************************/
 
@@ -2672,6 +2661,35 @@ public class Foo {
 //      ^^^ storage.type.var.java
     }
   }
+
+
+/******************************************************************************
+ * Labeled Statement Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.7
+ *****************************************************************************/
+
+  void labeledStatementTests() {
+
+    label:
+//  ^^^^^ entity.name.label.java
+//       ^ punctuation.separator.colon.java
+
+    while (True) {
+//  ^^^^^ keyword.control.loop.while.java
+
+      break label;
+//    ^^^^^ keyword.control.flow.break.java
+//          ^^^^^ variable.label.java
+
+      continue label;
+//    ^^^^^^^^ keyword.control.flow.continue.java
+//             ^^^^^ variable.label.java
+      goto label;
+//    ^^^^ invalid.illegal
+//         ^^^^^ variable.other.readwrite.java
+    }
+  }
+
 
   @Test
 //^ meta.annotation.identifier.java punctuation.definition.annotation.java

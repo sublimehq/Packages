@@ -90,6 +90,7 @@ contexts:
     - include: strings
     - include: anonymous-classes-and-new
     - include: keywords
+    - include: labels
     - include: uppercase-identifiers
     - include: storage-modifiers
     - include: primitive-types
@@ -1088,6 +1089,12 @@ contexts:
       pop: true
     - include: any_POP
 
+  variable-maybe-label:
+    - match: '{{id}}'
+      scope: variable.label.java
+      pop: true
+    - include: any_POP
+
 ###[ CONSTANTS ]###############################################################
 
   constants:
@@ -1095,6 +1102,13 @@ contexts:
       scope: constant.language.boolean.java
     - match: null\b
       scope: constant.language.null.java
+
+  labels:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.7
+    - match: ^\s*({{id}})(:)(?!:)
+      captures:
+        1: entity.name.label.java
+        2: punctuation.separator.colon.java
 
   numbers:
     # hexadecimal floats
@@ -1234,8 +1248,10 @@ contexts:
       push: assert-statement-body
     - match: \bbreak\b
       scope: keyword.control.flow.break.java
+      push: variable-maybe-label
     - match: \bcontinue\b
       scope: keyword.control.flow.continue.java
+      push: variable-maybe-label
     - match: \breturn\b
       scope: keyword.control.flow.return.java
     - match: \bthrow\b
