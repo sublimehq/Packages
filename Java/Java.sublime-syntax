@@ -1080,7 +1080,7 @@ contexts:
 
   variable-language-class:
     - match: class\b
-      scope: variable.language.java
+      scope: variable.language.class.java
       pop: true
 
   variable-maybe-function-reference:

@@ -711,19 +711,19 @@ class AnyClass { // comment
         Foo.class; // comment
 //      ^^^ support.class.java
 //         ^ punctuation.accessor.dot.java
-//          ^^^^^ variable.language.java - storage.type.java
+//          ^^^^^ variable.language.class.java - storage.type.java
 //               ^ punctuation.terminator.java
 //                 ^^^^^^^^^^^ comment.line.double-slash.java
         super.class;
 //      ^^^^^ variable.language.java
 //           ^ punctuation.accessor.dot.java
-//            ^^^^^ variable.language.java - storage.type.java
+//            ^^^^^ variable.language.class.java - storage.type.java
 //                 ^ punctuation.terminator.java
 
         this.class;
 //      ^^^^ variable.language.java
 //          ^ punctuation.accessor.dot.java
-//           ^^^^^ variable.language.java - storage.type.java
+//           ^^^^^ variable.language.class.java - storage.type.java
 //                ^ punctuation.terminator.java
 
         this
@@ -733,7 +733,7 @@ class AnyClass { // comment
 //           ^ punctuation.accessor.dot.java
         /**/ class
 //      ^^^^ comment.block.empty.java
-//           ^^^^^ variable.language.java - storage.type.java
+//           ^^^^^ variable.language.class.java - storage.type.java
         /**/ ;
 //      ^^^^ comment.block.empty.java
 //           ^ punctuation.terminator.java
@@ -1516,7 +1516,7 @@ public @interface PublicAnnotation {
   Class<?> classValue() default String.class;
 //                      ^^^^^^^ keyword.declaration.default.java
 //                              ^^^^^^ support.class.java
-//                                     ^^^^^ variable.language.java
+//                                     ^^^^^ variable.language.class.java - storage.type.java
   String[] arrayValue() default {"Foo", "Bar"};
 //                      ^^^^^^^ keyword.declaration.default.java
 //                              ^ punctuation.section.block.begin
@@ -1573,12 +1573,12 @@ public @interface PublicAnnotation {
   Foo.class,
 //^^^ support.class.java
 //   ^ punctuation.accessor.dot.java
-//    ^^^^^ variable.language.java
+//    ^^^^^ variable.language.class.java - storage.type.java
 //         ^ punctuation.separator.comma.java
   Bar.class
 //^^^ support.class.java
 //   ^ punctuation.accessor.dot.java
-//    ^^^^^ variable.language.java
+//    ^^^^^ variable.language.class.java - storage.type.java
 })
 // <- punctuation.section.braces.end.java
  // <- meta.annotation.parameters.java punctuation.section.parens.end.java
@@ -2890,7 +2890,7 @@ public class Foo {
 //^ punctuation.definition.annotation.java
 //        ^^^^^^^^^^^^^^ meta.annotation.parameters.java
 //         ^ support.class.java
-//                ^ variable.language.java
+//                ^^^^^ variable.language.class.java - storage.type.java
   public void someReallyReallyLongMethodNameThatMakesTheBraceOverflowToTheNextLine(
 //            ^ meta.method.identifier.java entity.name.function.java
 //                                                                                ^ punctuation.section.parens.begin
