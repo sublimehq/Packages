@@ -396,7 +396,7 @@ public class SyntaxTest {
 //              ^ punctuation.section.parens.begin
 //               ^ meta.catch.parameters storage.modifier.java
 //                     ^^^^^^^^^^^ support.class
-//                                 ^ punctuation.separator.bar.java
+//                                 ^ punctuation.separator.pipe.java
 //                                   ^^^ variable.namespace.java
 //                                      ^ punctuation.accessor.dot.java
 //                                       ^^^ variable.namespace.java
@@ -406,7 +406,7 @@ public class SyntaxTest {
 //                                               ^^^ support.class.java
 //                                                  ^ punctuation.accessor.dot.java
 //                                                   ^^^ support.class.java
-//                                                       ^ punctuation.separator.bar.java
+//                                                       ^ punctuation.separator.pipe.java
                 YourException ignore) {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.catch
 //              ^ support.class

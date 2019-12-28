@@ -1296,7 +1296,7 @@ contexts:
   catch-parameters-common:
     - meta_scope: meta.catch.parameters.java meta.parens.java
     - match: \|
-      scope: punctuation.separator.bar.java
+      scope: punctuation.separator.pipe.java
     - include: parens-end
     - include: parameters
 
