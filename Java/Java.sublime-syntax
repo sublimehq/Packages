@@ -1128,9 +1128,9 @@ contexts:
     - match: \n
       scope: invalid.illegal.newline.java
       pop: true
-    - include: strings-escape
+    - include: string-escapes
 
-  strings-escape:
+  string-escapes:
     - match: \\u+\h{4}
       scope: constant.character.escape.unicode.java
     - match: \\[0-3]?[0-7]{1,2}
