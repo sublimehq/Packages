@@ -126,7 +126,7 @@ contexts:
       scope: invalid.illegal.unexpected-modifier.java
 
   illegal-keywords:
-    - match: \b{{illegal_keywords}}\b
+    - match: '{{illegal_keywords}}\b'
       scope: invalid.illegal.keyword.java
 
   illegal-newline:
@@ -182,7 +182,7 @@ contexts:
 ###[ PACKAGE ]#################################################################
 
   package:
-    - match: \bpackage\b
+    - match: package\b
       scope: 
         meta.namespace.package.java
         storage.type.namespace.package.java
@@ -197,7 +197,7 @@ contexts:
 ###[ MODULE ]##################################################################
 
   module:
-    - match: \b(?:(open)\s+)?(module)\b
+    - match: (?:(open)\s+)?(module)\b
       scope: meta.namespace.module.java
       captures:
         1: storage.modifier.java
@@ -690,17 +690,17 @@ contexts:
 ###[ FIELDS AND METHODS ]######################################################
 
   fields-and-methods:
-    - match: \bvoid\b
+    - match: void\b
       scope: meta.method.return-type.java storage.type.void.java
       push: [method-body-block, method-attributes, method-parameters, method-name]
     - match: (?={{id}}\s*\()
       push: [method-body-block, method-attributes, method-parameters, method-name]
     - match: '{{before_fqn}}'
       push: [field-or-method, after-object-and-array-types, object-type-fqn]
-    - match: \b{{classcase_id}}
+    - match: '{{classcase_id}}'
       scope: support.class.java
       push: [field-or-method, after-object-and-array-types]
-    - match: \b{{storage_types}}\b
+    - match: '{{storage_types}}\b'
       scope: storage.type.primitive.java
       push: [field-or-method, array-modifier]
 
@@ -886,7 +886,7 @@ contexts:
 ###[ INSTANTIATION ]###########################################################
 
   anonymous-classes-and-new:
-    - match: \bnew\b
+    - match: new\b
       scope: keyword.other.storage.new.java
       push:
         - - meta_scope: meta.instantiation.java
@@ -894,7 +894,7 @@ contexts:
         - instantiation
 
   instantiation:
-    - match: \b{{storage_types}}\b
+    - match: '{{storage_types}}\b'
       scope: storage.type.primitive.java
       set: array-definition
     - match: '{{before_fqn}}'
@@ -1018,7 +1018,7 @@ contexts:
     - include: parameters
 
   parameters:
-    - match: \bfinal\b
+    - match: final\b
       scope: storage.modifier.java
     - include: annotation
     - include: primitive-types
@@ -1067,7 +1067,7 @@ contexts:
 ###[ VARIABLES ]###############################################################
 
   variables:
-    - match: \b_\b
+    - match: _\b
       scope: variable.language.blank.java
     - match: '{{variables}}\b'
       scope: variable.language.java
@@ -1286,46 +1286,46 @@ contexts:
 
   keywords:
     # exceptions
-    - match: \bcatch\b
+    - match: catch\b
       scope: keyword.control.exception.catch.java
       push: catch-statement-body
-    - match: \bfinally\b
+    - match: finally\b
       scope: keyword.control.exception.finally.java
-    - match: \btry\b
+    - match: try\b
       scope: keyword.control.exception.try.java
       push: declaration-statement-parens
     # flow
-    - match: \bassert\b
+    - match: assert\b
       scope: keyword.control.flow.assert.java
       push: assert-statement-body
-    - match: \bbreak\b
+    - match: break\b
       scope: keyword.control.flow.break.java
       push: variable-maybe-label
-    - match: \bcontinue\b
+    - match: continue\b
       scope: keyword.control.flow.continue.java
       push: variable-maybe-label
-    - match: \breturn\b
+    - match: return\b
       scope: keyword.control.flow.return.java
-    - match: \bthrow\b
+    - match: throw\b
       scope: keyword.control.flow.throw.java
     # conditional
-    - match: \bif\b
+    - match: if\b
       scope: keyword.control.conditional.if.java
-    - match: \belse\b
+    - match: else\b
       scope: keyword.control.conditional.else.java
-    - match: \bswitch\b
+    - match: switch\b
       scope: keyword.control.conditional.switch.java
-    - match: \bcase\b
+    - match: case\b
       scope: keyword.control.conditional.case.java
-    - match: \bdefault\b
+    - match: default\b
       scope: keyword.control.conditional.default.java
     # loop
-    - match: \bdo\b
+    - match: do\b
       scope: keyword.control.loop.do-while.java
-    - match: \bfor\b
+    - match: for\b
       scope: keyword.control.loop.for.java
       push: declaration-statement-parens
-    - match: \bwhile\b
+    - match: while\b
       scope: keyword.control.loop.while.java
     # operator
     - match: instanceof\b
@@ -1564,11 +1564,11 @@ contexts:
   # Should be used only inside code blocks.
   uppercase-identifiers:
     # Popular JDK classes
-    - match: \b(?:UUID|UR[LI])\b
+    - match: (?:UUID|UR[LI])\b
       scope: support.class.java
       push: after-object-type
     # Generic type variable
-    - match: \b\p{Lu}\b
+    - match: \p{Lu}\b
       scope: support.class.java
       push: after-object-type
     # Uppercase constants
@@ -1706,7 +1706,7 @@ contexts:
 
   generic-type-parameter:
     - meta_scope: meta.generic.declaration.java
-    - match: \b{{id}}\b
+    - match: '{{id}}\b'
       scope: variable.parameter.type.java
       push: generic-type-bounds
     - include: generic-type-terminator
@@ -1716,10 +1716,10 @@ contexts:
       captures:
         1: punctuation.separator.comma.java
       pop: true
-    - match: \bextends\b
+    - match: extends\b
       scope: keyword.declaration.extends.java
       push: [generic-type-extends-multiple-bounds, object-type-reference]
-    - match: \bsuper\b
+    - match: super\b
       scope: keyword.declaration.super.java
       push: object-type-reference
 
@@ -1747,7 +1747,7 @@ contexts:
 ###[ PRIMITIVE TYPES ]#########################################################
 
   primitive-types:
-    - match: \b{{storage_types}}\b
+    - match: '{{storage_types}}\b'
       scope: storage.type.primitive.java
       push: array-modifier
 
@@ -1758,5 +1758,5 @@ contexts:
     - include: any_POP
 
   storage-modifiers:
-    - match: \b{{storage_modifiers}}\b
+    - match: '{{storage_modifiers}}\b'
       scope: storage.modifier.java
