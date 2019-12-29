@@ -1329,7 +1329,7 @@ contexts:
       scope: keyword.control.loop.while.java
     # operator
     - match: instanceof\b
-      scope: keyword.operator.word.instanceof.java
+      scope: keyword.other.storage.instanceof.java
 
   assert-statement-body:
     - meta_scope: meta.assertion.java

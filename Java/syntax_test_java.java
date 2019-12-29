@@ -1970,7 +1970,7 @@ public class Foo {
 //            ^ keyword.operator.comparison.java
 
     boolean inst = a instanceof Object;
-//                   ^^^^^^^^^^ keyword.operator.word.instanceof
+//                   ^^^^^^^^^^ keyword.other.storage.instanceof.java
   }
 //^ meta.method.body.java punctuation.section.block.end.java
 
