@@ -858,8 +858,9 @@ contexts:
       pop: true
 
   static-code-block:
-    - match: (?=\{)
-      push: [static-code-block-common, block-begin]
+    - match: \{
+      scope: punctuation.section.block.begin.java
+      push: static-code-block-common
 
   static-code-block-common:
     - meta_scope: meta.static.body.java meta.block.java
@@ -867,8 +868,9 @@ contexts:
     - include: code-block-body
 
   code-block:
-    - match: (?=\{)
-      push: [code-block-common, block-begin]
+    - match: \{
+      scope: punctuation.section.block.begin.java
+      push: code-block-common
 
   code-block-common:
     - meta_scope: meta.block.java
