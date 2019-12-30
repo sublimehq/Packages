@@ -1673,6 +1673,7 @@ contexts:
 
   # Used in class-level 'extends' and 'implements'
   inherited-object-type-reference:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.4
     - match: '{{before_fqn}}'
       set:
         - meta_scope: meta.path.java
@@ -1687,12 +1688,14 @@ contexts:
     - match: '{{id}}'
       scope: entity.other.inherited-class.java
       set: [inherrited-object-type-reference-child, generic-type-invocation]
+    - include: annotation
     - include: any_POP
 
   inherrited-object-type-reference-child:
     - match: \.
       scope: punctuation.accessor.dot.java
       set: inherited-object-type-reference-no-fqn
+    - include: annotation
     - include: any_POP
 
 ###[ GENERIC TYPES ]###########################################################

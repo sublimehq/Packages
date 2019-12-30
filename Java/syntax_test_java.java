@@ -551,6 +551,24 @@ class ExtendsTest extends Foo {}
 //                            ^ punctuation.section.block.begin.java
 //                             ^ punctuation.section.block.end.java
 
+class ExtendsTest extends @NonNull Foo {}
+//^^^ meta.class.java - meta.class meta.class
+//   ^^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class
+//                ^^^^^^^^^^^^^^^^^^^^^ meta.class.extends.java - meta.class meta.class
+//                                     ^^ meta.class.body.java meta.block.java - meta.class meta.class
+//^^^ storage.type.class.java
+//   ^ - entity - keyword - storage
+//    ^^^^^^^^^^^ entity.name.class.java
+//               ^ - entity - keyword - storage
+//                ^^^^^^^ keyword.declaration.extends.java
+//                        ^ punctuation.definition.annotation.java
+//                         ^^^^^^^ variable.annotation.java
+//                                ^ - entity - keyword - storage - variable
+//                                 ^^^ entity.other.inherited-class.java
+//                                    ^ - entity - keyword - storage
+//                                     ^ punctuation.section.block.begin.java
+//                                      ^ punctuation.section.block.end.java
+
 class ExtendsTest<A> extends Foo<? extends A> {}
 //^^^ meta.class.java - meta.class meta.class
 //   ^^^^^^^^^^^^ meta.class.identifier.java - meta.generic - meta.class meta.class
