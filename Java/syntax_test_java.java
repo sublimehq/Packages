@@ -750,7 +750,7 @@ class GenericTest<A> extends @Anno com . @Anno Foo<@Anno ? extends @Anno SuperCl
 //                          ^ - entity - keyword - storage
 //                           ^ punctuation.definition.annotation.java
 //                            ^^^^ variable.annotation.java
-//                                 ^^^ entity.other.inherited-class.package.java
+//                                 ^^^ variable.namespace.java
 //                                     ^ punctuation.accessor.dot.java
 //                                       ^ punctuation.definition.annotation.java
 //                                        ^^^^ variable.annotation.java
@@ -2019,13 +2019,13 @@ public class Foo {
   class SubClass extends fully.qualified
 //      ^ entity.name.class.java
 //                       ^^^^^^^^^^^^^^^ meta.path.java
-//                       ^^^^^ entity.other.inherited-class.package.java
+//                       ^^^^^ variable.namespace.java
 //                            ^ punctuation.accessor.dot.java
-//                             ^^^^^^^^^ entity.other.inherited-class.package.java
+//                             ^^^^^^^^^ variable.namespace.java
     .name.AbstractClass {
 //  ^^^^^^^^^^^^^^^^^^^ meta.path.java
 //  ^ punctuation.accessor.dot.java
-//   ^^^^ entity.other.inherited-class.package.java
+//   ^^^^ variable.namespace.java
 //       ^ punctuation.accessor.dot.java
 //        ^^^^^^^^^^^^^ entity.other.inherited-class.java
   }

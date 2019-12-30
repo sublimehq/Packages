@@ -1683,9 +1683,7 @@ contexts:
     - match: '{{before_fqn}}'
       set:
         - meta_scope: meta.path.java
-        - match: '{{lowercase_id}}'
-          scope: entity.other.inherited-class.package.java
-        - include: punctuation-accessor-dot
+        - include: variable-namespace
         - include: inherited-object-type-reference-no-fqn
     - include: inherited-object-type-reference-no-fqn
 
