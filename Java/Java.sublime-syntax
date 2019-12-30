@@ -464,7 +464,7 @@ contexts:
             - class-body-block
             - class-extends
             - class-name-meta
-            - generic-type-declaration
+            - generic-type-parameters
             - class-name
         - match: '{{class_modifier}}\b'
           scope: storage.modifier.java
@@ -521,8 +521,6 @@ contexts:
     - include: annotation
     - include: fields-and-methods
     - include: static-code-block
-    - match: (?=<)
-      push: generic-type-declaration
     - include: code
 
 ###[ ENUMS ]###################################################################
@@ -645,7 +643,7 @@ contexts:
             - interface-body-block
             - interface-extends
             - interface-name-meta
-            - generic-type-declaration
+            - generic-type-parameters
             - interface-name
         - match: '{{interface_modifier}}\b'
           scope: storage.modifier.java
@@ -698,6 +696,9 @@ contexts:
 ###[ FIELDS AND METHODS ]######################################################
 
   fields-and-methods:
+    - match: <
+      scope: punctuation.definition.generic.begin.java
+      push: [generic-type-parameters-body, generic-type-parameter]
     - match: void\b
       scope: meta.method.return-type.java storage.type.void.java
       push: [method-body-block, method-attributes, method-parameters, method-name]
@@ -924,7 +925,7 @@ contexts:
       scope: punctuation.definition.generic.diamond.java
       set: object-construction
     - match: (?=<)
-      set: [after-generic-in-instantiation, generic-type-invocation]
+      set: [after-generic-in-instantiation, generic-type-arguments]
     - match: \.
       scope: punctuation.accessor.dot.java
       set: object-type-instantiation-no-fqn
@@ -1408,7 +1409,7 @@ contexts:
       scope: punctuation.accessor.dot.java
       push:
         - include: variable-language-class
-        - include: generic-type-invocation
+        - include: generic-type-arguments
     - include: punctuation-separator-comma
     - include: punctuation-terminator-semicolon
 
@@ -1436,7 +1437,7 @@ contexts:
   entity-class-qualified-identifier:
     - match: '{{id}}'
       scope: variable.namespace.java
-      push: [entity-class-qualified-identifier-path, generic-type-invocation]
+      push: [entity-class-qualified-identifier-path, generic-type-arguments]
 
   entity-class-qualified-identifier-path:
     - meta_scope: meta.path.java
@@ -1454,7 +1455,7 @@ contexts:
   entity-class-qualifier:
     - match: '{{id}}'
       scope: variable.namespace.java
-      push: [entity-class-qualifier-accessor, generic-type-invocation]
+      push: [entity-class-qualifier-accessor, generic-type-arguments]
 
   entity-class-qualifier-accessor:
     - match: \.
@@ -1469,12 +1470,12 @@ contexts:
       set:
         - - match: ''
             pop: 4
-        - generic-type-invocation
+        - generic-type-arguments
 
   entity-class-unqualified-identifier:
     - match: '{{id}}'
       scope: entity.name.class.java
-      set: generic-type-invocation
+      set: generic-type-arguments
 
 ###[ ENTITY MODULE ]###########################################################
 
@@ -1605,12 +1606,10 @@ contexts:
 
   after-object-type:
     - match: (?=<)
-      set: [array-modifier, generic-type-invocation]
+      set: [array-modifier, generic-type-arguments]
     - match: \.(?!\.)
       scope: punctuation.accessor.dot.java
       set:
-        - match: (?=<)
-          set: generic-type-invocation
         - include: variable-language-class
         - match: '{{uppercase_id}}'
           scope: constant.other.java
@@ -1619,7 +1618,7 @@ contexts:
           scope: support.class.java
           set: after-object-type
         - include: annotation
-        - include: any_POP
+        - include: generic-type-arguments
     - include: array-modifier
 
   # Used in 'throws' and generic bounds
@@ -1634,13 +1633,14 @@ contexts:
   object-type-reference-no-fqn:
     - match: '{{classcase_id}}'
       scope: support.class.java
-      set: after-object-type-reference
+      set: [after-object-type-reference, generic-type-arguments]
+    - match: '{{storage_types}}'
+      scope: invalid.illegal.unexpected-keyword.java
+      set: [after-object-type-reference, generic-type-arguments]
     - include: annotation
     - include: any_POP
 
   after-object-type-reference:
-    - match: (?=<)
-      set: generic-type-invocation
     - match: \.
       scope: punctuation.accessor.dot.java
       set: object-type-reference-no-fqn
@@ -1649,6 +1649,7 @@ contexts:
 
   # Used in method's and generic's parameters
   object-and-array-types:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.3
     - match: '{{before_fqn}}'
       push:
         - meta_scope: meta.path.java
@@ -1670,7 +1671,7 @@ contexts:
 
   after-object-and-array-types:
     - match: (?=<)
-      set: [array-modifier, generic-type-invocation]
+      set: [array-modifier, generic-type-arguments]
     - match: \.(?!\.)
       scope: punctuation.accessor.dot.java
       set: object-and-array-types-no-fqn
@@ -1692,7 +1693,7 @@ contexts:
     - include: reserved-pop
     - match: '{{id}}'
       scope: entity.other.inherited-class.java
-      set: [inherrited-object-type-reference-child, generic-type-invocation]
+      set: [inherrited-object-type-reference-child, generic-type-arguments]
     - include: annotation
     - include: any_POP
 
@@ -1705,65 +1706,95 @@ contexts:
 
 ###[ GENERIC TYPES ]###########################################################
 
-  generic-type-declaration:
+  generic-type-parameters:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.2
     - match: <
       scope: punctuation.definition.generic.begin.java
-      push: generic-type-parameter
-    - include: annotation
+      set: [generic-type-parameters-body, generic-type-parameter]
     - include: any_POP
 
-  generic-type-terminator:
-    - include: illegal-semicolon
-    # These characters can't appear in a generic. If we've matched
-    # them then someone forgot to close it.
-    - match: (?=[{}()])
-      pop: true
-    - match: '>'
-      scope: punctuation.definition.generic.end.java
-      pop: true
+  generic-type-parameters-body:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.4
+    - meta_scope: meta.generic.declaration.java
+    - match: \,
+      scope: punctuation.separator.comma.java
+      push: generic-type-parameter
+    - include: generic-type-terminator
+    - include: generic-type-illegal-bounds
+    - include: annotation
+    - include: any_POP
 
   generic-type-parameter:
-    - meta_scope: meta.generic.declaration.java
-    - match: '{{id}}\b'
+    - match: '{{storage_types}}\b|\?'
+      scope: invalid.illegal.unexpected-keyword.java
+      set: generic-type-parameter-bounds
+    - include: reserved-pop
+    - match: '{{id}}'
       scope: variable.parameter.type.java
-      push: generic-type-bounds
-    - include: generic-type-terminator
+      set: generic-type-parameter-bounds
     - include: annotation
-
-  generic-type-bounds:
-    - match: (?=>)
-      pop: true
-    - match: ','
-      scope: punctuation.separator.comma.java
-      pop: true
-    - match: extends\b
-      scope: keyword.declaration.extends.java
-      push: [generic-type-extends-multiple-bounds, object-type-reference]
-    - match: super\b
-      scope: keyword.declaration.super.java
-      push: object-type-reference
-
-  generic-type-extends-multiple-bounds:
-    - match: '&'
-      scope: keyword.operator.multiple-bounds.java
-      set: [generic-type-extends-multiple-bounds, object-type-reference]
     - include: any_POP
 
-  generic-type-invocation:
+  generic-type-parameter-bounds:
+    - match: extends\b
+      scope: keyword.declaration.extends.java
+      set: [generic-type-additional-bounds, object-type-reference]
+    - match: super\b
+      scope: invalid.illegal.unexpected-keyword.java
+      set: object-type-reference
+    - include: any_POP
+
+  generic-type-arguments:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.5
     - match: <
       scope: punctuation.definition.generic.begin.java
-      set: generic-type-argument
+      set: generic-type-arguments-body
+    - include: any_POP
+
+  generic-type-arguments-body:
+    - meta_scope: meta.generic.java
+    - include: punctuation-separator-comma
+    - include: generic-type-argument
+    - include: generic-type-terminator
+    - include: generic-type-illegal-bounds
+    - include: annotation
     - include: any_POP
 
   generic-type-argument:
-    - meta_scope: meta.generic.java
+    - include: object-and-array-types
+    - match: '{{storage_types}}\b'
+      scope: invalid.illegal.unexpected-keyword.java
     - match: \?
       scope: keyword.operator.wildcard.java
-      push: generic-type-bounds
-    - include: generic-type-terminator
-    - include: object-and-array-types
-    - include: punctuation-separator-comma
-    - include: annotation
+      push: generic-type-arguments-bounds
+
+  generic-type-arguments-bounds:
+    - match: extends\b
+      scope: keyword.declaration.extends.java
+      set: [generic-type-additional-bounds, object-type-reference]
+    - match: super\b
+      scope: keyword.declaration.super.java
+      set: object-type-reference
+    - include: any_POP
+
+  generic-type-illegal-bounds:
+    - match: extends\b
+      scope: invalid.illegal.unexpected-keyword.java
+      push: [generic-type-additional-bounds, object-type-reference]
+    - match: super\b
+      scope: invalid.illegal.unexpected-keyword.java
+      push: object-type-reference
+
+  generic-type-additional-bounds:
+    - match: '&'
+      scope: keyword.operator.multiple-bounds.java
+      push: object-type-reference
+    - include: any_POP
+
+  generic-type-terminator:
+    - match: '>'
+      scope: punctuation.definition.generic.end.java
+      pop: true
 
 ###[ PRIMITIVE TYPES ]#########################################################
 
