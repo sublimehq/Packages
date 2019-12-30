@@ -3099,7 +3099,12 @@ public class Bar {
 }
 // <- punctuation.section.block.end.java
 
-class Javadoc {
+
+/******************************************************************************
+ * JavaDoc Tests
+ *****************************************************************************/
+
+class JavadocTests {
 
   /** This is javadoc, not a simple comment */
 //^^^ punctuation.definition.comment.begin.javadoc
