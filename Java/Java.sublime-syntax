@@ -88,7 +88,7 @@ contexts:
     - include: constants
     - include: numbers
     - include: strings
-    - include: anonymous-classes-and-new
+    - include: instantiation
     - include: keywords
     - include: labels
     - include: uppercase-identifiers
@@ -894,97 +894,89 @@ contexts:
 
 ###[ INSTANTIATION ]###########################################################
 
-  anonymous-classes-and-new:
+  instantiation:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.9
     - match: new\b
       scope: keyword.other.storage.new.java
       push:
-        - - meta_scope: meta.instantiation.java
-          - include: immediate_POP
-        - instantiation
+        - instantiation-meta
+        - instantiation-type
+        - generic-type-arguments
 
-  instantiation:
+  instantiation-meta:
+    - meta_scope: meta.instantiation.java
+    - include: immediate_POP
+
+  instantiation-type:
     - match: '{{storage_types}}\b'
       scope: storage.type.primitive.java
-      set: array-definition
+      set: array-dimensions
     - match: '{{before_fqn}}'
       set: [after-object-type-in-instantiation, object-type-fqn]
-    - include: object-type-instantiation-no-fqn
+    - include: instantiation-type-identifier
 
-  object-type-instantiation-no-fqn:
+  instantiation-type-identifier:
     - match: '{{classcase_id}}'
       scope: support.class.java
       set: after-object-type-in-instantiation
+    - include: annotation
     - include: any_POP
 
   after-object-type-in-instantiation:
-    - match: (?=\[)
-      set: array-definition
-    - match: (?=\()
-      set: object-construction
     - match: <>
       scope: punctuation.definition.generic.diamond.java
-      set: object-construction
-    - match: (?=<)
-      set: [after-generic-in-instantiation, generic-type-arguments]
+      set: constructor-arguments
+    - match: <
+      scope: punctuation.definition.generic.begin.java
+      set: [instantiation-array-or-object, generic-type-arguments-body]
     - match: \.
       scope: punctuation.accessor.dot.java
-      set: object-type-instantiation-no-fqn
+      set: instantiation-type-identifier
+    - include: instantiation-array-or-object
+
+  instantiation-array-or-object:
+    - include: array-dimensions
+    - include: constructor-arguments
     - include: any_POP
 
-  after-generic-in-instantiation:
-    - match: (?=\[)
-      set: array-definition
-    - include: object-construction
-
-  object-construction:
+  constructor-arguments:
     - match: \(
       scope: punctuation.section.parens.begin.java
       set:
-        - meta_scope: meta.parens.constructor-arguments.java
+        - meta_scope: meta.parens.java
         - match: \)
           scope: punctuation.section.parens.end.java
-          set:
-            - match: \{
-              scope: punctuation.section.braces.begin.java
-              set:
-                - meta_scope: meta.class.body.anonymous.java
-                - match: \}
-                  scope: punctuation.section.braces.end.java
-                  pop: true
-                - include: class-body
-            - include: any_POP
+          set: class-body-block
         - include: illegal-parens-terminators
         - include: code
-    - include: any_POP
 
-  array-definition:
+  array-dimensions:
     - match: \[
       scope: punctuation.section.brackets.begin.java
       set:
-        - meta_scope: meta.brackets.array-initialization.java
+        - meta_scope: meta.brackets.java
         - match: \]
           scope: punctuation.section.brackets.end.java
           set:
-            - match: (?=\[)
-              set: array-definition
-            - match: \{
-              scope: punctuation.section.braces.begin.java
-              set: array-initialization
+            - include: array-dimensions
             - include: any_POP
         - include: code
-    - include: any_POP
+    - include: array-initialization
+    - include: annotation
 
   array-initialization:
-    - meta_scope: meta.braces.array-initialization.java
-    - include: array-initialization-common
+    - match: \{
+      scope: punctuation.section.braces.begin.java
+      set: array-initialization-common
 
   array-initialization-common:
+    - meta_scope: meta.braces.java
     - match: \}
       scope: punctuation.section.braces.end.java
       pop: true
     - match: \{
       scope: punctuation.section.braces.begin.java
-      push: array-initialization
+      push: array-initialization-common
     - include: code
 
 ###[ LAMBDAS AND PARENS ]######################################################
