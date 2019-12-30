@@ -597,6 +597,58 @@ class ExtendsTest<A> extends Foo<? extends A> {}
 //                                            ^ punctuation.section.block.begin.java
 //                                             ^ punctuation.section.block.end.java
 
+class ExtendsTest<A> extends @Anno com . @Anno Foo<@Anno ? extends @Anno SuperClass . @Anno SubClass & @Anno OtherClass>, @Anno OuterClass {}
+//^^^ meta.class.java - meta.class meta.class
+//   ^^^^^^^^^^^^ meta.class.identifier.java - meta.generic - meta.class meta.class
+//               ^^^ meta.class.identifier.java meta.generic.declaration.java - meta.class meta.class
+//                  ^ meta.class.identifier.java - meta.generic - meta.class meta.class
+//                   ^^^^^^^^^^^^^^ meta.class.extends.java - meta.class meta.class - meta.generic - meta.path
+//                                 ^^^^^^^^^^^^^^^ meta.class.extends.java meta.path.java - meta.class meta.class
+//                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.extends.java meta.generic.java - meta.class meta.class
+//                                                                                                                      ^^^^^^^^^^^^^^^^^^^ meta.class.extends.java - meta.class meta.class - meta.generic
+//                                                                                                                                         ^^ meta.class.body.java meta.block.java - meta.class meta.class
+//^^^ storage.type.class.java
+//   ^ - entity - keyword - storage
+//    ^^^^^^^^^^^ entity.name.class.java
+//               ^^^^ - entity - keyword - storage
+//               ^ punctuation.definition.generic.begin.java
+//                ^ variable.parameter.type.java
+//                 ^ punctuation.definition.generic.end.java
+//                   ^^^^^^^ keyword.declaration.extends.java
+//                          ^ - entity - keyword - storage
+//                           ^ punctuation.definition.annotation.java
+//                            ^^^^ variable.annotation.java
+//                                 ^^^ entity.other.inherited-class.package.java
+//                                     ^ punctuation.accessor.dot.java
+//                                       ^ punctuation.definition.annotation.java
+//                                        ^^^^ variable.annotation.java
+//                                             ^^^ entity.other.inherited-class.java
+//                                                ^ punctuation.definition.generic.begin.java
+//                                                 ^ punctuation.definition.annotation.java
+//                                                  ^^^^ variable.annotation.java
+//                                                       ^ keyword.operator.wildcard.java
+//                                                         ^^^^^^^ keyword.declaration.extends.java
+//                                                                 ^ punctuation.definition.annotation.java
+//                                                                  ^^^^ variable.annotation.java
+//                                                                       ^^^^^^^^^^ support.class.java
+//                                                                                  ^ punctuation.accessor.dot.java
+//                                                                                    ^ punctuation.definition.annotation.java
+//                                                                                     ^^^^ variable.annotation.java
+//                                                                                          ^^^^^^^^ support.class.java
+//                                                                                                   ^ keyword.operator.multiple-bounds.java
+//                                                                                                     ^ punctuation.definition.annotation.java
+//                                                                                                      ^^^^ variable.annotation.java
+//                                                                                                           ^^^^^^^^^^ support.class.java
+//                                                                                                                     ^ punctuation.definition.generic.end.java
+//                                                                                                                      ^ punctuation.separator.comma.java
+//                                                                                                                       ^ - entity - keyword - storage - variable
+//                                                                                                                        ^ punctuation.definition.annotation.java
+//                                                                                                                         ^^^^ variable.annotation.java
+//                                                                                                                             ^ - entity - keyword - storage - variable
+//                                                                                                                              ^^^^^^^^^^ entity.other.inherited-class.java
+//                                                                                                                                         ^ punctuation.section.block.begin.java
+//                                                                                                                                          ^ punctuation.section.block.end.java
+
 class ImplementsTest implements
 //^^^ meta.class.java - meta.class meta.class
 //   ^^^^^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class

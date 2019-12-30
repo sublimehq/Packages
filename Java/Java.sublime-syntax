@@ -1600,6 +1600,7 @@ contexts:
     - match: '{{classcase_id}}'
       scope: support.class.java
       pop: true
+    - include: annotation
     - include: any_POP
 
   after-object-type:
@@ -1617,6 +1618,7 @@ contexts:
         - match: '{{classcase_id}}'
           scope: support.class.java
           set: after-object-type
+        - include: annotation
         - include: any_POP
     - include: array-modifier
 
@@ -1633,6 +1635,7 @@ contexts:
     - match: '{{classcase_id}}'
       scope: support.class.java
       set: after-object-type-reference
+    - include: annotation
     - include: any_POP
 
   after-object-type-reference:
@@ -1641,6 +1644,7 @@ contexts:
     - match: \.
       scope: punctuation.accessor.dot.java
       set: object-type-reference-no-fqn
+    - include: annotation
     - include: any_POP
 
   # Used in method's and generic's parameters
@@ -1661,6 +1665,7 @@ contexts:
     - match: '{{classcase_id}}'
       scope: support.class.java
       set: after-object-and-array-types
+    - include: annotation
     - include: any_POP
 
   after-object-and-array-types:
@@ -1704,6 +1709,7 @@ contexts:
     - match: <
       scope: punctuation.definition.generic.begin.java
       push: generic-type-parameter
+    - include: annotation
     - include: any_POP
 
   generic-type-terminator:
@@ -1722,11 +1728,13 @@ contexts:
       scope: variable.parameter.type.java
       push: generic-type-bounds
     - include: generic-type-terminator
+    - include: annotation
 
   generic-type-bounds:
-    - match: (,)|(?=>)
-      captures:
-        1: punctuation.separator.comma.java
+    - match: (?=>)
+      pop: true
+    - match: ','
+      scope: punctuation.separator.comma.java
       pop: true
     - match: extends\b
       scope: keyword.declaration.extends.java
@@ -1755,6 +1763,7 @@ contexts:
     - include: generic-type-terminator
     - include: object-and-array-types
     - include: punctuation-separator-comma
+    - include: annotation
 
 ###[ PRIMITIVE TYPES ]#########################################################
 
