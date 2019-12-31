@@ -119,6 +119,10 @@ contexts:
     - match: ''
       pop: true
 
+  reserved-pop:
+    - match: (?={{reserved_words}}\b)
+      pop: true
+
 ###[ ILLEGALS ]################################################################
 
   illegal-array-modifier:
@@ -469,7 +473,8 @@ contexts:
         - include: any_POP
 
   class-name:
-    - match: (?!{{reserved_words}}\b){{id}}
+    - include: reserved-pop
+    - match: '{{id}}'
       scope: entity.name.class.java
       pop: true
     - include: any_POP
@@ -544,7 +549,8 @@ contexts:
         - include: any_POP
 
   enum-name:
-    - match: (?!{{reserved_words}}\b){{id}}
+    - include: reserved-pop
+    - match: '{{id}}'
       scope: entity.name.enum.java
       pop: true
     - include: any_POP
@@ -595,7 +601,8 @@ contexts:
 
   enum-constants-list:
     - meta_content_scope: meta.sequence.constants.java
-    - match: (?!{{reserved_words}}\b){{id}}
+    - include: reserved-pop
+    - match: '{{id}}'
       scope: entity.name.constant.java
       push: enum-constant-arguments
     - include: punctuation-separator-comma
@@ -647,7 +654,8 @@ contexts:
         - include: any_POP
 
   interface-name:
-    - match: (?!{{reserved_words}}\b){{id}}
+    - include: reserved-pop
+    - match: '{{id}}'
       scope: entity.name.interface.java
       pop: true
     - include: any_POP
@@ -1675,7 +1683,8 @@ contexts:
     - include: inherited-object-type-reference-no-fqn
 
   inherited-object-type-reference-no-fqn:
-    - match: (?!{{reserved_words}}\b){{id}}
+    - include: reserved-pop
+    - match: '{{id}}'
       scope: entity.other.inherited-class.java
       set: [inherrited-object-type-reference-child, generic-type-invocation]
     - include: any_POP
