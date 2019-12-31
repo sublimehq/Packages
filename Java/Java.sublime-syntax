@@ -36,11 +36,16 @@ variables:
   operator_keywords: (?:new|instanceof)
   illegal_keywords: (?:const|goto)
 
-  storage_modifiers: |-
-    (?x:
-      public|private|protected|static|final|native|synchronized|strictfp|
-      abstract|transient|default|volatile
-    )
+  # Storage Modifiers
+  storage_modifiers: (?:{{class_modifier}}|{{class_no_modifier}})
+  # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.1
+  class_modifier: (?:public|protected|private|abstract|static|final|strictfp)
+  class_no_modifier: (?:native|synchronized|transient|default|volatile)
+  # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-9.1.1
+  interface_modifier: (?:public|protected|private|abstract|static|strictfp)
+  interface_no_modifier: (?:final|native|synchronized|transient|default|volatile)
+
+  # Storage Types
   storage_types: (?:boolean|byte|char|short|int|float|long|double)
 
   # Literals
@@ -442,7 +447,6 @@ contexts:
     - match: (?=({{storage_modifiers}}\s+)*class\b)
       push:
         - meta_scope: meta.class.java
-        - include: storage-modifiers
         - match: class\b
           scope:
             storage.type.class.java
@@ -453,6 +457,10 @@ contexts:
             - class-name-meta
             - generic-type-declaration
             - class-name
+        - match: '{{class_modifier}}\b'
+          scope: storage.modifier.java
+        - match: '{{class_no_modifier}}\b'
+          scope: invalid.illegal.unexpected-modifier.java
         - include: any_POP
 
   class-name:
@@ -514,7 +522,6 @@ contexts:
     - match: (?=({{storage_modifiers}}\s+)*enum\b)
       push:
         - meta_scope: meta.enum.java
-        - include: storage-modifiers
         - match: enum\b
           scope:
             storage.type.enum.java
@@ -525,6 +532,10 @@ contexts:
             - enum-name-meta
             - enum-type-parameters
             - enum-name
+        - match: '{{class_modifier}}\b'
+          scope: storage.modifier.java
+        - match: '{{class_no_modifier}}\b'
+          scope: invalid.illegal.unexpected-modifier.java
         - include: any_POP
 
   enum-name:
@@ -614,7 +625,6 @@ contexts:
     - match: (?=({{storage_modifiers}}\s+)*@?interface\b)
       push:
         - meta_scope: meta.interface.java
-        - include: storage-modifiers
         - match: (@?)interface\b
           scope:
             storage.type.interface.java
@@ -625,6 +635,10 @@ contexts:
             - interface-name-meta
             - generic-type-declaration
             - interface-name
+        - match: '{{interface_modifier}}\b'
+          scope: storage.modifier.java
+        - match: '{{interface_no_modifier}}\b'
+          scope: invalid.illegal.unexpected-modifier.java
         - include: any_POP
 
   interface-name:

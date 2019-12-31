@@ -629,20 +629,22 @@ class lowerCaseTest<T> implements fully.qualified.Other<T> {
 }
 // <- punctuation.section.block.end.java
 
-class extends implements {}
-//^^^ meta.class.java - meta.class meta.class
-//   ^ meta.class.identifier.java - meta.class meta.class
-//    ^^^^^^^^ meta.class.extends.java - meta.class meta.class
-//            ^^^^^^^^^^^ meta.class.implements.java - meta.class meta.class
-//                       ^^ meta.class.body.java meta.block.java - meta.class meta.class
-//^^^ storage.type.class.java
-//   ^ - entity - keyword - storage
-//    ^^^^^^^ keyword.declaration.extends.java
-//           ^ - entity - keyword - storage
-//            ^^^^^^^^^^ keyword.declaration.implements.java
-//                      ^ - entity - keyword - storage
-//                       ^ punctuation.section.block.begin.java
-//                        ^ punctuation.section.block.end.java
+volatile class extends implements {}
+//<- meta.class.java invalid.illegal.unexpected-modifier.java
+//^^^^^^^^^^^^ meta.class.java - meta.class meta.class
+//^^^^^^ invalid.illegal.unexpected-modifier.java
+//            ^ meta.class.identifier.java - meta.class meta.class
+//             ^^^^^^^^ meta.class.extends.java - meta.class meta.class
+//                     ^^^^^^^^^^^ meta.class.implements.java - meta.class meta.class
+//                                ^^ meta.class.body.java meta.block.java - meta.class meta.class
+//         ^^^ storage.type.class.java
+//            ^ - entity - keyword - storage
+//             ^^^^^^^ keyword.declaration.extends.java
+//                    ^ - entity - keyword - storage
+//                     ^^^^^^^^^^ keyword.declaration.implements.java
+//                               ^ - entity - keyword - storage
+//                                ^ punctuation.section.block.begin.java
+//                                 ^ punctuation.section.block.end.java
 
 class ExtendsAndImplementsTest extends Foo implements Bar<Foo>, OtherBar {}
 //^^^ meta.class.java - meta.class meta.class
