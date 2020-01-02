@@ -85,7 +85,7 @@ contexts:
       scope: punctuation.terminator.statement.lua
 
     - match: function{{identifier_break}}
-      scope: storage.type.function.lua
+      scope: storage.type.function.lua keyword.declaration.function.lua
       push:
         - function-meta
         - block-contents
@@ -344,7 +344,7 @@ contexts:
       scope: meta.property.lua entity.name.function.lua
       pop: true
     - match: '{{identifier}}{{function_call_ahead}}'
-      scope: meta.property.lua variable.function.lua
+      scope: meta.property.lua meta.function-call.lua variable.function.lua
       pop: true
     - match: '{{metaproperty}}'
       scope: meta.property.lua support.other.metaproperty.lua
@@ -423,8 +423,8 @@ contexts:
           |next|pairs|pcall|print|rawequal|rawget|rawlen|rawset|select
           |setmetatable|tonumber|tostring|type|xpcall
           |require|getfenv|module|setfenv|unpack
-        ){{identifier_break}}
-      scope: support.function.builtin.lua
+        ){{function_call_ahead}}
+      scope: meta.function-call.lua support.function.builtin.lua
       pop: true
 
     - include: builtin-modules
@@ -435,7 +435,7 @@ contexts:
       pop: true
 
     - match: '{{identifier}}{{function_call_ahead}}'
-      scope: variable.function.lua
+      scope: meta.function-call.lua variable.function.lua
       pop: true
 
     - match: '{{identifier}}'
@@ -587,7 +587,7 @@ contexts:
 
   function-literal:
     - match: function{{identifier_break}}
-      scope: storage.type.function.lua
+      scope: storage.type.function.lua keyword.declaration.function.lua
       set:
         - function-meta
         - block-contents
