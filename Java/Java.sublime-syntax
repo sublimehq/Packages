@@ -1019,17 +1019,17 @@ contexts:
     - include: parameters
 
   parameters:
-    - match: final\b
-      scope: storage.modifier.java
-    - include: annotation
-    - include: primitive-types
-    - include: object-and-array-types
     - match: \.\.\.
       scope: keyword.operator.variadic.java
-    - match: '{{id}}'
-      scope: variable.parameter.java
-      push: array-modifier
+    - match: final\b
+      scope: storage.modifier.java
+    - match: (?:{{storage_modifiers}}|var)\b
+      scope: invalid.illegal.unexpected-keyword.java
+    - include: primitive-types
+    - include: object-and-array-types
+    - include: variable-parameter
     - include: punctuation-separator-comma
+    - include: annotation
 
   parens-common:
     - include: parens-end
@@ -1130,6 +1130,11 @@ contexts:
     - match: '{{lowercase_id}}'
       scope: variable.namespace.java
     - include: punctuation-accessor-dot
+
+  variable-parameter:
+    - match: '{{id}}'
+      scope: variable.parameter.java
+      push: array-modifier
 
   variable-language-class:
     - match: class\b

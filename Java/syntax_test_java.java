@@ -3314,10 +3314,22 @@ public class Foo {
 //                                         ^^ storage.modifier.array.java
 //                                            ^^^^^^^ variable.parameter.java
 
-  void primitiveVarArgs(int... values) {}
-//                      ^^^ storage.type.primitive.java
-//                         ^^^ keyword.operator.variadic.java
-//                             ^^^ variable.parameter.java
+  void classVarArgs(private String... values) {}
+//                  ^^^^^^^ invalid.illegal.unexpected-keyword.java
+//                          ^^^^^^ support.class.java
+//                                ^^^ keyword.operator.variadic.java
+//                                    ^^^ variable.parameter.java
+
+  void invalidVarArgs(var... values) {}
+//                    ^^^ invalid.illegal.unexpected-keyword.java
+//                       ^^^ keyword.operator.variadic.java
+//                           ^^^ variable.parameter.java
+
+  void primitiveVarArgs(final int... values) {}
+//                      ^^^^^ storage.modifier.java
+//                            ^^^ storage.type.primitive.java
+//                               ^^^ keyword.operator.variadic.java
+//                                   ^^^ variable.parameter.java
 
   @RunWith(JUnit4.class)
 //^ punctuation.definition.annotation.java
