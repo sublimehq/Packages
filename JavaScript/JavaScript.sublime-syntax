@@ -925,47 +925,45 @@ contexts:
     - include: either-function-declaration
     - include: object-literal
 
-    - match: (?=\()
-      branch_point: parens
+    - match: (?=\(|{{identifier_start}})
+      branch_point: arrow-function
       branch:
-        - parens1
-        - parens2
+        - branch-possible-arrow-function
+        - arrow-function-fallback
+
     - include: array-literal
 
-    - include: literal-call
-    - include: literal-variable
+    - include: literal-private-variable
 
     - include: else-pop
 
-  parens1:
-    - match: \(
-      scope: punctuation.section.group.begin.js
-      push:
-        - meta_scope: meta.group.js
-        - match: \)
-          scope: punctuation.section.group.end.js
-          set:
-            - match: (?==>)
-              fail: parens
-            - include: comments
-            - match: (?=\S)
-              pop: 3
-        - match: (?=\S)
-          push: expression
-
-  parens2:
+  branch-possible-arrow-function:
+    - meta_include_prototype: false
     - match: ''
       push:
-        - function-meta-parens
-        - arrow-function-expect-body
-        - function-declaration-meta
-        - arrow-function-expect-arrow
-        - arrow-function-expect-parameters
-        - function-declaration-expect-async
+        - detect-arrow
+        - branch-not-arrow-function
 
-  function-meta-parens:
+  branch-not-arrow-function:
+    - include: parenthesized-expression
+    - include: literal-call
+    - include: literal-variable
+
+  detect-arrow:
+    - match: (?==>)
+      fail: arrow-function
+    - match: (?=\S)
+      pop: 3
+
+  arrow-function-fallback:
     - meta_include_prototype: false
-    - meta_scope: meta.function.js
+    - match: ''
+      push:
+        - branch-arrow-function-end
+        - arrow-function-declaration
+
+  branch-arrow-function-end:
+    - meta_include_prototype: false
     - match: ''
       pop: 3
 
@@ -1925,6 +1923,9 @@ contexts:
     - match: '{{identifier}}'
       scope: variable.other.readwrite.js
       pop: true
+    - include: literal-private-variable
+
+  literal-private-variable:
     - match: (#)({{identifier}})
       captures:
         1: punctuation.definition.variable.js
