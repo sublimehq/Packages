@@ -119,6 +119,10 @@ contexts:
     - match: ''
       pop: true
 
+  immidiate_POP3:
+    - match: (?=\S)
+      pop: 3
+
   reserved-pop:
     - match: (?={{reserved_words}}\b)
       pop: true
@@ -1425,33 +1429,38 @@ contexts:
 ###[ ENTITY CLASS ]############################################################
 
   entity-class:
-    - match: (?=(?!{{reserved_words}}\b){{id}})
+    - match: (?!{{reserved_words}}\b){{id}}
       branch_point: entity-class-identifier
       branch:
         - entity-class-qualified-identifier
         - entity-class-unqualified-identifier
 
   entity-class-qualified-identifier:
-    - match: '{{id}}'
-      scope: variable.namespace.java
+    - meta_scope: meta.path.java variable.namespace.java
+    - match: ''
       push: [entity-class-qualified-identifier-path, generic-type-arguments]
 
   entity-class-qualified-identifier-path:
-    - meta_scope: meta.path.java
+    - clear_scopes: 1
     - match: \.
       scope: punctuation.accessor.dot.java
-      push:
-        - match: (?={{id}})
+      set:
+        - clear_scopes: 1
+        - match: (?={{reserved_words}}\b)
+          pop: 2
+        - match: '{{id}}'
           branch_point: entity-class-qualified-identifier
-          branch: [entity-class-qualifier, entity-class-name]
+          branch:
+            - entity-class-qualifier
+            - entity-class-name
         - match: (?=\S)
-          pop: 3
+          pop: 2
     - match: (?=\S)
       fail: entity-class-identifier
 
   entity-class-qualifier:
-    - match: '{{id}}'
-      scope: variable.namespace.java
+    - meta_scope: variable.namespace.java
+    - match: ''
       push: [entity-class-qualifier-accessor, generic-type-arguments]
 
   entity-class-qualifier-accessor:
@@ -1462,16 +1471,13 @@ contexts:
       fail: entity-class-qualified-identifier
 
   entity-class-name:
-    - match: '{{id}}'
-      scope: entity.name.class.java
-      set:
-        - - match: ''
-            pop: 4
-        - generic-type-arguments
+    - meta_scope: entity.name.class.java
+    - match: ''
+      set: [immidiate_POP3, generic-type-arguments]
 
   entity-class-unqualified-identifier:
-    - match: '{{id}}'
-      scope: entity.name.class.java
+    - meta_scope: entity.name.class.java
+    - match: ''
       set: generic-type-arguments
 
 ###[ ENTITY MODULE ]###########################################################
