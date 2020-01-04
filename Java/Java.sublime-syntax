@@ -1567,7 +1567,7 @@ contexts:
       scope: entity.name.namespace.package.java
       pop: true
 
-###[ TYPES ]###################################################################
+###[ OBJECT TYPES ]############################################################
 
   # Stand-along uppercase id, either type or constant.
   # Should be used only inside code blocks.
@@ -1647,6 +1647,8 @@ contexts:
     - include: annotation
     - include: any_POP
 
+###[ OBJECT AND ARRAY TYPES ]##################################################
+
   # Used in method's and generic's parameters
   object-and-array-types:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.3
@@ -1676,6 +1678,8 @@ contexts:
       scope: punctuation.accessor.dot.java
       set: object-and-array-types-no-fqn
     - include: array-modifier
+
+###[ INHERRITED TYPE REFERENCES ]##############################################
 
   # Used in class-level 'extends' and 'implements'
   inherited-object-type-reference:
