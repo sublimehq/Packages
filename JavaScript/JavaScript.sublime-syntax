@@ -164,21 +164,39 @@ contexts:
     - match: ','
       scope: punctuation.separator.comma.js
 
-  import-export:
-    - match: import{{identifier_break}}(?!{{nothing}}[.(])
+  import-statement:
+    - match: (?=import{{identifier_break}})
+      branch_point: import-statement
+      branch:
+        - real-import-statement
+        - expression-statement
+
+  branch-import-statement:
+    - meta_include_prototype: false
+    - match: ''
+      push:
+        - branch-import-statement-end
+        - real-import-statement
+
+  branch-import-statement-end:
+    - meta_include_prototype: false
+    - match: ''
+      pop: 3
+
+  real-import-statement:
+    - match: import{{identifier_break}}
       scope: keyword.control.import-export.js
       set:
         - meta_scope: meta.import.js
         - match: (?=[.(]) # Recovery for import expressions
-          set:
-            - expression-statement-end
-            - import-expression-end
+          fail: import-statement
         - match: (?=\S)
           set:
             - import-meta
             - expect-semicolon
             - import-string-or-items
 
+  export-statement:
     - match: export{{identifier_break}}
       scope: keyword.control.import-export.js
       set:
@@ -323,7 +341,8 @@ contexts:
       scope: punctuation.terminator.statement.empty.js
       pop: true
 
-    - include: import-export
+    - include: import-statement
+    - include: export-statement
     - include: conditional
     - include: block
     - include: label
