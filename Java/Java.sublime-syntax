@@ -386,6 +386,7 @@ contexts:
 ###[ ANNOTATIONS ]#############################################################
 
   annotation:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.7
     - match: \@
       scope: punctuation.definition.annotation.java
       push: [annotation-parameters, annotation-qualified-name]
@@ -421,20 +422,6 @@ contexts:
   annotation-parameters-common:
     - meta_scope: meta.annotation.parameters.java meta.parens.java
     - include: parens-end
-    - include: annotation-array-initialization
-    - include: annotation-parameter
-    - include: annotation
-    - include: code
-
-  annotation-array-initialization:
-    - match: \{
-      scope: punctuation.section.braces.begin.java
-      push:
-        - meta_scope: meta.braces.java
-        - include: array-initialization-common
-        - include: annotation
-
-  annotation-parameter:
     - match: (?={{id}})
       branch_point: annotation-parameter
       branch:
@@ -443,15 +430,16 @@ contexts:
             push:
               - match: =
                 scope: keyword.operator.assignment.java
-                set:
-                  - match: (?=[,})])
-                    pop: 2
-                  - include: annotation
-                  - include: code
+                pop: 2
               - match: (?=\S)
                 fail: annotation-parameter
         - - include: code
           - include: immediate_POP
+    - match: \{
+      scope: punctuation.section.braces.begin.java
+      push: array-initialization-common
+    - include: annotation
+    - include: code
 
 ###[ CLASSES ]#################################################################
 
@@ -981,6 +969,7 @@ contexts:
     - match: \{
       scope: punctuation.section.braces.begin.java
       push: array-initialization-common
+    - include: annotation
     - include: code
 
 ###[ LAMBDAS AND PARENS ]######################################################
