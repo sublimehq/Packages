@@ -1076,7 +1076,7 @@ contexts:
       scope: variable.language.blank.java
     - match: '{{variables}}\b'
       scope: variable.language.java
-    - match: (?={{id}})
+    - match: '{{id}}'
       branch_point: variables-type
       branch:
         - variable-maybe-method-name
@@ -1088,9 +1088,12 @@ contexts:
       pop: 2
 
   variable-maybe-method-name:
-    - match: '{{id}}'
-      scope: variable.function.java
+    - meta_scope:
+        meta.function-call.identifier.java
+        variable.function.java
+    - match: ''
       push:
+        - clear_scopes: 1
         - meta_scope: meta.function-call.identifier.java
         - match: (?=\()
           set: [variables-branch-success, method-call-arguments, parens-begin]
@@ -1098,11 +1101,12 @@ contexts:
           fail: variables-type
 
   variable-maybe-lambda-parameter:
-    - match: '{{id}}'
-      scope:
+    - meta_scope:
         meta.function.anonymous.parameters.java
         variable.parameter.java
+    - match: ''
       push:
+        - clear_scopes: 1
         - meta_content_scope: meta.function.anonymous.java
         - match: (?=->)
           pop: 2
@@ -1110,11 +1114,11 @@ contexts:
           fail: variables-type
 
   variable-other:
-    - match: '{{id}}'
-      scope: meta.variable.identifier.java variable.other.readwrite.java
+    - meta_scope:
+        meta.variable.identifier.java
+        variable.other.readwrite.java
+    - match: ''
       set: variable-maybe-item-access
-    - match: (?=\S)
-      fail: variables-type
 
   variable-maybe-item-access:
     - meta_content_scope: meta.variable.item-access.java
