@@ -330,12 +330,12 @@ contexts:
   class-builtin:
     - match: |-
         (?xi)(\\)?\b(
-          AMQPConnection | AMQPExchange | AMQPQueue | APCIterator | AppendIterator | ArrayAccess | ArrayIterator | ArrayObject |
-          BadFunctionCallException | BadMethodCallException | CachingIterator | Collator | Countable | DOMAttr | DOMCharacterData | DOMComment |
+          AMQPConnection | AMQPExchange | AMQPQueue | APCIterator | AppendIterator | ArgumentCountError | ArithmeticError | ArrayAccess | ArrayIterator | ArrayObject |
+          AssertionError | BadFunctionCallException | BadMethodCallException | CachingIterator | Collator | CompileError | Countable | DivisionByZeroError | DOMAttr | DOMCharacterData | DOMComment |
           DOMDocument | DOMDocumentFragment | DOMElement | DOMEntityReference | DOMImplementation | DOMNamedNodeMap | DOMNode | DOMNodelist |
           DOMProcessingInstruction | DOMText | DOMXPath | DateInterval | DatePeriod | DateTime | DateTimeZone | DirectoryIterator |
           DomAttribute | DomDocument | DomDocumentType | DomElement | DomNode | DomProcessingInstruction | DomXsltStylesheet | DomainException |
-          EmptyIterator | ErrorException | Exception | FilesystemIterator | FilterIterator | GlobIterator | Gmagick | GmagickDraw |
+          EmptyIterator | Error | ErrorException | Exception | FilesystemIterator | FilterIterator | GlobIterator | Gmagick | GmagickDraw |
           GmagickPixel | HaruAnnotation | HaruDestination | HaruDoc | HaruEncoder | HaruFont | HaruImage | HaruOutline |
           HaruPage | HttpDeflateStream | HttpInflateStream | HttpMessage | HttpQueryString | HttpRequest | HttpRequestPool | HttpResponse |
           Imagick | ImagickDraw | ImagickPixel | ImagickPixelIterator | InfiniteIterator | IntlDateFormatter | InvalidArgumentException | Iterator |
@@ -344,7 +344,7 @@ contexts:
           MessageFormatter | Mongo | MongoBinData | MongoCode | MongoCollection | MongoCursor | MongoDB | MongoDBRef |
           MongoDate | MongoGridFS | MongoGridFSCursor | MongoGridFSFile | MongoGridfsFile | MongoId | MongoInt32 | MongoInt64 |
           MongoRegex | MongoTimestamp | MultipleIterator | NoRewindIterator | Normalizer | NumberFormatter | OCI-Collection | OCI-Lob |
-          OutOfBoundsException | OutOfRangeException | OuterIterator | OverflowException | PDO | PDOStatement | ParentIterator | Phar |
+          OutOfBoundsException | OutOfRangeException | OuterIterator | OverflowException | PDO | PDOStatement | ParentIterator | ParseError | Phar |
           PharData | PharFileInfo | RRDCreator | RRDGraph | RRDUpdater | RangeException | RecursiveArrayIterator | RecursiveCachingIterator |
           RecursiveDirectoryIterator | RecursiveFilterIterator | RecursiveIterator | RecursiveIteratorIterator | RecursiveRegexIterator | RecursiveTreeIterator | Reflection | ReflectionClass |
           ReflectionExtension | ReflectionFunction | ReflectionFunctionAbstract | ReflectionMethod | ReflectionObject | ReflectionParameter | ReflectionProperty | Reflector |
@@ -355,11 +355,10 @@ contexts:
           SeekableIterator | Serializable | SimpleXMLElement | SimpleXMLIterator | SoapClient | SoapFault | SoapHeader | SoapParam |
           SoapServer | SoapVar | SphinxClient | SplBool | SplDoublyLinkedList | SplEnum | SplFileInfo | SplFileObject |
           SplFixedArray | SplFloat | SplHeap | SplInt | SplMaxHeap | SplMinHeap | SplObjectStorage | SplObserver |
-          SplPriorityQueue | SplQueue | SplStack | SplString | SplSubject | SplTempFileObject | Swish | SwishResult |
-          SwishResults | SwishSearch | TokyoTyrant | TokyoTyrantQuery | TokyoTyrantTable | Transliterator | Traversable | UnderflowException |
-          UnexpectedValueException | V8Js | V8JsException | XMLReader | XMLWriter | XSLTProcessor | ZipArchive | finfo |
-          mysqli | mysqli_driver | mysqli_result | mysqli_stmt | mysqli_warning | stdClass | streamWrapper | tidy |
-          tidyNode
+          SplPriorityQueue | SplQueue | SplStack | SplString | SplSubject | SplTempFileObject | Stringable | Swish | SwishResult |
+          SwishResults | SwishSearch | TokyoTyrant | TokyoTyrantQuery | TokyoTyrantTable | Transliterator | Traversable | TypeError | UnderflowException |
+          UnexpectedValueException | V8Js | V8JsException | ValueError | WeakMap | WeakReference | XMLReader | XMLWriter | XSLTProcessor | ZipArchive |
+          finfo | mysqli | mysqli_driver | mysqli_result | mysqli_stmt | mysqli_warning | stdClass | streamWrapper | tidy | tidyNode
         )\b
       captures:
         1: punctuation.separator.namespace.php
@@ -961,7 +960,7 @@ contexts:
               FILTER_FLAG_ENCODE_LOW | FILTER_FLAG_HOST_REQUIRED | FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6 | FILTER_FLAG_NONE | FILTER_FLAG_NO_ENCODE_QUOTES | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE |
               FILTER_FLAG_PATH_REQUIRED | FILTER_FLAG_QUERY_REQUIRED | FILTER_FLAG_SCHEME_REQUIRED | FILTER_FLAG_STRIP_BACKTICK | FILTER_FLAG_STRIP_HIGH | FILTER_FLAG_STRIP_LOW | FILTER_FORCE_ARRAY | FILTER_NULL_ON_FAILURE |
               FILTER_REQUIRE_ARRAY | FILTER_REQUIRE_SCALAR | FILTER_SANITIZE_EMAIL | FILTER_SANITIZE_ENCODED | FILTER_SANITIZE_FULL_SPECIAL_CHARS | FILTER_SANITIZE_MAGIC_QUOTES | FILTER_SANITIZE_NUMBER_FLOAT | FILTER_SANITIZE_NUMBER_INT |
-              FILTER_SANITIZE_SPECIAL_CHARS | FILTER_SANITIZE_STRING | FILTER_SANITIZE_STRIPPED | FILTER_SANITIZE_URL | FILTER_UNSAFE_RAW | FILTER_VALIDATE_BOOLEAN | FILTER_VALIDATE_EMAIL | FILTER_VALIDATE_FLOAT |
+              FILTER_SANITIZE_SPECIAL_CHARS | FILTER_SANITIZE_STRING | FILTER_SANITIZE_STRIPPED | FILTER_SANITIZE_URL | FILTER_UNSAFE_RAW | FILTER_VALIDATE_BOOL | FILTER_VALIDATE_BOOLEAN | FILTER_VALIDATE_EMAIL | FILTER_VALIDATE_FLOAT |
               FILTER_VALIDATE_INT | FILTER_VALIDATE_IP | FILTER_VALIDATE_REGEXP | FILTER_VALIDATE_URL | FNM_CASEFOLD | FNM_NOESCAPE | FNM_PATHNAME | FNM_PERIOD |
               FORCE_DEFLATE | FORCE_GZIP | GLOB_AVAILABLE_FLAGS | GLOB_BRACE | GLOB_ERR | GLOB_MARK | GLOB_NOCHECK | GLOB_NOESCAPE |
               GLOB_NOSORT | GLOB_ONLYDIR | ICONV_IMPL | ICONV_MIME_DECODE_CONTINUE_ON_ERROR | ICONV_MIME_DECODE_STRICT | ICONV_VERSION | IMAGETYPE_BMP | IMAGETYPE_COUNT |
