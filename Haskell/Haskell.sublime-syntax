@@ -184,7 +184,7 @@ contexts:
         3: keyword.control.conditional.else.haskell
 
   operator:
-    - match: (`)[a-zA-Z_']+(`)
+    - match: (`)[a-zA-Z_'.\d]+(`)
       # Haskell allows any ordinary function application (elem 4 [1..10])
       # to be rewritten as an infix expression (4 `elem` [1..10])."
       scope: keyword.operator.function.infix.haskell

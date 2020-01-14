@@ -123,6 +123,10 @@
 --   ^^^^^^^^ keyword.operator.function.infix.haskell
 --   ^ punctuation.definition.function.begin.haskell
 --          ^ punctuation.definition.function.end.haskell
+   a `P.atan2` x
+--   ^^^^^^^^^ keyword.operator.function.infix.haskell
+--   ^ punctuation.definition.function.begin.haskell
+--           ^ punctuation.definition.function.end.haskell
 
 -- Tests for #1320, #1880.
 
