@@ -191,7 +191,7 @@ test =
 --  ^^^ keyword.declaration.variable.haskell
 --            ^^ keyword.control.context.haskell
     where
---  ^^^^^ keyword.control.context.haskell
+--  ^^^^^ keyword.declaration.variable.haskell
         y = 1
 --        ^ keyword.operator.haskell
 
@@ -206,6 +206,10 @@ test a = case a of
         else 0
 --      ^^^^ keyword.control.conditional.else.haskell
 
+main = do
+--     ^^ keyword.control.context.haskell
+    return ()
+--  ^^^^^^ keyword.control.flow.return.haskell
 
 --MISC
 

@@ -165,7 +165,7 @@ contexts:
         - include: module_exports
 
   keyword:
-    - match: \b(?:do|where|in)\b
+    - match: \b(?:do|in)\b
       scope: keyword.control.context.haskell
     - match: \b(?:newtype|type)\b
       scope: keyword.declaration.type.haskell
@@ -173,9 +173,11 @@ contexts:
       scope: keyword.declaration.data.haskell
     - match: \b(?:case|of)\b
       scope: keyword.control.conditional.select.haskell  # the construct is commonly called "select"
-    - match: \b(?:let)\b
+    - match: \b(?:let|where)\b
       scope: keyword.declaration.variable.haskell
-    - match: \bdefault\b
+    - match: \breturn\b
+      scope: keyword.control.flow.return.haskell
+    - match: \b(?:default|otherwise)\b
       scope: keyword.other.haskell
     - match: \b(?:(if)|(then)|(else))\b
       captures:
