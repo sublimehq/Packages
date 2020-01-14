@@ -11,7 +11,8 @@ variables:
   # note that Haskell permits the definition of new operators
   # which can be nearly any string of punctuation characters,
   # such as $%^&*.
-  operator_infix: '[*|!%$?~+:\-.=</>\\]+'
+  operator_char: '[*|!%&$?~+:\-.=</>\\]'
+  operator_infix: '{{operator_char}}+'
   operator_parens: '(?:{{operator_infix}}|,+)'
   module_name: (?:[A-Z][A-Za-z._']*)
   escape_chars: |-
@@ -48,6 +49,7 @@ contexts:
     - include: splice
     - include: group
     - include: list
+    - include: ident
     - match: ','
       scope: punctuation.separator.comma.haskell
 
@@ -281,6 +283,10 @@ contexts:
           pop: true
         - match: .*
           scope: string.quasiquoted.haskell
+
+  ident:
+    - match: '[[:lower:]][^\s{{operator_char}}),\]{}]+'
+      scope: meta.name.haskell
 
   comment:
     - match: '--'

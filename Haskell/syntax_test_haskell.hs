@@ -282,3 +282,6 @@ test a = case a of
 --      ^ - constant
 --            ^ punctuation.definition.string.end.haskell
 --        ^^^^ constant.character.escape.haskell
+
+   a' = b'
+-- ^^ meta.name.haskell - string
