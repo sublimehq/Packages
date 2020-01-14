@@ -549,6 +549,45 @@ foo = "{text{" # Comment
 bar = "}}" # Comment
 #      ^^ constant.character.escape
 
+# The following section contains unusual and legal or illegal format placeholders.
+# We don't actually want to match the syntax 100% of the time,
+# since we never know for sure if the string is used as a format string,
+# so some of these matches are incorrect because of implementation details.
+
+# Not format specs
+"{:{ }"  # unclosed
+# ^ - constant.other.placeholder
+'{{foo!r:4.2}'  # escaped opening
+# ^ - constant.other.placeholder
+'{{foo!r:4.2}}'  # escaped opening and closing
+# ^ - constant.other.placeholder
+'{foo!a:ran{dom}'  # unclosed
+# ^ - constant.other.placeholder
+'{foo!a:ran{dom}'  # unclosed
+# ^ - constant.other.placeholder
+
+# Invalid field names
+'{foo{d}}'
+# ^ - constant.other.placeholder
+'{foo.!a:d}'
+# ^ constant.other.placeholder
+"{:{ {}}"  # issue 2232
+# ^ - constant.other.placeholder
+
+# Syntactically correct, but hardly come up in real code
+"{:{ ()}}".format(0, **{" ()": "d"}) == '0'
+# ^ constant.other.placeholder
+'{foo/bar}'.format(**{"foo/bar": 1}) == '1'
+# ^ - constant.other.placeholder
+
+# Legal but non-standard format spec
+'{foo:{{w}}.{{p}}}}'  # illegal double {{ in format spec
+# ^ - constant.other.placeholder
+'{foo!a:random}'
+# ^ - constant.other.placeholder
+'{foo!a:ran{d}om}'  # nested specification
+# ^ constant.other.placeholder
+
 f"string"
 # <- storage.type.string
 #^^^^^^^^ string.quoted.double
