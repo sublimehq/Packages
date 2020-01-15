@@ -9,6 +9,11 @@ int main(){
     /*          ^^ keyword.operator.arithmetic */
 }
 
+/*[[[cog
+maxParams = 24
+/*          ^^ source.c++ comment.block.c++ source.python constant.numeric.integer.decimal.python */
+]]]*/
+
 /////////////////////////////////////////////
 // Preprocessor
 /////////////////////////////////////////////
