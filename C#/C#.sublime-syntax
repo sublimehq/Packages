@@ -16,18 +16,11 @@ variables:
   bin_op: '(?:\+|->|-|\*|/|%|\|\||&&|\||&|\^|<<|>>|=>|<=|<|>=|>|==|!=|\?\?)'
   unary_op: '(?:\+\+|--|-|~|!|&|\*)'
 
-  # digit separators
-  digit_separators: '(?:(?:_+[0-9]+)*)'
-
-  # integers
-  hex_numeral: '(0[xX])_*\h+(?:_+\h+)*'
-  binary_numeral: '(0[bB])_*[01]+(?:_+[01]+)*'
-  decimal_numeral: '(0|[1-9][0-9]*{{digit_separators}})((?i:ul|lu|u|l)?)'
-
-  # floating point numbers
-  exponent: '[eE][+\-]?[0-9]+{{digit_separators}}'
-  floating_point: '([0-9]+{{digit_separators}}(?={{floating_point_suffix}}|[.Ee])(?:\.[0-9]+{{digit_separators}})?(?:{{exponent}})?)({{floating_point_suffix}}?)'
-  floating_point_suffix: '[fFdDmM]'
+  # numbers
+  dec_digits: (?:[\d_]*\d)
+  dec_exponent: (?:[eE][-+]??{{dec_digits}})
+  float_suffix: '[fFdDmM]'
+  integer_suffix: '[uU][lL]?|[lL][uU]?'
 
   # characters
   unicode_char: '(?:\\u\h{4}|\\U\h{8})'
@@ -79,6 +72,9 @@ contexts:
         - match: '\*/'
           scope: punctuation.definition.comment.end.cs
           pop: true
+        - match: ^\s*(\*)(?!/)
+          captures:
+            1: punctuation.definition.comment.cs
         - include: comments_in
 
   comments_in:
@@ -130,10 +126,10 @@ contexts:
         1: keyword.other.preprocessor.cs
         2: keyword.other.preprocessor.cs
       push: option_done
-    - match: '\b(line)\s+([0-9]*)\s+((").*("))?'
+    - match: '\b(line)\s+(\d*)\s+((").*("))?'
       captures:
         1: keyword.other.preprocessor.cs
-        2: constant.numeric.cs
+        2: constant.numeric.integer.decimal.cs
         3: string.quoted.double.cs
         4: punctuation.definition.string.begin.cs
         5: punctuation.definition.string.end.cs
@@ -147,8 +143,8 @@ contexts:
           scope: punctuation.definition.string.begin.cs
           push:
             - meta_scope: string.quoted.double.hash.cs
-            - match: '[0-9a-fA-F-]+'
-              scope: constant.numeric.cs
+            - match: '[-\h]+'
+              scope: constant.numeric.integer.hexadecimal.cs
             - match: '}"'
               scope: punctuation.definition.string.end.cs
               pop: true
@@ -955,7 +951,7 @@ contexts:
         2: variable.other.cs
         3: keyword.operator.assignment.variable.cs
       set: line_of_code_in
-    - match: (?=var\s+\()
+    - match: (?=var\s*\()
       push: var_declaration
     - include: lambdas
     - match: (?:\b(ref)\s+)?\b(?={{namespaced_name}}{{type_suffix}}\s+{{name}}(?!\s*(?:[(:])))
@@ -1534,22 +1530,24 @@ contexts:
     - match: (')[^']+(')
       scope: invalid.illegal.not_a_char.cs
     # numbers
-    - match: '{{hex_numeral}}'
+    - match: (0[xX])[\h_]*\h
       scope: constant.numeric.integer.hexadecimal.cs
       captures:
-        1: punctuation.definition.numeric.hexadecimal.cs
-    - match: '{{binary_numeral}}'
+        1: punctuation.definition.numeric.base.cs
+    - match: (0[bB])[01_]*[01]
       scope: constant.numeric.integer.binary.cs
       captures:
-        1: punctuation.definition.numeric.binary.cs
-    - match: '{{floating_point}}'
+        1: punctuation.definition.numeric.base.cs
+    - match: '{{dec_digits}}(?:(?:(?:(\.){{dec_digits}}){{dec_exponent}}?|{{dec_exponent}})({{float_suffix}})?|({{float_suffix}}))'
+      scope: constant.numeric.float.decimal.cs
       captures:
-        1: constant.numeric.float.decimal.cs
+        1: punctuation.separator.decimal.cs
         2: storage.type.numeric.cs
-    - match: '{{decimal_numeral}}'
+        3: storage.type.numeric.cs
+    - match: (?:0|[1-9]{{dec_digits}}?)({{integer_suffix}})?
+      scope: constant.numeric.integer.decimal.cs
       captures:
-        1: constant.numeric.integer.decimal.cs
-        2: storage.type.numeric.cs
+        1: storage.type.numeric.cs
     # strings
     - match: '"'
       scope: punctuation.definition.string.begin.cs
@@ -1566,7 +1564,7 @@ contexts:
     - match: '(\{)(\d+)'
       captures:
         1: punctuation.definition.placeholder.begin.cs
-        2: constant.numeric.cs
+        2: constant.numeric.integer.decimal.cs
       push: string_placeholder
     - match: $\n?
       scope: invalid.illegal.unclosed-string.cs
@@ -1623,7 +1621,7 @@ contexts:
       scope: constant.other.placeholder.cs
       captures:
         1: punctuation.definition.placeholder.begin.cs
-        2: constant.numeric.cs invalid.illegal.unclosed-string-placeholder.cs
+        2: constant.numeric.integer.decimal.cs invalid.illegal.unclosed-string-placeholder.cs
 
   inside_string_placeholder:
     - match: '(\})(\}(?!\}))?'
@@ -1652,7 +1650,7 @@ contexts:
     - match: '\s*(?:(,)\s*(-?\d+)\s*)?'
       captures:
         1: punctuation.separator.arguments.cs
-        2: constant.numeric.formatting.cs
+        2: constant.numeric.integer.decimal.formatting.cs
     - match: ':(?=")'
       scope: invalid.illegal.unclosed-string-placeholder.cs
       pop: true
@@ -1674,7 +1672,7 @@ contexts:
     - match: '\s*(?:(,)\s*(-?\d+)\s*)?'
       captures:
         1: punctuation.separator.arguments.cs
-        2: constant.numeric.formatting.cs
+        2: constant.numeric.integer.decimal.formatting.cs
     - match: ':(?="(?!"))'
       scope: invalid.illegal.unclosed-string-placeholder.cs
       pop: true
@@ -1708,7 +1706,7 @@ contexts:
     - match: '(\{)(\d+)'
       captures:
         1: punctuation.definition.placeholder.begin.cs
-        2: constant.numeric.cs
+        2: constant.numeric.integer.decimal.cs
       push: long_string_placeholder
     - match: '"'
       scope: punctuation.definition.string.end.cs
@@ -1954,7 +1952,7 @@ contexts:
       pop: true
 
   var_declaration:
-    - match: (var)\s+(\()
+    - match: (var)\s*(\()
       captures:
         1: storage.type.variable.cs
         2: meta.group.tuple.cs punctuation.definition.group.begin.cs

@@ -109,9 +109,9 @@ identifier
 #^^^^^^^^^ meta.qualified-name meta.generic-name
 
 class
-#^^^^ storage.type.class
+#^^^^ storage.type.class keyword.declaration.class.python
 def
-#^^ storage.type.function
+#^^ storage.type.function keyword.declaration.function.python
 
 # async and await are still recognized as valid identifiers unless in an "async" block
 async
@@ -232,18 +232,18 @@ def _():
 #         ^^^^ - keyword
 
     a if b else c
-#     ^^ keyword.control.flow
-#          ^^^^ keyword.control.flow
+#     ^^ keyword.control.conditional.if
+#          ^^^^ keyword.control.conditional.else
 
     c = lambda: pass
-#       ^^^^^^^ meta.function.inline
-#       ^^^^^^ storage.type.function.inline
+#       ^^^^^^^^^^^^ meta.function.inline
+#       ^^^^^^ storage.type.function.inline keyword.declaration.function.inline.python
 #             ^ punctuation.section.function.begin
-#               ^^^^ keyword
+#               ^^^^ invalid.illegal.name.python
 
     _(lambda x, y: 10)
-#     ^^^^^^^^^^^^ meta.function.inline
-#     ^^^^^^ storage.type.function.inline
+#     ^^^^^^^^^^^^^^^ meta.function.inline
+#     ^^^^^^ keyword.declaration.function.inline.python
 #           ^^^^^ meta.function.inline.parameters
 #            ^ variable.parameter
 #             ^ punctuation.separator.parameters
@@ -252,13 +252,14 @@ def _():
 
     lambda \
         a, \
-        b=2: pass
-#       ^^^^ meta.function.inline
+        b=2: True
+#       ^^^^^^^^^ meta.function.inline
 #        ^ keyword.operator.assignment
 #          ^ punctuation.section.function.begin
-#            ^^^^ keyword
+#           ^^^^^ meta.function.inline.body
+#            ^^^^ constant.language.python
 
-    lambda as, in=2: pass
+    lambda as, in=2: 0
 #          ^^ invalid.illegal.name
 #              ^^ invalid.illegal.name
 
@@ -271,11 +272,12 @@ def _():
 #                            ^ invalid.illegal.expected-parameter.python
 
     lambda x
-#   ^^^^^^ storage.type.function.inline
+#   ^^^^^^ storage.type.function.inline keyword.declaration.function.inline.python
 
-    lambda (x, y): pass
-#   ^^^^^^^^^^^^^^ meta.function.inline.python
-#         ^^^^^^^ meta.function.inline.parameters.python
+    lambda (x, y): 0
+#   ^^^^^^^^^^^^^^^^ meta.function.inline
+#         ^^^^^^^^ meta.function.inline.parameters.python
+#                 ^^ meta.function.inline.body.python
 #          ^^^^^^ meta.group.python
 #          ^ punctuation.section.group.begin.python
 #           ^ variable.parameter.python
@@ -283,7 +285,6 @@ def _():
 #              ^ variable.parameter.python
 #               ^ punctuation.section.group.end.python
 #                ^ punctuation.section.function.begin.python
-#                  ^^^^ keyword.control.flow.pass.python
     lambda (
 #   ^^^^^^^^^ meta.function.inline.python
 #         ^^^ meta.function.inline.parameters.python
@@ -417,23 +418,23 @@ def _():
 ##################
 def _():
     for
-#   ^^^ keyword.control.flow.for
+#   ^^^ keyword.control.loop.for
     b = c in d
-#         ^^ keyword.operator.logical - keyword.control.flow.for.in
+#         ^^ keyword.operator.logical - keyword.control.loop.for.in
 
     for \
         a \
         in \
         b:
-#       ^^ meta.statement.for
-#        ^ punctuation.section.block.for.python
+#       ^^ meta.statement.loop.for
+#        ^ punctuation.section.block.loop.for.python
 
     async for i in myfunc():
-#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.for
+#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.loop.for
 #   ^^^^^ storage.modifier.async
-#         ^^^ keyword.control.flow.for
-#               ^^ keyword.control.flow.for.in
-#                          ^ punctuation.section.block.for
+#         ^^^ keyword.control.loop.for
+#               ^^ keyword.control.loop.for.in
+#                          ^ punctuation.section.block.loop.for
         pass
 
     for i:
@@ -518,36 +519,39 @@ def _():
         await something()
 #       ^^^^^ keyword.other.await
 
+    assert foo == bar
+#   ^^^^^^ keyword.control.flow.assert.python
+
     try:
-#   ^^^^ meta.statement.try.python
-#   ^^^ keyword.control.flow.try.python
-#      ^ punctuation.section.block.try.python
+#   ^^^^ meta.statement.exception.try.python
+#   ^^^ keyword.control.exception.try.python
+#      ^ punctuation.section.block.exception.try.python
         raise
 #       ^^^^^ meta.statement.raise.python keyword.control.flow.raise.python
     except Exception as x:
-#   ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.except.python - meta.statement.except.python meta.statement.except.python
-#   ^^^^^^ keyword.control.flow.except.python
+#   ^^^^^^^^^^^^^^^^^^^^^^ meta.statement.exception.catch.python - meta.statement.exception.catch.python meta.statement.exception.catch.python
+#   ^^^^^^ keyword.control.exception.catch.python
 #          ^^^^^^^^^ support.type.exception.python
-#                    ^^ keyword.control.flow.as.python
+#                    ^^ keyword.control.exception.catch.as.python
 #                       ^ meta.generic-name.python
-#                        ^ punctuation.section.block.except.python
+#                        ^ punctuation.section.block.exception.catch.python
         pass
     finally :
-#   ^^^^^^^^^ meta.statement.finally.python
-#   ^^^^^^^ keyword.control.flow.finally.python
-#           ^ punctuation.section.block.finally.python
+#   ^^^^^^^^^ meta.statement.exception.finally.python
+#   ^^^^^^^ keyword.control.exception.finally.python
+#           ^ punctuation.section.block.exception.finally.python
     try_except_raise:
 #   ^^^ - keyword
 
     while (
-#   ^^^^^^^^ meta.statement.while.python
-#   ^^^^^ keyword.control.flow.while.python
-#         ^ meta.statement.while.python meta.group.python punctuation.section.group.begin.python
+#   ^^^^^^^^ meta.statement.loop.while.python
+#   ^^^^^ keyword.control.loop.while.python
+#         ^ meta.statement.loop.while.python meta.group.python punctuation.section.group.begin.python
         a is b
-#       ^^^^^^ meta.statement.while.python
+#       ^^^^^^ meta.statement.loop.while.python
 #         ^^ keyword.operator.logical.python
     ):
-#    ^ meta.statement.while.python punctuation.section.block.while.python
+#    ^ meta.statement.loop.while.python punctuation.section.block.loop.while.python
         sleep()
         if a:
             break
@@ -557,46 +561,46 @@ def _():
 #           ^^^^^^^^ keyword.control.flow.continue.python
 
     if 213 is 231:
-#   ^^^^^^^^^^^^^^ meta.statement.if.python
-#   ^^ keyword.control.flow.conditional.python
+#   ^^^^^^^^^^^^^^ meta.statement.conditional.if.python
+#   ^^ keyword.control.conditional.if.python
 #      ^^^ constant.numeric.integer.decimal.python
 #          ^^ keyword.operator.logical.python
-#                ^ punctuation.section.block.conditional.python
+#                ^ punctuation.section.block.conditional.if.python
         pass
     elif:
-#   ^^^^^ meta.statement.conditional.python
-#       ^ punctuation.section.block.python
+#   ^^^^^ meta.statement.conditional.elseif.python
+#       ^ punctuation.section.block.conditional.elseif.python
         pass
     elif False :
-#   ^^^^^^^^^^^^ meta.statement.conditional.python
+#   ^^^^^^^^^^^^ meta.statement.conditional.elseif.python
 #        ^^^^^ constant.language
-#              ^ punctuation.section.block.python
+#              ^ punctuation.section.block.conditional.elseif.python
         pass
     else  :
-#   ^^^^^^^ meta.statement.conditional.python
-#         ^ punctuation.section.block.python
+#   ^^^^^^^ meta.statement.conditional.else.python
+#         ^ punctuation.section.block.conditional.else.python
         pass
 
     if \
         True:
-#       ^^^^^ meta.statement.if.python
+#       ^^^^^ meta.statement.conditional.if.python
 #       ^^^^ constant.language.python
-#           ^ punctuation.section.block.conditional.python
+#           ^ punctuation.section.block.conditional.if.python
 #
 
     # verify that keywords also work when they are bare (useful when typing)
     for
-#   ^^^ keyword.control.flow.for.python
+#   ^^^ keyword.control.loop.for.python
     with
 #   ^^^^ keyword.control.flow.with.python
     if
-#   ^^ keyword.control.flow.conditional.python
+#   ^^ keyword.control.conditional.if.python
     finally
-#   ^^^^^^^ keyword.control.flow.finally.python
+#   ^^^^^^^ keyword.control.exception.finally.python
     else
-#   ^^^^ keyword.control.flow.conditional.python
+#   ^^^^ keyword.control.conditional.else.python
     while
-#   ^^^^^ keyword.control.flow.while.python
+#   ^^^^^ keyword.control.loop.while.python
     return
 #   ^^^^^^ keyword.control.flow.return.python
     raise
@@ -728,6 +732,15 @@ def foo(arg: int = 0, (x: float, y=20) = (0.0, "default")):
 #                                        ^ punctuation.section.sequence.begin.python
 #                                                       ^ punctuation.section.sequence.end.python
     pass
+
+def name(p1, p2=None, /, p_or_kw=None, *, kw): pass
+#                     ^ storage.modifier.positional-args-only.python
+#                      ^ punctuation.separator.parameters.python
+#                                      ^ keyword.operator.unpacking.sequence.python
+def name(p1, p2, /): pass
+#                ^ storage.modifier.positional-args-only.python
+#                 ^ punctuation.section.parameters.end.python
+
 
 ##################
 # Class definitions
@@ -864,7 +877,7 @@ class Class():
     @deco \
 
     def f(): pass
-#   ^^^ storage.type.function - meta.decorator
+#   ^^^ storage.type.function keyword.declaration.function.python - meta.decorator
 
 
 class AClass:
@@ -981,21 +994,33 @@ complex_mapping = {(): "value"}
 #                 ^^^ meta.mapping-or-set.python
 #                    ^^^^^^^^^^ meta.mapping - meta.mapping-or-set
 
+more_complex_mapping = {**{1: 1}, 2: 2}
+#                      ^ meta.mapping.python
+#                               ^ meta.mapping.python punctuation.separator.mapping.python
+#                                  ^ meta.mapping.python punctuation.separator.mapping.key-value.python
+
+more_complex_set = {
+#                  ^ meta.mapping-or-set.python
+    *{1}, 2: 2}
+#   ^ meta.set.python
+#       ^ meta.set.python punctuation.separator.set.python
+#          ^ meta.set.python invalid.illegal.colon-inside-set.python
+
 generator = (i for i in range(100))
 #           ^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 #              ^^^^^^^^ meta.expression.generator
-#              ^^^ keyword.control.flow.for.generator
-#                    ^^ keyword.control.flow.for.in
+#              ^^^ keyword.control.loop.for.generator
+#                    ^^ keyword.control.loop.for.in
 list_ = [i for i in range(100)]
 #       ^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence
 #          ^^^^^^^^ meta.expression.generator
-#          ^^^ keyword.control.flow.for.generator
-#                ^^ keyword.control.flow.for.in
+#          ^^^ keyword.control.loop.for.generator
+#                ^^ keyword.control.loop.for.in
 set_ = {i for i in range(100)}
 #      ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping-or-set
 #         ^^^^^^^^ meta.expression.generator
-#         ^^^ keyword.control.flow.for.generator
-#               ^^ keyword.control.flow.for.in
+#         ^^^ keyword.control.loop.for.generator
+#               ^^ keyword.control.loop.for.in
 dict_ = {i: i for i in range(100)}
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping - meta.mapping meta.mapping
 #        ^ meta.mapping.key.python
@@ -1003,17 +1028,17 @@ dict_ = {i: i for i in range(100)}
 #           ^ meta.mapping.value.python
 #            ^^^^^^^^^^^^^^^^^^^^^ - meta.mapping.value
 #             ^^^^^^^^ meta.expression.generator
-#             ^^^ keyword.control.flow.for.generator
-#                   ^^ keyword.control.flow.for.in
+#             ^^^ keyword.control.loop.for.generator
+#                   ^^ keyword.control.loop.for.in
 list_ = [i for i in range(100) if i > 0 else -1]
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence
 #          ^^^^^^^^ meta.expression.generator
-#                              ^^ keyword.control.flow.if.inline
-#                                       ^^^^ keyword.control.flow.else.inline
+#                              ^^ keyword.control.conditional.if
+#                                       ^^^^ keyword.control.conditional.else
 
 list2_ = [i in range(10) for i in range(100) if i in range(5, 15)]
 #           ^^ keyword.operator.logical
-#                              ^^ keyword.control.flow.for.in
+#                              ^^ keyword.control.loop.for.in
 #                                                 ^^ keyword.operator.logical
 
 generator = ((k1, k2, v) for ((k1, k2), v) in xs)
@@ -1059,11 +1084,11 @@ list((i for i in generator), 123)
 
 _ = [m
      for cls in self.__class__.mro()
-#    ^^^ keyword.control.flow.for.generator
-#            ^^ keyword.control.flow.for.in
+#    ^^^ keyword.control.loop.for.generator
+#            ^^ keyword.control.loop.for.in
      for m in cls.__dict__]
-#    ^^^ keyword.control.flow.for.generator
-#          ^^ keyword.control.flow.for.in
+#    ^^^ keyword.control.loop.for.generator
+#          ^^ keyword.control.loop.for.in
 
 result = [i async for i in aiter() if i % 2]
 #           ^^^^^ storage.modifier.async
@@ -1111,10 +1136,10 @@ s = {*d, *set()}
 generator = (
     i
     for
-#   ^^^ keyword.control.flow.for.generator
+#   ^^^ keyword.control.loop.for.generator
     i
     in
-#   ^^ keyword.control.flow.for.in
+#   ^^ keyword.control.loop.for.in
     range(100)
 )
 
@@ -1124,30 +1149,30 @@ generator = (
 ##################
 
 except Exception:
-#^^^^^^^^^^^^^^^^ meta.statement.except
-#^^^^^ keyword.control.flow.except
+#^^^^^^^^^^^^^^^^ meta.statement.exception.catch
+#^^^^^ keyword.control.exception.catch
 #      ^^^^^^^^^ support.type.exception
 #               ^ punctuation.section.block
 except (KeyError, NameError) as e:
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.except
-#^^^^^ keyword.control.flow.except
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.exception.catch
+#^^^^^ keyword.control.exception.catch
 #       ^^^^^^^^ support.type.exception
 #               ^ punctuation.separator.target-list
 #                 ^^^^^^^^^ support.type.exception
-#                            ^^ keyword.control.flow.as
+#                            ^^ keyword.control.exception.catch.as
 #                                ^ punctuation.section.block
 except \
     StopIteration \
     as \
     err:
-#   ^^^^ meta.statement.except
+#   ^^^^ meta.statement.exception.catch
 
 except StopIteration
     as
-#   ^^ invalid.illegal.name - meta.statement.except
+#   ^^ invalid.illegal.name - meta.statement.exception.catch
 
 except
-#^^^^^ keyword.control.flow.except
+#^^^^^ keyword.control.exception.catch
 
 raise
 #^^^^ meta.statement.raise keyword.control.flow.raise
@@ -1182,60 +1207,60 @@ raise KeyError() from z
 
 decimal = 1234567890 + 9876543210L + -1 + -42L * 0000
 #         ^^^^^^^^^^ constant.numeric.integer.decimal.python
-#                      ^^^^^^^^^^^ constant.numeric.integer.long.decimal.python
-#                                ^ storage.type.numeric.long.python
+#                      ^^^^^^^^^^^ constant.numeric.integer.decimal.python
+#                                ^ storage.type.numeric.python
 #                                    ^ keyword.operator.arithmetic.python - constant.numeric
 #                                         ^ keyword.operator.arithmetic.python - constant.numeric
-#                                            ^ storage.type.numeric.long.python
+#                                            ^ storage.type.numeric.python
 #                                                ^^^^ constant.numeric.integer
 
 floating = 0.1 - .1 * 10e-20 - 0.0e2 % 2.
-#          ^^^ constant.numeric.float.python
+#          ^^^ constant.numeric.float.decimal.python
 #                ^ punctuation.separator.decimal.python
-#                ^^ constant.numeric.float.python
-#                     ^^^^^^ constant.numeric.float.python
+#                ^^ constant.numeric.float.decimal.python
+#                     ^^^^^^ constant.numeric.float.decimal.python
 #                               ^ punctuation.separator.decimal.python
-#                              ^^^^^ constant.numeric.float.python
-#                                      ^^ constant.numeric.float.python
+#                              ^^^^^ constant.numeric.float.decimal.python
+#                                      ^^ constant.numeric.float.decimal.python
 #                                       ^ punctuation.separator.decimal.python
 
 binary = 0b1010011 | 0b0110110L
 #        ^^^^^^^^^ constant.numeric.integer.binary.python
-#        ^^ punctuation.definition.numeric.binary.python
-#                    ^^^^^^^^^^ constant.numeric.integer.long.binary.python
-#                    ^^ punctuation.definition.numeric.binary.python
-#                             ^ storage.type.numeric.long.python
+#        ^^ punctuation.definition.numeric.base.python
+#                    ^^^^^^^^^^ constant.numeric.integer.binary.python
+#                    ^^ punctuation.definition.numeric.base.python
+#                             ^ storage.type.numeric.python
 
 octal = 0o755 ^ 0o644L
 #       ^^^^^ constant.numeric.integer.octal.python
-#       ^^ punctuation.definition.numeric.octal.python
-#                    ^ storage.type.numeric.long.python
-#               ^^^^^^ constant.numeric.integer.long.octal.python
-#               ^^ punctuation.definition.integer.octal.python
+#       ^^ punctuation.definition.numeric.base.python
+#                    ^ storage.type.numeric.python
+#               ^^^^^^ constant.numeric.integer.octal.python
+#               ^^ punctuation.definition.numeric.base.python
 
 old_style_octal = 010 + 007 - 012345670L
 #                 ^^^ constant.numeric.integer.octal.python
-#                 ^ punctuation.definition.numeric.octal.python
+#                 ^ punctuation.definition.numeric.base.python
 #                       ^^^ constant.numeric.integer.octal.python
-#                       ^ punctuation.definition.numeric.octal.python
-#                             ^^^^^^^^^^ constant.numeric.integer.long.octal.python
-#                             ^ punctuation.definition.integer.octal.python
-#                                      ^ storage.type.numeric.long.python
+#                       ^ punctuation.definition.numeric.base.python
+#                             ^^^^^^^^^^ constant.numeric.integer.octal.python
+#                             ^ punctuation.definition.numeric.base.python
+#                                      ^ storage.type.numeric.python
 
 hexadecimal = 0x100af - 0XDEADF00L
 #             ^^^^^^^ constant.numeric.integer.hexadecimal.python
-#             ^^ punctuation.definition.numeric.hexadecimal.python
-#                       ^^^^^^^^^^ constant.numeric.integer.long.hexadecimal.python
-#                       ^^ punctuation.definition.numeric.hexadecimal.python
-#                                ^ storage.type.numeric.long.python
+#             ^^ punctuation.definition.numeric.base.python
+#                       ^^^^^^^^^^ constant.numeric.integer.hexadecimal.python
+#                       ^^ punctuation.definition.numeric.base.python
+#                                ^ storage.type.numeric.python
 
 unintuitive = 0B101 + 0O101 + 10l
 #             ^^^^^ constant.numeric.integer.binary.python
-#             ^^ punctuation.definition.numeric.binary.python
+#             ^^ punctuation.definition.numeric.base.python
 #                     ^^^^^ constant.numeric.integer.octal.python
-#                     ^^ punctuation.definition.numeric.octal.python
-#                             ^^^ constant.numeric.integer.long.decimal.python
-#                               ^ storage.type.numeric.long.python
+#                     ^^ punctuation.definition.numeric.base.python
+#                             ^^^ constant.numeric.integer.decimal.python
+#                               ^ storage.type.numeric.python
 
 illegal = 1LL << 08 | 0b010203 | 0xAbraCadabra
 #           ^ - constant.numeric
@@ -1244,25 +1269,25 @@ illegal = 1LL << 08 | 0b010203 | 0xAbraCadabra
 #                                    ^^^^^^^^^ - constant.numeric
 
 amount = 10_000_000.0_2e2_0 + .e2 + 2_2._2
-#        ^^^^^^^^^^^^^^^^^^ constant.numeric.float
+#        ^^^^^^^^^^^^^^^^^^ constant.numeric.float.decimal.python
 #                  ^ punctuation.separator.decimal.python
 #                             ^^^ - constant
 #                                       ^^ - constant
 
 very_complex = 23_2.2e2_0J + 2_1j
-#              ^^^^^^^^^^^ constant.numeric.complex.python
+#              ^^^^^^^^^^^ constant.numeric.imaginary.decimal.python
 #                  ^ punctuation.separator.decimal.python
-#                            ^^^^ constant.numeric.complex.python
-#                        ^ storage.type.numeric.complex.python
-#                               ^ storage.type.numeric.complex.python
+#                            ^^^^ constant.numeric.imaginary.decimal.python
+#                        ^ storage.type.numeric.python
+#                               ^ storage.type.numeric.python
 
 addr = 0xCAFE_F00D
 #      ^^^^^^^^^^^ constant.numeric
-#      ^^ punctuation.definition.numeric.hexadecimal.python
+#      ^^ punctuation.definition.numeric.base.python
 
 flags = 0b_0011_1111_0100_1110 | 0b_1 & 0b_0_
 #       ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric
-#       ^^ punctuation.definition.numeric.binary.python
+#       ^^ punctuation.definition.numeric.base.python
 #                                ^^^^ constant.numeric.integer.binary.python
 #                                           ^ - constant
 
@@ -1349,6 +1374,85 @@ class Starship:
     stats: ClassVar[Dict[str, int]] = {}
 #        ^ punctuation.separator.annotation.variable.python
 #                                   ^ keyword.operator.assignment
+
+
+##################
+# Assignment Expressions
+##################
+
+# Examples from https://www.python.org/dev/peps/pep-0572/
+
+y := f(x)
+# ^^ invalid.illegal.not-allowed-here.python
+
+(y := f(x))
+#  ^^ keyword.operator.assignment.inline.python
+
+y0 = y1 := f(x)
+#       ^^ invalid.illegal.not-allowed-here.python
+
+y0 = (y1 := f(x))
+#        ^^ keyword.operator.assignment.inline.python
+
+foo(x=(y := f(x)))
+#        ^^ keyword.operator.assignment.inline.python
+
+if (match := pattern.search(data)) is not None:
+#         ^^ keyword.operator.assignment.inline.python
+    pass
+
+if tz := self._tzstr():
+#     ^^ keyword.operator.assignment.inline.python
+    s += tz
+
+while chunk := file.read(8192):
+#           ^^ keyword.operator.assignment.inline.python
+    process(chunk)
+
+[y := f(x), y**2, y**3]
+#  ^^ keyword.operator.assignment.inline.python
+
+filtered_data = [y for x in data if (y := f(x)) is not None]
+#                                      ^^ keyword.operator.assignment.inline.python
+
+def foo(answer=(p := 42)):
+#                 ^^ keyword.operator.assignment.inline.python
+
+lambda: (x := 1)
+#          ^^ keyword.operator.assignment.inline.python
+
+lambda line: (m := re.match(pattern, line)) and m.group(1) # Valid
+#               ^^ keyword.operator.assignment.inline.python
+
+f'{(x:=10)}'
+#    ^^ keyword.operator.assignment.inline.python
+
+f'{x:=10}'
+#   ^^ - keyword.operator.assignment.inline.python
+
+
+if any(len(longline := line) >= 100 for line in lines):
+#                   ^^ keyword.operator.assignment.inline.python
+    print("Extremely long line:", longline)
+
+# These are all invalid. We could let linters handle them,
+# but these weren't hard to implement.
+def foo(x: y:=f(x)) -> a:=None: pass
+#           ^^ invalid.illegal.not-allowed-here.python
+#                       ^^ invalid.illegal.not-allowed-here.python
+foo(x = y := f(x), y=x:=2)
+#         ^^ invalid.illegal.not-allowed-here.python
+#                     ^^ invalid.illegal.not-allowed-here.python
+{a := 1: 2}
+#  ^^ invalid.illegal.not-allowed-here.python
+{1, b := 2}
+#     ^^ invalid.illegal.not-allowed-here.python
+[1][x:=0]
+#    ^^ invalid.illegal.not-allowed-here.python
+def foo(answer = p := 42):  pass
+#                  ^^ invalid.illegal.not-allowed-here.python
+(lambda: x := 1)
+#          ^^ invalid.illegal.not-allowed-here.python
 
 
 # <- - meta

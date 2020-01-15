@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[class ${1:Model}Controller < ApplicationController
-	before_filter :find_${2:model}
+	before_action :find_${2:model}
 
 	$0
 

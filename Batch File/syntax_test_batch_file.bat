@@ -67,6 +67,18 @@ ECHO "
 
    GOTO:EOF
 :: ^^^^ keyword.control.statement.dosbatch
+::     ^ punctuation.separator.dosbatch
+::      ^^^ keyword.control.flow.return.dosbatch
+
+   GOTO :End
+:: ^^^^ keyword.control.statement.dosbatch
+::      ^ punctuation.separator.dosbatch
+::       ^^^ meta.function-call.dosbatch variable.function.dosbatch
+
+   GOTO:End
+:: ^^^^ keyword.control.statement.dosbatch
+::     ^ punctuation.separator.dosbatch
+::      ^^^ meta.function-call.dosbatch variable.function.dosbatch
 
 :: Redirection
    ECHO Hello World! > hello.txt
@@ -95,6 +107,13 @@ ECHO "
 :: ^^             keyword.control.conditional.dosbatch
 ::    ^^^         keyword.operator.logical.dosbatch
 ::            ^^^ keyword.operator.comparison.dosbatch
+
+
+   IF %ERRORLEVEL% NEQ 0 EXIT /B 1
+:: ^^              keyword.control.conditional.dosbatch
+::    ^^^^^^^^^^^^ variable.language.dosbatch
+::    ^ punctuation.definition.variable.begin.dosbatch
+::               ^ variable.language.dosbatch punctuation.definition.variable.end.dosbatch
 
    IF foo == bar
 :: ^^         keyword.control.conditional.dosbatch

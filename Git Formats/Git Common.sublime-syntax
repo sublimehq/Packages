@@ -8,10 +8,37 @@ scope: text.git.common
 
 variables:
   comment_char: '[#;]'
+  pretty_formats_builtins: oneline|short|medium|fuller|full|email|raw
+  pretty_formats_empty_value_modifiers: '[-+ ]?'
 
 contexts:
   main:
     - include: references
+
+##[ PROTOTYPES ]#######################################################
+
+  # Trailing slashes can be used to break up long lines. '\' is only legal at
+  # the end of a line, or in an escape such as '\"'. Anywhere else it will cause
+  # a fatal parser error. Comments are not permitted after a trailing slash.
+  line-continuation:
+    - match: (\\)\s*$\n?
+      captures:
+        1: punctuation.separator.continuation.line.git
+    # make sure to resume parsing at next line
+      push:
+        - match: (?=\S|^\s*$)
+          pop: true
+
+  eol-pop:
+    - include: line-continuation
+    - match: $
+      pop: true
+
+  illegal-eol-pop:
+    - include: line-continuation
+    - match: $\n?
+      scope: invalid.illegal.unexpected.eol.git
+      pop: true
 
 ##[ COMMENTS ]#########################################################
 
@@ -64,14 +91,32 @@ contexts:
 
   email:
     # email reference
-    - match: (<)(\S+(\@)\S+?(\.)\S+)(>)
-      scope: meta.reference.email.git
-      captures:
-        1: punctuation.definition.reference.email.begin.git
-        2: entity.name.reference.email.git
-        3: punctuation.separator.email.git
-        4: punctuation.separator.email.git
-        5: punctuation.definition.reference.email.end.git
+    - match: <(?=\S+?@\S+?\.\S+?>)
+      scope: punctuation.definition.reference.email.begin.git
+      push: [email-meta, email-name]
+
+  email-meta:
+    - meta_scope: meta.reference.email.git
+    - match: ''
+      pop: true
+
+  email-name:
+    - meta_content_scope: entity.name.reference.email.git
+    - match: '@'
+      scope: punctuation.separator.email.git
+      set: email-domain
+    - include: email-end
+
+  email-domain:
+    - meta_content_scope: entity.name.reference.email.git
+    - match: \.
+      scope: punctuation.separator.domain.git
+    - include: email-end
+
+  email-end:
+    - match: '>'
+      scope: punctuation.definition.reference.email.end.git
+      pop: true
 
   username:
     # user reference
@@ -159,3 +204,167 @@ contexts:
       scope: invalid.illegal.unexpected.char-class.fnmatch.git
     - match: \S
       scope: constant.character.char-class.fnmatch.git
+
+##[ PRETTY FORMATS ]###################################################
+
+  # https://git-scm.com/docs/pretty-formats
+
+  # Link this from contexts where command line options are highlighted
+  pretty-formats-as-arg:
+    - match: (--)(pretty|format)(=)({{pretty_formats_builtins}})?(?:(t?format)(:))?
+      captures:
+        1: punctuation.definition.parameter.shell
+        2: variable.parameter.option.shell
+        3: keyword.operator.assignment.option.shell
+        4: constant.language.pretty-formats.git
+        5: keyword.declaration.pretty-formats.git
+        6: keyword.operator.assignment.option.pretty-formats.git
+      push: include-pretty-formats
+
+  # Link this from contexts where command line options are not highlighted
+  pretty-formats-as-arg-minimal:
+    - match: (--)(pretty|format)(=)({{pretty_formats_builtins}})?(?:(t?format)(:))?
+      captures:
+        # 1: punctuation.definition.parameter.shell
+        # 2: variable.parameter.option.shell
+        # 3: keyword.operator.assignment.option.shell
+        # 4: constant.language.pretty-formats.git
+        5: keyword.declaration.pretty-formats.git
+        6: keyword.operator.assignment.option.pretty-formats.git
+      push: include-pretty-formats
+
+  include-pretty-formats:
+    - meta_content_scope: meta.pretty-formats.git
+    - match: (?!\S)
+      pop: true
+    - match: (\')(?:(t?format)(:))?
+      captures:
+        1: punctuation.definition.string.begin.shell
+        2: keyword.declaration.pretty-formats.git
+        3: keyword.operator.assignment.option.pretty-formats.git
+      push:
+        - meta_scope: string.quoted.single.shell
+        - match: \'
+          scope: punctuation.definition.string.end.shell
+          pop: true
+        - include: illegal-eol-pop
+        - include: pretty-formats
+    - match: \"(?:(t?format)(:))?
+      captures:
+        1: punctuation.definition.string.begin.shell
+        2: keyword.declaration.pretty-formats.git
+        3: keyword.operator.assignment.option.pretty-formats.git
+      push:
+        - meta_scope: string.quoted.double.shell
+        - match: \"
+          scope: punctuation.definition.string.end.shell
+          pop: true
+        - include: illegal-eol-pop
+        - include: pretty-formats
+    - include: pretty-formats
+
+  pretty-formats:
+    - match: '%%'
+      scope: constant.character.escape.pretty-formats.git
+    - match: '%x\d\d'
+      scope: constant.character.byte.pretty-formats.git
+    - match: |
+        (?x)
+          %{{pretty_formats_empty_value_modifiers}}
+          (?:
+            [HhTtPpdDesSfbBNmn]| # single-char
+            [ac][nNeEdDrtiI]|    # author and committer
+            G[G?DKFP]|           # GPG
+            g[dnNeEs]            # reflog
+          )
+
+      scope: constant.other.placeholder.pretty-formats.git
+    - include: pretty-formats-colors
+    - include: pretty-formats-wrap-formatting
+    - include: pretty-formats-string-formatting
+    - include: pretty-formats-trailers
+
+  pretty-formats-wrap-formatting:
+    - match: '(%{{pretty_formats_empty_value_modifiers}}w)(\()'
+      captures:
+        1: meta.function-call.pretty-formats.git variable.function.pretty-formats.git
+        2: meta.function-call.arguments.pretty-formats.git punctuation.section.parens.begin.pretty-formats.git
+      push:
+        - meta_content_scope: meta.function-call.arguments.pretty-formats.git
+        - match: '\)'
+          scope: meta.function-call.arguments.pretty-formats.git punctuation.section.parens.end.pretty-formats.git
+          pop: true
+        - match: \d+
+          scope: constant.numeric.integer.pretty-formats.git
+        - match: ',,'
+          scope: invalid.illegal.pretty-formats.git
+        - match: ','
+          scope: punctuation.separator.parameters.pretty-formats.git
+        - match: \S
+          scope: invalid.illegal.pretty-formats.git
+
+  pretty-formats-string-formatting:
+    - match: |
+        (?x)
+          (%{{pretty_formats_empty_value_modifiers}}
+            (?:<\|?|>>?\|?|><\|?)  # alignment directions
+          )
+          ((\()
+            (\d+)                  # space reserved
+            (?:(,)([lm]?trunc))?   # truncation directions
+          (\)))
+      captures:
+        1: meta.function-call.pretty-formats.git variable.function.pretty-formats.git
+        2: meta.function-call.arguments.pretty-formats.git
+        3: punctuation.section.parens.begin.pretty-formats.git
+        4: constant.numeric.integer.pretty-formats.git
+        5: punctuation.separator.parameters.pretty-formats.git
+        6: support.constant.truncation.pretty-formats.git
+        7: punctuation.section.parens.end.pretty-formats.git
+
+  pretty-formats-colors:
+    - match: '(%{{pretty_formats_empty_value_modifiers}}C)((red|green|blue)|(reset))'
+      captures:
+        1: meta.function-call.pretty-formats.git variable.function.pretty-formats.git
+        2: meta.function-call.arguments.pretty-formats.git
+        3: support.constant.color.git.config
+        4: support.constant.color-reset.git.config
+    - match: '(%{{pretty_formats_empty_value_modifiers}}C)(\()'
+      captures:
+        1: meta.function-call.pretty-formats.git variable.function.pretty-formats.git
+        2: meta.function-call.arguments.pretty-formats.git punctuation.section.parens.begin.pretty-formats.git
+      push:
+        - meta_content_scope: meta.function-call.arguments.pretty-formats.git
+        - match: \)
+          scope: meta.function-call.arguments.pretty-formats.git punctuation.section.parens.end.pretty-formats.git
+          pop: true
+        - include: Git Config.sublime-syntax#color-value
+        - match: reset
+          scope: support.constant.color-reset.git.config
+
+  pretty-formats-trailers:
+    - match: '(%\()(trailers)'
+      captures:
+        1: punctuation.section.parens.begin.pretty-formats.git
+        2: keyword.other.trailers.pretty-formats.git
+      push:
+        - meta_scope: meta.trailers.pretty-formats.git
+        - include: illegal-eol-pop
+        - match: \)
+          scope: punctuation.section.parens.end.pretty-formats.git
+          pop: true
+        - match: ':'
+          scope: keyword.operator.assignment.option.pretty-formats.git
+          push:
+            - include: eol-pop
+            - match: (?=\))
+              pop: true
+            - match: ',,|:'
+              scope: invalid.illegal.pretty-formats.git
+            - match: ','
+              scope: punctuation.separator.parameters.pretty-formats.git
+            # Unclear from https://git-scm.com/docs/git-interpret-trailers what other values are valid here
+            - match: \b(only|unfold)\b
+              scope: support.constant.trailer.git.config
+            - match: \b\w+\b
+              scope: constant.other.trailer.pretty-formats.git

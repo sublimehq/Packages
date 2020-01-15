@@ -18,7 +18,7 @@
 			    \s* [}\])]                                                                    # optionally followed by whitespace, followed by a closing: curly brace, square bracket or paren
 			|                                                                                 # OR
 			    \s* (<\?(php)?\s+)?                                                           # an optional PHP open tag
-			    (else(if)?\b.*:\s*($|//|/\*)|(end(if|for(each)?|switch|while))\b)             # followed by an keyword that ends a control flow block
+			    (else(\s*if)?\b.*:\s*($|//|/\*|\?>)|(end(if|for(each)?|switch|while))\b)             # followed by an keyword that ends a control flow block
 			)
 		]]></string>
 

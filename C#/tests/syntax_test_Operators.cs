@@ -57,10 +57,10 @@ A?.B?.C?[0] == E;
 ///       ^ punctuation.terminator
 
     var c = 5 * 4;
-///         ^ constant.numeric
+///         ^ constant.numeric.integer.decimal
 ///           ^ keyword.operator
 ///           ^ - keyword.operator.pointer
-///             ^ constant.numeric
+///             ^ constant.numeric.integer.decimal
 
     x >>= y
 ///   ^^^ keyword.operator

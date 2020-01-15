@@ -4,7 +4,7 @@
 	<key>name</key>
 	<string>Comments</string>
 	<key>scope</key>
-	<string>source.js, source.json</string>
+	<string>source.js</string>
 	<key>settings</key>
 	<dict>
 		<key>shellVariables</key>

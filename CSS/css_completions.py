@@ -280,7 +280,7 @@ PROPERTY_DICT = {
     'grid-row': ['<number>'],
     'grid-row-end': ['<number>'],
     'grid-row-start': ['<number>'],
-    'height': ['<length>', '<percentage>', 'auto'],
+    'height': ['<length>', '<percentage>', 'auto', 'fit-content'],
     'hyphens': ['none', 'manual', 'auto'],
     'image-rendering': [
         'auto', 'optimizeSpeed', 'optimizeQuality', 'pixelated'
@@ -288,7 +288,11 @@ PROPERTY_DICT = {
     'ime-mode': ['auto', 'normal', 'active', 'inactive', 'disabled'],
     'isolation': ['auto', 'isolation'],
     'justify-content': [
-        'flex-start', 'flex-end', 'center', 'space-between', 'space-around'
+        'start', 'end', 'flex-start', 'flex-end', 'center', 'left', 'right',
+        'safe start', 'safe end', 'safe flex-start', 'safe flex-end', 'safe center', 'safe left', 'safe right',
+        'unsafe start', 'unsafe end', 'unsafe flex-start', 'unsafe flex-end', 'unsafe center', 'unsafe left', 'unsafe right',
+        'normal', 'baseline', 'first baseline', 'last baseline',
+        'space-between', 'space-around', 'space-evenly', 'stretch'
     ],
     'kerning': ['auto'],
     'left': ['<length>', '<percentage>', 'auto'],
@@ -307,10 +311,10 @@ PROPERTY_DICT = {
     'marks': ['crop', 'cross', 'none'],
     'mask': ['<uri>', 'none'],
     'mask-type': ['luminance', 'alpha'],
-    'max-height': ['<length>', '<percentage>', 'none'],
-    'max-width': ['<length>', '<percentage>', 'none'],
-    'min-height': ['<length>', '<percentage>'],
-    'min-width': ['<length>', '<percentage>'],
+    'max-height': ['<length>', '<percentage>', 'fit-content', 'none'],
+    'max-width': ['<length>', '<percentage>', 'fit-content', 'none'],
+    'min-height': ['<length>', '<percentage>', 'fit-content'],
+    'min-width': ['<length>', '<percentage>', 'fit-content'],
     'mix-blend-mode': ['<blend_mode>'],
     'object-fit': ['fill', 'contain', 'cover', 'none', 'scale-down'],
     'object-position': ['<position>'],
@@ -406,7 +410,7 @@ PROPERTY_DICT = {
     'visibility': ['visible', 'hidden', 'collapse'],
     'white-space': ['normal', 'pre', 'nowrap', 'pre-wrap', 'pre-line'],
     'widows': ['<integer>'],
-    'width': ['<length>', '<percentage>', 'auto'],
+    'width': ['<length>', '<percentage>', 'auto', 'fit-content'],
     'will-change': ['auto', 'contents', 'scroll-position', '<custom-ident>'],
     'word-break': ['normal', 'break-all', 'keep-all'],
     'word-spacing': ['normal', '<length>'],

@@ -1,707 +1,2091 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
+# http://erlang.org/doc/reference_manual
+# https://www.sublimetext.com/docs/3/syntax.html
 name: Erlang
-# The recognition of function definitions and compiler directives (such as
-# module, record and macro definitions) requires that each of the aforementioned
-# constructs must be the first string inside a line (except for whitespace).
-# Also, the function/module/record/macro names must be given unquoted.  -- desp
 file_extensions:
   - erl
   - hrl
   - Emakefile
   - emakefile
+  - escript
+first_line_match: |-
+  (?x:
+    ^ \#! .* \b(erlang|escript)\b |                # shebang
+    ^ \s* \%+ \s* -\*- .*? \b[Ee]rlang\b .*? -\*-  # editorconfig
+  )
 scope: source.erlang
+
+variables:
+  # http://erlang.org/doc/reference_manual/data_types.html#atom
+  # an atom starts with lowercase alphanumeric
+  atom_unquoted: '[a-z]{{ident_char}}*'
+
+  # http://erlang.org/doc/reference_manual/expressions.html#variables
+  # a variable starts with uppercase alphanumeric or underscore
+  variable: '[_A-Z]{{ident_char}}*'
+
+  # an identifier can contain lowercase, uppercase, digits, underscore and @
+  ident_char: '[_A-Za-z\d@]'
+  # the character which identifies the end of an identifier
+  # Note: need the character as embedded positvie lookaheads don't work
+  ident_break_char: '[^{{ident_char}}]'
+  # end of identifier lookahead
+  # Note: avoid negative lookahead as it is 6-8% slower
+  ident_break: (?={{ident_break_char}})
+  # a quoted identifier with possibly escaped single quote
+  # preceeded by an arbitary number of excaped backslashes
+  ident_quoted: \'((?:\\\\)*\\\'|[^''])*\'
+  # an identifier can be an atom or a variable
+  ident_unquoted: '[_A-Za-z]{{ident_char}}*'
+  # all characters not being used to indicate a context change
+  illegal_ident: '[^\s,:.;''(){}\[\]%=|/]+'
+  # quoted/unquoted/macro identifier
+  ident: \?{,2}(?:{{ident_unquoted}}|{{ident_quoted}})
+
+  # http://erlang.org/doc/reference_manual/macros.html#predefined-macros
+  erlang_macros: |-
+    (?x:
+      MODULE|FUNCTION_NAME|FUNCTION_ARITY|MODULE_STRING|
+      FILE|LINE|MACHINE|OTP_RELEASE
+    ){{ident_break}}
+
+  # http://erlang.org/doc/man/erlang.html#exports
+  erlang_functions: |-
+    (?x:
+      abs|adler32|adler32_combine|append_element|apply|atom_to_binary|atom_to_list|
+      binary_part|binary_to_atom|binary_to_existing_atom|binary_to_float|
+      binary_to_integer|binary_to_list|binary_to_term|bit_size|bitstring_to_list|
+      bump_reductions|byte_size|cancel_timer|ceil|check_old_code|check_process_code|
+      convert_time_unit|crc32|crc32_combine|date|decode_packet|delete_element|
+      delete_module|demonitor|disconnect_node|display|dist_ctrl_get_data|
+      dist_ctrl_get_data_notification|dist_ctrl_input_handler|dist_ctrl_put_data|
+      element|erase|error|exit|external_size|float|float_to_binary|float_to_list|
+      floor|fun_info|fun_to_list|function_exported|garbage_collect|get|get_cookie|
+      get_keys|get_stacktrace|group_leader|halt|hd|hibernate|insert_element|
+      integer_to_binary|integer_to_list|iolist_size|iolist_to_binary|
+      iolist_to_iovec|is_alive|is_atom|is_binary|is_bitstring|is_boolean|is_builtin|
+      is_float|is_function|is_integer|is_list|is_map|is_map_key|is_number|is_pid|
+      is_port|is_process_alive|is_record|is_reference|is_tuple|length|link|
+      list_to_atom|list_to_binary|list_to_bitstring|list_to_existing_atom|
+      list_to_float|list_to_integer|list_to_pid|list_to_port|list_to_ref|
+      list_to_tuple|load_module|load_nif|loaded|localtime|
+      localtime_to_universaltime|make_ref|make_tuple|map_get|map_size|
+      match_spec_test|max|md5|md5_final|md5_init|md5_update|memory|min|
+      module_loaded|monitor|monitor_node|monotonic_time|nif_error|node|nodes|now|
+      open_port|phash|phash2|pid_to_list|port_call|port_close|port_command|
+      port_connect|port_control|port_info|port_to_list|ports|pre_loaded|
+      process_display|process_flag|process_info|processes|purge_module|put|raise|
+      read_timer|ref_to_list|register|registered|resume_process|round|self|send|
+      send_after|send_nosuspend|set_cookie|setelement|size|spawn|spawn_link|
+      spawn_monitor|spawn_opt|split_binary|start_timer|statistics|suspend_process|
+      system_flag|system_info|system_monitor|system_profile|system_time|
+      term_to_binary|throw|time|time_offset|timestamp|tl|trace|trace_delivered|
+      trace_info|trace_pattern|trunc|tuple_size|tuple_to_list|unique_integer|
+      universaltime|universaltime_to_localtime|unlink|unregister|whereis|yield
+    ){{ident_break}}
+
+  erlang_types: |-
+    (?x:
+      # builtin data types
+      # http://erlang.org/doc/reference_manual/typespec.html#the-erlang-type-language
+      any|arity|atom|binary|bitstring|boolean|byte|char|float|fun|function|
+      identifier|integer|iodata|iolist|list|map|maybe_improper_list|mfa|module|nil|
+      no_return|node|none|non_neg_integer|neg_integer|pos_integer|nonempty_list|
+      nonempty_maybe_improper_list|nonempty_improper_list|
+      nonempty_maybe_improper_list|nonempty_string|
+      number|pid|port|record|reference|string|term|timeout|tuple|
+
+      # erlang library
+      # http://erlang.org/doc/man/erlang.html#data-types
+      dist_handle|ext_binary|iovec|message_queue_data|nif_resource|
+      deprecated_time_unit|timeout|timestamp|time_unit
+    ){{ident_break}}
+
+  support_namespaces: |-
+    (?x:
+      # builtin namespace
+      erlang|
+
+      # erlang otp libraries
+      # https://github.com/erlang/otp
+      asn1|common_test|compiler|crypto|debugger|dialyzer|diameter|edoc|eldap|
+      erl_(docgen|interface)|et|eunit|ftp|hipe|inets|jinterface|kernel|
+      megaco|mnesia|observer|odbc|os_mon|parsetools|public_key|reltool|
+      runtime_tools|sasl|snmp|ssh|ssl|stdlib|syntax_tools|tftp|tools|wx|xmerl
+    ){{ident_break}}
+
 contexts:
+
   main:
-    - include: module-directive
-    - include: import-export-directive
-    - include: record-directive
-    - include: define-directive
-    - include: macro-directive
-    - include: directive
+    - match: ^\#!
+      scope: punctuation.definition.comment.shell
+      set:
+        - meta_include_prototype: false
+        - meta_scope: comment.line.number-sign.shell
+        - match: \b(erlang|escript)\b
+          scope: constant.language.erlang
+        - match: \n
+          set: statements
+    - match: ''
+      set: statements
+
+  prototype:
+    - include: comment
+
+  statements:
+    - include: preproc-control
+    - include: preproc-undef
+    - include: preproc-define
+    - include: preproc-export
+    - include: preproc-import
+    - include: preproc-include
+    - include: preproc-module
+    - include: preproc-record
+    - include: preproc-spec
+    - include: preproc-type
+    - include: preproc-attribute
     - include: function
-    - include: everything-else
+    - include: illegal-stray
+    # fallback incase preprocessor or function didn't match
+    - match: (?=\S)
+      push:
+        - include: eol-pop
+        - include: terminator-clause
+        - include: separator-clauses
+        - include: separator-expressions
+        - include: expressions
+
+  terms:
+    - include: constant
+    - include: keyword
+    - include: operator
+    - include: character
+    - include: macro
+    - include: number
+    - include: record
+    - include: string
+    - include: operator-unary
+    - include: variable-anonymous
+    - include: atom
+
+  common:
+    - include: map-of-expressions
+    - include: expr-control
+    - include: expr-try
+    - include: expr-fun
+    - include: function-call
+    - include: terms
+
+  expressions-nested:
+    - include: binary
+    - include: group-of-expressions
+    - include: list-of-expressions
+    - include: tuple-of-expressions
+
+  expressions:
+    - include: expressions-nested
+    - include: namespace
+    - include: common
+    - include: variable-other
+
+  function-parameter-nested:
+    - include: binary-function-parameter
+    - include: group-of-function-parameters
+    - include: list-of-function-parameters
+    - include: tuple-of-function-parameters
+
+  function-parameter:
+    - include: parameters-end-pop
+    - include: function-parameter-nested
+    - include: namespace
+    - include: common
+    - include: variable-parameter
+
+  type-common:
+    - include: illegal-type-keyword
+    - include: map-of-types
+    - include: separator-type
+    - include: separator-union
+    - include: type-namespace
+    - include: type-call
+
+  type-expressions:
+    - include: binary
+    - include: group-of-types
+    - include: list-of-types
+    - include: tuple-of-types
+    - include: type-common
+    - include: terms
+    - include: variable-other
+
+  type-parameter-nested:
+    - include: binary-type-parameter
+    - include: group-of-type-parameters
+    - include: list-of-type-parameters
+    - include: tuple-of-type-parameters
+    - include: type-common
+
+  type-parameter:
+    - include: parameters-end-pop
+    - include: type-parameter-nested
+    - include: terms
+    - include: variable-parameter
+
+###[ COMMENTS ]###############################################################
+
   comment:
     - match: \%
-      scope: punctuation.definition.comment.erlang
+      scope: punctuation.definition.comment.percentage.erlang
       push:
-        - meta_scope: comment.line.erlang
-        - match: $\n?
+        - meta_scope: comment.line.percentage.erlang
+        - match: \n
           pop: true
-  atom:
-    - match: "'"
-      scope: punctuation.definition.symbol.begin.erlang
-      push:
-        - meta_scope: constant.other.symbol.quoted.single.erlang
-        - match: "'"
-          scope: punctuation.definition.symbol.end.erlang
-          pop: true
-        - match: (\\)([bdefnrstv\\''"]|(\^)[@-_]|[0-7]{1,3})
-          captures:
-            0: constant.other.symbol.escape.erlang
-            1: punctuation.definition.escape.erlang
-            3: punctuation.definition.escape.erlang
-        - match: \\\^?.?
-          scope: invalid.illegal.atom.erlang
-    - match: '[a-z][a-zA-Z\d@_]*+'
-      scope: constant.other.symbol.unquoted.erlang
-  binary:
-    - match: <<
-      scope: punctuation.definition.binary.begin.erlang
-      push:
-        - meta_scope: meta.structure.binary.erlang
-        - match: '>>'
-          scope: punctuation.definition.binary.end.erlang
-          pop: true
-        - match: (,)|(:)
-          captures:
-            1: punctuation.separator.binary.erlang
-            2: punctuation.separator.value-size.erlang
-        - include: internal-type-specifiers
-        - include: everything-else
-  character:
-    - match: (\$)((\\)([bdefnrstv\\''"]|(\^)[@-_]|[0-7]{1,3}))
-      scope: constant.character.erlang
+
+###[ PREPROCESSOR CONTROL ]###################################################
+
+  preproc-control:
+    # http://erlang.org/doc/reference_manual/macros.html#flow-control-in-macros
+    # Note:
+    #   The `-` is scoped as `punctuation.definition` because:
+    #   1. derectives are most likely one-liners (with exceptions!)
+    #   2. the hyphon is compared to the hash-tag in C/C++ preprocessors
+    #   3. the `.` is meant to share the scope `punctuation.terminator.clause`
+    #      with clauses/functions as it has the same meaning.
+    - match: (-)\s*(ifdef|ifndef){{ident_break}}
       captures:
-        1: punctuation.definition.character.erlang
-        2: constant.character.escape.erlang
-        3: punctuation.definition.escape.erlang
-        5: punctuation.definition.escape.erlang
-    - match: \$\\\^?.?
-      scope: invalid.illegal.character.erlang
-    - match: (\$)\S
-      scope: constant.character.erlang
+        1: punctuation.definition.keyword.erlang
+        2: keyword.control.directive.conditional.erlang
+      push: [preproc-control-meta, preproc-control-definitions]
+    - match: (-)\s*(if|elif){{ident_break}}
       captures:
-        1: punctuation.definition.character.erlang
-    - match: \$.?
-      scope: invalid.illegal.character.erlang
-  define-directive:
-    - match: ^\s*+(-)\s*+(define)\s*+(\()\s*+([a-zA-Z\d@_]++)\s*+(,)
+        1: punctuation.definition.keyword.erlang
+        2: keyword.control.directive.conditional.erlang
+      push: [preproc-control-meta, preproc-control-expressions]
+    - match: (-)\s*(else|endif){{ident_break}}
       captures:
-        1: punctuation.section.directive.begin.erlang
-        2: keyword.control.directive.define.erlang
-        3: punctuation.definition.parameters.begin.erlang
-        4: entity.name.function.macro.definition.erlang
-        5: punctuation.separator.parameters.erlang
-      push:
-        - meta_scope: meta.directive.define.erlang
-        - match: (\))\s*+(\.)
-          captures:
-            1: punctuation.definition.parameters.end.erlang
-            2: punctuation.section.directive.end.erlang
-          pop: true
-        - include: everything-else
-    - match: (?=^\s*+-\s*+define\s*+\(\s*+[a-zA-Z\d@_]++\s*+\()
-      push:
-        - meta_scope: meta.directive.define.erlang
-        - match: (\))\s*+(\.)
-          captures:
-            1: punctuation.definition.parameters.end.erlang
-            2: punctuation.section.directive.end.erlang
-          pop: true
-        - match: ^\s*+(-)\s*+(define)\s*+(\()\s*+([a-zA-Z\d@_]++)\s*+(\()
-          captures:
-            1: punctuation.section.directive.begin.erlang
-            2: keyword.control.directive.define.erlang
-            3: punctuation.definition.parameters.begin.erlang
-            4: entity.name.function.macro.definition.erlang
-            5: punctuation.definition.parameters.begin.erlang
-          push:
-            - match: (\))\s*(,)
-              captures:
-                1: punctuation.definition.parameters.end.erlang
-                2: punctuation.separator.parameters.erlang
-              pop: true
-            - match: \,
-              scope: punctuation.separator.parameters.erlang
-            - include: everything-else
-        - match: \|\||\||:|;|,|\.|->
-          scope: punctuation.separator.define.erlang
-        - include: everything-else
-  directive:
-    - match: ^\s*+(-)\s*+([a-z][a-zA-Z\d@_]*+)\s*+(\()
-      captures:
-        1: punctuation.section.directive.begin.erlang
-        2: keyword.control.directive.erlang
-        3: punctuation.definition.parameters.begin.erlang
-      push:
-        - meta_scope: meta.directive.erlang
-        - match: (\))\s*+(\.)
-          captures:
-            1: punctuation.definition.parameters.end.erlang
-            2: punctuation.section.directive.end.erlang
-          pop: true
-        - include: everything-else
-    - match: ^\s*+(-)\s*+([a-z][a-zA-Z\d@_]*+)\s*+(\.)
-      scope: meta.directive.erlang
-      captures:
-        1: punctuation.section.directive.begin.erlang
-        2: keyword.control.directive.erlang
-        3: punctuation.section.directive.end.erlang
-  everything-else:
-    - include: comment
-    - include: record-usage
-    - include: macro-usage
-    - include: expression
-    - include: keyword
-    - include: textual-operator
-    - include: function-call
-    - include: tuple
-    - include: list
-    - include: binary
-    - include: parenthesized-expression
-    - include: character
-    - include: number
-    - include: atom
-    - include: string
-    - include: symbolic-operator
-    - include: variable
-  expression:
-    - match: \bif\b
-      scope: keyword.control.if.erlang
-      push:
-        - meta_scope: meta.expression.if.erlang
-        - match: \bend\b
-          scope: keyword.control.end.erlang
-          pop: true
-        - include: internal-expression-punctuation
-        - include: everything-else
-    - match: \bcase\b
-      scope: keyword.control.case.erlang
-      push:
-        - meta_scope: meta.expression.case.erlang
-        - match: \bend\b
-          scope: keyword.control.end.erlang
-          pop: true
-        - include: internal-expression-punctuation
-        - include: everything-else
-    - match: \breceive\b
-      scope: keyword.control.receive.erlang
-      push:
-        - meta_scope: meta.expression.receive.erlang
-        - match: \bend\b
-          scope: keyword.control.end.erlang
-          pop: true
-        - include: internal-expression-punctuation
-        - include: everything-else
-    - match: \b(fun)\s*+(([a-z][a-zA-Z\d@_]*+)\s*+(:)\s*+)?([a-z][a-zA-Z\d@_]*+)\s*(/)
-      captures:
-        1: keyword.control.fun.erlang
-        3: entity.name.type.class.module.erlang
-        4: punctuation.separator.module-function.erlang
-        5: entity.name.function.erlang
-        6: punctuation.separator.function-arity.erlang
-    - match: \bfun\b
-      scope: keyword.control.fun.erlang
-      push:
-        - meta_scope: meta.expression.fun.erlang
-        - match: \bend\b
-          scope: keyword.control.end.erlang
-          pop: true
-        - match: (?=\()
-          push:
-            - match: (;)|(?=\bend\b)
-              captures:
-                1: punctuation.separator.clauses.erlang
-              pop: true
-            - include: internal-function-parts
-        - include: everything-else
-    - match: \btry\b
-      scope: keyword.control.try.erlang
-      push:
-        - meta_scope: meta.expression.try.erlang
-        - match: \bend\b
-          scope: keyword.control.end.erlang
-          pop: true
-        - include: internal-expression-punctuation
-        - include: everything-else
-    - match: \bbegin\b
-      scope: keyword.control.begin.erlang
-      push:
-        - meta_scope: meta.expression.begin.erlang
-        - match: \bend\b
-          scope: keyword.control.end.erlang
-          pop: true
-        - include: internal-expression-punctuation
-        - include: everything-else
-    - match: \bquery\b
-      scope: keyword.control.query.erlang
-      push:
-        - meta_scope: meta.expression.query.erlang
-        - match: \bend\b
-          scope: keyword.control.end.erlang
-          pop: true
-        - include: everything-else
-  function:
-    - match: ^\s*+([a-z][a-zA-Z\d@_]*+)\s*+(?=\()
-      captures:
-        1: entity.name.function.definition.erlang
-      push:
-        - meta_scope: meta.function.erlang
-        - match: \.
-          scope: punctuation.terminator.function.erlang
-          pop: true
-        - match: ^\s*+([a-z][a-zA-Z\d@_]*+)\s*+(?=\()
-          captures:
-            1: entity.name.function.erlang
-        - match: (?=\()
-          push:
-            - match: (;)|(?=\.)
-              captures:
-                1: punctuation.separator.clauses.erlang
-              pop: true
-            - include: parenthesized-expression
-            - include: internal-function-parts
-        - include: everything-else
-  function-call:
-    - match: (?=[a-z][a-zA-Z\d@_]*+\s*+(\(|:\s*+[a-z][a-zA-Z\d@_]*+\s*+\())
-      push:
-        - meta_scope: meta.function-call.erlang
-        - match: \)
-          scope: punctuation.section.parameters.end.erlang
-          pop: true
-        - match: ((erlang)\s*+(:)\s*+)?(is_atom|is_binary|is_constant|is_float|is_function|is_integer|is_list|is_number|is_pid|is_port|is_reference|is_tuple|is_record|abs|element|hd|length|node|round|self|size|tl|trunc)\s*+(\()
-          captures:
-            2: entity.name.type.class.module.erlang
-            3: punctuation.separator.module-function.erlang
-            4: variable.function.guard.erlang
-            5: punctuation.section.parameters.begin.erlang
-          push:
-            - match: (?=\))
-              pop: true
-            - match: ","
-              scope: punctuation.separator.parameters.erlang
-            - include: everything-else
-        - match: (([a-z][a-zA-Z\d@_]*+)\s*+(:)\s*+)?([a-z][a-zA-Z\d@_]*+)\s*+(\()
-          captures:
-            2: entity.name.type.class.module.erlang
-            3: punctuation.separator.module-function.erlang
-            4: variable.function.erlang
-            5: punctuation.section.parameters.begin.erlang
-          push:
-            - match: (?=\))
-              pop: true
-            - match: ","
-              scope: punctuation.separator.parameters.erlang
-            - include: everything-else
-  import-export-directive:
-    - match: ^\s*+(-)\s*+(import)\s*+(\()\s*+([a-z][a-zA-Z\d@_]*+)\s*+(,)
-      captures:
-        1: punctuation.section.directive.begin.erlang
-        2: keyword.control.directive.import.erlang
-        3: punctuation.section.parameters.begin.erlang
-        4: entity.name.type.class.module.erlang
-        5: punctuation.separator.parameters.erlang
-      push:
-        - meta_scope: meta.directive.import.erlang
-        - match: (\))\s*+(\.)
-          captures:
-            1: punctuation.section.parameters.end.erlang
-            2: punctuation.section.directive.end.erlang
-          pop: true
-        - include: internal-function-list
-    - match: ^\s*+(-)\s*+(export)\s*+(\()
-      captures:
-        1: punctuation.section.directive.begin.erlang
-        2: keyword.control.directive.export.erlang
-        3: punctuation.section.parameters.begin.erlang
-      push:
-        - meta_scope: meta.directive.export.erlang
-        - match: (\))\s*+(\.)
-          captures:
-            1: punctuation.section.parameters.end.erlang
-            2: punctuation.section.directive.end.erlang
-          pop: true
-        - include: internal-function-list
-  internal-expression-punctuation:
-    - match: (->)|(;)|(,)
-      captures:
-        1: punctuation.separator.clause-head-body.erlang
-        2: punctuation.separator.clauses.erlang
-        3: punctuation.separator.expressions.erlang
-  internal-function-list:
-    - match: \[
-      scope: punctuation.section.list.begin.erlang
-      push:
-        - meta_scope: meta.structure.list.function.erlang
-        - match: \]
-          scope: punctuation.section.list.end.erlang
-          pop: true
-        - match: ([a-z][a-zA-Z\d@_]*+)\s*+(/)
-          captures:
-            1: entity.name.function.erlang
-            2: punctuation.separator.function-arity.erlang
-          push:
-            - match: (,)|(?=\])
-              captures:
-                1: punctuation.separator.list.erlang
-              pop: true
-            - include: everything-else
-        - include: everything-else
-  internal-function-parts:
+        1: punctuation.definition.keyword.erlang
+        2: keyword.control.directive.conditional.erlang
+      push: preproc-control-meta
+
+  preproc-control-meta:
+    - meta_scope: meta.preprocessor.conditional.erlang
+    - include: preproc-expect-end
+
+  preproc-control-definitions:
     - match: (?=\()
+      set:
+        - clear_scopes: 1
+        - match: \(
+          scope: punctuation.section.arguments.begin.erlang
+          set:
+            - - clear_scopes: 1
+              - meta_scope: meta.preprocessor.conditional.arguments.erlang
+              - include: expect-arguments-end
+            - constant-other-macro
+    - include: preproc-stray-arguments-end
+
+  preproc-control-expressions:
+    - match: (?=\()
+      set:
+        - clear_scopes: 1
+        - match: \(
+          scope: punctuation.section.arguments.begin.erlang
+          set:
+            - clear_scopes: 1
+            - meta_scope: meta.preprocessor.conditional.arguments.erlang
+            - include: arguments-common
+            - include: expressions
+    - include: preproc-stray-arguments-end
+
+###[ PREPROCESSOR UNDEF ]#####################################################
+
+  preproc-undef:
+    - match: (-)\s*(undef){{ident_break}}
+      captures:
+        1: punctuation.definition.keyword.erlang
+        2: keyword.control.directive.undef.erlang
       push:
-        - match: ->
-          scope: punctuation.separator.clause-head-body.erlang
-          pop: true
+        - - meta_scope: meta.preprocessor.undef.erlang
+          - include: preproc-expect-end
+        - - match: (?=\()
+            set:
+              - clear_scopes: 1
+              - match: \(
+                scope: punctuation.section.arguments.begin.erlang
+                set:
+                  - - clear_scopes: 1
+                    - meta_scope: meta.preprocessor.undef.arguments.erlang
+                    - include: expect-arguments-end
+                  - entity-name-macro
+          - include: preproc-stray-arguments-end
+
+###[ PREPROCESSOR DEFINE ]####################################################
+
+  preproc-define:
+    # http://erlang.org/doc/reference_manual/macros.html#defining-and-using-macros
+    - match: (-)\s*(define){{ident_break}}
+      captures:
+        1: punctuation.definition.keyword.erlang
+        2: keyword.control.directive.define.erlang
+      push:
+        - - meta_scope: meta.preprocessor.define.erlang
+          - include: preproc-expect-end
+        - - match: (?=\()
+            set:
+              - clear_scopes: 1
+              - match: \(
+                scope: punctuation.section.arguments.begin.erlang
+                set:
+                  - preproc-define-arguments-body
+                  - expect-arguments-separator
+                  - preproc-define-arguments-parameters
+                  - entity-name-macro
+          - include: preproc-stray-arguments-end
+
+  preproc-define-arguments-parameters:
+    - meta_content_scope: meta.macro.name.erlang
+    - match: (?=\()
+      set:
         - match: \(
           scope: punctuation.section.parameters.begin.erlang
-          push:
-            - match: \)
-              scope: punctuation.section.parameters.end.erlang
-              pop: true
-            - match: ","
-              scope: punctuation.separator.parameters.erlang
-            - include: everything-else
-        - match: ",|;"
-          scope: punctuation.separator.guards.erlang
-        - include: everything-else
-    - match: ","
-      scope: punctuation.separator.expressions.erlang
-    - include: everything-else
-  internal-record-body:
-    - match: \{
-      scope: punctuation.section.class.record.begin.erlang
+          set:
+            - meta_scope: meta.macro.parameters.erlang
+            - include: parameters-common
+            - include: function-parameter
+    - include: else-pop
+
+  preproc-define-arguments-body:
+    - clear_scopes: 1
+    - meta_scope: meta.preprocessor.define.arguments.erlang
+    - include: separator-clauses
+    - include: separator-expressions
+    - include: separator-union
+    - include: expressions
+    - include: arguments-end
+
+###[ PREPROCESSOR EXPORT ]####################################################
+
+  preproc-export:
+    # http://erlang.org/doc/reference_manual/modules.html#pre-defined-module-attributes
+    - match: (-)\s*(export(_type)?){{ident_break}}
+      captures:
+        1: punctuation.definition.keyword.erlang
+        2: keyword.control.directive.export.erlang
       push:
-        - meta_scope: meta.structure.record.erlang
-        - match: (?=\})
-          pop: true
-        - match: (([a-z][a-zA-Z\d@_]*+)|(_))\s*+(=)
-          captures:
-            2: variable.other.field.erlang
-            3: variable.language.omitted.field.erlang
-            4: keyword.operator.assignment.erlang
+        - - meta_scope: meta.preprocessor.export.erlang
+          - include: preproc-expect-end
+        - - match: (?=\()
+            set:
+              - clear_scopes: 1
+              - match: \(
+                scope: punctuation.section.arguments.begin.erlang
+                set:
+                  - - clear_scopes: 1
+                    - meta_scope: meta.preprocessor.export.arguments.erlang
+                    - include: expect-arguments-end
+                  - preproc-expect-references
+          - include: preproc-stray-arguments-end
+
+  preproc-expect-references:
+    - match: \[
+      scope: punctuation.section.sequence.begin.erlang
+      set:
+        - meta_scope: meta.sequence.list.erlang
+        - include: list-common
+        - include: namespace
+        - include: reference
+    - match: (?=[.)])
+      pop: true
+    - match: \S
+      scope: invalid.illegal.expect-list.erlang
+
+###[ PREPROCESSOR IMPORT ]####################################################
+
+  preproc-import:
+    # http://erlang.org/doc/reference_manual/modules.html#pre-defined-module-attributes
+    - match: (-)\s*(import){{ident_break}}
+      captures:
+        1: punctuation.definition.keyword.erlang
+        2: keyword.control.directive.import.erlang
+      push:
+        - - meta_scope: meta.preprocessor.import.erlang
+          - include: preproc-expect-end
+        - - match: (?=\()
+            set:
+              - clear_scopes: 1
+              - match: \(
+                scope: punctuation.section.arguments.begin.erlang
+                set:
+                  - - clear_scopes: 1
+                    - meta_scope: meta.preprocessor.import.arguments.erlang
+                    - include: expect-arguments-end
+                  - preproc-expect-references
+                  - expect-arguments-separator
+                  - entity-name-module
+          - include: preproc-stray-arguments-end
+
+###[ PREPROCESSOR INCLUDE ]###################################################
+
+  preproc-include:
+    # http://erlang.org/doc/reference_manual/macros.html#file-inclusion
+    - match: (-)\s*(include(_lib)?){{ident_break}}
+      captures:
+        1: punctuation.definition.keyword.erlang
+        2: keyword.control.directive.include.erlang
+      push:
+        - - meta_scope: meta.preprocessor.include.erlang
+          - include: preproc-expect-end
+        - - match: (?=\()
+            set:
+              - clear_scopes: 1
+              - match: \(
+                scope: punctuation.section.arguments.begin.erlang
+                set:
+                  - - clear_scopes: 1
+                    - meta_scope: meta.preprocessor.include.arguments.erlang
+                    - include: expect-arguments-end
+                  - - match: \"
+                      scope: punctuation.definition.string.begin.erlang
+                      set: [string-body, string-maybe-env]
+                    - include: else-pop
+          - include: preproc-stray-arguments-end
+
+###[ PREPROCESSOR MODULE ]####################################################
+
+  preproc-module:
+    # http://erlang.org/doc/reference_manual/modules.html#module-syntax
+    - match: (-)\s*(module){{ident_break}}
+      captures:
+        1: punctuation.definition.keyword.erlang
+        2: keyword.control.directive.namespace.erlang
+      push:
+        - - meta_scope: meta.preprocessor.namespace.erlang
+          - include: preproc-expect-end
+        - - match: (?=\()
+            set:
+              - clear_scopes: 1
+              - match: \(
+                scope: punctuation.section.arguments.begin.erlang
+                set:
+                  - - clear_scopes: 1
+                    - meta_scope: meta.preprocessor.namespace.arguments.erlang
+                    - include: expect-arguments-end
+                  - entity-name-module
+          - include: preproc-stray-arguments-end
+
+###[ PREPROCESSOR ATTRIBUTE ]#################################################
+
+  preproc-attribute:
+    - match: -(?=\s*{{ident}})
+      scope: punctuation.definition.keyword.erlang
+      push:
+        - - meta_scope: meta.preprocessor.attribute.erlang
+          - include: preproc-expect-end
+          # ordinary directive `-name( ... ).`
+        - - match: (?=\()
+            set:
+              - clear_scopes: 1
+              - match: \(
+                scope: punctuation.section.arguments.begin.erlang
+                set:
+                  - clear_scopes: 1
+                  - meta_scope: meta.preprocessor.attribute.arguments.erlang
+                  - include: arguments-common
+                  - include: preproc-attribute-argument
+          # spec/type like directive `-attribute ... .`
+          - match: (?=\S)
+            set:
+              - include: separator-expressions
+              - include: expressions
+              - include: clause-end-pop
+          - include: eol-pop
+        # keyword
+        - - match: '{{atom_unquoted}}'
+            scope: meta.atom.erlang keyword.control.directive.attribute.erlang
+            pop: true
+          - match: \'
+            scope: punctuation.definition.atom.begin.erlang
+            set:
+              - meta_include_prototype: false
+              - meta_scope: meta.atom.erlang keyword.control.directive.attribute.erlang
+              - include: atom-quoted-common
+          - include: macro-pop
+          - include: atom-expect-end
+
+  preproc-attribute-argument:
+    # http://erlang.org/doc/reference_manual/expressions.html#parenthesized-expressions
+    - match: \(
+      scope: punctuation.section.group.begin.erlang
+      push:
+        - meta_scope: meta.group.erlang
+        - include: group-common
+        - include: preproc-attribute-argument
+    # http://erlang.org/doc/reference_manual/data_types.html#list
+    - match: \[
+      scope: punctuation.section.sequence.begin.erlang
+      push:
+        - meta_scope: meta.sequence.list.erlang
+        - include: list-common
+        - include: preproc-attribute-argument
+    # http://erlang.org/doc/reference_manual/data_types.html#tuple
+    - match: \{
+      scope: punctuation.section.sequence.begin.erlang
+      push:
+        - meta_scope: meta.sequence.tuple.erlang
+        - include: tuple-common
+        - include: preproc-attribute-argument
+    - include: binary
+    - include: namespace
+    - include: reference
+    - include: common
+    - include: variable-other
+
+###[ PREPROCESSOR RECORD ]####################################################
+
+  preproc-record:
+    # http://erlang.org/doc/reference_manual/modules.html#record-definitions
+    - match: (-)\s*(record){{ident_break}}
+      captures:
+        1: punctuation.definition.keyword.erlang
+        2: keyword.control.directive.record.erlang
+      push:
+        - - meta_scope: meta.preprocessor.record.erlang
+          - include: preproc-expect-end
+        - - match: (?=\()
+            set:
+              - clear_scopes: 1
+              - match: \(
+                scope: punctuation.section.arguments.begin.erlang
+                set:
+                  - - clear_scopes: 1
+                    - meta_scope: meta.preprocessor.record.arguments.erlang
+                    - include: expect-arguments-end
+                  - record-body
+                  - expect-arguments-separator
+                  - record-name
+                  - entity-name-record
+          - include: preproc-stray-arguments-end
+
+  record-body:
+    - match: \{
+      scope: punctuation.section.fields.begin.erlang
+      set:
+        - meta_scope: meta.record.fields.erlang
+        - include: record-fields-common
+        - match: ',?'
+          scope: punctuation.separator.expressions.erlang
           push:
-            - match: (,)|(?=\})
-              captures:
-                1: punctuation.separator.class.record.erlang
+            - - meta_content_scope: meta.field.name.erlang
+              - include: immediatelly-pop
+            - - include: variable-anonymous-pop
+              - match: '{{atom_unquoted}}'
+                scope: meta.atom.erlang entity.name.field.erlang
+                pop: true
+              - match: \'
+                scope: punctuation.definition.atom.begin.erlang
+                set:
+                  - meta_include_prototype: false
+                  - meta_scope: meta.atom.erlang entity.name.field.erlang
+                  - include: atom-quoted-common
+              - include: macro-pop
+              - include: atom-expect-end
+    - include: else-pop
+
+###[ PREPROCESSOR SPEC ]######################################################
+
+  preproc-spec:
+    # http://erlang.org/doc/reference_manual/typespec.html#specifications-for-functions
+    - match: (-)\s*(callback|spec){{ident_break}}
+      captures:
+        1: punctuation.definition.keyword.erlang
+        2: keyword.control.directive.spec.erlang
+      push:
+        - meta_scope: meta.preprocessor.spec.erlang
+        - include: terminator-clause-pop
+        - include: separator-clauses
+        # NOTE: function name is optional for all but the first clauses
+        - match: (?={{ident}}\s*:[^:])
+          push:
+            - preproc-spec-return
+            - preproc-spec-parameters
+            - preproc-spec-path
+            - entity-name-function
+            - namespace-accessor
+            - namespace-qualifier
+        - match: (?=\S)
+          push:
+            - preproc-spec-return
+            - preproc-spec-parameters
+            - preproc-spec-name
+            - entity-name-function
+
+  preproc-spec-name:
+    - meta_scope: meta.preprocessor.spec.name.erlang
+    - include: else-pop
+
+  preproc-spec-path:
+    - meta_scope: meta.preprocessor.spec.name.erlang meta.path.erlang
+    - include: else-pop
+
+  preproc-spec-parameters:
+    - clear_scopes: 1
+    - match: \(
+      scope: punctuation.section.parameters.begin.erlang
+      set:
+        - clear_scopes: 1
+        - meta_scope: meta.preprocessor.spec.parameters.erlang
+        - include: parameters-common
+        - include: type-parameter
+    - include: else-pop
+
+  preproc-spec-return:
+    - match: ->
+      scope: punctuation.separator.parameters-return-type.erlang
+      set:
+        - clear_scopes: 1
+        - meta_content_scope: meta.preprocessor.spec.return-type.erlang
+        - include: preproc-spec-guards
+        - include: separator-expressions
+        - include: type-expressions
+    - include: preproc-spec-guards
+    - include: illegal-group
+    - match: '{{illegal_ident}}|\S'
+      scope: invalid.illegal.expect-separator.erlang
+
+  preproc-spec-guards:
+    - match: (?=when{{ident_break_char}})
+      set:
+        - clear_scopes: 1
+        - match: when
+          scope: keyword.control.conditional.when.erlang
+          set:
+            - clear_scopes: 1
+            - meta_scope: meta.preprocessor.spec.guards.erlang
+            - include: separator-expressions
+            - include: type-expressions
+            - include: clause-end-pop
+    - include: clause-end-pop
+
+###[ PREPROCESSOR TYPE ]######################################################
+
+  preproc-type:
+    # http://erlang.org/doc/reference_manual/typespec.html#typespec-of-user-defined-types
+    - match: (-)\s*(opaque|type){{ident_break}}
+      captures:
+        1: punctuation.definition.keyword.erlang
+        2: keyword.control.directive.type.erlang
+      push:
+        - - meta_scope: meta.preprocessor.type.erlang
+          - include: preproc-expect-end
+        - - match: (?=\S)
+            set:
+              - preproc-type-body
+              - preproc-type-parameters
+              - preproc-type-name
+              - entity-name-type
+
+  preproc-type-name:
+    - meta_scope: meta.preprocessor.type.name.erlang
+    - include: else-pop
+
+  preproc-type-parameters:
+    - clear_scopes: 1
+    - match: \(
+      scope: punctuation.section.parameters.begin.erlang
+      set:
+        - clear_scopes: 1
+        - meta_scope: meta.preprocessor.type.parameters.erlang
+        - include: parameters-common
+        - include: type-parameter
+    - include: else-pop
+
+  preproc-type-body:
+    - match: '::'
+      scope: punctuation.separator.type-head-body.erlang
+      set:
+        - include: type-expressions
+        - include: clause-end-pop
+    - include: clause-end-pop
+    # anything else is invalid
+    - include: illegal-group
+    - match: '{{illegal_ident}}|\S'
+      scope: invalid.illegal.expect-separator.erlang
+
+###[ PREPROCESSOR PROTOTYPES ]################################################
+
+  preproc-stray-arguments-end:
+    - match: \)
+      scope: invalid.illegal.stray-arguments-end.erlang
+      pop: true
+    - include: eol-pop
+    - include: else-pop
+
+  preproc-expect-end:
+    - include: terminator-clause-pop
+    - match: \n
+      scope: invalid.illegal.expect-terminator.erlang
+      pop: true
+    - match: '[^\s.]+'
+      scope: invalid.illegal.expect-terminator.erlang
+
+###[ CONTROL EXPRESSION ]#####################################################
+
+  expr-control:
+    # http://erlang.org/doc/reference_manual/expressions.html#if
+    - match: if{{ident_break}}
+      scope: keyword.control.conditional.if.erlang
+      push:
+        - meta_scope: meta.if.erlang
+        - include: expr-control-conditional-end
+        - include: expr-control-body
+    # http://erlang.org/doc/reference_manual/expressions.html#case
+    - match: case{{ident_break}}
+      scope: keyword.control.conditional.case.erlang
+      push:
+        - meta_scope: meta.case.erlang
+        - include: expr-control-conditional-end
+        - include: expr-control-body
+    # http://erlang.org/doc/reference_manual/expressions.html#receive
+    - match: receive{{ident_break}}
+      scope: keyword.control.flow.receive.erlang
+      push:
+        - meta_scope: meta.receive.erlang
+        - include: expr-control-flow-end
+        - include: expr-control-body
+    # http://erlang.org/doc/reference_manual/expressions.html#block-expressions
+    - match: begin{{ident_break}}
+      scope: keyword.control.flow.begin.erlang
+      push:
+        - meta_scope: meta.block.erlang
+        - include: expr-control-flow-end
+        - include: expr-control-body
+    # http://erlang.org/doc/reference_manual/...?
+    - match: query{{ident_break}}
+      scope: keyword.control.flow.query.erlang
+      push:
+        - meta_scope: meta.query.erlang
+        - include: expr-control-flow-end
+        - include: expr-control-body
+    # http://erlang.org/doc/reference_manual/expressions.html#guard-sequences
+    - match: when{{ident_break}}
+      scope: keyword.control.conditional.when.erlang
+      push:
+        - match: (?=->|\.|(end|after|catch){{ident_break_char}})
+          pop: true
+        - include: expr-control-body
+    - match: ->
+      scope: punctuation.separator.clause-head-body.erlang
+
+  expr-control-body:
+    - include: separator-clauses
+    - include: separator-expressions
+    - include: expressions
+
+  expr-control-conditional-end:
+    - match: end{{ident_break}}|(?=\.)
+      scope: keyword.control.conditional.end.erlang
+      pop: true
+
+  expr-control-flow-end:
+    - match: end{{ident_break}}|(?=\.)
+      scope: keyword.control.flow.end.erlang
+      pop: true
+
+###[ TRY-CATCH EXPRESSION ]###################################################
+
+  expr-try:
+    # http://erlang.org/doc/reference_manual/expressions.html#try
+    - match: try{{ident_break}}
+      scope: keyword.control.exception.try.erlang
+      push:
+        - meta_scope: meta.exception.try.erlang
+        - match: end{{ident_break}}|(?=\.)
+          scope: keyword.control.exception.end.erlang
+          pop: true
+        - match: catch{{ident_break}}
+          scope: keyword.control.exception.catch.erlang
+          push:
+            - clear_scopes: 1
+            - meta_scope: meta.exception.catch.erlang
+            - match: (?=\.|(end|after){{ident_break_char}})
               pop: true
-            - include: everything-else
-        - match: ([a-z][a-zA-Z\d@_]*+)\s*+(,)?
-          captures:
-            1: variable.other.field.erlang
-            2: punctuation.separator.class.record.erlang
-        - include: everything-else
-  internal-type-specifiers:
+            - match: ->
+              scope: punctuation.separator.clause-head-body.erlang
+              push:
+                - match: (?=[.;]|(end|after|catch){{ident_break_char}})
+                  pop: true
+                - include: separator-expressions
+                - include: expressions
+            # Don't match namespaces in exception patterns
+            - match: ':'
+              scope: punctuation.separator.patterns.erlang
+            - include: separator-clauses
+            - include: expressions-nested
+            - include: common
+            - include: variable-other
+        - match: after{{ident_break}}
+          scope: keyword.control.exception.after.erlang
+          push:
+            - clear_scopes: 1
+            - meta_scope: meta.exception.after.erlang
+            - match: (?=\.|(end|after|catch){{ident_break_char}})
+              pop: true
+            - include: expr-control-body
+        - include: expr-control-body
+
+###[ FUN EXPRESSION ]#########################################################
+
+  expr-fun:
+    # http://erlang.org/doc/reference_manual/expressions.html#fun-expressions
+    - match: fun{{ident_break}}
+      scope: keyword.declaration.function.erlang
+      push:
+        - - meta_scope: meta.fun.erlang
+          - include: immediatelly-pop
+          # function reference (e.g.: FuncName = fun module:name/arity)
+          # keyword `fun` followed by a `function-declaration` but without `end`.
+        - - include: namespace-pop
+          - include: reference-pop
+          # function expression (e.g.: FuncName = fun(arg) ... end)
+          - match: (?=\S)
+            set: expr-fun-anonymous
+
+  expr-fun-anonymous:
+    - match: end{{ident_break}}|(?=\.)
+      scope: keyword.declaration.end.erlang
+      pop: true
+    - include: separator-clauses
+    - match: (?=\S)
+      push:
+        # 3. function body
+        - - match: (?=[.;]|end{{ident_break_char}})
+            pop: true
+          - include: separator-expressions
+          - include: expressions
+        # 2. function parameters
+        - - clear_scopes: 1
+          - match: \(
+            scope: punctuation.section.parameters.begin.erlang
+            set:
+              - clear_scopes: 1
+              - meta_scope: meta.fun.parameters.erlang
+              - include: parameters-common
+              - include: function-parameter
+          - include: else-pop
+        # 1. function name
+        - - meta_scope: meta.fun.name.erlang
+          - include: else-pop
+        - - include: variable-other-pop
+          - include: macro-pop
+          - match: '{{illegal_ident}}'
+            scope: invalid.illegal.expect-variable.erlang
+            pop: true
+          - include: else-pop
+
+###[ FUNCTION DEFINITION ]####################################################
+
+  function:
+    # http://erlang.org/doc/reference_manual/functions.html#function-declaration-syntax
+    # Function names can be (un-)quoted atoms or nested (un-)quoted macros
+    # which can contain escape sequences as ordinary strings.
+    # Example:  ?'fu % na\'me' (arguments)
+    - match: (?={{ident}}\s*\()
+      push: [function-meta, function-body, function-parameters, entity-name-function]
+
+  function-parameters:
+    - clear_scopes: 1
+    - meta_scope: meta.function.name.erlang
+    - match: (?=\()
+      set:
+        - clear_scopes: 1
+        - match: \(
+          scope: punctuation.section.parameters.begin.erlang
+          set:
+            - clear_scopes: 1
+            - meta_scope: meta.function.parameters.erlang
+            - include: parameters-common
+            - include: function-parameter
+    - include: else-pop
+
+  function-body:
+    - match: \.
+      scope: punctuation.terminator.clause.erlang
+      pop: true
+    - match: ';'
+      scope: punctuation.separator.clauses.erlang
+      pop: true
+    - include: separator-expressions
+    - include: expressions
+
+  function-meta:
+    - meta_scope: meta.function.erlang
+    - include: immediatelly-pop
+
+###[ FUNCTION CALL ]##########################################################
+
+  function-call:
+    - match: (?={{ident}}\s*\()
+      push: [function-call-arguments, function-call-name, variable-function]
+
+  function-call-pop:
+    - match: (?={{ident}}\s*\()
+      set: [function-call-arguments, function-call-path, variable-function]
+
+  function-call-name:
+    - meta_scope: meta.function-call.name.erlang
+    - include: else-pop
+
+  function-call-path:
+    - meta_scope: meta.path.erlang meta.function-call.name.erlang
+    - include: else-pop
+
+  function-call-arguments:
+    - match: \(
+      scope: punctuation.section.arguments.begin.erlang
+      set:
+        - meta_scope: meta.function-call.arguments.erlang
+        - include: arguments-common
+        - include: expressions
+    - include: else-pop
+
+###[ TYPE CALL ]##############################################################
+
+  type-call:
+    # http://erlang.org/doc/reference_manual/typespec.html
+    # A function type looks like:
+    #  fun()                  %% any function
+    #  fun((...) -> Type)     %% any arity, returning Type
+    #  fun(() -> Type)
+    #  fun((TList) -> Type)
+    - match: fun{{ident_break}}
+      scope: support.type.erlang
+      push: [type-call-fun-arguments, type-call-name]
+    # other type definition
+    - match: (?={{ident}}\s*\()
+      push: [type-call-other-arguments, type-call-name, storage-type]
+
+  type-call-pop:
+    - match: fun{{ident_break}}
+      scope: support.type.erlang
+      set: [type-call-fun-arguments, type-call-path]
+    - match: (?={{ident}}\s*\()
+      set: [type-call-other-arguments, type-call-path, storage-type]
+
+  type-call-name:
+    - meta_scope: meta.type-call.name.erlang
+    - include: else-pop
+
+  type-call-path:
+    - meta_scope: meta.path.erlang meta.type-call.name.erlang
+    - include: else-pop
+
+  type-call-fun-arguments:
+    - match: \(
+      scope: punctuation.section.arguments.begin.erlang
+      set:
+        - - meta_scope: meta.type-call.arguments.erlang
+          - include: expect-arguments-end
+        # 2. function return-type
+        - - match: ->
+            scope: punctuation.separator.parameters-return-type.erlang
+            set:
+              - meta_content_scope: meta.fun.return-type.erlang
+              - match: (?=[.;)])
+                pop: true
+              - include: type-expressions
+          - include: else-pop
+        # 1. function parameters
+        - - match: \(
+            scope: punctuation.section.parameters.begin.erlang
+            set:
+              - meta_scope: meta.fun.parameters.erlang
+              - include: variable-any
+              - include: parameters-common
+              - include: type-parameter
+          - include: else-pop
+    - include: else-pop
+
+  type-call-other-arguments:
+    - match: \(
+      scope: punctuation.section.arguments.begin.erlang
+      set:
+        - meta_scope: meta.type-call.arguments.erlang
+        - include: arguments-common
+        - include: type-expressions
+    - include: else-pop
+
+###[ GROUPS ]#################################################################
+
+  group-of-expressions:
+    # http://erlang.org/doc/reference_manual/expressions.html#parenthesized-expressions
+    - match: \(
+      scope: punctuation.section.group.begin.erlang
+      push:
+        - meta_scope: meta.group.erlang
+        - include: group-common
+        - include: expressions
+
+  group-of-function-parameters:
+    # http://erlang.org/doc/reference_manual/expressions.html#parenthesized-expressions
+    - match: \(
+      scope: punctuation.section.group.begin.erlang
+      push:
+        - meta_scope: meta.group.erlang
+        - include: group-common
+        - include: function-parameter
+
+  group-of-types:
+    # http://erlang.org/doc/reference_manual/expressions.html#parenthesized-expressions
+    - match: \(
+      scope: punctuation.section.group.begin.erlang
+      push:
+        - meta_scope: meta.group.erlang
+        - include: group-common
+        - include: type-expressions
+
+  group-of-type-parameters:
+    # http://erlang.org/doc/reference_manual/expressions.html#parenthesized-expressions
+    - match: \(
+      scope: punctuation.section.group.begin.erlang
+      push:
+        - meta_scope: meta.group.erlang
+        - include: group-common
+        - include: type-parameter
+
+  group-common:
+    - match: \)
+      scope: punctuation.section.group.end.erlang
+      pop: true
+    - include: clause-end-or-stray
+
+###[ LISTS ]##################################################################
+
+  list-of-expressions:
+    # http://erlang.org/doc/reference_manual/data_types.html#list
+    - match: \[
+      scope: punctuation.section.sequence.begin.erlang
+      push:
+        - meta_scope: meta.sequence.list.erlang
+        - include: list-common
+        - include: expressions
+
+  list-of-function-parameters:
+    # http://erlang.org/doc/reference_manual/data_types.html#list
+    - match: \[
+      scope: punctuation.section.sequence.begin.erlang
+      push:
+        - meta_scope: meta.sequence.list.erlang
+        - include: list-common
+        - include: function-parameter
+
+  list-of-types:
+    # http://erlang.org/doc/reference_manual/data_types.html#list
+    - match: \[
+      scope: punctuation.section.sequence.begin.erlang
+      push:
+        - meta_scope: meta.sequence.list.erlang
+        - include: variable-any
+        - include: list-common
+        - include: type-expressions
+
+  list-of-type-parameters:
+    # http://erlang.org/doc/reference_manual/data_types.html#list
+    - match: \[
+      scope: punctuation.section.sequence.begin.erlang
+      push:
+        - meta_scope: meta.sequence.list.erlang
+        - include: variable-any
+        - include: list-common
+        - include: type-parameter
+
+  list-common:
+    - match: \]
+      scope: punctuation.section.sequence.end.erlang
+      pop: true
+    - include: operator-comprehension
+    - include: separator-sequence
+    - include: separator-union
+    - include: clause-end-or-stray
+
+###[ MAPS ]###################################################################
+
+  map-of-expressions:
+    # http://erlang.org/doc/reference_manual/data_types.html#map
+    # http://erlang.org/doc/reference_manual/expressions.html#map-expressions
+    - match: '#{'
+      scope: meta.mapping.erlang punctuation.section.mapping.begin.erlang
+      push:
+        - include: map-common
+        # value
+        - match: =>|\:=
+          scope: meta.mapping.erlang punctuation.separator.mapping.key-value.erlang
+          push:
+            - meta_content_scope: meta.mapping.value.erlang
+            - include: expressions
+            - include: value-end-pop
+        # key
+        - match: ',?'
+          scope: meta.mapping.erlang punctuation.separator.mapping.pair.erlang
+          push:
+            - meta_content_scope: meta.mapping.key.erlang
+            - match: (?==>|\:=)
+              pop: true
+            - include: expressions
+            - include: value-end-pop
+    - include: map-separator
+
+  map-of-types:
+    # http://erlang.org/doc/reference_manual/data_types.html#map
+    # http://erlang.org/doc/reference_manual/expressions.html#map-expressions
+    - match: '#{'
+      scope: meta.mapping.erlang punctuation.section.mapping.begin.erlang
+      push:
+        - include: map-common
+        # value
+        - match: =>|\:=
+          scope: meta.mapping.erlang punctuation.separator.mapping.key-value.erlang
+          push:
+            - meta_content_scope: meta.mapping.value.erlang
+            - include: type-expressions
+            - include: value-end-pop
+        # key
+        - match: ',?'
+          scope: meta.mapping.erlang punctuation.separator.mapping.pair.erlang
+          push:
+            - meta_content_scope: meta.mapping.key.erlang
+            - match: (?==>|\:=)
+              pop: true
+            - include: type-expressions
+            - include: value-end-pop
+    - include: map-separator
+
+  map-separator:
+    - match: =>|\:=
+      scope: punctuation.separator.mapping.key-value.erlang
+
+  map-common:
+    - match: \}
+      scope: meta.mapping.erlang punctuation.section.mapping.end.erlang
+      pop: true
+    - include: clause-end-or-stray
+
+###[ RECORDS ]################################################################
+
+  record:
+    # http://erlang.org/doc/reference_manual/records.html
+    - match: \#(?={{ident}})
+      scope: punctuation.definition.record.erlang
+      push: [record-fields, record-name, variable-other-record]
+    # records may look like normal variables in macro definitions
+    - match: '{{variable}}(?=\.{{ident}})'
+      scope: meta.record.name.erlang variable.other.erlang
+      push: record-fields
+
+  record-name:
+    - meta_scope: meta.record.name.erlang
+    - include: else-pop
+
+  variable-other-record:
+    - match: '{{atom_unquoted}}'
+      scope: meta.atom.erlang variable.other.record.erlang
+      pop: true
+    - match: \'
+      scope: punctuation.definition.atom.begin.erlang
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.atom.erlang variable.other.record.erlang
+        - include: atom-quoted-common
+    - include: macro-pop
+    - include: atom-expect-end
+
+  record-fields:
+    - match: \.
+      scope: meta.record.erlang punctuation.accessor.dot.erlang
+      set:
+        - - meta_content_scope: meta.record.field.erlang
+          - include: immediatelly-pop
+        - - include: variable-other-field
+          - include: eol-pop
+    - match: \{
+      scope: punctuation.section.fields.begin.erlang
+      set:
+        - meta_scope: meta.record.fields.erlang
+        - include: record-fields-common
+        - match: ',?'
+          scope: punctuation.separator.expressions.erlang
+          push:
+            - - meta_content_scope: meta.field.name.erlang
+              - include: immediatelly-pop
+            - - include: variable-anonymous-pop
+              - include: variable-other-field
+    - include: else-pop
+
+  record-fields-common:
+    - match: \}
+      scope: punctuation.section.fields.end.erlang
+      pop: true
+    # field value
+    - match: =
+      scope: meta.field.erlang keyword.operator.assignment.erlang
+      push:
+        - meta_content_scope: meta.field.value.erlang
+        - match: (?=::)
+          pop: true
+        - include: expressions
+        - include: value-end-pop
+    # field type
+    - match: '::'
+      scope: meta.field.erlang punctuation.separator.variable-type.erlang
+      push:
+        - meta_content_scope: meta.field.type.erlang
+        - include: type-expressions
+        - include: value-end-pop
+    - include: clause-end-or-stray
+
+  variable-other-field:
+    - match: '{{atom_unquoted}}'
+      scope: meta.atom.erlang variable.other.field.erlang
+      pop: true
+    - match: \'
+      scope: punctuation.definition.atom.begin.erlang
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.atom.erlang variable.other.field.erlang
+        - include: atom-quoted-common
+    - include: macro-pop
+    - include: atom-expect-end
+
+###[ TUPLES ]#################################################################
+
+  tuple-of-expressions:
+    # http://erlang.org/doc/reference_manual/data_types.html#tuple
+    - match: \{
+      scope: punctuation.section.sequence.begin.erlang
+      push:
+        - meta_scope: meta.sequence.tuple.erlang
+        - include: tuple-common
+        - include: expressions
+
+  tuple-of-function-parameters:
+    # http://erlang.org/doc/reference_manual/data_types.html#tuple
+    - match: \{
+      scope: punctuation.section.sequence.begin.erlang
+      push:
+        - meta_scope: meta.sequence.tuple.erlang
+        - include: tuple-common
+        - include: function-parameter
+
+  tuple-of-types:
+    # http://erlang.org/doc/reference_manual/data_types.html#tuple
+    - match: \{
+      scope: punctuation.section.sequence.begin.erlang
+      push:
+        - meta_scope: meta.sequence.tuple.erlang
+        - include: variable-any
+        - include: tuple-common
+        - include: type-expressions
+
+  tuple-of-type-parameters:
+    # http://erlang.org/doc/reference_manual/data_types.html#tuple
+    - match: \{
+      scope: punctuation.section.sequence.begin.erlang
+      push:
+        - meta_scope: meta.sequence.tuple.erlang
+        - include: variable-any
+        - include: tuple-common
+        - include: type-parameter
+
+  tuple-common:
+    - match: \}
+      scope: punctuation.section.sequence.end.erlang
+      pop: true
+    - include: operator-comprehension
+    - include: separator-sequence
+    - include: clause-end-or-stray
+
+###[ KEYWORDS ]###############################################################
+
+  constant:
+    # http://erlang.org/doc/reference_manual/data_types.html#boolean
+    - match: (false|true){{ident_break}}
+      scope: constant.language.boolean.erlang
+    # http://erlang.org/doc/reference_manual/errors.html#exceptions
+    - match: (error|exit|ok|throw){{ident_break}}
+      scope: constant.language.exception.type.erlang
+    - match: (badarg|badarith|badmatch|function_clause|case_clause|if_clause|try_clause|undef|badfun|badarity|timeout_value|noproc|nocatch|system_limit){{ident_break}}
+      scope: constant.language.exception.reason.erlang
+    # http://erlang.org/doc/reference_manual/records.html#defining-records
+    - match: (none|undefined){{ident_break}}
+      scope: constant.language.undefined.erlang
+    # http://erlang.org/doc/man/erlang.html#data-types
+    - match: (off_heap|on_heap){{ident_break}}
+      scope: constant.language.message-queue-data.erlang
+    - match: ((milli|micro|nano)?second|native|perf_counter|infinity){{ident_break}}
+      scope: constant.language.time.erlang
+    - match: ((milli|micro|nano)_)?seconds{{ident_break}}
+      scope: constant.language.time.erlang invalid.deprecated.erlang
+
+  keyword:
+    # keywords which are not otherwise matched already and don't need fallbacks
+    - match: catch{{ident_break}}
+      scope: keyword.control.exception.erlang
+    - match: (after|cond|end|let|of){{ident_break}}
+      scope: keyword.control.flow.erlang
+
+  illegal-type-keyword:
+    # The following keywords are not part of the type/spec language and must
+    # not be used as types/constants as they are part of the reserved words.
+    # http://erlang.org/doc/reference_manual/introduction.html#reserved-words
+    - match: (after|andalso|begin|case|catch|cond|end|if|let|of|orelse|receive|try|when){{ident_break}}
+      scope: invalid.illegal.keyword.erlang
+
+###[ NAMESPACE ]##############################################################
+
+  namespace:
+    - match: (?={{ident}}\s*:[^:=])
+      push: [namespace-member, namespace-accessor, namespace-qualifier]
+
+  namespace-pop:
+    - match: (?={{ident}}\s*:[^:=])
+      set: [namespace-member, namespace-accessor, namespace-qualifier]
+
+  type-namespace:
+    - match: (?={{ident}}\s*:[^:=])
+      push: [type-namespace-member, namespace-accessor, namespace-qualifier]
+
+  namespace-member:
+    - meta_scope: meta.path.erlang
+    - include: function-call-pop
+    - match: (?=\S)|$
+      set: [namespace-meta, namespace-member-other]
+
+  type-namespace-member:
+    - meta_scope: meta.path.erlang
+    - include: type-call-pop
+    - match: (?=\S)|$
+      set: [namespace-meta, namespace-member-other]
+
+  namespace-meta:
+    - meta_scope: meta.path.erlang
+    - include: immediatelly-pop
+
+  namespace-member-other:
+   - include: reference-pop
+   - include: constant
+   - include: atom-pop
+   - include: macro-pop
+   - include: variable-other-pop
+   - include: immediatelly-pop
+
+  namespace-accessor:
+    - match: ':'
+      scope: punctuation.accessor.double-colon.erlang
+      pop: true
+
+  namespace-qualifier:
+    - match: '{{support_namespaces}}'
+      scope: meta.atom.erlang support.namespace.erlang
+      pop: true
+    - match: '{{atom_unquoted}}'
+      scope: meta.atom.erlang variable.namespace.erlang
+      pop: true
+    - include: variable-other-pop
+    - match: \'
+      scope: punctuation.definition.atom.begin.erlang
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.atom.erlang variable.namespace.erlang
+        - include: atom-quoted-common
+    - include: macro-pop
+
+###[ REFERENCE ]##############################################################
+
+  reference:
+    - match: (?={{ident}}\s*/)
+      push: [reference-arity, reference-name, variable-function]
+
+  reference-pop:
+    - match: (?={{ident}}\s*/)
+      set: [reference-arity, reference-name, variable-function]
+
+  reference-name:
+    - meta_content_scope: meta.reference.function.name.erlang
+    - include: else-pop
+
+  reference-arity:
+    - match: /
+      scope: meta.reference.function.erlang punctuation.separator.reference.erlang
+      set:
+        - - meta_content_scope: meta.reference.function.arity.erlang
+          - include: immediatelly-pop
+        - - match: \d+
+            scope: constant.numeric.integer.decimal.erlang
+            pop: true
+          - include: variable-anonymous-pop
+          - include: variable-other-pop
+          - include: macro-pop
+          - match: '{{illegal_ident}}'
+            scope: invalid.illegal.expect-integer.erlang
+            pop: true
+          - include: else-pop
+    - include: else-pop
+
+###[ VARIABLE ]###############################################################
+
+  variable-anonymous:
+    - match: _{{ident_break}}
+      scope: variable.language.anonymous.erlang
+
+  variable-anonymous-pop:
+    - match: _{{ident_break}}
+      scope: variable.language.anonymous.erlang
+      pop: true
+
+  variable-any:
+    - match: \.{3}
+      scope: variable.language.any.erlang
+
+  variable-other:
+    - match: '{{variable}}'
+      scope: variable.other.erlang
+
+  variable-other-pop:
+    - match: '{{variable}}'
+      scope: variable.other.erlang
+      pop: true
+
+  variable-parameter:
+    - match: '{{variable}}'
+      scope: variable.parameter.erlang
+
+###[ IDENTIFIERS ]############################################################
+
+  atom:
+    # http://erlang.org/doc/reference_manual/data_types.html#atom
+    - match: '{{atom_unquoted}}'
+      scope: meta.atom.erlang constant.other.symbol.erlang
+    - match: \'
+      scope: punctuation.definition.atom.begin.erlang
+      push:
+        - meta_include_prototype: false
+        - meta_scope: meta.atom.erlang constant.other.symbol.erlang
+        - include: atom-quoted-common
+
+  atom-pop:
+    # http://erlang.org/doc/reference_manual/data_types.html#atom
+    - match: '{{atom_unquoted}}'
+      scope: meta.atom.erlang constant.other.symbol.erlang
+      pop: true
+    - match: \'
+      scope: punctuation.definition.atom.begin.erlang
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.atom.erlang constant.other.symbol.erlang
+        - include: atom-quoted-common
+
+  entity-name-function:
+    # function name must be an atom
+    - match: '{{atom_unquoted}}'
+      scope: meta.atom.erlang entity.name.function.erlang
+      pop: true
+    - match: \'
+      scope: punctuation.definition.atom.begin.erlang
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.atom.erlang entity.name.function.erlang
+        - include: atom-quoted-common
+    - include: macro-pop
+    - include: atom-expect-end
+
+  entity-name-macro:
+    - match: '{{ident_unquoted}}'
+      scope: meta.atom.erlang entity.name.constant.macro.erlang
+      pop: true
+    - match: \'
+      scope: punctuation.definition.atom.begin.erlang
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.atom.erlang entity.name.constant.macro.erlang
+        - include: atom-quoted-common
+    - include: macro-pop
+    - include: ident-expect-end
+
+  entity-name-module:
+    - match: '{{atom_unquoted}}'
+      scope: meta.atom.erlang entity.name.namespace.erlang
+      pop: true
+    - match: \'
+      scope: punctuation.definition.atom.begin.erlang
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.atom.erlang entity.name.namespace.erlang
+        - include: atom-quoted-common
+    - include: macro-pop
+    - include: atom-expect-end
+
+  entity-name-record:
+    - match: '{{atom_unquoted}}'
+      scope: meta.atom.erlang entity.name.record.erlang
+      pop: true
+    - match: \'
+      scope: punctuation.definition.atom.begin.erlang
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.atom.erlang entity.name.record.erlang
+        - include: atom-quoted-common
+    - include: macro-pop
+    - include: atom-expect-end
+
+  entity-name-type:
+    - match: '{{atom_unquoted}}'
+      scope: meta.atom.erlang entity.name.type.erlang
+      pop: true
+    - match: \'
+      scope: punctuation.definition.atom.begin.erlang
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.atom.erlang entity.name.type.erlang
+        - include: atom-quoted-common
+    - include: macro-pop
+    - include: atom-expect-end
+
+  constant-other-macro:
+    - match: '{{ident_unquoted}}'
+      scope: meta.atom.erlang constant.other.macro.erlang
+      pop: true
+    - match: \'
+      scope: punctuation.definition.atom.begin.erlang
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.atom.erlang constant.other.macro.erlang
+        - include: atom-quoted-common
+    - include: ident-expect-end
+
+  storage-type:
+    - match: '{{erlang_types}}'
+      scope: meta.atom.erlang support.type.erlang
+      pop: true
+    - match: '{{atom_unquoted}}'
+      scope: meta.atom.erlang storage.type.erlang
+      pop: true
+    - match: \'
+      scope: punctuation.definition.atom.begin.erlang
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.atom.erlang storage.type.erlang
+        - include: atom-quoted-common
+    - include: macro-pop
+    - include: atom-expect-end
+
+  variable-function:
+    - match: '{{erlang_functions}}'
+      scope: meta.atom.erlang support.function.erlang
+      pop: true
+    - match: '{{atom_unquoted}}'
+      scope: meta.atom.erlang variable.function.erlang
+      pop: true
+    - match: \'
+      scope: punctuation.definition.atom.begin.erlang
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.atom.erlang variable.function.erlang
+        - include: atom-quoted-common
+    - include: variable-other-pop
+    - include: macro-pop
+    - include: ident-expect-end
+
+  atom-quoted-common:
+    - match: \'
+      scope: punctuation.definition.atom.end.erlang
+      pop: true
+    - match: (?=\\)
+      push: escape
+
+  atom-expect-end:
+    - match: '{{illegal_ident}}'
+      scope: invalid.illegal.expect-atom.erlang
+      pop: true
+    - include: else-pop
+
+  ident-expect-end:
+    - match: '{{illegal_ident}}'
+      scope: invalid.illegal.expect-identifier.erlang
+      pop: true
+    - include: else-pop
+
+###[ ATOMIC DATA TYPES ]######################################################
+
+  binary:
+    # http://erlang.org/doc/reference_manual/data_types.html#bit-strings-and-binaries
+    # http://erlang.org/doc/reference_manual/expressions.html#bit_syntax
+    - match: <<
+      scope: punctuation.definition.sequence.begin.erlang
+      push:
+        - meta_scope: meta.sequence.binary.erlang
+        - include: binary-common
+        - include: expressions-nested
+        - include: common
+        - include: variable-other
+
+  binary-function-parameter:
+    # http://erlang.org/doc/reference_manual/data_types.html#bit-strings-and-binaries
+    # http://erlang.org/doc/reference_manual/expressions.html#bit_syntax
+    - match: <<
+      scope: punctuation.definition.sequence.begin.erlang
+      push:
+        - meta_scope: meta.sequence.binary.erlang
+        - include: binary-common
+        - include: function-parameter-nested
+        - include: common
+        - include: variable-parameter
+
+  binary-type-parameter:
+    # http://erlang.org/doc/reference_manual/data_types.html#bit-strings-and-binaries
+    # http://erlang.org/doc/reference_manual/expressions.html#bit_syntax
+    - match: <<
+      scope: punctuation.definition.sequence.begin.erlang
+      push:
+        - meta_scope: meta.sequence.binary.erlang
+        - include: binary-common
+        - include: type-parameter-nested
+        - include: terms
+        - include: variable-parameter
+
+  binary-common:
+    - match: '>>'
+      scope: punctuation.definition.sequence.end.erlang
+      pop: true
+    - match: ':'
+      scope: punctuation.separator.value-size.erlang
     - match: /
       scope: punctuation.separator.value-type.erlang
       push:
-        - match: (?=,|:|>>)
+        - match: (?=>>|[.,;])
           pop: true
-        - match: (integer|float|binary)|(signed|unsigned)|(big|little|native)|(unit)|(-)
-          captures:
-            1: storage.type.erlang
-            2: storage.modifier.signedness.erlang
-            3: storage.modifier.endianness.erlang
-            4: storage.modifier.unit.erlang
-            5: punctuation.separator.type-specifiers.erlang
-  keyword:
-    - match: \b(after|begin|case|catch|cond|end|fun|if|let|of|query|try|receive|when)\b
-      scope: keyword.control.erlang
-  list:
-    - match: \[
-      scope: punctuation.section.list.begin.erlang
+        - match: '-'
+          scope: punctuation.separator.type-specifiers.erlang
+        - match: ':'
+          scope: punctuation.separator.unit-value.erlang
+        - match: (integer|float|binary|bytes|bitstring|bits|utf8|utf16|utf32){{ident_break}}
+          scope: storage.type.erlang
+        - match: (signed|unsigned){{ident_break}}
+          scope: storage.modifier.signedness.erlang
+        - match: (big|little|native){{ident_break}}
+          scope: storage.modifier.endianness.erlang
+        - match: unit{{ident_break}}
+          scope: storage.modifier.unit.erlang
+        - include: number
+        - include: macro
+    - include: operator-comprehension
+    - include: separator-sequence
+    - include: clause-end-pop
+
+  character:
+    - match: \$
+      scope: constant.character.erlang punctuation.definition.character.erlang
       push:
-        - meta_scope: meta.structure.list.erlang
-        - match: \]
-          scope: punctuation.section.list.end.erlang
+        - meta_include_prototype: false
+        - include: escape
+        - match: .
+          scope: constant.character.erlang
           pop: true
-        - match: \||\|\||,
-          scope: punctuation.separator.list.erlang
-        - include: everything-else
-  macro-directive:
-    - match: ^\s*+(-)\s*+(ifdef)\s*+(\()\s*+([a-zA-z\d@_]++)\s*+(\))\s*+(\.)
-      scope: meta.directive.ifdef.erlang
+
+  escape:
+    # http://erlang.org/doc/reference_manual/data_types.html#escape-sequences
+    - match: (\\)[bdefnrstv\\''"$~]
+      scope: constant.character.escape.erlang
       captures:
-        1: punctuation.section.directive.begin.erlang
-        2: keyword.control.directive.ifdef.erlang
-        3: punctuation.section.parameters.begin.erlang
-        4: entity.name.function.macro.erlang
-        5: punctuation.section.parameters.end.erlang
-        6: punctuation.section.directive.end.erlang
-    - match: ^\s*+(-)\s*+(ifndef)\s*+(\()\s*+([a-zA-z\d@_]++)\s*+(\))\s*+(\.)
-      scope: meta.directive.ifndef.erlang
+        1: punctuation.definition.escape.erlang
+      pop: true
+    # Character with octal representation
+    - match: (\\)[0-7]{1,3}
+      scope: constant.character.escape.erlang
       captures:
-        1: punctuation.section.directive.begin.erlang
-        2: keyword.control.directive.ifndef.erlang
-        3: punctuation.section.parameters.begin.erlang
-        4: entity.name.function.macro.erlang
-        5: punctuation.section.parameters.end.erlang
-        6: punctuation.section.directive.end.erlang
-    - match: ^\s*+(-)\s*+(undef)\s*+(\()\s*+([a-zA-z\d@_]++)\s*+(\))\s*+(\.)
-      scope: meta.directive.undef.erlang
+        1: punctuation.definition.escape.erlang
+      pop: true
+    # Character with hexadecimal representation
+    - match: (\\x)\h{2}
+      scope: constant.character.escape.erlang
       captures:
-        1: punctuation.section.directive.begin.erlang
-        2: keyword.control.directive.undef.erlang
-        3: punctuation.section.parameters.begin.erlang
-        4: entity.name.function.macro.erlang
-        5: punctuation.section.parameters.end.erlang
-        6: punctuation.section.directive.end.erlang
-  macro-usage:
-    - match: (\?\??)\s*+([a-zA-Z\d@_]++)
-      scope: meta.macro-usage.erlang
+        1: punctuation.definition.escape.erlang
+      pop: true
+    - match: \\x\{
+      scope: punctuation.definition.escape.begin.erlang
+      set:
+        - meta_scope: constant.character.escape.erlang
+        - include: clause-end-pop
+        - match: \}|$
+          scope: punctuation.definition.escape.end.erlang
+          pop: true
+        - match: \H
+          scope: invalid.illegal.hex.erlang
+    - match: (\\x)\S{2}
+      scope: constant.character.escape.erlang invalid.illegal.escape.erlang
       captures:
-        1: keyword.operator.macro.erlang
-        2: entity.name.function.macro.erlang
-  module-directive:
-    - match: ^\s*+(-)\s*+(module)\s*+(\()\s*+([a-z][a-zA-Z\d@_]*+)\s*+(\))\s*+(\.)
-      scope: meta.directive.module.erlang
+        1: punctuation.definition.escape.erlang
+      pop: true
+    # Control A to control Z and Control [, ] seen in default libs
+    - match: (\\\^)[A-Za-z\[\]]
+      scope: constant.character.escape.erlang
       captures:
-        1: punctuation.section.directive.begin.erlang
-        2: keyword.control.directive.module.erlang
-        3: punctuation.section.parameters.begin.erlang
-        4: entity.name.type.class.module.section.erlang
-        5: punctuation.section.parameters.end.erlang
-        6: punctuation.section.directive.end.erlang
+        1: punctuation.definition.escape.erlang
+      pop: true
+    - match: (\\\^?).?
+      scope: constant.character.escape.erlang invalid.illegal.escape.erlang
+      captures:
+        1: punctuation.definition.escape.erlang
+      pop: true
+
+  macro:
+    # http://erlang.org/doc/reference_manual/macros.html#predefined-macros
+    - match: (\?{1,2}){{erlang_macros}}
+      scope: constant.language.macro.erlang
+      captures:
+        1: punctuation.definition.macro.erlang
+    # http://erlang.org/doc/reference_manual/macros.html#defining-and-using-macros
+    - match: \?{1,2}
+      scope:
+        constant.other.macro.erlang
+        punctuation.definition.macro.erlang
+      push: constant-other-macro
+
+  macro-pop:
+    # predefined macro
+    - match: (\?{1,2}){{erlang_macros}}
+      scope: constant.language.macro.erlang
+      captures:
+        1: punctuation.definition.macro.erlang
+      pop: true
+    # user defined macro
+    - match: \?{1,2}
+      scope:
+        constant.other.macro.erlang
+        punctuation.definition.macro.erlang
+      set: constant-other-macro
+
   number:
-    - match: (?=\d)
-      push:
-        - match: (?!\d)
-          pop: true
-        - match: \d++(\.)\d++(([eE][\+\-])?\d++)?
-          scope: constant.numeric.float.erlang
-          captures:
-            1: punctuation.separator.integer-float.erlang
-            3: punctuation.separator.float-exponent.erlang
-        - match: 2(#)[0-1]++
-          scope: constant.numeric.integer.binary.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 3(#)[0-2]++
-          scope: constant.numeric.integer.base-3.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 4(#)[0-3]++
-          scope: constant.numeric.integer.base-4.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 5(#)[0-4]++
-          scope: constant.numeric.integer.base-5.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 6(#)[0-5]++
-          scope: constant.numeric.integer.base-6.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 7(#)[0-6]++
-          scope: constant.numeric.integer.base-7.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 8(#)[0-7]++
-          scope: constant.numeric.integer.octal.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 9(#)[0-8]++
-          scope: constant.numeric.integer.base-9.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 10(#)\d++
-          scope: constant.numeric.integer.decimal.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 11(#)[\daA]++
-          scope: constant.numeric.integer.base-11.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 12(#)[\da-bA-B]++
-          scope: constant.numeric.integer.base-12.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 13(#)[\da-cA-C]++
-          scope: constant.numeric.integer.base-13.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 14(#)[\da-dA-D]++
-          scope: constant.numeric.integer.base-14.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 15(#)[\da-eA-E]++
-          scope: constant.numeric.integer.base-15.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 16(#)\h++
-          scope: constant.numeric.integer.hexadecimal.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 17(#)[\da-gA-G]++
-          scope: constant.numeric.integer.base-17.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 18(#)[\da-hA-H]++
-          scope: constant.numeric.integer.base-18.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 19(#)[\da-iA-I]++
-          scope: constant.numeric.integer.base-19.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 20(#)[\da-jA-J]++
-          scope: constant.numeric.integer.base-20.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 21(#)[\da-kA-K]++
-          scope: constant.numeric.integer.base-21.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 22(#)[\da-lA-L]++
-          scope: constant.numeric.integer.base-22.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 23(#)[\da-mA-M]++
-          scope: constant.numeric.integer.base-23.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 24(#)[\da-nA-N]++
-          scope: constant.numeric.integer.base-24.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 25(#)[\da-oA-O]++
-          scope: constant.numeric.integer.base-25.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 26(#)[\da-pA-P]++
-          scope: constant.numeric.integer.base-26.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 27(#)[\da-qA-Q]++
-          scope: constant.numeric.integer.base-27.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 28(#)[\da-rA-R]++
-          scope: constant.numeric.integer.base-28.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 29(#)[\da-sA-S]++
-          scope: constant.numeric.integer.base-29.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 30(#)[\da-tA-T]++
-          scope: constant.numeric.integer.base-30.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 31(#)[\da-uA-U]++
-          scope: constant.numeric.integer.base-31.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 32(#)[\da-vA-V]++
-          scope: constant.numeric.integer.base-32.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 33(#)[\da-wA-W]++
-          scope: constant.numeric.integer.base-33.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 34(#)[\da-xA-X]++
-          scope: constant.numeric.integer.base-34.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 35(#)[\da-yA-Y]++
-          scope: constant.numeric.integer.base-35.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: 36(#)[\da-zA-Z]++
-          scope: constant.numeric.integer.base-36.erlang
-          captures:
-            1: punctuation.separator.base-integer.erlang
-        - match: \d++#[\da-zA-Z]++
-          scope: invalid.illegal.integer.erlang
-        - match: \d++
-          scope: constant.numeric.integer.decimal.erlang
-  parenthesized-expression:
-    - match: \(
-      scope: punctuation.section.expression.begin.erlang
-      push:
-        - meta_scope: meta.expression.parenthesized
-        - match: \)
-          scope: punctuation.section.expression.end.erlang
-          pop: true
-        - include: everything-else
-  record-directive:
-    - match: ^\s*+(-)\s*+(record)\s*+(\()\s*+([a-z][a-zA-Z\d@_]*+)\s*+(,)
+    # http://erlang.org/doc/reference_manual/data_types.html#number
+    - match: \d+(\.)\d+([eE][-+]?\d+)?\b
+      scope: constant.numeric.float.decimal.erlang
       captures:
-        1: punctuation.section.directive.begin.erlang
-        2: keyword.control.directive.import.erlang
-        3: punctuation.section.parameters.begin.erlang
-        4: entity.name.type.class.record.section.erlang
-        5: punctuation.separator.parameters.erlang
-      push:
-        - meta_scope: meta.directive.record.erlang
-        - match: ((\}))\s*+(\))\s*+(\.)
-          captures:
-            1: meta.structure.record.erlang
-            2: punctuation.section.class.record.end.erlang
-            3: punctuation.section.parameters.end.erlang
-            4: punctuation.section.directive.end.erlang
-          pop: true
-        - include: internal-record-body
-  record-usage:
-    - match: (#)\s*+([a-z][a-zA-Z\d@_]*+)\s*+(\.)\s*+([a-z][a-zA-Z\d@_]*+)
-      scope: meta.record-usage.erlang
+        1: punctuation.separator.decimal.erlang
+    - match: |-
+        (?x:((2\#)[0-1]+)       # binary
+          | ((8\#)[0-7]+)       # octal
+          | ((10\#)[0-9]+)      # decimal
+          | ((16\#)[\da-fA-F]+) # hexadecimal
+          | ((3\#)[0-2]+
+          |  (4\#)[0-3]+
+          |  (5\#)[0-4]+
+          |  (6\#)[0-5]+
+          |  (7\#)[0-6]+
+          |  (9\#)[0-8]+
+          |  (11\#)[\daA]+
+          |  (12\#)[\da-bA-B]+
+          |  (13\#)[\da-cA-C]+
+          |  (14\#)[\da-dA-D]+
+          |  (15\#)[\da-eA-E]+
+          |  (17\#)[\da-gA-G]+
+          |  (18\#)[\da-hA-H]+
+          |  (19\#)[\da-iA-I]+
+          |  (20\#)[\da-jA-J]+
+          |  (21\#)[\da-kA-K]+
+          |  (22\#)[\da-lA-L]+
+          |  (23\#)[\da-mA-M]+
+          |  (24\#)[\da-nA-N]+
+          |  (25\#)[\da-oA-O]+
+          |  (26\#)[\da-pA-P]+
+          |  (27\#)[\da-qA-Q]+
+          |  (28\#)[\da-rA-R]+
+          |  (29\#)[\da-sA-S]+
+          |  (30\#)[\da-tA-T]+
+          |  (31\#)[\da-uA-U]+
+          |  (32\#)[\da-vA-V]+
+          |  (33\#)[\da-wA-W]+
+          |  (34\#)[\da-xA-X]+
+          |  (35\#)[\da-yA-Y]+
+          |  (36\#)[\da-zA-Z]+) # other
+          | ((\d+\#)\S+)        # illegal
+        )\b
       captures:
-        1: keyword.operator.record.erlang
-        2: entity.name.type.class.record.erlang
-        3: punctuation.separator.record-field.erlang
-        4: variable.other.field.erlang
-    - match: (#)\s*+([a-z][a-zA-Z\d@_]*+)
-      captures:
-        1: keyword.operator.record.erlang
-        2: entity.name.type.class.record.erlang
-      push:
-        - meta_scope: meta.record-usage.erlang
-        - match: \}
-          scope: meta.structure.record.erlang punctuation.section.class.record.end.erlang
-          pop: true
-        - include: internal-record-body
+        1: constant.numeric.integer.binary.erlang
+        2: punctuation.definition.numeric.base.erlang
+        3: constant.numeric.integer.octal.erlang
+        4: punctuation.definition.numeric.base.erlang
+        5: constant.numeric.integer.decimal.erlang
+        6: punctuation.definition.numeric.base.erlang
+        7: constant.numeric.integer.hexadecimal.erlang
+        8: punctuation.definition.numeric.base.erlang
+        9: constant.numeric.integer.other.erlang
+        10: punctuation.definition.numeric.base.erlang
+        11: punctuation.definition.numeric.base.erlang
+        12: punctuation.definition.numeric.base.erlang
+        13: punctuation.definition.numeric.base.erlang
+        14: punctuation.definition.numeric.base.erlang
+        15: punctuation.definition.numeric.base.erlang
+        16: punctuation.definition.numeric.base.erlang
+        17: punctuation.definition.numeric.base.erlang
+        18: punctuation.definition.numeric.base.erlang
+        19: punctuation.definition.numeric.base.erlang
+        20: punctuation.definition.numeric.base.erlang
+        21: punctuation.definition.numeric.base.erlang
+        22: punctuation.definition.numeric.base.erlang
+        23: punctuation.definition.numeric.base.erlang
+        24: punctuation.definition.numeric.base.erlang
+        25: punctuation.definition.numeric.base.erlang
+        26: punctuation.definition.numeric.base.erlang
+        27: punctuation.definition.numeric.base.erlang
+        28: punctuation.definition.numeric.base.erlang
+        29: punctuation.definition.numeric.base.erlang
+        30: punctuation.definition.numeric.base.erlang
+        31: punctuation.definition.numeric.base.erlang
+        32: punctuation.definition.numeric.base.erlang
+        33: punctuation.definition.numeric.base.erlang
+        34: punctuation.definition.numeric.base.erlang
+        35: punctuation.definition.numeric.base.erlang
+        36: punctuation.definition.numeric.base.erlang
+        37: punctuation.definition.numeric.base.erlang
+        38: punctuation.definition.numeric.base.erlang
+        39: punctuation.definition.numeric.base.erlang
+        40: punctuation.definition.numeric.base.erlang
+        41: invalid.illegal.integer.erlang
+        42: punctuation.definition.numeric.base.erlang
+    - match: \d+\b
+      scope: constant.numeric.integer.decimal.erlang
+    - match: \d\w+
+      scope: invalid.illegal.integer.erlang
+
   string:
-    - match: '"'
+    # http://erlang.org/doc/reference_manual/data_types.html#string
+    - match: \"
       scope: punctuation.definition.string.begin.erlang
-      push:
-        - meta_scope: string.quoted.double.erlang
-        - match: '"'
-          scope: punctuation.definition.string.end.erlang
-          pop: true
-        - match: (\\)([bdefnrstv\\''"]|(\^)[@-_]|[0-7]{1,3})
-          scope: constant.character.escape.erlang
-          captures:
-            1: punctuation.section.escape.erlang
-            3: punctuation.section.escape.erlang
-        - match: \\\^?.?
-          scope: invalid.illegal.string.erlang
-        - match: (~)((\-)?\d++|(\*))?((\.)(\d++|(\*)))?((\.)((\*)|.))?[~cfegswpWPBX#bx\+ni]
-          scope: constant.other.placeholder.erlang
-          captures:
-            1: punctuation.definition.placeholder.erlang
-            3: punctuation.separator.placeholder-parts.erlang
-            4: punctuation.separator.placeholder-parts.erlang
-            6: punctuation.separator.placeholder-parts.erlang
-            8: punctuation.separator.placeholder-parts.erlang
-            10: punctuation.separator.placeholder-parts.erlang
-            12: punctuation.separator.placeholder-parts.erlang
-        - match: (~)(\*)?(\d++)?[~du\-#fsacl]
-          scope: constant.other.placeholder.erlang
-          captures:
-            1: punctuation.definition.placeholder.erlang
-            2: punctuation.separator.placeholder-parts.erlang
-  symbolic-operator:
-    - match: \+\+|\+|--|-|\*|/=|/|=/=|=:=|==|=<|=|<-|<|>=|>|!
-      scope: keyword.operator.symbolic.erlang
-  textual-operator:
-    - match: \b(andalso|band|and|bxor|xor|bor|orelse|or|bnot|not|bsl|bsr|div|rem)\b
-      scope: keyword.operator.textual.erlang
-  tuple:
-    - match: \{
-      scope: punctuation.section.tuple.begin.erlang
-      push:
-        - meta_scope: meta.structure.tuple.erlang
-        - match: \}
-          scope: punctuation.section.tuple.end.erlang
-          pop: true
-        - match: ","
-          scope: punctuation.separator.tuple.erlang
-        - include: everything-else
-  variable:
-    - match: (_[a-zA-Z\d@_]++|[A-Z][a-zA-Z\d@_]*+)|(_)
+      push: string-body
+
+  string-body:
+    - meta_include_prototype: false
+    - meta_scope: string.quoted.double.erlang
+    - match: \"
+      scope: punctuation.definition.string.end.erlang
+      pop: true
+    - match: (?=\\)
+      push: escape
+    # http://erlang.org/doc/man/io.html
+    # The general format of a control sequence is ~F.P.PadModC.
+    - match: |-
+        (?x:
+          (~)
+          (?: (\-?\*) | (\-?\d+) )?  # F - field width
+          (?:
+            (\.) (?: (\*) | (\d+) )? # P - precision
+            (?: (\.) (.) )?          # Pad - padding character
+          )?
+          ([lt]{0,2})                # Mod - control modifier
+          ([~cfegswpWPBX#bx\+ni])    # C - control sequence
+        )
       captures:
-        1: variable.other.erlang
-        2: variable.language.omitted.erlang
+        1: constant.other.placeholder.erlang punctuation.definition.placeholder.erlang
+        2: constant.other.placeholder.width.asterisk.erlang
+        3: constant.other.placeholder.width.integer.erlang
+        4: constant.other.placeholder.precision.erlang punctuation.separator.placeholder.erlang
+        5: constant.other.placeholder.precision.asterisk.erlang
+        6: constant.other.placeholder.precision.integer.erlang
+        7: constant.other.placeholder.separator.erlang punctuation.separator.placeholder.erlang
+        8: constant.other.placeholder.padding.character.erlang
+        9: constant.other.placeholder.control.modifier.erlang
+        10: constant.other.placeholder.control.character.erlang
+
+  string-maybe-env:
+    - match: (\$){{ident_unquoted}}
+      scope: variable.language.environment.erlang
+      captures:
+        1: punctuation.definition.variable.erlang
+      pop: true
+    - include: else-pop
+
+###[ OPERATORS ]##############################################################
+
+  operator-comprehension:
+    - match: \|\|
+      scope: keyword.operator.comprehension.erlang
+
+  operator-unary:
+    # http://erlang.org/doc/reference_manual/expressions.html#list-comprehensions
+    - match: <=|<-
+      scope: keyword.operator.generator.erlang
+    # http://erlang.org/doc/reference_manual/expressions.html#term-comparisons
+    - match: =/=|=:=|/=|==|=<|>=|=!|[<>!]
+      scope: keyword.operator.logical.erlang
+    # http://erlang.org/doc/reference_manual/expressions.html#list-operations
+    - match: \+\+|--
+      scope: keyword.operator.lists.erlang
+    # http://erlang.org/doc/reference_manual/expressions.html#arithmetic-expressions
+    - match: '[-+*/]'
+      scope: keyword.operator.arithmetic.erlang
+    - match: '='
+      scope: keyword.operator.assignment.erlang
+
+  operator:
+    # http://erlang.org/doc/reference_manual/expressions.html#arithmetic-expressions
+    - match: (div|rem){{ident_break}}
+      scope: keyword.operator.arithmetic.erlang
+    - match: (band|bor|bxor|bnot|bsl|bsr){{ident_break}}
+      scope: keyword.operator.bitwise.erlang
+    # http://erlang.org/doc/reference_manual/expressions.html#boolean-expressions
+    # http://erlang.org/doc/reference_manual/expressions.html#short-circuit-expressions
+    - match: (and|or|xor|not|andalso|orelse){{ident_break}}
+      scope: keyword.operator.logical.erlang
+
+###[ SEPARATORS ]#############################################################
+
+  separator-clauses:
+    - match: ';'
+      scope: punctuation.separator.clauses.erlang
+
+  separator-expressions:
+    - match: ','
+      scope: punctuation.separator.expressions.erlang
+
+  separator-sequence:
+    - match: ','
+      scope: punctuation.separator.sequence.erlang
+
+  separator-type:
+    - match: \.\.
+      scope: punctuation.separator.range.erlang
+    - match: '::'
+      scope: punctuation.separator.variable-type.erlang
+
+  separator-union:
+    - match: \|
+      scope: punctuation.separator.sequence.erlang
+
+  terminator-clause:
+    - match: \.
+      scope: punctuation.terminator.clause.erlang
+
+  terminator-clause-pop:
+    - match: \.
+      scope: punctuation.terminator.clause.erlang
+      pop: true
+
+###[ ARGUMENTS ]##############################################################
+
+  arguments-common:
+    - include: arguments-end
+    - match: ','
+      scope: punctuation.separator.arguments.erlang
+
+  arguments-end:
+    - match: \)
+      scope: punctuation.section.arguments.end.erlang
+      pop: true
+    - include: clause-end-or-stray
+
+  expect-arguments-end:
+    - include: arguments-end
+    - include: illegal-group
+    - match: \S
+      scope: invalid.illegal.expect-arguments-end.erlang
+
+  expect-arguments-separator:
+    - match: ','
+      scope: punctuation.separator.arguments.erlang
+      pop: true
+    - match: \s+(?!,)
+      scope: invalid.illegal.expect-separator.erlang
+      pop: true
+    - include: else-pop
+
+###[ CONTEXT POP OFFS ]#######################################################
+
+  parameters-common:
+    - match: \)
+      scope: punctuation.section.parameters.end.erlang
+      pop: true
+    - match: ','
+      scope: punctuation.separator.parameters.erlang
+    - include: clause-end-or-stray
+
+  parameters-end-pop:
+    # bailout from parameter lists if guard or clause body starts
+    - match: (?=->|when{{ident_break_char}})
+      pop: true
+
+  immediatelly-pop:
+    - match: ''
+      pop: true
+
+  eol-pop:
+    - match: $
+      pop: true
+
+  else-pop:
+    - match: (?=\S)
+      pop: true
+
+  clause-end-pop:
+    - match: (?=[.;])
+      pop: true
+
+  clause-end-or-stray:
+    - include: clause-end-pop
+    - include: illegal-stray
+
+  value-end-pop:
+    # a `value body` ends with
+    # - the end of a clause (`;` or `.`)
+    # - the end of a clause body (`end`, `after`, `catch`)
+    # - the end of a section (`)`, `]`, `}`)
+    # - an separator (`,`, `:`)
+    - match: (?=->|[,:.;)}\]]|(end|after|catch){{ident_break_char}})
+      pop: true
+
+###[ ILLEGALS ]###############################################################
+
+  illegal-group:
+    # Note: To try to prevent breaking highlighting it is important to keep
+    #       parens/brackets/braces in balance if the opening bracket is not
+    #       expected at its current position and marked illegal.
+    - match: \(
+      push:
+        - meta_scope: invalid.illegal.unexpected-group.erlang
+        - match: \)
+          pop: true
+        - include: illegal-group-body
+    - match: \[
+      push:
+        - meta_scope: invalid.illegal.unexpected-list.erlang
+        - match: \]
+          pop: true
+        - include: illegal-group-body
+    - match: \#?\{
+      push:
+        - meta_scope: invalid.illegal.unexpected-tuple.erlang
+        - match: \}
+          pop: true
+        - include: illegal-group-body
+
+  illegal-group-body:
+    # consume numbers to prevent matching decimal separater as clause-end
+    - match: \d+\.\d*|\.\d+
+    - include: clause-end-pop
+    - match: \(
+      push:
+        - match: \)
+          pop: true
+        - include: illegal-group-body
+    - match: \[
+      push:
+        - match: \]
+          pop: true
+        - include: illegal-group-body
+    - match: \#?\{
+      push:
+        - match: \}
+          pop: true
+        - include: illegal-group-body
+
+  illegal-stray:
+    - match: '[)\]}]'
+      scope: invalid.illegal.stray.erlang

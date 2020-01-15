@@ -9,6 +9,24 @@ variables:
       and|break|do|elseif|else|end|false|for|function|goto|if|in|
       local|nil|not|or|repeat|return|then|true|until|while
     ){{identifier_break}})
+  reserved_word_statement: |- # excludes 'not', 'true', 'nil', 'false', 'function'
+    (?x:(?:
+      and|break|do|elseif|else|end|for|goto|if|in|
+      local|or|repeat|return|then|until|while
+    ){{identifier_break}})
+  metamethod: |- # http://lua-users.org/wiki/MetatableEvents
+    (?x:__(?:
+      # special
+      index|newindex|call|tostring|len|i?pairs|gc
+      # math operators
+      |unm|add|sub|mul|i?div|mod|pow|concat
+      # bitwise operators
+      |band|bor|bxor|bnot|shl|shr
+      # comparison
+      |eq|lt|le
+    ){{identifier_break}})
+  # __metatable and __mode don't use functions
+  metaproperty: (?:__(?:metatable|mode){{identifier_break}})
 
   identifier_start: (?:[A-Za-z_])
   identifier_char: (?:[A-Za-z0-9_])
@@ -19,6 +37,9 @@ variables:
   function_args_begin: (?:\(|"|'|\[=*\[|\{)
   function_call_ahead: (?=\s*{{function_args_begin}})
   function_assignment_ahead: (?=\s*=\s*function{{identifier_break}})
+
+  dec_exponent: (?:[Ee][-+]?\d*)
+  hex_exponent: (?:[Pp][-+]?\d*)
 
 contexts:
   main:
@@ -41,10 +62,13 @@ contexts:
         - match: \]\1\]
           scope: punctuation.definition.comment.end.lua
           pop: true
-    - match: (--).*
-      scope: comment.line.lua
-      captures:
-        1: punctuation.definition.comment.lua
+    - match: --
+      scope: punctuation.definition.comment.lua
+      push:
+        - meta_include_prototype: false
+        - meta_scope: comment.line.lua
+        - match: \n
+          pop: true
 
   end:
     - match: end{{identifier_break}}
@@ -97,6 +121,7 @@ contexts:
           pop: true
         - match: ','
           scope: punctuation.separator.comma.lua
+        - include: reserved-word-pop
         - match: '{{identifier}}'
           scope: variable.parameter.function.lua
         - match: \.\.\.
@@ -127,6 +152,9 @@ contexts:
     - match: '{{identifier}}(?=\s*[.:])'
       scope: meta.property.lua
       pop: true
+    - match: '{{metamethod}}'
+      scope: meta.property.lua entity.name.function.lua support.function.metamethod.lua
+      pop: true
     - match: '{{identifier}}'
       scope: meta.property.lua entity.name.function.lua
       pop: true
@@ -140,16 +168,6 @@ contexts:
     - match: if{{identifier_break}}
       scope: keyword.control.conditional.lua
       push:
-        - - include: end
-          - match: elseif{{identifier_break}}
-            scope: keyword.control.conditional.lua
-            push:
-              - if-then
-              - expression
-          - match: else{{identifier_break}}
-            scope: keyword.control.conditional.lua
-            push: if-block
-
         - if-then
         - expression
 
@@ -220,8 +238,15 @@ contexts:
 
   if-block:
     - meta_scope: meta.block.lua
-    - match: (?=(?:end|elseif|else){{identifier_break}})
-      pop: true
+    - include: end
+    - match: elseif{{identifier_break}}
+      scope: keyword.control.conditional.lua
+      set:
+        - if-then
+        - expression
+    - match: else{{identifier_break}}
+      scope: keyword.control.conditional.lua
+      set: if-block
     - include: statements
 
   expression:
@@ -307,19 +332,27 @@ contexts:
         - match: \]
           scope: punctuation.section.brackets.end.lua
           pop: true
+        - include: reserved-word-expression-pop
         - match: (?=\S)
           push: expression
 
   property:
+    - match: '{{metamethod}}{{function_assignment_ahead}}'
+      scope: meta.property.lua entity.name.function.lua support.function.metamethod.lua
+      pop: true
     - match: '{{identifier}}{{function_assignment_ahead}}'
       scope: meta.property.lua entity.name.function.lua
       pop: true
     - match: '{{identifier}}{{function_call_ahead}}'
       scope: meta.property.lua variable.function.lua
       pop: true
+    - match: '{{metaproperty}}'
+      scope: meta.property.lua support.other.metaproperty.lua
+      pop: true
     - match: '{{identifier}}'
       scope: meta.property.lua
       pop: true
+    - include: reserved-word-pop
     - include: else-pop
 
   function-arguments-meta:
@@ -337,6 +370,7 @@ contexts:
         - match: \)
           scope: punctuation.section.group.end.lua
           pop: true
+        - include: reserved-word-expression-pop
         - match: (?=\S)
           push: expression-list
 
@@ -349,6 +383,16 @@ contexts:
       scope: keyword.operator.bitwise.lua
     - match: not{{identifier_break}}
       scope: keyword.operator.logical.lua
+
+  reserved-word-pop:
+    - match: '{{reserved_word}}'
+      scope: invalid.unexpected-keyword.lua
+      pop: true
+
+  reserved-word-expression-pop:
+    - match: '{{reserved_word_statement}}'
+      scope: invalid.unexpected-keyword.lua
+      pop: true
 
   builtin:
     - match: true{{identifier_break}}
@@ -399,14 +443,28 @@ contexts:
       pop: true
 
   number:
-    - match: (0[Xx])\h*(?:\.\h*)?([Pp][-+]?\d*)?
-      scope: constant.numeric.hexadecimal.lua
+    - match: (0[Xx])\h*(?:(\.)\h*{{hex_exponent}}?|{{hex_exponent}})
+      scope: constant.numeric.float.hexadecimal.lua
       captures:
-        1: punctuation.definition.numeric.hexadecimal.lua
+        1: punctuation.definition.numeric.base.lua
+        2: punctuation.separator.decimal.lua
       pop: true
 
-    - match: \d+(?:\.\d*)?([Ee][-+]?\d*)?
-      scope: constant.numeric.decimal.lua
+    - match: (0[Xx])\h+
+      scope: constant.numeric.integer.hexadecimal.lua
+      captures:
+        1: punctuation.definition.numeric.base.lua
+      pop: true
+
+    - match: \d+(?:(\.)\d*{{dec_exponent}}?|{{dec_exponent}})|(\.)\d+{{dec_exponent}}?
+      scope: constant.numeric.float.decimal.lua
+      captures:
+        1: punctuation.separator.decimal.lua
+        2: punctuation.separator.decimal.lua
+      pop: true
+
+    - match: \d+
+      scope: constant.numeric.integer.decimal.lua
       pop: true
 
   string:
@@ -471,6 +529,7 @@ contexts:
         - match: \)
           scope: punctuation.section.group.end.lua
           pop: true
+        - include: reserved-word-expression-pop
         - match: (?=\S)
           push: expression
 
@@ -486,23 +545,43 @@ contexts:
         - match: '[,;]'
           scope: punctuation.separator.field.lua
 
-        - match: \[
+        - match: \[(?!=*\[)
           scope: punctuation.section.brackets.begin.lua
           push:
-            - meta_scope: meta.brackets.lua
+            - clear_scopes: 1
+            - meta_scope: meta.mapping.key.lua meta.brackets.lua
             - match: \]
               scope: punctuation.section.brackets.end.lua
               pop: true
             - match: (?=\S)
               push: expression
 
-        - match: '{{identifier}}(?=\s*=)'
-          scope: meta.key.lua string.unquoted.key.lua
+        - match: (?={{identifier}}\s*=(?!=))
+          push:
+            - clear_scopes: 1
+            - meta_scope: meta.mapping.key.lua
+            - match: (?:({{metamethod}})|{{identifier}})(?=\s*=\s*function\b)
+              scope: entity.name.function.lua
+              captures:
+                1: support.function.metamethod.lua
+              pop: true
+            - match: '{{metamethod}}'
+              scope: entity.name.function.lua support.function.metamethod.lua
+              pop: true
+            - match: '{{metaproperty}}'
+              scope: string.unquoted.key.lua support.other.metaproperty.lua
+              pop: true
+            - match: '{{identifier}}'
+              scope: string.unquoted.key.lua
+              pop: true
 
-        - match: =
-          scope: punctuation.separator.key-value.lua
-          push: expression
-
+        - match: =(?!=)
+          scope: meta.mapping.lua punctuation.separator.key-value.lua
+          push:
+            - - clear_scopes: 1
+              - meta_content_scope: meta.mapping.value.lua
+              - include: immediately-pop
+            - expression
         - match: (?=\S)
           push: expression
 

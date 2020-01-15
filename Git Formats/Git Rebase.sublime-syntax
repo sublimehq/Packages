@@ -103,10 +103,10 @@ contexts:
     - match: Rebase\s+({{hash}})(?:(..)({{hash}}))?.+({{hash}}).*
       scope: meta.rebase-msg.git.rebase markup.heading.git.rebase
       captures:
-        1: constant.numeric.hex.hash.git.rebase
+        1: constant.other.hash.git.rebase
         2: punctuation.separator.commit-range.git.rebase
-        3: constant.numeric.hex.hash.git.rebase
-        4: constant.numeric.hex.hash.git.rebase
+        3: constant.other.hash.git.rebase
+        4: constant.other.hash.git.rebase
 
 ##[ COMMITS ]##########################################################
 
@@ -144,7 +144,7 @@ contexts:
 
   commit-hash:
     - match: '{{hash}}' # e.g. d284bb2
-      scope: constant.numeric.hex.hash.git.rebase
+      scope: constant.other.hash.git.rebase
       pop: true
     - include: line-end
     - match: \S+

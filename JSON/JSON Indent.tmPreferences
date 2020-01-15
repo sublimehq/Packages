@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>name</key>
+	<string>JavaScript Indent</string>
+	<key>scope</key>
+	<string>source.json</string>
+	<key>settings</key>
+	<dict>
+		<key>decreaseIndentPattern</key>
+		<string>(?x)
+			# When an object is closed, but not opened
+			(
+				^
+				(
+					# Consume strings
+					"(?:[^"\\]|\\.)*"
+					|
+					# Consume all chars that don't start a string, comment or
+					# open an object on this line
+					[^"/{\n]
+				)*
+				\}.*$
+			)
+			|
+			# When an array is closed by itself on a line (interacts with indentSquareBrackets)
+			(
+				^(.*\*/)?\s*\].*$
+			)
+		</string>
+		<key>increaseIndentPattern</key>
+		<string>(?x)
+			# When an object is opened, but not closed
+			(
+				^.*\{
+				(
+					# Consume strings
+					"(?:[^"\\]|\\.)*"
+					|
+					# Consume all chars that don't start a string, comment or
+					# end the object that was opened on this line
+					[^"/}]
+				)*
+				# Stop matching at the end of the line, or once we hit a comment
+				($|/[/*])
+			)
+			|
+			# When an array is opened, but not closed
+			(
+				^.*\[
+				(
+					# Consume strings
+					"(?:[^"\\]|\\.)*"
+					|
+					# Consume all chars that don't start a string, comment or
+					# end the array that was opened on this line
+					[^"/\]]
+				)*
+				# Stop matching at the end of the line, or once we hit a comment
+				($|/[/*])
+			)
+		</string>
+		<key>indentSquareBrackets</key>
+		<true/>
+	</dict>
+</dict>
+</plist>

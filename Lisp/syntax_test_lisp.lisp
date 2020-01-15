@@ -203,3 +203,26 @@
 ;^^^^ keyword.control
 ;     ^^^^^ keyword.control
 ;                    ^^ keyword.control
+
+;############
+; FUNCTIONS #
+;############
+
+(defun averagenum (n1 n2 n3 n4)
+;^ storage.type.function-type
+;      ^ entity.name.function
+   (/ ( + n1 n2 n3 n4) 4)
+;   ^ keyword.operator
+;       ^ keyword.operator
+;                      ^ constant.numeric
+)
+
+(defun what? (n1 n2 n3 n4)
+;^ storage.type.function-type
+;      ^^^^^ entity.name.function
+)
+
+(defun is>?! (n1 n2 n3 n4)
+;^ storage.type.function-type
+;      ^^^^^ entity.name.function
+)

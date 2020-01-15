@@ -9,44 +9,42 @@ file_extensions:
 scope: text.restructuredtext
 contexts:
   main:
-    - match: '^([ \t]*)(?=\S)'
+    - match: '^(?=(\s*)\S)'
       push:
         - meta_content_scope: meta.paragraph.restructuredtext
         - match: ^(?!\1(?=\S))
           pop: true
         - include: inline
   inline:
-    - match: '^([ \t]*)((\.\.)\sraw(::)) html'
+    - match: '^(\s*)((\.\.)\s+raw(::)) html'
       comment: directives.html
       captures:
         2: meta.directive.restructuredtext
         3: punctuation.definition.directive.restructuredtext
         4: punctuation.separator.key-value.restructuredtext
       push:
-        - match: '^(?!\1[ \t])'
-          captures:
-            2: meta.directive.restructuredtext
-            3: punctuation.definition.directive.restructuredtext
-            4: punctuation.separator.key-value.restructuredtext
+        - match: '^(?!\1\s+)(?=\s*\S+)'
           pop: true
+        - meta_content_scope: text.html.basic
         - include: scope:text.html.basic
-    - match: '(\.\.)\s[A-z][A-z0-9-_]+(::)\s*$'
+    - match: '^(\s*)((\.\.)\s+[A-z][A-z0-9\-_]+(::))\s*'
       comment: directives
-      scope: meta.other.directive.restructuredtext
       captures:
-        1: punctuation.definition.directive.restructuredtext
-        2: punctuation.separator.key-value.restructuredtext
-    - match: '^([ \t]*).*?((::))'
+        2: meta.other.directive.restructuredtext
+        3: punctuation.definition.directive.restructuredtext
+        4: punctuation.separator.key-value.restructuredtext
+      push:
+        - match: '^(?!\1\s+)(?=\s*\S+)'
+          pop: true
+        - include: inline
+    - match: '^(\s*).*?((::))'
       comment: verbatim blocks
       captures:
         2: markup.raw.restructuredtext
         3: punctuation.definition.raw.restructuredtext
       push:
         - meta_scope: meta.raw.block.restructuredtext
-        - match: '^(?=\1[^\s]+)'
-          captures:
-            2: markup.raw.restructuredtext
-            3: punctuation.definition.raw.restructuredtext
+        - match: '^(?!\1\s+)(?=\s*\S+)'
           pop: true
         - match: .+
           scope: markup.raw.restructuredtext
@@ -190,11 +188,11 @@ contexts:
       scope: markup.heading.restructuredtext
       captures:
         1: punctuation.definition.heading.restructuredtext
-    - match: ^(\.\.)
+    - match: ^(\s*)(\.\.)
       comment: comment
       captures:
-        1: punctuation.definition.comment.restructuredtext
+        2: punctuation.definition.comment.restructuredtext
       push:
         - meta_scope: comment.line.double-dot.restructuredtext
-        - match: '^(?=\S)'
+        - match: '^(?!\1\s+)(?=\s*\S+)'
           pop: true
