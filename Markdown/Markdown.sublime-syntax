@@ -1399,6 +1399,8 @@ contexts:
           scope: punctuation.definition.raw.end.markdown
           pop: true
         - match: '`+'
+        - match: '^(?={{list_item}})'
+          pop: true
         - match: ^\s*$\n?
           scope: invalid.illegal.non-terminated.raw.markdown
           pop: true

@@ -593,6 +593,10 @@ because it doesn't begin with the number one:
 * [ ] [Checkbox][] with next word linked
 | ^^^ constant.language.checkbox
 |     ^^^^^^^^^^^^ meta.link
+* list has `unclosed code
+* list continues
+| ^^^^^^^^^^^^^^^ - markup.raw
+
 
 - `code` - <a name="demo"></a>
 | ^ markup.list.unnumbered meta.paragraph.list markup.raw.inline punctuation.definition.raw
