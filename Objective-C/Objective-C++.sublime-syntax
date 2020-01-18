@@ -25,7 +25,7 @@ variables:
   visibility_modifiers: 'private|protected|public'
   other_keywords: 'typedef|nullptr|{{visibility_modifiers}}|static_assert|sizeof|using|typeid|alignof|alignas|namespace|template'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
-  non_angle_brackets: '(?=<<|<=>?)'
+  non_angle_brackets: '(?=<<|<=)'
 
   regular: '[^(){}&;*^%=<>-]*'
   regular_plus: '[^(){}&;*^%=<>-]+'
@@ -128,7 +128,8 @@ contexts:
     - include: keywords
     - include: numbers
     # Prevent a '<' from getting scoped as the start of another template
-    # parameter list, if in reality a less-than-or-equals sign is meant.
+    # parameter list, if in reality a less-than-or-equals sign or
+    # three-way comparison operator is meant.
     - match: '<=>?'
       scope: keyword.operator.comparison.c
 
