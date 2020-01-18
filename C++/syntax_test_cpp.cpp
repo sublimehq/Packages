@@ -530,6 +530,10 @@ template <class T>
 bool A<T>::operator    ==    (const A& other) { return false; }
 /*   ^^^^^^^^^^^^^^^^^^^^ meta.function meta.toc-list.full-identifier */
 /*         ^^^^^^^^^^^^^^ entity.name.function */
+template <class T>
+bool A<T>::operator   <=>    (const A& other) { return false; }
+/*   ^^^^^^^^^^^^^^^^^^^^ meta.function meta.toc-list.full-identifier */
+/*         ^^^^^^^^^^^^^^ entity.name.function */
 
 typedef std :: vector<std::vector<int> > Table;
 /*          ^^ punctuation.accessor */
@@ -780,6 +784,10 @@ int main() {
     /*^^^^^^^^^^^^^ meta.method-call */
     /*^^^^^^^^^^ variable.function.member */
     /*          ^^^ meta.group */
+    a.operator<=>(b);
+    /*^^^^^^^^^^^^^^ meta.method-call */
+    /*^^^^^^^^^^^ variable.function.member */
+    /*           ^^^ meta.group */
     a.operator->();
     /*^^^^^^^^^^^^ meta.method-call */
     /*^^^^^^^^^^ variable.function.member */

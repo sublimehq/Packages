@@ -528,6 +528,9 @@ bool A<T>::operator   >    (const A& other) { return false; }
 template <class T>
 bool A<T>::operator    ==    (const A& other) { return false; }
 /*         ^^^^^^^^^^^^^^ meta.function entity.name.function */
+template <class T>
+bool A<T>::operator   <=>    (const A& other) { return false; }
+/*         ^^^^^^^^^^^^^^ meta.function entity.name.function */
 typedef std :: vector<std::vector<int> > Table;
 /*          ^^ punctuation.accessor */
 /*                   ^ punctuation.section.generic.begin */

@@ -38,7 +38,7 @@ variables:
   identifier: \b[[:alpha:]_][[:alnum:]_]*\b # upper and lowercase
   macro_identifier: \b[[:upper:]_][[:upper:][:digit:]_]{2,}\b # only uppercase, at least 3 chars
   path_lookahead: '(?:::\s*)?(?:{{identifier}}\s*::\s*)*(?:template\s+)?{{identifier}}'
-  operator_method_name: '\boperator\s*(?:[-+*/%^&|~!=<>]|[-+*/%^&|=!<>]=|<<=?|>>=?|&&|\|\||\+\+|--|,|->\*?|\(\)|\[\]|""\s*{{identifier}})'
+  operator_method_name: '\boperator\s*(?:[-+*/%^&|~!=<>]|[-+*/%^&|=!<>]=|<=>|<<=?|>>=?|&&|\|\||\+\+|--|,|->\*?|\(\)|\[\]|""\s*{{identifier}})'
   casts: 'const_cast|dynamic_cast|reinterpret_cast|static_cast'
   operator_keywords: 'and|and_eq|bitand|bitor|compl|not|not_eq|or|or_eq|xor|xor_eq|noexcept'
   control_keywords: 'break|case|catch|continue|default|do|else|for|goto|if|_Pragma|return|switch|throw|try|while'
@@ -52,7 +52,7 @@ variables:
   visibility_modifiers: 'private|protected|public'
   other_keywords: 'typedef|nullptr|{{visibility_modifiers}}|static_assert|sizeof|using|typeid|alignof|alignas|namespace|template'
   modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
-  non_angle_brackets: '(?=<<|<=)'
+  non_angle_brackets: '(?=<<|<=>?)'
 
   regular: '[^(){}&;*^%=<>-]*'
   regular_plus: '[^(){}&;*^%=<>-]+'
@@ -347,8 +347,9 @@ contexts:
     - include: keywords
     - include: numbers
     # Prevent a '<' from getting scoped as the start of another template
-    # parameter list, if in reality a less-than-or-equals sign is meant.
-    - match: <=
+    # parameter list, if in reality a less-than-or-equals sign or
+    # three-way comparison operator is meant.
+    - match: '<=>?'
       scope: keyword.operator.comparison.c
 
   early-expressions-after-generic-type:
