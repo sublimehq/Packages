@@ -1771,7 +1771,7 @@ contexts:
       pop: true
 
   single-type-expression-tail:
-    - match: (?=@{{plainid}})
+    - match: (?=@{{alphaplainid}})
       set:
         - include: annotation
         - match: '(?=\S)'

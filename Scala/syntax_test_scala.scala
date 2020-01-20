@@ -2202,3 +2202,6 @@ foo eq bar
 
 foo ne bar
 //  ^^ keyword.operator.comparison.scala
+
+:s@/
+//^^ meta.group.scala meta.group.scala support.type.scala
