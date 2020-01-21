@@ -7,6 +7,7 @@ file_extensions:
   - gvy
   - gradle
   - Jenkinsfile
+first_line_match: #!groovy
 variables:
   unicode_letter: |-
     (?:(?xi)
