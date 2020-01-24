@@ -11,12 +11,9 @@
         <integer>1</integer>
         <key>symbolTransformation</key>
         <string>
-            # remove line comments
-            s/\/\/[^\n]*\n//g
-            # remove block comments
-            s/\/\*.*\*\///g
-            # remove whitespace
-            s/\s+//g
+            s/\/\*.*?\*\///g;  # remove block comments
+            s/\/\/[^\n]*\n//g; # remove line comments
+            s/\s+//g;          # remove whitespace
         </string>
     </dict>
 </dict>
