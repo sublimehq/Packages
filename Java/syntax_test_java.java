@@ -1851,6 +1851,9 @@ class LambdasStatementTests {
 //   ^^ constant.numeric.integer
 //     ^ punctuation.terminator.java
 
+  }
+//^ meta.class.body.java meta.block.java meta.method.body.java meta.block.java punctuation.section.block.end.java
+
   // Lambda parameter tests
   Function<String, String> lambda1 = (final @MyAnnotation String foo) -> foo;
 //                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java
@@ -1909,7 +1912,26 @@ class LambdasStatementTests {
 //                                  ^^^ storage.type.primitive - meta.annotation
 //                                      ^^^ variable.parameter.java
 //                                           ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
-  }
+
+  Function<Foo, Bar> BLOCK_LAMBDA = foo -> { return 1; };
+//                   ^^^^^^^^^^^^ entity.name.constant.java
+//                                ^ keyword.operator.assignment.java
+//                                  ^^^ variable.parameter.java
+//                                      ^^ storage.type.function.anonymous.java
+//                                         ^ meta.block punctuation.section.block.begin
+//                                           ^^^^^^ keyword.control.flow.return.java
+//                                                  ^ constant.numeric.integer.decimal.java
+//                                                   ^ punctuation.terminator.java
+//                                                     ^ punctuation.section.block.end.java
+//                                                      ^ punctuation.terminator.java
+
+  Supplier<Foo> supplier = () -> true;
+//                       ^ keyword.operator.assignment.java
+//                         ^ punctuation.section.parens.begin.java
+//                          ^ punctuation.section.parens.end.java
+//                            ^^ storage.type.function.anonymous.java
+//                               ^^^^ constant.language.boolean.java
+//                                   ^ punctuation.terminator.java
 }
 
 
@@ -2360,24 +2382,6 @@ public class Foo {
 //        ^^^ support.class.java
 //            ^^^^ entity.name.constant.java
 //                       ^^^ support.class.java
-
-  Function<Foo, Bar> BLOCK_LAMBDA = r -> {
-//                   ^ entity.name.constant
-//                                ^ keyword.operator.assignment.java
-//                                    ^ storage.type.function.anonymous.java
-//                                       ^ meta.block punctuation.section.block.begin
-    return 1;
-//  ^^^^^^ keyword.control.flow.return.java
-  };
-//^ meta.block punctuation.section.block.end
-// ^ punctuation.terminator
-
-  Supplier<Foo> supplier = () -> true;
-//                         ^ punctuation.section.parens.begin.java
-//                          ^ punctuation.section.parens.end.java
-//                       ^ keyword.operator.assignment.java
-//                            ^ storage.type.function.anonymous.java
-//                                   ^ punctuation.terminator
 
   byte[] byteArray;
 //^^^^ storage.type.primitive.java
