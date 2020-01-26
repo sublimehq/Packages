@@ -755,13 +755,19 @@ contexts:
   method-parameters:
     - meta_content_scope: meta.method.identifier.java
     - match: (?=\()
-      set: [method-parameters-common, parens-begin]
+      set: 
+        - method-parameters-common
+        - parameter-identifier
+        - parameter-variadic
+        - parameter-type
+        - parameter-modifier
+        - parens-begin
     - include: any_POP
 
   method-parameters-common:
     - meta_scope: meta.method.parameters.java meta.parens.java
+    - include: parameters-list
     - include: parens-end
-    - include: parameters
     - match: \S
       scope: invalid.illegal.missing-parameter-end
       pop: true
@@ -1003,26 +1009,27 @@ contexts:
     - include: parens-body
 
   parens-with-lambda-parameters:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.27
     - meta_scope: meta.function.anonymous.parameters.java meta.parens.java
+    - match: ''
+      set:
+        - lambda-parameters-common
+        - parameter-identifier
+        - parameter-variadic
+        - parameter-type
+        - parameter-modifier
+
+  lambda-parameters-common:
+    - meta_scope: meta.function.anonymous.parameters.java meta.parens.java
+    - include: parameters-list
     - match: \)
       scope: punctuation.section.parens.end.java
       set:
         - meta_content_scope: meta.function.anonymous.java
         - include: any_POP
-    - include: parameters
-
-  parameters:
-    - match: \.\.\.
-      scope: keyword.operator.variadic.java
-    - match: final\b
-      scope: storage.modifier.java
-    - match: (?:{{storage_modifiers}}|var)\b
-      scope: invalid.illegal.unexpected-keyword.java
-    - include: primitive-types
-    - include: object-and-array-types
-    - include: variable-parameter
-    - include: punctuation-separator-comma
-    - include: annotation
+    - match: \S
+      scope: invalid.illegal.missing-parameter-end
+      pop: true
 
   parens-common:
     - include: parens-end
@@ -1057,6 +1064,49 @@ contexts:
   method-call-arguments:
     - meta_scope: meta.function-call.arguments.java meta.parens.java
     - include: parens-common
+
+###[ PARAMETERS ]##############################################################
+
+  parameters-list:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4.1
+    - match: \,
+      scope: punctuation.separator.comma.java
+      push:
+        - parameter-identifier
+        - parameter-variadic
+        - parameter-type
+        - parameter-modifier
+
+  parameter-modifier:
+    - match: final\b
+      scope: storage.modifier.java
+    - match: (?:{{storage_modifiers}}|var)\b
+      scope: invalid.illegal.unexpected-keyword.java
+    - include: annotation
+    - include: any_POP
+
+  parameter-type:
+    - match: '{{storage_types}}\b'
+      scope: storage.type.primitive.java
+      set: array-modifier
+    - match: var\b
+      scope: invalid.illegal.unexpected-keyword.java
+      set: array-modifier
+    - include: object-and-array-types
+    - include: any_POP
+
+  parameter-variadic:
+    - match: \.\.\.
+      scope: keyword.operator.variadic.java
+      pop: true
+    - include: annotation
+    - include: any_POP
+
+  parameter-identifier:
+    - match: '{{id}}'
+      scope: variable.parameter.java
+      set: array-modifier
+    - include: any_POP
 
 ###[ VARIABLES ]###############################################################
 
@@ -1127,11 +1177,6 @@ contexts:
     - match: '{{lowercase_id}}'
       scope: variable.namespace.java
     - include: punctuation-accessor-dot
-
-  variable-parameter:
-    - match: '{{id}}'
-      scope: variable.parameter.java
-      push: array-modifier
 
   variable-language-class:
     - match: class\b
@@ -1345,15 +1390,28 @@ contexts:
   catch-statement-body:
     - meta_scope: meta.catch.java
     - match: (?=\()
-      set: [catch-parameters-common, parens-begin]
+      set:
+        - catch-parameters-common
+        - parameter-identifier
+        - parameter-variadic
+        - parameter-type
+        - parameter-modifier
+        - parens-begin
     - include: any_POP
 
   catch-parameters-common:
     - meta_scope: meta.catch.parameters.java meta.parens.java
+    - include: parens-end
     - match: \|
       scope: punctuation.separator.pipe.java
-    - include: parens-end
-    - include: parameters
+      push: 
+        - parameter-identifier
+        - parameter-variadic
+        - parameter-type
+        - parameter-modifier
+    - match: \S
+      scope: invalid.illegal.missing-parameter-end
+      pop: true
 
 ###[ OPERATORS ]###############################################################
 
