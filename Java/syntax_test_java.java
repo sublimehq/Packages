@@ -943,6 +943,52 @@ class AnyClass { // comment
     }
 //  ^ meta.class.body.java meta.block.java meta.class.body.java meta.block.java punctuation.section.block.end.java
 //   ^ meta.class.body.java meta.block.java - meta.class meta.class
+
+    class SubClass extends AbstractClass {
+//  ^^^^^ meta.class.body.java meta.block.java meta.class.java
+//       ^^^^^^^^^^ meta.class.body.java meta.block.java meta.class.identifier.java
+//                 ^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.java meta.block.java meta.class.extends.java
+//                                       ^^ meta.class.body.java meta.block.java meta.class.body.java meta.block.java
+//  ^^^^^ storage.type.class.java keyword.declaration.class.java
+//        ^^^^^^^^ entity.name.class.java
+//                 ^^^^^^^ keyword.declaration.extends.java
+//                         ^^^^^^^^^^^^^ entity.other.inherited-class.java
+//                                       ^ punctuation.section.block.begin.java
+    }
+//  ^ meta.class.body.java meta.block.java meta.class.body.java meta.block.java punctuation.section.block.end.java
+
+    class SubClass extends AbstractClass.NestedClass {
+//  ^^^^^ meta.class.body.java meta.block.java meta.class.java
+//       ^^^^^^^^^^ meta.class.body.java meta.block.java meta.class.identifier.java
+//                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.java meta.block.java meta.class.extends.java
+//                                                   ^^ meta.class.body.java meta.block.java meta.class.body.java meta.block.java
+//  ^^^^^ storage.type.class.java keyword.declaration.class.java
+//        ^^^^^^^^ entity.name.class.java
+//                 ^^^^^^^ keyword.declaration.extends.java
+//                         ^^^^^^^^^^^^^ entity.other.inherited-class.java
+//                                      ^ punctuation.accessor.dot.java
+//                                       ^^^^^^^^^^^ entity.other.inherited-class.java
+//                                                   ^ punctuation.section.block.begin.java
+    }
+//  ^ meta.class.body.java meta.block.java meta.class.body.java meta.block.java punctuation.section.block.end.java
+
+    class SubClass extends fully.qualified
+//  ^^^^^ meta.class.body.java meta.block.java meta.class.java
+//       ^^^^^^^^^^ meta.class.body.java meta.block.java meta.class.identifier.java
+//                 ^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.body.java meta.block.java meta.class.extends.java
+//                         ^^^^^^^^^^^^^^^^ meta.path.java
+//                         ^^^^^ variable.namespace.java
+//                              ^ punctuation.accessor.dot.java
+//                               ^^^^^^^^^ variable.namespace.java
+    .name.AbstractClass {
+// ^^^^^^^^^^^^^^^^^^^^^ meta.class.body.java meta.block.java meta.class.extends.java
+//  ^^^^^^^^^^^^^^^^^^^ meta.path.java
+//  ^ punctuation.accessor.dot.java
+//   ^^^^ variable.namespace.java
+//       ^ punctuation.accessor.dot.java
+//        ^^^^^^^^^^^^^ entity.other.inherited-class.java
+    }
+//  ^ meta.class.body.java meta.block.java meta.class.body.java meta.block.java punctuation.section.block.end.java
 }
 //<- meta.class.body.java meta.block.java punctuation.section.block.end.java
 
@@ -2314,34 +2360,6 @@ public class Foo {
 //        ^^^ support.class.java
 //            ^^^^ entity.name.constant.java
 //                       ^^^ support.class.java
-
-
-  class SubClass extends AbstractClass.NestedClass {
-//      ^ entity.name.class.java
-//                       ^^^^^^^^^^^^^ entity.other.inherited-class.java
-//                                    ^ punctuation.accessor.dot.java
-//                                     ^^^^^^^^^^^ entity.other.inherited-class.java
-//                                                 ^ punctuation.section.block.begin.java
-  }
-
-  class SubClass extends AbstractClass {
-//      ^ entity.name.class.java
-//                       ^ entity.other.inherited-class.java
-  }
-
-  class SubClass extends fully.qualified
-//      ^ entity.name.class.java
-//                       ^^^^^^^^^^^^^^^ meta.path.java
-//                       ^^^^^ variable.namespace.java
-//                            ^ punctuation.accessor.dot.java
-//                             ^^^^^^^^^ variable.namespace.java
-    .name.AbstractClass {
-//  ^^^^^^^^^^^^^^^^^^^ meta.path.java
-//  ^ punctuation.accessor.dot.java
-//   ^^^^ variable.namespace.java
-//       ^ punctuation.accessor.dot.java
-//        ^^^^^^^^^^^^^ entity.other.inherited-class.java
-  }
 
   Function<Foo, Bar> BLOCK_LAMBDA = r -> {
 //                   ^ entity.name.constant
