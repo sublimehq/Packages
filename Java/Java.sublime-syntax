@@ -692,24 +692,47 @@ contexts:
   fields-and-methods:
     - match: <
       scope: punctuation.definition.generic.begin.java
-      push: [generic-type-parameters-common, generic-type-parameter]
+      push: 
+        - generic-type-parameters-common
+        - generic-type-parameter
     - match: void\b
       scope: meta.method.return-type.java storage.type.void.java
-      push: [method-body-block, method-attributes, method-parameters, method-name]
+      push: 
+        - method-body-block
+        - method-attributes
+        - method-parameters
+        - method-name
     - match: (?={{id}}\s*\()
-      push: [method-body-block, method-attributes, method-parameters, method-name]
+      push: 
+        - method-body-block
+        - method-attributes
+        - method-parameters
+        - method-name
     - match: '{{before_fqn}}'
-      push: [field-or-method, after-object-and-array-types, object-type-fqn]
+      push: 
+        - field-or-method
+        - after-object-and-array-types
+        - array-modifier
+        - generic-type-arguments
+        - object-type-fqn
     - match: '{{classcase_id}}'
       scope: support.class.java
-      push: [field-or-method, after-object-and-array-types]
+      push: 
+        - field-or-method
+        - after-object-and-array-types
+        - array-modifier
+        - generic-type-arguments
     - match: '{{storage_types}}\b'
       scope: storage.type.primitive.java
       push: [field-or-method, array-modifier]
 
   field-or-method:
     - match: (?={{id}}\s*\()
-      set: [method-body-block, method-attributes, method-parameters, method-name]
+      set: 
+        - method-body-block
+        - method-attributes
+        - method-parameters
+        - method-name
     - match: (?=\S)
       set: field-name
 
@@ -1093,7 +1116,6 @@ contexts:
       scope: invalid.illegal.unexpected-keyword.java
       set: array-modifier
     - include: object-and-array-types
-    - include: any_POP
 
   parameter-variadic:
     - match: \.\.\.
@@ -1695,18 +1717,23 @@ contexts:
   object-type-reference-no-fqn:
     - match: '{{classcase_id}}'
       scope: support.class.java
-      set: [after-object-type-reference, generic-type-arguments]
+      set:
+        - after-object-type-reference
+        - illegal-array-modifier
+        - generic-type-arguments
     - match: '{{storage_types}}'
       scope: invalid.illegal.unexpected-keyword.java
-      set: [after-object-type-reference, generic-type-arguments]
+      set:
+        - after-object-type-reference
+        - illegal-array-modifier
+        - generic-type-arguments
     - include: annotation
     - include: any_POP
 
   after-object-type-reference:
-    - match: \.
+    - match: \.(?!\.)
       scope: punctuation.accessor.dot.java
       set: object-type-reference-no-fqn
-    - include: annotation
     - include: any_POP
 
 ###[ OBJECT AND ARRAY TYPES ]##################################################
@@ -1722,24 +1749,26 @@ contexts:
     - match: '{{storage_types}}(?=\s*\[)'
       scope: storage.type.primitive.java
       set: array-modifier
-    - match: '{{classcase_id}}'
-      scope: support.class.java
-      set: after-object-and-array-types
+    - match: '{{storage_types}}\b'
+      scope: invalid.illegal.unexpected-keyword.java
+      pop: true
+    - include: object-and-array-types-no-fqn
 
   object-and-array-types-no-fqn:
-    - match: '{{classcase_id}}'
+    - match: '{{classcase_id}}\b'
       scope: support.class.java
-      set: after-object-and-array-types
+      set: 
+        - after-object-and-array-types
+        - array-modifier
+        - generic-type-arguments
     - include: annotation
     - include: any_POP
 
   after-object-and-array-types:
-    - match: (?=<)
-      set: [array-modifier, generic-type-arguments]
     - match: \.(?!\.)
       scope: punctuation.accessor.dot.java
       set: object-and-array-types-no-fqn
-    - include: array-modifier
+    - include: any_POP
 
 ###[ INHERRITED TYPE REFERENCES ]##############################################
 
@@ -1757,15 +1786,17 @@ contexts:
     - include: reserved-pop
     - match: '{{id}}'
       scope: entity.other.inherited-class.java
-      set: [inherrited-object-type-reference-child, generic-type-arguments]
+      set: 
+        - inherrited-object-type-reference-child
+        - illegal-array-modifier
+        - generic-type-arguments
     - include: annotation
     - include: any_POP
 
   inherrited-object-type-reference-child:
-    - match: \.
+    - match: \.(?!\.)
       scope: punctuation.accessor.dot.java
       set: inherited-object-type-reference-no-fqn
-    - include: annotation
     - include: any_POP
 
 ###[ GENERIC TYPES ]###########################################################
@@ -1789,7 +1820,7 @@ contexts:
     - include: any_POP
 
   generic-type-parameter:
-    - match: '{{storage_types}}\b|\?'
+    - match: \?|{{storage_types}}\b
       scope: invalid.illegal.unexpected-keyword.java
       set: generic-type-parameter-bounds
     - include: reserved-pop
@@ -1826,15 +1857,10 @@ contexts:
     - include: any_POP
 
   generic-type-argument:
-    - include: object-and-array-types
     - match: \?
       scope: keyword.operator.wildcard.java
       set: generic-type-arguments-bounds
-    - match: '{{storage_types}}\b'
-      scope: invalid.illegal.unexpected-keyword.java
-      pop: true
-    - include: annotation
-    - include: any_POP
+    - include: object-and-array-types
 
   generic-type-arguments-bounds:
     - match: extends\b
