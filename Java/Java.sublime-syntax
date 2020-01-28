@@ -132,6 +132,8 @@ contexts:
   illegal-array-modifier:
     - match: \[\s*\]
       scope: invalid.illegal.unexpected-modifier.java
+    - include: annotation
+    - include: any_POP
 
   illegal-keywords:
     - match: '{{illegal_keywords}}\b'
@@ -816,21 +818,16 @@ contexts:
         - var-expect-terminator
         - var-value
         - var-variable-name
-        - var-array-modifier
-
-  var-array-modifier:
-    - include: illegal-array-modifier
-    - include: annotation
-    - include: any_POP
+        - illegal-array-modifier
 
   var-variable-name:
     - include: var-terminator
     - match: '{{uppercase_id}}'
       scope: entity.name.constant.java
-      set: var-array-modifier
+      set: illegal-array-modifier
     - match: '{{id}}'
       scope: variable.other.readwrite.java
-      set: var-array-modifier
+      set: illegal-array-modifier
     - include: any_POP
 
   var-value:
