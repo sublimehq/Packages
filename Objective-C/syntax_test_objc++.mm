@@ -761,9 +761,15 @@ int main() {
 
 template <typename T>
 struct A<T, enable_if_t<std::is_arithmetic<T>::value && !is_std_char_type<T>::value>> {
-    using x = conditional_t<sizeof(T) <= sizeof(long) <=> true, long, long long>;
+    using x = conditional_t<sizeof(T) <= sizeof(long), long, long long>;
     /*                                ^^ keyword.operator.comparison */
-    /*                                                ^^^ keyword.operator.comparison */
+
+    template<int>
+    struct Y {
+        constexpr int operator<=>(const Y&) { return 0; }
+    };
+    Y<Y<0>{} <=> Y<0>> y;
+    /*       ^^^ keyword.operator.comparison */
 };
 /* <- - invalid.illegal */
 
