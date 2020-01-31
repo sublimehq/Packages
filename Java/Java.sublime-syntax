@@ -1814,9 +1814,6 @@ contexts:
       scope: punctuation.separator.comma.java
       push: generic-type-argument
     - include: generic-type-terminator
-    - include: generic-type-illegal-bounds
-    - include: annotation
-    - include: any_POP
 
   generic-type-argument:
     - match: \?
@@ -1846,9 +1843,6 @@ contexts:
       scope: punctuation.separator.comma.java
       push: generic-type-parameter
     - include: generic-type-terminator
-    - include: generic-type-illegal-bounds
-    - include: annotation
-    - include: any_POP
 
   generic-type-parameter:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.4
@@ -1871,14 +1865,6 @@ contexts:
       set: object-type-reference
     - include: any_POP
 
-  generic-type-illegal-bounds:
-    - match: extends\b
-      scope: invalid.illegal.unexpected-keyword.java
-      push: [generic-type-additional-bounds, object-type-reference]
-    - match: super\b
-      scope: invalid.illegal.unexpected-keyword.java
-      push: object-type-reference
-
   generic-type-additional-bounds:
     - match: '&'
       scope: keyword.operator.multiple-bounds.java
@@ -1889,6 +1875,14 @@ contexts:
     - match: '>'
       scope: punctuation.definition.generic.end.java
       pop: true
+    - match: extends\b
+      scope: invalid.illegal.unexpected-keyword.java
+      push: [generic-type-additional-bounds, object-type-reference]
+    - match: super\b
+      scope: invalid.illegal.unexpected-keyword.java
+      push: object-type-reference
+    - include: annotation
+    - include: any_POP
 
 ###[ PRIMITIVE TYPES ]#########################################################
 
