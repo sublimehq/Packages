@@ -1801,46 +1801,8 @@ contexts:
 
 ###[ GENERIC TYPES ]###########################################################
 
-  generic-type-parameters:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.2
-    - match: <
-      scope: punctuation.definition.generic.begin.java
-      set: [generic-type-parameters-common, generic-type-parameter]
-    - include: any_POP
-
-  generic-type-parameters-common:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.4
-    - meta_scope: meta.generic.declaration.java
-    - match: \,
-      scope: punctuation.separator.comma.java
-      push: generic-type-parameter
-    - include: generic-type-terminator
-    - include: generic-type-illegal-bounds
-    - include: annotation
-    - include: any_POP
-
-  generic-type-parameter:
-    - match: \?|{{storage_types}}\b
-      scope: invalid.illegal.unexpected-keyword.java
-      set: generic-type-parameter-bounds
-    - include: reserved-pop
-    - match: '{{id}}'
-      scope: variable.parameter.type.java
-      set: generic-type-parameter-bounds
-    - include: annotation
-    - include: any_POP
-
-  generic-type-parameter-bounds:
-    - match: extends\b
-      scope: keyword.declaration.extends.java
-      set: [generic-type-additional-bounds, object-type-reference]
-    - match: super\b
-      scope: invalid.illegal.unexpected-keyword.java
-      set: object-type-reference
-    - include: any_POP
-
   generic-type-arguments:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.5
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.5.1
     - match: <
       scope: punctuation.definition.generic.begin.java
       set: [generic-type-arguments-common, generic-type-argument]
@@ -1868,6 +1830,44 @@ contexts:
       set: [generic-type-additional-bounds, object-type-reference]
     - match: super\b
       scope: keyword.declaration.super.java
+      set: object-type-reference
+    - include: any_POP
+
+  generic-type-parameters:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.2
+    - match: <
+      scope: punctuation.definition.generic.begin.java
+      set: [generic-type-parameters-common, generic-type-parameter]
+    - include: any_POP
+
+  generic-type-parameters-common:
+    - meta_scope: meta.generic.declaration.java
+    - match: \,
+      scope: punctuation.separator.comma.java
+      push: generic-type-parameter
+    - include: generic-type-terminator
+    - include: generic-type-illegal-bounds
+    - include: annotation
+    - include: any_POP
+
+  generic-type-parameter:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.4
+    - match: \?|{{storage_types}}\b
+      scope: invalid.illegal.unexpected-keyword.java
+      set: generic-type-parameter-bounds
+    - include: reserved-pop
+    - match: '{{id}}'
+      scope: variable.parameter.type.java
+      set: generic-type-parameter-bounds
+    - include: annotation
+    - include: any_POP
+
+  generic-type-parameter-bounds:
+    - match: extends\b
+      scope: keyword.declaration.extends.java
+      set: [generic-type-additional-bounds, object-type-reference]
+    - match: super\b
+      scope: invalid.illegal.unexpected-keyword.java
       set: object-type-reference
     - include: any_POP
 
