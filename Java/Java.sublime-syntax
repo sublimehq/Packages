@@ -481,21 +481,23 @@ contexts:
     - match: extends\b
       scope: keyword.declaration.extends.java
       push:
-        - - meta_scope: meta.class.extends.java
-          - match: \,
-            scope: punctuation.separator.comma.java
-            push: inherited-object-type-reference
-          - include: any_POP
+        - class-extends-object-type-references
         - inherited-object-type-reference
     - match: implements\b
       scope: keyword.declaration.implements.java
       push:
-        - - meta_scope: meta.class.implements.java
-          - match: \,
-            scope: punctuation.separator.comma.java
-            push: inherited-object-type-reference
-          - include: any_POP
+        - class-implements-object-type-references
         - inherited-object-type-reference
+    - include: any_POP
+
+  class-extends-object-type-references:
+    - meta_scope: meta.class.extends.java
+    - include: inherited-object-type-references
+    - include: any_POP
+
+  class-implements-object-type-references:
+    - meta_scope: meta.class.implements.java
+    - include: inherited-object-type-references
     - include: any_POP
 
   class-body-block:
@@ -563,21 +565,23 @@ contexts:
     - match: extends\b
       scope: invalid.illegal.unexpected-extends.java
       push:
-        - - meta_scope: meta.enum.extends.java
-          - match: \,
-            scope: punctuation.separator.comma.java
-            push: inherited-object-type-reference
-          - include: any_POP
+        - enum-extends-object-type-references
         - inherited-object-type-reference
     - match: implements\b
       scope: keyword.declaration.implements.java
       push:
-        - - meta_scope: meta.enum.implements.java
-          - match: \,
-            scope: punctuation.separator.comma.java
-            push: inherited-object-type-reference
-          - include: any_POP
+        - enum-implements-object-type-references
         - inherited-object-type-reference
+    - include: any_POP
+
+  enum-extends-object-type-references:
+    - meta_scope: meta.enum.extends.java
+    - include: inherited-object-type-references
+    - include: any_POP
+
+  enum-implements-object-type-references:
+    - meta_scope: meta.enum.implements.java
+    - include: inherited-object-type-references
     - include: any_POP
 
   enum-body-block:
@@ -660,21 +664,23 @@ contexts:
     - match: extends\b
       scope: keyword.declaration.extends.java
       push:
-        - - meta_scope: meta.interface.extends.java
-          - match: \,
-            scope: punctuation.separator.comma.java
-            push: inherited-object-type-reference
-          - include: any_POP
+        - interface-extends-object-type-references
         - inherited-object-type-reference
     - match: implements\b
       scope: keyword.declaration.implements.java
       push:
-        - - meta_scope: meta.interface.implements.java
-          - match: \,
-            scope: punctuation.separator.comma.java
-            push: inherited-object-type-reference
-          - include: any_POP
+        - interface-implements-object-type-references
         - inherited-object-type-reference
+    - include: any_POP
+
+  interface-extends-object-type-references:
+    - meta_scope: meta.interface.extends.java
+    - include: inherited-object-type-references
+    - include: any_POP
+
+  interface-implements-object-type-references:
+    - meta_scope: meta.interface.implements.java
+    - include: inherited-object-type-references
     - include: any_POP
 
   interface-body-block:
@@ -1773,8 +1779,13 @@ contexts:
 ###[ INHERRITED TYPE REFERENCES ]##############################################
 
   # Used in class-level 'extends' and 'implements'
-  inherited-object-type-reference:
+  inherited-object-type-references:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.4
+    - match: \,
+      scope: punctuation.separator.comma.java
+      push: inherited-object-type-reference
+
+  inherited-object-type-reference:
     - match: '{{before_fqn}}'
       set:
         - meta_scope: meta.path.java
