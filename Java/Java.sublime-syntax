@@ -838,47 +838,6 @@ contexts:
     - include: block-end
     - include: code-block-body
 
-###[ VAR DECLARATION ]#########################################################
-
-  var-declaration:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.4
-    - match: var\b
-      scope: storage.type.var.java
-      push:
-        - var-expect-terminator
-        - var-value
-        - var-variable-name
-        - illegal-array-modifier
-
-  var-variable-name:
-    - include: var-terminator
-    - match: '{{uppercase_id}}'
-      scope: entity.name.constant.java
-      set: illegal-array-modifier
-    - match: '{{id}}'
-      scope: variable.other.readwrite.java
-      set: illegal-array-modifier
-    - include: any_POP
-
-  var-value:
-    - match: =
-      scope: keyword.operator.assignment.java
-      set:
-        - meta_scope: meta.assignment.rhs.java
-        - include: var-terminator
-        - include: code
-    - include: any_POP
-
-  var-expect-terminator:
-    - match: ','
-      scope: invalid.illegal.expect-terminator.java
-      pop: true
-    - include: var-terminator
-
-  var-terminator:
-    - match: (?=\s*[,:;)}\]]|{{reserved_words}}\b)
-      pop: true
-
 ###[ STATIC BLOCKS ]###########################################################
 
   static-initializer:
@@ -927,6 +886,47 @@ contexts:
     - include: annotation
     - include: code
     - include: stray-parens
+
+###[ VAR DECLARATION ]#########################################################
+
+  var-declaration:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.4
+    - match: var\b
+      scope: storage.type.var.java
+      push:
+        - var-expect-terminator
+        - var-value
+        - var-variable-name
+        - illegal-array-modifier
+
+  var-variable-name:
+    - include: var-terminator
+    - match: '{{uppercase_id}}'
+      scope: entity.name.constant.java
+      set: illegal-array-modifier
+    - match: '{{id}}'
+      scope: variable.other.readwrite.java
+      set: illegal-array-modifier
+    - include: any_POP
+
+  var-value:
+    - match: =
+      scope: keyword.operator.assignment.java
+      set:
+        - meta_scope: meta.assignment.rhs.java
+        - include: var-terminator
+        - include: code
+    - include: any_POP
+
+  var-expect-terminator:
+    - match: ','
+      scope: invalid.illegal.expect-terminator.java
+      pop: true
+    - include: var-terminator
+
+  var-terminator:
+    - match: (?=\s*[,:;)}\]]|{{reserved_words}}\b)
+      pop: true
 
 ###[ INSTANTIATION ]###########################################################
 
