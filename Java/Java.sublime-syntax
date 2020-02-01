@@ -818,25 +818,30 @@ contexts:
     - match: ''
       set:
         - meta_scope: meta.method.java
-        - match: default\b
-          scope: keyword.declaration.default.java
-          set:
-            - clear_scopes: 1
-            - meta_scope: meta.method.default.java
-            - match: (?=[;}])
-              pop: true
-            - include: code
+        # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4.6
         - match: throws\b
           scope: keyword.declaration.throws.java
-          push:
-          - - clear_scopes: 1
-            - meta_scope: meta.method.throws.java
-            - match: \,
-              scope: punctuation.separator.comma.java
-              push: object-type-reference
-            - include: any_POP
-          - object-type-reference
+          set:
+            - method-throws-object-type-references
+            - object-type-reference
+        # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.6.2
+        - match: default\b
+          scope: keyword.declaration.default.java
+          set: method-default-body
         - include: any_POP
+
+  method-default-body:
+    - clear_scopes: 1
+    - meta_scope: meta.method.default.java
+    - match: (?=[;}])
+      pop: true
+    - include: code
+
+  method-throws-object-type-references:
+    - clear_scopes: 1
+    - meta_scope: meta.method.throws.java
+    - include: object-type-references
+    - include: any_POP
 
   method-body-block:
     - match: (?=\{)
@@ -1775,7 +1780,14 @@ contexts:
         - include: generic-type-arguments
     - include: array-modifier
 
+###[ OBJECT TYPE REFERENCES ]##################################################
+
   # Used in 'throws' and generic bounds
+  object-type-references:
+    - match: \,
+      scope: punctuation.separator.comma.java
+      push: object-type-reference
+
   object-type-reference:
     - match: '{{before_fqn}}'
       set:
