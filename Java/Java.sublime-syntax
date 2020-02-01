@@ -139,6 +139,16 @@ contexts:
     - match: '{{illegal_keywords}}\b'
       scope: invalid.illegal.keyword.java
 
+  illegal-members:
+    - match: \.
+      scope: invalid.illegal.unexpected-accessor.java
+      push:
+        - match: '{{id}}'
+          scope: invalid.illegal.unexpected-member.java
+          pop: true
+        - include: any_POP
+    - include: any_POP
+
   illegal-newline:
     - match: \n
       scope: invalid.illegal.unexpected-newline.java
@@ -789,7 +799,7 @@ contexts:
     - match: (?=\()
       set: 
         - method-parameters-common
-        - parameter-identifier
+        - parameter-maybe-receiver
         - parameter-variadic
         - parameter-type
         - parameter-modifier
@@ -1143,10 +1153,52 @@ contexts:
     - include: any_POP
 
   parameter-identifier:
+    - match: '{{variables}}\b'
+      scope: invalid.illegal.identifier.java
+      set: [illegal-members, array-modifier]
     - match: '{{id}}'
       scope: variable.parameter.java
-      set: array-modifier
+      set: [illegal-members, array-modifier]
     - include: any_POP
+
+  parameter-maybe-receiver:
+    - match: this\b
+      scope: variable.parameter.this.java
+      pop: true
+    - match: '{{id}}'
+      branch_point: parameter-maybe-receiver
+      branch:
+        - parameter-receiver-identifier
+        - parameter-normal-identifier
+    - include: any_POP
+
+  parameter-receiver-identifier:
+    - meta_scope: meta.path.java support.class.java
+    - match: ''
+      push:
+        - clear_scopes: 1
+        - match: \.
+          scope: punctuation.accessor.dot.java
+          push:
+            - match: this\b
+              scope: variable.parameter.this.java
+              pop: 4
+            - match: '{{id}}'
+              scope: invalid.illegal.identifier.java
+              pop: 4
+            - match: (?=\S)
+              pop: 4
+        - match: (?=\S)
+          fail: parameter-maybe-receiver
+
+  parameter-normal-identifier:
+    - meta_scope: variable.parameter.java
+    - match: ''
+      set:
+        - match: \[\s*\]
+          scope: storage.modifier.array.java
+        - include: annotation
+        - include: any_POP2
 
 ###[ VARIABLES ]###############################################################
 

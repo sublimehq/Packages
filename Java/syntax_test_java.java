@@ -1390,6 +1390,181 @@ interface /**/ TestIntf /**/ extends /**/ A /**/, /**/ BB /**/ {}
 
 
 /******************************************************************************
+ * Method Declaration Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
+ *****************************************************************************/
+
+class MethodTests {
+
+  // Illegal: Top-level constructors can't contain receiver parameters,
+  //          but the syntax does not destinguish top-level and nested classses
+  MethodTests(MethodTests this, A this) {}
+//^^^^^^^^^^^ meta.method.identifier.java - meta.method meta.method
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
+//^^^^^^^^^^^ entity.name.function.constructor.java
+//           ^ punctuation.section.parens.begin.java
+//            ^^^^^^^^^^^ support.class.java
+//                        ^^^^ variable.parameter.this.java
+//                            ^ punctuation.separator.comma.java
+//                              ^ support.class.java
+//                                ^^^^ invalid.illegal.identifier.java
+//                                    ^ punctuation.section.parens.end.java
+//                                      ^ punctuation.section.block.begin.java
+//                                       ^ punctuation.section.block.end.java
+
+  void method(MethodTests this, A this, B super, C par) {}
+//^^^^ meta.method.return-type.java - meta.method meta.method
+//    ^^^^^^^ meta.method.identifier.java - meta.method meta.method
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
+//^^^^ storage.type.void.java
+//     ^^^^^^ entity.name.function.java
+//           ^ punctuation.section.parens.begin.java
+//            ^^^^^^^^^^^ support.class.java
+//                        ^^^^ variable.parameter.this.java
+//                            ^ punctuation.separator.comma.java
+//                              ^ support.class.java
+//                                ^^^^ invalid.illegal.identifier.java
+//                                    ^ punctuation.separator.comma.java
+//                                      ^ support.class.java
+//                                        ^^^^^ invalid.illegal.identifier.java
+//                                             ^ punctuation.separator.comma.java
+//                                               ^ support.class.java
+//                                                 ^^^ variable.parameter.java
+//                                                    ^ punctuation.section.parens.end.java
+//                                                      ^ punctuation.section.block.begin.java
+//                                                       ^ punctuation.section.block.end.java
+
+  // Illegal: Static methods can't contain receiver parameters,
+  //          but the syntax does not destinguish them.
+  static void method(MethodTests this) {}
+//       ^^^^ meta.method.return-type.java - meta.method meta.method
+//           ^^^^^^^ meta.method.identifier.java - meta.method meta.method
+//                  ^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
+//^^^^^^ storage.modifier.java
+//       ^^^^ storage.type.void.java
+//            ^^^^^^ entity.name.function.java
+//                  ^ punctuation.section.parens.begin.java
+//                   ^^^^^^^^^^^ support.class.java
+//                               ^^^^ variable.parameter.this.java
+//                                   ^ punctuation.section.parens.end.java
+//                                     ^ punctuation.section.block.begin.java
+//                                      ^ punctuation.section.block.end.java
+
+  class A {
+    A(MethodTests MethodTests.this, A MethodTests.this) {}
+//  ^ entity.name.function.constructor.java
+//   ^ punctuation.section.parens.begin.java
+//    ^^^^^^^^^^^ support.class.java
+//                ^^^^^^^^^^^^^^^^ meta.path.java
+//                ^^^^^^^^^^^ support.class.java
+//                           ^ punctuation.accessor.dot.java
+//                            ^^^^ variable.parameter.this.java
+//                                ^ punctuation.separator.comma.java
+//                                  ^ support.class.java
+//                                    ^^^^^^^^^^^ variable.parameter.java
+//                                               ^ invalid.illegal.unexpected-accessor.java
+//                                                ^^^^ invalid.illegal.unexpected-member.java
+//                                                    ^ punctuation.section.parens.end.java
+//                                                      ^ punctuation.section.block.begin.java
+//                                                       ^ punctuation.section.block.end.java
+
+    A(
+//  ^ entity.name.function.constructor.java
+//   ^ punctuation.section.parens.begin.java
+        /**/ MethodTests
+//      ^^^^ comment.block.empty.java
+//           ^^^^^^^^^^^ support.class.java
+        /**/ MethodTests
+//      ^^^^ comment.block.empty.java
+//          ^ - meta.path
+//           ^^^^^^^^^^^^ meta.path.java
+//           ^^^^^^^^^^^ support.class.java
+        /**/ .
+//     ^^^^^^^^ meta.path.java
+//      ^^^^ comment.block.empty.java
+//           ^ punctuation.accessor.dot.java
+        /**/ this
+//      ^^^^^^^^^ meta.path.java
+//               ^ - meta.path
+//      ^^^^ comment.block.empty.java
+//           ^^^^ variable.parameter.this.java
+        /**/ ,
+//      ^^^^ comment.block.empty.java
+//           ^ punctuation.separator.comma.java
+        /**/  A
+//      ^^^^ comment.block.empty.java
+//            ^ support.class.java - meta.path
+        /**/  MethodTests
+//      ^^^^ comment.block.empty.java
+//            ^^^^^^^^^^^ variable.parameter.java - meta.path
+        /**/ .
+//      ^^^^ comment.block.empty.java
+//           ^ invalid.illegal.unexpected-accessor.java - meta.path
+        /**/ this
+//      ^^^^ comment.block.empty.java
+//           ^^^^ invalid.illegal.unexpected-member.java - meta.path
+        /**/ ) {}
+//      ^^^^ comment.block.empty.java
+//           ^ punctuation.section.parens.end.java
+//             ^ punctuation.section.block.begin.java
+//              ^ punctuation.section.block.end.java
+
+    // OK: the MethodTests parameter represents the instance
+    // of A for which A.m() is invoked.
+    void method(A this) {}
+//  ^^^^ meta.method.return-type.java - meta.method meta.method
+//      ^^^^^^^ meta.method.identifier.java - meta.method meta.method
+//             ^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
+//  ^^^^ storage.type.void.java
+//       ^^^^^^ entity.name.function.java
+//             ^ punctuation.section.parens.begin.java
+//              ^ support.class.java
+//                ^^^^ variable.parameter.this.java
+//                    ^ punctuation.section.parens.end.java
+//                      ^ punctuation.section.block.begin.java
+//                       ^ punctuation.section.block.end.java
+
+    class B {
+      // OK: the MethodTests parameter represents the instance
+      // of A which immediately encloses the instance of B being constructed.
+      B(MethodTests.A A.this) {}
+//    ^ entity.name.function.constructor.java
+//     ^ punctuation.section.parens.begin.java
+//      ^^^^^^^^^^^ support.class.java
+//                 ^ punctuation.accessor.dot.java
+//                  ^ support.class.java
+//                    ^^^^^^ meta.path.java
+//                    ^ support.class.java
+//                     ^ punctuation.accessor.dot.java
+//                      ^^^^ variable.parameter.this.java
+//                          ^ punctuation.section.parens.end.java
+//                            ^ punctuation.section.block.begin.java
+//                             ^ punctuation.section.block.end.java
+
+      // OK: the receiver parameter represents the instance
+      // of B for which B.m() is invoked.
+      void method(MethodTests.A.B this) {}
+//    ^^^^ meta.method.return-type.java - meta.method meta.method
+//        ^^^^^^^ meta.method.identifier.java - meta.method meta.method
+//               ^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
+//    ^^^^ storage.type.void.java
+//         ^^^^^^ entity.name.function.java
+//               ^ punctuation.section.parens.begin.java
+//                ^^^^^^^^^^^ support.class.java
+//                           ^ punctuation.accessor.dot.java
+//                            ^ support.class.java
+//                             ^ punctuation.accessor.dot.java
+//                              ^ support.class.java
+//                                ^^^^ variable.parameter.this.java
+//                                    ^ punctuation.section.parens.end.java
+//                                      ^ punctuation.section.block.begin.java
+//                                       ^ punctuation.section.block.end.java
+    }
+  }
+}
+
+
+/******************************************************************************
  * Instance Creation Expressions Tests
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.9
  *****************************************************************************/
