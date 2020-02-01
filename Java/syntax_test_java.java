@@ -2393,10 +2393,37 @@ public class Foo {
 //                  ^^^^^^^^ meta.assignment.rhs.java
 
   static {
-//       ^ meta.static.body.java punctuation.section.block.begin.java
+//^^^^^^^ meta.class.body.java meta.block.java
+//       ^^ meta.class.body.java meta.block.java meta.static.body.java meta.block.java
+//^^^^^^ storage.modifier.java
+//       ^ punctuation.section.block.begin.java
+
     StaticFlag.setFlag("Boo!");
+//  ^^^^^^^^^^ support.class.java
+//            ^ punctuation.accessor.dot.java
+//             ^^^^^^^ variable.function.java
+    {
+//  ^ meta.class.body.java meta.block.java meta.static.body.java meta.block.java meta.block.java punctuation.section.block.begin.java
+        this.member();
+//      ^^^^ invalid.illegal.unexpected-keyword.java
+//          ^ punctuation.accessor.dot.java
+//           ^^^^^^ variable.function.java
+//                 ^ punctuation.section.parens.begin.java
+//                  ^ punctuation.section.parens.end.java
+        super.member();
+//      ^^^^^ invalid.illegal.unexpected-keyword.java
+//           ^ punctuation.accessor.dot.java
+//            ^^^^^^ variable.function.java
+//                  ^ punctuation.section.parens.begin.java
+//                   ^ punctuation.section.parens.end.java
+        return true;
+//      ^^^^^^ invalid.illegal.unexpected-keyword.java
+//             ^^^^ constant.language.boolean.java
+    }
+//  ^ meta.class.body.java meta.block.java meta.static.body.java meta.block.java meta.block.java punctuation.section.block.end.java
+    return true;
   }
-//^ meta.static.body.java punctuation.section.block.end.java
+//^ meta.class.body.java meta.block.java meta.static.body.java meta.block.java punctuation.section.block.end.java
 
 
 /******************************************************************************

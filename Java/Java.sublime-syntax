@@ -511,12 +511,13 @@ contexts:
     - include: class-body
 
   class-body:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.6
     - include: class
     - include: enum
     - include: interface
     - include: annotation
     - include: fields-and-methods
-    - include: static-code-block
+    - include: static-initializer
     - include: code
 
 ###[ ENUMS ]###################################################################
@@ -878,6 +879,27 @@ contexts:
     - match: (?=\s*[,:;)}\]]|{{reserved_words}}\b)
       pop: true
 
+###[ STATIC BLOCKS ]###########################################################
+
+  static-initializer:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.7
+    - match: \{
+      scope: punctuation.section.block.begin.java
+      push:
+        - meta_scope: meta.static.body.java meta.block.java
+        - include: static-initializer-body
+
+  static-initializer-body:
+    - match: \{
+      scope: punctuation.section.block.begin.java
+      push:
+        - meta_scope: meta.block.java
+        - include: static-initializer-body
+    - match: (?:return|super|this)\b
+      scope: invalid.illegal.unexpected-keyword.java
+    - include: block-end
+    - include: code-block-body
+
 ###[ CODE BLOCKS ]#############################################################
 
   block-begin:
@@ -889,16 +911,6 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.java
       pop: true
-
-  static-code-block:
-    - match: \{
-      scope: punctuation.section.block.begin.java
-      push: static-code-block-common
-
-  static-code-block-common:
-    - meta_scope: meta.static.body.java meta.block.java
-    - include: block-end
-    - include: code-block-body
 
   code-block:
     - match: \{
