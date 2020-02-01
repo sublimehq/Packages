@@ -27,7 +27,7 @@ variables:
       {{illegal_keywords}}
     )
   declaration_keywords: |-
-    (?:class|enum|interface|var|void|extends|implements|import|package)
+    (?:class|enum|@?interface|var|void|extends|implements|import|package)
   control_keywords: |-
     (?x:
       assert|break|case|catch|continue|do|else|finally|for|if|return|switch|
@@ -717,12 +717,14 @@ contexts:
       push: 
         - method-body-block
         - method-attributes
+        - method-modifiers
         - method-parameters
         - method-name
     - match: (?={{id}}\s*\()
       push: 
         - method-body-block
         - method-attributes
+        - method-modifiers
         - method-parameters
         - method-name
     - match: '{{before_fqn}}'
@@ -748,6 +750,7 @@ contexts:
       set: 
         - method-body-block
         - method-attributes
+        - method-modifiers
         - method-parameters
         - method-name
     - match: (?=\S)
@@ -786,6 +789,7 @@ contexts:
       pop: true
 
   method-name:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
     - match: '{{classcase_id}}'
       scope: entity.name.function.constructor.java
       pop: true
@@ -814,31 +818,32 @@ contexts:
       scope: invalid.illegal.missing-parameter-end
       pop: true
 
-  method-attributes:
+  method-modifiers:
     - match: ''
       set:
         - meta_scope: meta.method.java
-        # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4.6
-        - match: throws\b
-          scope: keyword.declaration.throws.java
-          set:
-            - method-throws-object-type-references
-            - object-type-reference
-        # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.6.2
-        - match: default\b
-          scope: keyword.declaration.default.java
-          set: method-default-body
-        - include: any_POP
+        - include: array-modifier
+
+  method-attributes:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4.6
+    - match: throws\b
+      scope: keyword.declaration.throws.java
+      set:
+        - method-throws-object-type-references
+        - object-type-reference
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.6.2
+    - match: default\b
+      scope: keyword.declaration.default.java
+      set: method-default-body
+    - include: any_POP
 
   method-default-body:
-    - clear_scopes: 1
     - meta_scope: meta.method.default.java
     - match: (?=[;}])
       pop: true
     - include: code
 
   method-throws-object-type-references:
-    - clear_scopes: 1
     - meta_scope: meta.method.throws.java
     - include: object-type-references
     - include: any_POP

@@ -1390,6 +1390,130 @@ interface /**/ TestIntf /**/ extends /**/ A /**/, /**/ BB /**/ {}
 
 
 /******************************************************************************
+ * Annotation Declaration Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.6
+ *****************************************************************************/
+
+@interface
+//<- meta.interface.java storage.type.interface.java keyword.declaration.interface.java
+//^^^^^^^^ meta.interface.java storage.type.interface.java keyword.declaration.interface.java
+//        ^ meta.interface.identifier.java
+
+@interface AnnotationType
+//<- meta.interface.java storage.type.interface.java keyword.declaration.interface.java
+//^^^^^^^^ meta.interface.java
+//        ^^^^^^^^^^^^^^^^ meta.interface.identifier.java
+//^^^^^^^^ storage.type.interface.java keyword.declaration.interface.java
+//         ^^^^^^^^^^^^^^ entity.name.interface.java
+
+// Note: The extends is actually not allowed here, but the syntax definition does
+//       not yet distiguish between interface types and annotation types
+@interface AnnotationType extends
+//<- meta.interface.java storage.type.interface.java keyword.declaration.interface.java
+//^^^^^^^^ meta.interface.java
+//        ^^^^^^^^^^^^^^^^ meta.interface.identifier.java
+//                        ^^^^^^^^ meta.interface.extends.java
+//^^^^^^^^ storage.type.interface.java keyword.declaration.interface.java
+//         ^^^^^^^^^^^^^^ entity.name.interface.java
+//                        ^^^^^^^ keyword.declaration.extends.java
+
+@interface AnnotationType {
+//<- meta.interface.java storage.type.interface.java keyword.declaration.interface.java
+//^^^^^^^^ meta.interface.java
+//        ^^^^^^^^^^^^^^^^ meta.interface.identifier.java
+//                        ^^ meta.interface.body.java meta.block.java
+//^^^^^^^^ storage.type.interface.java keyword.declaration.interface.java
+//         ^^^^^^^^^^^^^^ entity.name.interface.java
+//                        ^ punctuation.section.block.begin.java
+
+  int numericValue() default 42;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.method meta.method
+//    ^^^^^^^^^^^^ meta.method.identifier.java
+//                ^^ meta.method.parameters.java meta.parens.java
+//                  ^ meta.method.java
+//                   ^^^^^^^^^^ meta.method.default.java
+//                             ^ - meta.method
+//    ^^^^^^^^^^^^ entity.name.function.java
+//                ^ punctuation.section.parens.begin.java
+//                 ^ punctuation.section.parens.end.java
+//                   ^^^^^^^ keyword.declaration.default.java
+//                           ^^ constant.numeric
+
+  boolean booleanValue() default true;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.method meta.method
+//        ^^^^^^^^^^^^ meta.method.identifier.java
+//                    ^^ meta.method.parameters.java meta.parens.java
+//                      ^ meta.method.java
+//                       ^^^^^^^^^^^^ meta.method.default.java
+//                                   ^ - meta.method
+//        ^^^^^^^^^^^^ entity.name.function.java
+//                    ^ punctuation.section.parens.begin.java
+//                     ^ punctuation.section.parens.end.java
+//                       ^^^^^^^ keyword.declaration.default.java
+//                               ^^^^ constant.language
+
+  char charValue() default 'S';
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.method meta.method
+//     ^^^^^^^^^ meta.method.identifier.java
+//              ^^ meta.method.parameters.java meta.parens.java
+//                ^ meta.method.java
+//                 ^^^^^^^^^^^ meta.method.default.java
+//                            ^ - meta.method
+//     ^^^^^^^^^ entity.name.function.java
+//              ^ punctuation.section.parens.begin.java
+//               ^ punctuation.section.parens.end.java
+//                 ^^^^^^^ keyword.declaration.default.java
+//                         ^^^ string.quoted.single.java
+
+  String value() default "Default value";
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.method meta.method
+//       ^^^^^ meta.method.identifier.java
+//            ^^ meta.method.parameters.java meta.parens.java
+//              ^ meta.method.java
+//       ^^^^^ entity.name.function.java
+//            ^ punctuation.section.parens.begin.java
+//             ^ punctuation.section.parens.end.java
+//               ^^^^^^^^^^^^^^^^^^^^^^^ meta.method.default.java
+//                                      ^ - meta.method
+//               ^^^^^^^ keyword.declaration.default.java
+//                       ^^^^^^^^^^^^^^^ string.quoted.double.java
+
+  Class<?> classValue() default String.class;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.method meta.method
+//         ^^^^^^^^^^ meta.method.identifier.java
+//                   ^^ meta.method.parameters.java meta.parens.java
+//                     ^ meta.method.java
+//                      ^^^^^^^^^^^^^^^^^^^^ meta.method.default.java
+//                                          ^ - meta.method
+//         ^^^^^^^^^^ entity.name.function.java
+//                   ^ punctuation.section.parens.begin.java
+//                    ^ punctuation.section.parens.end.java
+//                      ^^^^^^^ keyword.declaration.default.java
+//                              ^^^^^^ support.class.java
+//                                    ^ punctuation.accessor.dot.java
+//                                     ^^^^^ variable.language.class.java - storage.type.java
+
+  String[] arrayValue()[] default {"Foo", "Bar"};
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.method meta.method
+//         ^^^^^^^^^^ meta.method.identifier.java
+//                   ^^ meta.method.parameters.java meta.parens.java
+//                     ^^^ meta.method.java
+//                        ^^^^^^^^^^^^^^^^^^^^^^ meta.method.default.java
+//                                              ^ - meta.method
+//         ^^^^^^^^^^ entity.name.function.java
+//                   ^ punctuation.section.parens.begin.java
+//                    ^ punctuation.section.parens.end.java
+//                     ^^ storage.modifier.array.java
+//                        ^^^^^^^ keyword.declaration.default.java
+//                                ^ punctuation.section.block.begin.java
+//                                 ^^^^^ string.quoted.double.java
+//                                      ^ punctuation.separator.comma.java
+//                                        ^^^^^ string.quoted.double.java
+//                                             ^ punctuation.section.block.end.java
+}
+
+
+/******************************************************************************
  * Method Declaration Tests
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
  *****************************************************************************/
@@ -1412,7 +1536,7 @@ class MethodTests {
 //                                      ^ punctuation.section.block.begin.java
 //                                       ^ punctuation.section.block.end.java
 
-  void method(MethodTests this, A this, B super, C par) {}
+  void method(MethodTests this, A this, B super, C par)[] {}
 //^^^^ meta.method.return-type.java - meta.method meta.method
 //    ^^^^^^^ meta.method.identifier.java - meta.method meta.method
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
@@ -1431,8 +1555,9 @@ class MethodTests {
 //                                               ^ support.class.java
 //                                                 ^^^ variable.parameter.java
 //                                                    ^ punctuation.section.parens.end.java
-//                                                      ^ punctuation.section.block.begin.java
-//                                                       ^ punctuation.section.block.end.java
+//                                                     ^^ storage.modifier.array.java
+//                                                        ^ punctuation.section.block.begin.java
+//                                                         ^ punctuation.section.block.end.java
 
   // Illegal: Static methods can't contain receiver parameters,
   //          but the syntax does not destinguish them.
@@ -2256,35 +2381,6 @@ public class GrafoTest {
 //                                                     ^ support.class
 
 }
-
-public @interface PublicAnnotation {
-//     ^^^^^^^^^^ storage.type.interface.java
-  int numericValue() default 42;
-//                   ^^^^^^^ keyword.declaration.default.java
-//                           ^^ constant.numeric
-  boolean booleanValue() default true;
-//                       ^^^^^^^ keyword.declaration.default.java
-//                               ^^^^ constant.language
-  char charValue() default 'S';
-//                 ^^^^^^^ keyword.declaration.default.java
-//                         ^^^ string.quoted.single.java
-  String value() default "Default value";
-//               ^^^^^^^ keyword.declaration.default.java
-//                       ^^^^^^^^^^^^^^^ string.quoted.double.java
-  Class<?> classValue() default String.class;
-//                      ^^^^^^^ keyword.declaration.default.java
-//                              ^^^^^^ support.class.java
-//                                     ^^^^^ variable.language.class.java - storage.type.java
-  String[] arrayValue() default {"Foo", "Bar"};
-//                      ^^^^^^^ keyword.declaration.default.java
-//                              ^ punctuation.section.block.begin
-//                               ^^^^^ string.quoted.double.java
-//                                      ^^^^^ string.quoted.double.java
-//                                           ^ punctuation.section.block.end
-}
-
-@interface PackageAnnotation {}
-//^^^^^^^^ storage.type.interface.java
 
 @MultiLineAnnotation(
 // <- meta.annotation.identifier.java punctuation.definition.annotation.java
