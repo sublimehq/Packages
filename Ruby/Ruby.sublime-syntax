@@ -71,12 +71,12 @@ variables:
   hdigits: (?:\h+(?:_\h+)*)
   odigits: (?:[0-7]+(?:_[0-7]+)*)
   exponent: (?:[Ee][-+]?{{ddigits}})
-  heredoc_type_css: (?:[[:upper:]_]_)?CSS
-  heredoc_type_html: (?:[[:upper:]_]_)?HTML
-  heredoc_type_js: (?:[[:upper:]_]_)?(?:JS|JAVASCRIPT)
-  heredoc_type_ruby: (?:[[:upper:]_]_)?RUBY
-  heredoc_type_shell: (?:[[:upper:]_]_)?(?:SH|SHELL)
-  heredoc_type_sql: (?:[[:upper:]_]_)?SQL
+  heredoc_type_css: (?:[[:upper:]_]_)?CSS\b
+  heredoc_type_html: (?:[[:upper:]_]_)?HTML\b
+  heredoc_type_js: (?:[[:upper:]_]_)?(?:JS|JAVASCRIPT)\b
+  heredoc_type_ruby: (?:[[:upper:]_]_)?RUBY\b
+  heredoc_type_shell: (?:[[:upper:]_]_)?(?:SH|SHELL)\b
+  heredoc_type_sql: (?:[[:upper:]_]_)?SQL\b
   identifier: '\b[[:alpha:]_][[:alnum:]_]*\b'
   method_punctuation: '(?:[?!]|=(?![>=]))?'
   method_name: '{{identifier}}{{method_punctuation}}'
