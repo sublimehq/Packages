@@ -169,6 +169,14 @@ contexts:
     - include: illegal-semicolon
     - include: illegal-open-block
 
+  illegal-type-parameters:
+    - match: \<
+      set:
+        - meta_scope: invalid.illegal.unexpected-type-parameters.java
+        - match: \>
+          pop: true
+    - include: any_POP
+
   stray-braces:
     - match: \}
       scope: invalid.illegal.stray-brace-end
@@ -545,7 +553,7 @@ contexts:
             - enum-body-block
             - enum-extends
             - enum-name-meta
-            - enum-type-parameters
+            - illegal-type-parameters
             - enum-name
         - match: '{{class_modifier}}\b'
           scope: storage.modifier.java
@@ -558,14 +566,6 @@ contexts:
     - match: '{{id}}'
       scope: entity.name.enum.java
       pop: true
-    - include: any_POP
-
-  enum-type-parameters:
-    - match: \<
-      set:
-        - meta_scope: invalid.illegal.unexpected-type-parameters.java
-        - match: \>
-          pop: true
     - include: any_POP
 
   enum-name-meta:
