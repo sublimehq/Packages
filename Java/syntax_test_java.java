@@ -1686,6 +1686,69 @@ class MethodTests {
 //                                       ^ punctuation.section.block.end.java
     }
   }
+
+  public volatile int[][] arrayMethod(
+//                        ^^^^^^^^^^^ meta.method.identifier.java entity.name.function.java - meta.method meta.method
+//                                   ^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
+//^^^^^^ storage.modifier.java
+//       ^^^^^^^^ storage.modifier.java
+//                ^^^ storage.type.primitive.java
+//                   ^^^^ storage.modifier.array.java
+//                                   ^ punctuation.section.parens.begin.java
+
+    @Anno int[] arg[],
+// ^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
+//  ^^^^^ meta.annotation.identifier.java
+//        ^^^ storage.type.primitive.java
+//           ^^ storage.modifier.array.java
+//              ^^^ variable.parameter.java
+//                 ^^ storage.modifier.array.java
+//                   ^ punctuation.separator.comma.java
+
+    final int @Anno [] @Anno [] arg @Anno [] @Anno [],
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
+//  ^^^^^ storage.modifier.java
+//        ^^^ storage.type.primitive.java
+//            ^^^^^ meta.annotation.identifier.java
+//                  ^^ storage.modifier.array.java
+//                     ^^^^^ meta.annotation.identifier.java
+//                           ^^ storage.modifier.array.java
+//                              ^^^ variable.parameter.java
+//                                  ^^^^^ meta.annotation.identifier.java
+//                                        ^^ storage.modifier.array.java
+//                                           ^^^^^ meta.annotation.identifier.java
+//                                                 ^^ storage.modifier.array.java
+
+    String<int,int@Anno[]>@Anno[]@Anno[]arg@Anno[]@Anno[]
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
+//  ^^^^^^ support.class.java
+//        ^^^^^^^^^^^^^^^^ meta.generic.java
+//        ^ punctuation.definition.generic.begin.java
+//         ^^^ invalid.illegal.unexpected-keyword.java
+//            ^ punctuation.separator.comma.java
+//             ^^^ storage.type.primitive.java
+//                ^^^^^ meta.annotation.identifier.java
+//                     ^^ storage.modifier.array.java
+//                       ^ punctuation.definition.generic.end.java
+//                        ^^^^^ meta.annotation.identifier.java
+//                             ^^ storage.modifier.array.java
+//                               ^^^^^ meta.annotation.identifier.java
+//                                    ^^ storage.modifier.array.java
+//                                      ^^^ variable.parameter.java
+//                                         ^^^^^ meta.annotation.identifier.java
+//                                              ^^ storage.modifier.array.java
+//                                                ^^^^^ meta.annotation.identifier.java
+//                                                     ^^ storage.modifier.array.java
+  ) @Anno [] @ package . Anno (param = value) [] {}
+//^ meta.method.parameters.java meta.parens.java punctuation.section.parens.end.java
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.java - meta.method meta.method
+//                                               ^^ meta.method.body.java meta.block.java - meta.method meta.method
+//  ^^^^^ meta.annotation.identifier.java
+//        ^^ storage.modifier.array.java
+//           ^^^^^^^^^^^^^^^^^ meta.annotation.identifier.java
+//                            ^^^^^^^^^^^^^^^ meta.annotation.parameters.java meta.parens.java
+//                                           ^ - meta.annotation
+//                                            ^^ storage.modifier.array.java
 }
 
 
@@ -1828,6 +1891,13 @@ class InstantiationTests {
    String[][] doubleStringArray;
 // ^^^^^^ support.class.java
 //       ^^^^ storage.modifier.array.java
+
+   String @Anno [ ] @Anno [ ] doubleStringArray;
+// ^^^^^^ support.class.java
+//        ^^^^^^ meta.annotation.identifier.java
+//              ^^^ storage.modifier.array.java
+//                  ^^^^^^ meta.annotation.identifier.java
+//                        ^^^ storage.modifier.array.java
 
     String[] stringArray = new String[] {"foo", "bar"};
 //  ^^^^^^ support.class.java
@@ -2010,6 +2080,21 @@ class InstantiationTests {
 
     new Generic<int>();
 //              ^^^ invalid.illegal.unexpected-keyword.java
+
+    new Generic<int[]>();
+//              ^^^ storage.type.primitive.java
+//                 ^^ storage.modifier.array.java
+
+    new Generic<int @Anno []>();
+//              ^^^ storage.type.primitive.java
+//                  ^^^^^^ meta.annotation.identifier.java
+//                        ^^ storage.modifier.array.java
+
+    new Generic<int @com . Anno ( @Anno arg ) []>();
+//              ^^^ storage.type.primitive.java
+//                  ^^^^^^^^^^^^ meta.annotation.identifier.java
+//                              ^^^^^^^^^^^^^ meta.annotation.parameters.java meta.parens.java
+//                                            ^^ storage.modifier.array.java
 
     new Generic<String, int>();
 //              ^^^^^^ support.class.java

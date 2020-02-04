@@ -109,15 +109,23 @@ contexts:
 
   any_POP:
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   any_POP2:
     - match: (?=\S)
       pop: 2
 
+  any_POP3:
+    - match: (?=\S)
+      pop: 3
+
   immediate_POP:
     - match: ''
-      pop: true
+      pop: 1
+
+  immidiate_POP2:
+    - match: (?=\S)
+      pop: 2
 
   immidiate_POP3:
     - match: (?=\S)
@@ -730,7 +738,7 @@ contexts:
     - match: '{{before_fqn}}'
       push: 
         - field-or-method
-        - after-object-and-array-types
+        - after-object-array-types
         - array-modifier
         - generic-type-arguments
         - object-type-fqn
@@ -738,7 +746,7 @@ contexts:
       scope: support.class.java
       push: 
         - field-or-method
-        - after-object-and-array-types
+        - after-object-array-types
         - array-modifier
         - generic-type-arguments
     - match: '{{storage_types}}\b'
@@ -1153,7 +1161,7 @@ contexts:
     - match: var\b
       scope: invalid.illegal.unexpected-keyword.java
       set: array-modifier
-    - include: object-and-array-types
+    - include: object-array-types
 
   parameter-variadic:
     - match: \.\.\.
@@ -1205,9 +1213,7 @@ contexts:
     - meta_scope: variable.parameter.java
     - match: ''
       set:
-        - match: \[\s*\]
-          scope: storage.modifier.array.java
-        - include: annotation
+        - include: array-modifier-body
         - include: any_POP2
 
 ###[ VARIABLES ]###############################################################
@@ -1823,38 +1829,31 @@ contexts:
       set: object-type-reference-no-fqn
     - include: any_POP
 
-###[ OBJECT AND ARRAY TYPES ]##################################################
+###[ OBJECT ARRAY TYPES ]######################################################
 
-  # Used in method's and generic's parameters
-  object-and-array-types:
+  object-array-types:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.3
     - match: '{{before_fqn}}'
       set:
         - meta_scope: meta.path.java
         - include: variable-namespace
-        - include: object-and-array-types-no-fqn
-    - match: '{{storage_types}}(?=\s*\[)'
-      scope: storage.type.primitive.java
-      set: array-modifier
-    - match: '{{storage_types}}\b'
-      scope: invalid.illegal.unexpected-keyword.java
-      pop: true
-    - include: object-and-array-types-no-fqn
+        - include: object-array-types-no-fqn
+    - include: object-array-types-no-fqn
 
-  object-and-array-types-no-fqn:
+  object-array-types-no-fqn:
     - match: '{{classcase_id}}\b'
       scope: support.class.java
       set: 
-        - after-object-and-array-types
+        - after-object-array-types
         - array-modifier
         - generic-type-arguments
     - include: annotation
     - include: any_POP
 
-  after-object-and-array-types:
+  after-object-array-types:
     - match: \.(?!\.)
       scope: punctuation.accessor.dot.java
-      set: object-and-array-types-no-fqn
+      set: object-array-types-no-fqn
     - include: any_POP
 
 ###[ INHERRITED TYPE REFERENCES ]##############################################
@@ -1911,7 +1910,24 @@ contexts:
     - match: \?
       scope: keyword.operator.wildcard.java
       set: generic-type-arguments-bounds
-    - include: object-and-array-types
+    - match: '{{storage_types}}\b'
+      branch_point: primitive-array-type
+      branch:
+        - - meta_scope: storage.type.primitive.java
+          - match: ''
+            push:
+              - clear_scopes: 1
+              - match: (?=\[)
+                set:
+                  - clear_scopes: 1
+                  - include: array-modifier-body
+                  - include: any_POP3
+              - include: annotation
+              - match: (?=\S)
+                fail: primitive-array-type
+        - - meta_scope: invalid.illegal.unexpected-keyword.java
+          - include: immidiate_POP2
+    - include: object-array-types
 
   generic-type-arguments-bounds:
     - match: extends\b
@@ -1984,10 +2000,13 @@ contexts:
       push: array-modifier
 
   array-modifier:
+    - include: array-modifier-body
+    - include: any_POP
+
+  array-modifier-body:
     - match: \[\s*\]
       scope: storage.modifier.array.java
     - include: annotation
-    - include: any_POP
 
   storage-modifiers:
     - match: '{{storage_modifiers}}\b'
