@@ -1,0 +1,8 @@
+[
+    { "caption": "-" },
+    {
+        "caption": "HTML Preview (read_only)",
+        "command": "preview_markdown_via_html_sheet"
+    },
+    { "caption": "-" }
+]
