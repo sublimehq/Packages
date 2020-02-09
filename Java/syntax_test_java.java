@@ -2394,6 +2394,10 @@ class GenericTypesTests {
 }
 
 
+/******************************************************************************
+ * Annotation Tests
+ *****************************************************************************/
+
 @ClassName.FixMethodOrder( MethodSorters.NAME_ASCENDING )
 // <- meta.annotation.identifier.java punctuation.definition.annotation.java - meta.annotation meta.annotation
 //^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.identifier.java - meta.annotation meta.annotation
