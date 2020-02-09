@@ -320,34 +320,6 @@ public class SyntaxTest {
 //                     ^ - entity
 //                      ^ punctuation.section.block.begin.java
 
-    const int bar; // this comment() is recognized as code
-//  ^^^^^ invalid.illegal.keyword.java
-//        ^^^ storage.type.primitive.java
-//            ^^^ variable.other.member.java
-//               ^ punctuation.terminator.java
-//                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
-//                 ^^ punctuation.definition.comment.java
-
-    private String memberString = "Hello";
-    private String memberString2 = new String("Hello");
-//                                     ^^^^^^ support.class.java
-    private String memberString3 = String.valueOf("Hello");
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.assignment.rhs.java
-//  ^^^^^^^ storage.modifier.java
-//          ^^^^^^ support.class.java
-//                               ^ keyword.operator.assignment.java
-//                                ^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
-//                                                ^^^^^^^ string.quoted.double.java
-//                                                ^ punctuation.definition.string.begin.java
-//                                                      ^ punctuation.definition.string.end.java
-//                                                       ^ - string.quoted.double.java
-//                                                        ^ punctuation.terminator.java - meta.assignment.rhs.java
-    private int memberLpos = memberString3.indexOf("l");
-//          ^^^ storage.type
-//                           ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
-//                                                 ^^^ string
-//                                                     ^ punctuation.terminator.java
-
     public static void main(String... args) {
 //                    ^^^^^ meta.method.identifier.java - meta.method meta.method
 //                         ^^^^^^^^^^^^^^^^ meta.method.parameters.java - meta.method meta.method
@@ -1474,6 +1446,241 @@ interface /**/ TestIntf /**/ extends /**/ A /**/, /**/ BB /**/ {}
 //                                      ^ punctuation.separator.comma.java
 //                                        ^^^^^ string.quoted.double.java
 //                                             ^ punctuation.section.block.end.java
+}
+
+
+/******************************************************************************
+ * Field Declaration Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
+ *****************************************************************************/
+
+class FieldDeclarationTests {
+
+  const int bar; // this comment() is recognized as code
+//^^^^^ invalid.illegal.keyword.java
+//      ^^^ storage.type.primitive.java
+//          ^^^ variable.other.member.java
+//             ^ punctuation.terminator.java
+//               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
+//               ^^ punctuation.definition.comment.java
+
+  private String memberString = "Hello";
+  private String memberString2 = new String("Hello");
+//                                   ^^^^^^ support.class.java
+  private String memberString3 = String.valueOf("Hello");
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.assignment.rhs.java
+//^^^^^^^ storage.modifier.java
+//        ^^^^^^ support.class.java
+//                             ^ keyword.operator.assignment.java
+//                              ^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
+//                                              ^^^^^^^ string.quoted.double.java
+//                                              ^ punctuation.definition.string.begin.java
+//                                                    ^ punctuation.definition.string.end.java
+//                                                     ^ - string.quoted.double.java
+//                                                      ^ punctuation.terminator.java - meta.assignment.rhs.java
+  private int memberLpos = memberString3.indexOf("l");
+//        ^^^ storage.type
+//                         ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
+//                                               ^^^ string
+//                                                   ^ punctuation.terminator.java
+
+
+  List<int> field;
+
+  List<String> field;
+//    ^^^^^^^^ meta.generic.java
+//    ^ punctuation.definition.generic.begin.java
+//     ^^^^^^ support.class.java
+//           ^ punctuation.definition.generic.end.java
+
+  List<java.net.URI> field;
+//    ^^^^^^^^^^^^^^ meta.generic.java
+//    ^ punctuation.definition.generic.begin.java
+//     ^^^^^^^^^^^^ meta.path.java
+//     ^^^^ variable.namespace.java
+//         ^ punctuation.accessor.dot.java
+//          ^^^ variable.namespace.java
+//             ^ punctuation.accessor.dot.java
+//              ^^^ support.class.java
+
+  private static final String DEFAULT_IDEMPOTENCY_KEY = 44493;
+//                            ^ entity.name.constant
+//                                                      ^ constant.numeric.integer.decimal.java
+
+
+  private MyGenric<Param, With.Dots, With.Nested<Generic>, and.fully.Qualified,
+//                             ^ meta.generic.java support.class.java
+//                                       ^ meta.generic.java punctuation.accessor.dot.java
+//                                                         ^^^^^^^^^^^^^^^^^^^ meta.path.java
+      and.fully.Qualified<Generic>> myVariable;
+//    ^^^^^^^^^^^^^^^^^^^ meta.path.java
+//                          ^ meta.generic.java meta.generic.java support.class.java
+
+  private MyObject otherObject = MY_CONST;
+//                               ^ constant.other.java
+
+  private MyObject otherObject = SOME_CONST.FOO;
+//                               ^ constant.other.java
+//                                          ^ constant.other.java
+
+  private MyObject otherObject = SOME_CONST.get();
+//                               ^ constant.other.java
+//                                          ^ variable.function.java
+
+  private MyObject object = a.b.ErrorCode.COMMUNICATION_ERROR;
+//                          ^^^^^^^^^^^^^ meta.path.java
+//                          ^ variable.namespace.java
+//                           ^ punctuation.accessor.dot.java
+//                            ^ variable.namespace.java
+//                             ^ punctuation.accessor.dot.java
+//                              ^^^^^^^^^ support.class.java
+//                                       ^ punctuation.accessor.dot.java
+//                                        ^ constant.other.java
+
+  private static final UUID SECURE_ID = UUID.randomUUID();
+//                     ^ support.class.java
+//                          ^ entity.name.constant
+//                                      ^ support.class.java
+//                                           ^ meta.function-call.identifier.java variable.function.java
+
+  private URI uri = new URI();
+//        ^^^ support.class.java
+//            ^^^ variable.other.member.java
+//                      ^^^ support.class.java
+
+  private URI URI2 = new URI();
+//        ^^^ support.class.java
+//            ^^^^ entity.name.constant.java
+//                       ^^^ support.class.java
+
+  byte[] byteArray;
+//^^^^ storage.type.primitive.java
+//    ^^ storage.modifier.array.java
+
+  byte byteArray2[] = {1, 2};
+//^^^^ storage.type.primitive.java
+//               ^^ storage.modifier.array.java
+//                  ^^^^^^^^ meta.assignment.rhs.java
+}
+
+
+/******************************************************************************
+ * Local Variable Declaration Tests
+ *****************************************************************************/
+
+class LocalVariableDeclarationTests {
+
+  void genericTypeTests() {
+    List<String> x;
+//      ^^^^^^^^ meta.generic.java
+//      ^ punctuation.definition.generic.begin.java
+//             ^ punctuation.definition.generic.end.java
+
+    List<java.lang.String> x;
+//      ^^^^^^^^^^^^^^^^^^ meta.generic.java
+//       ^^^^^^^^^^^^^^^^ meta.path.java
+//       ^^^^ variable.namespace.java
+//           ^ punctuation.accessor.dot.java
+//            ^^^^ variable.namespace.java
+//                ^ punctuation.accessor.dot.java
+//                 ^^^^^^ support.class.java
+//                       ^ punctuation.definition.generic.end.java
+
+    List<URI> x;
+//      ^^^^^ meta.generic.java
+//       ^^^ support.class.java
+
+    List<java.net.URI> x;
+//      ^^^^^^^^^^^^^^ meta.generic.java
+//       ^^^^^^^^^^^^ meta.path.java
+//                ^^^ support.class.java
+
+    List<int[]> x;
+//      ^^^^^^^ meta.generic.java
+//       ^^^ storage.type.primitive.java
+//          ^^ storage.modifier.array.java
+
+    List<java.lang.String[]> x;
+//      ^^^^^^^^^^^^^^^^^^^^ meta.generic.java
+//       ^^^^^^^^^^^^^^^^ meta.path.java
+//                       ^^ storage.modifier.array.java
+
+    List<URI[]> x;
+//      ^^^^^^^ meta.generic.java
+//       ^^^ support.class.java
+//          ^^ storage.modifier.array.java
+
+    List<int[][]>[][] x;
+//      ^^^^^^^^^ meta.generic.java
+//       ^^^ storage.type.primitive.java
+//          ^^^^ storage.modifier.array.java
+//               ^^^^ storage.modifier.array.java
+  }
+
+
+/******************************************************************************
+ * Var Type Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.4
+ *****************************************************************************/
+
+  void varTypeTests() {
+
+    var
+//  ^^^ storage.type.var.java
+
+    var x, y;
+//  ^^^ storage.type.var.java
+//      ^ variable.other.readwrite.java
+//       ^ invalid.illegal.expect-terminator.java
+//         ^ variable.other.readwrite.java
+//          ^ punctuation.terminator.java
+
+    var x = "String";
+//  ^^^ storage.type.var.java
+//      ^ variable.other.readwrite.java
+//        ^ keyword.operator.assignment.java
+
+    final var y = 10;
+//  ^^^^^ storage.modifier.java
+//        ^^^ storage.type.var.java
+//            ^ variable.other.readwrite.java
+//              ^ keyword.operator.assignment.java
+
+    final var[] y = 10, z[] = 5;
+//  ^^^^^ storage.modifier.java
+//        ^^^ storage.type.var.java
+//           ^^ invalid.illegal.unexpected-modifier.java
+//              ^ variable.other.readwrite.java
+//                ^ keyword.operator.assignment.java
+//                  ^^ constant.numeric.integer.decimal.java
+//                    ^ invalid.illegal.expect-terminator.java
+//                             ^ punctuation.terminator.java
+
+    @Number final var y @Dim1 [] @Dim2 [] = { {10, 1}, {5, 2} };
+//  ^^^^^^^ meta.annotation.identifier.java
+//          ^^^^^ storage.modifier.java
+//                ^^^ storage.type.var.java
+//                    ^ variable.other.readwrite.java
+//                      ^^^^^ meta.annotation.identifier.java
+//                            ^^ invalid.illegal.unexpected-modifier.java
+//                               ^^^^^ meta.annotation.identifier.java
+//                                     ^^ invalid.illegal.unexpected-modifier.java
+
+    for (var foo = 0; foo < 10; ++foo) {}
+//       ^^^ storage.type.var.java
+
+    for (var foo : new BufferedReader()) {
+//       ^^^ storage.type.var.java
+        var bar = foo.read();
+//      ^^^ storage.type.var.java
+    }
+
+    try (var in = new BufferedReader()) {
+//       ^^^ storage.type.var.java
+        var line = in.readLine();
+//      ^^^ storage.type.var.java
+    }
+  }
 }
 
 
@@ -2634,80 +2841,6 @@ class LambdasStatementTests {
 
 
 /******************************************************************************
- * Generic Types Tests
- *****************************************************************************/
-
-class GenericTypesTests {
-
-  List<int> field;
-
-  List<String> field;
-//    ^^^^^^^^ meta.generic.java
-//    ^ punctuation.definition.generic.begin.java
-//     ^^^^^^ support.class.java
-//           ^ punctuation.definition.generic.end.java
-
-  List<java.net.URI> field;
-//    ^^^^^^^^^^^^^^ meta.generic.java
-//    ^ punctuation.definition.generic.begin.java
-//     ^^^^^^^^^^^^ meta.path.java
-//     ^^^^ variable.namespace.java
-//         ^ punctuation.accessor.dot.java
-//          ^^^ variable.namespace.java
-//             ^ punctuation.accessor.dot.java
-//              ^^^ support.class.java
-
-  void declarationTests() {
-    List<String> x;
-//      ^^^^^^^^ meta.generic.java
-//      ^ punctuation.definition.generic.begin.java
-//             ^ punctuation.definition.generic.end.java
-
-    List<java.lang.String> x;
-//      ^^^^^^^^^^^^^^^^^^ meta.generic.java
-//       ^^^^^^^^^^^^^^^^ meta.path.java
-//       ^^^^ variable.namespace.java
-//           ^ punctuation.accessor.dot.java
-//            ^^^^ variable.namespace.java
-//                ^ punctuation.accessor.dot.java
-//                 ^^^^^^ support.class.java
-//                       ^ punctuation.definition.generic.end.java
-
-    List<URI> x;
-//      ^^^^^ meta.generic.java
-//       ^^^ support.class.java
-
-    List<java.net.URI> x;
-//      ^^^^^^^^^^^^^^ meta.generic.java
-//       ^^^^^^^^^^^^ meta.path.java
-//                ^^^ support.class.java
-
-    List<int[]> x;
-//      ^^^^^^^ meta.generic.java
-//       ^^^ storage.type.primitive.java
-//          ^^ storage.modifier.array.java
-
-    List<java.lang.String[]> x;
-//      ^^^^^^^^^^^^^^^^^^^^ meta.generic.java
-//       ^^^^^^^^^^^^^^^^ meta.path.java
-//                       ^^ storage.modifier.array.java
-
-    List<URI[]> x;
-//      ^^^^^^^ meta.generic.java
-//       ^^^ support.class.java
-//          ^^ storage.modifier.array.java
-
-    List<int[][]>[][] x;
-//      ^^^^^^^^^ meta.generic.java
-//       ^^^ storage.type.primitive.java
-//          ^^^^ storage.modifier.array.java
-//               ^^^^ storage.modifier.array.java
-  }
-
-}
-
-
-/******************************************************************************
  * Annotation Tests
  *****************************************************************************/
 
@@ -2998,64 +3131,6 @@ public class Foo {
 //                ^^^^^^^^^^^^^^^ string.quoted.double.java
 //                               ^ punctuation.section.parens.end.java
 
-  private static final String DEFAULT_IDEMPOTENCY_KEY = 44493;
-//                            ^ entity.name.constant
-//                                                      ^ constant.numeric.integer.decimal.java
-
-
-  private MyGenric<Param, With.Dots, With.Nested<Generic>, and.fully.Qualified,
-//                             ^ meta.generic.java support.class.java
-//                                       ^ meta.generic.java punctuation.accessor.dot.java
-//                                                         ^^^^^^^^^^^^^^^^^^^ meta.path.java
-      and.fully.Qualified<Generic>> myVariable;
-//    ^^^^^^^^^^^^^^^^^^^ meta.path.java
-//                          ^ meta.generic.java meta.generic.java support.class.java
-
-  private MyObject otherObject = MY_CONST;
-//                               ^ constant.other.java
-
-  private MyObject otherObject = SOME_CONST.FOO;
-//                               ^ constant.other.java
-//                                          ^ constant.other.java
-
-  private MyObject otherObject = SOME_CONST.get();
-//                               ^ constant.other.java
-//                                          ^ variable.function.java
-
-  private MyObject object = a.b.ErrorCode.COMMUNICATION_ERROR;
-//                          ^^^^^^^^^^^^^ meta.path.java
-//                          ^ variable.namespace.java
-//                           ^ punctuation.accessor.dot.java
-//                            ^ variable.namespace.java
-//                             ^ punctuation.accessor.dot.java
-//                              ^^^^^^^^^ support.class.java
-//                                       ^ punctuation.accessor.dot.java
-//                                        ^ constant.other.java
-
-  private static final UUID SECURE_ID = UUID.randomUUID();
-//                     ^ support.class.java
-//                          ^ entity.name.constant
-//                                      ^ support.class.java
-//                                           ^ meta.function-call.identifier.java variable.function.java
-
-  private URI uri = new URI();
-//        ^^^ support.class.java
-//            ^^^ variable.other.member.java
-//                      ^^^ support.class.java
-
-  private URI URI2 = new URI();
-//        ^^^ support.class.java
-//            ^^^^ entity.name.constant.java
-//                       ^^^ support.class.java
-
-  byte[] byteArray;
-//^^^^ storage.type.primitive.java
-//    ^^ storage.modifier.array.java
-
-  byte byteArray2[] = {1, 2};
-//^^^^ storage.type.primitive.java
-//               ^^ storage.modifier.array.java
-//                  ^^^^^^^^ meta.assignment.rhs.java
 
   static {
 //^^^^^^^ meta.class.body.java meta.block.java
@@ -3858,71 +3933,6 @@ public class Foo {
 //                  ^ invalid.illegal.unexpected-newline
     System.out.println(letter);
 //  ^^^^^^ support.class
-  }
-
-
-/******************************************************************************
- * Var Type Tests
- * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.4
- *****************************************************************************/
-
-  void varTypeTests() {
-
-    var
-//  ^^^ storage.type.var.java
-
-    var x, y;
-//  ^^^ storage.type.var.java
-//      ^ variable.other.readwrite.java
-//       ^ invalid.illegal.expect-terminator.java
-//         ^ variable.other.readwrite.java
-//          ^ punctuation.terminator.java
-
-    var x = "String";
-//  ^^^ storage.type.var.java
-//      ^ variable.other.readwrite.java
-//        ^ keyword.operator.assignment.java
-
-    final var y = 10;
-//  ^^^^^ storage.modifier.java
-//        ^^^ storage.type.var.java
-//            ^ variable.other.readwrite.java
-//              ^ keyword.operator.assignment.java
-
-    final var[] y = 10, z[] = 5;
-//  ^^^^^ storage.modifier.java
-//        ^^^ storage.type.var.java
-//           ^^ invalid.illegal.unexpected-modifier.java
-//              ^ variable.other.readwrite.java
-//                ^ keyword.operator.assignment.java
-//                  ^^ constant.numeric.integer.decimal.java
-//                    ^ invalid.illegal.expect-terminator.java
-//                             ^ punctuation.terminator.java
-
-    @Number final var y @Dim1 [] @Dim2 [] = { {10, 1}, {5, 2} };
-//  ^^^^^^^ meta.annotation.identifier.java
-//          ^^^^^ storage.modifier.java
-//                ^^^ storage.type.var.java
-//                    ^ variable.other.readwrite.java
-//                      ^^^^^ meta.annotation.identifier.java
-//                            ^^ invalid.illegal.unexpected-modifier.java
-//                               ^^^^^ meta.annotation.identifier.java
-//                                     ^^ invalid.illegal.unexpected-modifier.java
-
-    for (var foo = 0; foo < 10; ++foo) {}
-//       ^^^ storage.type.var.java
-
-    for (var foo : new BufferedReader()) {
-//       ^^^ storage.type.var.java
-        var bar = foo.read();
-//      ^^^ storage.type.var.java
-    }
-
-    try (var in = new BufferedReader()) {
-//       ^^^ storage.type.var.java
-        var line = in.readLine();
-//      ^^^ storage.type.var.java
-    }
   }
 
 
