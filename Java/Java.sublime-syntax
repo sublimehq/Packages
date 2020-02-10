@@ -814,7 +814,6 @@ contexts:
         - parameter-maybe-receiver
         - parameter-variadic
         - parameter-type
-        - parameter-modifier
         - parens-begin
     - include: any_POP
 
@@ -1086,7 +1085,6 @@ contexts:
         - parameter-identifier
         - parameter-variadic
         - parameter-type
-        - parameter-modifier
 
   lambda-parameters-common:
     - meta_scope: meta.function.anonymous.parameters.java meta.parens.java
@@ -1144,20 +1142,15 @@ contexts:
         - parameter-identifier
         - parameter-variadic
         - parameter-type
-        - parameter-modifier
-
-  parameter-modifier:
-    - match: final\b
-      scope: storage.modifier.java
-    - match: (?:{{storage_modifiers}}|var)\b
-      scope: invalid.illegal.unexpected-keyword.java
-    - include: annotation
-    - include: any_POP
 
   parameter-type:
+    - match: final\b
+      scope: storage.modifier.java
     - match: '{{storage_types}}\b'
       scope: storage.type.primitive.java
       set: array-modifier
+    - match: '{{storage_modifiers}}\b'
+      scope: invalid.illegal.unexpected-keyword.java
     - match: var\b
       scope: invalid.illegal.unexpected-keyword.java
       set: array-modifier
@@ -1503,7 +1496,6 @@ contexts:
         - parameter-identifier
         - parameter-variadic
         - parameter-type
-        - parameter-modifier
         - parens-begin
     - include: any_POP
 
@@ -1516,7 +1508,6 @@ contexts:
         - parameter-identifier
         - parameter-variadic
         - parameter-type
-        - parameter-modifier
     - match: \S
       scope: invalid.illegal.missing-parameter-end
       pop: true
