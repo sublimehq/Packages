@@ -738,15 +738,12 @@ contexts:
     - match: '{{before_fqn}}'
       push: 
         - field-or-method
-        - after-object-array-types
-        - array-modifier
-        - generic-type-arguments
         - object-type-fqn
     - match: '{{classcase_id}}'
       scope: support.class.java
       push: 
         - field-or-method
-        - after-object-array-types
+        - object-type-child
         - array-modifier
         - generic-type-arguments
     - match: '{{storage_types}}\b'
@@ -975,7 +972,10 @@ contexts:
       scope: storage.type.primitive.java
       set: array-dimensions
     - match: '{{before_fqn}}'
-      set: [after-object-type-in-instantiation, object-type-fqn]
+      set: 
+        - meta_scope: meta.path.java
+        - include: variable-namespace
+        - include: instantiation-type-identifier
     - include: instantiation-type-identifier
 
   instantiation-type-identifier:
@@ -1154,7 +1154,7 @@ contexts:
     - match: var\b
       scope: invalid.illegal.unexpected-keyword.java
       set: array-modifier
-    - include: object-array-types
+    - include: object-type
 
   parameter-variadic:
     - match: \.\.\.
@@ -1736,11 +1736,17 @@ contexts:
     # Popular JDK classes
     - match: (?:UUID|UR[LI])\b
       scope: support.class.java
-      push: after-object-type
+      push:
+        - object-type-child
+        - array-modifier
+        - generic-type-arguments
     # Generic type variable
     - match: \p{Lu}\b
       scope: support.class.java
-      push: after-object-type
+      push:
+        - object-type-child
+        - array-modifier
+        - generic-type-arguments
     # Uppercase constants
     - match: '{{uppercase_id}}'
       scope: constant.other.java
@@ -1751,23 +1757,28 @@ contexts:
     # Here the match is more complex than 'before_fqn'.
     # In code block we can't simply distinguish package from variable.
     - match: (?=(?:{{lowercase_id}}\.)+\p{Lu})
-      push: [after-object-type, object-type-fqn]
-    - match: '{{classcase_id}}'
+      push:
+        - meta_scope: meta.path.java
+        - include: variable-namespace
+        - include: object-types-no-fqn
+    - match: '{{classcase_id}}\b'
       scope: support.class.java
-      push: after-object-type
+      push:
+        - object-types-child
+        - array-modifier
+        - generic-type-arguments
 
-  object-type-fqn:
-    - meta_scope: meta.path.java
-    - include: variable-namespace
-    - match: '{{classcase_id}}'
+  object-types-no-fqn:
+    - match: '{{classcase_id}}\b'
       scope: support.class.java
-      pop: true
+      set:
+        - object-types-child
+        - array-modifier
+        - generic-type-arguments
     - include: annotation
     - include: any_POP
 
-  after-object-type:
-    - match: (?=<)
-      set: [array-modifier, generic-type-arguments]
+  object-types-child:
     - match: \.(?!\.)
       scope: punctuation.accessor.dot.java
       set:
@@ -1775,12 +1786,37 @@ contexts:
         - match: '{{uppercase_id}}'
           scope: constant.other.java
           pop: true
-        - match: '{{classcase_id}}'
-          scope: support.class.java
-          set: after-object-type
-        - include: annotation
-        - include: generic-type-arguments
-    - include: array-modifier
+        - include: object-types-no-fqn
+    - include: any_POP
+
+###[ OBJECT TYPE ]#############################################################
+
+  object-type:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.3
+    - match: '{{before_fqn}}'
+      set: object-type-fqn
+    - include: object-type-no-fqn
+
+  object-type-fqn:
+    - meta_scope: meta.path.java
+    - include: variable-namespace
+    - include: object-type-no-fqn
+
+  object-type-no-fqn:
+    - match: '{{classcase_id}}\b'
+      scope: support.class.java
+      set:
+        - object-type-child
+        - array-modifier
+        - generic-type-arguments
+    - include: annotation
+    - include: any_POP
+
+  object-type-child:
+    - match: \.(?!\.)
+      scope: punctuation.accessor.dot.java
+      set: object-type-no-fqn
+    - include: any_POP
 
 ###[ OBJECT TYPE REFERENCES ]##################################################
 
@@ -1802,49 +1838,22 @@ contexts:
     - match: '{{classcase_id}}'
       scope: support.class.java
       set:
-        - after-object-type-reference
+        - object-type-reference-child
         - illegal-array-modifier
         - generic-type-arguments
     - match: '{{storage_types}}'
       scope: invalid.illegal.unexpected-keyword.java
       set:
-        - after-object-type-reference
+        - object-type-reference-child
         - illegal-array-modifier
         - generic-type-arguments
     - include: annotation
     - include: any_POP
 
-  after-object-type-reference:
+  object-type-reference-child:
     - match: \.(?!\.)
       scope: punctuation.accessor.dot.java
       set: object-type-reference-no-fqn
-    - include: any_POP
-
-###[ OBJECT ARRAY TYPES ]######################################################
-
-  object-array-types:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.3
-    - match: '{{before_fqn}}'
-      set:
-        - meta_scope: meta.path.java
-        - include: variable-namespace
-        - include: object-array-types-no-fqn
-    - include: object-array-types-no-fqn
-
-  object-array-types-no-fqn:
-    - match: '{{classcase_id}}\b'
-      scope: support.class.java
-      set: 
-        - after-object-array-types
-        - array-modifier
-        - generic-type-arguments
-    - include: annotation
-    - include: any_POP
-
-  after-object-array-types:
-    - match: \.(?!\.)
-      scope: punctuation.accessor.dot.java
-      set: object-array-types-no-fqn
     - include: any_POP
 
 ###[ INHERRITED TYPE REFERENCES ]##############################################
@@ -1918,7 +1927,7 @@ contexts:
                 fail: primitive-array-type
         - - meta_scope: invalid.illegal.unexpected-keyword.java
           - include: immidiate_POP2
-    - include: object-array-types
+    - include: object-type
 
   generic-type-arguments-bounds:
     - match: extends\b
