@@ -219,7 +219,7 @@ contexts:
 
   package:
     - match: package\b
-      scope: 
+      scope:
         meta.namespace.package.java
         storage.type.namespace.package.java
         keyword.declaration.namespace.package.java
@@ -717,31 +717,31 @@ contexts:
   fields-and-methods:
     - match: <
       scope: punctuation.definition.generic.begin.java
-      push: 
+      push:
         - generic-type-parameters-common
         - generic-type-parameter
     - match: void\b
       scope: meta.method.return-type.java storage.type.void.java
-      push: 
+      push:
         - method-body-block
         - method-attributes
         - method-modifiers
         - method-parameters
         - method-name
     - match: (?={{id}}\s*\()
-      push: 
+      push:
         - method-body-block
         - method-attributes
         - method-modifiers
         - method-parameters
         - method-name
     - match: '{{before_fqn}}'
-      push: 
+      push:
         - field-or-method
         - object-type-fqn
     - match: '{{classcase_id}}'
       scope: support.class.java
-      push: 
+      push:
         - field-or-method
         - object-type-child
         - array-modifier
@@ -752,7 +752,7 @@ contexts:
 
   field-or-method:
     - match: (?={{id}}\s*\()
-      set: 
+      set:
         - method-body-block
         - method-attributes
         - method-modifiers
@@ -806,7 +806,7 @@ contexts:
   method-parameters:
     - meta_content_scope: meta.method.identifier.java
     - match: (?=\()
-      set: 
+      set:
         - method-parameters-common
         - parameter-maybe-receiver
         - parameter-variadic
@@ -972,7 +972,7 @@ contexts:
       scope: storage.type.primitive.java
       set: array-dimensions
     - match: '{{before_fqn}}'
-      set: 
+      set:
         - meta_scope: meta.path.java
         - include: variable-namespace
         - include: instantiation-type-identifier
@@ -991,7 +991,7 @@ contexts:
       set: constructor-arguments
     - match: <
       scope: punctuation.definition.generic.begin.java
-      set: 
+      set:
         - instantiation-array-or-object
         - generic-type-arguments-common
         - generic-type-argument
@@ -1347,7 +1347,7 @@ contexts:
         | ((\.) {{dec_digit}}+) ({{dec_exponent}})? ([dDfF]\b)?
       captures:
         1: meta.number.value.mantissa.java constant.numeric.float.decimal.java
-        2: meta.number.value.mantissa.java constant.numeric.float.decimal.java 
+        2: meta.number.value.mantissa.java constant.numeric.float.decimal.java
         3: punctuation.separator.decimal.java
         4: meta.number.value.exponent.java constant.numeric.float.decimal.java
         5: meta.number.type.java constant.numeric.float.decimal.java
@@ -1504,7 +1504,7 @@ contexts:
     - include: parens-end
     - match: \|
       scope: punctuation.separator.pipe.java
-      push: 
+      push:
         - parameter-identifier
         - parameter-variadic
         - parameter-type
@@ -1701,7 +1701,7 @@ contexts:
               pop: 2
             - match: '{{id}}'
               branch_point: entity-package-qualified-identifier
-              branch: 
+              branch:
                 - entity-package-qualifier
                 - entity-package-name
             - match: (?=\S)
@@ -1877,7 +1877,7 @@ contexts:
     - include: reserved-pop
     - match: '{{id}}'
       scope: entity.other.inherited-class.java
-      set: 
+      set:
         - inherrited-object-type-reference-child
         - illegal-array-modifier
         - generic-type-arguments
