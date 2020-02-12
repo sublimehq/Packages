@@ -110,28 +110,32 @@ contexts:
     - include: comments
     - include: illegal-keywords
 
-  any_POP:
+  else-pop:
     - match: (?=\S)
       pop: 1
 
-  any_POP2:
+  else-pop2:
     - match: (?=\S)
       pop: 2
 
-  any_POP3:
+  else-pop3:
     - match: (?=\S)
       pop: 3
 
-  immediate_POP:
+  else-pop4:
+    - match: (?=\S)
+      pop: 4
+
+  immediately-pop:
     - match: ''
       pop: 1
 
-  immidiate_POP2:
-    - match: (?=\S)
+  immediately-pop2:
+    - match: ''
       pop: 2
 
-  immidiate_POP3:
-    - match: (?=\S)
+  immediately-pop3:
+    - match: ''
       pop: 3
 
   reserved-pop:
@@ -144,7 +148,7 @@ contexts:
     - match: \[\s*\]
       scope: invalid.illegal.unexpected-modifier.java
     - include: annotation
-    - include: any_POP
+    - include: else-pop
 
   illegal-keywords:
     - match: '{{illegal_keywords}}\b'
@@ -157,8 +161,8 @@ contexts:
         - match: '{{id}}'
           scope: invalid.illegal.unexpected-member.java
           pop: true
-        - include: any_POP
-    - include: any_POP
+        - include: else-pop
+    - include: else-pop
 
   illegal-newline:
     - match: \n
@@ -186,7 +190,7 @@ contexts:
         - meta_scope: invalid.illegal.unexpected-type-parameters.java
         - match: \>
           pop: true
-    - include: any_POP
+    - include: else-pop
 
   stray-braces:
     - match: \}
@@ -226,12 +230,12 @@ contexts:
         meta.namespace.package.java
         storage.type.namespace.package.java
         keyword.declaration.namespace.package.java
-      push: [package-identifier, any_POP]
+      push: [package-identifier, else-pop]
 
   package-identifier:
     - meta_content_scope: meta.namespace.package.identifier.java
     - include: entity-package
-    - include: immediate_POP
+    - include: immediately-pop
 
 ###[ MODULE ]##################################################################
 
@@ -242,17 +246,17 @@ contexts:
         1: storage.modifier.java
         2: storage.type.namespace.module.java
            keyword.declaration.namespace.module.java
-      push: [module-body-block, module-identifier, any_POP]
+      push: [module-body-block, module-identifier, else-pop]
 
   module-identifier:
     - include: entity-module
-    - include: immediate_POP
+    - include: immediately-pop
 
   module-body-block:
     - meta_content_scope: meta.namespace.module.identifier.java
     - match: (?=\{)
       set: [module-body-common, block-begin]
-    - include: any_POP
+    - include: else-pop
 
   module-body-common:
     - meta_scope: meta.namespace.module.body.java meta.block.java
@@ -276,11 +280,11 @@ contexts:
 
   module-exports-meta:
     - meta_scope: meta.exports.java
-    - include: immediate_POP
+    - include: immediately-pop
 
   module-opens-meta:
     - meta_scope: meta.opens.java
-    - include: immediate_POP
+    - include: immediately-pop
 
   module-exports-or-opens-body:
     - include: module-statement-terminator
@@ -301,11 +305,11 @@ contexts:
 
   module-uses-meta:
     - meta_scope: meta.uses.java
-    - include: immediate_POP
+    - include: immediately-pop
 
   module-provides-meta:
     - meta_scope: meta.provides.java
-    - include: immediate_POP
+    - include: immediately-pop
 
   module-provides-or-uses-body:
     - include: module-statement-terminator
@@ -351,7 +355,7 @@ contexts:
     - include: import-terminator
     - include: import-class-name
     - include: import-wildcard
-    - include: any_POP
+    - include: else-pop
 
   import-static-namespace:
     - meta_content_scope: meta.import.java meta.path.java
@@ -367,7 +371,7 @@ contexts:
     - include: import-class-name
     - include: import-function-name
     - include: import-wildcard
-    - include: any_POP
+    - include: else-pop
 
   import-constant-name:
     - match: '{{uppercase_id}}\b(?!\s*\.)'
@@ -436,19 +440,19 @@ contexts:
     - match: '{{classcase_id}}'
       scope: variable.annotation.java
       set: annotation-nested-name
-    - include: any_POP
+    - include: else-pop
 
   annotation-nested-name:
     - match: \.
       scope: punctuation.accessor.dot.java
       set: annotation-unqualified-name
-    - include: any_POP
+    - include: else-pop
 
   annotation-parameters:
     - meta_scope: meta.annotation.identifier.java
     - match: (?=\()
       set: [annotation-parameters-common, parens-begin]
-    - include: any_POP
+    - include: else-pop
 
   annotation-parameters-common:
     - meta_scope: meta.annotation.parameters.java meta.parens.java
@@ -465,7 +469,7 @@ contexts:
               - match: (?=\S)
                 fail: annotation-parameter
         - - include: expressions
-          - include: immediate_POP
+          - include: immediately-pop
     - match: \{
       scope: punctuation.section.braces.begin.java
       push: array-initialization-common
@@ -493,18 +497,18 @@ contexts:
           scope: storage.modifier.java
         - match: '{{class_no_modifier}}\b'
           scope: invalid.illegal.unexpected-modifier.java
-        - include: any_POP
+        - include: else-pop
 
   class-name:
     - include: reserved-pop
     - match: '{{id}}'
       scope: entity.name.class.java
       pop: true
-    - include: any_POP
+    - include: else-pop
 
   class-name-meta:
     - meta_content_scope: meta.class.identifier.java
-    - include: any_POP
+    - include: else-pop
 
   class-extends:
     - match: extends\b
@@ -517,22 +521,22 @@ contexts:
       push:
         - class-implements-object-type-references
         - inherited-object-type-reference
-    - include: any_POP
+    - include: else-pop
 
   class-extends-object-type-references:
     - meta_scope: meta.class.extends.java
     - include: inherited-object-type-references
-    - include: any_POP
+    - include: else-pop
 
   class-implements-object-type-references:
     - meta_scope: meta.class.implements.java
     - include: inherited-object-type-references
-    - include: any_POP
+    - include: else-pop
 
   class-body-block:
     - match: (?=\{)
       set: [class-body-block-common, block-begin]
-    - include: any_POP
+    - include: else-pop
 
   class-body-block-common:
     - meta_scope: meta.class.body.java meta.block.java
@@ -569,18 +573,18 @@ contexts:
           scope: storage.modifier.java
         - match: '{{class_no_modifier}}\b'
           scope: invalid.illegal.unexpected-modifier.java
-        - include: any_POP
+        - include: else-pop
 
   enum-name:
     - include: reserved-pop
     - match: '{{id}}'
       scope: entity.name.enum.java
       pop: true
-    - include: any_POP
+    - include: else-pop
 
   enum-name-meta:
     - meta_content_scope: meta.enum.identifier.java
-    - include: any_POP
+    - include: else-pop
 
   enum-extends:
     - match: extends\b
@@ -593,23 +597,23 @@ contexts:
       push:
         - enum-implements-object-type-references
         - inherited-object-type-reference
-    - include: any_POP
+    - include: else-pop
 
   enum-extends-object-type-references:
     - meta_scope: meta.enum.extends.java
     - include: inherited-object-type-references
-    - include: any_POP
+    - include: else-pop
 
   enum-implements-object-type-references:
     - meta_scope: meta.enum.implements.java
     - include: inherited-object-type-references
-    - include: any_POP
+    - include: else-pop
 
   enum-body-block:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.9.1
     - match: (?=\{)
       set: [enum-body-block-common, enum-constants-list, block-begin]
-    - include: any_POP
+    - include: else-pop
 
   enum-body-block-common:
     - meta_scope: meta.enum.body.java meta.block.java
@@ -623,7 +627,7 @@ contexts:
       scope: entity.name.constant.java
       push: enum-constant-arguments
     - include: punctuation-separator-comma
-    - include: any_POP
+    - include: else-pop
 
   enum-constant-arguments:
     - meta_scope: meta.constant.identifier.java
@@ -640,7 +644,7 @@ contexts:
     - meta_scope: meta.constant.java
     - match: (?=\{)
       set: [enum-constant-body-block-common, block-begin]
-    - include: any_POP
+    - include: else-pop
 
   enum-constant-body-block-common:
     - meta_scope: meta.constant.body.java meta.block.java
@@ -668,18 +672,18 @@ contexts:
           scope: storage.modifier.java
         - match: '{{interface_no_modifier}}\b'
           scope: invalid.illegal.unexpected-modifier.java
-        - include: any_POP
+        - include: else-pop
 
   interface-name:
     - include: reserved-pop
     - match: '{{id}}'
       scope: entity.name.interface.java
       pop: true
-    - include: any_POP
+    - include: else-pop
 
   interface-name-meta:
     - meta_content_scope: meta.interface.identifier.java
-    - include: any_POP
+    - include: else-pop
 
   interface-extends:
     - match: extends\b
@@ -692,22 +696,22 @@ contexts:
       push:
         - interface-implements-object-type-references
         - inherited-object-type-reference
-    - include: any_POP
+    - include: else-pop
 
   interface-extends-object-type-references:
     - meta_scope: meta.interface.extends.java
     - include: inherited-object-type-references
-    - include: any_POP
+    - include: else-pop
 
   interface-implements-object-type-references:
     - meta_scope: meta.interface.implements.java
     - include: inherited-object-type-references
-    - include: any_POP
+    - include: else-pop
 
   interface-body-block:
     - match: (?=\{)
       set: [interface-body-block-common, block-begin]
-    - include: any_POP
+    - include: else-pop
 
   interface-body-block-common:
     - meta_scope: meta.interface.body.java meta.block.java
@@ -772,11 +776,11 @@ contexts:
       scope: variable.other.member.java
       push: [field-meta, field-value, array-modifier]
     - include: punctuation-separator-comma
-    - include: any_POP
+    - include: else-pop
 
   field-meta:
     - meta_scope: meta.field.java
-    - include: immediate_POP
+    - include: immediately-pop
 
   field-value:
     - match: =
@@ -789,7 +793,7 @@ contexts:
         - include: annotation
         - include: expressions
         - include: stray-parens
-    - include: any_POP
+    - include: else-pop
 
   field-terminator:
     # Prevent style from being removed from whole file when making a new expression
@@ -804,7 +808,7 @@ contexts:
     - match: '{{id}}'
       scope: entity.name.function.java
       pop: true
-    - include: any_POP
+    - include: else-pop
 
   method-parameters:
     - meta_content_scope: meta.method.identifier.java
@@ -815,7 +819,7 @@ contexts:
         - parameter-variadic
         - parameter-type
         - parens-begin
-    - include: any_POP
+    - include: else-pop
 
   method-parameters-common:
     - meta_scope: meta.method.parameters.java meta.parens.java
@@ -842,7 +846,7 @@ contexts:
     - match: default\b
       scope: keyword.declaration.default.java
       set: method-default-body
-    - include: any_POP
+    - include: else-pop
 
   method-default-body:
     - meta_scope: meta.method.default.java
@@ -853,12 +857,12 @@ contexts:
   method-throws-object-type-references:
     - meta_scope: meta.method.throws.java
     - include: object-type-references
-    - include: any_POP
+    - include: else-pop
 
   method-body-block:
     - match: (?=\{)
       set: [method-body-common, block-begin]
-    - include: any_POP
+    - include: else-pop
 
   method-body-common:
     - meta_scope: meta.method.body.java meta.block.java
@@ -933,7 +937,7 @@ contexts:
     - match: '{{id}}'
       scope: variable.other.readwrite.java
       set: illegal-array-modifier
-    - include: any_POP
+    - include: else-pop
 
   var-value:
     - match: =
@@ -942,7 +946,7 @@ contexts:
         - meta_scope: meta.assignment.rhs.java
         - include: var-terminator
         - include: expressions
-    - include: any_POP
+    - include: else-pop
 
   var-expect-terminator:
     - match: ','
@@ -967,7 +971,7 @@ contexts:
 
   instantiation-meta:
     - meta_scope: meta.instantiation.java
-    - include: immediate_POP
+    - include: immediately-pop
 
   instantiation-type:
     - match: '{{storage_types}}\b'
@@ -985,7 +989,7 @@ contexts:
       scope: support.class.java
       set: after-object-type-in-instantiation
     - include: annotation
-    - include: any_POP
+    - include: else-pop
 
   after-object-type-in-instantiation:
     - match: <>
@@ -1005,7 +1009,7 @@ contexts:
   instantiation-array-or-object:
     - include: array-dimensions
     - include: constructor-arguments
-    - include: any_POP
+    - include: else-pop
 
   constructor-arguments:
     - match: \(
@@ -1027,7 +1031,7 @@ contexts:
           scope: punctuation.section.brackets.end.java
           set:
             - include: array-dimensions
-            - include: any_POP
+            - include: else-pop
         - include: expressions
     - include: array-initialization
     - include: annotation
@@ -1075,7 +1079,7 @@ contexts:
         - clear_scopes: 1
         - match: (?=->)
           fail: lambda-or-parens
-        - include: any_POP2
+        - include: else-pop2
     - include: parens-body
 
   parens-with-lambda-parameters:
@@ -1095,7 +1099,7 @@ contexts:
       scope: punctuation.section.parens.end.java
       set:
         - meta_content_scope: meta.function.anonymous.java
-        - include: any_POP
+        - include: else-pop
     - match: \S
       scope: invalid.illegal.missing-parameter-end
       pop: true
@@ -1128,7 +1132,7 @@ contexts:
         - include: blocks-body
         - match: ':'
           scope: keyword.operator.assignment.java
-    - include: any_POP
+    - include: else-pop
 
   method-call-arguments:
     - meta_scope: meta.function-call.arguments.java meta.parens.java
@@ -1163,7 +1167,7 @@ contexts:
       scope: keyword.operator.variadic.java
       pop: true
     - include: annotation
-    - include: any_POP
+    - include: else-pop
 
   parameter-identifier:
     - match: '{{variables}}\b'
@@ -1172,7 +1176,7 @@ contexts:
     - match: '{{id}}'
       scope: variable.parameter.java
       set: [illegal-members, array-modifier]
-    - include: any_POP
+    - include: else-pop
 
   parameter-maybe-receiver:
     - match: this\b
@@ -1183,7 +1187,7 @@ contexts:
       branch:
         - parameter-receiver-identifier
         - parameter-normal-identifier
-    - include: any_POP
+    - include: else-pop
 
   parameter-receiver-identifier:
     - meta_scope: meta.path.java support.class.java
@@ -1199,8 +1203,7 @@ contexts:
             - match: '{{id}}'
               scope: invalid.illegal.identifier.java
               pop: 4
-            - match: (?=\S)
-              pop: 4
+            - include: else-pop4
         - match: (?=\S)
           fail: parameter-maybe-receiver
 
@@ -1209,7 +1212,7 @@ contexts:
     - match: ''
       set:
         - include: array-modifier-body
-        - include: any_POP2
+        - include: else-pop2
 
 ###[ VARIABLES ]###############################################################
 
@@ -1290,13 +1293,13 @@ contexts:
     - match: '{{id}}'
       scope: variable.function.reference.java
       pop: true
-    - include: any_POP
+    - include: else-pop
 
   variable-maybe-label:
     - match: '{{id}}'
       scope: variable.label.java
       pop: true
-    - include: any_POP
+    - include: else-pop
 
 ###[ CONSTANTS ]###############################################################
 
@@ -1496,7 +1499,7 @@ contexts:
         - parameter-variadic
         - parameter-type
         - parens-begin
-    - include: any_POP
+    - include: else-pop
 
   catch-parameters-common:
     - meta_scope: meta.catch.parameters.java meta.parens.java
@@ -1624,7 +1627,7 @@ contexts:
   entity-class-name:
     - meta_scope: entity.name.class.java
     - match: ''
-      set: [immidiate_POP3, generic-type-arguments]
+      set: [immediately-pop3, generic-type-arguments]
 
   entity-class-unqualified-identifier:
     - meta_scope: entity.name.class.java
@@ -1673,12 +1676,11 @@ contexts:
 
   entity-module-name:
     - meta_scope: entity.name.namespace.module.java
-    - match: ''
-      pop: 3
+    - include: immediately-pop3
 
   entity-module-unqualified-identifier:
     - meta_scope: entity.name.namespace.module.java
-    - include: immediate_POP
+    - include: immediately-pop
 
 ###[ ENTITY PACKAGE ]##########################################################
 
@@ -1722,12 +1724,11 @@ contexts:
 
   entity-package-name:
     - meta_scope: entity.name.namespace.package.java
-    - match: ''
-      pop: 3
+    - include: immediately-pop3
 
   entity-package-unqualified-identifier:
     - meta_scope: entity.name.namespace.package.java
-    - include: immediate_POP
+    - include: immediately-pop
 
 ###[ OBJECT TYPES ]############################################################
 
@@ -1777,7 +1778,7 @@ contexts:
         - array-modifier
         - generic-type-arguments
     - include: annotation
-    - include: any_POP
+    - include: else-pop
 
   object-types-child:
     - match: \.(?!\.)
@@ -1788,7 +1789,7 @@ contexts:
           scope: constant.other.java
           pop: true
         - include: object-types-no-fqn
-    - include: any_POP
+    - include: else-pop
 
 ###[ OBJECT TYPE ]#############################################################
 
@@ -1811,13 +1812,13 @@ contexts:
         - array-modifier
         - generic-type-arguments
     - include: annotation
-    - include: any_POP
+    - include: else-pop
 
   object-type-child:
     - match: \.(?!\.)
       scope: punctuation.accessor.dot.java
       set: object-type-no-fqn
-    - include: any_POP
+    - include: else-pop
 
 ###[ OBJECT TYPE REFERENCES ]##################################################
 
@@ -1849,13 +1850,13 @@ contexts:
         - illegal-array-modifier
         - generic-type-arguments
     - include: annotation
-    - include: any_POP
+    - include: else-pop
 
   object-type-reference-child:
     - match: \.(?!\.)
       scope: punctuation.accessor.dot.java
       set: object-type-reference-no-fqn
-    - include: any_POP
+    - include: else-pop
 
 ###[ INHERRITED TYPE REFERENCES ]##############################################
 
@@ -1883,13 +1884,13 @@ contexts:
         - illegal-array-modifier
         - generic-type-arguments
     - include: annotation
-    - include: any_POP
+    - include: else-pop
 
   inherrited-object-type-reference-child:
     - match: \.(?!\.)
       scope: punctuation.accessor.dot.java
       set: inherited-object-type-reference-no-fqn
-    - include: any_POP
+    - include: else-pop
 
 ###[ GENERIC TYPES ]###########################################################
 
@@ -1898,7 +1899,7 @@ contexts:
     - match: <
       scope: punctuation.definition.generic.begin.java
       set: [generic-type-arguments-common, generic-type-argument]
-    - include: any_POP
+    - include: else-pop
 
   generic-type-arguments-common:
     - meta_scope: meta.generic.java
@@ -1922,12 +1923,12 @@ contexts:
                 set:
                   - clear_scopes: 1
                   - include: array-modifier-body
-                  - include: any_POP3
+                  - include: else-pop3
               - include: annotation
               - match: (?=\S)
                 fail: primitive-array-type
         - - meta_scope: invalid.illegal.unexpected-keyword.java
-          - include: immidiate_POP2
+          - include: immediately-pop2
     - include: object-type
 
   generic-type-arguments-bounds:
@@ -1937,14 +1938,14 @@ contexts:
     - match: super\b
       scope: keyword.declaration.super.java
       set: object-type-reference
-    - include: any_POP
+    - include: else-pop
 
   generic-type-parameters:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.2
     - match: <
       scope: punctuation.definition.generic.begin.java
       set: [generic-type-parameters-common, generic-type-parameter]
-    - include: any_POP
+    - include: else-pop
 
   generic-type-parameters-common:
     - meta_scope: meta.generic.declaration.java
@@ -1963,7 +1964,7 @@ contexts:
       scope: variable.parameter.type.java
       set: generic-type-parameter-bounds
     - include: annotation
-    - include: any_POP
+    - include: else-pop
 
   generic-type-parameter-bounds:
     - match: extends\b
@@ -1972,13 +1973,13 @@ contexts:
     - match: super\b
       scope: invalid.illegal.unexpected-keyword.java
       set: object-type-reference
-    - include: any_POP
+    - include: else-pop
 
   generic-type-additional-bounds:
     - match: '&'
       scope: keyword.operator.multiple-bounds.java
       push: object-type-reference
-    - include: any_POP
+    - include: else-pop
 
   generic-type-terminator:
     - match: '>'
@@ -1991,7 +1992,7 @@ contexts:
       scope: invalid.illegal.unexpected-keyword.java
       push: object-type-reference
     - include: annotation
-    - include: any_POP
+    - include: else-pop
 
 ###[ PRIMITIVE TYPES ]#########################################################
 
@@ -2002,7 +2003,7 @@ contexts:
 
   array-modifier:
     - include: array-modifier-body
-    - include: any_POP
+    - include: else-pop
 
   array-modifier-body:
     - match: \[\s*\]
