@@ -209,6 +209,7 @@ contexts:
     - match: /\*
       scope: punctuation.definition.comment.begin.java
       push:
+        - meta_include_prototype: false
         - meta_scope: comment.block.java
         - match: \*/
           scope: punctuation.definition.comment.end.java
@@ -216,6 +217,7 @@ contexts:
     - match: //
       scope: punctuation.definition.comment.java
       push:
+        - meta_include_prototype: false
         - meta_scope: comment.line.double-slash.java
         - match: \n
           pop: true
