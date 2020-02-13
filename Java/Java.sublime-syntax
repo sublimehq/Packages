@@ -81,10 +81,12 @@ contexts:
     - include: statements
 
   statements:
+    - include: punctuation-terminator-semicolon
     - include: annotation
     - include: keywords
     - include: labels
     - include: expressions
+    - include: stray-braces
 
   expressions:
     - include: blocks
@@ -100,7 +102,6 @@ contexts:
     - include: uppercase-identifiers
     - include: object-types
     - include: variables
-    - include: stray-braces
 
 ###[ PROTOTYPES ]##############################################################
 
@@ -1464,6 +1465,7 @@ contexts:
       scope: keyword.control.flow.return.java
     - match: throw\b
       scope: keyword.control.flow.throw.java
+      push: throw-statement-body
     # conditional
     - match: if\b
       scope: keyword.control.conditional.if.java
@@ -1516,6 +1518,11 @@ contexts:
       scope: invalid.illegal.missing-parameter-end
       pop: true
 
+  throw-statement-body:
+    - meta_scope: meta.throw.java
+    - include: expressions
+    - include: else-pop
+
 ###[ OPERATORS ]###############################################################
 
   operators:
@@ -1544,17 +1551,15 @@ contexts:
 
   assignment-body:
     - meta_scope: meta.assignment.rhs.java
-    - match: (?=[,;)}\]])
-      pop: true
     - include: expressions
+    - include: else-pop
 
   ternary-body:
     - match: ':'
       scope: keyword.operator.ternary.java
       pop: true
-    - match: (?=[,;)}\]])
-      pop: true
     - include: expressions
+    - include: else-pop
 
 ###[ PUNCTUATIONS ]############################################################
 
@@ -1568,7 +1573,6 @@ contexts:
         - include: variable-language-class
         - include: generic-type-arguments
     - include: punctuation-separator-comma
-    - include: punctuation-terminator-semicolon
 
   punctuation-accessor-dot:
     - match: \.

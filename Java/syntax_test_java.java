@@ -1767,15 +1767,17 @@ class MethodDelcarationTests {
 //                                                        ^ punctuation.definition.generic.end.java
 //                                                          ^ punctuation.section.block.begin.java
     throw
+//  ^^^^^^ meta.throw.java
 //  ^^^^^ keyword.control.flow.throw.java
         new
-//      ^^^^ meta.instantiation.java
+//     ^ meta.throw.java - meta.instantiation
+//      ^^^^ meta.throw.java meta.instantiation.java
 //      ^^^ keyword.other.storage.new.java
         MyException
-//     ^^^^^^^^^^^^^ meta.instantiation.java
+//     ^^^^^^^^^^^^^ meta.throw.java meta.instantiation.java
 //      ^^^^^^^^^^^ support.class.java
         ("hello (world)");
-//      ^^^^^^^^^^^^^^^^^ meta.instantiation.java meta.parens.java
+//      ^^^^^^^^^^^^^^^^^ meta.throw.java meta.instantiation.java meta.parens.java
 //      ^ punctuation.section.parens.begin.java
 //       ^^^^^^^^^^^^^^^ string.quoted.double.java
 //                      ^ punctuation.section.parens.end.java
