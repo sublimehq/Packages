@@ -186,3 +186,8 @@
     0XdeafBEEF42
 --  ^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
 --  ^^ punctuation.definition.numeric.base
+
+   {-# OPTIONS_HADDOCK not-home #-}
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.haskell
+--                                 ^ - meta.preprocessor.haskell
+--     ^^^^^^^^^^^^^^^ keyword.other.preprocessor.haskell

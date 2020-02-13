@@ -235,7 +235,7 @@ contexts:
         - meta_scope: meta.preprocessor.haskell
         - match: '#-\}'
           pop: true
-        - match: \b(LANGUAGE|OPTIONS_GHC|INCLUDE|WARNING|DEPRECATED|MINIMAL|UNPACK|NOUNPACK|SOURCE|OVERLAPPING|OVERLAPPABLE|OVERLAPS|INCOHERENT|INLINE|NOINLINE|INLINABLE|CONLIKE|LINE|RULES|SPECIALIZE|SPECIALISE)\b
+        - match: \b(LANGUAGE|OPTIONS_GHC|OPTIONS_HADDOCK|INCLUDE|WARNING|DEPRECATED|MINIMAL|UNPACK|NOUNPACK|SOURCE|OVERLAPPING|OVERLAPPABLE|OVERLAPS|INCOHERENT|INLINE|NOINLINE|INLINABLE|CONLIKE|LINE|RULES|SPECIALIZE|SPECIALISE)\b
           # https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#pragmas
           scope: keyword.other.preprocessor.haskell
   type_signature:
