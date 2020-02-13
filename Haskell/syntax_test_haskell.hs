@@ -186,3 +186,25 @@
     0XdeafBEEF42
 --  ^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
 --  ^^ punctuation.definition.numeric.base
+
+  data Outrageous =
+      Flipper Record
+    | Int :! Int
+    | Double :@ Double
+--            ^ keyword.operator.haskell
+    | Int `Quux` Double
+    | String :# Record
+--            ^ keyword.operator.haskell
+    | Simple :$ Outrageous
+    | DontDoThis { outrageousInt :: Int, outrageousString :: String }
+      deriving (Eq, Ord, Generic)
+      deriving (Read, Show) via (Quiet Outrageous)
+
+  genSimple :: Gen Simple
+  genSimple =
+    Simple
+      <$> genInt
+      <*> genString
+--     ^ keyword.operator.haskell
+      <*> genDouble
+      <*> genRational

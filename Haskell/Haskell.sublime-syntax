@@ -179,7 +179,7 @@ contexts:
       scope: constant.other.haskell
     - include: comments
     - include: infix_op
-    - match: '[|!%$?~+:\-.=</>\\]+'
+    - match: '[|!%$*@#?~+:\-.=</>\\]+'
       comment: In case this regex seems overly general, note that Haskell permits the definition of new operators which can be nearly any string of punctuation characters, such as $%^&*.
       scope: keyword.operator.haskell
     - match: ","
