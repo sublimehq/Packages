@@ -186,3 +186,14 @@
     0XdeafBEEF42
 --  ^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
 --  ^^ punctuation.definition.numeric.base
+
+  data Record =
+    Record {
+        recordInt :: Int
+      , recordString :: String
+      , recordDouble :: Double
+      , recordRational :: Rational
+      } deriving (Eq, Ord, Generic)
+        deriving (Read, Show) via (Quiet Record)
+--                            ^^^ keyword.other.haskell
+--                            ^^^^^^^^^^^^^^^^^^ meta.deriving.haskell

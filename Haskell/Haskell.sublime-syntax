@@ -67,7 +67,7 @@ contexts:
         - include: module_name
         - include: module_exports
         - include: comments
-    - match: (deriving)\s*\(
+    - match: (deriving|via)\s*\(
       captures:
         1: keyword.other.haskell
       push:
