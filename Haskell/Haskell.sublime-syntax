@@ -207,7 +207,7 @@ contexts:
           pop: true
     - include: block_comment
   infix_op:
-    - match: \([-+*/,|!%$:.=<>]+\)
+    - match: \([-+*/,|!%$@#:.=<>]+\)
       scope: entity.name.function.infix.haskell
   module_exports:
     - match: \(

@@ -186,3 +186,18 @@
     0XdeafBEEF42
 --  ^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
 --  ^^ punctuation.definition.numeric.base
+
+  genOutrageous :: Gen Outrageous
+  genOutrageous =
+    Gen.recursive Gen.choice [
+        Flipper <$> genRecord
+      , (:!) <$> genInt <*> genInt
+      , (:@) <$> genDouble <*> genDouble
+--       ^^ entity.name.function.infix.haskell
+      , Quux <$> genInt <*> genDouble
+      , (:#) <$> genString <*> genRecord
+--       ^^ entity.name.function.infix.haskell
+      , DontDoThis <$> genInt <*> genString
+      ] [
+        Gen.subtermM genOutrageous (\x -> (:$) <$> genSimple <*> pure x)
+      ]
