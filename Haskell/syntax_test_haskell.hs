@@ -293,3 +293,8 @@ main = do
 
    a' = b'
 -- ^^ meta.name.haskell - string
+
+   {-# OPTIONS_HADDOCK not-home #-}
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.haskell
+--                                 ^ - meta.preprocessor.haskell
+--     ^^^^^^^^^^^^^^^ keyword.other.preprocessor.haskell
