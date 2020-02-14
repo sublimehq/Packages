@@ -123,8 +123,10 @@ contexts:
           scope: entity.other.inherited-class.haskell
         - match: '\b[a-z][a-zA-Z0-9_'']*\b'
           scope: variable.other.generic-type.haskell
+    - match: \bderiving\b
+      scope: keyword.declaration.haskell
     - match: \binstance\b
-      scope: keyword.declaration..haskell
+      scope: keyword.declaration.haskell
       push:
         - meta_scope: meta.declaration.instance.haskell
         - match: \bwhere\b|$

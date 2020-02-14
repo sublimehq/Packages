@@ -202,6 +202,11 @@ import Data.List.Split (splitOn)
 --                      ^^^^^^^ variable.function.haskell
 --                             ^ punctuation.section.group.end.haskell
 
+   deriving instance FromJSON Amount
+-- ^^^^^^^^ keyword.declaration.haskell
+   deriving instance FromJSON Ask
+--          ^^^^^^^^ keyword.declaration.haskell
+
 test =
 --   ^ keyword.operator.haskell
     let x = 2 in x * y
