@@ -141,7 +141,7 @@ contexts:
         - match: ^(?!\s*(?:--|{-|$)|\1\s)
           pop: true
         - include: type_signature
-    - match: (deriving)\s*\(
+    - match: (deriving|via)\s*\(
       captures:
         1: keyword.other.haskell
       push:

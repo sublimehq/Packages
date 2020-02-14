@@ -59,11 +59,27 @@
 --                                              ^ - meta.preprocessor.haskell
 --                                   ^^^^^^^ keyword.other.preprocessor.haskell
 
+   {-# OPTIONS_HADDOCK not-home #-}
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.haskell
+--                                 ^ - meta.preprocessor.haskell
+--     ^^^^^^^^^^^^^^^ keyword.other.preprocessor.haskell
+
 -- | Map each element of a structure to an action,
 -- evaluate these actions from left to right, and
 -- collect the results. For a version that ignores
 -- the results see 'Data.Foldable.traverse_'.
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-dash.haskell
+
+  data Record =
+    Record {
+        recordInt :: Int
+      , recordString :: String
+      , recordDouble :: Double
+      , recordRational :: Rational
+      } deriving (Eq, Ord, Generic)
+        deriving (Read, Show) via (Quiet Record)
+--                            ^^^ keyword.other.haskell
+--                            ^^^^^^^^^^^^^^^^^^ meta.deriving.haskell
 
    traverse :: Applicative f =>
 -- ^^^^^^^^ entity.name.function.haskell
@@ -293,8 +309,3 @@ main = do
 
    a' = b'
 -- ^^ meta.name.haskell - string
-
-   {-# OPTIONS_HADDOCK not-home #-}
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.haskell
---                                 ^ - meta.preprocessor.haskell
---     ^^^^^^^^^^^^^^^ keyword.other.preprocessor.haskell
