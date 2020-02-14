@@ -342,7 +342,7 @@ contexts:
         - match: |-
             \b(?xi:
               array | bool | callable | double | float | int | iterable |
-              object | string | false | null | void | parent | self
+              object | string | false | null | void | parent | self | static
             )\b
           scope: storage.type.php
         - include: class-builtin

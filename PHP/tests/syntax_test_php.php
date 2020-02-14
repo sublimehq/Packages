@@ -832,7 +832,7 @@ $anon = new class($param1, $param2) extends Test1 implements Countable {};
         $param4
 //      ^ punctuation.definition.variable
 //       ^^^^^^ variable.parameter
-    ): Foo|\Foo\Bar|?int {}
+    ): Foo|\Foo\Bar|?int|static {}
 //     ^^^ support.class
 //        ^ punctuation.separator.type
 //         ^ punctuation.separator.namespace
@@ -842,6 +842,8 @@ $anon = new class($param1, $param2) extends Test1 implements Countable {};
 //                 ^ punctuation.separator.type
 //                  ^ storage.type.nullable
 //                   ^^^ storage.type
+//                      ^ punctuation.separator.type
+//                       ^^^^^^ storage.type
 
 $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //       ^^ constant.character.escape.octal.php
@@ -1037,7 +1039,7 @@ class B
         $param4
 //      ^ punctuation.definition.variable
 //       ^^^^^^ variable.parameter
-    ): Foo|\Foo\Bar|?int {}
+    ): Foo|\Foo\Bar|?int|static {}
 //     ^^^ support.class
 //        ^ punctuation.separator.type
 //         ^ punctuation.separator.namespace
@@ -1047,6 +1049,8 @@ class B
 //                 ^ punctuation.separator.type
 //                  ^ storage.type.nullable
 //                   ^^^ storage.type
+//                      ^ punctuation.separator.type
+//                       ^^^^^^ storage.type
     {
         echo B::class;
 //              ^ constant.class
