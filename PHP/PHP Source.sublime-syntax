@@ -327,6 +327,34 @@ contexts:
           pop: true
         - include: expressions
 
+  type-hint:
+    # https://wiki.php.net/rfc/union_types_v2
+    - match: '(?=(?:\?\s*)?{{path}})'
+      push:
+        - match: \?
+          scope: storage.type.nullable.php
+        - match: \|
+          scope: punctuation.separator.type.php
+        # note that
+        #   - "callable" and "void" are not allowed in property type
+        #   - "false" and "null" are only working in unioned type
+        # but we allow them as general types for simplifying syntax definition
+        - match: |-
+            \b(?xi:
+              array | bool | callable | double | float | int | iterable |
+              object | string | false | null | void | parent | self
+            )\b
+          scope: storage.type.php
+        - include: class-builtin
+        - include: identifier-parts-as-path
+        - match: '(\\)?({{identifier}})(?!\\)'
+          scope: meta.path.php
+          captures:
+            1: punctuation.separator.namespace.php
+            2: support.class.php
+        - match: ''
+          pop: true
+
   class-builtin:
     - match: |-
         (?xi)(\\)?\b(
@@ -605,11 +633,7 @@ contexts:
           pop: true
         - match: \b(?:var|public|private|protected|static)\b
           scope: storage.modifier.php
-        - match: '(?:(\?)\s*)?({{identifier}})'
-          captures:
-            1: storage.type.nullable.php
-            2: support.class.php
-          pop: true
+        - include: type-hint
         # Exit on unexpected content
         - match: (?=\S)
           pop: true
@@ -711,12 +735,9 @@ contexts:
     - match: \b(array|callable|int|string|bool|float|object)\b
       scope: storage.type.php
     # Class name type hint
-    - match: '{{identifier}}'
-      scope: meta.path.php support.class.php
+    - include: type-hint
     - match: '\.\.\.'
       scope: keyword.operator.spread.php
-    - match: '\?'
-      scope: storage.type.nullable.php
     - match: '&'
       scope: storage.modifier.reference.php
     - match: (\$+){{identifier}}
@@ -765,17 +786,7 @@ contexts:
       set: function-body
     - match: ':'
       scope: punctuation.separator.php
-    - match: '\?'
-      scope: storage.type.nullable.php
-    - match: \b(array|callable|int|string|bool|float|object)\b
-      scope: storage.type.php
-    - include: class-builtin
-    - include: identifier-parts-as-path
-    - match: '(\\)?({{identifier}})(?!\\)'
-      scope: meta.path.php
-      captures:
-        1: punctuation.separator.namespace.php
-        2: support.class.php
+    - include: type-hint
     # Exit on unexpected content
     - match: (?=\S)
       pop: true

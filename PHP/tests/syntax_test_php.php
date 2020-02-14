@@ -798,6 +798,51 @@ $anon = new class($param1, $param2) extends Test1 implements Countable {};
 //                                                   ^ storage.type.nullable.php
 //                                                    ^ storage.type.php
 
+    function unionTypeFunction(
+//  ^ storage.type.function.php
+//           ^ entity.name.function.php
+        Foo|\Foo\Bar|?int $param1,
+//      ^^^ support.class
+//         ^ punctuation.separator.type
+//          ^ punctuation.separator.namespace
+//           ^^^ support.other.namespace
+//              ^ punctuation.separator.namespace
+//               ^^^ support.class
+//                  ^ punctuation.separator.type
+//                   ^ storage.type.nullable
+//                    ^^^ storage.type
+//                        ^ punctuation.definition.variable
+//                         ^^^^^^ variable.parameter
+        Foo|\Foo\Bar|?int $param2,
+//      ^^^ support.class
+//         ^ punctuation.separator.type
+//          ^ punctuation.separator.namespace
+//           ^^^ support.other.namespace
+//              ^ punctuation.separator.namespace
+//               ^^^ support.class
+//                  ^ punctuation.separator.type
+//                   ^ storage.type.nullable
+//                    ^^^ storage.type
+//                        ^ punctuation.definition.variable
+//                         ^^^^^^ variable.parameter
+        string $param3,
+//      ^^^^^^ storage.type
+//             ^ punctuation.definition.variable
+//              ^^^^^^ variable.parameter
+        $param4
+//      ^ punctuation.definition.variable
+//       ^^^^^^ variable.parameter
+    ): Foo|\Foo\Bar|?int {}
+//     ^^^ support.class
+//        ^ punctuation.separator.type
+//         ^ punctuation.separator.namespace
+//          ^^^ support.other.namespace
+//             ^ punctuation.separator.namespace
+//              ^^^ support.class
+//                 ^ punctuation.separator.type
+//                  ^ storage.type.nullable
+//                   ^^^ storage.type
+
 $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //       ^^ constant.character.escape.octal.php
 //          ^^^ constant.character.escape.octal.php
@@ -931,14 +976,21 @@ class B
 //   ^ - meta.use
 //    ^ storage.modifier
 
-    public static ?Foo $str = '';
+    public static ?Foo|\My\Bar|int $str = '';
 //  ^^^^^^ storage.modifier
 //         ^^^^^^ storage.modifier
 //                ^ storage.type.nullable
 //                 ^^^ support.class
-//                     ^ punctuation.definition.variable
-//                      ^^^ variable.other
-//                          ^ keyword.operator.assignment
+//                    ^ punctuation.separator.type
+//                     ^ punctuation.separator.namespace
+//                      ^^ support.other.namespace
+//                        ^ punctuation.separator.namespace
+//                         ^^^ support.class
+//                            ^ punctuation.separator.type
+//                             ^^^ storage.type
+//                                 ^ punctuation.definition.variable
+//                                  ^^^ variable.other
+//                                      ^ keyword.operator.assignment
 
     public const STR_1 = '';
 //  ^^^^^^ storage.modifier
@@ -951,11 +1003,50 @@ class B
 //        ^^^^^ constant
 //              ^ keyword.operator.assignment
 
-    public function abc(callable $var, int $var2, string $var3)
-//                  ^^^ entity.name.function
-//                      ^ storage.type
-//                                     ^ storage.type
-//                                                ^ storage.type
+    public function abc(
+//         ^ storage.type.function.php
+//                  ^ entity.name.function.php
+        Foo|\Foo\Bar|?int $param1,
+//      ^^^ support.class
+//         ^ punctuation.separator.type
+//          ^ punctuation.separator.namespace
+//           ^^^ support.other.namespace
+//              ^ punctuation.separator.namespace
+//               ^^^ support.class
+//                  ^ punctuation.separator.type
+//                   ^ storage.type.nullable
+//                    ^^^ storage.type
+//                        ^ punctuation.definition.variable
+//                         ^^^^^^ variable.parameter
+        Foo|\Foo\Bar|?int $param2,
+//      ^^^ support.class
+//         ^ punctuation.separator.type
+//          ^ punctuation.separator.namespace
+//           ^^^ support.other.namespace
+//              ^ punctuation.separator.namespace
+//               ^^^ support.class
+//                  ^ punctuation.separator.type
+//                   ^ storage.type.nullable
+//                    ^^^ storage.type
+//                        ^ punctuation.definition.variable
+//                         ^^^^^^ variable.parameter
+        callable $param3,
+//      ^^^^^^^^ storage.type
+//               ^ punctuation.definition.variable
+//                ^^^^^^ variable.parameter
+        $param4
+//      ^ punctuation.definition.variable
+//       ^^^^^^ variable.parameter
+    ): Foo|\Foo\Bar|?int {}
+//     ^^^ support.class
+//        ^ punctuation.separator.type
+//         ^ punctuation.separator.namespace
+//          ^^^ support.other.namespace
+//             ^ punctuation.separator.namespace
+//              ^^^ support.class
+//                 ^ punctuation.separator.type
+//                  ^ storage.type.nullable
+//                   ^^^ storage.type
     {
         echo B::class;
 //              ^ constant.class
