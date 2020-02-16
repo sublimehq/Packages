@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-	<key>name</key>
-	<string>Symbols List: Indent Functions</string>
 	<key>scope</key>
-	<string>entity.name.function.php, support.function.magic.php, entity.name.class.php, entity.name.interface.php, entity.name.trait.php</string>
+	<string>
+		source.php entity.name.function,
+		source.php support.function.magic,
+		source.php entity.name.class,
+		source.php entity.name.interface,
+		source.php entity.name.trait
+	</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
