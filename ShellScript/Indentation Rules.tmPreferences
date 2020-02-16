@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-	<key>name</key>
-	<string>Indentation</string>
 	<key>scope</key>
-	<string>source.shell</string>
+	<string>source.shell - comment - string</string>
 	<key>settings</key>
 	<dict>
 		<key>decreaseIndentPattern</key>
