@@ -338,7 +338,7 @@ contexts:
         1: storage.type.function.scala
         2: entity.name.function.scala
       push: function-type-parameter-list
-    - match: '\b(case\s+)?(class|trait|object)(\s+({{id}}))'
+    - match: '\b(?:(case)\s+)?(class|trait|object)(?:\s+({{id}}))'
       scope: meta.class.identifier.scala
       captures:
         1: storage.type.class.scala
