@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-	<key>name</key>
-	<string>Symbol List: Ocamlyacc token reference</string>
 	<key>scope</key>
-	<string>entity.name.type.token.reference.ocamlyacc</string>
+	<string>entity.name.type.variant.ocaml | entity.name.type.variant.polymorphic.ocaml</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
