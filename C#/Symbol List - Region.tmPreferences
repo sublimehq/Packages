@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-	<key>name</key>
-	<string>Symbol List: Region</string>
 	<key>scope</key>
 	<string>source.cs entity.name.section</string>
 	<key>settings</key>
