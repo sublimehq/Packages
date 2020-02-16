@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>source.matlab</string>
+	<key>settings</key>
+	<dict>
+		<key>decreaseIndentPattern</key>
+		<string>^\s*\b(end\w*|catch|else|elseif|case|otherwise)\b</string>
+		<key>increaseIndentPattern</key>
+		<string>(?x)^\s*
+		\b(
+		classdef|properties|events|methods|enumeration
+		|function
+		|if|else|elseif
+		|switch|case|otherwise
+		|for|while
+		|try|catch
+		|unwind_protect
+		)\b
+		</string>
+	</dict>
+</dict>
+</plist>
