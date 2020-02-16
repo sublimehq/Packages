@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-	<key>name</key>
-	<string>Symbol List: Interfaces</string>
 	<key>scope</key>
 	<string>source.java meta.interface.identifier entity.name.interface</string>
 	<key>settings</key>

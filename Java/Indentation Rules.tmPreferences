@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-	<key>name</key>
-	<string>Indentation Rules</string>
 	<key>scope</key>
 	<string>source.java - comment</string>
 	<key>settings</key>
@@ -11,7 +9,6 @@
 		<string>^(.*\*/)?\s*\}.*$|^\s*(public|private|protected):\s*$</string>
 		<key>increaseIndentPattern</key>
 		<string>^.*\{[^}"']*$|^\s*(public|private|protected):\s*$</string>
-
 		<key>bracketIndentNextLinePattern</key>
 		<string>(?x)
 		^ \s* \b(if|while|else)\b [^;]* $
