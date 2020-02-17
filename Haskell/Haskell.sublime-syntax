@@ -11,7 +11,7 @@ variables:
   # note that Haskell permits the definition of new operators
   # which can be nearly any string of punctuation characters,
   # such as $%^&*.
-  operator_char: '[*|!%&$?~+:\-.=</>\\]'
+  operator_char: '[*|!%&$@#?~+:\-.=</>\\]'
   operator_infix: '{{operator_char}}+'
   operator_parens: '(?:{{operator_infix}}|,+)'
   module_name: (?:[A-Z][A-Za-z._']*)
