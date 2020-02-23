@@ -490,7 +490,7 @@ class CSSCompletions(sublime_plugin.EventListener):
         if not self.props:
             self.props = parse_css_data()
             self.re_name = re.compile(r"([a-zA-Z-]+)\s*:[^:;{}]*$")
-            self.re_value = re.compile(r"^(?:\s*(:)|([ \t]*))([^:]*)[;}]")
+            self.re_value = re.compile(r"^(?:\s*(:)|([ \t]*))([^:]*)([;}])")
             self.re_trigger = re.compile(r"\$(?:\d+|\{\d+\:([^}]+)\})")
 
         if match_selector(view, pt, "meta.property-value.css meta.function-call"):
@@ -509,13 +509,16 @@ class CSSCompletions(sublime_plugin.EventListener):
         text = view.substr(sublime.Region(pt, view.line(pt).end()))
         matches = self.re_value.search(text)
         if matches:
-            colon, space, value = matches.groups()
+            colon, space, value, term = matches.groups()
             if colon:
                 # don't append anything if the next character is a colon
                 suffix = ""
             elif value:
                 # only append colon if value already exists
                 suffix = ":" if space else ": "
+            elif term == ";":
+                # ommit semicolon if rule is already terminated
+                suffix = ": $0"
 
         return (
             sublime.CompletionItem.snippet_completion(
