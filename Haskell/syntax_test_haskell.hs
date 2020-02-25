@@ -80,6 +80,9 @@
         deriving (Read, Show) via (Quiet Record)
 --                            ^^^ keyword.other.haskell
 --                            ^^^^^^^^^^^^^^^^^^ meta.deriving.haskell
+--                                 ^^^^^ entity.other.inherited-class.haskell
+--                                      ^ - entity
+--                                       ^^^^^^ entity.other.inherited-class.haskell
 
    traverse :: Applicative f =>
 -- ^^^^^^^^ entity.name.function.haskell
