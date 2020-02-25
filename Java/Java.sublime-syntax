@@ -1787,7 +1787,7 @@ contexts:
     - include: else-pop
 
   object-types-child:
-    - match: \.(?!\.)
+    - match: \.
       scope: punctuation.accessor.dot.java
       set:
         - include: variable-language-class
@@ -1859,7 +1859,7 @@ contexts:
     - include: else-pop
 
   object-type-reference-child:
-    - match: \.(?!\.)
+    - match: \.
       scope: punctuation.accessor.dot.java
       set: object-type-reference-no-fqn
     - include: else-pop
@@ -1893,7 +1893,7 @@ contexts:
     - include: else-pop
 
   inherrited-object-type-reference-child:
-    - match: \.(?!\.)
+    - match: \.
       scope: punctuation.accessor.dot.java
       set: inherited-object-type-reference-no-fqn
     - include: else-pop
