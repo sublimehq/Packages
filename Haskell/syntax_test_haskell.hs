@@ -184,6 +184,15 @@
    countTheBeforeVowel = undefined
 
 
+--IDENTS
+
+    genericIdent
+--  ^ meta.name.haskell
+    map (flip (/)) [1..]
+--  ^^^ support.function.prelude.haskell
+--       ^^^^ meta.group.haskell support.function.prelude.haskell
+
+
 --KEYWORDS
 
 import qualified Data.Vector.Mutable as MutableVector
