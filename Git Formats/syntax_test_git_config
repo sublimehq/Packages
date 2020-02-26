@@ -150,6 +150,10 @@
 #                   ^^ -constant.other.color.rgb-value
     commit = yellow 999
 #                   ^^^ -constant.other.color.rgb-value
+    commit = brightyellow 0
+#            ^^^^^^^^^^^^ support.constant.color
+#                         ^ constant.other.color.rgb-value
+
 
 # ESCAPE TESTS
 [escapes]
