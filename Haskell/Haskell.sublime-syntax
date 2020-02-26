@@ -123,8 +123,6 @@ contexts:
           scope: entity.other.inherited-class.haskell
         - match: '\b[a-z][a-zA-Z0-9_'']*\b'
           scope: variable.other.generic-type.haskell
-    - match: \bderiving\b
-      scope: keyword.declaration.haskell
     - match: \binstance\b
       scope: keyword.declaration.haskell
       push:
@@ -172,6 +170,8 @@ contexts:
     - match: \b(?:newtype|type)\b
       scope: keyword.declaration.type.haskell
     - match: \b(?:data)\b
+      scope: keyword.declaration.data.haskell
+    - match: \b(?:deriving)\b
       scope: keyword.declaration.data.haskell
     - match: \b(?:case|of)\b
       scope: keyword.control.conditional.select.haskell  # the construct is commonly called "select"

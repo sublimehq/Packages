@@ -77,6 +77,7 @@
       , recordDouble :: Double
       , recordRational :: Rational
       } deriving (Eq, Ord, Generic)
+--      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.deriving.haskell
         deriving (Read, Show) via (Quiet Record)
 --                            ^^^ keyword.other.haskell
 --                            ^^^^^^^^^^^^^^^^^^ meta.deriving.haskell
@@ -215,9 +216,9 @@ import Data.List.Split (splitOn)
 --                             ^ punctuation.section.group.end.haskell
 
    deriving instance FromJSON Amount
--- ^^^^^^^^ keyword.declaration.haskell
+-- ^^^^^^^^ keyword.declaration.data.haskell
    deriving instance FromJSON Ask
---          ^^^^^^^^ keyword.declaration.haskell
+--          ^^^^^^^^ meta.declaration.instance.haskell keyword.declaration.haskell
 
 test =
 --   ^ keyword.operator.haskell
