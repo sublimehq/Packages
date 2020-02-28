@@ -920,6 +920,76 @@ contexts:
     - include: statements
     - include: stray-parens
 
+###[ LOCAL VARIABLE DECLARATION ]##############################################
+
+  variable-declaration-type:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.4
+    - match: final\b
+      scope: storage.modifier.java
+    - match: '{{storage_modifiers}}\b'
+      scope: invalid.illegal.unexpected-keyword.java
+    - match: '{{storage_types}}\b'
+      scope: storage.type.primitive.java
+      set: array-modifier
+    - match: var\b
+      scope: storage.type.var.java
+      set: array-modifier
+    - include: object-type
+
+  variable-declaration-list:
+    - match: \,
+      scope: punctuation.separator.sequence.java
+      push:
+        - variable-declaration-value
+        - variable-declaration-identifier
+
+  variable-declaration-identifier:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-VariableDeclaratorId
+    - include: expression-terminator
+    - match: '{{variables}}\b'
+      scope: invalid.illegal.identifier.java
+      set: [illegal-members, array-modifier]
+    - match: '{{uppercase_id}}'
+      scope: entity.name.constant.java
+      set: [illegal-members, array-modifier]
+    - match: '{{id}}'
+      scope: variable.other.readwrite.java
+      set: [illegal-members, array-modifier]
+    - include: else-pop
+
+  variable-declaration-value:
+    - match: =
+      scope: keyword.operator.assignment.java
+      set:
+        - variable-declaration-value-meta
+        - variable-declaration-value-body
+    - include: else-pop
+
+  variable-declaration-value-meta:
+    - meta_scope: meta.assignment.rhs.java
+    - include: immediately-pop
+
+  variable-declaration-value-body:
+    - include: array-initialization
+    - match: (?=\S)
+      set:
+        - include: instantiation
+        - include: expression-terminator
+        - include: annotation
+        - include: parens-or-lambda
+        - include: numbers
+        - include: punctuations
+        - include: operators
+        - include: constants
+        - include: strings
+        - include: uppercase-identifiers
+        - include: object-types
+        - include: variables
+
+  expression-terminator:
+    - match: (?=[,:;)}]|{{reserved_words}}\b)
+      pop: true
+
 ###[ VAR DECLARATION ]#########################################################
 
   var-declaration:
@@ -928,12 +998,12 @@ contexts:
       scope: storage.type.var.java
       push:
         - var-expect-terminator
-        - var-value
+        - variable-declaration-value
         - var-variable-name
         - illegal-array-modifier
 
   var-variable-name:
-    - include: var-terminator
+    - include: expression-terminator
     - match: '{{variables}}\b'
       scope: invalid.illegal.identifier.java
       set: [illegal-members, illegal-array-modifier]
@@ -945,24 +1015,11 @@ contexts:
       set: [illegal-members, illegal-array-modifier]
     - include: else-pop
 
-  var-value:
-    - match: =
-      scope: keyword.operator.assignment.java
-      set:
-        - meta_scope: meta.assignment.rhs.java
-        - include: var-terminator
-        - include: expressions
-    - include: else-pop
-
   var-expect-terminator:
     - match: ','
       scope: invalid.illegal.expect-terminator.java
       pop: true
-    - include: var-terminator
-
-  var-terminator:
-    - match: (?=\s*[,:;)}\]]|{{reserved_words}}\b)
-      pop: true
+    - include: expression-terminator
 
 ###[ INSTANTIATION ]###########################################################
 
@@ -1487,7 +1544,9 @@ contexts:
       scope: keyword.control.loop.do-while.java
     - match: for\b
       scope: keyword.control.loop.for.java
-      push: declaration-statement-parens
+      push: 
+        - for-statement-block
+        - for-statement-parameters
     - match: while\b
       scope: keyword.control.loop.while.java
 
@@ -1522,6 +1581,73 @@ contexts:
     - match: \S
       scope: invalid.illegal.missing-parameter-end
       pop: true
+
+  for-statement-parameters:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.14
+    - match: (?=\()
+      set:
+        - for-statement-parameters-end
+        - for-statement-parameters-body
+        - variable-declaration-identifier
+        - variable-declaration-type
+        - parens-begin
+    - include: else-pop
+
+  for-statement-parameters-body:
+    # enhanced for statement
+    - match: ':'
+      scope: keyword.operator.assignment.java
+      set: for-statement-parameters-update
+    # basic for statement
+    - match: (?=\S)
+      set:
+        - for-statement-parameters-update
+        - for-statement-parameters-condition
+        - for-statement-parameters-init
+        - variable-declaration-value
+
+  for-statement-parameters-init:
+    - match: ';'
+      scope: punctuation.terminator.java
+      pop: true
+    - include: variable-declaration-list
+    - include: else-pop
+
+  for-statement-parameters-condition:
+    - match: ';'
+      scope: punctuation.terminator.java
+      pop: true
+    - match: (?=\))
+      pop: true
+    - include: illegal-open-block
+    - include: expressions
+    - include: else-pop
+
+  for-statement-parameters-update:
+    - match: (?=\))
+      pop: true
+    - include: illegal-semicolon
+    - include: illegal-open-block
+    - include: expressions
+    - include: else-pop
+
+  for-statement-parameters-end:
+    - clear_scopes: 1
+    - meta_scope: meta.for.parameters.java meta.parens.java
+    - include: illegal-open-block
+    - include: parens-end
+
+  for-statement-block:
+    - meta_scope: meta.for.java
+    - match: (?=\{)
+      set:
+        - for-statement-block-body
+        - block-begin
+    - include: else-pop
+
+  for-statement-block-body:
+    - meta_scope: meta.for.body.java meta.block.java
+    - include: blocks-common
 
   throw-statement-body:
     - meta_scope: meta.throw.java
@@ -1590,6 +1716,11 @@ contexts:
   punctuation-terminator-semicolon:
     - match: ;
       scope: punctuation.terminator.java
+
+  punctuation-terminator-semicolon-pop:
+    - match: ;
+      scope: punctuation.terminator.java
+      pop: true
 
 ###[ ENTITY CLASS ]############################################################
 
