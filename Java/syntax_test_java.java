@@ -2514,6 +2514,25 @@ class InstantiationTests {
   @SyntaxTest
   public void instantiateGenerics() {
 
+    new Generic<>;
+//  ^^^^^^^^^^^^^ meta.instantiation.java
+//             ^^ meta.generic.java
+//  ^^^ keyword.other.storage.new.java
+//      ^^^^^^^ support.class.java
+//             ^^ punctuation.definition.generic.diamond.java
+//               ^ punctuation.terminator.java
+
+    new Generic<>();
+//  ^^^^^^^^^^^^^^^ meta.instantiation.java
+//             ^^ meta.generic.java
+//               ^^ meta.parens.java
+//  ^^^ keyword.other.storage.new.java
+//      ^^^^^^^ support.class.java
+//             ^^ punctuation.definition.generic.diamond.java
+//               ^ punctuation.section.parens.begin.java
+//                ^ punctuation.section.parens.end.java
+//                 ^ punctuation.terminator.java
+
     new Generic<Type>();
 //  ^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
 //             ^^^^^^ meta.generic.java
@@ -2525,6 +2544,7 @@ class InstantiationTests {
 //                  ^ punctuation.definition.generic.end.java
 //                   ^ punctuation.section.parens.begin.java
 //                    ^ punctuation.section.parens.end.java
+//                     ^ punctuation.terminator.java
 
     new Generic<@Anno Type>();
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
@@ -2540,6 +2560,7 @@ class InstantiationTests {
 //                        ^ punctuation.definition.generic.end.java
 //                         ^ punctuation.section.parens.begin.java
 //                          ^ punctuation.section.parens.end.java
+//                           ^ punctuation.terminator.java
 
     new Generic<?>();
 //  ^^^^^^^^^^^^^^^^ meta.instantiation.java
@@ -2551,6 +2572,7 @@ class InstantiationTests {
 //               ^ punctuation.definition.generic.end.java
 //                ^ punctuation.section.parens.begin.java
 //                 ^ punctuation.section.parens.end.java
+//                  ^ punctuation.terminator.java
 
     new @Anno Generic<@Anno ?>();
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
@@ -2568,13 +2590,25 @@ class InstantiationTests {
 //                           ^ punctuation.definition.generic.end.java
 //                            ^ punctuation.section.parens.begin.java
 //                             ^ punctuation.section.parens.end.java
+//                              ^ punctuation.terminator.java
 
     new Generic<? extends Type>();
+//  ^^^^^^^^^^^ meta.instantiation.java - meta.generic
+//             ^^^^^^^^^^^^^^^^ meta.instantiation.java meta.generic.java
+//                             ^^ meta.instantiation.java meta.parens.java
+//             ^ punctuation.definition.generic.begin.java
 //              ^ keyword.operator.wildcard.java
 //                ^^^^^^^ keyword.declaration.extends.java
 //                        ^^^^ support.class.java
+//                            ^ punctuation.definition.generic.end.java
+//                             ^ punctuation.section.parens.begin.java
+//                              ^ punctuation.section.parens.end.java
+//                               ^ punctuation.terminator.java
 
     new @Anno Generic<@Anno ? extends @Anno Type>();
+//  ^^^^^^^^^^^^^^^^^ meta.instantiation.java - meta.generic
+//                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java meta.generic.java
+//                                               ^^ meta.instantiation.java meta.parens.java
 //      ^ punctuation.definition.annotation.java
 //       ^^^^ variable.annotation.java
 //            ^^^^^^^ support.class.java
@@ -2587,18 +2621,37 @@ class InstantiationTests {
 //                                     ^^^^ variable.annotation.java
 //                                          ^^^^ support.class.java
 //                                              ^ punctuation.definition.generic.end.java
+//                                               ^ punctuation.section.parens.begin.java
+//                                                ^ punctuation.section.parens.end.java
+//                                                 ^ punctuation.terminator.java
 
     new Generic<? extends Type, String>();
+//  ^^^^^^^^^^^ meta.instantiation.java - meta.generic
+//             ^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java meta.generic.java
+//                                     ^^ meta.instantiation.java meta.parens.java
+//             ^ punctuation.definition.generic.begin.java
 //              ^ keyword.operator.wildcard.java
 //                ^^^^^^^ keyword.declaration.extends.java
 //                        ^^^^ support.class.java
 //                            ^ punctuation.separator.comma.java
 //                              ^^^^^^ support.class.java
+//                                    ^ punctuation.definition.generic.end.java
+//                                     ^ punctuation.section.parens.begin.java
+//                                      ^ punctuation.section.parens.end.java
+//                                       ^ punctuation.terminator.java
 
     new Generic<? super Type>();
+//  ^^^^^^^^^^^ meta.instantiation.java - meta.generic
+//             ^^^^^^^^^^^^^^ meta.instantiation.java meta.generic.java
+//                           ^^ meta.instantiation.java meta.parens.java
+//             ^ punctuation.definition.generic.begin.java
 //              ^ keyword.operator.wildcard.java
 //                ^^^^^ keyword.declaration.super.java
 //                      ^^^^ support.class.java
+//                          ^ punctuation.definition.generic.end.java
+//                           ^ punctuation.section.parens.begin.java
+//                            ^ punctuation.section.parens.end.java
+//                             ^ punctuation.terminator.java
 
     new Generic<int>();
 //              ^^^ invalid.illegal.unexpected-keyword.java

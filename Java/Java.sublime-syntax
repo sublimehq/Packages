@@ -996,7 +996,9 @@ contexts:
 
   after-object-type-in-instantiation:
     - match: <>
-      scope: punctuation.definition.generic.diamond.java
+      scope: 
+        meta.generic.java
+        punctuation.definition.generic.diamond.java
       set: constructor-arguments
     - match: <
       scope: punctuation.definition.generic.begin.java
@@ -1012,7 +1014,6 @@ contexts:
   instantiation-array-or-object:
     - include: array-dimensions
     - include: constructor-arguments
-    - include: else-pop
 
   constructor-arguments:
     - match: \(
@@ -1024,6 +1025,7 @@ contexts:
           set: class-body-block
         - include: illegal-parens-terminators
         - include: expressions
+    - include: else-pop
 
   array-dimensions:
     - match: \[
