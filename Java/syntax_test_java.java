@@ -345,65 +345,6 @@ public class SyntaxTest {
 //                                                      ^^^ variable.function.reference.java
 //                                                    ^^ punctuation.accessor.double-colon.java
         anotherMethod();
-        try (Stream<String> lines = Files.lines(path)) {
-//      ^^^ keyword.control.exception.try.java
-//                                 ^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
-//                                                    ^ - meta.parens.java
-//                                                   ^ meta.method.body.java - meta.assignment.rhs.java
-            lines.forEach(System.out::println);
-//                                    ^^^^^^^ variable.function.reference.java
-
-        } catch (IOException ignore) {
-//        ^^^^^^ meta.catch.java
-//              ^^^^^^^^^^^^^^^^^^^^ meta.catch.parameters.java meta.parens.java
-//        ^^^^^ keyword.control.exception.catch.java
-//              ^ punctuation.section.parens.begin.java
-//               ^^^^^^^^^^^ support.class.java
-//                           ^^^^^^ variable.parameter
-//                                 ^ punctuation.section.parens.end.java
-        } catch (final MyException | com.net.org.Foo.Bar |
-//        ^^^^^^ meta.catch.java
-//              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.catch.parameters.java meta.parens.java
-//        ^^^^^ keyword.control.exception.catch.java
-//              ^ punctuation.section.parens.begin
-//               ^ meta.catch.parameters storage.modifier.java
-//                     ^^^^^^^^^^^ support.class
-//                                 ^ punctuation.separator.pipe.java
-//                                   ^^^ variable.namespace.java
-//                                      ^ punctuation.accessor.dot.java
-//                                       ^^^ variable.namespace.java
-//                                          ^ punctuation.accessor.dot.java
-//                                           ^^^ variable.namespace.java
-//                                              ^ punctuation.accessor.dot.java
-//                                               ^^^ support.class.java
-//                                                  ^ punctuation.accessor.dot.java
-//                                                   ^^^ support.class.java
-//                                                       ^ punctuation.separator.pipe.java
-                YourException ignore) {}
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.catch
-//              ^ support.class
-//                            ^ variable.parameter
-//                                 ^ meta.catch.parameters
-//                                  ^ punctuation.section.parens.end
-
-        try (final InputStream is = new FileInputStream(args[0]);
-//           ^^^^^ storage.modifier
-             final OutputStream os = new FileOutputStream(args[1])) {
-//           ^^^^^ storage.modifier
-
-          os.write(is.read());
-//                    ^^^^ variable.function
-        }
-
-        try {
-//      ^^^ keyword.control.exception.try.java
-          Class.forName(args[2]);
-        } catch (Exception e) {
-//        ^^^^^ keyword.control.exception.catch.java
-          log.error(e);
-        } finally {
-//        ^^^^^^^ keyword.control.exception.finally.java
-        }
     }
 }
 
@@ -1652,12 +1593,6 @@ class LocalVariableDeclarationTests {
 //                            ^^ invalid.illegal.unexpected-modifier.java
 //                               ^^^^^ meta.annotation.identifier.java
 //                                     ^^ invalid.illegal.unexpected-modifier.java
-
-    try (var in = new BufferedReader()) {
-//       ^^^ storage.type.var.java
-        var line = in.readLine();
-//      ^^^ storage.type.var.java
-    }
   }
 }
 
@@ -3137,6 +3072,246 @@ class LambdasStatementTests {
 //                            ^^ storage.type.function.anonymous.java
 //                               ^^^^ constant.language.boolean.java
 //                                   ^ punctuation.terminator.java
+}
+
+
+/******************************************************************************
+ * Try Statement Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.20
+ *****************************************************************************/
+
+class TryStatementTests {
+
+  void run() {
+
+    try
+//  ^^^^ meta.try.java
+//  ^^^ keyword.control.exception.try.java
+    catch
+//  ^^^^^^ meta.catch.java
+//  ^^^^^ keyword.control.exception.catch.java
+    finally
+//  ^^^^^^^^ meta.finally.java
+//  ^^^^^^^ keyword.control.exception.finally.java
+
+    // ensure not to break highlighting even though braces are missing
+    try foo() catch (Exception e) bar(e) finally baz()
+//  ^^^^ meta.try.java - meta.try meta.try
+//      ^^^^^^ - meta.try - meta.catch - meta.finally
+//            ^^^^^^ meta.catch.java - meta.catch meta.catch
+//                  ^^^^^^^^^^^^^ meta.catch.parameters.java - meta.catch meta.catch
+//                               ^ meta.catch.java - meta.catch meta.catch
+//                                ^^^^^^^ - meta.try - meta.catch - meta.finally
+//                                       ^^^^^^^^ meta.finally.java - meta.finally meta.finally
+//                                               ^^^^^^ - meta.try - meta.catch - meta.finally
+//  ^^^ keyword.control.exception.try.java
+//      ^^^ variable.function.java
+//            ^^^^^ keyword.control.exception.catch.java
+//                                ^^^ variable.function.java
+//                                       ^^^^^^^ keyword.control.exception.finally.java
+//                                               ^^^ variable.function.java
+
+    try { foo(); } catch (Exception e) { bar(e); } finally { baz(); }
+//  ^^^^ meta.try.java - meta.try meta.try
+//      ^^^^^^^^^^ meta.try.body.java - meta.try meta.try
+//                 ^^^^^^ meta.catch.java - meta.catch meta.catch
+//                       ^^^^^^^^^^^^^ meta.catch.parameters.java - meta.catch meta.catch
+//                                    ^ meta.catch.java - meta.catch meta.catch
+//                                     ^^^^^^^^^^^ meta.catch.body.java - meta.catch meta.catch
+//                                                 ^^^^^^^^ meta.finally.java - meta.finally meta.finally
+//                                                         ^^^^^^^^^^ meta.finally.body.java - meta.finally meta.finally
+//  ^^^ keyword.control.exception.try.java
+//        ^^^ variable.function.java
+//                 ^^^^^ keyword.control.exception.catch.java
+//                       ^ punctuation.section.parens.begin.java
+//                        ^^^^^^^^^ support.class.java
+//                                  ^ variable.parameter.java
+//                                   ^ punctuation.section.parens.end.java
+//                                     ^ punctuation.section.block.begin.java
+//                                       ^^^ variable.function.java
+//                                               ^ punctuation.section.block.end.java
+//                                                 ^^^^^^^ keyword.control.exception.finally.java
+//                                                         ^ punctuation.section.block.begin.java
+//                                                           ^^^ variable.function.java
+//                                                                  ^ punctuation.section.block.end.java
+
+    try {
+//  ^^^^ meta.block.java meta.try.java
+//      ^ meta.try.body.java meta.block.java
+//  ^^^ keyword.control.exception.try.java
+//      ^ punctuation.section.block.begin.java
+      foo();
+    } catch (Exception e) {
+//  ^ meta.try.body.java meta.block.java
+//   ^ - meta.try - meta.catch - meta.finally
+//    ^^^^^^ meta.catch.java - meta.catch meta.catch
+//          ^^^^^^^^^^^^^ meta.catch.parameters.java meta.parens.java - meta.catch meta.catch
+//                       ^ meta.catch.java - meta.catch meta.catch
+//                        ^^ meta.catch.body.java meta.block.java - meta.catch meta.catch
+//  ^ punctuation.section.block.end.java
+//    ^^^^^ keyword.control.exception.catch.java
+//          ^ punctuation.section.parens.begin.java
+//           ^^^^^^^^^ support.class.java
+//                     ^ variable.parameter.java
+//                      ^ punctuation.section.parens.end.java
+//                        ^ punctuation.section.block.begin.java
+      bar(e);
+    } finally {
+//  ^ meta.catch.body.java meta.block.java
+//   ^ - meta.try - meta.catch - meta.finally
+//    ^^^^^^^^ meta.finally.java - meta.finally meta.finally
+//            ^^ meta.finally.body.java - meta.finally meta.finally
+//  ^ punctuation.section.block.end.java
+//    ^^^^^^^ keyword.control.exception.finally.java
+//            ^ punctuation.section.block.begin.java
+      baz();
+    }
+//  ^ meta.finally.body.java meta.block.java punctuation.section.block.end.java
+//   ^ - meta.try - meta.catch - meta.finally
+
+    try (foo = Bar.baz(path)) {}
+//  ^^^^ meta.try.java - meta.try meta.try
+//      ^^^^^^^^^^^^^^^^^^^^^ meta.try.parameters.java meta.parens.java - meta.try meta.try
+//           ^^^^^^^^^^^^^^^ meta.assignment.rhs.java
+//                           ^ meta.try.java - meta.try meta.try - meta.parens
+//                            ^^ meta.try.body.java meta.block.java
+//  ^^^ keyword.control.exception.try.java
+//      ^ punctuation.section.parens.begin.java
+//       ^^^ variable.other.readwrite.java
+//           ^ keyword.operator.assignment.java
+//             ^^^ support.class.java
+//                ^ punctuation.accessor.dot.java
+//                 ^^^ variable.function.java
+//                    ^ punctuation.section.parens.begin.java
+//                     ^^^^ variable.other.readwrite.java
+//                         ^^ punctuation.section.parens.end.java
+//                            ^ punctuation.section.block.begin.java
+//                             ^ punctuation.section.block.end.java
+
+    try (Stream<String> lines = Files.lines(path)) {
+//  ^^^^ meta.try.java - meta.try meta.try
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.try.parameters.java meta.parens.java - meta.try meta.try
+//                            ^^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
+//                                                ^ meta.try.java - meta.try meta.try - meta.parens
+//                                                 ^^ meta.try.body.java meta.block.java
+//  ^^^ keyword.control.exception.try.java
+//      ^ punctuation.section.parens.begin.java
+//       ^^^^^^ support.class.java
+//             ^ punctuation.definition.generic.begin.java
+//              ^^^^^^ support.class.java
+//                    ^ punctuation.definition.generic.end.java
+//                      ^^^^^ variable.other.readwrite.java
+//                            ^ keyword.operator.assignment.java
+//                              ^^^^^ support.class.java
+//                                   ^ punctuation.accessor.dot.java
+//                                    ^^^^^ variable.function.java
+//                                         ^ punctuation.section.parens.begin.java
+//                                          ^^^^ variable.other.readwrite.java
+//                                              ^^ punctuation.section.parens.end.java
+//                                                 ^ punctuation.section.block.begin.java
+      lines.forEach(System.out::println);
+//                              ^^^^^^^ variable.function.reference.java
+
+    } catch (IOException ignore) {
+//^^^ meta.try.body.java meta.block.java
+//   ^ - meta.try - meta.catch
+//    ^^^^^^ meta.catch.java - meta.catch meta.catch
+//          ^^^^^^^^^^^^^^^^^^^^ meta.catch.parameters.java meta.parens.java - meta.catch meta.catch
+//                              ^ meta.catch.java - meta.catch meta.catch
+//                               ^^ meta.catch.body.java meta.block.java
+//  ^ punctuation.section.block.end.java
+//    ^^^^^ keyword.control.exception.catch.java
+//          ^ punctuation.section.parens.begin.java
+//           ^^^^^^^^^^^ support.class.java
+//                       ^^^^^^ variable.parameter.java
+//                             ^ punctuation.section.parens.end.java
+//                               ^ punctuation.section.block.begin.java
+    } catch (final MyException | com.net.org.Foo.Bar |
+//^^^ meta.catch.body.java meta.block.java
+//   ^ - meta.catch
+//    ^^^^^^ meta.catch.java - meta.catch meta.catch
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.catch.parameters.java meta.parens.java - meta.catch meta.catch
+//    ^^^^^ keyword.control.exception.catch.java
+//          ^ punctuation.section.parens.begin
+//           ^^^^^ storage.modifier.java
+//                 ^^^^^^^^^^^ support.class
+//                             ^ punctuation.separator.pipe.java
+//                               ^^^ variable.namespace.java
+//                                  ^ punctuation.accessor.dot.java
+//                                   ^^^ variable.namespace.java
+//                                      ^ punctuation.accessor.dot.java
+//                                       ^^^ variable.namespace.java
+//                                          ^ punctuation.accessor.dot.java
+//                                           ^^^ support.class.java
+//                                              ^ punctuation.accessor.dot.java
+//                                               ^^^ support.class.java
+//                                                   ^ punctuation.separator.pipe.java
+          YourException 
+//       ^^^^^^^^^^^^^^^ meta.catch.parameters.java meta.parens.java - meta.catch meta.catch
+//        ^^^^^^^^^^^^^ support.class.java
+          ignore) {}
+//       ^^^^^^^ meta.catch.parameters.java meta.parens.java - meta.catch meta.catch
+//               ^ meta.catch.java - meta.catch meta.catch
+//                ^^ meta.catch.body.java meta.block.java
+//        ^^^^^^ variable.parameter.java
+//              ^ punctuation.section.parens.end.java
+//                ^ punctuation.section.block.begin.java
+//                 ^ punctuation.section.block.end.java
+
+    try (final InputStream is = new FileInputStream(args[0]);
+//  ^^^^ meta.try.java - meta.try meta.try
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.try.parameters.java meta.parens.java - meta.try meta.try
+//                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
+//  ^^^ keyword.control.exception.try.java
+//      ^ punctuation.section.parens.begin.java
+//       ^^^^^ storage.modifier.java
+//             ^^^^^^^^^^^ support.class.java
+//                         ^^ variable.other.readwrite.java
+//                            ^ keyword.operator.assignment.java
+//                              ^^^ keyword.other.storage.new.java
+//                                  ^^^^^^^^^^^^^^^ support.class.java
+//                                                 ^ punctuation.section.parens.begin.java
+//                                                  ^^^^ variable.other.readwrite.java
+//                                                      ^ punctuation.section.brackets.begin.java
+//                                                       ^ constant.numeric.integer.decimal.java
+//                                                        ^ punctuation.section.brackets.end.java
+//                                                         ^ punctuation.section.parens.end.java
+//                                                          ^ punctuation.terminator.java
+         final OutputStream os = new FileOutputStream(args[1])) {
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.try.parameters.java meta.parens.java - meta.try meta.try
+//                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
+//                                                             ^ meta.try.java - meta.try meta.try - meta.parens
+//                                                              ^^ meta.try.body.java meta.block.java
+//       ^^^^^ storage.modifier.java
+//             ^^^^^^^^^^^^ support.class.java
+//                          ^^ variable.other.readwrite.java
+//                             ^ keyword.operator.assignment.java
+//                               ^^^ keyword.other.storage.new.java
+//                                   ^^^^^^^^^^^^^^^^ support.class.java
+//                                                   ^ punctuation.section.parens.begin.java
+//                                                    ^^^^ variable.other.readwrite.java
+//                                                        ^ punctuation.section.brackets.begin.java
+//                                                         ^ constant.numeric.integer.decimal.java
+//                                                          ^ punctuation.section.brackets.end.java
+//                                                           ^^ punctuation.section.parens.end.java
+//                                                              ^ punctuation.section.block.begin.java
+    }
+//  ^ meta.try.body.java meta.block.java punctuation.section.block.end.java
+//   ^ - meta.try
+
+    try (var in = new BufferedReader()) {
+//  ^^^^ meta.try.java - meta.try meta.try
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.try.parameters.java meta.parens.java - meta.try meta.try
+//              ^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
+//                                     ^ meta.try.java - meta.try meta.try - meta.parens
+//                                      ^^ meta.try.body.java meta.block.java
+//       ^^^ storage.type.var.java
+        var line = in.readLine();
+//      ^^^ storage.type.var.java
+    }
+//  ^ meta.try.body.java meta.block.java punctuation.section.block.end.java
+//   ^ - meta.try
+  }
 }
 
 
