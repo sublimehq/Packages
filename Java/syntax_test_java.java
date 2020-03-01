@@ -1646,6 +1646,14 @@ class LocalVariableDeclarationTests {
 //            ^ variable.other.readwrite.java
 //              ^ keyword.operator.assignment.java
 
+    final var y.b = 10;
+//  ^^^^^ storage.modifier.java
+//        ^^^ storage.type.var.java
+//            ^ variable.other.readwrite.java
+//             ^ invalid.illegal.unexpected-accessor.java
+//              ^ invalid.illegal.unexpected-member.java
+//                ^ keyword.operator.assignment.java
+
     final var[] y = 10, z[] = 5;
 //  ^^^^^ storage.modifier.java
 //        ^^^ storage.type.var.java

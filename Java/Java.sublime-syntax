@@ -934,12 +934,15 @@ contexts:
 
   var-variable-name:
     - include: var-terminator
+    - match: '{{variables}}\b'
+      scope: invalid.illegal.identifier.java
+      set: [illegal-members, illegal-array-modifier]
     - match: '{{uppercase_id}}'
       scope: entity.name.constant.java
-      set: illegal-array-modifier
+      set: [illegal-members, illegal-array-modifier]
     - match: '{{id}}'
       scope: variable.other.readwrite.java
-      set: illegal-array-modifier
+      set: [illegal-members, illegal-array-modifier]
     - include: else-pop
 
   var-value:
