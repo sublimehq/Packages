@@ -3316,6 +3316,64 @@ class TryStatementTests {
 
 
 /******************************************************************************
+ * While Statement Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.12
+ *****************************************************************************/
+
+class WhileStatementTests {
+
+  void run() {
+
+    while
+//  ^^^^^^ meta.while.java
+//  ^^^^^ keyword.control.loop.while.java
+
+    while false
+//  ^^^^^^ meta.while.java
+//        ^^^^^ - meta.while
+//  ^^^^^ keyword.control.loop.while.java
+//        ^^^^^ constant.language.boolean.java
+
+    while (false)
+//  ^^^^^^^^^^^^^^ - meta.while meta.while
+//  ^^^^^^ meta.while.java
+//        ^^^^^^^ meta.while.parameters.java meta.parens.java
+//               ^ meta.while.java
+//  ^^^^^ keyword.control.loop.while.java
+//        ^ punctuation.section.parens.begin.java
+//         ^^^^^ constant.language.boolean.java
+//              ^ punctuation.section.parens.end.java
+
+    while (false) {  }
+//  ^^^^^^^^^^^^^^^^^^ - meta.while meta.while
+//  ^^^^^^ meta.while.java
+//        ^^^^^^^ meta.while.parameters.java meta.parens.java
+//               ^ meta.while.java
+//                ^^^^ meta.while.body.java meta.block.java
+//  ^^^^^ keyword.control.loop.while.java
+//        ^ punctuation.section.parens.begin.java
+//         ^^^^^ constant.language.boolean.java
+//              ^ punctuation.section.parens.end.java
+//                ^ punctuation.section.block.begin.java
+//                   ^ punctuation.section.block.end.java
+
+    while (false {  }
+//  ^^^^^^^^^^^^^^^^^^ - meta.while meta.while
+//  ^^^^^^ meta.while.java
+//        ^^^^^^^ meta.while.parameters.java meta.parens.java
+//               ^^^^ meta.while.body.java meta.block.java
+//  ^^^^^ keyword.control.loop.while.java
+//        ^ punctuation.section.parens.begin.java
+//         ^^^^^ constant.language.boolean.java
+//              ^ invalid.illegal.stray-terminator-end
+//               ^ punctuation.section.block.begin.java
+//                  ^ punctuation.section.block.end.java
+
+  }
+}
+
+
+/******************************************************************************
  * Annotation Tests
  *****************************************************************************/
 

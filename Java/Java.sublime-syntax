@@ -1542,6 +1542,9 @@ contexts:
         - for-statement-parameters
     - match: while\b
       scope: keyword.control.loop.while.java
+      push:
+        - while-statement-block
+        - while-statement-parameters
 
   assert-statement-body:
     - meta_scope: meta.assertion.java
@@ -1705,6 +1708,32 @@ contexts:
 
   try-statement-block-body:
     - meta_scope: meta.try.body.java meta.block.java
+    - include: blocks-common
+
+  while-statement-parameters:
+    - match: (?=\()
+      set:
+        - while-statement-parameters-common
+        - parens-begin
+    - include: else-pop
+
+  while-statement-parameters-common:
+    - clear_scopes: 1
+    - meta_scope: meta.while.parameters.java meta.parens.java
+    - include: parens-end
+    - include: illegal-open-block
+    - include: expressions
+
+  while-statement-block:
+    - meta_scope: meta.while.java
+    - match: (?=\{)
+      set:
+        - while-statement-block-body
+        - block-begin
+    - include: else-pop
+
+  while-statement-block-body:
+    - meta_scope: meta.while.body.java meta.block.java
     - include: blocks-common
 
 ###[ OPERATORS ]###############################################################
