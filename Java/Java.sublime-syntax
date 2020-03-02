@@ -1524,6 +1524,9 @@ contexts:
     # conditional
     - match: if\b
       scope: keyword.control.conditional.if.java
+      push:
+        - if-statement-block
+        - if-statement-parameters
     - match: else\b
       scope: keyword.control.conditional.else.java
     - match: switch\b
@@ -1668,6 +1671,32 @@ contexts:
 
   for-statement-block-body:
     - meta_scope: meta.for.body.java meta.block.java
+    - include: blocks-common
+
+  if-statement-parameters:
+    - match: (?=\()
+      set:
+        - if-statement-parameters-common
+        - parens-begin
+    - include: else-pop
+
+  if-statement-parameters-common:
+    - clear_scopes: 1
+    - meta_scope: meta.if.parameters.java meta.parens.java
+    - include: parens-end
+    - include: illegal-open-block
+    - include: expressions
+
+  if-statement-block:
+    - meta_scope: meta.if.java
+    - match: (?=\{)
+      set:
+        - if-statement-block-body
+        - block-begin
+    - include: else-pop
+
+  if-statement-block-body:
+    - meta_scope: meta.if.body.java meta.block.java
     - include: blocks-common
 
   throw-statement-body:
