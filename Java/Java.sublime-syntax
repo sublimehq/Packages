@@ -1364,7 +1364,7 @@ contexts:
 
   labels:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.7
-    - match: ^\s*({{id}})(:)(?!:)
+    - match: ({{id}})(:)(?!:)
       captures:
         1: entity.name.label.java
         2: punctuation.separator.colon.java
@@ -1532,10 +1532,15 @@ contexts:
       push: else-statement-block
     - match: switch\b
       scope: keyword.control.conditional.switch.java
+      push:
+        - switch-statement-block
+        - switch-statement-parameters
     - match: case\b
       scope: keyword.control.conditional.case.java
+      push: case-statement-body
     - match: default\b
       scope: keyword.control.conditional.default.java
+      push: default-statement-body
     # loop
     - match: do\b
       scope: keyword.control.loop.do-while.java
@@ -1711,6 +1716,45 @@ contexts:
   if-statement-block-body:
     - meta_scope: meta.if.body.java meta.block.java
     - include: blocks-common
+
+  switch-statement-parameters:
+    - match: (?=\()
+      set:
+        - switch-statement-parameters-common
+        - parens-begin
+    - include: else-pop
+
+  switch-statement-parameters-common:
+    - clear_scopes: 1
+    - meta_scope: meta.switch.parameters.java meta.parens.java
+    - include: parens-end
+    - include: illegal-open-block
+    - include: expressions
+
+  switch-statement-block:
+    - meta_scope: meta.switch.java
+    - match: (?=\{)
+      set:
+        - switch-statement-block-body
+        - block-begin
+    - include: else-pop
+
+  switch-statement-block-body:
+    - meta_scope: meta.switch.body.java meta.block.java
+    - include: blocks-common
+
+  case-statement-body:
+    - match: ':'
+      scope: punctuation.separator.expressions.java
+      pop: true
+    - include: expressions
+    - include: else-pop
+
+  default-statement-body:
+    - match: ':'
+      scope: punctuation.separator.expressions.java
+      pop: true
+    - include: else-pop
 
   throw-statement-body:
     - meta_scope: meta.throw.java

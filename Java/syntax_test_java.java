@@ -3076,6 +3076,97 @@ class LambdasStatementTests {
 
 
 /******************************************************************************
+ * Switch Statement Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.11
+ *****************************************************************************/
+
+class SwitchStatementTests {
+
+  void run() {
+
+    switch
+//  ^^^^^^^ meta.switch.java
+//  ^^^^^^ keyword.control.conditional.switch.java
+
+    switch foo
+//  ^^^^^^^ meta.switch.java
+//         ^^^ - meta.switch
+//  ^^^^^^ keyword.control.conditional.switch.java
+//         ^^^ variable.other.readwrite.java
+
+    switch (foo)
+//  ^^^^^^^^^^^^^ - meta.switch meta.switch
+//  ^^^^^^^ meta.switch.java
+//         ^^^^^ meta.switch.parameters.java meta.parens.java
+//              ^ meta.switch.java
+//  ^^^^^^ keyword.control.conditional.switch.java
+//         ^ punctuation.section.parens.begin.java
+//          ^^^ variable.other.readwrite.java
+//             ^ punctuation.section.parens.end.java
+
+    switch (foo) {}
+//  ^^^^^^^^^^^^^^^ - meta.switch meta.switch
+//  ^^^^^^^ meta.switch.java
+//         ^^^^^ meta.switch.parameters.java meta.parens.java
+//              ^ meta.switch.java
+//               ^^ meta.switch.body.java meta.block.java
+//  ^^^^^^ keyword.control.conditional.switch.java
+//         ^ punctuation.section.parens.begin.java
+//          ^^^ variable.other.readwrite.java
+//             ^ punctuation.section.parens.end.java
+//               ^ punctuation.section.block.begin.java
+//                ^ punctuation.section.block.end.java
+
+    switch (foo {}
+//  ^^^^^^^^^^^^^^^ - meta.switch meta.switch
+//  ^^^^^^^ meta.switch.java
+//         ^^^^^ meta.switch.parameters.java meta.parens.java
+//              ^^ meta.switch.body.java meta.block.java
+//  ^^^^^^ keyword.control.conditional.switch.java
+//         ^ punctuation.section.parens.begin.java
+//          ^^^ variable.other.readwrite.java
+//             ^ invalid.illegal.stray-terminator-end
+//              ^ punctuation.section.block.begin.java
+//               ^ punctuation.section.block.end.java
+
+    switch (foo%2) {
+      case 0:
+//  ^^^^^^^^^^ meta.switch.body.java meta.block.java
+//    ^^^^ keyword.control.conditional.case.java
+//         ^ constant.numeric.integer.decimal.java
+//          ^ punctuation.separator.expressions.java
+      case 1: bar()
+//  ^^^^^^^^^^^^^^^^ meta.switch.body.java meta.block.java
+//    ^^^^ keyword.control.conditional.case.java
+//         ^ constant.numeric.integer.decimal.java
+//          ^ punctuation.separator.expressions.java
+//            ^^^ variable.function.java
+      case 3: ;
+//  ^^^^^^^^^^^^ meta.switch.body.java meta.block.java
+//    ^^^^ keyword.control.conditional.case.java
+//         ^ constant.numeric.integer.decimal.java
+//          ^ punctuation.separator.expressions.java
+//            ^ punctuation.terminator.java
+      case 5: {}
+//  ^^^^^^^^^^^^^ meta.switch.body.java meta.block.java
+//    ^^^^ keyword.control.conditional.case.java
+//         ^ constant.numeric.integer.decimal.java
+//          ^ punctuation.separator.expressions.java
+//            ^ punctuation.section.block.begin.java
+//             ^ punctuation.section.block.end.java
+      default: {}
+//  ^^^^^^^^^^^^^^ meta.switch.body.java meta.block.java
+//    ^^^^^^^ keyword.control.conditional.default.java
+//           ^ punctuation.separator.expressions.java
+//             ^ punctuation.section.block.begin.java
+//              ^ punctuation.section.block.end.java
+    }
+//  ^ meta.switch.body.java meta.block.java punctuation.section.block.end.java
+  }
+}
+
+
+/******************************************************************************
  * Try Statement Tests
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.20
  *****************************************************************************/
