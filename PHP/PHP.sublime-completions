@@ -21198,6 +21198,12 @@
 			"details": "Gets the current stomp extension version"
 		},
 		{
+			"trigger": "str_contains()",
+			"contents": "str_contains(${1:haystack}, ${2:needle})",
+			"kind": "function",
+			"details": "Checks if a string is contained in another string."
+		},
+		{
 			"trigger": "str_getcsv()",
 			"contents": "str_getcsv(${1:input})",
 			"kind": "function",
