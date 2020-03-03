@@ -1544,6 +1544,7 @@ contexts:
     # loop
     - match: do\b
       scope: keyword.control.loop.do-while.java
+      push: do-statement-block
     - match: for\b
       scope: keyword.control.loop.for.java
       push: 
@@ -1597,6 +1598,18 @@ contexts:
 
   catch-statement-block-body:
     - meta_scope: meta.catch.body.java meta.block.java
+    - include: blocks-common
+
+  do-statement-block:
+    - meta_scope: meta.do.java
+    - match: (?=\{)
+      set:
+        - do-statement-block-body
+        - block-begin
+    - include: else-pop
+
+  do-statement-block-body:
+    - meta_scope: meta.do.body.java meta.block.java
     - include: blocks-common
 
   else-statement-block:
