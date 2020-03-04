@@ -1526,7 +1526,7 @@ contexts:
       scope: keyword.control.conditional.if.java
       push:
         - if-statement-block
-        - if-statement-parameters
+        - statement-group
     - match: else\b
       scope: keyword.control.conditional.else.java
       push: else-statement-block
@@ -1534,7 +1534,7 @@ contexts:
       scope: keyword.control.conditional.switch.java
       push:
         - switch-statement-block
-        - switch-statement-parameters
+        - statement-group
     - match: case\b
       scope: keyword.control.conditional.case.java
       push: case-statement-body
@@ -1554,7 +1554,7 @@ contexts:
       scope: keyword.control.loop.while.java
       push:
         - while-statement-block
-        - while-statement-parameters
+        - statement-group
 
   assert-statement-body:
     - meta_scope: meta.assertion.java
@@ -1563,10 +1563,12 @@ contexts:
     - match: ':'
       scope: punctuation.separator.expressions.java
     - include: expressions
+    - include: else-pop
 
   catch-statement-parameters:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.20
-    - match: (?=\()
+    - match: \(
+      scope: punctuation.section.parens.begin.java
       set:
         - catch-statement-parameters-end
         - parameter-identifier
@@ -1581,8 +1583,7 @@ contexts:
     - include: else-pop
 
   catch-statement-parameters-end:
-    - clear_scopes: 1
-    - meta_scope: meta.catch.parameters.java meta.parens.java
+    - meta_scope: meta.parens.java
     - include: parens-end
     - match: \S
       scope: invalid.illegal.missing-parameter-end
@@ -1590,62 +1591,30 @@ contexts:
 
   catch-statement-block:
     - meta_scope: meta.catch.java
-    - match: (?=\{)
-      set:
-        - catch-statement-block-body
-        - block-begin
-    - include: else-pop
-
-  catch-statement-block-body:
-    - meta_scope: meta.catch.body.java meta.block.java
-    - include: blocks-common
+    - include: statement-block
 
   do-statement-block:
     - meta_scope: meta.do.java
-    - match: (?=\{)
-      set:
-        - do-statement-block-body
-        - block-begin
-    - include: else-pop
-
-  do-statement-block-body:
-    - meta_scope: meta.do.body.java meta.block.java
-    - include: blocks-common
+    - include: statement-block
 
   else-statement-block:
     - meta_scope: meta.else.java
-    - match: (?=\{)
-      set:
-        - else-statement-block-body
-        - block-begin
-    - include: else-pop
-
-  else-statement-block-body:
-    - meta_scope: meta.else.body.java meta.block.java
-    - include: blocks-common
+    - include: statement-block
 
   finally-statement-block:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.20
     - meta_scope: meta.finally.java
-    - match: (?=\{)
-      set:
-        - finally-statement-block-body
-        - block-begin
-    - include: else-pop
-
-  finally-statement-block-body:
-    - meta_scope: meta.finally.body.java meta.block.java
-    - include: blocks-common
+    - include: statement-block
 
   for-statement-parameters:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.14
-    - match: (?=\()
+    - match: \(
+      scope: punctuation.section.parens.begin.java
       set:
         - for-statement-parameters-end
         - for-statement-parameters-body
         - variable-declaration-identifier
         - variable-declaration-type
-        - parens-begin
     - include: else-pop
 
   for-statement-parameters-body:
@@ -1662,99 +1631,40 @@ contexts:
         - variable-declaration-value
 
   for-statement-parameters-init:
-    - match: ';'
-      scope: punctuation.terminator.java
-      pop: true
+    - include: punctuation-terminator-semicolon-pop
     - include: variable-declaration-list
     - include: else-pop
 
   for-statement-parameters-condition:
-    - match: ';'
-      scope: punctuation.terminator.java
-      pop: true
-    - match: (?=\))
-      pop: true
+    - include: punctuation-terminator-semicolon-pop
     - include: illegal-open-block
     - include: expressions
     - include: else-pop
 
   for-statement-parameters-update:
-    - match: (?=\))
-      pop: true
-    - include: illegal-semicolon
     - include: illegal-open-block
     - include: expressions
     - include: else-pop
 
   for-statement-parameters-end:
-    - clear_scopes: 1
-    - meta_scope: meta.for.parameters.java meta.parens.java
-    - include: illegal-open-block
+    - meta_scope: meta.parens.java
     - include: parens-end
+    - include: illegal-open-block
+    - match: ;
+      scope: invalid.illegal.stray-terminator-end
+    - include: else-pop
 
   for-statement-block:
     - meta_scope: meta.for.java
-    - match: (?=\{)
-      set:
-        - for-statement-block-body
-        - block-begin
-    - include: else-pop
-
-  for-statement-block-body:
-    - meta_scope: meta.for.body.java meta.block.java
-    - include: blocks-common
-
-  if-statement-parameters:
-    - match: (?=\()
-      set:
-        - if-statement-parameters-common
-        - parens-begin
-    - include: else-pop
-
-  if-statement-parameters-common:
-    - clear_scopes: 1
-    - meta_scope: meta.if.parameters.java meta.parens.java
-    - include: parens-end
-    - include: illegal-open-block
-    - include: expressions
+    - include: statement-block
 
   if-statement-block:
     - meta_scope: meta.if.java
-    - match: (?=\{)
-      set:
-        - if-statement-block-body
-        - block-begin
-    - include: else-pop
-
-  if-statement-block-body:
-    - meta_scope: meta.if.body.java meta.block.java
-    - include: blocks-common
-
-  switch-statement-parameters:
-    - match: (?=\()
-      set:
-        - switch-statement-parameters-common
-        - parens-begin
-    - include: else-pop
-
-  switch-statement-parameters-common:
-    - clear_scopes: 1
-    - meta_scope: meta.switch.parameters.java meta.parens.java
-    - include: parens-end
-    - include: illegal-open-block
-    - include: expressions
+    - include: statement-block
 
   switch-statement-block:
     - meta_scope: meta.switch.java
-    - match: (?=\{)
-      set:
-        - switch-statement-block-body
-        - block-begin
-    - include: else-pop
-
-  switch-statement-block-body:
-    - meta_scope: meta.switch.body.java meta.block.java
-    - include: blocks-common
+    - include: statement-block
 
   case-statement-body:
     - match: ':'
@@ -1776,18 +1686,17 @@ contexts:
 
   try-statement-parameters:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.20
-    - match: (?=\()
+    - match: \(
+      scope: punctuation.section.parens.begin.java
       set:
         - try-statement-parameters-common
         - variable-declaration-value
         - variable-declaration-identifier
         - variable-declaration-type
-        - parens-begin
     - include: else-pop
 
   try-statement-parameters-common:
-    - clear_scopes: 1
-    - meta_scope: meta.try.parameters.java meta.parens.java
+    - meta_scope: meta.parens.java
     - include: parens-end
     - match: ';'
       scope: punctuation.terminator.java
@@ -1799,41 +1708,34 @@ contexts:
 
   try-statement-block:
     - meta_scope: meta.try.java
-    - match: (?=\{)
-      set:
-        - try-statement-block-body
-        - block-begin
-    - include: else-pop
-
-  try-statement-block-body:
-    - meta_scope: meta.try.body.java meta.block.java
-    - include: blocks-common
-
-  while-statement-parameters:
-    - match: (?=\()
-      set:
-        - while-statement-parameters-common
-        - parens-begin
-    - include: else-pop
-
-  while-statement-parameters-common:
-    - clear_scopes: 1
-    - meta_scope: meta.while.parameters.java meta.parens.java
-    - include: parens-end
-    - include: illegal-open-block
-    - include: expressions
+    - include: statement-block
 
   while-statement-block:
     - meta_scope: meta.while.java
-    - match: (?=\{)
-      set:
-        - while-statement-block-body
-        - block-begin
+    - include: statement-block
+
+  statement-group:
+    - match: \(
+      scope: punctuation.section.parens.begin.java
+      push:
+        - match: \)
+          scope: punctuation.section.parens.end.java
+          pop: 2
+        - meta_scope: meta.parens.java
+        - include: illegal-open-block
+        - include: expressions
     - include: else-pop
 
-  while-statement-block-body:
-    - meta_scope: meta.while.body.java meta.block.java
-    - include: blocks-common
+  statement-block:
+    - match: \{
+      scope: punctuation.section.block.begin.java
+      push:
+        - match: \}
+          scope: punctuation.section.block.end.java
+          pop: 2
+        - meta_scope: meta.block.java
+        - include: blocks-body
+    - include: else-pop
 
 ###[ OPERATORS ]###############################################################
 

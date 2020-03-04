@@ -2646,7 +2646,7 @@ class ForStatementTests {
     for ()
 //  ^^^^^^ - meta.for meta.for
 //  ^^^^ meta.for.java - meta.parens
-//      ^^ meta.for.parameters.java meta.parens.java
+//      ^^ meta.for.java meta.parens.java
 //  ^^^ keyword.control.loop.for.java
 //     ^ - keyword
 //      ^ punctuation.section.parens.begin.java
@@ -2655,9 +2655,9 @@ class ForStatementTests {
     for () {}
 //  ^^^^^^^^^ - meta.for meta.for
 //  ^^^^ meta.for.java - meta.parens
-//      ^^ meta.for.parameters.java meta.parens.java
+//      ^^ meta.for.java meta.parens.java
 //        ^ meta.for.java - meta.block meta.block meta.block
-//         ^^ meta.for.body.java meta.block.java
+//         ^^ meta.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
 //     ^ - keyword
 //      ^ punctuation.section.parens.begin.java
@@ -2665,31 +2665,68 @@ class ForStatementTests {
 //         ^ punctuation.section.block.begin.java
 //          ^ punctuation.section.block.end.java
 
-    for (;;;) {;;;}
+    for ( {}
+//  ^^^^^^^^ - meta.for meta.for
+//  ^^^^ meta.for.java - meta.parens
+//      ^^ meta.for.java meta.parens.java
+//        ^^ meta.for.java meta.block.java
+//  ^^^ keyword.control.loop.for.java
+//     ^ - keyword
+//      ^ punctuation.section.parens.begin.java
+//        ^ punctuation.section.block.begin.java
+//         ^ punctuation.section.block.end.java
+
+    for (; {}
 //  ^^^^^^^^^ - meta.for meta.for
 //  ^^^^ meta.for.java - meta.parens
-//      ^^^^^ meta.for.parameters.java meta.parens.java
-//           ^ meta.for.java - meta.block meta.block meta.block
-//            ^^^^^ meta.for.body.java meta.block.java
+//      ^^^ meta.for.java meta.parens.java
+//         ^^ meta.for.java meta.block.java
+//  ^^^ keyword.control.loop.for.java
+//     ^ - keyword
+//      ^ punctuation.section.parens.begin.java
+//       ^ punctuation.terminator.java
+//        ^ invalid.illegal.stray-terminator-end
+//         ^ punctuation.section.block.begin.java
+//          ^ punctuation.section.block.end.java
+
+    for (;; {}
+//  ^^^^^^^^^^ - meta.for meta.for
+//  ^^^^ meta.for.java - meta.parens
+//      ^^^^ meta.for.java meta.parens.java
+//          ^^ meta.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
 //     ^ - keyword
 //      ^ punctuation.section.parens.begin.java
 //       ^^ punctuation.terminator.java
 //         ^ invalid.illegal.stray-terminator-end
-//          ^ punctuation.section.parens.end.java
-//            ^ punctuation.section.block.begin.java
-//             ^^^ punctuation.terminator.java
-//                ^ punctuation.section.block.end.java
+//          ^ punctuation.section.block.begin.java
+//           ^ punctuation.section.block.end.java
+
+    for (;;;;) {;;;}
+//  ^^^^^^^^^^ - meta.for meta.for
+//  ^^^^ meta.for.java - meta.parens
+//      ^^^^^^ meta.for.java meta.parens.java
+//            ^ meta.for.java - meta.block meta.block meta.block
+//             ^^^^^ meta.for.java meta.block.java
+//  ^^^ keyword.control.loop.for.java
+//     ^ - keyword
+//      ^ punctuation.section.parens.begin.java
+//       ^^ punctuation.terminator.java
+//         ^^ invalid.illegal.stray-terminator-end
+//           ^ punctuation.section.parens.end.java
+//             ^ punctuation.section.block.begin.java
+//              ^^^ punctuation.terminator.java
+//                 ^ punctuation.section.block.end.java
 
     for (i = 0; i < 10; i += 2) {}
 //  ^^^^ meta.for.java
-//      ^^^^^^^^^^^^^^^^^^^^^^^ meta.for.parameters.java meta.parens.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.parens.java
 //         ^^^ meta.assignment.rhs.java
 //            ^^^^^^^^^^^^ - meta.assignment.rhs.java
 //                        ^^^^ meta.assignment.rhs.java
 //                            ^ - meta.assignment.rhs.java
 //                             ^ meta.for.java - meta.block meta.block meta.block
-//                              ^^ meta.for.body.java meta.block.java
+//                              ^^ meta.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
 //      ^ punctuation.section.parens.begin.java
 //       ^ variable.other.readwrite.java
@@ -2708,13 +2745,13 @@ class ForStatementTests {
 
     for (i = 0, j = 0; i < 10 && j < 5; i += 2, ++j) {}
 //  ^^^^ meta.for.java - meta.for meta.for
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.parameters.java meta.parens.java - meta.for meta.for
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.parens.java - meta.for meta.for
 //         ^^^ meta.assignment.rhs.java
 //            ^^^^ - meta.assignment.rhs.java
 //                ^^^ meta.assignment.rhs.java
 //                   ^ - meta.assignment.rhs.java
 //                                                  ^ meta.for.java - meta.block meta.block meta.block
-//                                                   ^^ meta.for.body.java meta.block.java
+//                                                   ^^ meta.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
 //      ^ punctuation.section.parens.begin.java
 //       ^ variable.other.readwrite.java
@@ -2741,13 +2778,13 @@ class ForStatementTests {
 
     for (int i = 0; i < 10; i += 2) {}
 //  ^^^^ meta.for.java
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.parameters.java meta.parens.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.parens.java
 //             ^^^ meta.assignment.rhs.java
 //                ^^^^^^^^^^^^ - meta.assignment.rhs.java
 //                            ^^^^ meta.assignment.rhs.java
 //                                ^ - meta.assignment.rhs.java
 //                                 ^ meta.for.java - meta.block meta.block meta.block
-//                                  ^^ meta.for.body.java meta.block.java
+//                                  ^^ meta.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
 //      ^ punctuation.section.parens.begin.java
 //       ^^^ storage.type.primitive.java
@@ -2767,13 +2804,13 @@ class ForStatementTests {
 
     for (int i = 0, j = 0; i < 10 && j < 5; i += 2, ++j) {}
 //  ^^^^ meta.for.java - meta.for meta.for
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.parameters.java meta.parens.java - meta.for meta.for
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.parens.java - meta.for meta.for
 //             ^^^ meta.assignment.rhs.java
 //                ^^^^ - meta.assignment.rhs.java
 //                    ^^^ meta.assignment.rhs.java
 //                       ^ - meta.assignment.rhs.java
 //                                                      ^ meta.for.java - meta.block meta.block meta.block
-//                                                       ^^ meta.for.body.java meta.block.java
+//                                                       ^^ meta.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
 //      ^ punctuation.section.parens.begin.java
 //       ^^^ storage.type.primitive.java
@@ -2801,7 +2838,7 @@ class ForStatementTests {
 
     for (final int x = 10;;) {}
 //  ^^^^ meta.for.java - meta.for meta.for
-//      ^^^^^^^^^^^^^^^^^^^^ meta.for.parameters.java meta.parens.java - meta.for meta.for
+//      ^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.parens.java - meta.for meta.for
 //  ^^^ keyword.control.loop.for.java
 //       ^^^^^ storage.modifier.java
 //             ^^^ storage.type.primitive.java
@@ -2813,7 +2850,7 @@ class ForStatementTests {
 
     for (native int x = 10;;) {}
 //  ^^^^ meta.for.java - meta.for meta.for
-//      ^^^^^^^^^^^^^^^^^^^^^ meta.for.parameters.java meta.parens.java - meta.for meta.for
+//      ^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.parens.java - meta.for meta.for
 //  ^^^ keyword.control.loop.for.java
 //       ^^^^^^ invalid.illegal.unexpected-keyword.java
 //              ^^^ storage.type.primitive.java
@@ -2825,12 +2862,12 @@ class ForStatementTests {
 
     for (var i=0;i<new Test(i).run();i=new Test(i).iter()){}
 //  ^^^^ meta.for.java
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.parameters.java meta.parens.java
-//                                                        ^^ meta.for.body.java meta.block.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.parens.java
+//                                                        ^^ meta.for.java meta.block.java
 
     for (final @Anno Class iter : cond ? new Foo<> : new Bar[]) echo(iter);
 //  ^^^^ meta.for.java
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.parameters.java meta.parens.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.parens.java
 //                                       ^^^^^^^^^^ meta.instantiation.java
 //                                                 ^^ - meta.instantiation
 //                                                   ^^^^^^^^^ meta.instantiation.java
@@ -2861,7 +2898,7 @@ class ForStatementTests {
 
     for (private @Anno var iter : cond ? new Foo<> : new Bar[]) echo(iter);
 //  ^^^^ meta.for.java
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.parameters.java meta.parens.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.parens.java
 //                                       ^^^^^^^^^^ meta.instantiation.java
 //                                                 ^^ - meta.instantiation
 //                                                   ^^^^^^^^^ meta.instantiation.java
@@ -3097,7 +3134,7 @@ class SwitchStatementTests {
     switch (foo)
 //  ^^^^^^^^^^^^^ - meta.switch meta.switch
 //  ^^^^^^^ meta.switch.java
-//         ^^^^^ meta.switch.parameters.java meta.parens.java
+//         ^^^^^ meta.switch.java meta.parens.java
 //              ^ meta.switch.java
 //  ^^^^^^ keyword.control.conditional.switch.java
 //         ^ punctuation.section.parens.begin.java
@@ -3107,9 +3144,9 @@ class SwitchStatementTests {
     switch (foo) {}
 //  ^^^^^^^^^^^^^^^ - meta.switch meta.switch
 //  ^^^^^^^ meta.switch.java
-//         ^^^^^ meta.switch.parameters.java meta.parens.java
+//         ^^^^^ meta.switch.java meta.parens.java
 //              ^ meta.switch.java
-//               ^^ meta.switch.body.java meta.block.java
+//               ^^ meta.switch.java meta.block.java
 //  ^^^^^^ keyword.control.conditional.switch.java
 //         ^ punctuation.section.parens.begin.java
 //          ^^^ variable.other.readwrite.java
@@ -3120,8 +3157,8 @@ class SwitchStatementTests {
     switch (foo {}
 //  ^^^^^^^^^^^^^^^ - meta.switch meta.switch
 //  ^^^^^^^ meta.switch.java
-//         ^^^^^ meta.switch.parameters.java meta.parens.java
-//              ^^ meta.switch.body.java meta.block.java
+//         ^^^^^ meta.switch.java meta.parens.java
+//              ^^ meta.switch.java meta.block.java
 //  ^^^^^^ keyword.control.conditional.switch.java
 //         ^ punctuation.section.parens.begin.java
 //          ^^^ variable.other.readwrite.java
@@ -3131,37 +3168,37 @@ class SwitchStatementTests {
 
     switch (foo%2) {
       case 0:
-//  ^^^^^^^^^^ meta.switch.body.java meta.block.java
+//  ^^^^^^^^^^ meta.switch.java meta.block.java
 //    ^^^^ keyword.control.conditional.case.java
 //         ^ constant.numeric.integer.decimal.java
 //          ^ punctuation.separator.expressions.java
       case 1: bar()
-//  ^^^^^^^^^^^^^^^^ meta.switch.body.java meta.block.java
+//  ^^^^^^^^^^^^^^^^ meta.switch.java meta.block.java
 //    ^^^^ keyword.control.conditional.case.java
 //         ^ constant.numeric.integer.decimal.java
 //          ^ punctuation.separator.expressions.java
 //            ^^^ variable.function.java
       case 3: ;
-//  ^^^^^^^^^^^^ meta.switch.body.java meta.block.java
+//  ^^^^^^^^^^^^ meta.switch.java meta.block.java
 //    ^^^^ keyword.control.conditional.case.java
 //         ^ constant.numeric.integer.decimal.java
 //          ^ punctuation.separator.expressions.java
 //            ^ punctuation.terminator.java
       case 5: {}
-//  ^^^^^^^^^^^^^ meta.switch.body.java meta.block.java
+//  ^^^^^^^^^^^^^ meta.switch.java meta.block.java
 //    ^^^^ keyword.control.conditional.case.java
 //         ^ constant.numeric.integer.decimal.java
 //          ^ punctuation.separator.expressions.java
 //            ^ punctuation.section.block.begin.java
 //             ^ punctuation.section.block.end.java
       default: {}
-//  ^^^^^^^^^^^^^^ meta.switch.body.java meta.block.java
+//  ^^^^^^^^^^^^^^ meta.switch.java meta.block.java
 //    ^^^^^^^ keyword.control.conditional.default.java
 //           ^ punctuation.separator.expressions.java
 //             ^ punctuation.section.block.begin.java
 //              ^ punctuation.section.block.end.java
     }
-//  ^ meta.switch.body.java meta.block.java punctuation.section.block.end.java
+//  ^ meta.switch.java meta.block.java punctuation.section.block.end.java
   }
 }
 
@@ -3190,7 +3227,7 @@ class TryStatementTests {
 //  ^^^^ meta.try.java - meta.try meta.try
 //      ^^^^^^ - meta.try - meta.catch - meta.finally
 //            ^^^^^^ meta.catch.java - meta.catch meta.catch
-//                  ^^^^^^^^^^^^^ meta.catch.parameters.java - meta.catch meta.catch
+//                  ^^^^^^^^^^^^^ meta.catch.java meta.parens.java - meta.catch meta.catch
 //                               ^ meta.catch.java - meta.catch meta.catch
 //                                ^^^^^^^ - meta.try - meta.catch - meta.finally
 //                                       ^^^^^^^^ meta.finally.java - meta.finally meta.finally
@@ -3203,14 +3240,14 @@ class TryStatementTests {
 //                                               ^^^ variable.function.java
 
     try { foo(); } catch (Exception e) { bar(e); } finally { baz(); }
-//  ^^^^ meta.try.java - meta.try meta.try
-//      ^^^^^^^^^^ meta.try.body.java - meta.try meta.try
+//  ^^^^ meta.try.java - meta.try meta.block - meta.try meta.try
+//      ^^^^^^^^^^ meta.try.java meta.block.java - meta.try meta.try
 //                 ^^^^^^ meta.catch.java - meta.catch meta.catch
-//                       ^^^^^^^^^^^^^ meta.catch.parameters.java - meta.catch meta.catch
+//                       ^^^^^^^^^^^^^ meta.catch.java meta.parens.java - meta.catch meta.catch
 //                                    ^ meta.catch.java - meta.catch meta.catch
-//                                     ^^^^^^^^^^^ meta.catch.body.java - meta.catch meta.catch
+//                                     ^^^^^^^^^^^ meta.catch.java meta.block.java - meta.catch meta.catch
 //                                                 ^^^^^^^^ meta.finally.java - meta.finally meta.finally
-//                                                         ^^^^^^^^^^ meta.finally.body.java - meta.finally meta.finally
+//                                                         ^^^^^^^^^^ meta.finally.java meta.block.java - meta.finally meta.finally
 //  ^^^ keyword.control.exception.try.java
 //        ^^^ variable.function.java
 //                 ^^^^^ keyword.control.exception.catch.java
@@ -3228,17 +3265,17 @@ class TryStatementTests {
 
     try {
 //  ^^^^ meta.block.java meta.try.java
-//      ^ meta.try.body.java meta.block.java
+//      ^ meta.try.java meta.block.java
 //  ^^^ keyword.control.exception.try.java
 //      ^ punctuation.section.block.begin.java
       foo();
     } catch (Exception e) {
-//  ^ meta.try.body.java meta.block.java
+//  ^ meta.try.java meta.block.java
 //   ^ - meta.try - meta.catch - meta.finally
 //    ^^^^^^ meta.catch.java - meta.catch meta.catch
-//          ^^^^^^^^^^^^^ meta.catch.parameters.java meta.parens.java - meta.catch meta.catch
+//          ^^^^^^^^^^^^^ meta.catch.java meta.parens.java - meta.catch meta.catch
 //                       ^ meta.catch.java - meta.catch meta.catch
-//                        ^^ meta.catch.body.java meta.block.java - meta.catch meta.catch
+//                        ^^ meta.catch.java meta.block.java - meta.catch meta.catch
 //  ^ punctuation.section.block.end.java
 //    ^^^^^ keyword.control.exception.catch.java
 //          ^ punctuation.section.parens.begin.java
@@ -3248,24 +3285,24 @@ class TryStatementTests {
 //                        ^ punctuation.section.block.begin.java
       bar(e);
     } finally {
-//  ^ meta.catch.body.java meta.block.java
+//  ^ meta.catch.java meta.block.java
 //   ^ - meta.try - meta.catch - meta.finally
 //    ^^^^^^^^ meta.finally.java - meta.finally meta.finally
-//            ^^ meta.finally.body.java - meta.finally meta.finally
+//            ^^ meta.finally.java meta.block.java - meta.finally meta.finally
 //  ^ punctuation.section.block.end.java
 //    ^^^^^^^ keyword.control.exception.finally.java
 //            ^ punctuation.section.block.begin.java
       baz();
     }
-//  ^ meta.finally.body.java meta.block.java punctuation.section.block.end.java
+//  ^ meta.finally.java meta.block.java punctuation.section.block.end.java
 //   ^ - meta.try - meta.catch - meta.finally
 
     try (foo = Bar.baz(path)) {}
 //  ^^^^ meta.try.java - meta.try meta.try
-//      ^^^^^^^^^^^^^^^^^^^^^ meta.try.parameters.java meta.parens.java - meta.try meta.try
+//      ^^^^^^^^^^^^^^^^^^^^^ meta.try.java meta.parens.java - meta.try meta.try
 //           ^^^^^^^^^^^^^^^ meta.assignment.rhs.java
 //                           ^ meta.try.java - meta.try meta.try - meta.parens
-//                            ^^ meta.try.body.java meta.block.java
+//                            ^^ meta.try.java meta.block.java
 //  ^^^ keyword.control.exception.try.java
 //      ^ punctuation.section.parens.begin.java
 //       ^^^ variable.other.readwrite.java
@@ -3281,10 +3318,10 @@ class TryStatementTests {
 
     try (Stream<String> lines = Files.lines(path)) {
 //  ^^^^ meta.try.java - meta.try meta.try
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.try.parameters.java meta.parens.java - meta.try meta.try
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.try.java meta.parens.java - meta.try meta.try
 //                            ^^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
 //                                                ^ meta.try.java - meta.try meta.try - meta.parens
-//                                                 ^^ meta.try.body.java meta.block.java
+//                                                 ^^ meta.try.java meta.block.java
 //  ^^^ keyword.control.exception.try.java
 //      ^ punctuation.section.parens.begin.java
 //       ^^^^^^ support.class.java
@@ -3304,12 +3341,12 @@ class TryStatementTests {
 //                              ^^^^^^^ variable.function.reference.java
 
     } catch (IOException ignore) {
-//^^^ meta.try.body.java meta.block.java
+//^^^ meta.try.java meta.block.java
 //   ^ - meta.try - meta.catch
 //    ^^^^^^ meta.catch.java - meta.catch meta.catch
-//          ^^^^^^^^^^^^^^^^^^^^ meta.catch.parameters.java meta.parens.java - meta.catch meta.catch
+//          ^^^^^^^^^^^^^^^^^^^^ meta.catch.java meta.parens.java - meta.catch meta.catch
 //                              ^ meta.catch.java - meta.catch meta.catch
-//                               ^^ meta.catch.body.java meta.block.java
+//                               ^^ meta.catch.java meta.block.java
 //  ^ punctuation.section.block.end.java
 //    ^^^^^ keyword.control.exception.catch.java
 //          ^ punctuation.section.parens.begin.java
@@ -3318,10 +3355,10 @@ class TryStatementTests {
 //                             ^ punctuation.section.parens.end.java
 //                               ^ punctuation.section.block.begin.java
     } catch (final MyException | com.net.org.Foo.Bar |
-//^^^ meta.catch.body.java meta.block.java
+//^^^ meta.catch.java meta.block.java
 //   ^ - meta.catch
 //    ^^^^^^ meta.catch.java - meta.catch meta.catch
-//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.catch.parameters.java meta.parens.java - meta.catch meta.catch
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.catch.java meta.parens.java - meta.catch meta.catch
 //    ^^^^^ keyword.control.exception.catch.java
 //          ^ punctuation.section.parens.begin
 //           ^^^^^ storage.modifier.java
@@ -3338,12 +3375,12 @@ class TryStatementTests {
 //                                               ^^^ support.class.java
 //                                                   ^ punctuation.separator.pipe.java
           YourException 
-//       ^^^^^^^^^^^^^^^ meta.catch.parameters.java meta.parens.java - meta.catch meta.catch
+//       ^^^^^^^^^^^^^^^ meta.catch.java meta.parens.java - meta.catch meta.catch
 //        ^^^^^^^^^^^^^ support.class.java
           ignore) {}
-//       ^^^^^^^ meta.catch.parameters.java meta.parens.java - meta.catch meta.catch
+//       ^^^^^^^ meta.catch.java meta.parens.java - meta.catch meta.catch
 //               ^ meta.catch.java - meta.catch meta.catch
-//                ^^ meta.catch.body.java meta.block.java
+//                ^^ meta.catch.java meta.block.java
 //        ^^^^^^ variable.parameter.java
 //              ^ punctuation.section.parens.end.java
 //                ^ punctuation.section.block.begin.java
@@ -3351,7 +3388,7 @@ class TryStatementTests {
 
     try (final InputStream is = new FileInputStream(args[0]);
 //  ^^^^ meta.try.java - meta.try meta.try
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.try.parameters.java meta.parens.java - meta.try meta.try
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.try.java meta.parens.java - meta.try meta.try
 //                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
 //  ^^^ keyword.control.exception.try.java
 //      ^ punctuation.section.parens.begin.java
@@ -3369,10 +3406,10 @@ class TryStatementTests {
 //                                                         ^ punctuation.section.parens.end.java
 //                                                          ^ punctuation.terminator.java
          final OutputStream os = new FileOutputStream(args[1])) {
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.try.parameters.java meta.parens.java - meta.try meta.try
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.try.java meta.parens.java - meta.try meta.try
 //                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
 //                                                             ^ meta.try.java - meta.try meta.try - meta.parens
-//                                                              ^^ meta.try.body.java meta.block.java
+//                                                              ^^ meta.try.java meta.block.java
 //       ^^^^^ storage.modifier.java
 //             ^^^^^^^^^^^^ support.class.java
 //                          ^^ variable.other.readwrite.java
@@ -3387,20 +3424,20 @@ class TryStatementTests {
 //                                                           ^^ punctuation.section.parens.end.java
 //                                                              ^ punctuation.section.block.begin.java
     }
-//  ^ meta.try.body.java meta.block.java punctuation.section.block.end.java
+//  ^ meta.try.java meta.block.java punctuation.section.block.end.java
 //   ^ - meta.try
 
     try (var in = new BufferedReader()) {
 //  ^^^^ meta.try.java - meta.try meta.try
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.try.parameters.java meta.parens.java - meta.try meta.try
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.try.java meta.parens.java - meta.try meta.try
 //              ^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
 //                                     ^ meta.try.java - meta.try meta.try - meta.parens
-//                                      ^^ meta.try.body.java meta.block.java
+//                                      ^^ meta.try.java meta.block.java
 //       ^^^ storage.type.var.java
         var line = in.readLine();
 //      ^^^ storage.type.var.java
     }
-//  ^ meta.try.body.java meta.block.java punctuation.section.block.end.java
+//  ^ meta.try.java meta.block.java punctuation.section.block.end.java
 //   ^ - meta.try
   }
 }
@@ -3427,9 +3464,9 @@ class WhileStatementTests {
 
     while (false)
 //  ^^^^^^^^^^^^^^ - meta.while meta.while
-//  ^^^^^^ meta.while.java
-//        ^^^^^^^ meta.while.parameters.java meta.parens.java
-//               ^ meta.while.java
+//  ^^^^^^ meta.while.java - meta.parens
+//        ^^^^^^^ meta.while.java meta.parens.java
+//               ^ meta.while.java - meta.parens
 //  ^^^^^ keyword.control.loop.while.java
 //        ^ punctuation.section.parens.begin.java
 //         ^^^^^ constant.language.boolean.java
@@ -3437,10 +3474,10 @@ class WhileStatementTests {
 
     while (false) {  }
 //  ^^^^^^^^^^^^^^^^^^ - meta.while meta.while
-//  ^^^^^^ meta.while.java
-//        ^^^^^^^ meta.while.parameters.java meta.parens.java
-//               ^ meta.while.java
-//                ^^^^ meta.while.body.java meta.block.java
+//  ^^^^^^ meta.while.java - meta.parens
+//        ^^^^^^^ meta.while.java meta.parens.java
+//               ^ meta.while.java - meta.while.java meta.parens - meta.while.java meta.block
+//                ^^^^ meta.while.java meta.block.java
 //  ^^^^^ keyword.control.loop.while.java
 //        ^ punctuation.section.parens.begin.java
 //         ^^^^^ constant.language.boolean.java
@@ -3451,8 +3488,8 @@ class WhileStatementTests {
     while (false {  }
 //  ^^^^^^^^^^^^^^^^^^ - meta.while meta.while
 //  ^^^^^^ meta.while.java
-//        ^^^^^^^ meta.while.parameters.java meta.parens.java
-//               ^^^^ meta.while.body.java meta.block.java
+//        ^^^^^^^ meta.while.java meta.parens.java
+//               ^^^^ meta.while.java meta.block.java
 //  ^^^^^ keyword.control.loop.while.java
 //        ^ punctuation.section.parens.begin.java
 //         ^^^^^ constant.language.boolean.java
