@@ -205,7 +205,9 @@ contexts:
       push:
         - meta_include_prototype: false
         - meta_scope: constant.numeric.float.hexadecimal.c
-        - match: '{{hex_exponent}}\b'
+        - match: '{{hex_exponent}}([fFlL])?'
+          captures:
+            1: storage.type.numeric.c
           pop: true
         - match: \.
           scope: punctuation.separator.decimal.c

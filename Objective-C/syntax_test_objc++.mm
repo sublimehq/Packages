@@ -1007,11 +1007,16 @@ hex5 = 0x0+0xFL+0xaull+0xallu+0xfu+0xf'12_4_uz;
 /*                                       ^^^^^ storage.type.numeric */
 /*                                            ^ punctuation.terminator - constant */
 
-hex2 = 0xc1.01AbFp-1;
+hex2 = 0xc1.01AbFp-1+0x1.45c778p+7f;
 /*     ^^^^^^^^^^^^^ constant.numeric.float.hexadecimal */
 /*     ^^ punctuation.definition.numeric.base */
 /*         ^ punctuation.separator.decimal */
-/*                  ^ punctuation.terminator - constant */
+/*                  ^ keyword.operator.arithmetic - constant */
+/*                   ^^^^^^^^^^^^^^ constant.numeric.float.hexadecimal */
+/*                   ^^ punctuation.definition.numeric.base */
+/*                      ^ punctuation.separator.decimal */
+/*                                ^ storage.type.numeric */
+/*                                 ^ punctuation.terminator - constant */
 
 bin1 = 0b010110;
 /*     ^^^^^^^^ constant.numeric.integer.binary */
