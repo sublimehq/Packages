@@ -37,7 +37,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[lpsvPSVX]*[mqurfx]?)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[lpsvPSVX]*[mqurfx]?){{opt_break}}
   cmd-args-bind-bt:
   - match: ''
     set:
@@ -98,7 +98,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[LPe@])(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[LPe@]){{opt_break}}
   cmd-args-cd-bt:
   - match: ''
     set:
@@ -131,7 +131,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[pVv]+)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[pVv]+){{opt_break}}
   cmd-args-command-bt:
   - match: ''
     set:
@@ -154,7 +154,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[ar]*[h]?)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[ar]*[h]?){{opt_break}}
   cmd-args-disown-bt:
   - match: ''
     set:
@@ -187,7 +187,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[neE]+)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[neE]+){{opt_break}}
   cmd-args-echo-bt:
   - match: ''
     set:
@@ -210,7 +210,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[dnps]*[af]?)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[dnps]*[af]?){{opt_break}}
   cmd-args-enable-bt:
   - match: ''
     set:
@@ -243,7 +243,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[cl]*[a]?)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[cl]*[a]?){{opt_break}}
   cmd-args-exec-bt:
   - match: ''
     set:
@@ -314,7 +314,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[dt]*[rpl]?)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[dt]*[rpl]?){{opt_break}}
   cmd-args-hash-bt:
   - match: ''
     set:
@@ -337,7 +337,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[dms]+)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[dms]+){{opt_break}}
   cmd-args-help-bt:
   - match: ''
     set:
@@ -360,7 +360,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[lnprs]*[x]?)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[lnprs]*[x]?){{opt_break}}
   cmd-args-jobs-bt:
   - match: ''
     set:
@@ -383,7 +383,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[snlL])(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[snlL]){{opt_break}}
   cmd-args-kill-bt:
   - match: ''
     set:
@@ -425,7 +425,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[dnOstuCc])(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[dnOstuCc]){{opt_break}}
   cmd-args-mapfile-bt:
   - match: ''
     set:
@@ -448,7 +448,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[v])(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[v]){{opt_break}}
   cmd-args-printf-bt:
   - match: ''
     set:
@@ -471,7 +471,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[LP]+)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[LP]+){{opt_break}}
   cmd-args-pwd-bt:
   - match: ''
     set:
@@ -494,7 +494,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[ers]*[adeinNprstu]?)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[ers]*[adeinNprstu]?){{opt_break}}
   cmd-args-read-bt:
   - match: ''
     set:
@@ -517,7 +517,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[ers]*[adeinNprstu]?)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[ers]*[adeinNprstu]?){{opt_break}}
   cmd-args-readarray-bt:
   - match: ''
     set:
@@ -550,7 +550,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((\-|\+)[abefhkmnptuvxBCEHPT]*[o]?)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((\-|\+)[abefhkmnptuvxBCEHPT]*[o]?){{opt_break}}
   cmd-args-set-bt:
   - match: ''
     set:
@@ -583,7 +583,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[pqsu]*[o]?)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[pqsu]*[o]?){{opt_break}}
   cmd-args-shopt-bt:
   - match: ''
     set:
@@ -625,7 +625,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[f])(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[f]){{opt_break}}
   cmd-args-suspend-bt:
   - match: ''
     set:
@@ -667,7 +667,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[lp]+)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[lp]+){{opt_break}}
   cmd-args-trap-bt:
   - match: ''
     set:
@@ -690,7 +690,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[afptP]+)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[afptP]+){{opt_break}}
   cmd-args-type-bt:
   - match: ''
     set:
@@ -713,7 +713,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[HSabcdefiklmnpqrstuvxPT]+)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[HSabcdefiklmnpqrstuvxPT]+){{opt_break}}
   cmd-args-ulimit-bt:
   - match: ''
     set:
@@ -736,7 +736,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[pS])(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[pS]){{opt_break}}
   cmd-args-umask-bt:
   - match: ''
     set:
@@ -759,7 +759,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[a])(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[a]){{opt_break}}
   cmd-args-unalias-bt:
   - match: ''
     set:
@@ -782,7 +782,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[fnv]+)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[fnv]+){{opt_break}}
   cmd-args-unset-bt:
   - match: ''
     set:
@@ -805,7 +805,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[n])(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[n]){{opt_break}}
   cmd-args-wait-bt:
   - match: ''
     set:
@@ -813,403 +813,403 @@ contexts:
     - include: scope:source.shell.bash#cmd-args-boilerplate-bt
     - include: cmd-args-wait-base
   main:
-  - match: '{{boundary_begin}}bind{{boundary_end}}'
+  - match: bind{{cmd_break}}
     scope: meta.function-call.shell support.function.bind.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-bind
-  - match: '{{boundary_begin}}builtin{{boundary_end}}'
+  - match: builtin{{cmd_break}}
     scope: meta.function-call.shell support.function.builtin.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-builtin
-  - match: '{{boundary_begin}}caller{{boundary_end}}'
+  - match: caller{{cmd_break}}
     scope: meta.function-call.shell support.function.caller.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-caller
-  - match: '{{boundary_begin}}:{{boundary_end}}'
+  - match: :{{cmd_break}}
     scope: meta.function-call.shell support.function.colon.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-colon
-  - match: '{{boundary_begin}}command{{boundary_end}}'
+  - match: command{{cmd_break}}
     scope: meta.function-call.shell support.function.command.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-command
-  - match: '{{boundary_begin}}cd{{boundary_end}}'
+  - match: cd{{cmd_break}}
     scope: meta.function-call.shell support.function.cd.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-cd
-  - match: '{{boundary_begin}}\.{{boundary_end}}'
+  - match: \.{{cmd_break}}
     scope: meta.function-call.shell support.function.dot.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-dot
-  - match: '{{boundary_begin}}enable{{boundary_end}}'
+  - match: enable{{cmd_break}}
     scope: meta.function-call.shell support.function.enable.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-enable
-  - match: '{{boundary_begin}}help{{boundary_end}}'
+  - match: help{{cmd_break}}
     scope: meta.function-call.shell support.function.help.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-help
-  - match: '{{boundary_begin}}logout{{boundary_end}}'
+  - match: logout{{cmd_break}}
     scope: meta.function-call.shell support.function.logout.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-logout
-  - match: '{{boundary_begin}}mapfile{{boundary_end}}'
+  - match: mapfile{{cmd_break}}
     scope: meta.function-call.shell support.function.mapfile.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-mapfile
-  - match: '{{boundary_begin}}printf{{boundary_end}}'
+  - match: printf{{cmd_break}}
     scope: meta.function-call.shell support.function.printf.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-printf
-  - match: '{{boundary_begin}}read{{boundary_end}}'
+  - match: read{{cmd_break}}
     scope: meta.function-call.shell support.function.read.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-read
-  - match: '{{boundary_begin}}readarray{{boundary_end}}'
+  - match: readarray{{cmd_break}}
     scope: meta.function-call.shell support.function.readarray.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-readarray
-  - match: '{{boundary_begin}}source{{boundary_end}}'
+  - match: source{{cmd_break}}
     scope: meta.function-call.shell support.function.source.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-source
-  - match: '{{boundary_begin}}type{{boundary_end}}'
+  - match: type{{cmd_break}}
     scope: meta.function-call.shell support.function.type.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-type
-  - match: '{{boundary_begin}}ulimit{{boundary_end}}'
+  - match: ulimit{{cmd_break}}
     scope: meta.function-call.shell support.function.ulimit.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-ulimit
-  - match: '{{boundary_begin}}unalias{{boundary_end}}'
+  - match: unalias{{cmd_break}}
     scope: meta.function-call.shell support.function.unalias.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-unalias
-  - match: '{{boundary_begin}}eval{{boundary_end}}'
+  - match: eval{{cmd_break}}
     scope: meta.function-call.shell support.function.eval.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-eval
-  - match: '{{boundary_begin}}exec{{boundary_end}}'
+  - match: exec{{cmd_break}}
     scope: meta.function-call.shell support.function.exec.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-exec
-  - match: '{{boundary_begin}}exit{{boundary_end}}'
+  - match: exit{{cmd_break}}
     scope: meta.function-call.shell support.function.exit.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-exit
-  - match: '{{boundary_begin}}getopts{{boundary_end}}'
+  - match: getopts{{cmd_break}}
     scope: meta.function-call.shell support.function.getopts.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-getopts
-  - match: '{{boundary_begin}}hash{{boundary_end}}'
+  - match: hash{{cmd_break}}
     scope: meta.function-call.shell support.function.hash.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-hash
-  - match: '{{boundary_begin}}pwd{{boundary_end}}'
+  - match: pwd{{cmd_break}}
     scope: meta.function-call.shell support.function.pwd.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-pwd
-  - match: '{{boundary_begin}}return{{boundary_end}}'
+  - match: return{{cmd_break}}
     scope: meta.function-call.shell keyword.control.flow.return.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-return
-  - match: '{{boundary_begin}}shift{{boundary_end}}'
+  - match: shift{{cmd_break}}
     scope: meta.function-call.shell support.function.shift.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-shift
-  - match: '{{boundary_begin}}times{{boundary_end}}'
+  - match: times{{cmd_break}}
     scope: meta.function-call.shell support.function.times.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-times
-  - match: '{{boundary_begin}}trap{{boundary_end}}'
+  - match: trap{{cmd_break}}
     scope: meta.function-call.shell support.function.trap.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-trap
-  - match: '{{boundary_begin}}umask{{boundary_end}}'
+  - match: umask{{cmd_break}}
     scope: meta.function-call.shell support.function.umask.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-umask
-  - match: '{{boundary_begin}}unset{{boundary_end}}'
+  - match: unset{{cmd_break}}
     scope: meta.function-call.shell support.function.unset.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-unset
-  - match: '{{boundary_begin}}echo{{boundary_end}}'
+  - match: echo{{cmd_break}}
     scope: meta.function-call.shell support.function.echo.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-echo
-  - match: '{{boundary_begin}}set{{boundary_end}}'
+  - match: set{{cmd_break}}
     scope: meta.function-call.shell support.function.set.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-set
-  - match: '{{boundary_begin}}shopt{{boundary_end}}'
+  - match: shopt{{cmd_break}}
     scope: meta.function-call.shell support.function.shopt.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-shopt
-  - match: '{{boundary_begin}}bg{{boundary_end}}'
+  - match: bg{{cmd_break}}
     scope: meta.function-call.shell support.function.bg.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-bg
-  - match: '{{boundary_begin}}fg{{boundary_end}}'
+  - match: fg{{cmd_break}}
     scope: meta.function-call.shell support.function.fg.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-fg
-  - match: '{{boundary_begin}}jobs{{boundary_end}}'
+  - match: jobs{{cmd_break}}
     scope: meta.function-call.shell support.function.jobs.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-jobs
-  - match: '{{boundary_begin}}kill{{boundary_end}}'
+  - match: kill{{cmd_break}}
     scope: meta.function-call.shell support.function.kill.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-kill
-  - match: '{{boundary_begin}}wait{{boundary_end}}'
+  - match: wait{{cmd_break}}
     scope: meta.function-call.shell support.function.wait.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-wait
-  - match: '{{boundary_begin}}disown{{boundary_end}}'
+  - match: disown{{cmd_break}}
     scope: meta.function-call.shell support.function.disown.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-disown
-  - match: '{{boundary_begin}}suspend{{boundary_end}}'
+  - match: suspend{{cmd_break}}
     scope: meta.function-call.shell support.function.suspend.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-suspend
   main-bt:
-  - match: '{{boundary_begin}}bind{{boundary_end}}'
+  - match: bind{{cmd_break}}
     scope: meta.function-call.shell support.function.bind.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-bind-bt
-  - match: '{{boundary_begin}}builtin{{boundary_end}}'
+  - match: builtin{{cmd_break}}
     scope: meta.function-call.shell support.function.builtin.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-builtin-bt
-  - match: '{{boundary_begin}}caller{{boundary_end}}'
+  - match: caller{{cmd_break}}
     scope: meta.function-call.shell support.function.caller.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-caller-bt
-  - match: '{{boundary_begin}}:{{boundary_end}}'
+  - match: :{{cmd_break}}
     scope: meta.function-call.shell support.function.colon.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-colon-bt
-  - match: '{{boundary_begin}}command{{boundary_end}}'
+  - match: command{{cmd_break}}
     scope: meta.function-call.shell support.function.command.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-command-bt
-  - match: '{{boundary_begin}}cd{{boundary_end}}'
+  - match: cd{{cmd_break}}
     scope: meta.function-call.shell support.function.cd.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-cd-bt
-  - match: '{{boundary_begin}}\.{{boundary_end}}'
+  - match: \.{{cmd_break}}
     scope: meta.function-call.shell support.function.dot.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-dot-bt
-  - match: '{{boundary_begin}}enable{{boundary_end}}'
+  - match: enable{{cmd_break}}
     scope: meta.function-call.shell support.function.enable.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-enable-bt
-  - match: '{{boundary_begin}}help{{boundary_end}}'
+  - match: help{{cmd_break}}
     scope: meta.function-call.shell support.function.help.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-help-bt
-  - match: '{{boundary_begin}}logout{{boundary_end}}'
+  - match: logout{{cmd_break}}
     scope: meta.function-call.shell support.function.logout.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-logout-bt
-  - match: '{{boundary_begin}}mapfile{{boundary_end}}'
+  - match: mapfile{{cmd_break}}
     scope: meta.function-call.shell support.function.mapfile.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-mapfile-bt
-  - match: '{{boundary_begin}}printf{{boundary_end}}'
+  - match: printf{{cmd_break}}
     scope: meta.function-call.shell support.function.printf.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-printf-bt
-  - match: '{{boundary_begin}}read{{boundary_end}}'
+  - match: read{{cmd_break}}
     scope: meta.function-call.shell support.function.read.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-read-bt
-  - match: '{{boundary_begin}}readarray{{boundary_end}}'
+  - match: readarray{{cmd_break}}
     scope: meta.function-call.shell support.function.readarray.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-readarray-bt
-  - match: '{{boundary_begin}}source{{boundary_end}}'
+  - match: source{{cmd_break}}
     scope: meta.function-call.shell support.function.source.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-source-bt
-  - match: '{{boundary_begin}}type{{boundary_end}}'
+  - match: type{{cmd_break}}
     scope: meta.function-call.shell support.function.type.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-type-bt
-  - match: '{{boundary_begin}}ulimit{{boundary_end}}'
+  - match: ulimit{{cmd_break}}
     scope: meta.function-call.shell support.function.ulimit.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-ulimit-bt
-  - match: '{{boundary_begin}}unalias{{boundary_end}}'
+  - match: unalias{{cmd_break}}
     scope: meta.function-call.shell support.function.unalias.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-unalias-bt
-  - match: '{{boundary_begin}}eval{{boundary_end}}'
+  - match: eval{{cmd_break}}
     scope: meta.function-call.shell support.function.eval.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-eval-bt
-  - match: '{{boundary_begin}}exec{{boundary_end}}'
+  - match: exec{{cmd_break}}
     scope: meta.function-call.shell support.function.exec.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-exec-bt
-  - match: '{{boundary_begin}}exit{{boundary_end}}'
+  - match: exit{{cmd_break}}
     scope: meta.function-call.shell support.function.exit.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-exit-bt
-  - match: '{{boundary_begin}}getopts{{boundary_end}}'
+  - match: getopts{{cmd_break}}
     scope: meta.function-call.shell support.function.getopts.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-getopts-bt
-  - match: '{{boundary_begin}}hash{{boundary_end}}'
+  - match: hash{{cmd_break}}
     scope: meta.function-call.shell support.function.hash.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-hash-bt
-  - match: '{{boundary_begin}}pwd{{boundary_end}}'
+  - match: pwd{{cmd_break}}
     scope: meta.function-call.shell support.function.pwd.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-pwd-bt
-  - match: '{{boundary_begin}}return{{boundary_end}}'
+  - match: return{{cmd_break}}
     scope: meta.function-call.shell keyword.control.flow.return.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-return-bt
-  - match: '{{boundary_begin}}shift{{boundary_end}}'
+  - match: shift{{cmd_break}}
     scope: meta.function-call.shell support.function.shift.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-shift-bt
-  - match: '{{boundary_begin}}times{{boundary_end}}'
+  - match: times{{cmd_break}}
     scope: meta.function-call.shell support.function.times.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-times-bt
-  - match: '{{boundary_begin}}trap{{boundary_end}}'
+  - match: trap{{cmd_break}}
     scope: meta.function-call.shell support.function.trap.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-trap-bt
-  - match: '{{boundary_begin}}umask{{boundary_end}}'
+  - match: umask{{cmd_break}}
     scope: meta.function-call.shell support.function.umask.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-umask-bt
-  - match: '{{boundary_begin}}unset{{boundary_end}}'
+  - match: unset{{cmd_break}}
     scope: meta.function-call.shell support.function.unset.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-unset-bt
-  - match: '{{boundary_begin}}echo{{boundary_end}}'
+  - match: echo{{cmd_break}}
     scope: meta.function-call.shell support.function.echo.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-echo-bt
-  - match: '{{boundary_begin}}set{{boundary_end}}'
+  - match: set{{cmd_break}}
     scope: meta.function-call.shell support.function.set.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-set-bt
-  - match: '{{boundary_begin}}shopt{{boundary_end}}'
+  - match: shopt{{cmd_break}}
     scope: meta.function-call.shell support.function.shopt.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-shopt-bt
-  - match: '{{boundary_begin}}bg{{boundary_end}}'
+  - match: bg{{cmd_break}}
     scope: meta.function-call.shell support.function.bg.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-bg-bt
-  - match: '{{boundary_begin}}fg{{boundary_end}}'
+  - match: fg{{cmd_break}}
     scope: meta.function-call.shell support.function.fg.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-fg-bt
-  - match: '{{boundary_begin}}jobs{{boundary_end}}'
+  - match: jobs{{cmd_break}}
     scope: meta.function-call.shell support.function.jobs.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-jobs-bt
-  - match: '{{boundary_begin}}kill{{boundary_end}}'
+  - match: kill{{cmd_break}}
     scope: meta.function-call.shell support.function.kill.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-kill-bt
-  - match: '{{boundary_begin}}wait{{boundary_end}}'
+  - match: wait{{cmd_break}}
     scope: meta.function-call.shell support.function.wait.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-wait-bt
-  - match: '{{boundary_begin}}disown{{boundary_end}}'
+  - match: disown{{cmd_break}}
     scope: meta.function-call.shell support.function.disown.shell
     set:
     - scope:source.shell.bash#cmd-post
     - cmd-args-disown-bt
-  - match: '{{boundary_begin}}suspend{{boundary_end}}'
+  - match: suspend{{cmd_break}}
     scope: meta.function-call.shell support.function.suspend.shell
     set:
     - scope:source.shell.bash#cmd-post
@@ -1219,5 +1219,5 @@ contexts:
 hidden: true
 scope: commands.builtin.shell.bash
 variables:
-  boundary_begin: ''
-  boundary_end: (?=\s|;|$|>|<|\|)
+  cmd_break: (?=\s|;|$|>|<|\|)
+  opt_break: (?=\s|;|$|`|\))
