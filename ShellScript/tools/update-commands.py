@@ -1,14 +1,14 @@
 from __future__ import print_function
-import yaml
-import sys
 import os
+import sys
+import yaml
 
 
 def main():
     parent = "scope:source.shell.{}#".format(
         os.path.splitext(sys.argv[1])[0].split("-")[-1])
     with open(sys.argv[1], "r") as stream:
-        commands_input = yaml.load(stream)
+        commands_input = yaml.load(stream, Loader=yaml.SafeLoader)
     main = []
     main_bt = []
     contexts = {"main": main, "main-bt": main_bt}
@@ -55,41 +55,33 @@ def main():
                 }
             }
             cmd_args_base.append(thedict)
-        thedict = {}
-        thelist = []
-        opts = ""
-        if short_options:
-            opts += "[" + short_options + "]"
-        if short_options_compact:
-            if opts:
-                opts += "|"
-            opts += "[" + short_options_compact + "]+"
+
+        if short_options_compact and short_options:
+            opts = f"[{short_options_compact}]*[{short_options}]?"
+        elif short_options_compact:
+            opts = f"[{short_options_compact}]+"
+        elif short_options:
+            opts = f"[{short_options}]"
+        else:
+            opts = ""
         if opts:
             if short_option_prefixes:
-                prefix = "|".join(short_option_prefixes)
-                thedict = {
-                        "match": r"(?:\s+|^)((" + prefix
-                                                + r")(?:"
-                                                + opts
-                                                + r"))"
-                                                + opt_end_boundary,
-                        "captures": {
-                            2: "punctuation.definition.parameter.shell",
-                            1: "variable.parameter.option.shell"
-                        }
-                    }
-            else:
-                thedict = {
-                    "match": r"(?:\s+|^)((-)" + opts + r")" + opt_end_boundary,
+                cmd_args_base.append({
+                    "match": rf"(?:\s+|^)(({'|'.join(short_option_prefixes)}){opts}){opt_end_boundary}",
                     "captures": {
-                        2: "punctuation.definition.parameter.shell",
-                        1: "variable.parameter.option.shell"
+                        1: "variable.parameter.option.shell",
+                        2: "punctuation.definition.parameter.shell"
                     }
-                }
-        if thedict:
-            cmd_args_base.append(thedict)
-        if thelist:
-            cmd_args_base.extend(thelist)
+                })
+            else:
+                cmd_args_base.append({
+                    "match": rf"(?:\s+|^)((-){opts}){opt_end_boundary}",
+                    "captures": {
+                        1: "variable.parameter.option.shell",
+                        2: "punctuation.definition.parameter.shell"
+                    }
+                })
+
         cmd_args.append({"meta_scope": "meta.function-call.arguments.shell"})
         cmd_args.append({"include": parent + r"cmd-args-boilerplate"})
         cmd_args_bt.append({

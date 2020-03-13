@@ -37,7 +37,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[mqurfx]|[lpsvPSVX]+)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[lpsvPSVX]*[mqurfx]?)(?=\s|;|$|`|\))
   cmd-args-bind-bt:
   - match: ''
     set:
@@ -154,7 +154,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[h]|[ar]+)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[ar]*[h]?)(?=\s|;|$|`|\))
   cmd-args-disown-bt:
   - match: ''
     set:
@@ -210,7 +210,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[af]|[dnps]+)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[dnps]*[af]?)(?=\s|;|$|`|\))
   cmd-args-enable-bt:
   - match: ''
     set:
@@ -243,7 +243,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[a]|[cl]+)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[cl]*[a]?)(?=\s|;|$|`|\))
   cmd-args-exec-bt:
   - match: ''
     set:
@@ -314,7 +314,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[rpl]|[dt]+)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[dt]*[rpl]?)(?=\s|;|$|`|\))
   cmd-args-hash-bt:
   - match: ''
     set:
@@ -360,7 +360,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[x]|[lnprs]+)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[lnprs]*[x]?)(?=\s|;|$|`|\))
   cmd-args-jobs-bt:
   - match: ''
     set:
@@ -494,7 +494,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[adeinNprstu]|[ers]+)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[ers]*[adeinNprstu]?)(?=\s|;|$|`|\))
   cmd-args-read-bt:
   - match: ''
     set:
@@ -517,7 +517,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[adeinNprstu]|[ers]+)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[ers]*[adeinNprstu]?)(?=\s|;|$|`|\))
   cmd-args-readarray-bt:
   - match: ''
     set:
@@ -550,7 +550,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((\-|\+)(?:[o]|[abefhkmnptuvxBCEHPT]+))(?=\s|;|$|`|\))
+    match: (?:\s+|^)((\-|\+)[abefhkmnptuvxBCEHPT]*[o]?)(?=\s|;|$|`|\))
   cmd-args-set-bt:
   - match: ''
     set:
@@ -583,7 +583,7 @@ contexts:
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-    match: (?:\s+|^)((-)[o]|[pqsu]+)(?=\s|;|$|`|\))
+    match: (?:\s+|^)((-)[pqsu]*[o]?)(?=\s|;|$|`|\))
   cmd-args-shopt-bt:
   - match: ''
     set:

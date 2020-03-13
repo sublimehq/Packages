@@ -126,6 +126,21 @@ set -e
 set +e
 #   ^ variable.parameter.option punctuation
 #    ^ variable.parameter.option - punctuation
+set -o pipefail
+#   ^ variable.parameter.option punctuation
+#    ^ variable.parameter.option - punctuation
+set +o pipefail
+#   ^ variable.parameter.option punctuation
+#    ^ variable.parameter.option - punctuation
+set -Euo pipefail
+#   ^ variable.parameter.option punctuation
+#    ^^^ variable.parameter.option - punctuation
+set +Euo pipefail
+#   ^ variable.parameter.option punctuation
+#    ^^^ variable.parameter.option - punctuation
+set +Eou pipefail
+#   ^^^^ - variable.parameter.option - punctuation
+
 python foo.py --option=value --other-option
 #                     ^ keyword.operator.assignment.option
 git log --format="%h git has this pattern, too"
