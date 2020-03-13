@@ -44,17 +44,15 @@ def main():
             match = "{{boundary_begin}}%s{{boundary_end}}" % command
         if allow_eoo:
             cmd_args_base.append(eoo)
+
         if long_options:
-            thedict = {
-                "match": r"(?:\s+|^)((--)" + "|".join(long_options)
-                                           + r")"
-                                           + opt_end_boundary,
+            cmd_args_base.append({
+                "match": f"(?:\s+|^)((--)(?:{'|'.join(long_options)}){opt_end_boundary}",
                 "captures": {
-                    2: "punctuation.definition.parameter.shell",
-                    1: "variable.parameter.option.shell"
+                    1: "variable.parameter.option.shell",
+                    2: "punctuation.definition.parameter.shell"
                 }
-            }
-            cmd_args_base.append(thedict)
+            })
 
         if short_options_compact and short_options:
             opts = f"[{short_options_compact}]*[{short_options}]?"
