@@ -12,10 +12,8 @@ def main():
         commands_input = yaml.load(stream, Loader=yaml.SafeLoader)
 
     main = []
-    main_bt = []
     contexts = {
-        "main": main, 
-        "main-bt": main_bt,
+        "main": main,
         "prototype": [{"include": f"{parent}prototype"}]
     }
 
@@ -64,23 +62,18 @@ def main():
                 })
 
         cmd_args = [{"meta_scope": "meta.function-call.arguments.shell"}]
-        cmd_args_bt = [{"meta_scope": "meta.function-call.arguments.shell"}]
 
         allow_eoo = value.get("allow-end-of-options-token", True)
         if allow_eoo:
             cmd_args.append({"include": f"{parent}cmd-args-boilerplate-with-end-of-options"})
-            cmd_args_bt.append({"include": f"{parent}cmd-args-boilerplate-with-end-of-options-bt"})
         else:
             cmd_args.append({"include": f"{parent}cmd-args-boilerplate"})
-            cmd_args_bt.append({"include": f"{parent}cmd-args-boilerplate-bt"})
 
         if cmd_args_base:
             cmd_args.append({"include": f"cmd-args-{command}-base"})
-            cmd_args_bt.append({"include": f"cmd-args-{command}-base"})
             contexts[f"cmd-args-{command}-base"] = cmd_args_base
 
         contexts[f"cmd-args-{command}"] = [{"match": "", "set": cmd_args}]
-        contexts[f"cmd-args-{command}-bt"] = [{"match": "", "set": cmd_args_bt}]
 
         match = f"{value.get('match', command)}{{{{cmd_break}}}}"
         scope = "meta.function-call.shell " + value.get("scope", f"support.function.{command}.shell")
@@ -88,11 +81,6 @@ def main():
             "match": match,
             "scope": scope,
             "set": [f"{parent}cmd-post", f"cmd-args-{command}"]
-        })
-        main_bt.append({
-            "match": match,
-            "scope": scope,
-            "set": [f"{parent}cmd-post", f"cmd-args-{command}-bt"]
         })
 
     commands_output = {

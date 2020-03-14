@@ -120,23 +120,6 @@ contexts:
     - match: '{{is_command}}'
       push: cmd
 
-  # NOTE: Contexts with a "-bt" suffix are the "backtick" contexts. They mirror
-  # the ordinary contexts, except that when a backtick is encountered while in
-  # a "-bt" context, we pop.
-  # Normally, we are in a non-bt context. When we encounter a backtick character
-  # (the ` character), we enter the main-bt context. Popping when encountering
-  # another ` character then ensures that we don't enter yet another backtick
-  # context.
-  # The "expansion" context is the **only** place where this main-bt context is
-  # used. If you, the reader, knows of a more elegant way to handle backticks,
-  # don't hesitate to change it.
-  main-bt:
-    - include: funcdef-bt
-    - include: vardef
-    - include: redirection
-    - match: '{{is_command}}'
-      push: cmd-bt
-
   control:
     - match: \bif{{keyword_break}}
       scope: keyword.control.conditional.if.shell
@@ -252,8 +235,6 @@ contexts:
     - match: (?=\besac{{keyword_break}})
       pop: true
 
-  # I don't think anybody will write a for-loop inside backticks. Hence no
-  # for-args-bt context.
   for-args:
     - match: ""
       set:
@@ -275,15 +256,6 @@ contexts:
     - match: \bcoproc{{keyword_break}}
       scope: keyword.other.coproc.shell
       push: [cmd-post, cmd-args, coproc-body]
-
-  funcdef-bt:
-    - match: '{{is_function}}'
-      captures:
-        1: storage.type.function.shell
-      push: [funcdef-body-bt, funcdef-parens, funcdef-name]
-    - match: \bcoproc{{keyword_break}}
-      scope: keyword.other.coproc.shell
-      push: [cmd-post, cmd-args-bt, coproc-body]
 
   coproc-body:
     - match: \s*(?=\S+\s*\{)
@@ -330,16 +302,6 @@ contexts:
       scope: punctuation.definition.compound.end.shell
       pop: true
     - include: main
-
-  funcdef-body-bt:
-    - meta_scope: meta.function.shell
-    - match: \}
-      scope: punctuation.section.braces.end.shell
-      pop: true
-    - match: \)
-      scope: punctuation.definition.compound.end.shell
-      pop: true
-    - include: main-bt
 
   vardef:
     - match: \s*\b(alias){{keyword_break}}
@@ -412,8 +374,6 @@ contexts:
 
   vardef-maybe-more:
     - meta_include_prototype: false
-    - match: (?=`)
-      pop: true
     - match: (?=\s*#)
       pop: true
     - include: cmd-args-boilerplate-with-end-of-options
@@ -457,7 +417,7 @@ contexts:
         - meta_content_scope: variable.other.readwrite.assignment.shell
         - include: line-continuation-or-pop-at-end
         - include: any-escape
-        - match: (?={{varassign}}|\s)|$|(?=[;&`]|{{metachar}})
+        - match: (?={{varassign}}|\s|;|&|{{metachar}})
           pop: true
         - include: array
         - match: \s*$
@@ -495,14 +455,12 @@ contexts:
                   pop: true
             - include: expansion-and-string
         - include: expansion-and-string
-    - match: (?=[&`])
+    - match: (?=&)
       pop: true
     - match: ""
       set:
         - meta_include_prototype: false
         - meta_scope: string.unquoted.shell
-        - match: (?=`)
-          pop: true
         - include: expansion-and-string
         - include: line-continuation-or-pop-at-end
         - include: any-escape
@@ -551,7 +509,7 @@ contexts:
       pop: true
     - match: \s*(?=\S)
       set:
-        - match: (?={{metachar}}|`)
+        - match: (?={{metachar}})
           pop: true
         - include: expansion-and-string
     - match: \s*
@@ -761,27 +719,10 @@ contexts:
   cmd-args-boilerplate-with-end-of-options:
     # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
     - include: cmd-args-boilerplate
-    - match: (?:\s+|^)--(?=\s|;|\))
+    - match: (?:\s+|^)--(?=\s|;|$|\))
       scope: keyword.operator.end-of-options.shell
       set:
         - meta_content_scope: meta.function-call.arguments.shell
-        - include: end-of-options-common
-
-  cmd-args-boilerplate-bt:
-    # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
-    - match: (?={{is_end_of_interpolation}}|`) # <-------------- extra backtick
-      pop: true
-    - include: cmd-args-common
-
-  cmd-args-boilerplate-with-end-of-options-bt:
-    # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
-    - include: cmd-args-boilerplate-bt
-    - match: (?:\s+|^)--(?=\s|;|\)|`)
-      scope: keyword.operator.end-of-options.shell
-      set:
-        - meta_content_scope: meta.function-call.arguments.shell
-        - match: (?=`) # <-------------------------------------- extra backtick
-          pop: true
         - include: end-of-options-common
 
   end-of-options-common:
@@ -806,24 +747,6 @@ contexts:
                   scope: keyword.operator.assignment.option.shell
                   pop: true
             - match: (?={{is_end_of_option}})
-              pop: true
-            - include: expansion-and-string
-
-  cmd-args-bt:
-    - match: ""
-      set:
-        - meta_scope: meta.function-call.arguments.shell
-        - include: cmd-args-boilerplate-with-end-of-options-bt
-        - match: '{{start_of_option}}'
-          scope: punctuation.definition.parameter.shell
-          push:
-            - meta_scope: variable.parameter.option.shell
-            - match: (?==)
-              set:
-                - match: =
-                  scope: keyword.operator.assignment.option.shell
-                  pop: true
-            - match: (?={{is_end_of_option}}|`) # <------------- extra backtick
               pop: true
             - include: expansion-and-string
 
@@ -864,58 +787,11 @@ contexts:
     - match: (?=\S)
       set: [cmd-post, cmd-args, cmd-name]
 
-  cmd-bt:
-    - include: cmd-common
-    - match: \(
-      scope: punctuation.definition.compound.begin.shell
-      push:
-        - match: \)
-          scope: punctuation.definition.compound.end.shell
-          set: [cmd-post, cmd-args-bt]
-        - include: main
-    - include: scope:commands.builtin.shell.bash#main-bt
-    - match: \blet\b
-      scope: support.function.let.bash
-      push:
-        - meta_scope: meta.function-call.shell
-        - match: $|(?=\`)
-          pop: true
-        - include: expression
-    - match: (\[\[)(?=\s)
-      captures:
-        1: support.function.double-brace.begin.shell
-      set: [cmd-post, cmd-test-double-brace-args-bt]
-    - match: (\[)(?=\s)
-      captures:
-        1: support.function.test.begin.shell
-      set: [cmd-post, cmd-test-brace-args-bt]
-    - match: (\{)(?=\s)
-      captures:
-        1: punctuation.definition.compound.braces.begin.shell
-      push:
-        - match: \}
-          scope: punctuation.definition.compound.braces.end.shell
-          set: [cmd-post, cmd-args-bt]
-        - include: main-bt
-    - match: (?=\S)
-      set: [cmd-post, cmd-args-bt, cmd-name-bt]
-
   cmd-test-brace-args:
     - match: ""
       set:
         - meta_scope: meta.function-call.arguments.shell
         - include: cmd-args-boilerplate-with-end-of-options
-        - match: \s+(\])
-          captures:
-            1: support.function.test.end.shell
-          pop: true
-        - include: expression-test
-
-  cmd-test-brace-args-bt:
-    - match: ""
-      set:
-        - meta_scope: meta.function-call.arguments.shell
-        - include: cmd-args-boilerplate-with-end-of-options-bt
         - match: \s+(\])
           captures:
             1: support.function.test.end.shell
@@ -931,29 +807,11 @@ contexts:
     - include: expression-test
     # - include: cmd-args-boilerplate-with-end-of-options
 
-  cmd-test-double-brace-args-bt:
-    - meta_scope: meta.function-call.arguments.shell
-    - match: \s+(\]\])
-      captures:
-        1: support.function.double-brace.end.shell
-      pop: true
-    - include: expression-test
-    # - include: cmd-args-boilerplate-with-end-of-options-bt
-
   cmd-name:
     - match: ""
       set:
         - meta_scope: meta.function-call.shell variable.function.shell
         - match: (?={{is_start_of_arguments}}|{{is_end_of_interpolation}})
-          pop: true
-        - include: cmd-name-common
-
-  cmd-name-bt:
-    - match: ""
-      set:
-        - meta_scope: meta.function-call.shell variable.function.shell
-        # extra backtick
-        - match: (?={{is_start_of_arguments}}|{{is_end_of_interpolation}}|`)
           pop: true
         - include: cmd-name-common
 
@@ -1100,14 +958,22 @@ contexts:
             1: punctuation.section.parens.end.shell
           pop: true
         - include: main
-    - match: \`
-      scope: punctuation.section.group.begin.shell
+    - match: (?=\`)
       push:
-        - meta_scope: meta.group.expansion.command.backticks.shell
+        # NOTE: we push into the context to work around core issue #3002
         - match: \`
-          scope: punctuation.section.group.end.shell
+          scope:
+            meta.group.expansion.command.backticks.shell
+            punctuation.section.group.begin.shell
+          embed: main
+          embed_scope: meta.group.expansion.command.backticks.shell
+          escape: (?<![^\\]\\)(?<![\\]{3})\`
+          escape_captures:
+            0:
+              meta.group.expansion.command.backticks.shell
+              punctuation.section.group.end.shell
+        - match: ''
           pop: true
-        - include: main-bt # all those *-bt contexts just for this!!!!
 
   expansion:
     - include: expansion-pattern

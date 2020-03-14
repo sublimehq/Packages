@@ -400,6 +400,65 @@ foo=`readonly x=5`
 #               ^ meta.group.expansion.command.backticks string.unquoted
 #                ^ meta.group.expansion.command.backticks punctuation.section.group.end
 
+echo `echo \`echo hello, world!\``
+#   ^ - meta.group
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.expansion.command.backticks
+#                                 ^ - meta.group
+#    ^ punctuation.section.group.begin
+#     ^^^^ support.function.echo
+#          ^^ constant.character.escape
+#                              ^^ constant.character.escape
+#                                ^ punctuation.section.group.end
+
+echo `echo \`echo hello, world!\\`
+#   ^ - meta.group
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.expansion.command.backticks
+#                                 ^ - meta.group
+#    ^ punctuation.section.group.begin
+#     ^^^^ support.function.echo
+#          ^^ constant.character.escape
+#                              ^^ constant.character.escape
+#                                ^ punctuation.section.group.end
+
+echo `echo \`echo hello\\\`, world\\\\\`!`
+#   ^ - meta.group
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.expansion.command.backticks
+#                                         ^ - meta.group
+#    ^ punctuation.section.group.begin
+#     ^^^^ support.function.echo
+#          ^^ constant.character.escape
+#                      ^^^^ constant.character.escape
+#                                 ^^^^^^ constant.character.escape
+#                                        ^ punctuation.section.group.end
+
+foo | ` # get quarks ` \
+# <- variable.function
+#   ^ keyword.operator.logical.pipe
+#     ^^^^^^^^^^^^^^^^ meta.group.expansion.command.backticks
+#                     ^^^ - meta.group
+#     ^ punctuation.section.group.begin
+#       ^^^^^^^^^^^^^ comment.line.number-sign
+#                    ^ punctuation.section.group.end - comment
+#                      ^^ punctuation.separator.continuation.line - comment
+
+foo | ` # get quarks ` \
+bar   ` # important; this and that ` "${USELESS_TEXT}" | ` # match text` \
+# <- meta.function-call.arguments
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.expansion.command.backticks
+#                                   ^^^^^^^^^^^^^^^^^^^^^ - meta.group.expansion.command
+#                                                        ^^^^^^^^^^^^^^^ meta.group.expansion.command.backticks
+#     ^^ - comment
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign
+#                                  ^^^^^^^^^^^^^^^^^^^^^^^^ - comment
+#                                                          ^^^^^^^^^^^^ comment.line.number-sign
+#                                                                      ^^^ - comment
+#     ^ punctuation.section.group.begin
+#                                  ^ punctuation.section.group.end
+#                                    ^^^^^^^^^^^^^^^^^ string.quoted.double
+#                                                      ^ keyword.operator.logical.pipe
+#                                                        ^ punctuation.section.group.begin
+#                                                                        ^^ punctuation.separator.continuation.line
+
 # <- - meta.group.expansion.command.backticks
 export foo          # 'foo' is a variable name
 #^^^^^^^^^ meta.function-call
@@ -1742,6 +1801,7 @@ array=()  # an empty array
 #    ^ keyword.operator.assignment
 #     ^ punctuation.section.parens.begin
 #      ^ punctuation.section.parens.end
+
 for (( i = 0; i < 10; i++ )); do
 #   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.arithmetic
 # <- keyword.control
@@ -1776,6 +1836,20 @@ for i in $(seq 100); do
   # <- meta.function-call support.function.colon
 done
 # <- keyword.control.loop.end
+
+`for i in $(seq 100); do echo i; done`
+# <- meta.group.expansion.command.backticks punctuation.section.group.begin
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.expansion.command.backticks
+#      ^^ meta.group.for keyword.control.in
+#         ^ meta.group.for punctuation.definition.variable
+#          ^ meta.group.for punctuation.section.parens.begin
+#           ^^^ meta.group.for meta.function-call variable.function
+#                  ^ meta.group.for punctuation.section.parens.end
+#                   ^ keyword.operator.logical.continue
+#                     ^^ keyword.control.loop.do
+#                        ^^^^ support.function.echo
+#                              ^ keyword.operator.logical.continue
+#                                ^^^^ keyword.control.loop.end
 
 [[ "${foo}" == bar*baz ]]
  # <- support.function.double-brace.begin
