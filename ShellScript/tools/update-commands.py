@@ -19,24 +19,10 @@ def main():
         "prototype": [{"include": f"{parent}prototype"}]
     }
 
-    eoo = {
-        "match": r"(?:\s+|^)--(?=\s|$)",
-        "scope": "keyword.operator.end-of-options.shell",
-        "set": [
-            {"meta_content_scope": "meta.function-call.arguments.shell"},
-            {"include": f"{parent}expansion-and-string"},
-            {"include": f"{parent}line-continuation-or-pop-at-end"}
-        ]
-    }
-
     for command, value in commands_input.items():
         if not value:
             value = {}
         cmd_args_base = []
-
-        allow_eoo = value.get("allow-end-of-options-token", True)
-        if allow_eoo:
-            cmd_args_base.append(eoo)
 
         long_options = value.get("long-options")
         if long_options:
@@ -77,15 +63,16 @@ def main():
                     }
                 })
 
-        cmd_args = [
-            {"meta_scope": "meta.function-call.arguments.shell"},
-            {"include": f"{parent}cmd-args-boilerplate"}
-        ]
+        cmd_args = [{"meta_scope": "meta.function-call.arguments.shell"}]
+        cmd_args_bt = [{"meta_scope": "meta.function-call.arguments.shell"}]
 
-        cmd_args_bt = [
-            {"meta_scope": "meta.function-call.arguments.shell"},
-            {"include": f"{parent}cmd-args-boilerplate-bt"}
-        ]
+        allow_eoo = value.get("allow-end-of-options-token", True)
+        if allow_eoo:
+            cmd_args.append({"include": f"{parent}cmd-args-boilerplate-with-end-of-options"})
+            cmd_args_bt.append({"include": f"{parent}cmd-args-boilerplate-with-end-of-options-bt"})
+        else:
+            cmd_args.append({"include": f"{parent}cmd-args-boilerplate"})
+            cmd_args_bt.append({"include": f"{parent}cmd-args-boilerplate-bt"})
 
         if cmd_args_base:
             cmd_args.append({"include": f"cmd-args-{command}-base"})

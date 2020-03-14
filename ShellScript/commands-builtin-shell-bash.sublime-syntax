@@ -6,34 +6,19 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
-    - include: cmd-args-bg-base
-  cmd-args-bg-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
   cmd-args-bg-bt:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
-    - include: cmd-args-bg-base
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
   cmd-args-bind:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-bind-base
   cmd-args-bind-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -42,59 +27,35 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-bind-base
   cmd-args-builtin:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
-    - include: cmd-args-builtin-base
-  cmd-args-builtin-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
   cmd-args-builtin-bt:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
-    - include: cmd-args-builtin-base
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
   cmd-args-caller:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
-    - include: cmd-args-caller-base
-  cmd-args-caller-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
   cmd-args-caller-bt:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
-    - include: cmd-args-caller-base
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
   cmd-args-cd:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-cd-base
   cmd-args-cd-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -103,7 +64,7 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-cd-base
   cmd-args-colon:
   - match: ''
@@ -119,15 +80,9 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-command-base
   cmd-args-command-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -136,21 +91,15 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-command-base
   cmd-args-disown:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-disown-base
   cmd-args-disown-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -159,7 +108,7 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-disown-base
   cmd-args-dot:
   - match: ''
@@ -175,15 +124,9 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-echo-base
   cmd-args-echo-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -192,21 +135,15 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-echo-base
   cmd-args-enable:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-enable-base
   cmd-args-enable-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -215,7 +152,7 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-enable-base
   cmd-args-eval:
   - match: ''
@@ -231,15 +168,9 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-exec-base
   cmd-args-exec-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -248,7 +179,7 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-exec-base
   cmd-args-exit:
   - match: ''
@@ -264,53 +195,29 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
-    - include: cmd-args-fg-base
-  cmd-args-fg-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
   cmd-args-fg-bt:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
-    - include: cmd-args-fg-base
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
   cmd-args-getopts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
-    - include: cmd-args-getopts-base
-  cmd-args-getopts-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
   cmd-args-getopts-bt:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
-    - include: cmd-args-getopts-base
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
   cmd-args-hash:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-hash-base
   cmd-args-hash-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -319,21 +226,15 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-hash-base
   cmd-args-help:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-help-base
   cmd-args-help-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -342,21 +243,15 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-help-base
   cmd-args-jobs:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-jobs-base
   cmd-args-jobs-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -365,21 +260,15 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-jobs-base
   cmd-args-kill:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-kill-base
   cmd-args-kill-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -388,40 +277,25 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-kill-base
   cmd-args-logout:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
-    - include: cmd-args-logout-base
-  cmd-args-logout-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
   cmd-args-logout-bt:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
-    - include: cmd-args-logout-base
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
   cmd-args-mapfile:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-mapfile-base
   cmd-args-mapfile-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -430,21 +304,15 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-mapfile-base
   cmd-args-printf:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-printf-base
   cmd-args-printf-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -453,21 +321,15 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-printf-base
   cmd-args-pwd:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-pwd-base
   cmd-args-pwd-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -476,21 +338,15 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-pwd-base
   cmd-args-read:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-read-base
   cmd-args-read-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -499,21 +355,15 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-read-base
   cmd-args-readarray:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-readarray-base
   cmd-args-readarray-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -522,7 +372,7 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-readarray-base
   cmd-args-return:
   - match: ''
@@ -538,15 +388,9 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-set-base
   cmd-args-set-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -555,7 +399,7 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-set-base
   cmd-args-shift:
   - match: ''
@@ -571,15 +415,9 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-shopt-base
   cmd-args-shopt-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -588,40 +426,25 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-shopt-base
   cmd-args-source:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
-    - include: cmd-args-source-base
-  cmd-args-source-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
   cmd-args-source-bt:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
-    - include: cmd-args-source-base
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
   cmd-args-suspend:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-suspend-base
   cmd-args-suspend-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -630,40 +453,25 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-suspend-base
   cmd-args-times:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
-    - include: cmd-args-times-base
-  cmd-args-times-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
   cmd-args-times-bt:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
-    - include: cmd-args-times-base
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
   cmd-args-trap:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-trap-base
   cmd-args-trap-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -672,21 +480,15 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-trap-base
   cmd-args-type:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-type-base
   cmd-args-type-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -695,21 +497,15 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-type-base
   cmd-args-ulimit:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-ulimit-base
   cmd-args-ulimit-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -718,21 +514,15 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-ulimit-base
   cmd-args-umask:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-umask-base
   cmd-args-umask-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -741,21 +531,15 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-umask-base
   cmd-args-unalias:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-unalias-base
   cmd-args-unalias-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -764,21 +548,15 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-unalias-base
   cmd-args-unset:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-unset-base
   cmd-args-unset-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -787,21 +565,15 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-unset-base
   cmd-args-wait:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
     - include: cmd-args-wait-base
   cmd-args-wait-base:
-  - match: (?:\s+|^)--(?=\s|$)
-    scope: keyword.operator.end-of-options.shell
-    set:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#expansion-and-string
-    - include: scope:source.shell.bash#line-continuation-or-pop-at-end
   - captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -810,7 +582,7 @@ contexts:
   - match: ''
     set:
     - meta_scope: meta.function-call.arguments.shell
-    - include: scope:source.shell.bash#cmd-args-boilerplate-bt
+    - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options-bt
     - include: cmd-args-wait-base
   main:
   - match: bind{{cmd_break}}
