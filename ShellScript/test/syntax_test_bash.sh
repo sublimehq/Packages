@@ -360,26 +360,41 @@ ${foo}/${bar}/${baz}
 #               ^^^ variable.function variable.other
 
 declare foo         # 'foo' is a variable name
+#^^^^^^^^^^ meta.function-call
+#           ^ - meta.function-call
+# <- storage.modifier
 #          ^ - variable.other.readwrite
 #                  ^ - meta.function-call
 declare -A foo bar  # 'foo' and 'bar' are variable names
 #^^^^^^^^^^^^^^^^^ meta.function-call
 #                  ^ - meta.function-call
 declare ret; bar=foo
+#^^^^^^^^^^ meta.function-call
+#          ^ - meta.function-call
+# <- storage.modifier
 #          ^ keyword.operator
 #               ^ keyword.operator
 #                ^ string.unquoted
 declare ret ;
+#^^^^^^^^^^ meta.function-call
+#          ^ - meta.function-call
+# <- storage.modifier
 #           ^ keyword.operator
 declare ret&
+#^^^^^^^^^^ meta.function-call
+#          ^ - meta.function-call
+# <- storage.modifier
 #          ^ keyword.operator
 declare ret &
+#^^^^^^^^^^ meta.function-call
+#          ^ - meta.function-call
+# <- storage.modifier
 #           ^ keyword.operator
 printFunction "$variableString1" "$(declare -p variableArray)"
 #                                ^ string.quoted.double punctuation.definition.string.begin
 #                                 ^ string.quoted.double meta.group.expansion.command.parens punctuation.definition.variable
 #                                  ^ string.quoted.double meta.group.expansion.command.parens punctuation.section.parens.begin
-#                                         ^ string.quoted.double meta.group.expansion.command.parens storage.modifier
+#                                   ^^^^^^^ string.quoted.double meta.group.expansion.command.parens storage.modifier
 #                                                          ^ string.quoted.double meta.group.expansion.command.parens variable.other
 #                                                           ^ string.quoted.double meta.group.expansion.command.parens punctuation.section.parens.end
 #                                                            ^ string.quoted.double punctuation.definition.string.end
@@ -388,13 +403,14 @@ printFunction "$variableString1" "$(declare -p variableArray)"
 printFunction "$variableString1" "`declare -p variableArray`"
 #                                ^ string.quoted.double punctuation.definition.string.begin
 #                                 ^ string.quoted.double meta.group.expansion.command.backticks punctuation.section.group.begin
-#                                        ^ string.quoted.double meta.group.expansion.command.backticks storage.modifier
+#                                  ^^^^^^^ string.quoted.double meta.group.expansion.command.backticks storage.modifier
 #                                                         ^ string.quoted.double meta.group.expansion.command.backticks variable.other
 #                                                          ^ string.quoted.double meta.group.expansion.command.backticks punctuation.section.group.end
 #                                                           ^ string.quoted.double punctuation.definition.string.end
 foo=`readonly x=5`
 # <- variable.other.readwrite.assignment
 #   ^ meta.group.expansion.command.backticks punctuation.section.group.begin
+#    ^^^^^^^^ meta.group.expansion.command.backticks storage.modifier
 #             ^ meta.group.expansion.command.backticks variable.other.readwrite.assignment
 #              ^ meta.group.expansion.command.backticks keyword.operator.assignment
 #               ^ meta.group.expansion.command.backticks string.unquoted
@@ -1972,7 +1988,12 @@ fi
 
 function clk {
     typeset base=/sys/class/drm/card0/device
+    #<- storage.modifier
+    #       ^^^^ variable.other.readwrite.assignment
+    #           ^ keyword.operator.assignment
+    #            ^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted
     [[ -r ${base}/hwmon/hwmon0/temp1_input && -r ${base}/power_profile ]] || return 1
+    # <- support.function.double-brace.begin
     #                                                                  ^^ support.function.double-brace.end
     case $1 in
         low|high|default)
@@ -1997,15 +2018,19 @@ f() {
         case $x in
             $1)
                 local "$x"'+=(1)' ;;&
+                # <- storage.modifier
                 #                 ^^^ punctuation
             $2)
                 local "$x"'+=(2)' ;&
+                # <- storage.modifier
                 #                 ^^ punctuation
             $3)
                 local "$x"'+=(3)' ;;
+                # <- storage.modifier
                 #                 ^^ punctuation
             $1|$2)
                 local "$x"'+=(4)'
+                # <- storage.modifier
         esac
         # <- meta.function keyword.control.conditional.end
 

@@ -47,7 +47,6 @@ variables:
   is_command: (?=\S)
   is_end_of_interpolation: \)
   is_end_of_option: '[^\w$-]|$'
-  is_function: \s*\b(function)\s+|(?=\s*{{identifier_non_posix}}\s*\(\s*\))
   is_path_component: (?=[^\s/]*/)
   is_start_of_arguments: '[`=|&;()<>\s]'
   is_variable: (?=\s*{{nbc}}(?:[({]{{nbc}}[)}])?{{nbc}}=)
@@ -249,9 +248,10 @@ contexts:
     - include: expansion
 
   funcdef:
-    - match: '{{is_function}}'
-      captures:
-        1: storage.type.function.shell
+    - match: (?=\s*{{identifier_non_posix}}\s*\(\s*\))
+      push: [funcdef-body, funcdef-parens, funcdef-name]
+    - match: \bfunction{{keyword_break}}
+      scope: storage.type.function.shell
       push: [funcdef-body, funcdef-parens, funcdef-name]
     - match: \bcoproc{{keyword_break}}
       scope: keyword.other.coproc.shell
@@ -304,51 +304,47 @@ contexts:
     - include: main
 
   vardef:
-    - match: \s*\b(alias){{keyword_break}}
-      captures:
-        1: support.function.alias.shell
+    - match: \balias{{keyword_break}}
+      scope: support.function.alias.shell
       push:
-      - vardef-ensure-function-call-scope
-      - vardef-maybe-more
-      - vardef-value
-      - vardef-assign
-      - vardef-alias-name
-      - vardef-alias-options
-    - match: \s*\b(typeset|declare|local){{keyword_break}}
-      captures:
-        1: storage.modifier.shell
+        - vardef-ensure-function-call-scope
+        - vardef-maybe-more
+        - vardef-value
+        - vardef-assign
+        - vardef-alias-name
+        - vardef-alias-options
+    - match: \b(typeset|declare|local){{keyword_break}}
+      scope: storage.modifier.shell
       push:
-      - vardef-ensure-function-call-scope
-      - vardef-maybe-more
-      - vardef-value
-      - vardef-assign
-      - vardef-name
-      - vardef-declare-options
-    - match: \s*\b(export){{keyword_break}}
-      captures:
-        1: storage.modifier.shell
+        - vardef-ensure-function-call-scope
+        - vardef-maybe-more
+        - vardef-value
+        - vardef-assign
+        - vardef-name
+        - vardef-declare-options
+    - match: \bexport{{keyword_break}}
+      scope: storage.modifier.shell
       push:
-      - vardef-ensure-function-call-scope
-      - vardef-maybe-more
-      - vardef-value
-      - vardef-assign
-      - vardef-name
-      - vardef-export-options
-    - match: \s*\b(readonly){{keyword_break}}
-      captures:
-        1: storage.modifier.shell
+        - vardef-ensure-function-call-scope
+        - vardef-maybe-more
+        - vardef-value
+        - vardef-assign
+        - vardef-name
+        - vardef-export-options
+    - match: \breadonly{{keyword_break}}
+      scope: storage.modifier.shell
       push:
-      - vardef-ensure-function-call-scope
-      - vardef-maybe-more
-      - vardef-value
-      - vardef-assign
-      - vardef-name
-      - vardef-readonly-options
+        - vardef-ensure-function-call-scope
+        - vardef-maybe-more
+        - vardef-value
+        - vardef-assign
+        - vardef-name
+        - vardef-readonly-options
     - match: '{{is_variable}}'
       push:
-      - vardef-value
-      - vardef-assign
-      - vardef-name
+        - vardef-value
+        - vardef-assign
+        - vardef-name
 
   vardef-readonly-options:
     - match: \s*((-)(?:[aAf]+|p))
@@ -393,13 +389,10 @@ contexts:
       set:
         - meta_include_prototype: false
         - meta_content_scope: entity.name.function.alias.shell
-        - include: line-continuation-or-pop-at-end
+        - match: (?=\s|{{varassign}})
+          pop: true
         - include: any-escape
-        - match: (?={{varassign}}|\s)|$
-          pop: true
         - include: array
-        - match: \s*$
-          pop: true
         - include: string
 
   vardef-declare-options:
@@ -415,23 +408,18 @@ contexts:
       set:
         - meta_include_prototype: false
         - meta_content_scope: variable.other.readwrite.assignment.shell
-        - include: line-continuation-or-pop-at-end
+        - match: (?={{varassign}}|{{metachar}})
+          pop: true
         - include: any-escape
-        - match: (?={{varassign}}|\s|;|&|{{metachar}})
-          pop: true
         - include: array
-        - match: \s*$
-          pop: true
         - include: string
 
   vardef-assign:
     - meta_include_prototype: false
-    - include: line-continuation-or-pop-at-end
-    - include: any-escape
     - match: '{{varassign}}'
       scope: keyword.operator.assignment.shell
       pop: true
-    - match: ""
+    - match: ''
       pop: true
 
   vardef-value:
@@ -455,9 +443,7 @@ contexts:
                   pop: true
             - include: expansion-and-string
         - include: expansion-and-string
-    - match: (?=&)
-      pop: true
-    - match: ""
+    - match: ''
       set:
         - meta_include_prototype: false
         - meta_scope: string.unquoted.shell
@@ -760,7 +746,7 @@ contexts:
           set: [cmd-post, cmd-args]
         - include: main
     - include: scope:commands.builtin.shell.bash#main
-    - match: \blet\b
+    - match: \blet{{keyword_break}}
       scope: support.function.let.bash
       push:
         - meta_scope: meta.function-call.shell
