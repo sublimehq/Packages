@@ -22,8 +22,9 @@ variables:
   unquoted_attribute_break: (?=[{{ascii_space}}]|/?>)
 
   # https://html.spec.whatwg.org/multipage/parsing.html#tag-name-state
-  tag_name_char: '[^{{ascii_space}}/<>]'
-  tag_name_break: (?=[^{{tag_name_char}}])
+  tag_name_break_char: '[{{ascii_space}}/<>]'
+  tag_name_break: (?={{tag_name_break_char}})
+  tag_name_char: '[^{{tag_name_break_char}}]'
   tag_name: '[A-Za-z]{{tag_name_char}}*'
 
   block_tag_name: |-
@@ -70,7 +71,8 @@ variables:
       | [\x{10000}-\x{EFFFF}]
     )
 
-  script_close_lookahead: (?i:(?=(?:-->\s*)?</script))
+  script_close_lookahead: (?=(?:-->\s*)?</(?i:script){{tag_name_break_char}})
+  style_close_lookahead: (?=(?:-->\s*)?</(?i:style){{tag_name_break_char}})
 
 contexts:
   immediately-pop:
@@ -308,7 +310,7 @@ contexts:
         - match: (?=\S)
           embed: scope:source.css
           embed_scope: source.css.embedded.html
-          escape: (?=(?:-->\s*)?</(?i:style){{tag_name_break}})
+          escape: '{{style_close_lookahead}}'
 
   style-other:
     - meta_content_scope: meta.tag.style.begin.html
