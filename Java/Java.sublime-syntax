@@ -262,7 +262,7 @@ contexts:
     - include: else-pop
 
   module-body-common:
-    - meta_scope: meta.namespace.module.body.java meta.block.java
+    - meta_scope: meta.namespace.module.java meta.block.java
     - include: block-end
     - include: punctuation-terminator-semicolon
     - match: exports\b
@@ -542,7 +542,7 @@ contexts:
     - include: else-pop
 
   class-body-block-common:
-    - meta_scope: meta.class.body.java meta.block.java
+    - meta_scope: meta.class.java meta.block.java
     - include: block-end
     - include: class-body
 
@@ -619,7 +619,7 @@ contexts:
     - include: else-pop
 
   enum-body-block-common:
-    - meta_scope: meta.enum.body.java meta.block.java
+    - meta_scope: meta.enum.java meta.block.java
     - include: block-end
     - include: class-body
 
@@ -650,7 +650,7 @@ contexts:
     - include: else-pop
 
   enum-constant-body-block-common:
-    - meta_scope: meta.constant.body.java meta.block.java
+    - meta_scope: meta.constant.java meta.block.java
     - include: block-end
     - include: class-body
 
@@ -717,7 +717,7 @@ contexts:
     - include: else-pop
 
   interface-body-block-common:
-    - meta_scope: meta.interface.body.java meta.block.java
+    - meta_scope: meta.interface.java meta.block.java
     - include: block-end
     - include: class-body
 
@@ -868,7 +868,7 @@ contexts:
     - include: else-pop
 
   method-body-common:
-    - meta_scope: meta.method.body.java meta.block.java
+    - meta_scope: meta.method.java meta.block.java
     - include: block-end
     - include: blocks-body
 
@@ -879,7 +879,7 @@ contexts:
     - match: \{
       scope: punctuation.section.block.begin.java
       push:
-        - meta_scope: meta.static.body.java meta.block.java
+        - meta_scope: meta.static.java meta.block.java
         - include: static-initializer-body
 
   static-initializer-body:
@@ -1131,7 +1131,7 @@ contexts:
         meta.function.anonymous.java
         storage.type.function.anonymous.java
       push:
-        - meta_content_scope: meta.function.anonymous.body.java
+        - meta_content_scope: meta.function.anonymous.java
         - match: (?=[,;)}\]])
           pop: true
         - include: statements
