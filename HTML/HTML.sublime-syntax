@@ -13,13 +13,13 @@ variables:
   ascii_space: '\t\n\f '
 
   # https://html.spec.whatwg.org/multipage/syntax.html#attributes-2
-  attribute_name_char: '[{{ascii_space}}=/>]'
-  attribute_name_start: (?=[^{{attribute_name_char}}])
-  attribute_name_break: (?={{attribute_name_char}})
+  attribute_name_break_char: '[{{ascii_space}}=/>]'
+  attribute_name_break: (?={{attribute_name_break_char}})
+  attribute_name_start: (?=[^{{attribute_name_break_char}}])
 
   # https://html.spec.whatwg.org/multipage/syntax.html#syntax-attribute-value
-  unquoted_attribute_start: (?=[^{{ascii_space}}=>])
   unquoted_attribute_break: (?=[{{ascii_space}}]|/?>)
+  unquoted_attribute_start: (?=[^{{ascii_space}}=>])
 
   # https://html.spec.whatwg.org/multipage/parsing.html#tag-name-state
   tag_name_break_char: '[{{ascii_space}}/<>]'
