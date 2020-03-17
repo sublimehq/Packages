@@ -5747,6 +5747,12 @@
 			"details": "Gets the name of the owner of the current PHP script"
 		},
 		{
+			"trigger": "get_debug_type()",
+			"contents": "get_debug_type(${1:variable})",
+			"kind": "function",
+			"details": "Gets the debug type (type hint) of a variable."
+		},
+		{
 			"trigger": "get_declared_classes()",
 			"contents": "get_declared_classes()",
 			"kind": "function",

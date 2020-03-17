@@ -2324,7 +2324,7 @@ contexts:
       scope: support.function.url.php
     - match: |-
         \b(?xi:
-          boolval | debug_zval_dump | doubleval | empty | floatval | get_defined_vars | get_resource_type | gettype |
+          boolval | debug_zval_dump | doubleval | empty | floatval | get_debug_type | get_defined_vars | get_resource_type | gettype |
           import_request_variables | intval | is_array | is_bool | is_callable | is_countable | is_double | is_float |
           is_int | is_integer | is_iterable | is_long | is_null | is_numeric | is_object | is_real |
           is_resource | is_scalar | is_string | isset | print_r | serialize | settype | strval |
