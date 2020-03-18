@@ -51,7 +51,7 @@ def main():
         short_options = value.get("short-options")
         short_options_compact = value.get("short-options-compact")
         if short_options_compact and short_options:
-            opts = f"[{short_options_compact}]*[{short_options}]?"
+            opts = f"(?:[{short_options}]|[{short_options_compact}]+[{short_options}]?)"
         elif short_options_compact:
             opts = f"[{short_options_compact}]+"
         elif short_options:

@@ -120,9 +120,15 @@ foo --opt1 arg1
 foo --opt1 arg1 -- --not-an-option
 #               ^^ keyword.operator
 #                  ^ - variable.parameter punctuation
-set -e
+foo -n -
 #   ^ variable.parameter.option punctuation
 #    ^ variable.parameter.option - punctuation
+#      ^ - keyword - punctuation
+
+set -e -
+#   ^ variable.parameter.option punctuation
+#    ^ variable.parameter.option - punctuation
+#      ^ - keyword - punctuation
 set +e
 #   ^ variable.parameter.option punctuation
 #    ^ variable.parameter.option - punctuation
