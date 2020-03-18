@@ -37,11 +37,11 @@
 ;                    ^^^ invalid.illegal.stray-bracket-end
 
  (( #| nested |# ))
-;^ meta.group punctuation.definition.group.begin
-; ^ meta.group meta.group punctuation.definition.group.begin
+;^ meta.parens punctuation.section.parens.begin
+; ^ meta.parens meta.parens punctuation.section.parens.begin
 ;         ^ comment
-;                ^ meta.group meta.group punctuation.definition.group.end
-;                 ^ meta.group punctuation.definition.group.end
+;                ^ meta.parens meta.parens punctuation.section.parens.end
+;                 ^ meta.parens punctuation.section.parens.end
 
 ;##########
 ; STRINGS #
