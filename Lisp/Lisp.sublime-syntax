@@ -69,6 +69,8 @@ contexts:
       scope: keyword.operator.bitwise.lisp
 
   parens:
+    - match: '\(\)'
+      scope: constant.language.lisp
     - match: '\('
       scope: punctuation.section.parens.begin.lisp
       push:
