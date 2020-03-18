@@ -70,11 +70,11 @@ contexts:
 
   parens:
     - match: '\('
-      scope: punctuation.definition.group.begin.lisp
+      scope: punctuation.section.parens.begin.lisp
       push:
-        - meta_scope: meta.group.lisp
+        - meta_scope: meta.parens.lisp
         - match: '\)'
-          scope: punctuation.definition.group.end.lisp
+          scope: punctuation.section.parens.end.lisp
           pop: true
         - include: expressions
         - include: parens
