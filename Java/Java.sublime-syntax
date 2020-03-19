@@ -237,6 +237,7 @@ contexts:
 
   package-identifier:
     - meta_content_scope: meta.namespace.package.identifier.java
+    - include: reserved-pop
     - include: entity-package
     - include: immediately-pop
 
@@ -252,6 +253,7 @@ contexts:
       push: [module-body-block, module-identifier, else-pop]
 
   module-identifier:
+    - include: reserved-pop
     - include: entity-module
     - include: immediately-pop
 
@@ -325,7 +327,7 @@ contexts:
     - include: entity-class
 
   module-statement-terminator:
-    - match: (?=[;}]|(?:exports|opens|requires|provides|uses)\b)
+    - match: (?=[;}]|(?:exports|opens|requires|provides|uses|{{reserved_words}})\b)
       pop: true
 
 ###[ IMPORT ]##################################################################
@@ -1808,7 +1810,7 @@ contexts:
 ###[ ENTITY CLASS ]############################################################
 
   entity-class:
-    - match: (?!{{reserved_words}}\b){{id}}
+    - match: '{{id}}'
       branch_point: entity-class-identifier
       branch:
         - entity-class-qualified-identifier
@@ -1862,7 +1864,7 @@ contexts:
 ###[ ENTITY MODULE ]###########################################################
 
   entity-module:
-    - match: (?!{{reserved_words}}\b){{id}}
+    - match: '{{id}}'
       branch_point: entity-module-identifier
       branch:
         - entity-module-qualified-identifier
@@ -1910,7 +1912,7 @@ contexts:
 ###[ ENTITY PACKAGE ]##########################################################
 
   entity-package:
-    - match: (?!{{reserved_words}}\b){{id}}
+    - match: '{{id}}'
       branch_point: entity-package-identifier
       branch:
         - entity-package-qualified-identifier
