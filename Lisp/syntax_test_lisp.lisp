@@ -87,8 +87,8 @@
 (nil)
 ;^^^ constant.language
 
-()
-;^^^ constant.language
+(())
+;^^ constant.language
 
 ;#######################
 ; ARITHMETIC OPERATORS #
