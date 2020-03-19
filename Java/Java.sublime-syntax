@@ -2145,10 +2145,9 @@ contexts:
             push:
               - clear_scopes: 1
               - match: (?=\[)
-                set:
-                  - clear_scopes: 1
+                push:
                   - include: array-modifier-body
-                  - include: else-pop3
+                  - include: else-pop4
               - include: annotation
               - match: (?=\S)
                 fail: primitive-array-type
