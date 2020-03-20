@@ -1845,6 +1845,7 @@ contexts:
       push: [entity-class-qualifier-accessor, generic-type-arguments]
 
   entity-class-qualifier-accessor:
+    - clear_scopes: 1
     - match: \.
       scope: punctuation.accessor.dot.java
       pop: 2
@@ -1895,6 +1896,7 @@ contexts:
     - meta_scope: variable.namespace.java
     - match: ''
       push:
+        - clear_scopes: 1
         - match: \.
           scope: punctuation.accessor.dot.java
           pop: 2
@@ -1943,6 +1945,7 @@ contexts:
     - meta_scope: variable.namespace.java
     - match: ''
       push:
+        - clear_scopes: 1
         - match: \.
           scope: punctuation.accessor.dot.java
           pop: 2

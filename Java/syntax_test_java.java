@@ -25,25 +25,25 @@ package com.example.apple;
 //^^^^^ meta.namespace.package.java - meta.path
 //     ^ meta.namespace.package.identifier.java - meta.path
 //      ^^^^^^^^^^^^^^^^^ meta.namespace.package.identifier.java meta.path.java
-//      ^^^ variable.namespace.java
-//         ^ punctuation.accessor.dot.java
-//          ^^^^^^^ variable.namespace.java
-//                 ^ punctuation.accessor.dot.java
-//                  ^^^^^ entity.name.namespace.package.java
+//      ^^^ variable.namespace.java - punctuation
+//         ^ punctuation.accessor.dot.java - entity - variable
+//          ^^^^^^^ variable.namespace.java - punctuation
+//                 ^ punctuation.accessor.dot.java - entity - variable
+//                  ^^^^^ entity.name.namespace.package.java - punctuation
 //                       ^ punctuation.terminator.java
 
 package
 // <- meta.namespace.package.java storage.type.namespace.package.java keyword.declaration.namespace.package.java
 //^^^^^ meta.namespace.package.java storage.type.namespace.package.java keyword.declaration.namespace.package.java
     com
-//  ^^^ meta.namespace.package.identifier.java meta.path.java variable.namespace.java
+//  ^^^ meta.namespace.package.identifier.java meta.path.java variable.namespace.java - punctuation
     .
-//  ^ meta.namespace.package.identifier.java meta.path.java punctuation.accessor.dot.java
+//  ^ meta.namespace.package.identifier.java meta.path.java punctuation.accessor.dot.java - entity - variable
     example.
-//  ^^^^^^^ meta.namespace.package.identifier.java meta.path.java variable.namespace.java
-//         ^ meta.namespace.package.identifier.java meta.path.java punctuation.accessor.dot.java
+//  ^^^^^^^ meta.namespace.package.identifier.java meta.path.java variable.namespace.java - punctuation
+//         ^ meta.namespace.package.identifier.java meta.path.java punctuation.accessor.dot.java - entity - variable
     apple
-//  ^^^^^ meta.namespace.package.identifier.java meta.path.java entity.name.namespace.package.java
+//  ^^^^^ meta.namespace.package.identifier.java meta.path.java entity.name.namespace.package.java - punctuation
 ;
 // <- punctuation.terminator.java
 
@@ -59,6 +59,9 @@ import no.terminator
 // <- meta.import.java keyword.control.import.java
 //^^^^^ meta.import.java - meta.path
 //     ^^^^^^^^^^^^^^ meta.import.java meta.path.java
+//     ^^ variable.namespace.java - punctuation
+//       ^ punctuation.accessor.dot.java - entity - variable
+//        ^^^^^^^^^^ variable.namespace.java - punctuation
     variable
 //  ^^^^^^^^ variable.other.readwrite.java - meta.import
 
@@ -70,6 +73,9 @@ import static no.terminator
 // <- meta.import.java keyword.control.import.java
 //^^^^^^^^^^^^ meta.import.java - meta.path
 //            ^^^^^^^^^^^^^^ meta.import.java meta.path.java
+//            ^^ variable.namespace.java - punctuation
+//              ^ punctuation.accessor.dot.java - entity - variable
+//               ^^^^^^^^^^ variable.namespace.java - punctuation
     variable
 //  ^^^^^^^^ variable.other.readwrite.java - meta.import
 
@@ -113,6 +119,7 @@ import a . * . b ;
 //     ^^^^^ meta.import.java meta.path.java
 //          ^^^^^^ - meta.import - meta.path
 //     ^ variable.namespace.java
+//      ^^^^^^^^^ - variable
 //       ^ punctuation.accessor.dot.java
 //         ^ keyword.operator.wildcard.asterisk.java
 //           ^ invalid.illegal.expect-semicolon.java
@@ -124,10 +131,14 @@ import a . b . * ;
 //^^^^^ meta.import.java - meta.path
 //     ^^^^^^^^^ meta.import.java meta.path.java
 //              ^ - meta.import - meta.path
-//     ^ variable.namespace.java
-//       ^ punctuation.accessor.dot.java
-//         ^ variable.namespace.java
-//           ^ punctuation.accessor.dot.java
+//     ^ variable.namespace.java - punctuation
+//      ^ - variable - punctuation
+//       ^ punctuation.accessor.dot.java - entity - variable
+//        ^ - variable - punctuation
+//         ^ variable.namespace.java - punctuation
+//          ^ - variable - punctuation
+//           ^ punctuation.accessor.dot.java - entity - variable
+//            ^ - variable - punctuation
 //             ^ keyword.operator.wildcard.asterisk.java
 //               ^ punctuation.terminator.java
 
@@ -135,33 +146,33 @@ import a.b.Class;
 // <- meta.import.java keyword.control.import.java
 //^^^^^ meta.import.java - meta.path
 //     ^^^^^^^^^ meta.import.java meta.path.java
-//     ^ variable.namespace.java
-//      ^ punctuation.accessor.dot.java
-//       ^ variable.namespace.java
-//        ^ punctuation.accessor.dot.java
-//         ^^^^^ entity.name.class.java
+//     ^ variable.namespace.java - punctuation
+//      ^ punctuation.accessor.dot.java - entity - variable
+//       ^ variable.namespace.java - punctuation
+//        ^ punctuation.accessor.dot.java - entity - variable
+//         ^^^^^ entity.name.class.java - punctuation
 //              ^ punctuation.terminator.java
 
 import a.b.Class.*;
 //^^^^^ meta.import.java - meta.path
 //     ^^^^^^^^^^^ meta.import.java meta.path.java
 //     ^ variable.namespace.java
-//      ^ punctuation.accessor.dot.java
+//      ^ punctuation.accessor.dot.java - entity - variable
 //       ^ variable.namespace.java
-//        ^ punctuation.accessor.dot.java
+//        ^ punctuation.accessor.dot.java - entity - variable
 //         ^^^^^ entity.name.class.java
-//              ^ punctuation.accessor.dot.java
+//              ^ punctuation.accessor.dot.java - entity - variable
 //               ^ keyword.operator.wildcard.asterisk.java
 
 import a.b.Class.SubClass;
 //^^^^^ meta.import.java - meta.path
 //     ^^^^^^^^^^^^^^^^^^ meta.import.java meta.path.java
 //     ^ variable.namespace.java
-//      ^ punctuation.accessor.dot.java
+//      ^ punctuation.accessor.dot.java - entity - variable
 //       ^ variable.namespace.java
-//        ^ punctuation.accessor.dot.java
+//        ^ punctuation.accessor.dot.java - entity - variable
 //         ^^^^^ entity.name.class.java
-//              ^ punctuation.accessor.dot.java
+//              ^ punctuation.accessor.dot.java - entity
 //               ^^^^^^^^ entity.name.class.java
 
 import 
@@ -172,17 +183,17 @@ import
 //  ^ variable.namespace.java
     .
 //^^^^ meta.import.java meta.path.java
-//  ^ punctuation.accessor.dot.java
+//  ^ punctuation.accessor.dot.java - entity - variable
     b
 //^^^^ meta.import.java meta.path.java
 //  ^ variable.namespace.java
     .Class
 //^^^^^^^^^^^ meta.import.java meta.path.java
-//  ^ punctuation.accessor.dot.java
+//  ^ punctuation.accessor.dot.java - entity - variable
 //   ^^^^^ entity.name.class.java
     .
 //^^^^ meta.import.java meta.path.java
-//  ^ punctuation.accessor.dot.java
+//  ^ punctuation.accessor.dot.java - entity
     SubClass ;
 //  ^^^^^^^^ entity.name.class.java
 //^^^^^^^^^^ meta.import.java meta.path.java
@@ -236,14 +247,17 @@ import static /**/ a /**/ . /**/ b /**/ . /**/ Class /**/ . /**/ CONSTANT;
 //                                                                       ^ - meta.import - meta.path
 //            ^^^^ comment.block.empty.java
 //                 ^ variable.namespace.java
+//                  ^^^^^^^^^^^^^ - entity - variable
 //                   ^^^^ comment.block.empty.java
 //                        ^ punctuation.accessor.dot.java
 //                          ^^^^ comment.block.empty.java
 //                               ^ variable.namespace.java
+//                                ^^^^^^^^^^^^^ - entity - variable
 //                                 ^^^^ comment.block.empty.java
 //                                      ^ punctuation.accessor.dot.java
 //                                        ^^^^ comment.block.empty.java
 //                                             ^^^^^ entity.name.class.java
+//                                                  ^^^^^^^^^^^^^ - entity - variable
 //                                                   ^^^^ comment.block.empty.java
 //                                                        ^ punctuation.accessor.dot.java
 //                                                          ^^^^ comment.block.empty.java
@@ -4968,7 +4982,7 @@ module java.base {
 //               ^^ meta.namespace.module.java meta.block.java
 //^^^^ storage.type.namespace.module.java keyword.declaration.namespace.module.java
 //     ^^^^ variable.namespace.java
-//         ^ punctuation.accessor.dot.java
+//         ^ punctuation.accessor.dot.java - entity - variable
 //          ^^^^ entity.name.namespace.module.java
 //               ^ punctuation.section.block.begin.java
   exports java;
@@ -4984,7 +4998,7 @@ module java.base {
 //               ^ meta.namespace.module.java meta.block.java - meta.exports
 //^^^^^^^ keyword.other.module.exports.java
 //        ^^^^ variable.namespace.java
-//            ^ punctuation.accessor.dot.java
+//            ^ punctuation.accessor.dot.java - entity - variable
 //             ^^ entity.name.namespace.package.java
 //               ^ punctuation.terminator.java
 
@@ -4996,17 +5010,17 @@ module java.base {
 //                                                    ^ meta.namespace.module.java meta.block.java - meta.exports
 //^^^^^^^ keyword.other.module.exports.java
 //        ^^^ variable.namespace.java
-//           ^ punctuation.accessor.dot.java
+//           ^ punctuation.accessor.dot.java - entity - variable
 //            ^^^^^^^^ variable.namespace.java
-//                    ^ punctuation.accessor.dot.java
+//                    ^ punctuation.accessor.dot.java - entity - variable
 //                     ^^^^ entity.name.namespace.package.java
 //                          ^^ keyword.other.module.to.java
 //                             ^^^ variable.namespace.java
-//                                ^ punctuation.accessor.dot.java
+//                                ^ punctuation.accessor.dot.java - entity - variable
 //                                 ^^^^^^^^ entity.name.namespace.module.java
 //                                         ^ punctuation.separator.comma.java
 //                                           ^^^ variable.namespace.java
-//                                              ^ punctuation.accessor.dot.java
+//                                              ^ punctuation.accessor.dot.java - entity - variable
 //                                               ^^^^^ entity.name.namespace.module.java
 //                                                    ^ punctuation.terminator.java
 
@@ -5015,7 +5029,7 @@ module java.base {
 //             ^ meta.namespace.module.java meta.block.java - meta.opens
 //^^^^^ keyword.other.module.opens.java
 //      ^^^^  variable.namespace.java
-//          ^ punctuation.accessor.dot.java
+//          ^ punctuation.accessor.dot.java - entity - variable
 //           ^^ entity.name.namespace.package.java
 //             ^ punctuation.terminator.java
 
@@ -5024,11 +5038,11 @@ module java.base {
 //                                                  ^ meta.namespace.module.java meta.block.java - meta.opens
 //                        ^^ keyword.other.module.to.java
 //                           ^^^ variable.namespace.java
-//                              ^ punctuation.accessor.dot.java
+//                              ^ punctuation.accessor.dot.java - entity - variable
 //                               ^^^^^^^^ entity.name.namespace.module.java
 //                                       ^ punctuation.separator.comma.java
 //                                         ^^^ variable.namespace.java
-//                                            ^ punctuation.accessor.dot.java
+//                                            ^ punctuation.accessor.dot.java - entity - variable
 //                                             ^^^^^ entity.name.namespace.module.java
 //                                                  ^ punctuation.terminator.java
 
@@ -5039,9 +5053,9 @@ module java.base {
 //^^^^ keyword.other.module.uses.java
 //     ^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
 //     ^^^^ variable.namespace.java
-//         ^ punctuation.accessor.dot.java
+//         ^ punctuation.accessor.dot.java - entity - variable
 //          ^^^^^^^^ variable.namespace.java
-//                  ^ punctuation.accessor.dot.java
+//                  ^ punctuation.accessor.dot.java - entity - variable
 //                   ^^^^^^^^ entity.name.class.java
 //                           ^ punctuation.terminator.java
 
@@ -5068,7 +5082,7 @@ module java.base {
 //                 ^ meta.namespace.module.java meta.block.java - meta.requires
 //^^^^^^^^ keyword.other.module.requires.java
 //         ^^^^ variable.namespace.java
-//             ^ punctuation.accessor.dot.java
+//             ^ punctuation.accessor.dot.java - entity - variable
 //              ^^^ entity.name.namespace.module.java
 //                 ^ punctuation.terminator.java
 
@@ -5078,7 +5092,7 @@ module java.base {
 //^^^^^^^^ keyword.other.module.requires.java
 //         ^^^^^^^^^^ keyword.other.module.transitive.java
 //                    ^^^^^^ variable.namespace.java
-//                          ^ punctuation.accessor.dot.java
+//                          ^ punctuation.accessor.dot.java - entity - variable
 //                           ^^^^ entity.name.namespace.module.java
 //                               ^ punctuation.terminator.java
 
@@ -5094,7 +5108,7 @@ open module open.module {}
 //^^ storage.modifier.java
 //   ^^^^^^ storage.type.namespace.module.java keyword.declaration.namespace.module.java
 //          ^^^^ variable.namespace.java
-//              ^ punctuation.accessor.dot.java
+//              ^ punctuation.accessor.dot.java - entity - variable
 //               ^^^^^^ entity.name.namespace.module.java
 //                      ^ punctuation.section.block.begin.java
 //                       ^ punctuation.section.block.end.java
@@ -5104,7 +5118,7 @@ open module
     open
 //  ^^^^ meta.namespace.module.identifier.java meta.path.java variable.namespace.java
     .
-//  ^ meta.namespace.module.identifier.java meta.path.java punctuation.accessor.dot.java
+//  ^ meta.namespace.module.identifier.java meta.path.java punctuation.accessor.dot.java - entity - variable
     module
 //  ^^^^^^ meta.namespace.module.identifier.java meta.path.java entity.name.namespace.module.java
     {
