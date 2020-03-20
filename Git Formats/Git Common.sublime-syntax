@@ -77,7 +77,7 @@ contexts:
           # user/repo#issue
           (
             (?:
-              \b(?: \w+ (/) )? \w+   # user (optional) / repo
+              \b(?: [\w-]+ (/) )? [\w-]+ # user (optional) / repo
             )?
             (\#)[0-9]+               # issue number
           )\b
