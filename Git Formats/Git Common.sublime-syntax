@@ -8,6 +8,8 @@ scope: text.git.common
 
 variables:
   comment_char: '[#;]'
+  hash: \b\h{7,}\b
+  repository_ref: '(?x: \b(?: [\w-]+ (/) )? [\w-]+)'  # user (optional) / repo
   pretty_formats_builtins: oneline|short|medium|fuller|full|email|raw
   pretty_formats_empty_value_modifiers: '[-+ ]?'
 
@@ -63,6 +65,7 @@ contexts:
     - include: issue
     - include: email
     - include: username
+    - include: commit
 
   issue:
     # issue reference
@@ -76,9 +79,7 @@ contexts:
           )?                         # keyword is optional
           # user/repo#issue
           (
-            (?:
-              \b(?: [\w-]+ (/) )? [\w-]+ # user (optional) / repo
-            )?
+            {{repository_ref}}?
             (\#)[0-9]+               # issue number
           )\b
       scope: meta.reference.issue.git
@@ -124,6 +125,13 @@ contexts:
       scope: meta.reference.username.git entity.name.reference.username.git
       captures:
         1: punctuation.definition.reference.username.git
+
+  commit:
+    - match: (?:{{repository_ref}}(@))?{{hash}}
+      scope: constant.other.hash.git
+      captures:
+        1: punctuation.separator.reference.commit.git
+        2: punctuation.separator.reference.commit.git
 
 ##[ FNMATCH ]##########################################################
 
