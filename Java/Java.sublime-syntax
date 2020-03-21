@@ -139,6 +139,10 @@ contexts:
     - match: ''
       pop: 3
 
+  immediately-pop4:
+    - match: ''
+      pop: 4
+
   reserved-pop:
     - match: (?={{reserved_words}}\b)
       pop: true
@@ -1819,30 +1823,32 @@ contexts:
   entity-class-qualified-identifier:
     - meta_scope: meta.path.java variable.namespace.java
     - match: ''
-      push: [entity-class-qualified-identifier-path, generic-type-arguments]
+      push: 
+        - entity-class-qualified-identifier-path
+        - generic-type-arguments
 
   entity-class-qualified-identifier-path:
     - clear_scopes: 1
     - match: \.
       scope: punctuation.accessor.dot.java
-      set:
-        - clear_scopes: 1
+      push:
         - match: (?={{reserved_words}}\b)
-          pop: 2
+          pop: 3
         - match: '{{id}}'
           branch_point: entity-class-qualified-identifier
           branch:
             - entity-class-qualifier
             - entity-class-name
-        - match: (?=\S)
-          pop: 2
+        - include: else-pop3
     - match: (?=\S)
       fail: entity-class-identifier
 
   entity-class-qualifier:
     - meta_scope: variable.namespace.java
     - match: ''
-      push: [entity-class-qualifier-accessor, generic-type-arguments]
+      push: 
+        - entity-class-qualifier-accessor
+        - generic-type-arguments
 
   entity-class-qualifier-accessor:
     - clear_scopes: 1
@@ -1855,7 +1861,9 @@ contexts:
   entity-class-name:
     - meta_scope: entity.name.class.java
     - match: ''
-      set: [immediately-pop3, generic-type-arguments]
+      set: 
+        - immediately-pop4
+        - generic-type-arguments
 
   entity-class-unqualified-identifier:
     - meta_scope: entity.name.class.java
@@ -1878,17 +1886,15 @@ contexts:
         - clear_scopes: 1
         - match: \.
           scope: punctuation.accessor.dot.java
-          set:
-            - clear_scopes: 1
+          push:
             - match: (?={{reserved_words}}\b)
-              pop: 2
+              pop: 3
             - match: '{{id}}'
               branch_point: entity-module-qualified-identifier
               branch:
                 - entity-module-qualifier
                 - entity-module-name
-            - match: (?=\S)
-              pop: 2
+            - include: else-pop3
         - match: (?=\S)
           fail: entity-module-identifier
 
@@ -1905,7 +1911,7 @@ contexts:
 
   entity-module-name:
     - meta_scope: entity.name.namespace.module.java
-    - include: immediately-pop3
+    - include: immediately-pop4
 
   entity-module-unqualified-identifier:
     - meta_scope: entity.name.namespace.module.java
@@ -1927,17 +1933,15 @@ contexts:
         - clear_scopes: 1
         - match: \.
           scope: punctuation.accessor.dot.java
-          set:
-            - clear_scopes: 1
+          push:
             - match: (?={{reserved_words}}\b)
-              pop: 2
+              pop: 3
             - match: '{{id}}'
               branch_point: entity-package-qualified-identifier
               branch:
                 - entity-package-qualifier
                 - entity-package-name
-            - match: (?=\S)
-              pop: 2
+            - include: else-pop3
         - match: (?=\S)
           fail: entity-package-identifier
 
@@ -1954,7 +1958,7 @@ contexts:
 
   entity-package-name:
     - meta_scope: entity.name.namespace.package.java
-    - include: immediately-pop3
+    - include: immediately-pop4
 
   entity-package-unqualified-identifier:
     - meta_scope: entity.name.namespace.package.java
