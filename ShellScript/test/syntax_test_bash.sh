@@ -1566,6 +1566,30 @@ while ! ( [[ true ]] ); do echo bar; done
 #                       ^^ keyword.control.loop.do
 #                                    ^^^^ keyword.control.loop.end
 
+while read -r -d '' f; do
+# <- keyword.control.loop.while
+#     ^^^^ support.function.read
+#          ^^ variable.parameter.option
+#             ^^ variable.parameter.option
+#                ^^ string.quoted.single.shell
+#                    ^ keyword.operator.logical.continue
+#                      ^^ keyword.control.loop.do
+done
+# <- keyword.control.loop.end
+
+while IFS= read -r -d '' f; do
+# <- keyword.control.loop.while
+#     ^^^ variable.other.readwrite.assignment
+#        ^ keyword.operator.assignment
+#          ^^^^ support.function.read
+#               ^^ variable.parameter.option
+#                  ^^ variable.parameter.option
+#                     ^^ string.quoted.single.shell
+#                         ^ keyword.operator.logical.continue
+#                           ^^ keyword.control.loop.do
+done
+# <- keyword.control.loop.end
+
 do echo bar; until ! { [[ true ]]; }
 # <- keyword.control.loop.do
 #            ^^^^^ keyword.control.loop.until.shell
