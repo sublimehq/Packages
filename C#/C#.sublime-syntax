@@ -509,6 +509,8 @@ contexts:
             - match: \b(remove)\b
               scope: storage.type.function.accessor.remove.cs
               push: method_body
+        - match: (?==)
+          set: member_variables_declaration
         - match: (?=\S)
           pop: true
     - match: (?=\S)
@@ -1028,7 +1030,7 @@ contexts:
     - match: ';'
       scope: punctuation.terminator.statement.cs
       pop: true
-    - match: (?=\}|\)|>|\])
+    - match: (?=[]})>;])
       pop: true
 
   variables_declaration:
