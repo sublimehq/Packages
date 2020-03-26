@@ -47,6 +47,7 @@ variables:
   is_command: (?=\S)
   is_end_of_interpolation: \)
   is_end_of_option: '[^\w$-]|$'
+  is_interpolation: (?=\$([\d({]|[$#@!~*?_-](?!\w)|{{identifier}})|`)
   is_path_component: (?=[^\s/]*/)
   is_start_of_arguments: '[`=|&;()<>\s]'
   is_variable: (?=\s*{{nbc}}(?:[({]{{nbc}}[)}])?{{nbc}}=)
@@ -446,10 +447,22 @@ contexts:
     - match: ''
       set:
         - meta_include_prototype: false
-        - meta_scope: string.unquoted.shell
-        - include: expansion-and-string
+        - meta_scope: meta.string.shell string.unquoted.shell
         - include: line-continuation-or-pop-at-end
         - include: any-escape
+        - match: (?=\$?["'])
+          push:
+            - clear_scopes: 2
+            - include: string
+            - match: ''
+              pop: true
+        - match: '{{is_interpolation}}'
+          push:
+            - clear_scopes: 1
+            - meta_scope: meta.interpolation.shell
+            - include: expansion
+            - match: ''
+              pop: true
         - match: (?={{metachar}})
           pop: true
 
@@ -577,7 +590,7 @@ contexts:
 
   heredocs-body:
     - meta_include_prototype: false
-    - meta_scope: string.unquoted.heredoc.shell
+    - meta_scope: meta.string.shell string.unquoted.heredoc.shell
     - include: heredocs-body-common-with-expansion
     - match: ^\3(\s+)\n # the third capture from redirection-here-document
       captures:
@@ -590,7 +603,7 @@ contexts:
 
   heredocs-body-allow-tabs:
     - meta_include_prototype: false
-    - meta_scope: string.unquoted.heredoc.shell
+    - meta_scope: meta.string.shell string.unquoted.heredoc.shell
     - include: heredocs-body-common-with-expansion
     - match: ^\s*\3(\s+)\n # the third capture from redirection-here-document
       captures:
@@ -615,7 +628,7 @@ contexts:
 
   heredocs-body-no-expansion:
     - meta_include_prototype: false
-    - meta_scope: string.unquoted.heredoc.shell
+    - meta_scope: meta.string.shell string.unquoted.heredoc.shell
     - match: ^\4(\s+)\n # the fourth capture from redirection-here-document
       captures:
         1: invalid.illegal.no-spaces-allowed-after-heredoc-token.shell
@@ -627,7 +640,7 @@ contexts:
 
   heredocs-body-allow-tabs-no-expansion:
     - meta_include_prototype: false
-    - meta_scope: string.unquoted.heredoc.shell
+    - meta_scope: meta.string.shell string.unquoted.heredoc.shell
     - match: ^\s*\4(\s+)\n # the fourth capture from redirection-here-document
       captures:
         1: invalid.illegal.no-spaces-allowed-after-heredoc-token.shell
@@ -1211,7 +1224,7 @@ contexts:
       scope: punctuation.definition.string.begin.shell
       push:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.single.shell
+        - meta_scope: meta.string.shell string.quoted.single.shell
         - match: \'
           scope: punctuation.definition.string.end.shell
           pop: true
@@ -1221,7 +1234,7 @@ contexts:
       scope: punctuation.definition.string.begin.shell
       push:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.shell
+        - meta_scope: meta.string.shell string.quoted.double.shell
         - include: string-quoted-double-common
 
   string-quoted-double-escape-character:
@@ -1240,7 +1253,7 @@ contexts:
       scope: punctuation.definition.string.begin.shell
       push:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.single.ansi-c.shell
+        - meta_scope: meta.string.shell string.quoted.single.ansi-c.shell
         - match: "'"
           scope: punctuation.definition.string.end.shell
           pop: true
@@ -1255,7 +1268,7 @@ contexts:
       scope: punctuation.definition.string.begin.shell
       push:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.locale.shell
+        - meta_scope: meta.string.shell string.quoted.double.locale.shell
         - include: string-quoted-double-common
 
   string-quoted-double-common:
@@ -1263,7 +1276,16 @@ contexts:
       scope: punctuation.definition.string.end.shell
       pop: true
     - include: string-quoted-double-escape-character
-    - include: expansion-parameter
-    - include: expansion-arithmetic
-    - include: expansion-command
+    - include: string-interpolation
+
+  string-interpolation:
+    - match: '{{is_interpolation}}'
+      push:
+        - clear_scopes: 1
+        - meta_scope: meta.interpolation.shell
+        - include: expansion-parameter
+        - include: expansion-arithmetic
+        - include: expansion-command
+        - match: ''
+          pop: true
 
