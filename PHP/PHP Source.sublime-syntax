@@ -361,7 +361,7 @@ contexts:
           AMQPConnection | AMQPExchange | AMQPQueue | APCIterator | AppendIterator | ArgumentCountError | ArithmeticError | ArrayAccess | ArrayIterator | ArrayObject |
           AssertionError | BadFunctionCallException | BadMethodCallException | CachingIterator | Collator | CompileError | Countable | DivisionByZeroError | DOMAttr | DOMCharacterData | DOMComment |
           DOMDocument | DOMDocumentFragment | DOMElement | DOMEntityReference | DOMImplementation | DOMNamedNodeMap | DOMNode | DOMNodelist |
-          DOMProcessingInstruction | DOMText | DOMXPath | DateInterval | DatePeriod | DateTime | DateTimeZone | DirectoryIterator |
+          DOMProcessingInstruction | DOMText | DOMXPath | DateInterval | DatePeriod | DateTime | DateTimeImmutable | DateTimeInterface | DateTimeZone | DirectoryIterator |
           DomAttribute | DomDocument | DomDocumentType | DomElement | DomNode | DomProcessingInstruction | DomXsltStylesheet | DomainException |
           EmptyIterator | Error | ErrorException | Exception | FilesystemIterator | FilterIterator | GlobIterator | Gmagick | GmagickDraw |
           GmagickPixel | HaruAnnotation | HaruDestination | HaruDoc | HaruEncoder | HaruFont | HaruImage | HaruOutline |
