@@ -1933,7 +1933,7 @@ contexts:
         \b(?xi:
           abs | acos | acosh | asin | asinh | atan | atan2 | atanh |
           base_convert | bindec | ceil | cos | cosh | decbin | dechex | decoct |
-          deg2rad | exp | expm1 | floor | fmod | getrandmax | hexdec | hypot |
+          deg2rad | exp | expm1 | fdiv | floor | fmod | getrandmax | hexdec | hypot |
           intdiv | is_finite | is_infinite | is_nan | lcg_value | log | log10 | log1p |
           max | min | mt_getrandmax | mt_rand | mt_srand | octdec | pi | pow |
           rad2deg | rand | round | sin | sinh | sqrt | srand | tan |

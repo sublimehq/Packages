@@ -4992,6 +4992,12 @@
 			"details": "Sets version number for a FDF file"
 		},
 		{
+			"trigger": "fdiv()",
+			"contents": "fdiv(${1:dividend}, ${2:divisor})",
+			"kind": "function",
+			"details": "Float division."
+		},
+		{
 			"trigger": "feof()",
 			"contents": "feof(${1:handle})",
 			"kind": "function",
