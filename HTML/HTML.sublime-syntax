@@ -269,7 +269,7 @@ contexts:
 
   doctype-meta:
     - meta_scope: meta.tag.sgml.doctype.html
-    - match: \>
+    - match: '>'
       scope: punctuation.definition.tag.end.html
       pop: true
 
@@ -301,7 +301,7 @@ contexts:
   style-css:
     - meta_content_scope: meta.tag.style.begin.html
     - include: style-common
-    - match: \>
+    - match: '>'
       scope: punctuation.definition.tag.end.html
       set:
         - include: style-close-tag
@@ -313,7 +313,7 @@ contexts:
   style-other:
     - meta_content_scope: meta.tag.style.begin.html
     - include: style-common
-    - match: \>
+    - match: '>'
       scope: punctuation.definition.tag.end.html
       set:
         - include: style-close-tag
@@ -365,7 +365,7 @@ contexts:
   script-javascript:
     - meta_content_scope: meta.tag.script.begin.html
     - include: script-common
-    - match: \>
+    - match: '>'
       scope: punctuation.definition.tag.end.html
       set:
         - include: script-close-tag
@@ -377,7 +377,7 @@ contexts:
   script-html:
     - meta_content_scope: meta.tag.script.begin.html
     - include: script-common
-    - match: \>
+    - match: '>'
       scope: punctuation.definition.tag.end.html
       set:
         - meta_content_scope: text.html.embedded.html
@@ -388,7 +388,7 @@ contexts:
   script-other:
     - meta_content_scope: meta.tag.script.begin.html
     - include: script-common
-    - match: \>
+    - match: '>'
       scope: punctuation.definition.tag.end.html
       set:
         - include: script-close-tag
@@ -717,7 +717,7 @@ contexts:
         - include: else-pop
 
   tag-end:
-    - match: \>
+    - match: '>'
       scope: punctuation.definition.tag.end.html
       pop: true
 
