@@ -226,3 +226,14 @@
 ;^ storage.type.function-type
 ;      ^^^^^ entity.name.function
 )
+
+
+(defmacro %inner-macro (n1 n2 n3 n4)
+;^ storage.type.function-type
+;         ^^^^^^^^^^^^ entity.name.function
+)
+
+(defvar *global*)
+;^ storage.type.function-type
+;       ^^^^^^^^ entity.name.function
+

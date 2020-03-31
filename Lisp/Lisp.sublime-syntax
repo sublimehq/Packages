@@ -50,7 +50,7 @@ contexts:
       scope: keyword.control.lisp
 
   functions:
-    - match: \b(?i:(defun|defmethod|defmacro))\b\s+([\w\-!?<>]*)
+    - match: \b(?i:(defun|defmethod|defmacro|defvar|defconstant))\b\s+([\w\-!?<>%+*]*)
       scope: meta.function.lisp
       captures:
         1: storage.type.function-type.lisp
