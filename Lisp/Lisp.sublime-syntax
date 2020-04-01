@@ -18,6 +18,8 @@ file_extensions:
   - lsp
   - fasl # Scheme dialect of Lisp
 scope: source.lisp
+variables:
+  symbol: '[\w\-!?<>%+*]*'
 contexts:
   main:
     - include: comments
@@ -29,6 +31,7 @@ contexts:
     - include: constants
     - include: strings
     - include: variables
+    - include: globals
     - include: control
     - include: functions
     - include: operators
@@ -49,8 +52,15 @@ contexts:
     - match: \b(?i:with|while|when|unless|typecase|to|thereis|then|return-from name|return|repeat|prog*|prog|never|named|maplist|mapl|mapcon|mapcar|mapcan|mapc|loop|let|initially|if|from|for|finally|etypecase|else|dotimes|dolist|doing|do*|do|ctypecase|cond|case|block|as|always)\b
       scope: keyword.control.lisp
 
+  globals:
+    - match: \b(?i:(defvar|defconstant))\b\s+({{symbol}})
+      scope: meta.name.lisp
+      captures:
+        1: storage.type.name-type.lisp
+        2: entity.name.type.lisp
+
   functions:
-    - match: \b(?i:(defun|defmethod|defmacro|defvar|defconstant))\b\s+([\w\-!?<>%+*]*)
+    - match: \b(?i:(defun|defmethod|defmacro))\b\s+({{symbol}})
       scope: meta.function.lisp
       captures:
         1: storage.type.function-type.lisp

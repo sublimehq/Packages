@@ -233,7 +233,13 @@
 ;         ^^^^^^^^^^^^ entity.name.function
 )
 
-(defvar *global*)
-;^ storage.type.function-type
-;       ^^^^^^^^ entity.name.function
+;############
+; GLOBALS #
+;############
 
+(defvar *global*)
+;^ storage.type.name-type
+;       ^^^^^^^^ entity.name.type
+(defconstant +constant+)
+;^ storage.type.name-type
+;            ^^^^^^^^^^ entity.name.type
