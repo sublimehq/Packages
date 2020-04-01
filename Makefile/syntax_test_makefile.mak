@@ -289,6 +289,12 @@ sources := $($(a1)_objects:.o=.c)
 #                             ^^ string variable
 #                               ^ string variable keyword.other.block.end
 
+.build/vernum: ../meta/version
+    sed -i.bak 's/.*automatically updated.*/version = "$(VER)" # automatically updated/' setup.py
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded meta.function-call
+#              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single - comment
+#                                                      ^^^^^^ variable.parameter.makefile
+
 CC=g++
 #<- variable.other
 # ^ keyword.operator.assignment
