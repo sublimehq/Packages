@@ -325,7 +325,7 @@ contexts:
       set:
         # I don't like putting the string "source.shell" here, as the delegation
         # seeps into this syntax now. But I don't see a cleaner way right now.
-        - meta_scope: source.shell comment.line.number-sign.shell
+        - meta_scope: source.shell.embedded comment.line.number-sign.shell
         - include: comments-pop-on-line-end
     # Otherwise, delegate to the shell syntax (with various extra prototypes).
     - match: ''
