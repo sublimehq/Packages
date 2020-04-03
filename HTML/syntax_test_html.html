@@ -110,24 +110,24 @@
         >
         ## <- meta.tag.script.end.html punctuation.definition.tag.end.html
 
-        <style type="text/css">
+        <style type="text/css"> <!--
         ## ^^^^^^^^^^^^^^^^^^^^ meta.tag.style.begin.html
         ## ^ entity.name.tag.style.html
         ## ^^^^^^^^^^^^^^^^^^^^ - source.css.embedded.html
         ##      ^ entity.other.attribute-name
         ##                     ^ - meta.tag
+        ##                      ^^^^ - comment
             h2 {
             ## <- entity.name.tag.css
 ## <- source.css.embedded.html
                 font-family: "Arial";
                 ##             ^ string.quoted.double.css
             }
-        </style>
-        ##^^^^^^^ - source.css.embedded
-        ##^^^^^ entity.name.tag.style.html
-        ##<- meta.tag.style.end.html - source.css.embedded.html
-        ##^^^^^^ meta.tag.style.end.html - source.css.embedded.html
-        ##      ^ - meta.tag
+        --> </style>
+        ## <- - comment
+        ##  ^^^^^^^^ meta.tag.style.end.html - source.css.embedded.html
+        ##    ^^^^^ entity.name.tag.style.html
+        ##          ^ - meta.tag
 
         <style
         type

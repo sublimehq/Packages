@@ -72,7 +72,7 @@ variables:
     )
 
   script_close_lookahead: (?=(?:-->\s*)?</(?i:script){{tag_name_break_char}})
-  style_close_lookahead: (?=(?:-->\s*)?</(?i:style){{tag_name_break_char}})
+  style_close_lookahead: (?=</(?i:style){{tag_name_break_char}})
 
 contexts:
   immediately-pop:
