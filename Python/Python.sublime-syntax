@@ -1093,7 +1093,7 @@ contexts:
         		Runtime|Standard|Syntax|System|Tab|Timeout|Type|UnboundLocal|
         		Unicode(Encode|Decode|Translate)?|Value|VMS|Windows|ZeroDivision
         	)Error|
-        	((Pending)?Deprecation|Runtime|Syntax|User|Future|Import|Unicode|Bytes)?Warning|
+        	((Pending)?Deprecation|Resource|Runtime|Syntax|User|Future|Import|Unicode|Bytes)?Warning|
         	(Base)?Exception|
         	SystemExit|StopIteration|NotImplemented|KeyboardInterrupt|GeneratorExit
         )\b
