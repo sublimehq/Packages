@@ -558,7 +558,7 @@ contexts:
         2: keyword.operator.assignment.redirection.shell
 
   redirection-here-string:
-    - match: (\d*)(<<<)\s
+    - match: (\d*)(<<<)
       captures:
         1: constant.numeric.integer.decimal.file-descriptor.shell
         2: keyword.operator.herestring.shell

@@ -2059,6 +2059,21 @@ cat <<< "A wild herestring appears" ; cat more stuff | bar | qux
 #                                                   ^
 #                                                    ^ keyword.operator.logical.pipe
 
+if opam upgrade --check; then
+    opam upgrade --dry-run <<<n
+#                          ^^^ keyword.operator.herestring
+#                             ^ - keyword.control.heredoc-token
+#                             ^ - string.unquoted.heredoc
+fi
+# <- - string.unquoted.heredoc
+# <- keyword.control.conditional.end
+
+wc -c <<<$(echo pipephobic)
+#  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments
+#     ^^^ keyword.operator.herestring
+#        ^^^^^^^^^^^^^^^^^^ meta.group.expansion.command.parens
+#          ^^^^ support.function
+
 # Escaped and non-escaped backticks in heredocs...
 cat << backticks_are_deprecated
 #      ^ meta.function-call.arguments string.unquoted.heredoc keyword.control.heredoc-token
