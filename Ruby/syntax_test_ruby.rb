@@ -894,7 +894,7 @@ end
 #                   ^ punctuation.section.scope
 
 do |&bl| end
-# <- keyword.control
+# <- keyword.control.block.do.ruby
 #  ^^^^^ meta.block.parameters
 #  ^ punctuation.definition.parameters
 #   ^ keyword.operator
@@ -925,27 +925,40 @@ do |&bl| end
 ##################
 
 module MyModule
-# <- keyword.control.module
-#      ^^^^^^^^ entity.name.module
+#^^^^^^^^^^^^^^ meta.namespace
+# <- meta.namespace storage.type.namespace keyword.declaration.namespace
+#^^^^^ storage.type.namespace keyword.declaration.namespace
+#     ^ - entity - keyword - storage
+#      ^^^^^^^^ entity.name.namespace
 end
 
 module MyModule::OtherModule
-# <- keyword.control.module
-#      ^^^^^^^^^^^^^^^^^^^^^ entity.name.module
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.namespace
+# <- meta.namespace storage.type.namespace keyword.declaration.namespace
+#      ^^^^^^^^^^^^^^^^^^^^^ entity.name.namespace
+#^^^^^ storage.type.namespace keyword.declaration.namespace
+#     ^ - entity - keyword - storage
 #      ^^^^^^^^ support.other.namespace
 #              ^^ punctuation.accessor.double-colon
+#                ^^^^^^^^^^^ entity.name.namespace
 end
 
 class ::MyModule::MyClass < MyModule::InheritedClass
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
+# <- meta.class storage.type.class keyword.declaration.class
+#^^^^ storage.type.class keyword.declaration.class
+#    ^ - entity - keyword - storage - punctuation
 #     ^^ punctuation.accessor.double-colon
+#       ^^^^^^^^ support.other.namespace
 #               ^^ punctuation.accessor.double-colon
+#                 ^^^^^^^ entity.name.class
 #                         ^ punctuation.separator.inheritance
 #                           ^^^^^^^^^^^^^^^^^^^^^^^^ entity.other.inherited-class
 #                                   ^^ punctuation.accessor.double-colon
 
   def my_method(param1, param2)
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+# ^^^ storage.type.function keyword.declaration.function
 #     ^^^^^^^^^ entity.name.function
 #              ^^^^^^^^^^^^^^^^ meta.function.parameters
 #              ^ punctuation.definition.group.begin
@@ -955,6 +968,7 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 
   def self.my_second_method *arg_without_parens # comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+# ^^^ storage.type.function keyword.declaration.function
 #     ^^^^ variable.language
 #         ^ punctuation.accessor.dot
 #          ^^^^^^^^^^^^^^^^ entity.name.function
@@ -966,6 +980,7 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 
   def self.my_third_method(a, b="foo", c=[], d=foo(), *args)
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+# ^^^ storage.type.function keyword.declaration.function
 #     ^^^^ variable.language
 #         ^ punctuation.accessor.dot
 #          ^^^^^^^^^^^^^^^ entity.name.function
@@ -993,6 +1008,7 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 
   def nested((a, b), c, (d, *e))
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+# ^^^ storage.type.function keyword.declaration.function
 #     ^^^^^^ entity.name.function
 #           ^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 #           ^ punctuation.definition.group.begin
@@ -1013,6 +1029,7 @@ class ::MyModule::MyClass < MyModule::InheritedClass
   end
 
   def block_param(&block)
+# ^^^ storage.type.function keyword.declaration.function
 #                ^^^^^^^^ meta.function.parameters
 #                 ^ keyword.operator
 #                  ^^^^^ variable.parameter
@@ -1045,7 +1062,9 @@ def MyModule::module_method
 #   ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.function
 #   ^^^^^^^^ support.other.namespace
 #           ^^ punctuation.accessor.double-colon
-
+  super /pattern/
+# ^^^^^ support.function.builtin.ruby
+#       ^^^^^^^^^ meta.string.regexp.ruby
 end
 
 def my_function
@@ -1063,7 +1082,7 @@ def f.my_instance_method
 end
 
 class MyClass
-# ^ meta.class.ruby keyword.control.class.ruby
+# ^ meta.class.ruby storage.type.class.ruby
 #     ^ meta.class.ruby entity.name.class.ruby
 
   prepend Module.new
@@ -1196,18 +1215,22 @@ a = /=foo/m
 #   ^^^^^^^ - string.regexp
 
 begin
+# <- keyword.control.block.begin
 end while /foo/ =~ bar
 #         ^^^^^ string.regexp
 
 if /foo/i =~ baz
+# <- keyword.control.conditional.if
 #  ^^^^^^ string.regexp
 #         ^^ keyword.operator
 end
+# <- keyword.control.block.end.ruby
 
 if baz =~ /foo/i
 #      ^^ keyword.operator
 #         ^^^^^^ string.regexp
 end
+# <- keyword.control.block.end.ruby
 
 ['a()', 'b()'].select { |var| /^a\(/ =~ var }
 #                             ^^^^^^ string.regexp
@@ -1234,6 +1257,7 @@ b = testing! / foo
 rule /`/ do
 #    ^^^ string.regexp
 #    ^ - string.regexp string.regexp
+#        ^^ keyword.control.block.do
 end
 
 ##################
@@ -1246,6 +1270,7 @@ def huh?(a, b=def huh?(a); "h?"; end)
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 #             ^^^^^^^^^^^ meta.function meta.function
 #                     ^^^ meta.function.parameters meta.function.parameters
+#^^ storage.type.function keyword.declaration.function
 #                      ^ variable.parameter
   a
 end
@@ -1284,10 +1309,10 @@ foo / "bar/bla"
 
 # issue #2181
 foo << bar if baz.include?(x)
-#          ^^ keyword.control.ruby
+#          ^^ keyword.control.conditional.if.ruby
 foo << bar.baz if baz.include?(x)
-#              ^^ keyword.control.ruby
+#              ^^ keyword.control.conditional.if.ruby
 foo << bar.assert_match if baz.include?(x)
-#                       ^^ keyword.control.ruby
+#                       ^^ keyword.control.conditional.if.ruby
 foo << bar.to_s if baz.include?(x)
-#               ^^ keyword.control.ruby
+#               ^^ keyword.control.conditional.if.ruby
