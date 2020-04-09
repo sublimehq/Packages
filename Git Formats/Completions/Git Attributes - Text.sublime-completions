@@ -1,6 +1,10 @@
 {
     "scope": "meta.mapping.expect-value & meta.attribute.builtin.text.git.attributes",
     "completions": [
-        {"trigger": "auto\ttext", "contents": "auto"}
+        {
+            "trigger": "auto",
+            "contents": "auto",
+            "kind": ["variable", "t", "Text"]
+        }
     ]
 }

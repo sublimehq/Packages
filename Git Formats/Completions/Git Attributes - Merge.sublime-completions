@@ -1,13 +1,45 @@
 {
     "scope": "meta.mapping.expect-value & meta.attribute.builtin.merge.git.attributes",
     "completions": [
-        {"trigger": "binary\t(built-in) merge", "contents": "binary"},
-        {"trigger": "ours\t(built-in) merge", "contents": "ours"},
-        {"trigger": "patience\t(built-in) merge", "contents": "patience"},
-        {"trigger": "recursive\t(built-in) merge", "contents": "recursive"},
-        {"trigger": "resolve\t(built-in) merge", "contents": "resolve"},
-        {"trigger": "text\t(built-in) merge", "contents": "text"},
-        {"trigger": "theirs\t(built-in) merge", "contents": "theirs"},
-        {"trigger": "union\t(built-in) merge", "contents": "union"}
+        {
+            "trigger": "binary",
+            "contents": "binary",
+            "kind": ["variable", "m", "Merge Strategy"]
+        },
+        {
+            "trigger": "ours",
+            "contents": "ours",
+            "kind": ["variable", "m", "Merge Strategy"]
+        },
+        {
+            "trigger": "patience",
+            "contents": "patience",
+            "kind": ["variable", "m", "Merge Strategy"]
+        },
+        {
+            "trigger": "recursive",
+            "contents": "recursive",
+            "kind": ["variable", "m", "Merge Strategy"]
+        },
+        {
+            "trigger": "resolve",
+            "contents": "resolve",
+            "kind": ["variable", "m", "Merge Strategy"]
+        },
+        {
+            "trigger": "text",
+            "contents": "text",
+            "kind": ["variable", "m", "Merge Strategy"]
+        },
+        {
+            "trigger": "theirs",
+            "contents": "theirs",
+            "kind": ["variable", "m", "Merge Strategy"]
+        },
+        {
+            "trigger": "union",
+            "contents": "union",
+            "kind": ["variable", "m", "Merge Strategy"]
+        }
     ]
 }
