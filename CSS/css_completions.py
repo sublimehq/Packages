@@ -36,13 +36,24 @@ COMMON_VALUES = {
     'break_inside': [
         'auto', 'avoid', 'avoid-page', 'avoid-column', 'avoid-region'
     ],
-    'color': ['currentColor', 'rgb($1)', 'rgba($1)', 'hsl($1)', 'hsla($1)', 'transparent'],
+    'color': [
+        'currentColor',
+        ['rgb()', 'rgb(${1:0}, ${2:0}, ${3:0})'],
+        ['rgba()', 'rgba(${1:0}, ${2:0}, ${3:0}, ${4:1.0})'],
+        ['hsl()', 'hsl(${1:0}, ${2:100%}, ${3:50%})'],
+        ['hsla()', 'hsla(${1:0}, ${2:100%}, ${3:50%}, ${4:1.0})'],
+        'transparent'
+    ],
     'font_variant_alternates': [
         'normal', 'historical-forms', 'stylistic($1)', 'styleset($1)',
         'character-variant($1)', 'swash($1)', 'ornaments($1)', 'annotation($1)'
     ],
     'generic_name': [
         'serif', 'sans-serif', 'cursive', 'fantasy', 'monospace'
+    ],
+    'grid': [
+        ['repeat()', 'repeat(${1:2}, ${2:1fr})'],
+        ['minmax()', 'minmax(${1:100px}, ${2:1fr})'],
     ],
     'list_style_type': [
         'none', 'inline', 'disc', 'circle', 'square', 'decimal',
@@ -75,8 +86,15 @@ COMMON_VALUES = {
     ],
     'string': ['\"$1\"'],
     'timing_function': [
-        'ease', 'ease-in', 'ease-out', 'ease-in-out', 'linear',
-        'cubic-bezier($1)', 'step-start', 'step-end', 'steps($1)'
+        'ease',
+        'ease-in',
+        'ease-out',
+        'ease-in-out',
+        'linear',
+        ['cubic-bezier()', 'cubic-bezier(${1:0.0}, ${2:0.0}, ${3:1.0}, ${4:1.0})'],
+        'step-start',
+        'step-end',
+        ['steps()', 'steps(${1:2}, ${2:start})'],
     ],
     'uri': ['url($1)'],
 }
@@ -152,7 +170,10 @@ PROPERTY_DICT = {
     'break-inside': ['<break_inside>'],
     'caption-side': ['top', 'bottom'],
     'clear': ['none', 'left', 'right', 'both'],
-    'clip': ['rect($1)', 'auto'],
+    'clip': [
+        ['rect()', 'rect(${1:0}, ${2:0}, ${3:0}, ${4:0})'],
+        'auto'
+    ],
     'clip-path': ['none', '<uri>', '<basic_shape>'],
     'clip-rule': ['nonzero', 'evenodd'],
     'color': ['<color>'],
@@ -204,9 +225,17 @@ PROPERTY_DICT = {
     'fill': ['<color>'],
     'fill-rule': ['nonzero', 'evenodd'],
     'filter': [
-        '<uri>', 'url($1)', 'blur($1)', 'brightness($1)', 'contrast($1)',
-        'drop-shadow($1)', 'grayscale($1)', 'hue-rotate($1)', 'invert($1)',
-        'opacity($1)', 'saturate($1)', 'sepia($1)'
+        '<uri>',
+        'blur(${1:5px})',
+        'brightness(${1:1.0})',
+        'contrast(${1:100%})',
+        ['drop-shadow()', 'drop-shadow(${1:1px} ${2:1px})'],
+        'grayscale(${1:50%})',
+        'hue-rotate(${1:90deg})',
+        'invert(${1:50%})',
+        'opacity(${1:100%})',
+        'saturate(${1:50%})',
+        'sepia(${1:50%})'
     ],
     'flex': ['none'],
     'flex-grow': ['<number>'],
@@ -272,8 +301,8 @@ PROPERTY_DICT = {
     'grid-gap': ['<length>', '<percentage>'],
     'grid-row-gap': ['<length>', '<percentage>'],
     'grid-template-areas': [],
-    'grid-template-columns': ['auto', 'repeat($1)', 'minmax($1)', '<percentage>', '<length>'],
-    'grid-template-rows': ['auto', 'repeat($1)', 'minmax($1)', '<percentage>', '<length>'],
+    'grid-template-columns': ['auto', '<grid>', '<percentage>', '<length>'],
+    'grid-template-rows': ['auto', '<grid>', '<percentage>', '<length>'],
     'grid-column': ['<number>'],
     'grid-column-end': ['<number>'],
     'grid-column-start': ['<number>'],
@@ -353,7 +382,7 @@ PROPERTY_DICT = {
     'shape-margin': ['<length>', '<percentage>'],
     'shape-outside': [
         'none', 'margin-box', 'content-box', 'border-box', 'padding-box',
-        'circle($1)', 'ellipse($1)', 'inset($1)', 'polygon($1)', '<uri>'
+        '<basic_shape>', '<uri>'
     ],
     'shape-rendering': ['auto', 'optimizeSpeed', 'crispEdges', 'geometricPrecision'],
     'size': [
@@ -386,12 +415,36 @@ PROPERTY_DICT = {
     'text-underline-position': ['auto', 'under', 'left', 'right'],
     'top': ['<length>', '<percentage>', 'auto'],
     'transform': [
-        'matrix($1)', 'matrix3d($1)', 'perspective($1)', 'rotate($1)',
-        'rotate3d($1)', 'rotateX($1)', 'rotateY($1)', 'rotateZ($1)',
-        'scale($1)', 'scale3d($1)', 'scaleX($1)', 'scaleY($1)', 'scaleZ($1)',
-        'skew($1)', 'skewX($1)', 'skewY($1)', 'translate($1)',
-        'translate3d($1)', 'translateX($1)', 'translateY($1)',
-        'translateZ($1)', 'none'
+        ['matrix()', 'matrix(${1:1}, ${2:1}, ${3:1}, ${4:1}, ${5:2}, ${6:2})'],
+        [
+            'matrix3d()',
+            'matrix3d('
+                '${1:1}, ${2:1}, ${3:0}, ${4:0}, '
+                '${5:1}, ${6:1}, ${7:0}, ${8:0}, '
+                '${9:0}, ${10:0}, ${11:1}, ${12:0}, '
+                '${13:2}, ${14:2}, ${15:0}, ${16:1}'
+            ')'
+        ],
+        'perspective(${1:0})',
+        'rotate(${1:45deg})',
+        ['rotate3d()', 'rotate3d(${1:0}, ${2:0}, ${3:1}, ${4:45deg})'],
+        'rotateX(${1:45deg})',
+        'rotateY(${1:45deg})',
+        'rotateZ(${1:45deg})',
+        'scale(${1:1.0})',
+        ['scale3d()', 'scale3d(${1:1.0}, ${2:1.0}, ${3:1.0})'],
+        'scaleX(${1:1.0})',
+        'scaleY(${1:1.0})',
+        'scaleZ(${1:1.0})',
+        'skew(${1:10deg})',
+        'skewX(${1:10deg})',
+        'skewY(${1:10deg})',
+        'translate(${1:10px})',
+        ['translate3d()', 'translate3d(${1:10px}, ${2:0px}, ${3:0px})'],
+        'translateX(${1:10px})',
+        'translateY(${1:10px})',
+        'translateZ(${1:10px})',
+        'none'
     ],
     'transform-origin': ['<position>'],
     'transform-style': ['preserve-3d', 'flat'],
@@ -420,6 +473,12 @@ PROPERTY_DICT = {
 }
 
 
+def completion_sort_key(v):
+    if isinstance(v, str):
+        return v
+    return v[0]
+
+
 def parse_css_data():
     """
     Returns a dictionary containing values associated to their property names
@@ -440,7 +499,7 @@ def parse_css_data():
         allowed_values += ['all', 'inherit', 'initial', 'unset']
 
         for name in names.split(' | '):
-            props[name] = sorted(allowed_values)
+            props[name] = sorted(allowed_values, key=completion_sort_key)
 
     return props
 
@@ -495,16 +554,29 @@ class CSSCompletions(sublime_plugin.EventListener):
                     add_semi_colon = view.substr(sublime.Region(loc, loc + 1)) != ';'
 
                     for value in values:
-                        desc = value + "\t" + prop_name
-                        snippet = value
+                        if isinstance(value, str):
+                            # Removes snippet placeholders - only practically
+                            # works for a single placeholder
+                            desc = re.sub(r'\$(?:\d+|\{\d+:[^}]*\})', '', value)
+                            snippet = value
+                        else:
+                            desc = value[0]
+                            snippet = value[1]
 
                         if add_semi_colon:
                             snippet += ";"
 
-                        if "$1" in snippet:
-                            desc = desc.replace("$1", "")
+                        kind = [sublime.KIND_ID_VARIABLE, "c", "Constant"]
+                        if "(" in snippet:
+                            kind = [sublime.KIND_ID_FUNCTION, "f", "Function"]
 
-                        l.append((desc, snippet))
+                        l.append(sublime.CompletionItem(
+                            trigger=desc,
+                            completion=snippet,
+                            completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
+                            kind=kind,
+                            details="<code>" + prop_name + "</code> property value"
+                        ))
 
                     return (l, sublime.INHIBIT_WORD_COMPLETIONS)
 
@@ -513,9 +585,10 @@ class CSSCompletions(sublime_plugin.EventListener):
             add_colon = not view.match_selector(loc, prop_name_scope)
 
             for prop in self.props:
-                if add_colon:
-                    l.append((prop + "\tproperty", prop + ": "))
-                else:
-                    l.append((prop + "\tproperty", prop))
+                l.append(sublime.CompletionItem(
+                    trigger=prop,
+                    completion=prop + ": " if add_colon else prop,
+                    kind=[sublime.KIND_ID_KEYWORD, "p", "Property"]
+                ))
 
             return (l, sublime.INHIBIT_WORD_COMPLETIONS)
