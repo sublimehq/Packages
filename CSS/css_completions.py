@@ -576,9 +576,10 @@ class CSSCompletions(sublime_plugin.EventListener):
                 suffix = ": $0"
 
         return (
-            sublime.CompletionItem.snippet_completion(
+            sublime.CompletionItem(
                 trigger=prop,
-                snippet=prop + suffix,
+                completion=prop + suffix,
+                completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
                 kind=KIND_CSS_PROPERTY
             ) for prop in self.props
         )
