@@ -17,9 +17,11 @@ jobs:
         run: mv st_syntax_tests/syntax_tests ./
       - name: Cleanup syntax_tests dir
         run: rm -R st_syntax_tests*
+      - name: Cleanup git dir
+        run: rm -R .git*
       - name: Setup Data/Packages/
         run: mkdir -p Data/Packages/
       - name: Move packages into Data dir
-        run: find . -maxdepth 1 -mindepth 1 -type d -not -name 'Data' -exec mv '{}' Data/Packages/ \;
+        run: find . -maxdepth 1 -mindepth 1 -type d -not -name 'Data' -exec mv -v '{}' 'Data/Packages/' \;
       - name: Run syntax tests
         run: ./syntax_tests
