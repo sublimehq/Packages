@@ -303,6 +303,79 @@ x <- 'abc'
 "\n\r"
 #^^^^ constant.character.escape.r
 
+r"(\foo)"
+#<- storage.type.string.r
+#^^ string.quoted.double.r punctuation.definition.string.begin.r
+#  ^ -constant.character.escape.r
+#      ^^ string.quoted.double.r punctuation.definition.string.end.r
+
+r"[\foo]"
+#<- storage.type.string.r
+#^^ string.quoted.double.r punctuation.definition.string.begin.r
+#  ^ -constant.character.escape.r
+#      ^^ string.quoted.double.r punctuation.definition.string.end.r
+
+r"{\foo}"
+#<- storage.type.string.r
+#^^ string.quoted.double.r punctuation.definition.string.begin.r
+#  ^ -constant.character.escape.r
+#      ^^ string.quoted.double.r punctuation.definition.string.end.r
+
+r"-(\foo)-"
+#<- storage.type.string.r
+#^^^ string.quoted.double.r punctuation.definition.string.begin.r
+#   ^ -constant.character.escape.r
+#       ^^^ string.quoted.double.r punctuation.definition.string.end.r
+
+r"--[\foo]--"
+#<- storage.type.string.r
+#^^^^ string.quoted.double.r punctuation.definition.string.begin.r
+#    ^ -constant.character.escape.r
+#        ^^^^ string.quoted.double.r punctuation.definition.string.end.r
+
+r"---{\foo}---"
+#<- storage.type.string.r
+#^^^^^ string.quoted.double.r punctuation.definition.string.begin.r
+#     ^ -constant.character.escape.r
+#         ^^^^^ string.quoted.double.r punctuation.definition.string.end.r
+
+
+R'(\foo)'
+#<- storage.type.string.r
+#^^ string.quoted.single.r punctuation.definition.string.begin.r
+#  ^ -constant.character.escape.r
+#      ^^ string.quoted.single.r punctuation.definition.string.end.r
+
+R'[\foo]'
+#<- storage.type.string.r
+#^^ string.quoted.single.r punctuation.definition.string.begin.r
+#  ^ -constant.character.escape.r
+#      ^^ string.quoted.single.r punctuation.definition.string.end.r
+
+R'{\foo}'
+#<- storage.type.string.r
+#^^ string.quoted.single.r punctuation.definition.string.begin.r
+#  ^ -constant.character.escape.r
+#      ^^ string.quoted.single.r punctuation.definition.string.end.r
+
+R'-(\foo)-'
+#<- storage.type.string.r
+#^^^ string.quoted.single.r punctuation.definition.string.begin.r
+#   ^ -constant.character.escape.r
+#       ^^^ string.quoted.single.r punctuation.definition.string.end.r
+
+R'--[\foo]--'
+#<- storage.type.string.r
+#^^^^ string.quoted.single.r punctuation.definition.string.begin.r
+#    ^ -constant.character.escape.r
+#        ^^^^ string.quoted.single.r punctuation.definition.string.end.r
+
+R'---{\foo}---'
+#<- storage.type.string.r
+#^^^^^ string.quoted.single.r punctuation.definition.string.begin.r
+#     ^ -constant.character.escape.r
+#         ^^^^^ string.quoted.single.r punctuation.definition.string.end.r
+
 
 if (1) {} else {return()}
 #<- keyword.control.conditional.if.r

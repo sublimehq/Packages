@@ -169,6 +169,60 @@ contexts:
       push: function-call-arguments
 
   strings:
+    - match: (R|r)("(-*)\()
+      captures:
+        1: storage.type.string.r
+        2: punctuation.definition.string.begin.r
+      push:
+        - meta_scope: string.quoted.double.r
+        - match: \)(\3)"
+          scope: punctuation.definition.string.end.r
+          pop: true
+    - match: (R|r)("(-*)\{)
+      captures:
+        1: storage.type.string.r
+        2: punctuation.definition.string.begin.r
+      push:
+        - meta_scope: string.quoted.double.r
+        - match: \}(\3)"
+          scope: punctuation.definition.string.end.r
+          pop: true
+    - match: (R|r)("(-*)\[)
+      captures:
+        1: storage.type.string.r
+        2: punctuation.definition.string.begin.r
+      push:
+        - meta_scope: string.quoted.double.r
+        - match: \](\3)"
+          scope: punctuation.definition.string.end.r
+          pop: true
+    - match: (R|r)('(-*)\()
+      captures:
+        1: storage.type.string.r
+        2: punctuation.definition.string.begin.r
+      push:
+        - meta_scope: string.quoted.single.r
+        - match: \)(\3)'
+          scope: punctuation.definition.string.end.r
+          pop: true
+    - match: (R|r)('(-*)\{)
+      captures:
+        1: storage.type.string.r
+        2: punctuation.definition.string.begin.r
+      push:
+        - meta_scope: string.quoted.single.r
+        - match: \}(\3)'
+          scope: punctuation.definition.string.end.r
+          pop: true
+    - match: (R|r)('(-*)\[)
+      captures:
+        1: storage.type.string.r
+        2: punctuation.definition.string.begin.r
+      push:
+        - meta_scope: string.quoted.single.r
+        - match: \](\3)'
+          scope: punctuation.definition.string.end.r
+          pop: true
     - match: '"'
       scope: punctuation.definition.string.begin.r
       push:
