@@ -1465,43 +1465,63 @@ contexts:
       scope: meta.tag.inline.phpdoc.php
       captures:
         1: keyword.other.phpdoc.php
-  regex-double-quoted:
-    - match: (?="/(\\.|[^"/])+/[eimsuxADJSUX]*")
+  regex-double-quoted-branch:
+    - match: (")(/)
+      captures:
+        1: punctuation.definition.string.begin.php
+        2: punctuation.definition.string.regex-delimiter.begin.php
       push:
         - meta_scope: meta.string.php string.quoted.double.php
-        - match: (")(/)
-          captures:
-            1: punctuation.definition.string.begin.php
-            2: punctuation.definition.string.regex-delimiter.begin.php
         - match: (/)([eimsuxADJSUX]*)(")
           captures:
             1: punctuation.definition.string.regex-delimiter.end.php
             2: meta.regex.modifier.php
             3: punctuation.definition.string.end.php
+          pop: 2 # branch successful matched
+        - match: (?=")
           pop: true
         - match: ''
           push: scope:source.regexp.php
           with_prototype:
-            - match: (?=(/)([eimsuxADJSUX]*)("))
+            - match: (?=(/)([eimsuxADJSUX]*)(")|")
               pop: true
             - include: interpolation
-  regex-single-quoted:
-    - match: (?='/(\\.|[^'/])+/[eimsuxADJSUX]*')
+            - match: \\"
+              scope: constant.character.escape
+    - match: ''
+      fail: branch-point-double-quoted
+  regex-single-quoted-branch:
+    - match: (')(/)
+      captures:
+        1: punctuation.definition.string.begin.php
+        2: punctuation.definition.string.regex-delimiter.begin.php
       push:
         - meta_scope: meta.string.php string.quoted.single.php
-        - match: (')(/)
-          captures:
-            1: punctuation.definition.string.begin.php
-            2: punctuation.definition.string.regex-delimiter.begin.php
         - match: (/)([eimsuxADJSUX]*)(')
           captures:
             1: punctuation.definition.string.regex-delimiter.end.php
             2: meta.regex.modifier.php
             3: punctuation.definition.string.end.php
+          pop: 2 # branch successful matched
+        - match: (?=')
           pop: true
         - match: ''
-          embed: scope:source.regexp.php
-          escape: (?=(/)([eimsuxADJSUX]*)('))
+          push: scope:source.regexp.php
+          with_prototype:
+            - match: (?=(/)([eimsuxADJSUX]*)(')|')
+              pop: true
+            - match: \\'
+              scope: constant.character.escape
+    - match: ''
+      fail: branch-point-single-quoted
+  string-double-quoted-branch:
+    - include: string-double-quoted
+    - match: ''
+      pop: true
+  string-single-quoted-branch:
+    - include: string-single-quoted
+    - match: ''
+      pop: true
   string-backtick:
     - match: "`"
       scope: punctuation.definition.string.begin.php
@@ -1571,10 +1591,16 @@ contexts:
               scope: constant.character.escape.php
 
   strings:
-    - include: regex-double-quoted
-    - include: string-double-quoted
-    - include: regex-single-quoted
-    - include: string-single-quoted
+    - match: (?=")
+      branch_point: branch-point-double-quoted
+      branch:
+        - regex-double-quoted-branch
+        - string-double-quoted-branch
+    - match: (?=')
+      branch_point: branch-point-single-quoted
+      branch:
+        - regex-single-quoted-branch
+        - string-single-quoted-branch
   support:
     - match: |-
         \b(?xi:

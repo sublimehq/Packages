@@ -1332,6 +1332,28 @@ preg_replace("/a{,6}b{3,}c{3,6}/");
 //                   ^^^^ keyword.operator.quantifier.regexp
 //                        ^^^^^ keyword.operator.quantifier.regexp
 
+$regex = '/
+    a{,6}
+//   ^^^^ keyword.operator.quantifier.regexp
+    b{3,}
+//   ^^^^ keyword.operator.quantifier.regexp
+    c{3,6}
+//   ^^^^^ keyword.operator.quantifier.regexp
+/ux';
+
+$regex = '/foo?/ux';
+//            ^ keyword.operator.quantifier.regexp
+
+$not_regex = 'foo?';
+//               ^ string - source.regexp
+
+$not_regex = '/foo?';
+//                ^ string - source.regexp
+
+// there is no "T" regex modifier
+$not_regex = '/foo?/uTx';
+//                ^ string - source.regexp
+
 echo <<<EOT
 //   ^^^^^^ punctuation.definition.string
 //      ^^^ keyword.operator.heredoc
