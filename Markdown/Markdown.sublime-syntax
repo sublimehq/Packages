@@ -180,7 +180,21 @@ variables:
     #     \s*$      # any amount of whitespace until EOL
     #   )
 contexts:
+  file-start:
+    - match: ^---$\n
+      scope: punctuation.section.block.begin.frontmatter.yaml.markdown
+      embed: scope:source.yaml
+      embed_scope: source.yaml.embedded
+      escape: ^---(?=\s)
+      escape_captures:
+        0: punctuation.section.block.end.frontmatter.yaml.markdown
+
   main:
+    - include: file-start
+    - match: ''
+      push: default
+
+  default:
     - match: |-
         (?x)^
         (?=  {{block_quote}}
