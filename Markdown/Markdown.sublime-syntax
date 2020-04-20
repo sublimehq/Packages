@@ -29,7 +29,7 @@ variables:
     atx_heading: (?:[#]{1,6}\s*)             # between 1 and 6 hashes, followed by any amount of whitespace
     indented_code_block: (?:[ ]{4}|\t)       # 4 spaces or a tab
     list_item: (?:[ ]{,3}(?=\d+\.|[*+-])\d*([*+.-])\s) # between 0 and 3 spaces, followed by either: at least one integer and a full stop, or (a star, plus or dash), followed by whitespace
-    escape: '\\[-`*_#+.!(){}\[\]\\>|~]'
+    escape: '\\[-`*_#+.!(){}\[\]\\>|~<]'
     backticks: |-
         (?x:
             (`{4})(?![\s`])(?:[^`]+(?=`)|(?!`{4})`+(?!`))+(`{4})(?!`)  # 4 backticks, followed by at least one non whitespace, non backtick character, followed by (less than 4 backticks, or at least one non backtick character) at least once, followed by exactly 4 backticks

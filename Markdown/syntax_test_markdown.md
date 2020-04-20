@@ -278,7 +278,7 @@ Paragraph break.
 	<tag>
 |^^^^^ markup.list.unnumbered.markdown meta.paragraph.list.markdown markup.raw.code-fence.xml.markdown-gfm text.xml meta.tag.xml
 	```
-|^^^ markup.list.unnumbered.markdown meta.paragraph.list.markdown meta.code-fence.definition.end.xml.markdown-gfm punctuation.definition.raw.code-fence.end.markdown  
+|^^^ markup.list.unnumbered.markdown meta.paragraph.list.markdown meta.code-fence.definition.end.xml.markdown-gfm punctuation.definition.raw.code-fence.end.markdown
 
 Paragraph break.
 
@@ -2048,3 +2048,8 @@ end
 > > -= += /= %= -- ++ ** !~ =~ ~~ <= >= => <=> // && == !=
 | ^ meta.block-level.markdown markup.quote.markdown markup.quote.markdown punctuation.definition.blockquote.markdown
 |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-level - constant - keyword - variable
+
+\<div>
+|<- constant.character.escape
+|^ constant.character.escape
+|^^^^^^ - meta.tag
