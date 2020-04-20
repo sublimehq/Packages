@@ -2053,3 +2053,8 @@ end
 |<- constant.character.escape
 |^ constant.character.escape
 |^^^^^^ - meta.tag
+
+\<div\>
+|^ constant.character.escape
+|^^^^^^ - meta.tag
+|    ^^ constant.character.escape
