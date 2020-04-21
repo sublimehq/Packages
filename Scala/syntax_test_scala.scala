@@ -2208,3 +2208,16 @@ foo ne bar
 //        ^ punctuation.accessor.scala
 }
 
+a: B
+
+{
+  case (_: A | _: B | (_: D)) | _: C =>
+//       ^ punctuation.ascription.scala
+//           ^ keyword.operator.or.scala
+//              ^ punctuation.ascription.scala
+//                  ^ keyword.operator.or.scala
+//                    ^ punctuation.section.group.begin.scala
+//                      ^ punctuation.ascription.scala
+//                         ^ punctuation.section.group.end.scala
+//                            ^ keyword.operator.or.scala
+}
