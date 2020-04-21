@@ -2202,3 +2202,6 @@ foo eq bar
 
 foo ne bar
 //  ^^ keyword.operator.comparison.scala
+
+completed: F[_ >: A] => B)
+//             ^^ keyword.operator.bound.scala
