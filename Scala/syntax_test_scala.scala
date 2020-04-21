@@ -2202,3 +2202,13 @@ foo eq bar
 
 foo ne bar
 //  ^^ keyword.operator.comparison.scala
+
+type abc = _ \/ a
+//         ^ variable.language.underscore.scala
+//           ^^ support.type.scala
+//              ^ support.type.scala
+
+{
+  case _: _ \/ a =>
+//          ^^ - support.type
+}
