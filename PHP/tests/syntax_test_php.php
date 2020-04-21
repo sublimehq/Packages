@@ -270,6 +270,120 @@ $var->meth()[10];
 //          ^ punctuation.section.brackets.begin.php
 //             ^ punctuation.section.brackets.end.php
 
+@@@@@@@@@@ExampleAttribute
+// <- keyword.operator.error-control
+//^^^^^^ keyword.operator.error-control
+//      ^^ punctuation.definition.attribute
+//        ^^^^^^^^^^^^^^^^ meta.path
+@@WithoutArgument
+//^^^^^^^^^^^^^^^ meta.attribute
+// <- punctuation.definition.attribute
+// ^^^^^^^^^^^^^^ meta.path
+@@WithoutArgument()
+//^^^^^^^^^^^^^^^^^ meta.attribute
+// <- punctuation.definition.attribute
+// ^^^^^^^^^^^^^^ meta.path
+@@SingleArgument(0)
+//^^^^^^^^^^^^^^^^^ meta.attribute
+// <- punctuation.definition.attribute
+// ^^^^^^^^^^^^^ meta.path
+@@FewArguments('Hello', 'World')
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
+// <- punctuation.definition.attribute
+// ^^^^^^^^^^^ meta.path
+//             ^^^^^^^ string.quoted
+//                      ^^^^^^^ string.quoted
+@@FewArguments(PDO::class, PHP_VERSION_ID)
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
+// <- punctuation.definition.attribute
+// ^^^^^^^^^^^ meta.path
+//             ^^^ support.class
+//                ^^ punctuation.accessor
+//                         ^^^^^^^^^^^^^^ support.constant
+@@\My\Attributes\FewArguments("foo", "bar")
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
+// <- punctuation.definition.attribute
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path
+//                            ^^^^^ string.quoted
+//                                   ^^^^^ string.quoted
+/** docblock */
+// <- comment.block
+@@BitShiftExample(4 >> 1, 4 << 1)
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
+// <- punctuation.definition.attribute
+//                  ^^ keyword.operator.bitwise
+//                          ^^ keyword.operator.bitwise
+function foo() {}
+// <- storage.type.function
+
+@@JoinTable(
+//^^^^^^^^^^ meta.attribute
+// <- punctuation.definition.attribute
+//^^^^^^^^^ support.class
+    "User_Group",
+//  ^^^^^^^^^^^^ string.quoted.double
+    @@JoinColumn("User_id", "id"),
+//  ^^ punctuation.definition.attribute
+//    ^^^^^^^^^ support.class
+    @@JoinColumn("Group_id", "id"),
+//  ^^ punctuation.definition.attribute
+//    ^^^^^^^^^ support.class
+)
+// <- meta.attribute
+// ^ - meta.attribute
+function foo() {}
+// <- storage.type.function
+
+@@ExampleAttribute
+//^^^^^^^^^^^^^^^^ meta.attribute
+// <- punctuation.definition.attribute
+// ^^^^^^^^^^^^^^^ meta.path
+class Foo
+{
+    @@ExampleAttribute
+//  ^^^^^^^^^^^^^^^^^^ meta.attribute
+//  ^^ punctuation.definition.attribute
+//    ^^^^^^^^^^^^^^^^ meta.path
+    public const FOO = 'foo';
+
+    @@ExampleAttribute
+//  ^^^^^^^^^^^^^^^^^^ meta.attribute
+//  ^^ punctuation.definition.attribute
+//    ^^^^^^^^^^^^^^^^ meta.path
+    public $x;
+
+    @@ExampleAttribute // comment
+//  ^^^^^^^^^^^^^^^^^^ meta.attribute
+//  ^^ punctuation.definition.attribute
+//    ^^^^^^^^^^^^^^^^ meta.path
+//                       ^^^^^^^^^^ comment
+    public function foo(@@ExampleAttribute \Foo\Bar $bar) { }
+//                      ^^^^^^^^^^^^^^^^^^ meta.attribute
+//                      ^^ punctuation.definition.attribute
+//                        ^^^^^^^^^^^^^^^^ meta.path
+//                                         ^^^^^^^^ meta.path
+//                                                  ^^^^ variable.parameter
+}
+
+$object = new @@ExampleAttribute class () { };
+//            ^^^^^^^^^^^^^^^^^^ meta.attribute
+//            ^^ punctuation.definition.attribute
+//              ^^^^^^^^^^^^^^^^ meta.path
+//                               ^^^^^ storage.type
+
+$f2 = @@ExampleAttribute function () { };
+//    ^^^^^^^^^^^^^^^^^^ meta.attribute
+//    ^^ punctuation.definition.attribute
+//      ^^^^^^^^^^^^^^^^ meta.path
+//                       ^^^^^^^^ storage.type
+
+$f3 = @@ExampleAttribute fn () => 1;
+//    ^^^^^^^^^^^^^^^^^^ meta.attribute
+//    ^^ punctuation.definition.attribute
+//      ^^^^^^^^^^^^^^^^ meta.path
+//                       ^^ storage.type
+//                             ^^ punctuation.definition.arrow-function
+
 /**
    No longer a phpdoc comment since no leading *
  * @return

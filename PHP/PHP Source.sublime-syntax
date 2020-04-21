@@ -111,6 +111,7 @@ contexts:
         - include: statements
 
   expressions:
+    - include: attributes
     - include: comments
     - match: (?i)\b((?:require|include)(?:_once)?)\b\s*
       captures:
@@ -143,6 +144,7 @@ contexts:
         2: punctuation.section.group.begin.php
       push:
         - meta_scope: meta.catch.php
+        - include: attributes
         - include: comments
         - include: identifier-parts-as-path
         - match: \)
@@ -355,11 +357,33 @@ contexts:
         - match: ''
           pop: true
 
+  attributes:
+    # https://wiki.php.net/rfc/attributes_v2
+    # https://wiki.php.net/rfc/attribute_amendments
+    # https://wiki.php.net/rfc/shorter_attribute_syntax
+    - match: '@@(?=[\\\w])'
+      scope: punctuation.definition.attribute.php
+      push:
+        - meta_scope: meta.attribute.php
+        - include: class-name
+        - match: \(
+          scope: punctuation.section.group.begin.php
+          set:
+            - meta_scope: meta.attribute.php meta.group.php
+            - match: \)
+              scope: punctuation.section.group.end.php
+              pop: true
+            - match: ','
+              scope: punctuation.separator.php
+            - include: expressions
+        - match: ''
+          pop: true
+
   class-builtin:
     - match: |-
         (?xi)(\\)?\b(
           AMQPConnection | AMQPExchange | AMQPQueue | APCIterator | AppendIterator | ArgumentCountError | ArithmeticError | ArrayAccess | ArrayIterator | ArrayObject |
-          AssertionError | BadFunctionCallException | BadMethodCallException | CachingIterator | Collator | CompileError | Countable | DivisionByZeroError | DOMAttr | DOMCharacterData | DOMComment |
+          AssertionError | Attribute | BadFunctionCallException | BadMethodCallException | CachingIterator | Collator | CompileError | Countable | DivisionByZeroError | DOMAttr | DOMCharacterData | DOMComment |
           DOMDocument | DOMDocumentFragment | DOMElement | DOMEntityReference | DOMImplementation | DOMNamedNodeMap | DOMNode | DOMNodelist |
           DOMProcessingInstruction | DOMText | DOMXPath | DateInterval | DatePeriod | DateTime | DateTimeImmutable | DateTimeInterface | DateTimeZone | DirectoryIterator |
           DomAttribute | DomDocument | DomDocumentType | DomElement | DomNode | DomProcessingInstruction | DomXsltStylesheet | DomainException |
@@ -373,7 +397,7 @@ contexts:
           MongoDate | MongoGridFS | MongoGridFSCursor | MongoGridFSFile | MongoGridfsFile | MongoId | MongoInt32 | MongoInt64 |
           MongoRegex | MongoTimestamp | MultipleIterator | NoRewindIterator | Normalizer | NumberFormatter | OCI-Collection | OCI-Lob |
           OutOfBoundsException | OutOfRangeException | OuterIterator | OverflowException | PDO | PDOStatement | ParentIterator | ParseError | Phar |
-          PharData | PharFileInfo | PhpToken | RRDCreator | RRDGraph | RRDUpdater | RangeException | RecursiveArrayIterator | RecursiveCachingIterator |
+          PharData | PharFileInfo  | PhpCompilerAttribute | PhpToken | RRDCreator | RRDGraph | RRDUpdater | RangeException | RecursiveArrayIterator | RecursiveCachingIterator |
           RecursiveDirectoryIterator | RecursiveFilterIterator | RecursiveIterator | RecursiveIteratorIterator | RecursiveRegexIterator | RecursiveTreeIterator | Reflection | ReflectionClass |
           ReflectionExtension | ReflectionFunction | ReflectionFunctionAbstract | ReflectionMethod | ReflectionObject | ReflectionParameter | ReflectionProperty | Reflector |
           RegexIterator | ResourceBundle | RuntimeException | SAMConnection | SAMMessage | SCA | SCA_LocalProxy | SCA_SoapProxy |
@@ -411,6 +435,7 @@ contexts:
           pop: true
 
   use-statement-common:
+    - include: attributes
     - include: comments
     - match: (?i)\bas\b
       scope: keyword.other.use-as.php
@@ -420,6 +445,7 @@ contexts:
   use-statement-identifier-class-def:
     - match: '(?={{path}})'
       push:
+        - include: attributes
         - include: comments
         # We are going to assume the alias is for a class so that the identifier
         # gets put into the index. This will be incorrect sometimes (because it
@@ -428,6 +454,7 @@ contexts:
         - match: '(?i)\b(as)\b'
           scope: keyword.other.use-as.php
           push:
+            - include: attributes
             - include: comments
             - match: '{{identifier}}'
               scope: entity.name.class.php
@@ -464,10 +491,12 @@ contexts:
   use-statement-identifier-function-def:
     - match: '(?={{path}})'
       push:
+        - include: attributes
         - include: comments
         - match: '(?i)\b(as)\b'
           scope: keyword.other.use-as.php
           push:
+            - include: attributes
             - include: comments
             - match: '{{identifier}}'
               scope: entity.name.function.php
@@ -531,6 +560,7 @@ contexts:
     - match: '\{'
       scope: meta.block.php punctuation.section.block.php
       set: class-body
+    - include: attributes
     - include: comments
     - match: (?i)(extends)\b\s*
       captures:
@@ -538,6 +568,7 @@ contexts:
       push:
         - match: '(?=implements)'
           pop: true
+        - include: attributes
         - include: comments
         - match: '(?={{path}})'
           set:
@@ -556,6 +587,7 @@ contexts:
       captures:
         1: storage.modifier.implements.php
       push:
+        - include: attributes
         - include: comments
         - match: '(?={{path}})'
           push:
@@ -575,6 +607,7 @@ contexts:
 
   class-body:
     - meta_content_scope: meta.class.php meta.block.php
+    - include: attributes
     - include: comments
     - match: '\}'
       scope: meta.class.php meta.block.php punctuation.section.block.php
@@ -593,6 +626,7 @@ contexts:
             - match: '}'
               scope: punctuation.section.block.php
               pop: true
+            - include: attributes
             - include: comments
             - match: \b(as)\b
               scope: keyword.other.use-as.php
@@ -610,6 +644,7 @@ contexts:
                     1: punctuation.separator.namespace.php
                 - match: ''
                   pop: true
+        - include: attributes
         - include: comments
         - include: class-builtin
         - match: (?={{path}})
@@ -642,6 +677,7 @@ contexts:
     - match: (?i)(?=(?:\b(?:final|abstract|var|public|private|protected|static)\s+)*\bfunction\b\s*(&\s*)?{{identifier_start}})
       push:
         - meta_content_scope: meta.function.php
+        - include: attributes
         - include: comments
         - match: '(?i)\b(final|abstract|var|public|private|protected|static)\b'
           scope: storage.modifier.php
@@ -691,6 +727,7 @@ contexts:
             - match: '(?=;|,|\)|\s*\?>)'
               pop: 2
             - include: expressions
+        - include: attributes
         - include: comments
         - match: (?=\S)
           fail: arrow-function-branch
@@ -731,6 +768,7 @@ contexts:
         # Exit on unexpected content
         - match: (?=\S)
           pop: true
+    - include: attributes
     - include: comments
     - match: \b(array|callable|int|string|bool|float|object)\b
       scope: storage.type.php
@@ -755,6 +793,7 @@ contexts:
 
   function-use:
     - meta_content_scope: meta.function.closure.use.php
+    - include: attributes
     - include: comments
     - match: '\)'
       scope: punctuation.section.group.end.php
@@ -1039,7 +1078,7 @@ contexts:
             1: punctuation.separator.namespace.php
         - match: |-
             (\\)?\b(?x:
-              T_ABSTRACT | T_AND_EQUAL | T_ARRAY | T_ARRAY_CAST | T_AS | T_BAD_CHARACTER | T_BOOLEAN_AND | T_BOOLEAN_OR |
+              T_ABSTRACT | T_AND_EQUAL | T_ARRAY | T_ARRAY_CAST | T_AS | T_ATTRIBUTE | T_BAD_CHARACTER | T_BOOLEAN_AND | T_BOOLEAN_OR |
               T_BOOL_CAST | T_BREAK | T_CASE | T_CATCH | T_CHARACTER | T_CLASS | T_CLASS_C | T_CLONE |
               T_CLOSE_TAG | T_COMMENT | T_CONCAT_EQUAL | T_CONST | T_CONSTANT_ENCAPSED_STRING | T_CONTINUE | T_CURLY_OPEN | T_DEC |
               T_DECLARE | T_DEFAULT | T_DIR | T_DIV_EQUAL | T_DNUMBER | T_DO | T_DOC_COMMENT | T_DOLLAR_OPEN_CURLY_BRACES |
