@@ -2202,3 +2202,8 @@ foo eq bar
 
 foo ne bar
 //  ^^ keyword.operator.comparison.scala
+
+    _()
+//  ^ variable.language.underscore.scala
+//   ^ punctuation.section.group.begin.scala
+//    ^ punctuation.section.group.end.scala

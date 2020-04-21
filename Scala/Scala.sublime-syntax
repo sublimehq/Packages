@@ -1048,6 +1048,7 @@ contexts:
       scope: keyword.operator.assignment.scala
     - match: '_'
       scope: variable.language.underscore.scala
+      push: try-dispatch
     - match: '\.'
       scope: punctuation.accessor.scala
     - match: ','
