@@ -1510,6 +1510,8 @@ contexts:
           pop: true
     - match: '\b{{varid}}'
       scope: variable.parameter.scala   # not indexed!
+    - match: \.
+      scope: punctuation.accessor.scala
     - match: '{{op}}'   # let it fall through
     - match: \[
       push:

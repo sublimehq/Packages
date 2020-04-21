@@ -2202,3 +2202,9 @@ foo eq bar
 
 foo ne bar
 //  ^^ keyword.operator.comparison.scala
+
+{
+  case Foo.Bar =>
+//        ^ punctuation.accessor.scala
+}
+
