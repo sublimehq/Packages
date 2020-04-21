@@ -2286,8 +2286,8 @@ contexts:
           lcfirst | levenshtein | localeconv | ltrim | md5 | md5_file | metaphone | money_format |
           nl2br | nl_langinfo | number_format | ord | parse_str | print | printf | quoted_printable_decode |
           quoted_printable_encode | quotemeta | rtrim | setlocale | sha1 | sha1_file | similar_text | soundex |
-          sprintf | sscanf | str_contains | str_getcsv | str_ireplace | str_pad | str_repeat | str_replace | str_rot13 |
-          str_shuffle | str_split | str_word_count | strcasecmp | strchr | strcmp | strcoll | strcspn |
+          sprintf | sscanf | str_contains | str_ends_with | str_getcsv | str_ireplace | str_pad | str_repeat | str_replace | str_rot13 |
+          str_shuffle | str_split | str_starts_with | str_word_count | strcasecmp | strchr | strcmp | strcoll | strcspn |
           strip_tags | stripcslashes | stripos | stripslashes | stristr | strlen | strnatcasecmp | strnatcmp |
           strncasecmp | strncmp | strpbrk | strpos | strrchr | strrev | strripos | strrpos |
           strspn | strstr | strtok | strtolower | strtoupper | strtr | substr | substr_compare |
