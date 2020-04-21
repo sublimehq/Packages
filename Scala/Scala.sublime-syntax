@@ -1774,6 +1774,8 @@ contexts:
     - match: (?=@{{plainid}})
       set:
         - include: annotation
+        - match: \n
+          pop: true
         - match: '(?=\S)'
           set: single-type-expression-tail
     - match: '[\.#]'

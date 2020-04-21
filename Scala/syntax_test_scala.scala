@@ -2202,3 +2202,9 @@ foo eq bar
 
 foo ne bar
 //  ^^ keyword.operator.comparison.scala
+
+{
+   type Apply = F @uncheckedVariance
+   type A
+// ^^^^ storage.type.scala
+//      ^ entity.name.type.scala
