@@ -2202,3 +2202,11 @@ foo eq bar
 
 foo ne bar
 //  ^^ keyword.operator.comparison.scala
+
+f[F[Throwable, +?]]
+//             ^ keyword.operator.bound.scala
+//              ^ variable.language.hole.scala
+
+f[F[Throwable, -?]]
+//             ^ keyword.operator.bound.scala
+//              ^ variable.language.hole.scala

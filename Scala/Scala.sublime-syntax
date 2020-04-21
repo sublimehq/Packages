@@ -1593,8 +1593,10 @@ contexts:
   delimited-type-expression:
     - include: annotation
     # kind-projector support
-    - match: '\?|\*'
-      scope: variable.language.hole.scala
+    - match: '([+-])?([?*])'
+      captures:
+        1: keyword.operator.bound.scala
+        2: variable.language.hole.scala
     # \x{03BB} = λ
     - match: '\bLambda\b|\x{03BB}'
       scope: keyword.operator.type-lambda.scala
