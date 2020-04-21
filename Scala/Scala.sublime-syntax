@@ -927,6 +927,8 @@ contexts:
           set:
             - match: '(?=\s+with\b)'
               set: initialization-body
+            - match: '(?=\s*\()'    # this catches multi-parameter-block constructors
+              set: initialization-term-tail
             - match: '(?=.)'
               pop: true
         - include: main

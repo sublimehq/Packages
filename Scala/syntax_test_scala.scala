@@ -2202,3 +2202,11 @@ foo eq bar
 
 foo ne bar
 //  ^^ keyword.operator.comparison.scala
+
+new Foo()() with Bar
+//     ^ punctuation.section.group.begin.scala
+//      ^ punctuation.section.group.end.scala
+//       ^ punctuation.section.group.begin.scala
+//        ^ punctuation.section.group.end.scala
+//          ^^^^ keyword.declaration.scala
+//               ^^^ support.class.scala
