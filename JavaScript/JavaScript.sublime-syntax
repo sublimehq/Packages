@@ -42,10 +42,11 @@ variables:
 
   non_reserved_identifier: (?:(?!{{reserved_word}}){{identifier}})
 
-  dot_accessor: (?:\??\.)
   either_func_lookahead: (?:{{func_lookahead}}|{{arrow_func_lookahead}})
   binding_pattern_lookahead: (?:{{identifier}}|\[|\{)
-  left_expression_end_lookahead: (?!\s*({{dot_accessor}}|[\[\(]))
+  left_expression_end_lookahead: (?!\s*[.\[\(])
+
+  dot_accessor: (?:\??\.)
 
   property_name: >-
     (?x:
@@ -1356,7 +1357,7 @@ contexts:
   function-assignment:
     - match: |-
         (?x)(?=
-          (?:{{identifier}} \s* {{dot_accessor}} \s*)*
+          (?:{{identifier}} \s* \. \s*)*
           {{identifier}}
           \s* = \s*
           {{either_func_lookahead}}
