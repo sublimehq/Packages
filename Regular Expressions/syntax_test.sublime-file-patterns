@@ -1,0 +1,12 @@
+# SYNTAX TEST "Packages/Regular Expressions/File Pattern.sublime-syntax"
+
+*.py
+# <- keyword.operator.wildcard
+*/bar.py
+# <- variable.language
+src/**/foo.java
+#   ^^ invalid.illegal
+*.cs, *.py
+#   ^ punctuation.separator
+-node_modules/
+# <- keyword.operator.logical
