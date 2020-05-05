@@ -5,7 +5,7 @@
 		"command": "insert_snippet",
 		"args": {"contents": "'"},
 		"context": [
-			{"key": "selector", "operator": "equal", "operand": "source.clojure", "match_all": true},
+			{"key": "selector", "operator": "equal", "operand": "source.clojure | source.clojurescript", "match_all": true},
 			{"key": "selector", "operator": "not_equal", "operand": "comment", "match_all": true},
 			{"key": "selector", "operator": "not_equal", "operand": "string", "match_all": true},
 		]
@@ -17,7 +17,7 @@
 		"command": "insert_snippet",
 		"args": {"contents": "{${0:$SELECTION}}"},
 		"context": [
-			{"key": "selector", "operator": "equal", "operand": "source.clojure", "match_all": true},
+			{"key": "selector", "operator": "equal", "operand": "source.clojure | source.clojurescript", "match_all": true},
 			{"key": "selection_empty", "operator": "equal", "operand": true, "match_all": true},
 			{"key": "following_text", "operator": "regex_match", "operand": "\\S|$", "match_all": true},
 			{"key": "setting.auto_match_enabled", "operator": "equal", "operand": true, "match_all": true},
