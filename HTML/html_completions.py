@@ -1,6 +1,8 @@
 import sublime, sublime_plugin
 import re
 
+import html.entities
+
 
 def match(rex, str):
     m = rex.match(str)
@@ -17,6 +19,15 @@ def make_completion(tag, completion=None):
         completion=completion,
         completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
         kind=(sublime.KIND_ID_MARKUP, 't', 'Tag')
+    )
+
+def make_entity_completion(entity, rendered_char=None):
+    return sublime.CompletionItem(
+        trigger=entity,
+        completion=entity if entity.endswith(';') else f'{entity};',
+        completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
+        kind=(sublime.KIND_ID_MARKUP, 'e', 'Entity'),
+        details=f'Renders as <code>{rendered_char}</code>' if rendered_char else None
     )
 
 def get_tag_to_attributes():
@@ -231,6 +242,11 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
         # print('ch:', ch)
 
         completion_list = []
+
+        if ch == '&':
+            completion_list = self.entity_completion_list()
+            return (completion_list, sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS)
+
         if is_inside_tag and ch != '<':
             if ch in [' ', '\t', '\n']:
                 # maybe trying to type an attribute
@@ -256,6 +272,27 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
             flags = sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS
 
         return (completion_list, flags)
+
+    def entity_completion_list(self):
+        completions = [
+            sublime.CompletionItem(
+                trigger='#00;',
+                completion='#${1:00};',
+                completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
+                kind=(sublime.KIND_ID_MARKUP, 'e', 'Entity'),
+                details='Base-10 Unicode',
+            ),
+            sublime.CompletionItem(
+                trigger='#x0000;',
+                completion='#x${1:0000};',
+                completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
+                kind=(sublime.KIND_ID_MARKUP, 'e', 'Entity'),
+                details='Base-16 Unicode',
+            ),
+        ]
+        for ent in html.entities.html5:
+            completions.append(make_entity_completion(ent, html.entities.html5[ent]))
+        return completions
 
     def default_completion_list(self):
         """
