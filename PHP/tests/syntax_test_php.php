@@ -1150,6 +1150,10 @@ class B
 //      ^^^^^^^^ storage.type
 //               ^ punctuation.definition.variable
 //                ^^^^^^ variable.parameter
+        mixed $param3,
+//      ^^^^^ storage.type
+//            ^ punctuation.definition.variable
+//             ^^^^^^ variable.parameter
         $param4
 //      ^ punctuation.definition.variable
 //       ^^^^^^ variable.parameter

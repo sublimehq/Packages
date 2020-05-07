@@ -344,7 +344,7 @@ contexts:
         - match: |-
             \b(?xi:
               array | bool | callable | double | float | int | iterable |
-              object | string | false | null | void | parent | self | static
+              object | string | false | null | void | parent | self | static | mixed
             )\b
           scope: storage.type.php
         - include: class-builtin
