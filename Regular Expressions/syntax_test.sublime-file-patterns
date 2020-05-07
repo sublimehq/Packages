@@ -2,11 +2,25 @@
 
 *.py
 # <- keyword.operator.wildcard
+#^^^ meta.path
+#   ^ - meta.path
 */bar.py
 # <- variable.language
 src/**/foo.java
 #   ^^ invalid.illegal
 *.cs, *.py
 #   ^ punctuation.separator
+*.cs, -.aspx.cs
+#   ^^ - meta.path
+#   ^ punctuation.separator
+#     ^ keyword.operator.logical
+*.cs,-*.aspx.cs
+#   ^ punctuation.separator - meta.path
+#    ^ keyword.operator.logical
+#     ^ keyword.operator.wildcard
 -node_modules/
 # <- keyword.operator.logical
+ssh-agent
+#  ^ - keyword
+node_modules,-//ngx/node_modules
+#             ^^ constant.language
