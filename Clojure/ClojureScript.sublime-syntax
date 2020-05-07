@@ -3,7 +3,7 @@
 # https://www.sublimetext.com/docs/3/syntax.html
 
 name: ClojureScript
-scope: source.clojurescript
+scope: source.clojure.clojurescript
 
 file_extensions:
   - cljs
