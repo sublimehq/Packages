@@ -212,12 +212,12 @@ contexts:
       - include: tag-attributes
 
   entities:
-    - match: (&#[xX])\h+(;)
+    - match: (&#[xX])[01]?\h{1,5}(;)
       scope: constant.character.entity.hexadecimal.html
       captures:
         1: punctuation.definition.entity.html
         2: punctuation.terminator.entity.html
-    - match: (&#)[0-9]+(;)
+    - match: (&#)[0-9]{1,7}(;)
       scope: constant.character.entity.decimal.html
       captures:
         1: punctuation.definition.entity.html
