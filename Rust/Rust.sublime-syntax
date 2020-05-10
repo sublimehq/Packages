@@ -624,6 +624,8 @@ contexts:
         - match: ','
           scope: punctuation.separator.rust
         - include: type-any-identifier
+    - match: '\+'
+      scope: keyword.operator.rust
     - match: \bextern\b
       scope: keyword.other.rust
       push:
@@ -1139,7 +1141,7 @@ contexts:
     - match: '(?=\bwhere\b)'
       set: fn-where
     - include: return-type
-    # Escape for incomplete expression
+    # Escape for incomplete expression, or ';'
     - match: '(?=\S)'
       pop: true
 
@@ -1153,7 +1155,8 @@ contexts:
     - include: type-any-identifier
     - match: '[:,]'
       scope: punctuation.separator.rust
-    - match: ';'
+    # Escape for incomplete expression, or ';'
+    - match: '(?=\S)'
       pop: true
 
   fn-body:

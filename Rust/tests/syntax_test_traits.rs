@@ -7,6 +7,18 @@ pub trait Animal {
     fn noise(quiet: bool) {
         // Comment
     }
+
+    // Some tests for no-body functions.
+    fn bare_semi();
+//  ^^^^^^^^^^^^^^ meta.function
+//                ^ punctuation.terminator
+    fn where_semi<X>() where X: Ord + PartialOrd;
+//                     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function meta.where
+//                                  ^ keyword.operator.rust
+//                                              ^ punctuation.terminator
+    fn return_semi() -> bool;
+//                   ^^^^^^^ meta.function meta.function.return-type
+//                          ^ punctuation.terminator
 }
 // <- meta.trait meta.block punctuation.section.block.end
 
