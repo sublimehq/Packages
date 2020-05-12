@@ -191,6 +191,9 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
     Provide tag completions for HTML
     It matches just after typing the first letter of a tag name
     """
+
+    KIND_ENTITY = (sublime.KIND_ID_MARKUP, 'e', 'Entity')
+
     def __init__(self):
         completion_list = self.default_completion_list()
         self.prefix_completion_dict = {}
@@ -264,37 +267,34 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
         return (completion_list, flags)
 
     def entity_completion_list(self):
-        completions = [
+        return [
             sublime.CompletionItem(
                 trigger='#00;',
                 completion='#${1:00};',
                 completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
-                kind=(sublime.KIND_ID_MARKUP, 'e', 'Entity'),
+                kind=self.KIND_ENTITY,
                 details='Base-10 Unicode character',
             ),
             sublime.CompletionItem(
                 trigger='#x0000;',
                 completion='#x${1:0000};',
                 completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
-                kind=(sublime.KIND_ID_MARKUP, 'e', 'Entity'),
+                kind=self.KIND_ENTITY,
                 details='Base-16 Unicode character',
             ),
-        ]
-
-        completions += [
-            sublime.CompletionItem(
-                trigger=entity,
-                annotation=printed,
-                completion=entity,
-                completion_format=sublime.COMPLETION_FORMAT_TEXT,
-                kind=(sublime.KIND_ID_MARKUP, 'e', 'Entity'),
-                details=f'Renders as <code>{printed}</code>',
+            *(
+                sublime.CompletionItem(
+                    trigger=entity,
+                    annotation=printed,
+                    completion=entity,
+                    completion_format=sublime.COMPLETION_FORMAT_TEXT,
+                    kind=self.KIND_ENTITY,
+                    details=f'Renders as <code>{printed}</code>',
+                )
+                for entity, printed in html.entities.html5.items()
+                if entity.endswith(';')
             )
-            for entity, printed in html.entities.html5.items()
-            if entity.endswith(';')
         ]
-
-        return completions
 
     def default_completion_list(self):
         """
