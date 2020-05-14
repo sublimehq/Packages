@@ -1009,6 +1009,10 @@ try {
 } catch (/* comment */ ExceptionExample $e) {
 //       ^^^^^^^^^^^^^ comment.block
     echo 'Caught exception: ', $e->getMessage(), "\n";
+} catch (Exception) {
+//^ keyword.control.exception
+//       ^^^^^^^^^ meta.path.php
+//       ^^^^^^^^^ support.class.exception.php
 } catch (Exception $e) {
 //^ keyword.control.exception
 //       ^^^^^^^^^ meta.path.php
