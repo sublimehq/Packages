@@ -9,6 +9,7 @@ variables:
   path: '\\?({{identifier}}\\)*{{identifier}}'
   regex_modifier: '[eimsuxADJSUX]*'
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)\b
+  visibility_modifier: '\b(?:var|public|private|protected)\b'
 
 contexts:
   main:
@@ -662,11 +663,11 @@ contexts:
 
   typed-property:
     # https://wiki.php.net/rfc/typed_properties_v2
-    - match: (?=\b(?:var|public|private|protected|static)\b)
+    - match: (?=\b(?:{{visibility_modifier}}|static)\b)
       push:
         - match: (?=\b(?:const|function)\b)
           pop: true
-        - match: \b(?:var|public|private|protected|static)\b
+        - match: \b(?:{{visibility_modifier}}|static)\b
           scope: storage.modifier.php
         - include: type-hint
         # Exit on unexpected content
@@ -674,12 +675,12 @@ contexts:
           pop: true
 
   function:
-    - match: (?i)(?=(?:\b(?:final|abstract|var|public|private|protected|static)\s+)*\bfunction\b\s*(&\s*)?{{identifier_start}})
+    - match: (?i)(?=(?:\b(?:final|abstract|{{visibility_modifier}}|static)\s+)*\bfunction\b\s*(&\s*)?{{identifier_start}})
       push:
         - meta_content_scope: meta.function.php
         - include: attributes
         - include: comments
-        - match: '(?i)\b(final|abstract|var|public|private|protected|static)\b'
+        - match: '(?i)\b(final|abstract|{{visibility_modifier}}|static)\b'
           scope: storage.modifier.php
         - match: (?i)\bfunction\b
           scope: storage.type.function.php
@@ -695,7 +696,7 @@ contexts:
                   scope: meta.function.parameters.php meta.group.php punctuation.section.group.begin.php
                   set:
                     - meta_content_scope: meta.function.parameters.php meta.group.php
-                    - match: \b(?:var|public|private|protected)\b
+                    - match: '{{visibility_modifier}}'
                       scope: storage.modifier.php
                     - include: function-parameters
             # Exit on unexpected content
@@ -1504,7 +1505,7 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.end.php
           pop: true
-    - match: ^\s*(\*)\s*(@access)\s+((var|public|private|protected)|(.+))\s*$
+    - match: ^\s*(\*)\s*(@access)\s+(({{visibility_modifier}})|(.+))\s*$
       captures:
         1: punctuation.definition.comment.php
         2: keyword.other.phpdoc.php
