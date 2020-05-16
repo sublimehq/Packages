@@ -1514,11 +1514,12 @@ blah
 text
 | <- meta.paragraph - meta.link.reference.def
 
-[foo]: <bar> "test"
+[foo]: <bar> "test" 
 |      ^ punctuation.definition.link.begin
 |       ^^^ markup.underline.link
 |          ^ punctuation.definition.link.end
 |            ^^^^^^ string.other.link.description.title
+|                  ^ - invalid.illegal.expected-eol
 
 [foo]: <bar>> "test"
 |      ^ punctuation.definition.link.begin

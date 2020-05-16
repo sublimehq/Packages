@@ -1454,9 +1454,10 @@ contexts:
       pop: true
   link-ref-def-expect-end:
     - meta_scope: meta.link.reference.def.markdown
-    - match: .*$
-      scope: invalid.illegal.expected-eol.markdown
+    - match: $
       pop: true
+    - match: \s*\S+
+      scope: invalid.illegal.expected-eol.markdown
 
 ###[ LINK/IMAGE/REFERENCE ATTRIBUTES ]########################################
 
