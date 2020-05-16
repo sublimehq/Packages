@@ -724,6 +724,16 @@ class ClassName extends /* */ \MyNamespace\Foo implements \MyNamespace\Baz {
 //                                                        ^^^^^^^^^^^^^^^^ entity.other.inherited-class
 //                                                        ^ punctuation.separator.namespace
 //                                                                    ^ punctuation.separator.namespace
+
+    public function __construct(private \MyNamespace\Foo $val = DEFAULT_VALUE) {
+//                  ^^^^^^^^^^^ entity.name.function support.function.magic
+//                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
+//                              ^^^^^^^ storage.modifier
+//                                      ^^^^^^^^^^^^^^^^ meta.path
+//                                                       ^^^^ variable.parameter
+//                                                            ^ keyword.operator.assignment
+//                                                              ^^^^^^^^^^^^^ constant.other
+    }
 }
 
 interface MyInter {}

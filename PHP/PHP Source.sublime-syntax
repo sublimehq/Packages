@@ -685,6 +685,22 @@ contexts:
           scope: storage.type.function.php
         - match: '&'
           scope: storage.modifier.reference.php
+        # https://wiki.php.net/rfc/constructor_promotion
+        - match: __construct\b
+          scope: entity.name.function.php support.function.magic.php
+          push:
+            - match: (?=\()
+              set:
+                - match: \(
+                  scope: meta.function.parameters.php meta.group.php punctuation.section.group.begin.php
+                  set:
+                    - meta_content_scope: meta.function.parameters.php meta.group.php
+                    - match: \b(?:var|public|private|protected)\b
+                      scope: storage.modifier.php
+                    - include: function-parameters
+            # Exit on unexpected content
+            - match: (?=\S)
+              pop: true
         - match: '(__(?:callStatic|call|construct|destruct|get|set|isset|unset|toString|clone|set_state|sleep|wakeup|autoload|invoke|debugInfo))\b'
           scope: entity.name.function.php support.function.magic.php
         - match: '{{identifier}}'
