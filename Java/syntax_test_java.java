@@ -863,14 +863,14 @@ class AnyClass { // comment
     }
 //  ^ meta.class.java meta.block.java meta.class.java meta.block.java punctuation.section.block.end.java
 
-    class SubClass extends fully.qualified
-//  ^^^^^ meta.class.java meta.block.java meta.class.java
-//       ^^^^^^^^^^ meta.class.java meta.block.java meta.class.identifier.java
-//                 ^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.class.extends.java
-//                         ^^^^^^^^^^^^^^^^ meta.path.java
-//                         ^^^^^ variable.namespace.java
-//                              ^ punctuation.accessor.dot.java
-//                               ^^^^^^^^^ variable.namespace.java
+    protected class SubClass extends fully.qualified
+//  ^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.class.java
+//                 ^^^^^^^^^^ meta.class.java meta.block.java meta.class.identifier.java
+//                           ^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.class.extends.java
+//                                   ^^^^^^^^^^^^^^^^ meta.path.java
+//                                   ^^^^^ variable.namespace.java
+//                                        ^ punctuation.accessor.dot.java
+//                                         ^^^^^^^^^ variable.namespace.java
     .name.AbstractClass {
 // ^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.class.extends.java
 //  ^^^^^^^^^^^^^^^^^^^ meta.path.java
@@ -880,6 +880,29 @@ class AnyClass { // comment
 //        ^^^^^^^^^^^^^ entity.other.inherited-class.java
     }
 //  ^ meta.class.java meta.block.java meta.class.java meta.block.java punctuation.section.block.end.java
+}
+//<- meta.class.java meta.block.java punctuation.section.block.end.java
+
+public          // comment
+//<- meta.class.java storage.modifier.java
+class           // comment
+//<- meta.class.java storage.type.class.java
+TestClass       // comment
+//<- meta.class.identifier.java entity.name.class.java
+extends         // comment
+//<- meta.class.extends.java keyword.declaration.extends.java
+MyClass,        // comment
+//<- meta.class.extends.java entity.other.inherited-class.java
+FooBaz          // comment
+//<- meta.class.extends.java entity.other.inherited-class.java
+implements      // comment
+//<- meta.class.implements.java keyword.declaration.implements.java
+Foo,            // comment
+//<- meta.class.implements.java entity.other.inherited-class.java
+Bar             // comment
+//<- meta.class.implements.java entity.other.inherited-class.java
+{
+//<- meta.class.java meta.block.java punctuation.section.block.begin.java
 }
 //<- meta.class.java meta.block.java punctuation.section.block.end.java
 
@@ -1193,7 +1216,7 @@ public enum TokenKind<T> extends MyEnum, FooBaz<? super T<TT>> implements Foo, B
 }
 
 public          // comment
-//<- storage.modifier.java
+//<- meta.enum.java storage.modifier.java
 enum            // comment
 //<- meta.enum.java storage.type.enum.java
 TokenKind       // comment
@@ -1257,26 +1280,50 @@ interface TestIntf extends A, BB {}
 //                               ^ punctuation.section.block.begin.java
 //                                ^ punctuation.section.block.end.java
 
-interface /**/ TestIntf /**/ extends /**/ A /**/, /**/ BB /**/ {}
-//<- meta.interface.java storage.type.interface.java keyword.declaration.interface.java
-//^^^^^^^ meta.interface.java
-//       ^^^^^^^^^^^^^^^^^^^^ meta.interface.identifier.java
-//                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.extends.java
-//                                                             ^^ meta.interface.java meta.block.java
-//^^^^^^^ storage.type.interface.java keyword.declaration.interface.java
-//        ^^^^ comment.block.empty.java
-//             ^^^^^^^^ entity.name.interface.java
-//                      ^^^^ comment.block.empty.java
-//                           ^^^^^^^ keyword.declaration.extends.java
-//                                   ^^^^ comment.block.empty.java
-//                                        ^ entity.other.inherited-class.java
+public interface /**/ TestIntf /**/ extends /**/ A /**/, /**/ BB /**/ {}
+//<- meta.interface.java storage.modifier.java
+//^^^^^^^^^^^^^^ meta.interface.java
+//              ^^^^^^^^^^^^^^^^^^^^ meta.interface.identifier.java
+//                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.extends.java
+//                                                                    ^^ meta.interface.java meta.block.java
+//^^^^ storage.modifier.java
+//     ^^^^^^^^^ storage.type.interface.java keyword.declaration.interface.java
+//               ^^^^ comment.block.empty.java
+//                    ^^^^^^^^ entity.name.interface.java
+//                             ^^^^ comment.block.empty.java
+//                                  ^^^^^^^ keyword.declaration.extends.java
 //                                          ^^^^ comment.block.empty.java
-//                                              ^ punctuation.separator.comma.java
-//                                                ^^^^ comment.block.empty.java
-//                                                     ^^ entity.other.inherited-class.java
-//                                                        ^^^^ comment.block.empty.java
-//                                                             ^ punctuation.section.block.begin.java
-//                                                              ^ punctuation.section.block.end.java
+//                                               ^ entity.other.inherited-class.java
+//                                                 ^^^^ comment.block.empty.java
+//                                                     ^ punctuation.separator.comma.java
+//                                                       ^^^^ comment.block.empty.java
+//                                                            ^^ entity.other.inherited-class.java
+//                                                               ^^^^ comment.block.empty.java
+//                                                                    ^ punctuation.section.block.begin.java
+//                                                                     ^ punctuation.section.block.end.java
+
+public          // comment
+//<- meta.interface.java storage.modifier.java
+interface       // comment
+//<- meta.interface.java storage.type.interface.java
+TestIntf        // comment
+//<- meta.interface.identifier.java entity.name.interface.java
+extends         // comment
+//<- meta.interface.extends.java keyword.declaration.extends.java
+MyEnum,         // comment
+//<- meta.interface.extends.java entity.other.inherited-class.java
+FooBaz          // comment
+//<- meta.interface.extends.java entity.other.inherited-class.java
+implements      // comment
+//<- meta.interface.implements.java keyword.declaration.implements.java
+Foo,            // comment
+//<- meta.interface.implements.java entity.other.inherited-class.java
+Bar             // comment
+//<- meta.interface.implements.java entity.other.inherited-class.java
+{
+//<- meta.interface.java meta.block.java punctuation.section.block.begin.java
+}
+//<- meta.interface.java meta.block.java punctuation.section.block.end.java
 
 
 /******************************************************************************
