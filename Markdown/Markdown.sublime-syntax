@@ -275,7 +275,7 @@ contexts:
         6: markup.underline.link.markdown
         7: punctuation.definition.link.end.markdown
         8: markup.underline.link.markdown
-      push: [link-ref-def, after-link-title, link-title]
+      push: [link-ref-def-expect-end, link-title]
     - match: '^(?=\S)(?![=-]{3,}\s*$)'
       branch_point: heading2-branch
       branch:
@@ -340,10 +340,6 @@ contexts:
         1: markup.heading.2.setext.markdown punctuation.definition.heading.setext.markdown
       pop: true
 
-  link-ref-def:
-    - meta_scope: meta.link.reference.def.markdown
-    - match: ''
-      pop: true
   ampersand:
     - match: (?!{{html_entity}})&
       comment: |
@@ -1426,45 +1422,40 @@ contexts:
     - include: image-inline
     - include: image-ref
   link-title:
-    - match: \s*(')
-      captures:
-        1: punctuation.definition.string.begin.markdown
+    - match: \'
+      scope: punctuation.definition.string.begin.markdown
       set:
         - meta_scope: string.other.link.description.title.markdown
         - match: \'
           scope: punctuation.definition.string.end.markdown
           pop: true
-        - match: ^\s*$\n?
-          scope: invalid.illegal.non-terminated.link-title.markdown
-          pop: true
-    - match: \s*(")
-      captures:
-        1: punctuation.definition.string.begin.markdown
+        - include: non-terminated-link-title
+    - match: \"
+      scope: punctuation.definition.string.begin.markdown
       set:
         - meta_scope: string.other.link.description.title.markdown
         - match: \"
           scope: punctuation.definition.string.end.markdown
           pop: true
-        - match: ^\s*$\n?
-          scope: invalid.illegal.non-terminated.link-title.markdown
-          pop: true
-    - match: \s*(\()
-      captures:
-        1: punctuation.definition.string.begin.markdown
+        - include: non-terminated-link-title
+    - match: \(
+      scope: punctuation.definition.string.begin.markdown
       set:
         - meta_scope: string.other.link.description.title.markdown
         - match: \)
           scope: punctuation.definition.string.end.markdown
           pop: true
-        - match: ^\s*$\n?
-          scope: invalid.illegal.non-terminated.link-title.markdown
-          pop: true
-    - match: \s*
+        - include: non-terminated-link-title
+    - match: $|(?=\S)
       pop: true
-  after-link-title:
-    - match: '(.*)$\n?'
-      captures:
-        1: invalid.illegal.expected-eol.markdown
+  non-terminated-link-title:
+    - match: ^\s*$\n?
+      scope: invalid.illegal.non-terminated.link-title.markdown
+      pop: true
+  link-ref-def-expect-end:
+    - meta_scope: meta.link.reference.def.markdown
+    - match: .*$
+      scope: invalid.illegal.expected-eol.markdown
       pop: true
 
 ###[ LINK/IMAGE/REFERENCE ATTRIBUTES ]########################################
