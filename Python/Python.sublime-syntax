@@ -889,7 +889,7 @@ contexts:
             # or line-statement context at this point.
             # If we're in a group, the underlying context will take over
             # at the end of the line.
-            - match: (?=[,):])|$
+            - match: (?=[,:)}\]])|$
               pop: true
             - include: expression-in-a-statement
     - match: ','

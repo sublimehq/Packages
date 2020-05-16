@@ -241,6 +241,39 @@ def _():
 #             ^ punctuation.section.function.begin
 #               ^^^^ invalid.illegal.name.python
 
+    {key: lambda x, y: 10}
+#   ^ punctuation.section.mapping.begin
+#         ^^^^^^^^^^^^^^^ meta.function.inline
+#         ^^^^^^ keyword.declaration.function.inline.python
+#                ^^^^^ meta.function.inline.parameters
+#                ^ variable.parameter
+#                 ^ punctuation.separator.parameters
+#                   ^ variable.parameter
+#                      ^^ constant.numeric
+#                        ^ punctuation.section.mapping.end
+
+    {lambda x, y: 10}
+#   ^ punctuation.section.set.begin
+#    ^^^^^^^^^^^^^^^ meta.function.inline
+#    ^^^^^^ keyword.declaration.function.inline.python
+#           ^^^^^ meta.function.inline.parameters
+#           ^ variable.parameter
+#            ^ punctuation.separator.parameters
+#              ^ variable.parameter
+#                 ^^ constant.numeric
+#                   ^ punctuation.section.set.end
+
+    [lambda x, y: 10]
+#   ^ punctuation.section.sequence.begin
+#    ^^^^^^^^^^^^^^^ meta.function.inline
+#    ^^^^^^ keyword.declaration.function.inline.python
+#           ^^^^^ meta.function.inline.parameters
+#           ^ variable.parameter
+#            ^ punctuation.separator.parameters
+#              ^ variable.parameter
+#                 ^^ constant.numeric
+#                   ^ punctuation.section.sequence.end
+
     _(lambda x, y: 10)
 #     ^^^^^^^^^^^^^^^ meta.function.inline
 #     ^^^^^^ keyword.declaration.function.inline.python
