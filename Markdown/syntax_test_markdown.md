@@ -1489,22 +1489,26 @@ _foo [**bar**](/url)_
 |^^^^^^^^^^^ meta.link.reference.def entity.name.reference.link
 |            ^ punctuation.separator.key-value
 |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link
+|                                                                ^ - meta.link - markup
 
 [//]: # (This is a comment without a line-break.)
 |     ^ meta.link.reference.def markup.underline.link
 |       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.other.link.description.title
+|                                                ^ - meta.link
 
 [//]: # (This is a comment with a
 |     ^ meta.link.reference.def markup.underline.link
 |       ^ punctuation.definition.string.begin
         line-break.)
 |                  ^ punctuation.definition.string.end
+|                   ^ - meta.link
 
 [//]: # (testing)blah
+|^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def.markdown
 |       ^ punctuation.definition.string.begin
-|^^^^^^^^^^^^^^^^ meta.link.reference.def
 |               ^ punctuation.definition.string.end
 |                ^^^^ invalid.illegal.expected-eol
+|                    ^ - meta.link - invalid
 
 [//]: # (testing
 blah
@@ -1515,17 +1519,22 @@ text
 | <- meta.paragraph - meta.link.reference.def
 
 [foo]: <bar> "test" 
+|^^^^^^^^^^^^^^^^^^^ meta.link.reference.def.markdown
+|                   ^ - meta.link
 |      ^ punctuation.definition.link.begin
 |       ^^^ markup.underline.link
 |          ^ punctuation.definition.link.end
 |            ^^^^^^ string.other.link.description.title
 |                  ^ - invalid.illegal.expected-eol
 
-[foo]: <bar>> "test"
+[foo]: <bar>> "test" 
+|^^^^^^^^^^^^^^^^^^^^ meta.link.reference.def.markdown
+|                    ^ - meta.link
 |      ^ punctuation.definition.link.begin
 |       ^^^ markup.underline.link
 |          ^ punctuation.definition.link.end
 |           ^^^^^^^^ invalid.illegal.expected-eol
+|                   ^ - invalid.illegal.expected-eol
 
 https://michelf.ca/projects/php-markdown/extra/#footnotes
 That's some text with a footnote.[^1]
