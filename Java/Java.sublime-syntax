@@ -233,6 +233,64 @@ contexts:
         - match: (?=%>)
           pop: true
 
+###[ ANNOTATIONS ]#############################################################
+
+  annotation:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.7
+    - match: \@
+      scope: punctuation.definition.annotation.java
+      push: [annotation-parameters, annotation-qualified-name]
+
+  annotation-qualified-name:
+    - match: '{{before_fqn}}'
+      set:
+        - meta_scope: meta.path.java
+        - match: '{{lowercase_id}}'
+          scope: variable.annotation.package.java
+        - include: punctuation-accessor-dot
+        - include: annotation-unqualified-name
+    - include: annotation-unqualified-name
+
+  annotation-unqualified-name:
+    - match: '{{classcase_id}}'
+      scope: variable.annotation.java
+      set: annotation-nested-name
+    - include: else-pop
+
+  annotation-nested-name:
+    - match: \.
+      scope: punctuation.accessor.dot.java
+      set: annotation-unqualified-name
+    - include: else-pop
+
+  annotation-parameters:
+    - meta_scope: meta.annotation.identifier.java
+    - match: (?=\()
+      set: [annotation-parameters-common, parens-begin]
+    - include: else-pop
+
+  annotation-parameters-common:
+    - meta_scope: meta.annotation.parameters.java meta.parens.java
+    - include: parens-end
+    - match: (?={{id}})
+      branch_point: annotation-parameter
+      branch:
+        - - match: '{{id}}'
+            scope: variable.parameter.java
+            push:
+              - match: =
+                scope: keyword.operator.assignment.java
+                pop: 2
+              - match: (?=\S)
+                fail: annotation-parameter
+        - - include: expressions
+          - include: immediately-pop
+    - match: \{
+      scope: punctuation.section.braces.begin.java
+      push: array-initialization-common
+    - include: annotation
+    - include: expressions
+
 ###[ MODIFIER ]################################################################
 
   modifier:
@@ -478,64 +536,6 @@ contexts:
   import-terminator:
     - match: (?=\s*;|{{reserved_words}}\b)
       pop: 1
-
-###[ ANNOTATIONS ]#############################################################
-
-  annotation:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.7
-    - match: \@
-      scope: punctuation.definition.annotation.java
-      push: [annotation-parameters, annotation-qualified-name]
-
-  annotation-qualified-name:
-    - match: '{{before_fqn}}'
-      set:
-        - meta_scope: meta.path.java
-        - match: '{{lowercase_id}}'
-          scope: variable.annotation.package.java
-        - include: punctuation-accessor-dot
-        - include: annotation-unqualified-name
-    - include: annotation-unqualified-name
-
-  annotation-unqualified-name:
-    - match: '{{classcase_id}}'
-      scope: variable.annotation.java
-      set: annotation-nested-name
-    - include: else-pop
-
-  annotation-nested-name:
-    - match: \.
-      scope: punctuation.accessor.dot.java
-      set: annotation-unqualified-name
-    - include: else-pop
-
-  annotation-parameters:
-    - meta_scope: meta.annotation.identifier.java
-    - match: (?=\()
-      set: [annotation-parameters-common, parens-begin]
-    - include: else-pop
-
-  annotation-parameters-common:
-    - meta_scope: meta.annotation.parameters.java meta.parens.java
-    - include: parens-end
-    - match: (?={{id}})
-      branch_point: annotation-parameter
-      branch:
-        - - match: '{{id}}'
-            scope: variable.parameter.java
-            push:
-              - match: =
-                scope: keyword.operator.assignment.java
-                pop: 2
-              - match: (?=\S)
-                fail: annotation-parameter
-        - - include: expressions
-          - include: immediately-pop
-    - match: \{
-      scope: punctuation.section.braces.begin.java
-      push: array-initialization-common
-    - include: annotation
-    - include: expressions
 
 ###[ CLASSES ]#################################################################
 
