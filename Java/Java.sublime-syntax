@@ -76,10 +76,10 @@ contexts:
     - include: statements
 
   declarations:
-    - include: modifier
     - include: class
     - include: enum
     - include: interface
+    - include: modifier
     - include: import
     - include: module
     - include: package
@@ -294,7 +294,7 @@ contexts:
 ###[ MODIFIER ]################################################################
 
   modifier:
-    - match: (?={{storage_modifiers}})
+    - match: (?={{storage_modifiers}}|@)
       branch_point: modifier-branches
       branch:
         - modifier-class
@@ -310,6 +310,7 @@ contexts:
       scope: storage.modifier.java
     - match: '{{class_no_modifier}}\b'
       scope: invalid.illegal.unexpected-modifier.java
+    - include: annotation
     - match: (?=\S)
       fail: modifier-branches
 
@@ -321,6 +322,7 @@ contexts:
       scope: storage.modifier.java
     - match: '{{class_no_modifier}}\b'
       scope: invalid.illegal.unexpected-modifier.java
+    - include: annotation
     - match: (?=\S)
       fail: modifier-branches
 
@@ -332,11 +334,13 @@ contexts:
       scope: storage.modifier.java
     - match: '{{interface_no_modifier}}\b'
       scope: invalid.illegal.unexpected-modifier.java
+    - include: annotation
     - match: (?=\S)
       fail: modifier-branches
 
   modifier-other:
     - include: storage-modifiers
+    - include: annotation
     - include: else-pop
 
 ###[ PACKAGE ]#################################################################
