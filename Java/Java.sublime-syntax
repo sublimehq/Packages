@@ -75,6 +75,15 @@ contexts:
     - include: declarations
     - include: statements
 
+  declarations:
+    - include: modifier
+    - include: class
+    - include: enum
+    - include: interface
+    - include: import
+    - include: module
+    - include: package
+
   statements:
     - include: punctuation-terminator-semicolon
     - include: annotation
@@ -224,24 +233,51 @@ contexts:
         - match: (?=%>)
           pop: true
 
-###[ DECLARATIONS ]############################################################
+###[ MODIFIER ]################################################################
 
-  declarations:
+  modifier:
     - match: (?={{storage_modifiers}})
-      branch_point: declarations
+      branch_point: modifier-branches
       branch:
-        - class-branch
-        - enum-branch
-        - interface-branch
-        - declaration-other
-    - include: class
-    - include: enum
-    - include: interface
-    - include: import
-    - include: module
-    - include: package
+        - modifier-class
+        - modifier-enum
+        - modifier-interface
+        - modifier-other
 
-  declaration-other:
+  modifier-class:
+    - meta_scope: meta.class.java
+    - match: (?=class\b)
+      pop: true
+    - match: '{{class_modifier}}\b'
+      scope: storage.modifier.java
+    - match: '{{class_no_modifier}}\b'
+      scope: invalid.illegal.unexpected-modifier.java
+    - match: (?=\S)
+      fail: modifier-branches
+
+  modifier-enum:
+    - meta_scope: meta.enum.java
+    - match: (?=enum\b)
+      pop: true
+    - match: '{{class_modifier}}\b'
+      scope: storage.modifier.java
+    - match: '{{class_no_modifier}}\b'
+      scope: invalid.illegal.unexpected-modifier.java
+    - match: (?=\S)
+      fail: modifier-branches
+
+  modifier-interface:
+    - meta_scope: meta.interface.java
+    - match: (?=@?interface\b)
+      pop: true
+    - match: '{{interface_modifier}}\b'
+      scope: storage.modifier.java
+    - match: '{{interface_no_modifier}}\b'
+      scope: invalid.illegal.unexpected-modifier.java
+    - match: (?=\S)
+      fail: modifier-branches
+
+  modifier-other:
     - include: storage-modifiers
     - include: else-pop
 
@@ -503,26 +539,6 @@ contexts:
 
 ###[ CLASSES ]#################################################################
 
-  class-branch:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1
-    - meta_scope: meta.class.java
-    - match: class\b
-      scope:
-        storage.type.class.java
-        keyword.declaration.class.java
-      set:
-        - class-body-block
-        - class-extends
-        - class-name-meta
-        - generic-type-parameters
-        - class-name
-    - match: '{{class_modifier}}\b'
-      scope: storage.modifier.java
-    - match: '{{class_no_modifier}}\b'
-      scope: invalid.illegal.unexpected-modifier.java
-    - match: (?=\S)
-      fail: declarations
-
   class:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1
     - match: class\b
@@ -589,26 +605,6 @@ contexts:
     - include: statements
 
 ###[ ENUMS ]###################################################################
-
-  enum-branch:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.9
-    - meta_scope: meta.enum.java
-    - match: enum\b
-      scope:
-        storage.type.enum.java
-        keyword.declaration.enum.java
-      set:
-        - enum-body-block
-        - enum-extends
-        - enum-name-meta
-        - illegal-type-parameters
-        - enum-name
-    - match: '{{class_modifier}}\b'
-      scope: storage.modifier.java
-    - match: '{{class_no_modifier}}\b'
-      scope: invalid.illegal.unexpected-modifier.java
-    - match: (?=\S)
-      fail: declarations
 
   enum:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.9
@@ -701,26 +697,6 @@ contexts:
     - include: class-body
 
 ###[ INTERFACES ]##############################################################
-
-  interface-branch:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.1
-    - meta_scope: meta.interface.java
-    - match: (@?)interface\b
-      scope:
-        storage.type.interface.java
-        keyword.declaration.interface.java
-      set:
-        - interface-body-block
-        - interface-extends
-        - interface-name-meta
-        - generic-type-parameters
-        - interface-name
-    - match: '{{interface_modifier}}\b'
-      scope: storage.modifier.java
-    - match: '{{interface_no_modifier}}\b'
-      scope: invalid.illegal.unexpected-modifier.java
-    - match: (?=\S)
-      fail: declarations
 
   interface:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.1
