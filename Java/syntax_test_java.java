@@ -1321,7 +1321,7 @@ MyEnum,         // comment
 FooBaz          // comment
 //<- meta.interface.extends.java entity.other.inherited-class.java
 implements      // comment
-//<- meta.interface.implements.java keyword.declaration.implements.java
+//<- meta.interface.implements.java invalid.illegal.unexpected-implements.java
 Foo,            // comment
 //<- meta.interface.implements.java entity.other.inherited-class.java
 Bar             // comment

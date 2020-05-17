@@ -734,7 +734,7 @@ contexts:
         - interface-extends-object-type-references
         - inherited-object-type-reference
     - match: implements\b
-      scope: keyword.declaration.implements.java
+      scope: invalid.illegal.unexpected-implements.java
       push:
         - interface-implements-object-type-references
         - inherited-object-type-reference
