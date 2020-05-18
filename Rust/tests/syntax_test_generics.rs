@@ -79,10 +79,14 @@ fn f<L: IntoIterator<Item=(&'a i32, &'a i32)>>(lhs: L) {}
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic
 //  ^ punctuation.definition.generic.begin
 //                  ^ punctuation.definition.generic.begin
+//                       ^ keyword.operator
+//                        ^^^^^^^^^^^^^^^^^^ meta.group
 //                        ^ punctuation.section.group.begin
 //                          ^^ storage.modifier.lifetime
 //                             ^^^ storage.type
-//                                          ^ punctuation.definition.generic.begin
+//                                ^ punctuation.separator
+//                                         ^ punctuation.section.group.end
+//                                          ^ punctuation.definition.generic.end
 //                                           ^ punctuation.definition.generic.end
 //                                            ^ meta.function meta.function.parameters punctuation.section.parameters.begin
 

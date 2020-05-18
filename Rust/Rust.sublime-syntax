@@ -522,17 +522,13 @@ contexts:
 
   generic-angles:
     - meta_scope: meta.generic.rust
-    # -> to cover https://doc.rust-lang.org/std/boxed/trait.FnBox.html
-    - include: support-type
     - match: '>'
       scope: punctuation.definition.generic.end.rust
       pop: true
     - match: '<'
       scope: punctuation.definition.generic.begin.rust
       push: generic-angles-contents
-    # Alert the user of a broken generic construct
     - match: '(?=\S)'
-      scope: invalid.illegal.rust
       pop: true
 
   generic-angles-contents:
@@ -545,7 +541,7 @@ contexts:
       scope: punctuation.definition.generic.begin.rust
       push:
         - match: '>'
-          scope: punctuation.definition.generic.begin.rust
+          scope: punctuation.definition.generic.end.rust
           pop: true
         - include: generic-angles-contents
     - include: type-any-identifier
@@ -555,7 +551,6 @@ contexts:
     - match: '\+|='
       scope: keyword.operator.rust
     - match: '(?=\S)'
-      scope: invalid.illegal.rust
       pop: true
 
   constant-integer-expression:
