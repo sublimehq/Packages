@@ -2076,8 +2076,14 @@ class MethodDelcarationTests {
       throws Exception {
 //    ^ meta.method.throws.java keyword.declaration.throws.java
 //           ^ meta.method.throws.java support.class.java
-    return someMethod(new Function<V, V>() {
-//                                         ^ meta.class.java punctuation.section.block.begin.java
+    return someMethod (new Function<V, V>() {
+//        ^ - meta.function-call
+//         ^^^^^^^^^^^ meta.function-call.identifier.java - meta.function-call meta.function-call
+//                    ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.java meta.parens.java - meta.function-call meta.function-call
+//                                          ^ meta.class.java punctuation.section.block.begin.java
+//        ^ - variable
+//         ^^^^^^^^^^ variable.function.java
+//                   ^ - variable
       @Override
       public V apply(V input) {
 //           ^ support.class.java
@@ -2089,8 +2095,10 @@ class MethodDelcarationTests {
       }
 //    ^ meta.method
     }, executor);
+// ^^^^^^^^^^^^^ meta.function-call.arguments.java meta.parens.java
 //  ^ meta.class.java punctuation.section.block.end.java
-//             ^ meta.function-call.arguments.java punctuation.section.parens.end.java
+//             ^ punctuation.section.parens.end.java
+//              ^ punctuation.terminator.java - meta.function-call
   }
 //^ meta.method.java punctuation.section.block.end.java
 

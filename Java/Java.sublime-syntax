@@ -1321,6 +1321,7 @@ contexts:
         - variable-other
 
   variables-branch-success:
+    - clear_scopes: 2
     - match: ''
       pop: 2
 
@@ -1330,7 +1331,7 @@ contexts:
         variable.function.java
     - match: ''
       push:
-        - clear_scopes: 1
+        - clear_scopes: 2
         - meta_scope: meta.function-call.identifier.java
         - match: (?=\()
           set: [variables-branch-success, method-call-arguments, parens-begin]
@@ -1343,7 +1344,7 @@ contexts:
         variable.parameter.java
     - match: ''
       push:
-        - clear_scopes: 1
+        - clear_scopes: 2
         - meta_content_scope: meta.function.anonymous.java
         - match: (?=->)
           pop: 2
