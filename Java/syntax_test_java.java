@@ -1572,119 +1572,6 @@ class FieldDeclarationTests {
 
 
 /******************************************************************************
- * Local Variable Declaration Tests
- *****************************************************************************/
-
-class LocalVariableDeclarationTests {
-
-  void genericTypeTests() {
-    List<String> x;
-//      ^^^^^^^^ meta.generic.java
-//      ^ punctuation.definition.generic.begin.java
-//             ^ punctuation.definition.generic.end.java
-
-    List<java.lang.String> x;
-//      ^^^^^^^^^^^^^^^^^^ meta.generic.java
-//       ^^^^^^^^^^^^^^^^ meta.path.java
-//       ^^^^ variable.namespace.java
-//           ^ punctuation.accessor.dot.java
-//            ^^^^ variable.namespace.java
-//                ^ punctuation.accessor.dot.java
-//                 ^^^^^^ support.class.java
-//                       ^ punctuation.definition.generic.end.java
-
-    List<URI> x;
-//      ^^^^^ meta.generic.java
-//       ^^^ support.class.java
-
-    List<java.net.URI> x;
-//      ^^^^^^^^^^^^^^ meta.generic.java
-//       ^^^^^^^^^^^^ meta.path.java
-//                ^^^ support.class.java
-
-    List<int[]> x;
-//      ^^^^^^^ meta.generic.java
-//       ^^^ storage.type.primitive.java
-//          ^^ storage.modifier.array.java
-
-    List<java.lang.String[]> x;
-//      ^^^^^^^^^^^^^^^^^^^^ meta.generic.java
-//       ^^^^^^^^^^^^^^^^ meta.path.java
-//                       ^^ storage.modifier.array.java
-
-    List<URI[]> x;
-//      ^^^^^^^ meta.generic.java
-//       ^^^ support.class.java
-//          ^^ storage.modifier.array.java
-
-    List<int[][]>[][] x;
-//      ^^^^^^^^^ meta.generic.java
-//       ^^^ storage.type.primitive.java
-//          ^^^^ storage.modifier.array.java
-//               ^^^^ storage.modifier.array.java
-  }
-
-
-/******************************************************************************
- * Var Type Tests
- * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.4
- *****************************************************************************/
-
-  void varTypeTests() {
-
-    var
-//  ^^^ storage.type.var.java
-
-    var x, y;
-//  ^^^ storage.type.var.java
-//      ^ variable.other.readwrite.java
-//       ^ invalid.illegal.expect-terminator.java
-//         ^ variable.other.readwrite.java
-//          ^ punctuation.terminator.java
-
-    var x = "String";
-//  ^^^ storage.type.var.java
-//      ^ variable.other.readwrite.java
-//        ^ keyword.operator.assignment.java
-
-    final var y = 10;
-//  ^^^^^ storage.modifier.java
-//        ^^^ storage.type.var.java
-//            ^ variable.other.readwrite.java
-//              ^ keyword.operator.assignment.java
-
-    final var y.b = 10;
-//  ^^^^^ storage.modifier.java
-//        ^^^ storage.type.var.java
-//            ^ variable.other.readwrite.java
-//             ^ invalid.illegal.unexpected-accessor.java
-//              ^ invalid.illegal.unexpected-member.java
-//                ^ keyword.operator.assignment.java
-
-    final var[] y = 10, z[] = 5;
-//  ^^^^^ storage.modifier.java
-//        ^^^ storage.type.var.java
-//           ^^ invalid.illegal.unexpected-modifier.java
-//              ^ variable.other.readwrite.java
-//                ^ keyword.operator.assignment.java
-//                  ^^ constant.numeric.integer.decimal.java
-//                    ^ invalid.illegal.expect-terminator.java
-//                             ^ punctuation.terminator.java
-
-    @Number final var y @Dim1 [] @Dim2 [] = { {10, 1}, {5, 2} };
-//  ^^^^^^^ meta.annotation.identifier.java
-//          ^^^^^ storage.modifier.java
-//                ^^^ storage.type.var.java
-//                    ^ variable.other.readwrite.java
-//                      ^^^^^ meta.annotation.identifier.java
-//                            ^^ invalid.illegal.unexpected-modifier.java
-//                               ^^^^^ meta.annotation.identifier.java
-//                                     ^^ invalid.illegal.unexpected-modifier.java
-  }
-}
-
-
-/******************************************************************************
  * Method Declaration Tests
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
  *****************************************************************************/
@@ -2280,6 +2167,119 @@ class ReceiverArgTests {
 //^ meta.class.java meta.block.java meta.class.java meta.block.java punctuation.section.block.end.java
 }
 //<- meta.class.java meta.block.java punctuation.section.block.end.java
+
+
+/******************************************************************************
+ * Local Variable Declaration Tests
+ *****************************************************************************/
+
+class LocalVariableDeclarationTests {
+
+  void genericTypeTests() {
+    List<String> x;
+//      ^^^^^^^^ meta.generic.java
+//      ^ punctuation.definition.generic.begin.java
+//             ^ punctuation.definition.generic.end.java
+
+    List<java.lang.String> x;
+//      ^^^^^^^^^^^^^^^^^^ meta.generic.java
+//       ^^^^^^^^^^^^^^^^ meta.path.java
+//       ^^^^ variable.namespace.java
+//           ^ punctuation.accessor.dot.java
+//            ^^^^ variable.namespace.java
+//                ^ punctuation.accessor.dot.java
+//                 ^^^^^^ support.class.java
+//                       ^ punctuation.definition.generic.end.java
+
+    List<URI> x;
+//      ^^^^^ meta.generic.java
+//       ^^^ support.class.java
+
+    List<java.net.URI> x;
+//      ^^^^^^^^^^^^^^ meta.generic.java
+//       ^^^^^^^^^^^^ meta.path.java
+//                ^^^ support.class.java
+
+    List<int[]> x;
+//      ^^^^^^^ meta.generic.java
+//       ^^^ storage.type.primitive.java
+//          ^^ storage.modifier.array.java
+
+    List<java.lang.String[]> x;
+//      ^^^^^^^^^^^^^^^^^^^^ meta.generic.java
+//       ^^^^^^^^^^^^^^^^ meta.path.java
+//                       ^^ storage.modifier.array.java
+
+    List<URI[]> x;
+//      ^^^^^^^ meta.generic.java
+//       ^^^ support.class.java
+//          ^^ storage.modifier.array.java
+
+    List<int[][]>[][] x;
+//      ^^^^^^^^^ meta.generic.java
+//       ^^^ storage.type.primitive.java
+//          ^^^^ storage.modifier.array.java
+//               ^^^^ storage.modifier.array.java
+  }
+
+
+/******************************************************************************
+ * Var Type Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.4
+ *****************************************************************************/
+
+  void varTypeTests() {
+
+    var
+//  ^^^ storage.type.var.java
+
+    var x, y;
+//  ^^^ storage.type.var.java
+//      ^ variable.other.readwrite.java
+//       ^ invalid.illegal.expect-terminator.java
+//         ^ variable.other.readwrite.java
+//          ^ punctuation.terminator.java
+
+    var x = "String";
+//  ^^^ storage.type.var.java
+//      ^ variable.other.readwrite.java
+//        ^ keyword.operator.assignment.java
+
+    final var y = 10;
+//  ^^^^^ storage.modifier.java
+//        ^^^ storage.type.var.java
+//            ^ variable.other.readwrite.java
+//              ^ keyword.operator.assignment.java
+
+    final var y.b = 10;
+//  ^^^^^ storage.modifier.java
+//        ^^^ storage.type.var.java
+//            ^ variable.other.readwrite.java
+//             ^ invalid.illegal.unexpected-accessor.java
+//              ^ invalid.illegal.unexpected-member.java
+//                ^ keyword.operator.assignment.java
+
+    final var[] y = 10, z[] = 5;
+//  ^^^^^ storage.modifier.java
+//        ^^^ storage.type.var.java
+//           ^^ invalid.illegal.unexpected-modifier.java
+//              ^ variable.other.readwrite.java
+//                ^ keyword.operator.assignment.java
+//                  ^^ constant.numeric.integer.decimal.java
+//                    ^ invalid.illegal.expect-terminator.java
+//                             ^ punctuation.terminator.java
+
+    @Number final var y @Dim1 [] @Dim2 [] = { {10, 1}, {5, 2} };
+//  ^^^^^^^ meta.annotation.identifier.java
+//          ^^^^^ storage.modifier.java
+//                ^^^ storage.type.var.java
+//                    ^ variable.other.readwrite.java
+//                      ^^^^^ meta.annotation.identifier.java
+//                            ^^ invalid.illegal.unexpected-modifier.java
+//                               ^^^^^ meta.annotation.identifier.java
+//                                     ^^ invalid.illegal.unexpected-modifier.java
+  }
+}
 
 
 /******************************************************************************
