@@ -1284,27 +1284,34 @@ interface TestIntf extends A, BB {}
 //                               ^ punctuation.section.block.begin.java
 //                                ^ punctuation.section.block.end.java
 
-public interface /**/ TestIntf /**/ extends /**/ A /**/, /**/ BB /**/ {}
+public interface /**/ TestIntf <T1, T2> /**/ extends /**/ A /**/, /**/ BB /**/ {}
 //<- meta.interface.java storage.modifier.java
 //^^^^^^^^^^^^^^ meta.interface.java
-//              ^^^^^^^^^^^^^^^^^^^^ meta.interface.identifier.java
-//                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.extends.java
-//                                                                    ^^ meta.interface.java meta.block.java
+//              ^^^^^^^^^^^^^^^ meta.interface.identifier.java - meta.generic
+//                             ^^^^^^^^ meta.interface.identifier.java meta.generic.declaration.java
+//                                     ^^^^^^ meta.interface.identifier.java - meta.generic
+//                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.extends.java
+//                                                                             ^^ meta.interface.java meta.block.java
 //^^^^ storage.modifier.java
 //     ^^^^^^^^^ storage.type.interface.java keyword.declaration.interface.java
 //               ^^^^ comment.block.empty.java
 //                    ^^^^^^^^ entity.name.interface.java
-//                             ^^^^ comment.block.empty.java
-//                                  ^^^^^^^ keyword.declaration.extends.java
-//                                          ^^^^ comment.block.empty.java
-//                                               ^ entity.other.inherited-class.java
-//                                                 ^^^^ comment.block.empty.java
-//                                                     ^ punctuation.separator.comma.java
-//                                                       ^^^^ comment.block.empty.java
-//                                                            ^^ entity.other.inherited-class.java
-//                                                               ^^^^ comment.block.empty.java
-//                                                                    ^ punctuation.section.block.begin.java
-//                                                                     ^ punctuation.section.block.end.java
+//                             ^ punctuation.definition.generic.begin.java
+//                              ^^ variable.parameter.type.java
+//                                ^ punctuation.separator.comma.java
+//                                  ^^ variable.parameter.type.java
+//                                    ^ punctuation.definition.generic.end.java
+//                                      ^^^^ comment.block.empty.java
+//                                           ^^^^^^^ keyword.declaration.extends.java
+//                                                   ^^^^ comment.block.empty.java
+//                                                        ^ entity.other.inherited-class.java
+//                                                          ^^^^ comment.block.empty.java
+//                                                              ^ punctuation.separator.comma.java
+//                                                                ^^^^ comment.block.empty.java
+//                                                                     ^^ entity.other.inherited-class.java
+//                                                                        ^^^^ comment.block.empty.java
+//                                                                             ^ punctuation.section.block.begin.java
+//                                                                              ^ punctuation.section.block.end.java
 
 @Anno           // comment
 //<- meta.interface.java meta.annotation.identifier.java punctuation.definition.annotation.java
@@ -1314,6 +1321,8 @@ interface       // comment
 //<- meta.interface.java storage.type.interface.java
 TestIntf        // comment
 //<- meta.interface.identifier.java entity.name.interface.java
+<T1, T2>
+//<- meta.interface.identifier.java meta.generic.declaration.java
 extends         // comment
 //<- meta.interface.extends.java keyword.declaration.extends.java
 MyEnum,         // comment
