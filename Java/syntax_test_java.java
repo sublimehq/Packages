@@ -2658,12 +2658,16 @@ class ReceiverArgTests {
         /**/ .
 //     ^^^^^^^^ meta.path.java
 //      ^^^^ comment.block.empty.java
-//           ^ punctuation.accessor.dot.java
-        /**/ this
+//           ^ punctuation.accessor.dot.java - support - variable
+        /**/ this [] . illegal,
 //      ^^^^^^^^^ meta.path.java
-//               ^ - meta.path
+//               ^^^^^^^^^^^^^ - meta.path
 //      ^^^^ comment.block.empty.java
-//           ^^^^ variable.parameter.this.java
+//           ^^^^ variable.parameter.this.java - support
+//                ^^ invalid.illegal.unexpected-modifier.java
+//                   ^ invalid.illegal.unexpected-accessor.java
+//                     ^^^^^^^ invalid.illegal.unexpected-member.java
+//                            ^ punctuation.separator.comma.java
         /**/ ,
 //      ^^^^ comment.block.empty.java
 //           ^ punctuation.separator.comma.java
@@ -2672,13 +2676,21 @@ class ReceiverArgTests {
 //            ^ support.class.java - meta.path
         /**/  ReceiverArgTests
 //      ^^^^ comment.block.empty.java
-//            ^^^^^^^^^^^^^^^^ variable.parameter.java - meta.path
+//            ^^^^^^^^^^^^^^^^ variable.parameter.java - meta.path - support
         /**/ .
+//      ^^^^^^^ - meta.path
 //      ^^^^ comment.block.empty.java
 //           ^ invalid.illegal.unexpected-accessor.java - meta.path
-        /**/ this @anno [] . foo @anno []
+        /**/ this[].foo[][].bar
+//      ^^^^^^^^^^^^^^^^^^^^^^^ - meta.path
 //      ^^^^ comment.block.empty.java
 //           ^^^^ invalid.illegal.unexpected-member.java - meta.path
+//               ^^ invalid.illegal.unexpected-modifier.java
+//                 ^ invalid.illegal.unexpected-accessor.java
+//                  ^^^ invalid.illegal.unexpected-member.java
+//                     ^^^^ invalid.illegal.unexpected-modifier.java
+//                         ^ invalid.illegal.unexpected-accessor.java
+//                          ^^^ invalid.illegal.unexpected-member.java
         /**/ ) {}
 //      ^^^^ comment.block.empty.java
 //           ^ punctuation.section.parens.end.java

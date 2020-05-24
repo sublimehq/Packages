@@ -196,10 +196,14 @@ contexts:
     - match: \.
       scope: invalid.illegal.unexpected-accessor.java
       push:
-        - match: '{{id}}'
-          scope: invalid.illegal.unexpected-member.java
-          pop: 1
-        - include: else-pop
+        - illegal-array-modifier
+        - illegal-member
+    - include: else-pop
+
+  illegal-member:
+    - match: '{{id}}'
+      scope: invalid.illegal.unexpected-member.java
+      pop: 1
     - include: else-pop
 
   illegal-newline:
@@ -1384,7 +1388,7 @@ contexts:
   parameter-maybe-receiver:
     - match: this\b
       scope: variable.parameter.this.java
-      pop: 1
+      set: [illegal-members, illegal-array-modifier]
     - match: '{{id}}'
       branch_point: parameter-maybe-receiver
       branch:
@@ -1396,26 +1400,41 @@ contexts:
     - meta_scope: meta.path.java support.class.java
     - match: ''
       push:
-        - clear_scopes: 1
-        - match: \.
-          scope: punctuation.accessor.dot.java
-          push:
-            - match: this\b
-              scope: variable.parameter.this.java
-              pop: 4
-            - match: '{{id}}'
-              scope: invalid.illegal.identifier.java
-              pop: 4
-            - include: else-pop4
-        - match: (?=\S)
-          fail: parameter-maybe-receiver
+        - parameter-receiver-name
+        - parameter-receiver-accessor
+        - illegal-array-modifier
+
+  parameter-receiver-accessor:
+    - match: \.
+      scope: punctuation.accessor.dot.java
+      pop: 1
+    - match: (?=\S)
+      fail: parameter-maybe-receiver
+
+  parameter-receiver-name:
+    - clear_scopes: 1
+    - match: this\b
+      scope: variable.parameter.this.java
+      set:
+        - parameter-receiver-end
+        - illegal-members
+        - illegal-array-modifier
+    - match: '{{id}}'
+      scope: invalid.illegal.identifier.java
+      set:
+        - parameter-receiver-end
+        - illegal-members
+        - illegal-array-modifier
+    - include: else-pop2
+
+  parameter-receiver-end:
+    - clear_scopes: 2
+    - include: immediately-pop2
 
   parameter-normal-identifier:
     - meta_scope: variable.parameter.java
     - match: ''
-      set:
-        - include: array-modifier-body
-        - include: else-pop2
+      set: [immediately-pop2, illegal-members, array-modifier]
 
 ###[ VARIABLES ]###############################################################
 
