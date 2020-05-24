@@ -160,6 +160,10 @@ contexts:
     - match: (?={{reserved_words}}\b)
       pop: 1
 
+  reserved-pop2:
+    - match: (?={{reserved_words}}\b)
+      pop: 2
+
   else-expression-pop:
     - match: (?=\S)
       set: expression-pop
@@ -629,6 +633,7 @@ contexts:
   class-body:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.6
     - include: punctuation-terminator-semicolon
+    - include: keywords
     - include: class-member-declarations
 
 ###[ ENUMS ]###################################################################
@@ -1980,30 +1985,32 @@ contexts:
   entity-class-qualified-identifier:
     - meta_scope: meta.path.java variable.namespace.java
     - match: ''
-      push: 
-        - entity-class-qualified-identifier-path
+      push:
+        - entity-class-path
+        - entity-class-path-accessor
         - generic-type-arguments
 
-  entity-class-qualified-identifier-path:
-    - clear_scopes: 1
+  entity-class-path-accessor:
     - match: \.
       scope: punctuation.accessor.dot.java
-      push:
-        - match: (?={{reserved_words}}\b)
-          pop: 3
-        - match: '{{id}}'
-          branch_point: entity-class-qualified-identifier
-          branch:
-            - entity-class-qualifier
-            - entity-class-name
-        - include: else-pop3
+      pop: 1
     - match: (?=\S)
       fail: entity-class-identifier
+
+  entity-class-path:
+    - clear_scopes: 1
+    - include: reserved-pop2
+    - match: '{{id}}'
+      branch_point: entity-class-qualified-identifier
+      branch:
+        - entity-class-qualifier
+        - entity-class-name
+    - include: else-pop2
 
   entity-class-qualifier:
     - meta_scope: variable.namespace.java
     - match: ''
-      push: 
+      push:
         - entity-class-qualifier-accessor
         - generic-type-arguments
 
@@ -2018,8 +2025,8 @@ contexts:
   entity-class-name:
     - meta_scope: entity.name.class.java
     - match: ''
-      set: 
-        - immediately-pop4
+      set:
+        - immediately-pop3
         - generic-type-arguments
 
   entity-class-unqualified-identifier:
@@ -2040,20 +2047,25 @@ contexts:
     - meta_scope: meta.path.java variable.namespace.java
     - match: ''
       push:
-        - clear_scopes: 1
-        - match: \.
-          scope: punctuation.accessor.dot.java
-          push:
-            - match: (?={{reserved_words}}\b)
-              pop: 3
-            - match: '{{id}}'
-              branch_point: entity-module-qualified-identifier
-              branch:
-                - entity-module-qualifier
-                - entity-module-name
-            - include: else-pop3
-        - match: (?=\S)
-          fail: entity-module-identifier
+        - entity-module-path
+        - entity-module-path-accessor
+
+  entity-module-path-accessor:
+    - match: \.
+      scope: punctuation.accessor.dot.java
+      pop: 1
+    - match: (?=\S)
+      fail: entity-module-identifier
+
+  entity-module-path:
+    - clear_scopes: 1
+    - include: reserved-pop2
+    - match: '{{id}}'
+      branch_point: entity-module-qualified-identifier
+      branch:
+        - entity-module-qualifier
+        - entity-module-name
+    - include: else-pop2
 
   entity-module-qualifier:
     - meta_scope: variable.namespace.java
@@ -2068,7 +2080,7 @@ contexts:
 
   entity-module-name:
     - meta_scope: entity.name.namespace.module.java
-    - include: immediately-pop4
+    - include: immediately-pop3
 
   entity-module-unqualified-identifier:
     - meta_scope: entity.name.namespace.module.java
@@ -2087,20 +2099,25 @@ contexts:
     - meta_scope: meta.path.java variable.namespace.java
     - match: ''
       push:
-        - clear_scopes: 1
-        - match: \.
-          scope: punctuation.accessor.dot.java
-          push:
-            - match: (?={{reserved_words}}\b)
-              pop: 3
-            - match: '{{id}}'
-              branch_point: entity-package-qualified-identifier
-              branch:
-                - entity-package-qualifier
-                - entity-package-name
-            - include: else-pop3
-        - match: (?=\S)
-          fail: entity-package-identifier
+        - entity-package-path
+        - entity-package-path-accessor
+
+  entity-package-path-accessor:
+    - match: \.
+      scope: punctuation.accessor.dot.java
+      pop: 1
+    - match: (?=\S)
+      fail: entity-package-identifier
+
+  entity-package-path:
+    - clear_scopes: 1
+    - include: reserved-pop2
+    - match: '{{id}}'
+      branch_point: entity-package-qualified-identifier
+      branch:
+        - entity-package-qualifier
+        - entity-package-name
+    - include: else-pop2
 
   entity-package-qualifier:
     - meta_scope: variable.namespace.java
@@ -2115,7 +2132,7 @@ contexts:
 
   entity-package-name:
     - meta_scope: entity.name.namespace.package.java
-    - include: immediately-pop4
+    - include: immediately-pop3
 
   entity-package-unqualified-identifier:
     - meta_scope: entity.name.namespace.package.java
