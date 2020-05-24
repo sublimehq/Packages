@@ -1,0 +1,18 @@
+// These settings override both User and Default settings for the hansl syntax
+{
+	// Gretl recommendations are 72 spaces but the ultimate limit should be 80 spaced. '[80, 80.1]' makes the 2nd vertical line a bit thicker.
+    "rulers": [72, 80, 80.1],
+
+    // turn on word wrap for source and text
+    // default value is "auto", which means off for source and on for text
+    "word_wrap": true,
+
+    // set word wrapping at this column
+    // default value is 0, meaning wrapping occurs at window width
+
+    // Prefer tabs because gofmt enforces tabs.
+  	"translate_tabs_to_spaces": true,
+
+  	//Standard gretl tab size
+  	"tab_size": 4
+}

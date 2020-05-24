@@ -1,0 +1,17 @@
+<snippet>
+	<content><![CDATA[
+plot ${1:data}
+       options ${2:options}
+       # literal set linetype 3 lc rgb "#0000ff"
+       # literal set nokey
+       # printf "set title \"%s\"", title
+       # printf "set xlabel \"%s\"", xname
+ end plot --output=${3:output}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>plotblock</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+	<!-- Optional: Description to show in the menu -->
+    <description>gretl - plot - block</description>
+</snippet>

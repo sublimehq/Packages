@@ -1,0 +1,554 @@
+%YAML 1.2
+---
+# http://www.sublimetext.com/docs/3/syntax.html
+
+# Most of the structure and terminology of this syntax is borrowed from:
+# https://golang.org/ref/spec
+
+# The following is a simplified model of Sublime Text's syntax engine, reverse-
+# engineered through experience. This model uses assertive language for brevity,
+# but does not reflect the real implementation and should not be taken
+# literally. Still, it helps a LOT, and is necessary for understanding this
+# syntax.
+#
+# The engine has a stack of rulesets. The topmost frame is the current ruleset:
+#
+#   rulesets:
+#     # current
+#     - [
+#       {match: '...', scope: '...'},
+#       {match: '...', scope: '...'},
+#       {match: '...', scope: '...'},
+#     ],
+#     # other
+#     - [...]
+#
+# The engine appears to use three nested loops: (1) lines, (2) character
+# positions, and (3) rules.
+#
+# First, the engine loops through lines. On each line, it loops through char
+# positions. On each char position, it loops through rules. It also loops
+# through rules on at least two special "positions" that don't correspond to a
+# character: start of line and end of line.
+#
+# For each rule, the engine runs its regex against the remainder of the line,
+# which may also start with ^ or consist entirely of $. Note that older syntax
+# engine(s) supported multiline regexes, but this has been deprecated for
+# performance reasons.
+#
+# Each rule may "consume" 0 to N characters, optionally assigning scopes. In
+# addition, the rule may modify the rule stack with `push / pop / set`.
+# Consuming characters advances the character loop. Consuming characters OR
+# modifying the rule stack also resets the RULE loop; the engine will continue
+# from the next character and the FIRST rule in the then-current ruleset.
+#
+# Rules that consume ZERO characters and DON'T modify the stack also DON'T reset
+# the rule loop. We must be mindful of this behavior. Regexes for such rules
+# typically look like this: (?=\S) or $. If they did reset the rule loop, it
+# would cause an infinite loop in the engine.
+#
+# Another potential gotcha: the engine will loop through the rules at the end of
+# each line, where there aren't any characters to match. The only matches are $
+# or its derivatives such as (?=$). Rules intended to work across multiple
+# lines, for example to trim whitespace and comments, may be unexpectedly
+# interrupted by sibling rules with $.
+
+name: Hansl
+file_extensions:
+  - inp
+scope: source.hansl
+
+
+variables:
+  # These are the words that can't be used as identifiers.
+  command: \b(?:add|adf|anova|append|ar|ar1|arbond|arch|arima|arma|biprobit|bkw|boxplot|break|catch|chow|clear|coeffsum|coint|coint2|corr|corrgm|cusum|data|dataset|debug|delete|diff|difftest|discrete|dpanel|dummify|duration|elif|else|endif|endloop|eqnprint|equation|estimate|eval|fcast|flush|foreign|fractint|freq|funcerr|garch|genr|gmm|gnuplot|graphpg|hausman|heckit|help|hfplot|hsk|hurst|if|include|info|intreg|join|kpss|labels|lad|lags|ldiff|leverage|levinlin|logistic|logit|logs|loop|foreach|mahal|makepkg|markers|meantest|midasreg|mle|modeltab|modprint|modtest|mpols|negbin|nls|normtest|nulldata|ols|omit|open|orthdev|outfile|panel|panplot|pca|pergm|pkg|poisson|print|printf|probit|pvalue|qlrtest|qqplot|quantreg|quit|rename|reset|restrict|rmplot|run|runs|scatters|sdiff|set|setinfo|setmiss|setobs|setopt|shell|smpl|spearman|square|stdize|stop|store|summary|system|tabprint|textplot|tobit|tsls|var|varlist|vartest|vecm|vif|wls|xcorrgm|xtab)\b
+
+  accessor: \b(?:ahat|aic|bic|chisq|coeff|command|compan|datatype|depvar|diagpval|diagtest|dw|dwpval|ec|error|ess|evals|fcast|fcse|fevd|Fstat|gmmcrit|h|hausman|hqc|huge|jalpha|jbeta|jvbeta|lang|llt|lnl|macheps|mnlprobs|model|mprirank|mpisize|ncoeff|nobs|now|nvars|obsdate|obsmajor|obsmicro|obsmninor|parnames|pd|pi|qlrbreak|result|rho|rsq|sample|sargan|sigma|stderr|stopwatch|sysA|sysB|sysGamma|sysinfo|system|T|t1|t2|test|tmax|trsq|uhat|unit|vcv|vecGamma|version|vma|windows|xlist|xtxinv|yhat|ylist)\b
+
+  keyword: \b(?:const|display|for|output|options|while|return|quiet|silent|TRUE|FALSE|null|NA|nan|inf)\b
+
+  basic_types: 'bool|scalar|string|int|void'
+
+  # Relevant for functions (return type)
+  predeclared_type: (?:scalar|string|matrix|matrices|void|strings|bundle|bundles|series|list)
+
+  # Note: this matches ALL valid identifiers, including predeclared constants,
+  # functions and types.
+  ident: \b[[:alpha:]_][[:alnum:]_]*\b
+
+  # Single line only
+  inline_comment: /[*](?:[^*]|[*](?!/))*[*]/ | /[#](?:[^*]|[*](?!/))*/
+
+  # Whitespace and general comments on a single line.
+  # This should only be used for lookahead, not for capturing / scoping.
+  noise: (?:\s|{{inline_comment}})*
+
+  char_escape: \\x\h{2}|\\u\h{4}|\\U\h{8}|\\[0-7]{3}|\\.
+
+  dec_exponent: (?:[eE][-+]??{{dec_digits}})
+  hex_exponent: (?:[pP][-+]??{{dec_digits}})
+
+  # Matches a digit with any number of numeric separators, while
+  # not allowing a numeric separator as the last or first character.
+  dec_digits: (?:\d+(?:_\d+)*)
+
+  # Hexadecimal counterpart to dec_digits.
+  hex_digits: (?:_?\h+(?:_\h+)*)
+
+  #start_of_option: \b(?!({{command}}{{noise}}))(\-\-\w*)\b
+  start_of_option: \b(--\w*)\b
+  is_end_of_option: '$'
+
+contexts:
+  main:
+    - include: match-any
+
+  match-any:
+    - include: match-comments
+    - include: match-tokens
+
+  match-comments:
+    # Line comment
+    - match: '(?>)\#.*$'
+      scope: punctuation.definition.comment.hansl
+      push: pop-line-comment
+
+    # General comment
+    - match: /\*
+      scope: punctuation.definition.comment.begin.hansl
+      push:
+        - meta_scope: comment.block.hansl
+        - match: \*/
+          scope: punctuation.definition.comment.end.hansl
+          pop: true
+        - match: ^\s*(\*)(?!/)
+          captures:
+            1: punctuation.definition.comment.hansl
+
+  pop-line-comment:
+    - meta_scope: comment.line.hansl
+    # Including the newline allows the scope to visually stretch to the right,
+    # and ensures that functionality that relies on comment scoping, such as
+    # contextual hotkeys, works properly at EOL while typing a comment. This
+    # should also match \r\n due to Sublime's internal normalization.
+    - match: $\n?
+      pop: true
+
+  match-tokens:
+    - include: match-keywords
+    - include: match-identifiers
+    - include: match-literals
+    - include: match-operators
+    - include: match-punctuation
+
+  # Keywords are reserved and may not be used as identifiers -- they are not changable
+  match-keywords:
+    - include: match-keyword-command
+    - include: match-keyword-options
+    - include: match-keyword-accessor
+    - include: match-keyword-gretl
+    # Works but not necessary, yet
+    #- include: match-keyword-const
+    - include: match-keyword-func
+    - include: match-keyword-plot
+
+  # See `match-selector` for field scoping.
+  match-identifiers:
+    #- include: match-predeclared-constants
+    - include: match-call
+    - match: '{{ident}}'
+      scope: variable.other.hansl
+    # more explicit: <foo = 2 + 2> would match 'foo'
+    - match: '{{ident}}(?=\s*\=)'
+      scope: variable.parameter.hansl
+
+  match-call:
+    # Matches and highlights data type such as series, scalar, list etc. -- also within a function block
+    - match: '\s*\b({{predeclared_type}})\b(?=\s+({{ident}}|\w*\.\w*)\s*[\=|\[])'
+      scope: variable.function.hansl support.type.builtin.hansl
+      pop: true
+    # Matches and highlights function names such as obslabel()
+    - match: '{{ident}}(?=(?:{{noise}}\))*{{noise}}\()'
+      scope: variable.function.hansl
+      pop: true
+
+  match-operators: [
+    {match: '@(?=\S)', scope: keyword.operator.at.hansl},
+    {match: \!=  , scope: keyword.operator.hansl},
+    {match: \!   , scope: keyword.operator.hansl},
+    {match: \%   , scope: keyword.operator.hansl},
+    {match: \&&  , scope: keyword.operator.hansl},
+    {match: \&   , scope: keyword.operator.hansl},
+    {match: \*   , scope: keyword.operator.hansl},
+    {match: \+\+ , scope: keyword.operator.hansl},
+    {match: \+   , scope: keyword.operator.hansl},
+    {match: '\-'   , scope: keyword.operator.hansl},
+    {match: /    , scope: keyword.operator.hansl},
+    {match: <    , scope: keyword.operator.hansl},
+    {match: <=   , scope: keyword.operator.hansl},
+    {match: ==   , scope: keyword.operator.hansl},
+    {match: \>   , scope: keyword.operator.hansl},
+    {match: \^   , scope: keyword.operator.hansl},
+    {match: \|\| , scope: keyword.operator.hansl},
+    {match: \%=  , scope: keyword.operator.assignment.hansl},
+    {match: \*=  , scope: keyword.operator.assignment.hansl},
+    {match: \+=  , scope: keyword.operator.assignment.hansl},
+    {match: '\-\-' , scope: keyword.operator.assignment.hansl},
+    {match: -=   , scope: keyword.operator.assignment.hansl},
+    {match: \=   , scope: keyword.operator.assignment.hansl},
+    {match: .=   , scope: keyword.operator.assignment.hansl},
+    {match: \^=  , scope: keyword.operator.assignment.hansl},
+    {match: \|=  , scope: keyword.operator.assignment.hansl},
+    {match: \~=  , scope: keyword.operator.assignment.hansl},
+    {match: \.\+ , scope: keyword.operator.assignment.hansl},
+    {match: \.\- , scope: keyword.operator.assignment.hansl},
+    {match: \.\* , scope: keyword.operator.assignment.hansl}
+  ]
+
+  match-star:
+    - match: \*
+      scope: keyword.operator.hansl
+
+  match-punctuation:
+    - include: match-comma
+    - include: match-colon
+    - include: match-semicolon
+    - include: match-selector
+    - include: match-parens
+    - include: match-brackets
+    - include: match-braces
+
+  match-comma:
+    - match: \,
+      scope: punctuation.separator.hansl
+
+  match-colon:
+    - match: ':'
+      scope: punctuation.separator.hansl
+
+  match-semicolon:
+    - match: ;
+      scope: punctuation.terminator.hansl
+
+  match-selector:
+    - match: \.
+      scope: punctuation.accessor.dot.hansl
+      push:
+        - include: match-comments
+
+        # Note: calls and casts are syntactically identical.
+        - match: '{{ident}}(?=(?:{{noise}}\))*{{noise}}\()'
+          scope: variable.function.hansl
+          pop: true
+
+        # Note: newlines between dot and assertion/field are ok
+        - include: pop-before-nonblank
+
+  match-parens:
+    - match: \(
+      scope: punctuation.section.parens.begin.hansl
+      push:
+        - match: \)
+          scope: punctuation.section.parens.end.hansl
+          pop: true
+        #- include: pop-call
+        - include: match-any
+    - match: \)
+      scope: punctuation.section.parens.end.hansl
+
+  match-brackets:
+    - match: \[
+      scope: punctuation.section.brackets.begin.hansl
+    - match: \]
+      scope: punctuation.section.brackets.end.hansl
+      push:
+        - include: match-comments
+        - include: match-star
+        - match: '{{ident}}(?={{noise}}\.)'
+          scope: variable.other.hansl
+          pop: true
+        - include: pop-before-nonblank
+
+  match-braces:
+    - match: \{
+      scope: punctuation.section.braces.begin.hansl
+      push:
+        - meta_scope: meta.block.hansl
+        - match: \}
+          scope: punctuation.section.braces.end.hansl
+          pop: true
+        - include: match-any
+    - match: \}
+      scope: punctuation.section.braces.end.hansl
+
+  match-literals:
+    - include: match-floats
+    - include: match-integers
+    - include: match-strings
+
+  match-floats:
+    # Decimal float literal
+    - match: |-
+        (?x:
+         {{dec_digits}}(?:(\.){{dec_digits}}?{{dec_exponent}}?|{{dec_exponent}})
+         | (\.){{dec_digits}}{{dec_exponent}}?
+        )
+      scope: constant.numeric.float.decimal.hansl
+      captures:
+        1: punctuation.separator.decimal.hansl
+        2: punctuation.separator.decimal.hansl
+    # Hexadecimal float literal
+    - match: (0[xX]){{hex_digits}}?(?:(\.){{hex_digits}}?)?{{hex_exponent}}
+      scope: constant.numeric.float.hexadecimal.hansl
+      captures:
+        1: punctuation.definition.numeric.base.hansl
+        2: punctuation.separator.decimal.hansl
+
+  match-integers:
+    - include: match-hex-integer
+    - include: match-decimal-integer
+
+  match-hex-integer:
+    - match: (0[xX]){{hex_digits}}
+      scope: constant.numeric.integer.hexadecimal.hansl
+      captures:
+        1: punctuation.definition.numeric.base.hansl
+
+  match-decimal-integer:
+    - match: '{{dec_digits}}'
+      scope: constant.numeric.integer.decimal.hansl
+
+  match-strings:
+    - include: match-raw-string
+    - include: match-interpreted-string
+
+  # Might be added in future
+  #match-raw-string:
+  #  - match: '`'
+  #    scope: punctuation.definition.string.begin.hansl
+  #    push:
+  #      - meta_scope: string.quoted.other.hansl
+  #      - match: '`'
+  #        scope: punctuation.definition.string.end.hansl
+  #        pop: true
+  #      - include: match-template-string
+  #      - match: \%%
+  #        scope: constant.character.escape.hansl
+  #      - include: match-fmt
+
+  match-interpreted-string:
+    - match: '(L|u8|u|U)?(")'
+      scope: punctuation.definition.string.begin.hansl
+      push:
+        - meta_scope: string.quoted.double.hansl
+        - match: '(L|u8|u|U)?(")'
+          scope: punctuation.definition.string.end.hansl
+          pop: true
+        - match: '{{char_escape}}'
+          scope: constant.character.escape.hansl
+        - match: \%%
+          scope: constant.character.escape.hansl
+        - include: match-fmt
+
+  # Tries to match known patterns without being too specific. We want to avoid
+  # false positives in non-fmt strings that just happen to contain %, but don't
+  # want too much coupling with the current version of fmt.
+  match-fmt:
+    # This is mainly from C's syntax highlighting
+    - match: |-
+        (?x)\%
+          (\d+\$)?                                      # field (argument #)
+          [#0\- +']*                                    # flags
+          [,:]?                                         # separator character (AltiVec)
+          ((-?\d+)|\*(-?\d+\$)?)?                       # minimum field width
+          (\.((-?\d+)|\*(-?\d+\$)?)?)?                  # precision
+          (t|v|n|)?                                       # escape sequences
+          (\[[^\]]+\]|[am]s|[dxeEgGs%])                  # conversion type
+      scope: constant.other.placeholder.hansl
+
+  match-keyword-accessor:
+    - match: \$\b({{accessor}})\b
+      scope: keyword.declaration.function.hansl
+
+  match-keyword-command:
+    # TODO: Add a check that there is not option '--<option>' coming at the end
+    - match: \b({{command}}\w*)\b
+      scope: variable.function.hansl support.function.builtin.hansl
+
+  match-keyword-option:
+    - match: ({{start_of_option}})
+      scope: punctuation.definition.parameter.hansl
+      #push:
+      #  - meta_scope: variable.parameter.option.hansl
+      #  - meta_scope: variable.parameter.hansl
+      #  - match: (?==)
+      #    set:
+      #      - match: =
+      #        scope: keyword.operator.assignment.option.hansl
+      #        pop: true
+        #- match: (?={{is_end_of_option}})
+        #  pop: true
+
+  match-keyword-gretl:
+    - match: \b({{keyword}})\b
+      scope: keyword.control.hansl
+
+  # Works but not necessary
+  #match-keyword-const:
+  #  - match: \bconst\b
+  #    scope: storage.type.keyword.const.hansl
+  #    push:
+  #      - match: '{{predeclared_type}}(?={{noise}})'
+  #        scope: variable.other.constant.declaration.hansl#
+
+  #      - include: match-any
+  #      - include: match-comments
+  #      - include: match-comma#
+
+  #      - match: '{{ident}}(?={{noise}},)'
+  #        scope: variable.other.constant.declaration.hansl
+
+  #      - include: pop-before-nonblank
+
+  match-keyword-plot:
+    - match: \bplot\b
+      scope: storage.type.keyword.function.hansl
+    - match: \bend plot\b
+      scope: storage.type.keyword.function.hansl
+
+  match-keyword-func:
+    - match: \bend function\b
+      scope: storage.type.keyword.function.hansl
+    - match: \bfunction\b
+      scope: storage.type.keyword.function.hansl
+      push:
+        - include: match-comments
+        # Named function
+        - match: ({{predeclared_type}}){{noise}}(?=({{ident}}))
+          set: pop-func-signature
+        # Anonymous function
+        - include: pop-func-parameter-and-return-lists
+
+  pop-func-signature:
+    - include: match-comments
+    - match: '{{ident}}'
+      scope: entity.name.function.hansl
+      set: pop-func-parameter-and-return-lists
+    - include: pop-before-nonblank
+
+
+  pop-func-parameter-and-return-lists:
+    - include: match-comments
+    # Match return data type
+    - match: '{{predeclared_type}}'
+      set: pop-func-return-signature
+    # Match parameter names and data types of input
+    - match: (?=\()
+      set: pop-func-parameter-list
+    - include: pop-before-nonblank
+
+  # TODO: I think this is supposed to match the data type: <function data_type foo()>
+  # But it does not highlight anything
+  pop-func-return-signature:
+    - include: match-comments
+    - match: '{{predeclared_type}}'
+      set: pop-func-parameter-list
+    - match: (?=\S)
+      set: pop-type
+
+  # This bit highlights (matches) function argumements (parameters)
+  # and not data types
+  pop-func-parameter-list:
+    - include: match-comments
+    - match: \(
+      scope: punctuation.section.parens.begin.hansl
+      set:
+        #- include: match-comments
+        - include: match-strings
+        - match: '\bconst\b'
+          scope: variable.other.constant.hansl
+        - match: |
+            (?x)
+            (?=
+              (?:{{noise}}{{predeclared_type}}{{ident}}{{noise}},{{noise}})*
+              {{ident}}{{noise}}(?:[\[]|[^\s/,)])
+            )
+          set: pop-parameter-list-named
+        # Captures <function data_type foo (void)> case
+        - match: |
+            (?x)
+            (?=
+              (?:{{noise}}{{predeclared_type}}{{ident}}{{noise}},{{noise}})*
+              {{ident}}{{noise}}
+            )
+          set: pop-parameter-list-named
+    - include: pop-before-nonblank
+
+  # Here you set how to match a parameter in a function declaration
+  pop-parameter-list-named:
+    - match: \)
+      scope: punctuation.section.parens.end.hansl
+      pop: true
+    - include: match-comments
+    - include: match-keywords
+    - include: match-brackets
+    - include: match-braces
+    - include: match-parens
+    - include: match-comma
+    # Much more work must being done for capturing properly complex structures as: <int type[1:3:1] "Plot type" {"Spectrum""Phase"}>
+    - match: '{{ident}}(?<!{{predeclared_type}})(?<!{{basic_types}})'
+      scope: variable.parameter.hansl
+      push: pop-parameter-type
+    - match: '({{predeclared_type}}|{{basic_types}}){{noise}}'
+      scope: variable.function.hansl support.type.builtin.hansl
+      push: pop-parameter-type
+
+  pop-parameter-type:
+    - match: (?=\)|,)
+      pop: true
+    - include: pop-type
+
+  pop-before-nonblank:
+    - match: (?=\S)
+      pop: true
+
+  pop-type:
+    - include: match-comments
+
+    - match: \(
+      scope: punctuation.section.parens.begin.hansl
+      push: [pop-type-nested-in-parens, pop-type]
+
+    - match: \[
+      scope: punctuation.section.brackets.begin.hansl
+      set:
+        - match: \]
+          scope: punctuation.section.brackets.end.hansl
+          set: pop-type
+        - include: match-any
+
+    - include: match-operators
+    - include: pop-before-nonblank
+
+  pop-type-nested-in-parens:
+    - match: \)
+      scope: punctuation.section.parens.end.hansl
+      pop: true
+    - include: pop-type
+
+  pop-bundle:
+    - match: \bbundle\b
+      scope: storage.type.keyword.bundle.hansl
+      set:
+        - include: match-comments
+        - match: \bdefbundle\(\b
+          scope: punctuation.section.braces.begin.hansl
+          set:
+            - match: \)
+              scope: punctuation.section.braces.end.hansl
+              pop: true
+
+            - include: match-keywords
+            - include: match-any
+
+        - include: pop-before-nonblank

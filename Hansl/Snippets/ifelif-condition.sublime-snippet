@@ -1,0 +1,18 @@
+<snippet>
+	<content><![CDATA[
+if ${1:condition1}
+	${2:then1}
+elif ${3:condition2}
+	${4:then2}
+else
+	${5:then3}
+endif
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>if</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.gretl</scope> -->
+	<!-- Optional: Description to show in the menu -->
+    <description>gretl - create - ifelif</description>
+</snippet>

@@ -1,0 +1,40 @@
+{
+	"shell_cmd": "gretlcli -e \"$file\"",
+	"cancel": {"kill": true},
+	"working_dir": "${file_path}",
+
+	// Specify Gretl location on your system in case 'gretlcli' is not linked to it.
+	//"env": {
+	//	"PATH": "$PATH; /usr/local/bin"
+	//},
+
+	"file_patterns": ["*.inp"],
+	"selector": "source.hansl",
+
+	"file_regex": ".*Parse error at unexpected token '(.*)'",
+
+	// Variants take all properties defined above
+	"variants": [
+		{
+			// Batch mode closing gretl after job is finished
+			"name": "Batch mode",
+			"shell_cmd": "gretlcli -e -b \"$file\""
+		},
+
+		{
+			// This requires the "Terminus" package being installed
+			"name": "REPL",
+
+			// https://github.com/randy3k/Terminus#terminus-api
+			"target": "terminus_open",
+			"shell_cmd": "gretlcli -e \"$file\"",
+			"cancel": "terminus_cancel_build",
+
+			// Terminus settings
+			"auto_close": true,
+			"focus": true,
+			"timeit": true,
+			"title": "Gretl CLI"
+		}
+	]
+}

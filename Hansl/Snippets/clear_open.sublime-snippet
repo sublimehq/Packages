@@ -1,0 +1,14 @@
+<snippet>
+	<content><![CDATA[
+clear
+set verbose off
+open ${filename} -q -p
+
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>clear_open</tabTrigger>
+	<!-- Optional: Set a scope to limit where the snippet will trigger -->
+	<!-- <scope>source.python</scope> -->
+	<!-- Optional: Description to show in the menu -->
+    <description>gretl - misc - open</description>
+</snippet>

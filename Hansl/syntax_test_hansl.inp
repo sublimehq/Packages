@@ -1,0 +1,493 @@
+# SYNTAX TEST "hansl.sublime-syntax"
+
+/*
+NOTES
+
+This file is not intended to pass compilation.
+*/
+
+
+# Comments
+
+
+    #
+# ^ -comment -punctuation
+#  ^^ punctuation.definition.comment.hansl
+#  ^^^ comment.line.hansl
+
+    # comment # comment
+# ^ -comment -punctuation
+#  ^^ punctuation.definition.comment.hansl
+#  ^^^^^^^^^^^^^^^^^^^^^^ comment.line.hansl
+#             ^^ -punctuation
+
+    /* comment # comment */  # comment
+# ^ -comment -punctuation
+#  ^^ punctuation.definition.comment.begin.hansl
+#  ^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.hansl
+#             ^^ -punctuation
+#                        ^^ punctuation.definition.comment.end.hansl
+#                          ^^ -comment -punctuation
+#                            ^^ punctuation.definition.comment.hansl
+#                            ^^^^^^^^^^^ comment.line.hansl
+
+    /*
+# ^ -comment
+#  ^^^^ comment.block.hansl
+    comment
+#  ^^^^^^^^ comment.block.hansl
+    */
+#  ^^ comment.block.hansl
+#    ^ -comment
+
+    /* * */
+# ^ -comment
+#  ^^^^^^^ comment.block.hansl
+#         ^ -comment
+
+    /**
+     *
+#   ^ comment.block.hansl punctuation.definition.comment.hansl
+    */
+
+    #hansl
+# ^ -comment -punctuation
+#  ^^ punctuation.definition.comment.hansl
+#  ^^^^^ comment.line.hansl -meta.annotation
+
+    #hansl:
+# ^ -comment -meta -punctuation
+#  ^^ punctuation.definition.comment.hansl
+#  ^^^^^ comment.line.hansl meta.annotation.hansl
+#       ^ comment.line.hansl -meta.annotation
+
+    #hansl:generate one two three
+# ^ -comment -meta -punctuation
+#  ^^ punctuation.definition.comment.hansl
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.hansl meta.annotation.hansl
+#                             ^ comment.line.hansl -meta.annotation
+
+
+# Type Keywords and Syntax
+
+/*
+Type keywords are tested early because they're used in many other tests.
+
+Note: built-ins are tested separately. Search for "# Built-in Types".
+*/
+
+
+# ## func
+
+# Note: a function type and the beginning of a non-method function declaration
+# are parsed EXACTLY the same. Function types may contain parameter names.
+# These tests wouldn't be valid Go code by themselves, but they are valid
+# function types.
+
+function type name (args)
+  /* code description
+  return: type, description */
+
+  code
+
+  return  variable
+end function
+
+
+function scalar foo ()
+end function
+
+function scalar foo (void)
+end function
+
+function scalar foo (scalar p, matrix m)
+end function
+
+function scalar foo (scalar p, matrix m)
+  /* comment*/
+end function
+
+function scalar foo (scalar p,
+                    matrix m,
+                    const int i,
+                    const int f[1:3:2] {"opt1", "opt2", "opt3"})
+  /* comment*/
+  series s = normal(a, b)
+  return s
+end function
+
+function scalar ^foo (scalar p,
+                    matrix m,
+                    const int i,
+                    const int f[1:3:2] {"opt1", "opt2", "opt3"})
+  /* comment*/
+  series s = normal(a, b)
+  return s
+end function
+
+function matrix spec_taper (matrix x,
+                            const scalar p[0.1])
+
+    p = p < 0 ? 0 : (p > 0.5 ? 0.5 : p)
+    # nc = cols(x)
+    scalar nr = rows(x)
+    m = floor(nr * p)
+    if m > 0
+        matrix w = seq(1,2*m-1,2)' / (2*m)
+        w = 0.5 * (1 - cos($pi .* w))
+        x[1:m, ] = x[1:m, ] .* w
+        x[nr-m+1:,] = x[nr-m+1:,] .* mreverse(w)
+    endif
+    return x
+end function
+
+
+# ## bundle
+
+    defbundle()
+
+    defbundle("key", value)
+    defbundle("key", value, "key2")
+    B = defbundle("key", value, "key2")
+    bundle B = defbundle("key", value, "key2")
+    bundle B = defbundle(\
+      "key", value,\
+      "key2", value2)
+
+
+# ## Matrix
+matrix m = {}
+matrix m = {1,2; 3,4}
+matrix m = {1,2;\
+            3,4}
+matrix m = ones(5,6)
+m[1]
+m[1,3]
+m[1:4,3:10]
+m[1:4,3:10]'
+mshape(NA, 1, 4)
+
+
+# ## Array of matrices
+matrices M = array(5)
+matrices M = defarray(ones(1,5), mshape(NA,2,3))
+M[1]
+
+
+# ## Array of strings
+strings S = array(0)
+strings S = defarray("A", "B")
+S[1]
+S[1:2]
+
+
+# # Literals
+
+# ## Integers
+
+1
+-1
+111
+-111
+10^5
+1777_000_000
+
+0809
+
+
+# ### Hex
+
+    0x0; 0x0123456789ABCDEFabcdef; -0x0123456789ABCDEFabcdef;
+
+    0x_0; 0x012_3456_7_8_9ABCDEFabcd_ef;
+
+# ### Binary
+
+    0b1011; 0B00001; -0b1; 0b_1; 0B1_0;
+
+# ## Floats
+
+    000.000
+    123.456
+    .0
+    1.
+    0_1.0_1
+     1_23.4_6
+
+    -000.000
+    -123.456
+    -.0
+    -1.
+
+    0e+0
+    0E+0
+    0.0e+0
+    0.0E+0
+    123.456e+789
+
+
+# ## Strings
+
+string S = "A wko2 fnru4iopü \
+  kdi3kopü"
+string S = "A wko2 fnru4iopü \
+  /* */
+  kdi3kopü"
+
+
+    "one two"
+
+    "one \"\" \n two"
+
+    "%"
+
+    "one /* two */ three"
+
+    "_\n_"
+    "_\x00_"
+    "_\u0000_"
+    "_\U00000000_"
+    "_\000_"
+
+# # Operators
+
+    !=
+    !
+    %=
+    %
+    &&
+    &
+    *=
+    *
+    ++
+    +=
+    +
+    --
+    -=
+    -
+    /=
+    /
+    <
+    <=
+    ==
+    =
+    >=
+    >
+    ^=
+    ^
+    |=
+    ~=
+    ||
+
+
+# # Punctuation
+
+    , : . () [] {}
+
+# ## Selector
+
+# ### Member
+
+    ident.ident
+    key["value"]
+
+
+# ## Parens
+
+
+    ident()
+
+    ident /**/ (
+    )
+
+    ident.ident()
+
+    ident
+    (ident)(ident)
+
+    ((ident))((ident))
+
+# # Keywords
+
+# Some keywords are covered elsewhere in the test.
+
+    break
+    else
+    for
+    if
+    return
+
+
+# ## Commands
+
+smpl a > 0 --restrict
+smpl a > 0 --restrict --replace
+ols y x
+ols y x --robust
+ols y x --silent
+ols y x --quiet
+
+
+# ## Accesors
+
+$t1
+$t3
+
+
+
+# # Predeclared Constants
+
+    TRUE FALSE NA
+
+
+/*
+Real-word examples
+*/
+
+function matrix spec_taper (matrix x,
+                            const scalar p[0.1])
+/* de3
+de3
+de3 */
+
+    p = p < 0 ? 0 : (p > 0.5 ? 0.5 : p)
+    # nc = cols(x)
+    scalar nr = rows(x)
+    m = floor(nr * p)
+    if m > 0
+        matrix w = seq(1,2*m-1,2)' / (2*m)
+        w = 0.5 * (1 - cos($pi .* w))
+        x[1:m, ] = x[1:m, ] .* w
+        x[nr-m+1:,] = x[nr-m+1:,] .* mreverse(w)
+    endif
+    return x
+end function
+
+function matrix kmoddan (matrix spans)
+    matrix ret = 1
+    loop i=1..nelem(spans) --quiet
+        spi = spans[i]
+        w = 0.5 | ones(2*spi-1,1) | 0.5
+        w = w./sumc(w)
+        ret = filter(ret|zeros(2*spi,1), w)
+    endloop
+    return ret
+end function
+
+function scalar k_bwidth (matrix w)
+    scalar m = (rows(w) - 1)/2
+    matrix j = seq(-m,m).^2
+    scalar bwidth = sqrt( (j + 1/12) * w )
+    #    df = 2/sumc(w.^2)
+    return bwidth
+end function
+
+function matrix kernapply (const matrix x,
+                           matrix w)
+    # here we smooth the kernel by computing the convolution
+    # of the raw periodogram and the weights via the FFT
+    scalar c = cols(x)
+    scalar r = rows(x)
+    w = vec(w)   # ensure column
+    scalar rw = rows(w)
+    scalar m = (rw - 1)/2
+    w = w[m+1:] | zeros(r - rw, 1) |  w[1:m]
+    matrix f = fft2(complex(w, 0) ~ x)
+    G = f[,1] .* f[,2:]
+    return ffti(G)
+end function
+
+
+
+function matrix spectra (bundle *S)
+    matrix s = seq(S.n,1)'
+    spcols = cum(s) - s + 1  # oooh, so clever :-)
+        matrix omega = S.freq
+    matrix spec = Re(S.spectrum)[1:rows(omega),spcols]
+
+    return omega ~ spec
+end function
+
+function matrix co_ph (void)
+
+    scalar n = S n
+    scalar m = n*(n+1)/2
+    scalar Nspec = rows(S.freq)
+    matrix ndx = unvech(seq(1,m)')
+    ndx = vech(ndx[{i,j}, {i,j}])
+    matrix F = S.spectrum[1:Nspec, ndx]
+    co = cmod(F)
+    co = co[,2].^2 ./ (co[,1] .* co[,3])
+    ph = (i<j) ? carg(F)[,2] : -carg(F)[,2]
+
+    return co ~ ph
+end function
+
+function bundle mvspec (list X ,
+                        matrix spans[null],
+                        scalar taper[0.1],
+                        int prefilt[0:2:2] {"Do nothing", "Demean", "Detrend"})
+    matrix x = {X}
+    if !exists(spans)
+        T = rows(x)
+        spans = autospans(T)
+    endif
+    spans = floor(spans) + !(spans % 2)
+    # initialise the bundle -----------------------------------------
+    scalar xfreq = $pd
+    scalar N = rows(x)
+    scalar N0 = N
+    scalar nser = cols(x)
+    strings names = strsplit(strsub(varname(X),","," "))
+    ret = defbundle("names", names, "N", N, "n", nser, "spans", spans, "taper", taper, "prefilt", prefilt)
+
+    return ret
+end function
+
+
+function void phplot (bundle S,
+                      scalar i,
+                      scalar j,
+                      bool cont[1])
+    cp = co_ph(S, i, j)
+    ph = cp[,2]
+    if cont
+        d = diff(ph)
+        up = cum(d .> $pi)
+        dn = cum(d .< -$pi)
+        ph += (dn - up) .* $pi*2
+    endif
+    grph = ph ~ S.freq
+    string title = sprintf("Phase plot for %s and %s", S.names[i], S.names[j])
+    string x2range = sprintf("set x2range [0:3.2]")
+    string x2a = x2axis(S.freq, $pd)
+    plot grph
+        options fit=none with-lines
+        literal set xlabel 'frequency'
+        literal set xtics nomirror
+        literal set x2label 'periods'
+        literal @x2range
+        literal @x2a
+        literal set title "@title"
+    end plot --output=display
+end function
+
+
+function void ghosts_gui (series x "Series 1",
+                          series y "Series 2",
+                          int type[1:3:1] "Plot type" {"Spectrum", "Coherence", "Phase"},
+                          bool logyscale[1] "Log Y scale spectrum plot only",
+                          bool logxscale[0] "Log X scale spectrum plot only")
+    list X = x y
+    bundle b = mvspec(X)
+    b.names[1] = argname(x)
+    b.names[2] = argname(y)
+    if type == 1
+        l = logyscale + 2 * logxscale
+        spplot(b, 1, l)
+    elif type == 2
+        coplot(b, 1, 2)
+    else
+        phplot(b, 1, 2)
+    endif
+end function
