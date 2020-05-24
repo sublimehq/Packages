@@ -196,7 +196,7 @@ import a.b.Class.SubClass;
 //              ^ punctuation.accessor.dot.java - entity
 //               ^^^^^^^^ entity.name.class.java
 
-import 
+import
 //^^^^^ meta.import.java - meta.path
     a
 //^^ meta.import.java - meta.path

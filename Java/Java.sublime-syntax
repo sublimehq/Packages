@@ -1252,7 +1252,7 @@ contexts:
 
   after-object-type-in-instantiation:
     - match: <>
-      scope: 
+      scope:
         meta.generic.java
         punctuation.definition.generic.diamond.java
       set: constructor-arguments
@@ -1706,7 +1706,7 @@ contexts:
     # exceptions
     - match: catch\b
       scope: keyword.control.exception.catch.java
-      push: 
+      push:
         - catch-statement-block
         - catch-statement-parameters
     - match: finally\b
@@ -1714,7 +1714,7 @@ contexts:
       push: finally-statement-block
     - match: try\b
       scope: keyword.control.exception.try.java
-      push: 
+      push:
         - try-statement-block
         - try-statement-parameters
     # flow
@@ -1758,7 +1758,7 @@ contexts:
       push: do-statement-block
     - match: for\b
       scope: keyword.control.loop.for.java
-      push: 
+      push:
         - for-statement-block
         - for-statement-parameters
     - match: while\b
@@ -1924,10 +1924,10 @@ contexts:
     - match: \(
       scope: punctuation.section.parens.begin.java
       push:
+        - meta_scope: meta.parens.java
         - match: \)
           scope: punctuation.section.parens.end.java
           pop: 2
-        - meta_scope: meta.parens.java
         - include: illegal-open-block
         - include: expressions
     - include: else-pop
@@ -1936,10 +1936,10 @@ contexts:
     - match: \{
       scope: punctuation.section.block.begin.java
       push:
+        - meta_scope: meta.block.java
         - match: \}
           scope: punctuation.section.block.end.java
           pop: 2
-        - meta_scope: meta.block.java
         - include: blocks-body
     - include: else-pop
 
