@@ -164,6 +164,10 @@ contexts:
     - match: (?={{reserved_words}}\b)
       pop: 2
 
+  reserved-pop3:
+    - match: (?={{reserved_words}}\b)
+      pop: 3
+
   else-expression-pop:
     - match: (?=\S)
       set: expression-pop
@@ -276,29 +280,61 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.7
     - match: \@
       scope: punctuation.definition.annotation.java
-      push: [annotation-parameters, annotation-qualified-name]
+      push:
+        - annotation-parameters
+        - annotation-identifier
 
-  annotation-qualified-name:
-    - match: '{{before_fqn}}'
-      set:
-        - meta_scope: meta.path.java
-        - match: '{{lowercase_id}}'
-          scope: variable.annotation.package.java
-        - include: punctuation-accessor-dot
-        - include: annotation-unqualified-name
-    - include: annotation-unqualified-name
-
-  annotation-unqualified-name:
-    - match: '{{classcase_id}}'
-      scope: variable.annotation.java
-      set: annotation-nested-name
+  annotation-identifier:
+    - include: reserved-pop
+    - match: '{{id}}'
+      branch_point: annotation-identifier
+      branch:
+        - annotation-qualified-identifier
+        - annotation-unqualified-identifier
     - include: else-pop
 
-  annotation-nested-name:
-    - match: \.
+  annotation-qualified-identifier:
+    - meta_scope: meta.path.java variable.annotation.namespace.java
+    - match: ''
+      push:
+        - annotation-path
+        - annotation-path-accessor
+
+  annotation-path-accessor:
+    - match: \.(?=[^.])
       scope: punctuation.accessor.dot.java
-      set: annotation-unqualified-name
-    - include: else-pop
+      pop: 1
+    - match: (?=\S)
+      fail: annotation-identifier
+
+  annotation-path:
+    - clear_scopes: 1
+    - include: reserved-pop3
+    - match: '{{id}}'
+      branch_point: annotation-qualified-identifier
+      branch:
+        - annotation-qualifier
+        - annotation-name
+    - include: else-pop3
+
+  annotation-qualifier:
+    - meta_scope: variable.annotation.namespace.java
+    - match: ''
+      push:
+        - clear_scopes: 1
+        - match: \.(?=[^.])
+          scope: punctuation.accessor.dot.java
+          pop: 2
+        - match: (?=\S)
+          fail: annotation-qualified-identifier
+
+  annotation-name:
+    - meta_scope: variable.annotation.java
+    - include: immediately-pop4
+
+  annotation-unqualified-identifier:
+    - meta_scope: variable.annotation.java
+    - include: immediately-pop2
 
   annotation-parameters:
     - meta_scope: meta.annotation.identifier.java
@@ -2223,7 +2259,7 @@ contexts:
     - include: else-pop
 
   object-type-child:
-    - match: \.(?!\.)
+    - match: \.(?=[^.])
       scope: punctuation.accessor.dot.java
       set: object-type-no-fqn
     - include: else-pop

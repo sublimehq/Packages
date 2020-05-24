@@ -2151,6 +2151,15 @@ class MethodDelcarationTests {
 //                                    ^^^ keyword.operator.variadic.java
 //                                        ^^^^^^ variable.parameter.java
 
+  void annotatedPrimitiveVarArgs(@anno int @foo.anno... values) {}
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.method meta.method
+//                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java
+//                               ^^^^^ meta.annotation.identifier.java
+//                                     ^^^ storage.type.primitive.java
+//                                         ^^^^^^^^^ meta.annotation.identifier.java
+//                                                  ^^^ keyword.operator.variadic.java
+//                                                      ^^^^^^ variable.parameter.java
+
   void classVarArgs(String... values) {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.method meta.method
 //                 ^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java
@@ -2269,11 +2278,11 @@ class MethodDelcarationTests {
 //                                              ^^ storage.modifier.array.java
 //                                                ^^^^^ meta.annotation.identifier.java
 //                                                     ^^ storage.modifier.array.java
-  ) @Anno [] @ package . Anno (param = value) [] {}
+  ) @Anno [] @ path . Anno (param = value) [] {}
 //^ meta.method.parameters.java meta.parens.java punctuation.section.parens.end.java
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.java - meta.method meta.method
-//                                               ^^ meta.method.java meta.block.java - meta.method meta.method
-//                                                 ^ - meta.method
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.java - meta.method meta.method
+//                                            ^^ meta.method.java meta.block.java - meta.method meta.method
+//                                              ^ - meta.method
 //  ^^^^^ meta.annotation.identifier.java
 //        ^^ storage.modifier.array.java
 
@@ -4190,7 +4199,7 @@ class WhileStatementTests {
 // <- meta.class.java meta.annotation.identifier.java punctuation.definition.annotation.java - meta.annotation meta.annotation
 //^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.annotation.identifier.java - meta.annotation meta.annotation
 //                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.annotation.parameters.java meta.parens.java - meta.annotation meta.annotation
-//^^^^^^^^ variable.annotation.java
+//^^^^^^^^ variable.annotation.namespace.java
 //        ^ punctuation.accessor.dot.java
 //         ^^^^^^^^^^^^^^ variable.annotation.java
 //                       ^ punctuation.section.parens.begin.java
@@ -4206,7 +4215,7 @@ public class GrafoTest {
 //       ^ entity.name.function
     }
 
-    @Author(first = "Oompah", last 
+    @Author(first = "Oompah", last
 //  ^ meta.annotation.identifier.java
 //   ^^^^^^ meta.annotation.identifier.java
 //         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.parameters.java
@@ -4277,19 +4286,19 @@ public class GrafoTest {
 @fully.qualified.Annotation
 // <- meta.class.java meta.annotation.identifier.java punctuation.definition.annotation.java
 //^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.annotation.identifier.java meta.path.java
-//^^^^ variable.annotation.package.java
+//^^^^ variable.annotation.namespace.java
 //    ^ punctuation.accessor.dot.java
-//     ^^^^^^^^^ variable.annotation.package.java
+//     ^^^^^^^^^ variable.annotation.namespace.java
 //              ^ punctuation.accessor.dot.java
 //                ^^^^^^^^^ variable.annotation.java
 @fully.qualified.ParentClass.InnerAnnotation
 // <- meta.class.java meta.annotation.identifier.java punctuation.definition.annotation.java
 //^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.annotation.identifier.java meta.path.java
-//^^^^ variable.annotation.package.java
+//^^^^ variable.annotation.namespace.java
 //    ^ punctuation.accessor.dot.java
-//     ^^^^^^^^^ variable.annotation.package.java
+//     ^^^^^^^^^ variable.annotation.namespace.java
 //              ^ punctuation.accessor.dot.java
-//               ^^^^^^^^^^^ variable.annotation.java
+//               ^^^^^^^^^^^ variable.annotation.namespace.java
 //                          ^ punctuation.accessor.dot.java
 //                           ^^^^^^^^^^^^^^^ variable.annotation.java
 @fully.qualified
