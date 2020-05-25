@@ -82,25 +82,14 @@ variables:
 contexts:
   main:
     - include: prototype
-    - include: declarations
     - include: statements
-
-  declarations:
-    - include: class
-    - include: enum
-    - include: interface
-    - include: modifier
-    - include: import
-    - include: module
-    - include: package
+    - include: declarations
 
   statements:
     - include: punctuation-terminator-semicolon
     - include: blocks
     - include: keywords
     - include: labels
-    - include: expressions
-    - include: stray-braces
 
   expressions:
     - include: parens-or-lambda
@@ -362,53 +351,30 @@ contexts:
       push: array-initializer-common
     - include: expressions
 
-###[ MODIFIER ]################################################################
+###[ DECLARATIONS ]############################################################
 
-  modifier:
-    - match: (?={{storage_modifiers}}|@)
-      branch_point: modifier-branches
+  declarations:
+    - include: import
+    - include: module
+    - include: package
+    - match: (?=\S)
+      branch_point: declarations
       branch:
-        - modifier-class
-        - modifier-enum
-        - modifier-interface
+        - constructor-declaration
+        - method-declaration
+        - field-declaration
+        - class-declaration
+        - enum-declaration
+        - interface-declaration
+        - other-declaration
 
-  modifier-class:
-    - meta_scope: meta.class.java
-    - match: (?=class\b)
+  other-declaration:
+    - match: void\b
+      scope: storage.type.void.java
       pop: 1
-    - match: '{{class_modifier}}\b'
-      scope: storage.modifier.java
-    - match: '{{class_no_modifier}}\b'
-      scope: invalid.illegal.unexpected-keyword.java
-    - include: annotation
-    - match: (?=\S)
-      fail: modifier-branches
+    - include: expression-pop
 
-  modifier-enum:
-    - meta_scope: meta.enum.java
-    - match: (?=enum\b)
-      pop: 1
-    - match: '{{class_modifier}}\b'
-      scope: storage.modifier.java
-    - match: '{{class_no_modifier}}\b'
-      scope: invalid.illegal.unexpected-keyword.java
-    - include: annotation
-    - match: (?=\S)
-      fail: modifier-branches
-
-  modifier-interface:
-    - meta_scope: meta.interface.java
-    - match: (?=@?interface\b)
-      pop: 1
-    - match: '{{interface_modifier}}\b'
-      scope: storage.modifier.java
-    - match: '{{interface_no_modifier}}\b'
-      scope: invalid.illegal.unexpected-keyword.java
-    - include: annotation
-    - match: (?=\S)
-      fail: modifier-branches
-
-###[ PACKAGE ]#################################################################
+###[ PACKAGE DECLARATION ]#####################################################
 
   package:
     - match: package\b
@@ -424,7 +390,7 @@ contexts:
     - include: entity-package
     - include: immediately-pop
 
-###[ MODULE ]##################################################################
+###[ MODULE DECLARATION ]######################################################
 
   module:
     - match: (?:(open)\s+)?(module)\b
@@ -513,7 +479,7 @@ contexts:
     - match: (?=[;}]|(?:exports|opens|requires|provides|uses|{{reserved_words}})\b)
       pop: 1
 
-###[ IMPORT ]##################################################################
+###[ IMPORT DECLARATION ]######################################################
 
   import:
     - match: import\b
@@ -606,21 +572,28 @@ contexts:
     - match: (?=\s*;|{{reserved_words}}\b)
       pop: 1
 
-###[ CLASSES ]#################################################################
+###[ CLASS DECLARATION ]#######################################################
 
-  class:
+  class-declaration:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1
+    - meta_scope: meta.class.java
     - match: class\b
       scope:
-        meta.class.java
         storage.type.class.java
         keyword.declaration.class.java
-      push:
+      set:
         - class-body-block
         - class-extends
         - class-name-meta
         - generic-type-parameters
         - class-name
+    - match: '{{class_modifier}}\b'
+      scope: storage.modifier.java
+    - match: '{{class_no_modifier}}\b'
+      scope: invalid.illegal.unexpected-keyword.java
+    - include: annotation
+    - match: (?=\S)
+      fail: declarations
 
   class-name:
     - include: reserved-pop
@@ -668,25 +641,31 @@ contexts:
 
   class-body:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.6
-    - include: punctuation-terminator-semicolon
-    - include: keywords
-    - include: class-member-declarations
+    - include: statements
+    - include: declarations
 
-###[ ENUMS ]###################################################################
+###[ ENUM DECLARATION ]########################################################
 
-  enum:
+  enum-declaration:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.9
+    - meta_scope: meta.enum.java
     - match: enum\b
       scope:
-        meta.enum.java
         storage.type.enum.java
         keyword.declaration.enum.java
-      push:
+      set:
         - enum-body-block
         - enum-extends
         - enum-name-meta
         - illegal-type-parameters
         - enum-name
+    - match: '{{class_modifier}}\b'
+      scope: storage.modifier.java
+    - match: '{{class_no_modifier}}\b'
+      scope: invalid.illegal.unexpected-keyword.java
+    - include: annotation
+    - match: (?=\S)
+      fail: declarations
 
   enum-name:
     - include: reserved-pop
@@ -764,21 +743,28 @@ contexts:
     - include: block-end
     - include: class-body
 
-###[ INTERFACES ]##############################################################
+###[ INTERFACE DECLARATION ]###################################################
 
-  interface:
+  interface-declaration:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.1
+    - meta_scope: meta.interface.java
     - match: (@?)interface\b
       scope:
-        meta.interface.java
         storage.type.interface.java
         keyword.declaration.interface.java
-      push:
+      set:
         - interface-body-block
         - interface-extends
         - interface-name-meta
         - generic-type-parameters
         - interface-name
+    - match: '{{interface_modifier}}\b'
+      scope: storage.modifier.java
+    - match: '{{interface_no_modifier}}\b'
+      scope: invalid.illegal.unexpected-keyword.java
+    - include: annotation
+    - match: (?=\S)
+      fail: declarations
 
   interface-name:
     - include: reserved-pop
@@ -824,27 +810,6 @@ contexts:
     - include: block-end
     - include: class-body
 
-###[ CLASS MEMBER DECLARATIONS ]###############################################
-
-  class-member-declarations:
-    - match: (?=\S)
-      branch_point: field-or-method
-      branch:
-        - constructor-declaration
-        - method-declaration
-        - field-declaration
-        - initializer-declaration
-        - other-declaration
-
-  other-declaration:
-    - match: void\b
-      scope: storage.type.void.java
-      pop: 1
-    - include: punctuation-terminator-semicolon
-    - include: declarations
-    - include: expression-pop
-    - include: stray-braces
-
 ###[ FIELD DECLARATION ]#######################################################
 
   field-declaration:
@@ -877,8 +842,8 @@ contexts:
 
   field-names:
     - meta_scope: meta.field.type.java
-    - match: (?={{declaration_keywords}}\b|[{(])
-      fail: field-or-method
+    - match: (?=[{(]|{{declaration_keywords}}\b)
+      fail: declarations
     - match: ''
       set:
         - field-list
@@ -951,7 +916,7 @@ contexts:
 
   constructor-name:
     - match: (?={{reserved_words}}\b)
-      fail: field-or-method
+      fail: declarations
     - match: '{{id}}'
       scope: entity.name.function.constructor.java
       pop: 1
@@ -991,8 +956,8 @@ contexts:
     - match: var\b
       scope: invalid.illegal.unexpected-type.java
       set: array-modifier
-    - match: (?={{reserved_words}}\b)
-      fail: field-or-method
+    - match: (?=\{|{{reserved_words}}\b)
+      fail: declarations
     - include: object-type
 
   method-result-meta:
@@ -1002,7 +967,7 @@ contexts:
 
   method-name:
     - match: (?={{reserved_words}}\b)
-      fail: field-or-method
+      fail: declarations
     - match: '{{id}}'
       scope: entity.name.function.java
       pop: 1
@@ -1018,7 +983,7 @@ contexts:
         - parameter-type
         - parens-begin
     - match: (?=\S)
-      fail: field-or-method
+      fail: declarations
 
   method-parameters-common:
     - meta_scope: meta.method.parameters.java meta.parens.java
@@ -1072,32 +1037,6 @@ contexts:
     - include: block-end2
     - include: blocks-body
 
-###[ INITIALIZER DECLARATION ]#################################################
-
-  initializer-declaration:
-    - match: ''
-      push:
-        - initializer-block
-        - initializer-type
-
-  initializer-type:
-    - include: storage-modifiers
-    - include: field-type
-
-  initializer-block:
-    - meta_scope: meta.initializer.java
-    - match: (?=\{)
-      set: [initializer-body, block-begin]
-    - match: (?=\S)
-      fail: field-or-method
-
-  initializer-body:
-    - meta_scope:
-        meta.initializer.java
-        meta.block.java
-    - include: block-end2
-    - include: blocks-body
-
 ###[ BLOCKS ]##################################################################
 
   block-begin:
@@ -1128,6 +1067,7 @@ contexts:
   blocks-body:
     - include: var-declaration
     - include: statements
+    - include: expressions
     - include: stray-parens
 
 ###[ LOCAL VARIABLE DECLARATION ]##############################################

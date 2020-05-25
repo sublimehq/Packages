@@ -84,7 +84,7 @@ import no.terminator
 //       ^ punctuation.accessor.dot.java - entity - variable
 //        ^^^^^^^^^^ variable.namespace.java - punctuation
     variable
-//  ^^^^^^^^ variable.other.readwrite.java - meta.import
+//  ^^^^^^^^ variable.other - meta.import
 
 import static
 // <- meta.import.java keyword.control.import.java
@@ -98,7 +98,7 @@ import static no.terminator
 //              ^ punctuation.accessor.dot.java - entity - variable
 //               ^^^^^^^^^^ variable.namespace.java - punctuation
     variable
-//  ^^^^^^^^ variable.other.readwrite.java - meta.import
+//  ^^^^^^^^ variable.other - meta.import
 
 import * ;
 // <- meta.import.java keyword.control.import.java
@@ -1158,6 +1158,16 @@ public enum TokenKind<T> extends MyEnum, FooBaz<? super T<TT>> implements Foo, B
 //                      ^ punctuation.section.block.begin.java
 //                       ^ punctuation.section.block.end.java
 
+    final int attribAfterConstructor;
+//  ^^^^^^ meta.field.modifier.java
+//        ^^^^ meta.field.type.java
+//            ^^^^^^^^^^^^^^^^^^^^^^ meta.field.identifier.java
+//                                  ^ - meta.field
+//  ^^^^^ storage.modifier.java
+//        ^^^ storage.type.primitive.java
+//            ^^^^^^^^^^^^^^^^^^^^^^ variable.other.member.java
+//                                  ^ punctuation.terminator.java
+
     public static void main(String[]a){}
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.method meta.method
 //  ^^^^^^^^^^^^^^ meta.method.modifier.java
@@ -1176,7 +1186,39 @@ public enum TokenKind<T> extends MyEnum, FooBaz<? super T<TT>> implements Foo, B
 //                                   ^ punctuation.section.parens.end.java
 //                                    ^ punctuation.section.block.begin.java
 //                                     ^ punctuation.section.block.end.java
+
+    final int attribAfterMember;
+//  ^^^^^^ meta.field.modifier.java
+//        ^^^^ meta.field.type.java
+//            ^^^^^^^^^^^^^^^^^ meta.field.identifier.java
+//                             ^ - meta.field
+//  ^^^^^ storage.modifier.java
+//        ^^^ storage.type.primitive.java
+//            ^^^^^^^^^^^^^^^^^ variable.other.member.java
+//                             ^ punctuation.terminator.java
+
+    private class SubClass {}
+//  ^^^^^^^^^^^^^ meta.class.java
+//               ^^^^^^^^^^ meta.class.identifier.java
+//                         ^^ meta.class.java meta.block.java
+//  ^^^^^^^ storage.modifier.java
+//          ^^^^^ keyword.declaration.class.java
+//                ^^^^^^^^ entity.name.class.java
+//                         ^ punctuation.section.block.begin.java
+//                          ^ punctuation.section.block.end.java
+
+    private final int attribAfterClass;
+//  ^^^^^^^^^^^^^^ meta.field.modifier.java
+//                ^^^^ meta.field.type.java
+//                    ^^^^^^^^^^^^^^^^ meta.field.identifier.java
+//                                    ^ - meta.field
+//  ^^^^^^^ storage.modifier.java
+//          ^^^^^ storage.modifier.java
+//                ^^^ storage.type.primitive.java
+//                    ^^^^^^^^^^^^^^^^ variable.other.member.java
+//                                    ^ punctuation.terminator.java
 }
+//<- meta.enum.java meta.block.java punctuation.section.block.end.java
 
 @Anno           // comment
 //<- meta.enum.java meta.annotation.identifier.java punctuation.definition.annotation.java
