@@ -1982,13 +1982,14 @@ class MethodDelcarationTests {
 //                  ^ punctuation.section.parens.begin.java
 //                   ^ punctuation.section.parens.end.java
 
-  native strictfp transient volatile void method()
+  native strictfp transient volatile void method() {private}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.method meta.method
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.modifier.java
 //                                   ^^^^^ meta.method.return-type.java
 //                                        ^^^^^^ meta.method.identifier.java
 //                                              ^^ meta.method.parameters.java meta.parens.java
 //                                                ^ meta.method.java
+//                                                 ^^^^^^^^^ meta.method.java meta.block.java
 //^^^^^^ invalid.illegal.unexpected-keyword.java
 //      ^ - invalid
 //       ^^^^^^^^ invalid.illegal.unexpected-keyword.java
@@ -2002,6 +2003,9 @@ class MethodDelcarationTests {
 //                                        ^^^^^^ entity.name.function.java
 //                                              ^ punctuation.section.parens.begin.java
 //                                               ^ punctuation.section.parens.end.java
+//                                                 ^ punctuation.section.block.begin.java
+//                                                  ^^^^^^^ storage.modifier.java
+//                                                         ^ punctuation.section.block.end.java
 
   void à ( ) {}
 //^^^^^^^^^^^^^ - meta.method meta.method
