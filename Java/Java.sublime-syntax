@@ -1058,6 +1058,16 @@ contexts:
     - match: \{
       scope: punctuation.section.block.begin.java
       push: blocks-common
+    - include: stray-braces
+
+  block:
+    - match: \{
+      scope: punctuation.section.block.begin.java
+      set: blocks-common
+
+  block-or-expression:
+    - include: block
+    - include: else-expression-pop
 
   blocks-common:
     - meta_scope: meta.block.java
@@ -1265,11 +1275,9 @@ contexts:
       scope:
         meta.function.anonymous.java
         storage.type.function.anonymous.java
-      push:
-        - meta_content_scope: meta.function.anonymous.java
-        - match: (?=[,;)}\]])
-          pop: 1
-        - include: statements
+      push: 
+        - lambda-meta
+        - block-or-expression
 
   parens-with-expressions:
     - meta_scope: meta.parens.java
@@ -1285,24 +1293,50 @@ contexts:
   parens-with-lambda-parameters:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.27
     - meta_scope: meta.function.anonymous.parameters.java meta.parens.java
-    - match: ''
-      set:
-        - lambda-parameters-common
-        - parameter-identifier
-        - parameter-variadic
-        - parameter-type
-
-  lambda-parameters-common:
-    - meta_scope: meta.function.anonymous.parameters.java meta.parens.java
-    - include: parameters-list
     - match: \)
       scope: punctuation.section.parens.end.java
+      set: lambda-meta
+    - include: punctuation-separator-comma
+    - match: (?=[[:alpha:]$@<])
+      branch_point: lambda-parameter
+      branch:
+        - lambda-parameter-identifier
+        - lambda-parameter-definition
+
+  lambda-parameter-identifier:
+    - match: '{{id}}'
+      scope: variable.parameter.java
+      push:
+        - match: (?=[,)])
+          pop: 2
+        - match: (?=\S)
+          fail: lambda-parameter
+    - match: (?=\S)
+      fail: lambda-parameter
+
+  lambda-parameter-definition:
+    - match: ''
       set:
-        - meta_content_scope: meta.function.anonymous.java
-        - include: else-pop
-    - match: \S
-      scope: invalid.illegal.missing-parameter-end
-      pop: 1
+        - parameter-identifier
+        - parameter-variadic
+        - lambda-parameter-type
+
+  lambda-parameter-type:
+    - match: final\b
+      scope: storage.modifier.java
+    - match: '{{storage_types}}\b'
+      scope: storage.type.primitive.java
+      set: array-modifier
+    - match: '{{storage_modifiers}}\b'
+      scope: invalid.illegal.unexpected-keyword.java
+    - match: var\b
+      scope: storage.type.var.java
+      set: array-modifier
+    - include: object-type
+
+  lambda-meta:
+    - meta_content_scope: meta.function.anonymous.java
+    - include: else-pop
 
   parens-common:
     - include: parens-end

@@ -3670,185 +3670,6 @@ class ForStatementTests {
 
 
 /******************************************************************************
- * Lambda Statement Tests
- *****************************************************************************/
-
-class LambdasStatementTests {
-  volatile int foo;
-//^^^^^^^^ storage.modifier.java
-
-  void anonymousFunctions() {
-     foo();
-//   ^^^ variable.function.java
-
-// Capital names are usually used for classes
-     Foo();
-//   ^^^ support.class.java
-
-     foo ();
-//   ^^^ variable.function.java
-     this.<A>foo();
-//           ^^^ variable.function.java
-//        ^^^ meta.generic.java
-//        ^ punctuation.definition.generic.begin.java
-//         ^ support.class.java
-     this.<B> foo();
-//            ^^^ variable.function.java
-//        ^^^ meta.generic.java
-//        ^ punctuation.definition.generic.begin.java
-//         ^ support.class.java
-
-     Function<String, Integer> func = a -> 42;
-//                                  ^^^^^^^^^ meta.assignment.rhs.java
-//                                    ^ variable.parameter.java
-//                                      ^^ storage.type.function.anonymous.java
-//                                         ^^ constant.numeric.integer.decimal.java
-//                                           ^ punctuation.terminator.java
-     foo(a -> 42);
-//   ^^^ meta.function-call.identifier.java
-//      ^^^^^^^^^ meta.function-call.arguments.java meta.parens.java
-//   ^^^ variable.function.java
-//      ^ punctuation.section.parens.begin.java
-//       ^ variable.parameter.java
-//         ^^ storage.type.function.anonymous.java
-//            ^^ constant.numeric.integer.decimal.java
-//              ^ punctuation.section.parens.end.java
-//               ^ punctuation.terminator.java
-
-     a -> { return 42; };
-//        ^^^^^^^^^^^^^^ meta.function.anonymous.java
-
-     (a, b) -> 42;
-//    ^ variable.parameter.java
-//       ^ variable.parameter.java
-//          ^^ storage.type.function.anonymous.java
-//             ^^ constant.numeric.integer.decimal.java
-
-     (int a, Foo<Integer>[] b) -> 42;
-//   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java meta.parens.java - meta.function meta.function
-//                            ^^^ meta.function.anonymous.java - meta.function meta.function
-//                               ^^^ meta.function.anonymous.java - meta.function meta.function
-//    ^^^ storage.type.primitive
-//        ^ variable.parameter.java
-//           ^^^ support.class.java
-//              ^ punctuation.definition.generic.begin.java
-//               ^^^^^^^ support.class.java
-//                      ^ punctuation.definition.generic.end.java
-//                          ^ variable.parameter.java
-//                             ^^ storage.type.function.anonymous.java
-//                                ^^ constant.numeric.integer
-
-    (
-//  ^^ meta.function.anonymous.parameters.java meta.parens.java - meta.function meta.function
-//  ^ punctuation.section.parens.begin.java
-        int a,
-//     ^^^^^^^^ meta.function.anonymous.parameters.java meta.parens.java - meta.function meta.function
-//      ^^^ storage.type.primitive
-//          ^ variable.parameter.java
-//           ^ punctuation.separator.comma.java
-        Foo<Integer>[] b
-//     ^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java meta.parens.java - meta.function meta.function
-//      ^^^ support.class.java
-//         ^ punctuation.definition.generic.begin.java
-//          ^^^^^^^ support.class.java
-//                 ^ punctuation.definition.generic.end.java
-//                     ^ variable.parameter.java
-    )
-//  ^ meta.function.anonymous.parameters.java meta.parens.java punctuation.section.parens.end.java - meta.function meta.function
-//   ^ meta.function.anonymous.java - meta.function meta.function
-     ->
-//  ^^^ meta.function.anonymous.java - meta.function meta.function
-//   ^^ storage.type.function.anonymous.java
-     42;
-//  ^^^ meta.function.anonymous.java - meta.function meta.function
-//   ^^ constant.numeric.integer
-//     ^ punctuation.terminator.java
-
-  }
-//^ meta.class.java meta.block.java meta.method.java meta.block.java punctuation.section.block.end.java
-
-  // Lambda parameter tests
-  Function<String, String> lambda1 = (final @MyAnnotation String foo) -> foo;
-//                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java
-//                                    ^^^^^ storage.modifier.java
-//                                          ^^^^^^^^^^^^^ meta.annotation
-//                                          ^ punctuation.definition.annotation
-//                                                        ^^^^^^ support.class.java - meta.annotation
-//                                                               ^^^ variable.parameter.java
-//                                                                    ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
-
-  Function<String, String> lambda2 = (@MyAnnotation String foo) -> foo;
-//                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java
-//                                    ^^^^^^^^^^^^^ meta.annotation
-//                                    ^ punctuation.definition.annotation
-//                                                  ^^^^^^ support.class.java - meta.annotation
-//                                                         ^^^ variable.parameter.java
-//                                                              ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
-
-  Function<String, String> lambda3 = (@MyAnnotation(foo = Foo.BAR) String foo) -> foo;
-//                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java
-//                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
-//                                    ^ punctuation.definition.annotation
-//                                                  ^^^ variable.parameter.java
-//                                                        ^^^ support.class.java
-//                                                           ^ punctuation.accessor.dot.java
-//                                                            ^^^ constant.other.java
-//                                                                 ^^^^^^ support.class.java - meta.annotation
-//                                                                        ^^^ variable.parameter.java
-//                                                                             ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
-
-  Function<String, String> lambda4 = (String foo) -> foo;
-//                                   ^^^^^^^^^^^^ meta.function.anonymous.parameters.java
-//                                    ^^^^^^ support.class.java - meta.annotation
-//                                           ^^^ variable.parameter.java
-//                                                ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
-
-  Function<String, String> lambda5 = (foo) -> foo;
-//                                   ^^^^^ meta.function.anonymous.parameters.java
-//                                    ^^^ variable.parameter.java
-//                                         ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
-
-  Function<String, String> lambda6 = foo -> foo;
-//                                   ^^^ meta.function.anonymous.parameters.java
-//                                   ^^^ variable.parameter.java
-//                                       ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
-
-  Function<String[], String> lambda7 = (String... foo) -> foo[0];
-//                                     ^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java
-//                                      ^^^^^^ support.class.java - meta.annotation
-//                                            ^^^ keyword.operator.variadic.java
-//                                                ^^^ variable.parameter.java
-//                                                     ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
-
-  IntFunction<String> intLambda1 = (int foo) -> String.valueOf(foo);
-//                                 ^^^^^^^^^ meta.function.anonymous.parameters.java
-//                                  ^^^ storage.type.primitive - meta.annotation
-//                                      ^^^ variable.parameter.java
-//                                           ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
-
-  Function<Foo, Bar> BLOCK_LAMBDA = foo -> { return 1; };
-//                   ^^^^^^^^^^^^ entity.name.constant.java
-//                                ^ keyword.operator.assignment.java
-//                                  ^^^ variable.parameter.java
-//                                      ^^ storage.type.function.anonymous.java
-//                                         ^ meta.block punctuation.section.block.begin
-//                                           ^^^^^^ keyword.control.flow.return.java
-//                                                  ^ constant.numeric.integer.decimal.java
-//                                                   ^ punctuation.terminator.java
-//                                                     ^ punctuation.section.block.end.java
-//                                                      ^ punctuation.terminator.java
-
-  Supplier<Foo> supplier = () -> true;
-//                       ^ keyword.operator.assignment.java
-//                         ^ punctuation.section.parens.begin.java
-//                          ^ punctuation.section.parens.end.java
-//                            ^^ storage.type.function.anonymous.java
-//                               ^^^^ constant.language.boolean.java
-//                                   ^ punctuation.terminator.java
-}
-
-
-/******************************************************************************
  * Switch Statement Tests
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.11
  *****************************************************************************/
@@ -4234,6 +4055,216 @@ class WhileStatementTests {
 //                  ^ punctuation.section.block.end.java
 
   }
+}
+
+
+/******************************************************************************
+ * Lambda Expressions Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.27
+ *****************************************************************************/
+
+class LambdasExpressionsTests {
+
+  void anonymousFunctions() {
+     foo();
+//   ^^^ variable.function.java
+
+// Capital names are usually used for classes
+     Foo();
+//   ^^^ support.class.java
+
+     foo ();
+//   ^^^ variable.function.java
+     this.<A>foo();
+//           ^^^ variable.function.java
+//        ^^^ meta.generic.java
+//        ^ punctuation.definition.generic.begin.java
+//         ^ support.class.java
+     this.<B> foo();
+//            ^^^ variable.function.java
+//        ^^^ meta.generic.java
+//        ^ punctuation.definition.generic.begin.java
+//         ^ support.class.java
+
+     Function<String, Integer> func = a -> 42;
+//                                  ^^^^^^^^^ meta.assignment.rhs.java
+//                                    ^ variable.parameter.java
+//                                      ^^ storage.type.function.anonymous.java
+//                                         ^^ constant.numeric.integer.decimal.java
+//                                           ^ punctuation.terminator.java
+     foo(a -> 42);
+//   ^^^ meta.function-call.identifier.java
+//      ^^^^^^^^^ meta.function-call.arguments.java meta.parens.java
+//   ^^^ variable.function.java
+//      ^ punctuation.section.parens.begin.java
+//       ^ variable.parameter.java
+//         ^^ storage.type.function.anonymous.java
+//            ^^ constant.numeric.integer.decimal.java
+//              ^ punctuation.section.parens.end.java
+//               ^ punctuation.terminator.java
+
+     a -> { return 42; };
+//        ^^^^^^^^^^^^^^ meta.function.anonymous.java
+
+     (a, b) -> 42;
+//    ^ variable.parameter.java
+//       ^ variable.parameter.java
+//          ^^ storage.type.function.anonymous.java
+//             ^^ constant.numeric.integer.decimal.java
+
+     (int a, Foo<Integer>[] b) -> 42;
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java meta.parens.java - meta.function meta.function
+//                            ^^^ meta.function.anonymous.java - meta.function meta.function
+//                               ^^^ meta.function.anonymous.java - meta.function meta.function
+//    ^^^ storage.type.primitive
+//        ^ variable.parameter.java
+//           ^^^ support.class.java
+//              ^ punctuation.definition.generic.begin.java
+//               ^^^^^^^ support.class.java
+//                      ^ punctuation.definition.generic.end.java
+//                          ^ variable.parameter.java
+//                             ^^ storage.type.function.anonymous.java
+//                                ^^ constant.numeric.integer
+
+    (
+//  ^^ meta.function.anonymous.parameters.java meta.parens.java - meta.function meta.function
+//  ^ punctuation.section.parens.begin.java
+        int a,
+//     ^^^^^^^^ meta.function.anonymous.parameters.java meta.parens.java - meta.function meta.function
+//      ^^^ storage.type.primitive
+//          ^ variable.parameter.java
+//           ^ punctuation.separator.comma.java
+        Foo<Integer>[] b
+//     ^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java meta.parens.java - meta.function meta.function
+//      ^^^ support.class.java
+//         ^ punctuation.definition.generic.begin.java
+//          ^^^^^^^ support.class.java
+//                 ^ punctuation.definition.generic.end.java
+//                     ^ variable.parameter.java
+    )
+//  ^ meta.function.anonymous.parameters.java meta.parens.java punctuation.section.parens.end.java - meta.function meta.function
+//   ^ meta.function.anonymous.java - meta.function meta.function
+     ->
+//  ^^^ meta.function.anonymous.java - meta.function meta.function
+//   ^^ storage.type.function.anonymous.java
+     42;
+//  ^^^ meta.function.anonymous.java - meta.function meta.function
+//   ^^ constant.numeric.integer
+//     ^ punctuation.terminator.java
+
+  }
+//^ meta.class.java meta.block.java meta.method.java meta.block.java punctuation.section.block.end.java
+
+  // Lambda parameter tests
+  Function<String, String> lambda1 = (final @MyAnnotation String foo) -> foo;
+//                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java
+//                                    ^^^^^ storage.modifier.java
+//                                          ^^^^^^^^^^^^^ meta.annotation
+//                                          ^ punctuation.definition.annotation
+//                                                        ^^^^^^ support.class.java - meta.annotation
+//                                                               ^^^ variable.parameter.java
+//                                                                    ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+
+  Function<String, String> lambda2 = (@MyAnnotation String foo) -> foo;
+//                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java
+//                                    ^^^^^^^^^^^^^ meta.annotation
+//                                    ^ punctuation.definition.annotation
+//                                                  ^^^^^^ support.class.java - meta.annotation
+//                                                         ^^^ variable.parameter.java
+//                                                              ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+
+  Function<String, String> lambda3 = (@MyAnnotation(foo = Foo.BAR) String foo) -> foo;
+//                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java
+//                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
+//                                    ^ punctuation.definition.annotation
+//                                                  ^^^ variable.parameter.java
+//                                                        ^^^ support.class.java
+//                                                           ^ punctuation.accessor.dot.java
+//                                                            ^^^ constant.other.java
+//                                                                 ^^^^^^ support.class.java - meta.annotation
+//                                                                        ^^^ variable.parameter.java
+//                                                                             ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+
+  Function<String, String> lambda4 = (String foo) -> foo;
+//                                   ^^^^^^^^^^^^ meta.function.anonymous.parameters.java
+//                                    ^^^^^^ support.class.java - meta.annotation
+//                                           ^^^ variable.parameter.java
+//                                                ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+
+  Function<String, String> lambda4 = (var foo) -> foo;
+//                                   ^^^^^^^^^ meta.function.anonymous.parameters.java
+//                                    ^^^ storage.type.var.java
+//                                        ^^^ variable.parameter.java
+//                                             ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+
+  Function<String, String> lambda5 = (foo) -> foo;
+//                                   ^^^^^ meta.function.anonymous.parameters.java
+//                                    ^^^ variable.parameter.java
+//                                         ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+
+  Function<String, String> lambda6 = (foo, foo) -> foo;
+//                                   ^^^^^^^^^^ meta.function.anonymous.parameters.java
+//                                    ^^^ variable.parameter.java
+//                                       ^ punctuation.separator.comma.java
+//                                         ^^^ variable.parameter.java
+//                                              ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+
+  Function<String, String> lambda7 = (Foo, Foo) -> foo;
+//                                   ^^^^^^^^^^ meta.function.anonymous.parameters.java
+//                                    ^^^ variable.parameter.java
+//                                       ^ punctuation.separator.comma.java
+//                                         ^^^ variable.parameter.java
+//                                              ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+
+  Function<String, String> lambda8 = foo -> foo;
+//                                   ^^^ meta.function.anonymous.parameters.java
+//                                   ^^^ variable.parameter.java
+//                                       ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+
+  Function<String[], String> lambda9 = (String... foo) -> foo[0];
+//                                     ^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java
+//                                      ^^^^^^ support.class.java - meta.annotation
+//                                            ^^^ keyword.operator.variadic.java
+//                                                ^^^ variable.parameter.java
+//                                                     ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+
+  IntFunction<String> intLambda1 = (int foo) -> String.valueOf(foo);
+//                                 ^^^^^^^^^ meta.function.anonymous.parameters.java
+//                                  ^^^ storage.type.primitive - meta.annotation
+//                                      ^^^ variable.parameter.java
+//                                           ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+
+  MyObject objLambda = arg -> new MyObject(arg);
+//                     ^^^ meta.function.anonymous.parameters.java variable.parameter.java
+//                        ^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.java
+//                         ^^ storage.type.function.anonymous.java
+//                            ^^^ keyword.other.storage.new.java
+//                                ^^^^^^^^ support.class.java
+//                                        ^ punctuation.section.parens.begin.java
+//                                        ^^^^^ meta.parens.java
+//                                         ^^^ variable.other.readwrite.java
+//                                            ^ punctuation.section.parens.end.java
+//                                             ^ punctuation.terminator.java
+
+  Function<Foo, Bar> BLOCK_LAMBDA = foo -> { return 1; };
+//                   ^^^^^^^^^^^^ entity.name.constant.java
+//                                ^ keyword.operator.assignment.java
+//                                  ^^^ variable.parameter.java
+//                                      ^^ storage.type.function.anonymous.java
+//                                         ^ meta.block punctuation.section.block.begin
+//                                           ^^^^^^ keyword.control.flow.return.java
+//                                                  ^ constant.numeric.integer.decimal.java
+//                                                   ^ punctuation.terminator.java
+//                                                     ^ punctuation.section.block.end.java
+//                                                      ^ punctuation.terminator.java
+
+  Supplier<Foo> supplier = () -> true;
+//                       ^ keyword.operator.assignment.java
+//                         ^ punctuation.section.parens.begin.java
+//                          ^ punctuation.section.parens.end.java
+//                            ^^ storage.type.function.anonymous.java
+//                               ^^^^ constant.language.boolean.java
+//                                   ^ punctuation.terminator.java
 }
 
 
