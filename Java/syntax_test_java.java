@@ -4059,6 +4059,129 @@ class WhileStatementTests {
 
 
 /******************************************************************************
+ * Method Reference Expressions Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.13
+ *****************************************************************************/
+
+class MethodReferenceExpressionsTests {
+
+  void run() {
+
+    System::currentTimeMillis  // static method
+//  ^^^^^^ support.class.java
+//        ^^ punctuation.accessor.double-colon.java
+//          ^^^^^^^^^^^^^^^^^ variable.function.reference.java
+
+    List::size                 // inferred type arguments for generic type
+//  ^^^^ support.class.java
+//      ^^ punctuation.accessor.double-colon.java
+//        ^^^^ variable.function.reference.java
+
+    List<String>::size         // explicit type arguments for generic type
+//  ^^^^ support.class.java
+//      ^^^^^^^^ meta.generic.java
+//              ^^ punctuation.accessor.double-colon.java
+//                ^^^^ variable.function.reference.java
+
+    int[]::clone
+//  ^^^ storage.type.primitive.java
+//     ^^ storage.modifier.array.java
+//       ^^ punctuation.accessor.double-colon.java
+//         ^^^^^ variable.function.reference.java
+
+    T::tvarMember
+//  ^ support.class.java
+//   ^^ punctuation.accessor.double-colon.java
+//     ^^^^^^^^^^ variable.function.reference.java
+
+    System.out::println
+//  ^^^^^^ support.class.java
+//        ^ punctuation.accessor.dot.java
+//         ^^^ variable.other.readwrite.java
+//            ^^ punctuation.accessor.double-colon.java
+//              ^^^^^^^ variable.function.reference.java
+
+    "abc"::length
+//  ^^^^^ string.quoted.double.java
+//       ^^ punctuation.accessor.double-colon.java
+//         ^^^^^^ variable.function.reference.java
+
+    foo[x]::bar
+//  ^^^ meta.variable.identifier.java variable.other.readwrite.java
+//     ^^^ meta.variable.item-access.java meta.brackets.java
+//        ^^ punctuation.accessor.double-colon.java
+//          ^^^ variable.function.reference.java
+
+    (test ? list.replaceAll(String::trim) : list) :: iterator
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.parens.java
+//               ^^^^^^^^^^ meta.function-call.identifier.java
+//                         ^^^^^^^^^^^^^^ meta.function-call.arguments.java meta.parens.java
+//  ^ punctuation.section.parens.begin.java
+//   ^^^^ variable.other.readwrite.java
+//        ^ keyword.operator.ternary.java
+//          ^^^^ variable.other.readwrite.java
+//              ^ punctuation.accessor.dot.java
+//               ^^^^^^^^^^ variable.function.java
+//                          ^^^^^^ support.class.java
+//                                ^^ punctuation.accessor.double-colon.java
+//                                  ^^^^ variable.function.reference.java
+//                                        ^ keyword.operator.ternary.java
+//                                          ^^^^ variable.other.readwrite.java
+//                                              ^ punctuation.section.parens.end.java
+//                                                ^^ punctuation.accessor.double-colon.java
+//                                                   ^^^^^^^^ variable.function.reference.java
+
+    super::toString
+//  ^^^^^ variable.language.java
+//       ^^ punctuation.accessor.double-colon.java
+//         ^^^^^^^^ variable.function.reference.java
+
+    Arrays::<String>sort       // explicit type arguments
+//  ^^^^^^ support.class.java
+//        ^^ punctuation.accessor.double-colon.java
+//          ^^^^^^^^ meta.generic.java
+//                  ^^^^ variable.function.reference.java
+
+    ArrayList<String>::new     // constructor for parameterized type
+//  ^^^^^^^^^ support.class.java
+//           ^^^^^^^^ meta.generic.java
+//                   ^^ punctuation.accessor.double-colon.java
+//                     ^^^ keyword.other.storage.new.java
+
+    ArrayList::new             // inferred type arguments for generic class
+//  ^^^^^^^^^ support.class.java
+//           ^^ punctuation.accessor.double-colon.java
+//             ^^^ keyword.other.storage.new.java
+
+    Foo::<Integer>new          // explicit type arguments for generic constructor
+//  ^^^ support.class.java
+//     ^^ punctuation.accessor.double-colon.java
+//       ^^^^^^^^^ meta.generic.java
+//                ^^^ keyword.other.storage.new.java
+
+    Bar<String>::<Integer>new  // generic class, generic constructor
+//  ^^^ support.class.java
+//     ^^^^^^^^ meta.generic.java
+//             ^^ punctuation.accessor.double-colon.java
+//               ^^^^^^^^^ meta.generic.java
+//                        ^^^ keyword.other.storage.new.java
+
+    Outer.Inner::new           // inner class constructor
+//  ^^^^^ support.class.java
+//       ^ punctuation.accessor.dot.java
+//        ^^^^^ support.class.java
+//             ^^ punctuation.accessor.double-colon.java
+//               ^^^ keyword.other.storage.new.java
+    int[]::new                 // array creation
+//  ^^^ storage.type.primitive.java
+//     ^^ storage.modifier.array.java
+//       ^^ punctuation.accessor.double-colon.java
+//         ^^^ keyword.other.storage.new.java
+  }
+}
+
+
+/******************************************************************************
  * Lambda Expressions Tests
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.27
  *****************************************************************************/

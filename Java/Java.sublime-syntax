@@ -1528,6 +1528,9 @@ contexts:
       pop: 1
 
   variable-maybe-function-reference:
+    - match: new\b
+      scope: keyword.other.storage.new.java
+      pop: 1
     - match: '{{id}}'
       scope: variable.function.reference.java
       pop: 1
@@ -1958,7 +1961,9 @@ contexts:
   punctuations:
     - match: '::'
       scope: punctuation.accessor.double-colon.java
-      push: variable-maybe-function-reference
+      push:
+        - variable-maybe-function-reference
+        - generic-type-arguments
     - match: \.
       scope: punctuation.accessor.dot.java
       push:
