@@ -1510,8 +1510,8 @@ class FieldDeclarationTests {
 //^^^^^^^^^^ - meta.field meta.field
 //^^^^ meta.field.type.java
 //    ^^^^ meta.field.identifier.java
-//        ^ meta.field.java meta.assignment.rhs.java
-//         ^ meta.field.value.java meta.assignment.rhs.java
+//        ^ meta.field.java
+//         ^ meta.field.value.java
 //^^^ storage.type.primitive.java
 //    ^^^ variable.other.member.java
 //        ^ keyword.operator.assignment.java
@@ -1520,8 +1520,8 @@ class FieldDeclarationTests {
 //^^^^^^^^^^^^ - meta.field meta.field
 //^^^^ meta.field.type.java
 //    ^^^^ meta.field.identifier.java
-//        ^ meta.field.java meta.assignment.rhs.java
-//         ^^^ meta.field.value.java meta.assignment.rhs.java
+//        ^ meta.field.java
+//         ^^^ meta.field.value.java
 //^^^ storage.type.primitive.java
 //    ^^^ variable.other.member.java
 //        ^ keyword.operator.assignment.java
@@ -1531,8 +1531,8 @@ class FieldDeclarationTests {
 //^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^ meta.field.type.java
 //    ^^^^ meta.field.identifier.java
-//        ^ meta.field.java meta.assignment.rhs.java
-//         ^^^ meta.field.value.java meta.assignment.rhs.java
+//        ^ meta.field.java
+//         ^^^ meta.field.value.java
 //            ^ meta.field.java
 //             ^ meta.field.identifier.java
 //^^^ storage.type.primitive.java
@@ -1545,8 +1545,8 @@ class FieldDeclarationTests {
 //^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^ meta.field.type.java
 //    ^^^^ meta.field.identifier.java
-//        ^ meta.field.java meta.assignment.rhs.java
-//         ^^^ meta.field.value.java meta.assignment.rhs.java
+//        ^ meta.field.java
+//         ^^^ meta.field.value.java
 //            ^ meta.field.java
 //             ^^^^^ meta.field.identifier.java
 //                  ^ - meta.field
@@ -1561,8 +1561,8 @@ class FieldDeclarationTests {
   int =
 //^^^^^^ - meta.field meta.field
 //^^^^ meta.field.type.java
-//    ^ meta.field.java meta.assignment.rhs.java
-//     ^ meta.field.value.java meta.assignment.rhs.java
+//    ^ meta.field.java
+//     ^ meta.field.value.java
 //^^^ storage.type.primitive.java
 //    ^ keyword.operator.assignment.java
 
@@ -1591,8 +1591,8 @@ class FieldDeclarationTests {
       = 10 ,
 //^^^^^^^^^^^ - meta.field meta.field
 //^^^^ meta.field.identifier.java
-//    ^ meta.field.java meta.assignment.rhs.java
-//     ^^^^ meta.field.value.java meta.assignment.rhs.java
+//    ^ meta.field.java
+//     ^^^^ meta.field.value.java
 //         ^ meta.field.java
 //    ^ keyword.operator.assignment.java
 //      ^^ constant.numeric.integer.decimal.java
@@ -1602,14 +1602,14 @@ class FieldDeclarationTests {
 //^^ meta.field.identifier.java
 //  ^ meta.field.java
 //   ^ meta.field.identifier.java
-//    ^ meta.field.java meta.assignment.rhs.java
-//     ^^^^ meta.field.value.java meta.assignment.rhs.java
+//    ^ meta.field.java
+//     ^^^^ meta.field.value.java
 //  ^ punctuation.separator.sequence.java
 //    ^ keyword.operator.assignment.java
 //      ^^ constant.numeric.integer.decimal.java
     , , ;
 //^^^^^^ - meta.field meta.field
-//^^ meta.field.value.java meta.assignment.rhs.java
+//^^ meta.field.value.java
 //  ^ meta.field.java punctuation.separator.sequence.java
 //   ^ meta.field.identifier.java
 //    ^ meta.field.java punctuation.separator.sequence.java
@@ -1663,9 +1663,9 @@ class FieldDeclarationTests {
 //^^^^^^^^ meta.field.modifier.java
 //        ^^^^^^^ meta.field.type.java
 //               ^^^^^^^^^^^^^^ meta.field.identifier.java
-//                             ^ meta.field.java meta.assignment.rhs.java
-//                              ^^^^^^^^ meta.field.value.java meta.assignment.rhs.java
-//                                      ^ - meta.field - meta.assignment
+//                             ^ meta.field.java
+//                              ^^^^^^^^ meta.field.value.java
+//                                      ^ - meta.field
 //^^^^^^^ storage.modifier.java
 //        ^^^^^^ support.class.java
 //               ^^^^^^^^^^^^^ variable.other.member.java
@@ -1677,11 +1677,11 @@ class FieldDeclarationTests {
 //^^^^^^^^ meta.field.modifier.java
 //        ^^^^^^^ meta.field.type.java
 //               ^^^^^^^^^^^^^^ meta.field.identifier.java
-//                             ^ meta.field.java meta.assignment.rhs.java
-//                              ^ meta.field.value.java meta.assignment.rhs.java - meta.instantiation - meta.annotation
-//                               ^^^^^^ meta.field.value.java meta.assignment.rhs.java meta.annotation.identifier.java
-//                                     ^^^^^^^^^^^^^^^^^^^ meta.field.value.java meta.assignment.rhs.java meta.instantiation.java - meta.annotation
-//                                                        ^ - meta.field - meta.assignment
+//                             ^ meta.field.java
+//                              ^ meta.field.value.java - meta.instantiation - meta.annotation
+//                               ^^^^^^ meta.field.value.java meta.annotation.identifier.java
+//                                     ^^^^^^^^^^^^^^^^^^^ meta.field.value.java meta.instantiation.java - meta.annotation
+//                                                        ^ - meta.field
 //^^^^^^^ storage.modifier.java
 //        ^^^^^^ support.class.java
 //               ^^^^^^^^^^^^^ variable.other.member.java
@@ -1696,15 +1696,14 @@ class FieldDeclarationTests {
 //                                                        ^ punctuation.terminator.java
 
   private String memberString3 = String.valueOf("Hello");
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.assignment.rhs.java
 //^^^^^^^^ meta.field.modifier.java
 //        ^^^^^^^ meta.field.type.java
 //               ^^^^^^^^^^^^^^ meta.field.identifier.java
-//                             ^ meta.field.java meta.assignment.rhs.java
-//                              ^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.field.value.java meta.assignment.rhs.java
+//                             ^ meta.field.java
+//                              ^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.field.value.java
 //                                      ^^^^^^^ meta.function-call.identifier.java
 //                                             ^^^^^^^^^ meta.function-call.arguments.java meta.parens.java
-//                                                      ^ - meta.field - meta.assignment
+//                                                      ^ - meta.field
 //^^^^^^^ storage.modifier.java
 //        ^^^^^^ support.class.java
 //               ^^^^^^^^^^^^^ variable.other.member.java
@@ -1718,15 +1717,14 @@ class FieldDeclarationTests {
 //                                                      ^ punctuation.terminator.java
 
   private int memberLpos = memberString3.indexOf("l");
-//^^^^^^^^^^^^^^^^^^^^^^^ - meta.assignment.rhs.java
 //^^^^^^^^ meta.field.modifier.java
 //        ^^^^ meta.field.type.java
 //            ^^^^^^^^^^^ meta.field.identifier.java
-//                       ^ meta.field.java meta.assignment.rhs.java
-//                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.field.value.java meta.assignment.rhs.java
+//                       ^ meta.field.java
+//                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.field.value.java
 //                                       ^^^^^^^ meta.function-call.identifier.java
 //                                              ^^^^^ meta.function-call.arguments.java meta.parens.java
-//                                                   ^ - meta.field - meta.assignment
+//                                                   ^ - meta.field
 //^^^^^^^ storage.modifier.java
 //        ^^^ storage.type.primitive.java
 //            ^^^^^^^^^^ variable.other.member.java
@@ -1748,9 +1746,9 @@ class FieldDeclarationTests {
 //                     ^^^^^^ support.class.java
 //                            ^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.identifier.java
 //                            ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.constant.java
-//                                                    ^ meta.field.java meta.assignment.rhs.java
-//                                                     ^^^^^^ meta.field.value.java meta.assignment.rhs.java
-//                                                           ^ - meta.field - meta.assignment
+//                                                    ^ meta.field.java
+//                                                     ^^^^^^ meta.field.value.java
+//                                                           ^ - meta.field
 //                                                    ^ keyword.operator.assignment.java
 //                                                      ^^^^^ constant.numeric.integer.decimal.java
 //                                                           ^ punctuation.terminator.java
@@ -1768,8 +1766,8 @@ class FieldDeclarationTests {
     MY_CONST = new MyObject(),
 //^^ meta.field.type.java
 //  ^^^^^^^^^ meta.field.identifier.java
-//           ^ meta.field.java meta.assignment.rhs.java
-//            ^^^^^^^^^^^^^^^ meta.field.value.java meta.assignment.rhs.java
+//           ^ meta.field.java
+//            ^^^^^^^^^^^^^^^ meta.field.value.java
 //                           ^ meta.field.java
 //  ^^^^^^^^ entity.name.constant.java
 //           ^ keyword.operator.assignment.java
@@ -1781,8 +1779,8 @@ class FieldDeclarationTests {
 
     _MY_ANOTHER_CONST = new MyObject();
 //^^^^^^^^^^^^^^^^^^^^ meta.field.identifier.java
-//                    ^ meta.field.java meta.assignment.rhs.java
-//                     ^^^^^^^^^^^^^^^ meta.field.value.java meta.assignment.rhs.java
+//                    ^ meta.field.java
+//                     ^^^^^^^^^^^^^^^ meta.field.value.java
 //                                    ^ - meta.field
 //  ^^^^^^^^^^^^^^^^^ entity.name.constant
 //                    ^ keyword.operator.assignment.java
@@ -1841,9 +1839,9 @@ class FieldDeclarationTests {
   byte byteArray2[] = {1, 2};
 //^^^^^ meta.field.type.java
 //     ^^^^^^^^^^^^^ meta.field.identifier.java
-//                  ^ meta.field.java meta.assignment.rhs.java
-//                   ^^^^^^^ meta.field.value.java meta.assignment.rhs.java
-//                          ^ - meta.field - meta.assignment
+//                  ^ meta.field.java
+//                   ^^^^^^^ meta.field.value.java
+//                          ^ - meta.field
 //^^^^ storage.type.primitive.java
 //     ^^^^^^^^^^ variable.other.member.java
 //               ^^ storage.modifier.array.java
@@ -3457,10 +3455,6 @@ class ForStatementTests {
     for (i = 0; i < 10; i += 2) {}
 //  ^^^^ meta.for.java
 //      ^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.parens.java
-//         ^^^ meta.assignment.rhs.java
-//            ^^^^^^^^^^^^ - meta.assignment.rhs.java
-//                        ^^^^ meta.assignment.rhs.java
-//                            ^ - meta.assignment.rhs.java
 //                             ^ meta.for.java - meta.block meta.block meta.block
 //                              ^^ meta.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
@@ -3468,7 +3462,7 @@ class ForStatementTests {
 //       ^ variable.other.readwrite.java
 //         ^ keyword.operator.assignment.java
 //           ^ constant.numeric.integer.decimal.java
-//            ^ punctuation.terminator.java - meta.assignment.rhs.java
+//            ^ punctuation.terminator.java
 //              ^ variable.other.readwrite.java
 //                ^ keyword.operator.comparison.java
 //                  ^^ constant.numeric.integer.decimal.java
@@ -3482,10 +3476,6 @@ class ForStatementTests {
     for (i = 0, j = 0; i < 10 && j < 5; i += 2, ++j) {}
 //  ^^^^ meta.for.java - meta.for meta.for
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.parens.java - meta.for meta.for
-//         ^^^ meta.assignment.rhs.java
-//            ^^^^ - meta.assignment.rhs.java
-//                ^^^ meta.assignment.rhs.java
-//                   ^ - meta.assignment.rhs.java
 //                                                  ^ meta.for.java - meta.block meta.block meta.block
 //                                                   ^^ meta.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
@@ -3515,10 +3505,6 @@ class ForStatementTests {
     for (int i = 0; i < 10; i += 2) {}
 //  ^^^^ meta.for.java
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.parens.java
-//             ^^^ meta.assignment.rhs.java
-//                ^^^^^^^^^^^^ - meta.assignment.rhs.java
-//                            ^^^^ meta.assignment.rhs.java
-//                                ^ - meta.assignment.rhs.java
 //                                 ^ meta.for.java - meta.block meta.block meta.block
 //                                  ^^ meta.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
@@ -3527,7 +3513,7 @@ class ForStatementTests {
 //           ^ variable.other.readwrite.java
 //             ^ keyword.operator.assignment.java
 //               ^ constant.numeric.integer.decimal.java
-//                ^ punctuation.terminator.java - meta.assignment.rhs.java
+//                ^ punctuation.terminator.java
 //                  ^ variable.other.readwrite.java
 //                    ^ keyword.operator.comparison.java
 //                      ^^ constant.numeric.integer.decimal.java
@@ -3541,10 +3527,6 @@ class ForStatementTests {
     for (int i = 0, j = 0; i < 10 && j < 5; i += 2, ++j) {}
 //  ^^^^ meta.for.java - meta.for meta.for
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.parens.java - meta.for meta.for
-//             ^^^ meta.assignment.rhs.java
-//                ^^^^ - meta.assignment.rhs.java
-//                    ^^^ meta.assignment.rhs.java
-//                       ^ - meta.assignment.rhs.java
 //                                                      ^ meta.for.java - meta.block meta.block meta.block
 //                                                       ^^ meta.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
@@ -3857,7 +3839,6 @@ class TryStatementTests {
     try (foo = Bar.baz(path)) {}
 //  ^^^^ meta.try.java - meta.try meta.try
 //      ^^^^^^^^^^^^^^^^^^^^^ meta.try.java meta.parens.java - meta.try meta.try
-//           ^^^^^^^^^^^^^^^ meta.assignment.rhs.java
 //                           ^ meta.try.java - meta.try meta.try - meta.parens
 //                            ^^ meta.try.java meta.block.java
 //  ^^^ keyword.control.exception.try.java
@@ -3876,7 +3857,6 @@ class TryStatementTests {
     try (Stream<String> lines = Files.lines(path)) {
 //  ^^^^ meta.try.java - meta.try meta.try
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.try.java meta.parens.java - meta.try meta.try
-//                            ^^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
 //                                                ^ meta.try.java - meta.try meta.try - meta.parens
 //                                                 ^^ meta.try.java meta.block.java
 //  ^^^ keyword.control.exception.try.java
@@ -3946,7 +3926,6 @@ class TryStatementTests {
     try (final InputStream is = new FileInputStream(args[0]);
 //  ^^^^ meta.try.java - meta.try meta.try
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.try.java meta.parens.java - meta.try meta.try
-//                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
 //  ^^^ keyword.control.exception.try.java
 //      ^ punctuation.section.parens.begin.java
 //       ^^^^^ storage.modifier.java
@@ -3964,7 +3943,6 @@ class TryStatementTests {
 //                                                          ^ punctuation.terminator.java
          final OutputStream os = new FileOutputStream(args[1])) {
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.try.java meta.parens.java - meta.try meta.try
-//                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
 //                                                             ^ meta.try.java - meta.try meta.try - meta.parens
 //                                                              ^^ meta.try.java meta.block.java
 //       ^^^^^ storage.modifier.java
@@ -3987,7 +3965,6 @@ class TryStatementTests {
     try (var in = new BufferedReader()) {
 //  ^^^^ meta.try.java - meta.try meta.try
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.try.java meta.parens.java - meta.try meta.try
-//              ^^^^^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
 //                                     ^ meta.try.java - meta.try meta.try - meta.parens
 //                                      ^^ meta.try.java meta.block.java
 //       ^^^ storage.type.var.java
@@ -4210,7 +4187,6 @@ class LambdasExpressionsTests {
 //         ^ support.class.java
 
      Function<String, Integer> func = a -> 42;
-//                                  ^^^^^^^^^ meta.assignment.rhs.java
 //                                    ^ variable.parameter.java
 //                                      ^^ storage.type.function.anonymous.java
 //                                         ^^ constant.numeric.integer.decimal.java
@@ -5524,7 +5500,6 @@ public class Foo {
 public class Bar {
   public void missingSemiColon() {
     boolean foo = foo
-//               ^^^^ meta.assignment.rhs.java
   }
 //^ punctuation.section.block.end.java
 
@@ -5566,20 +5541,18 @@ public class Bar {
 //^ punctuation.section.block.end.java
 
   private boolean missingSemiColonForStaticAssignment = true
-//                                                      ^^^^ meta.assignment.rhs.java
 
   public void strayParansInConstructor() {
-//^^^^^^ meta.class.java storage.modifier.java - meta.assignment.rhs.java
+//^^^^^^ meta.class.java storage.modifier.java
 //            ^ meta.method.identifier.java entity.name.function.java
 //                                       ^ punctuation.section.block.begin.java
     return;
   }
 
   private boolean missingSemiColonForStaticAssignmentPackageProtected = true
-//                                                                      ^^^^ meta.assignment.rhs.java
 
   void strayParansInConstructor() {
-//^^^^ storage.type.void.java - meta.assignment.rhs.java
+//^^^^ storage.type.void.java
 //     ^ meta.method.identifier.java entity.name.function.java
 //                                ^ punctuation.section.block.begin.java
     return;

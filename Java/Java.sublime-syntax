@@ -881,7 +881,6 @@ contexts:
     - match: =
       scope:
         meta.field.java
-        meta.assignment.rhs.java
         keyword.operator.assignment.java
       set:
         - field-value-meta
@@ -889,9 +888,7 @@ contexts:
     - include: else-pop
 
   field-value-meta:
-    - meta_content_scope:
-        meta.field.value.java
-        meta.assignment.rhs.java
+    - meta_content_scope: meta.field.value.java
     - include: immediately-pop
 
   field-value-body:
@@ -1117,14 +1114,8 @@ contexts:
   variable-declaration-value:
     - match: =
       scope: keyword.operator.assignment.java
-      set:
-        - variable-declaration-value-meta
-        - variable-declaration-value-body
+      set: variable-declaration-value-body
     - include: else-pop
-
-  variable-declaration-value-meta:
-    - meta_scope: meta.assignment.rhs.java
-    - include: immediately-pop
 
   variable-declaration-value-body:
     - include: array-initializer
@@ -1921,14 +1912,14 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.12
     - match: (<<|>>>?|[-+*/%|&\^])=
       scope: keyword.operator.assignment.augmented.java
-      push: assignment-body
+      push: expression-pop
     - match: '<<|>>>?'
       scope: keyword.operator.bitwise.java
     - match: '==|!=|<=|>=|<>|<|>'
       scope: keyword.operator.comparison.java
     - match: '='
       scope: keyword.operator.assignment.java
-      push: assignment-body
+      push: expression-pop
     - match: '\+\+?|\-\-?|[*/%]'
       scope: keyword.operator.arithmetic.java
     - match: '!|&&|\|\|'
@@ -1940,10 +1931,6 @@ contexts:
       push: ternary-body
     - match: instanceof\b
       scope: keyword.other.storage.instanceof.java
-
-  assignment-body:
-    - meta_scope: meta.assignment.rhs.java
-    - include: expression-pop
 
   ternary-body:
     - match: ':'
