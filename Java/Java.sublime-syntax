@@ -69,7 +69,7 @@ variables:
   uppercase_id: (?:[_$]*\p{Lu}[\p{Lu}\p{N}_$]*\b)
 
   # One dot is mandatory to not compete with other regexes that match an id.
-  before_fqn: (?={{lowercase_id}}\s*\.)
+  before_fqn: (?={{lowercase_id}}\s*\.[^.])
 
   # digits
   bin_digit: '[01_]'
@@ -78,6 +78,9 @@ variables:
   hex_digit: '[\h_]'
   dec_exponent: '[eE][-+]?{{dec_digit}}*'
   hex_exponent: '[pP][-+]?{{dec_digit}}*'
+
+  # operators
+  accessor_dot: \.(?=[^.])
 
 contexts:
   main:
@@ -190,7 +193,7 @@ contexts:
       scope: invalid.illegal.keyword.java
 
   illegal-members:
-    - match: \.
+    - match: '{{accessor_dot}}'
       scope: invalid.illegal.unexpected-accessor.java
       push:
         - illegal-array-modifier
@@ -290,9 +293,7 @@ contexts:
         - annotation-path-accessor
 
   annotation-path-accessor:
-    - match: \.(?=[^.])
-      scope: punctuation.accessor.dot.java
-      pop: 1
+    - include: punctuation-accessor-dot-pop
     - match: (?=\S)
       fail: annotation-identifier
 
@@ -311,9 +312,7 @@ contexts:
     - match: ''
       push:
         - clear_scopes: 1
-        - match: \.(?=[^.])
-          scope: punctuation.accessor.dot.java
-          pop: 2
+        - include: punctuation-accessor-dot-pop2
         - match: (?=\S)
           fail: annotation-qualified-identifier
 
@@ -556,9 +555,7 @@ contexts:
 
   import-acessor-or-termintor:
     # continue with the import context
-    - match: \.
-      scope: punctuation.accessor.dot.java
-      pop: 1
+    - include: punctuation-accessor-dot-pop
     # pop the import context
     - match: (?=\s*;|\S)
       pop: 2
@@ -1212,7 +1209,7 @@ contexts:
         - instantiation-array-or-object
         - generic-type-arguments-common
         - generic-type-argument
-    - match: \.
+    - match: '{{accessor_dot}}'
       scope: punctuation.accessor.dot.java
       set: instantiation-type-identifier
     - include: instantiation-array-or-object
@@ -1420,9 +1417,7 @@ contexts:
         - illegal-array-modifier
 
   parameter-receiver-accessor:
-    - match: \.
-      scope: punctuation.accessor.dot.java
-      pop: 1
+    - include: punctuation-accessor-dot-pop
     - match: (?=\S)
       fail: parameter-maybe-receiver
 
@@ -1964,7 +1959,7 @@ contexts:
       push:
         - variable-maybe-function-reference
         - generic-type-arguments
-    - match: \.
+    - match: '{{accessor_dot}}'
       scope: punctuation.accessor.dot.java
       push:
         - include: variable-language-class
@@ -1972,8 +1967,18 @@ contexts:
     - include: punctuation-separator-comma
 
   punctuation-accessor-dot:
-    - match: \.
+    - match: '{{accessor_dot}}'
       scope: punctuation.accessor.dot.java
+
+  punctuation-accessor-dot-pop:
+    - match: '{{accessor_dot}}'
+      scope: punctuation.accessor.dot.java
+      pop: 1
+
+  punctuation-accessor-dot-pop2:
+    - match: '{{accessor_dot}}'
+      scope: punctuation.accessor.dot.java
+      pop: 2
 
   punctuation-separator-comma:
     - match: \,
@@ -2006,9 +2011,7 @@ contexts:
         - generic-type-arguments
 
   entity-class-path-accessor:
-    - match: \.
-      scope: punctuation.accessor.dot.java
-      pop: 1
+    - include: punctuation-accessor-dot-pop
     - match: (?=\S)
       fail: entity-class-identifier
 
@@ -2031,9 +2034,7 @@ contexts:
 
   entity-class-qualifier-accessor:
     - clear_scopes: 1
-    - match: \.
-      scope: punctuation.accessor.dot.java
-      pop: 2
+    - include: punctuation-accessor-dot-pop2
     - match: (?=\S)
       fail: entity-class-qualified-identifier
 
@@ -2066,9 +2067,7 @@ contexts:
         - entity-module-path-accessor
 
   entity-module-path-accessor:
-    - match: \.
-      scope: punctuation.accessor.dot.java
-      pop: 1
+    - include: punctuation-accessor-dot-pop
     - match: (?=\S)
       fail: entity-module-identifier
 
@@ -2087,9 +2086,7 @@ contexts:
     - match: ''
       push:
         - clear_scopes: 1
-        - match: \.
-          scope: punctuation.accessor.dot.java
-          pop: 2
+        - include: punctuation-accessor-dot-pop2
         - match: (?=\S)
           fail: entity-module-qualified-identifier
 
@@ -2118,9 +2115,7 @@ contexts:
         - entity-package-path-accessor
 
   entity-package-path-accessor:
-    - match: \.
-      scope: punctuation.accessor.dot.java
-      pop: 1
+    - include: punctuation-accessor-dot-pop
     - match: (?=\S)
       fail: entity-package-identifier
 
@@ -2139,9 +2134,7 @@ contexts:
     - match: ''
       push:
         - clear_scopes: 1
-        - match: \.
-          scope: punctuation.accessor.dot.java
-          pop: 2
+        - include: punctuation-accessor-dot-pop2
         - match: (?=\S)
           fail: entity-package-qualified-identifier
 
@@ -2204,7 +2197,7 @@ contexts:
     - include: else-pop
 
   object-types-child:
-    - match: \.
+    - match: '{{accessor_dot}}'
       scope: punctuation.accessor.dot.java
       set:
         - include: variable-language-class
@@ -2238,7 +2231,7 @@ contexts:
     - include: else-pop
 
   object-type-child:
-    - match: \.(?=[^.])
+    - match: '{{accessor_dot}}'
       scope: punctuation.accessor.dot.java
       set: object-type-no-fqn
     - include: else-pop
@@ -2276,7 +2269,7 @@ contexts:
     - include: else-pop
 
   object-type-reference-child:
-    - match: \.
+    - match: '{{accessor_dot}}'
       scope: punctuation.accessor.dot.java
       set: object-type-reference-no-fqn
     - include: else-pop
@@ -2310,7 +2303,7 @@ contexts:
     - include: else-pop
 
   inherrited-object-type-reference-child:
-    - match: \.
+    - match: '{{accessor_dot}}'
       scope: punctuation.accessor.dot.java
       set: inherited-object-type-reference-no-fqn
     - include: else-pop
