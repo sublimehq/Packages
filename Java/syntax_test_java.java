@@ -3589,7 +3589,8 @@ class ForStatementTests {
 //                                       ^^^^^^^^^^ meta.instantiation.java
 //                                                 ^^ - meta.instantiation
 //                                                   ^^^^^^^^^ meta.instantiation.java
-//                                                              ^^^^^^^^^^^ - meta.for
+//                                                              ^^^^^^^^^^ meta.for.java
+//                                                                        ^ - meta.for
 //  ^^^ keyword.control.loop.for.java
 //      ^ punctuation.section.parens.begin.java
 //       ^^^^^ storage.modifier.java
@@ -3620,7 +3621,8 @@ class ForStatementTests {
 //                                       ^^^^^^^^^^ meta.instantiation.java
 //                                                 ^^ - meta.instantiation
 //                                                   ^^^^^^^^^ meta.instantiation.java
-//                                                              ^^^^^^^^^^^ - meta.for
+//                                                              ^^^^^^^^^^ meta.for.java
+//                                                                        ^ - meta.for
 //  ^^^ keyword.control.loop.for.java
 //      ^ punctuation.section.parens.begin.java
 //       ^^^^^^^ invalid.illegal.unexpected-keyword.java
@@ -3652,6 +3654,121 @@ class ForStatementTests {
 
 
 /******************************************************************************
+ * If Statement Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.9
+ *****************************************************************************/
+
+class IfStatementTests {
+
+  void run() {
+
+    if
+//  ^^^ meta.if.java
+//  ^^ keyword.control.conditional.if.java
+
+    if foo
+//  ^^^^^^^ meta.if.java
+//  ^^ keyword.control.conditional.if.java
+//     ^^^ variable.other.readwrite.java
+
+    if (foo)
+//  ^^^ meta.if.java - meta.parens
+//     ^^^^^ meta.if.java meta.parens.java
+//          ^ meta.if.java - meta.parens
+//  ^^ keyword.control.conditional.if.java
+//     ^ punctuation.section.parens.begin.java
+//      ^^^ variable.other.readwrite.java
+//         ^ punctuation.section.parens.end.java
+
+    if (foo) {}
+//  ^^^ meta.if.java - meta.if meta.parens
+//     ^^^^^ meta.if.java meta.parens.java
+//          ^ meta.if.java - meta.if meta.block - meta.if meta.parens
+//           ^^ meta.if.java meta.block.java
+//             ^ - meta.if
+//  ^^ keyword.control.conditional.if.java
+//     ^ punctuation.section.parens.begin.java
+//      ^^^ variable.other.readwrite.java
+//         ^ punctuation.section.parens.end.java
+//           ^ punctuation.section.block.begin.java
+//            ^ punctuation.section.block.end.java
+
+    if (foo) else
+//  ^^^^^^^^^ - meta.else
+//  ^^^ meta.if.java - meta.if meta.parens
+//     ^^^^^ meta.if.java meta.parens.java
+//          ^ meta.if.java - meta.if meta.block - meta.if meta.parens
+//           ^^^^^ meta.else.java - meta.if
+//  ^^ keyword.control.conditional.if.java
+//     ^ punctuation.section.parens.begin.java
+//      ^^^ variable.other.readwrite.java
+//         ^ punctuation.section.parens.end.java
+//           ^^^^ keyword.control.conditional.else.java
+
+    if (foo) {} else {}
+//  ^^^^^^^^^^^^ - meta.else
+//  ^^^ meta.if.java - meta.parens
+//     ^^^^^ meta.if.java meta.parens.java
+//          ^ meta.if.java - meta.if meta.block - meta.if meta.parens
+//           ^^ meta.if.java meta.block.java
+//             ^^^^^^^^ - meta.if
+//              ^^^^^ meta.else.java - meta.else meta.block
+//                   ^^ meta.else.java meta.block.java
+//                     ^ - meta.if - meta.else
+//  ^^ keyword.control.conditional.if.java
+//     ^ punctuation.section.parens.begin.java
+//      ^^^ variable.other.readwrite.java
+//         ^ punctuation.section.parens.end.java
+//           ^ punctuation.section.block.begin.java
+//            ^ punctuation.section.block.end.java
+//              ^^^^ keyword.control.conditional.else.java
+//                   ^ punctuation.section.block.begin.java
+//                    ^ punctuation.section.block.end.java
+
+    if (foo) else if (bar) else
+//  ^^^^^^^^^ - meta.else
+//  ^^^ meta.if.java - meta.if meta.parens
+//     ^^^^^ meta.if.java meta.parens.java
+//          ^ meta.if.java - meta.if meta.block - meta.if meta.parens
+//           ^^^^^ meta.else.java - meta.if
+//  ^^ keyword.control.conditional.if.java
+//     ^ punctuation.section.parens.begin.java
+//      ^^^ variable.other.readwrite.java
+//         ^ punctuation.section.parens.end.java
+//           ^^^^ keyword.control.conditional.else.java
+//                ^^^^^^^^^ - meta.else
+//                ^^^ meta.if.java - meta.if meta.parens
+//                   ^^^^^ meta.if.java meta.parens.java
+//                        ^ meta.if.java - meta.if meta.block - meta.if meta.parens
+//                         ^^^^^ meta.else.java - meta.if
+//                ^^ keyword.control.conditional.if.java
+//                   ^ punctuation.section.parens.begin.java
+//                    ^^^ variable.other.readwrite.java
+//                       ^ punctuation.section.parens.end.java
+//                         ^^^^ keyword.control.conditional.else.java
+
+    if (foo() == true) fun() else if (bar != 0) bar = 1 else baz++
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.else
+//  ^^^ meta.if.java - meta.if meta.parens
+//     ^^^^^^^^^^^^^^^ meta.if.java meta.parens.java
+//                           ^^^^^ meta.else.java - meta.if
+//                                ^^^^^^^^^^^^^^^^^^^^^^ - meta.else
+//                                ^^^ meta.if.java - meta.if meta.parens
+//                                   ^^^^^^^^^^ meta.if.java meta.parens.java
+//                                                      ^^^^^ meta.else.java - meta.if
+//  ^^ keyword.control.conditional.if.java
+//     ^ punctuation.section.parens.begin.java
+//      ^^^ variable.function.java
+//            ^^ keyword.operator.comparison.java
+//               ^^^^ constant.language.boolean.java
+//                   ^ punctuation.section.parens.end.java
+//                     ^^^ variable.function.java
+//                           ^^^^ keyword.control.conditional.else.java
+  }
+}
+
+
+/******************************************************************************
  * Switch Statement Tests
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.11
  *****************************************************************************/
@@ -3665,8 +3782,7 @@ class SwitchStatementTests {
 //  ^^^^^^ keyword.control.conditional.switch.java
 
     switch foo
-//  ^^^^^^^ meta.switch.java
-//         ^^^ - meta.switch
+//  ^^^^^^^^^^^ meta.switch.java
 //  ^^^^^^ keyword.control.conditional.switch.java
 //         ^^^ variable.other.readwrite.java
 
@@ -3763,14 +3879,14 @@ class TryStatementTests {
 
     // ensure not to break highlighting even though braces are missing
     try foo() catch (Exception e) bar(e) finally baz()
-//  ^^^^ meta.try.java - meta.try meta.try
-//      ^^^^^^ - meta.try - meta.catch - meta.finally
-//            ^^^^^^ meta.catch.java - meta.catch meta.catch
-//                  ^^^^^^^^^^^^^ meta.catch.java meta.parens.java - meta.catch meta.catch
-//                               ^ meta.catch.java - meta.catch meta.catch
-//                                ^^^^^^^ - meta.try - meta.catch - meta.finally
-//                                       ^^^^^^^^ meta.finally.java - meta.finally meta.finally
-//                                               ^^^^^^ - meta.try - meta.catch - meta.finally
+//  ^^^^^^^^^^ meta.try.java - meta.try meta.try - meta.catch - meta.finally
+//            ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.catch meta.catch - meta.finally - meta.try
+//            ^^^^^^ meta.catch.java - meta.parens
+//                  ^^^^^^^^^^^^^ meta.catch.java meta.parens.java
+//                               ^^^^ meta.catch.java - meta.parens
+//                                   ^^^ meta.catch.java meta.parens.java
+//                                      ^ meta.catch.java - meta.parens
+//                                       ^^^^^^^^^^^^^ meta.finally.java - meta.finally meta.finally - meta.catch - meta.try
 //  ^^^ keyword.control.exception.try.java
 //      ^^^ variable.function.java
 //            ^^^^^ keyword.control.exception.catch.java
@@ -3968,8 +4084,14 @@ class TryStatementTests {
 //                                     ^ meta.try.java - meta.try meta.try - meta.parens
 //                                      ^^ meta.try.java meta.block.java
 //       ^^^ storage.type.var.java
+//           ^^ variable.other.readwrite.java
+//              ^ keyword.operator.assignment.java
+//                ^^^ keyword.other.storage.new.java
+//                    ^^^^^^^^^^^^^^ support.class.java
         var line = in.readLine();
 //      ^^^ storage.type.var.java
+//          ^^^^ variable.other.readwrite.java
+//               ^ keyword.operator.assignment.java
     }
 //  ^ meta.try.java meta.block.java punctuation.section.block.end.java
 //   ^ - meta.try
@@ -3991,8 +4113,7 @@ class WhileStatementTests {
 //  ^^^^^ keyword.control.loop.while.java
 
     while false
-//  ^^^^^^ meta.while.java
-//        ^^^^^ - meta.while
+//  ^^^^^^^^^^^^ meta.while.java
 //  ^^^^^ keyword.control.loop.while.java
 //        ^^^^^ constant.language.boolean.java
 
