@@ -1245,13 +1245,13 @@ contexts:
 
   variable-other-field:
     - match: '{{atom_unquoted}}'
-      scope: meta.atom.erlang variable.other.field.erlang
+      scope: meta.atom.erlang variable.other.member.erlang
       pop: true
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
         - meta_include_prototype: false
-        - meta_scope: meta.atom.erlang variable.other.field.erlang
+        - meta_scope: meta.atom.erlang variable.other.member.erlang
         - include: atom-quoted-common
     - include: macro-pop
     - include: atom-expect-end
