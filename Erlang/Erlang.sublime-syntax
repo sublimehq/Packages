@@ -579,17 +579,7 @@ contexts:
             - - meta_content_scope: meta.field.identifier.erlang
               - include: immediatelly-pop
             - - include: variable-anonymous-pop
-              - match: '{{atom_unquoted}}'
-                scope: meta.atom.erlang entity.name.field.erlang
-                pop: true
-              - match: \'
-                scope: punctuation.definition.atom.begin.erlang
-                set:
-                  - meta_include_prototype: false
-                  - meta_scope: meta.atom.erlang entity.name.field.erlang
-                  - include: atom-quoted-common
-              - include: macro-pop
-              - include: atom-expect-end
+              - include: variable-other-field
     - include: else-pop
 
 ###[ PREPROCESSOR SPEC ]######################################################

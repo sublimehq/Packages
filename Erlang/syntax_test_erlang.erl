@@ -3520,7 +3520,7 @@ preprocessor_record_tests() -> .
 %           ^^^^ entity.name.record.erlang
 %               ^ punctuation.separator.arguments.erlang
 %                 ^ punctuation.section.fields.begin.erlang
-%                  ^^^^^^ entity.name.field.erlang
+%                  ^^^^^^ variable.other.member.erlang
 %                        ^ keyword.operator.assignment.erlang
 %                         ^^^^^^ string.quoted.double.erlang
 %                               ^ punctuation.separator.expressions.erlang
@@ -3534,10 +3534,10 @@ preprocessor_record_tests() -> .
 %                                                    ^ punctuation.separator.sequence.erlang
 %                                                     ^^^^ variable.other.erlang
 %                                                         ^ punctuation.separator.expressions.erlang
-%                                                           ^^^^^^ entity.name.field.erlang
+%                                                           ^^^^^^ variable.other.member.erlang
 %                                                                 ^ punctuation.separator.expressions.erlang
 %                                                                   ^ punctuation.definition.atom.begin.erlang
-%                                                                   ^^^^^^^^^ entity.name.field.erlang
+%                                                                   ^^^^^^^^^ variable.other.member.erlang
 %                                                                           ^ punctuation.definition.atom.end.erlang
 %                                                                            ^ keyword.operator.assignment.erlang
 %                                                                             ^  meta.sequence.tuple.erlang punctuation.section.sequence.begin.erlang
@@ -3568,7 +3568,7 @@ preprocessor_record_tests() -> .
         {
 %       ^ punctuation.section.fields.begin.erlang
             field1
-%           ^^^^^^ entity.name.field.erlang
+%           ^^^^^^ variable.other.member.erlang
             =
 %           ^ keyword.operator.assignment.erlang
             "val1"
@@ -3588,11 +3588,11 @@ preprocessor_record_tests() -> .
 %                          ^^^^ variable.other.erlang
 %                               ^ punctuation.separator.expressions.erlang
             field3,
-%           ^^^^^^ entity.name.field.erlang
+%           ^^^^^^ variable.other.member.erlang
 %                 ^ punctuation.separator.expressions.erlang
             'Field-4'
 %           ^ punctuation.definition.atom.begin.erlang
-%           ^^^^^^^^^ entity.name.field.erlang
+%           ^^^^^^^^^ variable.other.member.erlang
 %                   ^ punctuation.definition.atom.end.erlang
             =
 %           ^ keyword.operator.assignment.erlang
@@ -3603,7 +3603,7 @@ preprocessor_record_tests() -> .
             ,
 %           ^ punctuation.separator.expressions.erlang
             field5 :: tuple() ,
-%           ^^^^^^ entity.name.field.erlang
+%           ^^^^^^ variable.other.member.erlang
 %                  ^^ punctuation.separator.variable-type.erlang
 %                     ^^^^^ support.type.erlang
 %                          ^ punctuation.section.arguments.begin.erlang
