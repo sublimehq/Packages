@@ -1169,7 +1169,7 @@ contexts:
       push: [record-fields, record-name, variable-other-record]
     # records may look like normal variables in macro definitions
     - match: '{{variable}}(?=\.{{ident}})'
-      scope: meta.record.identifier.erlang variable.other.erlang
+      scope: meta.record.identifier.erlang variable.other.readwrite.erlang
       push: record-fields
 
   record-name:
@@ -1438,11 +1438,11 @@ contexts:
 
   variable-other:
     - match: '{{variable}}'
-      scope: variable.other.erlang
+      scope: variable.other.readwrite.erlang
 
   variable-other-pop:
     - match: '{{variable}}'
-      scope: variable.other.erlang
+      scope: variable.other.readwrite.erlang
       pop: true
 
   variable-parameter:
