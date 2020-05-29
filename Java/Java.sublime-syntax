@@ -108,140 +108,6 @@ contexts:
     - include: object-types
     - include: variables
 
-###[ PROTOTYPES ]##############################################################
-
-  prototype:
-    - match: (?=%>)
-      pop: 1
-    - include: comments
-    - include: illegal-keywords
-
-  else-pop:
-    - match: (?=\S)
-      pop: 1
-
-  else-pop2:
-    - match: (?=\S)
-      pop: 2
-
-  else-pop3:
-    - match: (?=\S)
-      pop: 3
-
-  else-pop4:
-    - match: (?=\S)
-      pop: 4
-
-  immediately-pop:
-    - match: ''
-      pop: 1
-
-  immediately-pop2:
-    - match: ''
-      pop: 2
-
-  immediately-pop3:
-    - match: ''
-      pop: 3
-
-  immediately-pop4:
-    - match: ''
-      pop: 4
-
-  reserved-pop:
-    - match: (?={{reserved_words}}\b)
-      pop: 1
-
-  reserved-pop2:
-    - match: (?={{reserved_words}}\b)
-      pop: 2
-
-  reserved-pop3:
-    - match: (?={{reserved_words}}\b)
-      pop: 3
-
-  else-expression-pop:
-    - match: (?=\S)
-      set: expression-pop
-
-  expression-pop:
-    - include: expression-terminator
-    - include: expressions
-
-  expression-terminator:
-    - match: |-
-        (?x)(?=
-          [,:;)\]{}] |
-          ( {{control_keywords}}
-          | {{declaration_keywords}}
-          | {{storage_modifiers}}
-          | {{storage_types}}
-          )\b
-        )
-      pop: 1
-
-###[ ILLEGALS ]################################################################
-
-  illegal-array-modifier:
-    - match: \[\s*\]
-      scope: invalid.illegal.unexpected-modifier.java
-    - include: annotation
-    - include: else-pop
-
-  illegal-keywords:
-    - match: '{{illegal_keywords}}\b'
-      scope: invalid.illegal.keyword.java
-
-  illegal-members:
-    - match: '{{accessor_dot}}'
-      scope: invalid.illegal.unexpected-accessor.java
-      push:
-        - illegal-array-modifier
-        - illegal-member
-    - include: else-pop
-
-  illegal-member:
-    - match: '{{id}}'
-      scope: invalid.illegal.unexpected-member.java
-      pop: 1
-    - include: else-pop
-
-  illegal-newline:
-    - match: \n
-      scope: invalid.illegal.unexpected-newline.java
-      pop: 1
-
-  illegal-open-block:
-    - match: \s?(?={)
-      scope: invalid.illegal.stray-terminator-end
-      pop: 1
-
-  illegal-semicolon:
-    - match: ;
-      scope: invalid.illegal.stray-terminator-end
-      pop: 1
-
-  illegal-parens-terminators:
-    # Pops the stack if anything matches
-    - include: illegal-semicolon
-    - include: illegal-open-block
-
-  illegal-type-parameters:
-    - match: \<
-      set:
-        - meta_scope: invalid.illegal.unexpected-type-parameters.java
-        - match: \>
-          pop: 1
-    - include: else-pop
-
-  stray-braces:
-    - match: \}
-      scope: invalid.illegal.stray-brace-end
-
-  stray-parens:
-    - match: \)
-      scope: invalid.illegal.stray-parens-end
-
 ###[ COMMENTS ]################################################################
 
   comments:
@@ -2419,3 +2285,137 @@ contexts:
   storage-modifiers:
     - match: '{{storage_modifiers}}\b'
       scope: storage.modifier.java
+
+###[ PROTOTYPES ]##############################################################
+
+  prototype:
+    - match: (?=%>)
+      pop: 1
+    - include: comments
+    - include: illegal-keywords
+
+  else-pop:
+    - match: (?=\S)
+      pop: 1
+
+  else-pop2:
+    - match: (?=\S)
+      pop: 2
+
+  else-pop3:
+    - match: (?=\S)
+      pop: 3
+
+  else-pop4:
+    - match: (?=\S)
+      pop: 4
+
+  immediately-pop:
+    - match: ''
+      pop: 1
+
+  immediately-pop2:
+    - match: ''
+      pop: 2
+
+  immediately-pop3:
+    - match: ''
+      pop: 3
+
+  immediately-pop4:
+    - match: ''
+      pop: 4
+
+  reserved-pop:
+    - match: (?={{reserved_words}}\b)
+      pop: 1
+
+  reserved-pop2:
+    - match: (?={{reserved_words}}\b)
+      pop: 2
+
+  reserved-pop3:
+    - match: (?={{reserved_words}}\b)
+      pop: 3
+
+  else-expression-pop:
+    - match: (?=\S)
+      set: expression-pop
+
+  expression-pop:
+    - include: expression-terminator
+    - include: expressions
+
+  expression-terminator:
+    - match: |-
+        (?x)(?=
+          [,:;)\]{}] |
+          ( {{control_keywords}}
+          | {{declaration_keywords}}
+          | {{storage_modifiers}}
+          | {{storage_types}}
+          )\b
+        )
+      pop: 1
+
+###[ ILLEGALS ]################################################################
+
+  illegal-array-modifier:
+    - match: \[\s*\]
+      scope: invalid.illegal.unexpected-modifier.java
+    - include: annotation
+    - include: else-pop
+
+  illegal-keywords:
+    - match: '{{illegal_keywords}}\b'
+      scope: invalid.illegal.keyword.java
+
+  illegal-members:
+    - match: '{{accessor_dot}}'
+      scope: invalid.illegal.unexpected-accessor.java
+      push:
+        - illegal-array-modifier
+        - illegal-member
+    - include: else-pop
+
+  illegal-member:
+    - match: '{{id}}'
+      scope: invalid.illegal.unexpected-member.java
+      pop: 1
+    - include: else-pop
+
+  illegal-newline:
+    - match: \n
+      scope: invalid.illegal.unexpected-newline.java
+      pop: 1
+
+  illegal-open-block:
+    - match: \s?(?={)
+      scope: invalid.illegal.stray-terminator-end
+      pop: 1
+
+  illegal-semicolon:
+    - match: ;
+      scope: invalid.illegal.stray-terminator-end
+      pop: 1
+
+  illegal-parens-terminators:
+    # Pops the stack if anything matches
+    - include: illegal-semicolon
+    - include: illegal-open-block
+
+  illegal-type-parameters:
+    - match: \<
+      set:
+        - meta_scope: invalid.illegal.unexpected-type-parameters.java
+        - match: \>
+          pop: 1
+    - include: else-pop
+
+  stray-braces:
+    - match: \}
+      scope: invalid.illegal.stray-brace-end
+
+  stray-parens:
+    - match: \)
+      scope: invalid.illegal.stray-parens-end
