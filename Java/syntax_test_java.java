@@ -4173,7 +4173,7 @@ class TryStatementTests {
 //                                              ^ punctuation.accessor.dot.java
 //                                               ^^^ support.class.java
 //                                                   ^ punctuation.separator.pipe.java
-          YourException 
+          YourException
 //       ^^^^^^^^^^^^^^^ meta.catch.java meta.parens.java - meta.catch meta.catch
 //        ^^^^^^^^^^^^^ support.class.java
           ignore) {}

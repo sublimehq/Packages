@@ -93,6 +93,7 @@ contexts:
     - include: blocks
     - include: keywords
     - include: switch-case-statement
+    - include: try-catch-statement
     - include: labels
 
   expressions:
@@ -1083,6 +1084,84 @@ contexts:
       pop: 1
     - include: else-pop
 
+###[ TRY CATCH STATEMENT ]#####################################################
+
+  try-catch-statement:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.20
+    - match: catch\b
+      scope: keyword.control.exception.catch.java
+      push:
+        - catch-meta
+        - block-or-expression
+        - catch-parameters
+    - match: finally\b
+      scope: keyword.control.exception.finally.java
+      push:
+        - finally-meta
+        - block-or-expression
+    - match: try\b
+      scope: keyword.control.exception.try.java
+      push:
+        - try-meta
+        - block-or-expression
+        - try-parameters
+
+  catch-meta:
+    - meta_scope: meta.catch.java
+    - include: immediately-pop
+
+  catch-parameters:
+    - match: (?=\()
+      set:
+        - catch-parameters-end
+        - parameter-identifier
+        - catch-parameters-typelist
+        - parameter-type
+        - parens-begin
+    - include: else-pop
+
+  catch-parameters-typelist:
+    - match: \|
+      scope: punctuation.separator.pipe.java
+      push: parameter-type
+    - include: else-pop
+
+  catch-parameters-end:
+    - meta_scope: meta.parens.java
+    - include: parens-end
+    - match: \S
+      scope: invalid.illegal.missing-parameter-end
+      pop: 1
+
+  finally-meta:
+    - meta_scope: meta.finally.java
+    - include: immediately-pop
+
+  try-meta:
+    - meta_scope: meta.try.java
+    - include: immediately-pop
+
+  try-parameters:
+    - match: (?=\()
+      set:
+        - try-parameters-common
+        - variable-declaration-value
+        - variable-declaration-identifier
+        - variable-declaration-type
+        - parens-begin
+    - include: else-pop
+
+  try-parameters-common:
+    - meta_scope: meta.parens.java
+    - include: parens-end
+    - match: ';'
+      scope: punctuation.terminator.java
+      push:
+        - variable-declaration-value
+        - variable-declaration-identifier
+        - variable-declaration-type
+    - include: illegal-open-block
+
 ###[ INSTANTIATION ]###########################################################
 
   instantiation:
@@ -1590,25 +1669,6 @@ contexts:
 ###[ KEYWORDS ]################################################################
 
   keywords:
-    # exceptions
-    - match: catch\b
-      scope: keyword.control.exception.catch.java
-      push:
-        - catch-statement-meta
-        - block-or-expression
-        - catch-statement-parameters
-    - match: finally\b
-      scope: keyword.control.exception.finally.java
-      push: 
-        - finally-statement-meta
-        - block-or-expression
-    - match: try\b
-      scope: keyword.control.exception.try.java
-      push:
-        - try-statement-meta
-        - block-or-expression
-        - try-statement-parameters
-    # flow
     - match: assert\b
       scope: keyword.control.flow.assert.java
       push: assert-statement-body
@@ -1668,45 +1728,12 @@ contexts:
       pop: 1
     - include: else-expression-pop
 
-  catch-statement-parameters:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.20
-    - match: \(
-      scope: punctuation.section.parens.begin.java
-      set:
-        - catch-statement-parameters-end
-        - parameter-identifier
-        - catch-statement-parameters-typelist
-        - parameter-type
-    - include: else-pop
-
-  catch-statement-parameters-typelist:
-    - match: \|
-      scope: punctuation.separator.pipe.java
-      push: parameter-type
-    - include: else-pop
-
-  catch-statement-parameters-end:
-    - meta_scope: meta.parens.java
-    - include: parens-end
-    - match: \S
-      scope: invalid.illegal.missing-parameter-end
-      pop: 1
-
-  catch-statement-meta:
-    - meta_scope: meta.catch.java
-    - include: immediately-pop
-
   do-statement-meta:
     - meta_scope: meta.do.java
     - include: immediately-pop
 
   else-statement-meta:
     - meta_scope: meta.else.java
-    - include: immediately-pop
-
-  finally-statement-meta:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.20
-    - meta_scope: meta.finally.java
     - include: immediately-pop
 
   for-statement-parameters:
@@ -1769,41 +1796,9 @@ contexts:
     - meta_scope: meta.throw.java
     - include: expression-pop
 
-  try-statement-parameters:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.20
-    - match: \(
-      scope: punctuation.section.parens.begin.java
-      set:
-        - try-statement-parameters-common
-        - variable-declaration-value
-        - variable-declaration-identifier
-        - variable-declaration-type
-    - include: else-pop
-
-  try-statement-parameters-common:
-    - meta_scope: meta.parens.java
-    - include: parens-end
-    - match: ';'
-      scope: punctuation.terminator.java
-      push:
-        - variable-declaration-value
-        - variable-declaration-identifier
-        - variable-declaration-type
-    - include: illegal-open-block
-
-  try-statement-meta:
-    - meta_scope: meta.try.java
-    - include: immediately-pop
-
   while-statement-meta:
     - meta_scope: meta.while.java
     - include: immediately-pop
-
-  statement-parameters:
-    - match: \(
-      scope: punctuation.section.parens.begin.java
-      set: parens-common
-    - include: else-pop
 
 ###[ OPERATORS ]###############################################################
 
