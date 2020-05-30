@@ -3822,36 +3822,182 @@ class SwitchStatementTests {
 //               ^ punctuation.section.block.end.java
 
     switch (foo%2) {
+
+      case
+//   ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^^ meta.switch.java meta.block.java meta.case.java
+//    ^^^^ keyword.control.conditional.case.java
+
+      case :
+//   ^^^^^^^ meta.switch.java meta.block.java meta.case.java
+//          ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^ keyword.control.conditional.case.java
+//         ^ punctuation.separator.expressions.java
+
       case 0:
-//  ^^^^^^^^^^ meta.switch.java meta.block.java
+//   ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^^^^ meta.switch.java meta.block.java meta.case.java
+//           ^ meta.switch.java meta.block.java - meta.case
 //    ^^^^ keyword.control.conditional.case.java
 //         ^ constant.numeric.integer.decimal.java
 //          ^ punctuation.separator.expressions.java
+
       case 1: bar()
-//  ^^^^^^^^^^^^^^^^ meta.switch.java meta.block.java
+//   ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^^^^ meta.switch.java meta.block.java meta.case.java
+//           ^^^^^^^ meta.switch.java meta.block.java - meta.case
 //    ^^^^ keyword.control.conditional.case.java
 //         ^ constant.numeric.integer.decimal.java
 //          ^ punctuation.separator.expressions.java
 //            ^^^ variable.function.java
+
       case 3: ;
-//  ^^^^^^^^^^^^ meta.switch.java meta.block.java
+//   ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^^^^ meta.switch.java meta.block.java meta.case.java
+//           ^^^ meta.switch.java meta.block.java - meta.case
 //    ^^^^ keyword.control.conditional.case.java
 //         ^ constant.numeric.integer.decimal.java
 //          ^ punctuation.separator.expressions.java
 //            ^ punctuation.terminator.java
+
       case 5: {}
-//  ^^^^^^^^^^^^^ meta.switch.java meta.block.java
+//   ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^^^^ meta.switch.java meta.block.java meta.case.java
+//           ^^^^ meta.switch.java meta.block.java - meta.case
 //    ^^^^ keyword.control.conditional.case.java
 //         ^ constant.numeric.integer.decimal.java
 //          ^ punctuation.separator.expressions.java
 //            ^ punctuation.section.block.begin.java
 //             ^ punctuation.section.block.end.java
-      default: {}
-//  ^^^^^^^^^^^^^^ meta.switch.java meta.block.java
+
+      case "string":
+//   ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^^^^^^^^^^^ meta.switch.java meta.block.java meta.case.java - meta.path
+//                  ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^ keyword.control.conditional.case.java
+//         ^^^^^^^^ string.quoted.double.java
+//                 ^ punctuation.separator.expressions.java
+
+      case 'string':
+//   ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^^^^^^^^^^^ meta.switch.java meta.block.java meta.case.java - meta.path
+//                  ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^ keyword.control.conditional.case.java
+//         ^^^^^^^^ string.quoted.single.java
+//                 ^ punctuation.separator.expressions.java
+
+      case 'string' + foo():
+//   ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^^^^^^^^^^^^^^^^^^^ meta.switch.java meta.block.java meta.case.java - meta.path
+//                          ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^ keyword.control.conditional.case.java
+//         ^^^^^^^^ string.quoted.single.java
+//                  ^ keyword.operator.arithmetic.java
+//                    ^^^ variable.function.java
+//                         ^ punctuation.separator.expressions.java
+
+      case constant + 5:
+//   ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^^^^^^^^^^^^^^^ meta.switch.java meta.block.java meta.case.java - meta.path
+//                      ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^ keyword.control.conditional.case.java
+//         ^^^^^^^^ variable.other.readwrite.java
+//                  ^ keyword.operator.arithmetic.java
+//                    ^ constant.numeric.integer.decimal.java
+//                     ^ punctuation.separator.expressions.java
+
+      case (constant << 0x5) :
+//   ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^^ meta.switch.java meta.block.java meta.case.java - meta.parens
+//         ^^^^^^^^^^^^^^^^^ meta.switch.java meta.block.java meta.case.java meta.parens.java
+//                          ^^ meta.switch.java meta.block.java meta.case.java - meta.parens
+//                            ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^ keyword.control.conditional.case.java
+//         ^ punctuation.section.parens.begin.java
+//          ^^^^^^^^ variable.other.readwrite.java
+//                   ^^ keyword.operator.bitwise.java
+//                      ^^^ constant.numeric.integer.hexadecimal.java
+//                         ^ punctuation.section.parens.end.java
+//                           ^ punctuation.separator.expressions.java
+
+      case CONSTANT:
+//   ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^^^^^^^^^^^ meta.switch.java meta.block.java meta.case.java - meta.path
+//                  ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^ keyword.control.conditional.case.java
+//         ^^^^^^^^ constant.other.java
+//                 ^ punctuation.separator.expressions.java
+
+      case constant:
+//   ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^^^^^^^^^^^ meta.switch.java meta.block.java meta.case.java - meta.path
+//                  ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^ keyword.control.conditional.case.java
+//         ^^^^^^^^ constant.other.java
+//                 ^ punctuation.separator.expressions.java
+
+      case EnumConst:
+//   ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^^^^^^^^^^^^ meta.switch.java meta.block.java meta.case.java - meta.path
+//                   ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^ keyword.control.conditional.case.java
+//         ^^^^^^^^^ constant.other.java
+//                  ^ punctuation.separator.expressions.java
+
+      case module.CONSTANT:
+//    ^^^^^ meta.case.java - meta.path
+//         ^^^^^^^^^^^^^^^  meta.case.java meta.path.java
+//                        ^ meta.case.java - meta.path
+//    ^^^^ keyword.control.conditional.case.java
+//         ^^^^^^ variable.namespace.java
+//               ^ punctuation.accessor.dot.java
+//                ^^^^^^^^ constant.other.java
+//                        ^ punctuation.separator.expressions.java
+
+      case MyClass.CONSTANT:
+//    ^^^^^ meta.case.java - meta.path
+//         ^^^^^^^^^^^^^^^^  meta.case.java meta.path.java
+//                         ^ meta.case.java - meta.path
+//    ^^^^ keyword.control.conditional.case.java
+//         ^^^^^^^ variable.namespace.java
+//                ^ punctuation.accessor.dot.java
+//                 ^^^^^^^^ constant.other.java
+//                         ^ punctuation.separator.expressions.java
+
+      case mod.sub.MyClass.EnumConst:
+//    ^^^^^ meta.case.java - meta.path
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^  meta.case.java meta.path.java
+//                                  ^ meta.case.java - meta.path
+//    ^^^^ keyword.control.conditional.case.java
+//         ^^^ variable.namespace.java
+//            ^ punctuation.accessor.dot.java
+//             ^^^ variable.namespace.java
+//                ^ punctuation.accessor.dot.java
+//                 ^^^^^^^ variable.namespace.java
+//                         ^^^^^^^^^ constant.other.java
+//                                  ^ punctuation.separator.expressions.java
+
+      case mod.sub.myclass.enumconst:
+//    ^^^^^ meta.case.java - meta.path
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^  meta.case.java meta.path.java
+//                                  ^ meta.case.java - meta.path
+//    ^^^^ keyword.control.conditional.case.java
+//         ^^^ variable.namespace.java
+//            ^ punctuation.accessor.dot.java
+//             ^^^ variable.namespace.java
+//                ^ punctuation.accessor.dot.java
+//                 ^^^^^^^ variable.namespace.java
+//                         ^^^^^^^^^ constant.other.java
+//                                  ^ punctuation.separator.expressions.java
+
+      default : {}
+//  ^^ meta.switch.java meta.block.java - meta.default
+//    ^^^^^^^^^ meta.switch.java meta.block.java meta.default.java
+//             ^^^^ meta.switch.java meta.block.java - meta.default
 //    ^^^^^^^ keyword.control.conditional.default.java
-//           ^ punctuation.separator.expressions.java
-//             ^ punctuation.section.block.begin.java
-//              ^ punctuation.section.block.end.java
+//            ^ punctuation.separator.expressions.java
+//              ^ punctuation.section.block.begin.java
+//               ^ punctuation.section.block.end.java
     }
 //  ^ meta.switch.java meta.block.java punctuation.section.block.end.java
   }

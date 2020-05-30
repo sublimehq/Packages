@@ -92,6 +92,7 @@ contexts:
     - include: punctuation-terminator-semicolon
     - include: blocks
     - include: keywords
+    - include: switch-case-statement
     - include: labels
 
   expressions:
@@ -1020,6 +1021,68 @@ contexts:
       pop: 1
     - include: expression-terminator
 
+###[ SWITCH CASE STATEMENT ]###################################################
+
+  switch-case-statement:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.11
+    - match: case\b
+      scope: keyword.control.conditional.case.java
+      branch_point: case-label
+      branch:
+        - case-label-constant
+        - case-label-expression
+    - match: default\b
+      scope: keyword.control.conditional.default.java
+      push: default-end
+    - match: switch\b
+      scope: keyword.control.conditional.switch.java
+      push:
+        - switch-meta
+        - block-or-expression
+        - switch-parameters
+
+  switch-meta:
+    - meta_scope: meta.switch.java
+    - include: immediately-pop
+
+  switch-parameters:
+    - match: (?=\()
+      set: [parens-common, parens-begin]
+    - include: else-pop
+
+  case-label-constant:
+    - meta_scope: meta.case.java
+    - match: ''
+      push:
+        - case-label-constant-end
+        - case-label-constant-identifier
+
+  case-label-constant-identifier:
+    - include: reserved-pop
+    - include: enum-constant
+    - include: else-pop
+
+  case-label-constant-end:
+    - match: ':'
+      scope: punctuation.separator.expressions.java
+      pop: 2
+    - match: (?=\S)
+      fail: case-label
+
+  case-label-expression:
+    - meta_scope: meta.case.java
+    - match: ':'
+      scope: punctuation.separator.expressions.java
+      pop: 1
+    - include: expression-pop
+
+  default-end:
+    - meta_scope: meta.default.java
+    - match: ':'
+      scope: punctuation.separator.expressions.java
+      pop: 1
+    - include: else-pop
+
 ###[ INSTANTIATION ]###########################################################
 
   instantiation:
@@ -1573,18 +1636,7 @@ contexts:
       push: 
         - else-statement-meta
         - block-or-expression
-    - match: switch\b
-      scope: keyword.control.conditional.switch.java
-      push:
-        - switch-statement-meta
-        - block-or-expression
-        - statement-parameters
-    - match: case\b
-      scope: keyword.control.conditional.case.java
-      push: case-statement-body
-    - match: default\b
-      scope: keyword.control.conditional.default.java
-      push: default-statement-body
+
     # loop
     - match: do\b
       scope: keyword.control.loop.do-while.java
@@ -1713,22 +1765,6 @@ contexts:
     - meta_scope: meta.if.java
     - include: immediately-pop
 
-  switch-statement-meta:
-    - meta_scope: meta.switch.java
-    - include: immediately-pop
-
-  case-statement-body:
-    - match: ':'
-      scope: punctuation.separator.expressions.java
-      pop: 1
-    - include: expression-pop
-
-  default-statement-body:
-    - match: ':'
-      scope: punctuation.separator.expressions.java
-      pop: 1
-    - include: else-pop
-
   throw-statement-body:
     - meta_scope: meta.throw.java
     - include: expression-pop
@@ -1842,6 +1878,54 @@ contexts:
     - match: ;
       scope: punctuation.terminator.java
       pop: 1
+
+###[ ENUM CONSTANT ]###########################################################
+
+  enum-constant:
+    - match: '{{id}}'
+      branch_point: enum-constant-identifier
+      branch:
+        - enum-constant-qualified-identifier
+        - enum-constant-unqualified-identifier
+
+  enum-constant-qualified-identifier:
+    - meta_scope: meta.path.java variable.namespace.java
+    - match: ''
+      push:
+        - enum-constant-path
+        - enum-constant-path-accessor
+
+  enum-constant-path-accessor:
+    - include: punctuation-accessor-dot-pop
+    - match: (?=\S)
+      fail: enum-constant-identifier
+
+  enum-constant-path:
+    - clear_scopes: 1
+    - include: reserved-pop3
+    - match: '{{id}}'
+      branch_point: enum-constant-qualified-identifier
+      branch:
+        - enum-constant-qualifier
+        - enum-constant-name
+    - include: else-pop3
+
+  enum-constant-qualifier:
+    - meta_scope: variable.namespace.java
+    - match: ''
+      push:
+        - clear_scopes: 1
+        - include: punctuation-accessor-dot-pop2
+        - match: (?=\S)
+          fail: enum-constant-qualified-identifier
+
+  enum-constant-name:
+    - meta_scope: constant.other.java
+    - include: immediately-pop4
+
+  enum-constant-unqualified-identifier:
+    - meta_scope: constant.other.java
+    - include: immediately-pop2
 
 ###[ ENTITY CLASS ]############################################################
 
