@@ -94,6 +94,7 @@ contexts:
     - include: keywords
     - include: if-else-statement
     - include: switch-case-statement
+    - include: for-statement
     - include: try-catch-statement
     - include: labels
 
@@ -1114,6 +1115,68 @@ contexts:
       pop: 1
     - include: else-pop
 
+###[ FOR LOOP STATEMENT ]######################################################
+
+  for-statement:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.14
+    - match: for\b
+      scope: keyword.control.loop.for.java
+      push:
+        - for-meta
+        - block-or-expression
+        - for-parameters
+
+  for-meta:
+    - meta_scope: meta.for.java
+    - include: immediately-pop
+
+  for-parameters:
+    - match: (?=\()
+      set:
+        - for-parameters-end
+        - for-parameters-body
+        - variable-declaration-identifier
+        - variable-declaration-type
+        - parens-begin
+    - include: else-pop
+
+  for-parameters-body:
+    # enhanced for statement
+    - match: ':'
+      scope: keyword.operator.assignment.java
+      set: for-parameters-update
+    # basic for statement
+    - match: (?=\S)
+      set:
+        - for-parameters-update
+        - for-parameters-condition
+        - for-parameters-init
+        - variable-declaration-value
+
+  for-parameters-init:
+    - include: punctuation-terminator-semicolon-pop
+    - include: variable-declaration-list
+    - include: else-pop
+
+  for-parameters-condition:
+    - include: punctuation-terminator-semicolon-pop
+    - include: illegal-open-block
+    - include: expressions
+    - include: else-pop
+
+  for-parameters-update:
+    - include: illegal-open-block
+    - include: expressions
+    - include: else-pop
+
+  for-parameters-end:
+    - meta_scope: meta.parens.java
+    - include: parens-end
+    - include: illegal-open-block
+    - match: ;
+      scope: invalid.illegal.stray-terminator-end
+    - include: else-pop
+
 ###[ TRY CATCH STATEMENT ]#####################################################
 
   try-catch-statement:
@@ -1721,12 +1784,6 @@ contexts:
       push: 
         - do-statement-meta
         - block-or-expression
-    - match: for\b
-      scope: keyword.control.loop.for.java
-      push:
-        - for-statement-meta
-        - block-or-expression
-        - for-statement-parameters
     - match: while\b
       scope: keyword.control.loop.while.java
       push:
@@ -1750,57 +1807,7 @@ contexts:
     - meta_scope: meta.do.java
     - include: immediately-pop
 
-  for-statement-parameters:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.14
-    - match: \(
-      scope: punctuation.section.parens.begin.java
-      set:
-        - for-statement-parameters-end
-        - for-statement-parameters-body
-        - variable-declaration-identifier
-        - variable-declaration-type
-    - include: else-pop
 
-  for-statement-parameters-body:
-    # enhanced for statement
-    - match: ':'
-      scope: keyword.operator.assignment.java
-      set: for-statement-parameters-update
-    # basic for statement
-    - match: (?=\S)
-      set:
-        - for-statement-parameters-update
-        - for-statement-parameters-condition
-        - for-statement-parameters-init
-        - variable-declaration-value
-
-  for-statement-parameters-init:
-    - include: punctuation-terminator-semicolon-pop
-    - include: variable-declaration-list
-    - include: else-pop
-
-  for-statement-parameters-condition:
-    - include: punctuation-terminator-semicolon-pop
-    - include: illegal-open-block
-    - include: expressions
-    - include: else-pop
-
-  for-statement-parameters-update:
-    - include: illegal-open-block
-    - include: expressions
-    - include: else-pop
-
-  for-statement-parameters-end:
-    - meta_scope: meta.parens.java
-    - include: parens-end
-    - include: illegal-open-block
-    - match: ;
-      scope: invalid.illegal.stray-terminator-end
-    - include: else-pop
-
-  for-statement-meta:
-    - meta_scope: meta.for.java
-    - include: immediately-pop
 
   throw-statement-body:
     - meta_scope: meta.throw.java
