@@ -96,6 +96,7 @@ contexts:
     - include: switch-case-statement
     - include: do-while-statement
     - include: for-statement
+    - include: synchronized-statement
     - include: try-catch-statement
     - include: labels
 
@@ -509,7 +510,15 @@ contexts:
 
   class-body:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.6
-    - include: statements
+    - include: punctuation-terminator-semicolon
+    - include: blocks
+    - include: flow-control-statement
+    - include: if-else-statement
+    - include: switch-case-statement
+    - include: do-while-statement
+    - include: for-statement
+    - include: try-catch-statement
+    - include: labeled-statement
     - include: declarations
 
 ###[ ENUM DECLARATION ]########################################################
@@ -1206,6 +1215,26 @@ contexts:
     - include: illegal-open-block
     - match: ;
       scope: invalid.illegal.stray-terminator-end
+    - include: else-pop
+
+###[ SYNCHRONIZED STATEMENT ]##################################################
+
+  synchronized-statement:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.19
+    - match: synchronized\b
+      scope: keyword.control.flow.synchronized.java
+      push:
+        - synchronized-meta
+        - block-or-expression
+        - synchronized-parameters
+
+  synchronized-meta:
+    - meta_scope: meta.synchronized.java
+    - include: immediately-pop
+
+  synchronized-parameters:
+    - match: (?=\()
+      set: [parens-common, parens-begin]
     - include: else-pop
 
 ###[ TRY CATCH STATEMENT ]#####################################################

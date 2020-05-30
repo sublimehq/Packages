@@ -4005,6 +4005,65 @@ class SwitchStatementTests {
 
 
 /******************************************************************************
+ * Synchronized Statement Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.19
+ *****************************************************************************/
+
+class SynchronizedStatementTests {
+
+  synchronized
+//^^^^^^^^^^^^^ meta.method.modifier.java
+//^^^^^^^^^^^^ storage.modifier.java
+
+  synchronized void synchronizedMethod() {
+//^^^^^^^^^^^^^ meta.method.modifier.java
+//             ^^^^^ meta.method.return-type.java
+//                  ^^^^^^^^^^^^^^^^^^ meta.method.identifier.java
+//                                    ^^ meta.method.parameters.java meta.parens.java
+//                                      ^ meta.method.java
+//                                       ^^ meta.method.java meta.block.java
+//^^^^^^^^^^^^ storage.modifier.java
+//             ^^^^ storage.type.void.java
+//                  ^^^^^^^^^^^^^^^^^^ entity.name.function.java
+//                                    ^ punctuation.section.parens.begin.java
+//                                     ^ punctuation.section.parens.end.java
+//                                       ^ punctuation.section.block.begin.java
+
+    synchronized
+// ^ - meta.synchronized - keyword
+//  ^^^^^^^^^^^^^ meta.synchronized.java
+//  ^^^^^^^^^^^^ keyword.control.flow.synchronized.java
+//              ^ - keyword
+
+    synchronized ()  ;
+//^^^^^^^^^^^^^^^^^^^ meta.synchronized.java
+//               ^^ meta.parens.java
+//                   ^ - meta.synchronized
+// ^ - keyword
+//  ^^^^^^^^^^^^ keyword.control.flow.synchronized.java
+//              ^ - keyword
+//               ^ punctuation.section.parens.begin.java
+//                ^ punctuation.section.parens.end.java
+//                   ^ punctuation.terminator.java
+
+    synchronized () {}
+// ^ - meta.synchronized
+//  ^^^^^^^^^^^^^^^^^^ meta.synchronized.java
+//               ^^ meta.parens.java
+//                  ^^ meta.block.java
+//                    ^ - meta.synchronized
+// ^ - keyword
+//  ^^^^^^^^^^^^ keyword.control.flow.synchronized.java
+//              ^ - keyword
+//               ^ punctuation.section.parens.begin.java
+//                ^ punctuation.section.parens.end.java
+//                  ^ punctuation.section.block.begin.java
+//                   ^ punctuation.section.block.end.java
+  }
+}
+
+
+/******************************************************************************
  * Try Statement Tests
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.20
  *****************************************************************************/
