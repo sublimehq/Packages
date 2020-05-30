@@ -94,6 +94,7 @@ contexts:
     - include: keywords
     - include: if-else-statement
     - include: switch-case-statement
+    - include: do-while-statement
     - include: for-statement
     - include: try-catch-statement
     - include: labels
@@ -1115,6 +1116,36 @@ contexts:
       pop: 1
     - include: else-pop
 
+###[ DO WHILE STATEMENT ]######################################################
+
+  do-while-statement:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.12
+    - match: while\b
+      scope: keyword.control.loop.while.java
+      push:
+        - while-meta
+        - block-or-expression
+        - while-condition
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.13
+    - match: do\b
+      scope: keyword.control.loop.do-while.java
+      push:
+        - do-meta
+        - block-or-expression
+
+  do-meta:
+    - meta_scope: meta.do.java
+    - include: immediately-pop
+
+  while-meta:
+    - meta_scope: meta.while.java
+    - include: immediately-pop
+
+  while-condition:
+    - match: (?=\()
+      set: [parens-common, parens-begin]
+    - include: else-pop
+
 ###[ FOR LOOP STATEMENT ]######################################################
 
   for-statement:
@@ -1778,19 +1809,6 @@ contexts:
       scope: keyword.control.flow.throw.java
       push: throw-statement-body
 
-    # loop
-    - match: do\b
-      scope: keyword.control.loop.do-while.java
-      push: 
-        - do-statement-meta
-        - block-or-expression
-    - match: while\b
-      scope: keyword.control.loop.while.java
-      push:
-        - while-statement-meta
-        - block-or-expression
-        - statement-parameters
-
   assert-statement-body:
     - meta_scope: meta.assertion.java
     - match: ':'
@@ -1803,19 +1821,9 @@ contexts:
       pop: 1
     - include: else-expression-pop
 
-  do-statement-meta:
-    - meta_scope: meta.do.java
-    - include: immediately-pop
-
-
-
   throw-statement-body:
     - meta_scope: meta.throw.java
     - include: expression-pop
-
-  while-statement-meta:
-    - meta_scope: meta.while.java
-    - include: immediately-pop
 
 ###[ OPERATORS ]###############################################################
 
