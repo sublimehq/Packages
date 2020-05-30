@@ -98,7 +98,7 @@ contexts:
     - include: for-statement
     - include: synchronized-statement
     - include: try-catch-statement
-    - include: labels
+    - include: labeled-statement
 
   expressions:
     - include: parens-or-lambda
@@ -1219,6 +1219,13 @@ contexts:
 
 ###[ FLOW CONTROL STATEMENT ]##################################################
 
+  labeled-statement:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.7
+    - match: ({{id}})(:)(?!:)
+      captures:
+        1: entity.name.label.java
+        2: punctuation.separator.colon.java
+
   flow-control-statement:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.10
     - match: assert\b
@@ -1748,13 +1755,6 @@ contexts:
       scope: constant.language.boolean.java
     - match: null\b
       scope: constant.language.null.java
-
-  labels:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.7
-    - match: ({{id}})(:)(?!:)
-      captures:
-        1: entity.name.label.java
-        2: punctuation.separator.colon.java
 
   numbers:
     # hexadecimal floats
