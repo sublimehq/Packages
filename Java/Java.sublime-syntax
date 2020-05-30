@@ -91,7 +91,7 @@ contexts:
   statements:
     - include: punctuation-terminator-semicolon
     - include: blocks
-    - include: keywords
+    - include: flow-control-statement
     - include: if-else-statement
     - include: switch-case-statement
     - include: do-while-statement
@@ -1217,6 +1217,63 @@ contexts:
       scope: invalid.illegal.stray-terminator-end
     - include: else-pop
 
+###[ FLOW CONTROL STATEMENT ]##################################################
+
+  flow-control-statement:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.10
+    - match: assert\b
+      scope: keyword.control.flow.assert.java
+      push: assert-statement-body
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.15
+    - match: break\b
+      scope: keyword.control.flow.break.java
+      push:
+        - break-statement-end
+        - variable-label
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.16
+    - match: continue\b
+      scope: keyword.control.flow.continue.java
+      push:
+        - continue-statement-end
+        - variable-label
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.17
+    - match: return\b
+      scope: keyword.control.flow.return.java
+      push: return-statement-body
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.18
+    - match: throw\b
+      scope: keyword.control.flow.throw.java
+      push: throw-statement-body
+
+  assert-statement-body:
+    - meta_scope: meta.assertion.java
+    - match: ':'
+      scope: punctuation.separator.expressions.java
+    - include: expression-pop
+
+  break-statement-end:
+    - meta_scope: meta.break.java
+    - include: expect-expression-terminator
+
+  continue-statement-end:
+    - meta_scope: meta.continue.java
+    - include: expect-expression-terminator
+
+  return-statement-body:
+    - meta_scope: meta.return.java
+    - include: expression-pop
+
+  throw-statement-body:
+    - meta_scope: meta.throw.java
+    - include: expression-pop
+
+  variable-label:
+    - include: reserved-pop
+    - match: '{{id}}'
+      scope: variable.label.java
+      pop: 1
+    - include: else-pop
+
 ###[ SYNCHRONIZED STATEMENT ]##################################################
 
   synchronized-statement:
@@ -1818,41 +1875,6 @@ contexts:
       scope: constant.character.escape.java
     - match: \\.
       scope: invalid.illegal.escape.java
-
-###[ KEYWORDS ]################################################################
-
-  keywords:
-    - match: assert\b
-      scope: keyword.control.flow.assert.java
-      push: assert-statement-body
-    - match: break\b
-      scope: keyword.control.flow.break.java
-      push: break-statement-body
-    - match: continue\b
-      scope: keyword.control.flow.continue.java
-      push: break-statement-body
-    - match: return\b
-      scope: keyword.control.flow.return.java
-      push: expression-pop
-    - match: throw\b
-      scope: keyword.control.flow.throw.java
-      push: throw-statement-body
-
-  assert-statement-body:
-    - meta_scope: meta.assertion.java
-    - match: ':'
-      scope: punctuation.separator.expressions.java
-    - include: expression-pop
-
-  break-statement-body:
-    - match: '{{id}}'
-      scope: variable.label.java
-      pop: 1
-    - include: else-expression-pop
-
-  throw-statement-body:
-    - meta_scope: meta.throw.java
-    - include: expression-pop
 
 ###[ OPERATORS ]###############################################################
 
@@ -2490,6 +2512,11 @@ contexts:
           )\b
         )
       pop: 1
+
+  expect-expression-terminator:
+    - include: expression-terminator
+    - match: \S
+      scope: invalid.illegal.expect-terminator.java
 
 ###[ ILLEGALS ]################################################################
 

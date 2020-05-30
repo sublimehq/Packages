@@ -4005,6 +4005,340 @@ class SwitchStatementTests {
 
 
 /******************************************************************************
+ * Break Statement Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.15
+ *****************************************************************************/
+
+class BreakStatementTests {
+
+  void run() {
+
+    label:
+//  ^^^^^ entity.name.label.java
+//       ^ punctuation.separator.colon.java
+
+    break
+// ^ - meta.break
+//  ^^^^^^ meta.break.java
+//  ^^^^^ keyword.control.flow.break.java
+
+    break ;
+// ^^^^^^^ meta.break.java
+//        ^ - meta.break
+//  ^^^^^ keyword.control.flow.break.java
+//        ^ punctuation.terminator.java
+
+    break label;
+// ^ - meta.break
+//  ^^^^^^^^^^^ meta.break.java
+//             ^ - meta.break
+//  ^^^^^ keyword.control.flow.break.java
+//        ^^^^^ variable.label.java
+//             ^ punctuation.terminator.java
+
+    break
+// ^ - meta.break
+//  ^^^^^^ meta.break.java
+//  ^^^^^ keyword.control.flow.break.java
+        label
+//     ^^^^^^^ meta.break.java
+//      ^^^^^ variable.label.java
+        ;
+//     ^ meta.break.java
+//      ^ - meta.break
+//      ^ punctuation.terminator.java
+
+    break str + 5;
+// ^ - meta.break
+//  ^^^^^^^^^^^^^ meta.break.java
+//               ^ - meta.break
+//  ^^^^^ keyword.control.flow.break.java
+//        ^^^ variable.label.java
+//            ^ invalid.illegal.expect-terminator.java
+//              ^ invalid.illegal.expect-terminator.java
+//               ^ punctuation.terminator.java
+
+    break 5 + 5;
+// ^ - meta.break
+//  ^^^^^^^^^^^ meta.break.java
+//             ^ - meta.break
+//  ^^^^^ keyword.control.flow.break.java
+//        ^ invalid.illegal.expect-terminator.java
+//          ^ invalid.illegal.expect-terminator.java
+//            ^ invalid.illegal.expect-terminator.java
+//             ^ punctuation.terminator.java
+
+    goto label;
+//  ^^^^ invalid.illegal
+//       ^^^^^ variable.other.readwrite.java
+  }
+}
+
+
+/******************************************************************************
+ * Continue Statement Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.16
+ *****************************************************************************/
+
+class ContinueStatementTests {
+
+  void run() {
+
+    label:
+//  ^^^^^ entity.name.label.java
+//       ^ punctuation.separator.colon.java
+
+    continue
+// ^ - meta.continue
+//  ^^^^^^^^^ meta.continue.java
+//  ^^^^^^^^ keyword.control.flow.continue.java
+
+    continue ;
+// ^^^^^^^^^^ meta.continue.java
+//           ^ - meta.continue
+//  ^^^^^^^^ keyword.control.flow.continue.java
+//           ^ punctuation.terminator.java
+
+    continue label;
+// ^ - meta.continue
+//  ^^^^^^^^^^^^^^ meta.continue.java
+//                ^ - meta.continue
+//  ^^^^^^^^ keyword.control.flow.continue.java
+//           ^^^^^ variable.label.java
+//                ^ punctuation.terminator.java
+
+    continue
+// ^ - meta.continue
+//  ^^^^^^^^^ meta.continue.java
+//  ^^^^^^^^ keyword.control.flow.continue.java
+        label
+//     ^^^^^^^ meta.continue.java
+//      ^^^^^ variable.label.java
+        ;
+//     ^ meta.continue.java
+//      ^ - meta.continue
+//      ^ punctuation.terminator.java
+
+    continue str + 5;
+// ^ - meta.continue
+//  ^^^^^^^^^^^^^^^^ meta.continue.java
+//                  ^ - meta.continue
+//  ^^^^^^^^ keyword.control.flow.continue.java
+//           ^^^ variable.label.java
+//               ^ invalid.illegal.expect-terminator.java
+//                 ^ invalid.illegal.expect-terminator.java
+//                  ^ punctuation.terminator.java
+
+    continue 5 + 5;
+// ^ - meta.continue
+//  ^^^^^^^^^^^^^^ meta.continue.java
+//                ^ - meta.continue
+//  ^^^^^^^^ keyword.control.flow.continue.java
+//           ^ invalid.illegal.expect-terminator.java
+//             ^ invalid.illegal.expect-terminator.java
+//               ^ invalid.illegal.expect-terminator.java
+//                ^ punctuation.terminator.java
+  }
+}
+
+
+/******************************************************************************
+ * Return Statement Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.17
+ *****************************************************************************/
+
+class ReturnStatementTests {
+
+  void run() {
+
+    return
+// ^ - meta.return - keyword
+//  ^^^^^^^ meta.return.java
+//  ^^^^^^ keyword.control.flow.return.java
+
+    return;
+// ^^^^^^^ meta.return.java
+//        ^ - meta.return
+//  ^^^^^^ keyword.control.flow.return.java
+//        ^ punctuation.terminator.java
+
+    return variable
+// ^ - meta.return - keyword
+//  ^^^^^^^^^^^^^^^^ meta.return.java
+//  ^^^^^^ keyword.control.flow.return.java
+//         ^^^^^^^^ variable.other.readwrite.java
+
+    return variable + func(10);
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.return.java
+//                            ^ - meta.return
+//  ^^^^^^ keyword.control.flow.return.java
+//         ^^^^^^^^ variable.other.readwrite.java
+//                  ^ keyword.operator.arithmetic.java
+//                    ^^^^ variable.function.java
+//                        ^ punctuation.section.parens.begin.java
+//                         ^^ constant.numeric.integer.decimal.java
+//                           ^ punctuation.section.parens.end.java
+//                            ^ punctuation.terminator.java
+
+    return
+// ^ - meta.return - keyword
+//  ^^^^^^^ meta.return.java
+//  ^^^^^^ keyword.control.flow.return.java
+        variable
+//     ^^^^^^^^^^ meta.return.java
+//      ^^^^^^^^ variable.other.readwrite.java
+        +
+//     ^^^ meta.return.java
+//      ^ keyword.operator.arithmetic.java
+        func
+//     ^^^^^^ meta.return.java
+//      ^^^^ variable.function.java
+        (
+//     ^^^ meta.return.java
+//      ^ punctuation.section.parens.begin.java
+            10
+//         ^^^^ meta.return.java
+//          ^^ constant.numeric.integer.decimal.java
+        )
+//     ^^^ meta.return.java
+//      ^ punctuation.section.parens.end.java
+        ;
+//     ^ meta.return.java
+//      ^ - meta.return
+//      ^ punctuation.terminator.java
+
+    return new MyClass();
+// ^ - meta.return - keyword
+//  ^^^^^^^^^^^^^^^^^^^^ meta.return.java
+//                      ^ - meta.return
+//  ^^^^^^ keyword.control.flow.return.java
+//         ^^^ keyword.other.storage.new.java
+//             ^^^^^^^ support.class.java
+//                    ^ punctuation.section.parens.begin.java
+//                     ^ punctuation.section.parens.end.java
+//                      ^ punctuation.terminator.java
+
+    return (a, int b) -> a + b;
+// ^ - meta.return - keyword
+//  ^^^^^^^ meta.return.java - meta.function - meta.parens
+//         ^^^^^^^^^^ meta.return.java meta.function.anonymous.parameters.java meta.parens.java
+//                   ^^^^^^^^^ meta.return.java meta.function.anonymous.java - meta.parens
+//  ^^^^^^ keyword.control.flow.return.java
+//         ^ punctuation.section.parens.begin.java
+//          ^ variable.parameter.java
+//           ^ punctuation.separator.comma.java
+//             ^^^ storage.type.primitive.java
+//                 ^ variable.parameter.java
+//                  ^ punctuation.section.parens.end.java
+//                    ^^ storage.type.function.anonymous.java
+//                       ^ variable.other.readwrite.java
+//                         ^ keyword.operator.arithmetic.java
+//                           ^ variable.other.readwrite.java
+//                            ^ punctuation.terminator.java
+  }
+//^ meta.class.java meta.block.java meta.method.java meta.block.java punctuation.section.block.end.java
+}
+
+
+/******************************************************************************
+ * Throw Statement Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.18
+ *****************************************************************************/
+
+class ThrowStatementTests {
+
+  void run() {
+
+    throw
+// ^ - meta.throw - keyword
+//  ^^^^^^ meta.throw.java
+//  ^^^^^ keyword.control.flow.throw.java
+
+    throw;
+// ^^^^^^ meta.throw.java
+//       ^ - meta.throw
+//  ^^^^^ keyword.control.flow.throw.java
+//       ^ punctuation.terminator.java
+
+    throw variable
+// ^ - meta.throw - keyword
+//  ^^^^^^^^^^^^^^^ meta.throw.java
+//  ^^^^^ keyword.control.flow.throw.java
+//        ^^^^^^^^ variable.other.readwrite.java
+
+    throw variable + func(10);
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.throw.java
+//                           ^ - meta.throw
+//  ^^^^^ keyword.control.flow.throw.java
+//        ^^^^^^^^ variable.other.readwrite.java
+//                 ^ keyword.operator.arithmetic.java
+//                   ^^^^ variable.function.java
+//                       ^ punctuation.section.parens.begin.java
+//                        ^^ constant.numeric.integer.decimal.java
+//                          ^ punctuation.section.parens.end.java
+//                           ^ punctuation.terminator.java
+
+    throw
+// ^ - meta.throw - keyword
+//  ^^^^^^ meta.throw.java
+//  ^^^^^ keyword.control.flow.throw.java
+        variable
+//     ^^^^^^^^^^ meta.throw.java
+//      ^^^^^^^^ variable.other.readwrite.java
+        +
+//     ^^^ meta.throw.java
+//      ^ keyword.operator.arithmetic.java
+        func
+//     ^^^^^^ meta.throw.java
+//      ^^^^ variable.function.java
+        (
+//     ^^^ meta.throw.java
+//      ^ punctuation.section.parens.begin.java
+            10
+//         ^^^^ meta.throw.java
+//          ^^ constant.numeric.integer.decimal.java
+        )
+//     ^^^ meta.throw.java
+//      ^ punctuation.section.parens.end.java
+        ;
+//     ^ meta.throw.java
+//      ^ - meta.throw
+//      ^ punctuation.terminator.java
+
+    throw new MyClass();
+// ^ - meta.throw - keyword
+//  ^^^^^^^^^^^^^^^^^^^ meta.throw.java
+//                     ^ - meta.throw
+//  ^^^^^ keyword.control.flow.throw.java
+//        ^^^ keyword.other.storage.new.java
+//            ^^^^^^^ support.class.java
+//                   ^ punctuation.section.parens.begin.java
+//                    ^ punctuation.section.parens.end.java
+//                     ^ punctuation.terminator.java
+
+    throw (a, int b) -> a + b;
+// ^ - meta.throw - keyword
+//  ^^^^^^ meta.throw.java - meta.function - meta.parens
+//        ^^^^^^^^^^ meta.throw.java meta.function.anonymous.parameters.java meta.parens.java
+//                  ^^^^^^^^^ meta.throw.java meta.function.anonymous.java - meta.parens
+//  ^^^^^ keyword.control.flow.throw.java
+//        ^ punctuation.section.parens.begin.java
+//         ^ variable.parameter.java
+//          ^ punctuation.separator.comma.java
+//            ^^^ storage.type.primitive.java
+//                ^ variable.parameter.java
+//                 ^ punctuation.section.parens.end.java
+//                   ^^ storage.type.function.anonymous.java
+//                      ^ variable.other.readwrite.java
+//                        ^ keyword.operator.arithmetic.java
+//                          ^ variable.other.readwrite.java
+//                           ^ punctuation.terminator.java
+  }
+//^ meta.class.java meta.block.java meta.method.java meta.block.java punctuation.section.block.end.java
+}
+
+
+/******************************************************************************
  * Synchronized Statement Tests
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.19
  *****************************************************************************/
@@ -5744,34 +6078,6 @@ public class Foo {
 //                  ^ invalid.illegal.unexpected-newline
     System.out.println(letter);
 //  ^^^^^^ support.class
-  }
-
-
-/******************************************************************************
- * Labeled Statement Tests
- * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.7
- *****************************************************************************/
-
-  void labeledStatementTests() {
-
-    label:
-//  ^^^^^ entity.name.label.java
-//       ^ punctuation.separator.colon.java
-
-    while (True) {
-//  ^^^^^ keyword.control.loop.while.java
-
-      break label;
-//    ^^^^^ keyword.control.flow.break.java
-//          ^^^^^ variable.label.java
-
-      continue label;
-//    ^^^^^^^^ keyword.control.flow.continue.java
-//             ^^^^^ variable.label.java
-      goto label;
-//    ^^^^ invalid.illegal
-//         ^^^^^ variable.other.readwrite.java
-    }
   }
 
   @Test
