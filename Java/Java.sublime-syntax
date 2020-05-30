@@ -92,6 +92,7 @@ contexts:
     - include: punctuation-terminator-semicolon
     - include: blocks
     - include: keywords
+    - include: if-else-statement
     - include: switch-case-statement
     - include: try-catch-statement
     - include: labels
@@ -1022,6 +1023,35 @@ contexts:
       pop: 1
     - include: expression-terminator
 
+###[ IF ELSE STATEMENT ]#######################################################
+
+  if-else-statement:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.9
+    - match: if\b
+      scope: keyword.control.conditional.if.java
+      push:
+        - if-meta
+        - block-or-expression
+        - if-condition
+    - match: else\b
+      scope: keyword.control.conditional.else.java
+      push:
+        - else-meta
+        - block-or-expression
+
+  if-meta:
+    - meta_scope: meta.if.java
+    - include: immediately-pop
+
+  if-condition:
+    - match: (?=\()
+      set: [parens-common, parens-begin]
+    - include: else-pop
+
+  else-meta:
+    - meta_scope: meta.else.java
+    - include: immediately-pop
+
 ###[ SWITCH CASE STATEMENT ]###################################################
 
   switch-case-statement:
@@ -1684,18 +1714,6 @@ contexts:
     - match: throw\b
       scope: keyword.control.flow.throw.java
       push: throw-statement-body
-    # conditional
-    - match: if\b
-      scope: keyword.control.conditional.if.java
-      push:
-        - if-statement-meta
-        - block-or-expression
-        - statement-parameters
-    - match: else\b
-      scope: keyword.control.conditional.else.java
-      push: 
-        - else-statement-meta
-        - block-or-expression
 
     # loop
     - match: do\b
@@ -1730,10 +1748,6 @@ contexts:
 
   do-statement-meta:
     - meta_scope: meta.do.java
-    - include: immediately-pop
-
-  else-statement-meta:
-    - meta_scope: meta.else.java
     - include: immediately-pop
 
   for-statement-parameters:
@@ -1786,10 +1800,6 @@ contexts:
 
   for-statement-meta:
     - meta_scope: meta.for.java
-    - include: immediately-pop
-
-  if-statement-meta:
-    - meta_scope: meta.if.java
     - include: immediately-pop
 
   throw-statement-body:
