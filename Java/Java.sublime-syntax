@@ -1345,24 +1345,43 @@ contexts:
 
   try-parameters:
     - match: (?=\()
-      set:
-        - try-parameters-common
-        - variable-declaration-value
-        - variable-declaration-identifier
-        - variable-declaration-type
-        - parens-begin
+      set: [try-parameters-common, parens-begin]
     - include: else-pop
 
   try-parameters-common:
     - meta_scope: meta.parens.java
     - include: parens-end
-    - match: ';'
-      scope: punctuation.terminator.java
+    - include: punctuation-terminator-semicolon
+    - match: ','
+      scope: punctuation.separator.sequence.java
+      push: variable-declaration-identifier
+    - match: =
+      scope: keyword.operator.assignment.java
+      push: variable-initializer
+    - match: (?=[\p{L}_$@<])
+      branch_point: try-parameter
+      branch:
+        - try-parameter-assignment
+        - try-parameter-definition
+    - include: expect-expression-terminator
+
+  try-parameter-assignment:
+    - match: ''
       push:
-        - variable-declaration-value
+        - try-parameter-assignment-end
+        - variable-declaration-identifier
+
+  try-parameter-assignment-end:
+    - match: (?=[=,:;)}])
+      pop: 2
+    - match: (?=\S)
+      fail: try-parameter
+
+  try-parameter-definition:
+    - match: ''
+      set:
         - variable-declaration-identifier
         - variable-declaration-type
-    - include: illegal-open-block
 
 ###[ INSTANTIATION ]###########################################################
 

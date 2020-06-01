@@ -4551,6 +4551,39 @@ class TryStatementTests {
 //  ^ meta.finally.java meta.block.java punctuation.section.block.end.java
 //   ^ - meta.try - meta.catch - meta.finally
 
+    try (, , = , = null ; , =) {} catch ( | | ) {}
+//  ^^^^ meta.try.java - meta.try meta.try
+//      ^^^^^^^^^^^^^^^^^^^^^^ meta.try.java meta.parens.java - meta.try meta.try
+//                            ^ meta.try.java - meta.try meta.try - meta.parens
+//                             ^^ meta.try.java meta.block.java
+//                               ^ - meta.try
+//                                ^^^^^^ meta.catch.java - meta.catch meta.parens
+//                                      ^^^^^^^ meta.catch.java meta.parens.java
+//                                             ^ meta.catch.java - meta.catch meta.parens - meta.catch meta.block
+//                                              ^^ meta.catch.java meta.block.java
+//                                                ^ - meta.catch
+//  ^^^ keyword.control.exception.try.java
+//      ^ punctuation.section.parens.begin.java
+//       ^ punctuation.separator.sequence.java
+//         ^ punctuation.separator.sequence.java
+//           ^ keyword.operator.assignment.java
+//             ^ punctuation.separator.sequence.java
+//               ^ keyword.operator.assignment.java
+//                 ^^^^ constant.language.null.java
+//                      ^ punctuation.terminator.java
+//                        ^ punctuation.separator.sequence.java
+//                          ^ keyword.operator.assignment.java
+//                           ^ punctuation.section.parens.end.java
+//                             ^ punctuation.section.block.begin.java
+//                              ^ punctuation.section.block.end.java
+//                                ^^^^^ keyword.control.exception.catch.java
+//                                      ^ punctuation.section.parens.begin.java
+//                                        ^ punctuation.separator.pipe.java
+//                                          ^ punctuation.separator.pipe.java
+//                                            ^ punctuation.section.parens.end.java
+//                                              ^ punctuation.section.block.begin.java
+//                                               ^ punctuation.section.block.end.java
+
     try (foo = Bar.baz(path)) {}
 //  ^^^^ meta.try.java - meta.try meta.try
 //      ^^^^^^^^^^^^^^^^^^^^^ meta.try.java meta.parens.java - meta.try meta.try
