@@ -1853,6 +1853,66 @@ class FieldDeclarationTests {
 //                         ^ punctuation.section.braces.end.java
 //                          ^ punctuation.terminator.java
 
+  byte byteArray3[] = condition ? {1, 2} : {4, 5};
+//^^^^^ meta.field.type.java
+//     ^^^^^^^^^^^^^ meta.field.identifier.java
+//                  ^ meta.field.java
+//                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.value.java
+//                                               ^ - meta.field
+//^^^^ storage.type.primitive.java
+//     ^^^^^^^^^^ variable.other.member.java
+//               ^^ storage.modifier.array.java
+//                  ^ keyword.operator.assignment.java
+//                    ^^^^^^^^^ variable.other.readwrite.java
+//                              ^ keyword.operator.ternary.java
+//                                ^ punctuation.section.braces.begin.java
+//                                 ^ constant.numeric.integer.decimal.java
+//                                  ^ punctuation.separator.comma.java
+//                                    ^ constant.numeric.integer.decimal.java
+//                                     ^ punctuation.section.braces.end.java
+//                                       ^ keyword.operator.ternary.java
+//                                         ^ punctuation.section.braces.begin.java
+//                                          ^ constant.numeric.integer.decimal.java
+//                                           ^ punctuation.separator.comma.java
+//                                             ^ constant.numeric.integer.decimal.java
+//                                              ^ punctuation.section.braces.end.java
+//                                               ^ punctuation.terminator.java
+
+  byte byteArray4[] = condition ? fun() ? {1, 2} : {3, 0} : {4, 5};
+//^^^^^ meta.field.type.java
+//     ^^^^^^^^^^^^^ meta.field.identifier.java
+//                  ^ meta.field.java
+//                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.value.java
+//                                                                ^ - meta.field
+//^^^^ storage.type.primitive.java
+//     ^^^^^^^^^^ variable.other.member.java
+//               ^^ storage.modifier.array.java
+//                  ^ keyword.operator.assignment.java
+//                    ^^^^^^^^^ variable.other.readwrite.java
+//                              ^ keyword.operator.ternary.java
+//                                ^^^ variable.function.java
+//                                   ^ punctuation.section.parens.begin.java
+//                                    ^ punctuation.section.parens.end.java
+//                                      ^ keyword.operator.ternary.java
+//                                        ^ punctuation.section.braces.begin.java
+//                                         ^ constant.numeric.integer.decimal.java
+//                                          ^ punctuation.separator.comma.java
+//                                            ^ constant.numeric.integer.decimal.java
+//                                             ^ punctuation.section.braces.end.java
+//                                               ^ keyword.operator.ternary.java
+//                                                 ^ punctuation.section.braces.begin.java
+//                                                  ^ constant.numeric.integer.decimal.java
+//                                                   ^ punctuation.separator.comma.java
+//                                                     ^ constant.numeric.integer.decimal.java
+//                                                      ^ punctuation.section.braces.end.java
+//                                                        ^ keyword.operator.ternary.java
+//                                                          ^ punctuation.section.braces.begin.java
+//                                                           ^ constant.numeric.integer.decimal.java
+//                                                            ^ punctuation.separator.comma.java
+//                                                              ^ constant.numeric.integer.decimal.java
+//                                                               ^ punctuation.section.braces.end.java
+//                                                                ^ punctuation.terminator.java
+
   String[][] doubleStringArray;
 //^^^^^^^^^^^ meta.field.type.java
 //           ^^^^^^^^^^^^^^^^^ meta.field.identifier.java
