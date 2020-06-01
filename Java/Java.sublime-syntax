@@ -1510,24 +1510,25 @@ contexts:
       scope: punctuation.section.parens.end.java
       set: lambda-meta
     - include: punctuation-separator-comma
-    - match: (?=[[:alpha:]$@<])
-      branch_point: lambda-parameter
+    - match: (?=[\p{L}_$@<])
+      branch_point: lambda-parameter-declaration
       branch:
-        - lambda-parameter-identifier
-        - lambda-parameter-definition
+        - lambda-parameter-implicit-declaration
+        - lambda-parameter-explicit-declaration
+    - include: expect-expression-terminator
 
-  lambda-parameter-identifier:
+  lambda-parameter-implicit-declaration:
     - match: '{{id}}'
       scope: variable.parameter.java
       push:
-        - match: (?=[,)])
+        - match: (?=[=,:;)}])
           pop: 2
         - match: (?=\S)
-          fail: lambda-parameter
+          fail: lambda-parameter-declaration
     - match: (?=\S)
-      fail: lambda-parameter
+      fail: lambda-parameter-declaration
 
-  lambda-parameter-definition:
+  lambda-parameter-explicit-declaration:
     - match: ''
       set:
         - parameter-identifier

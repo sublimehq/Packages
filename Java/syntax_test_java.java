@@ -4961,6 +4961,13 @@ class LambdasExpressionsTests {
 //                                    ^^^ variable.parameter.java
 //                                         ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
 
+  Function<String, String> lambda5 = (foo = 0) -> foo;
+//                                   ^^^^^^^^^ meta.function.anonymous.parameters.java
+//                                    ^^^ variable.parameter.java
+//                                        ^ invalid.illegal.expect-terminator.java
+//                                          ^ invalid.illegal.expect-terminator.java
+//                                             ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+
   Function<String, String> lambda6 = (foo, foo) -> foo;
 //                                   ^^^^^^^^^^ meta.function.anonymous.parameters.java
 //                                    ^^^ variable.parameter.java
