@@ -222,13 +222,17 @@
         ##       ^^^^^^^^^^^^^^^ string.unquoted
         ##                      ^^ punctuation.definition.tag.end.html
 
-        <img src=/f̱oo⏡/bar/baz/ />
+        <img src=/f̱oo⏡/bar%2Fbaz/ />
         ##  ^ - meta.attribute-with-value
         ##   ^^^ entity.other.attribute-name
-        ##   ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value
-        ##       ^^^^^^^^^^^^^^^ string.unquoted
-        ##                      ^ - meta.attribute-with-value
-        ##                       ^^ punctuation.definition.tag.end.html
+        ##   ^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value
+        ##       ^^^^^^^^^^^^^^^^^ string.unquoted
+        ##                ^ - constant.character.escape
+        ##                 ^ constant.character.escape.html punctuation.definition.escape.html
+        ##                  ^^ constant.character.escape.html - punctuation.definition
+        ##                    ^ - constant.character.escape
+        ##                        ^ - meta.attribute-with-value
+        ##                         ^^ punctuation.definition.tag.end.html
 
         <img title=foo"/>
         ##  ^ - meta.attribute-with-value

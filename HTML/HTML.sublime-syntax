@@ -227,6 +227,10 @@ contexts:
       captures:
         1: punctuation.definition.entity.html
         2: punctuation.terminator.entity.html
+    - match: (%)\h{2}
+      scope: constant.character.escape.html
+      captures:
+        1: punctuation.definition.escape.html
 
   cdata:
     - match: (<!\[)(CDATA)(\[)
