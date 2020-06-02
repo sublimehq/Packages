@@ -1158,48 +1158,64 @@ contexts:
   for-parameters:
     - match: (?=\()
       set:
-        - for-parameters-end
-        - for-parameters-body
-        - variable-declaration-identifier
-        - variable-declaration-type
+        - for-parameters-update
+        - for-parameters-init
         - parens-begin
     - include: else-pop
 
-  for-parameters-body:
+  for-parameters-init:
     # enhanced for statement
     - match: ':'
       scope: keyword.operator.assignment.java
-      set: for-parameters-update
+      pop: 1
     # basic for statement
-    - match: (?=\S)
-      set:
-        - for-parameters-update
-        - for-parameters-condition
-        - for-parameters-init
-        - variable-declaration-value
-
-  for-parameters-init:
-    - include: punctuation-terminator-semicolon-pop
-    - include: variable-declaration-list
+    - match: ';'
+      scope: punctuation.terminator.java
+      set: for-parameters-condition
+    - match: ','
+      scope: punctuation.separator.sequence.java
+      push: variable-declaration-identifier
+    - match: =
+      scope: keyword.operator.assignment.java
+      push: variable-initializer
+    - match: (?=[\p{L}_$@<])
+      branch_point: for-parameter
+      branch:
+        - for-parameter-assignment
+        - for-parameter-definition
     - include: else-pop
+
+  for-parameter-assignment:
+    - match: ''
+      push:
+        - for-parameter-assignment-end
+        - variable-declaration-identifier
+
+  for-parameter-assignment-end:
+    - match: (?=[=,:;)}])
+      pop: 2
+    - match: (?=\S)
+      fail: for-parameter
+
+  for-parameter-definition:
+    - match: ''
+      set:
+        - variable-declaration-identifier
+        - variable-declaration-type
 
   for-parameters-condition:
     - include: punctuation-terminator-semicolon-pop
-    - include: illegal-open-block
     - include: expressions
+    - include: illegal-open-block
     - include: else-pop
 
   for-parameters-update:
-    - include: illegal-open-block
-    - include: expressions
-    - include: else-pop
-
-  for-parameters-end:
     - meta_scope: meta.parens.java
     - include: parens-end
-    - include: illegal-open-block
+    - include: expressions
     - match: ;
       scope: invalid.illegal.stray-terminator-end
+    - include: illegal-open-block
     - include: else-pop
 
 ###[ FLOW CONTROL STATEMENT ]##################################################
