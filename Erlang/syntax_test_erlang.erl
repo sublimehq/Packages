@@ -3628,14 +3628,14 @@ preprocessor_record_tests() -> .
     #record
 %  ^ - meta.record - variable
 %   ^ punctuation.definition.record.erlang
-%    ^^^^^^ meta.record.identifier.erlang variable.other.record.erlang
+%    ^^^^^^ meta.record.identifier.erlang storage.type.record.erlang
 
     #record.
 %   ^^^^^^^ meta.record.identifier.erlang - meta.record.erlang - meta.record.field
 %          ^ meta.record.erlang - meta.record.identifier - meta.record.field
 %           ^ - meta.record
 %   ^ punctuation.definition.record.erlang
-%    ^^^^^^ variable.other.record.erlang
+%    ^^^^^^ storage.type.record.erlang
 %          ^ punctuation.accessor.dot.erlang
 
     #record.field
@@ -3645,7 +3645,7 @@ preprocessor_record_tests() -> .
 %           ^^^^^ meta.record.field.erlang - meta.record.erlang - meta.record.identifier
 %                ^ - meta.record
 %   ^ punctuation.definition.record.erlang
-%    ^^^^^^ variable.other.record.erlang
+%    ^^^^^^ storage.type.record.erlang
 %          ^ punctuation.accessor.dot.erlang
 %           ^^^^^ variable.other.member.erlang
 
@@ -3656,7 +3656,7 @@ preprocessor_record_tests() -> .
 %           ^^^^^ meta.record.field.erlang - meta.record.erlang - meta.record.identifier
 %                ^ - meta.record
 %   ^ punctuation.definition.record.erlang
-%    ^^^^^^ variable.other.record.erlang
+%    ^^^^^^ storage.type.record.erlang
 %          ^ punctuation.accessor.dot.erlang
 %           ^^^^^ invalid.illegal.expect-atom.erlang
 
@@ -3667,7 +3667,7 @@ preprocessor_record_tests() -> .
 %           ^^^^^^^^^^^^ meta.record.field.erlang - meta.record.erlang - meta.record.identifier
 %                       ^ - meta.record
 %   ^ punctuation.definition.record.erlang
-%    ^^^^^^ variable.other.record.erlang
+%    ^^^^^^ storage.type.record.erlang
 %          ^ punctuation.accessor.dot.erlang
 %           ^ punctuation.definition.atom.begin.erlang
 %           ^^^^^^^^^^^^ variable.other.member.erlang
@@ -3681,7 +3681,7 @@ preprocessor_record_tests() -> .
 %                                ^ - meta.record
 %   ^ punctuation.definition.record.erlang
 %    ^ punctuation.definition.atom.begin.erlang
-%    ^^^^^^^^^^^^^^^ variable.other.record.erlang
+%    ^^^^^^^^^^^^^^^ storage.type.record.erlang
 %           ^ - keyword - punctuation
 %                  ^ punctuation.definition.atom.end.erlang
 %                   ^ punctuation.accessor.dot.erlang
@@ -3758,7 +3758,7 @@ local_record_definition_tests() -> .
 %   ^ punctuation.definition.record.erlang
 %   ^^^^^^^^^^^^^^^^ meta.record.identifier.erlang - meta.record.fields
 %    ^ punctuation.definition.atom.begin.erlang
-%    ^^^^^^^^^^^^^^^ variable.other.record.erlang
+%    ^^^^^^^^^^^^^^^ storage.type.record.erlang
 %           ^ - keyword - punctuation
 %                  ^ punctuation.definition.atom.end.erlang
 
@@ -3767,7 +3767,7 @@ local_record_definition_tests() -> .
 %          ^^ meta.record.fields.erlang - meta.record.identifier
 %            ^ - meta.record
 %   ^ punctuation.definition.record.erlang
-%    ^^^^^^ variable.other.record.erlang
+%    ^^^^^^ storage.type.record.erlang
 %          ^ punctuation.section.fields.begin.erlang
 %           ^ punctuation.section.fields.end.erlang
 
@@ -3799,7 +3799,7 @@ local_record_definition_tests() -> .
 %                                                                                  ^ - meta.field
 %                                                                                    ^ - meta.record
 %   ^ punctuation.definition.record.erlang
-%    ^^^^^^ variable.other.record.erlang
+%    ^^^^^^ storage.type.record.erlang
 %          ^ punctuation.section.fields.begin.erlang
 %           ^^^^^^ variable.other.member.erlang
 %                 ^ keyword.operator.assignment.erlang
@@ -3832,7 +3832,7 @@ local_record_definition_tests() -> .
 %   ^^^^^^^^ meta.record.identifier.erlang - meta.record.fields.erlang
 %           ^^ meta.record.fields.erlang - meta.record.identifier
 %   ^ punctuation.definition.record.erlang
-%    ^^^^^^ variable.other.record.erlang
+%    ^^^^^^ storage.type.record.erlang
 %           ^ punctuation.section.fields.begin.erlang
         field1 = "val1" ,
 %^^^^^^^^^^^^^^^^^^^^^^^^ meta.record.fields.erlang
@@ -3870,7 +3870,7 @@ local_record_definition_tests() -> .
 %                                                                      ^ - meta.record
 %       ^ punctuation.definition.record.erlang
 %        ^ punctuation.definition.atom.begin.erlang
-%         ^^^^^^^^^^^ variable.other.record.erlang
+%         ^^^^^^^^^^^ storage.type.record.erlang
 %               ^ - keyword - punctuation
 %                    ^ punctuation.definition.atom.end.erlang
 %                     ^ punctuation.section.fields.begin.erlang
@@ -3897,7 +3897,7 @@ local_record_definition_tests() -> .
 %                     ^^ meta.record.fields.erlang - meta.record.name
 %       ^ punctuation.definition.record.erlang
 %        ^ punctuation.definition.atom.begin.erlang
-%        ^^^^^^^^^^^^^ variable.other.record.erlang
+%        ^^^^^^^^^^^^^ storage.type.record.erlang
 %               ^ - keyword - punctuation
 %                    ^ punctuation.definition.atom.end.erlang
 %                     ^ punctuation.section.fields.begin.erlang
@@ -3958,15 +3958,15 @@ local_record_definition_tests() -> .
 %                                                ^^^^ meta.record.field.erlang
 %               ^^ variable.other.readwrite.erlang
 %                 ^ punctuation.definition.record.erlang
-%                  ^^^^^ variable.other.record.erlang
+%                  ^^^^^ storage.type.record.erlang
 %                       ^ punctuation.accessor.dot.erlang
 %                        ^^^^^ variable.other.member.erlang
 %                             ^ punctuation.definition.record.erlang
-%                              ^^^^^ variable.other.record.erlang
+%                              ^^^^^ storage.type.record.erlang
 %                                   ^ punctuation.accessor.dot.erlang
 %                                    ^^^^^ variable.other.member.erlang
 %                                         ^ punctuation.definition.record.erlang
-%                                          ^^^^^ variable.other.record.erlang
+%                                          ^^^^^ storage.type.record.erlang
 %                                               ^ punctuation.accessor.dot.erlang
 %                                                ^^^^ variable.other.member.erlang
 %                                                    ^ punctuation.separator.expressions.erlang
@@ -3984,15 +3984,15 @@ local_record_definition_tests() -> .
 %                                                            ^ - meta.record
 %         ^^ variable.other.readwrite.erlang
 %           ^ punctuation.definition.record.erlang
-%            ^^^^^ variable.other.record.erlang
+%            ^^^^^ storage.type.record.erlang
 %                 ^ punctuation.accessor.dot.erlang
 %                  ^^^^^ variable.other.member.erlang
 %                       ^ punctuation.definition.record.erlang
-%                        ^^^^^ variable.other.record.erlang
+%                        ^^^^^ storage.type.record.erlang
 %                             ^ punctuation.accessor.dot.erlang
 %                              ^^^^^ variable.other.member.erlang
 %                                   ^ punctuation.definition.record.erlang
-%                                    ^^^^^ variable.other.record.erlang
+%                                    ^^^^^ storage.type.record.erlang
 %                                         ^ punctuation.section.fields.begin.erlang
 %                                                           ^ punctuation.section.fields.end.erlang
 %                                                            ^ punctuation.separator.expressions.erlang

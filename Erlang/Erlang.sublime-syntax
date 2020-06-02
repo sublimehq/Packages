@@ -1178,13 +1178,13 @@ contexts:
 
   variable-other-record:
     - match: '{{atom_unquoted}}'
-      scope: meta.atom.erlang variable.other.record.erlang
+      scope: meta.atom.erlang storage.type.record.erlang
       pop: true
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
         - meta_include_prototype: false
-        - meta_scope: meta.atom.erlang variable.other.record.erlang
+        - meta_scope: meta.atom.erlang storage.type.record.erlang
         - include: atom-quoted-common
     - include: macro-pop
     - include: atom-expect-end
