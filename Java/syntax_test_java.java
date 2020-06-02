@@ -3811,6 +3811,8 @@ class IfStatementTests {
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.else
 //  ^^^ meta.if.java - meta.if meta.parens
 //     ^^^^^^^^^^^^^^^ meta.if.java meta.parens.java
+//                    ^ meta.if.java - meta.if meta.parens
+//                     ^^^^^^ meta.if.java
 //                           ^^^^^ meta.else.java - meta.if
 //                                ^^^^^^^^^^^^^^^^^^^^^^ - meta.else
 //                                ^^^ meta.if.java - meta.if meta.parens
