@@ -825,8 +825,9 @@ contexts:
       scope: support.function.let.bash
       push:
         - meta_scope: meta.function-call.shell
-        - match: $
+        - match: (?=;)
           pop: true
+        - include: line-continuation-or-pop-at-end
         - include: expression
     - match: (\[\[)(?=\s)
       captures:
