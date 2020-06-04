@@ -1354,3 +1354,16 @@ public class AfterTopLevelMethod {
 ///                                                    ^ punctuation.section.block.begin
 ///                                                      ^ punctuation.section.block.end
 }
+
+struct Example
+{
+    // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/struct#readonly-instance-members
+    private int counter;
+    public int Counter
+    {
+        readonly get => counter;
+///     ^^^^^^^^ storage.modifier
+///              ^^^ storage.type.function.accessor.get
+        set => counter = value;
+    }
+}

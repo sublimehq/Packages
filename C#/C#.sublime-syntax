@@ -768,8 +768,10 @@ contexts:
                 - include: line_of_code_in
             - match: (?=\S)
               pop: true
-        - match: \b(get)\b
-          scope: storage.type.function.accessor.get.cs
+        - match: (?:\b(readonly)\b\s+)?\b(get)\b
+          captures:
+            1: storage.modifier.cs
+            2: storage.type.function.accessor.get.cs
           push: method_body
         - match: \b(set)\b
           scope: storage.type.function.accessor.set.cs
