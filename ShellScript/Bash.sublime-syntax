@@ -90,7 +90,7 @@ contexts:
     - include: line-continuation
 
   pop-at-end:
-    - match: $
+    - match: $|(?=\s+#)
       pop: true
 
   any-escape:
@@ -108,11 +108,11 @@ contexts:
         1: invalid.illegal.extraneous-spaces-after-line-continuation.shell
 
   prototype:
-    - include: comment
     - include: line-continuation
     - include: any-escape
 
   main:
+    - include: comment
     - include: funcdef
     - include: vardef
     - include: redirection
@@ -168,11 +168,13 @@ contexts:
     - match: \bin{{keyword_break}}
       scope: keyword.control.in.shell
       pop: true
+    - include: comment
     - include: case-end-ahead
     - include: expansion-and-string
 
   case-body:
     - meta_scope: meta.conditional.case.shell
+    - include: comment
     - match: \besac{{keyword_break}}
       scope: keyword.control.conditional.end.shell
       pop: true
@@ -219,6 +221,7 @@ contexts:
           scope: punctuation.section.parens.end.shell
           pop: true
         - include: case-clause-patterns-body
+    - include: pop-at-end
 
   case-clause-commands:
     - clear_scopes: 1  # remove meta.conditional.case.shell
@@ -270,7 +273,7 @@ contexts:
                   scope: punctuation.section.braces.end.shell
                   pop: true
                 - include: main
-    - match: ""
+    - match: ''
       set: main-with-pop-at-end
 
   funcdef-name:
@@ -364,13 +367,11 @@ contexts:
   vardef-ensure-function-call-scope:
     - meta_include_prototype: false
     - meta_scope: meta.function-call.shell
-    - match: ""
+    - match: ''
       pop: true
 
   vardef-maybe-more:
     - meta_include_prototype: false
-    - match: (?=\s*#)
-      pop: true
     - include: cmd-args-boilerplate-with-end-of-options
     - match: (?=\S)
       push: [vardef-value, vardef-assign, vardef-name]
@@ -438,16 +439,13 @@ contexts:
                 - match: =
                   scope: keyword.operator.assignment.shell
                   pop: true
-                - match: ""
+                - match: ''
                   pop: true
             - include: expansion-and-string
         - include: expansion-and-string
     - match: ''
       set:
-        - meta_include_prototype: false
         - meta_scope: meta.string.shell string.unquoted.shell
-        - include: line-continuation-or-pop-at-end
-        - include: any-escape
         - match: (?=\$?["'])
           push:
             - clear_scopes: 2
@@ -650,7 +648,7 @@ contexts:
       pop: true
 
   heredocs-preamble:
-    - match: ""
+    - match: ''
       set:
         # This enables us to keep parsing on the line where the start token of
         # the heredoc is. Once the first line has ended, we enter the body of
@@ -659,17 +657,16 @@ contexts:
         # The problem with this is that when we also end a function definition
         # on the same line (with the "}" token), we cannot do that.
         - clear_scopes: 1
-        - match: $
-          pop: true
+        - include: pop-at-end
         - match: \s*(?=\S)
-          push: [main-with-pop-at-end, cmd-post, cmd-args]
+          set: [main-with-pop-at-end, cmd-post, cmd-args]
 
   main-with-pop-at-end:
-    - include: line-continuation-or-pop-at-end
+    - include: pop-at-end
     - include: main
 
   cmd-name-common:
-    - match: (?=}|\s+#|\s*(?:[|;]|&(?!>)))
+    - match: (?=}|\s*([|;]|&(?!>)))
       pop: true
     - include: string
     - include: expansion-parameter
@@ -677,16 +674,14 @@ contexts:
     - include: expansion-command
     - include: expansion-tilde
     - include: expansion-job
-    - include: line-continuation-or-pop-at-end
+    - include: pop-at-end
 
   cmd-args-common:
-    - match: (?=}|\s+#)
+    - match: (?=}|\s*([|;]|&(?!>)))
       pop: true
     - include: redirection
-    - match: (?=\s*([|;]|&(?!>)))
-      pop: true
     - include: expansion-and-string
-    - include: line-continuation-or-pop-at-end
+    - include: pop-at-end
 
   cmd-post: # looks like [main, cmd-post] at this point
     - match: ;(?![;&])
@@ -704,8 +699,9 @@ contexts:
     - match: \&
       scope: keyword.operator.logical.job.shell
       pop: true
-    - match: $|(?=\S)
+    - match: (?=\S)
       pop: true
+    - include: pop-at-end
 
   cmd-args-boilerplate:
     # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
@@ -726,8 +722,8 @@ contexts:
     - include: redirection
     - match: (?=[)};&|])
       pop: true
+    - include: pop-at-end
     - include: expansion-and-string
-    - include: line-continuation-or-pop-at-end
 
   cmd-args:
     - meta_content_scope: meta.function-call.arguments.shell
@@ -759,9 +755,8 @@ contexts:
       scope: support.function.let.bash
       push:
         - meta_scope: meta.function-call.shell
-        - match: (?=;)
+        - match: $|(?=;)
           pop: true
-        - include: line-continuation-or-pop-at-end
         - include: expression
     - match: (\[\[)(?=\s)
       captures:
@@ -809,9 +804,9 @@ contexts:
   cmd-common:
     - include: control
     - include: arithmetic
-    - match: (?=\)|})
+    - match: (?=[)}])
       pop: true
-    - include: line-continuation-or-pop-at-end
+    - include: pop-at-end
 
   arithmetic:
     - match: \(\((?=.+\)\))
@@ -854,7 +849,7 @@ contexts:
         - match: \#
           scope: keyword.operator.arithmetic.shell
           set: expansion-parameter-post-first-character
-        - match: ""
+        - match: ''
           set: expansion-parameter-post-first-character
     - match: (\$)(\d)
       captures:
@@ -896,7 +891,7 @@ contexts:
           set: expansion-pattern-post-first-char
         - match: \-
           set: expansion-pattern-post-first-char
-        - match: ""
+        - match: ''
           set: expansion-pattern-post-first-char
 
   expansion-pattern-post-first-char:
@@ -1020,7 +1015,7 @@ contexts:
             - match: '[/#%]'
               scope: variable.parameter.switch.shell
               set: expansion-parameter-pattern
-            - match: ""
+            - match: ''
               set: expansion-parameter-pattern
     - match: (?=\:?[-+=?])
       set:

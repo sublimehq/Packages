@@ -169,6 +169,13 @@ git log --format="%h git has this pattern, too"
 ########################
 # Variable assignments #
 ########################
+x= # some comment
+# ^ - string.unquoted
+#  ^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+x= & pwd
+# ^ - string.unquoted
+#  ^ keyword.operator.logical.job.shell
+#    ^^^ support.function
 x=a
 # <- variable.other.readwrite.assignment
 #^ keyword.operator.assignment
@@ -1353,6 +1360,26 @@ case var in
 #          ^^^^ meta.conditional.case.shell keyword.control.conditional.end.shell
 #              ^ - meta.conditional
 
+case   # comment
+#^^^^^^^^^^^^^^^^ meta.conditional.case.shell
+#^^^ keyword.control.conditional.case.shell
+#      ^^^^^^^^^^ comment.line.number-sign.shell
+  var  # comment
+#^^^^^^^^^^^^^^^^ meta.conditional.case.shell
+#      ^^^^^^^^^^ comment.line.number-sign.shell
+  in   # comment
+#^^^^^^^^^^^^^^^^^ meta.conditional.case.shell  
+# ^^ keyword.control.in.shell
+#      ^^^^^^^^^^ comment.line.number-sign.shell
+  pattern) # comment
+#^ meta.conditional.case.shell
+# ^^^^^^^^ meta.conditional.case.clause.patterns.shell
+#         ^^^^^^^^^^^ meta.conditional.case.clause.commands.shell
+#          ^^^^^^^^^^ comment.line.number-sign.shell
+esac
+#<- meta.conditional.case.shell keyword.control.conditional.end.shell
+#^^^ meta.conditional.case.shell keyword.control.conditional.end.shell
+
 case $_G_unquoted_arg in
 *[\[\~\#\&\*\(\)\{\}\|\;\<\>\?\'\ ]*|*]*|"")
 #^ keyword.control.regexp.set.begin
@@ -1870,6 +1897,28 @@ for (( i = 0; i < 10; i++ )); do
 #                         ^^ meta.group.for punctuation.section.arithmetic.end
 #                           ^ keyword.operator.logical.continue
 #                             ^^ keyword.control.loop.do
+    echo $i
+    # <- meta.function-call support.function.echo
+    #    ^ meta.function-call.arguments punctuation.definition.variable
+    #     ^ meta.function-call.arguments variable.other.readwrite
+done
+# <- keyword.control.loop.end
+
+for (( i = 0; i < 10; i++ )) #; do
+#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.arithmetic
+# <- keyword.control
+#   ^^ meta.group.for punctuation.section.arithmetic.begin
+#        ^ meta.group.for keyword.operator.assignment
+#          ^ meta.group.for constant.numeric.integer - punctuation
+#           ^ meta.group.for punctuation.separator
+#               ^ meta.group.for keyword.operator.logical
+#                 ^^ meta.group.for constant.numeric.integer
+#                   ^ meta.group.for punctuation.separator
+#                      ^^ meta.group.for keyword.operator.arithmetic
+#                         ^^ meta.group.for punctuation.section.arithmetic.end
+#                            ^^^^^^ comment.line.number-sign.shell
+do
+#<- keyword.control.loop.do.shell
     echo $i
     # <- meta.function-call support.function.echo
     #    ^ meta.function-call.arguments punctuation.definition.variable
