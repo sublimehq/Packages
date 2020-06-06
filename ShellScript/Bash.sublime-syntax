@@ -63,6 +63,7 @@ contexts:
   main:
     - include: comment
     - include: funcdef
+    - include: coproc
     - include: vardef
     - include: redirection
     - include: operator-exclamation
@@ -130,32 +131,44 @@ contexts:
 
 ###[ FUNCDEFS ]################################################################
 
+  coproc:
+    - match: \bcoproc{{keyword_break}}
+      scope: 
+        meta.function-call.shell
+        keyword.other.coproc.shell
+      push: [cmd-post, cmd-args, coproc-body]
+
+  coproc-body:
+    - meta_include_prototype: false
+    - match: \s*(\S+)\s*(?=\{)
+      captures:
+        0: meta.function.coproc.identifier.shell
+        1: entity.name.function.coproc.shell
+      set:
+        - meta_include_prototype: false
+        - match: \{
+          scope: punctuation.section.block.begin.shell
+          set:
+            - meta_include_prototype: false
+            - meta_scope:
+                meta.function.coproc.shell
+                meta.block.shell
+            - match: \}
+              scope: punctuation.section.block.end.shell
+              pop: true
+            - include: main
+    - match: ''
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.function.coproc.shell
+        - include: main-with-pop-at-end
+
   funcdef:
     - match: (?=\s*{{identifier_non_posix}}\s*\(\s*\))
       push: [funcdef-body, funcdef-parens, funcdef-name]
     - match: \bfunction{{keyword_break}}
       scope: storage.type.function.shell
       push: [funcdef-body, funcdef-parens, funcdef-name]
-    - match: \bcoproc{{keyword_break}}
-      scope: keyword.other.coproc.shell
-      push: [cmd-post, cmd-args, coproc-body]
-
-  coproc-body:
-    - match: \s*(?=\S+\s*\{)
-      set:
-        - meta_content_scope: entity.name.function.coproc.shell
-        - match: (?=\s*\{)
-          set:
-            - match: \{
-              scope: punctuation.section.braces.begin.shell
-              set:
-                - meta_scope: meta.function.coproc.shell
-                - match: \}
-                  scope: punctuation.section.braces.end.shell
-                  pop: true
-                - include: main
-    - match: ''
-      set: main-with-pop-at-end
 
   funcdef-name:
     - match: \s*
