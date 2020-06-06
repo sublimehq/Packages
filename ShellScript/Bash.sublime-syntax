@@ -193,30 +193,34 @@ contexts:
     - match: \besac{{keyword_break}}
       scope: keyword.control.conditional.end.shell
       pop: true
-    - match: (?=\()
-      push:
-        - clear_scopes: 1  # remove meta.conditional.case.shell
-        - match: \(
-          scope: keyword.control.conditional.patterns.begin.shell
-          set: case-clause-patterns
     - match: (?=\S)
-      push: case-clause-patterns
+      push:
+        - case-clause-commands
+        - case-clause-patterns
+        - case-clause-patterns-begin
+
+  case-clause-patterns-begin:
+    - match: \(
+      scope: keyword.control.conditional.patterns.begin.shell
+      pop: true
+    - match: ''
+      pop: true
 
   case-clause-patterns:
     - clear_scopes: 1  # remove meta.conditional.case.shell
     - meta_scope: meta.conditional.case.clause.patterns.shell
     - match: \)
       scope: keyword.control.conditional.patterns.end.shell
-      set: case-clause-commands
+      pop: true
     # emergency bail outs if ')' is missing
     - match: (?=;;&?|;&)
-      set: case-clause-commands
-    - include: case-end-ahead
+      pop: true
     - include: case-clause-patterns-body
 
   case-clause-patterns-body:
     # [Bash] 3.2.4.2: Each pattern undergoes tilde expansion, parameter
     # expansion, command substitution, and arithmetic expansion.
+    - include: case-end-ahead
     - include: expansion-pattern
     - include: expansion-tilde
     - include: expansion-parameter

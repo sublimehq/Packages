@@ -1231,6 +1231,15 @@ case
 esac
 #^ meta.conditional.case keyword.control.conditional.end
 
+case var in
+  ( patt ( esac
+#^ meta.conditional.case.shell
+# ^^^^^^^^^ meta.conditional.case.clause.patterns.shell
+# ^ keyword.control.conditional.patterns.begin.shell
+#        ^ punctuation.section.parens.begin.shell
+#          ^^^^ meta.conditional.case.shell keyword.control.conditional.end.shell
+#              ^ - meta.conditional
+
 case $_G_unquoted_arg in
 *[\[\~\#\&\*\(\)\{\}\|\;\<\>\?\'\ ]*|*]*|"")
 #^ keyword.control.regexp.set.begin
