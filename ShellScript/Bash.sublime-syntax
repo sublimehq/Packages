@@ -1,7 +1,7 @@
 %YAML 1.2
 # [Sublime]: https://www.sublimetext.com/docs/3/syntax.html
 # [Bash]:    https://www.gnu.org/software/bash/manual/bash.html
---- #---------------------------------------------------------------------------
+---
 
 name: Bourne Again Shell (bash)
 
@@ -38,28 +38,27 @@ first_line_match: |
     ^\#! .* \b(bash|zsh|sh|tcsh|ash)\b
   | ^\# \s* -\*- [^*]* mode: \s* shell-script [^*]* -\*-
 
-#-------------------------------------------------------------------------------
+###############################################################################
+
 variables:
-  call_token: \./
-  extension: \.sh
   identifier: '[[:alpha:]_][[:alnum:]_]*'
   identifier_non_posix: '[^{{metachar}}\d][^{{metachar}}=]*'
-  is_command: (?=\S)
   is_end_of_option: '[^\w$-]|$'
   is_interpolation: (?=\$([\d({]|[$#@!~*?_-](?!\w)|{{identifier}})|`)
-  is_path_component: (?=[^\s/]*/)
   is_variable: (?=\s*{{nbc}}(?:[({]{{nbc}}[)}])?{{nbc}}=)
   keyword_break: (?![-=\w])
 
   # A character that, when unquoted, separates words. A metacharacter is a
   # space, tab, newline, or one of the following characters: ‘|’, ‘&’, ‘;’,
   # ‘(’, ‘)’, ‘<’, or ‘>’.
-  metachar: '[\s\t\n|&;()<>]'
+  metachar: '[\s|&;()<>]'
 
   nbc: '[^{}()=\s]*' # non bracket characters (and also non-whitespace, parens)
   start_of_option: (?:\s+|^)--?(?=[\w$])
   varassign: '[+\-?]?='
-#-------------------------------------------------------------------------------
+
+###############################################################################
+
 contexts:
   main:
     - include: comment
@@ -67,7 +66,7 @@ contexts:
     - include: vardef
     - include: redirection
     - include: operator-exclamation
-    - match: '{{is_command}}'
+    - match: (?=\S)
       push: cmd
 
   main-with-pop-at-end:
