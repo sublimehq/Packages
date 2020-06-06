@@ -1137,7 +1137,7 @@ contexts:
     - meta_content_scope: meta.instance.cs
     - match: \{
       scope: punctuation.section.block.begin.cs
-      # Found an anounymous class
+      # Found an anonymous class
       set:
         - meta_scope: meta.instance.cs meta.class.body.anonymous.cs meta.block.cs
         - match: \}
@@ -1153,7 +1153,7 @@ contexts:
         - match: (?=\S)
           push: line_of_code_in
     - match: (?=[^{\s])
-      # This is not an anounymous class
+      # This is not an anonymous class
       set:
         - meta_content_scope: meta.instance.cs
         - match: '{{brackets_capture}}'
@@ -1272,6 +1272,12 @@ contexts:
       push: accessor_arguments
     - match: '({{base_type}})\b'
       scope: storage.type.cs
+    - match: stackalloc\b
+      scope: storage.modifier.cs
+      push:
+        - match: (?=\[)
+          pop: true
+        - include: type
     - match: '({{reserved}})\b'
       scope: keyword.other.cs
     - match: '(?:(global)|({{name}}))\s*(::)'
@@ -1480,10 +1486,10 @@ contexts:
       push: type_argument
     - match: '{{name}}'
       scope: support.type.cs
-    - match: '[{:]'
-      scope: invalid.illegal
-      pop: true
-    - match: (?=\}|\)|>|\]|,|;|>|=>)
+    # - match: '[{:]'
+    #   scope: invalid.illegal
+    #   pop: true
+    - match: (?=[]})>,;>:]|=>)
       pop: true
 
   type_arg_param_common:

@@ -654,9 +654,16 @@ void Foo (in string s, in int x, in Point point)
 void TestFoo() => Foo ("hello", 123, new Point (2, 3));
 
 // https://msdn.microsoft.com/en-us/magazine/mt814808.aspx
-Span<byte> bytes = length <= 128 ? stackalloc byte[length] : new byte[length];
-///                                ^^^^^^^^^^ keyword.other
-///                                           ^^^^ variable.other
+Span<byte> bytes = length > 128 ? new byte[length] : stackalloc byte[length];
+///                             ^ keyword.operator.ternary
+///                               ^^^ keyword.operator.new
+///                               ^^^^^^^^^^^^^^^^ meta.instance
+///                                                ^ keyword.operator.ternary - meta.instance
+///                                                  ^^^^^^^^^^ storage.modifier
+///                                                             ^^^^ storage.type
+///                                                                 ^ punctuation.section.brackets.begin
+///                                                                  ^^^^^^ variable.other
+///                                                                        ^ punctuation.section.brackets.end
 bytes[0] = 42;
 bytes[1] = 43;
 Assert.Equal(42, bytes[0]);
