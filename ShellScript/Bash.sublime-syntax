@@ -331,209 +331,6 @@ contexts:
         - match: (?={{metachar}})
           pop: true
 
-  redirection:
-    - include: redirection-here-string
-    - include: redirection-here-document
-    - include: redirection-process
-    - include: redirection-input
-    - include: redirection-output
-    - include: redirection-inout
-
-  redirection-process:
-    - match: (\d*)([<>])(\()
-      captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
-        2: keyword.operator.assignment.redirection.process.shell
-        3: punctuation.section.parens.begin.shell
-      push:
-        - match: \)
-          scope: punctuation.section.parens.end.shell
-          pop: true
-        - include: main
-
-  redirection-output:
-    - match: (\d*)(>>!?|>&?|&>|&?>(?:\||>))
-      captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
-        2: keyword.operator.assignment.redirection.shell
-      push: redirection-post
-
-  redirection-input:
-    - match: (\d*)(<&?)
-      captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
-        2: keyword.operator.assignment.redirection.shell
-      push: redirection-post
-
-  redirection-post:
-    - match: \s*(?:(\d+)|(-))
-      captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
-        2: punctuation.terminator.file-descriptor.shell
-      pop: true
-    - match: \s*(?=\S)
-      set:
-        - match: (?={{metachar}})
-          pop: true
-        - include: expansion-and-string
-    - match: \s*
-      pop: true
-
-  redirection-inout:
-    - match: (\d*)(<>)
-      captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
-        2: keyword.operator.assignment.redirection.shell
-
-  redirection-here-string:
-    - match: (\d*)(<<<)\s
-      captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
-        2: keyword.operator.herestring.shell
-
-  redirection-here-document:
-    # These are the variants that allow tabs before the end token
-    - match: (\d*)(<<-)\s*(')({{identifier}})(')
-      captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
-        2: keyword.operator.assignment.redirection.shell
-        3: punctuation.definition.string.begin.shell
-        4: keyword.control.heredoc-token.shell
-        5: punctuation.definition.string.end.shell
-      push: [heredocs-body-allow-tabs-no-expansion, heredocs-preamble]
-    - match: (\d*)(<<-)\s*(")({{identifier}})(")
-      captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
-        2: keyword.operator.assignment.redirection.shell
-        3: punctuation.definition.string.begin.shell
-        4: keyword.control.heredoc-token.shell
-        5: punctuation.definition.string.end.shell
-      push: [heredocs-body-allow-tabs-no-expansion, heredocs-preamble]
-    - match: (\d*)(<<-)\s*(\\)({{identifier}})
-      captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
-        2: keyword.operator.assignment.redirection.shell
-        3: punctuation.definition.string.shell
-        4: keyword.control.heredoc-token.shell
-      push: [heredocs-body-allow-tabs-no-expansion, heredocs-preamble]
-    - match: (\d*)(<<-)\s*({{identifier}})
-      captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
-        2: keyword.operator.assignment.redirection.shell
-        3: keyword.control.heredoc-token.shell
-      push: [heredocs-body-allow-tabs, heredocs-preamble]
-    # These are the variants that DON'T allow tabs before the end token
-    - match: (\d*)(<<)\s*(')({{identifier}})(')
-      captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
-        2: keyword.operator.assignment.redirection.shell
-        3: punctuation.definition.string.begin.shell
-        4: keyword.control.heredoc-token.shell
-        5: punctuation.definition.string.end.shell
-      push: [heredocs-body-no-expansion, heredocs-preamble]
-    - match: (\d*)(<<)\s*(")({{identifier}})(")
-      captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
-        2: keyword.operator.assignment.redirection.shell
-        3: punctuation.definition.string.begin.shell
-        4: keyword.control.heredoc-token.shell
-        5: punctuation.definition.string.end.shell
-      push: [heredocs-body-no-expansion, heredocs-preamble]
-    - match: (\d*)(<<)\s*(\\)({{identifier}})
-      captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
-        2: keyword.operator.assignment.redirection.shell
-        3: punctuation.definition.string.shell
-        4: keyword.control.heredoc-token.shell
-      push: [heredocs-body-no-expansion, heredocs-preamble]
-    - match: (\d*)(<<)\s*({{identifier}})
-      captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
-        2: keyword.operator.assignment.redirection.shell
-        3: keyword.control.heredoc-token.shell
-      push: [heredocs-body, heredocs-preamble]
-
-  heredocs-body:
-    - meta_include_prototype: false
-    - meta_scope: meta.string.shell string.unquoted.heredoc.shell
-    - include: heredocs-body-common-with-expansion
-    - match: ^\3(\s+)\n # the third capture from redirection-here-document
-      captures:
-        1: invalid.illegal.no-spaces-allowed-after-heredoc-token.shell
-      # rather not pop, but sublime throws an error otherwise.
-      pop: true
-    - match: ^\3$ # the third capture from redirection-here-document
-      scope: keyword.control.heredoc-token.shell
-      pop: true
-
-  heredocs-body-allow-tabs:
-    - meta_include_prototype: false
-    - meta_scope: meta.string.shell string.unquoted.heredoc.shell
-    - include: heredocs-body-common-with-expansion
-    - match: ^\s*\3(\s+)\n # the third capture from redirection-here-document
-      captures:
-        1: invalid.illegal.no-spaces-allowed-after-heredoc-token.shell
-      # rather not pop, but sublime throws an error otherwise.
-      pop: true
-    - match: ^\s*(\3)$ # the third capture from redirection-here-document
-      captures:
-        1: keyword.control.heredoc-token.shell
-      pop: true
-
-  heredocs-body-common-with-expansion:
-    # [Bash] 3.6.6: all lines of the here-document are subjected to parameter
-    # expansion, command substitution, and arithmetic expansion, the character
-    # sequence \newline is ignored, and ‘\’ must be used to quote the
-    # characters ‘\’, ‘$’, and ‘`’.
-    - match: \\[`$"\\]
-      scope: constant.character.escape.backtick.shell
-    - include: expansion-parameter
-    - include: expansion-arithmetic
-    - include: expansion-command
-
-  heredocs-body-no-expansion:
-    - meta_include_prototype: false
-    - meta_scope: meta.string.shell string.unquoted.heredoc.shell
-    - match: ^\4(\s+)\n # the fourth capture from redirection-here-document
-      captures:
-        1: invalid.illegal.no-spaces-allowed-after-heredoc-token.shell
-      # rather not pop, but sublime throws an error otherwise.
-      pop: true
-    - match: ^\4$ # the fourth capture from redirection-here-document
-      scope: keyword.control.heredoc-token.shell
-      pop: true
-
-  heredocs-body-allow-tabs-no-expansion:
-    - meta_include_prototype: false
-    - meta_scope: meta.string.shell string.unquoted.heredoc.shell
-    - match: ^\s*\4(\s+)\n # the fourth capture from redirection-here-document
-      captures:
-        1: invalid.illegal.no-spaces-allowed-after-heredoc-token.shell
-      # rather not pop, but sublime throws an error otherwise.
-      pop: true
-    - match: ^\s*(\4)$ # the fourth capture from redirection-here-document
-      captures:
-        1: keyword.control.heredoc-token.shell
-      pop: true
-
-  heredocs-preamble:
-    - match: ''
-      set:
-        # This enables us to keep parsing on the line where the start token of
-        # the heredoc is. Once the first line has ended, we enter the body of
-        # the heredoc, where everything is just an unquoted string.
-        # One clear_scope for the string.unquoted.
-        # The problem with this is that when we also end a function definition
-        # on the same line (with the "}" token), we cannot do that.
-        - clear_scopes: 1
-        - include: pop-at-end
-        - match: \s*(?=\S)
-          set: [main-with-pop-at-end, cmd-post, cmd-args]
-
-  main-with-pop-at-end:
-    - include: pop-at-end
-    - include: main
-
 ###[ COMMANDS ]################################################################
 
   cmd:
@@ -797,6 +594,211 @@ contexts:
     - include: arithmetic
     - match: \bin{{keyword_break}}
       scope: keyword.control.in.shell
+
+###[ REDIRECTIONS AND HEREDOCS ]###############################################
+
+  redirection:
+    - include: redirection-here-string
+    - include: redirection-here-document
+    - include: redirection-process
+    - include: redirection-input
+    - include: redirection-output
+    - include: redirection-inout
+
+  redirection-process:
+    - match: (\d*)([<>])(\()
+      captures:
+        1: constant.numeric.integer.decimal.file-descriptor.shell
+        2: keyword.operator.assignment.redirection.process.shell
+        3: punctuation.section.parens.begin.shell
+      push:
+        - match: \)
+          scope: punctuation.section.parens.end.shell
+          pop: true
+        - include: main
+
+  redirection-output:
+    - match: (\d*)(>>!?|>&?|&>|&?>(?:\||>))
+      captures:
+        1: constant.numeric.integer.decimal.file-descriptor.shell
+        2: keyword.operator.assignment.redirection.shell
+      push: redirection-post
+
+  redirection-input:
+    - match: (\d*)(<&?)
+      captures:
+        1: constant.numeric.integer.decimal.file-descriptor.shell
+        2: keyword.operator.assignment.redirection.shell
+      push: redirection-post
+
+  redirection-post:
+    - match: \s*(?:(\d+)|(-))
+      captures:
+        1: constant.numeric.integer.decimal.file-descriptor.shell
+        2: punctuation.terminator.file-descriptor.shell
+      pop: true
+    - match: \s*(?=\S)
+      set:
+        - match: (?={{metachar}})
+          pop: true
+        - include: expansion-and-string
+    - match: \s*
+      pop: true
+
+  redirection-inout:
+    - match: (\d*)(<>)
+      captures:
+        1: constant.numeric.integer.decimal.file-descriptor.shell
+        2: keyword.operator.assignment.redirection.shell
+
+  redirection-here-string:
+    - match: (\d*)(<<<)\s
+      captures:
+        1: constant.numeric.integer.decimal.file-descriptor.shell
+        2: keyword.operator.herestring.shell
+
+  redirection-here-document:
+    # These are the variants that allow tabs before the end token
+    - match: (\d*)(<<-)\s*(')({{identifier}})(')
+      captures:
+        1: constant.numeric.integer.decimal.file-descriptor.shell
+        2: keyword.operator.assignment.redirection.shell
+        3: punctuation.definition.string.begin.shell
+        4: keyword.control.heredoc-token.shell
+        5: punctuation.definition.string.end.shell
+      push: [heredocs-body-allow-tabs-no-expansion, heredocs-preamble]
+    - match: (\d*)(<<-)\s*(")({{identifier}})(")
+      captures:
+        1: constant.numeric.integer.decimal.file-descriptor.shell
+        2: keyword.operator.assignment.redirection.shell
+        3: punctuation.definition.string.begin.shell
+        4: keyword.control.heredoc-token.shell
+        5: punctuation.definition.string.end.shell
+      push: [heredocs-body-allow-tabs-no-expansion, heredocs-preamble]
+    - match: (\d*)(<<-)\s*(\\)({{identifier}})
+      captures:
+        1: constant.numeric.integer.decimal.file-descriptor.shell
+        2: keyword.operator.assignment.redirection.shell
+        3: punctuation.definition.string.shell
+        4: keyword.control.heredoc-token.shell
+      push: [heredocs-body-allow-tabs-no-expansion, heredocs-preamble]
+    - match: (\d*)(<<-)\s*({{identifier}})
+      captures:
+        1: constant.numeric.integer.decimal.file-descriptor.shell
+        2: keyword.operator.assignment.redirection.shell
+        3: keyword.control.heredoc-token.shell
+      push: [heredocs-body-allow-tabs, heredocs-preamble]
+    # These are the variants that DON'T allow tabs before the end token
+    - match: (\d*)(<<)\s*(')({{identifier}})(')
+      captures:
+        1: constant.numeric.integer.decimal.file-descriptor.shell
+        2: keyword.operator.assignment.redirection.shell
+        3: punctuation.definition.string.begin.shell
+        4: keyword.control.heredoc-token.shell
+        5: punctuation.definition.string.end.shell
+      push: [heredocs-body-no-expansion, heredocs-preamble]
+    - match: (\d*)(<<)\s*(")({{identifier}})(")
+      captures:
+        1: constant.numeric.integer.decimal.file-descriptor.shell
+        2: keyword.operator.assignment.redirection.shell
+        3: punctuation.definition.string.begin.shell
+        4: keyword.control.heredoc-token.shell
+        5: punctuation.definition.string.end.shell
+      push: [heredocs-body-no-expansion, heredocs-preamble]
+    - match: (\d*)(<<)\s*(\\)({{identifier}})
+      captures:
+        1: constant.numeric.integer.decimal.file-descriptor.shell
+        2: keyword.operator.assignment.redirection.shell
+        3: punctuation.definition.string.shell
+        4: keyword.control.heredoc-token.shell
+      push: [heredocs-body-no-expansion, heredocs-preamble]
+    - match: (\d*)(<<)\s*({{identifier}})
+      captures:
+        1: constant.numeric.integer.decimal.file-descriptor.shell
+        2: keyword.operator.assignment.redirection.shell
+        3: keyword.control.heredoc-token.shell
+      push: [heredocs-body, heredocs-preamble]
+
+  heredocs-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.shell string.unquoted.heredoc.shell
+    - include: heredocs-body-common-with-expansion
+    - match: ^\3(\s+)\n # the third capture from redirection-here-document
+      captures:
+        1: invalid.illegal.no-spaces-allowed-after-heredoc-token.shell
+      # rather not pop, but sublime throws an error otherwise.
+      pop: true
+    - match: ^\3$ # the third capture from redirection-here-document
+      scope: keyword.control.heredoc-token.shell
+      pop: true
+
+  heredocs-body-allow-tabs:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.shell string.unquoted.heredoc.shell
+    - include: heredocs-body-common-with-expansion
+    - match: ^\s*\3(\s+)\n # the third capture from redirection-here-document
+      captures:
+        1: invalid.illegal.no-spaces-allowed-after-heredoc-token.shell
+      # rather not pop, but sublime throws an error otherwise.
+      pop: true
+    - match: ^\s*(\3)$ # the third capture from redirection-here-document
+      captures:
+        1: keyword.control.heredoc-token.shell
+      pop: true
+
+  heredocs-body-common-with-expansion:
+    # [Bash] 3.6.6: all lines of the here-document are subjected to parameter
+    # expansion, command substitution, and arithmetic expansion, the character
+    # sequence \newline is ignored, and ‘\’ must be used to quote the
+    # characters ‘\’, ‘$’, and ‘`’.
+    - match: \\[`$"\\]
+      scope: constant.character.escape.backtick.shell
+    - include: expansion-parameter
+    - include: expansion-arithmetic
+    - include: expansion-command
+
+  heredocs-body-no-expansion:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.shell string.unquoted.heredoc.shell
+    - match: ^\4(\s+)\n # the fourth capture from redirection-here-document
+      captures:
+        1: invalid.illegal.no-spaces-allowed-after-heredoc-token.shell
+      # rather not pop, but sublime throws an error otherwise.
+      pop: true
+    - match: ^\4$ # the fourth capture from redirection-here-document
+      scope: keyword.control.heredoc-token.shell
+      pop: true
+
+  heredocs-body-allow-tabs-no-expansion:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.shell string.unquoted.heredoc.shell
+    - match: ^\s*\4(\s+)\n # the fourth capture from redirection-here-document
+      captures:
+        1: invalid.illegal.no-spaces-allowed-after-heredoc-token.shell
+      # rather not pop, but sublime throws an error otherwise.
+      pop: true
+    - match: ^\s*(\4)$ # the fourth capture from redirection-here-document
+      captures:
+        1: keyword.control.heredoc-token.shell
+      pop: true
+
+  heredocs-preamble:
+    - match: ''
+      set:
+        # This enables us to keep parsing on the line where the start token of
+        # the heredoc is. Once the first line has ended, we enter the body of
+        # the heredoc, where everything is just an unquoted string.
+        # One clear_scope for the string.unquoted.
+        # The problem with this is that when we also end a function definition
+        # on the same line (with the "}" token), we cannot do that.
+        - clear_scopes: 1
+        - include: pop-at-end
+        - match: \s*(?=\S)
+          set: [main-with-pop-at-end, cmd-post, cmd-args]
+
+  main-with-pop-at-end:
+    - include: pop-at-end
+    - include: main
 
 ###[ EXPRESSIONS ]#############################################################
 
