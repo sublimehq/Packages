@@ -525,6 +525,9 @@ contexts:
       scope: storage.modifier.cs
     - match: '{{visibility}}'
       scope: storage.modifier.access.cs
+    - match: '\b(operator)\b'
+      scope: storage.modifier.cs
+      push: method_name
     - match: '({{name}})\s*(<)'
       captures:
         1: support.type.cs
@@ -560,9 +563,6 @@ contexts:
             6: keyword.operator.pointer.cs
         - match: ''
           set: method_name
-    - match: '\b(operator)\b'
-      scope: storage.modifier.cs
-      push: method_name
     - match: (?=\()
       push: [method_name, type_tuple]
 

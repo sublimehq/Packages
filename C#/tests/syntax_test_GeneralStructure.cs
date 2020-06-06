@@ -1325,6 +1325,16 @@ public class AfterTopLevelMethod {
 ///                                 ^^^^^^^^^^^ variable.other.member
 ///                                            ^ punctuation.terminator.statement
 
+    public static implicit operator AfterTopLevelMethod(int[] some_ints)
+///        ^^^^^^ storage.modifier
+///               ^^^^^^^^ storage.modifier
+///                        ^^^^^^^^ storage.modifier
+///                                                     ^^^ meta.method.parameters storage.type
+///                                                           ^^^^^^^^^ meta.method.parameters variable.parameter
+    {
+        return new AfterTopLevelMethod(some_ints);
+    }
+    
     Action<float> actionDelegate = delegate { };
 ///                              ^ keyword.operator.assignment.variable
 ///                                ^^^^^^^^ keyword.other
