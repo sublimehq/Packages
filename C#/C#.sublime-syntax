@@ -844,7 +844,7 @@ contexts:
       captures:
         1: keyword.control.loop.for.cs
         2: meta.group.cs punctuation.section.group.begin.cs
-      set: [for_block, line_of_code_in, line_of_code_in, line_of_code_in_no_semicolon]
+      set: [for_block, line_of_code_in, line_of_code_in, line_of_code_in]
     - match: \b(foreach)\s*(\()
       captures:
         1: keyword.control.loop.foreach.cs

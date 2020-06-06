@@ -1183,6 +1183,12 @@ namespace TestNamespace.Test
 ///                                   ^ - constant
 ///                                    ^^^^^^^^ constant.other.placeholder
 
+        for (; ctr < names.Length; ctr++)
+///          ^ punctuation.terminator.statement
+///                              ^ punctuation.terminator.statement
+            continue;
+///         ^^^^^^^^ keyword.control.flow.break
+
         int MyInt = 100;
         Console.WriteLine("{0:C}", MyInt);
 ///                        ^^^^^ constant.other.placeholder - invalid
