@@ -118,131 +118,6 @@ contexts:
     - match: '{{is_command}}'
       push: cmd
 
-  control:
-    - match: \bif{{keyword_break}}
-      scope: keyword.control.conditional.if.shell
-      pop: true
-    - match: \bthen{{keyword_break}}
-      scope: keyword.control.conditional.then.shell
-      pop: true
-    - match: \belif{{keyword_break}}
-      scope: keyword.control.conditional.elseif.shell
-      pop: true
-    - match: \bfi{{keyword_break}}
-      scope: keyword.control.conditional.end.shell
-      set: [cmd-post, cmd-args]
-    - match: \belse{{keyword_break}}
-      scope: keyword.control.conditional.else.shell
-      pop: true
-    - match: \bfor{{keyword_break}}
-      scope: keyword.control.loop.for.shell
-      set: [cmd-post, for-args]
-    - match: \bdo{{keyword_break}}
-      scope: keyword.control.loop.do.shell
-      pop: true
-    - match: \bdone{{keyword_break}}
-      scope: keyword.control.loop.end.shell
-      set: [cmd-post, cmd-args]
-    - match: \bwhile{{keyword_break}}
-      scope: keyword.control.loop.while.shell
-      pop: true
-    - match: \buntil{{keyword_break}}
-      scope: keyword.control.loop.until.shell
-      pop: true
-    - match: \bcase{{keyword_break}}
-      scope: keyword.control.conditional.case.shell
-      set: [case-body, case-word]
-    - match: \bcontinue{{keyword_break}}
-      scope: keyword.control.flow.continue.shell
-      pop: true
-    - match: \bbreak{{keyword_break}}
-      scope: keyword.control.flow.break.shell
-      set: [cmd-post, cmd-args]
-    - match: \besac{{keyword_break}}
-      scope: keyword.control.conditional.end.shell
-      pop: true
-
-  case-word:
-    - match: \bin{{keyword_break}}
-      scope: keyword.control.in.shell
-      pop: true
-    - include: comment
-    - include: case-end-ahead
-    - include: expansion-and-string
-
-  case-body:
-    - meta_scope: meta.conditional.case.shell
-    - include: comment
-    - match: \besac{{keyword_break}}
-      scope: keyword.control.conditional.end.shell
-      pop: true
-    - match: (?=\S)
-      push:
-        - case-clause-commands
-        - case-clause-patterns
-        - case-clause-patterns-begin
-
-  case-clause-patterns-begin:
-    - match: \(
-      scope: keyword.control.conditional.patterns.begin.shell
-      pop: true
-    - match: ''
-      pop: true
-
-  case-clause-patterns:
-    - clear_scopes: 1  # remove meta.conditional.case.shell
-    - meta_scope: meta.conditional.case.clause.patterns.shell
-    - match: \)
-      scope: keyword.control.conditional.patterns.end.shell
-      pop: true
-    # emergency bail outs if ')' is missing
-    - match: (?=;;&?|;&)
-      pop: true
-    - include: case-clause-patterns-body
-
-  case-clause-patterns-body:
-    # [Bash] 3.2.4.2: Each pattern undergoes tilde expansion, parameter
-    # expansion, command substitution, and arithmetic expansion.
-    - include: case-end-ahead
-    - include: expansion-pattern
-    - include: expansion-tilde
-    - include: expansion-parameter
-    - include: expansion-command
-    - include: expansion-arithmetic
-    - include: string
-    - match: \|
-      scope: keyword.operator.logical.shell
-    - match: \(
-      scope: punctuation.section.parens.begin.shell
-      push:
-        - match: \)
-          scope: punctuation.section.parens.end.shell
-          pop: true
-        - include: case-clause-patterns-body
-    - include: pop-at-end
-
-  case-clause-commands:
-    - clear_scopes: 1  # remove meta.conditional.case.shell
-    - meta_content_scope: meta.conditional.case.clause.commands.shell
-    - match: ;;&?|;&
-      scope:
-        meta.conditional.case.clause.commands.shell
-        punctuation.terminator.case.clause.shell
-      pop: true
-    - include: case-end-ahead
-    - include: main
-
-  case-end-ahead:
-    - match: (?=\besac{{keyword_break}})
-      pop: true
-
-  for-args:
-    - meta_content_scope: meta.group.for.shell
-    - include: cmd-args-boilerplate
-    - include: arithmetic
-    - match: \bin{{keyword_break}}
-      scope: keyword.control.in.shell
-
   funcdef:
     - match: (?=\s*{{identifier_non_posix}}\s*\(\s*\))
       push: [funcdef-body, funcdef-parens, funcdef-name]
@@ -670,6 +545,7 @@ contexts:
     - include: cmd-compound-braces
     - include: cmd-test-double-brackets
     - include: cmd-test-brackets
+    - include: cmd-control
     - include: cmd-other
 
   cmd-compound-parens:
@@ -716,7 +592,6 @@ contexts:
         - include: expression-test
 
   cmd-other:
-    - include: control
     - include: scope:commands.builtin.shell.bash#main
     - match: \blet{{keyword_break}}
       scope: support.function.let.bash
@@ -795,6 +670,133 @@ contexts:
     - match: (?=\S)
       pop: true
     - include: pop-at-end
+
+###[ CONTROL STATEMENTS ]######################################################
+
+  cmd-control:
+    - match: \bif{{keyword_break}}
+      scope: keyword.control.conditional.if.shell
+      pop: true
+    - match: \bthen{{keyword_break}}
+      scope: keyword.control.conditional.then.shell
+      pop: true
+    - match: \belif{{keyword_break}}
+      scope: keyword.control.conditional.elseif.shell
+      pop: true
+    - match: \bfi{{keyword_break}}
+      scope: keyword.control.conditional.end.shell
+      set: [cmd-post, cmd-args]
+    - match: \belse{{keyword_break}}
+      scope: keyword.control.conditional.else.shell
+      pop: true
+    - match: \bfor{{keyword_break}}
+      scope: keyword.control.loop.for.shell
+      set: [cmd-post, for-args]
+    - match: \bdo{{keyword_break}}
+      scope: keyword.control.loop.do.shell
+      pop: true
+    - match: \bdone{{keyword_break}}
+      scope: keyword.control.loop.end.shell
+      set: [cmd-post, cmd-args]
+    - match: \bwhile{{keyword_break}}
+      scope: keyword.control.loop.while.shell
+      pop: true
+    - match: \buntil{{keyword_break}}
+      scope: keyword.control.loop.until.shell
+      pop: true
+    - match: \bcase{{keyword_break}}
+      scope: keyword.control.conditional.case.shell
+      set: [case-body, case-word]
+    - match: \bcontinue{{keyword_break}}
+      scope: keyword.control.flow.continue.shell
+      pop: true
+    - match: \bbreak{{keyword_break}}
+      scope: keyword.control.flow.break.shell
+      set: [cmd-post, cmd-args]
+    - match: \besac{{keyword_break}}
+      scope: keyword.control.conditional.end.shell
+      pop: true
+
+  case-word:
+    - match: \bin{{keyword_break}}
+      scope: keyword.control.in.shell
+      pop: true
+    - include: comment
+    - include: case-end-ahead
+    - include: expansion-and-string
+
+  case-body:
+    - meta_scope: meta.conditional.case.shell
+    - include: comment
+    - match: \besac{{keyword_break}}
+      scope: keyword.control.conditional.end.shell
+      pop: true
+    - match: (?=\S)
+      push:
+        - case-clause-commands
+        - case-clause-patterns
+        - case-clause-patterns-begin
+
+  case-clause-patterns-begin:
+    - match: \(
+      scope: keyword.control.conditional.patterns.begin.shell
+      pop: true
+    - match: ''
+      pop: true
+
+  case-clause-patterns:
+    - clear_scopes: 1  # remove meta.conditional.case.shell
+    - meta_scope: meta.conditional.case.clause.patterns.shell
+    - match: \)
+      scope: keyword.control.conditional.patterns.end.shell
+      pop: true
+    # emergency bail outs if ')' is missing
+    - match: (?=;;&?|;&)
+      pop: true
+    - include: case-clause-patterns-body
+
+  case-clause-patterns-body:
+    # [Bash] 3.2.4.2: Each pattern undergoes tilde expansion, parameter
+    # expansion, command substitution, and arithmetic expansion.
+    - include: case-end-ahead
+    - include: expansion-pattern
+    - include: expansion-tilde
+    - include: expansion-parameter
+    - include: expansion-command
+    - include: expansion-arithmetic
+    - include: string
+    - match: \|
+      scope: keyword.operator.logical.shell
+    - match: \(
+      scope: punctuation.section.parens.begin.shell
+      push:
+        - match: \)
+          scope: punctuation.section.parens.end.shell
+          pop: true
+        - include: case-clause-patterns-body
+    - include: pop-at-end
+
+  case-clause-commands:
+    - clear_scopes: 1  # remove meta.conditional.case.shell
+    - meta_content_scope: meta.conditional.case.clause.commands.shell
+    - match: ;;&?|;&
+      scope:
+        meta.conditional.case.clause.commands.shell
+        punctuation.terminator.case.clause.shell
+      pop: true
+    - include: case-end-ahead
+    - include: main
+
+  case-end-ahead:
+    - match: (?=\besac{{keyword_break}})
+      pop: true
+
+  for-args:
+    - meta_content_scope: meta.group.for.shell
+    - include: cmd-args-boilerplate
+    - include: arithmetic
+    - match: \bin{{keyword_break}}
+      scope: keyword.control.in.shell
 
 ###[ EXPRESSIONS ]#############################################################
 
