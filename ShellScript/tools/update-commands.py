@@ -5,7 +5,7 @@ import yaml
 
 
 def main():
-    shell_type =  os.path.splitext(sys.argv[1])[0].split("-")[-1]
+    shell_type = os.path.splitext(sys.argv[1])[0].split("-")[-1]
     parent = f"scope:source.shell.{shell_type}#"
 
     with open(sys.argv[1], "r") as stream:
@@ -14,17 +14,27 @@ def main():
     main = []
     contexts = {
         "main": main,
-        "prototype": [{"include": f"{parent}prototype"}]
+        "prototype": [{"include": f"{parent}prototype"}],
+        "cmd-post": [{"include": f"{parent}cmd-post"}],
+        "cmd-args-boilerplate": [{"include": f"{parent}cmd-args-boilerplate"}],
+        "cmd-args-boilerplate-with-end-of-options": [{"include": f"{parent}cmd-args-boilerplate-with-end-of-options"}]
     }
 
     for command, value in commands_input.items():
         if not value:
             value = {}
-        cmd_args_base = []
+
+        cmd_args = [{"meta_content_scope": "meta.function-call.arguments.shell"}]
+
+        allow_eoo = value.get("allow-end-of-options-token", True)
+        if allow_eoo:
+            cmd_args.append({"include": "cmd-args-boilerplate-with-end-of-options"})
+        else:
+            cmd_args.append({"include": "cmd-args-boilerplate"})
 
         long_options = value.get("long-options")
         if long_options:
-            cmd_args_base.append({
+            cmd_args.append({
                 "match": rf"(?:\s+|^)((--)(?:{'|'.join(long_options)}){{{{opt_break}}}}",
                 "captures": {
                     1: "variable.parameter.option.shell",
@@ -45,7 +55,7 @@ def main():
         if opts:
             short_option_prefixes = value.get("short-option-prefixes")
             if short_option_prefixes:
-                cmd_args_base.append({
+                cmd_args.append({
                     "match": rf"(?:\s+|^)(({'|'.join(short_option_prefixes)}){opts}){{{{opt_break}}}}",
                     "captures": {
                         1: "variable.parameter.option.shell",
@@ -53,7 +63,7 @@ def main():
                     }
                 })
             else:
-                cmd_args_base.append({
+                cmd_args.append({
                     "match": rf"(?:\s+|^)((-){opts}){{{{opt_break}}}}",
                     "captures": {
                         1: "variable.parameter.option.shell",
@@ -61,26 +71,14 @@ def main():
                     }
                 })
 
-        cmd_args = [{"meta_scope": "meta.function-call.arguments.shell"}]
-
-        allow_eoo = value.get("allow-end-of-options-token", True)
-        if allow_eoo:
-            cmd_args.append({"include": f"{parent}cmd-args-boilerplate-with-end-of-options"})
-        else:
-            cmd_args.append({"include": f"{parent}cmd-args-boilerplate"})
-
-        if cmd_args_base:
-            cmd_args.append({"include": f"cmd-args-{command}-base"})
-            contexts[f"cmd-args-{command}-base"] = cmd_args_base
-
-        contexts[f"cmd-args-{command}"] = [{"match": "", "set": cmd_args}]
+        contexts[f"cmd-args-{command}"] = cmd_args
 
         match = f"{value.get('match', command)}{{{{cmd_break}}}}"
         scope = "meta.function-call.shell " + value.get("scope", f"support.function.{command}.shell")
         main.append({
             "match": match,
             "scope": scope,
-            "set": [f"{parent}cmd-post", f"cmd-args-{command}"]
+            "set": ["cmd-post", f"cmd-args-{command}"]
         })
 
     commands_output = {
@@ -103,6 +101,7 @@ def main():
                   default_flow_style=False,
                   allow_unicode=True,
                   default_style='',
+                  sort_keys=False,
                   Dumper=noalias_dumper)
 
     return 0

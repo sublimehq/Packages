@@ -236,13 +236,11 @@ contexts:
       pop: true
 
   for-args:
-    - match: ""
-      set:
-        - meta_scope: meta.group.for.shell
-        - include: cmd-args-boilerplate
-        - include: arithmetic
-        - match: \bin{{keyword_break}}
-          scope: keyword.control.in.shell
+    - meta_content_scope: meta.group.for.shell
+    - include: cmd-args-boilerplate
+    - include: arithmetic
+    - match: \bin{{keyword_break}}
+      scope: keyword.control.in.shell
 
   expansion-and-string:
     - include: string
@@ -732,22 +730,20 @@ contexts:
     - include: line-continuation-or-pop-at-end
 
   cmd-args:
-    - match: ""
-      set:
-        - meta_scope: meta.function-call.arguments.shell
-        - include: cmd-args-boilerplate-with-end-of-options
-        - match: '{{start_of_option}}'
-          scope: punctuation.definition.parameter.shell
-          push:
-            - meta_scope: variable.parameter.option.shell
-            - match: (?==)
-              set:
-                - match: =
-                  scope: keyword.operator.assignment.option.shell
-                  pop: true
-            - match: (?={{is_end_of_option}})
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: cmd-args-boilerplate-with-end-of-options
+    - match: '{{start_of_option}}'
+      scope: punctuation.definition.parameter.shell
+      push:
+        - meta_scope: variable.parameter.option.shell
+        - match: (?==)
+          set:
+            - match: =
+              scope: keyword.operator.assignment.option.shell
               pop: true
-            - include: expansion-and-string
+        - match: (?={{is_end_of_option}})
+          pop: true
+        - include: expansion-and-string
 
   cmd:
     - include: cmd-common
@@ -787,15 +783,13 @@ contexts:
       set: [cmd-post, cmd-args, cmd-name]
 
   cmd-test-brace-args:
-    - match: ""
-      set:
-        - meta_scope: meta.function-call.arguments.shell
-        - include: cmd-args-boilerplate-with-end-of-options
-        - match: \s+(\])
-          captures:
-            1: support.function.test.end.shell
-          pop: true
-        - include: expression-test
+    - meta_scope: meta.function-call.arguments.shell
+    - include: cmd-args-boilerplate-with-end-of-options
+    - match: \s+(\])
+      captures:
+        1: support.function.test.end.shell
+      pop: true
+    - include: expression-test
 
   cmd-test-double-brace-args:
     - meta_scope: meta.function-call.arguments.shell
@@ -804,15 +798,13 @@ contexts:
         1: support.function.double-brace.end.shell
       pop: true
     - include: expression-test
-    # - include: cmd-args-boilerplate-with-end-of-options
 
   cmd-name:
-    - match: ""
-      set:
-        - meta_scope: meta.function-call.shell variable.function.shell
-        - match: (?={{is_start_of_arguments}}|{{is_end_of_interpolation}})
-          pop: true
-        - include: cmd-name-common
+    - clear_scopes: 1
+    - meta_scope: meta.function-call.shell variable.function.shell
+    - match: (?={{is_start_of_arguments}}|{{is_end_of_interpolation}})
+      pop: true
+    - include: cmd-name-common
 
   cmd-common:
     - include: control
