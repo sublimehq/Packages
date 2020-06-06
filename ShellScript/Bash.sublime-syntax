@@ -45,11 +45,9 @@ variables:
   identifier: '[[:alpha:]_][[:alnum:]_]*'
   identifier_non_posix: '[^{{metachar}}\d][^{{metachar}}=]*'
   is_command: (?=\S)
-  is_end_of_interpolation: \)
   is_end_of_option: '[^\w$-]|$'
   is_interpolation: (?=\$([\d({]|[$#@!~*?_-](?!\w)|{{identifier}})|`)
   is_path_component: (?=[^\s/]*/)
-  is_start_of_arguments: '[`=|&;()<>\s]'
   is_variable: (?=\s*{{nbc}}(?:[({]{{nbc}}[)}])?{{nbc}}=)
   keyword_break: (?![-=\w])
 
@@ -661,8 +659,78 @@ contexts:
     - include: pop-at-end
     - include: main
 
-  cmd-name-common:
-    - match: (?=}|\s*([|;]|&(?!>)))
+###[ COMMANDS ]################################################################
+
+  cmd:
+    - match: (?=[)}])
+      pop: true
+    - include: pop-at-end
+    - include: arithmetic
+    - include: cmd-compound-parens
+    - include: cmd-compound-braces
+    - include: cmd-test-double-brackets
+    - include: cmd-test-brackets
+    - include: cmd-other
+
+  cmd-compound-parens:
+    - match: \(
+      scope: punctuation.definition.compound.begin.shell
+      push:
+        - meta_scope: meta.compound.shell
+        - match: \)
+          scope: punctuation.definition.compound.end.shell
+          set: [cmd-post, cmd-args]
+        - include: main
+
+  cmd-compound-braces:
+    - match: \{(?=\s)
+      scope: punctuation.definition.compound.braces.begin.shell
+      push:
+        - meta_scope: meta.compound.shell
+        - match: \}
+          scope: punctuation.definition.compound.braces.end.shell
+          set: [cmd-post, cmd-args]
+        - include: main
+
+  cmd-test-brackets:
+    - match: \[(?=\s)
+      scope: support.function.test.begin.shell
+      set:
+        - meta_scope: meta.function-call.arguments.shell
+        - include: cmd-args-boilerplate-with-end-of-options
+        - match: \s+(\])
+          captures:
+            1: support.function.test.end.shell
+          set: cmd-post
+        - include: expression-test
+
+  cmd-test-double-brackets:
+    - match: \[\[(?=\s)
+      scope: support.function.double-brace.begin.shell
+      set:
+        - meta_scope: meta.function-call.arguments.shell
+        - match: \s+(\]\])
+          captures:
+            1: support.function.double-brace.end.shell
+          set: cmd-post
+        - include: expression-test
+
+  cmd-other:
+    - include: control
+    - include: scope:commands.builtin.shell.bash#main
+    - match: \blet{{keyword_break}}
+      scope: support.function.let.bash
+      set:
+        - meta_scope: meta.function-call.shell
+        - include: cmd-args-boilerplate-with-end-of-options
+        - include: expression
+    - match: (?=\S)
+      set: [cmd-post, cmd-args, cmd-name]
+
+  cmd-name:
+    - clear_scopes: 1
+    - meta_scope: meta.function-call.shell variable.function.shell
+    - match: (?=[\s`=|&;()}<>])
       pop: true
     - include: string
     - include: expansion-parameter
@@ -670,14 +738,43 @@ contexts:
     - include: expansion-command
     - include: expansion-tilde
     - include: expansion-job
-    - include: pop-at-end
 
-  cmd-args-common:
-    - match: (?=}|\s*([|;]|&(?!>)))
-      pop: true
+  cmd-args:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: cmd-args-boilerplate-with-end-of-options
+    - match: '{{start_of_option}}'
+      scope: punctuation.definition.parameter.shell
+      push:
+        - meta_scope: variable.parameter.option.shell
+        - match: (?==)
+          set:
+            - match: =
+              scope: keyword.operator.assignment.option.shell
+              pop: true
+        - match: (?={{is_end_of_option}})
+          pop: true
+        - include: expansion-and-string
+
+  cmd-args-boilerplate:
+    # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
     - include: redirection
-    - include: expansion-and-string
+    - match: (?=[)}]|\s*([|;]|&(?!>)))
+      pop: true
     - include: pop-at-end
+    - include: expansion-and-string
+
+  cmd-args-boilerplate-with-end-of-options:
+    # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
+    - include: cmd-args-boilerplate
+    - match: (?:\s+|^)--(?=\s|;|$|\))
+      scope: keyword.operator.end-of-options.shell
+      set:
+        - meta_content_scope: meta.function-call.arguments.shell
+        - include: redirection
+        - match: (?=[)};&|])
+          pop: true
+        - include: pop-at-end
+        - include: expansion-and-string
 
   cmd-post: # looks like [main, cmd-post] at this point
     - match: ;(?![;&])
@@ -696,111 +793,6 @@ contexts:
       scope: keyword.operator.logical.job.shell
       pop: true
     - match: (?=\S)
-      pop: true
-    - include: pop-at-end
-
-  cmd-args-boilerplate:
-    # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
-    - match: (?={{is_end_of_interpolation}})
-      pop: true
-    - include: cmd-args-common
-
-  cmd-args-boilerplate-with-end-of-options:
-    # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
-    - include: cmd-args-boilerplate
-    - match: (?:\s+|^)--(?=\s|;|$|\))
-      scope: keyword.operator.end-of-options.shell
-      set:
-        - meta_content_scope: meta.function-call.arguments.shell
-        - include: end-of-options-common
-
-  end-of-options-common:
-    - include: redirection
-    - match: (?=[)};&|])
-      pop: true
-    - include: pop-at-end
-    - include: expansion-and-string
-
-  cmd-args:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: cmd-args-boilerplate-with-end-of-options
-    - match: '{{start_of_option}}'
-      scope: punctuation.definition.parameter.shell
-      push:
-        - meta_scope: variable.parameter.option.shell
-        - match: (?==)
-          set:
-            - match: =
-              scope: keyword.operator.assignment.option.shell
-              pop: true
-        - match: (?={{is_end_of_option}})
-          pop: true
-        - include: expansion-and-string
-
-  cmd:
-    - include: cmd-common
-    - match: \(
-      scope: punctuation.definition.compound.begin.shell
-      push:
-        - match: \)
-          scope: punctuation.definition.compound.end.shell
-          set: [cmd-post, cmd-args]
-        - include: main
-    - include: scope:commands.builtin.shell.bash#main
-    - match: \blet{{keyword_break}}
-      scope: support.function.let.bash
-      push:
-        - meta_scope: meta.function-call.shell
-        - match: $|(?=;)
-          pop: true
-        - include: expression
-    - match: (\[\[)(?=\s)
-      captures:
-        1: support.function.double-brace.begin.shell
-      set: [cmd-post, cmd-test-double-brace-args]
-    - match: (\[)(?=\s)
-      captures:
-        1: support.function.test.begin.shell
-      set: [cmd-post, cmd-test-brace-args]
-    - match: (\{)(?=\s)
-      captures:
-        1: punctuation.definition.compound.braces.begin.shell
-      push:
-        - match: \}
-          scope: punctuation.definition.compound.braces.end.shell
-          set: [cmd-post, cmd-args]
-        - include: main
-    - match: (?=\S)
-      set: [cmd-post, cmd-args, cmd-name]
-
-  cmd-test-brace-args:
-    - meta_scope: meta.function-call.arguments.shell
-    - include: cmd-args-boilerplate-with-end-of-options
-    - match: \s+(\])
-      captures:
-        1: support.function.test.end.shell
-      pop: true
-    - include: expression-test
-
-  cmd-test-double-brace-args:
-    - meta_scope: meta.function-call.arguments.shell
-    - match: \s+(\]\])
-      captures:
-        1: support.function.double-brace.end.shell
-      pop: true
-    - include: expression-test
-
-  cmd-name:
-    - clear_scopes: 1
-    - meta_scope: meta.function-call.shell variable.function.shell
-    - match: (?={{is_start_of_arguments}}|{{is_end_of_interpolation}})
-      pop: true
-    - include: cmd-name-common
-
-  cmd-common:
-    - include: control
-    - include: arithmetic
-    - match: (?=[)}])
       pop: true
     - include: pop-at-end
 
