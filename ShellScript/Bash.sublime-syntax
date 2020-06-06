@@ -400,7 +400,7 @@ contexts:
   cmd-other:
     - include: scope:commands.builtin.shell.bash#main
     - match: \blet{{keyword_break}}
-      scope: support.function.let.bash
+      scope: support.function.let.shell
       set:
         - meta_scope: meta.function-call.shell
         - include: cmd-args-boilerplate-with-end-of-options
