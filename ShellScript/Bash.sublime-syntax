@@ -101,6 +101,10 @@ contexts:
       captures:
         1: invalid.illegal.extraneous-spaces-after-line-continuation.shell
 
+  immediately-pop:
+    - match: ''
+      pop: true
+
 ###[ COMMENTS ]################################################################
 
   comment:
@@ -246,8 +250,7 @@ contexts:
   vardef-ensure-function-call-scope:
     - meta_include_prototype: false
     - meta_scope: meta.function-call.shell
-    - match: ''
-      pop: true
+    - include: immediately-pop
 
   vardef-maybe-more:
     - meta_include_prototype: false
@@ -298,8 +301,7 @@ contexts:
     - match: '{{varassign}}'
       scope: keyword.operator.assignment.shell
       pop: true
-    - match: ''
-      pop: true
+    - include: immediately-pop
 
   vardef-value:
     - meta_include_prototype: false
@@ -318,8 +320,7 @@ contexts:
                 - match: =
                   scope: keyword.operator.assignment.shell
                   pop: true
-                - match: ''
-                  pop: true
+                - include: immediately-pop
             - include: expansion-and-string
         - include: expansion-and-string
     - match: ''
@@ -329,15 +330,13 @@ contexts:
           push:
             - clear_scopes: 2
             - include: string
-            - match: ''
-              pop: true
+            - include: immediately-pop
         - match: '{{is_interpolation}}'
           push:
             - clear_scopes: 1
             - meta_scope: meta.interpolation.shell
             - include: expansion
-            - match: ''
-              pop: true
+            - include: immediately-pop
         - match: (?={{metachar}})
           pop: true
 
@@ -548,8 +547,7 @@ contexts:
     - match: \(
       scope: keyword.control.conditional.patterns.begin.shell
       pop: true
-    - match: ''
-      pop: true
+    - include: immediately-pop
 
   case-clause-patterns:
     - clear_scopes: 1  # remove meta.conditional.case.shell
@@ -1077,8 +1075,7 @@ contexts:
             0:
               meta.group.expansion.command.backticks.shell
               punctuation.section.group.end.shell
-        - match: ''
-          pop: true
+        - include: immediately-pop
 
   expansion-parameter-common:
     - meta_content_scope: meta.group.expansion.parameter.shell
@@ -1280,6 +1277,5 @@ contexts:
         - include: expansion-parameter
         - include: expansion-arithmetic
         - include: expansion-command
-        - match: ''
-          pop: true
+        - include: immediately-pop
 
