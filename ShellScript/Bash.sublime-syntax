@@ -118,6 +118,8 @@ contexts:
     - match: '{{is_command}}'
       push: cmd
 
+###[ FUNCDEFS ]################################################################
+
   funcdef:
     - match: (?=\s*{{identifier_non_posix}}\s*\(\s*\))
       push: [funcdef-body, funcdef-parens, funcdef-name]
@@ -173,6 +175,8 @@ contexts:
       scope: punctuation.definition.compound.end.shell
       pop: true
     - include: main
+
+###[ VARDEFS ]#################################################################
 
   vardef:
     - match: \balias{{keyword_break}}
