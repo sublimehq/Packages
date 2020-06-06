@@ -61,6 +61,48 @@ variables:
   varassign: '[+\-?]?='
 #-------------------------------------------------------------------------------
 contexts:
+  main:
+    - include: comment
+    - include: funcdef
+    - include: vardef
+    - include: redirection
+    - include: operator-exclamation
+    - match: '{{is_command}}'
+      push: cmd
+
+  main-with-pop-at-end:
+    - include: pop-at-end
+    - include: main
+
+###[ PROTOTYPES ]##############################################################
+
+  prototype:
+    - include: line-continuation
+    - include: any-escape
+
+  any-escape:
+    - match: \\.
+      scope: constant.character.escape.shell
+
+  line-continuation-or-pop-at-end:
+    - include: pop-at-end
+    - include: line-continuation
+
+  pop-at-end:
+    - match: $|(?=\s+#)
+      pop: true
+
+  line-continuation:
+    - match: \\\n
+      scope: punctuation.separator.continuation.line.shell
+      push:
+        - match: ^
+          pop: true
+    - match: \\(\s+)\n
+      captures:
+        1: invalid.illegal.extraneous-spaces-after-line-continuation.shell
+
+###[ COMMENTS ]################################################################
 
   comment:
     - match: (?:^\s*|\s+)(\#)
@@ -82,41 +124,6 @@ contexts:
         - match: \n
           scope: comment.line.number-sign.shell
           pop: true
-
-  line-continuation-or-pop-at-end:
-    - include: pop-at-end
-    - include: line-continuation
-
-  pop-at-end:
-    - match: $|(?=\s+#)
-      pop: true
-
-  any-escape:
-    - match: \\.
-      scope: constant.character.escape.shell
-
-  line-continuation:
-    - match: \\\n
-      scope: punctuation.separator.continuation.line.shell
-      push:
-        - match: ^
-          pop: true
-    - match: \\(\s+)\n
-      captures:
-        1: invalid.illegal.extraneous-spaces-after-line-continuation.shell
-
-  prototype:
-    - include: line-continuation
-    - include: any-escape
-
-  main:
-    - include: comment
-    - include: funcdef
-    - include: vardef
-    - include: redirection
-    - include: operator-exclamation
-    - match: '{{is_command}}'
-      push: cmd
 
 ###[ FUNCDEFS ]################################################################
 
@@ -799,10 +806,6 @@ contexts:
         - include: pop-at-end
         - match: \s*(?=\S)
           set: [main-with-pop-at-end, cmd-post, cmd-args]
-
-  main-with-pop-at-end:
-    - include: pop-at-end
-    - include: main
 
 ###[ EXPRESSIONS ]#############################################################
 
