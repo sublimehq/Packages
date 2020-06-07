@@ -322,6 +322,51 @@ BOWL=$(($(cat food.txt | wc -l) + 5))
 #                                 ^ constant.numeric
 #                                  ^^ punctuation
 
+# These are all legal identifiers for variables.
+alias=hello
+# <- - storage.modifier
+#    ^ keyword.operator
+typeset=hello
+# <- - storage.modifier
+#      ^ keyword.operator
+declare=hello
+# <- - storage.modifier
+#      ^ keyword.operator
+local=hello
+# <- - storage.modifier
+#    ^ keyword.operator
+export=hello
+# <- - storage.modifier
+#     ^ keyword.operator
+readonly=hello
+# <- - storage.modifier
+#       ^ keyword.operator
+for=hello
+# <- - keyword.control
+#  ^ keyword.operator
+if=hello
+# <- - keyword.control
+# ^ keyword.operator
+while=hello
+# <- - keyword.control
+#    ^ keyword.operator
+until=hello
+# <- - keyword.control
+#    ^ keyword.operator
+do=hello
+# <- - keyword.control
+# ^ keyword.operator
+done=hello
+# <- - keyword.control
+#   ^ keyword.operator
+
+(foo=bar)
+# <- punctuation.definition.compound.begin
+#   ^ keyword.operator.assignment
+#    ^^^ meta.string string.unquoted
+#       ^ punctuation.definition.compound.end - string-unquoted
+
+
 #############
 # Variables #
 #############
@@ -569,49 +614,6 @@ typeset foo         # 'foo' is a variable name
 unset foo bar       # 'foo' and 'bar' are variable names
 # <- support.function
 #    ^ - variable
-# these are all legal identifiers for variables
-alias=hello
-# <- - storage.modifier
-#    ^ keyword.operator
-typeset=hello
-# <- - storage.modifier
-#      ^ keyword.operator
-declare=hello
-# <- - storage.modifier
-#      ^ keyword.operator
-local=hello
-# <- - storage.modifier
-#    ^ keyword.operator
-export=hello
-# <- - storage.modifier
-#     ^ keyword.operator
-readonly=hello
-# <- - storage.modifier
-#       ^ keyword.operator
-for=hello
-# <- - keyword.control
-#  ^ keyword.operator
-if=hello
-# <- - keyword.control
-# ^ keyword.operator
-while=hello
-# <- - keyword.control
-#    ^ keyword.operator
-until=hello
-# <- - keyword.control
-#    ^ keyword.operator
-do=hello
-# <- - keyword.control
-# ^ keyword.operator
-done=hello
-# <- - keyword.control
-#   ^ keyword.operator
-
-(foo=bar)
-# <- punctuation.definition.compound.begin
-#   ^ keyword.operator.assignment
-#    ^^^ meta.string string.unquoted
-#       ^ punctuation.definition.compound.end - string-unquoted
 
 foo= pwd
 local pid="$(cat "$PIDFILE" 2>/dev/null)"
