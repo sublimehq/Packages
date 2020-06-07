@@ -72,8 +72,8 @@ contexts:
     - match: (?=\S)
       push: cmd
 
-  main-with-pop-at-end:
-    - include: pop-at-end
+  main-with-eol-pop:
+    - include: eol-pop
     - include: main
 
 ###[ PROTOTYPES ]##############################################################
@@ -87,12 +87,12 @@ contexts:
     - match: \\.
       scope: constant.character.escape.shell
 
-  line-continuation-or-pop-at-end:
+  line-continuation-or-eol-pop:
     - meta_include_prototype: false
-    - include: pop-at-end
+    - include: eol-pop
     - include: line-continuation
 
-  pop-at-end:
+  eol-pop:
     - meta_include_prototype: false
     - match: $|(?=\s+#)
       pop: true
@@ -166,7 +166,7 @@ contexts:
       set:
         - meta_include_prototype: false
         - meta_scope: meta.function.coproc.shell
-        - include: main-with-pop-at-end
+        - include: main-with-eol-pop
 
 ###[ FUNCTIONS ]###############################################################
 
@@ -192,7 +192,7 @@ contexts:
         - meta_content_scope: entity.name.function.shell
         - match: \s*(?=[({])
           pop: true
-        - include: pop-at-end
+        - include: eol-pop
 
   funcdef-parens:
     - meta_include_prototype: false
@@ -292,7 +292,7 @@ contexts:
       captures:
         1: punctuation.definition.parameter.shell
     - include: else-pop
-    - include: pop-at-end
+    - include: eol-pop
 
   vardef-export-options:
     - match: (-)(?:[fn]+|p)
@@ -300,7 +300,7 @@ contexts:
       captures:
         1: punctuation.definition.parameter.shell
     - include: else-pop
-    - include: pop-at-end
+    - include: eol-pop
 
   vardef-ensure-function-call-scope:
     - meta_include_prototype: false
@@ -319,7 +319,7 @@ contexts:
       captures:
         1: punctuation.definition.parameter.shell
     - include: else-pop
-    - include: pop-at-end
+    - include: eol-pop
 
   vardef-alias-name:
     - match: (?=\S)
@@ -331,7 +331,7 @@ contexts:
         - include: any-escape
         - include: array
         - include: string
-    - include: pop-at-end
+    - include: eol-pop
 
   vardef-declare-options:
     - match: (-)(?:[aAfFgilnrtux]+|p)
@@ -339,7 +339,7 @@ contexts:
       captures:
         1: punctuation.definition.parameter.shell
     - include: else-pop
-    - include: pop-at-end
+    - include: eol-pop
 
   vardef-name:
     - match: (?=\S)
@@ -351,7 +351,7 @@ contexts:
         - include: any-escape
         - include: array
         - include: string
-    - include: pop-at-end
+    - include: eol-pop
 
   vardef-assign:
     - meta_include_prototype: false
@@ -402,7 +402,7 @@ contexts:
   cmd:
     - match: (?=[)}])
       pop: true
-    - include: pop-at-end
+    - include: eol-pop
     - include: arithmetic
     - include: cmd-compound-parens
     - include: cmd-compound-braces
@@ -498,7 +498,7 @@ contexts:
     - include: redirection
     - match: (?=[)}]|\s*([|;]|&(?!>)))
       pop: true
-    - include: pop-at-end
+    - include: eol-pop
     - include: expansion-and-string
 
   cmd-args-boilerplate-with-end-of-options:
@@ -511,7 +511,7 @@ contexts:
         - include: redirection
         - match: (?=[)};&|])
           pop: true
-        - include: pop-at-end
+        - include: eol-pop
         - include: expansion-and-string
 
   cmd-post: # looks like [main, cmd-post] at this point
@@ -531,7 +531,7 @@ contexts:
       scope: keyword.operator.logical.job.shell
       pop: true
     - include: else-pop
-    - include: pop-at-end
+    - include: eol-pop
 
 ###[ CONTROL STATEMENTS ]######################################################
 
@@ -635,7 +635,7 @@ contexts:
           scope: punctuation.section.parens.end.shell
           pop: true
         - include: case-clause-patterns-body
-    - include: pop-at-end
+    - include: eol-pop
 
   case-clause-commands:
     - clear_scopes: 1  # remove meta.conditional.case.shell
@@ -856,9 +856,9 @@ contexts:
         # The problem with this is that when we also end a function definition
         # on the same line (with the "}" token), we cannot do that.
         - clear_scopes: 1
-        - include: pop-at-end
+        - include: eol-pop
         - match: \s*(?=\S)
-          set: [main-with-pop-at-end, cmd-post, cmd-args]
+          set: [main-with-eol-pop, cmd-post, cmd-args]
 
 ###[ EXPRESSIONS ]#############################################################
 
