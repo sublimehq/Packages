@@ -66,6 +66,68 @@ echo $'\a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z'
 echo $"Hello"
 #    ^^ punctuation
 #           ^ punctuation
+
+echo `echo \`echo hello, world!\``
+#   ^ - meta.group
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.expansion.command.backticks
+#                                 ^ - meta.group
+#    ^ punctuation.section.group.begin
+#     ^^^^ support.function.echo
+#          ^^ constant.character.escape
+#                              ^^ constant.character.escape
+#                                ^ punctuation.section.group.end
+
+echo `echo \`echo hello, world!\\`
+#   ^ - meta.group
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.expansion.command.backticks
+#                                 ^ - meta.group
+#    ^ punctuation.section.group.begin
+#     ^^^^ support.function.echo
+#          ^^ constant.character.escape
+#                              ^^ constant.character.escape
+#                                ^ punctuation.section.group.end
+
+echo `echo \`echo hello\\\`, world\\\\\`!`
+#   ^ - meta.group
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.expansion.command.backticks
+#                                         ^ - meta.group
+#    ^ punctuation.section.group.begin
+#     ^^^^ support.function.echo
+#          ^^ constant.character.escape
+#                      ^^^^ constant.character.escape
+#                                 ^^^^^^ constant.character.escape
+#                                        ^ punctuation.section.group.end
+
+foo | ` # get quarks ` \
+# <- variable.function
+#   ^ keyword.operator.logical.pipe
+#     ^^^^^^^^^^^^^^^^ meta.group.expansion.command.backticks
+#                     ^^^ - meta.group
+#     ^ punctuation.section.group.begin
+#       ^^^^^^^^^^^^^ comment.line.number-sign
+#                    ^ punctuation.section.group.end - comment
+#                      ^^ punctuation.separator.continuation.line - comment
+
+foo | ` # get quarks ` \
+bar   ` # important; this and that ` "${USELESS_TEXT}" | ` # match text` \
+# <- meta.function-call.arguments
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.expansion.command.backticks
+#                                   ^^^^^^^^^^^^^^^^^^^^^ - meta.group.expansion.command
+#                                                        ^^^^^^^^^^^^^^^ meta.group.expansion.command.backticks
+#     ^^ - comment
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign
+#                                  ^^^^^^^^^^^^^^^^^^^^^^^^ - comment
+#                                                          ^^^^^^^^^^^^ comment.line.number-sign
+#                                                                      ^^^ - comment
+#     ^ punctuation.section.group.begin
+#                                  ^ punctuation.section.group.end
+#                                    ^ meta.string string.quoted.double punctuation.definition.string.begin
+#                                     ^^^^^^^^^^^^^^^ meta.string meta.interpolation meta.group.expansion.parameter - string
+#                                                    ^ meta.string string.quoted.double punctuation.definition.string.end
+#                                                      ^ keyword.operator.logical.pipe
+#                                                        ^ punctuation.section.group.begin
+#                                                                        ^^ punctuation.separator.continuation.line
+
 randomname argument --opt1 --opt2 -x -y &>/dev/null
 # <- meta.function-call variable.function - meta.function-call.arguments
 #^^^^^^^^^ meta.function-call variable.function - meta.function-call.arguments
@@ -447,67 +509,6 @@ foo=`readonly x=5`
 #              ^ meta.group.expansion.command.backticks keyword.operator.assignment
 #               ^ meta.group.expansion.command.backticks string.unquoted
 #                ^ meta.group.expansion.command.backticks punctuation.section.group.end
-
-echo `echo \`echo hello, world!\``
-#   ^ - meta.group
-#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.expansion.command.backticks
-#                                 ^ - meta.group
-#    ^ punctuation.section.group.begin
-#     ^^^^ support.function.echo
-#          ^^ constant.character.escape
-#                              ^^ constant.character.escape
-#                                ^ punctuation.section.group.end
-
-echo `echo \`echo hello, world!\\`
-#   ^ - meta.group
-#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.expansion.command.backticks
-#                                 ^ - meta.group
-#    ^ punctuation.section.group.begin
-#     ^^^^ support.function.echo
-#          ^^ constant.character.escape
-#                              ^^ constant.character.escape
-#                                ^ punctuation.section.group.end
-
-echo `echo \`echo hello\\\`, world\\\\\`!`
-#   ^ - meta.group
-#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.expansion.command.backticks
-#                                         ^ - meta.group
-#    ^ punctuation.section.group.begin
-#     ^^^^ support.function.echo
-#          ^^ constant.character.escape
-#                      ^^^^ constant.character.escape
-#                                 ^^^^^^ constant.character.escape
-#                                        ^ punctuation.section.group.end
-
-foo | ` # get quarks ` \
-# <- variable.function
-#   ^ keyword.operator.logical.pipe
-#     ^^^^^^^^^^^^^^^^ meta.group.expansion.command.backticks
-#                     ^^^ - meta.group
-#     ^ punctuation.section.group.begin
-#       ^^^^^^^^^^^^^ comment.line.number-sign
-#                    ^ punctuation.section.group.end - comment
-#                      ^^ punctuation.separator.continuation.line - comment
-
-foo | ` # get quarks ` \
-bar   ` # important; this and that ` "${USELESS_TEXT}" | ` # match text` \
-# <- meta.function-call.arguments
-#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.expansion.command.backticks
-#                                   ^^^^^^^^^^^^^^^^^^^^^ - meta.group.expansion.command
-#                                                        ^^^^^^^^^^^^^^^ meta.group.expansion.command.backticks
-#     ^^ - comment
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign
-#                                  ^^^^^^^^^^^^^^^^^^^^^^^^ - comment
-#                                                          ^^^^^^^^^^^^ comment.line.number-sign
-#                                                                      ^^^ - comment
-#     ^ punctuation.section.group.begin
-#                                  ^ punctuation.section.group.end
-#                                    ^ meta.string string.quoted.double punctuation.definition.string.begin
-#                                     ^^^^^^^^^^^^^^^ meta.string meta.interpolation meta.group.expansion.parameter - string
-#                                                    ^ meta.string string.quoted.double punctuation.definition.string.end
-#                                                      ^ keyword.operator.logical.pipe
-#                                                        ^ punctuation.section.group.begin
-#                                                                        ^^ punctuation.separator.continuation.line
 
 # <- - meta.group.expansion.command.backticks
 export foo          # 'foo' is a variable name
