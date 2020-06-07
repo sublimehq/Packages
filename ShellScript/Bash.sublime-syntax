@@ -61,6 +61,8 @@ variables:
 
 contexts:
   main:
+    - meta_include_prototype: false
+    - include: prototype
     - include: comment
     - include: funcdef
     - include: coproc
