@@ -81,18 +81,22 @@ contexts:
     - include: any-escape
 
   any-escape:
+    - meta_include_prototype: false
     - match: \\.
       scope: constant.character.escape.shell
 
   line-continuation-or-pop-at-end:
+    - meta_include_prototype: false
     - include: pop-at-end
     - include: line-continuation
 
   pop-at-end:
+    - meta_include_prototype: false
     - match: $|(?=\s+#)
       pop: true
 
   line-continuation:
+    - meta_include_prototype: false
     - match: \\\n
       scope: punctuation.separator.continuation.line.shell
       push:
@@ -103,10 +107,12 @@ contexts:
         1: invalid.illegal.extraneous-spaces-after-line-continuation.shell
 
   immediately-pop:
+    - meta_include_prototype: false
     - match: ''
       pop: true
 
   else-pop:
+    - meta_include_prototype: false
     - match: (?=\S)
       pop: true
 
