@@ -106,6 +106,10 @@ contexts:
     - match: ''
       pop: true
 
+  else-pop:
+    - match: (?=\S)
+      pop: true
+
 ###[ COMMENTS ]################################################################
 
   comment:
@@ -129,7 +133,7 @@ contexts:
           scope: comment.line.number-sign.shell
           pop: true
 
-###[ FUNCDEFS ]################################################################
+###[ COPROCESSES ]#############################################################
 
   coproc:
     - match: \bcoproc{{keyword_break}}
@@ -138,66 +142,96 @@ contexts:
         keyword.other.coproc.shell
       push: [cmd-post, cmd-args, coproc-body]
 
+  coproc-meta:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.function.coproc.shell
+    - include: immediately-pop
+
   coproc-body:
     - meta_include_prototype: false
     - match: \s*(\S+)\s*(?=\{)
       captures:
         0: meta.function.coproc.identifier.shell
         1: entity.name.function.coproc.shell
-      set:
-        - meta_include_prototype: false
-        - match: \{
-          scope: punctuation.section.block.begin.shell
-          set:
-            - meta_include_prototype: false
-            - meta_scope:
-                meta.function.coproc.shell
-                meta.block.shell
-            - match: \}
-              scope: punctuation.section.block.end.shell
-              pop: true
-            - include: main
+      set: [coproc-meta, block]
     - match: ''
       set:
         - meta_include_prototype: false
         - meta_scope: meta.function.coproc.shell
         - include: main-with-pop-at-end
 
+###[ FUNCTIONS ]###############################################################
+
   funcdef:
     - match: (?=\s*{{identifier_non_posix}}\s*\(\s*\))
       push: [funcdef-body, funcdef-parens, funcdef-name]
     - match: \bfunction{{keyword_break}}
-      scope: storage.type.function.shell
+      scope: 
+        meta.function.shell
+        storage.type.function.shell
+        keyword.declaration.function.shell
       push: [funcdef-body, funcdef-parens, funcdef-name]
+
+  funcdef-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.function.shell
+    - include: immediately-pop
 
   funcdef-name:
     - match: \s*
       set:
+        - meta_include_prototype: false
         - meta_content_scope: entity.name.function.shell
-        - match: (?=\s*[({]|$)
+        - match: \s*(?=[({])
           pop: true
+        - include: pop-at-end
 
   funcdef-parens:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.function.identifier.shell
     - match: (\()\s*(\))
+      scope:
+        meta.function.parameters.shell
+        meta.parens.shell
       captures:
         1: punctuation.section.parens.begin.shell
         2: punctuation.section.parens.end.shell
-    - match: \{
-      scope: punctuation.section.braces.begin.shell
       pop: true
-    - match: \(
-      scope: punctuation.definition.compound.begin.shell
-      pop: true
+    - include: comment
+    - include: else-pop
 
   funcdef-body:
-    - meta_scope: meta.function.shell
-    - match: \}
-      scope: punctuation.section.braces.end.shell
-      pop: true
-    - match: \)
-      scope: punctuation.definition.compound.end.shell
-      pop: true
-    - include: main
+    - match: ''
+      set: [funcdef-meta, funcdef-body-content]
+
+  funcdef-body-content:
+    - meta_include_prototype: false
+    - include: block
+    - include: group
+    - include: comment
+    - include: else-pop
+
+  block:
+    - match: \{
+      scope: punctuation.section.block.begin.shell
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.block.shell
+        - match: \}
+          scope: punctuation.section.block.end.shell
+          pop: 1
+        - include: main
+
+  group:
+    - match: \(
+      scope: punctuation.section.group.begin.shell
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.group.shell
+        - match: \)
+          scope: punctuation.section.group.end.shell
+          pop: 1
+        - include: main
 
 ###[ VARDEFS ]#################################################################
 

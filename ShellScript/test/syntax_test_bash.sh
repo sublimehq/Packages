@@ -2266,7 +2266,7 @@ case $TERM in
     sun-cmd)
         #  ^ keyword.control.conditional.patterns
         update_terminal_cwd() { print -Pn "\e]l%~\e\\" };;
-        #                                              ^ meta.function punctuation.section.braces.end
+        #                                              ^ meta.function punctuation.section.block.end
         #                                               ^^ punctuation.terminator.case.clause
     *xterm*|rxvt|(dt|k|E)term)
         # ^ keyword.operator.regexp.quantifier
@@ -2277,13 +2277,13 @@ case $TERM in
         #               ^ punctuation.section.parens.end
         #                    ^ keyword.control.conditional.patterns
         update_terminal_cwd() { print -Pn "\e]2;%~\a" };;
-        #                                             ^ meta.function punctuation.section.braces.end
+        #                                             ^ meta.function punctuation.section.block.end
         #                                              ^^ punctuation.terminator.case.clause
     *)
     # <- keyword.operator.regexp.quantifier
     #^ keyword.control.conditional.patterns
         update_terminal_cwd() {};;
-        #                      ^ meta.function punctuation.section.braces.end
+        #                      ^ meta.function punctuation.section.block.end
         #                       ^^ punctuation.terminator.case.clause
 esac
 
@@ -2646,30 +2646,46 @@ sed 's/^    //' << EOF >$dummy.c
 EOF
 # <- keyword.control.heredoc-token
 
-#############
-# Functions #
-#############
+####################################################################
+# 3.3 Shell Functions                                              #
+####################################################################
 
    logC () { [[ $# == 2 ]] && tput setaf $2 || tput setaf 3; echo -e "$1"; tput setaf 15; }
-# <- meta.function - entity.name.function
-#^^ meta.function - entity.name.function
-#  ^^^^ meta.function entity.name.function
-#       ^ meta.function punctuation.section.parens.begin
-#        ^ meta.function punctuation.section.parens.end
-#         ^ meta.function
-#          ^ meta.function punctuation.section.braces.begin
-#            ^^ meta.function support.function.double-brace.begin
-#               ^ meta.function meta.function-call.arguments punctuation.definition.variable
-#                ^ meta.function meta.function-call.arguments variable.language
-#                  ^^ meta.function meta.function-call.arguments keyword.operator.logical
-#                       ^^ meta.function meta.function-call.arguments support.function.double-brace.end
-#                          ^^ meta.function keyword.operator.logical.and
-logExit () {
-#^^^^^^ meta.function entity.name.function
-#       ^ meta.function punctuation.section.parens.begin
-#        ^ meta.function punctuation.section.parens.end
-#         ^ meta.function
-#          ^ meta.function punctuation.section.braces.begin
+# <- meta.function.identifier.shell - entity.name.function
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+#^^ meta.function.identifier.shell
+#  ^^^^ meta.function.identifier.shell
+#      ^ meta.function.identifier.shell
+#       ^ meta.function.parameters.shell meta.parens.shell
+#        ^ meta.function.parameters.shell meta.parens.shell
+#         ^ meta.function.shell - meta.function.identifier - meta.block
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.shell meta.block.shell
+#^^ - entity
+#  ^^^^ entity.name.function.shell
+#      ^ - entity - punctuation
+#       ^ punctuation.section.parens.begin.shell
+#        ^ punctuation.section.parens.end.shell
+#         ^ - punctuation
+#          ^ punctuation.section.block.begin.shell
+#            ^^ support.function.double-brace.begin
+#               ^ meta.function-call.arguments punctuation.definition.variable
+#                ^ meta.function-call.arguments variable.language
+#                  ^^ meta.function-call.arguments keyword.operator.logical
+#                       ^^ meta.function-call.arguments support.function.double-brace.end
+#                          ^^ keyword.operator.logical.and
+
+logExit ( ) {
+# <- meta.function.identifier.shell entity.name.function.shell
+#^^^^^^ meta.function.identifier.shell entity.name.function.shell
+#      ^ meta.function.identifier.shell
+#       ^^^ meta.function.parameters.shell meta.parens.shell
+#          ^ meta.function.shell - meta.block - meta.parens
+#           ^^ meta.function.shell meta.block.shell
+#^^^^^^ entity.name.function.shell
+#      ^ - entity - punctuation
+#       ^ punctuation.section.parens.begin.shell
+#         ^ punctuation.section.parens.end.shell
+#           ^ punctuation.section.block.begin.shell
   [[ $1 == '0' ]] && tput setaf 2  || tput setaf 1;
   # <- meta.function support.function.double-brace.begin
   #            ^^ meta.function meta.function-call.arguments support.function.double-brace.end
@@ -2687,15 +2703,24 @@ logExit () {
   #               ^^ meta.function keyword.operator.logical.or
   #                  ^^^^ meta.function meta.function-call support.function.exit
 }
+# <- meta.function.shell meta.block.shell punctuation.section.block.end.shell
+#^ - meta.function
 
 function connect_to_db() {
-# <- meta.function storage.type.function
-#       ^ meta.function
-#        ^^^^^^^^^^^^^ meta.function entity.name.function
-#                     ^ meta.function punctuation.section.parens.begin
-#                      ^ meta.function punctuation.section.parens.end
-#                       ^ meta.function
-#                        ^ meta.function punctuation.section.braces.begin
+#^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+# <- meta.function.shell storage.type.function.shell keyword.declaration.function.shell
+#^^^^^^^ meta.function.shell
+#       ^^^^^^^^^^^^^^ meta.function.identifier.shell
+#                     ^^ meta.function.parameters.shell meta.parens.shell
+#                       ^ meta.function.shell - meta.parens - meta.block
+#                        ^^ meta.function.shell meta.block.shell
+#^^^^^^^ storage.type.function.shell keyword.declaration.function.shell
+#       ^ - entity - keyword - storage
+#        ^^^^^^^^^^^^^ entity.name.function.shell
+#                     ^ punctuation.section.parens.begin.shell
+#                      ^ punctuation.section.parens.end.shell
+#                        ^ punctuation.section.block.begin.shell
+
     export PGPASSWORD=$(cat "$DOKKU_ROOT/.postgresql/pwd_$APP")
     # <- meta.function storage.modifier
     #      ^^^^^^^^^^ meta.function variable.other.readwrite.assignment
@@ -2718,7 +2743,8 @@ function connect_to_db() {
 
     psql -h $IP -p $PORT -U root db
 }
-# <- meta.function punctuation.section.braces.end
+# <- meta.function.shell meta.block.shell punctuation.section.block.end.shell
+#^ - meta.function
 
 # <- - meta.function
 
@@ -2743,13 +2769,16 @@ typeset -f _init_completion > /dev/null && complete -F _upto upto
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
 
 function foo
-# <- meta.function
-#^^^^^^^^^^^ meta.function
-#       ^ - entity.name.function
-#        ^^^ entity.name.function
-#           ^ - entity.name.function
+#^^^^^^^^^^^^ - meta.function meta.function
+# <- meta.function.shell storage.type.function.shell keyword.declaration.function.shell
+#^^^^^^^ meta.function.shell
+#       ^^^^^ meta.function.identifier.shell
+#^^^^^^^ storage.type.function.shell keyword.declaration.function.shell
+#       ^ - entity - keyword - storage
+#        ^^^ entity.name.function.shell
+#           ^ - entity
 {
-# <- punctuation.section
+# <- meta.function.shell meta.block.shell punctuation.section.block.begin.shell
     foo bar
     # <- variable.function
     # <- meta.function meta.function-call
@@ -2757,46 +2786,61 @@ function foo
     return 0
     # <- keyword.control.flow.return.shell
 }
-# <- punctuation.section
+# <- meta.function.shell meta.block.shell punctuation.section.block.end.shell
+#^ - meta.function
 
 # <- - meta.function
 
 function foo (     ) {
-# <- meta.function
-#^^^^^^^^^^^ meta.function
+#^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+# <- meta.function.shell storage.type.function.shell keyword.declaration.function.shell
+#^^^^^^^ meta.function.shell
+#       ^^^^^ meta.function.identifier.shell
+#            ^^^^^^^ meta.function.parameters.shell meta.parens.shell
+#                   ^^^ meta.function.shell
 #       ^ - entity.name.function
 #        ^^^ entity.name.function
 #           ^ - entity.name.function
-#            ^ punctuation.section
-#                  ^ punctuation.section
-#                    ^ punctuation.section
+#            ^ punctuation.section.parens.begin.shell
+#                  ^ punctuation.section.parens.end.shell
+#                    ^ punctuation.section.block.begin.shell
     echo 'hello from foo'
     # <- support.function
     # <- meta.function meta.function-call
 }
-# <- punctuation.section
+# <- meta.function.shell meta.block.shell punctuation.section.block.end.shell
+#^ - meta.function
 
 # <- - meta.function
 
 f () (
-# <- meta.function entity.name.function
-  #  ^ meta.function punctuation.definition.compound.begin
+# <- meta.function.identifier.shell entity.name.function.shell
+#^ meta.function.identifier.shell - entity - punctuation
+# ^^ meta.function.parameters.shell meta.parens.shell
+#   ^ meta.function.shell - meta.parens - meta.group
+#    ^ meta.function.shell meta.group.shell punctuation.section.group.begin.shell
   echo hello
-  # <- meta.function meta.function-call support.function.echo
+  # <- meta.function.shell meta.group.shell meta.function-call.shell support.function.echo.shell
 )
-# <- meta.function punctuation.definition.compound.end
+# <- meta.function.shell meta.group.shell punctuation.section.group.end.shell
+#^ - meta.function
 
 function f (
-  #    ^ meta.function storage.type.function
-  #      ^ meta.function entity.name.function
-  #        ^ meta.function punctuation.definition.compound.begin
+# <- meta.function.shell storage.type.function.shell keyword.declaration.function.shell
+#^^^^^^^ meta.function.shell storage.type.function.shell 
+#       ^^^ meta.function.identifier.shell
+#          ^^ meta.function.shell meta.group.shell
+#^^^^^^^ keyword.declaration.function.shell
+#        ^ entity.name.function.shell
+#          ^ punctuation.section.group.begin.shell
   echo hello
   # <- meta.function meta.function-call support.function.echo
 )
-# <- meta.function punctuation.definition.compound.end
+# <- meta.function.shell meta.group.shell punctuation.section.group.end.shell
+#^ - meta.function
 
 function foo {
-    # <- meta.function
+# <- meta.function.shell storage.type.function.shell keyword.declaration.function.shell
     function bar {
         # <- meta.function meta.function
         echo "baz"
@@ -2892,6 +2936,7 @@ __git_aliased_command ()
         esac
     done
 }
-# <- meta.function punctuation.section.braces.end
+# <- meta.function.shell meta.block.shell punctuation.section.block.end.shell
+#^ - meta.function
 
 # <- - meta.function
