@@ -186,7 +186,7 @@ contexts:
     - include: immediately-pop
 
   funcdef-name:
-    - match: \s*
+    - match: (?=\S)
       set:
         - meta_include_prototype: false
         - meta_content_scope: entity.name.function.shell
@@ -287,20 +287,18 @@ contexts:
         - vardef-name
 
   vardef-readonly-options:
-    - match: \s*((-)(?:[aAf]+|p))
+    - match: (-)(?:[aAf]+|p)
+      scope: variable.parameter.option.shell
       captures:
-        2: punctuation.definition.parameter.shell
-        1: variable.parameter.option.shell
-    - match: \s*
-      pop: true
+        1: punctuation.definition.parameter.shell
+    - include: else-pop
 
   vardef-export-options:
-    - match: \s*((-)(?:[fn]+|p))
+    - match: (-)(?:[fn]+|p)
+      scope: variable.parameter.option.shell
       captures:
-        2: punctuation.definition.parameter.shell
-        1: variable.parameter.option.shell
-    - match: \s*
-      pop: true
+        1: punctuation.definition.parameter.shell
+    - include: else-pop
 
   vardef-ensure-function-call-scope:
     - meta_include_prototype: false
@@ -314,15 +312,14 @@ contexts:
       push: [vardef-value, vardef-assign, vardef-name]
 
   vardef-alias-options:
-    - match: \s*((-)p)
+    - match: (-)p
+      scope: variable.parameter.option.shell
       captures:
-        2: punctuation.definition.parameter.shell
-        1: variable.parameter.option.shell
-    - match: \s*
-      pop: true
+        1: punctuation.definition.parameter.shell
+    - include: else-pop
 
   vardef-alias-name:
-    - match: \s*
+    - match: (?=\S)
       set:
         - meta_include_prototype: false
         - meta_content_scope: entity.name.function.alias.shell
@@ -333,15 +330,14 @@ contexts:
         - include: string
 
   vardef-declare-options:
-    - match: \s*((-)(?:[aAfFgilnrtux]+|p))
+    - match: (-)(?:[aAfFgilnrtux]+|p)
+      scope: variable.parameter.option.shell
       captures:
-        2: punctuation.definition.parameter.shell
-        1: variable.parameter.option.shell
-    - match: \s*
-      pop: true
+        1: punctuation.definition.parameter.shell
+    - include: else-pop
 
   vardef-name:
-    - match: \s*
+    - match: (?=\S)
       set:
         - meta_include_prototype: false
         - meta_content_scope: variable.other.readwrite.assignment.shell
@@ -528,8 +524,7 @@ contexts:
     - match: \&
       scope: keyword.operator.logical.job.shell
       pop: true
-    - match: (?=\S)
-      pop: true
+    - include: else-pop
     - include: pop-at-end
 
 ###[ CONTROL STATEMENTS ]######################################################
@@ -1288,10 +1283,7 @@ contexts:
       scope: constant.character.escape.shell
     - match: \\\n
       scope: constant.character.escape.shell
-      push:
-        - meta_include_prototype: false
-        - match: (?=\S)
-          pop: true
+      push: else-pop
 
   # [Bash] 3.1.2.4
   string-ansi-c:
