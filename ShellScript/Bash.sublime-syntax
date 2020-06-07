@@ -292,6 +292,7 @@ contexts:
       captures:
         1: punctuation.definition.parameter.shell
     - include: else-pop
+    - include: pop-at-end
 
   vardef-export-options:
     - match: (-)(?:[fn]+|p)
@@ -299,6 +300,7 @@ contexts:
       captures:
         1: punctuation.definition.parameter.shell
     - include: else-pop
+    - include: pop-at-end
 
   vardef-ensure-function-call-scope:
     - meta_include_prototype: false
@@ -317,6 +319,7 @@ contexts:
       captures:
         1: punctuation.definition.parameter.shell
     - include: else-pop
+    - include: pop-at-end
 
   vardef-alias-name:
     - match: (?=\S)
@@ -328,6 +331,7 @@ contexts:
         - include: any-escape
         - include: array
         - include: string
+    - include: pop-at-end
 
   vardef-declare-options:
     - match: (-)(?:[aAfFgilnrtux]+|p)
@@ -335,6 +339,7 @@ contexts:
       captures:
         1: punctuation.definition.parameter.shell
     - include: else-pop
+    - include: pop-at-end
 
   vardef-name:
     - match: (?=\S)
@@ -346,6 +351,7 @@ contexts:
         - include: any-escape
         - include: array
         - include: string
+    - include: pop-at-end
 
   vardef-assign:
     - meta_include_prototype: false

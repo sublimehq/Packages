@@ -489,34 +489,62 @@ ${foo}/${bar}/${baz}
 #        ^^^        variable.function variable.other
 #               ^^^ variable.function variable.other
 
+
+####################################################################
+# 4.2 Bash Builtin Commands                                        #
+####################################################################
+
+alias foo=bar
+# <- support.function.alias
+#     ^^^ entity.name.function.alias
+#        ^ keyword.operator.assignment
+#         ^^^ meta.string string.unquoted
+alias -p foo=bar
+# <- support.function.alias
+#     ^^ variable.parameter
+#        ^^^ entity.name.function.alias
+#           ^ keyword.operator.assignment
+#            ^^^ meta.string string.unquoted
+declare             # comment
+#<- meta.function-call.shell storage.modifier.shell
+#^^^^^^ meta.function-call.shell storage.modifier.shell
+#      ^ - meta.function-call
+#                   ^^^^^^^^^^ comment.line.number-sign.shell
 declare foo         # 'foo' is a variable name
-#^^^^^^^^^^ meta.function-call
+#^^^^^^^^^^ meta.function-call.shell
 #           ^ - meta.function-call
 # <- storage.modifier
 #          ^ - variable.other.readwrite
 #                  ^ - meta.function-call
+declare -A          # this is a comment
+#^^^^^^^^^ meta.function-call.shell
+#         ^ - meta.function-call
+#                   ^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 declare -A foo bar  # 'foo' and 'bar' are variable names
-#^^^^^^^^^^^^^^^^^ meta.function-call
-#                  ^ - meta.function-call
-declare ret; bar=foo
-#^^^^^^^^^^ meta.function-call
+#^^^^^^^^^^^^^^^^^ meta.function-call.shell
+#                 ^ - meta.function-call
+#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+declare ret; bar=foo # comment
+#^^^^^^^^^^ meta.function-call.shell
 #          ^ - meta.function-call
 # <- storage.modifier
-#          ^ keyword.operator
-#               ^ keyword.operator
-#                ^ meta.string string.unquoted
+#          ^ keyword.operator.logical.continue.shell
+#               ^ keyword.operator.assignment.shell
+#                ^^^ meta.string.shell string.unquoted.shell
+#                   ^ - meta.string - string - comment
+#                    ^^^^^^^^^^ comment.line.number-sign.shell
 declare ret ;
-#^^^^^^^^^^ meta.function-call
+#^^^^^^^^^^ meta.function-call.shell
 #          ^ - meta.function-call
 # <- storage.modifier
 #           ^ keyword.operator
 declare ret&
-#^^^^^^^^^^ meta.function-call
+#^^^^^^^^^^ meta.function-call.shell
 #          ^ - meta.function-call
 # <- storage.modifier
 #          ^ keyword.operator
 declare ret &
-#^^^^^^^^^^ meta.function-call
+#^^^^^^^^^^ meta.function-call.shell
 #          ^ - meta.function-call
 # <- storage.modifier
 #           ^ keyword.operator
@@ -596,31 +624,45 @@ local foo bar='baz' # 'foo' and 'bar' are variable names
 #                  ^ - string
 #^^^^^^^^^^^^^^^^^^ meta.function-call
 #                  ^ - meta.function-call
+local pid="$(cat "$PIDFILE" 2>/dev/null)"
+#     ^^^ - variable.parameter
+local-pid
+#^^^^ - storage.modifier
+#     ^^^ - variable.parameter
+local-
+#^^^^^ - storage.modifier
+
 readonly foo        # 'foo' is a variable name
-# <- storage.modifier
-#       ^ - variable
+# <- meta.function-call.shell storage.modifier.shell
+#^^^^^^^^^^^ meta.function-call.shell
+#           ^ - meta.function-call
+#^^^^^^^ storage.modifier.shell
+#       ^ - storage - variable
 #        ^^^ variable.other.readwrite.assignment
 #           ^ - variable.other.readwrite
-#^^^^^^^^^^^ meta.function-call
-#                  ^ - meta.function-call
 typeset foo         # 'foo' is a variable name
-#^^^^^^^^^^ meta.function-call
-# <- storage.modifier
-#      ^ - variable
+# <- meta.function-call.shell storage.modifier.shell
+#^^^^^^^^^^ meta.function-call.shell
+#          ^ - meta.function-call
+#^^^^^^ storage.modifier.shell
+#      ^ - storage - variable
 #       ^^^ variable.other.readwrite.assignment
 #          ^ - variable.other.readwrite
-#^^^^^^^^^^ meta.function-call
-#                  ^ - meta.function-call
+#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 unset foo bar       # 'foo' and 'bar' are variable names
-# <- support.function
-#    ^ - variable
+# <- meta.function-call.shell support.function.unset.shell
+#^^^^ meta.function-call.shell
+#    ^^^^^^^^ meta.function-call.arguments.shell
+#            ^ - meta.function-call
+#^^^^ support.function.unset.shell
+#    ^ - support - variable
+#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+unset-
+# <- - support.function
 
-foo= pwd
-local pid="$(cat "$PIDFILE" 2>/dev/null)"
-#     ^ - variable.parameter
-local-pid
-# ^ - storage.modifier
-#    ^^ - variable.parameter
+####################################################################
+# 3.2.4.2 Conditional Constructs                                   #
+####################################################################
 
 if [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; then PLATFORM=docker; fi
 #^ keyword.control.conditional.if
@@ -793,17 +835,6 @@ asdf foo && FOO=some-value pwd
 #                                             ^ keyword.operator.assignment
 #                                              ^ meta.string meta.interpolation - string
 #                                                        ^ variable.function
-alias foo=bar
-# <- support.function.alias
-#     ^^^ entity.name.function.alias
-#        ^ keyword.operator.assignment
-#         ^^^ meta.string string.unquoted
-alias -p foo=bar
-# <- support.function.alias
-#     ^^ variable.parameter
-#        ^^^ entity.name.function.alias
-#           ^ keyword.operator.assignment
-#            ^^^ meta.string string.unquoted
 
 ####################################################
 # Strings and interpolation in parameter expansion #
