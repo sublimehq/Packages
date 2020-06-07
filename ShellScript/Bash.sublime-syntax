@@ -227,7 +227,7 @@ contexts:
         - meta_scope: meta.block.shell
         - match: \}
           scope: punctuation.section.block.end.shell
-          pop: 1
+          pop: true
         - include: main
 
   group:
@@ -238,7 +238,7 @@ contexts:
         - meta_scope: meta.group.shell
         - match: \)
           scope: punctuation.section.group.end.shell
-          pop: 1
+          pop: true
         - include: main
 
 ###[ VARDEFS ]#################################################################
