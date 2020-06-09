@@ -1,0 +1,10 @@
+<snippet>
+    <content><![CDATA[select{
+case ${0:condition}:
+
+}]]></content>
+    <tabTrigger>sel</tabTrigger>
+    <scope>source.go</scope>
+    <description>select { case condition: }</description>
+</snippet>
+

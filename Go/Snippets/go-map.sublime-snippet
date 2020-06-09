@@ -1,0 +1,6 @@
+<snippet>
+    <content><![CDATA[map[${0:type}]${1:type}]]></content>
+    <tabTrigger>map</tabTrigger>
+    <scope>source.go</scope>
+    <description>map[type]type</description>
+</snippet>

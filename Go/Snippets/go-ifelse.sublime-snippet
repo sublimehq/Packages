@@ -1,0 +1,10 @@
+<snippet>
+    <content><![CDATA[if $0 {
+
+} else {
+
+}]]></content>
+    <tabTrigger>ifelse</tabTrigger>
+    <scope>source.go</scope>
+    <description>if else</description>
+</snippet>
