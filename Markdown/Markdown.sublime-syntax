@@ -1454,6 +1454,8 @@ contexts:
       pop: true
     - include: disable-markdown
   link-text:
+    - match: \b__?(?=[^]_]+\]) # eat underscores where there is no pair before the end of the square brackets - it's not a formatting mark
+    - match: \b\*\*?(?=[^]*]+\]) # eat asterisks where there is no pair before the end of the square brackets - it's not a formatting mark
     - include: escape
     - include: ampersand
     - include: raw

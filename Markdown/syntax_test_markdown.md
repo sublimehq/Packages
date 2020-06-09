@@ -2098,3 +2098,7 @@ end
 |^ constant.character.escape
 |^^^^^^ - meta.tag
 |    ^^ constant.character.escape
+
+link with a single underscore inside the text : [@_test](http://example.com)
+|                                                ^^^^^^ meta.paragraph meta.link.inline.description - punctuation.definition
+|                                                      ^ meta.paragraph meta.link.inline punctuation.definition.link.end
