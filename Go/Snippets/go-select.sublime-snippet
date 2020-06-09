@@ -7,4 +7,3 @@ case ${0:condition}:
     <scope>source.go</scope>
     <description>select { case condition: }</description>
 </snippet>
-
