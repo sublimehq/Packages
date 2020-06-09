@@ -9,4 +9,3 @@ default:
     <scope>source.go</scope>
     <description>switch expression { case condition...</description>
 </snippet>
-
