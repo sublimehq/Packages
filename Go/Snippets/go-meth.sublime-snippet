@@ -1,6 +1,6 @@
 <snippet>
     <content><![CDATA[func (${1:receiver} ${2:type}) ${3:method}()  {
-
+    ${0:/* code */}
 }]]></content>
     <tabTrigger>meth</tabTrigger>
     <scope>source.go</scope>

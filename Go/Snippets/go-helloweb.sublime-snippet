@@ -14,7 +14,7 @@ func greet(w http.ResponseWriter, r *http.Request) {
 func main() {
     http.HandleFunc("/", greet)
     http.ListenAndServe(":8080", nil)
-}]]></content>
+}$0]]></content>
     <tabTrigger>helloweb</tabTrigger>
     <scope>source.go</scope>
     <description>Example hello webapp</description>
