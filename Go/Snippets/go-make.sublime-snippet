@@ -1,6 +1,0 @@
-<snippet>
-    <content><![CDATA[make(${1:type}, 0)]]></content>
-    <tabTrigger>make</tabTrigger>
-    <scope>source.go</scope>
-    <description>make(type, 0)</description>
-</snippet>
