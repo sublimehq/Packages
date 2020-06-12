@@ -1439,6 +1439,17 @@ coproc
 #^^^^^ meta.function-call.shell keyword.other.coproc.shell
 #     ^ - meta.function - keyword
 
+coproc na\
+me args
+# <- meta.function-call.arguments.shell meta.function.coproc.shell meta.function-call.identifier.shell
+#  ^^^^ meta.function-call.arguments.shell meta.function.coproc.shell meta.function-call.arguments.shell
+#      ^ - meta.function - meta.function-call
+
+coproc name ar\
+gs
+# <- meta.function-call.arguments.shell meta.function.coproc.shell meta.function-call.arguments.shell
+# ^ - meta.function - meta.function-call
+
 coproc sed s/^/foo/
 # <- meta.function-call.shell keyword.other.coproc.shell
 #^^^^^ meta.function-call.shell
@@ -3090,6 +3101,10 @@ function foo
 #^ - meta.function
 
 # <- - meta.function
+
+function func\
+name
+# <- meta.function.identifier.shell entity.name.function.shell
 
 function foo (     ) {
 #^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
