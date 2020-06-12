@@ -383,29 +383,36 @@ done=hello
 
 declare -a array
 array[500]=value
-#    ^ variable.other.readwrite punctuation.section.braces.begin
-#     ^^^ variable.other.readwrite constant.numeric.integer
-#        ^ variable.other.readwrite punctuation.section.braces.end
+#^^^^ meta.variable.shell variable.other.readwrite.shell
+#    ^^^^^ meta.variable.shell meta.item-access.shell - variable
+#    ^ punctuation.section.item-access.begin.shell
+#     ^^^ constant.numeric.integer.decimal.shell
+#        ^ punctuation.section.item-access.end.shell
 #         ^ keyword.operator.assignment
-#          ^^^^^ meta.string string.unquoted
+#          ^^^^^ meta.string.shell string.unquoted.shell
 echo ${array[@]}
-#           ^ meta.function-call.arguments variable.other.readwrite punctuation.section.braces.begin
-#            ^ meta.function-call.arguments variable.other.readwrite variable.language.array
-#             ^ meta.function-call.arguments variable.other.readwrite punctuation.section.braces.end
+#    ^^^^^^^^^^^ meta.interpolation.parameter.shell
+#      ^^^^^ variable.other.readwrite.shell
+#           ^^^ meta.item-access.shell - variable.other
+#           ^ punctuation.section.item-access.begin.shell
+#            ^ variable.language.array.shell
+#             ^ punctuation.section.item-access.end.shell
 
 array["foo"]=bar
-#    ^ variable.other.readwrite punctuation.section.braces.begin
-#     ^ variable.other.readwrite string.quoted.double punctuation.definition.string.begin
-#      ^^^ variable.other.readwrite string.quoted.double
-#         ^ variable.other.readwrite string.quoted.double punctuation.definition.string.end
-#          ^ variable.other.readwrite punctuation.section.braces.end
-#           ^ keyword.operator.assignment
+#^^^^ meta.variable.shell variable.other.readwrite.shell
+#    ^^^^^^^ meta.variable.shell meta.item-access.shell - variable
+#    ^ punctuation.section.item-access.begin.shell
+#     ^^^^^ string.quoted.double.shell
+#          ^ punctuation.section.item-access.end.shell
+#           ^ keyword.operator.assignment.shell
+#            ^^^ meta.string.shell string.unquoted.shell
 array[foo]=bar
-#    ^ variable.other.readwrite punctuation.section.braces.begin
-#     ^^^ variable.other.readwrite
-#        ^ variable.other.readwrite punctuation.section.braces.end
-#         ^ keyword.operator.assignment
-#          ^^^ meta.string string.unquoted
+#^^^^ meta.variable.shell variable.other.readwrite.shell
+#    ^^^^^ meta.variable.shell meta.item-access.shell - variable
+#    ^ punctuation.section.item-access.begin.shell
+#        ^ punctuation.section.item-access.end.shell
+#         ^ keyword.operator.assignment.shell
+#          ^^^ meta.string.shell string.unquoted.shell
 array=($one "two" ${three} 'four' $5)
 # <- variable.other.readwrite
 #    ^ keyword.operator.assignment
@@ -451,15 +458,18 @@ array=()  # an empty array
 #      ^ punctuation.section.parens.end
 
 foo[${j}+10]="`foo`"
-#  ^ variable.other.readwrite punctuation
-#   ^ variable.other.readwrite punctuation
-#    ^ variable.other.readwrite punctuation
-#     ^ variable.other.readwrite variable.other.readwrite
-#      ^ variable.other.readwrite punctuation
-#       ^ variable.other.readwrite keyword.operator.arithmetic
-#        ^^ variable.other.readwrite constant.numeric.integer
-#          ^ variable.other.readwrite punctuation.section.braces.end
-#           ^ keyword.operator
+#<- meta.variable.shell variable.other.readwrite.shell
+#^^ meta.variable.shell - meta.item-access
+#  ^^^^^^^^^ meta.variable.shell meta.item-access.shell
+#^^ variable.other.readwrite.shell
+#  ^ punctuation.section.item-access.begin.shell
+#   ^^ punctuation.section.interpolation.begin.shell
+#     ^ variable.other.readwrite.shell
+#      ^ punctuation.section.interpolation.end.shell
+#       ^ keyword.operator.arithmetic.shell
+#        ^^ constant.numeric.integer.decimal.shell
+#          ^ punctuation.section.item-access.end.shell
+#           ^ keyword.operator.assignment.shell
 
 
 ####################################################################

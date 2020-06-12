@@ -871,10 +871,12 @@ contexts:
 
   array:
     - match: \[
-      scope: punctuation.section.braces.begin.shell
+      scope: punctuation.section.item-access.begin.shell
       push:
+        - clear_scopes: 1
+        - meta_scope: meta.item-access.shell
         - match: \]
-          scope: punctuation.section.braces.end.shell
+          scope: punctuation.section.item-access.end.shell
           pop: true
         - match: '[*@]'
           scope: variable.language.array.shell
