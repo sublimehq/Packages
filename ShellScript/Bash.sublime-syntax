@@ -61,8 +61,10 @@ variables:
 
 contexts:
   main:
-    - meta_include_prototype: false
     - include: prototype
+    - include: statements
+
+  statements:
     - include: comment
     - include: funcdef
     - include: coproc
@@ -72,9 +74,9 @@ contexts:
     - match: (?=\S)
       push: cmd
 
-  main-with-eol-pop:
+  statement:
     - include: eol-pop
-    - include: main
+    - include: statements
 
 ###[ PROTOTYPES ]##############################################################
 
@@ -166,7 +168,7 @@ contexts:
       set:
         - meta_include_prototype: false
         - meta_scope: meta.function.coproc.shell
-        - include: main-with-eol-pop
+        - include: statement
 
 ###[ FUNCTIONS ]###############################################################
 
@@ -228,7 +230,7 @@ contexts:
         - match: \}
           scope: punctuation.section.block.end.shell
           pop: true
-        - include: main
+        - include: statements
 
   group:
     - match: \(
@@ -239,7 +241,7 @@ contexts:
         - match: \)
           scope: punctuation.section.group.end.shell
           pop: true
-        - include: main
+        - include: statements
 
 ###[ VARDEFS ]#################################################################
 
@@ -419,7 +421,7 @@ contexts:
         - match: \)
           scope: punctuation.definition.compound.end.shell
           set: [cmd-post, cmd-args]
-        - include: main
+        - include: statements
 
   cmd-compound-braces:
     - match: \{(?=\s)
@@ -429,7 +431,7 @@ contexts:
         - match: \}
           scope: punctuation.definition.compound.braces.end.shell
           set: [cmd-post, cmd-args]
-        - include: main
+        - include: statements
 
   cmd-test-brackets:
     - match: \[(?=\s)
@@ -646,7 +648,7 @@ contexts:
         punctuation.terminator.case.clause.shell
       pop: true
     - include: case-end-ahead
-    - include: main
+    - include: statements
 
   case-end-ahead:
     - match: (?=\besac{{keyword_break}})
@@ -679,7 +681,7 @@ contexts:
         - match: \)
           scope: punctuation.section.parens.end.shell
           pop: true
-        - include: main
+        - include: statements
 
   redirection-output:
     - match: (\d*)(>>!?|>&?|&>|&?>(?:\||>))
@@ -858,7 +860,7 @@ contexts:
         - clear_scopes: 1
         - include: eol-pop
         - match: \s*(?=\S)
-          set: [main-with-eol-pop, cmd-post, cmd-args]
+          set: [statement, cmd-post, cmd-args]
 
 ###[ EXPRESSIONS ]#############################################################
 
@@ -1116,7 +1118,7 @@ contexts:
           captures:
             1: punctuation.section.parens.end.shell
           pop: true
-        - include: main
+        - include: statements
     - match: (?=\`)
       push:
         # NOTE: we push into the context to work around core issue #3002
@@ -1124,7 +1126,7 @@ contexts:
           scope:
             meta.group.expansion.command.backticks.shell
             punctuation.section.group.begin.shell
-          embed: main
+          embed: statements
           embed_scope: meta.group.expansion.command.backticks.shell
           escape: (?<![^\\]\\)(?<![\\]{3})\`
           escape_captures:
