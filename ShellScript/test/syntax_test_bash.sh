@@ -511,21 +511,25 @@ declare             # comment
 #      ^ - meta.function-call
 #                   ^^^^^^^^^^ comment.line.number-sign.shell
 declare foo         # 'foo' is a variable name
-#^^^^^^^^^^ meta.function-call.shell
-#           ^ - meta.function-call
+#^^^^^^ meta.function-call.shell
+#      ^^^^ meta.function-call.arguments.shell
+#          ^ - meta.function-call
 # <- storage.modifier
 #          ^ - variable.other.readwrite
 #                  ^ - meta.function-call
 declare -A          # this is a comment
-#^^^^^^^^^ meta.function-call.shell
+#^^^^^^ meta.function-call.shell
+#      ^^^ meta.function-call.arguments.shell
 #         ^ - meta.function-call
 #                   ^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 declare -A foo bar  # 'foo' and 'bar' are variable names
-#^^^^^^^^^^^^^^^^^ meta.function-call.shell
+#^^^^^^ meta.function-call.shell
+#      ^^^^^^^^^^^ meta.function-call.arguments.shell
 #                 ^ - meta.function-call
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 declare ret; bar=foo # comment
-#^^^^^^^^^^ meta.function-call.shell
+#^^^^^^ meta.function-call.shell
+#      ^^^^ meta.function-call.arguments.shell
 #          ^ - meta.function-call
 # <- storage.modifier
 #          ^ keyword.operator.logical.continue.shell
@@ -534,20 +538,36 @@ declare ret; bar=foo # comment
 #                   ^ - meta.string - string - comment
 #                    ^^^^^^^^^^ comment.line.number-sign.shell
 declare ret ;
-#^^^^^^^^^^ meta.function-call.shell
+#^^^^^^ meta.function-call.shell
+#      ^^^^ meta.function-call.arguments.shell
 #          ^ - meta.function-call
 # <- storage.modifier
 #           ^ keyword.operator
 declare ret&
-#^^^^^^^^^^ meta.function-call.shell
+#^^^^^^ meta.function-call.shell
+#      ^^^^ meta.function-call.arguments.shell
 #          ^ - meta.function-call
 # <- storage.modifier
 #          ^ keyword.operator
 declare ret &
-#^^^^^^^^^^ meta.function-call.shell
+#^^^^^^ meta.function-call.shell
+#      ^^^^ meta.function-call.arguments.shell
 #          ^ - meta.function-call
 # <- storage.modifier
 #           ^ keyword.operator
+declare bar=\
+foo # comment
+# <- meta.function-call.arguments.shell meta.string.shell string.unquoted.shell
+#^^ meta.function-call.arguments.shell meta.string.shell string.unquoted.shell
+#  ^ - meta.function
+#   ^^^^^^^^^^ comment.line.number-sign.shell
+declare bar=\
+(foo) # comment
+#^^^^ meta.function-call.arguments.shell
+#    ^ - meta.function
+# <- punctuation.section.parens.begin.shell
+#   ^ punctuation.section.parens.end.shell
+#     ^^^^^^^^^^ comment.line.number-sign.shell
 printFunction "$variableString1" "$(declare -p variableArray)"
 #             ^ meta.string string.quoted.double punctuation.definition.string.begin
 #              ^^^^^^^^^^^^^^^^ meta.string meta.interpolation meta.group.expansion.parameter - string
@@ -634,7 +654,8 @@ local-
 
 readonly foo        # 'foo' is a variable name
 # <- meta.function-call.shell storage.modifier.shell
-#^^^^^^^^^^^ meta.function-call.shell
+#^^^^^^^ meta.function-call.shell
+#       ^^^^ meta.function-call.arguments.shell
 #           ^ - meta.function-call
 #^^^^^^^ storage.modifier.shell
 #       ^ - storage - variable
@@ -642,7 +663,8 @@ readonly foo        # 'foo' is a variable name
 #           ^ - variable.other.readwrite
 typeset foo         # 'foo' is a variable name
 # <- meta.function-call.shell storage.modifier.shell
-#^^^^^^^^^^ meta.function-call.shell
+#^^^^^^ meta.function-call.shell
+#      ^^^^ meta.function-call.arguments.shell
 #          ^ - meta.function-call
 #^^^^^^ storage.modifier.shell
 #      ^ - storage - variable
