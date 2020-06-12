@@ -85,22 +85,14 @@ contexts:
     - include: any-escape
 
   any-escape:
-    - meta_include_prototype: false
     - match: \\.
       scope: constant.character.escape.shell
 
-  line-continuation-or-eol-pop:
-    - meta_include_prototype: false
-    - include: eol-pop
-    - include: line-continuation
-
   eol-pop:
-    - meta_include_prototype: false
     - match: $|(?=\s+#)
       pop: true
 
   line-continuation:
-    - meta_include_prototype: false
     - match: \\\n
       scope: punctuation.separator.continuation.line.shell
       push:
@@ -111,12 +103,10 @@ contexts:
         1: invalid.illegal.extraneous-spaces-after-line-continuation.shell
 
   immediately-pop:
-    - meta_include_prototype: false
     - match: ''
       pop: true
 
   else-pop:
-    - meta_include_prototype: false
     - match: (?=\S)
       pop: true
 
@@ -153,12 +143,10 @@ contexts:
       push: [cmd-post, cmd-args, coproc-body]
 
   coproc-meta:
-    - meta_include_prototype: false
     - meta_content_scope: meta.function.coproc.shell
     - include: immediately-pop
 
   coproc-body:
-    - meta_include_prototype: false
     - match: \s*(\S+)\s*(?=\{)
       captures:
         0: meta.function.coproc.identifier.shell
@@ -166,7 +154,6 @@ contexts:
       set: [coproc-meta, block]
     - match: ''
       set:
-        - meta_include_prototype: false
         - meta_scope: meta.function.coproc.shell
         - include: statement
 
@@ -183,21 +170,18 @@ contexts:
       push: [funcdef-body, funcdef-parens, funcdef-name]
 
   funcdef-meta:
-    - meta_include_prototype: false
     - meta_scope: meta.function.shell
     - include: immediately-pop
 
   funcdef-name:
     - match: (?=\S)
       set:
-        - meta_include_prototype: false
         - meta_content_scope: entity.name.function.shell
         - match: \s*(?=[({])
           pop: true
         - include: eol-pop
 
   funcdef-parens:
-    - meta_include_prototype: false
     - meta_content_scope: meta.function.identifier.shell
     - match: (\()\s*(\))
       scope:
@@ -215,7 +199,6 @@ contexts:
       set: [funcdef-meta, funcdef-body-content]
 
   funcdef-body-content:
-    - meta_include_prototype: false
     - include: block
     - include: group
     - include: comment
@@ -225,7 +208,6 @@ contexts:
     - match: \{
       scope: punctuation.section.block.begin.shell
       set:
-        - meta_include_prototype: false
         - meta_scope: meta.block.shell
         - match: \}
           scope: punctuation.section.block.end.shell
@@ -236,7 +218,6 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.shell
       set:
-        - meta_include_prototype: false
         - meta_scope: meta.group.shell
         - match: \)
           scope: punctuation.section.group.end.shell
@@ -297,7 +278,6 @@ contexts:
         - vardef-name
 
   vardef-meta:
-    - meta_include_prototype: false
     - meta_content_scope: meta.function-call.arguments.shell
     - include: immediately-pop
 
@@ -318,7 +298,6 @@ contexts:
     - include: eol-pop
 
   vardef-maybe-more:
-    - meta_include_prototype: false
     - include: cmd-args-boilerplate-with-end-of-options
     - match: (?=\S)
       push: [vardef-value, vardef-assign, vardef-name]
@@ -334,11 +313,9 @@ contexts:
   vardef-alias-name:
     - match: (?=\S)
       set:
-        - meta_include_prototype: false
         - meta_content_scope: entity.name.function.alias.shell
         - match: (?=\s|{{varassign}})
           pop: true
-        - include: any-escape
         - include: array
         - include: string
     - include: eol-pop
@@ -354,24 +331,20 @@ contexts:
   vardef-name:
     - match: (?=\S)
       set:
-        - meta_include_prototype: false
         - meta_content_scope: variable.other.readwrite.assignment.shell
         - match: (?={{varassign}}|{{metachar}})
           pop: true
-        - include: any-escape
         - include: array
         - include: string
     - include: eol-pop
 
   vardef-assign:
-    - meta_include_prototype: false
     - match: '{{varassign}}'
       scope: keyword.operator.assignment.shell
       pop: true
     - include: immediately-pop
 
   vardef-value:
-    - meta_include_prototype: false
     - match: \(
       scope: punctuation.section.parens.begin.shell
       set:
