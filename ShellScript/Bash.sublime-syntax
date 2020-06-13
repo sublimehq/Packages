@@ -886,6 +886,59 @@ contexts:
         - include: expression
 
   expression:
+    - match: '[*/%+\-&^|]?=|<<=|>>='
+      scope: keyword.operator.assignment.shell
+    - match: \+\+?|\-\-?|\*\*?|%|/
+      scope: keyword.operator.arithmetic.shell
+    - match: <[=<]?|>[=>]?|[=!]=|&&|\:|\|\||!
+      scope: keyword.operator.logical.shell
+    - match: '[&|^~]'
+      scope: keyword.operator.bitwise.shell
+    - match: '[,;]'
+      scope: punctuation.separator.shell
+    - match: \?
+      scope: keyword.operator.ternary.shell
+    - match: \(
+      scope: punctuation.section.parens.begin.shell
+      push:
+        - meta_scope: meta.group.parens.shell
+        - match: \)
+          scope: punctuation.section.parens.end.shell
+          pop: true
+        - include: expression
+    - include: numbers
+    # Shell variables are allowed as operands; parameter expansion is performed
+    # before the expression is evaluated. Within an expression, shell variables
+    # may also be referenced by name without using the parameter expansion
+    # syntax.
+    - include: string
+    - include: expansion-parameter
+    - include: expansion-arithmetic
+    - include: expansion-command
+
+  expression-test:
+    - include: numbers
+    - include: expansion-and-string
+    - match: (-)[aobcdefghknoprstuvwxzGLNORS](?=\s)
+      scope: variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+    - match: (-)(?:ef|nt|ot|eq|ne|lt|le|gt|ge)(?=\s)
+      scope: variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+    - match: (=~)\s*
+      captures:
+        1: keyword.operator.logical.shell
+      push:
+        - meta_content_scope: meta.regexp.shell
+        - match: (?=\s)
+          pop: true
+        - include: expansion-and-string
+    - match: ==?|!=?|<|>|\|\||&&
+      scope: keyword.operator.logical.shell
+
+  numbers:
     # A leading ‘0x’ or ‘0X’ denotes hexadecimal.
     - match: \b0[xX]
       scope: punctuation.definition.numeric.base.shell
@@ -918,55 +971,6 @@ contexts:
     # If base# is omitted, then base 10 is used.
     - match: \b\d+
       scope: constant.numeric.integer.decimal.shell
-    - match: '[*/%+\-&^|]?=|<<=|>>='
-      scope: keyword.operator.assignment.shell
-    - match: \+\+?|\-\-?|\*\*?|%|/
-      scope: keyword.operator.arithmetic.shell
-    - match: <[=<]?|>[=>]?|[=!]=|&&|\:|\|\||!
-      scope: keyword.operator.logical.shell
-    - match: '[&|^~]'
-      scope: keyword.operator.bitwise.shell
-    - match: '[,;]'
-      scope: punctuation.separator.shell
-    - match: \?
-      scope: keyword.operator.ternary.shell
-    - match: \(
-      scope: punctuation.section.parens.begin.shell
-      push:
-        - meta_scope: meta.group.parens.shell
-        - match: \)
-          scope: punctuation.section.parens.end.shell
-          pop: true
-        - include: expression
-    # Shell variables are allowed as operands; parameter expansion is performed
-    # before the expression is evaluated. Within an expression, shell variables
-    # may also be referenced by name without using the parameter expansion
-    # syntax.
-    - include: string
-    - include: expansion-parameter
-    - include: expansion-arithmetic
-    - include: expansion-command
-
-  expression-test:
-    - include: expansion-and-string
-    - match: (-)[aobcdefghknoprstuvwxzGLNORS](?=\s)
-      scope: variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
-    - match: (-)(?:ef|nt|ot|eq|ne|lt|le|gt|ge)(?=\s)
-      scope: variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
-    - match: (=~)\s*
-      captures:
-        1: keyword.operator.logical.shell
-      push:
-        - meta_content_scope: meta.regexp.shell
-        - match: (?=\s)
-          pop: true
-        - include: expansion-and-string
-    - match: ==?|!=?|<|>|\|\||&&
-      scope: keyword.operator.logical.shell
 
   operator-exclamation:
     - match: \!(?!\S)
