@@ -551,6 +551,9 @@ contexts:
     - match: \bfor{{keyword_break}}
       scope: keyword.control.loop.for.shell
       set: for-args
+    - match: \bselect{{keyword_break}}
+      scope: keyword.control.loop.select.shell
+      set: select-args
     - match: \buntil{{keyword_break}}
       scope: keyword.control.loop.until.shell
       pop: true
@@ -649,6 +652,12 @@ contexts:
     - meta_content_scope: meta.group.for.shell
     - include: cmd-args-boilerplate
     - include: arithmetic
+    - match: \bin{{keyword_break}}
+      scope: keyword.control.in.shell
+
+  select-args:
+    - include: cmd-args-boilerplate
+    - include: expansion-and-string
     - match: \bin{{keyword_break}}
       scope: keyword.control.in.shell
 

@@ -1872,9 +1872,27 @@ commits=($(git rev-list --reverse --abbrev-commit "$latest".. -- "$prefix"))
 #               ^^^ variable.other.readwrite
 #                  ^ meta.regexp
 
-################
-# Control flow #
-################
+####################################################################
+# Loop Tests                                                       #
+####################################################################
+
+select fname in *;
+# <- keyword.control.loop.select.shell
+#^^^^^ keyword.control.loop.select.shell
+#            ^^ keyword.control.in.shell
+#               ^ keyword.operator.regexp.quantifier.shell
+#                ^ keyword.operator.logical.continue.shell
+do
+# <- keyword.control.loop.do.shell
+  echo you picked $fname \($REPLY\)
+# ^^^^ meta.function-call.shell support.function.echo.shell
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                                  ^ - meta.function-call
+  break;
+# ^^^^^ keyword.control.flow.break.shell
+#      ^ keyword.operator.logical.continue.shell
+done
+# <- keyword.control.loop.end.shell
 
 while true; do
 # <- keyword.control.loop.while
