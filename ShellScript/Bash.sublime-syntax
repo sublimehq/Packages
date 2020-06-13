@@ -949,14 +949,14 @@ contexts:
 
   expression-test:
     - include: expansion-and-string
-    - match: ((-)[aobcdefghknoprstuvwxzGLNORS])(?=\s)
+    - match: (-)[aobcdefghknoprstuvwxzGLNORS](?=\s)
+      scope: variable.parameter.option.shell
       captures:
-        2: punctuation.definition.parameter.shell
-        1: variable.parameter.option.shell
-    - match: ((-)(?:ef|nt|ot|eq|ne|lt|le|gt|ge))(?=\s)
+        1: punctuation.definition.parameter.shell
+    - match: (-)(?:ef|nt|ot|eq|ne|lt|le|gt|ge)(?=\s)
+      scope: variable.parameter.option.shell
       captures:
-        2: punctuation.definition.parameter.shell
-        1: variable.parameter.option.shell
+        1: punctuation.definition.parameter.shell
     - match: (=~)\s*
       captures:
         1: keyword.operator.logical.shell
