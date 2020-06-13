@@ -519,6 +519,7 @@ contexts:
 ###[ CONTROL STATEMENTS ]######################################################
 
   cmd-control:
+    # conditional
     - match: \bif{{keyword_break}}
       scope: keyword.control.conditional.if.shell
       pop: true
@@ -534,32 +535,32 @@ contexts:
     - match: \belse{{keyword_break}}
       scope: keyword.control.conditional.else.shell
       pop: true
-    - match: \bfor{{keyword_break}}
-      scope: keyword.control.loop.for.shell
-      set: [cmd-post, for-args]
+    - match: \bcase{{keyword_break}}
+      scope: keyword.control.conditional.case.shell
+      set: [case-body, case-word]
+    - include: case-end
+    # loops
     - match: \bdo{{keyword_break}}
       scope: keyword.control.loop.do.shell
       pop: true
     - match: \bdone{{keyword_break}}
       scope: keyword.control.loop.end.shell
       set: [cmd-post, cmd-args]
-    - match: \bwhile{{keyword_break}}
-      scope: keyword.control.loop.while.shell
-      pop: true
+    - match: \bfor{{keyword_break}}
+      scope: keyword.control.loop.for.shell
+      set: [cmd-post, for-args]
     - match: \buntil{{keyword_break}}
       scope: keyword.control.loop.until.shell
       pop: true
-    - match: \bcase{{keyword_break}}
-      scope: keyword.control.conditional.case.shell
-      set: [case-body, case-word]
-    - match: \bcontinue{{keyword_break}}
-      scope: keyword.control.flow.continue.shell
+    - match: \bwhile{{keyword_break}}
+      scope: keyword.control.loop.while.shell
       pop: true
+    # flow
     - match: \bbreak{{keyword_break}}
       scope: keyword.control.flow.break.shell
       set: [cmd-post, cmd-args]
-    - match: \besac{{keyword_break}}
-      scope: keyword.control.conditional.end.shell
+    - match: \bcontinue{{keyword_break}}
+      scope: keyword.control.flow.continue.shell
       pop: true
 
   case-word:
@@ -573,9 +574,7 @@ contexts:
   case-body:
     - meta_scope: meta.conditional.case.shell
     - include: comment
-    - match: \besac{{keyword_break}}
-      scope: keyword.control.conditional.end.shell
-      pop: true
+    - include: case-end
     - match: (?=\S)
       push:
         - case-clause-commands
@@ -633,6 +632,11 @@ contexts:
 
   case-end-ahead:
     - match: (?=\besac{{keyword_break}})
+      pop: true
+
+  case-end:
+    - match: \besac{{keyword_break}}
+      scope: keyword.control.conditional.end.shell
       pop: true
 
   for-args:
