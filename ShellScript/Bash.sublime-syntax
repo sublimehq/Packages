@@ -1016,16 +1016,8 @@ contexts:
         1: punctuation.definition.variable.shell
         2: punctuation.section.expansion.parameter.begin.shell
       push:
-        - meta_content_scope: meta.group.expansion.parameter.shell
-        - meta_include_prototype: false
-        - match: \!
-          scope: keyword.operator.indirection.shell
-          set: expansion-parameter-post-first-character
-        - match: \#
-          scope: keyword.operator.arithmetic.shell
-          set: expansion-parameter-post-first-character
-        - match: ''
-          set: expansion-parameter-post-first-character
+        - expansion-parameter-post-first-char
+        - expansion-parameter-first-char
     - match: (\$)(\d)
       captures:
         0: meta.group.expansion.parameter.shell
@@ -1041,6 +1033,16 @@ contexts:
         0: meta.group.expansion.parameter.shell
         1: punctuation.definition.variable.shell
         2: variable.other.readwrite.shell
+
+  expansion-parameter-first-char:
+    - meta_include_prototype: false
+    - match: \!
+      scope: keyword.operator.indirection.shell
+      pop: true
+    - match: \#
+      scope: keyword.operator.arithmetic.shell
+      pop: true
+    - include: immediately-pop
 
   expansion-pattern:
     - match: ([?*+@!])(\()
@@ -1059,15 +1061,17 @@ contexts:
     - match: \[(?=.*])
       scope: keyword.control.regexp.set.begin.shell
       push:
-        - match: (?=])
-          set: expansion-pattern-post-first-char
-        - match: '[!^]'
-          scope: keyword.operator.logical.not.shell
-          set: expansion-pattern-post-first-char
-        - match: \-
-          set: expansion-pattern-post-first-char
-        - match: ''
-          set: expansion-pattern-post-first-char
+        - expansion-pattern-post-first-char
+        - expansion-pattern-first-char
+
+  expansion-pattern-first-char:
+    - meta_include_prototype: false
+    - match: '[!^]'
+      scope: keyword.operator.logical.not.shell
+      pop: true
+    - match: \-
+      pop: true
+    - include: immediately-pop
 
   expansion-pattern-post-first-char:
     - match: (?:-)?(\])
@@ -1151,7 +1155,7 @@ contexts:
     # no pattern expansion
     - include: any-escape
 
-  expansion-parameter-post-first-character:
+  expansion-parameter-post-first-char:
     - meta_content_scope:
         meta.group.expansion.parameter.shell
         variable.other.readwrite.shell
