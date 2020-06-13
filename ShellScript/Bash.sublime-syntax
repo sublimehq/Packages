@@ -440,9 +440,11 @@ contexts:
   cmd-other:
     - include: scope:commands.builtin.shell.bash#main
     - match: \blet{{keyword_break}}
-      scope: support.function.let.shell
+      scope: 
+        meta.function-call.shell
+        support.function.let.shell
       set:
-        - meta_scope: meta.function-call.shell
+        - meta_content_scope: meta.function-call.arguments.shell
         - include: cmd-args-boilerplate-with-end-of-options
         - include: expression
     - match: (?=\S)

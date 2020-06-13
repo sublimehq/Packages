@@ -1780,7 +1780,9 @@ unset -f -n -v foo
 
 
 let "two=5+5"; if [[ "$X" == "1" ]]; then X="one"; fi
-#^^^^^^^^^^^^ meta.function-call.shell
+#^^ meta.function-call.shell
+#  ^^^^^^^^^^ meta.function-call.arguments.shell
+#            ^ - meta.function-call
 #^^ support.function.let.shell
 #   ^^^^^^^^^ string.quoted.double.shell
 #            ^ keyword.operator.logical.continue.shell
@@ -1796,12 +1798,15 @@ let "two=5+5"; if [[ "$X" == "1" ]]; then X="one"; fi
 
 let 5 \
     + 5
-#^^^^^^ meta.function-call.shell
+#^^^^^^ meta.function-call.arguments.shell
+#      ^ - meta.function-call
 #   ^ keyword.operator.arithmetic.shell
 #     ^ constant.numeric.integer.decimal.shell
 
 let 5+5 # comment
-#^^^^^^ meta.function-call.shell
+#^^ meta.function-call.shell
+#  ^^^^ meta.function-call.arguments.shell
+#      ^ - meta.function-call
 #^^ support.function.let.shell
 #   ^ constant.numeric.integer.decimal.shell
 #    ^ keyword.operator.arithmetic.shell
