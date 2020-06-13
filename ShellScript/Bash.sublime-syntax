@@ -69,8 +69,6 @@ contexts:
     - include: funcdef
     - include: coproc
     - include: vardef
-    - include: redirection
-    - include: operator-exclamation
     - match: (?=\S)
       push: cmd
 
@@ -387,6 +385,8 @@ contexts:
       pop: true
     - include: eol-pop
     - include: arithmetic
+    - include: redirection
+    - include: operator-exclamation
     - include: cmd-compound-parens
     - include: cmd-compound-braces
     - include: cmd-test-double-brackets
