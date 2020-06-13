@@ -531,7 +531,7 @@ contexts:
       pop: true
     - match: \bfi{{keyword_break}}
       scope: keyword.control.conditional.end.shell
-      set: [cmd-post, cmd-args]
+      pop: true
     - match: \belse{{keyword_break}}
       scope: keyword.control.conditional.else.shell
       pop: true
@@ -545,10 +545,10 @@ contexts:
       pop: true
     - match: \bdone{{keyword_break}}
       scope: keyword.control.loop.end.shell
-      set: [cmd-post, cmd-args]
+      pop: true
     - match: \bfor{{keyword_break}}
       scope: keyword.control.loop.for.shell
-      set: [cmd-post, for-args]
+      set: for-args
     - match: \buntil{{keyword_break}}
       scope: keyword.control.loop.until.shell
       pop: true
@@ -558,10 +558,10 @@ contexts:
     # flow
     - match: \bbreak{{keyword_break}}
       scope: keyword.control.flow.break.shell
-      set: [cmd-post, cmd-args]
+      set: flow-args
     - match: \bcontinue{{keyword_break}}
       scope: keyword.control.flow.continue.shell
-      pop: true
+      set: flow-args
 
   case-word:
     - match: \bin{{keyword_break}}
@@ -638,6 +638,10 @@ contexts:
     - match: \besac{{keyword_break}}
       scope: keyword.control.conditional.end.shell
       pop: true
+
+  flow-args:
+    - include: cmd-args-boilerplate-with-end-of-options
+    - include: expression
 
   for-args:
     - meta_content_scope: meta.group.for.shell

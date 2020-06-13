@@ -1877,11 +1877,17 @@ while true; do
 #         ^ keyword.operator
 #            ^ keyword.control
     break
-    # <- keyword.control.flow.break.shell
-
+#   ^^^^^ keyword.control.flow.break.shell
+    break 2;
+#   ^^^^^ keyword.control.flow.break.shell
+#         ^ constant.numeric.integer.decimal.shell
+#          ^ keyword.operator.logical.continue.shell
     continue
-    # <- keyword.control.flow.continue.shell
-
+#   ^^^^^^^^ keyword.control.flow.continue.shell
+    continue 2;
+#   ^^^^^^^^ keyword.control.flow.continue.shell
+#            ^ constant.numeric.integer.decimal.shell
+#             ^ keyword.operator.logical.continue.shell
 done
 # <- keyword.control.loop.end
 
