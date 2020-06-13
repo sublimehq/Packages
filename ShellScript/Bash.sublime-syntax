@@ -993,9 +993,17 @@ contexts:
     - include: expansion-tilde
     - include: expansion-job
 
-  expansion-tilde:
-    - match: '~'
-      scope: meta.group.expansion.tilde variable.language.tilde.shell
+  expansion-arithmetic:
+    - match: (\$)(\(\()(?=.+\)\))
+      captures:
+        1: punctuation.definition.variable.shell
+        2: punctuation.section.parens.begin.shell
+      push:
+        - meta_scope: meta.group.expansion.arithmetic.shell
+        - match: \)\)
+          scope: punctuation.section.parens.end.shell
+          pop: true
+        - include: expression
 
   expansion-brace:
     - match: \{
@@ -1008,6 +1016,69 @@ contexts:
         - match: \,
           scope: punctuation.separator.shell
         - include: expansion-and-string
+
+  expansion-command:
+    - match: (\$)(\()
+      captures:
+        1: punctuation.definition.variable.shell
+        2: punctuation.section.parens.begin.shell
+      push:
+        - meta_scope: meta.group.expansion.command.parens.shell
+        - match: \s*(\))
+          captures:
+            1: punctuation.section.parens.end.shell
+          pop: true
+        - include: statements
+    - match: (?=\`)
+      push:
+        # NOTE: we push into the context to work around core issue #3002
+        - match: \`
+          scope:
+            meta.group.expansion.command.backticks.shell
+            punctuation.section.group.begin.shell
+          embed: statements
+          embed_scope: meta.group.expansion.command.backticks.shell
+          escape: (?<![^\\]\\)(?<![\\]{3})\`
+          escape_captures:
+            0:
+              meta.group.expansion.command.backticks.shell
+              punctuation.section.group.end.shell
+        - include: immediately-pop
+
+  expansion-job:
+    # There are a number of ways to refer to a job in the shell.
+    # The symbols ‘%%’ and ‘%+’ refer to the shell’s notion of the current job,
+    # which is the last job stopped while it was in the foreground or started in
+    # the background. The previous job may be referenced using ‘%-’.
+    - match: (%)([%+-])
+      captures:
+        0: meta.group.expansion.job.shell
+        1: punctuation.definition.variable.job.shell
+        2: variable.language.job.shell
+    # The character ‘%’ introduces a job specification (jobspec). Job number n
+    # may be referred to as ‘%n’.
+    - match: (%)(\d+)
+      captures:
+        0: meta.group.expansion.job.shell
+        1: punctuation.definition.variable.job.shell
+        2: constant.numeric.integer.decimal.job.shell
+    # A job may also be referred to using a prefix of the name used to start it,
+    # or using a substring that appears in its command line. For example, ‘%ce’
+    # refers to a stopped ce job. Using ‘%?ce’, on the other hand, refers to any
+    # job containing the string ‘ce’ in its command line. If the prefix or
+    # substring matches more than one job, Bash reports an error.
+    - match: (%)(\??)(\w+)
+      captures:
+        0: meta.group.expansion.job.shell
+        1: punctuation.definition.variable.job.shell
+        2: keyword.operator.regexp.quantifier.shell
+        3: variable.other.readwrite.shell
+    # A single ‘%’ (with no accompanying job specification) also refers to the
+    # current job.
+    - match: '%'
+      scope:
+        meta.group.expansion.job.shell
+        punctuation.definition.variable.job.shell
 
   expansion-parameter:
     - match: (\$)(\{)
@@ -1043,101 +1114,6 @@ contexts:
       scope: keyword.operator.arithmetic.shell
       pop: true
     - include: immediately-pop
-
-  expansion-pattern:
-    - match: ([?*+@!])(\()
-      captures:
-        1: keyword.operator.regexp.quantifier.shell
-        2: punctuation.section.parens.begin.shell
-      push:
-        - match: \)
-          scope: punctuation.section.parens.end.shell
-          pop: true
-        - match: \|
-          scope: keyword.operator.logical.or.shell
-        - include: expansion-and-string
-    - match: '[*?]'
-      scope: keyword.operator.regexp.quantifier.shell
-    - match: \[(?=.*])
-      scope: keyword.control.regexp.set.begin.shell
-      push:
-        - expansion-pattern-post-first-char
-        - expansion-pattern-first-char
-
-  expansion-pattern-first-char:
-    - meta_include_prototype: false
-    - match: '[!^]'
-      scope: keyword.operator.logical.not.shell
-      pop: true
-    - match: \-
-      pop: true
-    - include: immediately-pop
-
-  expansion-pattern-post-first-char:
-    - match: (?:-)?(\])
-      captures:
-        1: keyword.control.regexp.set.end.shell
-      pop: true
-    - match: \-
-      scope: keyword.operator.word.shell
-    - match: (\.)[[:word:]](\.)
-      captures:
-        1: punctuation.separator.collate.begin.shell
-        2: punctuation.separator.collate.end.shell
-    - match: (=)[[:word:]](=)
-      captures:
-        1: punctuation.separator.equivalence-class.begin.shell
-        2: punctuation.separator.equivalence-class.end.shell
-    - match: (:)[[:lower:]]+(:)
-      captures:
-        1: punctuation.separator.character-class.begin.shell
-        2: punctuation.separator.character-class.end.shell
-    # You cannot have a regex set inside a regex set, so just consume this
-    # character in order to not push into another regex set.
-    # Except when writing a character class like [:lower:], so negative look
-    # ahead for that possibility.
-    - match: \[(?![\.=:])
-    - include: expansion-and-string
-
-  expansion-arithmetic:
-    - match: (\$)(\(\()(?=.+\)\))
-      captures:
-        1: punctuation.definition.variable.shell
-        2: punctuation.section.parens.begin.shell
-      push:
-        - meta_scope: meta.group.expansion.arithmetic.shell
-        - match: \)\)
-          scope: punctuation.section.parens.end.shell
-          pop: true
-        - include: expression
-
-  expansion-command:
-    - match: (\$)(\()
-      captures:
-        1: punctuation.definition.variable.shell
-        2: punctuation.section.parens.begin.shell
-      push:
-        - meta_scope: meta.group.expansion.command.parens.shell
-        - match: \s*(\))
-          captures:
-            1: punctuation.section.parens.end.shell
-          pop: true
-        - include: statements
-    - match: (?=\`)
-      push:
-        # NOTE: we push into the context to work around core issue #3002
-        - match: \`
-          scope:
-            meta.group.expansion.command.backticks.shell
-            punctuation.section.group.begin.shell
-          embed: statements
-          embed_scope: meta.group.expansion.command.backticks.shell
-          escape: (?<![^\\]\\)(?<![\\]{3})\`
-          escape_captures:
-            0:
-              meta.group.expansion.command.backticks.shell
-              punctuation.section.group.end.shell
-        - include: immediately-pop
 
   expansion-parameter-common:
     - meta_content_scope: meta.group.expansion.parameter.shell
@@ -1228,40 +1204,64 @@ contexts:
     - include: expansion-parameter-common
     - include: expansion-pattern
 
-  expansion-job:
-    # There are a number of ways to refer to a job in the shell.
-    # The symbols ‘%%’ and ‘%+’ refer to the shell’s notion of the current job,
-    # which is the last job stopped while it was in the foreground or started in
-    # the background. The previous job may be referenced using ‘%-’.
-    - match: (%)([%+-])
+  expansion-pattern:
+    - match: ([?*+@!])(\()
       captures:
-        0: meta.group.expansion.job.shell
-        1: punctuation.definition.variable.job.shell
-        2: variable.language.job.shell
-    # The character ‘%’ introduces a job specification (jobspec). Job number n
-    # may be referred to as ‘%n’.
-    - match: (%)(\d+)
+        1: keyword.operator.regexp.quantifier.shell
+        2: punctuation.section.parens.begin.shell
+      push:
+        - match: \)
+          scope: punctuation.section.parens.end.shell
+          pop: true
+        - match: \|
+          scope: keyword.operator.logical.or.shell
+        - include: expansion-and-string
+    - match: '[*?]'
+      scope: keyword.operator.regexp.quantifier.shell
+    - match: \[(?=.*])
+      scope: keyword.control.regexp.set.begin.shell
+      push:
+        - expansion-pattern-post-first-char
+        - expansion-pattern-first-char
+
+  expansion-pattern-first-char:
+    - meta_include_prototype: false
+    - match: '[!^]'
+      scope: keyword.operator.logical.not.shell
+      pop: true
+    - match: \-
+      pop: true
+    - include: immediately-pop
+
+  expansion-pattern-post-first-char:
+    - match: (?:-)?(\])
       captures:
-        0: meta.group.expansion.job.shell
-        1: punctuation.definition.variable.job.shell
-        2: constant.numeric.integer.decimal.job.shell
-    # A job may also be referred to using a prefix of the name used to start it,
-    # or using a substring that appears in its command line. For example, ‘%ce’
-    # refers to a stopped ce job. Using ‘%?ce’, on the other hand, refers to any
-    # job containing the string ‘ce’ in its command line. If the prefix or
-    # substring matches more than one job, Bash reports an error.
-    - match: (%)(\??)(\w+)
+        1: keyword.control.regexp.set.end.shell
+      pop: true
+    - match: \-
+      scope: keyword.operator.word.shell
+    - match: (\.)[[:word:]](\.)
       captures:
-        0: meta.group.expansion.job.shell
-        1: punctuation.definition.variable.job.shell
-        2: keyword.operator.regexp.quantifier.shell
-        3: variable.other.readwrite.shell
-    # A single ‘%’ (with no accompanying job specification) also refers to the
-    # current job.
-    - match: '%'
-      scope:
-        meta.group.expansion.job.shell
-        punctuation.definition.variable.job.shell
+        1: punctuation.separator.collate.begin.shell
+        2: punctuation.separator.collate.end.shell
+    - match: (=)[[:word:]](=)
+      captures:
+        1: punctuation.separator.equivalence-class.begin.shell
+        2: punctuation.separator.equivalence-class.end.shell
+    - match: (:)[[:lower:]]+(:)
+      captures:
+        1: punctuation.separator.character-class.begin.shell
+        2: punctuation.separator.character-class.end.shell
+    # You cannot have a regex set inside a regex set, so just consume this
+    # character in order to not push into another regex set.
+    # Except when writing a character class like [:lower:], so negative look
+    # ahead for that possibility.
+    - match: \[(?![\.=:])
+    - include: expansion-and-string
+
+  expansion-tilde:
+    - match: '~'
+      scope: meta.group.expansion.tilde variable.language.tilde.shell
 
 ###[ STRINGS ]#################################################################
 
