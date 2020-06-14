@@ -819,9 +819,7 @@ contexts:
     # characters ‘\’, ‘$’, and ‘`’.
     - match: \\[`$"\\]
       scope: constant.character.escape.backtick.shell
-    - include: expansion-parameter
-    - include: expansion-arithmetic
-    - include: expansion-command
+    - include: string-interpolation
 
   heredocs-body-no-expansion:
     - meta_include_prototype: false

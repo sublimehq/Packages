@@ -2648,15 +2648,17 @@ cat <<FOOSTRING ; echo more stuff here
 #                 ^ meta.function-call support.function
 #                     ^ meta.function-call.arguments
 Hello, ${"v"'a'r}
-# <- meta.function-call.arguments string.unquoted.heredoc
+# <- meta.function-call.arguments.shell meta.string.shell string.unquoted.heredoc.shell
+#^^^^^^ meta.function-call.arguments.shell meta.string.shell string.unquoted.heredoc.shell
+#      ^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell meta.interpolation.parameter.shell
 #      ^^ punctuation.section.interpolation.begin.shell
-#        ^ string.quoted.double punctuation.definition.string.begin
-#         ^ string.quoted.double
-#          ^ string.quoted.double punctuation.definition.string.end
-#           ^ string.quoted.single punctuation.definition.string.begin
-#            ^ string.quoted.single
-#             ^ string.quoted.single punctuation.definition.string.end
-#               ^ punctuation
+#        ^^^ string.quoted.double - string string
+#        ^ punctuation.definition.string.begin
+#          ^ punctuation.definition.string.end
+#           ^^^ string.quoted.single - string string
+#           ^ punctuation.definition.string.begin
+#             ^ punctuation.definition.string.end
+#               ^ punctuation.section.interpolation.end.shell
 FOOSTRING
 # <- meta.function-call.arguments string.unquoted.heredoc keyword.control.heredoc-token
 cat << 'WHAT' ; echo more stuff here
@@ -2670,11 +2672,8 @@ cat << 'WHAT' ; echo more stuff here
 #               ^ meta.function-call support.function
 #                   ^ meta.function-call.arguments
 Hello, ${var}
-# <- meta.function-call.arguments string.unquoted.heredoc
-#      ^ - variable.other.readwrite - punctuation.definition.variable
-#       ^  - variable.other.readwrite - punctuation.section.brackets.begin
-#        ^^^ - variable.other.readwrite
-#           ^  - variable.other.readwrite - punctuation.section.brackets.end
+# <- meta.function-call.arguments.shell meta.string.shell string.unquoted.heredoc.shell
+#^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell string.unquoted.heredoc.shell - meta.interpolation
 WHAT
 # <- meta.function-call.arguments string.unquoted.heredoc keyword.control.heredoc-token
 
@@ -2712,8 +2711,9 @@ foo=\`pwd\`
 #   ^^ meta.function-call.arguments string.unquoted.heredoc constant.character.escape.backtick
 #        ^^ meta.function-call.arguments string.unquoted.heredoc constant.character.escape.backtick
 foo=`pwd`
-#   ^ meta.function-call.arguments string.unquoted.heredoc punctuation.section.interpolation.begin.shell
-#       ^ meta.function-call.arguments string.unquoted.heredoc punctuation.section.interpolation.end.shell
+#   ^^^^^ meta.function-call.arguments.shell meta.string.shell meta.interpolation.command.shell - string
+#   ^ punctuation.section.interpolation.begin.shell
+#       ^ punctuation.section.interpolation.end.shell
 backticks_are_deprecated
 # <- meta.function-call.arguments string.unquoted.heredoc keyword.control.heredoc-token
 
@@ -2738,7 +2738,8 @@ FARAWAY
 cat <<- INDENTED
   #            ^ keyword.control.heredoc-token
   say what now ${foo}
-  #              ^ variable.other.readwrite
+  #^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell string.unquoted.heredoc.shell - meta.interpolation
+  #            ^^^^^^ meta.function-call.arguments.shell meta.string.shell meta.interpolation.parameter.shell - string
   INDENTED
   # <- keyword.control.heredoc-token
 
