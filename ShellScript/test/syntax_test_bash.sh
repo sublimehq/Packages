@@ -4,9 +4,10 @@
 #                                                      ^ comment.line
 #                                                       ^ comment.line
 
-##############
-# The basics #
-##############
+
+####################################################################
+# The basics                                                       #
+####################################################################
 
 echo hello, world!
 # <- meta.function-call support.function - meta.function-call.arguments
@@ -227,9 +228,11 @@ python foo.py --option=value --other-option
 git log --format="%h git has this pattern, too"
 #               ^ keyword.operator.assignment.option
 
-########################
-# Variable assignments #
-########################
+
+####################################################################
+# Variable assignments                                             #
+####################################################################
+
 x= # some comment
 # ^ - string.unquoted
 #  ^^^^^^^^^^^^^^^ comment.line.number-sign.shell
@@ -458,9 +461,10 @@ foo[${j}+10]="`foo`"
 #          ^ variable.other.readwrite punctuation.section.braces.end
 #           ^ keyword.operator
 
-#############
-# Variables #
-#############
+
+####################################################################
+# Variables                                                        #
+####################################################################
 
 : $__
 # ^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
@@ -1001,9 +1005,10 @@ ${foo:=bar}
 #            ^ keyword
 #              ^ - keyword
 
-#################################
-# Braces in parameter expansion #
-#################################
+
+####################################################################
+# Braces in parameter expansion                                    #
+####################################################################
 
 : ${foo//foo\}foo\/foo/foo}
 # ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
@@ -1110,6 +1115,7 @@ ${var%%%Pattern}
 #          ^ meta.interpolation - comment-line
 #           ^ punctuation.section.interpolation.end.shell
 #             ^ comment.line punctuation
+
 
 ####################################################################
 # Parameter-expansion operators                                    #
@@ -1545,9 +1551,11 @@ coproc foobar {
 # <- meta.function-call.arguments.shell meta.function.coproc.shell meta.block.shell punctuation.section.block.end.shell
 #^ - meta
 
-###################
-# Misc. operators #
-###################
+
+####################################################################
+# Misc operators                                                   #
+####################################################################
+
 (( 0123456708 ))
 #  ^ constant.numeric.integer.octal punctuation.definition.numeric.base
 #  ^^^^^^^^^ constant.numeric.integer.octal
@@ -2551,9 +2559,11 @@ else remotefilter="grep"
 fi
 # <- keyword.control.conditional.end
 
-################################
-# And, or, pipes, redirections #
-################################
+
+####################################################################
+# And, or, pipes, redirections                                     #
+####################################################################
+
 function show_help() {
     echo "Usage: imgcat [-p] filename ..." 1>& 2
     #                                          ^ constant.numeric.integer.decimal.file-descriptor
@@ -2658,9 +2668,11 @@ exec >&${tee[1]} 2>&1
 #    ^^ keyword.operator.assignment.redirection
 #      ^ meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
 
-##################
-# Here documents #
-##################
+
+####################################################################
+# Here documents                                                   #
+####################################################################
+
 var=world!
 cat <<FOOSTRING ; echo more stuff here
 #   ^^ meta.function-call.arguments keyword.operator
