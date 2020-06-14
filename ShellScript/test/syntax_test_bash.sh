@@ -152,8 +152,7 @@ e${ch}"o" hello, world!
 # <- meta.function-call.identifier variable.function
 #^^^^^^^^ meta.function-call.identifier
 #        ^^^^^^^^^^^^^^ meta.function-call.arguments
-#^ punctuation.definition.variable
-# ^ punctuation.section.interpolation.begin.shell
+#^^ punctuation.section.interpolation.begin.shell
 #  ^^ variable.other.readwrite
 #    ^ punctuation.section.interpolation.end.shell
 #     ^ string.quoted.double punctuation.definition.string.begin
@@ -164,8 +163,8 @@ ${e}'ch'o hello, world!
 # <- meta.function-call.identifier.shell
 #^^^^^^^^ meta.function-call.identifier.shell
 #        ^^^^^^^^^^^^^^ meta.function-call.arguments
-# <- punctuation.definition.variable
-#^ punctuation
+# <- punctuation.section.interpolation.begin.shell
+#^ punctuation.section.interpolation.begin.shell
 # ^ variable.other.readwrite
 #  ^ punctuation
 #   ^ string.quoted.single punctuation.definition.string.begin
@@ -287,13 +286,11 @@ x=${foo} y=${baz}"asdf" pwd
 #          ^^^^^^ meta.string meta.interpolation - string
 #                ^^^^^^ meta.string.shell string.quoted.double.shell - meta.interpolation
 #                      ^^^^ - meta.string - mete.interpolation - string
-# ^ punctuation.definition.variable
-#  ^ punctuation.section.interpolation.begin.shell
+# ^^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite
 #      ^ punctuation.section.interpolation.end.shell
 #         ^ keyword.operator.assignment
-#          ^ punctuation.definition.variable
-#           ^ punctuation.section.interpolation.begin.shell
+#          ^^ punctuation.section.interpolation.begin.shell
 #            ^^^ variable.other.readwrite
 #               ^ punctuation.section.interpolation.end.shell
 #                ^ punctuation.definition.string.begin
@@ -307,20 +304,23 @@ x= pwd
 #  ^^^ meta.function-call support.function
 
 BOWL=$(($(cat food.txt | wc -l) + 5))
+#   ^ - meta.interpolation
+#    ^^^ meta.string.shell meta.interpolation.arithmetic.shell - meta.interpolation meta.interpolation
+#       ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.arithmetic.shell meta.interpolation.command.shell
+#                              ^^^^^^ meta.string.shell meta.interpolation.arithmetic.shell - meta.interpolation meta.interpolation
+#                                    ^ - meta.interpolation
 #   ^ keyword.operator.assignment
-#    ^ punctuation.definition.variable
-#     ^^ punctuation
-#       ^ punctuation.definition.variable
+#    ^^^^^ punctuation.section.interpolation.begin.shell
 #         ^^^ variable.function
 #             ^^^^^^^^ - variable.function
 #                     ^ - meta.function-call
 #                      ^ keyword.operator
 #                       ^ - meta.function-call
 #                        ^^ meta.function-call.identifier.shell variable.function.shell
-#                             ^ punctuation
+#                             ^ punctuation.section.interpolation.end.shell
 #                               ^ keyword.operator
 #                                 ^ constant.numeric
-#                                  ^^ punctuation
+#                                  ^^ punctuation.section.interpolation.end.shell
 
 # These are all legal identifiers for variables.
 alias=hello
@@ -503,7 +503,7 @@ subdir/./myscript.sh --option arg1 arg2 -x
 # <- meta.function-call.identifier.shell variable.function.shell
 
 ${foo}/${bar}/${baz}
-# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.definition.variable.shell
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
 #^^^^^^^^^^^^^^^^^^^ meta.function-call.identifier.shell
 #                   ^ - meta.function-call
 #^^^^^ meta.interpolation.parameter.shell - variable.function
@@ -885,26 +885,27 @@ asdf foo && FOO=some-value pwd
 ####################################################
 
 ${foo:=bar}
-# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.definition.variable.shell
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
 # <- - variable.other.readwrite.assignment
 #    ^ keyword.operator.assignment
 #      ^^^^ - string.unquoted
 #         ^ punctuation.section.interpolation.end.shell
 
 : ${foo:-bar}
-  # <- punctuation.definition.variable
-  #    ^^ keyword
-  #         ^ punctuation
+# ^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^^ punctuation.section.interpolation.begin.shell
+#      ^^ keyword
+#           ^ punctuation.section.interpolation.end.shell
 
 : ${foo:0:8}
-  # <- punctuation.definition.variable
-  #^ punctuation
-  # ^^^ variable
-  #    ^ keyword
-  #     ^ constant.numeric - variable
-  #      ^ keyword
-  #       ^ constant.numeric - variable
-  #        ^ punctuation
+# ^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable
+#      ^ keyword
+#       ^ constant.numeric - variable
+#        ^ keyword
+#         ^ constant.numeric - variable
+#          ^ punctuation.section.interpolation.end.shell
 
 : ${@:0:1}
 # ^^^^^^^^ meta.interpolation.parameter.shell
@@ -915,34 +916,41 @@ ${foo:=bar}
 #   ^ - variable.language
 
 : ${foo:='bar'}
-  # <- punctuation.definition.variable
-  #    ^^ keyword
-  #      ^ punctuation
-  #      ^^^^^ string.quoted
-  #          ^ punctuation
-  #           ^ punctuation
+# ^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^^ punctuation.section.interpolation.begin.shell
+#        ^ punctuation
+#        ^^^^^ string.quoted
+#            ^ punctuation
+#             ^ punctuation.section.interpolation.end.shell
 
 : ${foo/#bar/baz}
-  #     ^ variable.parameter.switch
+# ^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^^ punctuation.section.interpolation.begin.shell
+#       ^ variable.parameter.switch
+#               ^ punctuation.section.interpolation.end.shell
 
 : ${foo/%bar/baz}
-  #     ^ variable.parameter.switch
+# ^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^^ punctuation.section.interpolation.begin.shell
+#       ^ variable.parameter.switch
+#               ^ punctuation.section.interpolation.end.shell
 
 : ${foo//bar/baz}
-  # <- punctuation.definition.variable
-  #    ^ keyword
-  #     ^ variable.parameter.switch
-  #         ^ keyword
-  #             ^ punctuation
+# ^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^^ punctuation.section.interpolation.begin.shell
+#      ^ keyword
+#       ^ variable.parameter.switch
+#           ^ keyword
+#               ^ punctuation.section.interpolation.end.shell
 
 : ${#*}
-  #  ^ variable.language
+#    ^ variable.language
 : ${#@}
-  #  ^ variable.language
+#    ^ variable.language
 : ${@/bar/baz}
-  # ^ variable.language
+#   ^ variable.language
 : ${*/bar/baz}
-  # ^ variable.language
+#   ^ variable.language
 : ${@#pattern}
 #   ^ variable.language
 : ${*#pattern}
@@ -974,58 +982,67 @@ ${foo:=bar}
 : ${foo@a}
 #      ^ keyword.operator
 : ${foo@t}
-  #    ^ - keyword.operator
+#      ^ - keyword.operator
 
 : ${foo:=`bar`}
-  # <- punctuation.definition.variable
-  #    ^^ keyword
-  #      ^ punctuation
-  #          ^ punctuation
-  #           ^ punctuation
+# ^^^^^^^ meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
+#        ^^^^^ meta.interpolation.parameter.shell meta.interpolation.command.backticks.shell
+#             ^ meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
+# ^^ punctuation.section.interpolation.begin.shell
+#      ^^ keyword
+#        ^ punctuation.section.interpolation.begin.shell
+#            ^^ punctuation.section.interpolation.end.shell
 
 : ${foo:=$( bar )}
-  # <- punctuation.definition.variable
-  #    ^^ keyword
-  #      ^ punctuation.definition.variable
-  #       ^ punctuation
-  #             ^ punctuation
-  #              ^ punctuation
+# ^^^^^^^ meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
+#        ^^^^^^^^ meta.interpolation.parameter.shell meta.interpolation.command.parens.shell
+#                ^ meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
+# ^^ punctuation.section.interpolation.begin.shell
+#      ^^ keyword
+#        ^^ punctuation.section.interpolation.begin.shell
+#               ^^ punctuation.section.interpolation.end.shell
 
 : ${foo:=$(( 1 + 1 ))}
-  # <- punctuation.definition.variable
-  #    ^^ keyword
-  #      ^ punctuation.definition.variable
-  #       ^^ punctuation
-  #          ^ constant.numeric
-  #            ^ keyword.operator
-  #              ^ constant.numeric
-  #                ^^ punctuation
-  #                  ^ punctuation
+# ^^^^^^^ meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
+#        ^^^^^^^^^^^^ meta.interpolation.parameter.shell meta.interpolation.arithmetic.shell
+#                    ^ meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
+# ^^ punctuation.section.interpolation.begin.shell
+#      ^^ keyword
+#        ^^^ punctuation.section.interpolation.begin.shell
+#            ^ constant.numeric
+#              ^ keyword.operator
+#                ^ constant.numeric
+#                  ^^^ punctuation.section.interpolation.end.shell
 
 : ${foo:=$bar}
-  # <- punctuation.definition.variable
-  #    ^^ keyword
-  #      ^ punctuation.definition.variable
-  #       ^^^ variable.other
-  #          ^ punctuation
+# ^^^^^^^ meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
+#        ^^^^ meta.interpolation.parameter.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#            ^ meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
+# ^^ punctuation.section.interpolation.begin.shell
+#      ^^ keyword
+#        ^ punctuation.definition.variable.shell
+#         ^^^ variable.other
+#            ^ punctuation.section.interpolation.end.shell
 
 : ${foo:="$bar"}
-  # <- punctuation.definition.variable
-  #    ^^ keyword
-  #      ^ punctuation
-  #       ^ punctuation.definition.variable
-  #        ^^^ variable.other
-  #           ^ punctuation
-  #            ^ punctuation
+# ^^^^^^^^ meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
+#         ^^^^ meta.interpolation.parameter.shell meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#             ^^ meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
+#      ^^ keyword
+#        ^ punctuation.definition.string.begin.shell
+#         ^ punctuation.definition.variable.shell
+#         ^^^^ variable.other.readwrite.shell
+#             ^ punctuation.definition.string.end.shell
+#              ^ punctuation.section.interpolation.end.shell
 
 : ${foo//\}/foo}
-# ^ punctuation.definition.variable
-#  ^ punctuation
+# ^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^^ punctuation.section.interpolation.begin.shell
 #      ^ keyword
 #       ^ variable.parameter.switch
 #        ^^ constant.character.escape
 #          ^ keyword
-#              ^ punctuation
+#              ^ punctuation.section.interpolation.end.shell
 
 : ${foo//%/}
 #        ^ - keyword
@@ -1059,104 +1076,109 @@ ${foo:=bar}
 #################################
 
 : ${foo//foo\}foo\/foo/foo}
-  # <- punctuation.definition.variable
-  #    ^ keyword
-  #     ^ variable.parameter.switch
-  #         ^^ constant.character.escape
-  #              ^^ constant.character.escape
-  #                   ^ keyword
-  #                       ^ punctuation
+# ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
+# ^^ punctuation.section.interpolation.begin.shell
+#      ^ keyword
+#       ^ variable.parameter.switch
+#           ^^ constant.character.escape
+#                ^^ constant.character.escape
+#                     ^ keyword
+#                         ^ punctuation.section.interpolation.end.shell
 
 : ${foo:="${bar} baz"}
-# ^^^^^^^^^^^^^^^^^^^^ meta.interpolation.parameter.shell
-#         ^^^^^^ meta.interpolation.parameter.shell meta.interpolation.parameter.shell
-  # <- punctuation.definition.variable
-  #    ^^ keyword
-  #      ^ punctuation
-  #                 ^ punctuation.definition.string.end
-  #                  ^ punctuation
+# ^^^^^^^^ meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
+#        ^^^^^^^^^^^^ meta.string.shell
+#         ^^^^^^ meta.interpolation.parameter.shell meta.interpolation.parameter.shell - string
+# ^^ punctuation.section.interpolation.begin.shell
+#      ^^ keyword
+#        ^ punctuation.definition.string.begin.shell
+#         ^^ punctuation.section.interpolation.begin.shell
+#           ^^^ variable.other.readwrite.shell
+#              ^ punctuation.section.interpolation.end.shell
+#               ^^^^^ string.quoted.double.shell
+#                   ^ punctuation.definition.string.end.shell
+#                    ^ punctuation.section.interpolation.end.shell
 
 # Sublime bug fix: "
 #                  ^ comment.line.number-sign
 
 ${!varprefix*}
-# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.definition.variable.shell
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
 #^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
 # ^ keyword.operator
 #           ^ variable.language
-#            ^ punctuation
+#            ^ punctuation.section.interpolation.end.shell
 
 ${!varprefix@}
-# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.definition.variable.shell
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
 #^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
-# <- punctuation.definition.variable.shell
 # ^ keyword.operator
 #           ^ variable.language
-#            ^ punctuation
+#            ^ punctuation.section.interpolation.end.shell
 
 ${var#Pattern}
-# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.definition.variable.shell
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
 #^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
 #    ^ keyword.operator
-#            ^ punctuation
+#            ^ punctuation.section.interpolation.end.shell
 
 ${var##Pattern}
-# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.definition.variable.shell
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
 #^^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
 #    ^^ keyword.operator
-#             ^ punctuation
+#             ^ punctuation.section.interpolation.end.shell
 
 ${var###Pattern}
-# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.definition.variable
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
 #^^^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
 #    ^^ keyword.operator
 #      ^ - keyword.operator
-#              ^ punctuation
+#              ^ punctuation.section.interpolation.end.shell
 
 : ${foo# #} # hello
 # ^^^^^^^^^ meta.interpolation.parameter.shell
 #      ^ keyword.operator.expansion
 #        ^ meta.interpolation - comment-line
-#         ^ punctuation
+#         ^ punctuation.section.interpolation.end.shell
 #           ^ comment.line punctuation
 
 ${var%Pattern}
-# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.definition.variable
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
 #^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
 #    ^ keyword.operator
-#            ^ punctuation
+#            ^ punctuation.section.interpolation.end.shell
 
 ${var%%Pattern}
-# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.definition.variable
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
 #^^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
 #    ^^ keyword.operator
-#             ^ punctuation
+#             ^ punctuation.section.interpolation.end.shell
 
 ${var%%%Pattern}
-# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.definition.variable
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
 #^^^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
 #    ^^ keyword.operator
 #      ^ - keyword.operator
-#              ^ punctuation
+#              ^ punctuation.section.interpolation.end.shell
 
 : ${foo% #} # hello
 #      ^ keyword.operator.expansion
 #        ^ meta.interpolation - comment-line
-#         ^ punctuation
+#         ^ punctuation.section.interpolation.end.shell
 #           ^ comment.line punctuation
 
 : ${foo#\ \#} # hello
 #      ^ keyword.operator.expansion
 #       ^^^^ constant.character.escape
 #          ^ meta.interpolation - comment-line
-#           ^ punctuation
+#           ^ punctuation.section.interpolation.end.shell
 #             ^ comment.line punctuation
 
 : ${foo%\ \#} # hello
 #      ^ keyword.operator.expansion
 #       ^^^^ constant.character.escape
 #          ^ meta.interpolation - comment-line
-#           ^ punctuation
+#           ^ punctuation.section.interpolation.end.shell
 #             ^ comment.line punctuation
 
 ####################################################################
@@ -1165,158 +1187,192 @@ ${var%%%Pattern}
 ####################################################################
 
 ${foo//%/}
-# <- punctuation.definition.variable
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
+#^^^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
+#         ^ - meta.function-call - meta.interpolation
 #    ^ keyword
 #     ^ variable.parameter.switch
 #      ^ - keyword
 #       ^ keyword
-#        ^ punctuation
+#        ^ punctuation.section.interpolation.end.shell
 
 ${foo//#/}
-# <- punctuation.definition.variable
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
+#^^^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
+#         ^ - meta.function-call - meta.interpolation
 #    ^ keyword.operator
 #     ^ variable.parameter.switch
 #      ^ - keyword
 #       ^ keyword.operator
-#        ^ punctuation
+#        ^ punctuation.section.interpolation.end.shell
 
 ${foo//!/}
-# <- punctuation.definition.variable
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
+#^^^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
+#         ^ - meta.function-call - meta.interpolation
 #    ^ keyword.operator
 #     ^ variable.parameter.switch
 #      ^ - keyword
 #       ^ keyword.operator
-#        ^ punctuation
+#        ^ punctuation.section.interpolation.end.shell
 
 ${foo//:/}
-# <- punctuation.definition.variable
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
+#^^^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
+#         ^ - meta.function-call - meta.interpolation
 #    ^ keyword.operator
 #     ^ variable.parameter.switch
 #      ^ - keyword
 #       ^ keyword.operator
-#        ^ punctuation
+#        ^ punctuation.section.interpolation.end.shell
 
 ${foo//@/}
-# <- punctuation.definition.variable
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
+#^^^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
+#         ^ - meta.function-call - meta.interpolation
 #    ^ keyword.operator
 #     ^ variable.parameter.switch
 #      ^ - keyword
 #       ^ keyword.operator
-#        ^ punctuation
+#        ^ punctuation.section.interpolation.end.shell
 
 ${foo#} # "#" is not a operator here
-# <- punctuation.definition.variable
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
+#^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
+#      ^ - meta.function-call - meta.interpolation
 #    ^ - keyword.operator
-#     ^ punctuation
+#     ^ punctuation.section.interpolation.end.shell
 
 ${foo!} # "!" is not a operator here
-# <- punctuation.definition.variable
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
+#^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
+#      ^ - meta.function-call - meta.interpolation
 #    ^ - keyword.operator
-#     ^ punctuation
+#     ^ punctuation.section.interpolation.end.shell
 
 ${var:pos:len}
-# <- punctuation.definition.variable
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
+#^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
+#             ^ - meta.function-call - meta.interpolation
 #    ^ keyword.operator
 #        ^ keyword.operator
-#            ^ punctuation
+#            ^ punctuation.section.interpolation.end.shell
 
 ${foo//a\/b/c/d}
-# <- punctuation.definition.variable
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
+#^^^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
+#               ^ - meta.function-call - meta.interpolation
 #    ^ keyword.operator
 #     ^ variable.parameter.switch
 #       ^^ constant.character.escape
 #          ^ keyword.operator
 #            ^ - keyword.operator
-#              ^ punctuation
+#              ^ punctuation.section.interpolation.end.shell
 
 ${foo^}
-# <- punctuation.definition.variable
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
+#^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
+#      ^ - meta.function-call - meta.interpolation
 #    ^ keyword.operator
-#     ^ punctuation
+#     ^ punctuation.section.interpolation.end.shell
 
 ${foo,}
-# <- punctuation.definition.variable
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
+#^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
+#      ^ - meta.function-call - meta.interpolation
 #    ^ keyword.operator
-#     ^ punctuation
+#     ^ punctuation.section.interpolation.end.shell
 
 ${foo^^}
-# <- punctuation.definition.variable
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
+#^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
+#       ^ - meta.function-call - meta.interpolation
 #    ^^ keyword.operator
-#      ^ punctuation
+#      ^ punctuation.section.interpolation.end.shell
 
 ${foo,,}
-# <- punctuation.definition.variable
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
+#^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
+#       ^ - meta.function-call - meta.interpolation
 #    ^^ keyword.operator
-#      ^ punctuation
+#      ^ punctuation.section.interpolation.end.shell
 
 ${foo,,,Pattern}
-# <- punctuation.definition.variable
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
+#^^^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
+#               ^ - meta.function-call - meta.interpolation
 #    ^^ keyword.operator
 #      ^ - keyword
-#              ^ punctuation
+#              ^ punctuation.section.interpolation.end.shell
 
 ${foo,,Pattern}
-# <- punctuation.definition.variable
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
+#^^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
+#              ^ - meta.function-call - meta.interpolation
 #    ^^ keyword.operator
-#             ^ punctuation
+#             ^ punctuation.section.interpolation.end.shell
 
 ${foo-bar}
-# <- punctuation.definition.variable
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
+#^^^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
+#         ^ - meta.function-call - meta.interpolation
 #    ^ keyword.operator
-#        ^ punctuation
+#        ^ punctuation.section.interpolation.end.shell
 
 ${foo:-bar}
-# <- punctuation.definition.variable
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
+#^^^^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
+#          ^ - meta.function-call - meta.interpolation
 #    ^^ keyword.operator
-#         ^ punctuation
+#         ^ punctuation.section.interpolation.end.shell
 
 ${foo+bar}
-# <- punctuation.definition.variable
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
+#^^^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
+#         ^ - meta.function-call - meta.interpolation
 #    ^ keyword.operator
-#        ^ punctuation
+#        ^ punctuation.section.interpolation.end.shell
 
 ${foo:+bar}
-# <- punctuation.definition.variable
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
+#^^^^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
+#          ^ - meta.function-call - meta.interpolation
 #    ^^ keyword.operator
-#         ^ punctuation
+#         ^ punctuation.section.interpolation.end.shell
 
 : ${foo=bar}
-  # <- punctuation.definition.variable
-  #    ^ keyword.operator
-  #        ^ punctuation
+# ^^^^^^^^^^ meta.interpolation.parameter.shell
+#           ^ - meta.interpolation
+# ^^ punctuation.section.interpolation.begin.shell
+#      ^ keyword.operator
+#          ^ punctuation.section.interpolation.end.shell
 
 : ${foo:=bar}
-  # <- punctuation.definition.variable
-  #    ^^ keyword.operator
-  #         ^ punctuation
+# ^^^^^^^^^^^ meta.interpolation.parameter.shell
+#            ^ - meta.interpolation
+# ^^ punctuation.section.interpolation.begin.shell
+#      ^^ keyword.operator
+#           ^ punctuation.section.interpolation.end.shell
 
 ${foo?bar}
-# <- punctuation.definition.variable
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
+#^^^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
+#         ^ - meta.function-call - meta.interpolation
 #    ^ keyword.operator
-#        ^ punctuation
+#        ^ punctuation.section.interpolation.end.shell
 
 ${foo:?bar}
-# <- punctuation.definition.variable
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
+#^^^^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
+#          ^ - meta.function-call - meta.interpolation
 #    ^^ keyword.operator
-#         ^ punctuation
+#         ^ punctuation.section.interpolation.end.shell
 
 : ${foo}@
 #       ^ - variable.language
 
 : ${foo}#
 #       ^ - variable.language
-
-: ${foo:="${bar} baz"}
-# <- meta.function-call support.function.colon
-# ^ meta.function-call.arguments punctuation.definition.variable
-#      ^^ meta.function-call.arguments keyword.operator.assignment
-#        ^ meta.function-call.arguments meta.string string.quoted.double punctuation.definition.string.begin
-#          ^ meta.function-call.arguments meta.string punctuation - string
-#           ^^^ meta.function-call.arguments meta.string variable.other.readwrite - string
-#              ^ meta.function-call.arguments meta.string punctuation - variable.other.readwrite - string
-#               ^^^^ meta.function-call.arguments meta.string string.quoted.double
-#                   ^ meta.function-call.arguments meta.string string.quoted.double punctuation.definition.string.end
-#                    ^ meta.function-call.arguments punctuation
 
 echo "Url: 'postgres://root:$DB_PASSWORD@$IP:$PORT/db'"
 #    ^^^^^^^^^^^^^^^^^^^^^^^ meta.string string.quoted.double - meta.interpolation - variable
@@ -1355,24 +1411,27 @@ echo {a,g*}
 #        ^ meta.function-call.arguments keyword.operator.regexp.quantifier
 #         ^ meta.function-call.arguments punctuation.section.interpolation.end.shell
 echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
-#      ^ punctuation.section.interpolation.begin.shell
-#       ^ punctuation.definition.variable
-#        ^ punctuation.section.interpolation.begin.shell
+#      ^^^ punctuation.section.interpolation.begin.shell
 #          ^ keyword.operator.substitution - variable.other.readwrite
 #            ^ keyword.operator.substitution
+#              ^ punctuation.section.interpolation.end.shell
 #                ^ string.quoted.double
 #                  ^ punctuation.section.interpolation.begin.shell
 #                       ^ punctuation.separator
-#                         ^ punctuation.definition.variable
-#                          ^ punctuation.section.interpolation.begin.shell
+#                         ^^ punctuation.section.interpolation.begin.shell
 #                           ^ variable.other.readwrite
+#                                 ^ punctuation.section.interpolation.end.shell
 #                                   ^ punctuation.separator
+#                                     ^^ punctuation.section.interpolation.begin.shell
 #                                        ^ keyword.operator.substring - variable.other.readwrite
 #                                          ^ keyword.operator.substring
 #                                            ^ punctuation.section.interpolation.end.shell
 #                                              ^ punctuation.section.interpolation.end.shell
 #                                               ^ punctuation.separator
-#                                                  ^ string.quoted.double
+#                                                 ^^^ string.quoted.double
+#                                                    ^ punctuation.section.interpolation.begin.shell
+#                                                             ^^ punctuation.section.interpolation.begin.shell
+#                                                                        ^^ punctuation.section.interpolation.end.shell
 echo [^:]*
 #    ^ meta.function-call.arguments keyword.control.regexp.set.begin
 #     ^ meta.function-call.arguments keyword.operator.logical.not
@@ -1384,7 +1443,7 @@ echo *(g[[:${charclass/\}/l}:]]*)
 #    ^ keyword.operator.regexp.quantifier
 #     ^ punctuation.section.parens.begin
 #       ^^ keyword.control.regexp.set.begin
-#          ^ punctuation.definition.variable
+#          ^^ punctuation.section.interpolation.begin.shell
 #            ^^^^^^^^^ variable.other.readwrite
 #                     ^ keyword.operator.substitution - variable.other.readwrite
 #                      ^^ constant.character.escape
@@ -1748,17 +1807,15 @@ foo='bar'
 #  ^ keyword.operator
 
 echo git rev-list "$(echo --all)" | grep -P 'c354a80'
-#                  ^ punctuation.definition.variable
-#                   ^ punctuation
-#                              ^ punctuation
+#                  ^^ punctuation.section.interpolation.begin.shell
+#                              ^ punctuation.section.interpolation.end.shell
 x="$(( foo++ ))"
-#  ^ punctuation.definition.variable
-#   ^^ punctuation
+#  ^^^ punctuation.section.interpolation.begin.shell
 #         ^^ keyword
-#            ^^ punctuation
+#            ^^ punctuation.section.interpolation.end.shell
 foo[${j}+10]="`foo`"
 #  ^ variable.other.readwrite.assignment punctuation
-#   ^ variable.other.readwrite.assignment punctuation.definition.variable
+#   ^ variable.other.readwrite.assignment punctuation
 #    ^ variable.other.readwrite.assignment punctuation
 #     ^ variable.other.readwrite.assignment variable.other.readwrite
 #      ^ variable.other.readwrite.assignment punctuation
@@ -2052,10 +2109,9 @@ array=($one "two" ${three} 'four' $5)
 #           ^ string.quoted.double punctuation.definition.string.begin
 #            ^^^ string.quoted.double
 #               ^ string.quoted.double punctuation.definition.string.end
-#                 ^ punctuation.definition.variable
-#                  ^ punctuation
+#                 ^^ punctuation.section.interpolation.begin.shell
 #                   ^^^^^ variable.other.readwrite
-#                        ^ punctuation
+#                        ^ punctuation.section.interpolation.end.shell
 #                          ^ string.quoted.single punctuation.definition.string.begin
 #                           ^^^^ string.quoted.single
 #                               ^ string.quoted.single punctuation.definition.string.end
@@ -2133,11 +2189,12 @@ done
 
 for i in $(seq 100); do
 # <- keyword.control.loop.for
-#     ^^ meta.group.for keyword.control.in
-#        ^ meta.group.for punctuation.definition.variable
-#         ^ meta.group.for punctuation.section.interpolation.begin.shell
-#          ^^^ meta.group.for meta.function-call variable.function
-#                 ^ meta.group.for punctuation.section.interpolation.end.shell
+#  ^^^^^^^^^^^^^^^^ meta.group.for.shell
+#        ^^^^^^^^^^ meta.interpolation.command.parens.shell
+#     ^^ keyword.control.in
+#        ^^ punctuation.section.interpolation.begin.shell
+#          ^^^ meta.function-call variable.function
+#                 ^ punctuation.section.interpolation.end.shell
 #                  ^ keyword.operator.logical.continue
 #                    ^^ keyword.control.loop.do
   :
@@ -2147,12 +2204,13 @@ done
 
 `for i in $(seq 100); do echo i; done`
 # <- meta.interpolation.command.backticks.shell punctuation.section.interpolation.begin.shell
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.command.backticks.shell
-#      ^^ meta.group.for keyword.control.in
-#         ^ meta.group.for punctuation.definition.variable
-#          ^ meta.group.for punctuation.section.interpolation.begin.shell
-#           ^^^ meta.group.for meta.function-call variable.function
-#                  ^ meta.group.for punctuation.section.interpolation.end.shell
+#^^^^^^^^^ meta.interpolation.command.backticks.shell - meta.interpolation meta.interpolation
+#         ^^^^^^^^^^ meta.interpolation.command.backticks.shell
+#                   ^^^^^^^^^^^^^^^^^^ meta.interpolation.command.backticks.shell - meta.interpolation meta.interpolation
+#      ^^ keyword.control.in
+#         ^^ punctuation.section.interpolation.begin.shell
+#           ^^^ meta.function-call.identifier.shell variable.function.shell
+#                  ^ punctuation.section.interpolation.end.shell
 #                   ^ keyword.operator.logical.continue
 #                     ^^ keyword.control.loop.do
 #                        ^^^^ support.function.echo
@@ -2457,8 +2515,7 @@ else remotefilter="grep"
      do  glob=$(
      #      ^ variable.other.readwrite.assignment
      #       ^ keyword.operator.assignment
-     #        ^ meta.string meta.interpolation punctuation.definition.variable
-     #         ^ meta.string meta.interpolation punctuation.section.interpolation.begin.shell
+     #        ^^ meta.string meta.interpolation punctuation.section.interpolation.begin.shell
            echo "$glob" |
            sed -e 's@\*@[^ ]*@g' -e 's/\?/[^ ]/g'
            # <- meta.string meta.interpolation meta.function-call variable.function - string
@@ -2577,7 +2634,7 @@ foo=x <file.txt
 
 exec >&${tee[1]} 2>&1
 #    ^^ keyword.operator.assignment.redirection
-#      ^ meta.interpolation.parameter.shell punctuation.definition.variable
+#      ^ meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
 
 ##################
 # Here documents #
@@ -2592,8 +2649,7 @@ cat <<FOOSTRING ; echo more stuff here
 #                     ^ meta.function-call.arguments
 Hello, ${"v"'a'r}
 # <- meta.function-call.arguments string.unquoted.heredoc
-#      ^ punctuation.definition.variable
-#       ^ punctuation
+#      ^^ punctuation.section.interpolation.begin.shell
 #        ^ string.quoted.double punctuation.definition.string.begin
 #         ^ string.quoted.double
 #          ^ string.quoted.double punctuation.definition.string.end
@@ -2857,15 +2913,13 @@ function connect_to_db() {
     IP=$(get_postgresql_ip)
     # <- meta.function variable.other.readwrite.assignment
     # ^ meta.function keyword.operator.assignment
-    #  ^ meta.function meta.string meta.interpolation punctuation.definition.variable
-    #   ^ meta.function meta.string meta.interpolation punctuation.section.interpolation.begin.shell
+    #  ^^ meta.function meta.string meta.interpolation punctuation.section.interpolation.begin.shell
     #    ^^^^^^^^^^^^^^^^^ meta.function meta.string meta.interpolation meta.function-call variable.function
     #                     ^ meta.function meta.string meta.interpolation punctuation.section.interpolation.end.shell
     PORT=$(get_postgresql_port)
     # <- meta.function variable.other.readwrite.assignment
     #   ^ meta.function keyword.operator.assignment
-    #    ^ meta.function meta.string meta.interpolation punctuation.definition.variable
-    #     ^ meta.function meta.string meta.interpolation punctuation.section.interpolation.begin.shell
+    #    ^^ meta.function meta.string meta.interpolation punctuation.section.interpolation.begin.shell
     #      ^^^^^^^^^^^^^^^^^^^ meta.function meta.string meta.interpolation meta.function-call variable.function
     #                         ^ meta.function meta.string meta.interpolation punctuation.section.interpolation.end.shell
 

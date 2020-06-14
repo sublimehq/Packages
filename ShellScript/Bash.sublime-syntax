@@ -998,10 +998,8 @@ contexts:
     - include: expansion-job
 
   expansion-arithmetic:
-    - match: (\$)(\(\()(?=.+\)\))
-      captures:
-        1: punctuation.definition.variable.shell
-        2: punctuation.section.interpolation.begin.shell
+    - match: \$\(\((?=.+\)\))
+      scope: punctuation.section.interpolation.begin.shell
       push:
         - meta_scope: meta.interpolation.arithmetic.shell
         - match: \)\)
@@ -1022,10 +1020,8 @@ contexts:
         - include: expansion-and-string
 
   expansion-command:
-    - match: (\$)(\()
-      captures:
-        1: punctuation.definition.variable.shell
-        2: punctuation.section.interpolation.begin.shell
+    - match: \$\(
+      scope: punctuation.section.interpolation.begin.shell
       push:
         - meta_scope: meta.interpolation.command.parens.shell
         - match: \s*(\))
@@ -1084,11 +1080,10 @@ contexts:
         2: keyword.operator.regexp.quantifier.shell
 
   expansion-parameter:
-    - match: (\$)(\{)
-      captures:
-        0: meta.interpolation.parameter.shell
-        1: punctuation.definition.variable.shell
-        2: punctuation.section.interpolation.begin.shell
+    - match: \$\{
+      scope:
+        meta.interpolation.parameter.shell
+        punctuation.section.interpolation.begin.shell
       push:
         - expansion-parameter-post-first-char
         - expansion-parameter-first-char
