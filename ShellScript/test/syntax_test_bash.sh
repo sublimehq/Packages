@@ -372,16 +372,24 @@ done=hello
 #############
 
 : $__
-  #^ variable.other
+# ^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+# ^ punctuation.definition.variable.shell
+#    ^ - meta.interpolation - variable
 
 : $var_0
-  #   ^ variable.other
+# ^^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+# ^ punctuation.definition.variable.shell
+#       ^ - meta.interpolation - variable
 
 : $_var0
-  #^ variable.other
+# ^^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+# ^ punctuation.definition.variable.shell
+#       ^ - meta.interpolation - variable
 
 : $_0var_
-  #^ variable.other
+# ^^^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+# ^ punctuation.definition.variable.shell
+#        ^ - meta.interpolation - variable
 
 # Expands to the positional parameters, starting from one. When the expansion is
 # not within double quotes, each positional parameter expands to a separate
@@ -393,7 +401,8 @@ done=hello
 # IFS variable. If IFS is unset, the parameters are separated by spaces. If IFS
 # is null, the parameters are joined without intervening separators.
 : $*
-#  ^ variable.language
+# ^^ meta.interpolation.parameter.shell variable.language.shell
+# ^ punctuation.definition.variable.shell
 
 # Expands to the positional parameters, starting from one. When the expansion
 # occurs within double quotes, each parameter expands to a separate word. That
@@ -403,30 +412,36 @@ done=hello
 # is joined with the last part of the original word. When there are no
 # positional parameters, "$@" and $@ expand to nothing (i.e., they are removed).
 : $@
-#  ^ variable.language
+# ^^ meta.interpolation.parameter.shell variable.language.shell
+# ^ punctuation.definition.variable.shell
 
 # Expands to the number of positional parameters in decimal.
 : $#
-#  ^ variable.language
+# ^^ meta.interpolation.parameter.shell variable.language.shell
+# ^ punctuation.definition.variable.shell
 
 # Expands to the exit status of the most recently executed foreground pipeline.
 : $?
-#  ^ variable.language
+# ^^ meta.interpolation.parameter.shell variable.language.shell
+# ^ punctuation.definition.variable.shell
 
 # Expands to the current option flags as specified upon invocation, by the set
 # builtin command, or those set by the shell itself (such as the -i option).
 : $-
-#  ^ variable.language
+# ^^ meta.interpolation.parameter.shell variable.language.shell
+# ^ punctuation.definition.variable.shell
 
 # Expands to the process ID of the shell. In a () subshell, it expands to the
 # process ID of the invoking shell, not the subshell.
 : $$
-#  ^ variable.language
+# ^^ meta.interpolation.parameter.shell variable.language.shell
+# ^ punctuation.definition.variable.shell
 
 # Expands to the process ID of the job most recently placed into the background,
 # whether executed as an asynchronous command or using the bg builtin
 : $!
-#  ^ variable.language
+# ^^ meta.interpolation.parameter.shell variable.language.shell
+# ^ punctuation.definition.variable.shell
 
 # Expands to the name of the shell or shell script. This is set at shell
 # initialization. If Bash is invoked with a file of commands (see Shell
@@ -435,7 +450,8 @@ done=hello
 # string to be executed, if one is present. Otherwise, it is set to the filename
 # used to invoke Bash, as given by argument zero.
 : $0
-#  ^ variable.other.readwrite
+# ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+# ^ punctuation.definition.variable.shell
 
 # At shell startup, set to the absolute pathname used to invoke the shell or
 # shell script being executed as passed in the environment or argument list.
@@ -444,37 +460,38 @@ done=hello
 # and placed in the environment exported to that command. When checking mail,
 # this parameter holds the name of the mail file.
 : $_
-#  ^ variable.language
+# ^^ meta.interpolation.parameter.shell variable.language.shell
+# ^ punctuation.definition.variable.shell
 
 fg %
-#  ^ meta.interpolation.job.shell punctuation.definition.variable.job
+#  ^ meta.interpolation.job.shell variable.other.readwrite.shell punctuation.definition.variable.job.shell
 fg %%
-#  ^ meta.interpolation.job.shell punctuation.definition.variable.job
-#   ^ meta.interpolation.job.shell variable.language.job
+#  ^^ meta.interpolation.job.shell variable.language.job.shell
+#  ^ punctuation.definition.variable.job.shell
 fg %+
-#  ^ meta.interpolation.job.shell punctuation.definition.variable.job
-#   ^ meta.function-call.arguments meta.interpolation.job.shell variable.language.job
+#  ^^ meta.interpolation.job.shell variable.language.job.shell
+#  ^ punctuation.definition.variable.job.shell
 fg %-
-#  ^ meta.interpolation.job.shell punctuation.definition.variable.job
-#   ^ meta.function-call.arguments meta.interpolation.job.shell variable.language.job
+#  ^^ meta.interpolation.job.shell variable.language.job.shell
+#  ^ punctuation.definition.variable.job.shell
 fg %1 %2 %3
-#  ^ meta.interpolation.job.shell punctuation.definition.variable.job
-#   ^ meta.interpolation.job.shell constant.numeric.integer.decimal.job
-#     ^ meta.interpolation.job.shell punctuation.definition.variable.job
-#      ^ meta.interpolation.job.shell constant.numeric.integer.decimal.job
-#        ^ meta.interpolation.job.shell punctuation.definition.variable.job
-#         ^ meta.interpolation.job.shell constant.numeric.integer.decimal.job
+#  ^^ meta.interpolation.job.shell constant.numeric.integer.decimal.job.shell
+#  ^ punctuation.definition.variable.job.shell
+#     ^^ meta.interpolation.job.shell constant.numeric.integer.decimal.job.shell
+#     ^ punctuation.definition.variable.job.shell
+#        ^^ meta.interpolation.job.shell constant.numeric.integer.decimal.job.shell
+#        ^ punctuation.definition.variable.job.shell
 fg %ce
-#  ^ meta.interpolation.job.shell punctuation.definition.variable.job
-#   ^^ meta.interpolation.job.shell variable.other.readwrite
+#  ^^^ meta.interpolation.job.shell variable.other.readwrite.shell
+#  ^ punctuation.definition.variable.job.shell
 fg %?ce
-#  ^ meta.interpolation.job.shell punctuation.definition.variable.job
-#   ^ meta.interpolation.job.shell keyword.operator.regexp.quantifier
-#    ^^ meta.interpolation.job.shell variable.other.readwrite
+#  ^^^^ meta.interpolation.job.shell variable.other.readwrite.shell
+#  ^ punctuation.definition.variable.job.shell
+#   ^ keyword.operator.regexp.quantifier.shell
 
 %1
-# <- meta.interpolation.job punctuation.definition.variable.job
-#^ meta.interpolation.job.shell constant.numeric.integer.decimal.job
+# <- meta.interpolation.job.shell constant.numeric.integer.decimal.job.shell punctuation.definition.variable.job.shell
+#^ meta.interpolation.job.shell constant.numeric.integer.decimal.job.shell
 
 sleep 2 & jobs
 # <- meta.function-call variable.function

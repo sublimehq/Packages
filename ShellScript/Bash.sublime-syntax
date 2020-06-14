@@ -1053,35 +1053,34 @@ contexts:
     # The symbols ‘%%’ and ‘%+’ refer to the shell’s notion of the current job,
     # which is the last job stopped while it was in the foreground or started in
     # the background. The previous job may be referenced using ‘%-’.
-    - match: (%)([%+-])
+    - match: (%)[%+-]
+      scope:
+        meta.interpolation.job.shell
+        variable.language.job.shell
       captures:
-        0: meta.interpolation.job.shell
         1: punctuation.definition.variable.job.shell
-        2: variable.language.job.shell
     # The character ‘%’ introduces a job specification (jobspec). Job number n
     # may be referred to as ‘%n’.
-    - match: (%)(\d+)
+    - match: (%)\d+
+      scope:
+        meta.interpolation.job.shell
+        constant.numeric.integer.decimal.job.shell
       captures:
-        0: meta.interpolation.job.shell
         1: punctuation.definition.variable.job.shell
-        2: constant.numeric.integer.decimal.job.shell
     # A job may also be referred to using a prefix of the name used to start it,
     # or using a substring that appears in its command line. For example, ‘%ce’
     # refers to a stopped ce job. Using ‘%?ce’, on the other hand, refers to any
     # job containing the string ‘ce’ in its command line. If the prefix or
     # substring matches more than one job, Bash reports an error.
-    - match: (%)(\??)(\w+)
-      captures:
-        0: meta.interpolation.job.shell
-        1: punctuation.definition.variable.job.shell
-        2: keyword.operator.regexp.quantifier.shell
-        3: variable.other.readwrite.shell
     # A single ‘%’ (with no accompanying job specification) also refers to the
     # current job.
-    - match: '%'
+    - match: (%)(?:(\??)\w+)?
       scope:
         meta.interpolation.job.shell
-        punctuation.definition.variable.job.shell
+        variable.other.readwrite.shell
+      captures:
+        1: punctuation.definition.variable.job.shell
+        2: keyword.operator.regexp.quantifier.shell
 
   expansion-parameter:
     - match: (\$)(\{)
@@ -1092,21 +1091,18 @@ contexts:
       push:
         - expansion-parameter-post-first-char
         - expansion-parameter-first-char
-    - match: (\$)(\d)
+    - match: (\$)[$#@!~*?_-](?!\w)
+      scope:
+        meta.interpolation.parameter.shell
+        variable.language.shell
       captures:
-        0: meta.interpolation.parameter.shell
         1: punctuation.definition.variable.shell
-        2: variable.other.readwrite.shell
-    - match: (\$)([$#@!~*?_-])(?!\w)
+    - match: (\$)(?:\d|{{identifier}})
+      scope:
+        meta.interpolation.parameter.shell
+        variable.other.readwrite.shell
       captures:
-        0: meta.interpolation.parameter.shell
         1: punctuation.definition.variable.shell
-        2: variable.language.shell
-    - match: (\$)({{identifier}})
-      captures:
-        0: meta.interpolation.parameter.shell
-        1: punctuation.definition.variable.shell
-        2: variable.other.readwrite.shell
 
   expansion-parameter-first-char:
     - meta_include_prototype: false
