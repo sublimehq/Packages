@@ -69,7 +69,7 @@ echo $"Hello"
 
 echo `echo \`echo hello, world!\``
 #   ^ - meta.interpolation
-#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.command.backticks.shell
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.command.shell
 #                                 ^ - meta.interpolation
 #    ^ punctuation.section.interpolation.begin.shell
 #     ^^^^ support.function.echo
@@ -79,7 +79,7 @@ echo `echo \`echo hello, world!\``
 
 echo `echo \`echo hello, world!\\`
 #   ^ - meta.interpolation
-#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.command.backticks.shell
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.command.shell
 #                                 ^ - meta.interpolation
 #    ^ punctuation.section.interpolation.begin.shell
 #     ^^^^ support.function.echo
@@ -89,7 +89,7 @@ echo `echo \`echo hello, world!\\`
 
 echo `echo \`echo hello\\\`, world\\\\\`!`
 #   ^ - meta.interpolation
-#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.command.backticks.shell
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.command.shell
 #                                         ^ - meta.interpolation
 #    ^ punctuation.section.interpolation.begin.shell
 #     ^^^^ support.function.echo
@@ -101,7 +101,7 @@ echo `echo \`echo hello\\\`, world\\\\\`!`
 foo | ` # get quarks ` \
 # <- variable.function
 #   ^ keyword.operator.logical.pipe
-#     ^^^^^^^^^^^^^^^^ meta.interpolation.command.backticks.shell
+#     ^^^^^^^^^^^^^^^^ meta.interpolation.command.shell
 #                     ^^^ - meta.interpolation
 #     ^ punctuation.section.interpolation.begin.shell
 #       ^^^^^^^^^^^^^ comment.line.number-sign
@@ -111,9 +111,9 @@ foo | ` # get quarks ` \
 foo | ` # get quarks ` \
 bar   ` # important; this and that ` "${USELESS_TEXT}" | ` # match text` \
 # <- meta.function-call.arguments
-#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.command.backticks.shell
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.command.shell
 #                                   ^^^^^^^^^^^^^^^^^^^^^ - meta.interpolation.command
-#                                                        ^^^^^^^^^^^^^^^ meta.interpolation.command.backticks.shell
+#                                                        ^^^^^^^^^^^^^^^ meta.interpolation.command.shell
 #     ^^ - comment
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign
 #                                  ^^^^^^^^^^^^^^^^^^^^^^^^ - comment
@@ -595,7 +595,7 @@ printFunction "$variableString1" "$(declare -p variableArray)"
 #              ^^^^^^^^^^^^^^^^ meta.string meta.interpolation.parameter.shell - string
 #                              ^ meta.string string.quoted.double punctuation.definition.string.end
 #                                ^ meta.string string.quoted.double punctuation.definition.string.begin
-#                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string meta.interpolation.command.parens.shell - string
+#                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string meta.interpolation.command.shell - string
 #                                                            ^ meta.string string.quoted.double punctuation.definition.string.end
 #                                  ^ punctuation.section.interpolation.begin.shell
 #                                   ^^^^^^^ storage.modifier
@@ -609,7 +609,7 @@ printFunction "$variableString1" "`declare -p variableArray`"
 #              ^^^^^^^^^^^^^^^^ meta.string meta.interpolation.parameter.shell - string
 #                              ^ meta.string string.quoted.double punctuation.definition.string.end
 #                                ^ meta.string string.quoted.double punctuation.definition.string.begin
-#                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string meta.interpolation.command.backticks.shell - string
+#                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string meta.interpolation.command.shell - string
 #                                                           ^ meta.string string.quoted.double punctuation.definition.string.end
 #                                 ^ punctuation.section.interpolation.begin.shell
 #                                  ^^^^^^^ storage.modifier
@@ -618,14 +618,14 @@ printFunction "$variableString1" "`declare -p variableArray`"
 #                                                          ^ punctuation.section.interpolation.end.shell
 foo=`readonly x=5`
 # <- variable.other.readwrite.assignment
-#   ^ meta.interpolation.command.backticks.shell punctuation.section.interpolation.begin.shell
-#    ^^^^^^^^ meta.interpolation.command.backticks.shell storage.modifier
-#             ^ meta.interpolation.command.backticks.shell variable.other.readwrite.assignment
-#              ^ meta.interpolation.command.backticks.shell keyword.operator.assignment
-#               ^ meta.interpolation.command.backticks.shell string.unquoted
-#                ^ meta.interpolation.command.backticks.shell punctuation.section.interpolation.end.shell
+#   ^ meta.interpolation.command.shell punctuation.section.interpolation.begin.shell
+#    ^^^^^^^^ meta.interpolation.command.shell storage.modifier
+#             ^ meta.interpolation.command.shell variable.other.readwrite.assignment
+#              ^ meta.interpolation.command.shell keyword.operator.assignment
+#               ^ meta.interpolation.command.shell string.unquoted
+#                ^ meta.interpolation.command.shell punctuation.section.interpolation.end.shell
 
-# <- - meta.interpolation.command.backticks.shell
+# <- - meta.interpolation.command.shell
 export foo          # 'foo' is a variable name
 #^^^^^^^^^ meta.function-call
 # <- storage.modifier
@@ -986,7 +986,7 @@ ${foo:=bar}
 
 : ${foo:=`bar`}
 # ^^^^^^^ meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
-#        ^^^^^ meta.interpolation.parameter.shell meta.interpolation.command.backticks.shell
+#        ^^^^^ meta.interpolation.parameter.shell meta.interpolation.command.shell
 #             ^ meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
 # ^^ punctuation.section.interpolation.begin.shell
 #      ^^ keyword
@@ -995,7 +995,7 @@ ${foo:=bar}
 
 : ${foo:=$( bar )}
 # ^^^^^^^ meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
-#        ^^^^^^^^ meta.interpolation.parameter.shell meta.interpolation.command.parens.shell
+#        ^^^^^^^^ meta.interpolation.parameter.shell meta.interpolation.command.shell
 #                ^ meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
 # ^^ punctuation.section.interpolation.begin.shell
 #      ^^ keyword
@@ -2190,7 +2190,7 @@ done
 for i in $(seq 100); do
 # <- keyword.control.loop.for
 #  ^^^^^^^^^^^^^^^^ meta.group.for.shell
-#        ^^^^^^^^^^ meta.interpolation.command.parens.shell
+#        ^^^^^^^^^^ meta.interpolation.command.shell
 #     ^^ keyword.control.in
 #        ^^ punctuation.section.interpolation.begin.shell
 #          ^^^ meta.function-call variable.function
@@ -2203,10 +2203,10 @@ done
 # <- keyword.control.loop.end
 
 `for i in $(seq 100); do echo i; done`
-# <- meta.interpolation.command.backticks.shell punctuation.section.interpolation.begin.shell
-#^^^^^^^^^ meta.interpolation.command.backticks.shell - meta.interpolation meta.interpolation
-#         ^^^^^^^^^^ meta.interpolation.command.backticks.shell
-#                   ^^^^^^^^^^^^^^^^^^ meta.interpolation.command.backticks.shell - meta.interpolation meta.interpolation
+# <- meta.interpolation.command.shell punctuation.section.interpolation.begin.shell
+#^^^^^^^^^ meta.interpolation.command.shell - meta.interpolation meta.interpolation
+#         ^^^^^^^^^^ meta.interpolation.command.shell
+#                   ^^^^^^^^^^^^^^^^^^ meta.interpolation.command.shell - meta.interpolation meta.interpolation
 #      ^^ keyword.control.in
 #         ^^ punctuation.section.interpolation.begin.shell
 #           ^^^ meta.function-call.identifier.shell variable.function.shell
@@ -2702,7 +2702,7 @@ fi
 cat -c <<<$(echo pipephobic)
 #  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments
 #      ^^^ keyword.operator.herestring
-#         ^^^^^^^^^^^^^^^^^^ meta.interpolation.command.parens.shell
+#         ^^^^^^^^^^^^^^^^^^ meta.interpolation.command.shell
 #           ^^^^ support.function
 
 # Escaped and non-escaped backticks in heredocs...

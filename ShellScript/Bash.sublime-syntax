@@ -1023,7 +1023,7 @@ contexts:
     - match: \$\(
       scope: punctuation.section.interpolation.begin.shell
       push:
-        - meta_scope: meta.interpolation.command.parens.shell
+        - meta_scope: meta.interpolation.command.shell
         - match: \s*(\))
           captures:
             1: punctuation.section.interpolation.end.shell
@@ -1034,14 +1034,14 @@ contexts:
         # NOTE: we push into the context to work around core issue #3002
         - match: \`
           scope:
-            meta.interpolation.command.backticks.shell
+            meta.interpolation.command.shell
             punctuation.section.interpolation.begin.shell
           embed: statements
-          embed_scope: meta.interpolation.command.backticks.shell
+          embed_scope: meta.interpolation.command.shell
           escape: (?<![^\\]\\)(?<![\\]{3})\`
           escape_captures:
             0:
-              meta.interpolation.command.backticks.shell
+              meta.interpolation.command.shell
               punctuation.section.interpolation.end.shell
         - include: immediately-pop
 
