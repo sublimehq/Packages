@@ -74,7 +74,7 @@ def main():
         contexts[f"cmd-args-{command}"] = cmd_args
 
         match = f"{value.get('match', command)}{{{{cmd_break}}}}"
-        scope = "meta.function-call.shell " + value.get("scope", f"support.function.{command}.shell")
+        scope = "meta.function-call.identifier.shell " + value.get("scope", f"support.function.{command}.shell")
         main.append({
             "match": match,
             "scope": scope,

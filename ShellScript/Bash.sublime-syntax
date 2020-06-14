@@ -227,7 +227,7 @@ contexts:
   vardef:
     - match: \balias{{keyword_break}}
       scope:
-        meta.function-call.shell
+        meta.function-call.identifier.shell
         support.function.alias.shell
       push:
         - vardef-meta
@@ -238,7 +238,7 @@ contexts:
         - vardef-alias-options
     - match: \b(typeset|declare|local){{keyword_break}}
       scope:
-        meta.function-call.shell
+        meta.function-call.identifier.shell
         storage.modifier.shell
       push:
         - vardef-meta
@@ -249,7 +249,7 @@ contexts:
         - vardef-declare-options
     - match: \bexport{{keyword_break}}
       scope:
-        meta.function-call.shell
+        meta.function-call.identifier.shell
         storage.modifier.shell
       push:
         - vardef-meta
@@ -260,7 +260,7 @@ contexts:
         - vardef-export-options
     - match: \breadonly{{keyword_break}}
       scope:
-        meta.function-call.shell
+        meta.function-call.identifier.shell
         storage.modifier.shell
       push:
         - vardef-meta
@@ -440,7 +440,7 @@ contexts:
     - include: scope:commands.builtin.shell.bash#main
     - match: \blet{{keyword_break}}
       scope: 
-        meta.function-call.shell
+        meta.function-call.identifier.shell
         support.function.let.shell
       set:
         - meta_content_scope: meta.function-call.arguments.shell
@@ -451,9 +451,10 @@ contexts:
 
   cmd-name:
     - clear_scopes: 1
-    - meta_scope: meta.function-call.shell variable.function.shell
+    - meta_scope: meta.function-call.identifier.shell variable.function.shell
     - match: (?=[\s`=|&;()}<>])
       pop: true
+    - include: string-interpolation
     - include: string
     - include: expansion-parameter
     - include: expansion-arithmetic

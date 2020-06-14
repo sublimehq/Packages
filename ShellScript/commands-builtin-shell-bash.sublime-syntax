@@ -9,202 +9,202 @@ variables:
 contexts:
   main:
   - match: bind{{cmd_break}}
-    scope: meta.function-call.shell support.function.bind.shell
+    scope: meta.function-call.identifier.shell support.function.bind.shell
     set:
     - cmd-post
     - cmd-args-bind
   - match: builtin{{cmd_break}}
-    scope: meta.function-call.shell support.function.builtin.shell
+    scope: meta.function-call.identifier.shell support.function.builtin.shell
     set:
     - cmd-post
     - cmd-args-builtin
   - match: caller{{cmd_break}}
-    scope: meta.function-call.shell support.function.caller.shell
+    scope: meta.function-call.identifier.shell support.function.caller.shell
     set:
     - cmd-post
     - cmd-args-caller
   - match: :{{cmd_break}}
-    scope: meta.function-call.shell support.function.colon.shell
+    scope: meta.function-call.identifier.shell support.function.colon.shell
     set:
     - cmd-post
     - cmd-args-colon
   - match: command{{cmd_break}}
-    scope: meta.function-call.shell support.function.command.shell
+    scope: meta.function-call.identifier.shell support.function.command.shell
     set:
     - cmd-post
     - cmd-args-command
   - match: cd{{cmd_break}}
-    scope: meta.function-call.shell support.function.cd.shell
+    scope: meta.function-call.identifier.shell support.function.cd.shell
     set:
     - cmd-post
     - cmd-args-cd
   - match: \.{{cmd_break}}
-    scope: meta.function-call.shell support.function.dot.shell
+    scope: meta.function-call.identifier.shell support.function.dot.shell
     set:
     - cmd-post
     - cmd-args-dot
   - match: enable{{cmd_break}}
-    scope: meta.function-call.shell support.function.enable.shell
+    scope: meta.function-call.identifier.shell support.function.enable.shell
     set:
     - cmd-post
     - cmd-args-enable
   - match: help{{cmd_break}}
-    scope: meta.function-call.shell support.function.help.shell
+    scope: meta.function-call.identifier.shell support.function.help.shell
     set:
     - cmd-post
     - cmd-args-help
   - match: logout{{cmd_break}}
-    scope: meta.function-call.shell support.function.logout.shell
+    scope: meta.function-call.identifier.shell support.function.logout.shell
     set:
     - cmd-post
     - cmd-args-logout
   - match: mapfile{{cmd_break}}
-    scope: meta.function-call.shell support.function.mapfile.shell
+    scope: meta.function-call.identifier.shell support.function.mapfile.shell
     set:
     - cmd-post
     - cmd-args-mapfile
   - match: printf{{cmd_break}}
-    scope: meta.function-call.shell support.function.printf.shell
+    scope: meta.function-call.identifier.shell support.function.printf.shell
     set:
     - cmd-post
     - cmd-args-printf
   - match: read{{cmd_break}}
-    scope: meta.function-call.shell support.function.read.shell
+    scope: meta.function-call.identifier.shell support.function.read.shell
     set:
     - cmd-post
     - cmd-args-read
   - match: readarray{{cmd_break}}
-    scope: meta.function-call.shell support.function.readarray.shell
+    scope: meta.function-call.identifier.shell support.function.readarray.shell
     set:
     - cmd-post
     - cmd-args-readarray
   - match: source{{cmd_break}}
-    scope: meta.function-call.shell support.function.source.shell
+    scope: meta.function-call.identifier.shell support.function.source.shell
     set:
     - cmd-post
     - cmd-args-source
   - match: type{{cmd_break}}
-    scope: meta.function-call.shell support.function.type.shell
+    scope: meta.function-call.identifier.shell support.function.type.shell
     set:
     - cmd-post
     - cmd-args-type
   - match: ulimit{{cmd_break}}
-    scope: meta.function-call.shell support.function.ulimit.shell
+    scope: meta.function-call.identifier.shell support.function.ulimit.shell
     set:
     - cmd-post
     - cmd-args-ulimit
   - match: unalias{{cmd_break}}
-    scope: meta.function-call.shell support.function.unalias.shell
+    scope: meta.function-call.identifier.shell support.function.unalias.shell
     set:
     - cmd-post
     - cmd-args-unalias
   - match: eval{{cmd_break}}
-    scope: meta.function-call.shell support.function.eval.shell
+    scope: meta.function-call.identifier.shell support.function.eval.shell
     set:
     - cmd-post
     - cmd-args-eval
   - match: exec{{cmd_break}}
-    scope: meta.function-call.shell support.function.exec.shell
+    scope: meta.function-call.identifier.shell support.function.exec.shell
     set:
     - cmd-post
     - cmd-args-exec
   - match: exit{{cmd_break}}
-    scope: meta.function-call.shell support.function.exit.shell
+    scope: meta.function-call.identifier.shell support.function.exit.shell
     set:
     - cmd-post
     - cmd-args-exit
   - match: getopts{{cmd_break}}
-    scope: meta.function-call.shell support.function.getopts.shell
+    scope: meta.function-call.identifier.shell support.function.getopts.shell
     set:
     - cmd-post
     - cmd-args-getopts
   - match: hash{{cmd_break}}
-    scope: meta.function-call.shell support.function.hash.shell
+    scope: meta.function-call.identifier.shell support.function.hash.shell
     set:
     - cmd-post
     - cmd-args-hash
   - match: pwd{{cmd_break}}
-    scope: meta.function-call.shell support.function.pwd.shell
+    scope: meta.function-call.identifier.shell support.function.pwd.shell
     set:
     - cmd-post
     - cmd-args-pwd
   - match: return{{cmd_break}}
-    scope: meta.function-call.shell keyword.control.flow.return.shell
+    scope: meta.function-call.identifier.shell keyword.control.flow.return.shell
     set:
     - cmd-post
     - cmd-args-return
   - match: shift{{cmd_break}}
-    scope: meta.function-call.shell support.function.shift.shell
+    scope: meta.function-call.identifier.shell support.function.shift.shell
     set:
     - cmd-post
     - cmd-args-shift
   - match: times{{cmd_break}}
-    scope: meta.function-call.shell support.function.times.shell
+    scope: meta.function-call.identifier.shell support.function.times.shell
     set:
     - cmd-post
     - cmd-args-times
   - match: trap{{cmd_break}}
-    scope: meta.function-call.shell support.function.trap.shell
+    scope: meta.function-call.identifier.shell support.function.trap.shell
     set:
     - cmd-post
     - cmd-args-trap
   - match: umask{{cmd_break}}
-    scope: meta.function-call.shell support.function.umask.shell
+    scope: meta.function-call.identifier.shell support.function.umask.shell
     set:
     - cmd-post
     - cmd-args-umask
   - match: unset{{cmd_break}}
-    scope: meta.function-call.shell support.function.unset.shell
+    scope: meta.function-call.identifier.shell support.function.unset.shell
     set:
     - cmd-post
     - cmd-args-unset
   - match: echo{{cmd_break}}
-    scope: meta.function-call.shell support.function.echo.shell
+    scope: meta.function-call.identifier.shell support.function.echo.shell
     set:
     - cmd-post
     - cmd-args-echo
   - match: set{{cmd_break}}
-    scope: meta.function-call.shell support.function.set.shell
+    scope: meta.function-call.identifier.shell support.function.set.shell
     set:
     - cmd-post
     - cmd-args-set
   - match: shopt{{cmd_break}}
-    scope: meta.function-call.shell support.function.shopt.shell
+    scope: meta.function-call.identifier.shell support.function.shopt.shell
     set:
     - cmd-post
     - cmd-args-shopt
   - match: bg{{cmd_break}}
-    scope: meta.function-call.shell support.function.bg.shell
+    scope: meta.function-call.identifier.shell support.function.bg.shell
     set:
     - cmd-post
     - cmd-args-bg
   - match: fg{{cmd_break}}
-    scope: meta.function-call.shell support.function.fg.shell
+    scope: meta.function-call.identifier.shell support.function.fg.shell
     set:
     - cmd-post
     - cmd-args-fg
   - match: jobs{{cmd_break}}
-    scope: meta.function-call.shell support.function.jobs.shell
+    scope: meta.function-call.identifier.shell support.function.jobs.shell
     set:
     - cmd-post
     - cmd-args-jobs
   - match: kill{{cmd_break}}
-    scope: meta.function-call.shell support.function.kill.shell
+    scope: meta.function-call.identifier.shell support.function.kill.shell
     set:
     - cmd-post
     - cmd-args-kill
   - match: wait{{cmd_break}}
-    scope: meta.function-call.shell support.function.wait.shell
+    scope: meta.function-call.identifier.shell support.function.wait.shell
     set:
     - cmd-post
     - cmd-args-wait
   - match: disown{{cmd_break}}
-    scope: meta.function-call.shell support.function.disown.shell
+    scope: meta.function-call.identifier.shell support.function.disown.shell
     set:
     - cmd-post
     - cmd-args-disown
   - match: suspend{{cmd_break}}
-    scope: meta.function-call.shell support.function.suspend.shell
+    scope: meta.function-call.identifier.shell support.function.suspend.shell
     set:
     - cmd-post
     - cmd-args-suspend
