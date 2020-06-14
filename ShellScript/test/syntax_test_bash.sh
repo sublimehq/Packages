@@ -301,6 +301,10 @@ x=${foo} y=${baz}"asdf" pwd
 #                ^ punctuation.definition.string.begin
 #                     ^ punctuation.definition.string.end
 #                       ^^^ meta.function-call support.function
+x="$(( foo++ ))"
+#  ^^^ punctuation.section.interpolation.begin.shell
+#         ^^ keyword
+#            ^^ punctuation.section.interpolation.end.shell
 
 # Spaces following an assignment token means an empty string value!
 x= pwd
@@ -374,6 +378,85 @@ done=hello
 #    ^^^ meta.string string.unquoted
 #       ^ punctuation.definition.compound.end - string-unquoted
 
+declare -a array
+array[500]=value
+#    ^ variable.other.readwrite punctuation.section.braces.begin
+#     ^^^ variable.other.readwrite constant.numeric.integer
+#        ^ variable.other.readwrite punctuation.section.braces.end
+#         ^ keyword.operator.assignment
+#          ^^^^^ meta.string string.unquoted
+echo ${array[@]}
+#           ^ meta.function-call.arguments variable.other.readwrite punctuation.section.braces.begin
+#            ^ meta.function-call.arguments variable.other.readwrite variable.language.array
+#             ^ meta.function-call.arguments variable.other.readwrite punctuation.section.braces.end
+
+array["foo"]=bar
+#    ^ variable.other.readwrite punctuation.section.braces.begin
+#     ^ variable.other.readwrite string.quoted.double punctuation.definition.string.begin
+#      ^^^ variable.other.readwrite string.quoted.double
+#         ^ variable.other.readwrite string.quoted.double punctuation.definition.string.end
+#          ^ variable.other.readwrite punctuation.section.braces.end
+#           ^ keyword.operator.assignment
+array[foo]=bar
+#    ^ variable.other.readwrite punctuation.section.braces.begin
+#     ^^^ variable.other.readwrite
+#        ^ variable.other.readwrite punctuation.section.braces.end
+#         ^ keyword.operator.assignment
+#          ^^^ meta.string string.unquoted
+array=($one "two" ${three} 'four' $5)
+# <- variable.other.readwrite
+#    ^ keyword.operator.assignment
+#     ^ punctuation.section.parens.begin
+#      ^ punctuation.definition.variable
+#       ^^^ variable.other.readwrite
+#           ^ string.quoted.double punctuation.definition.string.begin
+#            ^^^ string.quoted.double
+#               ^ string.quoted.double punctuation.definition.string.end
+#                 ^^ punctuation.section.interpolation.begin.shell
+#                   ^^^^^ variable.other.readwrite
+#                        ^ punctuation.section.interpolation.end.shell
+#                          ^ string.quoted.single punctuation.definition.string.begin
+#                           ^^^^ string.quoted.single
+#                               ^ string.quoted.single punctuation.definition.string.end
+#                                 ^ punctuation.definition.variable
+#                                  ^ variable.other.readwrite
+#                                   ^ punctuation.section.parens.end
+array=([foo]== ["bar"]='what' [5+10]=qux)
+#    ^ keyword.operator.assignment
+#     ^ punctuation.section.parens.begin
+#      ^ punctuation.section.brackets.begin
+#          ^ punctuation.section.brackets.end
+#           ^ keyword.operator.assignment
+#            ^ - keyword.operator.assignment
+#              ^ punctuation.section.brackets.begin
+#               ^ string.quoted.double punctuation.definition.string.begin
+#                   ^ string.quoted.double punctuation.definition.string.end
+#                    ^ punctuation.section.brackets.end
+#                     ^ keyword.operator.assignment
+#                      ^ string.quoted.single punctuation.definition.string.begin
+#                           ^ string.quoted.single punctuation.definition.string.end
+#                             ^ punctuation.section.brackets.begin
+#                              ^ - constant.numeric
+#                               ^ - keyword
+#                                ^^ - constant.numeric
+#                                  ^ punctuation.section.brackets.end
+#                                   ^ keyword.operator.assignment
+#                                       ^ punctuation.section.parens.end
+array=()  # an empty array
+#    ^ keyword.operator.assignment
+#     ^ punctuation.section.parens.begin
+#      ^ punctuation.section.parens.end
+
+foo[${j}+10]="`foo`"
+#  ^ variable.other.readwrite punctuation
+#   ^ variable.other.readwrite punctuation
+#    ^ variable.other.readwrite punctuation
+#     ^ variable.other.readwrite variable.other.readwrite
+#      ^ variable.other.readwrite punctuation
+#       ^ variable.other.readwrite keyword.operator.arithmetic
+#        ^^ variable.other.readwrite constant.numeric.integer
+#          ^ variable.other.readwrite punctuation.section.braces.end
+#           ^ keyword.operator
 
 #############
 # Variables #
@@ -1814,20 +1897,6 @@ echo +(bar|qux) | wc
 echo git rev-list "$(echo --all)" | grep -P 'c354a80'
 #                  ^^ punctuation.section.interpolation.begin.shell
 #                              ^ punctuation.section.interpolation.end.shell
-x="$(( foo++ ))"
-#  ^^^ punctuation.section.interpolation.begin.shell
-#         ^^ keyword
-#            ^^ punctuation.section.interpolation.end.shell
-foo[${j}+10]="`foo`"
-#  ^ variable.other.readwrite punctuation
-#   ^ variable.other.readwrite punctuation
-#    ^ variable.other.readwrite punctuation
-#     ^ variable.other.readwrite variable.other.readwrite
-#      ^ variable.other.readwrite punctuation
-#       ^ variable.other.readwrite keyword.operator.arithmetic
-#        ^^ variable.other.readwrite constant.numeric.integer
-#          ^ variable.other.readwrite punctuation.section.braces.end
-#           ^ keyword.operator
 
 # Invokes "foo -e", so "-e" is a switch.
 foo \
@@ -2079,75 +2148,6 @@ do echo bar; until ! { [[ true ]]; }
 #                              ^^ support.function.double-brace.end
 #                                ^ keyword.operator.logical.continue
 #                                  ^ punctuation.definition.compound.braces.end
-
-declare -a array
-array[500]=value
-#    ^ variable.other.readwrite punctuation.section.braces.begin
-#     ^^^ variable.other.readwrite constant.numeric.integer
-#        ^ variable.other.readwrite punctuation.section.braces.end
-#         ^ keyword.operator.assignment
-#          ^^^^^ meta.string string.unquoted
-echo ${array[@]}
-#           ^ meta.function-call.arguments variable.other.readwrite punctuation.section.braces.begin
-#            ^ meta.function-call.arguments variable.other.readwrite variable.language.array
-#             ^ meta.function-call.arguments variable.other.readwrite punctuation.section.braces.end
-
-array["foo"]=bar
-#    ^ variable.other.readwrite punctuation.section.braces.begin
-#     ^ variable.other.readwrite string.quoted.double punctuation.definition.string.begin
-#      ^^^ variable.other.readwrite string.quoted.double
-#         ^ variable.other.readwrite string.quoted.double punctuation.definition.string.end
-#          ^ variable.other.readwrite punctuation.section.braces.end
-#           ^ keyword.operator.assignment
-array[foo]=bar
-#    ^ variable.other.readwrite punctuation.section.braces.begin
-#     ^^^ variable.other.readwrite
-#        ^ variable.other.readwrite punctuation.section.braces.end
-#         ^ keyword.operator.assignment
-#          ^^^ meta.string string.unquoted
-array=($one "two" ${three} 'four' $5)
-# <- variable.other.readwrite
-#    ^ keyword.operator.assignment
-#     ^ punctuation.section.parens.begin
-#      ^ punctuation.definition.variable
-#       ^^^ variable.other.readwrite
-#           ^ string.quoted.double punctuation.definition.string.begin
-#            ^^^ string.quoted.double
-#               ^ string.quoted.double punctuation.definition.string.end
-#                 ^^ punctuation.section.interpolation.begin.shell
-#                   ^^^^^ variable.other.readwrite
-#                        ^ punctuation.section.interpolation.end.shell
-#                          ^ string.quoted.single punctuation.definition.string.begin
-#                           ^^^^ string.quoted.single
-#                               ^ string.quoted.single punctuation.definition.string.end
-#                                 ^ punctuation.definition.variable
-#                                  ^ variable.other.readwrite
-#                                   ^ punctuation.section.parens.end
-array=([foo]== ["bar"]='what' [5+10]=qux)
-#    ^ keyword.operator.assignment
-#     ^ punctuation.section.parens.begin
-#      ^ punctuation.section.brackets.begin
-#          ^ punctuation.section.brackets.end
-#           ^ keyword.operator.assignment
-#            ^ - keyword.operator.assignment
-#              ^ punctuation.section.brackets.begin
-#               ^ string.quoted.double punctuation.definition.string.begin
-#                   ^ string.quoted.double punctuation.definition.string.end
-#                    ^ punctuation.section.brackets.end
-#                     ^ keyword.operator.assignment
-#                      ^ string.quoted.single punctuation.definition.string.begin
-#                           ^ string.quoted.single punctuation.definition.string.end
-#                             ^ punctuation.section.brackets.begin
-#                              ^ - constant.numeric
-#                               ^ - keyword
-#                                ^^ - constant.numeric
-#                                  ^ punctuation.section.brackets.end
-#                                   ^ keyword.operator.assignment
-#                                       ^ punctuation.section.parens.end
-array=()  # an empty array
-#    ^ keyword.operator.assignment
-#     ^ punctuation.section.parens.begin
-#      ^ punctuation.section.parens.end
 
 for (( i = 0; i < 10; i++ )); do
 #   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.arithmetic
