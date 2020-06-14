@@ -559,34 +559,34 @@ foo[${j}+10]="`foo`"
 # ^ punctuation.definition.variable.shell
 
 fg %
-#  ^ meta.interpolation.job.shell variable.other.readwrite.shell punctuation.definition.variable.job.shell
+#  ^ meta.interpolation.job.shell variable.other.readwrite.shell punctuation.definition.variable.shell
 fg %%
 #  ^^ meta.interpolation.job.shell variable.language.job.shell
-#  ^ punctuation.definition.variable.job.shell
+#  ^ punctuation.definition.variable.shell
 fg %+
 #  ^^ meta.interpolation.job.shell variable.language.job.shell
-#  ^ punctuation.definition.variable.job.shell
+#  ^ punctuation.definition.variable.shell
 fg %-
 #  ^^ meta.interpolation.job.shell variable.language.job.shell
-#  ^ punctuation.definition.variable.job.shell
+#  ^ punctuation.definition.variable.shell
 fg %1 %2 %3
-#  ^^ meta.interpolation.job.shell constant.numeric.integer.decimal.job.shell
-#  ^ punctuation.definition.variable.job.shell
-#     ^^ meta.interpolation.job.shell constant.numeric.integer.decimal.job.shell
-#     ^ punctuation.definition.variable.job.shell
-#        ^^ meta.interpolation.job.shell constant.numeric.integer.decimal.job.shell
-#        ^ punctuation.definition.variable.job.shell
+#  ^^ meta.interpolation.job.shell variable.language.job.shell
+#  ^ punctuation.definition.variable.shell
+#     ^^ meta.interpolation.job.shell variable.language.job.shell
+#     ^ punctuation.definition.variable.shell
+#        ^^ meta.interpolation.job.shell variable.language.job.shell
+#        ^ punctuation.definition.variable.shell
 fg %ce
 #  ^^^ meta.interpolation.job.shell variable.other.readwrite.shell
-#  ^ punctuation.definition.variable.job.shell
+#  ^ punctuation.definition.variable.shell
 fg %?ce
 #  ^^^^ meta.interpolation.job.shell variable.other.readwrite.shell
-#  ^ punctuation.definition.variable.job.shell
+#  ^ punctuation.definition.variable.shell
 #   ^ keyword.operator.regexp.quantifier.shell
 
 %1
-# <- meta.interpolation.job.shell constant.numeric.integer.decimal.job.shell punctuation.definition.variable.job.shell
-#^ meta.interpolation.job.shell constant.numeric.integer.decimal.job.shell
+# <- meta.interpolation.job.shell variable.language.job.shell punctuation.definition.variable.shell
+#^ meta.interpolation.job.shell variable.language.job.shell
 
 sleep 2 & jobs
 # <- meta.function-call.identifier.shell variable.function.shell
