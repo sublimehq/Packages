@@ -334,7 +334,7 @@ contexts:
       set:
         - meta_content_scope:
             meta.variable.shell
-            variable.other.readwrite.assignment.shell
+            variable.other.readwrite.shell
         - match: (?={{varassign}}|{{metachar}})
           pop: true
         - include: array

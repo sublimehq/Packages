@@ -238,7 +238,7 @@ x= & pwd
 #  ^ keyword.operator.logical.job.shell
 #    ^^^ support.function
 x=a
-# <- variable.other.readwrite.assignment
+# <- variable.other.readwrite
 #^ keyword.operator.assignment
 # ^ meta.string string.unquoted
 x=a # some comment
@@ -246,7 +246,7 @@ x=a # some comment
 x=a#not-a-comment
 #  ^ meta.string string.unquoted - comment
 x=a pwd
-# <- variable.other.readwrite.assignment
+# <- variable.other.readwrite
 #^ keyword.operator.assignment
 #  ^ - string.unquoted
 #   ^^^ meta.function-call support.function
@@ -272,13 +272,18 @@ qux
 #<- meta.string.shell string.unquoted.shell
 #^^ meta.string string.unquoted
 foo=bar"baz"qux
-#<- variable.other.readwrite.assignment.shell
-#^^ variable.other.readwrite.assignment.shell
+#<- variable.other.readwrite.shell
+#^^ variable.other.readwrite.shell
 #  ^ keyword.operator.assignment.shell
 #   ^^^^^^^^^^^ meta.string.shell - string string
 #   ^^^ string.unquoted.shell
 #      ^^^^^ string.quoted.double.shell
 #           ^^^ string.unquoted.shell
+foo='bar'
+#<- variable.other.readwrite.shell
+#^^ variable.other.readwrite.shell
+#  ^ keyword.operator.assignment.shell
+#   ^^^^^ meta.string.shell string.quoted.single.shell
 x=${foo} y=${baz}"asdf" pwd
 #^ keyword.operator.assignment
 # ^^^^^^ meta.string meta.interpolation - string
@@ -299,14 +304,14 @@ x=${foo} y=${baz}"asdf" pwd
 
 # Spaces following an assignment token means an empty string value!
 x= pwd
-# <- variable.other.readwrite.assignment
+# <- variable.other.readwrite
 #^ keyword.operator.assignment
 #  ^^^ meta.function-call support.function
 
 B$(cat)OWL=$(($(cat food.txt | wc -l) + 5))
-# <- meta.variable.shell variable.other.readwrite.assignment.shell - meta.interpolation
+# <- meta.variable.shell variable.other.readwrite.shell - meta.interpolation
 #^^^^^^ meta.variable.shell meta.interpolation.command.shell
-#      ^^^ meta.variable.shell variable.other.readwrite.assignment.shell
+#      ^^^ meta.variable.shell variable.other.readwrite.shell
 #         ^ - meta.interpolation
 #          ^^^ meta.string.shell meta.interpolation.arithmetic.shell - meta.interpolation meta.interpolation
 #             ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.arithmetic.shell meta.interpolation.command.shell
@@ -603,7 +608,7 @@ printFunction "$variableString1" "$(declare -p variableArray)"
 #                                  ^ punctuation.section.interpolation.begin.shell
 #                                   ^^^^^^^ storage.modifier
 #                                           ^^ variable.parameter.option
-#                                              ^^^^^^^^^^^^^ variable.other.readwrite.assignment
+#                                              ^^^^^^^^^^^^^ variable.other.readwrite
 #                                                           ^ punctuation.section.interpolation.end.shell
 
 # <- - variable.other
@@ -617,13 +622,13 @@ printFunction "$variableString1" "`declare -p variableArray`"
 #                                 ^ punctuation.section.interpolation.begin.shell
 #                                  ^^^^^^^ storage.modifier
 #                                          ^^ variable.parameter.option
-#                                             ^^^^^^^^^^^^^ variable.other.readwrite.assignment
+#                                             ^^^^^^^^^^^^^ variable.other.readwrite
 #                                                          ^ punctuation.section.interpolation.end.shell
 foo=`readonly x=5`
-# <- variable.other.readwrite.assignment
+# <- variable.other.readwrite
 #   ^ meta.interpolation.command.shell punctuation.section.interpolation.begin.shell
 #    ^^^^^^^^ meta.interpolation.command.shell storage.modifier
-#             ^ meta.interpolation.command.shell variable.other.readwrite.assignment
+#             ^ meta.interpolation.command.shell variable.other.readwrite
 #              ^ meta.interpolation.command.shell keyword.operator.assignment
 #               ^ meta.interpolation.command.shell string.unquoted
 #                ^ meta.interpolation.command.shell punctuation.section.interpolation.end.shell
@@ -632,19 +637,19 @@ foo=`readonly x=5`
 export foo          # 'foo' is a variable name
 #^^^^^^^^^ meta.function-call
 # <- storage.modifier
-#      ^^^ variable.other.readwrite.assignment
+#      ^^^ variable.other.readwrite
 #                  ^ - meta.function-call
 export foo bar      # 'foo' and 'bar' are variable names
 # <- storage.modifier
-#      ^^^ variable.other.readwrite.assignment
+#      ^^^ variable.other.readwrite
 #         ^ - variable
-#          ^^^ variable.other.readwrite.assignment
+#          ^^^ variable.other.readwrite
 #                  ^ - meta.function-call
 export foo='bar'    # 'foo' is a variable name
 # <- storage.modifier
 #^^^^^^^^^^^^^^^ meta.function-call
 #                  ^ - meta.function-call
-#      ^^^ variable.other.readwrite.assignment
+#      ^^^ variable.other.readwrite
 #         ^ keyword.operator.assignment
 #          ^^^^^ meta.string string.quoted.single
 #          ^ punctuation.definition.string.begin
@@ -652,16 +657,16 @@ export foo='bar'    # 'foo' is a variable name
 local foo bar       # 'foo' and 'bar' are variable names
 # <- storage.modifier
 #    ^ - variable
-#     ^^^ variable.other.readwrite.assignment
+#     ^^^ variable.other.readwrite
 #        ^ - variable
-#         ^^^ variable.other.readwrite.assignment
+#         ^^^ variable.other.readwrite
 #                  ^ - meta.function-call
 local foo bar='baz' # 'foo' and 'bar' are variable names
 # <- storage.modifier
 #    ^ - variable
-#     ^^^ variable.other.readwrite.assignment
+#     ^^^ variable.other.readwrite
 #        ^ - variable
-#         ^^^ variable.other.readwrite.assignment
+#         ^^^ variable.other.readwrite
 #            ^ keyword.operator.assignment
 #             ^^^^^ meta.string string.quoted.single
 #             ^ punctuation.definition.string.begin
@@ -684,7 +689,7 @@ readonly foo        # 'foo' is a variable name
 #           ^ - meta.function-call
 #^^^^^^^ storage.modifier.shell
 #       ^ - storage - variable
-#        ^^^ variable.other.readwrite.assignment
+#        ^^^ variable.other.readwrite
 #           ^ - variable.other.readwrite
 typeset foo         # 'foo' is a variable name
 # <- meta.function-call.identifier.shell storage.modifier.shell
@@ -693,7 +698,7 @@ typeset foo         # 'foo' is a variable name
 #          ^ - meta.function-call
 #^^^^^^ storage.modifier.shell
 #      ^ - storage - variable
-#       ^^^ variable.other.readwrite.assignment
+#       ^^^ variable.other.readwrite
 #          ^ - variable.other.readwrite
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 unset foo bar       # 'foo' and 'bar' are variable names
@@ -722,7 +727,7 @@ if [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; then PLATFORM=docker; fi
 #                                       ^^^^ meta.function-call.identifier.shell variable.function.shell
 #                                           ^ keyword.operator.logical.continue
 #                                             ^^^^ keyword.control.conditional.then
-#                                                         ^ variable.other.readwrite.assignment
+#                                                         ^ variable.other.readwrite
 #                                                          ^ keyword.operator.assignment
 #                                                           ^ meta.string string.unquoted
 if { [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; }; then PLATFORM=docker; fi
@@ -738,7 +743,7 @@ if { [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; }; then PLATFORM=docker; fi
 #                                               ^ punctuation.definition.compound.braces.end
 #                                                ^ keyword.operator.logical.continue
 #                                                  ^^^^ keyword.control.conditional.then
-#                                                              ^ variable.other.readwrite.assignment
+#                                                              ^ variable.other.readwrite
 #                                                               ^ keyword.operator.assignment
 #                                                                ^ meta.string string.unquoted
 if ( [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2 ); then PLATFORM=docker; fi
@@ -754,7 +759,7 @@ if ( [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2 ); then PLATFORM=docker; fi
 #                                              ^ punctuation.definition.compound.end
 #                                               ^ keyword.operator.logical.continue
 #                                                 ^^^^ keyword.control.conditional.then
-#                                                             ^ variable.other.readwrite.assignment
+#                                                             ^ variable.other.readwrite
 #                                                              ^ keyword.operator.assignment
 #                                                               ^ meta.string string.unquoted
 
@@ -852,7 +857,7 @@ for-bar
 asdf foo && FOO=some-value pwd
 # <- meta.function-call.identifier.shell variable.function
 #        ^^ keyword.operator.logical.and
-#           ^^^ variable.other.readwrite.assignment
+#           ^^^ variable.other.readwrite
 #              ^ keyword.operator.assignment
 #               ^^^^^^^^^^ meta.string string.unquoted
 #                          ^^^ meta.function-call support.function.pwd
@@ -860,25 +865,25 @@ asdf foo && FOO=some-value pwd
 (cd Layer1-linux  && PLATFORM=${PLATFORM} ./build ) &&
 # <- punctuation.definition.compound.begin
 #                                                 ^ punctuation.definition.compound.end
-#                           ^ variable.other.readwrite.assignment
+#                           ^ variable.other.readwrite
 #                            ^ keyword.operator.assignment
 #                             ^ meta.string meta.interpolation - string
 #                                           ^ variable.function
 (cd Layer2-nodejs && PLATFORM=${PLATFORM} ./build ) &&
-#                           ^ variable.other.readwrite.assignment
+#                           ^ variable.other.readwrite
 #                            ^ keyword.operator.assignment
 #                             ^ meta.string meta.interpolation - string
 #                                           ^ variable.function
 (cd Layer3-base   && PLATFORM=${PLATFORM} ./build ) &&
-#                           ^ variable.other.readwrite.assignment
+#                           ^ variable.other.readwrite
 #                            ^ keyword.operator.assignment
 #                             ^ meta.string meta.interpolation - string
 #                                           ^ variable.function
 (cd Layer4-custom && PLATFORM=${PLATFORM} name=${NOSN} ./build ) || err $?
-#                           ^ variable.other.readwrite.assignment
+#                           ^ variable.other.readwrite
 #                            ^ keyword.operator.assignment
 #                             ^ meta.string meta.interpolation - string
-#                                            ^ variable.other.readwrite.assignment
+#                                            ^ variable.other.readwrite
 #                                             ^ keyword.operator.assignment
 #                                              ^ meta.string meta.interpolation - string
 #                                                        ^ variable.function
@@ -889,7 +894,7 @@ asdf foo && FOO=some-value pwd
 
 ${foo:=bar}
 # <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
-# <- - variable.other.readwrite.assignment
+# <- - variable.other.readwrite
 #    ^ keyword.operator.assignment
 #      ^^^^ - string.unquoted
 #         ^ punctuation.section.interpolation.end.shell
@@ -1806,9 +1811,6 @@ echo +(bar|qux) | wc
 #         ^ keyword.operator.logical.or
 #               ^ keyword.operator.logical.pipe
 
-foo='bar'
-#  ^ keyword.operator
-
 echo git rev-list "$(echo --all)" | grep -P 'c354a80'
 #                  ^^ punctuation.section.interpolation.begin.shell
 #                              ^ punctuation.section.interpolation.end.shell
@@ -1817,14 +1819,14 @@ x="$(( foo++ ))"
 #         ^^ keyword
 #            ^^ punctuation.section.interpolation.end.shell
 foo[${j}+10]="`foo`"
-#  ^ variable.other.readwrite.assignment punctuation
-#   ^ variable.other.readwrite.assignment punctuation
-#    ^ variable.other.readwrite.assignment punctuation
-#     ^ variable.other.readwrite.assignment variable.other.readwrite
-#      ^ variable.other.readwrite.assignment punctuation
-#       ^ variable.other.readwrite.assignment keyword.operator.arithmetic
-#        ^^ variable.other.readwrite.assignment constant.numeric.integer
-#          ^ variable.other.readwrite.assignment punctuation.section.braces.end
+#  ^ variable.other.readwrite punctuation
+#   ^ variable.other.readwrite punctuation
+#    ^ variable.other.readwrite punctuation
+#     ^ variable.other.readwrite variable.other.readwrite
+#      ^ variable.other.readwrite punctuation
+#       ^ variable.other.readwrite keyword.operator.arithmetic
+#        ^^ variable.other.readwrite constant.numeric.integer
+#          ^ variable.other.readwrite punctuation.section.braces.end
 #           ^ keyword.operator
 
 # Invokes "foo -e", so "-e" is a switch.
@@ -1879,7 +1881,7 @@ let "two=5+5"; if [[ "$X" == "1" ]]; then X="one"; fi
 #                 ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                                  ^ keyword.operator.logical.continue.shell
 #                                    ^^^^ keyword.control.conditional.then.shell
-#                                         ^ variable.other.readwrite.assignment.shell
+#                                         ^ variable.other.readwrite.shell
 #                                          ^ keyword.operator.assignment.shell
 #                                           ^^^^^ string.quoted.double.shell
 #                                                ^ keyword.operator.logical.continue.shell
@@ -2057,7 +2059,7 @@ done
 
 while IFS= read -r -d '' f; do
 # <- keyword.control.loop.while
-#     ^^^ variable.other.readwrite.assignment
+#     ^^^ variable.other.readwrite
 #        ^ keyword.operator.assignment
 #          ^^^^ support.function.read
 #               ^^ variable.parameter.option
@@ -2080,9 +2082,9 @@ do echo bar; until ! { [[ true ]]; }
 
 declare -a array
 array[500]=value
-#    ^ variable.other.readwrite.assignment punctuation.section.braces.begin
-#     ^^^ variable.other.readwrite.assignment constant.numeric.integer
-#        ^ variable.other.readwrite.assignment punctuation.section.braces.end
+#    ^ variable.other.readwrite punctuation.section.braces.begin
+#     ^^^ variable.other.readwrite constant.numeric.integer
+#        ^ variable.other.readwrite punctuation.section.braces.end
 #         ^ keyword.operator.assignment
 #          ^^^^^ meta.string string.unquoted
 echo ${array[@]}
@@ -2091,20 +2093,20 @@ echo ${array[@]}
 #             ^ meta.function-call.arguments variable.other.readwrite punctuation.section.braces.end
 
 array["foo"]=bar
-#    ^ variable.other.readwrite.assignment punctuation.section.braces.begin
-#     ^ variable.other.readwrite.assignment string.quoted.double punctuation.definition.string.begin
-#      ^^^ variable.other.readwrite.assignment string.quoted.double
-#         ^ variable.other.readwrite.assignment string.quoted.double punctuation.definition.string.end
-#          ^ variable.other.readwrite.assignment punctuation.section.braces.end
+#    ^ variable.other.readwrite punctuation.section.braces.begin
+#     ^ variable.other.readwrite string.quoted.double punctuation.definition.string.begin
+#      ^^^ variable.other.readwrite string.quoted.double
+#         ^ variable.other.readwrite string.quoted.double punctuation.definition.string.end
+#          ^ variable.other.readwrite punctuation.section.braces.end
 #           ^ keyword.operator.assignment
 array[foo]=bar
-#    ^ variable.other.readwrite.assignment punctuation.section.braces.begin
-#     ^^^ variable.other.readwrite.assignment
-#        ^ variable.other.readwrite.assignment punctuation.section.braces.end
+#    ^ variable.other.readwrite punctuation.section.braces.begin
+#     ^^^ variable.other.readwrite
+#        ^ variable.other.readwrite punctuation.section.braces.end
 #         ^ keyword.operator.assignment
 #          ^^^ meta.string string.unquoted
 array=($one "two" ${three} 'four' $5)
-# <- variable.other.readwrite.assignment
+# <- variable.other.readwrite
 #    ^ keyword.operator.assignment
 #     ^ punctuation.section.parens.begin
 #      ^ punctuation.definition.variable
@@ -2320,22 +2322,22 @@ if [ "$1" != "" -a "$2" != "" ]; then
 #                                ^^^^ keyword.control.conditional.then
     local DIR=$1
     # <- storage.modifier
-    #     ^^^ variable.other.readwrite.assignment
+    #     ^^^ variable.other.readwrite
     #        ^ keyword.operator.assignment
     local TARGET=$2
     # <- storage.modifier
-    #     ^^^^^^ variable.other.readwrite.assignment
+    #     ^^^^^^ variable.other.readwrite
     #           ^ keyword.operator.assignment
 elif [ "$1" ]; then
 # <- keyword.control.conditional.elseif
 #              ^^^^ keyword.control.conditional.then
     local DIR=$PWD
     # <- storage.modifier
-    #     ^^^ variable.other.readwrite.assignment
+    #     ^^^ variable.other.readwrite
     #        ^ keyword.operator.assignment
     local TARGET=$1
     # <- storage.modifier
-    #     ^^^^^^ variable.other.readwrite.assignment
+    #     ^^^^^^ variable.other.readwrite
     #           ^ keyword.operator.assignment
 fi
 # <- keyword.control.conditional.end
@@ -2343,7 +2345,7 @@ fi
 function clk {
     typeset base=/sys/class/drm/card0/device
     #<- storage.modifier
-    #       ^^^^ variable.other.readwrite.assignment
+    #       ^^^^ variable.other.readwrite
     #           ^ keyword.operator.assignment
     #            ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string string.unquoted
     [[ -r ${base}/hwmon/hwmon0/temp1_input && -r ${base}/power_profile ]] || return 1
@@ -2389,7 +2391,7 @@ f() {
         # <- meta.function keyword.control.conditional.end
 
         IFS=, local -a "$x"'=("${x}: ${'"$x"'[*]}")'
-        # ^ variable.other.readwrite.assignment
+        # ^ variable.other.readwrite
         #  ^ keyword.operator.assignment
         #   ^ meta.string string.unquoted
         #     ^ storage.modifier
@@ -2509,14 +2511,14 @@ esac
 
 if   [ "$*" = '*' ]
 then remotefilter="cat"
-#               ^ variable.other.readwrite.assignment
+#               ^ variable.other.readwrite
 #                ^ keyword.operator.assignment
 else remotefilter="grep"
-#               ^ variable.other.readwrite.assignment
+#               ^ variable.other.readwrite
 #                 ^ meta.string string.quoted.double punctuation.definition.string.begin
      for glob in "$@"
      do  glob=$(
-     #      ^ variable.other.readwrite.assignment
+     #      ^ variable.other.readwrite
      #       ^ keyword.operator.assignment
      #        ^^ meta.string meta.interpolation punctuation.section.interpolation.begin.shell
            echo "$glob" |
@@ -2525,7 +2527,7 @@ else remotefilter="grep"
          )
          # <- meta.string meta.interpolation punctuation.section.interpolation.end.shell - string
          remotefilter="$remotefilter -e '^$glob ' -e ' $glob\$'"
-         #          ^ variable.other.readwrite.assignment
+         #          ^ variable.other.readwrite
          #           ^ keyword.operator.assignment
      done
      # <- keyword.control.loop.end
@@ -2911,17 +2913,17 @@ function connect_to_db() {
 
     export PGPASSWORD=$(cat "$DOKKU_ROOT/.postgresql/pwd_$APP")
     # <- meta.function storage.modifier
-    #      ^^^^^^^^^^ meta.function variable.other.readwrite.assignment
+    #      ^^^^^^^^^^ meta.function variable.other.readwrite
     #                ^ meta.function keyword.operator.assignment
     #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
     IP=$(get_postgresql_ip)
-    # <- meta.function variable.other.readwrite.assignment
+    # <- meta.function variable.other.readwrite
     # ^ meta.function keyword.operator.assignment
     #  ^^ meta.function meta.string meta.interpolation punctuation.section.interpolation.begin.shell
     #    ^^^^^^^^^^^^^^^^^ meta.function meta.string meta.interpolation meta.function-call variable.function
     #                     ^ meta.function meta.string meta.interpolation punctuation.section.interpolation.end.shell
     PORT=$(get_postgresql_port)
-    # <- meta.function variable.other.readwrite.assignment
+    # <- meta.function variable.other.readwrite
     #   ^ meta.function keyword.operator.assignment
     #    ^^ meta.function meta.string meta.interpolation punctuation.section.interpolation.begin.shell
     #      ^^^^^^^^^^^^^^^^^^^ meta.function meta.string meta.interpolation meta.function-call variable.function
