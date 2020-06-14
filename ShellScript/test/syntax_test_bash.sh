@@ -303,24 +303,27 @@ x= pwd
 #^ keyword.operator.assignment
 #  ^^^ meta.function-call support.function
 
-BOWL=$(($(cat food.txt | wc -l) + 5))
-#   ^ - meta.interpolation
-#    ^^^ meta.string.shell meta.interpolation.arithmetic.shell - meta.interpolation meta.interpolation
-#       ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.arithmetic.shell meta.interpolation.command.shell
-#                              ^^^^^^ meta.string.shell meta.interpolation.arithmetic.shell - meta.interpolation meta.interpolation
-#                                    ^ - meta.interpolation
-#   ^ keyword.operator.assignment
-#    ^^^^^ punctuation.section.interpolation.begin.shell
-#         ^^^ variable.function
-#             ^^^^^^^^ - variable.function
-#                     ^ - meta.function-call
-#                      ^ keyword.operator
-#                       ^ - meta.function-call
-#                        ^^ meta.function-call.identifier.shell variable.function.shell
-#                             ^ punctuation.section.interpolation.end.shell
-#                               ^ keyword.operator
-#                                 ^ constant.numeric
-#                                  ^^ punctuation.section.interpolation.end.shell
+B$(cat)OWL=$(($(cat food.txt | wc -l) + 5))
+# <- meta.variable.shell variable.other.readwrite.assignment.shell - meta.interpolation
+#^^^^^^ meta.variable.shell meta.interpolation.command.shell
+#      ^^^ meta.variable.shell variable.other.readwrite.assignment.shell
+#         ^ - meta.interpolation
+#          ^^^ meta.string.shell meta.interpolation.arithmetic.shell - meta.interpolation meta.interpolation
+#             ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.arithmetic.shell meta.interpolation.command.shell
+#                                    ^^^^^^ meta.string.shell meta.interpolation.arithmetic.shell - meta.interpolation meta.interpolation
+#                                          ^ - meta.interpolation
+#         ^ keyword.operator.assignment
+#          ^^^^^ punctuation.section.interpolation.begin.shell
+#               ^^^ variable.function
+#                   ^^^^^^^^ - variable.function
+#                           ^ - meta.function-call
+#                            ^ keyword.operator
+#                             ^ - meta.function-call
+#                              ^^ meta.function-call.identifier.shell variable.function.shell
+#                                   ^ punctuation.section.interpolation.end.shell
+#                                     ^ keyword.operator
+#                                       ^ constant.numeric
+#                                        ^^ punctuation.section.interpolation.end.shell
 
 # These are all legal identifiers for variables.
 alias=hello

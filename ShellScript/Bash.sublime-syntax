@@ -311,11 +311,14 @@ contexts:
   vardef-alias-name:
     - match: (?=\S)
       set:
-        - meta_content_scope: entity.name.function.alias.shell
+        - meta_content_scope: 
+            meta.variable.shell
+            entity.name.function.alias.shell
         - match: (?=\s|{{varassign}})
           pop: true
         - include: array
         - include: string
+        - include: string-interpolation
     - include: eol-pop
 
   vardef-declare-options:
@@ -329,11 +332,14 @@ contexts:
   vardef-name:
     - match: (?=\S)
       set:
-        - meta_content_scope: variable.other.readwrite.assignment.shell
+        - meta_content_scope:
+            meta.variable.shell
+            variable.other.readwrite.assignment.shell
         - match: (?={{varassign}}|{{metachar}})
           pop: true
         - include: array
         - include: string
+        - include: string-interpolation
     - include: eol-pop
 
   vardef-assign:
