@@ -461,11 +461,13 @@ contexts:
 
   cmd-name:
     - clear_scopes: 1
-    - meta_scope: meta.function-call.identifier.shell variable.function.shell
+    - meta_scope:
+        meta.function-call.identifier.shell
+        variable.function.shell
     - match: (?=[\s`=|&;()}<>])
       pop: true
-    - include: string-interpolation
     - include: string
+    - include: string-interpolation
     - include: expansion-parameter
     - include: expansion-arithmetic
     - include: expansion-command
