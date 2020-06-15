@@ -655,7 +655,6 @@ contexts:
     - include: expression
 
   for-args:
-    - meta_content_scope: meta.group.for.shell
     - include: cmd-args-boilerplate
     - include: arithmetic
     - match: \bin{{keyword_break}}

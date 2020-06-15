@@ -2426,15 +2426,15 @@ do echo bar; until ! { [[ true ]]; }
 for (( i = 0; i < 10; i++ )); do
 #   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.arithmetic
 # <- keyword.control
-#   ^^ meta.group.for punctuation.section.arithmetic.begin
-#        ^ meta.group.for keyword.operator.assignment
-#          ^ meta.group.for constant.numeric.integer - punctuation
-#           ^ meta.group.for punctuation.separator
-#               ^ meta.group.for keyword.operator.logical
-#                 ^^ meta.group.for constant.numeric.integer
-#                   ^ meta.group.for punctuation.separator
-#                      ^^ meta.group.for keyword.operator.arithmetic
-#                         ^^ meta.group.for punctuation.section.arithmetic.end
+#   ^^ punctuation.section.arithmetic.begin
+#        ^ keyword.operator.assignment
+#          ^ constant.numeric.integer - punctuation
+#           ^ punctuation.separator
+#               ^ keyword.operator.logical
+#                 ^^ constant.numeric.integer
+#                   ^ punctuation.separator
+#                      ^^ keyword.operator.arithmetic
+#                         ^^ punctuation.section.arithmetic.end
 #                           ^ keyword.operator.logical.continue
 #                             ^^ keyword.control.loop.do
     echo $i
@@ -2447,15 +2447,15 @@ done
 for (( i = 0; i < 10; i++ )) #; do
 #   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.arithmetic
 # <- keyword.control
-#   ^^ meta.group.for punctuation.section.arithmetic.begin
-#        ^ meta.group.for keyword.operator.assignment
-#          ^ meta.group.for constant.numeric.integer - punctuation
-#           ^ meta.group.for punctuation.separator
-#               ^ meta.group.for keyword.operator.logical
-#                 ^^ meta.group.for constant.numeric.integer
-#                   ^ meta.group.for punctuation.separator
-#                      ^^ meta.group.for keyword.operator.arithmetic
-#                         ^^ meta.group.for punctuation.section.arithmetic.end
+#   ^^ punctuation.section.arithmetic.begin
+#        ^ keyword.operator.assignment
+#          ^ constant.numeric.integer - punctuation
+#           ^ punctuation.separator
+#               ^ keyword.operator.logical
+#                 ^^ constant.numeric.integer
+#                   ^ punctuation.separator
+#                      ^^ keyword.operator.arithmetic
+#                         ^^ punctuation.section.arithmetic.end
 #                            ^^^^^^ comment.line.number-sign.shell
 do
 #<- keyword.control.loop.do.shell
@@ -2468,7 +2468,6 @@ done
 
 for i in $(seq 100); do
 # <- keyword.control.loop.for
-#  ^^^^^^^^^^^^^^^^ meta.group.for.shell
 #        ^^^^^^^^^^ meta.interpolation.command.shell
 #     ^^ keyword.control.in
 #        ^^ punctuation.section.interpolation.begin.shell
