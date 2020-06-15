@@ -616,15 +616,6 @@ contexts:
   case-clause-patterns-body:
     # [Bash] 3.2.4.2: Each pattern undergoes tilde expansion, parameter
     # expansion, command substitution, and arithmetic expansion.
-    - include: case-end-ahead
-    - include: expansion-pattern
-    - include: expansion-tilde
-    - include: expansion-parameter
-    - include: expansion-command
-    - include: expansion-arithmetic
-    - include: string
-    - match: \|
-      scope: keyword.operator.logical.shell
     - match: \(
       scope: punctuation.section.parens.begin.shell
       push:
@@ -632,6 +623,15 @@ contexts:
           scope: punctuation.section.parens.end.shell
           pop: true
         - include: case-clause-patterns-body
+    - match: \|
+      scope: keyword.operator.logical.shell
+    - include: case-end-ahead
+    - include: expansion-pattern
+    - include: expansion-tilde
+    - include: expansion-parameter
+    - include: expansion-command
+    - include: expansion-arithmetic
+    - include: string
     - include: eol-pop
 
   case-clause-commands:
