@@ -712,6 +712,18 @@ void Test ()
 ///                     ^^^^ variable.function
     place = 9; // replaces 7 with 9 in the array
     Console.WriteLine (array [4]); // prints 9
+
+    // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-statement#example
+    using var socket = new ClientWebSocket();
+/// ^^^^^ keyword.control.using
+///       ^^^ storage.type.variable
+///           ^^^^^^ variable.other
+///                  ^ keyword.operator.assignment
+///                    ^^^ keyword.operator.new
+///                        ^^^^^^^^^^^^^^^ support.type
+///                                       ^ punctuation.section.group.begin
+///                                        ^ punctuation.section.group.end
+///                                         ^ punctuation.terminator.statement
 }
 
 public ref int Find (int number, int[] numbers)

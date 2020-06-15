@@ -860,6 +860,10 @@ contexts:
         1: keyword.control.using.cs
         2: meta.group.cs punctuation.section.group.begin.cs
       set: [using_block, line_of_code]
+    - match: \b(using)\s*
+      captures:
+        1: keyword.control.using.cs
+      push: var_declaration
     - match: \b(fixed)\s*(\()
       captures:
         1: keyword.control.other.fixed.cs
