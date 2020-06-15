@@ -392,29 +392,26 @@ contexts:
     - include: arithmetic
     - include: redirection
     - include: operator-exclamation
-    - include: cmd-compound-parens
-    - include: cmd-compound-braces
+    - include: cmd-compound
     - include: cmd-test
     - include: cmd-control
     - include: cmd-other
 
-  cmd-compound-parens:
+  cmd-compound:
     - match: \(
-      scope: punctuation.definition.compound.begin.shell
+      scope: punctuation.section.compound.begin.shell
       push:
         - meta_scope: meta.compound.shell
         - match: \)
-          scope: punctuation.definition.compound.end.shell
+          scope: punctuation.section.compound.end.shell
           set: [cmd-post, cmd-args]
         - include: statements
-
-  cmd-compound-braces:
     - match: \{(?=\s)
-      scope: punctuation.definition.compound.braces.begin.shell
+      scope: punctuation.section.compound.begin.shell
       push:
         - meta_scope: meta.compound.shell
         - match: \}
-          scope: punctuation.definition.compound.braces.end.shell
+          scope: punctuation.section.compound.end.shell
           set: [cmd-post, cmd-args]
         - include: statements
 

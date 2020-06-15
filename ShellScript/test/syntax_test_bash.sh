@@ -376,10 +376,10 @@ done=hello
 #   ^ keyword.operator
 
 (foo=bar)
-# <- punctuation.definition.compound.begin
+# <- punctuation.section.compound.begin.shell
 #   ^ keyword.operator.assignment
 #    ^^^ meta.string string.unquoted
-#       ^ punctuation.definition.compound.end - string-unquoted
+#       ^ punctuation.section.compound.end.shell - string-unquoted
 
 declare -a array
 array[500]=value
@@ -608,16 +608,16 @@ ${foo}/${bar}/${baz}
 #             ^^^^^^ meta.interpolation.parameter.shell - variable.function
 
 {
-# <- punctuation.definition.compound.braces.begin
+# <- punctuation.section.compound.begin.shell
   {
-  # <- punctuation.definition.compound.braces.begin
+  # <- punctuation.section.compound.begin.shell
     foo args
     # <- meta.function-call.identifier.shell variable.function
   } 2>> "$stderr_log"
-  # <- punctuation.definition.compound.braces.end
+  # <- punctuation.section.compound.end.shell
   # ^ constant.numeric.integer.decimal.file-descriptor - variable.function
 } 1>> "$stdout_log"
-# <- punctuation.definition.compound.braces.end
+# <- punctuation.section.compound.end.shell
 # ^ constant.numeric.integer.decimal.file-descriptor - variable.function
 
 
@@ -1484,7 +1484,7 @@ coproc { ls thisfiledoesntexist; read; 2>&1 } | foo
 #                                ^^^^ meta.function-call.identifier.shell
 #                                    ^^^^^^^^ - meta.function-call.identifier.shell
 #^^^^^ keyword.other.coproc.shell
-#      ^ punctuation.definition.compound.braces.begin.shell
+#      ^ punctuation.section.compound.begin.shell
 #        ^^ variable.function.shell
 #                              ^ keyword.operator.logical.continue.shell
 #                                ^^^^ support.function.read.shell
@@ -1492,7 +1492,7 @@ coproc { ls thisfiledoesntexist; read; 2>&1 } | foo
 #                                      ^ constant.numeric.integer.decimal.file-descriptor.shell
 #                                       ^^ keyword.operator.assignment.redirection.shell
 #                                         ^ constant.numeric.integer.decimal.file-descriptor.shell
-#                                           ^ punctuation.definition.compound.braces.end.shell
+#                                           ^ punctuation.section.compound.end.shell
 #                                             ^ keyword.operator.logical.pipe.shell
 #                                               ^^^ variable.function.shell
 
@@ -1517,7 +1517,7 @@ coproc myls { ls thisfiledoesntexist; read; 2>&1 } | foo
 #                                                    ^^^ variable.function.shell
 
 { coproc tee { tee logfile ;} >&3 ;} 3>&1
-# <- meta.compound.shell punctuation.definition.compound.braces.begin.shell
+# <- meta.compound.shell punctuation.section.compound.begin.shell
 # ^^^^^^ meta.compound.shell meta.function-call.shell
 #       ^^^^^ meta.compound.shell meta.function-call.arguments.shell meta.function.coproc.identifier.shell
 #            ^^^^^^^^^^^^^^^^ meta.compound.shell meta.function-call.arguments.shell meta.function.coproc.shell meta.block.shell
@@ -1531,7 +1531,7 @@ coproc myls { ls thisfiledoesntexist; read; 2>&1 } | foo
 #                           ^ punctuation.section.block.end.shell
 #                             ^^ keyword.operator.assignment.redirection
 #                               ^ constant.numeric.integer.decimal.file-descriptor
-#                                  ^ punctuation.definition.compound.braces.end
+#                                  ^ punctuation.section.compound.end.shell
 #                                    ^ constant.numeric.integer.decimal.file-descriptor
 #                                     ^^ keyword.operator.assignment.redirection
 #                                       ^ constant.numeric.integer.decimal.file-descriptor
@@ -1838,7 +1838,7 @@ if [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; then PLATFORM=docker; fi
 #                                                           ^ meta.string string.unquoted
 if { [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; }; then PLATFORM=docker; fi
 #^ keyword.control.conditional.if
-#  ^ punctuation.definition.compound.braces.begin
+#  ^ punctuation.section.compound.begin.shell
 #       ^ keyword.operator.logical
 #                           ^^ keyword.operator.logical.and
 #                              ^ keyword.operator.logical.shell
@@ -1846,7 +1846,7 @@ if { [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; }; then PLATFORM=docker; fi
 #                                    ^^ keyword.operator.logical.or.shell
 #                                       ^ keyword.operator.logical.shell
 #                                         ^^^^ meta.function-call.identifier.shell variable.function.shell
-#                                               ^ punctuation.definition.compound.braces.end
+#                                               ^ punctuation.section.compound.end.shell
 #                                                ^ keyword.operator.logical.continue
 #                                                  ^^^^ keyword.control.conditional.then
 #                                                              ^ variable.other.readwrite
@@ -1854,7 +1854,7 @@ if { [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; }; then PLATFORM=docker; fi
 #                                                                ^ meta.string string.unquoted
 if ( [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2 ); then PLATFORM=docker; fi
 #^ keyword.control.conditional.if
-#  ^ punctuation.definition.compound.begin
+#  ^ punctuation.section.compound.begin.shell
 #       ^ keyword.operator.logical
 #                           ^^ keyword.operator.logical.and
 #                              ^ keyword.operator.logical.shell
@@ -1862,7 +1862,7 @@ if ( [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2 ); then PLATFORM=docker; fi
 #                                    ^^ keyword.operator.logical.or.shell
 #                                       ^ keyword.operator.logical.shell
 #                                         ^^^^ meta.function-call.identifier.shell variable.function.shell
-#                                              ^ punctuation.definition.compound.end
+#                                              ^ punctuation.section.compound.end.shell
 #                                               ^ keyword.operator.logical.continue
 #                                                 ^^^^ keyword.control.conditional.then
 #                                                             ^ variable.other.readwrite
@@ -2057,12 +2057,12 @@ fi
 # <- keyword.control.conditional.end.shell
 
 if (ruby extconf.rb &&
-#  ^ punctuation.definition.compound.begin
+#  ^ punctuation.section.compound.begin.shell
     { make clean || true; } &&
-    # <- punctuation.definition.compound.braces.begin
-    #                     ^ punctuation.definition.compound.braces.end
+    # <- punctuation.section.compound.begin.shell
+    #                     ^ punctuation.section.compound.end.shell
     make) 1> build.log 2>&1
-    #   ^ punctuation.definition.compound.end
+    #   ^ punctuation.section.compound.end.shell
     #        ^ - variable.function
 fi
 
@@ -2107,8 +2107,8 @@ asdf foo && FOO=some-value pwd
 #                          ^^^ meta.function-call support.function.pwd
 
 (cd Layer1-linux  && PLATFORM=${PLATFORM} ./build ) &&
-# <- punctuation.definition.compound.begin
-#                                                 ^ punctuation.definition.compound.end
+# <- punctuation.section.compound.begin.shell
+#                                                 ^ punctuation.section.compound.end.shell
 #                           ^ variable.other.readwrite
 #                            ^ keyword.operator.assignment
 #                             ^ meta.string meta.interpolation - string
@@ -2432,10 +2432,10 @@ while ! true; do echo bar; done
 while ! { true; }; do echo bar; done
 # <- keyword.control.loop.while
 #     ^ keyword.operator.logical
-#       ^ punctuation.definition.compound.braces.begin
+#       ^ punctuation.section.compound.begin.shell
 #         ^^^^ variable.function
 #             ^ keyword.operator.logical.continue
-#               ^ punctuation.definition.compound.braces.end
+#               ^ punctuation.section.compound.end.shell
 #                ^ keyword.operator.logical.continue
 #                  ^^ keyword.control.loop.do
 #                               ^^^^ keyword.control.loop.end
@@ -2443,11 +2443,11 @@ while ! { true; }; do echo bar; done
 while ! { [[ true ]]; }; do echo bar; done
 # <- keyword.control.loop.while
 #     ^ keyword.operator.logical
-#       ^ punctuation.definition.compound.braces.begin
+#       ^ punctuation.section.compound.begin.shell
 #         ^^ support.function.double-brace.begin
 #                 ^^ support.function.double-brace.end
 #                   ^ keyword.operator.logical.continue
-#                     ^ punctuation.definition.compound.braces.end
+#                     ^ punctuation.section.compound.end.shell
 #                      ^ keyword.operator.logical.continue
 #                        ^^ keyword.control.loop.do
 #                                     ^^^^ keyword.control.loop.end
@@ -2455,10 +2455,10 @@ while ! { [[ true ]]; }; do echo bar; done
 while ! ( [[ true ]] ); do echo bar; done
 # <- keyword.control.loop.while
 #     ^ keyword.operator.logical
-#       ^ punctuation.definition.compound.begin
+#       ^ punctuation.section.compound.begin.shell
 #         ^^ support.function.double-brace.begin
 #                 ^^ support.function.double-brace.end
-#                    ^ punctuation.definition.compound.end
+#                    ^ punctuation.section.compound.end.shell
 #                     ^ keyword.operator.logical.continue
 #                       ^^ keyword.control.loop.do
 #                                    ^^^^ keyword.control.loop.end
@@ -2491,11 +2491,11 @@ do echo bar; until ! { [[ true ]]; }
 # <- keyword.control.loop.do
 #            ^^^^^ keyword.control.loop.until.shell
 #                  ^ keyword.operator.logical
-#                    ^ punctuation.definition.compound.braces.begin
+#                    ^ punctuation.section.compound.begin.shell
 #                      ^^ support.function.double-brace.begin
 #                              ^^ support.function.double-brace.end
 #                                ^ keyword.operator.logical.continue
-#                                  ^ punctuation.definition.compound.braces.end
+#                                  ^ punctuation.section.compound.end.shell
 
 for (( i = 0; i < 10; i++ )); do
 #   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.arithmetic
