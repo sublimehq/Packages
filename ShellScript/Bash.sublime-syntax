@@ -389,13 +389,24 @@ contexts:
     - match: (?=[)}])
       pop: true
     - include: eol-pop
-    - include: arithmetic
     - include: redirection
     - include: operator-exclamation
+    - include: cmd-arithmetic
     - include: cmd-compound
     - include: cmd-test
     - include: cmd-control
     - include: cmd-other
+
+  cmd-arithmetic:
+    - include: arithmetic
+    - match: \blet{{keyword_break}}
+      scope:
+        meta.function-call.identifier.shell
+        support.function.let.shell
+      set:
+        - meta_content_scope: meta.function-call.arguments.shell
+        - include: cmd-args-boilerplate-with-end-of-options
+        - include: expression
 
   cmd-compound:
     - match: \(
@@ -445,14 +456,6 @@ contexts:
 
   cmd-other:
     - include: scope:commands.builtin.shell.bash#main
-    - match: \blet{{keyword_break}}
-      scope: 
-        meta.function-call.identifier.shell
-        support.function.let.shell
-      set:
-        - meta_content_scope: meta.function-call.arguments.shell
-        - include: cmd-args-boilerplate-with-end-of-options
-        - include: expression
     - match: (?=\S)
       set: [cmd-post, cmd-args, cmd-name]
 
