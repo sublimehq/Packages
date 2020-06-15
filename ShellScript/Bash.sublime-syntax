@@ -395,7 +395,9 @@ contexts:
     - include: cmd-compound
     - include: cmd-test
     - include: cmd-control
-    - include: cmd-other
+    - include: scope:commands.builtin.shell.bash#main
+    - match: (?=\S)
+      set: [cmd-post, cmd-args, cmd-name]
 
   cmd-arithmetic:
     - include: arithmetic
@@ -453,11 +455,6 @@ contexts:
         - meta_content_scope: meta.function-call.arguments.shell
         - include: cmd-args-boilerplate
         - include: expression-test
-
-  cmd-other:
-    - include: scope:commands.builtin.shell.bash#main
-    - match: (?=\S)
-      set: [cmd-post, cmd-args, cmd-name]
 
   cmd-name:
     - clear_scopes: 1
