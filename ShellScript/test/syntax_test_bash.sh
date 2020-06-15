@@ -1910,12 +1910,6 @@ if !cmd
 !\
  cmd
 #^^^ meta.function-call.identifier.shell variable.function.shell
-! [[ ]]
-# <- keyword.operator.logical.shell
-# ^^^^^ meta.function-call.arguments.shell
-![[ ]]
-# <- punctuation.definition.history.shell
-#^^^^^ meta.function-call.arguments.shell
 !!
 # <- variable.language.history.shell punctuation.definition.history.shell
 #^ variable.language.history.shell
@@ -1951,14 +1945,61 @@ for-bar
 # <- - keyword
 #  ^ - keyword
 
+test
+# <- meta.function-call.identifier.shell support.function.test.shell
+#^^^ meta.function-call.identifier.shell support.function.test.shell
+#   ^ - meta.function-call
+
+test expr -a expr -o expr -- | cmd
+# <- meta.function-call.identifier.shell support.function.test.shell
+#^^^ meta.function-call.identifier.shell support.function.test.shell
+#   ^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                           ^^^ - meta.function-call
+#         ^^ variable.parameter.option.shell
+#                 ^^ variable.parameter.option.shell
+#                         ^^ - keyword
+#                            ^ keyword.operator.logical.pipe.shell
+#                              ^^^ meta.function-call.identifier.shell variable.function.shell
+
+if test expr -a expr ; then echo "success"; fi
+# ^ - meta.function-call
+#  ^^^^ meta.function-call.identifier.shell support.function.test.shell
+#      ^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                   ^^^^^^^^ - meta.function-call
+#            ^^ variable.parameter.option.shell
+#                    ^ keyword.operator.logical.continue.shell
+#                      ^^^^ keyword.control.conditional.then.shell
+#                                           ^^ keyword.control.conditional.end.shell
+
 [ ]
 # <- support.function.test.begin.shell
 # ^ support.function.test.end.shell
+
+! [ ]
+# <- keyword.operator.logical.shell
+# ^ support.function.test.begin.shell
+#   ^ support.function.test.end.shell
+
+![ ]
+# <- punctuation.definition.history.shell
+#^ support.function.test.begin.shell
+#  ^ support.function.test.end.shell
 
 [[ ]]
 # <- support.function.double-brace.begin.shell
 #^ support.function.double-brace.begin.shell
 #  ^^ support.function.double-brace.end.shell
+
+! [[ ]]
+# <- keyword.operator.logical.shell
+# ^^ support.function.double-brace.begin.shell
+#    ^^ support.function.double-brace.end.shell
+
+![[ ]]
+# <- punctuation.definition.history.shell
+#^^^^^ meta.function-call.arguments.shell
+#^^ support.function.double-brace.begin.shell
+#   ^^ support.function.double-brace.end.shell
 
 [[ "${foo}" == bar*baz ]]
 # <- support.function.double-brace.begin.shell
