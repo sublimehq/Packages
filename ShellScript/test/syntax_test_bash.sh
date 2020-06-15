@@ -1967,6 +1967,39 @@ for-bar
 #                 ^ keyword.operator.regexp.quantifier.shell
 #                      ^^ support.function.double-brace.end.shell
 
+if [[ expr ]] && [[ expr ]] || [[ expr ]] ; then cmd ; fi
+#  ^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^ support.function.double-brace.begin.shell
+#          ^^ support.function.double-brace.end.shell
+#             ^^ keyword.operator.logical.and.shell
+#                ^^^^^^^^^^ meta.function-call.arguments.shell
+#                ^^ support.function.double-brace.begin.shell
+#                        ^^ support.function.double-brace.end.shell
+#                           ^^ keyword.operator.logical.or.shell
+#                              ^^^^^^^^^^ meta.function-call.arguments.shell
+#                              ^^ support.function.double-brace.begin.shell
+#                                      ^^ support.function.double-brace.end.shell
+#                                         ^ keyword.operator.logical.continue.shell
+
+if [[ expr && expr || expr ]] ; then cmd ; fi
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^ support.function.double-brace.begin.shell
+#          ^^ keyword.operator.logical.shell
+#                  ^^ keyword.operator.logical.shell
+#                          ^^ support.function.double-brace.end.shell
+#                             ^ keyword.operator.logical.continue.shell
+
+if [[ expr && ( expr || expr ) ]] ; then cmd ; fi
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#             ^^^^^^^^^^^^^^^^ meta.group.parens.shell
+#  ^^ support.function.double-brace.begin.shell
+#          ^^ keyword.operator.logical.shell
+#             ^ punctuation.section.parens.begin.shell
+#                    ^^ keyword.operator.logical.shell
+#                            ^ punctuation.section.parens.end.shell
+#                              ^^ support.function.double-brace.end.shell
+#                                 ^ keyword.operator.logical.continue.shell
+
 if [ ! -f q4m-$Q4MVER.tar.gz ]; then
 #  ^ support.function.test.begin.shell
 #    ^ keyword.operator.logical.shell
