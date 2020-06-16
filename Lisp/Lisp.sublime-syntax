@@ -28,11 +28,6 @@ contexts:
     - include: numbers
     - include: constants
     - include: strings
-    - include: variables
-    - include: control
-    - include: functions
-    - include: operators
-    - include: identifiers
 
   variables:
     - match: (\*)(?i:trace-output|terminal-io|suppress-series-warnings|standard-output|standard-input|readtable|read-suppress|read-eval|read-default-float-format|read-base|random-state|query-io|print-right-margin|print-readably|print-radix|print-pretty|print-pprint-dispatch|print-miser-width|print-lines|print-level|print-length|print-gensym|print-escape|print-circle|print-case|print-base|print-array|package|modules|macroexpand-hook|load-verbose|load-truename|load-print|load-pathname|gensym-counter|features|evalhook|error-output|default-pathname-defaults|debugger-hook|debug-io|compile-verbose|compile-print|compile-file-truename|compile-file-pathname|break-on-warnings|break-on-signals|applyhook)(\*)
@@ -70,7 +65,7 @@ contexts:
       scope: keyword.operator.bitwise.lisp
 
   parens:
-    - match: \(
+    - match: \'\(
       scope: punctuation.definition.group.begin.lisp
       push:
         - meta_scope: meta.group.lisp
@@ -78,9 +73,36 @@ contexts:
           scope: punctuation.definition.group.end.lisp
           pop: true
         - include: expressions
+        - include: identifiers
         - include: parens
+    - match: \(
+      scope: punctuation.definition.group.begin.lisp
+      push:
+        - expect-closing-paren
+        - expect-function
     - match: \)
       scope: invalid.illegal.stray-bracket-end.lisp
+
+  expect-function:
+    - meta_scope: debug.in.expect-function
+    - match: (?=\s|\))
+      pop: true
+    - include: variables
+    - include: control
+    - include: functions
+    - include: operators
+    - include: functions
+    - include: parens
+    - match: '[^\s\d()][^\s()]*'
+      scope: variable.function.lisp
+
+  expect-closing-paren:
+    - meta_scope: meta.group.lisp debug.in.expect-closing-paren
+    - match: \)
+      scope: punctuation.definition.group.end.lisp
+      pop: true
+    - include: expressions
+    - include: parens
 
   constants:
     - match: \b(?i:null|t|single-float-negative-epsilon|single-float-epsilon|short-float-negative-epsilon|short-float-epsilon|pi|nil|multiple-values-limit|most-positive-single-float|most-positive-short-float|most-positive-long-float|most-positive-fixnum|most-positive-double-float|most-negative-single-float|most-negative-short-float|most-negative-long-float|most-negative-fixnum|most-negative-double-float|long-float-negative-epsilon|long-float-epsilon|least-positive-single-float|least-positive-short-float|least-positive-normalized-single-float|least-positive-normalized-short-float|least-positive-normalized-long-float|least-positive-normalized-double-float|least-positive-long-float|least-positive-double-float|least-negative-single-float|least-negative-short-float|least-negative-normalized-single-float|least-negative-normalized-short-float|least-negative-normalized-long-float|least-negative-normalized-double-float|least-negative-long-float|least-negative-double-float|lambda-parameters-limit|lambda-list-keywords|internal-time-units-per-second|double-float-negative-epsilon|double-float-epsilon|char-super-bit|char-meta-bit|char-hyper-bit|char-font-limit|char-control-bit|char-code-limit|char-bits-limit|call-arguments-limit|array-total-size-limit|array-rank-limit|array-dimension-limit)(?![\w-])
