@@ -226,3 +226,29 @@
 ;^ storage.type.function-type
 ;      ^^^^^ entity.name.function
 )
+
+(defun log-1(log-1) (if log-1 "1" "0"))
+(format t (log-1 (< 1 2)))
+
+(defun -reverse (list)
+  (let ((return-value '()))
+    (dolist (e list) (push e return-value))
+    return-value))
+
+(-revers foo)
+(-revers foo '(bar))
+
+(defun factorial (n)
+   (loop for i from 1 to n
+         for fac = 1 then (* fac i)
+         finally (return fac)))
+
+(defun factorial (n)
+   (if (= n 0) 1
+       (* n (factorial (- n 1)))))
+
+(defun factorial (n &optional (acc 1))
+   (if (= n 0) acc
+       (factorial (- n 1) (* acc n))))
+
+(write (funcall (lambda (+ -) (* + -)) 3 4)) ; prints 12
