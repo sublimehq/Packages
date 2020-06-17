@@ -3,7 +3,7 @@
 # http://www.sublimetext.com/docs/3/syntax.html
 #
 # `Common Lisp` Language Reference:
-# http://www.cs.cmu.edu/Groups/AI/html/cltl/clm/index.html
+# https://www.cs.cmu.edu/Groups/AI/html/cltl/clm/index.html
 #
 name: Lisp
 file_extensions:
@@ -18,10 +18,12 @@ file_extensions:
   - lsp
   - fasl # Scheme dialect of Lisp
 variables:
-  identifier_char_minus_number: '(?:[^\s()''"/,:;|]|\\.)'
-  identifier_char: '(?:\d|{{identifier_char_minus_number}})'
-  identifier: '{{identifier_char_minus_number}}*{{identifier_char}}{{identifier_char_minus_number}}*'
-  end_identifier: (?=[\s()]|$)
+  identifier_forbidden: '[\s()''"/,:;|]'
+  identifier_must_have: (?:[^\s()'"/,:;|\d.]|\\.) # May not be only digits or periods
+  identifier_char: (?:\d|\.|{{identifier_must_have}})
+  identifier: '{{identifier_char}}*{{identifier_must_have}}{{identifier_char}}*'
+  end_identifier: (?={{identifier_forbidden}}|$)
+  standard_char: '[\w!"#$%&''()*+,\-./:;<=>?@\[\\\]^{|}~]'
 scope: source.lisp
 contexts:
   main:
@@ -32,6 +34,7 @@ contexts:
     - include: comments
     - include: numbers
     - include: constants
+    - include: dispatching-macros
     - include: strings
     - include: variables
     - include: control
@@ -73,7 +76,7 @@ contexts:
       scope: keyword.control.lisp
 
   functions:
-    - match: \b(?i:(defun|defmethod|defmacro))\b\s+({{identifier}})\s*
+    - match: \b(?i:(defun|defmethod|defmacro|deftype|defstruct))\b\s+({{identifier}})\s*
       scope: meta.function.lisp
       captures:
         1: storage.type.function-type.lisp
@@ -86,6 +89,8 @@ contexts:
           storage.type.function.inline.lisp
           keyword.declaration.function.inline.lisp
       push: expect-parameters
+    - match: \b(?i:string-char-p){{end_identifier}}
+      scope: invalid.deprecated.lisp
     - match: |-
         \b(?xi:
           zerop|yes-or-no-p|y-or-n-p|write-to-string|write-string|write-char|
@@ -111,7 +116,7 @@ contexts:
           string>|string=|string<=|string<|string/=|string-upcase|string-trim|
           string-right-trim|string-not-lessp|string-not-greaterp|
           string-not-equal|string-lessp|string-left-trim|string-greaterp|
-          string-equal|string-downcase|string-char-p|string-capitalize|string|
+          string-equal|string-downcase|string-capitalize|string|
           streamp|stream-external-format|stream-error-stream|
           stream-element-type|store-value|step|standard-char-p|stable-sort|
           sqrt|split-if|split|special-form-p|sort|some|software-version|
@@ -236,14 +241,16 @@ contexts:
       scope: support.function.lisp
 
   types:
+    - match: \b(?i:common|string-char){{end_identifier}}
+      scope: invalid.deprecated.lisp
     - match: |-
         \b(?xi:
-          array|atom|bignum|bit|bit-vector|character|\[common\]|
+          array|atom|bignum|bit|bit-vector|character|
           compiled-function|complex|cons|double-float|fixnum|float|function|
           hash-table|integer|keyword|list|long-float|nil|null|number|package|
           pathname|random-state|ratio|rational|readtable|sequence|short-float|
           signed-byte|simple-array|simple-bit-vector|simple-string|simple-vector|
-          single-float|standard-char|stream|string|\[string-char\]|symbol|t|
+          single-float|standard-char|stream|string|symbol|t|
           unsigned-byte|vector
         ){{end_identifier}}
       scope: storage.type.lisp
@@ -257,7 +264,7 @@ contexts:
         - match: \)
           scope: punctuation.section.parameters.end.lisp
           pop: true
-        - match: (&)(?i:optional|key)
+        - match: (&)(?i:optional|key|rest|body|whole|allow-other-keys|environment|aux)
           scope: variable.annotation.lisp
           captures:
             1: punctuation.definition.annotation.lisp
@@ -307,16 +314,16 @@ contexts:
       scope: invalid.illegal.stray-bracket-end.lisp
 
   expect-function:
-    - match: (?=[\s)"'])
+    - match: (?=[\s)"',])
       pop: true
+    - match: \B\.{{end_identifier}}
+      scope: invalid.illegal.lisp
     - include: expressions
     - include: operators
     - include: functions
     - include: parens
     - match: '{{identifier}}'
       scope: variable.function.lisp
-    # - match: '(?=[\s\S])'
-    #   pop: true
 
   expect-closing-paren:
     - meta_scope: meta.group.lisp
@@ -326,7 +333,11 @@ contexts:
     - include: expressions
     - include: parens
     - include: function-keywords
+    - match: \B\.{{end_identifier}}
+      scope: keyword.control.lisp
     - include: identifiers
+    # Could add some "expect" stuff here to allow only one
+    #   more element in the parens
 
   constants:
     - match: |-
@@ -346,10 +357,114 @@ contexts:
           array-(?:rank|dimension|total-size)-limit
         )(?![\w-])
       scope: constant.language.lisp
-    - match: (#\\)(?:\w+|[\\+-=<>'"&#])
-      scope: constant.character.lisp
+
+  dispatching-macros:
+    # https://www.cs.cmu.edu/Groups/AI/html/cltl/clm/node191.html
+    - include: dispatching-macro-characters
+    - include: dispatching-macro-throw-exception
+    - include: dispatching-macro-numbers
+    # Function reference
+    - match: (#('))({{identifier}})
+      captures:
+        1: punctuation.definition.function.lisp
+        2: support.function.lisp
+        3: variable.function.lisp
+    # Bit vector
+    - match: (#\d*\*)[01]*{{end_identifier}}
+      scope: variable.other.lisp
+      captures:
+        1: punctuation.definition.variable.lisp
+    # Inline eval
+    - match: (#(?:(,)|(\.)))({{identifier}})
+      captures:
+        1: punctuation.definition.variable.lisp
+        2: variable.function.lisp # load-time evaluation
+        3: variable.function.lisp # read-time evaluation
+        4: variable.other.lisp
+    # Feature-flags
+    - match: (#([+-]))({{identifier}})
+      scope: variable.other.lisp
+      captures:
+        1: keyword.control.conditional.if.lisp
+        2: keyword.operator.logical.lisp
+        3: variable.other.lisp
+    # Local assignment
+    - match: ((#)\d+)(=)
+      captures:
+        1: variable.other.local.lisp
+        2: punctuation.definition.variable.lisp
+        3: keyword.operator.assignment.lisp
+    - match: (#)(\d+)(#)
+      scope: variable.other.lisp
+      captures:
+        1: punctuation.definition.variable.begin.lisp
+        2: variable.other.local.lisp
+        3: punctuation.definition.variable.end.lisp
+    # Vector, list, array
+    - match: (#\d*)(\()
+      captures:
+        1: keyword.declaration.vector.lisp
+        2: punctuation.definition.group.begin.lisp
+      push: expect-closing-paren
+    - match: (#\d*[aA])(\()
+      captures:
+        1: keyword.declaration.array.lisp
+        2: punctuation.definition.group.begin.lisp
+      push: expect-closing-paren
+    - match: (#\d*[aA])({{identifier}})
+      captures:
+        1: keyword.declaration.array.lisp
+        2: variable.other.lisp
+    # Still need #:, #S, #P
+
+  dispatching-macro-characters:
+    - match: (#\\)(?i:Space|NewLine){{end_identifier}}
+      scope: constant.character.standard.lisp
       captures:
         1: punctuation.definition.constant.lisp
+    - match: (#\\)(?i:Backspace|Tab|Linefeed|Page|Return|RubOut){{end_identifier}}
+      scope: constant.character.semi-standard.lisp
+      captures:
+        1: punctuation.definition.constant.lisp
+    - match: (#\\){{standard_char}}{{end_identifier}}
+      scope: constant.character.standard.lisp
+      captures:
+        1: punctuation.definition.constant.lisp
+    - match: (#\\){{identifier_char}}+{{end_identifier}}
+      scope: constant.character.non-standard.lisp
+      captures:
+        1: punctuation.definition.constant.lisp
+
+  dispatching-macro-throw-exception:
+    - match: '#[ \t\n\r)<]'
+      scope: keyword.control.exception.throw.lisp
+
+  dispatching-macro-numbers:
+    - match: (#[bB])[01]+(?:(/)[01]+)?
+      scope: constant.numeric.integer.binary.lisp
+      captures:
+        1: punctuation.definition.constant.lisp
+        2: punctuation.separator.sequence.lisp
+    - match: (#[oO])[0-7]+(?:(/)[0-7]+)?
+      scope: constant.numeric.integer.octal.lisp
+      captures:
+        1: punctuation.definition.constant.lisp
+        2: punctuation.separator.sequence.lisp
+    - match: (#[xX])\h+(?:(/)\h+)?
+      scope: constant.numeric.integer.hexadecimal.lisp
+      captures:
+        1: punctuation.definition.constant.lisp
+        2: punctuation.separator.sequence.lisp
+    - match: (?i:(#\d+r)[\da-z]+(?:(/)[\da-z]+)?)
+      scope: constant.numeric.integer.other.lisp
+      captures:
+        1: punctuation.definition.constant.lisp
+        2: punctuation.separator.sequence.lisp
+    - match: (#[cC])(\()
+      captures:
+        1: punctuation.definition.constant.lisp
+        2: punctuation.definition.group.begin.lisp
+      push: expect-closing-paren
 
   function-keywords:
     - match: (:){{identifier}}
@@ -381,18 +496,22 @@ contexts:
 
   numbers:
     - match: |-
-        (?:\b|-)(?x:
+        (')?-?(?x:
           (?:
-            (?:0[xX]\h*)|
+            (?:0[xX]\h+)|
+            (?:\d+(/)\d+)|
             (?:
-              ([0-9]+\.?[0-9]*)|
-              (?:\.[0-9]+)
+              (\d+\.?\d*)|
+              (?:\.\d+)
             )
-              ([eE][+-]?[0-9]+)?
+              ([eE][+-]?\d+)?
           )
           (?i:l|ul|u|f|ll|ull)?
         )\b
       scope: constant.numeric.lisp
+      captures:
+        1: support.function.lisp
+        2: punctuation.separator.sequence.lisp
 
   strings:
     - match: '"'

@@ -235,8 +235,8 @@
     (dolist (e list) (push e return-value))
     return-value))
 
-(-revers foo)
-(-revers foo '(bar))
+(-reverse foo)
+(-reverse foo '(bar))
 
 (defun factorial (n)
    (loop for i from 1 to n
