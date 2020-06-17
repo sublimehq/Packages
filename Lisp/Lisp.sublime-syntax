@@ -18,7 +18,10 @@ file_extensions:
   - lsp
   - fasl # Scheme dialect of Lisp
 variables:
-  identifier: '[^\s\d()][^\s()]*'
+  identifier_char_minus_number: '(?:[^\s()''"/,:;|]|\\.)'
+  identifier_char: '(?:\d|{{identifier_char_minus_number}})'
+  identifier: '{{identifier_char_minus_number}}*{{identifier_char}}{{identifier_char_minus_number}}*'
+  end_identifier: (?=[\s()]|$)
 scope: source.lisp
 contexts:
   main:
@@ -34,7 +37,20 @@ contexts:
     - include: control
 
   variables:
-    - match: (\*)(?i:trace-output|terminal-io|suppress-series-warnings|standard-output|standard-input|readtable|read-suppress|read-eval|read-default-float-format|read-base|random-state|query-io|print-right-margin|print-readably|print-radix|print-pretty|print-pprint-dispatch|print-miser-width|print-lines|print-level|print-length|print-gensym|print-escape|print-circle|print-case|print-base|print-array|package|modules|macroexpand-hook|load-verbose|load-truename|load-print|load-pathname|gensym-counter|features|evalhook|error-output|default-pathname-defaults|debugger-hook|debug-io|compile-verbose|compile-print|compile-file-truename|compile-file-pathname|break-on-warnings|break-on-signals|applyhook)(\*)
+    - match: |-
+        (\*)(?xi:
+          trace-output|terminal-io|suppress-series-warnings|standard-output|
+          standard-input|readtable|read-suppress|read-eval|
+          read-default-float-format|read-base|random-state|query-io|
+          print-right-margin|print-readably|print-radix|print-pretty|
+          print-pprint-dispatch|print-miser-width|print-lines|print-level|
+          print-length|print-gensym|print-escape|print-circle|print-case|
+          print-base|print-array|package|modules|macroexpand-hook|load-verbose|
+          load-truename|load-print|load-pathname|gensym-counter|features|
+          evalhook|error-output|default-pathname-defaults|debugger-hook|
+          debug-io|compile-verbose|compile-print|compile-file-truename|
+          compile-file-pathname|break-on-warnings|break-on-signals|applyhook
+        )(\*)
       scope: variable.language.lisp
       captures:
         1: punctuation.definition.variable.begin.lisp
@@ -46,7 +62,13 @@ contexts:
         2: punctuation.definition.variable.end.lisp
 
   control:
-    - match: \b(?i:with|while|when|unless|typecase|to|thereis|then|return-from name|return|repeat|prog\*?|never|named|maplist|mapl|mapcon|mapcar|mapcan|mapc|loop|let|initially|if|from|for|finally|etypecase|else|dotimes|dolist|doing|do\*?|ctypecase|cond|case|block|as|always)(?=[\s()]|$)
+    - match: |-
+        \b(?xi:
+          with|while|when|unless|typecase|to|thereis|then|return-from name|
+          return|repeat|prog\*?|never|named|maplist|mapl|mapcon|mapcar|mapcan|
+          mapc|loop|let|initially|if|from|for|finally|etypecase|else|dotimes|
+          dolist|doing|do\*?|ctypecase|cond|case|block|as|always
+        ){{end_identifier}}
       scope: keyword.control.lisp
 
   functions:
@@ -56,12 +78,172 @@ contexts:
         1: storage.type.function-type.lisp
         2: entity.name.function.lisp
       push: expect-parameters
-    - match: \b(lambda)\s*(?=[\s()]|$)
+    - match: \b(lambda)\s*{{end_identifier}}
       captures:
         1: meta.function.inline.python storage.type.function.inline.lisp keyword.declaration.function.inline.lisp
       push: expect-parameters
-    - match: \b(?i:zerop|yes-or-no-p|y-or-n-p|write-to-string|write-string|write-char|write-byte|write|with-standard-io-syntax|with-slots|with-simple-restart|with-package-iterator|with-output-to-string|with-open-stream|with-open-file|with-input-from-string|with-hash-table-iterator|with-condition-restarts|with-compilation-unit|with-accessors|wild-pathname-p|warn|vectorp|vector-push-extend|vector-push|vector-pop|vector|variable-information|values-list|values|user-homedir-pathname|use-value|use-package|upper-case-p|upgraded-complex-part-type|upgraded-array-element-type|update-instance-for-redefined-class|update-instance-for-different-class|unuse-package|untrace|until-if|until|unread-char|union|unintern|unexport|typep|type-of|type-error-expected-type|type-error-datum|two-way-stream-output-stream|two-way-stream-input-stream|truncate|truename|tree-equal|translate-pathname|translate-logical-pathname|trace|to-alter|time|third|terpri|terminate-producing|tenth|tanh|tan|tailp|synonym-stream-symbol|symbolp|symbol-value|symbol-plist|symbol-package|symbol-name|symbol-function|sxhash|svref|summing|sum|subtypep|substitute-if-not|substitute-if|substitute|subst-if-not|subst-if|subst|subsetp|subseries|subseq|sublis|stringp|string>=|string>|string=|string<=|string<|string/=|string-upcase|string-trim|string-right-trim|string-not-lessp|string-not-greaterp|string-not-equal|string-lessp|string-left-trim|string-greaterp|string-equal|string-downcase|string-char-p|string-capitalize|string|streamp|stream-external-format|stream-error-stream|stream-element-type|store-value|step|standard-char-p|stable-sort|sqrt|split-if|split|special-form-p|sort|some|software-version|software-type|slot-value|slot-unbound|slot-missing|slot-makunbound|slot-exists-p|slot-boundp|sleep|sixth|sinh|sin|simple-vector-p|simple-string-p|simple-condition-format-string|simple-condition-format-arguments|simple-bit-vector-p|signum|signal|short-site-name|shiftf|shared-initialize|shadowing-import|shadow|seventh|setq|setf|set-syntax-from-char|set-pprint-dispatch|set-macro-character|set-exclusive-or|set-dispatch-macro-character|set-difference|set-char-bit|set|series|second|search|schar|scan-symbols|scan-sublists|scan-range|scan-plist|scan-multiple|scan-lists-of-lists-fringe|scan-lists-of-lists|scan-hash|scan-fn-inclusive|scan-fn|scan-file|scan-alist|scan|scale-float|sbit|rplacd|rplaca|row-major-aref|round|rotatef|room|reverse|revappend|result-of|restart-name|restart-case|restart-bind|rest|require|replace|rename-package|rename-file|remprop|remove-method|remove-duplicates|remove|remhash|remf|reinitialize-instance|reduce|realpart|realp|readtablep|readtable-case|read-preserving-whitespace|read-line|read-from-string|read-delimited-list|read-char-no-hang|read-char|read-byte|read|rationalp|rationalize|rational|rassoc-if-not|rassoc-if|rassoc|random-state-p|random|quote|pushnew|push|psetq|psetf|provide|progn|prog2|prog1|producing|proclaim|probe-file|print-unreadable-object|print-object|print|prin1|previous|pprint-tabular|pprint-tab|pprint-pop|pprint-newline|pprint-logical-block|pprint-linear|pprint-indent|pprint-fill|pprint-exit-if-list-exhausted|pprint-dispatch|positions|position-if-not|position-if|position|pop|plusp|phase|peek-char|pathnamep|pathname-version|pathname-type|pathname-name|pathname-match-p|pathname-host|pathname-directory|pathname-device|pathname|parse-namestring|parse-macro|parse-integer|pairlis|packagep|package-used-by-list|package-use-list|package-shadowing-symbols|package-nicknames|package-name|package-error-package|output-stream-p|open-stream-p|open|oddp|nunion|numerator|numberp|nthcdr|nth-value|nth|nsubstitute-if-not|nsubstitute-if|nsubstitute|nsubst-if-not|nsubst-if|nsubst|nsublis|nstring-upcase|nstring-downcase|nstring-capitalize|nset-exclusive-or|nset-difference|nreverse|nreconc|notevery|notany|no-next-method|no-applicable-method|ninth|nintersection|next-out|next-method-p|next-in|nconcing|nconc|nbutlast|namestring|name-char|multiple-value-setq|multiple-value-list|multiple-value-bind|muffle-warning|mismatch|minusp|minimizing|minimize|mingle|method-qualifiers|method-combination-error|merge-pathnames|merge|memberp|member-if-not|member-if|member|maximizing|maximize|mask-field|mask|mapping|maphash|map-into|map-fn|map|makunbound|make-two-way-stream|make-synonym-stream|make-symbol|make-string-output-stream|make-string-input-stream|make-string|make-sequence|make-random-state|make-pathname|make-package|make-load-form-saving-slots|make-load-form|make-list|make-instances-obsolete|make-instance|make-hash-table|make-echo-stream|make-dispatch-macro-character|make-condition|make-concatenated-stream|make-char|make-broadcast-stream|make-array|macroexpand-1|macroexpand|macro-function|machine-version|machine-type|machine-instance|lower-case-p|loop-finish|long-site-name|logtest|logorc2|logorc1|lognot|lognand|logical-pathname-translations|logical-pathname|logcount|logbitp|logandc2|logandc1|log|locally|load-logical-pathname-translations|load|listp|listen|list-length|list-all-packages|list\*|list|lisp-implementation-version|lisp-implementation-type|length|ldiff|ldb-test|ldb|lcm|latch|last|keywordp|iterate|isqrt|invoke-restart|invoke-debugger|invalid-method-error|intersection|intern|interactive-stream-p|integerp|integer-length|integer-decode-float|int-char|inspect|input-stream-p|initialize-instance|in-package|import|imagpart|ignore-errors|identity|host-namestring|hash-table-test|hash-table-size|hash-table-rehash-threshold|hash-table-rehash-size|hash-table-p|hash-table-count|handler-case|handler-bind|graphic-char-p|gethash|getf|get-universal-time|get-setf-method-multiple-value|get-setf-method|get-properties|get-output-stream-string|get-internal-run-time|get-internal-real-time|get-decoded-time|get|gentemp|gensym|generic-function|generator|gcd|gathering|gatherer|functionp|function-lambda-expression|function-keywords|function-information|funcall|fourth|formatter|format|floor|floatp|float-sign|float-radix|float-precision|float-digits|float|first|finish-output|find-symbol|find-restart|find-package|find-method|find-if-not|find-if|find-class|find-all-symbols|find|fill-pointer|fill|file-write-date|file-string-length|file-position|file-namestring|file-length|file-error-pathname|file-author|fifth|ffloor|fdefinition|fboundp|f|expt|export|expand|exp|every|evenp|evalhook|eval|error|ensure-generic-function|enough-namestring|endp|encode-universal-time|enclose|encapsulated|elt|eighth|ed|echo-stream-output-stream|echo-stream-input-stream|ecase|dribble|dpb|documentation|do-symbols|do-external-symbols|do-all-symbols|disassemble|directory-namestring|directory|digit-char-p|digit-char|destructuring-bind|describe-object|describe|deposit-field|denominator|delete-package|delete-if-not|delete-if|delete-file|delete-duplicates|delete|defvar|deftype|defstruct|defpackage|define-setf-method|define-modify-macro|define-method-combination|define-declaration|define-condition|define-compiler-macro|defgeneric|defclass|decode-universal-time|decode-float|declaration-information|declaim|counting|count-if-not|count-if|count|cotruncate|cosh|cos|copy-tree|copy-symbol|copy-seq|copy-readtable|copy-pprint-dispatch|copy-list|copy-alist|continue|constantp|consp|cons|conjugate|concatenated-stream-streams|concatenate|compute-restarts|compute-applicable-methods|complexp|complex|complement|compiler-macroexpand-1|compiler-macroexpand|compiler-macro-function|compiler-let|compiled-function-p|compile-file-pathname|compile-file|compile|commonp|collecting-fn|collecting|collect-sum|collect-plist|collect-or|collect-nth|collect-nconc|collect-min|collect-max|collect-length|collect-last|collect-hash|collect-fn|collect-first|collect-file|collect-append|collect-and|collect-alist|collect|coerce|code-char|clrhash|close|clear-input|class-of|class-name|cis|chunk|choose-if|choose|check-type|characterp|character|char>=|char>|char=|char<=|char<|char/=|char-upcase|char-not-lessp|char-not-greaterp|char-not-equal|char-name|char-lessp|char-int|char-greaterp|char-font|char-equal|char-downcase|char-code|char-bits|char-bit|char|change-class|cerror|cell-error-name|ceiling|cdr|cddr|cdddr|cddddr|cdddar|cddar|cddadr|cddaar|cdar|cdadr|cdaddr|cdadar|cdaar|cdaadr|cdaaar|ccase|catenate|car|call-next-method|call-method|cadr|caddr|cadddr|caddar|cadar|cadadr|cadaar|caar|caadr|caaddr|caadar|caaar|caaadr|caaaar|byte-size|byte-position|byte|butlast|broadcast-stream-streams|break|boundp|both-case-p|boole|bit-xor|bit-vector-p|bit-orc2|bit-orc1|bit-not|bit-nor|bit-nand|bit-ior|bit-eqv|bit-andc2|bit-andc1|bit-and|bit|augment-environment|atom|atanh|atan|assoc-if-not|assoc-if|assoc|assert|asinh|asin|ash|arrayp|array-total-size|array-row-major-index|array-rank|array-in-bounds-p|array-has-fill-pointer-p|array-element-type|array-dimensions|array-dimension|arithmetic-error-operation|arithmetic-error-operands|aref|apropos-list|apropos|applyhook|apply|appending|append|alter|alphanumericp|alpha-char-p|adjustable-array-p|adjust-array|adjoin|add-method|acosh|acos|acons|abs|abort)(?=[\s()]|$)
+    - match: |-
+        \b(?xi:
+          zerop|yes-or-no-p|y-or-n-p|write-to-string|write-string|write-char|
+          write-byte|write|with-standard-io-syntax|with-slots|
+          with-simple-restart|with-package-iterator|with-output-to-string|
+          with-open-stream|with-open-file|with-input-from-string|
+          with-hash-table-iterator|with-condition-restarts|
+          with-compilation-unit|with-accessors|wild-pathname-p|warn|vectorp|
+          vector-push-extend|vector-push|vector-pop|vector|
+          variable-information|values-list|values|user-homedir-pathname|
+          use-value|use-package|upper-case-p|upgraded-complex-part-type|
+          upgraded-array-element-type|update-instance-for-redefined-class|
+          update-instance-for-different-class|unuse-package|untrace|until-if|
+          until|unread-char|union|unintern|unexport|typep|type-of|
+          type-error-expected-type|type-error-datum|
+          two-way-stream-output-stream|two-way-stream-input-stream|truncate|
+          truename|tree-equal|translate-pathname|translate-logical-pathname|
+          trace|to-alter|time|third|terpri|terminate-producing|tenth|tanh|tan|
+          tailp|synonym-stream-symbol|symbolp|symbol-value|symbol-plist|
+          symbol-package|symbol-name|symbol-function|sxhash|svref|summing|sum|
+          subtypep|substitute-if-not|substitute-if|substitute|subst-if-not|
+          subst-if|subst|subsetp|subseries|subseq|sublis|stringp|string>=|
+          string>|string=|string<=|string<|string/=|string-upcase|string-trim|
+          string-right-trim|string-not-lessp|string-not-greaterp|
+          string-not-equal|string-lessp|string-left-trim|string-greaterp|
+          string-equal|string-downcase|string-char-p|string-capitalize|string|
+          streamp|stream-external-format|stream-error-stream|
+          stream-element-type|store-value|step|standard-char-p|stable-sort|
+          sqrt|split-if|split|special-form-p|sort|some|software-version|
+          software-type|slot-value|slot-unbound|slot-missing|slot-makunbound|
+          slot-exists-p|slot-boundp|sleep|sixth|sinh|sin|simple-vector-p|
+          simple-string-p|simple-condition-format-string|
+          simple-condition-format-arguments|simple-bit-vector-p|signum|signal|
+          short-site-name|shiftf|shared-initialize|shadowing-import|shadow|
+          seventh|setq|setf|set-syntax-from-char|set-pprint-dispatch|
+          set-macro-character|set-exclusive-or|set-dispatch-macro-character|
+          set-difference|set-char-bit|set|series|second|search|schar|
+          scan-symbols|scan-sublists|scan-range|scan-plist|scan-multiple|
+          scan-lists-of-lists-fringe|scan-lists-of-lists|scan-hash|
+          scan-fn-inclusive|scan-fn|scan-file|scan-alist|scan|scale-float|sbit|
+          rplacd|rplaca|row-major-aref|round|rotatef|room|reverse|revappend|
+          result-of|restart-name|restart-case|restart-bind|rest|require|
+          replace|rename-package|rename-file|remprop|remove-method|
+          remove-duplicates|remove|remhash|remf|reinitialize-instance|reduce|
+          realpart|realp|readtablep|readtable-case|read-preserving-whitespace|
+          read-line|read-from-string|read-delimited-list|read-char-no-hang|
+          read-char|read-byte|read|rationalp|rationalize|rational|
+          rassoc-if-not|rassoc-if|rassoc|random-state-p|random|quote|pushnew|
+          push|psetq|psetf|provide|progn|prog2|prog1|producing|proclaim|
+          probe-file|print-unreadable-object|print-object|print|prin1|previous|
+          pprint-tabular|pprint-tab|pprint-pop|pprint-newline|
+          pprint-logical-block|pprint-linear|pprint-indent|pprint-fill|
+          pprint-exit-if-list-exhausted|pprint-dispatch|positions|
+          position-if-not|position-if|position|pop|plusp|phase|peek-char|
+          pathnamep|pathname-version|pathname-type|pathname-name|
+          pathname-match-p|pathname-host|pathname-directory|pathname-device|
+          pathname|parse-namestring|parse-macro|parse-integer|pairlis|packagep|
+          package-used-by-list|package-use-list|package-shadowing-symbols|
+          package-nicknames|package-name|package-error-package|output-stream-p|
+          open-stream-p|open|oddp|nunion|numerator|numberp|nthcdr|nth-value|
+          nth|nsubstitute-if-not|nsubstitute-if|nsubstitute|nsubst-if-not|
+          nsubst-if|nsubst|nsublis|nstring-upcase|nstring-downcase|
+          nstring-capitalize|nset-exclusive-or|nset-difference|nreverse|
+          nreconc|notevery|notany|no-next-method|no-applicable-method|ninth|
+          nintersection|next-out|next-method-p|next-in|nconcing|nconc|nbutlast|
+          namestring|name-char|multiple-value-setq|multiple-value-list|
+          multiple-value-bind|muffle-warning|mismatch|minusp|minimizing|
+          minimize|mingle|method-qualifiers|method-combination-error|
+          merge-pathnames|merge|memberp|member-if-not|member-if|member|
+          maximizing|maximize|mask-field|mask|mapping|maphash|map-into|map-fn|
+          map|makunbound|make-two-way-stream|make-synonym-stream|make-symbol|
+          make-string-output-stream|make-string-input-stream|make-string|
+          make-sequence|make-random-state|make-pathname|make-package|
+          make-load-form-saving-slots|make-load-form|make-list|
+          make-instances-obsolete|make-instance|make-hash-table|
+          make-echo-stream|make-dispatch-macro-character|make-condition|
+          make-concatenated-stream|make-char|make-broadcast-stream|make-array|
+          macroexpand-1|macroexpand|macro-function|machine-version|
+          machine-type|machine-instance|lower-case-p|loop-finish|
+          long-site-name|logtest|logorc2|logorc1|lognot|lognand|
+          logical-pathname-translations|logical-pathname|logcount|logbitp|
+          logandc2|logandc1|log|locally|load-logical-pathname-translations|
+          load|listp|listen|list-length|list-all-packages|list\*|list|
+          lisp-implementation-version|lisp-implementation-type|length|ldiff|
+          ldb-test|ldb|lcm|latch|last|keywordp|iterate|isqrt|invoke-restart|
+          invoke-debugger|invalid-method-error|intersection|intern|
+          interactive-stream-p|integerp|integer-length|integer-decode-float|
+          int-char|inspect|input-stream-p|initialize-instance|in-package|
+          import|imagpart|ignore-errors|identity|host-namestring|
+          hash-table-test|hash-table-size|hash-table-rehash-threshold|
+          hash-table-rehash-size|hash-table-p|hash-table-count|handler-case|
+          handler-bind|graphic-char-p|gethash|getf|get-universal-time|
+          get-setf-method-multiple-value|get-setf-method|get-properties|
+          get-output-stream-string|get-internal-run-time|
+          get-internal-real-time|get-decoded-time|get|gentemp|gensym|
+          generic-function|generator|gcd|gathering|gatherer|functionp|
+          function-lambda-expression|function-keywords|function-information|
+          funcall|fourth|formatter|format|floor|floatp|float-sign|float-radix|
+          float-precision|float-digits|float|first|finish-output|find-symbol|
+          find-restart|find-package|find-method|find-if-not|find-if|find-class|
+          find-all-symbols|find|fill-pointer|fill|file-write-date|
+          file-string-length|file-position|file-namestring|file-length|
+          file-error-pathname|file-author|fifth|ffloor|fdefinition|fboundp|f|
+          expt|export|expand|exp|every|evenp|evalhook|eval|error|
+          ensure-generic-function|enough-namestring|endp|encode-universal-time|
+          enclose|encapsulated|elt|eighth|ed|echo-stream-output-stream|
+          echo-stream-input-stream|ecase|dribble|dpb|documentation|do-symbols|
+          do-external-symbols|do-all-symbols|disassemble|directory-namestring|
+          directory|digit-char-p|digit-char|destructuring-bind|describe-object|
+          describe|deposit-field|denominator|delete-package|delete-if-not|
+          delete-if|delete-file|delete-duplicates|delete|defvar|deftype|
+          defstruct|defpackage|define-setf-method|define-modify-macro|
+          define-method-combination|define-declaration|define-condition|
+          define-compiler-macro|defgeneric|defclass|decode-universal-time|
+          decode-float|declaration-information|declaim|counting|count-if-not|
+          count-if|count|cotruncate|cosh|cos|copy-tree|copy-symbol|copy-seq|
+          copy-readtable|copy-pprint-dispatch|copy-list|copy-alist|continue|
+          constantp|consp|cons|conjugate|concatenated-stream-streams|
+          concatenate|compute-restarts|compute-applicable-methods|complexp|
+          complex|complement|compiler-macroexpand-1|compiler-macroexpand|
+          compiler-macro-function|compiler-let|compiled-function-p|
+          compile-file-pathname|compile-file|compile|commonp|collecting-fn|
+          collecting|collect-sum|collect-plist|collect-or|collect-nth|
+          collect-nconc|collect-min|collect-max|collect-length|collect-last|
+          collect-hash|collect-fn|collect-first|collect-file|collect-append|
+          collect-and|collect-alist|collect|coerce|code-char|clrhash|close|
+          clear-input|class-of|class-name|cis|chunk|choose-if|choose|
+          check-type|characterp|character|char>=|char>|char=|char<=|char<|
+          char/=|char-upcase|char-not-lessp|char-not-greaterp|char-not-equal|
+          char-name|char-lessp|char-int|char-greaterp|char-font|char-equal|
+          char-downcase|char-code|char-bits|char-bit|char|change-class|cerror|
+          cell-error-name|ceiling|cdr|cddr|cdddr|cddddr|cdddar|cddar|cddadr|
+          cddaar|cdar|cdadr|cdaddr|cdadar|cdaar|cdaadr|cdaaar|ccase|catenate|
+          car|call-next-method|call-method|cadr|caddr|cadddr|caddar|cadar|
+          cadadr|cadaar|caar|caadr|caaddr|caadar|caaar|caaadr|caaaar|byte-size|
+          byte-position|byte|butlast|broadcast-stream-streams|break|boundp|
+          both-case-p|boole|bit-xor|bit-vector-p|bit-orc2|bit-orc1|bit-not|
+          bit-nor|bit-nand|bit-ior|bit-eqv|bit-andc2|bit-andc1|bit-and|bit|
+          augment-environment|atom|atanh|atan|assoc-if-not|assoc-if|assoc|
+          assert|asinh|asin|ash|arrayp|array-total-size|array-row-major-index|
+          array-rank|array-in-bounds-p|array-has-fill-pointer-p|
+          array-element-type|array-dimensions|array-dimension|
+          arithmetic-error-operation|arithmetic-error-operands|aref|
+          apropos-list|apropos|applyhook|apply|appending|append|alter|
+          alphanumericp|alpha-char-p|adjustable-array-p|adjust-array|adjoin|
+          add-method|acosh|acos|acons|abs|abort
+        ){{end_identifier}}
       scope: support.function.lisp
+
+  types:
+    - match: |-
+        \b(?xi:
+          array|atom|bignum|bit|bit-vector|character|\[common\]|
+          compiled-function|complex|cons|double-float|fixnum|float|function|
+          hash-table|integer|keyword|list|long-float|nil|null|number|package|
+          pathname|random-state|ratio|rational|readtable|sequence|short-float|
+          signed-byte|simple-array|simple-bit-vector|simple-string|simple-vector|
+          single-float|standard-char|stream|string|\[string-char\]|symbol|t|
+          unsigned-byte|vector
+        ){{end_identifier}}
+      scope: storage.type.lisp
+      # scope: support.type.lisp
 
   expect-parameters:
     - match: \(
@@ -78,13 +260,13 @@ contexts:
       pop: true
 
   operators:
-    - match: (?:\B(?:/=|>=|<=|=|>|<)|\b(?i:max|min|eq|neq|eql|equalp|equal))(?=[\s()]|$)
+    - match: (?:\B(?:/=|>=|<=|=|>|<)|\b(?i:max|min|eq|neq|eql|equalp|equal)){{end_identifier}}
       scope: keyword.operator.comparison.lisp
-    - match: (?:\B(?:\+|-|\*|/)|\b(?i:mod|rem|incf|decf))(?=[\s()]|$)
+    - match: (?:\B(?:\+|-|\*|/)|\b(?i:mod|rem|incf|decf)){{end_identifier}}
       scope: keyword.operator.arithmetic.lisp
     - match: \b(?i:and|or|not)(?=[\s()]|$)
       scope: keyword.operator.logical.lisp
-    - match: \b(?i:logand|logior|logxor|lognor|logeqv)(?=[\s()]|$)
+    - match: \b(?i:logand|logior|logxor|lognor|logeqv){{end_identifier}}
       scope: keyword.operator.bitwise.lisp
 
   parens:
@@ -125,6 +307,7 @@ contexts:
       pop: true
     - include: expressions
     - include: parens
+    - include: function-keywords
     - include: identifiers
 
   constants:
@@ -134,6 +317,12 @@ contexts:
       scope: constant.character.lisp
       captures:
         1: punctuation.definition.constant.lisp
+
+  function-keywords:
+    - match: '(:){{identifier}}'
+      scope: variable.parameter.lisp
+      captures:
+        1: punctuation.definition.keyword.lisp
 
   identifiers:
     - match: \|
@@ -151,7 +340,7 @@ contexts:
 
   numbers:
     - match: |-
-        \b(?x:
+        (?:\b|-)(?x:
           (?:
             (?:0[xX]\h*)|
             (?:
