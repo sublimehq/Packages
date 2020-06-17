@@ -292,6 +292,10 @@ contexts:
       scope: keyword.operator.bitwise.lisp
 
   parens:
+    - match: (['`])(\(\))
+      captures:
+        1: support.function.lisp
+        2: constant.language.lisp
     - match: (['`])(\()
       captures:
         1: support.function.lisp
