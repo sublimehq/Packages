@@ -35,6 +35,7 @@ contexts:
     - include: strings
     - include: variables
     - include: control
+    - include: types
 
   variables:
     - match: |-
@@ -253,9 +254,20 @@ contexts:
         - match: \)
           scope: punctuation.section.parameters.end.lisp
           pop: true
+        - match: (&)(?i:optional|key)
+          scope: variable.annotation.lisp
+          captures:
+            1: punctuation.definition.annotation.lisp
         - match: '{{identifier}}'
           scope: variable.parameter.lisp
-        - include: parens
+        - match: \(
+          scope: punctuation.definition.group.begin.lisp
+          push:
+            - match: \)
+              scope: punctuation.definition.group.end.lisp
+              pop: true
+            - match: '{{identifier}}'
+              scope: variable.parameter.lisp
     - match: ''
       pop: true
 
@@ -291,7 +303,7 @@ contexts:
 
   expect-function:
     - meta_scope: debug.in.expect-function
-    - match: (?=\s|\))
+    - match: (?=[\s)"'])
       pop: true
     - include: expressions
     - include: operators
@@ -299,6 +311,8 @@ contexts:
     - include: parens
     - match: '{{identifier}}'
       scope: variable.function.lisp
+    # - match: '(?=[\s\S])'
+    #   pop: true
 
   expect-closing-paren:
     - meta_scope: meta.group.lisp debug.in.expect-closing-paren
@@ -311,7 +325,22 @@ contexts:
     - include: identifiers
 
   constants:
-    - match: \b(?i:null|t|single-float-negative-epsilon|single-float-epsilon|short-float-negative-epsilon|short-float-epsilon|pi|nil|multiple-values-limit|most-positive-single-float|most-positive-short-float|most-positive-long-float|most-positive-fixnum|most-positive-double-float|most-negative-single-float|most-negative-short-float|most-negative-long-float|most-negative-fixnum|most-negative-double-float|long-float-negative-epsilon|long-float-epsilon|least-positive-single-float|least-positive-short-float|least-positive-normalized-single-float|least-positive-normalized-short-float|least-positive-normalized-long-float|least-positive-normalized-double-float|least-positive-long-float|least-positive-double-float|least-negative-single-float|least-negative-short-float|least-negative-normalized-single-float|least-negative-normalized-short-float|least-negative-normalized-long-float|least-negative-normalized-double-float|least-negative-long-float|least-negative-double-float|lambda-parameters-limit|lambda-list-keywords|internal-time-units-per-second|double-float-negative-epsilon|double-float-epsilon|char-super-bit|char-meta-bit|char-hyper-bit|char-font-limit|char-control-bit|char-code-limit|char-bits-limit|call-arguments-limit|array-total-size-limit|array-rank-limit|array-dimension-limit)(?![\w-])
+    - match: |-
+        \b(?xi:
+          null|nil|t|pi|
+          (?:single|short|long|double)-float-(?:negative-)?epsilon|
+          (?:most|least)-(?:positive|negative)-(?:single|short|long|double)-float|
+          least-(?:positive|negative)-normalized-(?:single|short|long|double)-float|
+          most-(?:positive|negative)-fixnum|
+          multiple-values-limit|
+          lambda-parameters-limit|
+          lambda-list-keywords|
+          internal-time-units-per-second|
+          char-(?:super|hyper|meta|control)-bit|
+          char-(?:font|code|bits)-limit|
+          call-arguments-limit|
+          array-(?:rank|dimension|total-size)-limit
+        )(?![\w-])
       scope: constant.language.lisp
     - match: (#\\)(?:\w+|[\\+-=<>'"&#])
       scope: constant.character.lisp
@@ -363,6 +392,8 @@ contexts:
           pop: true
         - match: \\.
           scope: constant.character.escape.lisp
+        - match: ~{{identifier}}
+          scope: constant.other.placeholder.lisp
 
   block-comment:
     - match: '#\|'

@@ -47,11 +47,11 @@
 ; STRINGS #
 ;##########
 
-'("string\n")
-; ^ punctuation.definition.string.begin
-; ^^^^^^^^ string.quoted.double
-;        ^^ constant.character.escape
-;          ^ punctuation.definition.string.end
+("string\n")
+;^ punctuation.definition.string.begin
+;^^^^^^^^ string.quoted.double
+;       ^^ constant.character.escape
+;         ^ punctuation.definition.string.end
 
 '("multi-line string
     ends here"
