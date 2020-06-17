@@ -81,7 +81,10 @@ contexts:
       push: expect-parameters
     - match: \b(lambda)\s*{{end_identifier}}
       captures:
-        1: meta.function.inline.python storage.type.function.inline.lisp keyword.declaration.function.inline.lisp
+        1: >-
+          meta.function.inline.lisp
+          storage.type.function.inline.lisp
+          keyword.declaration.function.inline.lisp
       push: expect-parameters
     - match: |-
         \b(?xi:
@@ -282,8 +285,10 @@ contexts:
       scope: keyword.operator.bitwise.lisp
 
   parens:
-    - match: \'\(
-      scope: punctuation.definition.group.begin.lisp
+    - match: (['`])(\()
+      captures:
+        1: support.function.lisp
+        2: punctuation.definition.group.begin.lisp
       push:
         - meta_scope: meta.group.lisp
         - match: \)
@@ -302,7 +307,6 @@ contexts:
       scope: invalid.illegal.stray-bracket-end.lisp
 
   expect-function:
-    - meta_scope: debug.in.expect-function
     - match: (?=[\s)"'])
       pop: true
     - include: expressions
@@ -315,7 +319,7 @@ contexts:
     #   pop: true
 
   expect-closing-paren:
-    - meta_scope: meta.group.lisp debug.in.expect-closing-paren
+    - meta_scope: meta.group.lisp
     - match: \)
       scope: punctuation.definition.group.end.lisp
       pop: true
@@ -348,24 +352,32 @@ contexts:
         1: punctuation.definition.constant.lisp
 
   function-keywords:
-    - match: '(:){{identifier}}'
+    - match: (:){{identifier}}
       scope: variable.parameter.lisp
       captures:
         1: punctuation.definition.keyword.lisp
 
   identifiers:
-    - match: \|
-      scope: punctuation.definition.variable.begin.lisp
+    - match: ('|`,?|,@?)?(\|)
+      captures:
+        1: support.function.lisp
+        2: >-
+          variable.other.lisp
+          punctuation.definition.variable.begin.lisp
       push:
-        - meta_scope: variable.other.lisp
+        - meta_content_scope: variable.other.lisp
         - match: \n
           scope: invalid.illegal.trailing-newline.lisp
           pop: true
         - match: \|
-          scope: punctuation.definition.variable.end.lisp
+          scope: >-
+            variable.other.lisp
+            punctuation.definition.variable.end.lisp
           pop: true
-    - match: '{{identifier}}'
-      scope: variable.other.lisp
+    - match: ('|`,?|,@?)?({{identifier}})
+      captures:
+        1: support.function.lisp
+        2: variable.other.lisp
 
   numbers:
     - match: |-
@@ -392,7 +404,9 @@ contexts:
           pop: true
         - match: \\.
           scope: constant.character.escape.lisp
-        - match: ~{{identifier}}
+        - match: ~%
+          scope: constant.character.escape.lisp
+        - match: ~(?:{{identifier}}|[{},:])
           scope: constant.other.placeholder.lisp
 
   block-comment:
@@ -409,7 +423,7 @@ contexts:
     - include: block-comment
     - match: \|#
       scope: invalid.illegal.stray-comment-end.lisp
-    - match: ;
+    - match: ;+
       scope: punctuation.definition.comment.lisp
       push:
         - meta_scope: comment.line.semicolon.lisp
