@@ -136,7 +136,7 @@ contexts:
         \b(?xi:
           break | case | continue | declare | default | die | do | else |
           elseif | enddeclare | endfor | endforeach | endif | endswitch | endwhile | exit |
-          for | foreach | if | return | switch | use | while
+          for | foreach | if | match | return | switch | use | while
         )\b
       scope: keyword.control.php
     - match: \b(catch)\b\s*(\()
@@ -410,7 +410,7 @@ contexts:
           SplFixedArray | SplFloat | SplHeap | SplInt | SplMaxHeap | SplMinHeap | SplObjectStorage | SplObserver |
           SplPriorityQueue | SplQueue | SplStack | SplString | SplSubject | SplTempFileObject | Stringable | Swish | SwishResult |
           SwishResults | SwishSearch | TokyoTyrant | TokyoTyrantQuery | TokyoTyrantTable | Transliterator | Traversable | TypeError | UnderflowException |
-          UnexpectedValueException | V8Js | V8JsException | ValueError | WeakMap | WeakReference | XMLReader | XMLWriter | XSLTProcessor | ZipArchive |
+          UnexpectedValueException | UnhandledMatchError | V8Js | V8JsException | ValueError | WeakMap | WeakReference | XMLReader | XMLWriter | XSLTProcessor | ZipArchive |
           finfo | mysqli | mysqli_driver | mysqli_result | mysqli_stmt | mysqli_warning | stdClass | streamWrapper | tidy | tidyNode
         )\b
       captures:

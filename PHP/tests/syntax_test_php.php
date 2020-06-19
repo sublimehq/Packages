@@ -1427,6 +1427,24 @@ switch (1) {
   //^^^^^^^ keyword.control.php - entity.name.label.php
 }
 
+$statement = match ($this->lexer->lookahead['type']) {
+//           ^^^^^ keyword.control
+    Lexer::T_UPDATE => $this->UpdateStatement(),
+//  ^^^^^ support.class
+//       ^^ punctuation.accessor.double-colon
+//         ^^^^^^^^ constant.other.class
+//                  ^^ keyword.operator.key
+//                     ^^^^^ variable.language
+//                          ^^ punctuation.accessor.arrow
+//                            ^^^^^^^^^^^^^^^ variable.function
+//                                           ^^ meta.group
+    Lexer::T_DELETE => $this->DeleteStatement(),
+//                  ^^ keyword.operator.key
+    default => $this->syntaxError('UPDATE or DELETE'),
+//  ^^^^^^^ keyword.control
+//          ^^ keyword.operator.key
+};
+
 $non_sql = "NO SELECT HIGHLIGHTING!";
 //         ^ string.quoted.double punctuation.definition.string.begin - meta.string-contents
 //          ^^^^^^^^^^^^^^^^^^^^^^^ meta.string-contents
