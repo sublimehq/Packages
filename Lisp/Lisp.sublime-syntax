@@ -55,6 +55,9 @@ contexts:
     - include: variables
     - include: control
     - include: types
+    - match: \B\.{{end_identifier}}
+      scope: keyword.control.lisp
+
 
   variables:
     - match: |-
@@ -86,11 +89,13 @@ contexts:
         \b(?xi:
           with|while|when|unless|typecase|to|thereis|then|return-from name|
           return|repeat|never|named|maplist|mapl|mapcon|mapcar|mapcan|
-          mapc|loop|initially|if|from|for|finally|etypecase|else|do\*?|
+          mapc|loop|into|initially|in|if|from|for|finally|etypecase|else|do\*?|
           do-(?:all-|external)?symbols|dolist|doing|dotimes|ctypecase|cond|
           case|block|as|always
         ){{end_identifier}}
       scope: keyword.control.lisp
+    - match: '\B={{end_identifier}}'
+      scope: keyword.operator.assignment.lisp
 
   functions:
     - match: \b(?i:(defun|defmethod|deftype))\b\s+({{identifier}})\s*
@@ -366,11 +371,10 @@ contexts:
         2: punctuation.definition.variable.lisp
         3: constant.language.lisp
     # '(...)
-    - match: (?:(')|(`))(\()
+    - match: (')(\()
       captures:
         1: keyword.other.no-evaluation.lisp
-        2: punctuation.definition.variable.lisp
-        3: punctuation.definition.group.begin.lisp
+        2: punctuation.definition.group.begin.lisp
       push:
         - meta_scope: meta.group.lisp
         - match: \)
@@ -378,11 +382,13 @@ contexts:
           pop: true
         - include: expressions
         - include: parens
+        - include: functions
         - include: identifiers
     # (...)
-    - match: (\()\s*
+    - match: (`)?(\()\s*
       captures:
-        1: punctuation.definition.group.begin.lisp
+        1: punctuation.definition.variable.lisp
+        2: punctuation.definition.group.begin.lisp
       push:
         - expect-closing-paren
         - expect-function
@@ -409,8 +415,6 @@ contexts:
     - include: expressions
     - include: parens
     - include: function-keywords
-    - match: \B\.{{end_identifier}}
-      scope: keyword.control.lisp
     - include: identifiers
     # Could add some "expect" stuff here to allow only one
     #   more element in the parens
