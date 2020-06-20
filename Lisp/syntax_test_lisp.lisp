@@ -49,7 +49,7 @@
 
 ("string\n")
 ;^ punctuation.definition.string.begin
-;^^^^^^^^ string.quoted.double
+;^^^^^^^^ string.quoted.double - support - variable
 ;       ^^ constant.character.escape
 ;         ^ punctuation.definition.string.end
 
@@ -73,6 +73,40 @@
 
 (setq c 0xF0A)
 ;       ^^^^^ constant.numeric
+
+;##############
+; IDENTIFIERS #
+;##############
+
+(setq abcde 1)
+;     ^^^^^ variable.other
+
+(setq 7777e 1)
+;     ^^^^^ variable.other
+
+(setq 77777 1)
+;     ^^^^^ - variable.other
+
+(setq a.c.e 1)
+;     ^^^^^ variable.other
+
+(setq ..... 1)
+;     ^^^^^ - variable.other
+
+(setq 7!#7e 1)
+;     ^^^^^ variable.other
+
+(setq |7! #7e| 1)
+;     ^^^^^^^^ variable.other
+;     ^ punctuation.definition.variable.begin
+;            ^ punctuation.definition.variable.end
+
+; Escape characters inside an identifier
+(setq ab\ \|c\)\ de 1)
+;     ^^^^^^^^^^^^^ variable.other
+
+(setq ab| (|c|) |de 1)
+;     ^^^^^^^^^^^^^ variable.other
 
 ;#####################
 ; LANGUAGE CONSTANTS #

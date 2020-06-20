@@ -292,14 +292,18 @@ contexts:
       scope: keyword.operator.bitwise.lisp
 
   parens:
-    - match: (['`])(\(\))
+    # ()
+    - match: (?:(')|(`))?(\(\))
       captures:
-        1: support.function.lisp
-        2: constant.language.lisp
-    - match: (['`])(\()
+        1: keyword.other.no-evaluation.lisp
+        2: punctuation.definition.variable.lisp
+        3: constant.language.lisp
+    # '(...)
+    - match: (?:(')|(`))(\()
       captures:
-        1: support.function.lisp
-        2: punctuation.definition.group.begin.lisp
+        1: keyword.other.no-evaluation.lisp
+        2: punctuation.definition.variable.lisp
+        3: punctuation.definition.group.begin.lisp
       push:
         - meta_scope: meta.group.lisp
         - match: \)
@@ -308,6 +312,7 @@ contexts:
         - include: expressions
         - include: parens
         - include: identifiers
+    # (...)
     - match: (\()\s*
       captures:
         1: punctuation.definition.group.begin.lisp
@@ -368,11 +373,10 @@ contexts:
     - include: dispatching-macro-throw-exception
     - include: dispatching-macro-numbers
     # Function reference
-    - match: (#('))({{identifier}})
+    - match: (#')({{identifier}})
       captures:
         1: punctuation.definition.function.lisp
-        2: support.function.lisp
-        3: variable.function.lisp
+        2: variable.function.lisp
     # Bit vector
     - match: (#\d*\*)[01]*{{end_identifier}}
       scope: variable.other.lisp
@@ -477,10 +481,11 @@ contexts:
         1: punctuation.definition.keyword.lisp
 
   identifiers:
-    - match: ('|`,?|,@?)?(\|)
+    - match: (?:(')|(`,?|,@?))?(\|)
       captures:
-        1: support.function.lisp
-        2: >-
+        1: keyword.other.no-evaluation.lisp
+        2: punctuation.definition.variable.lisp
+        3: >-
           variable.other.lisp
           punctuation.definition.variable.begin.lisp
       push:
@@ -493,10 +498,11 @@ contexts:
             variable.other.lisp
             punctuation.definition.variable.end.lisp
           pop: true
-    - match: ('|`,?|,@?)?({{identifier}})
+    - match: (?:(')|(`,?|,@?))?({{identifier}})
       captures:
-        1: support.function.lisp
-        2: variable.other.lisp
+        1: keyword.other.no-evaluation.lisp
+        2: punctuation.definition.variable.lisp
+        3: variable.other.lisp
 
   numbers:
     - match: |-
@@ -511,10 +517,10 @@ contexts:
               ([eE][+-]?\d+)?
           )
           (?i:l|ul|u|f|ll|ull)?
-        )\b
+        ){{end_identifier}}
       scope: constant.numeric.lisp
       captures:
-        1: support.function.lisp
+        1: keyword.other.no-evaluation.lisp
         2: punctuation.separator.sequence.lisp
 
   strings:
