@@ -322,8 +322,8 @@
 ;                   ^ constant.numeric
 ;                     ^ constant.numeric
 ;                      ^^^ punctuation.definition.group.end
+;                         ^ - meta.group
 
-;^ - meta.group
 (defun -reverse (list)
   (let ((return-value '()))
     (dolist (e list) (push e return-value))
@@ -342,7 +342,22 @@
        (* n (factorial (- n 1)))))
 
 (defun factorial (n &optional (acc 1))
+;                 ^ variable.parameter
+;                   ^^^^^^^^^ variable.annotation
+;                              ^^^ variable.parameter
+;                                  ^ constant.numeric
    (if (= n 0) acc
        (factorial (- n 1) (* acc n))))
+
+(format t "Color ~A, number1 ~D, number2 ~5,'0D, hex ~X, float ~5,2F, unsigned value ~D.~%"
+;                ^^ constant.other.placeholder
+;                            ^^ constant.other.placeholder
+;                                        ^^^^^^ constant.other.placeholder
+;                                                    ^^ constant.other.placeholder
+;                                                              ^^^^^ constant.other.placeholder
+;                                                                                    ^^ constant.other.placeholder
+;                                                                                       ^^ constant.character.escape
+             "red" 123456 89 255 3.14 250)
+;; prints: Color red, number1 123456, number2 00089, hex FF, float  3.14, unsigned value 250.
 
 (write (funcall (lambda (+ -) (* + -)) 3 4)) ; prints 12

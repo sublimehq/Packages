@@ -656,8 +656,8 @@ contexts:
           (~)
           (?:(\d*)             # Radix
             (?:(,)\d*          # mincol
-              (?:(,)'.         # padchar
-                (?:(,)'.       # comma-char
+              (?:(,)(?:'.)?    # padchar
+                (?:(,)(?:'.)?  # comma-char
                   (?:(,)\d*)?  # comma-interval
           )?)?)?)
         ):?@?[rR]
@@ -674,8 +674,8 @@ contexts:
         (?x:
           (~)
           (?:\d*             # mincol
-            (?:(,)'.         # padchar
-              (?:(,)'.       # comma-char
+            (?:(,)(?:'.)?    # padchar
+              (?:(,)(?:'.)?  # comma-char
                 (?:(,)\d*)?  # comma-interval
           )?)?)?
         ):?@?[bBoOdDxX]
@@ -689,11 +689,11 @@ contexts:
     - match: |-
         (?x:
           (~)
-          (?:\d*            # width
-            (?:(,)\d*       # decimals
-              (?:(,)\d*     # scale
-                (?:(,)'.    # overflowchar
-                  (?:(,)'.  # padchar
+          (?:\d*                 # width
+            (?:(,)\d*            # decimals
+              (?:(,)\d*          # scale
+                (?:(,)(?:'.)?    # overflowchar
+                  (?:(,)(?:'.)?  # padchar
           )?)?)?)?)?
         )@?[fF]
       scope: constant.other.placeholder.lisp
@@ -707,13 +707,13 @@ contexts:
     - match: |-
         (?x:
           (~)
-          (?:\d*                # width
-            (?:(,)\d*           # decimals
-              (?:(,)\d*         # exponent-width
-                (?:(,)\d*       # scale
-                  (?:(,)'.      # overflowchar
-                    (?:(,)'.    # padchar
-                      (?:(,)'.  # exponentchar
+          (?:\d*                     # width
+            (?:(,)\d*                # decimals
+              (?:(,)\d*              # exponent-width
+                (?:(,)\d*            # scale
+                  (?:(,)(?:'.)?      # overflowchar
+                    (?:(,)(?:'.)?    # padchar
+                      (?:(,)(?:'.)?  # exponentchar
           )?)?)?)?)?)?)?
         )@?[eEgG]
       scope: constant.other.placeholder.lisp
@@ -729,10 +729,10 @@ contexts:
     - match: |-
         (?x:
           (~)
-          (?:\d*          # decimals
-            (?:(,)\d*     # min-units
-              (?:(,)\d*   # min-width
-                (?:(,)'.  # padchar
+          (?:\d*               # decimals
+            (?:(,)\d*          # min-units
+              (?:(,)\d*        # min-width
+                (?:(,)(?:'.)?  # padchar
           )?)?)?)?
         ):?@?\$
       scope: constant.other.placeholder.lisp
@@ -745,10 +745,10 @@ contexts:
     - match: |-
         (?x:
           (~)
-          (?:\d*          # min-col
-            (?:(,)\d*     # col-inc
-              (?:(,)\d*   # min-pad
-                (?:(,)'.  # padchar
+          (?:\d*               # min-col
+            (?:(,)\d*          # col-inc
+              (?:(,)\d*        # min-pad
+                (?:(,)(?:'.)?  # padchar
           )?)?)?)?
         ):?@?[aAsS]
       scope: constant.other.placeholder.lisp
