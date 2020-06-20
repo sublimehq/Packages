@@ -43,6 +43,8 @@
 ;                ^ meta.group meta.group punctuation.definition.group.end
 ;                 ^ meta.group punctuation.definition.group.end
 
+; ^ - meta.group
+
 ;##########
 ; STRINGS #
 ;##########
@@ -53,10 +55,14 @@
 ;       ^^ constant.character.escape
 ;         ^ punctuation.definition.string.end
 
+; ^ - meta.group
+
 '("multi-line string
     ends here"
 ;            ^ punctuation.definition.string.end
 )
+; <- meta.group punctuation.definition.group.end
+;^ - meta.group
 
 ;##########
 ; NUMBERS #
@@ -73,6 +79,8 @@
 
 (setq c 0xF0A)
 ;       ^^^^^ constant.numeric
+
+;^ - meta.group
 
 ;##############
 ; IDENTIFIERS #
@@ -108,6 +116,8 @@
 (setq ab| (|c|) |de 1)
 ;     ^^^^^^^^^^^^^ variable.other
 
+;^ - meta.group
+
 ;#####################
 ; LANGUAGE CONSTANTS #
 ;#####################
@@ -120,6 +130,17 @@
 
 (nil)
 ;^^^ constant.language
+
+(())
+;^^ constant.language
+
+('())
+; ^^ constant.language
+
+('nil)
+; FIXME
+
+;^ - meta.group
 
 ;#######################
 ; ARITHMETIC OPERATORS #
@@ -243,27 +264,66 @@
 ;############
 
 (defun averagenum (n1 n2 n3 n4)
-;^ storage.type.function-type
-;      ^ entity.name.function
+;^^^^^ storage.type.function-type
+;      ^^^^^^^^^^ entity.name.function
+;                 ^^^^^^^^^^^^^ meta.function.parameters
+;                 ^ punctuation.section.parameters.begin
+;                  ^^ variable.parameter
+;                    ^ - variable
+;                     ^^ variable.parameter
+;                        ^^ variable.parameter
+;                           ^^ variable.parameter
+;                             ^ punctuation.section.parameters.end
    (/ ( + n1 n2 n3 n4) 4)
 ;   ^ keyword.operator
 ;       ^ keyword.operator
 ;                      ^ constant.numeric
 )
+;^ - meta.group
 
 (defun what? (n1 n2 n3 n4)
-;^ storage.type.function-type
+;^^^^^ storage.type.function-type
 ;      ^^^^^ entity.name.function
+;            ^^^^^^^^^^^^^ meta.function.parameters
+;            ^ punctuation.section.parameters.begin
+;             ^^ variable.parameter
+;               ^ - variable
+;                ^^ variable.parameter
+;                   ^^ variable.parameter
+;                      ^^ variable.parameter
+;                        ^ punctuation.section.parameters.end
 )
+;^ - meta.group
 
 (defun is>?! (n1 n2 n3 n4)
-;^ storage.type.function-type
+;^^^^^ storage.type.function-type
 ;      ^^^^^ entity.name.function
 )
+;^ - meta.group
 
 (defun log-1(log-1) (if log-1 "1" "0"))
+;^^^^^ storage.type.function-type
+;      ^^^^^ entity.name.function
+;           ^^^^^^^ meta.function.parameters
+;           ^ punctuation.section.parameters.begin
+;             ^^^^ variable.parameter
+;                 ^ punctuation.section.parameters.end
+;                  ^ meta.group - meta.function.parameters
+;                   ^^^^^^^^^^^^^^^^^^ meta.group meta.group - meta.function.parameters
+;                    ^^ keyword.control.conditional.if
+;                       ^^^^^ variable.other
+;                             ^^^ string.quoted.double
+;                                 ^^^ string.quoted.double
 (format t (log-1 (< 1 2)))
+;^^^^^^ support.function
+;       ^ constant.language
+;          ^^^^^ variable.function
+;                 ^ keyword.operator.comparison
+;                   ^ constant.numeric
+;                     ^ constant.numeric
+;                      ^^^ punctuation.definition.group.end
 
+;^ - meta.group
 (defun -reverse (list)
   (let ((return-value '()))
     (dolist (e list) (push e return-value))

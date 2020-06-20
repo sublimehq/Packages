@@ -84,13 +84,34 @@ contexts:
         2: punctuation.definition.variable.end.lisp
 
   control:
+    # Conditional
+    - match: \b(?i:if|cond){{end_identifier}}
+      scope: keyword.control.conditional.if.lisp
+    # May be wrong
+    - match: \b(?i:then|unless){{end_identifier}}
+      scope: keyword.control.conditional.lisp
+    - match: \b(?i:case){{end_identifier}}
+      scope: keyword.control.conditional.case.lisp
+    - match: \b(?i:else){{end_identifier}}
+      scope: keyword.control.conditional.else.lisp
+    # Flow
+    - match: \b(?i:return){{end_identifier}}
+      scope: keyword.control.flow.return.lisp
+    # Loop
+    - match: \b(?i:for){{end_identifier}}
+      scope: keyword.control.loop.for.lisp
+    - match: \b(?i:while){{end_identifier}}
+      scope: keyword.control.loop.while.lisp
+    - match: \b(?i:do\*?|do-(?:all-|external)?symbols|dolist|doing|dotimes){{end_identifier}}
+      scope: keyword.control.loop.do-while.lisp
+    - match: \b(?i:loop){{end_identifier}}
+      scope: keyword.control.loop.lisp
     - match: |-
         \b(?xi:
-          with|while|when|unless|typecase|to|thereis|then|return-from name|
+          with|when|typecase|to|thereis|return-from name|
           return|repeat|never|named|maplist|mapl|mapcon|mapcar|mapcan|
-          mapc|loop|into|initially|in|if|from|for|finally|etypecase|else|do\*?|
-          do-(?:all-|external)?symbols|dolist|doing|dotimes|ctypecase|cond|
-          case|block|as|always
+          mapc|into|initially|in|from|finally|etypecase|
+          ctypecase|block|as|always
         ){{end_identifier}}
       scope: keyword.control.lisp
     - match: '\B={{end_identifier}}'
@@ -434,7 +455,7 @@ contexts:
           char-(?:font|code|bits)-limit|
           call-arguments-limit|
           array-(?:rank|dimension|total-size)-limit
-        )(?![\w-])
+        ){{end_identifier}}
       scope: constant.language.lisp
 
   dispatching-macros:
