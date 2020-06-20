@@ -79,8 +79,7 @@
 
 (setq c 0xF0A)
 ;       ^^^^^ constant.numeric
-
-;^ - meta.group
+;             ^ - meta.group
 
 ;##############
 ; IDENTIFIERS #
@@ -115,8 +114,7 @@
 
 (setq ab| (|c|) |de 1)
 ;     ^^^^^^^^^^^^^ variable.other
-
-;^ - meta.group
+;                     ^ - meta.group
 
 ;#####################
 ; LANGUAGE CONSTANTS #
@@ -361,3 +359,23 @@
 ;; prints: Color red, number1 123456, number2 00089, hex FF, float  3.14, unsigned value 250.
 
 (write (funcall (lambda (+ -) (* + -)) 3 4)) ; prints 12
+;       ^^^^^^^ support.function
+;                ^^^^^^^^^^^^ meta.function
+;                ^^^^^^ storage.type.function.inline keyword.declaration.function.inline
+;                       ^^^^^ meta.function.parameters
+;                        ^ meta.function.parameters
+;                          ^ meta.function.parameters
+;                              ^ keyword.operator.arithmetic
+;                                ^ variable.other - keyword
+;                                  ^ variable.other - keyword
+
+(setq x (quote (1 2)))
+(print (eval (append (list '+) x))) ; prints 3
+; FIXME Maybe `'+` should be keyword.operator? Unclear if we can do this and keep the test case above.
+
+(defun f (a) (+ a 1))
+(setq quote #'f)
+;     ^^^^^ variable.other
+;           ^^ punctuation.definition.function
+;             ^ variable.function
+(print (eval (append '(funcall) (quote (quote 4))))) ; prints 5

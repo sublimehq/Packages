@@ -18,7 +18,7 @@ file_extensions:
   - lsp
   - fasl # Scheme dialect of Lisp
 variables:
-  identifier_forbidden: '[\s()''"/,:;|]'
+  identifier_forbidden: '[\s()''"/,:;]' # Also `|` but they can be internal delimiters
   identifier_must_have: (?:[^\s()'"/,:;|\d.]|\\.) # May not be only digits or periods
   identifier_char: (?:\d|\.|{{identifier_must_have}})
   identifier: '{{identifier_char}}*{{identifier_must_have}}{{identifier_char}}*'
@@ -87,13 +87,13 @@ contexts:
     # Conditional
     - match: \b(?i:if|cond){{end_identifier}}
       scope: keyword.control.conditional.if.lisp
-    # May be wrong
-    - match: \b(?i:then|unless){{end_identifier}}
-      scope: keyword.control.conditional.lisp
-    - match: \b(?i:case){{end_identifier}}
-      scope: keyword.control.conditional.case.lisp
     - match: \b(?i:else){{end_identifier}}
       scope: keyword.control.conditional.else.lisp
+    - match: \b(?i:case){{end_identifier}}
+      scope: keyword.control.conditional.case.lisp
+    ## May be wrong
+    - match: \b(?i:then|unless){{end_identifier}}
+      scope: keyword.control.conditional.lisp
     # Flow
     - match: \b(?i:return){{end_identifier}}
       scope: keyword.control.flow.return.lisp
@@ -109,7 +109,7 @@ contexts:
     - match: |-
         \b(?xi:
           with|when|typecase|to|thereis|return-from name|
-          return|repeat|never|named|maplist|mapl|mapcon|mapcar|mapcan|
+          repeat|never|named|maplist|mapl|mapcon|mapcar|mapcan|
           mapc|into|initially|in|from|finally|etypecase|
           ctypecase|block|as|always
         ){{end_identifier}}
@@ -140,12 +140,13 @@ contexts:
         1: storage.type.function-type.lisp
         2: entity.name.function.lisp
       push: expect-parameters
-    - match: \b(lambda)\s*{{end_identifier}}
+    - match: \b(lambda)(\s*){{end_identifier}}
       captures:
         1: >-
           meta.function.inline.lisp
           storage.type.function.inline.lisp
           keyword.declaration.function.inline.lisp
+        2: meta.function.lisp
       with_prototype:
         - include: parameter-modifiers-for-lambda
       push: expect-parameters
@@ -425,7 +426,9 @@ contexts:
     - include: functions
     - include: parens
     - match: '{{identifier}}'
-      scope: variable.function.lisp
+      scope: >-
+        meta.function-call.lisp
+        variable.function.lisp
 
   expect-closing-paren:
     - meta_scope: meta.group.lisp
