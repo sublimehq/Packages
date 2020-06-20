@@ -272,10 +272,10 @@
 ;                        ^^ variable.parameter
 ;                           ^^ variable.parameter
 ;                             ^ punctuation.section.parameters.end
-   (/ ( + n1 n2 n3 n4) 4)
-;   ^ keyword.operator
-;       ^ keyword.operator
-;                      ^ constant.numeric
+    (/ ( + n1 n2 n3 n4) 4)
+;    ^ keyword.operator
+;        ^ keyword.operator
+;                       ^ constant.numeric
 )
 ;^ - meta.group
 
@@ -323,29 +323,29 @@
 ;                         ^ - meta.group
 
 (defun -reverse (list)
-  (let ((return-value '()))
-    (dolist (e list) (push e return-value))
-    return-value))
+    (let ((return-value '()))
+        (dolist (e list) (push e return-value))
+        return-value))
 
 (-reverse foo)
 (-reverse foo '(bar))
 
 (defun factorial (n)
-   (loop for i from 1 to n
-         for fac = 1 then (* fac i)
-         finally (return fac)))
+    (loop for i from 1 to n
+          for fac = 1 then (* fac i)
+          finally (return fac)))
 
 (defun factorial (n)
-   (if (= n 0) 1
-       (* n (factorial (- n 1)))))
+    (if (= n 0) 1
+        (* n (factorial (- n 1)))))
 
 (defun factorial (n &optional (acc 1))
 ;                 ^ variable.parameter
 ;                   ^^^^^^^^^ variable.annotation
 ;                              ^^^ variable.parameter
 ;                                  ^ constant.numeric
-   (if (= n 0) acc
-       (factorial (- n 1) (* acc n))))
+    (if (= n 0) acc
+        (factorial (- n 1) (* acc n))))
 
 (format t "Color ~A, number1 ~D, number2 ~5,'0D, hex ~X, float ~5,2F, unsigned value ~D.~%"
 ;                ^^ constant.other.placeholder
