@@ -616,10 +616,126 @@ contexts:
           pop: true
         - match: \\.
           scope: constant.character.escape.lisp
-        - match: ~%
-          scope: constant.character.escape.lisp
-        - match: ~(?:{{identifier}}|[{},:])
-          scope: constant.other.placeholder.lisp
+        - include: string-format-mini-language
+
+  string-format-mini-language:
+    # https://www.hexstreamsoft.com/articles/common-lisp-format-reference/clhs-summary/#subsections-summary-table
+    - match: (~)(\d*)[%&|~]
+      scope: constant.character.escape.lisp
+      captures:
+        1: punctuation.definition.placeholder.lisp
+        # 2: constant.numeric.integer.decimal.lisp
+    - match: (~):?@?[CR]
+      scope: constant.other.placeholder.lisp
+      captures:
+        1: punctuation.definition.placeholder.lisp
+    # ~R
+    - match: |-
+        (?x:
+          (~)
+          (?:(\d*)             # Radix
+            (?:(,)\d*          # mincol
+              (?:(,)'.         # padchar
+                (?:(,)'.       # comma-char
+                  (?:(,)\d*)?  # comma-interval
+          )?)?)?)
+        ):?@?[rR]
+      scope: constant.other.placeholder.lisp
+      captures:
+        1: punctuation.definition.placeholder.lisp
+        2: punctuation.definition.numeric.base.lisp
+        3: punctuation.separator.sequence.lisp
+        4: punctuation.separator.sequence.lisp
+        5: punctuation.separator.sequence.lisp
+        6: punctuation.separator.sequence.lisp
+    # ~b, ~o, ~d, ~x
+    - match: |-
+        (?x:
+          (~)
+          (?:\d*             # mincol
+            (?:(,)'.         # padchar
+              (?:(,)'.       # comma-char
+                (?:(,)\d*)?  # comma-interval
+          )?)?)?
+        ):?@?[bBoOdDxX]
+      scope: constant.other.placeholder.lisp
+      captures:
+        1: punctuation.definition.placeholder.lisp
+        2: punctuation.separator.sequence.lisp
+        3: punctuation.separator.sequence.lisp
+        4: punctuation.separator.sequence.lisp
+    # ~f
+    - match: |-
+        (?x:
+          (~)
+          (?:\d*            # width
+            (?:(,)\d*       # decimals
+              (?:(,)\d*     # scale
+                (?:(,)'.    # overflowchar
+                  (?:(,)'.  # padchar
+          )?)?)?)?)?
+        )@?[fF]
+      scope: constant.other.placeholder.lisp
+      captures:
+        1: punctuation.definition.placeholder.lisp
+        2: punctuation.separator.sequence.lisp
+        3: punctuation.separator.sequence.lisp
+        4: punctuation.separator.sequence.lisp
+        5: punctuation.separator.sequence.lisp
+    # ~e, ~g
+    - match: |-
+        (?x:
+          (~)
+          (?:\d*                # width
+            (?:(,)\d*           # decimals
+              (?:(,)\d*         # exponent-width
+                (?:(,)\d*       # scale
+                  (?:(,)'.      # overflowchar
+                    (?:(,)'.    # padchar
+                      (?:(,)'.  # exponentchar
+          )?)?)?)?)?)?)?
+        )@?[eEgG]
+      scope: constant.other.placeholder.lisp
+      captures:
+        1: punctuation.definition.placeholder.lisp
+        2: punctuation.separator.sequence.lisp
+        3: punctuation.separator.sequence.lisp
+        4: punctuation.separator.sequence.lisp
+        5: punctuation.separator.sequence.lisp
+        6: punctuation.separator.sequence.lisp
+        7: punctuation.separator.sequence.lisp
+    # ~$
+    - match: |-
+        (?x:
+          (~)
+          (?:\d*          # decimals
+            (?:(,)\d*     # min-units
+              (?:(,)\d*   # min-width
+                (?:(,)'.  # padchar
+          )?)?)?)?
+        ):?@?\$
+      scope: constant.other.placeholder.lisp
+      captures:
+        1: punctuation.definition.placeholder.lisp
+        2: punctuation.separator.sequence.lisp
+        3: punctuation.separator.sequence.lisp
+        4: punctuation.separator.sequence.lisp
+    # ~a, ~s
+    - match: |-
+        (?x:
+          (~)
+          (?:\d*          # min-col
+            (?:(,)\d*     # col-inc
+              (?:(,)\d*   # min-pad
+                (?:(,)'.  # padchar
+          )?)?)?)?
+        ):?@?[aAsS]
+      scope: constant.other.placeholder.lisp
+      captures:
+        1: punctuation.definition.placeholder.lisp
+        2: punctuation.separator.sequence.lisp
+        3: punctuation.separator.sequence.lisp
+        4: punctuation.separator.sequence.lisp
 
   block-comment:
     - match: '#\|'
