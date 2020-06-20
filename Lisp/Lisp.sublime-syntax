@@ -448,6 +448,19 @@ contexts:
       captures:
         1: punctuation.definition.function.lisp
         2: variable.function.lisp
+    - match: (#')(\()\s*(lambda)\s*{{end_identifier}}
+      captures:
+        1: punctuation.definition.function.lisp
+        2: punctuation.definition.group.begin.lisp
+        3: >-
+          meta.function.inline.lisp
+          storage.type.function.inline.lisp
+          keyword.declaration.function.inline.lisp
+      with_prototype:
+        - include: parameter-modifiers-for-lambda
+      push:
+        - expect-closing-paren
+        - expect-parameters
     # Bit vector
     - match: (#\d*\*)[01]*{{end_identifier}}
       scope: variable.other.lisp
