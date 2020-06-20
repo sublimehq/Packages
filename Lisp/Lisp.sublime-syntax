@@ -58,7 +58,6 @@ contexts:
     - match: \B\.{{end_identifier}}
       scope: keyword.control.lisp
 
-
   variables:
     - match: |-
         (\*)(?xi:
@@ -400,8 +399,8 @@ contexts:
       pop: true
     - match: \B\.{{end_identifier}}
       scope: invalid.illegal.lisp
-    - include: expressions
     - include: operators
+    - include: expressions
     - include: functions
     - include: parens
     - match: '{{identifier}}'
