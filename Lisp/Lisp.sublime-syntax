@@ -24,6 +24,22 @@ variables:
   identifier: '{{identifier_char}}*{{identifier_must_have}}{{identifier_char}}*'
   end_identifier: (?={{identifier_forbidden}}|$)
   standard_char: '[\w!"#$%&''()*+,\-./:;<=>?@\[\\\]^{|}~]'
+  declarations: |-
+    \b(?xi:
+      declaim|declare|define-condition|define-compiler-macro|
+        define-declaration|define-method-combination|define-setf-method|
+        defclass|defgeneric|defmacro|defmethod|define-modify-macro|defpackage|
+        defsetf|defstruct|deftype|defun|defvar|
+      flet|
+      generic-flet|generic-function|generic-labels|
+      labels|let\*?|locally|
+      macrolet|multiple-value-bind|
+      proclaim|prog\*?|
+      with-accessors|with-added-methods|with-condition-restarts|
+        with-input-from-string|with-open-file|with-open-stream|
+        with-standard-io-syntax|
+        with-output-to-string
+    ){{end_identifier}}
 scope: source.lisp
 contexts:
   main:
@@ -69,14 +85,31 @@ contexts:
     - match: |-
         \b(?xi:
           with|while|when|unless|typecase|to|thereis|then|return-from name|
-          return|repeat|prog\*?|never|named|maplist|mapl|mapcon|mapcar|mapcan|
-          mapc|loop|let|initially|if|from|for|finally|etypecase|else|dotimes|
-          dolist|doing|do\*?|ctypecase|cond|case|block|as|always
+          return|repeat|never|named|maplist|mapl|mapcon|mapcar|mapcan|
+          mapc|loop|initially|if|from|for|finally|etypecase|else|do\*?|
+          do-(?:all-|external)?symbols|dolist|doing|dotimes|ctypecase|cond|
+          case|block|as|always
         ){{end_identifier}}
       scope: keyword.control.lisp
 
   functions:
-    - match: \b(?i:(defun|defmethod|defmacro|deftype|defstruct))\b\s+({{identifier}})\s*
+    - match: \b(?i:(defun|defmethod|deftype))\b\s+({{identifier}})\s*
+      scope: meta.function.lisp
+      captures:
+        1: storage.type.function-type.lisp
+        2: entity.name.function.lisp
+      with_prototype:
+        - include: parameter-modifiers-for-function
+      push: expect-parameters
+    - match: \b(?i:(defmacro))\b\s+({{identifier}})\s*
+      scope: meta.function.lisp
+      captures:
+        1: storage.type.function-type.lisp
+        2: entity.name.function.lisp
+      with_prototype:
+        - include: parameter-modifiers-for-macro
+      push: expect-parameters
+    - match: \b(?i:(defstruct))\b\s+({{identifier}})\s*
       scope: meta.function.lisp
       captures:
         1: storage.type.function-type.lisp
@@ -88,17 +121,20 @@ contexts:
           meta.function.inline.lisp
           storage.type.function.inline.lisp
           keyword.declaration.function.inline.lisp
+      with_prototype:
+        - include: parameter-modifiers-for-lambda
       push: expect-parameters
     - match: \b(?i:string-char-p){{end_identifier}}
       scope: invalid.deprecated.lisp
+    - match: '{{declarations}}'
+      scope: keyword.declaration.lisp
     - match: |-
         \b(?xi:
           zerop|yes-or-no-p|y-or-n-p|write-to-string|write-string|write-char|
-          write-byte|write|with-standard-io-syntax|with-slots|
-          with-simple-restart|with-package-iterator|with-output-to-string|
-          with-open-stream|with-open-file|with-input-from-string|
-          with-hash-table-iterator|with-condition-restarts|
-          with-compilation-unit|with-accessors|wild-pathname-p|warn|vectorp|
+          write-byte|write|with-standard-io-syntax|
+          with-simple-restart|with-package-iterator|
+          with-hash-table-iterator|
+          with-compilation-unit|wild-pathname-p|warn|vectorp|
           vector-push-extend|vector-push|vector-pop|vector|
           variable-information|values-list|values|user-homedir-pathname|
           use-value|use-package|upper-case-p|upgraded-complex-part-type|
@@ -139,7 +175,7 @@ contexts:
           read-line|read-from-string|read-delimited-list|read-char-no-hang|
           read-char|read-byte|read|rationalp|rationalize|rational|
           rassoc-if-not|rassoc-if|rassoc|random-state-p|random|quote|pushnew|
-          push|psetq|psetf|provide|progn|prog2|prog1|producing|proclaim|
+          push|psetq|psetf|provide|progn|prog2|prog1|producing|
           probe-file|print-unreadable-object|print-object|print|prin1|previous|
           pprint-tabular|pprint-tab|pprint-pop|pprint-newline|
           pprint-logical-block|pprint-linear|pprint-indent|pprint-fill|
@@ -201,10 +237,8 @@ contexts:
           do-external-symbols|do-all-symbols|disassemble|directory-namestring|
           directory|digit-char-p|digit-char|destructuring-bind|describe-object|
           describe|deposit-field|denominator|delete-package|delete-if-not|
-          delete-if|delete-file|delete-duplicates|delete|defvar|deftype|
-          defstruct|defpackage|define-setf-method|define-modify-macro|
-          define-method-combination|define-declaration|define-condition|
-          define-compiler-macro|defgeneric|defclass|decode-universal-time|
+          delete-if|delete-file|delete-duplicates|delete|
+          decode-universal-time|
           decode-float|declaration-information|declaim|counting|count-if-not|
           count-if|count|cotruncate|cosh|cos|copy-tree|copy-symbol|copy-seq|
           copy-readtable|copy-pprint-dispatch|copy-list|copy-alist|continue|
@@ -256,6 +290,40 @@ contexts:
       scope: storage.type.lisp
       # scope: support.type.lisp
 
+  parameter-modifiers-common:
+    - match: (&)(?i:optional|rest|key|aux){{end_identifier}}
+      scope: variable.annotation.lisp
+      captures:
+        1: punctuation.definition.annotation.lisp
+
+  parameter-modifiers-for-function:
+    - include: parameter-modifiers-common
+    - include: parameter-modifier-allow-other-keys
+
+  parameter-modifiers-for-lambda:
+    - include: parameter-modifiers-common
+    - include: parameter-modifier-required
+
+  parameter-modifiers-for-macro:
+    - include: parameter-modifiers-common
+    - include: parameter-modifier-allow-other-keys
+    - match: (&)(?i:body|whole|environment){{end_identifier}}
+      scope: variable.annotation.lisp
+      captures:
+        1: punctuation.definition.annotation.lisp
+
+  parameter-modifier-required:
+    - match: (&)(?i:required){{end_identifier}}
+      scope: variable.annotation.lisp
+      captures:
+        1: punctuation.definition.annotation.lisp
+
+  parameter-modifier-allow-other-keys:
+    - match: (&)(?i:allow-other-keys){{end_identifier}}
+      scope: variable.annotation.lisp
+      captures:
+        1: punctuation.definition.annotation.lisp
+
   expect-parameters:
     - match: \(
       scope: punctuation.section.parameters.begin.lisp
@@ -264,10 +332,6 @@ contexts:
         - match: \)
           scope: punctuation.section.parameters.end.lisp
           pop: true
-        - match: (&)(?i:optional|key|rest|body|whole|allow-other-keys|environment|aux)
-          scope: variable.annotation.lisp
-          captures:
-            1: punctuation.definition.annotation.lisp
         - match: '{{identifier}}'
           scope: variable.parameter.lisp
         - match: \(
@@ -276,6 +340,9 @@ contexts:
             - match: \)
               scope: punctuation.definition.group.end.lisp
               pop: true
+            - include: strings
+            - include: constants
+            - include: numbers
             - match: '{{identifier}}'
               scope: variable.parameter.lisp
     - match: ''
