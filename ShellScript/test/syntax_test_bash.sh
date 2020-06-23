@@ -150,9 +150,11 @@ another-random-command arg foo--not-an-option
 # expansions
 ch=ch
 e${ch}"o" hello, world!
-# <- meta.function-call.identifier variable.function
-#^^^^^^^^ meta.function-call.identifier
-#        ^^^^^^^^^^^^^^ meta.function-call.arguments
+# <- meta.function-call.identifier.shell variable.function
+#^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
+#     ^^^ meta.function-call.identifier.shell meta.string.shell - meta.interpolation
+#        ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#^^^^^^^^ - variable.function
 #^^ punctuation.section.interpolation.begin.shell
 #  ^^ variable.other.readwrite
 #    ^ punctuation.section.interpolation.end.shell
@@ -161,10 +163,12 @@ e${ch}"o" hello, world!
 #       ^ string.quoted.double punctuation.definition.string.end
 e=e
 ${e}'ch'o hello, world!
-# <- meta.function-call.identifier.shell
+# <- meta.function-call.identifier.shell - variable.function
 #^^^^^^^^ meta.function-call.identifier.shell
-#        ^^^^^^^^^^^^^^ meta.function-call.arguments
+#        ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 # <- punctuation.section.interpolation.begin.shell
+#^^^^^^^ - variable.function
+#       ^ variable.function.shell
 #^ punctuation.section.interpolation.begin.shell
 # ^ variable.other.readwrite
 #  ^ punctuation
@@ -3209,8 +3213,8 @@ foo:foo () {
     echo "this is ~"
 }
 "~"
-# <- meta.function-call.identifier.shell variable.function
-#^^ meta.function-call.identifier.shell variable.function.shell
+# <- meta.function-call.identifier.shell - variable.function
+#^^ meta.function-call.identifier.shell - variable.function.shell
 ^ () {
 # <- meta.function entity.name.function
     echo "this is ^"

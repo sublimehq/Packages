@@ -458,18 +458,16 @@ contexts:
 
   cmd-name:
     - clear_scopes: 1
-    - meta_scope:
-        meta.function-call.identifier.shell
-        variable.function.shell
-    - match: (?=[\s`=|&;()}<>])
-      pop: true
+    - meta_scope: meta.function-call.identifier.shell
     - include: string
-    - include: string-interpolation
     - include: expansion-parameter
     - include: expansion-arithmetic
     - include: expansion-command
     - include: expansion-tilde
     - include: expansion-job
+    - match: '[^\s`=|&;()}<>]'
+      scope: variable.function.shell
+    - include: immediately-pop
 
   cmd-args:
     - meta_content_scope: meta.function-call.arguments.shell
