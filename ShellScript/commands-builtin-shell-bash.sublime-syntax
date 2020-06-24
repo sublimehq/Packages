@@ -108,11 +108,6 @@ contexts:
     set:
     - cmd-post
     - cmd-args-exec
-  - match: exit{{cmd_break}}
-    scope: meta.function-call.identifier.shell support.function.exit.shell
-    set:
-    - cmd-post
-    - cmd-args-exit
   - match: getopts{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.getopts.shell
     set:
@@ -128,11 +123,6 @@ contexts:
     set:
     - cmd-post
     - cmd-args-pwd
-  - match: return{{cmd_break}}
-    scope: meta.function-call.identifier.shell keyword.control.flow.return.shell
-    set:
-    - cmd-post
-    - cmd-args-return
   - match: shift{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.shift.shell
     set:
@@ -328,9 +318,6 @@ contexts:
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-  cmd-args-exit:
-  - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate
   cmd-args-getopts:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
@@ -348,9 +335,6 @@ contexts:
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-  cmd-args-return:
-  - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate
   cmd-args-shift:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate

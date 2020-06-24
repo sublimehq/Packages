@@ -574,6 +574,12 @@ contexts:
     - match: \bcontinue{{keyword_break}}
       scope: keyword.control.flow.continue.shell
       set: flow-args
+    - match: \bexit{{keyword_break}}
+      scope: keyword.control.flow.exit.shell
+      set: flow-args
+    - match: \breturn{{keyword_break}}
+      scope: keyword.control.flow.return.shell
+      set: flow-args
 
   case-word:
     - match: \bin{{keyword_break}}
@@ -650,7 +656,7 @@ contexts:
       pop: true
 
   flow-args:
-    - include: cmd-args-boilerplate-with-end-of-options
+    - include: cmd-args-boilerplate
     - include: expression
 
   for-args:

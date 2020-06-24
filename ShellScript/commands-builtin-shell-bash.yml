@@ -71,8 +71,7 @@ exec:
   short-options-compact: cl
   short-options: a
 
-exit:
-  allow-end-of-options-token: false
+# "exit" is handled as keyword.control.flow in the syntax def, don't put it here!
 
 # "export" is handled as storage.modifier in the syntax def, don't put it here!
 # export, readonly, declare, local, typeset
@@ -89,9 +88,7 @@ pwd:
 
 # "readonly" is handled as storage.modifier in the syntax def, don't put it here!
 
-return:
-  allow-end-of-options-token: false
-  scope: keyword.control.flow.return.shell
+# "return" is handled as keyword.control.flow in the syntax def, don't put it here!
 
 shift:
   allow-end-of-options-token: false

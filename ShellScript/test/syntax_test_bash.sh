@@ -3018,7 +3018,9 @@ logExit ( ) {
   # <- meta.function support.function.double-brace.begin
   #            ^^ meta.function meta.function-call.arguments support.function.double-brace.end
   #               ^^ meta.function keyword.operator.logical.or
-  #                  ^^^^ meta.function meta.function-call support.function.exit
+  #                  ^^^^ meta.function keyword.control.flow.exit.shell
+  #                       ^ keyword.operator.arithmetic.shell
+  #                        ^ constant.numeric.integer.decimal.shell
 }
 # <- meta.function.shell meta.block.shell punctuation.section.block.end.shell
 #^ - meta.function
@@ -3100,6 +3102,8 @@ function foo
 
     return 0
     # <- keyword.control.flow.return.shell
+    #^^^^^ keyword.control.flow.return.shell
+    #      ^ constant.numeric.integer.decimal.shell
 }
 # <- meta.function.shell meta.block.shell punctuation.section.block.end.shell
 #^ - meta.function
