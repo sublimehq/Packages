@@ -995,6 +995,15 @@ class MyClass extends TheirClass {
 //  ^ punctuation.definition.variable
 //   ^ entity.name.function variable.other.readwrite
 
+    1 = 0;
+//  ^ constant.numeric.integer.decimal
+//    ^ keyword.operator.assignment
+
+    .1e10 = 0;
+//  ^^^^^ constant.numeric.float.decimal
+//        ^ keyword.operator.assignment
+
+
     static x = 42;
 //  ^^^^^^ storage.modifier.js
 //         ^ variable.other.readwrite
@@ -1127,6 +1136,18 @@ class MyClass extends TheirClass {
 //           ^^^^^^ variable.parameter.function.js
 //                 ^ punctuation.separator.parameter.function.js
 //                   ^^^^^^ variable.parameter.function.js
+
+    42 () {}
+//  ^^^^^^^^ meta.class meta.block
+//  ^^constant.numeric.integer.decimal
+
+    0xabc () {}
+//  ^^^^^^^^^^^ meta.class meta.block
+//  ^^^^^ constant.numeric.integer.hexadecimal
+
+    .42e100 () {}
+//  ^^^^^^^^^^^^^ meta.class meta.block
+//  ^^^^^^^ constant.numeric.float.decimal
 
     static$
 //  ^^^^^^^ - storage

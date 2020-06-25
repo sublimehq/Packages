@@ -46,6 +46,8 @@ variables:
   binding_pattern_lookahead: (?:{{identifier}}|\[|\{)
   left_expression_end_lookahead: (?!\s*[.\[\(])
 
+  property_or_method_begin: (?:[{{identifier_start}}]|[\['"*#]|\.?\d)
+
   property_name: >-
     (?x:
       {{identifier}}
@@ -1270,7 +1272,7 @@ contexts:
     - match: static{{identifier_break}}
       scope: storage.modifier.js
 
-    - match: (?={{identifier_start}}|['"\[*#])
+    - match: (?={{property_or_method_begin}})
       branch_point: class-method-declaration
       branch:
         - class-method-declaration
@@ -1339,7 +1341,7 @@ contexts:
         - function-name-meta
         - literal-variable-base
 
-    - match: (?=#?{{property_name}})
+    - match: (?={{property_or_method_begin}})
       set:
         - initializer
         - field-name
@@ -1659,6 +1661,8 @@ contexts:
           pop: true
         - include: string-content
 
+    - include: literal-number
+
     - match: (?=\[)
       push: computed-property-name
 
@@ -1703,6 +1707,8 @@ contexts:
       captures:
         1: punctuation.definition.variable.js
         2: variable.other.readwrite.js
+
+    - include: literal-number
 
     - match: (?=\[)
       push: computed-property-name
