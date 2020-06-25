@@ -1046,16 +1046,17 @@ class MyClass extends TheirClass {
 //                                ^ variable.other.readwrite
 
     static a, 'b' = 50, "c", [d] = 100, #e;
-//  ^^^^^^ storage.modifier.js
+//  ^^^^^^ storage.modifier
 //         ^ variable.other.readwrite
 //             ^ variable.other.readwrite
 //                       ^ variable.other.readwrite
 //                            ^ variable.other.readwrite
 //                                       ^ variable.other.readwrite
 
-    foo // You thought I was a field...
-    () { return '...but was a method all along!'; }
-//  ^^ meta.class.js meta.block.js meta.function.declaration.js
+    foo
+//  ^^^ meta.function.declaration entity.name.function
+    () {}
+//  ^^ meta.class meta.block meta.function.declaration
 
     someMethod() {
         return #e * 2;

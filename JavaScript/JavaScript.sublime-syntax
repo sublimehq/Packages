@@ -54,13 +54,6 @@ variables:
       | \[ .* \]
     )
 
-  class_element_name: |-
-    (?x:
-      \*?
-      {{property_name}}
-      | \#{{identifier}}
-    )
-
   func_lookahead: |-
     (?x:
       \s*
@@ -164,21 +157,27 @@ contexts:
     - match: ','
       scope: punctuation.separator.comma.js
 
-  import-export:
-    - match: import{{identifier_break}}(?!{{nothing}}[.(])
+  import-statement-or-import-meta:
+    - match: (?=import{{identifier_break}})
+      branch_point: import-statement
+      branch:
+        - import-statement
+        - expression-statement
+
+  import-statement:
+    - match: import{{identifier_break}}
       scope: keyword.control.import-export.js
       set:
         - meta_scope: meta.import.js
         - match: (?=[.(]) # Recovery for import expressions
-          set:
-            - expression-statement-end
-            - import-expression-end
+          fail: import-statement
         - match: (?=\S)
           set:
             - import-meta
             - expect-semicolon
             - import-string-or-items
 
+  export-statement:
     - match: export{{identifier_break}}
       scope: keyword.control.import-export.js
       set:
@@ -323,7 +322,8 @@ contexts:
       scope: punctuation.terminator.statement.empty.js
       pop: true
 
-    - include: import-export
+    - include: import-statement-or-import-meta
+    - include: export-statement
     - include: conditional
     - include: block
     - include: label
@@ -1269,10 +1269,31 @@ contexts:
 
     - match: static{{identifier_break}}
       scope: storage.modifier.js
-      push: class-field
 
-    - match: (?={{class_element_name}})
-      push: class-field
+    - match: (?={{identifier_start}}|['"\[*#])
+      branch_point: class-method-declaration
+      branch:
+        - class-method-declaration
+        - class-field
+
+  class-method-declaration:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - function-meta
+        - function-declaration-expect-body
+        - function-declaration-meta
+        - function-declaration-expect-parameters
+        - class-method-check
+        - method-name
+        - method-declaration-expect-prefix
+        - function-declaration-expect-async
+
+  class-method-check:
+    - match: (?=\()
+      pop: true
+    - match: (?=\S)
+      fail: class-method-declaration
 
   class-extends:
     - match: extends{{identifier_break}}
@@ -1307,9 +1328,6 @@ contexts:
     - include: else-pop
 
   class-field:
-    - match: '{{method_lookahead}}'
-      set: method-declaration
-
     - match: |-
         (?x)(?=
           \#? {{identifier}}
@@ -1323,30 +1341,10 @@ contexts:
 
     - match: (?=#?{{property_name}})
       set:
-        - field-initializer-or-method-declaration
+        - initializer
         - field-name
 
     - include: else-pop
-
-  class-field-rest:
-    - match: ','
-      scope: punctuation.separator.js
-      push:
-        - initializer
-        - field-name
-    - include: else-pop
-
-  field-initializer-or-method-declaration:
-    - match: (?=\()
-      set:
-        - function-meta
-        - function-declaration-expect-body
-        - function-declaration-meta
-        - function-declaration-expect-parameters
-    - match: (?=\S)
-      set:
-        - class-field-rest
-        - initializer
 
   constants:
     - match: true{{identifier_break}}
