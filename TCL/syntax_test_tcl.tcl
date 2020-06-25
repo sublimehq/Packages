@@ -85,6 +85,11 @@ set res "[join [lrange [split $res ","] 0 end-1] ","] ..."
 regexp {instance="?([^" \t]+)"?} $counter matchedstring instance; # comment
 #       ^^^^^^^^^^^^^^^^^^^^^^^ string.regexp
 
+regexp -- tralla(lla) $text allMatched var1
+#      ^^ punctuation.separator
+#         ^^^^^^^^^^^ string.regexp
+#                     ^ variable.other punctuation.definition.variable
+
 set check1 [regexp {^'(.){0,32}'$} $param]
 #                   ^^^^^^^^^^^^^ string.regexp
 
@@ -275,8 +280,8 @@ proc test {} {
             set ifoid $paroid
             set eaoid [elm_oid_by_iface $ifoid]
             set earole [objectGetField -oid $eaoid -fieldname role]
-		}
-	}
+        }
+    }
 }
 
 # https://github.com/sublimehq/Packages/issues/1145

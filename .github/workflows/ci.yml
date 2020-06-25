@@ -1,0 +1,25 @@
+name: CI
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Run syntax_tests
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@master
+      - name: Install OpenGL
+        run: sudo apt-get -y install libgl1-mesa-glx libglu1-mesa
+      - name: Download syntax_tests
+        run: wget --content-disposition https://download.sublimetext.com/st_syntax_tests_build_4073_x64.tar.bz2
+      - name: Extract syntax_tests
+        run: tar xf "$(ls st_syntax_tests_build_*_x64.tar.bz2)"
+      - name: Move syntax_tests
+        run: mv st_syntax_tests/syntax_tests ./
+      - name: Cleanup syntax_tests dir
+        run: rm -R st_syntax_tests*
+      - name: Setup Data/Packages/
+        run: mkdir -p Data/Packages/
+      - name: Move packages into Data dir
+        run: find . -maxdepth 1 -mindepth 1 -type d -not -name 'Data' -exec mv '{}' Data/Packages/ \;
+      - name: Run syntax tests
+        run: ./syntax_tests
