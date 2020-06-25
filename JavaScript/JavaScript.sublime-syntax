@@ -164,26 +164,14 @@ contexts:
     - match: ','
       scope: punctuation.separator.comma.js
 
-  import-statement:
+  import-statement-or-import-meta:
     - match: (?=import{{identifier_break}})
       branch_point: import-statement
       branch:
-        - real-import-statement
+        - import-statement
         - expression-statement
 
-  branch-import-statement:
-    - meta_include_prototype: false
-    - match: ''
-      push:
-        - branch-import-statement-end
-        - real-import-statement
-
-  branch-import-statement-end:
-    - meta_include_prototype: false
-    - match: ''
-      pop: 3
-
-  real-import-statement:
+  import-statement:
     - match: import{{identifier_break}}
       scope: keyword.control.import-export.js
       set:
@@ -341,7 +329,7 @@ contexts:
       scope: punctuation.terminator.statement.empty.js
       pop: true
 
-    - include: import-statement
+    - include: import-statement-or-import-meta
     - include: export-statement
     - include: conditional
     - include: block
