@@ -2,7 +2,7 @@
 <plist version="1.0">
 <dict>
     <key>scope</key>
-    <string>meta.group.expansion</string>
+    <string>meta.interpolation</string>
     <key>settings</key>
     <dict>
         <key>showInSymbolList</key>
