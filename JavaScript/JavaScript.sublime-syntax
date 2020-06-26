@@ -46,7 +46,7 @@ variables:
   binding_pattern_lookahead: (?:{{identifier}}|\[|\{)
   left_expression_end_lookahead: (?!\s*[.\[\(])
 
-  property_or_method_begin: (?:[{{identifier_start}}]|[\['"*#]|\.?\d)
+  property_or_method_begin: (?:{{identifier_start}}|[\['"*#]|\.?\d)
 
   property_name: >-
     (?x:
@@ -74,13 +74,6 @@ variables:
       \s*
       =>
     )
-
-  method_lookahead: |-
-    (?x:(?=
-      (?: get|set|async ){{identifier_break}}(?!\s*:)
-      | \*
-      | {{property_name}} \s* \(
-    ))
 
   line_continuation_lookahead: >-
     (?x:(?=
@@ -159,27 +152,21 @@ contexts:
     - match: ','
       scope: punctuation.separator.comma.js
 
-  import-statement-or-import-meta:
-    - match: (?=import{{identifier_break}})
-      branch_point: import-statement
-      branch:
-        - import-statement
-        - expression-statement
-
-  import-statement:
-    - match: import{{identifier_break}}
+  import-export:
+    - match: import{{identifier_break}}(?!{{nothing}}[.(])
       scope: keyword.control.import-export.js
       set:
         - meta_scope: meta.import.js
         - match: (?=[.(]) # Recovery for import expressions
-          fail: import-statement
+          set:
+            - expression-statement-end
+            - import-expression-end
         - match: (?=\S)
           set:
             - import-meta
             - expect-semicolon
             - import-string-or-items
 
-  export-statement:
     - match: export{{identifier_break}}
       scope: keyword.control.import-export.js
       set:
@@ -324,8 +311,7 @@ contexts:
       scope: punctuation.terminator.statement.empty.js
       pop: true
 
-    - include: import-statement-or-import-meta
-    - include: export-statement
+    - include: import-export
     - include: conditional
     - include: block
     - include: label
@@ -1564,32 +1550,14 @@ contexts:
         - object-literal-meta-key
         - method-name
 
-    - match: '{{method_lookahead}}'
-      push: method-declaration
-
     - match: '{{identifier}}(?=\s*(?:[},]|$|//|/\*))'
       scope: variable.other.readwrite.js
 
-    - match: (?=\[)
-      push:
-        - object-literal-meta-key
-        - computed-property-name
-
-    - match: (?=\"|')
-      push:
-        - object-literal-meta-key
-        - literal-string
-
-    - match: (?=[-+]?(?:\.[0-9]|0[bxo]|\d))
-      push:
-        - object-literal-meta-key
-        - literal-number
-
-    # - include: bare-property-name
-    - match: (?={{identifier}})
-      push:
-        - object-literal-meta-key
-        - bare-property-name
+    - match: (?={{property_or_method_begin}})
+      branch_point: object-property
+      branch:
+        - object-property-declaration
+        - method-declaration
 
     - include: comma-separator
     - match: ':'
@@ -1602,9 +1570,26 @@ contexts:
       scope: keyword.operator.assignment.js
       push: expression-no-comma
 
-  bare-property-name:
+  object-property-declaration:
+    - match: ''
+      set:
+        - object-literal-property-name-check
+        - object-literal-meta-key
+        - object-property-name
+
+  object-literal-property-name-check:
+    - match: (?=:)
+      pop: true
+    - match: (?=\S)
+      fail: object-property
+
+  object-property-name:
+    - include: computed-property-name
+    - include: literal-string
+    - include: literal-number
     - match: '{{identifier}}'
       pop: true
+    - include: else-pop
 
   computed-property-name:
     - match: \[
@@ -1618,7 +1603,7 @@ contexts:
 
   object-literal-meta-key:
     - meta_scope: meta.mapping.key.js
-    - include: else-pop
+    - include: immediately-pop
 
   object-literal-expect-colon:
     - match: ':'
