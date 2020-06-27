@@ -61,7 +61,6 @@ variables:
 
 contexts:
   main:
-    - include: prototype
     - include: statements
 
   statements:
