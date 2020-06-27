@@ -205,16 +205,19 @@ contexts:
     - match: (?={{id}})
       branch_point: annotation-parameter
       branch:
-        - - match: '{{id}}'
-            scope: variable.parameter.java
-            push:
-              - match: =
-                scope: keyword.operator.assignment.java
-                pop: 2
-              - match: (?=\S)
-                fail: annotation-parameter
+        - annotation-parameter
         - expression-pop
     - include: variable-initializers
+
+  annotation-parameter:
+    - match: '{{id}}'
+      scope: variable.parameter.java
+      set:
+        - match: =
+          scope: keyword.operator.assignment.java
+          pop: 1
+        - match: (?=\S)
+          fail: annotation-parameter
 
 ###[ DECLARATIONS ]############################################################
 
