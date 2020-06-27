@@ -43,34 +43,34 @@ contexts:
         - match: <%!
           scope: punctuation.section.embedded.begin.jsp
           push:
+            # NOTE: we push into the context to work around core issue #3002
             - meta_scope: meta.embedded.declaration.jsp
-            - meta_content_scope: source.java.embedded.html
             - match: \%>
               scope: punctuation.section.embedded.end.jsp
               pop: true
-            - match: (?=\S)
+            - match: ''
               embed: java
               escape: (?=%>)
         - match: <%=
           scope: punctuation.section.embedded.begin.jsp
           push:
+            # NOTE: we push into the context to work around core issue #3002
             - meta_scope: meta.embedded.expression.jsp
-            - meta_content_scope: source.java.embedded.html
             - match: \%>
               scope: punctuation.section.embedded.end.jsp
               pop: true
-            - match: (?=\S)
+            - match: ''
               embed: java
               escape: (?=%>)
         - match: <%
           scope: punctuation.section.embedded.begin.jsp
           push:
+            # NOTE: we push into the context to work around core issue #3002
             - meta_scope: meta.embedded.scriptlet.jsp
-            - meta_content_scope: source.java.embedded.html
             - match: \%>
               scope: punctuation.section.embedded.end.jsp
               pop: true
-            - match: (?=\S)
+            - match: ''
               embed: java
               escape: (?=%>)
 

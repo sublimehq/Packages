@@ -107,7 +107,7 @@
 //      ^ entity.name.tag.html punctuation.separator.namespace.html
 //       ^^^^^^^^^^^ entity.name.tag.localname.html
 //                  ^ punctuation.definition.tag.end.html
-//                   ^^^^^^^^^^ source.java.embedded.html
+//                   ^^^^^^^^^^ source.java.embedded.html - source.java source.java
 //                   ^^^ storage.type.primitive.java
 //                             ^^^^^^^^^^^^^^^^^^ meta.tag.jsp.declaration.end.html
 //                             ^^ punctuation.definition.tag.begin.html
@@ -119,7 +119,7 @@
     <%! int i = 0; %>
 // ^ - meta
 //  ^^^ meta.embedded.declaration.jsp - source.java.embedded.html
-//     ^^^^^^^^^^^^ meta.embedded.declaration.jsp source.java.embedded.html
+//     ^^^^^^^^^^^^ meta.embedded.declaration.jsp source.java.embedded.html - source.java source.java
 //                 ^^ meta.embedded.declaration.jsp - source.java.embedded.html
 //                   ^ - meta
 //  ^^^ punctuation.section.embedded.begin.jsp
@@ -133,7 +133,7 @@
 //                   ^^^^^^ meta.tag.inline.any.html - meta.attribute-with-value.html
 //                         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.inline.any.html meta.attribute-with-value.html
 //                                ^^^ meta.embedded.expression.jsp punctuation.section.embedded.begin.jsp - source.java
-//                                   ^^^^^^^^^^^^ meta.embedded.expression.jsp source.java.embedded.html
+//                                   ^^^^^^^^^^^^ meta.embedded.expression.jsp source.java.embedded.html - source.java source.java
 //                                               ^^ meta.embedded.expression.jsp punctuation.section.embedded.end.jsp - source.java
 //                                                  ^ meta.tag.inline.any.html - meta.attribute-with-value.html
 //                                                   ^^^ meta.embedded.expression.jsp punctuation.section.embedded.begin.jsp - source.java
@@ -151,7 +151,7 @@
 //                                  ^ entity.name.tag.html punctuation.separator.namespace.html
 //                                   ^^^^^^^^^^ entity.name.tag.localname.html
 //                                             ^ punctuation.definition.tag.end.html
-//                                              ^^^^^^^^^^^^^^^^^^ source.java.embedded.html
+//                                              ^^^^^^^^^^^^^^^^^^ source.java.embedded.html - source.java source.java
 //                                                                ^^^^^^^^^^^^^^^^^ meta.tag.jsp.expression.end.html
 //                                                                ^^ punctuation.definition.tag.begin.html
 //                                                                  ^^^ entity.name.tag.namespace.html
@@ -216,7 +216,7 @@
 
     <%
 //  ^^ punctuation.section.embedded.begin.jsp - source.java.embedded.html
-//    ^ source.java.embedded.html
+//    ^ source.java.embedded.html - source.java source.java
     if (!foo && !bar) {
 //  ^^ keyword.control.conditional.if.java
 //      ^ keyword.operator.logical.java
