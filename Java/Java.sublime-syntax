@@ -84,7 +84,6 @@ variables:
 
 contexts:
   main:
-    - include: prototype
     - include: statements
     - include: declarations
 
@@ -134,8 +133,6 @@ contexts:
         - meta_include_prototype: false
         - meta_scope: comment.line.double-slash.java
         - match: \n
-          pop: 1
-        - match: (?=%>)
           pop: 1
 
 ###[ ANNOTATIONS ]#############################################################
@@ -2489,8 +2486,6 @@ contexts:
 ###[ PROTOTYPES ]##############################################################
 
   prototype:
-    - match: (?=%>)
-      pop: 1
     - include: comments
     - include: illegal-keywords
 
