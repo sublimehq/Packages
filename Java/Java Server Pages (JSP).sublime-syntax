@@ -318,4 +318,5 @@ contexts:
     # %> pop pattern
     - match: \}
       scope: punctuation.section.block.end.java
+    - include: scope:source.java#prototype
     - include: scope:source.java
