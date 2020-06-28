@@ -688,17 +688,19 @@ contexts:
 
   tag-event-attribute-value:
     - match: '"'
-      scope: string.quoted.double punctuation.definition.string.begin.html
+      scope: meta.string.html string.quoted.double.html punctuation.definition.string.begin.html
       embed: embedded-javascript
+      embed_scope: meta.string.html meta.interpolation.html
       escape: '"'
       escape_captures:
-        0: string.quoted.double punctuation.definition.string.end.html
+        0: meta.string.html string.quoted.double.html punctuation.definition.string.end.html
     - match: "'"
-      scope: string.quoted.single punctuation.definition.string.begin.html
+      scope: meta.string.html string.quoted.single.html punctuation.definition.string.begin.html
       embed: embedded-javascript
+      embed_scope: meta.string.html meta.interpolation.html
       escape: "'"
       escape_captures:
-        0: string.quoted.single punctuation.definition.string.end.html
+        0: meta.string.html string.quoted.single.html punctuation.definition.string.end.html
     - include: else-pop
 
   # This is to prevent breaking syntaxes referencing the old context name

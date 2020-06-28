@@ -481,22 +481,34 @@ class="foo"></div>
         ##             ^ string.unquoted
 
         <a disabled onclick="setTimeout(function(){}, 100)">Test</a>
+        ##^ - meta.attribute-with-value
+        ## ^^^^^^^^ meta.attribute-with-value.html
         ##         ^ - meta.attribute-with-value.event
-        ##          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event - meta.attribute-with-value meta.attribute-with-value
-        ##                  ^ - source.js
-        ##                                                ^ - source.js
-        ##                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.js.embedded.html - source.js source.js
-        ##                   ^ meta.function-call.js support.function
+        ##          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.attribute-with-value meta.attribute-with-value - source.js source.js
+        ##          ^^^^^^^^ meta.attribute-with-value.event - meta.string
+        ##                  ^ meta.attribute-with-value.event.html meta.string.html - meta.interpolation
+        ##                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html meta.interpolation.html
+        ##                                                ^ meta.attribute-with-value.event.html meta.string.html - meta.interpolation
         ## ^^^^^^^^ entity.other.attribute-name
+        ##                  ^ string.quoted.double.html punctuation.definition.string.begin.html - source.js
+        ##                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.js.embedded.html - string
+        ##                                                ^ string.quoted.double.html punctuation.definition.string.end.html - source.js
+        ##                   ^ meta.function-call.js support.function
 
         <a disabled onclick='setTimeout(function(){}, 100)'>Test</a>
+        ##^ - meta.attribute-with-value
+        ## ^^^^^^^^ meta.attribute-with-value.html
         ##         ^ - meta.attribute-with-value.event
-        ##          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event - meta.attribute-with-value meta.attribute-with-value
-        ##                  ^ - source.js
-        ##                                                ^ - source.js
-        ##                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.js.embedded.html - source.js source.js
-        ##                   ^ meta.function-call.js support.function
+        ##          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.attribute-with-value meta.attribute-with-value - source.js source.js
+        ##          ^^^^^^^^ meta.attribute-with-value.event - meta.string
+        ##                  ^ meta.attribute-with-value.event.html meta.string.html - meta.interpolation
+        ##                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event.html meta.string.html meta.interpolation.html
+        ##                                                ^ meta.attribute-with-value.event.html meta.string.html - meta.interpolation
         ## ^^^^^^^^ entity.other.attribute-name
+        ##                  ^ string.quoted.single.html punctuation.definition.string.begin.html - source.js
+        ##                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.js.embedded.html - string
+        ##                                                ^ string.quoted.single.html punctuation.definition.string.end.html - source.js
+        ##                   ^ meta.function-call.js support.function
 
         <article><span><othertag></othertag><othertag /></span></article>
         ## ^^^^^ entity.name.tag.block.any.html
