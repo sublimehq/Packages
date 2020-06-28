@@ -370,9 +370,13 @@ contexts:
       set:
         - include: script-close-tag
         - match: (?=\S)
-          embed: scope:source.js
-          embed_scope: source.js.embedded.html
+          embed: embedded-javascript
           escape: '{{script_close_lookahead}}'
+
+  embedded-javascript:
+    - meta_content_scope: source.js.embedded.html
+    - include: scope:source.js#prototype
+    - include: scope:source.js
 
   script-html:
     - meta_content_scope: meta.tag.script.begin.html
@@ -685,14 +689,14 @@ contexts:
   tag-event-attribute-value:
     - match: '"'
       scope: string.quoted.double punctuation.definition.string.begin.html
-      embed: scope:source.js
+      embed: embedded-javascript
       embed_scope: meta.attribute-with-value.event.html
       escape: '"'
       escape_captures:
         0: string.quoted.double punctuation.definition.string.end.html
     - match: "'"
       scope: string.quoted.single punctuation.definition.string.begin.html meta.attribute-with-value.event.html
-      embed: scope:source.js
+      embed: embedded-javascript
       embed_scope: meta.attribute-with-value.event.html
       escape: "'"
       escape_captures:

@@ -27,6 +27,7 @@
         ## ^ entity.name.tag.script - source.js.embedded.html
         ##       ^^^^ comment.block.html punctuation.definition.comment.begin.html
             var foo = 100;
+            ## <- source.js.embedded.html - source.js source.js
             var baz = function() {
                 ## <- entity.name.function.js
             }
@@ -77,7 +78,7 @@
             <script type=text/javascript>
         ##  ^ text.html.basic text.html.embedded.html - source.js.embedded.html
                 function test() {}
-        ##  ^ text.html.basic text.html.embedded.html source.js.embedded.html
+        ##  ^ text.html.basic text.html.embedded.html source.js.embedded.html - source.js source.js
             </script>
         ##  ^^^^^^^^^ text.html.basic text.html.embedded.html meta.tag.script.end
         </script>
@@ -87,7 +88,7 @@
 
         <script>42</script >
 ##      ^^^^^^^^ meta.tag.script.begin
-##              ^^ source.js.embedded
+##              ^^ source.js.embedded.html - source.js source.js
 ##                ^^^^^^^^^^ meta.tag.script.end
 
         <script
@@ -484,7 +485,7 @@ class="foo"></div>
         ##          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event
         ##                  ^ - source.js
         ##                                                ^ - source.js
-        ##                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.js
+        ##                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.js.embedded.html - source.js source.js
         ##                   ^ meta.function-call.js support.function
         ## ^^^^^^^^ entity.other.attribute-name
 
