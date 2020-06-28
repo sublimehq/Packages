@@ -1659,6 +1659,18 @@ class FieldDeclarationTests {
 //                                                     ^ invalid.illegal.unexpected-accessor.java
 //                                                      ^^^ invalid.illegal.unexpected-member.java
 
+  private String
+//^^^^^^^^ meta.field.modifier.java
+//        ^^^^^^^ meta.field.type.java
+//^^^^^^^ storage.modifier.java
+//        ^^^^^^ support.class.java
+
+  private string
+//^^^^^^^^ meta.field.modifier.java
+//        ^^^^^^^ meta.field.type.java
+//^^^^^^^ storage.modifier.java
+//        ^^^^^^ support.class.java
+
   private String memberString1 = "Hello";
 //^^^^^^^^ meta.field.modifier.java
 //        ^^^^^^^ meta.field.type.java
@@ -1737,7 +1749,7 @@ class FieldDeclarationTests {
 //                                                  ^ punctuation.section.parens.end.java
 //                                                   ^ punctuation.terminator.java
 
-  private static final String DEFAULT_IDEMPOTENCY_KEY = 44493;
+  private static final string DEFAULT_IDEMPOTENCY_KEY = 44493;
 //^^^^^^^^^^^^^^^^^^^^^ meta.field.modifier.java
 //^^^^^^^ storage.modifier.java
 //        ^^^^^^ storage.modifier.java
@@ -1791,31 +1803,94 @@ class FieldDeclarationTests {
 //                                    ^ punctuation.terminator.java
 
   private MyObject otherObject = MY_CONST;
-//                               ^ constant.other.java
+//                               ^^^^^^^^ constant.other.java
+//                                       ^ punctuation.terminator.java
 
   private MyObject otherObject = SOME_CONST.FOO;
-//                               ^ constant.other.java
-//                                          ^ constant.other.java
+//                               ^^^^^^^^^^ constant.other.java
+//                                         ^ punctuation.accessor.dot.java
+//                                          ^^^ constant.other.java
+//                                             ^ punctuation.terminator.java
 
   private MyObject otherObject = SOME_CONST.get();
-//                               ^ constant.other.java
-//                                          ^ variable.function.java
+//                               ^^^^^^^^^^ constant.other.java
+//                                         ^ punctuation.accessor.dot.java
+//                                          ^^^ variable.function.java
+//                                             ^ punctuation.section.parens.begin.java
+//                                              ^ punctuation.section.parens.end.java
+//                                               ^ punctuation.terminator.java
 
-  private MyObject object = a.b.ErrorCode.COMMUNICATION_ERROR;
-//                          ^^^^^^^^^^^^^ meta.path.java
-//                          ^ variable.namespace.java
-//                           ^ punctuation.accessor.dot.java
+  private a.b.myerror error = a.b.ErrorCode.COMMUNICATION_ERROR;
+//^^^^^^^^ meta.field.modifier.java
+//        ^^^^^^^^^^^^ meta.field.type.java
+//                    ^^^^^^ meta.field.identifier.java
+//                          ^ meta.field.java
+//                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.value.java
+//                                                             ^ - meta.field
+//^^^^^^^^ - meta.path
+//        ^^^^^^^^^^^ meta.path.java
+//                   ^^^^^^^^^ - meta.path
+//                            ^^^^^^^^^^^^^ meta.path.java
+//^^^^^^^ storage.modifier.java
+//        ^ variable.namespace.java
+//         ^ punctuation.accessor.dot.java
+//          ^ variable.namespace.java
+//           ^ punctuation.accessor.dot.java
+//            ^^^^^^^ support.class.java
+//                    ^^^^^ variable.other.member.java
+//                          ^ keyword.operator.assignment.java
 //                            ^ variable.namespace.java
 //                             ^ punctuation.accessor.dot.java
-//                              ^^^^^^^^^ support.class.java
-//                                       ^ punctuation.accessor.dot.java
-//                                        ^ constant.other.java
+//                              ^ variable.namespace.java
+//                               ^ punctuation.accessor.dot.java
+//                                ^^^^^^^^^ support.class.java
+//                                         ^ punctuation.accessor.dot.java
+//                                          ^^^^^^^^^^^^^^^^^^^ constant.other.java
+//                                                             ^ punctuation.terminator.java
+
+  private a /**/ . /**/ b /**/ . /**/ myerror /**/ error /**/ = /**/ a.b.ErrorCode.COMMUNICATION_ERROR;
+//^^^^^^^^ meta.field.modifier.java
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java
+//                                                 ^^^^^^^^^^^ meta.field.identifier.java
+//                                                            ^ meta.field.java
+//                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.value.java
+//                                                                                                    ^ - meta.field
+//^^^^^^^^ - meta.path
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
+//                                                ^^^^^^^^^^^^^^^^^^^ - meta.path
+//                                                                   ^^^^^^^^^^^^^ meta.path.java
+//^^^^^^^ storage.modifier.java
+//        ^ variable.namespace.java
+//          ^^^^ comment.block.empty.java punctuation.definition.comment.java
+//               ^ punctuation.accessor.dot.java
+//                 ^^^^ comment.block.empty.java punctuation.definition.comment.java
+//                      ^ variable.namespace.java
+//                        ^^^^ comment.block.empty.java punctuation.definition.comment.java
+//                             ^ punctuation.accessor.dot.java
+//                               ^^^^ comment.block.empty.java punctuation.definition.comment.java
+//                                    ^^^^^^^ support.class.java
+//                                            ^^^^ comment.block.empty.java punctuation.definition.comment.java
+//                                                 ^^^^^ variable.other.member.java
+//                                                       ^^^^ comment.block.empty.java punctuation.definition.comment.java
+//                                                            ^ keyword.operator.assignment.java
+//                                                              ^^^^ comment.block.empty.java punctuation.definition.comment.java
+//                                                                   ^ variable.namespace.java
+//                                                                    ^ punctuation.accessor.dot.java
+//                                                                     ^ variable.namespace.java
+//                                                                      ^ punctuation.accessor.dot.java
+//                                                                       ^^^^^^^^^ support.class.java
+//                                                                                ^ punctuation.accessor.dot.java
+//                                                                                 ^^^^^^^^^^^^^^^^^^^ constant.other.java
+//                                                                                                    ^ punctuation.terminator.java
 
   private static final UUID SECURE_ID = UUID.randomUUID();
-//                     ^ support.class.java
-//                          ^ entity.name.constant
-//                                      ^ support.class.java
-//                                           ^ meta.function-call.identifier.java variable.function.java
+//                     ^^^^ support.class.java
+//                          ^^^^^^^^^ entity.name.constant
+//                                      ^^^^ support.class.java
+//                                           ^^^^^^^^^^ variable.function.java
+//                                                     ^ punctuation.section.parens.begin.java
+//                                                      ^ punctuation.section.parens.end.java
+//                                                       ^ punctuation.terminator.java
 
   private URI uri = new URI();
 //        ^^^ support.class.java
@@ -1940,7 +2015,99 @@ class FieldDeclarationTests {
 //                                                                      ^^^ storage.modifier.array.java
 //                                                                         ^ punctuation.terminator.java
 
+  qualified.String[][] doubleStringArray;
+//^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java
+//                     ^^^^^^^^^^^^^^^^^ meta.field.identifier.java
+//                                      ^ - meta.field
+//^^^^^^^^^^^^^^^^^^^^ meta.path.java
+//                    ^^^^^^^^^^^^^^^^^^^ - meta.path
+//^^^^^^^^^ variable.namespace.java
+//         ^ punctuation.accessor.dot.java
+//          ^^^^^^ support.class.java
+//                ^^^^ storage.modifier.array.java
+//                     ^^^^^^^^^^^^^^^^^ variable.other.member.java
+//                                      ^ punctuation.terminator.java
+
+  fully.qualified.string[][] doubleStringArray;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java
+//                           ^^^^^^^^^^^^^^^^^ meta.field.identifier.java
+//                                            ^ - meta.field
+//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
+//                          ^^^^^^^^^^^^^^^^^^^ - meta.path
+//^^^^^ variable.namespace.java
+//     ^ punctuation.accessor.dot.java
+//      ^^^^^^^^^ variable.namespace.java
+//               ^ punctuation.accessor.dot.java
+//                ^^^^^^ support.class.java
+//                      ^^^^ storage.modifier.array.java
+//                           ^^^^^^^^^^^^^^^^^ variable.other.member.java
+//                                            ^ punctuation.terminator.java
+
+  @anno /**/ fully // comment
+//^^^^^^^^^^^ meta.field.modifier.java meta.annotation.identifier.java
+//           ^^^^^^^^^^^^^^^^^ meta.field.type.java meta.path.java
+//^ punctuation.definition.annotation.java
+// ^^^^ variable.annotation.java
+//      ^^^^ comment.block.empty.java
+//           ^^^^^ variable.namespace.java
+//                 ^^^^^^^^^^^ comment.line.double-slash.java
+  . @anno qualified//comment
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java meta.path.java
+//  ^^^^^^ meta.annotation.identifier.java
+//^ punctuation.accessor.dot.java
+//  ^ punctuation.definition.annotation.java
+//   ^^^^ variable.annotation.java
+//        ^^^^^^^^^ variable.namespace.java
+//                 ^^^^^^^^^^ comment.line.double-slash.java
+  /**/ . /**/
+//^^^^^^^^^^^^ meta.field.type.java meta.path.java
+//^^^^ comment.block.empty.java
+//     ^ punctuation.accessor.dot.java
+//       ^^^^ comment.block.empty.java
+  @anno /**/ object @anno() []
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java meta.path.java
+//^^^^^^ meta.annotation.identifier.java
+//                  ^^^^^ meta.annotation.identifier.java
+//                       ^^ meta.annotation.parameters.java meta.parens.java
+//^ punctuation.definition.annotation.java
+// ^^^^ variable.annotation.java
+//      ^^^^ comment.block.empty.java
+//           ^^^^^^ support.class.java
+//                  ^ punctuation.definition.annotation.java
+//                   ^^^^ variable.annotation.java
+//                       ^ punctuation.section.parens.begin.java
+//                        ^ punctuation.section.parens.end.java
+//                          ^^ storage.modifier.array.java
+
+  /**/ @anno /**/ [] /**/ doubleObjectArray;
+//^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java
+//                        ^^^^^^^^^^^^^^^^^ meta.field.identifier.java
+//                                         ^ - meta.field
+//^^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
+//                       ^^^^^^^^^^^^^^^^^^^ - meta.path
+//^^^^ comment.block.empty.java
+//     ^ punctuation.definition.annotation.java
+//      ^^^^ variable.annotation.java
+//           ^^^^ comment.block.empty.java
+//                ^^ storage.modifier.array.java
+//                   ^^^^ comment.block.empty.java
+//                        ^^^^^^^^^^^^^^^^^ variable.other.member.java
+//                                         ^ punctuation.terminator.java
+
   List<int> field;
+//^^^^ meta.field.type.java - meta.generic
+//    ^^^^^ meta.field.type.java meta.generic.java
+//         ^ meta.field.type.java - meta.generic
+//          ^^^^^ meta.field.identifier.java
+//               ^ - meta.field
+//^^^^ support.class.java
+//    ^ punctuation.definition.generic.begin.java
+//     ^^^ invalid.illegal.unexpected-keyword.java
+//        ^ punctuation.definition.generic.end.java
+//          ^^^^^ variable.other.member.java
+//               ^ punctuation.terminator.java
+
+  list<int> field;
 //^^^^ meta.field.type.java - meta.generic
 //    ^^^^^ meta.field.type.java meta.generic.java
 //         ^ meta.field.type.java - meta.generic
@@ -1966,22 +2133,91 @@ class FieldDeclarationTests {
 //             ^^^^^ variable.other.member.java
 //                  ^ punctuation.terminator.java
 
-  List<java.net.URI> field;
+  list<string> field;
 //^^^^ meta.field.type.java - meta.generic
-//    ^^^^^^^^^^^^^^ meta.field.type.java meta.generic.java
-//                  ^ meta.field.type.java - meta.generic
-//                   ^^^^^ meta.field.identifier.java
-//                        ^ - meta.field
+//    ^^^^^^^^ meta.field.type.java meta.generic.java
+//            ^ meta.field.type.java - meta.generic
+//             ^^^^^ meta.field.identifier.java
+//                  ^ - meta.field
+//^^^^ support.class.java
 //    ^ punctuation.definition.generic.begin.java
-//     ^^^^^^^^^^^^ meta.path.java
+//     ^^^^^^ support.class.java
+//           ^ punctuation.definition.generic.end.java
+//             ^^^^^ variable.other.member.java
+//                  ^ punctuation.terminator.java
+
+  java.base.List<java.net.URI> field;
+//^^^^^^^^^^^^^^ meta.field.type.java meta.path.java - meta.generic
+//              ^ meta.field.type.java meta.path.java meta.generic.java - meta.path meta.path
+//               ^^^^^^^^^^^^ meta.field.type.java meta.path.java meta.generic.java meta.path.java
+//                           ^ meta.field.type.java meta.path.java meta.generic.java - meta.path meta.path
+//                            ^ meta.field.type.java - meta.path.java - meta.generic
+//                             ^^^^^ meta.field.identifier.java
+//                                  ^ - meta.field
+//^^^^ variable.namespace.java
+//    ^ punctuation.accessor.dot.java
 //     ^^^^ variable.namespace.java
 //         ^ punctuation.accessor.dot.java
-//          ^^^ variable.namespace.java
-//             ^ punctuation.accessor.dot.java
-//              ^^^ support.class.java
-//                 ^ punctuation.definition.generic.end.java
-//                   ^^^^^ variable.other.member.java
-//                        ^ punctuation.terminator.java
+//          ^^^^ support.class.java
+//              ^ punctuation.definition.generic.begin.java
+//               ^^^^ variable.namespace.java
+//                   ^ punctuation.accessor.dot.java
+//                    ^^^ variable.namespace.java
+//                       ^ punctuation.accessor.dot.java
+//                        ^^^ support.class.java
+//                           ^ punctuation.definition.generic.end.java
+//                             ^^^^^ variable.other.member.java
+//                                  ^ punctuation.terminator.java
+
+  java.base.list<java.net.uri> field;
+//^^^^^^^^^^^^^^ meta.field.type.java meta.path.java - meta.generic
+//              ^ meta.field.type.java meta.path.java meta.generic.java - meta.path meta.path
+//               ^^^^^^^^^^^^ meta.field.type.java meta.path.java meta.generic.java meta.path.java
+//                           ^ meta.field.type.java meta.path.java meta.generic.java - meta.path meta.path
+//                            ^ meta.field.type.java - meta.path.java - meta.generic
+//                             ^^^^^ meta.field.identifier.java
+//                                  ^ - meta.field
+//^^^^ variable.namespace.java
+//    ^ punctuation.accessor.dot.java
+//     ^^^^ variable.namespace.java
+//         ^ punctuation.accessor.dot.java
+//          ^^^^ support.class.java
+//              ^ punctuation.definition.generic.begin.java
+//               ^^^^ variable.namespace.java
+//                   ^ punctuation.accessor.dot.java
+//                    ^^^ variable.namespace.java
+//                       ^ punctuation.accessor.dot.java
+//                        ^^^ support.class.java
+//                           ^ punctuation.definition.generic.end.java
+//                             ^^^^^ variable.other.member.java
+//                                  ^ punctuation.terminator.java
+
+  java.tmpl<>.list<java.net.uri> field;
+//^^^^^^^^^ meta.field.type.java meta.path.java - meta.generic
+//         ^^ meta.field.type.java meta.path.java meta.generic.java
+//           ^^^^^ meta.field.type.java meta.path.java - meta.generic
+//                ^ meta.field.type.java meta.path.java meta.generic.java - meta.path meta.path
+//                 ^^^^^^^^^^^^ meta.field.type.java meta.path.java meta.generic.java meta.path.java
+//                             ^ meta.field.type.java meta.path.java meta.generic.java - meta.path meta.path
+//                              ^ meta.field.type.java - meta.path.java - meta.generic
+//                               ^^^^^ meta.field.identifier.java
+//                                    ^ - meta.field
+//^^^^ variable.namespace.java
+//    ^ punctuation.accessor.dot.java
+//     ^^^^ support.class.java
+//         ^ punctuation.definition.generic.begin.java
+//          ^ punctuation.definition.generic.end.java
+//           ^ punctuation.accessor.dot.java
+//            ^^^^ support.class.java
+//                ^ punctuation.definition.generic.begin.java
+//                 ^^^^ variable.namespace.java
+//                     ^ punctuation.accessor.dot.java
+//                      ^^^ variable.namespace.java
+//                         ^ punctuation.accessor.dot.java
+//                          ^^^ support.class.java
+//                             ^ punctuation.definition.generic.end.java
+//                               ^^^^^ variable.other.member.java
+//                                    ^ punctuation.terminator.java
 
   private MyGenric<Param, With.Dots, With.Nested<Generic>, and.fully.Qualified,
 //^^^^^^^^ meta.field.modifier.java

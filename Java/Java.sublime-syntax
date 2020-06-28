@@ -711,7 +711,10 @@ contexts:
     - match: var\b
       scope: invalid.illegal.unexpected-type.java
       set: array-modifier
+    - include: reserved-pop
     - include: object-type
+    - include: annotation
+    - include: else-pop
 
   field-names:
     - meta_scope: meta.field.type.java
@@ -838,6 +841,8 @@ contexts:
     - match: (?=\{|{{reserved_words}}\b)
       fail: declarations
     - include: object-type
+    - include: annotation
+    - include: else-pop
 
   method-name:
     - include: reserved-pop
@@ -970,7 +975,10 @@ contexts:
     - match: var\b
       scope: storage.type.var.java
       set: array-modifier
+    - include: reserved-pop
     - include: object-type
+    - include: annotation
+    - include: else-pop
 
   variable-declaration-list:
     - match: \,
@@ -1602,7 +1610,10 @@ contexts:
     - match: var\b
       scope: storage.type.var.java
       set: array-modifier
+    - include: reserved-pop
     - include: object-type
+    - include: annotation
+    - include: else-pop
 
   lambda-meta:
     - meta_content_scope: meta.function.anonymous.java
@@ -1653,7 +1664,10 @@ contexts:
     - match: var\b
       scope: invalid.illegal.unexpected-keyword.java
       set: array-modifier
+    - include: reserved-pop
     - include: object-type
+    - include: annotation
+    - include: else-pop
 
   parameter-variadic:
     - match: \.\.\.
@@ -2272,30 +2286,58 @@ contexts:
 
   object-type:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.3
-    - match: '{{before_fqn}}'
-      set: object-type-fqn
-    - include: object-type-no-fqn
+    - match: (?={{id}})
+      branch_point: object-type
+      branch:
+        - unqualified-object-type
+        - qualified-object-type
 
-  object-type-fqn:
-    - meta_scope: meta.path.java
-    - include: variable-namespace
-    - include: object-type-no-fqn
-
-  object-type-no-fqn:
-    - match: '{{classcase_id}}\b'
+  unqualified-object-type:
+    - match: '{{id}}'
       scope: support.class.java
       set:
-        - object-type-child
+        - unqualiefied-object-type-end
         - array-modifier
         - generic-type-arguments
-    - include: annotation
-    - include: else-pop
 
-  object-type-child:
-    - match: '{{accessor_dot}}'
-      scope: punctuation.accessor.dot.java
-      set: object-type-no-fqn
-    - include: else-pop
+  unqualiefied-object-type-end:
+    - match: (?={{accessor_dot}})
+      fail: object-type
+    - include: else-pop2
+
+  qualified-object-type:
+    - meta_content_scope: meta.path.java
+    - match: (?={{id}})
+      branch_point: qualified-object-type
+      branch:
+        - qualified-object-type-package
+        - qualified-object-type-class
+    - include: annotation
+    - include: else-pop2
+
+  qualified-object-type-package:
+    - match: '{{lowercase_id}}'
+      scope: variable.namespace.java
+      set:
+        - include: punctuation-accessor-dot-pop
+        - match: (?=\S)
+          fail: qualified-object-type
+    - match: (?=\S)
+      fail: qualified-object-type
+
+  qualified-object-type-class:
+    - match: '{{id}}'
+      scope: support.class.java
+      push:
+        - qualified-object-type-end
+        - generic-type-arguments
+    - include: annotation
+    - include: else-pop3
+
+  qualified-object-type-end:
+    - include: punctuation-accessor-dot-pop
+    - include: array-modifier-body
+    - include: else-pop4
 
 ###[ OBJECT TYPE REFERENCES ]##################################################
 
@@ -2405,7 +2447,10 @@ contexts:
                 fail: primitive-array-type
         - - meta_scope: invalid.illegal.unexpected-keyword.java
           - include: immediately-pop2
+    - include: reserved-pop
     - include: object-type
+    - include: annotation
+    - include: else-pop
 
   generic-type-arguments-bounds:
     - match: extends\b
