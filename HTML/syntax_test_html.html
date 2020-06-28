@@ -482,7 +482,16 @@ class="foo"></div>
 
         <a disabled onclick="setTimeout(function(){}, 100)">Test</a>
         ##         ^ - meta.attribute-with-value.event
-        ##          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event
+        ##          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event - meta.attribute-with-value meta.attribute-with-value
+        ##                  ^ - source.js
+        ##                                                ^ - source.js
+        ##                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.js.embedded.html - source.js source.js
+        ##                   ^ meta.function-call.js support.function
+        ## ^^^^^^^^ entity.other.attribute-name
+
+        <a disabled onclick='setTimeout(function(){}, 100)'>Test</a>
+        ##         ^ - meta.attribute-with-value.event
+        ##          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.event - meta.attribute-with-value meta.attribute-with-value
         ##                  ^ - source.js
         ##                                                ^ - source.js
         ##                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ source.js.embedded.html - source.js source.js

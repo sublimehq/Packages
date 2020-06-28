@@ -690,14 +690,12 @@ contexts:
     - match: '"'
       scope: string.quoted.double punctuation.definition.string.begin.html
       embed: embedded-javascript
-      embed_scope: meta.attribute-with-value.event.html
       escape: '"'
       escape_captures:
         0: string.quoted.double punctuation.definition.string.end.html
     - match: "'"
-      scope: string.quoted.single punctuation.definition.string.begin.html meta.attribute-with-value.event.html
+      scope: string.quoted.single punctuation.definition.string.begin.html
       embed: embedded-javascript
-      embed_scope: meta.attribute-with-value.event.html
       escape: "'"
       escape_captures:
         0: string.quoted.single punctuation.definition.string.end.html
