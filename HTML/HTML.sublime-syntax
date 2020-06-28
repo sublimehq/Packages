@@ -236,7 +236,7 @@ contexts:
         3: punctuation.definition.tag.begin.html
       push:
         - meta_scope: meta.tag.sgml.cdata.html
-        - meta_content_scope: string.unquoted.cdata.html
+        - meta_content_scope: meta.string.html string.unquoted.cdata.html
         - match: ']]>'
           scope: punctuation.definition.tag.end.html
           pop: true
@@ -466,7 +466,7 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.html
       push:
-        - meta_scope: string.quoted.double.html
+        - meta_scope: meta.string.html string.quoted.double.html
         - match: '"'
           scope: punctuation.definition.string.end.html
           pop: true
@@ -475,7 +475,7 @@ contexts:
     - match: "'"
       scope: punctuation.definition.string.begin.html
       push:
-        - meta_scope: string.quoted.single.html
+        - meta_scope: meta.string.html string.quoted.single.html
         - match: "'"
           scope: punctuation.definition.string.end.html
           pop: true
@@ -509,7 +509,7 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.html
       set:
-        - meta_scope: string.quoted.double.html
+        - meta_scope: meta.string.html string.quoted.double.html
         - match: '"'
           scope: punctuation.definition.string.end.html
           pop: true
@@ -517,14 +517,14 @@ contexts:
     - match: "'"
       scope: punctuation.definition.string.begin.html
       set:
-        - meta_scope: string.quoted.single.html
+        - meta_scope: meta.string.html string.quoted.single.html
         - match: "'"
           scope: punctuation.definition.string.end.html
           pop: true
         - include: entities
     - match: '{{unquoted_attribute_start}}'
       set:
-        - meta_scope: string.unquoted.html
+        - meta_scope: meta.string.html string.unquoted.html
         - match: '{{unquoted_attribute_break}}'
           pop: true
         - match: '["''`<]'
@@ -553,7 +553,7 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.html
       set:
-        - meta_scope: string.quoted.double.html
+        - meta_scope: meta.string.html string.quoted.double.html
         - meta_content_scope: meta.class-name.html
         - match: '"'
           scope: punctuation.definition.string.end.html
@@ -563,7 +563,7 @@ contexts:
     - match: "'"
       scope: punctuation.definition.string.begin.html
       set:
-        - meta_scope: string.quoted.single.html
+        - meta_scope: meta.string.html string.quoted.single.html
         - meta_content_scope: meta.class-name.html
         - match: "'"
           scope: punctuation.definition.string.end.html
@@ -572,7 +572,7 @@ contexts:
         - include: entities
     - match: '{{unquoted_attribute_start}}'
       set:
-        - meta_scope: string.unquoted.html meta.class-name.html
+        - meta_scope: meta.string.html string.unquoted.html meta.class-name.html
         - match: '{{unquoted_attribute_break}}'
           pop: true
         - match: '["''`<]'
@@ -601,7 +601,7 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.html
       set:
-        - meta_scope: string.quoted.double.html
+        - meta_scope: meta.string.html string.quoted.double.html
         - meta_content_scope: meta.toc-list.id.html
         - match: '"'
           scope: punctuation.definition.string.end.html
@@ -611,7 +611,7 @@ contexts:
     - match: "'"
       scope: punctuation.definition.string.begin.html
       set:
-        - meta_scope: string.quoted.single.html
+        - meta_scope: meta.string.html string.quoted.single.html
         - meta_content_scope: meta.toc-list.id.html
         - match: "'"
           scope: punctuation.definition.string.end.html
@@ -620,7 +620,7 @@ contexts:
         - include: entities
     - match: '{{unquoted_attribute_start}}'
       set:
-        - meta_scope: string.unquoted.html meta.toc-list.id.html
+        - meta_scope: meta.string.html string.unquoted.html meta.toc-list.id.html
         - match: '{{unquoted_attribute_break}}'
           pop: true
         - match: '["''`<]'
