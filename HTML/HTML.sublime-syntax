@@ -311,7 +311,6 @@ contexts:
 
   embedded-css:
     - meta_content_scope: source.css.embedded.html
-    - include: scope:source.css#prototype
     - include: scope:source.css
 
   style-other:
