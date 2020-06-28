@@ -643,19 +643,19 @@ contexts:
 
   tag-style-attribute-value:
     - match: '"'
-      scope: string.quoted.double punctuation.definition.string.begin.html
+      scope: meta.string.html string.quoted.double.html punctuation.definition.string.begin.html
       embed: scope:source.css#rule-list-body
-      embed_scope: source.css
+      embed_scope: meta.string.html meta.interpolation.html source.css.embedded.html
       escape: '"'
       escape_captures:
-        0: string.quoted.double punctuation.definition.string.end.html
+        0: meta.string.html string.quoted.double.html punctuation.definition.string.end.html
     - match: "'"
-      scope: string.quoted.single punctuation.definition.string.begin.html
+      scope: meta.string.html string.quoted.single.html punctuation.definition.string.begin.html
       embed: scope:source.css#rule-list-body
-      embed_scope: source.css
+      embed_scope: meta.string.html meta.interpolation.html source.css.embedded.html
       escape: "'"
       escape_captures:
-        0: string.quoted.single punctuation.definition.string.end.html
+        0: meta.string.html string.quoted.single.html punctuation.definition.string.end.html
     - include: else-pop
 
   tag-event-attribute:

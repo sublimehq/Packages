@@ -429,21 +429,29 @@ class="foo"></div>
 
         <div style="width: 100%"></div>
         ##  ^ - meta.attribute-with-value.style
-        ##   ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.style
-        ##   ^^^^^ meta.attribute-with-value.style.html entity.other.attribute-name.style.html
-        ##         ^ punctuation.definition.string.begin.html - source.css
-        ##          ^^^^^^^^^^^ source.css
-        ##                     ^ punctuation.definition.string.end.html - source.css
+        ##   ^^^^^^^^^^^^^^^^^^^ - meta.attribute-with-value.style meta.attribute-with-value.style
+        ##   ^^^^^^ meta.attribute-with-value.style.html - meta.string - string - source.css
+        ##         ^ meta.attribute-with-value.style.html meta.string.html - meta.interpolation - source.css
+        ##          ^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html meta.interpolation.html source.css.embedded.html - string
+        ##                     ^ meta.attribute-with-value.style.html meta.string.html - meta.interpolation - source.css
+        ##   ^^^^^ entity.other.attribute-name.style.html
+        ##        ^ punctuation.separator.key-value.html
+        ##         ^ string.quoted.double.html punctuation.definition.string.begin.html
+        ##                     ^ string.quoted.double.html punctuation.definition.string.end.html
         ##          ^^^^^ meta.property-name.css support.type.property-name.css
         ##                 ^^^^ meta.property-value.css constant.numeric.integer.decimal.css
 
         <div style='width: 100%;'></div>
         ##  ^ - meta.attribute-with-value.style
-        ##   ^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value.style
-        ##   ^^^^^ meta.attribute-with-value.style.html entity.other.attribute-name.style.html
-        ##         ^ punctuation.definition.string.begin.html - source.css
-        ##                      ^ punctuation.definition.string.end.html - source.css
-        ##          ^^^^^^^^^^^^ source.css
+        ##   ^^^^^^^^^^^^^^^^^^^^ - meta.attribute-with-value.style meta.attribute-with-value.style
+        ##   ^^^^^^ meta.attribute-with-value.style.html - meta.string - string - source.css
+        ##         ^ meta.attribute-with-value.style.html meta.string.html - meta.interpolation - source.css
+        ##          ^^^^^^^^^^^^ meta.attribute-with-value.style.html meta.string.html meta.interpolation.html source.css.embedded.html - string
+        ##                      ^ meta.attribute-with-value.style.html meta.string.html - meta.interpolation - source.css
+        ##   ^^^^^ entity.other.attribute-name.style.html
+        ##        ^ punctuation.separator.key-value.html
+        ##         ^ string.quoted.single.html punctuation.definition.string.begin.html
+        ##                      ^ string.quoted.single.html punctuation.definition.string.end.html
         ##          ^^^^^ meta.property-name.css support.type.property-name.css
         ##                 ^^^^ meta.property-value.css constant.numeric.integer.decimal.css
 
