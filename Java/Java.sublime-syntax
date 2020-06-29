@@ -242,6 +242,14 @@ contexts:
       pop: 1
     - include: expression-pop
 
+  declarations-else-fail:
+    - match: (?=\S)
+      fail: declarations
+
+  declarations-reserved-fail:
+    - match: (?={{reserved_words}}\b)
+      fail: declarations
+
 ###[ PACKAGE DECLARATION ]#####################################################
 
   package:
@@ -458,8 +466,7 @@ contexts:
     - match: '{{class_no_modifier}}\b'
       scope: invalid.illegal.unexpected-keyword.java
     - include: annotation
-    - match: (?=\S)
-      fail: declarations
+    - include: declarations-else-fail
 
   class-name:
     - include: reserved-pop
@@ -538,8 +545,7 @@ contexts:
     - match: '{{class_no_modifier}}\b'
       scope: invalid.illegal.unexpected-keyword.java
     - include: annotation
-    - match: (?=\S)
-      fail: declarations
+    - include: declarations-else-fail
 
   enum-name:
     - include: reserved-pop
@@ -637,8 +643,7 @@ contexts:
     - match: '{{interface_no_modifier}}\b'
       scope: invalid.illegal.unexpected-keyword.java
     - include: annotation
-    - match: (?=\S)
-      fail: declarations
+    - include: declarations-else-fail
 
   interface-name:
     - include: reserved-pop
@@ -782,8 +787,7 @@ contexts:
         - method-modifier
 
   constructor-name:
-    - match: (?={{reserved_words}}\b)
-      fail: declarations
+    - include: declarations-reserved-fail
     - match: '{{id}}'
       scope: entity.name.function.constructor.java
       pop: 1
@@ -833,8 +837,7 @@ contexts:
     - include: immediately-pop
 
   method-name:
-    - match: (?={{reserved_words}}\b)
-      fail: declarations
+    - include: declarations-reserved-fail
     - match: '{{id}}'
       scope: entity.name.function.java
       pop: 1
@@ -849,8 +852,7 @@ contexts:
         - parameter-variadic
         - parameter-type
         - parens-begin
-    - match: (?=\S)
-      fail: declarations
+    - include: declarations-else-fail
 
   method-parameters-common:
     - meta_scope: meta.method.parameters.java meta.parens.java
