@@ -2205,14 +2205,14 @@ contexts:
     - match: (?:UUID|UR[LI])\b
       scope: support.class.java
       push:
-        - object-type-child
+        - object-types-child
         - array-modifier
         - generic-type-arguments
     # Generic type variable
     - match: \p{Lu}\b
       scope: support.class.java
       push:
-        - object-type-child
+        - object-types-child
         - array-modifier
         - generic-type-arguments
     # Uppercase constants
