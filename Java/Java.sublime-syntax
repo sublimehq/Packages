@@ -234,13 +234,7 @@ contexts:
         - class-declaration
         - enum-declaration
         - interface-declaration
-        - other-declaration
-
-  other-declaration:
-    - match: void\b
-      scope: storage.type.void.java
-      pop: 1
-    - include: expression-pop
+        - expression-pop
 
   declarations-else-fail:
     - match: (?=\S)
@@ -781,8 +775,8 @@ contexts:
       push:
         - method-body-block
         - method-attributes
-        - method-modifiers
-        - method-parameters
+        - method-array-modifiers
+        - method-parameters-or-fail
         - constructor-name
         - method-modifier
 
@@ -799,15 +793,11 @@ contexts:
       push:
         - method-body-block
         - method-attributes
-        - method-modifiers
-        - method-parameters
-        - method-name
-        - method-result-meta
-        - method-result
+        - method-array-modifiers
+        - method-signature
         - method-modifier
 
   method-modifier:
-    - clear_scopes: 1
     - meta_scope: meta.method.modifier.java
     - match: '{{method_modifier}}\b'
       scope: storage.modifier.java
@@ -817,10 +807,28 @@ contexts:
     - include: annotation
     - include: else-pop
 
-  method-result:
+  method-signature:
+    # void indicates a method for sure
     - match: void\b
       scope: storage.type.void.java
-      set: else-pop
+      set:
+        - method-parameters-or-pop
+        - method-name
+        - method-result-meta
+    # a method only if parameter list found
+    - match: (?=\S)
+      set:
+        - method-parameters-or-fail
+        - method-name
+        - method-result-meta
+        - method-result-type
+
+  method-result-meta:
+    - clear_scopes: 1
+    - meta_scope: meta.method.return-type.java
+    - include: else-pop
+
+  method-result-type:
     - match: '{{storage_types}}\b'
       scope: storage.type.primitive.java
       set: array-modifier
@@ -831,20 +839,24 @@ contexts:
       fail: declarations
     - include: object-type
 
-  method-result-meta:
-    - clear_scopes: 1
-    - meta_scope: meta.method.return-type.java
-    - include: immediately-pop
-
   method-name:
-    - include: declarations-reserved-fail
+    - include: reserved-pop
     - match: '{{id}}'
       scope: entity.name.function.java
       pop: 1
     - include: else-pop
 
-  method-parameters:
+  method-parameters-or-fail:
     - meta_content_scope: meta.method.identifier.java
+    - include: method-parameters
+    - include: declarations-else-fail
+
+  method-parameters-or-pop:
+    - meta_content_scope: meta.method.identifier.java
+    - include: method-parameters
+    - include: else-pop
+
+  method-parameters:
     - match: (?=\()
       set:
         - method-parameters-common
@@ -852,7 +864,6 @@ contexts:
         - parameter-variadic
         - parameter-type
         - parens-begin
-    - include: declarations-else-fail
 
   method-parameters-common:
     - meta_scope: meta.method.parameters.java meta.parens.java
@@ -862,7 +873,7 @@ contexts:
       scope: invalid.illegal.missing-parameter-end
       pop: 1
 
-  method-modifiers:
+  method-array-modifiers:
     - match: ''
       set:
         - meta_scope: meta.method.java

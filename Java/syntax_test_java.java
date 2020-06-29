@@ -2009,12 +2009,14 @@ class FieldDeclarationTests {
 class MethodDelcarationTests {
 
   void
-//^^^^^ - meta.method
+//^^^^^ meta.method.return-type.java
 //^^^^ storage.type.void.java
 
   void method
-//^^^^^^^^^^^^ - meta.method
+//^^^^^ meta.method.return-type.java
+//     ^^^^^^^ meta.method.identifier.java
 //^^^^ storage.type.void.java
+//     ^^^^^^ entity.name.function.java
 
   void method()
 //^^^^^^^^^^^^^^ - meta.method meta.method
