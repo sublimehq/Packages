@@ -2164,50 +2164,50 @@ contexts:
 ###[ ENTITY PACKAGE ]##########################################################
 
   entity-package:
-    - match: '{{id}}'
-      branch_point: entity-package-identifier
+    - match: (?={{id}})
+      branch_point: entity-package
       branch:
         - entity-package-qualified-identifier
         - entity-package-unqualified-identifier
 
   entity-package-qualified-identifier:
-    - meta_scope: meta.path.java variable.namespace.java
-    - match: ''
-      push:
-        - entity-package-path
-        - entity-package-path-accessor
-
-  entity-package-path-accessor:
-    - include: punctuation-accessor-dot-pop
-    - match: (?=\S)
-      fail: entity-package-identifier
-
-  entity-package-path:
-    - clear_scopes: 1
-    - include: reserved-pop2
     - match: '{{id}}'
-      branch_point: entity-package-qualified-identifier
-      branch:
-        - entity-package-qualifier
-        - entity-package-name
-    - include: else-pop2
+      scope: variable.namespace.java
+      set:
+        - meta_scope: meta.path.java
+        - match: '{{accessor_dot}}'
+          scope: punctuation.accessor.dot.java
+          set:
+            - meta_content_scope: meta.path.java
+            - include: reserved-pop
+            - match: (?={{id}})
+              branch_point: entity-package-path
+              branch:
+                - entity-package-qualifier
+                - entity-package-identifier
+            - include: else-pop
+        - match: (?=\S)
+          fail: entity-package
 
   entity-package-qualifier:
-    - meta_scope: variable.namespace.java
-    - match: ''
-      push:
-        - clear_scopes: 1
-        - include: punctuation-accessor-dot-pop2
-        - match: (?=\S)
-          fail: entity-package-qualified-identifier
+    - match: '{{id}}'
+      scope: variable.namespace.java
+      set: entity-package-accessor
 
-  entity-package-name:
-    - meta_scope: entity.name.namespace.package.java
-    - include: immediately-pop3
+  entity-package-accessor:
+    - include: punctuation-accessor-dot-pop
+    - match: (?=\S)
+      fail: entity-package-path
+
+  entity-package-identifier:
+    - match: '{{id}}'
+      scope: entity.name.namespace.package.java
+      pop: 2
 
   entity-package-unqualified-identifier:
-    - meta_scope: entity.name.namespace.package.java
-    - include: immediately-pop
+    - match: '{{id}}'
+      scope: entity.name.namespace.package.java
+      pop: 1
 
 ###[ OBJECT TYPES ]############################################################
 
