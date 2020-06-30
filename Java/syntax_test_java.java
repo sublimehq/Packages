@@ -2844,6 +2844,21 @@ class ReceiverArgTests {
 //                                 ^ punctuation.section.block.begin.java
 //                                  ^ punctuation.section.block.end.java
 
+      // FAIL: qualified parameter is a receiver and must end with "this".
+      B(ReceiverArgTests.A A.fail) {}
+//    ^ entity.name.function.constructor.java
+//     ^ punctuation.section.parens.begin.java
+//      ^^^^^^^^^^^^^^^^ support.class.java
+//                      ^ punctuation.accessor.dot.java
+//                       ^ support.class.java
+//                         ^^^^^^ meta.path.java
+//                         ^ support.class.java
+//                          ^ punctuation.accessor.dot.java
+//                           ^^^^ invalid.illegal.identifier.java
+//                               ^ punctuation.section.parens.end.java
+//                                 ^ punctuation.section.block.begin.java
+//                                  ^ punctuation.section.block.end.java
+
       // OK: the receiver parameter represents the instance
       // of B for which B.m() is invoked.
       void method(ReceiverArgTests.A.B this) {}
