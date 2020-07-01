@@ -199,7 +199,7 @@ contexts:
           scope: punctuation.definition.comment.end.haskell
           pop: true
   comments:
-    - match: '--'
+    - match: '--(?![[:punct:]])'
       scope: punctuation.definition.comment.haskell
       push:
         - meta_scope: comment.line.double-dash.haskell
