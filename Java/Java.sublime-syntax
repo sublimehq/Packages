@@ -2011,50 +2011,53 @@ contexts:
 ###[ ENUM CONSTANT ]###########################################################
 
   enum-constant:
-    - match: '{{id}}'
-      branch_point: enum-constant-identifier
+    - match: (?={{id}})
+      branch_point: enum-constant
       branch:
-        - enum-constant-qualified-identifier
         - enum-constant-unqualified-identifier
-
-  enum-constant-qualified-identifier:
-    - meta_scope: meta.path.java variable.namespace.java
-    - match: ''
-      push:
-        - enum-constant-path
-        - enum-constant-path-accessor
-
-  enum-constant-path-accessor:
-    - include: punctuation-accessor-dot-pop
-    - match: (?=\S)
-      fail: enum-constant-identifier
-
-  enum-constant-path:
-    - clear_scopes: 1
-    - include: reserved-pop3
-    - match: '{{id}}'
-      branch_point: enum-constant-qualified-identifier
-      branch:
-        - enum-constant-qualifier
-        - enum-constant-name
-    - include: else-pop3
-
-  enum-constant-qualifier:
-    - meta_scope: variable.namespace.java
-    - match: ''
-      push:
-        - clear_scopes: 1
-        - include: punctuation-accessor-dot-pop2
-        - match: (?=\S)
-          fail: enum-constant-qualified-identifier
-
-  enum-constant-name:
-    - meta_scope: constant.other.java
-    - include: immediately-pop4
+        - enum-constant-qualified-identifier
 
   enum-constant-unqualified-identifier:
-    - meta_scope: constant.other.java
-    - include: immediately-pop2
+    - match: '{{id}}'
+      scope: constant.other.java
+      set:
+        - match: (?={{accessor_dot}})
+          fail: enum-constant
+        - include: else-pop
+
+  enum-constant-qualified-identifier:
+    - match: '{{id}}'
+      scope: variable.namespace.java
+      set:
+        - meta_scope: meta.path.java
+        - match: '{{accessor_dot}}'
+          scope: punctuation.accessor.dot.java
+          set:
+            - meta_content_scope: meta.path.java
+            - include: reserved-pop
+            - match: (?={{id}})
+              branch_point: enum-constant-path
+              branch:
+                - enum-constant-qualifier
+                - enum-constant-identifier
+            - include: else-pop
+        - match: (?=\S)
+          fail: enum-constant
+
+  enum-constant-qualifier:
+    - match: '{{id}}'
+      scope: variable.namespace.java
+      set: enum-constant-accessor
+
+  enum-constant-accessor:
+    - include: punctuation-accessor-dot-pop
+    - match: (?=\S)
+      fail: enum-constant-path
+
+  enum-constant-identifier:
+    - match: '{{id}}'
+      scope: constant.other.java
+      pop: 2
 
 ###[ ENTITY CLASS ]############################################################
 
