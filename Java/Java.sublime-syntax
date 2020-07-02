@@ -2059,58 +2059,53 @@ contexts:
 ###[ ENTITY CLASS ]############################################################
 
   entity-class:
-    - match: '{{id}}'
-      branch_point: entity-class-identifier
+    - match: (?={{id}})
+      branch_point: entity-class
       branch:
         - entity-class-qualified-identifier
         - entity-class-unqualified-identifier
 
   entity-class-qualified-identifier:
-    - meta_scope: meta.path.java variable.namespace.java
-    - match: ''
-      push:
-        - entity-class-path
-        - entity-class-path-accessor
-        - generic-type-arguments
-
-  entity-class-path-accessor:
-    - include: punctuation-accessor-dot-pop
-    - match: (?=\S)
-      fail: entity-class-identifier
-
-  entity-class-path:
-    - clear_scopes: 1
-    - include: reserved-pop2
     - match: '{{id}}'
-      branch_point: entity-class-qualified-identifier
-      branch:
-        - entity-class-qualifier
-        - entity-class-name
-    - include: else-pop2
+      scope: variable.namespace.java
+      set:
+        - meta_scope: meta.path.java
+        - match: '{{accessor_dot}}'
+          scope: punctuation.accessor.dot.java
+          set:
+            - meta_content_scope: meta.path.java
+            - include: reserved-pop
+            - match: (?={{id}})
+              branch_point: entity-class-path
+              branch:
+                - entity-class-qualifier
+                - entity-class-identifier
+            - include: else-pop
+        - match: (?=\S)
+          fail: entity-class
 
   entity-class-qualifier:
-    - meta_scope: variable.namespace.java
-    - match: ''
-      push:
-        - entity-class-qualifier-accessor
+    - match: '{{id}}'
+      scope: variable.namespace.java
+      set:
+        - entity-class-accessor
         - generic-type-arguments
 
-  entity-class-qualifier-accessor:
-    - clear_scopes: 1
-    - include: punctuation-accessor-dot-pop2
+  entity-class-accessor:
+    - include: punctuation-accessor-dot-pop
     - match: (?=\S)
-      fail: entity-class-qualified-identifier
+      fail: entity-class-path
 
-  entity-class-name:
-    - meta_scope: entity.name.class.java
-    - match: ''
+  entity-class-identifier:
+    - match: '{{id}}'
+      scope: entity.name.class.java
       set:
-        - immediately-pop3
+        - immediately-pop2
         - generic-type-arguments
 
   entity-class-unqualified-identifier:
-    - meta_scope: entity.name.class.java
-    - match: ''
+    - match: '{{id}}'
+      scope: entity.name.class.java
       set: generic-type-arguments
 
 ###[ ENTITY MODULE ]###########################################################
