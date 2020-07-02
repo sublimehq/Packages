@@ -1,0 +1,10 @@
+<snippet>
+	<!-- as of PHP 8.0 -->
+	<content><![CDATA[match (${1:variable}) {
+	${2:from} => ${3:to},$5
+	default => ${4:null},
+}$0]]></content>
+	<tabTrigger>match</tabTrigger>
+	<scope>source.php - string - comment</scope>
+	<description>match …</description>
+</snippet>
