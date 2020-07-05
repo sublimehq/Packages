@@ -460,6 +460,17 @@ class GenericTest<integer extends Foo>
 //                                ^^^ support.class.java
 //                                   ^ punctuation.definition.generic.end.java
 
+class generictest<integer extends foo>
+//<- meta.class.java storage.type.class.java keyword.declaration.class.java
+//^^^ meta.class.java - meta.class meta.class - meta.generic
+//   ^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class - meta.generic
+//               ^^^^^^^^^^^^^^^^^^^^^ meta.class.identifier.java meta.generic.declaration.java
+//               ^ punctuation.definition.generic.begin.java
+//                ^^^^^^^ variable.parameter.type.java
+//                        ^^^^^^^ keyword.declaration.extends.java
+//                                ^^^ support.class.java
+//                                   ^ punctuation.definition.generic.end.java
+
 class GenericTest<int extends Foo>
 //<- meta.class.java storage.type.class.java keyword.declaration.class.java
 //^^^ meta.class.java - meta.class meta.class - meta.generic
@@ -494,6 +505,59 @@ class GenericTest<A super Foo>
 //                           ^ punctuation.definition.generic.end.java
 
 class GenericTest<@Anno A extends @Anno com . @Anno Foo<A, @Anno com . @Anno Bar> & @Anno Foo<? super Baz> . @Anno Bar<A extends Foo>>
+//<- meta.class.java storage.type.class.java keyword.declaration.class.java
+//^^^ meta.class.java - meta.class meta.class - meta.generic
+//   ^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class - meta.generic
+//               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.identifier.java meta.generic.declaration.java
+//               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.identifier.java meta.generic.declaration.java - meta.generic meta.generic
+//                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.identifier.java meta.generic.declaration.java meta.generic.java
+//                                                                               ^^^^^^^^^^^^ meta.class.identifier.java meta.generic.declaration.java - meta.generic meta.generic
+//                                                                                           ^^^^^^^^^^^^^ meta.class.identifier.java meta.generic.declaration.java meta.generic.java
+//                                                                                                        ^^^^^^^^^^^^ meta.class.identifier.java meta.generic.declaration.java - meta.generic meta.generic
+//                                                                                                                    ^^^^^^^^^^^^^^^ meta.class.identifier.java meta.generic.declaration.java meta.generic.java
+//                                                                                                                                   ^ meta.class.identifier.java meta.generic.declaration.java - meta.generic meta.generic
+//                                                                                                                                    ^ meta.class.identifier.java - meta.generic
+//               ^ punctuation.definition.generic.begin.java
+//                ^ punctuation.definition.annotation.java
+//                 ^^^^ variable.annotation.java
+//                      ^ variable.parameter.type.java
+//                        ^^^^^^^ keyword.declaration.extends.java
+//                                ^ punctuation.definition.annotation.java
+//                                 ^^^^ variable.annotation.java
+//                                      ^^^ variable.namespace.java
+//                                          ^ punctuation.accessor.dot.java
+//                                                  ^^^ support.class.java
+//                                                     ^ punctuation.definition.generic.begin.java
+//                                                      ^ support.class.java
+//                                                       ^ punctuation.separator.comma.java
+//                                                         ^ punctuation.definition.annotation.java
+//                                                          ^^^^ variable.annotation.java
+//                                                               ^^^ variable.namespace.java
+//                                                                   ^ punctuation.accessor.dot.java
+//                                                                     ^ punctuation.definition.annotation.java
+//                                                                      ^^^^ variable.annotation.java
+//                                                                           ^^^ support.class.java
+//                                                                              ^ punctuation.definition.generic.end.java
+//                                                                                ^ keyword.operator.multiple-bounds.java
+//                                                                                  ^ punctuation.definition.annotation.java
+//                                                                                   ^^^^ variable.annotation.java
+//                                                                                        ^^^ support.class.java
+//                                                                                           ^ punctuation.definition.generic.begin.java
+//                                                                                            ^ keyword.operator.wildcard.java
+//                                                                                              ^^^^^ keyword.declaration.super.java
+//                                                                                                    ^^^ support.class.java
+//                                                                                                       ^ punctuation.definition.generic.end.java
+//                                                                                                         ^ punctuation.accessor.dot.java
+//                                                                                                           ^ punctuation.definition.annotation.java
+//                                                                                                            ^^^^ variable.annotation.java
+//                                                                                                                 ^^^ support.class.java
+//                                                                                                                    ^ punctuation.definition.generic.begin.java
+//                                                                                                                     ^ support.class.java
+//                                                                                                                       ^^^^^^^ invalid.illegal.unexpected-keyword.java
+//                                                                                                                               ^^^ support.class.java
+//                                                                                                                                  ^^ punctuation.definition.generic.end.java
+
+class generictest<@anno a extends @anno com . @anno foo<a, @anno com . @anno bar> & @anno foo<? super baz> . @anno bar<a extends foo>>
 //<- meta.class.java storage.type.class.java keyword.declaration.class.java
 //^^^ meta.class.java - meta.class meta.class - meta.generic
 //   ^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class - meta.generic
@@ -2477,6 +2541,64 @@ class MethodDelcarationTests {
   }
 //^ meta.method.java meta.block.java punctuation.section.block.end.java
 // ^ - meta.method
+
+  private static int methodthrows() throws myexception<abc> {}
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.method meta.method
+//^^^^^^^^^^^^^^^ meta.method.modifier.java
+//               ^^^^ meta.method.return-type.java
+//                   ^^^^^^^^^^^^ meta.method.identifier.java
+//                               ^^ meta.method.parameters.java
+//                                 ^ meta.method.java
+//                                  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.throws.java
+//                                                    ^^^^^ meta.generic.java
+//                                                          ^^ meta.method.java
+//                                                            ^ - meta.method
+//^^^^^^^ storage.modifier.java
+//        ^^^^^^ storage.modifier.java
+//               ^^^ storage.type.primitive.java
+//                   ^^^^^^^^^^^^ entity.name.function.java
+//                               ^ punctuation.section.parens.begin.java
+//                                ^ punctuation.section.parens.end.java
+//                                  ^^^^^^ keyword.declaration.throws.java
+//                                         ^^^^^^^^^^^ support.class.java
+//                                                    ^ punctuation.definition.generic.begin.java
+//                                                     ^^^ support.class.java
+//                                                        ^ punctuation.definition.generic.end.java
+//                                                          ^ punctuation.section.block.begin.java
+//                                                           ^ punctuation.section.block.end.java
+
+  private static int methodthrows() throws java.myexception<java.abc> {}
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.method meta.method
+//^^^^^^^^^^^^^^^ meta.method.modifier.java
+//               ^^^^ meta.method.return-type.java
+//                   ^^^^^^^^^^^^ meta.method.identifier.java
+//                               ^^ meta.method.parameters.java
+//                                 ^ meta.method.java
+//                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.throws.java
+//                                                         ^^^^^^^^^^ meta.generic.java
+//                                                                    ^^ meta.method.java
+//                                                                      ^ - meta.method
+//                                         ^^^^^^^^^^^^^^^^^ meta.path.java - meta.path meta.path
+//                                                          ^^^^^^^^ meta.path.java meta.path.java
+//                                                                  ^ meta.path.java - meta.path meta.path
+//                                                                   ^ - meta.path
+//^^^^^^^ storage.modifier.java
+//        ^^^^^^ storage.modifier.java
+//               ^^^ storage.type.primitive.java
+//                   ^^^^^^^^^^^^ entity.name.function.java
+//                               ^ punctuation.section.parens.begin.java
+//                                ^ punctuation.section.parens.end.java
+//                                  ^^^^^^ keyword.declaration.throws.java
+//                                         ^^^^ variable.namespace.java
+//                                             ^ punctuation.accessor.dot.java
+//                                              ^^^^^^^^^^^ support.class.java
+//                                                         ^ punctuation.definition.generic.begin.java
+//                                                          ^^^^ variable.namespace.java
+//                                                              ^ punctuation.accessor.dot.java
+//                                                               ^^^ support.class.java
+//                                                                  ^ punctuation.definition.generic.end.java
+//                                                                    ^ punctuation.section.block.begin.java
+//                                                                     ^ punctuation.section.block.end.java
 
   void primitiveVarArgs(char... values) {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.method meta.method

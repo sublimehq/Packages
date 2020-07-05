@@ -2350,34 +2350,56 @@ contexts:
       push: object-type-reference
 
   object-type-reference:
-    - match: '{{before_fqn}}'
-      set:
-        - meta_scope: meta.path.java
-        - include: variable-namespace
-        - include: object-type-reference-no-fqn
-    - include: object-type-reference-no-fqn
-
-  object-type-reference-no-fqn:
-    - match: '{{classcase_id}}'
-      scope: support.class.java
-      set:
-        - object-type-reference-child
-        - maybe-illegal-array-modifiers
-        - generic-type-arguments
-    - match: '{{storage_types}}'
-      scope: invalid.illegal.unexpected-keyword.java
-      set:
-        - object-type-reference-child
-        - maybe-illegal-array-modifiers
-        - generic-type-arguments
+    - include: reserved-pop
+    - match: (?={{id}})
+      branch_point: object-type-reference
+      branch:
+        - unqualified-object-type-reference
+        - qualified-object-type-reference
     - include: annotation
     - include: else-pop
 
-  object-type-reference-child:
-    - match: '{{accessor_dot}}'
-      scope: punctuation.accessor.dot.java
-      set: object-type-reference-no-fqn
-    - include: else-pop
+  unqualified-object-type-reference:
+    - match: '{{id}}'
+      scope: support.class.java
+      push:
+        - unqualiefied-object-type-reference-end
+        - maybe-illegal-array-modifiers
+        - generic-type-arguments
+
+  unqualiefied-object-type-reference-end:
+    - match: (?={{accessor_dot}})
+      fail: object-type-reference
+    - include: else-pop3
+
+  qualified-object-type-reference:
+    - meta_content_scope: meta.path.java
+    - match: (?={{id}})
+      branch_point: qualified-object-type-reference
+      branch:
+        - qualified-object-type-reference-package
+        - qualified-object-type-reference-class
+    - include: annotation
+    - include: else-pop2
+
+  qualified-object-type-reference-package:
+    - match: '{{lowercase_id}}'
+      scope: variable.namespace.java
+      set:
+        - include: punctuation-accessor-dot-pop
+        - match: (?=\S)
+          fail: qualified-object-type-reference
+    - match: (?=\S)
+      fail: qualified-object-type-reference
+
+  qualified-object-type-reference-class:
+    - match: '{{id}}'
+      scope: support.class.java
+      push:
+        - qualified-object-type-end
+        - generic-type-arguments
+    - include: annotation
+    - include: else-pop3
 
 ###[ INHERRITED TYPE REFERENCES ]##############################################
 
