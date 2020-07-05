@@ -707,10 +707,10 @@ contexts:
   field-type:
     - match: '{{storage_types}}\b'
       scope: storage.type.primitive.java
-      set: array-modifier
+      set: maybe-array-modifiers
     - match: var\b
       scope: invalid.illegal.unexpected-type.java
-      set: array-modifier
+      set: maybe-array-modifiers
     - include: reserved-pop
     - include: object-type
     - include: annotation
@@ -743,13 +743,13 @@ contexts:
     - include: reserved-pop
     - match: '{{variables}}\b'
       scope: invalid.illegal.identifier.java
-      set: [illegal-members, array-modifier]
+      set: [illegal-members, maybe-array-modifiers]
     - match: '{{uppercase_id}}'
       scope: entity.name.constant.java
-      set: [illegal-members, array-modifier]
+      set: [illegal-members, maybe-array-modifiers]
     - match: '{{id}}'
       scope: variable.other.member.java
-      set: [illegal-members, array-modifier]
+      set: [illegal-members, maybe-array-modifiers]
     - include: else-pop
 
   field-name-meta:
@@ -834,10 +834,10 @@ contexts:
   method-result-type:
     - match: '{{storage_types}}\b'
       scope: storage.type.primitive.java
-      set: array-modifier
+      set: maybe-array-modifiers
     - match: var\b
       scope: invalid.illegal.unexpected-type.java
-      set: array-modifier
+      set: maybe-array-modifiers
     - match: (?=\{|{{reserved_words}}\b)
       fail: declarations
     - include: object-type
@@ -882,7 +882,7 @@ contexts:
     - match: ''
       set:
         - meta_scope: meta.method.java
-        - include: array-modifier
+        - include: maybe-array-modifiers
 
   method-attributes:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4.6
@@ -971,10 +971,10 @@ contexts:
       scope: invalid.illegal.unexpected-keyword.java
     - match: '{{storage_types}}\b'
       scope: storage.type.primitive.java
-      set: array-modifier
+      set: maybe-array-modifiers
     - match: var\b
       scope: storage.type.var.java
-      set: array-modifier
+      set: maybe-array-modifiers
     - include: reserved-pop
     - include: object-type
     - include: annotation
@@ -992,13 +992,13 @@ contexts:
     - include: expression-terminator
     - match: '{{variables}}\b'
       scope: invalid.illegal.identifier.java
-      set: [illegal-members, array-modifier]
+      set: [illegal-members, maybe-array-modifiers]
     - match: '{{uppercase_id}}'
       scope: entity.name.constant.java
-      set: [illegal-members, array-modifier]
+      set: [illegal-members, maybe-array-modifiers]
     - match: '{{id}}'
       scope: variable.other.readwrite.java
-      set: [illegal-members, array-modifier]
+      set: [illegal-members, maybe-array-modifiers]
     - include: else-pop
 
   variable-declaration-value:
@@ -1017,7 +1017,7 @@ contexts:
         - var-expect-terminator
         - variable-declaration-value
         - var-variable-name
-        - illegal-array-modifier
+        - maybe-illegal-array-modifiers
     - match: final\b
       scope: storage.modifier.java
 
@@ -1025,13 +1025,13 @@ contexts:
     - include: expression-terminator
     - match: '{{variables}}\b'
       scope: invalid.illegal.identifier.java
-      set: [illegal-members, illegal-array-modifier]
+      set: [illegal-members, maybe-illegal-array-modifiers]
     - match: '{{uppercase_id}}'
       scope: entity.name.constant.java
-      set: [illegal-members, illegal-array-modifier]
+      set: [illegal-members, maybe-illegal-array-modifiers]
     - match: '{{id}}'
       scope: variable.other.readwrite.java
-      set: [illegal-members, illegal-array-modifier]
+      set: [illegal-members, maybe-illegal-array-modifiers]
     - include: else-pop
 
   var-expect-terminator:
@@ -1604,12 +1604,12 @@ contexts:
       scope: storage.modifier.java
     - match: '{{storage_types}}\b'
       scope: storage.type.primitive.java
-      set: array-modifier
+      set: maybe-array-modifiers
     - match: '{{storage_modifiers}}\b'
       scope: invalid.illegal.unexpected-keyword.java
     - match: var\b
       scope: storage.type.var.java
-      set: array-modifier
+      set: maybe-array-modifiers
     - include: reserved-pop
     - include: object-type
     - include: annotation
@@ -1658,12 +1658,12 @@ contexts:
       scope: storage.modifier.java
     - match: '{{storage_types}}\b'
       scope: storage.type.primitive.java
-      set: array-modifier
+      set: maybe-array-modifiers
     - match: '{{storage_modifiers}}\b'
       scope: invalid.illegal.unexpected-keyword.java
     - match: var\b
       scope: invalid.illegal.unexpected-keyword.java
-      set: array-modifier
+      set: maybe-array-modifiers
     - include: reserved-pop
     - include: object-type
     - include: annotation
@@ -1679,16 +1679,16 @@ contexts:
   parameter-identifier:
     - match: '{{variables}}\b'
       scope: invalid.illegal.identifier.java
-      set: [illegal-members, array-modifier]
+      set: [illegal-members, maybe-array-modifiers]
     - match: '{{id}}'
       scope: variable.parameter.java
-      set: [illegal-members, array-modifier]
+      set: [illegal-members, maybe-array-modifiers]
     - include: else-pop
 
   parameter-maybe-receiver:
     - match: this\b
       scope: variable.parameter.this.java
-      set: [illegal-members, illegal-array-modifier]
+      set: [illegal-members, maybe-illegal-array-modifiers]
     - match: '{{id}}'
       branch_point: parameter-maybe-receiver
       branch:
@@ -1702,7 +1702,7 @@ contexts:
       push:
         - parameter-receiver-name
         - parameter-receiver-accessor
-        - illegal-array-modifier
+        - maybe-illegal-array-modifiers
 
   parameter-receiver-accessor:
     - include: punctuation-accessor-dot-pop
@@ -1716,13 +1716,13 @@ contexts:
       set:
         - parameter-receiver-end
         - illegal-members
-        - illegal-array-modifier
+        - maybe-illegal-array-modifiers
     - match: '{{id}}'
       scope: invalid.illegal.identifier.java
       set:
         - parameter-receiver-end
         - illegal-members
-        - illegal-array-modifier
+        - maybe-illegal-array-modifiers
     - include: else-pop2
 
   parameter-receiver-end:
@@ -1732,7 +1732,7 @@ contexts:
   parameter-normal-identifier:
     - meta_scope: variable.parameter.java
     - match: ''
-      set: [immediately-pop2, illegal-members, array-modifier]
+      set: [immediately-pop2, illegal-members, maybe-array-modifiers]
 
 ###[ VARIABLES ]###############################################################
 
@@ -2231,14 +2231,14 @@ contexts:
       scope: support.class.java
       push:
         - object-types-child
-        - array-modifier
+        - maybe-array-modifiers
         - generic-type-arguments
     # Generic type variable
     - match: \p{Lu}\b
       scope: support.class.java
       push:
         - object-types-child
-        - array-modifier
+        - maybe-array-modifiers
         - generic-type-arguments
     # Uppercase constants
     - match: '{{uppercase_id}}'
@@ -2258,7 +2258,7 @@ contexts:
       scope: support.class.java
       push:
         - object-types-child
-        - array-modifier
+        - maybe-array-modifiers
         - generic-type-arguments
 
   object-types-no-fqn:
@@ -2266,7 +2266,7 @@ contexts:
       scope: support.class.java
       set:
         - object-types-child
-        - array-modifier
+        - maybe-array-modifiers
         - generic-type-arguments
     - include: annotation
     - include: else-pop
@@ -2297,7 +2297,7 @@ contexts:
       scope: support.class.java
       set:
         - unqualiefied-object-type-end
-        - array-modifier
+        - maybe-array-modifiers
         - generic-type-arguments
 
   unqualiefied-object-type-end:
@@ -2326,6 +2326,7 @@ contexts:
       fail: qualified-object-type
 
   qualified-object-type-class:
+    - include: reserved-pop3
     - match: '{{id}}'
       scope: support.class.java
       push:
@@ -2336,7 +2337,8 @@ contexts:
 
   qualified-object-type-end:
     - include: punctuation-accessor-dot-pop
-    - include: array-modifier-body
+    - include: array-modifiers
+    - include: annotation
     - include: else-pop4
 
 ###[ OBJECT TYPE REFERENCES ]##################################################
@@ -2360,13 +2362,13 @@ contexts:
       scope: support.class.java
       set:
         - object-type-reference-child
-        - illegal-array-modifier
+        - maybe-illegal-array-modifiers
         - generic-type-arguments
     - match: '{{storage_types}}'
       scope: invalid.illegal.unexpected-keyword.java
       set:
         - object-type-reference-child
-        - illegal-array-modifier
+        - maybe-illegal-array-modifiers
         - generic-type-arguments
     - include: annotation
     - include: else-pop
@@ -2400,7 +2402,7 @@ contexts:
       scope: entity.other.inherited-class.java
       set:
         - inherrited-object-type-reference-child
-        - illegal-array-modifier
+        - maybe-illegal-array-modifiers
         - generic-type-arguments
     - include: annotation
     - include: else-pop
@@ -2440,7 +2442,8 @@ contexts:
               - clear_scopes: 1
               - match: (?=\[)
                 push:
-                  - include: array-modifier-body
+                  - include: array-modifiers
+                  - include: annotation
                   - include: else-pop4
               - include: annotation
               - match: (?=\S)
@@ -2527,16 +2530,16 @@ contexts:
   primitive-types:
     - match: '{{storage_types}}\b'
       scope: storage.type.primitive.java
-      push: array-modifier
+      push: maybe-array-modifiers
 
-  array-modifier:
-    - include: array-modifier-body
+  maybe-array-modifiers:
+    - include: array-modifiers
+    - include: annotation
     - include: else-pop
 
-  array-modifier-body:
+  array-modifiers:
     - match: \[\s*\]
       scope: storage.modifier.array.java
-    - include: annotation
 
   storage-modifiers:
     - match: '{{storage_modifiers}}\b'
@@ -2619,11 +2622,14 @@ contexts:
 
 ###[ ILLEGALS ]################################################################
 
-  illegal-array-modifier:
-    - match: \[\s*\]
-      scope: invalid.illegal.unexpected-modifier.java
+  maybe-illegal-array-modifiers:
+    - include: illegal-array-modifiers
     - include: annotation
     - include: else-pop
+
+  illegal-array-modifiers:
+    - match: \[\s*\]
+      scope: invalid.illegal.unexpected-modifier.java
 
   illegal-keywords:
     - match: '{{illegal_keywords}}\b'
@@ -2633,7 +2639,7 @@ contexts:
     - match: '{{accessor_dot}}'
       scope: invalid.illegal.unexpected-accessor.java
       push:
-        - illegal-array-modifier
+        - maybe-illegal-array-modifiers
         - illegal-member
     - include: else-pop
 
