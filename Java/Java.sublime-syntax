@@ -68,9 +68,6 @@ variables:
   lowercase_id: (?:[_$]*\p{Ll}[\p{Ll}\p{N}_$]*\b)
   uppercase_id: (?:[_$]*\p{Lu}[\p{Lu}\p{N}_$]*\b)
 
-  # One dot is mandatory to not compete with other regexes that match an id.
-  before_fqn: (?={{lowercase_id}}\s*\.[^.])
-
   # digits
   bin_digit: '[01_]'
   oct_digit: '[0-7_]'
@@ -1424,10 +1421,12 @@ contexts:
 
   instantiation:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.9
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.10
     - match: new\b
       scope: keyword.other.storage.new.java
       push:
         - instantiation-meta
+        - instantiation-value
         - instantiation-type
         - generic-type-arguments
     - include: annotation
@@ -1439,53 +1438,14 @@ contexts:
   instantiation-type:
     - match: '{{storage_types}}\b'
       scope: storage.type.primitive.java
-      set: array-dimensions
-    - match: '{{before_fqn}}'
-      set:
-        - meta_scope: meta.path.java
-        - include: variable-namespace
-        - include: instantiation-type-identifier
-    - include: instantiation-type-identifier
-
-  instantiation-type-identifier:
-    - match: '{{classcase_id}}'
-      scope: support.class.java
-      set: after-object-type-in-instantiation
+      pop: 1
+    - include: object-type
     - include: annotation
     - include: else-pop
 
-  after-object-type-in-instantiation:
-    - match: <>
-      scope:
-        meta.generic.java
-        punctuation.definition.generic.diamond.java
-      set: constructor-arguments
-    - match: <
-      scope: punctuation.definition.generic.begin.java
-      set:
-        - instantiation-array-or-object
-        - generic-type-arguments-common
-        - generic-type-argument
-    - match: '{{accessor_dot}}'
-      scope: punctuation.accessor.dot.java
-      set: instantiation-type-identifier
-    - include: instantiation-array-or-object
-
-  instantiation-array-or-object:
+  instantiation-value:
     - include: array-dimensions
     - include: constructor-arguments
-
-  constructor-arguments:
-    - match: \(
-      scope: punctuation.section.parens.begin.java
-      set:
-        - meta_scope: meta.parens.java
-        - match: \)
-          scope: punctuation.section.parens.end.java
-          set: class-body-block
-        - include: illegal-parens-terminators
-        - include: expressions
-    - include: else-pop
 
   array-dimensions:
     - match: \[
@@ -1500,6 +1460,18 @@ contexts:
         - include: expressions
     - include: array-initializer
     - include: annotation
+
+  constructor-arguments:
+    - match: \(
+      scope: punctuation.section.parens.begin.java
+      set:
+        - meta_scope: meta.parens.java
+        - match: \)
+          scope: punctuation.section.parens.end.java
+          set: class-body-block
+        - include: illegal-parens-terminators
+        - include: expressions
+    - include: else-pop
 
 ###[ INITIALIZERS ]############################################################
 
@@ -2466,6 +2438,11 @@ contexts:
 
   generic-type-arguments:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.5.1
+    - match: <>
+      scope:
+        meta.generic.java
+        punctuation.definition.generic.diamond.java
+      pop: 1
     - match: <
       scope: punctuation.definition.generic.begin.java
       set: [generic-type-arguments-common, generic-type-argument]

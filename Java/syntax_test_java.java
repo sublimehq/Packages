@@ -2297,8 +2297,7 @@ class FieldDeclarationTests {
 //^^^^ variable.namespace.java
 //    ^ punctuation.accessor.dot.java
 //     ^^^^ support.class.java
-//         ^ punctuation.definition.generic.begin.java
-//          ^ punctuation.definition.generic.end.java
+//         ^^ punctuation.definition.generic.diamond.java
 //           ^ punctuation.accessor.dot.java
 //            ^^^^ support.class.java
 //                ^ punctuation.definition.generic.begin.java
@@ -3387,202 +3386,189 @@ class LocalVariableDeclarationTests {
 /******************************************************************************
  * Instance Creation Expressions Tests
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.9
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.10
  *****************************************************************************/
 
-class InstantiationTests {
+class InstanceCreationExpressionsTests {
 
   @SyntaxTest
-  public void instantiateClasses() {
+  public void instantiateClassesObjects() {
 
-    TestClass obj = new TestClass ;
-//  ^^^^^^^^^^^^^^^^ - meta.instantiation
-//                  ^^^^^^^^^^^^^^ meta.instantiation.java
-//                                ^^ - meta.instantiation
-//  ^^^^^^^^^ support.class.java
-//            ^^^ variable.other.readwrite.java
-//                ^ keyword.operator.assignment.java
-//                  ^^^ keyword.other.storage.new.java
-//                      ^^^^^^^^^ support.class.java
-//                                ^ punctuation.terminator.java
+    new TestClass ;
+//  ^^^^^^^^^^^^^^ meta.instantiation.java
+//                ^^ - meta.instantiation
+//  ^^^ keyword.other.storage.new.java
+//      ^^^^^^^^^ support.class.java
+//                ^ punctuation.terminator.java
 
-    TestClass obj = new TestClass(foo);
-//  ^^^^^^^^^^^^^^^^ - meta.instantiation
-//                  ^^^^^^^^^^^^^^^^^^ meta.instantiation.java
-//                               ^^^^^ meta.parens.java
-//                                    ^^ - meta.instantiation
-//  ^^^^^^^^^ support.class.java
-//            ^^^ variable.other.readwrite.java
-//                ^ keyword.operator.assignment.java
-//                  ^^^ keyword.other.storage.new.java
-//                      ^^^^^^^^^ support.class.java
-//                               ^ punctuation.section.parens.begin.java
-//                                ^^^ variable.other.readwrite.java
-//                                   ^ punctuation.section.parens.end.java
+    new TestClass(foo);
+//  ^^^^^^^^^^^^^^^^^^ meta.instantiation.java
+//               ^^^^^ meta.parens.java
+//                    ^^ - meta.instantiation
+//  ^^^ keyword.other.storage.new.java
+//      ^^^^^^^^^ support.class.java
+//               ^ punctuation.section.parens.begin.java
+//                ^^^ variable.other.readwrite.java
+//                   ^ punctuation.section.parens.end.java
 
-    TestClass obj = new @Foo TestClass(foo);
-//  ^^^^^^^^^^^^^^^^ - meta.instantiation
-//                  ^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
-//                      ^^^^^ meta.annotation.identifier.java
-//                                    ^^^^^ meta.parens.java
-//                                         ^^ - meta.instantiation
-//  ^^^^^^^^^ support.class.java
-//            ^^^ variable.other.readwrite.java
-//                ^ keyword.operator.assignment.java
-//                  ^^^ keyword.other.storage.new.java
-//                       ^^^ variable.annotation.java
-//                           ^^^^^^^^^ support.class.java
-//                                    ^ punctuation.section.parens.begin.java
-//                                     ^^^ variable.other.readwrite.java
-//                                        ^ punctuation.section.parens.end.java
+    new testclass(foo);
+//  ^^^^^^^^^^^^^^^^^^ meta.instantiation.java
+//               ^^^^^ meta.parens.java
+//                    ^^ - meta.instantiation
+//  ^^^ keyword.other.storage.new.java
+//      ^^^^^^^^^ support.class.java
+//               ^ punctuation.section.parens.begin.java
+//                ^^^ variable.other.readwrite.java
+//                   ^ punctuation.section.parens.end.java
 
-    com.java.TestClass obj = new com.java.TestClass(foo);
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.instantiation
-//  ^^^^^^^^^^^^^^^^^^ meta.path.java
-//                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
-//                               ^^^^^^^^^^^^^^^^^^ meta.path.java
-//  ^^^ variable.namespace.java
-//     ^ punctuation.accessor.dot.java
-//      ^^^^ variable.namespace.java
-//          ^ punctuation.accessor.dot.java
+    new @Foo TestClass(foo);
+//  ^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
+//      ^^^^^ meta.annotation.identifier.java
+//                    ^^^^^ meta.parens.java
+//                         ^^ - meta.instantiation
+//  ^^^ keyword.other.storage.new.java
+//       ^^^ variable.annotation.java
 //           ^^^^^^^^^ support.class.java
+//                    ^ punctuation.section.parens.begin.java
 //                     ^^^ variable.other.readwrite.java
-//                         ^ keyword.operator.assignment.java
-//                           ^^^ keyword.other.storage.new.java
-//                               ^^^ variable.namespace.java
-//                                  ^ punctuation.accessor.dot.java
-//                                   ^^^^ variable.namespace.java
-//                                       ^ punctuation.accessor.dot.java
-//                                        ^^^^^^^^^ support.class.java
-//                                                 ^^^^^ meta.parens.java
-//                                                 ^ punctuation.section.parens.begin.java
-//                                                  ^^^ variable.other.readwrite.java
-//                                                     ^ punctuation.section.parens.end.java
+//                        ^ punctuation.section.parens.end.java
 
-    OuterClass.InnerClass obj = new OuterClass.InnerClass();
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.instantiation
-//                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
-//  ^^^^^^^^^^ support.class.java
-//            ^ punctuation.accessor.dot.java
-//             ^^^^^^^^^^ support.class.java
-//                        ^^^ variable.other.readwrite.java
-//                            ^ keyword.operator.assignment.java
-//                              ^^^ keyword.other.storage.new.java
+    new @foo testclass(foo);
+//  ^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
+//      ^^^^^ meta.annotation.identifier.java
+//                    ^^^^^ meta.parens.java
+//                         ^^ - meta.instantiation
+//  ^^^ keyword.other.storage.new.java
+//       ^^^ variable.annotation.java
+//           ^^^^^^^^^ support.class.java
+//                    ^ punctuation.section.parens.begin.java
+//                     ^^^ variable.other.readwrite.java
+//                        ^ punctuation.section.parens.end.java
+
+    new com.java.TestClass(foo);
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
+//      ^^^^^^^^^^^^^^^^^^ meta.path.java
+//                             ^^ - meta.instantiation
+//  ^^^ keyword.other.storage.new.java
+//      ^^^ variable.namespace.java
+//         ^ punctuation.accessor.dot.java
+//          ^^^^ variable.namespace.java
+//              ^ punctuation.accessor.dot.java
+//               ^^^^^^^^^ support.class.java
+//                        ^^^^^ meta.parens.java
+//                        ^ punctuation.section.parens.begin.java
+//                         ^^^ variable.other.readwrite.java
+//                            ^ punctuation.section.parens.end.java
+
+    new com.java.testclass(foo);
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
+//      ^^^^^^^^^^^^^^^^^^ meta.path.java
+//                             ^^ - meta.instantiation
+//  ^^^ keyword.other.storage.new.java
+//      ^^^ variable.namespace.java
+//         ^ punctuation.accessor.dot.java
+//          ^^^^ variable.namespace.java
+//              ^ punctuation.accessor.dot.java
+//               ^^^^^^^^^ support.class.java
+//                        ^^^^^ meta.parens.java
+//                        ^ punctuation.section.parens.begin.java
+//                         ^^^ variable.other.readwrite.java
+//                            ^ punctuation.section.parens.end.java
+
+    new OuterClass.InnerClass();
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
+//  ^^^ keyword.other.storage.new.java
+//      ^^^^^^^^^^ support.class.java
+//                ^ punctuation.accessor.dot.java
+//                 ^^^^^^^^^^ support.class.java
+
+    new @Foo com . @Foo java . @Foo OuterClass . @Foo InnerClass(foo);
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
+//      ^^^^^ meta.annotation.identifier.java
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
+//                 ^^^^^ meta.annotation.identifier.java
+//                             ^^^^^ meta.annotation.identifier.java
+//                                               ^^^^^ meta.annotation.identifier.java
+//  ^^^ keyword.other.storage.new.java
+//      ^ punctuation.definition.annotation.java
+//       ^^^ variable.annotation.java
+//           ^^^ variable.namespace.java
+//               ^ punctuation.accessor.dot.java
+//                 ^ punctuation.definition.annotation.java
+//                  ^^^ variable.annotation.java
+//                      ^^^^ variable.namespace.java
+//                           ^ punctuation.accessor.dot.java
+//                             ^ punctuation.definition.annotation.java
+//                              ^^^ variable.annotation.java
 //                                  ^^^^^^^^^^ support.class.java
-//                                            ^ punctuation.accessor.dot.java
-//                                             ^^^^^^^^^^ support.class.java
+//                                             ^ punctuation.accessor.dot.java
+//                                               ^ punctuation.definition.annotation.java
+//                                                ^^^ variable.annotation.java
+//                                                    ^^^^^^^^^^ support.class.java
+//                                                              ^^^^^ meta.parens.java
+//                                                              ^ punctuation.section.parens.begin.java
+//                                                               ^^^ variable.other.readwrite.java
+//                                                                  ^ punctuation.section.parens.end.java
 
-    com.java.OuterClass.InnerClass obj = new @Foo com . @Foo java . @Foo OuterClass . @Foo InnerClass(foo);
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.instantiation
-//  ^^^^^^^^^^^^^^^^^^^ meta.path.java
-//                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
-//                                           ^^^^^ meta.annotation.identifier.java
-//                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
-//                                                      ^^^^^ meta.annotation.identifier.java
-//                                                                  ^^^^^ meta.annotation.identifier.java
-//                                                                                    ^^^^^ meta.annotation.identifier.java
-//  ^^^ variable.namespace.java
-//     ^ punctuation.accessor.dot.java
-//      ^^^^ variable.namespace.java
-//          ^ punctuation.accessor.dot.java
-//           ^^^^^^^^^^ support.class.java
-//                     ^ punctuation.accessor.dot.java
-//                      ^^^^^^^^^^ support.class.java
-//                                 ^^^ variable.other.readwrite.java
-//                                     ^ keyword.operator.assignment.java
-//                                       ^^^ keyword.other.storage.new.java
-//                                           ^ punctuation.definition.annotation.java
-//                                            ^^^ variable.annotation.java
-//                                                ^^^ variable.namespace.java
-//                                                    ^ punctuation.accessor.dot.java
-//                                                      ^ punctuation.definition.annotation.java
-//                                                       ^^^ variable.annotation.java
-//                                                           ^^^^ variable.namespace.java
-//                                                                ^ punctuation.accessor.dot.java
-//                                                                  ^ punctuation.definition.annotation.java
-//                                                                   ^^^ variable.annotation.java
-//                                                                       ^^^^^^^^^^ support.class.java
-//                                                                                  ^ punctuation.accessor.dot.java
-//                                                                                    ^ punctuation.definition.annotation.java
-//                                                                                     ^^^ variable.annotation.java
-//                                                                                         ^^^^^^^^^^ support.class.java
-//                                                                                                   ^^^^^ meta.parens.java
-//                                                                                                   ^ punctuation.section.parens.begin.java
-//                                                                                                    ^^^ variable.other.readwrite.java
-//                                                                                                       ^ punctuation.section.parens.end.java
+    new @foo com . @foo java . @foo outerclass . @foo innerclass(foo);
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
+//      ^^^^^ meta.annotation.identifier.java
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
+//                 ^^^^^ meta.annotation.identifier.java
+//                             ^^^^^ meta.annotation.identifier.java
+//                                               ^^^^^ meta.annotation.identifier.java
+//  ^^^ keyword.other.storage.new.java
+//      ^ punctuation.definition.annotation.java
+//       ^^^ variable.annotation.java
+//           ^^^ variable.namespace.java
+//               ^ punctuation.accessor.dot.java
+//                 ^ punctuation.definition.annotation.java
+//                  ^^^ variable.annotation.java
+//                      ^^^^ variable.namespace.java
+//                           ^ punctuation.accessor.dot.java
+//                             ^ punctuation.definition.annotation.java
+//                              ^^^ variable.annotation.java
+//                                  ^^^^^^^^^^ variable.namespace.java
+//                                             ^ punctuation.accessor.dot.java
+//                                               ^ punctuation.definition.annotation.java
+//                                                ^^^ variable.annotation.java
+//                                                    ^^^^^^^^^^ support.class.java
+//                                                              ^^^^^ meta.parens.java
+//                                                              ^ punctuation.section.parens.begin.java
+//                                                               ^^^ variable.other.readwrite.java
+//                                                                  ^ punctuation.section.parens.end.java
 
   }
 
   @SyntaxTest
-  public void instantiateArrays() {
+  public void instantiatePrimitiveArrays() {
 
-    this.foo = new SubClass[0];
-//             ^ keyword.other.storage.new.java
-//                 ^ support.class.java
-//                         ^^^ meta.brackets
+    new int[]{0, 0, 0};
+//  ^^^ keyword.other.storage.new.java
+//      ^^^ storage.type.primitive.java
+//         ^ punctuation.section.brackets.begin.java
+//          ^ punctuation.section.brackets.end.java
+//           ^ punctuation.section.braces.begin.java
+//            ^ constant.numeric.integer.decimal.java
+//             ^ punctuation.separator.comma.java
+//               ^ constant.numeric.integer.decimal.java
+//                ^ punctuation.separator.comma.java
+//                  ^ constant.numeric.integer.decimal.java
+//                   ^ punctuation.section.braces.end.java
 
-   String[][] doubleStringArray;
-// ^^^^^^ support.class.java
-//       ^^^^ storage.modifier.array.java
+    new byte[size];
+//  ^^^ keyword.other.storage.new.java
+//      ^^^^ storage.type.primitive.java
 
-   String @Anno [ ] @Anno [ ] doubleStringArray;
-// ^^^^^^ support.class.java
-//        ^^^^^^ meta.annotation.identifier.java
-//              ^^^ storage.modifier.array.java
-//                  ^^^^^^ meta.annotation.identifier.java
-//                        ^^^ storage.modifier.array.java
-
-    String[] stringArray = new String[] {"foo", "bar"};
-//  ^^^^^^ support.class.java
-//        ^^ storage.modifier.array.java
-//                       ^ keyword.operator.assignment.java
-//                         ^^^ keyword.other.storage.new.java
-//                             ^^^^^^ support.class.java
-//                                   ^ punctuation.section.brackets.begin.java
-//                                    ^ punctuation.section.brackets.end.java
-//                                      ^^^^^^^^^^^^^^ meta.braces.java
-//                                      ^ punctuation.section.braces.begin.java
-//                                       ^^^^^ string.quoted.double.java
-//                                            ^ punctuation.separator.comma.java
-//                                              ^^^^^ string.quoted.double.java
-//                                                   ^ punctuation.section.braces.end.java
-//                                                    ^ punctuation.terminator.java
-
-    int[] data = new int[]{0, 0, 0};
-//  ^^^ storage.type.primitive.java
-//     ^^ storage.modifier.array.java
-//               ^^^ keyword.other.storage.new.java
-//                   ^^^ storage.type.primitive.java
-//                      ^ punctuation.section.brackets.begin.java
-//                       ^ punctuation.section.brackets.end.java
-//                        ^ punctuation.section.braces.begin.java
-//                         ^ constant.numeric.integer.decimal.java
-//                          ^ punctuation.separator.comma.java
-//                            ^ constant.numeric.integer.decimal.java
-//                             ^ punctuation.separator.comma.java
-//                               ^ constant.numeric.integer.decimal.java
-//                                ^ punctuation.section.braces.end.java
-
-    byte [] foo;
-//  ^^^^ storage.type.primitive.java
-//       ^^ storage.modifier.array.java
-    byte []b=new byte[size];
-//  ^^^^ storage.type.primitive.java
-//       ^^ storage.modifier.array.java
-//          ^ keyword.operator.assignment.java
-//           ^^^ keyword.other.storage.new.java
-//               ^^^^ storage.type.primitive.java
-
-    int[][][] threeDimArr = new int[][][] {
-//  ^^^ storage.type.primitive.java
-//     ^^^^^^ storage.modifier.array.java
-//                              ^^^ storage.type.primitive.java
-//                                 ^ punctuation.section.brackets.begin.java
-//                                  ^ punctuation.section.brackets.end.java
-//                                   ^ punctuation.section.brackets.begin.java
-//                                    ^ punctuation.section.brackets.end.java
-//                                     ^ punctuation.section.brackets.begin.java
-//                                      ^ punctuation.section.brackets.end.java
-//                                        ^ punctuation.section.braces.begin.java
+    new int[][][] {
+//      ^^^ storage.type.primitive.java
+//         ^ punctuation.section.brackets.begin.java
+//          ^ punctuation.section.brackets.end.java
+//           ^ punctuation.section.brackets.begin.java
+//            ^ punctuation.section.brackets.end.java
+//             ^ punctuation.section.brackets.begin.java
+//              ^ punctuation.section.brackets.end.java
+//                ^ punctuation.section.braces.begin.java
       { { 1, 2 }, { 3, 4 } },
 //        ^ constant.numeric.integer.decimal.java
 //         ^ punctuation.separator.comma.java
@@ -3599,30 +3585,161 @@ class InstantiationTests {
     };
 //  ^ punctuation.section.braces.end.java
 
-    threeDimArr = new int[1][3][4];
-//                    ^^^ storage.type.primitive.java
-//                       ^^^^^^^^^ meta.brackets.java
-//                       ^ punctuation.section.brackets.begin.java
-//                        ^ constant.numeric.integer.decimal.java
-//                         ^ punctuation.section.brackets.end.java
-//                          ^ punctuation.section.brackets.begin.java
-//                           ^ constant.numeric.integer.decimal.java
-//                            ^ punctuation.section.brackets.end.java
-//                             ^ punctuation.section.brackets.begin.java
-//                              ^ constant.numeric.integer.decimal.java
-//                               ^ punctuation.section.brackets.end.java
-
-    bob = new some.path.to.MyObject[3];
-//            ^^^^^^^^^^^^^^^^^^^^^ meta.path.java
-//                         ^^^^^^^^ support.class.java
-//                                 ^^^ meta.brackets.java
-//                                 ^ punctuation.section.brackets.begin.java
-//                                  ^ constant.numeric.integer.decimal.java
-//                                   ^ punctuation.section.brackets.end.java
+    new int[1][3][4];
+//  ^^^^^^^^^^^^^^^^ meta.instantiation.java
+//         ^^^^^^^^^ meta.brackets.java
+//                  ^ - meta.instantiation - meta.brackets
+//      ^^^ storage.type.primitive.java
+//         ^ punctuation.section.brackets.begin.java
+//          ^ constant.numeric.integer.decimal.java
+//           ^ punctuation.section.brackets.end.java
+//            ^ punctuation.section.brackets.begin.java
+//             ^ constant.numeric.integer.decimal.java
+//              ^ punctuation.section.brackets.end.java
+//               ^ punctuation.section.brackets.begin.java
+//                ^ constant.numeric.integer.decimal.java
+//                 ^ punctuation.section.brackets.end.java
   }
 
   @SyntaxTest
-  public void instantiateGenerics() {
+  public void instantiateObjectArrays() {
+
+    new String[] {"foo", "bar"};
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
+//                             ^ - meta.instantiation - meta.braces
+//  ^^^ keyword.other.storage.new.java
+//      ^^^^^^ support.class.java
+//            ^^ storage.modifier.array.java
+//               ^^^^^^^^^^^^^^ meta.braces.java
+//               ^ punctuation.section.braces.begin.java
+//                ^^^^^ string.quoted.double.java
+//                     ^ punctuation.separator.comma.java
+//                       ^^^^^ string.quoted.double.java
+//                            ^ punctuation.section.braces.end.java
+//                             ^ punctuation.terminator.java
+
+    new MyObject[1];
+//  ^^^^^^^^^^^^^^^ meta.instantiation.java
+//              ^^^ meta.brackets
+//                 ^ - meta.instantiation - meta.brackets
+//  ^^^ keyword.other.storage.new.java
+//      ^^^^^^^^ support.class.java
+//              ^ punctuation.section.brackets.begin.java
+//               ^ constant.numeric.integer.decimal.java
+//                ^ punctuation.section.brackets.end.java
+//                 ^ punctuation.terminator.java
+
+    new myobject[1];
+//  ^^^^^^^^^^^^^^^ meta.instantiation.java
+//              ^^^ meta.brackets
+//                 ^ - meta.instantiation - meta.brackets
+//  ^^^ keyword.other.storage.new.java
+//      ^^^^^^^^ support.class.java
+//              ^ punctuation.section.brackets.begin.java
+//               ^ constant.numeric.integer.decimal.java
+//                ^ punctuation.section.brackets.end.java
+//                 ^ punctuation.terminator.java
+
+    new MyObject[1][];
+//  ^^^^^^^^^^^^^^^^^ meta.instantiation.java
+//              ^^^^^ meta.brackets
+//                   ^ - meta.instantiation - meta.brackets
+//  ^^^ keyword.other.storage.new.java
+//      ^^^^^^^^ support.class.java
+//              ^ punctuation.section.brackets.begin.java
+//               ^ constant.numeric.integer.decimal.java
+//                ^ punctuation.section.brackets.end.java
+//                 ^ punctuation.section.brackets.begin.java
+//                  ^ punctuation.section.brackets.end.java
+//                   ^ punctuation.terminator.java
+
+    new @notnull MyObject @bound [size + 10] @anno [];
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
+//      ^^^^^^^^^ meta.annotation.identifier.java
+//                        ^^^^^^^ meta.annotation.identifier.java
+//                               ^^^^^^^^^^^ meta.brackets.java
+//                                           ^^^^^^ meta.annotation.identifier.java
+//                                                 ^^ meta.brackets.java
+//                                                   ^ - meta.instantiation - meta.brackets
+//  ^^^ keyword.other.storage.new.java
+//      ^ punctuation.definition.annotation.java
+//       ^^^^^^^ variable.annotation.java
+//               ^^^^^^^^ support.class.java
+//                        ^ punctuation.definition.annotation.java
+//                         ^^^^^ variable.annotation.java
+//                               ^ punctuation.section.brackets.begin.java
+//                                ^^^^ variable.other.readwrite.java
+//                                     ^ keyword.operator.arithmetic.java
+//                                       ^^ constant.numeric.integer.decimal.java
+//                                         ^ punctuation.section.brackets.end.java
+//                                           ^ punctuation.definition.annotation.java
+//                                            ^^^^ variable.annotation.java
+//                                                 ^ punctuation.section.brackets.begin.java
+//                                                  ^ punctuation.section.brackets.end.java
+//                                                   ^ punctuation.terminator.java
+
+    new @notnull myobject @bound [size + 10] @anno [];
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
+//      ^^^^^^^^^ meta.annotation.identifier.java
+//                        ^^^^^^^ meta.annotation.identifier.java
+//                               ^^^^^^^^^^^ meta.brackets.java
+//                                           ^^^^^^ meta.annotation.identifier.java
+//                                                 ^^ meta.brackets.java
+//                                                   ^ - meta.instantiation - meta.brackets
+//  ^^^ keyword.other.storage.new.java
+//      ^ punctuation.definition.annotation.java
+//       ^^^^^^^ variable.annotation.java
+//               ^^^^^^^^ support.class.java
+//                        ^ punctuation.definition.annotation.java
+//                         ^^^^^ variable.annotation.java
+//                               ^ punctuation.section.brackets.begin.java
+//                                ^^^^ variable.other.readwrite.java
+//                                     ^ keyword.operator.arithmetic.java
+//                                       ^^ constant.numeric.integer.decimal.java
+//                                         ^ punctuation.section.brackets.end.java
+//                                           ^ punctuation.definition.annotation.java
+//                                            ^^^^ variable.annotation.java
+//                                                 ^ punctuation.section.brackets.begin.java
+//                                                  ^ punctuation.section.brackets.end.java
+//                                                   ^ punctuation.terminator.java
+
+    new some.path.to.MyObject[3];
+//  ^^^^ meta.instantiation.java - meta.path
+//      ^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java meta.path.java
+//                           ^^^ meta.instantiation.java meta.brackets.java - meta.path
+//                              ^ - meta.instantiation
+//  ^^^ keyword.other.storage.new.java
+//      ^^^^ variable.namespace.java
+//          ^ punctuation.accessor.dot.java
+//           ^^^^ variable.namespace.java
+//               ^ punctuation.accessor.dot.java
+//                ^^ variable.namespace.java
+//                  ^ punctuation.accessor.dot.java
+//                   ^^^^^^^^ support.class.java
+//                           ^ punctuation.section.brackets.begin.java
+//                            ^ constant.numeric.integer.decimal.java
+//                             ^ punctuation.section.brackets.end.java
+
+    new some.path.to.myobject[3];
+//  ^^^^ meta.instantiation.java - meta.path
+//      ^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java meta.path.java
+//                           ^^^ meta.instantiation.java meta.brackets.java - meta.path
+//                              ^ - meta.instantiation
+//  ^^^ keyword.other.storage.new.java
+//      ^^^^ variable.namespace.java
+//          ^ punctuation.accessor.dot.java
+//           ^^^^ variable.namespace.java
+//               ^ punctuation.accessor.dot.java
+//                ^^ variable.namespace.java
+//                  ^ punctuation.accessor.dot.java
+//                   ^^^^^^^^ support.class.java
+//                           ^ punctuation.section.brackets.begin.java
+//                            ^ constant.numeric.integer.decimal.java
+//                             ^ punctuation.section.brackets.end.java
+  }
+
+  @SyntaxTest
+  public void instantiateGenericClassObjects() {
 
     new Generic<>;
 //  ^^^^^^^^^^^^^ meta.instantiation.java
@@ -3735,6 +3852,26 @@ class InstantiationTests {
 //                                                ^ punctuation.section.parens.end.java
 //                                                 ^ punctuation.terminator.java
 
+    new @anno generic<@anno ? extends @anno type>();
+//  ^^^^^^^^^^^^^^^^^ meta.instantiation.java - meta.generic
+//                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java meta.generic.java
+//                                               ^^ meta.instantiation.java meta.parens.java
+//      ^ punctuation.definition.annotation.java
+//       ^^^^ variable.annotation.java
+//            ^^^^^^^ support.class.java
+//                   ^ punctuation.definition.generic.begin.java
+//                    ^ punctuation.definition.annotation.java
+//                     ^^^^ variable.annotation.java
+//                          ^ keyword.operator.wildcard.java
+//                            ^^^^^^^ keyword.declaration.extends.java
+//                                    ^ punctuation.definition.annotation.java
+//                                     ^^^^ variable.annotation.java
+//                                          ^^^^ support.class.java
+//                                              ^ punctuation.definition.generic.end.java
+//                                               ^ punctuation.section.parens.begin.java
+//                                                ^ punctuation.section.parens.end.java
+//                                                 ^ punctuation.terminator.java
+
     new Generic<? extends Type, String>();
 //  ^^^^^^^^^^^ meta.instantiation.java - meta.generic
 //             ^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java meta.generic.java
@@ -3781,6 +3918,12 @@ class InstantiationTests {
 //                              ^^^^^^^^^^^^^ meta.annotation.parameters.java meta.parens.java
 //                                            ^^ storage.modifier.array.java
 
+    new generic<int @com . anno ( @anno arg ) []>();
+//              ^^^ storage.type.primitive.java
+//                  ^^^^^^^^^^^^ meta.annotation.identifier.java
+//                              ^^^^^^^^^^^^^ meta.annotation.parameters.java meta.parens.java
+//                                            ^^ storage.modifier.array.java
+
     new Generic<String, int>();
 //              ^^^^^^ support.class.java
 //                      ^^^ invalid.illegal.unexpected-keyword.java
@@ -3793,32 +3936,112 @@ class InstantiationTests {
 //                ^ variable.namespace.java
 //                 ^ punctuation.accessor.dot.java
 
-    new Generic<?>[] { new Generic(1), new Generic(2) };
+    new generic<a.b.foobar>();
+//             ^^^^^^^^^^^^ meta.generic.java
+//              ^^^^^^^^^^ meta.path.java
+//              ^ variable.namespace.java
+//               ^ punctuation.accessor.dot.java
+//                ^ variable.namespace.java
+//                 ^ punctuation.accessor.dot.java
+
+    new generic<?>[] { new generic(1), new generic(2) };
+//  ^^^^^^^^^^^^^^^^^^^ meta.instantiation.java - meta.instantiation meta.instantiation
+//                     ^^^^^^^^^^^^^^ meta.instantiation.java meta.instantiation.java
+//                                   ^^ meta.instantiation.java - meta.instantiation meta.instantiation
+//                                     ^^^^^^^^^^^^^^^ meta.instantiation.java meta.instantiation.java
+//                                                    ^ meta.instantiation.java - meta.instantiation meta.instantiation
+//                                                     ^ - meta.instantiation
+//  ^^^ keyword.other.storage.new.java
+//      ^^^^^^^ support.class.java
 //             ^^^ meta.generic.java
-//                ^^ punctuation.section.brackets
+//                ^^ storage.modifier.array.java
 //                   ^ punctuation.section.braces.begin
+//                     ^^^ keyword.other.storage.new.java
 //                         ^^^^^^^ support.class.java
 //                                   ^ punctuation.separator.comma.java
+//                                     ^^^ keyword.other.storage.new.java
 //                                         ^^^^^^^ support.class.java
 //                                                    ^ punctuation.section.braces.end
 
     new ArrayList<?>[] { new ArrayList<java.sql.Date>(), new ArrayList<Date>() }
+//  ^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java - meta.instantiation meta.instantiation
+//                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java meta.instantiation.java
+//                                                     ^^ meta.instantiation.java - meta.instantiation meta.instantiation
+//                                                       ^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java meta.instantiation.java
+//                                                                             ^ meta.instantiation.java - meta.instantiation meta.instantiation
+//                                                                              ^ - meta.instantiation
+//               ^^^ meta.generic.java
 //                                    ^^^^^^^^^^^^^^^ meta.generic.java
 //                                     ^^^^^^^^^^^^^ meta.path.java
-//                                                                    ^^^^^^ meta.generic.java
+//                                                                    ^^^^^^ meta.generic.java - meta.path
+//  ^^^ keyword.other.storage.new.java
+//      ^^^^^^^^^ support.class.java
+//               ^ punctuation.definition.generic.begin.java
+//                ^ keyword.operator.wildcard.java
+//                 ^ punctuation.definition.generic.end.java
+//                  ^^ storage.modifier.array.java
+//                     ^ punctuation.section.braces.begin.java
+//                       ^^^ keyword.other.storage.new.java
+//                           ^^^^^^^^^ support.class.java
+//                                    ^ punctuation.definition.generic.begin.java
+//                                     ^^^^ variable.namespace.java
+//                                         ^ punctuation.accessor.dot.java
+//                                          ^^^ variable.namespace.java
+//                                             ^ punctuation.accessor.dot.java
+//                                              ^^^^ support.class.java
+//                                                  ^ punctuation.definition.generic.end.java
+//                                                   ^ punctuation.section.parens.begin.java
+//                                                    ^ punctuation.section.parens.end.java
+//                                                     ^ punctuation.separator.comma.java
+//                                                       ^^^ keyword.other.storage.new.java
+//                                                           ^^^^^^^^^ support.class.java
+//                                                                    ^ punctuation.definition.generic.begin.java
+//                                                                     ^^^^ support.class.java
+//                                                                         ^ punctuation.definition.generic.end.java
+//                                                                          ^ punctuation.section.parens.begin.java
+//                                                                           ^ punctuation.section.parens.end.java
+//                                                                             ^ punctuation.section.braces.end.java
 
-    new a.
-//      ^^^ meta.path.java
-      b.Generic<a.
-//    ^^^^^^^^^ meta.path.java
-//             ^ meta.generic.java - meta.path
-//              ^^^ meta.generic.java meta.path.java
-        b.Generic>();
-//      ^^^^^^^^^ meta.generic.java meta.path.java
-
-
-    obj = new <T1, T2> Generic<T>();
-
+    new 
+//  ^^^^ meta.instantiation.java - meta.path
+//  ^^^ keyword.other.storage.new.java
+      a
+//   ^ meta.instantiation.java - meta.path
+//    ^^ meta.instantiation.java meta.path.java - meta.path meta.path
+//    ^ variable.namespace.java
+      .
+//   ^^^ meta.instantiation.java meta.path.java
+//    ^ punctuation.accessor.dot.java
+      b.Generic
+//   ^^^^^^^^^^^ meta.instantiation.java meta.path.java
+//    ^ variable.namespace.java
+//     ^ punctuation.accessor.dot.java
+//      ^^^^^^^ support.class.java
+      <
+//   ^ meta.instantiation.java meta.path.java - meta.generic
+//    ^^ meta.instantiation.java meta.path.java meta.generic.java
+//    ^ punctuation.definition.generic.begin.java
+        a
+//     ^ meta.instantiation.java meta.path.java meta.generic.java - meta.path meta.path - variable
+//      ^ meta.instantiation.java meta.path.java meta.generic.java meta.path.java variable.namespace.java
+//       ^ meta.instantiation.java meta.path.java meta.generic.java meta.path.java - variable
+        .
+//     ^^^ meta.instantiation.java meta.path.java meta.generic.java meta.path.java
+//      ^ punctuation.accessor.dot.java
+        b.Generic
+//     ^^^^^^^^^^ meta.instantiation.java meta.path.java meta.generic.java meta.path.java
+//               ^ meta.instantiation.java meta.path.java meta.generic.java - meta.path
+//      ^ variable.namespace.java
+//       ^ punctuation.accessor.dot.java
+//        ^^^^^^^ support.class.java
+      >();
+//   ^^ meta.instantiation.java meta.path.java meta.generic.java - meta.path
+//     ^^ meta.instantiation.java meta.parens.java
+//       ^ - meta.instantiation
+//    ^ punctuation.definition.generic.end.java
+//     ^ punctuation.section.parens.begin.java
+//      ^ punctuation.section.parens.end.java
+//       ^ punctuation.terminator.java
 
     new <T1, T2> Generic<T>();
 
@@ -4069,8 +4292,7 @@ class ForStatementTests {
 //                                                 ^ keyword.operator.ternary.java
 //                                                   ^^^ keyword.other.storage.new.java
 //                                                       ^^^ support.class.java
-//                                                          ^ punctuation.section.brackets.begin.java
-//                                                           ^ punctuation.section.brackets.end.java
+//                                                          ^^ storage.modifier.array.java
 //                                                            ^ punctuation.section.parens.end.java
 //                                                              ^^^^ variable.function.java
 //                                                                  ^ punctuation.section.parens.begin.java
@@ -4101,8 +4323,7 @@ class ForStatementTests {
 //                                                 ^ keyword.operator.ternary.java
 //                                                   ^^^ keyword.other.storage.new.java
 //                                                       ^^^ support.class.java
-//                                                          ^ punctuation.section.brackets.begin.java
-//                                                           ^ punctuation.section.brackets.end.java
+//                                                          ^^ storage.modifier.array.java
 //                                                            ^ punctuation.section.parens.end.java
 //                                                              ^^^^ variable.function.java
 //                                                                  ^ punctuation.section.parens.begin.java
