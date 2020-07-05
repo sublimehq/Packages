@@ -867,6 +867,19 @@ class AnyClass { // comment
     }
 //  ^ meta.class.java meta.block.java meta.class.java meta.block.java punctuation.section.block.end.java
 
+    class subclass extends abstractclass {
+//  ^^^^^ meta.class.java meta.block.java meta.class.java
+//       ^^^^^^^^^^ meta.class.java meta.block.java meta.class.identifier.java
+//                 ^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.class.extends.java
+//                                       ^^ meta.class.java meta.block.java meta.class.java meta.block.java
+//  ^^^^^ storage.type.class.java keyword.declaration.class.java
+//        ^^^^^^^^ entity.name.class.java
+//                 ^^^^^^^ keyword.declaration.extends.java
+//                         ^^^^^^^^^^^^^ entity.other.inherited-class.java
+//                                       ^ punctuation.section.block.begin.java
+    }
+//  ^ meta.class.java meta.block.java meta.class.java meta.block.java punctuation.section.block.end.java
+
     class SubClass extends AbstractClass.NestedClass {
 //  ^^^^^ meta.class.java meta.block.java meta.class.java
 //       ^^^^^^^^^^ meta.class.java meta.block.java meta.class.identifier.java
@@ -876,6 +889,21 @@ class AnyClass { // comment
 //        ^^^^^^^^ entity.name.class.java
 //                 ^^^^^^^ keyword.declaration.extends.java
 //                         ^^^^^^^^^^^^^ entity.other.inherited-class.java
+//                                      ^ punctuation.accessor.dot.java
+//                                       ^^^^^^^^^^^ entity.other.inherited-class.java
+//                                                   ^ punctuation.section.block.begin.java
+    }
+//  ^ meta.class.java meta.block.java meta.class.java meta.block.java punctuation.section.block.end.java
+
+    class subclass extends abstractclass.nestedclass {
+//  ^^^^^ meta.class.java meta.block.java meta.class.java
+//       ^^^^^^^^^^ meta.class.java meta.block.java meta.class.identifier.java
+//                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.class.extends.java
+//                                                   ^^ meta.class.java meta.block.java meta.class.java meta.block.java
+//  ^^^^^ storage.type.class.java keyword.declaration.class.java
+//        ^^^^^^^^ entity.name.class.java
+//                 ^^^^^^^ keyword.declaration.extends.java
+//                         ^^^^^^^^^^^^^ variable.namespace.java
 //                                      ^ punctuation.accessor.dot.java
 //                                       ^^^^^^^^^^^ entity.other.inherited-class.java
 //                                                   ^ punctuation.section.block.begin.java

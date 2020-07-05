@@ -2411,29 +2411,56 @@ contexts:
       push: inherited-object-type-reference
 
   inherited-object-type-reference:
-    - match: '{{before_fqn}}'
-      set:
-        - meta_scope: meta.path.java
-        - include: variable-namespace
-        - include: inherited-object-type-reference-no-fqn
-    - include: inherited-object-type-reference-no-fqn
-
-  inherited-object-type-reference-no-fqn:
     - include: reserved-pop
-    - match: '{{id}}'
-      scope: entity.other.inherited-class.java
-      set:
-        - inherrited-object-type-reference-child
-        - maybe-illegal-array-modifiers
-        - generic-type-arguments
+    - match: (?={{id}})
+      branch_point: inherited-object-type-reference
+      branch:
+        - unqualified-inherited-object-type-reference
+        - qualified-inherited-object-type-reference
     - include: annotation
     - include: else-pop
 
-  inherrited-object-type-reference-child:
-    - match: '{{accessor_dot}}'
-      scope: punctuation.accessor.dot.java
-      set: inherited-object-type-reference-no-fqn
-    - include: else-pop
+  unqualified-inherited-object-type-reference:
+    - match: '{{id}}'
+      scope: entity.other.inherited-class.java
+      push:
+        - unqualiefied-inherited-object-type-reference-end
+        - maybe-illegal-array-modifiers
+        - generic-type-arguments
+
+  unqualiefied-inherited-object-type-reference-end:
+    - match: (?={{accessor_dot}})
+      fail: inherited-object-type-reference
+    - include: else-pop3
+
+  qualified-inherited-object-type-reference:
+    - meta_content_scope: meta.path.java
+    - match: (?={{id}})
+      branch_point: qualified-inherited-object-type-reference
+      branch:
+        - qualified-inherited-object-type-reference-package
+        - qualified-inherited-object-type-reference-class
+    - include: annotation
+    - include: else-pop2
+
+  qualified-inherited-object-type-reference-package:
+    - match: '{{lowercase_id}}'
+      scope: variable.namespace.java
+      set:
+        - include: punctuation-accessor-dot-pop
+        - match: (?=\S)
+          fail: qualified-inherited-object-type-reference
+    - match: (?=\S)
+      fail: qualified-inherited-object-type-reference
+
+  qualified-inherited-object-type-reference-class:
+    - match: '{{id}}'
+      scope: entity.other.inherited-class.java
+      push:
+        - qualified-object-type-end
+        - generic-type-arguments
+    - include: annotation
+    - include: else-pop3
 
 ###[ GENERIC TYPES ]###########################################################
 
