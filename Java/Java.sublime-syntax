@@ -957,8 +957,7 @@ contexts:
 
   variable-declaration-type:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.4
-    - match: final\b
-      scope: storage.modifier.java
+    - include: final-modifiers
     - include: illegal-storage-modifiers
     - include: primitive-type
     - include: var-type
@@ -1005,8 +1004,7 @@ contexts:
         - variable-declaration-value
         - var-variable-name
         - maybe-illegal-array-modifiers
-    - match: final\b
-      scope: storage.modifier.java
+    - include: final-modifiers
 
   var-variable-name:
     - include: expression-terminator
@@ -1567,8 +1565,7 @@ contexts:
         - lambda-parameter-type
 
   lambda-parameter-type:
-    - match: final\b
-      scope: storage.modifier.java
+    - include: final-modifiers
     - include: illegal-storage-modifiers
     - include: primitive-type
     - include: var-type
@@ -1617,8 +1614,7 @@ contexts:
         - parameter-type
 
   parameter-type:
-    - match: final\b
-      scope: storage.modifier.java
+    - include: final-modifiers
     - include: illegal-storage-modifiers
     - include: primitive-type
     - include: illegal-var-type
@@ -2563,6 +2559,10 @@ contexts:
   array-modifiers:
     - match: \[\s*\]
       scope: storage.modifier.array.java
+
+  final-modifiers:
+    - match: final\b
+      scope: storage.modifier.java
 
   storage-modifiers:
     - match: '{{storage_modifiers}}\b'
