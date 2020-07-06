@@ -478,23 +478,23 @@ contexts:
     - match: extends\b
       scope: keyword.declaration.extends.java
       push:
-        - class-extends-object-type-references
-        - inherited-object-type-reference
+        - class-extends-object-type-list
+        - inherited-object-type
     - match: implements\b
       scope: keyword.declaration.implements.java
       push:
-        - class-implements-object-type-references
-        - inherited-object-type-reference
+        - class-implements-object-type-list
+        - inherited-object-type
     - include: else-pop
 
-  class-extends-object-type-references:
+  class-extends-object-type-list:
     - meta_scope: meta.class.extends.java
-    - include: inherited-object-type-references
+    - include: inherited-object-type-list
     - include: else-pop
 
-  class-implements-object-type-references:
+  class-implements-object-type-list:
     - meta_scope: meta.class.implements.java
-    - include: inherited-object-type-references
+    - include: inherited-object-type-list
     - include: else-pop
 
   class-body-block:
@@ -557,23 +557,23 @@ contexts:
     - match: extends\b
       scope: invalid.illegal.unexpected-extends.java
       push:
-        - enum-extends-object-type-references
-        - inherited-object-type-reference
+        - enum-extends-object-type-list
+        - inherited-object-type
     - match: implements\b
       scope: keyword.declaration.implements.java
       push:
-        - enum-implements-object-type-references
-        - inherited-object-type-reference
+        - enum-implements-object-type-list
+        - inherited-object-type
     - include: else-pop
 
-  enum-extends-object-type-references:
+  enum-extends-object-type-list:
     - meta_scope: meta.enum.extends.java
-    - include: inherited-object-type-references
+    - include: inherited-object-type-list
     - include: else-pop
 
-  enum-implements-object-type-references:
+  enum-implements-object-type-list:
     - meta_scope: meta.enum.implements.java
-    - include: inherited-object-type-references
+    - include: inherited-object-type-list
     - include: else-pop
 
   enum-body-block:
@@ -655,23 +655,23 @@ contexts:
     - match: extends\b
       scope: keyword.declaration.extends.java
       push:
-        - interface-extends-object-type-references
-        - inherited-object-type-reference
+        - interface-extends-object-type-list
+        - inherited-object-type
     - match: implements\b
       scope: invalid.illegal.unexpected-implements.java
       push:
-        - interface-implements-object-type-references
-        - inherited-object-type-reference
+        - interface-implements-object-type-list
+        - inherited-object-type
     - include: else-pop
 
-  interface-extends-object-type-references:
+  interface-extends-object-type-list:
     - meta_scope: meta.interface.extends.java
-    - include: inherited-object-type-references
+    - include: inherited-object-type-list
     - include: else-pop
 
-  interface-implements-object-type-references:
+  interface-implements-object-type-list:
     - meta_scope: meta.interface.implements.java
-    - include: inherited-object-type-references
+    - include: inherited-object-type-list
     - include: else-pop
 
   interface-body-block:
@@ -709,10 +709,7 @@ contexts:
   field-type:
     - include: primitive-type
     - include: illegal-var-type
-    - include: reserved-pop
     - include: object-type
-    - include: annotation
-    - include: else-pop
 
   field-names:
     - meta_scope: meta.field.type.java
@@ -836,8 +833,6 @@ contexts:
     - match: (?=\{|{{reserved_words}}\b)
       fail: declarations
     - include: object-type
-    - include: annotation
-    - include: else-pop
 
   method-name:
     - include: reserved-pop
@@ -885,8 +880,8 @@ contexts:
     - match: throws\b
       scope: keyword.declaration.throws.java
       set:
-        - method-throws-object-type-references
-        - object-type-reference
+        - method-throws-object-type-list
+        - object-type
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.6.2
     - match: default\b
       scope: keyword.declaration.default.java
@@ -899,9 +894,9 @@ contexts:
     - meta_scope: meta.method.default.java
     - include: immediately-pop
 
-  method-throws-object-type-references:
+  method-throws-object-type-list:
     - meta_scope: meta.method.throws.java
-    - include: object-type-references
+    - include: object-type-list
     - include: else-pop
 
   method-body-block:
@@ -965,10 +960,7 @@ contexts:
     - include: illegal-storage-modifiers
     - include: primitive-type
     - include: var-type
-    - include: reserved-pop
     - include: object-type
-    - include: annotation
-    - include: else-pop
 
   variable-declaration-list:
     - match: \,
@@ -1434,10 +1426,7 @@ contexts:
 
   instantiation-type:
     - include: primitive-type
-    - include: reserved-pop
     - include: object-type
-    - include: annotation
-    - include: else-pop
 
   instantiation-value:
     - include: array-dimensions
@@ -1573,10 +1562,7 @@ contexts:
     - include: illegal-storage-modifiers
     - include: primitive-type
     - include: var-type
-    - include: reserved-pop
     - include: object-type
-    - include: annotation
-    - include: else-pop
 
   lambda-meta:
     - meta_content_scope: meta.function.anonymous.java
@@ -1622,10 +1608,7 @@ contexts:
     - include: illegal-storage-modifiers
     - include: primitive-type
     - include: illegal-var-type
-    - include: reserved-pop
     - include: object-type
-    - include: annotation
-    - include: else-pop
 
   parameter-variadic:
     - match: \.\.\.
@@ -2242,25 +2225,33 @@ contexts:
 
 ###[ OBJECT TYPE ]#############################################################
 
+  object-type-list:
+    - match: \,
+      scope: punctuation.separator.comma.java
+      push: object-type
+
   object-type:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.3
+    - include: reserved-pop
     - match: (?={{id}})
       branch_point: object-type
       branch:
         - unqualified-object-type
         - qualified-object-type
+    - include: annotation
+    - include: else-pop
 
   unqualified-object-type:
     - match: '{{id}}'
       scope: support.class.java
-      set:
+      push:
         - unqualiefied-object-type-end
         - generic-type-arguments
 
   unqualiefied-object-type-end:
     - match: (?={{accessor_dot}})
       fail: object-type
-    - include: else-pop2
+    - include: else-pop3
 
   qualified-object-type:
     - meta_content_scope: meta.path.java
@@ -2296,119 +2287,59 @@ contexts:
     - include: punctuation-accessor-dot-pop
     - include: else-pop4
 
-###[ OBJECT TYPE REFERENCES ]##################################################
-
-  # Used in 'throws' and generic bounds
-  object-type-references:
-    - match: \,
-      scope: punctuation.separator.comma.java
-      push: object-type-reference
-
-  object-type-reference:
-    - include: reserved-pop
-    - match: (?={{id}})
-      branch_point: object-type-reference
-      branch:
-        - unqualified-object-type-reference
-        - qualified-object-type-reference
-    - include: annotation
-    - include: else-pop
-
-  unqualified-object-type-reference:
-    - match: '{{id}}'
-      scope: support.class.java
-      push:
-        - unqualiefied-object-type-reference-end
-        - maybe-illegal-array-modifiers
-        - generic-type-arguments
-
-  unqualiefied-object-type-reference-end:
-    - match: (?={{accessor_dot}})
-      fail: object-type-reference
-    - include: else-pop3
-
-  qualified-object-type-reference:
-    - meta_content_scope: meta.path.java
-    - match: (?={{id}})
-      branch_point: qualified-object-type-reference
-      branch:
-        - qualified-object-type-reference-package
-        - qualified-object-type-reference-class
-    - include: annotation
-    - include: else-pop2
-
-  qualified-object-type-reference-package:
-    - match: '{{lowercase_id}}'
-      scope: variable.namespace.java
-      set:
-        - include: punctuation-accessor-dot-pop
-        - match: (?=\S)
-          fail: qualified-object-type-reference
-    - match: (?=\S)
-      fail: qualified-object-type-reference
-
-  qualified-object-type-reference-class:
-    - match: '{{id}}'
-      scope: support.class.java
-      push:
-        - qualified-object-type-end
-        - generic-type-arguments
-    - include: annotation
-    - include: else-pop3
-
 ###[ INHERRITED TYPE REFERENCES ]##############################################
 
   # Used in class-level 'extends' and 'implements'
-  inherited-object-type-references:
+  inherited-object-type-list:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.4
     - match: \,
       scope: punctuation.separator.comma.java
-      push: inherited-object-type-reference
+      push: inherited-object-type
 
-  inherited-object-type-reference:
+  inherited-object-type:
     - include: reserved-pop
     - match: (?={{id}})
-      branch_point: inherited-object-type-reference
+      branch_point: inherited-object-type
       branch:
-        - unqualified-inherited-object-type-reference
-        - qualified-inherited-object-type-reference
+        - unqualified-inherited-object-type
+        - qualified-inherited-object-type
     - include: annotation
     - include: else-pop
 
-  unqualified-inherited-object-type-reference:
+  unqualified-inherited-object-type:
     - match: '{{id}}'
       scope: entity.other.inherited-class.java
       push:
-        - unqualiefied-inherited-object-type-reference-end
+        - unqualiefied-inherited-object-type-end
         - maybe-illegal-array-modifiers
         - generic-type-arguments
 
-  unqualiefied-inherited-object-type-reference-end:
+  unqualiefied-inherited-object-type-end:
     - match: (?={{accessor_dot}})
-      fail: inherited-object-type-reference
+      fail: inherited-object-type
     - include: else-pop3
 
-  qualified-inherited-object-type-reference:
+  qualified-inherited-object-type:
     - meta_content_scope: meta.path.java
     - match: (?={{id}})
-      branch_point: qualified-inherited-object-type-reference
+      branch_point: qualified-inherited-object-type
       branch:
-        - qualified-inherited-object-type-reference-package
-        - qualified-inherited-object-type-reference-class
+        - qualified-inherited-object-type-package
+        - qualified-inherited-object-type-class
     - include: annotation
     - include: else-pop2
 
-  qualified-inherited-object-type-reference-package:
+  qualified-inherited-object-type-package:
     - match: '{{lowercase_id}}'
       scope: variable.namespace.java
       set:
         - include: punctuation-accessor-dot-pop
         - match: (?=\S)
-          fail: qualified-inherited-object-type-reference
+          fail: qualified-inherited-object-type
     - match: (?=\S)
-      fail: qualified-inherited-object-type-reference
+      fail: qualified-inherited-object-type
 
-  qualified-inherited-object-type-reference-class:
+  qualified-inherited-object-type-class:
     - match: '{{id}}'
       scope: entity.other.inherited-class.java
       push:
@@ -2471,10 +2402,10 @@ contexts:
   generic-type-arguments-bounds:
     - match: extends\b
       scope: keyword.declaration.extends.java
-      set: [generic-type-additional-bounds, object-type-reference]
+      set: [generic-type-additional-bounds, object-type]
     - match: super\b
       scope: keyword.declaration.super.java
-      set: object-type-reference
+      set: object-type
     - include: else-pop
 
   generic-type:
@@ -2513,16 +2444,16 @@ contexts:
   generic-type-parameter-bounds:
     - match: extends\b
       scope: keyword.declaration.extends.java
-      set: [generic-type-additional-bounds, object-type-reference]
+      set: [generic-type-additional-bounds, object-type]
     - match: super\b
       scope: invalid.illegal.unexpected-keyword.java
-      set: object-type-reference
+      set: object-type
     - include: else-pop
 
   generic-type-additional-bounds:
     - match: '&'
       scope: keyword.operator.multiple-bounds.java
-      push: object-type-reference
+      push: object-type
     - include: else-pop
 
   generic-type-terminator:
@@ -2531,10 +2462,10 @@ contexts:
       pop: 1
     - match: extends\b
       scope: invalid.illegal.unexpected-keyword.java
-      push: [generic-type-additional-bounds, object-type-reference]
+      push: [generic-type-additional-bounds, object-type]
     - match: super\b
       scope: invalid.illegal.unexpected-keyword.java
-      push: object-type-reference
+      push: object-type
     - include: annotation
     - include: else-pop
 
