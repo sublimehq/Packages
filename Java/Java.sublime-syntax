@@ -8,6 +8,8 @@ file_extensions:
   - bsh
 scope: source.java
 
+###############################################################################
+
 variables:
   # Reserved keywords
   # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9
@@ -78,6 +80,8 @@ variables:
 
   # operators
   accessor_dot: \.(?=[^.])
+
+###############################################################################
 
 contexts:
   main:
