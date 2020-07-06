@@ -703,9 +703,7 @@ contexts:
     - include: else-pop
 
   field-type:
-    - match: '{{storage_types}}\b'
-      scope: storage.type.primitive.java
-      pop: 1
+    - include: primitive-type
     - include: illegal-var-type
     - include: reserved-pop
     - include: object-type
@@ -829,9 +827,7 @@ contexts:
     - include: else-pop
 
   method-result-type:
-    - match: '{{storage_types}}\b'
-      scope: storage.type.primitive.java
-      pop: 1
+    - include: primitive-type
     - include: illegal-var-type
     - match: (?=\{|{{reserved_words}}\b)
       fail: declarations
@@ -965,9 +961,7 @@ contexts:
       scope: storage.modifier.java
     - match: '{{storage_modifiers}}\b'
       scope: invalid.illegal.unexpected-keyword.java
-    - match: '{{storage_types}}\b'
-      scope: storage.type.primitive.java
-      pop: 1
+    - include: primitive-type
     - include: var-type
     - include: reserved-pop
     - include: object-type
@@ -1438,9 +1432,8 @@ contexts:
     - include: immediately-pop
 
   instantiation-type:
-    - match: '{{storage_types}}\b'
-      scope: storage.type.primitive.java
-      pop: 1
+    - include: primitive-type
+    - include: reserved-pop
     - include: object-type
     - include: annotation
     - include: else-pop
@@ -1577,9 +1570,7 @@ contexts:
   lambda-parameter-type:
     - match: final\b
       scope: storage.modifier.java
-    - match: '{{storage_types}}\b'
-      scope: storage.type.primitive.java
-      pop: 1
+    - include: primitive-type
     - match: '{{storage_modifiers}}\b'
       scope: invalid.illegal.unexpected-keyword.java
     - include: var-type
@@ -1630,9 +1621,7 @@ contexts:
   parameter-type:
     - match: final\b
       scope: storage.modifier.java
-    - match: '{{storage_types}}\b'
-      scope: storage.type.primitive.java
-      pop: 1
+    - include: primitive-type
     - match: '{{storage_modifiers}}\b'
       scope: invalid.illegal.unexpected-keyword.java
     - include: illegal-var-type
@@ -2558,6 +2547,11 @@ contexts:
     - match: '{{storage_types}}\b'
       scope: storage.type.primitive.java
       push: maybe-array-modifiers
+
+  primitive-type:
+    - match: '{{storage_types}}\b'
+      scope: storage.type.primitive.java
+      pop: 1
 
   var-type:
     - match: var\b
