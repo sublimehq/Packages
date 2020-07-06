@@ -2661,7 +2661,7 @@ class MethodDelcarationTests {
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.method meta.method
 //                               ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java
 //                                                         ^ - meta.method.parameters.java
-//                                ^^^^^^^ invalid.illegal.unexpected-keyword.java
+//                                ^^^^^^^ invalid.illegal.unexpected-modifier.java
 //                                        ^^^^^^ support.class.java
 //                                              ^^^ keyword.operator.variadic.java
 //                                                  ^^^^^^ variable.parameter.java
@@ -4258,7 +4258,7 @@ class ForStatementTests {
 //  ^^^^ meta.for.java - meta.for meta.for
 //      ^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.parens.java - meta.for meta.for
 //  ^^^ keyword.control.loop.for.java
-//       ^^^^^^ invalid.illegal.unexpected-keyword.java
+//       ^^^^^^ invalid.illegal.unexpected-modifier.java
 //              ^^^ storage.type.primitive.java
 //                  ^ variable.other.readwrite.java
 //                    ^ keyword.operator.assignment.java
@@ -4313,7 +4313,7 @@ class ForStatementTests {
 //                                                                        ^ - meta.for
 //  ^^^ keyword.control.loop.for.java
 //      ^ punctuation.section.parens.begin.java
-//       ^^^^^^^ invalid.illegal.unexpected-keyword.java
+//       ^^^^^^^ invalid.illegal.unexpected-modifier.java
 //               ^^^^^^ meta.annotation.identifier.java
 //                     ^^^ storage.type.var.java
 //                         ^^^^ variable.other.readwrite.java

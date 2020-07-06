@@ -959,8 +959,7 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.4
     - match: final\b
       scope: storage.modifier.java
-    - match: '{{storage_modifiers}}\b'
-      scope: invalid.illegal.unexpected-keyword.java
+    - include: illegal-storage-modifiers
     - include: primitive-type
     - include: var-type
     - include: reserved-pop
@@ -1570,9 +1569,8 @@ contexts:
   lambda-parameter-type:
     - match: final\b
       scope: storage.modifier.java
+    - include: illegal-storage-modifiers
     - include: primitive-type
-    - match: '{{storage_modifiers}}\b'
-      scope: invalid.illegal.unexpected-keyword.java
     - include: var-type
     - include: reserved-pop
     - include: object-type
@@ -1621,9 +1619,8 @@ contexts:
   parameter-type:
     - match: final\b
       scope: storage.modifier.java
+    - include: illegal-storage-modifiers
     - include: primitive-type
-    - match: '{{storage_modifiers}}\b'
-      scope: invalid.illegal.unexpected-keyword.java
     - include: illegal-var-type
     - include: reserved-pop
     - include: object-type
@@ -2694,6 +2691,10 @@ contexts:
     # Pops the stack if anything matches
     - include: illegal-semicolon
     - include: illegal-open-block
+
+  illegal-storage-modifiers:
+    - match: '{{storage_modifiers}}\b'
+      scope: invalid.illegal.unexpected-modifier.java
 
   illegal-type-parameters:
     - match: \<
