@@ -706,9 +706,7 @@ contexts:
     - match: '{{storage_types}}\b'
       scope: storage.type.primitive.java
       pop: 1
-    - match: var\b
-      scope: invalid.illegal.unexpected-type.java
-      pop: 1
+    - include: illegal-var-type
     - include: reserved-pop
     - include: object-type
     - include: annotation
@@ -834,9 +832,7 @@ contexts:
     - match: '{{storage_types}}\b'
       scope: storage.type.primitive.java
       pop: 1
-    - match: var\b
-      scope: invalid.illegal.unexpected-type.java
-      pop: 1
+    - include: illegal-var-type
     - match: (?=\{|{{reserved_words}}\b)
       fail: declarations
     - include: object-type
@@ -1643,9 +1639,7 @@ contexts:
       pop: 1
     - match: '{{storage_modifiers}}\b'
       scope: invalid.illegal.unexpected-keyword.java
-    - match: var\b
-      scope: invalid.illegal.unexpected-keyword.java
-      pop: 1
+    - include: illegal-var-type
     - include: reserved-pop
     - include: object-type
     - include: annotation
@@ -2713,6 +2707,11 @@ contexts:
         - match: \>
           pop: 1
     - include: else-pop
+
+  illegal-var-type:
+    - match: var\b
+      scope: invalid.illegal.unexpected-type.java
+      pop: 1
 
   stray-braces:
     - match: \}

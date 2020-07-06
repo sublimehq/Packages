@@ -2669,7 +2669,7 @@ class MethodDelcarationTests {
   void invalidVarArgs(var... values) {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.method meta.method
 //                   ^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java
-//                    ^^^ invalid.illegal.unexpected-keyword.java
+//                    ^^^ invalid.illegal.unexpected-type.java
 //                       ^^^ keyword.operator.variadic.java
 //                           ^^^ variable.parameter.java
 
