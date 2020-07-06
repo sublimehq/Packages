@@ -2111,8 +2111,8 @@ class FieldDeclarationTests {
 //^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java
 //                     ^^^^^^^^^^^^^^^^^ meta.field.identifier.java
 //                                      ^ - meta.field
-//^^^^^^^^^^^^^^^^^^^^ meta.path.java
-//                    ^^^^^^^^^^^^^^^^^^^ - meta.path
+//^^^^^^^^^^^^^^^^ meta.path.java
+//                ^^^^^^^^^^^^^^^^^^^^^^^ - meta.path
 //^^^^^^^^^ variable.namespace.java
 //         ^ punctuation.accessor.dot.java
 //          ^^^^^^ support.class.java
@@ -2124,8 +2124,8 @@ class FieldDeclarationTests {
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java
 //                           ^^^^^^^^^^^^^^^^^ meta.field.identifier.java
 //                                            ^ - meta.field
-//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
-//                          ^^^^^^^^^^^^^^^^^^^ - meta.path
+//^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
+//                      ^^^^^^^^^^^^^^^^^^^^^^^ - meta.path
 //^^^^^ variable.namespace.java
 //     ^ punctuation.accessor.dot.java
 //      ^^^^^^^^^ variable.namespace.java
@@ -2157,7 +2157,8 @@ class FieldDeclarationTests {
 //     ^ punctuation.accessor.dot.java
 //       ^^^^ comment.block.empty.java
   @anno /**/ object @anno() []
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java meta.path.java
+//^^^^^^^^^^^^^^^^^ meta.field.type.java meta.path.java
+//                 ^^^^^^^^^^^^ meta.field.type.java - meta.path
 //^^^^^^ meta.annotation.identifier.java
 //                  ^^^^^ meta.annotation.identifier.java
 //                       ^^ meta.annotation.parameters.java meta.parens.java
@@ -2172,11 +2173,9 @@ class FieldDeclarationTests {
 //                          ^^ storage.modifier.array.java
 
   /**/ @anno /**/ [] /**/ doubleObjectArray;
-//^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java
-//                        ^^^^^^^^^^^^^^^^^ meta.field.identifier.java
+//^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java - meta.path
+//                        ^^^^^^^^^^^^^^^^^ meta.field.identifier.java - meta.path
 //                                         ^ - meta.field
-//^^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
-//                       ^^^^^^^^^^^^^^^^^^^ - meta.path
 //^^^^ comment.block.empty.java
 //     ^ punctuation.definition.annotation.java
 //      ^^^^ variable.annotation.java
@@ -3309,7 +3308,7 @@ class LocalVariableDeclarationTests {
     List<java.lang.String[]> x;
 //      ^^^^^^^^^^^^^^^^^^^^ meta.generic.java
 //       ^^^^^^^^^^^^^^^^ meta.path.java
-//                       ^^ storage.modifier.array.java
+//                       ^^ storage.modifier.array.java - meta.path
 
     List<URI[]> x;
 //      ^^^^^^^ meta.generic.java
@@ -3609,7 +3608,8 @@ class InstanceCreationExpressionsTests {
 //                             ^ - meta.instantiation - meta.braces
 //  ^^^ keyword.other.storage.new.java
 //      ^^^^^^ support.class.java
-//            ^^ storage.modifier.array.java
+//            ^ punctuation.section.brackets.begin.java
+//             ^ punctuation.section.brackets.end.java
 //               ^^^^^^^^^^^^^^ meta.braces.java
 //               ^ punctuation.section.braces.begin.java
 //                ^^^^^ string.quoted.double.java
@@ -3954,7 +3954,8 @@ class InstanceCreationExpressionsTests {
 //  ^^^ keyword.other.storage.new.java
 //      ^^^^^^^ support.class.java
 //             ^^^ meta.generic.java
-//                ^^ storage.modifier.array.java
+//                ^ punctuation.section.brackets.begin.java
+//                 ^ punctuation.section.brackets.end.java
 //                   ^ punctuation.section.braces.begin
 //                     ^^^ keyword.other.storage.new.java
 //                         ^^^^^^^ support.class.java
@@ -3979,7 +3980,8 @@ class InstanceCreationExpressionsTests {
 //               ^ punctuation.definition.generic.begin.java
 //                ^ keyword.operator.wildcard.java
 //                 ^ punctuation.definition.generic.end.java
-//                  ^^ storage.modifier.array.java
+//                  ^ punctuation.section.brackets.begin.java
+//                   ^ punctuation.section.brackets.end.java
 //                     ^ punctuation.section.braces.begin.java
 //                       ^^^ keyword.other.storage.new.java
 //                           ^^^^^^^^^ support.class.java
@@ -4292,7 +4294,8 @@ class ForStatementTests {
 //                                                 ^ keyword.operator.ternary.java
 //                                                   ^^^ keyword.other.storage.new.java
 //                                                       ^^^ support.class.java
-//                                                          ^^ storage.modifier.array.java
+//                                                          ^ punctuation.section.brackets.begin.java
+//                                                           ^ punctuation.section.brackets.end.java
 //                                                            ^ punctuation.section.parens.end.java
 //                                                              ^^^^ variable.function.java
 //                                                                  ^ punctuation.section.parens.begin.java
@@ -4323,7 +4326,8 @@ class ForStatementTests {
 //                                                 ^ keyword.operator.ternary.java
 //                                                   ^^^ keyword.other.storage.new.java
 //                                                       ^^^ support.class.java
-//                                                          ^^ storage.modifier.array.java
+//                                                          ^ punctuation.section.brackets.begin.java
+//                                                           ^ punctuation.section.brackets.end.java
 //                                                            ^ punctuation.section.parens.end.java
 //                                                              ^^^^ variable.function.java
 //                                                                  ^ punctuation.section.parens.begin.java

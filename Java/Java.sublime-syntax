@@ -687,6 +687,7 @@ contexts:
     - match: ''
       push:
         - field-names
+        - maybe-array-modifiers
         - field-type
         - field-modifier
 
@@ -704,10 +705,10 @@ contexts:
   field-type:
     - match: '{{storage_types}}\b'
       scope: storage.type.primitive.java
-      set: maybe-array-modifiers
+      pop: 1
     - match: var\b
       scope: invalid.illegal.unexpected-type.java
-      set: maybe-array-modifiers
+      pop: 1
     - include: reserved-pop
     - include: object-type
     - include: annotation
@@ -821,6 +822,7 @@ contexts:
         - method-parameters-or-fail
         - method-name
         - method-result-meta
+        - maybe-array-modifiers
         - method-result-type
 
   method-result-meta:
@@ -831,10 +833,10 @@ contexts:
   method-result-type:
     - match: '{{storage_types}}\b'
       scope: storage.type.primitive.java
-      set: maybe-array-modifiers
+      pop: 1
     - match: var\b
       scope: invalid.illegal.unexpected-type.java
-      set: maybe-array-modifiers
+      pop: 1
     - match: (?=\{|{{reserved_words}}\b)
       fail: declarations
     - include: object-type
@@ -864,6 +866,7 @@ contexts:
         - method-parameters-common
         - parameter-maybe-receiver
         - parameter-variadic
+        - maybe-array-modifiers
         - parameter-type
         - parens-begin
 
@@ -968,10 +971,10 @@ contexts:
       scope: invalid.illegal.unexpected-keyword.java
     - match: '{{storage_types}}\b'
       scope: storage.type.primitive.java
-      set: maybe-array-modifiers
+      pop: 1
     - match: var\b
       scope: storage.type.var.java
-      set: maybe-array-modifiers
+      pop: 1
     - include: reserved-pop
     - include: object-type
     - include: annotation
@@ -1219,6 +1222,7 @@ contexts:
     - match: ''
       set:
         - variable-declaration-identifier
+        - maybe-array-modifiers
         - variable-declaration-type
 
   for-parameters-condition:
@@ -1352,6 +1356,7 @@ contexts:
         - catch-parameters-end
         - parameter-identifier
         - catch-parameters-typelist
+        - maybe-array-modifiers
         - parameter-type
         - parens-begin
     - include: else-pop
@@ -1359,7 +1364,9 @@ contexts:
   catch-parameters-typelist:
     - match: \|
       scope: punctuation.separator.pipe.java
-      push: parameter-type
+      push: 
+        - maybe-array-modifiers
+        - parameter-type
     - include: else-pop
 
   catch-parameters-end:
@@ -1415,6 +1422,7 @@ contexts:
     - match: ''
       set:
         - variable-declaration-identifier
+        - maybe-array-modifiers
         - variable-declaration-type
 
 ###[ INSTANTIATION ]###########################################################
@@ -1569,6 +1577,7 @@ contexts:
       set:
         - parameter-identifier
         - parameter-variadic
+        - maybe-array-modifiers
         - lambda-parameter-type
 
   lambda-parameter-type:
@@ -1576,12 +1585,12 @@ contexts:
       scope: storage.modifier.java
     - match: '{{storage_types}}\b'
       scope: storage.type.primitive.java
-      set: maybe-array-modifiers
+      pop: 1
     - match: '{{storage_modifiers}}\b'
       scope: invalid.illegal.unexpected-keyword.java
     - match: var\b
       scope: storage.type.var.java
-      set: maybe-array-modifiers
+      pop: 1
     - include: reserved-pop
     - include: object-type
     - include: annotation
@@ -1623,6 +1632,7 @@ contexts:
       push:
         - parameter-identifier
         - parameter-variadic
+        - maybe-array-modifiers
         - parameter-type
 
   parameter-type:
@@ -1630,12 +1640,12 @@ contexts:
       scope: storage.modifier.java
     - match: '{{storage_types}}\b'
       scope: storage.type.primitive.java
-      set: maybe-array-modifiers
+      pop: 1
     - match: '{{storage_modifiers}}\b'
       scope: invalid.illegal.unexpected-keyword.java
     - match: var\b
       scope: invalid.illegal.unexpected-keyword.java
-      set: maybe-array-modifiers
+      pop: 1
     - include: reserved-pop
     - include: object-type
     - include: annotation
@@ -2269,7 +2279,6 @@ contexts:
       scope: support.class.java
       set:
         - unqualiefied-object-type-end
-        - maybe-array-modifiers
         - generic-type-arguments
 
   unqualiefied-object-type-end:
@@ -2309,8 +2318,6 @@ contexts:
 
   qualified-object-type-end:
     - include: punctuation-accessor-dot-pop
-    - include: array-modifiers
-    - include: annotation
     - include: else-pop4
 
 ###[ OBJECT TYPE REFERENCES ]##################################################
@@ -2445,7 +2452,9 @@ contexts:
       pop: 1
     - match: <
       scope: punctuation.definition.generic.begin.java
-      set: [generic-type-arguments-common, generic-type-argument]
+      set: 
+        - generic-type-arguments-common
+        - generic-type-argument
     - include: else-pop
 
   generic-type-arguments-common:
@@ -2477,9 +2486,11 @@ contexts:
         - - meta_scope: invalid.illegal.unexpected-keyword.java
           - include: immediately-pop2
     - include: reserved-pop
-    - include: object-type
     - include: annotation
-    - include: else-pop
+    - match: (?=\S)
+      set:
+        - maybe-array-modifiers
+        - object-type
 
   generic-type-arguments-bounds:
     - match: extends\b
