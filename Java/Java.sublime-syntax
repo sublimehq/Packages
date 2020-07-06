@@ -968,9 +968,7 @@ contexts:
     - match: '{{storage_types}}\b'
       scope: storage.type.primitive.java
       pop: 1
-    - match: var\b
-      scope: storage.type.var.java
-      pop: 1
+    - include: var-type
     - include: reserved-pop
     - include: object-type
     - include: annotation
@@ -1584,9 +1582,7 @@ contexts:
       pop: 1
     - match: '{{storage_modifiers}}\b'
       scope: invalid.illegal.unexpected-keyword.java
-    - match: var\b
-      scope: storage.type.var.java
-      pop: 1
+    - include: var-type
     - include: reserved-pop
     - include: object-type
     - include: annotation
@@ -2562,6 +2558,11 @@ contexts:
     - match: '{{storage_types}}\b'
       scope: storage.type.primitive.java
       push: maybe-array-modifiers
+
+  var-type:
+    - match: var\b
+      scope: storage.type.var.java
+      pop: 1
 
   maybe-array-modifiers:
     - include: array-modifiers
