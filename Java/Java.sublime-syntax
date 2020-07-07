@@ -148,51 +148,45 @@ contexts:
 
   annotation-identifier:
     - include: reserved-pop
-    - match: '{{id}}'
+    - match: (?={{id}})
       branch_point: annotation-identifier
       branch:
-        - annotation-qualified-identifier
         - annotation-unqualified-identifier
+        - annotation-qualified-identifier
     - include: else-pop
 
-  annotation-qualified-identifier:
-    - meta_scope: meta.path.java variable.annotation.namespace.java
-    - match: ''
+  annotation-unqualified-identifier:
+    - match: '{{id}}'
+      scope: variable.annotation.java
       push:
-        - annotation-path
-        - annotation-path-accessor
+        - match: (?={{accessor_dot}})
+          fail: annotation-identifier
+        - include: else-pop3
 
-  annotation-path-accessor:
+  annotation-qualified-identifier:
+    - meta_content_scope: meta.path.java
+    - include: reserved-pop
+    - match: (?={{id}})
+      branch_point: annotation-identifier-path
+      branch:
+        - annotation-identifier-path
+        - annotation-identifier-name
+    - include: else-pop2
+
+  annotation-identifier-path:
+    - match: '{{id}}'
+      scope: variable.annotation.namespace.java
+      set: annotation-identifier-accessor
+
+  annotation-identifier-accessor:
     - include: punctuation-accessor-dot-pop
     - match: (?=\S)
-      fail: annotation-identifier
+      fail: annotation-identifier-path
 
-  annotation-path:
-    - clear_scopes: 1
-    - include: reserved-pop3
+  annotation-identifier-name:
     - match: '{{id}}'
-      branch_point: annotation-qualified-identifier
-      branch:
-        - annotation-qualifier
-        - annotation-name
-    - include: else-pop3
-
-  annotation-qualifier:
-    - meta_scope: variable.annotation.namespace.java
-    - match: ''
-      push:
-        - clear_scopes: 1
-        - include: punctuation-accessor-dot-pop2
-        - match: (?=\S)
-          fail: annotation-qualified-identifier
-
-  annotation-name:
-    - meta_scope: variable.annotation.java
-    - include: immediately-pop4
-
-  annotation-unqualified-identifier:
-    - meta_scope: variable.annotation.java
-    - include: immediately-pop2
+      scope: variable.annotation.java
+      pop: 3
 
   annotation-parameters:
     - meta_scope: meta.annotation.identifier.java
