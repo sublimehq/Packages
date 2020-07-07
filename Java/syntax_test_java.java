@@ -1948,8 +1948,8 @@ class FieldDeclarationTests {
 //                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.value.java
 //                                                                                                    ^ - meta.field
 //^^^^^^^^ - meta.path
-//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
-//                                                ^^^^^^^^^^^^^^^^^^^ - meta.path
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
+//                                           ^^^^^^^^^^^^^^^^^^^^^^^^ - meta.path
 //                                                                   ^^^^^^^^^^^^^ meta.path.java
 //^^^^^^^ storage.modifier.java
 //        ^ variable.namespace.java
@@ -4031,14 +4031,14 @@ class InstanceCreationExpressionsTests {
 //     ^^^ meta.instantiation.java meta.path.java meta.generic.java meta.path.java
 //      ^ punctuation.accessor.dot.java
         b.Generic
-//     ^^^^^^^^^^ meta.instantiation.java meta.path.java meta.generic.java meta.path.java
-//               ^ meta.instantiation.java meta.path.java meta.generic.java - meta.path
+//     ^^^^^^^^^^^ meta.instantiation.java meta.path.java meta.generic.java meta.path.java
 //      ^ variable.namespace.java
 //       ^ punctuation.accessor.dot.java
 //        ^^^^^^^ support.class.java
       >();
-//   ^^ meta.instantiation.java meta.path.java meta.generic.java - meta.path
-//     ^^ meta.instantiation.java meta.parens.java
+//<- meta.instantiation.java meta.path.java meta.generic.java - meta.path meta.path
+//   ^^ meta.instantiation.java meta.path.java meta.generic.java - meta.path meta.path
+//     ^^ meta.instantiation.java meta.parens.java - meta.path
 //       ^ - meta.instantiation
 //    ^ punctuation.definition.generic.end.java
 //     ^ punctuation.section.parens.begin.java

@@ -2273,13 +2273,23 @@ contexts:
       scope: support.class.java
       push:
         - qualified-object-type-end
-        - generic-type-arguments
+        - qualified-object-type-arguments
     - include: annotation
     - include: else-pop3
 
+  qualified-object-type-arguments:
+    - match: (?=\s*<)
+      set: generic-type-arguments
+    - match: (?=\s*\S)
+      pop: 1
+
   qualified-object-type-end:
-    - include: punctuation-accessor-dot-pop
-    - include: else-pop4
+    - match: \s*({{accessor_dot}})
+      captures:
+        1: punctuation.accessor.dot.java
+      pop: 1
+    - match: (?=\s*\S)
+      pop: 4
 
 ###[ INHERRITED TYPE REFERENCES ]##############################################
 
@@ -2338,7 +2348,7 @@ contexts:
       scope: entity.other.inherited-class.java
       push:
         - qualified-object-type-end
-        - generic-type-arguments
+        - qualified-object-type-arguments
     - include: annotation
     - include: else-pop3
 
