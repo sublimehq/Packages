@@ -1335,8 +1335,9 @@ preg_replace("/a{,6}b{3,}c{3,6}/");
 $regex = '/
     a{,6}
 //   ^^^^ keyword.operator.quantifier.regexp
-    b{3,}
+    b{3,} # this is comment
 //   ^^^^ keyword.operator.quantifier.regexp
+//        ^^^^^^^^^^^^^^^^^ comment.regexp
     c{3,6}
 //   ^^^^^ keyword.operator.quantifier.regexp
 /ux';

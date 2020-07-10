@@ -1489,6 +1489,10 @@ contexts:
             - include: interpolation
             - match: \\"
               scope: constant.character.escape
+            - match: \s(#)([^"]*)$
+              captures:
+                1: comment.regexp.php punctuation.definition.comment.regexp.php
+                2: comment.regexp.php
     - match: ''
       fail: branch-point-double-quoted
   regex-single-quoted-branch:
@@ -1513,6 +1517,10 @@ contexts:
               pop: true
             - match: \\'
               scope: constant.character.escape
+            - match: \s(#)([^']*)$
+              captures:
+                1: comment.regexp.php punctuation.definition.comment.regexp.php
+                2: comment.regexp.php
     - match: ''
       fail: branch-point-single-quoted
   string-double-quoted-branch:
