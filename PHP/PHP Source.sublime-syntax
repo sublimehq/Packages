@@ -7,6 +7,7 @@ variables:
   identifier_start: '[[:alpha:]_]'
   identifier: '\b{{identifier_start}}[[:alnum:]_]*\b'
   path: '\\?({{identifier}}\\)*{{identifier}}'
+  regex_modifier: '[eimsuxADJSUX]*'
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)\b
 
 contexts:
@@ -1472,7 +1473,7 @@ contexts:
         2: punctuation.definition.string.regex-delimiter.begin.php
       push:
         - meta_scope: meta.string.php string.quoted.double.php
-        - match: (/)([eimsuxADJSUX]*)(")
+        - match: (/)({{regex_modifier}})(")
           captures:
             1: punctuation.definition.string.regex-delimiter.end.php
             2: meta.regex.modifier.php
@@ -1483,7 +1484,7 @@ contexts:
         - match: ''
           push: scope:source.regexp.php
           with_prototype:
-            - match: (?=(/)([eimsuxADJSUX]*)(")|")
+            - match: (?=(/)({{regex_modifier}})(")|")
               pop: true
             - include: interpolation
             - match: \\"
@@ -1497,7 +1498,7 @@ contexts:
         2: punctuation.definition.string.regex-delimiter.begin.php
       push:
         - meta_scope: meta.string.php string.quoted.single.php
-        - match: (/)([eimsuxADJSUX]*)(')
+        - match: (/)({{regex_modifier}})(')
           captures:
             1: punctuation.definition.string.regex-delimiter.end.php
             2: meta.regex.modifier.php
@@ -1508,7 +1509,7 @@ contexts:
         - match: ''
           push: scope:source.regexp.php
           with_prototype:
-            - match: (?=(/)([eimsuxADJSUX]*)(')|')
+            - match: (?=(/)({{regex_modifier}})(')|')
               pop: true
             - match: \\'
               scope: constant.character.escape
