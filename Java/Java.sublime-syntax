@@ -824,8 +824,6 @@ contexts:
   method-result-type:
     - include: primitive-type
     - include: illegal-var-type
-    - match: (?=\{|{{reserved_words}}\b)
-      fail: declarations
     - include: object-type
 
   method-name:
