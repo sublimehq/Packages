@@ -4006,6 +4006,7 @@ local_record_definition_tests() -> .
 % Function tests
 
 func_name(.)
+%^^^^^^^^^^^ - meta.function meta.function
 % <- meta.function.identifier.erlang entity.name.function.erlang
 %^^^^^^^^ meta.function.identifier.erlang entity.name.function.erlang
 %        ^ meta.function.parameters.erlang punctuation.section.parameters.begin.erlang
@@ -4013,6 +4014,7 @@ func_name(.)
 %          ^ invalid.illegal.stray.erlang
 
 func_name(;)
+%^^^^^^^^^^^ - meta.function meta.function
 % <- meta.function.identifier.erlang entity.name.function.erlang
 %^^^^^^^^ meta.function.identifier.erlang entity.name.function.erlang
 %        ^ meta.function.parameters.erlang punctuation.section.parameters.begin.erlang
@@ -4020,6 +4022,7 @@ func_name(;)
 %          ^ invalid.illegal.stray.erlang
 
 func_name( -> ;)
+%^^^^^^^^^^^^^^^ - meta.function meta.function
 % <- meta.function.identifier.erlang entity.name.function.erlang
 %^^^^^^^^ meta.function.identifier.erlang entity.name.function.erlang
 %        ^ punctuation.section.parameters.begin.erlang
@@ -4029,6 +4032,7 @@ func_name( -> ;)
 %              ^ invalid.illegal.stray.erlang
 
 func_name( when .)
+%^^^^^^^^^^^^^^^^^ - meta.function meta.function
 % <- meta.function.identifier.erlang entity.name.function.erlang
 %^^^^^^^^ meta.function.identifier.erlang entity.name.function.erlang
 %        ^ punctuation.section.parameters.begin.erlang
@@ -4039,6 +4043,7 @@ func_name( when .)
 %                ^ invalid.illegal.stray.erlang
 
 func_name({[( -> ;)
+%^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 % <- meta.function.identifier.erlang entity.name.function.erlang
 %^^^^^^^^ meta.function.identifier.erlang entity.name.function.erlang
 %        ^ punctuation.section.parameters.begin.erlang
@@ -4048,6 +4053,7 @@ func_name({[( -> ;)
 %                 ^ invalid.illegal.stray.erlang
 
 func_name({[( when .)
+%^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 % <- meta.function.identifier.erlang entity.name.function.erlang
 %^^^^^^^^ meta.function.identifier.erlang entity.name.function.erlang
 %        ^ punctuation.section.parameters.begin.erlang
@@ -4058,6 +4064,7 @@ func_name({[( when .)
 %                   ^ invalid.illegal.stray.erlang
 
 func_name ( )
+%^^^^^^^^^^^^ - meta.function meta.function
 % <- meta.function.identifier.erlang entity.name.function.erlang
 %^^^^^^^^ meta.function.identifier.erlang entity.name.function.erlang
 %         ^ punctuation.section.parameters.begin.erlang
@@ -4093,6 +4100,7 @@ func_name ( ) ->
 %    ^ - meta.function.erlang
 
 func_name ( ) when true ->
+%^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 % <- meta.function.identifier.erlang entity.name.function.erlang
 %^^^^^^^^ meta.function.identifier.erlang entity.name.function.erlang
 %         ^^^ meta.function.parameters.erlang
@@ -4107,6 +4115,7 @@ func_name ( ) when true ->
 %    ^ - meta.function.erlang
 
 func_name ( ) when is_list(), is_tuple(); is_atom() ->
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 % <- meta.function.identifier.erlang entity.name.function.erlang
 %^^^^^^^^ meta.function.identifier.erlang entity.name.function.erlang
 %         ^^^ meta.function.parameters.erlang

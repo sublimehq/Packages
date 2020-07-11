@@ -1,20 +1,27 @@
 %YAML 1.2
 ---
 # http://erlang.org/doc/reference_manual
-# https://www.sublimetext.com/docs/3/syntax.html
+# https://www.sublimetext.com/docs/syntax.html
 name: Erlang
+scope: source.erlang
+version: 2
+
 file_extensions:
   - erl
   - hrl
+  - escript
+
+hidden_extensions:
   - Emakefile
   - emakefile
-  - escript
+
 first_line_match: |-
   (?x:
     ^ \#! .* \b(erlang|escript)\b |                # shebang
     ^ \s* \%+ \s* -\*- .*? \b[Ee]rlang\b .*? -\*-  # editorconfig
   )
-scope: source.erlang
+
+###############################################################################
 
 variables:
   # http://erlang.org/doc/reference_manual/data_types.html#atom
@@ -114,6 +121,8 @@ variables:
       megaco|mnesia|observer|odbc|os_mon|parsetools|public_key|reltool|
       runtime_tools|sasl|snmp|ssh|ssl|stdlib|syntax_tools|tftp|tools|wx|xmerl
     ){{ident_break}}
+
+###############################################################################
 
 contexts:
 
@@ -231,7 +240,7 @@ contexts:
       push:
         - meta_scope: comment.line.percentage.erlang
         - match: \n
-          pop: true
+          pop: 1
 
   shebang:
     - match: ^\#!
@@ -278,29 +287,23 @@ contexts:
     - include: preproc-expect-end
 
   preproc-control-definitions:
-    - match: (?=\()
+    - match: \(
+      scope: punctuation.section.arguments.begin.erlang
       set:
-        - clear_scopes: 1
-        - match: \(
-          scope: punctuation.section.arguments.begin.erlang
-          set:
-            - - clear_scopes: 1
-              - meta_scope: meta.preprocessor.conditional.arguments.erlang
-              - include: expect-arguments-end
-            - constant-other-macro
+        - - clear_scopes: 1
+          - meta_scope: meta.preprocessor.conditional.arguments.erlang
+          - include: expect-arguments-end
+        - constant-other-macro
     - include: preproc-stray-arguments-end
 
   preproc-control-expressions:
-    - match: (?=\()
+    - match: \(
+      scope: punctuation.section.arguments.begin.erlang
       set:
         - clear_scopes: 1
-        - match: \(
-          scope: punctuation.section.arguments.begin.erlang
-          set:
-            - clear_scopes: 1
-            - meta_scope: meta.preprocessor.conditional.arguments.erlang
-            - include: arguments-common
-            - include: expressions
+        - meta_scope: meta.preprocessor.conditional.arguments.erlang
+        - include: arguments-common
+        - include: expressions
     - include: preproc-stray-arguments-end
 
 ###[ PREPROCESSOR UNDEF ]#####################################################
@@ -313,16 +316,13 @@ contexts:
       push:
         - - meta_scope: meta.preprocessor.undef.erlang
           - include: preproc-expect-end
-        - - match: (?=\()
+        - - match: \(
+            scope: punctuation.section.arguments.begin.erlang
             set:
-              - clear_scopes: 1
-              - match: \(
-                scope: punctuation.section.arguments.begin.erlang
-                set:
-                  - - clear_scopes: 1
-                    - meta_scope: meta.preprocessor.undef.arguments.erlang
-                    - include: expect-arguments-end
-                  - entity-name-macro
+              - - clear_scopes: 1
+                - meta_scope: meta.preprocessor.undef.arguments.erlang
+                - include: expect-arguments-end
+              - entity-name-macro
           - include: preproc-stray-arguments-end
 
 ###[ PREPROCESSOR DEFINE ]####################################################
@@ -336,28 +336,23 @@ contexts:
       push:
         - - meta_scope: meta.preprocessor.define.erlang
           - include: preproc-expect-end
-        - - match: (?=\()
+        - - match: \(
+            scope: punctuation.section.arguments.begin.erlang
             set:
-              - clear_scopes: 1
-              - match: \(
-                scope: punctuation.section.arguments.begin.erlang
-                set:
-                  - preproc-define-arguments-body
-                  - expect-arguments-separator
-                  - preproc-define-arguments-parameters
-                  - entity-name-macro
+              - preproc-define-arguments-body
+              - expect-arguments-separator
+              - preproc-define-arguments-parameters
+              - entity-name-macro
           - include: preproc-stray-arguments-end
 
   preproc-define-arguments-parameters:
     - meta_content_scope: meta.macro.identifier.erlang
-    - match: (?=\()
+    - match: \(
+      scope: punctuation.section.parameters.begin.erlang
       set:
-        - match: \(
-          scope: punctuation.section.parameters.begin.erlang
-          set:
-            - meta_scope: meta.macro.parameters.erlang
-            - include: parameters-common
-            - include: function-parameter
+        - meta_scope: meta.macro.parameters.erlang
+        - include: parameters-common
+        - include: function-parameter
     - include: else-pop
 
   preproc-define-arguments-body:
@@ -380,16 +375,13 @@ contexts:
       push:
         - - meta_scope: meta.preprocessor.export.erlang
           - include: preproc-expect-end
-        - - match: (?=\()
+        - - match: \(
+            scope: punctuation.section.arguments.begin.erlang
             set:
-              - clear_scopes: 1
-              - match: \(
-                scope: punctuation.section.arguments.begin.erlang
-                set:
-                  - - clear_scopes: 1
-                    - meta_scope: meta.preprocessor.export.arguments.erlang
-                    - include: expect-arguments-end
-                  - preproc-expect-references
+              - - clear_scopes: 1
+                - meta_scope: meta.preprocessor.export.arguments.erlang
+                - include: expect-arguments-end
+              - preproc-expect-references
           - include: preproc-stray-arguments-end
 
   preproc-expect-references:
@@ -401,7 +393,7 @@ contexts:
         - include: namespace
         - include: reference
     - match: (?=[.)])
-      pop: true
+      pop: 1
     - match: \S
       scope: invalid.illegal.expect-list.erlang
 
@@ -416,18 +408,15 @@ contexts:
       push:
         - - meta_scope: meta.preprocessor.import.erlang
           - include: preproc-expect-end
-        - - match: (?=\()
+        - - match: \(
+            scope: punctuation.section.arguments.begin.erlang
             set:
-              - clear_scopes: 1
-              - match: \(
-                scope: punctuation.section.arguments.begin.erlang
-                set:
-                  - - clear_scopes: 1
-                    - meta_scope: meta.preprocessor.import.arguments.erlang
-                    - include: expect-arguments-end
-                  - preproc-expect-references
-                  - expect-arguments-separator
-                  - entity-name-module
+              - - clear_scopes: 1
+                - meta_scope: meta.preprocessor.import.arguments.erlang
+                - include: expect-arguments-end
+              - preproc-expect-references
+              - expect-arguments-separator
+              - entity-name-module
           - include: preproc-stray-arguments-end
 
 ###[ PREPROCESSOR INCLUDE ]###################################################
@@ -441,19 +430,16 @@ contexts:
       push:
         - - meta_scope: meta.preprocessor.include.erlang
           - include: preproc-expect-end
-        - - match: (?=\()
+        - - match: \(
+            scope: punctuation.section.arguments.begin.erlang
             set:
-              - clear_scopes: 1
-              - match: \(
-                scope: punctuation.section.arguments.begin.erlang
-                set:
-                  - - clear_scopes: 1
-                    - meta_scope: meta.preprocessor.include.arguments.erlang
-                    - include: expect-arguments-end
-                  - - match: \"
-                      scope: punctuation.definition.string.begin.erlang
-                      set: [string-body, string-maybe-env]
-                    - include: else-pop
+              - - clear_scopes: 1
+                - meta_scope: meta.preprocessor.include.arguments.erlang
+                - include: expect-arguments-end
+              - - match: \"
+                  scope: punctuation.definition.string.begin.erlang
+                  set: [string-body, string-maybe-env]
+                - include: else-pop
           - include: preproc-stray-arguments-end
 
 ###[ PREPROCESSOR MODULE ]####################################################
@@ -467,16 +453,13 @@ contexts:
       push:
         - - meta_scope: meta.preprocessor.namespace.erlang
           - include: preproc-expect-end
-        - - match: (?=\()
+        - - match: \(
+            scope: punctuation.section.arguments.begin.erlang
             set:
-              - clear_scopes: 1
-              - match: \(
-                scope: punctuation.section.arguments.begin.erlang
-                set:
-                  - - clear_scopes: 1
-                    - meta_scope: meta.preprocessor.namespace.arguments.erlang
-                    - include: expect-arguments-end
-                  - entity-name-module
+              - - clear_scopes: 1
+                - meta_scope: meta.preprocessor.namespace.arguments.erlang
+                - include: expect-arguments-end
+              - entity-name-module
           - include: preproc-stray-arguments-end
 
 ###[ PREPROCESSOR ATTRIBUTE ]#################################################
@@ -488,16 +471,13 @@ contexts:
         - - meta_scope: meta.preprocessor.attribute.erlang
           - include: preproc-expect-end
           # ordinary directive `-name( ... ).`
-        - - match: (?=\()
+        - - match: \(
+            scope: punctuation.section.arguments.begin.erlang
             set:
               - clear_scopes: 1
-              - match: \(
-                scope: punctuation.section.arguments.begin.erlang
-                set:
-                  - clear_scopes: 1
-                  - meta_scope: meta.preprocessor.attribute.arguments.erlang
-                  - include: arguments-common
-                  - include: preproc-attribute-argument
+              - meta_scope: meta.preprocessor.attribute.arguments.erlang
+              - include: arguments-common
+              - include: preproc-attribute-argument
           # spec/type like directive `-attribute ... .`
           - match: (?=\S)
             set:
@@ -508,7 +488,7 @@ contexts:
         # keyword
         - - match: '{{atom_unquoted}}'
             scope: meta.atom.erlang keyword.control.directive.attribute.erlang
-            pop: true
+            pop: 1
           - match: \'
             scope: punctuation.definition.atom.begin.erlang
             set:
@@ -557,19 +537,16 @@ contexts:
       push:
         - - meta_scope: meta.preprocessor.record.erlang
           - include: preproc-expect-end
-        - - match: (?=\()
+        - - match: \(
+            scope: punctuation.section.arguments.begin.erlang
             set:
-              - clear_scopes: 1
-              - match: \(
-                scope: punctuation.section.arguments.begin.erlang
-                set:
-                  - - clear_scopes: 1
-                    - meta_scope: meta.preprocessor.record.arguments.erlang
-                    - include: expect-arguments-end
-                  - record-body
-                  - expect-arguments-separator
-                  - record-name
-                  - entity-name-record
+              - - clear_scopes: 1
+                - meta_scope: meta.preprocessor.record.arguments.erlang
+                - include: expect-arguments-end
+              - record-body
+              - expect-arguments-separator
+              - record-name
+              - entity-name-record
           - include: preproc-stray-arguments-end
 
   record-body:
@@ -624,7 +601,6 @@ contexts:
     - include: else-pop
 
   preproc-spec-parameters:
-    - clear_scopes: 1
     - match: \(
       scope: punctuation.section.parameters.begin.erlang
       set:
@@ -636,7 +612,9 @@ contexts:
 
   preproc-spec-return:
     - match: ->
-      scope: punctuation.separator.parameters-return-type.erlang
+      scope: 
+        meta.preprocessor.spec.erlang
+        punctuation.separator.parameters-return-type.erlang
       set:
         - clear_scopes: 1
         - meta_content_scope: meta.preprocessor.spec.return-type.erlang
@@ -651,7 +629,6 @@ contexts:
   preproc-spec-guards:
     - match: (?=when{{ident_break_char}})
       set:
-        - clear_scopes: 1
         - match: when
           scope: keyword.control.conditional.when.erlang
           set:
@@ -685,7 +662,6 @@ contexts:
     - include: else-pop
 
   preproc-type-parameters:
-    - clear_scopes: 1
     - match: \(
       scope: punctuation.section.parameters.begin.erlang
       set:
@@ -712,7 +688,7 @@ contexts:
   preproc-stray-arguments-end:
     - match: \)
       scope: invalid.illegal.stray-arguments-end.erlang
-      pop: true
+      pop: 1
     - include: eol-pop
     - include: else-pop
 
@@ -720,7 +696,7 @@ contexts:
     - include: terminator-clause-pop
     - match: \n
       scope: invalid.illegal.expect-terminator.erlang
-      pop: true
+      pop: 1
     - match: '[^\s.]+'
       scope: invalid.illegal.expect-terminator.erlang
 
@@ -767,7 +743,7 @@ contexts:
       scope: keyword.control.conditional.when.erlang
       push:
         - match: (?=->|\.|(end|after|catch){{ident_break_char}})
-          pop: true
+          pop: 1
         - include: expr-control-body
     - match: ->
       scope: punctuation.separator.clause-head-body.erlang
@@ -780,12 +756,12 @@ contexts:
   expr-control-conditional-end:
     - match: end{{ident_break}}|(?=\.)
       scope: keyword.control.conditional.end.erlang
-      pop: true
+      pop: 1
 
   expr-control-flow-end:
     - match: end{{ident_break}}|(?=\.)
       scope: keyword.control.flow.end.erlang
-      pop: true
+      pop: 1
 
 ###[ TRY-CATCH EXPRESSION ]###################################################
 
@@ -797,19 +773,19 @@ contexts:
         - meta_scope: meta.exception.try.erlang
         - match: end{{ident_break}}|(?=\.)
           scope: keyword.control.exception.end.erlang
-          pop: true
+          pop: 1
         - match: catch{{ident_break}}
           scope: keyword.control.exception.catch.erlang
           push:
             - clear_scopes: 1
             - meta_scope: meta.exception.catch.erlang
             - match: (?=\.|(end|after){{ident_break_char}})
-              pop: true
+              pop: 1
             - match: ->
               scope: punctuation.separator.clause-head-body.erlang
               push:
                 - match: (?=[.;]|(end|after|catch){{ident_break_char}})
-                  pop: true
+                  pop: 1
                 - include: separator-expressions
                 - include: expressions
             # Don't match namespaces in exception patterns
@@ -825,7 +801,7 @@ contexts:
             - clear_scopes: 1
             - meta_scope: meta.exception.after.erlang
             - match: (?=\.|(end|after|catch){{ident_break_char}})
-              pop: true
+              pop: 1
             - include: expr-control-body
         - include: expr-control-body
 
@@ -849,18 +825,17 @@ contexts:
   expr-fun-anonymous:
     - match: end{{ident_break}}|(?=\.)
       scope: keyword.declaration.end.erlang
-      pop: true
+      pop: 1
     - include: separator-clauses
     - match: (?=\S)
       push:
         # 3. function body
         - - match: (?=[.;]|end{{ident_break_char}})
-            pop: true
+            pop: 1
           - include: separator-expressions
           - include: expressions
         # 2. function parameters
-        - - clear_scopes: 1
-          - match: \(
+        - - match: \(
             scope: punctuation.section.parameters.begin.erlang
             set:
               - clear_scopes: 1
@@ -869,13 +844,14 @@ contexts:
               - include: function-parameter
           - include: else-pop
         # 1. function name
-        - - meta_scope: meta.fun.identifier.erlang
+        - - clear_scopes: 1
+          - meta_scope: meta.fun.identifier.erlang
           - include: else-pop
         - - include: variable-other-pop
           - include: macro-pop
           - match: '{{illegal_ident}}'
             scope: invalid.illegal.expect-variable.erlang
-            pop: true
+            pop: 1
           - include: else-pop
 
 ###[ FUNCTION DEFINITION ]####################################################
@@ -886,36 +862,30 @@ contexts:
     # which can contain escape sequences as ordinary strings.
     # Example:  ?'fu % na\'me' (arguments)
     - match: (?={{ident}}\s*\()
-      push: [function-meta, function-body, function-parameters, entity-name-function]
+      push: [function-body, function-parameters, entity-name-function]
 
   function-parameters:
-    - clear_scopes: 1
-    - meta_scope: meta.function.identifier.erlang
-    - match: (?=\()
+    - meta_content_scope: meta.function.identifier.erlang
+    - match: \(
+      scope: punctuation.section.parameters.begin.erlang
       set:
-        - clear_scopes: 1
-        - match: \(
-          scope: punctuation.section.parameters.begin.erlang
-          set:
-            - clear_scopes: 1
-            - meta_scope: meta.function.parameters.erlang
-            - include: parameters-common
-            - include: function-parameter
+        - meta_scope: meta.function.parameters.erlang
+        - include: parameters-common
+        - include: function-parameter
     - include: else-pop
 
   function-body:
-    - match: \.
-      scope: punctuation.terminator.clause.erlang
-      pop: true
-    - match: ';'
-      scope: punctuation.separator.clauses.erlang
-      pop: true
-    - include: separator-expressions
-    - include: expressions
-
-  function-meta:
-    - meta_scope: meta.function.erlang
-    - include: immediatelly-pop
+    - match: ''
+      set:
+        - meta_scope: meta.function.erlang
+        - match: \.
+          scope: punctuation.terminator.clause.erlang
+          pop: 1
+        - match: ';'
+          scope: punctuation.separator.clauses.erlang
+          pop: 1
+        - include: separator-expressions
+        - include: expressions
 
 ###[ FUNCTION CALL ]##########################################################
 
@@ -987,7 +957,7 @@ contexts:
             set:
               - meta_content_scope: meta.fun.return-type.erlang
               - match: (?=[.;)])
-                pop: true
+                pop: 1
               - include: type-expressions
           - include: else-pop
         # 1. function parameters
@@ -1051,7 +1021,7 @@ contexts:
   group-common:
     - match: \)
       scope: punctuation.section.group.end.erlang
-      pop: true
+      pop: 1
     - include: clause-end-or-stray
 
 ###[ LISTS ]##################################################################
@@ -1097,7 +1067,7 @@ contexts:
   list-common:
     - match: \]
       scope: punctuation.section.sequence.end.erlang
-      pop: true
+      pop: 1
     - include: operator-comprehension
     - include: separator-sequence
     - include: separator-union
@@ -1125,7 +1095,7 @@ contexts:
           push:
             - meta_content_scope: meta.mapping.key.erlang
             - match: (?==>|\:=)
-              pop: true
+              pop: 1
             - include: expressions
             - include: value-end-pop
     - include: map-separator
@@ -1150,7 +1120,7 @@ contexts:
           push:
             - meta_content_scope: meta.mapping.key.erlang
             - match: (?==>|\:=)
-              pop: true
+              pop: 1
             - include: type-expressions
             - include: value-end-pop
     - include: map-separator
@@ -1162,7 +1132,7 @@ contexts:
   map-common:
     - match: \}
       scope: meta.mapping.erlang punctuation.section.mapping.end.erlang
-      pop: true
+      pop: 1
     - include: clause-end-or-stray
 
 ###[ RECORDS ]################################################################
@@ -1184,7 +1154,7 @@ contexts:
   variable-other-record:
     - match: '{{atom_unquoted}}'
       scope: meta.atom.erlang storage.type.record.erlang
-      pop: true
+      pop: 1
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
@@ -1219,14 +1189,14 @@ contexts:
   record-fields-common:
     - match: \}
       scope: punctuation.section.fields.end.erlang
-      pop: true
+      pop: 1
     # field value
     - match: =
       scope: meta.field.erlang keyword.operator.assignment.erlang
       push:
         - meta_content_scope: meta.field.value.erlang
         - match: (?=::)
-          pop: true
+          pop: 1
         - include: expressions
         - include: value-end-pop
     # field type
@@ -1241,7 +1211,7 @@ contexts:
   variable-other-field:
     - match: '{{atom_unquoted}}'
       scope: meta.atom.erlang variable.other.member.erlang
-      pop: true
+      pop: 1
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
@@ -1294,7 +1264,7 @@ contexts:
   tuple-common:
     - match: \}
       scope: punctuation.section.sequence.end.erlang
-      pop: true
+      pop: 1
     - include: operator-comprehension
     - include: separator-sequence
     - include: clause-end-or-stray
@@ -1376,15 +1346,15 @@ contexts:
   namespace-accessor:
     - match: ':'
       scope: punctuation.accessor.double-colon.erlang
-      pop: true
+      pop: 1
 
   namespace-qualifier:
     - match: '{{support_namespaces}}'
       scope: meta.atom.erlang support.namespace.erlang
-      pop: true
+      pop: 1
     - match: '{{atom_unquoted}}'
       scope: meta.atom.erlang variable.namespace.erlang
-      pop: true
+      pop: 1
     - include: variable-other-pop
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
@@ -1416,13 +1386,13 @@ contexts:
           - include: immediatelly-pop
         - - match: \d+
             scope: constant.numeric.integer.decimal.erlang
-            pop: true
+            pop: 1
           - include: variable-anonymous-pop
           - include: variable-other-pop
           - include: macro-pop
           - match: '{{illegal_ident}}'
             scope: invalid.illegal.expect-integer.erlang
-            pop: true
+            pop: 1
           - include: else-pop
     - include: else-pop
 
@@ -1435,7 +1405,7 @@ contexts:
   variable-anonymous-pop:
     - match: _{{ident_break}}
       scope: variable.language.anonymous.erlang
-      pop: true
+      pop: 1
 
   variable-any:
     - match: \.{3}
@@ -1448,7 +1418,7 @@ contexts:
   variable-other-pop:
     - match: '{{variable}}'
       scope: variable.other.readwrite.erlang
-      pop: true
+      pop: 1
 
   variable-parameter:
     - match: '{{variable}}'
@@ -1471,7 +1441,7 @@ contexts:
     # http://erlang.org/doc/reference_manual/data_types.html#atom
     - match: '{{atom_unquoted}}'
       scope: meta.atom.erlang constant.other.symbol.erlang
-      pop: true
+      pop: 1
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
@@ -1483,7 +1453,7 @@ contexts:
     # function name must be an atom
     - match: '{{atom_unquoted}}'
       scope: meta.atom.erlang entity.name.function.erlang
-      pop: true
+      pop: 1
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
@@ -1496,7 +1466,7 @@ contexts:
   entity-name-macro:
     - match: '{{ident_unquoted}}'
       scope: meta.atom.erlang entity.name.constant.macro.erlang
-      pop: true
+      pop: 1
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
@@ -1509,7 +1479,7 @@ contexts:
   entity-name-module:
     - match: '{{atom_unquoted}}'
       scope: meta.atom.erlang entity.name.namespace.erlang
-      pop: true
+      pop: 1
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
@@ -1522,7 +1492,7 @@ contexts:
   entity-name-record:
     - match: '{{atom_unquoted}}'
       scope: meta.atom.erlang entity.name.record.erlang
-      pop: true
+      pop: 1
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
@@ -1535,7 +1505,7 @@ contexts:
   entity-name-type:
     - match: '{{atom_unquoted}}'
       scope: meta.atom.erlang entity.name.type.erlang
-      pop: true
+      pop: 1
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
@@ -1548,7 +1518,7 @@ contexts:
   constant-other-macro:
     - match: '{{ident_unquoted}}'
       scope: meta.atom.erlang constant.other.macro.erlang
-      pop: true
+      pop: 1
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
@@ -1560,10 +1530,10 @@ contexts:
   storage-type:
     - match: '{{erlang_types}}'
       scope: meta.atom.erlang support.type.erlang
-      pop: true
+      pop: 1
     - match: '{{atom_unquoted}}'
       scope: meta.atom.erlang storage.type.erlang
-      pop: true
+      pop: 1
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
@@ -1576,10 +1546,10 @@ contexts:
   variable-function:
     - match: '{{erlang_functions}}'
       scope: meta.atom.erlang support.function.erlang
-      pop: true
+      pop: 1
     - match: '{{atom_unquoted}}'
       scope: meta.atom.erlang variable.function.erlang
-      pop: true
+      pop: 1
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
@@ -1593,20 +1563,20 @@ contexts:
   atom-quoted-common:
     - match: \'
       scope: punctuation.definition.atom.end.erlang
-      pop: true
+      pop: 1
     - match: (?=\\)
       push: escape
 
   atom-expect-end:
     - match: '{{illegal_ident}}'
       scope: invalid.illegal.expect-atom.erlang
-      pop: true
+      pop: 1
     - include: else-pop
 
   ident-expect-end:
     - match: '{{illegal_ident}}'
       scope: invalid.illegal.expect-identifier.erlang
-      pop: true
+      pop: 1
     - include: else-pop
 
 ###[ ATOMIC DATA TYPES ]######################################################
@@ -1650,14 +1620,14 @@ contexts:
   binary-common:
     - match: '>>'
       scope: punctuation.definition.sequence.end.erlang
-      pop: true
+      pop: 1
     - match: ':'
       scope: punctuation.separator.value-size.erlang
     - match: /
       scope: punctuation.separator.value-type.erlang
       push:
         - match: (?=>>|[.,;])
-          pop: true
+          pop: 1
         - match: '-'
           scope: punctuation.separator.type-specifiers.erlang
         - match: ':'
@@ -1684,7 +1654,7 @@ contexts:
         - include: escape
         - match: .
           scope: constant.character.erlang
-          pop: true
+          pop: 1
 
   escape:
     # http://erlang.org/doc/reference_manual/data_types.html#escape-sequences
@@ -1692,19 +1662,19 @@ contexts:
       scope: constant.character.escape.erlang
       captures:
         1: punctuation.definition.escape.erlang
-      pop: true
+      pop: 1
     # Character with octal representation
     - match: (\\)[0-7]{1,3}
       scope: constant.character.escape.erlang
       captures:
         1: punctuation.definition.escape.erlang
-      pop: true
+      pop: 1
     # Character with hexadecimal representation
     - match: (\\x)\h{2}
       scope: constant.character.escape.erlang
       captures:
         1: punctuation.definition.escape.erlang
-      pop: true
+      pop: 1
     - match: \\x\{
       scope: punctuation.definition.escape.begin.erlang
       set:
@@ -1712,25 +1682,25 @@ contexts:
         - include: clause-end-pop
         - match: \}|$
           scope: punctuation.definition.escape.end.erlang
-          pop: true
+          pop: 1
         - match: \H
           scope: invalid.illegal.hex.erlang
     - match: (\\x)\S{2}
       scope: constant.character.escape.erlang invalid.illegal.escape.erlang
       captures:
         1: punctuation.definition.escape.erlang
-      pop: true
+      pop: 1
     # Control A to control Z and Control [, ] seen in default libs
     - match: (\\\^)[A-Za-z\[\]]
       scope: constant.character.escape.erlang
       captures:
         1: punctuation.definition.escape.erlang
-      pop: true
+      pop: 1
     - match: (\\\^?).?
       scope: constant.character.escape.erlang invalid.illegal.escape.erlang
       captures:
         1: punctuation.definition.escape.erlang
-      pop: true
+      pop: 1
 
   macro:
     # http://erlang.org/doc/reference_manual/macros.html#predefined-macros
@@ -1751,7 +1721,7 @@ contexts:
       scope: constant.language.macro.erlang
       captures:
         1: punctuation.definition.macro.erlang
-      pop: true
+      pop: 1
     # user defined macro
     - match: \?{1,2}
       scope:
@@ -1862,7 +1832,7 @@ contexts:
     - meta_scope: string.quoted.double.erlang
     - match: \"
       scope: punctuation.definition.string.end.erlang
-      pop: true
+      pop: 1
     - match: (?=\\)
       push: escape
     # http://erlang.org/doc/man/io.html
@@ -1895,7 +1865,7 @@ contexts:
       scope: variable.language.environment.erlang
       captures:
         1: punctuation.definition.variable.erlang
-      pop: true
+      pop: 1
     - include: else-pop
 
 ###[ OPERATORS ]##############################################################
@@ -1962,7 +1932,7 @@ contexts:
   terminator-clause-pop:
     - match: \.
       scope: punctuation.terminator.clause.erlang
-      pop: true
+      pop: 1
 
 ###[ ARGUMENTS ]##############################################################
 
@@ -1974,7 +1944,7 @@ contexts:
   arguments-end:
     - match: \)
       scope: punctuation.section.arguments.end.erlang
-      pop: true
+      pop: 1
     - include: clause-end-or-stray
 
   expect-arguments-end:
@@ -1986,10 +1956,10 @@ contexts:
   expect-arguments-separator:
     - match: ','
       scope: punctuation.separator.arguments.erlang
-      pop: true
+      pop: 1
     - match: \s+(?!,)
       scope: invalid.illegal.expect-separator.erlang
-      pop: true
+      pop: 1
     - include: else-pop
 
 ###[ CONTEXT POP OFFS ]#######################################################
@@ -1997,7 +1967,7 @@ contexts:
   parameters-common:
     - match: \)
       scope: punctuation.section.parameters.end.erlang
-      pop: true
+      pop: 1
     - match: ','
       scope: punctuation.separator.parameters.erlang
     - include: clause-end-or-stray
@@ -2005,23 +1975,23 @@ contexts:
   parameters-end-pop:
     # bailout from parameter lists if guard or clause body starts
     - match: (?=->|when{{ident_break_char}})
-      pop: true
+      pop: 1
 
   immediatelly-pop:
     - match: ''
-      pop: true
+      pop: 1
 
   eol-pop:
     - match: $
-      pop: true
+      pop: 1
 
   else-pop:
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   clause-end-pop:
     - match: (?=[.;])
-      pop: true
+      pop: 1
 
   clause-end-or-stray:
     - include: clause-end-pop
@@ -2034,7 +2004,7 @@ contexts:
     # - the end of a section (`)`, `]`, `}`)
     # - an separator (`,`, `:`)
     - match: (?=->|[,:.;)}\]]|(end|after|catch){{ident_break_char}})
-      pop: true
+      pop: 1
 
 ###[ ILLEGALS ]###############################################################
 
@@ -2046,19 +2016,19 @@ contexts:
       push:
         - meta_scope: invalid.illegal.unexpected-group.erlang
         - match: \)
-          pop: true
+          pop: 1
         - include: illegal-group-body
     - match: \[
       push:
         - meta_scope: invalid.illegal.unexpected-list.erlang
         - match: \]
-          pop: true
+          pop: 1
         - include: illegal-group-body
     - match: \#?\{
       push:
         - meta_scope: invalid.illegal.unexpected-tuple.erlang
         - match: \}
-          pop: true
+          pop: 1
         - include: illegal-group-body
 
   illegal-group-body:
@@ -2068,17 +2038,17 @@ contexts:
     - match: \(
       push:
         - match: \)
-          pop: true
+          pop: 1
         - include: illegal-group-body
     - match: \[
       push:
         - match: \]
-          pop: true
+          pop: 1
         - include: illegal-group-body
     - match: \#?\{
       push:
         - match: \}
-          pop: true
+          pop: 1
         - include: illegal-group-body
 
   illegal-stray:
