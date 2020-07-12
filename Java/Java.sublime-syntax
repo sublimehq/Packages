@@ -142,61 +142,69 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.7
     - match: \@
       scope: punctuation.definition.annotation.java
-      push:
-        - annotation-parameters
-        - annotation-identifier
-
-  annotation-identifier:
-    - include: reserved-pop
-    - match: (?={{id}})
       branch_point: annotation-identifier
       branch:
         - annotation-unqualified-identifier
         - annotation-qualified-identifier
-    - include: else-pop
 
   annotation-unqualified-identifier:
-    - match: '{{id}}'
-      scope: variable.annotation.java
-      push:
-        - match: (?={{accessor_dot}})
-          fail: annotation-identifier
-        - include: else-pop3
-
-  annotation-qualified-identifier:
-    - meta_content_scope: meta.path.java
-    - include: reserved-pop
-    - match: (?={{id}})
-      branch_point: annotation-identifier-path
-      branch:
-        - annotation-identifier-path
-        - annotation-identifier-name
-    - include: else-pop2
-
-  annotation-identifier-path:
-    - match: '{{id}}'
-      scope: variable.annotation.namespace.java
-      set: annotation-identifier-accessor
-
-  annotation-identifier-accessor:
-    - include: punctuation-accessor-dot-pop
-    - match: (?=\S)
-      fail: annotation-identifier-path
-
-  annotation-identifier-name:
-    - match: '{{id}}'
-      scope: variable.annotation.java
-      pop: 3
-
-  annotation-parameters:
     - meta_scope: meta.annotation.identifier.java
-    - match: (?=\()
-      set: [annotation-parameters-common, parens-begin]
+    - include: reserved-pop
+    - match: '{{id}}'
+      scope: variable.annotation.java
+      push: annotation-unqualified-parameters
     - include: else-pop
 
-  annotation-parameters-common:
+  annotation-unqualified-parameters:
+    - match: (?={{accessor_dot}})
+      fail: annotation-identifier
+    - match: (?=\()
+      set: [annotation-unqualified-parameters-common, parens-begin]
+    - include: else-pop2
+
+  annotation-unqualified-parameters-common:
+    - clear_scopes: 1
     - meta_scope: meta.annotation.parameters.java meta.parens.java
-    - include: parens-end
+    - include: annotation-parameters-common
+
+  annotation-qualified-identifier:
+    - meta_scope: meta.annotation.identifier.java meta.path.java
+    - include: reserved-pop
+    - match: (?={{id}})
+      branch_point: annotation-qualified-identifier
+      branch:
+        - annotation-qualified-identifier-path
+        - annotation-qualified-identifier-name
+    - include: else-pop
+
+  annotation-qualified-identifier-path:
+    - match: '{{id}}'
+      scope: variable.annotation.namespace.java
+      push: annotation-qualified-identifier-accessor
+
+  annotation-qualified-identifier-accessor:
+    - include: punctuation-accessor-dot-pop2
+    - match: (?=\S)
+      fail: annotation-qualified-identifier
+
+  annotation-qualified-identifier-name:
+    - match: '{{id}}'
+      scope: variable.annotation.java
+      set: annotation-qualified-parameters
+
+  annotation-qualified-parameters:
+    - meta_content_scope: meta.annotation.identifier.java
+    - match: (?=\()
+      set: [annotation-qualified-parameters-common, parens-begin]
+    - include: else-pop2
+
+  annotation-qualified-parameters-common:
+    - clear_scopes: 2
+    - meta_scope: meta.annotation.parameters.java meta.parens.java
+    - include: annotation-parameters-common
+
+  annotation-parameters-common:
+    - include: parens-end2
     - match: (?={{id}})
       branch_point: annotation-parameter
       branch:
@@ -207,10 +215,10 @@ contexts:
   annotation-parameter:
     - match: '{{id}}'
       scope: variable.parameter.java
-      set:
+      push:
         - match: =
           scope: keyword.operator.assignment.java
-          pop: 1
+          pop: 2
         - match: (?=\S)
           fail: annotation-parameter
 
@@ -1584,6 +1592,11 @@ contexts:
     - match: \)
       scope: punctuation.section.parens.end.java
       pop: 1
+
+  parens-end2:
+    - match: \)
+      scope: punctuation.section.parens.end.java
+      pop: 2
 
   method-call-arguments:
     - meta_scope: meta.function-call.arguments.java meta.parens.java

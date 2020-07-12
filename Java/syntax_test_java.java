@@ -2095,14 +2095,18 @@ class FieldDeclarationTests {
 //                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.identifier.java
 //                                                                         ^ - meta.field
 //^^^^^^^^^ meta.annotation.identifier.java
+//         ^^^^^^^^^^^^^ - meta.annotation
+//                      ^^^^^^ meta.annotation.identifier.java
+//                            ^^^^ - meta.annotation
+//                                ^^^^^^ meta.annotation.identifier.java
+//                                      ^^^^^^^^^^^^^^^^^^^^^^ - meta.annotation
+//                                                            ^^^^^^ meta.annotation.identifier.java
+//                                                                  ^^^^^^^^ - meta.annotation
 //         ^^^^^ storage.modifier.java
 //               ^^^^^^ support.class.java
-//                      ^^^^^^ meta.annotation.identifier.java
 //                            ^^^ storage.modifier.array.java
-//                                ^^^^^^ meta.annotation.identifier.java
 //                                      ^^^ storage.modifier.array.java
 //                                          ^^^^^^^^^^^^^^^^^ variable.other.member.java
-//                                                            ^^^^^^ meta.annotation.identifier.java
 //                                                                  ^^^ storage.modifier.array.java
 //                                                                      ^^^ storage.modifier.array.java
 //                                                                         ^ punctuation.terminator.java
