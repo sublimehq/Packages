@@ -3166,7 +3166,8 @@ class ReceiverArgTests {
 //      ^^^^ comment.block.empty.java
 //           ^ punctuation.accessor.dot.java - support - variable
         /**/ this [] . illegal,
-//      ^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
+//      ^^^^^^^^^ meta.path.java
+//               ^^^^^^^^^^^^^^^ - meta.path
 //      ^^^^ comment.block.empty.java
 //           ^^^^ variable.parameter.this.java - support
 //                ^^ invalid.illegal.unexpected-modifier.java
@@ -3254,7 +3255,10 @@ class ReceiverArgTests {
       void method(ReceiverArgTests.A.B this) {}
 //    ^^^^^ meta.method.return-type.java - meta.method meta.method
 //         ^^^^^^ meta.method.identifier.java - meta.method meta.method
-//               ^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
+//               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
+//               ^ - meta.path
+//                ^^^^^^^^^^^^^^^^^^^^ meta.path.java
+//                                    ^^^^^^ - meta.path
 //    ^^^^ storage.type.void.java
 //         ^^^^^^ entity.name.function.java
 //               ^ punctuation.section.parens.begin.java
@@ -3267,6 +3271,98 @@ class ReceiverArgTests {
 //                                         ^ punctuation.section.parens.end.java
 //                                           ^ punctuation.section.block.begin.java
 //                                            ^ punctuation.section.block.end.java
+
+      void method(ReceiverArgTests.A.B A.B.this) {}
+//    ^^^^^ meta.method.return-type.java - meta.method meta.method
+//         ^^^^^^ meta.method.identifier.java - meta.method meta.method
+//               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
+//               ^ - meta.path
+//                ^^^^^^^^^^^^^^^^^^^^ meta.path.java
+//                                    ^ - meta.path
+//                                     ^^^^^^^^ meta.path.java
+//                                             ^ - meta.path
+//    ^^^^ storage.type.void.java
+//         ^^^^^^ entity.name.function.java
+//               ^ punctuation.section.parens.begin.java
+//                ^^^^^^^^^^^^^^^^ support.class.java
+//                                ^ punctuation.accessor.dot.java
+//                                 ^ support.class.java
+//                                  ^ punctuation.accessor.dot.java
+//                                   ^ support.class.java
+//                                     ^ support.class.java
+//                                      ^ punctuation.accessor.dot.java
+//                                       ^ support.class.java
+//                                        ^ punctuation.accessor.dot.java
+//                                         ^^^^ variable.parameter.this.java
+//                                             ^ punctuation.section.parens.end.java
+//                                               ^ punctuation.section.block.begin.java
+//                                                ^ punctuation.section.block.end.java
+
+      void method(receiverargtests.a.b a.b.this) {}
+//    ^^^^^ meta.method.return-type.java - meta.method meta.method
+//         ^^^^^^ meta.method.identifier.java - meta.method meta.method
+//               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
+//               ^ - meta.path
+//                ^^^^^^^^^^^^^^^^^^^^ meta.path.java
+//                                    ^ - meta.path
+//                                     ^^^^^^^^ meta.path.java
+//                                             ^ - meta.path
+//    ^^^^ storage.type.void.java
+//         ^^^^^^ entity.name.function.java
+//               ^ punctuation.section.parens.begin.java
+//                ^^^^^^^^^^^^^^^^ support.class.java
+//                                ^ punctuation.accessor.dot.java
+//                                 ^ support.class.java
+//                                  ^ punctuation.accessor.dot.java
+//                                   ^ support.class.java
+//                                     ^ support.class.java
+//                                      ^ punctuation.accessor.dot.java
+//                                       ^ support.class.java
+//                                        ^ punctuation.accessor.dot.java
+//                                         ^^^^ variable.parameter.this.java
+//                                             ^ punctuation.section.parens.end.java
+//                                               ^ punctuation.section.block.begin.java
+//                                                ^ punctuation.section.block.end.java
+
+      void method(@á receiverargtests<?> . @ß a . @µ.c b @a a . @b.c b . @d . e(f="") this) {}
+//    ^^^^^ meta.method.return-type.java - meta.method meta.method
+//         ^^^^^^ meta.method.identifier.java - meta.method meta.method
+//               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
+//               ^^^^ - meta.path
+//                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.java - meta.path meta.path
+//                                                ^^^^^ meta.path.java meta.path.java
+//                                                     ^ meta.path.java - meta.path meta.path
+//                                                      ^ - meta.path
+//                                                       ^^^^^^^ meta.path.java - meta.path meta.path
+//                                                              ^^^^^ meta.path.java meta.path.java
+//                                                                   ^^^^ meta.path.java - meta.path meta.path
+//                                                                       ^^^^^^ meta.path.java meta.path.java
+//                                                                             ^^^^^^^^^^^ meta.path.java - meta.path meta.path
+//                                                                                        ^^^^^ - meta.path
+//    ^^^^ storage.type.void.java
+//         ^^^^^^ entity.name.function.java
+//               ^ punctuation.section.parens.begin.java
+//                ^^^ meta.annotation.identifier.java
+//                   ^^^^^^^^^^^^^^^^ support.class.java
+//                                   ^^^ meta.generic.java
+//                                       ^ punctuation.accessor.dot.java
+//                                         ^^^ meta.annotation.identifier.java
+//                                            ^ support.class.java
+//                                              ^ punctuation.accessor.dot.java
+//                                                ^^^^^ meta.annotation.identifier.java
+//                                                     ^ support.class.java
+//                                                       ^^^ meta.annotation.identifier.java
+//                                                          ^ support.class.java
+//                                                            ^ punctuation.accessor.dot.java
+//                                                              ^^^^^ meta.annotation.identifier.java
+//                                                                   ^ support.class.java
+//                                                                     ^ punctuation.accessor.dot.java
+//                                                                       ^^^^^^ meta.annotation.identifier.java
+//                                                                             ^^^^^^ meta.annotation.parameters.java meta.parens.java
+//                                                                                    ^^^^ variable.parameter.this.java
+//                                                                                        ^ punctuation.section.parens.end.java
+//                                                                                          ^ punctuation.section.block.begin.java
+//                                                                                           ^ punctuation.section.block.end.java
     }
 //  ^ meta.class.java meta.block.java meta.class.java meta.block.java meta.class.java meta.block.java punctuation.section.block.end.java
   }

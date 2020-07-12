@@ -409,7 +409,7 @@ contexts:
 
   import-constant-name:
     - match: '{{uppercase_id}}\b(?!\s*\.)'
-      scope: 
+      scope:
         meta.import.java meta.path.java
         entity.name.constant.java
       set: import-expect-terminator
@@ -428,14 +428,14 @@ contexts:
 
   import-function-name:
     - match: '{{id}}'
-      scope: 
+      scope:
         meta.import.java meta.path.java
         entity.name.function.java
       set: import-expect-terminator
 
   import-wildcard:
     - match: \*
-      scope: 
+      scope:
         meta.import.java meta.path.java
         keyword.operator.wildcard.asterisk.java
       set: import-expect-terminator
@@ -874,16 +874,19 @@ contexts:
     - match: (?=\()
       set:
         - method-parameters-common
-        - parameter-maybe-receiver
-        - parameter-variadic
-        - maybe-array-modifiers
-        - parameter-type
+        - receiver-or-parameter
         - parens-begin
 
   method-parameters-common:
     - meta_scope: meta.method.parameters.java meta.parens.java
-    - include: parameters-list
     - include: parens-end
+    - match: \,
+      scope: punctuation.separator.comma.java
+      push:
+        - parameter-identifier
+        - parameter-variadic
+        - maybe-array-modifiers
+        - parameter-type
     - match: \S
       scope: invalid.illegal.missing-parameter-end
       pop: 1
@@ -1364,7 +1367,7 @@ contexts:
   catch-parameters-typelist:
     - match: \|
       scope: punctuation.separator.pipe.java
-      push: 
+      push:
         - maybe-array-modifiers
         - parameter-type
     - include: else-pop
@@ -1615,13 +1618,143 @@ contexts:
     - meta_scope: meta.function-call.arguments.java meta.parens.java
     - include: parens-common
 
-###[ PARAMETERS ]##############################################################
+###[ RECEIVER OR FORMAL PARAMETERS ]###########################################
 
-  parameters-list:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4.1
-    - match: \,
-      scope: punctuation.separator.comma.java
+  receiver-or-parameter:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
+    # The first parameter of a method or constructor declaration may be a
+    # receiver parameter which represents the object to invoke the method for.
+    - match: (?=[\p{L}_$<])
+      branch_point: receiver-or-parameter
+      branch:
+        - receiver
+        - parameter
+    - include: annotation
+    - include: else-pop
+
+  receiver:
+    - match: ''
       push:
+        - immediately-pop3
+        - receiver-identifier
+        - receiver-type
+
+  receiver-type:
+    # A 'receiver-type' is basically an 'object-type' whose 'namespace' part
+    # is skipped as it is expected to be declared in the same source file due
+    # to receiver args being valid only for nested class' methods.
+    - match: (?={{reserved_words}}\b)
+      fail: receiver-or-parameter
+    - match: (?=\S)
+      branch_point: receiver-type
+      branch:
+        - receiver-unqualified-type
+        - receiver-qualified-type
+
+  receiver-unqualified-type:
+    - match: '{{id}}'
+      scope: support.class.java
+      push:
+        - receiver-unqualified-type-end
+        - maybe-array-modifiers
+        - generic-type-arguments
+    - include: else-pop2
+
+  receiver-unqualified-type-end:
+    - match: (?=[\p{L}_$])
+      pop: 3
+    - match: (?={{accessor_dot}})
+      fail: receiver-type
+    - match: (?=\S)
+      fail: receiver-or-parameter
+
+  receiver-qualified-type:
+    - meta_scope: meta.path.java
+    - match: '{{id}}'
+      scope: support.class.java
+      push:
+        - receiver-qualified-type-end
+        - qualified-object-type-arguments
+    - include: annotation
+    - include: else-pop2
+
+  receiver-qualified-type-end:
+    - match: \s*({{accessor_dot}})
+      captures:
+        1: punctuation.accessor.dot.java
+      pop: 1
+    # Maintain meta.path boundaries at the end of the type.
+    - match: (?=\s*(?!/[/*])\S)
+      pop: 3
+
+  receiver-identifier:
+    - match: (?=\S)
+      branch_point: receiver-identifier
+      branch:
+        - receiver-unqualified-identifier
+        - receiver-qualified-identifier
+
+  receiver-unqualified-identifier:
+    - match: this\b
+      scope: variable.parameter.this.java
+      push: receiver-identifier-end
+    - include: reserved-pop4
+    - match: '{{id}}'
+      scope: variable.parameter.java
+      push:
+        - match: (?={{accessor_dot}})
+          fail: receiver-identifier
+        - match: (?=\S)
+          fail: receiver-or-parameter
+    - include: annotation
+    - include: else-pop2
+
+  receiver-qualified-identifier:
+    - match: ''
+      branch_point: receiver-qualified-identifier
+      branch:
+        - receiver-qualified-identifier-path
+        - receiver-qualified-identifier-name
+
+  receiver-qualified-identifier-path:
+    - meta_scope: meta.path.java
+    - match: '{{id}}'
+      scope: support.class.java
+      push:
+        - receiver-qualified-identifier-accessor
+        - generic-type-arguments
+    - include: annotation
+    - include: else-pop3
+
+  receiver-qualified-identifier-accessor:
+    - include: punctuation-accessor-dot-pop2
+    - match: (?=\S)
+      fail: receiver-qualified-identifier
+
+  receiver-qualified-identifier-name:
+    - meta_scope: meta.path.java
+    - match: this\b
+      scope: variable.parameter.this.java
+      set: receiver-identifier-end
+    - include: reserved-pop3
+    - match: '{{id}}'
+      scope: invalid.illegal.identifier.java
+      set: receiver-identifier-end
+    - include: annotation
+    - include: else-pop3
+
+  receiver-identifier-end:
+    - match: '{{accessor_dot}}'
+      scope: invalid.illegal.unexpected-accessor.java
+      push: illegal-member
+    - include: illegal-array-modifiers
+    - include: annotation
+    - include: else-pop3
+
+  parameter:
+    - match: ''
+      push:
+        - immediately-pop3
         - parameter-identifier
         - parameter-variadic
         - maybe-array-modifiers
@@ -1649,53 +1782,6 @@ contexts:
       scope: variable.parameter.java
       set: [illegal-members, maybe-array-modifiers]
     - include: else-pop
-
-  parameter-maybe-receiver:
-    - match: this\b
-      scope: variable.parameter.this.java
-      set: [illegal-members, maybe-illegal-array-modifiers]
-    - match: '{{id}}'
-      branch_point: parameter-maybe-receiver
-      branch:
-        - parameter-receiver-identifier
-        - parameter-normal-identifier
-    - include: else-pop
-
-  parameter-receiver-identifier:
-    - meta_scope: meta.path.java support.class.java
-    - match: ''
-      push:
-        - parameter-receiver-end
-        - parameter-receiver-name
-        - parameter-receiver-accessor
-        - maybe-illegal-array-modifiers
-
-  parameter-receiver-accessor:
-    - include: punctuation-accessor-dot-pop
-    - match: (?=\S)
-      fail: parameter-maybe-receiver
-
-  parameter-receiver-name:
-    - match: this\b
-      scope: variable.parameter.this.java
-      set:
-        - illegal-members
-        - maybe-illegal-array-modifiers
-    - match: '{{id}}'
-      scope: invalid.illegal.identifier.java
-      set:
-        - illegal-members
-        - maybe-illegal-array-modifiers
-    - include: else-pop2
-
-  parameter-receiver-end:
-    - clear_scopes: 1
-    - include: immediately-pop2
-
-  parameter-normal-identifier:
-    - meta_scope: variable.parameter.java
-    - match: ''
-      set: [immediately-pop2, illegal-members, maybe-array-modifiers]
 
 ###[ VARIABLES ]###############################################################
 
@@ -2391,7 +2477,7 @@ contexts:
       pop: 1
     - match: <
       scope: punctuation.definition.generic.begin.java
-      set: 
+      set:
         - generic-type-arguments-common
         - generic-type-argument
     - include: else-pop
@@ -2584,6 +2670,10 @@ contexts:
   reserved-pop3:
     - match: (?={{reserved_words}}\b)
       pop: 3
+
+  reserved-pop4:
+    - match: (?={{reserved_words}}\b)
+      pop: 4
 
   else-expression-pop:
     - match: (?=\S)
