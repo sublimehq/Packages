@@ -2429,12 +2429,13 @@ contexts:
       scope: entity.other.inherited-class.java
       push:
         - unqualiefied-inherited-object-type-end
-        - maybe-illegal-array-modifiers
         - generic-type-arguments
 
   unqualiefied-inherited-object-type-end:
     - match: (?={{accessor_dot}})
       fail: inherited-object-type
+    - include: illegal-array-modifiers
+    - include: annotation
     - include: else-pop3
 
   qualified-inherited-object-type:
