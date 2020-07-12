@@ -229,7 +229,13 @@ contexts:
         - class-declaration
         - enum-declaration
         - interface-declaration
-        - expression-pop
+        - declarations-fallback
+
+  declarations-fallback:
+    - include: primitive-types
+    - include: storage-modifiers
+    - include: annotation
+    - include: else-expression-pop
 
   declarations-else-fail:
     - match: (?=\S)
