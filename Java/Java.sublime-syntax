@@ -7,6 +7,7 @@ file_extensions:
   - java
   - bsh
 scope: source.java
+version: 2
 
 ###############################################################################
 
@@ -408,7 +409,9 @@ contexts:
 
   import-constant-name:
     - match: '{{uppercase_id}}\b(?!\s*\.)'
-      scope: entity.name.constant.java
+      scope: 
+        meta.import.java meta.path.java
+        entity.name.constant.java
       set: import-expect-terminator
 
   import-package-name:
@@ -425,12 +428,16 @@ contexts:
 
   import-function-name:
     - match: '{{id}}'
-      scope: entity.name.function.java
+      scope: 
+        meta.import.java meta.path.java
+        entity.name.function.java
       set: import-expect-terminator
 
   import-wildcard:
     - match: \*
-      scope: keyword.operator.wildcard.asterisk.java
+      scope: 
+        meta.import.java meta.path.java
+        keyword.operator.wildcard.asterisk.java
       set: import-expect-terminator
 
   import-acessor-or-termintor:
@@ -815,12 +822,13 @@ contexts:
 
   method-signature:
     # void indicates a method for sure
-    - match: void\b
-      scope: storage.type.void.java
+    - match: (?=void\b)
       set:
         - method-parameters-or-pop
         - method-name
         - method-result-meta
+        - maybe-array-modifiers
+        - method-void-type
     # a method only if parameter list found
     - match: (?=\S)
       set:
@@ -839,6 +847,11 @@ contexts:
     - include: primitive-type
     - include: illegal-var-type
     - include: object-type
+
+  method-void-type:
+    - match: void\b
+      scope: storage.type.void.java
+      pop: 1
 
   method-name:
     - include: reserved-pop
@@ -1652,6 +1665,7 @@ contexts:
     - meta_scope: meta.path.java support.class.java
     - match: ''
       push:
+        - parameter-receiver-end
         - parameter-receiver-name
         - parameter-receiver-accessor
         - maybe-illegal-array-modifiers
@@ -1662,23 +1676,20 @@ contexts:
       fail: parameter-maybe-receiver
 
   parameter-receiver-name:
-    - clear_scopes: 1
     - match: this\b
       scope: variable.parameter.this.java
       set:
-        - parameter-receiver-end
         - illegal-members
         - maybe-illegal-array-modifiers
     - match: '{{id}}'
       scope: invalid.illegal.identifier.java
       set:
-        - parameter-receiver-end
         - illegal-members
         - maybe-illegal-array-modifiers
     - include: else-pop2
 
   parameter-receiver-end:
-    - clear_scopes: 2
+    - clear_scopes: 1
     - include: immediately-pop2
 
   parameter-normal-identifier:
