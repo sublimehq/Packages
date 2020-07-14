@@ -859,6 +859,11 @@ public class GrafoTest {
 //                                               ^ storage.modifier - meta.annotation
 //                                                     ^ support.class
 
+    List<@NotBlank(message = "") String> annotationInGeneric;
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic
+//       ^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
+//                               ^^^^^^ support.class
+
 }
 
 public enum FooEnum {
