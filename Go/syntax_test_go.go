@@ -74,8 +74,9 @@ You may have to disable Go-specific linters when working on this file.
 // # Imports
 
     package main
-//  ^^^^^^^ keyword.other.package.go
-//         ^^^^^ -keyword
+//  ^^^^^^^ storage.type.namespace.go keyword.declaration.namespace.go
+//         ^ - keyword - storage
+//          ^^^^ entity.name.namespace.go
 
     import "module"
 //  ^^^^^^ keyword.other.import.go

@@ -690,7 +690,13 @@ contexts:
 
   match-keyword-package:
     - match: \bpackage\b
-      scope: keyword.other.package.go
+      scope: storage.type.namespace.go keyword.declaration.namespace.go
+      push:
+        - meta_scope: meta.namespace.go
+        - match: '{{ident}}'
+          scope: entity.name.namespace.go
+          pop: true
+        - include: pop-before-nonblank
 
   match-keyword-range:
     - match: \brange\b
