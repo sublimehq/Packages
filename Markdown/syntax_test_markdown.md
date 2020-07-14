@@ -1944,12 +1944,11 @@ okay
 |^^^^^^^^^ meta.code-fence.definition.begin.clojure
 |  ^^^^^^^ constant.other.language-name
  (/ 10 3.0)
-|<- - meta.sexpr.clojure
-|^^^^^^^^^^ meta.sexpr.clojure
-|          ^ - meta.sexpr.clojure
-| ^ keyword.operator.clojure
-|   ^^ constant.numeric.float.clojure
-|      ^^^ constant.numeric.float.clojure
+|<- source.clojure
+|^^^^^^^^^^ source.clojure
+| ^ variable.function
+|   ^^ constant.numeric
+|      ^^^ constant.numeric
 ```
 |^^ meta.code-fence.definition.end.clojure punctuation.definition.raw.code-fence.end
 
