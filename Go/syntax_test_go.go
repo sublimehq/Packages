@@ -163,14 +163,14 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                        ^^ punctuation.section.parens.end.go
 
     <- chan ident.typ
-//  ^^ keyword.operator.go
+//  ^^ keyword.operator.assignment.go
 //     ^^^^ storage.type.keyword.chan.go
 //          ^^^^^ variable.other.go
 //               ^ punctuation.accessor.dot.go
 //                ^^^ storage.type.go
 
     <- chan ident.ident.typ
-//  ^^ keyword.operator.go
+//  ^^ keyword.operator.assignment.go
 //     ^^^^ storage.type.keyword.chan.go
 //          ^^^^^ variable.other.go
 //               ^ punctuation.accessor.dot.go
@@ -180,14 +180,14 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 
     chan <- ident.typ
 //  ^^^^ storage.type.keyword.chan.go
-//       ^^ keyword.operator.go
+//       ^^ keyword.operator.assignment.go
 //          ^^^^^ variable.other.go
 //               ^ punctuation.accessor.dot.go
 //                ^^^ storage.type.go
 
     chan <- ident.ident.typ
 //  ^^^^ storage.type.keyword.chan.go
-//       ^^ keyword.operator.go
+//       ^^ keyword.operator.assignment.go
 //          ^^^^^ variable.other.go
 //               ^ punctuation.accessor.dot.go
 //                ^^^^^ variable.other.go
@@ -210,7 +210,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //  ^^^ storage.type.go
 
     <-
-//  ^^ keyword.operator.go
+//  ^^ keyword.operator.assignment.go
     chan
 //  ^^^^ storage.type.keyword.chan.go
     ident /**/ . /**/
@@ -229,7 +229,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
     chan
 //  ^^^^ storage.type.keyword.chan.go
     <-    /**/
-//  ^^ keyword.operator.go
+//  ^^ keyword.operator.assignment.go
 //        ^^^^ comment.block.go
     ident /**/ . /**/
 //  ^^^^^ variable.other.go
@@ -815,11 +815,11 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 
     map[<- chan typ] chan <- typ
 //  ^^^ storage.type.keyword.map.go
-//      ^^ keyword.operator.go
+//      ^^ keyword.operator.assignment.go
 //         ^^^^ storage.type.keyword.chan.go
 //              ^^^ storage.type.go
 //                   ^^^^ storage.type.keyword.chan.go
-//                        ^^ keyword.operator.go
+//                        ^^ keyword.operator.assignment.go
 //                           ^^^ storage.type.go
 
     map[func(param typ) typ]func(param typ) typ
@@ -1105,7 +1105,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 
         field <- chan typ
 //      ^^^^^ meta.type.go variable.other.member.declaration.go
-//            ^^ meta.type.go keyword.operator.go
+//            ^^ meta.type.go keyword.operator.assignment.go
 //               ^^^^ meta.type.go storage.type.keyword.chan.go
 //                    ^^^ meta.type.go storage.type.go
 
@@ -1115,7 +1115,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
         field chan <- typ
 //      ^^^^^ meta.type.go variable.other.member.declaration.go
 //            ^^^^ meta.type.go storage.type.keyword.chan.go
-//                 ^^ meta.type.go keyword.operator.go
+//                 ^^ meta.type.go keyword.operator.assignment.go
 //                    ^^^ meta.type.go storage.type.go
 
         embed
@@ -1326,7 +1326,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
     type Type <- chan typ
 //  ^^^^ storage.type.keyword.type.go
 //       ^^^^ entity.name.type.go
-//            ^^ keyword.operator.go
+//            ^^ keyword.operator.assignment.go
 //               ^^^^ storage.type.keyword.chan.go
 //                    ^^^ storage.type.go
 
@@ -1334,7 +1334,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //  ^^^^ storage.type.keyword.type.go
 //       ^^^^ entity.name.type.go
 //            ^^^^ storage.type.keyword.chan.go
-//                 ^^ keyword.operator.go
+//                 ^^ keyword.operator.assignment.go
 //                    ^^^ storage.type.go
 
     type Type chan typ ident
@@ -1503,7 +1503,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                               ^ keyword.operator.assignment.go
 //                                 ^^^^ comment.block.go
 //                                      ^^^^ constant.numeric.integer.decimal.go
-//                                           ^ keyword.operator.go
+//                                           ^ keyword.operator.arithmetic.go
 //                                             ^^^^ constant.numeric.integer.decimal.go
 //                                                  ^^^^ comment.block.go
 
@@ -1514,7 +1514,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                      ^ keyword.operator.assignment.go
 //                        ^^^^ comment.block.go
 //                             ^^^^^ variable.other.go
-//                                   ^ keyword.operator.go
+//                                   ^ keyword.operator.arithmetic.go
 //                                     ^^^ constant.numeric.integer.decimal.go
 //                                         ^^^^ comment.block.go
 
@@ -1581,7 +1581,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //            ^ keyword.operator.assignment.go
         iota + iota
 //      ^^^^ constant.numeric.integer.decimal.go
-//           ^ keyword.operator.go
+//           ^ keyword.operator.arithmetic.go
 //             ^^^^ constant.numeric.integer.decimal.go
 
         iota = iota
@@ -1596,13 +1596,13 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //              ^^^ storage.type.go
 //                  ^ keyword.operator.assignment.go
 //                    ^^^^^ variable.other.go
-//                          ^ keyword.operator.go
+//                          ^ keyword.operator.arithmetic.go
         ident +
 //      ^^^^^ variable.other.go
-//            ^ keyword.operator.go
+//            ^ keyword.operator.arithmetic.go
         ident +
 //      ^^^^^ variable.other.go
-//            ^ keyword.operator.go
+//            ^ keyword.operator.arithmetic.go
         ident
 //      ^^^^^ variable.other.go
 
@@ -1613,10 +1613,10 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //            ^^^ storage.type.go
 //                ^ keyword.operator.assignment.go
 //                  ^^^^^ variable.other.go
-//                        ^ keyword.operator.go
+//                        ^ keyword.operator.arithmetic.go
             ident +
 //          ^^^^^ variable.other.constant.declaration.go
-//                ^ keyword.operator.go
+//                ^ keyword.operator.arithmetic.go
 
 // BUG: this is incorrectly scoped as a type. TODO consider detecting multiline
 // expressions, or find another way of handling this properly.
@@ -1705,7 +1705,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                                 ^^^^ comment.block.go
 //                                      ^^^^^ variable.other.go
 //                                            ^^^^ comment.block.go
-//                                                 ^ keyword.operator.go
+//                                                 ^ keyword.operator.arithmetic.go
 //                                                   ^^^^ comment.block.go
 //                                                        ^^ constant.numeric.integer.decimal.go
 //                                                           ^^^^ comment.block.go
@@ -1717,7 +1717,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                      ^ keyword.operator.assignment.go
 //                        ^^^^ comment.block.go
 //                             ^^^^^ variable.other.go
-//                                   ^ keyword.operator.go
+//                                   ^ keyword.operator.arithmetic.go
 //                                     ^^ constant.numeric.integer.decimal.go
 //                                        ^^^^ comment.block.go
 
@@ -1770,9 +1770,9 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
     0; 123456789; -0; -123456789; 1777_000_000;
 //  ^ constant.numeric.integer.decimal.go
 //     ^^^^^^^^^ constant.numeric.integer.decimal.go
-//                ^ keyword.operator.go
+//                ^ keyword.operator.arithmetic.go
 //                 ^ constant.numeric.integer.decimal.go
-//                    ^ keyword.operator.go
+//                    ^ keyword.operator.arithmetic.go
 //                     ^^^^^^^^^ constant.numeric.integer.decimal.go
 //                                ^^^^^^^^^^^^ constant.numeric.integer.decimal.go
 
@@ -1783,7 +1783,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //   ^ constant.numeric.integer.octal.go
 //      ^ constant.numeric.integer.octal.go punctuation.definition.numeric.base.go
 //       ^^^^^^^ constant.numeric.integer.octal.go
-//                ^ keyword.operator.go
+//                ^ keyword.operator.arithmetic.go
 //                 ^ constant.numeric.integer.octal.go punctuation.definition.numeric.base.go
 //                  ^^^^^^^ constant.numeric.integer.octal.go
 //                           ^ constant.numeric.integer.octal.go punctuation.definition.numeric.base.go
@@ -1800,7 +1800,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //    ^^^ constant.numeric.integer.octal.go
 //         ^^ constant.numeric.integer.octal.go punctuation.definition.numeric.base.go
 //           ^^^ constant.numeric.integer.octal.go
-//                ^ keyword.operator.go
+//                ^ keyword.operator.arithmetic.go
 //                 ^^ constant.numeric.integer.octal.go punctuation.definition.numeric.base.go
 //                   ^^ constant.numeric.integer.octal.go
 //                       ^^ constant.numeric.integer.octal.go punctuation.definition.numeric.base.go
@@ -1813,7 +1813,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
     0x0; 0x0123456789ABCDEFabcdef; -0x0123456789ABCDEFabcdef;
 //  ^^^ constant.numeric.integer.hexadecimal.go
 //       ^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal.go
-//                                 ^ keyword.operator.go
+//                                 ^ keyword.operator.arithmetic.go
 //                                  ^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal.go
 
     0x_0; 0x012_3456_7_8_9ABCDEFabcd_ef;
@@ -1829,7 +1829,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //    ^^^^ constant.numeric.integer.binary.go
 //          ^^ constant.numeric.integer.binary.go punctuation.definition.numeric.base.go
 //            ^^^^^ constant.numeric.integer.binary.go
-//                   ^ keyword.operator.go
+//                   ^ keyword.operator.arithmetic.go
 //                    ^^ constant.numeric.integer.binary.go punctuation.definition.numeric.base.go
 //                      ^ constant.numeric.integer.binary.go
 //                         ^^ constant.numeric.integer.binary.go punctuation.definition.numeric.base.go
@@ -1859,19 +1859,19 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                ^^^ constant.numeric.float.decimal.go
 
     -000.000; -123.456; -.0; -1. -1.. ;
-//  ^ keyword.operator.go
+//  ^ keyword.operator.arithmetic.go
 //   ^^^^^^^ constant.numeric.float.decimal.go
 //      ^ punctuation.separator.decimal.go
-//            ^ keyword.operator.go
+//            ^ keyword.operator.arithmetic.go
 //             ^^^^^^^ constant.numeric.float.decimal.go
 //                ^ punctuation.separator.decimal.go
-//                      ^ keyword.operator.go
+//                      ^ keyword.operator.arithmetic.go
 //                       ^^ constant.numeric.float.decimal.go
 //                       ^ punctuation.separator.decimal.go
-//                           ^ keyword.operator.go
+//                           ^ keyword.operator.arithmetic.go
 //                            ^^ constant.numeric.float.decimal.go
 //                             ^ punctuation.separator.decimal.go
-//                               ^ keyword.operator.go
+//                               ^ keyword.operator.arithmetic.go
 //                                ^^ constant.numeric.float.decimal.go
 //                                 ^ punctuation.separator.decimal.go
 //                                  ^ punctuation.accessor.dot.go
@@ -1974,7 +1974,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //     ^ storage.type.numeric.go
 //        ^^^^ constant.numeric.imaginary.decimal.go
 //           ^ storage.type.numeric.go
-//              ^ keyword.operator.go
+//              ^ keyword.operator.arithmetic.go
 //               ^^^^ constant.numeric.imaginary.decimal.go
 //                  ^ storage.type.numeric.go
 //                     ^^^ constant.numeric.imaginary.decimal.go
@@ -1984,7 +1984,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //  ^^^^^^^^ constant.numeric.imaginary.decimal.go
 //     ^ punctuation.separator.decimal.go
 //         ^ storage.type.numeric.go
-//            ^ keyword.operator.go
+//            ^ keyword.operator.arithmetic.go
 //             ^^^^^^^^ constant.numeric.imaginary.decimal.go
 //                ^ punctuation.separator.decimal.go
 //                    ^ storage.type.numeric.go
@@ -2245,77 +2245,77 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 // # Operators
 
     !=
-//  ^^ keyword.operator.go
+//  ^^ keyword.operator.comparison.go
     !
-//  ^ keyword.operator.go
+//  ^ keyword.operator.logical.go
     %=
-//  ^^ keyword.operator.assignment.go
+//  ^^ keyword.operator.assignment.augmented.go
     %
-//  ^ keyword.operator.go
+//  ^ keyword.operator.arithmetic.go
     &&
-//  ^^ keyword.operator.go
+//  ^^ keyword.operator.logical.go
     &=
-//  ^^ keyword.operator.assignment.go
+//  ^^ keyword.operator.assignment.augmented.go
     &^=
-//  ^ keyword.operator.go
+//  ^^^ keyword.operator.assignment.augmented.go
     &^
-//  ^^ keyword.operator.go
+//  ^^ keyword.operator.bitwise.go
     &
 //  ^ keyword.operator.go
     *=
-//  ^^ keyword.operator.assignment.go
+//  ^^ keyword.operator.assignment.augmented.go
     *
 //  ^ keyword.operator.go
     ++
-//  ^^ keyword.operator.go
+//  ^^ keyword.operator.assignment.augmented.go
     +=
-//  ^^ keyword.operator.assignment.go
+//  ^^ keyword.operator.assignment.augmented.go
     +
-//  ^ keyword.operator.go
+//  ^ keyword.operator.arithmetic.go
     --
-//  ^^ keyword.operator.assignment.go
+//  ^^ keyword.operator.assignment.augmented.go
     -=
-//  ^^ keyword.operator.assignment.go
+//  ^^ keyword.operator.assignment.augmented.go
     -
-//  ^ keyword.operator.go
+//  ^ keyword.operator.arithmetic.go
     /=
-//  ^^ keyword.operator.assignment.go
+//  ^^ keyword.operator.assignment.augmented.go
     /
-//  ^ keyword.operator.go
+//  ^ keyword.operator.arithmetic.go
     :=
 //  ^^ keyword.operator.assignment.go
     <-
-//  ^^ keyword.operator.go
+//  ^^ keyword.operator.assignment.go
     <
-//  ^ keyword.operator.go
+//  ^ keyword.operator.comparison.go
     <<=
-//  ^^ keyword.operator.go
+//  ^^^ keyword.operator.assignment.augmented.go
     <<
-//  ^^ keyword.operator.go
+//  ^^ keyword.operator.bitwise.go
     <=
-//  ^ keyword.operator.go
+//  ^^ keyword.operator.comparison.go
     ==
-//  ^^ keyword.operator.go
+//  ^^ keyword.operator.comparison.go
     =
 //  ^ keyword.operator.assignment.go
     >=
-//  ^^ keyword.operator.assignment.go
+//  ^^ keyword.operator.comparison.go
     >>=
-//  ^^^ keyword.operator.assignment.go
+//  ^^^ keyword.operator.assignment.augmented.go
     >>
-//  ^^ keyword.operator.go
+//  ^^ keyword.operator.bitwise.go
     >
-//  ^ keyword.operator.go
+//  ^ keyword.operator.comparison.go
     ^=
-//  ^^ keyword.operator.assignment.go
+//  ^^ keyword.operator.assignment.augmented.go
     ^
-//  ^ keyword.operator.go
+//  ^ keyword.operator.bitwise.go
     |=
-//  ^^ keyword.operator.assignment.go
+//  ^^ keyword.operator.assignment.augmented.go
     ||
-//  ^^ keyword.operator.go
+//  ^^ keyword.operator.logical.go
     |
-//  ^ keyword.operator.go
+//  ^ keyword.operator.bitwise.go
 
 
 // # Punctuation

@@ -282,44 +282,25 @@ contexts:
         - include: pop-before-nonblank
 
   # https://golang.org/ref/spec#Operators_and_punctuation
-  match-operators: [
-    {match: \!=  , scope: keyword.operator.go},
-    {match: \!   , scope: keyword.operator.go},
-    {match: \%=  , scope: keyword.operator.assignment.go},
-    {match: \%   , scope: keyword.operator.go},
-    {match: \&&  , scope: keyword.operator.go},
-    {match: \&=  , scope: keyword.operator.assignment.go},
-    {match: \&^= , scope: keyword.operator.assignment.go},
-    {match: \&^  , scope: keyword.operator.go},
-    {match: \&   , scope: keyword.operator.go},
-    {match: \*=  , scope: keyword.operator.assignment.go},
-    {match: \*   , scope: keyword.operator.go},
-    {match: \+\+ , scope: keyword.operator.go},
-    {match: \+=  , scope: keyword.operator.assignment.go},
-    {match: \+   , scope: keyword.operator.go},
-    {match: --   , scope: keyword.operator.assignment.go},
-    {match: -=   , scope: keyword.operator.assignment.go},
-    {match: \-   , scope: keyword.operator.go},
-    {match: /=   , scope: keyword.operator.assignment.go},
-    {match: /    , scope: keyword.operator.go},
-    {match: :=   , scope: keyword.operator.assignment.go},
-    {match: <-   , scope: keyword.operator.go},
-    {match: <    , scope: keyword.operator.go},
-    {match: <<=  , scope: keyword.operator.assignment.go},
-    {match: \<<  , scope: keyword.operator.go},
-    {match: <=   , scope: keyword.operator.go},
-    {match: ==   , scope: keyword.operator.go},
-    {match: \=   , scope: keyword.operator.assignment.go},
-    {match: \>=  , scope: keyword.operator.assignment.go},
-    {match: \>>= , scope: keyword.operator.assignment.go},
-    {match: \>>  , scope: keyword.operator.go},
-    {match: \>   , scope: keyword.operator.go},
-    {match: \^=  , scope: keyword.operator.assignment.go},
-    {match: \^   , scope: keyword.operator.go},
-    {match: \|=  , scope: keyword.operator.assignment.go},
-    {match: \|\| , scope: keyword.operator.go},
-    {match: \|   , scope: keyword.operator.go},
-  ]
+  match-operators:
+    - match: '<<=|>>=|&\^=|&=|\^=|\|=|%=|\+=|-=|\*=|/=|\+\+|--'
+      scope: keyword.operator.assignment.augmented.go
+    - match: '<-|:='
+      scope: keyword.operator.assignment.go
+    - match: '&\^|<<|>>'
+      scope: keyword.operator.bitwise.go
+    - match: '==|!=|<=|>=|<|>'
+      scope: keyword.operator.comparison.go
+    - match: '='
+      scope: keyword.operator.assignment.go
+    - match: '&&|\|\||!'
+      scope: keyword.operator.logical.go
+    - match: '[|^]'
+      scope: keyword.operator.bitwise.go
+    - match: '[-+/%]'
+      scope: keyword.operator.arithmetic.go
+    - match: '[*&]'
+      scope: keyword.operator.go
 
   match-star:
     - match: \*
