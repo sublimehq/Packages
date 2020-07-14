@@ -1,6 +1,10 @@
-import sublime, sublime_plugin
 import re
+import sublime
+import sublime_plugin
 
+KIND_CSS_PROPERTY = (sublime.KIND_ID_KEYWORD, "p", "property")
+KIND_CSS_FUNCTION = (sublime.KIND_ID_FUNCTION, "f", "function")
+KIND_CSS_CONSTANT = (sublime.KIND_ID_VARIABLE, "c", "constant")
 
 # Prepare some common property values for when there is more than one way to
 # specify a certain value type. The color value for example can be specified
@@ -503,92 +507,119 @@ def parse_css_data():
 
     return props
 
+
+def match_selector(view, pt, scope):
+    # This will catch scenarios like:
+    # - .foo {font-style: |}
+    # - <style type="text/css">.foo { font-weight: b|</style>
+    return any(view.match_selector(p, scope) for p in (pt, pt - 1))
+
+
+def next_none_whitespace(view, pt):
+    for pt in range(pt, view.size()):
+        ch = view.substr(pt)
+        if ch not in ' \t':
+            return ch
+
+
 class CSSCompletions(sublime_plugin.EventListener):
+    selector_scope = (
+        # match inside a CSS document and
+        "source.css - meta.selector.css, "
+        # match inside the style attribute of HTML tags, incl. just before
+        # the quote that closes the attribute value
+        "text.html meta.attribute-with-value.style.html "
+        "string.quoted - punctuation.definition.string.begin.html"
+    )
     props = None
-    regex = None
+    re_name = None
+    re_value = None
+    re_trigger = None
 
     def on_query_completions(self, view, prefix, locations):
-        # match inside a CSS document and
-        # match inside the style attribute of HTML tags, incl. just before the quote that closes the attribute value
-        css_selector_scope = "source.css - meta.selector.css"
-        html_style_attr_selector_scope = "text.html meta.attribute-with-value.style.html " + \
-                                    "string.quoted - punctuation.definition.string.begin.html"
-        selector_scope = css_selector_scope + ', ' + html_style_attr_selector_scope
-        prop_name_scope = "meta.property-name.css"
-        prop_value_scope = "meta.property-value.css"
-        loc = locations[0]
+        pt = locations[0]
 
-        # When not inside CSS, don’t trigger
-        if not view.match_selector(loc, selector_scope):
-            # if the text immediately after the caret is a HTML style tag beginning, and the character before the
-            # caret matches the CSS scope, then probably the user is typing here (where | represents the caret):
-            # <style type="text/css">.test { f|</style>
-            # i.e. after a "style" HTML open tag and immediately before the closing tag.
-            # so we want to offer CSS completions here.
-            if view.match_selector(loc, 'text.html meta.tag.style.end punctuation.definition.tag.begin.html') and \
-               view.match_selector(loc - 1, selector_scope):
-                pass
-            else:
-                return []
+        if not match_selector(view, pt, self.selector_scope):
+            return None
 
         if not self.props:
             self.props = parse_css_data()
-            self.regex = re.compile(r"([a-zA-Z-]+):\s*$")
+            self.re_name = re.compile(r"([a-zA-Z-]+)\s*:[^:;{}]*$")
+            self.re_value = re.compile(r"^(?:\s*(:)|([ \t]*))([^:]*)([;}])")
+            self.re_trigger = re.compile(r"\$(?:\d+|\{\d+\:([^}]+)\})")
 
-        l = []
-        if (view.match_selector(loc, prop_value_scope) or
-            # This will catch scenarios like:
-            # - .foo {font-style: |}
-            # - <style type="text/css">.foo { font-weight: b|</style>
-            view.match_selector(loc - 1, prop_value_scope)):
-
-            alt_loc = loc - len(prefix)
-            line = view.substr(sublime.Region(view.line(alt_loc).begin(), alt_loc))
-
-            match = re.search(self.regex, line)
-            if match:
-                prop_name = match.group(1)
-                if prop_name in self.props:
-                    values = self.props[prop_name]
-
-                    add_semi_colon = view.substr(sublime.Region(loc, loc + 1)) != ';'
-
-                    for value in values:
-                        if isinstance(value, str):
-                            # Removes snippet placeholders - only practically
-                            # works for a single placeholder
-                            desc = re.sub(r'\$(?:\d+|\{\d+:[^}]*\})', '', value)
-                            snippet = value
-                        else:
-                            desc = value[0]
-                            snippet = value[1]
-
-                        if add_semi_colon:
-                            snippet += ";"
-
-                        kind = [sublime.KIND_ID_VARIABLE, "c", "Constant"]
-                        if "(" in snippet:
-                            kind = [sublime.KIND_ID_FUNCTION, "f", "Function"]
-
-                        l.append(sublime.CompletionItem(
-                            trigger=desc,
-                            completion=snippet,
-                            completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
-                            kind=kind,
-                            details="<code>" + prop_name + "</code> property value"
-                        ))
-
-                    return (l, sublime.INHIBIT_WORD_COMPLETIONS)
-
-            return None
+        if match_selector(view, pt, "meta.property-value.css meta.function-call"):
+            items = self.complete_function_argument(view, prefix, pt)
+        elif match_selector(view, pt, "meta.property-value.css"):
+            items = self.complete_property_value(view, prefix, pt)
         else:
-            add_colon = not view.match_selector(loc, prop_name_scope)
+            items = self.complete_property_name(view, prefix, pt)
 
-            for prop in self.props:
-                l.append(sublime.CompletionItem(
-                    trigger=prop,
-                    completion=prop + ": " if add_colon else prop,
-                    kind=[sublime.KIND_ID_KEYWORD, "p", "Property"]
-                ))
+        if items:
+            return sublime.CompletionList(items, sublime.INHIBIT_WORD_COMPLETIONS)
+        return None
 
-            return (l, sublime.INHIBIT_WORD_COMPLETIONS)
+    def complete_property_name(self, view, prefix, pt):
+        suffix = ": $0;"
+        text = view.substr(sublime.Region(pt, view.line(pt).end()))
+        matches = self.re_value.search(text)
+        if matches:
+            colon, space, value, term = matches.groups()
+            if colon:
+                # don't append anything if the next character is a colon
+                suffix = ""
+            elif value:
+                # only append colon if value already exists
+                suffix = ":" if space else ": "
+            elif term == ";":
+                # ommit semicolon if rule is already terminated
+                suffix = ": $0"
+
+        return (
+            sublime.CompletionItem(
+                trigger=prop,
+                completion=prop + suffix,
+                completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
+                kind=KIND_CSS_PROPERTY
+            ) for prop in self.props
+        )
+
+    def complete_property_value(self, view, prefix, pt):
+        completions = []
+        text = view.substr(sublime.Region(view.line(pt).begin(), pt - len(prefix)))
+        matches = self.re_name.search(text)
+        if matches:
+            prop = matches.group(1)
+            values = self.props.get(prop)
+            if values:
+                details = f"<code>{prop}</code> property-value"
+
+                if next_none_whitespace(view, pt) == ";":
+                    suffix = ""
+                else:
+                    suffix = "$0;"
+
+                for value in values:
+                    if isinstance(value, str):
+                        desc = self.re_trigger.sub("\1", value)
+                        snippet = value
+                    else:
+                        desc, snippet = value
+
+                    if "(" in snippet:
+                        kind = KIND_CSS_FUNCTION
+                    else:
+                        kind = KIND_CSS_CONSTANT
+
+                    completions.append(sublime.CompletionItem(
+                        trigger=desc,
+                        completion=snippet + suffix,
+                        completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
+                        kind=kind,
+                        details=details
+                    ))
+
+        return completions
+
+    def complete_function_argument(self, view, prefix, pt):
+        return None
