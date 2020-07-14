@@ -1801,14 +1801,23 @@ public class Foo {
 //                      ^ punctuation.definition.string.begin
 //                        ^ punctuation.definition.string.end
 
-    String escapes = "Here \2 are \n some \t escaped \'\\' characters \"";
-//                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
-//                         ^^ constant.character.escape
+    String escapes = "\b \t \n \f \r \" \' \\ \0 \12 \123 \u00e4 \uu00E4";
+//                   ^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+//                    ^^ constant.character.escape
+//                       ^^ constant.character.escape
+//                          ^^ constant.character.escape
+//                             ^^ constant.character.escape
 //                                ^^ constant.character.escape
-//                                                   ^^^^ constant.character.escape
-//                                                                    ^^ constant.character.escape
+//                                   ^^ constant.character.escape
+//                                      ^^ constant.character.escape
+//                                         ^^ constant.character.escape
+//                                            ^^ constant.character.escape.octal
+//                                               ^^^ constant.character.escape.octal
+//                                                   ^^^^ constant.character.escape.octal
+//                                                        ^^^^^^ constant.character.escape.unicode
+//                                                               ^^^^^^^ constant.character.escape.unicode
 
-    char escape = '\t' + '\1' + '\'' + '\\';
+    char escape = '\b' + '\t' + '\n' + '\f' + '\r' + '\"' + '\'' + '\\' + '\0' + '\12' + '\123' + '\u00e4' + '\uu00E4';
 //                ^^^^ string.quoted.single
 //                 ^^ constant.character.escape
 //                       ^^^^ string.quoted.single
@@ -1817,6 +1826,45 @@ public class Foo {
 //                               ^^ constant.character.escape
 //                                     ^^^^ string.quoted.single
 //                                      ^^ constant.character.escape
+//                                            ^^^^ string.quoted.single
+//                                             ^^ constant.character.escape
+//                                                   ^^^^ string.quoted.single
+//                                                    ^^ constant.character.escape
+//                                                          ^^^^ string.quoted.single
+//                                                           ^^ constant.character.escape
+//                                                                 ^^^^ string.quoted.single
+//                                                                  ^^ constant.character.escape
+//                                                                        ^^^^ string.quoted.single
+//                                                                         ^^ constant.character.escape.octal
+//                                                                               ^^^^^ string.quoted.single
+//                                                                                ^^^ constant.character.escape.octal
+//                                                                                       ^^^^^^ string.quoted.single
+//                                                                                        ^^^^ constant.character.escape.octal
+//                                                                                                ^^^^^^^^ string.quoted.single
+//                                                                                                 ^^^^^^ constant.character.escape.unicode
+//                                                                                                           ^^^^^^^^^ string.quoted.single
+//                                                                                                            ^^^^^^^ constant.character.escape.unicode
+
+    String octalEscapesLimits = "\078 \456"
+//                               ^^^ constant.character.escape.octal
+//                                  ^ -constant.character.escape.octal
+//                                    ^^^ constant.character.escape.octal
+//                                       ^ -constant.character.escape.octal
+
+    String illegalEscapes = "\x \+ \8 \9" + '\x' + '\+' + '\8' + '\9'
+//                          ^^^^^^^^^^^^^ string.quoted.double
+//                           ^^ invalid.illegal.escape
+//                              ^^ invalid.illegal.escape
+//                                 ^^ invalid.illegal.escape
+//                                    ^^ invalid.illegal.escape
+//                                          ^^^^ string.quoted.single
+//                                           ^^ invalid.illegal.escape
+//                                                 ^^^^ string.quoted.single
+//                                                  ^^ invalid.illegal.escape
+//                                                        ^^^^ string.quoted.single
+//                                                         ^^ invalid.illegal.escape
+//                                                               ^^^^ string.quoted.single
+//                                                                ^^ invalid.illegal.escape
 
     String text = "String without closing quote
 //                                             ^ invalid.illegal.newline
