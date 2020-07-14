@@ -560,6 +560,8 @@ f"string"
 F'''string'''
 # <- storage.type.string
 #^^^^^^^^^^^^ meta.string.interpolated string.quoted.single.block
+#^ meta.string.interpolated.python string.quoted.single.block.python punctuation.definition.string.begin.python
+#         ^ meta.string.interpolated.python string.quoted.single.block.python punctuation.definition.string.end.python
 
  rf'string'
 #^^ storage.type.string - string
