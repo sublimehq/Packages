@@ -7,10 +7,8 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@master
-      - name: Install OpenGL
-        run: sudo apt-get -y install libgl1-mesa-glx libglu1-mesa
       - name: Download syntax_tests
-        run: wget --content-disposition https://download.sublimetext.com/st_syntax_tests_build_4076_x64.tar.bz2
+        run: wget --content-disposition https://download.sublimetext.com/st_syntax_tests_build_4077_x64.tar.bz2
       - name: Extract syntax_tests
         run: tar xf "$(ls st_syntax_tests_build_*_x64.tar.bz2)"
       - name: Move syntax_tests
