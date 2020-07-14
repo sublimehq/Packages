@@ -8,6 +8,7 @@ file_extensions:
   - xhtml
 first_line_match: (?i)<(!DOCTYPE\s*)?html
 scope: text.html.basic
+version: 2
 
 variables:
   ascii_space: '\t\n\f '
@@ -99,13 +100,11 @@ contexts:
         - include: string-single-quoted
     - match: (<)((?i:style)){{tag_name_break}}
       captures:
-        0: meta.tag.style.begin.html
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.style.html
       push: style-css
     - match: '(<)((?i:script)){{tag_name_break}}'
       captures:
-        0: meta.tag.script.begin.html
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.script.html
       push: script-javascript
@@ -299,22 +298,19 @@ contexts:
     - include: else-pop
 
   style-css:
-    - meta_content_scope: meta.tag.style.begin.html
+    - meta_scope: meta.tag.style.begin.html
     - include: style-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set:
         - include: style-close-tag
         - match: (?=\S)
-          embed: embedded-css
+          embed: scope:source.css
+          embed_scope: source.css.embedded.html
           escape: (?i)(?=(?:-->\s*)?</style)
 
-  embedded-css:
-    - meta_content_scope: source.css.embedded.html
-    - include: scope:source.css
-
   style-other:
-    - meta_content_scope: meta.tag.style.begin.html
+    - meta_scope: meta.tag.style.begin.html
     - include: style-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
@@ -343,7 +339,7 @@ contexts:
         - match: =
           scope: punctuation.separator.key-value.html
           set:
-            - meta_content_scope: meta.tag.style.begin.html meta.attribute-with-value.html
+            - meta_scope: meta.tag.style.begin.html meta.attribute-with-value.html
             - include: style-type-decider
         - match: (?=\S)
           set: style-css
@@ -366,23 +362,19 @@ contexts:
         - tag-generic-attribute-value
 
   script-javascript:
-    - meta_content_scope: meta.tag.script.begin.html
+    - meta_scope: meta.tag.script.begin.html
     - include: script-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
       set:
         - include: script-close-tag
         - match: (?=\S)
-          embed: embedded-javascript
+          embed: scope:source.js
+          embed_scope: source.js.embedded.html
           escape: '{{script_close_lookahead}}'
 
-  embedded-javascript:
-    - meta_content_scope: source.js.embedded.html
-    - include: scope:source.js#prototype
-    - include: scope:source.js
-
   script-html:
-    - meta_content_scope: meta.tag.script.begin.html
+    - meta_scope: meta.tag.script.begin.html
     - include: script-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
@@ -393,7 +385,7 @@ contexts:
         - include: main
 
   script-other:
-    - meta_content_scope: meta.tag.script.begin.html
+    - meta_scope: meta.tag.script.begin.html
     - include: script-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
@@ -429,7 +421,7 @@ contexts:
         - match: =
           scope: punctuation.separator.key-value.html
           set:
-            - meta_content_scope: meta.tag.script.begin.html meta.attribute-with-value.html
+            - meta_scope: meta.tag.script.begin.html meta.attribute-with-value.html
             - include: script-type-decider
         - match: (?=\S)
           set: script-javascript
@@ -692,15 +684,15 @@ contexts:
   tag-event-attribute-value:
     - match: \"
       scope: meta.string.html string.quoted.double.html punctuation.definition.string.begin.html
-      embed: embedded-javascript
-      embed_scope: meta.string.html meta.interpolation.html
+      embed: scope:source.js
+      embed_scope: meta.string.html meta.interpolation.html source.js.embedded.html
       escape: \"
       escape_captures:
         0: meta.string.html string.quoted.double.html punctuation.definition.string.end.html
     - match: \'
       scope: meta.string.html string.quoted.single.html punctuation.definition.string.begin.html
-      embed: embedded-javascript
-      embed_scope: meta.string.html meta.interpolation.html
+      embed: scope:source.js
+      embed_scope: meta.string.html meta.interpolation.html source.js.embedded.html
       escape: \'
       escape_captures:
         0: meta.string.html string.quoted.single.html punctuation.definition.string.end.html
