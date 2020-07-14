@@ -9,4 +9,4 @@ scope: text.xml.dtd
 
 contexts:
   main:
-    - include: scope:text.xml#dtd
+    - include: Packages/XML/XML.sublime-syntax#dtd
