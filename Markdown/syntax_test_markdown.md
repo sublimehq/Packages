@@ -1940,6 +1940,19 @@ okay
 1. Test 2
 |^ markup.list.numbered.bullet punctuation.definition.list_item
 
+```clojure
+|^^^^^^^^^ meta.code-fence.definition.begin.clojure
+|  ^^^^^^^ constant.other.language-name
+ (/ 10 3.0)
+|<- - meta.sexpr.clojure
+|^^^^^^^^^^ meta.sexpr.clojure
+|          ^ - meta.sexpr.clojure
+| ^ keyword.operator.clojure
+|   ^^ constant.numeric.float.clojure
+|      ^^^ constant.numeric.float.clojure
+```
+|^^ meta.code-fence.definition.end.clojure punctuation.definition.raw.code-fence.end
+
 ```xml
 |^^^^^ meta.code-fence.definition.begin.xml
 |  ^^^ constant.other.language-name
