@@ -2,6 +2,7 @@
 ---
 # Automatically generated file -- do not edit!
 scope: commands.builtin.shell.bash
+version: 2
 hidden: true
 variables:
   cmd_break: (?=\s|;|$|>|<|\|)

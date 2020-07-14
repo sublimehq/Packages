@@ -83,6 +83,7 @@ def main():
 
     commands_output = {
         "scope": os.path.splitext(sys.argv[1])[0].replace("-", "."),
+        "version": 2,
         "hidden": True,
         "variables": {
             "cmd_break": r"(?=\s|;|$|>|<|\|)",
