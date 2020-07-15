@@ -791,7 +791,7 @@ contexts:
         - match: \'
           scope: punctuation.definition.string.end.perl
           pop: true
-        - match: \\\'
+        - match: \\[\\']
           scope: constant.character.escape.perl
         - include: literal-common
 
@@ -1444,7 +1444,7 @@ contexts:
         - include: literal-braces-common
 
   literal-braces-common:
-    - match: \\\}
+    - match: \\[\\\}]
       scope: constant.character.escape.perl
     - include: literal-braces-nested
     - include: literal-common
@@ -1468,7 +1468,7 @@ contexts:
         - include: literal-brackets-common
 
   literal-brackets-common:
-    - match: \\\]
+    - match: \\[\\\]]
       scope: constant.character.escape.perl
     - include: literal-brackets-nested
     - include: literal-common
@@ -1492,7 +1492,7 @@ contexts:
         - include: literal-angle-common
 
   literal-angle-common:
-    - match: \\\>
+    - match: \\[\\\>]
       scope: constant.character.escape.perl
     - include: literal-angle-nested
     - include: literal-common
@@ -1516,7 +1516,7 @@ contexts:
         - include: literal-parens-common
 
   literal-parens-common:
-    - match: \\\)
+    - match: \\[\\\)]
       scope: constant.character.escape.perl
     - include: literal-parens-nested
     - include: literal-common
@@ -1530,7 +1530,7 @@ contexts:
         # Need a lookbehind here to avoid popping on escaped end-of-string token
         # as a normal `\\\1` rule fails to run. As backrefs use oniguruma anyway
         # it shouldn't hurt performance much.
-        - match: (?<!\\)\1
+        - match: '{{no_escape_behind}}\1'
           scope: punctuation.section.generic.end.perl
           pop: true
         - include: literal-common
