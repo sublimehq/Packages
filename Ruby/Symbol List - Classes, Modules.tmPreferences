@@ -2,7 +2,10 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.ruby entity.name.class, source.ruby entity.name.module</string>
+	<string>
+		source.ruby entity.name.class,
+		source.ruby entity.name.module
+	</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
