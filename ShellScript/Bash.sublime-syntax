@@ -41,7 +41,6 @@ first_line_match: |
 #-------------------------------------------------------------------------------
 variables:
   call_token: \./
-  cmd_boundary: (?=\s|;|$|>|<)
   extension: \.sh
   identifier: '[[:alpha:]_][[:alnum:]_]*'
   identifier_non_posix: '[^{{metachar}}\d][^{{metachar}}=]*'
@@ -413,7 +412,7 @@ contexts:
       pop: true
     - match: (?=\s*#)
       pop: true
-    - include: cmd-args-boilerplate
+    - include: cmd-args-boilerplate-with-end-of-options
     - match: (?=\S)
       push: [vardef-value, vardef-assign, vardef-name]
 
@@ -750,20 +749,30 @@ contexts:
       pop: true
 
   cmd-args-boilerplate:
+    # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
     - match: (?={{is_end_of_interpolation}})
       pop: true
     - include: cmd-args-common
-    - match: (?:\s+|^)--(?=\s|$)
+
+  cmd-args-boilerplate-with-end-of-options:
+    # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
+    - include: cmd-args-boilerplate
+    - match: (?:\s+|^)--(?=\s|;|\))
       scope: keyword.operator.end-of-options.shell
       set:
         - meta_content_scope: meta.function-call.arguments.shell
         - include: end-of-options-common
 
   cmd-args-boilerplate-bt:
+    # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
     - match: (?={{is_end_of_interpolation}}|`) # <-------------- extra backtick
       pop: true
     - include: cmd-args-common
-    - match: (?:\s+|^)--(?=\s|$)
+
+  cmd-args-boilerplate-with-end-of-options-bt:
+    # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
+    - include: cmd-args-boilerplate-bt
+    - match: (?:\s+|^)--(?=\s|;|\)|`)
       scope: keyword.operator.end-of-options.shell
       set:
         - meta_content_scope: meta.function-call.arguments.shell
@@ -782,7 +791,7 @@ contexts:
     - match: ""
       set:
         - meta_scope: meta.function-call.arguments.shell
-        - include: cmd-args-boilerplate
+        - include: cmd-args-boilerplate-with-end-of-options
         - match: '{{start_of_option}}'
           scope: punctuation.definition.parameter.shell
           push:
@@ -800,7 +809,7 @@ contexts:
     - match: ""
       set:
         - meta_scope: meta.function-call.arguments.shell
-        - include: cmd-args-boilerplate-bt
+        - include: cmd-args-boilerplate-with-end-of-options-bt
         - match: '{{start_of_option}}'
           scope: punctuation.definition.parameter.shell
           push:
@@ -890,7 +899,7 @@ contexts:
     - match: ""
       set:
         - meta_scope: meta.function-call.arguments.shell
-        - include: cmd-args-boilerplate
+        - include: cmd-args-boilerplate-with-end-of-options
         - match: \s+(\])
           captures:
             1: support.function.test.end.shell
@@ -901,7 +910,7 @@ contexts:
     - match: ""
       set:
         - meta_scope: meta.function-call.arguments.shell
-        - include: cmd-args-boilerplate-bt
+        - include: cmd-args-boilerplate-with-end-of-options-bt
         - match: \s+(\])
           captures:
             1: support.function.test.end.shell
@@ -915,7 +924,7 @@ contexts:
         1: support.function.double-brace.end.shell
       pop: true
     - include: expression-test
-    # - include: cmd-args-boilerplate
+    # - include: cmd-args-boilerplate-with-end-of-options
 
   cmd-test-double-brace-args-bt:
     - meta_scope: meta.function-call.arguments.shell
@@ -924,7 +933,7 @@ contexts:
         1: support.function.double-brace.end.shell
       pop: true
     - include: expression-test
-    # - include: cmd-args-boilerplate-bt
+    # - include: cmd-args-boilerplate-with-end-of-options-bt
 
   cmd-name:
     - match: ""

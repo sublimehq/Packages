@@ -120,12 +120,47 @@ foo --opt1 arg1
 foo --opt1 arg1 -- --not-an-option
 #               ^^ keyword.operator
 #                  ^ - variable.parameter punctuation
-set -e
+`foo --opt1 arg1 -- --not-an-option`
+#                ^^ keyword.operator
+#                   ^ - variable.parameter punctuation
+`foo --opt1 arg1 --`
+#                ^^ keyword.operator
+#                  ^ - variable.parameter punctuation
+foo -n -
 #   ^ variable.parameter.option punctuation
 #    ^ variable.parameter.option - punctuation
+#      ^ - keyword - punctuation
+
+set -e -
+#   ^ variable.parameter.option punctuation
+#    ^ variable.parameter.option - punctuation
+#      ^ - keyword - punctuation
 set +e
 #   ^ variable.parameter.option punctuation
 #    ^ variable.parameter.option - punctuation
+set -o pipefail
+#   ^ variable.parameter.option punctuation
+#    ^ variable.parameter.option - punctuation
+set +o pipefail
+#   ^ variable.parameter.option punctuation
+#    ^ variable.parameter.option - punctuation
+set -Euo pipefail
+#   ^ variable.parameter.option punctuation
+#    ^^^ variable.parameter.option - punctuation
+set +Euo pipefail
+#   ^ variable.parameter.option punctuation
+#    ^^^ variable.parameter.option - punctuation
+set +Eou pipefail
+#   ^^^^ - variable.parameter.option - punctuation
+set -e -- -o {string}
+#   ^^ variable.parameter.option
+#      ^^ keyword.operator.end-of-options
+#         ^^ - variable.parameter.option
+#            ^^^^^^^^ meta.group.expansion.brace
+
+shift 2 -- 
+#       ^^ - keyword
+
 python foo.py --option=value --other-option
 #                     ^ keyword.operator.assignment.option
 git log --format="%h git has this pattern, too"
