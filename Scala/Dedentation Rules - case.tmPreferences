@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-  <key>name</key>
-  <string>Dedent (case)</string>
   <key>scope</key>
   <!-- note the use of the meta.block.case.non-first scope to only apply to subsequent case constructs -->
   <string>source.scala meta.block.case.non-first - comment</string>
