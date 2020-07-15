@@ -1009,6 +1009,10 @@ try {
 } catch (/* comment */ ExceptionExample $e) {
 //       ^^^^^^^^^^^^^ comment.block
     echo 'Caught exception: ', $e->getMessage(), "\n";
+} catch (Exception) {
+//^ keyword.control.exception
+//       ^^^^^^^^^ meta.path.php
+//       ^^^^^^^^^ support.class.exception.php
 } catch (Exception $e) {
 //^ keyword.control.exception
 //       ^^^^^^^^^ meta.path.php
@@ -1045,6 +1049,23 @@ try {
 //                                   ^ punctuation.separator.namespace.php
 //                                    ^^^^^^^^^^ support.class.exception.php
 //                                               ^^ variable.other.php
+    echo 'Caught exception: ', $e->getMessage(), "\n";
+} catch (
+//^ keyword.control.exception
+    \Custom\Exception1 |
+//  ^^^^^^^^^^^^^^^^^ meta.path.php
+//  ^ punctuation.separator.namespace.php
+//   ^^^^^^ support.other.namespace.php
+//         ^ punctuation.separator.namespace.php
+//          ^^^^^^^^^^ support.class.exception.php
+//                     ^ punctuation.separator.catch.php
+    \Custom\Exception2 $e
+//  ^ punctuation.separator.namespace.php
+//   ^^^^^^ support.other.namespace.php
+//         ^ punctuation.separator.namespace.php
+//          ^^^^^^^^^^ support.class.exception.php
+//                     ^^ variable.other.php
+) {
     echo 'Caught exception: ', $e->getMessage(), "\n";
 } finally {
 //^ keyword.control.exception

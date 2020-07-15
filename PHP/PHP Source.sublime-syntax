@@ -135,24 +135,27 @@ contexts:
           for | foreach | if | return | switch | use | while
         )\b
       scope: keyword.control.php
-    - match: \b(catch)\b\s*\(\s*
+    - match: \b(catch)\b\s*(\()
       captures:
         1: keyword.control.exception.catch.php
+        2: punctuation.section.group.begin.php
       push:
         - meta_scope: meta.catch.php
         - include: comments
         - include: identifier-parts-as-path
-        - match: '(\\)'
+        - match: \)
+          scope: punctuation.section.group.end.php
+          pop: true
+        - match: \|
+          scope: punctuation.separator.catch.php
+        - match: \\
           scope: meta.path.php punctuation.separator.namespace.php
-        - match: '({{identifier}})\s*(\|)?'
-          captures:
-            1: meta.path.php support.class.exception.php
-            2: punctuation.separator.catch.php
-        - match: '((\$+){{identifier}})\s*\)'
+        - match: '{{identifier}}'
+          scope: meta.path.php support.class.exception.php
+        - match: '((\$){{identifier}})'
           captures:
             1: variable.other.php
             2: punctuation.definition.variable.php
-          pop: true
     - match: \b(catch|try|throw|finally)\b
       scope: keyword.control.exception.php
     - include: arrow-function
