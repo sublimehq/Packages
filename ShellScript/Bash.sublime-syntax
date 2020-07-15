@@ -165,13 +165,16 @@ contexts:
       set: [cmd-post, cmd-args]
     - match: \bwhile{{keyword_break}}
       scope: keyword.control.loop.while.shell
+      pop: true
     - match: \buntil{{keyword_break}}
-      scope:  keyword.control.loop.until.shell
+      scope: keyword.control.loop.until.shell
+      pop: true
     - match: \bcase{{keyword_break}}
       scope: keyword.control.conditional.case.shell
       set: [case-body, case-word]
     - match: \bcontinue{{keyword_break}}
       scope: keyword.control.flow.continue.shell
+      pop: true
     - match: \bbreak{{keyword_break}}
       scope: keyword.control.flow.break.shell
       set: [cmd-post, cmd-args]
