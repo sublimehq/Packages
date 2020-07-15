@@ -363,6 +363,17 @@ class Foo
 //                        ^^^^^^^^^^^^^^^^ meta.path
 //                                         ^^^^^^^^ meta.path
 //                                                  ^^^^ variable.parameter
+
+    @@Route("/api/posts/{id}", methods: ["GET", "HEAD"])
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
+//  ^^ punctuation.definition.attribute
+//    ^^^^^ meta.path
+//         ^ punctuation.section.group.begin
+//                           ^ punctuation.separator
+//                             ^^^^^^^ variable.parameter.named
+//                                    ^ punctuation.definition.variable
+//                                                     ^ punctuation.section.group.end
+    public function show(int $id) { }
 }
 
 $object = new @@ExampleAttribute class () { };
@@ -841,6 +852,11 @@ strval($foo);
 //^^^^^^^^^^ meta.function-call
 //^^^^ support.function.var - variable.function
 //    ^^^^^^ meta.group
+
+array_slice($array, $offset, $length, preserve_keys: true);
+//                                    ^^^^^^^^^^^^^ variable.parameter.named
+//                                                 ^ punctuation.definition.variable
+//                                                   ^^^^ constant.language
 
 $test = new Test1;
 //      ^ keyword.other.new.php
