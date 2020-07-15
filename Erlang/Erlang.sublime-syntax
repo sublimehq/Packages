@@ -760,13 +760,6 @@ contexts:
         - meta_scope: meta.block.erlang
         - include: expr-control-flow-end
         - include: expr-control-body
-    # http://erlang.org/doc/reference_manual/...?
-    - match: query{{ident_break}}
-      scope: keyword.control.flow.query.erlang
-      push:
-        - meta_scope: meta.query.erlang
-        - include: expr-control-flow-end
-        - include: expr-control-body
     # http://erlang.org/doc/reference_manual/expressions.html#guard-sequences
     - match: when{{ident_break}}
       scope: keyword.control.conditional.when.erlang
