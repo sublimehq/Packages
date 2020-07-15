@@ -894,7 +894,14 @@ trait A
 // ^ storage.type.trait
 //    ^ entity.name.trait
 {
-
+    public static ?Foo $str = '';
+//  ^^^^^^ storage.modifier
+//         ^^^^^^ storage.modifier
+//                ^ storage.type.nullable
+//                 ^^^ support.class
+//                     ^ punctuation.definition.variable
+//                      ^^^ variable.other
+//                          ^ keyword.operator.assignment
 }
 
 class B
