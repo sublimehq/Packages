@@ -203,10 +203,12 @@ contexts:
         - include: table
         - match: ''
           pop: true
-    - match: '^([ ]{0,3})([*+-])(?=\s)'
+    - match: ^([ ]{0,3})([*+-])( (\[[ xX]\]))?(?=\s)
       captures:
         1: markup.list.unnumbered.markdown
         2: markup.list.unnumbered.bullet.markdown punctuation.definition.list_item.markdown
+        3: markup.list.unnumbered.markdown
+        4: constant.language.checkbox.markdown-gfm
       push:
         - meta_content_scope: markup.list.unnumbered.markdown
         - match: ^(?=\S)
@@ -987,10 +989,12 @@ contexts:
       push:
         - match: ^\s*$
           pop: true
-        - match: '([ ]*)([*+-])(?=\s)'
+        - match: ([ ]*)([*+-])( (\[[ xX]\]))?(?=\s)
           captures:
             1: markup.list.unnumbered.markdown
             2: markup.list.unnumbered.bullet.markdown punctuation.definition.list_item.markdown
+            3: markup.list.unnumbered.markdown
+            4: constant.language.checkbox.markdown-gfm
           push:
             - clear_scopes: 1
             - meta_content_scope: markup.list.unnumbered.markdown meta.paragraph.list.markdown
