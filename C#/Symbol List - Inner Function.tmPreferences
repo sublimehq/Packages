@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-	<key>name</key>
-	<string>Symbol List: Method</string>
 	<key>scope</key>
 	<string><![CDATA[(meta.class.body.cs, meta.interface.body.cs) & meta.method.cs entity.name.function]]></string>
 	<key>settings</key>
