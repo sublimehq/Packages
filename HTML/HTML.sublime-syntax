@@ -93,7 +93,7 @@ contexts:
         2: entity.name.tag.xml.html
       push:
         - meta_scope: meta.tag.preprocessor.xml.html
-        - match: '\?>'
+        - match: \?>
           scope: punctuation.definition.tag.end.html
           pop: true
         - include: tag-generic-attribute
@@ -250,12 +250,12 @@ contexts:
         2: invalid.illegal.bad-comments-or-CDATA.html
       push:
         - meta_scope: comment.block.html
-        - match: '(<!-)?(--\s*>)'
+        - match: (<!-)?(--\s*>)
           captures:
             1: invalid.illegal.bad-comments-or-CDATA.html
             2: punctuation.definition.comment.end.html
           pop: true
-        - match: '<!--(?!-?>)|--!>'
+        - match: <!--(?!-?>)|--!>
           scope: invalid.illegal.bad-comments-or-CDATA.html
 
   doctype:
@@ -399,7 +399,7 @@ contexts:
       scope: comment.block.html punctuation.definition.comment.begin.html
     - match: '{{script_close_lookahead}}'
       set:
-        - match: '-->'
+        - match: -->
           scope: comment.block.html punctuation.definition.comment.end.html
         - match: (</)((?i:script){{tag_name_break}})
           captures:
@@ -456,20 +456,20 @@ contexts:
         - tag-generic-attribute-value
 
   string-double-quoted:
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.html
       push:
         - meta_scope: string.quoted.double.html
-        - match: '"'
+        - match: \"
           scope: punctuation.definition.string.end.html
           pop: true
         - include: entities
   string-single-quoted:
-    - match: "'"
+    - match: \'
       scope: punctuation.definition.string.begin.html
       push:
         - meta_scope: string.quoted.single.html
-        - match: "'"
+        - match: \'
           scope: punctuation.definition.string.end.html
           pop: true
         - include: entities
@@ -493,25 +493,25 @@ contexts:
     - include: immediately-pop
 
   tag-generic-attribute-equals:
-    - match: '='
+    - match: =
       scope: punctuation.separator.key-value.html
       set: tag-generic-attribute-value
     - include: else-pop
 
   tag-generic-attribute-value:
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.html
       set:
         - meta_scope: string.quoted.double.html
-        - match: '"'
+        - match: \"
           scope: punctuation.definition.string.end.html
           pop: true
         - include: entities
-    - match: "'"
+    - match: \'
       scope: punctuation.definition.string.begin.html
       set:
         - meta_scope: string.quoted.single.html
-        - match: "'"
+        - match: \'
           scope: punctuation.definition.string.end.html
           pop: true
         - include: entities
@@ -537,28 +537,28 @@ contexts:
     - include: immediately-pop
 
   tag-class-attribute-equals:
-    - match: '='
+    - match: =
       scope: punctuation.separator.key-value.html
       set: tag-class-attribute-value
     - include: else-pop
 
   tag-class-attribute-value:
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.html
       set:
         - meta_scope: string.quoted.double.html
         - meta_content_scope: meta.class-name.html
-        - match: '"'
+        - match: \"
           scope: punctuation.definition.string.end.html
           pop: true
         - include: tag-attribute-value-separator
         - include: entities
-    - match: "'"
+    - match: \'
       scope: punctuation.definition.string.begin.html
       set:
         - meta_scope: string.quoted.single.html
         - meta_content_scope: meta.class-name.html
-        - match: "'"
+        - match: \'
           scope: punctuation.definition.string.end.html
           pop: true
         - include: tag-attribute-value-separator
@@ -585,28 +585,28 @@ contexts:
     - include: immediately-pop
 
   tag-id-attribute-equals:
-    - match: '='
+    - match: =
       scope: punctuation.separator.key-value.html
       set: tag-id-attribute-value
     - include: else-pop
 
   tag-id-attribute-value:
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.html
       set:
         - meta_scope: string.quoted.double.html
         - meta_content_scope: meta.toc-list.id.html
-        - match: '"'
+        - match: \"
           scope: punctuation.definition.string.end.html
           pop: true
         - include: tag-attribute-value-separator
         - include: entities
-    - match: "'"
+    - match: \'
       scope: punctuation.definition.string.begin.html
       set:
         - meta_scope: string.quoted.single.html
         - meta_content_scope: meta.toc-list.id.html
-        - match: "'"
+        - match: \'
           scope: punctuation.definition.string.end.html
           pop: true
         - include: tag-attribute-value-separator
@@ -633,24 +633,24 @@ contexts:
     - include: immediately-pop
 
   tag-style-attribute-equals:
-    - match: '='
+    - match: =
       scope: punctuation.separator.key-value.html
       set: tag-style-attribute-value
     - include: else-pop
 
   tag-style-attribute-value:
-    - match: '"'
+    - match: \"
       scope: string.quoted.double punctuation.definition.string.begin.html
       embed: scope:source.css#rule-list-body
       embed_scope: source.css
-      escape: '"'
+      escape: \"
       escape_captures:
         0: string.quoted.double punctuation.definition.string.end.html
-    - match: "'"
+    - match: \'
       scope: string.quoted.single punctuation.definition.string.begin.html
       embed: scope:source.css#rule-list-body
       embed_scope: source.css
-      escape: "'"
+      escape: \'
       escape_captures:
         0: string.quoted.single punctuation.definition.string.end.html
     - include: else-pop
@@ -678,24 +678,24 @@ contexts:
     - include: immediately-pop
 
   tag-event-attribute-equals:
-    - match: '='
+    - match: =
       scope: punctuation.separator.key-value.html
       set: tag-event-attribute-value
     - include: else-pop
 
   tag-event-attribute-value:
-    - match: '"'
+    - match: \"
       scope: string.quoted.double punctuation.definition.string.begin.html
       embed: scope:source.js
       embed_scope: meta.attribute-with-value.event.html
-      escape: '"'
+      escape: \"
       escape_captures:
         0: string.quoted.double punctuation.definition.string.end.html
-    - match: "'"
+    - match: \'
       scope: string.quoted.single punctuation.definition.string.begin.html meta.attribute-with-value.event.html
       embed: scope:source.js
       embed_scope: meta.attribute-with-value.event.html
-      escape: "'"
+      escape: \'
       escape_captures:
         0: string.quoted.single punctuation.definition.string.end.html
     - include: else-pop
@@ -723,11 +723,11 @@ contexts:
       pop: true
 
   tag-end-self-closing:
-    - match: '/>'
+    - match: />
       scope: punctuation.definition.tag.end.html
       pop: true
 
   tag-end-maybe-self-closing:
-    - match: '/?>'
+    - match: /?>
       scope: punctuation.definition.tag.end.html
       pop: true
