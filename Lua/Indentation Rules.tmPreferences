@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 	<dict>
-		<key>name</key>
-		<string>Indent</string>
 		<key>scope</key>
-		<string>source.lua</string>
+		<string>source.lua - comment - string</string>
 		<key>settings</key>
 		<dict>
 			<key>decreaseIndentPattern</key>
