@@ -140,16 +140,14 @@ contexts:
         keyword.other.coproc.shell
       push: [cmd-post, cmd-args, coproc-body]
 
-  coproc-meta:
-    - meta_content_scope: meta.function.coproc.shell
-    - include: immediately-pop
-
   coproc-body:
     - match: \s*(\S+)\s*(?=\{)
       captures:
         0: meta.function.coproc.identifier.shell
         1: entity.name.function.coproc.shell
-      set: [coproc-meta, block]
+      set:
+        - meta_content_scope: meta.function.coproc.shell
+        - include: block
     - match: ''
       set:
         - meta_scope: meta.function.coproc.shell
@@ -159,17 +157,13 @@ contexts:
 
   funcdef:
     - match: (?=\s*{{identifier_non_posix}}\s*\(\s*\))
-      push: [funcdef-body, funcdef-parens, funcdef-name]
+      push: [funcdef-parens, funcdef-name]
     - match: \bfunction{{keyword_break}}
       scope: 
         meta.function.shell
         storage.type.function.shell
         keyword.declaration.function.shell
-      push: [funcdef-body, funcdef-parens, funcdef-name]
-
-  funcdef-meta:
-    - meta_scope: meta.function.shell
-    - include: immediately-pop
+      push: [funcdef-parens, funcdef-name]
 
   funcdef-name:
     - match: (?=\S)
@@ -188,15 +182,13 @@ contexts:
       captures:
         1: punctuation.section.parens.begin.shell
         2: punctuation.section.parens.end.shell
-      pop: true
+      set: funcdef-body
     - include: comment
-    - include: else-pop
+    - match: (?=\S)
+      set: funcdef-body
 
   funcdef-body:
-    - match: ''
-      set: [funcdef-meta, funcdef-body-content]
-
-  funcdef-body-content:
+    - meta_content_scope: meta.function.shell
     - include: block
     - include: group
     - include: comment
@@ -205,21 +197,21 @@ contexts:
   block:
     - match: \{
       scope: punctuation.section.block.begin.shell
-      set:
+      push:
         - meta_scope: meta.block.shell
         - match: \}
           scope: punctuation.section.block.end.shell
-          pop: true
+          pop: 2
         - include: main
 
   group:
     - match: \(
       scope: punctuation.section.group.begin.shell
-      set:
+      push:
         - meta_scope: meta.group.shell
         - match: \)
           scope: punctuation.section.group.end.shell
-          pop: true
+          pop: 2
         - include: main
 
 ###[ VARDEFS ]#################################################################
