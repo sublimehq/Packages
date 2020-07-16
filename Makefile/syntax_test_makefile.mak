@@ -930,11 +930,11 @@ TESTTOOL = sh -c '\
 #                ^^^ meta.string.makefile meta.interpolation.makefile
 #          ^^^^^^ string.unquoted.makefile
 #                ^ punctuation.section.interpolation.begin.makefile
-#                 ^ source.shell punctuation.separator.continuation.line.shell
+#                 ^ source.shell.embedded punctuation.separator.continuation.line.shell - source.shell source.shell
   if something; then
     build_thisway $$1 $$2;
   fi' TESTTOOL
 # ^^^ meta.string.makefile meta.interpolation.makefile
 #    ^^^^^^^^^ meta.string.makefile string.unquoted.makefile - meta.interpolation
-# ^^ source.shell keyword.control.conditional.end.shell
+# ^^ source.shell.embedded keyword.control.conditional.end.shell - source.shell source.shell
 #   ^ punctuation.section.interpolation.end.makefile
