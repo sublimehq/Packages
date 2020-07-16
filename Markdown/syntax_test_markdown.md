@@ -575,6 +575,24 @@ because it doesn't begin with the number one:
 * list continues
 | <- markup.list.unnumbered punctuation.definition.list_item - markup.raw.block
 * list continues
+* [ ] Unticked GitHub-flavored-markdown checkbox
+|^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.list.unnumbered
+| ^^^ constant.language.checkbox
+* [x] Ticked GFM checkbox
+| ^^^ constant.language.checkbox
+* [X] Another ticked checkbox
+| ^^^ constant.language.checkbox
+    + [ ] Sub-item with checkbox
+|     ^^^ constant.language.checkbox
+* [] Not a checkbox
+| ^^^^^^^^^^^^^^^^^ - storage - constant
+* [/] Not a checkbox
+| ^^^^^^^^^^^^^^^^^^ - storage
+* Not [ ] a [x] checkbox [X]
+| ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - storage - constant
+* [ ] [Checkbox][] with next word linked
+| ^^^ constant.language.checkbox
+|     ^^^^^^^^^^^^ meta.link
 
 - `code` - <a name="demo"></a>
 | ^ markup.list.unnumbered meta.paragraph.list markup.raw.inline punctuation.definition.raw
@@ -1939,6 +1957,18 @@ okay
 
 1. Test 2
 |^ markup.list.numbered.bullet punctuation.definition.list_item
+
+```clojure
+|^^^^^^^^^ meta.code-fence.definition.begin.clojure
+|  ^^^^^^^ constant.other.language-name
+ (/ 10 3.0)
+|<- source.clojure
+|^^^^^^^^^^ source.clojure
+| ^ variable.function
+|   ^^ constant.numeric
+|      ^^^ constant.numeric
+```
+|^^ meta.code-fence.definition.end.clojure punctuation.definition.raw.code-fence.end
 
 ```xml
 |^^^^^ meta.code-fence.definition.begin.xml

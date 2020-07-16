@@ -1,0 +1,12 @@
+%YAML 1.2
+---
+name: DTD
+file_extensions:
+  - dtd
+  - ent
+  - mod
+scope: text.xml.dtd
+
+contexts:
+  main:
+    - include: Packages/XML/XML.sublime-syntax#dtd

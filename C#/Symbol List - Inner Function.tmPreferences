@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string><![CDATA[(meta.class.body.cs, meta.interface.body.cs) & (meta.method.cs entity.name.function, meta.property.cs variable.other.member)]]></string>
+	<key>settings</key>
+	<dict>
+		<key>showInSymbolList</key>
+		<integer>1</integer>
+		<key>showInIndexedSymbolList</key>
+		<integer>1</integer>
+		<key>symbolTransformation</key>
+		<string>
+			s/\s{2,}/ /g; # collapse whitespace
+			s/^\s*/  /;   # indent by two spaces
+		</string>
+	</dict>
+</dict>
+</plist>

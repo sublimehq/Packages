@@ -1093,7 +1093,7 @@ contexts:
         		Runtime|Standard|Syntax|System|Tab|Timeout|Type|UnboundLocal|
         		Unicode(Encode|Decode|Translate)?|Value|VMS|Windows|ZeroDivision
         	)Error|
-        	((Pending)?Deprecation|Runtime|Syntax|User|Future|Import|Unicode|Bytes)?Warning|
+        	((Pending)?Deprecation|Resource|Runtime|Syntax|User|Future|Import|Unicode|Bytes)?Warning|
         	(Base)?Exception|
         	SystemExit|StopIteration|NotImplemented|KeyboardInterrupt|GeneratorExit
         )\b
@@ -1595,7 +1595,7 @@ contexts:
       push:
         - meta_content_scope: meta.string.interpolated.python string.quoted.double.block.python
         - match: '"""'
-          scope: punctuation.definition.string.begin.python
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - include: f-string-content
     # Triple-quoted raw f-string, treated as regex
@@ -1606,7 +1606,7 @@ contexts:
       push:
         - meta_content_scope: meta.string.interpolated.python string.quoted.double.block.python
         - match: '"""'
-          scope: punctuation.definition.string.begin.python
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - match: ''
           push: scope:source.regexp.python
@@ -1622,7 +1622,7 @@ contexts:
       push:
         - meta_content_scope: meta.string.interpolated.python string.quoted.double.block.python
         - match: '"""'
-          scope: punctuation.definition.string.begin.python
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - include: line-continuation-inside-block-string
         - include: escaped-fstring-escape
@@ -1915,7 +1915,7 @@ contexts:
       push:
         - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
         - match: "'''"
-          scope: punctuation.definition.string.begin.python
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - include: f-string-content
     # Triple-quoted raw f-string, treated as regex
@@ -1926,7 +1926,7 @@ contexts:
       push:
         - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
         - match: "'''"
-          scope: punctuation.definition.string.begin.python
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - match: ''
           push: scope:source.regexp.python
@@ -1942,7 +1942,7 @@ contexts:
       push:
         - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
         - match: "'''"
-          scope: punctuation.definition.string.begin.python
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - include: line-continuation-inside-block-string
         - include: escaped-fstring-escape
