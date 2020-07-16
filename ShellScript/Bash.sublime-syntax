@@ -65,9 +65,6 @@ variables:
 
 contexts:
   main:
-    - include: statements
-
-  statements:
     - include: comment
     - include: funcdef
     - include: coproc
@@ -77,7 +74,7 @@ contexts:
 
   statement:
     - include: eol-pop
-    - include: statements
+    - include: main
 
 ###[ PROTOTYPES ]##############################################################
 
@@ -213,7 +210,7 @@ contexts:
         - match: \}
           scope: punctuation.section.block.end.shell
           pop: true
-        - include: statements
+        - include: main
 
   group:
     - match: \(
@@ -223,7 +220,7 @@ contexts:
         - match: \)
           scope: punctuation.section.group.end.shell
           pop: true
-        - include: statements
+        - include: main
 
 ###[ VARDEFS ]#################################################################
 
@@ -421,7 +418,7 @@ contexts:
         - match: \)
           scope: punctuation.section.compound.end.shell
           set: [cmd-post, cmd-args]
-        - include: statements
+        - include: main
     - match: \{(?=\s)
       scope: punctuation.section.compound.begin.shell
       push:
@@ -429,7 +426,7 @@ contexts:
         - match: \}
           scope: punctuation.section.compound.end.shell
           set: [cmd-post, cmd-args]
-        - include: statements
+        - include: main
 
   cmd-test:
     - match: \[\[(?=\s)
@@ -647,7 +644,7 @@ contexts:
       scope: punctuation.terminator.case.clause.shell
       pop: true
     - include: case-end-ahead
-    - include: statements
+    - include: main
 
   case-end-ahead:
     - match: (?=\besac{{keyword_break}})
@@ -694,7 +691,7 @@ contexts:
         - match: \)
           scope: punctuation.section.parens.end.shell
           pop: true
-        - include: statements
+        - include: main
 
   redirection-output:
     - match: (\d*)(>>!?|>&?|&>|&?>(?:\||>))
@@ -1049,12 +1046,12 @@ contexts:
           captures:
             1: punctuation.section.interpolation.end.shell
           pop: true
-        - include: statements
+        - include: main
     - match: \`
       scope:
         meta.interpolation.command.shell
         punctuation.section.interpolation.begin.shell
-      embed: statements
+      embed: main
       embed_scope: meta.interpolation.command.shell
       escape: (?<![^\\]\\)(?<![\\]{3})\`
       escape_captures:
