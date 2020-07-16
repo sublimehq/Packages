@@ -678,10 +678,14 @@ contexts:
       captures:
         1: constant.numeric.integer.decimal.file-descriptor.shell
         2: keyword.operator.assignment.redirection.process.shell
-        3: punctuation.section.parens.begin.shell
+        3: meta.compound.shell
+           punctuation.section.compound.begin.shell
       push:
+        - meta_content_scope: meta.compound.shell
         - match: \)
-          scope: punctuation.section.parens.end.shell
+          scope:
+            meta.compound.shell
+            punctuation.section.compound.end.shell
           pop: true
         - include: main
 

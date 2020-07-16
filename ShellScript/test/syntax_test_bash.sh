@@ -2729,16 +2729,19 @@ wc <(cat /usr/share/dict/linux.words)
 #                                  ^ meta.function-call.arguments meta.function-call.arguments
 #                                   ^ punctuation
 comm <(ls -l) <(ls -al)
-#    ^ keyword.operator.assignment.redirection.process
-#     ^ punctuation
+#     ^^^^^^^ meta.compound.shell
+#            ^^ - meta.compound
+#              ^^^^^^^^ meta.compound.shell
+#                      ^ - meta.compound
+#    ^ keyword.operator.assignment.redirection.process.shell
+#     ^ punctuation.section.compound.begin.shell
 #         ^^ variable.parameter
-#           ^ punctuation
-#            ^ meta.function-call.arguments
-#             ^ keyword.operator.assignment.redirection.process
-#              ^ punctuation
+#           ^ punctuation.section.compound.end.shell
+#             ^ keyword.operator.assignment.redirection.process.shell
+#              ^ punctuation.section.compound.begin.shell
 #                ^ variable.function
 #                  ^^^ variable.parameter
-#                     ^ punctuation
+#                     ^ punctuation.section.compound.end.shell
 gzip | tee >(md5sum - | sed 's/-$/mydata.lz2/'>mydata-gz.md5) > mydata.gz
 #    ^ keyword.operator.logical.pipe
 #          ^ keyword.operator.assignment.redirection.process
