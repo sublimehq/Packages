@@ -218,7 +218,6 @@ contexts:
         meta.function-call.identifier.shell
         support.function.alias.shell
       push:
-        - vardef-meta
         - vardef-maybe-more
         - vardef-value
         - vardef-assign
@@ -229,7 +228,6 @@ contexts:
         meta.function-call.identifier.shell
         storage.modifier.shell
       push:
-        - vardef-meta
         - vardef-maybe-more
         - vardef-value
         - vardef-assign
@@ -240,7 +238,6 @@ contexts:
         meta.function-call.identifier.shell
         storage.modifier.shell
       push:
-        - vardef-meta
         - vardef-maybe-more
         - vardef-value
         - vardef-assign
@@ -251,7 +248,6 @@ contexts:
         meta.function-call.identifier.shell
         storage.modifier.shell
       push:
-        - vardef-meta
         - vardef-maybe-more
         - vardef-value
         - vardef-assign
@@ -263,38 +259,11 @@ contexts:
         - vardef-assign
         - vardef-name
 
-  vardef-meta:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: immediately-pop
-
-  vardef-readonly-options:
-    - match: (-)(?:[aAf]+|p)
-      scope: variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
-    - include: else-pop
-    - include: eol-pop
-
-  vardef-export-options:
-    - match: (-)(?:[fn]+|p)
-      scope: variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
-    - include: else-pop
-    - include: eol-pop
-
   vardef-maybe-more:
+    - meta_content_scope: meta.function-call.arguments.shell
     - include: cmd-args-boilerplate-with-end-of-options
     - match: (?=\S)
       push: [vardef-value, vardef-assign, vardef-name]
-
-  vardef-alias-options:
-    - match: (-)p
-      scope: variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
-    - include: else-pop
-    - include: eol-pop
 
   vardef-alias-name:
     - match: (?=\S)
@@ -309,8 +278,32 @@ contexts:
         - include: string-interpolation
     - include: eol-pop
 
+  vardef-alias-options:
+    - match: (-)p
+      scope: variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+    - include: else-pop
+    - include: eol-pop
+
   vardef-declare-options:
     - match: (-)(?:[aAfFgilnrtux]+|p)
+      scope: variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+    - include: else-pop
+    - include: eol-pop
+
+  vardef-export-options:
+    - match: (-)(?:[fn]+|p)
+      scope: variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+    - include: else-pop
+    - include: eol-pop
+
+  vardef-readonly-options:
+    - match: (-)(?:[aAf]+|p)
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
