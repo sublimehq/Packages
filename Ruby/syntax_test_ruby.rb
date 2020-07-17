@@ -1128,6 +1128,8 @@ abort "Ending"
 exit! 2
 #^^^^ support.function.builtin
 
+ ->
+#^^ support.function.builtin
 
 
 ##################
