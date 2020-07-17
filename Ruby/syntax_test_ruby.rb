@@ -1129,7 +1129,7 @@ exit! 2
 #^^^^ support.function.builtin
 
  ->
-#^^ support.function.builtin
+#^^ meta.function.ruby storage.type.function.ruby keyword.declaration.function.lambda.ruby
 
 
 ##################
