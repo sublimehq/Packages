@@ -882,11 +882,11 @@ contexts:
 
   expression:
     - match: \(
-      scope: punctuation.section.parens.begin.shell
+      scope: punctuation.section.group.begin.shell
       push:
-        - meta_scope: meta.group.parens.shell
+        - meta_scope: meta.group.shell
         - match: \)
-          scope: punctuation.section.parens.end.shell
+          scope: punctuation.section.group.end.shell
           pop: true
         - include: expression
     - match: '[*/%+\-&^|]?=|<<=|>>='
@@ -913,11 +913,11 @@ contexts:
 
   expression-test:
     - match: \(
-      scope: punctuation.section.parens.begin.shell
+      scope: punctuation.section.group.begin.shell
       push:
-        - meta_scope: meta.group.parens.shell
+        - meta_scope: meta.group.shell
         - match: \)
-          scope: punctuation.section.parens.end.shell
+          scope: punctuation.section.group.end.shell
           pop: true
         - include: expression-test
     - match: (-)[aobcdefghknoprstuvwxzGLNORS](?=\s)

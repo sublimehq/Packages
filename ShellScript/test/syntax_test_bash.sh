@@ -1654,21 +1654,21 @@ coproc foobar {
 #                                                          ^^ keyword.operator.assignment
 #                                                                ^^ keyword.operator.assignment
 (((a>b) ? (a>c?a:c) : (b>c?b:c)))
-# <- punctuation.section.arithmetic.begin
-#^ punctuation.section.arithmetic.begin
-# ^ punctuation.section.parens.begin
-#     ^ punctuation.section.parens.end
-#         ^ punctuation.section.parens.begin
-#                 ^ punctuation.section.parens.end
-#                     ^ punctuation.section.parens.begin
-#                             ^ punctuation.section.parens.end
-#                              ^^ punctuation.section.arithmetic.end
-# ^^^^^ meta.group.parens
-#      ^^^ - meta.group.parens
-#         ^^^^^^^^^ meta.group.parens
-#                  ^^^ - meta.group.parens
-#                     ^^^^^^^^^ meta.group.parens
-#                              ^^ - meta.group.parens
+# <- punctuation.section.arithmetic.begin.shell
+#^ punctuation.section.arithmetic.begin.shell
+# ^ punctuation.section.group.begin.shell
+#     ^ punctuation.section.group.end.shell
+#         ^ punctuation.section.group.begin.shell
+#                 ^ punctuation.section.group.end.shell
+#                     ^ punctuation.section.group.begin.shell
+#                             ^ punctuation.section.group.end.shell
+#                              ^^ punctuation.section.arithmetic.end.shell
+# ^^^^^ meta.group.shell
+#      ^^^ - meta.group.shell
+#         ^^^^^^^^^ meta.group.shell
+#                  ^^^ - meta.group.shell
+#                     ^^^^^^^^^ meta.group.shell
+#                              ^^ - meta.group.shell
 (( 0xDEADBEEF 0xdeadbeef 0x1234567890abcdefg ))
 #  ^^ constant.numeric.integer.hexadecimal punctuation.definition.numeric.base
 #    ^^^^^^^^ constant.numeric.integer.hexadecimal
@@ -2057,12 +2057,12 @@ if [[ expr && expr || expr ]] ; then cmd ; fi
 
 if [[ expr && ( expr || expr ) ]] ; then cmd ; fi
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#             ^^^^^^^^^^^^^^^^ meta.group.parens.shell
+#             ^^^^^^^^^^^^^^^^ meta.group.shell
 #  ^^ support.function.double-brace.begin.shell
 #          ^^ keyword.operator.logical.shell
-#             ^ punctuation.section.parens.begin.shell
+#             ^ punctuation.section.group.begin.shell
 #                    ^^ keyword.operator.logical.shell
-#                            ^ punctuation.section.parens.end.shell
+#                            ^ punctuation.section.group.end.shell
 #                              ^^ support.function.double-brace.end.shell
 #                                 ^ keyword.operator.logical.continue.shell
 
