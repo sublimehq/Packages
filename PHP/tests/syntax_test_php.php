@@ -265,10 +265,12 @@ $array[  ];
 //    ^ punctuation.section.brackets.begin.php
 //       ^ punctuation.section.brackets.end.php
 
-$var->meth()[10];
-//          ^^^^ meta.item-access
-//          ^ punctuation.section.brackets.begin.php
-//             ^ punctuation.section.brackets.end.php
+$var?->meth()[10];
+//  ^ punctuation.accessor.nullsafe
+//   ^^ punctuation.accessor.arrow
+//           ^^^^ meta.item-access
+//           ^ punctuation.section.brackets.begin
+//              ^ punctuation.section.brackets.end
 
 @@@@@@@@@@ExampleAttribute
 // <- keyword.operator.error-control
@@ -842,11 +844,24 @@ $object->method(func_call());
 //              ^^^^^^^^^ variable.function
 //                       ^^ meta.group meta.group
 
-$object->property::method();
-//     ^^ punctuation.accessor.arrow
-//               ^^ punctuation.accessor.double-colon
-//                 ^^^^^^ meta.function-call.static variable.function
-//                       ^^ meta.group
+$object?->property::method();
+//     ^ punctuation.accessor.nullsafe
+//      ^^ punctuation.accessor.arrow
+//                ^^ punctuation.accessor.double-colon
+//                  ^^^^^^ meta.function-call.static variable.function
+//                        ^^ meta.group
+
+$country = $session?->user?->getAddress()?->country;
+//                 ^ punctuation.accessor.nullsafe
+//                  ^^ punctuation.accessor.arrow
+//                        ^ punctuation.accessor.nullsafe
+//                         ^^ punctuation.accessor.arrow
+//                                       ^ punctuation.accessor.nullsafe
+//                                        ^^ punctuation.accessor.arrow
+
+null?->foo(bar())->baz();
+//  ^ punctuation.accessor.nullsafe
+//   ^^ punctuation.accessor.arrow
 
 strval($foo);
 //^^^^^^^^^^ meta.function-call

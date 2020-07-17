@@ -1387,17 +1387,18 @@ contexts:
           (?=
             \${{identifier}}
             (?:
-                ->{{identifier}}
+                \??->{{identifier}}
                 |
                 \[ ( \d+ | \$?{{identifier}} ) \]
             )
           )
         )
       push:
-        - match: (->)({{identifier}})
+        - match: (\??)(->)({{identifier}})
           captures:
-            1: punctuation.accessor.arrow.php
-            2: variable.other.member.php
+            1: punctuation.accessor.nullsafe.php
+            2: punctuation.accessor.arrow.php
+            3: variable.other.member.php
           pop: true
         - match: '\['
           scope: meta.item-access.php punctuation.section.brackets.begin.php
@@ -1447,28 +1448,31 @@ contexts:
     - match: '\b(?!_)(?:\d|_(?!_))+\b'
       scope: constant.numeric.integer.decimal.php
   object:
-    - match: '(->)(\$?\{)'
+    - match: (\??)(->)(\$?\{)
       captures:
-        1: punctuation.accessor.arrow.php
-        2: punctuation.definition.variable.php
+        1: punctuation.accessor.nullsafe.php
+        2: punctuation.accessor.arrow.php
+        3: punctuation.definition.variable.php
       push:
         - match: '(\})'
           captures:
             1: punctuation.definition.variable.php
           set: after-identifier
         - include: expressions
-    - match: (->)({{identifier}})(?=\s*\()
+    - match: (\??)(->)({{identifier}})(?=\s*\()
       scope: meta.function-call.method.php
       captures:
-        1: punctuation.accessor.arrow.php
-        2: variable.function.php
+        1: punctuation.accessor.nullsafe.php
+        2: punctuation.accessor.arrow.php
+        3: variable.function.php
       push: function-call-parameters
     - include: function-call-static
-    - match: (->)((\$+)?{{identifier}})?
+    - match: (\??)(->)((\$+)?{{identifier}})?
       captures:
-        1: punctuation.accessor.arrow.php
-        2: variable.other.member.php
-        3: punctuation.definition.variable.php
+        1: punctuation.accessor.nullsafe.php
+        2: punctuation.accessor.arrow.php
+        3: variable.other.member.php
+        4: punctuation.definition.variable.php
       push: after-identifier
     - match: '(::)({{identifier}})?'
       captures:
