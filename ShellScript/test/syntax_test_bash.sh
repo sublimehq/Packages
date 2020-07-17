@@ -99,15 +99,15 @@ echo `echo \`echo hello\\\`, world\\\\\`!`
 #                                 ^^^^^^ constant.character.escape
 #                                        ^ punctuation.section.interpolation.end.shell
 
-foo | ` # get quarks ` \
+foo | `# get quarks ` \
 # <- variable.function
 #   ^ keyword.operator.logical.pipe
-#     ^^^^^^^^^^^^^^^^ meta.interpolation.command.shell
-#                     ^^^ - meta.interpolation
+#     ^^^^^^^^^^^^^^^ meta.interpolation.command.shell
+#                    ^^^ - meta.interpolation
 #     ^ punctuation.section.interpolation.begin.shell
-#       ^^^^^^^^^^^^^ comment.line.number-sign
-#                    ^ punctuation.section.interpolation.end.shell - comment
-#                      ^^ punctuation.separator.continuation.line - comment
+#      ^^^^^^^^^^^^^ comment.line.number-sign
+#                   ^ punctuation.section.interpolation.end.shell - comment
+#                     ^^ punctuation.separator.continuation.line - comment
 
 foo | ` # get quarks ` \
 bar   ` # important; this and that ` "${USELESS_TEXT}" | ` # match text` \

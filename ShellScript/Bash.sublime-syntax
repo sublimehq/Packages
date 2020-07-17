@@ -111,13 +111,10 @@ contexts:
 ###[ COMMENTS ]################################################################
 
   comment:
-    - match: (?:^\s*|\s+)(\#)
-      captures:
-        1:
-          comment.line.number-sign.shell
-          punctuation.definition.comment.begin.shell
+    - match: \#
+      scope: punctuation.definition.comment.begin.shell
       push:
-        - meta_content_scope: comment.line.number-sign.shell
+        - meta_scope: comment.line.number-sign.shell
         # NOTE: The reason for consuming the newline character is as follows.
         # When triggering a snippet, its scope is tested to the *right* of the
         # cursor. So, if you don't want your snippet to trigger in a comment,
@@ -128,7 +125,6 @@ contexts:
         # character (or we are editing something in the middle of an existing
         # comment).
         - match: \n
-          scope: comment.line.number-sign.shell
           pop: true
 
 ###[ COPROCESSES ]#############################################################
