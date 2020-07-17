@@ -1588,65 +1588,65 @@ coproc foobar {
 (( 0 ))
 #  ^ - punctuation
 (( ~1 ))
-#  ^ meta.group.arithmetic keyword.operator.bitwise
+#  ^ meta.arithmetic keyword.operator.bitwise
 (( !1 ))
-#  ^ meta.group.arithmetic keyword.operator.logical
+#  ^ meta.arithmetic keyword.operator.logical
 (( a/b ))
-#   ^ meta.group.arithmetic keyword.operator.arithmetic
+#   ^ meta.arithmetic keyword.operator.arithmetic
 (( a%b ))
-#   ^ meta.group.arithmetic keyword.operator.arithmetic
+#   ^ meta.arithmetic keyword.operator.arithmetic
 (( a+b ))
-#   ^ meta.group.arithmetic keyword.operator.arithmetic
+#   ^ meta.arithmetic keyword.operator.arithmetic
 (( a-b ))
-#   ^ meta.group.arithmetic keyword.operator.arithmetic
+#   ^ meta.arithmetic keyword.operator.arithmetic
 (( a*b ))
-#   ^ meta.group.arithmetic keyword.operator.arithmetic
+#   ^ meta.arithmetic keyword.operator.arithmetic
 ((a++))
-#  ^^ meta.group.arithmetic keyword.operator.arithmetic
+#  ^^ meta.arithmetic keyword.operator.arithmetic
 ((a--))
-#  ^^ meta.group.arithmetic keyword.operator.arithmetic
+#  ^^ meta.arithmetic keyword.operator.arithmetic
 ((++a))
-# ^^ meta.group.arithmetic keyword.operator.arithmetic
+# ^^ meta.arithmetic keyword.operator.arithmetic
 ((--a))
-# ^^ meta.group.arithmetic keyword.operator.arithmetic
+# ^^ meta.arithmetic keyword.operator.arithmetic
 ((a**16))
-#  ^^ meta.group.arithmetic keyword.operator.arithmetic
+#  ^^ meta.arithmetic keyword.operator.arithmetic
 ((a<<12))
-#  ^^ meta.group.arithmetic keyword.operator.logical
+#  ^^ meta.arithmetic keyword.operator.logical
 ((a>>14))
-#  ^^ meta.group.arithmetic keyword.operator.logical
+#  ^^ meta.arithmetic keyword.operator.logical
 ((a&b))
-#  ^ meta.group.arithmetic keyword.operator.bitwise
+#  ^ meta.arithmetic keyword.operator.bitwise
 (( a <= b))
-#    ^^ meta.group.arithmetic keyword.operator.logical
+#    ^^ meta.arithmetic keyword.operator.logical
 (( a >= b))
-#    ^^ meta.group.arithmetic keyword.operator.logical
+#    ^^ meta.arithmetic keyword.operator.logical
 ((a < b))
-#   ^ meta.group.arithmetic keyword.operator.logical
+#   ^ meta.arithmetic keyword.operator.logical
 ((a > b))
-#   ^ meta.group.arithmetic keyword.operator.logical
+#   ^ meta.arithmetic keyword.operator.logical
 ((a^b))
-#  ^ meta.group.arithmetic keyword.operator.bitwise
+#  ^ meta.arithmetic keyword.operator.bitwise
 ((a|b))
-#  ^ meta.group.arithmetic keyword.operator.bitwise
+#  ^ meta.arithmetic keyword.operator.bitwise
 ((a&&b))
-#  ^^ meta.group.arithmetic keyword.operator.logical
+#  ^^ meta.arithmetic keyword.operator.logical
 ((a||b))
-#  ^^ meta.group.arithmetic keyword.operator.logical
+#  ^^ meta.arithmetic keyword.operator.logical
 ((a ? 0 : 1))
 #   ^ keyword.operator.ternary
 #       ^ keyword.operator.logical
 (( a=b, a*=b, a/=b, a%=b, a+=b, a-=b, a<<=b, a>>=b, a&=b, a^=b, a|=b ))
 #   ^ keyword.operator.assignment
-#     ^ meta.group.arithmetic punctuation.separator
+#     ^ meta.arithmetic punctuation.separator
 #        ^^ keyword.operator.assignment
-#           ^ meta.group.arithmetic punctuation.separator
+#           ^ meta.arithmetic punctuation.separator
 #              ^^ keyword.operator.assignment
-#                ^ meta.group.arithmetic
+#                ^ meta.arithmetic
 #                    ^^ keyword.operator.assignment
-#                      ^ meta.group.arithmetic
+#                      ^ meta.arithmetic
 #                          ^^ keyword.operator.assignment
-#                             ^ meta.group.arithmetic punctuation.separator
+#                             ^ meta.arithmetic punctuation.separator
 #                                ^^ keyword.operator.assignment
 #                                      ^^^ keyword.operator.assignment
 #                                             ^^^ keyword.operator.assignment
@@ -2523,7 +2523,7 @@ do echo bar; until ! { [[ true ]]; }
 #                                  ^ punctuation.section.compound.end.shell
 
 for (( i = 0; i < 10; i++ )); do
-#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.arithmetic
+#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.arithmetic
 # <- keyword.control
 #   ^^ punctuation.section.arithmetic.begin
 #        ^ keyword.operator.assignment
@@ -2544,7 +2544,7 @@ done
 # <- keyword.control.loop.end
 
 for (( i = 0; i < 10; i++ )) #; do
-#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.arithmetic
+#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.arithmetic
 # <- keyword.control
 #   ^^ punctuation.section.arithmetic.begin
 #        ^ keyword.operator.assignment

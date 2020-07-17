@@ -874,7 +874,7 @@ contexts:
     - match: \(\((?=.+\)\))
       scope: punctuation.section.arithmetic.begin.shell
       push:
-        - meta_scope: meta.group.arithmetic.shell
+        - meta_scope: meta.arithmetic.shell
         - match: \)\)
           scope: punctuation.section.arithmetic.end.shell
           pop: true
