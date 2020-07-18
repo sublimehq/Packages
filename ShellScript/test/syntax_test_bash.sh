@@ -2976,15 +2976,15 @@ EOF
 #^^ meta.function.identifier.shell
 #  ^^^^ meta.function.identifier.shell
 #      ^ meta.function.identifier.shell
-#       ^ meta.function.parameters.shell meta.parens.shell
-#        ^ meta.function.parameters.shell meta.parens.shell
+#       ^ meta.function.parameters.shell
+#        ^ meta.function.parameters.shell
 #         ^ meta.function.shell - meta.function.identifier - meta.block
 #          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.shell meta.block.shell
 #^^ - entity
 #  ^^^^ entity.name.function.shell
 #      ^ - entity - punctuation
-#       ^ punctuation.section.parens.begin.shell
-#        ^ punctuation.section.parens.end.shell
+#       ^ punctuation.section.parameters.begin.shell
+#        ^ punctuation.section.parameters.end.shell
 #         ^ - punctuation
 #          ^ punctuation.section.block.begin.shell
 #            ^^ support.function.double-brace.begin
@@ -2998,13 +2998,13 @@ logExit ( ) {
 # <- meta.function.identifier.shell entity.name.function.shell
 #^^^^^^ meta.function.identifier.shell entity.name.function.shell
 #      ^ meta.function.identifier.shell
-#       ^^^ meta.function.parameters.shell meta.parens.shell
-#          ^ meta.function.shell - meta.block - meta.parens
+#       ^^^ meta.function.parameters.shell
+#          ^ meta.function.shell - meta.block
 #           ^^ meta.function.shell meta.block.shell
 #^^^^^^ entity.name.function.shell
 #      ^ - entity - punctuation
-#       ^ punctuation.section.parens.begin.shell
-#         ^ punctuation.section.parens.end.shell
+#       ^ punctuation.section.parameters.begin.shell
+#         ^ punctuation.section.parameters.end.shell
 #           ^ punctuation.section.block.begin.shell
   [[ $1 == '0' ]] && tput setaf 2  || tput setaf 1;
   # <- meta.function support.function.double-brace.begin
@@ -3033,14 +3033,14 @@ function connect_to_db() {
 # <- meta.function.shell storage.type.function.shell keyword.declaration.function.shell
 #^^^^^^^ meta.function.shell
 #       ^^^^^^^^^^^^^^ meta.function.identifier.shell
-#                     ^^ meta.function.parameters.shell meta.parens.shell
-#                       ^ meta.function.shell - meta.parens - meta.block
+#                     ^^ meta.function.parameters.shell
+#                       ^ meta.function.shell - meta.block
 #                        ^^ meta.function.shell meta.block.shell
 #^^^^^^^ storage.type.function.shell keyword.declaration.function.shell
 #       ^ - entity - keyword - storage
 #        ^^^^^^^^^^^^^ entity.name.function.shell
-#                     ^ punctuation.section.parens.begin.shell
-#                      ^ punctuation.section.parens.end.shell
+#                     ^ punctuation.section.parameters.begin.shell
+#                      ^ punctuation.section.parameters.end.shell
 #                        ^ punctuation.section.block.begin.shell
 
     export PGPASSWORD=$(cat "$DOKKU_ROOT/.postgresql/pwd_$APP")
@@ -3122,13 +3122,13 @@ function foo (     ) {
 # <- meta.function.shell storage.type.function.shell keyword.declaration.function.shell
 #^^^^^^^ meta.function.shell
 #       ^^^^^ meta.function.identifier.shell
-#            ^^^^^^^ meta.function.parameters.shell meta.parens.shell
+#            ^^^^^^^ meta.function.parameters.shell
 #                   ^^^ meta.function.shell
 #       ^ - entity.name.function
 #        ^^^ entity.name.function
 #           ^ - entity.name.function
-#            ^ punctuation.section.parens.begin.shell
-#                  ^ punctuation.section.parens.end.shell
+#            ^ punctuation.section.parameters.begin.shell
+#                  ^ punctuation.section.parameters.end.shell
 #                    ^ punctuation.section.block.begin.shell
     echo 'hello from foo'
     # <- support.function
@@ -3142,8 +3142,8 @@ function foo (     ) {
 f () (
 # <- meta.function.identifier.shell entity.name.function.shell
 #^ meta.function.identifier.shell - entity - punctuation
-# ^^ meta.function.parameters.shell meta.parens.shell
-#   ^ meta.function.shell - meta.parens - meta.group
+# ^^ meta.function.parameters.shell
+#   ^ meta.function.shell - meta.group
 #    ^ meta.function.shell meta.group.shell punctuation.section.group.begin.shell
   echo hello
   # <- meta.function.shell meta.group.shell meta.function-call.identifier.shell support.function.echo.shell
