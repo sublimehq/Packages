@@ -392,7 +392,7 @@ contexts:
           EmptyIterator | Error | ErrorException | Exception | FilesystemIterator | FilterIterator | GlobIterator | Gmagick | GmagickDraw |
           GmagickPixel | HaruAnnotation | HaruDestination | HaruDoc | HaruEncoder | HaruFont | HaruImage | HaruOutline |
           HaruPage | HttpDeflateStream | HttpInflateStream | HttpMessage | HttpQueryString | HttpRequest | HttpRequestPool | HttpResponse |
-          Imagick | ImagickDraw | ImagickPixel | ImagickPixelIterator | InfiniteIterator | IntlDateFormatter | InvalidArgumentException | Iterator |
+          Imagick | ImagickDraw | ImagickPixel | ImagickPixelIterator | InfiniteIterator | InternalIterator | IntlDateFormatter | InvalidArgumentException | Iterator |
           IteratorAggregate | IteratorIterator | JsonException | JsonSerializable | KTaglib_ID3v2_AttachedPictureFrame | KTaglib_ID3v2_Frame | KTaglib_ID3v2_Tag | KTaglib_MPEG_AudioProperties |
           KTaglib_MPEG_File | KTaglib_Tag | LengthException | LimitIterator | Locale | LogicException | Memcache | Memcached |
           MessageFormatter | Mongo | MongoBinData | MongoCode | MongoCollection | MongoCursor | MongoDB | MongoDBRef |
