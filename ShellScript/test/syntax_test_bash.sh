@@ -263,7 +263,7 @@ foo -e=Hello
 #  ^^^^^^^^^ meta.function-call.arguments.shell
 #   ^ punctuation.definition.parameter.shell
 #   ^^ variable.parameter.option.shell
-#     ^ keyword.operator.assignment.option.shell
+#     ^ keyword.operator.assignment.shell
 
 foo -$e=Hello
 #^^ meta.function-call.identifier.shell variable.function.shell
@@ -271,12 +271,26 @@ foo -$e=Hello
 #   ^ punctuation.definition.parameter.shell
 #   ^^^ variable.parameter.option.shell
 #    ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#      ^ keyword.operator.assignment.option.shell
+#      ^ keyword.operator.assignment.shell
 
 python foo.py --option=value --other-option
-#                     ^ keyword.operator.assignment.option
+#^^^^^ meta.function-call.identifier.shell variable.function.shell
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                                          ^ - meta.function-call
+#             ^^ punctuation.definition.parameter.shell
+#             ^^^^^^^^ variable.parameter.option.shell
+#                     ^ keyword.operator.assignment.shell
+#                            ^^^^^^^^^^^^^^ variable.parameter.option.shell
+#                            ^^ punctuation.definition.parameter.shell
+
 git log --format="%h git has this pattern, too"
-#               ^ keyword.operator.assignment.option
+#^^ meta.function-call.identifier.shell variable.function.shell
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                                              ^ - meta.function-call
+#       ^^ punctuation.definition.parameter.shell
+#       ^^^^^^^^ variable.parameter.option.shell
+#               ^ keyword.operator.assignment.shell
+#                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell string.quoted.double.shell
 
 
 ####################################################################

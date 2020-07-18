@@ -475,7 +475,7 @@ contexts:
       push:
         - meta_content_scope: variable.parameter.option.shell
         - match: =
-          scope: keyword.operator.assignment.option.shell
+          scope: keyword.operator.assignment.shell
           pop: true
         - match: (?={{is_end_of_option}})
           pop: true
