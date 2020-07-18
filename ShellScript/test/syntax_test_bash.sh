@@ -1598,15 +1598,70 @@ coproc foobar {
 
 
 ####################################################################
+# Bash Numeric Constants                                           #
+####################################################################
+
+(( 0 ))
+# ^ - meta.number - constant
+#  ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#   ^ - meta.number - constant
+
+(( 0 1 2 3 4 5 6 7 8 9))
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.arithmetic.shell
+# ^ - meta.number - constant
+#  ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#   ^ - meta.number - constant
+#    ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#     ^ - meta.number - constant
+#      ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#       ^ - meta.number - constant
+#        ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#         ^ - meta.number - constant
+#          ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#           ^ - meta.number - constant
+#            ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#             ^ - meta.number - constant
+#              ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#               ^ - meta.number - constant
+#                ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#                 ^ - meta.number - constant
+#                  ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#                   ^ - meta.number - constant
+#                    ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#                     ^ - meta.number - constant
+
+(( 012345670802 ))
+#^^^^^^^^^^^^^^^^^ meta.arithmetic.shell
+#  ^ meta.number.base.shell constant.numeric.integer.octal.shell
+#   ^^^^^^^^ meta.number.value.shell constant.numeric.integer.octal.shell
+#           ^^^ - meta.number - constant
+
+(( 0x ))
+# ^ - meta.number - constant
+#  ^^ meta.number.base.shell constant.numeric.integer.hexadecimal.shell
+#    ^ - meta.number - constant
+
+(( 0xDEADBEEF 0xdeadbeef 0x1234567890abcdefg ))
+# ^ - meta.number - constant
+#  ^^ meta.number.base.shell constant.numeric.integer.hexadecimal.shell
+#    ^^^^^^^^ meta.number.value.shell constant.numeric.integer.hexadecimal.shell
+#            ^ - meta.number - constant
+#             ^^ meta.number.base.shell constant.numeric.integer.hexadecimal.shell
+#               ^^^^^^^^ meta.number.value.shell constant.numeric.integer.hexadecimal.shell
+#                       ^ - meta.number - constant
+#                        ^^ meta.number.base.shell constant.numeric.integer.hexadecimal.shell
+#                          ^^^^^^^^^^^^^^^^ meta.number.value.shell constant.numeric.integer.hexadecimal.shell
+#                                          ^^^^ - meta.number - constant
+
+(( 64#123@_ ))
+#  ^^^ meta.number.base.shell constant.numeric.integer.other.shell
+#     ^^^^^ meta.number.value.shell constant.numeric.integer.other.shell
+
+
+####################################################################
 # Misc operators                                                   #
 ####################################################################
 
-(( 0123456708 ))
-#  ^ constant.numeric.integer.octal punctuation.definition.numeric.base
-#  ^^^^^^^^^ constant.numeric.integer.octal
-#           ^ constant.numeric.integer.octal invalid.illegal.not-an-octal-character
-(( 0 ))
-#  ^ - punctuation
 (( ~1 ))
 #  ^ meta.arithmetic keyword.operator.bitwise
 (( !1 ))
@@ -1689,20 +1744,6 @@ coproc foobar {
 #                  ^^^ - meta.group.shell
 #                     ^^^^^^^^^ meta.group.shell
 #                              ^^ - meta.group.shell
-(( 0xDEADBEEF 0xdeadbeef 0x1234567890abcdefg ))
-#  ^^ constant.numeric.integer.hexadecimal punctuation.definition.numeric.base
-#    ^^^^^^^^ constant.numeric.integer.hexadecimal
-#             ^^ constant.numeric.integer.hexadecimal punctuation.definition.numeric.base
-#               ^^^^^^^^ constant.numeric.integer.hexadecimal
-#                        ^^ constant.numeric.integer.hexadecimal punctuation.definition.numeric.base
-#                          ^^^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
-#                                          ^ constant.numeric.integer.hexadecimal invalid.illegal.not-a-hex-character
-(( 64#123@_ ))
-#  ^^^^^^^^ constant.numeric.integer.other
-#  ^^^ punctuation.definition.numeric.base
-(( 0x1f ))
-#  ^^^^ constant.numeric.integer.hexadecimal
-#  ^^ punctuation.definition.numeric.base
 (( a * b ))
 #    ^ keyword.operator.arithmetic - keyword.operator.regexp
 ((a+=b))
