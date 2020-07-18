@@ -1453,42 +1453,42 @@ fi
 ####################################################################
 
 coproc
-# <- meta.function-call.shell keyword.other.coproc.shell
-#^^^^^ meta.function-call.shell keyword.other.coproc.shell
-#     ^ - meta.function - keyword
+# <- meta.coproc.shell storage.type.coproc.shell keyword.declaration.coproc.shell
+#^^^^^ meta.coproc.shell storage.type.coproc.shell keyword.declaration.coproc.shell
+#     ^ - meta.coproc - keyword
 
 coproc na\
 me args
-# <- meta.function-call.arguments.shell meta.function.coproc.shell meta.function-call.identifier.shell
-#  ^^^^ meta.function-call.arguments.shell meta.function.coproc.shell meta.function-call.arguments.shell
-#      ^ - meta.function - meta.function-call
+# <- meta.coproc.command.shell meta.function-call.identifier.shell
+#  ^^^^ meta.coproc.command.shell meta.function-call.arguments.shell
+#      ^ - meta.coproc - meta.function-call
 
 coproc name ar\
 gs
-# <- meta.function-call.arguments.shell meta.function.coproc.shell meta.function-call.arguments.shell
-# ^ - meta.function - meta.function-call
+# <- meta.coproc.command.shell meta.function-call.arguments.shell
+# ^ - meta.coproc - meta.function-call
 
 coproc sed s/^/foo/
-# <- meta.function-call.shell keyword.other.coproc.shell
-#^^^^^ meta.function-call.shell
-#     ^ meta.function-call.arguments.shell meta.function.coproc.shell
-#      ^^^ meta.function-call.arguments.shell meta.function.coproc.shell meta.function-call.identifier.shell
-#         ^^^^^^^^^ meta.function-call.arguments.shell meta.function.coproc.shell meta.function-call.arguments.shell
-#                  ^ - meta.function - meta.function-call
-#^^^^^ keyword.other.coproc.shell
+# <- meta.coproc.shell storage.type.coproc.shell keyword.declaration.coproc.shell
+#^^^^^ meta.coproc.shell
+#     ^ meta.coproc.command.shell - meta.function-call
+#      ^^^ meta.coproc.command.shell meta.function-call.identifier.shell
+#         ^^^^^^^^^ meta.coproc.command.shell meta.function-call.arguments.shell
+#                  ^ - meta.coproc - meta.function-call
+#^^^^^ storage.type.coproc.shell keyword.declaration.coproc.shell
 #      ^^^ variable.function.shell
 
 coproc ls thisfiledoesntexist; read; 2>&1
-# <- meta.function-call.shell keyword.other.coproc.shell
-#^^^^^ meta.function-call.shell
-#     ^ meta.function-call.arguments.shell meta.function.coproc.shell
-#      ^^ meta.function-call.arguments.shell meta.function.coproc.shell meta.function-call.identifier.shell
-#        ^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.function.coproc.shell meta.function-call.arguments.shell
-#                            ^^ meta.function-call.arguments.shell meta.function.coproc.shell - meta.function-call.identifier.shell
-#                              ^^^^ meta.function-call.arguments.shell meta.function.coproc.shell meta.function-call.identifier.shell
-#                                  ^^^^^^ meta.function-call.arguments.shell meta.function.coproc.shell - meta.function-call.identifier.shell
-#                                        ^ - meta.function
-#^^^^^ keyword.other.coproc.shell
+# <- meta.coproc.shell storage.type.coproc.shell keyword.declaration.coproc.shell
+#^^^^^ meta.coproc.shell
+#     ^ meta.coproc.command.shell
+#      ^^ meta.coproc.command.shell meta.function-call.identifier.shell
+#        ^^^^^^^^^^^^^^^^^^^^ meta.coproc.command.shell meta.function-call.arguments.shell
+#                            ^^ meta.coproc.command.shell - meta.function-call.identifier.shell
+#                              ^^^^ meta.coproc.command.shell meta.function-call.identifier.shell
+#                                  ^^^^^^ meta.coproc.command.shell - meta.function-call.identifier.shell
+#                                        ^ - meta.coproc
+#^^^^^ storage.type.coproc.shell keyword.declaration.coproc.shell
 #      ^^ variable.function.shell
 #                            ^ keyword.operator.logical.continue.shell
 #                              ^^^^ support.function.read.shell
@@ -1498,31 +1498,31 @@ coproc ls thisfiledoesntexist; read; 2>&1
 #                                       ^ constant.numeric.integer.decimal.file-descriptor.shell
 
 coproc awk '{print "foo" $0;fflush()}'
-# <- meta.function-call.shell keyword.other.coproc.shell
-#^^^^^ meta.function-call.shell
-#     ^ meta.function-call.arguments.shell meta.function.coproc.shell
-#      ^^^ meta.function-call.arguments.shell meta.function.coproc.shell meta.function-call.identifier.shell
-#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.function.coproc.shell meta.function-call.arguments.shell
-#                                     ^ - meta.function - meta.function-call
-#^^^^^ keyword.other.coproc.shell
+# <- meta.coproc.shell storage.type.coproc.shell keyword.declaration.coproc.shell
+#^^^^^ meta.coproc.shell
+#     ^ meta.coproc.command.shell
+#      ^^^ meta.coproc.command.shell meta.function-call.identifier.shell
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.coproc.command.shell meta.function-call.arguments.shell
+#                                     ^ - meta.coproc - meta.function-call
+#^^^^^ storage.type.coproc.shell keyword.declaration.coproc.shell
 #      ^^^ variable.function.shell
 #          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell string.quoted.single.shell
 #          ^ punctuation.definition.string.begin.shell
 #                                    ^ punctuation.definition.string.end.shell
 
 coproc { ls thisfiledoesntexist; read; 2>&1 } | foo
-# <- meta.function-call.shell keyword.other.coproc.shell
-#^^^^^ meta.function-call.shell
-#     ^ meta.function-call.arguments.shell meta.function.coproc.shell
-#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.function.coproc.shell meta.compound.shell
-#                                            ^^^^^^ meta.function-call.arguments.shell meta.function.coproc.shell - meta.compound
+# <- meta.coproc.shell storage.type.coproc.shell keyword.declaration.coproc.shell
+#^^^^^ meta.coproc.shell
+#     ^ meta.coproc.command.shell
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.coproc.command.shell meta.compound.shell
+#                                            ^^^^^^ meta.coproc.command.shell - meta.compound
 #                                                  ^ - meta.function-call - meta.function.coproc
 #        ^^ meta.function-call.identifier.shell
 #          ^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                              ^^ - meta.function-call.identifier.shell
 #                                ^^^^ meta.function-call.identifier.shell
 #                                    ^^^^^^^^ - meta.function-call.identifier.shell
-#^^^^^ keyword.other.coproc.shell
+#^^^^^ storage.type.coproc.shell keyword.declaration.coproc.shell
 #      ^ punctuation.section.compound.begin.shell
 #        ^^ variable.function.shell
 #                              ^ keyword.operator.logical.continue.shell
@@ -1536,14 +1536,14 @@ coproc { ls thisfiledoesntexist; read; 2>&1 } | foo
 #                                               ^^^ variable.function.shell
 
 coproc myls { ls thisfiledoesntexist; read; 2>&1 } | foo
-# <- meta.function-call.shell keyword.other.coproc.shell
-#^^^^^ meta.function-call.shell
-#     ^^^^^^ meta.function-call.arguments.shell meta.function.coproc.identifier.shell - meta.block
-#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.function.coproc.shell meta.block.shell
+# <- meta.coproc.shell storage.type.coproc.shell keyword.declaration.coproc.shell
+#^^^^^ meta.coproc.shell
+#     ^^^^^^ meta.coproc.identifier.shell - meta.compound
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.coproc.command.shell meta.compound.shell
 #                                                 ^^^ - meta.function-call
 #                                                    ^^^ meta.function-call.identifier.shell
-#^^^^^ keyword.other.coproc.shell
-#           ^ punctuation.section.block.begin.shell
+#^^^^^ storage.type.coproc.shell keyword.declaration.coproc.shell
+#           ^ punctuation.section.compound.begin.shell
 #             ^^ variable.function.shell
 #                                   ^ keyword.operator.logical.continue.shell
 #                                     ^^^^ support.function.read.shell
@@ -1551,23 +1551,23 @@ coproc myls { ls thisfiledoesntexist; read; 2>&1 } | foo
 #                                           ^ constant.numeric.integer.decimal.file-descriptor.shell
 #                                            ^^ keyword.operator.assignment.redirection.shell
 #                                              ^ constant.numeric.integer.decimal.file-descriptor.shell
-#                                                ^ punctuation.section.block.end.shell
+#                                                ^ punctuation.section.compound.end.shell
 #                                                  ^ keyword.operator.logical.pipe.shell
 #                                                    ^^^ variable.function.shell
 
 { coproc tee { tee logfile ;} >&3 ;} 3>&1
 # <- meta.compound.shell punctuation.section.compound.begin.shell
-# ^^^^^^ meta.compound.shell meta.function-call.shell
-#       ^^^^^ meta.compound.shell meta.function-call.arguments.shell meta.function.coproc.identifier.shell
-#            ^^^^^^^^^^^^^^^^ meta.compound.shell meta.function-call.arguments.shell meta.function.coproc.shell meta.block.shell
-#                            ^^^^ meta.compound.shell meta.function-call.arguments.shell
-#                                ^^^ meta.compound.shell - meta.function-call
-#                                   ^^^^^ meta.function-call.arguments.shell
-# ^^^^^^ keyword.other.coproc.shell
-#        ^^^ entity.name.function.coproc
-#            ^ punctuation.section.block.begin.shell
-#              ^^^ variable.function
-#                           ^ punctuation.section.block.end.shell
+# ^^^^^^ meta.compound.shell meta.coproc.shell
+#       ^^^^^ meta.compound.shell meta.coproc.identifier.shell
+#            ^^^^^^^^^^^^^^^^ meta.compound.shell meta.coproc.command.shell meta.compound.shell
+#                            ^^^^ meta.compound.shell meta.coproc.shell - meta.compound meta.compound
+#                                ^^^ meta.compound.shell - meta.coproc
+#                                   ^^^^^ meta.compound.arguments.shell - meta.coproc - meta.function-call
+# ^^^^^^ storage.type.coproc.shell keyword.declaration.coproc.shell
+#        ^^^ entity.name.coproc.shell
+#            ^ punctuation.section.compound.begin.shell
+#              ^^^ variable.function.shell
+#                           ^ punctuation.section.compound.end.shell
 #                             ^^ keyword.operator.assignment.redirection
 #                               ^ constant.numeric.integer.decimal.file-descriptor
 #                                  ^ punctuation.section.compound.end.shell
@@ -1576,18 +1576,18 @@ coproc myls { ls thisfiledoesntexist; read; 2>&1 } | foo
 #                                       ^ constant.numeric.integer.decimal.file-descriptor
 
 coproc foobar {
-# <- meta.function-call.shell keyword.other.coproc.shell
-#^^^^^ meta.function-call.shell
-#     ^^^^^^^^ meta.function-call.arguments.shell meta.function.coproc.identifier.shell
-#             ^^ meta.function-call.arguments.shell meta.function.coproc.shell meta.block.shell
-#^^^^^ keyword.other.coproc.shell
-#      ^^^^^^ entity.name.function.coproc.shell
-#             ^ punctuation.section.block.begin.shell
+# <- meta.coproc.shell storage.type.coproc.shell keyword.declaration.coproc.shell
+#^^^^^ meta.coproc.shell
+#     ^^^^^^^^ meta.coproc.identifier.shell
+#             ^^ meta.coproc.command.shell meta.compound.shell
+#^^^^^ storage.type.coproc.shell keyword.declaration.coproc.shell
+#      ^^^^^^ entity.name.coproc.shell
+#             ^ punctuation.section.compound.begin.shell
     read
-#^^^^^^^^ meta.function-call.arguments.shell meta.function.coproc.shell meta.block.shell
-#   ^^^^ meta.function-call.arguments.shell meta.function.coproc.shell meta.block.shell meta.function-call.identifier.shell support.function.read.shell
+#^^^^^^^^ meta.coproc.command.shell meta.compound.shell
+#   ^^^^ meta.coproc.command.shell meta.compound.shell meta.function-call.identifier.shell support.function.read.shell
 }
-# <- meta.function-call.arguments.shell meta.function.coproc.shell meta.block.shell punctuation.section.block.end.shell
+# <- meta.coproc.command.shell meta.compound.shell punctuation.section.compound.end.shell
 #^ - meta
 
 

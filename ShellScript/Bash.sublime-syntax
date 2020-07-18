@@ -132,22 +132,33 @@ contexts:
   coproc:
     - match: \bcoproc{{keyword_break}}
       scope: 
-        meta.function-call.shell
-        keyword.other.coproc.shell
-      push: [cmd-post, cmd-args, coproc-body]
-
-  coproc-body:
-    - match: \s*(\S+)\s*(?=\{)
-      captures:
-        0: meta.function.coproc.identifier.shell
-        1: entity.name.function.coproc.shell
-      set:
-        - meta_content_scope: meta.function.coproc.shell
-        - include: block
-    - match: ''
-      set:
-        - meta_scope: meta.function.coproc.shell
-        - include: statement
+        meta.coproc.shell
+        storage.type.coproc.shell
+        keyword.declaration.coproc.shell
+      push:
+        # Extended Coproc Syntax
+        - match: (\s*(\S+)\s*)(\{)
+          captures:
+            1: meta.coproc.identifier.shell
+            2: entity.name.coproc.shell
+            3: meta.coproc.command.shell meta.compound.shell
+               punctuation.section.compound.begin.shell
+          set:
+            - meta_content_scope:
+                meta.coproc.command.shell meta.compound.shell
+            - match: \}
+              scope:
+                meta.coproc.command.shell meta.compound.shell
+                punctuation.section.compound.end.shell
+              set:
+                - meta_content_scope: meta.coproc.shell
+                - include: cmd-args
+            - include: main
+        # Basic Coproc Syntax
+        - match: ''
+          set:
+            - meta_scope: meta.coproc.command.shell
+            - include: statement
 
 ###[ FUNCTIONS ]###############################################################
 
@@ -396,7 +407,7 @@ contexts:
         - meta_scope: meta.compound.shell
         - match: \)
           scope: punctuation.section.compound.end.shell
-          set: [cmd-post, cmd-args]
+          set: [cmd-post, cmd-compound-args]
         - include: main
     - match: \{(?=\s)
       scope: punctuation.section.compound.begin.shell
@@ -404,8 +415,12 @@ contexts:
         - meta_scope: meta.compound.shell
         - match: \}
           scope: punctuation.section.compound.end.shell
-          set: [cmd-post, cmd-args]
+          set: [cmd-post, cmd-compound-args]
         - include: main
+
+  cmd-compound-args:
+    - meta_content_scope: meta.compound.arguments.shell
+    - include: cmd-args
 
   cmd-test:
     - match: \[\[(?=\s)
