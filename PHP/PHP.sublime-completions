@@ -5861,6 +5861,12 @@
 			"details": "Alias of get_included_files()"
 		},
 		{
+			"trigger": "get_resource_id()",
+			"contents": "get_resource_id(${1:handle})",
+			"kind": "function",
+			"details": "Get the resource ID."
+		},
+		{
 			"trigger": "get_resource_type()",
 			"contents": "get_resource_type(${1:handle})",
 			"kind": "function",
