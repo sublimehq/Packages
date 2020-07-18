@@ -238,36 +238,41 @@ git log --format="%h git has this pattern, too"
 ####################################################################
 
 x= # some comment
+#^ keyword.operator.assignment.shell
 # ^ - string.unquoted
 #  ^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 x= & pwd
+#^ keyword.operator.assignment.shell
 # ^ - string.unquoted
 #  ^ keyword.operator.logical.job.shell
 #    ^^^ support.function
 x=a
 # <- variable.other.readwrite
-#^ keyword.operator.assignment
+#^ keyword.operator.assignment.shell
 # ^ meta.string string.unquoted
 x=a # some comment
+#^ keyword.operator.assignment.shell
 #  ^ - string.unquoted
 x=a#not-a-comment
+#^ keyword.operator.assignment.shell
 #  ^ meta.string string.unquoted - comment
 x=a pwd
 # <- variable.other.readwrite
-#^ keyword.operator.assignment
+#^ keyword.operator.assignment.shell
 #  ^ - string.unquoted
 #   ^^^ meta.function-call support.function
 x="a b" pwd
+#^ keyword.operator.assignment.shell
 # ^ string.quoted.double punctuation.definition.string.begin
 #  ^^^ string.quoted.double
 #     ^ string.quoted.double punctuation.definition.string.end
 #      ^ - string.unquoted
 #       ^^^ meta.function-call support.function
 x=a y=b pwd
-#^ keyword.operator.assignment
+#^ keyword.operator.assignment.shell
 # ^ meta.string string.unquoted
 #  ^ - string.unquoted
-#    ^ keyword.operator.assignment
+#    ^ keyword.operator.assignment.shell
 #     ^ meta.string string.unquoted
 #      ^ - string.unquoted
 #       ^^^ meta.function-call support.function
@@ -292,7 +297,7 @@ foo='bar'
 #  ^ keyword.operator.assignment.shell
 #   ^^^^^ meta.string.shell string.quoted.single.shell
 x=${foo} y=${baz}"asdf" pwd
-#^ keyword.operator.assignment
+#^ keyword.operator.assignment.shell
 # ^^^^^^ meta.string meta.interpolation - string
 #       ^^^ - meta.string - mete.interpolation - string
 #          ^^^^^^ meta.string meta.interpolation - string
@@ -301,7 +306,7 @@ x=${foo} y=${baz}"asdf" pwd
 # ^^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite
 #      ^ punctuation.section.interpolation.end.shell
-#         ^ keyword.operator.assignment
+#         ^ keyword.operator.assignment.shell
 #          ^^ punctuation.section.interpolation.begin.shell
 #            ^^^ variable.other.readwrite
 #               ^ punctuation.section.interpolation.end.shell
@@ -309,6 +314,7 @@ x=${foo} y=${baz}"asdf" pwd
 #                     ^ punctuation.definition.string.end
 #                       ^^^ meta.function-call support.function
 x="$(( foo++ ))"
+#^ keyword.operator.assignment.shell
 #  ^^^ punctuation.section.interpolation.begin.shell
 #         ^^ keyword
 #            ^^ punctuation.section.interpolation.end.shell
@@ -344,40 +350,40 @@ B$(cat)OWL=$(($(cat food.txt | wc -l) + 5))
 # These are all legal identifiers for variables.
 alias=hello
 # <- - storage.modifier
-#    ^ keyword.operator
+#    ^ keyword.operator.assignment.shell
 typeset=hello
 # <- - storage.modifier
-#      ^ keyword.operator
+#      ^ keyword.operator.assignment.shell
 declare=hello
 # <- - storage.modifier
-#      ^ keyword.operator
+#      ^ keyword.operator.assignment.shell
 local=hello
 # <- - storage.modifier
-#    ^ keyword.operator
+#    ^ keyword.operator.assignment.shell
 export=hello
 # <- - storage.modifier
-#     ^ keyword.operator
+#     ^ keyword.operator.assignment.shell
 readonly=hello
 # <- - storage.modifier
-#       ^ keyword.operator
+#       ^ keyword.operator.assignment.shell
 for=hello
 # <- - keyword.control
-#  ^ keyword.operator
+#  ^ keyword.operator.assignment.shell
 if=hello
 # <- - keyword.control
-# ^ keyword.operator
+# ^ keyword.operator.assignment.shell
 while=hello
 # <- - keyword.control
-#    ^ keyword.operator
+#    ^ keyword.operator.assignment.shell
 until=hello
 # <- - keyword.control
-#    ^ keyword.operator
+#    ^ keyword.operator.assignment.shell
 do=hello
 # <- - keyword.control
-# ^ keyword.operator
+# ^ keyword.operator.assignment.shell
 done=hello
 # <- - keyword.control
-#   ^ keyword.operator
+#   ^ keyword.operator.assignment.shell
 
 (foo=bar)
 # <- punctuation.section.compound.begin.shell
@@ -1431,7 +1437,7 @@ echo @(foo*)*
 #         ^ keyword.operator.regexp.quantifier
 #          ^ punctuation.section.group.end
 #           ^ keyword.operator.regexp.quantifier
-echo +(bar|qux)
+echo +(bar|qux) | wc
 #   ^^ meta.function-call.arguments.shell - meta.group
 #     ^^^^^^^^^ meta.function-call.arguments.shell meta.group.shell
 #              ^ - meta.function-call - meta.group
@@ -1439,8 +1445,13 @@ echo +(bar|qux)
 #     ^ punctuation.section.group.begin
 #         ^ keyword.operator.logical.or
 #             ^ punctuation.section.group.end
+#               ^ keyword.operator.logical.pipe.shell
 [[ a == [abc[]* ]]
+#    ^^ keyword.operator.logical.shell
+#       ^ keyword.control.regexp.set.begin.shell
 #           ^ - keyword.control
+#            ^ keyword.control.regexp.set.end.shell
+#             ^ keyword.operator.regexp.quantifier.shell
 #               ^^ support.function
 : ${foo//[abc[]/x}
 #            ^ - keyword.control
@@ -1662,108 +1673,134 @@ coproc foobar {
 # Misc operators                                                   #
 ####################################################################
 
-(( ~1 ))
-#  ^ meta.arithmetic keyword.operator.bitwise
-(( !1 ))
-#  ^ meta.arithmetic keyword.operator.logical
-(( a/b ))
-#   ^ meta.arithmetic keyword.operator.arithmetic
-(( a%b ))
-#   ^ meta.arithmetic keyword.operator.arithmetic
-(( a+b ))
-#   ^ meta.arithmetic keyword.operator.arithmetic
-(( a-b ))
-#   ^ meta.arithmetic keyword.operator.arithmetic
-(( a*b ))
-#   ^ meta.arithmetic keyword.operator.arithmetic
-((a++))
-#  ^^ meta.arithmetic keyword.operator.arithmetic
-((a--))
-#  ^^ meta.arithmetic keyword.operator.arithmetic
-((++a))
-# ^^ meta.arithmetic keyword.operator.arithmetic
-((--a))
-# ^^ meta.arithmetic keyword.operator.arithmetic
-((a**16))
-#  ^^ meta.arithmetic keyword.operator.arithmetic
-((a<<12))
-#  ^^ meta.arithmetic keyword.operator.logical
-((a>>14))
-#  ^^ meta.arithmetic keyword.operator.logical
-((a&b))
-#  ^ meta.arithmetic keyword.operator.bitwise
-(( a <= b))
-#    ^^ meta.arithmetic keyword.operator.logical
-(( a >= b))
-#    ^^ meta.arithmetic keyword.operator.logical
-((a < b))
-#   ^ meta.arithmetic keyword.operator.logical
-((a > b))
-#   ^ meta.arithmetic keyword.operator.logical
-((a^b))
-#  ^ meta.arithmetic keyword.operator.bitwise
-((a|b))
-#  ^ meta.arithmetic keyword.operator.bitwise
-((a&&b))
-#  ^^ meta.arithmetic keyword.operator.logical
-((a||b))
-#  ^^ meta.arithmetic keyword.operator.logical
-((a ? 0 : 1))
-#   ^ keyword.operator.ternary
-#       ^ keyword.operator.logical
 (( a=b, a*=b, a/=b, a%=b, a+=b, a-=b, a<<=b, a>>=b, a&=b, a^=b, a|=b ))
-#   ^ keyword.operator.assignment
+#   ^ keyword.operator.assignment.shell
 #     ^ meta.arithmetic punctuation.separator
-#        ^^ keyword.operator.assignment
+#        ^^ keyword.operator.assignment.augmented.shell
 #           ^ meta.arithmetic punctuation.separator
-#              ^^ keyword.operator.assignment
+#              ^^ keyword.operator.assignment.augmented.shell
 #                ^ meta.arithmetic
-#                    ^^ keyword.operator.assignment
+#                    ^^ keyword.operator.assignment.augmented.shell
 #                      ^ meta.arithmetic
-#                          ^^ keyword.operator.assignment
+#                          ^^ keyword.operator.assignment.augmented.shell
 #                             ^ meta.arithmetic punctuation.separator
-#                                ^^ keyword.operator.assignment
-#                                      ^^^ keyword.operator.assignment
-#                                             ^^^ keyword.operator.assignment
-#                                                    ^^ keyword.operator.assignment
-#                                                          ^^ keyword.operator.assignment
-#                                                                ^^ keyword.operator.assignment
+#                                ^^ keyword.operator.assignment.augmented.shell
+#                                      ^^^ keyword.operator.assignment.augmented.shell
+#                                             ^^^ keyword.operator.assignment.augmented.shell
+#                                                    ^^ keyword.operator.assignment.augmented.shell
+#                                                          ^^ keyword.operator.assignment.augmented.shell
+#                                                                ^^ keyword.operator.assignment.augmented.shell
+(( a++ a ++ ))
+#   ^^ keyword.operator.arithmetic.shell
+#        ^^ keyword.operator.arithmetic.shell
+(( a-- a -- ))
+#   ^^ keyword.operator.arithmetic.shell
+#        ^^ keyword.operator.arithmetic.shell
+(( ++a ++ a ))
+#  ^^ keyword.operator.arithmetic.shell
+#      ^^ keyword.operator.arithmetic.shell
+(( --a -- a ))
+#  ^^ keyword.operator.arithmetic.shell
+#      ^^ keyword.operator.arithmetic.shell
+
+(( a/b a / b ))
+#   ^ keyword.operator.arithmetic.shell
+#        ^ keyword.operator.arithmetic.shell
+(( a%b a % b ))
+#   ^ keyword.operator.arithmetic.shell
+#        ^ keyword.operator.arithmetic.shell
+(( a+b a + b ))
+#   ^ keyword.operator.arithmetic.shell
+#        ^ keyword.operator.arithmetic.shell
+(( a-b a - b ))
+#   ^ keyword.operator.arithmetic.shell
+#        ^ keyword.operator.arithmetic.shell
+(( a*b a * b ))
+#   ^ keyword.operator.arithmetic.shell
+#        ^ keyword.operator.arithmetic.shell
+(( a**16 a ** 16 ))
+#   ^^ keyword.operator.arithmetic.shell
+#          ^^ keyword.operator.arithmetic.shell
+
+(( ~1 ))
+#  ^ keyword.operator.bitwise.shell
+(( a&b a & b))
+#   ^ keyword.operator.bitwise.shell
+#        ^ keyword.operator.bitwise.shell
+(( a^b a ^ b))
+#   ^ keyword.operator.bitwise.shell
+#        ^ keyword.operator.bitwise.shell
+(( a|b a | b))
+#   ^ keyword.operator.bitwise.shell
+#        ^ keyword.operator.bitwise.shell
+
+(( !1 ))
+#  ^ keyword.operator.logical.shell
+(( a<<12 a << 16 ))
+#   ^^ keyword.operator.logical.shell
+#          ^^ keyword.operator.logical.shell
+(( a>>14 a >> 14 ))
+#   ^^ keyword.operator.logical.shell
+#          ^^ keyword.operator.logical.shell
+(( a<=b a <= b ))
+#   ^^ keyword.operator.logical.shell
+#         ^^ keyword.operator.logical.shell
+(( a>=b a >= b ))
+#   ^^ keyword.operator.logical.shell
+#         ^^ keyword.operator.logical.shell
+(( a<b a < b ))
+#   ^ keyword.operator.logical.shell
+#        ^ keyword.operator.logical.shell
+(( a>b a > b ))
+#   ^ keyword.operator.logical.shell
+#        ^ keyword.operator.logical.shell
+(( a&&b a && b ))
+#   ^^ keyword.operator.logical.shell
+#         ^^ keyword.operator.logical.shell
+(( a||b a || b ))
+#   ^^ keyword.operator.logical.shell
+#         ^^ keyword.operator.logical.shell
+
+(( a ? 0 : 1 ))
+#    ^ keyword.operator.ternary.shell
+#        ^ keyword.operator.ternary.shell
 (((a>b) ? (a>c?a:c) : (b>c?b:c)))
-# <- punctuation.section.arithmetic.begin.shell
-#^ punctuation.section.arithmetic.begin.shell
-# ^ punctuation.section.group.begin.shell
-#     ^ punctuation.section.group.end.shell
-#         ^ punctuation.section.group.begin.shell
-#                 ^ punctuation.section.group.end.shell
-#                     ^ punctuation.section.group.begin.shell
-#                             ^ punctuation.section.group.end.shell
-#                              ^^ punctuation.section.arithmetic.end.shell
+# <- meta.arithmetic.shell punctuation.section.arithmetic.begin.shell - meta.group
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.arithmetic.shell
 # ^^^^^ meta.group.shell
 #      ^^^ - meta.group.shell
 #         ^^^^^^^^^ meta.group.shell
 #                  ^^^ - meta.group.shell
 #                     ^^^^^^^^^ meta.group.shell
 #                              ^^ - meta.group.shell
-(( a * b ))
-#    ^ keyword.operator.arithmetic - keyword.operator.regexp
+#^ punctuation.section.arithmetic.begin.shell
+# ^ punctuation.section.group.begin.shell
+#   ^ keyword.operator.logical.shell
+#     ^ punctuation.section.group.end.shell
+#       ^ keyword.operator.ternary.shell
+#         ^ punctuation.section.group.begin.shell
+#           ^ keyword.operator.logical.shell
+#             ^ keyword.operator.ternary.shell
+#               ^ keyword.operator.ternary.shell
+#                 ^ punctuation.section.group.end.shell
+#                   ^ keyword.operator.ternary.shell
+#                     ^ punctuation.section.group.begin.shell
+#                       ^ keyword.operator.logical.shell
+#                         ^ keyword.operator.ternary.shell
+#                           ^ keyword.operator.ternary.shell
+#                             ^ punctuation.section.group.end.shell
+#                              ^^ punctuation.section.arithmetic.end.shell
+
 ((a+=b))
 #    ^ - string.unquoted
 ls>foo.txt
 # <- variable.function
 # ^^ - variable.function
+# ^ keyword.operator.assignment.redirection.shell
 echo>foo.txt
 # <- support.function
 #   ^^ - support.function
-
-if [[ $- != *i* ]] ; then
-  #   ^ punctuation.definition.variable
-  #    ^ variable.language
-  echo shell is not interactive
-fi
-
-echo +(bar|qux) | wc
-#         ^ keyword.operator.logical.or
-#               ^ keyword.operator.logical.pipe
+#   ^ keyword.operator.assignment.redirection.shell
 
 echo git rev-list "$(echo --all)" | grep -P 'c354a80'
 #                  ^^ punctuation.section.interpolation.begin.shell
@@ -1916,14 +1953,16 @@ commits=($(git rev-list --reverse --abbrev-commit "$latest".. -- "$prefix"))
 # <- - variable.other.readwrite
 
 [[ $str =~ ^$'\t' ]]
-#       ^^ keyword.operator.logical
-#          ^^^^^^ meta.regexp
+#  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#       ^^ keyword.operator.logical.shell
+#          ^^^^^^ meta.regexp.shell - meta.interpolation
 
 [[ $str =~ ^abc$var$ ]]
-#       ^^ keyword.operator.logical
-#          ^^^^ meta.regexp
-#               ^^^ variable.other.readwrite
-#                  ^ meta.regexp
+#  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#       ^^ keyword.operator.logical.shell
+#          ^^^^ meta.regexp.shell - meta.interpolation
+#              ^^^^ meta.regexp.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                  ^ meta.regexp.shell - meta.interpolation
 
 
 ####################################################################
@@ -1932,7 +1971,7 @@ commits=($(git rev-list --reverse --abbrev-commit "$latest".. -- "$prefix"))
 
 if [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; then PLATFORM=docker; fi
 #^ keyword.control.conditional.if
-#     ^ keyword.operator.logical
+#     ^ keyword.operator.logical.shell
 #                         ^^ keyword.operator.logical.and
 #                            ^ keyword.operator.logical.shell
 #                              ^^^ meta.function-call.identifier.shell variable.function
@@ -1947,7 +1986,7 @@ if [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; then PLATFORM=docker; fi
 if { [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; }; then PLATFORM=docker; fi
 #^ keyword.control.conditional.if
 #  ^ punctuation.section.compound.begin.shell
-#       ^ keyword.operator.logical
+#       ^ keyword.operator.logical.shell
 #                           ^^ keyword.operator.logical.and
 #                              ^ keyword.operator.logical.shell
 #                                ^^^ meta.function-call.identifier.shell variable.function
@@ -1963,7 +2002,7 @@ if { [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; }; then PLATFORM=docker; fi
 if ( [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2 ); then PLATFORM=docker; fi
 #^ keyword.control.conditional.if
 #  ^ punctuation.section.compound.begin.shell
-#       ^ keyword.operator.logical
+#       ^ keyword.operator.logical.shell
 #                           ^^ keyword.operator.logical.and
 #                              ^ keyword.operator.logical.shell
 #                                ^^^ meta.function-call.identifier.shell variable.function
@@ -1976,6 +2015,22 @@ if ( [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2 ); then PLATFORM=docker; fi
 #                                                             ^ variable.other.readwrite
 #                                                              ^ keyword.operator.assignment
 #                                                               ^ meta.string string.unquoted
+if [[ $- != *i* ]] ; then
+#^ keyword.control.conditional.if.shell
+#  ^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^ support.function.double-brace.begin.shell
+#     ^^ meta.interpolation.parameter.shell variable.language.shell
+#     ^ punctuation.definition.variable.shell
+#        ^^ keyword.operator.logical.shell
+#           ^ keyword.operator.regexp.quantifier.shell
+#             ^ keyword.operator.regexp.quantifier.shell
+#               ^^ support.function.double-brace.end.shell
+#                  ^ keyword.operator.logical.continue.shell
+#                    ^^^^ keyword.control.conditional.then.shell
+#   
+  echo shell is not interactive
+fi
+# <- keyword.control.conditional.end.shell
 
 if cmd && \
     ! cmd
@@ -2540,14 +2595,14 @@ done
 
 while ! true; do echo bar; done
 # <- keyword.control.loop.while
-#     ^ keyword.operator.logical
+#     ^ keyword.operator.logical.shell
 #           ^ keyword.operator.logical.continue
 #             ^^ keyword.control.loop.do
 #                          ^^^^ keyword.control.loop.end
 
 while ! { true; }; do echo bar; done
 # <- keyword.control.loop.while
-#     ^ keyword.operator.logical
+#     ^ keyword.operator.logical.shell
 #       ^ punctuation.section.compound.begin.shell
 #         ^^^^ variable.function
 #             ^ keyword.operator.logical.continue
@@ -2558,7 +2613,7 @@ while ! { true; }; do echo bar; done
 
 while ! { [[ true ]]; }; do echo bar; done
 # <- keyword.control.loop.while
-#     ^ keyword.operator.logical
+#     ^ keyword.operator.logical.shell
 #       ^ punctuation.section.compound.begin.shell
 #         ^^ support.function.double-brace.begin
 #                 ^^ support.function.double-brace.end
@@ -2570,7 +2625,7 @@ while ! { [[ true ]]; }; do echo bar; done
 
 while ! ( [[ true ]] ); do echo bar; done
 # <- keyword.control.loop.while
-#     ^ keyword.operator.logical
+#     ^ keyword.operator.logical.shell
 #       ^ punctuation.section.compound.begin.shell
 #         ^^ support.function.double-brace.begin
 #                 ^^ support.function.double-brace.end
@@ -2606,7 +2661,7 @@ done
 do echo bar; until ! { [[ true ]]; }
 # <- keyword.control.loop.do
 #            ^^^^^ keyword.control.loop.until.shell
-#                  ^ keyword.operator.logical
+#                  ^ keyword.operator.logical.shell
 #                    ^ punctuation.section.compound.begin.shell
 #                      ^^ support.function.double-brace.begin
 #                              ^^ support.function.double-brace.end
@@ -2617,13 +2672,13 @@ for (( i = 0; i < 10; i++ )); do
 #   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.arithmetic
 # <- keyword.control
 #   ^^ punctuation.section.arithmetic.begin
-#        ^ keyword.operator.assignment
+#        ^ keyword.operator.assignment.shell
 #          ^ constant.numeric.integer - punctuation
-#           ^ punctuation.separator
-#               ^ keyword.operator.logical
+#           ^ punctuation.separator.expressions.shell
+#               ^ keyword.operator.logical.shell
 #                 ^^ constant.numeric.integer
-#                   ^ punctuation.separator
-#                      ^^ keyword.operator.arithmetic
+#                   ^ punctuation.separator.expressions.shell
+#                      ^^ keyword.operator.arithmetic.shell
 #                         ^^ punctuation.section.arithmetic.end
 #                           ^ keyword.operator.logical.continue
 #                             ^^ keyword.control.loop.do
@@ -2638,13 +2693,13 @@ for (( i = 0; i < 10; i++ )) #; do
 #   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.arithmetic
 # <- keyword.control
 #   ^^ punctuation.section.arithmetic.begin
-#        ^ keyword.operator.assignment
+#        ^ keyword.operator.assignment.shell
 #          ^ constant.numeric.integer - punctuation
-#           ^ punctuation.separator
-#               ^ keyword.operator.logical
+#           ^ punctuation.separator.expressions.shell
+#               ^ keyword.operator.logical.shell
 #                 ^^ constant.numeric.integer
-#                   ^ punctuation.separator
-#                      ^^ keyword.operator.arithmetic
+#                   ^ punctuation.separator.expressions.shell
+#                      ^^ keyword.operator.arithmetic.shell
 #                         ^^ punctuation.section.arithmetic.end
 #                            ^^^^^^ comment.line.number-sign.shell
 do

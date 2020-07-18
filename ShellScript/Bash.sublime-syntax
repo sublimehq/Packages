@@ -900,23 +900,29 @@ contexts:
           scope: punctuation.section.group.end.shell
           pop: true
         - include: expression
-    - match: '[*/%+\-&^|]?=|<<=|>>='
-      scope: keyword.operator.assignment.shell
-    - match: \+\+?|\-\-?|\*\*?|%|/
-      scope: keyword.operator.arithmetic.shell
-    - match: <[=<]?|>[=>]?|[=!]=|&&|\:|\|\||!
+    # multi char operators
+    - match: '[-+*/%&|^]=|<<=|>>='
+      scope: keyword.operator.assignment.augmented.shell
+    - match: <[=<]?|>[=>]?|[=!]=|&&|\|\||!
       scope: keyword.operator.logical.shell
+    # single char operators
+    - match: '[-+*/%]'
+      scope: keyword.operator.arithmetic.shell
+    - match: '='
+      scope: keyword.operator.assignment.shell
     - match: '[&|^~]'
       scope: keyword.operator.bitwise.shell
-    - match: '[,;]'
-      scope: punctuation.separator.shell
-    - match: \?
+    - match: ;
+      scope: punctuation.separator.expressions.shell
+    - match: \,
+      scope: punctuation.separator.sequence.shell
+    - match: \:|\?
       scope: keyword.operator.ternary.shell
-    - include: numbers
     # Shell variables are allowed as operands; parameter expansion is performed
     # before the expression is evaluated. Within an expression, shell variables
     # may also be referenced by name without using the parameter expansion
     # syntax.
+    - include: numbers
     - include: string
     - include: expansion-parameter
     - include: expansion-arithmetic
@@ -947,8 +953,10 @@ contexts:
         - match: (?=\s)
           pop: true
         - include: expansion-and-string
-    - match: ==?|!=?|<|>|\|\||&&
+    - match: ==|!=?|<|>|\|\||&&
       scope: keyword.operator.logical.shell
+    - match: '='
+      scope: keyword.operator.assignment.shell
     - include: numbers
     - include: expansion-and-string
 
@@ -1020,7 +1028,7 @@ contexts:
           scope: punctuation.section.interpolation.end.shell
           pop: true
         - match: \,
-          scope: punctuation.separator.shell
+          scope: punctuation.separator.sequence.shell
         - include: expansion-and-string
 
   expansion-command:
@@ -1153,7 +1161,7 @@ contexts:
         2: keyword.operator.expansion.shell
         3: variable.parameter.switch.shell
     - include: array
-    - match: '[*@](?=})'
+    - match: '[@*](?=})'
       scope: variable.language.shell
 
   expansion-parameter-common:
