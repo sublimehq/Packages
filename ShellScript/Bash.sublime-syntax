@@ -1179,10 +1179,14 @@ contexts:
     - match: ([?*+@!])(\()
       captures:
         1: keyword.operator.regexp.quantifier.shell
-        2: punctuation.section.parens.begin.shell
+        2: meta.group.shell
+           punctuation.section.group.begin.shell
       push:
+        - meta_content_scope: meta.group.shell
         - match: \)
-          scope: punctuation.section.parens.end.shell
+          scope: 
+            meta.group.shell
+            punctuation.section.group.end.shell
           pop: true
         - match: \|
           scope: keyword.operator.logical.or.shell

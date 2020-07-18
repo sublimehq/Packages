@@ -1390,8 +1390,11 @@ echo [^:]*
 charclass=\}ower
 #         ^^ constant.character.escape
 echo *(g[[:${charclass/\}/l}:]]*)
+#   ^^ meta.function-call.arguments.shell - meta.group
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.group.shell
+#                                ^ - meta.function-call - meta.group
 #    ^ keyword.operator.regexp.quantifier
-#     ^ punctuation.section.parens.begin
+#     ^ punctuation.section.group.begin
 #       ^^ keyword.control.regexp.set.begin
 #          ^^ punctuation.section.interpolation.begin.shell
 #            ^^^^^^^^^ variable.other.readwrite
@@ -1401,24 +1404,35 @@ echo *(g[[:${charclass/\}/l}:]]*)
 #                          ^ punctuation.section.interpolation.end.shell
 #                            ^^ keyword.control.regexp.set.end
 #                              ^ keyword.operator.regexp.quantifier
-#                               ^ punctuation.section.parens.end
+#                               ^ punctuation.section.group.end
 echo ?([[:alpha:]]|[[:digit:]])*
+#   ^^ meta.function-call.arguments.shell - meta.group
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.group.shell
+#                              ^ meta.function-call.arguments.shell - meta.group
+#                               ^ - meta.function-call - meta.group
 #    ^ keyword.operator.regexp.quantifier
-#     ^ punctuation.section.parens.begin
+#     ^ punctuation.section.group.begin
 #                 ^ keyword.operator.logical.or
-#                             ^ punctuation.section.parens.end
+#                             ^ punctuation.section.group.end
 #                              ^ keyword.operator.regexp.quantifier
 echo @(foo*)*
+#   ^^ meta.function-call.arguments.shell - meta.group
+#     ^^^^^^ meta.function-call.arguments.shell meta.group.shell
+#           ^ meta.function-call.arguments.shell - meta.group
+#            ^ - meta.function-call - meta.group
 #    ^ keyword.operator.regexp.quantifier
-#     ^ punctuation.section.parens.begin
+#     ^ punctuation.section.group.begin
 #         ^ keyword.operator.regexp.quantifier
-#          ^ punctuation.section.parens.end
+#          ^ punctuation.section.group.end
 #           ^ keyword.operator.regexp.quantifier
 echo +(bar|qux)
+#   ^^ meta.function-call.arguments.shell - meta.group
+#     ^^^^^^^^^ meta.function-call.arguments.shell meta.group.shell
+#              ^ - meta.function-call - meta.group
 #    ^ keyword.operator.regexp.quantifier
-#     ^ punctuation.section.parens.begin
+#     ^ punctuation.section.group.begin
 #         ^ keyword.operator.logical.or
-#             ^ punctuation.section.parens.end
+#             ^ punctuation.section.group.end
 [[ a == [abc[]* ]]
 #           ^ - keyword.control
 #               ^^ support.function
@@ -2318,34 +2332,40 @@ esac
 case $SERVER in
 # <- keyword.control.conditional.case
 ws-+([0-9]).host.com) echo "Web Server"
+#^^^ meta.conditional.case.clause.patterns.shell - meta.group
+#   ^^^^^^^ meta.conditional.case.clause.patterns.shell meta.group.shell
+#          ^^^^^^^^^^ meta.conditional.case.clause.patterns.shell - meta.group
 #  ^ keyword.operator.regexp.quantifier
-#   ^ punctuation.section.parens.begin
+#   ^ punctuation.section.group.begin
 #    ^ keyword.control.regexp.set.begin
 #      ^ keyword.operator.word
 #        ^ keyword.control.regexp.set.end
-#         ^ punctuation.section.parens.end
+#         ^ punctuation.section.group.end
 #                   ^ keyword.control.conditional.patterns
 ;;
 # <- punctuation.terminator.case.clause
  # <- punctuation.terminator.case.clause
 db-+([0-9])\.host\.com) echo "DB server"
+#^^^ meta.conditional.case.clause.patterns.shell - meta.group
+#   ^^^^^^^ meta.conditional.case.clause.patterns.shell meta.group.shell
+#          ^^^^^^^^^^^ meta.conditional.case.clause.patterns.shell - meta.group
 #  ^ keyword.operator.regexp.quantifier
-#   ^ punctuation.section.parens.begin
+#   ^ punctuation.section.group.begin
 #    ^ keyword.control.regexp.set.begin
 #      ^ keyword.operator.word
 #        ^ keyword.control.regexp.set.end
-#         ^ punctuation.section.parens.end
+#         ^ punctuation.section.group.end
 #                     ^ keyword.control.conditional.patterns
 ;;
 # <- punctuation.terminator.case.clause
  # <- punctuation.terminator.case.clause
 bk-+([0-9])\.host\.com) echo "Backup server"
 #  ^ keyword.operator.regexp.quantifier
-#   ^ punctuation.section.parens.begin
+#   ^ punctuation.section.group.begin
 #    ^ keyword.control.regexp.set.begin
 #      ^ keyword.operator.word
 #        ^ keyword.control.regexp.set.end
-#         ^ punctuation.section.parens.end
+#         ^ punctuation.section.group.end
 #                     ^ keyword.control.conditional.patterns
 ;;
 # <- punctuation.terminator.case.clause
