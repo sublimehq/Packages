@@ -131,7 +131,7 @@ contexts:
 
   coproc:
     - match: \bcoproc{{keyword_break}}
-      scope: 
+      scope:
         meta.coproc.shell
         storage.type.coproc.shell
         keyword.declaration.coproc.shell
@@ -166,7 +166,7 @@ contexts:
     - match: (?=\s*{{identifier_non_posix}}\s*\(\s*\))
       push: [funcdef-params, funcdef-name]
     - match: \bfunction{{keyword_break}}
-      scope: 
+      scope:
         meta.function.shell
         storage.type.function.shell
         keyword.declaration.function.shell
@@ -277,7 +277,7 @@ contexts:
   vardef-alias-name:
     - match: (?=\S)
       set:
-        - meta_content_scope: 
+        - meta_content_scope:
             meta.variable.shell
             entity.name.function.alias.shell
         - match: (?=\s|{{varassign}})
@@ -469,7 +469,7 @@ contexts:
     - meta_content_scope: meta.function-call.arguments.shell
     - include: cmd-args-boilerplate-with-end-of-options
     - match: '{{start_of_option}}'
-      scope: 
+      scope:
         variable.parameter.option.shell
         punctuation.definition.parameter.shell
       push:
@@ -1200,7 +1200,7 @@ contexts:
       push:
         - meta_content_scope: meta.group.shell
         - match: \)
-          scope: 
+          scope:
             meta.group.shell
             punctuation.section.group.end.shell
           pop: true
@@ -1327,4 +1327,3 @@ contexts:
         - include: expansion-arithmetic
         - include: expansion-command
         - include: immediately-pop
-
