@@ -227,6 +227,52 @@ set -e -- -o {string}
 shift 2 -- 
 #       ^^ - keyword
 
+# Invokes "echo -e", so "-e" is a switch.
+echo \
+-e Hello
+# <- punctuation
+#^ variable.parameter
+
+# Invokes "echo-e", so "-e" is NOT a switch.
+echo\
+-e Hello
+# <- - punctuation
+#^ - variable.parameter
+
+# Invokes "foo -e", so "-e" is a switch.
+foo \
+-e Hello
+# <- punctuation
+#^ variable.parameter
+
+# Invokes "foo-e", so "-e" is NOT a switch.
+foo\
+-e Hello
+# <- - punctuation
+#^ - variable.parameter
+
+foo -e =Hello
+#^^ meta.function-call.identifier.shell variable.function.shell
+#  ^^^^^^^^^^ meta.function-call.arguments.shell
+#   ^ punctuation.definition.parameter.shell
+#   ^^ variable.parameter.option.shell
+#      ^ - keyword.operator
+
+foo -e=Hello
+#^^ meta.function-call.identifier.shell variable.function.shell
+#  ^^^^^^^^^ meta.function-call.arguments.shell
+#   ^ punctuation.definition.parameter.shell
+#   ^^ variable.parameter.option.shell
+#     ^ keyword.operator.assignment.option.shell
+
+foo -$e=Hello
+#^^ meta.function-call.identifier.shell variable.function.shell
+#  ^^^^^^^^^^ meta.function-call.arguments.shell
+#   ^ punctuation.definition.parameter.shell
+#   ^^^ variable.parameter.option.shell
+#    ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#      ^ keyword.operator.assignment.option.shell
+
 python foo.py --option=value --other-option
 #                     ^ keyword.operator.assignment.option
 git log --format="%h git has this pattern, too"
@@ -836,6 +882,14 @@ unset foo bar       # 'foo' and 'bar' are variable names
 #^^^^ support.function.unset.shell
 #    ^ - support - variable
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+unset -f -n -v foo
+# <- meta.function-call.identifier.shell support.function.unset.shell
+#^^^^ meta.function-call.identifier.shell
+#    ^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                  ^ - meta.function-call
+#     ^^ variable.parameter.option.shell
+#        ^^ variable.parameter.option.shell
+#           ^^ variable.parameter.option.shell
 unset-
 # <- - support.function
 
@@ -1806,67 +1860,8 @@ echo git rev-list "$(echo --all)" | grep -P 'c354a80'
 #                  ^^ punctuation.section.interpolation.begin.shell
 #                              ^ punctuation.section.interpolation.end.shell
 
-foo -e =Hello
-#^^ meta.function-call.identifier.shell variable.function.shell
-#  ^^^^^^^^^^ meta.function-call.arguments.shell
-#   ^ punctuation.definition.parameter.shell
-#   ^^ variable.parameter.option.shell
-#      ^ - keyword.operator
-
-foo -e=Hello
-#^^ meta.function-call.identifier.shell variable.function.shell
-#  ^^^^^^^^^ meta.function-call.arguments.shell
-#   ^ punctuation.definition.parameter.shell
-#   ^^ variable.parameter.option.shell
-#     ^ keyword.operator.assignment.option.shell
-
-foo -$e=Hello
-#^^ meta.function-call.identifier.shell variable.function.shell
-#  ^^^^^^^^^^ meta.function-call.arguments.shell
-#   ^ punctuation.definition.parameter.shell
-#   ^^^ variable.parameter.option.shell
-#    ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#      ^ keyword.operator.assignment.option.shell
-
-# Invokes "foo -e", so "-e" is a switch.
-foo \
--e Hello
-# <- punctuation
-#^ variable.parameter
-
-# Invokes "foo-e", so "-e" is NOT a switch.
-foo\
--e Hello
-# <- - punctuation
-#^ - variable.parameter
-
-# Invokes "echo -e", so "-e" is a switch.
-echo \
--e Hello
-# <- punctuation
-#^ variable.parameter
-
-# Invokes "echo-e", so "-e" is NOT a switch.
-echo\
--e Hello
-# <- - punctuation
-#^ - variable.parameter
-
 foo+=" baz"
 #  ^^ keyword.operator
-
-export foo='bar'
-# <- storage.modifier
-#         ^ keyword.operator
-
-unset -f -n -v foo
-# <- support.function
-#     ^ punctuation
-#      ^ variable
-#        ^ punctuation
-#         ^ variable
-#           ^ punctuation
-#            ^ variable
 
 
 let "two=5+5"; if [[ "$X" == "1" ]]; then X="one"; fi
@@ -1951,18 +1946,6 @@ UNAME_VERSION=`(uname -v) 2>/dev/null` || UNAME_VERSION=unknown
 commits=($(git rev-list --reverse --abbrev-commit "$latest".. -- "$prefix"))
 
 # <- - variable.other.readwrite
-
-[[ $str =~ ^$'\t' ]]
-#  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#       ^^ keyword.operator.logical.shell
-#          ^^^^^^ meta.regexp.shell - meta.interpolation
-
-[[ $str =~ ^abc$var$ ]]
-#  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#       ^^ keyword.operator.logical.shell
-#          ^^^^ meta.regexp.shell - meta.interpolation
-#              ^^^^ meta.regexp.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
-#                  ^ meta.regexp.shell - meta.interpolation
 
 
 ####################################################################
@@ -2170,6 +2153,18 @@ if test expr -a expr ; then echo "success"; fi
 #           ^^ keyword.operator.logical.shell
 #                 ^ keyword.operator.regexp.quantifier.shell
 #                      ^^ support.function.double-brace.end.shell
+
+[[ $str =~ ^$'\t' ]]
+#  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#       ^^ keyword.operator.logical.shell
+#          ^^^^^^ meta.regexp.shell - meta.interpolation
+
+[[ $str =~ ^abc$var$ ]]
+#  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#       ^^ keyword.operator.logical.shell
+#          ^^^^ meta.regexp.shell - meta.interpolation
+#              ^^^^ meta.regexp.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                  ^ meta.regexp.shell - meta.interpolation
 
 if [[ expr ]] && [[ expr ]] || [[ expr ]] ; then cmd ; fi
 #  ^^^^^^^^^^ meta.function-call.arguments.shell
