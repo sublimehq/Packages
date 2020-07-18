@@ -9,6 +9,12 @@
         <integer>1</integer>
         <key>showInIndexedSymbolList</key>
         <integer>0</integer>
+        <key>symbolTransformation</key>
+        <string>
+            s/\s+#[^\n]*\n//g; # remove line comments
+            s/\\\n//g;         # remove line continuation
+            s/\s+/ /g;         # normalize whitespace
+        </string>
     </dict>
 </dict>
 </plist>

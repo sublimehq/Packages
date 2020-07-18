@@ -9,6 +9,10 @@
         <integer>1</integer>
         <key>showInIndexedSymbolList</key>
         <integer>1</integer>
+        <key>symbolTransformation</key>
+        <string>s/\\\n//g;</string>
+        <key>symbolIndexTransformation</key>
+        <string>s/\\\n//g;</string>
     </dict>
 </dict>
 </plist>
