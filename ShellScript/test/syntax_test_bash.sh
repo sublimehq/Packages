@@ -1722,6 +1722,28 @@ echo git rev-list "$(echo --all)" | grep -P 'c354a80'
 #                  ^^ punctuation.section.interpolation.begin.shell
 #                              ^ punctuation.section.interpolation.end.shell
 
+foo -e =Hello
+#^^ meta.function-call.identifier.shell variable.function.shell
+#  ^^^^^^^^^^ meta.function-call.arguments.shell
+#   ^ punctuation.definition.parameter.shell
+#   ^^ variable.parameter.option.shell
+#      ^ - keyword.operator
+
+foo -e=Hello
+#^^ meta.function-call.identifier.shell variable.function.shell
+#  ^^^^^^^^^ meta.function-call.arguments.shell
+#   ^ punctuation.definition.parameter.shell
+#   ^^ variable.parameter.option.shell
+#     ^ keyword.operator.assignment.option.shell
+
+foo -$e=Hello
+#^^ meta.function-call.identifier.shell variable.function.shell
+#  ^^^^^^^^^^ meta.function-call.arguments.shell
+#   ^ punctuation.definition.parameter.shell
+#   ^^^ variable.parameter.option.shell
+#    ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#      ^ keyword.operator.assignment.option.shell
+
 # Invokes "foo -e", so "-e" is a switch.
 foo \
 -e Hello

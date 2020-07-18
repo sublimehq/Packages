@@ -452,14 +452,14 @@ contexts:
     - meta_content_scope: meta.function-call.arguments.shell
     - include: cmd-args-boilerplate-with-end-of-options
     - match: '{{start_of_option}}'
-      scope: punctuation.definition.parameter.shell
+      scope: 
+        variable.parameter.option.shell
+        punctuation.definition.parameter.shell
       push:
-        - meta_scope: variable.parameter.option.shell
-        - match: (?==)
-          set:
-            - match: =
-              scope: keyword.operator.assignment.option.shell
-              pop: true
+        - meta_content_scope: variable.parameter.option.shell
+        - match: =
+          scope: keyword.operator.assignment.option.shell
+          pop: true
         - match: (?={{is_end_of_option}})
           pop: true
         - include: expansion-and-string
