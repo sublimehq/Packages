@@ -418,9 +418,12 @@ array[foo]=bar
 #         ^ keyword.operator.assignment.shell
 #          ^^^ meta.string.shell string.unquoted.shell
 array=($one "two" ${three} 'four' $5)
+#^^^^^ - meta.sequence
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.shell
+#                                    ^ - meta.sequence
 # <- variable.other.readwrite
 #    ^ keyword.operator.assignment
-#     ^ punctuation.section.parens.begin
+#     ^ punctuation.section.sequence.begin
 #      ^ punctuation.definition.variable
 #       ^^^ variable.other.readwrite
 #           ^ string.quoted.double punctuation.definition.string.begin
@@ -434,10 +437,13 @@ array=($one "two" ${three} 'four' $5)
 #                               ^ string.quoted.single punctuation.definition.string.end
 #                                 ^ punctuation.definition.variable
 #                                  ^ variable.other.readwrite
-#                                   ^ punctuation.section.parens.end
+#                                   ^ punctuation.section.sequence.end
 array=([foo]== ["bar"]='what' [5+10]=qux)
+#^^^^^ - meta.sequence
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.shell
+#                                        ^ - meta.sequence
 #    ^ keyword.operator.assignment
-#     ^ punctuation.section.parens.begin
+#     ^ punctuation.section.sequence.begin
 #      ^ punctuation.section.brackets.begin
 #          ^ punctuation.section.brackets.end
 #           ^ keyword.operator.assignment
@@ -455,11 +461,11 @@ array=([foo]== ["bar"]='what' [5+10]=qux)
 #                                ^^ - constant.numeric
 #                                  ^ punctuation.section.brackets.end
 #                                   ^ keyword.operator.assignment
-#                                       ^ punctuation.section.parens.end
+#                                       ^ punctuation.section.sequence.end
 array=()  # an empty array
 #    ^ keyword.operator.assignment
-#     ^ punctuation.section.parens.begin
-#      ^ punctuation.section.parens.end
+#     ^ punctuation.section.sequence.begin
+#      ^ punctuation.section.sequence.end
 
 foo[${j}+10]="`foo`"
 #<- meta.variable.shell variable.other.readwrite.shell
@@ -710,8 +716,8 @@ declare bar=\
 (foo) # comment
 #^^^^ meta.function-call.arguments.shell
 #    ^ - meta.function
-# <- punctuation.section.parens.begin.shell
-#   ^ punctuation.section.parens.end.shell
+# <- punctuation.section.sequence.begin.shell
+#   ^ punctuation.section.sequence.end.shell
 #     ^^^^^^^^^^ comment.line.number-sign.shell
 printFunction "$variableString1" "$(declare -p variableArray)"
 #             ^ meta.string string.quoted.double punctuation.definition.string.begin

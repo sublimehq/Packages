@@ -340,14 +340,16 @@ contexts:
 
   vardef-value:
     - match: \(
-      scope: punctuation.section.parens.begin.shell
+      scope: punctuation.section.sequence.begin.shell
       set:
+        - meta_scope: meta.sequence.shell
         - match: \)
-          scope: punctuation.section.parens.end.shell
+          scope: punctuation.section.sequence.end.shell
           pop: true
         - match: \[
           scope: punctuation.section.brackets.begin.shell
           push:
+            - meta_scope: meta.brackets.shell
             - match: \]
               scope: punctuation.section.brackets.end.shell
               set:
