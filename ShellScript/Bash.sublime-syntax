@@ -572,17 +572,11 @@ contexts:
     - meta_scope: meta.conditional.case.shell
     - include: comment
     - include: case-end
-    - match: (?=\S)
+    - match: \(|(?=\S)
+      scope: keyword.control.conditional.patterns.begin.shell
       push:
         - case-clause-commands
         - case-clause-patterns
-        - case-clause-patterns-begin
-
-  case-clause-patterns-begin:
-    - match: \(
-      scope: keyword.control.conditional.patterns.begin.shell
-      pop: true
-    - include: immediately-pop
 
   case-clause-patterns:
     - clear_scopes: 1  # remove meta.conditional.case.shell
