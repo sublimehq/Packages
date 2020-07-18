@@ -486,6 +486,7 @@ contexts:
         - include: expansion-and-string
 
   cmd-post: # looks like [main, cmd-post] at this point
+    # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
     - match: ;(?![;&])
       scope: keyword.operator.logical.continue.shell
       pop: true
