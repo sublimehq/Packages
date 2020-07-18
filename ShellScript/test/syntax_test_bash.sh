@@ -2177,9 +2177,11 @@ esac
 case var in
   ( patt ( esac
 #^ meta.conditional.case.shell
-# ^^^^^^^^^ meta.conditional.case.clause.patterns.shell
+# ^^^^^^^ meta.conditional.case.clause.patterns.shell - meta.group
+#        ^^ meta.conditional.case.clause.patterns.shell meta.group.shell
+#          ^^^^ meta.conditional.case.shell 
 # ^ keyword.control.conditional.patterns.begin.shell
-#        ^ punctuation.section.parens.begin.shell
+#        ^ punctuation.section.group.begin.shell
 #          ^^^^ meta.conditional.case.shell keyword.control.conditional.end.shell
 #              ^ - meta.conditional
 
@@ -2297,10 +2299,10 @@ case $TERM in
     *xterm*|rxvt|(dt|k|E)term)
         # ^ keyword.operator.regexp.quantifier
         #  ^ keyword.operator.logical
-        #        ^ punctuation.section.parens.begin
+        #        ^ punctuation.section.group.begin
         #           ^ keyword.operator.logical
         #             ^ keyword.operator.logical
-        #               ^ punctuation.section.parens.end
+        #               ^ punctuation.section.group.end
         #                    ^ keyword.control.conditional.patterns
         update_terminal_cwd() { print -Pn "\e]2;%~\a" };;
         #                                             ^ meta.function punctuation.section.block.end

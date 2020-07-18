@@ -599,10 +599,11 @@ contexts:
     # [Bash] 3.2.4.2: Each pattern undergoes tilde expansion, parameter
     # expansion, command substitution, and arithmetic expansion.
     - match: \(
-      scope: punctuation.section.parens.begin.shell
+      scope: punctuation.section.group.begin.shell
       push:
+        - meta_scope: meta.group.shell
         - match: \)
-          scope: punctuation.section.parens.end.shell
+          scope: punctuation.section.group.end.shell
           pop: true
         - include: case-clause-patterns-body
     - match: \|
