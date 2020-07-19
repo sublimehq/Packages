@@ -1283,13 +1283,6 @@ contexts:
         - meta_scope: meta.string.shell string.quoted.double.shell
         - include: string-quoted-double-common
 
-  string-quoted-double-escape-character:
-    - match: \\[$`"\\]
-      scope: constant.character.escape.shell
-    - match: \\\n
-      scope: constant.character.escape.shell
-      push: else-pop
-
   # [Bash] 3.1.2.4
   string-ansi-c:
     - match: \$'
@@ -1300,9 +1293,9 @@ contexts:
         - match: \'
           scope: punctuation.definition.string.end.shell
           pop: true
-        - include: string-quoted-double-escape-character
-        - match: \\([abfnrtv'"?]|[0-8]{1,3}|x\h{1,8}|c[a-z])
+        - match: \\([abfnrtv'"?$`\\]|[0-8]{1,3}|x\h{1,8}|c[a-z])
           scope: constant.character.escape.shell
+        - include: line-continuation
 
   # [Bash] 3.1.2.5
   # If the string is translated and replaced, the replacement is double-quoted.
@@ -1318,7 +1311,9 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.end.shell
       pop: true
-    - include: string-quoted-double-escape-character
+    - match: \\[$`"\\]
+      scope: constant.character.escape.shell
+    - include: line-continuation
     - include: string-interpolation
 
   string-interpolation:

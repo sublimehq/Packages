@@ -141,6 +141,26 @@ echo $"Hello\" World\\"
 #                     ^ punctuation.definition.string.end.shell
 #                      ^ - meta.string - string
 
+echo $"Hello
+#    ^^^^^^^^ meta.string.shell string.quoted.double.locale.shell
+#    ^^ punctuation.definition.string.begin.shell
+  World\\"
+#^^^^^^^^^ meta.string.shell string.quoted.double.locale.shell
+#      ^^ constant.character.escape.shell
+#        ^ punctuation.definition.string.end.shell
+#         ^ - meta.string - string
+
+# Note: Line continuation causes the linefeed to be removed from the output string.
+echo $"Hello \
+#    ^^^^^^^^^^ meta.string.shell string.quoted.double.locale.shell
+#    ^^ punctuation.definition.string.begin.shell
+#            ^^ punctuation.separator.continuation.line.shell
+  World\\"
+#^^^^^^^^^ meta.string.shell string.quoted.double.locale.shell
+#      ^^ constant.character.escape.shell
+#        ^ punctuation.definition.string.end.shell
+#         ^ - meta.string - string
+
 echo `echo \`echo hello, world!\``
 #   ^ - meta.interpolation
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.command.shell
