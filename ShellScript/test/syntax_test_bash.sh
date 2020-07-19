@@ -3180,8 +3180,8 @@ cat -c <<<$(echo pipephobic)
 cat << backticks_are_deprecated
 #      ^ meta.function-call.arguments string.unquoted.heredoc keyword.control.heredoc-token
 foo=\`pwd\`
-#   ^^ meta.function-call.arguments string.unquoted.heredoc constant.character.escape.backtick
-#        ^^ meta.function-call.arguments string.unquoted.heredoc constant.character.escape.backtick
+#   ^^ meta.function-call.arguments string.unquoted.heredoc constant.character.escape
+#        ^^ meta.function-call.arguments string.unquoted.heredoc constant.character.escape
 foo=`pwd`
 #   ^^^^^ meta.function-call.arguments.shell meta.string.shell meta.interpolation.command.shell - string
 #   ^ punctuation.section.interpolation.begin.shell

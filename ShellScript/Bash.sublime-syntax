@@ -822,8 +822,7 @@ contexts:
     # expansion, command substitution, and arithmetic expansion, the character
     # sequence \newline is ignored, and ‘\’ must be used to quote the
     # characters ‘\’, ‘$’, and ‘`’.
-    - match: \\[`$"\\]
-      scope: constant.character.escape.backtick.shell
+    - include: string-escape
     - include: string-interpolation
 
   heredocs-body-no-expansion:
@@ -1309,10 +1308,13 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.end.shell
       pop: true
+    - include: line-continuation
+    - include: string-escape
+    - include: string-interpolation
+
+  string-escape:
     - match: \\[$`"\\]
       scope: constant.character.escape.shell
-    - include: line-continuation
-    - include: string-interpolation
 
   string-interpolation:
     - match: '{{is_interpolation}}'
