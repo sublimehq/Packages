@@ -1,8 +1,30 @@
 # SYNTAX TEST "Packages/ShellScript/Bash.sublime-syntax"
-# <- comment.line punctuation.definition.comment
-#^ comment.line
-#                                                      ^ comment.line
-#                                                       ^ comment.line
+
+####################################################################
+# Comments                                                         #
+####################################################################
+
+# This is a comment.
+# <- comment.line.number-sign.shell punctuation.definition.comment.shell
+#^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
+    # This is a comment.
+#^^^ - comment
+#   ^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#   ^ punctuation.definition.comment.shell
+
+# This is a \
+#^^^^^^^^^^^ comment.line.number-sign.shell - punctuation
+#           ^^ comment.line.number-sign.shell punctuation.separator.continuation.line.shell
+  command.
+#^^^^^^^^^^ - comment.line
+
+# This is a \
+  comment.
+#^^^^^^^^^^ comment.line.number-sign.shell - punctuation
+
+# \\ \. \a \b \f \n \r
+#^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell - constant.character.escape
 
 
 ####################################################################

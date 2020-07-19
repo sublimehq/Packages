@@ -112,8 +112,9 @@ contexts:
 
   comment:
     - match: \#
-      scope: punctuation.definition.comment.begin.shell
+      scope: punctuation.definition.comment.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: comment.line.number-sign.shell
         # NOTE: The reason for consuming the newline character is as follows.
         # When triggering a snippet, its scope is tested to the *right* of the
@@ -126,6 +127,7 @@ contexts:
         # comment).
         - match: \n
           pop: true
+        - include: line-continuation
 
 ###[ COPROCESSES ]#############################################################
 
