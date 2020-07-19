@@ -367,11 +367,13 @@ contexts:
         - match: (?=\$?["'])
           push:
             - clear_scopes: 2
+            - meta_include_prototype: false
             - include: string
             - include: immediately-pop
         - match: '{{is_interpolation}}'
           push:
             - clear_scopes: 1
+            - meta_include_prototype: false
             - include: expansion
             - include: immediately-pop
         - match: (?={{metachar}})
@@ -1320,6 +1322,7 @@ contexts:
     - match: '{{is_interpolation}}'
       push:
         - clear_scopes: 1
+        - meta_include_prototype: false
         - include: expansion-parameter
         - include: expansion-arithmetic
         - include: expansion-command

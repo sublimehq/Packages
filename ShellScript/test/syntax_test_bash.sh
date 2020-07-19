@@ -161,6 +161,28 @@ echo $"Hello \
 #        ^ punctuation.definition.string.end.shell
 #         ^ - meta.string - string
 
+echo $"Hello \\\"$world\""
+#    ^^^^^^^^^^^^ meta.string.shell string.quoted.double.locale.shell - meta.interpolation - variable
+#                ^^^^^^ meta.string.shell meta.interpolation.parameter.shell
+#                      ^^^ meta.string.shell string.quoted.double.locale.shell - meta.interpolation - variable
+#    ^^ punctuation.definition.string.begin.shell
+#            ^^^^ constant.character.escape.shell
+#                ^ punctuation.definition.variable.shell
+#                ^^^^^^ variable.other.readwrite.shell
+#                      ^^ constant.character.escape.shell
+#                        ^ punctuation.definition.string.end.shell
+
+echo $"Hello \\\"`echo World`\""
+#    ^^^^^^^^^^^^ meta.string.shell string.quoted.double.locale.shell - meta.interpolation - variable
+#                ^^^^^^^^^^^^ meta.string.shell meta.interpolation.command.shell
+#                            ^^^ meta.string.shell string.quoted.double.locale.shell - meta.interpolation - variable
+#    ^^ punctuation.definition.string.begin.shell
+#            ^^^^ constant.character.escape.shell
+#                ^ punctuation.section.interpolation.begin.shell
+#                           ^ punctuation.section.interpolation.end.shell
+#                            ^^ constant.character.escape.shell
+#                              ^ punctuation.definition.string.end.shell
+
 echo `echo \`echo hello, world!\``
 #   ^ - meta.interpolation
 #    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.command.shell
