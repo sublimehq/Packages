@@ -1,14 +1,9 @@
 %YAML 1.2
-# [Sublime]: https://www.sublimetext.com/docs/3/syntax.html
-# [Bash]:    https://www.gnu.org/software/bash/manual/bash.html
 ---
-
-name: Bourne Again Shell (bash)
-
-# The suffix is bash, but we still use .shell as a suffix anyway. This is to
-# promote reusability of foreign scopes.
+# https://www.sublimetext.com/docs/syntax.html
+# https://www.gnu.org/software/bash/manual/bash.html
+name: Bash
 scope: source.shell.bash
-
 version: 2
 
 file_extensions:
@@ -37,10 +32,11 @@ hidden_file_extensions:
   - .zshrc
   - PKGBUILD  # https://jlk.fjfi.cvut.cz/arch/manpages/man/PKGBUILD.5
 
-first_line_match: |
-  (?x)
-    ^\#! .* \b(bash|zsh|sh|tcsh|ash)\b
-  | ^\# \s* -\*- [^*]* mode: \s* shell-script [^*]* -\*-
+first_line_match: |-
+  (?x:
+    ^\#! .* \b(bash|zsh|sh|tcsh|ash)\b |        # shebang
+    ^\# \s* -\*- [^*]* shell-script [^*]* -\*-  # editorconfig
+  )
 
 ###############################################################################
 
