@@ -1292,7 +1292,7 @@ contexts:
           pop: true
         - match: \\([abfnrtv'"?$`\\]|[0-8]{1,3}|x\h{1,8}|c[a-z])
           scope: constant.character.escape.shell
-        - include: line-continuation
+        - include: string-continuation
 
   # [Bash] 3.1.2.5
   # If the string is translated and replaced, the replacement is double-quoted.
@@ -1308,9 +1308,13 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.end.shell
       pop: true
-    - include: line-continuation
+    - include: string-continuation
     - include: string-escape
     - include: string-interpolation
+
+  string-continuation:
+    - match: \\\n
+      scope: punctuation.separator.continuation.line.shell
 
   string-escape:
     - match: \\[$`"\\]
