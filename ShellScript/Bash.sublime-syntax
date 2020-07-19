@@ -132,7 +132,7 @@ contexts:
 ###[ COPROCESSES ]#############################################################
 
   coproc:
-    - match: \bcoproc{{keyword_break}}
+    - match: coproc{{keyword_break}}
       scope:
         meta.coproc.shell
         storage.type.coproc.shell
@@ -169,7 +169,7 @@ contexts:
   funcdef:
     - match: (?=\s*{{identifier_non_posix}}\s*\(\s*\))
       push: [funcdef-params, funcdef-name]
-    - match: \bfunction{{keyword_break}}
+    - match: function{{keyword_break}}
       scope:
         meta.function.shell
         storage.type.function.shell
@@ -228,7 +228,7 @@ contexts:
 ###[ VARDEFS ]#################################################################
 
   vardef:
-    - match: \balias{{keyword_break}}
+    - match: alias{{keyword_break}}
       scope:
         meta.function-call.identifier.shell
         support.function.alias.shell
@@ -238,7 +238,7 @@ contexts:
         - vardef-assign
         - vardef-alias-name
         - vardef-alias-options
-    - match: \b(typeset|declare|local){{keyword_break}}
+    - match: (typeset|declare|local){{keyword_break}}
       scope:
         meta.function-call.identifier.shell
         storage.modifier.shell
@@ -248,7 +248,7 @@ contexts:
         - vardef-assign
         - vardef-name
         - vardef-declare-options
-    - match: \bexport{{keyword_break}}
+    - match: export{{keyword_break}}
       scope:
         meta.function-call.identifier.shell
         storage.modifier.shell
@@ -258,7 +258,7 @@ contexts:
         - vardef-assign
         - vardef-name
         - vardef-export-options
-    - match: \breadonly{{keyword_break}}
+    - match: readonly{{keyword_break}}
       scope:
         meta.function-call.identifier.shell
         storage.modifier.shell
@@ -396,7 +396,7 @@ contexts:
 
   cmd-arithmetic:
     - include: arithmetic
-    - match: \blet{{keyword_break}}
+    - match: let{{keyword_break}}
       scope:
         meta.function-call.identifier.shell
         support.function.let.shell
@@ -448,7 +448,7 @@ contexts:
             1: support.function.test.end.shell
           set: cmd-post
         - include: expression-test
-    - match: \btest{{keyword_break}}
+    - match: test{{keyword_break}}
       scope:
         meta.function-call.identifier.shell
         support.function.test.shell
@@ -531,52 +531,52 @@ contexts:
 
   cmd-control:
     # conditional
-    - match: \bif{{keyword_break}}
+    - match: if{{keyword_break}}
       scope: keyword.control.conditional.if.shell
-    - match: \bthen{{keyword_break}}
+    - match: then{{keyword_break}}
       scope: keyword.control.conditional.then.shell
-    - match: \belif{{keyword_break}}
+    - match: elif{{keyword_break}}
       scope: keyword.control.conditional.elseif.shell
-    - match: \bfi{{keyword_break}}
+    - match: fi{{keyword_break}}
       scope: keyword.control.conditional.end.shell
-    - match: \belse{{keyword_break}}
+    - match: else{{keyword_break}}
       scope: keyword.control.conditional.else.shell
-    - match: \bcase{{keyword_break}}
+    - match: case{{keyword_break}}
       scope: keyword.control.conditional.case.shell
       push: [case-body, case-word]
-    - match: \besac{{keyword_break}}
+    - match: esac{{keyword_break}}
       scope: keyword.control.conditional.end.shell
     # loops
-    - match: \bdo{{keyword_break}}
+    - match: do{{keyword_break}}
       scope: keyword.control.loop.do.shell
-    - match: \bdone{{keyword_break}}
+    - match: done{{keyword_break}}
       scope: keyword.control.loop.end.shell
-    - match: \bfor{{keyword_break}}
+    - match: for{{keyword_break}}
       scope: keyword.control.loop.for.shell
       push: for-args
-    - match: \bselect{{keyword_break}}
+    - match: select{{keyword_break}}
       scope: keyword.control.loop.select.shell
       push: select-args
-    - match: \buntil{{keyword_break}}
+    - match: until{{keyword_break}}
       scope: keyword.control.loop.until.shell
-    - match: \bwhile{{keyword_break}}
+    - match: while{{keyword_break}}
       scope: keyword.control.loop.while.shell
     # flow
-    - match: \bbreak{{keyword_break}}
+    - match: break{{keyword_break}}
       scope: keyword.control.flow.break.shell
       push: flow-args
-    - match: \bcontinue{{keyword_break}}
+    - match: continue{{keyword_break}}
       scope: keyword.control.flow.continue.shell
       push: flow-args
-    - match: \bexit{{keyword_break}}
+    - match: exit{{keyword_break}}
       scope: keyword.control.flow.exit.shell
       push: flow-args
-    - match: \breturn{{keyword_break}}
+    - match: return{{keyword_break}}
       scope: keyword.control.flow.return.shell
       push: flow-args
 
   case-word:
-    - match: \bin{{keyword_break}}
+    - match: in{{keyword_break}}
       scope: keyword.control.in.shell
       pop: true
     - include: comment
@@ -637,11 +637,11 @@ contexts:
     - include: main
 
   case-end-ahead:
-    - match: (?=\besac{{keyword_break}})
+    - match: (?=esac{{keyword_break}})
       pop: true
 
   case-end:
-    - match: \besac{{keyword_break}}
+    - match: esac{{keyword_break}}
       scope: keyword.control.conditional.end.shell
       pop: true
 
@@ -652,13 +652,13 @@ contexts:
   for-args:
     - include: cmd-args-boilerplate
     - include: arithmetic
-    - match: \bin{{keyword_break}}
+    - match: in{{keyword_break}}
       scope: keyword.control.in.shell
 
   select-args:
     - include: cmd-args-boilerplate
     - include: expansion-and-string
-    - match: \bin{{keyword_break}}
+    - match: in{{keyword_break}}
       scope: keyword.control.in.shell
 
 ###[ REDIRECTIONS AND HEREDOCS ]###############################################
