@@ -78,7 +78,7 @@ def main():
         main.append({
             "match": match,
             "scope": scope,
-            "set": ["cmd-post", f"cmd-args-{command}"]
+            "push": ["cmd-post", f"cmd-args-{command}"]
         })
 
     commands_output = {

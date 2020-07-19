@@ -61,14 +61,18 @@ variables:
 
 contexts:
   main:
+    - meta_include_prototype: false
     - include: comment
-    - include: funcdef
     - include: coproc
+    - include: funcdef
     - include: vardef
-    - match: (?=\S)
-      push: cmd
+    - include: line-continuation
+    - include: operator-exclamation
+    - include: redirection
+    - include: cmd
 
   statement:
+    - meta_include_prototype: false
     - include: eol-pop
     - include: main
 
@@ -142,6 +146,7 @@ contexts:
             3: meta.coproc.command.shell meta.compound.shell
                punctuation.section.compound.begin.shell
           set:
+            - meta_include_prototype: false
             - meta_content_scope:
                 meta.coproc.command.shell meta.compound.shell
             - match: \}
@@ -155,6 +160,7 @@ contexts:
         # Basic Coproc Syntax
         - match: ''
           set:
+            - meta_include_prototype: false
             - meta_scope: meta.coproc.command.shell
             - include: statement
 
@@ -201,6 +207,7 @@ contexts:
     - match: \{
       scope: punctuation.section.block.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.block.shell
         - match: \}
           scope: punctuation.section.block.end.shell
@@ -211,6 +218,7 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.group.shell
         - match: \)
           scope: punctuation.section.group.end.shell
@@ -378,18 +386,13 @@ contexts:
 ###[ COMMANDS ]################################################################
 
   cmd:
-    - match: (?=[)}])
-      pop: true
-    - include: eol-pop
-    - include: redirection
-    - include: operator-exclamation
     - include: cmd-arithmetic
     - include: cmd-compound
     - include: cmd-test
     - include: cmd-control
     - include: scope:commands.builtin.shell.bash#main
     - match: (?=\S)
-      set: [cmd-post, cmd-args, cmd-name]
+      push: [cmd-post, cmd-args, cmd-name]
 
   cmd-arithmetic:
     - include: arithmetic
@@ -397,7 +400,7 @@ contexts:
       scope:
         meta.function-call.identifier.shell
         support.function.let.shell
-      set:
+      push:
         - meta_content_scope: meta.function-call.arguments.shell
         - include: cmd-args-boilerplate-with-end-of-options
         - include: expression
@@ -406,6 +409,7 @@ contexts:
     - match: \(
       scope: punctuation.section.compound.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.compound.shell
         - match: \)
           scope: punctuation.section.compound.end.shell
@@ -414,6 +418,7 @@ contexts:
     - match: \{(?=\s)
       scope: punctuation.section.compound.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.compound.shell
         - match: \}
           scope: punctuation.section.compound.end.shell
@@ -427,7 +432,7 @@ contexts:
   cmd-test:
     - match: \[\[(?=\s)
       scope: support.function.double-brace.begin.shell
-      set:
+      push:
         - meta_scope: meta.function-call.arguments.shell
         - match: \s+(\]\])
           captures:
@@ -436,7 +441,7 @@ contexts:
         - include: expression-test
     - match: \[(?=\s)
       scope: support.function.test.begin.shell
-      set:
+      push:
         - meta_scope: meta.function-call.arguments.shell
         - match: \s+(\])
           captures:
@@ -447,7 +452,7 @@ contexts:
       scope:
         meta.function-call.identifier.shell
         support.function.test.shell
-      set:
+      push:
         - meta_content_scope: meta.function-call.arguments.shell
         - include: cmd-args-boilerplate
         - include: expression-test
@@ -528,55 +533,47 @@ contexts:
     # conditional
     - match: \bif{{keyword_break}}
       scope: keyword.control.conditional.if.shell
-      pop: true
     - match: \bthen{{keyword_break}}
       scope: keyword.control.conditional.then.shell
-      pop: true
     - match: \belif{{keyword_break}}
       scope: keyword.control.conditional.elseif.shell
-      pop: true
     - match: \bfi{{keyword_break}}
       scope: keyword.control.conditional.end.shell
-      pop: true
     - match: \belse{{keyword_break}}
       scope: keyword.control.conditional.else.shell
-      pop: true
     - match: \bcase{{keyword_break}}
       scope: keyword.control.conditional.case.shell
-      set: [case-body, case-word]
-    - include: case-end
+      push: [case-body, case-word]
+    - match: \besac{{keyword_break}}
+      scope: keyword.control.conditional.end.shell
     # loops
     - match: \bdo{{keyword_break}}
       scope: keyword.control.loop.do.shell
-      pop: true
     - match: \bdone{{keyword_break}}
       scope: keyword.control.loop.end.shell
-      pop: true
     - match: \bfor{{keyword_break}}
       scope: keyword.control.loop.for.shell
-      set: for-args
+      push: for-args
     - match: \bselect{{keyword_break}}
       scope: keyword.control.loop.select.shell
-      set: select-args
+      push: select-args
     - match: \buntil{{keyword_break}}
       scope: keyword.control.loop.until.shell
-      pop: true
     - match: \bwhile{{keyword_break}}
       scope: keyword.control.loop.while.shell
-      pop: true
     # flow
     - match: \bbreak{{keyword_break}}
       scope: keyword.control.flow.break.shell
-      set: flow-args
+      push: flow-args
     - match: \bcontinue{{keyword_break}}
       scope: keyword.control.flow.continue.shell
-      set: flow-args
+      push: flow-args
     - match: \bexit{{keyword_break}}
       scope: keyword.control.flow.exit.shell
-      set: flow-args
+      push: flow-args
     - match: \breturn{{keyword_break}}
       scope: keyword.control.flow.return.shell
-      set: flow-args
+      push: flow-args
 
   case-word:
     - match: \bin{{keyword_break}}
@@ -631,6 +628,7 @@ contexts:
 
   case-clause-commands:
     - clear_scopes: 1  # remove meta.conditional.case.shell
+    - meta_include_prototype: false
     - meta_scope: meta.conditional.case.clause.commands.shell
     - match: ;;&?|;&
       scope: punctuation.terminator.case.clause.shell
@@ -681,6 +679,7 @@ contexts:
         3: meta.compound.shell
            punctuation.section.compound.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_content_scope: meta.compound.shell
         - match: \)
           scope:
@@ -1035,6 +1034,7 @@ contexts:
     - match: \$\(
       scope: punctuation.section.interpolation.begin.shell
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.interpolation.command.shell
         - match: \s*(\))
           captures:
