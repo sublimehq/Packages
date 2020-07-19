@@ -354,6 +354,10 @@ not_a_comment;
 //                       ^ - meta.function.declaration meta.function.declaration
 });
 
+1
+    /* Block Comment */
+//  ^^^^^^^^^^^^^^^^^^^ comment.block
+
 {
     let _$Foobar1Ù𝓩ʷªאξ‿ᛮↂ〩;
 //      ^^^^^^^^^^^^^^^^^^^ variable.other.readwrite
