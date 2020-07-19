@@ -32,63 +32,114 @@
 ####################################################################
 
 echo hello, world!
-# <- meta.function-call support.function - meta.function-call.arguments
-#   ^ meta.function-call.arguments
+#^^^^^^^^^^^^^^^^^ - meta.function-call meta.function-call
+# <- meta.function-call.identifier.shell support.function.echo.shell
+#^^^ meta.function-call.identifier.shell support.function.echo.shell
+#   ^^^^^^^^^^^^^^ meta.function-call.arguments.shell - variable
+#                 ^ - meta.function-call
+
 echo hello, \
-#           ^^ punctuation.separator.continuation.line
-# <- support.function.echo
+# <- meta.function-call.identifier.shell support.function.echo.shell
+#^^^ meta.function-call.identifier.shell support.function.echo.shell
+#   ^^^^^^^^^^ meta.function-call.arguments.shell
+#           ^^ punctuation.separator.continuation.line.shell
 world!
-# TODO: This should be a variable.function above here
-# The above is again a command, because the line continuation was prematurely
-# ended by the comment.
+# <- meta.function-call.identifier.shell variable.function.shell
+#^^^^^ meta.function-call.identifier.shell variable.function.shell
+#     ^ - meta.function-call
+
 echo hello, \
 world!
-# <- meta.function-call.arguments - variable.function
-# The above is not a command, because of the line continuation.
+# <- meta.function-call.arguments.shell - variable
+#^^^^^ meta.function-call.arguments.shell - variable
+#     ^ - meta.function-call
+
 echo hello, \ 
-#           ^^ - punctuation.separator.continuation.line
+#           ^^ - punctuation.separator
 # (there's an extra space following the backslash, so not a line-continuation)
 world!
-# <- variable.function
+# <- meta.function-call.identifier.shell variable.function.shell
+#^^^^^ meta.function-call.identifier.shell variable.function.shell
+#     ^ - meta.function-call
+
 echo This is a smiley :-\) \(I have to escape the parentheses, though!\)
-#                       ^^ constant.character.escape
-#                          ^^ constant.character.escape
-#                                                                     ^^ constant.character.escape
+#                       ^^ constant.character.escape.shell
+#                          ^^ constant.character.escape.shell
+#                                                                     ^^ constant.character.escape.shell
+
 echo the q"uick" f"ox" ju"mp"ed o"ve"r t'he' 'la'zy 'dog'
-#         ^ string.quoted.double punctuation.definition.string.begin
-#          ^^^^ string.quoted.double
-#              ^ string.quoted.double punctuation.definition.string.end
-#                                       ^ string.quoted.single punctuation.definition.string.begin
-#                                        ^^ string.quoted.single
-#                                          ^ string.quoted.single punctuation.definition.string.end
+#^^^ meta.function-call.identifier.shell support.function.echo.shell
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                                                        ^ - meta.function-call
+#         ^ punctuation.definition.string.begin.shell
+#         ^^^^^^ meta.string.shell string.quoted.double.shell
+#              ^ punctuation.definition.string.end.shell
+#                 ^ punctuation.definition.string.begin.shell
+#                 ^^^^ meta.string.shell string.quoted.double.shell
+#                    ^ punctuation.definition.string.end.shell
+#                        ^ punctuation.definition.string.begin.shell
+#                        ^^^^ meta.string.shell string.quoted.double.shell
+#                           ^ punctuation.definition.string.end.shell
+#                                ^ punctuation.definition.string.begin.shell
+#                                ^^^^ meta.string.shell string.quoted.double.shell
+#                                   ^ punctuation.definition.string.end.shell
+#                                       ^ punctuation.definition.string.begin.shell
+#                                       ^^^^ meta.string.shell string.quoted.single.shell
+#                                          ^ punctuation.definition.string.end.shell
+#                                            ^ punctuation.definition.string.begin.shell
+#                                            ^^^^ meta.string.shell string.quoted.single.shell
+#                                               ^ punctuation.definition.string.end.shell
+#                                                   ^ punctuation.definition.string.begin.shell
+#                                                   ^^^^^ meta.string.shell string.quoted.single.shell
+#                                                       ^ punctuation.definition.string.end.shell
+
 echo 'no\e$capes\in\$ingle\quotes'
-#    ^ string.quoted.single punctuation.definition.string.begin
-#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
-#                                ^ string.quoted.single punctuation.definition.string.end
-#       ^ - constant
-#         ^ - keyword
-#               ^ - constant
-#                  ^ - constant
-#                   ^ - keyword
-#                         ^ - constant
-echo $'\a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z'
-#    ^^ punctuation
-#      ^^^^ constant.character.escape
+#^^^ meta.function-call.identifier.shell support.function.echo.shell
+#   ^ meta.function-call.arguments.shell - keyword - string
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell string.quoted.single.shell - constant - keyword - variable
+#    ^ punctuation.definition.string.begin.shell
+#                                ^ punctuation.definition.string.end.shell
+
+echo 'singe\' \\''
+#    ^^^^^^^^ meta.string.shell string.quoted.single.shell
+#            ^^^ - meta.string - string
+#             ^^ constant.character.escape.shell
+#               ^^ meta.string.shell string.quoted.single.shell
+#                 ^ - meta.string - string
+
+echo $'\a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z\''
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell string.quoted.single.ansi-c.shell
+#    ^^ punctuation.definition.string.begin.shell
+#      ^^^^ constant.character.escape.shell
 #          ^^^^^^ - constant.character.escape
-#                ^^ constant.character.escape
+#                ^^ constant.character.escape.shell
 #                  ^^^^^^^^^^^^^^ - constant.character.escape
-#                                ^^ constant.character.escape
+#                                ^^ constant.character.escape.shell
 #                                  ^^^^^^ - constant.character.escape
-#                                        ^^ constant.character.escape
+#                                        ^^ constant.character.escape.shell
 #                                          ^^ - constant.character.escape
-#                                            ^^ constant.character.escape
+#                                            ^^ constant.character.escape.shell
 #                                              ^^ - constant.character.escape
-#                                                ^^ constant.character.escape
+#                                                ^^ constant.character.escape.shell
 #                                                  ^^^^^^^^ - constant.character.escape
-#                                                          ^ punctuation
-echo $"Hello"
-#    ^^ punctuation
-#           ^ punctuation
+#                                                          ^^ constant.character.escape.shell
+#                                                            ^ punctuation.definition.string.end.shell
+
+echo $'Hello\' World\\'
+#    ^^^^^^^^^^^^^^^^^^ meta.string.shell string.quoted.single.ansi-c.shell
+#    ^^ punctuation.definition.string.begin.shell
+#           ^^ constant.character.escape.shell
+#                   ^^ constant.character.escape.shell
+#                     ^ punctuation.definition.string.end.shell
+#                      ^ - meta.string - string
+
+echo $"Hello\" World\\"
+#    ^^^^^^^^^^^^^^^^^^ meta.string.shell string.quoted.double.locale.shell
+#    ^^ punctuation.definition.string.begin.shell
+#           ^^ constant.character.escape.shell
+#                   ^^ constant.character.escape.shell
+#                     ^ punctuation.definition.string.end.shell
+#                      ^ - meta.string - string
 
 echo `echo \`echo hello, world!\``
 #   ^ - meta.interpolation
