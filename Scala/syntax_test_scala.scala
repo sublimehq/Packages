@@ -2247,3 +2247,11 @@ type abc = _ \/ a
   case _: _ \/ a =>
 //          ^^ - support.type
 }
+
+new Foo()() with Bar
+//     ^ punctuation.section.group.begin.scala
+//      ^ punctuation.section.group.end.scala
+//       ^ punctuation.section.group.begin.scala
+//        ^ punctuation.section.group.end.scala
+//          ^^^^ keyword.declaration.scala
+//               ^^^ support.class.scala
