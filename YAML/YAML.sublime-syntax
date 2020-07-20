@@ -301,7 +301,7 @@ contexts:
         # TODO consider scoping meaningful trailing whitespace for color
         # schemes with background color definitions.
         - meta_scope: string.quoted.double.yaml
-          meta_include_prototype: false
+        - meta_include_prototype: false
         - match: '{{c_ns_esc_char}}'
           scope: constant.character.escape.double-quoted.yaml
         - match: \\\n
@@ -317,7 +317,7 @@ contexts:
       scope: punctuation.definition.string.begin.yaml
       push:
         - meta_scope: string.quoted.single.yaml
-          meta_include_prototype: false
+        - meta_include_prototype: false
         - match: "''"
           scope: constant.character.escape.single-quoted.yaml
         - match: "'"
@@ -423,10 +423,10 @@ contexts:
     # http://yaml.org/spec/1.2/spec.html#style/flow/plain
     # ns-plain(n,c) (c=flow-out, c=block-key)
     - include: flow-scalar-plain-out-implicit-type
-    - match: '{{ns_plain_first_plain_out}}'
+    - match: (?={{ns_plain_first_plain_out}})
       push:
         - meta_scope: string.unquoted.plain.out.yaml
-          meta_include_prototype: false
+        - meta_include_prototype: false
         - match: '{{_flow_scalar_end_plain_out}}'
           pop: true
 
@@ -434,10 +434,10 @@ contexts:
     # http://yaml.org/spec/1.2/spec.html#style/flow/plain
     # ns-plain(n,c) (c=flow-in, c=flow-key)
     - include: flow-scalar-plain-in-implicit-type
-    - match: '{{ns_plain_first_plain_in}}'
+    - match: (?={{ns_plain_first_plain_in}})
       push:
         - meta_scope: string.unquoted.plain.in.yaml
-          meta_include_prototype: false
+        - meta_include_prototype: false
         - match: '{{_flow_scalar_end_plain_in}}'
           pop: true
 
@@ -502,10 +502,10 @@ contexts:
         - include: flow-scalar-plain-in-implicit-type
         - match: '{{_flow_scalar_end_plain_in}}'
           pop: true
-        - match: '{{ns_plain_first_plain_in}}'
+        - match: (?={{ns_plain_first_plain_in}})
           set:
-            - meta_scope: string.unquoted.plain.in.yaml entity.name.tag.yaml
-              meta_include_prototype: false
+            - meta_scope: meta.flow-pair.key.yaml string.unquoted.plain.in.yaml entity.name.tag.yaml
+            - meta_include_prototype: false
             - match: '{{_flow_scalar_end_plain_in}}'
               pop: true
     - include: flow-node
@@ -534,7 +534,7 @@ contexts:
           # note that we do not check if indentation is enough
           set:
             - meta_scope: string.unquoted.block.yaml
-              meta_include_prototype: false
+            - meta_include_prototype: false
             - match: ^(?!\1|\s*$)
               pop: true
         - match: ^(?=\S)  # the block is empty
@@ -588,10 +588,10 @@ contexts:
         - include: flow-scalar-plain-out-implicit-type
         - match: '{{_flow_scalar_end_plain_out}}'
           pop: true
-        - match: '{{ns_plain_first_plain_out}}'
+        - match: (?={{ns_plain_first_plain_out}})
           set:
             - meta_scope: string.unquoted.plain.out.yaml entity.name.tag.yaml
-              meta_include_prototype: false
+            - meta_include_prototype: false
             - match: '{{_flow_scalar_end_plain_out}}'
               pop: true
     - match: :(?=\s|$)
