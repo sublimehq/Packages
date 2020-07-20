@@ -3,7 +3,7 @@
 # [Bash]:    https://www.gnu.org/software/bash/manual/bash.html
 --- #---------------------------------------------------------------------------
 
-name: Bourne Again Shell (bash)
+name: Bash
 
 # The suffix is bash, but we still use .shell as a suffix anyway. This is to
 # promote reusability of foreign scopes.
