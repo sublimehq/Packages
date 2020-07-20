@@ -1,4 +1,4 @@
 {
-    "spelling_selector": "-(comment, source, constant, keyword, storage, support, variable, markup.underline.link, meta.tag, meta.preamble, meta.include, meta.function.citation, meta.function.reference, meta.function.label, meta.function.includegraphics)",
-    "word_separators": "_./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}`~?"
+	"spelling_selector": "-(comment, source, constant, keyword, storage, support, variable, markup.underline.link, meta.tag, meta.preamble, meta.include, meta.function.citation, meta.function.reference, meta.function.label, meta.function.includegraphics)",
+	"word_separators": "_./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}`~?"
 }
