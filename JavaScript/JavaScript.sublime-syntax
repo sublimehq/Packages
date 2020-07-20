@@ -1263,10 +1263,29 @@ contexts:
 
     - match: static{{identifier_break}}
       scope: storage.modifier.js
-      push: class-field
+
+    - match: |-
+        (?x)(?=
+          \#? {{identifier}}
+          \s* = \s*
+          {{either_func_lookahead}}
+        )
+      push:
+        - function-initializer
+        - function-name-meta
+        - literal-variable-base
+
+    - match: (?=(?:get|set|async){{identifier_break}})
+      branch_point: prefixed-method
+      branch:
+        - prefixed-method
+        - class-element
+
+    - match: (?=\*)
+      push: method-declaration
 
     - match: (?={{class_element_name}})
-      push: class-field
+      push: class-element
 
   class-extends:
     - match: extends{{identifier_break}}
@@ -1300,47 +1319,43 @@ contexts:
       pop: true
     - include: else-pop
 
+  class-element:
+    - match: ''
+      pop: true
+      branch_point: class-field
+      branch:
+        - class-field
+        - method-declaration
+
+  prefixed-method:
+    - match: (?:get|set){{identifier_break}}
+      scope: storage.type.accessor.js
+      set:
+        - meta_scope: meta.function.declaration.js
+        - match: (?={{class_element_name}})
+          set: method-declaration
+        - match: (?=\S)
+          fail: prefixed-method
+    - match: (?:async){{identifier_break}}
+      scope: storage.type.js
+      set:
+        - meta_scope: meta.function.declaration.js
+        - match: (?=\*|{{class_element_name}})
+          set: method-declaration
+        - match: (?=\S)
+          fail: prefixed-method
+
   class-field:
-    - match: '{{method_lookahead}}'
-      set: method-declaration
-
-    - match: |-
-        (?x)(?=
-          \#? {{identifier}}
-          \s* = \s*
-          {{either_func_lookahead}}
-        )
+    - match: ''
       set:
-        - function-initializer
-        - function-name-meta
-        - literal-variable-base
-
-    - match: (?=#?{{property_name}})
-      set:
-        - field-initializer-or-method-declaration
-        - field-name
-
-    - include: else-pop
-
-  class-field-rest:
-    - match: ','
-      scope: punctuation.separator.js
-      push:
         - initializer
+        - class-field-check
         - field-name
-    - include: else-pop
 
-  field-initializer-or-method-declaration:
+  class-field-check:
     - match: (?=\()
-      set:
-        - function-meta
-        - function-declaration-expect-body
-        - function-declaration-meta
-        - function-declaration-expect-parameters
-    - match: (?=\S)
-      set:
-        - class-field-rest
-        - initializer
+      fail: class-field
+    - include: else-pop
 
   constants:
     - match: true{{identifier_break}}
