@@ -3,6 +3,10 @@
 % ^ comment.line.percentage.erlang
 %                                                   ^^ comment.line.percentage.erlang
 
+%%%%%%%%%%%%%--%%
+%^^^^^^^^^^^^ comment.line.percentage.erlang punctuation.definition.comment.percentage.erlang
+%            ^^^^^ comment.line.percentage.erlang - punctuation
+
 % Atom tests
 
 atom_tests() -> .
