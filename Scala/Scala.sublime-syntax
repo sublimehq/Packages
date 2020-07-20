@@ -1510,6 +1510,10 @@ contexts:
           pop: true
     - match: '\b{{varid}}'
       scope: variable.parameter.scala   # not indexed!
+    - match: \.
+      scope: punctuation.accessor.scala
+    - match: '\|'
+      scope: keyword.operator.or.scala
     - match: '{{op}}'   # let it fall through
     - match: \[
       push:
@@ -1532,7 +1536,7 @@ contexts:
       captures:
         1: punctuation.ascription.scala
       push:
-        - match: '(?=[,\)@])'
+        - match: '(?=[,\)@|])'
           pop: true
         - include: delimited-type-expression
     - match: \(
