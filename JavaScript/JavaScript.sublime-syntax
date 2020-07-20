@@ -171,14 +171,15 @@ contexts:
     - match: import{{identifier_break}}
       scope: keyword.control.import-export.js
       set:
-        - meta_scope: meta.import.js
-        - match: (?=[.(]) # Recovery for import expressions
-          fail: import-statement
-        - match: (?=\S)
-          set:
-            - import-meta
-            - expect-semicolon
-            - import-string-or-items
+        - import-meta
+        - expect-semicolon
+        - import-string-or-items
+        - import-check-branch
+
+  import-check-branch:
+    - match: (?=[.(]) # Recovery for import expressions
+      fail: import-statement
+    - include: else-pop
 
   export-statement:
     - match: export{{identifier_break}}
