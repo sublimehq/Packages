@@ -192,7 +192,8 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
     It matches just after typing the first letter of a tag name
     """
 
-    KIND_ENTITY = (sublime.KIND_ID_MARKUP, 'e', 'Entity')
+    KIND_MARKUP = (sublime.KIND_ID_MARKUP, 'e', 'Entity')
+    KIND_SNIPPET = (sublime.KIND_ID_SNIPPET, 'e', 'Entity')
 
     def __init__(self):
         completion_list = self.default_completion_list()
@@ -272,14 +273,14 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
                 trigger='#00;',
                 completion='#${1:00};',
                 completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
-                kind=self.KIND_ENTITY,
+                kind=self.KIND_SNIPPET,
                 details='Base-10 Unicode character',
             ),
             sublime.CompletionItem(
                 trigger='#x0000;',
                 completion='#x${1:0000};',
                 completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
-                kind=self.KIND_ENTITY,
+                kind=self.KIND_SNIPPET,
                 details='Base-16 Unicode character',
             ),
             *(
@@ -288,7 +289,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
                     annotation=printed,
                     completion=entity,
                     completion_format=sublime.COMPLETION_FORMAT_TEXT,
-                    kind=self.KIND_ENTITY,
+                    kind=self.KIND_MARKUP,
                     details=f'Renders as <code>{printed}</code>',
                 )
                 for entity, printed in html.entities.html5.items()
