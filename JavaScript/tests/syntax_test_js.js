@@ -215,6 +215,7 @@ let x = import.meta;
 //         ^^^^ variable.language.import
 
     import
+//  ^^^^^^ - meta.import
     .meta;
 //  ^^^^^ - meta.import
 //  ^ punctuation.accessor
@@ -225,6 +226,7 @@ let x = import.meta;
 //        ^^^^^^^ meta.group
 
     import
+//  ^^^^^^ - meta.import
     ('foo');
 //  ^^^^^^^ meta.group
 
