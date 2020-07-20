@@ -35,3 +35,5 @@ contexts:
         2: variable.language.wildcard.file-pattern
     - match: '[*?]'
       scope: keyword.operator.wildcard.file-pattern
+    - match: <(?:current file|open files|open folders|project filters)>
+      scope: support.constant.file-pattern

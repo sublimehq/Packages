@@ -24,3 +24,11 @@ ssh-agent
 #  ^ - keyword
 node_modules,-//ngx/node_modules
 #             ^^ constant.language
+<current file>
+#^^^^^^^^^^^^^ support.constant.file-pattern
+<open files>
+#^^^^^^^^^^^ support.constant.file-pattern
+<open folders>
+#^^^^^^^^^^^^^ support.constant.file-pattern
+<project filters>
+#^^^^^^^^^^^^^^^^ support.constant.file-pattern
