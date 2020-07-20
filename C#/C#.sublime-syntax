@@ -505,6 +505,8 @@ contexts:
             - match: \b(remove)\b
               scope: storage.type.function.accessor.remove.cs
               push: method_body
+        - match: (?==)
+          set: member_variables_declaration
         - match: (?=\S)
           pop: true
     - match: (?=\S)
@@ -1024,7 +1026,7 @@ contexts:
     - match: ';'
       scope: punctuation.terminator.statement.cs
       pop: true
-    - match: (?=\}|\)|>|\])
+    - match: (?=[]})>;])
       pop: true
 
   variables_declaration:
@@ -1312,7 +1314,7 @@ contexts:
             2: punctuation.separator.cs
             3: punctuation.section.brackets.end.cs
             4: keyword.operator.pointer.cs
-    - match: \((?=(?:[^,)(]*|\([^\)]*\))*,)
+    - match: \((?=(?:[^,)(]|\([^\)]*\))*,)
       scope: punctuation.section.group.begin.cs
       push:
         - meta_scope: meta.group.tuple.cs

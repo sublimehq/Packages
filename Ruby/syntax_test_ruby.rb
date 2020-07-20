@@ -156,6 +156,16 @@ puts <<-SH; # comment
 # ^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.end.ruby
 #   ^ - meta.string - string.unquoted
 
+puts <<-SHELL; # comment
+#    ^^^^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+#            ^ punctuation.terminator.statement.ruby - meta.string - string
+#              ^ comment.line.number-sign.ruby punctuation.definition.comment.ruby - meta.string - string
+  git log
+# ^^^^^^^ meta.string.heredoc.ruby source.shell.embedded.ruby
+  SHELL
+# ^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.end.ruby
+#      ^ - meta.string - string.unquoted
+
 DB.fetch(<<-SQL, conn).name
 #^^^^^^^^^^^^^^^^^^^^^^^^^^ source.ruby
 #        ^^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby

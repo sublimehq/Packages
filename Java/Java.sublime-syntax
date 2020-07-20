@@ -977,6 +977,7 @@ contexts:
       push: generic-type-bounds
     - include: generic-type-terminator
     - include: object-and-array-types
+    - include: annotations
     - include: punctuation-separator-comma
 
   annotation-default:
@@ -1128,8 +1129,17 @@ contexts:
     - match: \n
       scope: invalid.illegal.newline.java
       pop: true
-    - match: \\.
+    - include: string-escapes
+
+  string-escapes:
+    - match: \\u+\h{4}
+      scope: constant.character.escape.unicode.java
+    - match: \\[0-3]?[0-7]{1,2}
+      scope: constant.character.escape.octal.java
+    - match: \\[btnfr"'\\]
       scope: constant.character.escape.java
+    - match: \\.
+      scope: invalid.illegal.escape.java
 
   module:
     - match: (?=\b(?:open\s+)?module\b)

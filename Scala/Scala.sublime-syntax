@@ -339,7 +339,7 @@ contexts:
         1: storage.type.function.scala
         2: entity.name.function.scala
       push: function-type-parameter-list
-    - match: '\b(case\s+)?(class|trait|object)(\s+({{id}}))'
+    - match: '\b(?:(case)\s+)?(class|trait|object)(?:\s+({{id}}))'
       scope: meta.class.identifier.scala
       captures:
         1: storage.type.class.scala
@@ -928,6 +928,8 @@ contexts:
           set:
             - match: '(?=\s+with\b)'
               set: initialization-body
+            - match: '(?=\s*\()'    # this catches multi-parameter-block constructors
+              set: initialization-term-tail
             - match: '(?=.)'
               pop: true
         - include: main
@@ -1511,6 +1513,10 @@ contexts:
           pop: true
     - match: '\b{{varid}}'
       scope: variable.parameter.scala   # not indexed!
+    - match: \.
+      scope: punctuation.accessor.scala
+    - match: '\|'
+      scope: keyword.operator.or.scala
     - match: '{{op}}'   # let it fall through
     - match: \[
       push:
@@ -1533,7 +1539,7 @@ contexts:
       captures:
         1: punctuation.ascription.scala
       push:
-        - match: '(?=[,\)@])'
+        - match: '(?=[,\)@|])'
           pop: true
         - include: delimited-type-expression
     - match: \(
@@ -1594,8 +1600,10 @@ contexts:
   delimited-type-expression:
     - include: annotation
     # kind-projector support
-    - match: '\?|\*'
-      scope: variable.language.hole.scala
+    - match: '([+-])?([?*])'
+      captures:
+        1: keyword.operator.bound.scala
+        2: variable.language.hole.scala
     # \x{03BB} = λ
     - match: '\bLambda\b|\x{03BB}'
       scope: keyword.operator.type-lambda.scala
@@ -1670,6 +1678,9 @@ contexts:
       scope: keyword.other.scala
     - match: \b(?:Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
       scope: storage.type.primitive.scala
+      set: single-type-expression-tail
+    - match: '_(?!\s*\*)'
+      scope: variable.language.underscore.scala
       set: single-type-expression-tail
     - match: '\b(?:forSome)\b'
       scope: keyword.declaration.scala
@@ -1774,7 +1785,7 @@ contexts:
       pop: true
 
   single-type-expression-tail:
-    - match: (?=@{{plainid}})
+    - match: (?=@{{alphaplainid}})
       set:
         - include: annotation
         - match: '(?=\S)'
