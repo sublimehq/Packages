@@ -6,7 +6,6 @@ name: Clojure
 file_extensions:
   - clj
   - cljc
-  - cljs
   - edn
 scope: source.clojure
 
