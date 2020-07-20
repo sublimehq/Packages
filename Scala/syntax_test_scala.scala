@@ -2210,3 +2210,56 @@ foo ne bar
 
 :s@/
 //^^ meta.group.scala meta.group.scala support.type.scala
+
+{
+  case Foo.Bar =>
+//        ^ punctuation.accessor.scala
+}
+
+a: B
+
+{
+  case (_: A | _: B | (_: D)) | _: C =>
+//       ^ punctuation.ascription.scala
+//           ^ keyword.operator.or.scala
+//              ^ punctuation.ascription.scala
+//                  ^ keyword.operator.or.scala
+//                    ^ punctuation.section.group.begin.scala
+//                      ^ punctuation.ascription.scala
+//                         ^ punctuation.section.group.end.scala
+//                            ^ keyword.operator.or.scala
+}
+
+f[F[Throwable, +?]]
+//             ^ keyword.operator.bound.scala
+//              ^ variable.language.hole.scala
+
+f[F[Throwable, -?]]
+//             ^ keyword.operator.bound.scala
+//              ^ variable.language.hole.scala
+
+type abc = _ \/ a
+//         ^ variable.language.underscore.scala
+//           ^^ support.type.scala
+//              ^ support.type.scala
+
+{
+  case _: _ \/ a =>
+//          ^^ - support.type
+}
+
+new Foo()() with Bar
+//     ^ punctuation.section.group.begin.scala
+//      ^ punctuation.section.group.end.scala
+//       ^ punctuation.section.group.begin.scala
+//        ^ punctuation.section.group.end.scala
+//          ^^^^ keyword.declaration.scala
+//               ^^^ support.class.scala
+
+completed: F[_ >: A] => B)
+//             ^^ keyword.operator.bound.scala
+
+    _()
+//  ^ variable.language.underscore.scala
+//   ^ punctuation.section.group.begin.scala
+//    ^ punctuation.section.group.end.scala

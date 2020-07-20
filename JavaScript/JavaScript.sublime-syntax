@@ -47,6 +47,8 @@ variables:
   binding_pattern_lookahead: (?:{{identifier}}|\[|\{)
   left_expression_end_lookahead: (?!\s*[.\[\(])
 
+  dot_accessor: (?:\??\.)
+
   property_name: >-
     (?x:
       {{identifier}}
@@ -98,13 +100,6 @@ variables:
         (?:in|instanceof){{identifier_break}}
       )
     ))
-
-  dot_accessor: |-
-    (?x: # Match . and .?, but not .?( or .?[
-      \.
-      (?! \? [\[(] )
-      \??
-    )
 
 contexts:
   main:
@@ -888,7 +883,7 @@ contexts:
     - match: (?=`)
       push: literal-string-template
 
-    - match: (?=(?:\.\?)?\()
+    - match: (?=(?:{{dot_accessor}})?\()
       push: function-call-arguments
 
     - include: property-access
@@ -1198,7 +1193,7 @@ contexts:
       push: expression-begin
 
   ternary-operator:
-    - match: '\?'
+    - match: '\?(?=[^.]|\.[0-9])'
       scope: keyword.operator.ternary.js
       set:
         - ternary-operator-expect-colon
@@ -1378,7 +1373,7 @@ contexts:
         - function-declaration-identifiers
 
   function-declaration-identifiers:
-    - match: '(?={{identifier}}\s*\.)'
+    - match: '(?={{identifier}}\s*{{dot_accessor}})'
       push:
         - expect-dot-accessor
         - function-declaration-identifiers-expect-class
@@ -1748,7 +1743,7 @@ contexts:
           push: expression
 
   function-call-arguments:
-    - match: (\.\?)?(\()
+    - match: ({{dot_accessor}})?(\()
       captures:
         1: punctuation.accessor.js
         2: punctuation.section.group.begin.js
@@ -1770,7 +1765,7 @@ contexts:
         - include: expression-list
 
   property-access:
-    - match: (\.\?)?(\[)
+    - match: ({{dot_accessor}})?(\[)
       captures:
         1: punctuation.accessor.js
         2: punctuation.section.brackets.begin.js
@@ -1782,10 +1777,10 @@ contexts:
         - match: (?=\S)
           push: expression
 
-    - match: \.(?:\?)?
+    - match: '{{dot_accessor}}'
       scope: punctuation.accessor.js
       push:
-        - match: '(?={{identifier}}\s*(?:\.\?)?\()'
+        - match: '(?={{identifier}}\s*(?:{{dot_accessor}})?\()'
           set:
             - call-method-meta
             - function-call-arguments
@@ -1858,13 +1853,13 @@ contexts:
       pop: true
 
   literal-call:
-    - match: (?={{identifier}}\s*(?:\.\?)?\()
+    - match: (?={{identifier}}\s*(?:{{dot_accessor}})?\()
       set:
         - call-function-meta
         - function-call-arguments
         - literal-variable
 
-    - match: (?={{identifier}}\s*(?:\.\s*{{identifier}}\s*)+(?:\.\?)?\()
+    - match: (?={{identifier}}\s*(?:{{dot_accessor}}\s*{{identifier}}\s*)+(?:{{dot_accessor}})?\()
       set:
         - call-method-meta
         - function-call-arguments
@@ -1907,11 +1902,11 @@ contexts:
     - include: language-identifiers
     - include: support
 
-    - match: '{{constant_identifier}}(?=\s*[\[.])'
+    - match: '{{constant_identifier}}(?=\s*(?:{{dot_accessor}}|\[))'
       scope: support.class.js
       pop: true
 
-    - match: (?={{identifier}}\s*(?:\.\?)?\()
+    - match: (?={{identifier}}\s*(?:{{dot_accessor}})?\()
       set: call-function-name
 
     - include: literal-variable-base
@@ -2338,7 +2333,7 @@ contexts:
 
     - include: support-property
 
-    - match: '(?={{identifier}}\s*(?:\.\?)?\()'
+    - match: '(?={{identifier}}\s*(?:{{dot_accessor}})?\()'
       set: call-method-name
 
     - include: object-property-base
@@ -2396,7 +2391,7 @@ contexts:
   import-expression-end:
     - match: (?=\()
       set: function-call-arguments
-    - match: \.
+    - match: '{{dot_accessor}}'
       scope: punctuation.accessor.js
       set:
         - match: meta{{identifier_break}}
