@@ -12,8 +12,8 @@ jobs:
       - name: Extract syntax_tests
         run: tar xf "$(ls st_syntax_tests_build_*_x64.tar.xz)"
       - name: Move syntax_tests
-        run: mv st_syntax_tests/syntax_tests ./
-      - name: Cleanup syntax_tests dir
+        run: mv st_syntax_tests/* ./
+      - name: Cleanup syntax_tests archive
         run: rm -R st_syntax_tests*
       - name: Setup Data/Packages/
         run: mkdir -p Data/Packages/

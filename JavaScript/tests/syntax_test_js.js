@@ -1993,25 +1993,30 @@ debugger
     a ?? b;
 //    ^^ keyword.operator.logical
 
-    a.?b.?c;
+    a ?.5 : .7;
+//    ^ keyword.operator.ternary
+//     ^^ constant.numeric
+//        ^ keyword.operator.ternary
+
+    a?.b?.c;
 //   ^^ punctuation.accessor
 //     ^ meta.property.object
 //      ^^ punctuation.accessor
 //        ^ meta.property.object
 
-    a.?[propName];
+    a?.[propName];
 //   ^^^^^^^^^^^^ meta.brackets
 //   ^^ punctuation.accessor
 //     ^ punctuation.section.brackets.begin
 
-    a.?();
+    a?.();
 //  ^^^^^ meta.function-call
 //  ^ variable.function
 //   ^^^^ meta.group
 //   ^^ punctuation.accessor
 //     ^ punctuation.section.group.begin
 
-    a.b.?();
+    a.b?.();
 //  ^^^^^^^ meta.function-call.method
 //    ^ variable.function
 //     
