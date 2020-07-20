@@ -1674,6 +1674,9 @@ contexts:
     - match: \b(?:Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
       scope: storage.type.primitive.scala
       set: single-type-expression-tail
+    - match: '_(?!\s*\*)'
+      scope: variable.language.underscore.scala
+      set: single-type-expression-tail
     - match: '\b(?:forSome)\b'
       scope: keyword.declaration.scala
     - match: '\b(?:this|super)\b'

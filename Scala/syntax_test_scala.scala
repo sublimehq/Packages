@@ -2237,3 +2237,13 @@ f[F[Throwable, +?]]
 f[F[Throwable, -?]]
 //             ^ keyword.operator.bound.scala
 //              ^ variable.language.hole.scala
+
+type abc = _ \/ a
+//         ^ variable.language.underscore.scala
+//           ^^ support.type.scala
+//              ^ support.type.scala
+
+{
+  case _: _ \/ a =>
+//          ^^ - support.type
+}
