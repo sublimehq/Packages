@@ -36,17 +36,18 @@ variables:
       [:@\x{2190}\x{21D2}#]{{operator_character}}+
     )
 
-  # {{operator_character}}+ \ {:, =, =>, <-, @, ←, ⇒, #, <%, <:, :<}
+  # {{operator_character}}+ \ {:, =, =>, <-, @, ←, ⇒, #, <%, <:, >:}
   typeop: |-
     (?x:
-      [[^:=<@\x{2190}\x{21D2}#]&&{{operator_character}}]{{operator_character}}*|
+      [[^:=<>@\x{2190}\x{21D2}#]&&{{operator_character}}]{{operator_character}}*|
       =[[^>]&&{{operator_character}}]{{operator_character}}*|
       =>{{operator_character}}+|
       <(?!{{operator_character}}|[[:alpha:]])|
       <[[^\-%:]&&{{operator_character}}]+|
       <[:%\-]{{operator_character}}+|
-      :[[^<]&&{{operator_character}}]+|
-      :<{{operator_character}}+|
+      :[{{operator_character}}]+|
+      >[[^:]&&{{operator_character}}]+|
+      >:{{operator_character}}+|
       [@\x{2190}\x{21D2}#]{{operator_character}}+
     )
 
@@ -1631,6 +1632,8 @@ contexts:
       scope: variable.language.underscore.scala
     - match: '{{typeid}}'
       scope: support.type.scala
+    - match: '(<:|>:)'
+      scope: keyword.operator.bound.scala
     - include: base-type-expression
 
   # single-type is a type expression with semicolon inference

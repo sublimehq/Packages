@@ -2255,3 +2255,6 @@ new Foo()() with Bar
 //        ^ punctuation.section.group.end.scala
 //          ^^^^ keyword.declaration.scala
 //               ^^^ support.class.scala
+
+completed: F[_ >: A] => B)
+//             ^^ keyword.operator.bound.scala
