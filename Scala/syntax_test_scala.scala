@@ -102,7 +102,8 @@ def foo(a: Int, b: Bar): Baz = 42
 
    class Foo[A](a: Bar) extends Baz with Bin
 // ^^^^^^^^^ meta.class.identifier.scala
-//    ^^ storage.type.class.scala
+// ^^^^^ storage.type.class.scala
+//      ^ - storage - entity
 //       ^^^ entity.name.class
 //           ^ support.class
 //              ^ variable.parameter
@@ -113,6 +114,10 @@ def foo(a: Int, b: Bar): Baz = 42
 //                                       ^^^ entity.other.inherited-class.scala
 
    class Foo private[this] (a: Int)(b: String)
+// ^^^^^ storage.type.class.scala
+//      ^ - storage - entity
+//       ^^^ entity.name.class
+//          ^ - storage - entity
 //           ^^^^^^^ storage.modifier.access
 //                   ^^^^ variable.language.scala
 //                          ^ variable.parameter
@@ -2202,3 +2207,6 @@ foo eq bar
 
 foo ne bar
 //  ^^ keyword.operator.comparison.scala
+
+:s@/
+//^^ meta.group.scala meta.group.scala support.type.scala

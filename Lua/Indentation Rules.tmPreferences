@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+	<dict>
+		<key>scope</key>
+		<string>source.lua - comment - string</string>
+		<key>settings</key>
+		<dict>
+			<key>decreaseIndentPattern</key>
+			<string>(^\s*\b(elsei|elseif|else|end|until)\b.*$|^((?!\{).)*\}\;?.*$)</string>
+			<key>increaseIndentPattern</key>
+			<string>(^\s*\b(((local)?[\s\w=]+)?function|repeat|else|elseif|if|while)\b((?!\bend\b).)*$|^.*\b(do|then)\b((?!\bend\b).)*$|^.*\{((?!\}).)*$)</string>
+		</dict>
+	</dict>
+</plist>

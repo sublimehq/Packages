@@ -9,10 +9,15 @@ def match(rex, str):
     else:
         return None
 
-def make_completion(tag):
-    # make it look like
-    # ("table\tTag", "table>$1</table>"),
-    return (tag + '\tTag', tag + '>$0</' + tag + '>')
+def make_completion(tag, completion=None):
+    if completion is None:
+        completion = tag + '>$0</' + tag + '>'
+    return sublime.CompletionItem(
+        trigger=tag,
+        completion=completion,
+        completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
+        kind=(sublime.KIND_ID_MARKUP, 't', 'Tag')
+    )
 
 def get_tag_to_attributes():
     """
@@ -190,9 +195,9 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
         self.prefix_completion_dict = {}
         # construct a dictionary where the key is first character of
         # the completion list to the completion
-        for s in completion_list:
-            prefix = s[0][0]
-            self.prefix_completion_dict.setdefault(prefix, []).append(s)
+        for ci in completion_list:
+            prefix = ci.trigger[0]
+            self.prefix_completion_dict.setdefault(prefix, []).append(ci)
 
         # construct a dictionary from (tag, attribute[0]) -> [attribute]
         self.tag_to_attributes = get_tag_to_attributes()
@@ -243,7 +248,8 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
 
         # if the opening < is not here insert that
         if ch != '<':
-            completion_list = [(pair[0], '<' + pair[1]) for pair in completion_list]
+            for ci in completion_list:
+                ci.completion = '<' + ci.completion
 
         flags = 0
         if is_inside_tag:
@@ -279,28 +285,28 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
             default_list.append(make_completion(tag))
             default_list.append(make_completion(tag.upper()))
 
-        default_list += ([
-            ('a\tTag', 'a href=\"$1\">$0</a>'),
-            ('area\tTag', 'area shape=\"$1\" coords=\"$2\" href=\"$3\">'),
-            ('audio\tTag', 'audio src=\"$1\">$0</audio>'),
-            ('base\tTag', 'base href=\"$1\">'),
-            ('br\tTag', 'br>'),
-            ('col\tTag', 'col>'),
-            ('hr\tTag', 'hr>'),
-            ('iframe\tTag', 'iframe src=\"$1\">$0</iframe>'),
-            ('input\tTag', 'input type=\"$1\" name=\"$2\">'),
-            ('img\tTag', 'img src=\"$1\">'),
-            ('link\tTag', 'link rel=\"stylesheet\" type=\"text/css\" href=\"$1\">'),
-            ('meta\tTag', 'meta ${1:charset=\"utf-8\"}>'),
-            ('param\tTag', 'param name=\"$1\" value=\"$2\">'),
-            ('progress\tTag', 'progress value=\"$1\" max=\"$2\">'),
-            ('script\tTag', 'script${2: type=\"${1:text/javascript}\"}>$0</script>'),
-            ('source\tTag', 'source src=\"$1\" type=\"$2\">'),
-            ('style\tTag', 'style type=\"${1:text/css}\">$0</style>'),
-            ('track\tTag', 'track kind=\"$1\" src=\"$2\">'),
-            ('wbr\tTag', 'wbr>'),
-            ('video\tTag', 'video src=\"$1\">$0</video>')
-        ])
+        default_list += [
+            make_completion('a', 'a href=\"$1\">$0</a>'),
+            make_completion('area', 'area shape=\"$1\" coords=\"$2\" href=\"$3\">'),
+            make_completion('audio', 'audio src=\"$1\">$0</audio>'),
+            make_completion('base', 'base href=\"$1\">'),
+            make_completion('br', 'br>'),
+            make_completion('col', 'col>'),
+            make_completion('hr', 'hr>'),
+            make_completion('iframe', 'iframe src=\"$1\">$0</iframe>'),
+            make_completion('input', 'input type=\"$1\" name=\"$2\">'),
+            make_completion('img', 'img src=\"$1\">'),
+            make_completion('link', 'link rel=\"stylesheet\" type=\"text/css\" href=\"$1\">'),
+            make_completion('meta', 'meta ${1:charset=\"utf-8\"}>'),
+            make_completion('param', 'param name=\"$1\" value=\"$2\">'),
+            make_completion('progress', 'progress value=\"$1\" max=\"$2\">'),
+            make_completion('script', 'script${2: type=\"${1:text/javascript}\"}>$0</script>'),
+            make_completion('source', 'source src=\"$1\" type=\"$2\">'),
+            make_completion('style', 'style type=\"${1:text/css}\">$0</style>'),
+            make_completion('track', 'track kind=\"$1\" src=\"$2\">'),
+            make_completion('wbr', 'wbr>'),
+            make_completion('video', 'video src=\"$1\">$0</video>')
+        ]
 
         return default_list
 
@@ -321,7 +327,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
         lines = [l[::-1] for l in lines]
 
         # Check the first location looks like an expression
-        rex = re.compile("([\w-]+)([.#])(\w+)")
+        rex = re.compile(r"([\w-]+)([.#])(\w+)")
         expr = match(rex, lines[0])
         if not expr:
             return []
@@ -341,10 +347,18 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
 
         if op == '.':
             snippet = '<{0} class=\"{1}\">$1</{0}>$0'.format(tag, arg)
+            desc = '&lt;{0} class="{1}"&gt;'.format(tag, arg)
         else:
             snippet = '<{0} id=\"{1}\">$1</{0}>$0'.format(tag, arg)
+            desc = '&lt;{0} id="{1}"&gt;'.format(tag, arg)
 
-        return [(expr, snippet)]
+        return [sublime.CompletionItem(
+            trigger=expr,
+            completion=snippet,
+            completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
+            kind=(sublime.KIND_ID_MARKUP, 't', 'Tag'),
+            details="Expands to <code>" + desc + "</code>"
+        )]
 
     def get_attribute_completions(self, view, pt, prefix):
         SEARCH_LIMIT = 500
@@ -391,8 +405,15 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
 
         # got the tag, now find all attributes that match
         attributes = self.tag_to_attributes.get(tag, [])
-        # ("class\tAttr", "class="$1">"),
-        attri_completions = [(a + '\tAttr', a + '="$1"' + suffix) for a in attributes]
+
+        attri_completions = []
+        for a in attributes:
+            attri_completions.append(sublime.CompletionItem(
+                trigger=a,
+                completion=a + '="$1"' + suffix,
+                completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
+                kind=(sublime.KIND_ID_MARKUP, 'a', 'Attribute')
+            ))
         return attri_completions
 
 
@@ -408,6 +429,8 @@ class Unittest(unittest.TestCase):
     class Sublime:
         INHIBIT_WORD_COMPLETIONS = 1
         INHIBIT_EXPLICIT_COMPLETIONS = 2
+        COMPLETION_FORMAT_SNIPPET = 1
+        KIND_ID_MARKUP = 6
 
     # this view contains a hard coded one line super simple HTML fragment
     class View:
@@ -426,8 +449,8 @@ class Unittest(unittest.TestCase):
         global sublime
 
         sublime_module = sublime
-        # use the normal region
         Unittest.Sublime.Region = sublime.Region
+        Unittest.Sublime.CompletionItem = sublime.CompletionItem
         sublime = Unittest.Sublime
 
         test = Unittest()
@@ -446,11 +469,17 @@ class Unittest(unittest.TestCase):
         completor = HtmlTagCompletions()
 
         # simulate typing 'tab' at the start of the line, it is outside a tag
-        completion_list, flags = completor.get_completions(view, 'tab', [0], False)
+        cl, flags = completor.get_completions(view, 'tab', [0], False)
 
         # should give a bunch of tags that starts with t
-        self.assertEqual(completion_list[0], ('table\tTag', '<table>$0</table>'))
-        self.assertEqual(completion_list[1], ('tbody\tTag', '<tbody>$0</tbody>'))
+        self.assertEqual(cl[0].trigger, 'table')
+        self.assertEqual(cl[0].completion, '<table>$0</table>')
+        self.assertEqual(cl[0].completion_format, sublime.COMPLETION_FORMAT_SNIPPET)
+        self.assertEqual(cl[0].kind, (sublime.KIND_ID_MARKUP, 't', 'Tag'))
+        self.assertEqual(cl[1].trigger, 'tbody')
+        self.assertEqual(cl[1].completion, '<tbody>$0</tbody>')
+        self.assertEqual(cl[1].completion_format, sublime.COMPLETION_FORMAT_SNIPPET)
+        self.assertEqual(cl[1].kind, (sublime.KIND_ID_MARKUP, 't', 'Tag'))
         # don't suppress word based completion
         self.assertEqual(flags, 0)
 
@@ -460,22 +489,40 @@ class Unittest(unittest.TestCase):
         completor = HtmlTagCompletions()
 
         # simulate typing 'h' after <tr><, i.e. <tr><h
-        completion_list, flags = completor.get_completions(view, 'h', [6], True)
+        cl, flags = completor.get_completions(view, 'h', [6], True)
 
         # should give a bunch of tags that starts with h, and without <
-        self.assertEqual(completion_list[0], ('head\tTag', 'head>$0</head>'))
-        self.assertEqual(completion_list[1], ('header\tTag', 'header>$0</header>'))
-        self.assertEqual(completion_list[2], ('h1\tTag', 'h1>$0</h1>'))
+        self.assertEqual(cl[0].trigger, 'head')
+        self.assertEqual(cl[0].completion, 'head>$0</head>')
+        self.assertEqual(cl[0].completion_format, sublime.COMPLETION_FORMAT_SNIPPET)
+        self.assertEqual(cl[0].kind, (sublime.KIND_ID_MARKUP, 't', 'Tag'))
+        self.assertEqual(cl[1].trigger, 'header')
+        self.assertEqual(cl[1].completion, 'header>$0</header>')
+        self.assertEqual(cl[1].completion_format, sublime.COMPLETION_FORMAT_SNIPPET)
+        self.assertEqual(cl[1].kind, (sublime.KIND_ID_MARKUP, 't', 'Tag'))
+        self.assertEqual(cl[2].trigger, 'h1')
+        self.assertEqual(cl[2].completion, 'h1>$0</h1>')
+        self.assertEqual(cl[2].completion_format, sublime.COMPLETION_FORMAT_SNIPPET)
+        self.assertEqual(cl[2].kind, (sublime.KIND_ID_MARKUP, 't', 'Tag'))
         # suppress word based completion
         self.assertEqual(flags, sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS)
 
         # simulate typing 'he' after <tr><, i.e. <tr><he
-        completion_list, flags = completor.get_completions(view, 'he', [7], True)
+        cl, flags = completor.get_completions(view, 'he', [7], True)
 
         # should give a bunch of tags that starts with h, and without < (it filters only on the first letter of the prefix)
-        self.assertEqual(completion_list[0], ('head\tTag', 'head>$0</head>'))
-        self.assertEqual(completion_list[1], ('header\tTag', 'header>$0</header>'))
-        self.assertEqual(completion_list[2], ('h1\tTag', 'h1>$0</h1>'))
+        self.assertEqual(cl[0].trigger, 'head')
+        self.assertEqual(cl[0].completion, 'head>$0</head>')
+        self.assertEqual(cl[0].completion_format, sublime.COMPLETION_FORMAT_SNIPPET)
+        self.assertEqual(cl[0].kind, (sublime.KIND_ID_MARKUP, 't', 'Tag'))
+        self.assertEqual(cl[1].trigger, 'header')
+        self.assertEqual(cl[1].completion, 'header>$0</header>')
+        self.assertEqual(cl[1].completion_format, sublime.COMPLETION_FORMAT_SNIPPET)
+        self.assertEqual(cl[1].kind, (sublime.KIND_ID_MARKUP, 't', 'Tag'))
+        self.assertEqual(cl[2].trigger, 'h1')
+        self.assertEqual(cl[2].completion, 'h1>$0</h1>')
+        self.assertEqual(cl[2].completion_format, sublime.COMPLETION_FORMAT_SNIPPET)
+        self.assertEqual(cl[2].kind, (sublime.KIND_ID_MARKUP, 't', 'Tag'))
         # suppress word based completion
         self.assertEqual(flags, sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS)
 
@@ -485,10 +532,10 @@ class Unittest(unittest.TestCase):
         completor = HtmlTagCompletions()
 
         # simulate typing 'h' after <tr><td , i.e. <tr><td h
-        completion_list, flags = completor.get_completions(view, 'h', [8], True)
+        cl, flags = completor.get_completions(view, 'h', [8], True)
 
         # should give nothing, but disable word based completions, since it is inside a tag
-        self.assertEqual(completion_list, [])
+        self.assertEqual(cl, [])
         self.assertEqual(flags, sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS)
 
     def test_expand_tag_attributes(self):
@@ -497,8 +544,12 @@ class Unittest(unittest.TestCase):
         completor = HtmlTagCompletions()
 
         # simulate typing tab after td.class
-        completion_list, flags = completor.get_completions(view, '', [26], False)
+        cl, flags = completor.get_completions(view, '', [26], False)
 
         # should give just one completion, and suppress word based completion
-        self.assertEqual(completion_list, [('td.class', '<td class="class">$1</td>$0')])
+        self.assertEqual(1, len(cl))
+        self.assertEqual(cl[0].trigger, 'td.class')
+        self.assertEqual(cl[0].completion, '<td class="class">$1</td>$0')
+        self.assertEqual(cl[0].completion_format, sublime.COMPLETION_FORMAT_SNIPPET)
+        self.assertEqual(cl[0].kind, (sublime.KIND_ID_MARKUP, 't', 'Tag'))
         self.assertEqual(flags, sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS)
