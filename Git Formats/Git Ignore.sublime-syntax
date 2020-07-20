@@ -10,6 +10,7 @@ file_extensions:
   - exclude               # .git/info/exclude
   - gitignore             # *.gitignore
   - .gitignore            # ~/.gitignore
+  - sparse-checkout       # .git/info/sparse-checkout
 scope: text.git.ignore
 
 contexts:
