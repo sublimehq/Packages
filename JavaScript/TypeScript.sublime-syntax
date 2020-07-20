@@ -24,27 +24,19 @@ contexts:
       scope: keyword.control.import-export.js
     - include: else-pop
 
-  import-export:
-    - match: import{{identifier_break}}(?!{{nothing}}[.(])
+  import-statement:
+    - match: import{{identifier_break}}
       scope: keyword.control.import-export.js
       set:
         - meta_scope: meta.import.js
         - match: (?=[.(]) # Recovery for import expressions
-          set:
-            - expression-statement-end
-            - import-expression-end
+          fail: import-statement
         - match: (?=\S)
           set:
             - import-meta
             - expect-semicolon
             - import-string-or-items
             - ts-import-type
-
-    - match: export{{identifier_break}}
-      scope: keyword.control.import-export.js
-      set:
-        - export-meta
-        - export-extended
 
   export-extended:
     - meta_prepend: true
