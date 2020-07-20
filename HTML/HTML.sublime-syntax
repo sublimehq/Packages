@@ -1,13 +1,18 @@
 %YAML 1.2
 ---
+# https://www.sublimetext.com/docs/syntax.html
+# https://html.spec.whatwg.org/multipage/syntax.html
 name: HTML
+scope: text.html.basic
+version: 2
+
 file_extensions:
   - html
   - htm
   - shtml
   - xhtml
+
 first_line_match: (?i)<(!DOCTYPE\s*)?html
-scope: text.html.basic
 
 variables:
   ascii_space: '\t\n\f '
@@ -101,13 +106,11 @@ contexts:
         - include: string-single-quoted
     - match: (<)((?i:style)){{tag_name_break}}
       captures:
-        0: meta.tag.style.begin.html
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.style.html
       push: style-css
     - match: (<)((?i:script)){{tag_name_break}}
       captures:
-        0: meta.tag.script.begin.html
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.script.html
       push: script-javascript
@@ -214,12 +217,12 @@ contexts:
       - include: tag-attributes
 
   entities:
-    - match: (&#[xX])\h+(;)
+    - match: (&#[xX])[01]?\h{1,5}(;)
       scope: constant.character.entity.hexadecimal.html
       captures:
         1: punctuation.definition.entity.html
         2: punctuation.terminator.entity.html
-    - match: (&#)[0-9]+(;)
+    - match: (&#)[0-9]{1,7}(;)
       scope: constant.character.entity.decimal.html
       captures:
         1: punctuation.definition.entity.html
@@ -238,7 +241,7 @@ contexts:
         3: punctuation.definition.tag.begin.html
       push:
         - meta_scope: meta.tag.sgml.cdata.html
-        - meta_content_scope: string.unquoted.cdata.html
+        - meta_content_scope: meta.string.html string.unquoted.cdata.html
         - match: ']]>'
           scope: punctuation.definition.tag.end.html
           pop: true
@@ -301,7 +304,7 @@ contexts:
     - include: else-pop
 
   style-css:
-    - meta_content_scope: meta.tag.style.begin.html
+    - meta_scope: meta.tag.style.begin.html
     - include: style-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
@@ -313,7 +316,7 @@ contexts:
           escape: '{{style_close_lookahead}}'
 
   style-other:
-    - meta_content_scope: meta.tag.style.begin.html
+    - meta_scope: meta.tag.style.begin.html
     - include: style-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
@@ -342,7 +345,7 @@ contexts:
         - match: =
           scope: punctuation.separator.key-value.html
           set:
-            - meta_content_scope: meta.tag.style.begin.html meta.attribute-with-value.html
+            - meta_scope: meta.tag.style.begin.html meta.attribute-with-value.html
             - include: style-type-decider
         - match: (?=\S)
           set: style-css
@@ -365,7 +368,7 @@ contexts:
         - tag-generic-attribute-value
 
   script-javascript:
-    - meta_content_scope: meta.tag.script.begin.html
+    - meta_scope: meta.tag.script.begin.html
     - include: script-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
@@ -377,7 +380,7 @@ contexts:
           escape: '{{script_close_lookahead}}'
 
   script-html:
-    - meta_content_scope: meta.tag.script.begin.html
+    - meta_scope: meta.tag.script.begin.html
     - include: script-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
@@ -388,7 +391,7 @@ contexts:
         - include: main
 
   script-other:
-    - meta_content_scope: meta.tag.script.begin.html
+    - meta_scope: meta.tag.script.begin.html
     - include: script-common
     - match: '>'
       scope: punctuation.definition.tag.end.html
@@ -423,7 +426,7 @@ contexts:
         - match: =
           scope: punctuation.separator.key-value.html
           set:
-            - meta_content_scope: meta.tag.script.begin.html meta.attribute-with-value.html
+            - meta_scope: meta.tag.script.begin.html meta.attribute-with-value.html
             - include: script-type-decider
         - match: (?=\S)
           set: script-javascript
@@ -459,7 +462,7 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.begin.html
       push:
-        - meta_scope: string.quoted.double.html
+        - meta_scope: meta.string.html string.quoted.double.html
         - match: \"
           scope: punctuation.definition.string.end.html
           pop: true
@@ -468,7 +471,7 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.begin.html
       push:
-        - meta_scope: string.quoted.single.html
+        - meta_scope: meta.string.html string.quoted.single.html
         - match: \'
           scope: punctuation.definition.string.end.html
           pop: true
@@ -502,7 +505,7 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.begin.html
       set:
-        - meta_scope: string.quoted.double.html
+        - meta_scope: meta.string.html string.quoted.double.html
         - match: \"
           scope: punctuation.definition.string.end.html
           pop: true
@@ -510,14 +513,14 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.begin.html
       set:
-        - meta_scope: string.quoted.single.html
+        - meta_scope: meta.string.html string.quoted.single.html
         - match: \'
           scope: punctuation.definition.string.end.html
           pop: true
         - include: entities
     - match: '{{unquoted_attribute_start}}'
       set:
-        - meta_scope: string.unquoted.html
+        - meta_scope: meta.string.html string.unquoted.html
         - match: '{{unquoted_attribute_break}}'
           pop: true
         - match: '["''`<]'
@@ -546,7 +549,7 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.begin.html
       set:
-        - meta_scope: string.quoted.double.html
+        - meta_scope: meta.string.html string.quoted.double.html
         - meta_content_scope: meta.class-name.html
         - match: \"
           scope: punctuation.definition.string.end.html
@@ -556,7 +559,7 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.begin.html
       set:
-        - meta_scope: string.quoted.single.html
+        - meta_scope: meta.string.html string.quoted.single.html
         - meta_content_scope: meta.class-name.html
         - match: \'
           scope: punctuation.definition.string.end.html
@@ -565,7 +568,7 @@ contexts:
         - include: entities
     - match: '{{unquoted_attribute_start}}'
       set:
-        - meta_scope: string.unquoted.html meta.class-name.html
+        - meta_scope: meta.string.html string.unquoted.html meta.class-name.html
         - match: '{{unquoted_attribute_break}}'
           pop: true
         - match: '["''`<]'
@@ -594,7 +597,7 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.begin.html
       set:
-        - meta_scope: string.quoted.double.html
+        - meta_scope: meta.string.html string.quoted.double.html
         - meta_content_scope: meta.toc-list.id.html
         - match: \"
           scope: punctuation.definition.string.end.html
@@ -604,7 +607,7 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.begin.html
       set:
-        - meta_scope: string.quoted.single.html
+        - meta_scope: meta.string.html string.quoted.single.html
         - meta_content_scope: meta.toc-list.id.html
         - match: \'
           scope: punctuation.definition.string.end.html
@@ -613,7 +616,7 @@ contexts:
         - include: entities
     - match: '{{unquoted_attribute_start}}'
       set:
-        - meta_scope: string.unquoted.html meta.toc-list.id.html
+        - meta_scope: meta.string.html string.unquoted.html meta.toc-list.id.html
         - match: '{{unquoted_attribute_break}}'
           pop: true
         - match: '["''`<]'
@@ -640,19 +643,19 @@ contexts:
 
   tag-style-attribute-value:
     - match: \"
-      scope: string.quoted.double punctuation.definition.string.begin.html
+      scope: meta.string.html string.quoted.double.html punctuation.definition.string.begin.html
       embed: scope:source.css#rule-list-body
-      embed_scope: source.css
+      embed_scope: meta.string.html meta.interpolation.html source.css.embedded.html
       escape: \"
       escape_captures:
-        0: string.quoted.double punctuation.definition.string.end.html
+        0: meta.string.html string.quoted.double.html punctuation.definition.string.end.html
     - match: \'
-      scope: string.quoted.single punctuation.definition.string.begin.html
+      scope: meta.string.html string.quoted.single.html punctuation.definition.string.begin.html
       embed: scope:source.css#rule-list-body
-      embed_scope: source.css
+      embed_scope: meta.string.html meta.interpolation.html source.css.embedded.html
       escape: \'
       escape_captures:
-        0: string.quoted.single punctuation.definition.string.end.html
+        0: meta.string.html string.quoted.single.html punctuation.definition.string.end.html
     - include: else-pop
 
   tag-event-attribute:
@@ -685,19 +688,19 @@ contexts:
 
   tag-event-attribute-value:
     - match: \"
-      scope: string.quoted.double punctuation.definition.string.begin.html
+      scope: meta.string.html string.quoted.double.html punctuation.definition.string.begin.html
       embed: scope:source.js
-      embed_scope: meta.attribute-with-value.event.html
+      embed_scope: meta.string.html meta.interpolation.html source.js.embedded.html
       escape: \"
       escape_captures:
-        0: string.quoted.double punctuation.definition.string.end.html
+        0: meta.string.html string.quoted.double.html punctuation.definition.string.end.html
     - match: \'
-      scope: string.quoted.single punctuation.definition.string.begin.html meta.attribute-with-value.event.html
+      scope: meta.string.html string.quoted.single.html punctuation.definition.string.begin.html
       embed: scope:source.js
-      embed_scope: meta.attribute-with-value.event.html
+      embed_scope: meta.string.html meta.interpolation.html source.js.embedded.html
       escape: \'
       escape_captures:
-        0: string.quoted.single punctuation.definition.string.end.html
+        0: meta.string.html string.quoted.single.html punctuation.definition.string.end.html
     - include: else-pop
 
   # This is to prevent breaking syntaxes referencing the old context name

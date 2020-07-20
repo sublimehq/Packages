@@ -1,4 +1,5 @@
 import sublime, sublime_plugin
+import html.entities
 import re
 
 
@@ -190,6 +191,10 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
     Provide tag completions for HTML
     It matches just after typing the first letter of a tag name
     """
+
+    KIND_MARKUP = (sublime.KIND_ID_MARKUP, 'e', 'Entity')
+    KIND_SNIPPET = (sublime.KIND_ID_SNIPPET, 'e', 'Entity')
+
     def __init__(self):
         completion_list = self.default_completion_list()
         self.prefix_completion_dict = {}
@@ -231,6 +236,11 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
         # print('ch:', ch)
 
         completion_list = []
+
+        if ch == '&':
+            completion_list = self.entity_completion_list()
+            return (completion_list, sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS)
+
         if is_inside_tag and ch != '<':
             if ch in [' ', '\t', '\n']:
                 # maybe trying to type an attribute
@@ -256,6 +266,36 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
             flags = sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS
 
         return (completion_list, flags)
+
+    def entity_completion_list(self):
+        return [
+            sublime.CompletionItem(
+                trigger='#00;',
+                completion='#${1:00};',
+                completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
+                kind=self.KIND_SNIPPET,
+                details='Base-10 Unicode character',
+            ),
+            sublime.CompletionItem(
+                trigger='#x0000;',
+                completion='#x${1:0000};',
+                completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
+                kind=self.KIND_SNIPPET,
+                details='Base-16 Unicode character',
+            ),
+            *(
+                sublime.CompletionItem(
+                    trigger=entity,
+                    annotation=printed,
+                    completion=entity,
+                    completion_format=sublime.COMPLETION_FORMAT_TEXT,
+                    kind=self.KIND_MARKUP,
+                    details=f'Renders as <code>{printed}</code>',
+                )
+                for entity, printed in html.entities.html5.items()
+                if entity.endswith(';')
+            )
+        ]
 
     def default_completion_list(self):
         """
