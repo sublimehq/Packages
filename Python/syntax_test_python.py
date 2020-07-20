@@ -658,6 +658,32 @@ def abc():
 #                ^^^ invalid.illegal.name
 #                               ^ invalid.illegal.name.storage
 
+def my_func # comment
+#^^^^^^^^^^ meta.function.python
+#          ^^^^^^^^^^^ - meta.function
+#   ^^^^^^^ entity.name.function.python
+#           ^^^^^^^^^ comment.line.number-sign.python
+
+def my_func() # comment
+#^^^^^^^^^^^^^ - meta.function meta.function
+#^^^^^^^^^^ meta.function.python
+#          ^^ meta.function.parameters.python
+#            ^^^^^^^^^^^ - meta.function
+#   ^^^^^^^ entity.name.function.python
+#          ^ punctuation.section.parameters.begin.python
+#           ^ punctuation.section.parameters.end.python
+#             ^^^^^^^^^ comment.line.number-sign.python
+
+def my_func(): # comment
+#^^^^^^^^^^ meta.function.python
+#          ^^ meta.function.parameters.python
+#            ^ meta.function.python
+#             ^^^^^^^^^^^ - meta.function
+#   ^^^^^^^ entity.name.function.python
+#          ^ punctuation.section.parameters.begin.python
+#           ^ punctuation.section.parameters.end.python
+#            ^ punctuation.section.function.begin.python
+#              ^^^^^^^^^ comment.line.number-sign.python
 
 def my_func(param1, # Multi-line function definition
 #                 ^ punctuation.separator.parameters
@@ -706,8 +732,54 @@ def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "st
 #                                                                                                  ^^ punctuation.separator.annotation
 #                                                                                                     ^^^ support.type
 #                                                                                                        ^ punctuation.section.function.begin
+
+def type_annotations_line_continuation_without_terminator() \
+      -> int
+#^^^^^^^^^^^ - meta.function meta.function
+#           ^ - meta.function
+#^^^^^ meta.function.python
+#     ^^^^^^ meta.function.annotation.return
+#     ^^ punctuation.separator.annotation
+#        ^^^ support.type
     pass
 
+def type_annotations_line_continuation_without_terminator_but_comment() \
+      -> int # comment
+#^^^^^^^^^^^ - meta.function meta.function
+#           ^^^^^^^^^^ - meta.function
+#^^^^^ meta.function.python
+#     ^^^^^^ meta.function.annotation.return
+#     ^^ punctuation.separator.annotation
+#        ^^^ support.type
+    pass
+
+def type_annotations_line_continuation() \
+      -> int:
+#^^^^^^^^^^^^ - meta.function meta.function
+#^^^^^ meta.function.python
+#     ^^^^^^ meta.function.annotation.return
+#           ^ meta.function.python
+#     ^^ punctuation.separator.annotation
+#        ^^^ support.type
+#           ^ punctuation.section.function.begin
+    pass
+
+def type_annotations_line_continuation() \
+      -> \
+      int:
+#^^^^^^^^ meta.function.annotation.return
+#        ^ meta.function.python
+#     ^^^ support.type
+#        ^ punctuation.section.function.begin
+    pass
+
+def type_annotations_line_continuation() \
+      -> \
+      int \
+      :
+#^^^^^ meta.function.annotation.return
+#     ^ meta.function.python punctuation.section.function.begin.python
+    pass
 
 async def coroutine(param1):
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
