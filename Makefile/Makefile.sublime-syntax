@@ -325,16 +325,18 @@ contexts:
       set:
         # I don't like putting the string "source.shell" here, as the delegation
         # seeps into this syntax now. But I don't see a cleaner way right now.
-        - meta_scope: source.shell comment.line.number-sign.shell
+        - meta_scope: source.shell.embedded comment.line.number-sign.shell
         - include: comments-pop-on-line-end
     # Otherwise, delegate to the shell syntax (with various extra prototypes).
-    - match: ""
-      set: scope:source.shell
+    - match: ''
+      set: shell-body
       with_prototype:
-        - include: pop-on-line-end
-        - include: scope:source.shell#prototype
-        - include: line-continuation
         - include: variable-substitutions
+
+  shell-body:
+    - meta_scope: source.shell.embedded
+    - include: embedded-shell
+    - include: pop-on-line-end
 
   line-continuation:
     - match: (\\)([ ]*)$\n?
@@ -523,7 +525,7 @@ contexts:
           scope: keyword.other.block.end.makefile
           pop: true
         - match: ''
-          push: scope:source.shell
+          push: shell-body
           with_prototype:
             - match: (?=\))
               pop: true
@@ -563,10 +565,9 @@ contexts:
           set:
             - match: '!='
               scope: keyword.operator.assignment.makefile
-              set: scope:source.shell
+              set: shell-body
               with_prototype:
                 - include: variable-substitutions
-                - include: pop-on-line-end
                 - include: textual-parenthesis-balancer
         - match: (?=\s*(!|\?|\+|::?)?=)
           set:
@@ -592,13 +593,17 @@ contexts:
       captures:
         1: meta.string.makefile string.unquoted.makefile
         2: meta.string.makefile meta.interpolation.makefile punctuation.section.interpolation.begin.makefile
-      embed: scope:source.shell
-      embed_scope: meta.string.makefile meta.interpolation.makefile
+      embed: embedded-shell
+      embed_scope: meta.string.makefile meta.interpolation.makefile source.shell.embedded
       escape: (?!<\\)\2
       escape_captures:
         0: meta.string.makefile meta.interpolation.makefile punctuation.section.interpolation.end.makefile
     - match: ''
       set: value-to-be-defined
+
+  embedded-shell:
+    - include: scope:source.shell
+      apply_prototype: true
 
   value-to-be-defined:
     - meta_content_scope: meta.string.makefile string.unquoted.makefile

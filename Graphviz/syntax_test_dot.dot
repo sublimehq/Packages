@@ -50,7 +50,7 @@ graph cluster_n {
 //    ^^^^^^^^  meta.annotation.dot variable.annotation.cluster.dot
 //            ^ - meta.annotation.dot variable.annotation.cluster.dot
     t -> n;
-//    ^^        punctuation.operator.relationship.dot
+//    ^^        keyword.operator.relationship.dot
 }
 
 // Loosely taken from http://www.graphviz.org/content/node-shapes#html

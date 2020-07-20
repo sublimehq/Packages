@@ -120,12 +120,47 @@ foo --opt1 arg1
 foo --opt1 arg1 -- --not-an-option
 #               ^^ keyword.operator
 #                  ^ - variable.parameter punctuation
-set -e
+`foo --opt1 arg1 -- --not-an-option`
+#                ^^ keyword.operator
+#                   ^ - variable.parameter punctuation
+`foo --opt1 arg1 --`
+#                ^^ keyword.operator
+#                  ^ - variable.parameter punctuation
+foo -n -
 #   ^ variable.parameter.option punctuation
 #    ^ variable.parameter.option - punctuation
+#      ^ - keyword - punctuation
+
+set -e -
+#   ^ variable.parameter.option punctuation
+#    ^ variable.parameter.option - punctuation
+#      ^ - keyword - punctuation
 set +e
 #   ^ variable.parameter.option punctuation
 #    ^ variable.parameter.option - punctuation
+set -o pipefail
+#   ^ variable.parameter.option punctuation
+#    ^ variable.parameter.option - punctuation
+set +o pipefail
+#   ^ variable.parameter.option punctuation
+#    ^ variable.parameter.option - punctuation
+set -Euo pipefail
+#   ^ variable.parameter.option punctuation
+#    ^^^ variable.parameter.option - punctuation
+set +Euo pipefail
+#   ^ variable.parameter.option punctuation
+#    ^^^ variable.parameter.option - punctuation
+set +Eou pipefail
+#   ^^^^ - variable.parameter.option - punctuation
+set -e -- -o {string}
+#   ^^ variable.parameter.option
+#      ^^ keyword.operator.end-of-options
+#         ^^ - variable.parameter.option
+#            ^^^^^^^^ meta.group.expansion.brace
+
+shift 2 -- 
+#       ^^ - keyword
+
 python foo.py --option=value --other-option
 #                     ^ keyword.operator.assignment.option
 git log --format="%h git has this pattern, too"
@@ -485,6 +520,39 @@ if [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; then PLATFORM=docker; fi
 #                                                         ^ variable.other.readwrite.assignment
 #                                                          ^ keyword.operator.assignment
 #                                                           ^ string.unquoted
+if { [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; }; then PLATFORM=docker; fi
+#^ keyword.control.conditional.if
+#  ^ punctuation.definition.compound.braces.begin
+#       ^ keyword.operator.logical
+#                           ^^ keyword.operator.logical.and
+#                              ^ keyword.operator.logical.shell
+#                                ^^^ meta.function-call.shell variable.function
+#                                    ^^ keyword.operator.logical.or.shell
+#                                       ^ keyword.operator.logical.shell
+#                                         ^^^^ meta.function-call.shell variable.function.shell
+#                                               ^ punctuation.definition.compound.braces.end
+#                                                ^ keyword.operator.logical.continue
+#                                                  ^^^^ keyword.control.conditional.then
+#                                                              ^ variable.other.readwrite.assignment
+#                                                               ^ keyword.operator.assignment
+#                                                                ^ string.unquoted
+if ( [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2 ); then PLATFORM=docker; fi
+#^ keyword.control.conditional.if
+#  ^ punctuation.definition.compound.begin
+#       ^ keyword.operator.logical
+#                           ^^ keyword.operator.logical.and
+#                              ^ keyword.operator.logical.shell
+#                                ^^^ meta.function-call.shell variable.function
+#                                    ^^ keyword.operator.logical.or.shell
+#                                       ^ keyword.operator.logical.shell
+#                                         ^^^^ meta.function-call.shell variable.function.shell
+#                                              ^ punctuation.definition.compound.end
+#                                               ^ keyword.operator.logical.continue
+#                                                 ^^^^ keyword.control.conditional.then
+#                                                             ^ variable.other.readwrite.assignment
+#                                                              ^ keyword.operator.assignment
+#                                                               ^ string.unquoted
+
 if cmd && \
     ! cmd
 #   ^ keyword.operator.logical.shell
@@ -1479,7 +1547,7 @@ commits=($(git rev-list --reverse --abbrev-commit "$latest".. -- "$prefix"))
 ################
 
 while true; do
-# <- keyword.control
+# <- keyword.control.loop.while
 #        ^ meta.function-call variable.function
 #         ^ keyword.operator
 #            ^ keyword.control
@@ -1490,7 +1558,82 @@ while true; do
     # <- keyword.control.flow.continue.shell
 
 done
-# <- keyword.control
+# <- keyword.control.loop.end
+
+while ! true; do echo bar; done
+# <- keyword.control.loop.while
+#     ^ keyword.operator.logical
+#           ^ keyword.operator.logical.continue
+#             ^^ keyword.control.loop.do
+#                          ^^^^ keyword.control.loop.end
+
+while ! { true; }; do echo bar; done
+# <- keyword.control.loop.while
+#     ^ keyword.operator.logical
+#       ^ punctuation.definition.compound.braces.begin
+#         ^^^^ variable.function
+#             ^ keyword.operator.logical.continue
+#               ^ punctuation.definition.compound.braces.end
+#                ^ keyword.operator.logical.continue
+#                  ^^ keyword.control.loop.do
+#                               ^^^^ keyword.control.loop.end
+
+while ! { [[ true ]]; }; do echo bar; done
+# <- keyword.control.loop.while
+#     ^ keyword.operator.logical
+#       ^ punctuation.definition.compound.braces.begin
+#         ^^ support.function.double-brace.begin
+#                 ^^ support.function.double-brace.end
+#                   ^ keyword.operator.logical.continue
+#                     ^ punctuation.definition.compound.braces.end
+#                      ^ keyword.operator.logical.continue
+#                        ^^ keyword.control.loop.do
+#                                     ^^^^ keyword.control.loop.end
+
+while ! ( [[ true ]] ); do echo bar; done
+# <- keyword.control.loop.while
+#     ^ keyword.operator.logical
+#       ^ punctuation.definition.compound.begin
+#         ^^ support.function.double-brace.begin
+#                 ^^ support.function.double-brace.end
+#                    ^ punctuation.definition.compound.end
+#                     ^ keyword.operator.logical.continue
+#                       ^^ keyword.control.loop.do
+#                                    ^^^^ keyword.control.loop.end
+
+while read -r -d '' f; do
+# <- keyword.control.loop.while
+#     ^^^^ support.function.read
+#          ^^ variable.parameter.option
+#             ^^ variable.parameter.option
+#                ^^ string.quoted.single.shell
+#                    ^ keyword.operator.logical.continue
+#                      ^^ keyword.control.loop.do
+done
+# <- keyword.control.loop.end
+
+while IFS= read -r -d '' f; do
+# <- keyword.control.loop.while
+#     ^^^ variable.other.readwrite.assignment
+#        ^ keyword.operator.assignment
+#          ^^^^ support.function.read
+#               ^^ variable.parameter.option
+#                  ^^ variable.parameter.option
+#                     ^^ string.quoted.single.shell
+#                         ^ keyword.operator.logical.continue
+#                           ^^ keyword.control.loop.do
+done
+# <- keyword.control.loop.end
+
+do echo bar; until ! { [[ true ]]; }
+# <- keyword.control.loop.do
+#            ^^^^^ keyword.control.loop.until.shell
+#                  ^ keyword.operator.logical
+#                    ^ punctuation.definition.compound.braces.begin
+#                      ^^ support.function.double-brace.begin
+#                              ^^ support.function.double-brace.end
+#                                ^ keyword.operator.logical.continue
+#                                  ^ punctuation.definition.compound.braces.end
 
 declare -a array
 array[500]=value

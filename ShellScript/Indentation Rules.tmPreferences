@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>source.shell - comment - string</string>
+	<key>settings</key>
+	<dict>
+		<key>decreaseIndentPattern</key>
+		<string>^\s*(\}|(elif|else|fi|esac|done)\b)</string>
+		<key>increaseIndentPattern</key>
+		<string>(?x)
+			^\s*(elif|else|case)\b
+		|	^.*(\{|\b(do)\b)\s*$
+		|	^.*\bthen\b\s*$
+		</string>
+		<key>indentNextLinePattern</key>
+		<string>^.*[^\\]\\$</string>
+		<key>disableIndentNextLinePattern</key>
+		<string>^\s*then\s*$</string>
+		<key>bracketIndentNextLinePattern</key>
+		<string>^\s*if\b.*(?!\bthen\b)$</string>
+	</dict>
+</dict>
+</plist>

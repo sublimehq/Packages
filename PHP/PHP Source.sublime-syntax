@@ -7,6 +7,7 @@ variables:
   identifier_start: '[[:alpha:]_]'
   identifier: '\b{{identifier_start}}[[:alnum:]_]*\b'
   path: '\\?({{identifier}}\\)*{{identifier}}'
+  regex_modifier: '[eimsuxADJSUX]*'
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)\b
 
 contexts:
@@ -55,6 +56,7 @@ contexts:
       captures:
         1: storage.type.trait.php
         2: entity.name.trait.php
+    - include: typed-property
     - include: function
     - match: '^\s*((?!default|else){{identifier}})\s*(:)(?!:)'
       captures:
@@ -135,24 +137,27 @@ contexts:
           for | foreach | if | return | switch | use | while
         )\b
       scope: keyword.control.php
-    - match: \b(catch)\b\s*\(\s*
+    - match: \b(catch)\b\s*(\()
       captures:
         1: keyword.control.exception.catch.php
+        2: punctuation.section.group.begin.php
       push:
         - meta_scope: meta.catch.php
         - include: comments
         - include: identifier-parts-as-path
-        - match: '(\\)'
+        - match: \)
+          scope: punctuation.section.group.end.php
+          pop: true
+        - match: \|
+          scope: punctuation.separator.catch.php
+        - match: \\
           scope: meta.path.php punctuation.separator.namespace.php
-        - match: '({{identifier}})\s*(\|)?'
-          captures:
-            1: meta.path.php support.class.exception.php
-            2: punctuation.separator.catch.php
-        - match: '((\$+){{identifier}})\s*\)'
+        - match: '{{identifier}}'
+          scope: meta.path.php support.class.exception.php
+        - match: '((\$){{identifier}})'
           captures:
             1: variable.other.php
             2: punctuation.definition.variable.php
-          pop: true
     - match: \b(catch|try|throw|finally)\b
       scope: keyword.control.exception.php
     - include: arrow-function
@@ -591,6 +596,9 @@ contexts:
               pop: true
         - match: ','
           scope: punctuation.separator.php
+    - include: statements
+
+  typed-property:
     # https://wiki.php.net/rfc/typed_properties_v2
     - match: (?=\b(?:var|public|private|protected|static)\b)
       push:
@@ -606,7 +614,6 @@ contexts:
         # Exit on unexpected content
         - match: (?=\S)
           pop: true
-    - include: statements
 
   function:
     - match: (?i)(?=(?:\b(?:final|abstract|var|public|private|protected|static)\s+)*\bfunction\b\s*(&\s*)?{{identifier_start}})
@@ -900,7 +907,7 @@ contexts:
               M_PI_4 | M_SQRT1_2 | M_SQRT2 | M_SQRT3 | M_SQRTPI | NAN | NEGATIVE_SIGN | NOEXPR |
               NOSTR | N_CS_PRECEDES | N_SEP_BY_SPACE | N_SIGN_POSN | PATHINFO_BASENAME | PATHINFO_DIRNAME | PATHINFO_EXTENSION | PATHINFO_FILENAME |
               PATH_SEPARATOR | PM_STR | POSITIVE_SIGN | P_CS_PRECEDES | P_SEP_BY_SPACE | P_SIGN_POSN | RADIXCHAR | SEEK_CUR |
-              SEEK_END | SEEK_SET | SORT_ASC | SORT_DESC | SORT_LOCALE_STRING | SORT_NUMERIC | SORT_REGULAR | SORT_STRING |
+              SEEK_END | SEEK_SET | SORT_ASC | SORT_DESC | SORT_FLAG_CASE | SORT_LOCALE_STRING | SORT_NATURAL | SORT_NUMERIC | SORT_REGULAR | SORT_STRING |
               STR_PAD_BOTH | STR_PAD_LEFT | STR_PAD_RIGHT | THOUSANDS_SEP | THOUSEP | T_FMT | T_FMT_AMPM | UPLOAD_ERR_CANT_WRITE |
               UPLOAD_ERR_EXTENSION | UPLOAD_ERR_FORM_SIZE | UPLOAD_ERR_INI_SIZE | UPLOAD_ERR_NO_FILE | UPLOAD_ERR_NO_TMP_DIR | UPLOAD_ERR_OK | UPLOAD_ERR_PARTIAL | YESEXPR |
               YESSTR | __COMPILER_HALT_OFFSET__
@@ -1459,43 +1466,71 @@ contexts:
       scope: meta.tag.inline.phpdoc.php
       captures:
         1: keyword.other.phpdoc.php
-  regex-double-quoted:
-    - match: (?="/(\\.|[^"/])+/[eimsuxADJSUX]*")
+  regex-double-quoted-branch:
+    - match: (")(/)
+      captures:
+        1: punctuation.definition.string.begin.php
+        2: punctuation.definition.string.regex-delimiter.begin.php
       push:
         - meta_scope: meta.string.php string.quoted.double.php
-        - match: (")(/)
-          captures:
-            1: punctuation.definition.string.begin.php
-            2: punctuation.definition.string.regex-delimiter.begin.php
-        - match: (/)([eimsuxADJSUX]*)(")
+        - match: (/)({{regex_modifier}})(")
           captures:
             1: punctuation.definition.string.regex-delimiter.end.php
             2: meta.regex.modifier.php
             3: punctuation.definition.string.end.php
+          pop: 2 # branch successful matched
+        - match: (?=")
           pop: true
         - match: ''
           push: scope:source.regexp.php
           with_prototype:
-            - match: (?=(/)([eimsuxADJSUX]*)("))
+            - match: (?=(/)({{regex_modifier}})(")|")
               pop: true
             - include: interpolation
-  regex-single-quoted:
-    - match: (?='/(\\.|[^'/])+/[eimsuxADJSUX]*')
+            - match: \\"
+              scope: constant.character.escape
+            - match: \s(#)([^"]*)$
+              captures:
+                1: comment.regexp.php punctuation.definition.comment.regexp.php
+                2: comment.regexp.php
+    - match: ''
+      fail: branch-point-double-quoted
+  regex-single-quoted-branch:
+    - match: (')(/)
+      captures:
+        1: punctuation.definition.string.begin.php
+        2: punctuation.definition.string.regex-delimiter.begin.php
       push:
         - meta_scope: meta.string.php string.quoted.single.php
-        - match: (')(/)
-          captures:
-            1: punctuation.definition.string.begin.php
-            2: punctuation.definition.string.regex-delimiter.begin.php
-        - match: (/)([eimsuxADJSUX]*)(')
+        - match: (/)({{regex_modifier}})(')
           captures:
             1: punctuation.definition.string.regex-delimiter.end.php
             2: meta.regex.modifier.php
             3: punctuation.definition.string.end.php
+          pop: 2 # branch successful matched
+        - match: (?=')
           pop: true
         - match: ''
-          embed: scope:source.regexp.php
-          escape: (?=(/)([eimsuxADJSUX]*)('))
+          push: scope:source.regexp.php
+          with_prototype:
+            - match: (?=(/)({{regex_modifier}})(')|')
+              pop: true
+            - match: \\'
+              scope: constant.character.escape
+            - match: \s(#)([^']*)$
+              captures:
+                1: comment.regexp.php punctuation.definition.comment.regexp.php
+                2: comment.regexp.php
+    - match: ''
+      fail: branch-point-single-quoted
+  string-double-quoted-branch:
+    - include: string-double-quoted
+    - match: ''
+      pop: true
+  string-single-quoted-branch:
+    - include: string-single-quoted
+    - match: ''
+      pop: true
   string-backtick:
     - match: "`"
       scope: punctuation.definition.string.begin.php
@@ -1565,10 +1600,16 @@ contexts:
               scope: constant.character.escape.php
 
   strings:
-    - include: regex-double-quoted
-    - include: string-double-quoted
-    - include: regex-single-quoted
-    - include: string-single-quoted
+    - match: (?=")
+      branch_point: branch-point-double-quoted
+      branch:
+        - regex-double-quoted-branch
+        - string-double-quoted-branch
+    - match: (?=')
+      branch_point: branch-point-single-quoted
+      branch:
+        - regex-single-quoted-branch
+        - string-single-quoted-branch
   support:
     - match: |-
         \b(?xi:

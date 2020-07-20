@@ -1,0 +1,35 @@
+%YAML 1.2
+---
+# See https://www.sublimetext.com/docs/3/syntax.html
+#     https://www.boost.org/doc/libs/1_71_0/libs/regex/doc/html/boost_regex/format/boost_format_syntax.html
+scope: source.regexp-replace
+name: Regular Expression Replacement
+hidden: true
+
+contexts:
+  main:
+    - include: escapes
+    - include: variables
+
+  escapes:
+    - match: \\[1-9]
+      scope: variable.language.backref.regexp-replace
+    - match: \\[lLuUE]
+      scope: keyword.operator.case-conversion.regexp-replace
+    - match: \\[aefnrtv()]
+      scope: constant.character.escape.regexp-replace
+    - match: \\x(\h{2}|\{\h{4}\})
+      scope: constant.character.escape.regexp-replace
+    - match: \\.
+      scope: constant.character.escape.regexp-replace
+
+  variables:
+    - match: \$\$
+      scope: constant.character.escape.regexp-replace
+    - match: |-
+        \$(?x:
+          \d+ | [`'&] | \^N | \+(?: \{ \w+ \} )? |
+          \{ (?: \d+ | \^(?: MATCH | PREMATCH | POSTMATCH ) ) \} |
+          LAST_PAREN_MATCH | MATCH | PREMATCH | POSTMATCH | LAST_SUBMATCH_RESULT
+        )
+      scope: variable.language.match.regexp-replace
