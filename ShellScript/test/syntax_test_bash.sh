@@ -1482,6 +1482,35 @@ unset -f -n -v foo
 #           ^ punctuation
 #            ^ variable
 
+
+let "two=5+5"; if [[ "$X" == "1" ]]; then X="one"; fi
+#^^^^^^^^^^^^ meta.function-call.shell
+#^^ support.function.let.bash
+#   ^^^^^^^^^ string.quoted.double.shell
+#            ^ keyword.operator.logical.continue.shell
+#              ^^ keyword.control.conditional.if.shell
+#                 ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                                  ^ keyword.operator.logical.continue.shell
+#                                    ^^^^ keyword.control.conditional.then.shell
+#                                         ^ variable.other.readwrite.assignment.shell
+#                                          ^ keyword.operator.assignment.shell
+#                                           ^^^^^ string.quoted.double.shell
+#                                                ^ keyword.operator.logical.continue.shell
+#                                                  ^^ keyword.control.conditional.end.shell
+
+let 5 \
+    + 5
+#^^^^^^ meta.function-call.shell
+#   ^ keyword.operator.arithmetic.shell
+#     ^ constant.numeric.integer.decimal.shell
+
+let 5+5 # comment
+#^^^^^^ meta.function-call.shell
+#^^ support.function.let.bash
+#   ^ constant.numeric.integer.decimal.shell
+#    ^ keyword.operator.arithmetic.shell
+#     ^ constant.numeric.integer.decimal.shell
+
 foo=`let 5+5`
 #   ^ punctuation.section.group.begin
 #          ^ constant.numeric.integer
