@@ -1,9 +1,13 @@
 {
-	"shell_cmd": "python -u \"$file\"",
+	"cmd": ["python", "-u", "$file"],
 	"file_regex": "^[ ]*File \"(...*?)\", line ([0-9]*)",
 	"selector": "source.python",
 
 	"env": {"PYTHONIOENCODING": "utf-8"},
+
+	"windows": {
+		"cmd": ["py", "-u", "$file"],
+	},
 
 	"variants":
 	[

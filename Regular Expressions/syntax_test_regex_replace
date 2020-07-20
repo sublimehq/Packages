@@ -1,0 +1,113 @@
+# SYNTAX TEST "Regex Replace.sublime-syntax"
+
+# Placeholder Sequences
+#######################
+
+  $
+# ^ - constant - variable
+
+  $foo
+# ^^^^ - constant - variable
+
+  $$              Outputs a literal $
+# ^^ constant.character.escape.regexp-replace
+
+  $1              Outputs what matched the n'th sub-expression.
+# ^^ variable.language.match.regexp-replace
+
+  ${1}            Outputs what matched the n'th sub-expression.
+# ^^^^ variable.language.match.regexp-replace
+
+  $+{NAME}        Outputs whatever matched the sub-expression named "NAME".
+# ^^^^^^^^ variable.language.match.regexp-replace
+
+  $&              Outputs what matched the whole expression.
+# ^^ variable.language.match.regexp-replace
+
+  $MATCH          As $&
+# ^^^^^^ variable.language.match.regexp-replace
+
+  ${^MATCH}       As $&
+# ^^^^^^^^^ variable.language.match.regexp-replace
+
+  $`              Outputs the text between the end of the last match found (or the start of the text if no previous match was found), and the start of the current match.
+# ^^ variable.language.match.regexp-replace
+
+  $PREMATCH       As $`
+# ^^^^^^^^^ variable.language.match.regexp-replace
+
+  ${^PREMATCH}    As $`
+# ^^^^^^^^^^^^ variable.language.match.regexp-replace
+
+  $'              Outputs all the text following the end of the current match.
+# ^^ variable.language.match.regexp-replace
+
+  $POSTMATCH      As $'
+# ^^^^^^^^^^ variable.language.match.regexp-replace
+
+  ${^POSTMATCH}   As $'
+# ^^^^^^^^^^^^^ variable.language.match.regexp-replace
+
+  $+              Outputs what matched the last marked sub-expression in the regular expression.
+# ^^ variable.language.match.regexp-replace
+
+  $LAST_PAREN_MATCH As $+
+# ^^^^^^^^^^^^^^^^^ variable.language.match.regexp-replace
+
+  $LAST_SUBMATCH_RESULT Outputs what matched the last sub-expression to be actually matched.
+# ^^^^^^^^^^^^^^^^^^^^^ variable.language.match.regexp-replace
+
+  $^N             As $LAST_SUBMATCH_RESULT
+# ^^^ variable.language.match.regexp-replace
+
+
+# Escape Sequences
+##################
+
+  \a          Outputs the bell character.
+# ^^ constant.character.escape.regexp-replace
+
+  \e          Outputs the ANSI escape character (code point 27).
+# ^^ constant.character.escape.regexp-replace
+  \f          Outputs a form feed character.
+# ^^ constant.character.escape.regexp-replace
+
+  \n          Outputs a newline character.
+# ^^ constant.character.escape.regexp-replace
+
+  \r          Outputs a carriage return character.
+# ^^ constant.character.escape.regexp-replace
+
+  \t          Outputs a tab character.
+# ^^ constant.character.escape.regexp-replace
+
+  \v          Outputs a vertical tab character.
+# ^^ constant.character.escape.regexp-replace
+
+  \xDD        Outputs the character whose hexadecimal code point is 0xDD
+# ^^^^ constant.character.escape.regexp-replace
+
+  \x{DDDD}    Outputs the character whose hexadecimal code point is 0xDDDDD
+# ^^^^^^^^ constant.character.escape.regexp-replace
+
+  \cX         Outputs the ANSI escape sequence "escape-X".
+# ^^ constant.character.escape.regexp-replace
+#   ^ - constant
+
+  \2          If D is a decimal digit in the range 1-9, then outputs the text that matched sub-expression D.
+# ^^ variable.language.backref.regexp-replace
+
+  \l          Causes the next character to be outputted, to be output in lower case.
+# ^^ keyword.operator.case-conversion.regexp-replace
+
+  \u          Causes the next character to be outputted, to be output in upper case.
+# ^^ keyword.operator.case-conversion.regexp-replace
+
+  \L          Causes all subsequent characters to be output in lower case, until a \E is found.
+# ^^ keyword.operator.case-conversion.regexp-replace
+
+  \U          Causes all subsequent characters to be output in upper case, until a \E is found.
+# ^^ keyword.operator.case-conversion.regexp-replace
+
+  \E          Terminates a \L or \U sequence.
+# ^^ keyword.operator.case-conversion.regexp-replace

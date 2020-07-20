@@ -235,7 +235,7 @@ contexts:
 ###[ COMMENTS ]###############################################################
 
   comment:
-    - match: \%
+    - match: \%+
       scope: punctuation.definition.comment.percentage.erlang
       push:
         - meta_scope: comment.line.percentage.erlang

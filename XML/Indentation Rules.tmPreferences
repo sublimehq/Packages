@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>text.xml</string>
+	<key>settings</key>
+	<dict>
+		<key>comment</key>
+		<string><![CDATA[
+		/*
+		 * Don't indent:
+		 *  <?, </, <!
+		 *  <whatever></whatever>
+		 *  <whatever />
+		 *  <% %>
+		 *  <!-- -->
+		 *  <%-- --%>
+		 *
+		 * Do indent:
+		 *  <whatever>
+		 *  <%
+		 *  <!--
+		 *  <%--
+		 *
+		 * Decrease indent for:
+		 *  </whatever>
+		 *  -->
+		 *  --%>
+		 */
+		]]></string>
+		<key>decreaseIndentPattern</key>
+		<string><![CDATA[^\s*(</[^>]+>|-->|--%>)]]></string>
+		<key>increaseIndentPattern</key>
+		<string><![CDATA[^\s*<(([^!/?]|%)(?!.+?([/%]>|</.+?>))|[%!]--\s*$)]]></string>
+	</dict>
+</dict>
+</plist>

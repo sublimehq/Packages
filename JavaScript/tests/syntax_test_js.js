@@ -215,6 +215,7 @@ let x = import.meta;
 //         ^^^^ variable.language.import
 
     import
+//  ^^^^^^ - meta.import
     .meta;
 //  ^^^^^ - meta.import
 //  ^ punctuation.accessor
@@ -225,6 +226,7 @@ let x = import.meta;
 //        ^^^^^^^ meta.group
 
     import
+//  ^^^^^^ - meta.import
     ('foo');
 //  ^^^^^^^ meta.group
 
@@ -1247,12 +1249,26 @@ class{}/**/
 //   ^^^^^^^^^^ meta.group
 //              ^^^^^ storage.type.class
 
-() => {}
+() => {};
 // <- meta.function.declaration punctuation.section.group.begin
  // <- meta.function.declaration punctuation.section.group.end
 //^^^ meta.function.declaration
 //    ^ meta.block punctuation.section.block.begin
 //     ^ meta.block punctuation.section.block.end
+
+    (foo, bar = 42)
+//  ^^^^^^^^^^^^^^^ meta.function.declaration
+//   ^^^ meta.binding.name
+//        ^^^ meta.binding.name
+    => 42;
+//  ^^^^^ meta.function
+//  ^^ meta.function.declaration storage.type.function.arrow
+
+    foo
+//  ^^^ meta.function.declaration variable.parameter.function
+    => 42;
+//  ^^^^^ meta.function
+//  ^^ meta.function.declaration storage.type.function.arrow
 
 const test = ({a, b, c=()=>({active:false}) }) => {};
 //    ^ entity.name.function
@@ -1975,25 +1991,30 @@ debugger
     a ?? b;
 //    ^^ keyword.operator.logical
 
-    a.?b.?c;
+    a ?.5 : .7;
+//    ^ keyword.operator.ternary
+//     ^^ constant.numeric
+//        ^ keyword.operator.ternary
+
+    a?.b?.c;
 //   ^^ punctuation.accessor
 //     ^ meta.property.object
 //      ^^ punctuation.accessor
 //        ^ meta.property.object
 
-    a.?[propName];
+    a?.[propName];
 //   ^^^^^^^^^^^^ meta.brackets
 //   ^^ punctuation.accessor
 //     ^ punctuation.section.brackets.begin
 
-    a.?();
+    a?.();
 //  ^^^^^ meta.function-call
 //  ^ variable.function
 //   ^^^^ meta.group
 //   ^^ punctuation.accessor
 //     ^ punctuation.section.group.begin
 
-    a.b.?();
+    a.b?.();
 //  ^^^^^^^ meta.function-call.method
 //    ^ variable.function
 //     
