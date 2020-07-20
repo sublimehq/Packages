@@ -297,6 +297,10 @@ def _():
 #              ^^ invalid.illegal.name
 
     lambda *a, **kwa, ab*, * *: (a, kwa)
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function.inline meta.function.inline
+#   ^^^^^^ meta.function.inline.python
+#         ^^^^^^^^^^^^^^^^^^^^^ meta.function.inline.parameters.python
+#                              ^^^^^^^^^ meta.function.inline.body.python
 #          ^ keyword.operator.unpacking.sequence.python
 #           ^ variable.parameter.python
 #                ^^^ variable.parameter.python
@@ -308,10 +312,11 @@ def _():
 #   ^^^^^^ storage.type.function.inline keyword.declaration.function.inline.python
 
     lambda (x, y): 0
-#   ^^^^^^^^^^^^^^^^ meta.function.inline
+#   ^^^^^^^^^^^^^^^^ - meta.function.inline meta.function.inline
+#   ^^^^^^ meta.function.inline.python
 #         ^^^^^^^^ meta.function.inline.parameters.python
-#                 ^^ meta.function.inline.body.python
 #          ^^^^^^ meta.group.python
+#                 ^^ meta.function.inline.body.python
 #          ^ punctuation.section.group.begin.python
 #           ^ variable.parameter.python
 #            ^ punctuation.separator.parameters.python
@@ -319,7 +324,8 @@ def _():
 #               ^ punctuation.section.group.end.python
 #                ^ punctuation.section.function.begin.python
     lambda (
-#   ^^^^^^^^^ meta.function.inline.python
+#   ^^^^^^^^^ - meta.function.inline meta.function.inline
+#   ^^^^^^ meta.function.inline.python
 #         ^^^ meta.function.inline.parameters.python
 #          ^^ meta.group.python
 #          ^ punctuation.section.group.begin.python
@@ -331,6 +337,7 @@ def _():
 #      ^^^^ meta.function.inline.parameters.python meta.group.python
 #       ^ variable.parameter.python
     ):
+#^^^^^^ - meta.function.inline meta.function.inline
 #^^^^ meta.function.inline.parameters.python meta.group.python
 #   ^ punctuation.section.group.end.python
 #    ^ punctuation.section.function.begin.python
