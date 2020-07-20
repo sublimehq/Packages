@@ -167,14 +167,23 @@ contexts:
 ###[ FUNCTIONS ]###############################################################
 
   funcdef:
+    # [Bash] 3.3 Shell Functions
     - match: (?=\s*{{identifier_non_posix}}\s*\(\s*\))
-      push: [funcdef-params, funcdef-name]
+      push:
+        - funcdef-redirection
+        - funcdef-body
+        - funcdef-params
+        - funcdef-name
     - match: function{{keyword_break}}
       scope:
         meta.function.shell
         storage.type.function.shell
         keyword.declaration.function.shell
-      push: [funcdef-params, funcdef-name]
+      push:
+        - funcdef-redirection
+        - funcdef-body
+        - funcdef-params
+        - funcdef-name
 
   funcdef-name:
     - match: (?=\S)
@@ -183,47 +192,46 @@ contexts:
         - match: \s*(?=[({])
           pop: true
         - include: eol-pop
+    - include: eol-pop
 
   funcdef-params:
+    - clear_scopes: 1
     - meta_content_scope: meta.function.identifier.shell
     - match: (\()\s*(\))
       scope: meta.function.parameters.shell
       captures:
         1: punctuation.section.parameters.begin.shell
         2: punctuation.section.parameters.end.shell
-      set: funcdef-body
-    - include: comment
-    - match: (?=\S)
-      set: funcdef-body
+      pop: 1
+    - include: else-pop
 
   funcdef-body:
-    - meta_content_scope: meta.function.shell
-    - include: block
-    - include: group
+    - match: \{
+      scope: punctuation.section.compound.begin.shell
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.compound.shell
+        - match: \}
+          scope: punctuation.section.compound.end.shell
+          pop: 1
+        - include: main
+    - match: \(
+      scope: punctuation.section.compound.begin.shell
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.compound.shell
+        - match: \)
+          scope: punctuation.section.compound.end.shell
+          pop: 1
+        - include: main
     - include: comment
     - include: else-pop
 
-  block:
-    - match: \{
-      scope: punctuation.section.block.begin.shell
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.block.shell
-        - match: \}
-          scope: punctuation.section.block.end.shell
-          pop: 2
-        - include: main
-
-  group:
-    - match: \(
-      scope: punctuation.section.group.begin.shell
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.group.shell
-        - match: \)
-          scope: punctuation.section.group.end.shell
-          pop: 2
-        - include: main
+  funcdef-redirection:
+    - meta_content_scope: meta.function.shell
+    - include: redirection
+    - include: else-pop
+    - include: eol-pop
 
 ###[ VARDEFS ]#################################################################
 

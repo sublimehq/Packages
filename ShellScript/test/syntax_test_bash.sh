@@ -2623,7 +2623,7 @@ case $TERM in
     sun-cmd)
         #  ^ keyword.control.conditional.patterns
         update_terminal_cwd() { print -Pn "\e]l%~\e\\" };;
-        #                                              ^ meta.function punctuation.section.block.end
+        #                                              ^ meta.function punctuation.section.compound.end
         #                                               ^^ punctuation.terminator.case.clause
     *xterm*|rxvt|(dt|k|E)term)
         # ^ keyword.operator.regexp.quantifier
@@ -2634,13 +2634,13 @@ case $TERM in
         #               ^ punctuation.section.group.end
         #                    ^ keyword.control.conditional.patterns
         update_terminal_cwd() { print -Pn "\e]2;%~\a" };;
-        #                                             ^ meta.function punctuation.section.block.end
+        #                                             ^ meta.function punctuation.section.compound.end
         #                                              ^^ punctuation.terminator.case.clause
     *)
     # <- keyword.operator.regexp.quantifier
     #^ keyword.control.conditional.patterns
         update_terminal_cwd() {};;
-        #                      ^ meta.function punctuation.section.block.end
+        #                      ^ meta.function punctuation.section.compound.end
         #                       ^^ punctuation.terminator.case.clause
 esac
 
@@ -3315,15 +3315,15 @@ EOF
 #      ^ meta.function.identifier.shell
 #       ^ meta.function.parameters.shell
 #        ^ meta.function.parameters.shell
-#         ^ meta.function.shell - meta.function.identifier - meta.block
-#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.shell meta.block.shell
+#         ^ meta.function.shell - meta.function.identifier - meta.compound
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.shell meta.compound.shell
 #^^ - entity
 #  ^^^^ entity.name.function.shell
 #      ^ - entity - punctuation
 #       ^ punctuation.section.parameters.begin.shell
 #        ^ punctuation.section.parameters.end.shell
 #         ^ - punctuation
-#          ^ punctuation.section.block.begin.shell
+#          ^ punctuation.section.compound.begin.shell
 #            ^^ support.function.double-brace.begin
 #               ^ meta.function-call.arguments punctuation.definition.variable
 #                ^ meta.function-call.arguments variable.language
@@ -3336,13 +3336,13 @@ logExit ( ) {
 #^^^^^^ meta.function.identifier.shell entity.name.function.shell
 #      ^ meta.function.identifier.shell
 #       ^^^ meta.function.parameters.shell
-#          ^ meta.function.shell - meta.block
-#           ^^ meta.function.shell meta.block.shell
+#          ^ meta.function.shell - meta.compound
+#           ^^ meta.function.shell meta.compound.shell
 #^^^^^^ entity.name.function.shell
 #      ^ - entity - punctuation
 #       ^ punctuation.section.parameters.begin.shell
 #         ^ punctuation.section.parameters.end.shell
-#           ^ punctuation.section.block.begin.shell
+#           ^ punctuation.section.compound.begin.shell
   [[ $1 == '0' ]] && tput setaf 2  || tput setaf 1;
   # <- meta.function support.function.double-brace.begin
   #            ^^ meta.function meta.function-call.arguments support.function.double-brace.end
@@ -3362,7 +3362,7 @@ logExit ( ) {
   #                       ^ keyword.operator.arithmetic.shell
   #                        ^ constant.numeric.integer.decimal.shell
 }
-# <- meta.function.shell meta.block.shell punctuation.section.block.end.shell
+# <- meta.function.shell meta.compound.shell punctuation.section.compound.end.shell
 #^ - meta.function
 
 function connect_to_db() {
@@ -3371,14 +3371,14 @@ function connect_to_db() {
 #^^^^^^^ meta.function.shell
 #       ^^^^^^^^^^^^^^ meta.function.identifier.shell
 #                     ^^ meta.function.parameters.shell
-#                       ^ meta.function.shell - meta.block
-#                        ^^ meta.function.shell meta.block.shell
+#                       ^ meta.function.shell - meta.compound
+#                        ^^ meta.function.shell meta.compound.shell
 #^^^^^^^ storage.type.function.shell keyword.declaration.function.shell
 #       ^ - entity - keyword - storage
 #        ^^^^^^^^^^^^^ entity.name.function.shell
 #                     ^ punctuation.section.parameters.begin.shell
 #                      ^ punctuation.section.parameters.end.shell
-#                        ^ punctuation.section.block.begin.shell
+#                        ^ punctuation.section.compound.begin.shell
 
     export PGPASSWORD=$(cat "$DOKKU_ROOT/.postgresql/pwd_$APP")
     # <- meta.function storage.modifier
@@ -3400,7 +3400,7 @@ function connect_to_db() {
 
     psql -h $IP -p $PORT -U root db
 }
-# <- meta.function.shell meta.block.shell punctuation.section.block.end.shell
+# <- meta.function.shell meta.compound.shell punctuation.section.compound.end.shell
 #^ - meta.function
 
 # <- - meta.function
@@ -3435,7 +3435,7 @@ function foo
 #        ^^^ entity.name.function.shell
 #           ^ - entity
 {
-# <- meta.function.shell meta.block.shell punctuation.section.block.begin.shell
+# <- meta.function.shell meta.compound.shell punctuation.section.compound.begin.shell
     foo bar
     # <- variable.function
     # <- meta.function meta.function-call
@@ -3445,7 +3445,7 @@ function foo
     #^^^^^ keyword.control.flow.return.shell
     #      ^ constant.numeric.integer.decimal.shell
 }
-# <- meta.function.shell meta.block.shell punctuation.section.block.end.shell
+# <- meta.function.shell meta.compound.shell punctuation.section.compound.end.shell
 #^ - meta.function
 
 # <- - meta.function
@@ -3466,12 +3466,12 @@ function foo (     ) {
 #           ^ - entity.name.function
 #            ^ punctuation.section.parameters.begin.shell
 #                  ^ punctuation.section.parameters.end.shell
-#                    ^ punctuation.section.block.begin.shell
+#                    ^ punctuation.section.compound.begin.shell
     echo 'hello from foo'
     # <- support.function
     # <- meta.function meta.function-call
 }
-# <- meta.function.shell meta.block.shell punctuation.section.block.end.shell
+# <- meta.function.shell meta.compound.shell punctuation.section.compound.end.shell
 #^ - meta.function
 
 # <- - meta.function
@@ -3480,26 +3480,26 @@ f () (
 # <- meta.function.identifier.shell entity.name.function.shell
 #^ meta.function.identifier.shell - entity - punctuation
 # ^^ meta.function.parameters.shell
-#   ^ meta.function.shell - meta.group
-#    ^ meta.function.shell meta.group.shell punctuation.section.group.begin.shell
+#   ^ meta.function.shell - meta.compound
+#    ^ meta.function.shell meta.compound.shell punctuation.section.compound.begin.shell
   echo hello
-  # <- meta.function.shell meta.group.shell meta.function-call.identifier.shell support.function.echo.shell
+  # <- meta.function.shell meta.compound.shell meta.function-call.identifier.shell support.function.echo.shell
 )
-# <- meta.function.shell meta.group.shell punctuation.section.group.end.shell
+# <- meta.function.shell meta.compound.shell punctuation.section.compound.end.shell
 #^ - meta.function
 
 function f (
 # <- meta.function.shell storage.type.function.shell keyword.declaration.function.shell
 #^^^^^^^ meta.function.shell storage.type.function.shell 
 #       ^^^ meta.function.identifier.shell
-#          ^^ meta.function.shell meta.group.shell
+#          ^^ meta.function.shell meta.compound.shell
 #^^^^^^^ keyword.declaration.function.shell
 #        ^ entity.name.function.shell
-#          ^ punctuation.section.group.begin.shell
+#          ^ punctuation.section.compound.begin.shell
   echo hello
   # <- meta.function meta.function-call support.function.echo
 )
-# <- meta.function.shell meta.group.shell punctuation.section.group.end.shell
+# <- meta.function.shell meta.compound.shell punctuation.section.compound.end.shell
 #^ - meta.function
 
 function foo {
@@ -3599,7 +3599,7 @@ __git_aliased_command ()
         esac
     done
 }
-# <- meta.function.shell meta.block.shell punctuation.section.block.end.shell
+# <- meta.function.shell meta.compound.shell punctuation.section.compound.end.shell
 #^ - meta.function
 
 # <- - meta.function
