@@ -2258,3 +2258,8 @@ new Foo()() with Bar
 
 completed: F[_ >: A] => B)
 //             ^^ keyword.operator.bound.scala
+
+    _()
+//  ^ variable.language.underscore.scala
+//   ^ punctuation.section.group.begin.scala
+//    ^ punctuation.section.group.end.scala
