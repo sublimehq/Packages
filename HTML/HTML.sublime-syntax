@@ -1,14 +1,18 @@
 %YAML 1.2
 ---
+# https://www.sublimetext.com/docs/syntax.html
+# https://html.spec.whatwg.org/multipage/syntax.html
 name: HTML
+scope: text.html.basic
+version: 2
+
 file_extensions:
   - html
   - htm
   - shtml
   - xhtml
+
 first_line_match: (?i)<(!DOCTYPE\s*)?html
-scope: text.html.basic
-version: 2
 
 variables:
   ascii_space: '\t\n\f '
