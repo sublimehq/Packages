@@ -234,6 +234,12 @@
         ##                        ^ - meta.attribute-with-value
         ##                         ^^ punctuation.definition.tag.end.html
 
+        <img srs="https://foo%2Fbar.com" />
+        ##  ^ - meta.attribute-with-value
+        ##   ^^^ entity.other.attribute-name
+        ##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value
+        ##       ^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double - constant.character.escape
+
         <img title=foo"/>
         ##  ^ - meta.attribute-with-value
         ##   ^^^^^ entity.other.attribute-name
@@ -615,8 +621,9 @@ class="foo"></div>
 ##      ^^^^ - constant.character.entity
 
 
-        <a href="http://google.com/?one=1&amp;two=2"></a>
-        ##                               ^^^^^ constant.character.entity
+        <a href="http://google%20api.com/?one=1&amp;two=2"></a>
+        ##                    ^^^ constant.character.escape.url
+        ##                                     ^^^^^ constant.character.entity
         <a href="http://google.com/?one=1&two=2"></a>
         ##                               ^ - constant.character.entity
         ##                               ^ - invalid.illegal
