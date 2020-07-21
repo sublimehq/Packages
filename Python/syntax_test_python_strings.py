@@ -415,7 +415,8 @@ datetime.strftime(datetime.now(), '%Y%V%uT')
 '{0:%Y}-{0:%m}-{0:%d}'.format(datetime.date.today())
 # ^^^^^^^^^^^^^^^^^^^ string.quoted.single.python
 # ^^^^^ constant.other.placeholder.python
-#  ^^^ constant.other.format-spec.python
+#  ^ punctuation.separator.format-spec.python
+#   ^^ meta.format-spec.python constant.other.format-spec.python
 #      ^ - constant.other.placeholder.python
 #       ^^^^^^ constant.other.placeholder.python
 #          ^^ constant.other.format-spec.python
@@ -425,13 +426,11 @@ datetime.strftime(datetime.now(), '%Y%V%uT')
 '{0:%Y}-{0:%m
 # ^^^^^^^^^^^ string.quoted.single.python
 # ^^^^^ constant.other.placeholder.python
-#  ^^^ constant.other.format-spec.python
 #      ^^^^ - constant.other.placeholder.python
 #            ^ invalid.illegal.unclosed-string.python
 '{0:%Y}-{0:%
 # ^^^^^^^^^^^ string.quoted.single.python
 # ^^^^^ constant.other.placeholder.python
-#  ^^^ constant.other.format-spec.python
 #      ^^^^^ - constant.other.placeholder.python
 #           ^ invalid.illegal.unclosed-string.python
 
@@ -496,6 +495,8 @@ sql = b'just some \
 #     ^^^^ constant.other.placeholder.python
 "More {!a: <10s}"                 # Calls ascii() on the argument first, then formats
 #     ^^^^^^^^^^ constant.other.placeholder.python
+#        ^ punctuation.separator.format-spec.python - meta.format-spec.python
+#         ^^^^^ meta.format-spec.python constant.other.format-spec.python
 "Escaped {{0}}"                   # outputs: "Escaped {0}"
 #        ^^^^^ - constant.other.placeholder.python
 #        ^^ constant.character.escape.python
@@ -528,12 +529,13 @@ datetime.datetime.utcnow().strftime("%Y%m%d%H%M")
 
 "Testing {:j^9,}".format(1000)
 #        ^^^^^^^ constant.other.placeholder
-#         ^^^^^ constant.other.format-spec
+#          ^^^^ meta.format-spec.python constant.other.format-spec
 
 "result: {value:{width}.{precision}}"
 #        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.other.placeholder
-#              ^^^^^^^^^^^^^^^^^^^^ meta.format-spec.python
+#               ^^^^^^^^^^^^^^^^^^^ meta.format-spec.python
 #        ^ punctuation.definition.placeholder.begin
+#              ^ punctuation.separator.format-spec.python
 #               ^^^^^^^ constant.other.placeholder constant.other.placeholder
 #               ^ punctuation.definition.placeholder.begin
 #                       ^^^^^^^^^^^ constant.other.placeholder constant.other.placeholder

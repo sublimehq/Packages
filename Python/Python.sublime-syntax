@@ -1400,18 +1400,19 @@ contexts:
     - match: |- # simple form
         (?x)
         (\{)
-          (?: [\w.\[\]]+)?             # field_name
-          (   ! [ars])?                # conversion
-          (   : (?:{{format_spec}}|    # format_spec OR
-                   [^}%]*%.[^}]*)      # any format-like string
+          (?: [\w.\[\]]+)?           # field_name
+          (   ! [ars])?              # conversion
+          (?: (:) ({{format_spec}}|  # format_spec OR
+                   [^}%]*%.[^}]*)    # any format-like string
           )?
         (\})
       scope: constant.other.placeholder.python
       captures:
         1: punctuation.definition.placeholder.begin.python
         2: storage.modifier.conversion.python
-        3: constant.other.format-spec.python
-        4: punctuation.definition.placeholder.end.python
+        3: punctuation.separator.format-spec.python
+        4: meta.format-spec.python constant.other.format-spec.python
+        5: punctuation.definition.placeholder.end.python
     - match: (?=\{[^{}"']+\{[^"']*\})  # complex (nested) form
       branch_point: formatting-syntax-branch
       branch:
@@ -1426,22 +1427,23 @@ contexts:
   formatting-syntax-complex:
     - match: \{
       scope: punctuation.definition.placeholder.begin.python
-      push:
+      set:
         - meta_scope: constant.other.placeholder.python
         - match: \}
           scope: punctuation.definition.placeholder.end.python
-          pop: 2
+          pop: true
         # TODO could match numeric indices or everything else as a key
         # and also [] indexing
         - match: '![ars]'
           scope: storage.modifier.conversion.python
         - match: ':'
+          scope: punctuation.separator.format-spec.python
           push:
-            - meta_scope: meta.format-spec.python constant.other.format-spec.python
+            - meta_content_scope: meta.format-spec.python constant.other.format-spec.python
             - match: (?=\})
               pop: true
             - match: (?=\{)
-              push: formatting-syntax-complex  # need to push extra because of pop: 2
+              push: formatting-syntax-complex
         - match: '[{"''\n]'
           fail: formatting-syntax-branch
 
