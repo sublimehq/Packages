@@ -323,7 +323,7 @@ contexts:
       scope: meta.name.haskell
 
   comment:
-    - match: '--'
+    - match: '--(?![[:punct:]])'
       scope: punctuation.definition.comment.haskell
       push:
         - meta_scope: comment.line.double-dash.haskell
@@ -345,7 +345,7 @@ contexts:
         - match: '-\}'
           scope: punctuation.definition.comment.end.haskell
           pop: true
-  
+
   module_exports:
     - match: \(
       scope: punctuation.section.group.begin.haskell
