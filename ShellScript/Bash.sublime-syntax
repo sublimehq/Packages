@@ -372,7 +372,9 @@ contexts:
                   pop: 1
                 - include: immediately-pop
             - include: expansion-and-string
+            - include: comment
         - include: expansion-and-string
+        - include: comment
     - match: ''
       set:
         - meta_scope: meta.string.shell string.unquoted.shell

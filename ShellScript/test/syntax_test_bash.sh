@@ -900,6 +900,21 @@ declare bar=\
 # <- punctuation.section.sequence.begin.shell
 #   ^ punctuation.section.sequence.end.shell
 #     ^^^^^^^^^^ comment.line.number-sign.shell
+declare -a owners=(
+    # dogs
+#   ^^^^^^^ meta.function-call.arguments.shell meta.sequence.shell comment.line.number-sign.shell
+    [susan]=labrador
+#   ^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.sequence.shell
+#   ^^^^^^^ meta.brackets.shell
+#          ^ keyword.operator.assignment.shell
+    # cats
+#   ^^^^^^^ meta.function-call.arguments.shell meta.sequence.shell comment.line.number-sign.shell
+    [terry]=tabby
+#   ^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.sequence.shell
+#   ^^^^^^^ meta.brackets.shell
+#          ^ keyword.operator.assignment.shell
+)
+
 printFunction "$variableString1" "$(declare -p variableArray)"
 #             ^ meta.string string.quoted.double punctuation.definition.string.begin
 #              ^^^^^^^^^^^^^^^^ meta.string meta.interpolation.parameter.shell - string
