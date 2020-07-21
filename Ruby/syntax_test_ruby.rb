@@ -499,9 +499,9 @@ str = sprintf("%1$*2$s %2$d", "hello", -8)
 #      ^^^^^^^^^^^^^^^ meta.environment-variable.ruby
 #          ^^^^^^^^^^ meta.string.ruby meta.interpolation.ruby meta.string.ruby
 #                    ^^ meta.string.ruby meta.interpolation.ruby - string
-#                      ^^^^^^^ meta.string.ruby - meta.interpolation
+#                       ^^^^^ constant.other.symbol.ruby
 #                             ^^^^^^^^^^^^^^^^ meta.string.ruby meta.interpolation.ruby - string
-#                                             ^^^^^^^ meta.string.ruby - meta.interpolation
+#                                              ^^^^^^ constant.other.symbol.ruby
 # ^^^ punctuation.definition.string.begin.ruby
 # ^^^ string.quoted.other.literal.upper.ruby
 #    ^^ punctuation.section.interpolation.begin.ruby
@@ -1100,11 +1100,6 @@ class MyClass
 #         ^ support.class.ruby
 #                 ^ keyword.other.special-method.ruby
 
-  FIELDS = %i[a b c]
-# ^ meta.constant.ruby entity.name.constant.ruby
-#        ^ keyword.operator.assignment.ruby
-#          ^^^ punctuation.definition.string.begin.ruby
-#             ^^^^^ string.quoted.other.literal.lower.ruby
 
   A, B, C = :a, :b, :c
 # ^ meta.constant.ruby entity.name.constant.ruby
@@ -1129,6 +1124,49 @@ exit! 2
 #^^^^ support.function.builtin
 
 
+##################
+# Symbol literals
+##################
+
+  FIELDS = %i[a b c]
+# ^^^^^^ meta.constant.ruby entity.name.constant.ruby
+#        ^ keyword.operator.assignment.ruby
+#          ^^^ punctuation.definition.string.begin.ruby
+#             ^      constant.other.symbol.ruby
+#               ^    constant.other.symbol.ruby
+#                 ^  constant.other.symbol.ruby
+#                  ^  punctuation.definition.string.end.ruby
+
+  %i(a b c)
+# ^^^ punctuation.definition.string.begin.ruby
+#    ^      constant.other.symbol.ruby
+#      ^    constant.other.symbol.ruby
+#        ^  constant.other.symbol.ruby
+#         ^  punctuation.definition.string.end.ruby
+
+  %I[#{'a'} b #@c#@@d e]
+# ^^^ meta.string.ruby - meta.interpolation
+#    ^^ source.ruby meta.string.ruby meta.interpolation.ruby punctuation.section.interpolation.begin.ruby
+#      ^^^ meta.string.ruby meta.interpolation.ruby meta.string.ruby
+#         ^ source.ruby meta.string.ruby meta.interpolation.ruby punctuation.section.interpolation.end.ruby
+#           ^ constant.other.symbol.ruby
+#             ^^^^^^^ meta.string.ruby meta.interpolation.ruby - string
+#                     ^ constant.other.symbol.ruby
+#                      ^  punctuation.definition.string.end.ruby
+
+##################
+# String literals
+##################
+
+  %w[a b c]
+# ^^^ punctuation.definition.string.begin.ruby
+#    ^^^^^ string.quoted.other.literal.lower.ruby
+#         ^  punctuation.definition.string.end.ruby
+
+  %w(a b c)
+# ^^^ punctuation.definition.string.begin.ruby
+#    ^^^^^ string.quoted.other.literal.lower.ruby
+#         ^  punctuation.definition.string.end.ruby
 
 ##################
 # Tokens with Multiple Meanings

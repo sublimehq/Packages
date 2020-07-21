@@ -1139,7 +1139,7 @@ contexts:
 
   late-strings:
     # literal capable of interpolation ()
-    - match: '%[QWI]?\('
+    - match: '%[QW]?\('
       scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
@@ -1150,7 +1150,7 @@ contexts:
         - include: escaped-char
         - include: nest-parens-i
     # "literal capable of interpolation []"
-    - match: '%[QWI]?\['
+    - match: '%[QW]?\['
       scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
@@ -1161,7 +1161,7 @@ contexts:
         - include: escaped-char
         - include: nest-brackets-i
     # literal capable of interpolation <>
-    - match: '%[QWI]?\<'
+    - match: '%[QW]?\<'
       scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
@@ -1172,7 +1172,7 @@ contexts:
         - include: escaped-char
         - include: nest-ltgt-i
     # literal capable of interpolation -- {}
-    - match: '%[QWI]?\{'
+    - match: '%[QW]?\{'
       scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: meta.string.ruby string.quoted.double.ruby.mod
@@ -1183,7 +1183,7 @@ contexts:
         - include: escaped-char
         - include: nest-curly-i
     # literal capable of interpolation -- wildcard
-    - match: '%[QWI]([^\w])'
+    - match: '%[QW]([^\w])'
       scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
@@ -1202,8 +1202,72 @@ contexts:
           pop: true
         - include: interpolated-ruby
         - include: escaped-char
+    # literal capable of interpolation ()
+    - match: '%I\('
+      scope: punctuation.definition.string.begin.ruby
+      push:
+        - match: '\w+'
+          scope: constant.other.symbol.ruby
+        - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
+        - match: \)
+          scope: punctuation.definition.string.end.ruby
+          pop: true
+        - include: interpolated-ruby
+        - include: escaped-char
+        - include: nest-parens-i
+    # "literal capable of interpolation []"
+    - match: '%I\['
+      scope: punctuation.definition.string.begin.ruby
+      push:
+        - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
+        - match: '\w+'
+          scope: constant.other.symbol.ruby
+        - match: '\]'
+          scope: punctuation.definition.string.end.ruby
+          pop: true
+        - include: interpolated-ruby
+        - include: escaped-char
+        - include: nest-brackets-i
+    # literal capable of interpolation <>
+    - match: '%I\<'
+      scope: punctuation.definition.string.begin.ruby
+      push:
+        - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
+        - match: '\w+'
+          scope: constant.other.symbol.ruby
+        - match: \>
+          scope: punctuation.definition.string.end.ruby
+          pop: true
+        - include: interpolated-ruby
+        - include: escaped-char
+        - include: nest-ltgt-i
+    # literal capable of interpolation -- {}
+    - match: '%I\{'
+      scope: punctuation.definition.string.begin.ruby
+      push:
+        - meta_scope: meta.string.ruby string.quoted.double.ruby.mod
+        - match: '\w+'
+          scope: constant.other.symbol.ruby
+        - match: '\}'
+          scope: punctuation.definition.string.end.ruby
+          pop: true
+        - include: interpolated-ruby
+        - include: escaped-char
+        - include: nest-curly-i
+    # literal capable of interpolation -- wildcard
+    - match: '%I([^\w])'
+      scope: punctuation.definition.string.begin.ruby
+      push:
+        - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
+        - match: '\w+'
+          scope: constant.other.symbol.ruby
+        - match: \1
+          scope: punctuation.definition.string.end.ruby
+          pop: true
+        - include: interpolated-ruby
+        - include: escaped-char
     # literal incapable of interpolation -- ()
-    - match: '%[qwsi]\('
+    - match: '%[qws]\('
       scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: meta.string.ruby string.quoted.other.literal.lower.ruby
@@ -1214,7 +1278,7 @@ contexts:
           scope: constant.character.escape.ruby
         - include: nest-parens
     # literal incapable of interpolation -- <>
-    - match: '%[qwsi]\<'
+    - match: '%[qws]\<'
       scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: meta.string.ruby string.quoted.other.literal.lower.ruby
@@ -1225,7 +1289,7 @@ contexts:
           scope: constant.character.escape.ruby
         - include: nest-ltgt
     # literal incapable of interpolation -- []
-    - match: '%[qwsi]\['
+    - match: '%[qws]\['
       scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: meta.string.ruby string.quoted.other.literal.lower.ruby
@@ -1236,7 +1300,7 @@ contexts:
           scope: constant.character.escape.ruby
         - include: nest-brackets
     # literal incapable of interpolation -- {}
-    - match: '%[qwsi]\{'
+    - match: '%[qws]\{'
       scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: meta.string.ruby string.quoted.other.literal.lower.ruby
@@ -1247,10 +1311,74 @@ contexts:
           scope: constant.character.escape.ruby
         - include: nest-curly
     # literal incapable of interpolation -- wildcard
-    - match: '%[qwsi]([^\w])'
+    - match: '%[qws]([^\w])'
       scope: punctuation.definition.string.begin.ruby
       push:
         - meta_scope: meta.string.ruby string.quoted.other.literal.lower.ruby
+        - match: \1
+          scope: punctuation.definition.string.end.ruby
+          pop: true
+        # Cant be named because its not necessarily an escape
+        - match: \\.
+    # symbol literal incapable of interpolation -- ()
+    - match: '%i\('
+      scope: punctuation.definition.string.begin.ruby
+      push:
+        - meta_scope: string.quoted.other.literal.lower.ruby
+        - match: '\w+'
+          scope: constant.other.symbol.ruby
+        - match: \)
+          scope: punctuation.definition.string.end.ruby
+          pop: true
+        - match: \\\)|\\\\
+          scope: constant.character.escape.ruby
+        - include: nest-parens
+    # symbol literal incapable of interpolation -- <>
+    - match: '%i\<'
+      scope: punctuation.definition.string.begin.ruby
+      push:
+        - meta_scope: string.quoted.other.literal.lower.ruby
+        - match: '\w+'
+          scope: constant.other.symbol.ruby
+        - match: \>
+          scope: punctuation.definition.string.end.ruby
+          pop: true
+        - match: \\\>|\\\\
+          scope: constant.character.escape.ruby
+        - include: nest-ltgt
+    # symbol literal incapable of interpolation -- []
+    - match: '%i\['
+      scope: punctuation.definition.string.begin.ruby
+      push:
+        - meta_scope: string.quoted.other.literal.lower.ruby
+        - match: '\w+'
+          scope: constant.other.symbol.ruby
+        - match: '\]'
+          scope: punctuation.definition.string.end.ruby
+          pop: true
+        - match: '\\\]|\\\\'
+          scope: constant.character.escape.ruby
+        - include: nest-brackets
+    # symbol literal incapable of interpolation -- {}
+    - match: '%i\{'
+      scope: punctuation.definition.string.begin.ruby
+      push:
+        - meta_scope: string.quoted.other.literal.lower.ruby
+        - match: '\w+'
+          scope: constant.other.symbol.ruby
+        - match: '\}'
+          scope: punctuation.definition.string.end.ruby
+          pop: true
+        - match: '\\\}|\\\\'
+          scope: constant.character.escape.ruby
+        - include: nest-curly
+    # symbol literal incapable of interpolation -- wildcard
+    - match: '%i([^\w])'
+      scope: punctuation.definition.string.begin.ruby
+      push:
+        - meta_scope: string.quoted.other.literal.lower.ruby
+        - match: '\w+'
+          scope: constant.other.symbol.ruby
         - match: \1
           scope: punctuation.definition.string.end.ruby
           pop: true

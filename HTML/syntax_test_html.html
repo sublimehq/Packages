@@ -594,12 +594,15 @@ class="foo"></div>
         ##                                                                    ^^^^^^^^^^^^^^ entity.name.tag.custom.html
 
         <test-custom-tag/>
-        ##^^^^^^^^^^^^^^^^ meta.tag.custom.html
+        ##^^^^^^^^^^^^^^^^ meta.tag.custom.html - invalid
         ##              ^^ punctuation.definition.tag.end.html
         ##                ^ - meta.tag.custom.html - punctuation.definition.tag.end.html
 
         <body-custom·tag₡name/>
-        ## ^^^^^^^^^^^^^^^^^^ entity.name.tag.custom.html
+        ## ^^^^^^^^^^^^^^^^^^ entity.name.tag.custom.html - invalid
+
+        <body.tag-custom.name/>
+        ## ^^^^^^^^^^^^^^^^^^ entity.name.tag.custom.html - invalid
 
         <INVALID-custom-TAG></INVALID-CUSTOM-TAG>
         ## ^^^^^ invalid.illegal.custom-tag-name.html

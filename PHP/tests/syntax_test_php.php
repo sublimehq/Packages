@@ -102,7 +102,7 @@ use some\nspace\{ClassA, ClassB, ClassC as C};
 //      ^ punctuation.separator.namespace
 //       ^^^^^^ support.other.namespace
 //             ^ punctuation.separator.namespace
-//              ^ punctuation.section.block
+//              ^ punctuation.section.block.begin
 //               ^^^^^^ support.class.php - constant.other - entity.name - support.function.php - support.other.namespace
 //                     ^ punctuation.separator
 //                       ^^^^^^ support.class.php - constant.other - entity.name - support.function.php - support.other.namespace
@@ -110,7 +110,7 @@ use some\nspace\{ClassA, ClassB, ClassC as C};
 //                               ^^^^^^ support.class.php - constant.other - entity.name - support.function.php - support.other.namespace
 //                                      ^^ keyword.other.use-as
 //                                         ^ entity.name.class
-//                                          ^ punctuation.section.block
+//                                          ^ punctuation.section.block.end
 //                                           ^ punctuation.terminator.expression.php - meta.use
 
 use function some\nspace\{fn_d, fn_e, fn_f as fn_g};
@@ -122,7 +122,7 @@ use function some\nspace\{fn_d, fn_e, fn_f as fn_g};
 //               ^ punctuation.separator.namespace
 //                ^^^^^^ support.other.namespace
 //                      ^ punctuation.separator.namespace
-//                       ^ punctuation.section.block
+//                       ^ punctuation.section.block.begin
 //                        ^^^^ support.function.php - constant.other - entity.name - support.class.php - support.other.namespace
 //                            ^ punctuation.separator
 //                              ^^^^ support.function.php - constant.other - entity.name - support.class.php - support.other.namespace
@@ -130,7 +130,7 @@ use function some\nspace\{fn_d, fn_e, fn_f as fn_g};
 //                                    ^^^^ support.function.php - constant.other - entity.name - support.class.php - support.other.namespace
 //                                         ^^ keyword.other.use-as
 //                                            ^^^^ entity.name.function
-//                                                ^ punctuation.section.block
+//                                                ^ punctuation.section.block.end
 //                                                 ^ punctuation.terminator.expression.php - meta.use
 
 
@@ -143,7 +143,7 @@ use const some\nspace\{ConstA, ConstB AS ConstD, ConstC};
 //            ^ punctuation.separator.namespace
 //             ^^^^^^ support.other.namespace
 //                   ^ punctuation.separator.namespace
-//                    ^ punctuation.section.block
+//                    ^ punctuation.section.block.begin
 //                     ^^^^^^ constant.other - support.function.php - entity.name - support.class.php - support.other.namespace
 //                           ^ punctuation.separator
 //                             ^^^^^^ constant.other - support.function.php - entity.name - support.class.php - support.other.namespace
@@ -151,7 +151,7 @@ use const some\nspace\{ConstA, ConstB AS ConstD, ConstC};
 //                                       ^^^^^^ constant.other - support.function.php - entity.name - support.class.php - support.other.namespace
 //                                             ^ punctuation.separator
 //                                               ^^^^^^ constant.other - support.function.php - entity.name - support.class.php - support.other.namespace
-//                                                     ^ punctuation.section.block
+//                                                     ^ punctuation.section.block.end
 //                                                      ^ punctuation.terminator.expression.php - meta.use
 
 
@@ -265,10 +265,137 @@ $array[  ];
 //    ^ punctuation.section.brackets.begin.php
 //       ^ punctuation.section.brackets.end.php
 
-$var->meth()[10];
-//          ^^^^ meta.item-access
-//          ^ punctuation.section.brackets.begin.php
-//             ^ punctuation.section.brackets.end.php
+$var?->meth()[10];
+//  ^ punctuation.accessor.nullsafe
+//   ^^ punctuation.accessor.arrow
+//           ^^^^ meta.item-access
+//           ^ punctuation.section.brackets.begin
+//              ^ punctuation.section.brackets.end
+
+@@@@@@@@@@ExampleAttribute
+// <- keyword.operator.error-control
+//^^^^^^ keyword.operator.error-control
+//      ^^ punctuation.definition.attribute
+//        ^^^^^^^^^^^^^^^^ meta.path
+@@WithoutArgument
+//^^^^^^^^^^^^^^^ meta.attribute
+// <- punctuation.definition.attribute
+// ^^^^^^^^^^^^^^ meta.path
+@@WithoutArgument()
+//^^^^^^^^^^^^^^^^^ meta.attribute
+// <- punctuation.definition.attribute
+// ^^^^^^^^^^^^^^ meta.path
+@@SingleArgument(0)
+//^^^^^^^^^^^^^^^^^ meta.attribute
+// <- punctuation.definition.attribute
+// ^^^^^^^^^^^^^ meta.path
+@@FewArguments('Hello', 'World')
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
+// <- punctuation.definition.attribute
+// ^^^^^^^^^^^ meta.path
+//             ^^^^^^^ string.quoted
+//                      ^^^^^^^ string.quoted
+@@FewArguments(PDO::class, PHP_VERSION_ID)
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
+// <- punctuation.definition.attribute
+// ^^^^^^^^^^^ meta.path
+//             ^^^ support.class
+//                ^^ punctuation.accessor
+//                         ^^^^^^^^^^^^^^ support.constant
+@@\My\Attributes\FewArguments("foo", "bar")
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
+// <- punctuation.definition.attribute
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path
+//                            ^^^^^ string.quoted
+//                                   ^^^^^ string.quoted
+/** docblock */
+// <- comment.block
+@@BitShiftExample(4 >> 1, 4 << 1)
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
+// <- punctuation.definition.attribute
+//                  ^^ keyword.operator.bitwise
+//                          ^^ keyword.operator.bitwise
+function foo() {}
+// <- storage.type.function
+
+@@JoinTable(
+//^^^^^^^^^^ meta.attribute
+// <- punctuation.definition.attribute
+//^^^^^^^^^ support.class
+    "User_Group",
+//  ^^^^^^^^^^^^ string.quoted.double
+    @@JoinColumn("User_id", "id"),
+//  ^^ punctuation.definition.attribute
+//    ^^^^^^^^^ support.class
+    @@JoinColumn("Group_id", "id"),
+//  ^^ punctuation.definition.attribute
+//    ^^^^^^^^^ support.class
+)
+// <- meta.attribute
+// ^ - meta.attribute
+function foo() {}
+// <- storage.type.function
+
+@@ExampleAttribute
+//^^^^^^^^^^^^^^^^ meta.attribute
+// <- punctuation.definition.attribute
+// ^^^^^^^^^^^^^^^ meta.path
+class Foo
+{
+    @@ExampleAttribute
+//  ^^^^^^^^^^^^^^^^^^ meta.attribute
+//  ^^ punctuation.definition.attribute
+//    ^^^^^^^^^^^^^^^^ meta.path
+    public const FOO = 'foo';
+
+    @@ExampleAttribute
+//  ^^^^^^^^^^^^^^^^^^ meta.attribute
+//  ^^ punctuation.definition.attribute
+//    ^^^^^^^^^^^^^^^^ meta.path
+    public $x;
+
+    @@ExampleAttribute // comment
+//  ^^^^^^^^^^^^^^^^^^ meta.attribute
+//  ^^ punctuation.definition.attribute
+//    ^^^^^^^^^^^^^^^^ meta.path
+//                       ^^^^^^^^^^ comment
+    public function foo(@@ExampleAttribute \Foo\Bar $bar) { }
+//                      ^^^^^^^^^^^^^^^^^^ meta.attribute
+//                      ^^ punctuation.definition.attribute
+//                        ^^^^^^^^^^^^^^^^ meta.path
+//                                         ^^^^^^^^ meta.path
+//                                                  ^^^^ variable.parameter
+
+    @@Route("/api/posts/{id}", methods: ["GET", "HEAD"])
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
+//  ^^ punctuation.definition.attribute
+//    ^^^^^ meta.path
+//         ^ punctuation.section.group.begin
+//                           ^ punctuation.separator
+//                             ^^^^^^^ variable.parameter.named
+//                                    ^ punctuation.definition.variable
+//                                                     ^ punctuation.section.group.end
+    public function show(int $id) { }
+}
+
+$object = new @@ExampleAttribute class () { };
+//            ^^^^^^^^^^^^^^^^^^ meta.attribute
+//            ^^ punctuation.definition.attribute
+//              ^^^^^^^^^^^^^^^^ meta.path
+//                               ^^^^^ storage.type
+
+$f2 = @@ExampleAttribute function () { };
+//    ^^^^^^^^^^^^^^^^^^ meta.attribute
+//    ^^ punctuation.definition.attribute
+//      ^^^^^^^^^^^^^^^^ meta.path
+//                       ^^^^^^^^ storage.type
+
+$f3 = @@ExampleAttribute fn () => 1;
+//    ^^^^^^^^^^^^^^^^^^ meta.attribute
+//    ^^ punctuation.definition.attribute
+//      ^^^^^^^^^^^^^^^^ meta.path
+//                       ^^ storage.type
+//                             ^^ punctuation.definition.arrow-function
 
 /**
    No longer a phpdoc comment since no leading *
@@ -610,6 +737,16 @@ class ClassName extends /* */ \MyNamespace\Foo implements \MyNamespace\Baz {
 //                                                        ^^^^^^^^^^^^^^^^ entity.other.inherited-class
 //                                                        ^ punctuation.separator.namespace
 //                                                                    ^ punctuation.separator.namespace
+
+    public function __construct(private \MyNamespace\Foo $val = DEFAULT_VALUE) {
+//                  ^^^^^^^^^^^ entity.name.function support.function.magic
+//                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
+//                              ^^^^^^^ storage.modifier
+//                                      ^^^^^^^^^^^^^^^^ meta.path
+//                                                       ^^^^ variable.parameter
+//                                                            ^ keyword.operator.assignment
+//                                                              ^^^^^^^^^^^^^ constant.other
+    }
 }
 
 interface MyInter {}
@@ -707,16 +844,34 @@ $object->method(func_call());
 //              ^^^^^^^^^ variable.function
 //                       ^^ meta.group meta.group
 
-$object->property::method();
-//     ^^ punctuation.accessor.arrow
-//               ^^ punctuation.accessor.double-colon
-//                 ^^^^^^ meta.function-call.static variable.function
-//                       ^^ meta.group
+$object?->property::method();
+//     ^ punctuation.accessor.nullsafe
+//      ^^ punctuation.accessor.arrow
+//                ^^ punctuation.accessor.double-colon
+//                  ^^^^^^ meta.function-call.static variable.function
+//                        ^^ meta.group
+
+$country = $session?->user?->getAddress()?->country;
+//                 ^ punctuation.accessor.nullsafe
+//                  ^^ punctuation.accessor.arrow
+//                        ^ punctuation.accessor.nullsafe
+//                         ^^ punctuation.accessor.arrow
+//                                       ^ punctuation.accessor.nullsafe
+//                                        ^^ punctuation.accessor.arrow
+
+null?->foo(bar())->baz();
+//  ^ punctuation.accessor.nullsafe
+//   ^^ punctuation.accessor.arrow
 
 strval($foo);
 //^^^^^^^^^^ meta.function-call
 //^^^^ support.function.var - variable.function
 //    ^^^^^^ meta.group
+
+array_slice($array, $offset, $length, preserve_keys: true);
+//                                    ^^^^^^^^^^^^^ variable.parameter.named
+//                                                 ^ punctuation.definition.variable
+//                                                   ^^^^ constant.language
 
 $test = new Test1;
 //      ^ keyword.other.new.php
@@ -728,8 +883,8 @@ $anon = new class{};
 //          ^ storage.type.class.php
 //               ^^ meta.class.php
 //               ^^ meta.block.php
-//               ^ punctuation.section.block.php - meta.class meta.class
-//                ^ punctuation.section.block.php
+//               ^ punctuation.section.block.begin.php - meta.class meta.class
+//                ^ punctuation.section.block.end.php
 
 $anon = new class($param1, $param2) extends Test1 implements Countable {};
 //      ^ keyword.other.new.php
@@ -797,6 +952,53 @@ $anon = new class($param1, $param2) extends Test1 implements Countable {};
 //                                                ^ punctuation.section.group.end.php
 //                                                   ^ storage.type.nullable.php
 //                                                    ^ storage.type.php
+
+    function unionTypeFunction(
+//  ^ storage.type.function.php
+//           ^ entity.name.function.php
+        Foo|\Foo\Bar|?int $param1,
+//      ^^^ support.class
+//         ^ punctuation.separator.type
+//          ^ punctuation.separator.namespace
+//           ^^^ support.other.namespace
+//              ^ punctuation.separator.namespace
+//               ^^^ support.class
+//                  ^ punctuation.separator.type
+//                   ^ storage.type.nullable
+//                    ^^^ storage.type
+//                        ^ punctuation.definition.variable
+//                         ^^^^^^ variable.parameter
+        Foo|\Foo\Bar|?int $param2,
+//      ^^^ support.class
+//         ^ punctuation.separator.type
+//          ^ punctuation.separator.namespace
+//           ^^^ support.other.namespace
+//              ^ punctuation.separator.namespace
+//               ^^^ support.class
+//                  ^ punctuation.separator.type
+//                   ^ storage.type.nullable
+//                    ^^^ storage.type
+//                        ^ punctuation.definition.variable
+//                         ^^^^^^ variable.parameter
+        string $param3,
+//      ^^^^^^ storage.type
+//             ^ punctuation.definition.variable
+//              ^^^^^^ variable.parameter
+        $param4
+//      ^ punctuation.definition.variable
+//       ^^^^^^ variable.parameter
+    ): Foo|\Foo\Bar|?int|static {}
+//     ^^^ support.class
+//        ^ punctuation.separator.type
+//         ^ punctuation.separator.namespace
+//          ^^^ support.other.namespace
+//             ^ punctuation.separator.namespace
+//              ^^^ support.class
+//                 ^ punctuation.separator.type
+//                  ^ storage.type.nullable
+//                   ^^^ storage.type
+//                      ^ punctuation.separator.type
+//                       ^^^^^^ storage.type
 
 $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //       ^^ constant.character.escape.octal.php
@@ -917,7 +1119,7 @@ class B
     Z {
 //  ^^^ meta.use
 //  ^ meta.path
-//    ^ meta.block punctuation.section.block
+//    ^ meta.block punctuation.section.block.begin
         X::method1 as another1;
 //      ^^^^^^^^^^^^^^^^^^^^^^^ meta.use meta.block
 //       ^^ punctuation.accessor
@@ -927,18 +1129,25 @@ class B
         X::method2 as another2;
 //                 ^ keyword.other.use-as
     } protected $pro1;
-//  ^ meta.use meta.block punctuation.section.block
+//  ^ meta.use meta.block punctuation.section.block.end
 //   ^ - meta.use
 //    ^ storage.modifier
 
-    public static ?Foo $str = '';
+    public static ?Foo|\My\Bar|int $str = '';
 //  ^^^^^^ storage.modifier
 //         ^^^^^^ storage.modifier
 //                ^ storage.type.nullable
 //                 ^^^ support.class
-//                     ^ punctuation.definition.variable
-//                      ^^^ variable.other
-//                          ^ keyword.operator.assignment
+//                    ^ punctuation.separator.type
+//                     ^ punctuation.separator.namespace
+//                      ^^ support.other.namespace
+//                        ^ punctuation.separator.namespace
+//                         ^^^ support.class
+//                            ^ punctuation.separator.type
+//                             ^^^ storage.type
+//                                 ^ punctuation.definition.variable
+//                                  ^^^ variable.other
+//                                      ^ keyword.operator.assignment
 
     public const STR_1 = '';
 //  ^^^^^^ storage.modifier
@@ -951,11 +1160,56 @@ class B
 //        ^^^^^ constant
 //              ^ keyword.operator.assignment
 
-    public function abc(callable $var, int $var2, string $var3)
-//                  ^^^ entity.name.function
-//                      ^ storage.type
-//                                     ^ storage.type
-//                                                ^ storage.type
+    public function abc(
+//         ^ storage.type.function.php
+//                  ^ entity.name.function.php
+        Foo|\Foo\Bar|?int $param1,
+//      ^^^ support.class
+//         ^ punctuation.separator.type
+//          ^ punctuation.separator.namespace
+//           ^^^ support.other.namespace
+//              ^ punctuation.separator.namespace
+//               ^^^ support.class
+//                  ^ punctuation.separator.type
+//                   ^ storage.type.nullable
+//                    ^^^ storage.type
+//                        ^ punctuation.definition.variable
+//                         ^^^^^^ variable.parameter
+        Foo|\Foo\Bar|?int $param2,
+//      ^^^ support.class
+//         ^ punctuation.separator.type
+//          ^ punctuation.separator.namespace
+//           ^^^ support.other.namespace
+//              ^ punctuation.separator.namespace
+//               ^^^ support.class
+//                  ^ punctuation.separator.type
+//                   ^ storage.type.nullable
+//                    ^^^ storage.type
+//                        ^ punctuation.definition.variable
+//                         ^^^^^^ variable.parameter
+        callable $param3,
+//      ^^^^^^^^ storage.type
+//               ^ punctuation.definition.variable
+//                ^^^^^^ variable.parameter
+        mixed $param3,
+//      ^^^^^ storage.type
+//            ^ punctuation.definition.variable
+//             ^^^^^^ variable.parameter
+        $param4
+//      ^ punctuation.definition.variable
+//       ^^^^^^ variable.parameter
+    ): Foo|\Foo\Bar|?int|static {}
+//     ^^^ support.class
+//        ^ punctuation.separator.type
+//         ^ punctuation.separator.namespace
+//          ^^^ support.other.namespace
+//             ^ punctuation.separator.namespace
+//              ^^^ support.class
+//                 ^ punctuation.separator.type
+//                  ^ storage.type.nullable
+//                   ^^^ storage.type
+//                      ^ punctuation.separator.type
+//                       ^^^^^^ storage.type
     {
         echo B::class;
 //              ^ constant.class
@@ -1203,6 +1457,24 @@ switch (1) {
     default:
   //^^^^^^^ keyword.control.php - entity.name.label.php
 }
+
+$statement = match ($this->lexer->lookahead['type']) {
+//           ^^^^^ keyword.control
+    Lexer::T_UPDATE => $this->UpdateStatement(),
+//  ^^^^^ support.class
+//       ^^ punctuation.accessor.double-colon
+//         ^^^^^^^^ constant.other.class
+//                  ^^ keyword.operator.key
+//                     ^^^^^ variable.language
+//                          ^^ punctuation.accessor.arrow
+//                            ^^^^^^^^^^^^^^^ variable.function
+//                                           ^^ meta.group
+    Lexer::T_DELETE => $this->DeleteStatement(),
+//                  ^^ keyword.operator.key
+    default => $this->syntaxError('UPDATE or DELETE'),
+//  ^^^^^^^ keyword.control
+//          ^^ keyword.operator.key
+};
 
 $non_sql = "NO SELECT HIGHLIGHTING!";
 //         ^ string.quoted.double punctuation.definition.string.begin - meta.string-contents

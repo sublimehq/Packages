@@ -4992,6 +4992,12 @@
 			"details": "Sets version number for a FDF file"
 		},
 		{
+			"trigger": "fdiv()",
+			"contents": "fdiv(${1:dividend}, ${2:divisor})",
+			"kind": "function",
+			"details": "Float division."
+		},
+		{
 			"trigger": "feof()",
 			"contents": "feof(${1:handle})",
 			"kind": "function",
@@ -5747,6 +5753,12 @@
 			"details": "Gets the name of the owner of the current PHP script"
 		},
 		{
+			"trigger": "get_debug_type()",
+			"contents": "get_debug_type(${1:variable})",
+			"kind": "function",
+			"details": "Gets the debug type (type hint) of a variable."
+		},
+		{
 			"trigger": "get_declared_classes()",
 			"contents": "get_declared_classes()",
 			"kind": "function",
@@ -5847,6 +5859,12 @@
 			"contents": "get_required_files()",
 			"kind": "function",
 			"details": "Alias of get_included_files()"
+		},
+		{
+			"trigger": "get_resource_id()",
+			"contents": "get_resource_id(${1:handle})",
+			"kind": "function",
+			"details": "Get the resource ID."
 		},
 		{
 			"trigger": "get_resource_type()",
@@ -21198,6 +21216,18 @@
 			"details": "Gets the current stomp extension version"
 		},
 		{
+			"trigger": "str_contains()",
+			"contents": "str_contains(${1:haystack}, ${2:needle})",
+			"kind": "function",
+			"details": "Checks if a string is contained in another string."
+		},
+		{
+			"trigger": "str_ends_with()",
+			"contents": "str_ends_with(${1:haystack}, ${2:needle})",
+			"kind": "function",
+			"details": "Checks if a string is ended with another string."
+		},
+		{
 			"trigger": "str_getcsv()",
 			"contents": "str_getcsv(${1:input})",
 			"kind": "function",
@@ -21244,6 +21274,12 @@
 			"contents": "str_split(${1:string})",
 			"kind": "function",
 			"details": "Convert a string to an array"
+		},
+		{
+			"trigger": "str_starts_with()",
+			"contents": "str_starts_with(${1:haystack}, ${2:needle})",
+			"kind": "function",
+			"details": "Checks if a string is started with another string."
 		},
 		{
 			"trigger": "str_word_count()",

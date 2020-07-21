@@ -513,7 +513,7 @@ contexts:
       pop: true
 
   method_declaration:
-    - match: '\b(abstract|async|const|extern|new|override|readonly|ref|sealed|static|unsafe|virtual|volatile)\b'
+    - match: '\b(?:abstract|async|const|extern|new|override|readonly|ref|sealed|static|unsafe|virtual|volatile)\b'
       scope: storage.modifier.cs
     - match: \b(event)\b\s*
       captures:
@@ -521,10 +521,13 @@ contexts:
       push: [event_handler_declaration, type_no_space]
     - match: \bdelegate\b
       scope: storage.type.delegate.cs
-    - match: '\b(implicit|explicit)\b'
+    - match: '\b(?:implicit|explicit)\b'
       scope: storage.modifier.cs
     - match: '{{visibility}}'
       scope: storage.modifier.access.cs
+    - match: '\boperator\b'
+      scope: storage.modifier.cs
+      push: method_name
     - match: '({{name}})\s*(<)'
       captures:
         1: support.type.cs
@@ -560,9 +563,6 @@ contexts:
             6: keyword.operator.pointer.cs
         - match: ''
           set: method_name
-    - match: '\b(operator)\b'
-      scope: storage.modifier.cs
-      push: method_name
     - match: (?=\()
       push: [method_name, type_tuple]
 
@@ -768,8 +768,10 @@ contexts:
                 - include: line_of_code_in
             - match: (?=\S)
               pop: true
-        - match: \b(get)\b
-          scope: storage.type.function.accessor.get.cs
+        - match: (?:\b(readonly)\b\s+)?\b(get)\b
+          captures:
+            1: storage.modifier.cs
+            2: storage.type.function.accessor.get.cs
           push: method_body
         - match: \b(set)\b
           scope: storage.type.function.accessor.set.cs
@@ -844,7 +846,7 @@ contexts:
       captures:
         1: keyword.control.loop.for.cs
         2: meta.group.cs punctuation.section.group.begin.cs
-      set: [for_block, line_of_code_in, line_of_code_in, line_of_code_in_no_semicolon]
+      set: [for_block, line_of_code_in, line_of_code_in, line_of_code_in]
     - match: \b(foreach)\s*(\()
       captures:
         1: keyword.control.loop.foreach.cs
@@ -858,6 +860,10 @@ contexts:
         1: keyword.control.using.cs
         2: meta.group.cs punctuation.section.group.begin.cs
       set: [using_block, line_of_code]
+    - match: \b(using)\s*
+      captures:
+        1: keyword.control.using.cs
+      push: var_declaration
     - match: \b(fixed)\s*(\()
       captures:
         1: keyword.control.other.fixed.cs
@@ -1135,7 +1141,7 @@ contexts:
     - meta_content_scope: meta.instance.cs
     - match: \{
       scope: punctuation.section.block.begin.cs
-      # Found an anounymous class
+      # Found an anonymous class
       set:
         - meta_scope: meta.instance.cs meta.class.body.anonymous.cs meta.block.cs
         - match: \}
@@ -1151,7 +1157,7 @@ contexts:
         - match: (?=\S)
           push: line_of_code_in
     - match: (?=[^{\s])
-      # This is not an anounymous class
+      # This is not an anonymous class
       set:
         - meta_content_scope: meta.instance.cs
         - match: '{{brackets_capture}}'
@@ -1270,6 +1276,12 @@ contexts:
       push: accessor_arguments
     - match: '({{base_type}})\b'
       scope: storage.type.cs
+    - match: stackalloc\b
+      scope: storage.modifier.cs
+      push:
+        - match: (?=\[)
+          pop: true
+        - include: type
     - match: '({{reserved}})\b'
       scope: keyword.other.cs
     - match: '(?:(global)|({{name}}))\s*(::)'
@@ -1478,10 +1490,7 @@ contexts:
       push: type_argument
     - match: '{{name}}'
       scope: support.type.cs
-    - match: '[{:]'
-      scope: invalid.illegal
-      pop: true
-    - match: (?=\}|\)|>|\]|,|;|>|=>)
+    - match: (?=[]})>,;>:]|=>)
       pop: true
 
   type_arg_param_common:
