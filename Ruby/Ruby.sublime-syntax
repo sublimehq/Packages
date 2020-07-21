@@ -1219,9 +1219,9 @@ contexts:
     - match: '%I\['
       scope: punctuation.definition.string.begin.ruby
       push:
+        - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
         - match: '\w+'
           scope: constant.other.symbol.ruby
-        - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
         - match: '\]'
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -1232,9 +1232,9 @@ contexts:
     - match: '%I\<'
       scope: punctuation.definition.string.begin.ruby
       push:
+        - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
         - match: '\w+'
           scope: constant.other.symbol.ruby
-        - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
         - match: \>
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -1245,9 +1245,9 @@ contexts:
     - match: '%I\{'
       scope: punctuation.definition.string.begin.ruby
       push:
+        - meta_scope: meta.string.ruby string.quoted.double.ruby.mod
         - match: '\w+'
           scope: constant.other.symbol.ruby
-        - meta_scope: meta.string.ruby string.quoted.double.ruby.mod
         - match: '\}'
           scope: punctuation.definition.string.end.ruby
           pop: true
@@ -1258,9 +1258,9 @@ contexts:
     - match: '%I([^\w])'
       scope: punctuation.definition.string.begin.ruby
       push:
+        - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
         - match: '\w+'
           scope: constant.other.symbol.ruby
-        - meta_scope: meta.string.ruby string.quoted.other.literal.upper.ruby
         - match: \1
           scope: punctuation.definition.string.end.ruby
           pop: true
