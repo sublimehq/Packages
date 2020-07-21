@@ -2,6 +2,7 @@
 ---
 name: PHP Source
 hidden: true
+version: 2
 scope: source.php
 variables:
   identifier_start: '[[:alpha:]_]'
@@ -556,7 +557,6 @@ contexts:
       push: class-definition
 
   class-definition:
-    - meta_scope: meta.class.php
     - match: "(?=;)"
       pop: true
     - match: '\{'
@@ -608,11 +608,11 @@ contexts:
           pop: true
 
   class-body:
-    - meta_content_scope: meta.class.php meta.block.php
+    - meta_scope: meta.class.php meta.block.php
     - include: attributes
     - include: comments
     - match: '\}'
-      scope: meta.class.php meta.block.php punctuation.section.block.php
+      scope: punctuation.section.block.php
       pop: true
     - match: (?i)\b(use)\b\s*
       captures:
@@ -694,9 +694,9 @@ contexts:
             - match: (?=\()
               set:
                 - match: \(
-                  scope: meta.function.parameters.php meta.group.php punctuation.section.group.begin.php
+                  scope: punctuation.section.group.begin.php
                   set:
-                    - meta_content_scope: meta.function.parameters.php meta.group.php
+                    - meta_scope: meta.function.parameters.php meta.group.php
                     - match: '{{visibility_modifier}}'
                       scope: storage.modifier.php
                     - include: function-parameters
@@ -767,11 +767,11 @@ contexts:
           set: function-parameters
 
   function-parameters:
-    - meta_content_scope: meta.function.parameters.php meta.group.php
+    - meta_scope: meta.function.parameters.php meta.group.php
     - match: '\)'
       scope: punctuation.section.group.end.php
       set:
-        - meta_content_scope: meta.function.php
+        - meta_scope: meta.function.php
         - match: '\b(use)\b\s*(\()'
           scope: meta.function.closure.use.php
           captures:
@@ -810,13 +810,13 @@ contexts:
         - include: expressions
 
   function-use:
-    - meta_content_scope: meta.function.closure.use.php
+    - meta_scope: meta.function.closure.use.php
     - include: attributes
     - include: comments
     - match: '\)'
       scope: punctuation.section.group.end.php
       set:
-        - meta_content_scope: meta.function.php
+        - meta_scope: meta.function.php
         - match: '(?=:)'
           set: function-return-type
         - match: \{
@@ -835,7 +835,7 @@ contexts:
       scope: punctuation.separator.php
 
   function-return-type:
-    - meta_content_scope: meta.function.return-type.php
+    - meta_scope: meta.function.return-type.php
     - match: '(?=;)'
       pop: true
     - match: \{
@@ -849,9 +849,9 @@ contexts:
       pop: true
 
   function-body:
-    - meta_content_scope: meta.function.php meta.block.php
+    - meta_scope: meta.function.php meta.block.php
     - match: \}
-      scope: meta.function.php meta.block.php punctuation.section.block.end.php
+      scope: punctuation.section.block.end.php
       pop: true
     - include: embedded-html
     - match: '\{'
@@ -1126,8 +1126,7 @@ contexts:
     # any built-in function names should not be highlighted specially
     - match: '(?={{path}}\\{{identifier}}\s*\()'
       push:
-        - meta_scope: meta.function-call.php
-        - meta_content_scope: meta.path.php
+        - meta_scope: meta.function-call.php meta.path.php
         - include: identifier-parts
         - match: '{{identifier}}(?=\s*\()'
           scope: variable.function.php
@@ -1158,14 +1157,12 @@ contexts:
         - match: '{{identifier}}'
           scope: variable.function.php
   function-call-parameters:
-    - match: \s*(\()
-      scope: meta.function-call.php
-      captures:
-        1: meta.group.php punctuation.section.group.begin.php
+    - match: \(
+      scope: punctuation.section.group.begin.php
       set:
-        - meta_content_scope: meta.function-call.php meta.group.php
+        - meta_scope: meta.function-call.php meta.group.php
         - match: \)
-          scope: meta.function-call.php meta.group.php punctuation.section.group.end.php
+          scope: punctuation.section.group.end.php
           set: after-function-call
         - match: ','
           scope: punctuation.separator.php
@@ -1401,11 +1398,11 @@ contexts:
             3: variable.other.member.php
           pop: true
         - match: '\['
-          scope: meta.item-access.php punctuation.section.brackets.begin.php
+          scope: punctuation.section.brackets.begin.php
           set:
-            - meta_content_scope: meta.item-access.arguments.php
+            - meta_scope: meta.item-access.arguments.php
             - match: '\]'
-              scope: meta.item-access.php punctuation.section.brackets.end.php
+              scope: punctuation.section.brackets.end.php
               pop: true
             - include: numbers
             - include: variables
