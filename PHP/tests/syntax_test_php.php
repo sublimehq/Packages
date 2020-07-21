@@ -102,7 +102,7 @@ use some\nspace\{ClassA, ClassB, ClassC as C};
 //      ^ punctuation.separator.namespace
 //       ^^^^^^ support.other.namespace
 //             ^ punctuation.separator.namespace
-//              ^ punctuation.section.block
+//              ^ punctuation.section.block.begin
 //               ^^^^^^ support.class.php - constant.other - entity.name - support.function.php - support.other.namespace
 //                     ^ punctuation.separator
 //                       ^^^^^^ support.class.php - constant.other - entity.name - support.function.php - support.other.namespace
@@ -110,7 +110,7 @@ use some\nspace\{ClassA, ClassB, ClassC as C};
 //                               ^^^^^^ support.class.php - constant.other - entity.name - support.function.php - support.other.namespace
 //                                      ^^ keyword.other.use-as
 //                                         ^ entity.name.class
-//                                          ^ punctuation.section.block
+//                                          ^ punctuation.section.block.end
 //                                           ^ punctuation.terminator.expression.php - meta.use
 
 use function some\nspace\{fn_d, fn_e, fn_f as fn_g};
@@ -122,7 +122,7 @@ use function some\nspace\{fn_d, fn_e, fn_f as fn_g};
 //               ^ punctuation.separator.namespace
 //                ^^^^^^ support.other.namespace
 //                      ^ punctuation.separator.namespace
-//                       ^ punctuation.section.block
+//                       ^ punctuation.section.block.begin
 //                        ^^^^ support.function.php - constant.other - entity.name - support.class.php - support.other.namespace
 //                            ^ punctuation.separator
 //                              ^^^^ support.function.php - constant.other - entity.name - support.class.php - support.other.namespace
@@ -130,7 +130,7 @@ use function some\nspace\{fn_d, fn_e, fn_f as fn_g};
 //                                    ^^^^ support.function.php - constant.other - entity.name - support.class.php - support.other.namespace
 //                                         ^^ keyword.other.use-as
 //                                            ^^^^ entity.name.function
-//                                                ^ punctuation.section.block
+//                                                ^ punctuation.section.block.end
 //                                                 ^ punctuation.terminator.expression.php - meta.use
 
 
@@ -143,7 +143,7 @@ use const some\nspace\{ConstA, ConstB AS ConstD, ConstC};
 //            ^ punctuation.separator.namespace
 //             ^^^^^^ support.other.namespace
 //                   ^ punctuation.separator.namespace
-//                    ^ punctuation.section.block
+//                    ^ punctuation.section.block.begin
 //                     ^^^^^^ constant.other - support.function.php - entity.name - support.class.php - support.other.namespace
 //                           ^ punctuation.separator
 //                             ^^^^^^ constant.other - support.function.php - entity.name - support.class.php - support.other.namespace
@@ -151,7 +151,7 @@ use const some\nspace\{ConstA, ConstB AS ConstD, ConstC};
 //                                       ^^^^^^ constant.other - support.function.php - entity.name - support.class.php - support.other.namespace
 //                                             ^ punctuation.separator
 //                                               ^^^^^^ constant.other - support.function.php - entity.name - support.class.php - support.other.namespace
-//                                                     ^ punctuation.section.block
+//                                                     ^ punctuation.section.block.end
 //                                                      ^ punctuation.terminator.expression.php - meta.use
 
 
@@ -883,8 +883,8 @@ $anon = new class{};
 //          ^ storage.type.class.php
 //               ^^ meta.class.php
 //               ^^ meta.block.php
-//               ^ punctuation.section.block.php - meta.class meta.class
-//                ^ punctuation.section.block.php
+//               ^ punctuation.section.block.begin.php - meta.class meta.class
+//                ^ punctuation.section.block.end.php
 
 $anon = new class($param1, $param2) extends Test1 implements Countable {};
 //      ^ keyword.other.new.php
@@ -1119,7 +1119,7 @@ class B
     Z {
 //  ^^^ meta.use
 //  ^ meta.path
-//    ^ meta.block punctuation.section.block
+//    ^ meta.block punctuation.section.block.begin
         X::method1 as another1;
 //      ^^^^^^^^^^^^^^^^^^^^^^^ meta.use meta.block
 //       ^^ punctuation.accessor
@@ -1129,7 +1129,7 @@ class B
         X::method2 as another2;
 //                 ^ keyword.other.use-as
     } protected $pro1;
-//  ^ meta.use meta.block punctuation.section.block
+//  ^ meta.use meta.block punctuation.section.block.end
 //   ^ - meta.use
 //    ^ storage.modifier
 
