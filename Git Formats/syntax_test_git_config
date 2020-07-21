@@ -566,6 +566,7 @@ stray-bracket]
 #                 ^ keyword.control.import.shell
 #                 ^ - source.shell
 #                  ^^^^^^^^^^^^^^^^^^^^ source.shell
+#                  ^^^^ support.function
 #                                      ^ - source.shell
 #                                      ^ string.quoted.double punctuation.definition.string.end
   double_quote = "!echo "This is fine";"
