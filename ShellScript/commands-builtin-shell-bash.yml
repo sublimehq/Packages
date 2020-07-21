@@ -102,8 +102,7 @@ trap:
 umask:
   short-options: pS
 
-unset:
-  short-options-compact: fnv
+# "unset" is handled in the syntax def, don't put it here!
 
 echo:
   short-options-compact: neE

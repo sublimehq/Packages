@@ -1007,7 +1007,7 @@ readonly foo        # 'foo' is a variable name
 #^^^^^^^ storage.modifier.shell
 #       ^ - storage - variable
 #        ^^^ variable.other.readwrite
-#           ^ - variable.other.readwrite
+#           ^ - variable
 typeset foo         # 'foo' is a variable name
 # <- meta.function-call.identifier.shell storage.modifier.shell
 #^^^^^^ meta.function-call.identifier.shell
@@ -1016,24 +1016,63 @@ typeset foo         # 'foo' is a variable name
 #^^^^^^ storage.modifier.shell
 #      ^ - storage - variable
 #       ^^^ variable.other.readwrite
-#          ^ - variable.other.readwrite
+#          ^ - variable
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-unset foo bar       # 'foo' and 'bar' are variable names
+
+unset
+unset foo bar ba${z}  # 'foo' and 'bar' are variable names
 # <- meta.function-call.identifier.shell support.function.unset.shell
 #^^^^ meta.function-call.identifier.shell
-#    ^^^^^^^^ meta.function-call.arguments.shell
-#            ^ - meta.function-call
+#    ^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                   ^ - meta.function-call
 #^^^^ support.function.unset.shell
-#    ^ - support - variable
-#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-unset -f -n -v foo
+#    ^ - meta.variable - support - variable
+#     ^^^ meta.variable.shell variable.other.readwrite.shell
+#        ^ - meta.variable - variable
+#         ^^^ meta.variable.shell variable.other.readwrite.shell
+#            ^ - meta.variable - variable
+#             ^^ meta.variable.shell - meta.interpolation
+#               ^^^^ meta.variable.shell meta.interpolation.parameter.shell
+#                   ^ - meta.variable - variable
+#                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
+unset -n
+unset -nfv foo
 # <- meta.function-call.identifier.shell support.function.unset.shell
 #^^^^ meta.function-call.identifier.shell
-#    ^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#                  ^ - meta.function-call
+#    ^^^^^^^^^ meta.function-call.arguments.shell
+#             ^ - meta.function-call
+#^^^^ support.function.unset.shell
+#     ^^^^ variable.parameter.option.shell
+#         ^ - variable
+#          ^^^ variable.function.shell
+#             ^ - variable
+
+unset -f -n -v foo bar; unset -vn foo 2>& /dev/null
+# <- meta.function-call.identifier.shell support.function.unset.shell
+#^^^^ meta.function-call.identifier.shell
+#    ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                     ^^ - meta.function-call
+#                       ^^^^^ meta.function-call.identifier.shell
+#                            ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                                                  ^ - meta.function-call
 #     ^^ variable.parameter.option.shell
 #        ^^ variable.parameter.option.shell
 #           ^^ variable.parameter.option.shell
+#             ^ - variable
+#              ^^^ meta.variable.shell variable.function.shell
+#                 ^ - variable
+#                  ^^^ meta.variable.shell variable.function.shell
+#                     ^ keyword.operator.logical.continue.shell
+#                       ^^^^^ support.function.unset.shell
+#                            ^ - support - variable
+#                             ^^^ variable.parameter.option.shell
+#                                ^ - variable
+#                                 ^^^ meta.variable.shell variable.other.readwrite.shell
+#                                    ^ - variable
+#                                     ^ constant.numeric.integer.decimal.file-descriptor.shell
+#                                      ^^ keyword.operator.assignment.redirection.shell
+
 unset-
 # <- - support.function
 

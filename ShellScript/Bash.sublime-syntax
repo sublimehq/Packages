@@ -66,6 +66,7 @@ contexts:
     - include: coproc
     - include: funcdef
     - include: vardef
+    - include: unset
     - include: line-continuation
     - include: operator-exclamation
     - include: redirection
@@ -334,17 +335,18 @@ contexts:
     - include: eol-pop
 
   vardef-name:
+    - include: cmd-args-boilerplate
     - match: (?=\S)
       set:
-        - meta_content_scope:
-            meta.variable.shell
-            variable.other.readwrite.shell
-        - match: (?={{varassign}}|{{metachar}})
-          pop: 1
-        - include: array
-        - include: string
-        - include: string-interpolation
-    - include: eol-pop
+        - meta_content_scope: meta.variable.shell variable.other.readwrite.shell
+        - include: identifier-common
+
+  identifier-common:
+    - match: (?={{varassign}}|{{metachar}})
+      pop: 1
+    - include: array
+    - include: string
+    - include: string-interpolation
 
   vardef-assign:
     - match: '{{varassign}}'
@@ -392,6 +394,60 @@ contexts:
             - include: immediately-pop
         - match: (?={{metachar}})
           pop: 1
+
+###[ UNSET BUILTIN ]###########################################################
+
+  unset:
+    - match: unset{{keyword_break}}
+      scope:
+        meta.function-call.identifier.shell
+        support.function.unset.shell
+      push:
+        - unset-post
+        - unset-args
+
+  unset-post:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: cmd-post
+
+  unset-args:
+    - match: (-)(?:[nv]?f[nv]?)
+      scope: variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+      set: unset-options-then-functions
+    - include: unset-options-then-variables
+
+  unset-options:
+    - match: (-)(?:[nv]+)
+      scope: variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+    - include: eol-pop
+
+  unset-options-then-functions:
+    - include: unset-options
+    - match: (?=\S)
+      set: unset-functions
+
+  unset-functions:
+    - include: cmd-args-boilerplate
+    - match: (?=\S)
+      push:
+        - meta_content_scope: meta.variable.shell variable.function.shell
+        - include: identifier-common
+
+  unset-options-then-variables:
+    - include: unset-options
+    - match: (?=\S)
+      set: unset-variables
+
+  unset-variables:
+    - include: cmd-args-boilerplate
+    - match: (?=\S)
+      push:
+        - meta_content_scope: meta.variable.shell variable.other.readwrite.shell
+        - include: identifier-common
 
 ###[ COMMANDS ]################################################################
 
