@@ -371,21 +371,19 @@ contexts:
     - match: (?:private|public|protected|readonly|abstract|declare){{identifier_break}}
       scope: storage.modifier.js
 
-  field-initializer-or-method-declaration:
-    - match: (?=\(|<)
+  class-field:
+    - match: ''
       set:
-        - function-meta
-        - function-declaration-expect-body
-        - function-declaration-meta
-        - ts-type-annotation
-        - function-declaration-expect-parameters
-        - ts-type-parameter-list
-    - match: (?=\S)
-      set:
-        - class-field-rest
         - initializer
         - ts-type-annotation
         - ts-type-annotation-optional
+        - class-field-check
+        - field-name
+
+  class-field-check:
+    - match: (?=[(<])
+      fail: class-field
+    - include: else-pop
 
   method-declaration:
     - meta_include_prototype: false

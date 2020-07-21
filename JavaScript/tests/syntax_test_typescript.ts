@@ -170,6 +170,14 @@
 //           ^ punctuation.separator.type
 //             ^^^ meta.type support.type.any
 //                 ^^ meta.function meta.block
+
+        foo<T>(): any {}
+//      ^^^^^^^^^^^^^ meta.function.declaration
+//      ^^^ entity.name.function
+//         ^^^ meta.generic
+//              ^ punctuation.separator.type
+//                ^^^ meta.type support.type.any
+//                    ^^ meta.function meta.block
     }
 
     abstract class Foo {

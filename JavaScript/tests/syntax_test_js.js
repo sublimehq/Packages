@@ -1044,21 +1044,6 @@ class MyClass extends TheirClass {
 //         ^^^^^^^^^^^^^^^^^ meta.function
 //         ^ entity.name.function variable.other.readwrite
 
-    a, 'b' = 50, "c", [d] = 100, #e;
-//  ^ variable.other.readwrite
-//      ^ variable.other.readwrite
-//                ^ variable.other.readwrite
-//                     ^ variable.other.readwrite
-//                                ^ variable.other.readwrite
-
-    static a, 'b' = 50, "c", [d] = 100, #e;
-//  ^^^^^^ storage.modifier.js
-//         ^ variable.other.readwrite
-//             ^ variable.other.readwrite
-//                       ^ variable.other.readwrite
-//                            ^ variable.other.readwrite
-//                                       ^ variable.other.readwrite
-
     foo // You thought I was a field...
     () { return '...but was a method all along!'; }
 //  ^^ meta.class.js meta.block.js meta.function.declaration.js
@@ -1170,6 +1155,10 @@ class MyClass extends TheirClass {
 
     *foo() {}
 //  ^ keyword.generator.asterisk
+
+    async *foo() {}
+//  ^^^^^ storage.type
+//        ^ keyword.generator.asterisk
 
     static async foo() {}
 //         ^^^^^ storage.type

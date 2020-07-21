@@ -52,6 +52,7 @@ variables:
   property_name: >-
     (?x:
       {{identifier}}
+      | [0-9]+
       | '(?:[^\\']|\\.)*'
       | "(?:[^\\"]|\\.)*"
       | \[ .* \]
@@ -59,7 +60,6 @@ variables:
 
   class_element_name: |-
     (?x:
-      \*?
       {{property_name}}
       | \#{{identifier}}
     )
@@ -82,13 +82,6 @@ variables:
       \s*
       =>
     )
-
-  method_lookahead: |-
-    (?x:(?=
-      (?: get|set|async ){{identifier_break}}(?!\s*:)
-      | \*
-      | {{property_name}} \s* \(
-    ))
 
   line_continuation_lookahead: >-
     (?x:(?=
@@ -1270,10 +1263,29 @@ contexts:
 
     - match: static{{identifier_break}}
       scope: storage.modifier.js
-      push: class-field
+
+    - match: |-
+        (?x)(?=
+          \#? {{identifier}}
+          \s* = \s*
+          {{either_func_lookahead}}
+        )
+      push:
+        - function-initializer
+        - function-name-meta
+        - literal-variable-base
+
+    - match: (?=(?:get|set|async){{identifier_break}})
+      branch_point: prefixed-method
+      branch:
+        - prefixed-method
+        - class-element
+
+    - match: (?=\*)
+      push: method-declaration
 
     - match: (?={{class_element_name}})
-      push: class-field
+      push: class-element
 
   class-extends:
     - match: extends{{identifier_break}}
@@ -1307,47 +1319,61 @@ contexts:
       pop: true
     - include: else-pop
 
+  class-element:
+    - match: ''
+      pop: true
+      branch_point: class-field
+      branch:
+        - class-field
+        - method-declaration
+
+  prefixed-method:
+    - match: (?:get|set){{identifier_break}}
+      scope: storage.type.accessor.js
+      set:
+        - meta_scope: meta.function.declaration.js
+        - match: (?={{class_element_name}})
+          set: method-declaration
+        - match: (?=\S)
+          fail: prefixed-method
+    - match: (?:async){{identifier_break}}
+      scope: storage.type.js
+      set:
+        - meta_scope: meta.function.declaration.js
+        - match: (?=\*|{{class_element_name}})
+          set: method-declaration
+        - match: (?=\S)
+          fail: prefixed-method
+
+  prefixed-object-literal-method:
+    - match: (?:get|set){{identifier_break}}
+      scope: storage.type.accessor.js
+      set:
+        - meta_scope: meta.function.declaration.js
+        - match: (?={{class_element_name}})
+          set: method-declaration
+        - match: (?=\S)
+          fail: prefixed-object-literal-method
+    - match: (?:async){{identifier_break}}
+      scope: storage.type.js
+      set:
+        - meta_scope: meta.function.declaration.js
+        - match: (?=\*|{{class_element_name}})
+          set: method-declaration
+        - match: (?=\S)
+          fail: prefixed-object-literal-method
+
   class-field:
-    - match: '{{method_lookahead}}'
-      set: method-declaration
-
-    - match: |-
-        (?x)(?=
-          \#? {{identifier}}
-          \s* = \s*
-          {{either_func_lookahead}}
-        )
+    - match: ''
       set:
-        - function-initializer
-        - function-name-meta
-        - literal-variable-base
-
-    - match: (?=#?{{property_name}})
-      set:
-        - field-initializer-or-method-declaration
-        - field-name
-
-    - include: else-pop
-
-  class-field-rest:
-    - match: ','
-      scope: punctuation.separator.js
-      push:
         - initializer
+        - class-field-check
         - field-name
-    - include: else-pop
 
-  field-initializer-or-method-declaration:
+  class-field-check:
     - match: (?=\()
-      set:
-        - function-meta
-        - function-declaration-expect-body
-        - function-declaration-meta
-        - function-declaration-expect-parameters
-    - match: (?=\S)
-      set:
-        - class-field-rest
-        - initializer
+      fail: class-field
+    - include: else-pop
 
   constants:
     - match: true{{identifier_break}}
@@ -1565,47 +1591,58 @@ contexts:
         - object-literal-meta-key
         - method-name
 
-    - match: '{{method_lookahead}}'
+    - match: (?=\*)
       push: method-declaration
 
     - match: '{{identifier}}(?=\s*(?:[},]|$|//|/\*))'
       scope: variable.other.readwrite.js
 
-    - match: (?=\[)
-      push:
-        - object-literal-meta-key
-        - computed-property-name
+    - match: (?=(?:get|set|async){{identifier_break}})
+      branch_point: prefixed-object-literal-method
+      branch:
+        - prefixed-object-literal-method
+        - object-literal-element
 
-    - match: (?=\"|')
-      push:
-        - object-literal-meta-key
-        - literal-string
-
-    - match: (?=[-+]?(?:\.[0-9]|0[bxo]|\d))
-      push:
-        - object-literal-meta-key
-        - literal-number
-
-    # - include: bare-property-name
-    - match: (?={{identifier}})
-      push:
-        - object-literal-meta-key
-        - bare-property-name
+    - match: (?={{property_name}})
+      push: object-literal-element
 
     - include: comma-separator
+
     - match: ':'
       scope: punctuation.separator.key-value.js
       push: expression-no-comma
 
-    # In case we're inside a destructured arrow function parameter that we
-    # misidentified as an object literal.
-    - match: '='
-      scope: keyword.operator.assignment.js
-      push: expression-no-comma
+  object-literal-element:
+    - match: ''
+      pop: true
+      branch_point: object-literal-property
+      branch:
+        - object-literal-property
+        - method-declaration
 
-  bare-property-name:
+  object-literal-property:
+    - match: ''
+      set:
+        - object-literal-property-check
+        - object-literal-meta-key
+        - object-property-name
+
+  object-property-name:
+    - match: (?=\[)
+      set: computed-property-name
+
+    - include: literal-string
+    - include: literal-number
+
     - match: '{{identifier}}'
       pop: true
+
+    - include: else-pop
+
+  object-literal-property-check:
+    - match: (?=\()
+      fail: object-literal-property
+    - include: else-pop
 
   computed-property-name:
     - match: \[
