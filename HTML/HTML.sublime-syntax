@@ -702,6 +702,52 @@ contexts:
         0: meta.string.html string.quoted.single.html punctuation.definition.string.end.html
     - include: else-pop
 
+  tag-href-attribute:
+    - match: (?i:href|src){{attribute_name_break}}
+      scope: entity.other.attribute-name.href.html
+      push:
+        - meta_scope: meta.attribute-with-value.href.html
+        - match: '='
+          scope: punctuation.separator.key-value.html
+          push: tag-href-attribute-value
+        - include: else-pop
+
+  tag-href-attribute-value:
+    - match: \"
+      scope: punctuation.definition.string.begin.html
+      set:
+        - meta_scope: meta.string.html string.quoted.double.html
+        - match: \"
+          scope: punctuation.definition.string.end.html
+          pop: 2
+        - include: tag-attribute-value-separator
+        - include: tag-href-entities
+    - match: \'
+      scope: punctuation.definition.string.begin.html
+      set:
+        - meta_scope: meta.string.html string.quoted.single.html
+        - match: \'
+          scope: punctuation.definition.string.end.html
+          pop: 2
+        - include: tag-attribute-value-separator
+        - include: tag-href-entities
+    - match: '{{unquoted_attribute_start}}'
+      set:
+        - meta_scope: meta.string.html string.unquoted.html
+        - match: '{{unquoted_attribute_break}}'
+          pop: 2
+        - match: '["''`<]'
+          scope: invalid.illegal.attribute-value.html
+        - include: tag-href-entities
+    - include: else-pop
+
+  tag-href-entities:
+    - include: entities
+    - match: (%)\h{2}
+      scope: constant.character.escape.url.html
+      captures:
+        1: punctuation.definition.escape.html
+
   # This is to prevent breaking syntaxes referencing the old context name
   tag-stuff:
     - include: tag-attributes
@@ -711,6 +757,7 @@ contexts:
     - include: tag-class-attribute
     - include: tag-style-attribute
     - include: tag-event-attribute
+    - include: tag-href-attribute
     - include: tag-generic-attribute
 
   tag-attribute-value-separator:
