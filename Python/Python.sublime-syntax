@@ -704,22 +704,26 @@ contexts:
 
   function-after-parameters:
     - meta_content_scope: meta.function.python
-    - match: '(?=->)'
-      set:
-        - meta_content_scope: meta.function.annotation.return.python
-        - match: ->
-          scope: punctuation.separator.annotation.return.python
-        - include: illegal-assignment-expression
-        - match: '(?=:)'
-          set: function-after-parameters
-        - include: line-continuation-or-pop
-        - include: expression-in-a-statement
+    - match: (?=->)
+      set: [function-return-type, function-return-type-separator]
+    - include: function-terminator
+
+  function-return-type:
+    - meta_content_scope: meta.function.annotation.return.python
+    - include: illegal-assignment-expression
+    - include: function-terminator
+    - include: expression-in-a-statement
+
+  function-return-type-separator:
+    - match: ->
+      scope: punctuation.separator.annotation.return.python
+      pop: true
+
+  function-terminator:
     - match: ':'
       scope: meta.function.python punctuation.section.function.begin.python
       pop: true
-    - include: comments
-    - match: (?=\S)
-      pop: true
+    - include: line-continuation-or-pop
 
   decorators:
     - match: ^\s*(?=@)
@@ -870,11 +874,13 @@ contexts:
 
   lambda:
     - match: \b(lambda)(?=\s|:|$)
-      scope: storage.type.function.inline.python keyword.declaration.function.inline.python
+      scope: 
+        meta.function.inline.python
+        storage.type.function.inline.python
+        keyword.declaration.function.inline.python
       push: [lambda-parameters, allow-unpack-operators]
 
   lambda-parameters:
-    - meta_scope: meta.function.inline.python
     - meta_content_scope: meta.function.inline.parameters.python
     - include: line-continuation-or-pop
     - match: '\:'
@@ -889,7 +895,7 @@ contexts:
             # or line-statement context at this point.
             # If we're in a group, the underlying context will take over
             # at the end of the line.
-            - match: (?=[,):])|$
+            - match: (?=[,:)}\]])|$
               pop: true
             - include: expression-in-a-statement
     - match: ','
@@ -1093,7 +1099,7 @@ contexts:
         		Runtime|Standard|Syntax|System|Tab|Timeout|Type|UnboundLocal|
         		Unicode(Encode|Decode|Translate)?|Value|VMS|Windows|ZeroDivision
         	)Error|
-        	((Pending)?Deprecation|Runtime|Syntax|User|Future|Import|Unicode|Bytes)?Warning|
+        	((Pending)?Deprecation|Resource|Runtime|Syntax|User|Future|Import|Unicode|Bytes)?Warning|
         	(Base)?Exception|
         	SystemExit|StopIteration|NotImplemented|KeyboardInterrupt|GeneratorExit
         )\b
@@ -1595,7 +1601,7 @@ contexts:
       push:
         - meta_content_scope: meta.string.interpolated.python string.quoted.double.block.python
         - match: '"""'
-          scope: punctuation.definition.string.begin.python
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - include: f-string-content
     # Triple-quoted raw f-string, treated as regex
@@ -1606,7 +1612,7 @@ contexts:
       push:
         - meta_content_scope: meta.string.interpolated.python string.quoted.double.block.python
         - match: '"""'
-          scope: punctuation.definition.string.begin.python
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - match: ''
           push: scope:source.regexp.python
@@ -1622,7 +1628,7 @@ contexts:
       push:
         - meta_content_scope: meta.string.interpolated.python string.quoted.double.block.python
         - match: '"""'
-          scope: punctuation.definition.string.begin.python
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - include: line-continuation-inside-block-string
         - include: escaped-fstring-escape
@@ -1915,7 +1921,7 @@ contexts:
       push:
         - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
         - match: "'''"
-          scope: punctuation.definition.string.begin.python
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - include: f-string-content
     # Triple-quoted raw f-string, treated as regex
@@ -1926,7 +1932,7 @@ contexts:
       push:
         - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
         - match: "'''"
-          scope: punctuation.definition.string.begin.python
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - match: ''
           push: scope:source.regexp.python
@@ -1942,7 +1948,7 @@ contexts:
       push:
         - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
         - match: "'''"
-          scope: punctuation.definition.string.begin.python
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - include: line-continuation-inside-block-string
         - include: escaped-fstring-escape

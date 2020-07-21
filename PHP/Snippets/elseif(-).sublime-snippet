@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[elseif (${1:condition}) {
-	${0:# code...}
+	${0:// code...}
 }]]></content>
 	<tabTrigger>elseif</tabTrigger>
 	<scope>source.php - string - comment</scope>

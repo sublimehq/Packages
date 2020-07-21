@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[case '${1:variable}':
-	${0:# code...}
+	${0:// code...}
 	break;]]></content>
 	<tabTrigger>case</tabTrigger>
 	<scope>source.php - string - comment</scope>

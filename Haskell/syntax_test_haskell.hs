@@ -42,19 +42,48 @@
 --                      ^^ punctuation.definition.comment.end.haskell
 --                        ^ - comment.block.haskell
 
+--DECLARATIONS
+
+   module Name where
+-- ^^^^^^^^^^^^^^^^^ meta.declaration.module.haskell
+-- ^^^^^^ keyword.declaration.namespace.haskell
+--        ^^^^ entity.name.namespace.haskell
+--             ^^^^^ keyword.control.context.haskell
+
    class (Functor t, Foldable t) => Traversable t where
--- ^^^^^ keyword.other.haskell
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
+-- ^^^^^ keyword.declaration.class.haskell
+--                                                ^^^^^ keyword.control.context.haskell
    {-# MINIMAL traverse | sequenceA LANGUAGE #-}
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.haskell
 --                                              ^ - meta.preprocessor.haskell
 --                                   ^^^^^^^ keyword.other.preprocessor.haskell
+
+   {-# OPTIONS_HADDOCK not-home #-}
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.haskell
+--                                 ^ - meta.preprocessor.haskell
+--     ^^^^^^^^^^^^^^^ keyword.other.preprocessor.haskell
 
 -- | Map each element of a structure to an action,
 -- evaluate these actions from left to right, and
 -- collect the results. For a version that ignores
 -- the results see 'Data.Foldable.traverse_'.
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-dash.haskell
+
+  data Record =
+    Record {
+        recordInt :: Int
+      , recordString :: String
+      , recordDouble :: Double
+      , recordRational :: Rational
+      } deriving (Eq, Ord, Generic)
+--      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.deriving.haskell
+        deriving (Read, Show) via (Quiet Record)
+--                            ^^^ keyword.other.haskell
+--                            ^^^^^^^^^^^^^^^^^^ meta.deriving.haskell
+--                                 ^^^^^ entity.other.inherited-class.haskell
+--                                      ^ - entity
+--                                       ^^^^^^ entity.other.inherited-class.haskell
 
    traverse :: Applicative f =>
 -- ^^^^^^^^ entity.name.function.haskell
@@ -88,25 +117,37 @@
    sequenceA = traverse id
 --           ^ keyword.operator.haskell
 
---
--- infix operators
---
+
+-- INFIX OPERATORS
+
    a a = (+) a 2
 --     ^ keyword.operator.haskell
---       ^^^ entity.name.function.infix.haskell
+--       ^^^ variable.function.infix.haskell
+--        ^ keyword.operator.haskell
 --             ^ constant.numeric.integer.decimal.haskell
    a a = (-) a 2
 --     ^ keyword.operator.haskell
---       ^^^ entity.name.function.infix.haskell
+--       ^^^ variable.function.infix.haskell
 --             ^ constant.numeric.integer.decimal.haskell
    a a = (*) a 2
 --     ^ keyword.operator.haskell
---       ^^^ entity.name.function.infix.haskell
+--       ^^^ variable.function.infix.haskell
 --             ^ constant.numeric.integer.decimal.haskell
    a a = (/) a 2
 --     ^ keyword.operator.haskell
---       ^^^ entity.name.function.infix.haskell
+--       ^^^ variable.function.infix.haskell
 --             ^ constant.numeric.integer.decimal.haskell
+
+
+   a `member` x
+--   ^^^^^^^^ keyword.operator.function.infix.haskell
+--   ^ punctuation.definition.function.begin.haskell
+--          ^ punctuation.definition.function.end.haskell
+   a `P.atan2` x
+--   ^^^^^^^^^ keyword.operator.function.infix.haskell
+--   ^ punctuation.definition.function.begin.haskell
+--           ^ punctuation.definition.function.end.haskell
+
 
 -- Tests for #1320, #1880.
 
@@ -120,6 +161,8 @@
 
    instance TooMany Int where
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.instance.haskell
+-- ^^^^^^^^ keyword.declaration..haskell
+--                      ^^^^^ keyword.control.context.haskell
      tooMany n = n > 42
 
    foldBoolGuard :: a -> a -> Bool -> a
@@ -143,6 +186,80 @@
      -> Integer
 -- ^^^^^^^^^^^^ meta.function.type-declaration.haskell
    countTheBeforeVowel = undefined
+
+
+--IDENTS
+
+    genericIdent
+--  ^ meta.name.haskell
+    map (flip (/)) [1..]
+--  ^^^ support.function.prelude.haskell
+--       ^^^^ meta.group.haskell support.function.prelude.haskell
+
+
+--KEYWORDS
+
+import qualified Data.Vector.Mutable as MutableVector
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+-- ^^^ keyword.control.import.haskell
+--     ^^^^^^^^^ keyword.control.import.haskell
+--               ^^^^^^^^^^^^^^^^^^^ support.other.module.haskell
+--                                   ^^ keyword.control.import.haskell
+--                                      ^^^^^^^^^^^^^ support.other.module.haskell
+import Data.List.Split (splitOn)
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+-- ^^^ keyword.control.import.haskell
+--     ^^^^^^^^^^^^^^^ support.other.module.haskell
+--                     ^^^^^^^^^ meta.declaration.exports.haskell
+--                     ^ punctuation.section.group.begin.haskell
+--                      ^^^^^^^ variable.function.haskell
+--                             ^ punctuation.section.group.end.haskell
+
+   deriving instance FromJSON Amount
+-- ^^^^^^^^ keyword.declaration.data.haskell
+   deriving instance FromJSON Ask
+--          ^^^^^^^^ meta.declaration.instance.haskell keyword.declaration.haskell
+
+test =
+--   ^ keyword.operator.haskell
+    let x = 2 in x * y
+--  ^^^ keyword.declaration.variable.haskell
+--            ^^ keyword.control.context.haskell
+    where
+--  ^^^^^ keyword.declaration.variable.haskell
+        y = 1
+--        ^ keyword.operator.haskell
+
+test a = case a of
+--       ^^^^ keyword.control.conditional.select.haskell
+--              ^^ keyword.control.conditional.select.haskell
+    Nothing -> 0
+    Just n -> if n > 0
+--            ^^ keyword.control.conditional.if.haskell
+        then n
+--      ^^^^ keyword.control.conditional.then.haskell
+        else 0
+--      ^^^^ keyword.control.conditional.else.haskell
+
+main = do
+--     ^^ keyword.control.context.haskell
+    return ()
+--  ^^^^^^ keyword.control.flow.return.haskell
+
+--MISC
+
+    (group)
+--  ^^^^^^^ meta.group.haskell
+--  ^ punctuation.section.group.begin.haskell
+--        ^ punctuation.section.group.end.haskell
+
+    [1,2]
+--  ^^^^^ meta.sequence.haskell
+--  ^ punctuation.section.sequence.begin.haskell
+--   ^ constant.numeric.integer.decimal.haskell
+--    ^ punctuation.separator.sequence.haskell
+--     ^ constant.numeric.integer.decimal.haskell
+--      ^ punctuation.section.sequence.end.haskell
 
 
 --NUMBERS
@@ -186,3 +303,59 @@
     0XdeafBEEF42
 --  ^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
 --  ^^ punctuation.definition.numeric.base
+
+--STRINGS
+
+
+   'ab'
+-- ^^^^ string.quoted.single.haskell
+-- ^ punctuation.definition.string.begin.haskell
+--   ^ invalid.illegal.expected-closing-quotation.haskell
+--    ^ punctuation.definition.string.end.haskell
+
+   '\129x'
+-- ^^^^ string.quoted.single.haskell
+--  ^^^^ constant.character.escape.decimal.haskell
+--      ^ invalid.illegal.expected-closing-quotation.haskell
+--       ^ punctuation.definition.string.end.haskell
+
+   "\o129x\NUL"
+-- ^^^^^^^^^^^^ string.quoted.double.haskell
+--  ^^^^ constant.character.escape.octal.haskell
+--      ^ - constant
+--            ^ punctuation.definition.string.end.haskell
+--        ^^^^ constant.character.escape.haskell
+
+   a' = b'
+-- ^^ meta.name.haskell - string
+
+
+-- Infix operators in context
+
+  data Outrageous =
+      Flipper Record
+    | Int :! Int
+    | Double :@ Double
+--            ^ keyword.operator.haskell
+    | Int `Quux` Double
+    | String :# Record
+--            ^ keyword.operator.haskell
+    | Simple :$ Outrageous
+    | DontDoThis { outrageousInt :: Int, outrageousString :: String }
+      deriving (Eq, Ord, Generic)
+      deriving (Read, Show) via (Quiet Outrageous)
+
+  genOutrageous :: Gen Outrageous
+  genOutrageous =
+    Gen.recursive Gen.choice [
+        Flipper <$> genRecord
+      , (:!) <$> genInt <*> genInt
+      , (:@) <$> genDouble <*> genDouble
+--       ^^ meta.sequence.haskell variable.function.infix.haskell keyword.operator.haskell
+      , Quux <$> genInt <*> genDouble
+      , (:#) <$> genString <*> genRecord
+--       ^^ meta.sequence.haskell variable.function.infix.haskell keyword.operator.haskell
+      , DontDoThis <$> genInt <*> genString
+      ] [
+        Gen.subtermM genOutrageous (\x -> (:$) <$> genSimple <*> pure x)
+      ]
