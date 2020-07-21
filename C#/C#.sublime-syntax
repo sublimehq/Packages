@@ -513,7 +513,7 @@ contexts:
       pop: true
 
   method_declaration:
-    - match: '\b(abstract|async|const|extern|new|override|readonly|ref|sealed|static|unsafe|virtual|volatile)\b'
+    - match: '\b(?:abstract|async|const|extern|new|override|readonly|ref|sealed|static|unsafe|virtual|volatile)\b'
       scope: storage.modifier.cs
     - match: \b(event)\b\s*
       captures:
@@ -521,11 +521,11 @@ contexts:
       push: [event_handler_declaration, type_no_space]
     - match: \bdelegate\b
       scope: storage.type.delegate.cs
-    - match: '\b(implicit|explicit)\b'
+    - match: '\b(?:implicit|explicit)\b'
       scope: storage.modifier.cs
     - match: '{{visibility}}'
       scope: storage.modifier.access.cs
-    - match: '\b(operator)\b'
+    - match: '\boperator\b'
       scope: storage.modifier.cs
       push: method_name
     - match: '({{name}})\s*(<)'
@@ -1490,9 +1490,6 @@ contexts:
       push: type_argument
     - match: '{{name}}'
       scope: support.type.cs
-    # - match: '[{:]'
-    #   scope: invalid.illegal
-    #   pop: true
     - match: (?=[]})>,;>:]|=>)
       pop: true
 
