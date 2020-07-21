@@ -59,8 +59,7 @@ variables:
   custom_element_char: |-
     (?x:
       # https://html.spec.whatwg.org/multipage/custom-elements.html#custom-elements-core-concepts
-        [-_a-z0-9\x{00B7}]
-      | \\\.
+        [-._a-z0-9\x{00B7}]
       | [\x{00C0}-\x{00D6}]
       | [\x{00D8}-\x{00F6}]
       | [\x{00F8}-\x{02FF}]
