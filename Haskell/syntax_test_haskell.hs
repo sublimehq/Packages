@@ -359,3 +359,10 @@ main = do
       ] [
         Gen.subtermM genOutrageous (\x -> (:$) <$> genSimple <*> pure x)
       ]
+
+myManageHook = composeAll
+  [ isDialog                   --> doFullFloat
+--                             ^^^ keyword.operator
+  , return True                --> doShift "1"
+--                             ^^^ keyword.operator
+  ]
