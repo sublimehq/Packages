@@ -92,7 +92,6 @@ variables:
 
   line_continuation_lookahead: >-
     (?x:(?=
-      \s*
       (?! \+\+ | -- )
       (?=
         != |
