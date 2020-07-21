@@ -43,8 +43,10 @@ contexts:
         - match: '\)'
           scope: punctuation.section.scope.end.objc
           pop: true
-        - match: \b(getter|setter|readonly|readwrite|assign|retain|copy|nonatomic|strong|weak)\b
+        - match: \b(getter|setter|readonly|readwrite|assign|retain|copy|nonatomic|strong|weak|class|nonnull|nullable|null_unspecified|null_resettable)\b
           scope: keyword.other.property.attribute.objc
+        - match: ','
+          scope: punctuation.separator.objc
     - match: ((@)property)\b
       scope: meta.property.objc
       captures:
@@ -260,7 +262,6 @@ contexts:
     - include: preprocessor-expressions
     - include: comments
     - include: case-default
-    - include: access
     - include: typedef
     - include: keywords-parens
     - include: keywords
@@ -271,6 +272,7 @@ contexts:
     - include: block
     - include: variables
     - include: constants
+    - include: access
     - match: ','
       scope: punctuation.separator.objc
     - match: '\)|\}'
@@ -475,7 +477,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.preprocessor.objc
+        3: constant.numeric.integer.decimal.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -501,7 +503,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.preprocessor.objc
+        3: constant.numeric.integer.decimal.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -537,14 +539,11 @@ contexts:
     - include: comments
     - match: \*
       scope: keyword.operator.objc
-    # If a struct/union/enum followed by a name that is not a macro or declspec
-    # then this is likely a return type of a function. This is uncommon.
     - match: |-
         (?x:
           ({{before_tag}})
           \s+
           (?=
-            (?![[:upper:][:digit:]_]+\b|__declspec)
             {{identifier}}
             (\s+{{identifier}}(?!\s*[{=;])|\s*\*+)
           )
@@ -668,12 +667,24 @@ contexts:
   data-structures-struct-definition:
     - meta_scope: meta.struct.objc
     - include: data-structures-definition-common-begin
+    - include: data-structures-definition-common-macro
     - match: '{{identifier}}(?=\s*;)'
       scope: entity.name.struct.forward-decl.objc
     - match: '{{identifier}}'
       scope: entity.name.struct.objc
+      set: data-structures-struct-definition-after-name
+    - include: data-structures-struct-definition-block-start
     - match: '(?=;)'
       pop: true
+
+  data-structures-struct-definition-after-name:
+    - meta_scope: meta.struct.objc
+    - include: data-structures-definition-common-begin
+    - match: '(?=;)'
+      pop: true
+    - include: data-structures-struct-definition-block-start
+
+  data-structures-struct-definition-block-start:
     - match: '\{'
       scope: meta.block.objc punctuation.section.block.begin.objc
       set:
@@ -686,12 +697,24 @@ contexts:
   data-structures-enum-definition:
     - meta_scope: meta.enum.objc
     - include: data-structures-definition-common-begin
+    - include: data-structures-definition-common-macro
     - match: '{{identifier}}(?=\s*;)'
       scope: entity.name.enum.forward-decl.objc
     - match: '{{identifier}}'
       scope: entity.name.enum.objc
+      set: data-structures-enum-definition-after-name
+    - include: data-structures-enum-definition-block-start
     - match: '(?=;)'
       pop: true
+
+  data-structures-enum-definition-after-name:
+    - meta_scope: meta.enum.objc
+    - include: data-structures-definition-common-begin
+    - match: '(?=;)'
+      pop: true
+    - include: data-structures-enum-definition-block-start
+
+  data-structures-enum-definition-block-start:
     - match: '\{'
       scope: meta.block.objc punctuation.section.block.begin.objc
       set:
@@ -705,12 +728,24 @@ contexts:
   data-structures-union-definition:
     - meta_scope: meta.union.objc
     - include: data-structures-definition-common-begin
+    - include: data-structures-definition-common-macro
     - match: '{{identifier}}(?=\s*;)'
       scope: entity.name.union.forward-decl.objc
     - match: '{{identifier}}'
       scope: entity.name.union.objc
+      set: data-structures-union-definition-after-name
+    - include: data-structures-union-definition-block-start
     - match: '(?=;)'
       pop: true
+
+  data-structures-union-definition-after-name:
+    - meta_scope: meta.union.objc
+    - include: data-structures-definition-common-begin
+    - match: '(?=;)'
+      pop: true
+    - include: data-structures-union-definition-block-start
+
+  data-structures-union-definition-block-start:
     - match: '\{'
       scope: meta.block.objc punctuation.section.block.begin.objc
       set:
@@ -726,8 +761,10 @@ contexts:
       pop: true
     - include: modifiers-parens
     - include: modifiers
+
+  data-structures-definition-common-macro:
     # Handle macros so they aren't matched as the class name
-    - match: '\b[[:upper:][:digit:]_]+\b'
+    - match: '\b[[:upper:][:digit:]_]+\b(?!\s*($|\{))'
 
   data-structures-definition-common-end:
     - match: '(?=;)'
@@ -874,7 +911,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.preprocessor.objc
+        3: constant.numeric.integer.decimal.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -900,7 +937,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.preprocessor.objc
+        3: constant.numeric.integer.decimal.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -944,7 +981,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.preprocessor.objc
+        3: constant.numeric.integer.decimal.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -971,7 +1008,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.preprocessor.objc
+        3: constant.numeric.integer.decimal.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1076,7 +1113,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.preprocessor.objc
+        3: constant.numeric.integer.decimal.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1102,7 +1139,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.preprocessor.objc
+        3: constant.numeric.integer.decimal.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:

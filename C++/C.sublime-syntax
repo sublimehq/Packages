@@ -9,6 +9,15 @@ first_line_match: "-[*]-( Mode:)? C -[*]-"
 scope: source.c
 
 variables:
+  # number exponents
+  dec_exponent: '(?:[eE][-+]??\d+)'
+  hex_exponent: '(?:[pP][-+]??\d+)'
+
+  # number suffixes
+  dec_suffix: '[a-zA-Z_][[:alnum:]_]*'
+  hex_suffix: '[g-zG-Z_][[:alnum:]_]*'
+  integer_suffix: '[lL]{1,2}[uU]?|[uU][lL]{0,2}'
+
   identifier: \b[[:alpha:]_][[:alnum:]_]*\b # upper and lowercase
   macro_identifier: \b[[:upper:]_][[:upper:][:digit:]_]{2,}\b # only uppercase, at least 3 chars
   control_keywords: 'break|case|continue|default|do|else|for|goto|if|_Pragma|return|switch|while'
@@ -50,6 +59,9 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.c
           pop: true
+        - match: ^\s*(\*)(?!/)
+          captures:
+            1: punctuation.definition.comment.c
     - match: \*/(?!\*)
       scope: invalid.illegal.stray-comment-end.c
     - match: ^// =(\s*.*?)\s*=\s*$\n?
@@ -166,8 +178,80 @@ contexts:
       scope: support.type.mac-classic.c
 
   numbers:
-    - match: '\b((0(x|X)[0-9a-fA-F]*(\.[0-9a-fA-F]+p-?\d+)?)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)([fF]|(l{1,2}|L{1,2})[uU]?|[uU](l{0,2}|L{0,2}))?\b'
-      scope: constant.numeric.c
+    # https://en.cppreference.com/w/c/language/floating_constant
+
+    # decimal floats
+    - match: |-
+        (?x:
+          \b\d+
+          (?:
+            (?: (\.) (?: \d+ {{dec_exponent}}? | {{dec_exponent}} | (?=[^.])) | {{dec_exponent}} )
+            (?: ([fFlL])\b | ({{dec_suffix}})? ) | ([fF])\b
+          )
+          | (\.) \d+ {{dec_exponent}}? (?: ([fFlL])\b | ({{dec_suffix}})? )
+        )
+      scope: constant.numeric.float.decimal.c
+      captures:
+        1: punctuation.separator.decimal.c
+        2: storage.type.numeric.c
+        3: invalid.illegal.numeric.suffix.c
+        4: storage.type.numeric.c
+        5: punctuation.separator.decimal.c
+        6: storage.type.numeric.c
+        7: invalid.illegal.numeric.suffix.c
+    # hexadecimal float (C99)
+    - match: \b0[xX](?=[[:alnum:].]+?[pP])
+      scope: punctuation.definition.numeric.base.c
+      push:
+        - meta_include_prototype: false
+        - meta_scope: constant.numeric.float.hexadecimal.c
+        - match: '{{hex_exponent}}\b'
+          pop: true
+        - match: \.
+          scope: punctuation.separator.decimal.c
+        - match: \H
+          scope: invalid.illegal.numeric.digit.c
+
+    # https://en.cppreference.com/w/c/language/integer_constant
+
+    # hexadecimal integer
+    - match: \b0[xX]
+      scope: punctuation.definition.numeric.base.c
+      push:
+        - meta_include_prototype: false
+        - meta_scope: constant.numeric.integer.hexadecimal.c
+        - include: hexadecimal-suffix
+    # octal integer
+    - match: \b0(?=\d)
+      scope: punctuation.definition.numeric.base.c
+      push:
+        - meta_include_prototype: false
+        - meta_scope: constant.numeric.integer.octal.c
+        - match: '[89]'
+          scope: invalid.illegal.numeric.digit.c
+        - include: decimal-suffix
+    # decimal integer
+    - match: \b\d+
+      push:
+        - meta_include_prototype: false
+        - meta_scope: constant.numeric.integer.decimal.c
+        - include: decimal-suffix
+
+  decimal-suffix:
+    - match: (?:{{integer_suffix}})?\b
+      scope: storage.type.numeric.c
+      pop: true
+    - match: '{{dec_suffix}}'
+      scope: invalid.illegal.numeric.suffix.c
+      pop: true
+
+  hexadecimal-suffix:
+    - match: (?:{{integer_suffix}})?\b
+      scope: storage.type.numeric.c
+      pop: true
+    - match: '{{hex_suffix}}'
+      scope: invalid.illegal.numeric.suffix.c
+      pop: true
 
   operators:
     - match: (?:\+\+|--)
@@ -299,7 +383,6 @@ contexts:
     - include: preprocessor-expressions
     - include: comments
     - include: case-default
-    - include: access
     - include: typedef
     - include: keywords-parens
     - include: keywords
@@ -311,6 +394,7 @@ contexts:
     - include: block
     - include: variables
     - include: constants
+    - include: access
     - match: ','
       scope: punctuation.separator.c
     - match: '\)|\}'
@@ -337,14 +421,11 @@ contexts:
     - include: comments
     - match: \*
       scope: keyword.operator.c
-    # If a struct/union/enum followed by a name that is not a macro or declspec
-    # then this is likely a return type of a function. This is uncommon.
     - match: |-
         (?x:
           ({{before_tag}})
           \s+
           (?=
-            (?![[:upper:][:digit:]_]+\b|__declspec)
             {{identifier}}
             (\s+{{identifier}}(?!\s*[{=;])|\s*\*+)
           )
@@ -468,12 +549,24 @@ contexts:
   data-structures-struct-definition:
     - meta_scope: meta.struct.c
     - include: data-structures-definition-common-begin
+    - include: data-structures-definition-common-macro
     - match: '{{identifier}}(?=\s*;)'
       scope: entity.name.struct.forward-decl.c
     - match: '{{identifier}}'
       scope: entity.name.struct.c
+      set: data-structures-struct-definition-after-name
+    - include: data-structures-struct-definition-block-start
     - match: '(?=;)'
       pop: true
+
+  data-structures-struct-definition-after-name:
+    - meta_scope: meta.struct.c
+    - include: data-structures-definition-common-begin
+    - match: '(?=;)'
+      pop: true
+    - include: data-structures-struct-definition-block-start
+
+  data-structures-struct-definition-block-start:
     - match: '\{'
       scope: meta.block.c punctuation.section.block.begin.c
       set:
@@ -486,12 +579,24 @@ contexts:
   data-structures-enum-definition:
     - meta_scope: meta.enum.c
     - include: data-structures-definition-common-begin
+    - include: data-structures-definition-common-macro
     - match: '{{identifier}}(?=\s*;)'
       scope: entity.name.enum.forward-decl.c
     - match: '{{identifier}}'
       scope: entity.name.enum.c
+      set: data-structures-enum-definition-after-name
+    - include: data-structures-enum-definition-block-start
     - match: '(?=;)'
       pop: true
+
+  data-structures-enum-definition-after-name:
+    - meta_scope: meta.enum.c
+    - include: data-structures-definition-common-begin
+    - match: '(?=;)'
+      pop: true
+    - include: data-structures-enum-definition-block-start
+
+  data-structures-enum-definition-block-start:
     - match: '\{'
       scope: meta.block.c punctuation.section.block.begin.c
       set:
@@ -505,12 +610,24 @@ contexts:
   data-structures-union-definition:
     - meta_scope: meta.union.c
     - include: data-structures-definition-common-begin
+    - include: data-structures-definition-common-macro
     - match: '{{identifier}}(?=\s*;)'
       scope: entity.name.union.forward-decl.c
     - match: '{{identifier}}'
       scope: entity.name.union.c
+      set: data-structures-union-definition-after-name
+    - include: data-structures-union-definition-block-start
     - match: '(?=;)'
       pop: true
+
+  data-structures-union-definition-after-name:
+    - meta_scope: meta.union.c
+    - include: data-structures-definition-common-begin
+    - match: '(?=;)'
+      pop: true
+    - include: data-structures-union-definition-block-start
+
+  data-structures-union-definition-block-start:
     - match: '\{'
       scope: meta.block.c punctuation.section.block.begin.c
       set:
@@ -526,8 +643,10 @@ contexts:
       pop: true
     - include: modifiers-parens
     - include: modifiers
+
+  data-structures-definition-common-macro:
     # Handle macros so they aren't matched as the class name
-    - match: '\b[[:upper:][:digit:]_]+\b'
+    - match: '\b[[:upper:][:digit:]_]+\b(?!\s*($|\{))'
 
   data-structures-definition-common-end:
     - match: '(?=;)'
@@ -674,7 +793,7 @@ contexts:
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-        3: constant.numeric.preprocessor.c
+        3: constant.numeric.integer.decimal.c
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -700,7 +819,7 @@ contexts:
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-        3: constant.numeric.preprocessor.c
+        3: constant.numeric.integer.decimal.c
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -744,7 +863,7 @@ contexts:
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-        3: constant.numeric.preprocessor.c
+        3: constant.numeric.integer.decimal.c
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -771,7 +890,7 @@ contexts:
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-        3: constant.numeric.preprocessor.c
+        3: constant.numeric.integer.decimal.c
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -876,7 +995,7 @@ contexts:
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-        3: constant.numeric.preprocessor.c
+        3: constant.numeric.integer.decimal.c
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -902,7 +1021,7 @@ contexts:
       captures:
         1: meta.preprocessor.c
         2: keyword.control.import.c
-        3: constant.numeric.preprocessor.c
+        3: constant.numeric.integer.decimal.c
       push:
         - match: ^\s*(#\s*endif)\b
           captures:

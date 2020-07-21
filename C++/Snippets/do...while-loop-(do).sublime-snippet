@@ -5,5 +5,5 @@
 	${0:/* code */}
 } while (${1:/* condition */});]]></content>
 	<tabTrigger>do</tabTrigger>
-	<scope>source.c, source.objc, source.c++, source.objc++</scope>
+	<scope>(source.c | source.objc | source.c++ | source.objc++) - meta.preprocessor.include - comment - string</scope>
 </snippet>

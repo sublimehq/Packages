@@ -135,8 +135,10 @@ contexts:
     # example: bold, italic, underline
     - match: \b(?:no-?)?(?:ul|strike|reverse|italic|dim|bold|blink)\b
       scope: support.constant.color-attribute.git.config
+    - match: \b(?:normal|auto)\b
+      scope: support.constant.color.automatic.git.config
     # example: red, blue, green
-    - match: \b(?:yellow|white|red|normal|magenta|green|cyan|blue|black|auto)\b
+    - match: \b(?:bright)?(?:yellow|white|red|magenta|green|cyan|blue|black)\b
       scope: support.constant.color.git.config
     # example: 0-255
     - match: \b(?:{{zero_to_255}})\b
@@ -180,6 +182,7 @@ contexts:
         - include: line-continuation
         - include: escape
         - include: illegal-line-end  # newlines only permitted after trailing \
+        - include: Git Common.sublime-syntax#pretty-formats-as-arg-minimal
 
   string-unquoted:
     - match: (?=\S)
@@ -188,6 +191,7 @@ contexts:
         - include: line-continuation
         - include: escape
         - include: line-end
+        - include: Git Common.sublime-syntax#pretty-formats-as-arg-minimal
 
 ##[ PROTOTYPES ]#######################################################
 
@@ -211,7 +215,7 @@ contexts:
           pop: true
 
   line-end:
-    - match: $\n?
+    - match: $
       pop: true
 
   expect-line-end:

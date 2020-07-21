@@ -1,0 +1,6 @@
+{
+	// Ensure not to modify a git log due to the following settings
+	// being set `true` in the User/Preferences.sublime-settings
+	"ensure_newline_at_eof_on_save": false,
+	"trim_trailing_white_space_on_save": false,
+}

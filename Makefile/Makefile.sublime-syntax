@@ -21,7 +21,11 @@ file_extensions:
   - OCamlMakefile
   - mak
   - mk
-first_line_match: ^#!\s*/usr/bin/make\b
+first_line_match: |-
+  (?xi:
+    ^\#! .* \bmake\b |                     # shebang
+    ^\# \s* -\*- [^*]* makefile [^*]* -\*- # editorconfig
+  )
 scope: source.makefile
 #-------------------------------------------------------------------------------
 variables:
@@ -136,7 +140,7 @@ contexts:
     - match: "'"
       scope: punctuation.definition.string.begin.makefile
       push:
-        - meta_scope: string.quoted.single.makefile
+        - meta_scope: meta.string.makefile string.quoted.single.makefile
         - match: "'"
           scope: punctuation.definition.string.end.makefile
           pop: true
@@ -146,7 +150,7 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.makefile
       push:
-        - meta_scope: string.quoted.double.makefile
+        - meta_scope: meta.string.makefile string.quoted.double.makefile
         - match: '"'
           scope: punctuation.definition.string.end.makefile
           pop: true
@@ -174,7 +178,7 @@ contexts:
         - include: highlight-wildcard-sign
         - match: \s
           set:
-            - meta_content_scope: string.unquoted.makefile
+            - meta_content_scope: meta.string.makefile string.unquoted.makefile
             - include: pop-on-line-end
         - include: pop-on-line-end
     - match: ^\s*(vpath)$
@@ -183,7 +187,7 @@ contexts:
       captures:
         1: keyword.control.import.makefile
       push:
-        - meta_content_scope: string.unquoted.makefile
+        - meta_content_scope: meta.string.makefile string.unquoted.makefile
         - include: continuation-or-pop-on-line-end
         - include: variable-substitutions
         - include: comments
@@ -310,7 +314,7 @@ contexts:
   recipe-common:
     - include: control-flow
     - match: ^\n
-    
+
   shell:
     # Due to how the shell syntax handles comments, we must account for the case
     # where a recipe-line is a single comment in combination with an "@" or "-"
@@ -321,16 +325,18 @@ contexts:
       set:
         # I don't like putting the string "source.shell" here, as the delegation
         # seeps into this syntax now. But I don't see a cleaner way right now.
-        - meta_scope: source.shell comment.line.number-sign.shell
+        - meta_scope: source.shell.embedded comment.line.number-sign.shell
         - include: comments-pop-on-line-end
     # Otherwise, delegate to the shell syntax (with various extra prototypes).
-    - match: ""
-      set: scope:source.shell
+    - match: ''
+      set: shell-body
       with_prototype:
-        - include: pop-on-line-end
-        - include: scope:source.shell#prototype
-        - include: line-continuation
         - include: variable-substitutions
+
+  shell-body:
+    - meta_scope: source.shell.embedded
+    - include: embedded-shell
+    - include: pop-on-line-end
 
   line-continuation:
     - match: (\\)([ ]*)$\n?
@@ -353,7 +359,7 @@ contexts:
     - match: "'"
       scope: punctuation.definition.string.begin.makefile
       push:
-        - meta_scope: string.quoted.single.makefile
+        - meta_scope: meta.string.makefile string.quoted.single.makefile
         - match: "'"
           scope: punctuation.definition.string.end.makefile
           pop: true
@@ -363,7 +369,7 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.makefile
       push:
-        - meta_scope: string.quoted.double.makefile
+        - meta_scope: meta.string.makefile string.quoted.double.makefile
         - match: '"'
           scope: punctuation.definition.string.end.makefile
           pop: true
@@ -376,7 +382,8 @@ contexts:
       scope: constant.character.escape.makefile
 
   comments-pop-on-line-end:
-    - match: \n
+    - include: line-continuation
+    - match: $\n?
       pop: true
 
   comments:
@@ -411,6 +418,9 @@ contexts:
       push: textual-parenthesis-balancer
     - match: \,
       scope: punctuation.separator.makefile
+    # eat escaped or unbalanced quotation marks in front of the `,` separator
+    # to highlight them as ordinary part of the surrounding unquoted string
+    - match: '\\[''""]|[''""](?=\s*,)'
     - include: variable-substitutions
     - include: quoted-string
 
@@ -515,7 +525,7 @@ contexts:
           scope: keyword.other.block.end.makefile
           pop: true
         - match: ''
-          push: scope:source.shell
+          push: shell-body
           with_prototype:
             - match: (?=\))
               pop: true
@@ -555,16 +565,15 @@ contexts:
           set:
             - match: '!='
               scope: keyword.operator.assignment.makefile
-              set: scope:source.shell
+              set: shell-body
               with_prototype:
                 - include: variable-substitutions
-                - include: pop-on-line-end
                 - include: textual-parenthesis-balancer
         - match: (?=\s*(!|\?|\+|::?)?=)
           set:
             - match: (!|\?|\+|::?)?=
               scope: keyword.operator.assignment.makefile
-              set: [value-to-be-defined, eat-whitespace-then-pop]
+              set: [value-maybe-shellscript, eat-whitespace-then-pop]
             - include: variable-substitutions
             - include: continuation-or-pop-on-line-end
         - include: variable-substitutions
@@ -579,8 +588,25 @@ contexts:
     - match: \s*
       pop: true
 
+  value-maybe-shellscript:
+    - match: ((?:bash|sh|zsh)\s+-c\s+)(['"`])
+      captures:
+        1: meta.string.makefile string.unquoted.makefile
+        2: meta.string.makefile meta.interpolation.makefile punctuation.section.interpolation.begin.makefile
+      embed: embedded-shell
+      embed_scope: meta.string.makefile meta.interpolation.makefile source.shell.embedded
+      escape: (?!<\\)\2
+      escape_captures:
+        0: meta.string.makefile meta.interpolation.makefile punctuation.section.interpolation.end.makefile
+    - match: ''
+      set: value-to-be-defined
+
+  embedded-shell:
+    - include: scope:source.shell
+      apply_prototype: true
+
   value-to-be-defined:
-    - meta_content_scope: string.unquoted.makefile
+    - meta_content_scope: meta.string.makefile string.unquoted.makefile
     - include: escape-literals
     - match: (?=#)
       set:
@@ -588,33 +614,37 @@ contexts:
           scope: punctuation.definition.comment.makefile
           set:
             - meta_scope: comment.line.number-sign.makefile
-            - include: pop-on-line-end
+            - include: comments-pop-on-line-end
     - include: variable-substitutions
     - include: continuation-or-pop-on-line-end
 
   inside-define-directive-context:
     - meta_content_scope: variable.other.makefile
-    - match: \s*(?=(!|\?|\+|::?)?=\s*$\n)
+    - match: (?=(!|\?|\+|::?)?=\s*\n)
       set:
-        - match: ((!|\?|\+|::?)?=)\s*$\n
+        - match: ((!|\?|\+|::?)?=)\s*\n
           captures:
             1: keyword.operator.assignment.makefile
-          set:
-            - meta_content_scope: string.unquoted.makefile
-            - match: ^\s*(endef)
-              captures:
-                1: keyword.control.makefile
-              pop: true
+          set: inside-define-directive-value
+
     # Need to eat the actual newline character in order to start the
     # string.unquoted scope on the next line.
-    - match: $\n
-      set:
-        - meta_content_scope: string.unquoted.makefile
-        - match: ^\s*(endef)
-          captures:
-            1: keyword.control.makefile
-          pop: true
+    - match: \n
+      set: inside-define-directive-value
     - include: variable-substitutions
+
+  inside-define-directive-value:
+    - meta_content_scope: meta.string.makefile string.unquoted.makefile
+    - match: ^\s*(endef)\b
+      captures:
+        1: keyword.control.makefile
+      pop: true
+    # keep in balance with nested define statements
+    # see: https://github.com/sublimehq/Packages/issues/1998
+    - match: ^\s*define\b
+      push:
+        - match: ^\s*endef\b
+          pop: true
 
   variable-sub-common:
     - match: ':'

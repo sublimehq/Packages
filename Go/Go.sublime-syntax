@@ -84,7 +84,21 @@ variables:
 
   char_escape: \\x\h{2}|\\u\h{4}|\\U\h{8}|\\[0-7]{3}|\\.
 
-  exponent: '[Ee][+-]?'
+  dec_exponent: (?:[eE][-+]??{{dec_digits}})
+  hex_exponent: (?:[pP][-+]??{{dec_digits}})
+
+  # Matches a digit with any number of numeric separators, while
+  # not allowing a numeric separator as the last or first character.
+  dec_digits: (?:\d+(?:_\d+)*)
+
+  # Hexadecimal counterpart to dec_digits.
+  hex_digits: (?:_?\h+(?:_\h+)*)
+
+  # Octal counterpart to dec_digits.
+  oct_digits: (?:_?[0-7]+(?:_[0-7]+)*)
+
+  # Binary counterpart to dec_digits.
+  bin_digits: (?:_?[01]+(?:_[01]+)*)
 
 contexts:
   main:
@@ -133,6 +147,9 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.end.go
           pop: true
+        - match: ^\s*(\*)(?!/)
+          captures:
+            1: punctuation.definition.comment.go
 
   pop-line-comment:
     - meta_scope: comment.line.go
@@ -265,44 +282,25 @@ contexts:
         - include: pop-before-nonblank
 
   # https://golang.org/ref/spec#Operators_and_punctuation
-  match-operators: [
-    {match: \!=  , scope: keyword.operator.go},
-    {match: \!   , scope: keyword.operator.go},
-    {match: \%=  , scope: keyword.operator.assignment.go},
-    {match: \%   , scope: keyword.operator.go},
-    {match: \&&  , scope: keyword.operator.go},
-    {match: \&=  , scope: keyword.operator.assignment.go},
-    {match: \&^= , scope: keyword.operator.assignment.go},
-    {match: \&^  , scope: keyword.operator.go},
-    {match: \&   , scope: keyword.operator.go},
-    {match: \*=  , scope: keyword.operator.assignment.go},
-    {match: \*   , scope: keyword.operator.go},
-    {match: \+\+ , scope: keyword.operator.go},
-    {match: \+=  , scope: keyword.operator.assignment.go},
-    {match: \+   , scope: keyword.operator.go},
-    {match: --   , scope: keyword.operator.assignment.go},
-    {match: -=   , scope: keyword.operator.assignment.go},
-    {match: \-   , scope: keyword.operator.go},
-    {match: /=   , scope: keyword.operator.assignment.go},
-    {match: /    , scope: keyword.operator.go},
-    {match: :=   , scope: keyword.operator.assignment.go},
-    {match: <-   , scope: keyword.operator.go},
-    {match: <    , scope: keyword.operator.go},
-    {match: <<=  , scope: keyword.operator.assignment.go},
-    {match: \<<  , scope: keyword.operator.go},
-    {match: <=   , scope: keyword.operator.go},
-    {match: ==   , scope: keyword.operator.go},
-    {match: \=   , scope: keyword.operator.assignment.go},
-    {match: \>=  , scope: keyword.operator.assignment.go},
-    {match: \>>= , scope: keyword.operator.assignment.go},
-    {match: \>>  , scope: keyword.operator.go},
-    {match: \>   , scope: keyword.operator.go},
-    {match: \^=  , scope: keyword.operator.assignment.go},
-    {match: \^   , scope: keyword.operator.go},
-    {match: \|=  , scope: keyword.operator.assignment.go},
-    {match: \|\| , scope: keyword.operator.go},
-    {match: \|   , scope: keyword.operator.go},
-  ]
+  match-operators:
+    - match: '<<=|>>=|&\^=|&=|\^=|\|=|%=|\+=|-=|\*=|/=|\+\+|--'
+      scope: keyword.operator.assignment.augmented.go
+    - match: '<-|:='
+      scope: keyword.operator.assignment.go
+    - match: '&\^|<<|>>'
+      scope: keyword.operator.bitwise.go
+    - match: '==|!=|<=|>=|<|>'
+      scope: keyword.operator.comparison.go
+    - match: '='
+      scope: keyword.operator.assignment.go
+    - match: '&&|\|\||!'
+      scope: keyword.operator.logical.go
+    - match: '[|^]'
+      scope: keyword.operator.bitwise.go
+    - match: '[-+/%]'
+      scope: keyword.operator.arithmetic.go
+    - match: '[*&]'
+      scope: keyword.operator.go
 
   match-star:
     - match: \*
@@ -400,61 +398,83 @@ contexts:
     - include: match-strings
 
   match-imaginary:
-    # Mandatory integer, optional fraction, optional exponent, mandatory imaginary
-    - match: \d+(?:(\.)\d+)?(?:({{exponent}})\d+)?(i)
-      scope: constant.numeric.imaginary.go
+    # Decimal imaginary numbers
+    - match: '{{dec_digits}}(?:(\.){{dec_digits}}?)?{{dec_exponent}}?(i)'
+      scope: constant.numeric.imaginary.decimal.go
       captures:
         1: punctuation.separator.decimal.go
-        2: punctuation.separator.exponent.go
-        3: storage.type.numeric.imaginary.go
-    # Dot without fraction
-    - match: \d+\.(?:{{exponent}}\d+)?i
-      scope: invalid.deprecated.go
-    # Dot without integer
-    - match: \.\d+(?:{{exponent}}\d+)?i
-      scope: invalid.deprecated.go
+        2: storage.type.numeric.go
+    # Hexadecimal imaginary numbers
+    - match: (0[xX]){{hex_digits}}?(?:(\.){{hex_digits}}?)?{{hex_exponent}}?(i)
+      scope: constant.numeric.imaginary.hexadecimal.go
+      captures:
+        1: punctuation.definition.numeric.base.go
+        2: punctuation.separator.decimal.go
+        3: storage.type.numeric.go
+    # Octal imaginary numbers
+    - match: (0[oO]){{oct_digits}}(i)
+      scope: constant.numeric.imaginary.octal.go
+      captures:
+        1: punctuation.definition.numeric.base.go
+        2: storage.type.numeric.go
+    # Binary imaginary numbers
+    - match: (0[bB]){{bin_digits}}(i)
+      scope: constant.numeric.imaginary.binary.go
+      captures:
+        1: punctuation.definition.numeric.base.go
+        2: storage.type.numeric.go
 
   match-floats:
-    # Integer, no fraction, exponent
-    - match: \d+({{exponent}})\d+
-      scope: constant.numeric.float.go
-      captures:
-        1: punctuation.separator.exponent.go
-    # Integer, fraction, optional exponent
-    - match: \d+(\.)\d+(?:({{exponent}})\d+)?
-      scope: constant.numeric.float.go
+    # Decimal float literal
+    - match: |-
+        (?x:
+         {{dec_digits}}(?:(\.){{dec_digits}}?{{dec_exponent}}?|{{dec_exponent}})
+         | (\.){{dec_digits}}{{dec_exponent}}?
+        )
+      scope: constant.numeric.float.decimal.go
       captures:
         1: punctuation.separator.decimal.go
-        2: punctuation.separator.exponent.go
-    # Dot without fraction
-    - match: \d+\.(?:{{exponent}}\d+)?
-      scope: invalid.deprecated.go
-    # Dot without integer
-    - match: \.\d+(?:{{exponent}}\d+)?
-      scope: invalid.deprecated.go
+        2: punctuation.separator.decimal.go
+    # Hexadecimal float literal
+    - match: (0[xX]){{hex_digits}}?(?:(\.){{hex_digits}}?)?{{hex_exponent}}
+      scope: constant.numeric.float.hexadecimal.go
+      captures:
+        1: punctuation.definition.numeric.base.go
+        2: punctuation.separator.decimal.go
 
   match-integers:
     - include: match-octal-integer
     - include: match-hex-integer
+    - include: match-binary-integer
     - include: match-decimal-integer
 
   match-octal-integer:
-    - match: (0)[0-7]+(?=\D)
-      scope: constant.numeric.octal.go
+    - match: (0){{oct_digits}}(?=\D)
+      scope: constant.numeric.integer.octal.go
       captures:
-        1: punctuation.definition.numeric.octal.go
+        1: punctuation.definition.numeric.base.go
     - match: 0[0-7]*[8-9]+
       scope: invalid.illegal.go
+    - match: (0[oO]){{oct_digits}}
+      scope: constant.numeric.integer.octal.go
+      captures:
+        1: punctuation.definition.numeric.base.go
 
   match-hex-integer:
-    - match: (0[Xx])\h+
-      scope: constant.numeric.hex.go
+    - match: (0[xX]){{hex_digits}}
+      scope: constant.numeric.integer.hexadecimal.go
       captures:
-        1: punctuation.definition.numeric.hexadecimal.go
+        1: punctuation.definition.numeric.base.go
+
+  match-binary-integer:
+    - match: (0[bB]){{bin_digits}}
+      scope: constant.numeric.integer.binary.go
+      captures:
+        1: punctuation.definition.numeric.base.go
 
   match-decimal-integer:
-    - match: \d+
-      scope: constant.numeric.integer.go
+    - match: '{{dec_digits}}'
+      scope: constant.numeric.integer.decimal.go
 
   # https://golang.org/ref/spec#Rune_literals
   match-runes:
@@ -498,7 +518,7 @@ contexts:
         - include: match-fmt
 
   match-template-string:
-   - match: "{{"
+   - match: '{{(?=.*}})'
      scope: punctuation.section.interpolation.begin.go
      push:
        - meta_scope: meta.interpolation.go
@@ -510,7 +530,7 @@ contexts:
          scope: keyword.operator.template.right.trim.go
        - match: "-\\s"
          scope: keyword.operator.template.left.trim.go
-       - match: ":="
+       - match: ":=|="
          scope: keyword.operator.assignment.go
        - match: \|
          scope: keyword.operator.template.pipe.go
@@ -526,7 +546,7 @@ contexts:
          scope: variable.other.template.go
        - match: \b(if|else|range|template|with|end|nil|define|block)\b
          scope: keyword.control.go
-       - match: \b(and|call|html|index|js|len|not|or|print|printf|println|urlquery|eq|ne|lt|le|gt|ge)\b
+       - match: \b(and|call|html|index|slice|js|len|not|or|print|printf|println|urlquery|eq|ne|lt|le|gt|ge)\b
          scope: variable.function.go support.function.builtin.go
        - include: match-comments
        - include: match-strings
@@ -670,7 +690,13 @@ contexts:
 
   match-keyword-package:
     - match: \bpackage\b
-      scope: keyword.other.package.go
+      scope: storage.type.namespace.go keyword.declaration.namespace.go
+      push:
+        - meta_scope: meta.namespace.go
+        - match: '{{ident}}'
+          scope: entity.name.namespace.go
+          pop: true
+        - include: pop-before-nonblank
 
   match-keyword-range:
     - match: \brange\b
@@ -1104,7 +1130,7 @@ contexts:
       set:
         - include: pop-on-terminator
         - match: \biota\b
-          scope: constant.numeric.integer.go
+          scope: constant.numeric.integer.decimal.go
         - include: match-any
 
   pop-var-type-and-or-assignment:

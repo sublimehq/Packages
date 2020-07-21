@@ -1,6 +1,10 @@
-import sublime, sublime_plugin
 import re
+import sublime
+import sublime_plugin
 
+KIND_CSS_PROPERTY = (sublime.KIND_ID_KEYWORD, "p", "property")
+KIND_CSS_FUNCTION = (sublime.KIND_ID_FUNCTION, "f", "function")
+KIND_CSS_CONSTANT = (sublime.KIND_ID_VARIABLE, "c", "constant")
 
 # Prepare some common property values for when there is more than one way to
 # specify a certain value type. The color value for example can be specified
@@ -36,13 +40,55 @@ COMMON_VALUES = {
     'break_inside': [
         'auto', 'avoid', 'avoid-page', 'avoid-column', 'avoid-region'
     ],
-    'color': ['currentColor', 'rgb($1)', 'rgba($1)', 'hsl($1)', 'hsla($1)', 'transparent'],
+    'color': [
+        'currentColor',
+        'transparent',
+        ['rgb()', 'rgb(${1:0}, ${2:0}, ${3:0})'],
+        ['rgba()', 'rgba(${1:0}, ${2:0}, ${3:0}, ${4:1.0})'],
+        ['hsl()', 'hsl(${1:0}, ${2:100%}, ${3:50%})'],
+        ['hsla()', 'hsla(${1:0}, ${2:100%}, ${3:50%}, ${4:1.0})'],
+        # Named colors
+        'aliceblue', 'antiquewhite', 'aqua', 'aquamarine', 'azure', 'beige',
+        'bisque', 'black', 'blanchedalmond', 'blue', 'blueviolet', 'brown',
+        'burlywood', 'cadetblue', 'chartreuse', 'chocolate', 'coral',
+        'cornflowerblue', 'cornsilk', 'crimson', 'cyan', 'darkblue',
+        'darkcyan', 'darkgoldenrod', 'darkgray', 'darkgrey', 'darkgreen',
+        'darkkhaki', 'darkmagenta', 'darkolivegreen', 'darkorange',
+        'darkorchid', 'darkred', 'darksalmon', 'darkseagreen',
+        'darkslateblue', 'darkslategray', 'darkslategrey', 'darkturquoise',
+        'darkviolet', 'deeppink', 'deepskyblue', 'dimgray', 'dimgrey',
+        'dodgerblue', 'firebrick', 'floralwhite', 'forestgreen', 'fuchsia',
+        'gainsboro', 'ghostwhite', 'gold', 'goldenrod', 'gray', 'grey',
+        'green', 'greenyellow', 'honeydew', 'hotpink', 'indianred', 'indigo',
+        'ivory', 'khaki', 'lavender', 'lavenderblush', 'lawngreen',
+        'lemonchiffon', 'lightblue', 'lightcoral', 'lightcyan',
+        'lightgoldenrodyellow', 'lightgray', 'lightgrey', 'lightgreen',
+        'lightpink', 'lightsalmon', 'lightseagreen', 'lightskyblue',
+        'lightslategray', 'lightslategrey', 'lightsteelblue', 'lightyellow',
+        'lime', 'limegreen', 'linen', 'magenta', 'maroon', 'mediumaquamarine',
+        'mediumblue', 'mediumorchid', 'mediumpurple', 'mediumseagreen',
+        'mediumslateblue', 'mediumspringgreen', 'mediumturquoise',
+        'mediumvioletred', 'midnightblue', 'mintcream', 'mistyrose',
+        'moccasin', 'navajowhite', 'navy', 'oldlace', 'olive', 'olivedrab',
+        'orange', 'orangered', 'orchid', 'palegoldenrod', 'palegreen',
+        'paleturquoise', 'palevioletred', 'papayawhip', 'peachpuff', 'peru',
+        'pink', 'plum', 'powderblue', 'purple', 'rebeccapurple', 'red',
+        'rosybrown', 'royalblue', 'saddlebrown', 'salmon', 'sandybrown',
+        'seagreen', 'seashell', 'sienna', 'silver', 'skyblue', 'slateblue',
+        'slategray', 'slategrey', 'snow', 'springgreen', 'steelblue', 'tan',
+        'teal', 'thistle', 'tomato', 'turquoise', 'violet', 'wheat', 'white',
+        'whitesmoke', 'yellow', 'yellowgreen'
+    ],
     'font_variant_alternates': [
         'normal', 'historical-forms', 'stylistic($1)', 'styleset($1)',
         'character-variant($1)', 'swash($1)', 'ornaments($1)', 'annotation($1)'
     ],
     'generic_name': [
         'serif', 'sans-serif', 'cursive', 'fantasy', 'monospace'
+    ],
+    'grid': [
+        ['repeat()', 'repeat(${1:2}, ${2:1fr})'],
+        ['minmax()', 'minmax(${1:100px}, ${2:1fr})'],
     ],
     'list_style_type': [
         'none', 'inline', 'disc', 'circle', 'square', 'decimal',
@@ -75,8 +121,15 @@ COMMON_VALUES = {
     ],
     'string': ['\"$1\"'],
     'timing_function': [
-        'ease', 'ease-in', 'ease-out', 'ease-in-out', 'linear',
-        'cubic-bezier($1)', 'step-start', 'step-end', 'steps($1)'
+        'ease',
+        'ease-in',
+        'ease-out',
+        'ease-in-out',
+        'linear',
+        ['cubic-bezier()', 'cubic-bezier(${1:0.0}, ${2:0.0}, ${3:1.0}, ${4:1.0})'],
+        'step-start',
+        'step-end',
+        ['steps()', 'steps(${1:2}, ${2:start})'],
     ],
     'uri': ['url($1)'],
 }
@@ -152,7 +205,10 @@ PROPERTY_DICT = {
     'break-inside': ['<break_inside>'],
     'caption-side': ['top', 'bottom'],
     'clear': ['none', 'left', 'right', 'both'],
-    'clip': ['rect($1)', 'auto'],
+    'clip': [
+        ['rect()', 'rect(${1:0}, ${2:0}, ${3:0}, ${4:0})'],
+        'auto'
+    ],
     'clip-path': ['none', '<uri>', '<basic_shape>'],
     'clip-rule': ['nonzero', 'evenodd'],
     'color': ['<color>'],
@@ -204,9 +260,17 @@ PROPERTY_DICT = {
     'fill': ['<color>'],
     'fill-rule': ['nonzero', 'evenodd'],
     'filter': [
-        '<uri>', 'url($1)', 'blur($1)', 'brightness($1)', 'contrast($1)',
-        'drop-shadow($1)', 'grayscale($1)', 'hue-rotate($1)', 'invert($1)',
-        'opacity($1)', 'saturate($1)', 'sepia($1)'
+        '<uri>',
+        'blur(${1:5px})',
+        'brightness(${1:1.0})',
+        'contrast(${1:100%})',
+        ['drop-shadow()', 'drop-shadow(${1:1px} ${2:1px})'],
+        'grayscale(${1:50%})',
+        'hue-rotate(${1:90deg})',
+        'invert(${1:50%})',
+        'opacity(${1:100%})',
+        'saturate(${1:50%})',
+        'sepia(${1:50%})'
     ],
     'flex': ['none'],
     'flex-grow': ['<number>'],
@@ -272,15 +336,15 @@ PROPERTY_DICT = {
     'grid-gap': ['<length>', '<percentage>'],
     'grid-row-gap': ['<length>', '<percentage>'],
     'grid-template-areas': [],
-    'grid-template-columns': ['auto', 'repeat($1)', 'minmax($1)', '<percentage>', '<length>'],
-    'grid-template-rows': ['auto', 'repeat($1)', 'minmax($1)', '<percentage>', '<length>'],
+    'grid-template-columns': ['auto', '<grid>', '<percentage>', '<length>'],
+    'grid-template-rows': ['auto', '<grid>', '<percentage>', '<length>'],
     'grid-column': ['<number>'],
     'grid-column-end': ['<number>'],
     'grid-column-start': ['<number>'],
     'grid-row': ['<number>'],
     'grid-row-end': ['<number>'],
     'grid-row-start': ['<number>'],
-    'height': ['<length>', '<percentage>', 'auto'],
+    'height': ['<length>', '<percentage>', 'auto', 'fit-content'],
     'hyphens': ['none', 'manual', 'auto'],
     'image-rendering': [
         'auto', 'optimizeSpeed', 'optimizeQuality', 'pixelated'
@@ -288,7 +352,11 @@ PROPERTY_DICT = {
     'ime-mode': ['auto', 'normal', 'active', 'inactive', 'disabled'],
     'isolation': ['auto', 'isolation'],
     'justify-content': [
-        'flex-start', 'flex-end', 'center', 'space-between', 'space-around'
+        'start', 'end', 'flex-start', 'flex-end', 'center', 'left', 'right',
+        'safe start', 'safe end', 'safe flex-start', 'safe flex-end', 'safe center', 'safe left', 'safe right',
+        'unsafe start', 'unsafe end', 'unsafe flex-start', 'unsafe flex-end', 'unsafe center', 'unsafe left', 'unsafe right',
+        'normal', 'baseline', 'first baseline', 'last baseline',
+        'space-between', 'space-around', 'space-evenly', 'stretch'
     ],
     'kerning': ['auto'],
     'left': ['<length>', '<percentage>', 'auto'],
@@ -307,10 +375,10 @@ PROPERTY_DICT = {
     'marks': ['crop', 'cross', 'none'],
     'mask': ['<uri>', 'none'],
     'mask-type': ['luminance', 'alpha'],
-    'max-height': ['<length>', '<percentage>', 'none'],
-    'max-width': ['<length>', '<percentage>', 'none'],
-    'min-height': ['<length>', '<percentage>'],
-    'min-width': ['<length>', '<percentage>'],
+    'max-height': ['<length>', '<percentage>', 'fit-content', 'none'],
+    'max-width': ['<length>', '<percentage>', 'fit-content', 'none'],
+    'min-height': ['<length>', '<percentage>', 'fit-content'],
+    'min-width': ['<length>', '<percentage>', 'fit-content'],
     'mix-blend-mode': ['<blend_mode>'],
     'object-fit': ['fill', 'contain', 'cover', 'none', 'scale-down'],
     'object-position': ['<position>'],
@@ -349,7 +417,7 @@ PROPERTY_DICT = {
     'shape-margin': ['<length>', '<percentage>'],
     'shape-outside': [
         'none', 'margin-box', 'content-box', 'border-box', 'padding-box',
-        'circle($1)', 'ellipse($1)', 'inset($1)', 'polygon($1)', '<uri>'
+        '<basic_shape>', '<uri>'
     ],
     'shape-rendering': ['auto', 'optimizeSpeed', 'crispEdges', 'geometricPrecision'],
     'size': [
@@ -382,12 +450,36 @@ PROPERTY_DICT = {
     'text-underline-position': ['auto', 'under', 'left', 'right'],
     'top': ['<length>', '<percentage>', 'auto'],
     'transform': [
-        'matrix($1)', 'matrix3d($1)', 'perspective($1)', 'rotate($1)',
-        'rotate3d($1)', 'rotateX($1)', 'rotateY($1)', 'rotateZ($1)',
-        'scale($1)', 'scale3d($1)', 'scaleX($1)', 'scaleY($1)', 'scaleZ($1)',
-        'skew($1)', 'skewX($1)', 'skewY($1)', 'translate($1)',
-        'translate3d($1)', 'translateX($1)', 'translateY($1)',
-        'translateZ($1)', 'none'
+        ['matrix()', 'matrix(${1:1}, ${2:1}, ${3:1}, ${4:1}, ${5:2}, ${6:2})'],
+        [
+            'matrix3d()',
+            'matrix3d('
+                '${1:1}, ${2:1}, ${3:0}, ${4:0}, '
+                '${5:1}, ${6:1}, ${7:0}, ${8:0}, '
+                '${9:0}, ${10:0}, ${11:1}, ${12:0}, '
+                '${13:2}, ${14:2}, ${15:0}, ${16:1}'
+            ')'
+        ],
+        'perspective(${1:0})',
+        'rotate(${1:45deg})',
+        ['rotate3d()', 'rotate3d(${1:0}, ${2:0}, ${3:1}, ${4:45deg})'],
+        'rotateX(${1:45deg})',
+        'rotateY(${1:45deg})',
+        'rotateZ(${1:45deg})',
+        'scale(${1:1.0})',
+        ['scale3d()', 'scale3d(${1:1.0}, ${2:1.0}, ${3:1.0})'],
+        'scaleX(${1:1.0})',
+        'scaleY(${1:1.0})',
+        'scaleZ(${1:1.0})',
+        'skew(${1:10deg})',
+        'skewX(${1:10deg})',
+        'skewY(${1:10deg})',
+        'translate(${1:10px})',
+        ['translate3d()', 'translate3d(${1:10px}, ${2:0px}, ${3:0px})'],
+        'translateX(${1:10px})',
+        'translateY(${1:10px})',
+        'translateZ(${1:10px})',
+        'none'
     ],
     'transform-origin': ['<position>'],
     'transform-style': ['preserve-3d', 'flat'],
@@ -406,7 +498,7 @@ PROPERTY_DICT = {
     'visibility': ['visible', 'hidden', 'collapse'],
     'white-space': ['normal', 'pre', 'nowrap', 'pre-wrap', 'pre-line'],
     'widows': ['<integer>'],
-    'width': ['<length>', '<percentage>', 'auto'],
+    'width': ['<length>', '<percentage>', 'auto', 'fit-content'],
     'will-change': ['auto', 'contents', 'scroll-position', '<custom-ident>'],
     'word-break': ['normal', 'break-all', 'keep-all'],
     'word-spacing': ['normal', '<length>'],
@@ -414,6 +506,12 @@ PROPERTY_DICT = {
     'writing-mode': ['horizontal-tb', 'vertical-rl', 'vertical-lr', 'sideways-rl', 'sideways-lr'],
     'z-index': ['auto', '<integer>'],
 }
+
+
+def completion_sort_key(v):
+    if isinstance(v, str):
+        return v
+    return v[0]
 
 
 def parse_css_data():
@@ -436,82 +534,123 @@ def parse_css_data():
         allowed_values += ['all', 'inherit', 'initial', 'unset']
 
         for name in names.split(' | '):
-            props[name] = sorted(allowed_values)
+            props[name] = sorted(allowed_values, key=completion_sort_key)
 
     return props
 
+
+def match_selector(view, pt, scope):
+    # This will catch scenarios like:
+    # - .foo {font-style: |}
+    # - <style type="text/css">.foo { font-weight: b|</style>
+    return any(view.match_selector(p, scope) for p in (pt, pt - 1))
+
+
+def next_none_whitespace(view, pt):
+    for pt in range(pt, view.size()):
+        ch = view.substr(pt)
+        if ch not in ' \t':
+            return ch
+
+
 class CSSCompletions(sublime_plugin.EventListener):
+    selector_scope = (
+        # match inside a CSS document and
+        "source.css - meta.selector.css, "
+        # match inside the style attribute of HTML tags, incl. just before
+        # the quote that closes the attribute value
+        "text.html meta.attribute-with-value.style.html "
+        "string.quoted - punctuation.definition.string.begin.html"
+    )
     props = None
-    regex = None
+    re_name = None
+    re_value = None
+    re_trigger = None
 
     def on_query_completions(self, view, prefix, locations):
-        # match inside a CSS document and
-        # match inside the style attribute of HTML tags, incl. just before the quote that closes the attribute value
-        css_selector_scope = "source.css - meta.selector.css"
-        html_style_attr_selector_scope = "text.html meta.attribute-with-value.style.html " + \
-                                    "string.quoted - punctuation.definition.string.begin.html"
-        selector_scope = css_selector_scope + ', ' + html_style_attr_selector_scope
-        prop_name_scope = "meta.property-name.css"
-        prop_value_scope = "meta.property-value.css"
-        loc = locations[0]
+        pt = locations[0]
 
-        # When not inside CSS, don’t trigger
-        if not view.match_selector(loc, selector_scope):
-            # if the text immediately after the caret is a HTML style tag beginning, and the character before the
-            # caret matches the CSS scope, then probably the user is typing here (where | represents the caret):
-            # <style type="text/css">.test { f|</style>
-            # i.e. after a "style" HTML open tag and immediately before the closing tag.
-            # so we want to offer CSS completions here.
-            if view.match_selector(loc, 'text.html meta.tag.style.end punctuation.definition.tag.begin.html') and \
-               view.match_selector(loc - 1, selector_scope):
-                pass
-            else:
-                return []
+        if not match_selector(view, pt, self.selector_scope):
+            return None
 
         if not self.props:
             self.props = parse_css_data()
-            self.regex = re.compile(r"([a-zA-Z-]+):\s*$")
+            self.re_name = re.compile(r"([a-zA-Z-]+)\s*:[^:;{}]*$")
+            self.re_value = re.compile(r"^(?:\s*(:)|([ \t]*))([^:]*)([;}])")
+            self.re_trigger = re.compile(r"\$(?:\d+|\{\d+\:([^}]+)\})")
 
-        l = []
-        if (view.match_selector(loc, prop_value_scope) or
-            # This will catch scenarios like:
-            # - .foo {font-style: |}
-            # - <style type="text/css">.foo { font-weight: b|</style>
-            view.match_selector(loc - 1, prop_value_scope)):
-
-            alt_loc = loc - len(prefix)
-            line = view.substr(sublime.Region(view.line(alt_loc).begin(), alt_loc))
-
-            match = re.search(self.regex, line)
-            if match:
-                prop_name = match.group(1)
-                if prop_name in self.props:
-                    values = self.props[prop_name]
-
-                    add_semi_colon = view.substr(sublime.Region(loc, loc + 1)) != ';'
-
-                    for value in values:
-                        desc = value + "\t" + prop_name
-                        snippet = value
-
-                        if add_semi_colon:
-                            snippet += ";"
-
-                        if "$1" in snippet:
-                            desc = desc.replace("$1", "")
-
-                        l.append((desc, snippet))
-
-                    return (l, sublime.INHIBIT_WORD_COMPLETIONS)
-
-            return None
+        if match_selector(view, pt, "meta.property-value.css meta.function-call"):
+            items = self.complete_function_argument(view, prefix, pt)
+        elif match_selector(view, pt, "meta.property-value.css"):
+            items = self.complete_property_value(view, prefix, pt)
         else:
-            add_colon = not view.match_selector(loc, prop_name_scope)
+            items = self.complete_property_name(view, prefix, pt)
 
-            for prop in self.props:
-                if add_colon:
-                    l.append((prop + "\tproperty", prop + ": "))
+        if items:
+            return sublime.CompletionList(items, sublime.INHIBIT_WORD_COMPLETIONS)
+        return None
+
+    def complete_property_name(self, view, prefix, pt):
+        suffix = ": $0;"
+        text = view.substr(sublime.Region(pt, view.line(pt).end()))
+        matches = self.re_value.search(text)
+        if matches:
+            colon, space, value, term = matches.groups()
+            if colon:
+                # don't append anything if the next character is a colon
+                suffix = ""
+            elif value:
+                # only append colon if value already exists
+                suffix = ":" if space else ": "
+            elif term == ";":
+                # ommit semicolon if rule is already terminated
+                suffix = ": $0"
+
+        return (
+            sublime.CompletionItem(
+                trigger=prop,
+                completion=prop + suffix,
+                completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
+                kind=KIND_CSS_PROPERTY
+            ) for prop in self.props
+        )
+
+    def complete_property_value(self, view, prefix, pt):
+        completions = []
+        text = view.substr(sublime.Region(view.line(pt).begin(), pt - len(prefix)))
+        matches = self.re_name.search(text)
+        if matches:
+            prop = matches.group(1)
+            values = self.props.get(prop)
+            if values:
+                details = f"<code>{prop}</code> property-value"
+
+                if next_none_whitespace(view, pt) == ";":
+                    suffix = ""
                 else:
-                    l.append((prop + "\tproperty", prop))
+                    suffix = "$0;"
 
-            return (l, sublime.INHIBIT_WORD_COMPLETIONS)
+                for value in values:
+                    if isinstance(value, str):
+                        desc = self.re_trigger.sub("\1", value)
+                        snippet = value
+                    else:
+                        desc, snippet = value
+
+                    if "(" in snippet:
+                        kind = KIND_CSS_FUNCTION
+                    else:
+                        kind = KIND_CSS_CONSTANT
+
+                    completions.append(sublime.CompletionItem(
+                        trigger=desc,
+                        completion=snippet + suffix,
+                        completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
+                        kind=kind,
+                        details=details
+                    ))
+
+        return completions
+
+    def complete_function_argument(self, view, prefix, pt):
+        return None

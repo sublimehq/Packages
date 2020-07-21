@@ -2,7 +2,8 @@
     "scope": "source.dot meta.group - meta.attributes",
     "completions": [
         {"trigger": "subgraph\tobject", "contents": "subgraph ${1:cluster_}${2:name} {\n\t${3}\n}"},
-        {"trigger": "edge\tobject", "contents": "edge ${1:name} [${2}];"},
-        {"trigger": "node\tobject", "contents": "node ${1:name} [${2}];"},
+        {"trigger": "edge defaults\tobject", "contents": "edge [${1}];"},
+        {"trigger": "node defaults\tobject", "contents": "node [${1}];"},
+        {"trigger": "node\tobject", "contents": "${1:name} [${2}];"},
     ]
 }

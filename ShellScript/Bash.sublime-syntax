@@ -3,7 +3,7 @@
 # [Bash]:    https://www.gnu.org/software/bash/manual/bash.html
 --- #---------------------------------------------------------------------------
 
-name: Bourne Again Shell (bash)
+name: Bash
 
 # The suffix is bash, but we still use .shell as a suffix anyway. This is to
 # promote reusability of foreign scopes.
@@ -41,7 +41,6 @@ first_line_match: |
 #-------------------------------------------------------------------------------
 variables:
   call_token: \./
-  cmd_boundary: (?=\s|;|$|>|<)
   extension: \.sh
   identifier: '[[:alpha:]_][[:alnum:]_]*'
   identifier_non_posix: '[^{{metachar}}\d][^{{metachar}}=]*'
@@ -52,7 +51,7 @@ variables:
   is_path_component: (?=[^\s/]*/)
   is_start_of_arguments: '[`=|&;()<>\s]'
   is_variable: (?=\s*{{nbc}}(?:[({]{{nbc}}[)}])?{{nbc}}=)
-  keyword_boundary_end: (?!=)(?=[^\w_-]|$)
+  keyword_break: (?![-=\w])
 
   # A character that, when unquoted, separates words. A metacharacter is a
   # space, tab, newline, or one of the following characters: ‘|’, ‘&’, ‘;’,
@@ -60,11 +59,6 @@ variables:
   metachar: '[\s\t\n|&;()<>]'
 
   nbc: '[^{}()=\s]*' # non bracket characters (and also non-whitespace, parens)
-  reset_and: \s*(&&)
-  reset_job: \s*(&)
-  reset_or: \s*(\|\|)
-  reset_pipe: \s*(\|)
-  reset_semicolon: \s*(;)(?![;&])
   start_of_option: (?:\s+|^)--?(?=[\w$])
   varassign: '[+\-?]?='
 #-------------------------------------------------------------------------------
@@ -122,6 +116,7 @@ contexts:
     - include: funcdef
     - include: vardef
     - include: redirection
+    - include: operator-exclamation
     - match: '{{is_command}}'
       push: cmd
 
@@ -143,54 +138,89 @@ contexts:
       push: cmd-bt
 
   control:
-    - match: \b(if){{keyword_boundary_end}}(?:\s*(!))?
-      captures:
-        1: keyword.control.if.begin.shell
-        2: keyword.operator.logical.shell
-    - match: \bthen\b
-      scope: keyword.control.if.then.shell
+    - match: \bif{{keyword_break}}
+      scope: keyword.control.conditional.if.shell
       pop: true
-    - match: \b(elif){{keyword_boundary_end}}(?:\s*(!))?
-      captures:
-        1: keyword.control.if.elif.shell
-        2: keyword.operator.logical.shell
-    - match: \bfi{{keyword_boundary_end}}
-      scope: keyword.control.if.end.shell
+    - match: \bthen{{keyword_break}}
+      scope: keyword.control.conditional.then.shell
+      pop: true
+    - match: \belif{{keyword_break}}
+      scope: keyword.control.conditional.elseif.shell
+      pop: true
+    - match: \bfi{{keyword_break}}
+      scope: keyword.control.conditional.end.shell
       set: [cmd-post, cmd-args]
-    - match: \belse{{keyword_boundary_end}}
-      scope: keyword.control.if.else.shell
+    - match: \belse{{keyword_break}}
+      scope: keyword.control.conditional.else.shell
       pop: true
-    - match: \bfor{{keyword_boundary_end}}
-      scope: keyword.control.for.shell
+    - match: \bfor{{keyword_break}}
+      scope: keyword.control.loop.for.shell
       set: [cmd-post, for-args]
-    - match: \bdo{{keyword_boundary_end}}
-      scope: keyword.control.do.shell
+    - match: \bdo{{keyword_break}}
+      scope: keyword.control.loop.do.shell
       pop: true
-    - match: \bdone{{keyword_boundary_end}}
-      scope: keyword.control.done.shell
+    - match: \bdone{{keyword_break}}
+      scope: keyword.control.loop.end.shell
       set: [cmd-post, cmd-args]
-    - match: \bwhile{{keyword_boundary_end}}
-      scope: keyword.control.while.shell
-    - match: \buntil{{keyword_boundary_end}}
-      scope:  keyword.control.until.shell
-    - match: \bcase{{keyword_boundary_end}}
-      scope: keyword.control.case.begin.shell
-      set: [case-body, case-item, case-item-first-character, case-preamble]
-    - match: \bcontinue{{keyword_boundary_end}}
+    - match: \bwhile{{keyword_break}}
+      scope: keyword.control.loop.while.shell
+      pop: true
+    - match: \buntil{{keyword_break}}
+      scope: keyword.control.loop.until.shell
+      pop: true
+    - match: \bcase{{keyword_break}}
+      scope: keyword.control.conditional.case.shell
+      set: [case-body, case-word]
+    - match: \bcontinue{{keyword_break}}
       scope: keyword.control.flow.continue.shell
-    - match: \bbreak{{keyword_boundary_end}}
+      pop: true
+    - match: \bbreak{{keyword_break}}
       scope: keyword.control.flow.break.shell
       set: [cmd-post, cmd-args]
-
-  case-preamble:
-    - match: \bin(?=[^\w_-])
-      scope: keyword.control.case.in.shell
+    - match: \besac{{keyword_break}}
+      scope: keyword.control.conditional.end.shell
       pop: true
+
+  case-word:
+    - match: \bin{{keyword_break}}
+      scope: keyword.control.in.shell
+      pop: true
+    - include: case-end-ahead
     - include: expansion-and-string
 
-  case-item-highlights:
+  case-body:
+    - meta_scope: meta.conditional.case.shell
+    - match: \besac{{keyword_break}}
+      scope: keyword.control.conditional.end.shell
+      pop: true
+    - match: (?=\S)
+      push:
+        - case-clause-commands
+        - case-clause-patterns
+        - case-clause-patterns-begin
+
+  case-clause-patterns-begin:
+    - match: \(
+      scope: keyword.control.conditional.patterns.begin.shell
+      pop: true
+    - match: ''
+      pop: true
+
+  case-clause-patterns:
+    - clear_scopes: 1  # remove meta.conditional.case.shell
+    - meta_scope: meta.conditional.case.clause.patterns.shell
+    - match: \)
+      scope: keyword.control.conditional.patterns.end.shell
+      pop: true
+    # emergency bail outs if ')' is missing
+    - match: (?=;;&?|;&)
+      pop: true
+    - include: case-clause-patterns-body
+
+  case-clause-patterns-body:
     # [Bash] 3.2.4.2: Each pattern undergoes tilde expansion, parameter
     # expansion, command substitution, and arithmetic expansion.
+    - include: case-end-ahead
     - include: expansion-pattern
     - include: expansion-tilde
     - include: expansion-parameter
@@ -201,56 +231,26 @@ contexts:
       scope: keyword.operator.logical.shell
     - match: \(
       scope: punctuation.section.parens.begin.shell
-      push: case-item-inside
-
-  case-item-inside:
-    - match: \)
-      scope: punctuation.section.parens.end.shell
-      pop: true
-    - include: case-item-highlights
-
-  case-item:
-    - match: \)
-      scope: keyword.control.case.item.shell
-      pop: true
-    - include: case-item-highlights
-
-  case-item-first-character:
-    - match: (?=\()
-      set:
-        - match: \(
-          scope: keyword.control.case.item.shell
+      push:
+        - match: \)
+          scope: punctuation.section.parens.end.shell
           pop: true
-    - match: (?=\S)
-      pop: true
+        - include: case-clause-patterns-body
 
-  case-body:
-    - match: \s*(;;&?|;&)
-      captures:
-        1: punctuation.terminator.case.shell
-      set:
-        # An opening parenthesis is optional
-        - match: (?=\()
-          set:
-            - match: \(
-              scope: keyword.control.case.item.shell
-              set: case-body-item
-        - match: (?=\S)
-          set: case-body-item
-    - match: \s*\b(esac)\b
-      captures:
-        1: keyword.control.case.end.shell
+  case-clause-commands:
+    - clear_scopes: 1  # remove meta.conditional.case.shell
+    - meta_content_scope: meta.conditional.case.clause.commands.shell
+    - match: ;;&?|;&
+      scope:
+        meta.conditional.case.clause.commands.shell
+        punctuation.terminator.case.clause.shell
       pop: true
+    - include: case-end-ahead
     - include: main
 
-  case-body-item:
-    - match: \besac\b
-      scope: keyword.control.case.end.shell
+  case-end-ahead:
+    - match: (?=\besac{{keyword_break}})
       pop: true
-    - match: \)
-      scope: keyword.control.case.item.shell
-      set: case-body
-    - include: case-item-highlights
 
   # I don't think anybody will write a for-loop inside backticks. Hence no
   # for-args-bt context.
@@ -260,7 +260,7 @@ contexts:
         - meta_scope: meta.group.for.shell
         - include: cmd-args-boilerplate
         - include: arithmetic
-        - match: \bin\b
+        - match: \bin{{keyword_break}}
           scope: keyword.control.in.shell
 
   expansion-and-string:
@@ -272,7 +272,7 @@ contexts:
       captures:
         1: storage.type.function.shell
       push: [funcdef-body, funcdef-parens, funcdef-name]
-    - match: \bcoproc{{keyword_boundary_end}}
+    - match: \bcoproc{{keyword_break}}
       scope: keyword.other.coproc.shell
       push: [cmd-post, cmd-args, coproc-body]
 
@@ -281,7 +281,7 @@ contexts:
       captures:
         1: storage.type.function.shell
       push: [funcdef-body-bt, funcdef-parens, funcdef-name]
-    - match: \bcoproc{{keyword_boundary_end}}
+    - match: \bcoproc{{keyword_break}}
       scope: keyword.other.coproc.shell
       push: [cmd-post, cmd-args-bt, coproc-body]
 
@@ -342,7 +342,7 @@ contexts:
     - include: main-bt
 
   vardef:
-    - match: \s*\b(alias){{keyword_boundary_end}}
+    - match: \s*\b(alias){{keyword_break}}
       captures:
         1: support.function.alias.shell
       push:
@@ -352,7 +352,7 @@ contexts:
       - vardef-assign
       - vardef-alias-name
       - vardef-alias-options
-    - match: \s*\b(typeset|declare|local){{keyword_boundary_end}}
+    - match: \s*\b(typeset|declare|local){{keyword_break}}
       captures:
         1: storage.modifier.shell
       push:
@@ -362,7 +362,7 @@ contexts:
       - vardef-assign
       - vardef-name
       - vardef-declare-options
-    - match: \s*\b(export){{keyword_boundary_end}}
+    - match: \s*\b(export){{keyword_break}}
       captures:
         1: storage.modifier.shell
       push:
@@ -372,7 +372,7 @@ contexts:
       - vardef-assign
       - vardef-name
       - vardef-export-options
-    - match: \s*\b(readonly){{keyword_boundary_end}}
+    - match: \s*\b(readonly){{keyword_break}}
       captures:
         1: storage.modifier.shell
       push:
@@ -416,12 +416,9 @@ contexts:
       pop: true
     - match: (?=\s*#)
       pop: true
-    - include: cmd-args-boilerplate
+    - include: cmd-args-boilerplate-with-end-of-options
     - match: (?=\S)
-      push:
-      - vardef-value
-      - vardef-assign
-      - vardef-name
+      push: [vardef-value, vardef-assign, vardef-name]
 
   vardef-alias-options:
     - match: \s*((-)p)
@@ -737,47 +734,49 @@ contexts:
     - include: line-continuation-or-pop-at-end
 
   cmd-post: # looks like [main, cmd-post] at this point
-    - match: ""
-      set:
-        - meta_content_scope: meta.post-cmd.shell
-        - match: '{{reset_semicolon}}'
-          captures:
-            1: keyword.operator.logical.continue.shell
-          pop: true
-        - match: '{{reset_or}}'
-          captures:
-            1: keyword.operator.logical.or.shell
-          pop: true
-        - match: '{{reset_pipe}}'
-          captures:
-            1: keyword.operator.logical.pipe.shell
-          pop: true
-        - match: '{{reset_and}}'
-          captures:
-            1: keyword.operator.logical.and.shell
-          pop: true
-        - match: '{{reset_job}}'
-          captures:
-            1: keyword.operator.logical.job.shell
-          pop: true
-        - match: ""
-          pop: true
+    - match: ;(?![;&])
+      scope: keyword.operator.logical.continue.shell
+      pop: true
+    - match: \|\|
+      scope: keyword.operator.logical.or.shell
+      pop: true
+    - match: \|
+      scope: keyword.operator.logical.pipe.shell
+      pop: true
+    - match: \&\&
+      scope: keyword.operator.logical.and.shell
+      pop: true
+    - match: \&
+      scope: keyword.operator.logical.job.shell
+      pop: true
+    - match: $|(?=\S)
+      pop: true
 
   cmd-args-boilerplate:
+    # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
     - match: (?={{is_end_of_interpolation}})
       pop: true
     - include: cmd-args-common
-    - match: (?:\s+|^)--(?=\s|$)
+
+  cmd-args-boilerplate-with-end-of-options:
+    # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
+    - include: cmd-args-boilerplate
+    - match: (?:\s+|^)--(?=\s|;|\))
       scope: keyword.operator.end-of-options.shell
       set:
         - meta_content_scope: meta.function-call.arguments.shell
         - include: end-of-options-common
 
   cmd-args-boilerplate-bt:
+    # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
     - match: (?={{is_end_of_interpolation}}|`) # <-------------- extra backtick
       pop: true
     - include: cmd-args-common
-    - match: (?:\s+|^)--(?=\s|$)
+
+  cmd-args-boilerplate-with-end-of-options-bt:
+    # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
+    - include: cmd-args-boilerplate-bt
+    - match: (?:\s+|^)--(?=\s|;|\)|`)
       scope: keyword.operator.end-of-options.shell
       set:
         - meta_content_scope: meta.function-call.arguments.shell
@@ -796,7 +795,7 @@ contexts:
     - match: ""
       set:
         - meta_scope: meta.function-call.arguments.shell
-        - include: cmd-args-boilerplate
+        - include: cmd-args-boilerplate-with-end-of-options
         - match: '{{start_of_option}}'
           scope: punctuation.definition.parameter.shell
           push:
@@ -814,7 +813,7 @@ contexts:
     - match: ""
       set:
         - meta_scope: meta.function-call.arguments.shell
-        - include: cmd-args-boilerplate-bt
+        - include: cmd-args-boilerplate-with-end-of-options-bt
         - match: '{{start_of_option}}'
           scope: punctuation.definition.parameter.shell
           push:
@@ -842,8 +841,9 @@ contexts:
       scope: support.function.let.bash
       push:
         - meta_scope: meta.function-call.shell
-        - match: $
+        - match: (?=;)
           pop: true
+        - include: line-continuation-or-pop-at-end
         - include: expression
     - match: (\[\[)(?=\s)
       captures:
@@ -904,7 +904,7 @@ contexts:
     - match: ""
       set:
         - meta_scope: meta.function-call.arguments.shell
-        - include: cmd-args-boilerplate
+        - include: cmd-args-boilerplate-with-end-of-options
         - match: \s+(\])
           captures:
             1: support.function.test.end.shell
@@ -915,7 +915,7 @@ contexts:
     - match: ""
       set:
         - meta_scope: meta.function-call.arguments.shell
-        - include: cmd-args-boilerplate-bt
+        - include: cmd-args-boilerplate-with-end-of-options-bt
         - match: \s+(\])
           captures:
             1: support.function.test.end.shell
@@ -929,7 +929,7 @@ contexts:
         1: support.function.double-brace.end.shell
       pop: true
     - include: expression-test
-    # - include: cmd-args-boilerplate
+    # - include: cmd-args-boilerplate-with-end-of-options
 
   cmd-test-double-brace-args-bt:
     - meta_scope: meta.function-call.arguments.shell
@@ -938,7 +938,7 @@ contexts:
         1: support.function.double-brace.end.shell
       pop: true
     - include: expression-test
-    # - include: cmd-args-boilerplate-bt
+    # - include: cmd-args-boilerplate-with-end-of-options-bt
 
   cmd-name:
     - match: ""
@@ -1256,8 +1256,8 @@ contexts:
 
   expression:
     # A leading ‘0x’ or ‘0X’ denotes hexadecimal.
-    - match: \b(?i)0x
-      scope: punctuation.definition.numeric.hexadecimal.shell
+    - match: \b0[xX]
+      scope: punctuation.definition.numeric.base.shell
       push:
         - meta_scope: constant.numeric.integer.hexadecimal.shell
         - match: '[g-zG-Z]'
@@ -1267,7 +1267,7 @@ contexts:
           pop: true
     # Constants with a leading 0 are interpreted as octal numbers.
     - match: \b0(?=[0-7])
-      scope: punctuation.definition.numeric.octal.shell
+      scope: punctuation.definition.numeric.base.shell
       push:
         - meta_scope: constant.numeric.integer.octal.shell
         - match: '[89]'
@@ -1280,11 +1280,10 @@ contexts:
     # a number in that base. When specifying n, the digits greater than 9 are
     # represented by the lowercase letters, the uppercase letters, ‘@’, and ‘_’,
     # in that order.
-    - match: \b(\d+)(#)([a-zA-Z0-9@_]+)
+    - match: \b(\d+#)[a-zA-Z0-9@_]+
+      scope: constant.numeric.integer.other.shell
       captures:
-        1: constant.numeric.integer.decimal.base.shell
-        2: punctuation.definition.numeric.base.shell
-        3: constant.numeric.integer.generic-base.shell
+        1: punctuation.definition.numeric.base.shell
     # If base# is omitted, then base 10 is used.
     - match: \b\d+
       scope: constant.numeric.integer.decimal.shell
@@ -1337,6 +1336,16 @@ contexts:
         - include: expansion-and-string
     - match: ==?|!=?|<|>|\|\||&&
       scope: keyword.operator.logical.shell
+
+  operator-exclamation:
+    - match: \!(?!\S)
+      scope: keyword.operator.logical.shell
+    - match: (\!)(-?\d+|!)
+      scope: variable.language.history.shell
+      captures:
+        1: punctuation.definition.history.shell
+    - match: \!
+      scope: punctuation.definition.history.shell
 
   string:
     - include: string-quoted-double

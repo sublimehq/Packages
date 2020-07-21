@@ -7,19 +7,32 @@ import sublime
 import sublime_plugin
 
 
+def splitlines_keep_ends(text):
+    lines = text.split('\n')
+
+    # Need to insert back the newline characters between lines, difflib
+    # requires this.
+    if len(lines) > 0:
+        for i in range(len(lines) - 1):
+            lines[i] += '\n'
+
+    return lines
+
+
 def read_file_lines(fname):
-    with open(fname, mode="rt", encoding="utf-8", newline=None) as f:
-        lines = f.readlines()
+    with open(fname, mode="rt", encoding="utf-8") as f:
+        lines = splitlines_keep_ends(f.read())
 
     # as `difflib` doesn't work properly when the file does not end
     # with a new line character (https://bugs.python.org/issue2142),
     # we add a warning ourselves to fix it
     add_no_eol_warning_if_applicable(lines)
+
     return lines
 
 
 def add_no_eol_warning_if_applicable(lines):
-    if len(lines) > 0 and not lines[-1].endswith('\n'):
+    if len(lines) > 0 and lines[-1]:
         # note we update the last line rather than adding a new one
         # so that the diff will show the warning with the last line
         lines[-1] += '\n\\ No newline at end of file\n'
@@ -52,7 +65,7 @@ class DiffFilesCommand(sublime_plugin.WindowCommand):
             v.set_name(os.path.basename(files[1]) + " -> " + os.path.basename(files[0]))
             v.set_scratch(True)
             v.assign_syntax('Packages/Diff/Diff.sublime-syntax')
-            v.run_command('append', {'characters': difftxt})
+            v.run_command('append', {'characters': difftxt, 'disable_tab_translation': True})
 
     def is_visible(self, files):
         return len(files) == 2
@@ -74,7 +87,8 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
             sublime.status_message("Diff only works with UTF-8 files")
             return
 
-        b = self.view.substr(sublime.Region(0, self.view.size())).splitlines(True)
+        b = splitlines_keep_ends(self.view.substr(sublime.Region(0, self.view.size())))
+
         add_no_eol_warning_if_applicable(b)
 
         adate = time.ctime(os.stat(fname).st_mtime)
@@ -100,7 +114,7 @@ class DiffChangesCommand(sublime_plugin.TextCommand):
             v.assign_syntax('Packages/Diff/Diff.sublime-syntax')
             v.settings().set('word_wrap', self.view.settings().get('word_wrap'))
 
-        v.run_command('append', {'characters': difftxt})
+        v.run_command('append', {'characters': difftxt, 'disable_tab_translation': True})
 
         if not use_buffer:
             win.run_command("show_panel", {"panel": "output.unsaved_changes"})

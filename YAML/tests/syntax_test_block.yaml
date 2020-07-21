@@ -18,11 +18,11 @@
 
 - >1
 # ^ keyword.control.flow.block-scalar
-#  ^ constant.numeric.indentation-indicator
+#  ^ constant.numeric.integer.decimal.indentation-indicator
 
 - |1-
 # ^ keyword.control.flow.block-scalar
-#  ^ constant.numeric.indentation-indicator
+#  ^ constant.numeric.integer.decimal.indentation-indicator
 #   ^ storage.modifier.chomping-indicator
 
 # Headers and content ################

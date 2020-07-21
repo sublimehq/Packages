@@ -1,0 +1,10 @@
+{
+    "scope": "text.html.erlang - comment - string - source - meta.tag",
+    "completions": [
+        {
+            "trigger": "erl",
+            "contents": "<erl>$0</erl>",
+            "kind": ["markup", "t", "Tag"]
+        }
+    ]
+}

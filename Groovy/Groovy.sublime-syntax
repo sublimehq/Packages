@@ -7,6 +7,9 @@ file_extensions:
   - gvy
   - gradle
   - Jenkinsfile
+
+first_line_match: ^#!.*\bgroovy\b
+
 variables:
   unicode_letter: |-
     (?:(?xi)
@@ -421,6 +424,9 @@ contexts:
   escaped-end-of-line:
     - match: \\\n
       scope: constant.character.escape.groovy
+      push:
+        - match: ^
+          pop: true
   string-escape-sequences:
     - include: unicode-escape-sequence
     - include: escaped-end-of-line

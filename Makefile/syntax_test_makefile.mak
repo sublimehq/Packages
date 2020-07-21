@@ -62,6 +62,10 @@ foo = bar # a comment
 #        ^ string.unquoted
 #         ^ comment.line punctuation - string.unquoted
 
+foo = bar # a multiline \
+              comment
+#             ^ comment.line
+
 #################################
 # 6.3.2 computed variable names #
 #################################
@@ -88,6 +92,18 @@ define $(dir)_print =
 #                   ^ keyword.operator.assignment
 lpr $($(dir)_sources)
 endef
+
+define FOO
+  BAR := 1
+  define BAZ
+# ^^^^^^ string.unquoted.makefile - keyword
+    X := 1
+  endef
+# ^^^^^^ string.unquoted.makefile - keyword
+Y := 3
+endef   # comment
+#^^^^ keyword.control.makefile
+#       ^^^ comment.line.number-sign.makefile
 
 #########################
 # 6.5 setting variables #
@@ -273,6 +289,12 @@ sources := $($(a1)_objects:.o=.c)
 #                             ^^ string variable
 #                               ^ string variable keyword.other.block.end
 
+.build/vernum: ../meta/version
+    sed -i.bak 's/.*automatically updated.*/version = "$(VER)" # automatically updated/' setup.py
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded meta.function-call
+#              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single - comment
+#                                                      ^^^^^^ variable.parameter.makefile
+
 CC=g++
 #<- variable.other
 # ^ keyword.operator.assignment
@@ -334,6 +356,15 @@ FOO = some \
       in \
       here
 #        ^ string.unquoted
+
+#   echo I am a comment \
+    echo I am a comment, too!
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line
+
+#   echo I am a comment \
+    echo I am a comment, too!
+    echo I am no comment...
+#   ^^^^^^^^^^^^^^^^^^^^^^^ - comment.line
 
 reverse = $(2) $(1)
 # <- variable.other
@@ -840,6 +871,28 @@ LIBRARIES := $(filter $(notdir $(wildcard $(HOME)/energia_sketchbook/libraries/*
     #               ^ string.quoted.double.makefile punctuation.definition.string.begin.makefile
     #                                                          ^ string.quoted.double.makefile punctuation.definition.string.end.makefile
 
+# FIX: https://github.com/sublimehq/Packages/issues/1941
+escape_shellstring = $(subst `,\`,$(subst ",\",$(subst $$,\$$,$(subst \,\\,$1))))
+#                    ^^^^^^^^ meta.function-call.makefile
+#                            ^^^^^ meta.function-call.arguments.makefile - meta.function-call.makefile
+#                                 ^^^^^^^^ meta.function-call.arguments.makefile meta.function-call.makefile
+#                                         ^^^^^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile - meta.function-call.makefile
+#                                              ^^^^^^^^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.makefile
+#                                                      ^^^^^^^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.arguments.makefile - meta.function-call.makefile
+#                                                             ^^^^^^^^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.makefile
+#                                                                     ^^^^^^^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.arguments.makefile - meta.function-call.makefile
+#                                                                            ^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile meta.function-call.arguments.makefile keyword.other.block.end.makefile
+#                                                                             ^ meta.function-call.arguments.makefile meta.function-call.arguments.makefile keyword.other.block.end.makefile
+#                                                                              ^ meta.function-call.arguments.makefile keyword.other.block.end.makefile
+#                                                                               ^ keyword.other.block.end.makefile
+#                                                                                ^ - meta
+#                            ^ - punctuation
+#                             ^ punctuation.separator.makefile
+#                              ^^ - punctuation
+#                                         ^ - punctuation
+#                                          ^ punctuation.separator.makefile
+#                                           ^^ - punctuation
+
 .SECONDEXPANSION:
 # <- meta.function entity.name.function
 #               ^ keyword.operator.assignment - entity.name.function
@@ -870,3 +923,18 @@ target2:
 	@# # Regular Message
 	#^ comment - variable
 	@FeedProcessorSIAC -origin CTS -decodeData "binData"
+
+TESTTOOL = sh -c '\
+#        ^ keyword.operator.assignment.makefile
+#          ^^^^^^ meta.string.makefile - meta.interpolation
+#                ^^^ meta.string.makefile meta.interpolation.makefile
+#          ^^^^^^ string.unquoted.makefile
+#                ^ punctuation.section.interpolation.begin.makefile
+#                 ^ source.shell.embedded punctuation.separator.continuation.line.shell - source.shell source.shell
+  if something; then
+    build_thisway $$1 $$2;
+  fi' TESTTOOL
+# ^^^ meta.string.makefile meta.interpolation.makefile
+#    ^^^^^^^^^ meta.string.makefile string.unquoted.makefile - meta.interpolation
+# ^^ source.shell.embedded keyword.control.conditional.end.shell - source.shell source.shell
+#   ^ punctuation.section.interpolation.end.makefile

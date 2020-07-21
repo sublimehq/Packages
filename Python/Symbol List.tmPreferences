@@ -1,19 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-	<key>name</key>
-	<string>Symbol List</string>
 	<key>scope</key>
-	<string>source.python meta.function - meta.function.inline, source.python meta.class</string>
+	<string>
+		source.python entity.name.class,
+		source.python entity.name.function
+	</string>
 	<key>settings</key>
 	<dict>
+		<key>showInIndexedSymbolList</key>
+		<integer>1</integer>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
-		<key>symbolTransformation</key>
-		<string>
-		s/class\s+([[:alpha:]_][[:alnum:]_]*.+?\)?)(\:|$)/$1/g;
-		s/(?:async\s+)?def\s+([[:alpha:]_][[:alnum:]_]*).*/$1\(…\))/g;
-		</string>
 	</dict>
 </dict>
 </plist>

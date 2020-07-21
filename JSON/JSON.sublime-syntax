@@ -1,0 +1,143 @@
+%YAML 1.2
+---
+name: JSON
+file_extensions:
+  - json
+  - sublime-settings
+  - sublime-menu
+  - sublime-keymap
+  - sublime-mousemap
+  - sublime-theme
+  - sublime-build
+  - sublime-project
+  - sublime-completions
+  - sublime-commands
+  - sublime-macro
+  - sublime-color-scheme
+  - ipynb
+  - Pipfile.lock
+scope: source.json
+contexts:
+  prototype:
+    - include: comments
+  main:
+    - include: value
+  value:
+    - include: constant
+    - include: number
+    - include: string
+    - include: array
+    - include: object
+  array:
+    - match: '\['
+      scope: punctuation.section.sequence.begin.json
+      push:
+        - meta_scope: meta.sequence.json
+        - match: '\]'
+          scope: punctuation.section.sequence.end.json
+          pop: true
+        - include: value
+        - match: ","
+          scope: punctuation.separator.sequence.json
+        - match: '[^\s\]]'
+          scope: invalid.illegal.expected-sequence-separator.json
+  comments:
+    - match: /\*\*(?!/)
+      scope: punctuation.definition.comment.json
+      push:
+        - meta_scope: comment.block.documentation.json
+        - meta_include_prototype: false
+        - match: \*/
+          pop: true
+        - match: ^\s*(\*)(?!/)
+          captures:
+            1: punctuation.definition.comment.json
+    - match: /\*
+      scope: punctuation.definition.comment.json
+      push:
+        - meta_scope: comment.block.json
+        - meta_include_prototype: false
+        - match: \*/
+          pop: true
+    - match: (//).*$\n?
+      scope: comment.line.double-slash.js
+      captures:
+        1: punctuation.definition.comment.json
+  constant:
+    - match: \b(?:true|false|null)\b
+      scope: constant.language.json
+  number:
+    # handles integer and decimal numbers
+    - match: -?(?:0|[1-9]\d*)(?:(?:(\.)\d+)(?:[eE][-+]?\d+)?|(?:[eE][-+]?\d+))
+      scope: constant.numeric.float.decimal.json
+      captures:
+        1: punctuation.separator.decimal.json
+    - match: -?(?:0|[1-9]\d*)
+      scope: constant.numeric.integer.decimal.json
+  object:
+    # a JSON object
+    - match: '\{'
+      scope: punctuation.section.mapping.begin.json
+      push:
+        - meta_scope: meta.mapping.json
+        - match: '\}'
+          scope: punctuation.section.mapping.end.json
+          pop: true
+        - match: '"'
+          scope: punctuation.definition.string.begin.json
+          push:
+            - clear_scopes: 1
+            - meta_scope: meta.mapping.key.json string.quoted.double.json
+            - meta_include_prototype: false
+            - include: inside-string
+        - match: ":"
+          scope: punctuation.separator.mapping.key-value.json
+          push:
+            - match: ',|\s?(?=\})'
+              scope: invalid.illegal.expected-mapping-value.json
+              pop: true
+            - match: (?=\S)
+              set:
+                - clear_scopes: 1
+                - meta_scope: meta.mapping.value.json
+                - include: value
+                - match: ''
+                  set:
+                    - match: ','
+                      scope: punctuation.separator.mapping.pair.json
+                      pop: true
+                    - match: \s*(?=\})
+                      pop: true
+                    - match: \s(?!/[/*])(?=[^\s,])|[^\s,]
+                      scope: invalid.illegal.expected-mapping-separator.json
+                      pop: true
+        - match: '[^\s\}]'
+          scope: invalid.illegal.expected-mapping-key.json
+  string:
+    - match: '"'
+      scope: punctuation.definition.string.begin.json
+      push: inside-string
+  inside-string:
+    - meta_scope: string.quoted.double.json
+    - meta_include_prototype: false
+    - match: '"'
+      scope: punctuation.definition.string.end.json
+      pop: true
+    - include: string-escape
+    - match: $\n?
+      scope: invalid.illegal.unclosed-string.json
+      pop: true
+  string-escape:
+    - match: |-
+        (?x:                # turn on extended mode
+          \\                # a literal backslash
+          (?:               # ...followed by...
+            ["\\/bfnrt]     # one of these characters
+            |               # ...or...
+            u               # a u
+            [0-9a-fA-F]{4}  # and four hex digits
+          )
+        )
+      scope: constant.character.escape.json
+    - match: \\.
+      scope: invalid.illegal.unrecognized-string-escape.json

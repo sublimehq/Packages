@@ -145,16 +145,16 @@ public class SyntaxTest {
 //                                          ^ meta.method.body.java punctuation.section.block.begin.java
         String[] strings = new String[5];
 //                        ^^^^^^^^^^^^^^ meta.assignment.rhs.java
-//                         ^^^ keyword.control.new.java
+//                         ^^^ keyword.other.storage.new.java
 //                                    ^ constant.numeric.integer.decimal
         printList(Arrays.stream(args)
             .collect(Collectors.toCollection(ArrayList::new)));
-//                                                      ^^^ meta.method.body.java - keyword.control.new.java
+//                                                      ^^^ meta.method.body.java - keyword.other.storage.new.java
 //                                                      ^^^ variable.function.reference.java
 //                                                    ^^ punctuation.accessor.double-colon.java
         anotherMethod();
         try (Stream<String> lines = Files.lines(path)) {
-//      ^^^ keyword.control.catch-exception.java
+//      ^^^ keyword.control.exception.try.java
 //                                 ^^^^^^^^^^^^^^^^^^ meta.assignment.rhs.java
 //                                                    ^ - meta.parens.java
 //                                                   ^ meta.method.body.java - meta.assignment.rhs.java
@@ -162,11 +162,17 @@ public class SyntaxTest {
 //                                    ^^^^^^^ variable.function.reference.java
 
         } catch (IOException ignore) {
-//        ^^^^^ keyword.control.catch-exception.java
+//        ^^^^^^ meta.catch.java
+//              ^^^^^^^^^^^^^^^^^^^^ meta.catch.parameters.java meta.parens.java
+//        ^^^^^ keyword.control.exception.catch.java
+//              ^ punctuation.section.parens.begin.java
 //               ^^^^^^^^^^^ support.class.java
 //                           ^^^^^^ variable.parameter
+//                                 ^ punctuation.section.parens.end.java
         } catch (final MyException | com.net.org.Foo.Bar |
-//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.catch
+//        ^^^^^^ meta.catch.java
+//              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.catch.parameters.java meta.parens.java
+//        ^^^^^ keyword.control.exception.catch.java
 //              ^ punctuation.section.parens.begin
 //               ^ meta.catch.parameters storage.modifier.java
 //                     ^^^^^^^^^^^ support.class
@@ -186,7 +192,7 @@ public class SyntaxTest {
 //              ^ support.class
 //                            ^ variable.parameter
 //                                 ^ meta.catch.parameters
-//                                  ^ punctuation.section.parens.end - meta.catch.parameters
+//                                  ^ punctuation.section.parens.end
 
         try (final InputStream is = new FileInputStream(args[0]);
 //           ^^^^^ storage.modifier
@@ -198,13 +204,13 @@ public class SyntaxTest {
         }
 
         try {
-//      ^^^ keyword.control.catch-exception.java
+//      ^^^ keyword.control.exception.try.java
           Class.forName(args[2]);
         } catch (Exception e) {
-//        ^^^^^ keyword.control.catch-exception.java
+//        ^^^^^ keyword.control.exception.catch.java
           log.error(e);
         } finally {
-//        ^^^^^^^ keyword.control.catch-exception.java
+//        ^^^^^^^ keyword.control.exception.finally.java
         }
 
       for (final int x = 10;;) { System.out.println(x); break; }
@@ -301,6 +307,22 @@ class ExtendsAndImplementsTest extends Foo implements Bar<Foo>, OtherBar {}
 //                                                              ^^^^^^^^ entity.other.inherited-class.java
 //                                                                       ^ - meta.class.implements.java
 
+class ExtendsAndImplementsTest extends Foo, Bar implements Bar<Foo>, OtherBar {}
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
+//                             ^^^^^^^^^^^^^^^^^ meta.class.extends
+//                             ^^^^^^^ keyword.declaration.extends.java
+//                                     ^^^ entity.other.inherited-class.java
+//                                        ^ punctuation.separator.comma.java
+//                                          ^^^ entity.other.inherited-class.java
+//                                              ^ - meta.class.extends
+//                                              ^^^^^^^^^^^^^^ meta.class.implements.java
+//                                              ^^^^^^^^^^ keyword.declaration.implements.java
+//                                                         ^^^ entity.other.inherited-class.java
+//                                                            ^^^^^ meta.generic.java
+//                                                                 ^ punctuation.separator.comma.java
+//                                                                   ^^^^^^^^ entity.other.inherited-class.java
+//                                                                            ^ - meta.class.implements.java
+
 class AnyClass {
 //    ^^^^^^^^ entity.name.class.java
     int bar; // this comment() is recognized as code
@@ -326,6 +348,19 @@ class AnyClass {
 //                          ^ - meta.method.java
 }
 // <- punctuation.section.block.end.java
+
+interface T extends A, BB {}
+//^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java
+//       ^^ meta.class.identifier.java
+//          ^^^^^^^^^^^^^^ meta.class.extends.java
+//                        ^^ meta.class.body.java
+//        ^ entity.name.class.java
+//          ^^^^^^^ keyword.declaration.extends.java
+//                  ^ entity.other.inherited-class.java
+//                   ^ punctuation.separator.comma.java
+//                     ^^ entity.other.inherited-class.java
+//                        ^ punctuation.section.block.begin.java
+//                         ^ punctuation.section.block.end.java
 
 public enum FooBaz {
 //     ^^^^ storage.type.java
@@ -356,6 +391,133 @@ enum MyEnum {
 //^^^^^^^^^^ constant.other.enum
 //             ^^^^^^^^^^^ comment
 }
+
+public enum TokenKind extends MyEnum, FooBaz implements Foo, Bar {
+//<- meta.class.java storage.modifier.java
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java
+//^^^^ storage.modifier.java
+//     ^^^^ storage.type.java
+//          ^^^^^^^^^ entity.name.class.java
+//                    ^^^^^^^ keyword.declaration.extends.java
+//                            ^^^^^^ entity.other.inherited-class.java
+//                                  ^ punctuation.separator.comma.java
+//                                    ^^^^^^ entity.other.inherited-class.java
+//                                           ^^^^^^^^^^ keyword.declaration.implements.java
+//                                                      ^^^ entity.other.inherited-class.java
+//                                                         ^ punctuation.separator.comma.java
+//                                                           ^^^ entity.other.inherited-class.java
+//                                                               ^ punctuation.section.block.begin.java
+    a,
+//  ^ constant.other.enum.java
+//   ^ punctuation.separator.comma.java
+    a(1, 2, 3),
+//  ^ constant.other.enum.java
+//   ^^^^^^^^^ meta.parens.java
+//   ^ punctuation.section.parens.begin.java
+//    ^ constant.numeric.integer.decimal.java
+//     ^ punctuation.separator.comma.java
+//       ^ constant.numeric.integer.decimal.java
+//        ^ punctuation.separator.comma.java
+//          ^ constant.numeric.integer.decimal.java
+//           ^ punctuation.section.parens.end.java
+//            ^ punctuation.separator.comma.java
+    a {},
+//  ^ constant.other.enum.java
+//    ^ meta.block.java punctuation.section.block.begin.java
+//     ^ meta.block.java punctuation.section.block.end.java
+//      ^ punctuation.separator.comma.java
+    A,
+//  ^ constant.other.enum.java
+//   ^ punctuation.separator.comma.java
+    A(1),
+//  ^ constant.other.enum.java
+//   ^^^ meta.parens.java
+//   ^ punctuation.section.parens.begin.java
+//    ^ constant.numeric.integer.decimal.java
+//     ^ punctuation.section.parens.end.java
+//      ^ punctuation.separator.comma.java
+    A {},
+//  ^ constant.other.enum.java
+//    ^ meta.block.java punctuation.section.block.begin.java
+//     ^ meta.block.java punctuation.section.block.end.java
+//      ^ punctuation.separator.comma.java
+    integerToken,
+//  ^^^^^^^^^^^^ constant.other.enum.java
+//              ^ punctuation.separator.comma.java
+    integerToken("integer literal"),
+//              ^^^^^^^^^^^^^^^^^^^ meta.parens.java
+//  ^^^^^^^^^^^^ constant.other.enum.java
+//              ^ punctuation.section.parens.begin.java
+//               ^^^^^^^^^^^^^^^^^ string.quoted.double.java
+//                                ^ punctuation.section.parens.end.java
+//                                 ^ punctuation.separator.comma.java
+    integerToken {};
+//  ^^^^^^^^^^^^ constant.other.enum.java
+//               ^ meta.block.java punctuation.section.block.begin.java
+//                ^ meta.block.java punctuation.section.block.end.java
+//                 ^ punctuation.terminator.java
+    int {}
+//  ^^^ storage.type.primitive.java
+    static {}
+//  ^^^^^^ storage.modifier.java
+    String image = "";
+//  ^^^^^^ support.class.java
+//         ^^^^^ meta.field.java
+//               ^ keyword.operator.assignment.java
+//                 ^^ string.quoted.double.java
+//                   ^ punctuation.terminator.java
+    TokenKind(String s) {}
+//  ^^^^^^^^^^^^^^^^^^^^^^ meta.method.java
+//  ^^^^^^^^^ meta.method.identifier.java entity.name.function.constructor.java
+//           ^^^^^^^^^^ meta.method.parameters.java meta.parens.java
+//                      ^^ meta.method.body.java
+//           ^ punctuation.section.parens.begin.java
+//            ^^^^^^ support.class.java
+//                   ^ variable.parameter.java
+//                    ^ punctuation.section.parens.end.java
+//                      ^ punctuation.section.block.begin.java
+//                       ^ punctuation.section.block.end.java
+    public static void main(String[]a){}
+//  ^^^^^^^^^^^^^^ meta.class.java meta.class.body.java meta.block.java
+//                ^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.class.body.java meta.block.java meta.method.java
+//                     ^^^^ meta.method.identifier.java
+//                         ^^^^^^^^^^^ meta.method.parameters.java meta.parens.java
+//                                    ^^ meta.method.body.java
+//  ^^^^^^ storage.modifier.java
+//         ^^^^^^ storage.modifier.java
+//                ^^^^ storage.type.void.java
+//                     ^^^^ entity.name.function.java
+//                         ^ punctuation.section.parens.begin.java
+//                          ^^^^^^ support.class.java
+//                                ^^ storage.modifier.array.java
+//                                  ^ variable.parameter.java
+//                                   ^ punctuation.section.parens.end.java
+//                                    ^ punctuation.section.block.begin.java
+//                                     ^ punctuation.section.block.end.java
+}
+
+public          // comment
+//<- storage.modifier.java
+enum            // comment
+//<- meta.class.java meta.class.identifier.java storage.type.java
+TokenKind       // comment
+//<- meta.class.java meta.class.identifier.java entity.name.class.java
+extends         // comment
+//<- meta.class.java meta.class.extends.java keyword.declaration.extends.java
+MyEnum,         // comment
+//<- meta.class.java meta.class.extends.java entity.other.inherited-class.java
+FooBaz          // comment
+//<- meta.class.java meta.class.extends.java entity.other.inherited-class.java
+implements      // comment
+//<- meta.class.java meta.class.implements.java keyword.declaration.implements.java
+Foo,            // comment
+//<- meta.class.java meta.class.implements.java entity.other.inherited-class.java
+Bar             // comment
+//<- meta.class.java meta.class.implements.java entity.other.inherited-class.java
+{
+//<- meta.class.java meta.class.body.java meta.block.java punctuation.section.block.begin.java
+}
+//<- meta.class.java meta.class.body.java meta.block.java punctuation.section.block.end.java
 
 class InvalidStuff
 {
@@ -697,6 +859,11 @@ public class GrafoTest {
 //                                               ^ storage.modifier - meta.annotation
 //                                                     ^ support.class
 
+    List<@NotBlank(message = "") String> annotationInGeneric;
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic
+//       ^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation
+//                               ^^^^^^ support.class
+
 }
 
 public enum FooEnum {
@@ -718,11 +885,11 @@ public enum AbstractEnum {
 //     ^^^^ storage.type.java
   FOO {
 //^^^ constant.other.enum
-//    ^ meta.enum.java meta.enum.body.java punctuation.section.braces.begin.java
+//    ^ meta.enum.java meta.enum.body.java meta.block.java punctuation.section.block.begin.java
     public void doSomething() { return; }
 //              ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.java
   },
-//^ meta.enum.java meta.enum.body.java punctuation.section.braces.end.java
+//^ meta.enum.java meta.enum.body.java meta.block.java punctuation.section.block.end.java
   BAR {
 //^^^ constant.other.enum
     public void doSomething() { return; }
@@ -903,7 +1070,7 @@ public class Foo {
 //  ^ support.class.java
 //         ^ variable.parameter.java
     return;
-//  ^ keyword.control.java
+//  ^^^^^^ keyword.control.flow.return.java
   }
 
   void bar$() {}
@@ -1047,7 +1214,7 @@ public class Foo {
 //                                    ^ storage.type.function.anonymous.java
 //                                       ^ meta.block punctuation.section.block.begin
     return 1;
-//  ^ keyword.control.java
+//  ^^^^^^ keyword.control.flow.return.java
   };
 //^ meta.block punctuation.section.block.end
 // ^ punctuation.terminator
@@ -1075,8 +1242,14 @@ public class Foo {
 //^ meta.static.body.java punctuation.section.block.end.java
 
   int operators() {
+
+    assert scale > -100 : foo == true;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assertion.java
+//  ^^^^^^ keyword.control.flow.assert.java
+//                      ^ punctuation.separator.expressions.java
+//
     if (this.scale<0) {
-//  ^^ keyword.control.java
+//  ^^ keyword.control.conditional.if.java
 //     ^^^^^^^^^^^^^^ meta.parens.java
 //     ^ punctuation.section.parens.begin
 //          ^ punctuation.accessor.dot.java
@@ -1084,7 +1257,7 @@ public class Foo {
 //                 ^ constant.numeric.integer.decimal
 //                   ^ - meta.parens.java
       return foo<<32;
-//    ^^^^^^ keyword.control.java
+//    ^^^^^^ keyword.control.flow.return.java
 //              ^^ keyword.operator.bitshift.java
 //                ^^ constant.numeric.integer.decimal
 //                  ^ punctuation.terminator.java
@@ -1100,6 +1273,7 @@ public class Foo {
 //                        ^ punctuation.terminator.java
 
     return foo<bar;
+//  ^^^^^^ keyword.control.flow.return.java
 
     if (a == false) {
 //        ^^ keyword.operator.comparison
@@ -1128,100 +1302,497 @@ public class Foo {
 //^ meta.method.java meta.method.body.java punctuation.section.block.end.java
 
   int numbers() {
-    a = 0 + 0L;
-//      ^ constant.numeric.integer.decimal
-//        ^ keyword.operator
-//          ^^ constant.numeric.integer.decimal
-//           ^ storage.type.numeric.long
 
-    a = 0xABCD + 0xAB_CD;
+    a = 0x1.
+//      ^^^^ constant.numeric.float.hexadecimal
+//      ^^ punctuation.definition.numeric.hexadecimal
+//         ^ punctuation.separator.decimal
+
+    a = 0x.1a2f
+//      ^^^^^^^ constant.numeric.float.hexadecimal
+//      ^^ punctuation.definition.numeric.hexadecimal
+//        ^ punctuation.separator.decimal
+//            ^ - punctuation
+
+    a = 0x1.a2f
+//      ^^^^^^^ constant.numeric.float.hexadecimal
+//      ^^ punctuation.definition.numeric.hexadecimal
+//         ^ punctuation.separator.decimal
+//            ^ - punctuation
+
+    a = 0x1ffp+1023
+//      ^^^^^^^^^^^ constant.numeric.float.hexadecimal
+//      ^^ punctuation.definition.numeric.hexadecimal
+
+    a = 0xd.aP-1074 0x_1_f_._a_d_P-_10_74_
+//      ^^^^^^^^^^^ constant.numeric.float.hexadecimal
+//      ^^ punctuation.definition.numeric.hexadecimal
+//         ^ punctuation.separator.decimal
+//                  ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.float.hexadecimal
+//                  ^^ punctuation.definition.numeric.hexadecimal
+//                    ^ invalid.illegal.numeric
+//                      ^ - invalid
+//                        ^ invalid.illegal.numeric
+//                         ^ punctuation.separator.decimal
+//                          ^ invalid.illegal.numeric
+//                            ^ - invalid
+//                              ^ invalid.illegal.numeric
+//                                 ^ invalid.illegal.numeric
+//                                    ^ - invalid
+//                                       ^ invalid.illegal.numeric
+
+//  decimal floats
+
+    a = 0D + 12345D + 12345D + 12_34_5_D - _12_34_5D - 12a45D;
+//      ^^ constant.numeric.float.decimal
+//       ^ storage.type.numeric
+//           ^^^^^^ constant.numeric.float.decimal
+//                ^ storage.type.numeric
+//                    ^^^^^^ constant.numeric.float.decimal
+//                         ^ storage.type.numeric
+//                             ^^^^^^^^^ constant.numeric.float.decimal
+//                                    ^ invalid.illegal.numeric
+//                                     ^ storage.type.numeric
+//                                         ^^^^^^^^^ - constant.numeric
+//                                                     ^^^^^^ - constant.numeric
+
+    a = 0F + 12345F + 12345F + 12_34_5_F - _12_34_5F - 12a45F;
+//      ^^ constant.numeric.float.decimal
+//       ^ storage.type.numeric
+//           ^^^^^^ constant.numeric.float.decimal
+//                ^ storage.type.numeric
+//                    ^^^^^^ constant.numeric.float.decimal
+//                         ^ storage.type.numeric
+//                             ^^^^^^^^^ constant.numeric.float.decimal
+//                                    ^ invalid.illegal.numeric
+//                                     ^ storage.type.numeric
+//                                         ^^^^^^^^^ - constant.numeric
+//                                                     ^^^^^^ - constant.numeric
+
+    a = 1. + 1_. + 1_2. - _1.;
+//      ^^ constant.numeric.float.decimal
+//       ^ punctuation.separator.decimal
+//           ^^^ constant.numeric.float.decimal
+//            ^ invalid.illegal.numeric
+//             ^ punctuation.separator.decimal
+//                 ^^^^ constant.numeric.float.decimal
+//                    ^ punctuation.separator.decimal
+//                        ^^^ - constant.numeric
+
+    a = 1.D + 1_.D + 1_2.D - _1.D;
+//      ^^^ constant.numeric.float.decimal
+//       ^ punctuation.separator.decimal
+//        ^ storage.type.numeric
+//            ^^^^ constant.numeric.float.decimal
+//             ^ invalid.illegal.numeric
+//              ^ punctuation.separator.decimal
+//               ^ storage.type.numeric
+//                   ^^^^^ constant.numeric.float.decimal
+//                      ^ punctuation.separator.decimal
+//                       ^ storage.type.numeric
+//                           ^^^^ - constant.numeric
+
+    a = 1.2 + 1_.2_ + 1_2.3_4 + 1_2_._3_4_ - _1.5;
+//      ^^^ constant.numeric.float.decimal
+//       ^ punctuation.separator.decimal
+//            ^^^^^ constant.numeric.float.decimal
+//             ^ invalid.illegal.numeric
+//              ^ punctuation.separator.decimal
+//                    ^^^^^^^ constant.numeric.float.decimal
+//                       ^ punctuation.separator.decimal
+//                              ^^^^^^^^^^ constant.numeric.float.decimal
+//                                 ^ invalid.illegal.numeric
+//                                  ^ punctuation.separator.decimal
+//                                   ^ invalid.illegal.numeric
+//                                           ^^ - constant.numeric
+//                                             ^ punctuation.separator.decimal
+//                                             ^^ constant.numeric.float.decimal
+
+    a = 1.2d + 1_.2_d + 1_2.3_4d + 1_2_._3_4_d - _1.5d;
+//      ^^^^ constant.numeric.float.decimal
+//       ^ punctuation.separator.decimal
+//         ^ storage.type.numeric
+//             ^^^^^^ constant.numeric.float.decimal
+//              ^ invalid.illegal.numeric
+//               ^ punctuation.separator.decimal
+//                 ^ invalid.illegal.numeric
+//                  ^ storage.type.numeric
+//                      ^^^^^^^^ constant.numeric.float.decimal
+//                         ^ punctuation.separator.decimal
+//                             ^ storage.type.numeric
+//                                 ^^^^^^^^^^^ constant.numeric.float.decimal
+//                                    ^ invalid.illegal.numeric
+//                                     ^ punctuation.separator.decimal
+//                                      ^ invalid.illegal.numeric
+//                                           ^ storage.type.numeric
+//                                          ^ invalid.illegal.numeric
+//                                               ^^ - constant.numeric
+//                                                 ^ punctuation.separator.decimal
+//                                                 ^^^ constant.numeric.float.decimal
+//                                                   ^ storage.type.numeric
+
+    a = 12e34 + 12e+3_ + 1_2e3_4 + 1_2_e3_4_ + 1_2_e_3_4 + 12e+34 + 12e-34 + 12e+3_4 - _12e34;
+//      ^^^^^ constant.numeric.float.decimal
+//              ^^^^^^ constant.numeric.float.decimal
+//                       ^^^^^^^ constant.numeric.float.decimal
+//                                 ^^^^^^^^^ constant.numeric.float.decimal
+//                                    ^ invalid.illegal.numeric
+//                                             ^^^^^^^^^ constant.numeric.float.decimal
+//                                                ^ invalid.illegal.numeric
+//                                                  ^ invalid.illegal.numeric
+//                                                         ^^^^^^ constant.numeric.float.decimal
+//                                                                  ^^^^^^ constant.numeric.float.decimal
+//                                                                           ^^^^^^^ constant.numeric.float.decimal
+//                                                                                     ^^^^^^ - constant.numeric
+
+    a = 12e34f + 12e+3_f + 1_2e3_4f + 1_2_e3_4_f + 1_2_e_3_4f + 12e+34f + 12e-34f + 12e+3_4f - _12e34f;
+//      ^^^^^^ constant.numeric.float.decimal
+//           ^ storage.type.numeric
+//               ^^^^^^^ constant.numeric.float.decimal
+//                    ^ invalid.illegal.numeric
+//                     ^ storage.type.numeric
+//                         ^^^^^^^^ constant.numeric.float.decimal
+//                                ^ storage.type.numeric
+//                                    ^^^^^^^^^^ constant.numeric.float.decimal
+//                                       ^ invalid.illegal.numeric
+//                                            ^ invalid.illegal.numeric
+//                                             ^ storage.type.numeric
+//                                                 ^^^^^^^^^^ constant.numeric.float.decimal
+//                                                    ^ invalid.illegal.numeric
+//                                                      ^ invalid.illegal.numeric
+//                                                          ^ storage.type.numeric
+//                                                              ^^^^^^^ constant.numeric.float.decimal
+//                                                                    ^ storage.type.numeric
+//                                                                        ^^^^^^^ constant.numeric.float.decimal
+//                                                                              ^ storage.type.numeric
+//                                                                                  ^^^^^^^^ constant.numeric.float.decimal
+//                                                                                         ^ storage.type.numeric
+//                                                                                             ^^^^^^^ - constant.numeric
+
+    a = 12.e34 + 12.e+3_ + 1_2.e3_4 + 1_2_.e3_4_ + 1_2_.e_3_4 + 12.e+34 + 12.e-34 + 12.e+3_4 - _12.e34;
+//      ^^^^^^ constant.numeric.float.decimal
+//        ^ punctuation.separator.decimal
+//               ^^^^^^^ constant.numeric.float.decimal
+//                 ^ punctuation.separator.decimal
+//                         ^^^^^^^^ constant.numeric.float.decimal
+//                            ^ punctuation.separator.decimal
+//                                    ^^^^^^^^^^ constant.numeric.float.decimal
+//                                       ^ invalid.illegal.numeric
+//                                        ^ punctuation.separator.decimal
+//                                                 ^^^^^^^^^^ constant.numeric.float.decimal
+//                                                    ^ invalid.illegal.numeric
+//                                                     ^ punctuation.separator.decimal
+//                                                       ^ invalid.illegal.numeric
+//                                                              ^^^^^^^ constant.numeric.float.decimal
+//                                                                ^ punctuation.separator.decimal
+//                                                                        ^^^^^^^ constant.numeric.float.decimal
+//                                                                          ^ punctuation.separator.decimal
+//                                                                                  ^^^^^^^^ constant.numeric.float.decimal
+//                                                                                    ^ punctuation.separator.decimal
+//                                                                                             ^^^^^^^ - constant.numeric
+
+    a = 12.e34f + 12.e+3_f + 1_2.e3_4f + 1_2_.e3_4_f + 1_2_.e_3_4f + 12.e+34f + 12.e-34f + 12.e+3_4f - _12.e34f;
+//      ^^^^^^^ constant.numeric.float.decimal
+//        ^ punctuation.separator.decimal
+//            ^ storage.type.numeric
+//                ^^^^^^^^ constant.numeric.float.decimal
+//                  ^ punctuation.separator.decimal
+//                      ^ invalid.illegal.numeric
+//                       ^ storage.type.numeric
+//                           ^^^^^^^^^ constant.numeric.float.decimal
+//                              ^ punctuation.separator.decimal
+//                                   ^ storage.type.numeric
+//                                       ^^^^^^^^^^^ constant.numeric.float.decimal
+//                                          ^ invalid.illegal.numeric
+//                                           ^ punctuation.separator.decimal
+//                                                ^ invalid.illegal.numeric
+//                                                 ^ storage.type.numeric
+//                                                     ^^^^^^^^^^^ constant.numeric.float.decimal
+//                                                        ^ invalid.illegal.numeric
+//                                                         ^ punctuation.separator.decimal
+//                                                           ^ invalid.illegal.numeric
+//                                                               ^ storage.type.numeric
+//                                                                   ^^^^^^^^ constant.numeric.float.decimal
+//                                                                     ^ punctuation.separator.decimal
+//                                                                          ^ storage.type.numeric
+//                                                                              ^^^^^^^^ constant.numeric.float.decimal
+//                                                                                ^ punctuation.separator.decimal
+//                                                                                     ^ storage.type.numeric
+//                                                                                         ^^^^^^^^^ constant.numeric.float.decimal
+//                                                                                           ^ punctuation.separator.decimal
+//                                                                                                 ^ storage.type.numeric
+//                                                                                                     ^^^^^^^^ - constant.numeric
+
+    a = 12.34e56 + 12_.34_e+5_ + 1_2.3_4e5_6 + 1_2_.3_4_e5_6_ + 1_2_._3_4e_5_6 + 12.34e+56 + 12.34e-56 + 12.34e+5_6 - _12.34e+5_6;
+//      ^^^^^^^^ constant.numeric.float.decimal
+//        ^ punctuation.separator.decimal
+//                 ^^^^^^^^^^^ constant.numeric.float.decimal
+//                   ^ invalid.illegal.numeric
+//                    ^ punctuation.separator.decimal
+//                               ^^^^^^^^^^^ constant.numeric.float.decimal
+//                                  ^ punctuation.separator.decimal
+//                                             ^^^^^^^^^^^^^^ constant.numeric.float.decimal
+//                                                ^ invalid.illegal.numeric
+//                                                 ^ punctuation.separator.decimal
+//                                                              ^^^^^^^^^^^^^^ constant.numeric.float.decimal
+//                                                                 ^ invalid.illegal.numeric
+//                                                                  ^ punctuation.separator.decimal
+//                                                                   ^ invalid.illegal.numeric
+//                                                                               ^^^^^^^^^ constant.numeric.float.decimal
+//                                                                                 ^ punctuation.separator.decimal
+//                                                                                           ^^^^^^^^^ constant.numeric.float.decimal
+//                                                                                             ^ punctuation.separator.decimal
+//                                                                                                       ^^^^^^^^^^ constant.numeric.float.decimal
+//                                                                                                         ^ punctuation.separator.decimal
+//                                                                                                                    ^^^ - constant.numeric
+
+    a = 12.34e56f + 12_.34_e+5_f + 1_2.3_4e5_6f + 1_2_.3_4_e5_6_f + 1_2_._3_4e_5_6f + 12.34e+56f + 12.34e-56f + 12.34e+5_6f - _12.34e+5_6f;
+//      ^^^^^^^^^ constant.numeric.float.decimal
+//        ^ punctuation.separator.decimal
+//              ^ storage.type.numeric
+//                  ^^^^^^^^^^^^ constant.numeric.float.decimal
+//                    ^ invalid.illegal.numeric
+//                     ^ punctuation.separator.decimal
+//                        ^ invalid.illegal.numeric
+//                            ^ invalid.illegal.numeric
+//                             ^ storage.type.numeric
+//                                 ^^^^^^^^^^^^ constant.numeric.float.decimal
+//                                    ^ punctuation.separator.decimal
+//                                            ^ storage.type.numeric
+//                                                ^^^^^^^^^^^^^^^ constant.numeric.float.decimal
+//                                                   ^ invalid.illegal.numeric
+//                                                    ^ punctuation.separator.decimal
+//                                                             ^ invalid.illegal.numeric
+//                                                              ^ storage.type.numeric
+//                                                                  ^^^^^^^^^^^^^^^ constant.numeric.float.decimal
+//                                                                     ^ invalid.illegal.numeric
+//                                                                      ^ punctuation.separator.decimal
+//                                                                       ^ invalid.illegal.numeric
+//                                                                                ^ storage.type.numeric
+//                                                                                    ^^^^^^^^^^ constant.numeric.float.decimal
+//                                                                                      ^ punctuation.separator.decimal
+//                                                                                             ^ storage.type.numeric
+//                                                                                                 ^^^^^^^^^^ constant.numeric.float.decimal
+//                                                                                                   ^ punctuation.separator.decimal
+//                                                                                                          ^ storage.type.numeric
+//                                                                                                              ^^^^^^^^^^^ constant.numeric.float.decimal
+//                                                                                                                ^ punctuation.separator.decimal
+//                                                                                                                        ^ storage.type.numeric
+//                                                                                                                            ^^^ - constant.numeric
+
+    a = .2 + .2_ + .3_4 + ._3_4_;
+//      ^^ constant.numeric.float.decimal
+//      ^ punctuation.separator.decimal
+//           ^^^ constant.numeric.float.decimal
+//           ^ punctuation.separator.decimal
+//                 ^^^^ constant.numeric.float.decimal
+//                 ^ punctuation.separator.decimal
+//                        ^^^^^^ constant.numeric.float.decimal
+//                        ^ punctuation.separator.decimal
+//                         ^ invalid.illegal.numeric
+
+    a = .2d + .2_d + .3_4d + ._3_4_d;
+//      ^^^ constant.numeric.float.decimal
+//      ^ punctuation.separator.decimal
+//            ^^^^ constant.numeric.float.decimal
+//            ^ punctuation.separator.decimal
+//              ^ invalid.illegal.numeric
+//                   ^^^^^ constant.numeric.float.decimal
+//                   ^ punctuation.separator.decimal
+//                           ^^^^^^^ constant.numeric.float.decimal
+//                           ^ punctuation.separator.decimal
+//                            ^ invalid.illegal.numeric
+//                                ^ invalid.illegal.numeric
+
+    a = .34e56 + .34_e+5_ + .3_4e5_6 + .3_4_e5_6_ + ._3_4e_5_6 + .34e+56 + .34e-56 + .34e+5_6;
+//      ^^^^^^ constant.numeric.float.decimal
+//      ^ punctuation.separator.decimal
+//               ^^^^^^^^ constant.numeric.float.decimal
+//               ^ punctuation.separator.decimal
+//                          ^^^^^^^^ constant.numeric.float.decimal
+//                          ^ punctuation.separator.decimal
+//                                     ^^^^^^^^^^ constant.numeric.float.decimal
+//                                     ^ punctuation.separator.decimal
+//                                                  ^^^^^^^^^^ constant.numeric.float.decimal
+//                                                  ^ punctuation.separator.decimal
+//                                                   ^ invalid.illegal.numeric
+//                                                               ^^^^^^^ constant.numeric.float.decimal
+//                                                               ^ punctuation.separator.decimal
+//                                                                         ^^^^^^^ constant.numeric.float.decimal
+//                                                                         ^ punctuation.separator.decimal
+//                                                                                   ^^^^^^^^ constant.numeric.float.decimal
+//                                                                                   ^ punctuation.separator.decimal
+
+    a = 23.45 + 23.45F + 23.45d;
+//      ^^^^^ constant.numeric.float.decimal
+//              ^^^^^^ constant.numeric.float.decimal
+//                   ^ storage.type.numeric
+//                       ^^^^^^ constant.numeric.float.decimal
+//                            ^ storage.type.numeric
+
+    a = .01 + .02e3+.02e3F;
+//      ^^^ constant.numeric.float.decimal
+//          ^ keyword.operator
+//            ^^^^^ constant.numeric.float.decimal
+//                 ^ keyword.operator
+//                   ^^^^^ constant.numeric.float.decimal
+//                       ^ storage.type.numeric
+
+    a = 23.45e67+23.45e+6F+23.45e-67D;
+//      ^^^^^^^^ constant.numeric.float.decimal
+//              ^ keyword.operator
+//               ^^^^^^^^^ constant.numeric.float.decimal
+//                       ^ storage.type.numeric
+//                        ^ keyword.operator
+//                         ^^^^^^^^^^ constant.numeric.float.decimal
+//                                  ^ storage.type.numeric
+
+// binary integers
+
+    a = 0b101101 + 0b10_11_01 + 0b10_11_01_ + 0b_101101 - 0_b10_1101 - 0b;
+//      ^^ punctuation.definition.numeric.binary
+//      ^^^^^^^^ constant.numeric.integer.binary
+//                 ^^ punctuation.definition.numeric.binary
+//                 ^^^^^^^^^^ constant.numeric.integer.binary
+//                              ^^ punctuation.definition.numeric.binary
+//                              ^^^^^^^^^^^ constant.numeric.integer.binary
+//                                        ^ invalid.illegal.numeric
+//                                            ^^ punctuation.definition.numeric.binary
+//                                            ^^^^^^^^^ constant.numeric.integer.binary
+//                                              ^ invalid.illegal.numeric
+//                                                        ^^^^^^^^^^ - constant.numeric
+//                                                                     ^^ - constant.numeric
+
+    a = 0b101101l + 0b10_11_01l + 0b10_11_01_l + 0b_101101l - 0_b10_1101l;
+//      ^^ punctuation.definition.numeric.binary
+//      ^^^^^^^^^ constant.numeric.integer.binary
+//              ^ storage.type.numeric
+//                  ^^ punctuation.definition.numeric.binary
+//                  ^^^^^^^^^^^ constant.numeric.integer.binary
+//                            ^ storage.type.numeric
+//                                ^^ punctuation.definition.numeric.binary
+//                                ^^^^^^^^^^^^ constant.numeric.integer.binary
+//                                          ^ invalid.illegal.numeric
+//                                           ^ storage.type.numeric
+//                                               ^^ punctuation.definition.numeric.binary
+//                                               ^^^^^^^^^^ constant.numeric.integer.binary
+//                                                 ^ invalid.illegal.numeric
+//                                                        ^ storage.type.numeric
+//                                                            ^^^^^^^^^^^ - constant.numeric
+
+// hexadecimal integers
+
+    a = 0xABCD + 0xAB_CD + 0xAB_CD_ + 0x_AB_CD - 0_xAB_CD - 0x;
+//      ^^ punctuation.definition.numeric.hexadecimal
 //      ^^^^^^ constant.numeric.integer.hexadecimal
-//      ^^ punctuation.definition.numeric.hexadecimal
-//             ^ keyword.operator
-//               ^^^^^^ constant.numeric.integer.hexadecimal
 //               ^^ punctuation.definition.numeric.hexadecimal
+//               ^^^^^^ constant.numeric.integer.hexadecimal
+//                         ^^ punctuation.definition.numeric.hexadecimal
+//                         ^^^^^^^^ constant.numeric.integer.hexadecimal
+//                                ^ invalid.illegal.numeric
+//                                    ^^ punctuation.definition.numeric.hexadecimal
+//                                    ^^^^^^^^ constant.numeric.integer.hexadecimal
+//                                      ^ invalid.illegal.numeric
+//                                               ^^^^^^^^ - constant.numeric
+//                                                          ^^ - constant.numeric
 
-    a = 0xAB_CD_ - 0x_AB_CD - 0_xAB_CD;
-//      ^^^^^^^^ constant.numeric.integer.hexadecimal
+    a = 0xABCDl + 0xAB_CDl + 0xAB_CD_l + 0x_AB_CDl - 0_xAB_CDl;
 //      ^^ punctuation.definition.numeric.hexadecimal
-//                 ^^^^^^^^ -constant.numeric
-//                            ^^^^^^^^ -constant.numeric
+//      ^^^^^^^ constant.numeric.integer.hexadecimal
+//            ^ storage.type.numeric
+//                ^^ punctuation.definition.numeric.hexadecimal
+//                ^^^^^^^^ constant.numeric.integer.hexadecimal
+//                       ^ storage.type.numeric
+//                           ^^ punctuation.definition.numeric.hexadecimal
+//                           ^^^^^^^^^ constant.numeric.integer.hexadecimal
+//                                  ^ invalid.illegal.numeric
+//                                   ^ storage.type.numeric
+//                                       ^^ punctuation.definition.numeric.hexadecimal
+//                                       ^^^^^^^^^ constant.numeric.integer.hexadecimal
+//                                         ^ invalid.illegal.numeric
+//                                               ^ storage.type.numeric
+//                                                   ^^^^^^^^^ - constant.numeric
 
-    a = 07 + 0_7;
+//  octal integers
+
+    a = 07 + 0_ + 0_7 + 07_ + 079 + 079_ + 0_79_ - 0a - 0_a;
 //      ^^ constant.numeric.integer.octal
 //      ^ punctuation.definition.numeric.octal
-//         ^ keyword.operator
-//           ^^^ constant.numeric.integer.octal
 //           ^ punctuation.definition.numeric.octal
+//           ^^ constant.numeric.integer.octal
+//            ^ invalid.illegal.numeric
+//                ^ punctuation.definition.numeric.octal
+//                ^^^ constant.numeric.integer.octal
+//                      ^ punctuation.definition.numeric.octal
+//                      ^^^ constant.numeric.integer.octal
+//                        ^ invalid.illegal.numeric
+//                            ^ punctuation.definition.numeric.octal
+//                            ^^^ constant.numeric.integer.octal
+//                             ^^ invalid.illegal.numeric
+//                                  ^ punctuation.definition.numeric.octal
+//                                  ^^^^ constant.numeric.integer.octal
+//                                   ^^^ invalid.illegal.numeric
+//                                         ^ punctuation.definition.numeric.octal
+//                                         ^^^^^ constant.numeric.integer.octal
+//                                          ^^^^ invalid.illegal.numeric
+//                                                 ^^ - constant.numeric
+//                                                      ^^^ - constant.numeric
 
-    a = 07_ - 09;
-//      ^^^ constant.numeric.integer.octal
+    a = 07l + 0_l + 0_7l + 07_l + 0792l + 079_2_l - 0al - 0_a_l;
 //      ^ punctuation.definition.numeric.octal
-//            ^^ -constant.numeric
+//      ^^^ constant.numeric.integer.octal
+//        ^ storage.type.numeric
+//            ^ punctuation.definition.numeric.octal
+//            ^^^ constant.numeric.integer.octal
+//             ^ invalid.illegal.numeric
+//                  ^ punctuation.definition.numeric.octal
+//                  ^^^^ constant.numeric.integer.octal
+//                         ^ punctuation.definition.numeric.octal
+//                         ^^^^ constant.numeric.integer.octal
+//                           ^ invalid.illegal.numeric
+//                            ^ storage.type.numeric
+//                                ^^^^^ constant.numeric.integer.octal
+//                                ^ punctuation.definition.numeric.octal
+//                                 ^^^ invalid.illegal.numeric
+//                                    ^ storage.type.numeric
+//                                        ^ punctuation.definition.numeric.octal
+//                                         ^^^^^ invalid.illegal.numeric
+//                                              ^ storage.type.numeric
+//                                                  ^^^ - constant.numeric
+//                                                        ^^^^^ - constant.numeric
 
-    a = 0b101101 + 0b10_11_01;
-//      ^^^^^^^^ constant.numeric.integer.binary
-//      ^^ punctuation.definition.numeric.binary
-//               ^ keyword.operator
-//                 ^^^^^^^^^^ constant.numeric.integer.binary
-//                 ^^ punctuation.definition.numeric.binary
+//  decimal integers
 
-    a = 0b_101101;
-//      ^^^^^^^^^ -constant.numeric
+    a = 0 + 0L;
+//      ^ constant.numeric.integer.decimal
+//          ^^ constant.numeric.integer.decimal
+//           ^ storage.type.numeric
 
-    a = 12345 + 12_34_5 + 1_____5;
+    a = 12345 + 12_34_5 + 1_____5 + 12_34_5_ - _12_34_5 - 12a45;
 //      ^^^^^ constant.numeric.integer.decimal
 //              ^^^^^^^ constant.numeric.integer.decimal
 //                        ^^^^^^^ constant.numeric.integer.decimal
+//                                  ^^^^^^^^ constant.numeric.integer.decimal
+//                                         ^ invalid.illegal.numeric
+//                                             ^^^^^^^^ - constant.numeric
+//                                                        ^^^^^ - constant.numeric
 
-    a = 12345l + 12345L + 123_45d + 12_3245F
+    a = 12345l + 12345L + 12_34_5_L - _12_34_5L - 12a45L;
 //      ^^^^^^ constant.numeric.integer.decimal
-//           ^ storage.type.numeric.long
+//           ^ storage.type.numeric
 //               ^^^^^^ constant.numeric.integer.decimal
-//                    ^ storage.type.numeric.long
-//                        ^^^^^^^ constant.numeric.float
-//                              ^ storage.type.numeric
-//                                  ^^^^^^^^ constant.numeric.float
-//                                         ^ storage.type.numeric
-
-    a = 12_34_5_ - _12_34_5 - 12_D - 12_L;
-//      ^^^^^^^^ constant.numeric.integer.decimal
-//                 ^^^^^^^^ -constant.numeric
-//                            ^^^^ -constant.numeric
-//                                   ^^^^ -constant.numeric
-
-    a = 0D
-//      ^^ constant.numeric.float
-//       ^ storage.type.numeric
+//                    ^ storage.type.numeric
+//                        ^^^^^^^^^ constant.numeric.integer.decimal
+//                               ^ invalid.illegal.numeric
+//                                ^ storage.type.numeric
+//                                    ^^^^^^^^^ - constant.numeric
+//                                                ^^^^^^ - constant.numeric
 
     a = 123_-_456;
 //      ^^^^ constant.numeric.integer.decimal
+//         ^ invalid.illegal.numeric
 //          ^ keyword.operator
-//           ^^^^ -constant.numeric
-
-    a = 23.45 + 23.45F + 23.45d
-//      ^^^^^ constant.numeric.float
-//              ^^^^^^ constant.numeric.float
-//                   ^ storage.type.numeric
-//                       ^^^^^^ constant.numeric.float
-//                            ^ storage.type.numeric
-
-    a = .01 + .02e3+.02e3F
-//      ^^^ constant.numeric.float
-//          ^ keyword.operator
-//            ^^^^^ constant.numeric.float
-//                 ^ keyword.operator
-//                   ^^^^^ constant.numeric.float
-//                       ^ storage.type.numeric
-
-    a = 23.45e67+23.45e+6F+23.45e-67D
-//      ^^^^^^^^ constant.numeric.float
-//              ^ keyword.operator
-//               ^^^^^^^^^ constant.numeric.float
-//                       ^ storage.type.numeric
-//                        ^ keyword.operator
-//                         ^^^^^^^^^^ constant.numeric.float
-//                                  ^ storage.type.numeric
+//           ^^^^ - constant.numeric
   }
 
   String stringAndChars() {
@@ -1235,14 +1806,23 @@ public class Foo {
 //                      ^ punctuation.definition.string.begin
 //                        ^ punctuation.definition.string.end
 
-    String escapes = "Here \2 are \n some \t escaped \'\\' characters \"";
-//                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
-//                         ^^ constant.character.escape
+    String escapes = "\b \t \n \f \r \" \' \\ \0 \12 \123 \u00e4 \uu00E4";
+//                   ^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+//                    ^^ constant.character.escape
+//                       ^^ constant.character.escape
+//                          ^^ constant.character.escape
+//                             ^^ constant.character.escape
 //                                ^^ constant.character.escape
-//                                                   ^^^^ constant.character.escape
-//                                                                    ^^ constant.character.escape
+//                                   ^^ constant.character.escape
+//                                      ^^ constant.character.escape
+//                                         ^^ constant.character.escape
+//                                            ^^ constant.character.escape.octal
+//                                               ^^^ constant.character.escape.octal
+//                                                   ^^^^ constant.character.escape.octal
+//                                                        ^^^^^^ constant.character.escape.unicode
+//                                                               ^^^^^^^ constant.character.escape.unicode
 
-    char escape = '\t' + '\1' + '\'' + '\\';
+    char escape = '\b' + '\t' + '\n' + '\f' + '\r' + '\"' + '\'' + '\\' + '\0' + '\12' + '\123' + '\u00e4' + '\uu00E4';
 //                ^^^^ string.quoted.single
 //                 ^^ constant.character.escape
 //                       ^^^^ string.quoted.single
@@ -1251,6 +1831,45 @@ public class Foo {
 //                               ^^ constant.character.escape
 //                                     ^^^^ string.quoted.single
 //                                      ^^ constant.character.escape
+//                                            ^^^^ string.quoted.single
+//                                             ^^ constant.character.escape
+//                                                   ^^^^ string.quoted.single
+//                                                    ^^ constant.character.escape
+//                                                          ^^^^ string.quoted.single
+//                                                           ^^ constant.character.escape
+//                                                                 ^^^^ string.quoted.single
+//                                                                  ^^ constant.character.escape
+//                                                                        ^^^^ string.quoted.single
+//                                                                         ^^ constant.character.escape.octal
+//                                                                               ^^^^^ string.quoted.single
+//                                                                                ^^^ constant.character.escape.octal
+//                                                                                       ^^^^^^ string.quoted.single
+//                                                                                        ^^^^ constant.character.escape.octal
+//                                                                                                ^^^^^^^^ string.quoted.single
+//                                                                                                 ^^^^^^ constant.character.escape.unicode
+//                                                                                                           ^^^^^^^^^ string.quoted.single
+//                                                                                                            ^^^^^^^ constant.character.escape.unicode
+
+    String octalEscapesLimits = "\078 \456"
+//                               ^^^ constant.character.escape.octal
+//                                  ^ -constant.character.escape.octal
+//                                    ^^^ constant.character.escape.octal
+//                                       ^ -constant.character.escape.octal
+
+    String illegalEscapes = "\x \+ \8 \9" + '\x' + '\+' + '\8' + '\9'
+//                          ^^^^^^^^^^^^^ string.quoted.double
+//                           ^^ invalid.illegal.escape
+//                              ^^ invalid.illegal.escape
+//                                 ^^ invalid.illegal.escape
+//                                    ^^ invalid.illegal.escape
+//                                          ^^^^ string.quoted.single
+//                                           ^^ invalid.illegal.escape
+//                                                 ^^^^ string.quoted.single
+//                                                  ^^ invalid.illegal.escape
+//                                                        ^^^^ string.quoted.single
+//                                                         ^^ invalid.illegal.escape
+//                                                               ^^^^ string.quoted.single
+//                                                                ^^ invalid.illegal.escape
 
     String text = "String without closing quote
 //                                             ^ invalid.illegal.newline
@@ -1291,10 +1910,10 @@ public class Foo {
 //                    ^ meta.function-call.java variable.function.java
 //                                         ^ punctuation.terminator.java
     OtherObject bob = new OtherObject(foo);
-//                    ^ keyword.control.new.java
+//                    ^ keyword.other.storage.new.java
 //                        ^ support.class.java
     this.foo = new SubClass[0];
-//             ^ keyword.control.new.java
+//             ^ keyword.other.storage.new.java
 //                 ^ support.class.java
 //                         ^^^ meta.brackets
 
@@ -1311,7 +1930,7 @@ public class Foo {
 //  ^^^^^^ support.class.java
 //        ^^ storage.modifier.array.java
 //                       ^ keyword.operator.assignment.java
-//                         ^^^ keyword.control.new.java
+//                         ^^^ keyword.other.storage.new.java
 //                             ^^^^^^ support.class.java
 //                                   ^ punctuation.section.brackets.begin.java
 //                                    ^ punctuation.section.brackets.end.java
@@ -1326,7 +1945,7 @@ public class Foo {
     int[] data = new int[]{0, 0, 0};
 //  ^^^ storage.type.primitive.java
 //     ^^ storage.modifier.array.java
-//               ^^^ keyword.control.new.java
+//               ^^^ keyword.other.storage.new.java
 //                   ^^^ storage.type.primitive.java
 //                      ^ punctuation.section.brackets.begin.java
 //                       ^ punctuation.section.brackets.end.java
@@ -1345,7 +1964,7 @@ public class Foo {
 //  ^^^^ storage.type.primitive.java
 //       ^^ storage.modifier.array.java
 //          ^ keyword.operator.assignment.java
-//           ^^^ keyword.control.new.java
+//           ^^^ keyword.other.storage.new.java
 //               ^^^^ storage.type.primitive.java
 
     int[][][] threeDimArr = new int[][][] {
@@ -1401,13 +2020,13 @@ public class Foo {
 //                        ^ punctuation.section.block.begin
 
       return;
-//    ^ keyword.control.java
+//    ^^^^^^ keyword.control.flow.return.java
 //          ^ punctuation.terminator
     });
 //  ^ punctuation.section.block.end.java
 //    ^ punctuation.terminator
     this.foo = new SubClass(new SubClass[0], true);
-//             ^ keyword.control.new.java
+//             ^ keyword.other.storage.new.java
 //                 ^ support.class.java
 //                                      ^^^ meta.brackets
 //                                           ^ constant.language.java
@@ -1595,6 +2214,16 @@ public class Generic<T> implements fully.qualified.Other<T> {
 //                                                      ^ punctuation.definition.generic.begin.java
 //                                                       ^ support.class.java
 //                                                        ^ punctuation.definition.generic.end.java
+}
+// <- punctuation.section.block.end.java
+
+public class Generic<T> extends iNtf implements iNterface<T> {
+//                              ^^^^ entity.other.inherited-class.java
+//                                              ^^^^^^^^^ entity.other.inherited-class.java
+//                                                       ^^^ meta.generic.java
+//                                                       ^ punctuation.definition.generic.begin.java
+//                                                        ^ support.class.java
+//                                                         ^ punctuation.definition.generic.end.java
 }
 // <- punctuation.section.block.end.java
 
