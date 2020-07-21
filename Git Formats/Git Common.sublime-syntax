@@ -87,7 +87,7 @@ contexts:
         1: keyword.other.resolved-issue.git
         2: punctuation.separator.mapping.pair.resolved-issue.git
         3: constant.other.reference.issue.git
-        4: punctuation.separator.reference.issue.git
+        4: punctuation.separator.reference.issue.git  # (inside repository_ref)
         5: punctuation.definition.reference.issue.git
 
   email:
@@ -130,7 +130,7 @@ contexts:
     - match: (?:{{repository_ref}}(@))?{{hash}}
       scope: constant.other.hash.git
       captures:
-        1: punctuation.separator.reference.commit.git
+        1: punctuation.separator.reference.commit.git  # (inside repository_ref)
         2: punctuation.separator.reference.commit.git
 
 ##[ FNMATCH ]##########################################################
