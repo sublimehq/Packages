@@ -415,55 +415,67 @@ contexts:
     - match: '(#)\s*(type)(:)\s*(ignore)\b'
       scope: comment.line.type-hint.python
       captures:
-        1: punctuation.definition.comment.python comment.line.number-sign.python
+        1: punctuation.definition.comment.python
         2: keyword.other.annotation.type-comment.python
         3: punctuation.separator.annotation.type-comment.python
         4: keyword.other.annotation.type-comment.ignore.python
-      set: comments_afterignore
+      push: comments-afterignore
     - match: '(#)\s*(type)(:)'
       scope: comment.line.type-hint.python
       captures:
-        1: punctuation.definition.comment.python comment.line.number-sign.python
+        1: punctuation.definition.comment.python
         2: keyword.other.annotation.type-comment.python
         3: punctuation.separator.annotation.type-comment.python
-      embed: type-comment
-      escape: '\n'
-      embed_scope: comment.line.type-hint.python
+      push: type-comment
+    - match: "#"
+      scope: punctuation.definition.comment.python
+      push: comments-basic-remainder
 
-    - include: comments_noannotation
+  comments-basic:
+    - match: "#"
+      scope: punctuation.definition.comment.python
+      set: comments-basic-remainder
 
-  comments_afterignore:
-    - meta_scope: comment.line.type-hint.python
-    - include: comments_noannotation
+  comments-basic-remainder:
+    - meta_scope: comment.line.number-sign.python
     - match: \n
       pop: true
+
+  comments-afterignore:
+    - meta_content_scope: comment.line.type-hint.python
+    - match: \n
+      pop: true
+    - match: '(?=#)'
+      set: comments-basic
     - match: \[
       # Mypy's # type: ignore[error-code1, error-code2]
       scope: punctuation.section.brackets.begin.python
       set:
-        - meta_scope: comment.line.type-hint.python
+        - meta_content_scope: comment.line.type-hint.python
         - match: \[
           scope: invalid.illegal.python
         - match: '[a-zA-Z_-][a-zA-Z_0-9-]+'
-          scope: comment.line.type-hint.python.mypy-errorcode
-        - match: '[0-9]'
+          scope: constant.other.error-code.python
+        - match: '[0-9]\w*'
           scope: invalid.illegal.python
         - match: ','
-          scope: punctuation.separator.sequence.python.mypy-errorcode
+          scope: punctuation.separator.sequence.python
         - match: \]
           scope: punctuation.section.brackets.end.python
           set:
-              # Don't allow a second block.
-            - match: \[
+            # Don't allow a second block.
+            - meta_content_scope: comment.line.type-hint.python
+            - match: '(?=#)'
+              set: comments-basic
+            - match: \S
               scope: invalid.illegal.python
-              pop: true
-            - include: comments_afterignore
     - match: \S
       scope: invalid.illegal.python
 
   type-comment:
-    - include: comments_noannotation
-
+    - meta_content_scope: comment.line.type-hint.python
+    - match: '(?=#)'
+      set: comments-basic
     # Don't use expressions here, only a few types are reasonable
     # as annotations.
     - include: constants
@@ -472,7 +484,6 @@ contexts:
     - include: builtin-functions
     - match: '{{identifier}}'
       scope: support.class.python
-
     - match: '\s*(\[)'
       captures:
         1: meta.item-access.python punctuation.section.brackets.begin.python
@@ -483,8 +494,8 @@ contexts:
           pop: true
         - match: ':'
           scope: punctuation.separator.slice.python
+        - match: '(?=#)'
         - include: type-comment
-
     - match: '\('
       scope: punctuation.section.parens.begin.python
       push:
@@ -494,25 +505,22 @@ contexts:
           pop: true
         - match: \(
           scope: invalid.illegal.stray.brace.round.python
-
         - match: \*{3,}
           scope: invalid.illegal.syntax.python
         - match: \*\*
           scope: keyword.operator.unpacking.mapping.python
         - match: \*
           scope: keyword.operator.unpacking.sequence.python
-
         - match: '->'
           scope: invalid.illegal.stray.return.arrow.python
         - include: type-comment
-
     - match: '->'
-      scope: punctuation.separator.sequence.python meta.function.return-type.python
+      scope: meta.function.return-type.python punctuation.separator.sequence.python
       set:
+        - meta_content_scope: comment.line.type-hint.python meta.function.return-type.python
         - match: '->'
           scope: invalid.illegal.stray.return.arrow.python
         - include: type-comment
-        - meta_scope: meta.function.return-type.python
     - match: ','
       scope: punctuation.separator.sequence.python
     - match: \)
@@ -523,14 +531,6 @@ contexts:
       scope: invalid.illegal.stray.brace.curly.python
     - match: \S
       scope: invalid.illegal.python
-
-  comments_noannotation:
-    - match: "#"
-      scope: punctuation.definition.comment.python
-      push:
-        - meta_scope: comment.line.number-sign.python
-        - match: \n
-          pop: true
 
   constants:
     - match: \b(None|True|False|Ellipsis|NotImplemented|__debug__)\b

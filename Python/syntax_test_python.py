@@ -1490,70 +1490,80 @@ class Starship:
 # Type comments - type: ignore must be by itself.
 
 primes = 5  # type: ignore # type: not-a-type-comment
-#           ^ comment.line.type-hint punctuation.definition.comment.python comment.line.number-sign.python
-#             ^^^^ comment.line.type-hint keyword.other.annotation.type-comment
-#                 ^ comment.line.type-hint punctuation.separator.annotation.type-comment
-#                   ^^^^^^ comment.line.type-hint keyword.other.annotation.type-comment.ignore
-#                          ^ comment.line.type-hint comment.line.number-sign.python punctuation.definition.comment.python
-#                            ^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.type-hint comment.line.number-sign.python
+#           ^^^^^^^^^^^^^^^ comment.line.type-hint - comment.line.number-sign
+#           ^ punctuation.definition.comment
+#             ^^^^ keyword.other.annotation.type-comment
+#                 ^ punctuation.separator.annotation.type-comment
+#                   ^^^^^^ keyword.other.annotation.type-comment.ignore
+#                          ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign - comment.line.type-hint
+#                          ^ punctuation.definition.comment
 
 # This is not a type-ignore comment.
 value = 3  # type: ignore_class_starting_with_ignore
-#          ^ comment.line.type-hint.python punctuation.definition.comment.python comment.line.number-sign.python
-#            ^^^^ comment.line.type-hint.python keyword.other.annotation.type-comment.python
-#                ^ comment.line.type-hint.python punctuation.separator.annotation.type-comment.python
-#                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.type-hint.python support.class.python
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.type-hint - comment.line.number-sign
+#          ^ punctuation.definition.comment
+#            ^^^^ keyword.other.annotation.type-comment
+#                ^ punctuation.separator.annotation.type-comment
+#                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ support.class
 
 # Mypy ignore extension
-value = 3  # type: ignore[error-code-1, 4noint][error]
-#                  ^^^^^^ comment.line.type-hint.python keyword.other.annotation.type-comment.ignore
-#                        ^ comment.line.type-hint.python comment.line.type-hint.python punctuation.section.brackets.begin.python
-#                         ^^^^^^^^^^^^ comment.line.type-hint.python comment.line.type-hint.python.mypy-errorcode
-#                                     ^ comment.line.type-hint.python punctuation.separator.sequence.python.mypy-errorcode
-#                                       ^ invalid.illegal.python
-#                                             ^ comment.line.type-hint.python punctuation.section.brackets.end.python
-#                                              ^ invalid.illegal.python
+value = 3  # type: ignore[error-code-1, 4noint][error] # foo
+#          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.type-hint - comment.line.number-sign
+#                  ^^^^^^ keyword.other.annotation.type-comment.ignore
+#                        ^ punctuation.section.brackets.begin
+#                         ^^^^^^^^^^^^ constant.other.error-code
+#                                     ^ punctuation.separator.sequence
+#                                       ^^^^^^ invalid.illegal
+#                                             ^ punctuation.section.brackets.end
+#                                              ^^^^^^^ invalid.illegal
+#                                                      ^^^^^ comment.line.number-sign - comment.line.type-hint
 
 # With/for allow commas
 for a, b in lst: # type: str, int
-#                           ^ comment.line.type-hint.python punctuation.separator.sequence.python
+#                           ^ comment.line.type-hint punctuation.separator.sequence
 
 
 primes = 5  # type: List[Dict[*property:str, ...]], bool # comment
-#           ^ comment.line.type-hint.python punctuation.definition.comment.python comment.line.number-sign.python
-#             ^^^^ comment.line.type-hint.python keyword.other.annotation.type-comment.python
-#                 ^ comment.line.type-hint.python punctuation.separator.annotation.type-comment.python
-#                   ^^^^ comment.line.type-hint.python support.class.python
-#                       ^ comment.line.type-hint.python meta.item-access.python punctuation.section.brackets.begin.python
-#                        ^^^^ comment.line.type-hint.python meta.item-access.arguments.python support.class.python
-#                            ^ comment.line.type-hint.python meta.item-access.arguments.python meta.item-access.python punctuation.section.brackets.begin.python
-#                             ^ comment.line.type-hint.python meta.item-access.arguments.python meta.item-access.arguments.python invalid.illegal.python
-#                              ^^^^^^^^ comment.line.type-hint.python meta.item-access.arguments.python meta.item-access.arguments.python support.function.builtin.python
-#                                      ^ comment.line.type-hint.python meta.item-access.arguments.python meta.item-access.arguments.python punctuation.separator.slice.python
-#                                       ^^^ comment.line.type-hint.python meta.item-access.arguments.python meta.item-access.arguments.python support.type.python
-#                                          ^ comment.line.type-hint.python meta.item-access.arguments.python meta.item-access.arguments.python punctuation.separator.sequence.python
-#                                            ^^^ comment.line.type-hint.python meta.item-access.arguments.python meta.item-access.arguments.python constant.language.python
-#                                               ^ comment.line.type-hint.python meta.item-access.arguments.python meta.item-access.python punctuation.section.brackets.end.python
-#                                                ^ comment.line.type-hint.python meta.item-access.python punctuation.section.brackets.end.python
-#                                                 ^ comment.line.type-hint.python punctuation.separator.sequence.python
-#                                                   ^^^^ comment.line.type-hint.python support.type.python
-#                                                        ^ comment.line.type-hint.python comment.line.number-sign.python punctuation.definition.comment.python
+#           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.type-hint - comment.line.number-sign
+#           ^ punctuation.definition.comment
+#             ^^^^ keyword.other.annotation.type-comment
+#                 ^ punctuation.separator.annotation.type-comment
+#                   ^^^^ support.class
+#                       ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.item-access
+#                       ^punctuation.section.brackets.begin
+#                        ^^^^^^^^^^^^^^^^^^^^^^^^ meta.item-access.arguments
+#                        ^^^^ support.class
+#                            ^ meta.item-access punctuation.section.brackets.begin
+#                             ^ invalid.illegal
+#                              ^^^^^^^^ support.function.builtin
+#                                      ^ punctuation.separator.slice
+#                                       ^^^ support.type
+#                                          ^ punctuation.separator.sequence
+#                                            ^^^ constant.language
+#                                               ^ punctuation.section.brackets.end
+#                                                ^ punctuation.section.brackets.end
+#                                                 ^ punctuation.separator.sequence
+#                                                   ^^^^ support.type
+#                                                        ^^^^^^^^^^ comment.line.number-sign
+#                                                        ^ punctuation.definition.comment
 
 # Python 2.7 function annotations.
 def function(a, b, *c, **d):
     # type: (int, str, *List[str], **bool) -> Dict[str, str] # type: noncomment
-#           ^ comment.line.type-hint.python punctuation.section.parens.begin.python
-#            ^^^ comment.line.type-hint.python meta.function.parameters.python support.type.python
-#               ^ comment.line.type-hint.python meta.function.parameters.python punctuation.separator.sequence.python
-#                      ^ comment.line.type-hint.python meta.function.parameters.python keyword.operator.unpacking.sequence.python
-#                       ^^^^ comment.line.type-hint.python meta.function.parameters.python support.class.python
-#                                  ^^ comment.line.type-hint.python meta.function.parameters.python keyword.operator.unpacking.mapping.python
-#                                    ^^^^ comment.line.type-hint.python meta.function.parameters.python support.type.python
-#                                        ^ comment.line.type-hint.python punctuation.section.parens.end.python
-#                                          ^^ comment.line.type-hint.python meta.function.return-type.python punctuation.separator.sequence.python meta.function.return-type.python
-#                                             ^^^^ meta.function.return-type.python support.class.python
-#                                                            ^ meta.function.return-type.python comment.line.number-sign.python punctuation.definition.comment.python
-#                                                              ^^^^^^^^^^^^^^^^ meta.function.return-type.python comment.line.number-sign.python
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.type-hint
+#           ^ punctuation.section.parens.begin
+#            ^^^ meta.function.parameters support.type
+#               ^ meta.function.parameters punctuation.separator.sequence
+#                      ^ meta.function.parameters keyword.operator.unpacking.sequence
+#                       ^^^^ meta.function.parameters support.class
+#                                  ^^ meta.function.parameters keyword.operator.unpacking.mapping
+#                                    ^^^^ meta.function.parameters support.type
+#                                        ^ punctuation.section.parens.end
+#                                          ^^^^^^^^^^^^^^^^^^ meta.function.return-type
+#                                          ^^ punctuation.separator.sequence
+#                                             ^^^^ support.class
+#                                                            ^^^^^^^^^^^^^^^^^^ comment.line.number-sign - comment.line.type-hint
+#                                                            ^ punctuation.definition.comment
 
 
 ##################
