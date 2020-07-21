@@ -1,6 +1,7 @@
 %YAML 1.2
 ---
 # Derived from JavaScript Next: https://github.com/Benvie/JavaScriptNext.tmLanguage
+version: 2
 name: JavaScript
 file_extensions:
   - js
