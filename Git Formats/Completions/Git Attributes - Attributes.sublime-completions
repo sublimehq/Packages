@@ -1,18 +1,70 @@
 {
     "scope": "meta.attributes-list.git.attributes - meta.mapping.value - punctuation.separator",
     "completions": [
-        {"trigger": "binary\tattribute", "contents": "binary"},
-        {"trigger": "conflict-marker-size\tattribute", "contents": "conflict-marker-size"},
-        {"trigger": "delta\tattribute", "contents": "delta"},
-        {"trigger": "diff\tattribute", "contents": "diff"},
-        {"trigger": "encoding\tattribute", "contents": "encoding"},
-        {"trigger": "eol\tattribute", "contents": "eol"},
-        {"trigger": "export-ignore\tattribute", "contents": "export-ignore"},
-        {"trigger": "export-subst\tattribute", "contents": "export-subst"},
-        {"trigger": "filter\tattribute", "contents": "filter"},
-        {"trigger": "ident\tattribute", "contents": "ident"},
-        {"trigger": "merge\tattribute", "contents": "merge"},
-        {"trigger": "text\tattribute", "contents": "text"},
-        {"trigger": "whitespace\tattribute", "contents": "whitespace"}
+        {
+            "trigger": "binary",
+            "contents": "binary",
+            "kind": ["keyword", "a", "Attribute"]
+        },
+        {
+            "trigger": "conflict-marker-size",
+            "contents": "conflict-marker-size",
+            "kind": ["keyword", "a", "Attribute"]
+        },
+        {
+            "trigger": "delta",
+            "contents": "delta",
+            "kind": ["keyword", "a", "Attribute"]
+        },
+        {
+            "trigger": "diff",
+            "contents": "diff",
+            "kind": ["keyword", "a", "Attribute"]
+        },
+        {
+            "trigger": "encoding",
+            "contents": "encoding",
+            "kind": ["keyword", "a", "Attribute"]
+        },
+        {
+            "trigger": "eol",
+            "contents": "eol",
+            "kind": ["keyword", "a", "Attribute"]
+        },
+        {
+            "trigger": "export-ignore",
+            "contents": "export-ignore",
+            "kind": ["keyword", "a", "Attribute"]
+        },
+        {
+            "trigger": "export-subst",
+            "contents": "export-subst",
+            "kind": ["keyword", "a", "Attribute"]
+        },
+        {
+            "trigger": "filter",
+            "contents": "filter",
+            "kind": ["keyword", "a", "Attribute"]
+        },
+        {
+            "trigger": "ident",
+            "contents": "ident",
+            "kind": ["keyword", "a", "Attribute"]
+        },
+        {
+            "trigger": "merge",
+            "contents": "merge",
+            "kind": ["keyword", "a", "Attribute"]
+        },
+        {
+            "trigger": "text",
+            "contents": "text",
+            "kind": ["keyword", "a", "Attribute"]
+        },
+        {
+            "trigger": "whitespace",
+            "contents": "whitespace",
+            "kind": ["keyword", "a", "Attribute"]
+        },
     ]
 }

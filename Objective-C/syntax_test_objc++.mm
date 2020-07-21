@@ -1,5 +1,27 @@
 /* SYNTAX TEST "Packages/Objective-C/Objective-C++.sublime-syntax" */
 
+Task<int> natural_numbers()
+{
+  int n = 0;
+  while (true) {
+    co_yield n;
+    /*     ^ keyword.control */
+    n++;
+  }
+}
+Task<int> foo()
+{
+  co_return 42;
+  /*      ^ keyword.control */
+  /*         ^ constant.numeric */
+}
+Task<void> bar()
+{
+  co_await natural_numbers();
+  /*     ^ keyword.control */
+  /*                     ^ variable.function */
+}
+
 int main(){
     int a=5,b=0;
     while(a-->0)++b;

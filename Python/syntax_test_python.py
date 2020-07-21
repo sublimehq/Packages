@@ -241,6 +241,39 @@ def _():
 #             ^ punctuation.section.function.begin
 #               ^^^^ invalid.illegal.name.python
 
+    {key: lambda x, y: 10}
+#   ^ punctuation.section.mapping.begin
+#         ^^^^^^^^^^^^^^^ meta.function.inline
+#         ^^^^^^ keyword.declaration.function.inline.python
+#                ^^^^^ meta.function.inline.parameters
+#                ^ variable.parameter
+#                 ^ punctuation.separator.parameters
+#                   ^ variable.parameter
+#                      ^^ constant.numeric
+#                        ^ punctuation.section.mapping.end
+
+    {lambda x, y: 10}
+#   ^ punctuation.section.set.begin
+#    ^^^^^^^^^^^^^^^ meta.function.inline
+#    ^^^^^^ keyword.declaration.function.inline.python
+#           ^^^^^ meta.function.inline.parameters
+#           ^ variable.parameter
+#            ^ punctuation.separator.parameters
+#              ^ variable.parameter
+#                 ^^ constant.numeric
+#                   ^ punctuation.section.set.end
+
+    [lambda x, y: 10]
+#   ^ punctuation.section.sequence.begin
+#    ^^^^^^^^^^^^^^^ meta.function.inline
+#    ^^^^^^ keyword.declaration.function.inline.python
+#           ^^^^^ meta.function.inline.parameters
+#           ^ variable.parameter
+#            ^ punctuation.separator.parameters
+#              ^ variable.parameter
+#                 ^^ constant.numeric
+#                   ^ punctuation.section.sequence.end
+
     _(lambda x, y: 10)
 #     ^^^^^^^^^^^^^^^ meta.function.inline
 #     ^^^^^^ keyword.declaration.function.inline.python
@@ -264,6 +297,10 @@ def _():
 #              ^^ invalid.illegal.name
 
     lambda *a, **kwa, ab*, * *: (a, kwa)
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function.inline meta.function.inline
+#   ^^^^^^ meta.function.inline.python
+#         ^^^^^^^^^^^^^^^^^^^^^ meta.function.inline.parameters.python
+#                              ^^^^^^^^^ meta.function.inline.body.python
 #          ^ keyword.operator.unpacking.sequence.python
 #           ^ variable.parameter.python
 #                ^^^ variable.parameter.python
@@ -275,10 +312,11 @@ def _():
 #   ^^^^^^ storage.type.function.inline keyword.declaration.function.inline.python
 
     lambda (x, y): 0
-#   ^^^^^^^^^^^^^^^^ meta.function.inline
+#   ^^^^^^^^^^^^^^^^ - meta.function.inline meta.function.inline
+#   ^^^^^^ meta.function.inline.python
 #         ^^^^^^^^ meta.function.inline.parameters.python
-#                 ^^ meta.function.inline.body.python
 #          ^^^^^^ meta.group.python
+#                 ^^ meta.function.inline.body.python
 #          ^ punctuation.section.group.begin.python
 #           ^ variable.parameter.python
 #            ^ punctuation.separator.parameters.python
@@ -286,7 +324,8 @@ def _():
 #               ^ punctuation.section.group.end.python
 #                ^ punctuation.section.function.begin.python
     lambda (
-#   ^^^^^^^^^ meta.function.inline.python
+#   ^^^^^^^^^ - meta.function.inline meta.function.inline
+#   ^^^^^^ meta.function.inline.python
 #         ^^^ meta.function.inline.parameters.python
 #          ^^ meta.group.python
 #          ^ punctuation.section.group.begin.python
@@ -298,6 +337,7 @@ def _():
 #      ^^^^ meta.function.inline.parameters.python meta.group.python
 #       ^ variable.parameter.python
     ):
+#^^^^^^ - meta.function.inline meta.function.inline
 #^^^^ meta.function.inline.parameters.python meta.group.python
 #   ^ punctuation.section.group.end.python
 #    ^ punctuation.section.function.begin.python
@@ -618,6 +658,32 @@ def abc():
 #                ^^^ invalid.illegal.name
 #                               ^ invalid.illegal.name.storage
 
+def my_func # comment
+#^^^^^^^^^^ meta.function.python
+#          ^^^^^^^^^^^ - meta.function
+#   ^^^^^^^ entity.name.function.python
+#           ^^^^^^^^^ comment.line.number-sign.python
+
+def my_func() # comment
+#^^^^^^^^^^^^^ - meta.function meta.function
+#^^^^^^^^^^ meta.function.python
+#          ^^ meta.function.parameters.python
+#            ^^^^^^^^^^^ - meta.function
+#   ^^^^^^^ entity.name.function.python
+#          ^ punctuation.section.parameters.begin.python
+#           ^ punctuation.section.parameters.end.python
+#             ^^^^^^^^^ comment.line.number-sign.python
+
+def my_func(): # comment
+#^^^^^^^^^^ meta.function.python
+#          ^^ meta.function.parameters.python
+#            ^ meta.function.python
+#             ^^^^^^^^^^^ - meta.function
+#   ^^^^^^^ entity.name.function.python
+#          ^ punctuation.section.parameters.begin.python
+#           ^ punctuation.section.parameters.end.python
+#            ^ punctuation.section.function.begin.python
+#              ^^^^^^^^^ comment.line.number-sign.python
 
 def my_func(param1, # Multi-line function definition
 #                 ^ punctuation.separator.parameters
@@ -666,8 +732,54 @@ def type_annotations(param1: int, param2: MyType, param3: max(2, 3), param4: "st
 #                                                                                                  ^^ punctuation.separator.annotation
 #                                                                                                     ^^^ support.type
 #                                                                                                        ^ punctuation.section.function.begin
+
+def type_annotations_line_continuation_without_terminator() \
+      -> int
+#^^^^^^^^^^^ - meta.function meta.function
+#           ^ - meta.function
+#^^^^^ meta.function.python
+#     ^^^^^^ meta.function.annotation.return
+#     ^^ punctuation.separator.annotation
+#        ^^^ support.type
     pass
 
+def type_annotations_line_continuation_without_terminator_but_comment() \
+      -> int # comment
+#^^^^^^^^^^^ - meta.function meta.function
+#           ^^^^^^^^^^ - meta.function
+#^^^^^ meta.function.python
+#     ^^^^^^ meta.function.annotation.return
+#     ^^ punctuation.separator.annotation
+#        ^^^ support.type
+    pass
+
+def type_annotations_line_continuation() \
+      -> int:
+#^^^^^^^^^^^^ - meta.function meta.function
+#^^^^^ meta.function.python
+#     ^^^^^^ meta.function.annotation.return
+#           ^ meta.function.python
+#     ^^ punctuation.separator.annotation
+#        ^^^ support.type
+#           ^ punctuation.section.function.begin
+    pass
+
+def type_annotations_line_continuation() \
+      -> \
+      int:
+#^^^^^^^^ meta.function.annotation.return
+#        ^ meta.function.python
+#     ^^^ support.type
+#        ^ punctuation.section.function.begin
+    pass
+
+def type_annotations_line_continuation() \
+      -> \
+      int \
+      :
+#^^^^^ meta.function.annotation.return
+#     ^ meta.function.python punctuation.section.function.begin.python
+    pass
 
 async def coroutine(param1):
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function

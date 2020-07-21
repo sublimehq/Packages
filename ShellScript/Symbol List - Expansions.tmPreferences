@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-    <key>name</key>
-    <string>Symbol List - Variables</string>
     <key>scope</key>
     <string>meta.group.expansion</string>
     <key>settings</key>
@@ -11,8 +9,6 @@
         <integer>1</integer>
         <key>showInIndexedSymbolList</key>
         <integer>0</integer>
-        <key>symbolTransformation</key>
-        <string>s/.+/expansion\: $0/</string>
     </dict>
 </dict>
 </plist>

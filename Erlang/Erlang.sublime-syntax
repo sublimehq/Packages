@@ -235,7 +235,7 @@ contexts:
 ###[ COMMENTS ]###############################################################
 
   comment:
-    - match: \%
+    - match: \%+
       scope: punctuation.definition.comment.percentage.erlang
       push:
         - meta_scope: comment.line.percentage.erlang
@@ -344,7 +344,7 @@ contexts:
           - include: preproc-stray-arguments-end
 
   preproc-define-arguments-parameters:
-    - meta_content_scope: meta.macro.name.erlang
+    - meta_content_scope: meta.macro.identifier.erlang
     - match: (?=\()
       set:
         - match: \(
@@ -576,7 +576,7 @@ contexts:
         - match: ',?'
           scope: punctuation.separator.expressions.erlang
           push:
-            - - meta_content_scope: meta.field.name.erlang
+            - - meta_content_scope: meta.field.identifier.erlang
               - include: immediatelly-pop
             - - include: variable-anonymous-pop
               - match: '{{atom_unquoted}}'
@@ -874,7 +874,7 @@ contexts:
               - include: function-parameter
           - include: else-pop
         # 1. function name
-        - - meta_scope: meta.fun.name.erlang
+        - - meta_scope: meta.fun.identifier.erlang
           - include: else-pop
         - - include: variable-other-pop
           - include: macro-pop
@@ -895,7 +895,7 @@ contexts:
 
   function-parameters:
     - clear_scopes: 1
-    - meta_scope: meta.function.name.erlang
+    - meta_scope: meta.function.identifier.erlang
     - match: (?=\()
       set:
         - clear_scopes: 1
@@ -933,11 +933,11 @@ contexts:
       set: [function-call-arguments, function-call-path, variable-function]
 
   function-call-name:
-    - meta_scope: meta.function-call.name.erlang
+    - meta_scope: meta.function-call.identifier.erlang
     - include: else-pop
 
   function-call-path:
-    - meta_scope: meta.path.erlang meta.function-call.name.erlang
+    - meta_scope: meta.path.erlang meta.function-call.identifier.erlang
     - include: else-pop
 
   function-call-arguments:
@@ -973,11 +973,11 @@ contexts:
       set: [type-call-other-arguments, type-call-path, storage-type]
 
   type-call-name:
-    - meta_scope: meta.type-call.name.erlang
+    - meta_scope: meta.type-call.identifier.erlang
     - include: else-pop
 
   type-call-path:
-    - meta_scope: meta.path.erlang meta.type-call.name.erlang
+    - meta_scope: meta.path.erlang meta.type-call.identifier.erlang
     - include: else-pop
 
   type-call-fun-arguments:
@@ -1179,11 +1179,11 @@ contexts:
       push: [record-fields, record-name, variable-other-record]
     # records may look like normal variables in macro definitions
     - match: '{{variable}}(?=\.{{ident}})'
-      scope: meta.record.name.erlang variable.other.erlang
+      scope: meta.record.identifier.erlang variable.other.erlang
       push: record-fields
 
   record-name:
-    - meta_scope: meta.record.name.erlang
+    - meta_scope: meta.record.identifier.erlang
     - include: else-pop
 
   variable-other-record:
@@ -1215,7 +1215,7 @@ contexts:
         - match: ',?'
           scope: punctuation.separator.expressions.erlang
           push:
-            - - meta_content_scope: meta.field.name.erlang
+            - - meta_content_scope: meta.field.identifier.erlang
               - include: immediatelly-pop
             - - include: variable-anonymous-pop
               - include: variable-other-field

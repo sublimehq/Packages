@@ -6,145 +6,779 @@
     "completions":
     [
         // Utilities library
-        { "trigger": "cstdlib\tstandard header", "contents": "cstdlib" }, // General purpose utilities: program control, dynamic memory allocation, random numbers, sort and search
-        { "trigger": "csignal\tstandard header", "contents": "csignal" }, // Functions and macro constants for signal management
-        { "trigger": "csetjmp\tstandard header", "contents": "csetjmp" }, // Macro (and function) that saves (and jumps) to an execution context
-        { "trigger": "cstdarg\tstandard header", "contents": "cstdarg" }, // Handling of variable length argument lists
-        { "trigger": "typeinfo\tstandard header", "contents": "typeinfo" }, // Runtime type information utilities
-        { "trigger": "typeindex\tstandard header (since c++11)", "contents": "typeindex" }, // (since C++11) std::type_index
-        { "trigger": "type_traits\tstandard header (since c++11)", "contents": "type_traits" }, // (since C++11) Compile-time type information
-        { "trigger": "bitset\tstandard header", "contents": "bitset" }, // std::bitset class template
-        { "trigger": "functional\tstandard header", "contents": "functional" }, // Function objects, designed for use with the standard algorithms
-        { "trigger": "utility\tstandard header", "contents": "utility" }, // Various utility components
-        { "trigger": "ctime\tstandard header", "contents": "ctime" }, // C-style time/date utilites
-        { "trigger": "chrono\tstandard header (since c++11)", "contents": "chrono" }, // (since C++11) C++ time utilities
-        { "trigger": "cstddef\tstandard header", "contents": "cstddef" }, // typedefs for types such as size_t, NULL and others
-        { "trigger": "initializer_list\tstandard header since (c++11)", "contents": "initializer_list" }, // (since C++11) std::initializer_list class template
-        { "trigger": "tuple\tstandard header (since c++11)", "contents": "tuple" }, // (since C++11) std::tuple class template
-        { "trigger": "any\tstandard header (since c++17)", "contents": "any" }, // (since C++17) std::any class template
-        { "trigger": "optional\tstandard header (since c++17)", "contents": "optional" }, // (since C++17) std::optional class template
-        { "trigger": "variant\tstandard header (since c++17)", "contents": "variant" }, // (since C++17) std::variant class template
+        {
+            // General purpose utilities: program control, dynamic memory allocation, random numbers, sort and search
+            "trigger": "cstdlib",
+            "contents": "cstdlib",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Functions and macro constants for signal management
+            "trigger": "csignal",
+            "contents": "csignal",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Macro (and function) that saves (and jumps) to an execution context
+            "trigger": "csetjmp",
+            "contents": "csetjmp",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Handling of variable length argument lists
+            "trigger": "cstdarg",
+            "contents": "cstdarg",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Runtime type information utilities
+            "trigger": "typeinfo",
+            "contents": "typeinfo",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++11) std::type_index
+            "trigger": "typeindex",
+            "details": "Added in C++11",
+            "contents": "typeindex",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++11) Compile-time type information
+            "trigger": "type_traits",
+            "details": "Added in C++11",
+            "contents": "type_traits",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // std::bitset class template
+            "trigger": "bitset",
+            "contents": "bitset",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Function objects, designed for use with the standard algorithms
+            "trigger": "functional",
+            "contents": "functional",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Various utility components
+            "trigger": "utility",
+            "contents": "utility",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // C-style time/date utilites
+            "trigger": "ctime",
+            "contents": "ctime",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++11) C++ time utilities
+            "trigger": "chrono",
+            "details": "Added in C++11",
+            "contents": "chrono",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // typedefs for types such as size_t, NULL and others
+            "trigger": "cstddef",
+            "contents": "cstddef",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++11) std::initializer_list class template
+            "trigger": "initializer_list",
+            "details": "Added in C++11",
+            "contents": "initializer_list",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++11) std::tuple class template
+            "trigger": "tuple",
+            "details": "Added in C++11",
+            "contents": "tuple",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++17) std::any class template
+            "trigger": "any",
+            "details": "Added in C++17",
+            "contents": "any",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++17) std::optional class template
+            "trigger": "optional",
+            "details": "Added in C++17",
+            "contents": "optional",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++17) std::variant class template
+            "trigger": "variant",
+            "details": "Added in C++17",
+            "contents": "variant",
+            "kind": ["namespace", "h", "Header"]
+        },
 
         // Dynmamic memory management utilities
-        { "trigger": "new\tstandard header", "contents": "new" }, // Low-level memory management utilities
-        { "trigger": "memory\tstandard header", "contents": "memory" }, // Higher level memory management utilities
-        { "trigger": "scoped_allocator\tstandard header (since c++11)", "contents": "scoped_allocator" }, // (since C++11) Nested allocator class
-        { "trigger": "memory_resource\tstandard header (since c++17)", "contents": "memory_resource" }, // (since C++17) Polymorphic allocators and memory resources
+        {
+            // Low-level memory management utilities
+            "trigger": "new",
+            "contents": "new",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Higher level memory management utilities
+            "trigger": "memory",
+            "contents": "memory",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++11) Nested allocator class
+            "trigger": "scoped_allocator",
+            "details": "Added in C++11",
+            "contents": "scoped_allocator",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++17) Polymorphic allocators and memory resources
+            "trigger": "memory_resource",
+            "details": "Added in C++17",
+            "contents": "memory_resource",
+            "kind": ["namespace", "h", "Header"]
+        },
 
         // Numeric limits
-        { "trigger": "climits\tstandard header", "contents": "climits" }, // limits of integral types
-        { "trigger": "cfloat\tstandard header", "contents": "cfloat" }, // limits of float types
-        { "trigger": "cstdint\tstandard header (since c++11)", "contents": "cstdint" }, // (since C++11) fixed-size types and limits of other types
-        { "trigger": "cinttypes\tstandard header (since c++11)", "contents": "cinttypes" }, // (since C++11) formatting macros , intmax_t and uintmax_t math and conversions
-        { "trigger": "limits\tstandard header", "contents": "limits" }, // standardized way to query properties of arithmetic types
+        {
+            // limits of integral types
+            "trigger": "climits",
+            "contents": "climits",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // limits of float types
+            "trigger": "cfloat",
+            "contents": "cfloat",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++11) fixed-size types and limits of other types
+            "trigger": "cstdint",
+            "details": "Added in C++11",
+            "contents": "cstdint",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++11) formatting macros , intmax_t and uintmax_t math and conversions
+            "trigger": "cinttypes",
+            "details": "Added in C++11",
+            "contents": "cinttypes",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // standardized way to query properties of arithmetic types
+            "trigger": "limits",
+            "contents": "limits",
+            "kind": ["namespace", "h", "Header"]
+        },
 
         // Error handling
-        { "trigger": "exception\tstandard header", "contents": "exception" }, // Exception handling utilities
-        { "trigger": "stdexcept\tstandard header", "contents": "stdexcept" }, // Standard exception objects
-        { "trigger": "system_error\tstandard header (since c++11)", "contents": "system_error" }, // (since C++11) defines std::error_code, a platform-dependent error code
-        { "trigger": "cerrno\tstandard header", "contents": "cerrno" }, // Macro containing the last error number
+        {
+            // Exception handling utilities
+            "trigger": "exception",
+            "contents": "exception",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Standard exception objects
+            "trigger": "stdexcept",
+            "contents": "stdexcept",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++11) defines std::error_code, a platform-dependent error code
+            "trigger": "system_error",
+            "details": "Added in C++11",
+            "contents": "system_error",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Macro containing the last error number
+            "trigger": "cerrno",
+            "contents": "cerrno",
+            "kind": ["namespace", "h", "Header"]
+        },
 
         // String library
-        { "trigger": "cctype\tstandard header", "contents": "cctype" }, // functions to determine the type contained in character data
-        { "trigger": "cwctype\tstandard header", "contents": "cwctype" }, // functions for determining the type of wide character data
-        { "trigger": "cstring\tstandard header", "contents": "cstring" }, // various narrow character string handling functions
-        { "trigger": "cwchar\tstandard header", "contents": "cwchar" }, // various wide and multibyte string handling functions
-        { "trigger": "cuchar\tstandard header (since c++11)", "contents": "cuchar" }, // (since C++11) C-style Unicode character conversion functions
-        { "trigger": "string\tstandard header", "contents": "string" }, // std::basic_string class template
-        { "trigger": "string_view\tstandard header (since c++17)", "contents": "string_view" }, // (since C++17) std::basic_string_view class template
-        { "trigger": "charconv\tstandard header (since c++20)", "contents": "charconv" }, // (since C++20) std::to_chars and std::from_chars
+        {
+            // functions to determine the type contained in character data
+            "trigger": "cctype",
+            "contents": "cctype",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // functions for determining the type of wide character data
+            "trigger": "cwctype",
+            "contents": "cwctype",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // various narrow character string handling functions
+            "trigger": "cstring",
+            "contents": "cstring",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // various wide and multibyte string handling functions
+            "trigger": "cwchar",
+            "contents": "cwchar",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++11) C-style Unicode character conversion functions
+            "trigger": "cuchar",
+            "details": "Added in C++11",
+            "contents": "cuchar",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // std::basic_string class template
+            "trigger": "string",
+            "contents": "string",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++17) std::basic_string_view class template
+            "trigger": "string_view",
+            "details": "Added in C++11",
+            "contents": "string_view",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++20) std::to_chars and std::from_chars
+            "trigger": "charconv",
+            "details": "Added in c++20",
+            "contents": "charconv",
+            "kind": ["namespace", "h", "Header"]
+        },
 
         // Containers library
-        { "trigger": "array\tstandard header (since c++11)", "contents": "array" }, // (since C++11) std::array container
-        { "trigger": "vector\tstandard header", "contents": "vector" }, // std::vector container
-        { "trigger": "deque\tstandard header", "contents": "deque" }, // std::deque container
-        { "trigger": "list\tstandard header", "contents": "list" }, // std::list container
-        { "trigger": "forward_list\tstandard header (since c++11)", "contents": "forward_list" }, // (since C++11) std::forward_list container
-        { "trigger": "set\tstandard header", "contents": "set" }, // std::set and std::multiset associative containers
-        { "trigger": "map\tstandard header", "contents": "map" }, // std::map and std::multimap associative containers
-        { "trigger": "unordered_set\tstandard header (since c++11)", "contents": "unordered_set" }, // (since C++11) std::unordered_set and std::unordered_multiset unordered associative containers
-        { "trigger": "unordered_map\tstandard header (since c++11)", "contents": "unordered_map" }, // (since C++11)   std::unordered_map and std::unordered_multimap unordered associative containers
-        { "trigger": "stack\tstandard header", "contents": "stack" }, // std::stack container adaptor
-        { "trigger": "queue\tstandard header", "contents": "queue" }, // std::queue and std::priority_queue container adaptors
+        {
+            // (since C++11) std::array container
+            "trigger": "array",
+            "details": "Added in C++11",
+            "contents": "array",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // std::vector container
+            "trigger": "vector",
+            "contents": "vector",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // std::deque container
+            "trigger": "deque",
+            "contents": "deque",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // std::list container
+            "trigger": "list",
+            "contents": "list",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++11) std::forward_list container
+            "trigger": "forward_list",
+            "details": "Added in C++11",
+            "contents": "forward_list",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // std::set and std::multiset associative containers
+            "trigger": "set",
+            "contents": "set",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // std::map and std::multimap associative containers
+            "trigger": "map",
+            "contents": "map",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++11) std::unordered_set and std::unordered_multiset unordered associative containers
+            "trigger": "unordered_set",
+            "details": "Added in C++11",
+            "contents": "unordered_set",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++11)   std::unordered_map and std::unordered_multimap unordered associative containers
+            "trigger": "unordered_map",
+            "details": "Added in C++11",
+            "contents": "unordered_map",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // std::stack container adaptor
+            "trigger": "stack",
+            "contents": "stack",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // std::queue and std::priority_queue container adaptors
+            "trigger": "queue",
+            "contents": "queue",
+            "kind": ["namespace", "h", "Header"]
+        },
 
         // Algorithms library
-        { "trigger": "algorithm\tstandard header", "contents": "algorithm" }, // Algorithms that operate on containers
-        { "trigger": "execution\tstandard header (since c++17)", "contents": "execution" }, // (C++17) Predefined execution policies for parallel versions of the algorithms
+        {
+            // Algorithms that operate on containers
+            "trigger": "algorithm",
+            "contents": "algorithm",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (C++17) Predefined execution policies for parallel versions of the algorithms
+            "trigger": "execution",
+            "details": "Added in C++17",
+            "contents": "execution",
+            "kind": ["namespace", "h", "Header"]
+        },
 
         // Iterators library
-        { "trigger": "iterator\tstandard header", "contents": "iterator" }, // Container iterators
+        {
+            // Container iterators
+            "trigger": "iterator",
+            "contents": "iterator",
+            "kind": ["namespace", "h", "Header"]
+        },
 
         // Numerics library
-        { "trigger": "cmath\tstandard header", "contents": "cmath"}, // Common mathematics functions
-        { "trigger": "complex\tstandard header", "contents": "complex" }, // Complex number type
-        { "trigger": "valarray\tstandard header", "contents": "valarray" }, // Class for representing and manipulating arrays of values
-        { "trigger": "random\tstandard header (since c++11)", "contents": "random" }, // (since C++11) Random number generators and distributions
-        { "trigger": "numeric\tstandard header", "contents": "numeric" }, // Numeric operations on values in containers
-        { "trigger": "ratio\tstandard header (since c++11)", "contents": "ratio" }, // (since C++11) Compile-time rational arithmetic
-        { "trigger": "cfenv\tstandard header (since c++11)", "contents": "cfenv" }, // (since C++11) Floating-point environment access functions
+        {
+            // Common mathematics functions
+            "trigger": "cmath",
+            "contents": "cmath",
+            "kind": ["namespace", "h", "Header"]
+        }, 
+        {
+            // Complex number type
+            "trigger": "complex",
+            "contents": "complex",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Class for representing and manipulating arrays of values
+            "trigger": "valarray",
+            "contents": "valarray",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++11) Random number generators and distributions
+            "trigger": "random",
+            "details": "Added in C++11",
+            "contents": "random",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Numeric operations on values in containers
+            "trigger": "numeric",
+            "contents": "numeric",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++11) Compile-time rational arithmetic
+            "trigger": "ratio",
+            "details": "Added in C++11",
+            "contents": "ratio",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++11) Floating-point environment access functions
+            "trigger": "cfenv",
+            "details": "Added in C++11",
+            "contents": "cfenv",
+            "kind": ["namespace", "h", "Header"]
+        },
 
         // Input/output library
-        { "trigger": "iosfwd\tstandard header", "contents": "iosfwd" }, // forward declarations of all classes in the input/output library
-        { "trigger": "ios\tstandard header", "contents": "ios" }, // std::ios_base class, std::basic_ios class template and several typedefs
-        { "trigger": "istream\tstandard header", "contents": "istream" }, // std::basic_istream class template and several typedefs
-        { "trigger": "ostream\tstandard header", "contents": "ostream" }, // std::basic_ostream, std::basic_iostream class templates and several typedefs
-        { "trigger": "iostream\tstandard header", "contents": "iostream" }, // several standard stream objects
-        { "trigger": "fstream\tstandard header", "contents": "fstream" }, // std::basic_fstream, std::basic_ifstream, std::basic_ofstream class templates and several typedefs
-        { "trigger": "sstream\tstandard header", "contents": "sstream" }, // std::basic_stringstream, std::basic_istringstream, std::basic_ostringstream class templates and several typedefs
-        { "trigger": "iomanip\tstandard header", "contents": "iomanip" }, // Helper functions to control the format or input and output
-        { "trigger": "streambuf\tstandard header", "contents": "streambuf" }, // std::basic_streambuf class template
-        { "trigger": "cstdio\tstandard header", "contents": "cstdio" }, // C-style input-output functions
+        {
+            // forward declarations of all classes in the input/output library
+            "trigger": "iosfwd",
+            "contents": "iosfwd",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // std::ios_base class, std::basic_ios class template and several typedefs
+            "trigger": "ios",
+            "contents": "ios",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // std::basic_istream class template and several typedefs
+            "trigger": "istream",
+            "contents": "istream",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // std::basic_ostream, std::basic_iostream class templates and several typedefs
+            "trigger": "ostream",
+            "contents": "ostream",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // several standard stream objects
+            "trigger": "iostream",
+            "contents": "iostream",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // std::basic_fstream, std::basic_ifstream, std::basic_ofstream class templates and several typedefs
+            "trigger": "fstream",
+            "contents": "fstream",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // std::basic_stringstream, std::basic_istringstream, std::basic_ostringstream class templates and several typedefs
+            "trigger": "sstream",
+            "contents": "sstream",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Helper functions to control the format or input and output
+            "trigger": "iomanip",
+            "contents": "iomanip",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // std::basic_streambuf class template
+            "trigger": "streambuf",
+            "contents": "streambuf",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // C-style input-output functions
+            "trigger": "cstdio",
+            "contents": "cstdio",
+            "kind": ["namespace", "h", "Header"]
+        },
 
         // Localization library
-        { "trigger": "locale\tstandard header", "contents": "locale" }, // Localization utilities
-        { "trigger": "clocale\tstandard header", "contents": "clocale" }, // C localization utilities
-        { "trigger": "codecvt\tstandard header (since c++11)", "contents": "codecvt" }, // (since C++11) Unicode conversion facilities
+        {
+            // Localization utilities
+            "trigger": "locale",
+            "contents": "locale",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // C localization utilities
+            "trigger": "clocale",
+            "contents": "clocale",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++11) Unicode conversion facilities
+            "trigger": "codecvt",
+            "details": "Added in C++11",
+            "contents": "codecvt",
+            "kind": ["namespace", "h", "Header"]
+        },
 
         // Regular Expressions library
-        { "trigger": "regex\tstandard header (since c++11)", "contents": "regex" }, // (since C++11) Classes, algorithms and iterators to support regular expression processing
+        {
+            // (since C++11) Classes, algorithms and iterators to support regular expression processing
+            "trigger": "regex",
+            "details": "Added in C++11",
+            "contents": "regex",
+            "kind": ["namespace", "h", "Header"]
+        },
 
         // Atomic Operations library
-        { "trigger": "atomic\tstandard header (since c++11)", "contents": "atomic" }, // (since C++11) Atomic operations library
+        {
+            // (since C++11) Atomic operations library
+            "trigger": "atomic",
+            "details": "Added in C++11",
+            "contents": "atomic",
+            "kind": ["namespace", "h", "Header"]
+        },
 
         // Thread support library
-        { "trigger": "thread\tstandard header (since c++11)", "contents": "thread" }, // (since C++11) std::thread class and supporting functions
-        { "trigger": "mutex\tstandard header (since c++11)", "contents": "mutex" }, // (since C++11) mutual exclusion primitives
-        { "trigger": "shared_mutex\tstandard header (since c++14)", "contents": "shared_mutex" }, // (since C++14) shared mutual exclusion primitives
-        { "trigger": "future\tstandard header (since c++11)", "contents": "future" }, // (since C++11) primitives for asynchronous computations
-        { "trigger": "condition_variable\tstandard header (since c++11)", "contents": "condition_variable" }, // (since C++11) thread waiting conditions
+        {
+            // (since C++11) std::thread class and supporting functions
+            "trigger": "thread",
+            "details": "Added in C++11",
+            "contents": "thread",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++11) mutual exclusion primitives
+            "trigger": "mutex",
+            "details": "Added in C++11",
+            "contents": "mutex",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++14) shared mutual exclusion primitives
+            "trigger": "shared_mutex",
+            "details": "Added in C++14",
+            "contents": "shared_mutex",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++11) primitives for asynchronous computations
+            "trigger": "future",
+            "details": "Added in C++11",
+            "contents": "future",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C++11) thread waiting conditions
+            "trigger": "condition_variable",
+            "details": "Added in C++11",
+            "contents": "condition_variable",
+            "kind": ["namespace", "h", "Header"]
+        },
 
         // Filesystem library
-        { "trigger": "filesystem\tstandard header (since c++17)", "contents": "filesystem" }, // (since C++17) std::path class and supporting functions
+        {
+            // (since C++17) std::path class and supporting functions
+            "trigger": "filesystem",
+            "details": "Added in C++17",
+            "contents": "filesystem",
+            "kind": ["namespace", "h", "Header"]
+        },
 
         // Experimental libraries
-        { "trigger": "experimental/algorithm\tlibrary fundamentals TS", "contents": "experimental/algorithm" }, // Standard libraries extensions and Extensions for Parallelism
-        { "trigger": "experimental/any\tlibrary fundamentals TS", "contents": "experimental/any" }, // Standard libraries extensions
-        { "trigger": "experimental/chrono\tlibrary fundamentals TS", "contents": "experimental/chrono" }, // Standard libraries extensions
-        { "trigger": "experimental/deque\tlibrary fundamentals TS", "contents": "experimental/deque" }, // Standard libraries extensions
-        { "trigger": "experimental/execution_policy\tlibrary fundamentals TS", "contents": "experimental/execution_policy" }, // Extensions for Parallelism
-        { "trigger": "experimental/exception_list\tlibrary fundamentals TS", "contents": "experimental/exception_list" }, // Extensions for Parallelism
-        { "trigger": "experimental/filesystem\tlibrary fundamentals TS", "contents": "experimental/filesystem" }, // Filesystem library
-        { "trigger": "experimental/forward_list\tlibrary fundamentals TS", "contents": "experimental/forward_list" }, // Standard libraries extensions
-        { "trigger": "experimental/future\tlibrary fundamentals TS", "contents": "experimental/future" }, // Standard libraries extensions
-        { "trigger": "experimental/list\tlibrary fundamentals TS", "contents": "experimental/list" }, // Standard libraries extensions
-        { "trigger": "experimental/functional\tlibrary fundamentals TS", "contents": "experimental/functional" }, // Standard libraries extensions
-        { "trigger": "experimental/map\tlibrary fundamentals TS", "contents": "experimental/map" }, //  Standard libraries extensions
-        { "trigger": "experimental/memory\tlibrary fundamentals TS", "contents": "experimental/memory" }, // Standard libraries extensions
-        { "trigger": "experimental/memory_resource\tlibrary fundamentals TS", "contents": "experimental/memory_resource" }, //  Standard libraries extensions
-        { "trigger": "experimental/numeric\tlibrary fundamentals TS", "contents": "experimental/numeric" }, // Extensions for Parallelism
-        { "trigger": "experimental/optional\tlibrary fundamentals TS", "contents": "experimental/optional" }, // Standard libraries extensions
-        { "trigger": "experimental/ratio\tlibrary fundamentals TS", "contents": "experimental/ratio" }, //  Standard libraries extensions
-        { "trigger": "experimental/regex\tlibrary fundamentals TS", "contents": "experimental/regex" }, //  Standard libraries extensions
-        { "trigger": "experimental/set\tlibrary fundamentals TS", "contents": "experimental/set" }, //  Standard libraries extensions
-        { "trigger": "experimental/string\tlibrary fundamentals TS", "contents": "experimental/string" }, // Standard libraries extensions
-        { "trigger": "experimental/string_view\tlibrary fundamentals TS", "contents": "experimental/string_view" }, //  Standard libraries extensions
-        { "trigger": "experimental/system_error\tlibrary fundamentals TS", "contents": "experimental/system_error" }, // Standard libraries extensions
-        { "trigger": "experimental/tuple\tlibrary fundamentals TS", "contents": "experimental/tuple" }, // Standard libraries extensions
-        { "trigger": "experimental/type_traits\tlibrary fundamentals TS", "contents": "experimental/type_traits" }, //  Standard libraries extensions
-        { "trigger": "experimental/unordered_map\tlibrary fundamentals TS", "contents": "experimental/unordered_map" }, // Standard libraries extensions
-        { "trigger": "experimental/unordered_set\tlibrary fundamentals TS", "contents": "experimental/unordered_set" }, // Standard libraries extensions
-        { "trigger": "experimental/utility\tlibrary fundamentals TS", "contents": "experimental/utility" }, //  Standard libraries extensions
-        { "trigger": "experimental/vector\tlibrary fundamentals TS", "contents": "experimental/vector" }, // Standard libraries extensions
+        {
+            // Standard libraries extensions and Extensions for Parallelism
+            "trigger": "experimental/algorithm",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/algorithm",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Standard libraries extensions
+            "trigger": "experimental/any",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/any",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Standard libraries extensions
+            "trigger": "experimental/chrono",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/chrono",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Standard libraries extensions
+            "trigger": "experimental/deque",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/deque",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Extensions for Parallelism
+            "trigger": "experimental/execution_policy",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/execution_policy",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Extensions for Parallelism
+            "trigger": "experimental/exception_list",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/exception_list",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Filesystem library
+            "trigger": "experimental/filesystem",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/filesystem",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Standard libraries extensions
+            "trigger": "experimental/forward_list",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/forward_list",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Standard libraries extensions
+            "trigger": "experimental/future",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/future",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Standard libraries extensions
+            "trigger": "experimental/list",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/list",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Standard libraries extensions
+            "trigger": "experimental/functional",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/functional",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            //  Standard libraries extensions
+            "trigger": "experimental/map",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/map",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Standard libraries extensions
+            "trigger": "experimental/memory",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/memory",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            //  Standard libraries extensions
+            "trigger": "experimental/memory_resource",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/memory_resource",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Extensions for Parallelism
+            "trigger": "experimental/numeric",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/numeric",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Standard libraries extensions
+            "trigger": "experimental/optional",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/optional",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            //  Standard libraries extensions
+            "trigger": "experimental/ratio",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/ratio",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            //  Standard libraries extensions
+            "trigger": "experimental/regex",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/regex",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            //  Standard libraries extensions
+            "trigger": "experimental/set",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/set",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Standard libraries extensions
+            "trigger": "experimental/string",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/string",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            //  Standard libraries extensions
+            "trigger": "experimental/string_view",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/string_view",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Standard libraries extensions
+            "trigger": "experimental/system_error",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/system_error",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Standard libraries extensions
+            "trigger": "experimental/tuple",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/tuple",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            //  Standard libraries extensions
+            "trigger": "experimental/type_traits",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/type_traits",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Standard libraries extensions
+            "trigger": "experimental/unordered_map",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/unordered_map",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Standard libraries extensions
+            "trigger": "experimental/unordered_set",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/unordered_set",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            //  Standard libraries extensions
+            "trigger": "experimental/utility",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/utility",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Standard libraries extensions
+            "trigger": "experimental/vector",
+            "annotation": "library fundamentals",
+            "details": "From (draft) C++ Library Fundamentals TS",
+            "contents": "experimental/vector",
+            "kind": ["namespace", "h", "Header"]
+        },
 
         // C compatibility headers
         //
@@ -162,27 +796,153 @@
         // definitely provides ::malloc and may also provide std::malloc. This
         // applies even to functions and function overloads that are not part of
         // C standard library.
-        { "trigger": "assert.h\tstandard header (deprecated)", "contents": "assert.h" }, // behaves as if each name from <cassert> is placed in global namespace
-        { "trigger": "ctype.h\tstandard header (deprecated)", "contents": "ctype.h" }, //  behaves as if each name from <cctype> is placed in global namespace
-        { "trigger": "errno.h\tstandard header (deprecated)", "contents": "errno.h" }, //  behaves as if each name from <cerrno> is placed in global namespace
-        { "trigger": "fenv.h\tstandard header (deprecated)", "contents": "fenv.h" }, //   behaves as if each name from <cfenv> is placed in global namespace
-        { "trigger": "float.h\tstandard header (deprecated)", "contents": "float.h" }, //  behaves as if each name from <cfloat> is placed in global namespace
-        { "trigger": "inttypes.h\tstandard header (deprecated)", "contents": "inttypes.h" }, //   behaves as if each name from <cinttypes> is placed in global namespace
-        { "trigger": "limits.h\tstandard header (deprecated)", "contents": "limits.h" }, // behaves as if each name from <climits> is placed in global namespace
-        { "trigger": "locale.h\tstandard header (deprecated)", "contents": "locale.h" }, // behaves as if each name from <clocale> is placed in global namespace
-        { "trigger": "math.h\tstandard header (deprecated)", "contents": "math.h" }, //   behaves as if each name from <cmath> is placed in global namespace
-        { "trigger": "setjmp.h\tstandard header (deprecated)", "contents": "setjmp.h" }, // behaves as if each name from <csetjmp> is placed in global namespace
-        { "trigger": "signal.h\tstandard header (deprecated)", "contents": "signal.h" }, // behaves as if each name from <csignal> is placed in global namespace
-        { "trigger": "stdarg.h\tstandard header (deprecated)", "contents": "stdarg.h" }, // behaves as if each name from <cstdarg> is placed in global namespace
-        { "trigger": "stddef.h\tstandard header (deprecated)", "contents": "stddef.h" }, // behaves as if each name from <cstddef> is placed in global namespace
-        { "trigger": "stdint.h\tstandard header (deprecated)", "contents": "stdint.h" }, // behaves as if each name from <cstdint> is placed in global namespace
-        { "trigger": "stdio.h\tstandard header (deprecated)", "contents": "stdio.h" }, //  behaves as if each name from <cstdio> is placed in global namespace
-        { "trigger": "stdlib.h\tstandard header (deprecated)", "contents": "stdlib.h" }, // behaves as if each name from <cstdlib> is placed in global namespace
-        { "trigger": "string.h\tstandard header (deprecated)", "contents": "string.h" }, // behaves as if each name from <cstring> is placed in global namespace
-        { "trigger": "time.h\tstandard header (deprecated)", "contents": "time.h" }, //   behaves as if each name from <ctime> is placed in global namespace
-        { "trigger": "uchar.h\tstandard header (deprecated)", "contents": "uchar.h" }, //  behaves as if each name from <cuchar> is placed in global namespace
-        { "trigger": "wchar.h\tstandard header (deprecated)", "contents": "wchar.h" }, //  behaves as if each name from <cwchar> is placed in global namespace
-        { "trigger": "wctype.h\tstandard header (deprecated)", "contents": "wctype.h" }, // behaves as if each name from <cwctype> is placed in global namespace
+        {
+            // behaves as if each name from <cassert> is placed in global namespace
+            "trigger": "assert.h",
+            "details": "Deprecated C header name",
+            "contents": "assert.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            //  behaves as if each name from <cctype> is placed in global namespace
+            "trigger": "ctype.h",
+            "details": "Deprecated C header name",
+            "contents": "ctype.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            //  behaves as if each name from <cerrno> is placed in global namespace
+            "trigger": "errno.h",
+            "details": "Deprecated C header name",
+            "contents": "errno.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            //   behaves as if each name from <cfenv> is placed in global namespace
+            "trigger": "fenv.h",
+            "details": "Deprecated C header name",
+            "contents": "fenv.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            //  behaves as if each name from <cfloat> is placed in global namespace
+            "trigger": "float.h",
+            "details": "Deprecated C header name",
+            "contents": "float.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            //   behaves as if each name from <cinttypes> is placed in global namespace
+            "trigger": "inttypes.h",
+            "details": "Deprecated C header name",
+            "contents": "inttypes.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // behaves as if each name from <climits> is placed in global namespace
+            "trigger": "limits.h",
+            "details": "Deprecated C header name",
+            "contents": "limits.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // behaves as if each name from <clocale> is placed in global namespace
+            "trigger": "locale.h",
+            "details": "Deprecated C header name",
+            "contents": "locale.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            //   behaves as if each name from <cmath> is placed in global namespace
+            "trigger": "math.h",
+            "details": "Deprecated C header name",
+            "contents": "math.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // behaves as if each name from <csetjmp> is placed in global namespace
+            "trigger": "setjmp.h",
+            "details": "Deprecated C header name",
+            "contents": "setjmp.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // behaves as if each name from <csignal> is placed in global namespace
+            "trigger": "signal.h",
+            "details": "Deprecated C header name",
+            "contents": "signal.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // behaves as if each name from <cstdarg> is placed in global namespace
+            "trigger": "stdarg.h",
+            "details": "Deprecated C header name",
+            "contents": "stdarg.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // behaves as if each name from <cstddef> is placed in global namespace
+            "trigger": "stddef.h",
+            "details": "Deprecated C header name",
+            "contents": "stddef.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // behaves as if each name from <cstdint> is placed in global namespace
+            "trigger": "stdint.h",
+            "details": "Deprecated C header name",
+            "contents": "stdint.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            //  behaves as if each name from <cstdio> is placed in global namespace
+            "trigger": "stdio.h",
+            "details": "Deprecated C header name",
+            "contents": "stdio.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // behaves as if each name from <cstdlib> is placed in global namespace
+            "trigger": "stdlib.h",
+            "details": "Deprecated C header name",
+            "contents": "stdlib.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // behaves as if each name from <cstring> is placed in global namespace
+            "trigger": "string.h",
+            "details": "Deprecated C header name",
+            "contents": "string.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            //   behaves as if each name from <ctime> is placed in global namespace
+            "trigger": "time.h",
+            "details": "Deprecated C header name",
+            "contents": "time.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            //  behaves as if each name from <cuchar> is placed in global namespace
+            "trigger": "uchar.h",
+            "details": "Deprecated C header name",
+            "contents": "uchar.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            //  behaves as if each name from <cwchar> is placed in global namespace
+            "trigger": "wchar.h",
+            "details": "Deprecated C header name",
+            "contents": "wchar.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // behaves as if each name from <cwctype> is placed in global namespace
+            "trigger": "wctype.h",
+            "details": "Deprecated C header name",
+            "contents": "wctype.h",
+            "kind": ["namespace", "h", "Header"]
+        },
 
         // Unsupported C headers
         //

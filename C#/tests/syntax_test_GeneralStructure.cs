@@ -1183,6 +1183,12 @@ namespace TestNamespace.Test
 ///                                   ^ - constant
 ///                                    ^^^^^^^^ constant.other.placeholder
 
+        for (; ctr < names.Length; ctr++)
+///          ^ punctuation.terminator.statement
+///                              ^ punctuation.terminator.statement
+            continue;
+///         ^^^^^^^^ keyword.control.flow.break
+
         int MyInt = 100;
         Console.WriteLine("{0:C}", MyInt);
 ///                        ^^^^^ constant.other.placeholder - invalid
@@ -1324,4 +1330,40 @@ public class AfterTopLevelMethod {
 ///              ^^^^^^^^^^^^^^^^^^ support.type
 ///                                 ^^^^^^^^^^^ variable.other.member
 ///                                            ^ punctuation.terminator.statement
+
+    public static implicit operator AfterTopLevelMethod(int[] some_ints)
+///        ^^^^^^ storage.modifier
+///               ^^^^^^^^ storage.modifier
+///                        ^^^^^^^^ storage.modifier
+///                                                     ^^^ meta.method.parameters storage.type
+///                                                           ^^^^^^^^^ meta.method.parameters variable.parameter
+    {
+        return new AfterTopLevelMethod(some_ints);
+    }
+    
+    Action<float> actionDelegate = delegate { };
+///                              ^ keyword.operator.assignment.variable
+///                                ^^^^^^^^ keyword.other
+///                                         ^ punctuation.section.block.begin
+///                                           ^ punctuation.section.block.end
+    event Action<float> eventAction;
+/// ^^^^^ storage.modifier
+    event Action<float> eventActionDelegate = delegate { };
+///                                         ^ keyword.operator.assignment.variable
+///                                           ^^^^^^^^ keyword.other
+///                                                    ^ punctuation.section.block.begin
+///                                                      ^ punctuation.section.block.end
+}
+
+struct Example
+{
+    // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/struct#readonly-instance-members
+    private int counter;
+    public int Counter
+    {
+        readonly get => counter;
+///     ^^^^^^^^ storage.modifier
+///              ^^^ storage.type.function.accessor.get
+        set => counter = value;
+    }
 }
