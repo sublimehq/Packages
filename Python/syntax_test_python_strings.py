@@ -569,10 +569,10 @@ bar = "}}" # Comment
 # Invalid field names
 '{foo{d}}'
 # ^ - constant.other.placeholder
-'{foo.!a:d}'
-# ^ constant.other.placeholder
 "{:{ {}}"  # issue 2232
 # ^ - constant.other.placeholder
+'{foo.!a:d}'  # incomplete accessor (in simple form)
+# ^ constant.other.placeholder
 
 # Syntactically correct, but hardly come up in real code
 "{:{ ()}}".format(0, **{" ()": "d"}) == '0'
@@ -581,7 +581,9 @@ bar = "}}" # Comment
 # ^ - constant.other.placeholder
 
 # Legal but non-standard format spec
-'{foo:{{w}}.{{p}}}}'  # illegal double {{ in format spec
+'{foo:{{w}}.{{p}}}'
+# ^ - constant.other.placeholder
+'{foo:w}}}'
 # ^ - constant.other.placeholder
 '{foo!a:random}'
 # ^ - constant.other.placeholder
