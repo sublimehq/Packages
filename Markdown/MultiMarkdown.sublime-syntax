@@ -25,13 +25,5 @@ contexts:
           scope: string.unquoted.multimarkdown
     - match: ''
       push:
-        - meta_scope: meta.content.multimarkdown
-        - match: ''
-          embed: scope:text.html.markdown
-          escape: $(?!$)  # should never match
-    # Replace with the following once
-    # https://github.com/sublimehq/sublime_text/issues/2395#issuecomment-662515815 is fixed.
-    # - match: ''
-    #   embed: scope:text.html.markdown
-    #   embed_scope: meta.content.multimarkdown
-    #   escape: $(?!$)  # should never match
+        - - meta_scope: meta.content.multimarkdown
+        - scope:text.html.markdown
