@@ -1,6 +1,7 @@
 %YAML 1.2
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
+version: 2
 name: MultiMarkdown
 first_line_match: (?i)^format:\s*complete\s*$
 scope: text.html.markdown.multimarkdown
@@ -25,4 +26,12 @@ contexts:
     - match: ''
       push:
         - meta_scope: meta.content.multimarkdown
-        - include: scope:text.html.markdown
+        - match: ''
+          embed: scope:text.html.markdown
+          escape: $(?!$)  # should never match
+    # Replace with the following once
+    # https://github.com/sublimehq/sublime_text/issues/2395#issuecomment-662515815 is fixed.
+    # - match: ''
+    #   embed: scope:text.html.markdown
+    #   embed_scope: meta.content.multimarkdown
+    #   escape: $(?!$)  # should never match
