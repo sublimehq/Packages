@@ -1,13 +1,20 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
+# https://www.sublimetext.com/docs/syntax.html
 # https://docs.oracle.com/javase/specs/jls/se13/html/index.html
 name: Java
+scope: source.java
+version: 2
+
 file_extensions:
   - java
   - bsh
-scope: source.java
-version: 2
+
+first_line_match: |-
+  (?x:
+    ^\#! .* \b(bsh|java)\b |                              # shebang
+    ^/[/*] \s* -\*- .*? \bjava\b \s* -\*-(?: \s* [/*]/)?  # editorconfig
+  )
 
 ###############################################################################
 
