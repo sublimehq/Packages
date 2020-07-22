@@ -1,5 +1,6 @@
 %YAML 1.2
 ---
+version: 2
 name: JSX
 file_extensions:
   - jsx
@@ -61,7 +62,7 @@ contexts:
         - jsx-tag-name
 
   jsx-tag-attributes:
-    - meta_content_scope: meta.tag.js
+    - meta_scope: meta.tag.js
 
     - match: '>'
       scope: punctuation.definition.tag.end.js

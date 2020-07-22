@@ -579,17 +579,7 @@ contexts:
             - - meta_content_scope: meta.field.identifier.erlang
               - include: immediatelly-pop
             - - include: variable-anonymous-pop
-              - match: '{{atom_unquoted}}'
-                scope: meta.atom.erlang entity.name.field.erlang
-                pop: true
-              - match: \'
-                scope: punctuation.definition.atom.begin.erlang
-                set:
-                  - meta_include_prototype: false
-                  - meta_scope: meta.atom.erlang entity.name.field.erlang
-                  - include: atom-quoted-common
-              - include: macro-pop
-              - include: atom-expect-end
+              - include: variable-other-field
     - include: else-pop
 
 ###[ PREPROCESSOR SPEC ]######################################################
@@ -1179,7 +1169,7 @@ contexts:
       push: [record-fields, record-name, variable-other-record]
     # records may look like normal variables in macro definitions
     - match: '{{variable}}(?=\.{{ident}})'
-      scope: meta.record.identifier.erlang variable.other.erlang
+      scope: meta.record.identifier.erlang variable.other.readwrite.erlang
       push: record-fields
 
   record-name:
@@ -1188,13 +1178,13 @@ contexts:
 
   variable-other-record:
     - match: '{{atom_unquoted}}'
-      scope: meta.atom.erlang variable.other.record.erlang
+      scope: meta.atom.erlang storage.type.record.erlang
       pop: true
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
         - meta_include_prototype: false
-        - meta_scope: meta.atom.erlang variable.other.record.erlang
+        - meta_scope: meta.atom.erlang storage.type.record.erlang
         - include: atom-quoted-common
     - include: macro-pop
     - include: atom-expect-end
@@ -1245,13 +1235,13 @@ contexts:
 
   variable-other-field:
     - match: '{{atom_unquoted}}'
-      scope: meta.atom.erlang variable.other.field.erlang
+      scope: meta.atom.erlang variable.other.member.erlang
       pop: true
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
         - meta_include_prototype: false
-        - meta_scope: meta.atom.erlang variable.other.field.erlang
+        - meta_scope: meta.atom.erlang variable.other.member.erlang
         - include: atom-quoted-common
     - include: macro-pop
     - include: atom-expect-end
@@ -1448,11 +1438,11 @@ contexts:
 
   variable-other:
     - match: '{{variable}}'
-      scope: variable.other.erlang
+      scope: variable.other.readwrite.erlang
 
   variable-other-pop:
     - match: '{{variable}}'
-      scope: variable.other.erlang
+      scope: variable.other.readwrite.erlang
       pop: true
 
   variable-parameter:

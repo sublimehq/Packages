@@ -11,9 +11,9 @@
 		<integer>1</integer>
 		<key>symbolTransformation</key>
 		<string>
-		s/\s{2,}/ /g;
-		s/.*/    $0/g;
-	</string>
+			s/\s{2,}/ /g;
+			s/.*/    $0/g;
+		</string>
 	</dict>
 </dict>
 </plist>

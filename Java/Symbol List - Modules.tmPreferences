@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-    <key>name</key>
-    <string>Symbol List: Modules</string>
-    <key>scope</key>
-    <string>source.java meta.module meta.module.identifier</string>
-    <key>settings</key>
-    <dict>
-        <key>showInSymbolList</key>
-        <integer>1</integer>
-    </dict>
+	<key>name</key>
+	<string>Symbol List: Modules</string>
+	<key>scope</key>
+	<string>source.java meta.module meta.module.identifier</string>
+	<key>settings</key>
+	<dict>
+		<key>showInSymbolList</key>
+		<integer>1</integer>
+	</dict>
 </dict>
 </plist>

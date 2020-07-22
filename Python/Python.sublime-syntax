@@ -1515,37 +1515,57 @@ contexts:
 
   formatting-syntax:
     # https://docs.python.org/3.6/library/string.html#formatstrings
+    # Technically allows almost every character for the key,
+    # but those are rarely used if ever.
     - match: |- # simple form
         (?x)
         (\{)
-          (?: [\w.\[\]]+)?             # field_name
-          (   ! [ars])?                # conversion
-          (   : (?:{{format_spec}}|    # format_spec OR
-                   [^}%]*%.[^}]*)      # any format-like string
+          (?: [\w.\[\]]+)?           # field_name
+          (   ! [ars])?              # conversion
+          (?: (:) ({{format_spec}}|  # format_spec OR
+                   [^}%]*%.[^}]*)    # any format-like string
           )?
         (\})
       scope: constant.other.placeholder.python
       captures:
         1: punctuation.definition.placeholder.begin.python
         2: storage.modifier.conversion.python
-        3: constant.other.format-spec.python
-        4: punctuation.definition.placeholder.end.python
-    - match: \{(?=[^\}"']+\{[^"']*\}) # complex (nested) form
+        3: punctuation.separator.format-spec.python
+        4: meta.format-spec.python constant.other.format-spec.python
+        5: punctuation.definition.placeholder.end.python
+    - match: (?=\{[^{}"']+\{[^"']*\})  # complex (nested) form
+      branch_point: formatting-syntax-branch
+      branch:
+        - formatting-syntax-complex
+        - formatting-syntax-fallback
+
+  formatting-syntax-fallback:
+    - match: \{
+      scope: meta.debug.formatting-syntax-fallback.python
+      pop: true
+
+  formatting-syntax-complex:
+    - match: \{
       scope: punctuation.definition.placeholder.begin.python
-      push:
+      set:
         - meta_scope: constant.other.placeholder.python
         - match: \}
           scope: punctuation.definition.placeholder.end.python
           pop: true
-        - match: '[\w.\[\]]+'
+        # TODO could match numeric indices or everything else as a key
+        # and also [] indexing
         - match: '![ars]'
           scope: storage.modifier.conversion.python
         - match: ':'
+          scope: punctuation.separator.format-spec.python
           push:
-            - meta_scope: meta.format-spec.python constant.other.format-spec.python
+            - meta_content_scope: meta.format-spec.python constant.other.format-spec.python
             - match: (?=\})
               pop: true
-            - include: formatting-syntax
+            - match: (?=\{)
+              push: formatting-syntax-complex
+        - match: '[{"''\n]'
+          fail: formatting-syntax-branch
 
   f-string-content:
     # https://www.python.org/dev/peps/pep-0498/

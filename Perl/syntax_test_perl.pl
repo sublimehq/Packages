@@ -1485,24 +1485,34 @@ EOT
 #                                ^ meta.string.perl string.quoted.angle.perl
 #                                 ^ meta.string.perl string.quoted.angle.perl punctuation.definition.string.end.perl
 #                                  ^ - meta.string - string
-  "quoted \"interpolated\" foo 'bar' $baz $"
+  "quoted \"interpolated\" \foo 'bar' $baz $"
 # ^ punctuation.definition.string.begin.perl
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.perl string.quoted.double.perl - meta.interpolation
-#                                    ^^^^ meta.string.perl meta.interpolation.perl - string
-#                                        ^^^ meta.string.perl string.quoted.double.perl - meta.interpolation
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.perl string.quoted.double.perl - meta.interpolation
+#                                     ^^^^ meta.string.perl meta.interpolation.perl - string
+#                                         ^^^ meta.string.perl string.quoted.double.perl - meta.interpolation
 #         ^^ constant.character.escape.perl
 #                       ^^ constant.character.escape.perl
-#                                    ^^^^ variable.other.readwrite.perl
-#                                         ^ - variable
-#                                          ^ punctuation.definition.string.end.perl
-  'quoted "interpolated" foo \'bar\' $baz $'
+#                          ^^ constant.character.escape.perl
+#                                     ^^^^ variable.other.readwrite.perl
+#                                          ^ - variable
+#                                           ^ punctuation.definition.string.end.perl
+  'quoted "interpolated" \foo \'bar\' $baz $'
 # ^ punctuation.definition.string.begin.perl
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.perl string.quoted.single.perl
-#                            ^^ constant.character.escape.perl
-#                                 ^^ constant.character.escape.perl
-#                                    ^^^^ - variable
-#                                         ^ - variable
-#                                          ^ punctuation.definition.string.end.perl
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.perl string.quoted.single.perl
+#                        ^^ - constant.character.escape
+#                             ^^ constant.character.escape.perl
+#                                  ^^ constant.character.escape.perl
+#                                     ^^^^ - variable
+#                                          ^ - variable
+#                                           ^ punctuation.definition.string.end.perl
+  'foo \' foo\\\' bar\\\\'
+# ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.perl string.quoted.single.perl
+# ^ punctuation.definition.string.begin.perl
+#      ^^ constant.character.escape.perl
+#            ^^^^ constant.character.escape.perl
+#                    ^^^^ constant.character.escape.perl
+#                        ^ punctuation.definition.string.end.perl
+#                         ^ - meta.string - string
   `quoted "interpolated" foo \`bar\` $baz $`
 # ^ punctuation.definition.string.begin.perl
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.perl string.quoted.backtick.perl - meta.interpolation
@@ -1543,22 +1553,29 @@ EOT
 #                                                  ^ - variable
 #                                                   ^ punctuation.definition.string.end.perl
 #                                                     ^ keyword.operator.comparison.perl
+  # Note: The \/ can't be highlighted as escaped due to ST backref limitations.
   q/quoted "interpolated" foo 'bar' \/ $baz/
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
 #  ^ punctuation.section.generic.begin.perl - string
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.perl string.unquoted.perl - meta.interpolation
-#                                   ^^ constant.character.escape.perl
 #                                      ^^^^ - variable
 #                                          ^ punctuation.section.generic.end.perl - string
-  q\quoted "interpolated" foo 'bar' / $baz\
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
+  q/foo \/ foo\\\/ bar\\\\/
+# ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
 #  ^ punctuation.section.generic.begin.perl - string
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.perl
-#                                     ^^^^ - variable
-#                                         ^ punctuation.section.generic.end.perl - string
-  q{quoted "interpolated" {foo} 'bar' \/ $baz}
+#                         ^ punctuation.section.generic.end.perl - meta.string - string
+  q\quoted "interpolated" foo 'bar' \\ $baz\
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
+# ^ support.function.perl
+#  ^ punctuation.section.generic.begin.perl - string
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.perl
+#                                   ^ punctuation.section.generic.end.perl - string
+#                                    ^ keyword.operator.reference.perl
+#                                      ^^^^ variable.other.readwrite.perl
+#                                          ^ keyword.operator.reference.perl
+  q{quoted "interpolated" {foo} 'bar' \} $baz}
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
 #  ^ punctuation.section.braces.begin.perl - string
@@ -1576,6 +1593,15 @@ EOT
 #                                     ^^ constant.character.escape.perl
 #                                        ^^^^ - variable
 #                                            ^ punctuation.section.brackets.end.perl - string
+  q[foo \] foo\\\] bar\\\\]
+# ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
+# ^ support.function.perl
+#  ^ punctuation.section.brackets.begin.perl - string
+#       ^^ constant.character.escape.perl
+#             ^^^^ constant.character.escape.perl
+#                     ^^^^ constant.character.escape.perl
+#                         ^ punctuation.section.brackets.end.perl
+#                         ^ - meta.string - string
   q<quoted "interpolated" <foo> 'bar' \> $baz>
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
@@ -1585,7 +1611,16 @@ EOT
 #                                     ^^ constant.character.escape.perl
 #                                        ^^^^ - variable
 #                                            ^ punctuation.section.generic.end.perl - string
-  q(quoted "interpolated" [foo] 'bar' \] $baz)
+  q<foo \> foo\\\> bar\\\\>
+# ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
+# ^ support.function.perl
+#  ^ punctuation.section.generic.begin.perl - string
+#       ^^ constant.character.escape.perl
+#             ^^^^ constant.character.escape.perl
+#                     ^^^^ constant.character.escape.perl
+#                         ^ punctuation.section.generic.end.perl
+#                         ^ - meta.string - string
+  q(quoted "interpolated" [foo] 'bar' \) $baz)
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
 # ^ support.function.perl
 #  ^ punctuation.section.parens.begin.perl - string
@@ -1594,6 +1629,15 @@ EOT
 #                                     ^^ constant.character.escape.perl
 #                                        ^^^^ - variable
 #                                            ^ punctuation.section.parens.end.perl - string
+  q(foo \) foo\\\) bar\\\\)
+# ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.perl
+# ^ support.function.perl
+#  ^ punctuation.section.parens.begin.perl - string
+#       ^^ constant.character.escape.perl
+#             ^^^^ constant.character.escape.perl
+#                     ^^^^ constant.character.escape.perl
+#                         ^ punctuation.section.parens.end.perl
+#                         ^ - meta.string - string
   q['
 # ^ support.function.perl
 #  ^ punctuation.section.brackets.begin.perl - string

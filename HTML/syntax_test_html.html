@@ -237,13 +237,38 @@
         ##       ^^^^^^^^^^^^^^^ string.unquoted
         ##                      ^^ punctuation.definition.tag.end.html
 
-        <img src=/f̱oo⏡/bar/baz/ />
+        <!-- Match utf-8 escapes (%2F) in src tags -->
+        <img src=/f̱oo⏡/bar%2Fbaz/ />
         ##  ^ - meta.attribute-with-value
         ##   ^^^ entity.other.attribute-name
-        ##   ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value
-        ##       ^^^^^^^^^^^^^^^ string.unquoted
-        ##                      ^ - meta.attribute-with-value
-        ##                       ^^ punctuation.definition.tag.end.html
+        ##   ^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value
+        ##       ^^^^^^^^^^^^^^^^^ string.unquoted
+        ##                ^ - constant.character.escape
+        ##                 ^ constant.character.escape.url.html punctuation.definition.escape.html
+        ##                  ^^ constant.character.escape.url.html - punctuation.definition
+        ##                    ^ - constant.character.escape
+        ##                        ^ - meta.attribute-with-value
+        ##                         ^^ punctuation.definition.tag.end.html
+
+        <!-- Match utf-8 escapes (%2F) in href tags -->
+        <img href="/foo%2Fbar.com" />
+        ##  ^ - meta.attribute-with-value
+        ##   ^^^^ entity.other.attribute-name
+        ##   ^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value
+        ##        ^^^^^^^^^^^^^^^^ string.quoted.double
+        ##             ^ constant.character.escape.url.html punctuation.definition.escape.html
+        ##              ^^ constant.character.escape.url.html - punctuation.definition
+        ##                        ^ - meta.attribute-with-value
+        ##                         ^^ punctuation.definition.tag.end.html
+
+        <!-- Don't match utf-8 escapes (%2F) in other than href/src tags -->
+        <img title="http://foo%2Fbar.com" />
+        ##  ^ - meta.attribute-with-value
+        ##   ^^^ entity.other.attribute-name
+        ##   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value
+        ##         ^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double - constant.character.escape
+        ##                               ^ - meta.attribute-with-value
+        ##                                ^^ punctuation.definition.tag.end.html
 
         <img title=foo"/>
         ##  ^ - meta.attribute-with-value
@@ -682,8 +707,9 @@ class="foo"></div>
 ##      ^^^^ - constant.character.entity
 
 
-        <a href="http://google.com/?one=1&amp;two=2"></a>
-        ##                               ^^^^^ constant.character.entity
+        <a href="http://google%20api.com/?one=1&amp;two=2"></a>
+        ##                    ^^^ constant.character.escape.url
+        ##                                     ^^^^^ constant.character.entity
         <a href="http://google.com/?one=1&two=2"></a>
         ##                               ^ - constant.character.entity
         ##                               ^ - invalid.illegal

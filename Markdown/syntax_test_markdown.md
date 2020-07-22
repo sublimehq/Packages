@@ -593,6 +593,10 @@ because it doesn't begin with the number one:
 * [ ] [Checkbox][] with next word linked
 | ^^^ constant.language.checkbox
 |     ^^^^^^^^^^^^ meta.link
+* list has `unclosed code
+* list continues
+| ^^^^^^^^^^^^^^^ - markup.raw
+
 
 - `code` - <a name="demo"></a>
 | ^ markup.list.unnumbered meta.paragraph.list markup.raw.inline punctuation.definition.raw
@@ -2098,3 +2102,7 @@ end
 |^ constant.character.escape
 |^^^^^^ - meta.tag
 |    ^^ constant.character.escape
+
+link with a single underscore inside the text : [@_test](http://example.com)
+|                                                ^^^^^^ meta.paragraph meta.link.inline.description - punctuation.definition
+|                                                      ^ meta.paragraph meta.link.inline punctuation.definition.link.end

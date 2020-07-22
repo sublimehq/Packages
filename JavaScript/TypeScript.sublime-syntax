@@ -1,5 +1,6 @@
 %YAML 1.2
 ---
+version: 2
 name: TypeScript
 file_extensions:
   - ts
