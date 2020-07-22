@@ -1128,8 +1128,8 @@ abort "Ending"
 exit! 2
 #^^^^ support.function.builtin
 
- ->
-#^^ meta.function.ruby storage.type.function.ruby keyword.declaration.function.lambda.ruby
+get :name, -> { "John" }
+#          ^^ meta.function.ruby storage.type.function.ruby keyword.declaration.function.lambda.ruby
 
 
 ##################
