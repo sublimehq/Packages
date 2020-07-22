@@ -1560,6 +1560,22 @@ def function(a, b, *c, **d):
 #                                                         ^^^^^^^^^^^^^^^^^^ comment.line.number-sign - comment.line.type-hint
 #                                                         ^ punctuation.definition.comment
 
+class TypeCommentTest:
+    member = []  # type: List[dict]
+
+    def __del__(self) -> None:
+#                        ^^^^ constant.language
+#                            ^ punctuation.section
+        pass
+#       ^^^^ keyword.control
+
+class TypeCommentTest2:
+    member = []  # type: List[dict]
+
+    def __del__(self) -> None:
+        pass
+#       ^^^^ keyword.control
+
 
 ##################
 # Assignment Expressions

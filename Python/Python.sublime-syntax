@@ -452,6 +452,8 @@ contexts:
       scope: punctuation.section.brackets.begin.python
       set:
         - meta_content_scope: comment.line.type-hint.python
+        - match: \n
+          pop: true
         - match: \[
           scope: invalid.illegal.python
         - match: '[a-zA-Z_-][a-zA-Z_0-9-]+'
@@ -465,6 +467,8 @@ contexts:
           set:
             # Don't allow a second block.
             - meta_content_scope: comment.line.type-hint.python
+            - match: \n
+              pop: true
             - match: '(?=#)'
               set: comments-basic
             - match: \S
@@ -474,6 +478,8 @@ contexts:
 
   type-comment:
     - meta_content_scope: comment.line.type-hint.python
+    - match: \n
+      pop: true
     - match: '(?=#)'
       set: comments-basic
     # Don't use expressions here, only a few types are reasonable
@@ -489,6 +495,8 @@ contexts:
         1: meta.item-access.python punctuation.section.brackets.begin.python
       push:
         - meta_content_scope: meta.item-access.arguments.python
+        - match: (?=\n)
+          pop: true
         - match: \]
           scope: meta.item-access.python punctuation.section.brackets.end.python
           pop: true
@@ -500,6 +508,8 @@ contexts:
       scope: punctuation.section.parens.begin.python
       push:
         - meta_content_scope: meta.function.parameters.python
+        - match: (?=\n)
+          pop: true
         - match: \)
           scope: punctuation.section.parens.end.python
           pop: true
