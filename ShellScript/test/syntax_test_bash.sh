@@ -1751,7 +1751,7 @@ echo +(bar|qux) | wc
 #             ^ punctuation.section.group.end.shell
 #               ^ keyword.operator.logical.pipe.shell
 [[ a == [abc[]* ]]
-#    ^^ keyword.operator.logical.shell
+#    ^^ keyword.operator.comparison.shell
 #       ^ keyword.control.regexp.set.begin.shell
 #           ^ - keyword.control
 #            ^ keyword.control.regexp.set.end.shell
@@ -2041,23 +2041,23 @@ coproc foobar {
 (( !1 ))
 #  ^ keyword.operator.logical.shell
 (( a<<12 a << 16 ))
-#   ^^ keyword.operator.logical.shell
-#          ^^ keyword.operator.logical.shell
+#   ^^ keyword.operator.bitwise.shell
+#          ^^ keyword.operator.bitwise.shell
 (( a>>14 a >> 14 ))
-#   ^^ keyword.operator.logical.shell
-#          ^^ keyword.operator.logical.shell
+#   ^^ keyword.operator.bitwise.shell
+#          ^^ keyword.operator.bitwise.shell
 (( a<=b a <= b ))
-#   ^^ keyword.operator.logical.shell
-#         ^^ keyword.operator.logical.shell
+#   ^^ keyword.operator.comparison.shell
+#         ^^ keyword.operator.comparison.shell
 (( a>=b a >= b ))
-#   ^^ keyword.operator.logical.shell
-#         ^^ keyword.operator.logical.shell
+#   ^^ keyword.operator.comparison.shell
+#         ^^ keyword.operator.comparison.shell
 (( a<b a < b ))
-#   ^ keyword.operator.logical.shell
-#        ^ keyword.operator.logical.shell
+#   ^ keyword.operator.comparison.shell
+#        ^ keyword.operator.comparison.shell
 (( a>b a > b ))
-#   ^ keyword.operator.logical.shell
-#        ^ keyword.operator.logical.shell
+#   ^ keyword.operator.comparison.shell
+#        ^ keyword.operator.comparison.shell
 (( a&&b a && b ))
 #   ^^ keyword.operator.logical.shell
 #         ^^ keyword.operator.logical.shell
@@ -2079,17 +2079,17 @@ coproc foobar {
 #                              ^^ - meta.group.shell
 #^ punctuation.section.arithmetic.begin.shell
 # ^ punctuation.section.group.begin.shell
-#   ^ keyword.operator.logical.shell
+#   ^ keyword.operator.comparison.shell
 #     ^ punctuation.section.group.end.shell
 #       ^ keyword.operator.ternary.shell
 #         ^ punctuation.section.group.begin.shell
-#           ^ keyword.operator.logical.shell
+#           ^ keyword.operator.comparison.shell
 #             ^ keyword.operator.ternary.shell
 #               ^ keyword.operator.ternary.shell
 #                 ^ punctuation.section.group.end.shell
 #                   ^ keyword.operator.ternary.shell
 #                     ^ punctuation.section.group.begin.shell
-#                       ^ keyword.operator.logical.shell
+#                       ^ keyword.operator.comparison.shell
 #                         ^ keyword.operator.ternary.shell
 #                           ^ keyword.operator.ternary.shell
 #                             ^ punctuation.section.group.end.shell
@@ -2254,7 +2254,7 @@ if [[ $- != *i* ]] ; then
 #  ^^ support.function.double-brace.begin.shell
 #     ^^ meta.interpolation.parameter.shell variable.language.shell
 #     ^ punctuation.definition.variable.shell
-#        ^^ keyword.operator.logical.shell
+#        ^^ keyword.operator.comparison.shell
 #           ^ keyword.operator.regexp.quantifier.shell
 #             ^ keyword.operator.regexp.quantifier.shell
 #               ^^ support.function.double-brace.end.shell
@@ -2400,7 +2400,7 @@ if test expr -a expr ; then echo "success"; fi
 [[ "${foo}" == bar*baz ]]
 # <- support.function.double-brace.begin.shell
 # <- support.function.double-brace.begin.shell
-#           ^^ keyword.operator.logical.shell
+#           ^^ keyword.operator.comparison.shell
 #                 ^ keyword.operator.regexp.quantifier.shell
 #                      ^^ support.function.double-brace.end.shell
 
@@ -2477,10 +2477,10 @@ fi
 if [ "$1" != "" -a "$2" != "" ]; then
 # <- keyword.control.conditional.if
 #  ^ support.function.test.begin
-#         ^^ meta.function-call.arguments keyword.operator.logical
+#         ^^ meta.function-call.arguments keyword.operator.comparison
 #               ^ meta.function-call.arguments variable.parameter punctuation.definition.parameter
 #                ^ meta.function-call.arguments variable.parameter
-#                       ^^ meta.function-call.arguments keyword.operator.logical
+#                       ^^ meta.function-call.arguments keyword.operator.comparison
 #                             ^ meta.function-call.arguments support.function.test.end
 #                              ^ keyword.operator.logical.continue
 #                                ^^^^ keyword.control.conditional.then
@@ -2920,7 +2920,7 @@ for (( i = 0; i < 10; i++ )); do
 #        ^ keyword.operator.assignment.shell
 #          ^ constant.numeric.integer - punctuation
 #           ^ punctuation.separator.expressions.shell
-#               ^ keyword.operator.logical.shell
+#               ^ keyword.operator.comparison.shell
 #                 ^^ constant.numeric.integer
 #                   ^ punctuation.separator.expressions.shell
 #                      ^^ keyword.operator.arithmetic.shell
@@ -2941,7 +2941,7 @@ for (( i = 0; i < 10; i++ )) #; do
 #        ^ keyword.operator.assignment.shell
 #          ^ constant.numeric.integer - punctuation
 #           ^ punctuation.separator.expressions.shell
-#               ^ keyword.operator.logical.shell
+#               ^ keyword.operator.comparison.shell
 #                 ^^ constant.numeric.integer
 #                   ^ punctuation.separator.expressions.shell
 #                      ^^ keyword.operator.arithmetic.shell
@@ -3381,7 +3381,7 @@ EOF
 #            ^^ support.function.double-brace.begin
 #               ^ meta.function-call.arguments punctuation.definition.variable
 #                ^ meta.function-call.arguments variable.language
-#                  ^^ meta.function-call.arguments keyword.operator.logical
+#                  ^^ meta.function-call.arguments keyword.operator.comparison
 #                       ^^ meta.function-call.arguments support.function.double-brace.end
 #                          ^^ keyword.operator.logical.and
 

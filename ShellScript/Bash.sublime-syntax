@@ -967,7 +967,11 @@ contexts:
     # multi char operators
     - match: '[-+*/%&|^]=|<<=|>>='
       scope: keyword.operator.assignment.augmented.shell
-    - match: <[=<]?|>[=>]?|[=!]=|&&|\|\||!
+    - match: '<<|>>'
+      scope: keyword.operator.bitwise.shell
+    - match: '<=?|>=?|[=!]='
+      scope: keyword.operator.comparison.shell
+    - match: '&&|\|\||!'
       scope: keyword.operator.logical.shell
     # single char operators
     - match: '[-+*/%]'
@@ -1017,7 +1021,9 @@ contexts:
         - match: (?=\s)
           pop: 1
         - include: expansion-and-string
-    - match: ==|!=?|<|>|\|\||&&
+    - match: '<=?|>=?|[=!]='
+      scope: keyword.operator.comparison.shell
+    - match: '&&|\|\||!'
       scope: keyword.operator.logical.shell
     - match: '='
       scope: keyword.operator.assignment.shell
