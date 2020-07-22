@@ -181,20 +181,22 @@ variables:
     #   )
 contexts:
   file-start:
-    - match: ^---$\n
-      scope: punctuation.section.block.begin.frontmatter.yaml.markdown
+    - match: (---)\s*
+      captures:
+        0: meta.frontmatter.markdown
+        1: punctuation.section.block.begin.frontmatter.yaml.markdown
       embed: scope:source.yaml
-      embed_scope: source.yaml.embedded
-      escape: ^---(?=\s)
+      embed_scope: meta.frontmatter.markdown source.yaml.embedded
+      escape: ^(---)\s*$  # pandoc requires the remainder of the line to be blank
       escape_captures:
-        0: punctuation.section.block.end.frontmatter.yaml.markdown
+        1: meta.frontmatter.markdown punctuation.section.block.end.frontmatter.yaml.markdown
 
   main:
     - include: file-start
     - match: ''
-      push: default
+      set: markdown
 
-  default:
+  markdown:
     - match: |-
         (?x)^
         (?=  {{block_quote}}
