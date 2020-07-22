@@ -289,6 +289,12 @@ Paragraph break.
 
 Paragraph break.
 
+---
+|^^^ meta.block-level meta.separator.thematic-break
+|^^ punctuation.definition.thematic-break
+
+Paragraph break.
+
 --------
 |^^^^^^^^ meta.block-level meta.separator.thematic-break
 |^^^^^^^ punctuation.definition.thematic-break

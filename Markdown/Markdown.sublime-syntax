@@ -180,7 +180,23 @@ variables:
     #     \s*$      # any amount of whitespace until EOL
     #   )
 contexts:
+  file-start:
+    - match: (---)\s*
+      captures:
+        0: meta.frontmatter.markdown
+        1: punctuation.section.block.begin.frontmatter.yaml.markdown
+      embed: scope:source.yaml
+      embed_scope: meta.frontmatter.markdown source.yaml.embedded
+      escape: ^(---)\s*$  # pandoc requires the remainder of the line to be blank
+      escape_captures:
+        1: meta.frontmatter.markdown punctuation.section.block.end.frontmatter.yaml.markdown
+
   main:
+    - include: file-start
+    - match: ''
+      set: markdown
+
+  markdown:
     - match: |-
         (?x)^
         (?=  {{block_quote}}
