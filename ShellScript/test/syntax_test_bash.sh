@@ -2037,15 +2037,13 @@ coproc foobar {
 (( a|b a | b))
 #   ^ keyword.operator.bitwise.shell
 #        ^ keyword.operator.bitwise.shell
-
-(( !1 ))
-#  ^ keyword.operator.logical.shell
 (( a<<12 a << 16 ))
 #   ^^ keyword.operator.bitwise.shell
 #          ^^ keyword.operator.bitwise.shell
 (( a>>14 a >> 14 ))
 #   ^^ keyword.operator.bitwise.shell
 #          ^^ keyword.operator.bitwise.shell
+
 (( a<=b a <= b ))
 #   ^^ keyword.operator.comparison.shell
 #         ^^ keyword.operator.comparison.shell
@@ -2058,6 +2056,10 @@ coproc foobar {
 (( a>b a > b ))
 #   ^ keyword.operator.comparison.shell
 #        ^ keyword.operator.comparison.shell
+
+(( !1 ! 1 ))
+#  ^ keyword.operator.logical.shell
+#     ^ keyword.operator.logical.shell
 (( a&&b a && b ))
 #   ^^ keyword.operator.logical.shell
 #         ^^ keyword.operator.logical.shell
