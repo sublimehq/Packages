@@ -105,7 +105,7 @@ contexts:
         - meta_content_scope: string.unquoted.cdata.html
         - match: ']]>'
           scope: punctuation.definition.tag.end.html
-          pop: true
+          pop: 1
 
 ###[ COMMENT ]################################################################
 
@@ -120,7 +120,7 @@ contexts:
           captures:
             1: invalid.illegal.bad-comments-or-CDATA.html
             2: punctuation.definition.comment.end.html
-          pop: true
+          pop: 1
         - match: <!--(?!-?>)|--!>
           scope: invalid.illegal.bad-comments-or-CDATA.html
 
@@ -141,18 +141,18 @@ contexts:
     - meta_scope: meta.tag.sgml.doctype.html
     - match: '>'
       scope: punctuation.definition.tag.end.html
-      pop: true
+      pop: 1
 
   doctype-name:
     - match: '{{tag_name}}'
       scope: constant.language.doctype.html
-      pop: true
+      pop: 1
     - include: else-pop
 
   doctype-content-type:
     - match: (?i:public|system){{tag_name_break}}
       scope: keyword.content.external.html
-      pop: true
+      pop: 1
     - include: else-pop
 
   doctype-content:
@@ -162,7 +162,7 @@ contexts:
         - meta_scope: meta.brackets.html meta.internal-subset.xml.html
         - match: \]
           scope: punctuation.section.brackets.end.html
-          pop: true
+          pop: 1
         - include: comment
     - include: string-double-quoted
     - include: string-single-quoted
@@ -179,7 +179,7 @@ contexts:
         - meta_scope: meta.tag.preprocessor.xml.html
         - match: \?>
           scope: punctuation.definition.tag.end.html
-          pop: true
+          pop: 1
         - include: tag-generic-attribute
         - include: string-double-quoted
         - include: string-single-quoted
@@ -277,24 +277,24 @@ contexts:
   tag-end:
     - match: '>'
       scope: punctuation.definition.tag.end.html
-      pop: true
+      pop: 1
 
   tag-end-self-closing:
     - match: />
       scope: punctuation.definition.tag.end.html
-      pop: true
+      pop: 1
 
   tag-end-maybe-self-closing:
     - match: /?>
       scope: punctuation.definition.tag.end.html
-      pop: true
+      pop: 1
 
 ###[ CUSTOM TAG ]#############################################################
 
   tag-custom-name:
       - meta_content_scope: entity.name.tag.custom.html
       - match: '{{tag_name_break}}'
-        pop: true
+        pop: 1
       - match: '{{custom_element_char}}+'
         # no scope
       - match: '{{tag_name_char}}'
@@ -308,7 +308,7 @@ contexts:
   tag-other-name:
       - meta_content_scope: entity.name.tag.other.html
       - match: '{{tag_name_break}}'
-        pop: true
+        pop: 1
 
   tag-other-body:
       - meta_scope: meta.tag.other.html
@@ -521,7 +521,7 @@ contexts:
         - meta_content_scope: meta.class-name.html
         - match: \"
           scope: punctuation.definition.string.end.html
-          pop: true
+          pop: 1
         - include: tag-attribute-value-separator
         - include: entities
     - match: \'
@@ -531,14 +531,14 @@ contexts:
         - meta_content_scope: meta.class-name.html
         - match: \'
           scope: punctuation.definition.string.end.html
-          pop: true
+          pop: 1
         - include: tag-attribute-value-separator
         - include: entities
     - match: '{{unquoted_attribute_start}}'
       set:
         - meta_scope: meta.string.html string.unquoted.html meta.class-name.html
         - match: '{{unquoted_attribute_break}}'
-          pop: true
+          pop: 1
         - match: '["''`<]'
           scope: invalid.illegal.attribute-value.html
         - include: entities
@@ -603,7 +603,7 @@ contexts:
   tag-generic-attribute-name:
     - meta_scope: entity.other.attribute-name.html
     - match: '{{attribute_name_break}}'
-      pop: true
+      pop: 1
     - match: '["''`<]'
       scope: invalid.illegal.attribute-name.html
 
@@ -624,7 +624,7 @@ contexts:
         - meta_scope: meta.string.html string.quoted.double.html
         - match: \"
           scope: punctuation.definition.string.end.html
-          pop: true
+          pop: 1
         - include: entities
     - match: \'
       scope: punctuation.definition.string.begin.html
@@ -632,13 +632,13 @@ contexts:
         - meta_scope: meta.string.html string.quoted.single.html
         - match: \'
           scope: punctuation.definition.string.end.html
-          pop: true
+          pop: 1
         - include: entities
     - match: '{{unquoted_attribute_start}}'
       set:
         - meta_scope: meta.string.html string.unquoted.html
         - match: '{{unquoted_attribute_break}}'
-          pop: true
+          pop: 1
         - match: '["''`<]'
           scope: invalid.illegal.attribute-value.html
         - include: entities
@@ -719,7 +719,7 @@ contexts:
         - meta_content_scope: meta.toc-list.id.html
         - match: \"
           scope: punctuation.definition.string.end.html
-          pop: true
+          pop: 1
         - include: tag-attribute-value-separator
         - include: entities
     - match: \'
@@ -729,14 +729,14 @@ contexts:
         - meta_content_scope: meta.toc-list.id.html
         - match: \'
           scope: punctuation.definition.string.end.html
-          pop: true
+          pop: 1
         - include: tag-attribute-value-separator
         - include: entities
     - match: '{{unquoted_attribute_start}}'
       set:
         - meta_scope: meta.string.html string.unquoted.html meta.toc-list.id.html
         - match: '{{unquoted_attribute_break}}'
-          pop: true
+          pop: 1
         - match: '["''`<]'
           scope: invalid.illegal.attribute-value.html
         - include: entities
@@ -804,7 +804,7 @@ contexts:
         - meta_scope: meta.string.html string.quoted.double.html
         - match: \"
           scope: punctuation.definition.string.end.html
-          pop: true
+          pop: 1
         - include: entities
 
   string-single-quoted:
@@ -814,15 +814,15 @@ contexts:
         - meta_scope: meta.string.html string.quoted.single.html
         - match: \'
           scope: punctuation.definition.string.end.html
-          pop: true
+          pop: 1
         - include: entities
 
 ###[ PROTOTYPES ]#############################################################
 
   else-pop:
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   immediately-pop:
     - match: ''
-      pop: true
+      pop: 1
