@@ -670,6 +670,7 @@ contexts:
       scope: punctuation.definition.string.begin.html
       set:
         - meta_scope: meta.string.html string.quoted.double.html
+        - meta_content_scope: meta.path.html
         - match: \"
           scope: punctuation.definition.string.end.html
           pop: 1
@@ -679,6 +680,7 @@ contexts:
       scope: punctuation.definition.string.begin.html
       set:
         - meta_scope: meta.string.html string.quoted.single.html
+        - meta_content_scope: meta.path.html
         - match: \'
           scope: punctuation.definition.string.end.html
           pop: 1
@@ -686,7 +688,7 @@ contexts:
         - include: tag-href-entities
     - match: '{{unquoted_attribute_start}}'
       set:
-        - meta_scope: meta.string.html string.unquoted.html
+        - meta_scope: meta.string.html string.unquoted.html meta.path.html
         - match: '{{unquoted_attribute_break}}'
           pop: 1
         - include: tag-attribute-value-invalid-char
