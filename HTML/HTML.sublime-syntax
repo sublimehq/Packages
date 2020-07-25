@@ -652,11 +652,18 @@ contexts:
     - match: (?i:href|src){{attribute_name_break}}
       scope: entity.other.attribute-name.href.html
       push:
-        - meta_scope: meta.attribute-with-value.href.html
-        - match: '='
-          scope: punctuation.separator.key-value.html
-          push: tag-href-attribute-value
-        - include: else-pop
+        - tag-href-attributes-meta
+        - tag-href-attributes-equals
+
+  tag-href-attributes-meta:
+    - meta_scope: meta.attribute-with-value.href.html
+    - include: immediately-pop
+
+  tag-href-attributes-equals:
+    - match: =
+      scope: punctuation.separator.key-value.html
+      set: tag-href-attribute-value
+    - include: else-pop
 
   tag-href-attribute-value:
     - match: \"
@@ -665,7 +672,7 @@ contexts:
         - meta_scope: meta.string.html string.quoted.double.html
         - match: \"
           scope: punctuation.definition.string.end.html
-          pop: 2
+          pop: 1
         - include: tag-attribute-value-separator
         - include: tag-href-entities
     - match: \'
@@ -674,14 +681,14 @@ contexts:
         - meta_scope: meta.string.html string.quoted.single.html
         - match: \'
           scope: punctuation.definition.string.end.html
-          pop: 2
+          pop: 1
         - include: tag-attribute-value-separator
         - include: tag-href-entities
     - match: '{{unquoted_attribute_start}}'
       set:
         - meta_scope: meta.string.html string.unquoted.html
         - match: '{{unquoted_attribute_break}}'
-          pop: 2
+          pop: 1
         - include: tag-attribute-value-invalid-char
         - include: tag-href-entities
     - include: else-pop
