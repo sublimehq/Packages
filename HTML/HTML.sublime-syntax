@@ -505,13 +505,13 @@ contexts:
       scope: entity.other.attribute-name.class.html
       push:
         - tag-class-attribute-meta
-        - tag-class-attribute-equals
+        - tag-class-attribute-assignment
 
   tag-class-attribute-meta:
     - meta_scope: meta.attribute-with-value.class.html
     - include: immediately-pop
 
-  tag-class-attribute-equals:
+  tag-class-attribute-assignment:
     - match: =
       scope: punctuation.separator.key-value.html
       set: tag-class-attribute-value
@@ -565,13 +565,13 @@ contexts:
       scope: entity.other.attribute-name.event.html
       push:
         - tag-event-attribute-meta
-        - tag-event-attribute-equals
+        - tag-event-attribute-assignment
 
   tag-event-attribute-meta:
     - meta_scope: meta.attribute-with-value.event.html
     - include: immediately-pop
 
-  tag-event-attribute-equals:
+  tag-event-attribute-assignment:
     - match: =
       scope: punctuation.separator.key-value.html
       set: tag-event-attribute-value
@@ -600,7 +600,7 @@ contexts:
     - match: '{{attribute_name_start}}'
       push:
         - tag-generic-attribute-meta
-        - tag-generic-attribute-equals
+        - tag-generic-attribute-assignment
         - tag-generic-attribute-name
 
   tag-generic-attribute-name:
@@ -614,7 +614,7 @@ contexts:
     - meta_scope: meta.attribute-with-value.html
     - include: immediately-pop
 
-  tag-generic-attribute-equals:
+  tag-generic-attribute-assignment:
     - match: =
       scope: punctuation.separator.key-value.html
       set: tag-generic-attribute-value
@@ -709,13 +709,13 @@ contexts:
       scope: entity.other.attribute-name.id.html
       push:
         - tag-id-attribute-meta
-        - tag-id-attribute-equals
+        - tag-id-attribute-assignment
 
   tag-id-attribute-meta:
     - meta_scope: meta.attribute-with-value.id.html
     - include: immediately-pop
 
-  tag-id-attribute-equals:
+  tag-id-attribute-assignment:
     - match: =
       scope: punctuation.separator.key-value.html
       set: tag-id-attribute-value
@@ -758,13 +758,13 @@ contexts:
       scope: entity.other.attribute-name.style.html
       push:
         - tag-style-attribute-meta
-        - tag-style-attribute-equals
+        - tag-style-attribute-assignment
 
   tag-style-attribute-meta:
     - meta_scope: meta.attribute-with-value.style.html
     - include: immediately-pop
 
-  tag-style-attribute-equals:
+  tag-style-attribute-assignment:
     - match: =
       scope: punctuation.separator.key-value.html
       set: tag-style-attribute-value
