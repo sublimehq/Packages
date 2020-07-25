@@ -38,6 +38,56 @@
     '                                ^^^^^^^^^^^^^^^ support.class.collection.asp
     '                                                              ^^ punctuation.section.embedded.end.asp - source.asp
     '                                                                ^^^^^^^^ meta.tag
+
+    <script> var i = 0; </script>
+    '  ^^^^^ meta.tag - source
+    '       ^^^^^^^^^^^^ source.js.embedded.html
+    '                   ^^^^^^^^^ meta.tag - source
+    '
+
+    <script> <!-- var i = 0; --> </script>
+    '       ^^^^^ - source - meta.tag
+    '        ^^^^ punctuation.definition.comment.begin.html
+    '            ^^^^^^^^^^^^ source.js.embedded.html
+    '                        ^^^^ - source - meta.tag
+    '                        ^^^ comment.block.html punctuation.definition.comment.end.html
+    '
+
+    <script>
+        <!--
+    '  ^^^^^ - source - meta.tag
+    '   ^^^^ punctuation.definition.comment.begin.html
+        var i = 0;
+    '  ^^^^^^^^^^^^ source.js.embedded.html
+        -->
+    '   ^^^^ - source - meta.tag
+    '   ^^^ comment.block.html punctuation.definition.comment.end.html
+        var i = 0;
+    '  ^^^^^^^^^^^^ - source
+    </script>
+
+    <style type="text/css"> <!-- h1 {} --> </style>
+    '  ^^^^^^^^^^^^^^^^^^^^ meta.tag - comment - source
+    '                      ^ - meta.tag - comment - source
+    '                       ^^^^ comment.block.html punctuation.definition.comment.begin.html - source
+    '                           ^^^^^^^ source.css.embedded.html
+    '                                  ^^^ comment.block.html punctuation.definition.comment.end.html - source
+    '                                     ^ - meta.tag - comment - source
+    '                                      ^^^^^^^^ meta.tag - comment - source
+
+    <style type="text/css">
+        <!--
+    '  ^ - meta.tag - comment - source
+    '   ^^^^ comment.block.html punctuation.definition.comment.begin.html - source
+    '       ^ source.css.embedded.html - comment
+            h1 {}
+    '      ^^^^^^^ source.css.embedded.html
+        -->
+    '  ^ source.css.embedded.html - comment
+    '   ^^^ comment.block.html punctuation.definition.comment.end.html - source
+    '      ^ - meta.tag - comment - source
+    </style>
+    '  ^^^^^ meta.tag - comment - source
 </head>
 <body>
     <%
@@ -45,10 +95,10 @@
     'this is a comment
    '^ punctuation.definition.comment.asp
    '^^^^^^^^^^^^^^^^^^^ comment.line.apostrophe.asp
-    
+
     Option Explicit
    '^^^^^^^^^^^^^^^ keyword
-    
+
     Class TestClass
    '^^^^^^^^^^^^^^^ meta.class.asp meta.class.identifier.asp - meta.class.body.asp
    '^^^^^ storage.type.asp
