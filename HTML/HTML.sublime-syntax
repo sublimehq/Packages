@@ -494,6 +494,10 @@ contexts:
         - clear_scopes: 1 # clear `meta.class-name` or `meta.toc-list.id`
         - include: else-pop
 
+  tag-attribute-value-invalid-char:
+    - match: '["''`<]'
+      scope: invalid.illegal.attribute-value.html
+
 ###[ CLASS ATTRIBUTE ]########################################################
 
   tag-class-attribute:
@@ -539,8 +543,7 @@ contexts:
         - meta_scope: meta.string.html string.unquoted.html meta.class-name.html
         - match: '{{unquoted_attribute_break}}'
           pop: 1
-        - match: '["''`<]'
-          scope: invalid.illegal.attribute-value.html
+        - include: tag-attribute-value-invalid-char
         - include: entities
     - include: else-pop
 
@@ -639,8 +642,7 @@ contexts:
         - meta_scope: meta.string.html string.unquoted.html
         - match: '{{unquoted_attribute_break}}'
           pop: 1
-        - match: '["''`<]'
-          scope: invalid.illegal.attribute-value.html
+        - include: tag-attribute-value-invalid-char
         - include: entities
     - include: else-pop
 
@@ -680,8 +682,7 @@ contexts:
         - meta_scope: meta.string.html string.unquoted.html
         - match: '{{unquoted_attribute_break}}'
           pop: 2
-        - match: '["''`<]'
-          scope: invalid.illegal.attribute-value.html
+        - include: tag-attribute-value-invalid-char
         - include: tag-href-entities
     - include: else-pop
 
@@ -737,8 +738,7 @@ contexts:
         - meta_scope: meta.string.html string.unquoted.html meta.toc-list.id.html
         - match: '{{unquoted_attribute_break}}'
           pop: 1
-        - match: '["''`<]'
-          scope: invalid.illegal.attribute-value.html
+        - include: tag-attribute-value-invalid-char
         - include: entities
     - include: else-pop
 
