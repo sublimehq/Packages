@@ -1,11 +1,13 @@
 %YAML 1.2
 ---
 name: DTD
+scope: text.xml.dtd
+version: 2
+
 file_extensions:
   - dtd
   - ent
   - mod
-scope: text.xml.dtd
 
 contexts:
   main:

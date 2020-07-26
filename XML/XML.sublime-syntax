@@ -1,7 +1,11 @@
 %YAML 1.2
 ---
-
+# https://www.sublimetext.com/docs/syntax.html
+# https://www.w3.org/XML/
 name: XML
+scope: text.xml
+version: 2
+
 file_extensions:
   - xml
   - xsd
@@ -12,21 +16,23 @@ file_extensions:
   - rss
   - opml
   - svg
+
 hidden_file_extensions:
   - sublime-snippet
   - tmLanguage
-  - tmTheme
-  - tmSnippet
   - tmPreferences
-  - dae
+  - tmSnippet
+  - tmTheme
   - csproj
   - fsproj
   - sqlproj
   - vbproj
   - vcproj
   - vcxproj
+  - dae
   - props
   - targets
+
 first_line_match: |-
     (?x:
       ^(?:
@@ -35,7 +41,9 @@ first_line_match: |-
         | \s*(?i:<!DOCTYPE\s+(?!html[ \t\n\f>]))
       )
     )
-scope: text.xml
+
+##############################################################################
+
 variables:
   # The atomic part of a tag or attribute name without namespace separator `:`
   identifier: '[[:alpha:]_][[:alnum:]_.-]*'
@@ -86,6 +94,7 @@ variables:
   # name which is followed by a valid break character.
   qualified_dtd_name: '{{name}}(?=[{{dtd_break}}])'
 
+##############################################################################
 
 contexts:
 
@@ -116,14 +125,14 @@ contexts:
 ###[ COMMENT ]################################################################
 
   comment:
-    - match: '<!--'
+    - match: <!--
       scope: punctuation.definition.comment.begin.xml
       push:
         - meta_scope: comment.block.xml
-        - match: '-->'
+        - match: -->
           scope: punctuation.definition.comment.end.xml
           pop: true
-        - match: '-{2,}'
+        - match: -{2,}
           scope: invalid.illegal.double-hyphen-within-comment.xml
 
 ###[ DOCTYPE DECLARATION ]####################################################
@@ -530,7 +539,7 @@ contexts:
       push: tag-attribute-separator-key-value
 
   tag-attribute-separator-key-value:
-    - match: '='
+    - match: =
       scope: punctuation.separator.key-value.xml
       set:
         - include: string-quoted-pop
@@ -595,18 +604,18 @@ contexts:
     - include: string-single-quoted-pop
 
   string-double-quoted:
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.xml
       push: string-double-quoted-body
 
   string-double-quoted-pop:
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.xml
       set: string-double-quoted-body
 
   string-double-quoted-body:
     - meta_scope: string.quoted.double.xml
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.end.xml
       pop: true
     - include: tag-end-missing-pop
@@ -614,21 +623,20 @@ contexts:
     - include: should-be-entity
 
   string-single-quoted:
-    - match: "'"
+    - match: \'
       scope: punctuation.definition.string.begin.xml
       push: string-single-quoted-body
 
   string-single-quoted-pop:
-    - match: "'"
+    - match: \'
       scope: punctuation.definition.string.begin.xml
       set: string-single-quoted-body
 
   string-single-quoted-body:
     - meta_scope: string.quoted.single.xml
-    - match: "'"
+    - match: \'
       scope: punctuation.definition.string.end.xml
       pop: true
     - include: tag-end-missing-pop
     - include: entity
     - include: should-be-entity
-
