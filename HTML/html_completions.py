@@ -153,13 +153,11 @@ def get_tag_to_attributes():
     }
 
     # Assume that global attributes are common to all HTML elements
-    global_attributes = [
+    global_attributes = (
         'accesskey', 'class', 'contenteditable', 'contextmenu', 'dir',
         'hidden', 'id', 'lang', 'style', 'tabindex', 'title', 'translate'
-    ]
 
-    # Extend `global_attributes` by the event handler attributes
-    global_attributes.extend([
+        # event handler attributes
         'onabort', 'onautocomplete', 'onautocompleteerror', 'onauxclick', 'onblur',
         'oncancel', 'oncanplay', 'oncanplaythrough', 'onchange', 'onclick',
         'onclose', 'oncontextmenu', 'oncuechange', 'ondblclick', 'ondrag',
@@ -173,15 +171,14 @@ def get_tag_to_attributes():
         'onratechange', 'onreset', 'onresize', 'onscroll', 'onseeked',
         'onseeking', 'onselect', 'onshow', 'onsort', 'onstalled', 'onsubmit',
         'onsuspend', 'ontimeupdate', 'ontoggle', 'onvolumechange', 'onwaiting'
-    ])
+    )
 
     for attributes in tag_dict.values():
         attributes.extend(global_attributes)
 
     # Remove `dir` attribute from `bdi` key, because it is *not* inherited
     # from the global attributes
-    if 'bdi' in tag_dict:
-        tag_dict['bdi'] = [attr for attr in tag_dict['bdi'] if attr != 'dir']
+    tag_dict['bdi'].remove('dir')
 
     return tag_dict
 
