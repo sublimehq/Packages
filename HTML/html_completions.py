@@ -10,6 +10,7 @@ def match(rex, str):
     else:
         return None
 
+
 def make_completion(tag, completion=None):
     if completion is None:
         completion = tag + '>$0</' + tag + '>'
@@ -19,6 +20,44 @@ def make_completion(tag, completion=None):
         completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
         kind=(sublime.KIND_ID_MARKUP, 't', 'Tag')
     )
+
+
+def get_entity_completions():
+    """
+    Generate a completion list for HTML entities.
+    """
+    KIND_ENTITY_MARKUP = (sublime.KIND_ID_MARKUP, 'e', 'Entity')
+    KIND_ENTITY_SNIPPET = (sublime.KIND_ID_SNIPPET, 'e', 'Entity')
+
+    return [
+        sublime.CompletionItem(
+            trigger='#00;',
+            completion='#${1:00};',
+            completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
+            kind=KIND_ENTITY_SNIPPET,
+            details='Base-10 Unicode character',
+        ),
+        sublime.CompletionItem(
+            trigger='#x0000;',
+            completion='#x${1:0000};',
+            completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
+            kind=KIND_ENTITY_SNIPPET,
+            details='Base-16 Unicode character',
+        ),
+        *(
+            sublime.CompletionItem(
+                trigger=entity,
+                annotation=printed,
+                completion=entity,
+                completion_format=sublime.COMPLETION_FORMAT_TEXT,
+                kind=KIND_ENTITY_MARKUP,
+                details=f'Renders as <code>{printed}</code>',
+            )
+            for entity, printed in html.entities.html5.items()
+            if entity.endswith(';')
+        )
+    ]
+
 
 def get_tag_to_attributes():
     """
@@ -189,9 +228,6 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
     It matches just after typing the first letter of a tag name
     """
 
-    KIND_MARKUP = (sublime.KIND_ID_MARKUP, 'e', 'Entity')
-    KIND_SNIPPET = (sublime.KIND_ID_SNIPPET, 'e', 'Entity')
-
     def __init__(self):
         completion_list = self.default_completion_list()
         self.prefix_completion_dict = {}
@@ -232,7 +268,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
         completion_list = []
 
         if ch == '&':
-            completion_list = self.entity_completion_list()
+            completion_list = get_entity_completions()
             return (completion_list, sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS)
 
         if is_inside_tag and ch != '<':
@@ -260,36 +296,6 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
             flags = sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS
 
         return (completion_list, flags)
-
-    def entity_completion_list(self):
-        return [
-            sublime.CompletionItem(
-                trigger='#00;',
-                completion='#${1:00};',
-                completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
-                kind=self.KIND_SNIPPET,
-                details='Base-10 Unicode character',
-            ),
-            sublime.CompletionItem(
-                trigger='#x0000;',
-                completion='#x${1:0000};',
-                completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
-                kind=self.KIND_SNIPPET,
-                details='Base-16 Unicode character',
-            ),
-            *(
-                sublime.CompletionItem(
-                    trigger=entity,
-                    annotation=printed,
-                    completion=entity,
-                    completion_format=sublime.COMPLETION_FORMAT_TEXT,
-                    kind=self.KIND_MARKUP,
-                    details=f'Renders as <code>{printed}</code>',
-                )
-                for entity, printed in html.entities.html5.items()
-                if entity.endswith(';')
-            )
-        ]
 
     def default_completion_list(self):
         """
