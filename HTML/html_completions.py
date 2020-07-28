@@ -11,17 +11,6 @@ def match(rex, str):
         return None
 
 
-def make_completion(tag, completion=None):
-    if completion is None:
-        completion = tag + '>$0</' + tag + '>'
-    return sublime.CompletionItem(
-        trigger=tag,
-        completion=completion,
-        completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
-        kind=(sublime.KIND_ID_MARKUP, 't', 'Tag')
-    )
-
-
 def get_entity_completions():
     """
     Generate a completion list for HTML entities.
@@ -55,6 +44,77 @@ def get_entity_completions():
             )
             for entity, printed in html.entities.html5.items()
             if entity.endswith(';')
+        )
+    ]
+
+
+def get_tag_completions(inside_tag=True):
+    """
+    Generate a default completion list for HTML
+    """
+    KIND_TAG_MARKUP = (sublime.KIND_ID_MARKUP, 't', 'Tag')
+
+    normal_tags = (
+        'abbr', 'acronym', 'address', 'applet', 'article', 'aside',
+        'audio', 'b', 'basefont', 'bdi', 'bdo', 'big', 'blockquote',
+        'body', 'button', 'center', 'canvas', 'caption', 'cdata',
+        'cite', 'colgroup', 'code', 'content', 'data', 'datalist',
+        'dir', 'div', 'dd', 'del', 'details', 'dfn', 'dl', 'dt', 'element',
+        'em', 'embed', 'fieldset', 'figure', 'figcaption', 'font', 'footer',
+        'form', 'frame', 'frameset', 'head', 'header', 'h1', 'h2', 'h3',
+        'h4', 'h5', 'h6', 'i', 'ins', 'isindex', 'kbd', 'keygen',
+        'li', 'label', 'legend', 'main', 'map', 'mark', 'meter',
+        'nav', 'noframes', 'noscript', 'object', 'ol', 'optgroup',
+        'option', 'output', 'p', 'picture', 'pre', 'q', 'rp',
+        'rt', 'rtc', 'ruby', 's', 'samp', 'section', 'select', 'shadow',
+        'small', 'span', 'strong', 'sub', 'summary', 'sup',
+        'table', 'tbody', 'td', 'template', 'textarea', 'tfoot', 'th',
+        'thead', 'time', 'title', 'tr', 'tt', 'u', 'ul', 'var',
+        'video'
+    )
+    snippet_tags = (
+        ('a', 'a href=\"$1\">$0</a>'),
+        ('area', 'area shape=\"$1\" coords=\"$2\" href=\"$3\">'),
+        ('audio', 'audio src=\"$1\">$0</audio>'),
+        ('base', 'base href=\"$1\">'),
+        ('br', 'br>'),
+        ('col', 'col>'),
+        ('hr', 'hr>'),
+        ('iframe', 'iframe src=\"$1\">$0</iframe>'),
+        ('input', 'input type=\"$1\" name=\"$2\">'),
+        ('img', 'img src=\"$1\">'),
+        ('link', 'link rel=\"stylesheet\" type=\"text/css\" href=\"$1\">'),
+        ('meta', 'meta ${1:charset=\"utf-8\"}>'),
+        ('param', 'param name=\"$1\" value=\"$2\">'),
+        ('progress', 'progress value=\"$1\" max=\"$2\">'),
+        ('script', 'script${2: type=\"${1:text/javascript}\"}>$0</script>'),
+        ('source', 'source src=\"$1\" type=\"$2\">'),
+        ('style', 'style type=\"${1:text/css}\">$0</style>'),
+        ('track', 'track kind=\"$1\" src=\"$2\">'),
+        ('wbr', 'wbr>'),
+        ('video', 'video src=\"$1\">$0</video>')
+    )
+
+    tag_begin = '' if inside_tag else '<'
+
+    return [
+        *(
+            sublime.CompletionItem(
+                trigger=tag,
+                completion=f'{tag_begin}{tag}>$0</{tag}>',
+                completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
+                kind=KIND_TAG_MARKUP
+            )
+            for tag in normal_tags
+        ),
+        *(
+            sublime.CompletionItem(
+                trigger=tag,
+                completion=f'{tag_begin}{completion}',
+                completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
+                kind=KIND_TAG_MARKUP
+            )
+            for tag, completion in snippet_tags
         )
     ]
 
@@ -229,7 +289,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
     """
 
     def __init__(self):
-        completion_list = self.default_completion_list()
+        completion_list = get_tag_completions()
         self.prefix_completion_dict = {}
         # construct a dictionary where the key is first character of
         # the completion list to the completion
@@ -296,59 +356,6 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
             flags = sublime.INHIBIT_WORD_COMPLETIONS | sublime.INHIBIT_EXPLICIT_COMPLETIONS
 
         return (completion_list, flags)
-
-    def default_completion_list(self):
-        """
-        Generate a default completion list for HTML
-        """
-        default_list = []
-        normal_tags = ([
-            'abbr', 'acronym', 'address', 'applet', 'article', 'aside',
-            'audio', 'b', 'basefont', 'bdi', 'bdo', 'big', 'blockquote',
-            'body', 'button', 'center', 'canvas', 'caption', 'cdata',
-            'cite', 'colgroup', 'code', 'content', 'data', 'datalist',
-            'dir', 'div', 'dd', 'del', 'details', 'dfn', 'dl', 'dt', 'element',
-            'em', 'embed', 'fieldset', 'figure', 'figcaption', 'font', 'footer',
-            'form', 'frame', 'frameset', 'head', 'header', 'h1', 'h2', 'h3',
-            'h4', 'h5', 'h6', 'i', 'ins', 'isindex', 'kbd', 'keygen',
-            'li', 'label', 'legend', 'main', 'map', 'mark', 'meter',
-            'nav', 'noframes', 'noscript', 'object', 'ol', 'optgroup',
-            'option', 'output', 'p', 'picture', 'pre', 'q', 'rp',
-            'rt', 'rtc', 'ruby', 's', 'samp', 'section', 'select', 'shadow',
-            'small', 'span', 'strong', 'sub', 'summary', 'sup',
-            'table', 'tbody', 'td', 'template', 'textarea', 'tfoot', 'th',
-            'thead', 'time', 'title', 'tr', 'tt', 'u', 'ul', 'var',
-            'video'
-        ])
-
-        for tag in normal_tags:
-            default_list.append(make_completion(tag))
-            default_list.append(make_completion(tag.upper()))
-
-        default_list += [
-            make_completion('a', 'a href=\"$1\">$0</a>'),
-            make_completion('area', 'area shape=\"$1\" coords=\"$2\" href=\"$3\">'),
-            make_completion('audio', 'audio src=\"$1\">$0</audio>'),
-            make_completion('base', 'base href=\"$1\">'),
-            make_completion('br', 'br>'),
-            make_completion('col', 'col>'),
-            make_completion('hr', 'hr>'),
-            make_completion('iframe', 'iframe src=\"$1\">$0</iframe>'),
-            make_completion('input', 'input type=\"$1\" name=\"$2\">'),
-            make_completion('img', 'img src=\"$1\">'),
-            make_completion('link', 'link rel=\"stylesheet\" type=\"text/css\" href=\"$1\">'),
-            make_completion('meta', 'meta ${1:charset=\"utf-8\"}>'),
-            make_completion('param', 'param name=\"$1\" value=\"$2\">'),
-            make_completion('progress', 'progress value=\"$1\" max=\"$2\">'),
-            make_completion('script', 'script${2: type=\"${1:text/javascript}\"}>$0</script>'),
-            make_completion('source', 'source src=\"$1\" type=\"$2\">'),
-            make_completion('style', 'style type=\"${1:text/css}\">$0</style>'),
-            make_completion('track', 'track kind=\"$1\" src=\"$2\">'),
-            make_completion('wbr', 'wbr>'),
-            make_completion('video', 'video src=\"$1\">$0</video>')
-        ]
-
-        return default_list
 
     # This responds to on_query_completions, but conceptually it's expanding
     # expressions, rather than completing words.
