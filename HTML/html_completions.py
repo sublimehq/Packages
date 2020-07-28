@@ -217,9 +217,6 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
         is_inside_tag = view.match_selector(locations[0],
                 "text.html meta.tag - text.html punctuation.definition.tag.begin")
 
-        return self.get_completions(view, prefix, locations, is_inside_tag)
-
-    def get_completions(self, view, prefix, locations, is_inside_tag):
         # see if it is in tag.attr or tag#attr format
         if not is_inside_tag:
             tag_attr_expr = self.expand_tag_attributes(view, locations)
