@@ -4,10 +4,22 @@ import re
 
 import sublime
 import sublime_plugin
+import timeit
 
-from functools import cached_property
+from functools import cached_property, wraps
 
 __all__ = ['HtmlTagCompletions']
+
+
+def timing(func):
+    @wraps(func)
+    def wrap(*args, **kw):
+        ts = timeit.default_timer()
+        result = func(*args, **kw)
+        te = timeit.default_timer()
+        print(f"{func.__name__}({args}, {kw}) took: {1000.0 * (te - ts):2.3f} ms")
+        return result
+    return wrap
 
 
 def match(pattern, string):
@@ -318,6 +330,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
     def tag_completions(self):
         return get_tag_completions(inside_tag=True)
 
+    # @timing
     def on_query_completions(self, view, prefix, locations):
 
         def verify(selector):
