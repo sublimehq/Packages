@@ -35,7 +35,7 @@ def main():
         long_options = value.get("long-options")
         if long_options:
             cmd_args.append({
-                "match": rf"(?:\s+|^)((--)(?:{'|'.join(long_options)}){{{{opt_break}}}}",
+                "match": rf"(?:\s+|^)((--)(?:{'|'.join(long_options)})){{{{opt_break}}}}",
                 "captures": {
                     1: "variable.parameter.option.shell",
                     2: "punctuation.definition.parameter.shell"
