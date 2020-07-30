@@ -1,5 +1,6 @@
 %YAML 1.2
---- #---------------------------------------------------------------------------
+---
+###[ BUILTIN BASH COMMANDS ]###################################################
 
 bind:
   short-options: mqurfx
@@ -148,4 +149,16 @@ disown:
 suspend:
   short-options: f
 
+###[ BUILTIN LINUX COMMANDS ]##################################################
+
+su:
+  allow-end-of-options-token: true
+  short-options-compact: mp
+  short-options: -cls
+
+sudo:
+  allow-end-of-options-token: true
+  long-options: [prompt, class, auth_type, role, type, username, \#uid]
+  short-options-compact: bHhKkLlPSsVv
+  short-options: pcartu
 ...

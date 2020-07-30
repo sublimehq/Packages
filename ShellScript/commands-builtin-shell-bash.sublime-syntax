@@ -194,6 +194,16 @@ contexts:
     push:
     - cmd-post
     - cmd-args-suspend
+  - match: su{{cmd_break}}
+    scope: meta.function-call.identifier.shell support.function.su.shell
+    push:
+    - cmd-post
+    - cmd-args-su
+  - match: sudo{{cmd_break}}
+    scope: meta.function-call.identifier.shell support.function.sudo.shell
+    push:
+    - cmd-post
+    - cmd-args-sudo
   prototype:
   - include: scope:source.shell.bash#prototype
   cmd-post:
@@ -410,6 +420,24 @@ contexts:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)((-)[f]){{opt_break}}
+    captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+  cmd-args-su:
+  - meta_content_scope: meta.function-call.arguments.shell
+  - include: cmd-args-boilerplate-with-end-of-options
+  - match: (?:\s+|^)((-)(?:[-cls]|[mp]+[-cls]?)){{opt_break}}
+    captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+  cmd-args-sudo:
+  - meta_content_scope: meta.function-call.arguments.shell
+  - include: cmd-args-boilerplate-with-end-of-options
+  - match: (?:\s+|^)((--)(?:prompt|class|auth_type|role|type|username|\#uid)){{opt_break}}
+    captures:
+      1: variable.parameter.option.shell
+      2: punctuation.definition.parameter.shell
+  - match: (?:\s+|^)((-)(?:[pcartu]|[bHhKkLlPSsVv]+[pcartu]?)){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
