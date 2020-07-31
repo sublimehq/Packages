@@ -86,8 +86,8 @@ def main():
         "version": 2,
         "hidden": True,
         "variables": {
-            "cmd_break": r"(?=\s|;|$|>|<|\|)",
-            "opt_break": r"(?=\s|;|$|`|\))"
+            "cmd_break": r"(?=[\s|&;()<>]|$)",
+            "opt_break": r"(?=[\s|&;()<>]|[-+]?=|$)"
         },
         "contexts": contexts
     }

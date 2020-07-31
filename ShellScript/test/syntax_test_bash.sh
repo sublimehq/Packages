@@ -316,6 +316,9 @@ set -e -
 #   ^ variable.parameter.option punctuation
 #    ^ variable.parameter.option - punctuation
 #      ^ - keyword - punctuation
+set -e=10
+#   ^ variable.parameter.option punctuation
+#    ^ variable.parameter.option - punctuation
 set +e
 #   ^ variable.parameter.option punctuation
 #    ^ variable.parameter.option - punctuation
@@ -407,6 +410,28 @@ git log --format="%h git has this pattern, too"
 #               ^ keyword.operator.assignment.shell
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell string.quoted.double.shell
 
+{cmd} -o --option -- -o
+# <- meta.function-call.identifier.shell variable.function.shell
+#^^^^ meta.function-call.identifier.shell variable.function.shell
+#     ^^ variable.parameter.option.shell
+#       ^ - variable
+#        ^^^^^^^^ variable.parameter.option.shell
+#                 ^^ keyword.operator.end-of-options.shell
+#                    ^^ - variable
+
+[cmd] -o
+# <- meta.function-call.identifier.shell variable.function.shell
+#^^^^ meta.function-call.identifier.shell variable.function.shell
+#    ^^^ meta.function-call.arguments.shell
+
++cmd -o
+# <- meta.function-call.identifier.shell variable.function.shell
+#^^^ meta.function-call.identifier.shell variable.function.shell
+#   ^^^ meta.function-call.arguments.shell
+-cmd -o
+# <- meta.function-call.identifier.shell variable.function.shell
+#^^^ meta.function-call.identifier.shell variable.function.shell
+#   ^^^ meta.function-call.arguments.shell
 
 ####################################################################
 # Variable assignments                                             #
@@ -1074,6 +1099,18 @@ unset -f -n -v foo bar; unset -vn foo 2>& /dev/null
 #                                      ^^ keyword.operator.assignment.redirection.shell
 
 unset-
+# <- - support.function
+unset+
+# <- - support.function
+unset()
+# <- - support.function
+unset[]
+# <- - support.function
+unset=
+# <- - support.function
+unset+=
+# <- - support.function
+unset-=
 # <- - support.function
 
 
@@ -2186,8 +2223,18 @@ echo "`dirname -- foo/bar`"
 #              ^^ keyword.operator.end-of-options
 #                        ^ punctuation.section.interpolation.end.shell
 
-foo=`(uname -r) 2>/dev/null`
-#                          ^ punctuation.section.interpolation.end.shell - punctuation.section.interpolation.begin
+foo=`(uname -r --) 2>/dev/null`
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.command.shell
+#    ^^^^^^^^^^^^^ meta.compound.shell
+#   ^ punctuation.section.interpolation.begin.shell
+#     ^^^^^ variable.function.shell
+#           ^^ variable.parameter.option.shell
+#              ^^ keyword.operator.end-of-options.shell
+#                ^ punctuation.section.compound.end.shell
+#                  ^ constant.numeric.integer.decimal.file-descriptor.shell
+#                   ^ keyword.operator.assignment.redirection.shell
+#                             ^ punctuation.section.interpolation.end.shell - punctuation.section.interpolation.begin
+
 UNAME_RELEASE=`(uname -r) 2>/dev/null` || UNAME_RELEASE=unknown
 #                                    ^ punctuation.section.interpolation.end.shell
 UNAME_SYSTEM=`(uname -s) 2>/dev/null`  || UNAME_SYSTEM=unknown
@@ -2318,10 +2365,32 @@ if !cmd
 # <- variable.language.history.shell punctuation.definition.history.shell
 #^^ variable.language.history.shell
 
+then;
+#^^^ keyword.control.conditional.then.shell
+then&
+#^^^ keyword.control.conditional.then.shell
+then|
+#^^^ keyword.control.conditional.then.shell
+then>/dev/null
+#^^^ keyword.control.conditional.then.shell
+then -
+#^^^ keyword.control.conditional.then.shell
 then-
 #^^^^ - keyword
 -then
 #^^^^ - keyword
+then+
+#^^^^ - keyword
+then$
+#^^^^ - keyword
+then$var
+#^^^^^^^ - keyword
+then=
+#^^^ - keyword
+then-=
+#^^^ - keyword
+then+=
+#^^^ - keyword
 if-up
 # <- - keyword
 # ^ - keyword
@@ -3627,16 +3696,129 @@ foo:foo () {
 }
 @
 # <- meta.function-call.identifier.shell variable.function
+
+function () ()
+# <- meta.function.identifier.shell entity.name.function.shell
+function () {}
+# <- meta.function.identifier.shell entity.name.function.shell
+
 function [] () {
+#<- meta.function.shell storage.type.function.shell keyword.declaration.function.shell
+#^^^^^^^ meta.function.shell
+#       ^^^^ meta.function.identifier.shell
+#           ^^ meta.function.parameters.shell
+#             ^^^ meta.function.shell
+#^^^^^^^ storage.type.function.shell keyword.declaration.function.shell
+#        ^^ entity.name.function.shell
+#           ^ punctuation.section.parameters.begin.shell
+#            ^ punctuation.section.parameters.end.shell
+#              ^ meta.compound.shell punctuation.section.compound.begin.shell
   echo "Hello from []"
 }
+# <- meta.function.shell meta.compound.shell punctuation.section.compound.end.shell
 []
-# <- meta.function-call.identifier.shell variable.function
+# <- meta.function-call.identifier.shell variable.function.shell
 #^ meta.function-call.identifier.shell variable.function.shell
+
 function [[]] () {
+#<- meta.function.shell storage.type.function.shell keyword.declaration.function.shell
+#^^^^^^^ meta.function.shell
+#       ^^^^^^ meta.function.identifier.shell
+#             ^^ meta.function.parameters.shell
+#               ^^^ meta.function.shell
+#^^^^^^^ storage.type.function.shell keyword.declaration.function.shell
+#        ^^^^ entity.name.function.shell
+#             ^ punctuation.section.parameters.begin.shell
+#              ^ punctuation.section.parameters.end.shell
+#                ^ meta.compound.shell punctuation.section.compound.begin.shell
   echo "Hello from [[]]"
 }
 [[]]
+# <- meta.function-call.identifier.shell variable.function
+#^^^ meta.function-call.identifier.shell variable.function.shell
+
+function {} () {
+#<- meta.function.shell storage.type.function.shell keyword.declaration.function.shell
+#^^^^^^^ meta.function.shell
+#       ^^^^ meta.function.identifier.shell
+#           ^^ meta.function.parameters.shell
+#             ^^^ meta.function.shell
+#^^^^^^^ storage.type.function.shell keyword.declaration.function.shell
+#        ^^ entity.name.function.shell
+#           ^ punctuation.section.parameters.begin.shell
+#            ^ punctuation.section.parameters.end.shell
+#              ^ meta.compound.shell punctuation.section.compound.begin.shell
+  echo "Hello from {}"
+}
+{}
+# <- meta.function-call.identifier.shell variable.function.shell
+#^ meta.function-call.identifier.shell variable.function.shell
+
+function {{}} () {
+#<- meta.function.shell storage.type.function.shell keyword.declaration.function.shell
+#^^^^^^^ meta.function.shell
+#       ^^^^^^ meta.function.identifier.shell
+#             ^^ meta.function.parameters.shell
+#               ^^^ meta.function.shell
+#^^^^^^^ storage.type.function.shell keyword.declaration.function.shell
+#        ^^^^ entity.name.function.shell
+#             ^ punctuation.section.parameters.begin.shell
+#              ^ punctuation.section.parameters.end.shell
+#                ^ meta.compound.shell punctuation.section.compound.begin.shell
+  echo "Hello from {{}}"
+}
+{{}}
+# <- meta.function-call.identifier.shell variable.function
+#^^^ meta.function-call.identifier.shell variable.function.shell
+
+function -foo () {
+#<- meta.function.shell storage.type.function.shell keyword.declaration.function.shell
+#^^^^^^^ meta.function.shell
+#       ^^^^^^ meta.function.identifier.shell
+#             ^^ meta.function.parameters.shell
+#               ^^^ meta.function.shell
+#^^^^^^^ storage.type.function.shell keyword.declaration.function.shell
+#        ^^^^ entity.name.function.shell
+#             ^ punctuation.section.parameters.begin.shell
+#              ^ punctuation.section.parameters.end.shell
+#                ^ meta.compound.shell punctuation.section.compound.begin.shell
+  echo "Hello from -foo"
+}
+-foo
+# <- meta.function-call.identifier.shell variable.function
+#^^^ meta.function-call.identifier.shell variable.function.shell
+
+function +foo () {
+#<- meta.function.shell storage.type.function.shell keyword.declaration.function.shell
+#^^^^^^^ meta.function.shell
+#       ^^^^^^ meta.function.identifier.shell
+#             ^^ meta.function.parameters.shell
+#               ^^^ meta.function.shell
+#^^^^^^^ storage.type.function.shell keyword.declaration.function.shell
+#        ^^^^ entity.name.function.shell
+#             ^ punctuation.section.parameters.begin.shell
+#              ^ punctuation.section.parameters.end.shell
+#                ^ meta.compound.shell punctuation.section.compound.begin.shell
+  echo "Hello from +foo"
+}
++foo
+# <- meta.function-call.identifier.shell variable.function
+#^^^ meta.function-call.identifier.shell variable.function.shell 
+
+function =foo () {
+#<- meta.function.shell storage.type.function.shell keyword.declaration.function.shell
+#^^^^^^^ meta.function.shell
+#       ^^^^^^ meta.function.identifier.shell
+#             ^^ meta.function.parameters.shell
+#               ^^^ meta.function.shell
+#^^^^^^^ storage.type.function.shell keyword.declaration.function.shell
+#        ^^^^ entity.name.function.shell
+#             ^ punctuation.section.parameters.begin.shell
+#              ^ punctuation.section.parameters.end.shell
+#                ^ meta.compound.shell punctuation.section.compound.begin.shell
+  echo "Hello from =foo"
+}
+=foo
 # <- meta.function-call.identifier.shell variable.function
 #^^^ meta.function-call.identifier.shell variable.function.shell
 

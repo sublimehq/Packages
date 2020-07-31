@@ -41,12 +41,35 @@ first_line_match: |-
 ###############################################################################
 
 variables:
-  identifier: '[[:alpha:]_][[:alnum:]_]*'
-  identifier_non_posix: '[^{{metachar}}\d][^{{metachar}}=]*'
-  is_end_of_option: '[^\w$-]|$'
   is_interpolation: (?=\$([\d({]|[$#@!~*?_-](?!\w)|{{identifier}})|`)
-  is_variable: (?=\s*{{nbc}}(?:[({]{{nbc}}[)}])?{{nbc}}=)
-  keyword_break: (?![-=\w])
+  is_variable: (?=\s*{{variable_begin_char}}{{nbc}}(?:[({]{{nbc}}[)}])?{{nbc}}=)
+
+  # posix identifiers (alpha-numeric)
+  identifier: '{{identifier_begin_char}}{{identifier_char}}*'
+  identifier_begin_char: '[[:alpha:]_]'
+  identifier_break: (?!{{identifier_char}})
+  identifier_char: '[[:alnum:]_]'
+
+  # non-posix identifiers
+  nonposix: '{{nonposix_begin_char}}{{nonposix_char}}*'
+  nonposix_begin_char: '[^{{metachar}}\d]'
+  nonposix_begin: (?={{nonposix_begin_char}})
+  nonposix_break: (?={{metachar}}|{{varassign}}|$)
+  nonposix_char: '[^{{metachar}}=]'
+
+  # Command names are identifiers, which don't stop at assignment operators.
+  cmd_begin_char: '{{nonposix_begin_char}}'
+  cmd_begin: (?={{cmd_begin_char}})
+  cmd_break: (?!{{cmd_char}})
+  cmd_char: '[^{{metachar}}]'
+
+  # Command options are identifiers, which may start with interpolation.
+  opt_begin_char: (?:\s+|^)(--?){{variable_begin}}
+  opt_break: '{{nonposix_break}}'
+
+  # Variables are posix identifiers, which may start with interpolation.
+  variable_begin_char: '{{identifier_begin_char}}'
+  variable_begin: (?={{variable_begin_char}}|\$)
 
   # A character that, when unquoted, separates words. A metacharacter is a
   # space, tab, newline, or one of the following characters: ‘|’, ‘&’, ‘;’,
@@ -54,8 +77,7 @@ variables:
   metachar: '[\s|&;()<>]'
 
   nbc: '[^{}()=\s]*' # non bracket characters (and also non-whitespace, parens)
-  start_of_option: (?:\s+|^)--?(?=[\w$])
-  varassign: '[+\-?]?='
+  varassign: '[-+]?='
 
 ###############################################################################
 
@@ -105,6 +127,10 @@ contexts:
     - match: ''
       pop: 1
 
+  immediately-pop2:
+    - match: ''
+      pop: 2
+
   else-pop:
     - match: (?=\S)
       pop: 1
@@ -133,14 +159,14 @@ contexts:
 ###[ COPROCESSES ]#############################################################
 
   coproc:
-    - match: coproc{{keyword_break}}
+    - match: coproc{{cmd_break}}
       scope:
         meta.coproc.shell
         storage.type.coproc.shell
         keyword.declaration.coproc.shell
       push:
         # Extended Coproc Syntax
-        - match: (\s*(\S+)\s*)(\{)
+        - match: (\s*({{nonposix}})\s*)(\{)
           captures:
             1: meta.coproc.identifier.shell
             2: entity.name.coproc.shell
@@ -169,13 +195,13 @@ contexts:
 
   funcdef:
     # [Bash] 3.3 Shell Functions
-    - match: (?=\s*{{identifier_non_posix}}\s*\(\s*\))
+    - match: (?=\s*{{nonposix}}\s*\(\s*\))
       push:
         - funcdef-redirection
         - funcdef-body
         - funcdef-params
         - funcdef-name
-    - match: function{{keyword_break}}
+    - match: function{{cmd_break}}
       scope:
         meta.function.shell
         storage.type.function.shell
@@ -187,12 +213,12 @@ contexts:
         - funcdef-name
 
   funcdef-name:
-    - match: (?=\S)
+    - match: '{{cmd_begin}}'
       set:
-        - meta_content_scope: entity.name.function.shell
-        - match: \s*(?=[({])
-          pop: 1
-        - include: eol-pop
+        - - meta_scope: entity.name.function.shell
+          - include: cmd-name
+        - cmd-name-begin
+    - include: else-pop
     - include: eol-pop
 
   funcdef-params:
@@ -237,7 +263,7 @@ contexts:
 ###[ VARDEFS ]#################################################################
 
   vardef:
-    - match: alias{{keyword_break}}
+    - match: alias{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
         support.function.alias.shell
@@ -247,7 +273,7 @@ contexts:
         - vardef-assign
         - vardef-alias-name
         - vardef-alias-options
-    - match: (typeset|declare|local){{keyword_break}}
+    - match: (typeset|declare|local){{cmd_break}}
       scope:
         meta.function-call.identifier.shell
         storage.modifier.shell
@@ -257,7 +283,7 @@ contexts:
         - vardef-assign
         - vardef-name
         - vardef-declare-options
-    - match: export{{keyword_break}}
+    - match: export{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
         storage.modifier.shell
@@ -267,7 +293,7 @@ contexts:
         - vardef-assign
         - vardef-name
         - vardef-export-options
-    - match: readonly{{keyword_break}}
+    - match: readonly{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
         storage.modifier.shell
@@ -290,20 +316,15 @@ contexts:
       push: [vardef-value, vardef-assign, vardef-name]
 
   vardef-alias-name:
-    - match: (?=\S)
+    - match: '{{variable_begin}}'
       set:
-        - meta_content_scope:
-            meta.variable.shell
-            entity.name.function.alias.shell
-        - match: (?=\s|{{varassign}})
-          pop: 1
-        - include: array
-        - include: string
-        - include: string-interpolation
+        - meta_scope: meta.variable.shell entity.name.function.alias.shell
+        - include: identifier-common
+    - include: else-pop
     - include: eol-pop
 
   vardef-alias-options:
-    - match: (-)p
+    - match: (-)p{{opt_break}}
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
@@ -311,7 +332,7 @@ contexts:
     - include: eol-pop
 
   vardef-declare-options:
-    - match: (-)(?:[aAfFgilnrtux]+|p)
+    - match: (-)(?:[aAfFgilnrtux]+|p){{opt_break}}
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
@@ -319,7 +340,7 @@ contexts:
     - include: eol-pop
 
   vardef-export-options:
-    - match: (-)(?:[fn]+|p)
+    - match: (-)(?:[fn]+|p){{opt_break}}
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
@@ -327,7 +348,7 @@ contexts:
     - include: eol-pop
 
   vardef-readonly-options:
-    - match: (-)(?:[aAf]+|p)
+    - match: (-)(?:[aAf]+|p){{opt_break}}
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
@@ -335,18 +356,22 @@ contexts:
     - include: eol-pop
 
   vardef-name:
-    - include: cmd-args-boilerplate
-    - match: (?=\S)
+    - match: '{{variable_begin}}'
       set:
-        - meta_content_scope: meta.variable.shell variable.other.readwrite.shell
+        - meta_scope: meta.variable.shell variable.other.readwrite.shell
         - include: identifier-common
+    - include: else-pop
+    - include: eol-pop
+
+  vardef-array:
+    - include: array
+    - include: immediately-pop2
 
   identifier-common:
-    - match: (?={{varassign}}|{{metachar}})
-      pop: 1
-    - include: array
     - include: string
     - include: string-interpolation
+    - match: '{{identifier_break}}'
+      push: vardef-array
 
   vardef-assign:
     - match: '{{varassign}}'
@@ -392,13 +417,13 @@ contexts:
             - meta_include_prototype: false
             - include: expansion
             - include: immediately-pop
-        - match: (?={{metachar}})
+        - match: '{{cmd_break}}'
           pop: 1
 
 ###[ UNSET BUILTIN ]###########################################################
 
   unset:
-    - match: unset{{keyword_break}}
+    - match: unset{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
         support.function.unset.shell
@@ -411,7 +436,7 @@ contexts:
     - include: cmd-post
 
   unset-args:
-    - match: (-)(?:[nv]?f[nv]?)
+    - match: (-)(?:[nv]?f[nv]?){{opt_break}}
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
@@ -419,7 +444,7 @@ contexts:
     - include: unset-options-then-variables
 
   unset-options:
-    - match: (-)(?:[nv]+)
+    - match: (-)(?:[nv]+){{opt_break}}
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
@@ -432,9 +457,9 @@ contexts:
 
   unset-functions:
     - include: cmd-args-boilerplate
-    - match: (?=\S)
+    - match: '{{cmd_begin}}'
       push:
-        - meta_content_scope: meta.variable.shell variable.function.shell
+        - meta_scope: meta.variable.shell variable.function.shell
         - include: identifier-common
 
   unset-options-then-variables:
@@ -444,9 +469,9 @@ contexts:
 
   unset-variables:
     - include: cmd-args-boilerplate
-    - match: (?=\S)
+    - match: '{{variable_begin}}'
       push:
-        - meta_content_scope: meta.variable.shell variable.other.readwrite.shell
+        - meta_scope: meta.variable.shell variable.other.readwrite.shell
         - include: identifier-common
 
 ###[ COMMANDS ]################################################################
@@ -458,11 +483,11 @@ contexts:
     - include: cmd-control
     - include: scope:commands.builtin.shell.bash#main
     - match: (?=\S)
-      push: [cmd-post, cmd-args, cmd-name]
+      push: [cmd-post, cmd-args, cmd-name, cmd-name-begin]
 
   cmd-arithmetic:
     - include: arithmetic
-    - match: let{{keyword_break}}
+    - match: let{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
         support.function.let.shell
@@ -514,7 +539,7 @@ contexts:
             1: support.function.test.end.shell
           set: cmd-post
         - include: expression-test
-    - match: test{{keyword_break}}
+    - match: test{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
         support.function.test.shell
@@ -522,6 +547,19 @@ contexts:
         - meta_content_scope: meta.function-call.arguments.shell
         - include: cmd-args-boilerplate
         - include: expression-test
+
+  cmd-name-begin:
+    - meta_include_prototype: false
+    - include: string
+    - include: expansion-parameter
+    - include: expansion-arithmetic
+    - include: expansion-command
+    - include: expansion-tilde
+    - include: expansion-job
+    - match: '{{cmd_begin_char}}'
+      scope: variable.function.shell
+      pop: 1
+    - include: immediately-pop
 
   cmd-name:
     - clear_scopes: 1
@@ -532,23 +570,23 @@ contexts:
     - include: expansion-command
     - include: expansion-tilde
     - include: expansion-job
-    - match: '[^\s`=|&;()}<>]'
+    - match: '{{cmd_char}}'
       scope: variable.function.shell
     - include: immediately-pop
 
   cmd-args:
     - meta_content_scope: meta.function-call.arguments.shell
     - include: cmd-args-boilerplate-with-end-of-options
-    - match: '{{start_of_option}}'
-      scope:
-        variable.parameter.option.shell
-        punctuation.definition.parameter.shell
+    - match: '{{opt_begin_char}}'
+      captures:
+        1: variable.parameter.option.shell
+           punctuation.definition.parameter.shell
       push:
         - meta_content_scope: variable.parameter.option.shell
         - match: =
           scope: keyword.operator.assignment.shell
           pop: 1
-        - match: (?={{is_end_of_option}})
+        - match: '{{opt_break}}'
           pop: 1
         - include: expansion-and-string
 
@@ -563,7 +601,7 @@ contexts:
   cmd-args-boilerplate-with-end-of-options:
     # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
     - include: cmd-args-boilerplate
-    - match: (?:\s+|^)--(?=\s|;|$|\))
+    - match: (?:\s+|^)--{{cmd_break}}
       scope: keyword.operator.end-of-options.shell
       set:
         - meta_content_scope: meta.function-call.arguments.shell
@@ -597,52 +635,52 @@ contexts:
 
   cmd-control:
     # conditional
-    - match: if{{keyword_break}}
+    - match: if{{cmd_break}}
       scope: keyword.control.conditional.if.shell
-    - match: then{{keyword_break}}
+    - match: then{{cmd_break}}
       scope: keyword.control.conditional.then.shell
-    - match: elif{{keyword_break}}
+    - match: elif{{cmd_break}}
       scope: keyword.control.conditional.elseif.shell
-    - match: fi{{keyword_break}}
+    - match: fi{{cmd_break}}
       scope: keyword.control.conditional.end.shell
-    - match: else{{keyword_break}}
+    - match: else{{cmd_break}}
       scope: keyword.control.conditional.else.shell
-    - match: case{{keyword_break}}
+    - match: case{{cmd_break}}
       scope: keyword.control.conditional.case.shell
       push: [case-body, case-word]
-    - match: esac{{keyword_break}}
+    - match: esac{{cmd_break}}
       scope: keyword.control.conditional.end.shell
     # loops
-    - match: do{{keyword_break}}
+    - match: do{{cmd_break}}
       scope: keyword.control.loop.do.shell
-    - match: done{{keyword_break}}
+    - match: done{{cmd_break}}
       scope: keyword.control.loop.end.shell
-    - match: for{{keyword_break}}
+    - match: for{{cmd_break}}
       scope: keyword.control.loop.for.shell
       push: for-args
-    - match: select{{keyword_break}}
+    - match: select{{cmd_break}}
       scope: keyword.control.loop.select.shell
       push: select-args
-    - match: until{{keyword_break}}
+    - match: until{{cmd_break}}
       scope: keyword.control.loop.until.shell
-    - match: while{{keyword_break}}
+    - match: while{{cmd_break}}
       scope: keyword.control.loop.while.shell
     # flow
-    - match: break{{keyword_break}}
+    - match: break{{cmd_break}}
       scope: keyword.control.flow.break.shell
       push: flow-args
-    - match: continue{{keyword_break}}
+    - match: continue{{cmd_break}}
       scope: keyword.control.flow.continue.shell
       push: flow-args
-    - match: exit{{keyword_break}}
+    - match: exit{{cmd_break}}
       scope: keyword.control.flow.exit.shell
       push: flow-args
-    - match: return{{keyword_break}}
+    - match: return{{cmd_break}}
       scope: keyword.control.flow.return.shell
       push: flow-args
 
   case-word:
-    - match: in{{keyword_break}}
+    - match: in{{cmd_break}}
       scope: keyword.control.in.shell
       pop: 1
     - include: comment
@@ -703,11 +741,11 @@ contexts:
     - include: main
 
   case-end-ahead:
-    - match: (?=esac{{keyword_break}})
+    - match: (?=esac{{cmd_break}})
       pop: 1
 
   case-end:
-    - match: esac{{keyword_break}}
+    - match: esac{{cmd_break}}
       scope: keyword.control.conditional.end.shell
       pop: 1
 
@@ -718,13 +756,13 @@ contexts:
   for-args:
     - include: cmd-args-boilerplate
     - include: arithmetic
-    - match: in{{keyword_break}}
+    - match: in{{cmd_break}}
       scope: keyword.control.in.shell
 
   select-args:
     - include: cmd-args-boilerplate
     - include: expansion-and-string
-    - match: in{{keyword_break}}
+    - match: in{{cmd_break}}
       scope: keyword.control.in.shell
 
 ###[ REDIRECTIONS AND HEREDOCS ]###############################################
@@ -755,7 +793,7 @@ contexts:
         - include: main
 
   redirection-output:
-    - match: (\d*)(>>!?|>&?|&>|&?>(?:\||>))
+    - match: (\d*)(>>!?|>&?|&>|&?>[|>])
       captures:
         1: constant.numeric.integer.decimal.file-descriptor.shell
         2: keyword.operator.assignment.redirection.shell
@@ -776,7 +814,7 @@ contexts:
       pop: 1
     - match: \s*(?=\S)
       set:
-        - match: (?={{metachar}})
+        - match: '{{cmd_break}}'
           pop: 1
         - include: expansion-and-string
     - match: \s*
@@ -789,7 +827,7 @@ contexts:
         2: keyword.operator.assignment.redirection.shell
 
   redirection-here-string:
-    - match: (\d*)(<<<)(?![-|&;<>])
+    - match: (\d*)(<<<)\s*{{nonposix_begin}}
       captures:
         1: constant.numeric.integer.decimal.file-descriptor.shell
         2: keyword.operator.herestring.shell
@@ -1005,11 +1043,11 @@ contexts:
           scope: punctuation.section.group.end.shell
           pop: 1
         - include: expression-test
-    - match: (-)[aobcdefghknoprstuvwxzGLNORS](?=\s)
+    - match: (-)[aobcdefghknoprstuvwxzGLNORS]{{opt_break}}
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-    - match: (-)(?:ef|nt|ot|eq|ne|lt|le|gt|ge)(?=\s)
+    - match: (-)(?:ef|nt|ot|eq|ne|lt|le|gt|ge){{opt_break}}
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
