@@ -1103,8 +1103,10 @@ unset-
 unset+
 # <- - support.function
 unset()
-# <- - support.function
+# <- support.function.unset.shell
 unset[]
+# <- - support.function
+unset{}
 # <- - support.function
 unset=
 # <- - support.function
@@ -2391,6 +2393,13 @@ then-=
 #^^^ - keyword
 then+=
 #^^^ - keyword
+then()
+#^^^ keyword.control.conditional.then.shell
+then[]
+#^^^ - keyword
+then{}
+#^^^ - keyword
+
 if-up
 # <- - keyword
 # ^ - keyword

@@ -85,14 +85,20 @@ contexts:
   main:
     - meta_include_prototype: false
     - include: comment
-    - include: coproc
-    - include: funcdef
-    - include: vardef
-    - include: unset
     - include: line-continuation
     - include: operator-exclamation
     - include: redirection
-    - include: cmd
+    - include: cmd-arithmetic
+    - include: cmd-compound
+    - include: cmd-test
+    - include: cmd-control
+    - include: cmd-coproc
+    - include: cmd-unset
+    - include: scope:commands.builtin.shell.bash
+    - include: vardef
+    - include: funcdef
+    - match: (?=\S)
+      push: [cmd-post, cmd-args, cmd-name, cmd-name-begin]
 
   statement:
     - meta_include_prototype: false
@@ -158,7 +164,7 @@ contexts:
 
 ###[ COPROCESSES ]#############################################################
 
-  coproc:
+  cmd-coproc:
     - match: coproc{{cmd_break}}
       scope:
         meta.coproc.shell
@@ -422,52 +428,52 @@ contexts:
 
 ###[ UNSET BUILTIN ]###########################################################
 
-  unset:
+  cmd-unset:
     - match: unset{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
         support.function.unset.shell
       push:
-        - unset-post
-        - unset-args
+        - cmd-unset-post
+        - cmd-unset-args
 
-  unset-post:
+  cmd-unset-post:
     - meta_content_scope: meta.function-call.arguments.shell
     - include: cmd-post
 
-  unset-args:
+  cmd-unset-args:
     - match: (-)(?:[nv]?f[nv]?){{opt_break}}
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-      set: unset-options-then-functions
-    - include: unset-options-then-variables
+      set: cmd-unset-options-then-functions
+    - include: cmd-unset-options-then-variables
 
-  unset-options:
+  cmd-unset-options:
     - match: (-)(?:[nv]+){{opt_break}}
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
     - include: eol-pop
 
-  unset-options-then-functions:
-    - include: unset-options
+  cmd-unset-options-then-functions:
+    - include: cmd-unset-options
     - match: (?=\S)
-      set: unset-functions
+      set: cmd-unset-functions
 
-  unset-functions:
+  cmd-unset-functions:
     - include: cmd-args-boilerplate
     - match: '{{cmd_begin}}'
       push:
         - meta_scope: meta.variable.shell variable.function.shell
         - include: identifier-common
 
-  unset-options-then-variables:
-    - include: unset-options
+  cmd-unset-options-then-variables:
+    - include: cmd-unset-options
     - match: (?=\S)
-      set: unset-variables
+      set: cmd-unset-variables
 
-  unset-variables:
+  cmd-unset-variables:
     - include: cmd-args-boilerplate
     - match: '{{variable_begin}}'
       push:
@@ -475,15 +481,6 @@ contexts:
         - include: identifier-common
 
 ###[ COMMANDS ]################################################################
-
-  cmd:
-    - include: cmd-arithmetic
-    - include: cmd-compound
-    - include: cmd-test
-    - include: cmd-control
-    - include: scope:commands.builtin.shell.bash#main
-    - match: (?=\S)
-      push: [cmd-post, cmd-args, cmd-name, cmd-name-begin]
 
   cmd-arithmetic:
     - include: arithmetic
