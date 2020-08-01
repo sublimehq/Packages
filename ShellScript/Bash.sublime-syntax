@@ -84,7 +84,7 @@ variables:
 contexts:
   main:
     - meta_include_prototype: false
-    - include: comment
+    - include: comments
     - include: line-continuation
     - include: operator-exclamation
     - include: redirection
@@ -143,7 +143,7 @@ contexts:
 
 ###[ COMMENTS ]################################################################
 
-  comment:
+  comments:
     - match: \#
       scope: punctuation.definition.comment.shell
       push:
@@ -257,7 +257,7 @@ contexts:
           scope: punctuation.section.compound.end.shell
           pop: 1
         - include: main
-    - include: comment
+    - include: comments
     - include: else-pop
 
   funcdef-redirection:
@@ -405,9 +405,9 @@ contexts:
                   pop: 1
                 - include: immediately-pop
             - include: expansion-and-string
-            - include: comment
+            - include: comments
         - include: expansion-and-string
-        - include: comment
+        - include: comments
     - match: ''
       set:
         - meta_scope: meta.string.shell string.unquoted.shell
@@ -680,13 +680,13 @@ contexts:
     - match: in{{cmd_break}}
       scope: keyword.control.in.shell
       pop: 1
-    - include: comment
+    - include: comments
     - include: case-end-ahead
     - include: expansion-and-string
 
   case-body:
     - meta_scope: meta.conditional.case.shell
-    - include: comment
+    - include: comments
     - include: case-end
     - match: \(|(?=\S)
       scope: keyword.control.conditional.patterns.begin.shell
