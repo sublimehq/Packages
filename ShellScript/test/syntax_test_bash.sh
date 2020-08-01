@@ -26,6 +26,41 @@
 # \\ \. \a \b \f \n \r
 #^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell - constant.character.escape
 
+echo hello #a-comment
+#          ^^^^^^^^^^^ comment.line.number-sign.shell
+
+echo hello#not-a-comment
+#         ^^^^^^^^^^^^^^ meta.function-call.arguments - comment.line - variable.function
+
+foo | `# get quarks ` \
+# <- variable.function
+#   ^ keyword.operator.logical.pipe
+#     ^^^^^^^^^^^^^^^ meta.interpolation.command.shell
+#                    ^^^ - meta.interpolation
+#     ^ punctuation.section.interpolation.begin.shell
+#      ^^^^^^^^^^^^^ comment.line.number-sign
+#                   ^ punctuation.section.interpolation.end.shell - comment
+#                     ^^ punctuation.separator.continuation.line - comment
+
+foo | ` # get quarks ` \
+bar   ` # important; this and that ` "${USELESS_TEXT}" | ` # match text` \
+# <- meta.function-call.arguments
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.command.shell
+#                                   ^^^^^^^^^^^^^^^^^^^^^ - meta.interpolation.command
+#                                                        ^^^^^^^^^^^^^^^ meta.interpolation.command.shell
+#     ^^ - comment
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign
+#                                  ^^^^^^^^^^^^^^^^^^^^^^^^ - comment
+#                                                          ^^^^^^^^^^^^ comment.line.number-sign
+#                                                                      ^^^ - comment
+#     ^ punctuation.section.interpolation.begin.shell
+#                                  ^ punctuation.section.interpolation.end.shell
+#                                    ^ meta.string string.quoted.double punctuation.definition.string.begin
+#                                     ^^^^^^^^^^^^^^^ meta.string meta.interpolation.parameter.shell - string
+#                                                    ^ meta.string string.quoted.double punctuation.definition.string.end
+#                                                      ^ keyword.operator.logical.pipe
+#                                                        ^ punctuation.section.interpolation.begin.shell
+#                                                                        ^^ punctuation.separator.continuation.line
 
 ####################################################################
 # The basics                                                       #
@@ -214,36 +249,6 @@ echo `echo \`echo hello\\\`, world\\\\\`!`
 #                                 ^^^^^^ constant.character.escape
 #                                        ^ punctuation.section.interpolation.end.shell
 
-foo | `# get quarks ` \
-# <- variable.function
-#   ^ keyword.operator.logical.pipe
-#     ^^^^^^^^^^^^^^^ meta.interpolation.command.shell
-#                    ^^^ - meta.interpolation
-#     ^ punctuation.section.interpolation.begin.shell
-#      ^^^^^^^^^^^^^ comment.line.number-sign
-#                   ^ punctuation.section.interpolation.end.shell - comment
-#                     ^^ punctuation.separator.continuation.line - comment
-
-foo | ` # get quarks ` \
-bar   ` # important; this and that ` "${USELESS_TEXT}" | ` # match text` \
-# <- meta.function-call.arguments
-#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interpolation.command.shell
-#                                   ^^^^^^^^^^^^^^^^^^^^^ - meta.interpolation.command
-#                                                        ^^^^^^^^^^^^^^^ meta.interpolation.command.shell
-#     ^^ - comment
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign
-#                                  ^^^^^^^^^^^^^^^^^^^^^^^^ - comment
-#                                                          ^^^^^^^^^^^^ comment.line.number-sign
-#                                                                      ^^^ - comment
-#     ^ punctuation.section.interpolation.begin.shell
-#                                  ^ punctuation.section.interpolation.end.shell
-#                                    ^ meta.string string.quoted.double punctuation.definition.string.begin
-#                                     ^^^^^^^^^^^^^^^ meta.string meta.interpolation.parameter.shell - string
-#                                                    ^ meta.string string.quoted.double punctuation.definition.string.end
-#                                                      ^ keyword.operator.logical.pipe
-#                                                        ^ punctuation.section.interpolation.begin.shell
-#                                                                        ^^ punctuation.separator.continuation.line
-
 randomname argument --opt1 --opt2 -x -y &>/dev/null
 # <- meta.function-call.identifier.shell variable.function - meta.function-call.arguments
 #^^^^^^^^^ meta.function-call.identifier.shell variable.function.shell - meta.function-call.arguments
@@ -290,8 +295,6 @@ ${e}'ch'o hello, world!
 #   ^ string.quoted.single punctuation.definition.string.begin
 #    ^^ string.quoted.single
 #      ^ string.quoted.single punctuation.definition.string.end
-echo hello#not-a-comment
-#         ^^^^^^^^^^^^^^ meta.function-call.arguments - comment.line - variable.function
 echo -e "foo"
 #    ^ variable.parameter.option punctuation
 #     ^ variable.parameter
