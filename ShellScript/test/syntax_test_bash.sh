@@ -1695,17 +1695,6 @@ ${foo:?bar}
 : ${foo}#
 #       ^ - variable.language
 
-echo "Url: 'postgres://root:$DB_PASSWORD@$IP:$PORT/db'"
-#    ^^^^^^^^^^^^^^^^^^^^^^^ meta.string string.quoted.double - meta.interpolation - variable
-#                           ^ meta.string meta.interpolation.parameter.shell punctuation.definition.variable - string
-#                            ^^^^^^^^^^^ meta.string meta.interpolation.parameter.shell variable.other.readwrite - string
-#                                       ^ meta.string string.quoted.double - meta.interpolation - variable
-#                                        ^ meta.string meta.interpolation.parameter.shell punctuation.definition.variable - string
-#                                         ^^ meta.string meta.interpolation.parameter.shell variable.other.readwrite
-#                                           ^ meta.string string.quoted.double - meta.interpolation - variable
-#                                            ^ meta.string meta.interpolation.parameter.shell punctuation.definition.variable
-#                                             ^^^^ meta.string meta.interpolation.parameter.shell variable.other.readwrite
-#                                                 ^^^^^ meta.string string.quoted.double - meta.interpolation - variable
 status="${status#"${status%%[![:space:]]*}"}"
 #      ^ meta.string.shell string.quoted.double.shell - meta.interpolation
 #       ^^^^^^^^^^ meta.string.shell meta.interpolation.parameter.shell - meta.interpolation meta.interpolation
