@@ -325,7 +325,7 @@ set -e -- -o {string}
 shift 2 -- 
 #       ^^ - keyword
 
-echo -e "Hello"
+echo +e "Hello"
 #    ^ variable.parameter.option punctuation
 #     ^ variable.parameter
 
@@ -396,7 +396,7 @@ foo --opt1 arg1 -- --not-an-option
 #                ^^ keyword.operator
 #                  ^ - variable.parameter punctuation
 
-randomname argument --opt1 --opt2 -x -y &>/dev/null
+randomname argument --opt1 --opt2 +x -y &>/dev/null
 # <- meta.function-call.identifier.shell variable.function - meta.function-call.arguments
 #^^^^^^^^^ meta.function-call.identifier.shell variable.function.shell - meta.function-call.arguments
 #         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments
@@ -930,7 +930,7 @@ declare foo         # 'foo' is a variable name
 # <- storage.modifier
 #          ^ - variable.other.readwrite
 #                  ^ - meta.function-call
-declare -A          # this is a comment
+declare +A          # this is a comment
 #^^^^^^ meta.function-call.identifier.shell
 #      ^^^ meta.function-call.arguments.shell
 #         ^ - meta.function-call
@@ -1154,7 +1154,7 @@ unset -f -n -v foo bar; unset -vn foo 2>& /dev/null
 #                                     ^ constant.numeric.integer.decimal.file-descriptor.shell
 #                                      ^^ keyword.operator.assignment.redirection.shell
 
-unset -f -x -v -- foo bar; unset -vn -- foo
+unset -f -x +v -- foo bar; unset -vn -- foo
 # <- meta.function-call.identifier.shell support.function.unset.shell
 #^^^^ meta.function-call.identifier.shell
 #    ^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell

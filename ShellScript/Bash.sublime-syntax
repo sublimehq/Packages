@@ -64,7 +64,7 @@ variables:
   cmd_char: '[^{{metachar}}]'
 
   # Command options are identifiers, which may start with interpolation.
-  opt_begin_char: (?:\s+|^)(--?){{variable_begin}}
+  opt_begin_char: (?:\s+|^)(--|[-+]){{variable_begin}}
   opt_break: '{{nonposix_break}}'
 
   # Variables are posix identifiers, which may start with interpolation.
@@ -332,28 +332,28 @@ contexts:
     - include: eol-pop
 
   vardef-alias-options:
-    - match: (-)p{{opt_break}}
+    - match: ([-+])p{{opt_break}}
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
     - include: vardef-end-of-options
 
   vardef-declare-options:
-    - match: (-)(?:[aAfFgilnrtux]+|p){{opt_break}}
+    - match: ([-+])(?:[aAfFgilnrtux]+|p){{opt_break}}
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
     - include: vardef-end-of-options
 
   vardef-export-options:
-    - match: (-)(?:[fn]+|p){{opt_break}}
+    - match: ([-+])(?:[fn]+|p){{opt_break}}
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
     - include: vardef-end-of-options
 
   vardef-readonly-options:
-    - match: (-)(?:[aAf]+|p){{opt_break}}
+    - match: ([-+])(?:[aAf]+|p){{opt_break}}
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
@@ -363,7 +363,7 @@ contexts:
     - match: --{{cmd_break}}
       scope: keyword.operator.end-of-options.shell
       pop: 1
-    - match: --?{{identifier}}
+    - match: (--|[-+]){{identifier}}
       scope: invalid.illegal.parameter.shell
     - include: else-pop
     - include: eol-pop
@@ -449,7 +449,7 @@ contexts:
     - include: cmd-post
 
   cmd-unset-args:
-    - match: (-)(?:[nv]?f[nv]?){{opt_break}}
+    - match: ([-+])(?:[nv]?f[nv]?){{opt_break}}
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
@@ -457,11 +457,11 @@ contexts:
     - include: cmd-unset-options-then-variables
 
   cmd-unset-options:
-    - match: (-)(?:[nv]+){{opt_break}}
+    - match: ([-+])(?:[nv]+){{opt_break}}
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-    - match: --?{{identifier}}
+    - match: (--|[-+]){{identifier}}
       scope: invalid.illegal.parameter.shell
     - include: eol-pop
 
@@ -1055,11 +1055,11 @@ contexts:
           scope: punctuation.section.group.end.shell
           pop: 1
         - include: expression-test
-    - match: (-)[aobcdefghknoprstuvwxzGLNORS]{{opt_break}}
+    - match: ([-+])[aobcdefghknoprstuvwxzGLNORS]{{opt_break}}
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-    - match: (-)(?:ef|nt|ot|eq|ne|lt|le|gt|ge){{opt_break}}
+    - match: ([-+])(?:ef|nt|ot|eq|ne|lt|le|gt|ge){{opt_break}}
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell

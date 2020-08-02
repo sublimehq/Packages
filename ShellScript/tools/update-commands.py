@@ -64,7 +64,7 @@ def main():
                 })
             else:
                 cmd_args.append({
-                    "match": rf"(?:\s+|^)((-){opts}){{{{opt_break}}}}",
+                    "match": rf"(?:\s+|^)(([-+]){opts}){{{{opt_break}}}}",
                     "captures": {
                         1: "variable.parameter.option.shell",
                         2: "punctuation.definition.parameter.shell"

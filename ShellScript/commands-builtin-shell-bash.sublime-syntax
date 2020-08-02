@@ -215,7 +215,7 @@ contexts:
   cmd-args-bind:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((-)(?:[mqurfx]|[lpsvPSVX]+[mqurfx]?)){{opt_break}}
+  - match: (?:\s+|^)(([-+])(?:[mqurfx]|[lpsvPSVX]+[mqurfx]?)){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -231,14 +231,14 @@ contexts:
   cmd-args-command:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((-)[pVv]+){{opt_break}}
+  - match: (?:\s+|^)(([-+])[pVv]+){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
   cmd-args-cd:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((-)[LPe@]){{opt_break}}
+  - match: (?:\s+|^)(([-+])[LPe@]){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -248,14 +248,14 @@ contexts:
   cmd-args-enable:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((-)(?:[af]|[dnps]+[af]?)){{opt_break}}
+  - match: (?:\s+|^)(([-+])(?:[af]|[dnps]+[af]?)){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
   cmd-args-help:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((-)[dms]+){{opt_break}}
+  - match: (?:\s+|^)(([-+])[dms]+){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -265,28 +265,28 @@ contexts:
   cmd-args-mapfile:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((-)[dnOstuCc]){{opt_break}}
+  - match: (?:\s+|^)(([-+])[dnOstuCc]){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
   cmd-args-printf:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((-)[v]){{opt_break}}
+  - match: (?:\s+|^)(([-+])[v]){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
   cmd-args-read:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((-)(?:[adeinNprstu]|[ers]+[adeinNprstu]?)){{opt_break}}
+  - match: (?:\s+|^)(([-+])(?:[adeinNprstu]|[ers]+[adeinNprstu]?)){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
   cmd-args-readarray:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((-)(?:[adeinNprstu]|[ers]+[adeinNprstu]?)){{opt_break}}
+  - match: (?:\s+|^)(([-+])(?:[adeinNprstu]|[ers]+[adeinNprstu]?)){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -296,21 +296,21 @@ contexts:
   cmd-args-type:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((-)[afptP]+){{opt_break}}
+  - match: (?:\s+|^)(([-+])[afptP]+){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
   cmd-args-ulimit:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((-)[HSabcdefiklmnpqrstuvxPT]+){{opt_break}}
+  - match: (?:\s+|^)(([-+])[HSabcdefiklmnpqrstuvxPT]+){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
   cmd-args-unalias:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((-)[a]){{opt_break}}
+  - match: (?:\s+|^)(([-+])[a]){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -320,7 +320,7 @@ contexts:
   cmd-args-exec:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((-)(?:[a]|[cl]+[a]?)){{opt_break}}
+  - match: (?:\s+|^)(([-+])(?:[a]|[cl]+[a]?)){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -330,14 +330,14 @@ contexts:
   cmd-args-hash:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((-)(?:[rpl]|[dt]+[rpl]?)){{opt_break}}
+  - match: (?:\s+|^)(([-+])(?:[rpl]|[dt]+[rpl]?)){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
   cmd-args-pwd:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((-)[LP]+){{opt_break}}
+  - match: (?:\s+|^)(([-+])[LP]+){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -350,35 +350,35 @@ contexts:
   cmd-args-trap:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((-)[lp]+){{opt_break}}
+  - match: (?:\s+|^)(([-+])[lp]+){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
   cmd-args-umask:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((-)[pS]){{opt_break}}
+  - match: (?:\s+|^)(([-+])[pS]){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
   cmd-args-echo:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((-)[neE]+){{opt_break}}
+  - match: (?:\s+|^)(([-+])[neE]+){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
   cmd-args-set:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((\-|\+)(?:[o]|[abefhkmnptuvxBCEHPT]+[o]?)){{opt_break}}
+  - match: (?:\s+|^)(([-+])(?:[o]|[abefhkmnptuvxBCEHPT]+[o]?)){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
   cmd-args-shopt:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((-)(?:[o]|[pqsu]+[o]?)){{opt_break}}
+  - match: (?:\s+|^)(([-+])(?:[o]|[pqsu]+[o]?)){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -391,42 +391,42 @@ contexts:
   cmd-args-jobs:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((-)(?:[x]|[lnprs]+[x]?)){{opt_break}}
+  - match: (?:\s+|^)(([-+])(?:[x]|[lnprs]+[x]?)){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
   cmd-args-kill:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((-)[snlL]){{opt_break}}
+  - match: (?:\s+|^)(([-+])[snlL]){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
   cmd-args-wait:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((-)[n]){{opt_break}}
+  - match: (?:\s+|^)(([-+])[n]){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
   cmd-args-disown:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((-)(?:[h]|[ar]+[h]?)){{opt_break}}
+  - match: (?:\s+|^)(([-+])(?:[h]|[ar]+[h]?)){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
   cmd-args-suspend:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((-)[f]){{opt_break}}
+  - match: (?:\s+|^)(([-+])[f]){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
   cmd-args-su:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  - match: (?:\s+|^)((-)(?:[-cls]|[mp]+[-cls]?)){{opt_break}}
+  - match: (?:\s+|^)(([-+])(?:[-cls]|[mp]+[-cls]?)){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
@@ -437,7 +437,7 @@ contexts:
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
-  - match: (?:\s+|^)((-)(?:[pcartu]|[bHhKkLlPSsVv]+[pcartu]?)){{opt_break}}
+  - match: (?:\s+|^)(([-+])(?:[pcartu]|[bHhKkLlPSsVv]+[pcartu]?)){{opt_break}}
     captures:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell

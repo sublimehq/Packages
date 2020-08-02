@@ -111,7 +111,6 @@ echo:
 set:
   short-options-compact: abefhkmnptuvxBCEHPT
   short-options: o
-  short-option-prefixes: [\-, \+]
   allow-end-of-options-token: true
   allow-short-end-of-options-token: true
 
