@@ -83,8 +83,9 @@ variables:
 
 contexts:
   main:
-    - match: ''
-      push: [statements, shebang]
+    # - match: ''
+    #   push: [statements, shebang]
+    - include: statements
 
   statements:
     - meta_include_prototype: false
