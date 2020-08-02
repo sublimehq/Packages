@@ -146,21 +146,23 @@ contexts:
   comments:
     - match: \#
       scope: punctuation.definition.comment.shell
-      push:
-        - meta_include_prototype: false
-        - meta_scope: comment.line.number-sign.shell
-        # NOTE: The reason for consuming the newline character is as follows.
-        # When triggering a snippet, its scope is tested to the *right* of the
-        # cursor. So, if you don't want your snippet to trigger in a comment,
-        # you have to use something like <scope>source.shell - comment</scope>.
-        # If the newline character is not scoped as a comment too, then that
-        # scope will never work, because the scope to the right of the cursor
-        # will never be a comment scope. That is, unless we consume the newline
-        # character (or we are editing something in the middle of an existing
-        # comment).
-        - match: \n
-          pop: 1
-        - include: line-continuation
+      push: comments-body
+
+  comments-body:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.number-sign.shell
+    # NOTE: The reason for consuming the newline character is as follows.
+    # When triggering a snippet, its scope is tested to the *right* of the
+    # cursor. So, if you don't want your snippet to trigger in a comment,
+    # you have to use something like <scope>source.shell - comment</scope>.
+    # If the newline character is not scoped as a comment too, then that
+    # scope will never work, because the scope to the right of the cursor
+    # will never be a comment scope. That is, unless we consume the newline
+    # character (or we are editing something in the middle of an existing
+    # comment).
+    - match: \n
+      pop: 1
+    - include: line-continuation
 
 ###[ COPROCESSES ]#############################################################
 
