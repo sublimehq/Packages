@@ -86,20 +86,6 @@ contexts:
     - match: ''
       push: [statements, shebang]
 
-  shebang:
-    - match: ^\#!
-      scope: punctuation.definition.comment.shell
-      set:
-        - meta_include_prototype: false
-        - meta_scope: comment.line.shebang.shell
-        # Note: Keep sync with first_line_match!
-        - match: \b(bash|zsh|sh|tcsh|ash)\b
-          scope: constant.language.shebang.shell
-        - match: \n
-          pop: 1
-    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Bash is embedded.
-      pop: 1
-
   statements:
     - meta_include_prototype: false
     - include: comments
@@ -181,6 +167,20 @@ contexts:
     - match: \n
       pop: 1
     - include: line-continuation
+
+  shebang:
+    - match: ^\#!
+      scope: punctuation.definition.comment.shell
+      set:
+        - meta_include_prototype: false
+        - meta_scope: comment.line.shebang.shell
+        # Note: Keep sync with first_line_match!
+        - match: \b(bash|zsh|sh|tcsh|ash)\b
+          scope: constant.language.shebang.shell
+        - match: \n
+          pop: 1
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Bash is embedded.
+      pop: 1
 
 ###[ COPROCESSES ]#############################################################
 
