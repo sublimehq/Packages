@@ -23,8 +23,10 @@
   comment.
 #^^^^^^^^^^ comment.line.number-sign.shell - punctuation
 
-# \\ \. \a \b \f \n \r
-#^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell - constant.character.escape
+### \\ \. \a \b \f \n \r
+# <- comment.line.number-sign.shell punctuation.definition.comment.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell - constant.character.escape
+#^^ punctuation.definition.comment.shell
 
 echo hello #a-comment
 #          ^^^^^^^^^^^ comment.line.number-sign.shell

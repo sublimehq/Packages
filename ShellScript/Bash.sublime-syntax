@@ -158,7 +158,7 @@ contexts:
 ###[ COMMENTS ]################################################################
 
   comments:
-    - match: \#
+    - match: \#+
       scope: punctuation.definition.comment.shell
       push: comments-body
 
