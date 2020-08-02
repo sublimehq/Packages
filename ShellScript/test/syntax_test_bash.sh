@@ -1132,6 +1132,31 @@ unset -f -n -v foo bar; unset -vn foo 2>& /dev/null
 #                                     ^ constant.numeric.integer.decimal.file-descriptor.shell
 #                                      ^^ keyword.operator.assignment.redirection.shell
 
+unset -f -x -v -- foo bar; unset -vn -- foo
+# <- meta.function-call.identifier.shell support.function.unset.shell
+#^^^^ meta.function-call.identifier.shell
+#    ^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                        ^^ - meta.function-call
+#                          ^^^^^ meta.function-call.identifier.shell
+#                               ^^^^^^^^^^^ meta.function-call.arguments.shell
+#                                          ^ - meta.function-call
+#     ^^ variable.parameter.option.shell
+#        ^^ invalid.illegal.parameter.shell
+#           ^^ variable.parameter.option.shell
+#             ^^^^ - variable
+#              ^^ keyword.operator.end-of-options.shell
+#                 ^^^ meta.variable.shell variable.function.shell
+#                    ^ - variable
+#                     ^^^ meta.variable.shell variable.function.shell
+#                        ^ keyword.operator.logical.continue.shell
+#                          ^^^^^ support.function.unset.shell
+#                               ^ - support - variable
+#                                ^^^ variable.parameter.option.shell
+#                                   ^^^^ - variable
+#                                    ^^ keyword.operator.end-of-options.shell
+#                                       ^^^ meta.variable.shell variable.other.readwrite.shell
+#                                          ^ - variable
+
 unset-
 # <- - support.function
 unset+

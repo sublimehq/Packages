@@ -456,10 +456,15 @@ contexts:
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
+    - match: --?{{identifier}}
+      scope: invalid.illegal.parameter.shell
     - include: eol-pop
 
   cmd-unset-options-then-functions:
     - include: cmd-unset-options
+    - match: --{{cmd_break}}
+      scope: keyword.operator.end-of-options.shell
+      set: cmd-unset-functions
     - match: (?=\S)
       set: cmd-unset-functions
 
@@ -472,6 +477,9 @@ contexts:
 
   cmd-unset-options-then-variables:
     - include: cmd-unset-options
+    - match: --{{cmd_break}}
+      scope: keyword.operator.end-of-options.shell
+      set: cmd-unset-variables
     - match: (?=\S)
       set: cmd-unset-variables
 
