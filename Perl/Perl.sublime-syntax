@@ -95,18 +95,8 @@ variables:
 
 contexts:
   main:
-    - match: ^\#!
-      scope: punctuation.definition.comment.perl
-      set:
-        - meta_include_prototype: false
-        - meta_scope: comment.line.shebang.perl
-        # Note: Keep sync with first_line_match!
-        - match: \bperl\b
-          scope: constant.language.shebang.perl
-        - match: \n
-          set: statements
-    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Perl is embedded.
-      set: statements
+    - match: ''
+      push: [statements, shebang]
 
   statements:
     - include: comment-pod
@@ -167,6 +157,20 @@ contexts:
       pop: true
 
 ###[ COMMENTS ]###############################################################
+
+  shebang:
+    - match: ^\#!
+      scope: punctuation.definition.comment.perl
+      set:
+        - meta_include_prototype: false
+        - meta_scope: comment.line.shebang.perl
+        # Note: Keep sync with first_line_match!
+        - match: \bperl\b
+          scope: constant.language.shebang.perl
+        - match: \n
+          pop: true
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Perl is embedded.
+      pop: true
 
   comment-line:
     - match: \#+
