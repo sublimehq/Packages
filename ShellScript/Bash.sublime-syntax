@@ -336,30 +336,35 @@ contexts:
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-    - include: else-pop
-    - include: eol-pop
+    - include: vardef-end-of-options
 
   vardef-declare-options:
     - match: (-)(?:[aAfFgilnrtux]+|p){{opt_break}}
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-    - include: else-pop
-    - include: eol-pop
+    - include: vardef-end-of-options
 
   vardef-export-options:
     - match: (-)(?:[fn]+|p){{opt_break}}
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-    - include: else-pop
-    - include: eol-pop
+    - include: vardef-end-of-options
 
   vardef-readonly-options:
     - match: (-)(?:[aAf]+|p){{opt_break}}
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
+    - include: vardef-end-of-options
+
+  vardef-end-of-options:
+    - match: --{{cmd_break}}
+      scope: keyword.operator.end-of-options.shell
+      pop: 1
+    - match: --?{{identifier}}
+      scope: invalid.illegal.parameter.shell
     - include: else-pop
     - include: eol-pop
 

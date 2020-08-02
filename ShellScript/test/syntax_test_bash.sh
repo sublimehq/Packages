@@ -885,17 +885,39 @@ fg %?ce
 # 4.2 Bash Builtin Commands                                        #
 ####################################################################
 
+alias
+# <- meta.function-call.identifier.shell support.function.alias.shell
+#^^^^ meta.function-call.identifier.shell support.function.alias.shell
+#    ^ - meta.function-call - support
 alias foo=bar
-# <- support.function.alias
-#     ^^^ entity.name.function.alias
-#        ^ keyword.operator.assignment
-#         ^^^ meta.string string.unquoted
+# <- meta.function-call.identifier.shell support.function.alias.shell
+#^^^^ meta.function-call.identifier.shell
+#    ^^^^^^^^ meta.function-call.arguments.shell
+#            ^ - meta.function-call
+#     ^^^ entity.name.function.alias.shell
+#        ^ keyword.operator.assignment.shell
+#         ^^^ meta.string.shell string.unquoted.shell
 alias -p foo=bar
-# <- support.function.alias
-#     ^^ variable.parameter
-#        ^^^ entity.name.function.alias
-#           ^ keyword.operator.assignment
-#            ^^^ meta.string string.unquoted
+# <- meta.function-call.identifier.shell support.function.alias.shell
+#^^^^ meta.function-call.identifier.shell
+#    ^^^^^^^^^^^ meta.function-call.arguments.shell
+#               ^ - meta.function-call
+#     ^^ variable.parameter.option.shell
+#        ^^^ entity.name.function.alias.shell
+#           ^ keyword.operator.assignment.shell
+#            ^^^ meta.string.shell string.unquoted.shell
+alias -a -p -- foo=bar
+# <- meta.function-call.identifier.shell support.function.alias.shell
+#^^^^ meta.function-call.identifier.shell
+#    ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                     ^ - meta.function-call
+#     ^^ invalid.illegal.parameter.shell
+#        ^^ variable.parameter.option.shell
+#           ^^ keyword.operator.end-of-options.shell
+#              ^^^ entity.name.function.alias.shell
+#                 ^ keyword.operator.assignment.shell
+#                  ^^^ meta.string.shell string.unquoted.shell
+
 declare             # comment
 #<- meta.function-call.identifier.shell storage.modifier.shell
 #^^^^^^ meta.function-call.identifier.shell storage.modifier.shell
