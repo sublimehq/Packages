@@ -83,6 +83,10 @@ variables:
 
 contexts:
   main:
+    - match: ''
+      push: [statements, shebang]
+
+  shebang:
     - match: ^\#!
       scope: punctuation.definition.comment.shell
       set:
@@ -92,9 +96,9 @@ contexts:
         - match: \b(bash|zsh|sh|tcsh|ash)\b
           scope: constant.language.shebang.shell
         - match: \n
-          set: statements
+          pop: 1
     - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Bash is embedded.
-      set: statements
+      pop: 1
 
   statements:
     - meta_include_prototype: false
