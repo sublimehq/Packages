@@ -44,39 +44,38 @@ first_line_match: |-
 
 variables:
   is_interpolation: (?=\$([\d({]|[$#@!~*?_-](?!\w)|{{identifier}})|`)
-  is_variable: (?=\s*{{variable_begin_char}}{{nbc}}(?:[({]{{nbc}}[)}])?{{nbc}}=)
+  is_variable: (?=\s*{{variable_first_char}}{{nbc}}(?:[({]{{nbc}}[)}])?{{nbc}}=)
 
   # posix identifiers (alpha-numeric)
-  identifier: '{{identifier_begin_char}}{{identifier_char}}*'
-  identifier_begin_char: '[[:alpha:]_]'
-  identifier_break: (?!{{identifier_char}})
+  identifier: '{{identifier_first_char}}{{identifier_char}}*'
+  identifier_first_char: '[[:alpha:]_]'
   identifier_char: '[[:alnum:]_]'
+  identifier_break: (?!{{identifier_char}})
 
   # non-posix identifiers
-  nonposix: '{{nonposix_begin_char}}{{nonposix_char}}*'
-  nonposix_begin_char: '[^{{metachar}}\d]'
-  nonposix_begin: (?={{nonposix_begin_char}})
-  nonposix_break: (?={{metachar}}|{{varassign}}|$)
+  nonposix: '{{nonposix_first_char}}{{nonposix_char}}*{{nonposix_break}}'
+  nonposix_first_char: '[^{{metachar}}\d]'
   nonposix_char: '[^{{metachar}}=]'
+  nonposix_begin: (?={{nonposix_first_char}})
+  nonposix_break: (?={{metachar}}|{{varassign}}|$)
 
   # Commands literals are command names without interpolation or quotation.
   cmd_literal: '{{cmd_literal_first_char}}{{cmd_literal_char}}*{{cmd_break}}'
   cmd_literal_first_char: '[^{{metachar}}%$\\""''`\d]'
   cmd_literal_char: '[^{{metachar}}%$\\""''`]'
 
-  # Command names are identifiers, which don't stop at assignment operators.
-  cmd_begin_char: '{{nonposix_begin_char}}'
-  cmd_begin: (?={{cmd_begin_char}})
+  # Command names are non-posix identifiers, which don't stop at assignment operators.
+  cmd_begin: (?={{nonposix_first_char}})
   cmd_break: (?!{{cmd_char}})
   cmd_char: '[^{{metachar}}]'
 
   # Command options are identifiers, which may start with interpolation.
-  opt_begin_char: (?:\s+|^)(--|[-+]){{variable_begin}}
+  opt_punctuation: (?:\s+|^)(--|[-+]){{variable_begin}}
   opt_break: '{{nonposix_break}}'
 
   # Variables are posix identifiers, which may start with interpolation.
-  variable_begin_char: '{{identifier_begin_char}}'
-  variable_begin: (?={{variable_begin_char}}|\$)
+  variable_begin: (?={{variable_first_char}}|\$)
+  variable_first_char: '{{identifier_first_char}}'
 
   # A character that, when unquoted, separates words. A metacharacter is a
   # space, tab, newline, or one of the following characters: ‘|’, ‘&’, ‘;’,
@@ -607,7 +606,7 @@ contexts:
   cmd-args:
     - meta_content_scope: meta.function-call.arguments.shell
     - include: cmd-args-boilerplate-with-end-of-options
-    - match: '{{opt_begin_char}}'
+    - match: '{{opt_punctuation}}'
       captures:
         1: variable.parameter.option.shell
            punctuation.definition.parameter.shell
