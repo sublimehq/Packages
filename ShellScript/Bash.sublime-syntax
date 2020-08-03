@@ -59,6 +59,11 @@ variables:
   nonposix_break: (?={{metachar}}|{{varassign}}|$)
   nonposix_char: '[^{{metachar}}=]'
 
+  # Commands literals are command names without interpolation or quotation.
+  cmd_literal: '{{cmd_literal_first_char}}{{cmd_literal_char}}*{{cmd_break}}'
+  cmd_literal_first_char: '[^{{metachar}}%$\\""''`\d]'
+  cmd_literal_char: '[^{{metachar}}%$\\""''`]'
+
   # Command names are identifiers, which don't stop at assignment operators.
   cmd_begin_char: '{{nonposix_begin_char}}'
   cmd_begin: (?={{cmd_begin_char}})
@@ -104,8 +109,7 @@ contexts:
     - include: cmd-builtins
     - include: vardef
     - include: funcdef
-    - match: (?=\S)
-      push: [cmd-post, cmd-args, cmd-name, cmd-name-begin]
+    - include: cmd-other
 
   statement:
     - meta_include_prototype: false
@@ -195,7 +199,7 @@ contexts:
         keyword.declaration.coproc.shell
       push:
         # Extended Coproc Syntax
-        - match: (\s*({{nonposix}})\s*)(\{)
+        - match: (\s*({{cmd_literal}})\s*)(\{)
           captures:
             1: meta.coproc.identifier.shell
             2: entity.name.coproc.shell
@@ -224,7 +228,7 @@ contexts:
 
   funcdef:
     # [Bash] 3.3 Shell Functions
-    - match: (?=\s*{{nonposix}}\s*\(\s*\))
+    - match: (?=\s*{{cmd_literal}}\s*\(\s*\))
       push:
         - funcdef-redirection
         - funcdef-body
@@ -244,9 +248,8 @@ contexts:
   funcdef-name:
     - match: '{{cmd_begin}}'
       set:
-        - - meta_scope: entity.name.function.shell
-          - include: cmd-name
-        - cmd-name-begin
+        - meta_scope: entity.name.function.shell
+        - include: cmd-name
     - include: else-pop
     - include: eol-pop
 
@@ -581,30 +584,24 @@ contexts:
         - include: cmd-args-boilerplate
         - include: expression-test
 
-  cmd-name-begin:
-    - meta_include_prototype: false
-    - include: string
-    - include: expansion-parameter
-    - include: expansion-arithmetic
-    - include: expansion-command
-    - include: expansion-tilde
-    - include: expansion-job
-    - match: '{{cmd_begin_char}}'
-      scope: variable.function.shell
-      pop: 1
-    - include: immediately-pop
+  cmd-other:
+    - match: '{{cmd_begin}}'
+      push: [cmd-post, cmd-args, cmd-name]
+    # fallback if nothing else matches
+    - match: (?=\S)
+      push: cmd-post
 
   cmd-name:
     - clear_scopes: 1
     - meta_scope: meta.function-call.identifier.shell
+    - match: '{{cmd_literal_char}}+'
+      scope: variable.function.shell
     - include: string
     - include: expansion-parameter
     - include: expansion-arithmetic
     - include: expansion-command
     - include: expansion-tilde
     - include: expansion-job
-    - match: '{{cmd_char}}'
-      scope: variable.function.shell
     - include: immediately-pop
 
   cmd-args:
