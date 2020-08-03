@@ -1408,46 +1408,55 @@ contexts:
   string-quoted-single:
     - match: \'
       scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.shell string.quoted.single.shell
-        - match: \'
-          scope: punctuation.definition.string.end.shell
-          pop: 1
+      push: string-quoted-single-body
+
+  string-quoted-single-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.shell string.quoted.single.shell
+    - match: \'
+      scope: punctuation.definition.string.end.shell
+      pop: 1
 
   string-quoted-double:
     - match: \"
       scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.shell string.quoted.double.shell
-        - include: string-quoted-double-common
+      push: string-quoted-double-body
+
+  string-quoted-double-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.shell string.quoted.double.shell
+    - match: \"
+      scope: punctuation.definition.string.end.shell
+      pop: 1
+    - include: string-continuation
+    - include: string-escape
+    - include: string-interpolation
 
   # [Bash] 3.1.2.4
   string-ansi-c:
     - match: \$'
       scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.shell string.quoted.single.ansi-c.shell
-        - match: \'
-          scope: punctuation.definition.string.end.shell
-          pop: 1
-        - match: \\([abfnrtv'"?$`\\]|[0-8]{1,3}|x\h{1,8}|c[a-z])
-          scope: constant.character.escape.shell
-        - include: string-continuation
+      push: string-ansi-c-body
+
+  string-ansi-c-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.shell string.quoted.single.ansi-c.shell
+    - match: \'
+      scope: punctuation.definition.string.end.shell
+      pop: 1
+    - include: string-continuation
+    - include: string-escape-ansi-c
 
   # [Bash] 3.1.2.5
   # If the string is translated and replaced, the replacement is double-quoted.
   string-locale:
     - match: \$"
       scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.shell string.quoted.double.locale.shell
-        - include: string-quoted-double-common
+      push: string-locale-body
 
-  string-quoted-double-common:
+  string-locale-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.shell string.quoted.double.locale.shell
     - match: \"
       scope: punctuation.definition.string.end.shell
       pop: 1
@@ -1461,6 +1470,10 @@ contexts:
 
   string-escape:
     - match: \\[$`"\\]
+      scope: constant.character.escape.shell
+
+  string-escape-ansi-c:
+    - match: \\([abfnrtv'"?$`\\]|[0-8]{1,3}|x\h{1,8}|c[a-z])
       scope: constant.character.escape.shell
 
   string-interpolation:
