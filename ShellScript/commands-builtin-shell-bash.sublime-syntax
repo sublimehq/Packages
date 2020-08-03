@@ -1,14 +1,17 @@
 %YAML 1.2
 ---
 # Automatically generated file -- do not edit!
+#
+# The main context is filled with relevant rules by the Bash.sublime-syntax
+# Don't include `cmd-builtin` here as essential contexts are missing in this
+# abstract syntax defintion.
 scope: commands.builtin.shell.bash
 version: 2
 hidden: true
-variables:
-  cmd_break: (?=[\s|&;()<>]|$)
-  opt_break: (?=[\s|&;()<>]|[-+]?=|$)
 contexts:
   main:
+  - match: ''
+  cmd-builtins:
   - match: bind{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.bind.shell
     push:
@@ -204,14 +207,6 @@ contexts:
     push:
     - cmd-post
     - cmd-args-sudo
-  prototype:
-  - include: scope:source.shell.bash#prototype
-  cmd-post:
-  - include: scope:source.shell.bash#cmd-post
-  cmd-args-boilerplate:
-  - include: scope:source.shell.bash#cmd-args-boilerplate
-  cmd-args-boilerplate-with-end-of-options:
-  - include: scope:source.shell.bash#cmd-args-boilerplate-with-end-of-options
   cmd-args-bind:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options

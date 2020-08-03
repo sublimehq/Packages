@@ -6,6 +6,8 @@ name: Bash
 scope: source.shell.bash
 version: 2
 
+extends: Packages/ShellScript/commands-builtin-shell-bash.sublime-syntax
+
 file_extensions:
   - sh
   - bash
@@ -99,7 +101,7 @@ contexts:
     - include: cmd-control
     - include: cmd-coproc
     - include: cmd-unset
-    - include: scope:commands.builtin.shell.bash
+    - include: cmd-builtins
     - include: vardef
     - include: funcdef
     - match: (?=\S)

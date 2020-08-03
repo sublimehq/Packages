@@ -1,23 +1,16 @@
-from __future__ import print_function
 import os
 import sys
 import yaml
 
 
 def main():
-    shell_type = os.path.splitext(sys.argv[1])[0].split("-")[-1]
-    parent = f"scope:source.shell.{shell_type}#"
-
     with open(sys.argv[1], "r") as stream:
         commands_input = yaml.load(stream, Loader=yaml.SafeLoader)
 
     main = []
     contexts = {
-        "main": main,
-        "prototype": [{"include": f"{parent}prototype"}],
-        "cmd-post": [{"include": f"{parent}cmd-post"}],
-        "cmd-args-boilerplate": [{"include": f"{parent}cmd-args-boilerplate"}],
-        "cmd-args-boilerplate-with-end-of-options": [{"include": f"{parent}cmd-args-boilerplate-with-end-of-options"}]
+        "main": [{"match": ''}],
+        "cmd-builtins": main
     }
 
     for command, value in commands_input.items():
@@ -85,16 +78,20 @@ def main():
         "scope": os.path.splitext(sys.argv[1])[0].replace("-", "."),
         "version": 2,
         "hidden": True,
-        "variables": {
-            "cmd_break": r"(?=[\s|&;()<>]|$)",
-            "opt_break": r"(?=[\s|&;()<>]|[-+]?=|$)"
-        },
         "contexts": contexts
     }
 
     with open(sys.argv[2], "w") as stream:
         print("%YAML 1.2\n---", file=stream)
-        print("# Automatically generated file -- do not edit!", file=stream)
+        print(
+            "# Automatically generated file -- do not edit!\n"
+            "#\n"
+            "# The main context is filled with relevant rules by the Bash.sublime-syntax\n"
+            "# Don't include `cmd-builtin` here as essential contexts are missing in this\n"
+            "# abstract syntax defintion.",
+            file=stream
+        )
+
         noalias_dumper = yaml.dumper.SafeDumper
         noalias_dumper.ignore_aliases = lambda self, data: True
         yaml.dump(commands_output,
