@@ -402,7 +402,7 @@ contexts:
 
   identifier-common:
     - include: string
-    - include: string-interpolation
+    - include: string-interpolations
     - include: line-continuation
     - match: '{{identifier_break}}'
       push: vardef-array
@@ -931,7 +931,7 @@ contexts:
     # sequence \newline is ignored, and ‘\’ must be used to quote the
     # characters ‘\’, ‘$’, and ‘`’.
     - include: string-escapes
-    - include: string-interpolation
+    - include: string-interpolations
 
   heredocs-body-no-expansion:
     - meta_scope: meta.string.shell string.unquoted.heredoc.shell
@@ -1404,7 +1404,7 @@ contexts:
       pop: 1
     - include: string-continuation
     - include: string-escapes
-    - include: string-interpolation
+    - include: string-interpolations
 
   # [Bash] 3.1.2.4
   string-ansi-c:
@@ -1434,7 +1434,7 @@ contexts:
       pop: 1
     - include: string-continuation
     - include: string-escapes
-    - include: string-interpolation
+    - include: string-interpolations
 
   string-continuation:
     - match: \\\n
@@ -1452,7 +1452,7 @@ contexts:
     - match: \\([abfnrtv'"?$`\\]|[0-8]{1,3}|x\h{1,8}|c[a-z])
       scope: constant.character.escape.shell
 
-  string-interpolation:
+  string-interpolations:
     - match: '{{is_interpolation}}'
       push:
         - clear_scopes: 1
