@@ -3903,6 +3903,14 @@ function =foo () {
 # <- meta.function-call.identifier.shell variable.function
 #^^^ meta.function-call.identifier.shell variable.function.shell
 
+function foo () {} ; function foo () {}
+#                  ^^ - meta.function
+#                    ^^^^^^^^ meta.function.shell
+#                            ^^^^^ meta.function.identifier.shell
+#                                 ^^ meta.function.parameters.shell
+#                                   ^^^ meta.function.shell
+#                  ^ keyword.operator.logical.continue.shell
+
 __git_aliased_command ()
 {
     local word cmdline=$(__git config --get "alias.$1")

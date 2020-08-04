@@ -98,6 +98,7 @@ contexts:
     - include: comments
     - include: line-continuation
     - include: operator-exclamation
+    - include: operator-logical
     - include: redirection
     - include: cmd-arithmetic
     - include: cmd-compound
@@ -198,9 +199,7 @@ contexts:
         meta.coproc.shell
         storage.type.coproc.shell
         keyword.declaration.coproc.shell
-      push:
-        - cmd-post
-        - cmd-coproc-identifier
+      push: cmd-coproc-identifier
 
   cmd-coproc-identifier:
     - match: (\s*({{cmd_literal}})\s*)(\{)
@@ -476,12 +475,12 @@ contexts:
         meta.function-call.identifier.shell
         support.function.unset.shell
       push:
-        - cmd-unset-post
+        - cmd-unset-args-meta
         - cmd-unset-args
 
-  cmd-unset-post:
+  cmd-unset-args-meta:
     - meta_content_scope: meta.function-call.arguments.shell
-    - include: cmd-post
+    - include: immediately-pop
 
   cmd-unset-args:
     - match: ([-+])(?:[nv]?f[nv]?){{opt_break}}
@@ -551,7 +550,7 @@ contexts:
         - meta_scope: meta.compound.shell
         - match: \)
           scope: punctuation.section.compound.end.shell
-          set: [cmd-post, cmd-compound-args]
+          set: cmd-compound-args
         - include: statements
     - match: \{(?=\s)
       scope: punctuation.section.compound.begin.shell
@@ -560,7 +559,7 @@ contexts:
         - meta_scope: meta.compound.shell
         - match: \}
           scope: punctuation.section.compound.end.shell
-          set: [cmd-post, cmd-compound-args]
+          set: cmd-compound-args
         - include: statements
 
   cmd-compound-args:
@@ -575,7 +574,7 @@ contexts:
         - match: \s+(\]\])
           captures:
             1: support.function.double-brace.end.shell
-          set: cmd-post
+          pop: 1
         - include: expression-test
     - match: \[(?=\s)
       scope: support.function.test.begin.shell
@@ -584,7 +583,7 @@ contexts:
         - match: \s+(\])
           captures:
             1: support.function.test.end.shell
-          set: cmd-post
+          pop: 1
         - include: expression-test
     - match: test{{cmd_break}}
       scope:
@@ -597,10 +596,7 @@ contexts:
 
   cmd-other:
     - match: '{{cmd_begin}}'
-      push: [cmd-post, cmd-args, cmd-name]
-    # fallback if nothing else matches
-    - match: (?=\S)
-      push: cmd-post
+      push: [cmd-args, cmd-name]
 
   cmd-name:
     - clear_scopes: 1
@@ -651,26 +647,6 @@ contexts:
           pop: 1
         - include: eol-pop
         - include: expansion-and-string
-
-  cmd-post: # looks like [main, cmd-post] at this point
-    # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
-    - match: ;(?![;&])
-      scope: keyword.operator.logical.continue.shell
-      pop: 1
-    - match: \|\|
-      scope: keyword.operator.logical.or.shell
-      pop: 1
-    - match: \|
-      scope: keyword.operator.logical.pipe.shell
-      pop: 1
-    - match: \&\&
-      scope: keyword.operator.logical.and.shell
-      pop: 1
-    - match: \&
-      scope: keyword.operator.logical.job.shell
-      pop: 1
-    - include: else-pop
-    - include: eol-pop
 
 ###[ CONTROL STATEMENTS ]######################################################
 
@@ -1007,7 +983,7 @@ contexts:
         - clear_scopes: 1
         - include: eol-pop
         - match: \s*(?=\S)
-          set: [statement, cmd-post, cmd-args]
+          set: [statement, cmd-args]
 
 ###[ EXPRESSIONS ]#############################################################
 
@@ -1142,6 +1118,18 @@ contexts:
         1: punctuation.definition.history.shell
     - match: \!
       scope: punctuation.definition.history.shell
+
+  operator-logical:
+    - match: ;
+      scope: keyword.operator.logical.continue.shell
+    - match: \|\|
+      scope: keyword.operator.logical.or.shell
+    - match: \|
+      scope: keyword.operator.logical.pipe.shell
+    - match: \&\&
+      scope: keyword.operator.logical.and.shell
+    - match: \&
+      scope: keyword.operator.logical.job.shell
 
 ###[ EXPANSIONS ]##############################################################
 
