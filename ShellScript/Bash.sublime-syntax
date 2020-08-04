@@ -119,7 +119,6 @@ contexts:
 ###[ PROTOTYPES ]##############################################################
 
   prototype:
-    - include: line-continuation
     - include: any-escape
 
   any-escape:
@@ -129,6 +128,7 @@ contexts:
   eol-pop:
     - match: $|(?=\s+#)
       pop: 1
+    - include: line-continuation
 
   line-continuation:
     - match: \\\n
@@ -190,6 +190,7 @@ contexts:
       scope: constant.language.shebang.shell
     - match: \n
       pop: 1
+    - include: line-continuations
 
 ###[ COPROCESSES ]#############################################################
 
@@ -412,11 +413,13 @@ contexts:
 
   vardef-array:
     - include: array
+    - include: line-continuations
     - include: immediately-pop2
 
   identifier-common:
     - include: string
     - include: string-interpolation
+    - include: line-continuation
     - match: '{{identifier_break}}'
       push: vardef-array
 
@@ -424,6 +427,7 @@ contexts:
     - match: '{{varassign}}'
       scope: keyword.operator.assignment.shell
       pop: 1
+    - include: line-continuations
     - include: immediately-pop
 
   vardef-value:
@@ -464,6 +468,7 @@ contexts:
             - meta_include_prototype: false
             - include: expansion
             - include: immediately-pop
+        - include: line-continuation
         - match: '{{cmd_break}}'
           pop: 1
 
@@ -607,6 +612,7 @@ contexts:
     - meta_scope: meta.function-call.identifier.shell
     - match: '{{cmd_literal_char}}+'
       scope: variable.function.shell
+    - include: line-continuation
     - include: string
     - include: expansion-parameter
     - include: expansion-arithmetic
@@ -1310,6 +1316,7 @@ contexts:
     - match: \}
       scope: punctuation.section.interpolation.end.shell
       pop: 1
+    - include: line-continuations
     - include: string
     - include: expansion-parameter
     # no brace expansion
