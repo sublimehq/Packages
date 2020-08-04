@@ -199,31 +199,41 @@ contexts:
         storage.type.coproc.shell
         keyword.declaration.coproc.shell
       push:
-        # Extended Coproc Syntax
-        - match: (\s*({{cmd_literal}})\s*)(\{)
-          captures:
-            1: meta.coproc.identifier.shell
-            2: entity.name.coproc.shell
-            3: meta.coproc.command.shell meta.compound.shell
-               punctuation.section.compound.begin.shell
-          set:
-            - meta_include_prototype: false
-            - meta_content_scope:
-                meta.coproc.command.shell meta.compound.shell
-            - match: \}
-              scope:
-                meta.coproc.command.shell meta.compound.shell
-                punctuation.section.compound.end.shell
-              set:
-                - meta_content_scope: meta.coproc.shell
-                - include: cmd-args
-            - include: statements
-        # Basic Coproc Syntax
-        - match: ''
-          set:
-            - meta_include_prototype: false
-            - meta_scope: meta.coproc.command.shell
-            - include: statement
+        - cmd-post
+        - cmd-coproc-identifier
+
+  cmd-coproc-identifier:
+    - match: (\s*({{cmd_literal}})\s*)(\{)
+      captures:
+        1: meta.coproc.identifier.shell
+        2: entity.name.coproc.shell
+        3: meta.coproc.command.shell meta.compound.shell
+           punctuation.section.compound.begin.shell
+      set:
+        - cmd-coproc-compound-meta
+        - cmd-coproc-compound-command
+    - match: ''
+      set: cmd-coproc-basic-command
+
+  cmd-coproc-basic-command:
+    - meta_include_prototype: false
+    - meta_scope: meta.coproc.command.shell
+    - include: statement
+
+  cmd-coproc-compound-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.coproc.command.shell
+    - include: immediately-pop
+
+  cmd-coproc-compound-command:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.compound.shell
+    - match: \}
+      scope:
+        meta.compound.shell
+        punctuation.section.compound.end.shell
+      set: cmd-compound-args
+    - include: statements
 
 ###[ FUNCTIONS ]###############################################################
 

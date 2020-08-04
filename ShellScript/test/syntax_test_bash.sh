@@ -1992,7 +1992,7 @@ coproc myls { ls thisfiledoesntexist; read; 2>&1 } | foo
 # ^^^^^^ meta.compound.shell meta.coproc.shell
 #       ^^^^^ meta.compound.shell meta.coproc.identifier.shell
 #            ^^^^^^^^^^^^^^^^ meta.compound.shell meta.coproc.command.shell meta.compound.shell
-#                            ^^^^ meta.compound.shell meta.coproc.shell - meta.compound meta.compound
+#                            ^^^^ meta.compound.shell meta.coproc.command.shell meta.compound.arguments.shell
 #                                ^^^ meta.compound.shell - meta.coproc
 #                                   ^^^^^ meta.compound.arguments.shell - meta.coproc - meta.function-call
 # ^^^^^^ storage.type.coproc.shell keyword.declaration.coproc.shell
