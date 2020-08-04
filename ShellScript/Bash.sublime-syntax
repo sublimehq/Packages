@@ -118,13 +118,6 @@ contexts:
 
 ###[ PROTOTYPES ]##############################################################
 
-  prototype:
-    - include: any-escape
-
-  any-escape:
-    - match: \\.
-      scope: constant.character.escape.shell
-
   eol-pop:
     - match: $|(?=\s+#)
       pop: 1
@@ -468,6 +461,7 @@ contexts:
             - meta_include_prototype: false
             - include: expansion
             - include: immediately-pop
+        - include: any-escapes
         - include: line-continuation
         - match: '{{cmd_break}}'
           pop: 1
@@ -1323,8 +1317,6 @@ contexts:
     - include: expansion-arithmetic
     - include: expansion-command
     - include: expansion-tilde
-    # no pattern expansion
-    - include: any-escape
 
   expansion-parameter-pattern:
     - match: /
@@ -1406,6 +1398,7 @@ contexts:
 ###[ STRINGS ]#################################################################
 
   string:
+    - include: any-escapes
     - include: string-quoted-double
     - include: string-quoted-single
     - include: string-ansi-c
@@ -1474,6 +1467,10 @@ contexts:
   string-continuation:
     - match: \\\n
       scope: punctuation.separator.continuation.line.shell
+
+  any-escapes:
+    - match: \\.
+      scope: constant.character.escape.shell
 
   string-escape:
     - match: \\[$`"\\]
