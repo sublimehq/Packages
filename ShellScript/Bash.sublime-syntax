@@ -95,7 +95,7 @@ contexts:
 
   statements:
     - include: comments
-    - include: line-continuation
+    - include: line-continuations
     - include: operator-exclamation
     - include: operator-logical
     - include: redirection
@@ -119,17 +119,7 @@ contexts:
   eol-pop:
     - match: $|(?=\s+#)
       pop: 1
-    - include: line-continuation
-
-  line-continuation:
-    - match: \\\n
-      scope: punctuation.separator.continuation.line.shell
-      push:
-        - match: ^
-          pop: 1
-    - match: \\(\s+)\n
-      captures:
-        1: invalid.illegal.extraneous-spaces-after-line-continuation.shell
+    - include: line-continuations
 
   immediately-pop:
     - match: ''
@@ -163,7 +153,7 @@ contexts:
     # comment).
     - match: \n
       pop: 1
-    - include: line-continuation
+    - include: line-continuations
 
   shebang:
     - match: ^\#!
@@ -403,7 +393,7 @@ contexts:
   identifier-common:
     - include: string
     - include: string-interpolations
-    - include: line-continuation
+    - include: line-continuations
     - match: '{{identifier_break}}'
       push: vardef-array
 
@@ -451,7 +441,7 @@ contexts:
             - include: expansion
             - include: immediately-pop
         - include: any-escapes
-        - include: line-continuation
+        - include: line-continuations
         - match: '{{cmd_break}}'
           pop: 1
 
@@ -593,7 +583,7 @@ contexts:
     - meta_scope: meta.function-call.identifier.shell
     - match: '{{cmd_literal_char}}+'
       scope: variable.function.shell
-    - include: line-continuation
+    - include: line-continuations
     - include: string
     - include: expansion-parameter
     - include: expansion-arithmetic
@@ -1094,6 +1084,18 @@ contexts:
     - match: \b\d+
       scope: meta.number.value.shell constant.numeric.integer.decimal.shell
 
+###[ OPERATORS ]###############################################################
+
+  line-continuations:
+    - match: \\\n
+      scope: punctuation.separator.continuation.line.shell
+      push:
+        - match: ^
+          pop: 1
+    - match: \\(\s+)\n
+      captures:
+        1: invalid.illegal.extraneous-spaces-after-line-continuations.shell
+
   operator-exclamation:
     - match: \!(?!\S)
       scope: keyword.operator.logical.shell
@@ -1402,7 +1404,7 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.end.shell
       pop: 1
-    - include: string-continuation
+    - include: line-continuations
     - include: string-escapes
     - include: string-interpolations
 
@@ -1417,7 +1419,7 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.end.shell
       pop: 1
-    - include: string-continuation
+    - include: line-continuations
     - include: string-escapes-ansi-c
 
   # [Bash] 3.1.2.5
@@ -1432,13 +1434,9 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.end.shell
       pop: 1
-    - include: string-continuation
+    - include: line-continuations
     - include: string-escapes
     - include: string-interpolations
-
-  string-continuation:
-    - match: \\\n
-      scope: punctuation.separator.continuation.line.shell
 
   any-escapes:
     - match: \\.
