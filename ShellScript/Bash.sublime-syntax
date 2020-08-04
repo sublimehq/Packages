@@ -94,7 +94,6 @@ contexts:
     - include: statements
 
   statements:
-    - meta_include_prototype: false
     - include: comments
     - include: line-continuation
     - include: operator-exclamation
@@ -112,7 +111,6 @@ contexts:
     - include: cmd-other
 
   statement:
-    - meta_include_prototype: false
     - include: eol-pop
     - include: statements
 
@@ -153,7 +151,6 @@ contexts:
       push: comments-body
 
   comments-body:
-    - meta_include_prototype: false
     - meta_scope: comment.line.number-sign.shell
     # NOTE: The reason for consuming the newline character is as follows.
     # When triggering a snippet, its scope is tested to the *right* of the
@@ -176,7 +173,6 @@ contexts:
       pop: 1
 
   shebang-body:
-    - meta_include_prototype: false
     - meta_scope: comment.line.shebang.shell
     # Note: Keep sync with first_line_match!
     - match: \b(bash|zsh|sh|tcsh|ash)\b
@@ -209,17 +205,14 @@ contexts:
       set: cmd-coproc-basic-command
 
   cmd-coproc-basic-command:
-    - meta_include_prototype: false
     - meta_scope: meta.coproc.command.shell
     - include: statement
 
   cmd-coproc-compound-meta:
-    - meta_include_prototype: false
     - meta_scope: meta.coproc.command.shell
     - include: immediately-pop
 
   cmd-coproc-compound-command:
-    - meta_include_prototype: false
     - meta_content_scope: meta.compound.shell
     - match: \}
       scope:
@@ -272,7 +265,6 @@ contexts:
     - match: \{
       scope: punctuation.section.compound.begin.shell
       set:
-        - meta_include_prototype: false
         - meta_scope: meta.compound.shell
         - match: \}
           scope: punctuation.section.compound.end.shell
@@ -281,7 +273,6 @@ contexts:
     - match: \(
       scope: punctuation.section.compound.begin.shell
       set:
-        - meta_include_prototype: false
         - meta_scope: meta.compound.shell
         - match: \)
           scope: punctuation.section.compound.end.shell
@@ -452,13 +443,11 @@ contexts:
         - match: (?=\$?["'])
           push:
             - clear_scopes: 2
-            - meta_include_prototype: false
             - include: string
             - include: immediately-pop
         - match: '{{is_interpolation}}'
           push:
             - clear_scopes: 1
-            - meta_include_prototype: false
             - include: expansion
             - include: immediately-pop
         - include: any-escapes
@@ -547,7 +536,6 @@ contexts:
     - match: \(
       scope: punctuation.section.compound.begin.shell
       push:
-        - meta_include_prototype: false
         - meta_scope: meta.compound.shell
         - match: \)
           scope: punctuation.section.compound.end.shell
@@ -556,7 +544,6 @@ contexts:
     - match: \{(?=\s)
       scope: punctuation.section.compound.begin.shell
       push:
-        - meta_include_prototype: false
         - meta_scope: meta.compound.shell
         - match: \}
           scope: punctuation.section.compound.end.shell
@@ -753,7 +740,6 @@ contexts:
 
   case-clause-commands:
     - clear_scopes: 1  # remove meta.conditional.case.shell
-    - meta_include_prototype: false
     - meta_scope: meta.conditional.case.clause.commands.shell
     - match: ;;&?|;&
       scope: punctuation.terminator.case.clause.shell
@@ -804,7 +790,6 @@ contexts:
         3: meta.compound.shell
            punctuation.section.compound.begin.shell
       push:
-        - meta_include_prototype: false
         - meta_content_scope: meta.compound.shell
         - match: \)
           scope:
@@ -916,7 +901,6 @@ contexts:
       push: [heredocs-body, heredocs-preamble]
 
   heredocs-body:
-    - meta_include_prototype: false
     - meta_scope: meta.string.shell string.unquoted.heredoc.shell
     - include: heredocs-body-common-with-expansion
     - match: ^\3(\s+)\n # the third capture from redirection-here-document
@@ -929,7 +913,6 @@ contexts:
       pop: 1
 
   heredocs-body-allow-tabs:
-    - meta_include_prototype: false
     - meta_scope: meta.string.shell string.unquoted.heredoc.shell
     - include: heredocs-body-common-with-expansion
     - match: ^\s*\3(\s+)\n # the third capture from redirection-here-document
@@ -951,7 +934,6 @@ contexts:
     - include: string-interpolation
 
   heredocs-body-no-expansion:
-    - meta_include_prototype: false
     - meta_scope: meta.string.shell string.unquoted.heredoc.shell
     - match: ^\4(\s+)\n # the fourth capture from redirection-here-document
       captures:
@@ -963,7 +945,6 @@ contexts:
       pop: 1
 
   heredocs-body-allow-tabs-no-expansion:
-    - meta_include_prototype: false
     - meta_scope: meta.string.shell string.unquoted.heredoc.shell
     - match: ^\s*\4(\s+)\n # the fourth capture from redirection-here-document
       captures:
@@ -1176,7 +1157,6 @@ contexts:
     - match: \$\(
       scope: punctuation.section.interpolation.begin.shell
       push:
-        - meta_include_prototype: false
         - meta_scope: meta.interpolation.command.shell
         - match: \s*(\))
           captures:
@@ -1254,7 +1234,6 @@ contexts:
     - include: immediately-pop
 
   expansion-parameter-first-char:
-    - meta_include_prototype: false
     - match: \!
       scope: keyword.operator.indirection.shell
       pop: 1
@@ -1294,7 +1273,6 @@ contexts:
         1: variable.language.shell
         2: keyword.operator.expansion.shell
       set:
-        - meta_include_prototype: false
         - include: expansion-parameter-common
         - include: expansion-pattern
     - match: ([@*]?)(@)([QEPAa])(?=})
@@ -1326,7 +1304,6 @@ contexts:
     - include: expansion-pattern
 
   expansion-parameter-switch:
-    - meta_include_prototype: false
     - match: '[/#%]'
       scope: variable.parameter.switch.shell
       pop: 1
@@ -1357,7 +1334,6 @@ contexts:
         - expansion-pattern-first-char
 
   expansion-pattern-first-char:
-    - meta_include_prototype: false
     - match: '[!^]'
       scope: keyword.operator.logical.not.shell
       pop: 1
@@ -1411,7 +1387,6 @@ contexts:
       push: string-quoted-single-body
 
   string-quoted-single-body:
-    - meta_include_prototype: false
     - meta_scope: meta.string.shell string.quoted.single.shell
     - match: \'
       scope: punctuation.definition.string.end.shell
@@ -1423,7 +1398,6 @@ contexts:
       push: string-quoted-double-body
 
   string-quoted-double-body:
-    - meta_include_prototype: false
     - meta_scope: meta.string.shell string.quoted.double.shell
     - match: \"
       scope: punctuation.definition.string.end.shell
@@ -1439,7 +1413,6 @@ contexts:
       push: string-ansi-c-body
 
   string-ansi-c-body:
-    - meta_include_prototype: false
     - meta_scope: meta.string.shell string.quoted.single.ansi-c.shell
     - match: \'
       scope: punctuation.definition.string.end.shell
@@ -1455,7 +1428,6 @@ contexts:
       push: string-locale-body
 
   string-locale-body:
-    - meta_include_prototype: false
     - meta_scope: meta.string.shell string.quoted.double.locale.shell
     - match: \"
       scope: punctuation.definition.string.end.shell
@@ -1484,7 +1456,6 @@ contexts:
     - match: '{{is_interpolation}}'
       push:
         - clear_scopes: 1
-        - meta_include_prototype: false
         - include: expansion-parameter
         - include: expansion-arithmetic
         - include: expansion-command
