@@ -116,6 +116,10 @@ contexts:
 
 ###[ PROTOTYPES ]##############################################################
 
+  else-pop:
+    - match: (?=\S)
+      pop: 1
+
   eol-pop:
     - match: $|(?=\s+#)
       pop: 1
@@ -128,10 +132,6 @@ contexts:
   immediately-pop2:
     - match: ''
       pop: 2
-
-  else-pop:
-    - match: (?=\S)
-      pop: 1
 
 ###[ COMMENTS ]################################################################
 
