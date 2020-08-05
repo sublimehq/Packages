@@ -257,7 +257,7 @@ contexts:
     - include: else-pop
 
   funcdef-body:
-    - match: \{
+    - match: \{  # Bash expects `{{cmd_break}}` but we don't care.
       scope: punctuation.section.compound.begin.shell
       set:
         - meta_scope: meta.compound.shell
@@ -548,7 +548,7 @@ contexts:
           scope: punctuation.section.compound.end.shell
           set: cmd-compound-args
         - include: statements
-    - match: \{(?=\s)
+    - match: \{{{cmd_break}}
       scope: punctuation.section.compound.begin.shell
       push:
         - meta_scope: meta.compound.shell
