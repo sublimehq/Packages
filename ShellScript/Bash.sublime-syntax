@@ -234,11 +234,16 @@ contexts:
 
   funcdef-name:
     - match: '{{cmd_begin}}'
-      set:
-        - meta_scope: entity.name.function.shell
-        - include: cmd-name
+      set: funcdef-name-chars
     - include: else-pop
     - include: eol-pop
+
+  funcdef-name-chars:
+    - match: '{{cmd_literal_char}}+'
+      scope: entity.name.function.shell
+    - include: variable-expansions
+    - include: expansion-job
+    - include: immediately-pop
 
   funcdef-params:
     - clear_scopes: 1
@@ -334,11 +339,15 @@ contexts:
 
   vardef-alias-name:
     - match: '{{variable_begin}}'
-      set:
-        - meta_scope: meta.variable.shell entity.name.function.alias.shell
-        - include: identifier-common
+      set: [vardef-item-access, vardef-alias-name-chars]
     - include: else-pop
     - include: eol-pop
+
+  vardef-alias-name-chars:
+    - match: '{{identifier_char}}+'
+      scope: entity.name.function.alias.shell
+    - include: variable-expansions
+    - include: immediately-pop
 
   vardef-alias-options:
     - match: ([-+])p{{opt_break}}
@@ -379,23 +388,21 @@ contexts:
 
   vardef-name:
     - match: '{{variable_begin}}'
-      set:
-        - meta_scope: meta.variable.shell variable.other.readwrite.shell
-        - include: identifier-common
+      set: [vardef-item-access, vardef-name-chars]
     - include: else-pop
     - include: eol-pop
 
-  vardef-array:
-    - include: array
-    - include: line-continuations
-    - include: immediately-pop2
+  vardef-name-chars:
+    - match: '{{identifier_char}}+'
+      scope: variable.other.readwrite.shell
+    - include: variable-expansions
+    - include: immediately-pop
 
-  identifier-common:
-    - include: string
-    - include: string-interpolations
-    - include: line-continuations
-    - match: '{{identifier_break}}'
-      push: vardef-array
+  vardef-item-access:
+    - meta_scope: meta.variable.shell
+    - include: array
+    - include: line-continuations    
+    - include: immediately-pop
 
   vardef-assign:
     - match: '{{varassign}}'
@@ -488,9 +495,14 @@ contexts:
   cmd-unset-functions:
     - include: cmd-args-boilerplate
     - match: '{{cmd_begin}}'
-      push:
-        - meta_scope: meta.variable.shell variable.function.shell
-        - include: identifier-common
+      push: cmd-unset-functions-chars
+
+  cmd-unset-functions-chars:
+    - meta_scope: meta.variable.shell
+    - match: '{{identifier_char}}+'
+      scope: variable.function.shell
+    - include: variable-expansions
+    - include: immediately-pop
 
   cmd-unset-options-then-variables:
     - include: cmd-unset-options
@@ -503,9 +515,14 @@ contexts:
   cmd-unset-variables:
     - include: cmd-args-boilerplate
     - match: '{{variable_begin}}'
-      push:
-        - meta_scope: meta.variable.shell variable.other.readwrite.shell
-        - include: identifier-common
+      push: cmd-unset-variables-chars
+
+  cmd-unset-variables-chars:
+    - meta_scope: meta.variable.shell
+    - match: '{{identifier_char}}+'
+      scope: variable.other.readwrite.shell
+    - include: variable-expansions
+    - include: immediately-pop
 
 ###[ COMMANDS ]################################################################
 
@@ -583,12 +600,7 @@ contexts:
     - meta_scope: meta.function-call.identifier.shell
     - match: '{{cmd_literal_char}}+'
       scope: variable.function.shell
-    - include: line-continuations
-    - include: string
-    - include: expansion-parameter
-    - include: expansion-arithmetic
-    - include: expansion-command
-    - include: expansion-tilde
+    - include: variable-expansions
     - include: expansion-job
     - include: immediately-pop
 
@@ -720,12 +732,8 @@ contexts:
     - match: \|
       scope: keyword.operator.logical.shell
     - include: case-end-ahead
+    - include: variable-expansions
     - include: expansion-pattern
-    - include: expansion-tilde
-    - include: expansion-parameter
-    - include: expansion-command
-    - include: expansion-arithmetic
-    - include: string
     - include: eol-pop
 
   case-clause-commands:
@@ -966,7 +974,6 @@ contexts:
     - match: \[
       scope: punctuation.section.item-access.begin.shell
       push:
-        - clear_scopes: 1
         - meta_scope: meta.item-access.shell
         - match: \]
           scope: punctuation.section.item-access.end.shell
@@ -1120,6 +1127,14 @@ contexts:
 
 ###[ EXPANSIONS ]##############################################################
 
+  variable-expansions:
+    - include: line-continuations
+    - include: string
+    - include: expansion-parameter
+    - include: expansion-arithmetic
+    - include: expansion-command
+    - include: expansion-tilde
+
   expansion-and-string:
     - include: string
     - include: expansion
@@ -1245,8 +1260,7 @@ contexts:
     - include: immediately-pop
 
   expansion-parameter-post-first-char:
-    - meta_content_scope: variable.other.readwrite.shell
-    - include: expansion-parameter-common
+    - include: expansion-parameter-common    
     - match: ([@*])?(/)
       captures:
         1: variable.language.shell
@@ -1290,13 +1304,9 @@ contexts:
     - match: \}
       scope: punctuation.section.interpolation.end.shell
       pop: 1
-    - include: line-continuations
-    - include: string
-    - include: expansion-parameter
-    # no brace expansion
-    - include: expansion-arithmetic
-    - include: expansion-command
-    - include: expansion-tilde
+    - match: '{{identifier_char}}+'
+      scope: variable.other.readwrite.shell
+    - include: variable-expansions
 
   expansion-parameter-pattern:
     - match: /

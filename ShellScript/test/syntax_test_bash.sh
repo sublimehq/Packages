@@ -2758,9 +2758,10 @@ echo Preparing the server...
 ;;
 # <- punctuation.terminator.case.clause
 #^ punctuation.terminator.case.clause
-deploy )
+dep\
+loy )
 # <- - variable.function - support.function - meta.function-call
-#      ^ keyword.control.conditional.patterns
+#   ^ keyword.control.conditional.patterns
 echo Deploying...
 # <- meta.function-call support.function.echo
 #   ^^^^^^^^^^^^^ meta.function-call.arguments
@@ -3902,6 +3903,14 @@ function =foo () {
 =foo
 # <- meta.function-call.identifier.shell variable.function
 #^^^ meta.function-call.identifier.shell variable.function.shell
+
+function fo${bar}'baz' () {}
+#       ^^^^^^^^^^^^^^^ meta.function.identifier.shell
+#                      ^^ meta.function.parameters.shell
+#                        ^^^ meta.function.shell
+#        ^^ entity.name.function.shell
+#          ^^^^^^ meta.interpolation.parameter.shell
+#                ^^^^^ string.quoted.single.shell
 
 function foo () {} ; function foo () {}
 #                  ^^ - meta.function
