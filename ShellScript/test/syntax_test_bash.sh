@@ -320,7 +320,9 @@ set +Eou pipefail
 #   ^^^^ - variable.parameter.option - punctuation
 set -e -- -o {string}
 #   ^^ variable.parameter.option
+#     ^ - variable - keyword
 #      ^^ keyword.operator.end-of-options
+#        ^ - variable - keyword
 #         ^^ - variable.parameter.option
 #            ^^^^^^^^ meta.interpolation.brace.shell
 
@@ -383,56 +385,59 @@ foo -n -
 #      ^ - keyword - punctuation
 
 foo --opt1 arg1
-#   ^^ variable.parameter punctuation
-#   ^^^^^^ variable.parameter
+#  ^ - variable - punctuation
+#   ^^ variable.parameter.option.shell punctuation.definition.parameter.shell
+#     ^^^^ variable.parameter.option.shell - punctuation
+#         ^ - variable - punctuation
 
 foo --opt1 arg1 -- --not-an-option
+#              ^ - variable - keyword
 #               ^^ keyword.operator
-#                  ^ - variable.parameter punctuation
+#                 ^ - variable - keyword
+#                  ^^ - variable.parameter punctuation
+
+foo --opt1 arg1----not-an-option
+#          ^^^^^^^^^^^^^^^^^^^^^ - keyword - punctuation - variable
 
 `foo --opt1 arg1 -- --not-an-option`
+#               ^ - variable - keyword
 #                ^^ keyword.operator
-#                   ^ - variable.parameter punctuation
+#                  ^ - variable - keyword
+#                   ^^ - variable.parameter punctuation
 
 `foo --opt1 arg1 --`
+#               ^ - variable - keyword
 #                ^^ keyword.operator
 #                  ^ - variable.parameter punctuation
 
-randomname argument --opt1 --opt2 +x -y &>/dev/null
+f#-o+o ar%g --opt1 --opt2=value +x -y &>/dev/null
 # <- meta.function-call.identifier.shell variable.function - meta.function-call.arguments
-#^^^^^^^^^ meta.function-call.identifier.shell variable.function.shell - meta.function-call.arguments
-#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments
-#                   ^^ variable.parameter.option punctuation
-#                     ^^^^ variable.parameter.option - punctuation
-#                          ^^ variable.parameter.option punctuation
-#                            ^^^^ variable.parameter.option - punctuation
-#                                 ^ variable.parameter.option punctuation
-#                                  ^ variable.parameter.option - punctuation
-#                                    ^ variable.parameter.option punctuation
-#                                     ^ variable.parameter.option - punctuation
-
-another-random-command arg foo--not-an-option
-#                             ^ - variable.parameter
-#                               ^ - variable.parameter
-#                                   ^ - variable.parameter
-#                                      ^ - variable.parameter
-
-python foo.py --option=value --other-option
-#^^^^^ meta.function-call.identifier.shell variable.function.shell
-#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#                                          ^ - meta.function-call
-#             ^^ punctuation.definition.parameter.shell
-#             ^^^^^^^^ variable.parameter.option.shell
-#                     ^ keyword.operator.assignment.shell
-#                            ^^^^^^^^^^^^^^ variable.parameter.option.shell
-#                            ^^ punctuation.definition.parameter.shell
+#^^^^^ meta.function-call.identifier.shell variable.function.shell - meta.function-call.arguments
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell - meta.function-call.identifier
+#                                                ^ - meta.function-call
+#          ^ - variable - punctuation
+#           ^^ variable.parameter.option.shell punctuation.definition.parameter.shell
+#             ^^^^ variable.parameter.option.shell - punctuation
+#                 ^ - variable - punctuation
+#                  ^^ variable.parameter.option.shell punctuation.definition.parameter.shell
+#                    ^^^^ variable.parameter.option.shell - punctuation
+#                        ^ keyword.operator.assignment.shell
+#                              ^ - variable - punctuation
+#                               ^ variable.parameter.option.shell punctuation.definition.parameter.shell
+#                                ^ variable.parameter.option.shell - punctuation
+#                                 ^ - variable - punctuation
+#                                  ^ variable.parameter.option.shell punctuation.definition.parameter.shell
+#                                   ^ variable.parameter.option.shell - punctuation
+#                                    ^ - variable - punctuation
+#                                     ^^ keyword.operator.assignment.redirection.shell
 
 git log --format="%h git has this pattern, too"
 #^^ meta.function-call.identifier.shell variable.function.shell
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                                              ^ - meta.function-call
-#       ^^ punctuation.definition.parameter.shell
-#       ^^^^^^^^ variable.parameter.option.shell
+#      ^ - variable - punctuation
+#       ^^ variable.parameter.option.shell punctuation.definition.parameter.shell
+#         ^^^^^^ variable.parameter.option.shell - punctuation
 #               ^ keyword.operator.assignment.shell
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell string.quoted.double.shell
 
@@ -455,10 +460,14 @@ subdir/./myscript.sh --option arg1 arg2 -x
 {foo} -o --option -- -o
 # <- meta.function-call.identifier.shell variable.function.shell
 #^^^^ meta.function-call.identifier.shell variable.function.shell
+#    ^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                      ^ - meta.function-call
 #     ^^ variable.parameter.option.shell
 #       ^ - variable
 #        ^^^^^^^^ variable.parameter.option.shell
+#                ^ - variable - keyword
 #                 ^^ keyword.operator.end-of-options.shell
+#                   ^ - variable - keyword
 #                    ^^ - variable
 
 [foo] -o
@@ -471,6 +480,22 @@ subdir/./myscript.sh --option arg1 arg2 -x
 #^^^ meta.compound.shell meta.function-call.identifier.shell variable.function.shell
 #   ^ meta.compound.shell punctuation.section.compound.end.shell
 #    ^^^ meta.compound.arguments.shell
+
+{ foo -o } --opt -- --no-option
+# <- meta.compound.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^ meta.compound.shell - meta.compound meta.compound
+# ^^^ meta.function-call.identifier.shell
+#    ^^^^ meta.function-call.arguments.shell
+#         ^^^^^^^^^^^^^^^^^^^^^ meta.compound.arguments.shell - meta.compound meta.compound
+#                              ^ - meta.compound
+# ^^^ variable.function.shell
+#     ^ variable.parameter.option.shell punctuation.definition.parameter.shell
+#      ^ variable.parameter.option.shell - punctuation
+#        ^ punctuation.section.compound.end.shell
+#          ^^ variable.parameter.option.shell punctuation.definition.parameter.shell
+#            ^^^ variable.parameter.option.shell - punctuation
+#                ^^ keyword.operator.end-of-options.shell
+#                   ^^^^^^^^^^^ - variable - punctuation
 
 $foo -o
 # <- meta.function-call.identifier.shell meta.interpolation.parameter.shell variable.other.readwrite.shell punctuation.definition.variable.shell

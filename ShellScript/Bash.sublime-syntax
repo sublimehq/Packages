@@ -125,6 +125,11 @@ contexts:
       pop: 1
     - include: line-continuations
 
+  eol-pop2:
+    - match: $|(?=\s+#)
+      pop: 2
+    - include: line-continuations
+
   immediately-pop:
     - match: ''
       pop: 1
@@ -622,24 +627,26 @@ contexts:
 
   cmd-args-boilerplate:
     # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
+    - include: expansion-and-string
     - include: redirection
+    - include: eol-pop
     - match: (?=[)}]|\s*([|;]|&(?!>)))
       pop: 1
-    - include: eol-pop
-    - include: expansion-and-string
 
   cmd-args-boilerplate-with-end-of-options:
     # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
+    - match: (?:\s+|^)(--){{cmd_break}}
+      captures:
+        1: keyword.operator.end-of-options.shell
+      push: cmd-args-after-options
     - include: cmd-args-boilerplate
-    - match: (?:\s+|^)--{{cmd_break}}
-      scope: keyword.operator.end-of-options.shell
-      set:
-        - meta_content_scope: meta.function-call.arguments.shell
-        - include: redirection
-        - match: (?=[)};&|])
-          pop: 1
-        - include: eol-pop
-        - include: expansion-and-string
+
+  cmd-args-after-options:
+    - include: expansion-and-string
+    - include: redirection
+    - include: eol-pop2
+    - match: (?=[)};&|])
+      pop: 2
 
 ###[ CONTROL STATEMENTS ]######################################################
 
