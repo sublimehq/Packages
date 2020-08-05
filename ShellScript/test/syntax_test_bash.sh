@@ -2235,7 +2235,7 @@ let "two=5+5"; if [[ "$X" == "1" ]]; then X="one"; fi
 #   ^^^^^^^^^ string.quoted.double.shell
 #            ^ keyword.operator.logical.continue.shell
 #              ^^ keyword.control.conditional.if.shell
-#                 ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                 ^^^^^^^^^^^^^^^^^ meta.conditional.shell
 #                                  ^ keyword.operator.logical.continue.shell
 #                                    ^^^^ keyword.control.conditional.then.shell
 #                                         ^ variable.other.readwrite.shell
@@ -2373,7 +2373,7 @@ if ( [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2 ); then PLATFORM=docker; fi
 #                                                               ^ meta.string string.unquoted
 if [[ $- != *i* ]] ; then
 #^ keyword.control.conditional.if.shell
-#  ^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^^^^^^^^^^^^^^ meta.conditional.shell
 #  ^^ support.function.double-brace.begin.shell
 #     ^^ meta.interpolation.parameter.shell variable.language.shell
 #     ^ punctuation.definition.variable.shell
@@ -2545,45 +2545,58 @@ if test expr -a expr ; then echo "success"; fi
 
 ![[ ]]
 # <- punctuation.definition.history.shell
-#^^^^^ meta.function-call.arguments.shell
+#^^^^^ meta.conditional.shell
 #^^ support.function.double-brace.begin.shell
 #   ^^ support.function.double-brace.end.shell
 
 [[ "${foo}" == bar*baz ]]
 # <- support.function.double-brace.begin.shell
-# <- support.function.double-brace.begin.shell
+#^ support.function.double-brace.begin.shell
 #           ^^ keyword.operator.comparison.shell
 #                 ^ keyword.operator.regexp.quantifier.shell
 #                      ^^ support.function.double-brace.end.shell
 
 [[ $str =~ ^$'\t' ]]
+# <- support.function.double-brace.begin.shell
+#^ support.function.double-brace.begin.shell
 #  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
 #       ^^ keyword.operator.logical.shell
 #          ^^^^^^ meta.regexp.shell - meta.interpolation
 
 [[ $str =~ ^abc$var$ ]]
+# <- support.function.double-brace.begin.shell
+#^ support.function.double-brace.begin.shell
 #  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
 #       ^^ keyword.operator.logical.shell
 #          ^^^^ meta.regexp.shell - meta.interpolation
 #              ^^^^ meta.regexp.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #                  ^ meta.regexp.shell - meta.interpolation
 
+[[ $line =~ [[:space:]]*?(a)b ]]
+#^^^^^^^^^^^ meta.conditional.shell - meta.regexp
+#           ^^^^^^^^^^^^^^^^^ meta.regexp.shell
+#                            ^^^ meta.conditional.shell - meta.regexp
+# <- support.function.double-brace.begin.shell
+#^ support.function.double-brace.begin.shell
+#  ^^^^^ variable.other.readwrite.shell
+#        ^^ keyword.operator.logical.shell
+
 if [[ expr ]] && [[ expr ]] || [[ expr ]] ; then cmd ; fi
-#  ^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^^^^^^^^^ meta.conditional.shell
 #  ^^ support.function.double-brace.begin.shell
 #          ^^ support.function.double-brace.end.shell
 #             ^^ keyword.operator.logical.and.shell
-#                ^^^^^^^^^^ meta.function-call.arguments.shell
+#                ^^^^^^^^^^ meta.conditional.shell
 #                ^^ support.function.double-brace.begin.shell
 #                        ^^ support.function.double-brace.end.shell
 #                           ^^ keyword.operator.logical.or.shell
-#                              ^^^^^^^^^^ meta.function-call.arguments.shell
+#                              ^^^^^^^^^^ meta.conditional.shell
 #                              ^^ support.function.double-brace.begin.shell
 #                                      ^^ support.function.double-brace.end.shell
 #                                         ^ keyword.operator.logical.continue.shell
 
 if [[ expr && expr || expr ]] ; then cmd ; fi
-#  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
 #  ^^ support.function.double-brace.begin.shell
 #          ^^ keyword.operator.logical.shell
 #                  ^^ keyword.operator.logical.shell
@@ -2591,7 +2604,7 @@ if [[ expr && expr || expr ]] ; then cmd ; fi
 #                             ^ keyword.operator.logical.continue.shell
 
 if [[ expr && ( expr || expr ) ]] ; then cmd ; fi
-#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
 #             ^^^^^^^^^^^^^^^^ meta.group.shell
 #  ^^ support.function.double-brace.begin.shell
 #          ^^ keyword.operator.logical.shell
@@ -2627,15 +2640,17 @@ if (ruby extconf.rb &&
 fi
 
 if [ "$1" != "" -a "$2" != "" ]; then
-# <- keyword.control.conditional.if
-#  ^ support.function.test.begin
-#         ^^ meta.function-call.arguments keyword.operator.comparison
-#               ^ meta.function-call.arguments variable.parameter punctuation.definition.parameter
-#                ^ meta.function-call.arguments variable.parameter
-#                       ^^ meta.function-call.arguments keyword.operator.comparison
-#                             ^ meta.function-call.arguments support.function.test.end
-#                              ^ keyword.operator.logical.continue
-#                                ^^^^ keyword.control.conditional.then
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^ keyword.control.conditional.if.shell
+# <- keyword.control.conditional.if.shell
+#  ^ support.function.test.begin.shell
+#         ^^ keyword.operator.comparison.shell
+#               ^^ meta.conditional.shell variable.parameter.option.shell
+#                   ^^ variable.other.readwrite.shell
+#                       ^^ keyword.operator.comparison.shell
+#                             ^ support.function.test.end.shell
+#                              ^ keyword.operator.logical.continue.shell
+#                                ^^^^ keyword.control.conditional.then.shell
     local DIR=$1
     # <- storage.modifier
     #     ^^^ variable.other.readwrite
@@ -3532,10 +3547,10 @@ EOF
 #         ^ - punctuation
 #          ^ punctuation.section.compound.begin.shell
 #            ^^ support.function.double-brace.begin
-#               ^ meta.function-call.arguments punctuation.definition.variable
-#                ^ meta.function-call.arguments variable.language
-#                  ^^ meta.function-call.arguments keyword.operator.comparison
-#                       ^^ meta.function-call.arguments support.function.double-brace.end
+#               ^ punctuation.definition.variable
+#                ^ variable.language
+#                  ^^ keyword.operator.comparison
+#                       ^^ support.function.double-brace.end
 #                          ^^ keyword.operator.logical.and
 
 logExit ( ) {
@@ -3551,19 +3566,22 @@ logExit ( ) {
 #         ^ punctuation.section.parameters.end.shell
 #           ^ punctuation.section.compound.begin.shell
   [[ $1 == '0' ]] && tput setaf 2  || tput setaf 1;
-  # <- meta.function support.function.double-brace.begin
-  #            ^^ meta.function meta.function-call.arguments support.function.double-brace.end
+  #<- meta.conditional.shell support.function.double-brace.begin.shell
+  #^ meta.conditional.shell support.function.double-brace.begin.shell
+  #            ^^ meta.conditional.shell support.function.double-brace.end.shell
   [[ $1 == '0' ]] && echo -e "$2 PASSED" || echo -e "$2 FAILED";
-  # <- meta.function support.function.double-brace.begin
-  #            ^^ meta.function meta.function-call.arguments support.function.double-brace.end
+  #<- meta.conditional.shell support.function.double-brace.begin.shell
+  #^ meta.conditional.shell support.function.double-brace.begin.shell
+  #            ^^ meta.conditional.shell support.function.double-brace.end.shell
   #               ^^ meta.function keyword.operator.logical.and
   #                  ^^^^ meta.function meta.function-call support.function.echo
   tput setaf 15;
   # <- meta.function meta.function-call variable.function
   #            ^ meta.function keyword.operator.logical.continue
   [[ $1 == '0' ]] || exit -1
-  # <- meta.function support.function.double-brace.begin
-  #            ^^ meta.function meta.function-call.arguments support.function.double-brace.end
+  #<- meta.conditional.shell support.function.double-brace.begin.shell
+  #^ meta.conditional.shell support.function.double-brace.begin.shell
+  #            ^^ meta.conditional.shell support.function.double-brace.end.shell
   #               ^^ meta.function keyword.operator.logical.or
   #                  ^^^^ meta.function keyword.control.flow.exit.shell
   #                       ^ keyword.operator.arithmetic.shell

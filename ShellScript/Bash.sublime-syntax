@@ -565,7 +565,7 @@ contexts:
     - match: \[\[(?=\s)
       scope: support.function.double-brace.begin.shell
       push:
-        - meta_scope: meta.function-call.arguments.shell
+        - meta_scope: meta.conditional.shell
         - match: \s+(\]\])
           captures:
             1: support.function.double-brace.end.shell
@@ -574,7 +574,7 @@ contexts:
     - match: \[(?=\s)
       scope: support.function.test.begin.shell
       push:
-        - meta_scope: meta.function-call.arguments.shell
+        - meta_scope: meta.conditional.shell
         - match: \s+(\])
           captures:
             1: support.function.test.end.shell
