@@ -111,8 +111,8 @@ contexts:
     - include: cmd-other
 
   statement:
-    - include: eol-pop
     - include: statements
+    - include: eol-pop
 
 ###[ PROTOTYPES ]##############################################################
 
