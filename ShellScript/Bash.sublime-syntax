@@ -176,7 +176,7 @@ contexts:
       pop: 1
     - include: line-continuations
 
-###[ FUNCTIONS ]###############################################################
+###[ FUNCTION DEFINITIONS ]####################################################
 
   funcdef:
     # [Bash] 3.3 Shell Functions
@@ -247,7 +247,7 @@ contexts:
     - include: else-pop
     - include: eol-pop
 
-###[ VARDEFS ]#################################################################
+###[ VARIABLE DEFINITIONS ]####################################################
 
   vardef:
     - match: alias{{cmd_break}}
@@ -507,7 +507,7 @@ contexts:
     - include: numbers
     - include: expansions-and-strings
 
-###[ UNSET BUILTIN ]###########################################################
+###[ UNSET BUILTINS ]##########################################################
 
   cmd-unset:
     - match: unset{{cmd_break}}
