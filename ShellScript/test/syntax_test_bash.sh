@@ -2081,6 +2081,30 @@ coproc foobar {
 #                    ^ meta.number.value.shell constant.numeric.integer.decimal.shell
 #                     ^ - meta.number - constant
 
+(( -0 -1 -2 -3 -4 -5 -6 -7 -8 -9))
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.arithmetic.shell
+# ^^ - meta.number - constant
+#   ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#    ^^ - meta.number - constant
+#      ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#       ^^ - meta.number - constant
+#         ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#          ^^ - meta.number - constant
+#            ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#             ^^ - meta.number - constant
+#               ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#                ^^ - meta.number - constant
+#                  ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#                   ^^ - meta.number - constant
+#                     ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#                      ^^ - meta.number - constant
+#                        ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#                         ^^ - meta.number - constant
+#                           ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#                            ^^ - meta.number - constant
+#                              ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#                               ^ - meta.number - constant
+
 (( 012345670802 ))
 #^^^^^^^^^^^^^^^^^ meta.arithmetic.shell
 #  ^ meta.number.base.shell constant.numeric.integer.octal.shell

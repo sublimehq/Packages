@@ -762,8 +762,8 @@ contexts:
       pop: 1
 
   flow-args:
+    - include: number
     - include: cmd-args-boilerplate
-    - include: expression
 
   for-args:
     - include: cmd-args-boilerplate
@@ -1076,12 +1076,12 @@ contexts:
 
   numbers:
     # A leading ‘0x’ or ‘0X’ denotes hexadecimal.
-    - match: (\b0[xX])(\h*)
+    - match: \b(0[xX])(\h*)
       captures:
         1: meta.number.base.shell constant.numeric.integer.hexadecimal.shell
         2: meta.number.value.shell constant.numeric.integer.hexadecimal.shell
     # Constants with a leading 0 are interpreted as octal numbers.
-    - match: (\b0)([0-7]+)
+    - match: \b(0)([0-7]+)
       captures:
         1: meta.number.base.shell constant.numeric.integer.octal.shell
         2: meta.number.value.shell constant.numeric.integer.octal.shell
@@ -1097,6 +1097,31 @@ contexts:
     # If base# is omitted, then base 10 is used.
     - match: \b\d+
       scope: meta.number.value.shell constant.numeric.integer.decimal.shell
+
+  number:
+    - match: ([-+]?)(0[xX])(\h*)\w*
+      captures:
+        1: keyword.operator.arithmetic.shell
+        2: meta.number.base.shell constant.numeric.integer.hexadecimal.shell
+        3: meta.number.value.shell constant.numeric.integer.hexadecimal.shell
+      pop: 1
+    - match: ([-+]?)(0)([0-7]+)\w*
+      captures:
+        1: keyword.operator.arithmetic.shell
+        2: meta.number.base.shell constant.numeric.integer.octal.shell
+        3: meta.number.value.shell constant.numeric.integer.octal.shell
+      pop: 1
+    - match: ([-+]?)(\d+#)([a-zA-Z0-9@_]+)
+      captures:
+        1: keyword.operator.arithmetic.shell
+        2: meta.number.base.shell constant.numeric.integer.other.shell
+        3: meta.number.value.shell constant.numeric.integer.other.shell
+    # If base# is omitted, then base 10 is used.
+    - match: ([-+]?)(\d+)\b
+      captures:
+        1: keyword.operator.arithmetic.shell
+        2: meta.number.value.shell constant.numeric.integer.decimal.shell
+      pop: 1
 
 ###[ OPERATORS ]###############################################################
 
