@@ -441,6 +441,72 @@ contexts:
     - include: line-continuations
     - include: immediately-pop
 
+###[ TEST BUILTINS ]###########################################################
+
+  cmd-test:
+    - match: \[\[(?=\s)
+      scope: support.function.double-brace.begin.shell
+      push:
+        - meta_scope: meta.conditional.shell
+        - match: \s+(\]\])
+          captures:
+            1: support.function.double-brace.end.shell
+          pop: 1
+        - include: cmd-test-body
+    - match: \[(?=\s)
+      scope: support.function.test.begin.shell
+      push:
+        - meta_scope: meta.conditional.shell
+        - match: \s+(\])
+          captures:
+            1: support.function.test.end.shell
+          pop: 1
+        - include: cmd-test-body
+    - match: test{{cmd_break}}
+      scope:
+        meta.function-call.identifier.shell
+        support.function.test.shell
+      push: cmd-test-args
+
+  cmd-test-args:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: cmd-args-boilerplate
+    - include: cmd-test-body
+
+  cmd-test-body:
+    - match: \(
+      scope: punctuation.section.group.begin.shell
+      push:
+        - meta_scope: meta.group.shell
+        - match: \)
+          scope: punctuation.section.group.end.shell
+          pop: 1
+        - include: cmd-test-body
+    - match: ([-+])[aobcdefghknoprstuvwxzGLNORS]{{opt_break}}
+      scope: variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+    - match: ([-+])(?:ef|nt|ot|eq|ne|lt|le|gt|ge){{opt_break}}
+      scope: variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+    - match: (=~)\s*
+      captures:
+        1: keyword.operator.logical.shell
+      push:
+        - meta_content_scope: meta.regexp.shell
+        - match: (?=\s)
+          pop: 1
+        - include: expansions-and-strings
+    - match: '<=?|>=?|[=!]='
+      scope: keyword.operator.comparison.shell
+    - match: '&&|\|\||!'
+      scope: keyword.operator.logical.shell
+    - match: '='
+      scope: keyword.operator.assignment.shell
+    - include: numbers
+    - include: expansions-and-strings
+
 ###[ UNSET BUILTIN ]###########################################################
 
   cmd-unset:
@@ -549,36 +615,6 @@ contexts:
   cmd-compound-args:
     - meta_content_scope: meta.compound.arguments.shell
     - include: cmd-args
-
-  cmd-test:
-    - match: \[\[(?=\s)
-      scope: support.function.double-brace.begin.shell
-      push:
-        - meta_scope: meta.conditional.shell
-        - match: \s+(\]\])
-          captures:
-            1: support.function.double-brace.end.shell
-          pop: 1
-        - include: expression-test
-    - match: \[(?=\s)
-      scope: support.function.test.begin.shell
-      push:
-        - meta_scope: meta.conditional.shell
-        - match: \s+(\])
-          captures:
-            1: support.function.test.end.shell
-          pop: 1
-        - include: expression-test
-    - match: test{{cmd_break}}
-      scope:
-        meta.function-call.identifier.shell
-        support.function.test.shell
-      push: cmd-test-args
-
-  cmd-test-args:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: cmd-args-boilerplate
-    - include: expression-test
 
   cmd-other:
     - match: '{{cmd_begin}}'
@@ -1024,40 +1060,6 @@ contexts:
     - include: expansions-parameter
     - include: expansions-arithmetic
     - include: expansions-command
-
-  expression-test:
-    - match: \(
-      scope: punctuation.section.group.begin.shell
-      push:
-        - meta_scope: meta.group.shell
-        - match: \)
-          scope: punctuation.section.group.end.shell
-          pop: 1
-        - include: expression-test
-    - match: ([-+])[aobcdefghknoprstuvwxzGLNORS]{{opt_break}}
-      scope: variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
-    - match: ([-+])(?:ef|nt|ot|eq|ne|lt|le|gt|ge){{opt_break}}
-      scope: variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
-    - match: (=~)\s*
-      captures:
-        1: keyword.operator.logical.shell
-      push:
-        - meta_content_scope: meta.regexp.shell
-        - match: (?=\s)
-          pop: 1
-        - include: expansions-and-strings
-    - match: '<=?|>=?|[=!]='
-      scope: keyword.operator.comparison.shell
-    - match: '&&|\|\||!'
-      scope: keyword.operator.logical.shell
-    - match: '='
-      scope: keyword.operator.assignment.shell
-    - include: numbers
-    - include: expansions-and-strings
 
   numbers:
     # A leading ‘0x’ or ‘0X’ denotes hexadecimal.
