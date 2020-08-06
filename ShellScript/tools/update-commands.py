@@ -38,7 +38,7 @@ def main():
         short_options = value.get("short-options")
         short_options_compact = value.get("short-options-compact")
         if short_options_compact and short_options:
-            opts = f"(?:[{short_options}]|[{short_options_compact}]+[{short_options}]?)"
+            opts = f"(?:[{short_options_compact}]+[{short_options}]?|[{short_options}])"
         elif short_options_compact:
             opts = f"[{short_options_compact}]+"
         elif short_options:
@@ -49,18 +49,20 @@ def main():
             short_option_prefixes = value.get("short-option-prefixes")
             if short_option_prefixes:
                 cmd_args.append({
-                    "match": rf"(?:\s+|^)(({'|'.join(short_option_prefixes)}){opts}){{{{opt_break}}}}",
+                    "match": rf"(?:\s+|^)(({'|'.join(short_option_prefixes)}){opts})(\d*)",
                     "captures": {
                         1: "variable.parameter.option.shell",
-                        2: "punctuation.definition.parameter.shell"
+                        2: "punctuation.definition.parameter.shell",
+                        3: "meta.number.value.shell constant.numeric.integer.decimal.shell"
                     }
                 })
             else:
                 cmd_args.append({
-                    "match": rf"(?:\s+|^)(([-+]){opts}){{{{opt_break}}}}",
+                    "match": rf"(?:\s+|^)(([-+]){opts})(\d*)",
                     "captures": {
                         1: "variable.parameter.option.shell",
-                        2: "punctuation.definition.parameter.shell"
+                        2: "punctuation.definition.parameter.shell",
+                        3: "meta.number.value.shell constant.numeric.integer.decimal.shell"
                     }
                 })
 

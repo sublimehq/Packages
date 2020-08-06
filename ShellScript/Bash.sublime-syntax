@@ -355,28 +355,28 @@ contexts:
     - include: immediately-pop
 
   vardef-alias-options:
-    - match: ([-+])p{{opt_break}}
+    - match: ([-+])p
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
     - include: vardef-end-of-options
 
   vardef-declare-options:
-    - match: ([-+])(?:[aAfFgilnrtux]+|p){{opt_break}}
+    - match: ([-+])(?:[aAfFgilnrtux]+|p)
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
     - include: vardef-end-of-options
 
   vardef-export-options:
-    - match: ([-+])(?:[fn]+|p){{opt_break}}
+    - match: ([-+])(?:[fn]+|p)
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
     - include: vardef-end-of-options
 
   vardef-readonly-options:
-    - match: ([-+])(?:[aAf]+|p){{opt_break}}
+    - match: ([-+])(?:[aAf]+|p)
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
@@ -457,7 +457,7 @@ contexts:
     - include: immediately-pop
 
   cmd-unset-args:
-    - match: ([-+])(?:[nv]?f[nv]?){{opt_break}}
+    - match: ([-+])(?:[nv]?f[nv]?)
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
@@ -465,7 +465,7 @@ contexts:
     - include: cmd-unset-options-then-variables
 
   cmd-unset-options:
-    - match: ([-+])(?:[nv]+){{opt_break}}
+    - match: ([-+])(?:[nv]+)
       scope: variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
@@ -613,6 +613,7 @@ contexts:
     # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
     - include: expansion-and-string
     - include: redirection
+    - include: numbers
     - include: eol-pop
     - match: (?=[)}]|\s*([|;]|&(?!>)))
       pop: 1

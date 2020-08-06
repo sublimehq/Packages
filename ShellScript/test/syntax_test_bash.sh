@@ -317,7 +317,9 @@ set +Euo pipefail
 #   ^ variable.parameter.option punctuation
 #    ^^^ variable.parameter.option - punctuation
 set +Eou pipefail
-#   ^^^^ - variable.parameter.option - punctuation
+#   ^ variable.parameter.option punctuation
+#    ^^ variable.parameter.option - punctuation
+#      ^ - variable.parameter.option - punctuation
 set -e -- -o {string}
 #   ^^ variable.parameter.option
 #     ^ - variable - keyword
@@ -326,7 +328,22 @@ set -e -- -o {string}
 #         ^^ - variable.parameter.option
 #            ^^^^^^^^ meta.interpolation.brace.shell
 
+read -d '' -sn 1 -t1 -- -t1 10
+#^^^ meta.function-call.identifier.shell support.function.read.shell
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#    ^^ variable.parameter.option.shell
+#       ^^ string.quoted.single.shell
+#          ^^^ variable.parameter.option.shell
+#              ^ constant.numeric.integer.decimal.shell
+#                ^^ variable.parameter.option.shell
+#                  ^ constant.numeric.integer.decimal.shell
+#                    ^^ keyword.operator.end-of-options.shell
+#                       ^^^^^^ - constant - variable
+
 shift 2 -- 
+#^^^^ meta.function-call.identifier.shell support.function.shift.shell
+#    ^^^^^^ meta.function-call.arguments.shell
+#     ^ constant.numeric.integer.decimal.shell
 #       ^^ - keyword
 
 echo +e "Hello"
