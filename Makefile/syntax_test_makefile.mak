@@ -710,8 +710,8 @@ else ifeq ($(shell svn info >/dev/null && echo USING_SVN),USING_SVN)
   # context in the with_prototype override so that we can account for this.
   # This does mean that the shell syntax looks a tiny bit different.
   VCSTURD := $(addsuffix /.svn/entries, $(shell svn info | grep 'Root Path' | sed -e 's/\(.*\:\)\(.*\) /\2/'))
-  #                                                                                  ^ string.quoted.single.makefile punctuation.definition.string.begin.makefile
-  #                                                                                                        ^ string.quoted.single.makefile punctuation.definition.string.end.makefile
+  #                                                                                  ^ string.quoted.single.shell punctuation.definition.string.begin.shell
+  #                                                                                                        ^ string.quoted.single.shell punctuation.definition.string.end.shell
 endif
 # <- keyword.control
 
@@ -868,8 +868,8 @@ $(call show_config_variable,CC_VERSION,[COMPUTED],($(CC_NAME)))
 
 LIBRARIES := $(filter $(notdir $(wildcard $(HOME)/energia_sketchbook/libraries/*)), \
     $(shell sed -ne "s/^ *\# *include *[<\"]\(.*\)\.h[>\"]/\1/p" $(SOURCES)))
-    #               ^ string.quoted.double.makefile punctuation.definition.string.begin.makefile
-    #                                                          ^ string.quoted.double.makefile punctuation.definition.string.end.makefile
+    #               ^ string.quoted.double.shell punctuation.definition.string.begin.shell
+    #                                                          ^ string.quoted.double.shell punctuation.definition.string.end.shell
 
 # FIX: https://github.com/sublimehq/Packages/issues/1941
 escape_shellstring = $(subst `,\`,$(subst ",\",$(subst $$,\$$,$(subst \,\\,$1))))
@@ -938,3 +938,17 @@ TESTTOOL = sh -c '\
 #    ^^^^^^^^^ meta.string.makefile string.unquoted.makefile - meta.interpolation
 # ^^ source.shell.embedded keyword.control.conditional.end.shell - source.shell source.shell
 #   ^ punctuation.section.interpolation.end.makefile
+
+
+# Fix https://github.com/sublimehq/Packages/issues/2388
+html:
+    $(PELICAN) $(INPUTDIR) -o $(OUTPUTDIR) -s $(CONFFILE) $(PELICANOPTS)
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.body.makefile source.shell.embedded.makefile - source.shell source.shell
+#   ^^^^^^^^^^ meta.function-call.identifier.shell
+#             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#              ^^^^^^^^^^^ variable.parameter.makefile
+#                          ^^ variable.parameter.option.shell
+#                             ^^^^^^^^^^^ variable.parameter.makefile
+#                                          ^^ variable.parameter.option.shell
+#                                             ^^^^^^^^^^^ variable.parameter.makefile
+#                                                         ^^^^^^^^^^^^^^ variable.parameter.makefile

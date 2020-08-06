@@ -91,9 +91,8 @@ variables:
 
 contexts:
   main:
-    # - match: ''
-    #   push: [statements, shebang]
-    - include: statements
+    - match: ''
+      push: [statements, shebang]
 
   statements:
     - include: comments
