@@ -592,7 +592,7 @@ contexts:
   cmd-arithmetic-args:
     - meta_content_scope: meta.function-call.arguments.shell
     - include: cmd-args-boilerplate-with-end-of-options
-    - include: expression
+    - include: expressions
 
   cmd-compound:
     - match: \(
@@ -1008,7 +1008,7 @@ contexts:
           pop: 1
         - match: '[*@]'
           scope: variable.language.array.shell
-        - include: expression
+        - include: expressions
 
   arithmetic:
     - match: \(\((?=.+\)\))
@@ -1018,9 +1018,9 @@ contexts:
         - match: \)\)
           scope: punctuation.section.arithmetic.end.shell
           pop: 1
-        - include: expression
+        - include: expressions
 
-  expression:
+  expressions:
     - match: \(
       scope: punctuation.section.group.begin.shell
       push:
@@ -1028,7 +1028,7 @@ contexts:
         - match: \)
           scope: punctuation.section.group.end.shell
           pop: 1
-        - include: expression
+        - include: expressions
     # multi char operators
     - match: '[-+*/%&|^]=|<<=|>>='
       scope: keyword.operator.assignment.augmented.shell
@@ -1175,7 +1175,7 @@ contexts:
         - match: \)\)
           scope: punctuation.section.interpolation.end.shell
           pop: 1
-        - include: expression
+        - include: expressions
 
   expansions-brace:
     - match: \{
@@ -1298,9 +1298,9 @@ contexts:
         - match: ":"
           scope: keyword.operator.substring.end.shell
           set:
-            - include: expression
+            - include: expressions
             - include: expansions-parameter-common
-        - include: expression
+        - include: expressions
         - include: expansions-parameter-common
     - match: \#(?=})
     - match: ([@*])?(\#\#?|%%?|\^\^?|,,?)
