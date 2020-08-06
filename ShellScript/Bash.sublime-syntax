@@ -98,7 +98,7 @@ contexts:
     - include: line-continuations
     - include: operator-exclamation
     - include: operator-logical
-    - include: redirection
+    - include: redirections
     - include: cmd-arithmetic
     - include: cmd-compound
     - include: cmd-test
@@ -243,7 +243,7 @@ contexts:
 
   funcdef-redirection:
     - meta_content_scope: meta.function.shell
-    - include: redirection
+    - include: redirections
     - include: else-pop
     - include: eol-pop
 
@@ -658,7 +658,7 @@ contexts:
   cmd-args-boilerplate:
     # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
     - include: expansions-and-strings
-    - include: redirection
+    - include: redirections
     - include: numbers
     - include: eol-pop
     - match: (?=[)}]|\s*([|;]|&(?!>)))
@@ -674,7 +674,7 @@ contexts:
 
   cmd-args-after-options:
     - include: expansions-and-strings
-    - include: redirection
+    - include: redirections
     - include: eol-pop2
     - match: (?=[)};&|])
       pop: 2
@@ -810,15 +810,15 @@ contexts:
 
 ###[ REDIRECTIONS AND HEREDOCS ]###############################################
 
-  redirection:
-    - include: redirection-here-string
-    - include: redirection-here-document
-    - include: redirection-process
-    - include: redirection-input
-    - include: redirection-output
-    - include: redirection-inout
+  redirections:
+    - include: redirections-here-string
+    - include: redirections-here-document
+    - include: redirections-process
+    - include: redirections-input
+    - include: redirections-output
+    - include: redirections-inout
 
-  redirection-process:
+  redirections-process:
     - match: (\d*)([<>])(\()
       captures:
         1: constant.numeric.integer.decimal.file-descriptor.shell
@@ -834,21 +834,21 @@ contexts:
           pop: 1
         - include: statements
 
-  redirection-output:
+  redirections-output:
     - match: (\d*)(>>!?|>&?|&>|&?>[|>])
       captures:
         1: constant.numeric.integer.decimal.file-descriptor.shell
         2: keyword.operator.assignment.redirection.shell
-      push: redirection-post
+      push: redirections-post
 
-  redirection-input:
+  redirections-input:
     - match: (\d*)(<&?)
       captures:
         1: constant.numeric.integer.decimal.file-descriptor.shell
         2: keyword.operator.assignment.redirection.shell
-      push: redirection-post
+      push: redirections-post
 
-  redirection-post:
+  redirections-post:
     - match: \s*(?:(\d+)|(-))
       captures:
         1: constant.numeric.integer.decimal.file-descriptor.shell
@@ -862,19 +862,19 @@ contexts:
     - match: \s*
       pop: 1
 
-  redirection-inout:
+  redirections-inout:
     - match: (\d*)(<>)
       captures:
         1: constant.numeric.integer.decimal.file-descriptor.shell
         2: keyword.operator.assignment.redirection.shell
 
-  redirection-here-string:
+  redirections-here-string:
     - match: (\d*)(<<<)\s*{{nonposix_begin}}
       captures:
         1: constant.numeric.integer.decimal.file-descriptor.shell
         2: keyword.operator.herestring.shell
 
-  redirection-here-document:
+  redirections-here-document:
     # These are the variants that allow tabs before the end token
     - match: (\d*)(<<-)\s*(')({{identifier}})(')
       captures:
@@ -939,24 +939,24 @@ contexts:
   heredocs-body:
     - meta_scope: meta.string.shell string.unquoted.heredoc.shell
     - include: heredocs-body-common-with-expansion
-    - match: ^\3(\s+)\n # the third capture from redirection-here-document
+    - match: ^\3(\s+)\n # the third capture from redirections-here-document
       captures:
         1: invalid.illegal.no-spaces-allowed-after-heredoc-token.shell
       # rather not pop, but sublime throws an error otherwise.
       pop: 1
-    - match: ^\3$ # the third capture from redirection-here-document
+    - match: ^\3$ # the third capture from redirections-here-document
       scope: keyword.control.heredoc-token.shell
       pop: 1
 
   heredocs-body-allow-tabs:
     - meta_scope: meta.string.shell string.unquoted.heredoc.shell
     - include: heredocs-body-common-with-expansion
-    - match: ^\s*\3(\s+)\n # the third capture from redirection-here-document
+    - match: ^\s*\3(\s+)\n # the third capture from redirections-here-document
       captures:
         1: invalid.illegal.no-spaces-allowed-after-heredoc-token.shell
       # rather not pop, but sublime throws an error otherwise.
       pop: 1
-    - match: ^\s*(\3)$ # the third capture from redirection-here-document
+    - match: ^\s*(\3)$ # the third capture from redirections-here-document
       captures:
         1: keyword.control.heredoc-token.shell
       pop: 1
@@ -971,23 +971,23 @@ contexts:
 
   heredocs-body-no-expansion:
     - meta_scope: meta.string.shell string.unquoted.heredoc.shell
-    - match: ^\4(\s+)\n # the fourth capture from redirection-here-document
+    - match: ^\4(\s+)\n # the fourth capture from redirections-here-document
       captures:
         1: invalid.illegal.no-spaces-allowed-after-heredoc-token.shell
       # rather not pop, but sublime throws an error otherwise.
       pop: 1
-    - match: ^\4$ # the fourth capture from redirection-here-document
+    - match: ^\4$ # the fourth capture from redirections-here-document
       scope: keyword.control.heredoc-token.shell
       pop: 1
 
   heredocs-body-allow-tabs-no-expansion:
     - meta_scope: meta.string.shell string.unquoted.heredoc.shell
-    - match: ^\s*\4(\s+)\n # the fourth capture from redirection-here-document
+    - match: ^\s*\4(\s+)\n # the fourth capture from redirections-here-document
       captures:
         1: invalid.illegal.no-spaces-allowed-after-heredoc-token.shell
       # rather not pop, but sublime throws an error otherwise.
       pop: 1
-    - match: ^\s*(\4)$ # the fourth capture from redirection-here-document
+    - match: ^\s*(\4)$ # the fourth capture from redirections-here-document
       captures:
         1: keyword.control.heredoc-token.shell
       pop: 1
