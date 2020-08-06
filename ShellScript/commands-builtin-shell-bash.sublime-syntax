@@ -14,122 +14,122 @@ contexts:
   cmd-builtins:
   - match: bind{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.bind.shell
-    push: cmd-args-bind
+    push: cmd-bind-args
   - match: builtin{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.builtin.shell
-    push: cmd-args-builtin
+    push: cmd-builtin-args
   - match: caller{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.caller.shell
-    push: cmd-args-caller
+    push: cmd-caller-args
   - match: :{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.colon.shell
-    push: cmd-args-colon
+    push: cmd-colon-args
   - match: command{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.command.shell
-    push: cmd-args-command
+    push: cmd-command-args
   - match: cd{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.cd.shell
-    push: cmd-args-cd
+    push: cmd-cd-args
   - match: \.{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.dot.shell
-    push: cmd-args-dot
+    push: cmd-dot-args
   - match: enable{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.enable.shell
-    push: cmd-args-enable
+    push: cmd-enable-args
   - match: help{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.help.shell
-    push: cmd-args-help
+    push: cmd-help-args
   - match: logout{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.logout.shell
-    push: cmd-args-logout
+    push: cmd-logout-args
   - match: mapfile{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.mapfile.shell
-    push: cmd-args-mapfile
+    push: cmd-mapfile-args
   - match: printf{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.printf.shell
-    push: cmd-args-printf
+    push: cmd-printf-args
   - match: read{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.read.shell
-    push: cmd-args-read
+    push: cmd-read-args
   - match: readarray{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.readarray.shell
-    push: cmd-args-readarray
+    push: cmd-readarray-args
   - match: source{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.source.shell
-    push: cmd-args-source
+    push: cmd-source-args
   - match: type{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.type.shell
-    push: cmd-args-type
+    push: cmd-type-args
   - match: ulimit{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.ulimit.shell
-    push: cmd-args-ulimit
+    push: cmd-ulimit-args
   - match: unalias{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.unalias.shell
-    push: cmd-args-unalias
+    push: cmd-unalias-args
   - match: eval{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.eval.shell
-    push: cmd-args-eval
+    push: cmd-eval-args
   - match: exec{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.exec.shell
-    push: cmd-args-exec
+    push: cmd-exec-args
   - match: getopts{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.getopts.shell
-    push: cmd-args-getopts
+    push: cmd-getopts-args
   - match: hash{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.hash.shell
-    push: cmd-args-hash
+    push: cmd-hash-args
   - match: pwd{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.pwd.shell
-    push: cmd-args-pwd
+    push: cmd-pwd-args
   - match: shift{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.shift.shell
-    push: cmd-args-shift
+    push: cmd-shift-args
   - match: times{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.times.shell
-    push: cmd-args-times
+    push: cmd-times-args
   - match: trap{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.trap.shell
-    push: cmd-args-trap
+    push: cmd-trap-args
   - match: umask{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.umask.shell
-    push: cmd-args-umask
+    push: cmd-umask-args
   - match: echo{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.echo.shell
-    push: cmd-args-echo
+    push: cmd-echo-args
   - match: set{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.set.shell
-    push: cmd-args-set
+    push: cmd-set-args
   - match: shopt{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.shopt.shell
-    push: cmd-args-shopt
+    push: cmd-shopt-args
   - match: bg{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.bg.shell
-    push: cmd-args-bg
+    push: cmd-bg-args
   - match: fg{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.fg.shell
-    push: cmd-args-fg
+    push: cmd-fg-args
   - match: jobs{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.jobs.shell
-    push: cmd-args-jobs
+    push: cmd-jobs-args
   - match: kill{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.kill.shell
-    push: cmd-args-kill
+    push: cmd-kill-args
   - match: wait{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.wait.shell
-    push: cmd-args-wait
+    push: cmd-wait-args
   - match: disown{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.disown.shell
-    push: cmd-args-disown
+    push: cmd-disown-args
   - match: suspend{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.suspend.shell
-    push: cmd-args-suspend
+    push: cmd-suspend-args
   - match: su{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.su.shell
-    push: cmd-args-su
+    push: cmd-su-args
   - match: sudo{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.sudo.shell
-    push: cmd-args-sudo
-  cmd-args-bind:
+    push: cmd-sudo-args
+  cmd-bind-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])(?:[lpsvPSVX]+[mqurfx]?|[mqurfx]))(\d*)
@@ -137,16 +137,16 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-builtin:
+  cmd-builtin-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  cmd-args-caller:
+  cmd-caller-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  cmd-args-colon:
+  cmd-colon-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate
-  cmd-args-command:
+  cmd-command-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])[pVv]+)(\d*)
@@ -154,7 +154,7 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-cd:
+  cmd-cd-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])[LPe@])(\d*)
@@ -162,10 +162,10 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-dot:
+  cmd-dot-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate
-  cmd-args-enable:
+  cmd-enable-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])(?:[dnps]+[af]?|[af]))(\d*)
@@ -173,7 +173,7 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-help:
+  cmd-help-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])[dms]+)(\d*)
@@ -181,10 +181,10 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-logout:
+  cmd-logout-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  cmd-args-mapfile:
+  cmd-mapfile-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])[dnOstuCc])(\d*)
@@ -192,7 +192,7 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-printf:
+  cmd-printf-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])[v])(\d*)
@@ -200,7 +200,7 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-read:
+  cmd-read-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])(?:[ers]+[adeinNprstu]?|[adeinNprstu]))(\d*)
@@ -208,7 +208,7 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-readarray:
+  cmd-readarray-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])(?:[ers]+[adeinNprstu]?|[adeinNprstu]))(\d*)
@@ -216,10 +216,10 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-source:
+  cmd-source-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  cmd-args-type:
+  cmd-type-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])[afptP]+)(\d*)
@@ -227,7 +227,7 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-ulimit:
+  cmd-ulimit-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])[HSabcdefiklmnpqrstuvxPT]+)(\d*)
@@ -235,7 +235,7 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-unalias:
+  cmd-unalias-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])[a])(\d*)
@@ -243,10 +243,10 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-eval:
+  cmd-eval-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate
-  cmd-args-exec:
+  cmd-exec-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])(?:[cl]+[a]?|[a]))(\d*)
@@ -254,10 +254,10 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-getopts:
+  cmd-getopts-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  cmd-args-hash:
+  cmd-hash-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])(?:[dt]+[rpl]?|[rpl]))(\d*)
@@ -265,7 +265,7 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-pwd:
+  cmd-pwd-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])[LP]+)(\d*)
@@ -273,13 +273,13 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-shift:
+  cmd-shift-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate
-  cmd-args-times:
+  cmd-times-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  cmd-args-trap:
+  cmd-trap-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])[lp]+)(\d*)
@@ -287,7 +287,7 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-umask:
+  cmd-umask-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])[pS])(\d*)
@@ -295,7 +295,7 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-echo:
+  cmd-echo-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])[neE]+)(\d*)
@@ -303,7 +303,7 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-set:
+  cmd-set-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])(?:[abefhkmnptuvxBCEHPT]+[o]?|[o]))(\d*)
@@ -311,7 +311,7 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-shopt:
+  cmd-shopt-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])(?:[pqsu]+[o]?|[o]))(\d*)
@@ -319,13 +319,13 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-bg:
+  cmd-bg-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  cmd-args-fg:
+  cmd-fg-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
-  cmd-args-jobs:
+  cmd-jobs-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])(?:[lnprs]+[x]?|[x]))(\d*)
@@ -333,7 +333,7 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-kill:
+  cmd-kill-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])[snlL])(\d*)
@@ -341,7 +341,7 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-wait:
+  cmd-wait-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])[n])(\d*)
@@ -349,7 +349,7 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-disown:
+  cmd-disown-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])(?:[ar]+[h]?|[h]))(\d*)
@@ -357,7 +357,7 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-suspend:
+  cmd-suspend-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])[f])(\d*)
@@ -365,7 +365,7 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-su:
+  cmd-su-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)(([-+])(?:[mp]+[-cls]?|[-cls]))(\d*)
@@ -373,7 +373,7 @@ contexts:
       1: variable.parameter.option.shell
       2: punctuation.definition.parameter.shell
       3: meta.number.value.shell constant.numeric.integer.decimal.shell
-  cmd-args-sudo:
+  cmd-sudo-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
   - match: (?:\s+|^)((--)(?:prompt|class|auth_type|role|type|username|\#uid)){{opt_break}}
