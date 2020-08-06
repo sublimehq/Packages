@@ -804,7 +804,6 @@ contexts:
 
   select-args:
     - include: cmd-args-boilerplate
-    - include: expansions-and-strings
     - match: in{{cmd_break}}
       scope: keyword.control.in.shell
 
