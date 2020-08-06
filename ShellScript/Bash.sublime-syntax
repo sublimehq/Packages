@@ -247,7 +247,7 @@ contexts:
     - match: '{{cmd_literal_char}}+'
       scope: entity.name.function.shell
     - include: variable-expansions
-    - include: expansion-job
+    - include: expansions-job
     - include: immediately-pop
 
   funcdef-params:
@@ -431,7 +431,7 @@ contexts:
             - match: \]
               scope: punctuation.section.brackets.end.shell
               set: vardef-assign
-            - include: expansion-and-string
+            - include: expansions-and-strings
             - include: comments
         - include: comments
         - match: (?=\S)
@@ -590,7 +590,7 @@ contexts:
     - match: '{{cmd_literal_char}}+'
       scope: variable.function.shell
     - include: variable-expansions
-    - include: expansion-job
+    - include: expansions-job
     - include: immediately-pop
 
   cmd-args:
@@ -607,11 +607,11 @@ contexts:
           pop: 1
         - match: '{{opt_break}}'
           pop: 1
-        - include: expansion-and-string
+        - include: expansions-and-strings
 
   cmd-args-boilerplate:
     # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
-    - include: expansion-and-string
+    - include: expansions-and-strings
     - include: redirection
     - include: numbers
     - include: eol-pop
@@ -627,7 +627,7 @@ contexts:
     - include: cmd-args-boilerplate
 
   cmd-args-after-options:
-    - include: expansion-and-string
+    - include: expansions-and-strings
     - include: redirection
     - include: eol-pop2
     - match: (?=[)};&|])
@@ -687,7 +687,7 @@ contexts:
       pop: 1
     - include: comments
     - include: case-end-ahead
-    - include: expansion-and-string
+    - include: expansions-and-strings
 
   case-body:
     - meta_scope: meta.conditional.case.shell
@@ -725,7 +725,7 @@ contexts:
       scope: keyword.operator.logical.shell
     - include: case-end-ahead
     - include: variable-expansions
-    - include: expansion-pattern
+    - include: expansions-pattern
     - include: eol-pop
 
   case-clause-commands:
@@ -758,7 +758,7 @@ contexts:
 
   select-args:
     - include: cmd-args-boilerplate
-    - include: expansion-and-string
+    - include: expansions-and-strings
     - match: in{{cmd_break}}
       scope: keyword.control.in.shell
 
@@ -812,7 +812,7 @@ contexts:
       set:
         - match: '{{cmd_break}}'
           pop: 1
-        - include: expansion-and-string
+        - include: expansions-and-strings
     - match: \s*
       pop: 1
 
@@ -1021,9 +1021,9 @@ contexts:
     # syntax.
     - include: numbers
     - include: strings
-    - include: expansion-parameter
-    - include: expansion-arithmetic
-    - include: expansion-command
+    - include: expansions-parameter
+    - include: expansions-arithmetic
+    - include: expansions-command
 
   expression-test:
     - match: \(
@@ -1049,7 +1049,7 @@ contexts:
         - meta_content_scope: meta.regexp.shell
         - match: (?=\s)
           pop: 1
-        - include: expansion-and-string
+        - include: expansions-and-strings
     - match: '<=?|>=?|[=!]='
       scope: keyword.operator.comparison.shell
     - match: '&&|\|\||!'
@@ -1057,7 +1057,7 @@ contexts:
     - match: '='
       scope: keyword.operator.assignment.shell
     - include: numbers
-    - include: expansion-and-string
+    - include: expansions-and-strings
 
   numbers:
     # A leading ‘0x’ or ‘0X’ denotes hexadecimal.
@@ -1147,25 +1147,25 @@ contexts:
   variable-expansions:
     - include: line-continuations
     - include: strings
-    - include: expansion-parameter
-    - include: expansion-arithmetic
-    - include: expansion-command
-    - include: expansion-tilde
+    - include: expansions-parameter
+    - include: expansions-arithmetic
+    - include: expansions-command
+    - include: expansions-tilde
 
-  expansion-and-string:
+  expansions-and-strings:
     - include: strings
-    - include: expansion
+    - include: expansions
 
-  expansion:
-    - include: expansion-pattern
-    - include: expansion-parameter
-    - include: expansion-brace
-    - include: expansion-arithmetic
-    - include: expansion-command
-    - include: expansion-tilde
-    - include: expansion-job
+  expansions:
+    - include: expansions-pattern
+    - include: expansions-parameter
+    - include: expansions-brace
+    - include: expansions-arithmetic
+    - include: expansions-command
+    - include: expansions-tilde
+    - include: expansions-job
 
-  expansion-arithmetic:
+  expansions-arithmetic:
     - match: \$\(\((?=.+\)\))
       scope: punctuation.section.interpolation.begin.shell
       push:
@@ -1175,7 +1175,7 @@ contexts:
           pop: 1
         - include: expression
 
-  expansion-brace:
+  expansions-brace:
     - match: \{
       scope: punctuation.section.interpolation.begin.shell
       push:
@@ -1185,9 +1185,9 @@ contexts:
           pop: 1
         - match: \,
           scope: punctuation.separator.sequence.shell
-        - include: expansion-and-string
+        - include: expansions-and-strings
 
-  expansion-command:
+  expansions-command:
     - match: \$\(
       scope: punctuation.section.interpolation.begin.shell
       push:
@@ -1208,7 +1208,7 @@ contexts:
         0: meta.interpolation.command.shell
            punctuation.section.interpolation.end.shell
 
-  expansion-job:
+  expansions-job:
     # There are a number of ways to refer to a job in the shell.
     # The symbols ‘%%’ and ‘%+’ refer to the shell’s notion of the current job,
     # which is the last job stopped while it was in the foreground or started in
@@ -1243,13 +1243,13 @@ contexts:
         1: punctuation.definition.variable.shell
         2: keyword.operator.regexp.quantifier.shell
 
-  expansion-parameter:
+  expansions-parameter:
     - match: \$\{
       scope: punctuation.section.interpolation.begin.shell
       push:
-        - expansion-parameter-meta
-        - expansion-parameter-post-first-char
-        - expansion-parameter-first-char
+        - expansions-parameter-meta
+        - expansions-parameter-chars
+        - expansions-parameter-first-char
     - match: (\$)[$#@!~*?_-](?!\w)
       scope:
         meta.interpolation.parameter.shell
@@ -1263,11 +1263,11 @@ contexts:
       captures:
         1: punctuation.definition.variable.shell
 
-  expansion-parameter-meta:
+  expansions-parameter-meta:
     - meta_scope: meta.interpolation.parameter.shell
     - include: immediately-pop
 
-  expansion-parameter-first-char:
+  expansions-parameter-first-char:
     - match: \!
       scope: keyword.operator.indirection.shell
       pop: 1
@@ -1276,18 +1276,18 @@ contexts:
       pop: 1
     - include: immediately-pop
 
-  expansion-parameter-post-first-char:
-    - include: expansion-parameter-common    
+  expansions-parameter-chars:
+    - include: expansions-parameter-common    
     - match: ([@*])?(/)
       captures:
         1: variable.language.shell
         2: keyword.operator.substitution.shell
       set:
-        - expansion-parameter-pattern
-        - expansion-parameter-switch
+        - expansions-parameter-pattern
+        - expansions-parameter-switch
     - match: \:?[-+=?]
       scope: keyword.operator.assignment.shell
-      set: expansion-parameter-common
+      set: expansions-parameter-common
     - match: (@)?(:)
       captures:
         1: variable.language.shell
@@ -1297,17 +1297,17 @@ contexts:
           scope: keyword.operator.substring.end.shell
           set:
             - include: expression
-            - include: expansion-parameter-common
+            - include: expansions-parameter-common
         - include: expression
-        - include: expansion-parameter-common
+        - include: expansions-parameter-common
     - match: \#(?=})
     - match: ([@*])?(\#\#?|%%?|\^\^?|,,?)
       captures:
         1: variable.language.shell
         2: keyword.operator.expansion.shell
       set:
-        - include: expansion-parameter-common
-        - include: expansion-pattern
+        - include: expansions-parameter-common
+        - include: expansions-pattern
     - match: ([@*]?)(@)([QEPAa])(?=})
       captures:
         1: variable.language.shell
@@ -1317,7 +1317,7 @@ contexts:
     - match: '[@*](?=})'
       scope: variable.language.shell
 
-  expansion-parameter-common:
+  expansions-parameter-common:
     - match: \}
       scope: punctuation.section.interpolation.end.shell
       pop: 1
@@ -1325,20 +1325,20 @@ contexts:
       scope: variable.other.readwrite.shell
     - include: variable-expansions
 
-  expansion-parameter-pattern:
+  expansions-parameter-pattern:
     - match: /
       scope: keyword.operator.substitution.shell
-      set: expansion-parameter-common
-    - include: expansion-parameter-common
-    - include: expansion-pattern
+      set: expansions-parameter-common
+    - include: expansions-parameter-common
+    - include: expansions-pattern
 
-  expansion-parameter-switch:
+  expansions-parameter-switch:
     - match: '[/#%]'
       scope: variable.parameter.switch.shell
       pop: 1
     - include: immediately-pop
 
-  expansion-pattern:
+  expansions-pattern:
     - match: ([?*+@!])(\()
       captures:
         1: keyword.operator.regexp.quantifier.shell
@@ -1353,16 +1353,16 @@ contexts:
           pop: 1
         - match: \|
           scope: keyword.operator.logical.or.shell
-        - include: expansion-and-string
+        - include: expansions-and-strings
     - match: '[*?]'
       scope: keyword.operator.regexp.quantifier.shell
     - match: \[(?=.*])
       scope: keyword.control.regexp.set.begin.shell
       push:
-        - expansion-pattern-post-first-char
-        - expansion-pattern-first-char
+        - expansions-pattern-chars
+        - expansions-pattern-first-char
 
-  expansion-pattern-first-char:
+  expansions-pattern-first-char:
     - match: '[!^]'
       scope: keyword.operator.logical.not.shell
       pop: 1
@@ -1370,7 +1370,7 @@ contexts:
       pop: 1
     - include: immediately-pop
 
-  expansion-pattern-post-first-char:
+  expansions-pattern-chars:
     - match: (?:-)?(\])
       captures:
         1: keyword.control.regexp.set.end.shell
@@ -1394,9 +1394,9 @@ contexts:
     # Except when writing a character class like [:lower:], so negative look
     # ahead for that possibility.
     - match: \[(?![\.=:])
-    - include: expansion-and-string
+    - include: expansions-and-strings
 
-  expansion-tilde:
+  expansions-tilde:
     - match: '~'
       scope: meta.interpolation.tilde.shell variable.language.tilde.shell
 
@@ -1432,7 +1432,7 @@ contexts:
         - include: string-quoted-double-body
     - include: any-escapes
     - include: line-continuations
-    - include: expansion
+    - include: expansions
     - include: immediately-pop
 
   strings:
@@ -1498,7 +1498,7 @@ contexts:
     - match: '{{is_interpolation}}'
       push:
         - clear_scopes: 1
-        - include: expansion-parameter
-        - include: expansion-arithmetic
-        - include: expansion-command
+        - include: expansions-parameter
+        - include: expansions-arithmetic
+        - include: expansions-command
         - include: immediately-pop
