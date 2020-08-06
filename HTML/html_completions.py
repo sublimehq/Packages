@@ -10,6 +10,11 @@ from functools import cached_property, wraps
 
 __all__ = ['HtmlTagCompletions']
 
+KIND_ENTITY_MARKUP = (sublime.KIND_ID_MARKUP, 'e', 'Entity')
+KIND_ENTITY_SNIPPET = (sublime.KIND_ID_SNIPPET, 'e', 'Entity')
+KIND_ATTRIBUTE_SNIPPET = (sublime.KIND_ID_SNIPPET, 'a', 'Attribute')
+KIND_TAG_MARKUP = (sublime.KIND_ID_MARKUP, 't', 'Tag')
+
 
 def timing(func):
     @wraps(func)
@@ -34,9 +39,6 @@ def get_entity_completions():
     """
     Generate a completion list for HTML entities.
     """
-    KIND_ENTITY_MARKUP = (sublime.KIND_ID_MARKUP, 'e', 'Entity')
-    KIND_ENTITY_SNIPPET = (sublime.KIND_ID_SNIPPET, 'e', 'Entity')
-
     return sublime.CompletionList(
         [
             sublime.CompletionItem(
@@ -74,8 +76,6 @@ def get_tag_completions(inside_tag=True):
     """
     Generate a default completion list for HTML
     """
-    KIND_TAG_MARKUP = (sublime.KIND_ID_MARKUP, 't', 'Tag')
-
     normal_tags = (
         'abbr', 'acronym', 'address', 'applet', 'article', 'aside',
         'audio', 'b', 'basefont', 'bdi', 'bdo', 'big', 'blockquote',
@@ -335,6 +335,27 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
     def tag_completions(self):
         return get_tag_completions(inside_tag=True)
 
+    @cached_property
+    def tag_name_completions(self):
+        """
+        Create a completion list with all known tag names.
+
+        It uses the keys of `self.tag_attributes` dictionary as it contains
+        all known/supported tag names and is available/cached anyway.
+        """
+        return sublime.CompletionList(
+            [
+                sublime.CompletionItem(
+                    trigger=tag,
+                    completion_format=sublime.COMPLETION_FORMAT_TEXT,
+                    kind=KIND_TAG_MARKUP,
+                    details=f'Expands to <code>{html.escape(tag)}</code>'
+                )
+                for tag in self.tag_attributes
+            ],
+            sublime.INHIBIT_WORD_COMPLETIONS
+        )
+
     # @timing
     def on_query_completions(self, view, prefix, locations):
 
@@ -357,6 +378,11 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
             return self.entity_completions
 
         if ch == '<':
+            # If the caret is in front of `>` complete only tag names.
+            # see: https://github.com/sublimehq/sublime_text/issues/3508
+            ch = view.substr(sublime.Region(locations[0], locations[0] + 1))
+            if ch == '>':
+                return self.tag_name_completions
             return self.tag_completions
 
         # Note: Exclude opening punctuation to enable appreviations
@@ -418,7 +444,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
                     trigger=expr,
                     completion=snippet,
                     completion_format=sublime.COMPLETION_FORMAT_SNIPPET,
-                    kind=(sublime.KIND_ID_MARKUP, 't', 'Tag'),
+                    kind=KIND_TAG_MARKUP,
                     details=f'Expands to <code>{html.escape(snippet)}</code>'
                 )
             ],
@@ -467,8 +493,6 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
         if suffix == '' and line_tail[0] not in ' >':
             # add a space if not there
             suffix = ' '
-
-        KIND_ATTRIBUTE_SNIPPET = (sublime.KIND_ID_SNIPPET, 'a', 'Attribute')
 
         # got the tag, now find all attributes that match
         return sublime.CompletionList(
