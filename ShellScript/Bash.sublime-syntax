@@ -430,32 +430,16 @@ contexts:
             - meta_scope: meta.brackets.shell
             - match: \]
               scope: punctuation.section.brackets.end.shell
-              set:
-                - match: =
-                  scope: keyword.operator.assignment.shell
-                  pop: 1
-                - include: immediately-pop
+              set: vardef-assign
             - include: expansion-and-string
             - include: comments
-        - include: expansion-and-string
         - include: comments
-    - match: ''
-      set:
-        - meta_scope: meta.string.shell string.unquoted.shell
-        - match: (?=\$?["'])
-          push:
-            - clear_scopes: 2
-            - include: string
-            - include: immediately-pop
-        - match: '{{is_interpolation}}'
-          push:
-            - clear_scopes: 1
-            - include: expansion
-            - include: immediately-pop
-        - include: any-escapes
-        - include: line-continuations
-        - match: '{{cmd_break}}'
-          pop: 1
+        - match: (?=\S)
+          push: vardef-value
+    - include: number
+    - include: string-unquoted
+    - include: line-continuations
+    - include: immediately-pop
 
 ###[ UNSET BUILTIN ]###########################################################
 
@@ -1035,7 +1019,7 @@ contexts:
     # may also be referenced by name without using the parameter expansion
     # syntax.
     - include: numbers
-    - include: string
+    - include: strings
     - include: expansion-parameter
     - include: expansion-arithmetic
     - include: expansion-command
@@ -1161,14 +1145,14 @@ contexts:
 
   variable-expansions:
     - include: line-continuations
-    - include: string
+    - include: strings
     - include: expansion-parameter
     - include: expansion-arithmetic
     - include: expansion-command
     - include: expansion-tilde
 
   expansion-and-string:
-    - include: string
+    - include: strings
     - include: expansion
 
   expansion:
@@ -1417,32 +1401,67 @@ contexts:
 
 ###[ STRINGS ]#################################################################
 
-  string:
-    - include: any-escapes
-    - include: string-quoted-double
-    - include: string-quoted-single
-    - include: string-ansi-c
-    - include: string-locale
+  string-unquoted:
+    - match: (?=[^{{metachar}}])
+      set: string-unquoted-body
 
-  # nothing is escaped in a singly-quoted string!
-  string-quoted-single:
+  string-unquoted-body:
+    - meta_scope: meta.string.shell
+    - match: '{{cmd_literal_char}}+'
+      scope: string.unquoted.shell
     - match: \'
       scope: punctuation.definition.string.begin.shell
-      push: string-quoted-single-body
-
-  string-quoted-single-body:
-    - meta_scope: meta.string.shell string.quoted.single.shell
-    - match: \'
-      scope: punctuation.definition.string.end.shell
-      pop: 1
-
-  string-quoted-double:
+      push:
+        - meta_scope: string.quoted.single.shell
+        - include: string-quoted-single-body
     - match: \"
       scope: punctuation.definition.string.begin.shell
-      push: string-quoted-double-body
+      push:
+        - meta_scope: string.quoted.double.shell
+        - include:  string-quoted-double-body
+    - match: \$'
+      scope: punctuation.definition.string.begin.shell
+      push:
+        - meta_scope: string.quoted.single.ansi-c.shell
+        - include: string-ansi-c-body
+    - match: \$"
+      scope: punctuation.definition.string.begin.shell
+      push:
+        - meta_scope: string.quoted.double.locale.shell
+        - include: string-quoted-double-body
+    - include: any-escapes
+    - include: line-continuations
+    - include: expansion
+    - include: immediately-pop
+
+  strings:
+    - include: any-escapes
+    # nothing is escaped in a singly-quoted string!
+    - match: \'
+      scope: punctuation.definition.string.begin.shell
+      push:
+        - meta_scope: meta.string.shell string.quoted.single.shell
+        - include: string-quoted-single-body
+    - match: \"
+      scope: punctuation.definition.string.begin.shell
+      push:
+        - meta_scope: meta.string.shell string.quoted.double.shell
+        - include:  string-quoted-double-body
+    # [Bash] 3.1.2.4
+    - match: \$'
+      scope: punctuation.definition.string.begin.shell
+      push:
+        - meta_scope: meta.string.shell string.quoted.single.ansi-c.shell
+        - include: string-ansi-c-body
+    # [Bash] 3.1.2.5
+    # If the string is translated and replaced, the replacement is double-quoted.
+    - match: \$"
+      scope: punctuation.definition.string.begin.shell
+      push:
+        - meta_scope: meta.string.shell string.quoted.double.locale.shell
+        - include: string-quoted-double-body
 
   string-quoted-double-body:
-    - meta_scope: meta.string.shell string.quoted.double.shell
     - match: \"
       scope: punctuation.definition.string.end.shell
       pop: 1
@@ -1450,35 +1469,17 @@ contexts:
     - include: string-escapes
     - include: string-interpolations
 
-  # [Bash] 3.1.2.4
-  string-ansi-c:
-    - match: \$'
-      scope: punctuation.definition.string.begin.shell
-      push: string-ansi-c-body
-
   string-ansi-c-body:
-    - meta_scope: meta.string.shell string.quoted.single.ansi-c.shell
     - match: \'
       scope: punctuation.definition.string.end.shell
       pop: 1
     - include: line-continuations
     - include: string-escapes-ansi-c
 
-  # [Bash] 3.1.2.5
-  # If the string is translated and replaced, the replacement is double-quoted.
-  string-locale:
-    - match: \$"
-      scope: punctuation.definition.string.begin.shell
-      push: string-locale-body
-
-  string-locale-body:
-    - meta_scope: meta.string.shell string.quoted.double.locale.shell
-    - match: \"
+  string-quoted-single-body:
+    - match: \'
       scope: punctuation.definition.string.end.shell
       pop: 1
-    - include: line-continuations
-    - include: string-escapes
-    - include: string-interpolations
 
   any-escapes:
     - match: \\.
