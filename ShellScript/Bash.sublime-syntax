@@ -108,7 +108,7 @@ contexts:
     - include: cmd-builtins
     - include: vardef
     - include: funcdef
-    - include: cmd-other
+    - include: cmd-basic
 
   statement:
     - include: statements
@@ -625,11 +625,12 @@ contexts:
     - meta_content_scope: meta.compound.arguments.shell
     - include: cmd-args
 
-  cmd-other:
+  cmd-basic:
+    # basic user defined or external commands
     - match: '{{cmd_begin}}'
-      push: [cmd-args, cmd-name]
+      push: [cmd-args, cmd-basic-name]
 
-  cmd-name:
+  cmd-basic-name:
     - clear_scopes: 1
     - meta_scope: meta.function-call.identifier.shell
     - match: '{{cmd_literal_char}}+'
