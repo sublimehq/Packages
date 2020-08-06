@@ -365,7 +365,7 @@ contexts:
 
   vardef-item-access:
     - meta_scope: meta.variable.shell
-    - include: array
+    - include: arrays-item-access
     - include: line-continuations    
     - include: immediately-pop
 
@@ -1008,7 +1008,7 @@ contexts:
 
 ###[ EXPRESSIONS ]#############################################################
 
-  array:
+  arrays-item-access:
     - match: \[
       scope: punctuation.section.item-access.begin.shell
       push:
@@ -1315,7 +1315,7 @@ contexts:
         1: variable.language.shell
         2: keyword.operator.expansion.shell
         3: variable.parameter.switch.shell
-    - include: array
+    - include: arrays-item-access
     - match: '[@*](?=})'
       scope: variable.language.shell
 
