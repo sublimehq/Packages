@@ -401,6 +401,28 @@ contexts:
     - include: line-continuations
     - include: immediately-pop
 
+###[ ARITHMETIC BUILTINS ]#####################################################
+
+  cmd-arithmetic:
+    - match: \(\((?=.+\)\))
+      scope: punctuation.section.arithmetic.begin.shell
+      push:
+        - meta_scope: meta.arithmetic.shell
+        - match: \)\)
+          scope: punctuation.section.arithmetic.end.shell
+          pop: 1
+        - include: expressions
+    - match: let{{cmd_break}}
+      scope:
+        meta.function-call.identifier.shell
+        support.function.let.shell
+      push: cmd-arithmetic-args
+
+  cmd-arithmetic-args:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: cmd-args-boilerplate
+    - include: expressions
+
 ###[ COPROC BUILTINS ]#########################################################
 
   cmd-coproc:
@@ -580,19 +602,6 @@ contexts:
     - include: immediately-pop
 
 ###[ COMMANDS ]################################################################
-
-  cmd-arithmetic:
-    - include: arithmetic
-    - match: let{{cmd_break}}
-      scope:
-        meta.function-call.identifier.shell
-        support.function.let.shell
-      push: cmd-arithmetic-args
-
-  cmd-arithmetic-args:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: cmd-args-boilerplate-with-end-of-options
-    - include: expressions
 
   cmd-compound:
     - match: \(
@@ -788,7 +797,7 @@ contexts:
 
   for-args:
     - include: cmd-args-boilerplate
-    - include: arithmetic
+    - include: cmd-arithmetic
     - match: in{{cmd_break}}
       scope: keyword.control.in.shell
 
@@ -1008,16 +1017,6 @@ contexts:
           pop: 1
         - match: '[*@]'
           scope: variable.language.array.shell
-        - include: expressions
-
-  arithmetic:
-    - match: \(\((?=.+\)\))
-      scope: punctuation.section.arithmetic.begin.shell
-      push:
-        - meta_scope: meta.arithmetic.shell
-        - match: \)\)
-          scope: punctuation.section.arithmetic.end.shell
-          pop: 1
         - include: expressions
 
   expressions:
