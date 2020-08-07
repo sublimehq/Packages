@@ -401,11 +401,18 @@ foo -n -
 #    ^ variable.parameter.option - punctuation
 #      ^ - keyword - punctuation
 
-foo --opt1 arg1
+foo -nfv --opt1 arg1 -p=true -d false
 #  ^ - variable - punctuation
-#   ^^ variable.parameter.option.shell punctuation.definition.parameter.shell
-#     ^^^^ variable.parameter.option.shell - punctuation
-#         ^ - variable - punctuation
+#   ^^^^ variable.parameter.option.shell
+#       ^ - variable - punctuation
+#        ^^ variable.parameter.option.shell punctuation.definition.parameter.shell
+#          ^^^^ variable.parameter.option.shell - punctuation
+#              ^ - variable - punctuation
+#                    ^^ variable.parameter.option.shell
+#                      ^ keyword.operator.assignment.shell
+#                       ^^^^ constant.language.boolean.shell
+#                            ^^ variable.parameter.option.shell
+#                               ^^^^^ constant.language.boolean.shell
 
 foo --opt1 arg1 -- --not-an-option
 #              ^ - variable - keyword
@@ -681,6 +688,14 @@ do=hello
 done=hello
 # <- - keyword.control
 #   ^ keyword.operator.assignment.shell
+true=false
+# <- variable.other.readwrite.shell - constant
+#^^^ variable.other.readwrite.shell - constant
+#    ^^^^^ constant.language.boolean.shell
+false=true
+# <- variable.other.readwrite.shell - constant
+#^^^^ variable.other.readwrite.shell - constant
+#     ^^^^ constant.language.boolean.shell
 
 (foo=bar)
 # <- punctuation.section.compound.begin.shell
@@ -2115,6 +2130,13 @@ coproc foobar {
 # Bash Numeric Constants                                           #
 ####################################################################
 
+true false
+# <- constant.language.boolean.shell
+#^^^ constant.language.boolean.shell
+#   ^ - constant
+#    ^^^^^ constant.language.boolean.shell
+#         ^ - constant
+
 (( 0 ))
 # ^ - meta.number - constant
 #  ^ meta.number.value.shell constant.numeric.integer.decimal.shell
@@ -2436,6 +2458,15 @@ commits=($(git rev-list --reverse --abbrev-commit "$latest".. -- "$prefix"))
 ####################################################################
 # 3.2.4.2 Conditional Constructs                                   #
 ####################################################################
+
+if true ; then false ; fi
+#^ keyword.control.conditional.if.shell
+#  ^^^^ constant.language.boolean.shell
+#       ^ keyword.operator.logical.continue.shell
+#         ^^^^ keyword.control.conditional.then.shell
+#              ^^^^^ constant.language.boolean.shell
+#                    ^ keyword.operator.logical.continue.shell
+#                      ^^ keyword.control.conditional.end.shell
 
 if [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; then PLATFORM=docker; fi
 #^ keyword.control.conditional.if
@@ -3100,9 +3131,11 @@ done
 
 while true; do
 # <- keyword.control.loop.while
-#        ^ meta.function-call.identifier.shell variable.function.shell
-#         ^ keyword.operator
-#            ^ keyword.control
+#^^^^ keyword.control.loop.while.shell
+#    ^ - constant - keyword
+#     ^^^^ constant.language.boolean.shell
+#         ^ keyword.operator.logical.continue.shell
+#           ^^ keyword.control.loop.do.shell
     break
 #   ^^^^^ keyword.control.flow.break.shell
     break 2;
@@ -3119,45 +3152,50 @@ done
 # <- keyword.control.loop.end
 
 while ! true; do echo bar; done
-# <- keyword.control.loop.while
+# <- keyword.control.loop.while.shell
 #     ^ keyword.operator.logical.shell
-#           ^ keyword.operator.logical.continue
-#             ^^ keyword.control.loop.do
-#                          ^^^^ keyword.control.loop.end
+#       ^^^^ constant.language.boolean.shell
+#           ^ keyword.operator.logical.continue.shell
+#             ^^ keyword.control.loop.do.shell
+#                ^^^^ support.function.echo.shell
+#                        ^ keyword.operator.logical.continue.shell
+#                          ^^^^ keyword.control.loop.end.shell
 
 while ! { true; }; do echo bar; done
-# <- keyword.control.loop.while
+# <- keyword.control.loop.while.shell
 #     ^ keyword.operator.logical.shell
 #       ^ punctuation.section.compound.begin.shell
-#         ^^^^ variable.function
-#             ^ keyword.operator.logical.continue
+#         ^^^^ constant.language.boolean.shell
+#             ^ keyword.operator.logical.continue.shell
 #               ^ punctuation.section.compound.end.shell
-#                ^ keyword.operator.logical.continue
-#                  ^^ keyword.control.loop.do
-#                               ^^^^ keyword.control.loop.end
+#                ^ keyword.operator.logical.continue.shell
+#                  ^^ keyword.control.loop.do.shell
+#                               ^^^^ keyword.control.loop.end.shell
 
 while ! { [[ true ]]; }; do echo bar; done
-# <- keyword.control.loop.while
+# <- keyword.control.loop.while.shell
 #     ^ keyword.operator.logical.shell
 #       ^ punctuation.section.compound.begin.shell
-#         ^^ support.function.double-brace.begin
-#                 ^^ support.function.double-brace.end
-#                   ^ keyword.operator.logical.continue
+#         ^^ support.function.double-brace.begin.shell
+#            ^^^^ constant.language.boolean.shell
+#                 ^^ support.function.double-brace.end.shell
+#                   ^ keyword.operator.logical.continue.shell
 #                     ^ punctuation.section.compound.end.shell
-#                      ^ keyword.operator.logical.continue
-#                        ^^ keyword.control.loop.do
-#                                     ^^^^ keyword.control.loop.end
+#                      ^ keyword.operator.logical.continue.shell
+#                        ^^ keyword.control.loop.do.shell
+#                                     ^^^^ keyword.control.loop.end.shell
 
 while ! ( [[ true ]] ); do echo bar; done
-# <- keyword.control.loop.while
+# <- keyword.control.loop.while.shell
 #     ^ keyword.operator.logical.shell
 #       ^ punctuation.section.compound.begin.shell
-#         ^^ support.function.double-brace.begin
-#                 ^^ support.function.double-brace.end
+#         ^^ support.function.double-brace.begin.shell
+#            ^^^^ constant.language.boolean.shell
+#                 ^^ support.function.double-brace.end.shell
 #                    ^ punctuation.section.compound.end.shell
-#                     ^ keyword.operator.logical.continue
-#                       ^^ keyword.control.loop.do
-#                                    ^^^^ keyword.control.loop.end
+#                     ^ keyword.operator.logical.continue.shell
+#                       ^^ keyword.control.loop.do.shell
+#                                    ^^^^ keyword.control.loop.end.shell
 
 while read -r -d '' f; do
 # <- keyword.control.loop.while
@@ -3181,16 +3219,17 @@ while IFS= read -r -d '' f; do
 #                         ^ keyword.operator.logical.continue
 #                           ^^ keyword.control.loop.do
 done
-# <- keyword.control.loop.end
+# <- keyword.control.loop.end.shell
 
 do echo bar; until ! { [[ true ]]; }
-# <- keyword.control.loop.do
+# <- keyword.control.loop.do.shell
 #            ^^^^^ keyword.control.loop.until.shell
 #                  ^ keyword.operator.logical.shell
 #                    ^ punctuation.section.compound.begin.shell
-#                      ^^ support.function.double-brace.begin
-#                              ^^ support.function.double-brace.end
-#                                ^ keyword.operator.logical.continue
+#                      ^^ support.function.double-brace.begin.shell
+#                         ^^^^ constant.language.boolean.shell
+#                              ^^ support.function.double-brace.end.shell
+#                                ^ keyword.operator.logical.continue.shell
 #                                  ^ punctuation.section.compound.end.shell
 
 for (( i = 0; i < 10; i++ )); do
@@ -4042,13 +4081,20 @@ function fo${bar}'baz' () {}
 #          ^^^^^^ meta.interpolation.parameter.shell
 #                ^^^^^ string.quoted.single.shell
 
-function foo () {} ; function foo () {}
-#                  ^^ - meta.function
-#                    ^^^^^^^^ meta.function.shell
-#                            ^^^^^ meta.function.identifier.shell
-#                                 ^^ meta.function.parameters.shell
-#                                   ^^^ meta.function.shell
-#                  ^ keyword.operator.logical.continue.shell
+# Functions may replace booleans. Won't respect that in function calls though.
+function true () {} ; function false () {}
+#^^^^^^^ meta.function.shell
+#       ^^^^^^ meta.function.identifier.shell
+#             ^^ meta.function.parameters.shell
+#               ^^^^ meta.function.shell
+#                   ^^ - meta.function
+#                     ^^^^^^^^ meta.function.shell
+#                             ^^^^^^^ meta.function.identifier.shell
+#                                    ^^ meta.function.parameters.shell
+#                                      ^^^ meta.function.shell
+#        ^^^^ entity.name.function.shell
+#                              ^^^^^ entity.name.function.shell
+#                   ^ keyword.operator.logical.continue.shell
 
 __git_aliased_command ()
 {

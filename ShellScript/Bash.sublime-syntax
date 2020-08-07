@@ -108,6 +108,7 @@ contexts:
     - include: cmd-builtins
     - include: vardef
     - include: funcdef
+    - include: booleans
     - include: cmd-basic
 
   statement:
@@ -396,6 +397,7 @@ contexts:
         - include: comments
         - match: (?=\S)
           push: vardef-value
+    - include: boolean
     - include: number
     - include: string-unquoted
     - include: line-continuations
@@ -526,6 +528,7 @@ contexts:
       scope: keyword.operator.logical.shell
     - match: '='
       scope: keyword.operator.assignment.shell
+    - include: booleans
     - include: numbers
     - include: expansions-and-strings
 
@@ -659,6 +662,7 @@ contexts:
     # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
     - include: expansions-and-strings
     - include: redirections
+    - include: booleans
     - include: numbers
     - include: eol-pop
     - match: (?=[)}]|\s*([|;]|&(?!>)))
@@ -1054,11 +1058,21 @@ contexts:
     # before the expression is evaluated. Within an expression, shell variables
     # may also be referenced by name without using the parameter expansion
     # syntax.
+    - include: booleans
     - include: numbers
     - include: strings
     - include: expansions-parameter
     - include: expansions-arithmetic
     - include: expansions-command
+
+  booleans:
+    - match: (?:true|false)\b
+      scope: constant.language.boolean.shell
+
+  boolean:
+    - match: (?:true|false)\b
+      scope: constant.language.boolean.shell
+      pop: 1
 
   numbers:
     # A leading ‘0x’ or ‘0X’ denotes hexadecimal.
