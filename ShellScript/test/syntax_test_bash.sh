@@ -589,11 +589,6 @@ x= # some comment
 #^ keyword.operator.assignment.shell
 # ^ - string.unquoted
 #  ^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-x= & pwd
-#^ keyword.operator.assignment.shell
-# ^ - string.unquoted
-#  ^ keyword.operator.logical.job.shell
-#    ^^^ support.function
 x=a
 # <- variable.other.readwrite
 #^ keyword.operator.assignment.shell
@@ -604,26 +599,6 @@ x=a # some comment
 x=a#not-a-comment
 #^ keyword.operator.assignment.shell
 #  ^ meta.string string.unquoted - comment
-x=a pwd
-# <- variable.other.readwrite
-#^ keyword.operator.assignment.shell
-#  ^ - string.unquoted
-#   ^^^ meta.function-call support.function
-x="a b" pwd
-#^ keyword.operator.assignment.shell
-# ^ string.quoted.double punctuation.definition.string.begin
-#  ^^^ string.quoted.double
-#     ^ string.quoted.double punctuation.definition.string.end
-#      ^ - string.unquoted
-#       ^^^ meta.function-call support.function
-x=a y=b pwd
-#^ keyword.operator.assignment.shell
-# ^ meta.string string.unquoted
-#  ^ - string.unquoted
-#    ^ keyword.operator.assignment.shell
-#     ^ meta.string string.unquoted
-#      ^ - string.unquoted
-#       ^^^ meta.function-call support.function
 foo=bar baz=qux
 #   ^^^ meta.string string.unquoted
 #           ^^^ meta.string string.unquoted
@@ -644,6 +619,37 @@ foo='bar'
 #^^ variable.other.readwrite.shell
 #  ^ keyword.operator.assignment.shell
 #   ^^^^^ meta.string.shell string.quoted.single.shell
+
+# Spaces following an assignment token means an empty string value!
+x= pwd
+# <- variable.other.readwrite
+#^ keyword.operator.assignment
+#  ^^^ meta.function-call support.function
+x= & pwd
+#^ keyword.operator.assignment.shell
+# ^ - string.unquoted
+#  ^ keyword.operator.logical.job.shell
+#    ^^^ support.function
+x=a pwd
+# <- variable.other.readwrite
+#^ keyword.operator.assignment.shell
+#  ^ - string.unquoted
+#   ^^^ meta.function-call support.function
+x="a b" pwd
+#^ keyword.operator.assignment.shell
+# ^ string.quoted.double punctuation.definition.string.begin
+#  ^^^ string.quoted.double
+#     ^ string.quoted.double punctuation.definition.string.end
+#      ^ - string.unquoted
+#       ^^^ meta.function-call support.function
+x=a y=b pwd
+#^ keyword.operator.assignment.shell
+# ^ meta.string string.unquoted
+#  ^ - string.unquoted
+#    ^ keyword.operator.assignment.shell
+#     ^ meta.string string.unquoted
+#      ^ - string.unquoted
+#       ^^^ meta.function-call support.function
 x=${foo} y=${baz}"asdf" pwd
 #^ keyword.operator.assignment.shell
 # ^^^^^^ meta.string meta.interpolation - string
@@ -666,12 +672,6 @@ x="$(( foo++ ))"
 #  ^^^ punctuation.section.interpolation.begin.shell
 #         ^^ keyword
 #            ^^ punctuation.section.interpolation.end.shell
-
-# Spaces following an assignment token means an empty string value!
-x= pwd
-# <- variable.other.readwrite
-#^ keyword.operator.assignment
-#  ^^^ meta.function-call support.function
 
 B$(cat)OWL=$(($(cat food.txt | wc -l) + 5))
 # <- meta.variable.shell variable.other.readwrite.shell - meta.interpolation
