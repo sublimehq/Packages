@@ -619,6 +619,14 @@ foo='bar'
 #^^ variable.other.readwrite.shell
 #  ^ keyword.operator.assignment.shell
 #   ^^^^^ meta.string.shell string.quoted.single.shell
+x=0.19.8.1
+# <- variable.other.readwrite.shell
+#^ keyword.operator.assignment.shell
+# ^^^^^^^^ string.unquoted.shell
+x=10
+# <- variable.other.readwrite.shell
+#^ keyword.operator.assignment.shell
+# ^^ constant.numeric.integer.decimal.shell
 
 # Spaces following an assignment token means an empty string value!
 x= pwd

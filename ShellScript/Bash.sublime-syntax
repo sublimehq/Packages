@@ -1093,7 +1093,7 @@ contexts:
         1: meta.number.base.shell constant.numeric.integer.other.shell
         2: meta.number.value.shell constant.numeric.integer.other.shell
     # If base# is omitted, then base 10 is used.
-    - match: \b\d+
+    - match: \b\d+(?![.\w])
       scope: meta.number.value.shell constant.numeric.integer.decimal.shell
 
   number:
@@ -1115,7 +1115,7 @@ contexts:
         2: meta.number.base.shell constant.numeric.integer.other.shell
         3: meta.number.value.shell constant.numeric.integer.other.shell
     # If base# is omitted, then base 10 is used.
-    - match: ([-+]?)(\d+)\b
+    - match: ([-+]?)(\d+)(?![.\w])
       captures:
         1: keyword.operator.arithmetic.shell
         2: meta.number.value.shell constant.numeric.integer.decimal.shell
