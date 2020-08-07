@@ -156,8 +156,14 @@ su:
   short-options: -cls
 
 sudo:
+  # https://www.sudo.ws/man/1.8.13/sudo.man.html
   allow-end-of-options-token: true
-  long-options: [prompt, class, auth_type, role, type, username, \#uid]
-  short-options-compact: bHhKkLlPSsVv
-  short-options: pcartu
+  long-options: [
+    askpass, auth-type, background, close-from, login-class, preserve-env, edit,
+    group, set-home, help, host, login, remove-timestamp, reset-timestamp, list,
+    non-interactive, preserve-groups, prompt, role, stdin, shell, type,
+    other-user, user, version, validate
+  ]
+  short-options-compact: AbEeHiKklnPSsUuVv
+  short-options: aCcghprt
 ...
