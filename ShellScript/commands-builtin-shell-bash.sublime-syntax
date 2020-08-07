@@ -126,9 +126,6 @@ contexts:
   - match: su{{cmd_break}}
     scope: meta.function-call.identifier.shell support.function.su.shell
     push: cmd-su-args
-  - match: sudo{{cmd_break}}
-    scope: meta.function-call.identifier.shell support.function.sudo.shell
-    push: cmd-sudo-args
   cmd-bind-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
@@ -407,23 +404,6 @@ contexts:
       1: punctuation.definition.parameter.shell
     push: cmd-args-option-maybe-value
   - match: ([-+])[mp]+
-    scope: variable.parameter.option.shell
-    captures:
-      1: punctuation.definition.parameter.shell
-  cmd-sudo-args:
-  - meta_content_scope: meta.function-call.arguments.shell
-  - include: cmd-args-boilerplate-with-end-of-options
-  - match: (--)(?:askpass|auth-type|background|close-from|login-class|preserve-env|edit|group|set-home|help|host|login|remove-timestamp|reset-timestamp|list|non-interactive|preserve-groups|prompt|role|stdin|shell|type|other-user|user|version|validate){{opt_break}}
-    scope: variable.parameter.option.shell
-    captures:
-      1: punctuation.definition.parameter.shell
-    push: cmd-args-option-maybe-assignment
-  - match: ([-+])[AbEeHiKklnPSsUuVv]*[aCcghprt]
-    scope: variable.parameter.option.shell
-    captures:
-      1: punctuation.definition.parameter.shell
-    push: cmd-args-option-maybe-value
-  - match: ([-+])[AbEeHiKklnPSsUuVv]+
     scope: variable.parameter.option.shell
     captures:
       1: punctuation.definition.parameter.shell
