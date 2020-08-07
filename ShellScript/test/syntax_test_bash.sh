@@ -2167,7 +2167,7 @@ true false
 #                     ^ - meta.number - constant
 
 (( -0 -1 -2 -3 -4 -5 -6 -7 -8 -9))
-#^^^^^^^^^^^^^^^^^^^^^^^ meta.arithmetic.shell
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.arithmetic.shell
 # ^^ - meta.number - constant
 #   ^ meta.number.value.shell constant.numeric.integer.decimal.shell
 #    ^^ - meta.number - constant
@@ -3198,26 +3198,26 @@ while ! ( [[ true ]] ); do echo bar; done
 #                                    ^^^^ keyword.control.loop.end.shell
 
 while read -r -d '' f; do
-# <- keyword.control.loop.while
-#     ^^^^ support.function.read
-#          ^^ variable.parameter.option
-#             ^^ variable.parameter.option
+# <- keyword.control.loop.while.shell
+#     ^^^^ support.function.read.shell
+#          ^^ variable.parameter.option.shell
+#             ^^ variable.parameter.option.shell
 #                ^^ string.quoted.single.shell
-#                    ^ keyword.operator.logical.continue
-#                      ^^ keyword.control.loop.do
+#                    ^ keyword.operator.logical.continue.shell
+#                      ^^ keyword.control.loop.do.shell
 done
-# <- keyword.control.loop.end
+# <- keyword.control.loop.end.shell
 
 while IFS= read -r -d '' f; do
-# <- keyword.control.loop.while
-#     ^^^ variable.other.readwrite
-#        ^ keyword.operator.assignment
-#          ^^^^ support.function.read
-#               ^^ variable.parameter.option
-#                  ^^ variable.parameter.option
+# <- keyword.control.loop.while.shell
+#     ^^^ variable.other.readwrite.shell
+#        ^ keyword.operator.assignment.shell
+#          ^^^^ support.function.read.shell
+#               ^^ variable.parameter.option.shell
+#                  ^^ variable.parameter.option.shell
 #                     ^^ string.quoted.single.shell
-#                         ^ keyword.operator.logical.continue
-#                           ^^ keyword.control.loop.do
+#                         ^ keyword.operator.logical.continue.shell
+#                           ^^ keyword.control.loop.do.shell
 done
 # <- keyword.control.loop.end.shell
 
@@ -3233,76 +3233,78 @@ do echo bar; until ! { [[ true ]]; }
 #                                  ^ punctuation.section.compound.end.shell
 
 for (( i = 0; i < 10; i++ )); do
-#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.arithmetic
-# <- keyword.control
-#   ^^ punctuation.section.arithmetic.begin
+#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.arithmetic.shell
+# <- keyword.control.loop.for.shell
+#   ^^ punctuation.section.arithmetic.begin.shell
 #        ^ keyword.operator.assignment.shell
-#          ^ constant.numeric.integer - punctuation
+#          ^ constant.numeric.integer.decimal.shell - punctuation
 #           ^ punctuation.separator.expressions.shell
 #               ^ keyword.operator.comparison.shell
-#                 ^^ constant.numeric.integer
+#                 ^^ constant.numeric.integer.decimal.shell
 #                   ^ punctuation.separator.expressions.shell
 #                      ^^ keyword.operator.arithmetic.shell
-#                         ^^ punctuation.section.arithmetic.end
-#                           ^ keyword.operator.logical.continue
-#                             ^^ keyword.control.loop.do
+#                         ^^ punctuation.section.arithmetic.end.shell
+#                           ^ keyword.operator.logical.continue.shell
+#                             ^^ keyword.control.loop.do.shell
     echo $i
-    # <- meta.function-call support.function.echo
-    #    ^ meta.function-call.arguments punctuation.definition.variable
-    #     ^ meta.function-call.arguments variable.other.readwrite
+    # <- meta.function-call support.function.echo.shell
+    #    ^ meta.function-call.arguments punctuation.definition.variable.shell
+    #     ^ meta.function-call.arguments variable.other.readwrite.shell
 done
-# <- keyword.control.loop.end
+# <- keyword.control.loop.end.shell
 
 for (( i = 0; i < 10; i++ )) #; do
-#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.arithmetic
-# <- keyword.control
-#   ^^ punctuation.section.arithmetic.begin
+#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.arithmetic.shell
+# <- keyword.control.loop.for.shell
+#   ^^ punctuation.section.arithmetic.begin.shell
 #        ^ keyword.operator.assignment.shell
-#          ^ constant.numeric.integer - punctuation
+#          ^ constant.numeric.integer.decimal.shell - punctuation
 #           ^ punctuation.separator.expressions.shell
 #               ^ keyword.operator.comparison.shell
-#                 ^^ constant.numeric.integer
+#                 ^^ constant.numeric.integer.decimal.shell
 #                   ^ punctuation.separator.expressions.shell
 #                      ^^ keyword.operator.arithmetic.shell
-#                         ^^ punctuation.section.arithmetic.end
+#                         ^^ punctuation.section.arithmetic.end.shell
 #                            ^^^^^^ comment.line.number-sign.shell
 do
 #<- keyword.control.loop.do.shell
     echo $i
-    # <- meta.function-call support.function.echo
-    #    ^ meta.function-call.arguments punctuation.definition.variable
-    #     ^ meta.function-call.arguments variable.other.readwrite
+    # <- meta.function-call support.function.echo.shell
+    #    ^ meta.function-call.arguments punctuation.definition.variable.shell
+    #     ^ meta.function-call.arguments variable.other.readwrite.shell
 done
-# <- keyword.control.loop.end
+# <- keyword.control.loop.end.shell
 
 for i in $(seq 100); do
-# <- keyword.control.loop.for
+# <- keyword.control.loop.for.shell
+#^^ keyword.control.loop.for.shell
 #        ^^^^^^^^^^ meta.interpolation.command.shell
-#     ^^ keyword.control.in
+#     ^^ keyword.control.in.shell
 #        ^^ punctuation.section.interpolation.begin.shell
-#          ^^^ meta.function-call variable.function
+#          ^^^ meta.function-call variable.function.shell
 #                 ^ punctuation.section.interpolation.end.shell
-#                  ^ keyword.operator.logical.continue
-#                    ^^ keyword.control.loop.do
+#                  ^ keyword.operator.logical.continue.shell
+#                    ^^ keyword.control.loop.do.shell
   :
-  # <- meta.function-call support.function.colon
+  # <- meta.function-call support.function.colon.shell
 done
-# <- keyword.control.loop.end
+# <- keyword.control.loop.end.shell
 
 `for i in $(seq 100); do echo i; done`
 # <- meta.interpolation.command.shell punctuation.section.interpolation.begin.shell
 #^^^^^^^^^ meta.interpolation.command.shell - meta.interpolation meta.interpolation
 #         ^^^^^^^^^^ meta.interpolation.command.shell
 #                   ^^^^^^^^^^^^^^^^^^ meta.interpolation.command.shell - meta.interpolation meta.interpolation
-#      ^^ keyword.control.in
+#^^^ keyword.control.loop.for.shell
+#      ^^ keyword.control.in.shell
 #         ^^ punctuation.section.interpolation.begin.shell
 #           ^^^ meta.function-call.identifier.shell variable.function.shell
 #                  ^ punctuation.section.interpolation.end.shell
-#                   ^ keyword.operator.logical.continue
-#                     ^^ keyword.control.loop.do
-#                        ^^^^ support.function.echo
-#                              ^ keyword.operator.logical.continue
-#                                ^^^^ keyword.control.loop.end
+#                   ^ keyword.operator.logical.continue.shell
+#                     ^^ keyword.control.loop.do.shell
+#                        ^^^^ support.function.echo.shell
+#                              ^ keyword.operator.logical.continue.shell
+#                                ^^^^ keyword.control.loop.end.shell
 #                                    ^ punctuation.section.interpolation.end.shell
 
 f() {
