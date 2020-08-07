@@ -28,43 +28,41 @@ def main():
         long_options = value.get("long-options")
         if long_options:
             cmd_args.append({
-                "match": rf"(?:\s+|^)((--)(?:{'|'.join(long_options)})){{{{opt_break}}}}",
+                "match": rf"(--)(?:{'|'.join(long_options)}){{{{opt_break}}}}",
+                "scope": "variable.parameter.option.shell",
                 "captures": {
-                    1: "variable.parameter.option.shell",
-                    2: "punctuation.definition.parameter.shell"
-                }
+                    1: "punctuation.definition.parameter.shell"
+                },
+                "push": "cmd-args-option-maybe-assignment"
             })
 
         short_options = value.get("short-options")
         short_options_compact = value.get("short-options-compact")
-        if short_options_compact and short_options:
-            opts = f"(?:[{short_options_compact}]+[{short_options}]?|[{short_options}])"
-        elif short_options_compact:
-            opts = f"[{short_options_compact}]+"
-        elif short_options:
-            opts = f"[{short_options}]"
-        else:
-            opts = ""
-        if opts:
-            short_option_prefixes = value.get("short-option-prefixes")
-            if short_option_prefixes:
-                cmd_args.append({
-                    "match": rf"(?:\s+|^)(({'|'.join(short_option_prefixes)}){opts})(\d*)",
-                    "captures": {
-                        1: "variable.parameter.option.shell",
-                        2: "punctuation.definition.parameter.shell",
-                        3: "meta.number.value.shell constant.numeric.integer.decimal.shell"
-                    }
-                })
+
+        if short_options:
+            if short_options_compact:
+                opts = f"[{short_options_compact}]*[{short_options}]"
             else:
-                cmd_args.append({
-                    "match": rf"(?:\s+|^)(([-+]){opts})(\d*)",
-                    "captures": {
-                        1: "variable.parameter.option.shell",
-                        2: "punctuation.definition.parameter.shell",
-                        3: "meta.number.value.shell constant.numeric.integer.decimal.shell"
-                    }
-                })
+                opts = f"[{short_options}]"
+
+            cmd_args.append({
+                "match": rf"([-+]){opts}",
+                "scope": "variable.parameter.option.shell",
+                "captures": {
+                    1: "punctuation.definition.parameter.shell"
+                },
+                "push": "cmd-args-option-maybe-value"
+            })
+
+        if short_options_compact:
+            opts = f"[{short_options_compact}]+"
+            cmd_args.append({
+                "match": rf"([-+]){opts}",
+                "scope": "variable.parameter.option.shell",
+                "captures": {
+                    1: "punctuation.definition.parameter.shell"
+                }
+            })
 
         contexts[f"cmd-{command}-args"] = cmd_args
 

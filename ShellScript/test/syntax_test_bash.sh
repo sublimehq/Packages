@@ -377,6 +377,7 @@ foo\
 -e Hello
 # <- - punctuation
 #^ - variable.parameter
+#  ^^^^^ - string
 
 foo -e =Hello
 #^^ meta.function-call.identifier.shell variable.function.shell
@@ -391,6 +392,7 @@ foo -e=Hello
 #   ^ punctuation.definition.parameter.shell
 #   ^^ variable.parameter.option.shell
 #     ^ keyword.operator.assignment.shell
+#      ^^^^^ string.unquoted.shell
 
 foo -$e=Hello
 #^^ meta.function-call.identifier.shell variable.function.shell
@@ -399,6 +401,7 @@ foo -$e=Hello
 #   ^^^ variable.parameter.option.shell
 #    ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
 #      ^ keyword.operator.assignment.shell
+#       ^^^^^ string.unquoted.shell
 
 foo -n -
 #   ^ variable.parameter.option punctuation
@@ -450,6 +453,7 @@ f#-o+o ar%g --opt1 --opt2=value +x -y &>/dev/null
 #                  ^^ variable.parameter.option.shell punctuation.definition.parameter.shell
 #                    ^^^^ variable.parameter.option.shell - punctuation
 #                        ^ keyword.operator.assignment.shell
+#                         ^^^^^ string.unquoted.shell
 #                              ^ - variable - punctuation
 #                               ^ variable.parameter.option.shell punctuation.definition.parameter.shell
 #                                ^ variable.parameter.option.shell - punctuation
@@ -493,6 +497,7 @@ subdir/./myscript.sh --option arg1 arg2 -x
 #^^^^^^^^^^^^^^^^^^^ meta.function-call.identifier.shell variable.function.shell
 #                   ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell 
 #                    ^^^^^^^^ variable.parameter.option.shell
+#                            ^^^^^^^^^^^ - string
 #                                       ^^ variable.parameter.option.shell
 #                                         ^ - meta.function-call
 
