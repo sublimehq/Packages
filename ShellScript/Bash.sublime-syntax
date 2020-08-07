@@ -68,7 +68,7 @@ variables:
   cmd_char: '[^{{metachar}}]'
 
   # Command options are identifiers, which may start with interpolation.
-  opt_punctuation: (?:\s+|^)(--|[-+]){{variable_begin}}
+  opt_punctuation: (?:\s+|^)(--|[-+]){{nonposix_begin}}
   opt_break: '{{nonposix_break}}'
 
   # Variables are posix identifiers, which may start with interpolation.
