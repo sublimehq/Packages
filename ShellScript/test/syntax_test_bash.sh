@@ -64,6 +64,7 @@ bar   ` # important; this and that ` "${USELESS_TEXT}" | ` # match text` \
 #                                                        ^ punctuation.section.interpolation.begin.shell
 #                                                                        ^^ punctuation.separator.continuation.line
 
+
 ####################################################################
 # The basics                                                       #
 ####################################################################
@@ -292,7 +293,10 @@ $e'ch'o Hello, world!
 # ^^^^ string.quoted.single.shell
 #     ^ variable.function.shell
 
-# Test command arguments
+
+####################################################################
+# Basic Command Arguments                                          #
+####################################################################
 
 set -e -
 #   ^ variable.parameter.option punctuation
@@ -510,6 +514,26 @@ subdir/./myscript.sh --option arg1 arg2 -x
 #^^^^ meta.function-call.identifier.shell variable.function.shell
 #    ^^^ meta.function-call.arguments.shell
 
+$foo -o
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell variable.other.readwrite.shell punctuation.definition.variable.shell
+#^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#   ^^^ meta.function-call.arguments.shell
+
+${foo}/${bar}/${baz}
+# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
+#^^^^^^^^^^^^^^^^^^^ meta.function-call.identifier.shell
+#                   ^ - meta.function-call
+#^^^^^ meta.interpolation.parameter.shell - variable.function
+#     ^ variable.function.shell - meta.interpolation
+#      ^^^^^^ meta.interpolation.parameter.shell - variable.function
+#            ^ variable.function.shell - meta.interpolation
+#             ^^^^^^ meta.interpolation.parameter.shell - variable.function
+
+
+####################################################################
+# Compound Command Arguments                                       #
+####################################################################
+
 (foo) -o
 # <- meta.compound.shell punctuation.section.compound.begin.shell
 #^^^ meta.compound.shell meta.function-call.identifier.shell variable.function.shell
@@ -532,20 +556,29 @@ subdir/./myscript.sh --option arg1 arg2 -x
 #                ^^ keyword.operator.end-of-options.shell
 #                   ^^^^^^^^^^^ - variable - punctuation
 
-$foo -o
-# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell variable.other.readwrite.shell punctuation.definition.variable.shell
-#^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
-#   ^^^ meta.function-call.arguments.shell
-
-${foo}/${bar}/${baz}
-# <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
-#^^^^^^^^^^^^^^^^^^^ meta.function-call.identifier.shell
-#                   ^ - meta.function-call
-#^^^^^ meta.interpolation.parameter.shell - variable.function
-#     ^ variable.function.shell - meta.interpolation
-#      ^^^^^^ meta.interpolation.parameter.shell - variable.function
-#            ^ variable.function.shell - meta.interpolation
-#             ^^^^^^ meta.interpolation.parameter.shell - variable.function
+{
+# <- meta.compound.shell punctuation.section.compound.begin.shell
+#^ meta.compound.shell - meta.compound meta.compound
+  {
+#^ meta.compound.shell - meta.compound meta.compound
+# ^^ meta.compound.shell meta.compound.shell
+# ^ punctuation.section.compound.begin.shell
+    foo args
+#^^^^^^^^^^^^ meta.compound.shell meta.compound.shell    
+#   ^^^ meta.function-call.identifier.shell variable.function.shell
+#      ^^^^^ meta.function-call.arguments.shell
+  } 2>> "$stderr_log"
+#^^ meta.compound.shell meta.compound.shell
+#  ^^^^^^^^^^^^^^^^^^ meta.compound.shell meta.compound.arguments.shell
+#                    ^ meta.compound.shell - meta.compound meta.compound
+# ^ punctuation.section.compound.end.shell
+  # ^ constant.numeric.integer.decimal.file-descriptor - variable.function
+} 1>> "$stdout_log"
+# <- meta.compound.shell - meta.compound meta.compound
+#^^^^^^^^^^^^^^^^^^ meta.compound.arguments.shell
+#                  ^ - meta
+# <- punctuation.section.compound.end.shell
+# ^ constant.numeric.integer.decimal.file-descriptor - variable.function
 
 
 ####################################################################
@@ -980,19 +1013,6 @@ fg %?ce
 %1
 # <- meta.interpolation.job.shell variable.language.job.shell punctuation.definition.variable.shell
 #^ meta.interpolation.job.shell variable.language.job.shell
-
-{
-# <- punctuation.section.compound.begin.shell
-  {
-  # <- punctuation.section.compound.begin.shell
-    foo args
-    # <- meta.function-call.identifier.shell variable.function
-  } 2>> "$stderr_log"
-  # <- punctuation.section.compound.end.shell
-  # ^ constant.numeric.integer.decimal.file-descriptor - variable.function
-} 1>> "$stdout_log"
-# <- punctuation.section.compound.end.shell
-# ^ constant.numeric.integer.decimal.file-descriptor - variable.function
 
 
 ####################################################################
