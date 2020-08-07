@@ -50,22 +50,20 @@ variables:
   identifier: '{{identifier_first_char}}{{identifier_char}}*'
   identifier_first_char: '[[:alpha:]_]'
   identifier_char: '[[:alnum:]_]'
-  identifier_break: (?!{{identifier_char}})
 
   # non-posix identifiers
   nonposix: '{{nonposix_first_char}}{{nonposix_char}}*{{nonposix_break}}'
-  nonposix_first_char: '[^{{metachar}}\d]'
+  nonposix_first_char: '[^{{metachar}}]'
   nonposix_char: '[^{{metachar}}=]'
   nonposix_begin: (?={{nonposix_first_char}})
   nonposix_break: (?={{metachar}}|{{varassign}}|$)
 
   # Commands literals are command names without interpolation or quotation.
-  cmd_literal: '{{cmd_literal_first_char}}{{cmd_literal_char}}*{{cmd_break}}'
-  cmd_literal_first_char: '[^{{metachar}}%$\\""''`\d]'
+  cmd_literal: '{{cmd_literal_char}}+{{cmd_break}}'
   cmd_literal_char: '[^{{metachar}}%$\\""''`]'
 
-  # Command names are non-posix identifiers, which don't stop at assignment operators.
-  cmd_begin: (?={{nonposix_first_char}})
+  # Command names are non-posix identifiers, which may include assignment operators.
+  cmd_begin: (?={{cmd_char}})
   cmd_break: (?!{{cmd_char}})
   cmd_char: '[^{{metachar}}]'
 

@@ -465,6 +465,12 @@ git log --format="%h git has this pattern, too"
 #               ^ keyword.operator.assignment.shell
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell string.quoted.double.shell
 
+7za x -a 
+# <- meta.function-call.identifier.shell variable.function.shell
+#^^ meta.function-call.identifier.shell variable.function.shell
+#  ^^^^^ meta.function-call.arguments.shell
+#     ^^ variable.parameter.option.shell
+
 sleep 2 & jobs
 # <- meta.function-call.identifier.shell variable.function.shell
 #^^^^ meta.function-call.identifier.shell variable.function.shell
