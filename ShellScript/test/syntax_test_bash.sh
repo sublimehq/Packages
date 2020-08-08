@@ -1402,6 +1402,105 @@ typeset foo         # 'foo' is a variable name
 #          ^ - variable
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 
+
+####################################################################
+# test builtin                                                     #
+####################################################################
+
+test
+# <- meta.function-call.identifier.shell support.function.test.shell
+#^^^ meta.function-call.identifier.shell support.function.test.shell
+#   ^ - meta.function-call
+test;
+#^^^ support.function.test.shell
+test&
+#^^^ support.function.test.shell
+test|
+#^^^ support.function.test.shell
+test>/dev/null
+#^^^ support.function.test.shell
+test -
+#^^^ support.function.test.shell
+test()
+#^^^ support.function.test.shell
+test[]
+#^^^^^ - support.function
+test{}
+#^^^^^ - support.function
+test-
+#^^^^ - support.function
+-test
+#^^^^ - support.function
+test+
+#^^^^ - support.function
+test$
+#^^^^ - support.function
+test$var
+#^^^^^^^ - support.function
+test=
+#^^^^ - support.function
+test-=
+#^^^^^ - support.function
+test+=
+#^^^^^ - support.function
+
+test var != 0
+#<- meta.function-call.identifier.shell support.function.test.shell
+#^^^ meta.function-call.identifier.shell support.function.test.shell
+#   ^^^^^^^^^ meta.function-call.arguments.shell - meta.pattern
+#        ^^ keyword.operator.comparison.shell
+#           ^ constant.numeric.integer.decimal.shell
+
+test var == true
+#<- meta.function-call.identifier.shell support.function.test.shell
+#^^^ meta.function-call.identifier.shell support.function.test.shell
+#   ^^^^^^^^^^^^ meta.function-call.arguments.shell - meta.pattern
+#        ^^ keyword.operator.comparison.shell
+#           ^^^^ constant.language.boolean.shell
+
+test str == "str"
+#<- meta.function-call.identifier.shell support.function.test.shell
+#^^^ meta.function-call.identifier.shell support.function.test.shell
+#   ^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#        ^^ keyword.operator.comparison.shell
+#           ^^^^^ string.quoted.double.shell
+
+test var[0] != var[^0-9]*$
+#<- meta.function-call.identifier.shell support.function.test.shell
+#^^^ meta.function-call.identifier.shell support.function.test.shell
+#   ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#       ^^^ meta.item-access.shell
+#           ^^ keyword.operator.comparison.shell
+#              ^^^^^^^^^^^ meta.pattern.regexp.shell
+
+test expr -a expr -o expr -- | cmd
+# <- meta.function-call.identifier.shell support.function.test.shell
+#^^^ meta.function-call.identifier.shell support.function.test.shell
+#   ^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                           ^^^ - meta.function-call
+#         ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                 ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                         ^^ - keyword
+#                            ^ keyword.operator.logical.pipe.shell
+#                              ^^^ meta.function-call.identifier.shell variable.function.shell
+
+if test expr -a expr ; then echo "success"; fi
+# ^ - meta.function-call
+#  ^^^^ meta.function-call.identifier.shell support.function.test.shell
+#      ^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                   ^^^^^^^^ - meta.function-call
+#            ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                    ^ keyword.operator.logical.continue.shell
+#                      ^^^^ keyword.control.conditional.then.shell
+#                           ^^^^ support.function.echo.shell
+#                                         ^ keyword.operator.logical.continue.shell
+#                                           ^^ keyword.control.conditional.end.shell
+
+
+####################################################################
+# unset builtin                                                    #
+####################################################################
+
 unset
 unset foo bar ba${z}  # 'foo' and 'bar' are variable names
 # <- meta.function-call.identifier.shell support.function.unset.shell
@@ -3352,32 +3451,6 @@ foo-done
 for-bar
 # <- - keyword
 #  ^ - keyword
-
-test
-# <- meta.function-call.identifier.shell support.function.test.shell
-#^^^ meta.function-call.identifier.shell support.function.test.shell
-#   ^ - meta.function-call
-
-test expr -a expr -o expr -- | cmd
-# <- meta.function-call.identifier.shell support.function.test.shell
-#^^^ meta.function-call.identifier.shell support.function.test.shell
-#   ^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#                           ^^^ - meta.function-call
-#         ^^ meta.parameter.option.shell variable.parameter.option.shell
-#                 ^^ meta.parameter.option.shell variable.parameter.option.shell
-#                         ^^ - keyword
-#                            ^ keyword.operator.logical.pipe.shell
-#                              ^^^ meta.function-call.identifier.shell variable.function.shell
-
-if test expr -a expr ; then echo "success"; fi
-# ^ - meta.function-call
-#  ^^^^ meta.function-call.identifier.shell support.function.test.shell
-#      ^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#                   ^^^^^^^^ - meta.function-call
-#            ^^ meta.parameter.option.shell variable.parameter.option.shell
-#                    ^ keyword.operator.logical.continue.shell
-#                      ^^^^ keyword.control.conditional.then.shell
-#                                           ^^ keyword.control.conditional.end.shell
 
 [ ]
 # <- support.function.test.begin.shell

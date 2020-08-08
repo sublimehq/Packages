@@ -575,8 +575,9 @@ contexts:
 
   cmd-test-args:
     - meta_content_scope: meta.function-call.arguments.shell
-    - include: cmd-args-boilerplate
     - include: cmd-test-body
+    - include: redirections
+    - include: eoc-pop
 
   cmd-test-body:
     - match: \(
@@ -615,12 +616,15 @@ contexts:
       scope: keyword.operator.assignment.shell
     - include: booleans
     - include: numbers
-    - include: expansions-and-strings
+    - include: arrays-item-access
+    - include: variable-expansions
 
   cmd-test-pattern:
     - meta_content_scope: meta.pattern.regexp.shell
     - match: (?=\s)
       pop: 1
+    - include: boolean
+    - include: number
     - include: expansions-and-strings
 
 ###[ UNSET BUILTINS ]##########################################################
