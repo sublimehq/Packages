@@ -435,8 +435,31 @@ contexts:
 
   cmd-arithmetic-args:
     - meta_content_scope: meta.function-call.arguments.shell
+    - match: \'
+      scope: punctuation.definition.string.begin.shell
+      push:
+        - meta_scope: meta.string.shell
+        - match: \'
+          scope: punctuation.definition.string.end.shell
+          pop: 1
+        - include: cmd-arithmetic-args-quoted-commen
+    - match: \"
+      scope: punctuation.definition.string.begin.shell
+      push:
+        - meta_scope: meta.string.shell
+        - match: \"
+          scope: punctuation.definition.string.end.shell
+          pop: 1
+        - include: cmd-arithmetic-args-quoted-commen
     - include: redirections
     - include: eoc-pop
+    - include: expressions
+
+  cmd-arithmetic-args-quoted-commen:
+    - match: $\n?
+      scope: invalid.illegal.expect-string-end.shell
+      pop: 1
+    - include: line-continuations
     - include: expressions
 
 ###[ COPROC BUILTINS ]#########################################################
