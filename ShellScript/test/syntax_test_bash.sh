@@ -333,9 +333,18 @@ set -e -- -o {string}
 #            ^^^^^^^^ meta.interpolation.brace.shell
 
 read -d '' -sn 1 -t1 -- -t1 10
-#^^^ meta.function-call.identifier.shell support.function.read.shell
+#^^^ meta.function-call.identifier.shell
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#    ^^ variable.parameter.option.shell
+#   ^ - meta.parameter
+#    ^^ meta.parameter.option.shell
+#      ^^^^ - meta.parameter
+#          ^^^ meta.parameter.option.shell
+#             ^^^ - meta.parameter
+#                ^^ meta.parameter.option.shell
+#                  ^^^^^^^^^^^ - meta.parameter
+#^^^ support.function.read.shell
+#    ^ variable.parameter.option.shell punctuation.definition.parameter.shell
+#     ^ variable.parameter.option.shell - punctuation
 #       ^^ string.quoted.single.shell
 #          ^^^ variable.parameter.option.shell
 #              ^ constant.numeric.integer.decimal.shell
@@ -383,42 +392,44 @@ foo -e =Hello
 #^^ meta.function-call.identifier.shell variable.function.shell
 #  ^^^^^^^^^^ meta.function-call.arguments.shell
 #   ^ punctuation.definition.parameter.shell
-#   ^^ variable.parameter.option.shell
+#   ^^ meta.parameter.option.shell variable.parameter.option.shell
 #      ^ - keyword.operator
 
 foo -e=Hello
 #^^ meta.function-call.identifier.shell variable.function.shell
 #  ^^^^^^^^^ meta.function-call.arguments.shell
-#   ^ punctuation.definition.parameter.shell
-#   ^^ variable.parameter.option.shell
+#  ^ - meta.parameter
+#   ^ meta.parameter.option.shell variable.parameter.option.shell punctuation.definition.parameter.shell
+#    ^ meta.parameter.option.shell variable.parameter.option.shell - punctuation
 #     ^ keyword.operator.assignment.shell
 #      ^^^^^ string.unquoted.shell
 
 foo -$e=Hello
 #^^ meta.function-call.identifier.shell variable.function.shell
 #  ^^^^^^^^^^ meta.function-call.arguments.shell
-#   ^ punctuation.definition.parameter.shell
-#   ^^^ variable.parameter.option.shell
-#    ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#   ^ meta.parameter.option.shell variable.parameter.option.shell punctuation.definition.parameter.shell
+#    ^^ meta.parameter.option.shell meta.interpolation.parameter.shell variable.other.readwrite.shell - variable variable
 #      ^ keyword.operator.assignment.shell
 #       ^^^^^ string.unquoted.shell
 
 foo -n -
-#   ^ variable.parameter.option punctuation
-#    ^ variable.parameter.option - punctuation
+#  ^ - meta.parameter
+#   ^ meta.parameter.option.shell variable.parameter.option.shell punctuation.definition.parameter.shell
+#    ^ meta.parameter.option.shell variable.parameter.option.shell - punctuation
+#     ^ - meta.parameter - variable - punctuation
 #      ^ - keyword - punctuation
 
 foo -nfv --opt1 arg1 -p=true -d false
 #  ^ - variable - punctuation
-#   ^^^^ variable.parameter.option.shell
+#   ^^^^ meta.parameter.option.shell variable.parameter.option.shell
 #       ^ - variable - punctuation
-#        ^^ variable.parameter.option.shell punctuation.definition.parameter.shell
-#          ^^^^ variable.parameter.option.shell - punctuation
+#        ^^ meta.parameter.option.shell variable.parameter.option.shell punctuation.definition.parameter.shell
+#          ^^^^ meta.parameter.option.shell variable.parameter.option.shell - punctuation
 #              ^ - variable - punctuation
-#                    ^^ variable.parameter.option.shell
+#                    ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                      ^ keyword.operator.assignment.shell
 #                       ^^^^ constant.language.boolean.shell
-#                            ^^ variable.parameter.option.shell
+#                            ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                               ^^^^^ constant.language.boolean.shell
 
 foo --opt1 arg1 -- --not-an-option
@@ -447,19 +458,19 @@ f#-o+o ar%g --opt1 --opt2=value +x -y &>/dev/null
 #     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell - meta.function-call.identifier
 #                                                ^ - meta.function-call
 #          ^ - variable - punctuation
-#           ^^ variable.parameter.option.shell punctuation.definition.parameter.shell
-#             ^^^^ variable.parameter.option.shell - punctuation
+#           ^^ meta.parameter.option.shell variable.parameter.option.shell punctuation.definition.parameter.shell
+#             ^^^^ meta.parameter.option.shell variable.parameter.option.shell - punctuation
 #                 ^ - variable - punctuation
-#                  ^^ variable.parameter.option.shell punctuation.definition.parameter.shell
-#                    ^^^^ variable.parameter.option.shell - punctuation
+#                  ^^ meta.parameter.option.shell variable.parameter.option.shell punctuation.definition.parameter.shell
+#                    ^^^^ meta.parameter.option.shell variable.parameter.option.shell - punctuation
 #                        ^ keyword.operator.assignment.shell
 #                         ^^^^^ string.unquoted.shell
 #                              ^ - variable - punctuation
-#                               ^ variable.parameter.option.shell punctuation.definition.parameter.shell
-#                                ^ variable.parameter.option.shell - punctuation
+#                               ^ meta.parameter.option.shell variable.parameter.option.shell punctuation.definition.parameter.shell
+#                                ^ meta.parameter.option.shell variable.parameter.option.shell - punctuation
 #                                 ^ - variable - punctuation
-#                                  ^ variable.parameter.option.shell punctuation.definition.parameter.shell
-#                                   ^ variable.parameter.option.shell - punctuation
+#                                  ^ meta.parameter.option.shell variable.parameter.option.shell punctuation.definition.parameter.shell
+#                                   ^ meta.parameter.option.shell variable.parameter.option.shell - punctuation
 #                                    ^ - variable - punctuation
 #                                     ^^ keyword.operator.assignment.redirection.shell
 
@@ -468,8 +479,8 @@ git log --format="%h git has this pattern, too"
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                                              ^ - meta.function-call
 #      ^ - variable - punctuation
-#       ^^ variable.parameter.option.shell punctuation.definition.parameter.shell
-#         ^^^^^^ variable.parameter.option.shell - punctuation
+#       ^^ meta.parameter.option.shell variable.parameter.option.shell punctuation.definition.parameter.shell
+#         ^^^^^^ meta.parameter.option.shell variable.parameter.option.shell - punctuation
 #               ^ keyword.operator.assignment.shell
 #                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell string.quoted.double.shell
 
@@ -477,12 +488,12 @@ git log --format="%h git has this pattern, too"
 # <- meta.function-call.identifier.shell variable.function.shell
 #^^ meta.function-call.identifier.shell variable.function.shell
 #  ^^^^^ meta.function-call.arguments.shell
-#     ^^ variable.parameter.option.shell
-#        ^^^ variable.parameter.option.shell
-#            ^ variable.parameter.option.shell punctuation.definition.parameter.shell
+#     ^^ meta.parameter.option.shell variable.parameter.option.shell
+#        ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#            ^ meta.parameter.option.shell variable.parameter.option.shell punctuation.definition.parameter.shell
 #             ^ keyword.operator.assignment.shell
-#               ^^ variable.parameter.option.shell
-#                  ^^ variable.parameter.option.shell
+#               ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                  ^^ meta.parameter.option.shell variable.parameter.option.shell
 
 sleep 2 & jobs
 # <- meta.function-call.identifier.shell variable.function.shell
@@ -496,9 +507,9 @@ subdir/./myscript.sh --option arg1 arg2 -x
 # <- meta.function-call.identifier.shell variable.function.shell
 #^^^^^^^^^^^^^^^^^^^ meta.function-call.identifier.shell variable.function.shell
 #                   ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell 
-#                    ^^^^^^^^ variable.parameter.option.shell
+#                    ^^^^^^^^ meta.parameter.option.shell variable.parameter.option.shell
 #                            ^^^^^^^^^^^ - string
-#                                       ^^ variable.parameter.option.shell
+#                                       ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                                         ^ - meta.function-call
 
 {foo} -o --option -- -o
@@ -506,9 +517,9 @@ subdir/./myscript.sh --option arg1 arg2 -x
 #^^^^ meta.function-call.identifier.shell variable.function.shell
 #    ^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                      ^ - meta.function-call
-#     ^^ variable.parameter.option.shell
+#     ^^ meta.parameter.option.shell variable.parameter.option.shell
 #       ^ - variable
-#        ^^^^^^^^ variable.parameter.option.shell
+#        ^^^^^^^^ meta.parameter.option.shell variable.parameter.option.shell
 #                ^ - variable - keyword
 #                 ^^ keyword.operator.end-of-options.shell
 #                   ^ - variable - keyword
@@ -553,11 +564,11 @@ ${foo}/${bar}/${baz}
 #         ^^^^^^^^^^^^^^^^^^^^^ meta.compound.arguments.shell - meta.compound meta.compound
 #                              ^ - meta.compound
 # ^^^ variable.function.shell
-#     ^ variable.parameter.option.shell punctuation.definition.parameter.shell
-#      ^ variable.parameter.option.shell - punctuation
+#     ^ meta.parameter.option.shell variable.parameter.option.shell punctuation.definition.parameter.shell
+#      ^ meta.parameter.option.shell variable.parameter.option.shell - punctuation
 #        ^ punctuation.section.compound.end.shell
-#          ^^ variable.parameter.option.shell punctuation.definition.parameter.shell
-#            ^^^ variable.parameter.option.shell - punctuation
+#          ^^ meta.parameter.option.shell variable.parameter.option.shell punctuation.definition.parameter.shell
+#            ^^^ meta.parameter.option.shell variable.parameter.option.shell - punctuation
 #                ^^ keyword.operator.end-of-options.shell
 #                   ^^^^^^^^^^^ - variable - punctuation
 
@@ -1049,7 +1060,7 @@ alias -p foo=bar
 #^^^^ meta.function-call.identifier.shell
 #    ^^^^^^^^^^^ meta.function-call.arguments.shell
 #               ^ - meta.function-call
-#     ^^ variable.parameter.option.shell
+#     ^^ meta.parameter.option.shell variable.parameter.option.shell
 #        ^^^ entity.name.function.alias.shell
 #           ^ keyword.operator.assignment.shell
 #            ^^^ meta.string.shell string.unquoted.shell
@@ -1059,7 +1070,7 @@ alias -a -p -- foo=bar
 #    ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                     ^ - meta.function-call
 #     ^^ invalid.illegal.parameter.shell
-#        ^^ variable.parameter.option.shell
+#        ^^ meta.parameter.option.shell variable.parameter.option.shell
 #           ^^ keyword.operator.end-of-options.shell
 #              ^^^ entity.name.function.alias.shell
 #                 ^ keyword.operator.assignment.shell
@@ -1273,7 +1284,7 @@ unset -nfv foo
 #    ^^^^^^^^^ meta.function-call.arguments.shell
 #             ^ - meta.function-call
 #^^^^ support.function.unset.shell
-#     ^^^^ variable.parameter.option.shell
+#     ^^^^ meta.parameter.option.shell variable.parameter.option.shell
 #         ^ - variable
 #          ^^^ variable.function.shell
 #             ^ - variable
@@ -1286,9 +1297,9 @@ unset -f -n -v foo bar; unset -vn foo 2>& /dev/null
 #                       ^^^^^ meta.function-call.identifier.shell
 #                            ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                                                  ^ - meta.function-call
-#     ^^ variable.parameter.option.shell
-#        ^^ variable.parameter.option.shell
-#           ^^ variable.parameter.option.shell
+#     ^^ meta.parameter.option.shell variable.parameter.option.shell
+#        ^^ meta.parameter.option.shell variable.parameter.option.shell
+#           ^^ meta.parameter.option.shell variable.parameter.option.shell
 #             ^ - variable
 #              ^^^ meta.variable.shell variable.function.shell
 #                 ^ - variable
@@ -1296,7 +1307,7 @@ unset -f -n -v foo bar; unset -vn foo 2>& /dev/null
 #                     ^ keyword.operator.logical.continue.shell
 #                       ^^^^^ support.function.unset.shell
 #                            ^ - support - variable
-#                             ^^^ variable.parameter.option.shell
+#                             ^^^ meta.parameter.option.shell variable.parameter.option.shell
 #                                ^ - variable
 #                                 ^^^ meta.variable.shell variable.other.readwrite.shell
 #                                    ^ - variable
@@ -1311,9 +1322,9 @@ unset -f -x +v -- foo bar; unset -vn -- foo
 #                          ^^^^^ meta.function-call.identifier.shell
 #                               ^^^^^^^^^^^ meta.function-call.arguments.shell
 #                                          ^ - meta.function-call
-#     ^^ variable.parameter.option.shell
+#     ^^ meta.parameter.option.shell variable.parameter.option.shell
 #        ^^ invalid.illegal.parameter.shell
-#           ^^ variable.parameter.option.shell
+#           ^^ meta.parameter.option.shell variable.parameter.option.shell
 #             ^^^^ - variable
 #              ^^ keyword.operator.end-of-options.shell
 #                 ^^^ meta.variable.shell variable.function.shell
@@ -1322,7 +1333,7 @@ unset -f -x +v -- foo bar; unset -vn -- foo
 #                        ^ keyword.operator.logical.continue.shell
 #                          ^^^^^ support.function.unset.shell
 #                               ^ - support - variable
-#                                ^^^ variable.parameter.option.shell
+#                                ^^^ meta.parameter.option.shell variable.parameter.option.shell
 #                                   ^^^^ - variable
 #                                    ^^ keyword.operator.end-of-options.shell
 #                                       ^^^ meta.variable.shell variable.other.readwrite.shell
@@ -1355,7 +1366,7 @@ sudo rm -rf
 #^^^ meta.function-call.identifier.shell support.function.sudo.shell
 #    ^^ meta.function-call.identifier.shell variable.function.shell
 #      ^^^^ meta.function-call.arguments.shell
-#       ^^^ variable.parameter.option.shell
+#       ^^^ meta.parameter.option.shell variable.parameter.option.shell
 #       ^ punctuation.definition.parameter.shell
 
 sudo -b -g network --host=$foo rm -rf
@@ -1365,17 +1376,17 @@ sudo -b -g network --host=$foo rm -rf
 #                              ^^ meta.function-call.identifier.shell
 #                                ^^^^ meta.function-call.arguments.shell
 #                                    ^ - meta.function-call
-#    ^^ variable.parameter.option.shell
+#    ^^ meta.parameter.option.shell variable.parameter.option.shell
 #    ^ punctuation.definition.parameter.shell
-#       ^^ variable.parameter.option.shell
+#       ^^ meta.parameter.option.shell variable.parameter.option.shell
 #       ^ punctuation.definition.parameter.shell
 #          ^^^^^^^ meta.string.shell string.unquoted.shell
-#                  ^^^^^^ variable.parameter.option.shell
+#                  ^^^^^^ meta.parameter.option.shell variable.parameter.option.shell
 #                  ^^ punctuation.definition.parameter.shell
 #                        ^ keyword.operator.assignment.shell
 #                         ^^^^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
 #                              ^^ variable.function.shell
-#                                 ^^^ variable.parameter.option.shell
+#                                 ^^^ meta.parameter.option.shell variable.parameter.option.shell
 #                                 ^ punctuation.definition.parameter.shell
 
 sudo --reset-timestamp -n -- rm -rf
@@ -1386,12 +1397,13 @@ sudo --reset-timestamp -n -- rm -rf
 #                            ^^ meta.function-call.identifier.shell
 #                              ^^^^ meta.function-call.arguments.shell
 #                                  ^ - meta.function-call
-#    ^^^^^^^^^^^^^^^^^ variable.parameter.option.shell
-#                      ^^ variable.parameter.option.shell
+#    ^^^^^^^^^^^^^^^^^ meta.parameter.option.shell variable.parameter.option.shell
+#                      ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                         ^^ keyword.operator.end-of-options.shell
 #                            ^^ variable.function.shell
-#                               ^^^ variable.parameter.option.shell
+#                               ^^^ meta.parameter.option.shell variable.parameter.option.shell
 #                               ^ punctuation.definition.parameter.shell
+
 
 ####################################################################
 # Strings and interpolation in parameter expansion                 #
@@ -2527,7 +2539,7 @@ foo=`(uname -r --) 2>/dev/null`
 #    ^^^^^^^^^^^^^ meta.compound.shell
 #   ^ punctuation.section.interpolation.begin.shell
 #     ^^^^^ variable.function.shell
-#           ^^ variable.parameter.option.shell
+#           ^^ meta.parameter.option.shell variable.parameter.option.shell
 #              ^^ keyword.operator.end-of-options.shell
 #                ^ punctuation.section.compound.end.shell
 #                  ^ constant.numeric.integer.decimal.file-descriptor.shell
@@ -2737,8 +2749,8 @@ test expr -a expr -o expr -- | cmd
 #^^^ meta.function-call.identifier.shell support.function.test.shell
 #   ^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                           ^^^ - meta.function-call
-#         ^^ variable.parameter.option.shell
-#                 ^^ variable.parameter.option.shell
+#         ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                 ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                         ^^ - keyword
 #                            ^ keyword.operator.logical.pipe.shell
 #                              ^^^ meta.function-call.identifier.shell variable.function.shell
@@ -2748,7 +2760,7 @@ if test expr -a expr ; then echo "success"; fi
 #  ^^^^ meta.function-call.identifier.shell support.function.test.shell
 #      ^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                   ^^^^^^^^ - meta.function-call
-#            ^^ variable.parameter.option.shell
+#            ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                    ^ keyword.operator.logical.continue.shell
 #                      ^^^^ keyword.control.conditional.then.shell
 #                                           ^^ keyword.control.conditional.end.shell
@@ -2851,7 +2863,7 @@ if [[ expr && ( expr || expr ) ]] ; then cmd ; fi
 if [ ! -f q4m-$Q4MVER.tar.gz ]; then
 #  ^ support.function.test.begin.shell
 #    ^ keyword.operator.logical.shell
-#      ^^ variable.parameter.option.shell
+#      ^^ meta.parameter.option.shell variable.parameter.option.shell
 #      ^ punctuation.definition.parameter.shell
 #        ^ - keyword.operator
 #             ^^^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
@@ -3291,8 +3303,8 @@ while ! ( [[ true ]] ); do echo bar; done
 while read -r -d '' f; do
 # <- keyword.control.loop.while.shell
 #     ^^^^ support.function.read.shell
-#          ^^ variable.parameter.option.shell
-#             ^^ variable.parameter.option.shell
+#          ^^ meta.parameter.option.shell variable.parameter.option.shell
+#             ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                ^^ string.quoted.single.shell
 #                    ^ keyword.operator.logical.continue.shell
 #                      ^^ keyword.control.loop.do.shell
@@ -3304,8 +3316,8 @@ while IFS= read -r -d '' f; do
 #     ^^^ variable.other.readwrite.shell
 #        ^ keyword.operator.assignment.shell
 #          ^^^^ support.function.read.shell
-#               ^^ variable.parameter.option.shell
-#                  ^^ variable.parameter.option.shell
+#               ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                  ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                     ^^ string.quoted.single.shell
 #                         ^ keyword.operator.logical.continue.shell
 #                           ^^ keyword.control.loop.do.shell
@@ -3498,7 +3510,7 @@ c1 -c1 c1 && ${C2} -c2 c2 || c3 -c3 ${C3} ; c4 -${C4} c4 | c5 -c5 c5
                           #         ^ - variable.parameter
                           #               ^ keyword
                                           # ^^ variable.function
-                                          #    ^^^^^^ variable.parameter
+                                          #    ^ variable.parameter
 
 foo 2>&1
 #   ^ meta.function-call.arguments constant.numeric.integer.decimal.file-descriptor

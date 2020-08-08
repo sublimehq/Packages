@@ -29,7 +29,7 @@ def main():
         if long_options:
             cmd_args.append({
                 "match": rf"(--)(?:{'|'.join(long_options)}){{{{opt_break}}}}",
-                "scope": "variable.parameter.option.shell",
+                "scope": "meta.parameter.option.shell variable.parameter.option.shell",
                 "captures": {
                     1: "punctuation.definition.parameter.shell"
                 },
@@ -47,7 +47,7 @@ def main():
 
             cmd_args.append({
                 "match": rf"([-+]){opts}",
-                "scope": "variable.parameter.option.shell",
+                "scope": "meta.parameter.option.shell variable.parameter.option.shell",
                 "captures": {
                     1: "punctuation.definition.parameter.shell"
                 },
@@ -55,10 +55,9 @@ def main():
             })
 
         if short_options_compact:
-            opts = f"[{short_options_compact}]+"
             cmd_args.append({
-                "match": rf"([-+]){opts}",
-                "scope": "variable.parameter.option.shell",
+                "match": rf"([-+])[{short_options_compact}]+",
+                "scope": "meta.parameter.option.shell variable.parameter.option.shell",
                 "captures": {
                     1: "punctuation.definition.parameter.shell"
                 }

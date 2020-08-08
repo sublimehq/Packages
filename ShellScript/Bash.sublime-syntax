@@ -69,6 +69,7 @@ variables:
 
   # Command options are identifiers, which may start with interpolation.
   opt_punctuation: (?:\s+|^)(--|[-+]){{nonposix_begin}}
+  opt_literal_char: '[^{{metachar}}=%$\\""''`]'
   opt_break: '{{nonposix_break}}'
 
   # Variables are posix identifiers, which may start with interpolation.
@@ -316,28 +317,36 @@ contexts:
 
   vardef-alias-options:
     - match: ([-+])p
-      scope: variable.parameter.option.shell
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
     - include: vardef-end-of-options
 
   vardef-declare-options:
     - match: ([-+])(?:[aAfFgilnrtux]+|p)
-      scope: variable.parameter.option.shell
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
     - include: vardef-end-of-options
 
   vardef-export-options:
     - match: ([-+])(?:[fn]+|p)
-      scope: variable.parameter.option.shell
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
     - include: vardef-end-of-options
 
   vardef-readonly-options:
     - match: ([-+])(?:[aAf]+|p)
-      scope: variable.parameter.option.shell
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
     - include: vardef-end-of-options
@@ -480,17 +489,23 @@ contexts:
         preserve-env|edit|group|set-home|help|host|login|remove-timestamp|
         reset-timestamp|list|non-interactive|preserve-groups|prompt|role|
         stdin|shell|type|other-user|user|version|validate){{opt_break}}
-      scope: variable.parameter.option.shell
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
       push: cmd-args-option-maybe-assignment
     - match: ([-+])[AbEeHiKklnPSsUuVv]*[aCcghprt]
-      scope: variable.parameter.option.shell
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
       push: cmd-args-option-maybe-value
     - match: ([-+])[AbEeHiKklnPSsUuVv]+
-      scope: variable.parameter.option.shell
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
     - match: --{{cmd_break}}
@@ -544,11 +559,15 @@ contexts:
           pop: 1
         - include: cmd-test-body
     - match: ([-+])[aobcdefghknoprstuvwxzGLNORS]{{opt_break}}
-      scope: variable.parameter.option.shell
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
     - match: ([-+])(?:ef|nt|ot|eq|ne|lt|le|gt|ge){{opt_break}}
-      scope: variable.parameter.option.shell
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
     - match: (=~)\s*
@@ -586,7 +605,9 @@ contexts:
 
   cmd-unset-args:
     - match: ([-+])(?:[nv]?f[nv]?)
-      scope: variable.parameter.option.shell
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
       set: cmd-unset-options-then-functions
@@ -594,7 +615,9 @@ contexts:
 
   cmd-unset-options:
     - match: ([-+])(?:[nv]+)
-      scope: variable.parameter.option.shell
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
     - match: (--|[-+]){{identifier}}
@@ -687,16 +710,18 @@ contexts:
   cmd-args-options:
     - match: '{{opt_punctuation}}'
       captures:
-        1: variable.parameter.option.shell
+        1: meta.parameter.option.shell
+           variable.parameter.option.shell
            punctuation.definition.parameter.shell
       push: cmd-args-option-name
 
   cmd-args-option-name:
-    - meta_content_scope: meta.option.name.shell variable.parameter.option.shell
+    - meta_content_scope: meta.parameter.option.shell
+    - match: '{{opt_literal_char}}+'
+      scope: variable.parameter.option.shell
     - include: cmd-args-option-assignment
-    - match: '{{opt_break}}'
-      pop: 1
     - include: expansions-and-strings
+    - include: immediately-pop
 
   cmd-args-option-maybe-assignment:
     # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
