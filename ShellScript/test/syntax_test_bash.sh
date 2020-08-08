@@ -2755,24 +2755,72 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #          ^ punctuation.definition.group.end.regexp.shell
 #            ^ keyword.operator.logical.pipe.shell
 
-[[ a == [abc[]* ]]
-#       ^ punctuation.definition.set.begin.regexp.shell
-#           ^ - keyword.control
-#            ^ punctuation.definition.set.end.regexp.shell
-#             ^ keyword.operator.quantifier.regexp.shell
-#               ^^ - keyword.control
-
 : ${foo//[abc[]/x}
 #            ^ - keyword.control
 #                ^ punctuation.section.interpolation.end.shell
 
-if [[ ' foobar' == [\ ]foo* ]]; then
-  #                ^ punctuation.definition.set.begin.regexp.shell
-  #                 ^^ constant.character.escape.shell
-  #                   ^ punctuation.definition.set.end.regexp.shell
-  #                         ^^ support.function.double-brace.end.shell
-  :
-fi
+[[ a == [abc[]* ]]
+#^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^ - meta.pattern.regexp
+#       ^^^^^^^ meta.pattern.regexp.shell - meta.interpolation
+#              ^^^ - meta.pattern.regexp
+#       ^ punctuation.definition.set.begin.regexp.shell
+#           ^ - keyword.control
+#            ^ punctuation.definition.set.end.regexp.shell
+#             ^ keyword.operator.quantifier.regexp.shell
+
+[[ "${foo}" == bar*baz ]]
+#^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^^^^^^^^ - meta.pattern.regexp
+#              ^^^^^^^ meta.pattern.regexp.shell - meta.interpolation
+#                     ^^^ - meta.pattern.regexp
+#           ^^ keyword.operator.comparison.shell
+#                 ^ keyword.operator.quantifier.regexp.shell
+
+[[ $str != ^$'\t' ]]
+#^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^^^^ - meta.pattern.regexp
+#          ^^^^^^ meta.pattern.regexp.shell - meta.interpolation
+#                ^^^ - meta.pattern.regexp
+#  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#       ^^ keyword.operator.comparison.shell
+
+[[ $str =~ ^abc$var$ ]]
+#^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^^^^ - meta.pattern.regexp
+#  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#       ^^ keyword.operator.binary.shell
+#          ^^^^ meta.pattern.regexp.shell - meta.interpolation
+#              ^^^^ meta.pattern.regexp.shell meta.interpolation.parameter.shell
+#                  ^ meta.pattern.regexp.shell - meta.interpolation
+#                   ^^^ - meta.pattern.regexp
+
+[[ $line =~ [[:space:]]*?(a)b ]]
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^^^^^ - meta.pattern.regexp.shell
+#           ^^^^^^^^^^^^^^^^^ meta.pattern.regexp.shell
+#           ^^^^^^^^^^^ meta.set.regexp.shell
+#                        ^^^ meta.group.regexp.shell
+#                            ^^^ - meta.pattern.regexp.shell
+#  ^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#        ^^ keyword.operator.binary.shell
+#           ^^ punctuation.definition.set.begin.regexp.shell
+#             ^^^^^^^ constant.other.posix-class.regexp.shell
+#                    ^^ punctuation.definition.set.end.regexp.shell
+#                      ^^ keyword.operator.quantifier.regexp.shell
+#                        ^ punctuation.definition.group.begin.regexp.shell
+#                          ^ punctuation.definition.group.end.regexp.shell
+
+[[ ' foobar' == [\ ]foo* ]]
+#^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#^^^^^^^^^^^^^^^ - meta.pattern.regexp.shell
+#               ^^^^ meta.set.regexp.shell
+#               ^^^^^^^^ meta.pattern.regexp.shell
+#                       ^^^ - meta.pattern.regexp.shell
+#               ^ punctuation.definition.set.begin.regexp.shell
+#                ^^ constant.character.escape.shell
+#                  ^ punctuation.definition.set.end.regexp.shell
+#                      ^ keyword.operator.quantifier.regexp.shell
 
 
 ####################################################################
@@ -3356,38 +3404,6 @@ if test expr -a expr ; then echo "success"; fi
 #^^^^^ meta.conditional.shell
 #^^ support.function.double-brace.begin.shell
 #   ^^ support.function.double-brace.end.shell
-
-[[ "${foo}" == bar*baz ]]
-# <- support.function.double-brace.begin.shell
-#^ support.function.double-brace.begin.shell
-#           ^^ keyword.operator.comparison.shell
-#                 ^ keyword.operator.quantifier.regexp.shell
-#                      ^^ support.function.double-brace.end.shell
-
-[[ $str =~ ^$'\t' ]]
-# <- support.function.double-brace.begin.shell
-#^ support.function.double-brace.begin.shell
-#  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#       ^^ keyword.operator.logical.shell
-#          ^^^^^^ meta.regexp.shell - meta.interpolation
-
-[[ $str =~ ^abc$var$ ]]
-# <- support.function.double-brace.begin.shell
-#^ support.function.double-brace.begin.shell
-#  ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#       ^^ keyword.operator.logical.shell
-#          ^^^^ meta.regexp.shell - meta.interpolation
-#              ^^^^ meta.regexp.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
-#                  ^ meta.regexp.shell - meta.interpolation
-
-[[ $line =~ [[:space:]]*?(a)b ]]
-#^^^^^^^^^^^ meta.conditional.shell - meta.regexp.shell
-#           ^^^^^^^^^^^^^^^^^ meta.regexp.shell
-#                            ^^^ meta.conditional.shell - meta.regexp.shell
-# <- support.function.double-brace.begin.shell
-#^ support.function.double-brace.begin.shell
-#  ^^^^^ variable.other.readwrite.shell
-#        ^^ keyword.operator.logical.shell
 
 if [[ expr ]] && [[ expr ]] || [[ expr ]] ; then cmd ; fi
 #  ^^^^^^^^^^ meta.conditional.shell

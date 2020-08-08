@@ -578,13 +578,13 @@ contexts:
         1: punctuation.definition.parameter.shell
     - match: (=~)\s*
       captures:
-        1: keyword.operator.logical.shell
-      push:
-        - meta_content_scope: meta.regexp.shell
-        - match: (?=\s)
-          pop: 1
-        - include: expansions-and-strings
-    - match: '<=?|>=?|[=!]='
+        1: keyword.operator.binary.shell
+      push: cmd-test-pattern
+    - match: ([=!]=)\s*
+      captures:
+        1: keyword.operator.comparison.shell
+      push: cmd-test-pattern
+    - match: '<=?|>=?'
       scope: keyword.operator.comparison.shell
     - match: '&&|\|\||!'
       scope: keyword.operator.logical.shell
@@ -592,6 +592,12 @@ contexts:
       scope: keyword.operator.assignment.shell
     - include: booleans
     - include: numbers
+    - include: expansions-and-strings
+
+  cmd-test-pattern:
+    - meta_content_scope: meta.pattern.regexp.shell
+    - match: (?=\s)
+      pop: 1
     - include: expansions-and-strings
 
 ###[ UNSET BUILTINS ]##########################################################
