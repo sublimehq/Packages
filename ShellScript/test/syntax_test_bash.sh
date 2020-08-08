@@ -765,6 +765,12 @@ false=true
 #^^^^ variable.other.readwrite.shell - constant
 #     ^^^^ constant.language.boolean.shell
 
+# `-` is not a valid variable identifier char
+my-var=20
+# <- variable.other.readwrite.shell
+#^ variable.other.readwrite.shell
+# ^^^^^^^ meta.string.shell string.unquoted.shell
+
 (foo=bar)
 # <- punctuation.section.compound.begin.shell
 #   ^ keyword.operator.assignment
