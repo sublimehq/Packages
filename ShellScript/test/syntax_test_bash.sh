@@ -2515,6 +2515,22 @@ let 5+5 # comment
 #    ^ keyword.operator.arithmetic.shell
 #     ^ constant.numeric.integer.decimal.shell
 
+let var[10]=5*(20+$idx)
+#^^ meta.function-call.identifier.shell support.function.let.shell
+#  ^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#      ^^^^ meta.item-access.shell
+#      ^ punctuation.section.item-access.begin.shell
+#       ^^ constant.numeric.integer.decimal.shell
+#         ^ punctuation.section.item-access.end.shell
+#          ^ keyword.operator.assignment.shell
+#           ^ constant.numeric.integer.decimal.shell
+#            ^ keyword.operator.arithmetic.shell
+#             ^ punctuation.section.group.begin.shell
+#              ^^ constant.numeric.integer.decimal.shell
+#                ^ keyword.operator.arithmetic.shell
+#                 ^^^^ variable.other.readwrite.shell
+#                     ^ punctuation.section.group.end.shell
+
 foo=`let 5+5`
 #   ^ punctuation.section.interpolation.begin.shell
 #          ^ constant.numeric.integer

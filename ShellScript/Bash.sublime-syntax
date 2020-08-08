@@ -121,6 +121,11 @@ contexts:
     - match: (?=\S)
       pop: 1
 
+  eoc-pop:
+    - match: (?=[)}]|\s*([|;]|&(?!>)))
+      pop: 1
+    - include: eol-pop
+
   eol-pop:
     - match: $|(?=\s+#)
       pop: 1
@@ -430,7 +435,8 @@ contexts:
 
   cmd-arithmetic-args:
     - meta_content_scope: meta.function-call.arguments.shell
-    - include: cmd-args-boilerplate
+    - include: redirections
+    - include: eoc-pop
     - include: expressions
 
 ###[ COPROC BUILTINS ]#########################################################
@@ -749,9 +755,7 @@ contexts:
     - include: redirections
     - include: booleans
     - include: numbers
-    - include: eol-pop
-    - match: (?=[)}]|\s*([|;]|&(?!>)))
-      pop: 1
+    - include: eoc-pop
 
   cmd-args-boilerplate-with-end-of-options:
     # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
@@ -1146,6 +1150,7 @@ contexts:
     - include: booleans
     - include: numbers
     - include: strings
+    - include: arrays-item-access
     - include: expansions-parameter
     - include: expansions-arithmetic
     - include: expansions-command
