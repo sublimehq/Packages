@@ -1346,7 +1346,7 @@ contexts:
         variable.other.readwrite.shell
       captures:
         1: punctuation.definition.variable.shell
-        2: keyword.operator.regexp.quantifier.shell
+        2: keyword.operator.match.shell
 
   expansions-parameter:
     - match: \$\{
@@ -1444,62 +1444,75 @@ contexts:
     - include: immediately-pop
 
   expansions-pattern:
+    # [3.5.8.1] Pattern Matching
     - match: ([?*+@!])(\()
       captures:
-        1: keyword.operator.regexp.quantifier.shell
-        2: meta.group.shell
-           punctuation.section.group.begin.shell
-      push:
-        - meta_content_scope: meta.group.shell
-        - match: \)
-          scope:
-            meta.group.shell
-            punctuation.section.group.end.shell
-          pop: 1
-        - match: \|
-          scope: keyword.operator.logical.or.shell
-        - include: expansions-and-strings
+        1: keyword.operator.quantifier.regexp.shell
+        2: meta.group.regexp.shell
+           punctuation.definition.group.begin.regexp.shell
+      push: expansions-pattern-group-body
+    - match: (\[)(?:([!^])|-)?(?=.*])
+      captures:
+        1: punctuation.definition.set.begin.regexp.shell
+        2: keyword.operator.logical.not.regexp.shell
+      push: expansions-pattern-set-body
     - match: '[*?]'
-      scope: keyword.operator.regexp.quantifier.shell
-    - match: \[(?=.*])
-      scope: keyword.control.regexp.set.begin.shell
-      push:
-        - expansions-pattern-chars
-        - expansions-pattern-first-char
+      scope: keyword.operator.quantifier.regexp.shell
 
-  expansions-pattern-first-char:
-    - match: '[!^]'
-      scope: keyword.operator.logical.not.shell
+  expansions-pattern-group-body:
+    - meta_content_scope: meta.group.regexp.shell
+    - match: \)
+      scope:
+        meta.group.regexp.shell
+        punctuation.definition.group.end.regexp.shell
       pop: 1
-    - match: \-
-      pop: 1
-    - include: immediately-pop
+    - match: \|
+      scope: keyword.operator.logical.or.regexp.shell
+    - include: expansions-and-strings
 
-  expansions-pattern-chars:
+  expansions-pattern-set-body:
+    - meta_scope: meta.set.regexp.shell
     - match: (?:-)?(\])
       captures:
-        1: keyword.control.regexp.set.end.shell
+        1: punctuation.definition.set.end.regexp.shell
+      pop: 1
+    - match: ((\.)[[:word:]](\.))(\])
+      captures:
+        1: constant.character.collate.regexp.shell
+        2: punctuation.definition.collate.begin.regexp.shell
+        3: punctuation.definition.collate.end.regexp.shell
+        4: punctuation.definition.set.end.regexp.shell
+      pop: 1
+    - match: ((=)[[:word:]](=))(\])
+      captures:
+        1: constant.character.equivalence-class.regexp.shell
+        2: punctuation.definition.class.begin.regexp.shell
+        3: punctuation.definition.class.end.regexp.shell
+        4: punctuation.definition.set.end.regexp.shell
+      pop: 1
+    - match: |-
+        ((:)(?x:alnum|alpha|ascii|blank|cntrl|digit|graph|lower|print|
+                punct|space|upper|word|xdigit)(:))(\])
+      captures:
+        1: constant.other.posix-class.regexp.shell
+        2: punctuation.definition.class.begin.regexp.shell
+        3: punctuation.definition.class.end.regexp.shell
+        4: punctuation.definition.set.end.regexp.shell
       pop: 1
     - match: \-
-      scope: keyword.operator.word.shell
-    - match: (\.)[[:word:]](\.)
+      scope: punctuation.separator.range.regexp.shell
+    - match: (\[)([!^])?(?=[\.=:])
       captures:
-        1: punctuation.separator.collate.begin.shell
-        2: punctuation.separator.collate.end.shell
-    - match: (=)[[:word:]](=)
-      captures:
-        1: punctuation.separator.equivalence-class.begin.shell
-        2: punctuation.separator.equivalence-class.end.shell
-    - match: (:)[[:lower:]]+(:)
-      captures:
-        1: punctuation.separator.character-class.begin.shell
-        2: punctuation.separator.character-class.end.shell
-    # You cannot have a regex set inside a regex set, so just consume this
-    # character in order to not push into another regex set.
-    # Except when writing a character class like [:lower:], so negative look
-    # ahead for that possibility.
-    - match: \[(?![\.=:])
-    - include: expansions-and-strings
+        1: punctuation.definition.set.begin.regexp.shell
+        2: keyword.operator.logical.not.regexp.shell
+      push: expansions-pattern-set-body
+    - include: any-escapes
+    # [Bash] 3.2.4.2: Each pattern undergoes tilde expansion, parameter
+    # expansion, command substitution, and arithmetic expansion.
+    - include: expansions-parameter
+    - include: expansions-arithmetic
+    - include: expansions-command
+    - include: expansions-tilde
 
   expansions-tilde:
     - match: '~'
