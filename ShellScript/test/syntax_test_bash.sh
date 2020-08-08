@@ -3552,10 +3552,10 @@ case var in
   ( patt ( esac
 #^ meta.conditional.case.shell
 # ^^^^^^^ meta.conditional.case.clause.patterns.shell - meta.group
-#        ^^ meta.conditional.case.clause.patterns.shell meta.group.shell
+#        ^^ meta.conditional.case.clause.patterns.shell meta.group.regexp.shell
 #          ^^^^ meta.conditional.case.shell 
 # ^ keyword.control.conditional.patterns.begin.shell
-#        ^ punctuation.section.group.begin.shell
+#        ^ punctuation.definition.group.begin.regexp.shell
 #          ^^^^ meta.conditional.case.shell keyword.control.conditional.end.shell
 #              ^ - meta.conditional
 
@@ -3673,12 +3673,13 @@ case $TERM in
         #                                               ^^ punctuation.terminator.case.clause
     *xterm*|rxvt|(dt|k|E)term)
         # ^ keyword.operator.quantifier.regexp.shell
-        #  ^ keyword.operator.logical
-        #        ^ punctuation.section.group.begin
-        #           ^ keyword.operator.logical
-        #             ^ keyword.operator.logical
-        #               ^ punctuation.section.group.end
-        #                    ^ keyword.control.conditional.patterns
+        #  ^ keyword.operator.logical.or.regexp.shell
+        #       ^ keyword.operator.logical.or.regexp.shell
+        #        ^ punctuation.definition.group.begin.regexp.shell
+        #           ^ keyword.operator.logical.or.regexp.shell
+        #             ^ keyword.operator.logical.or.regexp.shell
+        #               ^ punctuation.definition.group.end.regexp.shell
+        #                    ^ keyword.control.conditional.patterns.end.shell
         update_terminal_cwd() { print -Pn "\e]2;%~\a" };;
         #                                             ^ meta.function punctuation.section.compound.end
         #                                              ^^ punctuation.terminator.case.clause
@@ -3693,9 +3694,9 @@ esac
 case $SERVER in
 # <- keyword.control.conditional.case
 ws-+([0-9]).host.com) echo "Web Server"
-#^^^ meta.conditional.case.clause.patterns.shell - meta.group
-#   ^^^^^^^ meta.conditional.case.clause.patterns.shell meta.group.regexp.shell
-#          ^^^^^^^^^^ meta.conditional.case.clause.patterns.shell - meta.group
+#^^^ meta.conditional.case.clause.patterns.shell meta.pattern.regexp.shell - meta.group
+#   ^^^^^^^ meta.conditional.case.clause.patterns.shell meta.pattern.regexp.shell meta.group.regexp.shell
+#          ^^^^^^^^^^ meta.conditional.case.clause.patterns.shell meta.pattern.regexp.shell - meta.group
 #  ^ keyword.operator.quantifier.regexp.shell
 #   ^ punctuation.definition.group.begin.regexp.shell
 #    ^ punctuation.definition.set.begin.regexp.shell
@@ -3707,9 +3708,9 @@ ws-+([0-9]).host.com) echo "Web Server"
 # <- punctuation.terminator.case.clause
  # <- punctuation.terminator.case.clause
 db-+([0-9])\.host\.com) echo "DB server"
-#^^^ meta.conditional.case.clause.patterns.shell - meta.group
-#   ^^^^^^^ meta.conditional.case.clause.patterns.shell meta.group.regexp.shell
-#          ^^^^^^^^^^^ meta.conditional.case.clause.patterns.shell - meta.group
+#^^^ meta.conditional.case.clause.patterns.shell meta.pattern.regexp.shell - meta.group
+#   ^^^^^^^ meta.conditional.case.clause.patterns.shell meta.pattern.regexp.shell meta.group.regexp.shell
+#          ^^^^^^^^^^^ meta.conditional.case.clause.patterns.shell meta.pattern.regexp.shell - meta.group
 #  ^ keyword.operator.quantifier.regexp.shell
 #   ^ punctuation.definition.group.begin.regexp.shell
 #    ^ punctuation.definition.set.begin.regexp.shell

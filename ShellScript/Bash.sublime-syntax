@@ -846,7 +846,9 @@ contexts:
 
   case-clause-patterns:
     - clear_scopes: 1  # remove meta.conditional.case.shell
-    - meta_scope: meta.conditional.case.clause.patterns.shell
+    - meta_scope:
+        meta.conditional.case.clause.patterns.shell
+        meta.pattern.regexp.shell
     - match: \)
       scope: keyword.control.conditional.patterns.end.shell
       pop: 1
@@ -859,15 +861,15 @@ contexts:
     # [Bash] 3.2.4.2: Each pattern undergoes tilde expansion, parameter
     # expansion, command substitution, and arithmetic expansion.
     - match: \(
-      scope: punctuation.section.group.begin.shell
+      scope: punctuation.definition.group.begin.regexp.shell
       push:
-        - meta_scope: meta.group.shell
+        - meta_scope: meta.group.regexp.shell
         - match: \)
-          scope: punctuation.section.group.end.shell
+          scope: punctuation.definition.group.end.regexp.shell
           pop: 1
         - include: case-clause-patterns-body
     - match: \|
-      scope: keyword.operator.logical.shell
+      scope: keyword.operator.logical.or.regexp.shell
     - include: case-end-ahead
     - include: variable-expansions
     - include: expansions-pattern
