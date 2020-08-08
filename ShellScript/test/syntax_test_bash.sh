@@ -598,339 +598,6 @@ ${foo}/${bar}/${baz}
 
 
 ####################################################################
-# Variable assignments                                             #
-####################################################################
-
-x= # some comment
-#^ keyword.operator.assignment.shell
-# ^ - string.unquoted
-#  ^^^^^^^^^^^^^^^ comment.line.number-sign.shell
-x=a
-# <- variable.other.readwrite
-#^ keyword.operator.assignment.shell
-# ^ meta.string string.unquoted
-x=a # some comment
-#^ keyword.operator.assignment.shell
-#  ^ - string.unquoted
-x=a#not-a-comment
-#^ keyword.operator.assignment.shell
-#  ^ meta.string string.unquoted - comment
-foo=bar baz=qux
-#   ^^^ meta.string string.unquoted
-#           ^^^ meta.string string.unquoted
-foo=bar\
-qux
-#<- meta.string.shell string.unquoted.shell
-#^^ meta.string string.unquoted
-foo=bar"baz"qux
-#<- variable.other.readwrite.shell
-#^^ variable.other.readwrite.shell
-#  ^ keyword.operator.assignment.shell
-#   ^^^^^^^^^^^ meta.string.shell - string string
-#   ^^^ string.unquoted.shell
-#      ^^^^^ string.quoted.double.shell
-#           ^^^ string.unquoted.shell
-foo='bar'
-#<- variable.other.readwrite.shell
-#^^ variable.other.readwrite.shell
-#  ^ keyword.operator.assignment.shell
-#   ^^^^^ meta.string.shell string.quoted.single.shell
-x=0.19.8.1
-# <- variable.other.readwrite.shell
-#^ keyword.operator.assignment.shell
-# ^^^^^^^^ string.unquoted.shell
-x=10
-# <- variable.other.readwrite.shell
-#^ keyword.operator.assignment.shell
-# ^^ constant.numeric.integer.decimal.shell
-
-# Spaces following an assignment token means an empty string value!
-x= pwd
-# <- variable.other.readwrite
-#^ keyword.operator.assignment
-#  ^^^ meta.function-call support.function
-x= & pwd
-#^ keyword.operator.assignment.shell
-# ^ - string.unquoted
-#  ^ keyword.operator.logical.job.shell
-#    ^^^ support.function
-x=a pwd
-# <- variable.other.readwrite
-#^ keyword.operator.assignment.shell
-#  ^ - string.unquoted
-#   ^^^ meta.function-call support.function
-x="a b" pwd
-#^ keyword.operator.assignment.shell
-# ^ string.quoted.double punctuation.definition.string.begin
-#  ^^^ string.quoted.double
-#     ^ string.quoted.double punctuation.definition.string.end
-#      ^ - string.unquoted
-#       ^^^ meta.function-call support.function
-x=a y=b pwd
-#^ keyword.operator.assignment.shell
-# ^ meta.string string.unquoted
-#  ^ - string.unquoted
-#    ^ keyword.operator.assignment.shell
-#     ^ meta.string string.unquoted
-#      ^ - string.unquoted
-#       ^^^ meta.function-call support.function
-x=${foo} y=${baz}"asdf" pwd
-#^ keyword.operator.assignment.shell
-# ^^^^^^ meta.string meta.interpolation - string
-#       ^^^ - meta.string - mete.interpolation - string
-#          ^^^^^^ meta.string meta.interpolation - string
-#                ^^^^^^ meta.string.shell string.quoted.double.shell - meta.interpolation
-#                      ^^^^ - meta.string - mete.interpolation - string
-# ^^ punctuation.section.interpolation.begin.shell
-#   ^^^ variable.other.readwrite
-#      ^ punctuation.section.interpolation.end.shell
-#         ^ keyword.operator.assignment.shell
-#          ^^ punctuation.section.interpolation.begin.shell
-#            ^^^ variable.other.readwrite
-#               ^ punctuation.section.interpolation.end.shell
-#                ^ punctuation.definition.string.begin
-#                     ^ punctuation.definition.string.end
-#                       ^^^ meta.function-call support.function
-x="$(( foo++ ))"
-#^ keyword.operator.assignment.shell
-#  ^^^ punctuation.section.interpolation.begin.shell
-#         ^^ keyword
-#            ^^ punctuation.section.interpolation.end.shell
-
-B$(cat)OWL=$(($(cat food.txt | wc -l) + 5))
-# <- meta.variable.shell variable.other.readwrite.shell - meta.interpolation
-#^^^^^^ meta.variable.shell meta.interpolation.command.shell
-#      ^^^ meta.variable.shell variable.other.readwrite.shell
-#         ^ - meta.interpolation
-#          ^^^ meta.string.shell meta.interpolation.arithmetic.shell - meta.interpolation meta.interpolation
-#             ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.arithmetic.shell meta.interpolation.command.shell
-#                                    ^^^^^^ meta.string.shell meta.interpolation.arithmetic.shell - meta.interpolation meta.interpolation
-#                                          ^ - meta.interpolation
-#         ^ keyword.operator.assignment
-#          ^^^^^ punctuation.section.interpolation.begin.shell
-#               ^^^ variable.function
-#                   ^^^^^^^^ - variable.function
-#                           ^ - meta.function-call
-#                            ^ keyword.operator
-#                             ^ - meta.function-call
-#                              ^^ meta.function-call.identifier.shell variable.function.shell
-#                                   ^ punctuation.section.interpolation.end.shell
-#                                     ^ keyword.operator
-#                                       ^ constant.numeric
-#                                        ^^ punctuation.section.interpolation.end.shell
-
-# These are all legal identifiers for variables.
-alias=hello
-# <- - storage.modifier
-#    ^ keyword.operator.assignment.shell
-typeset=hello
-# <- - storage.modifier
-#      ^ keyword.operator.assignment.shell
-declare=hello
-# <- - storage.modifier
-#      ^ keyword.operator.assignment.shell
-local=hello
-# <- - storage.modifier
-#    ^ keyword.operator.assignment.shell
-export=hello
-# <- - storage.modifier
-#     ^ keyword.operator.assignment.shell
-readonly=hello
-# <- - storage.modifier
-#       ^ keyword.operator.assignment.shell
-for=hello
-# <- - keyword.control
-#  ^ keyword.operator.assignment.shell
-if=hello
-# <- - keyword.control
-# ^ keyword.operator.assignment.shell
-while=hello
-# <- - keyword.control
-#    ^ keyword.operator.assignment.shell
-until=hello
-# <- - keyword.control
-#    ^ keyword.operator.assignment.shell
-do=hello
-# <- - keyword.control
-# ^ keyword.operator.assignment.shell
-done=hello
-# <- - keyword.control
-#   ^ keyword.operator.assignment.shell
-true=false
-# <- variable.other.readwrite.shell - constant
-#^^^ variable.other.readwrite.shell - constant
-#   ^ keyword.operator.assignment.shell
-#    ^^^^^ constant.language.boolean.shell
-false=true
-# <- variable.other.readwrite.shell - constant
-#^^^^ variable.other.readwrite.shell - constant
-#    ^ keyword.operator.assignment.shell
-#     ^^^^ constant.language.boolean.shell
-
-# `-` is not a valid variable identifier char
-my-var=20
-# <- variable.other.readwrite.shell
-#^ variable.other.readwrite.shell
-# ^^^^^^^ meta.string.shell string.unquoted.shell
-
-(foo=bar)
-# <- meta.compound.shell punctuation.section.compound.begin.shell
-#^^^^^^^^ meta.compound.shell
-#^^^ meta.variable.shell variable.other.readwrite.shell
-#   ^ keyword.operator.assignment.shell
-#    ^^^ meta.string.shell string.unquoted.shell
-#       ^ punctuation.section.compound.end.shell - string-unquoted
-
-{ foo=bar }
-# <- meta.compound.shell punctuation.section.compound.begin.shell
-#^^^^^^^^^^ meta.compound.shell
-# ^^^ meta.variable.shell variable.other.readwrite.shell
-#    ^ keyword.operator.assignment.shell
-#     ^^^ meta.string.shell string.unquoted.shell
-#         ^ punctuation.section.compound.end.shell - string-unquoted
-
-## Arrays ##
-
-array=()  # an empty array
-#    ^ keyword.operator.assignment
-#     ^ punctuation.section.sequence.begin
-#      ^ punctuation.section.sequence.end
-
-array=(one two three four -5 (foo bar baz) (5 6 7))
-#<- meta.variable.shell variable.other.readwrite.shell
-#^^^^ meta.variable.shell - meta.sequence
-#    ^ - meta.variable - meta.sequence
-#     ^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.shell - meta.sequence meta.sequence
-#                            ^^^^^^^^^^^^^ meta.sequence.shell meta.sequence.shell
-#                                         ^ meta.sequence.shell - meta.sequence meta.sequence
-#                                          ^^^^^^^ meta.sequence.shell meta.sequence.shell
-#                                                 ^ meta.sequence.shell - meta.sequence meta.sequence
-#                                                  ^ - meta
-#^^^^ variable.other.readwrite.shell
-#    ^ keyword.operator.assignment.shell
-#     ^ punctuation.section.sequence.begin.shell
-#      ^^^ string.unquoted.shell
-#          ^^^ string.unquoted.shell
-#              ^^^^^ string.unquoted.shell
-#                    ^^^^ string.unquoted.shell
-#                         ^ keyword.operator.arithmetic.shell
-#                          ^ constant.numeric.integer.decimal.shell
-#                            ^ punctuation.section.sequence.begin.shell
-#                             ^^^ meta.string.shell string.unquoted.shell
-#                                 ^^^ string.unquoted.shell
-#                                     ^^^ string.unquoted.shell
-#                                        ^ punctuation.section.sequence.end.shell
-#                                          ^ punctuation.section.sequence.begin.shell
-#                                           ^ constant.numeric.integer.decimal.shell
-#                                             ^ constant.numeric.integer.decimal.shell
-#                                               ^ constant.numeric.integer.decimal.shell
-#                                                ^^ punctuation.section.sequence.end.shell
-
-array=($one "two" ${three} 'four' $5)
-#<- meta.variable.shell variable.other.readwrite.shell
-#^^^^ meta.variable.shell
-#^^^^^ - meta.sequence
-#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.shell
-#                                    ^ - meta.sequence
-# <- variable.other.readwrite.shell
-#    ^ keyword.operator.assignment.shell
-#     ^ punctuation.section.sequence.begin.shell
-#      ^ punctuation.definition.variable.shell
-#       ^^^ variable.other.readwrite.shell
-#           ^ string.quoted.double punctuation.definition.string.begin.shell
-#            ^^^ string.quoted.double.shell
-#               ^ string.quoted.double punctuation.definition.string.end.shell
-#                 ^^ punctuation.section.interpolation.begin.shell
-#                   ^^^^^ variable.other.readwrite.shell
-#                        ^ punctuation.section.interpolation.end.shell
-#                          ^ string.quoted.single punctuation.definition.string.begin.shell
-#                           ^^^^ string.quoted.single.shell
-#                               ^ string.quoted.single punctuation.definition.string.end.shell
-#                                 ^ punctuation.definition.variable.shell
-#                                  ^ variable.other.readwrite.shell
-#                                   ^ punctuation.section.sequence.end.shell
-
-array=([one]== ["two"]='what' [4+5]=qux [five]=0 [six]=0s)
-#^^^^^ - meta.sequence
-#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.shell
-#                                                         ^ - meta.sequence
-#    ^ keyword.operator.assignment.shell
-#     ^ punctuation.section.sequence.begin.shell
-#      ^ punctuation.section.brackets.begin.shell
-#          ^ punctuation.section.brackets.end.shell
-#           ^ keyword.operator.assignment.shell
-#            ^ string.unquoted.shell - keyword
-#              ^ punctuation.section.brackets.begin.shell
-#               ^^^^^ string.quoted.double.shell
-#                    ^ punctuation.section.brackets.end.shell
-#                     ^ keyword.operator.assignment.shell
-#                      ^^^^^^ string.quoted.single.shell
-#                             ^ punctuation.section.brackets.begin.shell
-#                              ^ - constant
-#                               ^ - keyword
-#                                ^ - constant
-#                                 ^ punctuation.section.brackets.end.shell
-#                                  ^ keyword.operator.assignment.shell
-#                                   ^^^ string.unquoted.shell
-#                                       ^ punctuation.section.brackets.begin.shell
-#                                            ^ punctuation.section.brackets.end.shell
-#                                             ^ keyword.operator.assignment.shell
-#                                              ^ constant.numeric.integer.decimal.shell
-#                                                ^ punctuation.section.brackets.begin.shell
-#                                                    ^ punctuation.section.brackets.end.shell
-#                                                     ^ keyword.operator.assignment.shell
-#                                                      ^^ string.unquoted.shell
-#                                                        ^ punctuation.section.sequence.end.shell
-
-declare -a array
-array[500]=value
-#^^^^ meta.variable.shell variable.other.readwrite.shell
-#    ^^^^^ meta.variable.shell meta.item-access.shell - variable
-#    ^ punctuation.section.item-access.begin.shell
-#     ^^^ constant.numeric.integer.decimal.shell
-#        ^ punctuation.section.item-access.end.shell
-#         ^ keyword.operator.assignment
-#          ^^^^^ meta.string.shell string.unquoted.shell
-echo ${array[@]}
-#    ^^^^^^^^^^^ meta.interpolation.parameter.shell
-#      ^^^^^ variable.other.readwrite.shell
-#           ^^^ meta.item-access.shell - variable.other
-#           ^ punctuation.section.item-access.begin.shell
-#            ^ variable.language.array.shell
-#             ^ punctuation.section.item-access.end.shell
-
-array["foo"]=bar
-#^^^^ meta.variable.shell variable.other.readwrite.shell
-#    ^^^^^^^ meta.variable.shell meta.item-access.shell - variable
-#    ^ punctuation.section.item-access.begin.shell
-#     ^^^^^ string.quoted.double.shell
-#          ^ punctuation.section.item-access.end.shell
-#           ^ keyword.operator.assignment.shell
-#            ^^^ meta.string.shell string.unquoted.shell
-array[foo]=bar
-#^^^^ meta.variable.shell variable.other.readwrite.shell
-#    ^^^^^ meta.variable.shell meta.item-access.shell - variable
-#    ^ punctuation.section.item-access.begin.shell
-#        ^ punctuation.section.item-access.end.shell
-#         ^ keyword.operator.assignment.shell
-#          ^^^ meta.string.shell string.unquoted.shell
-
-foo[${j}+10]="`foo`"
-#<- meta.variable.shell variable.other.readwrite.shell
-#^^ meta.variable.shell - meta.item-access
-#  ^^^^^^^^^ meta.variable.shell meta.item-access.shell
-#^^ variable.other.readwrite.shell
-#  ^ punctuation.section.item-access.begin.shell
-#   ^^ punctuation.section.interpolation.begin.shell
-#     ^ variable.other.readwrite.shell
-#      ^ punctuation.section.interpolation.end.shell
-#       ^ keyword.operator.arithmetic.shell
-#        ^^ constant.numeric.integer.decimal.shell
-#          ^ punctuation.section.item-access.end.shell
-#           ^ keyword.operator.assignment.shell
-
-
-####################################################################
 # 4.2 Bash Builtin Commands                                        #
 ####################################################################
 
@@ -1294,6 +961,339 @@ sudo --reset-timestamp -n -- rm -rf
 #                            ^^ variable.function.shell
 #                               ^^^ meta.parameter.option.shell variable.parameter.option.shell
 #                               ^ punctuation.definition.parameter.shell
+
+
+####################################################################
+# Variable assignments                                             #
+####################################################################
+
+x= # some comment
+#^ keyword.operator.assignment.shell
+# ^ - string.unquoted
+#  ^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+x=a
+# <- variable.other.readwrite
+#^ keyword.operator.assignment.shell
+# ^ meta.string string.unquoted
+x=a # some comment
+#^ keyword.operator.assignment.shell
+#  ^ - string.unquoted
+x=a#not-a-comment
+#^ keyword.operator.assignment.shell
+#  ^ meta.string string.unquoted - comment
+foo=bar baz=qux
+#   ^^^ meta.string string.unquoted
+#           ^^^ meta.string string.unquoted
+foo=bar\
+qux
+#<- meta.string.shell string.unquoted.shell
+#^^ meta.string string.unquoted
+foo=bar"baz"qux
+#<- variable.other.readwrite.shell
+#^^ variable.other.readwrite.shell
+#  ^ keyword.operator.assignment.shell
+#   ^^^^^^^^^^^ meta.string.shell - string string
+#   ^^^ string.unquoted.shell
+#      ^^^^^ string.quoted.double.shell
+#           ^^^ string.unquoted.shell
+foo='bar'
+#<- variable.other.readwrite.shell
+#^^ variable.other.readwrite.shell
+#  ^ keyword.operator.assignment.shell
+#   ^^^^^ meta.string.shell string.quoted.single.shell
+x=0.19.8.1
+# <- variable.other.readwrite.shell
+#^ keyword.operator.assignment.shell
+# ^^^^^^^^ string.unquoted.shell
+x=10
+# <- variable.other.readwrite.shell
+#^ keyword.operator.assignment.shell
+# ^^ constant.numeric.integer.decimal.shell
+
+# Spaces following an assignment token means an empty string value!
+x= pwd
+# <- variable.other.readwrite
+#^ keyword.operator.assignment
+#  ^^^ meta.function-call support.function
+x= & pwd
+#^ keyword.operator.assignment.shell
+# ^ - string.unquoted
+#  ^ keyword.operator.logical.job.shell
+#    ^^^ support.function
+x=a pwd
+# <- variable.other.readwrite
+#^ keyword.operator.assignment.shell
+#  ^ - string.unquoted
+#   ^^^ meta.function-call support.function
+x="a b" pwd
+#^ keyword.operator.assignment.shell
+# ^ string.quoted.double punctuation.definition.string.begin
+#  ^^^ string.quoted.double
+#     ^ string.quoted.double punctuation.definition.string.end
+#      ^ - string.unquoted
+#       ^^^ meta.function-call support.function
+x=a y=b pwd
+#^ keyword.operator.assignment.shell
+# ^ meta.string string.unquoted
+#  ^ - string.unquoted
+#    ^ keyword.operator.assignment.shell
+#     ^ meta.string string.unquoted
+#      ^ - string.unquoted
+#       ^^^ meta.function-call support.function
+x=${foo} y=${baz}"asdf" pwd
+#^ keyword.operator.assignment.shell
+# ^^^^^^ meta.string meta.interpolation - string
+#       ^^^ - meta.string - mete.interpolation - string
+#          ^^^^^^ meta.string meta.interpolation - string
+#                ^^^^^^ meta.string.shell string.quoted.double.shell - meta.interpolation
+#                      ^^^^ - meta.string - mete.interpolation - string
+# ^^ punctuation.section.interpolation.begin.shell
+#   ^^^ variable.other.readwrite
+#      ^ punctuation.section.interpolation.end.shell
+#         ^ keyword.operator.assignment.shell
+#          ^^ punctuation.section.interpolation.begin.shell
+#            ^^^ variable.other.readwrite
+#               ^ punctuation.section.interpolation.end.shell
+#                ^ punctuation.definition.string.begin
+#                     ^ punctuation.definition.string.end
+#                       ^^^ meta.function-call support.function
+x="$(( foo++ ))"
+#^ keyword.operator.assignment.shell
+#  ^^^ punctuation.section.interpolation.begin.shell
+#         ^^ keyword
+#            ^^ punctuation.section.interpolation.end.shell
+
+B$(cat)OWL=$(($(cat food.txt | wc -l) + 5))
+# <- meta.variable.shell variable.other.readwrite.shell - meta.interpolation
+#^^^^^^ meta.variable.shell meta.interpolation.command.shell
+#      ^^^ meta.variable.shell variable.other.readwrite.shell
+#         ^ - meta.interpolation
+#          ^^^ meta.string.shell meta.interpolation.arithmetic.shell - meta.interpolation meta.interpolation
+#             ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.arithmetic.shell meta.interpolation.command.shell
+#                                    ^^^^^^ meta.string.shell meta.interpolation.arithmetic.shell - meta.interpolation meta.interpolation
+#                                          ^ - meta.interpolation
+#         ^ keyword.operator.assignment
+#          ^^^^^ punctuation.section.interpolation.begin.shell
+#               ^^^ variable.function
+#                   ^^^^^^^^ - variable.function
+#                           ^ - meta.function-call
+#                            ^ keyword.operator
+#                             ^ - meta.function-call
+#                              ^^ meta.function-call.identifier.shell variable.function.shell
+#                                   ^ punctuation.section.interpolation.end.shell
+#                                     ^ keyword.operator
+#                                       ^ constant.numeric
+#                                        ^^ punctuation.section.interpolation.end.shell
+
+# These are all legal identifiers for variables.
+alias=hello
+# <- - storage.modifier
+#    ^ keyword.operator.assignment.shell
+typeset=hello
+# <- - storage.modifier
+#      ^ keyword.operator.assignment.shell
+declare=hello
+# <- - storage.modifier
+#      ^ keyword.operator.assignment.shell
+local=hello
+# <- - storage.modifier
+#    ^ keyword.operator.assignment.shell
+export=hello
+# <- - storage.modifier
+#     ^ keyword.operator.assignment.shell
+readonly=hello
+# <- - storage.modifier
+#       ^ keyword.operator.assignment.shell
+for=hello
+# <- - keyword.control
+#  ^ keyword.operator.assignment.shell
+if=hello
+# <- - keyword.control
+# ^ keyword.operator.assignment.shell
+while=hello
+# <- - keyword.control
+#    ^ keyword.operator.assignment.shell
+until=hello
+# <- - keyword.control
+#    ^ keyword.operator.assignment.shell
+do=hello
+# <- - keyword.control
+# ^ keyword.operator.assignment.shell
+done=hello
+# <- - keyword.control
+#   ^ keyword.operator.assignment.shell
+true=false
+# <- variable.other.readwrite.shell - constant
+#^^^ variable.other.readwrite.shell - constant
+#   ^ keyword.operator.assignment.shell
+#    ^^^^^ constant.language.boolean.shell
+false=true
+# <- variable.other.readwrite.shell - constant
+#^^^^ variable.other.readwrite.shell - constant
+#    ^ keyword.operator.assignment.shell
+#     ^^^^ constant.language.boolean.shell
+
+# `-` is not a valid variable identifier char
+my-var=20
+# <- variable.other.readwrite.shell
+#^ variable.other.readwrite.shell
+# ^^^^^^^ meta.string.shell string.unquoted.shell
+
+(foo=bar)
+# <- meta.compound.shell punctuation.section.compound.begin.shell
+#^^^^^^^^ meta.compound.shell
+#^^^ meta.variable.shell variable.other.readwrite.shell
+#   ^ keyword.operator.assignment.shell
+#    ^^^ meta.string.shell string.unquoted.shell
+#       ^ punctuation.section.compound.end.shell - string-unquoted
+
+{ foo=bar }
+# <- meta.compound.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^ meta.compound.shell
+# ^^^ meta.variable.shell variable.other.readwrite.shell
+#    ^ keyword.operator.assignment.shell
+#     ^^^ meta.string.shell string.unquoted.shell
+#         ^ punctuation.section.compound.end.shell - string-unquoted
+
+## Arrays ##
+
+array=()  # an empty array
+#    ^ keyword.operator.assignment
+#     ^ punctuation.section.sequence.begin
+#      ^ punctuation.section.sequence.end
+
+array=(one two three four -5 (foo bar baz) (5 6 7))
+#<- meta.variable.shell variable.other.readwrite.shell
+#^^^^ meta.variable.shell - meta.sequence
+#    ^ - meta.variable - meta.sequence
+#     ^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.shell - meta.sequence meta.sequence
+#                            ^^^^^^^^^^^^^ meta.sequence.shell meta.sequence.shell
+#                                         ^ meta.sequence.shell - meta.sequence meta.sequence
+#                                          ^^^^^^^ meta.sequence.shell meta.sequence.shell
+#                                                 ^ meta.sequence.shell - meta.sequence meta.sequence
+#                                                  ^ - meta
+#^^^^ variable.other.readwrite.shell
+#    ^ keyword.operator.assignment.shell
+#     ^ punctuation.section.sequence.begin.shell
+#      ^^^ string.unquoted.shell
+#          ^^^ string.unquoted.shell
+#              ^^^^^ string.unquoted.shell
+#                    ^^^^ string.unquoted.shell
+#                         ^ keyword.operator.arithmetic.shell
+#                          ^ constant.numeric.integer.decimal.shell
+#                            ^ punctuation.section.sequence.begin.shell
+#                             ^^^ meta.string.shell string.unquoted.shell
+#                                 ^^^ string.unquoted.shell
+#                                     ^^^ string.unquoted.shell
+#                                        ^ punctuation.section.sequence.end.shell
+#                                          ^ punctuation.section.sequence.begin.shell
+#                                           ^ constant.numeric.integer.decimal.shell
+#                                             ^ constant.numeric.integer.decimal.shell
+#                                               ^ constant.numeric.integer.decimal.shell
+#                                                ^^ punctuation.section.sequence.end.shell
+
+array=($one "two" ${three} 'four' $5)
+#<- meta.variable.shell variable.other.readwrite.shell
+#^^^^ meta.variable.shell
+#^^^^^ - meta.sequence
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.shell
+#                                    ^ - meta.sequence
+# <- variable.other.readwrite.shell
+#    ^ keyword.operator.assignment.shell
+#     ^ punctuation.section.sequence.begin.shell
+#      ^ punctuation.definition.variable.shell
+#       ^^^ variable.other.readwrite.shell
+#           ^ string.quoted.double punctuation.definition.string.begin.shell
+#            ^^^ string.quoted.double.shell
+#               ^ string.quoted.double punctuation.definition.string.end.shell
+#                 ^^ punctuation.section.interpolation.begin.shell
+#                   ^^^^^ variable.other.readwrite.shell
+#                        ^ punctuation.section.interpolation.end.shell
+#                          ^ string.quoted.single punctuation.definition.string.begin.shell
+#                           ^^^^ string.quoted.single.shell
+#                               ^ string.quoted.single punctuation.definition.string.end.shell
+#                                 ^ punctuation.definition.variable.shell
+#                                  ^ variable.other.readwrite.shell
+#                                   ^ punctuation.section.sequence.end.shell
+
+array=([one]== ["two"]='what' [4+5]=qux [five]=0 [six]=0s)
+#^^^^^ - meta.sequence
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.shell
+#                                                         ^ - meta.sequence
+#    ^ keyword.operator.assignment.shell
+#     ^ punctuation.section.sequence.begin.shell
+#      ^ punctuation.section.brackets.begin.shell
+#          ^ punctuation.section.brackets.end.shell
+#           ^ keyword.operator.assignment.shell
+#            ^ string.unquoted.shell - keyword
+#              ^ punctuation.section.brackets.begin.shell
+#               ^^^^^ string.quoted.double.shell
+#                    ^ punctuation.section.brackets.end.shell
+#                     ^ keyword.operator.assignment.shell
+#                      ^^^^^^ string.quoted.single.shell
+#                             ^ punctuation.section.brackets.begin.shell
+#                              ^ - constant
+#                               ^ - keyword
+#                                ^ - constant
+#                                 ^ punctuation.section.brackets.end.shell
+#                                  ^ keyword.operator.assignment.shell
+#                                   ^^^ string.unquoted.shell
+#                                       ^ punctuation.section.brackets.begin.shell
+#                                            ^ punctuation.section.brackets.end.shell
+#                                             ^ keyword.operator.assignment.shell
+#                                              ^ constant.numeric.integer.decimal.shell
+#                                                ^ punctuation.section.brackets.begin.shell
+#                                                    ^ punctuation.section.brackets.end.shell
+#                                                     ^ keyword.operator.assignment.shell
+#                                                      ^^ string.unquoted.shell
+#                                                        ^ punctuation.section.sequence.end.shell
+
+declare -a array
+array[500]=value
+#^^^^ meta.variable.shell variable.other.readwrite.shell
+#    ^^^^^ meta.variable.shell meta.item-access.shell - variable
+#    ^ punctuation.section.item-access.begin.shell
+#     ^^^ constant.numeric.integer.decimal.shell
+#        ^ punctuation.section.item-access.end.shell
+#         ^ keyword.operator.assignment
+#          ^^^^^ meta.string.shell string.unquoted.shell
+echo ${array[@]}
+#    ^^^^^^^^^^^ meta.interpolation.parameter.shell
+#      ^^^^^ variable.other.readwrite.shell
+#           ^^^ meta.item-access.shell - variable.other
+#           ^ punctuation.section.item-access.begin.shell
+#            ^ variable.language.array.shell
+#             ^ punctuation.section.item-access.end.shell
+
+array["foo"]=bar
+#^^^^ meta.variable.shell variable.other.readwrite.shell
+#    ^^^^^^^ meta.variable.shell meta.item-access.shell - variable
+#    ^ punctuation.section.item-access.begin.shell
+#     ^^^^^ string.quoted.double.shell
+#          ^ punctuation.section.item-access.end.shell
+#           ^ keyword.operator.assignment.shell
+#            ^^^ meta.string.shell string.unquoted.shell
+array[foo]=bar
+#^^^^ meta.variable.shell variable.other.readwrite.shell
+#    ^^^^^ meta.variable.shell meta.item-access.shell - variable
+#    ^ punctuation.section.item-access.begin.shell
+#        ^ punctuation.section.item-access.end.shell
+#         ^ keyword.operator.assignment.shell
+#          ^^^ meta.string.shell string.unquoted.shell
+
+foo[${j}+10]="`foo`"
+#<- meta.variable.shell variable.other.readwrite.shell
+#^^ meta.variable.shell - meta.item-access
+#  ^^^^^^^^^ meta.variable.shell meta.item-access.shell
+#^^ variable.other.readwrite.shell
+#  ^ punctuation.section.item-access.begin.shell
+#   ^^ punctuation.section.interpolation.begin.shell
+#     ^ variable.other.readwrite.shell
+#      ^ punctuation.section.interpolation.end.shell
+#       ^ keyword.operator.arithmetic.shell
+#        ^^ constant.numeric.integer.decimal.shell
+#          ^ punctuation.section.item-access.end.shell
+#           ^ keyword.operator.assignment.shell
 
 
 ####################################################################
