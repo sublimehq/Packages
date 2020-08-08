@@ -759,10 +759,12 @@ done=hello
 true=false
 # <- variable.other.readwrite.shell - constant
 #^^^ variable.other.readwrite.shell - constant
+#   ^ keyword.operator.assignment.shell
 #    ^^^^^ constant.language.boolean.shell
 false=true
 # <- variable.other.readwrite.shell - constant
 #^^^^ variable.other.readwrite.shell - constant
+#    ^ keyword.operator.assignment.shell
 #     ^^^^ constant.language.boolean.shell
 
 # `-` is not a valid variable identifier char
@@ -772,10 +774,20 @@ my-var=20
 # ^^^^^^^ meta.string.shell string.unquoted.shell
 
 (foo=bar)
-# <- punctuation.section.compound.begin.shell
-#   ^ keyword.operator.assignment
-#    ^^^ meta.string string.unquoted
+# <- meta.compound.shell punctuation.section.compound.begin.shell
+#^^^^^^^^ meta.compound.shell
+#^^^ meta.variable.shell variable.other.readwrite.shell
+#   ^ keyword.operator.assignment.shell
+#    ^^^ meta.string.shell string.unquoted.shell
 #       ^ punctuation.section.compound.end.shell - string-unquoted
+
+{ foo=bar }
+# <- meta.compound.shell punctuation.section.compound.begin.shell
+#^^^^^^^^^^ meta.compound.shell
+# ^^^ meta.variable.shell variable.other.readwrite.shell
+#    ^ keyword.operator.assignment.shell
+#     ^^^ meta.string.shell string.unquoted.shell
+#         ^ punctuation.section.compound.end.shell - string-unquoted
 
 ## Arrays ##
 
