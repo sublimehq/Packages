@@ -164,8 +164,7 @@ contexts:
           scope: punctuation.section.brackets.end.html
           pop: 1
         - include: comment
-    - include: string-double-quoted
-    - include: string-single-quoted
+    - include: strings
     - include: else-pop
 
 ###[ PREPROCESSOR ]###########################################################
@@ -181,8 +180,7 @@ contexts:
           scope: punctuation.definition.tag.end.html
           pop: 1
         - include: tag-generic-attribute
-        - include: string-double-quoted
-        - include: string-single-quoted
+        - include: strings
 
 ###[ TAGS ]###################################################################
 
@@ -523,21 +521,15 @@ contexts:
       set:
         - meta_scope: meta.string.html string.quoted.double.html
         - meta_content_scope: meta.class-name.html
-        - match: \"
-          scope: punctuation.definition.string.end.html
-          pop: 1
+        - include: strings-double-quoted-content
         - include: tag-attribute-value-separator
-        - include: entities
     - match: \'
       scope: punctuation.definition.string.begin.html
       set:
         - meta_scope: meta.string.html string.quoted.single.html
         - meta_content_scope: meta.class-name.html
-        - match: \'
-          scope: punctuation.definition.string.end.html
-          pop: 1
+        - include: strings-single-quoted-content
         - include: tag-attribute-value-separator
-        - include: entities
     - match: '{{unquoted_attribute_start}}'
       set:
         - meta_scope: meta.string.html string.unquoted.html meta.class-name.html
@@ -623,20 +615,10 @@ contexts:
   tag-generic-attribute-value:
     - match: \"
       scope: punctuation.definition.string.begin.html
-      set:
-        - meta_scope: meta.string.html string.quoted.double.html
-        - match: \"
-          scope: punctuation.definition.string.end.html
-          pop: 1
-        - include: entities
+      set: strings-double-quoted-content
     - match: \'
       scope: punctuation.definition.string.begin.html
-      set:
-        - meta_scope: meta.string.html string.quoted.single.html
-        - match: \'
-          scope: punctuation.definition.string.end.html
-          pop: 1
-        - include: entities
+      set: strings-single-quoted-content
     - match: '{{unquoted_attribute_start}}'
       set:
         - meta_scope: meta.string.html string.unquoted.html
@@ -727,21 +709,15 @@ contexts:
       set:
         - meta_scope: meta.string.html string.quoted.double.html
         - meta_content_scope: meta.toc-list.id.html
-        - match: \"
-          scope: punctuation.definition.string.end.html
-          pop: 1
+        - include: strings-double-quoted-content
         - include: tag-attribute-value-separator
-        - include: entities
     - match: \'
       scope: punctuation.definition.string.begin.html
       set:
         - meta_scope: meta.string.html string.quoted.single.html
         - meta_content_scope: meta.toc-list.id.html
-        - match: \'
-          scope: punctuation.definition.string.end.html
-          pop: 1
+        - include: strings-single-quoted-content
         - include: tag-attribute-value-separator
-        - include: entities
     - match: '{{unquoted_attribute_start}}'
       set:
         - meta_scope: meta.string.html string.unquoted.html meta.toc-list.id.html
@@ -806,25 +782,43 @@ contexts:
         1: punctuation.definition.entity.html
         2: punctuation.terminator.entity.html
 
-  string-double-quoted:
+  strings:
+    - include: strings-double-quoted
+    - include: strings-single-quoted
+
+  strings-double-quoted:
     - match: \"
       scope: punctuation.definition.string.begin.html
-      push:
-        - meta_scope: meta.string.html string.quoted.double.html
-        - match: \"
-          scope: punctuation.definition.string.end.html
-          pop: 1
-        - include: entities
+      push: strings-double-quoted-content
 
-  string-single-quoted:
+  strings-double-quoted-content:
+    - meta_scope: meta.string.html string.quoted.double.html
+    - match: \"
+      scope: punctuation.definition.string.end.html
+      pop: 1
+    - include: strings-quoted-content
+
+  strings-single-quoted:
     - match: \'
       scope: punctuation.definition.string.begin.html
-      push:
-        - meta_scope: meta.string.html string.quoted.single.html
-        - match: \'
-          scope: punctuation.definition.string.end.html
-          pop: 1
-        - include: entities
+      push: strings-single-quoted-content
+
+  strings-single-quoted-content:
+    - meta_scope: meta.string.html string.quoted.single.html
+    - match: \'
+      scope: punctuation.definition.string.end.html
+      pop: 1
+    - include: strings-quoted-content
+
+  strings-quoted-content:
+    # This context exists as common entry point for inherited syntaxes to add
+    # custom highlighting to all quoted strings (only quoted attributes).
+    - include: strings-common-content
+
+  strings-common-content:
+    # This context exists as common entry point for inherited syntaxes to add
+    # custom highlighting to all strings (quoted and unquoted attributes).
+    - include: entities
 
 ###[ PROTOTYPES ]#############################################################
 
