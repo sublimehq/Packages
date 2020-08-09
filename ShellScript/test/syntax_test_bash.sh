@@ -3274,77 +3274,71 @@ commits=($(git rev-list --reverse --abbrev-commit "$latest".. -- "$prefix"))
 # 3.2.4.2 Conditional Constructs                                   #
 ####################################################################
 
-if true ; then false ; fi
-#^ keyword.control.conditional.if.shell
-#  ^^^^ constant.language.boolean.shell
-#       ^ keyword.operator.logical.continue.shell
-#         ^^^^ keyword.control.conditional.then.shell
-#              ^^^^^ constant.language.boolean.shell
-#                    ^ keyword.operator.logical.continue.shell
-#                      ^^ keyword.control.conditional.end.shell
+ if;
+#^^ keyword.control.conditional.if.shell
+ if&
+#^^ keyword.control.conditional.if.shell
+ if|
+#^^ keyword.control.conditional.if.shell
+ if>/dev/null
+#^^ keyword.control.conditional.if.shell
+ if -
+#^^ keyword.control.conditional.if.shell
+ if-
+#^^^ - keyword.control
+ -if
+#^^^ - keyword.control
+ if+
+#^^^ - keyword.control
+ if$
+#^^^ - keyword.control
+ if$var
+#^^^^^^ - keyword.control
+ if=
+#^^^ - keyword.control
+ if-=
+#^^^^ - keyword.control
+ if+=
+#^^^^ - keyword.control
+ if()
+#^^ keyword.control.conditional.if.shell
+ if[]
+#^^^^ - keyword.control
+ if{}
+#^^^^ - keyword.control
 
-if [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; then PLATFORM=docker; fi
-#^ keyword.control.conditional.if
-#     ^ keyword.operator.logical.shell
-#                         ^^ keyword.operator.logical.and
-#                            ^ keyword.operator.logical.shell
-#                              ^^^ meta.function-call.identifier.shell variable.function
-#                                  ^^ keyword.operator.logical.or.shell
-#                                     ^ keyword.operator.logical.shell
-#                                       ^^^^ meta.function-call.identifier.shell variable.function.shell
-#                                           ^ keyword.operator.logical.continue
-#                                             ^^^^ keyword.control.conditional.then
-#                                                         ^ variable.other.readwrite
-#                                                          ^ keyword.operator.assignment
-#                                                           ^ meta.string string.unquoted
-if { [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; }; then PLATFORM=docker; fi
-#^ keyword.control.conditional.if
-#  ^ punctuation.section.compound.begin.shell
-#       ^ keyword.operator.logical.shell
-#                           ^^ keyword.operator.logical.and
-#                              ^ keyword.operator.logical.shell
-#                                ^^^ meta.function-call.identifier.shell variable.function
-#                                    ^^ keyword.operator.logical.or.shell
-#                                       ^ keyword.operator.logical.shell
-#                                         ^^^^ meta.function-call.identifier.shell variable.function.shell
-#                                               ^ punctuation.section.compound.end.shell
-#                                                ^ keyword.operator.logical.continue
-#                                                  ^^^^ keyword.control.conditional.then
-#                                                              ^ variable.other.readwrite
-#                                                               ^ keyword.operator.assignment
-#                                                                ^ meta.string string.unquoted
-if ( [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2 ); then PLATFORM=docker; fi
-#^ keyword.control.conditional.if
-#  ^ punctuation.section.compound.begin.shell
-#       ^ keyword.operator.logical.shell
-#                           ^^ keyword.operator.logical.and
-#                              ^ keyword.operator.logical.shell
-#                                ^^^ meta.function-call.identifier.shell variable.function
-#                                    ^^ keyword.operator.logical.or.shell
-#                                       ^ keyword.operator.logical.shell
-#                                         ^^^^ meta.function-call.identifier.shell variable.function.shell
-#                                              ^ punctuation.section.compound.end.shell
-#                                               ^ keyword.operator.logical.continue
-#                                                 ^^^^ keyword.control.conditional.then
-#                                                             ^ variable.other.readwrite
-#                                                              ^ keyword.operator.assignment
-#                                                               ^ meta.string string.unquoted
-if [[ $- != *i* ]] ; then
-#^ keyword.control.conditional.if.shell
-#  ^^^^^^^^^^^^^^^ meta.conditional.shell
-#  ^^ support.function.double-brace.begin.shell
-#     ^^ meta.interpolation.parameter.shell variable.language.shell
-#     ^ punctuation.definition.variable.shell
-#        ^^ keyword.operator.comparison.shell
-#           ^ keyword.operator.quantifier.regexp.shell
-#             ^ keyword.operator.quantifier.regexp.shell
-#               ^^ support.function.double-brace.end.shell
-#                  ^ keyword.operator.logical.continue.shell
-#                    ^^^^ keyword.control.conditional.then.shell
-#   
-  echo shell is not interactive
-fi
-# <- keyword.control.conditional.end.shell
+ then;
+#^^^^ keyword.control.conditional.then.shell
+ then&
+#^^^^ keyword.control.conditional.then.shell
+ then|
+#^^^^ keyword.control.conditional.then.shell
+ then>/dev/null
+#^^^^ keyword.control.conditional.then.shell
+ then -
+#^^^^ keyword.control.conditional.then.shell
+ then-
+#^^^^^ - keyword.control
+- then
+#^^^^^ - keyword.control
+ then+
+#^^^^^ - keyword.control
+ then$
+#^^^^^ - keyword.control
+ then$var
+#^^^^^^^^ - keyword.control
+ then=
+#^^^^^ - keyword.control
+ then-=
+#^^^^^^ - keyword.control
+ then+=
+#^^^^^^ - keyword.control
+ then()
+#^^^^ keyword.control.conditional.then.shell
+ then[]
+#^^^^^^ - keyword.control
+ then{}
+#^^^^^^ - keyword.control
 
 if cmd && \
     ! cmd
@@ -3396,60 +3390,6 @@ if !cmd
 !51
 # <- variable.language.history.shell punctuation.definition.history.shell
 #^^ variable.language.history.shell
-
-then;
-#^^^ keyword.control.conditional.then.shell
-then&
-#^^^ keyword.control.conditional.then.shell
-then|
-#^^^ keyword.control.conditional.then.shell
-then>/dev/null
-#^^^ keyword.control.conditional.then.shell
-then -
-#^^^ keyword.control.conditional.then.shell
-then-
-#^^^^ - keyword
--then
-#^^^^ - keyword
-then+
-#^^^^ - keyword
-then$
-#^^^^ - keyword
-then$var
-#^^^^^^^ - keyword
-then=
-#^^^ - keyword
-then-=
-#^^^ - keyword
-then+=
-#^^^ - keyword
-then()
-#^^^ keyword.control.conditional.then.shell
-then[]
-#^^^ - keyword
-then{}
-#^^^ - keyword
-
-if-up
-# <- - keyword
-# ^ - keyword
-up-if
-#  ^^ - keyword
-then-
-#^^^^ - keyword
--then
-#^^^^ - keyword
-then-fi
-#^^^^^^ - keyword
-if-then
-#^^^^^^ - keyword
-done-foo
-# <- - keyword
-foo-done
-#      ^ - keyword
-for-bar
-# <- - keyword
-#  ^ - keyword
 
 [ ]
 # <- support.function.test.begin.shell
@@ -3514,6 +3454,76 @@ if [[ expr && ( expr || expr ) ]] ; then cmd ; fi
 #                              ^^ support.function.double-brace.end.shell
 #                                 ^ keyword.operator.logical.continue.shell
 
+if [[ $- != *i* ]] ; then echo shell is not interactive; fi
+#^ keyword.control.conditional.if.shell
+#  ^^^^^^^^^^^^^^^ meta.conditional.shell
+#  ^^^^^^^^^ - meta.pattern
+#           ^^^ meta.pattern.regexp.shell
+#              ^^^ - meta.pattern
+#                         ^^^^ meta.function-call.identifier.shell
+#                              ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#  ^^ support.function.double-brace.begin.shell
+#     ^^ meta.interpolation.parameter.shell variable.language.shell
+#     ^ punctuation.definition.variable.shell
+#        ^^ keyword.operator.comparison.shell
+#           ^ keyword.operator.quantifier.regexp.shell
+#             ^ keyword.operator.quantifier.regexp.shell
+#               ^^ support.function.double-brace.end.shell
+#                  ^ keyword.operator.logical.continue.shell
+#                    ^^^^ keyword.control.conditional.then.shell
+#                         ^^^^ support.function.echo.shell
+#                                                      ^ keyword.operator.logical.continue.shell
+#                                                        ^^ keyword.control.conditional.end.shell
+
+if [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; then PLATFORM=docker; fi
+#^ keyword.control.conditional.if
+#     ^ keyword.operator.logical.shell
+#                         ^^ keyword.operator.logical.and
+#                            ^ keyword.operator.logical.shell
+#                              ^^^ meta.function-call.identifier.shell variable.function
+#                                  ^^ keyword.operator.logical.or.shell
+#                                     ^ keyword.operator.logical.shell
+#                                       ^^^^ meta.function-call.identifier.shell variable.function.shell
+#                                           ^ keyword.operator.logical.continue
+#                                             ^^^^ keyword.control.conditional.then
+#                                                         ^ variable.other.readwrite
+#                                                          ^ keyword.operator.assignment
+#                                                           ^ meta.string string.unquoted
+
+if { [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; }; then PLATFORM=docker; fi
+#^ keyword.control.conditional.if
+#  ^ punctuation.section.compound.begin.shell
+#       ^ keyword.operator.logical.shell
+#                           ^^ keyword.operator.logical.and
+#                              ^ keyword.operator.logical.shell
+#                                ^^^ meta.function-call.identifier.shell variable.function
+#                                    ^^ keyword.operator.logical.or.shell
+#                                       ^ keyword.operator.logical.shell
+#                                         ^^^^ meta.function-call.identifier.shell variable.function.shell
+#                                               ^ punctuation.section.compound.end.shell
+#                                                ^ keyword.operator.logical.continue
+#                                                  ^^^^ keyword.control.conditional.then
+#                                                              ^ variable.other.readwrite
+#                                                               ^ keyword.operator.assignment
+#                                                                ^ meta.string string.unquoted
+
+if ( [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2 ); then PLATFORM=docker; fi
+#^ keyword.control.conditional.if
+#  ^ punctuation.section.compound.begin.shell
+#       ^ keyword.operator.logical.shell
+#                           ^^ keyword.operator.logical.and
+#                              ^ keyword.operator.logical.shell
+#                                ^^^ meta.function-call.identifier.shell variable.function
+#                                    ^^ keyword.operator.logical.or.shell
+#                                       ^ keyword.operator.logical.shell
+#                                         ^^^^ meta.function-call.identifier.shell variable.function.shell
+#                                              ^ punctuation.section.compound.end.shell
+#                                               ^ keyword.operator.logical.continue
+#                                                 ^^^^ keyword.control.conditional.then
+#                                                             ^ variable.other.readwrite
+#                                                              ^ keyword.operator.assignment
+#                                                               ^ meta.string string.unquoted
+
 if [ ! -f q4m-$Q4MVER.tar.gz ]; then
 #  ^ support.function.test.begin.shell
 #    ^ keyword.operator.logical.shell
@@ -3528,6 +3538,15 @@ if [ ! -f q4m-$Q4MVER.tar.gz ]; then
 #   ^ meta.function-call.identifier.shell support.function.colon.shell
 fi
 # <- keyword.control.conditional.end.shell
+
+if true ; then false ; fi
+#^ keyword.control.conditional.if.shell
+#  ^^^^ constant.language.boolean.shell
+#       ^ keyword.operator.logical.continue.shell
+#         ^^^^ keyword.control.conditional.then.shell
+#              ^^^^^ constant.language.boolean.shell
+#                    ^ keyword.operator.logical.continue.shell
+#                      ^^ keyword.control.conditional.end.shell
 
 if (ruby extconf.rb &&
 #  ^ punctuation.section.compound.begin.shell
