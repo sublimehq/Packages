@@ -660,30 +660,25 @@ contexts:
       set:
         - meta_scope: meta.string.html string.quoted.double.html
         - meta_content_scope: meta.path.html
-        - match: \"
-          scope: punctuation.definition.string.end.html
-          pop: 1
+        - include: strings-double-quoted-content
         - include: tag-attribute-value-separator
-        - include: tag-href-entities
+        - include: tag-href-attribute-value-content
     - match: \'
       scope: punctuation.definition.string.begin.html
       set:
         - meta_scope: meta.string.html string.quoted.single.html
         - meta_content_scope: meta.path.html
-        - match: \'
-          scope: punctuation.definition.string.end.html
-          pop: 1
+        - include: strings-single-quoted-content
         - include: tag-attribute-value-separator
-        - include: tag-href-entities
+        - include: tag-href-attribute-value-content
     - match: '{{unquoted_attribute_start}}'
       set:
         - meta_scope: meta.string.html string.unquoted.html meta.path.html
         - include: tag-attribute-unquoted-value-content
-        - include: tag-href-entities
+        - include: tag-href-attribute-value-content
     - include: else-pop
 
-  tag-href-entities:
-    - include: entities
+  tag-href-attribute-value-content:
     - match: (%)\h{2}
       scope: constant.character.escape.url.html
       captures:
