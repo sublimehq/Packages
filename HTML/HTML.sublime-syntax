@@ -100,12 +100,14 @@ contexts:
         1: punctuation.definition.tag.begin.html
         2: keyword.declaration.cdata.html
         3: punctuation.definition.tag.begin.html
-      push:
-        - meta_scope: meta.tag.sgml.cdata.html
-        - meta_content_scope: string.unquoted.cdata.html
-        - match: ']]>'
-          scope: punctuation.definition.tag.end.html
-          pop: 1
+      push: cdata-content
+
+  cdata-content:
+    - meta_scope: meta.tag.sgml.cdata.html
+    - meta_content_scope: string.unquoted.cdata.html
+    - match: ']]>'
+      scope: punctuation.definition.tag.end.html
+      pop: 1
 
 ###[ COMMENT ]################################################################
 
