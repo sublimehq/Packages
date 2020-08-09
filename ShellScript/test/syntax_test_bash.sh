@@ -1181,13 +1181,14 @@ __git_aliased_command ()
 
 
 ####################################################################
-# 4.2 Bash Builtin Commands                                        #
+# alias builtin                                                    #
 ####################################################################
 
 alias
 # <- meta.function-call.identifier.shell support.function.alias.shell
 #^^^^ meta.function-call.identifier.shell support.function.alias.shell
 #    ^ - meta.function-call - support
+
 alias foo=bar
 # <- meta.function-call.identifier.shell support.function.alias.shell
 #^^^^ meta.function-call.identifier.shell
@@ -1196,6 +1197,7 @@ alias foo=bar
 #     ^^^ entity.name.function.alias.shell
 #        ^ keyword.operator.assignment.shell
 #         ^^^ meta.string.shell string.unquoted.shell
+
 alias -p foo=bar
 # <- meta.function-call.identifier.shell support.function.alias.shell
 #^^^^ meta.function-call.identifier.shell
@@ -1205,6 +1207,7 @@ alias -p foo=bar
 #        ^^^ entity.name.function.alias.shell
 #           ^ keyword.operator.assignment.shell
 #            ^^^ meta.string.shell string.unquoted.shell
+
 alias -a -p -- foo=bar
 # <- meta.function-call.identifier.shell support.function.alias.shell
 #^^^^ meta.function-call.identifier.shell
@@ -1217,11 +1220,17 @@ alias -a -p -- foo=bar
 #                 ^ keyword.operator.assignment.shell
 #                  ^^^ meta.string.shell string.unquoted.shell
 
+
+####################################################################
+# declare builtin                                                  #
+####################################################################
+
 declare             # comment
 #<- meta.function-call.identifier.shell storage.modifier.shell
 #^^^^^^ meta.function-call.identifier.shell storage.modifier.shell
 #      ^ - meta.function-call
 #                   ^^^^^^^^^^ comment.line.number-sign.shell
+
 declare foo         # 'foo' is a variable name
 #^^^^^^ meta.function-call.identifier.shell
 #      ^^^^ meta.function-call.arguments.shell
@@ -1229,16 +1238,19 @@ declare foo         # 'foo' is a variable name
 # <- storage.modifier
 #          ^ - variable.other.readwrite
 #                  ^ - meta.function-call
+
 declare +A          # this is a comment
 #^^^^^^ meta.function-call.identifier.shell
 #      ^^^ meta.function-call.arguments.shell
 #         ^ - meta.function-call
 #                   ^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
 declare -A foo bar  # 'foo' and 'bar' are variable names
 #^^^^^^ meta.function-call.identifier.shell
 #      ^^^^^^^^^^^ meta.function-call.arguments.shell
 #                 ^ - meta.function-call
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
 declare ret; bar=foo # comment
 #^^^^^^ meta.function-call.identifier.shell
 #      ^^^^ meta.function-call.arguments.shell
@@ -1249,30 +1261,35 @@ declare ret; bar=foo # comment
 #                ^^^ meta.string.shell string.unquoted.shell
 #                   ^ - meta.string - string - comment
 #                    ^^^^^^^^^^ comment.line.number-sign.shell
+
 declare ret ;
 #^^^^^^ meta.function-call.identifier.shell
 #      ^^^^ meta.function-call.arguments.shell
 #          ^ - meta.function-call
 # <- storage.modifier
 #           ^ keyword.operator
+
 declare ret&
 #^^^^^^ meta.function-call.identifier.shell
 #      ^^^^ meta.function-call.arguments.shell
 #          ^ - meta.function-call
 # <- storage.modifier
 #          ^ keyword.operator
+
 declare ret &
 #^^^^^^ meta.function-call.identifier.shell
 #      ^^^^ meta.function-call.arguments.shell
 #          ^ - meta.function-call
 # <- storage.modifier
 #           ^ keyword.operator
+
 declare bar=\
 foo # comment
 # <- meta.function-call.arguments.shell meta.string.shell string.unquoted.shell
 #^^ meta.function-call.arguments.shell meta.string.shell string.unquoted.shell
 #  ^ - meta.function
 #   ^^^^^^^^^^ comment.line.number-sign.shell
+
 declare bar=\
 (foo) # comment
 #^^^^ meta.function-call.arguments.shell
@@ -1280,6 +1297,7 @@ declare bar=\
 # <- punctuation.section.sequence.begin.shell
 #   ^ punctuation.section.sequence.end.shell
 #     ^^^^^^^^^^ comment.line.number-sign.shell
+
 declare -a owners=(
     # dogs
 #   ^^^^^^^ meta.function-call.arguments.shell meta.sequence.shell comment.line.number-sign.shell
@@ -1323,14 +1341,11 @@ printFunction "$variableString1" "`declare -p variableArray`"
 #                                          ^^ variable.parameter.option
 #                                             ^^^^^^^^^^^^^ variable.other.readwrite
 #                                                          ^ punctuation.section.interpolation.end.shell
-foo=`readonly x=5`
-# <- variable.other.readwrite
-#   ^ meta.interpolation.command.shell punctuation.section.interpolation.begin.shell
-#    ^^^^^^^^ meta.interpolation.command.shell storage.modifier
-#             ^ meta.interpolation.command.shell variable.other.readwrite
-#              ^ meta.interpolation.command.shell keyword.operator.assignment
-#               ^ meta.string.shell meta.interpolation.command.shell constant.numeric.integer.decimal.shell
-#                ^ meta.interpolation.command.shell punctuation.section.interpolation.end.shell
+
+
+####################################################################
+# export builtin                                                   #
+####################################################################
 
 # <- - meta.interpolation.command.shell
 export foo          # 'foo' is a variable name
@@ -1338,12 +1353,14 @@ export foo          # 'foo' is a variable name
 # <- storage.modifier
 #      ^^^ variable.other.readwrite
 #                  ^ - meta.function-call
+
 export foo bar      # 'foo' and 'bar' are variable names
 # <- storage.modifier
 #      ^^^ variable.other.readwrite
 #         ^ - variable
 #          ^^^ variable.other.readwrite
 #                  ^ - meta.function-call
+
 export foo='bar'    # 'foo' is a variable name
 # <- storage.modifier
 #^^^^^^^^^^^^^^^ meta.function-call
@@ -1353,33 +1370,120 @@ export foo='bar'    # 'foo' is a variable name
 #          ^^^^^ meta.string string.quoted.single
 #          ^ punctuation.definition.string.begin
 #              ^ punctuation.definition.string.end
-local foo bar       # 'foo' and 'bar' are variable names
-# <- storage.modifier
-#    ^ - variable
-#     ^^^ variable.other.readwrite
-#        ^ - variable
-#         ^^^ variable.other.readwrite
-#                  ^ - meta.function-call
-local foo bar='baz' # 'foo' and 'bar' are variable names
-# <- storage.modifier
-#    ^ - variable
-#     ^^^ variable.other.readwrite
-#        ^ - variable
-#         ^^^ variable.other.readwrite
-#            ^ keyword.operator.assignment
-#             ^^^^^ meta.string string.quoted.single
-#             ^ punctuation.definition.string.begin
-#                 ^ punctuation.definition.string.end
-#                  ^ - string
-#^^^^^^^^^^^^^^^^^^ meta.function-call
-#                  ^ - meta.function-call
-local pid="$(cat "$PIDFILE" 2>/dev/null)"
-#     ^^^ - variable.parameter
-local-pid
-#^^^^ - storage.modifier
-#     ^^^ - variable.parameter
+
+
+####################################################################
+# local builtin                                                    #
+####################################################################
+
+local
+#<- meta.function-call.identifier.shell storage.modifier.shell
+#^^^^ meta.function-call.identifier.shell storage.modifier.shell
+#    ^ - meta.function-call
+local;
+#^^^^ storage.modifier.shell
+local&
+#^^^^ storage.modifier.shell
+local|
+#^^^^ storage.modifier.shell
+local>/dev/null
+#^^^^ storage.modifier.shell
+local -
+#^^^^ storage.modifier.shell
+local()
+#^^^^ storage.modifier.shell
+local[]
+#^^^^^^ - storage.modifier
+local{}
+#^^^^^^ - storage.modifier
 local-
 #^^^^^ - storage.modifier
+-local
+#^^^^^ - storage.modifier
+local+
+#^^^^^ - storage.modifier
+local$
+#^^^^^ - storage.modifier
+local$var
+#^^^^^^^^ - storage.modifier
+local=
+#^^^^^ - storage.modifier
+local-=
+#^^^^^^ - storage.modifier
+local+=
+#^^^^^^ - storage.modifier
+
+local foo bar       # 'foo' and 'bar' are variable names
+# <- meta.function-call.identifier.shell storage.modifier.shell
+#^^^^ meta.function-call.identifier.shell storage.modifier.shell
+#    ^^^^^^^^ meta.function-call.arguments.shell
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function-call
+#    ^ - variable
+#     ^^^ meta.variable.shell variable.other.readwrite.shell
+#        ^ - variable
+#         ^^^ meta.variable.shell variable.other.readwrite.shell
+#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
+local foo bar='baz' # 'foo' and 'bar' are variable names
+# <- meta.function-call.identifier.shell storage.modifier.shell
+#^^^^ meta.function-call.identifier.shell storage.modifier.shell
+#    ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function-call
+#    ^ - variable
+#     ^^^ meta.variable.shell variable.other.readwrite.shell
+#        ^ - variable
+#         ^^^ meta.variable.shell variable.other.readwrite.shell
+#            ^ keyword.operator.assignment.shell
+#             ^^^^^ meta.string.shell string.quoted.single.shell
+#                  ^ - comment - string
+#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
+local pid="$(cat "$PIDFILE" 2>/dev/null)"
+# <- meta.function-call.identifier.shell storage.modifier.shell
+#^^^^ meta.function-call.identifier.shell storage.modifier.shell
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#     ^^^ meta.variable.shell variable.other.readwrite.shell
+#        ^ keyword.operator.assignment.shell
+#         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell
+
+f() {
+    local -a "$@"
+    # <- storage.modifier.shell
+    local x
+    # <- storage.modifier.shell
+
+    for x; do
+        case $x in
+            $1)
+                local "$x"'+=(1)' ;;&
+                # <- storage.modifier
+                #                 ^^^ punctuation
+            $2)
+                local "$x"'+=(2)' ;&
+                # <- storage.modifier
+                #                 ^^ punctuation
+            $3)
+                local "$x"'+=(3)' ;;
+                # <- storage.modifier
+                #                 ^^ punctuation
+            $1|$2)
+                local "$x"'+=(4)'
+                # <- storage.modifier
+        esac
+        # <- meta.function keyword.control.conditional.end
+
+        IFS=, local -a "$x"'=("${x}: ${'"$x"'[*]}")'
+        # ^ variable.other.readwrite
+        #  ^ keyword.operator.assignment
+        #   ^ meta.string string.unquoted
+        #     ^ storage.modifier
+    done
+}
+
+
+####################################################################
+# readonly builtin                                                 #
+####################################################################
 
 readonly foo        # 'foo' is a variable name
 # <- meta.function-call.identifier.shell storage.modifier.shell
@@ -1390,6 +1494,21 @@ readonly foo        # 'foo' is a variable name
 #       ^ - storage - variable
 #        ^^^ variable.other.readwrite
 #           ^ - variable
+
+foo=`readonly x=5`
+# <- variable.other.readwrite
+#   ^ meta.interpolation.command.shell punctuation.section.interpolation.begin.shell
+#    ^^^^^^^^ meta.interpolation.command.shell storage.modifier
+#             ^ meta.interpolation.command.shell variable.other.readwrite
+#              ^ meta.interpolation.command.shell keyword.operator.assignment
+#               ^ meta.string.shell meta.interpolation.command.shell constant.numeric.integer.decimal.shell
+#                ^ meta.interpolation.command.shell punctuation.section.interpolation.end.shell
+
+
+####################################################################
+# typeset builtin                                                  #
+####################################################################
+
 typeset foo         # 'foo' is a variable name
 # <- meta.function-call.identifier.shell storage.modifier.shell
 #^^^^^^ meta.function-call.identifier.shell
@@ -3860,32 +3979,8 @@ case $1 in
 esac
 
 
-function clk {
-    typeset base=/sys/class/drm/card0/device
-    #<- storage.modifier
-    #       ^^^^ variable.other.readwrite
-    #           ^ keyword.operator.assignment
-    #            ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string string.unquoted
-    [[ -r ${base}/hwmon/hwmon0/temp1_input && -r ${base}/power_profile ]] || return 1
-    # <- support.function.double-brace.begin
-    #                                                                  ^^ support.function.double-brace.end
-    case $1 in
-        low|high|default)
-            printf '%s\n' "temp: $(<${base}/hwmon/hwmon0/temp1_input)C" "old profile: $(<${base}/power_profile)"
-            echo "$1" >${base}/power_profile
-            echo "new profile: $(<${base}/power_profile)"
-            ;;
-        *)
-            echo "Usage: $FUNCNAME [ low | high | default ]"
-            printf '%s\n' "temp: $(<${base}/hwmon/hwmon0/temp1_input)C" "current profile: $(<${base}/power_profile)"
-    esac
-    # <- meta.function keyword.control.conditional.end
-}
-# <- punctuation
-
-
 ####################################################################
-# Loop Tests                                                       #
+# select loops                                                     #
 ####################################################################
 
 select fname in *;
@@ -3905,6 +4000,11 @@ do
 #      ^ keyword.operator.logical.continue.shell
 done
 # <- keyword.control.loop.end.shell
+
+
+####################################################################
+# while loops                                                      #
+####################################################################
 
 while true; do
 # <- keyword.control.loop.while
@@ -3997,6 +4097,11 @@ while IFS= read -r -d '' f; do
 #                           ^^ keyword.control.loop.do.shell
 done
 # <- keyword.control.loop.end.shell
+
+
+####################################################################
+# do...until loops                                                 #
+####################################################################
 
 do echo bar; until ! { [[ true ]]; }
 # <- keyword.control.loop.do.shell
@@ -4176,64 +4281,6 @@ done
 #                              ^ keyword.operator.logical.continue.shell
 #                                ^^^^ keyword.control.loop.end.shell
 #                                    ^ punctuation.section.interpolation.end.shell
-
-f() {
-    local -a "$@"
-    local x
-    # <- storage.modifier
-
-    for x; do
-        case $x in
-            $1)
-                local "$x"'+=(1)' ;;&
-                # <- storage.modifier
-                #                 ^^^ punctuation
-            $2)
-                local "$x"'+=(2)' ;&
-                # <- storage.modifier
-                #                 ^^ punctuation
-            $3)
-                local "$x"'+=(3)' ;;
-                # <- storage.modifier
-                #                 ^^ punctuation
-            $1|$2)
-                local "$x"'+=(4)'
-                # <- storage.modifier
-        esac
-        # <- meta.function keyword.control.conditional.end
-
-        IFS=, local -a "$x"'=("${x}: ${'"$x"'[*]}")'
-        # ^ variable.other.readwrite
-        #  ^ keyword.operator.assignment
-        #   ^ meta.string string.unquoted
-        #     ^ storage.modifier
-    done
-}
-
-if   [ "$*" = '*' ]
-then remotefilter="cat"
-#               ^ variable.other.readwrite
-#                ^ keyword.operator.assignment
-else remotefilter="grep"
-#               ^ variable.other.readwrite
-#                 ^ meta.string string.quoted.double punctuation.definition.string.begin
-     for glob in "$@"
-     do  glob=$(
-     #      ^ variable.other.readwrite
-     #       ^ keyword.operator.assignment
-     #        ^^ meta.string meta.interpolation punctuation.section.interpolation.begin.shell
-           echo "$glob" |
-           sed -e 's@\*@[^ ]*@g' -e 's/\?/[^ ]/g'
-           # <- meta.string meta.interpolation meta.function-call variable.function - string
-         )
-         # <- meta.string meta.interpolation punctuation.section.interpolation.end.shell - string
-         remotefilter="$remotefilter -e '^$glob ' -e ' $glob\$'"
-         #          ^ variable.other.readwrite
-         #           ^ keyword.operator.assignment
-     done
-     # <- keyword.control.loop.end
-fi
-# <- keyword.control.conditional.end
 
 
 ####################################################################
@@ -4543,3 +4590,57 @@ sed 's/^    //' << EOF >$dummy.c
     }
 EOF
 # <- keyword.control.heredoc-token
+
+
+####################################################################
+# Misc statement tests                                             #
+####################################################################
+
+function clk {
+    typeset base=/sys/class/drm/card0/device
+    #<- storage.modifier
+    #       ^^^^ variable.other.readwrite
+    #           ^ keyword.operator.assignment
+    #            ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string string.unquoted
+    [[ -r ${base}/hwmon/hwmon0/temp1_input && -r ${base}/power_profile ]] || return 1
+    # <- support.function.double-brace.begin
+    #                                                                  ^^ support.function.double-brace.end
+    case $1 in
+        low|high|default)
+            printf '%s\n' "temp: $(<${base}/hwmon/hwmon0/temp1_input)C" "old profile: $(<${base}/power_profile)"
+            echo "$1" >${base}/power_profile
+            echo "new profile: $(<${base}/power_profile)"
+            ;;
+        *)
+            echo "Usage: $FUNCNAME [ low | high | default ]"
+            printf '%s\n' "temp: $(<${base}/hwmon/hwmon0/temp1_input)C" "current profile: $(<${base}/power_profile)"
+    esac
+    # <- meta.function keyword.control.conditional.end
+}
+# <- punctuation
+
+if   [ "$*" = '*' ]
+then remotefilter="cat"
+#               ^ variable.other.readwrite
+#                ^ keyword.operator.assignment
+else remotefilter="grep"
+#               ^ variable.other.readwrite
+#                 ^ meta.string string.quoted.double punctuation.definition.string.begin
+     for glob in "$@"
+     do  glob=$(
+     #      ^ variable.other.readwrite
+     #       ^ keyword.operator.assignment
+     #        ^^ meta.string meta.interpolation punctuation.section.interpolation.begin.shell
+           echo "$glob" |
+           sed -e 's@\*@[^ ]*@g' -e 's/\?/[^ ]/g'
+           # <- meta.string meta.interpolation meta.function-call variable.function - string
+         )
+         # <- meta.string meta.interpolation punctuation.section.interpolation.end.shell - string
+         remotefilter="$remotefilter -e '^$glob ' -e ' $glob\$'"
+         #          ^ variable.other.readwrite
+         #           ^ keyword.operator.assignment
+     done
+     # <- keyword.control.loop.end
+fi
+# <- keyword.control.conditional.end
+
