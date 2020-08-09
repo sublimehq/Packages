@@ -193,6 +193,11 @@ contexts:
 ###[ TAGS ]###################################################################
 
   tag:
+    - include: tag-html
+    - include: tag-custom
+    - include: tag-incomplete
+
+  tag-html:
     - match: (<)((?i:style)){{tag_name_break}}
       captures:
         1: punctuation.definition.tag.begin.html
@@ -267,16 +272,8 @@ contexts:
         - meta_scope: meta.tag.inline.table.html
         - include: tag-end-maybe-self-closing
         - include: tag-attributes
-    - match: </?(?=[A-Za-z]{{tag_name_char}}*?-)
-      scope: punctuation.definition.tag.begin.html
-      push:
-        - tag-custom-body
-        - tag-custom-name
-    - match: </?(?=[A-Za-z])
-      scope: punctuation.definition.tag.begin.html
-      push:
-        - tag-other-body
-        - tag-other-name
+
+  tag-incomplete:
     - match: <>
       scope: invalid.illegal.incomplete.html
 
@@ -296,6 +293,18 @@ contexts:
       pop: 1
 
 ###[ CUSTOM TAG ]#############################################################
+
+  tag-custom:
+    - match: </?(?=[A-Za-z]{{tag_name_char}}*?-)
+      scope: punctuation.definition.tag.begin.html
+      push:
+        - tag-custom-body
+        - tag-custom-name
+    - match: </?(?=[A-Za-z])
+      scope: punctuation.definition.tag.begin.html
+      push:
+        - tag-other-body
+        - tag-other-name
 
   tag-custom-name:
       - meta_content_scope: entity.name.tag.custom.html
