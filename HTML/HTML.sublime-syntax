@@ -298,12 +298,12 @@ contexts:
     - match: </?(?=[A-Za-z]{{tag_name_char}}*?-)
       scope: punctuation.definition.tag.begin.html
       push:
-        - tag-custom-body
+        - tag-custom-content
         - tag-custom-name
     - match: </?(?=[A-Za-z])
       scope: punctuation.definition.tag.begin.html
       push:
-        - tag-other-body
+        - tag-other-content
         - tag-other-name
 
   tag-custom-name:
@@ -315,7 +315,7 @@ contexts:
       - match: '{{tag_name_char}}'
         scope: invalid.illegal.custom-tag-name.html
 
-  tag-custom-body:
+  tag-custom-content:
       - meta_scope: meta.tag.custom.html
       - include: tag-end-maybe-self-closing
       - include: tag-attributes
@@ -325,7 +325,7 @@ contexts:
       - match: '{{tag_name_break}}'
         pop: 1
 
-  tag-other-body:
+  tag-other-content:
       - meta_scope: meta.tag.other.html
       - include: tag-end-maybe-self-closing
       - include: tag-attributes
