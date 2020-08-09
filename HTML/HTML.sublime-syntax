@@ -162,14 +162,16 @@ contexts:
   doctype-content:
     - match: \[
       scope: punctuation.section.brackets.begin.html
-      set:
-        - meta_scope: meta.brackets.html meta.internal-subset.xml.html
-        - match: \]
-          scope: punctuation.section.brackets.end.html
-          pop: 1
-        - include: comment
+      set: doctype-internal-subset-content
     - include: strings
     - include: else-pop
+
+  doctype-internal-subset-content:
+    - meta_scope: meta.brackets.html meta.internal-subset.xml.html
+    - match: \]
+      scope: punctuation.section.brackets.end.html
+      pop: 1
+    - include: comment
 
 ###[ PREPROCESSOR ]###########################################################
 
