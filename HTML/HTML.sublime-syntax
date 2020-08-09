@@ -486,6 +486,13 @@ contexts:
     - include: tag-href-attribute
     - include: tag-generic-attribute
 
+  tag-attribute-unquoted-value-content:
+    - meta_scope: meta.string.html string.unquoted.html
+    - match: '{{unquoted_attribute_break}}'
+      pop: 1
+    - include: strings-unquoted-content
+    - include: tag-attribute-value-invalid-char
+
   tag-attribute-value-separator:
     - match: (?=[{{ascii_space}}])
       push:
@@ -533,10 +540,7 @@ contexts:
     - match: '{{unquoted_attribute_start}}'
       set:
         - meta_scope: meta.string.html string.unquoted.html meta.class-name.html
-        - match: '{{unquoted_attribute_break}}'
-          pop: 1
-        - include: tag-attribute-value-invalid-char
-        - include: entities
+        - include: tag-attribute-unquoted-value-content
     - include: else-pop
 
 ###[ EVENT ATTRIBUTE ]########################################################
@@ -620,12 +624,7 @@ contexts:
       scope: punctuation.definition.string.begin.html
       set: strings-single-quoted-content
     - match: '{{unquoted_attribute_start}}'
-      set:
-        - meta_scope: meta.string.html string.unquoted.html
-        - match: '{{unquoted_attribute_break}}'
-          pop: 1
-        - include: tag-attribute-value-invalid-char
-        - include: entities
+      set: tag-attribute-unquoted-value-content
     - include: else-pop
 
 ###[ HREF ATTRIBUTE ]#########################################################
@@ -671,9 +670,7 @@ contexts:
     - match: '{{unquoted_attribute_start}}'
       set:
         - meta_scope: meta.string.html string.unquoted.html meta.path.html
-        - match: '{{unquoted_attribute_break}}'
-          pop: 1
-        - include: tag-attribute-value-invalid-char
+        - include: tag-attribute-unquoted-value-content
         - include: tag-href-entities
     - include: else-pop
 
@@ -721,10 +718,7 @@ contexts:
     - match: '{{unquoted_attribute_start}}'
       set:
         - meta_scope: meta.string.html string.unquoted.html meta.toc-list.id.html
-        - match: '{{unquoted_attribute_break}}'
-          pop: 1
-        - include: tag-attribute-value-invalid-char
-        - include: entities
+        - include: tag-attribute-unquoted-value-content
     - include: else-pop
 
 ###[ STYLE ATTRIBUTE ]########################################################
@@ -813,6 +807,11 @@ contexts:
   strings-quoted-content:
     # This context exists as common entry point for inherited syntaxes to add
     # custom highlighting to all quoted strings (only quoted attributes).
+    - include: strings-common-content
+
+  strings-unquoted-content:
+    # This context exists as common entry point for inherited syntaxes to add
+    # custom highlighting to all unquoted strings (only unquoted attributes).
     - include: strings-common-content
 
   strings-common-content:
