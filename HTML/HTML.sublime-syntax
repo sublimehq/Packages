@@ -180,13 +180,15 @@ contexts:
       captures:
         1: punctuation.definition.tag.begin.html
         2: entity.name.tag.xml.html
-      push:
-        - meta_scope: meta.tag.preprocessor.xml.html
-        - match: \?>
-          scope: punctuation.definition.tag.end.html
-          pop: 1
-        - include: tag-generic-attribute
-        - include: strings
+      push: preprocessor-content
+
+  preprocessor-content:
+    - meta_scope: meta.tag.preprocessor.xml.html
+    - match: \?>
+      scope: punctuation.definition.tag.end.html
+      pop: 1
+    - include: tag-generic-attribute
+    - include: strings
 
 ###[ TAGS ]###################################################################
 
