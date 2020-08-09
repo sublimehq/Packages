@@ -3292,7 +3292,7 @@ true false
 
 
 ####################################################################
-# Misc operators                                                   #
+# Arithmetic tests                                                 #
 ####################################################################
 
 (( a=b, a*=b, a/=b, a%=b, a+=b, a-=b, a<<=b, a>>=b, a&=b, a^=b, a|=b ))
@@ -3470,6 +3470,118 @@ let "two=5+5"; if [[ "$X" == "1" ]]; then X="one"; fi
 #                                           ^^^^^ string.quoted.double.shell
 #                                                ^ keyword.operator.logical.continue.shell
 #                                                  ^^ keyword.control.conditional.end.shell
+
+
+####################################################################
+# Command chaining operators | and, or, pipe, redirection          #
+####################################################################
+
+function show_help() {
+    echo "Usage: imgcat [-p] filename ..." 1>& 2
+    #                                          ^ constant.numeric.integer.decimal.file-descriptor
+    echo "   or: cat filename | imgcat" 1>& 2
+    #                                       ^ constant.numeric.integer.decimal.file-descriptor
+}
+cmd1 --opt1 arg1 | cmd2 --opt2 arg2 | cmd3 --opt3 arg3
+#  ^ meta.function-call.identifier.shell variable.function.shell
+#         ^ variable.parameter - variable.function
+#              ^ - variable
+#                ^ keyword
+                   #  ^ meta.function-call.identifier.shell variable.function.shell
+                   #         ^ variable.parameter - variable.function
+                   #              ^ - variable
+                   #                ^ keyword
+                                      #  ^ meta.function-call.identifier.shell variable.function.shell
+                                      #         ^ variable.parameter - variable.function
+                                      #              ^ - variable
+C2=c2 C3=c3 C4=c4
+c1 -c1 c1 && ${C2} -c2 c2 || c3 -c3 ${C3} ; c4 -${C4} c4 | c5 -c5 c5
+#^ meta.function-call.identifier.shell variable.function.shell
+#    ^ variable.parameter - variable.function
+#      ^ - variable
+#         ^ keyword
+          #  ^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
+          #         ^ variable.parameter - variable.function
+          #             ^ - variable
+          #                ^ keyword
+                          #  ^ meta.function-call.identifier.shell variable.function.shell
+                          #      ^ variable.parameter - variable.function
+                          #         ^ - variable.parameter
+                          #               ^ keyword
+                                          # ^^ variable.function
+                                          #    ^ variable.parameter
+
+foo 2>&1
+#   ^ meta.function-call.arguments constant.numeric.integer.decimal.file-descriptor
+#    ^^ meta.function-call.arguments keyword.operator.assignment.redirection
+#      ^ meta.function-call.arguments constant.numeric.integer.decimal.file-descriptor
+foo 2>&-
+#      ^ punctuation.terminator
+foo | bar 2>&1
+#         ^ meta.function-call.arguments constant.numeric.integer.decimal.file-descriptor
+#          ^^ meta.function-call.arguments keyword.operator.assignment.redirection
+#            ^ meta.function-call.arguments constant.numeric.integer.decimal.file-descriptor
+foo | bar --opt1 arg1 < file.txt
+#                     ^ meta.function-call.arguments keyword.operator.assignment.redirection
+foo | bar --opt1 arg1 > file.txt
+#                     ^ meta.function-call.arguments keyword.operator.assignment.redirection
+foo -x arg1 &>/dev/null
+#           ^^ meta.function-call.arguments keyword.operator.assignment.redirection
+foo -x arg1 &> /dev/null
+#           ^^ meta.function-call.arguments keyword.operator.assignment.redirection
+tr "o" "a" < <(echo "Foo")
+#          ^ keyword.operator.assignment.redirection - keyword.operator.assignment.redirection.process
+#            ^ keyword.operator.assignment.redirection.process
+#             ^ punctuation
+#                 ^ support.function
+#                        ^ punctuation
+wc <(cat /usr/share/dict/linux.words)
+#  ^ keyword.operator.assignment.redirection.process
+#   ^ punctuation
+#      ^ variable.function
+#        ^ meta.function-call.arguments meta.function-call.arguments
+#                                  ^ meta.function-call.arguments meta.function-call.arguments
+#                                   ^ punctuation
+comm <(ls -l) <(ls -al)
+#     ^^^^^^^ meta.compound.shell
+#            ^^ - meta.compound
+#              ^^^^^^^^ meta.compound.shell
+#                      ^ - meta.compound
+#    ^ keyword.operator.assignment.redirection.process.shell
+#     ^ punctuation.section.compound.begin.shell
+#         ^^ variable.parameter
+#           ^ punctuation.section.compound.end.shell
+#             ^ keyword.operator.assignment.redirection.process.shell
+#              ^ punctuation.section.compound.begin.shell
+#                ^ variable.function
+#                  ^^^ variable.parameter
+#                     ^ punctuation.section.compound.end.shell
+gzip | tee >(md5sum - | sed 's/-$/mydata.lz2/'>mydata-gz.md5) > mydata.gz
+#    ^ keyword.operator.logical.pipe
+#          ^ keyword.operator.assignment.redirection.process
+#           ^ punctuation
+#                     ^ keyword.operator.logical.pipe
+#                                             ^ keyword.operator.assignment.redirection
+#                                                           ^ punctuation
+#                                                             ^ keyword.operator.assignment.redirection
+LC_ALL=C 2> /dev/null
+#        ^ constant.numeric.integer.decimal.file-descriptor
+#         ^ keyword.operator.assignment.redirection
+#           ^ - variable.function
+2>&1 echo foo
+# <- constant.numeric.integer.decimal.file-descriptor
+#^^ keyword.operator.assignment.redirection
+#  ^ constant.numeric.integer.decimal.file-descriptor
+#    ^^^^ meta.function-call support.function.echo
+#        ^^^^ meta.function-call.arguments
+touch file.txt
+foo=x <file.txt
+#     ^ keyword.operator.assignment.redirection
+#      ^ - variable.function
+
+exec >&${tee[1]} 2>&1
+#    ^^ keyword.operator.assignment.redirection
+#      ^ meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
 
 
 ####################################################################
@@ -4364,118 +4476,6 @@ done
 #                              ^ keyword.operator.logical.continue.shell
 #                                ^^^^ keyword.control.loop.end.shell
 #                                    ^ punctuation.section.interpolation.end.shell
-
-
-####################################################################
-# And, or, pipes, redirections                                     #
-####################################################################
-
-function show_help() {
-    echo "Usage: imgcat [-p] filename ..." 1>& 2
-    #                                          ^ constant.numeric.integer.decimal.file-descriptor
-    echo "   or: cat filename | imgcat" 1>& 2
-    #                                       ^ constant.numeric.integer.decimal.file-descriptor
-}
-cmd1 --opt1 arg1 | cmd2 --opt2 arg2 | cmd3 --opt3 arg3
-#  ^ meta.function-call.identifier.shell variable.function.shell
-#         ^ variable.parameter - variable.function
-#              ^ - variable
-#                ^ keyword
-                   #  ^ meta.function-call.identifier.shell variable.function.shell
-                   #         ^ variable.parameter - variable.function
-                   #              ^ - variable
-                   #                ^ keyword
-                                      #  ^ meta.function-call.identifier.shell variable.function.shell
-                                      #         ^ variable.parameter - variable.function
-                                      #              ^ - variable
-C2=c2 C3=c3 C4=c4
-c1 -c1 c1 && ${C2} -c2 c2 || c3 -c3 ${C3} ; c4 -${C4} c4 | c5 -c5 c5
-#^ meta.function-call.identifier.shell variable.function.shell
-#    ^ variable.parameter - variable.function
-#      ^ - variable
-#         ^ keyword
-          #  ^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
-          #         ^ variable.parameter - variable.function
-          #             ^ - variable
-          #                ^ keyword
-                          #  ^ meta.function-call.identifier.shell variable.function.shell
-                          #      ^ variable.parameter - variable.function
-                          #         ^ - variable.parameter
-                          #               ^ keyword
-                                          # ^^ variable.function
-                                          #    ^ variable.parameter
-
-foo 2>&1
-#   ^ meta.function-call.arguments constant.numeric.integer.decimal.file-descriptor
-#    ^^ meta.function-call.arguments keyword.operator.assignment.redirection
-#      ^ meta.function-call.arguments constant.numeric.integer.decimal.file-descriptor
-foo 2>&-
-#      ^ punctuation.terminator
-foo | bar 2>&1
-#         ^ meta.function-call.arguments constant.numeric.integer.decimal.file-descriptor
-#          ^^ meta.function-call.arguments keyword.operator.assignment.redirection
-#            ^ meta.function-call.arguments constant.numeric.integer.decimal.file-descriptor
-foo | bar --opt1 arg1 < file.txt
-#                     ^ meta.function-call.arguments keyword.operator.assignment.redirection
-foo | bar --opt1 arg1 > file.txt
-#                     ^ meta.function-call.arguments keyword.operator.assignment.redirection
-foo -x arg1 &>/dev/null
-#           ^^ meta.function-call.arguments keyword.operator.assignment.redirection
-foo -x arg1 &> /dev/null
-#           ^^ meta.function-call.arguments keyword.operator.assignment.redirection
-tr "o" "a" < <(echo "Foo")
-#          ^ keyword.operator.assignment.redirection - keyword.operator.assignment.redirection.process
-#            ^ keyword.operator.assignment.redirection.process
-#             ^ punctuation
-#                 ^ support.function
-#                        ^ punctuation
-wc <(cat /usr/share/dict/linux.words)
-#  ^ keyword.operator.assignment.redirection.process
-#   ^ punctuation
-#      ^ variable.function
-#        ^ meta.function-call.arguments meta.function-call.arguments
-#                                  ^ meta.function-call.arguments meta.function-call.arguments
-#                                   ^ punctuation
-comm <(ls -l) <(ls -al)
-#     ^^^^^^^ meta.compound.shell
-#            ^^ - meta.compound
-#              ^^^^^^^^ meta.compound.shell
-#                      ^ - meta.compound
-#    ^ keyword.operator.assignment.redirection.process.shell
-#     ^ punctuation.section.compound.begin.shell
-#         ^^ variable.parameter
-#           ^ punctuation.section.compound.end.shell
-#             ^ keyword.operator.assignment.redirection.process.shell
-#              ^ punctuation.section.compound.begin.shell
-#                ^ variable.function
-#                  ^^^ variable.parameter
-#                     ^ punctuation.section.compound.end.shell
-gzip | tee >(md5sum - | sed 's/-$/mydata.lz2/'>mydata-gz.md5) > mydata.gz
-#    ^ keyword.operator.logical.pipe
-#          ^ keyword.operator.assignment.redirection.process
-#           ^ punctuation
-#                     ^ keyword.operator.logical.pipe
-#                                             ^ keyword.operator.assignment.redirection
-#                                                           ^ punctuation
-#                                                             ^ keyword.operator.assignment.redirection
-LC_ALL=C 2> /dev/null
-#        ^ constant.numeric.integer.decimal.file-descriptor
-#         ^ keyword.operator.assignment.redirection
-#           ^ - variable.function
-2>&1 echo foo
-# <- constant.numeric.integer.decimal.file-descriptor
-#^^ keyword.operator.assignment.redirection
-#  ^ constant.numeric.integer.decimal.file-descriptor
-#    ^^^^ meta.function-call support.function.echo
-#        ^^^^ meta.function-call.arguments
-touch file.txt
-foo=x <file.txt
-#     ^ keyword.operator.assignment.redirection
-#      ^ - variable.function
-
-exec >&${tee[1]} 2>&1
-#    ^^ keyword.operator.assignment.redirection
-#      ^ meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
 
 
 ####################################################################
