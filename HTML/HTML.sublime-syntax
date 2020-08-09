@@ -197,6 +197,27 @@ contexts:
     - include: tag-custom
     - include: tag-incomplete
 
+  tag-incomplete:
+    - match: <>
+      scope: invalid.illegal.incomplete.html
+
+  tag-end:
+    - match: '>'
+      scope: punctuation.definition.tag.end.html
+      pop: 1
+
+  tag-end-self-closing:
+    - match: />
+      scope: punctuation.definition.tag.end.html
+      pop: 1
+
+  tag-end-maybe-self-closing:
+    - match: /?>
+      scope: punctuation.definition.tag.end.html
+      pop: 1
+
+###[ HTML TAGS ]##############################################################
+
   tag-html:
     - match: (<)((?i:style)){{tag_name_break}}
       captures:
@@ -272,25 +293,6 @@ contexts:
         - meta_scope: meta.tag.inline.table.html
         - include: tag-end-maybe-self-closing
         - include: tag-attributes
-
-  tag-incomplete:
-    - match: <>
-      scope: invalid.illegal.incomplete.html
-
-  tag-end:
-    - match: '>'
-      scope: punctuation.definition.tag.end.html
-      pop: 1
-
-  tag-end-self-closing:
-    - match: />
-      scope: punctuation.definition.tag.end.html
-      pop: 1
-
-  tag-end-maybe-self-closing:
-    - match: /?>
-      scope: punctuation.definition.tag.end.html
-      pop: 1
 
 ###[ CUSTOM TAG ]#############################################################
 
