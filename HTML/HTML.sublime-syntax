@@ -116,15 +116,17 @@ contexts:
       captures:
         1: punctuation.definition.comment.begin.html
         2: invalid.illegal.bad-comments-or-CDATA.html
-      push:
-        - meta_scope: comment.block.html
-        - match: (<!-)?(--\s*>)
-          captures:
-            1: invalid.illegal.bad-comments-or-CDATA.html
-            2: punctuation.definition.comment.end.html
-          pop: 1
-        - match: <!--(?!-?>)|--!>
-          scope: invalid.illegal.bad-comments-or-CDATA.html
+      push: comment-content
+
+  comment-content:
+    - meta_scope: comment.block.html
+    - match: (<!-)?(--\s*>)
+      captures:
+        1: invalid.illegal.bad-comments-or-CDATA.html
+        2: punctuation.definition.comment.end.html
+      pop: 1
+    - match: <!--(?!-?>)|--!>
+      scope: invalid.illegal.bad-comments-or-CDATA.html
 
 ###[ DOCTYPE DECLARATION ]####################################################
 
