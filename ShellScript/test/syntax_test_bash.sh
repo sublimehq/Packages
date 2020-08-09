@@ -252,6 +252,32 @@ echo `echo \`echo hello\\\`, world\\\\\`!`
 #                                 ^^^^^^ constant.character.escape
 #                                        ^ punctuation.section.interpolation.end.shell
 
+echo "`dirname -- foo/bar`"
+#    ^ meta.function-call.arguments.shell meta.string.shell - meta.interpolation
+#     ^ meta.function-call.arguments.shell meta.string.shell meta.interpolation.command.shell
+#      ^^^^^^^ meta.function-call.arguments.shell meta.string.shell meta.interpolation.command.shell meta.function-call.identifier.shell
+#             ^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell meta.interpolation.command.shell meta.function-call.arguments.shell
+#                        ^ meta.function-call.arguments.shell meta.string.shell meta.interpolation.command.shell
+#                         ^ meta.function-call.arguments.shell meta.string.shell - meta.interpolation
+#    ^ string.quoted.double.shell punctuation.definition.string.begin.shell
+#     ^ punctuation.section.interpolation.begin.shell
+#      ^^^^^^^ variable.function.shell
+#              ^^ keyword.operator.end-of-options
+#                        ^ punctuation.section.interpolation.end.shell
+#                         ^ string.quoted.double.shell punctuation.definition.string.end.shell
+
+echo git rev-list "$(echo --all)" | grep -P 'c354a80'
+#                 ^ meta.string.shell
+#                  ^^^^^^^^^^^^^ meta.string.shell meta.interpolation.command.shell - string.quoted.double
+#                               ^ meta.string.shell - meta.interpolation
+#                 ^ string.quoted.double.shell punctuation.definition.string.begin.shell
+#                  ^^ punctuation.section.interpolation.begin.shell
+#                              ^ punctuation.section.interpolation.end.shell
+#                               ^ string.quoted.double.shell punctuation.definition.string.end.shell
+#                                 ^ keyword.operator.logical.pipe.shell
+#                                   ^^^^ variable.function.shell
+#                                           ^^^^^^^^^ meta.string.shell string.quoted.single.shell
+
 # Test if commands are recognized even in the presence of strings and variable
 # expansions
 ch=ch
@@ -544,6 +570,18 @@ ${foo}/${bar}/${baz}
 #      ^^^^^^ meta.interpolation.parameter.shell - variable.function
 #            ^ variable.function.shell - meta.interpolation
 #             ^^^^^^ meta.interpolation.parameter.shell - variable.function
+
+echo>foo.txt
+# <- meta.function-call.identifier.shell support.function.echo.shell
+#^^^ meta.function-call.identifier.shell support.function.echo.shell
+#   ^^^^^^^^ meta.function-call.arguments.shell - support.function
+#   ^ keyword.operator.assignment.redirection.shell
+
+ls>foo.txt
+# <- meta.function-call.identifier.shell variable.function.shell
+#^ meta.function-call.identifier.shell variable.function.shell
+# ^^^^^^^^ meta.function-call.arguments.shell - variable.function
+# ^ keyword.operator.assignment.redirection.shell
 
 
 ####################################################################
@@ -1962,6 +2000,18 @@ my-var=20
 #     ^^^ meta.string.shell string.unquoted.shell
 #         ^ punctuation.section.compound.end.shell - string-unquoted
 
+foo+=" baz"
+#<- meta.variable.shell variable.other.readwrite.shell
+#^^ meta.variable.shell variable.other.readwrite.shell
+#  ^^ keyword.operator.assignment.shell
+#    ^^^^^^ meta.string.shell string.quoted.double.shell
+
+foo-=" baz"
+#<- meta.variable.shell variable.other.readwrite.shell
+#^^ meta.variable.shell variable.other.readwrite.shell
+#  ^^ keyword.operator.assignment.shell
+#    ^^^^^^ meta.string.shell string.quoted.double.shell
+
 ## Arrays ##
 
 array=()  # an empty array
@@ -2101,6 +2151,112 @@ foo[${j}+10]="`foo`"
 #        ^^ constant.numeric.integer.decimal.shell
 #          ^ punctuation.section.item-access.end.shell
 #           ^ keyword.operator.assignment.shell
+
+foo=`cd -L`
+#   ^ meta.string.shell meta.interpolation.command.shell
+#    ^^ meta.string.shell meta.interpolation.command.shell meta.function-call.identifier.shell
+#      ^^^ meta.string.shell meta.interpolation.command.shell meta.function-call.arguments.shell
+#         ^ meta.string.shell meta.interpolation.command.shell
+#   ^ punctuation.section.interpolation.begin.shell
+#    ^^ support.function.cd.shell
+#       ^^ meta.parameter.option.shell variable.parameter.option.shell
+#         ^ punctuation.section.interpolation.end.shell
+
+foo=`echo -e`
+#   ^ meta.string.shell meta.interpolation.command.shell
+#    ^^^^ meta.string.shell meta.interpolation.command.shell meta.function-call.identifier.shell
+#        ^^^ meta.string.shell meta.interpolation.command.shell meta.function-call.arguments.shell
+#           ^ meta.string.shell meta.interpolation.command.shell
+#   ^ punctuation.section.interpolation.begin.shell
+#    ^^^^ support.function.echo.shell
+#         ^^ meta.parameter.option.shell variable.parameter.option.shell
+#           ^ punctuation.section.interpolation.end.shell
+
+foo=`let 5+5`
+#   ^ meta.string.shell meta.interpolation.command.shell
+#    ^^^ meta.string.shell meta.interpolation.command.shell meta.function-call.identifier.shell
+#       ^^^^ meta.string.shell meta.interpolation.command.shell meta.function-call.arguments.shell
+#           ^ meta.string.shell meta.interpolation.command.shell
+#   ^ punctuation.section.interpolation.begin.shell
+#    ^^^ support.function.let.shell
+#        ^ constant.numeric.integer.decimal.shell
+#         ^ keyword.operator.arithmetic.shell
+#          ^ constant.numeric.integer.decimal.shell
+#           ^ punctuation.section.interpolation.end.shell
+
+foo=`some-command --long1`
+#   ^ meta.string.shell meta.interpolation.command.shell
+#    ^^^^^^^^^^^^ meta.string.shell meta.interpolation.command.shell meta.function-call.identifier.shell
+#                ^^^^^^^^ meta.string.shell meta.interpolation.command.shell meta.function-call.arguments.shell
+#                        ^ meta.string.shell meta.interpolation.command.shell
+#   ^ punctuation.section.interpolation.begin.shell
+#    ^^^^^^^^^^^^ variable.function.shell
+#                 ^^^^^^^ meta.parameter.option.shell variable.parameter.option.shell
+#                        ^ punctuation.section.interpolation.end.shell
+
+foo=`some-command -x`
+#   ^ meta.string.shell meta.interpolation.command.shell
+#    ^^^^^^^^^^^^ meta.string.shell meta.interpolation.command.shell meta.function-call.identifier.shell
+#                ^^^ meta.string.shell meta.interpolation.command.shell meta.function-call.arguments.shell
+#                   ^ meta.string.shell meta.interpolation.command.shell
+#   ^ punctuation.section.interpolation.begin.shell
+#    ^^^^^^^^^^^^ variable.function.shell
+#                 ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                   ^ punctuation.section.interpolation.end.shell
+
+foo=`(uname -r --) 2>/dev/null`
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.command.shell
+#    ^^^^^^^^^^^^^ meta.compound.shell
+#   ^ punctuation.section.interpolation.begin.shell
+#     ^^^^^ variable.function.shell
+#           ^^ meta.parameter.option.shell variable.parameter.option.shell
+#              ^^ keyword.operator.end-of-options.shell
+#                ^ punctuation.section.compound.end.shell
+#                  ^ constant.numeric.integer.decimal.file-descriptor.shell
+#                   ^ keyword.operator.assignment.redirection.shell
+#                             ^ punctuation.section.interpolation.end.shell - punctuation.section.interpolation.begin
+
+foo=`(uname -r) 2>/dev/null` || foo=unknown
+#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.command.shell
+#    ^^^^^^^^^^ meta.compound.shell
+#   ^ punctuation.section.interpolation.begin.shell
+#     ^^^^^ variable.function.shell
+#           ^^ meta.parameter.option.shell variable.parameter.option.shell
+#             ^ punctuation.section.compound.end.shell
+#               ^ constant.numeric.integer.decimal.file-descriptor.shell
+#                ^ keyword.operator.assignment.redirection.shell
+#                          ^ punctuation.section.interpolation.end.shell - punctuation.section.interpolation.begin
+#                            ^^ keyword.operator.logical.or.shell
+#                               ^^^ meta.variable.shell variable.other.readwrite.shell
+#                                  ^ keyword.operator.assignment.shell
+#                                   ^^^^^^^ meta.string.shell string.unquoted.shell
+
+commits=($(git rev-list --reverse --$abbrev-commit "$latest".. -- "$prefix"))
+#       ^ meta.sequence.shell - meta.interpolation
+#        ^^ meta.sequence.shell meta.string.shell meta.interpolation.command.shell - meta.function
+#          ^^^ meta.sequence.shell meta.string.shell meta.interpolation.command.shell meta.function-call.identifier.shell - meta.function meta.function
+#             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.shell meta.string.shell meta.interpolation.command.shell meta.function-call.arguments.shell  - meta.function meta.function
+#                                 ^^ meta.parameter.option.shell - meta.parameter.option.shell meta.interpolation
+#                                   ^^^^^^^ meta.parameter.option.shell meta.interpolation.parameter.shell 
+#                                          ^^^^^^^ meta.parameter.option.shell - meta.parameter.option.shell meta.interpolation
+#                                                  ^^^^^^^^^ meta.string.shell
+#                                                                 ^^^^^^^^^ meta.string.shell
+#                                                                          ^ meta.sequence.shell meta.string.shell meta.interpolation.command.shell - meta.function
+#                                                                           ^ meta.sequence.shell - meta.interpolation
+#       ^ punctuation.section.sequence.begin.shell
+#        ^ punctuation.section.interpolation.begin.shell
+#          ^^^ variable.function.shell
+#                       ^^^^^^^^^ meta.parameter.option.shell variable.parameter.option.shell
+#                                 ^^ punctuation.definition.parameter.shell
+#                                   ^^^^^^^ variable.other.readwrite.shell
+#                                          ^ - punctuation
+#                                                   ^^^^^^^ variable.other.readwrite.shell
+#                                                              ^^ keyword.operator.end-of-options.shell
+#                                                                  ^^^^^^^ variable.other.readwrite.shell
+#                                                                          ^ punctuation.section.interpolation.end.shell
+#                                                                           ^ punctuation.section.sequence.end.shell
+
+# <- - variable.other.readwrite
 
 
 ####################################################################
@@ -3261,43 +3417,6 @@ true false
 
 ((a+=b))
 #    ^ - string.unquoted
-ls>foo.txt
-# <- variable.function
-# ^^ - variable.function
-# ^ keyword.operator.assignment.redirection.shell
-echo>foo.txt
-# <- support.function
-#   ^^ - support.function
-#   ^ keyword.operator.assignment.redirection.shell
-
-echo git rev-list "$(echo --all)" | grep -P 'c354a80'
-#                  ^^ punctuation.section.interpolation.begin.shell
-#                              ^ punctuation.section.interpolation.end.shell
-
-foo+=" baz"
-#  ^^ keyword.operator
-
-
-let "two=5+5"; if [[ "$X" == "1" ]]; then X="one"; fi
-#^^ meta.function-call.identifier.shell
-#  ^^^^^^^^^^ meta.function-call.arguments.shell
-#            ^ - meta.function-call
-#^^ support.function.let.shell
-#   ^^^^^^^^^ meta.string.shell
-#       ^ keyword.operator.assignment.shell
-#        ^ constant.numeric.integer.decimal.shell
-#         ^ keyword.operator.arithmetic.shell
-#          ^ constant.numeric.integer.decimal.shell
-#            ^ keyword.operator.logical.continue.shell
-#              ^^ keyword.control.conditional.if.shell
-#                 ^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#                                  ^ keyword.operator.logical.continue.shell
-#                                    ^^^^ keyword.control.conditional.then.shell
-#                                         ^ variable.other.readwrite.shell
-#                                          ^ keyword.operator.assignment.shell
-#                                           ^^^^^ string.quoted.double.shell
-#                                                ^ keyword.operator.logical.continue.shell
-#                                                  ^^ keyword.control.conditional.end.shell
 
 let 5 \
     + 5
@@ -3331,65 +3450,26 @@ let var[10]=5*(20+$idx)
 #                 ^^^^ variable.other.readwrite.shell
 #                     ^ punctuation.section.group.end.shell
 
-foo=`let 5+5`
-#   ^ punctuation.section.interpolation.begin.shell
-#          ^ constant.numeric.integer
-#           ^ punctuation.section.interpolation.end.shell
-#    ^^^^^^^ meta.function-call
-foo=`some-command --long1`
-#   ^ punctuation.section.interpolation.begin.shell
-#    ^^^^^^^^^^^^ meta.function-call.identifier.shell variable.function.shell
-#                 ^^ meta.function-call.arguments variable.parameter punctuation.definition.parameter
-#                   ^^^^^ meta.function-call.arguments variable.parameter
-#                        ^ punctuation.section.interpolation.end.shell
-foo=`some-command -x`
-#   ^ punctuation.section.interpolation.begin.shell
-#    ^^^^^^^^^^^^ meta.function-call.identifier.shell variable.function.shell
-#                 ^ meta.function-call.arguments variable.parameter punctuation.definition.parameter
-#                  ^ meta.function-call.arguments variable.parameter
-#                   ^ punctuation.section.interpolation.end.shell
-
-foo=`echo -e`
-#   ^ punctuation.section.interpolation.begin.shell
-#    ^^^^ meta.function-call support.function.echo
-#         ^ meta.function-call.arguments punctuation.definition.parameter
-#          ^ meta.function-call.arguments variable.parameter
-#           ^ punctuation.section.interpolation.end.shell
-
-foo=`cd -L`
-#   ^ punctuation.section.interpolation.begin.shell
-#    ^^ meta.function-call support.function.cd
-#       ^ meta.function-call.arguments punctuation.definition.parameter
-#        ^ meta.function-call.arguments variable.parameter
-#         ^ punctuation.section.interpolation.end.shell
-
-echo "`dirname -- foo/bar`"
-#     ^ punctuation.section.interpolation.begin.shell
-#              ^^ keyword.operator.end-of-options
-#                        ^ punctuation.section.interpolation.end.shell
-
-foo=`(uname -r --) 2>/dev/null`
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.command.shell
-#    ^^^^^^^^^^^^^ meta.compound.shell
-#   ^ punctuation.section.interpolation.begin.shell
-#     ^^^^^ variable.function.shell
-#           ^^ meta.parameter.option.shell variable.parameter.option.shell
-#              ^^ keyword.operator.end-of-options.shell
-#                ^ punctuation.section.compound.end.shell
-#                  ^ constant.numeric.integer.decimal.file-descriptor.shell
-#                   ^ keyword.operator.assignment.redirection.shell
-#                             ^ punctuation.section.interpolation.end.shell - punctuation.section.interpolation.begin
-
-UNAME_RELEASE=`(uname -r) 2>/dev/null` || UNAME_RELEASE=unknown
-#                                    ^ punctuation.section.interpolation.end.shell
-UNAME_SYSTEM=`(uname -s) 2>/dev/null`  || UNAME_SYSTEM=unknown
-#                                   ^ punctuation.section.interpolation.end.shell
-UNAME_VERSION=`(uname -v) 2>/dev/null` || UNAME_VERSION=unknown
-#                                    ^ punctuation.section.interpolation.end.shell
-
-commits=($(git rev-list --reverse --abbrev-commit "$latest".. -- "$prefix"))
-
-# <- - variable.other.readwrite
+let "two=5+5"; if [[ "$X" == "1" ]]; then X="one"; fi
+#^^ meta.function-call.identifier.shell
+#  ^^^^^^^^^^ meta.function-call.arguments.shell
+#            ^ - meta.function-call
+#^^ support.function.let.shell
+#   ^^^^^^^^^ meta.string.shell
+#       ^ keyword.operator.assignment.shell
+#        ^ constant.numeric.integer.decimal.shell
+#         ^ keyword.operator.arithmetic.shell
+#          ^ constant.numeric.integer.decimal.shell
+#            ^ keyword.operator.logical.continue.shell
+#              ^^ keyword.control.conditional.if.shell
+#                 ^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#                                  ^ keyword.operator.logical.continue.shell
+#                                    ^^^^ keyword.control.conditional.then.shell
+#                                         ^ variable.other.readwrite.shell
+#                                          ^ keyword.operator.assignment.shell
+#                                           ^^^^^ string.quoted.double.shell
+#                                                ^ keyword.operator.logical.continue.shell
+#                                                  ^^ keyword.control.conditional.end.shell
 
 
 ####################################################################
