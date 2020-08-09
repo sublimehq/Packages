@@ -4009,6 +4009,99 @@ do echo bar; until ! { [[ true ]]; }
 #                                ^ keyword.operator.logical.continue.shell
 #                                  ^ punctuation.section.compound.end.shell
 
+
+####################################################################
+# for loops                                                        #
+####################################################################
+
+for;
+#^^ keyword.control.loop.for.shell
+for&
+#^^ keyword.control.loop.for.shell
+for|
+#^^ keyword.control.loop.for.shell
+for>/dev/null
+#^^ keyword.control.loop.for.shell
+for -
+#^^ keyword.control.loop.for.shell
+for()
+#^^ keyword.control.loop.for.shell
+for[]
+#^^^^ - keyword.control
+for{}
+#^^^^ - keyword.control
+for-
+#^^^ - keyword.control
+-for
+#^^^ - keyword.control
+for+
+#^^^ - keyword.control
+for$
+#^^^ - keyword.control
+for$var
+#^^^^^^ - keyword.control
+for=
+#^^^ - keyword.control
+for-=
+#^^^^ - keyword.control
+for+=
+#^^^^ - keyword.control
+
+ do;
+#^^ keyword.control.loop.do.shell
+ do&
+#^^ keyword.control.loop.do.shell
+ do|
+#^^ keyword.control.loop.do.shell
+ do>/dev/null
+#^^ keyword.control.loop.do.shell
+ do -
+#^^ keyword.control.loop.do.shell
+ do()
+#^^ keyword.control.loop.do.shell
+ do[]
+#^^^^ - keyword.control
+ do{}
+#^^^^ - keyword.control
+ do-
+#^^^ - keyword.control
+ -do
+#^^^ - keyword.control
+ do+
+#^^^ - keyword.control
+ do$
+#^^^ - keyword.control
+do$var
+#^^^^^^ - keyword.control
+ do=
+#^^^ - keyword.control
+ do-=
+#^^^^ - keyword.control
+ do+=
+#^^^^ - keyword.control
+
+for done
+# <- keyword.control.loop.for.shell
+#^^ keyword.control.loop.for.shell
+#   ^^^^ keyword.control.loop.end.shell
+
+for do done
+# <- keyword.control.loop.for.shell
+#^^ keyword.control.loop.for.shell
+#   ^^ keyword.control.loop.do.shell
+#      ^^^^ keyword.control.loop.end.shell
+
+for x; do
+#<- keyword.control.loop.for.shell
+#^^ keyword.control.loop.for.shell
+#    ^ keyword.operator.logical.continue.shell
+#      ^^ keyword.control.loop.do.shell
+    echo "${!x}"
+#   ^^^^ meta.function-call.identifier.shell support.function.echo.shell
+#       ^^^^^^^^ meta.function-call.arguments.shell
+done
+#<- keyword.control.loop.end.shell
+
 for (( i = 0; i < 10; i++ )); do
 #   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.arithmetic.shell
 # <- keyword.control.loop.for.shell
@@ -4114,10 +4207,6 @@ f() {
         #  ^ keyword.operator.assignment
         #   ^ meta.string string.unquoted
         #     ^ storage.modifier
-    done
-
-    for x; do
-        echo "${!x}"
     done
 }
 

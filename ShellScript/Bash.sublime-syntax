@@ -925,6 +925,8 @@ contexts:
     - include: cmd-args-boilerplate
 
   for-args:
+    - match: (?=(do|done){{cmd_break}})
+      pop: 1
     - include: cmd-args-boilerplate
     - include: cmd-arithmetic
     - match: in{{cmd_break}}
