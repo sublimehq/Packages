@@ -3198,6 +3198,16 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #                  ^ punctuation.definition.set.end.regexp.shell
 #                      ^ keyword.operator.quantifier.regexp.shell
 
+[[ '-e' == -e ]]   # -e undergoes pattern matching on the right
+#  ^^^^ meta.string.shell string.quoted.single.shell
+#       ^^ keyword.operator.comparison.shell
+#          ^^ meta.pattern.regexp.shell - variable.parameter
+
+[[ -e == -e ]]     # a syntax error in bash but allowed in zsh
+#  ^^ - variable.parameter.option
+#     ^^ keyword.operator.comparison.shell
+#        ^^ meta.pattern.regexp.shell - variable.parameter
+
 
 ####################################################################
 # Bash Numeric Constants                                           #

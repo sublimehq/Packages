@@ -588,13 +588,13 @@ contexts:
           scope: punctuation.section.group.end.shell
           pop: 1
         - include: cmd-test-body
-    - match: ([-+])[aobcdefghknoprstuvwxzGLNORS]{{opt_break}}
+    - match: ([-+])[aobcdefghknoprstuvwxzGLNORS]{{opt_break}}(?!\s*([=!]=|=~))
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-    - match: ([-+])(?:ef|nt|ot|eq|ne|lt|le|gt|ge){{opt_break}}
+    - match: ([-+])(?:ef|nt|ot|eq|ne|lt|le|gt|ge){{opt_break}}(?!\s*([=!]=|=~))
       scope:
         meta.parameter.option.shell
         variable.parameter.option.shell
