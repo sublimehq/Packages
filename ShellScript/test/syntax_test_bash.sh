@@ -745,9 +745,8 @@ coproc foobar {
 ####################################################################
 
    logC () { [[ $# == 2 ]] && tput setaf $2 || tput setaf 3; echo -e "$1"; tput setaf 15; }
-# <- meta.function.identifier.shell - entity.name.function
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
-#^^ meta.function.identifier.shell
+#^^ - meta.function
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
 #  ^^^^ meta.function.identifier.shell
 #      ^ meta.function.identifier.shell
 #       ^ meta.function.parameters.shell

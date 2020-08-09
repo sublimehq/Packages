@@ -44,7 +44,7 @@ first_line_match: |-
 
 variables:
   is_interpolation: (?=\$([\d({]|[$#@!~*?_-](?!\w)|{{identifier}})|`)
-  is_variable: (?=\s*{{variable_first_char}}{{nbc}}(?:[({]{{nbc}}[)}])?{{nbc}}=)
+  is_variable: (?={{variable_first_char}}{{nbc}}(?:[({]{{nbc}}[)}])?{{nbc}}=)
 
   # posix identifiers (alpha-numeric)
   identifier: '{{identifier_first_char}}{{identifier_char}}*'
@@ -186,7 +186,7 @@ contexts:
 
   funcdef:
     # [Bash] 3.3 Shell Functions
-    - match: (?=\s*{{cmd_literal}}\s*\(\s*\))
+    - match: (?={{cmd_literal}}\s*\(\s*\))
       push:
         - funcdef-redirection
         - funcdef-body
