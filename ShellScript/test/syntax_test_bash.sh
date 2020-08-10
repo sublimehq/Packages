@@ -677,9 +677,9 @@ coproc ls thisfiledoesntexist; read; 2>&1
 #                                        ^ - meta.coproc
 #^^^^^ storage.type.coproc.shell keyword.declaration.coproc.shell
 #      ^^ variable.function.shell
-#                            ^ keyword.operator.logical.continue.shell
+#                            ^ punctuation.terminator.statement.shell
 #                              ^^^^ support.function.read.shell
-#                                  ^ keyword.operator.logical.continue.shell
+#                                  ^ punctuation.terminator.statement.shell
 #                                    ^ constant.numeric.integer.decimal.file-descriptor.shell
 #                                     ^^ keyword.operator.assignment.redirection.shell
 #                                       ^ constant.numeric.integer.decimal.file-descriptor.shell
@@ -712,9 +712,9 @@ coproc { ls thisfiledoesntexist; read; 2>&1 } | foo
 #^^^^^ storage.type.coproc.shell keyword.declaration.coproc.shell
 #      ^ punctuation.section.compound.begin.shell
 #        ^^ variable.function.shell
-#                              ^ keyword.operator.logical.continue.shell
+#                              ^ punctuation.terminator.statement.shell
 #                                ^^^^ support.function.read.shell
-#                                    ^ keyword.operator.logical.continue.shell
+#                                    ^ punctuation.terminator.statement.shell
 #                                      ^ constant.numeric.integer.decimal.file-descriptor.shell
 #                                       ^^ keyword.operator.assignment.redirection.shell
 #                                         ^ constant.numeric.integer.decimal.file-descriptor.shell
@@ -732,9 +732,9 @@ coproc myls { ls thisfiledoesntexist; read; 2>&1 } | foo
 #^^^^^ storage.type.coproc.shell keyword.declaration.coproc.shell
 #           ^ punctuation.section.compound.begin.shell
 #             ^^ variable.function.shell
-#                                   ^ keyword.operator.logical.continue.shell
+#                                   ^ punctuation.terminator.statement.shell
 #                                     ^^^^ support.function.read.shell
-#                                         ^ keyword.operator.logical.continue.shell
+#                                         ^ punctuation.terminator.statement.shell
 #                                           ^ constant.numeric.integer.decimal.file-descriptor.shell
 #                                            ^^ keyword.operator.assignment.redirection.shell
 #                                              ^ constant.numeric.integer.decimal.file-descriptor.shell
@@ -829,7 +829,7 @@ logExit ( ) {
   #                  ^^^^ meta.function meta.function-call support.function.echo
   tput setaf 15;
   # <- meta.function meta.function-call variable.function
-  #            ^ meta.function keyword.operator.logical.continue
+  #            ^ meta.function punctuation.terminator.statement
   [[ $1 == '0' ]] || exit -1
   #<- meta.conditional.shell support.function.double-brace.begin.shell
   #^ meta.conditional.shell support.function.double-brace.begin.shell
@@ -1195,7 +1195,7 @@ function true () {} ; function false () {}
 #                                      ^^^ meta.function.shell
 #        ^^^^ entity.name.function.shell
 #                              ^^^^^ entity.name.function.shell
-#                   ^ keyword.operator.logical.continue.shell
+#                   ^ punctuation.terminator.statement.shell
 
 __git_aliased_command ()
 {
@@ -1294,7 +1294,7 @@ declare ret; bar=foo # comment
 #      ^^^^ meta.function-call.arguments.shell
 #          ^ - meta.function-call
 # <- storage.modifier
-#          ^ keyword.operator.logical.continue.shell
+#          ^ punctuation.terminator.statement.shell
 #               ^ keyword.operator.assignment.shell
 #                ^^^ meta.string.shell string.unquoted.shell
 #                   ^ - meta.string - string - comment
@@ -1305,7 +1305,7 @@ declare ret ;
 #      ^^^^ meta.function-call.arguments.shell
 #          ^ - meta.function-call
 # <- storage.modifier
-#           ^ keyword.operator
+#           ^ punctuation.terminator.statement.shell
 
 declare ret&
 #^^^^^^ meta.function-call.identifier.shell
@@ -1646,10 +1646,10 @@ if test expr -a expr ; then echo "success"; fi
 #      ^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                   ^^^^^^^^ - meta.function-call
 #            ^^ meta.parameter.option.shell variable.parameter.option.shell
-#                    ^ keyword.operator.logical.continue.shell
+#                    ^ punctuation.terminator.statement.shell
 #                      ^^^^ keyword.control.conditional.then.shell
 #                           ^^^^ support.function.echo.shell
-#                                         ^ keyword.operator.logical.continue.shell
+#                                         ^ punctuation.terminator.statement.shell
 #                                           ^^ keyword.control.conditional.end.shell
 
 
@@ -1701,7 +1701,7 @@ unset -f -n -v foo bar; unset -vn foo 2>& /dev/null
 #              ^^^ meta.variable.shell variable.function.shell
 #                 ^ - variable
 #                  ^^^ meta.variable.shell variable.function.shell
-#                     ^ keyword.operator.logical.continue.shell
+#                     ^ punctuation.terminator.statement.shell
 #                       ^^^^^ support.function.unset.shell
 #                            ^ - support - variable
 #                             ^^^ meta.parameter.option.shell variable.parameter.option.shell
@@ -1727,7 +1727,7 @@ unset -f -x +v -- foo bar; unset -vn -- foo
 #                 ^^^ meta.variable.shell variable.function.shell
 #                    ^ - variable
 #                     ^^^ meta.variable.shell variable.function.shell
-#                        ^ keyword.operator.logical.continue.shell
+#                        ^ punctuation.terminator.statement.shell
 #                          ^^^^^ support.function.unset.shell
 #                               ^ - support - variable
 #                                ^^^ meta.parameter.option.shell variable.parameter.option.shell
@@ -3470,15 +3470,15 @@ let "two=5+5"; if [[ "$X" == "1" ]]; then X="one"; fi
 #        ^ constant.numeric.integer.decimal.shell
 #         ^ keyword.operator.arithmetic.shell
 #          ^ constant.numeric.integer.decimal.shell
-#            ^ keyword.operator.logical.continue.shell
+#            ^ punctuation.terminator.statement.shell
 #              ^^ keyword.control.conditional.if.shell
 #                 ^^^^^^^^^^^^^^^^^ meta.conditional.shell
-#                                  ^ keyword.operator.logical.continue.shell
+#                                  ^ punctuation.terminator.statement.shell
 #                                    ^^^^ keyword.control.conditional.then.shell
 #                                         ^ variable.other.readwrite.shell
 #                                          ^ keyword.operator.assignment.shell
 #                                           ^^^^^ string.quoted.double.shell
-#                                                ^ keyword.operator.logical.continue.shell
+#                                                ^ punctuation.terminator.statement.shell
 #                                                  ^^ keyword.control.conditional.end.shell
 
 
@@ -3517,7 +3517,7 @@ c1 -c1 c1 && ${C2} -c2 c2 || c3 -c3 ${C3} ; c4 -${C4} c4 | c5 -c5 c5
                           #  ^ meta.function-call.identifier.shell variable.function.shell
                           #      ^ variable.parameter - variable.function
                           #         ^ - variable.parameter
-                          #               ^ keyword
+                          #               ^ punctuation.terminator.statement.shell
                                           # ^^ variable.function
                                           #    ^ variable.parameter
 
@@ -3757,7 +3757,7 @@ if [[ expr ]] && [[ expr ]] || [[ expr ]] ; then cmd ; fi
 #                              ^^^^^^^^^^ meta.conditional.shell
 #                              ^^ support.function.double-brace.begin.shell
 #                                      ^^ support.function.double-brace.end.shell
-#                                         ^ keyword.operator.logical.continue.shell
+#                                         ^ punctuation.terminator.statement.shell
 
 if [[ expr && expr || expr ]] ; then cmd ; fi
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
@@ -3765,7 +3765,7 @@ if [[ expr && expr || expr ]] ; then cmd ; fi
 #          ^^ keyword.operator.logical.shell
 #                  ^^ keyword.operator.logical.shell
 #                          ^^ support.function.double-brace.end.shell
-#                             ^ keyword.operator.logical.continue.shell
+#                             ^ punctuation.terminator.statement.shell
 
 if [[ expr && ( expr || expr ) ]] ; then cmd ; fi
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
@@ -3776,7 +3776,7 @@ if [[ expr && ( expr || expr ) ]] ; then cmd ; fi
 #                    ^^ keyword.operator.logical.shell
 #                            ^ punctuation.section.group.end.shell
 #                              ^^ support.function.double-brace.end.shell
-#                                 ^ keyword.operator.logical.continue.shell
+#                                 ^ punctuation.terminator.statement.shell
 
 if [[ $- != *i* ]] ; then echo shell is not interactive; fi
 #^ keyword.control.conditional.if.shell
@@ -3793,10 +3793,10 @@ if [[ $- != *i* ]] ; then echo shell is not interactive; fi
 #           ^ keyword.operator.quantifier.regexp.shell
 #             ^ keyword.operator.quantifier.regexp.shell
 #               ^^ support.function.double-brace.end.shell
-#                  ^ keyword.operator.logical.continue.shell
+#                  ^ punctuation.terminator.statement.shell
 #                    ^^^^ keyword.control.conditional.then.shell
 #                         ^^^^ support.function.echo.shell
-#                                                      ^ keyword.operator.logical.continue.shell
+#                                                      ^ punctuation.terminator.statement.shell
 #                                                        ^^ keyword.control.conditional.end.shell
 
 if [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; then PLATFORM=docker; fi
@@ -3808,7 +3808,7 @@ if [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; then PLATFORM=docker; fi
 #                                  ^^ keyword.operator.logical.or.shell
 #                                     ^ keyword.operator.logical.shell
 #                                       ^^^^ meta.function-call.identifier.shell variable.function.shell
-#                                           ^ keyword.operator.logical.continue
+#                                           ^ punctuation.terminator.statement
 #                                             ^^^^ keyword.control.conditional.then
 #                                                         ^ variable.other.readwrite
 #                                                          ^ keyword.operator.assignment
@@ -3825,7 +3825,7 @@ if { [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; }; then PLATFORM=docker; fi
 #                                       ^ keyword.operator.logical.shell
 #                                         ^^^^ meta.function-call.identifier.shell variable.function.shell
 #                                               ^ punctuation.section.compound.end.shell
-#                                                ^ keyword.operator.logical.continue
+#                                                ^ punctuation.terminator.statement
 #                                                  ^^^^ keyword.control.conditional.then
 #                                                              ^ variable.other.readwrite
 #                                                               ^ keyword.operator.assignment
@@ -3842,7 +3842,7 @@ if ( [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2 ); then PLATFORM=docker; fi
 #                                       ^ keyword.operator.logical.shell
 #                                         ^^^^ meta.function-call.identifier.shell variable.function.shell
 #                                              ^ punctuation.section.compound.end.shell
-#                                               ^ keyword.operator.logical.continue
+#                                               ^ punctuation.terminator.statement
 #                                                 ^^^^ keyword.control.conditional.then
 #                                                             ^ variable.other.readwrite
 #                                                              ^ keyword.operator.assignment
@@ -3856,7 +3856,7 @@ if [ ! -f q4m-$Q4MVER.tar.gz ]; then
 #        ^ - keyword.operator
 #             ^^^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
 #                            ^ support.function.test.end.shell
-#                             ^ keyword.operator.logical.continue.shell
+#                             ^ punctuation.terminator.statement.shell
 #                               ^^^^ keyword.control.conditional.then.shell
     :
 #   ^ meta.function-call.identifier.shell support.function.colon.shell
@@ -3866,10 +3866,10 @@ fi
 if true ; then false ; fi
 #^ keyword.control.conditional.if.shell
 #  ^^^^ constant.language.boolean.shell
-#       ^ keyword.operator.logical.continue.shell
+#       ^ punctuation.terminator.statement.shell
 #         ^^^^ keyword.control.conditional.then.shell
 #              ^^^^^ constant.language.boolean.shell
-#                    ^ keyword.operator.logical.continue.shell
+#                    ^ punctuation.terminator.statement.shell
 #                      ^^ keyword.control.conditional.end.shell
 
 if (ruby extconf.rb &&
@@ -3892,7 +3892,7 @@ if [ "$1" != "" -a "$2" != "" ]; then
 #                   ^^ variable.other.readwrite.shell
 #                       ^^ keyword.operator.comparison.shell
 #                             ^ support.function.test.end.shell
-#                              ^ keyword.operator.logical.continue.shell
+#                              ^ punctuation.terminator.statement.shell
 #                                ^^^^ keyword.control.conditional.then.shell
     local DIR=$1
     # <- storage.modifier
@@ -4193,7 +4193,7 @@ select fname in *;
 #^^^^^ keyword.control.loop.select.shell
 #            ^^ keyword.control.in.shell
 #               ^ keyword.operator.quantifier.regexp.shell
-#                ^ keyword.operator.logical.continue.shell
+#                ^ punctuation.terminator.statement.shell
 do
 # <- keyword.control.loop.do.shell
   echo you picked $fname \($REPLY\)
@@ -4202,7 +4202,7 @@ do
 #                                  ^ - meta.function-call
   break;
 # ^^^^^ keyword.control.flow.break.shell
-#      ^ keyword.operator.logical.continue.shell
+#      ^ punctuation.terminator.statement.shell
 done
 # <- keyword.control.loop.end.shell
 
@@ -4216,20 +4216,20 @@ while true; do
 #^^^^ keyword.control.loop.while.shell
 #    ^ - constant - keyword
 #     ^^^^ constant.language.boolean.shell
-#         ^ keyword.operator.logical.continue.shell
+#         ^ punctuation.terminator.statement.shell
 #           ^^ keyword.control.loop.do.shell
     break
 #   ^^^^^ keyword.control.flow.break.shell
     break 2;
 #   ^^^^^ keyword.control.flow.break.shell
 #         ^ constant.numeric.integer.decimal.shell
-#          ^ keyword.operator.logical.continue.shell
+#          ^ punctuation.terminator.statement.shell
     continue
 #   ^^^^^^^^ keyword.control.flow.continue.shell
     continue 2;
 #   ^^^^^^^^ keyword.control.flow.continue.shell
 #            ^ constant.numeric.integer.decimal.shell
-#             ^ keyword.operator.logical.continue.shell
+#             ^ punctuation.terminator.statement.shell
 done
 # <- keyword.control.loop.end
 
@@ -4237,10 +4237,10 @@ while ! true; do echo bar; done
 # <- keyword.control.loop.while.shell
 #     ^ keyword.operator.logical.shell
 #       ^^^^ constant.language.boolean.shell
-#           ^ keyword.operator.logical.continue.shell
+#           ^ punctuation.terminator.statement.shell
 #             ^^ keyword.control.loop.do.shell
 #                ^^^^ support.function.echo.shell
-#                        ^ keyword.operator.logical.continue.shell
+#                        ^ punctuation.terminator.statement.shell
 #                          ^^^^ keyword.control.loop.end.shell
 
 while ! { true; }; do echo bar; done
@@ -4248,9 +4248,9 @@ while ! { true; }; do echo bar; done
 #     ^ keyword.operator.logical.shell
 #       ^ punctuation.section.compound.begin.shell
 #         ^^^^ constant.language.boolean.shell
-#             ^ keyword.operator.logical.continue.shell
+#             ^ punctuation.terminator.statement.shell
 #               ^ punctuation.section.compound.end.shell
-#                ^ keyword.operator.logical.continue.shell
+#                ^ punctuation.terminator.statement.shell
 #                  ^^ keyword.control.loop.do.shell
 #                               ^^^^ keyword.control.loop.end.shell
 
@@ -4261,9 +4261,9 @@ while ! { [[ true ]]; }; do echo bar; done
 #         ^^ support.function.double-brace.begin.shell
 #            ^^^^ constant.language.boolean.shell
 #                 ^^ support.function.double-brace.end.shell
-#                   ^ keyword.operator.logical.continue.shell
+#                   ^ punctuation.terminator.statement.shell
 #                     ^ punctuation.section.compound.end.shell
-#                      ^ keyword.operator.logical.continue.shell
+#                      ^ punctuation.terminator.statement.shell
 #                        ^^ keyword.control.loop.do.shell
 #                                     ^^^^ keyword.control.loop.end.shell
 
@@ -4275,7 +4275,7 @@ while ! ( [[ true ]] ); do echo bar; done
 #            ^^^^ constant.language.boolean.shell
 #                 ^^ support.function.double-brace.end.shell
 #                    ^ punctuation.section.compound.end.shell
-#                     ^ keyword.operator.logical.continue.shell
+#                     ^ punctuation.terminator.statement.shell
 #                       ^^ keyword.control.loop.do.shell
 #                                    ^^^^ keyword.control.loop.end.shell
 
@@ -4285,7 +4285,7 @@ while read -r -d '' f; do
 #          ^^ meta.parameter.option.shell variable.parameter.option.shell
 #             ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                ^^ string.quoted.single.shell
-#                    ^ keyword.operator.logical.continue.shell
+#                    ^ punctuation.terminator.statement.shell
 #                      ^^ keyword.control.loop.do.shell
 done
 # <- keyword.control.loop.end.shell
@@ -4298,7 +4298,7 @@ while IFS= read -r -d '' f; do
 #               ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                  ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                     ^^ string.quoted.single.shell
-#                         ^ keyword.operator.logical.continue.shell
+#                         ^ punctuation.terminator.statement.shell
 #                           ^^ keyword.control.loop.do.shell
 done
 # <- keyword.control.loop.end.shell
@@ -4316,7 +4316,7 @@ do echo bar; until ! { [[ true ]]; }
 #                      ^^ support.function.double-brace.begin.shell
 #                         ^^^^ constant.language.boolean.shell
 #                              ^^ support.function.double-brace.end.shell
-#                                ^ keyword.operator.logical.continue.shell
+#                                ^ punctuation.terminator.statement.shell
 #                                  ^ punctuation.section.compound.end.shell
 
 
@@ -4404,7 +4404,7 @@ for do done
 for x; do
 #<- keyword.control.loop.for.shell
 #^^ keyword.control.loop.for.shell
-#    ^ keyword.operator.logical.continue.shell
+#    ^ punctuation.terminator.statement.shell
 #      ^^ keyword.control.loop.do.shell
     echo "${!x}"
 #   ^^^^ meta.function-call.identifier.shell support.function.echo.shell
@@ -4418,13 +4418,13 @@ for (( i = 0; i < 10; i++ )); do
 #   ^^ punctuation.section.arithmetic.begin.shell
 #        ^ keyword.operator.assignment.shell
 #          ^ constant.numeric.integer.decimal.shell - punctuation
-#           ^ punctuation.separator.expressions.shell
+#           ^ punctuation.terminator.statement.shell
 #               ^ keyword.operator.comparison.shell
 #                 ^^ constant.numeric.integer.decimal.shell
-#                   ^ punctuation.separator.expressions.shell
+#                   ^ punctuation.terminator.statement.shell
 #                      ^^ keyword.operator.arithmetic.shell
 #                         ^^ punctuation.section.arithmetic.end.shell
-#                           ^ keyword.operator.logical.continue.shell
+#                           ^ punctuation.terminator.statement.shell
 #                             ^^ keyword.control.loop.do.shell
     echo $i
     # <- meta.function-call support.function.echo.shell
@@ -4439,10 +4439,10 @@ for (( i = 0; i < 10; i++ )) #; do
 #   ^^ punctuation.section.arithmetic.begin.shell
 #        ^ keyword.operator.assignment.shell
 #          ^ constant.numeric.integer.decimal.shell - punctuation
-#           ^ punctuation.separator.expressions.shell
+#           ^ punctuation.terminator.statement.shell
 #               ^ keyword.operator.comparison.shell
 #                 ^^ constant.numeric.integer.decimal.shell
-#                   ^ punctuation.separator.expressions.shell
+#                   ^ punctuation.terminator.statement.shell
 #                      ^^ keyword.operator.arithmetic.shell
 #                         ^^ punctuation.section.arithmetic.end.shell
 #                            ^^^^^^ comment.line.number-sign.shell
@@ -4463,7 +4463,7 @@ for i in $(seq 100); do
 #        ^^ punctuation.section.interpolation.begin.shell
 #          ^^^ meta.function-call variable.function.shell
 #                 ^ punctuation.section.interpolation.end.shell
-#                  ^ keyword.operator.logical.continue.shell
+#                  ^ punctuation.terminator.statement.shell
 #                    ^^ keyword.control.loop.do.shell
   :
   # <- meta.function-call support.function.colon.shell
@@ -4480,10 +4480,10 @@ done
 #         ^^ punctuation.section.interpolation.begin.shell
 #           ^^^ meta.function-call.identifier.shell variable.function.shell
 #                  ^ punctuation.section.interpolation.end.shell
-#                   ^ keyword.operator.logical.continue.shell
+#                   ^ punctuation.terminator.statement.shell
 #                     ^^ keyword.control.loop.do.shell
 #                        ^^^^ support.function.echo.shell
-#                              ^ keyword.operator.logical.continue.shell
+#                              ^ punctuation.terminator.statement.shell
 #                                ^^^^ keyword.control.loop.end.shell
 #                                    ^ punctuation.section.interpolation.end.shell
 
@@ -4497,7 +4497,7 @@ cat <<FOOSTRING ; echo more stuff here
 #   ^^ meta.function-call.arguments keyword.operator
 #     ^^^^^^^^^ meta.function-call.arguments keyword.control.heredoc-token
 #              ^
-#               ^ keyword.operator.logical.continue
+#               ^ punctuation.terminator.statement
 #                 ^ meta.function-call support.function
 #                     ^ meta.function-call.arguments
 Hello, ${"v"'a'r}
@@ -4521,7 +4521,7 @@ cat << 'WHAT' ; echo more stuff here
 #       ^^^^ keyword.control.heredoc-token
 #           ^ punctuation.definition.string.end
 #            ^
-#             ^ keyword.operator.logical.continue
+#             ^ punctuation.terminator.statement
 #               ^ meta.function-call support.function
 #                   ^ meta.function-call.arguments
 Hello, ${var}
@@ -4537,7 +4537,7 @@ cat <<< "A wild herestring appears" ; cat more stuff | bar | qux
 #        ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments string.quoted.double
 #                                 ^ meta.function-call.arguments string.quoted.double punctuation.definition.string.end
 #                                  ^
-#                                   ^ keyword.operator.logical.continue
+#                                   ^ punctuation.terminator.statement
 #                                    ^ - meta.function-call
 #                                     ^^^ meta.function-call.identifier.shell variable.function.shell
 #                                        ^^^^^^^^^^^ meta.function-call.arguments

@@ -1175,7 +1175,7 @@ contexts:
     - match: '[&|^~]'
       scope: keyword.operator.bitwise.shell
     - match: ;
-      scope: punctuation.separator.expressions.shell
+      scope: punctuation.terminator.statement.shell
     - match: \,
       scope: punctuation.separator.sequence.shell
     - match: \:|\?
@@ -1274,7 +1274,7 @@ contexts:
 
   operator-logical:
     - match: ;
-      scope: keyword.operator.logical.continue.shell
+      scope: punctuation.terminator.statement.shell
     - match: \|\|
       scope: keyword.operator.logical.or.shell
     - match: \|
