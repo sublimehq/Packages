@@ -95,11 +95,11 @@ contexts:
   statements:
     - include: comments
     - include: line-continuations
-    - include: operator-exclamation
-    - include: operator-logical
+    - include: operators
     - include: redirections
     - include: cmd-arithmetic
     - include: cmd-compound
+    - include: cmd-historic
     - include: cmd-sudo
     - include: cmd-test
     - include: cmd-control
@@ -727,6 +727,14 @@ contexts:
     - meta_content_scope: meta.compound.arguments.shell
     - include: cmd-args
 
+  cmd-historic:
+    - match: (\!)(-?\d+|!)
+      scope: variable.language.history.shell
+      captures:
+        1: punctuation.definition.history.shell
+    - match: \!
+      scope: punctuation.definition.history.shell
+
   cmd-basic:
     # basic user defined or external commands
     - match: '{{cmd_begin}}'
@@ -1262,27 +1270,13 @@ contexts:
       captures:
         1: invalid.illegal.extraneous-spaces-after-line-continuations.shell
 
-  operator-exclamation:
-    - match: \!(?!\S)
+  operators:
+    - match: \|\||\&\&|\!(?!\S)
       scope: keyword.operator.logical.shell
-    - match: (\!)(-?\d+|!)
-      scope: variable.language.history.shell
-      captures:
-        1: punctuation.definition.history.shell
-    - match: \!
-      scope: punctuation.definition.history.shell
-
-  operator-logical:
+    - match: \||\&
+      scope: keyword.operator.assignment.pipe.shell
     - match: ;
       scope: punctuation.terminator.statement.shell
-    - match: \|\|
-      scope: keyword.operator.logical.or.shell
-    - match: \|
-      scope: keyword.operator.logical.pipe.shell
-    - match: \&\&
-      scope: keyword.operator.logical.and.shell
-    - match: \&
-      scope: keyword.operator.logical.job.shell
 
 ###[ EXPANSIONS ]##############################################################
 

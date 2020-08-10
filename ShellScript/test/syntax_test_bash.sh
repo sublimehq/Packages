@@ -36,7 +36,7 @@ echo hello#not-a-comment
 
 foo | `# get quarks ` \
 # <- variable.function
-#   ^ keyword.operator.logical.pipe
+#   ^ keyword.operator.assignment.pipe.shell
 #     ^^^^^^^^^^^^^^^ meta.interpolation.command.shell
 #                    ^^^ - meta.interpolation
 #     ^ punctuation.section.interpolation.begin.shell
@@ -60,7 +60,7 @@ bar   ` # important; this and that ` "${USELESS_TEXT}" | ` # match text` \
 #                                    ^ meta.string string.quoted.double punctuation.definition.string.begin
 #                                     ^^^^^^^^^^^^^^^ meta.string meta.interpolation.parameter.shell - string
 #                                                    ^ meta.string string.quoted.double punctuation.definition.string.end
-#                                                      ^ keyword.operator.logical.pipe
+#                                                      ^ keyword.operator.assignment.pipe.shell
 #                                                        ^ punctuation.section.interpolation.begin.shell
 #                                                                        ^^ punctuation.separator.continuation.line
 
@@ -274,7 +274,7 @@ echo git rev-list "$(echo --all)" | grep -P 'c354a80'
 #                  ^^ punctuation.section.interpolation.begin.shell
 #                              ^ punctuation.section.interpolation.end.shell
 #                               ^ string.quoted.double.shell punctuation.definition.string.end.shell
-#                                 ^ keyword.operator.logical.pipe.shell
+#                                 ^ keyword.operator.assignment.pipe.shell
 #                                   ^^^^ variable.function.shell
 #                                           ^^^^^^^^^ meta.string.shell string.quoted.single.shell
 
@@ -719,7 +719,7 @@ coproc { ls thisfiledoesntexist; read; 2>&1 } | foo
 #                                       ^^ keyword.operator.assignment.redirection.shell
 #                                         ^ constant.numeric.integer.decimal.file-descriptor.shell
 #                                           ^ punctuation.section.compound.end.shell
-#                                             ^ keyword.operator.logical.pipe.shell
+#                                             ^ keyword.operator.assignment.pipe.shell
 #                                               ^^^ variable.function.shell
 
 coproc myls { ls thisfiledoesntexist; read; 2>&1 } | foo
@@ -739,7 +739,7 @@ coproc myls { ls thisfiledoesntexist; read; 2>&1 } | foo
 #                                            ^^ keyword.operator.assignment.redirection.shell
 #                                              ^ constant.numeric.integer.decimal.file-descriptor.shell
 #                                                ^ punctuation.section.compound.end.shell
-#                                                  ^ keyword.operator.logical.pipe.shell
+#                                                  ^ keyword.operator.assignment.pipe.shell
 #                                                    ^^^ variable.function.shell
 
 { coproc tee { tee logfile ;} >&3 ;} 3>&1
@@ -803,7 +803,7 @@ coproc foobar {
 #                ^ variable.language
 #                  ^^ keyword.operator.comparison
 #                       ^^ support.function.double-brace.end
-#                          ^^ keyword.operator.logical.and
+#                          ^^ keyword.operator.logical
 
 logExit ( ) {
 # <- meta.function.identifier.shell entity.name.function.shell
@@ -825,7 +825,7 @@ logExit ( ) {
   #<- meta.conditional.shell support.function.double-brace.begin.shell
   #^ meta.conditional.shell support.function.double-brace.begin.shell
   #            ^^ meta.conditional.shell support.function.double-brace.end.shell
-  #               ^^ meta.function keyword.operator.logical.and
+  #               ^^ meta.function keyword.operator.logical
   #                  ^^^^ meta.function meta.function-call support.function.echo
   tput setaf 15;
   # <- meta.function meta.function-call variable.function
@@ -834,7 +834,7 @@ logExit ( ) {
   #<- meta.conditional.shell support.function.double-brace.begin.shell
   #^ meta.conditional.shell support.function.double-brace.begin.shell
   #            ^^ meta.conditional.shell support.function.double-brace.end.shell
-  #               ^^ meta.function keyword.operator.logical.or
+  #               ^^ meta.function keyword.operator.logical
   #                  ^^^^ meta.function keyword.control.flow.exit.shell
   #                       ^ keyword.operator.arithmetic.shell
   #                        ^ constant.numeric.integer.decimal.shell
@@ -1629,7 +1629,7 @@ test var[0] != var[^0-9]*$
 #           ^^ keyword.operator.comparison.shell
 #              ^^^^^^^^^^^ meta.pattern.regexp.shell
 
-test expr -a expr -o expr -- | cmd
+test expr -a expr -o expr -- | cmd |& cmd
 # <- meta.function-call.identifier.shell support.function.test.shell
 #^^^ meta.function-call.identifier.shell support.function.test.shell
 #   ^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
@@ -1637,8 +1637,9 @@ test expr -a expr -o expr -- | cmd
 #         ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                 ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                         ^^ - keyword
-#                            ^ keyword.operator.logical.pipe.shell
+#                            ^ keyword.operator.assignment.pipe.shell
 #                              ^^^ meta.function-call.identifier.shell variable.function.shell
+#                                  ^^ keyword.operator.assignment.pipe.shell
 
 if test expr -a expr ; then echo "success"; fi
 # ^ - meta.function-call
@@ -1857,7 +1858,7 @@ x= pwd
 x= & pwd
 #^ keyword.operator.assignment.shell
 # ^ - string.unquoted
-#  ^ keyword.operator.logical.job.shell
+#  ^ keyword.operator.assignment.pipe.shell
 #    ^^^ support.function
 x=a pwd
 # <- variable.other.readwrite
@@ -2226,7 +2227,7 @@ foo=`(uname -r) 2>/dev/null` || foo=unknown
 #               ^ constant.numeric.integer.decimal.file-descriptor.shell
 #                ^ keyword.operator.assignment.redirection.shell
 #                          ^ punctuation.section.interpolation.end.shell - punctuation.section.interpolation.begin
-#                            ^^ keyword.operator.logical.or.shell
+#                            ^^ keyword.operator.logical.shell
 #                               ^^^ meta.variable.shell variable.other.readwrite.shell
 #                                  ^ keyword.operator.assignment.shell
 #                                   ^^^^^^^ meta.string.shell string.unquoted.shell
@@ -3129,7 +3130,7 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #  ^ punctuation.definition.group.begin.regexp.shell
 #      ^ keyword.operator.logical.regexp.shell
 #          ^ punctuation.definition.group.end.regexp.shell
-#            ^ keyword.operator.logical.pipe.shell
+#            ^ keyword.operator.assignment.pipe.shell
 
 : ${foo//[abc[]/x}
 #            ^ - keyword.control
@@ -3567,10 +3568,10 @@ comm <(ls -l) <(ls -al)
 #                  ^^^ variable.parameter
 #                     ^ punctuation.section.compound.end.shell
 gzip | tee >(md5sum - | sed 's/-$/mydata.lz2/'>mydata-gz.md5) > mydata.gz
-#    ^ keyword.operator.logical.pipe
+#    ^ keyword.operator.assignment.pipe.shell
 #          ^ keyword.operator.assignment.redirection.process
 #           ^ punctuation
-#                     ^ keyword.operator.logical.pipe
+#                     ^ keyword.operator.assignment.pipe.shell
 #                                             ^ keyword.operator.assignment.redirection
 #                                                           ^ punctuation
 #                                                             ^ keyword.operator.assignment.redirection
@@ -3749,11 +3750,11 @@ if [[ expr ]] && [[ expr ]] || [[ expr ]] ; then cmd ; fi
 #  ^^^^^^^^^^ meta.conditional.shell
 #  ^^ support.function.double-brace.begin.shell
 #          ^^ support.function.double-brace.end.shell
-#             ^^ keyword.operator.logical.and.shell
+#             ^^ keyword.operator.logical.shell
 #                ^^^^^^^^^^ meta.conditional.shell
 #                ^^ support.function.double-brace.begin.shell
 #                        ^^ support.function.double-brace.end.shell
-#                           ^^ keyword.operator.logical.or.shell
+#                           ^^ keyword.operator.logical.shell
 #                              ^^^^^^^^^^ meta.conditional.shell
 #                              ^^ support.function.double-brace.begin.shell
 #                                      ^^ support.function.double-brace.end.shell
@@ -3802,10 +3803,10 @@ if [[ $- != *i* ]] ; then echo shell is not interactive; fi
 if [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; then PLATFORM=docker; fi
 #^ keyword.control.conditional.if
 #     ^ keyword.operator.logical.shell
-#                         ^^ keyword.operator.logical.and
+#                         ^^ keyword.operator.logical
 #                            ^ keyword.operator.logical.shell
 #                              ^^^ meta.function-call.identifier.shell variable.function
-#                                  ^^ keyword.operator.logical.or.shell
+#                                  ^^ keyword.operator.logical.shell
 #                                     ^ keyword.operator.logical.shell
 #                                       ^^^^ meta.function-call.identifier.shell variable.function.shell
 #                                           ^ punctuation.terminator.statement
@@ -3818,10 +3819,10 @@ if { [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; }; then PLATFORM=docker; fi
 #^ keyword.control.conditional.if
 #  ^ punctuation.section.compound.begin.shell
 #       ^ keyword.operator.logical.shell
-#                           ^^ keyword.operator.logical.and
+#                           ^^ keyword.operator.logical
 #                              ^ keyword.operator.logical.shell
 #                                ^^^ meta.function-call.identifier.shell variable.function
-#                                    ^^ keyword.operator.logical.or.shell
+#                                    ^^ keyword.operator.logical.shell
 #                                       ^ keyword.operator.logical.shell
 #                                         ^^^^ meta.function-call.identifier.shell variable.function.shell
 #                                               ^ punctuation.section.compound.end.shell
@@ -3835,10 +3836,10 @@ if ( [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2 ); then PLATFORM=docker; fi
 #^ keyword.control.conditional.if
 #  ^ punctuation.section.compound.begin.shell
 #       ^ keyword.operator.logical.shell
-#                           ^^ keyword.operator.logical.and
+#                           ^^ keyword.operator.logical
 #                              ^ keyword.operator.logical.shell
 #                                ^^^ meta.function-call.identifier.shell variable.function
-#                                    ^^ keyword.operator.logical.or.shell
+#                                    ^^ keyword.operator.logical.shell
 #                                       ^ keyword.operator.logical.shell
 #                                         ^^^^ meta.function-call.identifier.shell variable.function.shell
 #                                              ^ punctuation.section.compound.end.shell
@@ -3918,7 +3919,7 @@ fi
 
 asdf foo && FOO=some-value pwd
 # <- meta.function-call.identifier.shell variable.function
-#        ^^ keyword.operator.logical.and
+#        ^^ keyword.operator.logical
 #           ^^^ variable.other.readwrite
 #              ^ keyword.operator.assignment
 #               ^^^^^^^^^^ meta.string string.unquoted
@@ -4541,8 +4542,8 @@ cat <<< "A wild herestring appears" ; cat more stuff | bar | qux
 #                                    ^ - meta.function-call
 #                                     ^^^ meta.function-call.identifier.shell variable.function.shell
 #                                        ^^^^^^^^^^^ meta.function-call.arguments
-#                                                   ^
-#                                                    ^ keyword.operator.logical.pipe
+#                                                    ^ keyword.operator.assignment.pipe.shell
+#                                                          ^ keyword.operator.assignment.pipe.shell
 
 if opam upgrade --check; then
     opam upgrade --dry-run <<<n
