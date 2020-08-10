@@ -896,7 +896,7 @@ contexts:
           pop: 1
         - include: case-clause-patterns-body
     - match: \|
-      scope: keyword.operator.logical.or.regexp.shell
+      scope: keyword.operator.logical.regexp.shell
     - include: case-end-ahead
     - include: variable-expansions
     - include: expansions-pattern
@@ -1491,7 +1491,7 @@ contexts:
     - match: (\[)(?:([!^])|-)?(?=.*])
       captures:
         1: punctuation.definition.set.begin.regexp.shell
-        2: keyword.operator.logical.not.regexp.shell
+        2: keyword.operator.logical.regexp.shell
       push: expansions-pattern-set-body
     - match: '[*?]'
       scope: keyword.operator.quantifier.regexp.shell
@@ -1504,7 +1504,7 @@ contexts:
         punctuation.definition.group.end.regexp.shell
       pop: 1
     - match: \|
-      scope: keyword.operator.logical.or.regexp.shell
+      scope: keyword.operator.logical.regexp.shell
     - include: expansions-and-strings
 
   expansions-pattern-set-body:
@@ -1541,7 +1541,7 @@ contexts:
     - match: (\[)([!^])?(?=[\.=:])
       captures:
         1: punctuation.definition.set.begin.regexp.shell
-        2: keyword.operator.logical.not.regexp.shell
+        2: keyword.operator.logical.regexp.shell
       push: expansions-pattern-set-body
     - include: any-escapes
     # [Bash] 3.2.4.2: Each pattern undergoes tilde expansion, parameter

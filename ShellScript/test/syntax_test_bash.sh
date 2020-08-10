@@ -2942,7 +2942,7 @@ status="${status#"${status%%[![:space:]]*}"}"
 #               ^ keyword.operator.expansion.shell
 #                         ^^ keyword.operator.expansion.shell
 #                           ^ punctuation.definition.set.begin.regexp.shell
-#                            ^ keyword.operator.logical.not.regexp.shell
+#                            ^ keyword.operator.logical.regexp.shell
 #                             ^ punctuation.definition.set.begin.regexp.shell
 #                                     ^^ punctuation.definition.set.end.regexp.shell
 #                                       ^ keyword.operator.quantifier.regexp.shell
@@ -2957,7 +2957,7 @@ status="${status#${status%%[![:space:]]*}}"
 #               ^ keyword.operator.expansion.shell
 #                        ^^ keyword.operator.expansion.shell
 #                          ^ punctuation.definition.set.begin.regexp.shell
-#                           ^ keyword.operator.logical.not.regexp.shell
+#                           ^ keyword.operator.logical.regexp.shell
 #                            ^ punctuation.definition.set.begin.regexp.shell
 #                                    ^^ punctuation.definition.set.end.regexp.shell
 #                                      ^ keyword.operator.quantifier.regexp.shell
@@ -3006,7 +3006,7 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 # ^ keyword.operator.quantifier.regexp.shell
 #  ^ punctuation.definition.group.begin.regexp.shell
 #   ^ punctuation.definition.set.begin.regexp.shell
-#    ^ keyword.operator.logical.not.regexp.shell
+#    ^ keyword.operator.logical.regexp.shell
 #      ^ punctuation.definition.set.end.regexp.shell
 #       ^ keyword.operator.quantifier.regexp.shell
 #        ^ punctuation.definition.group.end.regexp.shell
@@ -3040,12 +3040,12 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #                  ^^^ constant.character.collate.regexp.shell
 #                     ^^ punctuation.definition.set.end.regexp.shell
 #                        ^ punctuation.definition.set.begin.regexp.shell
-#                         ^ keyword.operator.logical.not.regexp.shell
+#                         ^ keyword.operator.logical.regexp.shell
 #                          ^ punctuation.definition.set.begin.regexp.shell
 #                           ^^^ constant.character.collate.regexp.shell
 #                              ^^ punctuation.definition.set.end.regexp.shell
 #                                 ^^ punctuation.definition.set.begin.regexp.shell
-#                                   ^ keyword.operator.logical.not.regexp.shell
+#                                   ^ keyword.operator.logical.regexp.shell
 #                                    ^^^ constant.character.collate.regexp.shell
 #                                       ^^ punctuation.definition.set.end.regexp.shell
 
@@ -3097,13 +3097,13 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #      ^^^^^ constant.other.posix-class.regexp.shell - punctuation
 #           ^ constant.other.posix-class.regexp.shell punctuation.definition.class.end.regexp.shell
 #            ^^ punctuation.definition.set.end.regexp.shell
-#              ^ keyword.operator.logical.or.regexp.shell
+#              ^ keyword.operator.logical.regexp.shell
 #               ^^ punctuation.definition.set.begin.regexp.shell
 #                 ^ constant.other.posix-class.regexp.shell punctuation.definition.class.begin.regexp.shell
 #                  ^^^^^ constant.other.posix-class.regexp.shell - punctuation
 #                       ^ constant.other.posix-class.regexp.shell punctuation.definition.class.end.regexp.shell
 #                        ^^ punctuation.definition.set.end.regexp.shell
-#                          ^ keyword.operator.logical.or.regexp.shell
+#                          ^ keyword.operator.logical.regexp.shell
 #                           ^^ punctuation.definition.set.begin.regexp.shell
 #                             ^^^^^^^^ - constant.other.posix-class
 #                                     ^^ punctuation.definition.set.end.regexp.shell
@@ -3127,7 +3127,7 @@ echo ca{${x/z/t}" "{legs,f${o//a/o}d,f${o:0:1}t},r" "{tires,wh${o//a/e}ls}}
 #           ^ - meta.function-call - meta.group
 # ^ keyword.operator.quantifier.regexp.shell
 #  ^ punctuation.definition.group.begin.regexp.shell
-#      ^ keyword.operator.logical.or.regexp.shell
+#      ^ keyword.operator.logical.regexp.shell
 #          ^ punctuation.definition.group.end.regexp.shell
 #            ^ keyword.operator.logical.pipe.shell
 
@@ -4092,11 +4092,11 @@ case $TERM in
         #                                               ^^ punctuation.terminator.case.clause
     *xterm*|rxvt|(dt|k|E)term)
         # ^ keyword.operator.quantifier.regexp.shell
-        #  ^ keyword.operator.logical.or.regexp.shell
-        #       ^ keyword.operator.logical.or.regexp.shell
+        #  ^ keyword.operator.logical.regexp.shell
+        #       ^ keyword.operator.logical.regexp.shell
         #        ^ punctuation.definition.group.begin.regexp.shell
-        #           ^ keyword.operator.logical.or.regexp.shell
-        #             ^ keyword.operator.logical.or.regexp.shell
+        #           ^ keyword.operator.logical.regexp.shell
+        #             ^ keyword.operator.logical.regexp.shell
         #               ^ punctuation.definition.group.end.regexp.shell
         #                    ^ keyword.control.conditional.patterns.end.shell
         update_terminal_cwd() { print -Pn "\e]2;%~\a" };;
