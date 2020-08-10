@@ -1411,7 +1411,7 @@ contexts:
 
   expansions-parameter-first-char:
     - match: \!
-      scope: keyword.operator.indirection.shell
+      scope: keyword.operator.logical.shell
       pop: 1
     - match: \#
       scope: keyword.operator.arithmetic.shell

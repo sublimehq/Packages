@@ -2661,14 +2661,14 @@ ${foo:=bar}
 ${!varprefix*}
 # <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
 #^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
-# ^ keyword.operator.indirection.shell
+# ^ keyword.operator.logical.shell
 #           ^ variable.language.shell
 #            ^ punctuation.section.interpolation.end.shell
 
 ${!varprefix@}
 # <- meta.function-call.identifier.shell meta.interpolation.parameter.shell punctuation.section.interpolation.begin.shell
 #^^^^^^^^^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
-# ^ keyword.operator.indirection.shell
+# ^ keyword.operator.logical.shell
 #           ^ variable.language.shell
 #            ^ punctuation.section.interpolation.end.shell
 
