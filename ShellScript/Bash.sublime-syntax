@@ -393,7 +393,7 @@ contexts:
   vardef-item-access:
     - meta_scope: meta.variable.shell
     - include: arrays-item-access
-    - include: line-continuations    
+    - include: line-continuations
     - include: immediately-pop
 
   vardef-assign:
@@ -1436,7 +1436,7 @@ contexts:
     - include: immediately-pop
 
   expansions-parameter-chars:
-    - include: expressions-parameter-variable    
+    - include: expressions-parameter-variable
     - include: arrays-item-access
     - match: ([@*])?(/)
       captures:
