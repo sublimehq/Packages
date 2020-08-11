@@ -278,6 +278,42 @@ echo git rev-list "$(echo --all)" | grep -P 'c354a80'
 #                                   ^^^^ variable.function.shell
 #                                           ^^^^^^^^^ meta.string.shell string.quoted.single.shell
 
+' echo '
+# <- meta.function-call.identifier.shell meta.string.shell 
+#^^^^^^^ meta.function-call.identifier.shell meta.string.shell 
+# <- variable.function.shell punctuation.definition.string.begin.shell
+#^^^^^^^ variable.function.shell
+#      ^ punctuation.definition.string.end.shell
+#       ^ - meta - variable
+
+e'cho'o
+# <- meta.function-call.identifier.shell - meta.string
+#^^^^^ meta.function-call.identifier.shell meta.string.shell 
+#     ^ meta.function-call.identifier.shell - meta.string
+# <- variable.function.shell
+#^^^^^^ variable.function.shell
+#      ^ - meta - variable
+
+e' cho'o
+# <- meta.function-call.identifier.shell - meta.string
+#^^^^^^ meta.function-call.identifier.shell meta.string.shell 
+#      ^ meta.function-call.identifier.shell - meta.string
+# <- variable.function.shell
+#^^^^^^^ variable.function.shell
+#       ^ - meta - variable
+
+e"\" \t ${ch} "o
+# <- meta.function-call.identifier.shell - meta.string - meta.interpolation
+#^^^^^^^ meta.function-call.identifier.shell meta.string.shell - meta.interpolation
+#       ^^^^^ meta.function-call.identifier.shell meta.string.shell meta.interpolation.parameter.shell
+#            ^^ meta.function-call.identifier.shell meta.string.shell - meta.interpolation
+#              ^ meta.function-call.identifier.shell - meta.string - meta.interpolation
+# <- variable.function.shell
+#^^^^^^^ variable.function.shell
+#       ^^^^^ - variable.function
+#            ^^^ variable.function.shell
+#               ^ - meta - variable
+
 # Test if commands are recognized even in the presence of strings and variable
 # expansions
 ch=ch
@@ -286,27 +322,26 @@ e${ch}"o" hello, world!
 #^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
 #     ^^^ meta.function-call.identifier.shell meta.string.shell - meta.interpolation
 #        ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#^^^^^^^^ - variable.function
+#^^^^^ - variable.function
+#     ^^^ variable.function.shell
 #^^ punctuation.section.interpolation.begin.shell
 #  ^^ variable.other.readwrite
 #    ^ punctuation.section.interpolation.end.shell
-#     ^ string.quoted.double punctuation.definition.string.begin
-#      ^ string.quoted.double
-#       ^ string.quoted.double punctuation.definition.string.end
+#     ^ punctuation.definition.string.begin.shell
+#       ^ punctuation.definition.string.end.shell
 e=e
 ${e}'ch'o hello, world!
 # <- meta.function-call.identifier.shell - variable.function
 #^^^^^^^^ meta.function-call.identifier.shell
 #        ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 # <- punctuation.section.interpolation.begin.shell
-#^^^^^^^ - variable.function
-#       ^ variable.function.shell
+#^^^ - variable.function
+#   ^^^^^ variable.function.shell
 #^ punctuation.section.interpolation.begin.shell
-# ^ variable.other.readwrite
-#  ^ punctuation
-#   ^ string.quoted.single punctuation.definition.string.begin
-#    ^^ string.quoted.single
-#      ^ string.quoted.single punctuation.definition.string.end
+# ^ variable.other.readwrite.shell
+#  ^ punctuation.section.interpolation.end.shell
+#   ^ punctuation.definition.string.begin.shell
+#      ^ punctuation.definition.string.end.shell
 e=e
 $e'ch'o Hello, world!
 # <- meta.function-call.identifier.shell meta.interpolation.parameter.shell
@@ -316,8 +351,9 @@ $e'ch'o Hello, world!
 #      ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 # <- variable.other.readwrite.shell punctuation.definition.variable.shell
 #^ variable.other.readwrite.shell
-# ^^^^ string.quoted.single.shell
-#     ^ variable.function.shell
+# ^^^^^ variable.function.shell
+# ^ punctuation.definition.string.begin.shell
+#    ^ punctuation.definition.string.end.shell
 
 
 ####################################################################
@@ -1034,8 +1070,8 @@ foo:foo () {
     echo "this is ~"
 }
 "~"
-# <- meta.function-call.identifier.shell - variable.function
-#^^ meta.function-call.identifier.shell - variable.function.shell
+# <- meta.function-call.identifier.shell meta.string.shell variable.function.shell punctuation.definition.string.begin.shell
+#^^ meta.function-call.identifier.shell meta.string.shell variable.function.shell
 ^ () {
 # <- meta.function entity.name.function
     echo "this is ^"
@@ -1175,12 +1211,14 @@ function =foo () {
 #^^^ meta.function-call.identifier.shell variable.function.shell
 
 function fo${bar}'baz' () {}
-#       ^^^^^^^^^^^^^^^ meta.function.identifier.shell
+#       ^^^ meta.function.identifier.shell - meta.interpolation - meta.string
+#          ^^^^^^ meta.function.identifier.shell meta.interpolation.parameter.shell - meta.string
+#                ^^^^^ meta.function.identifier.shell meta.string.shell - meta.interpolation
 #                      ^^ meta.function.parameters.shell
 #                        ^^^ meta.function.shell
 #        ^^ entity.name.function.shell
-#          ^^^^^^ meta.interpolation.parameter.shell
-#                ^^^^^ string.quoted.single.shell
+#          ^^^^^^ - entity.name
+#                ^^^^^ entity.name.function.shell
 
 # Functions may replace booleans. Won't respect that in function calls though.
 function true () {} ; function false () {}
@@ -1232,9 +1270,20 @@ alias foo=bar
 #^^^^ meta.function-call.identifier.shell
 #    ^^^^^^^^ meta.function-call.arguments.shell
 #            ^ - meta.function-call
-#     ^^^ entity.name.function.alias.shell
+#     ^^^ entity.name.function.shell
 #        ^ keyword.operator.assignment.shell
 #         ^^^ meta.string.shell string.unquoted.shell
+
+alias f'o'o=bar
+# <- meta.function-call.identifier.shell support.function.alias.shell
+#^^^^ meta.function-call.identifier.shell
+#    ^^^^^^^^^^ meta.function-call.arguments.shell
+#              ^ - meta.function-call
+#     ^^^^^ entity.name.function.shell
+#      ^ punctuation.definition.string.begin.shell
+#        ^ punctuation.definition.string.end.shell
+#          ^ keyword.operator.assignment.shell
+#           ^^^ meta.string.shell string.unquoted.shell
 
 alias -p foo=bar
 # <- meta.function-call.identifier.shell support.function.alias.shell
@@ -1242,7 +1291,7 @@ alias -p foo=bar
 #    ^^^^^^^^^^^ meta.function-call.arguments.shell
 #               ^ - meta.function-call
 #     ^^ meta.parameter.option.shell variable.parameter.option.shell
-#        ^^^ entity.name.function.alias.shell
+#        ^^^ entity.name.function.shell
 #           ^ keyword.operator.assignment.shell
 #            ^^^ meta.string.shell string.unquoted.shell
 
@@ -1254,7 +1303,7 @@ alias -a -p -- foo=bar
 #     ^^ invalid.illegal.parameter.shell
 #        ^^ meta.parameter.option.shell variable.parameter.option.shell
 #           ^^ keyword.operator.end-of-options.shell
-#              ^^^ entity.name.function.alias.shell
+#              ^^^ entity.name.function.shell
 #                 ^ keyword.operator.assignment.shell
 #                  ^^^ meta.string.shell string.unquoted.shell
 
@@ -1659,21 +1708,26 @@ if test expr -a expr ; then echo "success"; fi
 ####################################################################
 
 unset
-unset foo bar ba${z}  # 'foo' and 'bar' are variable names
+unset foo b'a'r ba${z}  # 'foo' and 'bar' are variable names
 # <- meta.function-call.identifier.shell support.function.unset.shell
 #^^^^ meta.function-call.identifier.shell
-#    ^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#                   ^ - meta.function-call
+#    ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                     ^ - meta.function-call
+#         ^ meta.variable.shell - meta.string
+#          ^^^ meta.variable.shell meta.string.shell
+#             ^ meta.variable.shell - meta.string
 #^^^^ support.function.unset.shell
 #    ^ - meta.variable - support - variable
 #     ^^^ meta.variable.shell variable.other.readwrite.shell
 #        ^ - meta.variable - variable
-#         ^^^ meta.variable.shell variable.other.readwrite.shell
-#            ^ - meta.variable - variable
-#             ^^ meta.variable.shell - meta.interpolation
-#               ^^^^ meta.variable.shell meta.interpolation.parameter.shell
-#                   ^ - meta.variable - variable
-#                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+#         ^^^^^ variable.other.readwrite.shell
+#          ^ punctuation.definition.string.begin.shell
+#            ^ punctuation.definition.string.end.shell
+#              ^ - meta.variable - variable
+#               ^^ meta.variable.shell - meta.interpolation
+#                 ^^^^ meta.variable.shell meta.interpolation.parameter.shell
+#                     ^ - meta.variable - variable
+#                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 
 unset -n
 unset -nfv foo
@@ -1687,30 +1741,33 @@ unset -nfv foo
 #          ^^^ variable.function.shell
 #             ^ - variable
 
-unset -f -n -v foo bar; unset -vn foo 2>& /dev/null
+unset -f -n -v foo b'a'r; unset -vn foo 2>& /dev/null
 # <- meta.function-call.identifier.shell support.function.unset.shell
 #^^^^ meta.function-call.identifier.shell
-#    ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#                     ^^ - meta.function-call
-#                       ^^^^^ meta.function-call.identifier.shell
-#                            ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#                                                  ^ - meta.function-call
+#    ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                       ^^ - meta.function-call
+#                         ^^^^^ meta.function-call.identifier.shell
+#                              ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                                                    ^ - meta.function-call
+#                  ^ meta.variable.shell - meta.string
+#                   ^^^ meta.variable.shell meta.string.shell
+#                      ^ meta.variable.shell - meta.string
 #     ^^ meta.parameter.option.shell variable.parameter.option.shell
 #        ^^ meta.parameter.option.shell variable.parameter.option.shell
 #           ^^ meta.parameter.option.shell variable.parameter.option.shell
 #             ^ - variable
 #              ^^^ meta.variable.shell variable.function.shell
 #                 ^ - variable
-#                  ^^^ meta.variable.shell variable.function.shell
-#                     ^ punctuation.terminator.statement.shell
-#                       ^^^^^ support.function.unset.shell
-#                            ^ - support - variable
-#                             ^^^ meta.parameter.option.shell variable.parameter.option.shell
-#                                ^ - variable
-#                                 ^^^ meta.variable.shell variable.other.readwrite.shell
-#                                    ^ - variable
-#                                     ^ constant.numeric.integer.decimal.file-descriptor.shell
-#                                      ^^ keyword.operator.assignment.redirection.shell
+#                  ^^^^^ meta.variable.shell variable.function.shell
+#                       ^ punctuation.terminator.statement.shell
+#                         ^^^^^ support.function.unset.shell
+#                              ^ - support - variable
+#                               ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#                                  ^ - variable
+#                                   ^^^ meta.variable.shell variable.other.readwrite.shell
+#                                      ^ - variable
+#                                       ^ constant.numeric.integer.decimal.file-descriptor.shell
+#                                        ^^ keyword.operator.assignment.redirection.shell
 
 unset -f -x +v -- foo bar; unset -vn -- foo
 # <- meta.function-call.identifier.shell support.function.unset.shell

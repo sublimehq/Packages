@@ -212,8 +212,13 @@ contexts:
   funcdef-name-chars:
     - match: '{{cmd_literal_char}}+'
       scope: entity.name.function.shell
-    - include: variable-expansions
-    - include: expansions-job
+    - include: line-continuations
+    - include: any-escapes
+    - include: entity-function-quoted
+    - include: expansions-parameter
+    - include: expansions-arithmetic
+    - include: expansions-command
+    - include: expansions-tilde
     - include: immediately-pop
 
   funcdef-params:
@@ -261,7 +266,7 @@ contexts:
         meta.function-call.identifier.shell
         support.function.alias.shell
       push:
-        - vardef-maybe-more
+        - vardef-alias-maybe-more
         - vardef-value
         - vardef-assign
         - vardef-alias-name
@@ -308,6 +313,11 @@ contexts:
     - match: (?=\S)
       push: [vardef-value, vardef-assign, vardef-name]
 
+  vardef-alias-maybe-more:
+    - meta_scope: meta.alias.shell
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: vardef-maybe-more
+
   vardef-alias-name:
     - match: '{{variable_begin}}'
       set: [vardef-item-access, vardef-alias-name-chars]
@@ -316,8 +326,14 @@ contexts:
 
   vardef-alias-name-chars:
     - match: '{{identifier_char}}+'
-      scope: entity.name.function.alias.shell
-    - include: variable-expansions
+      scope: entity.name.function.shell
+    - include: line-continuations
+    - include: any-escapes
+    - include: entity-function-quoted
+    - include: expansions-parameter
+    - include: expansions-arithmetic
+    - include: expansions-command
+    - include: expansions-tilde
     - include: immediately-pop
 
   vardef-alias-options:
@@ -374,7 +390,13 @@ contexts:
   vardef-name-chars:
     - match: '{{identifier_char}}+'
       scope: variable.other.readwrite.shell
-    - include: variable-expansions
+    - include: line-continuations
+    - include: any-escapes
+    - include: variable-other-quoted
+    - include: expansions-parameter
+    - include: expansions-arithmetic
+    - include: expansions-command
+    - include: expansions-tilde
     - include: immediately-pop
 
   vardef-item-access:
@@ -680,7 +702,13 @@ contexts:
     - meta_scope: meta.variable.shell
     - match: '{{identifier_char}}+'
       scope: variable.function.shell
-    - include: variable-expansions
+    - include: line-continuations
+    - include: any-escapes
+    - include: variable-function-quoted
+    - include: expansions-parameter
+    - include: expansions-arithmetic
+    - include: expansions-command
+    - include: expansions-tilde
     - include: immediately-pop
 
   cmd-unset-options-then-variables:
@@ -700,7 +728,13 @@ contexts:
     - meta_scope: meta.variable.shell
     - match: '{{identifier_char}}+'
       scope: variable.other.readwrite.shell
-    - include: variable-expansions
+    - include: line-continuations
+    - include: any-escapes
+    - include: variable-other-quoted
+    - include: expansions-parameter
+    - include: expansions-arithmetic
+    - include: expansions-command
+    - include: expansions-tilde
     - include: immediately-pop
 
 ###[ COMMANDS ]################################################################
@@ -745,7 +779,13 @@ contexts:
     - meta_scope: meta.function-call.identifier.shell
     - match: '{{cmd_literal_char}}+'
       scope: variable.function.shell
-    - include: variable-expansions
+    - include: line-continuations
+    - include: any-escapes
+    - include: variable-function-quoted
+    - include: expansions-parameter
+    - include: expansions-arithmetic
+    - include: expansions-command
+    - include: expansions-tilde
     - include: expansions-job
     - include: immediately-pop
 
@@ -1548,6 +1588,74 @@ contexts:
   expansions-tilde:
     - match: '~'
       scope: meta.interpolation.tilde.shell variable.language.tilde.shell
+
+###[ IDENTIFIERS ]#############################################################
+
+  entity-function-quoted:
+    - match: \'
+      scope: punctuation.definition.string.begin.shell
+      push:
+        - meta_scope: meta.string.shell entity.name.function.shell
+        - include: string-quoted-single-body
+    - match: \"
+      scope: punctuation.definition.string.begin.shell
+      push:
+        - meta_scope: meta.string.shell entity.name.function.shell
+        - include:  string-quoted-double-body
+    - match: \$'
+      scope: punctuation.definition.string.begin.shell
+      push:
+        - meta_scope: meta.string.shell entity.name.function.shell
+        - include: string-ansi-c-body
+    - match: \$"
+      scope: punctuation.definition.string.begin.shell
+      push:
+        - meta_scope: meta.string.shell entity.name.function.shell
+        - include: string-quoted-double-body
+
+  variable-function-quoted:
+    - match: \'
+      scope: punctuation.definition.string.begin.shell
+      push:
+        - meta_scope: meta.string.shell variable.function.shell
+        - include: string-quoted-single-body
+    - match: \"
+      scope: punctuation.definition.string.begin.shell
+      push:
+        - meta_scope: meta.string.shell variable.function.shell
+        - include:  string-quoted-double-body
+    - match: \$'
+      scope: punctuation.definition.string.begin.shell
+      push:
+        - meta_scope: meta.string.shell variable.function.shell
+        - include: string-ansi-c-body
+    - match: \$"
+      scope: punctuation.definition.string.begin.shell
+      push:
+        - meta_scope: meta.string.shell variable.function.shell
+        - include: string-quoted-double-body
+
+  variable-other-quoted:
+    - match: \'
+      scope: punctuation.definition.string.begin.shell
+      push:
+        - meta_scope: meta.string.shell variable.other.readwrite.shell
+        - include: string-quoted-single-body
+    - match: \"
+      scope: punctuation.definition.string.begin.shell
+      push:
+        - meta_scope: meta.string.shell variable.other.readwrite.shell
+        - include:  string-quoted-double-body
+    - match: \$'
+      scope: punctuation.definition.string.begin.shell
+      push:
+        - meta_scope: meta.string.shell variable.other.readwrite.shell
+        - include: string-ansi-c-body
+    - match: \$"
+      scope: punctuation.definition.string.begin.shell
+      push:
+        - meta_scope: meta.string.shell variable.other.readwrite.shell
+        - include: string-quoted-double-body
 
 ###[ STRINGS ]#################################################################
 
