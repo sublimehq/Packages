@@ -215,10 +215,7 @@ contexts:
     - include: line-continuations
     - include: any-escapes
     - include: entity-function-quoted
-    - include: expansions-parameter
-    - include: expansions-arithmetic
-    - include: expansions-command
-    - include: expansions-tilde
+    - include: expansions-variables
     - include: immediately-pop
 
   funcdef-params:
@@ -330,10 +327,7 @@ contexts:
     - include: line-continuations
     - include: any-escapes
     - include: entity-function-quoted
-    - include: expansions-parameter
-    - include: expansions-arithmetic
-    - include: expansions-command
-    - include: expansions-tilde
+    - include: expansions-variables
     - include: immediately-pop
 
   vardef-alias-options:
@@ -393,10 +387,7 @@ contexts:
     - include: line-continuations
     - include: any-escapes
     - include: variable-other-quoted
-    - include: expansions-parameter
-    - include: expansions-arithmetic
-    - include: expansions-command
-    - include: expansions-tilde
+    - include: expansions-variables
     - include: immediately-pop
 
   vardef-item-access:
@@ -636,10 +627,12 @@ contexts:
       scope: keyword.operator.logical.shell
     - match: '='
       scope: keyword.operator.assignment.shell
+    - include: arrays-item-access
     - include: booleans
     - include: numbers
-    - include: arrays-item-access
-    - include: variable-expansions
+    - include: strings
+    - include: expansions-variables
+    - include: line-continuations
 
   cmd-test-pattern:
     - meta_content_scope: meta.pattern.regexp.shell
@@ -705,10 +698,7 @@ contexts:
     - include: line-continuations
     - include: any-escapes
     - include: variable-function-quoted
-    - include: expansions-parameter
-    - include: expansions-arithmetic
-    - include: expansions-command
-    - include: expansions-tilde
+    - include: expansions-variables
     - include: immediately-pop
 
   cmd-unset-options-then-variables:
@@ -731,10 +721,7 @@ contexts:
     - include: line-continuations
     - include: any-escapes
     - include: variable-other-quoted
-    - include: expansions-parameter
-    - include: expansions-arithmetic
-    - include: expansions-command
-    - include: expansions-tilde
+    - include: expansions-variables
     - include: immediately-pop
 
 ###[ COMMANDS ]################################################################
@@ -782,10 +769,7 @@ contexts:
     - include: line-continuations
     - include: any-escapes
     - include: variable-function-quoted
-    - include: expansions-parameter
-    - include: expansions-arithmetic
-    - include: expansions-command
-    - include: expansions-tilde
+    - include: expansions-variables
     - include: expansions-job
     - include: immediately-pop
 
@@ -943,12 +927,8 @@ contexts:
           scope: punctuation.definition.group.end.regexp.shell
           pop: 1
         - include: case-clause-patterns-body
-    - match: \|
-      scope: keyword.operator.logical.regexp.shell
     - include: case-end-ahead
-    - include: variable-expansions
-    - include: expansions-pattern
-    - include: eol-pop
+    - include: expansions-pattern-common
 
   case-clause-commands:
     - clear_scopes: 1  # remove meta.conditional.case.shell
@@ -1232,13 +1212,12 @@ contexts:
     # before the expression is evaluated. Within an expression, shell variables
     # may also be referenced by name without using the parameter expansion
     # syntax.
+    - include: arrays-item-access
     - include: booleans
     - include: numbers
     - include: strings
-    - include: arrays-item-access
-    - include: expansions-parameter
-    - include: expansions-arithmetic
-    - include: expansions-command
+    - include: expansions-variables
+    - include: line-continuations
 
   booleans:
     - match: (?:true|false)\b
@@ -1320,26 +1299,21 @@ contexts:
 
 ###[ EXPANSIONS ]##############################################################
 
-  variable-expansions:
-    - include: line-continuations
-    - include: strings
-    - include: expansions-parameter
-    - include: expansions-arithmetic
-    - include: expansions-command
-    - include: expansions-tilde
-
   expansions-and-strings:
     - include: strings
     - include: expansions
 
   expansions:
     - include: expansions-pattern
-    - include: expansions-parameter
     - include: expansions-brace
+    - include: expansions-variables
+    - include: expansions-job
+
+  expansions-variables:
+    - include: expansions-parameter
     - include: expansions-arithmetic
     - include: expansions-command
     - include: expansions-tilde
-    - include: expansions-job
 
   expansions-arithmetic:
     - match: \$\(\((?=.+\)\))
@@ -1453,17 +1427,18 @@ contexts:
     - include: immediately-pop
 
   expansions-parameter-chars:
-    - include: expansions-parameter-common    
+    - include: expressions-parameter-variable    
+    - include: arrays-item-access
     - match: ([@*])?(/)
       captures:
         1: variable.language.shell
         2: keyword.operator.substitution.shell
       set:
-        - expansions-parameter-pattern
+        - expansions-parameter-substitution
         - expansions-parameter-switch
     - match: \:?[-+=?]
       scope: keyword.operator.assignment.shell
-      set: expansions-parameter-common
+      set: expressions-parameter-variable
     - match: (@)?(:)
       captures:
         1: variable.language.shell
@@ -1481,15 +1456,12 @@ contexts:
       captures:
         1: variable.language.shell
         2: keyword.operator.expansion.shell
-      set:
-        - include: expansions-parameter-common
-        - include: expansions-pattern
+      set: expansions-parameter-pattern
     - match: ([@*]?)(@)([QEPAa])(?=})
       captures:
         1: variable.language.shell
         2: keyword.operator.expansion.shell
         3: variable.parameter.switch.shell
-    - include: arrays-item-access
     - match: '[@*](?=})'
       scope: variable.language.shell
 
@@ -1499,20 +1471,29 @@ contexts:
       pop: 1
     - match: '{{identifier_char}}+'
       scope: variable.other.readwrite.shell
-    - include: variable-expansions
+    - include: line-continuations
+    - include: strings
 
   expansions-parameter-pattern:
-    - match: /
-      scope: keyword.operator.substitution.shell
-      set: expansions-parameter-common
     - include: expansions-parameter-common
     - include: expansions-pattern
+    - include: expansions-variables
+
+  expansions-parameter-substitution:
+    - match: /
+      scope: keyword.operator.substitution.shell
+      set: expressions-parameter-variable
+    - include: expansions-parameter-pattern
 
   expansions-parameter-switch:
     - match: '[/#%]'
       scope: variable.parameter.switch.shell
       pop: 1
     - include: immediately-pop
+
+  expressions-parameter-variable:
+    - include: expansions-parameter-common
+    - include: expansions-variables
 
   expansions-pattern:
     # [3.5.8.1] Pattern Matching
@@ -1530,6 +1511,14 @@ contexts:
     - match: '[*?]'
       scope: keyword.operator.quantifier.regexp.shell
 
+  expansions-pattern-common:
+    - match: \|
+      scope: keyword.operator.logical.regexp.shell
+    - include: strings
+    - include: expansions-pattern
+    - include: expansions-variables
+    - include: eol-pop
+
   expansions-pattern-group-body:
     - meta_content_scope: meta.group.regexp.shell
     - match: \)
@@ -1537,9 +1526,7 @@ contexts:
         meta.group.regexp.shell
         punctuation.definition.group.end.regexp.shell
       pop: 1
-    - match: \|
-      scope: keyword.operator.logical.regexp.shell
-    - include: expansions-and-strings
+    - include: expansions-pattern-common
 
   expansions-pattern-set-body:
     - meta_scope: meta.set.regexp.shell
@@ -1577,13 +1564,11 @@ contexts:
         1: punctuation.definition.set.begin.regexp.shell
         2: keyword.operator.logical.regexp.shell
       push: expansions-pattern-set-body
-    - include: any-escapes
     # [Bash] 3.2.4.2: Each pattern undergoes tilde expansion, parameter
     # expansion, command substitution, and arithmetic expansion.
-    - include: expansions-parameter
-    - include: expansions-arithmetic
-    - include: expansions-command
-    - include: expansions-tilde
+    - include: any-escapes
+    - include: expansions-variables
+    - include: eol-pop
 
   expansions-tilde:
     - match: '~'
@@ -1755,7 +1740,5 @@ contexts:
     - match: '{{is_interpolation}}'
       push:
         - clear_scopes: 1
-        - include: expansions-parameter
-        - include: expansions-arithmetic
-        - include: expansions-command
+        - include: expansions-variables
         - include: immediately-pop
