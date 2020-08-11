@@ -489,7 +489,7 @@ contexts:
     - match: (\s*({{cmd_literal}})\s*)(\{)
       captures:
         1: meta.coproc.identifier.shell
-        2: entity.name.coproc.shell
+        2: entity.name.function.shell
         3: meta.coproc.command.shell meta.compound.shell
            punctuation.section.compound.begin.shell
       set:

@@ -787,7 +787,7 @@ coproc myls { ls thisfiledoesntexist; read; 2>&1 } | foo
 #                                ^^^ meta.compound.shell - meta.coproc
 #                                   ^^^^^ meta.compound.arguments.shell - meta.coproc - meta.function-call
 # ^^^^^^ storage.type.coproc.shell keyword.declaration.coproc.shell
-#        ^^^ entity.name.coproc.shell
+#        ^^^ entity.name.function.shell
 #            ^ punctuation.section.compound.begin.shell
 #              ^^^ variable.function.shell
 #                           ^ punctuation.section.compound.end.shell
@@ -804,7 +804,7 @@ coproc foobar {
 #     ^^^^^^^^ meta.coproc.identifier.shell
 #             ^^ meta.coproc.command.shell meta.compound.shell
 #^^^^^ storage.type.coproc.shell keyword.declaration.coproc.shell
-#      ^^^^^^ entity.name.coproc.shell
+#      ^^^^^^ entity.name.function.shell
 #             ^ punctuation.section.compound.begin.shell
     read
 #^^^^^^^^ meta.coproc.command.shell meta.compound.shell
