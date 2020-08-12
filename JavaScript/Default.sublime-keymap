@@ -2,7 +2,7 @@
     // Auto-pair backticks
     { "keys": ["`"], "command": "insert_snippet", "args": {"contents": "`$0`"}, "context":
         [
-            { "key": "selector", "operator": "equal", "operand": "source.js - string" },
+            { "key": "selector", "operator": "equal", "operand": "(source.js, source.ts) - string" },
             { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
             { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
             { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|]|\\}|>|$)", "match_all": true },
@@ -10,14 +10,14 @@
     },
     { "keys": ["`"], "command": "insert_snippet", "args": {"contents": "`${0:$SELECTION}`"}, "context":
         [
-            { "key": "selector", "operator": "equal", "operand": "source.js - string" },
+            { "key": "selector", "operator": "equal", "operand": "(source.js, source.ts) - string" },
             { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
             { "key": "selection_empty", "operator": "equal", "operand": false, "match_all": true }
         ]
     },
     { "keys": ["`"], "command": "move", "args": {"by": "characters", "forward": true}, "context":
         [
-            { "key": "selector", "operator": "equal", "operand": "source.js" },
+            { "key": "selector", "operator": "equal", "operand": "source.js, source.ts" },
             { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
             { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
             { "key": "following_text", "operator": "regex_contains", "operand": "^`", "match_all": true },
