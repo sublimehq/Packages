@@ -619,6 +619,13 @@ ls>foo.txt
 # ^^^^^^^^ meta.function-call.arguments.shell - variable.function
 # ^ keyword.operator.assignment.redirection.shell
 
+cd foo/bar-2345
+#^ meta.function-call.identifier.shell support.function.cd.shell
+# ^^^^^^^^^^^^^ meta.function-call.arguments.shell - constant.numeric
+
+cd foo/bar2345
+#^ meta.function-call.identifier.shell support.function.cd.shell
+# ^^^^^^^^^^^^ meta.function-call.arguments.shell - constant.numeric
 
 ####################################################################
 # Compound Command Arguments                                       #

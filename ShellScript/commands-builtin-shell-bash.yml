@@ -92,6 +92,7 @@ pwd:
 
 shift:
   allow-end-of-options-token: false
+  allow-numeric-args: true
 
 times:
   ~

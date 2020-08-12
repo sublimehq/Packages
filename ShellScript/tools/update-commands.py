@@ -63,6 +63,10 @@ def main():
                 }
             })
 
+        allow_numeric_args = value.get("allow-numeric-args")
+        if allow_numeric_args:
+            cmd_args.append({"include": "numbers"})
+
         contexts[f"cmd-{command}-args"] = cmd_args
 
         match = f"{value.get('match', command)}{{{{cmd_break}}}}"

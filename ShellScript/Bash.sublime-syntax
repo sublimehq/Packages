@@ -853,7 +853,6 @@ contexts:
     - include: expansions-and-strings
     - include: redirections
     - include: booleans
-    - include: numbers
     - include: eoc-pop
 
   cmd-args-boilerplate-with-end-of-options:
