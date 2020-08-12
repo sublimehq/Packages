@@ -265,42 +265,27 @@ contexts:
         meta.function-call.identifier.shell
         storage.modifier.shell
       push:
-        - vardef-maybe-more
-        - vardef-value
-        - vardef-assign
-        - vardef-name
+        - vardef-common-args
         - vardef-declare-options
     - match: export{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
         storage.modifier.shell
       push:
-        - vardef-maybe-more
-        - vardef-value
-        - vardef-assign
-        - vardef-name
+        - vardef-common-args
         - vardef-export-options
     - match: readonly{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
         storage.modifier.shell
       push:
-        - vardef-maybe-more
-        - vardef-value
-        - vardef-assign
-        - vardef-name
+        - vardef-common-args
         - vardef-readonly-options
     - match: '{{is_variable}}'
       push:
-        - vardef-value
-        - vardef-assign
-        - vardef-name
-
-  vardef-maybe-more:
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: cmd-args-boilerplate-with-end-of-options
-    - match: (?=\S)
-      push: [vardef-value, vardef-assign, vardef-name]
+        - vardef-assignment
+        - vardef-item-access
+        - vardef-name-chars
 
   vardef-declare-options:
     - match: ([-+])(?:[aAfFgilnrtux]+|p)
@@ -338,11 +323,14 @@ contexts:
     - include: else-pop
     - include: eol-pop
 
-  vardef-name:
+  vardef-common-args:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: cmd-args-boilerplate
     - match: '{{variable_begin}}'
-      set: [vardef-item-access, vardef-name-chars]
-    - include: else-pop
-    - include: eol-pop
+      push:
+        - vardef-assignment
+        - vardef-item-access
+        - vardef-name-chars
 
   vardef-name-chars:
     - match: '{{identifier_char}}+'
@@ -359,10 +347,10 @@ contexts:
     - include: line-continuations
     - include: immediately-pop
 
-  vardef-assign:
+  vardef-assignment:
     - match: '{{varassign}}'
       scope: keyword.operator.assignment.shell
-      pop: 1
+      set: vardef-value
     - include: line-continuations
     - include: immediately-pop
 
@@ -380,7 +368,7 @@ contexts:
             - meta_scope: meta.brackets.shell
             - match: \]
               scope: punctuation.section.brackets.end.shell
-              set: vardef-assign
+              set: vardef-assignment
             - include: expansions-and-strings
             - include: comments
         - include: comments
