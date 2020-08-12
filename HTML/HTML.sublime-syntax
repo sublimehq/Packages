@@ -670,13 +670,13 @@ contexts:
       scope: entity.other.attribute-name.href.html
       push:
         - tag-href-attributes-meta
-        - tag-href-attributes-equals
+        - tag-href-attributes-assignment
 
   tag-href-attributes-meta:
     - meta_scope: meta.attribute-with-value.href.html
     - include: immediately-pop
 
-  tag-href-attributes-equals:
+  tag-href-attributes-assignment:
     - match: =
       scope: punctuation.separator.key-value.html
       set: tag-href-attribute-value
