@@ -1270,42 +1270,48 @@ alias foo=bar
 #^^^^ meta.function-call.identifier.shell
 #    ^^^^^^^^ meta.function-call.arguments.shell
 #            ^ - meta.function-call
-#     ^^^ entity.name.function.shell
-#        ^ keyword.operator.assignment.shell
-#         ^^^ meta.string.shell string.unquoted.shell
+#     ^^^ meta.alias.identifier.shell entity.name.function.shell
+#        ^ meta.alias.shell keyword.operator.assignment.shell
+#         ^^^ meta.alias.value.shell meta.string.shell string.unquoted.shell
 
 alias f'o'o=bar
 # <- meta.function-call.identifier.shell support.function.alias.shell
 #^^^^ meta.function-call.identifier.shell
 #    ^^^^^^^^^^ meta.function-call.arguments.shell
 #              ^ - meta.function-call
-#     ^^^^^ entity.name.function.shell
+#     ^^^^^ meta.alias.identifier.shell entity.name.function.shell
 #      ^ punctuation.definition.string.begin.shell
 #        ^ punctuation.definition.string.end.shell
-#          ^ keyword.operator.assignment.shell
-#           ^^^ meta.string.shell string.unquoted.shell
+#          ^ meta.alias.shell keyword.operator.assignment.shell
+#           ^^^ meta.alias.value.shell meta.string.shell string.unquoted.shell
 
-alias -p foo=bar
+alias -p foo=bar baz=qux
 # <- meta.function-call.identifier.shell support.function.alias.shell
 #^^^^ meta.function-call.identifier.shell
-#    ^^^^^^^^^^^ meta.function-call.arguments.shell
-#               ^ - meta.function-call
+#    ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                       ^ - meta.function-call
 #     ^^ meta.parameter.option.shell variable.parameter.option.shell
-#        ^^^ entity.name.function.shell
-#           ^ keyword.operator.assignment.shell
-#            ^^^ meta.string.shell string.unquoted.shell
+#        ^^^ meta.alias.identifier.shell entity.name.function.shell
+#           ^ meta.alias.shell keyword.operator.assignment.shell
+#            ^^^ meta.alias.value.shell meta.string.shell string.unquoted.shell
+#                ^^^ meta.alias.identifier.shell entity.name.function.shell
+#                   ^ meta.alias.shell keyword.operator.assignment.shell
+#                    ^^^ meta.alias.value.shell meta.string.shell string.unquoted.shell
 
-alias -a -p -- foo=bar
+alias -a -p -- foo=bar baz=qux
 # <- meta.function-call.identifier.shell support.function.alias.shell
 #^^^^ meta.function-call.identifier.shell
-#    ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#                     ^ - meta.function-call
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                             ^ - meta.function-call
 #     ^^ invalid.illegal.parameter.shell
 #        ^^ meta.parameter.option.shell variable.parameter.option.shell
 #           ^^ keyword.operator.end-of-options.shell
-#              ^^^ entity.name.function.shell
-#                 ^ keyword.operator.assignment.shell
-#                  ^^^ meta.string.shell string.unquoted.shell
+#              ^^^ meta.alias.identifier.shell entity.name.function.shell
+#                 ^ meta.alias.shell keyword.operator.assignment.shell
+#                  ^^^ meta.alias.value.shell meta.string.shell string.unquoted.shell
+#                      ^^^ meta.alias.identifier.shell entity.name.function.shell
+#                         ^ meta.alias.shell keyword.operator.assignment.shell
+#                          ^^^ meta.alias.value.shell meta.string.shell string.unquoted.shell
 
 
 ####################################################################
@@ -2040,7 +2046,7 @@ charclass=\}ower
 my-var=20
 # <- variable.other.readwrite.shell
 #^ variable.other.readwrite.shell
-# ^^^^^^^ meta.string.shell string.unquoted.shell
+# ^^^^^^^ - variable.other
 
 (foo=bar)
 # <- meta.compound.shell punctuation.section.compound.begin.shell

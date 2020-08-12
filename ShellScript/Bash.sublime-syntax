@@ -97,6 +97,7 @@ contexts:
     - include: line-continuations
     - include: operators
     - include: redirections
+    - include: cmd-alias
     - include: cmd-arithmetic
     - include: cmd-compound
     - include: cmd-historic
@@ -258,16 +259,6 @@ contexts:
 ###[ VARIABLE DEFINITIONS ]####################################################
 
   vardef:
-    - match: alias{{cmd_break}}
-      scope:
-        meta.function-call.identifier.shell
-        support.function.alias.shell
-      push:
-        - vardef-alias-maybe-more
-        - vardef-value
-        - vardef-assign
-        - vardef-alias-name
-        - vardef-alias-options
     - match: (typeset|declare|local){{cmd_break}}
       scope:
         meta.function-call.identifier.shell
@@ -309,35 +300,6 @@ contexts:
     - include: cmd-args-boilerplate-with-end-of-options
     - match: (?=\S)
       push: [vardef-value, vardef-assign, vardef-name]
-
-  vardef-alias-maybe-more:
-    - meta_scope: meta.alias.shell
-    - meta_content_scope: meta.function-call.arguments.shell
-    - include: vardef-maybe-more
-
-  vardef-alias-name:
-    - match: '{{variable_begin}}'
-      set: [vardef-item-access, vardef-alias-name-chars]
-    - include: else-pop
-    - include: eol-pop
-
-  vardef-alias-name-chars:
-    - match: '{{identifier_char}}+'
-      scope: entity.name.function.shell
-    - include: line-continuations
-    - include: any-escapes
-    - include: entity-function-quoted
-    - include: expansions-variables
-    - include: immediately-pop
-
-  vardef-alias-options:
-    - match: ([-+])p
-      scope:
-        meta.parameter.option.shell
-        variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
-    - include: vardef-end-of-options
 
   vardef-declare-options:
     - match: ([-+])(?:[aAfFgilnrtux]+|p)
@@ -423,11 +385,66 @@ contexts:
         - include: comments
         - match: (?=\S)
           push: vardef-value
+    - include: line-continuations
     - include: boolean
     - include: number
     - include: string-unquoted
+    - include: immediately-pop
+
+###[ ALIAS BUILTINS ]##########################################################
+
+  cmd-alias:
+    - match: alias{{cmd_break}}
+      scope:
+        meta.function-call.identifier.shell
+        support.function.alias.shell
+      push:
+        - cmd-alias-args
+        - cmd-alias-options
+
+  cmd-alias-options:
+    - match: ([-+])p
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+    - include: vardef-end-of-options
+
+  cmd-alias-args:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: cmd-args-boilerplate
+    - match: '{{variable_begin}}'
+      push:
+        - cmd-alias-assignment
+        - cmd-alias-name-chars
+
+  cmd-alias-name-chars:
+    - meta_scope: meta.alias.identifier.shell
+    - match: '{{identifier_char}}+'
+      scope: entity.name.function.shell
+    - include: line-continuations
+    - include: any-escapes
+    - include: entity-function-quoted
+    - include: expansions-variables
+    - include: immediately-pop
+
+  cmd-alias-assignment:
+    - match: '{{varassign}}'
+      scope: meta.alias.shell keyword.operator.assignment.shell
+      set: cmd-alias-value
     - include: line-continuations
     - include: immediately-pop
+
+  cmd-alias-value:
+    - meta_content_scope: meta.alias.value.shell
+    - match: (?=[^{{metachar}}])
+      set: cmd-alias-value-chars
+    - include: immediately-pop
+
+  cmd-alias-value-chars:
+    - meta_content_scope: meta.alias.value.shell meta.string.shell
+    - include: string-unquoted-body
 
 ###[ ARITHMETIC BUILTINS ]#####################################################
 
