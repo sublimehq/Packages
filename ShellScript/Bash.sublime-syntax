@@ -561,6 +561,8 @@ contexts:
         meta.function-call.arguments.shell
         keyword.operator.end-of-options.shell
       pop: 1
+    - match: (--|[-+]){{identifier}}
+      scope: invalid.illegal.parameter.shell
     - include: redirections
     - include: else-pop
     - include: eol-pop

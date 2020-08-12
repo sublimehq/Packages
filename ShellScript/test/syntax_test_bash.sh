@@ -1895,20 +1895,21 @@ sudo -b -g network --host=$foo rm -rf
 #                                 ^^^ meta.parameter.option.shell variable.parameter.option.shell
 #                                 ^ punctuation.definition.parameter.shell
 
-sudo --reset-timestamp -n -- rm -rf
+sudo --reset-timestamp -n -f -- rm -rf
 # <- meta.function-call.identifier.shell support.function.sudo.shell
 #^^^ meta.function-call.identifier.shell support.function.sudo.shell
-#   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#                           ^ - meta.function-call
-#                            ^^ meta.function-call.identifier.shell
-#                              ^^^^ meta.function-call.arguments.shell
-#                                  ^ - meta.function-call
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                              ^ - meta.function-call
+#                               ^^ meta.function-call.identifier.shell
+#                                 ^^^^ meta.function-call.arguments.shell
+#                                     ^ - meta.function-call
 #    ^^^^^^^^^^^^^^^^^ meta.parameter.option.shell variable.parameter.option.shell
 #                      ^^ meta.parameter.option.shell variable.parameter.option.shell
-#                         ^^ keyword.operator.end-of-options.shell
-#                            ^^ variable.function.shell
-#                               ^^^ meta.parameter.option.shell variable.parameter.option.shell
-#                               ^ punctuation.definition.parameter.shell
+#                         ^^ invalid.illegal.parameter.shell
+#                            ^^ keyword.operator.end-of-options.shell
+#                               ^^ variable.function.shell
+#                                  ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#                                  ^ punctuation.definition.parameter.shell
 
 
 ####################################################################
