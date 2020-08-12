@@ -1710,6 +1710,51 @@ if test expr -a expr ; then echo "success"; fi
 
 
 ####################################################################
+# unalias builtin                                                  #
+####################################################################
+
+unalias
+unalias -a -b
+# <- meta.function-call.identifier.shell support.function.unalias.shell
+#^^^^^^ meta.function-call.identifier.shell support.function.unalias.shell
+#      ^^^^^^ meta.function-call.arguments.shell
+#            ^ - meta.function
+#       ^^ variable.parameter.option.shell
+#          ^^ invalid.illegal.parameter.shell
+
+unalias foo
+# <- meta.function-call.identifier.shell support.function.unalias.shell
+#^^^^^^ meta.function-call.identifier.shell support.function.unalias.shell
+#      ^^^^ meta.function-call.arguments.shell
+#          ^ - meta.function
+#      ^ - meta.variable - variable
+#       ^^^ variable.function.shell
+#          ^ - meta.variable - variable
+
+unalias foo # comment
+# <- meta.function-call.identifier.shell support.function.unalias.shell
+#^^^^^^ meta.function-call.identifier.shell support.function.unalias.shell
+#      ^^^^ meta.function-call.arguments.shell
+#          ^^^^^^^^^^ - meta.function
+#      ^ - meta.variable - variable
+#       ^^^ variable.function.shell
+#          ^ - meta.variable - variable
+#           ^^^^^^^^^^ comment.line.number-sign.shell
+
+unalias foo b"a"r b'a'z
+# <- meta.function-call.identifier.shell support.function.unalias.shell
+#^^^^^^ meta.function-call.identifier.shell support.function.unalias.shell
+#      ^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                      ^ - meta.function
+#      ^ - meta.variable - variable
+#       ^^^ meta.variable.shell variable.function.shell
+#          ^ - meta.variable - variable
+#           ^^^^^ meta.variable.shell variable.function.shell
+#                ^ - meta.variable - variable
+#                 ^^^^^ meta.variable.shell variable.function.shell
+#                      ^ - meta.variable - variable
+
+####################################################################
 # unset builtin                                                    #
 ####################################################################
 

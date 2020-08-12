@@ -105,6 +105,7 @@ contexts:
     - include: cmd-test
     - include: cmd-control
     - include: cmd-coproc
+    - include: cmd-unalias
     - include: cmd-unset
     - include: cmd-builtins
     - include: vardef
@@ -658,6 +659,32 @@ contexts:
     - include: boolean
     - include: number
     - include: expansions-and-strings
+
+###[ UNALIAS BUILTINS ]########################################################
+
+  cmd-unalias:
+    - match: unalias{{cmd_break}}
+      scope:
+        meta.function-call.identifier.shell
+        support.function.unalias.shell
+      push:
+        - cmd-unalias-args
+        - cmd-unalias-options
+
+  cmd-unalias-options:
+    - match: ([-+])a
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+    - include: vardef-end-of-options
+
+  cmd-unalias-args:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: cmd-args-boilerplate
+    - match: '{{variable_begin}}'
+      push: cmd-unset-functions-chars
 
 ###[ UNSET BUILTINS ]##########################################################
 

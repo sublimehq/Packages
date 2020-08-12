@@ -62,8 +62,7 @@ type:
 ulimit:
   short-options-compact: HSabcdefiklmnpqrstuvxPT
 
-unalias:
-  short-options: a
+# "unalias" is handled in the syntax def, don't put it here!
 
 eval:
   allow-end-of-options-token: false
