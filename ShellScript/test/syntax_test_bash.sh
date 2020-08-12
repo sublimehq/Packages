@@ -2190,9 +2190,10 @@ array["foo"]=bar
 #            ^^^ meta.string.shell string.unquoted.shell
 array[foo]=bar
 #^^^^ meta.variable.shell variable.other.readwrite.shell
-#    ^^^^^ meta.variable.shell meta.item-access.shell - variable
-#    ^ punctuation.section.item-access.begin.shell
-#        ^ punctuation.section.item-access.end.shell
+#    ^^^^^ meta.variable.shell meta.item-access.shell
+#    ^ punctuation.section.item-access.begin.shell - variable
+#     ^^^ variable.other.readwrite.shell
+#        ^ punctuation.section.item-access.end.shell - variable
 #         ^ keyword.operator.assignment.shell
 #          ^^^ meta.string.shell string.unquoted.shell
 
@@ -3364,9 +3365,13 @@ true false
 ####################################################################
 
 (( a=b, a*=b, a/=b, a%=b, a+=b, a-=b, a<<=b, a>>=b, a&=b, a^=b, a|=b ))
+#  ^ variable.other.readwrite.shell
 #   ^ keyword.operator.assignment.shell
+#    ^ variable.other.readwrite.shell
 #     ^ meta.arithmetic punctuation.separator
+#       ^ variable.other.readwrite.shell
 #        ^^ keyword.operator.assignment.augmented.shell
+#          ^ variable.other.readwrite.shell
 #           ^ meta.arithmetic punctuation.separator
 #              ^^ keyword.operator.assignment.augmented.shell
 #                ^ meta.arithmetic
@@ -4549,6 +4554,19 @@ done
 #                                ^^^^ keyword.control.loop.end.shell
 #                                    ^ punctuation.section.interpolation.end.shell
 
+for domain in $domains; do echo $domain; done
+# <- keyword.control.loop.for.shell
+#^^ keyword.control.loop.for.shell
+#   ^^^^^^ variable.other.readwrite.shell - keyword
+#          ^^ keyword.control.in.shell
+#             ^^^^^^^^ variable.other.readwrite.shell
+#                     ^ punctuation.terminator.statement.shell
+#                       ^^ keyword.control.loop.do.shell
+#                          ^^^^ meta.function-call.identifier.shell support.function.echo.shell
+#                              ^^^^^^^^ meta.function-call.arguments.shell
+#                               ^^^^^^^ variable.other.readwrite.shell
+#                                      ^ punctuation.terminator.statement.shell
+#                                        ^^^^ keyword.control.loop.end.shell
 
 ####################################################################
 # Here documents                                                   #

@@ -627,11 +627,11 @@ contexts:
       scope: keyword.operator.logical.shell
     - match: '='
       scope: keyword.operator.assignment.shell
-    - include: arrays-item-access
     - include: booleans
     - include: numbers
     - include: strings
     - include: expansions-variables
+    - include: variables
     - include: line-continuations
 
   cmd-test-pattern:
@@ -959,11 +959,13 @@ contexts:
     - include: cmd-arithmetic
     - match: in{{cmd_break}}
       scope: keyword.control.in.shell
+    - include: variables
 
   select-args:
     - include: cmd-args-boilerplate
     - match: in{{cmd_break}}
       scope: keyword.control.in.shell
+    - include: variables
 
 ###[ REDIRECTIONS AND HEREDOCS ]###############################################
 
@@ -1221,11 +1223,11 @@ contexts:
     # before the expression is evaluated. Within an expression, shell variables
     # may also be referenced by name without using the parameter expansion
     # syntax.
-    - include: arrays-item-access
     - include: booleans
     - include: numbers
     - include: strings
     - include: expansions-variables
+    - include: variables
     - include: line-continuations
 
   booleans:
@@ -1285,6 +1287,10 @@ contexts:
         1: keyword.operator.arithmetic.shell
         2: meta.number.value.shell constant.numeric.integer.decimal.shell
       pop: 1
+
+  variables:
+    - match: (?={{identifier_first_char}})
+      push: [vardef-item-access, vardef-name-chars]
 
 ###[ OPERATORS ]###############################################################
 
