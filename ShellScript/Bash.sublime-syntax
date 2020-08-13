@@ -111,7 +111,7 @@ contexts:
     - include: cmd-declare
     - include: cmd-export
     - include: cmd-readonly
-    - include: vardef
+    - include: def-variables
     - include: funcdef
     - include: booleans
     - include: cmd-basic
@@ -259,21 +259,37 @@ contexts:
 
 ###[ VARIABLE DEFINITIONS ]####################################################
 
-  vardef:
+  def-variables:
     - match: '{{is_variable}}'
       push:
-        - vardef-assignment
+        - variable-value-assignment
         - variable-item-access
         - variable-other-chars
 
-  vardef-assignment:
-    - match: '{{varassign}}'
-      scope: keyword.operator.assignment.shell
-      set: vardef-value
+  variables:
+    - match: (?={{identifier_first_char}})
+      push: [variable-item-access, variable-other-chars]
+
+  variable-other-chars:
+    - match: '{{identifier_char}}+'
+      scope: variable.other.readwrite.shell
+    - include: variable-other-expansions
+    - include: immediately-pop
+
+  variable-item-access:
+    - meta_scope: meta.variable.shell
+    - include: arrays-item-access
     - include: line-continuations
     - include: immediately-pop
 
-  vardef-value:
+  variable-value-assignment:
+    - match: '{{varassign}}'
+      scope: keyword.operator.assignment.shell
+      set: variable-value
+    - include: line-continuations
+    - include: immediately-pop
+
+  variable-value:
     - match: \(
       scope: punctuation.section.sequence.begin.shell
       set:
@@ -287,12 +303,12 @@ contexts:
             - meta_scope: meta.brackets.shell
             - match: \]
               scope: punctuation.section.brackets.end.shell
-              set: vardef-assignment
+              set: variable-value-assignment
             - include: expansions-and-strings
             - include: comments
         - include: comments
         - match: (?=\S)
-          push: vardef-value
+          push: variable-value
     - include: line-continuations
     - include: boolean
     - include: number
@@ -506,7 +522,7 @@ contexts:
     - include: cmd-args-boilerplate
     - match: '{{variable_begin}}'
       push:
-        - vardef-assignment
+        - variable-value-assignment
         - variable-item-access
         - variable-other-chars
 
@@ -579,7 +595,7 @@ contexts:
     - include: cmd-args-boilerplate
     - match: '{{variable_begin}}'
       push:
-        - vardef-assignment
+        - variable-value-assignment
         - variable-item-access
         - variable-other-chars
 
@@ -652,7 +668,7 @@ contexts:
     - include: cmd-args-boilerplate
     - match: '{{variable_begin}}'
       push:
-        - vardef-assignment
+        - variable-value-assignment
         - variable-item-access
         - variable-other-chars
 
@@ -952,7 +968,7 @@ contexts:
   cmd-args-option-assignment:
     - match: =
       scope: keyword.operator.assignment.shell
-      set: vardef-value
+      set: variable-value
 
   cmd-args-option-maybe-value:
     # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
@@ -961,7 +977,7 @@ contexts:
 
   cmd-args-option-value:
     - match: \s+(?=[^-\]}{{metachar}}]|\\\n)
-      set: vardef-value
+      set: variable-value
     - include: number
 
   cmd-args-boilerplate:
@@ -1388,6 +1404,8 @@ contexts:
     - include: variables
     - include: line-continuations
 
+###[ CONSTANTS ]###############################################################
+
   booleans:
     - match: (?:true|false)\b
       scope: constant.language.boolean.shell
@@ -1445,22 +1463,6 @@ contexts:
         1: keyword.operator.arithmetic.shell
         2: meta.number.value.shell constant.numeric.integer.decimal.shell
       pop: 1
-
-  variables:
-    - match: (?={{identifier_first_char}})
-      push: [variable-item-access, variable-other-chars]
-
-  variable-other-chars:
-    - match: '{{identifier_char}}+'
-      scope: variable.other.readwrite.shell
-    - include: variable-other-expansions
-    - include: immediately-pop
-
-  variable-item-access:
-    - meta_scope: meta.variable.shell
-    - include: arrays-item-access
-    - include: line-continuations
-    - include: immediately-pop
 
 ###[ OPERATORS ]###############################################################
 
