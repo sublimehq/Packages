@@ -108,6 +108,7 @@ contexts:
     - include: cmd-unalias
     - include: cmd-unset
     - include: cmd-builtins
+    - include: cmd-declare
     - include: vardef
     - include: funcdef
     - include: booleans
@@ -257,13 +258,6 @@ contexts:
 ###[ VARIABLE DEFINITIONS ]####################################################
 
   vardef:
-    - match: (typeset|declare|local){{cmd_break}}
-      scope:
-        meta.function-call.identifier.shell
-        storage.modifier.shell
-      push:
-        - vardef-common-args
-        - vardef-declare-options
     - match: export{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
@@ -283,15 +277,6 @@ contexts:
         - vardef-assignment
         - variable-item-access
         - variable-other-chars
-
-  vardef-declare-options:
-    - match: ([-+])(?:[aAfFgilnrtux]+|p)
-      scope:
-        meta.parameter.option.shell
-        variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
-    - include: vardef-end-of-options
 
   vardef-export-options:
     - match: ([-+])(?:[fn]+|p)
@@ -499,6 +484,79 @@ contexts:
         punctuation.section.compound.end.shell
       set: cmd-compound-args
     - include: statements
+
+###[ DECLARE BUILTINS ]########################################################
+
+  cmd-declare:
+    - match: (declare|local|typeset){{cmd_break}}
+      scope:
+        meta.function-call.identifier.shell
+        storage.modifier.shell
+      push:
+        - cmd-declare-args-meta
+        - cmd-declare-args
+
+  cmd-declare-args-meta:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: immediately-pop
+
+  cmd-declare-args:
+    - match: ([-+])[aAFfgilnrtux]*[Ff][aAFfgilnrtux]*
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+      set: cmd-declare-options-then-functions
+    - include: cmd-declare-options-then-variables
+
+  cmd-declare-options:
+    - match: ([-+])(?:[aAgilnrtux]+|p)
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+    - match: (--|[-+]){{identifier}}
+      scope: invalid.illegal.parameter.shell
+
+  cmd-declare-options-then-functions:
+    - include: cmd-declare-options
+    - match: --{{cmd_break}}
+      scope: keyword.operator.end-of-options.shell
+      set: cmd-declare-functions
+    - match: (?=\S)
+      set: cmd-declare-functions
+    - include: eol-pop
+
+  cmd-declare-functions:
+    - include: cmd-args-boilerplate
+    - match: '{{cmd_begin}}'
+      push: cmd-declare-functions-chars
+
+  cmd-declare-functions-chars:
+    - meta_scope: meta.function.identifier.shell
+    - match: '{{identifier_char}}+'
+      scope: entity.name.function.shell
+    - include: entity-function-expansions
+    - include: immediately-pop
+
+  cmd-declare-options-then-variables:
+    - include: cmd-declare-options
+    - match: --{{cmd_break}}
+      scope: keyword.operator.end-of-options.shell
+      set: cmd-declare-variables
+    - match: (?=\S)
+      set: cmd-declare-variables
+    - include: eol-pop
+
+  cmd-declare-variables:
+    - include: cmd-args-boilerplate
+    - match: '{{variable_begin}}'
+      push:
+        - vardef-assignment
+        - variable-item-access
+        - variable-other-chars
 
 ###[ SUDO BUILTINS ]###########################################################
 

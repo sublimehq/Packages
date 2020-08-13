@@ -1386,7 +1386,7 @@ declare -f _init_completion > /dev/null && complete -F _upto upto
 #                                                                ^ - meta.function
 #^^^^^^ storage.modifier.shell
 #       ^^ variable.parameter.option.shell
-#          ^^^^^^^^^^^^^^^^ meta.variable.shell variable.other.readwrite.shell
+#          ^^^^^^^^^^^^^^^^ meta.function.identifier.shell entity.name.function.shell
 #                           ^ keyword.operator.assignment.redirection.shell
 #                                       ^^ keyword.operator.logical.shell
 #                                          ^^^^^^^^ variable.function.shell
@@ -1545,6 +1545,13 @@ local pid="$(cat "$PIDFILE" 2>/dev/null)"
 #        ^ keyword.operator.assignment.shell
 #         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell
 
+local -fn foo
+# <- meta.function-call.identifier.shell storage.modifier.shell
+#^^^^ meta.function-call.identifier.shell storage.modifier.shell
+#    ^^^^^^^^ meta.function-call.arguments.shell
+#     ^^^ meta.parameter.option.shell variable.parameter.option.shell
+#         ^^^ meta.function.identifier.shell entity.name.function.shell
+
 f() {
     local -a "$@"
     # <- storage.modifier.shell
@@ -1629,7 +1636,7 @@ typeset -f _init_completion > /dev/null && complete -F _upto upto
 #                                                                ^ - meta.function
 #^^^^^^ storage.modifier.shell
 #       ^^ variable.parameter.option.shell
-#          ^^^^^^^^^^^^^^^^ meta.variable.shell variable.other.readwrite.shell
+#          ^^^^^^^^^^^^^^^^ meta.function.identifier.shell entity.name.function.shell
 #                           ^ keyword.operator.assignment.redirection.shell
 #                                       ^^ keyword.operator.logical.shell
 #                                          ^^^^^^^^ variable.function.shell
