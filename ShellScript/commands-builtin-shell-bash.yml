@@ -102,6 +102,7 @@ trap:
 
 umask:
   short-options: pS
+  allow-numeric-args: true
 
 # "unset" is handled in the syntax def, don't put it here!
 

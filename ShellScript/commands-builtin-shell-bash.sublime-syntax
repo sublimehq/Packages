@@ -300,6 +300,7 @@ contexts:
     captures:
       1: punctuation.definition.parameter.shell
     push: cmd-args-option-maybe-value
+  - include: numbers
   cmd-echo-args:
   - meta_content_scope: meta.function-call.arguments.shell
   - include: cmd-args-boilerplate-with-end-of-options
