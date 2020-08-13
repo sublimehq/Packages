@@ -953,7 +953,9 @@ contexts:
   case-body:
     - meta_scope: meta.conditional.case.shell
     - include: comments
-    - include: case-end
+    - match: esac{{cmd_break}}
+      scope: keyword.control.conditional.end.shell
+      pop: 1
     - match: \(|(?=\S)
       scope: keyword.control.conditional.patterns.begin.shell
       push:
@@ -998,11 +1000,6 @@ contexts:
 
   case-end-ahead:
     - match: (?=esac{{cmd_break}})
-      pop: 1
-
-  case-end:
-    - match: esac{{cmd_break}}
-      scope: keyword.control.conditional.end.shell
       pop: 1
 
   flow-args:
