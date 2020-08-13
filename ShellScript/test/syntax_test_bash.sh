@@ -272,10 +272,13 @@ echo git rev-list "$(echo --all)" | grep -P 'c354a80'
 #                               ^ meta.string.shell - meta.interpolation
 #                 ^ string.quoted.double.shell punctuation.definition.string.begin.shell
 #                  ^^ punctuation.section.interpolation.begin.shell
+#                    ^^^^ support.function.echo.shell
+#                         ^^^^^ - variable
 #                              ^ punctuation.section.interpolation.end.shell
 #                               ^ string.quoted.double.shell punctuation.definition.string.end.shell
 #                                 ^ keyword.operator.assignment.pipe.shell
 #                                   ^^^^ variable.function.shell
+#                                        ^^ variable.parameter.option.shell
 #                                           ^^^^^^^^^ meta.string.shell string.quoted.single.shell
 
 ' echo '
@@ -420,6 +423,11 @@ shift 2 --
 #    ^^^^^^ meta.function-call.arguments.shell
 #     ^ constant.numeric.integer.decimal.shell
 #       ^^ - keyword
+
+umask 0777
+#^^^^ meta.function-call.identifier.shell support.function.umask.shell
+#    ^^^^^ meta.function-call.arguments.shell
+#     ^^^^ constant.numeric.integer.octal.shell
 
 echo +e "Hello"
 #    ^ variable.parameter.option punctuation
