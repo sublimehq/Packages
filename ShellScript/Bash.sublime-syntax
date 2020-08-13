@@ -109,6 +109,7 @@ contexts:
     - include: cmd-unset
     - include: cmd-builtins
     - include: cmd-declare
+    - include: cmd-export
     - include: vardef
     - include: funcdef
     - include: booleans
@@ -258,13 +259,6 @@ contexts:
 ###[ VARIABLE DEFINITIONS ]####################################################
 
   vardef:
-    - match: export{{cmd_break}}
-      scope:
-        meta.function-call.identifier.shell
-        storage.modifier.shell
-      push:
-        - vardef-common-args
-        - vardef-export-options
     - match: readonly{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
@@ -277,15 +271,6 @@ contexts:
         - vardef-assignment
         - variable-item-access
         - variable-other-chars
-
-  vardef-export-options:
-    - match: ([-+])(?:[fn]+|p)
-      scope:
-        meta.parameter.option.shell
-        variable.parameter.option.shell
-      captures:
-        1: punctuation.definition.parameter.shell
-    - include: vardef-end-of-options
 
   vardef-readonly-options:
     - match: ([-+])(?:[aAf]+|p)
@@ -551,6 +536,79 @@ contexts:
     - include: eol-pop
 
   cmd-declare-variables:
+    - include: cmd-args-boilerplate
+    - match: '{{variable_begin}}'
+      push:
+        - vardef-assignment
+        - variable-item-access
+        - variable-other-chars
+
+###[ EXPORT BUILTINS ]#########################################################
+
+  cmd-export:
+    - match: export{{cmd_break}}
+      scope:
+        meta.function-call.identifier.shell
+        storage.modifier.shell
+      push:
+        - cmd-export-args-meta
+        - cmd-export-args
+
+  cmd-export-args-meta:
+    - meta_content_scope: meta.function-call.arguments.shell
+    - include: immediately-pop
+
+  cmd-export-args:
+    - match: ([-+])[fn]*f[fn]*
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+      set: cmd-export-options-then-functions
+    - include: cmd-export-options-then-variables
+
+  cmd-export-options:
+    - match: ([-+])(?:[fn]+|p)
+      scope:
+        meta.parameter.option.shell
+        variable.parameter.option.shell
+      captures:
+        1: punctuation.definition.parameter.shell
+    - match: (--|[-+]){{identifier}}
+      scope: invalid.illegal.parameter.shell
+
+  cmd-export-options-then-functions:
+    - include: cmd-export-options
+    - match: --{{cmd_break}}
+      scope: keyword.operator.end-of-options.shell
+      set: cmd-export-functions
+    - match: (?=\S)
+      set: cmd-export-functions
+    - include: eol-pop
+
+  cmd-export-functions:
+    - include: cmd-args-boilerplate
+    - match: '{{cmd_begin}}'
+      push: cmd-export-functions-chars
+
+  cmd-export-functions-chars:
+    - meta_scope: meta.function.identifier.shell
+    - match: '{{identifier_char}}+'
+      scope: entity.name.function.shell
+    - include: entity-function-expansions
+    - include: immediately-pop
+
+  cmd-export-options-then-variables:
+    - include: cmd-export-options
+    - match: --{{cmd_break}}
+      scope: keyword.operator.end-of-options.shell
+      set: cmd-export-variables
+    - match: (?=\S)
+      set: cmd-export-variables
+    - include: eol-pop
+
+  cmd-export-variables:
     - include: cmd-args-boilerplate
     - match: '{{variable_begin}}'
       push:

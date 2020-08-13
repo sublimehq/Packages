@@ -1460,6 +1460,13 @@ export PGPASSWORD=$(cat "$DOKKU_ROOT/.postgresql/pwd_$APP")
 #                   ^^^ variable.function.shell
 #                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.command.shell meta.string.shell
 
+export -f foo
+# <- meta.function-call.identifier.shell storage.modifier.shell
+#^^^^^ meta.function-call.identifier.shell storage.modifier.shell
+#     ^^^^^^^ meta.function-call.arguments.shell
+#      ^^ meta.parameter.option.shell variable.parameter.option.shell
+#         ^^^ meta.function.identifier.shell entity.name.function.shell
+
 ####################################################################
 # local builtin                                                    #
 ####################################################################
