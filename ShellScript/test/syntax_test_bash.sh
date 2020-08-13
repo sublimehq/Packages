@@ -1608,6 +1608,18 @@ readonly foo        # 'foo' is a variable name
 #        ^^^ variable.other.readwrite
 #           ^ - variable
 
+readonly -f foo     # 'foo' is a variable name
+# <- meta.function-call.identifier.shell storage.modifier.shell
+#^^^^^^^ meta.function-call.identifier.shell
+#       ^^^^^^^ meta.function-call.arguments.shell
+#              ^ - meta.function-call
+#^^^^^^^ storage.modifier.shell
+#       ^ - storage - variable
+#        ^^ meta.parameter.option.shell variable.parameter.option.shell
+#          ^ - variable
+#           ^^^ meta.function.identifier.shell entity.name.function.shell
+#              ^ - variable
+
 foo=`readonly x=5`
 # <- variable.other.readwrite
 #   ^ meta.interpolation.command.shell punctuation.section.interpolation.begin.shell
