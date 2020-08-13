@@ -1238,20 +1238,20 @@ alias foo=bar
 #^^^^ meta.function-call.identifier.shell
 #    ^^^^^^^^ meta.function-call.arguments.shell
 #            ^ - meta.function-call
-#     ^^^ meta.alias.identifier.shell entity.name.function.shell
-#        ^ meta.alias.shell keyword.operator.assignment.shell
-#         ^^^ meta.alias.value.shell meta.string.shell string.unquoted.shell
+#     ^^^ meta.variable.shell entity.name.function.shell
+#        ^ keyword.operator.assignment.shell
+#         ^^^ meta.string.shell string.unquoted.shell
 
 alias f'o'o=bar
 # <- meta.function-call.identifier.shell support.function.alias.shell
 #^^^^ meta.function-call.identifier.shell
 #    ^^^^^^^^^^ meta.function-call.arguments.shell
 #              ^ - meta.function-call
-#     ^^^^^ meta.alias.identifier.shell entity.name.function.shell
+#     ^^^^^ meta.variable.shell entity.name.function.shell
 #      ^ punctuation.definition.string.begin.shell
 #        ^ punctuation.definition.string.end.shell
-#          ^ meta.alias.shell keyword.operator.assignment.shell
-#           ^^^ meta.alias.value.shell meta.string.shell string.unquoted.shell
+#          ^ keyword.operator.assignment.shell
+#           ^^^ meta.string.shell string.unquoted.shell
 
 alias -p foo=bar 7za=qux
 # <- meta.function-call.identifier.shell support.function.alias.shell
@@ -1259,12 +1259,12 @@ alias -p foo=bar 7za=qux
 #    ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                       ^ - meta.function-call
 #     ^^ meta.parameter.option.shell variable.parameter.option.shell
-#        ^^^ meta.alias.identifier.shell entity.name.function.shell
-#           ^ meta.alias.shell keyword.operator.assignment.shell
-#            ^^^ meta.alias.value.shell meta.string.shell string.unquoted.shell
-#                ^^^ meta.alias.identifier.shell entity.name.function.shell
-#                   ^ meta.alias.shell keyword.operator.assignment.shell
-#                    ^^^ meta.alias.value.shell meta.string.shell string.unquoted.shell
+#        ^^^ meta.variable.shell entity.name.function.shell
+#           ^ keyword.operator.assignment.shell
+#            ^^^ meta.string.shell string.unquoted.shell
+#                ^^^ meta.variable.shell entity.name.function.shell
+#                   ^ keyword.operator.assignment.shell
+#                    ^^^ meta.string.shell string.unquoted.shell
 
 alias -a -p -- foo=bar baz=qux
 # <- meta.function-call.identifier.shell support.function.alias.shell
@@ -1274,12 +1274,12 @@ alias -a -p -- foo=bar baz=qux
 #     ^^ invalid.illegal.parameter.shell
 #        ^^ meta.parameter.option.shell variable.parameter.option.shell
 #           ^^ keyword.operator.end-of-options.shell
-#              ^^^ meta.alias.identifier.shell entity.name.function.shell
-#                 ^ meta.alias.shell keyword.operator.assignment.shell
-#                  ^^^ meta.alias.value.shell meta.string.shell string.unquoted.shell
-#                      ^^^ meta.alias.identifier.shell entity.name.function.shell
-#                         ^ meta.alias.shell keyword.operator.assignment.shell
-#                          ^^^ meta.alias.value.shell meta.string.shell string.unquoted.shell
+#              ^^^ meta.variable.shell entity.name.function.shell
+#                 ^ keyword.operator.assignment.shell
+#                  ^^^ meta.string.shell string.unquoted.shell
+#                      ^^^ meta.variable.shell entity.name.function.shell
+#                         ^ keyword.operator.assignment.shell
+#                          ^^^ meta.string.shell string.unquoted.shell
 
 
 ####################################################################
@@ -1386,7 +1386,7 @@ declare -f _init_completion > /dev/null && complete -F _upto upto
 #                                                                ^ - meta.function
 #^^^^^^ storage.modifier.shell
 #       ^^ variable.parameter.option.shell
-#          ^^^^^^^^^^^^^^^^ meta.function.identifier.shell entity.name.function.shell
+#          ^^^^^^^^^^^^^^^^ meta.variable.shell entity.name.function.shell
 #                           ^ keyword.operator.assignment.redirection.shell
 #                                       ^^ keyword.operator.logical.shell
 #                                          ^^^^^^^^ variable.function.shell
@@ -1465,7 +1465,7 @@ export -f foo
 #^^^^^ meta.function-call.identifier.shell storage.modifier.shell
 #     ^^^^^^^ meta.function-call.arguments.shell
 #      ^^ meta.parameter.option.shell variable.parameter.option.shell
-#         ^^^ meta.function.identifier.shell entity.name.function.shell
+#         ^^^ meta.variable.shell entity.name.function.shell
 
 ####################################################################
 # local builtin                                                    #
@@ -1557,7 +1557,7 @@ local -fn foo
 #^^^^ meta.function-call.identifier.shell storage.modifier.shell
 #    ^^^^^^^^ meta.function-call.arguments.shell
 #     ^^^ meta.parameter.option.shell variable.parameter.option.shell
-#         ^^^ meta.function.identifier.shell entity.name.function.shell
+#         ^^^ meta.variable.shell entity.name.function.shell
 
 f() {
     local -a "$@"
@@ -1617,7 +1617,7 @@ readonly -f foo     # 'foo' is a variable name
 #       ^ - storage - variable
 #        ^^ meta.parameter.option.shell variable.parameter.option.shell
 #          ^ - variable
-#           ^^^ meta.function.identifier.shell entity.name.function.shell
+#           ^^^ meta.variable.shell entity.name.function.shell
 #              ^ - variable
 
 foo=`readonly x=5`
@@ -1655,7 +1655,7 @@ typeset -f _init_completion > /dev/null && complete -F _upto upto
 #                                                                ^ - meta.function
 #^^^^^^ storage.modifier.shell
 #       ^^ variable.parameter.option.shell
-#          ^^^^^^^^^^^^^^^^ meta.function.identifier.shell entity.name.function.shell
+#          ^^^^^^^^^^^^^^^^ meta.variable.shell entity.name.function.shell
 #                           ^ keyword.operator.assignment.redirection.shell
 #                                       ^^ keyword.operator.logical.shell
 #                                          ^^^^^^^^ variable.function.shell
@@ -1777,7 +1777,7 @@ unalias foo
 #      ^^^^ meta.function-call.arguments.shell
 #          ^ - meta.function
 #      ^ - meta.variable - variable
-#       ^^^ variable.function.shell
+#       ^^^ entity.name.function.shell
 #          ^ - meta.variable - variable
 
 unalias foo # comment
@@ -1786,7 +1786,7 @@ unalias foo # comment
 #      ^^^^ meta.function-call.arguments.shell
 #          ^^^^^^^^^^ - meta.function
 #      ^ - meta.variable - variable
-#       ^^^ variable.function.shell
+#       ^^^ entity.name.function.shell
 #          ^ - meta.variable - variable
 #           ^^^^^^^^^^ comment.line.number-sign.shell
 
@@ -1796,13 +1796,13 @@ unalias foo b"a"r b'a'z 7za
 #      ^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                          ^ - meta.function
 #      ^ - meta.variable - variable
-#       ^^^ meta.variable.shell variable.function.shell
+#       ^^^ entity.name.function.shell
 #          ^ - meta.variable - variable
-#           ^^^^^ meta.variable.shell variable.function.shell
+#           ^^^^^ entity.name.function.shell
 #                ^ - meta.variable - variable
-#                 ^^^^^ meta.variable.shell variable.function.shell
+#                 ^^^^^ entity.name.function.shell
 #                      ^ - meta.variable - variable
-#                       ^^^ meta.variable.shell variable.function.shell
+#                       ^^^ entity.name.function.shell
 #                          ^ - meta.variable - variable
 
 
@@ -1841,7 +1841,7 @@ unset -nfv foo
 #^^^^ support.function.unset.shell
 #     ^^^^ meta.parameter.option.shell variable.parameter.option.shell
 #         ^ - variable
-#          ^^^ variable.function.shell
+#          ^^^ entity.name.function.shell
 #             ^ - variable
 
 unset -f -n -v foo b'a'r; unset -vn foo 2>& /dev/null
@@ -1852,16 +1852,16 @@ unset -f -n -v foo b'a'r; unset -vn foo 2>& /dev/null
 #                         ^^^^^ meta.function-call.identifier.shell
 #                              ^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #                                                    ^ - meta.function-call
-#                  ^ meta.variable.shell - meta.string
-#                   ^^^ meta.variable.shell meta.string.shell
-#                      ^ meta.variable.shell - meta.string
+#                  ^ - meta.string
+#                   ^^^ meta.string.shell
+#                      ^ - meta.string
 #     ^^ meta.parameter.option.shell variable.parameter.option.shell
 #        ^^ meta.parameter.option.shell variable.parameter.option.shell
 #           ^^ meta.parameter.option.shell variable.parameter.option.shell
 #             ^ - variable
-#              ^^^ meta.variable.shell variable.function.shell
+#              ^^^ entity.name.function.shell
 #                 ^ - variable
-#                  ^^^^^ meta.variable.shell variable.function.shell
+#                  ^^^^^ entity.name.function.shell
 #                       ^ punctuation.terminator.statement.shell
 #                         ^^^^^ support.function.unset.shell
 #                              ^ - support - variable
@@ -1885,9 +1885,9 @@ unset -f -x +v -- foo bar; unset -vn -- foo
 #           ^^ meta.parameter.option.shell variable.parameter.option.shell
 #             ^^^^ - variable
 #              ^^ keyword.operator.end-of-options.shell
-#                 ^^^ meta.variable.shell variable.function.shell
+#                 ^^^ entity.name.function.shell
 #                    ^ - variable
-#                     ^^^ meta.variable.shell variable.function.shell
+#                     ^^^ entity.name.function.shell
 #                        ^ punctuation.terminator.statement.shell
 #                          ^^^^^ support.function.unset.shell
 #                               ^ - support - variable
