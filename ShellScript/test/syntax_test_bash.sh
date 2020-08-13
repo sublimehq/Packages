@@ -1097,6 +1097,17 @@ function () ()
 function () {}
 # <- meta.function.identifier.shell entity.name.function.shell
 
+function 7zip {
+# <- meta.function.shell storage.type.function.shell keyword.declaration.function.shell
+#^^^^^^^ meta.function.shell storage.type.function.shell keyword.declaration.function.shell
+#       ^^^^^^ meta.function.identifier.shell
+#        ^^^^ entity.name.function.shell
+}
+# <- meta.function.shell meta.compound.shell punctuation.section.compound.end.shell
+7zip
+# <- meta.function-call.identifier.shell variable.function.shell
+#^^^ meta.function-call.identifier.shell variable.function.shell
+
 function [] () {
 #<- meta.function.shell storage.type.function.shell keyword.declaration.function.shell
 #^^^^^^^ meta.function.shell
@@ -1292,7 +1303,7 @@ alias f'o'o=bar
 #          ^ meta.alias.shell keyword.operator.assignment.shell
 #           ^^^ meta.alias.value.shell meta.string.shell string.unquoted.shell
 
-alias -p foo=bar baz=qux
+alias -p foo=bar 7za=qux
 # <- meta.function-call.identifier.shell support.function.alias.shell
 #^^^^ meta.function-call.identifier.shell
 #    ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
@@ -1748,11 +1759,11 @@ unalias foo # comment
 #          ^ - meta.variable - variable
 #           ^^^^^^^^^^ comment.line.number-sign.shell
 
-unalias foo b"a"r b'a'z
+unalias foo b"a"r b'a'z 7za
 # <- meta.function-call.identifier.shell support.function.unalias.shell
 #^^^^^^ meta.function-call.identifier.shell support.function.unalias.shell
-#      ^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#                      ^ - meta.function
+#      ^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                          ^ - meta.function
 #      ^ - meta.variable - variable
 #       ^^^ meta.variable.shell variable.function.shell
 #          ^ - meta.variable - variable
@@ -1760,6 +1771,9 @@ unalias foo b"a"r b'a'z
 #                ^ - meta.variable - variable
 #                 ^^^^^ meta.variable.shell variable.function.shell
 #                      ^ - meta.variable - variable
+#                       ^^^ meta.variable.shell variable.function.shell
+#                          ^ - meta.variable - variable
+
 
 ####################################################################
 # unset builtin                                                    #
@@ -2100,6 +2114,10 @@ my-var=20
 # <- variable.other.readwrite.shell
 #^ variable.other.readwrite.shell
 # ^^^^^^^ - variable.other
+
+5var=20
+# <- - variable.other
+#^^^^^^ - variable.other
 
 (foo=bar)
 # <- meta.compound.shell punctuation.section.compound.begin.shell
