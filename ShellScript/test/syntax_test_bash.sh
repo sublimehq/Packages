@@ -885,65 +885,15 @@ logExit ( ) {
 # <- meta.function.shell meta.compound.shell punctuation.section.compound.end.shell
 #^ - meta.function
 
-function connect_to_db() {
-#^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
-# <- meta.function.shell storage.type.function.shell keyword.declaration.function.shell
-#^^^^^^^ meta.function.shell
-#       ^^^^^^^^^^^^^^ meta.function.identifier.shell
-#                     ^^ meta.function.parameters.shell
-#                       ^ meta.function.shell - meta.compound
-#                        ^^ meta.function.shell meta.compound.shell
-#^^^^^^^ storage.type.function.shell keyword.declaration.function.shell
-#       ^ - entity - keyword - storage
-#        ^^^^^^^^^^^^^ entity.name.function.shell
-#                     ^ punctuation.section.parameters.begin.shell
-#                      ^ punctuation.section.parameters.end.shell
-#                        ^ punctuation.section.compound.begin.shell
-
-    export PGPASSWORD=$(cat "$DOKKU_ROOT/.postgresql/pwd_$APP")
-    # <- meta.function storage.modifier
-    #      ^^^^^^^^^^ meta.function variable.other.readwrite
-    #                ^ meta.function keyword.operator.assignment
-    #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
-    IP=$(get_postgresql_ip)
-    # <- meta.function variable.other.readwrite
-    # ^ meta.function keyword.operator.assignment
-    #  ^^ meta.function meta.string meta.interpolation punctuation.section.interpolation.begin.shell
-    #    ^^^^^^^^^^^^^^^^^ meta.function meta.string meta.interpolation meta.function-call variable.function
-    #                     ^ meta.function meta.string meta.interpolation punctuation.section.interpolation.end.shell
-    PORT=$(get_postgresql_port)
-    # <- meta.function variable.other.readwrite
-    #   ^ meta.function keyword.operator.assignment
-    #    ^^ meta.function meta.string meta.interpolation punctuation.section.interpolation.begin.shell
-    #      ^^^^^^^^^^^^^^^^^^^ meta.function meta.string meta.interpolation meta.function-call variable.function
-    #                         ^ meta.function meta.string meta.interpolation punctuation.section.interpolation.end.shell
-
-    psql -h $IP -p $PORT -U root db
-}
-# <- meta.function.shell meta.compound.shell punctuation.section.compound.end.shell
-#^ - meta.function
-
-# <- - meta.function
-
 logExit $? $WEIRD
-# <- meta.function-call.identifier.shell variable.function
-#       ^ meta.function-call.arguments punctuation.definition.variable
-#        ^ meta.function-call.arguments variable.language
-#          ^ meta.function-call.arguments punctuation.definition.variable
-#           ^^^^^ meta.function-call.arguments variable.other.readwrite
-
-declare -f _init_completion > /dev/null && complete -F _upto upto
-# <- storage.modifier
-#       ^ variable.parameter punctuation
-#        ^ variable.parameter
-#                           ^ keyword.operator.assignment.redirection
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
-typeset -f _init_completion > /dev/null && complete -F _upto upto
-# <- storage.modifier
-#       ^ variable.parameter punctuation
-#        ^ variable.parameter
-#                           ^ keyword.operator.assignment.redirection
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call
+# <- meta.function-call.identifier.shell variable.function.shell
+#^^^^^^ meta.function-call.identifier.shell variable.function.shell
+#      ^^^^^^^^^^ meta.function-call.arguments.shell
+#      ^ - meta.interpolation - variable
+#       ^^ meta.interpolation.parameter.shell variable.language.shell
+#         ^ - meta.interpolation - variable
+#          ^^^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                ^ - meta.function-call - meta.interpolation - variable
 
 function foo
 #^^^^^^^^^^^^ - meta.function meta.function
@@ -1426,6 +1376,23 @@ declare -a owners=(
 #           ^^^^^ meta.string.shell string.unquoted.shell
 )
 
+declare -f _init_completion > /dev/null && complete -F _upto upto
+# <- meta.function-call.identifier.shell storage.modifier.shell
+#^^^^^^ meta.function-call.identifier.shell 
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                                      ^^^^ - meta.function
+#                                          ^^^^^^^^ meta.function-call.identifier.shell
+#                                                  ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                                                                ^ - meta.function
+#^^^^^^ storage.modifier.shell
+#       ^^ variable.parameter.option.shell
+#          ^^^^^^^^^^^^^^^^ meta.variable.shell variable.other.readwrite.shell
+#                           ^ keyword.operator.assignment.redirection.shell
+#                                       ^^ keyword.operator.logical.shell
+#                                          ^^^^^^^^ variable.function.shell
+#                                                   ^^ variable.parameter.option.shell
+#                                                      ^^^^^^^^^^ meta.function-call.arguments.shell
+
 printFunction "$variableString1" "$(declare -p variableArray)"
 #             ^ meta.string string.quoted.double punctuation.definition.string.begin
 #              ^^^^^^^^^^^^^^^^ meta.string meta.interpolation.parameter.shell - string
@@ -1482,6 +1449,16 @@ export foo='bar'    # 'foo' is a variable name
 #          ^ punctuation.definition.string.begin
 #              ^ punctuation.definition.string.end
 
+export PGPASSWORD=$(cat "$DOKKU_ROOT/.postgresql/pwd_$APP")
+# <- meta.function-call.identifier.shell storage.modifier.shell
+#^^^^^ meta.function-call.identifier.shell storage.modifier.shell
+#     ^^^^^^^^^^^^ meta.function-call.arguments.shell - meta.string - meta.interpolation
+#                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell meta.interpolation.command.shell
+#      ^^^^^^^^^^ meta.variable.shell variable.other.readwrite.shell
+#                ^ keyword.operator.assignment.shell
+#                 ^^ punctuation.section.interpolation.begin.shell
+#                   ^^^ variable.function.shell
+#                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.command.shell meta.string.shell
 
 ####################################################################
 # local builtin                                                    #
@@ -1548,6 +1525,17 @@ local foo bar='baz' # 'foo' and 'bar' are variable names
 #             ^^^^^ meta.string.shell string.quoted.single.shell
 #                  ^ - comment - string
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
+local foo+=10 bar-=true
+# <- meta.function-call.identifier.shell storage.modifier.shell
+#^^^^ meta.function-call.identifier.shell storage.modifier.shell
+#    ^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#     ^^^ meta.variable.shell variable.other.readwrite.shell
+#        ^^ keyword.operator.assignment.shell
+#          ^^ constant.numeric.integer.decimal.shell
+#             ^^^ meta.variable.shell variable.other.readwrite.shell
+#                ^^ keyword.operator.assignment.shell
+#                  ^^^^ constant.language.boolean.shell
 
 local pid="$(cat "$PIDFILE" 2>/dev/null)"
 # <- meta.function-call.identifier.shell storage.modifier.shell
@@ -1630,6 +1618,23 @@ typeset foo         # 'foo' is a variable name
 #       ^^^ variable.other.readwrite
 #          ^ - variable
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
+
+typeset -f _init_completion > /dev/null && complete -F _upto upto
+# <- meta.function-call.identifier.shell storage.modifier.shell
+#^^^^^^ meta.function-call.identifier.shell 
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                                      ^^^^ - meta.function
+#                                          ^^^^^^^^ meta.function-call.identifier.shell
+#                                                  ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#                                                                ^ - meta.function
+#^^^^^^ storage.modifier.shell
+#       ^^ variable.parameter.option.shell
+#          ^^^^^^^^^^^^^^^^ meta.variable.shell variable.other.readwrite.shell
+#                           ^ keyword.operator.assignment.redirection.shell
+#                                       ^^ keyword.operator.logical.shell
+#                                          ^^^^^^^^ variable.function.shell
+#                                                   ^^ variable.parameter.option.shell
+#                                                      ^^^^^^^^^^ meta.function-call.arguments.shell
 
 
 ####################################################################
