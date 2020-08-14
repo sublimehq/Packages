@@ -11,6 +11,7 @@ extends: Packages/ShellScript/commands-builtin-shell-bash.sublime-syntax
 file_extensions:
   - sh
   - bash
+  - bashrc    # e.g.: /etc/bash.bashrc
   - ash
   - zsh
 
