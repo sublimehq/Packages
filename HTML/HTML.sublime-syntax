@@ -505,6 +505,9 @@ contexts:
     - include: tag-href-attribute
     - include: tag-generic-attribute
 
+  tag-attribute-value-content:
+    - include: entities
+
   tag-attribute-value-separator:
     - match: (?=[{{ascii_space}}])
       push:
@@ -572,7 +575,7 @@ contexts:
     - include: tag-attribute-value-unquoted-invalid-char
 
   tag-class-attribute-value-content:
-    - include: tag-generic-attribute-value-content
+    - include: tag-attribute-value-content
 
 ###[ EVENT ATTRIBUTE ]########################################################
 
@@ -678,7 +681,7 @@ contexts:
     - include: tag-attribute-value-unquoted-invalid-char
 
   tag-generic-attribute-value-content:
-    - include: entities
+    - include: tag-attribute-value-content
 
 ###[ HREF ATTRIBUTE ]#########################################################
 
@@ -734,7 +737,7 @@ contexts:
       scope: constant.character.escape.url.html
       captures:
         1: punctuation.definition.escape.html
-    - include: tag-generic-attribute-value-content
+    - include: tag-attribute-value-content
 
 ###[ ID ATTRIBUTE ]###########################################################
 
@@ -789,7 +792,7 @@ contexts:
     - include: tag-attribute-value-unquoted-invalid-char
 
   tag-id-attribute-value-content:
-    - include: tag-generic-attribute-value-content
+    - include: tag-attribute-value-content
 
 ###[ STYLE ATTRIBUTE ]########################################################
 
