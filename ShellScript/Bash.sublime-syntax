@@ -85,6 +85,8 @@ variables:
   nbc: '[^{}()=\s]*' # non bracket characters (and also non-whitespace, parens)
   varassign: '[-+]?='
 
+  no_escape_behind: (?<![^\\]\\)(?<![\\]{3})
+
 ###############################################################################
 
 contexts:
@@ -360,31 +362,32 @@ contexts:
 
   cmd-arithmetic-args:
     - meta_content_scope: meta.function-call.arguments.shell
-    - match: \'
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_scope: meta.string.shell
-        - match: \'
-          scope: punctuation.definition.string.end.shell
-          pop: 1
-        - include: cmd-arithmetic-args-quoted-commen
     - match: \"
-      scope: punctuation.definition.string.begin.shell
-      push:
-        - meta_scope: meta.string.shell
-        - match: \"
-          scope: punctuation.definition.string.end.shell
-          pop: 1
-        - include: cmd-arithmetic-args-quoted-commen
+      scope:
+        meta.string.shell string.quoted.double.shell
+        punctuation.definition.string.begin.shell
+      embed: cmd-arithmetic-args-quoted-commen
+      embed_scope: meta.string.shell meta.interpolation.shell
+      escape: '{{no_escape_behind}}"'
+      escape_captures:
+        0: meta.string.shell string.quoted.double.shell
+           punctuation.definition.string.end.shell
+    - match: \'
+      scope:
+        meta.string.shell string.quoted.single.shell
+        punctuation.definition.string.begin.shell
+      embed: cmd-arithmetic-args-quoted-commen
+      embed_scope: meta.string.shell meta.interpolation.shell
+      escape: '{{no_escape_behind}}'''
+      escape_captures:
+        0: meta.string.shell string.quoted.single.shell
+           punctuation.definition.string.end.shell
     - include: redirections
     - include: eoc-pop
     - include: cmd-test
     - include: expressions
 
   cmd-arithmetic-args-quoted-commen:
-    - match: $\n?
-      scope: invalid.illegal.expect-string-end.shell
-      pop: 1
     - include: line-continuations
     - include: cmd-test
     - include: expressions
@@ -1498,7 +1501,7 @@ contexts:
         punctuation.section.interpolation.begin.shell
       embed: statements
       embed_scope: meta.interpolation.command.shell
-      escape: (?<![^\\]\\)(?<![\\]{3})\`
+      escape: '{{no_escape_behind}}\`'
       escape_captures:
         0: meta.interpolation.command.shell
            punctuation.section.interpolation.end.shell

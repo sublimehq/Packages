@@ -1839,35 +1839,54 @@ let $var == test -z $5 && cmd
 let 'test -z $2 && { }'
 #^^ meta.function-call.identifier.shell support.function.let.shell
 #  ^^ meta.function-call.arguments.shell - meta.function-call mete.function-call
-#   ^^^^^^^^^^^^^^^^^^^ meta.string.shell
 #    ^^^^ meta.function-call.arguments.shell meta.function-call.identifier.shell
 #        ^^^^^^ meta.function-call.arguments.shell meta.function-call.arguments.shell
 #              ^^^^^^^^ meta.function-call.arguments.shell - meta.function-call mete.function-call
 #                  ^^^ - meta.compound
 #                      ^ - meta.function-call
-#   ^ punctuation.definition.string.begin.shell
+#   ^ string.quoted.single.shell punctuation.definition.string.begin.shell
 #    ^^^^ support.function.test.shell
 #         ^^ meta.parameter.option.shell variable.parameter.option.shell
 #            ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
 #               ^^ keyword.operator.logical.shell
-#                     ^ punctuation.definition.string.end.shell
+#                     ^ string.quoted.single.shell punctuation.definition.string.end.shell
 
-let ' $var == test -z $5 && cmd '
+let '$var == test -z \'$5\' && cmd'
 #^^ meta.function-call.identifier.shell support.function.let.shell
 #  ^^^^^^^^^^^ meta.function-call.arguments.shell - meta.function-call mete.function-call
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell
-#             ^^^^ meta.function-call.arguments.shell meta.function-call.identifier.shell
-#                 ^^^^^^ meta.function-call.arguments.shell meta.function-call.arguments.shell
-#                       ^^^^^^^^^ meta.function-call.arguments.shell - meta.function-call mete.function-call
-#   ^ punctuation.definition.string.begin.shell
-#     ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#          ^^ keyword.operator.comparison.shell
-#             ^^^^ support.function.test.shell
-#                  ^^ meta.parameter.option.shell variable.parameter.option.shell
-#                     ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
-#                        ^^ keyword.operator.logical.shell
-#                           ^^^ - variable.function
-#                               ^ punctuation.definition.string.end.shell
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell
+#            ^^^^ meta.function-call.arguments.shell meta.function-call.identifier.shell
+#                ^^^^^^^^^^ meta.function-call.arguments.shell meta.function-call.arguments.shell
+#                          ^^^^^^^^ meta.function-call.arguments.shell - meta.function-call mete.function-call
+#   ^ string.quoted.single.shell punctuation.definition.string.begin.shell
+#    ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#         ^^ keyword.operator.comparison.shell
+#            ^^^^ support.function.test.shell
+#                 ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                    ^^ constant.character.escape.shell
+#                      ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                        ^^ constant.character.escape.shell
+#                           ^^ keyword.operator.logical.shell
+#                              ^^^ - variable.function
+#                                 ^ string.quoted.single.shell punctuation.definition.string.end.shell
+
+let "$var != test -z '$5' && cmd"
+#^^ meta.function-call.identifier.shell support.function.let.shell
+#  ^^^^^^^^^^^ meta.function-call.arguments.shell - meta.function-call mete.function-call
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell
+#            ^^^^ meta.function-call.arguments.shell meta.function-call.identifier.shell
+#                ^^^^^^^^ meta.function-call.arguments.shell meta.function-call.arguments.shell
+#                        ^^^^^^^^ meta.function-call.arguments.shell - meta.function-call mete.function-call
+#   ^ string.quoted.double.shell punctuation.definition.string.begin.shell
+#    ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#         ^^ keyword.operator.comparison.shell
+#            ^^^^ support.function.test.shell
+#                 ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                    ^^^^ string.quoted.single.shell
+#                         ^^ keyword.operator.logical.shell
+#                            ^^^ - variable.function
+#                               ^ string.quoted.double.shell punctuation.definition.string.end.shell
+
 
 ####################################################################
 # unalias builtin                                                  #
@@ -3759,11 +3778,13 @@ let "two=5+5"; if [[ "$X" == "1" ]]; then X="one"; fi
 #  ^^^^^^^^^^ meta.function-call.arguments.shell
 #            ^ - meta.function-call
 #^^ support.function.let.shell
-#   ^^^^^^^^^ meta.string.shell
+#   ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.begin.shell
+#    ^^^^^^^ meta.string.shell meta.interpolation.shell - string
 #       ^ keyword.operator.assignment.shell
 #        ^ constant.numeric.integer.decimal.shell
 #         ^ keyword.operator.arithmetic.shell
 #          ^ constant.numeric.integer.decimal.shell
+#           ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.end.shell
 #            ^ punctuation.terminator.statement.shell
 #              ^^ keyword.control.conditional.if.shell
 #                 ^^^^^^^^^^^^^^^^^ meta.conditional.shell
