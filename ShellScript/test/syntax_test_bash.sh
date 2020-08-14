@@ -1265,24 +1265,24 @@ __git_aliased_command ()
 ####################################################################
 
 alias
-# <- meta.function-call.identifier.shell support.function.alias.shell
-#^^^^ meta.function-call.identifier.shell support.function.alias.shell
-#    ^ - meta.function-call - support
+# <- meta.declaration.alias.shell storage.type.alias.shell keyword.declaration.alias.shell
+#^^^^ meta.declaration.alias.shell storage.type.alias.shell keyword.declaration.alias.shell
+#    ^ - meta.declaration.alias - storage
 
 alias foo=bar
-# <- meta.function-call.identifier.shell support.function.alias.shell
-#^^^^ meta.function-call.identifier.shell
-#    ^^^^^^^^ meta.function-call.arguments.shell
-#            ^ - meta.function-call
+# <- meta.declaration.alias.shell storage.type.alias.shell keyword.declaration.alias.shell
+#^^^^ meta.declaration.alias.shell
+#    ^^^^^^^^ meta.declaration.alias.arguments.shell
+#            ^ - meta.declaration.alias
 #     ^^^ meta.variable.shell entity.name.function.shell
 #        ^ keyword.operator.assignment.shell
 #         ^^^ meta.string.shell string.unquoted.shell
 
 alias f'o'o=bar
-# <- meta.function-call.identifier.shell support.function.alias.shell
-#^^^^ meta.function-call.identifier.shell
-#    ^^^^^^^^^^ meta.function-call.arguments.shell
-#              ^ - meta.function-call
+# <- meta.declaration.alias.shell storage.type.alias.shell keyword.declaration.alias.shell
+#^^^^ meta.declaration.alias.shell
+#    ^^^^^^^^^^ meta.declaration.alias.arguments.shell
+#              ^ - meta.declaration.alias
 #     ^^^^^ meta.variable.shell entity.name.function.shell
 #      ^ punctuation.definition.string.begin.shell
 #        ^ punctuation.definition.string.end.shell
@@ -1290,10 +1290,10 @@ alias f'o'o=bar
 #           ^^^ meta.string.shell string.unquoted.shell
 
 alias -p foo=bar 7za=qux
-# <- meta.function-call.identifier.shell support.function.alias.shell
-#^^^^ meta.function-call.identifier.shell
-#    ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#                       ^ - meta.function-call
+# <- meta.declaration.alias.shell storage.type.alias.shell keyword.declaration.alias.shell
+#^^^^ meta.declaration.alias.shell
+#    ^^^^^^^^^^^^^^^^^^^ meta.declaration.alias.arguments.shell
+#                       ^ - meta.declaration.alias
 #     ^^ meta.parameter.option.shell variable.parameter.option.shell
 #        ^^^ meta.variable.shell entity.name.function.shell
 #           ^ keyword.operator.assignment.shell
@@ -1303,10 +1303,10 @@ alias -p foo=bar 7za=qux
 #                    ^^^ meta.string.shell string.unquoted.shell
 
 alias -a -p -- foo=bar baz=qux
-# <- meta.function-call.identifier.shell support.function.alias.shell
-#^^^^ meta.function-call.identifier.shell
-#    ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#                             ^ - meta.function-call
+# <- meta.declaration.alias.shell storage.type.alias.shell keyword.declaration.alias.shell
+#^^^^ meta.declaration.alias.shell
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.alias.arguments.shell
+#                             ^ - meta.declaration.alias
 #     ^^ invalid.illegal.parameter.shell
 #        ^^ meta.parameter.option.shell variable.parameter.option.shell
 #           ^^ keyword.operator.end-of-options.shell
@@ -1323,36 +1323,36 @@ alias -a -p -- foo=bar baz=qux
 ####################################################################
 
 declare             # comment
-#<- meta.function-call.identifier.shell storage.modifier.shell
-#^^^^^^ meta.function-call.identifier.shell storage.modifier.shell
-#      ^ - meta.function-call
+#<- meta.declaration.variable.shell storage.type.variable.shell keyword.declaration.variable.shell
+#^^^^^^ meta.declaration.variable.shell storage.type.variable.shell keyword.declaration.variable.shell
+#      ^ - meta.declaration.variable
 #                   ^^^^^^^^^^ comment.line.number-sign.shell
 
 declare foo         # 'foo' is a variable name
-#^^^^^^ meta.function-call.identifier.shell
-#      ^^^^ meta.function-call.arguments.shell
-#          ^ - meta.function-call
-# <- storage.modifier
+#^^^^^^ meta.declaration.variable.shell
+#      ^^^^ meta.declaration.variable.arguments.shell
+#          ^ - meta.declaration.variable
+# <- storage.type.variable.shell keyword.declaration.variable.shell
 #          ^ - variable.other.readwrite
-#                  ^ - meta.function-call
+#                  ^ - meta.declaration.variable
 
 declare +A          # this is a comment
-#^^^^^^ meta.function-call.identifier.shell
-#      ^^^ meta.function-call.arguments.shell
-#         ^ - meta.function-call
+#^^^^^^ meta.declaration.variable.shell
+#      ^^^ meta.declaration.variable.arguments.shell
+#         ^ - meta.declaration.variable
 #                   ^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 
 declare -A foo bar  # 'foo' and 'bar' are variable names
-#^^^^^^ meta.function-call.identifier.shell
-#      ^^^^^^^^^^^ meta.function-call.arguments.shell
-#                 ^ - meta.function-call
+#^^^^^^ meta.declaration.variable.shell
+#      ^^^^^^^^^^^ meta.declaration.variable.arguments.shell
+#                 ^ - meta.declaration.variable
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 
 declare ret; bar=foo # comment
-#^^^^^^ meta.function-call.identifier.shell
-#      ^^^^ meta.function-call.arguments.shell
-#          ^ - meta.function-call
-# <- storage.modifier
+#^^^^^^ meta.declaration.variable.shell
+#      ^^^^ meta.declaration.variable.arguments.shell
+#          ^ - meta.declaration.variable
+# <- storage.type.variable.shell keyword.declaration.variable.shell
 #          ^ punctuation.terminator.statement.shell
 #               ^ keyword.operator.assignment.shell
 #                ^^^ meta.string.shell string.unquoted.shell
@@ -1360,36 +1360,36 @@ declare ret; bar=foo # comment
 #                    ^^^^^^^^^^ comment.line.number-sign.shell
 
 declare ret ;
-#^^^^^^ meta.function-call.identifier.shell
-#      ^^^^ meta.function-call.arguments.shell
-#          ^ - meta.function-call
-# <- storage.modifier
+#^^^^^^ meta.declaration.variable.shell
+#      ^^^^ meta.declaration.variable.arguments.shell
+#          ^ - meta.declaration.variable
+# <- storage.type.variable.shell keyword.declaration.variable.shell
 #           ^ punctuation.terminator.statement.shell
 
 declare ret&
-#^^^^^^ meta.function-call.identifier.shell
-#      ^^^^ meta.function-call.arguments.shell
-#          ^ - meta.function-call
-# <- storage.modifier
+#^^^^^^ meta.declaration.variable.shell
+#      ^^^^ meta.declaration.variable.arguments.shell
+#          ^ - meta.declaration.variable
+# <- storage.type.variable.shell keyword.declaration.variable.shell
 #          ^ keyword.operator
 
 declare ret &
-#^^^^^^ meta.function-call.identifier.shell
-#      ^^^^ meta.function-call.arguments.shell
-#          ^ - meta.function-call
-# <- storage.modifier
+#^^^^^^ meta.declaration.variable.shell
+#      ^^^^ meta.declaration.variable.arguments.shell
+#          ^ - meta.declaration.variable
+# <- storage.type.variable.shell keyword.declaration.variable.shell
 #           ^ keyword.operator
 
 declare bar=\
 foo # comment
-# <- meta.function-call.arguments.shell meta.string.shell string.unquoted.shell
-#^^ meta.function-call.arguments.shell meta.string.shell string.unquoted.shell
+# <- meta.declaration.variable.arguments.shell meta.string.shell string.unquoted.shell
+#^^ meta.declaration.variable.arguments.shell meta.string.shell string.unquoted.shell
 #  ^ - meta.function
 #   ^^^^^^^^^^ comment.line.number-sign.shell
 
 declare bar=\
 (foo) # comment
-#^^^^ meta.function-call.arguments.shell
+#^^^^ meta.declaration.variable.arguments.shell
 #    ^ - meta.function
 # <- punctuation.section.sequence.begin.shell
 #   ^ punctuation.section.sequence.end.shell
@@ -1397,37 +1397,36 @@ declare bar=\
 
 declare -a owners=(
     # dogs
-#   ^^^^^^^ meta.function-call.arguments.shell meta.sequence.shell comment.line.number-sign.shell
+#   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.shell comment.line.number-sign.shell
     [susan]=labrador
-#   ^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.sequence.shell
+#   ^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.shell
 #   ^^^^^^^ meta.brackets.shell
 #          ^ keyword.operator.assignment.shell
 #           ^^^^^^^^ meta.string.shell string.unquoted.shell
     # cats
-#   ^^^^^^^ meta.function-call.arguments.shell meta.sequence.shell comment.line.number-sign.shell
+#   ^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.shell comment.line.number-sign.shell
     [terry]=tabby
-#   ^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.sequence.shell
+#   ^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell meta.sequence.shell
 #   ^^^^^^^ meta.brackets.shell
 #          ^ keyword.operator.assignment.shell
 #           ^^^^^ meta.string.shell string.unquoted.shell
 )
 
 declare -f _init_completion > /dev/null && complete -F _upto upto
-# <- meta.function-call.identifier.shell storage.modifier.shell
-#^^^^^^ meta.function-call.identifier.shell 
-#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#                                      ^^^^ - meta.function
+# <- meta.declaration.variable.shell storage.type.variable.shell keyword.declaration.variable.shell
+#^^^^^^ meta.declaration.variable.shell 
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
+#                                      ^^^^ - meta.declaration - meta.function-call
 #                                          ^^^^^^^^ meta.function-call.identifier.shell
 #                                                  ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#                                                                ^ - meta.function
-#^^^^^^ storage.modifier.shell
+#                                                                ^ - meta.function-call
+#^^^^^^ storage.type.variable.shell keyword.declaration.variable.shell
 #       ^^ variable.parameter.option.shell
 #          ^^^^^^^^^^^^^^^^ meta.variable.shell entity.name.function.shell
 #                           ^ keyword.operator.assignment.redirection.shell
 #                                       ^^ keyword.operator.logical.shell
 #                                          ^^^^^^^^ variable.function.shell
 #                                                   ^^ variable.parameter.option.shell
-#                                                      ^^^^^^^^^^ meta.function-call.arguments.shell
 
 printFunction "$variableString1" "$(declare -p variableArray)"
 #             ^ meta.string string.quoted.double punctuation.definition.string.begin
@@ -1437,7 +1436,7 @@ printFunction "$variableString1" "$(declare -p variableArray)"
 #                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string meta.interpolation.command.shell - string
 #                                                            ^ meta.string string.quoted.double punctuation.definition.string.end
 #                                  ^ punctuation.section.interpolation.begin.shell
-#                                   ^^^^^^^ storage.modifier
+#                                   ^^^^^^^ storage.type.variable.shell keyword.declaration.variable.shell
 #                                           ^^ variable.parameter.option
 #                                              ^^^^^^^^^^^^^ variable.other.readwrite
 #                                                           ^ punctuation.section.interpolation.end.shell
@@ -1451,7 +1450,7 @@ printFunction "$variableString1" "`declare -p variableArray`"
 #                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string meta.interpolation.command.shell - string
 #                                                           ^ meta.string string.quoted.double punctuation.definition.string.end
 #                                 ^ punctuation.section.interpolation.begin.shell
-#                                  ^^^^^^^ storage.modifier
+#                                  ^^^^^^^ storage.type.variable.shell keyword.declaration.variable.shell
 #                                          ^^ variable.parameter.option
 #                                             ^^^^^^^^^^^^^ variable.other.readwrite
 #                                                          ^ punctuation.section.interpolation.end.shell
@@ -1461,33 +1460,44 @@ printFunction "$variableString1" "`declare -p variableArray`"
 # export builtin                                                   #
 ####################################################################
 
-# <- - meta.interpolation.command.shell
+export
+# <- meta.function-call.identifier.shell support.function.export.shell
+#^^^^^ meta.function-call.identifier.shell support.function.export.shell
+#     ^ - meta.function-call
+
 export foo          # 'foo' is a variable name
-#^^^^^^^^^ meta.function-call
-# <- storage.modifier
-#      ^^^ variable.other.readwrite
-#                  ^ - meta.function-call
+# <- meta.function-call.identifier.shell support.function.export.shell
+#^^^^^ meta.function-call.identifier.shell support.function.export.shell
+#     ^^^^ meta.function-call.arguments.shell
+#         ^ - meta.function-call
+#      ^^^ variable.other.readwrite.shell
+#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 
 export foo bar      # 'foo' and 'bar' are variable names
-# <- storage.modifier
-#      ^^^ variable.other.readwrite
+# <- meta.function-call.identifier.shell support.function.export.shell
+#^^^^^ meta.function-call.identifier.shell support.function.export.shell
+#     ^^^^^^^^ meta.function-call.arguments.shell
+#             ^ - meta.function-call
+#      ^^^ variable.other.readwrite.shell
 #         ^ - variable
-#          ^^^ variable.other.readwrite
-#                  ^ - meta.function-call
+#          ^^^ variable.other.readwrite.shell
+#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 
 export foo='bar'    # 'foo' is a variable name
-# <- storage.modifier
-#^^^^^^^^^^^^^^^ meta.function-call
-#                  ^ - meta.function-call
-#      ^^^ variable.other.readwrite
-#         ^ keyword.operator.assignment
-#          ^^^^^ meta.string string.quoted.single
-#          ^ punctuation.definition.string.begin
-#              ^ punctuation.definition.string.end
+# <- meta.function-call.identifier.shell support.function.export.shell
+#^^^^^ meta.function-call.identifier.shell support.function.export.shell
+#     ^^^^^^^^^^ meta.function-call.arguments.shell
+#               ^ - meta.function-call
+#      ^^^ variable.other.readwrite.shell
+#         ^ keyword.operator.assignment.shell
+#          ^^^^^ meta.string.shell string.quoted.single.shell
+#          ^ punctuation.definition.string.begin.shell
+#              ^ punctuation.definition.string.end.shell
+#                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 
 export PGPASSWORD=$(cat "$DOKKU_ROOT/.postgresql/pwd_$APP")
-# <- meta.function-call.identifier.shell storage.modifier.shell
-#^^^^^ meta.function-call.identifier.shell storage.modifier.shell
+# <- meta.function-call.identifier.shell support.function.export.shell
+#^^^^^ meta.function-call.identifier.shell support.function.export.shell
 #     ^^^^^^^^^^^^ meta.function-call.arguments.shell - meta.string - meta.interpolation
 #                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell meta.string.shell meta.interpolation.command.shell
 #      ^^^^^^^^^^ meta.variable.shell variable.other.readwrite.shell
@@ -1497,8 +1507,8 @@ export PGPASSWORD=$(cat "$DOKKU_ROOT/.postgresql/pwd_$APP")
 #                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.command.shell meta.string.shell
 
 export -f foo
-# <- meta.function-call.identifier.shell storage.modifier.shell
-#^^^^^ meta.function-call.identifier.shell storage.modifier.shell
+# <- meta.function-call.identifier.shell support.function.export.shell
+#^^^^^ meta.function-call.identifier.shell support.function.export.shell
 #     ^^^^^^^ meta.function-call.arguments.shell
 #      ^^ meta.parameter.option.shell variable.parameter.option.shell
 #         ^^^ meta.variable.shell entity.name.function.shell
@@ -1508,47 +1518,47 @@ export -f foo
 ####################################################################
 
 local
-#<- meta.function-call.identifier.shell storage.modifier.shell
-#^^^^ meta.function-call.identifier.shell storage.modifier.shell
-#    ^ - meta.function-call
+#<- meta.declaration.variable.shell storage.type.variable.shell keyword.declaration.variable.shell
+#^^^^ meta.declaration.variable.shell storage.type.variable.shell keyword.declaration.variable.shell
+#    ^ - meta.declaration.variable
 local;
-#^^^^ storage.modifier.shell
+#^^^^ storage.type.variable.shell keyword.declaration.variable.shell
 local&
-#^^^^ storage.modifier.shell
+#^^^^ storage.type.variable.shell keyword.declaration.variable.shell
 local|
-#^^^^ storage.modifier.shell
+#^^^^ storage.type.variable.shell keyword.declaration.variable.shell
 local>/dev/null
-#^^^^ storage.modifier.shell
+#^^^^ storage.type.variable.shell keyword.declaration.variable.shell
 local -
-#^^^^ storage.modifier.shell
+#^^^^ storage.type.variable.shell keyword.declaration.variable.shell
 local()
-#^^^^ storage.modifier.shell
+#^^^^ storage.type.variable.shell keyword.declaration.variable.shell
 local[]
-#^^^^^^ - storage.modifier
+#^^^^^^ - storage - keyword.declaration
 local{}
-#^^^^^^ - storage.modifier
+#^^^^^^ - storage - keyword.declaration
 local-
-#^^^^^ - storage.modifier
+#^^^^^ - storage - keyword.declaration
 -local
-#^^^^^ - storage.modifier
+#^^^^^ - storage - keyword.declaration
 local+
-#^^^^^ - storage.modifier
+#^^^^^ - storage - keyword.declaration
 local$
-#^^^^^ - storage.modifier
+#^^^^^ - storage - keyword.declaration
 local$var
-#^^^^^^^^ - storage.modifier
+#^^^^^^^^ - storage - keyword.declaration
 local=
-#^^^^^ - storage.modifier
+#^^^^^ - storage - keyword.declaration
 local-=
-#^^^^^^ - storage.modifier
+#^^^^^^ - storage - keyword.declaration
 local+=
-#^^^^^^ - storage.modifier
+#^^^^^^ - storage - keyword.declaration
 
 local foo bar       # 'foo' and 'bar' are variable names
-# <- meta.function-call.identifier.shell storage.modifier.shell
-#^^^^ meta.function-call.identifier.shell storage.modifier.shell
-#    ^^^^^^^^ meta.function-call.arguments.shell
-#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function-call
+# <- meta.declaration.variable.shell storage.type.variable.shell keyword.declaration.variable.shell
+#^^^^ meta.declaration.variable.shell storage.type.variable.shell keyword.declaration.variable.shell
+#    ^^^^^^^^ meta.declaration.variable.arguments.shell
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.declaration.variable
 #    ^ - variable
 #     ^^^ meta.variable.shell variable.other.readwrite.shell
 #        ^ - variable
@@ -1556,10 +1566,10 @@ local foo bar       # 'foo' and 'bar' are variable names
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 
 local foo bar='baz' # 'foo' and 'bar' are variable names
-# <- meta.function-call.identifier.shell storage.modifier.shell
-#^^^^ meta.function-call.identifier.shell storage.modifier.shell
-#    ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function-call
+# <- meta.declaration.variable.shell storage.type.variable.shell keyword.declaration.variable.shell
+#^^^^ meta.declaration.variable.shell storage.type.variable.shell keyword.declaration.variable.shell
+#    ^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
+#                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.declaration.variable
 #    ^ - variable
 #     ^^^ meta.variable.shell variable.other.readwrite.shell
 #        ^ - variable
@@ -1570,9 +1580,9 @@ local foo bar='baz' # 'foo' and 'bar' are variable names
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 
 local foo+=10 bar-=true
-# <- meta.function-call.identifier.shell storage.modifier.shell
-#^^^^ meta.function-call.identifier.shell storage.modifier.shell
-#    ^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+# <- meta.declaration.variable.shell storage.type.variable.shell keyword.declaration.variable.shell
+#^^^^ meta.declaration.variable.shell storage.type.variable.shell keyword.declaration.variable.shell
+#    ^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
 #     ^^^ meta.variable.shell variable.other.readwrite.shell
 #        ^^ keyword.operator.assignment.shell
 #          ^^ constant.numeric.integer.decimal.shell
@@ -1581,43 +1591,48 @@ local foo+=10 bar-=true
 #                  ^^^^ constant.language.boolean.shell
 
 local pid="$(cat "$PIDFILE" 2>/dev/null)"
-# <- meta.function-call.identifier.shell storage.modifier.shell
-#^^^^ meta.function-call.identifier.shell storage.modifier.shell
-#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+# <- meta.declaration.variable.shell storage.type.variable.shell keyword.declaration.variable.shell
+#^^^^ meta.declaration.variable.shell storage.type.variable.shell keyword.declaration.variable.shell
+#    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
 #     ^^^ meta.variable.shell variable.other.readwrite.shell
 #        ^ keyword.operator.assignment.shell
 #         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell
 
 local -fn foo
-# <- meta.function-call.identifier.shell storage.modifier.shell
-#^^^^ meta.function-call.identifier.shell storage.modifier.shell
-#    ^^^^^^^^ meta.function-call.arguments.shell
+# <- meta.declaration.variable.shell storage.type.variable.shell keyword.declaration.variable.shell
+#^^^^ meta.declaration.variable.shell storage.type.variable.shell keyword.declaration.variable.shell
+#    ^^^^^^^^ meta.declaration.variable.arguments.shell
 #     ^^^ meta.parameter.option.shell variable.parameter.option.shell
 #         ^^^ meta.variable.shell entity.name.function.shell
 
 f() {
     local -a "$@"
-    # <- storage.modifier.shell
+    # <- storage.type.variable.shell keyword.declaration.variable.shell
+    #^^^^ storage.type.variable.shell keyword.declaration.variable.shell
+    #     ^^ meta.parameter.option.shell variable.parameter.option.shell
+    #        ^^^^ meta.string.shell
     local x
-    # <- storage.modifier.shell
+    # <- storage.type.variable.shell keyword.declaration.variable.shell
+    #^^^^ storage.type.variable.shell keyword.declaration.variable.shell
+    #     ^ meta.variable.shell variable.other.readwrite.shell
 
     for x; do
         case $x in
             $1)
                 local "$x"'+=(1)' ;;&
-                # <- storage.modifier
+                # <- storage.type.variable.shell keyword.declaration.variable.shell
                 #                 ^^^ punctuation
             $2)
                 local "$x"'+=(2)' ;&
-                # <- storage.modifier
+                # <- storage.type.variable.shell keyword.declaration.variable.shell
                 #                 ^^ punctuation
             $3)
                 local "$x"'+=(3)' ;;
-                # <- storage.modifier
+                # <- storage.type.variable.shell keyword.declaration.variable.shell
                 #                 ^^ punctuation
             $1|$2)
                 local "$x"'+=(4)'
-                # <- storage.modifier
+                # <- storage.type.variable.shell keyword.declaration.variable.shell
         esac
         # <- meta.function keyword.control.conditional.end
 
@@ -1625,7 +1640,7 @@ f() {
         # ^ variable.other.readwrite
         #  ^ keyword.operator.assignment
         #   ^ meta.string string.unquoted
-        #     ^ storage.modifier
+        #     ^ storage.type.variable.shell keyword.declaration.variable.shell
     done
 }
 
@@ -1635,21 +1650,21 @@ f() {
 ####################################################################
 
 readonly foo        # 'foo' is a variable name
-# <- meta.function-call.identifier.shell storage.modifier.shell
-#^^^^^^^ meta.function-call.identifier.shell
-#       ^^^^ meta.function-call.arguments.shell
-#           ^ - meta.function-call
-#^^^^^^^ storage.modifier.shell
+# <- meta.declaration.variable.shell storage.type.variable.shell keyword.declaration.variable.shell
+#^^^^^^^ meta.declaration.variable.shell
+#       ^^^^ meta.declaration.variable.arguments.shell
+#           ^ - meta.declaration.variable
+#^^^^^^^ storage.type.variable.shell keyword.declaration.variable.shell
 #       ^ - storage - variable
 #        ^^^ variable.other.readwrite
 #           ^ - variable
 
 readonly -f foo     # 'foo' is a variable name
-# <- meta.function-call.identifier.shell storage.modifier.shell
-#^^^^^^^ meta.function-call.identifier.shell
-#       ^^^^^^^ meta.function-call.arguments.shell
-#              ^ - meta.function-call
-#^^^^^^^ storage.modifier.shell
+# <- meta.declaration.variable.shell storage.type.variable.shell keyword.declaration.variable.shell
+#^^^^^^^ meta.declaration.variable.shell
+#       ^^^^^^^ meta.declaration.variable.arguments.shell
+#              ^ - meta.declaration.variable
+#^^^^^^^ storage.type.variable.shell keyword.declaration.variable.shell
 #       ^ - storage - variable
 #        ^^ meta.parameter.option.shell variable.parameter.option.shell
 #          ^ - variable
@@ -1659,7 +1674,7 @@ readonly -f foo     # 'foo' is a variable name
 foo=`readonly x=5`
 # <- variable.other.readwrite
 #   ^ meta.interpolation.command.shell punctuation.section.interpolation.begin.shell
-#    ^^^^^^^^ meta.interpolation.command.shell storage.modifier
+#    ^^^^^^^^ meta.interpolation.command.shell storage.type.variable.shell keyword.declaration.variable.shell
 #             ^ meta.interpolation.command.shell variable.other.readwrite
 #              ^ meta.interpolation.command.shell keyword.operator.assignment
 #               ^ meta.string.shell meta.interpolation.command.shell constant.numeric.integer.decimal.shell
@@ -1671,32 +1686,31 @@ foo=`readonly x=5`
 ####################################################################
 
 typeset foo         # 'foo' is a variable name
-# <- meta.function-call.identifier.shell storage.modifier.shell
-#^^^^^^ meta.function-call.identifier.shell
-#      ^^^^ meta.function-call.arguments.shell
-#          ^ - meta.function-call
-#^^^^^^ storage.modifier.shell
+# <- meta.declaration.variable.shell storage.type.variable.shell keyword.declaration.variable.shell
+#^^^^^^ meta.declaration.variable.shell
+#      ^^^^ meta.declaration.variable.arguments.shell
+#          ^ - meta.declaration.variable
+#^^^^^^ storage.type.variable.shell keyword.declaration.variable.shell
 #      ^ - storage - variable
 #       ^^^ variable.other.readwrite
 #          ^ - variable
 #                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 
 typeset -f _init_completion > /dev/null && complete -F _upto upto
-# <- meta.function-call.identifier.shell storage.modifier.shell
-#^^^^^^ meta.function-call.identifier.shell 
-#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#                                      ^^^^ - meta.function
+# <- meta.declaration.variable.shell storage.type.variable.shell keyword.declaration.variable.shell
+#^^^^^^ meta.declaration.variable.shell 
+#      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
+#                                      ^^^^ - meta.declaration - meta.function-call
 #                                          ^^^^^^^^ meta.function-call.identifier.shell
 #                                                  ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
-#                                                                ^ - meta.function
-#^^^^^^ storage.modifier.shell
+#                                                                ^ - meta.function-call
+#^^^^^^ storage.type.variable.shell keyword.declaration.variable.shell
 #       ^^ variable.parameter.option.shell
 #          ^^^^^^^^^^^^^^^^ meta.variable.shell entity.name.function.shell
 #                           ^ keyword.operator.assignment.redirection.shell
 #                                       ^^ keyword.operator.logical.shell
 #                                          ^^^^^^^^ variable.function.shell
 #                                                   ^^ variable.parameter.option.shell
-#                                                      ^^^^^^^^^^ meta.function-call.arguments.shell
 
 
 ####################################################################
@@ -2124,22 +2138,22 @@ B$(cat)OWL=$(($(cat food.txt | wc -l) + 5))
 
 # These are all legal identifiers for variables.
 alias=hello
-# <- - storage.modifier
+# <- - storage - keyword
 #    ^ keyword.operator.assignment.shell
 typeset=hello
-# <- - storage.modifier
+# <- - storage - keyword
 #      ^ keyword.operator.assignment.shell
 declare=hello
-# <- - storage.modifier
+# <- - storage - keyword
 #      ^ keyword.operator.assignment.shell
 local=hello
-# <- - storage.modifier
+# <- - storage - keyword
 #    ^ keyword.operator.assignment.shell
 export=hello
-# <- - storage.modifier
+# <- - storage - keyword
 #     ^ keyword.operator.assignment.shell
 readonly=hello
-# <- - storage.modifier
+# <- - storage - keyword
 #       ^ keyword.operator.assignment.shell
 for=hello
 # <- - keyword.control
@@ -4114,22 +4128,22 @@ if [ "$1" != "" -a "$2" != "" ]; then
 #                              ^ punctuation.terminator.statement.shell
 #                                ^^^^ keyword.control.conditional.then.shell
     local DIR=$1
-    # <- storage.modifier
+    # <- storage.type.variable.shell keyword.declaration.variable.shell
     #     ^^^ variable.other.readwrite
     #        ^ keyword.operator.assignment
     local TARGET=$2
-    # <- storage.modifier
+    # <- storage.type.variable.shell keyword.declaration.variable.shell
     #     ^^^^^^ variable.other.readwrite
     #           ^ keyword.operator.assignment
 elif [ "$1" ]; then
 # <- keyword.control.conditional.elseif
 #              ^^^^ keyword.control.conditional.then
     local DIR=$PWD
-    # <- storage.modifier
+    # <- storage.type.variable.shell keyword.declaration.variable.shell
     #     ^^^ variable.other.readwrite
     #        ^ keyword.operator.assignment
     local TARGET=$1
-    # <- storage.modifier
+    # <- storage.type.variable.shell keyword.declaration.variable.shell
     #     ^^^^^^ variable.other.readwrite
     #           ^ keyword.operator.assignment
 fi
@@ -5000,7 +5014,7 @@ EOF
 
 function clk {
     typeset base=/sys/class/drm/card0/device
-    #<- storage.modifier
+    #<- storage.type.variable.shell keyword.declaration.variable.shell
     #       ^^^^ variable.other.readwrite
     #           ^ keyword.operator.assignment
     #            ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string string.unquoted

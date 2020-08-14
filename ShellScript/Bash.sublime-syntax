@@ -321,14 +321,15 @@ contexts:
   cmd-alias:
     - match: alias{{cmd_break}}
       scope:
-        meta.function-call.identifier.shell
-        support.function.alias.shell
+        meta.declaration.alias.shell
+        storage.type.alias.shell
+        keyword.declaration.alias.shell
       push:
         - cmd-alias-args-meta
         - cmd-alias-args
 
   cmd-alias-args-meta:
-    - meta_content_scope: meta.function-call.arguments.shell
+    - meta_content_scope: meta.declaration.alias.arguments.shell
     - include: immediately-pop
 
   cmd-alias-args:
@@ -431,14 +432,15 @@ contexts:
   cmd-declare:
     - match: (declare|local|typeset){{cmd_break}}
       scope:
-        meta.function-call.identifier.shell
-        storage.modifier.shell
+        meta.declaration.variable.shell
+        storage.type.variable.shell
+        keyword.declaration.variable.shell
       push:
         - cmd-declare-args-meta
         - cmd-declare-args
 
   cmd-declare-args-meta:
-    - meta_content_scope: meta.function-call.arguments.shell
+    - meta_content_scope: meta.declaration.variable.arguments.shell
     - include: immediately-pop
 
   cmd-declare-args:
@@ -473,7 +475,7 @@ contexts:
     - match: export{{cmd_break}}
       scope:
         meta.function-call.identifier.shell
-        storage.modifier.shell
+        support.function.export.shell
       push:
         - cmd-export-args-meta
         - cmd-export-args
@@ -513,14 +515,15 @@ contexts:
   cmd-readonly:
     - match: readonly{{cmd_break}}
       scope:
-        meta.function-call.identifier.shell
-        storage.modifier.shell
+        meta.declaration.variable.shell
+        storage.type.variable.shell
+        keyword.declaration.variable.shell
       push:
         - cmd-readonly-args-meta
         - cmd-readonly-args
 
   cmd-readonly-args-meta:
-    - meta_content_scope: meta.function-call.arguments.shell
+    - meta_content_scope: meta.declaration.variable.arguments.shell
     - include: immediately-pop
 
   cmd-readonly-args:
