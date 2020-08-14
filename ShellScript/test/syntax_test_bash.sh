@@ -502,6 +502,34 @@ foo -nfv --opt1 arg1 -p=true -d false
 #                            ^^ meta.parameter.option.shell variable.parameter.option.shell
 #                               ^^^^^ constant.language.boolean.shell
 
+foo --\
+opt1=10
+# <- meta.function-call.arguments.shell meta.parameter.option.shell variable.parameter.option.shell
+#^^^ meta.function-call.arguments.shell meta.parameter.option.shell variable.parameter.option.shell
+#   ^ meta.function-call.arguments.shell keyword.operator.assignment.shell
+#    ^^ meta.function-call.arguments.shell meta.number.value.shell constant.numeric.integer.decimal.shell
+#      ^ - meta.function-call - meta.number - constant
+
+foo --o\
+pt1=10
+# <- meta.function-call.arguments.shell meta.parameter.option.shell variable.parameter.option.shell
+#^^ meta.function-call.arguments.shell meta.parameter.option.shell variable.parameter.option.shell
+#  ^ meta.function-call.arguments.shell keyword.operator.assignment.shell
+#   ^^ meta.function-call.arguments.shell meta.number.value.shell constant.numeric.integer.decimal.shell
+#     ^ - meta.function-call - meta.number - constant
+
+foo --opt1\
+=10
+# <- meta.function-call.arguments.shell keyword.operator.assignment.shell
+#^^ meta.function-call.arguments.shell meta.number.value.shell constant.numeric.integer.decimal.shell
+#  ^ - meta.function-call - meta.number - constant
+
+foo --opt1=\
+10
+# <- meta.function-call.arguments.shell meta.number.value.shell constant.numeric.integer.decimal.shell
+#^ meta.function-call.arguments.shell meta.number.value.shell constant.numeric.integer.decimal.shell
+# ^ - meta.function-call - meta.number - constant
+
 foo --opt1 arg1 -- --not-an-option
 #              ^ - variable - keyword
 #               ^^ keyword.operator

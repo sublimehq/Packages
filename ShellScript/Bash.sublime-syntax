@@ -809,29 +809,24 @@ contexts:
     - meta_content_scope: meta.parameter.option.shell
     - match: '{{opt_literal_char}}+'
       scope: variable.parameter.option.shell
-    - include: cmd-args-option-assignment
     - include: expansions-and-strings
-    - include: immediately-pop
+    - include: cmd-args-option-maybe-assignment
 
   cmd-args-option-maybe-assignment:
     # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
-    - include: cmd-args-option-assignment
-    - include: immediately-pop
-
-  cmd-args-option-assignment:
     - match: =
       scope: keyword.operator.assignment.shell
       set: variable-value
+    - include: line-continuations
+    - include: immediately-pop
 
   cmd-args-option-maybe-value:
     # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
-    - include: cmd-args-option-value
-    - include: immediately-pop
-
-  cmd-args-option-value:
     - match: \s+(?=[^-\]}{{metachar}}]|\\\n)
       set: variable-value
     - include: number
+    - include: line-continuations
+    - include: immediately-pop
 
   cmd-args-boilerplate:
     # NOTE: this context is used in commands-builtin-shell-bash.sublime-syntax
