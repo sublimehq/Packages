@@ -227,14 +227,14 @@
         ##  ^ - meta.attribute-with-value
         ##   ^^^ entity.other.attribute-name
         ##   ^^^^^ meta.attribute-with-value
-        ##       ^ meta.string.html string.unquoted.html meta.path.html
+        ##       ^ meta.string.html string.unquoted.html
         ##        ^^ punctuation.definition.tag.end.html
 
         <img src=/f̱oo⏡/bar/baz//>
         ##  ^ - meta.attribute-with-value
         ##   ^^^ entity.other.attribute-name
         ##   ^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value
-        ##       ^^^^^^^^^^^^^^^ meta.string.html string.unquoted.html meta.path.html
+        ##       ^^^^^^^^^^^^^^^ meta.string.html string.unquoted.html
         ##                      ^^ punctuation.definition.tag.end.html
 
         <!-- Match utf-8 escapes (%2F) in src tags -->
@@ -242,7 +242,7 @@
         ##  ^ - meta.attribute-with-value
         ##   ^^^ entity.other.attribute-name
         ##   ^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value
-        ##       ^^^^^^^^^^^^^^^^^ meta.string.html string.unquoted.html meta.path.html
+        ##       ^^^^^^^^^^^^^^^^^ meta.string.html string.unquoted.html
         ##                ^ - constant.character.escape
         ##                 ^ constant.character.escape.url.html punctuation.definition.escape.html
         ##                  ^^ constant.character.escape.url.html - punctuation.definition
@@ -256,7 +256,7 @@
         ##   ^^^^ entity.other.attribute-name
         ##   ^^^^^^^^^^^^^^^^^^^^^ meta.attribute-with-value
         ##        ^ meta.string.html string.quoted.double.html punctuation.definition.string.begin.html - meta.path
-        ##         ^^^^^^^^^^^^^^ meta.string.html string.quoted.double.html meta.path.html
+        ##         ^^^^^^^^^^^^^^ meta.string.html string.quoted.double.html
         ##             ^ constant.character.escape.url.html punctuation.definition.escape.html
         ##              ^^ constant.character.escape.url.html - punctuation.definition
         ##                       ^ meta.string.html string.quoted.double.html punctuation.definition.string.end.html - meta.path

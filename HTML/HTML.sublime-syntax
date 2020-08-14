@@ -712,13 +712,11 @@ contexts:
 
   tag-href-attribute-value-double-quoted-content:
     - meta_scope: meta.string.html string.quoted.double.html
-    - meta_content_scope: meta.path.html
     - include: strings-double-quoted-end
     - include: tag-href-attribute-value-quoted-content
 
   tag-href-attribute-value-single-quoted-content:
     - meta_scope: meta.string.html string.quoted.single.html
-    - meta_content_scope: meta.path.html
     - include: strings-single-quoted-end
     - include: tag-href-attribute-value-quoted-content
 
@@ -726,7 +724,7 @@ contexts:
     - include: tag-href-attribute-value-content
 
   tag-href-attribute-value-unquoted-content:
-    - meta_scope: meta.string.html string.unquoted.html meta.path.html
+    - meta_scope: meta.string.html string.unquoted.html
     - include: tag-attribute-value-unquoted-end
     - include: tag-href-attribute-value-content
     - include: tag-attribute-value-unquoted-invalid-char
