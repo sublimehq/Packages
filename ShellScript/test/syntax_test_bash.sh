@@ -1807,6 +1807,67 @@ if test expr -a expr ; then echo "success"; fi
 #                                         ^ punctuation.terminator.statement.shell
 #                                           ^^ keyword.control.conditional.end.shell
 
+let test -z $2 && { }
+#^^ meta.function-call.identifier.shell support.function.let.shell
+#  ^ meta.function-call.arguments.shell - meta.function-call mete.function-call
+#   ^^^^ meta.function-call.arguments.shell meta.function-call.identifier.shell
+#       ^^^^^^ meta.function-call.arguments.shell meta.function-call.arguments.shell
+#             ^^^^ - meta.function-call - meta.compound
+#                 ^^^ meta.compound.shell - meta.function-call
+#   ^^^^ support.function.test.shell
+#        ^^ meta.parameter.option.shell variable.parameter.option.shell
+#           ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#              ^^ keyword.operator.logical.shell
+#                 ^ punctuation.section.compound.begin.shell
+#                   ^ punctuation.section.compound.end.shell
+
+let $var == test -z $5 && cmd
+#^^ meta.function-call.identifier.shell support.function.let.shell
+#  ^^^^^^^^^ meta.function-call.arguments.shell - meta.function-call mete.function-call
+#           ^^^^ meta.function-call.arguments.shell meta.function-call.identifier.shell
+#               ^^^^^^ meta.function-call.arguments.shell meta.function-call.arguments.shell
+#                     ^^^^ - meta.function-call
+#                         ^^^ meta.function-call.identifier.shell
+#   ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#        ^^ keyword.operator.comparison.shell
+#           ^^^^ support.function.test.shell
+#                ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                   ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                      ^^ keyword.operator.logical.shell
+#                         ^^^ variable.function.shell
+
+let 'test -z $2 && { }'
+#^^ meta.function-call.identifier.shell support.function.let.shell
+#  ^^ meta.function-call.arguments.shell - meta.function-call mete.function-call
+#   ^^^^^^^^^^^^^^^^^^^ meta.string.shell
+#    ^^^^ meta.function-call.arguments.shell meta.function-call.identifier.shell
+#        ^^^^^^ meta.function-call.arguments.shell meta.function-call.arguments.shell
+#              ^^^^^^^^ meta.function-call.arguments.shell - meta.function-call mete.function-call
+#                  ^^^ - meta.compound
+#                      ^ - meta.function-call
+#   ^ punctuation.definition.string.begin.shell
+#    ^^^^ support.function.test.shell
+#         ^^ meta.parameter.option.shell variable.parameter.option.shell
+#            ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#               ^^ keyword.operator.logical.shell
+#                     ^ punctuation.definition.string.end.shell
+
+let ' $var == test -z $5 && cmd '
+#^^ meta.function-call.identifier.shell support.function.let.shell
+#  ^^^^^^^^^^^ meta.function-call.arguments.shell - meta.function-call mete.function-call
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell
+#             ^^^^ meta.function-call.arguments.shell meta.function-call.identifier.shell
+#                 ^^^^^^ meta.function-call.arguments.shell meta.function-call.arguments.shell
+#                       ^^^^^^^^^ meta.function-call.arguments.shell - meta.function-call mete.function-call
+#   ^ punctuation.definition.string.begin.shell
+#     ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#          ^^ keyword.operator.comparison.shell
+#             ^^^^ support.function.test.shell
+#                  ^^ meta.parameter.option.shell variable.parameter.option.shell
+#                     ^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#                        ^^ keyword.operator.logical.shell
+#                           ^^^ - variable.function
+#                               ^ punctuation.definition.string.end.shell
 
 ####################################################################
 # unalias builtin                                                  #

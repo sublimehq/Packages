@@ -378,6 +378,7 @@ contexts:
         - include: cmd-arithmetic-args-quoted-commen
     - include: redirections
     - include: eoc-pop
+    - include: cmd-test
     - include: expressions
 
   cmd-arithmetic-args-quoted-commen:
@@ -385,6 +386,7 @@ contexts:
       scope: invalid.illegal.expect-string-end.shell
       pop: 1
     - include: line-continuations
+    - include: cmd-test
     - include: expressions
 
 ###[ COPROC BUILTINS ]#########################################################
