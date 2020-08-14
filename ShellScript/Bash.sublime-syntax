@@ -1563,6 +1563,7 @@ contexts:
     - match: \#
       scope: keyword.operator.arithmetic.shell
       pop: 1
+    - include: line-continuations
     - include: immediately-pop
 
   expansions-parameter-chars:
@@ -1628,6 +1629,7 @@ contexts:
     - match: '[/#%]'
       scope: variable.parameter.switch.shell
       pop: 1
+    - include: line-continuations
     - include: immediately-pop
 
   expressions-parameter-variable:

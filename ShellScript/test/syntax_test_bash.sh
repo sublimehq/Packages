@@ -2818,16 +2818,28 @@ ${foo:=bar}
 : ${foo!}
 #      ^ - keyword
 : ${!foo}
-#   ^ keyword
+#   ^ keyword.operator.logical.shell
 : ${#foo}
-#   ^ keyword
+#   ^ keyword.operator.arithmetic.shell
+: ${\
+!foo}
+# <- keyword.operator.logical.shell
+: ${\
+#foo}
+# <- keyword.operator.arithmetic.shell
 
 : ${foo//a\/b/c/d}
-#      ^ keyword
-#       ^ variable.parameter.switch
-#         ^^ constant.character.escape
-#            ^ keyword
+#      ^ keyword.operator.substitution.shell
+#       ^ variable.parameter.switch.shell
+#         ^^ constant.character.escape.shell
+#            ^ keyword.operator.substitution.shell
 #              ^ - keyword
+: ${foo/\
+/a\/b/c/d}
+# <- variable.parameter.switch.shell
+# ^^ constant.character.escape.shell
+#    ^ keyword.operator.substitution.shell
+#      ^ - keyword
 
 
 ####################################################################
