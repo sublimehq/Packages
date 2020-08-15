@@ -359,11 +359,17 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
     # @timing
     def on_query_completions(self, view, prefix, locations):
 
-        def verify(selector):
+        def match_selector(selector):
             return view.match_selector(locations[0], selector)
 
         # Only trigger within HTML
-        if not verify("text.html - (source - source text.html) - meta.string"):
+        if not match_selector(
+            "text.html"
+            # disable in embedded script/css code
+            " - (source - source text.html) - meta.string"
+            # disable in markdown but not fenced code blocks
+            " - (text.html.markdown - text.html text.html)"
+        ):
             return None
 
         pt = locations[0] - len(prefix) - 1
@@ -387,7 +393,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
 
         # Note: Exclude opening punctuation to enable appreviations
         #       if the caret is located directly in front of a html tag.
-        if verify("text.html meta.tag - punctuation.definition.tag.begin"):
+        if match_selector("text.html meta.tag - punctuation.definition.tag.begin"):
             if ch in ' \f\n\t':
                 return self.attribute_completions(view, locations[0], prefix)
             return None
