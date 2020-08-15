@@ -508,10 +508,20 @@ contexts:
   tag-attribute-value-content:
     - include: entities
 
-  tag-attribute-value-separator:
+  tag-attribute-value-separator-double-quoted:
     - match: (?=[{{ascii_space}}])
       push:
-        - clear_scopes: 1 # clear `meta.class-name` or `meta.toc-list.id`
+        - clear_scopes: 3 # clear `meta.class-name` or `meta.toc-list.id`
+        - meta_include_prototype: false
+        - meta_scope: meta.string.html string.quoted.double.html
+        - include: else-pop
+
+  tag-attribute-value-separator-single-quoted:
+    - match: (?=[{{ascii_space}}])
+      push:
+        - clear_scopes: 3 # clear `meta.class-name` or `meta.toc-list.id`
+        - meta_include_prototype: false
+        - meta_scope: meta.string.html string.quoted.single.html
         - include: else-pop
 
   tag-attribute-value-unquoted-end:
@@ -543,33 +553,36 @@ contexts:
 
   tag-class-attribute-value:
     - match: \"
-      scope: punctuation.definition.string.begin.html
+      scope:
+        meta.string.html string.quoted.double.html
+        punctuation.definition.string.begin.html
       set: tag-class-attribute-value-double-quoted-content
     - match: \'
-      scope: punctuation.definition.string.begin.html
+      scope:
+        meta.string.html string.quoted.single.html
+        punctuation.definition.string.begin.html
       set: tag-class-attribute-value-single-quoted-content
     - match: '{{unquoted_attribute_start}}'
       set: tag-class-attribute-value-unquoted-content
     - include: else-pop
 
   tag-class-attribute-value-double-quoted-content:
-    - meta_scope: meta.string.html string.quoted.double.html
-    - meta_content_scope: meta.class-name.html
+    - meta_content_scope: meta.class-name.html meta.string.html string.quoted.double.html
     - include: strings-double-quoted-end
     - include: tag-class-attribute-value-quoted-content
+    - include: tag-attribute-value-separator-double-quoted
 
   tag-class-attribute-value-single-quoted-content:
-    - meta_scope: meta.string.html string.quoted.single.html
-    - meta_content_scope: meta.class-name.html
+    - meta_content_scope: meta.class-name.html meta.string.html string.quoted.single.html
     - include: strings-single-quoted-end
     - include: tag-class-attribute-value-quoted-content
+    - include: tag-attribute-value-separator-single-quoted
 
   tag-class-attribute-value-quoted-content:
-    - include: tag-attribute-value-separator
     - include: tag-class-attribute-value-content
 
   tag-class-attribute-value-unquoted-content:
-    - meta_scope: meta.string.html string.unquoted.html meta.class-name.html
+    - meta_content_scope: meta.class-name.html meta.string.html string.unquoted.html
     - include: tag-attribute-value-unquoted-end
     - include: tag-class-attribute-value-content
     - include: tag-attribute-value-unquoted-invalid-char
@@ -652,22 +665,26 @@ contexts:
 
   tag-generic-attribute-value:
     - match: \"
-      scope: punctuation.definition.string.begin.html
+      scope:
+        meta.string.html string.quoted.double.html
+        punctuation.definition.string.begin.html
       set: tag-generic-attribute-value-double-quoted-content
     - match: \'
-      scope: punctuation.definition.string.begin.html
+      scope:
+        meta.string.html string.quoted.single.html
+        punctuation.definition.string.begin.html
       set: tag-generic-attribute-value-single-quoted-content
     - match: '{{unquoted_attribute_start}}'
       set: tag-generic-attribute-value-unquoted-content
     - include: else-pop
 
   tag-generic-attribute-value-double-quoted-content:
-    - meta_scope: meta.string.html string.quoted.double.html
+    - meta_content_scope: meta.string.html string.quoted.double.html
     - include: strings-double-quoted-end
     - include: tag-generic-attribute-value-quoted-content
 
   tag-generic-attribute-value-single-quoted-content:
-    - meta_scope: meta.string.html string.quoted.single.html
+    - meta_content_scope: meta.string.html string.quoted.single.html
     - include: strings-single-quoted-end
     - include: tag-generic-attribute-value-quoted-content
 
@@ -675,7 +692,7 @@ contexts:
     - include: tag-generic-attribute-value-content
 
   tag-generic-attribute-value-unquoted-content:
-    - meta_scope: meta.string.html string.unquoted.html
+    - meta_content_scope: meta.string.html string.unquoted.html
     - include: tag-attribute-value-unquoted-end
     - include: tag-generic-attribute-value-content
     - include: tag-attribute-value-unquoted-invalid-char
@@ -704,22 +721,26 @@ contexts:
 
   tag-href-attribute-value:
     - match: \"
-      scope: punctuation.definition.string.begin.html
+      scope:
+        meta.string.html string.quoted.double.html
+        punctuation.definition.string.begin.html
       set: tag-href-attribute-value-double-quoted-content
     - match: \'
-      scope: punctuation.definition.string.begin.html
+      scope:
+        meta.string.html string.quoted.single.html
+        punctuation.definition.string.begin.html
       set: tag-href-attribute-value-single-quoted-content
     - match: '{{unquoted_attribute_start}}'
       set: tag-href-attribute-value-unquoted-content
     - include: else-pop
 
   tag-href-attribute-value-double-quoted-content:
-    - meta_scope: meta.string.html string.quoted.double.html
+    - meta_content_scope: meta.path.url.html meta.string.html string.quoted.double.html
     - include: strings-double-quoted-end
     - include: tag-href-attribute-value-quoted-content
 
   tag-href-attribute-value-single-quoted-content:
-    - meta_scope: meta.string.html string.quoted.single.html
+    - meta_content_scope: meta.path.url.html meta.string.html string.quoted.single.html
     - include: strings-single-quoted-end
     - include: tag-href-attribute-value-quoted-content
 
@@ -727,7 +748,7 @@ contexts:
     - include: tag-href-attribute-value-content
 
   tag-href-attribute-value-unquoted-content:
-    - meta_scope: meta.string.html string.unquoted.html
+    - meta_content_scope: meta.path.url.html meta.string.html string.unquoted.html
     - include: tag-attribute-value-unquoted-end
     - include: tag-href-attribute-value-content
     - include: tag-attribute-value-unquoted-invalid-char
@@ -760,33 +781,36 @@ contexts:
 
   tag-id-attribute-value:
     - match: \"
-      scope: punctuation.definition.string.begin.html
+      scope:
+        meta.string.html string.quoted.double.html
+        punctuation.definition.string.begin.html
       set: tag-id-attribute-value-double-quoted-content
     - match: \'
-      scope: punctuation.definition.string.begin.html
+      scope:
+        meta.string.html string.quoted.single.html
+        punctuation.definition.string.begin.html
       set: tag-id-attribute-value-single-quoted-content
     - match: '{{unquoted_attribute_start}}'
       set: tag-id-attribute-value-unquoted-content
     - include: else-pop
 
   tag-id-attribute-value-double-quoted-content:
-    - meta_scope: meta.string.html string.quoted.double.html
-    - meta_content_scope: meta.toc-list.id.html
+    - meta_content_scope: meta.toc-list.id.html meta.string.html string.quoted.double.html
     - include: strings-double-quoted-end
     - include: tag-id-attribute-value-quoted-content
+    - include: tag-attribute-value-separator-double-quoted
 
   tag-id-attribute-value-single-quoted-content:
-    - meta_scope: meta.string.html string.quoted.single.html
-    - meta_content_scope: meta.toc-list.id.html
+    - meta_content_scope: meta.toc-list.id.html meta.string.html string.quoted.single.html
     - include: strings-single-quoted-end
     - include: tag-id-attribute-value-quoted-content
+    - include: tag-attribute-value-separator-single-quoted
 
   tag-id-attribute-value-quoted-content:
-    - include: tag-attribute-value-separator
     - include: tag-id-attribute-value-content
 
   tag-id-attribute-value-unquoted-content:
-    - meta_scope: meta.string.html string.unquoted.html meta.toc-list.id.html
+    - meta_content_scope: meta.toc-list.id.html meta.string.html string.unquoted.html
     - include: tag-attribute-value-unquoted-end
     - include: tag-id-attribute-value-content
     - include: tag-attribute-value-unquoted-invalid-char
@@ -855,31 +879,39 @@ contexts:
 
   strings-double-quoted:
     - match: \"
-      scope: punctuation.definition.string.begin.html
+      scope:
+        meta.string.html string.quoted.double.html
+        punctuation.definition.string.begin.html
       push: strings-double-quoted-content
 
   strings-double-quoted-end:
     - match: \"
-      scope: punctuation.definition.string.end.html
+      scope:
+        meta.string.html string.quoted.double.html
+        punctuation.definition.string.end.html
       pop: 1
 
   strings-double-quoted-content:
-    - meta_scope: meta.string.html string.quoted.double.html
+    - meta_content_scope: meta.string.html string.quoted.double.html
     - include: strings-double-quoted-end
     - include: strings-quoted-content
 
   strings-single-quoted:
     - match: \'
-      scope: punctuation.definition.string.begin.html
+      scope:
+        meta.string.html string.quoted.single.html
+        punctuation.definition.string.begin.html
       push: strings-single-quoted-content
 
   strings-single-quoted-end:
     - match: \'
-      scope: punctuation.definition.string.end.html
+      scope:
+        meta.string.html string.quoted.single.html
+        punctuation.definition.string.end.html
       pop: 1
 
   strings-single-quoted-content:
-    - meta_scope: meta.string.html string.quoted.single.html
+    - meta_content_scope: meta.string.html string.quoted.single.html
     - include: strings-single-quoted-end
     - include: strings-quoted-content
 
