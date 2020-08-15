@@ -115,7 +115,7 @@ contexts:
     - include: cmd-export
     - include: cmd-readonly
     - include: def-variables
-    - include: funcdef
+    - include: def-functions
     - include: booleans
     - include: cmd-basic
 
@@ -192,38 +192,38 @@ contexts:
 
 ###[ FUNCTION DEFINITIONS ]####################################################
 
-  funcdef:
+  def-functions:
     # [Bash] 3.3 Shell Functions
     - match: (?={{cmd_literal}}\s*\(\s*\))
       push:
-        - funcdef-redirection
-        - funcdef-body
-        - funcdef-params
-        - funcdef-name
+        - def-functions-redirection
+        - def-functions-body
+        - def-functions-params
+        - def-functions-name
     - match: function{{cmd_break}}
       scope:
         meta.function.shell
         storage.type.function.shell
         keyword.declaration.function.shell
       push:
-        - funcdef-redirection
-        - funcdef-body
-        - funcdef-params
-        - funcdef-name
+        - def-functions-redirection
+        - def-functions-body
+        - def-functions-params
+        - def-functions-name
 
-  funcdef-name:
+  def-functions-name:
     - match: '{{cmd_begin}}'
-      set: funcdef-name-chars
+      set: def-functions-name-chars
     - include: else-pop
     - include: eol-pop
 
-  funcdef-name-chars:
+  def-functions-name-chars:
     - match: '{{cmd_literal_char}}+'
       scope: entity.name.function.shell
     - include: entity-function-expansions
     - include: immediately-pop
 
-  funcdef-params:
+  def-functions-params:
     - clear_scopes: 1
     - meta_content_scope: meta.function.identifier.shell
     - match: (\()\s*(\))
@@ -234,7 +234,7 @@ contexts:
       pop: 1
     - include: else-pop
 
-  funcdef-body:
+  def-functions-body:
     - match: \{  # Bash expects `{{cmd_break}}` but we don't care.
       scope: punctuation.section.compound.begin.shell
       set:
@@ -254,7 +254,7 @@ contexts:
     - include: comments
     - include: else-pop
 
-  funcdef-redirection:
+  def-functions-redirection:
     - meta_content_scope: meta.function.shell
     - include: redirections
     - include: else-pop
