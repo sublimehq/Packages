@@ -211,8 +211,8 @@ contexts:
                         pattern will only match stuff matched by the sub-patterns.
       push:
         - meta_scope: meta.block-level.markdown
-        - include: ligatures
         - include: block-quote
+        - include: ligatures
         - include: indented-code-block
         - include: atx-heading
         - include: thematic-break
@@ -364,9 +364,16 @@ contexts:
         Markdown will convert this for us. We match it so that the
                         HTML grammar will not mark it up as invalid.
       scope: meta.other.valid-ampersand.markdown
+
   ligatures:
-    - match: '<=>'          # <=>
-    - match: '<[-=<]'       # <- <= <<
+    - match: '<?(-+|=+)<'     # -< --< ---< ----< <-< <--< <---< <----<
+                              # =< ==< ===< ====< <=< <==< <===< <====<
+    - match: '<(-+|=+)>?'     # <- <-- <--- <-> <--> <--->
+                              # <= <== <=== <=> <==> <===>
+    - match: '>(-+|=+)[<>]?'  # >- >-- >--- >-> >--> >---> >-< >--< >---<
+                              # >= >== >=== >=> >==> >===> >=< >==< >===<
+    - match: '<<+|<>|>>+'     # << <<< <<<< <> >>>> >>> >>
+
   block-quote:
     - match: '[ ]{,3}(>)[ ]?'
       comment: |

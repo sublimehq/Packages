@@ -405,6 +405,9 @@ paragraph
     >=
 |   ^^ - punctuation.definition.blockquote.markdown
 
+>==
+| <- punctuation.definition.blockquote.markdown
+
 Code block below:
 
     this is code!
@@ -503,11 +506,40 @@ a.b-c_d@a.b.
 this is a raw ampersand & does not require HTML escaping
 |                       ^ meta.other.valid-ampersand
 
-this is a raw bracket < <= <- << does not require HTML escaping
+this is a raw bracket < > does not require HTML escaping
+|                     ^^^ - meta.tag 
 |                     ^ meta.other.valid-bracket
-|                       ^^ - meta.other-valid-bracket - meta.tag
-|                          ^^ - meta.other-valid-bracket - meta.tag
-|                             ^^ - meta.other-valid-bracket - meta.tag
+|                       ^ - meta.other.valid-bracket
+
+these are raw ligatures << <<< <<<< <<<<< >>>>> >>>> >>> >>
+|                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.other.valid-bracket - meta.tag
+
+these are raw ligatures <- <-- <--- <---- <-< <--< <---< <----<
+|                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.other.valid-bracket - meta.tag
+
+these are raw ligatures -> --> ---> ----> >-> >--> >---> >---->
+|                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.other.valid-bracket - meta.tag
+
+these are raw ligatures >- >-- >--- >---- ----< ---< --< -<
+|                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.other.valid-bracket - meta.tag
+
+these are raw ligatures >< >-< >--< >---< <---> <--> <-> <>
+|                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.other.valid-bracket - meta.tag
+
+these are raw ligatures <= <== <=== <==== <=< <==< <===< <====<
+|                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.other.valid-bracket - meta.tag
+
+these are raw ligatures => ==> ===> ====> >=> >==> >===> >====>
+|                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.other.valid-bracket - meta.tag
+
+these are raw ligatures >= >== >=== >==== ====< ===< ==< =<
+|                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.other.valid-bracket - meta.tag
+
+these are raw ligatures >< >=< >==< >===< <===> <==> <=> <>
+|                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.other.valid-bracket - meta.tag
+
+these are raw ligatures - -- --- ---- ----- ===== ==== === == =
+|                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.other.valid-bracket - meta.tag
 
 [2]: https://github.com/sublimehq/Packages "Packages Repo"
 | <- meta.link.reference.def
