@@ -274,6 +274,13 @@ contexts:
       scope: keyword.operator.spread.php
     - match: \.
       scope: keyword.operator.string.php
+    - match: \?
+      scope: keyword.operator.ternary.php
+      push:
+        - include: expressions
+        - match: ':'
+          scope: keyword.operator.ternary.php
+          pop: true
     - match: "="
       scope: keyword.operator.assignment.php
     - match: '(?i)\b(instanceof)\s+(?=[[:alpha:]\\$_])'
