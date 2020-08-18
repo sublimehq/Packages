@@ -15,14 +15,18 @@ KIND_ENTITY_SNIPPET = (sublime.KIND_ID_SNIPPET, 'e', 'Entity')
 KIND_ATTRIBUTE_SNIPPET = (sublime.KIND_ID_SNIPPET, 'a', 'Attribute')
 KIND_TAG_MARKUP = (sublime.KIND_ID_MARKUP, 't', 'Tag')
 
+ENABLE_TIMING = False
+
 
 def timing(func):
     @wraps(func)
     def wrap(*args, **kw):
-        ts = timeit.default_timer()
+        if ENABLE_TIMING:
+            ts = timeit.default_timer()
         result = func(*args, **kw)
-        te = timeit.default_timer()
-        print(f"{func.__name__}({args}, {kw}) took: {1000.0 * (te - ts):2.3f} ms")
+        if ENABLE_TIMING:
+            te = timeit.default_timer()
+            print(f"{func.__name__}({args}, {kw}) took: {1000.0 * (te - ts):2.3f} ms")
         return result
     return wrap
 
@@ -435,7 +439,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
             sublime.INHIBIT_WORD_COMPLETIONS
         )
 
-    # @timing
+    @timing
     def on_query_completions(self, view, prefix, locations):
 
         def match_selector(selector):
