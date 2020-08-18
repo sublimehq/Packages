@@ -1904,15 +1904,15 @@ contexts:
     - match: <=|<-
       scope: keyword.operator.generator.erlang
     # http://erlang.org/doc/reference_manual/expressions.html#term-comparisons
-    - match: =/=|=:=|/=|==|=<|>=|=!|[<>!]
-      scope: keyword.operator.logical.erlang
+    - match: =/=|=:=|/=|==|=<|>=|=!|>|<
+      scope: keyword.operator.comparison.erlang
     # http://erlang.org/doc/reference_manual/expressions.html#list-operations
     - match: \+\+|--
       scope: keyword.operator.lists.erlang
     # http://erlang.org/doc/reference_manual/expressions.html#arithmetic-expressions
     - match: '[-+*/]'
       scope: keyword.operator.arithmetic.erlang
-    - match: '='
+    - match: '[=!]'
       scope: keyword.operator.assignment.erlang
 
   operator:

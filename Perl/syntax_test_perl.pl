@@ -4722,10 +4722,21 @@ state
   print /pattern/g;
 # ^^^^^ support.function.perl
 #       ^ punctuation.section.generic.begin.perl
-#        ^^^^^^^ meta.string.perl string.regexp.perl source.regexp
+#        ^^^^^^^ meta.string.perl string.regexp.perl source.regexp meta.literal.regexp
 #               ^ punctuation.section.generic.end.perl
 #                ^ constant.language.flags.regexp.perl
-#                 ^ punctuation.terminator.statement.perl
+  print(grep /^Client-/, $res->header_field_names)
+# ^^^^^ support.function.perl
+#      ^ punctuation.section.group.begin.perl
+#       ^^^^ support.function.perl
+#            ^ punctuation.section.generic.begin.perl
+#             ^^^^^^^^ meta.string.perl string.regexp.perl source.regexp
+#                     ^ punctuation.section.generic.end.perl
+#                      ^ punctuation.separator.sequence.perl
+#                        ^^^^ variable.other.readwrite.perl
+#                            ^^ punctuation.accessor.arrow.perl
+#                              ^^^^^^^^^^^^^^^^^^ variable.function.member.perl
+#                                                ^ punctuation.section.group.end.perl
   print "string";
 # ^^^^^ support.function.perl
 #       ^^^^^^^^ meta.string.perl string.quoted.double.perl
@@ -4771,13 +4782,30 @@ state
   func "string";
 # ^^^^ variable.function.perl
 #      ^^^^^^^^ meta.string.perl string.quoted.double.perl
+
+  # Patterns an ambigious argument and need parentheses
   func /pattern/g;
 # ^^^^ variable.function.perl
-#      ^ punctuation.section.generic.begin.perl
-#       ^^^^^^^ meta.string.perl string.regexp.perl source.regexp
-#              ^ punctuation.section.generic.end.perl
-#               ^ constant.language.flags.regexp.perl
+#      ^ - punctuation.section.generic.begin
+#       ^^^^^^^ - string.regexp
+#              ^ - punctuation.section.generic.end
+#               ^ - constant.language.flags.regexp
 #                ^ punctuation.terminator.statement.perl
+  func / 10
+# ^^^^ variable.function.perl
+#      ^ keyword.operator.arithmetic.perl
+#        ^^ constant.numeric.integer.decimal.perl
+
+  func / 10; $a = 10/2
+# ^^^^ variable.function.perl
+#      ^ keyword.operator.arithmetic.perl
+#        ^^ constant.numeric.integer.decimal.perl
+#          ^ punctuation.terminator.statement.perl
+#            ^^ variable.language.perl
+#               ^ keyword.operator.assignment.perl
+#                 ^^ constant.numeric.integer.decimal.perl
+#                   ^ keyword.operator.arithmetic.perl
+#                    ^ constant.numeric.integer.decimal.perl
   Func x::path
 # ^^^^ variable.function.perl
 #      ^^^^^^^ meta.path.perl
@@ -4840,6 +4868,18 @@ _EOD_
   no_func and 1
 # ^^^^^^^ - variable.function
 #         ^^^ keyword.operator.logical.perl
+
+  ## Some functions are known to not be followed by patterns.
+  ## Thus multiple slashes in the line don't denote /<pattern>/
+
+  time / 86400 << 16 / 50
+# ^^^^ meta.function-call.perl support.function.perl
+#      ^ keyword.operator.arithmetic.perl
+#        ^^^^^ constant.numeric.integer.decimal.perl
+#              ^^ keyword.operator.bitwise.perl
+#                 ^^ constant.numeric.integer.decimal.perl
+#                    ^ keyword.operator.arithmetic.perl
+#                      ^^ constant.numeric.integer.decimal.perl
 
   ## To ensure the interpreter identifies a function correctly,
   ## the arguments need to be encapsulated in parentheses.
@@ -4962,10 +5002,10 @@ _EOD_
 # ^^^^^^ meta.path.perl
 # ^^ punctuation.accessor.double-colon.perl
 #   ^^^^ variable.function.perl
-#        ^ punctuation.section.generic.begin.perl
-#         ^^^^^^^ meta.string.perl string.regexp.perl source.regexp
-#                ^ punctuation.section.generic.end.perl
-#                 ^ constant.language.flags.regexp.perl
+#        ^ - punctuation.section.generic.begin
+#         ^^^^^^^ - string.regexp
+#                ^ - punctuation.section.generic.end
+#                 ^ - constant.language.flags.regexp
 #                  ^ punctuation.terminator.statement.perl
   ::Func x::path
 # ^^^^^^ meta.path.perl

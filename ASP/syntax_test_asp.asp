@@ -1000,8 +1000,10 @@ test = "hello%>
 '^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.block.any.html
 '                                         ^^^^^^^^^ meta.tag.block.any.html
 '   ^^^^^ meta.attribute-with-value.class.html entity.other.attribute-name.class.html
-'         ^^^ meta.attribute-with-value.class.html string.quoted.double.html
-'                                   ^^^^^^^^^^ meta.attribute-with-value.class.html string.quoted.double.html
+'         ^ meta.attribute-with-value.class.html meta.string.html string.quoted.double.html - meta.interpolation
+'          ^^ meta.attribute-with-value.class.html  meta.string.html meta.interpolation.html - string
+'                                   ^^^^^^^^^ meta.attribute-with-value.class.html meta.string.html meta.interpolation.html - string
+'                                            ^ meta.attribute-with-value.class.html meta.string.html string.quoted.double.html - meta.interpolation
 '                                             ^ - string
 '          ^^^^^^^^^^^^^^^^ meta.class-name.html
 '                                  ^^^^^^^^^^ meta.class-name.html
@@ -1027,7 +1029,7 @@ test = "hello%>
 '       ^^^^^^^^^^^^^^^^ string.quoted.double.asp
 '                        ^^ punctuation.section.embedded.end.asp
 '                           ^^ meta.attribute-with-value.id.html entity.other.attribute-name.id.html
-'                               ^^^^^ meta.attribute-with-value.id.html string.quoted.double.html meta.toc-list.id.html
+'                               ^^^^^ meta.attribute-with-value.id.html meta.toc-list.id.html string.quoted.double.html
 '                                     ^ punctuation.definition.tag.end.html
 '                                          ^ - meta.tag.block.any.html
 <% If True Then
@@ -1042,7 +1044,7 @@ test = "hello%>
        '                           ^^ punctuation.section.embedded.end.inside-block.asp
        '                             ^^^^^^^^^^^^ meta.tag
        '                              ^^ meta.attribute-with-value.id.html entity.other.attribute-name.id.html
-       '                                  ^^^^^ meta.attribute-with-value.id.html string.quoted.double.html meta.toc-list.id.html
+       '                                  ^^^^^ meta.attribute-with-value.id.html meta.toc-list.id.html string.quoted.double.html
        '                                        ^ punctuation.definition.tag.end.html
        '                                         ^^^^^^^ meta.tag.inline.any.html - meta.tag.after-embedded-asp.any.html
        '                                         ^^ punctuation.definition.tag.begin.html
@@ -1066,13 +1068,13 @@ test = "hello%>
 '                          ^^^^^ entity.other.attribute-name.class.html
 '                               ^ punctuation.separator.key-value.html
 '                                ^ string.quoted.double.html punctuation.definition.string.begin.html
-'                                 ^^^^ string.quoted.double.html meta.class-name.html
+'                                 ^^^^ meta.class-name.html string.quoted.double.html
 '                                     ^ string.quoted.double.html punctuation.definition.string.end.html
 '                                       ^^ punctuation.section.embedded.begin.inside-block.asp
 '                                          ^^^^^^ keyword.control.flow.asp
 '                                                 ^^ punctuation.section.embedded.end.asp
 '                                                    ^^ meta.attribute-with-value.id.html entity.other.attribute-name.id.html
-'                                                        ^^^^^ meta.attribute-with-value.id.html string.quoted.double.html meta.toc-list.id.html
+'                                                        ^^^^^ meta.attribute-with-value.id.html meta.toc-list.id.html string.quoted.double.html
 '                                                              ^ punctuation.definition.tag.end.html
  <span <% If True Then %>
   class="test"
@@ -1081,7 +1083,7 @@ test = "hello%>
 ' ^^^^^ entity.other.attribute-name.class.html
 '      ^ punctuation.separator.key-value.html
 '       ^ string.quoted.double.html punctuation.definition.string.begin.html
-'        ^^^^ string.quoted.double.html meta.class-name.html
+'        ^^^^ meta.class-name.html string.quoted.double.html
 '            ^ string.quoted.double.html punctuation.definition.string.end.html
  <% End If %>
 '^^ punctuation.section.embedded.begin.inside-block.asp
@@ -1090,7 +1092,7 @@ test = "hello%>
  id="test4"></span>
 '^^^^^^^^^^^ meta.tag
 '^^ meta.attribute-with-value.id.html entity.other.attribute-name.id.html
-'    ^^^^^ meta.attribute-with-value.id.html string.quoted.double.html meta.toc-list.id.html
+'    ^^^^^ meta.attribute-with-value.id.html meta.toc-list.id.html string.quoted.double.html
 '          ^ punctuation.definition.tag.end.html
 '           ^^^^^^^ meta.tag.inline.any.html - meta.tag.after-embedded-asp.any.html
 '           ^^ punctuation.definition.tag.begin.html
@@ -1107,7 +1109,7 @@ test = "hello%>
 '                          ^^^^^^^^^^^^^ meta.tag
 '                          ^ string.quoted.double.html punctuation.definition.string.end.html
 '                            ^^ meta.attribute-with-value.id.html entity.other.attribute-name.id.html
-'                                ^^^^^ meta.attribute-with-value.id.html string.quoted.double.html meta.toc-list.id.html
+'                                ^^^^^ meta.attribute-with-value.id.html meta.toc-list.id.html string.quoted.double.html
 '                                      ^ punctuation.definition.tag.end.html
 '                                       ^^^^^^^ meta.tag.inline.any.html - meta.tag.after-embedded-asp.any.html
 '                                       ^^ punctuation.definition.tag.begin.html

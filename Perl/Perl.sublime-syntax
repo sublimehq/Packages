@@ -31,30 +31,40 @@ variables:
   no_escape_behind: '(?<![^\\]\\)(?<![^\\][\\]{3})'
 
   # SEE: https://perldoc.perl.org/index-functions.html
-  builtin_functions: |-
+  builtin_functions:
+    (?:{{builtins_with_pattern_args}}|{{builtins_without_pattern_args}})
+
+  # functions which may be followed by `/<pattern>/<flags>`
+  builtins_with_pattern_args: |-
     \b(?x:
-      abs|accept|alarm|atan2|bind|binmode|bless|chdir|chmod|
-      chomp|chop|chown|chr|chroot|close|closedir|connect|cos|crypt|
+      accept|alarm|bind|binmode|bless|chdir|chmod|
+      chomp|chop|chown|chr|chroot|close|closedir|connect|crypt|
       dbmclose|dbmopen|defined|delete|each|endgrent|endhostent|
       endnetent|endprotoent|endpwent|endservent|eof|eval|evalbytes|exec|
-      exists|exp|fc|fcntl|fileno|flock|fork|formline|getc|
+      exists|fc|fcntl|fileno|flock|fork|formline|getc|
       getgrent|getgrgid|getgrnam|gethostbyaddr|gethostbyname|gethostent|
       getlogin|getnetbyaddr|getnetbyname|getnetent|getpeername|getpgrp|
       getppid|getpriority|getprotobyname|getprotobynumber|getprotoent|
       getpwent|getpwnam|getpwuid|getservbyname|getservbyport|getservent|
       getsockname|getsockopt|glob|gmtime|grep|hex|index|int|ioctl|join|
-      keys|kill|lc|lcfirst|length|link|listen|localtime|lock|log|
+      keys|kill|lc|lcfirst|length|link|listen|localtime|lock|
       lstat|map|mkdir|msgctl|msgget|msgrcv|msgsnd|oct|open|opendir|ord|
       pack|pipe|pop|pos|print|printf|prototype|push|quotemeta|
-      rand|read|readdir|readline|readlink|readpipe|recv|ref|rename|
+      read|readdir|readline|readlink|readpipe|recv|ref|rename|
       reset|reverse|rewinddir|rindex|rmdir|say|scalar|seek|seekdir|select|
       semctl|semget|semop|send|setgrent|sethostent|setnetent|setpgrp|
-      setpriority|setprotoent|setpwent|setservent|setsockopt|shift|shmctl|
-      shmget|shmread|shmwrite|shutdown|sin|sleep|socket|socketpair|sort|
-      splice|split|sprintf|sqrt|srand|stat|study|substr|symlink|syscall|
-      sysopen|sysread|sysseek|system|syswrite|tell|telldir|tie|tied|time|
-      times|truncate|uc|ucfirst|umask|undef|unlink|unpack|unshift|untie|
-      utime|values|vec|wait|waitpid|wantarray|warn|write
+      setpriority|setprotoent|setpwent|setservent|setsockopt|shmctl|
+      shmget|shmread|shmwrite|shutdown|sleep|socket|socketpair|sort|
+      splice|split|sprintf|stat|study|substr|symlink|syscall|
+      sysopen|sysread|sysseek|system|syswrite|tell|telldir|tie|tied|
+      truncate|uc|ucfirst|umask|undef|unlink|unpack|untie|
+      values|vec|wait|waitpid|wantarray|warn|write
+    ){{break}}
+
+  # functions which may not be followed by `/<pattern>/<flags>`
+  builtins_without_pattern_args: |-
+    \b(?x:
+      abs|atan2|cos|exp|log|rand|shift|sin|sqrt|srand|time|times|unshift|utime
     ){{break}}
 
   builtin_variables: |-
@@ -1607,24 +1617,36 @@ contexts:
 
   function-identifier:
     # builtin function calls
-    - match: '{{builtin_functions}}'
+    - match: '{{builtins_with_pattern_args}}'
       scope: meta.function-call.perl support.function.perl
-      set: expressions-begin
+      set: maybe-regexp-match
+    - match: '{{builtins_without_pattern_args}}'
+      scope: meta.function-call.perl support.function.perl
+      set: function-call-arguments
     # user defined function calls
     - match: '{{identifier}}{{break}}'
       scope: meta.function-call.perl variable.function.perl
-      set: expressions-begin
+      set: function-call-arguments
     - include: immediately-pop
 
   unqualified-function-call:
     # builtin function calls
-    - match: '{{builtin_functions}}'
+    - match: '{{builtins_with_pattern_args}}'
       scope: meta.function-call.perl support.function.perl
-      push: expressions-begin
+      push: maybe-regexp-match
+    - match: '{{builtins_without_pattern_args}}'
+      scope: meta.function-call.perl support.function.perl
+      push: function-call-arguments
     # user defined function calls
     - match: '{{identifier}}(?=\s*(?:$|[;#/(''"`$@%]|<<|(?!(?:{{operator_keywords}}){{break}})\w))'
       scope: meta.function-call.perl variable.function.perl
-      push: expressions-begin
+      push: function-call-arguments
+
+  function-call-arguments:
+    - include: string-quoted-angle-pop
+    - include: variable-not-operator
+    - include: else-pop
+    - include: eol-pop
 
 ###[ VARIABLES INTERPOLATION ]################################################
 

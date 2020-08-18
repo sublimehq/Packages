@@ -1059,6 +1059,12 @@ variables_tests() -> .
 
 operator_tests() -> .
 
+    X ! Expr   % assign return value of Expr to X
+%     ^ keyword.operator.assignment.erlang
+
+    X = foo    % assign a value
+%     ^ keyword.operator.assignment.erlang
+
     X++Y
 %    ^^ keyword.operator.lists.erlang
 
@@ -1066,25 +1072,25 @@ operator_tests() -> .
 %    ^^ keyword.operator.lists.erlang
 
     2 /= 3
-%     ^^ keyword.operator.logical.erlang
+%     ^^ keyword.operator.comparison.erlang
 
     2 == 3
-%     ^^ keyword.operator.logical.erlang
+%     ^^ keyword.operator.comparison.erlang
 
     2 >= 3
-%     ^^ keyword.operator.logical.erlang
+%     ^^ keyword.operator.comparison.erlang
 
     2 =< 3
-%     ^^ keyword.operator.logical.erlang
+%     ^^ keyword.operator.comparison.erlang
 
     X =:= 3
-%     ^^^ keyword.operator.logical.erlang
+%     ^^^ keyword.operator.comparison.erlang
 
     X =/= 3
-%     ^^^ keyword.operator.logical.erlang
+%     ^^^ keyword.operator.comparison.erlang
 
     X =! 3
-%     ^^ keyword.operator.logical.erlang
+%     ^^ keyword.operator.comparison.erlang
 
     X <- [1,2,3]
 %   ^ variable.other.readwrite.erlang
@@ -1180,7 +1186,7 @@ preprocessor_control_tests() -> .
 %      ^ punctuation.section.arguments.begin.erlang
 %       ^ punctuation.definition.macro.erlang
 %       ^^^^^^^^^^^^ constant.language.macro.erlang
-%                    ^^ keyword.operator.logical.erlang
+%                    ^^ keyword.operator.comparison.erlang
 %                       ^^ constant.numeric.integer.decimal.erlang
 %                         ^ punctuation.section.arguments.end.erlang
 %                          ^ punctuation.terminator.clause.erlang
@@ -1194,7 +1200,7 @@ preprocessor_control_tests() -> .
 %        ^ punctuation.section.arguments.begin.erlang
 %         ^ punctuation.definition.macro.erlang
 %         ^^^^^^^^^^^^ constant.language.macro.erlang
-%                      ^^ keyword.operator.logical.erlang
+%                      ^^ keyword.operator.comparison.erlang
 %                         ^^ constant.numeric.integer.decimal.erlang
 %                           ^ punctuation.section.arguments.end.erlang
 %                            ^ punctuation.terminator.clause.erlang
@@ -4274,7 +4280,7 @@ func_name(Mod, Name, _, {Enc,Depth}, <<Code:32/little-unsigned>>) ->
 %         ^ punctuation.section.parameters.end.erlang
 %           ^^^^ keyword.control.conditional.when.erlang
 %                ^ variable.other.readwrite.erlang
-%                 ^ keyword.operator.logical.erlang
+%                 ^ keyword.operator.comparison.erlang
 %                  ^ constant.numeric.integer.decimal.erlang
 %                    ^^ punctuation.separator.clause-head-body.erlang
 %                        ^ punctuation.definition.comment.percentage.erlang
@@ -4344,7 +4350,7 @@ case_tests() ->
 %                                ^ punctuation.section.arguments.end.erlang
 %                                 ^ punctuation.separator.clauses.erlang
 %                                   ^^^ variable.other.readwrite.erlang
-%                                       ^^ keyword.operator.logical.erlang
+%                                       ^^ keyword.operator.comparison.erlang
 %                                          ^^^^^ constant.language.boolean.erlang
 %                                                ^^ punctuation.separator.clause-head-body.erlang
             print("ok");
@@ -4401,7 +4407,7 @@ if_tests() ->
 %                                ^ punctuation.section.arguments.end.erlang
 %                                 ^ punctuation.separator.clauses.erlang
 %                                   ^^^ variable.other.readwrite.erlang
-%                                       ^^ keyword.operator.logical.erlang
+%                                       ^^ keyword.operator.comparison.erlang
 %                                          ^^^^^ constant.language.boolean.erlang
 %                                                ^^ punctuation.separator.clause-head-body.erlang
             print("ok");
@@ -5063,7 +5069,7 @@ fun_expression_tests() ->
 %                ^ punctuation.section.parameters.end.erlang
 %                  ^^^^ keyword.control.conditional.when.erlang
 %                       ^ variable.other.readwrite.erlang
-%                        ^^ keyword.operator.logical.erlang
+%                        ^^ keyword.operator.comparison.erlang
 %                          ^ constant.numeric.integer.decimal.erlang
 %                            ^^ punctuation.separator.clause-head-body.erlang
 %                               ^^ constant.other.symbol.erlang
@@ -5104,7 +5110,7 @@ fun_expression_tests() ->
 %                                  ^ punctuation.section.parameters.end.erlang
 %                                    ^^^^ keyword.control.conditional.when.erlang
 %                                         ^ variable.other.readwrite.erlang
-%                                           ^ keyword.operator.logical.erlang
+%                                           ^ keyword.operator.comparison.erlang
 %                                             ^ constant.numeric.integer.decimal.erlang
 %                                               ^^ punctuation.separator.clause-head-body.erlang
 %                                                  ^ variable.other.readwrite.erlang
@@ -5135,7 +5141,7 @@ fun_expression_tests() ->
 %            ^ punctuation.section.parameters.end.erlang
 %              ^^^^ keyword.control.conditional.when.erlang
 %                   ^ variable.other.readwrite.erlang
-%                     ^^ keyword.operator.logical.erlang
+%                     ^^ keyword.operator.comparison.erlang
 %                        ^^^^ constant.language.boolean.erlang
 %                            ^ punctuation.separator.clauses.erlang
 %                              ^^^^^^^^ support.function.erlang
