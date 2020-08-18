@@ -733,6 +733,25 @@ class="foo"></div>
         <2notag>
         ##^^^^^ - entity.name.tag
 
+        <> < >
+        ## <- meta.tag.incomplete.html invalid.illegal.incomplete.html punctuation.definition.tag.begin.html
+         ## <- meta.tag.incomplete.html invalid.illegal.incomplete.html punctuation.definition.tag.end.html
+        ##^ - meta.tag
+        ## ^^^ meta.tag.incomplete.html invalid.illegal.incomplete.html
+        ## ^ punctuation.definition.tag.begin.html
+        ##   ^ punctuation.definition.tag.end.html
+        ##    ^ - meta.tag
+
+        </> < />
+        ## <- meta.tag.incomplete.html invalid.illegal.incomplete.html punctuation.definition.tag.begin.html
+         ## <- meta.tag.incomplete.html invalid.illegal.incomplete.html punctuation.definition.tag.end.html
+          ## <- meta.tag.incomplete.html invalid.illegal.incomplete.html punctuation.definition.tag.end.html
+        ## ^ - meta.tag
+        ##  ^^^^ meta.tag.incomplete.html invalid.illegal.incomplete.html
+        ##  ^ punctuation.definition.tag.begin.html
+        ##    ^^ punctuation.definition.tag.end.html
+        ##      ^ - meta.tag
+
     </body>
     # ^^^^ entity.name.tag.structure
 </html>

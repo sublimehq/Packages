@@ -198,8 +198,11 @@ contexts:
     - include: tag-incomplete
 
   tag-incomplete:
-    - match: <>
-      scope: invalid.illegal.incomplete.html
+    - match: (<)[{{ascii_space}}]*(/?>)
+      scope: meta.tag.incomplete.html invalid.illegal.incomplete.html
+      captures:
+        1: punctuation.definition.tag.begin.html
+        2: punctuation.definition.tag.end.html
 
   tag-end:
     - match: '>'
