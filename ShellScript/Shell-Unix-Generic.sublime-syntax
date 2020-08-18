@@ -6,3 +6,8 @@ version: 2
 hidden: true
 
 extends: Packages/ShellScript/Bash.sublime-syntax
+
+contexts:
+  main:
+    # skip shebang
+    - include: statements

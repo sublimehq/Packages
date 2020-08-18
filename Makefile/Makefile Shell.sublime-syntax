@@ -4,12 +4,9 @@ scope: source.shell.embedded.makefile
 version: 2
 hidden: true
 
-extends: Packages/ShellScript/Bash.sublime-syntax
+extends: Packages/ShellScript/Shell-Unix-Generic.sublime-syntax
 
 contexts:
-  main:
-    # skip shebang
-    - include: statements
 
   expansions-parameter:
     - meta_prepend: true
