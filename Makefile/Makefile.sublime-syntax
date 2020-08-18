@@ -275,20 +275,19 @@ contexts:
       pop: true
 
   recipe-inline:
-    - meta_content_scope: meta.function.body.makefile
+    - meta_content_scope: meta.function.body.makefile source.shell.embedded.makefile
     - include: recipe-junction-between-spaces-or-tabs
     - include: control-flow
     - match: $
       set: recipe-junction-between-spaces-or-tabs
-    - match: ""
-      push: shell
+    - include: shell-content
 
   recipe-with-spaces:
     - meta_content_scope: meta.function.body.makefile
     - match: ^([ ]+)([-@]{1,2})?
       captures:
         2: constant.language.makefile
-      push: shell
+      push: shell-common
     - match: ^(\t)([-@]{1,2})?
       captures:
         1: invalid.illegal.inconsistent.expected.spaces.makefile
@@ -302,7 +301,7 @@ contexts:
     - match: ^\t([-@]{1,2})?
       captures:
         1: constant.language.makefile
-      push: shell
+      push: shell-common
     - match: ^([ ]+)([-@]{1,2})?
       captures:
         1: invalid.illegal.inconsistent.expected.tab.makefile
@@ -315,28 +314,14 @@ contexts:
     - include: control-flow
     - match: ^\n
 
-  shell:
-    # Due to how the shell syntax handles comments, we must account for the case
-    # where a recipe-line is a single comment in combination with an "@" or "-"
-    # from Make.
-    - match: \s*(#)
-      captures:
-        1: punctuation.definition.comment.begin.shell
-      set:
-        # I don't like putting the string "source.shell" here, as the delegation
-        # seeps into this syntax now. But I don't see a cleaner way right now.
-        - meta_scope: source.shell.embedded comment.line.number-sign.shell
-        - include: comments-pop-on-line-end
-    # Otherwise, delegate to the shell syntax (with various extra prototypes).
-    - match: ''
-      set: shell-body
-      with_prototype:
-        - include: variable-substitutions
-
-  shell-body:
-    - meta_scope: source.shell.embedded
-    - include: embedded-shell
+  shell-common:
+    - meta_content_scope: source.shell.embedded.makefile
     - include: pop-on-line-end
+    - include: shell-content
+
+  shell-content:
+    - include: Packages/Makefile/Makefile Shell.sublime-syntax
+      apply_prototype: true
 
   line-continuation:
     - match: (\\)([ ]*)$\n?
@@ -359,6 +344,7 @@ contexts:
     - match: "'"
       scope: punctuation.definition.string.begin.makefile
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.makefile string.quoted.single.makefile
         - match: "'"
           scope: punctuation.definition.string.end.makefile
@@ -369,6 +355,7 @@ contexts:
     - match: '"'
       scope: punctuation.definition.string.begin.makefile
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.string.makefile string.quoted.double.makefile
         - match: '"'
           scope: punctuation.definition.string.end.makefile
@@ -521,18 +508,11 @@ contexts:
         1: keyword.other.block.begin.makefile
         2: support.function.builtin.makefile
       push:
+        - meta_content_scope: source.shell.embedded.makefile
         - match: \)
           scope: keyword.other.block.end.makefile
           pop: true
-        - match: ''
-          push: shell-body
-          with_prototype:
-            - match: (?=\))
-              pop: true
-            - include: variable-substitutions
-            - include: quoted-string
-            - match: \(
-              push: textual-parenthesis-balancer
+        - include: shell-content
 
   variable-definitions:
     - match: \s*(override)\b
@@ -565,10 +545,7 @@ contexts:
           set:
             - match: '!='
               scope: keyword.operator.assignment.makefile
-              set: shell-body
-              with_prototype:
-                - include: variable-substitutions
-                - include: textual-parenthesis-balancer
+              set: shell-common
         - match: (?=\s*(!|\?|\+|::?)?=)
           set:
             - match: (!|\?|\+|::?)?=
@@ -593,17 +570,13 @@ contexts:
       captures:
         1: meta.string.makefile string.unquoted.makefile
         2: meta.string.makefile meta.interpolation.makefile punctuation.section.interpolation.begin.makefile
-      embed: embedded-shell
-      embed_scope: meta.string.makefile meta.interpolation.makefile source.shell.embedded
+      embed: shell-content
+      embed_scope: meta.string.makefile meta.interpolation.makefile source.shell.embedded.makefile
       escape: (?!<\\)\2
       escape_captures:
         0: meta.string.makefile meta.interpolation.makefile punctuation.section.interpolation.end.makefile
     - match: ''
       set: value-to-be-defined
-
-  embedded-shell:
-    - include: scope:source.shell
-      apply_prototype: true
 
   value-to-be-defined:
     - meta_content_scope: meta.string.makefile string.unquoted.makefile
