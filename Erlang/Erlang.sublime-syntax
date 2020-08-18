@@ -118,17 +118,8 @@ variables:
 contexts:
 
   main:
-    - match: ^\#!
-      scope: punctuation.definition.comment.shell
-      set:
-        - meta_include_prototype: false
-        - meta_scope: comment.line.number-sign.shell
-        - match: \b(erlang|escript)\b
-          scope: constant.language.erlang
-        - match: \n
-          set: statements
     - match: ''
-      set: statements
+      push: [statements, shebang]
 
   prototype:
     - include: comment
@@ -241,6 +232,20 @@ contexts:
         - meta_scope: comment.line.percentage.erlang
         - match: \n
           pop: true
+
+  shebang:
+    - match: ^\#!
+      scope: punctuation.definition.comment.shell
+      set:
+        - meta_include_prototype: false
+        - meta_scope: comment.line.shebang.shell
+        # Note: Keep sync with first_line_match!
+        - match: \b(erlang|escript)\b
+          scope: constant.language.erlang
+        - match: \n
+          pop: 1
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Erlang is embedded.
+      pop: 1
 
 ###[ PREPROCESSOR CONTROL ]###################################################
 
@@ -579,17 +584,7 @@ contexts:
             - - meta_content_scope: meta.field.identifier.erlang
               - include: immediatelly-pop
             - - include: variable-anonymous-pop
-              - match: '{{atom_unquoted}}'
-                scope: meta.atom.erlang entity.name.field.erlang
-                pop: true
-              - match: \'
-                scope: punctuation.definition.atom.begin.erlang
-                set:
-                  - meta_include_prototype: false
-                  - meta_scope: meta.atom.erlang entity.name.field.erlang
-                  - include: atom-quoted-common
-              - include: macro-pop
-              - include: atom-expect-end
+              - include: variable-other-field
     - include: else-pop
 
 ###[ PREPROCESSOR SPEC ]######################################################
@@ -1179,7 +1174,7 @@ contexts:
       push: [record-fields, record-name, variable-other-record]
     # records may look like normal variables in macro definitions
     - match: '{{variable}}(?=\.{{ident}})'
-      scope: meta.record.identifier.erlang variable.other.erlang
+      scope: meta.record.identifier.erlang variable.other.readwrite.erlang
       push: record-fields
 
   record-name:
@@ -1188,13 +1183,13 @@ contexts:
 
   variable-other-record:
     - match: '{{atom_unquoted}}'
-      scope: meta.atom.erlang variable.other.record.erlang
+      scope: meta.atom.erlang storage.type.record.erlang
       pop: true
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
         - meta_include_prototype: false
-        - meta_scope: meta.atom.erlang variable.other.record.erlang
+        - meta_scope: meta.atom.erlang storage.type.record.erlang
         - include: atom-quoted-common
     - include: macro-pop
     - include: atom-expect-end
@@ -1245,13 +1240,13 @@ contexts:
 
   variable-other-field:
     - match: '{{atom_unquoted}}'
-      scope: meta.atom.erlang variable.other.field.erlang
+      scope: meta.atom.erlang variable.other.member.erlang
       pop: true
     - match: \'
       scope: punctuation.definition.atom.begin.erlang
       set:
         - meta_include_prototype: false
-        - meta_scope: meta.atom.erlang variable.other.field.erlang
+        - meta_scope: meta.atom.erlang variable.other.member.erlang
         - include: atom-quoted-common
     - include: macro-pop
     - include: atom-expect-end
@@ -1448,11 +1443,11 @@ contexts:
 
   variable-other:
     - match: '{{variable}}'
-      scope: variable.other.erlang
+      scope: variable.other.readwrite.erlang
 
   variable-other-pop:
     - match: '{{variable}}'
-      scope: variable.other.erlang
+      scope: variable.other.readwrite.erlang
       pop: true
 
   variable-parameter:
@@ -1914,15 +1909,15 @@ contexts:
     - match: <=|<-
       scope: keyword.operator.generator.erlang
     # http://erlang.org/doc/reference_manual/expressions.html#term-comparisons
-    - match: =/=|=:=|/=|==|=<|>=|=!|[<>!]
-      scope: keyword.operator.logical.erlang
+    - match: =/=|=:=|/=|==|=<|>=|=!|>|<
+      scope: keyword.operator.comparison.erlang
     # http://erlang.org/doc/reference_manual/expressions.html#list-operations
     - match: \+\+|--
       scope: keyword.operator.lists.erlang
     # http://erlang.org/doc/reference_manual/expressions.html#arithmetic-expressions
     - match: '[-+*/]'
       scope: keyword.operator.arithmetic.erlang
-    - match: '='
+    - match: '[=!]'
       scope: keyword.operator.assignment.erlang
 
   operator:

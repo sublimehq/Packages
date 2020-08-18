@@ -2,19 +2,17 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>meta.interpolation</string>
+	<string>entity.name.coproc.shell</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
 		<key>showInIndexedSymbolList</key>
-		<integer>0</integer>
+		<integer>1</integer>
 		<key>symbolTransformation</key>
-		<string>
-			s/\s+#[^\n]*\n//g; # remove line comments
-			s/\\\n//g;         # remove line continuation
-			s/\s+/ /g;         # normalize whitespace
-		</string>
+		<string>s/\\\n//g;</string>
+		<key>symbolIndexTransformation</key>
+		<string>s/\\\n//g;</string>
 	</dict>
 </dict>
 </plist>

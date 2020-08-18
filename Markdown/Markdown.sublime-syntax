@@ -180,7 +180,23 @@ variables:
     #     \s*$      # any amount of whitespace until EOL
     #   )
 contexts:
+  file-start:
+    - match: (---)\s*
+      captures:
+        0: meta.frontmatter.markdown
+        1: punctuation.section.block.begin.frontmatter.yaml.markdown
+      embed: scope:source.yaml
+      embed_scope: meta.frontmatter.markdown source.yaml.embedded
+      escape: ^(---)\s*$  # pandoc requires the remainder of the line to be blank
+      escape_captures:
+        1: meta.frontmatter.markdown punctuation.section.block.end.frontmatter.yaml.markdown
+
   main:
+    - include: file-start
+    - match: ''
+      set: markdown
+
+  markdown:
     - match: |-
         (?x)^
         (?=  {{block_quote}}
@@ -195,8 +211,8 @@ contexts:
                         pattern will only match stuff matched by the sub-patterns.
       push:
         - meta_scope: meta.block-level.markdown
-        - include: ligatures
         - include: block-quote
+        - include: ligatures
         - include: indented-code-block
         - include: atx-heading
         - include: thematic-break
@@ -348,9 +364,16 @@ contexts:
         Markdown will convert this for us. We match it so that the
                         HTML grammar will not mark it up as invalid.
       scope: meta.other.valid-ampersand.markdown
+
   ligatures:
-    - match: '<=>'          # <=>
-    - match: '<[-=<]'       # <- <= <<
+    - match: '<?(-+|=+)<'     # -< --< ---< ----< <-< <--< <---< <----<
+                              # =< ==< ===< ====< <=< <==< <===< <====<
+    - match: '<(-+|=+)>?'     # <- <-- <--- <-> <--> <--->
+                              # <= <== <=== <=> <==> <===>
+    - match: '>(-+|=+)[<>]?'  # >- >-- >--- >-> >--> >---> >-< >--< >---<
+                              # >= >== >=== >=> >==> >===> >=< >==< >===<
+    - match: '<<+|<>|>>+'     # << <<< <<<< <> >>>> >>> >>
+
   block-quote:
     - match: '[ ]{,3}(>)[ ]?'
       comment: |
@@ -585,7 +608,7 @@ contexts:
         - meta_content_scope: entity.name.section.markdown
         - include: atx-heading-terminator
         - include: inline-bold-italic
-    - match: '(##)(?!#)\s*(?=\S)'
+    - match: '(#{2})(?!#)\s*(?=\S)'
       captures:
         1: punctuation.definition.heading.begin.markdown
       push:
@@ -593,11 +616,35 @@ contexts:
         - meta_content_scope: entity.name.section.markdown
         - include: atx-heading-terminator
         - include: inline-bold-italic
-    - match: '(#{3,6})(?!#)\s*(?=\S)'
+    - match: '(#{3})(?!#)\s*(?=\S)'
       captures:
         1: punctuation.definition.heading.begin.markdown
       push:
-        - meta_scope: markup.heading.markdown
+        - meta_scope: markup.heading.3.markdown
+        - meta_content_scope: entity.name.section.markdown
+        - include: atx-heading-terminator
+        - include: inline-bold-italic
+    - match: '(#{4})(?!#)\s*(?=\S)'
+      captures:
+        1: punctuation.definition.heading.begin.markdown
+      push:
+        - meta_scope: markup.heading.4.markdown
+        - meta_content_scope: entity.name.section.markdown
+        - include: atx-heading-terminator
+        - include: inline-bold-italic
+    - match: '(#{5})(?!#)\s*(?=\S)'
+      captures:
+        1: punctuation.definition.heading.begin.markdown
+      push:
+        - meta_scope: markup.heading.5.markdown
+        - meta_content_scope: entity.name.section.markdown
+        - include: atx-heading-terminator
+        - include: inline-bold-italic
+    - match: '(#{6})(?!#)\s*(?=\S)'
+      captures:
+        1: punctuation.definition.heading.begin.markdown
+      push:
+        - meta_scope: markup.heading.6.markdown
         - meta_content_scope: entity.name.section.markdown
         - include: atx-heading-terminator
         - include: inline-bold-italic
@@ -1377,6 +1424,21 @@ contexts:
     - match: |-
          (?x)
           {{fenced_code_block_start}}
+          ((?i:erlang|escript))
+          {{fenced_code_block_trailing_infostring_characters}}
+      captures:
+        0: meta.code-fence.definition.begin.erlang.markdown-gfm
+        2: punctuation.definition.raw.code-fence.begin.markdown
+        5: constant.other.language-name.markdown
+      embed: scope:source.erlang
+      embed_scope: markup.raw.code-fence.erlang.markdown-gfm
+      escape: '{{code_fence_escape}}'
+      escape_captures:
+        0: meta.code-fence.definition.end.erlang.markdown-gfm
+        1: punctuation.definition.raw.code-fence.end.markdown
+    - match: |-
+         (?x)
+          {{fenced_code_block_start}}
           ([\w-]*)     # any number of word characters or dashes
           .*$\n?       # all characters until EOL
       captures:
@@ -1399,6 +1461,8 @@ contexts:
           scope: punctuation.definition.raw.end.markdown
           pop: true
         - match: '`+'
+        - match: '^(?={{list_item}})'
+          pop: true
         - match: ^\s*$\n?
           scope: invalid.illegal.non-terminated.raw.markdown
           pop: true

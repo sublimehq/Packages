@@ -1476,6 +1476,9 @@ $a .= 1;
 $a ??= 1;
 // ^^^ keyword.operator.assignment.augmented.php
 
+$a = $b ?? 1;
+//      ^^ keyword.operator.null-coalescing.php
+
 if ($a && $b || !$c);
 //     ^^ keyword.operator.logical
 //           ^^ keyword.operator.logical
