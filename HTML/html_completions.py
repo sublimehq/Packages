@@ -582,6 +582,9 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
             # add a space if not there
             suffix = ' '
 
+        # ensure the user can always tab to the end of the completion
+        suffix += '$0'
+
         # got the tag, now find all attributes that match
         return sublime.CompletionList(
             [
