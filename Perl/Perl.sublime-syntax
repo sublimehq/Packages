@@ -105,6 +105,10 @@ variables:
 
 contexts:
   main:
+    - match: ''
+      push: [statements, shebang]
+
+  statements:
     - include: comment-pod
     - include: package
     - include: imports
@@ -163,6 +167,20 @@ contexts:
       pop: true
 
 ###[ COMMENTS ]###############################################################
+
+  shebang:
+    - match: ^\#!
+      scope: punctuation.definition.comment.perl
+      set:
+        - meta_include_prototype: false
+        - meta_scope: comment.line.shebang.perl
+        # Note: Keep sync with first_line_match!
+        - match: \bperl\b
+          scope: constant.language.shebang.perl
+        - match: \n
+          pop: true
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Perl is embedded.
+      pop: true
 
   comment-line:
     - match: \#+
@@ -585,7 +603,7 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.perl
       pop: true
-    - include: main
+    - include: statements
 
   brackets:
     # can't push into scope due to HEREDOCs!
