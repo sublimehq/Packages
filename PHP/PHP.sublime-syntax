@@ -38,4 +38,4 @@ contexts:
       captures:
         1: punctuation.section.embedded.end.php
         2: meta.html-newline-after-php.php
-      pop: true
+      pop: 1
