@@ -118,17 +118,8 @@ variables:
 contexts:
 
   main:
-    - match: ^\#!
-      scope: punctuation.definition.comment.shell
-      set:
-        - meta_include_prototype: false
-        - meta_scope: comment.line.number-sign.shell
-        - match: \b(erlang|escript)\b
-          scope: constant.language.erlang
-        - match: \n
-          set: statements
     - match: ''
-      set: statements
+      push: [statements, shebang]
 
   prototype:
     - include: comment
@@ -241,6 +232,20 @@ contexts:
         - meta_scope: comment.line.percentage.erlang
         - match: \n
           pop: true
+
+  shebang:
+    - match: ^\#!
+      scope: punctuation.definition.comment.shell
+      set:
+        - meta_include_prototype: false
+        - meta_scope: comment.line.shebang.shell
+        # Note: Keep sync with first_line_match!
+        - match: \b(erlang|escript)\b
+          scope: constant.language.erlang
+        - match: \n
+          pop: 1
+    - match: ^|(?=\S)  # Note: Ensure to highlight shebang if Erlang is embedded.
+      pop: 1
 
 ###[ PREPROCESSOR CONTROL ]###################################################
 
