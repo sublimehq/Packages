@@ -39,6 +39,7 @@ def get_entity_completions():
     """
     Generate a completion list for HTML entities.
     """
+
     return sublime.CompletionList(
         [
             sublime.CompletionItem(
@@ -76,6 +77,7 @@ def get_tag_completions(inside_tag=True):
     """
     Generate a default completion list for HTML
     """
+
     normal_tags = (
         'abbr', 'acronym', 'address', 'applet', 'article', 'aside',
         'audio', 'b', 'basefont', 'bdi', 'bdo', 'big', 'blockquote',
@@ -156,23 +158,44 @@ def get_tag_attributes():
 
     # Map tags to specific attributes applicable for that tag
     tag_attr_dict = {
-        'a': ['charset', 'coords', 'download', 'href', 'hreflang', 'media', 'name', 'ping', 'rel', 'rev', 'shape', 'target', 'type'],
+        'a': [
+            'charset', 'coords', 'download', 'href', 'hreflang', 'media',
+            'name', 'ping', 'rel', 'rev', 'shape', 'target', 'type'
+        ],
         'abbr': ['title'],
         'address': [],
-        'applet': ['align', 'alt', 'archive', 'code', 'codebase', 'height', 'hspace', 'name', 'object', 'vspace', 'width'],
-        'area': ['alt', 'coords', 'download', 'href', 'hreflang', 'media', 'nohref', 'rel', 'shape', 'target'],
+        'applet': [
+            'align', 'alt', 'archive', 'code', 'codebase', 'height', 'hspace',
+            'name', 'object', 'vspace', 'width'
+        ],
+        'area': [
+            'alt', 'coords', 'download', 'href', 'hreflang', 'media',
+            'nohref', 'rel', 'shape', 'target'
+        ],
         'article': [],
         'aside': [],
-        'audio': ['autoplay', 'buffered', 'controls', 'loop', 'muted', 'played', 'preload', 'src', 'volume'],
+        'audio': [
+            'autoplay', 'buffered', 'controls', 'loop', 'muted', 'played',
+            'preload', 'src', 'volume'
+        ],
         'b': [],
         'base': ['href', 'target'],
         'basefont': ['color', 'face', 'size'],
         'bdi': [],
         'bdo': [],
         'blockquote': ['cite'],
-        'body': ['alink', 'background', 'bgcolor', 'link', 'onafterprint', 'onbeforeprint', 'onbeforeunload', 'onhashchange', 'onmessage', 'onoffline', 'ononline', 'onpopstate', 'onredo', 'onstorage', 'onundo', 'onunload', 'text', 'vlink'],
+        'body': [
+            'alink', 'background', 'bgcolor', 'link', 'onafterprint',
+            'onbeforeprint', 'onbeforeunload', 'onhashchange', 'onmessage',
+            'onoffline', 'ononline', 'onpopstate', 'onredo', 'onstorage',
+            'onundo', 'onunload', 'text', 'vlink'
+        ],
         'br': ['clear'],
-        'button': ['autofocus', 'disabled', 'form', 'formaction', 'formenctype', 'formmethod', 'formnovalidate', 'formtarget', 'name', 'type', 'value'],
+        'button': [
+            'autofocus', 'disabled', 'form', 'formaction', 'formenctype',
+            'formmethod', 'formnovalidate', 'formtarget', 'name', 'type',
+            'value'
+        ],
         'canvas': ['height', 'width'],
         'caption': ['align'],
         'cite': [],
@@ -199,8 +222,14 @@ def get_tag_attributes():
         'figure': [],
         'font': ['color', 'face', 'size'],
         'footer': [],
-        'form': ['accept-charset', 'accept', 'action', 'autocomplete', 'enctype', 'method', 'name', 'novalidate', 'target'],
-        'frame': ['frameborder', 'longdesc', 'marginheight', 'marginwidth', 'name', 'noresize', 'scrolling', 'src'],
+        'form': [
+            'accept-charset', 'accept', 'action', 'autocomplete', 'enctype',
+            'method', 'name', 'novalidate', 'target'
+        ],
+        'frame': [
+            'frameborder', 'longdesc', 'marginheight', 'marginwidth', 'name',
+            'noresize', 'scrolling', 'src'
+        ],
         'frameset': ['cols', 'onunload', 'rows'],
         'h1': ['align'],
         'h2': ['align'],
@@ -214,17 +243,39 @@ def get_tag_attributes():
         'hr': ['align', 'noshade', 'size', 'width'],
         'html': ['manifest', 'version', 'xmlns'],
         'i': [],
-        'iframe': ['align', 'frameborder', 'height', 'longdesc', 'marginheight', 'marginwidth', 'name', 'sandbox', 'scrolling', 'seamless', 'src', 'srcdoc', 'width'],
-        'img': ['align', 'alt', 'border', 'crossorigin', 'height', 'hspace', 'ismap', 'longdesc', 'name', 'sizes', 'src', 'srcset', 'usemap', 'vspace', 'width'],
-        'input': ['accept', 'align', 'alt', 'autocomplete', 'autofocus', 'autosave', 'checked', 'disabled', 'form', 'formaction', 'formenctype', 'formmethod', 'formnovalidate', 'formtarget', 'height', 'inputmode', 'ismap', 'list', 'max', 'maxlength', 'min', 'minlength', 'multiple', 'name', 'pattern', 'placeholder', 'readonly', 'required', 'selectionDirection', 'size', 'spellcheck', 'src', 'step', 'tabindex', 'type', 'usemap', 'value', 'width'],
+        'iframe': [
+            'align', 'frameborder', 'height', 'longdesc', 'marginheight',
+            'marginwidth', 'name', 'sandbox', 'scrolling', 'seamless', 'src',
+            'srcdoc', 'width'
+        ],
+        'img': [
+            'align', 'alt', 'border', 'crossorigin', 'height', 'hspace',
+            'ismap', 'longdesc', 'name', 'sizes', 'src', 'srcset', 'usemap',
+            'vspace', 'width'
+        ],
+        'input': [
+            'accept', 'align', 'alt', 'autocomplete', 'autofocus', 'autosave',
+            'checked', 'disabled', 'form', 'formaction', 'formenctype',
+            'formmethod', 'formnovalidate', 'formtarget', 'height',
+            'inputmode', 'ismap', 'list', 'max', 'maxlength', 'min',
+            'minlength', 'multiple', 'name', 'pattern', 'placeholder',
+            'readonly', 'required', 'selectionDirection', 'size',
+            'spellcheck', 'src', 'step', 'tabindex', 'type', 'usemap',
+            'value', 'width'
+        ],
         'ins': ['cite', 'datetime'],
         'isindex': ['prompt'],
         'kbd': [],
-        'keygen': ['autofocus', 'challenge', 'disabled', 'form', 'keytype', 'name'],
+        'keygen': [
+            'autofocus', 'challenge', 'disabled', 'form', 'keytype', 'name'
+        ],
         'label': ['for', 'form'],
         'legend': [],
         'li': ['type', 'value'],
-        'link': ['charset', 'crossorigin', 'href', 'hreflang', 'media', 'rel', 'rev', 'sizes', 'target', 'type'],
+        'link': [
+            'charset', 'crossorigin', 'href', 'hreflang', 'media', 'rel',
+            'rev', 'sizes', 'target', 'type'
+        ],
         'main': [],
         'map': ['name'],
         'mark': [],
@@ -234,7 +285,11 @@ def get_tag_attributes():
         'nav': [],
         'noframes': [],
         'noscript': [],
-        'object': ['align', 'archive', 'border', 'classid', 'codebase', 'codetype', 'data', 'declare', 'form', 'height', 'hspace', 'name', 'standby', 'type', 'typemustmatch', 'usemap', 'vspace', 'width'],
+        'object': [
+            'align', 'archive', 'border', 'classid', 'codebase', 'codetype',
+            'data', 'declare', 'form', 'height', 'hspace', 'name', 'standby',
+            'type', 'typemustmatch', 'usemap', 'vspace', 'width'
+        ],
         'ol': ['compact', 'reversed', 'start', 'type'],
         'optgroup': ['disabled', 'label'],
         'option': ['disabled', 'label', 'selected', 'value'],
@@ -253,7 +308,10 @@ def get_tag_attributes():
         'samp': [],
         'script': ['async', 'charset', 'defer', 'language', 'src', 'type'],
         'section': [],
-        'select': ['autofocus', 'disabled', 'form', 'multiple', 'name', 'required', 'size'],
+        'select': [
+            'autofocus', 'disabled', 'form', 'multiple', 'name', 'required',
+            'size'
+        ],
         'shadow': [],
         'slot': [],
         'small': [],
@@ -264,13 +322,29 @@ def get_tag_attributes():
         'sub': [],
         'summary': [],
         'sup': [],
-        'table': ['align', 'bgcolor', 'border', 'cellpadding', 'cellspacing', 'frame', 'rules', 'summary', 'width'],
+        'table': [
+            'align', 'bgcolor', 'border', 'cellpadding', 'cellspacing',
+            'frame', 'rules', 'summary', 'width'
+        ],
         'tbody': ['align', 'char', 'charoff', 'valign'],
-        'td': ['abbr', 'align', 'axis', 'bgcolor', 'char', 'charoff', 'colspan', 'headers', 'height', 'nowrap', 'rowspan', 'scope', 'valign', 'width'],
+        'td': [
+            'abbr', 'align', 'axis', 'bgcolor', 'char', 'charoff', 'colspan',
+            'headers', 'height', 'nowrap', 'rowspan', 'scope', 'valign',
+            'width'
+        ],
         'template': ['content'],
-        'textarea': ['autocomplete', 'autofocus', 'cols', 'disabled', 'form', 'maxlength', 'minlength', 'name', 'placeholder', 'readonly', 'required', 'rows', 'selectionDirection', 'selectionEnd', 'selectionStart', 'spellcheck', 'wrap'],
+        'textarea': [
+            'autocomplete', 'autofocus', 'cols', 'disabled', 'form',
+            'maxlength', 'minlength', 'name', 'placeholder', 'readonly',
+            'required', 'rows', 'selectionDirection', 'selectionEnd',
+            'selectionStart', 'spellcheck', 'wrap'
+        ],
         'tfoot': ['align', 'char', 'charoff', 'valign'],
-        'th': ['abbr', 'align', 'axis', 'bgcolor', 'char', 'charoff', 'colspan', 'headers', 'height', 'nowrap', 'rowspan', 'scope', 'valign', 'width'],
+        'th': [
+            'abbr', 'align', 'axis', 'bgcolor', 'char', 'charoff', 'colspan',
+            'headers', 'height', 'nowrap', 'rowspan', 'scope', 'valign',
+            'width'
+        ],
         'thead': ['align', 'char', 'charoff', 'valign'],
         'time': ['datetime'],
         'title': [],
@@ -279,7 +353,11 @@ def get_tag_attributes():
         'u': [],
         'ul': ['compact', 'type'],
         'var': [],
-        'video': ['autoplay', 'autobuffer', 'buffered', 'controls', 'crossorigin', 'height', 'loop', 'muted', 'played', 'preload', 'poster', 'src', 'width'],
+        'video': [
+            'autoplay', 'autobuffer', 'buffered', 'controls', 'crossorigin',
+            'height', 'loop', 'muted', 'played', 'preload', 'poster', 'src',
+            'width'
+        ],
         'wbr': []
     }
 
@@ -289,19 +367,20 @@ def get_tag_attributes():
         'hidden', 'id', 'lang', 'style', 'tabindex', 'title', 'translate'
 
         # event handler attributes
-        'onabort', 'onautocomplete', 'onautocompleteerror', 'onauxclick', 'onblur',
-        'oncancel', 'oncanplay', 'oncanplaythrough', 'onchange', 'onclick',
-        'onclose', 'oncontextmenu', 'oncuechange', 'ondblclick', 'ondrag',
-        'ondragend', 'ondragenter', 'ondragexit', 'ondragleave', 'ondragover',
-        'ondragstart', 'ondrop', 'ondurationchange', 'onemptied', 'onended',
-        'onerror', 'onfocus', 'oninput', 'oninvalid', 'onkeydown',
-        'onkeypress', 'onkeyup', 'onload', 'onloadeddata', 'onloadedmetadata',
-        'onloadstart', 'onmousedown', 'onmouseenter', 'onmouseleave',
-        'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup',
-        'onmousewheel', 'onpause', 'onplay', 'onplaying', 'onprogress',
-        'onratechange', 'onreset', 'onresize', 'onscroll', 'onseeked',
-        'onseeking', 'onselect', 'onshow', 'onsort', 'onstalled', 'onsubmit',
-        'onsuspend', 'ontimeupdate', 'ontoggle', 'onvolumechange', 'onwaiting'
+        'onabort', 'onautocomplete', 'onautocompleteerror', 'onauxclick',
+        'onblur', 'oncancel', 'oncanplay', 'oncanplaythrough', 'onchange',
+        'onclick', 'onclose', 'oncontextmenu', 'oncuechange', 'ondblclick',
+        'ondrag', 'ondragend', 'ondragenter', 'ondragexit', 'ondragleave',
+        'ondragover', 'ondragstart', 'ondrop', 'ondurationchange',
+        'onemptied', 'onended', 'onerror', 'onfocus', 'oninput', 'oninvalid',
+        'onkeydown', 'onkeypress', 'onkeyup', 'onload', 'onloadeddata',
+        'onloadedmetadata', 'onloadstart', 'onmousedown', 'onmouseenter',
+        'onmouseleave', 'onmousemove', 'onmouseout', 'onmouseover',
+        'onmouseup', 'onmousewheel', 'onpause', 'onplay', 'onplaying',
+        'onprogress', 'onratechange', 'onreset', 'onresize', 'onscroll',
+        'onseeked', 'onseeking', 'onselect', 'onshow', 'onsort', 'onstalled',
+        'onsubmit', 'onsuspend', 'ontimeupdate', 'ontoggle', 'onvolumechange',
+        'onwaiting'
     )
 
     for attributes in tag_attr_dict.values():
@@ -375,11 +454,6 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
         pt = locations[0] - len(prefix) - 1
         ch = view.substr(sublime.Region(pt, pt + 1))
 
-        # print('prefix:', prefix)
-        # print('location0:', locations[0])
-        # print('substr:', view.substr(sublime.Region(locations[0], locations[0] + 3)), '!end!')
-        # print('ch:', ch)
-
         if ch == '&':
             return self.entity_completions
 
@@ -411,6 +485,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
             tag.class -> <tag class="class"></tag>
             tag#id    -> <tag id="id"></tag>
         """
+
         # Get the contents of each line, from the beginning of the line to
         # each point
         lines = [
