@@ -193,7 +193,9 @@ PROPERTY_DICT = {
         '<border_width>', '<border_style>', '<color>'
     ],
     'border-top-color | border-right-color | border-bottom-color | border-left-color': ['<color>'],
-    'border-top-left-radius | border-top-right-radius | border-bottom-right-radius | border-bottom-left-radius': ['<length>', '<percentage>'],
+    'border-top-left-radius | border-top-right-radius | border-bottom-right-radius | border-bottom-left-radius': [
+        '<length>', '<percentage>'
+    ],
     'border-top-style | border-right-style | border-bottom-style | border-left-style': ['<border_style>'],
     'border-top-width | border-right-width | border-bottom-width | border-left-width': ['<border_width>'],
     'bottom': ['<length>', '<percentage>', 'auto'],
@@ -353,10 +355,12 @@ PROPERTY_DICT = {
     'isolation': ['auto', 'isolation'],
     'justify-content': [
         'start', 'end', 'flex-start', 'flex-end', 'center', 'left', 'right',
-        'safe start', 'safe end', 'safe flex-start', 'safe flex-end', 'safe center', 'safe left', 'safe right',
-        'unsafe start', 'unsafe end', 'unsafe flex-start', 'unsafe flex-end', 'unsafe center', 'unsafe left', 'unsafe right',
-        'normal', 'baseline', 'first baseline', 'last baseline',
-        'space-between', 'space-around', 'space-evenly', 'stretch'
+        'safe start', 'safe end', 'safe flex-start', 'safe flex-end',
+        'safe center', 'safe left', 'safe right', 'unsafe start',
+        'unsafe end', 'unsafe flex-start', 'unsafe flex-end', 'unsafe center',
+        'unsafe left', 'unsafe right', 'normal', 'baseline', 'first baseline',
+        'last baseline', 'space-between', 'space-around', 'space-evenly',
+        'stretch'
     ],
     'kerning': ['auto'],
     'left': ['<length>', '<percentage>', 'auto'],
@@ -454,10 +458,10 @@ PROPERTY_DICT = {
         [
             'matrix3d()',
             'matrix3d('
-                '${1:1}, ${2:1}, ${3:0}, ${4:0}, '
-                '${5:1}, ${6:1}, ${7:0}, ${8:0}, '
-                '${9:0}, ${10:0}, ${11:1}, ${12:0}, '
-                '${13:2}, ${14:2}, ${15:0}, ${16:1}'
+            '${1:1}, ${2:1}, ${3:0}, ${4:0}, '
+            '${5:1}, ${6:1}, ${7:0}, ${8:0}, '
+            '${9:0}, ${10:0}, ${11:1}, ${12:0}, '
+            '${13:2}, ${14:2}, ${15:0}, ${16:1}'
             ')'
         ],
         'perspective(${1:0})',
