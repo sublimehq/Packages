@@ -1,6 +1,6 @@
 {
-    // Determines what character(s) are used to terminate each line in new files.
-    // Valid values are 'system' (whatever the OS uses), 'windows' (CRLF) and
-    // 'unix' (LF only).
-    "default_line_ending": "windows"
+	// Determines what character(s) are used to terminate each line in new files.
+	// Valid values are 'system' (whatever the OS uses), 'windows' (CRLF) and
+	// 'unix' (LF only).
+	"default_line_ending": "windows"
 }

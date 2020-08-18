@@ -348,23 +348,23 @@
 
     foo.baz();
 --     ^ punctuation.accessor
---      ^^^ meta.property variable.function
+--      ^^^ meta.property meta.function-call variable.function
 
     foo.baz "";
 --     ^ punctuation.accessor
---      ^^^ meta.property variable.function
+--      ^^^ meta.property meta.function-call variable.function
 
     foo.baz '';
 --     ^ punctuation.accessor
---      ^^^ meta.property variable.function
+--      ^^^ meta.property meta.function-call variable.function
 
     foo.baz [=[ a string ]=];
 --     ^ punctuation.accessor
---      ^^^ meta.property variable.function
+--      ^^^ meta.property meta.function-call variable.function
 
     foo.baz {};
 --     ^ punctuation.accessor
---      ^^^ meta.property variable.function
+--      ^^^ meta.property meta.function-call variable.function
 --          ^^ meta.function-call.arguments meta.mapping
 
     foo[bar + baz];
@@ -393,13 +393,13 @@
 --FUNCTION CALLS
 
     f(42);
---  ^ variable.function
+--  ^ meta.function-call variable.function
 --   ^ meta.function-call.arguments meta.group
 --   ^ punctuation.section.group.begin
 --      ^ punctuation.section.group.end
 
     f "argument";
---  ^ variable.function
+--  ^ meta.function-call variable.function
 --    ^^^^^^^^^^ meta.function-call.arguments string.quoted.double
 
     f
@@ -407,11 +407,11 @@
 --  ^^^^^^^^^^ meta.function-call.arguments string.quoted.single
 
     f [[ foo ]];
---  ^ variable.function
+--  ^ meta.function-call variable.function
 --    ^^^^^^^^^ meta.function-call.arguments string.quoted.multiline
 
     f {};
---  ^ variable.function
+--  ^ meta.function-call variable.function
 --    ^^ meta.function-call.arguments meta.mapping
 
     f( 'unclosed)
@@ -419,11 +419,14 @@
 --  ^^^^^^ meta.function-call.arguments.lua meta.group.lua invalid.unexpected-keyword.lua
 --         ^ - meta.function-call
 
+    print('argument')
+--  ^ meta.function-call.lua support.function.builtin.lua
+
 --FUNCTIONS
 
     function function_name( a, b, ... )
 --  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
---  ^^^^^^^^ storage.type.function
+--  ^^^^^^^^ storage.type.function keyword.declaration.function
 --           ^^^^^^^^^^^^^ entity.name.function
 --                        ^^^^^^^^^^^^^ meta.group
 --                        ^ punctuation.section.group.begin

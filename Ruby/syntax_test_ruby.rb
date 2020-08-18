@@ -156,6 +156,16 @@ puts <<-SH; # comment
 # ^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.end.ruby
 #   ^ - meta.string - string.unquoted
 
+puts <<-SHELL; # comment
+#    ^^^^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+#            ^ punctuation.terminator.statement.ruby - meta.string - string
+#              ^ comment.line.number-sign.ruby punctuation.definition.comment.ruby - meta.string - string
+  git log
+# ^^^^^^^ meta.string.heredoc.ruby source.shell.embedded.ruby
+  SHELL
+# ^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.end.ruby
+#      ^ - meta.string - string.unquoted
+
 DB.fetch(<<-SQL, conn).name
 #^^^^^^^^^^^^^^^^^^^^^^^^^^ source.ruby
 #        ^^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby
@@ -489,9 +499,9 @@ str = sprintf("%1$*2$s %2$d", "hello", -8)
 #      ^^^^^^^^^^^^^^^ meta.environment-variable.ruby
 #          ^^^^^^^^^^ meta.string.ruby meta.interpolation.ruby meta.string.ruby
 #                    ^^ meta.string.ruby meta.interpolation.ruby - string
-#                      ^^^^^^^ meta.string.ruby - meta.interpolation
+#                       ^^^^^ constant.other.symbol.ruby
 #                             ^^^^^^^^^^^^^^^^ meta.string.ruby meta.interpolation.ruby - string
-#                                             ^^^^^^^ meta.string.ruby - meta.interpolation
+#                                              ^^^^^^ constant.other.symbol.ruby
 # ^^^ punctuation.definition.string.begin.ruby
 # ^^^ string.quoted.other.literal.upper.ruby
 #    ^^ punctuation.section.interpolation.begin.ruby
@@ -1090,11 +1100,6 @@ class MyClass
 #         ^ support.class.ruby
 #                 ^ keyword.other.special-method.ruby
 
-  FIELDS = %i[a b c]
-# ^ meta.constant.ruby entity.name.constant.ruby
-#        ^ keyword.operator.assignment.ruby
-#          ^^^ punctuation.definition.string.begin.ruby
-#             ^^^^^ string.quoted.other.literal.lower.ruby
 
   A, B, C = :a, :b, :c
 # ^ meta.constant.ruby entity.name.constant.ruby
@@ -1118,7 +1123,52 @@ abort "Ending"
 exit! 2
 #^^^^ support.function.builtin
 
+get :name, -> { "John" }
+#          ^^ meta.function.ruby storage.type.function.ruby keyword.declaration.function.lambda.ruby
 
+##################
+# Symbol literals
+##################
+
+  FIELDS = %i[a b c]
+# ^^^^^^ meta.constant.ruby entity.name.constant.ruby
+#        ^ keyword.operator.assignment.ruby
+#          ^^^ punctuation.definition.string.begin.ruby
+#             ^      constant.other.symbol.ruby
+#               ^    constant.other.symbol.ruby
+#                 ^  constant.other.symbol.ruby
+#                  ^  punctuation.definition.string.end.ruby
+
+  %i(a b c)
+# ^^^ punctuation.definition.string.begin.ruby
+#    ^      constant.other.symbol.ruby
+#      ^    constant.other.symbol.ruby
+#        ^  constant.other.symbol.ruby
+#         ^  punctuation.definition.string.end.ruby
+
+  %I[#{'a'} b #@c#@@d e]
+# ^^^ meta.string.ruby - meta.interpolation
+#    ^^ source.ruby meta.string.ruby meta.interpolation.ruby punctuation.section.interpolation.begin.ruby
+#      ^^^ meta.string.ruby meta.interpolation.ruby meta.string.ruby
+#         ^ source.ruby meta.string.ruby meta.interpolation.ruby punctuation.section.interpolation.end.ruby
+#           ^ constant.other.symbol.ruby
+#             ^^^^^^^ meta.string.ruby meta.interpolation.ruby - string
+#                     ^ constant.other.symbol.ruby
+#                      ^  punctuation.definition.string.end.ruby
+
+##################
+# String literals
+##################
+
+  %w[a b c]
+# ^^^ punctuation.definition.string.begin.ruby
+#    ^^^^^ string.quoted.other.literal.lower.ruby
+#         ^  punctuation.definition.string.end.ruby
+
+  %w(a b c)
+# ^^^ punctuation.definition.string.begin.ruby
+#    ^^^^^ string.quoted.other.literal.lower.ruby
+#         ^  punctuation.definition.string.end.ruby
 
 ##################
 # Tokens with Multiple Meanings

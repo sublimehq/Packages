@@ -704,22 +704,26 @@ contexts:
 
   function-after-parameters:
     - meta_content_scope: meta.function.python
-    - match: '(?=->)'
-      set:
-        - meta_content_scope: meta.function.annotation.return.python
-        - match: ->
-          scope: punctuation.separator.annotation.return.python
-        - include: illegal-assignment-expression
-        - match: '(?=:)'
-          set: function-after-parameters
-        - include: line-continuation-or-pop
-        - include: expression-in-a-statement
+    - match: (?=->)
+      set: [function-return-type, function-return-type-separator]
+    - include: function-terminator
+
+  function-return-type:
+    - meta_content_scope: meta.function.annotation.return.python
+    - include: illegal-assignment-expression
+    - include: function-terminator
+    - include: expression-in-a-statement
+
+  function-return-type-separator:
+    - match: ->
+      scope: punctuation.separator.annotation.return.python
+      pop: true
+
+  function-terminator:
     - match: ':'
       scope: meta.function.python punctuation.section.function.begin.python
       pop: true
-    - include: comments
-    - match: (?=\S)
-      pop: true
+    - include: line-continuation-or-pop
 
   decorators:
     - match: ^\s*(?=@)
@@ -870,11 +874,13 @@ contexts:
 
   lambda:
     - match: \b(lambda)(?=\s|:|$)
-      scope: storage.type.function.inline.python keyword.declaration.function.inline.python
+      scope: 
+        meta.function.inline.python
+        storage.type.function.inline.python
+        keyword.declaration.function.inline.python
       push: [lambda-parameters, allow-unpack-operators]
 
   lambda-parameters:
-    - meta_scope: meta.function.inline.python
     - meta_content_scope: meta.function.inline.parameters.python
     - include: line-continuation-or-pop
     - match: '\:'
@@ -889,7 +895,7 @@ contexts:
             # or line-statement context at this point.
             # If we're in a group, the underlying context will take over
             # at the end of the line.
-            - match: (?=[,):])|$
+            - match: (?=[,:)}\]])|$
               pop: true
             - include: expression-in-a-statement
     - match: ','
@@ -1093,7 +1099,7 @@ contexts:
         		Runtime|Standard|Syntax|System|Tab|Timeout|Type|UnboundLocal|
         		Unicode(Encode|Decode|Translate)?|Value|VMS|Windows|ZeroDivision
         	)Error|
-        	((Pending)?Deprecation|Runtime|Syntax|User|Future|Import|Unicode|Bytes)?Warning|
+        	((Pending)?Deprecation|Resource|Runtime|Syntax|User|Future|Import|Unicode|Bytes)?Warning|
         	(Base)?Exception|
         	SystemExit|StopIteration|NotImplemented|KeyboardInterrupt|GeneratorExit
         )\b
@@ -1395,37 +1401,57 @@ contexts:
 
   formatting-syntax:
     # https://docs.python.org/3.6/library/string.html#formatstrings
+    # Technically allows almost every character for the key,
+    # but those are rarely used if ever.
     - match: |- # simple form
         (?x)
         (\{)
-          (?: [\w.\[\]]+)?             # field_name
-          (   ! [ars])?                # conversion
-          (   : (?:{{format_spec}}|    # format_spec OR
-                   [^}%]*%.[^}]*)      # any format-like string
+          (?: [\w.\[\]]+)?           # field_name
+          (   ! [ars])?              # conversion
+          (?: (:) ({{format_spec}}|  # format_spec OR
+                   [^}%]*%.[^}]*)    # any format-like string
           )?
         (\})
       scope: constant.other.placeholder.python
       captures:
         1: punctuation.definition.placeholder.begin.python
         2: storage.modifier.conversion.python
-        3: constant.other.format-spec.python
-        4: punctuation.definition.placeholder.end.python
-    - match: \{(?=[^\}"']+\{[^"']*\}) # complex (nested) form
+        3: punctuation.separator.format-spec.python
+        4: meta.format-spec.python constant.other.format-spec.python
+        5: punctuation.definition.placeholder.end.python
+    - match: (?=\{[^{}"']+\{[^"']*\})  # complex (nested) form
+      branch_point: formatting-syntax-branch
+      branch:
+        - formatting-syntax-complex
+        - formatting-syntax-fallback
+
+  formatting-syntax-fallback:
+    - match: \{
+      scope: meta.debug.formatting-syntax-fallback.python
+      pop: true
+
+  formatting-syntax-complex:
+    - match: \{
       scope: punctuation.definition.placeholder.begin.python
-      push:
+      set:
         - meta_scope: constant.other.placeholder.python
         - match: \}
           scope: punctuation.definition.placeholder.end.python
           pop: true
-        - match: '[\w.\[\]]+'
+        # TODO could match numeric indices or everything else as a key
+        # and also [] indexing
         - match: '![ars]'
           scope: storage.modifier.conversion.python
         - match: ':'
+          scope: punctuation.separator.format-spec.python
           push:
-            - meta_scope: meta.format-spec.python constant.other.format-spec.python
+            - meta_content_scope: meta.format-spec.python constant.other.format-spec.python
             - match: (?=\})
               pop: true
-            - include: formatting-syntax
+            - match: (?=\{)
+              push: formatting-syntax-complex
+        - match: '[{"''\n]'
+          fail: formatting-syntax-branch
 
   f-string-content:
     # https://www.python.org/dev/peps/pep-0498/
@@ -1595,7 +1621,7 @@ contexts:
       push:
         - meta_content_scope: meta.string.interpolated.python string.quoted.double.block.python
         - match: '"""'
-          scope: punctuation.definition.string.begin.python
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - include: f-string-content
     # Triple-quoted raw f-string, treated as regex
@@ -1606,7 +1632,7 @@ contexts:
       push:
         - meta_content_scope: meta.string.interpolated.python string.quoted.double.block.python
         - match: '"""'
-          scope: punctuation.definition.string.begin.python
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - match: ''
           push: scope:source.regexp.python
@@ -1622,7 +1648,7 @@ contexts:
       push:
         - meta_content_scope: meta.string.interpolated.python string.quoted.double.block.python
         - match: '"""'
-          scope: punctuation.definition.string.begin.python
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - include: line-continuation-inside-block-string
         - include: escaped-fstring-escape
@@ -1915,7 +1941,7 @@ contexts:
       push:
         - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
         - match: "'''"
-          scope: punctuation.definition.string.begin.python
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - include: f-string-content
     # Triple-quoted raw f-string, treated as regex
@@ -1926,7 +1952,7 @@ contexts:
       push:
         - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
         - match: "'''"
-          scope: punctuation.definition.string.begin.python
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - match: ''
           push: scope:source.regexp.python
@@ -1942,7 +1968,7 @@ contexts:
       push:
         - meta_content_scope: meta.string.interpolated.python string.quoted.single.block.python
         - match: "'''"
-          scope: punctuation.definition.string.begin.python
+          scope: punctuation.definition.string.end.python
           set: after-expression
         - include: line-continuation-inside-block-string
         - include: escaped-fstring-escape

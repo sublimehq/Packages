@@ -303,6 +303,79 @@ x <- 'abc'
 "\n\r"
 #^^^^ constant.character.escape.r
 
+r"(\foo)"
+#<- storage.type.string.r
+#^^ string.quoted.double.r punctuation.definition.string.begin.r
+#  ^ -constant.character.escape.r
+#      ^^ string.quoted.double.r punctuation.definition.string.end.r
+
+r"[\foo]"
+#<- storage.type.string.r
+#^^ string.quoted.double.r punctuation.definition.string.begin.r
+#  ^ -constant.character.escape.r
+#      ^^ string.quoted.double.r punctuation.definition.string.end.r
+
+r"{\foo}"
+#<- storage.type.string.r
+#^^ string.quoted.double.r punctuation.definition.string.begin.r
+#  ^ -constant.character.escape.r
+#      ^^ string.quoted.double.r punctuation.definition.string.end.r
+
+r"-(\foo)-"
+#<- storage.type.string.r
+#^^^ string.quoted.double.r punctuation.definition.string.begin.r
+#   ^ -constant.character.escape.r
+#       ^^^ string.quoted.double.r punctuation.definition.string.end.r
+
+r"--[\foo]--"
+#<- storage.type.string.r
+#^^^^ string.quoted.double.r punctuation.definition.string.begin.r
+#    ^ -constant.character.escape.r
+#        ^^^^ string.quoted.double.r punctuation.definition.string.end.r
+
+r"---{\foo}---"
+#<- storage.type.string.r
+#^^^^^ string.quoted.double.r punctuation.definition.string.begin.r
+#     ^ -constant.character.escape.r
+#         ^^^^^ string.quoted.double.r punctuation.definition.string.end.r
+
+
+R'(\foo)'
+#<- storage.type.string.r
+#^^ string.quoted.single.r punctuation.definition.string.begin.r
+#  ^ -constant.character.escape.r
+#      ^^ string.quoted.single.r punctuation.definition.string.end.r
+
+R'[\foo]'
+#<- storage.type.string.r
+#^^ string.quoted.single.r punctuation.definition.string.begin.r
+#  ^ -constant.character.escape.r
+#      ^^ string.quoted.single.r punctuation.definition.string.end.r
+
+R'{\foo}'
+#<- storage.type.string.r
+#^^ string.quoted.single.r punctuation.definition.string.begin.r
+#  ^ -constant.character.escape.r
+#      ^^ string.quoted.single.r punctuation.definition.string.end.r
+
+R'-(\foo)-'
+#<- storage.type.string.r
+#^^^ string.quoted.single.r punctuation.definition.string.begin.r
+#   ^ -constant.character.escape.r
+#       ^^^ string.quoted.single.r punctuation.definition.string.end.r
+
+R'--[\foo]--'
+#<- storage.type.string.r
+#^^^^ string.quoted.single.r punctuation.definition.string.begin.r
+#    ^ -constant.character.escape.r
+#        ^^^^ string.quoted.single.r punctuation.definition.string.end.r
+
+R'---{\foo}---'
+#<- storage.type.string.r
+#^^^^^ string.quoted.single.r punctuation.definition.string.begin.r
+#     ^ -constant.character.escape.r
+#         ^^^^^ string.quoted.single.r punctuation.definition.string.end.r
+
 
 if (1) {} else {return()}
 #<- keyword.control.conditional.if.r
@@ -349,8 +422,8 @@ foo[1:10]
 
 
 f = function(x, y){ }
-# <- meta.function.name.r
-#^ meta.function.name.r - meta.function.r
+# <- meta.function.identifier.r
+#^ meta.function.identifier.r - meta.function.r
 # ^^^^^^^^^^ meta.function.r - meta.function.parameters.r
 # <- entity.name.function.r
 # ^ keyword.operator.assignment.r
@@ -370,10 +443,10 @@ function(x = "string", y = 2) {}
 #                          ^ meta.function.parameters.r constant.numeric.float.decimal.r
 
 foo(200, x = function(x) {x + y})
-#^^ meta.function-call.name.r - meta.function-call.arguments.r
+#^^ meta.function-call.identifier.r - meta.function-call.arguments.r
 # <- variable.function.r
 #  ^ punctuation.section.arguments.begin.r
-#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.r - meta.function-call.name.r
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.r - meta.function-call.identifier.r
 #   ^^^ constant.numeric.float.decimal.r
 #        ^ variable.parameter.r
 #          ^ keyword.operator.assignment.r
@@ -382,11 +455,11 @@ foo(200, x = function(x) {x + y})
 #                               ^ punctuation.section.arguments.end.r
 
 .foo(200, x = function(x) {x + y})
-# <- meta.function-call.name.r
-#^^^ meta.function-call.name.r - meta.function-call.arguments.r
+# <- meta.function-call.identifier.r
+#^^^ meta.function-call.identifier.r - meta.function-call.arguments.r
 # <- variable.function.r
 #   ^ punctuation.section.arguments.begin.r
-#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.r - meta.function-call.name.r
+#   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.r - meta.function-call.identifier.r
 #    ^^^ constant.numeric.float.decimal.r
 #         ^ variable.parameter.r
 #           ^ keyword.operator.assignment.r
@@ -399,14 +472,26 @@ print.foo()
 #^^^^^^^^ variable.function.r
 
   plot()
-# ^^^^ meta.function-call.name.r - meta.function-call.arguments.r
-#     ^^ meta.function-call.arguments.r - meta.function-call.name.r
+# ^^^^ meta.function-call.identifier.r - meta.function-call.arguments.r
+#     ^^ meta.function-call.arguments.r - meta.function-call.identifier.r
 # ^^^^ support.function.r
 
 #' @param xyz abcde
 #^^^^^^^^^^^^^^^^^^ comment.line.roxygen.r
 #  ^^^^^^ keyword.other.r
 #         ^^^ variable.parameter.r
+
+
+    #' @param xyz abcde
+#   ^^^^^^^^^^^^^^^^^^^ comment.line.roxygen.r
+#      ^^^^^^ keyword.other.r
+#             ^^^ variable.parameter.r
+
+
+#' "@param xyz abcde"
+#  ^^^^^^^^^ comment.line.roxygen.r
+#   ^^^^^^ -keyword.other.r
+
 
 
 # issue #1019
@@ -452,5 +537,5 @@ foo:::bar
 
 foo$update()
 #  ^ keyword.accessor.dollar.r
-#   ^^^^^^ meta.function-call.name.r variable.function.r
+#   ^^^^^^ meta.function-call.identifier.r variable.function.r
 #   ^^^^^^ - support.function.r

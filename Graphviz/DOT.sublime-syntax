@@ -26,7 +26,7 @@ contexts:
     - match: \b(bgcolor|center|clusterrank|color|comment|compound|concentrate|fillcolor|fontname|fontpath|fontsize|label|labeljust|labelloc|layers|margin|mclimit|nodesep|nslimit|nslimit1|ordering|orientation|page|pagedir|quantum|rank|rankdir|ranksep|ratio|remincross|rotate|samplepoints|searchsize|size|style|URL)\b
       scope: support.constant.attribute.graph.dot
     - match: '-[->]'
-      scope: punctuation.operator.relationship.dot
+      scope: keyword.operator.relationship.dot
     - match: '='
       scope: keyword.operator.assignment.dot
     - match: ';'
@@ -40,6 +40,9 @@ contexts:
           pop: true
         - match: \\.
           scope: constant.character.escape.dot
+        - match: (\\)$\n?
+          captures:
+            1: punctuation.separator.continuation.line.dot
         - match: '[{}|]'
           scope: punctuation.separator.memory-block.dot
     - include: braces

@@ -1,5 +1,13 @@
 name: CI
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - '*'
+    tags-ignore:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
 
 jobs:
   build:
@@ -7,15 +15,13 @@ jobs:
     runs-on: ubuntu-18.04
     steps:
       - uses: actions/checkout@master
-      - name: Install OpenGL
-        run: sudo apt-get -y install libgl1-mesa-glx libglu1-mesa
       - name: Download syntax_tests
-        run: wget --content-disposition https://download.sublimetext.com/st_syntax_tests_build_4073_x64.tar.bz2
+        run: wget --content-disposition https://download.sublimetext.com/st_syntax_tests_build_4079_x64.tar.xz
       - name: Extract syntax_tests
-        run: tar xf "$(ls st_syntax_tests_build_*_x64.tar.bz2)"
+        run: tar xf "$(ls st_syntax_tests_build_*_x64.tar.xz)"
       - name: Move syntax_tests
-        run: mv st_syntax_tests/syntax_tests ./
-      - name: Cleanup syntax_tests dir
+        run: mv st_syntax_tests/* ./
+      - name: Cleanup syntax_tests archive
         run: rm -R st_syntax_tests*
       - name: Setup Data/Packages/
         run: mkdir -p Data/Packages/

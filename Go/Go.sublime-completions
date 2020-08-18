@@ -1,56 +1,35 @@
 {
     "scope": "source.go",
-
     "completions": [
-        // https://golang.org/ref/spec#Keywords
+         // https://golang.org/ref/spec#Keywords
+        {
+            "trigger": "append",
+            "contents": "append",
+            "kind": "function"
+        },
+        {
+            "trigger": "bool",
+            "contents": "bool",
+            "kind": "type"
+        },
         {
             "trigger": "break",
             "contents": "break",
             "kind": "keyword"
         },
         {
-            "trigger": "default",
-            "contents": "default",
-            "kind": "keyword"
+            "trigger": "byte",
+            "contents": "byte",
+            "kind": "type"
         },
         {
-            "trigger": "func",
-            "contents": "func",
-            "kind": "keyword"
-        },
-        {
-            "trigger": "interface",
-            "contents": "interface",
-            "kind": "keyword"
-        },
-        {
-            "trigger": "select",
-            "contents": "select",
-            "kind": "keyword"
+            "trigger": "cap",
+            "contents": "cap",
+            "kind": "function"
         },
         {
             "trigger": "case",
             "contents": "case",
-            "kind": "keyword"
-        },
-        {
-            "trigger": "defer",
-            "contents": "defer",
-            "kind": "keyword"
-        },
-        {
-            "trigger": "go",
-            "contents": "go",
-            "kind": "keyword"
-        },
-        {
-            "trigger": "map",
-            "contents": "map",
-            "kind": "keyword"
-        },
-        {
-            "trigger": "struct",
-            "contents": "struct",
             "kind": "keyword"
         },
         {
@@ -59,48 +38,28 @@
             "kind": "keyword"
         },
         {
-            "trigger": "else",
-            "contents": "else",
-            "kind": "keyword"
+            "trigger": "close",
+            "contents": "close",
+            "kind": "function"
         },
         {
-            "trigger": "goto",
-            "contents": "goto",
-            "kind": "keyword"
+            "trigger": "complex",
+            "contents": "complex",
+            "kind": "function"
         },
         {
-            "trigger": "package",
-            "contents": "package",
-            "kind": "keyword"
+            "trigger": "complex128",
+            "contents": "complex128",
+            "kind": "type"
         },
         {
-            "trigger": "switch",
-            "contents": "switch",
-            "kind": "keyword"
+            "trigger": "complex64",
+            "contents": "complex64",
+            "kind": "type"
         },
         {
             "trigger": "const",
             "contents": "const",
-            "kind": "keyword"
-        },
-        {
-            "trigger": "fallthrough",
-            "contents": "fallthrough",
-            "kind": "keyword"
-        },
-        {
-            "trigger": "if",
-            "contents": "if",
-            "kind": "keyword"
-        },
-        {
-            "trigger": "range",
-            "contents": "range",
-            "kind": "keyword"
-        },
-        {
-            "trigger": "type",
-            "contents": "type",
             "kind": "keyword"
         },
         {
@@ -109,132 +68,39 @@
             "kind": "keyword"
         },
         {
-            "trigger": "for",
-            "contents": "for",
+            "trigger": "copy",
+            "contents": "copy",
+            "kind": "function"
+        },
+        {
+            "trigger": "default",
+            "contents": "default",
             "kind": "keyword"
         },
         {
-            "trigger": "import",
-            "contents": "import",
+            "trigger": "defer",
+            "contents": "defer",
             "kind": "keyword"
         },
         {
-            "trigger": "return",
-            "contents": "return",
+            "trigger": "delete",
+            "contents": "delete",
+            "kind": "function"
+        },
+        {
+            "trigger": "else",
+            "contents": "else",
             "kind": "keyword"
-        },
-        {
-            "trigger": "var",
-            "contents": "var",
-            "kind": "keyword"
-        },
-
-        // https://golang.org/ref/spec#Predeclared_identifiers
-        {
-            "trigger": "bool",
-            "contents": "bool",
-            "kind": "type",
-        },
-        {
-            "trigger": "byte",
-            "contents": "byte",
-            "kind": "type",
-        },
-        {
-            "trigger": "complex64",
-            "contents": "complex64",
-            "kind": "type",
-        },
-        {
-            "trigger": "complex128",
-            "contents": "complex128",
-            "kind": "type",
         },
         {
             "trigger": "error",
             "contents": "error",
-            "kind": "type",
+            "kind": "type"
         },
         {
-            "trigger": "float32",
-            "contents": "float32",
-            "kind": "type",
-        },
-        {
-            "trigger": "float64",
-            "contents": "float64",
-            "kind": "type",
-        },
-        {
-            "trigger": "int",
-            "contents": "int",
-            "kind": "type",
-        },
-        {
-            "trigger": "int8",
-            "contents": "int8",
-            "kind": "type",
-        },
-        {
-            "trigger": "int16",
-            "contents": "int16",
-            "kind": "type",
-        },
-        {
-            "trigger": "int32",
-            "contents": "int32",
-            "kind": "type",
-        },
-        {
-            "trigger": "int64",
-            "contents": "int64",
-            "kind": "type",
-        },
-        {
-            "trigger": "rune",
-            "contents": "rune",
-            "kind": "type",
-        },
-        {
-            "trigger": "string",
-            "contents": "string",
-            "kind": "type",
-        },
-        {
-            "trigger": "uint",
-            "contents": "uint",
-            "kind": "type",
-        },
-        {
-            "trigger": "uint8",
-            "contents": "uint8",
-            "kind": "type",
-        },
-        {
-            "trigger": "uint16",
-            "contents": "uint16",
-            "kind": "type",
-        },
-        {
-            "trigger": "uint32",
-            "contents": "uint32",
-            "kind": "type",
-        },
-        {
-            "trigger": "uint64",
-            "contents": "uint64",
-            "kind": "type",
-        },
-        {
-            "trigger": "uintptr",
-            "contents": "uintptr",
-            "kind": "type",
-        },
-
-        {
-            "trigger": "true",
-            "contents": "true",
-            "kind": ["variable", "c", "Constant"]
+            "trigger": "fallthrough",
+            "contents": "fallthrough",
+            "kind": "keyword"
         },
         {
             "trigger": "false",
@@ -242,80 +108,221 @@
             "kind": ["variable", "c", "Constant"]
         },
         {
+            "trigger": "float32",
+            "contents": "float32",
+            "kind": "type"
+        },
+        {
+            "trigger": "float64",
+            "contents": "float64",
+            "kind": "type"
+        },
+        {
+            "trigger": "for",
+            "contents": "for",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "func",
+            "contents": "func",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "go",
+            "contents": "go",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "goto",
+            "contents": "goto",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "if",
+            "contents": "if",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "imag",
+            "contents": "imag",
+            "kind": "function"
+        },
+        {
+            "trigger": "import",
+            "contents": "import",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "int",
+            "contents": "int",
+            "kind": "type"
+        },
+        {
+            "trigger": "int16",
+            "contents": "int16",
+            "kind": "type"
+        },
+        {
+            "trigger": "int32",
+            "contents": "int32",
+            "kind": "type"
+        },
+        {
+            "trigger": "int64",
+            "contents": "int64",
+            "kind": "type"
+        },
+        {
+            "trigger": "int8",
+            "contents": "int8",
+            "kind": "type"
+        },
+        {
+            "trigger": "interface",
+            "contents": "interface",
+            "kind": "keyword"
+        },
+        {
             "trigger": "iota",
             "contents": "iota",
             "kind": ["variable", "c", "Constant"]
+        },
+        {
+            "trigger": "len",
+            "contents": "len",
+            "kind": "function"
+        },
+        {
+            "trigger": "make",
+            "annotation": "make(type, 0)",
+            "contents": "make(${1:type}, 0)",
+            "kind": "snippet"
+        },
+        {
+            "trigger": "make",
+            "contents": "make",
+            "kind": "function"
+        },
+        {
+            "trigger": "map",
+            "contents": "map",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "map",
+            "annotation": "map[type]type",
+            "contents": "map[${1:type}]${2:type}",
+            "kind": "snippet"
+        },
+        {
+            "trigger": "new",
+            "contents": "new",
+            "kind": "function"
         },
         {
             "trigger": "nil",
             "contents": "nil",
             "kind": ["variable", "c", "Constant"]
         },
-
         {
-            "trigger": "append",
-            "contents": "append",
-            "kind": "function",
-        },
-        {
-            "trigger": "cap",
-            "contents": "cap",
-            "kind": "function",
-        },
-        {
-            "trigger": "close",
-            "contents": "close",
-            "kind": "function",
-        },
-        {
-            "trigger": "complex",
-            "contents": "complex",
-            "kind": "function",
-        },
-        {
-            "trigger": "copy",
-            "contents": "copy",
-            "kind": "function",
-        },
-        {
-            "trigger": "delete",
-            "contents": "delete",
-            "kind": "function",
-        },
-        {
-            "trigger": "imag",
-            "contents": "imag",
-            "kind": "function",
-        },
-        {
-            "trigger": "len",
-            "contents": "len",
-            "kind": "function",
-        },
-        {
-            "trigger": "make",
-            "contents": "make",
-            "kind": "function",
-        },
-        {
-            "trigger": "new",
-            "contents": "new",
-            "kind": "function",
+            "trigger": "package",
+            "contents": "package",
+            "kind": "keyword"
         },
         {
             "trigger": "panic",
             "contents": "panic",
-            "kind": "function",
+            "kind": "function"
+        },
+        {
+            "trigger": "range",
+            "contents": "range",
+            "kind": "keyword"
         },
         {
             "trigger": "real",
             "contents": "real",
-            "kind": "function",
+            "kind": "function"
         },
         {
             "trigger": "recover",
             "contents": "recover",
-            "kind": "function",
+            "kind": "function"
         },
+        {
+            "trigger": "return",
+            "contents": "return",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "rune",
+            "contents": "rune",
+            "kind": "type"
+        },
+        {
+            "trigger": "select",
+            "contents": "select",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "string",
+            "contents": "string",
+            "kind": "type"
+        },
+        {
+            "trigger": "struct",
+            "contents": "struct",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "switch",
+            "contents": "switch",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "true",
+            "contents": "true",
+            "kind": ["variable", "c", "Constant"]
+        },
+        {
+            "trigger": "type",
+            "contents": "type",
+            "kind": "keyword"
+        },
+        {
+            "trigger": "uint",
+            "contents": "uint",
+            "kind": "type"
+        },
+        {
+            "trigger": "uint16",
+            "contents": "uint16",
+            "kind": "type"
+        },
+        {
+            "trigger": "uint32",
+            "contents": "uint32",
+            "kind": "type"
+        },
+        {
+            "trigger": "uint64",
+            "contents": "uint64",
+            "kind": "type"
+        },
+        {
+            "trigger": "uint8",
+            "contents": "uint8",
+            "kind": "type"
+        },
+        {
+            "trigger": "uintptr",
+            "contents": "uintptr",
+            "kind": "type"
+        },
+        {
+            "trigger": "var",
+            "contents": "var",
+            "kind": "keyword"
+        }
     ],
 }

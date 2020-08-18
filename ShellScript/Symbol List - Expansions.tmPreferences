@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-    <key>name</key>
-    <string>Symbol List - Variables</string>
-    <key>scope</key>
-    <string>meta.group.expansion</string>
-    <key>settings</key>
-    <dict>
-        <key>showInSymbolList</key>
-        <integer>1</integer>
-        <key>showInIndexedSymbolList</key>
-        <integer>0</integer>
-        <key>symbolTransformation</key>
-        <string>s/.+/expansion\: $0/</string>
-    </dict>
+	<key>scope</key>
+	<string>meta.interpolation</string>
+	<key>settings</key>
+	<dict>
+		<key>showInSymbolList</key>
+		<integer>1</integer>
+		<key>showInIndexedSymbolList</key>
+		<integer>0</integer>
+		<key>symbolTransformation</key>
+		<string>
+			s/\s+#[^\n]*\n//g; # remove line comments
+			s/\\\n//g;         # remove line continuation
+			s/\s+/ /g;         # normalize whitespace
+		</string>
+	</dict>
 </dict>
 </plist>

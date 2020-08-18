@@ -1,0 +1,155 @@
+%YAML 1.2
+---
+version: 2
+name: JSX
+file_extensions:
+  - jsx
+scope: source.jsx
+extends: Packages/JavaScript/JavaScript.sublime-syntax
+
+variables:
+  jsx_identifier_part: (?:{{identifier_part}}|-)
+  jsx_identifier_break: (?!{{jsx_identifier_part}})
+  jsx_identifier: '{{identifier_start}}{{jsx_identifier_part}}*{{jsx_identifier_break}}'
+
+contexts:
+  expression-begin:
+    - meta_prepend: true
+    - include: jsx-tag
+
+  jsx-interpolation:
+    - match: '{'
+      scope: punctuation.definition.interpolation.begin.js
+      push:
+        - - meta_scope: meta.interpolation.js
+          - meta_content_scope: source.js.embedded.jsx
+          - match: '}'
+            scope: punctuation.definition.interpolation.end.js
+            pop: true
+        - expression
+
+  jsx-expect-tag-end:
+    - meta_content_scope: meta.tag.js
+    - match: '>'
+      scope: meta.tag.js punctuation.definition.tag.end.js
+      pop: true
+    - include: else-pop
+
+  jsx-meta:
+    - meta_scope: meta.jsx.js
+    - include: immediately-pop
+
+  jsx-tag:
+    - match: '<'
+      scope: punctuation.definition.tag.begin.js
+      set:
+        - jsx-meta
+        - jsx-tag-attributes-top
+
+  jsx-tag-attributes-top:
+    - meta_scope: meta.tag.js
+    - match: '/'
+      scope: punctuation.definition.tag.begin.js
+      set:
+        - - meta_scope: invalid.illegal.unmatched-tag.js
+          - include: immediately-pop
+        - jsx-expect-tag-end
+        - jsx-tag-name
+
+    - match: (?=\S)
+      set:
+        - jsx-tag-attributes
+        - jsx-tag-name
+
+  jsx-tag-attributes:
+    - meta_scope: meta.tag.js
+
+    - match: '>'
+      scope: punctuation.definition.tag.end.js
+      set: jsx-body
+
+    - match: '/'
+      scope: punctuation.definition.tag.end.js
+      set: jsx-expect-tag-end
+
+    - include: jsx-interpolation
+
+    - match: '{{jsx_identifier}}'
+      scope: entity.other.attribute-name.js
+
+    - match: '='
+      scope: punctuation.separator.key-value.js
+      push: jsx-attribute-value
+
+  jsx-attribute-value:
+    - include: jsx-tag
+    - include: jsx-interpolation
+
+    - match: "'"
+      scope: punctuation.definition.string.begin.js
+      set:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.single.js
+        - match: \'
+          scope: punctuation.definition.string.end.js
+          pop: true
+        - include: jsx-html-escapes
+    - match: '"'
+      scope: punctuation.definition.string.begin.js
+      set:
+        - meta_include_prototype: false
+        - meta_scope: string.quoted.double.js
+        - match: \"
+          scope: punctuation.definition.string.end.js
+          pop: true
+        - include: jsx-html-escapes
+
+    - include: else-pop
+
+  jsx-html-escapes:
+    - match: '(&)#?[[:alnum:]]+(;)'
+      scope: constant.character.escape.js
+      captures:
+        1: punctuation.definition.entity.js
+        2: punctuation.definition.entity.js
+
+  jsx-tag-name:
+    - match: ''
+      set:
+        - - clear_scopes: 1
+          - meta_scope: meta.tag.name.js
+          - include: immediately-pop
+        - jsx-tag-name-component
+
+  jsx-tag-name-component:
+    - match: '{{jsx_identifier}}'
+      scope: entity.name.tag.js
+      set:
+        - match: '[:.]'
+          scope: punctuation.accessor.js
+          set: jsx-tag-name
+        - include: else-pop
+    - include: else-pop
+
+  jsx-body:
+    - meta_include_prototype: false
+
+    - match: '<'
+      scope: punctuation.definition.tag.begin.js
+      set:
+        - meta_scope: meta.tag.js
+
+        - match: '/'
+          scope: punctuation.definition.tag.begin.js
+          set:
+            - jsx-expect-tag-end
+            - jsx-tag-name
+
+        - match: (?=\S)
+          set:
+            - jsx-body
+            - jsx-tag-attributes
+            - jsx-tag-name
+
+    - include: jsx-html-escapes
+    - include: jsx-interpolation

@@ -1,0 +1,7 @@
+<snippet>
+	<!-- as of PHP 7.4 -->
+	<content><![CDATA[fn ($1)$2 => $0]]></content>
+	<tabTrigger>fn</tabTrigger>
+	<scope>source.php - string - comment</scope>
+	<description>fn …</description>
+</snippet>
