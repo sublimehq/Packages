@@ -442,6 +442,9 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
     @timing
     def on_query_completions(self, view, prefix, locations):
 
+        if sublime.load_settings('HTML.sublime-settings').get('disable_default_completions'):
+            return None
+
         def match_selector(selector):
             return view.match_selector(locations[0], selector)
 
