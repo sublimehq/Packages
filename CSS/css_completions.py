@@ -572,8 +572,11 @@ class CSSCompletions(sublime_plugin.EventListener):
     re_trigger = None
 
     def on_query_completions(self, view, prefix, locations):
-        pt = locations[0]
 
+        if sublime.load_settings('CSS.sublime-settings').get('disable_default_completions'):
+            return None
+
+        pt = locations[0]
         if not match_selector(view, pt, self.selector_scope):
             return None
 
