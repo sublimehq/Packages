@@ -2263,3 +2263,11 @@ completed: F[_ >: A] => B)
 //  ^ variable.language.underscore.scala
 //   ^ punctuation.section.group.begin.scala
 //    ^ punctuation.section.group.end.scala
+
+{
+   type Apply = F @uncheckedVariance
+   type A
+// ^^^^ storage.type.scala
+//      ^ entity.name.type.scala
+}
+
