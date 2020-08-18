@@ -639,7 +639,7 @@ class CSSCompletions(sublime_plugin.EventListener):
 
                 for value in values:
                     if isinstance(value, str):
-                        desc = self.re_trigger.sub("\1", value)
+                        desc = self.re_trigger.sub(r"\1", value)
                         snippet = value
                     else:
                         desc, snippet = value
