@@ -411,7 +411,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
         return get_tag_attributes()
 
     @cached_property
-    def tag_appreviations(self):
+    def tag_abbreviations(self):
         return get_tag_completions(inside_tag=False)
 
     @cached_property
@@ -477,7 +477,7 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
             return None
 
         # Expand tag and attribute appreviations
-        return self.expand_tag_attributes(view, locations) or self.tag_appreviations
+        return self.expand_tag_attributes(view, locations) or self.tag_abbreviations
 
     def expand_tag_attributes(self, view, locations):
         """
