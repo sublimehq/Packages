@@ -601,7 +601,7 @@ contexts:
         - meta_content_scope: entity.name.section.markdown
         - include: atx-heading-terminator
         - include: inline-bold-italic
-    - match: '(##)(?!#)\s*(?=\S)'
+    - match: '(#{2})(?!#)\s*(?=\S)'
       captures:
         1: punctuation.definition.heading.begin.markdown
       push:
@@ -609,11 +609,35 @@ contexts:
         - meta_content_scope: entity.name.section.markdown
         - include: atx-heading-terminator
         - include: inline-bold-italic
-    - match: '(#{3,6})(?!#)\s*(?=\S)'
+    - match: '(#{3})(?!#)\s*(?=\S)'
       captures:
         1: punctuation.definition.heading.begin.markdown
       push:
-        - meta_scope: markup.heading.markdown
+        - meta_scope: markup.heading.3.markdown
+        - meta_content_scope: entity.name.section.markdown
+        - include: atx-heading-terminator
+        - include: inline-bold-italic
+    - match: '(#{4})(?!#)\s*(?=\S)'
+      captures:
+        1: punctuation.definition.heading.begin.markdown
+      push:
+        - meta_scope: markup.heading.4.markdown
+        - meta_content_scope: entity.name.section.markdown
+        - include: atx-heading-terminator
+        - include: inline-bold-italic
+    - match: '(#{5})(?!#)\s*(?=\S)'
+      captures:
+        1: punctuation.definition.heading.begin.markdown
+      push:
+        - meta_scope: markup.heading.5.markdown
+        - meta_content_scope: entity.name.section.markdown
+        - include: atx-heading-terminator
+        - include: inline-bold-italic
+    - match: '(#{6})(?!#)\s*(?=\S)'
+      captures:
+        1: punctuation.definition.heading.begin.markdown
+      push:
+        - meta_scope: markup.heading.6.markdown
         - meta_content_scope: entity.name.section.markdown
         - include: atx-heading-terminator
         - include: inline-bold-italic
