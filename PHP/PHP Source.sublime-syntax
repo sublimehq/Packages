@@ -280,7 +280,7 @@ contexts:
         - include: expressions
         - match: ':'
           scope: keyword.operator.ternary.php
-          pop: true
+          pop: 1
     - match: "="
       scope: keyword.operator.assignment.php
     - match: '(?i)\b(instanceof)\s+(?=[[:alpha:]\\$_])'
