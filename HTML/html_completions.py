@@ -442,20 +442,15 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
     @timing
     def on_query_completions(self, view, prefix, locations):
 
-        if sublime.load_settings('HTML.sublime-settings').get('disable_default_completions'):
+        settings = sublime.load_settings('HTML.sublime-settings')
+        if settings.get('disable_default_completions'):
             return None
 
         def match_selector(selector):
             return view.match_selector(locations[0], selector)
 
         # Only trigger within HTML
-        if not match_selector(
-            "text.html"
-            # disable in embedded script/css code
-            " - (source - source text.html) - meta.string"
-            # disable in markdown but not fenced code blocks
-            " - (text.html.markdown - text.html text.html)"
-        ):
+        if not match_selector(settings.get('default_completions_selector', '')):
             return None
 
         pt = locations[0] - len(prefix) - 1

@@ -1,0 +1,7 @@
+{
+    // Set to true to disable default completions.
+    "disable_default_completions": false,
+
+    // Controls what scopes default completions will be provided in.
+    "default_completions_selector": "text.html - string - source - text.html.markdown, text.html.markdown text.html, source text.html"
+}
