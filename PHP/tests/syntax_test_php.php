@@ -237,6 +237,21 @@ function foo(?stinrg ...$args) {}
 //                   ^^^ keyword.operator.spread
 //                      ^^^^^ variable.parameter
 
+$a = $b ? $c::MY_CONST : $d * 5;
+//      ^ keyword.operator.ternary
+//        ^^ variable.other
+//          ^^ punctuation.accessor.double-colon
+//            ^^^^^^^^ constant.other.class
+//                     ^ keyword.operator.ternary
+//                          ^ keyword.operator.arithmetic
+
+$a = $b ? : $c::MY_CONST;
+//      ^ keyword.operator.ternary
+//        ^ keyword.operator.ternary
+//          ^^ variable.other
+//            ^^ punctuation.accessor.double-colon
+//              ^^^^^^^^ constant.other.class
+
 $arr4 = ['a', ...$arr1, 'b', ...$arr2, 'c'];
 //            ^^^ keyword.operator.spread
 //               ^^^^^ variable.other
