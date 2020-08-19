@@ -558,14 +558,6 @@ def next_none_whitespace(view, pt):
 
 
 class CSSCompletions(sublime_plugin.EventListener):
-    selector_scope = (
-        # match inside a CSS document and
-        "source.css - meta.selector.css, "
-        # match inside the style attribute of HTML tags, incl. just before
-        # the quote that closes the attribute value
-        "text.html meta.attribute-with-value.style.html "
-        "string.quoted - punctuation.definition.string.begin.html"
-    )
     props = None
     re_name = None
     re_value = None
@@ -573,11 +565,16 @@ class CSSCompletions(sublime_plugin.EventListener):
 
     def on_query_completions(self, view, prefix, locations):
 
-        if sublime.load_settings('CSS.sublime-settings').get('disable_default_completions'):
+        settings = sublime.load_settings('CSS.sublime-settings')
+        if settings.get('disable_default_completions'):
             return None
 
+        selector = settings.get('default_completions_selector', '')
+        if isinstance(selector, list):
+            selector = ''.join(selector)
+
         pt = locations[0]
-        if not match_selector(view, pt, self.selector_scope):
+        if not match_selector(view, pt, selector):
             return None
 
         if not self.props:
