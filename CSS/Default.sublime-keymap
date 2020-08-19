@@ -45,6 +45,7 @@
 	{ "keys": ["enter"], "command": "run_macro_file", "args": {"file": "res://Packages/Default/Add Line.sublime-macro"} , "context":
 		[
 			{ "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
+			{ "key": "auto_complete_visible", "operator": "equal", "operand": false },
 			{ "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
 			{ "key": "selector", "operator": "equal", "operand": "source.css - meta.selector.css", "match_all": true },
 			{ "key": "preceding_text", "operator": "not_regex_contains", "operand": ";\\s*$", "match_all": false },
