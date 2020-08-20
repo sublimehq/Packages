@@ -583,7 +583,7 @@ class CSSCompletions(sublime_plugin.EventListener):
         if not self.props:
             self.props = parse_css_data()
             self.re_name = re.compile(r"([a-zA-Z-]+)\s*:[^:;{}]*$")
-            self.re_value = re.compile(r"^(?:\s*(:)|([ \t]*))([^:]*)([;}])")
+            self.re_value = re.compile(r"^(?:\s*(:)|([ \t]*))([^:]*)([;}\"\'])")
             self.re_trigger = re.compile(r"\$(?:\d+|\{\d+\:([^}]+)\})")
 
         if match_selector(view, pt, "meta.property-value.css meta.function-call"):
@@ -609,8 +609,9 @@ class CSSCompletions(sublime_plugin.EventListener):
             elif value:
                 # only append colon if value already exists
                 suffix = ":" if space else ": "
-            elif term == ";":
-                # ommit semicolon if rule is already terminated
+            elif term:
+                # ommit semicolon if rule is already terminated or it is the
+                # last one before closing bracket or quotation mark.
                 suffix = ": $0"
 
         return (
@@ -632,7 +633,7 @@ class CSSCompletions(sublime_plugin.EventListener):
             if values:
                 details = f"<code>{prop}</code> property-value"
 
-                if next_none_whitespace(view, pt) == ";":
+                if next_none_whitespace(view, pt) in ";}\"\'":
                     suffix = ""
                 else:
                     suffix = "$0;"
