@@ -446,11 +446,14 @@ class HtmlTagCompletions(sublime_plugin.EventListener):
         if settings.get('disable_default_completions'):
             return None
 
+        selector = settings.get('default_completions_selector', '')
+        if isinstance(selector, list):
+            selector = ''.join(selector)
+
         def match_selector(selector):
             return view.match_selector(locations[0], selector)
 
-        # Only trigger within HTML
-        if not match_selector(settings.get('default_completions_selector', '')):
+        if not match_selector(selector):
             return None
 
         pt = locations[0] - len(prefix) - 1
