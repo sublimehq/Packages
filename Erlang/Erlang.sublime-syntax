@@ -600,34 +600,28 @@ contexts:
         1: punctuation.definition.keyword.erlang
         2: keyword.control.directive.record.erlang
       push:
-        - - meta_scope: meta.preprocessor.record.erlang
-          - include: preproc-expect-end
-        - - match: \(
-            scope: punctuation.section.arguments.begin.erlang
-            set:
-              - - clear_scopes: 1
-                - meta_scope: meta.preprocessor.record.arguments.erlang
-                - include: expect-arguments-end
-              - record-body
-              - expect-arguments-separator
-              - record-name
-              - entity-name-record
-          - include: preproc-stray-arguments-end
+        - preproc-record-end
+        - preproc-record-arguments
 
-  record-body:
-    - match: \{
-      scope: punctuation.section.fields.begin.erlang
+  preproc-record-end:
+    - meta_scope: meta.preprocessor.record.erlang
+    - include: preproc-expect-end
+
+  preproc-record-arguments:
+    - match: \(
+      scope: punctuation.section.arguments.begin.erlang
       set:
-        - meta_scope: meta.record.fields.erlang
-        - include: record-fields-common
-        - match: ',?'
-          scope: punctuation.separator.expressions.erlang
-          push:
-            - - meta_content_scope: meta.field.identifier.erlang
-              - include: immediatelly-pop
-            - - include: variable-anonymous-pop
-              - include: variable-other-field
-    - include: else-pop
+        - preproc-record-arguments-end
+        - record-fields-declaration
+        - expect-arguments-separator
+        - record-name
+        - entity-name-record
+    - include: preproc-stray-arguments-end
+
+  preproc-record-arguments-end:
+    - clear_scopes: 1
+    - meta_scope: meta.preprocessor.record.arguments.erlang
+    - include: expect-arguments-end
 
 ###[ PREPROCESSOR SPEC ]######################################################
 
@@ -1239,48 +1233,70 @@ contexts:
     - include: atom-expect-end
 
   record-fields:
+    - include: record-field-access
+    - include: record-fields-declaration
+
+  record-field-access:
     - match: \.
       scope: meta.record.erlang punctuation.accessor.dot.erlang
       set:
-        - - meta_content_scope: meta.record.field.erlang
-          - include: immediatelly-pop
-        - - include: variable-other-field
-          - include: eol-pop
+        - record-field-access-meta
+        - record-field-access-name
+
+  record-field-access-meta:
+    - meta_content_scope: meta.record.field.erlang
+    - include: immediatelly-pop
+
+  record-field-access-name:
+    - include: variable-other-field
+    - include: eol-pop
+
+  record-fields-declaration:
     - match: \{
       scope: punctuation.section.fields.begin.erlang
-      set:
-        - meta_scope: meta.record.fields.erlang
-        - include: record-fields-common
-        - match: ',?'
-          scope: punctuation.separator.expressions.erlang
-          push:
-            - - meta_content_scope: meta.field.identifier.erlang
-              - include: immediatelly-pop
-            - - include: variable-anonymous-pop
-              - include: variable-other-field
+      set: record-fields-declaration-common
     - include: else-pop
 
-  record-fields-common:
+  record-fields-declaration-common:
+    - meta_scope: meta.record.fields.erlang
     - match: \}
       scope: punctuation.section.fields.end.erlang
       pop: 1
+    - include: clause-end-or-stray
     # field value
     - match: =
       scope: meta.field.erlang keyword.operator.assignment.erlang
-      push:
-        - meta_content_scope: meta.field.value.erlang
-        - match: (?=::)
-          pop: 1
-        - include: expressions
-        - include: value-end-pop
+      push: record-field-value
     # field type
     - match: '::'
       scope: meta.field.erlang punctuation.separator.variable-type.erlang
+      push: record-field-type
+    # field identifier
+    - match: ',?'
+      scope: punctuation.separator.expressions.erlang
       push:
-        - meta_content_scope: meta.field.type.erlang
-        - include: type-expressions
-        - include: value-end-pop
-    - include: clause-end-or-stray
+        - record-field-identifier-meta
+        - record-field-identifier
+
+  record-field-identifier-meta:
+    - meta_content_scope: meta.field.identifier.erlang
+    - include: immediatelly-pop
+
+  record-field-identifier:
+    - include: variable-anonymous-pop
+    - include: variable-other-field
+
+  record-field-type:
+    - meta_content_scope: meta.field.type.erlang
+    - include: type-expressions
+    - include: value-end-pop
+
+  record-field-value:
+    - meta_content_scope: meta.field.value.erlang
+    - match: (?=::)
+      pop: 1
+    - include: expressions
+    - include: value-end-pop
 
   variable-other-field:
     - match: '{{atom_unquoted}}'
