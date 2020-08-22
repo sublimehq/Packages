@@ -873,47 +873,62 @@ contexts:
     - match: fun{{ident_break}}
       scope: keyword.declaration.function.erlang
       push:
-        - - meta_scope: meta.fun.erlang
-          - include: immediatelly-pop
-          # function reference (e.g.: FuncName = fun module:name/arity)
-          # keyword `fun` followed by a `function-declaration` but without `end`.
-        - - include: namespace-pop
-          - include: reference-pop
-          # function expression (e.g.: FuncName = fun(arg) ... end)
-          - match: (?=\S)
-            set: expr-fun-anonymous
+        - expr-fun-meta
+        - expr-fun-type-decider
 
-  expr-fun-anonymous:
+  expr-fun-meta:
+    - meta_scope: meta.fun.erlang
+    - include: immediatelly-pop
+
+  expr-fun-type-decider:
+    # function reference (e.g.: FuncName = fun module:name/arity)
+    # keyword `fun` followed by a `function-declaration` but without `end`.
+    - include: namespace-pop
+    - include: reference-pop
+    # function expression (e.g.: FuncName = fun(arg) ... end)
+    - match: (?=\S)
+      set: expr-fun-anonymous-clauses
+
+  expr-fun-anonymous-clauses:
     - match: end{{ident_break}}|(?=\.)
       scope: keyword.declaration.end.erlang
       pop: 1
     - include: separator-clauses
     - match: (?=\S)
       push:
-        # 3. function body
-        - - match: (?=[.;]|end{{ident_break_char}})
-            pop: 1
-          - include: separator-expressions
-          - include: expressions
-        # 2. function parameters
-        - - match: \(
-            scope: punctuation.section.parameters.begin.erlang
-            set:
-              - clear_scopes: 1
-              - meta_scope: meta.fun.parameters.erlang
-              - include: parameters-common
-              - include: function-parameter
-          - include: else-pop
-        # 1. function name
-        - - clear_scopes: 1
-          - meta_scope: meta.fun.identifier.erlang
-          - include: else-pop
-        - - include: variable-other-pop
-          - include: macro-pop
-          - match: '{{illegal_ident}}'
-            scope: invalid.illegal.expect-variable.erlang
-            pop: 1
-          - include: else-pop
+        - expr-fun-body
+        - expr-fun-parameters
+        - expr-fun-name-meta
+        - expr-fun-name
+
+  expr-fun-name:
+    - include: variable-other-pop
+    - include: macro-pop
+    - match: '{{illegal_ident}}'
+      scope: invalid.illegal.expect-variable.erlang
+      pop: 1
+    - include: else-pop
+
+  expr-fun-name-meta:
+    - clear_scopes: 1
+    - meta_scope: meta.fun.identifier.erlang
+    - include: else-pop
+
+  expr-fun-parameters:
+    - match: \(
+      scope: punctuation.section.parameters.begin.erlang
+      set:
+        - clear_scopes: 1
+        - meta_scope: meta.fun.parameters.erlang
+        - include: parameters-common
+        - include: function-parameter
+    - include: else-pop
+
+  expr-fun-body:
+    - match: (?=[.;]|end{{ident_break_char}})
+      pop: 1
+    - include: separator-expressions
+    - include: expressions
 
 ###[ FUNCTION DEFINITION ]####################################################
 
