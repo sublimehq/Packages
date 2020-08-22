@@ -290,11 +290,14 @@ contexts:
     - match: \(
       scope: punctuation.section.arguments.begin.erlang
       set:
-        - - clear_scopes: 1
-          - meta_scope: meta.preprocessor.conditional.arguments.erlang
-          - include: expect-arguments-end
+        - preproc-control-definitions-end
         - constant-other-macro
     - include: preproc-stray-arguments-end
+
+  preproc-control-definitions-end:
+    - clear_scopes: 1
+    - meta_scope: meta.preprocessor.conditional.arguments.erlang
+    - include: expect-arguments-end
 
   preproc-control-expressions:
     - match: \(
@@ -314,16 +317,25 @@ contexts:
         1: punctuation.definition.keyword.erlang
         2: keyword.control.directive.undef.erlang
       push:
-        - - meta_scope: meta.preprocessor.undef.erlang
-          - include: preproc-expect-end
-        - - match: \(
-            scope: punctuation.section.arguments.begin.erlang
-            set:
-              - - clear_scopes: 1
-                - meta_scope: meta.preprocessor.undef.arguments.erlang
-                - include: expect-arguments-end
-              - entity-name-macro
-          - include: preproc-stray-arguments-end
+        - preproc-undef-end
+        - preproc-undef-arguments
+
+  preproc-undef-end:
+    - meta_scope: meta.preprocessor.undef.erlang
+    - include: preproc-expect-end
+
+  preproc-undef-arguments:
+    - match: \(
+      scope: punctuation.section.arguments.begin.erlang
+      set:
+        - preproc-undef-arguments-end
+        - entity-name-macro
+    - include: preproc-stray-arguments-end
+
+  preproc-undef-arguments-end:
+    - clear_scopes: 1
+    - meta_scope: meta.preprocessor.undef.arguments.erlang
+    - include: expect-arguments-end
 
 ###[ PREPROCESSOR DEFINE ]####################################################
 
@@ -334,16 +346,22 @@ contexts:
         1: punctuation.definition.keyword.erlang
         2: keyword.control.directive.define.erlang
       push:
-        - - meta_scope: meta.preprocessor.define.erlang
-          - include: preproc-expect-end
-        - - match: \(
-            scope: punctuation.section.arguments.begin.erlang
-            set:
-              - preproc-define-arguments-body
-              - expect-arguments-separator
-              - preproc-define-arguments-parameters
-              - entity-name-macro
-          - include: preproc-stray-arguments-end
+        - preproc-define-end
+        - preproc-define-arguments
+
+  preproc-define-end:
+    - meta_scope: meta.preprocessor.define.erlang
+    - include: preproc-expect-end
+
+  preproc-define-arguments:
+    - match: \(
+      scope: punctuation.section.arguments.begin.erlang
+      set:
+        - preproc-define-arguments-body
+        - expect-arguments-separator
+        - preproc-define-arguments-parameters
+        - entity-name-macro
+    - include: preproc-stray-arguments-end
 
   preproc-define-arguments-parameters:
     - meta_content_scope: meta.macro.identifier.erlang
@@ -373,16 +391,25 @@ contexts:
         1: punctuation.definition.keyword.erlang
         2: keyword.control.directive.export.erlang
       push:
-        - - meta_scope: meta.preprocessor.export.erlang
-          - include: preproc-expect-end
-        - - match: \(
-            scope: punctuation.section.arguments.begin.erlang
-            set:
-              - - clear_scopes: 1
-                - meta_scope: meta.preprocessor.export.arguments.erlang
-                - include: expect-arguments-end
-              - preproc-expect-references
-          - include: preproc-stray-arguments-end
+        - preproc-export-end
+        - preproc-export-arguments
+
+  preproc-export-end:
+    - meta_scope: meta.preprocessor.export.erlang
+    - include: preproc-expect-end
+
+  preproc-export-arguments:
+    - match: \(
+      scope: punctuation.section.arguments.begin.erlang
+      set:
+        - preproc-export-arguments-end
+        - preproc-expect-references
+    - include: preproc-stray-arguments-end
+
+  preproc-export-arguments-end:
+    - clear_scopes: 1
+    - meta_scope: meta.preprocessor.export.arguments.erlang
+    - include: expect-arguments-end
 
   preproc-expect-references:
     - match: \[
@@ -406,18 +433,27 @@ contexts:
         1: punctuation.definition.keyword.erlang
         2: keyword.control.directive.import.erlang
       push:
-        - - meta_scope: meta.preprocessor.import.erlang
-          - include: preproc-expect-end
-        - - match: \(
-            scope: punctuation.section.arguments.begin.erlang
-            set:
-              - - clear_scopes: 1
-                - meta_scope: meta.preprocessor.import.arguments.erlang
-                - include: expect-arguments-end
-              - preproc-expect-references
-              - expect-arguments-separator
-              - entity-name-module
-          - include: preproc-stray-arguments-end
+        - preproc-import-end
+        - preproc-import-arguments
+
+  preproc-import-end:
+    - meta_scope: meta.preprocessor.import.erlang
+    - include: preproc-expect-end
+
+  preproc-import-arguments:
+    - match: \(
+      scope: punctuation.section.arguments.begin.erlang
+      set:
+        - preproc-import-arguments-end
+        - preproc-expect-references
+        - expect-arguments-separator
+        - entity-name-module
+    - include: preproc-stray-arguments-end
+
+  preproc-import-arguments-end:
+    - clear_scopes: 1
+    - meta_scope: meta.preprocessor.import.arguments.erlang
+    - include: expect-arguments-end
 
 ###[ PREPROCESSOR INCLUDE ]###################################################
 
@@ -428,19 +464,31 @@ contexts:
         1: punctuation.definition.keyword.erlang
         2: keyword.control.directive.include.erlang
       push:
-        - - meta_scope: meta.preprocessor.include.erlang
-          - include: preproc-expect-end
-        - - match: \(
-            scope: punctuation.section.arguments.begin.erlang
-            set:
-              - - clear_scopes: 1
-                - meta_scope: meta.preprocessor.include.arguments.erlang
-                - include: expect-arguments-end
-              - - match: \"
-                  scope: punctuation.definition.string.begin.erlang
-                  set: [string-body, string-maybe-env]
-                - include: else-pop
-          - include: preproc-stray-arguments-end
+        - preproc-include-end
+        - preproc-include-arguments
+
+  preproc-include-end:
+    - meta_scope: meta.preprocessor.include.erlang
+    - include: preproc-expect-end
+
+  preproc-include-arguments:
+    - match: \(
+      scope: punctuation.section.arguments.begin.erlang
+      set:
+        - preproc-include-arguments-end
+        - preproc-include-path
+    - include: preproc-stray-arguments-end
+
+  preproc-include-arguments-end:
+    - clear_scopes: 1
+    - meta_scope: meta.preprocessor.include.arguments.erlang
+    - include: expect-arguments-end
+
+  preproc-include-path:
+    - match: \"
+      scope: punctuation.definition.string.begin.erlang
+      set: [string-body, string-maybe-env]
+    - include: else-pop
 
 ###[ PREPROCESSOR MODULE ]####################################################
 
@@ -451,16 +499,25 @@ contexts:
         1: punctuation.definition.keyword.erlang
         2: keyword.control.directive.namespace.erlang
       push:
-        - - meta_scope: meta.preprocessor.namespace.erlang
-          - include: preproc-expect-end
-        - - match: \(
-            scope: punctuation.section.arguments.begin.erlang
-            set:
-              - - clear_scopes: 1
-                - meta_scope: meta.preprocessor.namespace.arguments.erlang
-                - include: expect-arguments-end
-              - entity-name-module
-          - include: preproc-stray-arguments-end
+        - preproc-module-end
+        - preproc-module-arguments
+
+  preproc-module-end:
+    - meta_scope: meta.preprocessor.namespace.erlang
+    - include: preproc-expect-end
+
+  preproc-module-arguments:
+    - match: \(
+      scope: punctuation.section.arguments.begin.erlang
+      set:
+        - preproc-module-arguments-end
+        - entity-name-module
+    - include: preproc-stray-arguments-end
+
+  preproc-module-arguments-end:
+    - clear_scopes: 1
+    - meta_scope: meta.preprocessor.namespace.arguments.erlang
+    - include: expect-arguments-end
 
 ###[ PREPROCESSOR ATTRIBUTE ]#################################################
 
@@ -468,35 +525,43 @@ contexts:
     - match: -(?=\s*{{ident}})
       scope: punctuation.definition.keyword.erlang
       push:
-        - - meta_scope: meta.preprocessor.attribute.erlang
-          - include: preproc-expect-end
-          # ordinary directive `-name( ... ).`
-        - - match: \(
-            scope: punctuation.section.arguments.begin.erlang
-            set:
-              - clear_scopes: 1
-              - meta_scope: meta.preprocessor.attribute.arguments.erlang
-              - include: arguments-common
-              - include: preproc-attribute-argument
-          # spec/type like directive `-attribute ... .`
-          - match: (?=\S)
-            set:
-              - include: separator-expressions
-              - include: expressions
-              - include: clause-end-pop
-          - include: eol-pop
-        # keyword
-        - - match: '{{atom_unquoted}}'
-            scope: meta.atom.erlang keyword.control.directive.attribute.erlang
-            pop: 1
-          - match: \'
-            scope: punctuation.definition.atom.begin.erlang
-            set:
-              - meta_include_prototype: false
-              - meta_scope: meta.atom.erlang keyword.control.directive.attribute.erlang
-              - include: atom-quoted-common
-          - include: macro-pop
-          - include: atom-expect-end
+        - preproc-attribute-end
+        - preproc-attribute-arguments
+        - preproc-attribute-keyword
+
+  preproc-attribute-end:
+    - meta_scope: meta.preprocessor.attribute.erlang
+    - include: preproc-expect-end
+
+  preproc-attribute-keyword:
+    - match: '{{atom_unquoted}}'
+      scope: meta.atom.erlang keyword.control.directive.attribute.erlang
+      pop: 1
+    - match: \'
+      scope: punctuation.definition.atom.begin.erlang
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.atom.erlang keyword.control.directive.attribute.erlang
+        - include: atom-quoted-common
+    - include: macro-pop
+    - include: atom-expect-end
+
+  preproc-attribute-arguments:
+    # ordinary directive `-name( ... ).`
+    - match: \(
+      scope: punctuation.section.arguments.begin.erlang
+      set:
+        - clear_scopes: 1
+        - meta_scope: meta.preprocessor.attribute.arguments.erlang
+        - include: arguments-common
+        - include: preproc-attribute-argument
+    # spec/type like directive `-attribute ... .`
+    - match: (?=\S)
+      set:
+        - include: separator-expressions
+        - include: expressions
+        - include: clause-end-pop
+    - include: eol-pop
 
   preproc-attribute-argument:
     # http://erlang.org/doc/reference_manual/expressions.html#parenthesized-expressions
@@ -648,20 +713,22 @@ contexts:
         1: punctuation.definition.keyword.erlang
         2: keyword.control.directive.type.erlang
       push:
-        - - meta_scope: meta.preprocessor.type.erlang
-          - include: preproc-expect-end
-        - - match: (?=\S)
-            set:
-              - preproc-type-body
-              - preproc-type-parameters
-              - preproc-type-name
-              - entity-name-type
+        - preproc-type-end
+        - preproc-type-name
+
+  preproc-type-end:
+    - meta_scope: meta.preprocessor.type.erlang
+    - include: preproc-expect-end
 
   preproc-type-name:
-    - meta_scope: meta.preprocessor.type.name.erlang
-    - include: else-pop
+    - match: (?=\S)
+      set:
+        - preproc-type-body
+        - preproc-type-parameters
+        - entity-name-type
 
   preproc-type-parameters:
+    - meta_content_scope: meta.preprocessor.type.name.erlang
     - match: \(
       scope: punctuation.section.parameters.begin.erlang
       set:
@@ -949,26 +1016,33 @@ contexts:
     - match: \(
       scope: punctuation.section.arguments.begin.erlang
       set:
-        - - meta_scope: meta.type-call.arguments.erlang
-          - include: expect-arguments-end
-        # 2. function return-type
-        - - match: ->
-            scope: punctuation.separator.parameters-return-type.erlang
-            set:
-              - meta_content_scope: meta.fun.return-type.erlang
-              - match: (?=[.;)])
-                pop: 1
-              - include: type-expressions
-          - include: else-pop
-        # 1. function parameters
-        - - match: \(
-            scope: punctuation.section.parameters.begin.erlang
-            set:
-              - meta_scope: meta.fun.parameters.erlang
-              - include: variable-any
-              - include: parameters-common
-              - include: type-parameter
-          - include: else-pop
+        - type-call-fun-arguments-end
+        - type-call-fun-return-type
+        - type-call-fun-parameters
+    - include: else-pop
+
+  type-call-fun-arguments-end:
+    - meta_scope: meta.type-call.arguments.erlang
+    - include: expect-arguments-end
+
+  type-call-fun-parameters:
+    - match: \(
+      scope: punctuation.section.parameters.begin.erlang
+      set:
+        - meta_scope: meta.fun.parameters.erlang
+        - include: variable-any
+        - include: parameters-common
+        - include: type-parameter
+    - include: else-pop
+
+  type-call-fun-return-type:
+    - match: ->
+      scope: punctuation.separator.parameters-return-type.erlang
+      set:
+        - meta_content_scope: meta.fun.return-type.erlang
+        - match: (?=[.;)])
+          pop: 1
+        - include: type-expressions
     - include: else-pop
 
   type-call-other-arguments:
@@ -1368,32 +1442,35 @@ contexts:
 
   reference:
     - match: (?={{ident}}\s*/)
-      push: [reference-arity, reference-name, variable-function]
+      push: [reference-arity, variable-function]
 
   reference-pop:
     - match: (?={{ident}}\s*/)
-      set: [reference-arity, reference-name, variable-function]
-
-  reference-name:
-    - meta_content_scope: meta.reference.function.name.erlang
-    - include: else-pop
+      set: [reference-arity, variable-function]
 
   reference-arity:
+    - meta_content_scope: meta.reference.function.name.erlang
     - match: /
       scope: meta.reference.function.erlang punctuation.separator.reference.erlang
       set:
-        - - meta_content_scope: meta.reference.function.arity.erlang
-          - include: immediatelly-pop
-        - - match: \d+
-            scope: constant.numeric.integer.decimal.erlang
-            pop: 1
-          - include: variable-anonymous-pop
-          - include: variable-other-pop
-          - include: macro-pop
-          - match: '{{illegal_ident}}'
-            scope: invalid.illegal.expect-integer.erlang
-            pop: 1
-          - include: else-pop
+        - reference-arity-meta
+        - reference-arity-body
+    - include: else-pop
+
+  reference-arity-meta:
+    - meta_content_scope: meta.reference.function.arity.erlang
+    - include: immediatelly-pop
+
+  reference-arity-body:
+    - match: \d+
+      scope: constant.numeric.integer.decimal.erlang
+      pop: 1
+    - include: variable-anonymous-pop
+    - include: variable-other-pop
+    - include: macro-pop
+    - match: '{{illegal_ident}}'
+      scope: invalid.illegal.expect-integer.erlang
+      pop: 1
     - include: else-pop
 
 ###[ VARIABLE ]###############################################################
