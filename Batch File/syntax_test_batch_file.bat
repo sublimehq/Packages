@@ -77,6 +77,17 @@ ECHO |:: Not a comment
 ::   ^ keyword.operator.pipe.dosbatch
 ::    ^^^^^^^^^^^^^^^^ invalid.illegal.unexpected.dosbatch
 
+:1:
+:: <- comment.block.documentation.dosbatch punctuation.definition.comment.begin.dosbatch
+ :: <- comment.block.documentation.dosbatch punctuation.definition.comment.begin.dosbatch
+
+This is a block comment
+::^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.dosbatch
+
+:1:
+:: <- comment.block.documentation.dosbatch punctuation.definition.comment.end.dosbatch
+ :: <- comment.block.documentation.dosbatch punctuation.definition.comment.end.dosbatch
+
 ECHO "foo"
 ::   ^ punctuation.definition.string.begin.dosbatch
 ::   ^^^^^ string.quoted.double.dosbatch

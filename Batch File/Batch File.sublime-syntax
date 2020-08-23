@@ -170,6 +170,14 @@ contexts:
         - include: line-continuation
         - match: \n
           pop: true
+    # block comments
+    - match: (^:\d+:$)
+      scope: punctuation.definition.comment.begin.dosbatch
+      push:
+        - meta_scope: comment.block.documentation.dosbatch
+        - match: \1
+          scope: punctuation.definition.comment.end.dosbatch
+          pop: true
 
 ###[ LABELS ]#################################################################
 
