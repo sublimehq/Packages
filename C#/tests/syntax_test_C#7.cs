@@ -145,10 +145,10 @@ class Foo {
         // https://github.com/dotnet/roslyn/pull/2950
         int bin = 0b1001_1010_0001_0100;
 ///               ^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.binary
-///               ^^ punctuation.definition.numeric.base
+///               ^^ constant.numeric.integer.base
         int hex = 0x1b_a0_44_fe;
 ///               ^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
-///               ^^ punctuation.definition.numeric.base
+///               ^^ constant.numeric.integer.base
         int dec = 33_554_432;
 ///               ^^^^^^^^^^ constant.numeric.integer.decimal
         int weird = 1_2__3___4____5_____6______7_______8________9;

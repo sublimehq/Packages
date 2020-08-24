@@ -1805,47 +1805,47 @@ contexts:
         )\b
       captures:
         1: constant.numeric.integer.binary.erlang
-        2: punctuation.definition.numeric.base.erlang
+        2: constant.numeric.integer.base.erlang
         3: constant.numeric.integer.octal.erlang
-        4: punctuation.definition.numeric.base.erlang
+        4: constant.numeric.integer.base.erlang
         5: constant.numeric.integer.decimal.erlang
-        6: punctuation.definition.numeric.base.erlang
+        6: constant.numeric.integer.base.erlang
         7: constant.numeric.integer.hexadecimal.erlang
-        8: punctuation.definition.numeric.base.erlang
+        8: constant.numeric.integer.base.erlang
         9: constant.numeric.integer.other.erlang
-        10: punctuation.definition.numeric.base.erlang
-        11: punctuation.definition.numeric.base.erlang
-        12: punctuation.definition.numeric.base.erlang
-        13: punctuation.definition.numeric.base.erlang
-        14: punctuation.definition.numeric.base.erlang
-        15: punctuation.definition.numeric.base.erlang
-        16: punctuation.definition.numeric.base.erlang
-        17: punctuation.definition.numeric.base.erlang
-        18: punctuation.definition.numeric.base.erlang
-        19: punctuation.definition.numeric.base.erlang
-        20: punctuation.definition.numeric.base.erlang
-        21: punctuation.definition.numeric.base.erlang
-        22: punctuation.definition.numeric.base.erlang
-        23: punctuation.definition.numeric.base.erlang
-        24: punctuation.definition.numeric.base.erlang
-        25: punctuation.definition.numeric.base.erlang
-        26: punctuation.definition.numeric.base.erlang
-        27: punctuation.definition.numeric.base.erlang
-        28: punctuation.definition.numeric.base.erlang
-        29: punctuation.definition.numeric.base.erlang
-        30: punctuation.definition.numeric.base.erlang
-        31: punctuation.definition.numeric.base.erlang
-        32: punctuation.definition.numeric.base.erlang
-        33: punctuation.definition.numeric.base.erlang
-        34: punctuation.definition.numeric.base.erlang
-        35: punctuation.definition.numeric.base.erlang
-        36: punctuation.definition.numeric.base.erlang
-        37: punctuation.definition.numeric.base.erlang
-        38: punctuation.definition.numeric.base.erlang
-        39: punctuation.definition.numeric.base.erlang
-        40: punctuation.definition.numeric.base.erlang
+        10: constant.numeric.integer.base.erlang
+        11: constant.numeric.integer.base.erlang
+        12: constant.numeric.integer.base.erlang
+        13: constant.numeric.integer.base.erlang
+        14: constant.numeric.integer.base.erlang
+        15: constant.numeric.integer.base.erlang
+        16: constant.numeric.integer.base.erlang
+        17: constant.numeric.integer.base.erlang
+        18: constant.numeric.integer.base.erlang
+        19: constant.numeric.integer.base.erlang
+        20: constant.numeric.integer.base.erlang
+        21: constant.numeric.integer.base.erlang
+        22: constant.numeric.integer.base.erlang
+        23: constant.numeric.integer.base.erlang
+        24: constant.numeric.integer.base.erlang
+        25: constant.numeric.integer.base.erlang
+        26: constant.numeric.integer.base.erlang
+        27: constant.numeric.integer.base.erlang
+        28: constant.numeric.integer.base.erlang
+        29: constant.numeric.integer.base.erlang
+        30: constant.numeric.integer.base.erlang
+        31: constant.numeric.integer.base.erlang
+        32: constant.numeric.integer.base.erlang
+        33: constant.numeric.integer.base.erlang
+        34: constant.numeric.integer.base.erlang
+        35: constant.numeric.integer.base.erlang
+        36: constant.numeric.integer.base.erlang
+        37: constant.numeric.integer.base.erlang
+        38: constant.numeric.integer.base.erlang
+        39: constant.numeric.integer.base.erlang
+        40: constant.numeric.integer.base.erlang
         41: invalid.illegal.integer.erlang
-        42: punctuation.definition.numeric.base.erlang
+        42: constant.numeric.integer.base.erlang
     - match: \d+\b
       scope: constant.numeric.integer.decimal.erlang
     - match: \d\w+

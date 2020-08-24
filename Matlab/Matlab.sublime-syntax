@@ -437,12 +437,12 @@ contexts:
     - match: '\b(0[xX])\h+(u8|u16|u32|u64|s8|s16|s32|s64)?\b'
       scope: constant.numeric.integer.hexadecimal.matlab
       captures:
-        1: punctuation.definition.numeric.base.matlab
+        1: constant.numeric.integer.base.matlab
         2: storage.type.numeric.matlab
     - match: '\b(0[bB])[01]+(u8|u16|u32|u64|s8|s16|s32|s64)?\b'
       scope: constant.numeric.integer.binary.matlab
       captures:
-        1: punctuation.definition.numeric.base.matlab
+        1: constant.numeric.integer.base.matlab
         2: storage.type.numeric.matlab
     - match: '(?:\d*(\.))?\d+(?:[Ee][-+]?\d+)?(i|j)\b'
       scope: constant.numeric.imaginary.decimal.matlab

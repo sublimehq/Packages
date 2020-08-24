@@ -183,7 +183,7 @@ contexts:
 
     # hexadecimal float (C99)
     - match: \b0[xX](?=[[:alnum:]_''.]+?[pP])
-      scope: punctuation.definition.numeric.base.c++
+      scope: constant.numeric.integer.base.c++
       push:
         - meta_include_prototype: false
         - meta_scope: constant.numeric.float.hexadecimal.c++
@@ -198,7 +198,7 @@ contexts:
 
     # binary integer
     - match: \b0[bB]
-      scope: punctuation.definition.numeric.base.c++
+      scope: constant.numeric.integer.base.c++
       push:
         - meta_include_prototype: false
         - meta_scope: constant.numeric.integer.binary.c++
@@ -207,14 +207,14 @@ contexts:
           scope: invalid.illegal.numeric.digit.c++
     # hexadecimal integer
     - match: \b0[xX]
-      scope: punctuation.definition.numeric.base.c++
+      scope: constant.numeric.integer.base.c++
       push:
         - meta_include_prototype: false
         - meta_scope: constant.numeric.integer.hexadecimal.c++
         - include: hexadecimal-suffix
     # octal integer
     - match: \b0(?=[\d''])
-      scope: punctuation.definition.numeric.base.c++
+      scope: constant.numeric.integer.base.c++
       push:
         - meta_include_prototype: false
         - meta_scope: constant.numeric.integer.octal.c++

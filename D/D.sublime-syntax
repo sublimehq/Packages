@@ -197,14 +197,14 @@ contexts:
     - match: '(0[bB])(_?){{bin_digits}}({{integer_suffix}})?'
       scope: constant.numeric.integer.binary.d
       captures:
-        1: punctuation.definition.numeric.base.d
+        1: constant.numeric.integer.base.d
         2: invalid.illegal.numeric.d
         3: storage.type.numeric.d
       pop: true
     - match: '(0[xX])(_?){{hex_digits}}({{integer_suffix}})?'
       scope: constant.numeric.integer.hexadecimal.d
       captures:
-        1: punctuation.definition.numeric.base.d
+        1: constant.numeric.integer.base.d
         2: invalid.illegal.numeric.d
         3: storage.type.numeric.d
       pop: true
@@ -261,7 +261,7 @@ contexts:
     - match: (0[xX])(_?){{hex_digits}}?(?:(\.){{hex_digits}}?)?{{hex_exponent}}?({{imaginary_suffix}})
       scope: constant.numeric.imaginary.hexadecimal.d
       captures:
-        1: punctuation.definition.numeric.base.d
+        1: constant.numeric.integer.base.d
         2: invalid.illegal.numeric.d
         3: punctuation.separator.decimal.d
         4: storage.type.numeric.d
@@ -270,7 +270,7 @@ contexts:
     - match: (0[xX])(_?){{hex_digits}}?(?:(\.){{hex_digits}}?)?{{hex_exponent}}({{integer_float_suffix}})?
       scope: constant.numeric.float.hexadecimal.d
       captures:
-        1: punctuation.definition.numeric.base.d
+        1: constant.numeric.integer.base.d
         2: invalid.illegal.numeric.d
         3: punctuation.separator.decimal.d
         4: storage.type.numeric.d
@@ -280,7 +280,7 @@ contexts:
     - match: (0[bB])(_?){{bin_digits}}({{imaginary_suffix}})
       scope: constant.numeric.imaginary.binary.d
       captures:
-        1: punctuation.definition.numeric.base.d
+        1: constant.numeric.integer.base.d
         2: invalid.illegal.numeric.d
         3: storage.type.numeric.d
       pop: true
@@ -288,7 +288,7 @@ contexts:
     - match: (0[bB])(_?){{bin_digits}}({{float_suffix}})
       scope: constant.numeric.float.binary.d
       captures:
-        1: punctuation.definition.numeric.base.d
+        1: constant.numeric.integer.base.d
         2: invalid.illegal.numeric.d
         3: storage.type.numeric.d
       pop: true

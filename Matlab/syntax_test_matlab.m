@@ -174,23 +174,23 @@ end
 %   ^ storage.type.numeric.matlab
  0x2A
 %^^^^ constant.numeric.integer.hexadecimal.matlab
-%^^ punctuation.definition.numeric.base.matlab
+%^^ constant.numeric.integer.base.matlab
  0X2A
 %^^^^ constant.numeric.integer.hexadecimal.matlab
-%^^ punctuation.definition.numeric.base.matlab
+%^^ constant.numeric.integer.base.matlab
  0b101010
 %^^^^^^^^ constant.numeric.integer.binary.matlab
-%^^ punctuation.definition.numeric.base.matlab
+%^^ constant.numeric.integer.base.matlab
  0B101010
 %^^^^^^^^ constant.numeric.integer.binary.matlab
-%^^ punctuation.definition.numeric.base.matlab
+%^^ constant.numeric.integer.base.matlab
  0x2Au8
 %^^^^^^ constant.numeric.integer.hexadecimal.matlab
-%^^ punctuation.definition.numeric.base.matlab
+%^^ constant.numeric.integer.base.matlab
 %    ^^ storage.type.numeric.matlab
  0x2As32
 %^^^^^^^ constant.numeric.integer.hexadecimal.matlab
-%^^ punctuation.definition.numeric.base.matlab
+%^^ constant.numeric.integer.base.matlab
 %    ^^^ storage.type.numeric.matlab
 
 

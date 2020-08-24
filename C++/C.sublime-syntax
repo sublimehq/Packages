@@ -201,7 +201,7 @@ contexts:
         7: invalid.illegal.numeric.suffix.c
     # hexadecimal float (C99)
     - match: \b0[xX](?=[[:alnum:].]+?[pP])
-      scope: punctuation.definition.numeric.base.c
+      scope: constant.numeric.integer.base.c
       push:
         - meta_include_prototype: false
         - meta_scope: constant.numeric.float.hexadecimal.c
@@ -216,14 +216,14 @@ contexts:
 
     # hexadecimal integer
     - match: \b0[xX]
-      scope: punctuation.definition.numeric.base.c
+      scope: constant.numeric.integer.base.c
       push:
         - meta_include_prototype: false
         - meta_scope: constant.numeric.integer.hexadecimal.c
         - include: hexadecimal-suffix
     # octal integer
     - match: \b0(?=\d)
-      scope: punctuation.definition.numeric.base.c
+      scope: constant.numeric.integer.base.c
       push:
         - meta_include_prototype: false
         - meta_scope: constant.numeric.integer.octal.c

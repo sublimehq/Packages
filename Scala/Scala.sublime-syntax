@@ -289,7 +289,7 @@ contexts:
     - match: \b(0[xX])\h+([lL]?)\b
       scope: constant.numeric.integer.hexadecimal.scala
       captures:
-        1: punctuation.definition.numeric.base.scala
+        1: constant.numeric.integer.base.scala
         2: storage.type.numeric.scala
     - match: \b(?:0|[1-9][0-9]*)([lL]?)\b
       scope: constant.numeric.integer.decimal.scala

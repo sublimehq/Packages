@@ -446,14 +446,14 @@ contexts:
     - match: (0[Xx])\h*(?:(\.)\h*{{hex_exponent}}?|{{hex_exponent}})
       scope: constant.numeric.float.hexadecimal.lua
       captures:
-        1: punctuation.definition.numeric.base.lua
+        1: constant.numeric.integer.base.lua
         2: punctuation.separator.decimal.lua
       pop: true
 
     - match: (0[Xx])\h+
       scope: constant.numeric.integer.hexadecimal.lua
       captures:
-        1: punctuation.definition.numeric.base.lua
+        1: constant.numeric.integer.base.lua
       pop: true
 
     - match: \d+(?:(\.)\d*{{dec_exponent}}?|{{dec_exponent}})|(\.)\d+{{dec_exponent}}?

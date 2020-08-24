@@ -990,74 +990,74 @@ dec5 = 2'354'202'076LL;
 
 oct1 = 0123_567;
 /*     ^^^^^^^^ constant.numeric.integer.octal */
-/*     ^ punctuation.definition.numeric.base */
+/*     ^ constant.numeric.integer.base */
 /*         ^^^^ storage.type.numeric */
 /*             ^ punctuation.terminator - constant */
 
 oct2 = 014'70;
 /*     ^^^^^^ constant.numeric.integer.octal */
-/*     ^ punctuation.definition.numeric.base */
+/*     ^ constant.numeric.integer.base */
 /*           ^ punctuation.terminator - constant */
 
 hex1 = 0x1234567890ABCDEF;
 /*     ^^^^^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal */
-/*     ^^ punctuation.definition.numeric.base */
+/*     ^^ constant.numeric.integer.base */
 /*                       ^ punctuation.terminator - constant */
 
 hex2 = 0X1234567890ABCDEF;
 /*     ^^^^^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal */
-/*     ^^ punctuation.definition.numeric.base */
+/*     ^^ constant.numeric.integer.base */
 /*                       ^ punctuation.terminator - constant */
 
 hex3 = 0x1234567890abcdef;
 /*     ^^^^^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal */
-/*     ^^ punctuation.definition.numeric.base */
+/*     ^^ constant.numeric.integer.base */
 /*                       ^ punctuation.terminator - constant */
 
 hex4 = 0xA7'45'8C'38;
 /*     ^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal */
-/*     ^^ punctuation.definition.numeric.base */
+/*     ^^ constant.numeric.integer.base */
 /*                  ^ punctuation.terminator - constant */
 
 hex5 = 0x0+0xFL+0xaull+0xallu+0xfu+0xf'12_4_uz;
 /*     ^^^ constant.numeric.integer.hexadecimal */
-/*     ^^ punctuation.definition.numeric.base */
+/*     ^^ constant.numeric.integer.base */
 /*         ^^^^ constant.numeric.integer.hexadecimal */
-/*         ^^ punctuation.definition.numeric.base */
+/*         ^^ constant.numeric.integer.base */
 /*            ^ storage.type.numeric */
 /*              ^^^^^^ constant.numeric.integer.hexadecimal */
-/*              ^^ punctuation.definition.numeric.base */
+/*              ^^ constant.numeric.integer.base */
 /*                 ^^^ storage.type.numeric */
 /*                     ^^^^^^ constant.numeric.integer.hexadecimal */
-/*                     ^^ punctuation.definition.numeric.base */
+/*                     ^^ constant.numeric.integer.base */
 /*                        ^^^ storage.type.numeric */
 /*                            ^^^^ constant.numeric.integer.hexadecimal */
-/*                            ^^ punctuation.definition.numeric.base */
+/*                            ^^ constant.numeric.integer.base */
 /*                               ^ storage.type.numeric */
 /*                                 ^^^^^^^^^^ constant.numeric.integer.hexadecimal */
-/*                                 ^^ punctuation.definition.numeric.base */
+/*                                 ^^ constant.numeric.integer.base */
 /*                                       ^^^^^ storage.type.numeric */
 /*                                            ^ punctuation.terminator - constant */
 
 hex2 = 0xc1.01AbFp-1;
 /*     ^^^^^^^^^^^^^ constant.numeric.float.hexadecimal */
-/*     ^^ punctuation.definition.numeric.base */
+/*     ^^ constant.numeric.integer.base */
 /*         ^ punctuation.separator.decimal */
 /*                  ^ punctuation.terminator - constant */
 
 bin1 = 0b010110;
 /*     ^^^^^^^^ constant.numeric.integer.binary */
-/*     ^^ punctuation.definition.numeric.base */
+/*     ^^ constant.numeric.integer.base */
 /*             ^ punctuation.terminator - constant */
 
 bin2 = 0B010010;
 /*     ^^^^^^^^ constant.numeric.integer.binary */
-/*     ^^ punctuation.definition.numeric.base */
+/*     ^^ constant.numeric.integer.base */
 /*             ^ punctuation.terminator - constant */
 
 bin3 = 0b1001'1101'0010'1100;
 /*     ^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.binary */
-/*     ^^ punctuation.definition.numeric.base */
+/*     ^^ constant.numeric.integer.base */
 /*                          ^ punctuation.terminator - constant */
 
 f = 1.1+1.1e1+1.1e-1+1.1f+1.1e1f+1.1e-1f+1.1L+1.1e1L+1.1e-1L;

@@ -283,14 +283,14 @@ type Foo = Bar[A] forSome { type A }
 
    0x0aF9123 0x42L 0x42l
 //^ - constant
-// ^^ punctuation.definition.numeric.base.scala
+// ^^ constant.numeric.integer.base.scala
 // ^^^^^^^^^ constant.numeric.integer.hexadecimal.scala
 //          ^ - constant
-//           ^^ punctuation.definition.numeric.base.scala
+//           ^^ constant.numeric.integer.base.scala
 //           ^^^^^ constant.numeric.integer.hexadecimal.scala
 //               ^ storage.type.numeric.scala
 //                ^ - constant
-//                 ^^ punctuation.definition.numeric.base.scala
+//                 ^^ constant.numeric.integer.base.scala
 //                 ^^^^^ constant.numeric.integer.hexadecimal.scala
 //                     ^ storage.type.numeric.scala
 //                      ^ - constant

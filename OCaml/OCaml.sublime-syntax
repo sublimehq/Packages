@@ -418,7 +418,7 @@ contexts:
       scope: constant.numeric.float.hexadecimal.ocaml
       captures:
         1: punctuation.definition.numeric.sign.ocaml
-        2: punctuation.definition.numeric.base.ocaml
+        2: constant.numeric.integer.base.ocaml
         3: invalid.illegal.numeric.ocaml
         4: punctuation.separator.decimal.ocaml
         5: invalid.illegal.numeric.ocaml
@@ -436,7 +436,7 @@ contexts:
       scope: constant.numeric.integer.hexadecimal.ocaml
       captures:
         1: punctuation.definition.numeric.sign.ocaml
-        2: punctuation.definition.numeric.base.ocaml
+        2: constant.numeric.integer.base.ocaml
         3: invalid.illegal.numeric.ocaml
         4: storage.type.numeric.ocaml
     # octal integers
@@ -444,7 +444,7 @@ contexts:
       scope: constant.numeric.integer.octal.ocaml
       captures:
         1: punctuation.definition.numeric.sign.ocaml
-        2: punctuation.definition.numeric.base.ocaml
+        2: constant.numeric.integer.base.ocaml
         3: invalid.illegal.numeric.ocaml
         4: storage.type.numeric.ocaml
     # binary integers
@@ -452,7 +452,7 @@ contexts:
       scope: constant.numeric.integer.binary.ocaml
       captures:
         1: punctuation.definition.numeric.sign.ocaml
-        2: punctuation.definition.numeric.base.ocaml
+        2: constant.numeric.integer.base.ocaml
         3: invalid.illegal.numeric.ocaml
         4: storage.type.numeric.ocaml
     # decimal integers

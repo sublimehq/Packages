@@ -88,11 +88,11 @@ contexts:
     - match: \b(0[oO])[0-7]+\b
       scope: constant.numeric.integer.octal.haskell
       captures:
-        1: punctuation.definition.numeric.base.haskell
+        1: constant.numeric.integer.base.haskell
     - match: \b(0[xX])\h+\b
       scope: constant.numeric.integer.hexadecimal.haskell
       captures:
-        1: punctuation.definition.numeric.base.haskell
+        1: constant.numeric.integer.base.haskell
     - match: \b\d+\b
       scope: constant.numeric.integer.decimal.haskell
 

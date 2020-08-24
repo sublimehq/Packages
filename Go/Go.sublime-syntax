@@ -408,20 +408,20 @@ contexts:
     - match: (0[xX]){{hex_digits}}?(?:(\.){{hex_digits}}?)?{{hex_exponent}}?(i)
       scope: constant.numeric.imaginary.hexadecimal.go
       captures:
-        1: punctuation.definition.numeric.base.go
+        1: constant.numeric.integer.base.go
         2: punctuation.separator.decimal.go
         3: storage.type.numeric.go
     # Octal imaginary numbers
     - match: (0[oO]){{oct_digits}}(i)
       scope: constant.numeric.imaginary.octal.go
       captures:
-        1: punctuation.definition.numeric.base.go
+        1: constant.numeric.integer.base.go
         2: storage.type.numeric.go
     # Binary imaginary numbers
     - match: (0[bB]){{bin_digits}}(i)
       scope: constant.numeric.imaginary.binary.go
       captures:
-        1: punctuation.definition.numeric.base.go
+        1: constant.numeric.integer.base.go
         2: storage.type.numeric.go
 
   match-floats:
@@ -439,7 +439,7 @@ contexts:
     - match: (0[xX]){{hex_digits}}?(?:(\.){{hex_digits}}?)?{{hex_exponent}}
       scope: constant.numeric.float.hexadecimal.go
       captures:
-        1: punctuation.definition.numeric.base.go
+        1: constant.numeric.integer.base.go
         2: punctuation.separator.decimal.go
 
   match-integers:
@@ -452,25 +452,25 @@ contexts:
     - match: (0){{oct_digits}}(?=\D)
       scope: constant.numeric.integer.octal.go
       captures:
-        1: punctuation.definition.numeric.base.go
+        1: constant.numeric.integer.base.go
     - match: 0[0-7]*[8-9]+
       scope: invalid.illegal.go
     - match: (0[oO]){{oct_digits}}
       scope: constant.numeric.integer.octal.go
       captures:
-        1: punctuation.definition.numeric.base.go
+        1: constant.numeric.integer.base.go
 
   match-hex-integer:
     - match: (0[xX]){{hex_digits}}
       scope: constant.numeric.integer.hexadecimal.go
       captures:
-        1: punctuation.definition.numeric.base.go
+        1: constant.numeric.integer.base.go
 
   match-binary-integer:
     - match: (0[bB]){{bin_digits}}
       scope: constant.numeric.integer.binary.go
       captures:
-        1: punctuation.definition.numeric.base.go
+        1: constant.numeric.integer.base.go
 
   match-decimal-integer:
     - match: '{{dec_digits}}'

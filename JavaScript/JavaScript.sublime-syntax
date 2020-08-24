@@ -1849,21 +1849,21 @@ contexts:
     - match: (0[Xx]){{hex_digit}}*(n)?{{identifier_break}}
       scope: constant.numeric.integer.hexadecimal.js
       captures:
-        1: punctuation.definition.numeric.base.js
+        1: constant.numeric.integer.base.js
         2: storage.type.numeric.js
       pop: true
 
     - match: (0[Oo]){{oct_digit}}*(n)?{{identifier_break}}
       scope: constant.numeric.integer.octal.js
       captures:
-        1: punctuation.definition.numeric.base.js
+        1: constant.numeric.integer.base.js
         2: storage.type.numeric.js
       pop: true
 
     - match: (0[Bb]){{bin_digit}}*(n)?{{identifier_break}}
       scope: constant.numeric.integer.binary.js
       captures:
-        1: punctuation.definition.numeric.base.js
+        1: constant.numeric.integer.base.js
         2: storage.type.numeric.js
       pop: true
 

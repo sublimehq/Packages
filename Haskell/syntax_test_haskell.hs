@@ -272,7 +272,7 @@ main = do
 
     0o1234567
 --  ^^^^^^^^^ constant.numeric.integer.octal
---  ^^ punctuation.definition.numeric.base.haskell
+--  ^^ constant.numeric.integer.base.haskell
 
     1.
 --  ^ constant.numeric.integer.decimal
@@ -298,11 +298,11 @@ main = do
 
     0x0
 --  ^^^ constant.numeric.integer.hexadecimal
---  ^^ punctuation.definition.numeric.base
+--  ^^ constant.numeric.integer.base
 
     0XdeafBEEF42
 --  ^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
---  ^^ punctuation.definition.numeric.base
+--  ^^ constant.numeric.integer.base
 
 --STRINGS
 

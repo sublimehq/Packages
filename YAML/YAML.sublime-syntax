@@ -334,15 +334,15 @@ contexts:
         2: constant.language.boolean.yaml
         # binary integer
         4: constant.numeric.integer.binary.yaml
-        5: punctuation.definition.numeric.base.yaml
+        5: constant.numeric.integer.base.yaml
         # octal integer
         6: constant.numeric.integer.octal.yaml
-        7: punctuation.definition.numeric.base.yaml
+        7: constant.numeric.integer.base.yaml
         # decimal integer
         8: constant.numeric.integer.decimal.yaml
         # hexadecimal integer
         9: constant.numeric.integer.hexadecimal.yaml
-        10: punctuation.definition.numeric.base.yaml
+        10: constant.numeric.integer.base.yaml
         # other integer
         11: constant.numeric.integer.other.yaml
         # decimal float
@@ -382,15 +382,15 @@ contexts:
         2: constant.language.boolean.yaml
         # binary integer
         4: constant.numeric.integer.binary.yaml
-        5: punctuation.definition.numeric.base.yaml
+        5: constant.numeric.integer.base.yaml
         # octal integer
         6: constant.numeric.integer.octal.yaml
-        7: punctuation.definition.numeric.base.yaml
+        7: constant.numeric.integer.base.yaml
         # decimal integer
         8: constant.numeric.integer.decimal.yaml
         # hexadecimal integer
         9: constant.numeric.integer.hexadecimal.yaml
-        10: punctuation.definition.numeric.base.yaml
+        10: constant.numeric.integer.base.yaml
         # other integer
         11: constant.numeric.integer.other.yaml
         # decimal float

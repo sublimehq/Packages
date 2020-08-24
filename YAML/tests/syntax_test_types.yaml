@@ -39,20 +39,20 @@
 
 - [0b0, +0b1_0_1, -0b1, ~, 0b, 0b2, 0b1 abc
 #  ^^^                                      constant.numeric.integer.binary
-#  ^^                                       punctuation.definition.numeric.base
+#  ^^                                       constant.numeric.integer.base
 #       ^^^^^^^^                            constant.numeric.integer.binary
-#        ^^                                 punctuation.definition.numeric.base
+#        ^^                                 constant.numeric.integer.base
 #                 ^^^^                      constant.numeric.integer.binary
-#                  ^^                       punctuation.definition.numeric.base
+#                  ^^                       constant.numeric.integer.base
 #                          ^^^^^^^^^^^^^^^^ -constant
 
    01, +0_761, -07, ~, 09, 0123 f
 #  ^^                             constant.numeric.integer.octal
-#  ^                              punctuation.definition.numeric.base
+#  ^                              constant.numeric.integer.base
 #      ^^^^^^                     constant.numeric.integer.octal
-#       ^                         punctuation.definition.numeric.base
+#       ^                         constant.numeric.integer.base
 #              ^^^                constant.numeric.integer.octal
-#               ^                 punctuation.definition.numeric.base
+#               ^                 constant.numeric.integer.base
 #                      ^^^^^^^^^^ -constant
 
    0, +1, -12_345, ~, 3 not a number
@@ -63,11 +63,11 @@
 
    0x0, +0x12_34_56, -0xabcdef, ~, 0xyz, 0x,
 #  ^^^                                      constant.numeric.integer.hexadecimal
-#  ^^                                       punctuation.definition.numeric.base
+#  ^^                                       constant.numeric.integer.base
 #       ^^^^^^^^^^^                         constant.numeric.integer.hexadecimal
-#        ^^                                 punctuation.definition.numeric.base
+#        ^^                                 constant.numeric.integer.base
 #                    ^^^^^^^^^              constant.numeric.integer.hexadecimal
-#                     ^^                    punctuation.definition.numeric.base
+#                     ^^                    constant.numeric.integer.base
 #                                  ^^^^^^^^ -constant
 
 # Note: pyyaml does not handle hexagesimal literals correctly (for linting purposes)

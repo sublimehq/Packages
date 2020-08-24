@@ -57,31 +57,31 @@
 
     0b0110_1001_1001_0110n 0b_10_01
 (*  ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.binary *)
-(*  ^^ punctuation.definition.numeric.base *)
+(*  ^^ constant.numeric.integer.base *)
 (*                       ^ storage.type.numeric *)
 (*                         ^^^^^^^^ constant.numeric.integer.binary *)
-(*                         ^^ punctuation.definition.numeric.base *)
+(*                         ^^ constant.numeric.integer.base *)
 (*                           ^ invalid.illegal.numeric *)
 
     0o0123_4567n 0O_127
 (*  ^^^^^^^^^^^^ constant.numeric.integer.octal *)
-(*  ^^ punctuation.definition.numeric *)
+(*  ^^ constant.numeric.integer.base *)
 (*             ^ storage.type.numeric *)
 (*               ^^^^^^ constant.numeric.integer.octal *)
-(*               ^^ punctuation.definition.numeric *)
+(*               ^^ constant.numeric.integer.base *)
 (*                 ^ invalid.illegal.numeric *)
 
     0x01_23_45_67_89_ab_CD_efn 0X_01l
 (*  ^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal *)
-(*  ^^ punctuation.definition.numeric.base *)
+(*  ^^ constant.numeric.integer.base *)
 (*                           ^ storage.type.numeric *)
 (*                             ^^^^^^ constant.numeric.integer.hexadecimal *)
-(*                             ^^ punctuation.definition.numeric.base *)
+(*                             ^^ constant.numeric.integer.base *)
 (*                               ^ invalid.illegal.numeric *)
 (*                                  ^ storage.type.numeric *)
 
     0b
-(*  ^^ constant.numeric.integer.binary punctuation.definition.numeric.base *)
+(*  ^^ constant.numeric.integer.binary constant.numeric.integer.base *)
 
     0B0 0O0 0X0
 (*  ^^^ constant.numeric.integer.binary *)
@@ -90,16 +90,16 @@
 
     0xa. 0xa.b  0xa.ep1 0xa.ep-_1
 (*  ^^^^ constant.numeric.float.hexadecimal *)
-(*  ^^ punctuation.definition.numeric.base *)
+(*  ^^ constant.numeric.integer.base *)
 (*     ^ punctuation.separator.decimal *)
 (*       ^^^^^ constant.numeric.float.hexadecimal *)
-(*       ^^ punctuation.definition.numeric.base *)
+(*       ^^ constant.numeric.integer.base *)
 (*          ^ punctuation.separator.decimal *)
 (*              ^^^^^^^ constant.numeric.float.hexadecimal *)
-(*              ^^ punctuation.definition.numeric.base *)
+(*              ^^ constant.numeric.integer.base *)
 (*                 ^ punctuation.separator.decimal *)
 (*                      ^^^^^^^^^ constant.numeric.float.hexadecimal *)
-(*                      ^^ punctuation.definition.numeric.base *)
+(*                      ^^ constant.numeric.integer.base *)
 (*                         ^ punctuation.separator.decimal *)
 (*                             ^ invalid.illegal.numeric *)
 

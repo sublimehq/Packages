@@ -713,53 +713,53 @@ numbers_test() -> .
 
     1#0
 %   ^^^ invalid.illegal.integer.erlang
-%   ^^ punctuation.definition.numeric.base.erlang
+%   ^^ constant.numeric.integer.base.erlang
 
     2#01 2#012
 %   ^^^^ constant.numeric.integer.binary.erlang
-%   ^^ punctuation.definition.numeric.base.erlang
+%   ^^ constant.numeric.integer.base.erlang
 %        ^^^^^ invalid.illegal.integer.erlang
-%        ^^ punctuation.definition.numeric.base.erlang
+%        ^^ constant.numeric.integer.base.erlang
 
     3#012 3#123
 %   ^^^^^ constant.numeric.integer.other.erlang
-%   ^^ punctuation.definition.numeric.base.erlang
+%   ^^ constant.numeric.integer.base.erlang
 %         ^^^^^ invalid.illegal.integer.erlang
-%         ^^ punctuation.definition.numeric.base.erlang
+%         ^^ constant.numeric.integer.base.erlang
 
     4#0123 4#1234
 %   ^^^^^^ constant.numeric.integer.other.erlang
-%   ^^ punctuation.definition.numeric.base.erlang
+%   ^^ constant.numeric.integer.base.erlang
 %          ^^^^^^ invalid.illegal.integer.erlang
-%          ^^ punctuation.definition.numeric.base.erlang
+%          ^^ constant.numeric.integer.base.erlang
 
     8#0723 8#1834
 %   ^^^^^^ constant.numeric.integer.octal.erlang
-%   ^^ punctuation.definition.numeric.base.erlang
+%   ^^ constant.numeric.integer.base.erlang
 %          ^^^^^^ invalid.illegal.integer.erlang
-%          ^^ punctuation.definition.numeric.base.erlang
+%          ^^ constant.numeric.integer.base.erlang
 
     10#0943 10#183A
 %   ^^^^^^^ constant.numeric.integer.decimal.erlang
-%   ^^^ punctuation.definition.numeric.base.erlang
+%   ^^^ constant.numeric.integer.base.erlang
 %           ^^^^^^ invalid.illegal.integer.erlang
-%           ^^^ punctuation.definition.numeric.base.erlang
+%           ^^^ constant.numeric.integer.base.erlang
 
     16#0F2B 16#F8G4
 %   ^^^^^^^ constant.numeric.integer.hexadecimal.erlang
-%   ^^^ punctuation.definition.numeric.base.erlang
+%   ^^^ constant.numeric.integer.base.erlang
 %           ^^^^^^^ invalid.illegal.integer.erlang
-%           ^^^ punctuation.definition.numeric.base.erlang
+%           ^^^ constant.numeric.integer.base.erlang
 
     35#0Y2B 35#F8Z4
 %   ^^^^^^^ constant.numeric.integer.other.erlang
-%   ^^^ punctuation.definition.numeric.base.erlang
+%   ^^^ constant.numeric.integer.base.erlang
 %           ^^^^^^^ invalid.illegal.integer.erlang
-%           ^^^ punctuation.definition.numeric.base.erlang
+%           ^^^ constant.numeric.integer.base.erlang
 
     37#ABC
 %   ^^^^^^ invalid.illegal.integer.erlang
-%   ^^^ punctuation.definition.numeric.base.erlang
+%   ^^^ constant.numeric.integer.base.erlang
 
 % String tests
 

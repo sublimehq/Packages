@@ -1544,11 +1544,11 @@ contexts:
     - match: (0[xX])[\h_]*\h
       scope: constant.numeric.integer.hexadecimal.cs
       captures:
-        1: punctuation.definition.numeric.base.cs
+        1: constant.numeric.integer.base.cs
     - match: (0[bB])[01_]*[01]
       scope: constant.numeric.integer.binary.cs
       captures:
-        1: punctuation.definition.numeric.base.cs
+        1: constant.numeric.integer.base.cs
     - match: '{{dec_digits}}(?:(?:(?:(\.){{dec_digits}}){{dec_exponent}}?|{{dec_exponent}})({{float_suffix}})?|({{float_suffix}}))'
       scope: constant.numeric.float.decimal.cs
       captures:

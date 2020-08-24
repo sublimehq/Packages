@@ -685,30 +685,30 @@ dec8 = 1'234_567'890s0f;
 
 oct1 = 01234567;
 /*     ^^^^^^^^ constant.numeric.integer.octal */
-/*     ^ punctuation.definition.numeric.base */
+/*     ^ constant.numeric.integer.base */
 /*             ^ punctuation.terminator - constant */
 
 oct2 = 01234567L;
 /*     ^^^^^^^^ constant.numeric.integer.octal */
-/*     ^ punctuation.definition.numeric.base */
+/*     ^ constant.numeric.integer.base */
 /*             ^ storage.type.numeric */
 /*              ^ punctuation.terminator - constant */
 
 oct3 = 01234567LL;
 /*     ^^^^^^^^^^ constant.numeric.integer.octal */
-/*     ^ punctuation.definition.numeric.base */
+/*     ^ constant.numeric.integer.base */
 /*             ^^ storage.type.numeric */
 /*               ^ punctuation.terminator - constant */
 
 oct4 = 01234567ulL;
 /*     ^^^^^^^^^^^ constant.numeric.integer.octal */
-/*     ^ punctuation.definition.numeric.base */
+/*     ^ constant.numeric.integer.base */
 /*             ^^^ storage.type.numeric */
 /*                ^ punctuation.terminator - constant */
 
 oct2 = 01284967Z0L;
 /*     ^^^^^^^^^^^ constant.numeric.integer.octal */
-/*     ^ punctuation.definition.numeric.base */
+/*     ^ constant.numeric.integer.base */
 /*        ^ invalid.illegal.numeric.digit */
 /*          ^ invalid.illegal.numeric.digit */
 /*             ^^^ invalid.illegal.numeric.suffix */
@@ -716,21 +716,21 @@ oct2 = 01284967Z0L;
 
 hex1 = 0x0+0xFL+0xaull+0xallu+0xfu+0x'f'12_4uz;
 /*     ^^^ constant.numeric.integer.hexadecimal */
-/*     ^^ punctuation.definition.numeric.base */
+/*     ^^ constant.numeric.integer.base */
 /*         ^^^^ constant.numeric.integer.hexadecimal */
-/*         ^^ punctuation.definition.numeric.base */
+/*         ^^ constant.numeric.integer.base */
 /*            ^ storage.type.numeric */
 /*              ^^^^^^ constant.numeric.integer.hexadecimal */
-/*              ^^ punctuation.definition.numeric.base */
+/*              ^^ constant.numeric.integer.base */
 /*                 ^^^ storage.type.numeric */
 /*                     ^^^^^^ constant.numeric.integer.hexadecimal */
-/*                     ^^ punctuation.definition.numeric.base */
+/*                     ^^ constant.numeric.integer.base */
 /*                        ^^^ storage.type.numeric */
 /*                            ^^^^ constant.numeric.integer.hexadecimal */
-/*                            ^^ punctuation.definition.numeric.base */
+/*                            ^^ constant.numeric.integer.base */
 /*                               ^ storage.type.numeric */
 /*                                 ^^ constant.numeric.integer.hexadecimal */
-/*                                 ^^ punctuation.definition.numeric.base */
+/*                                 ^^ constant.numeric.integer.base */
 /*                                   ^^^ string.quoted.single */
 /*                                      ^^^^^^ constant.numeric.integer.decimal */
 /*                                        ^^^^ invalid.illegal.numeric.suffix */
@@ -738,7 +738,7 @@ hex1 = 0x0+0xFL+0xaull+0xallu+0xfu+0x'f'12_4uz;
 
 hex2 = 0xc1.01AbFp-1;
 /*     ^^^^^^^^^^^^^ constant.numeric.float.hexadecimal */
-/*     ^^ punctuation.definition.numeric.base */
+/*     ^^ constant.numeric.integer.base */
 /*         ^ punctuation.separator.decimal */
 /*                  ^ punctuation.terminator - constant */
 

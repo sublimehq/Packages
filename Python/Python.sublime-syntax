@@ -430,36 +430,36 @@ contexts:
     - match: \b(?i)(0x)\h*(L) # py2
       scope: constant.numeric.integer.hexadecimal.python
       captures:
-        1: punctuation.definition.numeric.base.python
+        1: constant.numeric.integer.base.python
         2: storage.type.numeric.python
     - match: \b(?i)(0x)(_?\h)+
       scope: constant.numeric.integer.hexadecimal.python
       captures:
-        1: punctuation.definition.numeric.base.python
+        1: constant.numeric.integer.base.python
     # octal
     - match: \b(?i)(0o?)(?=o|[0-7])[0-7]*(L) # py2
       scope: constant.numeric.integer.octal.python
       captures:
-        1: punctuation.definition.numeric.base.python
+        1: constant.numeric.integer.base.python
         2: storage.type.numeric.python
     - match: \b(?i)(0)[0-7]+ # py2
       scope: constant.numeric.integer.octal.python
       captures:
-        1: punctuation.definition.numeric.base.python
+        1: constant.numeric.integer.base.python
     - match: \b(?i)(0o)(_?[0-7])+
       scope: constant.numeric.integer.octal.python
       captures:
-        1: punctuation.definition.numeric.base.python
+        1: constant.numeric.integer.base.python
     # binary
     - match: \b(?i)(0b)[01]*(L) # py2
       scope: constant.numeric.integer.binary.python
       captures:
-        1: punctuation.definition.numeric.base.python
+        1: constant.numeric.integer.base.python
         2: storage.type.numeric.python
     - match: \b(?i)(0b)(_?[01])*
       scope: constant.numeric.integer.binary.python
       captures:
-        1: punctuation.definition.numeric.base.python
+        1: constant.numeric.integer.base.python
     # complex
     - match: |-
         (?x:

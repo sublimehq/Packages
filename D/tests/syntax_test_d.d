@@ -196,22 +196,22 @@ dec = 1UL;
 //    ^^^ constant.numeric.integer.decimal.d
 //     ^^ storage.type.numeric.d
 auto bin = 0b1;
-//         ^^ punctuation.definition.numeric.base.d
+//         ^^ constant.numeric.integer.base.d
 //         ^^^ constant.numeric.integer.binary.d
 bin = 0b10__1;
-//    ^^ punctuation.definition.numeric.base.d
+//    ^^ constant.numeric.integer.base.d
 //    ^^^^^^^ constant.numeric.integer.binary.d
 bin = 0B1;
-//    ^^ punctuation.definition.numeric.base.d
+//    ^^ constant.numeric.integer.base.d
 //    ^^^ constant.numeric.integer.binary.d
 auto hex = 0xFf;
-//         ^^ punctuation.definition.numeric.base.d
+//         ^^ constant.numeric.integer.base.d
 //         ^^^^ constant.numeric.integer.hexadecimal.d
 hex = 0x012_3;
-//    ^^ punctuation.definition.numeric.base.d
+//    ^^ constant.numeric.integer.base.d
 //    ^^^^^^^ constant.numeric.integer.hexadecimal.d
 hex = 0X1;
-//    ^^ punctuation.definition.numeric.base.d
+//    ^^ constant.numeric.integer.base.d
 //    ^^^ constant.numeric.integer.hexadecimal.d
 
 imag = 123_45i + 0_.1_i + 12_.e1i;
@@ -229,24 +229,24 @@ imag = 23134723__742e1i;
 //                    ^ storage.type.numeric.d
 imag = 0x_3472389742f_i;
 //     ^^^^^^^^^^^^^^^^ constant.numeric.imaginary.hexadecimal.d
-//     ^^ punctuation.definition.numeric.base.d
+//     ^^ constant.numeric.integer.base.d
 //       ^ invalid.illegal.numeric.d
 //                    ^ storage.type.numeric.d
 imag = 0x_34723897p-34i;
 //     ^^^^^^^^^^^^^^^^ constant.numeric.imaginary.hexadecimal.d
-//     ^^ punctuation.definition.numeric.base.d
+//     ^^ constant.numeric.integer.base.d
 //       ^ invalid.illegal.numeric.d
 //                    ^ storage.type.numeric.d
 imag = 0x347._23897p-34i;
 //     ^^^^^ constant.numeric.integer.hexadecimal.d
-//     ^^ punctuation.definition.numeric.base.d
+//     ^^ constant.numeric.integer.base.d
 //          ^ punctuation.accessor.dot.d
 //           ^^^^^^^ variable.other.d
 //                  ^ keyword.operator.arithmetic.d
 //                   ^^^ constant.numeric.imaginary.decimal.d
 imag = 0b_0100_010_00_i;
 //     ^^^^^^^^^^^^^^^^ constant.numeric.imaginary.binary.d
-//     ^^ punctuation.definition.numeric.base.d
+//     ^^ constant.numeric.integer.base.d
 //       ^ invalid.illegal.numeric.d
 //                    ^ storage.type.numeric.d
 
@@ -280,19 +280,19 @@ f =  1f;
 //   ^^ constant.numeric.float.decimal.d
 //    ^ storage.type.numeric.d
 f = 0x123p2f;
-//  ^^ punctuation.definition.numeric.base.d
+//  ^^ constant.numeric.integer.base.d
 //  ^^^^^^^^ constant.numeric.float.hexadecimal.d
 //         ^ storage.type.numeric.d
 f = 0b10101101f;
-//  ^^ punctuation.definition.numeric.base.d
+//  ^^ constant.numeric.integer.base.d
 //  ^^^^^^^^^^^ constant.numeric.float.binary.d
 //            ^ storage.type.numeric.d
 f = 0x.1aFp2;
-//  ^^ punctuation.definition.numeric.base.d
+//  ^^ constant.numeric.integer.base.d
 //  ^^^^^^^^ constant.numeric.float.hexadecimal.d
 //    ^ punctuation.separator.decimal.d
 f = 0xF.AP-2f;
-//  ^^ punctuation.definition.numeric.base.d
+//  ^^ constant.numeric.integer.base.d
 //  ^^^^^^^^^ constant.numeric.float.hexadecimal.d
 //     ^ punctuation.separator.decimal.d
 //          ^ storage.type.numeric.d
