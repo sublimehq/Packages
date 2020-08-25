@@ -6264,374 +6264,307 @@ public class Foo {
 
     a = 0x1.;
 //      ^^ meta.number.base.java constant.numeric.float.hexadecimal.java
-//        ^^ meta.number.value.mantissa.java constant.numeric.float.hexadecimal.java
+//        ^^ meta.number.value.java constant.numeric.float.hexadecimal.java
 //         ^ punctuation.separator.decimal.java
 
     a = 0x.1a2f;
 //      ^^ meta.number.base.java constant.numeric.float.hexadecimal.java
-//        ^^^^^ meta.number.value.mantissa.java constant.numeric.float.hexadecimal.java
+//        ^^^^^ meta.number.value.java constant.numeric.float.hexadecimal.java
 //        ^ punctuation.separator.decimal.java
 
     a = 0x1.a2f;
 //      ^^ meta.number.base.java constant.numeric.float.hexadecimal.java
-//        ^^^^^ meta.number.value.mantissa.java constant.numeric.float.hexadecimal.java
+//        ^^^^^ meta.number.value.java constant.numeric.float.hexadecimal.java
 //         ^ punctuation.separator.decimal.java
 
     a = 0x1ffp+1023 0x1ffp+_1023_;
 //      ^^ meta.number.base.java constant.numeric.float.hexadecimal.java
-//        ^^^ meta.number.value.mantissa.java constant.numeric.float.hexadecimal.java
-//           ^^^^^^ meta.number.value.exponent.java constant.numeric.float.hexadecimal.java
+//        ^^^^^^^^^ meta.number.value.java constant.numeric.float.hexadecimal.java
 //                  ^^ meta.number.base.java constant.numeric.float.hexadecimal.java
-//                    ^^^ meta.number.value.mantissa.java constant.numeric.float.hexadecimal.java
-//                       ^^^^^^^^ meta.number.value.exponent.java constant.numeric.float.hexadecimal.java
+//                    ^^^^^^^^^^^ meta.number.value.java constant.numeric.float.hexadecimal.java
 
     a = 0xd.aP-1074 0x_1_f_._a_d_P-_10_74_;
 //      ^^ meta.number.base.java constant.numeric.float.hexadecimal.java
-//        ^^^ meta.number.value.mantissa.java constant.numeric.float.hexadecimal.java
-//           ^^^^^^ meta.number.value.exponent.java constant.numeric.float.hexadecimal.java
+//        ^^^^^^^^^ meta.number.value.java constant.numeric.float.hexadecimal.java
 //                  ^^ meta.number.base.java constant.numeric.float.hexadecimal.java
-//                    ^^^^^^^^^^^ meta.number.value.mantissa.java constant.numeric.float.hexadecimal.java
-//                                ^^^^^^^^ meta.number.value.exponent.java constant.numeric.float.hexadecimal.java
+//                    ^^^^^^^^^^^^^^^^^^^^ meta.number.value.java constant.numeric.float.hexadecimal.java
 //         ^ punctuation.separator.decimal.java
 //                         ^ punctuation.separator.decimal.java
 
 //  decimal floats
 
     a = 0D + 12345D + 12345D + 12_34_5_D - _12_34_5D - 12a45D;
-//      ^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//       ^ meta.number.type.java constant.numeric.float.decimal.java
-//           ^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                ^ meta.number.type.java constant.numeric.float.decimal.java
-//                    ^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                         ^ meta.number.type.java constant.numeric.float.decimal.java
-//                             ^^^^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                                     ^ meta.number.type.java constant.numeric.float.decimal.java
+//      ^ meta.number.value.java constant.numeric.float.decimal.java
+//       ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//           ^^^^^ meta.number.value.java constant.numeric.float.decimal.java
+//                ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                    ^^^^^ meta.number.value.java constant.numeric.float.decimal.java
+//                         ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                             ^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
+//                                     ^ meta.number.suffix.java constant.numeric.float.decimal.java
 //                                         ^^^^^^^^^ - constant.numeric
 //                                                     ^^ meta.number.value.java constant.numeric.integer.decimal.java
 //                                                       ^^^^ - constant.numeric
 
     a = 0F + 12345F + 12345F + 12_34_5_F - _12_34_5F - 12a45F;
-//      ^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//       ^ meta.number.type.java constant.numeric.float.decimal.java
-//           ^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                ^ meta.number.type.java constant.numeric.float.decimal.java
-//                    ^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                         ^ meta.number.type.java constant.numeric.float.decimal.java
-//                             ^^^^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                                     ^ meta.number.type.java constant.numeric.float.decimal.java
+//      ^ meta.number.value.java constant.numeric.float.decimal.java
+//       ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//           ^^^^^ meta.number.value.java constant.numeric.float.decimal.java
+//                ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                    ^^^^^ meta.number.value.java constant.numeric.float.decimal.java
+//                         ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                             ^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
+//                                     ^ meta.number.suffix.java constant.numeric.float.decimal.java
 //                                         ^^^^^^^^^ - constant.numeric
 //                                                     ^^ meta.number.value.java constant.numeric.integer.decimal.java
 //                                                       ^^^^ - constant.numeric
 
     a = 1. + 1_. + 1_2. - _1.;
-//      ^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//      ^^ meta.number.value.java constant.numeric.float.decimal.java
 //       ^ punctuation.separator.decimal.java
-//           ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//           ^^^ meta.number.value.java constant.numeric.float.decimal.java
 //             ^ punctuation.separator.decimal.java
-//                 ^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                 ^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                    ^ punctuation.separator.decimal.java
 //                        ^^^ - constant.numeric
 
     a = 1.D + 1_.D + 1_2.D - _1.D;
-//      ^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//      ^^ meta.number.value.java constant.numeric.float.decimal.java
 //       ^ punctuation.separator.decimal.java
-//        ^ meta.number.type.java constant.numeric.float.decimal.java
-//            ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//        ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//            ^^^ meta.number.value.java constant.numeric.float.decimal.java
 //              ^ punctuation.separator.decimal.java
-//               ^ meta.number.type.java constant.numeric.float.decimal.java
-//                   ^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//               ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                   ^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                      ^ punctuation.separator.decimal.java
-//                       ^ meta.number.type.java constant.numeric.float.decimal.java
+//                       ^ meta.number.suffix.java constant.numeric.float.decimal.java
 //                           ^^^^ - constant.numeric
 
     a = 1.2 + 1_.2_ + 1_2.3_4 + 1_2_._3_4_ - _1.5;
-//      ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//      ^^^ meta.number.value.java constant.numeric.float.decimal.java
 //       ^ punctuation.separator.decimal.java
-//            ^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//            ^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //              ^ punctuation.separator.decimal.java
-//                    ^^^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                    ^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                       ^ punctuation.separator.decimal.java
-//                              ^^^^^^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                              ^^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                  ^ punctuation.separator.decimal.java
 //                                           ^^ - constant.numeric
 //                                             ^ punctuation.separator.decimal.java
-//                                             ^^ meta.number.value.mantissa.java constant.numeric.float.decimal
+//                                             ^^ meta.number.value.java constant.numeric.float.decimal
 
     a = 1.2d + 1_.2_d + 1_2.3_4d + 1_2_._3_4_d - _1.5d;
-//      ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//      ^^^ meta.number.value.java constant.numeric.float.decimal.java
 //       ^ punctuation.separator.decimal.java
-//         ^ meta.number.type.java constant.numeric.float.decimal.java
-//             ^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//         ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//             ^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //               ^ punctuation.separator.decimal.java
-//                  ^ meta.number.type.java constant.numeric.float.decimal.java
-//                      ^^^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                  ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                      ^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                         ^ punctuation.separator.decimal.java
-//                             ^ meta.number.type.java constant.numeric.float.decimal.java
-//                                 ^^^^^^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                             ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                                 ^^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                     ^ punctuation.separator.decimal.java
-//                                           ^ meta.number.type.java constant.numeric.float.decimal.java
+//                                           ^ meta.number.suffix.java constant.numeric.float.decimal.java
 //                                               ^^ - constant.numeric
 //                                                 ^ punctuation.separator.decimal.java
-//                                                 ^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                                                   ^ meta.number.type.java constant.numeric.float.decimal.java
+//                                                 ^^ meta.number.value.java constant.numeric.float.decimal.java
+//                                                   ^ meta.number.suffix.java constant.numeric.float.decimal.java
 
     a = 12e34 + 12e+3_ + 1_2e3_4 + 1_2_e3_4_ + 1_2_e_3_4 + 12e+34 + 12e-34 + 12e+3_4 - _12e34;
-//      ^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//        ^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//              ^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                       ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                          ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                 ^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                                     ^^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                             ^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                                                 ^^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                         ^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                                                           ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                                  ^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                                                                    ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                                           ^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                                                                             ^^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
+//      ^^^^^ meta.number.value.java constant.numeric.float.decimal.java
+//              ^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
+//                       ^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
+//                                 ^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
+//                                             ^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
+//                                                         ^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
+//                                                                  ^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
+//                                                                           ^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                                                                     ^^^^^^ - constant.numeric
 
     a = 12e34f + 12e+3_f + 1_2e3_4f + 1_2_e3_4_f + 1_2_e_3_4f + 12e+34f + 12e-34f + 12e+3_4f - _12e34f;
-//      ^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//        ^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//           ^ meta.number.type.java constant.numeric.float.decimal.java
-//               ^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                 ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                     ^ meta.number.type.java constant.numeric.float.decimal.java
-//                         ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                            ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                ^ meta.number.type.java constant.numeric.float.decimal.java
-//                                    ^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                                        ^^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                             ^ meta.number.type.java constant.numeric.float.decimal.java
-//                                                 ^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                                                     ^^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                          ^ meta.number.type.java constant.numeric.float.decimal.java
-//                                                              ^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                                                                ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                                    ^ meta.number.type.java constant.numeric.float.decimal.java
-//                                                                        ^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                                                                          ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                                              ^ meta.number.type.java constant.numeric.float.decimal.java
-//                                                                                  ^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                                                                                    ^^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                                                         ^ meta.number.type.java constant.numeric.float.decimal.java
+//      ^^^^^ meta.number.value.java constant.numeric.float.decimal.java
+//           ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//               ^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
+//                     ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                         ^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
+//                                ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                                    ^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
+//                                             ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                                                 ^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
+//                                                          ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                                                              ^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
+//                                                                    ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                                                                        ^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
+//                                                                              ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                                                                                  ^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
+//                                                                                         ^ meta.number.suffix.java constant.numeric.float.decimal.java
 //                                                                                             ^^^^^^^ - constant.numeric
 
     a = 12.e34 + 12.e+3_ + 1_2.e3_4 + 1_2_.e3_4_ + 1_2_.e_3_4 + 12.e+34 + 12.e-34 + 12.e+3_4 - _12.e34;
-//      ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//      ^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //        ^ punctuation.separator.decimal.java
-//         ^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//               ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//               ^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                 ^ punctuation.separator.decimal.java
-//                  ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                         ^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                         ^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                            ^ punctuation.separator.decimal.java
-//                             ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                    ^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                                    ^^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                        ^ punctuation.separator.decimal.java
-//                                         ^^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                 ^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                                                 ^^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                                     ^ punctuation.separator.decimal.java
-//                                                      ^^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                              ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                                                              ^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                                                ^ punctuation.separator.decimal.java
-//                                                                 ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                                        ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                                                                        ^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                                                          ^ punctuation.separator.decimal.java
-//                                                                           ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                                                  ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                                                                                  ^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                                                                    ^ punctuation.separator.decimal.java
-//                                                                                     ^^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
 //                                                                                             ^^^^^^^ - constant.numeric
 
     a = 12.e34f + 12.e+3_f + 1_2.e3_4f + 1_2_.e3_4_f + 1_2_.e_3_4f + 12.e+34f + 12.e-34f + 12.e+3_4f - _12.e34f;
-//      ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//      ^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //        ^ punctuation.separator.decimal.java
-//         ^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//            ^ meta.number.type.java constant.numeric.float.decimal.java
-//                ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//            ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                ^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                  ^ punctuation.separator.decimal.java
-//                   ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                       ^ meta.number.type.java constant.numeric.float.decimal.java
-//                           ^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                       ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                           ^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                              ^ punctuation.separator.decimal.java
-//                               ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                   ^ meta.number.type.java constant.numeric.float.decimal.java
-//                                       ^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                                   ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                                       ^^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                           ^ punctuation.separator.decimal.java
-//                                            ^^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                 ^ meta.number.type.java constant.numeric.float.decimal.java
-//                                                     ^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                                                 ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                                                     ^^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                                         ^ punctuation.separator.decimal.java
-//                                                          ^^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                               ^ meta.number.type.java constant.numeric.float.decimal.java
-//                                                                   ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                                                               ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                                                                   ^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                                                     ^ punctuation.separator.decimal.java
-//                                                                      ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                                          ^ meta.number.type.java constant.numeric.float.decimal.java
-//                                                                              ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                                                                          ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                                                                              ^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                                                                ^ punctuation.separator.decimal.java
-//                                                                                 ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                                                     ^ meta.number.type.java constant.numeric.float.decimal.java
-//                                                                                         ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                                                                                     ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                                                                                         ^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                                                                           ^ punctuation.separator.decimal.java
-//                                                                                            ^^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                                                                 ^ meta.number.type.java constant.numeric.float.decimal.java
+//                                                                                                 ^ meta.number.suffix.java constant.numeric.float.decimal.java
 //                                                                                                     ^^^^^^^^ - constant.numeric
 
     a = 12.34e56 + 12_.34_e+5_ + 1_2.3_4e5_6 + 1_2_.3_4_e5_6_ + 1_2_._3_4e_5_6 + 12.34e+56 + 12.34e-56 + 12.34e+5_6 - _12.34e+5_6;
-//      ^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//      ^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //        ^ punctuation.separator.decimal.java
-//           ^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                 ^^^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                 ^^^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                    ^ punctuation.separator.decimal.java
-//                        ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                               ^^^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                               ^^^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                  ^ punctuation.separator.decimal.java
-//                                      ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                             ^^^^^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                                             ^^^^^^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                                 ^ punctuation.separator.decimal.java
-//                                                      ^^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                              ^^^^^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                                                              ^^^^^^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                                                  ^ punctuation.separator.decimal.java
-//                                                                       ^^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                                               ^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                                                                               ^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                                                                 ^ punctuation.separator.decimal.java
-//                                                                                    ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                                                           ^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                                                                                           ^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                                                                             ^ punctuation.separator.decimal.java
-//                                                                                                ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                                                                       ^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                                                                                                       ^^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                                                                                         ^ punctuation.separator.decimal.java
-//                                                                                                            ^^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
 //                                                                                                                    ^^^ - constant.numeric
-//                                                                                                                       ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                                                                                                                          ^^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
+//                                                                                                                       ^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 
     a = 12.34e56f + 12_.34_e+5_f + 1_2.3_4e5_6f + 1_2_.3_4_e5_6_f + 1_2_._3_4e_5_6f + 12.34e+56f + 12.34e-56f + 12.34e+5_6f - _12.34e+5_6f;
-//      ^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//      ^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //        ^ punctuation.separator.decimal.java
-//           ^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//              ^ meta.number.type.java constant.numeric.float.decimal.java
-//                  ^^^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//              ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                  ^^^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                     ^ punctuation.separator.decimal.java
-//                         ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                             ^ meta.number.type.java constant.numeric.float.decimal.java
-//                                 ^^^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                             ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                                 ^^^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                    ^ punctuation.separator.decimal.java
-//                                        ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                            ^ meta.number.type.java constant.numeric.float.decimal.java
-//                                                ^^^^^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                                            ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                                                ^^^^^^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                                    ^ punctuation.separator.decimal.java
-//                                                         ^^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                              ^ meta.number.type.java constant.numeric.float.decimal.java
-//                                                                  ^^^^^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                                                              ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                                                                  ^^^^^^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                                                      ^ punctuation.separator.decimal.java
-//                                                                           ^^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                                                ^ meta.number.type.java constant.numeric.float.decimal.java
-//                                                                                    ^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                                                                                ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                                                                                    ^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                                                                      ^ punctuation.separator.decimal.java
-//                                                                                         ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                                                             ^ meta.number.type.java constant.numeric.float.decimal.java
-//                                                                                                 ^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                                                                                             ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                                                                                                 ^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                                                                                   ^ punctuation.separator.decimal.java
-//                                                                                                      ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                                                                          ^ meta.number.type.java constant.numeric.float.decimal.java
-//                                                                                                              ^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                                                                                                          ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                                                                                                              ^^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                                                                                                ^ punctuation.separator.decimal.java
-//                                                                                                                   ^^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                                                                                        ^ meta.number.type.java constant.numeric.float.decimal.java
+//                                                                                                                        ^ meta.number.suffix.java constant.numeric.float.decimal.java
 //                                                                                                                            ^^^ - constant.numeric
-//                                                                                                                               ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                                                                                                                                  ^^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                                                                                                       ^ meta.number.type.java constant.numeric.float.decimal.java
+//                                                                                                                               ^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
+//                                                                                                                                       ^ meta.number.suffix.java constant.numeric.float.decimal.java
 
     a = .2 + .2_ + .3_4 + ._3_4_;
-//      ^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//      ^^ meta.number.value.java constant.numeric.float.decimal.java
 //      ^ punctuation.separator.decimal.java
-//           ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//           ^^^ meta.number.value.java constant.numeric.float.decimal.java
 //           ^ punctuation.separator.decimal.java
-//                 ^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                 ^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                 ^ punctuation.separator.decimal.java
-//                        ^^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                        ^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                        ^ punctuation.separator.decimal.java
 
     a = .2d + .2_d + .3_4d + ._3_4_d;
-//      ^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//      ^^ meta.number.value.java constant.numeric.float.decimal.java
 //      ^ punctuation.separator.decimal.java
-//        ^ meta.number.type.java constant.numeric.float.decimal.java
-//            ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//        ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//            ^^^ meta.number.value.java constant.numeric.float.decimal.java
 //            ^ punctuation.separator.decimal.java
-//               ^ meta.number.type.java constant.numeric.float.decimal.java
-//                   ^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//               ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                   ^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                   ^ punctuation.separator.decimal.java
-//                       ^ meta.number.type.java constant.numeric.float.decimal.java
-//                           ^^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                       ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                           ^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                           ^ punctuation.separator.decimal.java
-//                                 ^ meta.number.type.java constant.numeric.float.decimal.java
+//                                 ^ meta.number.suffix.java constant.numeric.float.decimal.java
 
     a = .34e56 + .34_e+5_ + .3_4e5_6 + .3_4_e5_6_ + ._3_4e_5_6 + .34e+56 + .34e-56 + .34e+5_6;
-//      ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//      ^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //      ^ punctuation.separator.decimal.java
-//         ^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//               ^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//               ^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //               ^ punctuation.separator.decimal.java
-//                   ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                          ^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                          ^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                          ^ punctuation.separator.decimal.java
-//                              ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                     ^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                                     ^^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                     ^ punctuation.separator.decimal.java
-//                                          ^^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                  ^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                                                  ^^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                                  ^ punctuation.separator.decimal.java
-//                                                       ^^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                               ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                                                               ^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                                               ^ punctuation.separator.decimal.java
-//                                                                  ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                                         ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                                                                         ^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                                                         ^ punctuation.separator.decimal.java
-//                                                                            ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                                                                   ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                                                                                   ^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                                                                                   ^ punctuation.separator.decimal.java
-//                                                                                      ^^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
 
     a = 23.45 + 23.45F + 23.45d;
 //      ^^^^^ constant.numeric.float.decimal.java
 //        ^ punctuation.separator.decimal.java
-//              ^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//              ^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                ^ punctuation.separator.decimal.java
-//                   ^ meta.number.type.java constant.numeric.float.decimal.java
-//                       ^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//                   ^ meta.number.suffix.java constant.numeric.float.decimal.java
+//                       ^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                         ^ punctuation.separator.decimal.java
-//                            ^ meta.number.type.java constant.numeric.float.decimal.java
+//                            ^ meta.number.suffix.java constant.numeric.float.decimal.java
 
     a = .01 + .02e3+.02e3F;
-//      ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
+//      ^^^ meta.number.value.java constant.numeric.float.decimal.java
 //      ^ punctuation.separator.decimal.java
 //          ^ keyword.operator
-//            ^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//               ^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
+//            ^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //                 ^ keyword.operator
-//                   ^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                     ^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                       ^ meta.number.type.java constant.numeric.float.decimal.java
+//                   ^^^^ meta.number.value.java constant.numeric.float.decimal.java
+//                       ^ meta.number.suffix.java constant.numeric.float.decimal.java
 
     a = 23.45e67+23.45e+6F+23.45e-67D;
-//      ^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//           ^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
+//      ^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
 //              ^ keyword.operator
-//               ^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                    ^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                       ^ meta.number.type.java constant.numeric.float.decimal.java
+//               ^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
+//                       ^ meta.number.suffix.java constant.numeric.float.decimal.java
 //                        ^ keyword.operator
-//                         ^^^^^ meta.number.value.mantissa.java constant.numeric.float.decimal.java
-//                              ^^^^ meta.number.value.exponent.java constant.numeric.float.decimal.java
-//                                  ^ meta.number.type.java constant.numeric.float.decimal.java
+//                         ^^^^^^^^^ meta.number.value.java constant.numeric.float.decimal.java
+//                                  ^ meta.number.suffix.java constant.numeric.float.decimal.java
 
 // binary integers
 
@@ -6652,21 +6585,21 @@ public class Foo {
     a = 0b101101l + 0b10_11_01l + 0b10_11_01_l + 0b_101101l - 0_b10_1101l + 0bl;
 //      ^^ meta.number.base.java constant.numeric.integer.binary.java
 //        ^^^^^^ meta.number.value.java constant.numeric.integer.binary.java
-//              ^ meta.number.type.java constant.numeric.integer.binary.java
+//              ^ meta.number.suffix.java constant.numeric.integer.binary.java
 //                  ^^ meta.number.base.java constant.numeric.integer.binary.java
 //                    ^^^^^^^^ meta.number.value.java constant.numeric.integer.binary.java
-//                            ^ meta.number.type.java constant.numeric.integer.binary.java
+//                            ^ meta.number.suffix.java constant.numeric.integer.binary.java
 //                                ^^ meta.number.base.java constant.numeric.integer.binary.java
 //                                  ^^^^^^^^^ meta.number.value.java constant.numeric.integer.binary.java
-//                                           ^ meta.number.type.java constant.numeric.integer.binary.java
+//                                           ^ meta.number.suffix.java constant.numeric.integer.binary.java
 //                                               ^^ meta.number.base.java constant.numeric.integer.binary.java
 //                                                 ^^^^^^^ meta.number.value.java constant.numeric.integer.binary.java
-//                                                        ^ meta.number.type.java constant.numeric.integer.binary.java
+//                                                        ^ meta.number.suffix.java constant.numeric.integer.binary.java
 //                                                            ^ meta.number.base.java constant.numeric.integer.octal.java
 //                                                             ^ meta.number.value.java constant.numeric.integer.octal.java
 //                                                              ^^^^^^^^^ - constant.numeric
 //                                                                          ^^ meta.number.base.java constant.numeric.integer.binary.java
-//                                                                            ^ meta.number.type.java constant.numeric.integer.binary.java
+//                                                                            ^ meta.number.suffix.java constant.numeric.integer.binary.java
 
 // hexadecimal integers
 
@@ -6692,19 +6625,19 @@ public class Foo {
     a = 0xABCDl + 0xAB_CDl + 0xAB_CD_l + 0x_AB_CDl - 0_xAB_CDl;
 //      ^^ meta.number.base.java constant.numeric.integer.hexadecimal.java
 //        ^^^^ meta.number.value.java constant.numeric.integer.hexadecimal.java
-//            ^ meta.number.type.java constant.numeric.integer.hexadecimal.java
+//            ^ meta.number.suffix.java constant.numeric.integer.hexadecimal.java
 //              ^ keyword.operator.arithmetic.java
 //                ^^ meta.number.base.java constant.numeric.integer.hexadecimal.java
 //                  ^^^^^ meta.number.value.java constant.numeric.integer.hexadecimal.java
-//                       ^ meta.number.type.java constant.numeric.integer.hexadecimal.java
+//                       ^ meta.number.suffix.java constant.numeric.integer.hexadecimal.java
 //                         ^ keyword.operator.arithmetic.java
 //                           ^^ meta.number.base.java constant.numeric.integer.hexadecimal.java
 //                             ^^^^^^ meta.number.value.java constant.numeric.integer.hexadecimal.java
-//                                   ^ meta.number.type.java constant.numeric.integer.hexadecimal.java
+//                                   ^ meta.number.suffix.java constant.numeric.integer.hexadecimal.java
 //                                     ^ keyword.operator.arithmetic.java
 //                                       ^^ meta.number.base.java constant.numeric.integer.hexadecimal.java
 //                                         ^^^^^^ meta.number.value.java constant.numeric.integer.hexadecimal.java
-//                                               ^ meta.number.type.java constant.numeric.integer.hexadecimal.java
+//                                               ^ meta.number.suffix.java constant.numeric.integer.hexadecimal.java
 //                                                 ^ keyword.operator.arithmetic.java
 //                                                   ^ meta.number.base.java constant.numeric.integer.octal.java
 //                                                    ^ meta.number.value.java constant.numeric.integer.octal.java
@@ -6736,22 +6669,22 @@ public class Foo {
     a = 07l + 0_l + 0_7l + 07_l + 0792l + 079_2_l - 0al - 0_a_l;
 //      ^ meta.number.base.java constant.numeric.integer.octal.java
 //       ^ meta.number.value.java constant.numeric.integer.octal
-//        ^ meta.number.type.java constant.numeric.integer.octal.java
+//        ^ meta.number.suffix.java constant.numeric.integer.octal.java
 //            ^ meta.number.base.java constant.numeric.integer.octal.java
 //             ^ meta.number.value.java constant.numeric.integer.octal.java
-//              ^ meta.number.type.java constant.numeric.integer.octal.java
+//              ^ meta.number.suffix.java constant.numeric.integer.octal.java
 //                  ^ meta.number.base.java constant.numeric.integer.octal.java
 //                   ^^ meta.number.value.java constant.numeric.integer.octal.java
-//                     ^ meta.number.type.java constant.numeric.integer.octal.java
+//                     ^ meta.number.suffix.java constant.numeric.integer.octal.java
 //                         ^ meta.number.base.java constant.numeric.integer.octal.java
 //                          ^^ meta.number.value.java constant.numeric.integer.octal.java
-//                            ^ meta.number.type.java constant.numeric.integer.octal.java
+//                            ^ meta.number.suffix.java constant.numeric.integer.octal.java
 //                                ^^^^ meta.number.value.java constant.numeric.integer.decimal.java
 //                                ^ invalid.illegal.numeric.java
-//                                    ^ meta.number.type.java constant.numeric.integer.decimal.java
+//                                    ^ meta.number.suffix.java constant.numeric.integer.decimal.java
 //                                        ^^^^^^ meta.number.value.java constant.numeric.integer.decimal.java
 //                                        ^ invalid.illegal.numeric.java
-//                                              ^ meta.number.type.java constant.numeric.integer.decimal.java
+//                                              ^ meta.number.suffix.java constant.numeric.integer.decimal.java
 //                                                  ^ meta.number.value.java constant.numeric.integer.decimal.java
 //                                                   ^^ - constant.numeric
 //                                                        ^ meta.number.base.java constant.numeric.integer.octal.java
@@ -6763,7 +6696,7 @@ public class Foo {
     a = 0 + 0L;
 //      ^ meta.number.value.java constant.numeric.integer.decimal.java
 //          ^ meta.number.value.java constant.numeric.integer.decimal.java
-//           ^ meta.number.type.java constant.numeric.integer.decimal.java
+//           ^ meta.number.suffix.java constant.numeric.integer.decimal.java
 
     a = 12345 + 12_34_5 + 1_____5 + 12_34_5_ - _12_34_5 - 12a45;
 //      ^^^^^ meta.number.value.java constant.numeric.integer.decimal.java
@@ -6776,11 +6709,11 @@ public class Foo {
 
     a = 12345l + 12345L + 12_34_5_L - _12_34_5L - 12a45L;
 //      ^^^^^ meta.number.value.java constant.numeric.integer.decimal.java
-//           ^ meta.number.type.java constant.numeric.integer.decimal.java
+//           ^ meta.number.suffix.java constant.numeric.integer.decimal.java
 //               ^^^^^ meta.number.value.java constant.numeric.integer.decimal.java
-//                    ^ meta.number.type.java constant.numeric.integer.decimal.java
+//                    ^ meta.number.suffix.java constant.numeric.integer.decimal.java
 //                        ^^^^^^^^ meta.number.value.java constant.numeric.integer.decimal.java
-//                                ^ meta.number.type.java constant.numeric.integer.decimal.java
+//                                ^ meta.number.suffix.java constant.numeric.integer.decimal.java
 //                                    ^^^^^^^^^ - constant.numeric
 //                                                ^^ meta.number.value.java constant.numeric.integer.decimal.java
 //                                                  ^^^^ - constant.numeric

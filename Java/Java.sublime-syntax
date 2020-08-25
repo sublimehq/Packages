@@ -1888,72 +1888,65 @@ contexts:
     - match: |-
         (?x)
         (0[xX])
-        (?:
+        (
           # 0x1., 0x1.1, 0x1.1p1, 0x1.1p-1, 0x1.p1, 0x1.p-1 | 0x1p1
-          ({{hex_digit}}*) (?: ((\.) {{hex_digit}}*) ({{hex_exponent}})? | ({{hex_exponent}}) )
+          {{hex_digit}}* (?: (\.) {{hex_digit}}* (?:{{hex_exponent}})? | {{hex_exponent}} )
           # 0x.1, 0x.1p1, 0x.1p-1
-          | ((\.) {{hex_digit}}+) ({{hex_exponent}})?
+          | (\.) {{hex_digit}}+ (?:{{hex_exponent}})?
         )
       captures:
         1: meta.number.base.java constant.numeric.float.hexadecimal.java
-        2: meta.number.value.mantissa.java constant.numeric.float.hexadecimal.java
-        3: meta.number.value.mantissa.java constant.numeric.float.hexadecimal.java
+        2: meta.number.value.java constant.numeric.float.hexadecimal.java
+        3: punctuation.separator.decimal.java
         4: punctuation.separator.decimal.java
-        5: meta.number.value.exponent.java constant.numeric.float.hexadecimal.java
-        6: meta.number.value.exponent.java constant.numeric.float.hexadecimal.java
-        7: meta.number.value.mantissa.java constant.numeric.float.hexadecimal.java
-        8: punctuation.separator.decimal.java
-        9: meta.number.value.exponent.java constant.numeric.float.hexadecimal.java
     # decimal floats
     - match: |-
         (?x)
         ([0-9]{{dec_digit}}*)
         (?:
           # 1., 1.1, 1.1e1, 1.1e-1, 1.e1, 1.e-1, 1.d, 1.1d, 1.1e1d, 1.1e-1d, 1.e1d, 1.e-1d
-          ((\.) {{dec_digit}}*) ({{dec_exponent}})? ([dDfF]\b)?
+          ( (\.) {{dec_digit}}* (?:{{dec_exponent}})? ) ([dDfF]\b)?
           # 1e1 1e1d
           | ({{dec_exponent}}) ([dDfF]\b)?
           # 1d
           | ([dDfF]\b)
         )
-        | ((\.) {{dec_digit}}+) ({{dec_exponent}})? ([dDfF]\b)?
+        | ( (\.) {{dec_digit}}+ (?:{{dec_exponent}})? ) ([dDfF]\b)?
       captures:
-        1: meta.number.value.mantissa.java constant.numeric.float.decimal.java
-        2: meta.number.value.mantissa.java constant.numeric.float.decimal.java
+        1: meta.number.value.java constant.numeric.float.decimal.java
+        2: meta.number.value.java constant.numeric.float.decimal.java
         3: punctuation.separator.decimal.java
-        4: meta.number.value.exponent.java constant.numeric.float.decimal.java
-        5: meta.number.type.java constant.numeric.float.decimal.java
-        6: meta.number.value.exponent.java constant.numeric.float.decimal.java
-        7: meta.number.type.java constant.numeric.float.decimal.java
-        8: meta.number.type.java constant.numeric.float.decimal.java
-        9: meta.number.value.mantissa.java constant.numeric.float.decimal.java
-        10: punctuation.separator.decimal.java
-        11: meta.number.value.exponent.java constant.numeric.float.decimal.java
-        12: meta.number.type.java constant.numeric.float.decimal.java
+        4: meta.number.suffix.java constant.numeric.float.decimal.java
+        5: meta.number.value.java constant.numeric.float.decimal.java
+        6: meta.number.suffix.java constant.numeric.float.decimal.java
+        7: meta.number.suffix.java constant.numeric.float.decimal.java
+        8: meta.number.value.java constant.numeric.float.decimal.java
+        9: punctuation.separator.decimal.java
+        10: meta.number.suffix.java constant.numeric.float.decimal.java
     # binary integers
     - match: (0[bB])({{bin_digit}}*)([lL]\b)?
       captures:
         1: meta.number.base.java constant.numeric.integer.binary.java
         2: meta.number.value.java constant.numeric.integer.binary.java
-        3: meta.number.type.java constant.numeric.integer.binary.java
+        3: meta.number.suffix.java constant.numeric.integer.binary.java
     # hexadecimal integers
     - match: (0[xX])({{hex_digit}}*)([lL]\b)?
       captures:
         1: meta.number.base.java constant.numeric.integer.hexadecimal.java
         2: meta.number.value.java constant.numeric.integer.hexadecimal.java
-        3: meta.number.type.java constant.numeric.integer.hexadecimal.java
+        3: meta.number.suffix.java constant.numeric.integer.hexadecimal.java
     # octal integers
     - match: (0)({{oct_digit}}+)([lL]\b|(?![\d_]))
       captures:
         1: meta.number.base.java constant.numeric.integer.octal.java
         2: meta.number.value.java constant.numeric.integer.octal.java
-        3: meta.number.type.java constant.numeric.integer.octal.java
+        3: meta.number.suffix.java constant.numeric.integer.octal.java
     # decimal integers
     - match: ((0_*)?[1-9]{{dec_digit}}*|0(?![\d_]))([lL]\b)?
       captures:
         1: meta.number.value.java constant.numeric.integer.decimal.java
         2: invalid.illegal.numeric.java
-        3: meta.number.type.java constant.numeric.integer.decimal.java
+        3: meta.number.suffix.java constant.numeric.integer.decimal.java
 
   strings:
     # https://docs.oracle.com/en/java/javase/13/text_blocks/index.html
