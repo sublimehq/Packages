@@ -39,7 +39,7 @@ variables:
   character_lookahead: (?=')
   string_lookahead: '(?=`|[rxq]?"|q{)'
 
-  definitely_value_lookahead: '(?=!|~|\+|\-|\*|&|\bcast\b|\bdelete\b|\bnew\b|\bimport\b|\bmixin\b|\bis\b|\b__traits\b|\bfunction\b|\bdelegate\b|[0-9]|\[|\(|{{string_lookahead}}|\b({{language_constant}})\b|\b({{language_variable}})\b)'
+  definitely_value_lookahead: '(?=!|~|\+|\-|\*|&|\bcast\b|\bdelete\b|\bnew\b|\bimport\b|\bis\b|\b__traits\b|\bfunction\b|\bdelegate\b|[0-9]|\[|\(|{{string_lookahead}}|\b({{language_constant}})\b|\b({{language_variable}})\b)'
   definitely_declaration_lookahead: '(?=({{name}}|\]|\))(\s+{{name}})|\b({{type_qualifier}})\b)'
 
   type_qualifier: 'const|immutable|inout|shared'
@@ -748,6 +748,12 @@ contexts:
     - match: '\bauto\b'
       scope: keyword.other.d
       pop: true
+    - match: '\bmixin\b'
+      scope: keyword.control.d
+      set:
+        - match: '\('
+          scope: punctuation.section.parens.begin.d
+          set: [basic-type2, basic-type2-after-parens, value]
     - match: '{{name_lookahead}}'
       set: [basic-type2, type-identifier-ref]
     - match: '(?=\S)'
@@ -1023,6 +1029,11 @@ contexts:
     - match: '\b({{basic_type}})\b'
       scope: storage.type.d
       set: first-value-after
+    - match: '\b(mixin)\s*(\()'
+      captures:
+        1: keyword.control.d
+        2: punctuation.section.parens.begin.d
+      set: [first-value-parens-after, value]
     # Match a regular function call so we properly highlight the name as a
     # function
     - match: '(?=[[:alpha:]0-9_\.]+\s*\()'
