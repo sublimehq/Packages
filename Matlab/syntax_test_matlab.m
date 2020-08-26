@@ -41,7 +41,7 @@ x = [ 1.76 ]
 % <- source.matlab meta.variable.other.valid.matlab
 % ^ source.matlab keyword.operator.symbols.matlab
 %   ^ source.matlab punctuation.section.brackets.begin.matlab
-%     ^^^^ source.matlab meta.brackets.matlab constant.numeric.float.decimal.matlab
+%     ^^^^ source.matlab meta.brackets.matlab meta.number.float.decimal.matlab constant.numeric.value.matlab
 %          ^ source.matlab punctuation.section.brackets.end.matlab
 
 
@@ -79,7 +79,7 @@ x = 5
 x = 5 %{ not block comment
 % ^ keyword.operator.symbols.matlab
 x = 5
-%   ^ constant.numeric.float.decimal.matlab
+%   ^ meta.number.float.decimal.matlab constant.numeric.value.matlab
 
 
 %---------------------------------------------
@@ -146,52 +146,62 @@ end
 % Numbers
 
  1
-%^ constant.numeric.float.decimal.matlab
+%^ meta.number.float.decimal.matlab constant.numeric.value.matlab
  .1
-%^^ constant.numeric.float.decimal.matlab
+%^^ meta.number.float.decimal.matlab constant.numeric.value.matlab
 %^ punctuation.separator.decimal.matlab
  1.1
-%^^^ constant.numeric.float.decimal.matlab
+%^^^ meta.number.float.decimal.matlab constant.numeric.value.matlab
 % ^ punctuation.separator.decimal.matlab
  .1e1
-%^^^^ constant.numeric.float.decimal.matlab
+%^^^^ meta.number.float.decimal.matlab constant.numeric.value.matlab
 %^ punctuation.separator.decimal.matlab
  1.1e1
-%^^^^^ constant.numeric.float.decimal.matlab
+%^^^^^ meta.number.float.decimal.matlab constant.numeric.value.matlab
 % ^ punctuation.separator.decimal.matlab
  1e1
-%^^^ constant.numeric.float.decimal.matlab
+%^^^ meta.number.float.decimal.matlab constant.numeric.value.matlab
  1i - (4i)
-%^^ constant.numeric.imaginary.decimal.matlab
-% ^ storage.type.numeric.matlab
-%      ^^ constant.numeric.imaginary.decimal.matlab
-%       ^ storage.type.numeric.matlab
+%^^ meta.number.imaginary.decimal.matlab constant.numeric
+%^ constant.numeric.value.matlab
+% ^ constant.numeric.suffix.matlab
+%      ^^ meta.number.imaginary.decimal.matlab constant.numeric
+%      ^ constant.numeric.value.matlab
+%       ^ constant.numeric.suffix.matlab
  1j
-%^^ constant.numeric.imaginary.decimal.matlab
-% ^ storage.type.numeric.matlab
+%^^ meta.number.imaginary.decimal.matlab constant.numeric
+%^ constant.numeric.value.matlab
+% ^ constant.numeric.suffix.matlab
  1e2j
-%^^^^ constant.numeric.imaginary.decimal.matlab
-%   ^ storage.type.numeric.matlab
+%^^^^ meta.number.imaginary.decimal.matlab constant.numeric
+%^^^ constant.numeric.value.matlab
+%   ^ constant.numeric.suffix.matlab
  0x2A
-%^^^^ constant.numeric.integer.hexadecimal.matlab
-%^^ punctuation.definition.numeric.base.matlab
+%^^^^ meta.number.integer.hexadecimal.matlab constant.numeric
+%^^ constant.numeric.base.matlab
+%  ^^ constant.numeric.value.matlab
  0X2A
-%^^^^ constant.numeric.integer.hexadecimal.matlab
-%^^ punctuation.definition.numeric.base.matlab
+%^^^^ meta.number.integer.hexadecimal.matlab constant.numeric
+%^^ constant.numeric.base.matlab
+%  ^^ constant.numeric.value.matlab
  0b101010
-%^^^^^^^^ constant.numeric.integer.binary.matlab
-%^^ punctuation.definition.numeric.base.matlab
+%^^^^^^^^ meta.number.integer.binary.matlab constant.numeric
+%^^ constant.numeric.base.matlab
+%  ^^^^^^ constant.numeric.value.matlab
  0B101010
-%^^^^^^^^ constant.numeric.integer.binary.matlab
-%^^ punctuation.definition.numeric.base.matlab
+%^^^^^^^^ meta.number.integer.binary.matlab constant.numeric
+%^^ constant.numeric.base.matlab
+%  ^^^^^^ constant.numeric.value.matlab
  0x2Au8
-%^^^^^^ constant.numeric.integer.hexadecimal.matlab
-%^^ punctuation.definition.numeric.base.matlab
-%    ^^ storage.type.numeric.matlab
+%^^^^^^ meta.number.integer.hexadecimal.matlab constant.numeric
+%^^ constant.numeric.base.matlab
+%  ^^ constant.numeric.value.matlab
+%    ^^ constant.numeric.suffix.matlab
  0x2As32
-%^^^^^^^ constant.numeric.integer.hexadecimal.matlab
-%^^ punctuation.definition.numeric.base.matlab
-%    ^^^ storage.type.numeric.matlab
+%^^^^^^^ meta.number.integer.hexadecimal.matlab constant.numeric
+%^^ constant.numeric.base.matlab
+%  ^^ constant.numeric.value.matlab
+%    ^^^ constant.numeric.suffix.matlab
 
 
 %---------------------------------------------
