@@ -207,24 +207,27 @@ contexts:
       scope: variable.language.ruby
     # hexadecimal imaginary numbers: 0xAi, 0xAri
     - match: '\b(0[xX])({{hex_digits}})(r?i(r)?)\b'
+      scope: meta.number.imaginary.hexadecimal.ruby
       captures:
-        1: meta.number.base.ruby constant.numeric.imaginary.hexadecimal.ruby
-        2: meta.number.value.ruby constant.numeric.imaginary.hexadecimal.ruby
-        3: meta.number.suffix.ruby constant.numeric.imaginary.hexadecimal.ruby
+        1: constant.numeric.base.ruby
+        2: constant.numeric.value.ruby
+        3: constant.numeric.suffix.ruby
         4: invalid.illegal.numeric.ruby
     # octal imaginary numbers: 0o1i, 0o1ri, 01i, 01ri
     - match: '\b(0[oO]?)({{oct_digits}})(r?i(r)?)\b'
+      scope: meta.number.imaginary.octal.ruby
       captures:
-        1: meta.number.base.ruby constant.numeric.imaginary.octal.ruby
-        2: meta.number.value.ruby constant.numeric.imaginary.octal.ruby
-        3: meta.number.suffix.ruby constant.numeric.imaginary.octal.ruby
+        1: constant.numeric.base.ruby
+        2: constant.numeric.value.ruby
+        3: constant.numeric.suffix.ruby
         4: invalid.illegal.numeric.ruby
     # binary imaginary numbers: 0b1i, 0b1ri
     - match: '\b(0[bB])({{bin_digits}})(r?i(r)?)\b'
+      scope: meta.number.imaginary.binary.ruby
       captures:
-        1: meta.number.base.ruby constant.numeric.imaginary.binary.ruby
-        2: meta.number.value.ruby constant.numeric.imaginary.binary.ruby
-        3: meta.number.suffix.ruby constant.numeric.imaginary.binary.ruby
+        1: constant.numeric.base.ruby
+        2: constant.numeric.value.ruby
+        3: constant.numeric.suffix.ruby
         4: invalid.illegal.numeric.ruby
     # decimal imaginary numbers: 0d1i, 0d1ri, 1i, 1ri, 1.1i, 1.1ri, 1e1i, 1.1e1i
     - match: |-
@@ -236,72 +239,81 @@ contexts:
             | ({{dec_digits}} (?: (\.) {{dec_digits}} )? {{dec_exponent}}) (r)?(i)
           ) (r)?
         )\b
+      scope: meta.number.imaginary.decimal.ruby
       captures:
-        1: meta.number.base.ruby constant.numeric.imaginary.decimal.ruby
-        2: meta.number.value.ruby constant.numeric.imaginary.decimal.ruby
-        3: meta.number.value.ruby constant.numeric.imaginary.decimal.ruby
+        1: constant.numeric.base.ruby
+        2: constant.numeric.value.ruby
+        3: constant.numeric.value.ruby
         4: punctuation.separator.decimal.ruby
-        5: meta.number.suffix.ruby constant.numeric.imaginary.binary.ruby
-        6: meta.number.value.ruby constant.numeric.imaginary.decimal.ruby
+        5: constant.numeric.suffix.ruby
+        6: constant.numeric.value.ruby
         7: punctuation.separator.decimal.ruby
-        8: meta.number.suffix.ruby constant.numeric.imaginary.binary.ruby invalid.illegal.numeric.ruby
-        9: meta.number.suffix.ruby constant.numeric.imaginary.binary.ruby
-        10: meta.number.suffix.ruby constant.numeric.imaginary.binary.ruby invalid.illegal.numeric.ruby
+        8: constant.numeric.suffix.ruby invalid.illegal.numeric.ruby
+        9: constant.numeric.suffix.ruby
+        10: constant.numeric.suffix.ruby invalid.illegal.numeric.ruby
     # hexadecimal rational numbers: 0xAr
     - match: '\b(0[xX])({{hex_digits}})(r)\b'
+      scope: meta.number.rational.hexadecimal.ruby
       captures:
-        1: meta.number.base.ruby constant.numeric.rational.hexadecimal.ruby
-        2: meta.number.value.ruby constant.numeric.rational.hexadecimal.ruby
-        3: meta.number.suffix.ruby constant.numeric.rational.hexadecimal.ruby
+        1: constant.numeric.base.ruby
+        2: constant.numeric.value.ruby
+        3: constant.numeric.suffix.ruby
     # octal rational numbers: 0o1r, 01r
     - match: '\b(0[oO]?)({{oct_digits}})(r)\b'
+      scope: meta.number.rational.octal.ruby
       captures:
-        1: meta.number.base.ruby constant.numeric.rational.octal.ruby
-        2: meta.number.value.ruby constant.numeric.rational.octal.ruby
-        3: meta.number.suffix.ruby constant.numeric.rational.octal.ruby
+        1: constant.numeric.base.ruby
+        2: constant.numeric.value.ruby
+        3: constant.numeric.suffix.ruby
     # binary rational numbers: 0b1r
     - match: '\b(0[bB])({{bin_digits}})(r)\b'
+      scope: meta.number.rational.binary.ruby
       captures:
-        1: meta.number.base.ruby constant.numeric.rational.binary.ruby
-        2: meta.number.value.ruby constant.numeric.rational.binary.ruby
-        3: meta.number.suffix.ruby constant.numeric.rational.binary.ruby
+        1: constant.numeric.base.ruby
+        2: constant.numeric.value.ruby
+        3: constant.numeric.suffix.ruby
     # decimal rational numbers: 0d1r, 1r, 1.1r
-    - match: '\b(?:(0[dD])?({{dec_digits}})|({{dec_digits}}(\.){{dec_digits}}))(r)\b'
+    - match: '\b(0[dD])?({{dec_digits}}|{{dec_digits}}(\.){{dec_digits}})(r)\b'
+      scope: meta.number.rational.decimal.ruby
       captures:
-        1: meta.number.base.ruby constant.numeric.rational.decimal.ruby
-        2: meta.number.value.ruby constant.numeric.rational.decimal.ruby
-        3: meta.number.value.ruby constant.numeric.rational.decimal.ruby
-        4: punctuation.separator.decimal.ruby
-        5: meta.number.suffix.ruby constant.numeric.rational.decimal.ruby
+        1: constant.numeric.base.ruby
+        2: constant.numeric.value.ruby
+        3: punctuation.separator.decimal.ruby
+        4: constant.numeric.suffix.ruby
     # decimal floating point numbers: 1.1, 1e1, 1.1e1
     - match: '\b({{dec_digits}})(?:((\.){{dec_digits}})|((?:(\.){{dec_digits}})?{{dec_exponent}})(r)?)\b'
+      scope: meta.number.float.decimal.ruby
       captures:
-        1: meta.number.value.ruby constant.numeric.float.decimal.ruby
-        2: meta.number.value.ruby constant.numeric.float.decimal.ruby
+        1: constant.numeric.value.ruby
+        2: constant.numeric.value.ruby
         3: punctuation.separator.decimal.ruby
-        4: meta.number.value.ruby constant.numeric.float.decimal.ruby
+        4: constant.numeric.value.ruby
         5: punctuation.separator.decimal.ruby
-        6: meta.number.suffix.ruby constant.numeric.float.decimal.ruby invalid.illegal.numeric.rational.ruby
+        6: constant.numeric.suffix.ruby invalid.illegal.numeric.rational.ruby
     # hexadecimal integer numbers: 0xA
     - match: '\b(0[xX])({{hex_digits}})\b'
+      scope: meta.number.integer.hexadecimal.ruby
       captures:
-        1: meta.number.base.ruby constant.numeric.integer.hexadecimal.ruby
-        2: meta.number.value.ruby constant.numeric.integer.hexadecimal.ruby
+        1: constant.numeric.base.ruby
+        2: constant.numeric.value.ruby
     # octal integer numbers: 0o1, 01
     - match: '\b(0[oO]?)({{oct_digits}})\b'
+      scope: meta.number.integer.octal.ruby
       captures:
-        1: meta.number.base.ruby constant.numeric.integer.octal.ruby
-        2: meta.number.value.ruby constant.numeric.integer.octal.ruby
+        1: constant.numeric.base.ruby
+        2: constant.numeric.value.ruby
     # binary integer numbers: 0b1
     - match: '\b(0[bB])({{bin_digits}})\b'
+      scope: meta.number.integer.binary.ruby
       captures:
-        1: meta.number.base.ruby constant.numeric.integer.binary.ruby
-        2: meta.number.value.ruby constant.numeric.integer.binary.ruby
+        1: constant.numeric.base.ruby
+        2: constant.numeric.value.ruby
     # decimal integer numbers: 0d1, 1
     - match: '\b(0[dD])?({{dec_digits}})\b'
+      scope: meta.number.integer.decimal.ruby
       captures:
-        1: meta.number.base.ruby constant.numeric.integer.decimal.ruby
-        2: meta.number.value.ruby constant.numeric.integer.decimal.ruby
+        1: constant.numeric.base.ruby
+        2: constant.numeric.value.ruby
     # Quoted symbols
     - match: ":'"
       scope: punctuation.definition.constant.ruby
@@ -355,7 +367,7 @@ contexts:
           scope: meta.braces.ruby punctuation.section.braces.end.ruby
           pop: true
         - match: \h{0,6}
-          scope: constant.numeric.integer.hexadecimal.ruby
+          scope: meta.number.integer.hexadecimal.ruby constant.numeric.value.ruby
         - match: \S
           scope: invalid.illegal.escape.ruby
     - match: |-
