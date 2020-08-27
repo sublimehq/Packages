@@ -103,7 +103,7 @@ string unclosed_interpolation = $"inner {
 
 string unclosed_interpolation = $"inner {2}
 ///                                     ^ punctuation.section.interpolation.begin.cs
-///                                      ^ constant.numeric.integer.decimal.cs
+///                                      ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                                       ^ punctuation.section.interpolation.end.cs
 ///                                        ^ invalid.illegal.unclosed-string.cs
 

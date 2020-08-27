@@ -97,7 +97,7 @@ class TestGenericList
 //          ^ storage.type.nullable
 //            ^^^^^ variable.other
 //                  ^ keyword.operator.assignment.variable
-//                    ^ constant.numeric.integer.decimal
+//                    ^ meta.number.integer.decimal constant.numeric.value
     }
 }
 
@@ -149,67 +149,86 @@ public class Coo
 class Syntax
 {
     public decimal decimal1 = 1.0m;
-    //                        ^^^^ constant.numeric.float.decimal
+    //                        ^^^^ meta.number.float.decimal.cs
+    //                        ^^^ constant.numeric.value.cs
     //                         ^ punctuation.separator.decimal.cs
-    //                           ^ storage.type.numeric
+    //                           ^ constant.numeric.suffix.cs
     public decimal decimal2 = 2.0M;
-    //                        ^^^^ constant.numeric.float.decimal
+    //                        ^^^^ meta.number.float.decimal.cs
+    //                        ^^^ constant.numeric.value.cs
     //                         ^ punctuation.separator.decimal.cs
-    //                           ^ storage.type.numeric
+    //                           ^ constant.numeric.suffix.cs
     public double double1 = 1.0d;
-    //                      ^^^^ constant.numeric.float.decimal
+    //                      ^^^^ meta.number.float.decimal.cs
+    //                      ^^^ constant.numeric.value.cs
     //                       ^ punctuation.separator.decimal.cs
-    //                         ^ storage.type.numeric
+    //                         ^ constant.numeric.suffix.cs
     public double double2 = 2.0D;
-    //                      ^^^^ constant.numeric.float.decimal
+    //                      ^^^^ meta.number.float.decimal.cs
+    //                      ^^^ constant.numeric.value.cs
     //                       ^ punctuation.separator.decimal.cs
-    //                         ^ storage.type.numeric
+    //                         ^ constant.numeric.suffix.cs
     public double double3 = 2D;
-    //                      ^^ constant.numeric.float.decimal
-    //                       ^ storage.type.numeric
+    //                      ^^ meta.number.float.decimal.cs
+    //                      ^ constant.numeric.value.cs
+    //                       ^ constant.numeric.suffix.cs
     public float float1 = 1.0f;
-    //                    ^^^^ constant.numeric.float.decimal
+    //                    ^^^^ meta.number.float.decimal.cs
+    //                    ^^^ constant.numeric.value.cs
     //                     ^ punctuation.separator.decimal.cs
-    //                       ^ storage.type.numeric
+    //                       ^ constant.numeric.suffix.cs
     public float float2 = 2.0F;
-    //                    ^^^^ constant.numeric.float.decimal
+    //                    ^^^^ meta.number.float.decimal.cs
+    //                    ^^^ constant.numeric.value.cs
     //                     ^ punctuation.separator.decimal.cs
-    //                       ^ storage.type.numeric
+    //                       ^ constant.numeric.suffix.cs
     public double double3 = 2f;
-    //                      ^^ constant.numeric.float.decimal
-    //                       ^ storage.type.numeric
+    //                      ^^ meta.number.float.decimal.cs
+    //                      ^ constant.numeric.value.cs
+    //                       ^ constant.numeric.suffix.cs
     public long long1 = 1l;
-    //                  ^^ constant.numeric
-    //                   ^ storage.type.numeric
+    //                  ^^ meta.number.integer.decimal.cs
+    //                  ^ constant.numeric.value.cs
+    //                   ^ constant.numeric.suffix.cs
     public long long2 = 2L;
-    //                  ^^ constant.numeric
-    //                   ^ storage.type.numeric
+    //                  ^^ meta.number.integer.decimal.cs
+    //                  ^ constant.numeric.value.cs
+    //                   ^ constant.numeric.suffix.cs
     public ulong ulong1 = 1ul;
-    //                    ^^^ constant.numeric
-    //                     ^^ storage.type.numeric
+    //                    ^^^ meta.number.integer.decimal.cs
+    //                    ^ constant.numeric.value.cs
+    //                     ^^ constant.numeric.suffix.cs
     public ulong ulong2 = 2UL;
-    //                    ^^^ constant.numeric
-    //                     ^^ storage.type.numeric
+    //                    ^^^ meta.number.integer.decimal.cs
+    //                    ^ constant.numeric.value.cs
+    //                     ^^ constant.numeric.suffix.cs
     public ulong ulong3 = 3lu;
-    //                    ^^^ constant.numeric
-    //                     ^^ storage.type.numeric
+    //                    ^^^ meta.number.integer.decimal.cs
+    //                    ^ constant.numeric.value.cs
+    //                     ^^ constant.numeric.suffix.cs
     public ulong ulong4 = 4LU;
-    //                    ^^^ constant.numeric
-    //                     ^^ storage.type.numeric
+    //                    ^^^ meta.number.integer.decimal.cs
+    //                    ^ constant.numeric.value.cs
+    //                     ^^ constant.numeric.suffix.cs
     public ulong ulong5 = 5uL;
-    //                    ^^^ constant.numeric
-    //                     ^^ storage.type.numeric
+    //                    ^^^ meta.number.integer.decimal.cs
+    //                    ^ constant.numeric.value.cs
+    //                     ^^ constant.numeric.suffix.cs
     public ulong ulong6 = 6Ul;
-    //                    ^^^ constant.numeric
-    //                     ^^ storage.type.numeric
+    //                    ^^^ meta.number.integer.decimal.cs
+    //                    ^ constant.numeric.value.cs
+    //                     ^^ constant.numeric.suffix.cs
     public ulong ulong7 = 7lU;
-    //                    ^^^ constant.numeric
-    //                     ^^ storage.type.numeric
+    //                    ^^^ meta.number.integer.decimal.cs
+    //                    ^ constant.numeric.value.cs
+    //                     ^^ constant.numeric.suffix.cs
     public ulong ulong8 = 8Lu;
-    //                    ^^^ constant.numeric
-    //                     ^^ storage.type.numeric
+    //                    ^^^ meta.number.integer.decimal.cs
+    //                    ^ constant.numeric.value.cs
+    //                     ^^ constant.numeric.suffix.cs
     public ulong bad = 1UU;
-    //                   ^ - storage.type.numeric
+    //                  ^ constant.numeric.suffix.cs
+    //                   ^ - constant.numeric.suffix.cs
 }
 
 class Car
