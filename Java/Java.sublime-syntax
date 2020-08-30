@@ -1894,9 +1894,10 @@ contexts:
           # 0x.1, 0x.1p1, 0x.1p-1
           | (\.) {{hex_digit}}+ (?:{{hex_exponent}})?
         )
+      scope: meta.number.float.hexadecimal.java
       captures:
-        1: meta.number.base.java constant.numeric.float.hexadecimal.java
-        2: meta.number.value.java constant.numeric.float.hexadecimal.java
+        1: constant.numeric.base.java
+        2: constant.numeric.value.java
         3: punctuation.separator.decimal.java
         4: punctuation.separator.decimal.java
     # decimal floats
@@ -1912,41 +1913,46 @@ contexts:
           | ([dDfF]\b)
         )
         | ( (\.) {{dec_digit}}+ (?:{{dec_exponent}})? ) ([dDfF]\b)?
+      scope: meta.number.float.decimal.java
       captures:
-        1: meta.number.value.java constant.numeric.float.decimal.java
-        2: meta.number.value.java constant.numeric.float.decimal.java
+        1: constant.numeric.value.java
+        2: constant.numeric.value.java
         3: punctuation.separator.decimal.java
-        4: meta.number.suffix.java constant.numeric.float.decimal.java
-        5: meta.number.value.java constant.numeric.float.decimal.java
-        6: meta.number.suffix.java constant.numeric.float.decimal.java
-        7: meta.number.suffix.java constant.numeric.float.decimal.java
-        8: meta.number.value.java constant.numeric.float.decimal.java
+        4: constant.numeric.suffix.java
+        5: constant.numeric.value.java
+        6: constant.numeric.suffix.java
+        7: constant.numeric.suffix.java
+        8: constant.numeric.value.java
         9: punctuation.separator.decimal.java
-        10: meta.number.suffix.java constant.numeric.float.decimal.java
+        10: constant.numeric.suffix.java
     # binary integers
     - match: (0[bB])({{bin_digit}}*)([lL]\b)?
+      scope: meta.number.integer.binary.java
       captures:
-        1: meta.number.base.java constant.numeric.integer.binary.java
-        2: meta.number.value.java constant.numeric.integer.binary.java
-        3: meta.number.suffix.java constant.numeric.integer.binary.java
+        1: constant.numeric.base.java
+        2: constant.numeric.value.java
+        3: constant.numeric.suffix.java
     # hexadecimal integers
     - match: (0[xX])({{hex_digit}}*)([lL]\b)?
+      scope: meta.number.integer.hexadecimal.java
       captures:
-        1: meta.number.base.java constant.numeric.integer.hexadecimal.java
-        2: meta.number.value.java constant.numeric.integer.hexadecimal.java
-        3: meta.number.suffix.java constant.numeric.integer.hexadecimal.java
+        1: constant.numeric.base.java
+        2: constant.numeric.value.java
+        3: constant.numeric.suffix.java
     # octal integers
     - match: (0)({{oct_digit}}+)([lL]\b|(?![\d_]))
+      scope: meta.number.integer.octal.java
       captures:
-        1: meta.number.base.java constant.numeric.integer.octal.java
-        2: meta.number.value.java constant.numeric.integer.octal.java
-        3: meta.number.suffix.java constant.numeric.integer.octal.java
+        1: constant.numeric.base.java
+        2: constant.numeric.value.java
+        3: constant.numeric.suffix.java
     # decimal integers
     - match: ((0_*)?[1-9]{{dec_digit}}*|0(?![\d_]))([lL]\b)?
+      scope: meta.number.integer.decimal.java
       captures:
-        1: meta.number.value.java constant.numeric.integer.decimal.java
+        1: constant.numeric.value.java
         2: invalid.illegal.numeric.java
-        3: meta.number.suffix.java constant.numeric.integer.decimal.java
+        3: constant.numeric.suffix.java
 
   strings:
     # https://docs.oracle.com/en/java/javase/13/text_blocks/index.html
