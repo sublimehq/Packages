@@ -73,6 +73,8 @@ variables:
   variables: (?:_|super|this)
 
   # Identifiers
+  identifier: (?!{{reserved_words}}[^\w$]){{id}}
+
   id: (?:[\p{L}_$][\p{L}\p{N}_$]*)
   classcase_id: (?:\p{Lu}[\p{L}\p{N}_$]*)
   lowercase_id: (?:[_$]*\p{Ll}[\p{Ll}\p{N}_$]*\b)
@@ -148,7 +150,7 @@ contexts:
 
   annotation:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.7
-    - match: \@
+    - match: \@(?!interface\b)
       scope: punctuation.definition.annotation.java
       branch_point: annotation-identifier
       branch:
@@ -157,8 +159,7 @@ contexts:
 
   annotation-unqualified-identifier:
     - meta_scope: meta.annotation.identifier.java
-    - include: reserved-pop
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: variable.annotation.java
       push: annotation-unqualified-parameters
     - include: else-pop
@@ -177,8 +178,7 @@ contexts:
 
   annotation-qualified-identifier:
     - meta_scope: meta.annotation.identifier.java meta.path.java
-    - include: reserved-pop
-    - match: (?={{id}})
+    - match: (?={{identifier}})
       branch_point: annotation-qualified-identifier
       branch:
         - annotation-qualified-identifier-path
@@ -186,7 +186,7 @@ contexts:
     - include: else-pop
 
   annotation-qualified-identifier-path:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: variable.annotation.namespace.java
       push: annotation-qualified-identifier-accessor
 
@@ -196,7 +196,7 @@ contexts:
       fail: annotation-qualified-identifier
 
   annotation-qualified-identifier-name:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: variable.annotation.java
       set: annotation-qualified-parameters
 
@@ -213,7 +213,7 @@ contexts:
 
   annotation-parameters-common:
     - include: parens-end2
-    - match: (?={{id}})
+    - match: (?={{identifier}})
       branch_point: annotation-parameter
       branch:
         - annotation-parameter
@@ -221,7 +221,7 @@ contexts:
     - include: variable-initializers
 
   annotation-parameter:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: variable.parameter.java
       push:
         - match: =
@@ -273,7 +273,6 @@ contexts:
 
   package-identifier:
     - meta_content_scope: meta.namespace.package.identifier.java
-    - include: reserved-pop
     - include: entity-package
     - include: immediately-pop
 
@@ -289,7 +288,6 @@ contexts:
       push: [module-body-block, module-identifier, else-pop]
 
   module-identifier:
-    - include: reserved-pop
     - include: entity-module
     - include: immediately-pop
 
@@ -434,7 +432,7 @@ contexts:
     - include: punctuation-accessor-dot
 
   import-function-name:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope:
         meta.import.java meta.path.java
         entity.name.function.java
@@ -486,8 +484,7 @@ contexts:
     - include: declarations-else-fail
 
   class-name:
-    - include: reserved-pop
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: entity.name.class.java
       pop: 1
     - include: else-pop
@@ -565,8 +562,7 @@ contexts:
     - include: declarations-else-fail
 
   enum-name:
-    - include: reserved-pop
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: entity.name.enum.java
       pop: 1
     - include: else-pop
@@ -611,8 +607,7 @@ contexts:
 
   enum-constants-list:
     - meta_content_scope: meta.sequence.constants.java
-    - include: reserved-pop
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: entity.name.constant.java
       push: enum-constant-arguments
     - include: punctuation-separator-comma
@@ -663,8 +658,7 @@ contexts:
     - include: declarations-else-fail
 
   interface-name:
-    - include: reserved-pop
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: entity.name.interface.java
       pop: 1
     - include: else-pop
@@ -757,15 +751,14 @@ contexts:
 
   field-name:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-VariableDeclaratorId
-    - include: reserved-pop
-    - match: '{{variables}}\b'
-      scope: invalid.illegal.identifier.java
-      set: [illegal-members, maybe-array-modifiers]
     - match: '{{uppercase_id}}'
       scope: entity.name.constant.java
       set: [illegal-members, maybe-array-modifiers]
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: variable.other.member.java
+      set: [illegal-members, maybe-array-modifiers]
+    - match: '{{variables}}\b'
+      scope: invalid.illegal.identifier.java
       set: [illegal-members, maybe-array-modifiers]
     - include: else-pop
 
@@ -802,7 +795,7 @@ contexts:
 
   constructor-name:
     - include: declarations-reserved-fail
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: entity.name.function.constructor.java
       pop: 1
     - include: else-pop
@@ -861,8 +854,7 @@ contexts:
       pop: 1
 
   method-name:
-    - include: reserved-pop
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: entity.name.function.java
       pop: 1
     - include: else-pop
@@ -1007,7 +999,7 @@ contexts:
     - match: '{{uppercase_id}}'
       scope: entity.name.constant.java
       set: [illegal-members, maybe-array-modifiers]
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: variable.other.readwrite.java
       set: [illegal-members, maybe-array-modifiers]
     - include: else-pop
@@ -1039,7 +1031,7 @@ contexts:
     - match: '{{uppercase_id}}'
       scope: entity.name.constant.java
       set: [illegal-members, maybe-illegal-array-modifiers]
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: variable.other.readwrite.java
       set: [illegal-members, maybe-illegal-array-modifiers]
     - include: else-pop
@@ -1116,7 +1108,6 @@ contexts:
         - case-label-constant-identifier
 
   case-label-constant-identifier:
-    - include: reserved-pop
     - include: enum-constant
     - include: else-pop
 
@@ -1254,7 +1245,7 @@ contexts:
 
   labeled-statement:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.7
-    - match: ({{id}})(:)(?!:)
+    - match: ({{identifier}})(:)(?!:)
       captures:
         1: entity.name.label.java
         2: punctuation.separator.colon.java
@@ -1308,8 +1299,7 @@ contexts:
     - include: expression-pop
 
   variable-label:
-    - include: reserved-pop
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: variable.label.java
       pop: 1
     - include: else-pop
@@ -1568,7 +1558,7 @@ contexts:
     - include: expect-expression-terminator
 
   lambda-parameter-implicit-declaration:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: variable.parameter.java
       push:
         - match: (?=[=,:;)}])
@@ -1659,7 +1649,7 @@ contexts:
         - receiver-qualified-type
 
   receiver-unqualified-type:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: support.class.java
       push:
         - receiver-unqualified-type-end
@@ -1677,7 +1667,7 @@ contexts:
 
   receiver-qualified-type:
     - meta_scope: meta.path.java
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: support.class.java
       push:
         - receiver-qualified-type-end
@@ -1705,8 +1695,7 @@ contexts:
     - match: this\b
       scope: variable.parameter.this.java
       push: receiver-identifier-end
-    - include: reserved-pop4
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: variable.parameter.java
       push:
         - match: (?={{accessor_dot}})
@@ -1743,8 +1732,7 @@ contexts:
     - match: this\b
       scope: variable.parameter.this.java
       set: receiver-identifier-end
-    - include: reserved-pop3
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: invalid.illegal.identifier.java
       set: receiver-identifier-end
     - include: annotation
@@ -1782,11 +1770,11 @@ contexts:
     - include: else-pop
 
   parameter-identifier:
+    - match: '{{identifier}}'
+      scope: variable.parameter.java
+      set: [illegal-members, maybe-array-modifiers]
     - match: '{{variables}}\b'
       scope: invalid.illegal.identifier.java
-      set: [illegal-members, maybe-array-modifiers]
-    - match: '{{id}}'
-      scope: variable.parameter.java
       set: [illegal-members, maybe-array-modifiers]
     - include: else-pop
 
@@ -1797,7 +1785,7 @@ contexts:
       scope: variable.language.blank.java
     - match: '{{variables}}\b'
       scope: variable.language.java
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       branch_point: variables-type
       branch:
         - variable-maybe-method-name
@@ -1870,7 +1858,7 @@ contexts:
     - match: new\b
       scope: keyword.other.storage.new.java
       pop: 1
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: variable.function.reference.java
       pop: 1
     - include: else-pop
@@ -2080,14 +2068,14 @@ contexts:
 ###[ ENUM CONSTANT ]###########################################################
 
   enum-constant:
-    - match: (?={{id}})
+    - match: (?={{identifier}})
       branch_point: enum-constant
       branch:
         - enum-constant-unqualified-identifier
         - enum-constant-qualified-identifier
 
   enum-constant-unqualified-identifier:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: constant.other.java
       set:
         - match: (?={{accessor_dot}})
@@ -2095,7 +2083,7 @@ contexts:
         - include: else-pop
 
   enum-constant-qualified-identifier:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: variable.namespace.java
       set:
         - meta_scope: meta.path.java
@@ -2103,8 +2091,7 @@ contexts:
           scope: punctuation.accessor.dot.java
           set:
             - meta_content_scope: meta.path.java
-            - include: reserved-pop
-            - match: (?={{id}})
+            - match: (?={{identifier}})
               branch_point: enum-constant-path
               branch:
                 - enum-constant-qualifier
@@ -2114,7 +2101,7 @@ contexts:
           fail: enum-constant
 
   enum-constant-qualifier:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: variable.namespace.java
       set: enum-constant-accessor
 
@@ -2124,21 +2111,21 @@ contexts:
       fail: enum-constant-path
 
   enum-constant-identifier:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: constant.other.java
       pop: 2
 
 ###[ ENTITY CLASS ]############################################################
 
   entity-class:
-    - match: (?={{id}})
+    - match: (?={{identifier}})
       branch_point: entity-class
       branch:
         - entity-class-qualified-identifier
         - entity-class-unqualified-identifier
 
   entity-class-qualified-identifier:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: variable.namespace.java
       set:
         - meta_scope: meta.path.java
@@ -2146,8 +2133,7 @@ contexts:
           scope: punctuation.accessor.dot.java
           set:
             - meta_content_scope: meta.path.java
-            - include: reserved-pop
-            - match: (?={{id}})
+            - match: (?={{identifier}})
               branch_point: entity-class-path
               branch:
                 - entity-class-qualifier
@@ -2157,7 +2143,7 @@ contexts:
           fail: entity-class
 
   entity-class-qualifier:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: variable.namespace.java
       set:
         - entity-class-accessor
@@ -2169,28 +2155,28 @@ contexts:
       fail: entity-class-path
 
   entity-class-identifier:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: entity.name.class.java
       set:
         - immediately-pop2
         - generic-type-arguments
 
   entity-class-unqualified-identifier:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: entity.name.class.java
       set: generic-type-arguments
 
 ###[ ENTITY MODULE ]###########################################################
 
   entity-module:
-    - match: (?={{id}})
+    - match: (?={{identifier}})
       branch_point: entity-module
       branch:
         - entity-module-qualified-identifier
         - entity-module-unqualified-identifier
 
   entity-module-qualified-identifier:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: variable.namespace.java
       set:
         - meta_scope: meta.path.java
@@ -2198,8 +2184,7 @@ contexts:
           scope: punctuation.accessor.dot.java
           set:
             - meta_content_scope: meta.path.java
-            - include: reserved-pop
-            - match: (?={{id}})
+            - match: (?={{identifier}})
               branch_point: entity-module-path
               branch:
                 - entity-module-qualifier
@@ -2209,7 +2194,7 @@ contexts:
           fail: entity-module
 
   entity-module-qualifier:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: variable.namespace.java
       set: entity-module-accessor
 
@@ -2219,26 +2204,26 @@ contexts:
       fail: entity-module-path
 
   entity-module-identifier:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: entity.name.namespace.module.java
       pop: 2
 
   entity-module-unqualified-identifier:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: entity.name.namespace.module.java
       pop: 1
 
 ###[ ENTITY PACKAGE ]##########################################################
 
   entity-package:
-    - match: (?={{id}})
+    - match: (?={{identifier}})
       branch_point: entity-package
       branch:
         - entity-package-qualified-identifier
         - entity-package-unqualified-identifier
 
   entity-package-qualified-identifier:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: variable.namespace.java
       set:
         - meta_scope: meta.path.java
@@ -2246,8 +2231,7 @@ contexts:
           scope: punctuation.accessor.dot.java
           set:
             - meta_content_scope: meta.path.java
-            - include: reserved-pop
-            - match: (?={{id}})
+            - match: (?={{identifier}})
               branch_point: entity-package-path
               branch:
                 - entity-package-qualifier
@@ -2257,7 +2241,7 @@ contexts:
           fail: entity-package
 
   entity-package-qualifier:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: variable.namespace.java
       set: entity-package-accessor
 
@@ -2267,12 +2251,12 @@ contexts:
       fail: entity-package-path
 
   entity-package-identifier:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: entity.name.namespace.package.java
       pop: 2
 
   entity-package-unqualified-identifier:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: entity.name.namespace.package.java
       pop: 1
 
@@ -2346,8 +2330,7 @@ contexts:
 
   object-type:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.3
-    - include: reserved-pop
-    - match: (?={{id}})
+    - match: (?={{identifier}})
       branch_point: object-type
       branch:
         - unqualified-object-type
@@ -2356,7 +2339,7 @@ contexts:
     - include: else-pop
 
   unqualified-object-type:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: support.class.java
       push:
         - unqualiefied-object-type-end
@@ -2369,7 +2352,7 @@ contexts:
 
   qualified-object-type:
     - meta_content_scope: meta.path.java
-    - match: (?={{id}})
+    - match: (?={{identifier}})
       branch_point: qualified-object-type
       branch:
         - qualified-object-type-package
@@ -2388,8 +2371,7 @@ contexts:
       fail: qualified-object-type
 
   qualified-object-type-class:
-    - include: reserved-pop3
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: support.class.java
       push:
         - qualified-object-type-end
@@ -2421,8 +2403,7 @@ contexts:
       push: inherited-object-type
 
   inherited-object-type:
-    - include: reserved-pop
-    - match: (?={{id}})
+    - match: (?={{identifier}})
       branch_point: inherited-object-type
       branch:
         - unqualified-inherited-object-type
@@ -2431,7 +2412,7 @@ contexts:
     - include: else-pop
 
   unqualified-inherited-object-type:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: entity.other.inherited-class.java
       push:
         - unqualiefied-inherited-object-type-end
@@ -2446,7 +2427,7 @@ contexts:
 
   qualified-inherited-object-type:
     - meta_content_scope: meta.path.java
-    - match: (?={{id}})
+    - match: (?={{identifier}})
       branch_point: qualified-inherited-object-type
       branch:
         - qualified-inherited-object-type-package
@@ -2465,7 +2446,7 @@ contexts:
       fail: qualified-inherited-object-type
 
   qualified-inherited-object-type-class:
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: entity.other.inherited-class.java
       push:
         - qualified-object-type-end
@@ -2559,8 +2540,7 @@ contexts:
     - match: \?|{{storage_types}}\b
       scope: invalid.illegal.unexpected-keyword.java
       set: generic-type-parameter-bounds
-    - include: reserved-pop
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: variable.parameter.type.java
       set: generic-type-parameter-bounds
     - include: annotation
