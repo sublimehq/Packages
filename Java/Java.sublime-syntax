@@ -1055,7 +1055,7 @@ contexts:
       push:
         - if-meta
         - block-or-expression
-        - if-condition
+        - maybe-parens
     - match: else\b
       scope: keyword.control.conditional.else.java
       push:
@@ -1065,12 +1065,6 @@ contexts:
   if-meta:
     - meta_scope: meta.if.java
     - include: immediately-pop
-
-  if-condition:
-    - match: \(
-      scope: punctuation.section.parens.begin.java
-      set: parens-common
-    - include: else-pop
 
   else-meta:
     - meta_scope: meta.else.java
@@ -1094,17 +1088,11 @@ contexts:
       push:
         - switch-meta
         - block-or-expression
-        - switch-parameters
+        - maybe-parens
 
   switch-meta:
     - meta_scope: meta.switch.java
     - include: immediately-pop
-
-  switch-parameters:
-    - match: \(
-      scope: punctuation.section.parens.begin.java
-      set: parens-common
-    - include: else-pop
 
   case-label-constant:
     - meta_scope: meta.case.java
@@ -1147,7 +1135,7 @@ contexts:
       push:
         - while-meta
         - block-or-expression
-        - while-condition
+        - maybe-parens
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.13
     - match: do\b
       scope: keyword.control.loop.do-while.java
@@ -1162,12 +1150,6 @@ contexts:
   while-meta:
     - meta_scope: meta.while.java
     - include: immediately-pop
-
-  while-condition:
-    - match: \(
-      scope: punctuation.section.parens.begin.java
-      set: parens-common
-    - include: else-pop
 
 ###[ FOR LOOP STATEMENT ]######################################################
 
@@ -1320,17 +1302,11 @@ contexts:
       push:
         - synchronized-meta
         - block-or-expression
-        - synchronized-parameters
+        - maybe-parens
 
   synchronized-meta:
     - meta_scope: meta.synchronized.java
     - include: immediately-pop
-
-  synchronized-parameters:
-    - match: \(
-      scope: punctuation.section.parens.begin.java
-      set: parens-common
-    - include: else-pop
 
 ###[ TRY CATCH STATEMENT ]#####################################################
 
@@ -1594,6 +1570,12 @@ contexts:
 
   lambda-meta:
     - meta_content_scope: meta.function.anonymous.java
+    - include: else-pop
+
+  maybe-parens:
+    - match: \(
+      scope: punctuation.section.parens.begin.java
+      set: parens-common
     - include: else-pop
 
   parens-common:
