@@ -167,8 +167,9 @@ contexts:
   annotation-unqualified-parameters:
     - match: (?={{accessor_dot}})
       fail: annotation-identifier
-    - match: (?=\()
-      set: [annotation-unqualified-parameters-common, parens-begin]
+    - match: \(
+      scope: punctuation.section.parens.begin.java
+      set: annotation-unqualified-parameters-common
     - include: else-pop2
 
   annotation-unqualified-parameters-common:
@@ -202,8 +203,9 @@ contexts:
 
   annotation-qualified-parameters:
     - meta_content_scope: meta.annotation.identifier.java
-    - match: (?=\()
-      set: [annotation-qualified-parameters-common, parens-begin]
+    - match: \(
+      scope: punctuation.section.parens.begin.java
+      set: annotation-qualified-parameters-common
     - include: else-pop2
 
   annotation-qualified-parameters-common:
@@ -293,8 +295,9 @@ contexts:
 
   module-body-block:
     - meta_content_scope: meta.namespace.module.identifier.java
-    - match: (?=\{)
-      set: [module-body-common, block-begin]
+    - match: \{
+      scope: punctuation.section.block.begin.java
+      set: module-body-common
     - include: else-pop
 
   module-body-common:
@@ -517,8 +520,9 @@ contexts:
     - include: else-pop
 
   class-body-block:
-    - match: (?=\{)
-      set: [class-body-block-common, block-begin]
+    - match: \{
+      scope: punctuation.section.block.begin.java
+      set: class-body-block-common
     - include: else-pop
 
   class-body-block-common:
@@ -596,8 +600,9 @@ contexts:
 
   enum-body-block:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.9.1
-    - match: (?=\{)
-      set: [enum-body-block-common, enum-constants-list, block-begin]
+    - match: \{
+      scope: punctuation.section.block.begin.java
+      set: [enum-body-block-common, enum-constants-list]
     - include: else-pop
 
   enum-body-block-common:
@@ -608,15 +613,16 @@ contexts:
   enum-constants-list:
     - meta_content_scope: meta.sequence.constants.java
     - match: '{{identifier}}'
-      scope: entity.name.constant.java
+      scope: meta.constant.identifier.java entity.name.constant.java
       push: enum-constant-arguments
     - include: punctuation-separator-comma
     - include: else-pop
 
   enum-constant-arguments:
-    - meta_scope: meta.constant.identifier.java
-    - match: (?=\()
-      set: [enum-constant-body-block, enum-constant-arguments-common, parens-begin]
+    - meta_content_scope: meta.constant.identifier.java
+    - match: \(
+      scope: punctuation.section.parens.begin.java
+      set: [enum-constant-body-block, enum-constant-arguments-common]
     - include: enum-constant-body-block
 
   enum-constant-arguments-common:
@@ -625,9 +631,10 @@ contexts:
     - include: parens-common
 
   enum-constant-body-block:
-    - meta_scope: meta.constant.java
-    - match: (?=\{)
-      set: [enum-constant-body-block-common, block-begin]
+    - meta_content_scope: meta.constant.java
+    - match: \{
+      scope: punctuation.section.block.begin.java
+      set: enum-constant-body-block-common
     - include: else-pop
 
   enum-constant-body-block-common:
@@ -691,8 +698,9 @@ contexts:
     - include: else-pop
 
   interface-body-block:
-    - match: (?=\{)
-      set: [interface-body-block-common, block-begin]
+    - match: \{
+      scope: punctuation.section.block.begin.java
+      set: interface-body-block-common
     - include: else-pop
 
   interface-body-block-common:
@@ -870,11 +878,11 @@ contexts:
     - include: else-pop
 
   method-parameters:
-    - match: (?=\()
+    - match: \(
+      scope: punctuation.section.parens.begin.java
       set:
         - method-parameters-common
         - receiver-or-parameter
-        - parens-begin
 
   method-parameters-common:
     - meta_scope: meta.method.parameters.java meta.parens.java
@@ -921,8 +929,9 @@ contexts:
     - include: else-pop
 
   method-body-block:
-    - match: (?=\{)
-      set: [method-body-common, block-begin]
+    - match: \{
+      scope: punctuation.section.block.begin.java
+      set: method-body-common
     - include: else-pop2
 
   method-body-common:
@@ -931,11 +940,6 @@ contexts:
     - include: blocks-body
 
 ###[ BLOCKS ]##################################################################
-
-  block-begin:
-    - match: \{
-      scope: punctuation.section.block.begin.java
-      pop: 1
 
   block-end:
     - match: \}
@@ -1063,8 +1067,9 @@ contexts:
     - include: immediately-pop
 
   if-condition:
-    - match: (?=\()
-      set: [parens-common, parens-begin]
+    - match: \(
+      scope: punctuation.section.parens.begin.java
+      set: parens-common
     - include: else-pop
 
   else-meta:
@@ -1096,8 +1101,9 @@ contexts:
     - include: immediately-pop
 
   switch-parameters:
-    - match: (?=\()
-      set: [parens-common, parens-begin]
+    - match: \(
+      scope: punctuation.section.parens.begin.java
+      set: parens-common
     - include: else-pop
 
   case-label-constant:
@@ -1158,8 +1164,9 @@ contexts:
     - include: immediately-pop
 
   while-condition:
-    - match: (?=\()
-      set: [parens-common, parens-begin]
+    - match: \(
+      scope: punctuation.section.parens.begin.java
+      set: parens-common
     - include: else-pop
 
 ###[ FOR LOOP STATEMENT ]######################################################
@@ -1178,11 +1185,11 @@ contexts:
     - include: immediately-pop
 
   for-parameters:
-    - match: (?=\()
+    - match: \(
+      scope: punctuation.section.parens.begin.java
       set:
         - for-parameters-update
         - for-parameters-init
-        - parens-begin
     - include: else-pop
 
   for-parameters-init:
@@ -1320,8 +1327,9 @@ contexts:
     - include: immediately-pop
 
   synchronized-parameters:
-    - match: (?=\()
-      set: [parens-common, parens-begin]
+    - match: \(
+      scope: punctuation.section.parens.begin.java
+      set: parens-common
     - include: else-pop
 
 ###[ TRY CATCH STATEMENT ]#####################################################
@@ -1351,14 +1359,14 @@ contexts:
     - include: immediately-pop
 
   catch-parameters:
-    - match: (?=\()
+    - match: \(
+      scope: punctuation.section.parens.begin.java
       set:
         - catch-parameters-end
         - parameter-identifier
         - catch-parameters-typelist
         - maybe-array-modifiers
         - parameter-type
-        - parens-begin
     - include: else-pop
 
   catch-parameters-typelist:
@@ -1385,8 +1393,9 @@ contexts:
     - include: immediately-pop
 
   try-parameters:
-    - match: (?=\()
-      set: [try-parameters-common, parens-begin]
+    - match: \(
+      scope: punctuation.section.parens.begin.java
+      set: try-parameters-common
     - include: else-pop
 
   try-parameters-common:
@@ -1595,11 +1604,6 @@ contexts:
   parens-body:
     - include: illegal-parens-terminators
     - include: expressions
-
-  parens-begin:
-    - match: \(
-      scope: punctuation.section.parens.begin.java
-      pop: 1
 
   parens-end:
     - match: \)
