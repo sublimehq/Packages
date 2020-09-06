@@ -1785,49 +1785,43 @@ contexts:
       scope: variable.language.blank.java
     - match: '{{variables}}\b'
       scope: variable.language.java
-    - match: '{{identifier}}'
+    - match: (?={{identifier}})
       branch_point: variables-type
       branch:
         - variable-maybe-method-name
         - variable-maybe-lambda-parameter
         - variable-other
 
-  variables-branch-success:
-    - clear_scopes: 2
-    - match: ''
-      pop: 2
-
   variable-maybe-method-name:
-    - meta_scope:
+    - match: '{{identifier}}'
+      scope:
         meta.function-call.identifier.java
         variable.function.java
-    - match: ''
-      push:
-        - clear_scopes: 2
-        - meta_scope: meta.function-call.identifier.java
-        - match: (?=\()
-          set: [variables-branch-success, method-call-arguments, parens-begin]
+      set:
+        - meta_content_scope: meta.function-call.identifier.java
+        - match: \(
+          scope: punctuation.section.parens.begin.java
+          set: method-call-arguments
         - match: (?=\S)
           fail: variables-type
 
   variable-maybe-lambda-parameter:
-    - meta_scope:
+    - match: '{{identifier}}'
+      scope:
         meta.function.anonymous.parameters.java
         variable.parameter.java
-    - match: ''
-      push:
-        - clear_scopes: 2
+      set:
         - meta_content_scope: meta.function.anonymous.java
         - match: (?=->)
-          pop: 2
+          pop: 1
         - match: (?=\S)
           fail: variables-type
 
   variable-other:
-    - meta_scope:
+    - match: '{{identifier}}'
+      scope:
         meta.variable.identifier.java
         variable.other.readwrite.java
-    - match: ''
       set: variable-maybe-item-access
 
   variable-maybe-item-access:
