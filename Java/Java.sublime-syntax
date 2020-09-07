@@ -727,8 +727,7 @@ contexts:
     - match: '{{field_no_modifier}}\b'
       scope: invalid.illegal.unexpected-keyword.java
     - include: generic-type
-    - include: annotation
-    - include: else-pop
+    - include: annotation-else-pop
 
   field-type:
     - include: primitive-type
@@ -825,8 +824,7 @@ contexts:
     - match: '{{method_no_modifier}}\b'
       scope: invalid.illegal.unexpected-keyword.java
     - include: generic-type
-    - include: annotation
-    - include: else-pop
+    - include: annotation-else-pop
 
   method-signature:
     # void indicates a method for sure
@@ -1612,8 +1610,7 @@ contexts:
       branch:
         - receiver
         - parameter
-    - include: annotation
-    - include: else-pop
+    - include: annotation-else-pop
 
   receiver:
     - match: ''
@@ -1658,8 +1655,7 @@ contexts:
       push:
         - receiver-qualified-type-end
         - qualified-object-type-arguments
-    - include: annotation
-    - include: else-pop2
+    - include: annotation-else-pop2
 
   receiver-qualified-type-end:
     - match: \s*({{accessor_dot}})
@@ -1688,8 +1684,7 @@ contexts:
           fail: receiver-identifier
         - match: (?=\S)
           fail: receiver-or-parameter
-    - include: annotation
-    - include: else-pop2
+    - include: annotation-else-pop2
 
   receiver-qualified-identifier:
     - match: ''
@@ -1705,8 +1700,7 @@ contexts:
       push:
         - receiver-qualified-identifier-accessor
         - generic-type-arguments
-    - include: annotation
-    - include: else-pop3
+    - include: annotation-else-pop3
 
   receiver-qualified-identifier-accessor:
     - include: punctuation-accessor-dot-pop2
@@ -1721,16 +1715,14 @@ contexts:
     - match: '{{identifier}}'
       scope: invalid.illegal.identifier.java
       set: receiver-identifier-end
-    - include: annotation
-    - include: else-pop3
+    - include: annotation-else-pop3
 
   receiver-identifier-end:
     - match: '{{accessor_dot}}'
       scope: invalid.illegal.unexpected-accessor.java
       push: illegal-member
     - include: illegal-array-modifiers
-    - include: annotation
-    - include: else-pop3
+    - include: annotation-else-pop3
 
   parameter:
     - match: ''
@@ -1752,8 +1744,7 @@ contexts:
     - match: \.\.\.
       scope: keyword.operator.variadic.java
       pop: 1
-    - include: annotation
-    - include: else-pop
+    - include: annotation-else-pop
 
   parameter-identifier:
     - match: '{{identifier}}'
@@ -2287,8 +2278,7 @@ contexts:
         - object-types-child
         - maybe-array-modifiers
         - generic-type-arguments
-    - include: annotation
-    - include: else-pop
+    - include: annotation-else-pop
 
   object-types-child:
     - match: '{{accessor_dot}}'
@@ -2315,8 +2305,7 @@ contexts:
       branch:
         - unqualified-object-type
         - qualified-object-type
-    - include: annotation
-    - include: else-pop
+    - include: annotation-else-pop
 
   unqualified-object-type:
     - match: '{{identifier}}'
@@ -2337,8 +2326,7 @@ contexts:
       branch:
         - qualified-object-type-package
         - qualified-object-type-class
-    - include: annotation
-    - include: else-pop2
+    - include: annotation-else-pop2
 
   qualified-object-type-package:
     - match: '{{lowercase_id}}'
@@ -2356,8 +2344,7 @@ contexts:
       push:
         - qualified-object-type-end
         - qualified-object-type-arguments
-    - include: annotation
-    - include: else-pop3
+    - include: annotation-else-pop3
 
   qualified-object-type-arguments:
     - match: (?=\s*<)
@@ -2388,8 +2375,7 @@ contexts:
       branch:
         - unqualified-inherited-object-type
         - qualified-inherited-object-type
-    - include: annotation
-    - include: else-pop
+    - include: annotation-else-pop
 
   unqualified-inherited-object-type:
     - match: '{{identifier}}'
@@ -2402,8 +2388,7 @@ contexts:
     - match: (?={{accessor_dot}})
       fail: inherited-object-type
     - include: illegal-array-modifiers
-    - include: annotation
-    - include: else-pop3
+    - include: annotation-else-pop3
 
   qualified-inherited-object-type:
     - meta_content_scope: meta.path.java
@@ -2412,8 +2397,7 @@ contexts:
       branch:
         - qualified-inherited-object-type-package
         - qualified-inherited-object-type-class
-    - include: annotation
-    - include: else-pop2
+    - include: annotation-else-pop2
 
   qualified-inherited-object-type-package:
     - match: '{{lowercase_id}}'
@@ -2431,8 +2415,7 @@ contexts:
       push:
         - qualified-object-type-end
         - qualified-object-type-arguments
-    - include: annotation
-    - include: else-pop3
+    - include: annotation-else-pop3
 
 ###[ GENERIC TYPES ]###########################################################
 
@@ -2523,8 +2506,7 @@ contexts:
     - match: '{{identifier}}'
       scope: variable.parameter.type.java
       set: generic-type-parameter-bounds
-    - include: annotation
-    - include: else-pop
+    - include: annotation-else-pop
 
   generic-type-parameter-bounds:
     - match: extends\b
@@ -2551,8 +2533,7 @@ contexts:
     - match: super\b
       scope: invalid.illegal.unexpected-keyword.java
       push: object-type
-    - include: annotation
-    - include: else-pop
+    - include: annotation-else-pop
 
 ###[ PRIMITIVE TYPES ]#########################################################
 
@@ -2573,8 +2554,7 @@ contexts:
 
   maybe-array-modifiers:
     - include: array-modifiers
-    - include: annotation
-    - include: else-pop
+    - include: annotation-else-pop
 
   array-modifiers:
     - match: \[\s*\]
@@ -2593,6 +2573,18 @@ contexts:
   prototype:
     - include: comments
     - include: illegal-keywords
+
+  annotation-else-pop:
+    - include: annotation
+    - include: else-pop
+
+  annotation-else-pop2:
+    - include: annotation
+    - include: else-pop2
+
+  annotation-else-pop3:
+    - include: annotation
+    - include: else-pop3
 
   else-pop:
     - match: (?=\S)
@@ -2671,8 +2663,7 @@ contexts:
 
   maybe-illegal-array-modifiers:
     - include: illegal-array-modifiers
-    - include: annotation
-    - include: else-pop
+    - include: annotation-else-pop
 
   illegal-array-modifiers:
     - match: \[\s*\]
