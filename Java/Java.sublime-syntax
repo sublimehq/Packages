@@ -225,12 +225,14 @@ contexts:
   annotation-parameter:
     - match: '{{identifier}}'
       scope: variable.parameter.java
-      push:
-        - match: =
-          scope: keyword.operator.assignment.java
-          pop: 2
-        - match: (?=\S)
-          fail: annotation-parameter
+      set: annotation-parameter-assignment
+
+  annotation-parameter-assignment:
+    - match: =
+      scope: keyword.operator.assignment.java
+      pop: 1
+    - match: (?=\S)
+      fail: annotation-parameter
 
 ###[ DECLARATIONS ]############################################################
 
