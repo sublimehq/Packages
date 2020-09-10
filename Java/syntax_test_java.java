@@ -4752,7 +4752,7 @@ class SwitchStatementTests {
 //         ^^^^^^^^^^^^^^^^  meta.case.java meta.path.java
 //                         ^ meta.case.java - meta.path
 //    ^^^^ keyword.control.conditional.case.java
-//         ^^^^^^^ variable.namespace.java
+//         ^^^^^^^ support.class.java
 //                ^ punctuation.accessor.dot.java
 //                 ^^^^^^^^ constant.other.java
 //                         ^ punctuation.separator.expressions.java
@@ -4766,7 +4766,7 @@ class SwitchStatementTests {
 //            ^ punctuation.accessor.dot.java
 //             ^^^ variable.namespace.java
 //                ^ punctuation.accessor.dot.java
-//                 ^^^^^^^ variable.namespace.java
+//                 ^^^^^^^ support.class.java
 //                         ^^^^^^^^^ constant.other.java
 //                                  ^ punctuation.separator.expressions.java
 

@@ -2044,49 +2044,63 @@ contexts:
     - match: (?={{identifier}})
       branch_point: enum-constant
       branch:
-        - enum-constant-unqualified-identifier
-        - enum-constant-qualified-identifier
+        - unqualified-enum-constant
+        - qualified-enum-constant
 
-  enum-constant-unqualified-identifier:
+  unqualified-enum-constant:
     - match: '{{identifier}}'
       scope: constant.other.java
       set:
         - match: (?={{accessor_dot}})
           fail: enum-constant
-        - include: else-pop
+        - include: else-pop2
 
-  enum-constant-qualified-identifier:
-    - match: '{{identifier}}'
+  qualified-enum-constant:
+    - meta_content_scope: meta.path.java
+    - match: ''
+      branch_point: qualified-constant
+      branch:
+        - qualified-enum-constant-package
+        - qualified-enum-constant-class-or-name
+
+  qualified-enum-constant-package:
+    - match: '{{lowercase_id}}'
       scope: variable.namespace.java
-      set:
-        - meta_scope: meta.path.java
-        - match: '{{accessor_dot}}'
-          scope: punctuation.accessor.dot.java
-          set:
-            - meta_content_scope: meta.path.java
-            - match: (?={{identifier}})
-              branch_point: enum-constant-path
-              branch:
-                - enum-constant-qualifier
-                - enum-constant-identifier
-            - include: else-pop
-        - match: (?=\S)
-          fail: enum-constant
+      set: qualified-enum-constant-package-accessor
+    - include: annotation
+    - match: (?=\S)
+      fail: qualified-constant
 
-  enum-constant-qualifier:
-    - match: '{{identifier}}'
-      scope: variable.namespace.java
-      set: enum-constant-accessor
-
-  enum-constant-accessor:
+  qualified-enum-constant-package-accessor:
     - include: punctuation-accessor-dot-pop
     - match: (?=\S)
-      fail: enum-constant-path
+      fail: qualified-constant
 
-  enum-constant-identifier:
+  qualified-enum-constant-class-or-name:
+    - match: (?={{identifier}})
+      branch_point: qualified-enum-constant-class-or-name
+      branch:
+        - qualified-enum-constant-class
+        - qualified-enum-constant-name
+    - include: annotation
+    - include: else-pop3
+
+  qualified-enum-constant-class:
+    - match: '{{identifier}}'
+      scope: support.class.java
+      set:
+        - qualified-enum-constant-class-accessor
+        - generic-type-arguments
+
+  qualified-enum-constant-class-accessor:
+    - include: punctuation-accessor-dot-pop
+    - match: (?=\S)
+      fail: qualified-enum-constant-class-or-name
+
+  qualified-enum-constant-name:
     - match: '{{identifier}}'
       scope: constant.other.java
-      pop: 2
+      pop: 4
 
 ###[ ENTITY CLASS ]############################################################
 
