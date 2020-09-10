@@ -1,127 +1,121 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
+# http://www.sublimetext.com/docs/syntax.html
 name: Javadoc
-file_extensions: []
 scope: text.html.javadoc
+version: 2
 hidden: true
+
+extends: Packages/HTML/HTML-Plain.sublime-syntax
+
+###############################################################################
 
 variables:
   id: '(?:[\p{L}_$][\p{L}\p{N}_$]*)'
-  javadoc_block_tag_terminator: (?=^\s*\*?\s*@)
+
+###############################################################################
 
 contexts:
-  prototype:
-    # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#leadingasterisks
-    - match: ^\s*(\*)\s*(?!\s*@)
-      captures:
-        1: punctuation.definition.comment.javadoc
 
   main:
-    - meta_include_prototype: false
-    - match: /\*\*
-      scope: comment.block.documentation.javadoc punctuation.definition.comment.begin.javadoc
-      embed: contents
-      embed_scope: comment.block.documentation.javadoc text.html.javadoc
-      escape: \*/
+    - match: /\*\*+
+      scope:
+        comment.block.documentation.javadoc
+        punctuation.definition.comment.begin.javadoc
+      embed: javadoc
+      embed_scope: comment.block.documentation.javadoc
+      escape: \*+/
       escape_captures:
-        0: comment.block.documentation.javadoc punctuation.definition.comment.end.javadoc
+        0: comment.block.documentation.javadoc
+           punctuation.definition.comment.end.javadoc
 
-  contents:
-    - meta_include_prototype: false
-
-    # Block tag in the first line (immediately after '/**').
-    - match: \s*(?=@)
-      embed: javadoc-block-tags
-      escape: '{{javadoc_block_tag_terminator}}'
-
-    # We rely on 'escape' to pop the inner context out.
-    # 'set' unfortunately will mess up the meta scopes.
+  javadoc:
     - match: ''
-      push:
-        - match: ^\s*(\*)?\s*(?=@)
-          captures:
-            1: punctuation.definition.comment.javadoc
-          embed: javadoc-block-tags
-          escape: '{{javadoc_block_tag_terminator}}'
-        - include: inline-formatting
+      push: [javadoc-body, javadoc-block-tag]
 
-  inline-formatting:
-    - include: javadoc-inline-tags
-    - include: scope:text.html.basic
+  javadoc-body:
+    - match: ^\s*(\*)?\s*
+      captures:
+        1: punctuation.definition.comment.javadoc
+      push: javadoc-block-tag
+    - include: javadoc-inline-formatting
 
-  javadoc-block-tag-base:
-    - meta_scope: meta.block-tag.javadoc
-    - include: inline-formatting
+  javadoc-asterisk:
+    - match: ^(?:\s*(\*)\s?)?
+      captures:
+        1: punctuation.definition.comment.javadoc
+      pop: 1
 
-  javadoc-block-tags:
+###[ JAVADOC BLOCK TAGS ]######################################################
+
+  javadoc-block-tag:
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#param
     - match: (@)param\b
       scope: keyword.other.documentation.param.javadoc
       captures:
         1: punctuation.definition.keyword.javadoc
-      push: [javadoc-block-tag-base, param-tag-parameter]
+      set:
+        - javadoc-block-tag-common
+        - javadoc-block-tag-param-args
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#see
     - match: (@)see\b
       scope: keyword.other.documentation.see.javadoc
       captures:
         1: punctuation.definition.keyword.javadoc
-      push: [javadoc-block-tag-base, see-tag-content]
+      set:
+        - javadoc-block-tag-common
+        - javadoc-block-tag-reference
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#throws
     - match: (@)(throws|exception)\b
       scope: keyword.other.documentation.throws.javadoc
       captures:
         1: punctuation.definition.keyword.javadoc
-      push: [javadoc-block-tag-base, reference]
+      set:
+        - javadoc-block-tag-common
+        - javadoc-block-tag-reference
     - match: (@)(uses|provides)\b
       scope: keyword.other.documentation.uses-or-provides.javadoc
       captures:
         1: punctuation.definition.keyword.javadoc
-      push: [javadoc-block-tag-base, reference]
+      set:
+        - javadoc-block-tag-common
+        - javadoc-block-tag-reference
     - match: (@)(return|deprecated|author|version|since|apiNote|impl(?:Note|Spec)|moduleGraph|serial(?:Field|Data)?)\b
       scope: keyword.other.documentation.javadoc
       captures:
         1: punctuation.definition.keyword.javadoc
-      push: javadoc-block-tag-base
-    - match: '@'
-      pop: true
+      set: javadoc-block-tag-common
+    - match: (?=\S)|$
+      pop: 1
 
-  param-tag-parameter:
+  javadoc-block-tag-common:
+    - meta_scope: meta.block-tag.javadoc
+    - include: javadoc-block-tag-terminator
+    - include: javadoc-inline-formatting
+
+  javadoc-block-tag-param-args:
+    - include: javadoc-block-tag-terminator
     - match: \S+
       scope: variable.parameter.javadoc
-      pop: true
+      pop: 1
 
-  see-tag-content:
-    - match: (?=['<])
-      pop: true
-    - match: (?=\S)
-      set: reference
+  javadoc-block-tag-reference:
+    - include: javadoc-block-tag-terminator
+    - include: javadoc-reference
 
-  reference:
-    - match: (?:{{id}}\.)*{{id}}(?:#{{id}})?|#{{id}}
-      scope: markup.underline.link.javadoc
-      set:
-        - match: \(
-          scope: markup.underline.link.javadoc
-          set:
-          - match: \)
-            scope: markup.underline.link.javadoc
-            pop: true
-          - match: .
-            scope: markup.underline.link.javadoc
-        - match: ''
-          pop: true
+  javadoc-block-tag-terminator:
+    - match: (?=^\s*\*?\s*@)
+      pop: 1
+    - match: ^\s*(\*)\s*
+      captures:
+        1: punctuation.definition.comment.javadoc
 
-  javadoc-inline-tag-terminator:
-    - match: \}
-      scope: punctuation.section.inline-tag.end.javadoc
-      pop: true
+###[ JAVADOC INLINE TAGS ]#####################################################
 
-  javadoc-inline-tag-base:
-    - meta_scope: meta.inline-tag.javadoc
-    - include: javadoc-inline-tag-terminator
+  javadoc-inline-formatting:
+    - include: javadoc-inline-tags
+    - include: javadoc-html-tags
 
-  # Multi-line tags mustn't highlight leading asterisk.
   javadoc-inline-tags:
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#code
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#literal
@@ -130,27 +124,26 @@ contexts:
         1: punctuation.section.inline-tag.begin.javadoc
         2: keyword.other.documentation.code-or-literal.javadoc
         3: punctuation.definition.keyword.javadoc
-      push:
-        - meta_scope: meta.inline-tag.javadoc
-        - include: javadoc-inline-tag-terminator
-        - include: code-tag-bracket-balancing
-        - match: ^\s+
-        - match: .
-          scope: markup.raw.javadoc
+      push: javadoc-inline-tag-raw
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#link
     - match: ({)((@)link(?:plain)?)\b
       captures:
         1: punctuation.section.inline-tag.begin.javadoc
         2: keyword.other.documentation.link.javadoc
         3: punctuation.definition.keyword.javadoc
-      push: [javadoc-inline-tag-base, link-tag-label, reference-in-inline-tag]
+      push:
+        - javadoc-inline-tag-common
+        - javadoc-inline-tag-label
+        - javadoc-inline-tag-reference
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#value
     - match: ({)((@)value)\b
       captures:
         1: punctuation.section.inline-tag.begin.javadoc
         2: keyword.other.documentation.value.javadoc
         3: punctuation.definition.keyword.javadoc
-      push: [javadoc-inline-tag-base, reference-in-inline-tag]
+      push:
+        - javadoc-inline-tag-common
+        - javadoc-inline-tag-reference
     # http://openjdk.java.net/jeps/225
     # https://bugs.openjdk.java.net/browse/JDK-8178725
     - match: ({)((@)(?:index|extLink))\b
@@ -158,7 +151,7 @@ contexts:
         1: punctuation.section.inline-tag.begin.javadoc
         2: keyword.other.documentation.javadoc
         3: punctuation.definition.keyword.javadoc
-      push: javadoc-inline-tag-base
+      push: javadoc-inline-tag-common
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#inheritDoc
     - match: ({)((@)inheritDoc)(})
       scope: meta.inline-tag.javadoc
@@ -168,28 +161,93 @@ contexts:
         3: punctuation.definition.keyword.javadoc
         4: punctuation.section.inline-tag.end.javadoc
 
-  code-tag-bracket-balancing:
+  javadoc-inline-tag-common:
+    - meta_scope: meta.inline-tag.javadoc
+    - match: \}
+      scope: punctuation.section.inline-tag.end.javadoc
+      pop: 1
+    - include: javadoc-inline-tag-continuation-1
+
+  javadoc-inline-tag-continuation-1:
+    # Leading asterisk (*) characters on each line are discarded;
+    # Blanks preceding the initial asterisk (*) characters are also discarded.
+    - match: $
+      push:
+        - clear_scopes: 1  # clear `meta.inline-tag`
+        - include: javadoc-inline-tag-continuation-body
+
+  javadoc-inline-tag-continuation-2:
+    # Leading asterisk (*) characters on each line are discarded;
+    # Blanks preceding the initial asterisk (*) characters are also discarded.
+    - match: $
+      push:
+        - clear_scopes: 2  # clear `meta.inline-tag markup.[raw|reference]`
+        - include: javadoc-inline-tag-continuation-body
+
+  javadoc-inline-tag-continuation-body:
+    - match: (?=\})
+      pop: 1
+    - include: javadoc-asterisk
+
+  javadoc-inline-tag-raw:
+    - meta_scope: meta.inline-tag.javadoc
+    - meta_content_scope: markup.raw.javadoc
+    - match: \}
+      scope: punctuation.section.inline-tag.end.javadoc
+      pop: 1
+    - include: javadoc-inline-tag-raw-braces
+
+  javadoc-inline-tag-raw-braces:
     - match: \{
-      scope: markup.raw.javadoc
       push:
         - match: \}
-          scope: markup.raw.javadoc
-          pop: true
-        - include: code-tag-bracket-balancing
-        - match: .
-          scope: markup.raw.javadoc
+          pop: 1
+        - include: javadoc-inline-tag-raw-braces
+    - include: javadoc-inline-tag-continuation-2
 
-  link-tag-label:
+  javadoc-inline-tag-label:
     - match: \s*
       set:
         - meta_content_scope: meta.label.javadoc
-        - include: scope:text.html.basic
         - match: (?=\})
-          pop: true
+          pop: 1
+        - include: javadoc-inline-tag-continuation-2
+        - include: javadoc-html-tags
 
-  reference-in-inline-tag:
-    - match: ''
-      set: reference
-      with_prototype:
-        - match: (?=\})
-          pop: true
+  javadoc-inline-tag-reference:
+    - include: javadoc-inline-tag-continuation-1
+    - include: javadoc-reference
+
+  javadoc-reference:
+    # url
+    - match: \w+://\S+
+      scope: markup.underline.link.javadoc
+    # class reference
+    - match: (?:{{id}}\.)*{{id}}(?:#{{id}})?|#{{id}}
+      scope: markup.underline.link.javadoc
+      set:
+        - match: \(
+          set:
+            - meta_scope: markup.underline.link.javadoc
+            - match: \)
+              pop: 1
+            - include: javadoc-inline-tag-continuation-2
+        - match: ''
+          pop: 1
+    - match: (?=\S)
+      pop: 1
+
+###[ JAVADOC HTML TAGS ]#######################################################
+
+  javadoc-html-tags:
+    - include: comment
+    - include: cdata
+    - include: tag
+    - include: entities
+
+  tag-attributes:
+    - meta_prepend: true
+    - match: ^
+      push:
+        - clear_scopes: 1
+        - include: javadoc-asterisk

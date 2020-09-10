@@ -6980,22 +6980,22 @@ class JavadocTests {
 
   /**
    * <p>Description that starts with tag
-//   ^^^ text.html.javadoc meta.tag
+//   ^^^ comment.block.documentation.javadoc meta.tag
    */
 
   /** <b>One-liner with tags</b> */
-//    ^^^ text.html.javadoc meta.tag
-//                          ^^^ text.html.javadoc meta.tag
+//    ^^^ comment.block.documentation.javadoc meta.tag
+//                          ^^^ comment.block.documentation.javadoc meta.tag
 
   /** @param onFirstLine     @param
 //    ^^^^^^ keyword.other.documentation.param.javadoc
-//                           ^^^^^^ -keyword.other.documentation.param.javadoc
+//                           ^^^^^^ - keyword.other.documentation.param.javadoc
    *  @param normal          @param
-//                           ^^^^^^ -keyword.other.documentation.param.javadoc
+//                           ^^^^^^ - keyword.other.documentation.param.javadoc
 //    ^^^^^^ keyword.other.documentation.param.javadoc
    *
       @param withoutAsterisk @param
-//                           ^^^^^^ -keyword.other.documentation.param.javadoc
+//                           ^^^^^^ - keyword.other.documentation.param.javadoc
 //    ^^^^^^ keyword.other.documentation.param.javadoc
    */
 
@@ -7030,7 +7030,7 @@ class JavadocTests {
 
   /** Not a @param tag */
 // ^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.javadoc
-//          ^^^^^^ -keyword.other.documentation.param.javadoc
+//          ^^^^^^ - keyword.other.documentation.param.javadoc
 
   /**
    * Code blocks
@@ -7044,21 +7044,21 @@ class JavadocTests {
    * {@code List<T> lst = new ArrayList<>()}
 //   ^ punctuation.section.inline-tag.begin.javadoc
 //    ^^^^^ keyword.other.documentation.code-or-literal.javadoc
-//         ^ -markup.raw.javadoc
+//         ^ - markup.raw.javadoc
 //          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.raw.javadoc -meta.tag
 //                                         ^ punctuation.section.inline-tag.end.javadoc
 
    * Multiline, line break in content: {@code x + y
 //                                            ^^^^^ markup.raw.javadoc
-//                                                 ^ -markup.raw.javadoc
+//                                                 ^ - markup.raw.javadoc
    * = z}
-//^^^ -markup.raw.javadoc
+//^^^ - markup.raw.javadoc
 //   ^^^ markup.raw.javadoc
 
    * Multiline, line break before content: {@literal
-//                                                  ^ -markup.raw.javadoc
+//                                                  ^ - markup.raw.javadoc
    * x + y = z}
-//^^^ -markup.raw.javadoc
+//^^^ - markup.raw.javadoc
 //   ^^^^^^^^^ markup.raw.javadoc
 
    * Bracket balancing: {@code int[][] a = {{1, 2, 3}, {4, 5}}}
@@ -7069,9 +7069,9 @@ class JavadocTests {
    * Bracket balancing with line break: {@code int[][] a = {
 //                                      ^ punctuation.section.inline-tag.begin.javadoc
 //                                             ^^^^^^^^^^^^^ markup.raw.javadoc
-//                                                          ^ -markup.raw.javadoc
+//                                                          ^ - markup.raw.javadoc
    * {1, 2, 3}, {4, 5}}}
-//^^^ -markup.raw.javadoc
+//^^^ - markup.raw.javadoc
 //   ^^^^^^^^^^^^^^^^^^ markup.raw.javadoc
 //                     ^ punctuation.section.inline-tag.end.javadoc
    */
@@ -7099,20 +7099,28 @@ class JavadocTests {
    * {@link Class#method(Type, Type)} {@link #method(Type, Type) label}
 //          ^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.javadoc
 //                                           ^^^^^^^^^^^^^^^^^^^ markup.underline.link.javadoc
-//                                                               ^^^^^ meta.label.javadoc -markup.underline.link.javadoc
+//                                                               ^^^^^ meta.label.javadoc - markup.underline.link.javadoc
 
    * Line breaks:
    * {@link Class#method(Type,
    * Type, Type) label}
+//^^^ - meta.inline-tag - markup.underline
+// ^ comment.block.documentation.javadoc punctuation.definition.comment.javadoc
+//   ^^^^^^^^^^^^^^^^^^ meta.inline-tag.javadoc
 //   ^^^^^^^^^^^ markup.underline.link.javadoc
 //               ^^^^^ meta.label.javadoc
-//^^^ -markup.underline.link.javadoc
    * {@link
    * Class#method(Type, Type, Type) label}
+//^^^ - meta.inline-tag - markup.underline
+// ^ comment.block.documentation.javadoc punctuation.definition.comment.javadoc
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inline-tag.javadoc
 //   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.javadoc
 //                                  ^^^^^ meta.label.javadoc
    * {@link Class#method(Type, Type, Type)
    * label}
+//^^^ - meta.inline-tag - markup.underline
+// ^ comment.block.documentation.javadoc punctuation.definition.comment.javadoc
+//   ^^^^^^ meta.inline-tag.javadoc
 //   ^^^^^ meta.label.javadoc
    *
    * Tags in label:
@@ -7136,13 +7144,17 @@ class JavadocTests {
    *
    * @see <a>java.util.stream</a>
 //   ^^^^ keyword.other.documentation.see.javadoc
-//        ^^^^^^^^^^^^^^^^^^^^^^^ -markup.underline.link.javadoc
+//        ^^^^^^^^^^^^^^^^^^^^^^^ - markup.underline.link.javadoc
 //        ^^^ meta.tag
 //                           ^^^ meta.tag
    *
    * @see 'java.util.stream'
 //   ^^^^ keyword.other.documentation.see.javadoc
-//        ^^^^^^^^^^^^^^^^^^ -markup.underline.link.javadoc
+//        ^^^^^^^^^^^^^^^^^^ - markup.underline.link.javadoc
+   *
+   * @see https://wiki.xmldation.com/Support/Validator/ETagUnterminated
+//   ^^^^ keyword.other.documentation.see.javadoc
+//        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.javadoc
    *
    * @throws IOException
 //   ^^^^^^^ keyword.other.documentation.throws.javadoc
@@ -7152,6 +7164,11 @@ class JavadocTests {
 //   ^^^^^^^ keyword.other.documentation.throws.javadoc
 //           ^^^^^^^^^^^ markup.underline.link.javadoc
 //                       ^^^^^^^^^^^^^^^^^^^ - markup.underline.link.javadoc
+   *
+   * @unknown {@code test}
+// ^ punctuation.definition.comment.javadoc
+//   ^^^^^^^^ - keyword
+//            ^^^^^^^^^^^^ meta.inline-tag.javadoc
    */
 
   /**
@@ -7165,6 +7182,43 @@ class JavadocTests {
 // ^ punctuation.definition.comment.javadoc
    *@return Before block tag
 // ^ punctuation.definition.comment.javadoc
+   */
+
+  /**
+   * class <code>{@literal Set<char<?>>}</code>
+//         ^^^^^^ meta.tag
+//               ^^^^^^^^^^^^^^^^^^^^^^^ - meta.tag
+//                                      ^^^^^^^ meta.tag
+   */
+
+  /**
+   * Levenshtein distance algorithm from <a
+//                                       ^^ meta.tag
+//                                        ^ entity.name.tag
+   * href="http://www.merriampark.com/ld.htm"
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.javadoc
+//^^^ - meta.tag
+// ^ punctuation.definition.comment.javadoc
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag meta.attribute-with-value.html
+   * onclick="goto()"
+//^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.javadoc
+//^^^ - meta.tag
+// ^ punctuation.definition.comment.javadoc
+//   ^^^^^^^^^^^^^^^^ meta.tag meta.attribute-with-value.html
+   * >http://www.merriampark.com/ld.htm</a>
+//^^^ comment.block.documentation.javadoc - meta.tag
+// ^ punctuation.definition.comment.javadoc
+//   ^ meta.tag punctuation.definition.tag.end.html
+   * <script>
+//^^^^^^^^^^^^ comment.block.documentation.javadoc
+// ^ punctuation.definition.comment.javadoc
+//   ^^^^^^^^ meta.tag
+   *   let me = 10;
+// ^ punctuation.definition.comment.javadoc
+   * </script>
+//^^^^^^^^^^^^^ comment.block.documentation.javadoc
+// ^ punctuation.definition.comment.javadoc
+//   ^^^^^^^^^ meta.tag
    */
 
   /**
