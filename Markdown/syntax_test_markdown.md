@@ -24,6 +24,7 @@ Alternate Heading
 | <- markup.heading.1
 =================
 |^^^^^^^^^^^^^^^^ markup.heading.1 punctuation.definition
+|                ^ meta.whitespace.newline
 
 heading underlined with dashes
 | <- markup.heading.2
