@@ -287,130 +287,170 @@ $var?->meth()[10];
 //           ^ punctuation.section.brackets.begin
 //              ^ punctuation.section.brackets.end
 
-@@@@@@@@@@ExampleAttribute
-// <- keyword.operator.error-control
-//^^^^^^ keyword.operator.error-control
-//      ^^ punctuation.definition.attribute
-//        ^^^^^^^^^^^^^^^^ meta.path
-@@WithoutArgument
-//^^^^^^^^^^^^^^^ meta.attribute
-// <- punctuation.definition.attribute
-// ^^^^^^^^^^^^^^ meta.path
-@@WithoutArgument()
-//^^^^^^^^^^^^^^^^^ meta.attribute
-// <- punctuation.definition.attribute
-// ^^^^^^^^^^^^^^ meta.path
-@@SingleArgument(0)
-//^^^^^^^^^^^^^^^^^ meta.attribute
-// <- punctuation.definition.attribute
-// ^^^^^^^^^^^^^ meta.path
-@@FewArguments('Hello', 'World')
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
-// <- punctuation.definition.attribute
-// ^^^^^^^^^^^ meta.path
-//             ^^^^^^^ string.quoted
-//                      ^^^^^^^ string.quoted
-@@FewArguments(PDO::class, PHP_VERSION_ID)
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
-// <- punctuation.definition.attribute
-// ^^^^^^^^^^^ meta.path
-//             ^^^ support.class
-//                ^^ punctuation.accessor
-//                         ^^^^^^^^^^^^^^ support.constant
-@@\My\Attributes\FewArguments("foo", "bar")
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
-// <- punctuation.definition.attribute
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path
-//                            ^^^^^ string.quoted
-//                                   ^^^^^ string.quoted
+  # [WithoutArgument]
+//^^^^^^^^^^^^^^^^^^^ comment
+  ##[WithoutArgument]
+//^^^^^^^^^^^^^^^^^^^ comment
+
+  #[WithoutArgument]
+//^^^^^^^^^^^^^^^^^^ meta.attribute - comment
+//^^ punctuation.definition.attribute.begin
+//  ^^^^^^^^^^^^^^^ meta.path
+//                 ^ punctuation.definition.attribute.end
+  #[WithoutArgument()]
+//^^^^^^^^^^^^^^^^^^^^ meta.attribute
+//^^ punctuation.definition.attribute.begin
+//  ^^^^^^^^^^^^^^^ meta.path
+//                 ^^ meta.function-call
+//                   ^ punctuation.definition.attribute.end
+  #[SingleArgument(0)]
+//^^^^^^^^^^^^^^^^^^^^ meta.attribute
+//^^ punctuation.definition.attribute.begin
+//  ^^^^^^^^^^^^^^ meta.path
+//                ^ punctuation.section.group.begin
+//                 ^ constant.numeric
+//                  ^ punctuation.section.group.end
+//                   ^ punctuation.definition.attribute.end
+  #[FewArguments('Hello', 'World')]
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
+//^^ punctuation.definition.attribute.begin
+//  ^^^^^^^^^^^^ meta.path
+//              ^ punctuation.section.group.begin
+//               ^^^^^^^ string.quoted
+//                      ^ punctuation.separator
+//                        ^^^^^^^ string.quoted
+//                               ^ punctuation.section.group.end
+//                                ^ punctuation.definition.attribute.end
+  #[FewArguments(PDO::class, PHP_VERSION_ID), SecondOne(0)]
+//^^ punctuation.definition.attribute.begin
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
+//^^ punctuation.definition.attribute.begin
+//  ^^^^^^^^^^^^ meta.path
+//              ^ punctuation.section.group.begin
+//               ^^^ support.class
+//                  ^^ punctuation.accessor
+//                         ^ punctuation.separator
+//                           ^^^^^^^^^^^^^^ support.constant
+//                                         ^ punctuation.section.group.end
+//                                             ^^^^^^^^ support.class
+//                                                     ^ punctuation.section.group.begin
+//                                                      ^ constant.numeric
+//                                                       ^ punctuation.section.group.end
+//                                                        ^ punctuation.definition.attribute.end
+  #[\My\Attributes\FewArguments("foo", "bar")]
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
+//^^ punctuation.definition.attribute.begin
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path
+//                             ^ punctuation.section.group.begin
+//                              ^^^^^ string.quoted
+//                                   ^ punctuation.separator
+//                                     ^^^^^ string.quoted
+//                                          ^ punctuation.section.group.end
+//                                           ^ punctuation.definition.attribute.end
 /** docblock */
 // <- comment.block
-@@BitShiftExample(4 >> 1, 4 << 1)
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
-// <- punctuation.definition.attribute
-//                  ^^ keyword.operator.bitwise
-//                          ^^ keyword.operator.bitwise
+  #[BitShiftExample(4 >> 1, 4 << 1)]
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
+//^^ punctuation.definition.attribute.begin
+//                    ^^ keyword.operator.bitwise
+//                            ^^ keyword.operator.bitwise
+//                                 ^ punctuation.definition.attribute.end
 function foo() {}
 // <- storage.type.function
 
-@@JoinTable(
-//^^^^^^^^^^ meta.attribute
-// <- punctuation.definition.attribute
-//^^^^^^^^^ support.class
-    "User_Group",
-//  ^^^^^^^^^^^^ string.quoted.double
-    @@JoinColumn("User_id", "id"),
-//  ^^ punctuation.definition.attribute
-//    ^^^^^^^^^ support.class
-    @@JoinColumn("Group_id", "id"),
-//  ^^ punctuation.definition.attribute
-//    ^^^^^^^^^ support.class
-)
-// <- meta.attribute
-// ^ - meta.attribute
-function foo() {}
-// <- storage.type.function
-
-@@ExampleAttribute
-//^^^^^^^^^^^^^^^^ meta.attribute
-// <- punctuation.definition.attribute
-// ^^^^^^^^^^^^^^^ meta.path
+  #[ExampleAttribute]
+//^^^^^^^^^^^^^^^^^^^ meta.attribute
+//^^ punctuation.definition.attribute.begin
+//  ^^^^^^^^^^^^^^^^ meta.path
+//                  ^ punctuation.definition.attribute.end
 class Foo
 {
-    @@ExampleAttribute
-//  ^^^^^^^^^^^^^^^^^^ meta.attribute
-//  ^^ punctuation.definition.attribute
+    #[ExampleAttribute]
+//  ^^^^^^^^^^^^^^^^^^^ meta.attribute
+//  ^^ punctuation.definition.attribute.begin
 //    ^^^^^^^^^^^^^^^^ meta.path
+//                    ^ punctuation.definition.attribute.end
     public const FOO = 'foo';
 
-    @@ExampleAttribute
-//  ^^^^^^^^^^^^^^^^^^ meta.attribute
-//  ^^ punctuation.definition.attribute
+    #[ExampleAttribute]
+//  ^^^^^^^^^^^^^^^^^^^ meta.attribute
+//  ^^ punctuation.definition.attribute.begin
 //    ^^^^^^^^^^^^^^^^ meta.path
+//                    ^ punctuation.definition.attribute.end
+    #[ORM\Column("string", ORM\Column::UNIQUE)]
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
+//  ^^ punctuation.definition.attribute.begin
+//    ^^^^^^^^^^ meta.path
+//              ^ punctuation.section.group.begin
+//               ^^^^^^^^ string.quoted.double
+//                       ^ punctuation.separator
+//                         ^^^^^^^^^^ meta.path
+//                                   ^^ punctuation.accessor.double-colon
+//                                     ^^^^^^ constant.other.class
+//                                           ^ punctuation.section.group.end
+//                                            ^ punctuation.definition.attribute.end
+    #[Assert\Email(["message" => "The email '{{ value }}' is not a valid email."])]
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
+//  ^^ punctuation.definition.attribute.begin
+//    ^^^^^^^^^^^^ meta.path
+//                ^ punctuation.section.group.begin
+//                 ^ punctuation.section.array.begin
+//                  ^^^^^^^^^ string.quoted.double
+//                            ^^ keyword.operator.key
+//                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+//                                                                              ^ punctuation.section.array.end
+//                                                                               ^ punctuation.section.group.end
+//                                                                                ^ punctuation.definition.attribute.end
     public $x;
 
-    @@ExampleAttribute // comment
-//  ^^^^^^^^^^^^^^^^^^ meta.attribute
-//  ^^ punctuation.definition.attribute
+    #[ExampleAttribute] // comment
+//  ^^^^^^^^^^^^^^^^^^^ meta.attribute
+//  ^^ punctuation.definition.attribute.begin
 //    ^^^^^^^^^^^^^^^^ meta.path
-//                       ^^^^^^^^^^ comment
-    public function foo(@@ExampleAttribute \Foo\Bar $bar) { }
-//                      ^^^^^^^^^^^^^^^^^^ meta.attribute
-//                      ^^ punctuation.definition.attribute
+//                    ^ punctuation.definition.attribute.end
+//                      ^^^^^^^^^^ comment
+    public function foo(#[ExampleAttribute] \Foo\Bar $bar) { }
+//                      ^^^^^^^^^^^^^^^^^^^ meta.attribute
+//                      ^^ punctuation.definition.attribute.begin
 //                        ^^^^^^^^^^^^^^^^ meta.path
-//                                         ^^^^^^^^ meta.path
-//                                                  ^^^^ variable.parameter
+//                                        ^ punctuation.definition.attribute.end
+//                                          ^^^^^^^^ meta.path
+//                                                   ^^^^ variable.parameter
 
-    @@Route("/api/posts/{id}", methods: ["GET", "HEAD"])
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
-//  ^^ punctuation.definition.attribute
+    #[Route("/api/posts/{id}", methods: ["GET", "HEAD"])]
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attribute
+//  ^^ punctuation.definition.attribute.begin
 //    ^^^^^ meta.path
 //         ^ punctuation.section.group.begin
 //                           ^ punctuation.separator
 //                             ^^^^^^^ variable.parameter.named
 //                                    ^ punctuation.definition.variable
 //                                                     ^ punctuation.section.group.end
+//                                                      ^ punctuation.definition.attribute.end
     public function show(int $id) { }
 }
 
-$object = new @@ExampleAttribute class () { };
-//            ^^^^^^^^^^^^^^^^^^ meta.attribute
-//            ^^ punctuation.definition.attribute
+$object = new #[ExampleAttribute] class () { };
+//            ^^^^^^^^^^^^^^^^^^^ meta.attribute
+//            ^^ punctuation.definition.attribute.begin
 //              ^^^^^^^^^^^^^^^^ meta.path
-//                               ^^^^^ storage.type
+//                              ^ punctuation.definition.attribute.end
+//                                ^^^^^ storage.type
 
-$f2 = @@ExampleAttribute function () { };
-//    ^^^^^^^^^^^^^^^^^^ meta.attribute
-//    ^^ punctuation.definition.attribute
+$f2 = #[ExampleAttribute] function () { };
+//    ^^^^^^^^^^^^^^^^^^^ meta.attribute
+//    ^^ punctuation.definition.attribute.begin
 //      ^^^^^^^^^^^^^^^^ meta.path
-//                       ^^^^^^^^ storage.type
+//                      ^ punctuation.definition.attribute.end
+//                        ^^^^^^^^ storage.type
 
-$f3 = @@ExampleAttribute fn () => 1;
-//    ^^^^^^^^^^^^^^^^^^ meta.attribute
-//    ^^ punctuation.definition.attribute
+$f3 = #[ExampleAttribute] fn () => 1;
+//    ^^^^^^^^^^^^^^^^^^^ meta.attribute
+//    ^^ punctuation.definition.attribute.begin
 //      ^^^^^^^^^^^^^^^^ meta.path
-//                       ^^ storage.type
-//                             ^^ punctuation.definition.arrow-function
+//                      ^ punctuation.definition.attribute.end
+//                        ^^ storage.type
+//                              ^^ punctuation.definition.arrow-function
 
 /**
    No longer a phpdoc comment since no leading *
