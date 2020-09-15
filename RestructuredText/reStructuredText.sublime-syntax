@@ -89,7 +89,7 @@ contexts:
       captures:
         1: punctuation.definition.substitution.restructuredtext
     - match: (:math:)(`)
-      comment: links `...`_ or `...`__
+      comment: embedded math-mode latex, https://docutils.sourceforge.io/docs/ref/rst/directives.html#math
       captures:
         1: support.function.role.builtin.restructuredtext
         2: punctuation.definition.interpreted.restructuredtext
