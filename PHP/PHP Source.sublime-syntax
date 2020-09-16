@@ -280,7 +280,7 @@ contexts:
         - include: expressions
         - match: ':'
           scope: keyword.operator.ternary.php
-          pop: true
+          pop: 1
     - match: "="
       scope: keyword.operator.assignment.php
     - match: '(?i)\b(instanceof)\s+(?=[[:alpha:]\\$_])'
@@ -372,14 +372,15 @@ contexts:
     # https://wiki.php.net/rfc/attributes_v2
     # https://wiki.php.net/rfc/attribute_amendments
     # https://wiki.php.net/rfc/shorter_attribute_syntax
-    - match: '@@(?=[\\\w])'
-      scope: punctuation.definition.attribute.php
+    # https://wiki.php.net/rfc/shorter_attribute_syntax_change
+    - match: '#\['
+      scope: punctuation.definition.attribute.begin.php
       push:
         - meta_scope: meta.attribute.php
         - include: class-name
         - match: \(
           scope: punctuation.section.group.begin.php
-          set:
+          push:
             - meta_scope: meta.attribute.php meta.function-call.php meta.group.php
             - match: \)
               scope: meta.function-call.php meta.group.php punctuation.section.group.end.php
@@ -388,8 +389,11 @@ contexts:
               scope: punctuation.separator.php
             - include: function-call-named-parameters
             - include: expressions
-        - match: ''
+        - match: \]
+          scope: punctuation.definition.attribute.end.php
           pop: 1
+        - match: ','
+          scope: punctuation.separator.php
 
   class-builtin:
     - match: |-

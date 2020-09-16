@@ -1059,6 +1059,11 @@ class MyClass extends TheirClass {
 //                                ^^^^ meta.property.object
     }
 
+    #privateMethod() {}
+//  ^^^^^^^^^^^^^^^^^^^ meta.function
+//  ^^^^^^^^^^^^^^ entity.name.function.js
+//  ^ punctuation.definition.js
+
     constructor(el)
 //  ^^^^^^^^^^^^^^^ meta.function.declaration
     // ^ entity.name.function.constructor

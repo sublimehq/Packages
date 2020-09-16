@@ -375,12 +375,7 @@ contexts:
     - match: '\s*(\()'
       captures:
         1: punctuation.section.arguments.begin.python
-      push:
-        - meta_scope: meta.function-call.arguments.python
-        - match: \)
-          scope: punctuation.section.arguments.end.python
-          pop: true
-        - include: arguments
+      push: [function-call-arguments, allow-unpack-operators]
     # item access
     - match: '\s*(\[)'
       captures:
@@ -736,7 +731,7 @@ contexts:
           pop: true
         - include: line-continuation-or-pop
         - match: (?=\.?\s*{{path}}\s*\() # now we do
-          set: [decorator-function-call-wrapper, qualified-name-until-leaf]
+          set: [after-expression, decorator-function-call-wrapper, qualified-name-until-leaf]
         - match: (?=\.?\s*{{path}})
           push: [decorator-wrapper, qualified-name-until-leaf]
         - match: \S
@@ -766,15 +761,10 @@ contexts:
     - meta_scope: meta.annotation.function.python
     - match: \)
       scope: punctuation.section.arguments.end.python
-      set: after-expression
+      pop: true
     - match: \(
       scope: meta.annotation.function.python punctuation.section.arguments.begin.python
-      push:
-        - clear_scopes: 1
-        - meta_content_scope: meta.annotation.arguments.python
-        - match: (?=\))
-          pop: true
-        - include: arguments
+      push: [decorator-function-call-arguments, allow-unpack-operators]
     - match: (\.)\s*
       captures:
         1: punctuation.accessor.dot.python
@@ -792,6 +782,13 @@ contexts:
         - include: generic-names
         - match: ''
           pop: true
+
+  decorator-function-call-arguments:
+    - clear_scopes: 1
+    - meta_content_scope: meta.annotation.arguments.python
+    - match: (?=\))
+      pop: true
+    - include: arguments
 
   item-access:
     - match: '(?={{path}}\s*\[)'
@@ -825,12 +822,7 @@ contexts:
       set:
         - match: \(
           scope: punctuation.section.arguments.begin.python
-          set:
-            - meta_scope: meta.function-call.arguments.python
-            - match: \)
-              scope: punctuation.section.arguments.end.python
-              set: after-expression
-            - include: arguments
+          set: [after-expression, function-call-arguments, allow-unpack-operators]
     - match: (\.)\s*(?={{identifier}})
       captures:
         1: punctuation.accessor.dot.python
@@ -848,6 +840,13 @@ contexts:
         - include: generic-names
         - match: ''
           pop: true
+
+  function-call-arguments:
+    - meta_scope: meta.function-call.arguments.python
+    - match: \)
+      scope: punctuation.section.arguments.end.python
+      pop: true
+    - include: arguments
 
   arguments:
     - include: keyword-arguments

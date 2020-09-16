@@ -345,17 +345,19 @@ contexts:
   heading1:
     - meta_scope: markup.heading.1.markdown
     - include: inline-bold-italic-linebreak
-    - match: '^[ \t]{0,3}(={3,})(?=[ \t]*$)'
+    - match: '^[ \t]{0,3}(={3,})(?=[ \t]*$)(\n?)'
       captures:
         1: markup.heading.1.setext.markdown punctuation.definition.heading.setext.markdown
+        2: meta.whitespace.newline.markdown
       pop: true
 
   heading2:
     - meta_scope: markup.heading.2.markdown
     - include: inline-bold-italic-linebreak
-    - match: '^[ \t]{0,3}(-{3,})(?=[ \t]*$)'
+    - match: '^[ \t]{0,3}(-{3,})(?=[ \t]*$)(\n?)'
       captures:
         1: markup.heading.2.setext.markdown punctuation.definition.heading.setext.markdown
+        2: meta.whitespace.newline.markdown
       pop: true
 
   ampersand:

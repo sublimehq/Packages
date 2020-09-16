@@ -209,6 +209,12 @@ call(2**10, *range(10), **dict(), * *{}, ***a)
 #                                 ^ keyword.operator.unpacking.sequence.python
 #                                   ^ - keyword.operator.unpacking
 #                                        ^^^ invalid.illegal.syntax.python
+call(*args, **kwargs)
+#    ^ keyword.operator.unpacking.sequence.python
+#           ^^ keyword.operator.unpacking.mapping.python
+
+call(**kwargs)
+#    ^^ keyword.operator.unpacking.mapping.python
 
 if p.type not in ('NUMBER', 'INTEGER'):
 #             ^^ keyword.operator - meta.function-call invalid
@@ -946,6 +952,12 @@ class Class():
 #                                           ^^^^^^^^^ comment - meta.annotation
     def wrapper(self):
         return self.__class__(method)
+
+    @deco(*args)
+#         ^ keyword.operator.unpacking.sequence.python
+
+    @deco(**kwargs)
+#         ^^ keyword.operator.unpacking.mapping.python
 
     @deco #comment
 #^^^ - meta.annotation
