@@ -66,60 +66,68 @@
 --NUMBERS
 
     0;
---  ^ constant.numeric.integer.decimal
+--  ^ meta.number.integer.decimal constant.numeric.value
 
     1234567890;
---  ^^^^^^^^^^ constant.numeric.integer.decimal
+--  ^^^^^^^^^^ meta.number.integer.decimal constant.numeric.value
 
     12.345;
---  ^^^^^^ constant.numeric.float.decimal
+--  ^^^^^^ meta.number.float.decimal constant.numeric.value
 --    ^ punctuation.separator.decimal
 
     1.;
---  ^^ constant.numeric.float.decimal
+--  ^^ meta.number.float.decimal constant.numeric.value
 --   ^ punctuation.separator.decimal
 
     .2;
---  ^^ constant.numeric.float.decimal
+--  ^^ meta.number.float.decimal constant.numeric.value
 --  ^ punctuation.separator.decimal
 
     1e10;
---  ^^^^ constant.numeric.float.decimal
+--  ^^^^ meta.number.float.decimal constant.numeric.value
 
     0.5e+0;
---  ^^^^^^ constant.numeric.float.decimal
+--  ^^^^^^ meta.number.float.decimal constant.numeric.value
 --   ^ punctuation.separator.decimal
 
     9e-1;
---  ^^^^ constant.numeric.float.decimal
+--  ^^^^ meta.number.float.decimal constant.numeric.value
 
     0x0;
---  ^^^ constant.numeric.integer.hexadecimal
---  ^^ punctuation.definition.numeric.base
+--  ^^^ meta.number.integer.hexadecimal constant.numeric
+--  ^^ constant.numeric.base
+--    ^ constant.numeric.value
 
     0XdeafBEEF42;
---  ^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
---  ^^ punctuation.definition.numeric.base
+--  ^^^^^^^^^^^^ meta.number.integer.hexadecimal constant.numeric
+--  ^^ constant.numeric.base
+--    ^^^^^^^^^^ constant.numeric.value
 
     0xa.bc + 0xa. + 0x.b;
---  ^^^^^^ constant.numeric.float.hexadecimal
---  ^^ punctuation.definition.numeric.base
+--  ^^^^^^ meta.number.float.hexadecimal constant.numeric
+--  ^^ constant.numeric.base
+--    ^^^^ constant.numeric.value
 --     ^ punctuation.separator.decimal
---           ^^^^ constant.numeric.float.hexadecimal
---           ^^ punctuation.definition.numeric.base
+--           ^^^^ meta.number.float.hexadecimal constant.numeric
+--           ^^ constant.numeric.base
+--             ^^ constant.numeric.value
 --              ^ punctuation.separator.decimal
---                  ^^^^ constant.numeric.float.hexadecimal
---                  ^^ punctuation.definition.numeric.base
+--                  ^^^^ meta.number.float.hexadecimal constant.numeric
+--                  ^^ constant.numeric.base
+--                    ^^ constant.numeric.value
 --                    ^ punctuation.separator.decimal
 
     0x1p10 + 0x1.p10 + 0x.1p10;
---  ^^^^^^ constant.numeric.float.hexadecimal
---  ^^ punctuation.definition.numeric.base
---           ^^^^^^^ constant.numeric.float.hexadecimal
---           ^^ punctuation.definition.numeric.base
+--  ^^^^^^ meta.number.float.hexadecimal constant.numeric
+--  ^^ constant.numeric.base
+--    ^^^^ constant.numeric.value
+--           ^^^^^^^ meta.number.float.hexadecimal constant.numeric
+--           ^^ constant.numeric.base
+--             ^^^^^ constant.numeric.value
 --              ^ punctuation.separator.decimal
---                     ^^^^^^^ constant.numeric.float.hexadecimal
---                     ^^ punctuation.definition.numeric.base
+--                     ^^^^^^^ meta.number.float.hexadecimal constant.numeric
+--                     ^^ constant.numeric.base
+--                       ^^^^^ constant.numeric.value
 --                       ^ punctuation.separator.decimal
 
     'foo';
@@ -229,11 +237,11 @@
 
     -1;
 --  ^ keyword.operator.arithmetic
---   ^ constant.numeric.integer.decimal
+--   ^ meta.number.integer.decimal constant.numeric.value
 
     ~1;
 --  ^ keyword.operator.bitwise
---   ^ constant.numeric.integer.decimal
+--   ^ meta.number.integer.decimal constant.numeric.value
 
     not true;
 --  ^^^ keyword.operator.logical
@@ -311,7 +319,7 @@
     {some = 2}, {some == 2}
 --   ^^^^ meta.mapping.key string.unquoted.key.lua
 --        ^ punctuation.separator.key-value.lua
---          ^ meta.mapping.value constant.numeric.integer.decimal
+--          ^ meta.mapping.value meta.number.integer.decimal constant.numeric.value
 --               ^^^^ variable.other.lua - meta.mapping.key
 --                    ^^ keyword.operator.comparison
 
@@ -592,9 +600,9 @@
 --  ^^^^^ storage.modifier
 --        ^ variable.other
 --          ^ keyword.operator.assignment
---            ^ constant.numeric.integer.decimal
+--            ^ meta.number.integer.decimal constant.numeric.value
 --             ^ punctuation.separator.comma
 --               ^ variable.other
 --                 ^ keyword.operator.assignment
---                   ^ constant.numeric.integer.decimal
+--                   ^ meta.number.integer.decimal constant.numeric.value
 --                    ^ punctuation.terminator.statement
