@@ -769,11 +769,16 @@ hex1 = 0x0+0xFL+0xaull+0xallu+0xfu+0x'f'12_4uz;
 /*                                        ^^^^ invalid.illegal.numeric.suffix */
 /*                                            ^ punctuation.terminator - constant */
 
-hex2 = 0xc1.01AbFp-1;
+hex2 = 0xc1.01AbFp-1+0x1.45c778p+7f;
 /*     ^^^^^^^^^^^^^ constant.numeric.float.hexadecimal */
 /*     ^^ punctuation.definition.numeric.base */
 /*         ^ punctuation.separator.decimal */
-/*                  ^ punctuation.terminator - constant */
+/*                  ^ keyword.operator.arithmetic - constant */
+/*                   ^^^^^^^^^^^^^^ constant.numeric.float.hexadecimal */
+/*                   ^^ punctuation.definition.numeric.base */
+/*                      ^ punctuation.separator.decimal */
+/*                                ^ storage.type.numeric */
+/*                                 ^ punctuation.terminator - constant */
 
 f = 1.1+1.1e1+1.1e-1+1.1f+1.1e1f+1.1e-1f+1.1L+1.1e1L+1.1e-1L;
 /*  ^^^ constant.numeric.float.decimal */
