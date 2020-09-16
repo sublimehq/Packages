@@ -1835,44 +1835,49 @@ contexts:
           # .1, .1e1, .1e-1
           | (\.) {{dec_digit}}+ (?:{{dec_exponent}})?
         ){{identifier_break}}
+      scope: meta.number.float.decimal.js constant.numeric.value.js
       captures:
-        0: meta.number.float.decimal.js constant.numeric.value.js
         1: punctuation.separator.decimal.js
         2: punctuation.separator.decimal.js
       pop: true
 
     # integers
     - match: (0)({{dec_digit}}+){{identifier_break}}
+      scope: meta.number.integer.octal.js
       captures:
-        1: meta.number.integer.octal.js constant.numeric.base.js invalid.deprecated.numeric.octal.js
-        2: meta.number.integer.octal.js constant.numeric.value.js invalid.deprecated.numeric.octal.js
+        1: constant.numeric.base.js invalid.deprecated.numeric.octal.js
+        2: constant.numeric.value.js invalid.deprecated.numeric.octal.js
       pop: true
 
     - match: (0[Xx])({{hex_digit}}*)(n)?{{identifier_break}}
+      scope: meta.number.integer.hexadecimal.js
       captures:
-        1: meta.number.integer.hexadecimal.js constant.numeric.base.js
-        2: meta.number.integer.hexadecimal.js constant.numeric.value.js
-        3: meta.number.integer.hexadecimal.js constant.numeric.suffix.js
+        1: constant.numeric.base.js
+        2: constant.numeric.value.js
+        3: constant.numeric.suffix.js
       pop: true
 
     - match: (0[Oo])({{oct_digit}}*)(n)?{{identifier_break}}
+      scope: meta.number.integer.octal.js
       captures:
-        1: meta.number.integer.octal.js constant.numeric.base.js
-        2: meta.number.integer.octal.js constant.numeric.value.js
-        3: meta.number.integer.octal.js constant.numeric.suffix.js
+        1: constant.numeric.base.js
+        2: constant.numeric.value.js
+        3: constant.numeric.suffix.js
       pop: true
 
     - match: (0[Bb])({{bin_digit}}*)(n)?{{identifier_break}}
+      scope: meta.number.integer.binary.js
       captures:
-        1: meta.number.integer.binary.js constant.numeric.base.js
-        2: meta.number.integer.binary.js constant.numeric.value.js
-        3: meta.number.integer.binary.js constant.numeric.suffix.js
+        1: constant.numeric.base.js
+        2: constant.numeric.value.js
+        3: constant.numeric.suffix.js
       pop: true
 
     - match: ({{dec_integer}})(n|(?!\.)){{identifier_break}}
+      scope: meta.number.integer.decimal.js
       captures:
-        1: meta.number.integer.decimal.js constant.numeric.value.js
-        2: meta.number.integer.decimal.js constant.numeric.suffix.js
+        1: constant.numeric.value.js
+        2: constant.numeric.suffix.js
       pop: true
 
     # illegal numbers
