@@ -15,8 +15,6 @@
 	<dict>
 		<key>showInSymbolList</key>
 		<integer>1</integer>
-		<key>symbolTransformation</key>
-		<string><![CDATA[/^/func /]]></string>
 	</dict>
 </dict>
 </plist>

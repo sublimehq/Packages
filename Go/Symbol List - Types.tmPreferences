@@ -11,8 +11,6 @@
 		<integer>1</integer>
 		<key>showInIndexedSymbolList</key>
 		<integer>1</integer>
-		<key>symbolTransformation</key>
-		<string><![CDATA[/^/type /]]></string>
 	</dict>
 </dict>
 </plist>
