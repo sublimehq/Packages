@@ -205,7 +205,7 @@ contexts:
       push:
         - meta_include_prototype: false
         - meta_scope: constant.numeric.float.hexadecimal.c
-        - match: '{{hex_exponent}}([fFlL])?'
+        - match: '{{hex_exponent}}([fFlL]\b)?'
           captures:
             1: storage.type.numeric.c
           pop: true
