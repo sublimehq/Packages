@@ -1541,24 +1541,31 @@ contexts:
     - match: (')[^']+(')
       scope: invalid.illegal.not_a_char.cs
     # numbers
-    - match: (0[xX])[\h_]*\h
-      scope: constant.numeric.integer.hexadecimal.cs
+    - match: (0[xX])([\h_]*\h)
+      scope: meta.number.integer.hexadecimal.cs
       captures:
-        1: punctuation.definition.numeric.base.cs
-    - match: (0[bB])[01_]*[01]
-      scope: constant.numeric.integer.binary.cs
+        1: constant.numeric.base.cs
+        2: constant.numeric.value.cs
+    - match: (0[bB])([01_]*[01])
+      scope: meta.number.integer.binary.cs
       captures:
-        1: punctuation.definition.numeric.base.cs
-    - match: '{{dec_digits}}(?:(?:(?:(\.){{dec_digits}}){{dec_exponent}}?|{{dec_exponent}})({{float_suffix}})?|({{float_suffix}}))'
-      scope: constant.numeric.float.decimal.cs
+        1: constant.numeric.base.cs
+        2: constant.numeric.value.cs
+    - match: '({{dec_digits}})(?:(?:((\.){{dec_digits}})({{dec_exponent}})?|({{dec_exponent}}))({{float_suffix}})?|({{float_suffix}}))'
+      scope: meta.number.float.decimal.cs
       captures:
-        1: punctuation.separator.decimal.cs
-        2: storage.type.numeric.cs
-        3: storage.type.numeric.cs
-    - match: (?:0|[1-9]{{dec_digits}}?)({{integer_suffix}})?
-      scope: constant.numeric.integer.decimal.cs
+        1: constant.numeric.value.cs
+        2: constant.numeric.value.cs
+        3: punctuation.separator.decimal.cs
+        4: constant.numeric.value.exponent.cs
+        5: constant.numeric.value.exponent.cs
+        6: constant.numeric.suffix.cs
+        7: constant.numeric.suffix.cs
+    - match: (0|[1-9]{{dec_digits}}?)({{integer_suffix}})?
+      scope: meta.number.integer.decimal.cs
       captures:
-        1: storage.type.numeric.cs
+        1: constant.numeric.value.cs
+        2: constant.numeric.suffix.cs
     # strings
     - match: '"'
       scope: punctuation.definition.string.begin.cs

@@ -587,17 +587,17 @@ namespace TestNamespace.Test
 ///         ^^^ storage.type.variable
 ///             ^ variable.other
 ///                 ^^^^ constant.numeric
-///                     ^ storage.type.numeric
+///                     ^ constant.numeric.suffix
             var l = 11545L;
 ///         ^^^ storage.type.variable
 ///             ^ variable.other
 ///                 ^^^^^ constant.numeric
-///                      ^ storage.type.numeric
+///                      ^ constant.numeric.suffix
             var d = 11545D;
 ///         ^^^ storage.type.variable
 ///             ^ variable.other
 ///                 ^^^^^ constant.numeric
-///                      ^ storage.type.numeric
+///                      ^ constant.numeric.suffix
             int x = 1, y = 0;
 ///         ^^^ storage.type
 ///             ^ variable.other
@@ -849,7 +849,7 @@ namespace TestNamespace.Test
 ///                                                             ^^ storage.type.function.lambda.cs
 ///                                                                ^ variable.other.cs
 ///                                                                  ^ keyword.operator.cs
-///                                                                    ^ constant.numeric.integer.decimal.cs
+///                                                                    ^ meta.number.integer.decimal.cs
 ///                                                                     ^ - meta.function.anonymous
 
             var shortDigits = digits.Where((digit, index) => digit.Length < index);
