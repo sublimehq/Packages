@@ -77,7 +77,7 @@
         y = 2,
 //      ^ variable.other.readwrite
 //        ^ keyword.operator.assignment
-//          ^ constant.numeric.integer.decimal
+//          ^ meta.number.integer.decimal.js constant.numeric.value.js
 //           ^ punctuation.separator.comma
 
         'FOO'
@@ -412,7 +412,7 @@ let x: any [ "foo" | 'bar' ];
 let x: any [ 0 ];
 //         ^^^^^ meta.type meta.brackets
 //         ^ punctuation.section.brackets.begin
-//           ^ constant.numeric.integer.decimal
+//           ^ meta.number.integer.decimal.js constant.numeric.value.js
 //             ^ punctuation.section.brackets.end
 
 let x: any [
@@ -477,7 +477,7 @@ let x: 'a string';
 //     ^ meta.type meta.string string.quoted.single
 
 let x: 42;
-//     ^^ meta.type constant.numeric.integer.decimal
+//     ^^ meta.number.integer.decimal.js constant.numeric.value.js
 
 let x: typeof Foo;
 //     ^^^^^^^^^^ meta.type
