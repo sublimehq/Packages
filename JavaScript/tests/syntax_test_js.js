@@ -1857,86 +1857,88 @@ function yy (a, b) {
 // Integers
 
     123_456_789_0n;
-//  ^^^^^^^^^^^^^ meta.number.value.js constant.numeric.integer.decimal.js
-//               ^ meta.number.suffix.js constant.numeric.integer.decimal.js
+//  ^^^^^^^^^^^^^ meta.number.integer.decimal.js constant.numeric.value.js
+//               ^ meta.number.integer.decimal.js constant.numeric.suffix.js
 
     0;
-//  ^ meta.number.value.js constant.numeric.integer.decimal.js
+//  ^ meta.number.integer.decimal.js constant.numeric.value.js
 
     123 .foo;
-//  ^^^ constant.numeric.integer.decimal
+//  ^^^ meta.number.integer.decimal.js constant.numeric.value.js
 //      ^ punctuation.accessor
 //       ^^^ meta.property.object
 
     +123;
 //  ^ keyword.operator.arithmetic
-//   ^^^ constant.numeric.integer.decimal - keyword
+//   ^^^ meta.number.integer.decimal.js constant.numeric.value.js - keyword
 
     -123;
 //  ^ keyword.operator.arithmetic
-//   ^^^ constant.numeric.integer.decimal - keyword
+//   ^^^ meta.number.integer.decimal.js constant.numeric.value.js - keyword
 
     + 123;
 //  ^ keyword.operator.arithmetic
+//   ^ - keyword - constant
+//    ^^^ meta.number.integer.decimal.js constant.numeric.value.js - keyword
 
     123xyz;
 //  ^^^^^^ invalid.illegal.numeric.decimal
 
     0123456789;
-//  ^ meta.number.base.js constant.numeric.integer.octal.js invalid.deprecated.numeric.octal.js
-//   ^^^^^^^^^ meta.number.value.js constant.numeric.integer.octal.js invalid.deprecated.numeric.octal.js
+//  ^ meta.number.integer.octal.js constant.numeric.base.js invalid.deprecated.numeric.octal.js
+//   ^^^^^^^^^ meta.number.integer.octal.js constant.numeric.value.js invalid.deprecated.numeric.octal.js
 
     0123456789xyz;
 //  ^^^^^^^^^^^^^ invalid.illegal.numeric.octal
 
     0123456789.xyz;
-//  ^ meta.number.base.js constant.numeric.integer.octal.js invalid.deprecated.numeric.octal.js
-//   ^^^^^^^^^ meta.number.value.js constant.numeric.integer.octal.js invalid.deprecated.numeric.octal.js
+//  ^ meta.number.integer.octal.js constant.numeric.base.js invalid.deprecated.numeric.octal.js
+//   ^^^^^^^^^ meta.number.integer.octal.js constant.numeric.value.js invalid.deprecated.numeric.octal.js
 //            ^ punctuation.accessor
 //             ^^^ meta.property.object
 
     0123456789.123;
-//  ^ meta.number.base.js constant.numeric.integer.octal.js invalid.deprecated.numeric.octal.js
-//   ^^^^^^^^^ meta.number.value.js constant.numeric.integer.octal.js invalid.deprecated.numeric.octal.js
+//  ^ meta.number.integer.octal.js constant.numeric.base.js invalid.deprecated.numeric.octal.js
+//   ^^^^^^^^^ meta.number.integer.octal.js constant.numeric.value.js invalid.deprecated.numeric.octal.js
 //            ^ punctuation.accessor.js
 //             ^^^ invalid.illegal.illegal-identifier
 
     0b0110_1001_1001_0110n;
-//  ^^ meta.number.base.js constant.numeric.integer.binary.js
-//    ^^^^^^^^^^^^^^^^^^^ meta.number.value.js constant.numeric.integer.binary.js
-//                       ^ meta.number.suffix.js constant.numeric.integer.binary.js
+//  ^^ meta.number.integer.binary.js constant.numeric.base.js
+//    ^^^^^^^^^^^^^^^^^^^ meta.number.integer.binary.js constant.numeric.value.js
+//                       ^ meta.number.integer.binary.js constant.numeric.suffix.js
 
     0o0123_4567n;
-//  ^^ meta.number.base.js constant.numeric.integer.octal.js
-//    ^^^^^^^^^ meta.number.value.js constant.numeric.integer.octal.js
-//             ^ meta.number.suffix.js constant.numeric.integer.octal.js
+//  ^^ meta.number.integer.octal.js constant.numeric.base.js
+//    ^^^^^^^^^ meta.number.integer.octal.js constant.numeric.value.js
+//             ^ meta.number.integer.octal.js constant.numeric.suffix.js
 
     0x01_23_45_67_89_ab_CD_efn;
-//  ^^ meta.number.base.js constant.numeric.integer.hexadecimal.js
-//    ^^^^^^^^^^^^^^^^^^^^^^^ meta.number.value.js constant.numeric.integer.hexadecimal.js
-//                           ^ meta.number.suffix.js constant.numeric.integer.hexadecimal.js
+//  ^^ meta.number.integer.hexadecimal.js constant.numeric.base.js
+//    ^^^^^^^^^^^^^^^^^^^^^^^ meta.number.integer.hexadecimal.js constant.numeric.value.js
+//                           ^ meta.number.integer.hexadecimal.js constant.numeric.suffix.js
 
     0B0; 0O0; 0X0;
-//  ^^ meta.number.base.js constant.numeric.integer.binary.js
-//    ^ meta.number.value.js constant.numeric.integer.binary.js
+//  ^^ meta.number.integer.binary.js constant.numeric.base.js
+//    ^ meta.number.integer.binary.js constant.numeric.value.js
 //     ^ punctuation.terminator.statement.js
-//       ^^ meta.number.base.js constant.numeric.integer.octal.js
-//         ^ meta.number.value.js constant.numeric.integer.octal.js
+//       ^^ meta.number.integer.octal.js constant.numeric.base.js
+//         ^ meta.number.integer.octal.js constant.numeric.value.js
 //          ^ punctuation.terminator.statement.js
-//            ^^ meta.number.base.js constant.numeric.integer.hexadecimal.js
-//              ^ meta.number.value.js constant.numeric.integer.hexadecimal.js
+//            ^^ meta.number.integer.hexadecimal.js constant.numeric.base.js
+//              ^ meta.number.integer.hexadecimal.js constant.numeric.value.js
 //               ^ punctuation.terminator.statement.js
 
     0b1.foo;
 //  ^^^^^^^ - invalid
-//  ^^ meta.number.base.js constant.numeric.integer.binary.js
-//    ^ meta.number.value.js constant.numeric.integer.binary.js
+//  ^^ meta.number.integer.binary.js constant.numeric.base.js
+//    ^ meta.number.integer.binary.js constant.numeric.value.js
 //     ^ punctuation.accessor
 //      ^^^ meta.property.object
 
     0b1.0;
-//  ^^ meta.number.base.js constant.numeric.integer.binary.js
-//    ^ meta.number.value.js constant.numeric.integer.binary.js
+//  ^^ meta.number.integer.binary.js constant.numeric.base.js
+//    ^ meta.number.integer.binary.js constant.numeric.value.js
 //     ^ punctuation.accessor
 //      ^ invalid.illegal.illegal-identifier
 
@@ -1947,27 +1949,27 @@ function yy (a, b) {
 // Floats
 
     1_234_567_890.123_456_789_0;
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number.value.js constant.numeric.float.decimal.js
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number.float.decimal.js constant.numeric.value.js
 //               ^ punctuation.separator.decimal.js
 
     .123_456_789_0;
-//  ^^^^^^^^^^^^^^ meta.number.value.js constant.numeric.float.decimal.js
+//  ^^^^^^^^^^^^^^ meta.number.float.decimal.js constant.numeric.value.js
 //  ^ punctuation.separator.decimal
 
     12345e6_7_8;
-//  ^^^^^^^^^^^ meta.number.value.js constant.numeric.float.decimal.js
+//  ^^^^^^^^^^^ meta.number.float.decimal.js constant.numeric.value.js
 
     123.456e+789;
-//  ^^^^^^^^^^^^ meta.number.value.js constant.numeric.float.decimal.js
+//  ^^^^^^^^^^^^ meta.number.float.decimal.js constant.numeric.value.js
 //     ^ punctuation.separator.decimal
 
     .123E-7_8_9;
-//  ^^^^^^^^^^^ meta.number.value.js constant.numeric.float.decimal.js
+//  ^^^^^^^^^^^ meta.number.float.decimal.js constant.numeric.value.js
 //  ^ punctuation.separator.decimal
 
     0123.45;
-//  ^ meta.number.base.js constant.numeric.integer.octal.js invalid.deprecated.numeric.octal.js
-//   ^^^ meta.number.value.js constant.numeric.integer.octal.js invalid.deprecated.numeric.octal.js
+//  ^ meta.number.integer.octal.js constant.numeric.base.js invalid.deprecated.numeric.octal.js
+//   ^^^ meta.number.integer.octal.js constant.numeric.value.js invalid.deprecated.numeric.octal.js
 //      ^ punctuation.accessor
 //       ^^ invalid.illegal - constant.numeric
 
@@ -1978,7 +1980,7 @@ function yy (a, b) {
 //  ^^^^^^ invalid.illegal.numeric.decimal
 
     123..foo;
-//  ^^^^ meta.number.value.js constant.numeric.float.decimal.js
+//  ^^^^ meta.number.float.decimal.js constant.numeric.value.js
 //      ^ punctuation.accessor
 //       ^^^ meta.property.object
 
