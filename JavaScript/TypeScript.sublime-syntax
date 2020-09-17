@@ -352,6 +352,9 @@ contexts:
 
   function-parameter-binding-list:
     - meta_prepend: true
+
+    - include: decorator
+
     - match: (?:private|public|protected|readonly){{identifier_break}}
       scope: storage.modifier.js
 
