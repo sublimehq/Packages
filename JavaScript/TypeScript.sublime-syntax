@@ -417,7 +417,6 @@ contexts:
         - ts-type-expression-end
         - ts-type-expression-end-no-line-terminator
         - ts-type-expression-begin
-    - match: (?=\b\B)
 
   ts-type-assertion:
     - match: '!(?!\.)'
