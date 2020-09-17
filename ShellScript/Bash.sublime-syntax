@@ -1037,7 +1037,9 @@ contexts:
   redirections-process:
     - match: (\d*)([<>])(\()
       captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
+        1: meta.file-descriptor.shell
+           meta.number.integer.decimal.shell
+           constant.numeric.value.shell
         2: keyword.operator.assignment.redirection.process.shell
         3: meta.compound.shell
            punctuation.section.compound.begin.shell
@@ -1053,21 +1055,27 @@ contexts:
   redirections-output:
     - match: (\d*)(>>!?|>&?|&>|&?>[|>])
       captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
+        1: meta.file-descriptor.shell
+           meta.number.integer.decimal.shell
+           constant.numeric.value.shell
         2: keyword.operator.assignment.redirection.shell
       push: redirections-post
 
   redirections-input:
     - match: (\d*)(<&?)
       captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
+        1: meta.file-descriptor.shell
+           meta.number.integer.decimal.shell
+           constant.numeric.value.shell
         2: keyword.operator.assignment.redirection.shell
       push: redirections-post
 
   redirections-post:
     - match: \s*(?:(\d+)|(-))
       captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
+        1: meta.file-descriptor.shell
+           meta.number.integer.decimal.shell
+           constant.numeric.value.shell
         2: punctuation.terminator.file-descriptor.shell
       pop: 1
     - match: \s*(?=\S)
@@ -1081,20 +1089,26 @@ contexts:
   redirections-inout:
     - match: (\d*)(<>)
       captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
+        1: meta.file-descriptor.shell
+           meta.number.integer.decimal.shell
+           constant.numeric.value.shell
         2: keyword.operator.assignment.redirection.shell
 
   redirections-here-string:
     - match: (\d*)(<<<)\s*{{nonposix_begin}}
       captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
+        1: meta.file-descriptor.shell
+           meta.number.integer.decimal.shell
+           constant.numeric.value.shell
         2: keyword.operator.herestring.shell
 
   redirections-here-document:
     # These are the variants that allow tabs before the end token
     - match: (\d*)(<<-)\s*((')({{identifier}})('))
       captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
+        1: meta.file-descriptor.shell
+           meta.number.integer.decimal.shell
+           constant.numeric.value.shell
         2: keyword.operator.assignment.redirection.shell
         3: meta.string.heredoc.shell meta.tag.heredoc.shell
         4: punctuation.definition.tag.begin.shell
@@ -1103,7 +1117,9 @@ contexts:
       push: [heredocs-body-allow-tabs-no-expansion, heredocs-preamble]
     - match: (\d*)(<<-)\s*((")({{identifier}})("))
       captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
+        1: meta.file-descriptor.shell
+           meta.number.integer.decimal.shell
+           constant.numeric.value.shell
         2: keyword.operator.assignment.redirection.shell
         3: meta.string.heredoc.shell meta.tag.heredoc.shell
         4: punctuation.definition.tag.begin.shell
@@ -1112,7 +1128,9 @@ contexts:
       push: [heredocs-body-allow-tabs-no-expansion, heredocs-preamble]
     - match: (\d*)(<<-)\s*((\\)({{identifier}}))
       captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
+        1: meta.file-descriptor.shell
+           meta.number.integer.decimal.shell
+           constant.numeric.value.shell
         2: keyword.operator.assignment.redirection.shell
         3: meta.string.heredoc.shell meta.tag.heredoc.shell
         4: punctuation.definition.tag.shell
@@ -1120,14 +1138,18 @@ contexts:
       push: [heredocs-body-allow-tabs-no-expansion, heredocs-preamble]
     - match: (\d*)(<<-)\s*({{identifier}})
       captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
+        1: meta.file-descriptor.shell
+           meta.number.integer.decimal.shell
+           constant.numeric.value.shell
         2: keyword.operator.assignment.redirection.shell
         3: meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
       push: [heredocs-body-allow-tabs, heredocs-preamble]
     # These are the variants that DON'T allow tabs before the end token
     - match: (\d*)(<<)\s*((')({{identifier}})('))
       captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
+        1: meta.file-descriptor.shell
+           meta.number.integer.decimal.shell
+           constant.numeric.value.shell
         2: keyword.operator.assignment.redirection.shell
         3: meta.string.heredoc.shell meta.tag.heredoc.shell
         4: punctuation.definition.tag.begin.shell
@@ -1136,7 +1158,9 @@ contexts:
       push: [heredocs-body-no-expansion, heredocs-preamble]
     - match: (\d*)(<<)\s*((")({{identifier}})("))
       captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
+        1: meta.file-descriptor.shell
+           meta.number.integer.decimal.shell
+           constant.numeric.value.shell
         2: keyword.operator.assignment.redirection.shell
         3: meta.string.heredoc.shell meta.tag.heredoc.shell
         4: punctuation.definition.tag.begin.shell
@@ -1145,7 +1169,9 @@ contexts:
       push: [heredocs-body-no-expansion, heredocs-preamble]
     - match: (\d*)(<<)\s*((\\)({{identifier}}))
       captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
+        1: meta.file-descriptor.shell
+           meta.number.integer.decimal.shell
+           constant.numeric.value.shell
         2: keyword.operator.assignment.redirection.shell
         3: meta.string.heredoc.shell meta.tag.heredoc.shell
         4: punctuation.definition.tag.shell
@@ -1153,7 +1179,9 @@ contexts:
       push: [heredocs-body-no-expansion, heredocs-preamble]
     - match: (\d*)(<<)\s*({{identifier}})
       captures:
-        1: constant.numeric.integer.decimal.file-descriptor.shell
+        1: meta.file-descriptor.shell
+           meta.number.integer.decimal.shell
+           constant.numeric.value.shell
         2: keyword.operator.assignment.redirection.shell
         3: meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
       push: [heredocs-body, heredocs-preamble]
@@ -1301,50 +1329,55 @@ contexts:
   numbers:
     # A leading ‘0x’ or ‘0X’ denotes hexadecimal.
     - match: \b(0[xX])(\h*)
+      scope: meta.number.integer.hexadecimal.shell
       captures:
-        1: meta.number.base.shell constant.numeric.integer.hexadecimal.shell
-        2: meta.number.value.shell constant.numeric.integer.hexadecimal.shell
+        1: constant.numeric.base.shell
+        2: constant.numeric.value.shell
     # Constants with a leading 0 are interpreted as octal numbers.
     - match: \b(0)([0-7]+)
+      scope: meta.number.integer.octal.shell
       captures:
-        1: meta.number.base.shell constant.numeric.integer.octal.shell
-        2: meta.number.value.shell constant.numeric.integer.octal.shell
+        1: constant.numeric.base.shell
+        2: constant.numeric.value.shell
     # Otherwise, numbers take the form [base#]n, where the optional base is a
     # decimal number between 2 and 64 representing the arithmetic base, and n is
     # a number in that base. When specifying n, the digits greater than 9 are
     # represented by the lowercase letters, the uppercase letters, ‘@’, and ‘_’,
     # in that order.
     - match: \b(\d+#)([a-zA-Z0-9@_]+)
+      scope: meta.number.integer.other.shell
       captures:
-        1: meta.number.base.shell constant.numeric.integer.other.shell
-        2: meta.number.value.shell constant.numeric.integer.other.shell
+        1: constant.numeric.base.shell
+        2: constant.numeric.value.shell
     # If base# is omitted, then base 10 is used.
     - match: \b\d+(?![.\w])
-      scope: meta.number.value.shell constant.numeric.integer.decimal.shell
+      scope: meta.number.integer.decimal.shell constant.numeric.value.shell
 
   number:
+    # Note: Leading sign is scoped as operator for consistent highlighting as
+    #       we can't distinguish operators from sign for sure everywhere.
     - match: ([-+]?)(0[xX])(\h*)\w*
       captures:
         1: keyword.operator.arithmetic.shell
-        2: meta.number.base.shell constant.numeric.integer.hexadecimal.shell
-        3: meta.number.value.shell constant.numeric.integer.hexadecimal.shell
+        2: meta.number.integer.hexadecimal.shell constant.numeric.base.shell
+        3: meta.number.integer.hexadecimal.shell constant.numeric.value.shell
       pop: 1
     - match: ([-+]?)(0)([0-7]+)\w*
       captures:
         1: keyword.operator.arithmetic.shell
-        2: meta.number.base.shell constant.numeric.integer.octal.shell
-        3: meta.number.value.shell constant.numeric.integer.octal.shell
+        2: meta.number.integer.octal.shell constant.numeric.base.shell
+        3: meta.number.integer.octal.shell constant.numeric.value.shell
       pop: 1
     - match: ([-+]?)(\d+#)([a-zA-Z0-9@_]+)
       captures:
         1: keyword.operator.arithmetic.shell
-        2: meta.number.base.shell constant.numeric.integer.other.shell
-        3: meta.number.value.shell constant.numeric.integer.other.shell
+        2: meta.number.integer.other.shell constant.numeric.base.shell
+        3: meta.number.integer.other.shell constant.numeric.value.shell
     # If base# is omitted, then base 10 is used.
     - match: ([-+]?)(\d+)(?![.\w])
       captures:
         1: keyword.operator.arithmetic.shell
-        2: meta.number.value.shell constant.numeric.integer.decimal.shell
+        2: meta.number.integer.decimal.shell constant.numeric.value.shell
       pop: 1
 
 ###[ OPERATORS ]###############################################################
