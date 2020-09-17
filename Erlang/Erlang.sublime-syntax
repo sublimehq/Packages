@@ -1494,7 +1494,7 @@ contexts:
 
   reference-arity-body:
     - match: \d+
-      scope: constant.numeric.integer.decimal.erlang
+      scope: meta.number.integer.decimal.erlang constant.numeric.value.erlang
       pop: 1
     - include: variable-anonymous-pop
     - include: variable-other-pop
@@ -1840,92 +1840,131 @@ contexts:
   number:
     # http://erlang.org/doc/reference_manual/data_types.html#number
     - match: \d+(\.)\d+([eE][-+]?\d+)?\b
-      scope: constant.numeric.float.decimal.erlang
+      scope: meta.number.float.decimal.erlang constant.numeric.value.erlang
       captures:
         1: punctuation.separator.decimal.erlang
-    - match: |-
-        (?x:((2\#)[0-1]+)       # binary
-          | ((8\#)[0-7]+)       # octal
-          | ((10\#)[0-9]+)      # decimal
-          | ((16\#)[\da-fA-F]+) # hexadecimal
-          | ((3\#)[0-2]+
-          |  (4\#)[0-3]+
-          |  (5\#)[0-4]+
-          |  (6\#)[0-5]+
-          |  (7\#)[0-6]+
-          |  (9\#)[0-8]+
-          |  (11\#)[\daA]+
-          |  (12\#)[\da-bA-B]+
-          |  (13\#)[\da-cA-C]+
-          |  (14\#)[\da-dA-D]+
-          |  (15\#)[\da-eA-E]+
-          |  (17\#)[\da-gA-G]+
-          |  (18\#)[\da-hA-H]+
-          |  (19\#)[\da-iA-I]+
-          |  (20\#)[\da-jA-J]+
-          |  (21\#)[\da-kA-K]+
-          |  (22\#)[\da-lA-L]+
-          |  (23\#)[\da-mA-M]+
-          |  (24\#)[\da-nA-N]+
-          |  (25\#)[\da-oA-O]+
-          |  (26\#)[\da-pA-P]+
-          |  (27\#)[\da-qA-Q]+
-          |  (28\#)[\da-rA-R]+
-          |  (29\#)[\da-sA-S]+
-          |  (30\#)[\da-tA-T]+
-          |  (31\#)[\da-uA-U]+
-          |  (32\#)[\da-vA-V]+
-          |  (33\#)[\da-wA-W]+
-          |  (34\#)[\da-xA-X]+
-          |  (35\#)[\da-yA-Y]+
-          |  (36\#)[\da-zA-Z]+) # other
-          | ((\d+\#)\S+)        # illegal
-        )\b
+    - match: (2\#)([0-1]+)\b
+      scope: meta.number.integer.binary.erlang
       captures:
-        1: constant.numeric.integer.binary.erlang
-        2: punctuation.definition.numeric.base.erlang
-        3: constant.numeric.integer.octal.erlang
-        4: punctuation.definition.numeric.base.erlang
-        5: constant.numeric.integer.decimal.erlang
-        6: punctuation.definition.numeric.base.erlang
-        7: constant.numeric.integer.hexadecimal.erlang
-        8: punctuation.definition.numeric.base.erlang
-        9: constant.numeric.integer.other.erlang
-        10: punctuation.definition.numeric.base.erlang
-        11: punctuation.definition.numeric.base.erlang
-        12: punctuation.definition.numeric.base.erlang
-        13: punctuation.definition.numeric.base.erlang
-        14: punctuation.definition.numeric.base.erlang
-        15: punctuation.definition.numeric.base.erlang
-        16: punctuation.definition.numeric.base.erlang
-        17: punctuation.definition.numeric.base.erlang
-        18: punctuation.definition.numeric.base.erlang
-        19: punctuation.definition.numeric.base.erlang
-        20: punctuation.definition.numeric.base.erlang
-        21: punctuation.definition.numeric.base.erlang
-        22: punctuation.definition.numeric.base.erlang
-        23: punctuation.definition.numeric.base.erlang
-        24: punctuation.definition.numeric.base.erlang
-        25: punctuation.definition.numeric.base.erlang
-        26: punctuation.definition.numeric.base.erlang
-        27: punctuation.definition.numeric.base.erlang
-        28: punctuation.definition.numeric.base.erlang
-        29: punctuation.definition.numeric.base.erlang
-        30: punctuation.definition.numeric.base.erlang
-        31: punctuation.definition.numeric.base.erlang
-        32: punctuation.definition.numeric.base.erlang
-        33: punctuation.definition.numeric.base.erlang
-        34: punctuation.definition.numeric.base.erlang
-        35: punctuation.definition.numeric.base.erlang
-        36: punctuation.definition.numeric.base.erlang
-        37: punctuation.definition.numeric.base.erlang
-        38: punctuation.definition.numeric.base.erlang
-        39: punctuation.definition.numeric.base.erlang
-        40: punctuation.definition.numeric.base.erlang
-        41: invalid.illegal.integer.erlang
-        42: punctuation.definition.numeric.base.erlang
+        1: constant.numeric.base.erlang
+        2: constant.numeric.value.erlang
+    - match: (8\#)([0-7]+)\b
+      scope: meta.number.integer.octal.erlang
+      captures:
+        1: constant.numeric.base.erlang
+        2: constant.numeric.value.erlang
+    - match: (10\#)([0-9]+)\b
+      scope: meta.number.integer.decimal.erlang
+      captures:
+        1: constant.numeric.base.erlang
+        2: constant.numeric.value.erlang
+    - match: (16\#)([\da-fA-F]+)\b
+      scope: meta.number.integer.hexadecimal.erlang
+      captures:
+        1: constant.numeric.base.erlang
+        2: constant.numeric.value.erlang
+    - match: |-
+        (?x:
+            (3\#)([0-2]+)
+          | (4\#)([0-3]+)
+          | (5\#)([0-4]+)
+          | (6\#)([0-5]+)
+          | (7\#)([0-6]+)
+          | (9\#)([0-8]+)
+          | (11\#)([\daA]+)
+          | (12\#)([\da-bA-B]+)
+          | (13\#)([\da-cA-C]+)
+          | (14\#)([\da-dA-D]+)
+          | (15\#)([\da-eA-E]+)
+          | (17\#)([\da-gA-G]+)
+          | (18\#)([\da-hA-H]+)
+          | (19\#)([\da-iA-I]+)
+          | (20\#)([\da-jA-J]+)
+          | (21\#)([\da-kA-K]+)
+          | (22\#)([\da-lA-L]+)
+          | (23\#)([\da-mA-M]+)
+          | (24\#)([\da-nA-N]+)
+          | (25\#)([\da-oA-O]+)
+          | (26\#)([\da-pA-P]+)
+          | (27\#)([\da-qA-Q]+)
+          | (28\#)([\da-rA-R]+)
+          | (29\#)([\da-sA-S]+)
+          | (30\#)([\da-tA-T]+)
+          | (31\#)([\da-uA-U]+)
+          | (32\#)([\da-vA-V]+)
+          | (33\#)([\da-wA-W]+)
+          | (34\#)([\da-xA-X]+)
+          | (35\#)([\da-yA-Y]+)
+          | (36\#)([\da-zA-Z]+)
+        )\b
+      scope: meta.number.integer.other.erlang
+      captures:
+        1: constant.numeric.base.erlang
+        2: constant.numeric.value.erlang
+        3: constant.numeric.base.erlang
+        4: constant.numeric.value.erlang
+        5: constant.numeric.base.erlang
+        6: constant.numeric.value.erlang
+        7: constant.numeric.base.erlang
+        8: constant.numeric.value.erlang
+        9: constant.numeric.base.erlang
+        10: constant.numeric.value.erlang
+        11: constant.numeric.base.erlang
+        12: constant.numeric.value.erlang
+        13: constant.numeric.base.erlang
+        14: constant.numeric.value.erlang
+        15: constant.numeric.base.erlang
+        16: constant.numeric.value.erlang
+        17: constant.numeric.base.erlang
+        18: constant.numeric.value.erlang
+        19: constant.numeric.base.erlang
+        20: constant.numeric.value.erlang
+        21: constant.numeric.base.erlang
+        22: constant.numeric.value.erlang
+        23: constant.numeric.base.erlang
+        24: constant.numeric.value.erlang
+        25: constant.numeric.base.erlang
+        26: constant.numeric.value.erlang
+        27: constant.numeric.base.erlang
+        28: constant.numeric.value.erlang
+        29: constant.numeric.base.erlang
+        30: constant.numeric.value.erlang
+        31: constant.numeric.base.erlang
+        32: constant.numeric.value.erlang
+        33: constant.numeric.base.erlang
+        34: constant.numeric.value.erlang
+        35: constant.numeric.base.erlang
+        36: constant.numeric.value.erlang
+        37: constant.numeric.base.erlang
+        38: constant.numeric.value.erlang
+        39: constant.numeric.base.erlang
+        40: constant.numeric.value.erlang
+        41: constant.numeric.base.erlang
+        42: constant.numeric.value.erlang
+        43: constant.numeric.base.erlang
+        44: constant.numeric.value.erlang
+        45: constant.numeric.base.erlang
+        46: constant.numeric.value.erlang
+        47: constant.numeric.base.erlang
+        48: constant.numeric.value.erlang
+        49: constant.numeric.base.erlang
+        50: constant.numeric.value.erlang
+        51: constant.numeric.base.erlang
+        52: constant.numeric.value.erlang
+        53: constant.numeric.base.erlang
+        54: constant.numeric.value.erlang
+        55: constant.numeric.base.erlang
+        56: constant.numeric.value.erlang
+        57: constant.numeric.base.erlang
+        58: constant.numeric.value.erlang
+        59: constant.numeric.base.erlang
+        60: constant.numeric.value.erlang
+        61: constant.numeric.base.erlang
+        62: constant.numeric.value.erlang
+    - match: \d+\#\S+
+      scope: invalid.illegal.integer.erlang
     - match: \d+\b
-      scope: constant.numeric.integer.decimal.erlang
+      scope: meta.number.integer.decimal.erlang constant.numeric.value.erlang
     - match: \d\w+
       scope: invalid.illegal.integer.erlang
 
