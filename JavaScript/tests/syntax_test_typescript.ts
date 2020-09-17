@@ -66,6 +66,21 @@
     }
 //  ^ meta.block punctuation.section.block.end
 
+    interface Foo < T > extends Bar < T > {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface
+//  ^^^^^^^^^ storage.type
+//            ^^^ entity.name.interface
+//                ^^^^^ meta.generic
+//                ^ punctuation.definition.generic.begin
+//                  ^ variable.parameter.generic
+//                    ^ punctuation.definition.generic.end
+//                      ^^^^^^^ storage.modifier.extends
+//                              ^^^ entity.other.inherited-class
+//                                  ^^^^^ meta.interface meta.generic
+//                                  ^ punctuation.definition.generic.begin
+//                                    ^ support.class
+//                                      ^ punctuation.definition.generic.end
+
     enum Foo {
 //  ^^^^^^^^^^^ meta.enum
 //  ^^^^ storage.type

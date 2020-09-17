@@ -123,6 +123,7 @@ contexts:
       set:
         - ts-interface-meta
         - ts-type-body
+        - class-extends
         - ts-type-parameter-list
         - ts-interface-name
 
