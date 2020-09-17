@@ -345,5 +345,5 @@ contexts:
       scope: keyword.other.any.regexp # https://github.com/sublimehq/Packages/issues/314
     - match: \)
       scope: invalid.illegal.unmatched-brace.regexp
-    - match: .
+    - match: \w+|.
       scope: meta.literal.regexp
