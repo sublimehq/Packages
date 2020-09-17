@@ -296,6 +296,17 @@ function f ( x : any , ... y : any ) {}
 //                           ^ punctuation.separator.type
 //                             ^^^ meta.type support.type.any
 
+function f ( @foo x , @bar() y ) {}
+//           ^^^^ meta.annotation
+//           ^ punctuation.definition.annotation
+//            ^^^ variable.annotation
+//                ^ meta.binding.name variable.parameter.function
+//                    ^^^^^^ meta.annotation
+//                    ^ punctuation.definition.annotation
+//                     ^^^^^ meta.function-call
+//                     ^^^ variable.annotation
+//                           ^ meta.binding.name variable.parameter.function
+
 function f<T, U>() {}
 //^^^^^^^^^^^^^^^^^^^ meta.function
 //^^^^^^^^^^^^^^^^^ meta.function.declaration
