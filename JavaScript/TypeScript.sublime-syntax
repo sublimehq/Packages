@@ -8,16 +8,7 @@ scope: source.ts
 extends: Packages/JavaScript/JSX.sublime-syntax
 
 variables:
-  dot_accessor: |-
-    (?x: # Also match !.
-      !\.
-      |
-      (?:
-        \.
-        (?! \? [\[(] )
-        \??
-      )
-    )
+  dot_accessor: (?:[?!]?\.)
 
 contexts:
   ts-import-type:
