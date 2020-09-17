@@ -361,32 +361,29 @@ contexts:
     - include: else-pop
 
   package-version:
-    - match: (")((v?)[\d_](\.)[\d_]+(?:(\.)[\d_]+)?)(")
+    - match: (")(v?[\d_](\.)[\d_]+(?:(\.)[\d_]+)?)(")
       scope: meta.string.perl string.quoted.double.perl
       captures:
         1: punctuation.definition.string.begin.perl
-        2: constant.numeric.version.perl
-        3: punctuation.definition.version.perl
+        2: meta.number.version.perl constant.numeric.value.perl
+        3: punctuation.separator.decimal.perl
         4: punctuation.separator.decimal.perl
-        5: punctuation.separator.decimal.perl
-        6: punctuation.definition.string.end.perl
+        5: punctuation.definition.string.end.perl
       pop: true
-    - match: (')((v?)[\d_](\.)[\d_]+(?:(\.)[\d_]+)?)(')
+    - match: (')(v?[\d_](\.)[\d_]+(?:(\.)[\d_]+)?)(')
       scope: meta.string.perl string.quoted.single.perl
       captures:
         1: punctuation.definition.string.begin.perl
-        2: constant.numeric.version.perl
-        3: punctuation.definition.version.perl
-        4: punctuation.separator.decimal.perl
-        5: punctuation.separator.decimal.perl
-        6: punctuation.definition.string.end.perl
-      pop: true
-    - match: (v?)[\d_](\.)[\d_]+(?:(\.)[\d_]+)?\b
-      scope: constant.numeric.version.perl
-      captures:
-        1: punctuation.definition.version.perl
-        2: punctuation.separator.decimal.perl
+        2: meta.number.version.perl constant.numeric.value.perl
         3: punctuation.separator.decimal.perl
+        4: punctuation.separator.decimal.perl
+        5: punctuation.definition.string.end.perl
+      pop: true
+    - match: v?[\d_](\.)[\d_]+(?:(\.)[\d_]+)?\b
+      scope: meta.number.version.perl constant.numeric.value.perl
+      captures:
+        1: punctuation.separator.decimal.perl
+        2: punctuation.separator.decimal.perl
       pop: true
     - include: comment-line
     - include: else-pop
@@ -659,38 +656,40 @@ contexts:
     # decimal floats
     - match:  |-
         (?ix:
-          (") ( [-+]? (?:
+          (") ( [-+]? ) (
           (\.)[\d_]+ (?: e[-+]?[\d_]+ )?  |  # .1 .1e1 .1e-1 .1e+1
               [\d_]+ (?: (\.) (?:
               [\d_]+ (?: e[-+]?[\d_]+ )?  |  # 1.1 1.1e1 1.1e-1 1.1e+1
                          e[-+]?[\d_]+ )?  |  # 1. 1.e1 1.e-1 1.e+1
                          e[-+]?[\d_]+ )      # 1e1 1e-1 1e+1
-          ) ) (")
+          ) (")
         )
       scope: meta.string.perl string.quoted.double.perl
       captures:
         1: punctuation.definition.string.begin.perl
-        2: constant.numeric.float.decimal.perl
-        3: punctuation.separator.decimal.perl
+        2: meta.number.float.decimal.perl constant.numeric.sign.perl
+        3: meta.number.float.decimal.perl constant.numeric.value.perl
         4: punctuation.separator.decimal.perl
-        5: punctuation.definition.string.end.perl
+        5: punctuation.separator.decimal.perl
+        6: punctuation.definition.string.end.perl
     - match:  |-
         (?ix:
-          (') ( [-+]? (?:
+          (') ( [-+]? ) ( 
           (\.)[\d_]+ (?: e[-+]?[\d_]+ )?  |  # .1 .1e1 .1e-1 .1e+1
               [\d_]+ (?: (\.) (?:
               [\d_]+ (?: e[-+]?[\d_]+ )?  |  # 1.1 1.1e1 1.1e-1 1.1e+1
                          e[-+]?[\d_]+ )?  |  # 1. 1.e1 1.e-1 1.e+1
                          e[-+]?[\d_]+ )      # 1e1 1e-1 1e+1
-          ) ) (')
+          ) (')
         )
       scope: meta.string.perl string.quoted.single.perl
       captures:
         1: punctuation.definition.string.begin.perl
-        2: constant.numeric.float.decimal.perl
-        3: punctuation.separator.decimal.perl
+        2: meta.number.float.decimal.perl constant.numeric.sign.perl
+        3: meta.number.float.decimal.perl constant.numeric.value.perl
         4: punctuation.separator.decimal.perl
-        5: punctuation.definition.string.end.perl
+        5: punctuation.separator.decimal.perl
+        6: punctuation.definition.string.end.perl
     - match: |-
         (?ix:
           (\.)[\d_]+ (?: e[-+]?[\d_]+   )? \b |  # .1 .1e1 .1e-1 .1e+1
@@ -700,41 +699,46 @@ contexts:
                          (?=[^.]))            |  # 1. (protect the .. operator)
                          e[-+]?[\d_]+\b )        # 1e1 1e-1 1e+1
         )
-      scope: constant.numeric.float.decimal.perl
+      scope: meta.number.float.decimal.perl constant.numeric.value.perl
       captures:
         1: punctuation.separator.decimal.perl
         2: punctuation.separator.decimal.perl
     # decimal integers
-    - match: (")([-+]?[\d_]+)(")
+    - match: (")([-+]?)([\d_]+)(")
       scope: meta.string.perl string.quoted.double.perl
       captures:
         1: punctuation.definition.string.begin.perl
-        2: constant.numeric.integer.decimal.perl
-        3: punctuation.definition.string.end.perl
-    - match: (')([-+]?[\d_]+)(')
+        2: meta.number.integer.decimal.perl constant.numeric.sign.perl
+        3: meta.number.integer.decimal.perl constant.numeric.value.perl
+        4: punctuation.definition.string.end.perl
+    - match: (')([-+]?)([\d_]+)(')
       scope: meta.string.perl string.quoted.single.perl
       captures:
         1: punctuation.definition.string.begin.perl
-        2: constant.numeric.integer.decimal.perl
-        3: punctuation.definition.string.end.perl
+        2: meta.number.integer.decimal.perl constant.numeric.sign.perl
+        3: meta.number.integer.decimal.perl constant.numeric.value.perl
+        4: punctuation.definition.string.end.perl
     # binary integers
-    - match: \b(0[bB])[01_]+\b
-      scope: constant.numeric.integer.binary.perl
+    - match: \b(0[bB])([01_]+)\b
+      scope: meta.number.integer.binary.perl
       captures:
-        1: punctuation.definition.numeric.binary.perl
+        1: constant.numeric.base.perl
+        2: constant.numeric.value.perl
     # hexadecimal integers
-    - match: \b(0[xX])[\h_]+\b
-      scope: constant.numeric.integer.hexadecimal.perl
+    - match: \b(0[xX])([\h_]+)\b
+      scope: meta.number.integer.hexadecimal.perl
       captures:
-        1: punctuation.definition.numeric.hexadecimal.perl
+        1: constant.numeric.base.perl
+        2: constant.numeric.value.perl
     # octal integers
-    - match: \b(0)[0-7_]+\b
-      scope: constant.numeric.integer.octal.perl
+    - match: \b(0)([0-7_]+)\b
+      scope: meta.number.integer.octal.perl
       captures:
-        1: punctuation.definition.numeric.octal.perl
+        1: constant.numeric.base.perl
+        2: constant.numeric.value.perl
     # decimal integers
     - match: \b[\d_]+\b
-      scope: constant.numeric.integer.decimal.perl
+      scope: meta.number.integer.decimal.perl constant.numeric.value.perl
 
   constants-language:
     - match: \b__(?:END|DATA|FILE|LINE|PACKAGE|SUB)__\b
@@ -755,12 +759,11 @@ contexts:
 
   constants-version:
     # SEE: https://perldoc.perl.org/functions/require.html
-    - match: (v?)[\d_](\.)[\d_]+(\.)[\d_]+\b
-      scope: constant.numeric.version.perl
+    - match: v?[\d_](\.)[\d_]+(\.)[\d_]+\b
+      scope: meta.number.version.perl constant.numeric.value.perl
       captures:
-        1: punctuation.definition.version.perl
+        1: punctuation.separator.decimal.perl
         2: punctuation.separator.decimal.perl
-        3: punctuation.separator.decimal.perl
 
 ###[ STRINGS ]################################################################
 
