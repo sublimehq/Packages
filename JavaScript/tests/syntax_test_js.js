@@ -1377,6 +1377,12 @@ sources.DOM
     .status()
     // ^ meta.function-call.method variable.function
 
+    foo.#bar();
+//  ^^^^^^^^^^ meta.function-call.method.js
+//      ^^^^ variable.function.js
+//      ^ punctuation.definition.js
+//          ^^ meta.group.js
+
 return new Promise(resolve => preferenceObject.set({value}, resolve));
 //                                                                  ^ meta.function-call.constructor punctuation.section.group.end
 
