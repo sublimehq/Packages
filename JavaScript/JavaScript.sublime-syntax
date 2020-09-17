@@ -1909,7 +1909,7 @@ contexts:
         - function-call-arguments
         - literal-variable
 
-    - match: (?={{identifier}}\s*(?:{{dot_accessor}}\s*{{identifier}}\s*)+(?:{{dot_accessor}})?\()
+    - match: (?={{identifier}}\s*(?:{{dot_accessor}}\s*#?{{identifier}}\s*)+(?:{{dot_accessor}})?\()
       set:
         - call-method-meta
         - function-call-arguments
@@ -1945,6 +1945,11 @@ contexts:
     - include: support-property
     - match: '{{identifier}}'
       scope: variable.function.js
+      pop: true
+    - match: '(#){{identifier}}'
+      scope: variable.function.js
+      captures:
+        1: punctuation.definition.js
       pop: true
     - include: else-pop
 
@@ -2372,7 +2377,7 @@ contexts:
   object-property:
     - match: |-
         (?x)(?=
-          {{identifier}}
+          \#?{{identifier}}
           \s* = \s*
           {{either_func_lookahead}}
         )
@@ -2383,7 +2388,7 @@ contexts:
 
     - include: support-property
 
-    - match: '(?={{identifier}}\s*(?:{{dot_accessor}})?\()'
+    - match: '(?=#?{{identifier}}\s*(?:{{dot_accessor}})?\()'
       set: call-method-name
 
     - include: object-property-base
