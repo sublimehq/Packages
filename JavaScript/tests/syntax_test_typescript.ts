@@ -304,7 +304,7 @@ function f ( @foo x , @bar() y ) {}
 //                    ^^^^^^ meta.annotation
 //                    ^ punctuation.definition.annotation
 //                     ^^^^^ meta.function-call
-//                     ^^^ variable.annotation
+//                     ^^^ variable.function
 //                           ^ meta.binding.name variable.parameter.function
 
 function f<T, U>() {}
