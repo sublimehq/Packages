@@ -109,13 +109,11 @@
 #                                     ^ constant.language.null.yaml
 #                                        ^^^^^ - constant
    .inf, +.INF, -.Inf, ~, .inF, .inf .inf
-#  ^^^^ meta.number.float.infinite.yaml constant.numeric.value.yaml
+#  ^^^^ constant.language.infinity.yaml
 #  ^ punctuation.separator.decimal.yaml
-#        ^ meta.number.float.infinite.yaml constant.numeric.sign.yaml
-#         ^^^^ meta.number.float.infinite.yaml constant.numeric.value.yaml
+#        ^^^^^ constant.language.infinity.yaml
 #         ^ punctuation.separator.decimal.yaml
-#               ^ meta.number.float.infinite.yaml constant.numeric.sign.yaml
-#                ^^^^ meta.number.float.infinite.yaml constant.numeric.value.yaml
+#               ^^^^^ constant.language.infinity.yaml
 #                ^ punctuation.separator.decimal.yaml
 #                         ^^^^^^^^^^^^^^^ - constant
    .NaN, ~, .Nan,
