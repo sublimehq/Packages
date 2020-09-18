@@ -96,143 +96,143 @@ NaN
 # complex imaginary
 
   0x1afi
-# ^^ punctuation.definition.numeric.hexadecimal.r
-# ^^^^^^ constant.numeric.imaginary.hexadecimal.r
-#      ^ storage.type.numeric.r
+# ^^ meta.number.imaginary.hexadecimal.r constant.numeric.base.r
+#   ^^^ meta.number.imaginary.hexadecimal.r constant.numeric.value.r
+#      ^ meta.number.imaginary.hexadecimal.r constant.numeric.suffix.r
 
   0X1afi 0X1afI
-# ^^ punctuation.definition.numeric.hexadecimal.r
-# ^^^^^^ constant.numeric.imaginary.hexadecimal.r
-#      ^ storage.type.numeric.r
-#        ^^ punctuation.definition.numeric.hexadecimal.r
-#        ^^^^^^ constant.numeric.imaginary.hexadecimal.r
-#             ^ invalid.illegal.numeric.r
+# ^^ meta.number.imaginary.hexadecimal.r constant.numeric.base.r
+#   ^^^ meta.number.imaginary.hexadecimal.r constant.numeric.value.r
+#      ^ meta.number.imaginary.hexadecimal.r constant.numeric.suffix.r
+#        ^^ meta.number.imaginary.hexadecimal.r constant.numeric.base.r
+#          ^^^ meta.number.imaginary.hexadecimal.r constant.numeric.value.r
+#             ^ meta.number.imaginary.hexadecimal.r invalid.illegal.numeric.r
 
   12i 12I
-# ^^^ constant.numeric.imaginary.decimal.r
-#   ^ storage.type.numeric.r
-#     ^^^ constant.numeric.imaginary.decimal.r
-#       ^ invalid.illegal.numeric.r
+# ^^ meta.number.imaginary.decimal.r constant.numeric.value.r
+#   ^ meta.number.imaginary.decimal.r constant.numeric.suffix.r
+#     ^^ meta.number.imaginary.decimal.r constant.numeric.value.r
+#       ^ meta.number.imaginary.decimal.r invalid.illegal.numeric.r
 
   12.i 12.I
-# ^^^^ constant.numeric.imaginary.decimal.r
+# ^^^ meta.number.imaginary.decimal.r constant.numeric.value.r
 #   ^ punctuation.separator.decimal.r
-#    ^ storage.type.numeric.r
-#      ^^^^ constant.numeric.imaginary.decimal.r
+#    ^ meta.number.imaginary.decimal.r constant.numeric.suffix.r
+#      ^^^ meta.number.imaginary.decimal.r constant.numeric.value.r
 #        ^ punctuation.separator.decimal.r
-#         ^ invalid.illegal.numeric.r
+#         ^ meta.number.imaginary.decimal.r invalid.illegal.numeric.r
 
   .345i
-# ^^^^^ constant.numeric.imaginary.decimal.r
 # ^ punctuation.separator.decimal.r
-#     ^ storage.type.numeric.r
+# ^^^^ meta.number.imaginary.decimal.r constant.numeric.value.r
+#     ^ meta.number.imaginary.decimal.r constant.numeric.suffix.r
 
   12.34e-12i
-# ^^^^^^^^^^ constant.numeric.imaginary.decimal.r
+# ^^^^^^^^^ meta.number.imaginary.decimal.r constant.numeric.value.r
 #   ^ punctuation.separator.decimal.r
-#          ^ storage.type.numeric.r
+#          ^ meta.number.imaginary.decimal.r constant.numeric.suffix.r
 
   12.34E-12i
-# ^^^^^^^^^^ constant.numeric.imaginary.decimal.r
+# ^^^^^^^^^ meta.number.imaginary.decimal.r constant.numeric.value.r
 #   ^ punctuation.separator.decimal.r
-#          ^ storage.type.numeric.r
+#          ^ meta.number.imaginary.decimal.r constant.numeric.suffix.r
 
   12.34e+12i
-# ^^^^^^^^^^ constant.numeric.imaginary.decimal.r
+# ^^^^^^^^^ meta.number.imaginary.decimal.r constant.numeric.value.r
 #   ^ punctuation.separator.decimal.r
-#          ^ storage.type.numeric.r
+#          ^ meta.number.imaginary.decimal.r constant.numeric.suffix.r
 
   12.34E+12i
-# ^^^^^^^^^^ constant.numeric.imaginary.decimal.r
+# ^^^^^^^^^ meta.number.imaginary.decimal.r constant.numeric.value.r
 #   ^ punctuation.separator.decimal.r
-#          ^ storage.type.numeric.r
+#          ^ meta.number.imaginary.decimal.r constant.numeric.suffix.r
 
   12.3456i 12.3456I
-# ^^^^^^^^ constant.numeric.imaginary.decimal.r
+# ^^^^^^^ meta.number.imaginary.decimal.r constant.numeric.value.r
 #   ^ punctuation.separator.decimal.r
-#        ^ storage.type.numeric.r
-#          ^^^^^^^^ constant.numeric.imaginary.decimal.r
+#        ^ meta.number.imaginary.decimal.r constant.numeric.suffix.r
+#          ^^^^^^^ meta.number.imaginary.decimal.r constant.numeric.value.r
 #            ^ punctuation.separator.decimal.r
-#                 ^ invalid.illegal.numeric.r
+#                 ^ meta.number.imaginary.decimal.r invalid.illegal.numeric.r
 
 # integers
 
   0x1afL 0x1afl 0x1afx
-# ^^ punctuation.definition.numeric.hexadecimal.r
-# ^^^^^^ constant.numeric.integer.hexadecimal.r
-#      ^ storage.type.numeric.r
-#        ^^ punctuation.definition.numeric.hexadecimal.r
-#        ^^^^^^ constant.numeric.integer.hexadecimal.r
-#             ^ invalid.illegal.numeric.r
+# ^^ meta.number.integer.hexadecimal.r constant.numeric.base.r
+#   ^^^ meta.number.integer.hexadecimal.r constant.numeric.value.r
+#      ^ meta.number.integer.hexadecimal.r constant.numeric.suffix.r
+#        ^^ meta.number.integer.hexadecimal.r constant.numeric.base.r
+#          ^^^ meta.number.integer.hexadecimal.r constant.numeric.value.r
+#             ^ meta.number.integer.hexadecimal.r invalid.illegal.numeric.r
 #               ^^^^^^ - constant
 
   0X1afL
-# ^^ punctuation.definition.numeric.hexadecimal.r
-# ^^^^^^ constant.numeric.integer.hexadecimal.r
-#      ^ storage.type.numeric.r
+# ^^ meta.number.integer.hexadecimal.r constant.numeric.base.r
+#   ^^^ meta.number.integer.hexadecimal.r constant.numeric.value.r
+#      ^ meta.number.integer.hexadecimal.r constant.numeric.suffix.r
 
   12L 12l
-# ^^^ constant.numeric.integer.decimal.r
-#   ^ storage.type.numeric.r
-#     ^^^ constant.numeric.integer.decimal.r
-#       ^ invalid.illegal.numeric.r
+# ^^ meta.number.integer.decimal.r constant.numeric.value.r
+#   ^ meta.number.integer.decimal.r constant.numeric.suffix.r
+#     ^^ meta.number.integer.decimal.r constant.numeric.value.r
+#       ^ meta.number.integer.decimal.r invalid.illegal.numeric.r
 
   12.L
-# ^^^^ constant.numeric.integer.decimal.r
+# ^^^ meta.number.integer.decimal.r constant.numeric.value.r
 #   ^ punctuation.separator.decimal.r
-#    ^ storage.type.numeric.r
+#    ^ meta.number.integer.decimal.r constant.numeric.suffix.r
 
   12.000L
-# ^^^^^^^ constant.numeric.integer.decimal.r
+# ^^^^^^ meta.number.integer.decimal.r constant.numeric.value.r
 #   ^ punctuation.separator.decimal.r
-#       ^ storage.type.numeric.r
+#       ^ meta.number.integer.decimal.r constant.numeric.suffix.r
 
 # floats
 
   0x1af
-# ^^ punctuation.definition.numeric.hexadecimal.r
-# ^^^^^ constant.numeric.float.hexadecimal.r
+# ^^ meta.number.float.hexadecimal.r constant.numeric.base.r
+#   ^^^ meta.number.float.hexadecimal.r constant.numeric.value.r
 
   0X1af
-# ^^ punctuation.definition.numeric.hexadecimal.r
-# ^^^^^ constant.numeric.float.hexadecimal.r
+# ^^ meta.number.float.hexadecimal.r constant.numeric.base.r
+#   ^^^ meta.number.float.hexadecimal.r constant.numeric.value.r
 
   12
-# ^^ constant.numeric.float.decimal.r
+# ^^ meta.number.float.decimal.r constant.numeric.value.r
 
   12.
-# ^^^ constant.numeric.float.decimal.r
+# ^^^ meta.number.float.decimal.r constant.numeric.value.r
 #   ^ punctuation.separator.decimal.r
 
   .3456
 # ^ punctuation.separator.decimal.r
-# ^^^^^ constant.numeric.float.decimal.r
+# ^^^^^ meta.number.float.decimal.r constant.numeric.value.r
 
   12.3456
-# ^^^^^^^ constant.numeric.float.decimal.r
+# ^^^^^^^ meta.number.float.decimal.r constant.numeric.value.r
 #   ^ punctuation.separator.decimal.r
 
   12.34e-12
-# ^^^^^^^^^ constant.numeric.float.decimal.r
+# ^^^^^^^^^ meta.number.float.decimal.r constant.numeric.value.r
 #   ^ punctuation.separator.decimal.r
 
   12.34E-12
-# ^^^^^^^^^ constant.numeric.float.decimal.r
+# ^^^^^^^^^ meta.number.float.decimal.r constant.numeric.value.r
 #   ^ punctuation.separator.decimal.r
 
   12.34e+12
-# ^^^^^^^^^ constant.numeric.float.decimal.r
+# ^^^^^^^^^ meta.number.float.decimal.r constant.numeric.value.r
 #   ^ punctuation.separator.decimal.r
 
   12.34E+12
-# ^^^^^^^^^ constant.numeric.float.decimal.r
+# ^^^^^^^^^ meta.number.float.decimal.r constant.numeric.value.r
 #   ^ punctuation.separator.decimal.r
 
   12e34
-# ^^^^^ constant.numeric.float.decimal.r
+# ^^^^^ meta.number.float.decimal.r constant.numeric.value.r
 
   12e-34
-# ^^^^^^ constant.numeric.float.decimal.r
+# ^^^^^^ meta.number.float.decimal.r constant.numeric.value.r
 
   %*% %/% %% %o% %x% %:% %+%
 # ^^^ keyword.operator.arithmetic.r
@@ -440,14 +440,14 @@ function(x = "string", y = 2) {}
 #        ^ variable.parameter.r
 #            ^^^^^^^^ meta.function.parameters.r string.quoted.double.r
 #                      ^ variable.parameter.r
-#                          ^ meta.function.parameters.r constant.numeric.float.decimal.r
+#                          ^ meta.function.parameters.r meta.number.float.decimal.r constant.numeric.value.r
 
 foo(200, x = function(x) {x + y})
 #^^ meta.function-call.identifier.r - meta.function-call.arguments.r
 # <- variable.function.r
 #  ^ punctuation.section.arguments.begin.r
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.r - meta.function-call.identifier.r
-#   ^^^ constant.numeric.float.decimal.r
+#   ^^^ meta.function-call.arguments.r meta.number.float.decimal.r constant.numeric.value.r
 #        ^ variable.parameter.r
 #          ^ keyword.operator.assignment.r
 #            ^^^^^^^^ meta.function.r storage.type.function.r - meta.function.parameters.r
@@ -460,7 +460,7 @@ foo(200, x = function(x) {x + y})
 # <- variable.function.r
 #   ^ punctuation.section.arguments.begin.r
 #   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.r - meta.function-call.identifier.r
-#    ^^^ constant.numeric.float.decimal.r
+#    ^^^ meta.number.float.decimal.r constant.numeric.value.r
 #         ^ variable.parameter.r
 #           ^ keyword.operator.assignment.r
 #             ^^^^^^^^ meta.function.r - meta.function.parameters.r
