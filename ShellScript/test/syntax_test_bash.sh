@@ -1317,6 +1317,41 @@ alias -a -p -- foo=bar baz=qux
 #                         ^ keyword.operator.assignment.shell
 #                          ^^^ meta.string.shell string.unquoted.shell
 
+alias $foo=bar
+# <- meta.declaration.alias.shell storage.type.alias.shell keyword.declaration.alias.shell
+#^^^^ meta.declaration.alias.shell
+#    ^^^^^^^^^ meta.declaration.alias.arguments.shell
+#             ^ - meta.declaration.alias
+#     ^^^^ meta.interpolation.parameter.shell variable.other.readwrite.shell
+#         ^ keyword.operator.assignment.shell
+#          ^^^ meta.string.shell string.unquoted.shell
+
+alias ..='cd ..'
+# <- meta.declaration.alias.shell storage.type.alias.shell keyword.declaration.alias.shell
+#^^^^ meta.declaration.alias.shell storage.type.alias.shell keyword.declaration.alias.shell
+#    ^^^^^^^^^^^ meta.declaration.alias.arguments.shell
+#     ^^ meta.variable.shell entity.name.function.shell
+#       ^ keyword.operator.assignment.shell
+#        ^^^^^^^ meta.string.shell string.quoted.single.shell
+
+alias -p ..='cd ..'
+# <- meta.declaration.alias.shell storage.type.alias.shell keyword.declaration.alias.shell
+#^^^^ meta.declaration.alias.shell storage.type.alias.shell keyword.declaration.alias.shell
+#    ^^^^^^^^^^^^^^ meta.declaration.alias.arguments.shell
+#     ^^ meta.parameter.option.shell variable.parameter.option.shell
+#        ^^ meta.variable.shell entity.name.function.shell
+#          ^ keyword.operator.assignment.shell
+#           ^^^^^^^ meta.string.shell string.quoted.single.shell
+
+alias -- -='cd -'
+# <- meta.declaration.alias.shell storage.type.alias.shell keyword.declaration.alias.shell
+#^^^^ meta.declaration.alias.shell storage.type.alias.shell keyword.declaration.alias.shell
+#    ^^^^^^^^^^^^ meta.declaration.alias.arguments.shell
+#     ^^ keyword.operator.end-of-options.shell
+#        ^ meta.variable.shell entity.name.function.shell
+#         ^ keyword.operator.assignment.shell
+#          ^^^^^^ meta.string.shell string.quoted.single.shell
+
 
 ####################################################################
 # declare builtin                                                  #

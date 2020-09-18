@@ -340,7 +340,29 @@ contexts:
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-    - include: cmd-args-end-of-options-then-functions
+    - include: cmd-alias-args-end-of-options
+
+  cmd-alias-args-end-of-options:
+    - include: cmd-args-illegal-options
+    - match: --{{cmd_break}}|(?=\S)
+      scope: keyword.operator.end-of-options.shell
+      set: cmd-alias-args-name
+    - include: eoc-pop
+
+  cmd-alias-args-name:
+    - include: cmd-args-boilerplate
+    - match: =
+      scope: keyword.operator.assignment.shell
+      push: string-unquoted
+    - match: (?=\S)
+      push: cmd-alias-args-name-chars
+
+  cmd-alias-args-name-chars:
+    - meta_scope: meta.variable.shell
+    - match: '{{opt_literal_char}}+'
+      scope: entity.name.function.shell
+    - include: entity-function-expansions
+    - include: immediately-pop
 
 ###[ ARITHMETIC BUILTINS ]#####################################################
 
@@ -707,7 +729,7 @@ contexts:
         variable.parameter.option.shell
       captures:
         1: punctuation.definition.parameter.shell
-    - include: cmd-args-end-of-options-then-functions
+    - include: cmd-alias-args-end-of-options
 
 ###[ UNSET BUILTINS ]##########################################################
 
