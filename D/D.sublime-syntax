@@ -194,24 +194,27 @@ contexts:
     - include: integer-opt
     - include: not-whitespace-illegal-pop
   integer-opt:
-    - match: '(0[bB])(_?){{bin_digits}}({{integer_suffix}})?'
-      scope: constant.numeric.integer.binary.d
+    - match: '(0[bB])(_?)({{bin_digits}})({{integer_suffix}})?'
+      scope: meta.number.integer.binary.d
       captures:
-        1: punctuation.definition.numeric.base.d
+        1: constant.numeric.base.d
         2: invalid.illegal.numeric.d
-        3: storage.type.numeric.d
+        3: constant.numeric.value.d
+        4: constant.numeric.suffix.d
       pop: true
-    - match: '(0[xX])(_?){{hex_digits}}({{integer_suffix}})?'
-      scope: constant.numeric.integer.hexadecimal.d
+    - match: '(0[xX])(_?)({{hex_digits}})({{integer_suffix}})?'
+      scope: meta.number.integer.hexadecimal.d
       captures:
-        1: punctuation.definition.numeric.base.d
+        1: constant.numeric.base.d
         2: invalid.illegal.numeric.d
-        3: storage.type.numeric.d
+        3: constant.numeric.value.d
+        4: constant.numeric.suffix.d
       pop: true
-    - match: '{{dec_integer}}({{integer_suffix}})?'
-      scope: constant.numeric.integer.decimal.d
+    - match: '({{dec_integer}})({{integer_suffix}})?'
+      scope: meta.number.integer.decimal.d
       captures:
-        1: storage.type.numeric.d
+        1: constant.numeric.value.d
+        2: constant.numeric.suffix.d
       pop: true
 
   floating-point:
@@ -219,78 +222,96 @@ contexts:
     - include: not-whitespace-illegal-pop
   floating-point-opt:
     # decimal imaginary numbers
-    - match: '{{dec_integer}}?(?:(\.){{dec_digits}}?)?{{dec_exponent}}?({{imaginary_suffix}})'
-      scope: constant.numeric.imaginary.decimal.d
+    - match: '({{dec_integer}})?(?:(\.)({{dec_digits}})?)?({{dec_exponent}})?({{imaginary_suffix}})'
+      scope: meta.number.imaginary.decimal.d
       captures:
-        1: punctuation.separator.decimal.d
-        2: storage.type.numeric.d
+        1: constant.numeric.value.d
+        2: punctuation.separator.decimal.d
+        3: constant.numeric.value.d
+        4: constant.numeric.value.exponent.d
+        5: constant.numeric.suffix.d
       pop: true
     # decimal floats
     - match: |-
         (?x:
-          {{dec_integer}}
+          ({{dec_integer}})
           (?:
             (?:
               (\.)
               (?:
                 # 1.1, 1.1e1, 1.1e-1, 1.1f, 1.1e1f, 1.1e-1f, 1.1L, 1.1e1L, 1.1e-1L
-                {{dec_digits}} {{dec_exponent}}?
+                ({{dec_digits}}) ({{dec_exponent}})?
                 # 1.e1, 1.e-1, 1.e1f, 1.e-1f, 1.e1L, 1.e-1L
-                | {{dec_exponent}}
+                | ({{dec_exponent}})
                 # 1., 1.f, 1.L # but not `..` or method/attribute access
                 | (?!\.|\s*[[:alpha:]_]) )
               # 1e1 1e1f 1e1L
-              | {{dec_exponent}}
+              | ({{dec_exponent}})
             ) ({{integer_float_suffix}})?
             # 1f
             | ({{float_suffix}})
           )
           # .1, .1e1, .1e-1, .1f, .1e1f, .1e-1f, .1L, .1e1L, .1e-1L
-          | (\.) {{dec_digits}} {{dec_exponent}}? ({{integer_float_suffix}})?
+          | (\.) ({{dec_digits}}) ({{dec_exponent}})? ({{integer_float_suffix}})?
         )
-      scope: constant.numeric.float.decimal.d
+      scope: meta.number.float.decimal.d
       captures:
-        1: punctuation.separator.decimal.d
-        2: storage.type.numeric.d
-        3: storage.type.numeric.d
-        4: punctuation.separator.decimal.d
-        5: storage.type.numeric.d
+        1: constant.numeric.value.d
+        2: punctuation.separator.decimal.d
+        3: constant.numeric.value.d
+        4: constant.numeric.value.exponent.d
+        5: constant.numeric.value.exponent.d
+        6: constant.numeric.value.exponent.d
+        7: constant.numeric.suffix.d
+        8: constant.numeric.suffix.d
+        9: punctuation.separator.decimal.d
+        10: constant.numeric.value.d
+        11: constant.numeric.value.exponent.d
+        12: constant.numeric.suffix.d
       pop: true
 
     # hexadecimal imaginary numbers
-    - match: (0[xX])(_?){{hex_digits}}?(?:(\.){{hex_digits}}?)?{{hex_exponent}}?({{imaginary_suffix}})
-      scope: constant.numeric.imaginary.hexadecimal.d
+    - match: (0[xX])(_?)({{hex_digits}})?(?:(\.)({{hex_digits}})?)?({{hex_exponent}})?({{imaginary_suffix}})
+      scope: meta.number.imaginary.hexadecimal.d
       captures:
-        1: punctuation.definition.numeric.base.d
+        1: constant.numeric.base.d
         2: invalid.illegal.numeric.d
-        3: punctuation.separator.decimal.d
-        4: storage.type.numeric.d
+        3: constant.numeric.value.d
+        4: punctuation.separator.decimal.d
+        5: constant.numeric.value.d
+        6: constant.numeric.value.exponent.d
+        7: constant.numeric.suffix.d
       pop: true
     # hexadecimal floats
-    - match: (0[xX])(_?){{hex_digits}}?(?:(\.){{hex_digits}}?)?{{hex_exponent}}({{integer_float_suffix}})?
-      scope: constant.numeric.float.hexadecimal.d
+    - match: (0[xX])(_?)({{hex_digits}})?(?:(\.)({{hex_digits}})?)?({{hex_exponent}})({{integer_float_suffix}})?
+      scope: meta.number.float.hexadecimal.d
       captures:
-        1: punctuation.definition.numeric.base.d
+        1: constant.numeric.base.d
         2: invalid.illegal.numeric.d
-        3: punctuation.separator.decimal.d
-        4: storage.type.numeric.d
+        3: constant.numeric.value.d
+        4: punctuation.separator.decimal.d
+        5: constant.numeric.value.d
+        6: constant.numeric.value.exponent.d
+        7: constant.numeric.suffix.d
       pop: true
 
     # binary imaginary numbers
-    - match: (0[bB])(_?){{bin_digits}}({{imaginary_suffix}})
-      scope: constant.numeric.imaginary.binary.d
+    - match: (0[bB])(_?)({{bin_digits}})({{imaginary_suffix}})
+      scope: meta.number.imaginary.binary.d
       captures:
-        1: punctuation.definition.numeric.base.d
+        1: constant.numeric.base.d
         2: invalid.illegal.numeric.d
-        3: storage.type.numeric.d
+        3: constant.numeric.value.d
+        4: constant.numeric.suffix.d
       pop: true
     # binary floats
-    - match: (0[bB])(_?){{bin_digits}}({{float_suffix}})
-      scope: constant.numeric.float.binary.d
+    - match: (0[bB])(_?)({{bin_digits}})({{float_suffix}})
+      scope: meta.number.float.binary.d
       captures:
-        1: punctuation.definition.numeric.base.d
+        1: constant.numeric.base.d
         2: invalid.illegal.numeric.d
-        3: storage.type.numeric.d
+        3: constant.numeric.value.d
+        4: constant.numeric.suffix.d
       pop: true
 
   character-in:
