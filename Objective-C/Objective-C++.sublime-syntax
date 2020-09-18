@@ -380,7 +380,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc++
         2: keyword.control.import.objc++
-        3: constant.numeric.integer.decimal.objc++
+        3: meta.number.integer.decimal.objc++ constant.numeric.value.objc++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -406,7 +406,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc++
         2: keyword.control.import.objc++
-        3: constant.numeric.integer.decimal.objc++
+        3: meta.number.integer.decimal.objc++ constant.numeric.value.objc++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1096,7 +1096,7 @@ contexts:
     - match: '&'
       scope: keyword.operator.objc++
     - match: \b0\b
-      scope: constant.numeric.integer.decimal.objc++
+      scope: meta.number.integer.decimal.objc++ constant.numeric.value.objc++
     - match: \b(default|delete)\b
       scope: storage.modifier.objc++
     - match: '(?=\{)'
@@ -1565,7 +1565,7 @@ contexts:
     - match: '&'
       scope: keyword.operator.objc++
     - match: \b0\b
-      scope: constant.numeric.integer.decimal.objc++
+      scope: meta.number.integer.decimal.objc++ constant.numeric.value.objc++
     - match: \b(default|delete)\b
       scope: storage.modifier.objc++
     - match: '(?=:)'
@@ -1638,7 +1638,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc++
         2: keyword.control.import.objc++
-        3: constant.numeric.integer.decimal.objc++
+        3: meta.number.integer.decimal.objc++ constant.numeric.value.objc++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1664,7 +1664,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc++
         2: keyword.control.import.objc++
-        3: constant.numeric.integer.decimal.objc++
+        3: meta.number.integer.decimal.objc++ constant.numeric.value.objc++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1708,7 +1708,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc++
         2: keyword.control.import.objc++
-        3: constant.numeric.integer.decimal.objc++
+        3: meta.number.integer.decimal.objc++ constant.numeric.value.objc++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1735,7 +1735,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc++
         2: keyword.control.import.objc++
-        3: constant.numeric.integer.decimal.objc++
+        3: meta.number.integer.decimal.objc++ constant.numeric.value.objc++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1840,7 +1840,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc++
         2: keyword.control.import.objc++
-        3: constant.numeric.integer.decimal.objc++
+        3: meta.number.integer.decimal.objc++ constant.numeric.value.objc++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1866,7 +1866,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc++
         2: keyword.control.import.objc++
-        3: constant.numeric.integer.decimal.objc++
+        3: meta.number.integer.decimal.objc++ constant.numeric.value.objc++
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
