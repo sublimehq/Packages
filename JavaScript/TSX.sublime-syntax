@@ -1,0 +1,10 @@
+%YAML 1.2
+---
+version: 2
+name: TSX
+file_extensions:
+  - tsx
+scope: source.tsx
+extends:
+  - JSX.sublime-syntax
+  - TypeScript.sublime-syntax

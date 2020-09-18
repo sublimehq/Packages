@@ -5,7 +5,7 @@ name: TypeScript
 file_extensions:
   - ts
 scope: source.ts
-extends: Packages/JavaScript/JSX.sublime-syntax
+extends: JavaScript.sublime-syntax
 
 variables:
   dot_accessor: (?:[?!]?\.)

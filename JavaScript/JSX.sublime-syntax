@@ -5,7 +5,7 @@ name: JSX
 file_extensions:
   - jsx
 scope: source.jsx
-extends: Packages/JavaScript/JavaScript.sublime-syntax
+extends: JavaScript.sublime-syntax
 
 variables:
   jsx_identifier_part: (?:{{identifier_part}}|-)
