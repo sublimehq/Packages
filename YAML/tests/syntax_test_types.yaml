@@ -119,7 +119,7 @@
 #                ^ punctuation.separator.decimal.yaml
 #                         ^^^^^^^^^^^^^^^ - constant
    .NaN, ~, .Nan,
-#  ^^^^ meta.number.float.not-a-number.yaml constant.numeric.value.yaml
+#  ^^^^ constant.language.nan.yaml
 #  ^ punctuation.separator.decimal.yaml
 #           ^^^^ - constant
 ]
@@ -180,7 +180,7 @@ true: false
 #    ^ punctuation.separator.key-value.mapping.yaml
 #      ^^^^^ meta.number.float.decimal.yaml constant.numeric.value.yaml
 {.NaN: 2, 2: 2015-08-15}
-#^^^^ meta.number.float.not-a-number.yaml constant.numeric.value.yaml
+#^^^^ constant.language.nan.yaml
 #    ^ punctuation.separator.key-value.mapping.yaml
 #      ^ meta.number.integer.decimal.yaml constant.numeric.base.yaml
 #       ^ punctuation.separator.mapping.yaml

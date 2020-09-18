@@ -379,7 +379,7 @@ contexts:
         2: constant.numeric.value.yaml
         3: punctuation.separator.decimal.yaml
     - match: '{{_type_float_nan}}{{_flow_scalar_end_plain_in}}'
-      scope: meta.number.float.not-a-number.yaml constant.numeric.value.yaml
+      scope: constant.language.nan.yaml
       captures:
         1: punctuation.separator.decimal.yaml
     # timestamp
@@ -454,7 +454,7 @@ contexts:
         2: constant.numeric.value.yaml
         3: punctuation.separator.decimal.yaml
     - match: '{{_type_float_nan}}{{_flow_scalar_end_plain_out}}'
-      scope: meta.number.float.not-a-number.yaml constant.numeric.value.yaml
+      scope: constant.language.nan.yaml
       captures:
         1: punctuation.separator.decimal.yaml
     # timestamp
