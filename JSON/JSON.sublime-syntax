@@ -68,12 +68,17 @@ contexts:
       scope: constant.language.json
   number:
     # handles integer and decimal numbers
-    - match: -?(?:0|[1-9]\d*)(?:(?:(\.)\d+)(?:[eE][-+]?\d+)?|(?:[eE][-+]?\d+))
-      scope: constant.numeric.float.decimal.json
+    - match: (-?)((?:0|[1-9]\d*)(?:(?:(\.)\d+)(?:[eE][-+]?\d+)?|(?:[eE][-+]?\d+)))
+      scope: meta.number.float.decimal.json
       captures:
-        1: punctuation.separator.decimal.json
-    - match: -?(?:0|[1-9]\d*)
-      scope: constant.numeric.integer.decimal.json
+        1: constant.numeric.sign.json
+        2: constant.numeric.value.json
+        3: punctuation.separator.decimal.json
+    - match: (-?)(0|[1-9]\d*)
+      scope: meta.number.integer.decimal.json
+      captures:
+        1: constant.numeric.sign.json
+        2: constant.numeric.value.json
   object:
     # a JSON object
     - match: '\{'
