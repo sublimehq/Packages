@@ -412,22 +412,23 @@ read -d '' -sn 1 -t1 -- -t1 10
 #     ^ variable.parameter.option.shell - punctuation
 #       ^^ string.quoted.single.shell
 #          ^^^ variable.parameter.option.shell
-#              ^ constant.numeric.integer.decimal.shell
+#              ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                ^^ variable.parameter.option.shell
-#                  ^ constant.numeric.integer.decimal.shell
+#                  ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                    ^^ keyword.operator.end-of-options.shell
 #                       ^^^^^^ - constant - variable
 
 shift 2 -- 
 #^^^^ meta.function-call.identifier.shell support.function.shift.shell
 #    ^^^^^^ meta.function-call.arguments.shell
-#     ^ constant.numeric.integer.decimal.shell
+#     ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #       ^^ - keyword
 
 umask 0777
 #^^^^ meta.function-call.identifier.shell support.function.umask.shell
 #    ^^^^^ meta.function-call.arguments.shell
-#     ^^^^ constant.numeric.integer.octal.shell
+#     ^ meta.number.integer.octal.shell constant.numeric.base.shell
+#      ^^^ meta.number.integer.octal.shell constant.numeric.value.shell
 
 echo +e "Hello"
 #    ^ variable.parameter.option punctuation
@@ -507,7 +508,7 @@ opt1=10
 # <- meta.function-call.arguments.shell meta.parameter.option.shell variable.parameter.option.shell
 #^^^ meta.function-call.arguments.shell meta.parameter.option.shell variable.parameter.option.shell
 #   ^ meta.function-call.arguments.shell keyword.operator.assignment.shell
-#    ^^ meta.function-call.arguments.shell meta.number.value.shell constant.numeric.integer.decimal.shell
+#    ^^ meta.function-call.arguments.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #      ^ - meta.function-call - meta.number - constant
 
 foo --o\
@@ -515,19 +516,19 @@ pt1=10
 # <- meta.function-call.arguments.shell meta.parameter.option.shell variable.parameter.option.shell
 #^^ meta.function-call.arguments.shell meta.parameter.option.shell variable.parameter.option.shell
 #  ^ meta.function-call.arguments.shell keyword.operator.assignment.shell
-#   ^^ meta.function-call.arguments.shell meta.number.value.shell constant.numeric.integer.decimal.shell
+#   ^^ meta.function-call.arguments.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #     ^ - meta.function-call - meta.number - constant
 
 foo --opt1\
 =10
 # <- meta.function-call.arguments.shell keyword.operator.assignment.shell
-#^^ meta.function-call.arguments.shell meta.number.value.shell constant.numeric.integer.decimal.shell
+#^^ meta.function-call.arguments.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #  ^ - meta.function-call - meta.number - constant
 
 foo --opt1=\
 10
-# <- meta.function-call.arguments.shell meta.number.value.shell constant.numeric.integer.decimal.shell
-#^ meta.function-call.arguments.shell meta.number.value.shell constant.numeric.integer.decimal.shell
+# <- meta.function-call.arguments.shell meta.number.integer.decimal.shell constant.numeric.value.shell
+#^ meta.function-call.arguments.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 # ^ - meta.function-call - meta.number - constant
 
 foo --opt1 arg1 -- --not-an-option
@@ -705,13 +706,13 @@ cd foo/bar2345
 #  ^^^^^^^^^^^^^^^^^^ meta.compound.shell meta.compound.arguments.shell
 #                    ^ meta.compound.shell - meta.compound meta.compound
 # ^ punctuation.section.compound.end.shell
-  # ^ constant.numeric.integer.decimal.file-descriptor - variable.function
+  # ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell - variable.function
 } 1>> "$stdout_log"
 # <- meta.compound.shell - meta.compound meta.compound
 #^^^^^^^^^^^^^^^^^^ meta.compound.arguments.shell
 #                  ^ - meta
 # <- punctuation.section.compound.end.shell
-# ^ constant.numeric.integer.decimal.file-descriptor - variable.function
+# ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell - variable.function
 
 
 ####################################################################
@@ -759,9 +760,9 @@ coproc ls thisfiledoesntexist; read; 2>&1
 #                            ^ punctuation.terminator.statement.shell
 #                              ^^^^ support.function.read.shell
 #                                  ^ punctuation.terminator.statement.shell
-#                                    ^ constant.numeric.integer.decimal.file-descriptor.shell
+#                                    ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #                                     ^^ keyword.operator.assignment.redirection.shell
-#                                       ^ constant.numeric.integer.decimal.file-descriptor.shell
+#                                       ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 
 coproc awk '{print "foo" $0;fflush()}'
 # <- meta.coproc.shell storage.type.coproc.shell keyword.declaration.coproc.shell
@@ -794,9 +795,9 @@ coproc { ls thisfiledoesntexist; read; 2>&1 } | foo
 #                              ^ punctuation.terminator.statement.shell
 #                                ^^^^ support.function.read.shell
 #                                    ^ punctuation.terminator.statement.shell
-#                                      ^ constant.numeric.integer.decimal.file-descriptor.shell
+#                                      ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #                                       ^^ keyword.operator.assignment.redirection.shell
-#                                         ^ constant.numeric.integer.decimal.file-descriptor.shell
+#                                         ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #                                           ^ punctuation.section.compound.end.shell
 #                                             ^ keyword.operator.assignment.pipe.shell
 #                                               ^^^ variable.function.shell
@@ -814,9 +815,9 @@ coproc myls { ls thisfiledoesntexist; read; 2>&1 } | foo
 #                                   ^ punctuation.terminator.statement.shell
 #                                     ^^^^ support.function.read.shell
 #                                         ^ punctuation.terminator.statement.shell
-#                                           ^ constant.numeric.integer.decimal.file-descriptor.shell
+#                                           ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #                                            ^^ keyword.operator.assignment.redirection.shell
-#                                              ^ constant.numeric.integer.decimal.file-descriptor.shell
+#                                              ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #                                                ^ punctuation.section.compound.end.shell
 #                                                  ^ keyword.operator.assignment.pipe.shell
 #                                                    ^^^ variable.function.shell
@@ -835,11 +836,11 @@ coproc myls { ls thisfiledoesntexist; read; 2>&1 } | foo
 #              ^^^ variable.function.shell
 #                           ^ punctuation.section.compound.end.shell
 #                             ^^ keyword.operator.assignment.redirection
-#                               ^ constant.numeric.integer.decimal.file-descriptor
+#                               ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #                                  ^ punctuation.section.compound.end.shell
-#                                    ^ constant.numeric.integer.decimal.file-descriptor
+#                                    ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #                                     ^^ keyword.operator.assignment.redirection
-#                                       ^ constant.numeric.integer.decimal.file-descriptor
+#                                       ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 
 coproc foobar {
 # <- meta.coproc.shell storage.type.coproc.shell keyword.declaration.coproc.shell
@@ -916,7 +917,7 @@ logExit ( ) {
   #               ^^ meta.function keyword.operator.logical
   #                  ^^^^ meta.function keyword.control.flow.exit.shell
   #                       ^ keyword.operator.arithmetic.shell
-  #                        ^ constant.numeric.integer.decimal.shell
+  #                        ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 }
 # <- meta.function.shell meta.compound.shell punctuation.section.compound.end.shell
 #^ - meta.function
@@ -949,7 +950,7 @@ function foo
     return 0
     # <- keyword.control.flow.return.shell
     #^^^^^ keyword.control.flow.return.shell
-    #      ^ constant.numeric.integer.decimal.shell
+    #      ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 }
 # <- meta.function.shell meta.compound.shell punctuation.section.compound.end.shell
 #^ - meta.function
@@ -1620,7 +1621,7 @@ local foo+=10 bar-=true
 #    ^^^^^^^^^^^^^^^^^^ meta.declaration.variable.arguments.shell
 #     ^^^ meta.variable.shell variable.other.readwrite.shell
 #        ^^ keyword.operator.assignment.shell
-#          ^^ constant.numeric.integer.decimal.shell
+#          ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #             ^^^ meta.variable.shell variable.other.readwrite.shell
 #                ^^ keyword.operator.assignment.shell
 #                  ^^^^ constant.language.boolean.shell
@@ -1712,7 +1713,7 @@ foo=`readonly x=5`
 #    ^^^^^^^^ meta.interpolation.command.shell storage.type.variable.shell keyword.declaration.variable.shell
 #             ^ meta.interpolation.command.shell variable.other.readwrite
 #              ^ meta.interpolation.command.shell keyword.operator.assignment
-#               ^ meta.string.shell meta.interpolation.command.shell constant.numeric.integer.decimal.shell
+#               ^ meta.string.shell meta.interpolation.command.shell meta.declaration.variable.arguments.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #                ^ meta.interpolation.command.shell punctuation.section.interpolation.end.shell
 
 
@@ -1794,7 +1795,7 @@ test var != 0
 #^^^ meta.function-call.identifier.shell support.function.test.shell
 #   ^^^^^^^^^ meta.function-call.arguments.shell - meta.pattern
 #        ^^ keyword.operator.comparison.shell
-#           ^ constant.numeric.integer.decimal.shell
+#           ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 
 test var == true
 #<- meta.function-call.identifier.shell support.function.test.shell
@@ -2034,7 +2035,7 @@ unset -f -n -v foo b'a'r; unset -vn foo 2>& /dev/null
 #                                  ^ - variable
 #                                   ^^^ meta.variable.shell variable.other.readwrite.shell
 #                                      ^ - variable
-#                                       ^ constant.numeric.integer.decimal.file-descriptor.shell
+#                                       ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #                                        ^^ keyword.operator.assignment.redirection.shell
 
 unset -f -x +v -- foo bar; unset -vn -- foo
@@ -2174,7 +2175,7 @@ x=0.19.8.1
 x=10
 # <- variable.other.readwrite.shell
 #^ keyword.operator.assignment.shell
-# ^^ constant.numeric.integer.decimal.shell
+# ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 
 # Spaces following an assignment token means an empty string value!
 x= pwd
@@ -2368,16 +2369,16 @@ array=(one two three four -5 (foo bar baz) (5 6 7))
 #              ^^^^^ string.unquoted.shell
 #                    ^^^^ string.unquoted.shell
 #                         ^ keyword.operator.arithmetic.shell
-#                          ^ constant.numeric.integer.decimal.shell
+#                          ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                            ^ punctuation.section.sequence.begin.shell
 #                             ^^^ meta.string.shell string.unquoted.shell
 #                                 ^^^ string.unquoted.shell
 #                                     ^^^ string.unquoted.shell
 #                                        ^ punctuation.section.sequence.end.shell
 #                                          ^ punctuation.section.sequence.begin.shell
-#                                           ^ constant.numeric.integer.decimal.shell
-#                                             ^ constant.numeric.integer.decimal.shell
-#                                               ^ constant.numeric.integer.decimal.shell
+#                                           ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                                             ^ meta.number.integer.decimal.shell constant.numeric.value.shell
+#                                               ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                                                ^^ punctuation.section.sequence.end.shell
 
 array=($one "two" ${three} 'four' $5)
@@ -2429,7 +2430,7 @@ array=([one]== ["two"]='what' [4+5]=qux [five]=0 [six]=0s)
 #                                       ^ punctuation.section.brackets.begin.shell
 #                                            ^ punctuation.section.brackets.end.shell
 #                                             ^ keyword.operator.assignment.shell
-#                                              ^ constant.numeric.integer.decimal.shell
+#                                              ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                                                ^ punctuation.section.brackets.begin.shell
 #                                                    ^ punctuation.section.brackets.end.shell
 #                                                     ^ keyword.operator.assignment.shell
@@ -2441,7 +2442,7 @@ array[500]=value
 #^^^^ meta.variable.shell variable.other.readwrite.shell
 #    ^^^^^ meta.variable.shell meta.item-access.shell - variable
 #    ^ punctuation.section.item-access.begin.shell
-#     ^^^ constant.numeric.integer.decimal.shell
+#     ^^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #        ^ punctuation.section.item-access.end.shell
 #         ^ keyword.operator.assignment
 #          ^^^^^ meta.string.shell string.unquoted.shell
@@ -2480,7 +2481,7 @@ foo[${j}+10]="`foo`"
 #     ^ variable.other.readwrite.shell
 #      ^ punctuation.section.interpolation.end.shell
 #       ^ keyword.operator.arithmetic.shell
-#        ^^ constant.numeric.integer.decimal.shell
+#        ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #          ^ punctuation.section.item-access.end.shell
 #           ^ keyword.operator.assignment.shell
 
@@ -2511,9 +2512,9 @@ foo=`let 5+5`
 #           ^ meta.string.shell meta.interpolation.command.shell
 #   ^ punctuation.section.interpolation.begin.shell
 #    ^^^ support.function.let.shell
-#        ^ constant.numeric.integer.decimal.shell
+#        ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #         ^ keyword.operator.arithmetic.shell
-#          ^ constant.numeric.integer.decimal.shell
+#          ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #           ^ punctuation.section.interpolation.end.shell
 
 foo=`some-command --long1`
@@ -2544,7 +2545,7 @@ foo=`(uname -r --) 2>/dev/null`
 #           ^^ meta.parameter.option.shell variable.parameter.option.shell
 #              ^^ keyword.operator.end-of-options.shell
 #                ^ punctuation.section.compound.end.shell
-#                  ^ constant.numeric.integer.decimal.file-descriptor.shell
+#                  ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #                   ^ keyword.operator.assignment.redirection.shell
 #                             ^ punctuation.section.interpolation.end.shell - punctuation.section.interpolation.begin
 
@@ -2555,7 +2556,7 @@ foo=`(uname -r) 2>/dev/null` || foo=unknown
 #     ^^^^^ variable.function.shell
 #           ^^ meta.parameter.option.shell variable.parameter.option.shell
 #             ^ punctuation.section.compound.end.shell
-#               ^ constant.numeric.integer.decimal.file-descriptor.shell
+#               ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #                ^ keyword.operator.assignment.redirection.shell
 #                          ^ punctuation.section.interpolation.end.shell - punctuation.section.interpolation.begin
 #                            ^^ keyword.operator.logical.shell
@@ -2743,9 +2744,9 @@ ${foo:=bar}
 # ^^ punctuation.section.interpolation.begin.shell
 #   ^^^ variable.other.readwrite.shell
 #      ^ keyword.operator.substring.begin.shell
-#       ^ constant.numeric.integer.decimal.shell - variable
+#       ^ meta.number.integer.decimal.shell constant.numeric.value.shell - variable
 #        ^ keyword.operator.substring.end.shell
-#         ^ constant.numeric.integer.decimal.shell - variable
+#         ^ meta.number.integer.decimal.shell constant.numeric.value.shell - variable
 #          ^ punctuation.section.interpolation.end.shell
 
 : ${@:0:1}
@@ -2753,9 +2754,9 @@ ${foo:=bar}
 # ^^ punctuation.section.interpolation.begin.shell
 #   ^ variable.language.shell
 #    ^ keyword.operator.substring.begin.shell
-#     ^ constant.numeric.integer.decimal.shell
+#     ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #      ^ keyword.operator.substring.end.shell
-#       ^ constant.numeric.integer.decimal.shell
+#       ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${*:0:1}
@@ -2763,9 +2764,9 @@ ${foo:=bar}
 # ^^ punctuation.section.interpolation.begin.shell
 #   ^ - variable.language
 #    ^ keyword.operator.substring.begin.shell
-#     ^ constant.numeric.integer.decimal.shell
+#     ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #      ^ keyword.operator.substring.end.shell
-#       ^ constant.numeric.integer.decimal.shell
+#       ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #        ^ punctuation.section.interpolation.end.shell
 
 : ${foo:='bar'}
@@ -2896,9 +2897,9 @@ ${foo:=bar}
 # ^^ punctuation.section.interpolation.begin.shell
 #      ^^ keyword.operator.assignment.shell
 #        ^^^ punctuation.section.interpolation.begin.shell
-#            ^ constant.numeric.integer.decimal.shell
+#            ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #              ^ keyword.operator.arithmetic.shell
-#                ^ constant.numeric.integer.decimal.shell
+#                ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                  ^^^ punctuation.section.interpolation.end.shell
 
 : ${foo:=$bar}
@@ -3566,83 +3567,83 @@ true false
 
 (( 0 ))
 # ^ - meta.number - constant
-#  ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#  ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #   ^ - meta.number - constant
 
 (( 0 1 2 3 4 5 6 7 8 9))
 #^^^^^^^^^^^^^^^^^^^^^^^ meta.arithmetic.shell
 # ^ - meta.number - constant
-#  ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#  ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #   ^ - meta.number - constant
-#    ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#    ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #     ^ - meta.number - constant
-#      ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#      ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #       ^ - meta.number - constant
-#        ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#        ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #         ^ - meta.number - constant
-#          ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#          ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #           ^ - meta.number - constant
-#            ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#            ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #             ^ - meta.number - constant
-#              ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#              ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #               ^ - meta.number - constant
-#                ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#                ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                 ^ - meta.number - constant
-#                  ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#                  ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                   ^ - meta.number - constant
-#                    ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#                    ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                     ^ - meta.number - constant
 
 (( -0 -1 -2 -3 -4 -5 -6 -7 -8 -9))
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.arithmetic.shell
 # ^^ - meta.number - constant
-#   ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#   ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #    ^^ - meta.number - constant
-#      ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#      ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #       ^^ - meta.number - constant
-#         ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#         ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #          ^^ - meta.number - constant
-#            ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#            ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #             ^^ - meta.number - constant
-#               ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#               ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                ^^ - meta.number - constant
-#                  ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#                  ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                   ^^ - meta.number - constant
-#                     ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#                     ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                      ^^ - meta.number - constant
-#                        ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#                        ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                         ^^ - meta.number - constant
-#                           ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#                           ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                            ^^ - meta.number - constant
-#                              ^ meta.number.value.shell constant.numeric.integer.decimal.shell
+#                              ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                               ^ - meta.number - constant
 
 (( 012345670802 ))
 #^^^^^^^^^^^^^^^^^ meta.arithmetic.shell
-#  ^ meta.number.base.shell constant.numeric.integer.octal.shell
-#   ^^^^^^^^ meta.number.value.shell constant.numeric.integer.octal.shell
+#  ^ meta.number.integer.octal.shell constant.numeric.base.shell
+#   ^^^^^^^^ meta.number.integer.octal.shell constant.numeric.value.shell
 #           ^^^ - meta.number - constant
 
 (( 0x ))
 # ^ - meta.number - constant
-#  ^^ meta.number.base.shell constant.numeric.integer.hexadecimal.shell
+#  ^^ meta.number.integer.hexadecimal.shell constant.numeric.base.shell
 #    ^ - meta.number - constant
 
 (( 0xDEADBEEF 0xdeadbeef 0x1234567890abcdefg ))
 # ^ - meta.number - constant
-#  ^^ meta.number.base.shell constant.numeric.integer.hexadecimal.shell
-#    ^^^^^^^^ meta.number.value.shell constant.numeric.integer.hexadecimal.shell
+#  ^^ meta.number.integer.hexadecimal.shell constant.numeric.base.shell
+#    ^^^^^^^^ meta.number.integer.hexadecimal.shell constant.numeric.value.shell
 #            ^ - meta.number - constant
-#             ^^ meta.number.base.shell constant.numeric.integer.hexadecimal.shell
-#               ^^^^^^^^ meta.number.value.shell constant.numeric.integer.hexadecimal.shell
+#             ^^ meta.number.integer.hexadecimal.shell constant.numeric.base.shell
+#               ^^^^^^^^ meta.number.integer.hexadecimal.shell constant.numeric.value.shell
 #                       ^ - meta.number - constant
-#                        ^^ meta.number.base.shell constant.numeric.integer.hexadecimal.shell
-#                          ^^^^^^^^^^^^^^^^ meta.number.value.shell constant.numeric.integer.hexadecimal.shell
+#                        ^^ meta.number.integer.hexadecimal.shell constant.numeric.base.shell
+#                          ^^^^^^^^^^^^^^^^ meta.number.integer.hexadecimal.shell constant.numeric.value.shell
 #                                          ^^^^ - meta.number - constant
 
 (( 64#123@_ ))
-#  ^^^ meta.number.base.shell constant.numeric.integer.other.shell
-#     ^^^^^ meta.number.value.shell constant.numeric.integer.other.shell
+#  ^^^ meta.number.integer.other.shell constant.numeric.base.shell
+#     ^^^^^ meta.number.integer.other.shell constant.numeric.value.shell
 
 
 ####################################################################
@@ -3781,29 +3782,29 @@ let 5 \
 #^^^^^^ meta.function-call.arguments.shell
 #      ^ - meta.function-call
 #   ^ keyword.operator.arithmetic.shell
-#     ^ constant.numeric.integer.decimal.shell
+#     ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 
 let 5+5 # comment
 #^^ meta.function-call.identifier.shell
 #  ^^^^ meta.function-call.arguments.shell
 #      ^ - meta.function-call
 #^^ support.function.let.shell
-#   ^ constant.numeric.integer.decimal.shell
+#   ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #    ^ keyword.operator.arithmetic.shell
-#     ^ constant.numeric.integer.decimal.shell
+#     ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 
 let var[10]=5*(20+$idx)
 #^^ meta.function-call.identifier.shell support.function.let.shell
 #  ^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell
 #      ^^^^ meta.item-access.shell
 #      ^ punctuation.section.item-access.begin.shell
-#       ^^ constant.numeric.integer.decimal.shell
+#       ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #         ^ punctuation.section.item-access.end.shell
 #          ^ keyword.operator.assignment.shell
-#           ^ constant.numeric.integer.decimal.shell
+#           ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #            ^ keyword.operator.arithmetic.shell
 #             ^ punctuation.section.group.begin.shell
-#              ^^ constant.numeric.integer.decimal.shell
+#              ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                ^ keyword.operator.arithmetic.shell
 #                 ^^^^ variable.other.readwrite.shell
 #                     ^ punctuation.section.group.end.shell
@@ -3816,9 +3817,9 @@ let "two=5+5"; if [[ "$X" == "1" ]]; then X="one"; fi
 #   ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.begin.shell
 #    ^^^^^^^ meta.string.shell meta.interpolation.shell - string
 #       ^ keyword.operator.assignment.shell
-#        ^ constant.numeric.integer.decimal.shell
+#        ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #         ^ keyword.operator.arithmetic.shell
-#          ^ constant.numeric.integer.decimal.shell
+#          ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #           ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.end.shell
 #            ^ punctuation.terminator.statement.shell
 #              ^^ keyword.control.conditional.if.shell
@@ -3838,9 +3839,9 @@ let "two=5+5"; if [[ "$X" == "1" ]]; then X="one"; fi
 
 function show_help() {
     echo "Usage: imgcat [-p] filename ..." 1>& 2
-    #                                          ^ constant.numeric.integer.decimal.file-descriptor
+    #                                          ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
     echo "   or: cat filename | imgcat" 1>& 2
-    #                                       ^ constant.numeric.integer.decimal.file-descriptor
+    #                                       ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 }
 cmd1 --opt1 arg1 | cmd2 --opt2 arg2 | cmd3 --opt3 arg3
 #  ^ meta.function-call.identifier.shell variable.function.shell
@@ -3872,15 +3873,15 @@ c1 -c1 c1 && ${C2} -c2 c2 || c3 -c3 ${C3} ; c4 -${C4} c4 | c5 -c5 c5
                                           #    ^ variable.parameter
 
 foo 2>&1
-#   ^ meta.function-call.arguments constant.numeric.integer.decimal.file-descriptor
+#   ^ meta.function-call.arguments meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #    ^^ meta.function-call.arguments keyword.operator.assignment.redirection
-#      ^ meta.function-call.arguments constant.numeric.integer.decimal.file-descriptor
+#      ^ meta.function-call.arguments meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 foo 2>&-
 #      ^ punctuation.terminator
 foo | bar 2>&1
-#         ^ meta.function-call.arguments constant.numeric.integer.decimal.file-descriptor
+#         ^ meta.function-call.arguments meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #          ^^ meta.function-call.arguments keyword.operator.assignment.redirection
-#            ^ meta.function-call.arguments constant.numeric.integer.decimal.file-descriptor
+#            ^ meta.function-call.arguments meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 foo | bar --opt1 arg1 < file.txt
 #                     ^ meta.function-call.arguments keyword.operator.assignment.redirection
 foo | bar --opt1 arg1 > file.txt
@@ -3925,13 +3926,13 @@ gzip | tee >(md5sum - | sed 's/-$/mydata.lz2/'>mydata-gz.md5) > mydata.gz
 #                                                           ^ punctuation
 #                                                             ^ keyword.operator.assignment.redirection
 LC_ALL=C 2> /dev/null
-#        ^ constant.numeric.integer.decimal.file-descriptor
+#        ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #         ^ keyword.operator.assignment.redirection
 #           ^ - variable.function
 2>&1 echo foo
-# <- constant.numeric.integer.decimal.file-descriptor
+# <- meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #^^ keyword.operator.assignment.redirection
-#  ^ constant.numeric.integer.decimal.file-descriptor
+#  ^ meta.file-descriptor.shell meta.number.integer.decimal.shell constant.numeric.value.shell
 #    ^^^^ meta.function-call support.function.echo
 #        ^^^^ meta.function-call.arguments
 touch file.txt
@@ -4576,13 +4577,13 @@ while true; do
 #   ^^^^^ keyword.control.flow.break.shell
     break 2;
 #   ^^^^^ keyword.control.flow.break.shell
-#         ^ constant.numeric.integer.decimal.shell
+#         ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #          ^ punctuation.terminator.statement.shell
     continue
 #   ^^^^^^^^ keyword.control.flow.continue.shell
     continue 2;
 #   ^^^^^^^^ keyword.control.flow.continue.shell
-#            ^ constant.numeric.integer.decimal.shell
+#            ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #             ^ punctuation.terminator.statement.shell
 done
 # <- keyword.control.loop.end
@@ -4771,10 +4772,10 @@ for (( i = 0; i < 10; i++ )); do
 # <- keyword.control.loop.for.shell
 #   ^^ punctuation.section.arithmetic.begin.shell
 #        ^ keyword.operator.assignment.shell
-#          ^ constant.numeric.integer.decimal.shell - punctuation
+#          ^ meta.number.integer.decimal.shell constant.numeric.value.shell - punctuation
 #           ^ punctuation.terminator.statement.shell
 #               ^ keyword.operator.comparison.shell
-#                 ^^ constant.numeric.integer.decimal.shell
+#                 ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                   ^ punctuation.terminator.statement.shell
 #                      ^^ keyword.operator.arithmetic.shell
 #                         ^^ punctuation.section.arithmetic.end.shell
@@ -4792,10 +4793,10 @@ for (( i = 0; i < 10; i++ )) #; do
 # <- keyword.control.loop.for.shell
 #   ^^ punctuation.section.arithmetic.begin.shell
 #        ^ keyword.operator.assignment.shell
-#          ^ constant.numeric.integer.decimal.shell - punctuation
+#          ^ meta.number.integer.decimal.shell constant.numeric.value.shell - punctuation
 #           ^ punctuation.terminator.statement.shell
 #               ^ keyword.operator.comparison.shell
-#                 ^^ constant.numeric.integer.decimal.shell
+#                 ^^ meta.number.integer.decimal.shell constant.numeric.value.shell
 #                   ^ punctuation.terminator.statement.shell
 #                      ^^ keyword.operator.arithmetic.shell
 #                         ^^ punctuation.section.arithmetic.end.shell
