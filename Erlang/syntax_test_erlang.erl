@@ -689,65 +689,100 @@ map_tests() -> .
 
 numbers_test() -> .
 
-    2
+    2 2_2 0__9
+%  ^ - meta.number - constant
 %   ^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
+%    ^ - meta.number - constant
+%     ^^^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
+%        ^ - meta.number - constant
+%         ^^^^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
+%             ^ - meta.number - constant
 
     45a
 %   ^^^ invalid.illegal.integer.erlang
 
-    2.3
+    2.3 2_._3_ 2_4.5_0 _2_._3_
+%  ^ - meta.number - constant
 %   ^^^ meta.number.float.decimal.erlang constant.numeric.value.erlang
 %    ^ punctuation.separator.decimal.erlang
+%      ^ - meta.number - constant
+%       ^^^^^^ meta.number.float.decimal.erlang constant.numeric.value.erlang
+%             ^ - meta.number - constant
+%              ^^^^^^^ meta.number.float.decimal.erlang constant.numeric.value.erlang
+%                     ^^^^^^^^ - meta.number - constant
 
-    2.3e3
+    2.3e3 2_2._3_3_e_2_3_
 %   ^^^^^ meta.number.float.decimal.erlang constant.numeric.value.erlang
 %    ^ punctuation.separator.decimal.erlang
+%        ^ - meta.number - constant
+%         ^^^^^^^^^^^^^^^ meta.number.float.decimal.erlang constant.numeric.value.erlang
+%                        ^ - meta.number - constant
 
-    2.3e+3
+    2.3e+3 2_2._3_3_e+_2_3_
 %   ^^^^^^ meta.number.float.decimal.erlang constant.numeric.value.erlang
 %    ^ punctuation.separator.decimal.erlang
+%         ^ - meta.number - constant
+%          ^^^^^^^^^^^^^^^^ meta.number.float.decimal.erlang constant.numeric.value.erlang
+%                          ^ - meta.number - constant
 
-    2.3e-3
+    2.3e-3 2_2._3_3_e-_2_3_
 %   ^^^^^^ meta.number.float.decimal.erlang constant.numeric.value.erlang
 %    ^ punctuation.separator.decimal.erlang
+%         ^ - meta.number - constant
+%          ^^^^^^^^^^^^^^^^ meta.number.float.decimal.erlang constant.numeric.value.erlang
+%                          ^ - meta.number - constant
 
     1#0
 %   ^^^ invalid.illegal.integer.erlang
 
-    2#01 2#012
+    2#01 2#012 2#_0_1_
 %   ^^ meta.number.integer.binary.erlang constant.numeric.base.erlang
 %     ^^ meta.number.integer.binary.erlang constant.numeric.value.erlang
 %        ^^^^^ invalid.illegal.integer.erlang
+%              ^^ meta.number.integer.binary.erlang constant.numeric.base.erlang
+%                ^^^^^ meta.number.integer.binary.erlang constant.numeric.value.erlang
 
-    3#012 3#123
+    3#012 3#123 3#_0_1_2_
 %   ^^ meta.number.integer.other.erlang constant.numeric.base.erlang
 %     ^^^ meta.number.integer.other.erlang constant.numeric.value.erlang
 %         ^^^^^ invalid.illegal.integer.erlang
+%               ^^ meta.number.integer.other.erlang constant.numeric.base.erlang
+%                 ^^^^^^^ meta.number.integer.other.erlang constant.numeric.value.erlang
 
-    4#0123 4#1234
+    4#0123 4#1234 4#_0_1_2_3_
 %   ^^ meta.number.integer.other.erlang constant.numeric.base.erlang
 %     ^^^^ meta.number.integer.other.erlang constant.numeric.value.erlang
 %          ^^^^^^ invalid.illegal.integer.erlang
+%                 ^^ meta.number.integer.other.erlang constant.numeric.base.erlang
+%                   ^^^^^^^^^ meta.number.integer.other.erlang constant.numeric.value.erlang
 
-    8#0723 8#1834
+    8#0723 8#1834 8#_0_7_2_3_
 %   ^^ meta.number.integer.octal.erlang constant.numeric.base.erlang
 %     ^^^^ meta.number.integer.octal.erlang constant.numeric.value.erlang
 %          ^^^^^^ invalid.illegal.integer.erlang
+%                 ^^ meta.number.integer.octal.erlang constant.numeric.base.erlang
+%                   ^^^^^^^^^ meta.number.integer.octal.erlang constant.numeric.value.erlang
 
-    10#0943 10#183A
+    10#0943 10#183A 10#_0_9_4_3_
 %   ^^^ meta.number.integer.decimal.erlang constant.numeric.base.erlang
 %      ^^^^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
 %           ^^^^^^ invalid.illegal.integer.erlang
+%                   ^^^ meta.number.integer.decimal.erlang constant.numeric.base.erlang
+%                      ^^^^^^^^^ meta.number.integer.decimal.erlang constant.numeric.value.erlang
 
-    16#0F2B 16#F8G4
+    16#0F2B 16#F8G4 16#_0_F_2_B_
 %   ^^^ meta.number.integer.hexadecimal.erlang constant.numeric.base.erlang
 %      ^^^^ meta.number.integer.hexadecimal.erlang constant.numeric.value.erlang
 %           ^^^^^^^ invalid.illegal.integer.erlang
+%                   ^^^ meta.number.integer.hexadecimal.erlang constant.numeric.base.erlang
+%                      ^^^^^^^^^ meta.number.integer.hexadecimal.erlang constant.numeric.value.erlang
 
-    35#0Y2B 35#F8Z4
+    35#0Y2B 35#F8Z4 35#_0_Y_2_B_
 %   ^^^ meta.number.integer.other.erlang constant.numeric.base.erlang
 %      ^^^^ meta.number.integer.other.erlang constant.numeric.value.erlang
 %           ^^^^^^^ invalid.illegal.integer.erlang
+%                   ^^^ meta.number.integer.other.erlang constant.numeric.base.erlang
+%                      ^^^^^^^^^ meta.number.integer.other.erlang constant.numeric.value.erlang
 
     37#ABC
 %   ^^^^^^ invalid.illegal.integer.erlang
