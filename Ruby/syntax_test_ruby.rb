@@ -883,6 +883,8 @@ module: 'module'
 # ^ keyword.operator.comparison.ruby
   &&
 # ^^ keyword.operator.logical.ruby
+  &.
+# ^^ keyword.operator.logical.ruby
   ||
 # ^^ keyword.operator.logical.ruby
   !
