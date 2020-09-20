@@ -540,7 +540,7 @@ contexts:
     - match: =
       scope: keyword.operator.assignment.ruby
       push: after-operator
-    - match: '!+|&&|\|\|'
+    - match: '!+|&&|&\.|\|\|'
       scope: keyword.operator.logical.ruby
       push: after-operator
     - match: '[~&|^]'
