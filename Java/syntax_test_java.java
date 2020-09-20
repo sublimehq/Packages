@@ -5,20 +5,20 @@
  *****************************************************************************/
 
 package
-// <- meta.namespace.package.java storage.type.namespace.package.java keyword.declaration.namespace.package.java
+// <- meta.namespace.package.java keyword.declaration.namespace.package.java
 //^^^^^ meta.namespace.package.java - meta.path
 //     ^ meta.namespace.package.identifier.java
 //^^^^^ keyword.declaration.namespace.package.java
 
 package apple
-// <- meta.namespace.package.java storage.type.namespace.package.java keyword.declaration.namespace.package.java
+// <- meta.namespace.package.java keyword.declaration.namespace.package.java
 //^^^^^ meta.namespace.package.java - meta.path
 //     ^^^^^^ meta.namespace.package.identifier.java - meta.path
 //^^^^^ keyword.declaration.namespace.package.java
 //      ^^^^^ entity.name.namespace.package.java
 
 package apple;
-// <- meta.namespace.package.java storage.type.namespace.package.java keyword.declaration.namespace.package.java
+// <- meta.namespace.package.java keyword.declaration.namespace.package.java
 //^^^^^ meta.namespace.package.java - meta.path
 //     ^^^^^^ meta.namespace.package.identifier.java - meta.path
 //^^^^^ keyword.declaration.namespace.package.java
@@ -26,15 +26,15 @@ package apple;
 //           ^ punctuation.terminator.java
 
 package
-// <- meta.namespace.package.java storage.type.namespace.package.java keyword.declaration.namespace.package.java
-//^^^^^ meta.namespace.package.java storage.type.namespace.package.java keyword.declaration.namespace.package.java
+// <- meta.namespace.package.java keyword.declaration.namespace.package.java
+//^^^^^ meta.namespace.package.java keyword.declaration.namespace.package.java
 apple
 //^^^ meta.namespace.package.identifier.java entity.name.namespace.package.java - meta.path
 ;
 // <- punctuation.terminator.java
 
 package com.
-// <- meta.namespace.package.java storage.type.namespace.package.java keyword.declaration.namespace.package.java
+// <- meta.namespace.package.java keyword.declaration.namespace.package.java
 //^^^^^ meta.namespace.package.java - meta.path
 //     ^ meta.namespace.package.identifier.java - meta.path
 //      ^^^^^ meta.namespace.package.identifier.java meta.path.java
@@ -42,7 +42,7 @@ package com.
 //         ^ punctuation.accessor.dot.java - entity - variable
 
 package com.example.apple;
-// <- meta.namespace.package.java storage.type.namespace.package.java keyword.declaration.namespace.package.java
+// <- meta.namespace.package.java keyword.declaration.namespace.package.java
 //^^^^^ meta.namespace.package.java - meta.path
 //     ^ meta.namespace.package.identifier.java - meta.path
 //      ^^^^^^^^^^^^^^^^^ meta.namespace.package.identifier.java meta.path.java
@@ -54,8 +54,8 @@ package com.example.apple;
 //                       ^ punctuation.terminator.java
 
 package
-// <- meta.namespace.package.java storage.type.namespace.package.java keyword.declaration.namespace.package.java
-//^^^^^ meta.namespace.package.java storage.type.namespace.package.java keyword.declaration.namespace.package.java
+// <- meta.namespace.package.java keyword.declaration.namespace.package.java
+//^^^^^ meta.namespace.package.java keyword.declaration.namespace.package.java
     com
 //  ^^^ meta.namespace.package.identifier.java meta.path.java variable.namespace.java - punctuation
     .
@@ -345,12 +345,12 @@ import static a.b.Class.*;
  *****************************************************************************/
 
 class
-// <- meta.class.java storage.type.class.java keyword.declaration.class.java
-//^^^ meta.class.java storage.type.class.java keyword.declaration.class.java
+// <- meta.class.java keyword.declaration.class.java
+//^^^ meta.class.java keyword.declaration.class.java
 
 class ClassTest
-// <- meta.class.java storage.type.class.java keyword.declaration.class.java
-//^^^ meta.class.java storage.type.class.java keyword.declaration.class.java
+// <- meta.class.java keyword.declaration.class.java
+//^^^ meta.class.java keyword.declaration.class.java
 //   ^^^^^^^^^^^ meta.class.identifier.java
 //   ^ - entity - keyword - storage
 //    ^^^^^^^^^ entity.name.class.java
@@ -362,8 +362,8 @@ class ClassTest {}
 //   ^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class
 //              ^^ meta.class.java meta.block.java - meta.class meta.class
 //                ^ - meta.class
-// <- storage.type.class.java keyword.declaration.class.java
-//^^^ storage.type.class.java keyword.declaration.class.java
+// <- keyword.declaration.class.java
+//^^^ keyword.declaration.class.java
 //   ^ - entity - keyword - storage
 //    ^^^^^^^^^ entity.name.class.java
 //             ^ - entity - keyword - storage
@@ -374,7 +374,7 @@ class ExtendsTest extends
 //^^^ meta.class.java - meta.class meta.class
 //   ^^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class
 //                ^^^^^^^^ meta.class.extends.java - meta.class meta.class
-//^^^ storage.type.class.java
+//^^^ keyword.declaration.class.java
 //   ^ - entity - keyword - storage
 //    ^^^^^^^^^^^ entity.name.class.java
 //               ^ - entity - keyword - storage
@@ -386,7 +386,7 @@ class ExtendsTest extends Foo {}
 //   ^^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class
 //                ^^^^^^^^^^^^ meta.class.extends.java - meta.class meta.class
 //                            ^^ meta.class.java meta.block.java - meta.class meta.class
-//^^^ storage.type.class.java
+//^^^ keyword.declaration.class.java
 //   ^ - entity - keyword - storage
 //    ^^^^^^^^^^^ entity.name.class.java
 //               ^ - entity - keyword - storage
@@ -402,7 +402,7 @@ class ExtendsTest extends @NonNull Foo {}
 //   ^^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class
 //                ^^^^^^^^^^^^^^^^^^^^^ meta.class.extends.java - meta.class meta.class
 //                                     ^^ meta.class.java meta.block.java - meta.class meta.class
-//^^^ storage.type.class.java
+//^^^ keyword.declaration.class.java
 //   ^ - entity - keyword - storage
 //    ^^^^^^^^^^^ entity.name.class.java
 //               ^ - entity - keyword - storage
@@ -416,14 +416,14 @@ class ExtendsTest extends @NonNull Foo {}
 //                                      ^ punctuation.section.block.end.java
 
 class GenericTest<
-//<- meta.class.java storage.type.class.java keyword.declaration.class.java
+//<- meta.class.java keyword.declaration.class.java
 //^^^ meta.class.java - meta.class meta.class - meta.generic
 //   ^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class - meta.generic
 //               ^^ meta.class.identifier.java meta.generic.declaration.java
 //               ^ punctuation.definition.generic.begin.java
 
 class GenericTest<A
-//<- meta.class.java storage.type.class.java keyword.declaration.class.java
+//<- meta.class.java keyword.declaration.class.java
 //^^^ meta.class.java - meta.class meta.class - meta.generic
 //   ^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class - meta.generic
 //               ^^^ meta.class.identifier.java meta.generic.declaration.java
@@ -431,7 +431,7 @@ class GenericTest<A
 //                ^ variable.parameter.type.java
 
 class GenericTest<A extends
-//<- meta.class.java storage.type.class.java keyword.declaration.class.java
+//<- meta.class.java keyword.declaration.class.java
 //^^^ meta.class.java - meta.class meta.class - meta.generic
 //   ^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class - meta.generic
 //               ^^^^^^^^^^^ meta.class.identifier.java meta.generic.declaration.java
@@ -440,7 +440,7 @@ class GenericTest<A extends
 //                  ^^^^^^^ keyword.declaration.extends.java
 
 class GenericTest<A extends Foo
-//<- meta.class.java storage.type.class.java keyword.declaration.class.java
+//<- meta.class.java keyword.declaration.class.java
 //^^^ meta.class.java - meta.class meta.class - meta.generic
 //   ^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class - meta.generic
 //               ^^^^^^^^^^^^^^^ meta.class.identifier.java meta.generic.declaration.java
@@ -450,7 +450,7 @@ class GenericTest<A extends Foo
 //                          ^^^ support.class.java
 
 class GenericTest<integer extends Foo>
-//<- meta.class.java storage.type.class.java keyword.declaration.class.java
+//<- meta.class.java keyword.declaration.class.java
 //^^^ meta.class.java - meta.class meta.class - meta.generic
 //   ^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class - meta.generic
 //               ^^^^^^^^^^^^^^^^^^^^^ meta.class.identifier.java meta.generic.declaration.java
@@ -461,7 +461,7 @@ class GenericTest<integer extends Foo>
 //                                   ^ punctuation.definition.generic.end.java
 
 class generictest<integer extends foo>
-//<- meta.class.java storage.type.class.java keyword.declaration.class.java
+//<- meta.class.java keyword.declaration.class.java
 //^^^ meta.class.java - meta.class meta.class - meta.generic
 //   ^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class - meta.generic
 //               ^^^^^^^^^^^^^^^^^^^^^ meta.class.identifier.java meta.generic.declaration.java
@@ -472,7 +472,7 @@ class generictest<integer extends foo>
 //                                   ^ punctuation.definition.generic.end.java
 
 class GenericTest<int extends Foo>
-//<- meta.class.java storage.type.class.java keyword.declaration.class.java
+//<- meta.class.java keyword.declaration.class.java
 //^^^ meta.class.java - meta.class meta.class - meta.generic
 //   ^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class - meta.generic
 //               ^^^^^^^^^^^^^^^^^ meta.class.identifier.java meta.generic.declaration.java
@@ -483,7 +483,7 @@ class GenericTest<int extends Foo>
 //                               ^ punctuation.definition.generic.end.java
 
 class GenericTest<? extends Foo>
-//<- meta.class.java storage.type.class.java keyword.declaration.class.java
+//<- meta.class.java keyword.declaration.class.java
 //^^^ meta.class.java - meta.class meta.class - meta.generic
 //   ^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class - meta.generic
 //               ^^^^^^^^^^^^^^^ meta.class.identifier.java meta.generic.declaration.java
@@ -494,7 +494,7 @@ class GenericTest<? extends Foo>
 //                             ^ punctuation.definition.generic.end.java
 
 class GenericTest<A super Foo>
-//<- meta.class.java storage.type.class.java keyword.declaration.class.java
+//<- meta.class.java keyword.declaration.class.java
 //^^^ meta.class.java - meta.class meta.class - meta.generic
 //   ^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class - meta.generic
 //               ^^^^^^^^^^^^^ meta.class.identifier.java meta.generic.declaration.java
@@ -505,7 +505,7 @@ class GenericTest<A super Foo>
 //                           ^ punctuation.definition.generic.end.java
 
 class GenericTest<@Anno A extends @Anno com . @Anno Foo<A, @Anno com . @Anno Bar> & @Anno Foo<? super Baz> . @Anno Bar<A extends Foo>>
-//<- meta.class.java storage.type.class.java keyword.declaration.class.java
+//<- meta.class.java keyword.declaration.class.java
 //^^^ meta.class.java - meta.class meta.class - meta.generic
 //   ^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class - meta.generic
 //               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.identifier.java meta.generic.declaration.java
@@ -558,7 +558,7 @@ class GenericTest<@Anno A extends @Anno com . @Anno Foo<A, @Anno com . @Anno Bar
 //                                                                                                                                  ^^ punctuation.definition.generic.end.java
 
 class generictest<@anno a extends @anno com . @anno foo<a, @anno com . @anno bar> & @anno foo<? super baz> . @anno bar<a extends foo>>
-//<- meta.class.java storage.type.class.java keyword.declaration.class.java
+//<- meta.class.java keyword.declaration.class.java
 //^^^ meta.class.java - meta.class meta.class - meta.generic
 //   ^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class - meta.generic
 //               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.identifier.java meta.generic.declaration.java
@@ -611,7 +611,7 @@ class generictest<@anno a extends @anno com . @anno foo<a, @anno com . @anno bar
 //                                                                                                                                  ^^ punctuation.definition.generic.end.java
 
 class GenericTest<A> extends Foo<? extends A> {}
-//<- meta.class.java storage.type.class.java keyword.declaration.class.java
+//<- meta.class.java keyword.declaration.class.java
 //^^^ meta.class.java - meta.class meta.class
 //   ^^^^^^^^^^^^ meta.class.identifier.java - meta.generic - meta.class meta.class
 //               ^^^ meta.class.identifier.java meta.generic.declaration.java - meta.class meta.class
@@ -620,7 +620,7 @@ class GenericTest<A> extends Foo<? extends A> {}
 //                              ^^^^^^^^^^^^^ meta.class.extends.java meta.generic.java - meta.class meta.class
 //                                           ^ meta.class.extends.java - meta.generic - meta.class meta.class
 //                                            ^^ meta.class.java meta.block.java - meta.class meta.class
-//^^^ storage.type.class.java
+//^^^ keyword.declaration.class.java
 //   ^ - entity - keyword - storage
 //    ^^^^^^^^^^^ entity.name.class.java
 //               ^^^^ - entity - keyword - storage
@@ -649,7 +649,7 @@ class GenericTest<A> extends @Anno com . @Anno Foo<@Anno ? extends @Anno SuperCl
 //                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.extends.java meta.generic.java - meta.class meta.class
 //                                                                                                                      ^^^^^^^^^^^^^^^^^^^ meta.class.extends.java - meta.class meta.class - meta.generic
 //                                                                                                                                         ^^ meta.class.java meta.block.java - meta.class meta.class
-//^^^ storage.type.class.java
+//^^^ keyword.declaration.class.java
 //   ^ - entity - keyword - storage
 //    ^^^^^^^^^^^ entity.name.class.java
 //               ^^^^ - entity - keyword - storage
@@ -695,7 +695,7 @@ class ImplementsTest implements
 //^^^ meta.class.java - meta.class meta.class
 //   ^^^^^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class
 //                   ^^^^^^^^^^^ meta.class.implements.java - meta.class meta.class
-//^^^ storage.type.class.java
+//^^^ keyword.declaration.class.java
 //   ^ - entity - keyword - storage
 //    ^^^^^^^^^^^^^^ entity.name.class.java
 //                  ^ - entity - keyword - storage
@@ -706,7 +706,7 @@ class ImplementsTest implements Foo {}
 //   ^^^^^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class
 //                   ^^^^^^^^^^^^^^^ meta.class.implements.java - meta.class meta.class
 //                                  ^^ meta.class.java meta.block.java - meta.class meta.class
-//^^^ storage.type.class.java
+//^^^ keyword.declaration.class.java
 //   ^ - entity - keyword - storage
 //    ^^^^^^^^^^^^^^ entity.name.class.java
 //                  ^ - entity - keyword - storage
@@ -721,7 +721,7 @@ class lowerCaseTest<T> implements fully.qualified.Other<T> {
 //                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.implements.java - meta.class meta.class
 //                                ^^^^^^^^^^^^^^^^^^^^^ meta.path.java
 //                                                         ^^ meta.class.java meta.block.java - meta.class meta.class
-//^^^ storage.type.class.java
+//^^^ keyword.declaration.class.java
 //   ^ - entity - keyword - storage
 //    ^^^^^^^^^^^^^ entity.name.class.java
 //                 ^ punctuation.definition.generic.begin.java
@@ -749,7 +749,7 @@ volatile class extends implements {}
 //             ^^^^^^^^ meta.class.extends.java - meta.class meta.class
 //                     ^^^^^^^^^^^ meta.class.implements.java - meta.class meta.class
 //                                ^^ meta.class.java meta.block.java - meta.class meta.class
-//         ^^^ storage.type.class.java
+//         ^^^
 //            ^ - entity - keyword - storage
 //             ^^^^^^^ keyword.declaration.extends.java
 //                    ^ - entity - keyword - storage
@@ -764,7 +764,7 @@ class ExtendsAndImplementsTest extends Foo implements Bar<Foo>, OtherBar {}
 //                             ^^^^^^^^^^^^ meta.class.extends.java - meta.class meta.class
 //                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.implements.java - meta.class meta.class
 //                                                                       ^^ meta.class.java meta.block.java - meta.class meta.class
-//^^^ storage.type.class.java
+//^^^ keyword.declaration.class.java
 //   ^ - entity - keyword - storage
 //    ^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.class.java
 //                            ^ - entity - keyword - storage
@@ -789,7 +789,7 @@ class ExtendsAndImplementsTest extends Foo, bar implements bar<Foo>, OtherBar {}
 //                             ^^^^^^^^^^^^^^^^^ meta.class.extends.java - meta.class meta.class
 //                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.implements.java - meta.class meta.class
 //                                                                            ^^ meta.class.java meta.block.java - meta.class meta.class
-//^^^ storage.type.class.java
+//^^^ keyword.declaration.class.java
 //    ^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.class.java
 //                             ^^^^^^^ keyword.declaration.extends.java
 //                                     ^^^ entity.other.inherited-class.java
@@ -804,7 +804,7 @@ class ExtendsAndImplementsTest extends Foo, bar implements bar<Foo>, OtherBar {}
 //                                                                             ^ punctuation.section.block.end.java
 
 class AnyClass { // comment
-//^^^ meta.class.java storage.type.class.java keyword.declaration.class.java
+//^^^ meta.class.java keyword.declaration.class.java
 //   ^^^^^^^^^^ meta.class.identifier.java
 //             ^^^^^^^^^^^^^ meta.class.java meta.block.java
 //    ^^^^^^^^ entity.name.class.java
@@ -813,7 +813,7 @@ class AnyClass { // comment
 
     const class NestedClass {
 //  ^^^^^ invalid.illegal.keyword.java
-//        ^^^^^ meta.class.java meta.block.java meta.class.java storage.type.class.java keyword.declaration.class.java
+//        ^^^^^ meta.class.java meta.block.java meta.class.java keyword.declaration.class.java
 //             ^^^^^^^^^^^^^ meta.class.java meta.block.java meta.class.identifier.java
 //                          ^^ meta.class.java meta.block.java meta.class.java meta.block.java
 //              ^^^^^^^^^^^ entity.name.class.java
@@ -859,7 +859,7 @@ class AnyClass { // comment
 //       ^^^^^^^^^^ meta.class.java meta.block.java meta.class.identifier.java
 //                 ^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.class.extends.java
 //                                       ^^ meta.class.java meta.block.java meta.class.java meta.block.java
-//  ^^^^^ storage.type.class.java keyword.declaration.class.java
+//  ^^^^^ keyword.declaration.class.java
 //        ^^^^^^^^ entity.name.class.java
 //                 ^^^^^^^ keyword.declaration.extends.java
 //                         ^^^^^^^^^^^^^ entity.other.inherited-class.java
@@ -872,7 +872,7 @@ class AnyClass { // comment
 //       ^^^^^^^^^^ meta.class.java meta.block.java meta.class.identifier.java
 //                 ^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.class.extends.java
 //                                       ^^ meta.class.java meta.block.java meta.class.java meta.block.java
-//  ^^^^^ storage.type.class.java keyword.declaration.class.java
+//  ^^^^^ keyword.declaration.class.java
 //        ^^^^^^^^ entity.name.class.java
 //                 ^^^^^^^ keyword.declaration.extends.java
 //                         ^^^^^^^^^^^^^ entity.other.inherited-class.java
@@ -885,7 +885,7 @@ class AnyClass { // comment
 //       ^^^^^^^^^^ meta.class.java meta.block.java meta.class.identifier.java
 //                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.class.extends.java
 //                                                   ^^ meta.class.java meta.block.java meta.class.java meta.block.java
-//  ^^^^^ storage.type.class.java keyword.declaration.class.java
+//  ^^^^^ keyword.declaration.class.java
 //        ^^^^^^^^ entity.name.class.java
 //                 ^^^^^^^ keyword.declaration.extends.java
 //                         ^^^^^^^^^^^^^ entity.other.inherited-class.java
@@ -900,7 +900,7 @@ class AnyClass { // comment
 //       ^^^^^^^^^^ meta.class.java meta.block.java meta.class.identifier.java
 //                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.class.extends.java
 //                                                   ^^ meta.class.java meta.block.java meta.class.java meta.block.java
-//  ^^^^^ storage.type.class.java keyword.declaration.class.java
+//  ^^^^^ keyword.declaration.class.java
 //        ^^^^^^^^ entity.name.class.java
 //                 ^^^^^^^ keyword.declaration.extends.java
 //                         ^^^^^^^^^^^^^ variable.namespace.java
@@ -935,7 +935,7 @@ class AnyClass { // comment
 public          // comment
 //<- meta.class.java storage.modifier.java
 class           // comment
-//<- meta.class.java storage.type.class.java
+//<- meta.class.java
 TestClass       // comment
 //<- meta.class.identifier.java entity.name.class.java
 extends         // comment
@@ -962,20 +962,20 @@ Bar             // comment
  *****************************************************************************/
 
 enum
-//<- meta.enum.java storage.type.enum.java keyword.declaration.enum.java
-//^^ meta.enum.java storage.type.enum.java keyword.declaration.enum.java
+//<- meta.enum.java keyword.declaration.enum.java
+//^^ meta.enum.java keyword.declaration.enum.java
 
 enum EnumTest
-//<- meta.enum.java storage.type.enum.java keyword.declaration.enum.java
-//^^ meta.enum.java storage.type.enum.java keyword.declaration.enum.java
+//<- meta.enum.java keyword.declaration.enum.java
+//^^ meta.enum.java keyword.declaration.enum.java
 //  ^^^^^^^^^^ meta.enum.identifier.java
 //  ^ - entity - keyword - storage
 //   ^^^^^^^^ entity.name.enum.java
 //           ^ - entity
 
 enum EnumTest {}
-//<- meta.enum.java storage.type.enum.java keyword.declaration.enum.java
-//^^ meta.enum.java storage.type.enum.java keyword.declaration.enum.java
+//<- meta.enum.java keyword.declaration.enum.java
+//^^ meta.enum.java keyword.declaration.enum.java
 //  ^^^^^^^^^^ meta.enum.identifier.java
 //            ^^ meta.enum.java meta.block.java
 //  ^ - entity - keyword - storage
@@ -988,7 +988,7 @@ public enum EnumTest { int {} }
 //^^^^^^^^^ meta.enum.java
 //         ^^^^^^^^^^ meta.enum.identifier.java
 //                   ^^^^^^^^^^ meta.enum.java meta.block.java
-//     ^^^^ storage.type.enum.java
+//     ^^^^
 //         ^ - entity - keyword - storage
 //          ^^^^^^^^ entity.name.enum.java
 //                  ^ - entity - punctuation
@@ -1002,7 +1002,7 @@ public enum EnumTest {FOO, BAR}
 //^^^^^^^^^ meta.enum.java
 //         ^^^^^^^^^^ meta.enum.identifier.java
 //                   ^^^^^^^^^^ meta.enum.java meta.block.java
-//     ^^^^ storage.type.enum.java
+//     ^^^^
 //         ^ - entity - keyword - storage
 //          ^^^^^^^^ entity.name.enum.java
 //                  ^ - entity - punctuation
@@ -1017,7 +1017,7 @@ public enum FooEnum {
 //         ^^^^^^^^^ meta.enum.identifier.java
 //                  ^^ meta.enum.java meta.block.java
 //^^^^ storage.modifier.java
-//     ^^^^ storage.type.enum.java
+//     ^^^^
 //          ^^^^^^^ entity.name.enum.java
 //                  ^ punctuation.section.block.begin.java
   FOO;
@@ -1030,7 +1030,7 @@ public enum FooBarEnum {
 //^^^^^^^^^ meta.enum.java
 //         ^^^^^^^^^^^^ meta.enum.identifier.java
 //                     ^^ meta.enum.java meta.block.java
-//     ^^^^ storage.type.enum.java
+//     ^^^^
 //          ^^^^^^^^^^ entity.name.enum.java
 //                     ^ punctuation.section.block.begin.java
   FOO,
@@ -1046,7 +1046,7 @@ public enum FooBarBazEnum {
 //^^^^^^^^^ meta.enum.java
 //         ^^^^^^^^^^^^^^^ meta.enum.identifier.java
 //                        ^^ meta.enum.java meta.block.java
-//     ^^^^ storage.type.enum.java
+//     ^^^^
 //          ^^^^^^^^^^^^^ entity.name.enum.java
 //                        ^ punctuation.section.block.begin.java
   FOO,  // comment
@@ -1071,7 +1071,7 @@ public enum TokenKind<T> extends MyEnum, FooBaz<? super T<TT>> implements Foo, B
 //                                                             ^^^^^^^^^^^^^^^^^^^^ meta.enum.implements.java
 //                                                                                 ^^ meta.enum.java meta.block.java
 //^^^^ storage.modifier.java
-//     ^^^^ storage.type.enum.java
+//     ^^^^
 //          ^^^^^^^^^ entity.name.enum.java
 //                   ^^^ invalid.illegal.unexpected-type-parameters.java
 //                       ^^^^^^^ invalid.illegal.unexpected-extends.java
@@ -1317,7 +1317,7 @@ public enum TokenKind<T> extends MyEnum, FooBaz<? super T<TT>> implements Foo, B
 public          // comment
 //<- meta.enum.java storage.modifier.java
 enum            // comment
-//<- meta.enum.java storage.type.enum.java
+//<- meta.enum.java
 TokenKind       // comment
 //<- meta.enum.identifier.java entity.name.enum.java
 extends         // comment
@@ -1344,33 +1344,33 @@ Bar             // comment
  *****************************************************************************/
 
 interface
-//<- meta.interface.java storage.type.interface.java keyword.declaration.interface.java
-//^^^^^^^ meta.interface.java storage.type.interface.java keyword.declaration.interface.java
+//<- meta.interface.java keyword.declaration.interface.java
+//^^^^^^^ meta.interface.java keyword.declaration.interface.java
 //       ^ meta.interface.identifier.java
 
 interface TestIntf
-//<- meta.interface.java storage.type.interface.java keyword.declaration.interface.java
+//<- meta.interface.java keyword.declaration.interface.java
 //^^^^^^^ meta.interface.java
 //       ^^^^^^^^^^ meta.interface.identifier.java
-//^^^^^^^ storage.type.interface.java keyword.declaration.interface.java
+//^^^^^^^ keyword.declaration.interface.java
 //        ^^^^^^^^ entity.name.interface.java
 
 interface TestIntf extends
-//<- meta.interface.java storage.type.interface.java keyword.declaration.interface.java
+//<- meta.interface.java keyword.declaration.interface.java
 //^^^^^^^ meta.interface.java
 //       ^^^^^^^^^^ meta.interface.identifier.java
 //                 ^^^^^^^^ meta.interface.extends.java
-//^^^^^^^ storage.type.interface.java keyword.declaration.interface.java
+//^^^^^^^ keyword.declaration.interface.java
 //        ^^^^^^^^ entity.name.interface.java
 //                 ^^^^^^^ keyword.declaration.extends.java
 
 interface TestIntf extends A, BB {}
-//<- meta.interface.java storage.type.interface.java keyword.declaration.interface.java
+//<- meta.interface.java keyword.declaration.interface.java
 //^^^^^^^ meta.interface.java
 //       ^^^^^^^^^^ meta.interface.identifier.java
 //                 ^^^^^^^^^^^^^^ meta.interface.extends.java
 //                               ^^ meta.interface.java meta.block.java
-//^^^^^^^ storage.type.interface.java keyword.declaration.interface.java
+//^^^^^^^ keyword.declaration.interface.java
 //        ^^^^^^^^ entity.name.interface.java
 //                 ^^^^^^^ keyword.declaration.extends.java
 //                         ^ entity.other.inherited-class.java
@@ -1388,7 +1388,7 @@ public interface /**/ TestIntf <T1, T2> /**/ extends /**/ A /**/, /**/ BB /**/ {
 //                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.extends.java
 //                                                                             ^^ meta.interface.java meta.block.java
 //^^^^ storage.modifier.java
-//     ^^^^^^^^^ storage.type.interface.java keyword.declaration.interface.java
+//     ^^^^^^^^^ keyword.declaration.interface.java
 //               ^^^^ comment.block.empty.java
 //                    ^^^^^^^^ entity.name.interface.java
 //                             ^ punctuation.definition.generic.begin.java
@@ -1413,7 +1413,7 @@ public interface /**/ TestIntf <T1, T2> /**/ extends /**/ A /**/, /**/ BB /**/ {
 public          // comment
 //<- meta.interface.java storage.modifier.java
 interface       // comment
-//<- meta.interface.java storage.type.interface.java
+//<- meta.interface.java
 TestIntf        // comment
 //<- meta.interface.identifier.java entity.name.interface.java
 <T1, T2>
@@ -1442,34 +1442,34 @@ Bar             // comment
  *****************************************************************************/
 
 @interface
-//<- meta.interface.java storage.type.interface.java keyword.declaration.interface.java
-//^^^^^^^^ meta.interface.java storage.type.interface.java keyword.declaration.interface.java
+//<- meta.interface.java keyword.declaration.interface.java
+//^^^^^^^^ meta.interface.java keyword.declaration.interface.java
 //        ^ meta.interface.identifier.java
 
 @interface AnnotationType
-//<- meta.interface.java storage.type.interface.java keyword.declaration.interface.java
+//<- meta.interface.java keyword.declaration.interface.java
 //^^^^^^^^ meta.interface.java
 //        ^^^^^^^^^^^^^^^^ meta.interface.identifier.java
-//^^^^^^^^ storage.type.interface.java keyword.declaration.interface.java
+//^^^^^^^^ keyword.declaration.interface.java
 //         ^^^^^^^^^^^^^^ entity.name.interface.java
 
 // Note: The extends is actually not allowed here, but the syntax definition does
 //       not yet distiguish between interface types and annotation types
 @interface AnnotationType extends
-//<- meta.interface.java storage.type.interface.java keyword.declaration.interface.java
+//<- meta.interface.java keyword.declaration.interface.java
 //^^^^^^^^ meta.interface.java
 //        ^^^^^^^^^^^^^^^^ meta.interface.identifier.java
 //                        ^^^^^^^^ meta.interface.extends.java
-//^^^^^^^^ storage.type.interface.java keyword.declaration.interface.java
+//^^^^^^^^ keyword.declaration.interface.java
 //         ^^^^^^^^^^^^^^ entity.name.interface.java
 //                        ^^^^^^^ keyword.declaration.extends.java
 
 @interface AnnotationType {
-//<- meta.interface.java storage.type.interface.java keyword.declaration.interface.java
+//<- meta.interface.java keyword.declaration.interface.java
 //^^^^^^^^ meta.interface.java
 //        ^^^^^^^^^^^^^^^^ meta.interface.identifier.java
 //                        ^^ meta.interface.java meta.block.java
-//^^^^^^^^ storage.type.interface.java keyword.declaration.interface.java
+//^^^^^^^^ keyword.declaration.interface.java
 //         ^^^^^^^^^^^^^^ entity.name.interface.java
 //                        ^ punctuation.section.block.begin.java
 
@@ -6050,7 +6050,7 @@ class Bàr {
 public class Foo {
 // <- meta.class.java storage.modifier.java
 //^^^^ meta.class.java storage.modifier.java
-//     ^^^^^ meta.class.java storage.type.class.java
+//     ^^^^^ meta.class.java
 //           ^^^ meta.class.identifier.java entity.name.class.java
 //               ^ meta.class.java meta.block.java punctuation.section.block.begin.java
 
@@ -7243,7 +7243,7 @@ module java.base {
 //     ^^^^^^^^^ meta.namespace.module.identifier.java meta.path.java
 //              ^ meta.namespace.module.identifier - meta.path
 //               ^^ meta.namespace.module.java meta.block.java
-//^^^^ storage.type.namespace.module.java keyword.declaration.namespace.module.java
+//^^^^ keyword.declaration.namespace.module.java
 //     ^^^^ variable.namespace.java
 //         ^ punctuation.accessor.dot.java - entity - variable
 //          ^^^^ entity.name.namespace.module.java
@@ -7369,7 +7369,7 @@ open module open.module {}
 //                     ^ meta.namespace.module.identifier.java - meta.path
 //                      ^^ meta.namespace.module.java meta.block.java
 //^^ storage.modifier.java
-//   ^^^^^^ storage.type.namespace.module.java keyword.declaration.namespace.module.java
+//   ^^^^^^ keyword.declaration.namespace.module.java
 //          ^^^^ variable.namespace.java
 //              ^ punctuation.accessor.dot.java - entity - variable
 //               ^^^^^^ entity.name.namespace.module.java

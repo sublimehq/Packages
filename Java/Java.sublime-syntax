@@ -271,7 +271,6 @@ contexts:
     - match: package\b
       scope:
         meta.namespace.package.java
-        storage.type.namespace.package.java
         keyword.declaration.namespace.package.java
       push: [package-identifier, else-pop]
 
@@ -287,8 +286,7 @@ contexts:
       scope: meta.namespace.module.java
       captures:
         1: storage.modifier.java
-        2: storage.type.namespace.module.java
-           keyword.declaration.namespace.module.java
+        2: keyword.declaration.namespace.module.java
       push: [module-body-block, module-identifier, else-pop]
 
   module-identifier:
@@ -472,9 +470,7 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1
     - meta_scope: meta.class.java
     - match: class\b
-      scope:
-        storage.type.class.java
-        keyword.declaration.class.java
+      scope: keyword.declaration.class.java
       set:
         - class-body-block
         - class-extends
@@ -551,9 +547,7 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.9
     - meta_scope: meta.enum.java
     - match: enum\b
-      scope:
-        storage.type.enum.java
-        keyword.declaration.enum.java
+      scope: keyword.declaration.enum.java
       set:
         - enum-body-block
         - enum-extends
@@ -650,9 +644,7 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.1
     - meta_scope: meta.interface.java
     - match: (@?)interface\b
-      scope:
-        storage.type.interface.java
-        keyword.declaration.interface.java
+      scope: keyword.declaration.interface.java
       set:
         - interface-body-block
         - interface-extends
