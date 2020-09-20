@@ -44,7 +44,7 @@ contexts:
         (?xi)
 
                 # normal stuff, capture 1
-                 \b(bigint|bigserial|bit|boolean|box|bytea|cidr|circle|date|datetime|double\sprecision|inet|int|integer|line|lseg|macaddr|money|ntext|oid|path|point|polygon|real|serial|smallint|sysdate|sysname|text)\b
+                \b(bigint|bigserial|bit|bool|boolean|box|bytea|cidr|circle|date|datetime|double\sprecision|enum|inet|int|integer|line|longtext|lseg|macaddr|money|ntext|oid|path|point|polygon|real|serial|smallint|sysdate|sysname|text|tinytext)\b
 
                 # numeric suffix, capture 2 + 3i
                 |\b(bit\svarying|character\s(?:varying)?|tinyint|var\schar|float|interval)\((\d+)\)
