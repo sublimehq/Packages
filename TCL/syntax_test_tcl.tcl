@@ -387,14 +387,14 @@ if { $mpv(radar) eq "VHF" } {
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.substitution
 #                                   ^ meta.block meta.block punctuation.section.block.begin
         set imf -1
-#               ^ keyword.operator
-#                ^ constant.numeric
+#               ^ keyword.operator.tcl
+#                ^ meta.number.float.decimal.tcl constant.numeric.value.tcl
 
         if { $mpv(ifmon_errcount) < 5 } {
 #       ^ keyword.control
 #          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block meta.block meta.block
 #                                 ^ keyword.operator
-#                                   ^ constant.numeric
+#                                   ^ meta.number.float.decimal.tcl constant.numeric.value.tcl
             EngineMsg [list $msg] [Utime]
 #           ^ variable.function
             incr mpv(ifmon,errcount)
