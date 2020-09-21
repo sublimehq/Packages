@@ -132,8 +132,8 @@ variables:
   # http://yaml.org/type/float.html
   _type_float_decimal: ([-+]?)((?:[0-9][0-9_]*)?(\.)[0-9.]*(?:[eE][-+][0-9]+)?)
   _type_float_other: ([-+]?)([0-9][0-9_]*(?::[0-5]?[0-9])+(\.)[0-9_]*) # (base 60)
-  _type_float_infitity: '[-+]?(\.)(?:inf|Inf|INF)' # (infinity)
-  _type_float_nan: (\.)(?:nan|NaN|NAN) # (not a number)
+  _type_float_infinity: '([-+])?(\.(?:inf|Inf|INF))' # (infinity)
+  _type_float_nan: \.(?:nan|NaN|NAN) # (not a number)
 
   # http://yaml.org/type/timestamp.html
   _type_timestamp: |-
@@ -333,53 +333,52 @@ contexts:
     - match: '{{_type_int_binary}}{{_flow_scalar_end_plain_in}}'
       scope: meta.number.integer.binary.yaml
       captures:
-        1: constant.numeric.sign.yaml
+        1: keyword.operator.arithmetic.yaml
         2: constant.numeric.base.yaml
         3: constant.numeric.value.yaml
     - match: '{{_type_int_octal}}{{_flow_scalar_end_plain_in}}'
       scope: meta.number.integer.octal.yaml
       captures:
-        1: constant.numeric.sign.yaml
+        1: keyword.operator.arithmetic.yaml
         2: constant.numeric.base.yaml
         3: constant.numeric.value.yaml
     - match: '{{_type_int_decimal}}{{_flow_scalar_end_plain_in}}'
       scope: meta.number.integer.decimal.yaml
       captures:
-        1: constant.numeric.sign.yaml
+        1: keyword.operator.arithmetic.yaml
         2: constant.numeric.base.yaml
         3: constant.numeric.value.yaml
     - match: '{{_type_int_hexadecimal}}{{_flow_scalar_end_plain_in}}'
       scope: meta.number.integer.hexadecimal.yaml
       captures:
-        1: constant.numeric.sign.yaml
+        1: keyword.operator.arithmetic.yaml
         2: constant.numeric.base.yaml
         3: constant.numeric.value.yaml
     - match: '{{_type_int_other}}{{_flow_scalar_end_plain_in}}'
       scope: meta.number.integer.other.yaml
       captures:
-        1: constant.numeric.sign.yaml
+        1: keyword.operator.arithmetic.yaml
         2: constant.numeric.value.yaml
     # floats
     - match: '{{_type_float_decimal}}{{_flow_scalar_end_plain_in}}'
       scope: meta.number.float.decimal.yaml
       captures:
-        1: constant.numeric.sign.yaml
+        1: keyword.operator.arithmetic.yaml
         2: constant.numeric.value.yaml
         3: punctuation.separator.decimal.yaml
     - match: '{{_type_float_other}}{{_flow_scalar_end_plain_in}}'
       scope: meta.number.float.other.yaml
       captures:
-        1: constant.numeric.sign.yaml
+        1: keyword.operator.arithmetic.yaml
         2: constant.numeric.value.yaml
         3: punctuation.separator.decimal.yaml
-    - match: '{{_type_float_infitity}}{{_flow_scalar_end_plain_in}}'
-      scope: constant.language.infinity.yaml
+    - match: '{{_type_float_infinity}}{{_flow_scalar_end_plain_in}}'
+      scope: meta.number.float.yaml
       captures:
-        1: punctuation.separator.decimal.yaml
+        1: keyword.operator.arithmetic.yaml
+        2: constant.language.infinity.yaml
     - match: '{{_type_float_nan}}{{_flow_scalar_end_plain_in}}'
-      scope: constant.language.nan.yaml
-      captures:
-        1: punctuation.separator.decimal.yaml
+      scope: meta.number.yaml constant.language.nan.yaml
     # timestamp
     - match: '{{_type_timestamp}}{{_flow_scalar_end_plain_in}}'
       scope: constant.other.timestamp.yaml
@@ -406,53 +405,52 @@ contexts:
     - match: '{{_type_int_binary}}{{_flow_scalar_end_plain_out}}'
       scope: meta.number.integer.binary.yaml
       captures:
-        1: constant.numeric.sign.yaml
+        1: keyword.operator.arithmetic.yaml
         2: constant.numeric.base.yaml
         3: constant.numeric.value.yaml
     - match: '{{_type_int_octal}}{{_flow_scalar_end_plain_out}}'
       scope: meta.number.integer.octal.yaml
       captures:
-        1: constant.numeric.sign.yaml
+        1: keyword.operator.arithmetic.yaml
         2: constant.numeric.base.yaml
         3: constant.numeric.value.yaml
     - match: '{{_type_int_decimal}}{{_flow_scalar_end_plain_out}}'
       scope: meta.number.integer.decimal.yaml
       captures:
-        1: constant.numeric.sign.yaml
+        1: keyword.operator.arithmetic.yaml
         2: constant.numeric.base.yaml
         3: constant.numeric.value.yaml
     - match: '{{_type_int_hexadecimal}}{{_flow_scalar_end_plain_out}}'
       scope: meta.number.integer.hexadecimal.yaml
       captures:
-        1: constant.numeric.sign.yaml
+        1: keyword.operator.arithmetic.yaml
         2: constant.numeric.base.yaml
         3: constant.numeric.value.yaml
     - match: '{{_type_int_other}}{{_flow_scalar_end_plain_out}}'
       scope: meta.number.integer.other.yaml
       captures:
-        1: constant.numeric.sign.yaml
+        1: keyword.operator.arithmetic.yaml
         2: constant.numeric.value.yaml
     # floats
     - match: '{{_type_float_decimal}}{{_flow_scalar_end_plain_out}}'
       scope: meta.number.float.decimal.yaml
       captures:
-        1: constant.numeric.sign.yaml
+        1: keyword.operator.arithmetic.yaml
         2: constant.numeric.value.yaml
         3: punctuation.separator.decimal.yaml
     - match: '{{_type_float_other}}{{_flow_scalar_end_plain_out}}'
       scope: meta.number.float.other.yaml
       captures:
-        1: constant.numeric.sign.yaml
+        1: keyword.operator.arithmetic.yaml
         2: constant.numeric.value.yaml
         3: punctuation.separator.decimal.yaml
-    - match: '{{_type_float_infitity}}{{_flow_scalar_end_plain_out}}'
-      scope: constant.language.infinity.yaml
+    - match: '{{_type_float_infinity}}{{_flow_scalar_end_plain_out}}'
+      scope: meta.number.float.yaml
       captures:
-        1: punctuation.separator.decimal.yaml
+        1: keyword.operator.arithmetic.yaml
+        2: constant.language.infinity.yaml
     - match: '{{_type_float_nan}}{{_flow_scalar_end_plain_out}}'
-      scope: constant.language.nan.yaml
-      captures:
-        1: punctuation.separator.decimal.yaml
+      scope: meta.number.yaml constant.language.nan.yaml
     # timestamp
     - match: '{{_type_timestamp}}{{_flow_scalar_end_plain_out}}'
       scope: constant.other.timestamp.yaml

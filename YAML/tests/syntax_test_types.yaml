@@ -38,55 +38,68 @@
 ## http://yaml.org/type/int.html
 
 - [0b0, +0b1_0_1, -0b1, ~, 0b, 0b2, 0b1 abc
-#  ^^ meta.number.integer.binary.yaml constant.numeric.base.yaml
-#    ^ meta.number.integer.binary.yaml constant.numeric.value.yaml
-#       ^ meta.number.integer.binary.yaml constant.numeric.sign.yaml
-#        ^^ meta.number.integer.binary.yaml constant.numeric.base.yaml
-#          ^^^^^ meta.number.integer.binary.yaml constant.numeric.value.yaml
-#                 ^ meta.number.integer.binary.yaml constant.numeric.sign.yaml
-#                  ^^ meta.number.integer.binary.yaml constant.numeric.base.yaml
-#                    ^ meta.number.integer.binary.yaml constant.numeric.value.yaml
+#  ^^^ meta.number.integer.binary.yaml
+#  ^^ constant.numeric.base.yaml
+#    ^ constant.numeric.value.yaml
+#       ^^^^^^^^ meta.number.integer.binary.yaml
+#       ^ keyword.operator.arithmetic.yaml
+#        ^^ constant.numeric.base.yaml
+#          ^^^^^ constant.numeric.value.yaml
+#                 ^^^^ meta.number.integer.binary.yaml
+#                 ^ keyword.operator.arithmetic.yaml
+#                  ^^ constant.numeric.base.yaml
+#                    ^ constant.numeric.value.yaml
 #                       ^ constant.language.null.yaml
 #                          ^^^^^^^^^^^^^^^^ - constant
 
    01, +0_761, -07, ~, 09, 0123 f
-#  ^ meta.number.integer.octal.yaml constant.numeric.base.yaml
-#   ^ meta.number.integer.octal.yaml constant.numeric.value.yaml
-#      ^ meta.number.integer.octal.yaml constant.numeric.sign.yaml
-#       ^ meta.number.integer.octal.yaml constant.numeric.base.yaml
-#        ^^^^ meta.number.integer.octal.yaml constant.numeric.value.yaml
-#              ^ meta.number.integer.octal.yaml constant.numeric.sign.yaml
-#               ^ meta.number.integer.octal.yaml constant.numeric.base.yaml
-#                ^ meta.number.integer.octal.yaml constant.numeric.value.yaml
+#  ^^ meta.number.integer.octal.yaml
+#  ^ constant.numeric.base.yaml
+#   ^ constant.numeric.value.yaml
+#      ^^^^^^ meta.number.integer.octal.yaml
+#      ^ keyword.operator.arithmetic.yaml
+#       ^ constant.numeric.base.yaml
+#        ^^^^ constant.numeric.value.yaml
+#              ^^^ meta.number.integer.octal.yaml
+#              ^ keyword.operator.arithmetic.yaml
+#               ^ constant.numeric.base.yaml
+#                ^ constant.numeric.value.yaml
 #                   ^ constant.language.null.yaml
 #                      ^^^^^^^^^^ - constant
 
    0, +1, -12_345, ~, 3 not a number
 #  ^ meta.number.integer.decimal.yaml constant.numeric.base.yaml
-#     ^ meta.number.integer.decimal.yaml constant.numeric.sign.yaml
-#      ^ meta.number.integer.decimal.yaml constant.numeric.base.yaml
-#         ^ meta.number.integer.decimal.yaml constant.numeric.sign.yaml
-#          ^^^^^^ meta.number.integer.decimal.yaml constant.numeric.base.yaml
+#     ^^ meta.number.integer.decimal.yaml
+#     ^ keyword.operator.arithmetic.yaml
+#      ^ constant.numeric.base.yaml
+#         ^^^^^^^ meta.number.integer.decimal.yaml
+#         ^ keyword.operator.arithmetic.yaml
+#          ^^^^^^ constant.numeric.base.yaml
 #                     ^^^^^^^^^^^^^^ - constant
 
    0x0, +0x12_34_56, -0xabcdef, ~, 0xyz, 0x,
-#  ^^ meta.number.integer.hexadecimal.yaml constant.numeric.base.yaml
-#    ^ meta.number.integer.hexadecimal.yaml constant.numeric.value.yaml
-#       ^ meta.number.integer.hexadecimal.yaml constant.numeric.sign.yaml
-#        ^^ meta.number.integer.hexadecimal.yaml constant.numeric.base.yaml
-#          ^^^^^^^^ meta.number.integer.hexadecimal.yaml constant.numeric.value.yaml
-#                    ^ meta.number.integer.hexadecimal.yaml constant.numeric.sign.yaml
-#                     ^^ meta.number.integer.hexadecimal.yaml constant.numeric.base.yaml
-#                       ^^^^^^ meta.number.integer.hexadecimal.yaml constant.numeric.value.yaml
+#  ^^^ meta.number.integer.hexadecimal.yaml
+#  ^^ constant.numeric.base.yaml
+#    ^ constant.numeric.value.yaml
+#       ^^^^^^^^^^^ meta.number.integer.hexadecimal.yaml
+#       ^ keyword.operator.arithmetic.yaml
+#        ^^ constant.numeric.base.yaml
+#          ^^^^^^^^ constant.numeric.value.yaml
+#                    ^^^^^^^^^ meta.number.integer.hexadecimal.yaml
+#                    ^ keyword.operator.arithmetic.yaml
+#                     ^^ constant.numeric.base.yaml
+#                       ^^^^^^ constant.numeric.value.yaml
 #                                  ^^^^^^^^^ - constant
 
 # Note: pyyaml does not handle hexagesimal literals correctly (for linting purposes)
    1:20, +1:9, -1_234:59:00, ~, 1:60, :60, 1:2 s
 #  ^^^^ meta.number.integer.other.yaml constant.numeric.value.yaml
-#        ^ meta.number.integer.other.yaml constant.numeric.sign.yaml
-#         ^^^ meta.number.integer.other.yaml constant.numeric.value.yaml
-#              ^ meta.number.integer.other.yaml constant.numeric.sign.yaml
-#               ^^^^^^^^^^^ meta.number.integer.other.yaml constant.numeric.value.yaml
+#        ^^^^ meta.number.integer.other.yaml
+#        ^ keyword.operator.arithmetic.yaml
+#         ^^^ constant.numeric.value.yaml
+#              ^^^^^^^^^^^^ meta.number.integer.other.yaml
+#              ^ keyword.operator.arithmetic.yaml
+#               ^^^^^^^^^^^ constant.numeric.value.yaml
 #                               ^^^^^^^^^^^^^^^^ - constant
   ]
 
@@ -97,11 +110,13 @@
 - [0.1, +.293, -1_123.e-3, 2.234.567, ~, 0.1 f
 #  ^^^ meta.number.float.decimal.yaml constant.numeric.value.yaml
 #   ^ punctuation.separator.decimal.yaml
-#       ^ meta.number.float.decimal.yaml constant.numeric.sign.yaml
-#        ^^^^ meta.number.float.decimal.yaml constant.numeric.value.yaml
+#       ^^^^^ meta.number.float.decimal.yaml
+#       ^ keyword.operator.arithmetic.yaml
+#        ^^^^ constant.numeric.value.yaml
 #        ^ punctuation.separator.decimal.yaml
-#              ^ meta.number.float.decimal.yaml constant.numeric.sign.yaml
-#               ^^^^^^^^^ meta.number.float.decimal.yaml constant.numeric.value.yaml
+#              ^^^^^^^^^^ meta.number.float.decimal.yaml
+#              ^ keyword.operator.arithmetic.yaml
+#               ^^^^^^^^^ constant.numeric.value.yaml
 #                    ^ punctuation.separator.decimal.yaml
 #                          ^^^^^^^^^ meta.number.float.decimal.yaml constant.numeric.value.yaml
 #                           ^ punctuation.separator.decimal.yaml
@@ -109,16 +124,14 @@
 #                                     ^ constant.language.null.yaml
 #                                        ^^^^^ - constant
    .inf, +.INF, -.Inf, ~, .inF, .inf .inf
-#  ^^^^ constant.language.infinity.yaml
-#  ^ punctuation.separator.decimal.yaml
-#        ^^^^^ constant.language.infinity.yaml
-#         ^ punctuation.separator.decimal.yaml
-#               ^^^^^ constant.language.infinity.yaml
-#                ^ punctuation.separator.decimal.yaml
+#  ^^^^ meta.number.float.yaml constant.language.infinity.yaml
+#        ^^^^^ meta.number.float.yaml
+#         ^^^^ constant.language.infinity.yaml
+#               ^^^^^ meta.number.float.yaml
+#                ^^^^ constant.language.infinity.yaml
 #                         ^^^^^^^^^^^^^^^ - constant
    .NaN, ~, .Nan,
-#  ^^^^ constant.language.nan.yaml
-#  ^ punctuation.separator.decimal.yaml
+#  ^^^^ meta.number.yaml constant.language.nan.yaml
 #           ^^^^ - constant
 ]
 
