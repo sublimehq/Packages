@@ -2018,8 +2018,8 @@ okay
 |<- source.clojure
 |^^^^^^^^^^ source.clojure
 | ^ variable.function
-|   ^^ constant.numeric
-|      ^^^ constant.numeric
+|   ^^ meta.number
+|      ^^^ meta.number
 ```
 |^^ meta.code-fence.definition.end.clojure punctuation.definition.raw.code-fence.end
 

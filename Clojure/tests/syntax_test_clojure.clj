@@ -77,383 +77,516 @@
 ; # Numbers
 
   1234 1234N +1234 +1234N -1234 -1234N
-; ^^^^ constant.numeric.integer.decimal.clojure
-;     ^ - constant
-;      ^^^^^ constant.numeric.integer.decimal.clojure
-;          ^ storage.type.numeric.clojure
-;           ^ - constant
+; ^^^^ meta.number.integer.decimal.clojure constant.numeric.value.clojure
+;     ^ - meta.number
+;      ^^^^^ meta.number.integer.decimal.clojure
+;      ^^^^ constant.numeric.value.clojure
+;          ^ constant.numeric.suffix.clojure
+;           ^ - meta.number
+;            ^^^^^ meta.number.integer.decimal.clojure
 ;            ^ punctuation.definition.numeric.sign.clojure
-;            ^^^^^ constant.numeric.integer.decimal.clojure
-;                 ^ - constant
+;             ^^^^ constant.numeric.value.clojure
+;                 ^ - meta.number
+;                  ^^^^^^ meta.number.integer.decimal.clojure
 ;                  ^ punctuation.definition.numeric.sign.clojure
-;                  ^^^^^^ constant.numeric.integer.decimal.clojure
-;                       ^ storage.type.numeric.clojure
-;                        ^ - constant
+;                   ^^^^ constant.numeric.value.clojure
+;                       ^ constant.numeric.suffix.clojure
+;                        ^ - meta.number
+;                         ^^^^^ meta.number.integer.decimal.clojure
 ;                         ^ punctuation.definition.numeric.sign.clojure
-;                         ^^^^^ constant.numeric.integer.decimal.clojure
-;                              ^ - constant
+;                          ^^^^ constant.numeric.value.clojure
+;                              ^ - meta.number
+;                               ^^^^^^ meta.number.integer.decimal.clojure
 ;                               ^ punctuation.definition.numeric.sign.clojure
-;                               ^^^^^^ constant.numeric.integer.decimal.clojure
-;                                    ^ storage.type.numeric.clojure
+;                                ^^^^ constant.numeric.value.clojure
+;                                    ^ constant.numeric.suffix.clojure
   0x1234af 0x1234afN 0X1234AF 0X1234AFN
-; ^^ punctuation.definition.numeric.base.clojure
-; ^^^^^^^^ constant.numeric.integer.hexadecimal.clojure
-;         ^ - constant
-;          ^^ punctuation.definition.numeric.base.clojure
-;          ^^^^^^^^^ constant.numeric.integer.hexadecimal.clojure
-;                  ^ storage.type.numeric.clojure
-;                   ^ - constant
-;                    ^^ punctuation.definition.numeric.base.clojure
-;                    ^^^^^^^^ constant.numeric.integer.hexadecimal.clojure
-;                            ^ - constant
-;                             ^^ punctuation.definition.numeric.base.clojure
-;                             ^^^^^^^^^ constant.numeric.integer.hexadecimal.clojure
-;                                     ^ storage.type.numeric.clojure
+; ^^^^^^^^ meta.number.integer.hexadecimal.clojure
+; ^^ constant.numeric.base.clojure
+;   ^^^^^^ constant.numeric.value.clojure
+;         ^ - meta.number
+;          ^^^^^^^^^ meta.number.integer.hexadecimal.clojure
+;          ^^ constant.numeric.base.clojure
+;            ^^^^^^ constant.numeric.value.clojure
+;                  ^ constant.numeric.suffix.clojure
+;                   ^ - meta.number
+;                    ^^^^^^^^ meta.number.integer.hexadecimal.clojure
+;                    ^^ constant.numeric.base.clojure
+;                      ^^^^^^ constant.numeric.value.clojure
+;                            ^ - meta.number
+;                             ^^^^^^^^^ meta.number.integer.hexadecimal.clojure
+;                             ^^ constant.numeric.base.clojure
+;                               ^^^^^^ constant.numeric.value.clojure
+;                                     ^ constant.numeric.suffix.clojure
   +0x1234af +0x1234afN +0X1234AF +0X1234AFN
+; ^^^^^^^^^ meta.number.integer.hexadecimal.clojure
 ; ^ punctuation.definition.numeric.sign.clojure
-;  ^^ punctuation.definition.numeric.base.clojure
-; ^^^^^^^^^ constant.numeric.integer.hexadecimal.clojure
-;          ^ - constant
+;  ^^ constant.numeric.base.clojure
+;    ^^^^^^ constant.numeric.value.clojure
+;          ^ - meta.number
+;           ^^^^^^^^^^ meta.number.integer.hexadecimal.clojure
 ;           ^ punctuation.definition.numeric.sign.clojure
-;            ^^ punctuation.definition.numeric.base.clojure
-;           ^^^^^^^^^^ constant.numeric.integer.hexadecimal.clojure
-;                    ^ storage.type.numeric.clojure
-;                     ^ - constant
+;            ^^ constant.numeric.base.clojure
+;              ^^^^^^ constant.numeric.value.clojure
+;                    ^ constant.numeric.suffix.clojure
+;                     ^ - meta.number
+;                      ^^^^^^^^^ meta.number.integer.hexadecimal.clojure
 ;                      ^ punctuation.definition.numeric.sign.clojure
-;                       ^^ punctuation.definition.numeric.base.clojure
-;                       ^^^^^^^^ constant.numeric.integer.hexadecimal.clojure
-;                               ^ - constant
+;                       ^^ constant.numeric.base.clojure
+;                         ^^^^^^ constant.numeric.value.clojure
+;                               ^ - meta.number
+;                                ^^^^^^^^^^ meta.number.integer.hexadecimal.clojure
 ;                                ^ punctuation.definition.numeric.sign.clojure
-;                                 ^^ punctuation.definition.numeric.base.clojure
-;                                ^^^^^^^^^^ constant.numeric.integer.hexadecimal.clojure
-;                                         ^ storage.type.numeric.clojure
+;                                 ^^ constant.numeric.base.clojure
+;                                   ^^^^^^ constant.numeric.value.clojure
+;                                         ^ constant.numeric.suffix.clojure
   -0x1234af -0x1234afN -0X1234AF -0X1234AFN
+; ^^^^^^^^^ meta.number.integer.hexadecimal.clojure
 ; ^ punctuation.definition.numeric.sign.clojure
-;  ^^ punctuation.definition.numeric.base.clojure
-; ^^^^^^^^^ constant.numeric.integer.hexadecimal.clojure
-;          ^ - constant
+;  ^^ constant.numeric.base.clojure
+;    ^^^^^^ constant.numeric.value.clojure
+;          ^ - meta.number
+;           ^^^^^^^^^^ meta.number.integer.hexadecimal.clojure
 ;           ^ punctuation.definition.numeric.sign.clojure
-;            ^^ punctuation.definition.numeric.base.clojure
-;           ^^^^^^^^^^ constant.numeric.integer.hexadecimal.clojure
-;                    ^ storage.type.numeric.clojure
-;                     ^ - constant
+;            ^^ constant.numeric.base.clojure
+;              ^^^^^^ constant.numeric.value.clojure
+;                    ^ constant.numeric.suffix.clojure
+;                     ^ - meta.number
+;                      ^^^^^^^^^ meta.number.integer.hexadecimal.clojure
 ;                      ^ punctuation.definition.numeric.sign.clojure
-;                       ^^ punctuation.definition.numeric.base.clojure
-;                      ^^^^^^^^^ constant.numeric.integer.hexadecimal.clojure
-;                               ^ - constant
+;                       ^^ constant.numeric.base.clojure
+;                         ^^^^^^ constant.numeric.value.clojure
+;                               ^ - meta.number
+;                                ^^^^^^^^^^ meta.number.integer.hexadecimal.clojure
 ;                                ^ punctuation.definition.numeric.sign.clojure
-;                                 ^^ punctuation.definition.numeric.base.clojure
-;                                ^^^^^^^^^^ constant.numeric.integer.hexadecimal.clojure
-;                                         ^ storage.type.numeric.clojure
+;                                 ^^ constant.numeric.base.clojure
+;                                   ^^^^^^ constant.numeric.value.clojure
+;                                         ^ constant.numeric.suffix.clojure
   2r1010 16r1234af 32r1234az 2R1010 16R1234AF 32R1234AZ
-; ^^ punctuation.definition.numeric.base.clojure
-; ^^^^^^ constant.numeric.integer.other.clojure
-;       ^ - constant
-;        ^^^ punctuation.definition.numeric.base.clojure
-;        ^^^^^^^^^ constant.numeric.integer.other.clojure
-;                 ^ - constant
-;                  ^^^ punctuation.definition.numeric.base.clojure
-;                  ^^^^^^^^^ constant.numeric.integer.other.clojure
-;                           ^ - constant
-;                            ^^ punctuation.definition.numeric.base.clojure
-;                            ^^^^^^ constant.numeric.integer.other.clojure
-;                                  ^ - constant
-;                                   ^^^ punctuation.definition.numeric.base.clojure
-;                                   ^^^^^^^^^ constant.numeric.integer.other.clojure
-;                                            ^ - constant
-;                                             ^^^ punctuation.definition.numeric.base.clojure
-;                                             ^^^^^^^^^ constant.numeric.integer.other.clojure
+; ^^^^^^ meta.number.integer.other.clojure
+; ^^ constant.numeric.base.clojure
+;   ^^^^ constant.numeric.value.clojure
+;       ^ - meta.number
+;        ^^^^^^^^^ meta.number.integer.other.clojure
+;        ^^^ constant.numeric.base.clojure
+;           ^^^^^^ constant.numeric.value.clojure
+;                 ^ - meta.number
+;                  ^^^^^^^^^ meta.number.integer.other.clojure
+;                  ^^^ constant.numeric.base.clojure
+;                     ^^^^^^ constant.numeric.value.clojure
+;                           ^ - meta.number
+;                            ^^^^^^ meta.number.integer.other.clojure
+;                            ^^ constant.numeric.base.clojure
+;                              ^^^^ constant.numeric.value.clojure
+;                                  ^ - meta.number
+;                                   ^^^^^^^^^ meta.number.integer.other.clojure
+;                                   ^^^ constant.numeric.base.clojure
+;                                      ^^^^^^ constant.numeric.value.clojure
+;                                            ^ - meta.number
+;                                             ^^^^^^^^^ meta.number.integer.other.clojure
+;                                             ^^^ constant.numeric.base.clojure
+;                                                ^^^^^^ constant.numeric.value.clojure
   +2r1010 +16r1234af +32r1234az +2R1010 +16R1234AF +32R1234AZ
+; ^^^^^^^ meta.number.integer.other.clojure
 ; ^ punctuation.definition.numeric.sign.clojure
-;  ^^ punctuation.definition.numeric.base.clojure
-; ^^^^^^^ constant.numeric.integer.other.clojure
-;        ^ - constant
+;  ^^ constant.numeric.base.clojure
+;    ^^^^ constant.numeric.value.clojure
+;        ^ - meta.number
+;         ^^^^^^^^^^ meta.number.integer.other.clojure
 ;         ^ punctuation.definition.numeric.sign.clojure
-;          ^^^ punctuation.definition.numeric.base.clojure
-;         ^^^^^^^^^^ constant.numeric.integer.other.clojure
-;                   ^ - constant
+;          ^^^ constant.numeric.base.clojure
+;             ^^^^^^ constant.numeric.value.clojure
+;                   ^ - meta.number
+;                    ^^^^^^^^^^ meta.number.integer.other.clojure
 ;                    ^ punctuation.definition.numeric.sign.clojure
-;                     ^^^ punctuation.definition.numeric.base.clojure
-;                    ^^^^^^^^^^ constant.numeric.integer.other.clojure
-;                              ^ - constant
+;                     ^^^ constant.numeric.base.clojure
+;                        ^^^^^^ constant.numeric.value.clojure
+;                              ^ - meta.number
+;                               ^^^^^^^ meta.number.integer.other.clojure
 ;                               ^ punctuation.definition.numeric.sign.clojure
-;                                ^^ punctuation.definition.numeric.base.clojure
-;                               ^^^^^^^ constant.numeric.integer.other.clojure
-;                                      ^ - constant
+;                                ^^ constant.numeric.base.clojure
+;                                  ^^^^ constant.numeric.value.clojure
+;                                      ^ - meta.number
+;                                       ^^^^^^^^^^ meta.number.integer.other.clojure
 ;                                       ^ punctuation.definition.numeric.sign.clojure
-;                                        ^^^ punctuation.definition.numeric.base.clojure
-;                                        ^^^^^^^^^ constant.numeric.integer.other.clojure
-;                                                 ^ - constant
+;                                        ^^^ constant.numeric.base.clojure
+;                                           ^^^^^^ constant.numeric.value.clojure
+;                                                 ^ - meta.number
+;                                                  ^^^^^^^^^^ meta.number.integer.other.clojure
 ;                                                  ^ punctuation.definition.numeric.sign.clojure
-;                                                   ^^^ punctuation.definition.numeric.base.clojure
-;                                                  ^^^^^^^^^^ constant.numeric.integer.other.clojure
+;                                                   ^^^ constant.numeric.base.clojure
+;                                                      ^^^^^^ constant.numeric.value.clojure
   -2r1010 -16r1234af -32r1234az -2R1010 -16R1234AF -32R1234AZ
+; ^^^^^^^ meta.number.integer.other.clojure
 ; ^ punctuation.definition.numeric.sign.clojure
-;  ^^ punctuation.definition.numeric.base.clojure
-; ^^^^^^^ constant.numeric.integer.other.clojure
-;        ^ - constant
+;  ^^ constant.numeric.base.clojure
+;    ^^^^ constant.numeric.value.clojure
+;        ^ - meta.number
+;         ^^^^^^^^^^ meta.number.integer.other.clojure
 ;         ^ punctuation.definition.numeric.sign.clojure
-;          ^^^ punctuation.definition.numeric.base.clojure
-;          ^^^^^^^^^ constant.numeric.integer.other.clojure
-;                   ^ - constant
+;          ^^^ constant.numeric.base.clojure
+;             ^^^^^^ constant.numeric.value.clojure
+;                   ^ - meta.number
+;                    ^^^^^^^^^^ meta.number.integer.other.clojure
 ;                    ^ punctuation.definition.numeric.sign.clojure
-;                     ^^^ punctuation.definition.numeric.base.clojure
-;                    ^^^^^^^^^^ constant.numeric.integer.other.clojure
-;                              ^ - constant
+;                     ^^^ constant.numeric.base.clojure
+;                        ^^^^^^ constant.numeric.value.clojure
+;                              ^ - meta.number
+;                               ^^^^^^^ meta.number.integer.other.clojure
 ;                               ^ punctuation.definition.numeric.sign.clojure
-;                                ^^ punctuation.definition.numeric.base.clojure
-;                               ^^^^^^^ constant.numeric.integer.other.clojure
-;                                      ^ - constant
+;                                ^^ constant.numeric.base.clojure
+;                                  ^^^^ constant.numeric.value.clojure
+;                                      ^ - meta.number
+;                                       ^^^^^^^^^^ meta.number.integer.other.clojure
 ;                                       ^ punctuation.definition.numeric.sign.clojure
-;                                        ^^^ punctuation.definition.numeric.base.clojure
-;                                       ^^^^^^^^^^ constant.numeric.integer.other.clojure
-;                                                 ^ - constant
+;                                        ^^^ constant.numeric.base.clojure
+;                                           ^^^^^^ constant.numeric.value.clojure
+;                                                 ^ - meta.number
+;                                                  ^^^^^^^^^^ meta.number.integer.other.clojure
 ;                                                  ^ punctuation.definition.numeric.sign.clojure
-;                                                   ^^^ punctuation.definition.numeric.base.clojure
-;                                                  ^^^^^^^^^^ constant.numeric.integer.other.clojure
+;                                                   ^^^ constant.numeric.base.clojure
+;                                                      ^^^^^^ constant.numeric.value.clojure
   0/10 10/20 30/0
-; ^^^^ constant.numeric.rational.decimal.clojure
+; ^^^^ meta.number.rational.decimal.clojure
+; ^ constant.numeric.value.clojure
 ;  ^ punctuation.separator.rational.clojure
-;     ^ - constant
-;      ^^^^^ constant.numeric.rational.decimal.clojure
+;   ^ constant.numeric.value.clojure
+;     ^ - meta.number
+;      ^^^^^ meta.number.rational.decimal.clojure
+;      ^^ constant.numeric.value.clojure
 ;        ^ punctuation.separator.rational.clojure
-;           ^ - constant
-;            ^^^^ constant.numeric.rational.decimal.clojure
+;         ^^ constant.numeric.value.clojure
+;           ^ - meta.number
+;            ^^^^ meta.number.rational.decimal.clojure
+;            ^^ constant.numeric.value.clojure
 ;              ^ punctuation.separator.rational.clojure
+;               ^ constant.numeric.value.clojure
   +0/10 +10/20 +30/0
-; ^^^^^ constant.numeric.rational.decimal.clojure
+; ^^^^^ meta.number.rational.decimal.clojure
 ; ^ punctuation.definition.numeric.sign.clojure
+;  ^ constant.numeric.value.clojure
 ;   ^ punctuation.separator.rational.clojure
-;      ^ - constant
-;       ^^^^^^ constant.numeric.rational.decimal.clojure
+;    ^^ constant.numeric.value.clojure
+;      ^ - meta.number
+;       ^^^^^^ meta.number.rational.decimal.clojure
 ;       ^ punctuation.definition.numeric.sign.clojure
+;        ^^ constant.numeric.value.clojure
 ;          ^ punctuation.separator.rational.clojure
-;             ^ - constant
-;              ^^^^^ constant.numeric.rational.decimal.clojure
+;           ^^ constant.numeric.value.clojure
+;             ^ - meta.number
+;              ^^^^^ meta.number.rational.decimal.clojure
 ;              ^ punctuation.definition.numeric.sign.clojure
+;               ^^ constant.numeric.value.clojure
 ;                 ^ punctuation.separator.rational.clojure
+;                  ^ constant.numeric.value.clojure
   -0/10 -10/20 -30/0
-; ^^^^^ constant.numeric.rational.decimal.clojure
+; ^^^^^ meta.number.rational.decimal.clojure
 ; ^ punctuation.definition.numeric.sign.clojure
+;  ^ constant.numeric.value.clojure
 ;   ^ punctuation.separator.rational.clojure
-;      ^ - constant
-;       ^^^^^^ constant.numeric.rational.decimal.clojure
+;    ^^ constant.numeric.value.clojure
+;      ^ - meta.number
+;       ^^^^^^ meta.number.rational.decimal.clojure
 ;       ^ punctuation.definition.numeric.sign.clojure
+;        ^^ constant.numeric.value.clojure
 ;          ^ punctuation.separator.rational.clojure
-;             ^ - constant
-;              ^^^^^ constant.numeric.rational.decimal.clojure
+;           ^^ constant.numeric.value.clojure
+;             ^ - meta.number
+;              ^^^^^ meta.number.rational.decimal.clojure
 ;              ^ punctuation.definition.numeric.sign.clojure
+;               ^^ constant.numeric.value.clojure
 ;                 ^ punctuation.separator.rational.clojure
+;                  ^ constant.numeric.value.clojure
   1234M 1234.0M 1234.1234M
-; ^^^^^ constant.numeric.float.decimal.clojure
-;     ^ storage.type.numeric.clojure
-;      ^ - constant
-;       ^^^^^^^ constant.numeric.float.decimal.clojure
+; ^^^^^ meta.number.float.decimal.clojure
+;     ^ constant.numeric.suffix.clojure
+;      ^ - meta.number
+;       ^^^^^^^ meta.number.float.decimal.clojure
+;       ^^^^ constant.numeric.value.clojure
 ;           ^ punctuation.separator.decimal.clojure
-;             ^ storage.type.numeric.clojure
-;              ^ - constant
-;               ^^^^^^^^^^ constant.numeric.float.decimal.clojure
+;            ^ constant.numeric.value.clojure
+;             ^ constant.numeric.suffix.clojure
+;              ^ - meta.number
+;               ^^^^^^^^^^ meta.number.float.decimal.clojure
+;               ^^^^ constant.numeric.value.clojure
 ;                   ^ punctuation.separator.decimal.clojure
-;                        ^ storage.type.numeric.clojure
+;                    ^^^^ constant.numeric.value.clojure
+;                        ^ constant.numeric.suffix.clojure
   +1234M +1234.0M +1234.1234M
-; ^^^^^^ constant.numeric.float.decimal.clojure
+; ^^^^^^ meta.number.float.decimal.clojure
 ; ^ punctuation.definition.numeric.sign.clojure
-;      ^ storage.type.numeric.clojure
-;       ^ - constant
-;        ^^^^^^^^ constant.numeric.float.decimal.clojure
+;  ^^^^ constant.numeric.value.clojure
+;      ^ constant.numeric.suffix.clojure
+;       ^ - meta.number
+;        ^^^^^^^^ meta.number.float.decimal.clojure
 ;        ^ punctuation.definition.numeric.sign.clojure
+;         ^^^^ constant.numeric.value.clojure
 ;             ^ punctuation.separator.decimal.clojure
-;               ^ storage.type.numeric.clojure
-;                ^ - constant
-;                 ^^^^^^^^^^^ constant.numeric.float.decimal.clojure
+;              ^ constant.numeric.value.clojure
+;               ^ constant.numeric.suffix.clojure
+;                ^ - meta.number
+;                 ^^^^^^^^^^^ meta.number.float.decimal.clojure
 ;                 ^ punctuation.definition.numeric.sign.clojure
+;                  ^^^^ constant.numeric.value.clojure
 ;                      ^ punctuation.separator.decimal.clojure
-;                           ^ storage.type.numeric.clojure
+;                       ^^^^ constant.numeric.value.clojure
+;                           ^ constant.numeric.suffix.clojure
   -1234M -1234.0M -1234.1234M
-; ^^^^^^ constant.numeric.float.decimal.clojure
+; ^^^^^^ meta.number.float.decimal.clojure
 ; ^ punctuation.definition.numeric.sign.clojure
-;      ^ storage.type.numeric.clojure
-;       ^ - constant
-;        ^^^^^^^^ constant.numeric.float.decimal.clojure
+;  ^^^^ constant.numeric.value.clojure
+;      ^ constant.numeric.suffix.clojure
+;       ^ - meta.number
+;        ^^^^^^^^ meta.number.float.decimal.clojure
 ;        ^ punctuation.definition.numeric.sign.clojure
+;         ^^^^ constant.numeric.value.clojure
 ;             ^ punctuation.separator.decimal.clojure
-;               ^ storage.type.numeric.clojure
-;                ^ - constant
-;                 ^^^^^^^^^^^ constant.numeric.float.decimal.clojure
+;              ^ constant.numeric.value.clojure
+;               ^ constant.numeric.suffix.clojure
+;                ^ - meta.number
+;                 ^^^^^^^^^^^ meta.number.float.decimal.clojure
 ;                 ^ punctuation.definition.numeric.sign.clojure
+;                  ^^^^ constant.numeric.value.clojure
 ;                      ^ punctuation.separator.decimal.clojure
-;                           ^ storage.type.numeric.clojure
+;                       ^^^^ constant.numeric.value.clojure
+;                           ^ constant.numeric.suffix.clojure
   1234e10 1234E10M 1234.1234e10M 1234.1234E10M
-; ^^^^^^^ constant.numeric.float.decimal.clojure
-;        ^ - constant
-;         ^^^^^^^ constant.numeric.float.decimal.clojure
-;                ^ storage.type.numeric.clojure
-;                 ^ - constant
-;                  ^^^^^^^^^^^^^ constant.numeric.float.decimal.clojure
+; ^^^^^^^ meta.number.float.decimal.clojure
+; ^^^^ constant.numeric.value.clojure
+;     ^^^ constant.numeric.value.exponent.clojure
+;        ^ - meta.number
+;         ^^^^^^^ meta.number.float.decimal.clojure
+;         ^^^^ constant.numeric.value.clojure
+;             ^^^ constant.numeric.value.exponent.clojure
+;                ^ constant.numeric.suffix.clojure
+;                 ^ - meta.number
+;                  ^^^^^^^^^^^^^ meta.number.float.decimal.clojure
+;                  ^^^^ constant.numeric.value.clojure
 ;                      ^ punctuation.separator.decimal.clojure
-;                              ^ storage.type.numeric.clojure
-;                               ^ - constant
-;                                ^^^^^^^^^^^^^ constant.numeric.float.decimal.clojure
+;                       ^^^^ constant.numeric.value.clojure
+;                           ^^^ constant.numeric.value.exponent.clojure
+;                              ^ constant.numeric.suffix.clojure
+;                               ^ - meta.number
+;                                ^^^^^^^^^^^^^ meta.number.float.decimal.clojure
+;                                ^^^^ constant.numeric.value.clojure
 ;                                    ^ punctuation.separator.decimal.clojure
-;                                            ^ storage.type.numeric.clojure
+;                                     ^^^^ constant.numeric.value.clojure
+;                                         ^^^ constant.numeric.value.exponent.clojure
+;                                            ^ constant.numeric.suffix.clojure
   +1234e10 +1234E10M +1234.1234e10M +1234.1234E10M
-; ^^^^^^^^ constant.numeric.float.decimal.clojure
+; ^^^^^^^^ meta.number.float.decimal.clojure
 ; ^ punctuation.definition.numeric.sign.clojure
-;         ^ - constant
-;          ^^^^^^^^^ constant.numeric.float.decimal.clojure
+;  ^^^^ constant.numeric.value.clojure
+;      ^^^ constant.numeric.value.exponent.clojure
+;         ^ - meta.number
+;          ^^^^^^^^^ meta.number.float.decimal.clojure
 ;          ^ punctuation.definition.numeric.sign.clojure
-;                  ^ storage.type.numeric.clojure
-;                   ^ - constant
-;                    ^^^^^^^^^^^^^^ constant.numeric.float.decimal.clojure
+;           ^^^^ constant.numeric.value.clojure
+;               ^^^ constant.numeric.value.exponent.clojure
+;                  ^ constant.numeric.suffix.clojure
+;                   ^ - meta.number
+;                    ^^^^^^^^^^^^^^ meta.number.float.decimal.clojure
 ;                    ^ punctuation.definition.numeric.sign.clojure
+;                     ^^^^ constant.numeric.value.clojure
 ;                         ^ punctuation.separator.decimal.clojure
-;                                 ^ storage.type.numeric.clojure
-;                                  ^ - constant
-;                                   ^^^^^^^^^^^^^^ constant.numeric.float.decimal.clojure
+;                          ^^^^ constant.numeric.value.clojure
+;                              ^^^ constant.numeric.value.exponent.clojure
+;                                 ^ constant.numeric.suffix.clojure
+;                                  ^ - meta.number
+;                                   ^^^^^^^^^^^^^^ meta.number.float.decimal.clojure
 ;                                   ^ punctuation.definition.numeric.sign.clojure
+;                                    ^^^^ constant.numeric.value.clojure
 ;                                        ^ punctuation.separator.decimal.clojure
-;                                                ^ storage.type.numeric.clojure
+;                                         ^^^^ constant.numeric.value.clojure
+;                                             ^^^ constant.numeric.value.exponent.clojure
+;                                                ^ constant.numeric.suffix.clojure
   -1234e10 -1234E10M -1234.1234e10M -1234.1234E10M
-; ^^^^^^^^ constant.numeric.float.decimal.clojure
+; ^^^^^^^^ meta.number.float.decimal.clojure
 ; ^ punctuation.definition.numeric.sign.clojure
-;         ^ - constant
-;          ^^^^^^^^^ constant.numeric.float.decimal.clojure
+;  ^^^^ constant.numeric.value.clojure
+;      ^^^ constant.numeric.value.exponent.clojure
+;         ^ - meta.number
+;          ^^^^^^^^^ meta.number.float.decimal.clojure
 ;          ^ punctuation.definition.numeric.sign.clojure
-;                  ^ storage.type.numeric.clojure
-;                   ^ - constant
-;                    ^^^^^^^^^^^^^^ constant.numeric.float.decimal.clojure
+;           ^^^^ constant.numeric.value.clojure
+;               ^^^ constant.numeric.value.exponent.clojure
+;                  ^ constant.numeric.suffix.clojure
+;                   ^ - meta.number
+;                    ^^^^^^^^^^^^^^ meta.number.float.decimal.clojure
 ;                    ^ punctuation.definition.numeric.sign.clojure
+;                     ^^^^ constant.numeric.value.clojure
 ;                         ^ punctuation.separator.decimal.clojure
-;                                 ^ storage.type.numeric.clojure
-;                                  ^ - constant
-;                                   ^^^^^^^^^^^^^^ constant.numeric.float.decimal.clojure
+;                          ^^^^ constant.numeric.value.clojure
+;                              ^^^ constant.numeric.value.exponent.clojure
+;                                 ^ constant.numeric.suffix.clojure
+;                                  ^ - meta.number
+;                                   ^^^^^^^^^^^^^^ meta.number.float.decimal.clojure
 ;                                   ^ punctuation.definition.numeric.sign.clojure
+;                                    ^^^^ constant.numeric.value.clojure
 ;                                        ^ punctuation.separator.decimal.clojure
-;                                                ^ storage.type.numeric.clojure
+;                                         ^^^^ constant.numeric.value.clojure
+;                                             ^^^ constant.numeric.value.exponent.clojure
+;                                                ^ constant.numeric.suffix.clojure
   1234.1234e+10 1234.1234E+10 1234.1234e-10 1234.1234E-10
-; ^^^^^^^^^^^^^ constant.numeric.float.decimal.clojure
+; ^^^^^^^^^^^^^ meta.number.float.decimal.clojure
+; ^^^^ constant.numeric.value.clojure
 ;     ^ punctuation.separator.decimal.clojure
-;              ^ - constant
-;               ^^^^^^^^^^^^^ constant.numeric.float.decimal.clojure
+;      ^^^^ constant.numeric.value.clojure
+;          ^^^^ constant.numeric.value.exponent.clojure
+;              ^ - meta.number
+;               ^^^^^^^^^^^^^ meta.number.float.decimal.clojure
+;               ^^^^ constant.numeric.value.clojure
 ;                   ^ punctuation.separator.decimal.clojure
-;                            ^ - constant
-;                             ^^^^^^^^^^^^^ constant.numeric.float.decimal.clojure
+;                    ^^^^ constant.numeric.value.clojure
+;                        ^^^^ constant.numeric.value.exponent.clojure
+;                            ^ - meta.number
+;                             ^^^^^^^^^^^^^ meta.number.float.decimal.clojure
+;                             ^^^^ constant.numeric.value.clojure
 ;                                 ^ punctuation.separator.decimal.clojure
-;                                          ^ - constant
-;                                           ^^^^^^^^^^^^^ constant.numeric.float.decimal.clojure
+;                                  ^^^^ constant.numeric.value.clojure
+;                                      ^^^^ constant.numeric.value.exponent.clojure
+;                                          ^ - meta.number
+;                                           ^^^^^^^^^^^^^ meta.number.float.decimal.clojure
+;                                           ^^^^ constant.numeric.value.clojure
 ;                                               ^ punctuation.separator.decimal.clojure
+;                                                ^^^^ constant.numeric.value.clojure
+;                                                    ^^^^ constant.numeric.value.exponent.clojure
   +1234.1234e+10M +1234.1234E+10M +1234.1234e-10M +1234.1234E-10M
-; ^^^^^^^^^^^^^^^ constant.numeric.float.decimal.clojure
+; ^^^^^^^^^^^^^^^ meta.number.float.decimal.clojure
 ; ^ punctuation.definition.numeric.sign.clojure
+;  ^^^^ constant.numeric.value.clojure
 ;      ^ punctuation.separator.decimal.clojure
-;               ^ storage.type.numeric.clojure
-;                ^ - constant
-;                 ^^^^^^^^^^^^^^^ constant.numeric.float.decimal.clojure
+;       ^^^^ constant.numeric.value.clojure
+;           ^^^^ constant.numeric.value.exponent.clojure
+;               ^ constant.numeric.suffix.clojure
+;                ^ - meta.number
+;                 ^^^^^^^^^^^^^^^ meta.number.float.decimal.clojure
 ;                 ^ punctuation.definition.numeric.sign.clojure
+;                  ^^^^ constant.numeric.value.clojure
 ;                      ^ punctuation.separator.decimal.clojure
-;                               ^ storage.type.numeric.clojure
-;                                ^ - constant
+;                       ^^^^ constant.numeric.value.clojure
+;                           ^^^^ constant.numeric.value.exponent.clojure
+;                               ^ constant.numeric.suffix.clojure
+;                                ^ - meta.number
+;                                 ^^^^^^^^^^^^^^^ meta.number.float.decimal.clojure
 ;                                 ^ punctuation.definition.numeric.sign.clojure
-;                                 ^^^^^^^^^^^^^^^ constant.numeric.float.decimal.clojure
+;                                  ^^^^ constant.numeric.value.clojure
 ;                                      ^ punctuation.separator.decimal.clojure
-;                                               ^ storage.type.numeric.clojure
-;                                                ^ - constant
-;                                                 ^^^^^^^^^^^^^^^ constant.numeric.float.decimal.clojure
+;                                       ^^^^ constant.numeric.value.clojure
+;                                           ^^^^ constant.numeric.value.exponent.clojure
+;                                               ^ constant.numeric.suffix.clojure
+;                                                ^ - meta.number
+;                                                 ^^^^^^^^^^^^^^^ meta.number.float.decimal.clojure
 ;                                                 ^ punctuation.definition.numeric.sign.clojure
+;                                                  ^^^^ constant.numeric.value.clojure
 ;                                                      ^ punctuation.separator.decimal.clojure
-;                                                               ^ storage.type.numeric.clojure
+;                                                       ^^^^ constant.numeric.value.clojure
+;                                                           ^^^^ constant.numeric.value.exponent.clojure
+;                                                               ^ constant.numeric.suffix.clojure
   -1234.1234e+10M -1234.1234E+10M -1234.1234e-10M -1234.1234E-10M
-; ^^^^^^^^^^^^^^^ constant.numeric.float.decimal.clojure
+; ^^^^^^^^^^^^^^^ meta.number.float.decimal.clojure
 ; ^ punctuation.definition.numeric.sign.clojure
+;  ^^^^ constant.numeric.value.clojure
 ;      ^ punctuation.separator.decimal.clojure
-;               ^ storage.type.numeric.clojure
-;                ^ - constant
-;                 ^^^^^^^^^^^^^^^ constant.numeric.float.decimal.clojure
+;       ^^^^ constant.numeric.value.clojure
+;           ^^^^ constant.numeric.value.exponent.clojure
+;               ^ constant.numeric.suffix.clojure
+;                ^ - meta.number
+;                 ^^^^^^^^^^^^^^^ meta.number.float.decimal.clojure
 ;                 ^ punctuation.definition.numeric.sign.clojure
+;                  ^^^^ constant.numeric.value.clojure
 ;                      ^ punctuation.separator.decimal.clojure
-;                               ^ storage.type.numeric.clojure
-;                                ^ - constant
-;                                 ^^^^^^^^^^^^^^^ constant.numeric.float.decimal.clojure
+;                       ^^^^ constant.numeric.value.clojure
+;                           ^^^^ constant.numeric.value.exponent.clojure
+;                               ^ constant.numeric.suffix.clojure
+;                                ^ - meta.number
+;                                 ^^^^^^^^^^^^^^^ meta.number.float.decimal.clojure
 ;                                 ^ punctuation.definition.numeric.sign.clojure
+;                                  ^^^^ constant.numeric.value.clojure
 ;                                      ^ punctuation.separator.decimal.clojure
-;                                               ^ storage.type.numeric.clojure
-;                                                ^ - constant
-;                                                 ^^^^^^^^^^^^^^^ constant.numeric.float.decimal.clojure
+;                                       ^^^^ constant.numeric.value.clojure
+;                                           ^^^^ constant.numeric.value.exponent.clojure
+;                                               ^ constant.numeric.suffix.clojure
+;                                                ^ - meta.number
+;                                                 ^^^^^^^^^^^^^^^ meta.number.float.decimal.clojure
 ;                                                 ^ punctuation.definition.numeric.sign.clojure
+;                                                  ^^^^ constant.numeric.value.clojure
 ;                                                      ^ punctuation.separator.decimal.clojure
-;                                                               ^ storage.type.numeric.clojure
+;                                                       ^^^^ constant.numeric.value.clojure
+;                                                           ^^^^ constant.numeric.value.exponent.clojure
+;                                                               ^ constant.numeric.suffix.clojure
 
 ; ## Breaks
 
   10,20,30
-; ^^ constant.numeric
+; ^^ meta.number
 ;   ^ comment.punctuation.comma.clojure
-;    ^^ constant.numeric
+;    ^^ meta.number
   10;20;30
-; ^^ constant.numeric
+; ^^ meta.number
 ;   ^ comment.line.clojure punctuation.definition.comment
   10'20'30
-; ^^ constant.numeric
+; ^^ meta.number
 ;   ^ keyword.operator.macro.clojure
   10`20`30
-; ^^ constant.numeric
+; ^^ meta.number
 ;   ^ keyword.operator.macro.clojure
   10#20#30
-; ^^ constant.numeric
+; ^^ meta.number
 ;   ^ keyword.operator.macro.clojure
 
 ; ## Unaffected
 
   '1234 '+1234 '-1234
 ; ^ keyword.operator.macro.clojure
-;  ^^^^ constant.numeric
+;  ^^^^ meta.number
 
   (10 20 30) [10 20 30]
 ; ^ punctuation.section.parens.begin.clojure
-;  ^^ constant.numeric
+;  ^^ meta.number
 ;            ^ punctuation.section.brackets.begin.clojure
-;             ^^ constant.numeric
+;             ^^ meta.number
 
   ([100 200])
 ; ^ punctuation.section.parens.begin.clojure
 ;  ^ punctuation.section.brackets.begin.clojure
-;   ^^^ constant.numeric
-;       ^^^ constant.numeric
+;   ^^^ meta.number
+;       ^^^ meta.number
 ;          ^ punctuation.section.brackets.end.clojure
 ;           ^ punctuation.section.parens.end.clojure
   ([0x10 0x20])
 ; ^ punctuation.section.parens.begin.clojure
 ;  ^ punctuation.section.brackets.begin.clojure
-;   ^^^^ constant.numeric
-;        ^^^^ constant.numeric
+;   ^^^^ meta.number
+;        ^^^^ meta.number
 ;            ^ punctuation.section.brackets.end.clojure
 ;             ^ punctuation.section.parens.end.clojure
   ([2r100 16r200])
 ; ^ punctuation.section.parens.begin.clojure
 ;  ^ punctuation.section.brackets.begin.clojure
-;   ^^^^^ constant.numeric
-;         ^^^^^^ constant.numeric
+;   ^^^^^ meta.number
+;         ^^^^^^ meta.number
 ;               ^ punctuation.section.brackets.end.clojure
 ;                ^ punctuation.section.parens.end.clojure
   ([10/20 30/40])
 ; ^ punctuation.section.parens.begin.clojure
 ;  ^ punctuation.section.brackets.begin.clojure
-;   ^^^^^ constant.numeric
-;         ^^^^^ constant.numeric
+;   ^^^^^ meta.number
+;         ^^^^^ meta.number
 ;              ^ punctuation.section.brackets.end.clojure
 ;               ^ punctuation.section.parens.end.clojure
   ([100.100 200.200])
 ; ^ punctuation.section.parens.begin.clojure
 ;  ^ punctuation.section.brackets.begin.clojure
-;   ^^^^^^^ constant.numeric
-;           ^^^^^^^ constant.numeric
+;   ^^^^^^^ meta.number
+;           ^^^^^^^ meta.number
 ;                  ^ punctuation.section.brackets.end.clojure
 ;                   ^ punctuation.section.parens.end.clojure
   ([1e+10 2e-20])
 ; ^ punctuation.section.parens.begin.clojure
 ;  ^ punctuation.section.brackets.begin.clojure
-;   ^^^^^ constant.numeric
-;         ^^^^^ constant.numeric
+;   ^^^^^ meta.number
+;         ^^^^^ meta.number
 ;              ^ punctuation.section.brackets.end.clojure
 ;               ^ punctuation.section.parens.end.clojure
 
@@ -473,13 +606,13 @@
 ;                ^^^^^^^ invalid.deprecated.clojure
 ;                        ^ keyword.operator.macro.clojure
   10-20 10+20 1234n 1234m 1234. 1234.M
-; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant
+; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.number
   10.0/20 10/20.0 10/+20 10/-20
-; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant
+; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.number
   10:20:30
-; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant
+; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.number
   1r000
-; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant
+; ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.number
 
 ; ## Ignore
 
@@ -929,11 +1062,11 @@
 
   #_0.000692025M
 ; ^^ keyword.operator.macro.clojure
-;   ^^^^^^^^^^^^ constant.numeric
+;   ^^^^^^^^^^^^ meta.number
 
   #_ 0.000692025M
 ; ^^ keyword.operator.macro.clojure
-;    ^^^^^^^^^^^^ constant.numeric
+;    ^^^^^^^^^^^^ meta.number
 
   #_blah
 ; ^^ keyword.operator.macro.clojure
@@ -968,7 +1101,7 @@
 
   #111[]
 ; ^ keyword.operator.macro.clojure
-;  ^^^ constant.numeric
+;  ^^^ meta.number
   (blah #) )
 ;       ^ keyword.operator.macro.clojure
 ;        ^ invalid.illegal.clojure
@@ -990,7 +1123,7 @@
 
   '100
 ; ^ keyword.operator.macro.clojure
-;  ^^^ constant.numeric
+;  ^^^ meta.number
 
   'true
 ; ^ keyword.operator.macro.clojure
@@ -1029,7 +1162,7 @@
   '(10 20 30)
 ; ^ keyword.operator.macro.clojure
 ;  ^ punctuation.section.parens.begin.clojure
-;   ^^ constant.numeric
+;   ^^ meta.number
 
   '(blah blah)
 ; ^ keyword.operator.macro.clojure
@@ -1055,7 +1188,7 @@
 
   ~100
 ; ^ keyword.operator.macro.clojure
-;  ^^^ constant.numeric
+;  ^^^ meta.number
 
   `(blah ~blah)
 ; ^ keyword.operator.macro.clojure
@@ -1069,7 +1202,7 @@
 ;  ^ punctuation.section.parens.begin.clojure
 ;   ^^^^ variable.function.clojure
 ;        ^ keyword.operator.macro.clojure
-;         ^^^ constant.numeric
+;         ^^^ meta.number
 
 ; ## Unquote-splicing
 
@@ -1080,7 +1213,7 @@
   ~@[10 20 30]
 ; ^^ keyword.operator.macro.clojure
 ;   ^ punctuation.section.brackets.begin.clojure
-;    ^^ constant.numeric
+;    ^^ meta.number
 
   `(blah ~@blah)
 ; ^ keyword.operator.macro.clojure
@@ -1095,7 +1228,7 @@
 ;   ^^^^ variable.function.clojure
 ;        ^^ keyword.operator.macro.clojure
 ;          ^ punctuation.section.brackets.begin.clojure
-;           ^^ constant.numeric
+;           ^^ meta.number
 
 ; ## Invalid
 
@@ -1129,7 +1262,7 @@
 
   @100
 ; ^ keyword.operator.macro.clojure
-;  ^^^ constant.numeric
+;  ^^^ meta.number
 
   @true
 ; ^ keyword.operator.macro.clojure
@@ -1170,7 +1303,7 @@
 ;      ^^^^^- keyword.operator.macro.clojure
 
   100@blah
-; ^^^ constant.numeric
+; ^^^ meta.number
 ;    ^ keyword.operator.macro.clojure
 ;     ^^^^^- keyword.operator.macro.clojure
 
@@ -1217,12 +1350,12 @@
 ; ^^^ keyword.operator.macro.clojure
 ;    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^- keyword.operator.macro.clojure
 ;    ^ punctuation.section.braces.begin.clojure
-;     ^^ constant.numeric
-;        ^^ constant.numeric
+;     ^^ meta.number
+;        ^^ meta.number
 ;          ^ punctuation.section.braces.end.clojure
 ;           ^ punctuation.section.braces.begin.clojure
-;            ^^ constant.numeric
-;               ^^ constant.numeric
+;            ^^ meta.number
+;               ^^ meta.number
 ;                 ^ punctuation.section.braces.end.clojure
 ;                  ^ punctuation.section.braces.begin.clojure
 ;                   ^^^^ constant.other.keyword.clojure
@@ -1234,7 +1367,7 @@
 ;      ^^^^^- keyword.operator.macro.clojure
 
   100^blah
-; ^^^ constant.numeric
+; ^^^ meta.number
 ;    ^ keyword.operator.macro.clojure
 ;     ^^^^^- keyword.operator.macro.clojure
 
@@ -1256,16 +1389,16 @@
 
   [10, 20, 30]
 ; ^ punctuation.section.brackets.begin.clojure
-;  ^^ constant.numeric
+;  ^^ meta.number
 ;    ^ comment.punctuation.comma.clojure
-;      ^^ constant.numeric
+;      ^^ meta.number
 ;        ^ comment.punctuation.comma.clojure
-;          ^^ constant.numeric
+;          ^^ meta.number
 ;            ^ punctuation.section.brackets.end.clojure
 
   [10
 ; ^ punctuation.section.brackets.begin.clojure
-;  ^^ constant.numeric
+;  ^^ meta.number
    ; ---
 ;  ^ comment.line.clojure punctuation.definition.comment
    blah
@@ -1274,7 +1407,7 @@
 ;       ^ string.quoted.double.clojure punctuation.definition.string.begin.clojure
    [20]]
 ;  ^ punctuation.section.brackets.begin.clojure
-;   ^^ constant.numeric
+;   ^^ meta.number
 ;     ^^ punctuation.section.brackets.end.clojure
 
 ; ## Invalid
@@ -1294,16 +1427,16 @@
 
   #{10, 20, 30}
 ; ^^ punctuation.section.braces.begin.clojure
-;   ^^ constant.numeric
+;   ^^ meta.number
 ;     ^ comment.punctuation.comma.clojure
-;       ^^ constant.numeric
+;       ^^ meta.number
 ;         ^ comment.punctuation.comma.clojure
-;           ^^ constant.numeric
+;           ^^ meta.number
 ;             ^ punctuation.section.braces.end.clojure
 
   #{10
 ; ^^ punctuation.section.braces.begin.clojure
-;   ^^ constant.numeric
+;   ^^ meta.number
     ; ---
 ;   ^ comment.line.clojure punctuation.definition.comment
     blah
@@ -1312,34 +1445,34 @@
 ;        ^ string.quoted.double.clojure punctuation.definition.string.begin.clojure
     {20}}
 ;   ^ punctuation.section.braces.begin.clojure
-;    ^^ constant.numeric
+;    ^^ meta.number
 ;      ^^ punctuation.section.braces.end.clojure
 
   {10 20, 30 40}
 ; ^ punctuation.section.braces.begin.clojure
-;  ^^ constant.numeric
-;     ^^ constant.numeric
+;  ^^ meta.number
+;     ^^ meta.number
 ;       ^ comment.punctuation.comma.clojure
-;         ^^ constant.numeric
-;            ^^ constant.numeric
+;         ^^ meta.number
+;            ^^ meta.number
 ;              ^ punctuation.section.braces.end.clojure
 
   {:blah [10 20 30]
 ; ^ punctuation.section.braces.begin.clojure
 ;  ^^^^^ constant.other.keyword.clojure
 ;        ^ punctuation.section.brackets.begin.clojure
-;         ^^ constant.numeric
-;            ^^ constant.numeric
-;               ^^ constant.numeric
+;         ^^ meta.number
+;            ^^ meta.number
+;               ^^ meta.number
 ;                 ^ punctuation.section.brackets.end.clojure
    ; ---
 ;  ^ comment.line.clojure punctuation.definition.comment
    :blahblah #{10 20 30}}
 ;  ^^^^^^^^^ constant.other.keyword.clojure
 ;            ^^ punctuation.section.braces.begin.clojure
-;              ^^ constant.numeric
-;                 ^^ constant.numeric
-;                    ^^ constant.numeric
+;              ^^ meta.number
+;                 ^^ meta.number
+;                    ^^ meta.number
 ;                      ^^ punctuation.section.braces.end.clojure
 
 ; ## Invalid
@@ -1370,12 +1503,12 @@
 ;  ^^^^ variable.function.clojure
 ;      ^^^^^^^^^^^^^^^^^^^^^^^^- variable.function.clojure
 ;            ^^^^ constant.language.clojure
-;                 ^^ constant.numeric
+;                 ^^ meta.number
 ;                    ^ string.quoted.double.clojure punctuation.definition.string.begin.clojure
 ;                     ^ string.quoted.double.clojure punctuation.definition.string.end.clojure
 ;                       ^ punctuation.section.brackets.begin.clojure
-;                        ^^ constant.numeric
-;                           ^^ constant.numeric
+;                        ^^ meta.number
+;                           ^^ meta.number
 ;                             ^ punctuation.section.brackets.end.clojure
 ;                              ^ punctuation.section.parens.end.clojure
 
@@ -1385,7 +1518,7 @@
 ;   ^^^^ variable.function.clojure
 ;       ^^^^^^^^^^^^^^^^^^^^^^^^^- variable.function.clojure
 ;             ^^^^ constant.language.clojure
-;                  ^^ constant.numeric
+;                  ^^ meta.number
 ;                               ^ punctuation.section.parens.end.clojure
 
 ; ## Ignore operator
@@ -1396,7 +1529,7 @@
 
   (10 blah :blah)
 ; ^ punctuation.section.parens.begin.clojure
-;  ^^ constant.numeric
+;  ^^ meta.number
 
   (:blah blah 10)
 ; ^ punctuation.section.parens.begin.clojure
@@ -1580,8 +1713,8 @@
   (^{10 20} def ^:private declare-def dont-declare)
 ;  ^ keyword.operator.macro.clojure
 ;   ^ punctuation.section.braces.begin.clojure
-;    ^^ constant.numeric
-;       ^^ constant.numeric
+;    ^^ meta.number
+;       ^^ meta.number
 ;         ^ punctuation.section.braces.end.clojure
 ;           ^^^ storage.modifier.def.clojure
 ;               ^ keyword.operator.macro.clojure
@@ -1595,12 +1728,12 @@
 ;  ^^^ storage.modifier.def.clojure
 ;      ^^^ keyword.operator.macro.clojure
 ;         ^ punctuation.section.braces.begin.clojure
-;          ^^ constant.numeric
-;             ^^ constant.numeric
+;          ^^ meta.number
+;             ^^ meta.number
 ;               ^ punctuation.section.braces.end.clojure
 ;                ^ punctuation.section.braces.begin.clojure
-;                 ^^ constant.numeric
-;                    ^^ constant.numeric
+;                 ^^ meta.number
+;                    ^^ meta.number
 ;                      ^ punctuation.section.braces.end.clojure
 ;                       ^ punctuation.section.braces.begin.clojure
 ;                        ^^^^^^^^ constant.other.keyword.clojure
@@ -1631,7 +1764,7 @@
 
   (def 10 dont-declare)
 ;  ^^^ storage.modifier.def.clojure
-;      ^^ constant.numeric
+;      ^^ meta.number
 ;        ^^^^^^^^^^^^^- storage
 ;        ^^^^^^^^^^^^^- entity
 
@@ -1883,7 +2016,7 @@
 ;                           ^^^^^^^^^^^^^^- storage
 ;                           ^^^^^^^^^^^^^^- entity
     (100 dont-declare [_])
-;    ^^^ constant.numeric
+;    ^^^ meta.number
 ;       ^^^^^^^^^^^^^^- storage
 ;       ^^^^^^^^^^^^^^- entity
     (true dont-declare [_])
