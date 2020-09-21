@@ -1433,30 +1433,35 @@ contexts:
   # Trailing underscores are allowed to prevent numbers from flickering while typing
   # The underscore is for PHP 7.4: https://wiki.php.net/rfc/numeric_literal_separator
   numbers:
-    - match: '\b(0[bB])(?!_)([01]|_(?!_))*\b'
-      scope: constant.numeric.integer.binary.php
+    - match: '\b(0[bB])((?!_)(?:[01]|_(?!_))*)\b'
+      scope: meta.number.integer.binary.php
       captures:
-        1: punctuation.definition.numeric.binary.php
-    - match: '\b(0[xX])(?!_)(\h|_(?!_))*\b'
-      scope: constant.numeric.integer.hexadecimal.php
+        1: constant.numeric.base.php
+        2: constant.numeric.value.php
+    - match: '\b(0[xX])((?!_)(?:\h|_(?!_))*)\b'
+      scope: meta.number.integer.hexadecimal.php
       captures:
-        1: punctuation.definition.numeric.hexadecimal.php
+        1: constant.numeric.base.php
+        2: constant.numeric.value.php
     - match: |-
         (?x:
           (?:
             (?# such as 123.4 or .123)
-            (?:\b(?!_)(?:\d|_(?!_))+|\B)\.(?!_)(?:\d|_(?!_))+
+            (?:\b(?!_)(?:\d|_(?!_))+|\B)(\.)(?!_)(?:\d|_(?!_))+
             |
             (?# such as 123.)
-            \b(?!_)(?:\d|_(?!_))+\.
+            \b(?!_)(?:\d|_(?!_))+(\.)
           )(?:[eE][+-]?(?!_)(?:\d|_(?!_))+)?\b
           |
           (?# such as 123e-4)
           \b(?!_)(?:\d|_(?!_))+(?:[eE][+-]?(?!_)(?:\d|_(?!_))+)\b
         )
-      scope: constant.numeric.float.decimal.php
+      scope: meta.number.float.decimal.php constant.numeric.value.php
+      captures:
+        1: punctuation.separator.decimal.php
+        2: punctuation.separator.decimal.php
     - match: '\b(?!_)(?:\d|_(?!_))+\b'
-      scope: constant.numeric.integer.decimal.php
+      scope: meta.number.integer.decimal.php constant.numeric.value.php
   object:
     - match: (\??)(->)(\$?\{)
       captures:
