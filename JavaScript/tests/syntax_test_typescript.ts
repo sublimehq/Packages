@@ -688,13 +688,19 @@ let x: ( foo ? : any ) => bar;
 //     ^^^^^^^^^^^^^^^^^^^^^^ meta.type
 //     ^^^^^^^^^^^^^^^ meta.group
 //     ^ punctuation.section.group.begin
-//       ^^^ variable.other.readwrite
+//       ^^^ variable.other.readwrite - support.class
 //           ^ storage.modifier.optional
 //             ^ punctuation.separator.type
 //               ^^^ support.type.any
 //                   ^ punctuation.section.group.end
 //                     ^^ storage.type.function
 //                        ^^^ support.class
+
+let x: ( foo );
+//     ^^^^^^^ meta.type meta.group
+//     ^ punctuation.section.group.begin
+//       ^^^ support.class
+//           ^ punctuation.section.group.end
 
 let x: T extends U ? V : W;
 //     ^^^^^^^^^^^^^^^^^^^ meta.type
