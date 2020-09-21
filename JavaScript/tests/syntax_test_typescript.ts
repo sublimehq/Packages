@@ -740,3 +740,13 @@ let x: import ( "foo" ) . Bar ;
 //      ^ keyword.operator.logical
 //        ^^^ variable.other.readwrite
     ;
+
+    new Foo<bar>;
+//  ^^^ keyword.operator.word.new
+//      ^^^ variable.other.constant
+//         ^^^^^ meta.generic
+
+    foo<bar>``;
+//  ^^^ variable.other.readwrite
+//     ^^^^^ meta.generic
+//          ^^ meta.string string.quoted.other
