@@ -1565,21 +1565,13 @@ contexts:
     # The symbols ‘%%’ and ‘%+’ refer to the shell’s notion of the current job,
     # which is the last job stopped while it was in the foreground or started in
     # the background. The previous job may be referenced using ‘%-’.
-    - match: (%)[-+%]
+    # Job number n may be referred to as ‘%n’.
+    - match: (%)([-+%]|\d+)
       scope:
         meta.interpolation.job.shell
         variable.language.job.shell
       captures:
         1: punctuation.definition.variable.shell
-    # The character ‘%’ introduces a job specification (jobspec). Job number n
-    # may be referred to as ‘%n’.
-    - match: (%)(\d+)
-      scope:
-        meta.interpolation.job.shell
-        variable.language.job.shell
-      captures:
-        1: punctuation.definition.variable.shell
-        2: constant.numeric.integer.decimal.shell
     # A job may also be referred to using a prefix of the name used to start it,
     # or using a substring that appears in its command line. For example, ‘%ce’
     # refers to a stopped ce job. Using ‘%?ce’, on the other hand, refers to any
