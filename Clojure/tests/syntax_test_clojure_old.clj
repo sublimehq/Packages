@@ -3,29 +3,32 @@
   (+ 3 3)
 ; ^ punctuation.section.parens.begin.clojure
 ;  ^ variable.function.clojure
-;    ^ constant.numeric
-;      ^ constant.numeric
+;    ^ meta.number.integer.decimal.clojure constant.numeric.value.clojure
+;      ^ meta.number.integer.decimal.clojure constant.numeric.value.clojure
 ;       ^ punctuation.section.parens.end.clojure
 
   (/ 10 3)
 ; ^ punctuation.section.parens.begin.clojure
 ;  ^ variable.function.clojure
-;    ^^ constant.numeric
-;       ^ constant.numeric
+;    ^^ meta.number.integer.decimal.clojure constant.numeric.value.clojure
+;       ^ meta.number.integer.decimal.clojure constant.numeric.value.clojure
 ;        ^ punctuation.section.parens.end.clojure
 
   (/ 10 3.0)
 ; ^ punctuation.section.parens.begin.clojure
 ;  ^ variable.function.clojure
-;    ^^ constant.numeric
-;       ^^^ constant.numeric
+;    ^^ meta.number.integer.decimal.clojure constant.numeric.value.clojure
+;       ^^^ meta.number.float.decimal.clojure
+;       ^ constant.numeric.value.clojure
+;        ^ punctuation.separator.decimal.clojure
+;         ^ constant.numeric.value.clojure
 ;          ^ punctuation.section.parens.end.clojure
 
   (+ 1 2 3 4 5 6)
 ; ^ punctuation.section.parens.begin.clojure
 ;  ^ variable.function.clojure
-;    ^ constant.numeric
-;              ^ constant.numeric
+;    ^ meta.number.integer.decimal.clojure constant.numeric.value.clojure
+;              ^ meta.number.integer.decimal.clojure constant.numeric.value.clojure
 ;               ^ punctuation.section.parens.end.clojure
 
   (defn square [x] (* x x))
@@ -42,7 +45,7 @@
   (square 10) ;; test
 ; ^ punctuation.section.parens.begin.clojure
 ;  ^^^^^^ variable.function.clojure
-;         ^^ constant.numeric
+;         ^^ meta.number.integer.decimal.clojure constant.numeric.value.clojure
 ;           ^ punctuation.section.parens.end.clojure
 ;             ^^ comment.line.clojure punctuation.definition.comment
 ;               ^^^^^ comment.line.clojure
