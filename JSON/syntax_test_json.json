@@ -68,8 +68,9 @@
 //         ^ punctuation.separator.decimal.json
 
   "neg": -9,
-//       ^ meta.number.integer.decimal.json constant.numeric.sign.json
-//        ^ meta.number.integer.decimal.json constant.numeric.value.json
+//       ^^ meta.number.integer.decimal.json
+//       ^ keyword.operator.arithmetic.json
+//        ^ constant.numeric.value.json
 
   "E": 20e10,
 //     ^^^^^ meta.number.float.decimal.json constant.numeric.value.json
