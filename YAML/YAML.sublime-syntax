@@ -571,7 +571,7 @@ contexts:
       captures:
         1: keyword.control.flow.block-scalar.literal.yaml
         2: keyword.control.flow.block-scalar.folded.yaml
-        3: constant.numeric.integer.decimal.indentation-indicator.yaml
+        3: constant.numeric.indentation-indicator.yaml
         4: storage.modifier.chomping-indicator.yaml
       push:
         - meta_include_prototype: false
