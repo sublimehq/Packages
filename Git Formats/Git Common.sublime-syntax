@@ -303,7 +303,7 @@ contexts:
           scope: meta.function-call.arguments.pretty-formats.git punctuation.section.parens.end.pretty-formats.git
           pop: true
         - match: \d+
-          scope: constant.numeric.integer.pretty-formats.git
+          scope: meta.number.integer.decimal.git constant.numeric.value.git
         - match: ',,'
           scope: invalid.illegal.pretty-formats.git
         - match: ','
@@ -325,7 +325,7 @@ contexts:
         1: meta.function-call.pretty-formats.git variable.function.pretty-formats.git
         2: meta.function-call.arguments.pretty-formats.git
         3: punctuation.section.parens.begin.pretty-formats.git
-        4: constant.numeric.integer.pretty-formats.git
+        4: meta.number.integer.decimal.git constant.numeric.value.git
         5: punctuation.separator.parameters.pretty-formats.git
         6: support.constant.truncation.pretty-formats.git
         7: punctuation.section.parens.end.pretty-formats.git
