@@ -322,8 +322,11 @@ contexts:
       scope: string.unquoted.dosbatch
 
   inside_variable_substring:
-    - match: '[+-]?\d+'
-      scope: constant.numeric.dosbatch
+    - match: '([-+]?)(\d+)'
+      scope: meta.number.integer.decimal.dosbatch
+      captures:
+        1: keyword.operator.arithmetic.dosbatch
+        2: constant.numeric.value.dosbatch
     - include: comma_separator
 
   comma_separator:
@@ -331,16 +334,18 @@ contexts:
       scope: punctuation.separator.dosbatch
 
   numbers:
-    - match: '\b(0[xX])\h*\b'
-      scope: constant.numeric.integer.hexadecimal.dosbatch
+    - match: '\b(0[xX])(\h*)\b'
+      scope: meta.number.integer.hexadecimal.dosbatch
       captures:
-        1: punctuation.definition.numeric.hexadecimal.dosbatch
-    - match: '\b(0)[0-7]+\b'
-      scope: constant.numeric.integer.octal.dosbatch
+        1: constant.numeric.base.dosbatch
+        2: constant.numeric.value.dosbatch
+    - match: '\b(0)([0-7]+)\b'
+      scope: meta.number.integer.octal.dosbatch
       captures:
-        1: punctuation.definition.numeric.octal.dosbatch
+        1: constant.numeric.base.dosbatch
+        2: constant.numeric.value.dosbatch
     - match: '\b(?:0|[1-9][0-9]*)\b'
-      scope: constant.numeric.integer.decimal.dosbatch
+      scope: meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 
   constants:
     - match: \b(?i:NUL)\b
