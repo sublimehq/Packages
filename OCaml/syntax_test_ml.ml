@@ -29,79 +29,102 @@
 (* Integers *)
 
     123_456_789_0n
-(*  ^^^^^^^^^^^^^^ constant.numeric.integer.decimal *)
-(*               ^ storage.type.numeric *)
+(*  ^^^^^^^^^^^^^^ meta.number.integer.decimal.ocaml *)
+(*  ^^^^^^^^^^^^^ constant.numeric.value.ocaml *)
+(*               ^ constant.numeric.suffix.ocaml *)
 
     0
-(*  ^ constant.numeric.integer.decimal *)
+(*  ^ meta.number.integer.decimal.ocaml constant.numeric.value.ocaml *)
 
     123 .foo
-(*  ^^^ constant.numeric.integer.decimal *)
-(*     ^^^^^^ - constant *)
+(*  ^^^ meta.number.integer.decimal.ocaml constant.numeric.value.ocaml *)
+(*     ^^^^^^ - meta.number *)
 
     +123  + 123
 (*  ^ keyword.operator *)
-(*   ^^^ constant.numeric.integer.decimal - keyword *)
+(*   ^^^ meta.number.integer.decimal.ocaml constant.numeric.value.ocaml - keyword.ocaml *)
 (*        ^ keyword.operator *)
-(*          ^^^ constant.numeric.integer.decimal - keyword *)
+(*          ^^^ meta.number.integer.decimal.ocaml constant.numeric.value.ocaml - keyword.ocaml *)
 
     -123
-(*  ^^^^ constant.numeric.integer.decimal - keyword *)
+(*  ^^^^ meta.number.integer.decimal.ocaml - keyword.ocaml *)
 (*  ^ punctuation.definition.numeric.sign *)
+(*   ^^^ constant.numeric.value.ocaml *)
 
     0123456789
-(*  ^^^^^^^^^^ constant.numeric.integer.decimal *)
+(*  ^^^^^^^^^^ meta.number.integer.decimal.ocaml constant.numeric.value.ocaml *)
 
     123xyz
 (*  ^^^^^^ invalid.illegal.numeric *)
 
     0b0110_1001_1001_0110n 0b_10_01
-(*  ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.binary *)
-(*  ^^ punctuation.definition.numeric.base *)
-(*                       ^ storage.type.numeric *)
-(*                         ^^^^^^^^ constant.numeric.integer.binary *)
-(*                         ^^ punctuation.definition.numeric.base *)
+(*  ^^^^^^^^^^^^^^^^^^^^^^ meta.number.integer.binary.ocaml *)
+(*  ^^ constant.numeric.base.ocaml *)
+(*    ^^^^^^^^^^^^^^^^^^^ constant.numeric.value.ocaml *)
+(*                       ^ constant.numeric.suffix.ocaml *)
+(*                         ^^^^^^^^ meta.number.integer.binary.ocaml *)
+(*                         ^^ constant.numeric.base.ocaml *)
 (*                           ^ invalid.illegal.numeric *)
+(*                            ^^^^^ constant.numeric.value.ocaml *)
 
     0o0123_4567n 0O_127
-(*  ^^^^^^^^^^^^ constant.numeric.integer.octal *)
-(*  ^^ punctuation.definition.numeric *)
-(*             ^ storage.type.numeric *)
-(*               ^^^^^^ constant.numeric.integer.octal *)
-(*               ^^ punctuation.definition.numeric *)
+(*  ^^^^^^^^^^^^ meta.number.integer.octal.ocaml *)
+(*  ^^ constant.numeric.base.ocaml *)
+(*    ^^^^^^^^^ constant.numeric.value.ocaml *)
+(*             ^ constant.numeric.suffix.ocaml *)
+(*               ^^^^^^ meta.number.integer.octal.ocaml *)
+(*               ^^ constant.numeric.base.ocaml *)
 (*                 ^ invalid.illegal.numeric *)
+(*                  ^^^ constant.numeric.value.ocaml *)
 
     0x01_23_45_67_89_ab_CD_efn 0X_01l
-(*  ^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal *)
-(*  ^^ punctuation.definition.numeric.base *)
-(*                           ^ storage.type.numeric *)
-(*                             ^^^^^^ constant.numeric.integer.hexadecimal *)
-(*                             ^^ punctuation.definition.numeric.base *)
+(*  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number.integer.hexadecimal.ocaml *)
+(*  ^^ constant.numeric.base.ocaml *)
+(*    ^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.value.ocaml *)
+(*                           ^ constant.numeric.suffix.ocaml *)
+(*                             ^^^^^^ meta.number.integer.hexadecimal.ocaml *)
+(*                             ^^ constant.numeric.base.ocaml *)
 (*                               ^ invalid.illegal.numeric *)
-(*                                  ^ storage.type.numeric *)
+(*                                ^^ constant.numeric.value.ocaml *)
+(*                                  ^ constant.numeric.suffix.ocaml *)
 
     0b
-(*  ^^ constant.numeric.integer.binary punctuation.definition.numeric.base *)
+(*  ^^ meta.number.integer.binary.ocaml constant.numeric.base.ocaml *)
 
     0B0 0O0 0X0
-(*  ^^^ constant.numeric.integer.binary *)
-(*      ^^^ constant.numeric.integer.octal *)
-(*          ^^^ constant.numeric.integer.hexadecimal *)
+(*  ^^^ meta.number.integer.binary.ocaml *)
+(*  ^^ constant.numeric.base.ocaml *)
+(*    ^ constant.numeric.value.ocaml *)
+(*      ^^^ meta.number.integer.octal.ocaml *)
+(*      ^^ constant.numeric.base.ocaml *)
+(*          ^^^ meta.number.integer.hexadecimal.ocaml *)
+(*          ^^ constant.numeric.base.ocaml *)
+(*            ^ constant.numeric.value.ocaml *)
 
     0xa. 0xa.b  0xa.ep1 0xa.ep-_1
-(*  ^^^^ constant.numeric.float.hexadecimal *)
-(*  ^^ punctuation.definition.numeric.base *)
+(*  ^^^^ meta.number.float.hexadecimal.ocaml *)
+(*  ^^ constant.numeric.base.ocaml *)
+(*    ^ constant.numeric.value.ocaml *)
 (*     ^ punctuation.separator.decimal *)
-(*       ^^^^^ constant.numeric.float.hexadecimal *)
-(*       ^^ punctuation.definition.numeric.base *)
+(*       ^^^^^ meta.number.float.hexadecimal.ocaml *)
+(*       ^^ constant.numeric.base.ocaml *)
+(*         ^ constant.numeric.value.ocaml *)
 (*          ^ punctuation.separator.decimal *)
-(*              ^^^^^^^ constant.numeric.float.hexadecimal *)
-(*              ^^ punctuation.definition.numeric.base *)
+(*           ^ constant.numeric.value.ocaml *)
+(*              ^^^^^^^ meta.number.float.hexadecimal.ocaml *)
+(*              ^^ constant.numeric.base.ocaml *)
+(*                ^ constant.numeric.value.ocaml *)
 (*                 ^ punctuation.separator.decimal *)
-(*                      ^^^^^^^^^ constant.numeric.float.hexadecimal *)
-(*                      ^^ punctuation.definition.numeric.base *)
+(*                  ^ constant.numeric.value.ocaml *)
+(*                   ^^ constant.numeric.value.exponent.ocaml *)
+(*                      ^^^^^^^^^ meta.number.float.hexadecimal.ocaml *)
+(*                      ^^ constant.numeric.base.ocaml *)
+(*                        ^ constant.numeric.value.ocaml *)
 (*                         ^ punctuation.separator.decimal *)
+(*                          ^ constant.numeric.value.ocaml *)
+(*                           ^^ constant.numeric.value.exponent.ocaml *)
 (*                             ^ invalid.illegal.numeric *)
+(*                              ^ constant.numeric.value.exponent.ocaml *)
 
     0b1.foo
 (*  ^^^^^^^ invalid.illegal.numeric *)
@@ -116,11 +139,19 @@
 (* Floats *)
 
     1_234_567_890.123_456_789_0
-(*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.float.decimal *)
+(*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number.float.decimal.ocaml *)
+(*  ^^^^^^^^^^^^^ constant.numeric.value.ocaml *)
+(*               ^ punctuation.separator.decimal.ocaml *)
+(*                ^^^^^^^^^^^^^ constant.numeric.value.ocaml *)
 
     12345e6_7_8
-(*  ^^^^^^^^^^^ constant.numeric.float.decimal *)
+(*  ^^^^^^^^^^^ meta.number.float.decimal.ocaml *)
+(*  ^^^^^ constant.numeric.value.ocaml *)
+(*       ^^^^^^ constant.numeric.value.exponent.ocaml *)
 
     123.456e+789
-(*  ^^^^^^^^^^^^ constant.numeric.float.decimal *)
+(*  ^^^^^^^^^^^^ meta.number.float.decimal.ocaml *)
+(*  ^^^ constant.numeric.value.ocaml *)
 (*     ^ punctuation.separator.decimal *)
+(*      ^^^ constant.numeric.value.ocaml *)
+(*         ^^^^^ constant.numeric.value.exponent.ocaml *)
