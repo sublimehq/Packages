@@ -1465,7 +1465,7 @@ contexts:
                   | {{frequency_units}}
                   | {{resolution_units}}
                 )\b
-              scope: keyword.other.unit.css
+              scope: constant.numeric.suffix.css
             - match: '(?=\))'
               pop: true
             - include: comma-delimiter

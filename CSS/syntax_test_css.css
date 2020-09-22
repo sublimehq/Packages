@@ -942,7 +942,7 @@
 
     top: attr(size px, auto);
 /*            ^^^^ entity.other.attribute-name.css */
-/*                 ^^ keyword.other.unit.css */
+/*                 ^^ constant.numeric.suffix.css */
 /*                   ^ punctuation.separator.sequence.css */
 /*                     ^^^^ support.constant.property-value.css */
 
