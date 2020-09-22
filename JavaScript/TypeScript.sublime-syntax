@@ -515,9 +515,9 @@ contexts:
     - match: \.
       scope: punctuation.separator.accessor.js
       push:
-      - match: '{{identifier}}'
-        scope: support.class.js
-        pop: true
+        - match: '{{identifier}}'
+          scope: support.class.js
+          set: ts-type-expression-end-no-line-terminator
 
     - match: extends{{identifier_break}}
       scope: keyword.operator.type.extends.js
