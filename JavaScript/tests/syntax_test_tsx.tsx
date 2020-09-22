@@ -19,6 +19,14 @@
 //                     ^ keyword.operator.assignment
 //                       ^^^ meta.type-alias support.type.any
 
+let x : T.U<V>;
+//      ^^^^^^ meta.type
+//      ^ support.class
+//       ^ punctuation.separator.accessor
+//        ^ support.class
+//         ^^^ meta.generic
+//          ^ support.class
+
 // This is invalid TSX as the TypeScript type assertion is parsed as a JSX tag
 let strLength: number = (<string>someValue).length; // </string>
 //                       ^^^^^^^^ meta.tag - meta.assertion
