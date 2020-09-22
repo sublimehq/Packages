@@ -577,7 +577,12 @@ contexts:
     - include: ts-type-special
     - include: ts-type-primitive
     - include: ts-type-basic
-    - include: ts-type-function
+
+    - match: (?=\()
+      branch_point: ts-function-type
+      branch:
+        - ts-type-parenthesized
+        - ts-type-function
 
     - include: literal-string
     - include: literal-number
@@ -663,6 +668,21 @@ contexts:
     - match: '{{identifier}}'
       scope: support.class.js
       pop: true
+
+  ts-type-parenthesized:
+    - match: \(
+      scope: punctuation.section.group.begin.js
+      set:
+        - - match: (?==>)
+            fail: ts-function-type
+          - include: else-pop
+        - - meta_scope: meta.group.js
+          - match: \)
+            scope: punctuation.section.group.end.js
+            pop: true
+        - ts-type-expression-end
+        - ts-type-expression-end-no-line-terminator
+        - ts-type-expression-begin
 
   ts-type-function:
     - match: \(
