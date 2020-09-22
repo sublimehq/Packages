@@ -77,9 +77,9 @@ p[l]a,in:[]
 
 
 { bar: 1}
-#      ^ meta.number.integer.decimal.yaml constant.numeric.base.yaml
+#      ^ meta.number.integer.decimal.yaml constant.numeric.value.yaml
 { bar: 1 }
-#      ^ meta.number.integer.decimal.yaml constant.numeric.base.yaml
+#      ^ meta.number.integer.decimal.yaml constant.numeric.value.yaml
 #       ^ - string
 { key: string }
 #      ^^^^^^ string.unquoted.plain.in
