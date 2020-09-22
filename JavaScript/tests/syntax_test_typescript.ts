@@ -732,3 +732,27 @@ let x: import ( "foo" ) . Bar ;
 //                    ^ punctuation.section.group.end
 //                      ^ punctuation.separator.accessor
 //                        ^^^ support.class
+
+    foo < bar > ();
+//  ^^^ variable.function
+//      ^^^^^^^ meta.generic
+//      ^ punctuation.definition.generic.begin
+//        ^^^ support.class
+//            ^ punctuation.definition.generic.end
+//              ^^ meta.group
+
+    foo < bar
+//  ^^^ variable.other.readwrite
+//      ^ keyword.operator.logical
+//        ^^^ variable.other.readwrite
+    ;
+
+    new Foo<bar>;
+//  ^^^ keyword.operator.word.new
+//      ^^^ variable.other.constant
+//         ^^^^^ meta.generic
+
+    foo<bar>``;
+//  ^^^ variable.other.readwrite
+//     ^^^^^ meta.generic
+//          ^^ meta.string string.quoted.other

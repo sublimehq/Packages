@@ -94,6 +94,8 @@ variables:
       )
     ))
 
+  function_call_lookahead: (?={{identifier}}\s*(?:{{dot_accessor}})?\()
+
 contexts:
   main:
     - include: comments-top-level
@@ -1961,7 +1963,7 @@ contexts:
       scope: support.class.js
       pop: true
 
-    - match: (?={{identifier}}\s*(?:{{dot_accessor}})?\()
+    - match: '{{function_call_lookahead}}'
       set: call-function-name
 
     - include: literal-variable-base
