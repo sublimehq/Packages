@@ -346,8 +346,7 @@ contexts:
       scope: meta.number.integer.decimal.yaml
       captures:
         1: keyword.operator.arithmetic.yaml
-        2: constant.numeric.base.yaml
-        3: constant.numeric.value.yaml
+        2: constant.numeric.value.yaml
     - match: '{{_type_int_hexadecimal}}{{_flow_scalar_end_plain_in}}'
       scope: meta.number.integer.hexadecimal.yaml
       captures:
@@ -418,8 +417,7 @@ contexts:
       scope: meta.number.integer.decimal.yaml
       captures:
         1: keyword.operator.arithmetic.yaml
-        2: constant.numeric.base.yaml
-        3: constant.numeric.value.yaml
+        2: constant.numeric.value.yaml
     - match: '{{_type_int_hexadecimal}}{{_flow_scalar_end_plain_out}}'
       scope: meta.number.integer.hexadecimal.yaml
       captures:

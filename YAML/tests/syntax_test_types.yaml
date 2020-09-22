@@ -68,13 +68,13 @@
 #                      ^^^^^^^^^^ - constant
 
    0, +1, -12_345, ~, 3 not a number
-#  ^ meta.number.integer.decimal.yaml constant.numeric.base.yaml
+#  ^ meta.number.integer.decimal.yaml constant.numeric.value.yaml
 #     ^^ meta.number.integer.decimal.yaml
 #     ^ keyword.operator.arithmetic.yaml
-#      ^ constant.numeric.base.yaml
+#      ^ constant.numeric.value.yaml
 #         ^^^^^^^ meta.number.integer.decimal.yaml
 #         ^ keyword.operator.arithmetic.yaml
-#          ^^^^^^ constant.numeric.base.yaml
+#          ^^^^^^ constant.numeric.value.yaml
 #                     ^^^^^^^^^^^^^^ - constant
 
    0x0, +0x12_34_56, -0xabcdef, ~, 0xyz, 0x,
@@ -193,9 +193,9 @@ true: false
 {.NaN: 2, 2: 2015-08-15}
 #^^^^ constant.language.nan.yaml
 #    ^ punctuation.separator.key-value.mapping.yaml
-#      ^ meta.number.integer.decimal.yaml constant.numeric.base.yaml
+#      ^ meta.number.integer.decimal.yaml constant.numeric.value.yaml
 #       ^ punctuation.separator.mapping.yaml
-#         ^ meta.number.integer.decimal.yaml constant.numeric.base.yaml
+#         ^ meta.number.integer.decimal.yaml constant.numeric.value.yaml
 #          ^ punctuation.separator.key-value.mapping.yaml
 #            ^^^^^^^^^^ constant.other.timestamp.yaml
 #                ^ punctuation.separator.date.yaml
