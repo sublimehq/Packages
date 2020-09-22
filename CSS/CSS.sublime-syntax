@@ -1365,9 +1365,13 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
-          - include: comma-delimiter
           - include: var-function
           - include: custom-property-name
+          - match: '(?=,)'
+            push:
+              - match: '(?=\))'
+                pop: true
+              - include: property-values
 
   # Filter Functions
   # https://drafts.fxtf.org/filters/#typedef-filter-function

@@ -1233,6 +1233,13 @@
 /*       ^^^ support.function.var.css */
 /*           ^^ punctuation.definition.custom-property.css */
 /*             ^^^^ support.type.custom-property.name.css */
+
+    top: var(--name, 1px);
+/*       ^^^ support.function.var.css */
+/*           ^^ punctuation.definition.custom-property.css */
+/*             ^^^^ support.type.custom-property.name.css */
+/*                 ^ punctuation.separator.sequence.css */
+/*                   ^ constant.numeric.value.css */
 }
 
 .test-custom-tags > div > span + cust·m-tÀg > div-cøstom-tag ~ form-Çust😀m-tag.classname:last-child:hover {}
