@@ -30,12 +30,12 @@
 /*          ^ punctuation.terminator.rule.css */
 
     top: cubic-bezier(0.2, 0, 0.13, 2);
-/*                    ^^^ constant.numeric.float.decimal.css */
+/*                    ^^^ meta.number.float.decimal.css constant.numeric.value.css */
 /*                     ^ punctuation.separator.decimal.css */
 /*                       ^ punctuation.separator.sequence.css*/
-/*                         ^ constant.numeric.integer.decimal.css  */
+/*                         ^ meta.number.integer.decimal.css constant.numeric.value.css  */
 /*                          ^ punctuation.separator.sequence.css*/
-/*                            ^^^^ constant.numeric.float.decimal.css */
+/*                            ^^^^ meta.number.float.decimal.css constant.numeric.value.css */
 /*                             ^ punctuation.separator.decimal.css */
 
     top: url("image");
@@ -111,7 +111,8 @@
 /*   ^^^^^ keyword.control.at-rule.media.css */
 /*         ^ punctuation.definition.group.begin.css */
 /*          ^^^^^^^^^ support.type.property-name.media.css */
-/*                     ^^^^^ constant.numeric.integer.decimal.css */
+/*                     ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                        ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                          ^ punctuation.definition.group.end.css */
 
     @media (min-width: 700px) and (max-width: 2000px) {}
@@ -120,12 +121,14 @@
 /*   ^^^^^ keyword.control.at-rule.media.css */
 /*         ^ punctuation.definition.group.begin.css */
 /*          ^^^^^^^^^ support.type.property-name.media.css */
-/*                     ^^^^^ constant.numeric.integer.decimal.css */
+/*                     ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                        ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                          ^ punctuation.definition.group.end.css */
 /*                            ^^^ keyword.operator.logic */
 /*                                ^ punctuation.definition.group.begin.css */
 /*                                 ^^^^^^^^^ support.type.property-name.media.css */
-/*                                            ^^^^^^ constant.numeric.integer.decimal.css */
+/*                                            ^^^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                                                ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                                                  ^ punctuation.definition.group.end.css */
 
     @media only screen and (-webkit-min-device-pixel-ratio: /* comment */ 1.3),
@@ -139,7 +142,7 @@
 /*                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ support.type.property-name.media.css */
 /*                                                        ^ punctuation.separator.key-value.css */
 /*                                                          ^^^^^^^^^^^^^ comment.block.css */
-/*                                                                        ^^^ constant.numeric.float.decimal.css */
+/*                                                                        ^^^ meta.number.float.decimal.css constant.numeric.value.css */
 /*                                                                           ^ punctuation.definition.group.end.css */
 /*                                                                            ^ punctuation.definition.arbitrary-repetition */
     only screen and (-o-min-device-pixel-ratio: 13/10),
@@ -150,9 +153,9 @@
 /*                  ^ punctuation.definition.group.begin.css */
 /*                   ^^^^^^^^^^^^^^^^^^^^^^^^^ support.type.property-name.media.css */
 /*                                            ^ punctuation.separator.key-value.css */
-/*                                              ^^ constant.numeric.integer.decimal.css */
-/*                                                ^ keyword.operator */
-/*                                                 ^^ constant.numeric.integer.decimal.css */
+/*                                              ^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                                                ^ keyword.operator.arithmetic.css - constant */
+/*                                                 ^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                                                   ^ punctuation.definition.group.end.css */
 /*                                                    ^ punctuation.definition.arbitrary-repetition */
     only screen and (min-resolution: 120dpi)
@@ -163,7 +166,8 @@
 /*                  ^ punctuation.definition.group.begin.css */
 /*                   ^^^^^^^^^^^^^^ support.type.property-name.media.css */
 /*                                 ^ punctuation.separator.key-value.css */
-/*                                   ^^^^^^ constant.numeric.integer.decimal.css */
+/*                                   ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                                      ^^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                                         ^ punctuation.definition.group.end.css */
 {}
 
@@ -172,6 +176,9 @@
 /*  ^ punctuation.definition.keyword.css */
 /*   ^^^^^^^^^^^^ keyword.control.at-rule.custom-media.css */
 /*                       ^^^^^ support.type.property-name.media.css */
+/*                            ^ punctuation.separator.key-value.css */
+/*                              ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                               ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 
     @keyframes beat, bounce {}
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.keyframe.css */
@@ -188,24 +195,24 @@
 /*        ^^ keyword.keyframe-selector.css */
 
     0%, 100% {}
-/*  ^^ constant.numeric.integer.decimal.css */
-/*   ^ keyword.other.unit.css */
+/*  ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*   ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*    ^ punctuation.separator.sequence.css */
-/*      ^^^^ constant.numeric.integer.decimal.css */
-/*         ^ keyword.other.unit.css */
+/*      ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*         ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 
     .99%, 100.99% {}
-/*  ^^^^ constant.numeric.float.decimal.css */
+/*  ^^^ meta.number.float.decimal.css constant.numeric.value.css */
 /*  ^ punctuation.separator.decimal.css */
-/*     ^ keyword.other.unit.css */
+/*     ^ meta.number.float.decimal.css constant.numeric.suffix.css */
 /*      ^ punctuation.separator.sequence.css */
-/*        ^^^^^^^ constant.numeric.float.decimal.css */
+/*        ^^^^^^ meta.number.float.decimal.css constant.numeric.value.css */
 /*           ^ punctuation.separator.decimal.css */
-/*              ^ keyword.other.unit.css */
+/*              ^ meta.number.float.decimal.css constant.numeric.suffix.css */
 
     0%, to {}
-/*  ^^ constant.numeric.integer.decimal.css */
-/*   ^ keyword.other.unit.css */
+/*  ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*   ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*    ^ punctuation.separator.sequence.css */
 /*      ^^ keyword.keyframe-selector.css */
 }
@@ -271,7 +278,8 @@
 /*                      ^ meta.group.css punctuation.definition.group.begin.css */
 /*                        ^^^ support.type.property-name.css */
 /*                           ^ punctuation.separator.key-value.css */
-/*                              ^^ constant.numeric.integer.decimal.css keyword.other.unit.css */
+/*                             ^ meta.number.integer.decimal.css constant.numeric.value.css*/
+/*                              ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                                 ^ meta.group.css punctuation.definition.group.end.css */
 /*                                   ^ meta.group.css punctuation.definition.group.end.css */
 /*                                     ^^^ meta.block.css */
@@ -336,36 +344,41 @@
 
 .test-types {
     top: 20;
-/*       ^^ constant.numeric.integer.decimal.css */
+/*       ^^ meta.number.integer.decimal.css constant.numeric.value.css */
     top: +.95e-20;
-/*       ^^^^^^^^ constant.numeric.float.decimal.css */
+/*       ^ meta.number.float.decimal.css keyword.operator.arithmetic.css */
+/*        ^^^^^^^ meta.number.float.decimal.css constant.numeric.value.css */
 /*        ^ punctuation.separator.decimal.css */
     top: +1e1e1 .1e1e1;
-/*       ^^^^ constant.numeric.float.decimal.css */
+/*       ^ meta.number.float.decimal.css keyword.operator.arithmetic.css */
+/*        ^^^ meta.number.float.decimal.css constant.numeric.value.css */
 /*           ^ - constant.numeric */
-/*              ^^^^ constant.numeric.float.decimal.css */
+/*              ^^^^ meta.number.float.decimal.css constant.numeric.value.css */
 /*                  ^ - constant.numeric */
     top: -1.5e+93%;
-/*       ^^^^^^^^^ constant.numeric.float.decimal.css */
+/*       ^ meta.number.float.decimal.css keyword.operator.arithmetic.css */
+/*        ^^^^^^^ meta.number.float.decimal.css constant.numeric.value.css */
 /*         ^ punctuation.separator.decimal.css */
+/*               ^ meta.number.float.decimal.css constant.numeric.suffix.css */
 }
 
 .test-units {
     top: 1px;
-/*       ^^^ constant.numeric.integer.decimal.css */
-/*        ^^ keyword.other.unit.css */
+/*       ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*        ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
     top: 1.1em;
-/*       ^^^^^ constant.numeric.float.decimal.css */
+/*       ^^^ meta.number.float.decimal.css constant.numeric.value.css */
 /*        ^ punctuation.separator.decimal.css */
-/*          ^^ keyword.other.unit.css */
+/*          ^^ meta.number.float.decimal.css constant.numeric.suffix.css */
     top: -100%;
-/*       ^^^^^ constant.numeric.integer.decimal.css */
-/*           ^ keyword.other.unit.css */
+/*       ^ meta.number.integer.decimal.css keyword.operator.arithmetic.css */
+/*        ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*           ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
     top: 1.1.1deg;
-/*       ^^^^^^^^ constant.numeric.float.decimal.css */
+/*       ^^^^^ meta.number.float.decimal.css constant.numeric.value.css */
 /*        ^ punctuation.separator.decimal.css */
 /*          ^ punctuation.separator.decimal.css */
-/*            ^^^ keyword.other.unit.css */
+/*            ^^^ meta.number.float.decimal.css constant.numeric.suffix.css */
 }
 
 .test-properties {
@@ -380,22 +393,60 @@
 
 .test-operators {
     top: calc(1px + 1px);
-    /*            ^ keyword.operator.css */
-    top: calc(1px - 1px);
-    /*            ^ keyword.operator.css */
-    top: calc(1px / 1px);
-    /*            ^ keyword.operator.css */
-    top: calc(1px * 1px);
-    /*            ^ keyword.operator.css */
+    /*            ^ keyword.operator.arithmetic.css */
+    top: calc(+1px+1px);
+    /*        ^ keyword.operator.arithmetic.css */
+    /*            ^ invalid.illegal.operator.css */
+    top: calc(1px+ 1px);
+    /*           ^ invalid.illegal.operator.css */
+    top: calc(1px +1px);
+    /*            ^ invalid.illegal.operator.css */
+    top: calc((1px) +1px);
+    /*              ^ invalid.illegal.operator.css */
+    top: calc((1px)+ 1px);
+    /*             ^ invalid.illegal.operator.css */
+    top: calc(+1px+(+1px)+1px);
+    /*        ^ keyword.operator.arithmetic.css */
+    /*            ^ keyword.operator.arithmetic.css */
+    /*              ^ keyword.operator.arithmetic.css */
+    /*                   ^ invalid.illegal.operator.css */
 
-    top: calc(1px+1px);
-    /*           ^ -keyword.operator.css */
-    top: calc(1px-1px);
-    /*           ^ -keyword.operator.css */
-    top: calc(1px/1px);
-    /*           ^ keyword.operator.css */
+    top: calc(1px - 1px);
+    /*            ^ keyword.operator.arithmetic.css */
+    top: calc(-1px-1px);
+    /*        ^ keyword.operator.arithmetic.css */
+    /*            ^ invalid.illegal.operator.css */
+    top: calc(1px- 1px);
+    /*           ^ invalid.illegal.operator.css */
+    top: calc(1px -1px);
+    /*            ^ invalid.illegal.operator.css */
+    top: calc((1px) -1px);
+    /*              ^ invalid.illegal.operator.css */
+    top: calc((1px)- 1px);
+    /*             ^ invalid.illegal.operator.css */
+    top: calc(-1px-(-1px)-1px);
+    /*        ^ keyword.operator.arithmetic.css */
+    /*            ^ keyword.operator.arithmetic.css */
+    /*              ^ keyword.operator.arithmetic.css */
+    /*                   ^ invalid.illegal.operator.css */
+
+    top: calc(1px * 1px);
+    /*            ^ keyword.operator.arithmetic.css */
+    top: calc(1px* 1px);
+    /*           ^ keyword.operator.arithmetic.css */
+    top: calc(1px *1px);
+    /*            ^ keyword.operator.arithmetic.css */
     top: calc(1px*1px);
-    /*           ^ keyword.operator.css */
+    /*           ^ keyword.operator.arithmetic.css */
+
+    top: calc(1px / 1px);
+    /*            ^ keyword.operator.arithmetic.css */
+    top: calc(1px/ 1px);
+    /*           ^ keyword.operator.arithmetic.css */
+    top: calc(1px /1px);
+    /*            ^ keyword.operator.arithmetic.css */
+    top: calc(1px/1px);
+    /*           ^ keyword.operator.arithmetic.css */
 }
 
 .test-important {
@@ -415,20 +466,29 @@
 /*                  ^ punctuation.definition.group.end.css */
 
 .test:nth-child(+2n + 3) {}
-/*              ^^^ constant.numeric.integer.decimal.css */
+/*              ^ meta.number.integer.decimal.css keyword.operator.arithmetic.css */
+/*               ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                 ^ - constant */
-/*                  ^^^ constant.numeric.integer.decimal.css */
+/*                  ^ meta.number.integer.decimal.css keyword.operator.arithmetic.css */
+/*                   ^^ meta.number.integer.decimal.css constant.numeric.value.css */
 
 .test:nth-child(-n+ 3) {}
-/*              ^^^^^ constant.numeric.integer.decimal.css */
+/*              ^ meta.number.integer.decimal.css keyword.operator.arithmetic.css */
+/*               ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
+/*                ^ meta.number.integer.decimal.css keyword.operator.arithmetic.css */
+/*                 ^^ meta.number.integer.decimal.css constant.numeric.value.css */
 
 .test:nth-child(-n +3) {}
-/*              ^^ constant.numeric.integer.decimal.css */
+/*              ^ meta.number.integer.decimal.css keyword.operator.arithmetic.css */
+/*               ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                ^ - constant */
-/*                 ^^ constant.numeric.integer.decimal.css */
+/*                 ^ meta.number.integer.decimal.css keyword.operator.arithmetic.css */
+/*                  ^ meta.number.integer.decimal.css constant.numeric.value.css */
 
 .test:nth-child(+3) {}
-/*              ^^ constant.numeric.integer.decimal.css */
+/*              ^ meta.number.integer.decimal.css keyword.operator.arithmetic.css */
+/*               ^ meta.number.integer.decimal.css constant.numeric.value.css */
 
 .test:nth-child(+ 3) {}
 /*              ^^^ invalid.illegal.numeric.css */
@@ -443,13 +503,16 @@
 /*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css */
 /*                                      ^ - meta.selector.css */
 /*                   ^^^^^^^^^ entity.other.pseudo-class.css */
-/*                             ^ constant.numeric.integer.decimal.css */
+/*                             ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                               ^ punctuation.definition.entity.css */
 /*                                ^^^^^ entity.other.pseudo-class.css */
 
 .test-pseudo-class-numerics:nth-last-of-type(-n+3) {}
 /*                         ^^^^^^^^^^^^^^^^^ entity.other.pseudo-class.css */
-/*                                           ^^^^ constant.numeric.integer.decimal.css */
+/*                                           ^ meta.number.integer.decimal.css keyword.operator.arithmetic.css */
+/*                                            ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
+/*                                             ^ meta.number.integer.decimal.css keyword.operator.arithmetic.css */
+/*                                              ^ meta.number.integer.decimal.css constant.numeric.value.css */
 
 .test-pseudo-class-keywords:nth-of-type(odd) {}
 /*                         ^^^^^^^^^^^^ entity.other.pseudo-class.css */
@@ -617,21 +680,28 @@
 .test-color-functions {
     top: rgb(1, 4.5%);
 /*       ^^^ support.function.color.css */
-/*           ^ constant.numeric.integer.decimal.css */
+/*           ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*            ^ punctuation.separator.sequence.css */
-/*              ^^^^ constant.numeric.float.decimal.css */
+/*              ^^^ meta.number.float.decimal.css constant.numeric.value.css */
+/*                 ^ meta.number.float.decimal.css constant.numeric.suffix.css */
 
     top: rgba();
 /*       ^^^^ support.function.color.css */
 
     top: hsl(1deg, 4.5%);
 /*       ^^^ support.function.color.css */
-/*           ^^^^ constant.numeric.integer.decimal.css */
+/*           ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*            ^^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*               ^ punctuation.separator.sequence.css */
-/*                 ^^^^ constant.numeric.float.decimal.css */
+/*                 ^^^ meta.number.float.decimal.css constant.numeric.value.css */
+/*                    ^ meta.number.float.decimal.css constant.numeric.suffix.css */
 
     top: hsla();
 /*       ^^^^ support.function.color.css */
+
+    top: hsla(var());
+/*       ^^^^ support.function.color.css */
+/*            ^^^ support.function.var.css */
 
     top: hwb();
 /*       ^^^ support.function.color.css */
@@ -639,45 +709,60 @@
 
     top: gray(1, 4.5%);
 /*       ^^^^ support.function.color.css */
-/*            ^ constant.numeric.integer.decimal.css */
+/*            ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*             ^ punctuation.separator.sequence.css */
-/*               ^^^^ constant.numeric.float.decimal.css */
+/*               ^^^ meta.number.float.decimal.css constant.numeric.value.css */
+/*                  ^ meta.number.float.decimal.css constant.numeric.suffix.css */
 
     top: device-cmyk(0.5, 1%, red());
 /*       ^^^^^^^^^^^ support.function.color.css */
-/*                   ^^^ constant.numeric.float.decimal.css */
+/*                   ^^^ meta.number.float.decimal.css constant.numeric.value.css */
 /*                      ^ punctuation.separator.sequence.css */
-/*                        ^^ constant.numeric.integer.decimal.css */
+/*                        ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                         ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                            ^^^ support.function.color.css */
 
-    top: color(w() s());
+    top: color(w(var()) s(var()));
 /*       ^^^^^ support.function.color.css */
 /*             ^ support.function.color.css */
-/*                 ^ support.function.color.css */
+/*               ^^^ support.function.var.css */
+/*                      ^ support.function.color.css */
+/*                        ^^^ support.function.var.css */
 
     top: alpha(- 1.5%);
 /*       ^^^^^ support.function.color.css */
-/*             ^ keyword.operator.css */
-/*               ^^^^ constant.numeric.float.decimal.css */
+/*             ^ keyword.operator.arithmetic.css */
+/*               ^^^ meta.number.float.decimal.css constant.numeric.value.css */
+/*                  ^ meta.number.float.decimal.css constant.numeric.suffix.css */
+
+    top: alpha(-1.5%);
+/*       ^^^^^ support.function.color.css */
+/*             ^ invalid.illegal.operator.css */
+/*              ^^^ meta.number.float.decimal.css constant.numeric.value.css */
+/*                 ^ meta.number.float.decimal.css constant.numeric.suffix.css */
 
     top: h(+ 1.5deg);
 /*       ^ support.function.color.css */
-/*         ^ keyword.operator.css */
-/*           ^^^^^^ constant.numeric.float.decimal.css */
+/*         ^ keyword.operator.arithmetic.css */
+/*           ^^^ meta.number.float.decimal.css constant.numeric.value.css */
+/*              ^^^ meta.number.float.decimal.css constant.numeric.suffix.css */
 
     top: w(* 1.5%);
 /*       ^ support.function.color.css */
-/*         ^ keyword.operator.css */
-/*           ^^^^ constant.numeric.float.decimal.css */
+/*         ^ keyword.operator.arithmetic.css */
+/*           ^^^ meta.number.float.decimal.css constant.numeric.value.css */
+/*              ^ meta.number.float.decimal.css constant.numeric.suffix.css */
 
     top: shade(1.5%);
 /*       ^^^^^ support.function.color.css */
-/*             ^^^^ constant.numeric.float.decimal.css */
+/*             ^^^ meta.number.float.decimal.css constant.numeric.value.css */
+/*                ^ meta.number.float.decimal.css constant.numeric.suffix.css */
 
     top: blenda(red 50% hsl);
 /*       ^^^^^^ support.function.color.css */
 /*              ^^^ support.constant.color.w3c-standard-color-name.css */
-/*                  ^^^ constant.numeric.integer.decimal.css */
+/*                  ^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                    ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                      ^^^ keyword.other.color-space.css */
 
     background-color: color(var(--background) blend(var(--foreground) 80%));
@@ -695,7 +780,8 @@
 /*                                                     ^ punctuation.definition.group.begin.css */
 /*                                                      ^^^^^^^^^^^^ support.type.custom-property.css */
 /*                                                                  ^ punctuation.definition.group.end.css */
-/*                                                                    ^^^ constant.numeric.integer.decimal.css */
+/*                                                                    ^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                                                                      ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                                                                       ^^ punctuation.definition.group.end.css */
 /*                                                                         ^ punctuation.terminator.rule.css */
 }
@@ -703,80 +789,100 @@
 .test-transform-functions {
     top: rotate(0);
 /*       ^^^^^^ support.function.transform.css */
-/*              ^ constant.numeric.integer.decimal.css */
+/*              ^ meta.number.integer.decimal.css constant.numeric.value.css */
 
     top: rotate(1)
 /*       ^^^^^^ support.function.transform.css */
-/*              ^ - constant.numeric.integer.decimal.css */
+/*              ^ - meta.number.integer.decimal.css constant.numeric.value.css */
 
     top: rotate3d(-1, 2deg);
 /*       ^^^^^^^^ support.function.transform.css */
-/*                ^^ constant.numeric.integer.decimal.css */
-/*                    ^^^^ constant.numeric.integer.decimal.css */
+/*                ^ meta.number.integer.decimal.css keyword.operator.arithmetic.css */
+/*                 ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                    ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                     ^^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 
     top: matrix3d(1, 0);
 /*       ^^^^^^^^ support.function.transform.css */
-/*                ^ constant.numeric.integer.decimal.css */
+/*                ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                 ^ punctuation.separator.sequence.css */
-/*                   ^ constant.numeric.integer.decimal.css */
+/*                   ^ meta.number.integer.decimal.css constant.numeric.value.css */
 
     top: translate3d(1, 2px, 3%);
 /*       ^^^^^^^^^^^ support.function.transform.css */
-/*                   ^ constant.numeric.integer.decimal.css */
+/*                   ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                    ^ punctuation.separator.sequence.css */
-/*                      ^^^ constant.numeric.integer.decimal.css */
-/*                           ^^ constant.numeric.integer.decimal.css */
+/*                      ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                       ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
+/*                           ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                            ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 
     top: translateY(2px);
 /*       ^^^^^^^^^^ support.function.transform.css */
-/*                  ^^^ constant.numeric.integer.decimal.css */
+/*                  ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                   ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 
     top: translateX(1%);
 /*       ^^^^^^^^^^ support.function.transform */
-/*                  ^^ constant.numeric.integer.decimal.css */
+/*                  ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                   ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 
     top: translateZ(0);
 /*       ^^^^^^^^^^ support.function.transform */
-/*                  ^ constant.numeric.integer.decimal.css */
+/*                  ^ meta.number.integer.decimal.css constant.numeric.value.css */
 
     top: skewY(1deg);
 /*       ^^^^^ support.function.transform.css */
-/*             ^^^^ constant.numeric.integer.decimal.css */
-
+/*             ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*              ^^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
+    
     top: skew(1deg, 2turn);
 /*       ^^^^ support.function.transform.css */
-/*            ^^^^ constant.numeric.integer.decimal.css */
+/*            ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*             ^^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                ^ punctuation.separator.sequence.css */
-/*                  ^^^^^ constant.numeric.integer.decimal.css */
+/*                  ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                   ^^^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 
     top: perspective(17px);
 /*       ^^^^^^^^^^^ support.function.transform.css */
-/*                   ^^^^ constant.numeric.integer.decimal.css */
+/*                   ^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                     ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 
     top: scaleY(2);
 /*       ^^^^^^ support.function.transform.css */
-/*              ^ constant.numeric.integer.decimal.css */
+/*              ^ meta.number.integer.decimal.css constant.numeric.value.css */
 
     top: skewY(1rad) rotate(1turn);
+/*       ^^^^^ support.function.transform.css */
+/*             ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*              ^^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                   ^^^^^^ support.function.transform.css */
-/*                          ^^^^^ constant.numeric.integer.decimal.css */
+/*                          ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                           ^^^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 
     transform: translate(var(--center), 0) scale(var(--ripple-scale), 1);
 /*             ^^^^^^^^^ support.function.transform */
 /*                       ^^^ support.function.var */
 /*                           ^^^^^^^^ support.type.custom-property */
-/*                                      ^ constant.numeric */
+/*                                      ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                                               ^^^ support.function.var */
 }
 
 .test-timing-functions {
     top: cubic-bezier(0.42, 0, 0.58, 1);
 /*       ^^^^^^^^^^^^ support.function.timing.css */
-/*                    ^^^^ constant.numeric.float.decimal.css */
+/*                    ^^^^ meta.number.float.decimal.css constant.numeric.value.css */
+/*                        ^ punctuation.separator.sequence.css */
+/*                          ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                           ^ punctuation.separator.sequence.css */
+/*                             ^^^^ meta.number.float.decimal.css constant.numeric.value.css */
+/*                                 ^ punctuation.separator.sequence.css */
+/*                                   ^ meta.number.integer.decimal.css constant.numeric.value.css */
 
     top: steps(020, start);
 /*       ^^^^^ support.function.timing.css */
-/*             ^^^ constant.numeric.integer.decimal.css */
+/*             ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                  ^^^^^ support.keyword.timing-direction.css */
 
     top: steps(1, end);
@@ -784,6 +890,9 @@
 
     top: steps(1, middle);
 /*                ^^^^^^ support.keyword.timing-direction.css */
+
+    top: steps(1, var(--end));
+/*                ^^^ support.function.var.css */
 }
 
 .test-shape-functions {
@@ -791,67 +900,87 @@
 /*       ^^^^^^ support.function.shape.css */
 /*              ^^ keyword.other.css */
 /*                 ^^^ support.constant.property-value.css */
-/*                     ^^^^^^^^ constant.numeric.float.decimal.css */
+/*                     ^^^^^^ meta.number.float.decimal.css constant.numeric.value.css */
+/*                           ^^ meta.number.float.decimal.css constant.numeric.suffix.css */
 
     top: ellipse(at 0%);
 /*       ^^^^^^^ support.function.shape.css */
 /*               ^^ keyword.other.css */
-/*                  ^^ constant.numeric.integer.decimal.css */
+/*                  ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                   ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 
     top: ellipse(closest-side);
 /*               ^^^^^^^^^^^^ support.constant.property-value.css */
 
     top: inset(1.1px round 50%);
 /*       ^^^^^ support.function.shape.css */
-/*             ^^^^^ constant.numeric.float.decimal.css */
+/*             ^^^ meta.number.float.decimal.css constant.numeric.value.css */
+/*                ^^ meta.number.float.decimal.css constant.numeric.suffix.css */
 /*                   ^^^^^ keyword.other.css */
 
     top: rect(auto);
 /*       ^^^^ support.function.shape.css */
 /*            ^^^^ support.constant.property-value.css */
 
+    top: rect(var());
+/*       ^^^^ support.function.shape.css */
+/*            ^^^ support.function.var.css */
+
     top: rect(1px);
-/*            ^^^ constant.numeric.integer.decimal.css */
+/*            ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*             ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 }
 
 .test-calc-function {
     top: calc(1.1px + 2rad);
 /*       ^^^^ support.function.calc.css */
-/*            ^^^^^ constant.numeric.float.decimal.css */
-/*                    ^^^^ constant.numeric.integer.decimal.css */
+/*            ^^^ meta.number.float.decimal.css constant.numeric.value.css */
+/*               ^^ meta.number.float.decimal.css constant.numeric.suffix.css */
+/*                    ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                     ^^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 
     top: calc(attr(start, 1) - 1);
-    /*        ^^^^ support.function.attr.css */
+/*       ^^^^ support.function.calc.css */
+/*            ^^^^ support.function.attr.css */
 
     top: calc(calc() * calc());
 /*       ^^^^ support.function.calc.css */
 /*            ^^^^ support.function.calc.css */
-/*                   ^ keyword.operator.css */
+/*                   ^ keyword.operator.arithmetic.css */
 /*                     ^^^^ support.function.calc.css */
+
+    top: calc(var() * var());
+/*       ^^^^ support.function.calc.css */
+/*            ^^^ support.function.var.css */
+/*                  ^ keyword.operator.arithmetic.css */
+/*                    ^^^ support.function.var.css */
+
     top: calc(100% - (1 * 10px) / 1 - (1 * 10px) / 1 - (1 * 10px) / 1);
 /*       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.css */
 /*       ^^^^ support.function.calc.css */
 /*           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.css */
 /*           ^ punctuation.definition.group.begin.css */
-/*            ^^^ constant.numeric.integer.decimal.css */
-/*                 ^ keyword.operator.css */
+/*            ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*               ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
+/*                 ^ keyword.operator.arithmetic.css */
 /*                   ^ punctuation.definition.group.begin.css */
 /*                   ^^^^^^^^^^ meta.group.css meta.group.css */
 /*                            ^ punctuation.definition.group.end.css */
-/*                              ^ keyword.operator.css */
+/*                              ^ keyword.operator.arithmetic.css */
 /*                                    ^ punctuation.definition.group.begin.css */
-/*                                         ^^ constant.numeric.integer.decimal.css */
-/*                                           ^^ keyword.other.unit.css */
+/*                                         ^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                                           ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                                             ^ punctuation.definition.group.end.css */
-/*                                               ^ keyword.operator.css */
-/*                                                   ^ keyword.operator.css */
+/*                                               ^ keyword.operator.arithmetic.css */
+/*                                                   ^ keyword.operator.arithmetic.css */
 /*                                                     ^ punctuation.definition.group.begin.css */
-/*                                                      ^ constant.numeric.integer.decimal.css */
-/*                                                        ^ keyword.operator.css */
-/*                                                          ^^ constant.numeric.integer.decimal.css */
+/*                                                      ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                                                        ^ keyword.operator.arithmetic.css */
+/*                                                          ^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                                                            ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                                                              ^ punctuation.definition.group.end.css */
-/*                                                                ^ keyword.operator.css */
-/*                                                                  ^ constant.numeric.integer.decimal.css */
+/*                                                                ^ keyword.operator.arithmetic.css */
+/*                                                                  ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                                                                   ^ punctuation.definition.group.end.css */
 /*                                                                    ^ punctuation.terminator.rule.css - meta.group */
 }
@@ -859,9 +988,21 @@
 .test-toggle-function {
     top: toggle(5px red preserve-3d);
 /*       ^^^^^^ support.function.toggle.css */
-/*              ^^^ constant.numeric.integer.decimal.css */
+/*              ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*               ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                  ^^^ support.constant.color.w3c-standard-color-name.css */
 /*                      ^^^^^^^^^^^ support.constant.property-value.css */
+
+    top: toggle(var(--5px) var(red) preserve-3d);
+/*       ^^^^^^ support.function.toggle.css */
+/*              ^^^ support.function.var.css */
+/*                 ^ punctuation.definition.group.begin.css */
+/*                       ^ punctuation.definition.group.end.css */
+/*                         ^^^ support.function.var.css */
+/*                            ^ punctuation.definition.group.begin.css */
+/*                                ^ punctuation.definition.group.end.css */
+/*                                  ^^^^^^^^^^^ support.constant.property-value.css */
+/*                                             ^ punctuation.definition.group.end.css */
 }
 
 .test-attr-function {
@@ -883,15 +1024,44 @@
 
     top: attr(preserve-3d);
 /*            ^^^^^^^^^^^ entity.other.attribute-name.css */
+
+    top: attr(var(--name) var(--val));
+/*       ^^^^^ meta.function-call.css - meta.function-call meta.function-call */
+/*            ^^^^^^^^^^^ meta.function-call.css meta.function-call.css */
+/*                       ^ meta.function-call.css - meta.function-call meta.function-call */
+/*                        ^^^^^^^^^^ meta.function-call.css meta.function-call.css */
+/*                                  ^ meta.function-call.css - meta.function-call meta.function-call */
+/*       ^^^^ support.function.attr.css */
+/*           ^ punctuation.definition.group.begin.css */
+/*            ^^^ support.function.var.css */
+/*               ^ punctuation.definition.group.begin.css */
+/*                      ^ punctuation.definition.group.end.css */
+/*                        ^^^ support.function.var.css */
+/*                           ^ punctuation.definition.group.begin.css */
+/*                                 ^^ punctuation.definition.group.end.css */
 }
 
 .test-url-function {
     top: url("a");
+/*       ^^^^^^^^ meta.function-call.css */
 /*       ^^^ support.function.url.css */
 /*           ^^^ string.quoted.double.css */
 
     top: url(a);
+/*       ^^^^^^ meta.function-call.css */
+/*       ^^^ support.function.url.css */
 /*           ^ string.unquoted.css */
+
+    top: url(var(--image));
+/*       ^^^^ meta.function-call.css - meta.function-call meta.function-call */
+/*           ^^^^^^^^^^^^ meta.function-call.css meta.function-call.css */
+/*                       ^ meta.function-call.css - meta.function-call meta.function-call */
+/*       ^^^ support.function.url.css */
+/*          ^ punctuation.definition.group.begin.css */
+/*           ^^^ support.function.var.css */
+/*              ^ punctuation.definition.group.begin.css */
+/*                      ^^ punctuation.definition.group.end.css */
+
 }
 
 .test-image-functions {
@@ -900,23 +1070,32 @@
 /*             ^^^ string.quoted.double.css */
 
     top: image(a);
+/*       ^^^^^ support.function.image.css */
 /*             ^ string.unquoted.css */
 
+    top: image(var(--url));
+/*       ^^^^^ support.function.image.css */
+/*             ^^^ support.function.var.css */
+
     top: image("a", rgb(0, 0, 0));
+/*       ^^^^^ support.function.image.css */
 /*                ^ punctuation.separator.sequence.css */
-/*                      ^ constant.numeric.integer.decimal.css */
+/*                      ^ meta.number.integer.decimal.css constant.numeric.value.css */
 
     top: image-set("a" 1x, a 4dpi);
+/*       ^^^^^^^^^ support.function.image.css */
 /*                 ^^^ string.quoted.double.css */
-/*                     ^^ constant.numeric.integer.decimal.css */
-/*                      ^ keyword.other.unit.css */
+/*                     ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                      ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                       ^ punctuation.separator.sequence.css */
 /*                         ^ string.unquoted.css */
-/*                           ^^^^ constant.numeric.integer.decimal.css */
+/*                           ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                            ^^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 
     top: cross-fade(50% "a", b);
 /*       ^^^^^^^^^^ support.function.image.css */
-/*                  ^^^ constant.numeric.integer.decimal.css */
+/*                  ^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                    ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                      ^^^ string.quoted.double.css */
 /*                         ^ punctuation.separator.sequence.css */
 /*                           ^ string.unquoted.css */
@@ -927,7 +1106,8 @@
 /*       ^^^^^^^^^^^^^^^ support.function.gradient.css */
 
     top: linear-gradient(45deg, white);
-/*                       ^^^^^ constant.numeric.integer.decimal.css */
+/*                       ^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                         ^^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                            ^ punctuation.separator.sequence.css */
 /*                              ^^^^^ support.constant.color.w3c-standard-color-name.css */
 
@@ -937,8 +1117,10 @@
 /*                              ^^^^ support.constant.property-value.css */
 
     top: linear-gradient(0%, 100%);
-/*                       ^^ constant.numeric.integer.decimal.css */
-/*                           ^^^^ constant.numeric.integer.decimal.css */
+/*                       ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                        ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
+/*                           ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                              ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 
     top: repeating-linear-gradient();
 /*       ^^^^^^^^^^^^^^^^^^^^^^^^^ support.function.gradient.css */
@@ -961,6 +1143,30 @@
 }
 
 .test-counter-functions {
+
+    counter-increment: section;
+/*  ^^^^^^^^^^^^^^^^^ support.type.property-name.css */
+/*                   ^ punctuation.separator.key-value.css */
+/*                     ^^^^^^^ variable.other.counter.css */
+
+    counter-reset: chapter-count 0;
+/*  ^^^^^^^^^^^^^ support.type.property-name.css */
+/*               ^ punctuation.separator.key-value.css */
+/*                 ^^^^^^^^^^^^^ variable.other.counter.css */
+/*                               ^ meta.number.integer.decimal.css constant.numeric.value.css */
+
+    counter-reset: counter 0;
+/*  ^^^^^^^^^^^^^ support.type.property-name.css */
+/*               ^ punctuation.separator.key-value.css */
+/*                 ^^^^^^^ variable.other.counter.css */
+/*                         ^ meta.number.integer.decimal.css constant.numeric.value.css */
+
+    counter-reset: counter1 0;
+/*  ^^^^^^^^^^^^^ support.type.property-name.css */
+/*               ^ punctuation.separator.key-value.css */
+/*                 ^^^^^^^^ variable.other.counter.css */
+/*                          ^ meta.number.integer.decimal.css constant.numeric.value.css */
+
     top: counter(name, decimal-leading-zero);
 /*       ^^^^^^^ support.function.counter.css */
 /*               ^^^^ entity.other.counter-name.css string.unquoted.css */
@@ -984,29 +1190,55 @@
 
 .test-grid-functions {
     grid: repeat(20) / auto-flow 1fr;
+/*  ^^^^ support.type.property-name.css */
+/*      ^ punctuation.separator.key-value.css */
 /*        ^^^^^^ support.function.grid.css */
-/*               ^^ constant.numeric.integer.decimal.css */
+/*               ^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                   ^ keyword.operator.arithmetic.css */
 /*                     ^^^^^^^^^ support.constant.property-value.css */
+/*                               ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                                ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
+
+    grid: [linename1] "a" 100px [linename2];
+/*  ^^^^ meta.property-list.css meta.property-name.css */
+/*       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.property-value.css */
+/*  ^^^^ support.type.property-name.css */
+/*      ^ punctuation.separator.key-value.css */
+/*        ^ punctuation.section.begin.css */
+/*         ^^^^^^^^^ string.unquoted.line-name.css */
+/*                  ^ punctuation.section.end.css */
+/*                    ^^^ string.quoted.double.css */
+/*                        ^^^^^ meta.number.integer.decimal.css */
+/*                              ^ punctuation.section.begin.css */
+/*                               ^^^^^^^^^ string.unquoted.line-name.css */
+/*                                        ^ punctuation.section.end.css */
 
     top: repeat(auto-fit, 2fr minmax(auto) 5%);
 /*              ^^^^^^^^ support.keyword.repetitions.css */
 /*                      ^ punctuation.separator.sequence.css */
-/*                        ^^^ constant.numeric.integer.decimal.css */
+/*                        ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                         ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                            ^^^^^^ support.function.grid.css */
 /*                                   ^^^^ support.constant.property-value.css */
-/*                                         ^^ constant.numeric.integer.decimal.css */
+/*                                         ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                                          ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 
     top: minmax(min-content, 1fr, 10%);
 /*       ^^^^^^ support.function.grid.css */
 /*              ^^^^^^^^^^^ support.constant.property-value.css */
 /*                         ^ punctuation.separator.sequence.css */
-/*                           ^^^ constant.numeric.integer.decimal.css */
-/*                                ^^^ constant.numeric.integer.decimal.css */
+/*                           ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                            ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
+/*                                ^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                                  ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
+
     grid-template: repeat(2, var(--size)) / repeat(2, 50%);
 /*                           ^^^ support.function.var.css */
 /*                               ^^^^^^ support.type.custom-property.css */
 /*                                     ^^ punctuation.definition.group.end.css */
+/*                                        ^ keyword.operator.arithmetic.css */
 /*                                          ^^^^^^ support.function.grid.css */
+
     grid-template-columns:
       [a-line-name] auto
 /*    ^ punctuation.section.begin.css */
@@ -1033,20 +1265,25 @@
 
     top: blur(1px);
 /*       ^^^^ support.function.filter.css */
+/*            ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*             ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 
     top: sepia(1% 1);
 /*       ^^^^^ support.function.filter.css */
-/*             ^^ constant.numeric.integer.decimal.css */
-/*                ^ constant.numeric.integer.decimal.css */
+/*             ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*              ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
+/*                ^ meta.number.integer.decimal.css constant.numeric.value.css */
 
     top: drop-shadow(1px rgb());
 /*       ^^^^^^^^^^^ support.function.filter.css */
-/*                   ^^^ constant.numeric.integer.decimal.css */
+/*                   ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                    ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                       ^^^ support.function.color.css */
 
     top: hue-rotate(1turn);
 /*       ^^^^^^^^^^ support.function.filter.css */
-/*                  ^^^^^ constant.numeric.integer.decimal.css */
+/*                  ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                   ^^^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 }
 
 /* Test Font Functions: format() & local() */
@@ -1083,6 +1320,13 @@
 /*       ^^^ support.function.var.css */
 /*           ^^ punctuation.definition.custom-property.css */
 /*             ^^^^ support.type.custom-property.name.css */
+
+    top: var(--name, 1px);
+/*       ^^^ support.function.var.css */
+/*           ^^ punctuation.definition.custom-property.css */
+/*             ^^^^ support.type.custom-property.name.css */
+/*                 ^ punctuation.separator.sequence.css */
+/*                   ^ constant.numeric.value.css */
 }
 
 .test-custom-tags > div > span + cust·m-tÀg > div-cøstom-tag ~ form-Çust😀m-tag.classname:last-child:hover {}
@@ -1188,4 +1432,30 @@ img{
   ) !important;
 /*^ punctuation.definition.group.end */
 /*  ^^^^^^^^^^ keyword.other.important */
+}
+
+.test-box-shadow {
+    box-shadow: 0 0 0 .125rem hsl(var(--red-50)) inset,
+/*             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.property-value.css */
+/*              ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                  ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                    ^^^^ meta.number.float.decimal.css constant.numeric.value.css */
+/*                        ^^^ meta.number.float.decimal.css constant.numeric.suffix.css */
+/*                            ^^^ support.function.color.css */
+/*                                ^^^ support.function.var.css */
+/*                                               ^^^^^ support.constant.property-value.css */
+/*                                                    ^ punctuation.separator.sequence.css */
+                0 0 0 .1875rem hsl(var(--red-50), .3);
+/*             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.property-value.css */
+/*              ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                  ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                    ^^^^^ meta.number.float.decimal.css constant.numeric.value.css */
+/*                         ^^^ meta.number.float.decimal.css constant.numeric.suffix.css */
+/*                             ^^^ support.function.color.css */
+/*                                 ^^^ support.function.var.css */
+/*                                              ^ punctuation.separator.sequence.css */
+/*                                                ^^ meta.number.float.decimal.css constant.numeric.value.css */
+/*                                                   ^ punctuation.terminator.rule.css */
 }

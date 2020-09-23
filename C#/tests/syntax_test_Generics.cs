@@ -65,12 +65,13 @@ string interpolated = $"inner {t.Word,-30} {t.Responsibility,8:F2} {{";
 ///                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.interpolated
 ///                            ^ variable.other
 ///                                  ^ punctuation.separator
-///                                   ^^^ constant.numeric.integer.decimal
+///                                   ^^^ meta.number.integer.decimal.cs constant.numeric.value.cs
+///                                   ^ keyword.operator.arithmetic.cs
 ///                                      ^ punctuation.section.interpolation.end
 ///                                        ^ punctuation.section.interpolation.begin
 ///                                         ^ variable.other
 ///                                                         ^ punctuation.separator
-///                                                          ^ constant.numeric.integer.decimal
+///                                                          ^ meta.number.integer.decimal.cs constant.numeric.value.cs
 ///                                                           ^ punctuation.separator
 ///                                                            ^^ constant.other.format-spec
 ///                                                                ^^ constant.character.escape
