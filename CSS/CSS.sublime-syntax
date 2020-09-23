@@ -1459,15 +1459,16 @@ contexts:
 
   inside-calc-parens:
     - meta_scope: meta.group.css
-    - match: '(?=\))'
-      set: function-notation-terminator
+    - match: '\)'
+      scope: punctuation.definition.group.end.css
+      set: maybe-illegal-operator
     - include: comment-block
     - include: attr-function
     - include: calc-function
     - include: var-function
     - include: numeric-values
-    - match: "[-/*+]"
-      scope: keyword.operator.css
+    - match: '[-+*/]'
+      scope: keyword.operator.arithmetic.css
     - match: '\('
       scope: punctuation.definition.group.begin.css
       push: inside-calc-parens
@@ -1956,8 +1957,21 @@ contexts:
         2: support.type.custom-property.name.css
 
   color-adjuster-operators:
-    - match: '[\-\+*](?=\s+)'
-      scope: keyword.operator.css
+    - match: '[-+*](?=\s)'
+      scope: keyword.operator.arithmetic.css
+    - match: '[-+*/]'
+      scope: invalid.illegal.operator.css
+
+  maybe-illegal-operator:
+    - match: '[-+](?=\s*\d)'
+      scope: invalid.illegal.operator.css
+      pop: true
+    - match: '\s*([-+])(?=\d)'
+      captures:
+        1: invalid.illegal.operator.css
+      pop: true
+    - match: ''
+      pop: true
 
   comma-delimiter:
     - match: '\s*(,)\s*'
@@ -2035,6 +2049,7 @@ contexts:
         1: keyword.operator.arithmetic.css
         2: constant.numeric.value.css
         3: punctuation.separator.decimal.css
+      push: maybe-illegal-operator
 
   integer-type:
     - match: '{{integer}}'
@@ -2042,6 +2057,7 @@ contexts:
       captures:
         1: keyword.operator.arithmetic.css
         2: constant.numeric.value.css
+      push: maybe-illegal-operator
 
   # Make sure `number-type` is included after any other numeric values
   # as `number-type` will consume all numeric values.
@@ -2057,12 +2073,14 @@ contexts:
         2: constant.numeric.value.css
         3: punctuation.separator.decimal.css
         4: constant.numeric.suffix.css
+      push: maybe-illegal-operator
     - match: '{{integer}}(%)'
       scope: meta.number.integer.decimal.css
       captures:
         1: keyword.operator.arithmetic.css
         2: constant.numeric.value.css
         3: constant.numeric.suffix.css
+      push: maybe-illegal-operator
 
   dimensions:
     - include: angle-type
@@ -2079,14 +2097,17 @@ contexts:
         2: constant.numeric.value.css
         3: punctuation.separator.decimal.css
         4: constant.numeric.suffix.css
+      push: maybe-illegal-operator
     - match: '{{integer}}({{angle_units}})\b'
       scope: meta.number.integer.decimal.css
       captures:
         1: keyword.operator.arithmetic.css
         2: constant.numeric.value.css
         3: constant.numeric.suffix.css
+      push: maybe-illegal-operator
     - match: '0\b(?!%)'
       scope: meta.number.integer.decimal.css constant.numeric.value.css
+      push: maybe-illegal-operator
 
   frequency-type:
     - match: '{{float}}({{frequency_units}})\b'
@@ -2096,12 +2117,14 @@ contexts:
         2: constant.numeric.value.css
         3: punctuation.separator.decimal.css
         4: constant.numeric.suffix.css
+      push: maybe-illegal-operator
     - match: '{{integer}}({{frequency_units}})\b'
       scope: meta.number.integer.decimal.css
       captures:
         1: keyword.operator.arithmetic.css
         2: constant.numeric.value.css
         3: constant.numeric.suffix.css
+      push: maybe-illegal-operator
 
   length-type:
     - match: '{{float}}({{font_relative_lengths}}|{{viewport_percentage_lengths}}|{{absolute_lengths}})\b'
@@ -2111,14 +2134,17 @@ contexts:
         2: constant.numeric.value.css
         3: punctuation.separator.decimal.css
         4: constant.numeric.suffix.css
+      push: maybe-illegal-operator
     - match: '{{integer}}({{font_relative_lengths}}|{{viewport_percentage_lengths}}|{{absolute_lengths}})\b'
       scope: meta.number.integer.decimal.css
       captures:
         1: keyword.operator.arithmetic.css
         2: constant.numeric.value.css
         3: constant.numeric.suffix.css
+      push: maybe-illegal-operator
     - match: '0\b(?!%)'
       scope: meta.number.integer.decimal.css constant.numeric.value.css
+      push: maybe-illegal-operator
 
   resolution-type:
     - match: '{{float}}({{resolution_units}})\b'
@@ -2128,12 +2154,14 @@ contexts:
         2: constant.numeric.value.css
         3: punctuation.separator.decimal.css
         4: constant.numeric.suffix.css
+      push: maybe-illegal-operator
     - match: '{{integer}}({{resolution_units}})\b'
       scope: meta.number.integer.decimal.css
       captures:
         1: keyword.operator.arithmetic.css
         2: constant.numeric.value.css
         3: constant.numeric.suffix.css
+      push: maybe-illegal-operator
 
   time-type:
     - match: '{{float}}({{duration_units}})\b'
@@ -2143,12 +2171,14 @@ contexts:
         2: constant.numeric.value.css
         3: punctuation.separator.decimal.css
         4: constant.numeric.suffix.css
+      push: maybe-illegal-operator
     - match: '{{integer}}({{duration_units}})\b'
       scope: meta.number.integer.decimal.css
       captures:
         1: keyword.operator.arithmetic.css
         2: constant.numeric.value.css
         3: constant.numeric.suffix.css
+      push: maybe-illegal-operator
 
   # https://drafts.csswg.org/css-images-3/#typedef-image
   image-type:
