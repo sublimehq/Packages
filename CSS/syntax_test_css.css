@@ -1122,11 +1122,28 @@
 
 .test-grid-functions {
     grid: repeat(20) / auto-flow 1fr;
+/*  ^^^^ support.type.property-name.css */
+/*      ^ punctuation.separator.key-value.css */
 /*        ^^^^^^ support.function.grid.css */
 /*               ^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                   ^ keyword.operator.arithmetic.css */
 /*                     ^^^^^^^^^ support.constant.property-value.css */
 /*                               ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                                ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
+
+    grid: [linename1] "a" 100px [linename2];
+/*  ^^^^ meta.property-list.css meta.property-name.css */
+/*       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.property-value.css */
+/*  ^^^^ support.type.property-name.css */
+/*      ^ punctuation.separator.key-value.css */
+/*        ^ punctuation.section.begin.css */
+/*         ^^^^^^^^^ string.unquoted.line-name.css */
+/*                  ^ punctuation.section.end.css */
+/*                    ^^^ string.quoted.double.css */
+/*                        ^^^^^ meta.number.integer.decimal.css */
+/*                              ^ punctuation.section.begin.css */
+/*                               ^^^^^^^^^ string.unquoted.line-name.css */
+/*                                        ^ punctuation.section.end.css */
 
     top: repeat(auto-fit, 2fr minmax(auto) 5%);
 /*              ^^^^^^^^ support.keyword.repetitions.css */
@@ -1151,7 +1168,9 @@
 /*                           ^^^ support.function.var.css */
 /*                               ^^^^^^ support.type.custom-property.css */
 /*                                     ^^ punctuation.definition.group.end.css */
+/*                                        ^ keyword.operator.arithmetic.css */
 /*                                          ^^^^^^ support.function.grid.css */
+
     grid-template-columns:
       [a-line-name] auto
 /*    ^ punctuation.section.begin.css */
