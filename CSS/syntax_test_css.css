@@ -661,6 +661,10 @@
     top: hsla();
 /*       ^^^^ support.function.color.css */
 
+    top: hsla(var());
+/*       ^^^^ support.function.color.css */
+/*            ^^^ support.function.var.css */
+
     top: hwb();
 /*       ^^^ support.function.color.css */
 
@@ -680,10 +684,12 @@
 /*                         ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                            ^^^ support.function.color.css */
 
-    top: color(w() s());
+    top: color(w(var()) s(var()));
 /*       ^^^^^ support.function.color.css */
 /*             ^ support.function.color.css */
-/*                 ^ support.function.color.css */
+/*               ^^^ support.function.var.css */
+/*                      ^ support.function.color.css */
+/*                        ^^^ support.function.var.css */
 
     top: alpha(- 1.5%);
 /*       ^^^^^ support.function.color.css */
@@ -840,6 +846,9 @@
 
     top: steps(1, middle);
 /*                ^^^^^^ support.keyword.timing-direction.css */
+
+    top: steps(1, var(--end));
+/*                ^^^ support.function.var.css */
 }
 
 .test-shape-functions {
@@ -869,6 +878,10 @@
 /*       ^^^^ support.function.shape.css */
 /*            ^^^^ support.constant.property-value.css */
 
+    top: rect(var());
+/*       ^^^^ support.function.shape.css */
+/*            ^^^ support.function.var.css */
+
     top: rect(1px);
 /*            ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*             ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
@@ -883,13 +896,21 @@
 /*                     ^^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 
     top: calc(attr(start, 1) - 1);
-    /*        ^^^^ support.function.attr.css */
+/*       ^^^^ support.function.calc.css */
+/*            ^^^^ support.function.attr.css */
 
     top: calc(calc() * calc());
 /*       ^^^^ support.function.calc.css */
 /*            ^^^^ support.function.calc.css */
 /*                   ^ keyword.operator.css */
 /*                     ^^^^ support.function.calc.css */
+
+    top: calc(var() * var());
+/*       ^^^^ support.function.calc.css */
+/*            ^^^ support.function.var.css */
+/*                  ^ keyword.operator.css */
+/*                    ^^^ support.function.var.css */
+
     top: calc(100% - (1 * 10px) / 1 - (1 * 10px) / 1 - (1 * 10px) / 1);
 /*       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.css */
 /*       ^^^^ support.function.calc.css */
@@ -927,6 +948,17 @@
 /*               ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                  ^^^ support.constant.color.w3c-standard-color-name.css */
 /*                      ^^^^^^^^^^^ support.constant.property-value.css */
+
+    top: toggle(var(--5px) var(red) preserve-3d);
+/*       ^^^^^^ support.function.toggle.css */
+/*              ^^^ support.function.var.css */
+/*                 ^ punctuation.definition.group.begin.css */
+/*                       ^ punctuation.definition.group.end.css */
+/*                         ^^^ support.function.var.css */
+/*                            ^ punctuation.definition.group.begin.css */
+/*                                ^ punctuation.definition.group.end.css */
+/*                                  ^^^^^^^^^^^ support.constant.property-value.css */
+/*                                             ^ punctuation.definition.group.end.css */
 }
 
 .test-attr-function {
@@ -948,15 +980,44 @@
 
     top: attr(preserve-3d);
 /*            ^^^^^^^^^^^ entity.other.attribute-name.css */
+
+    top: attr(var(--name) var(--val));
+/*       ^^^^^ meta.function-call.css - meta.function-call meta.function-call */
+/*            ^^^^^^^^^^^ meta.function-call.css meta.function-call.css */
+/*                       ^ meta.function-call.css - meta.function-call meta.function-call */
+/*                        ^^^^^^^^^^ meta.function-call.css meta.function-call.css */
+/*                                  ^ meta.function-call.css - meta.function-call meta.function-call */
+/*       ^^^^ support.function.attr.css */
+/*           ^ punctuation.definition.group.begin.css */
+/*            ^^^ support.function.var.css */
+/*               ^ punctuation.definition.group.begin.css */
+/*                      ^ punctuation.definition.group.end.css */
+/*                        ^^^ support.function.var.css */
+/*                           ^ punctuation.definition.group.begin.css */
+/*                                 ^^ punctuation.definition.group.end.css */
 }
 
 .test-url-function {
     top: url("a");
+/*       ^^^^^^^^ meta.function-call.css */
 /*       ^^^ support.function.url.css */
 /*           ^^^ string.quoted.double.css */
 
     top: url(a);
+/*       ^^^^^^ meta.function-call.css */
+/*       ^^^ support.function.url.css */
 /*           ^ string.unquoted.css */
+
+    top: url(var(--image));
+/*       ^^^^ meta.function-call.css - meta.function-call meta.function-call */
+/*           ^^^^^^^^^^^^ meta.function-call.css meta.function-call.css */
+/*                       ^ meta.function-call.css - meta.function-call meta.function-call */
+/*       ^^^ support.function.url.css */
+/*          ^ punctuation.definition.group.begin.css */
+/*           ^^^ support.function.var.css */
+/*              ^ punctuation.definition.group.begin.css */
+/*                      ^^ punctuation.definition.group.end.css */
+
 }
 
 .test-image-functions {
@@ -965,13 +1026,20 @@
 /*             ^^^ string.quoted.double.css */
 
     top: image(a);
+/*       ^^^^^ support.function.image.css */
 /*             ^ string.unquoted.css */
 
+    top: image(var(--url));
+/*       ^^^^^ support.function.image.css */
+/*             ^^^ support.function.var.css */
+
     top: image("a", rgb(0, 0, 0));
+/*       ^^^^^ support.function.image.css */
 /*                ^ punctuation.separator.sequence.css */
 /*                      ^ meta.number.integer.decimal.css constant.numeric.value.css */
 
     top: image-set("a" 1x, a 4dpi);
+/*       ^^^^^^^^^ support.function.image.css */
 /*                 ^^^ string.quoted.double.css */
 /*                     ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                      ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
@@ -1165,6 +1233,13 @@
 /*       ^^^ support.function.var.css */
 /*           ^^ punctuation.definition.custom-property.css */
 /*             ^^^^ support.type.custom-property.name.css */
+
+    top: var(--name, 1px);
+/*       ^^^ support.function.var.css */
+/*           ^^ punctuation.definition.custom-property.css */
+/*             ^^^^ support.type.custom-property.name.css */
+/*                 ^ punctuation.separator.sequence.css */
+/*                   ^ constant.numeric.value.css */
 }
 
 .test-custom-tags > div > span + cust·m-tÀg > div-cøstom-tag ~ form-Çust😀m-tag.classname:last-child:hover {}
@@ -1270,4 +1345,30 @@ img{
   ) !important;
 /*^ punctuation.definition.group.end */
 /*  ^^^^^^^^^^ keyword.other.important */
+}
+
+.test-box-shadow {
+    box-shadow: 0 0 0 .125rem hsl(var(--red-50)) inset,
+/*             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.property-value.css */
+/*              ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                  ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                    ^^^^ meta.number.float.decimal.css constant.numeric.value.css */
+/*                        ^^^ meta.number.float.decimal.css constant.numeric.suffix.css */
+/*                            ^^^ support.function.color.css */
+/*                                ^^^ support.function.var.css */
+/*                                               ^^^^^ support.constant.property-value.css */
+/*                                                    ^ punctuation.separator.sequence.css */
+                0 0 0 .1875rem hsl(var(--red-50), .3);
+/*             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.property-value.css */
+/*              ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                  ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                    ^^^^^ meta.number.float.decimal.css constant.numeric.value.css */
+/*                         ^^^ meta.number.float.decimal.css constant.numeric.suffix.css */
+/*                             ^^^ support.function.color.css */
+/*                                 ^^^ support.function.var.css */
+/*                                              ^ punctuation.separator.sequence.css */
+/*                                                ^^ meta.number.float.decimal.css constant.numeric.value.css */
+/*                                                   ^ punctuation.terminator.rule.css */
 }

@@ -585,6 +585,7 @@ contexts:
 
   property-values:
     - include: comment-block
+    - include: comma-delimiter
     - include: vendor-prefix
     - include: builtin-functions
     - include: line-names
@@ -826,6 +827,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: unquoted-string
 
       # Functional Pseudo Classes with selector list
@@ -860,6 +862,7 @@ contexts:
             pop: true
           - match: \b(active|valid|invalid)\b
             scope: keyword.other.pseudo-class.css
+          - include: var-function
 
       # Functional Pseudo Classes with `An+B` param
       # An+B Notation: https://drafts.csswg.org/css-syntax/#anb
@@ -890,6 +893,7 @@ contexts:
               7: constant.numeric.value.css
           - match: '[-+]\s+\d+n?|[-+]?\d+\s+n'
             scope: invalid.illegal.numeric.css
+          - include: var-function
           - include: integer-type
 
       # Regular Pseudo Classes
@@ -925,6 +929,7 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: image-type
           - include: literal-string
           - include: filter-functions
@@ -949,8 +954,10 @@ contexts:
               - match: '(?=\))'
                 pop: true
               - include: comma-delimiter
+              - include: var-function
               - match: '\b({{counter_styles}}|none)\b'
                 scope: support.constant.property-value.counter-style.css
+          - include: var-function
 
       # counters()
       # https://drafts.csswg.org/css-lists-3/#funcdef-counters
@@ -972,9 +979,11 @@ contexts:
               - match: '(?=\))'
                 pop: true
               - include: comma-delimiter
+              - include: var-function
               - include: literal-string
               - match: '\b({{counter_styles}}|none)\b'
                 scope: support.constant.property-value.counter-style.css
+          - include: var-function
 
       # symbols()
       # https://drafts.csswg.org/css-counter-styles-3/#symbols-function
@@ -992,6 +1001,7 @@ contexts:
           - match: '\b(cyclic|numeric|alphabetic|symbolic|fixed)\b'
             scope: support.constant.symbol-type.css
           - include: comma-delimiter
+          - include: var-function
           - include: literal-string
           - include: image-type
 
@@ -1010,6 +1020,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: literal-string
 
       # local()
@@ -1025,6 +1036,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: literal-string
           - include: unquoted-string
 
@@ -1062,10 +1074,10 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: percentage-type
           - include: length-type
           - include: number-type
-          - include: var-function
 
       # transform functions with a single <number> or <length> type
       # translateX(), translateY()
@@ -1080,6 +1092,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: percentage-type
           - include: length-type
           - include: number-type
@@ -1097,6 +1110,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: angle-type
 
       # transform functions with comma separated <angle> types
@@ -1113,6 +1127,7 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: angle-type
 
       # transform functions with a single <length> type
@@ -1128,6 +1143,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: length-type
 
       # transform functions with a comma separated <number> or <angle> types
@@ -1144,6 +1160,7 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: angle-type
           - include: number-type
 
@@ -1161,6 +1178,7 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: number-type
 
       # Timing Functions
@@ -1180,6 +1198,7 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: number-type
 
       # steps()
@@ -1196,6 +1215,7 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: integer-type
           - match: (end|middle|start)
             scope: support.keyword.timing-direction.css
@@ -1218,6 +1238,7 @@ contexts:
             pop: true
           - match: \bauto\b
             scope: support.constant.property-value.css
+          - include: var-function
           - include: length-type
 
       # inset()
@@ -1235,6 +1256,7 @@ contexts:
             pop: true
           - match: '\bround\b'
             scope: keyword.other.css
+          - include: var-function
           - include: length-type
           - include: percentage-type
 
@@ -1257,6 +1279,7 @@ contexts:
             scope: keyword.other.css
           - match: '\b(top|right|bottom|left|center|closest-side|farthest-side)\b'
             scope: support.constant.property-value.css
+          - include: var-function
           - include: length-type
           - include: percentage-type
 
@@ -1274,12 +1297,13 @@ contexts:
           - include: comment-block
           - match: '(?=\))'
             pop: true
-          - match: '\b(nonzero|evenodd)\b'
-            scope: support.constant.property-value.css
+          - include: comma-delimiter
+          - include: var-function
           - include: length-type
           - include: percentage-type
           - include: calc-function
-          - include: comma-delimiter
+          - match: '\b(nonzero|evenodd)\b'
+            scope: support.constant.property-value.css
 
       # toggle()
       # https://www.w3.org/TR/css3-values/#toggle-notation
@@ -1295,6 +1319,7 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: vendor-prefix
           - include: property-value-constants
           - include: numeric-values
@@ -1315,11 +1340,11 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: length-type
           - include: percentage-type
           - include: minmax-function
           - include: integer-type
-          - include: var-function
           - include: line-names
           - match: \b(auto-fill|auto-fit)\b
             scope: support.keyword.repetitions.css
@@ -1340,8 +1365,13 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
-          - include: comma-delimiter
+          - include: var-function
           - include: custom-property-name
+          - match: '(?=,)'
+            push:
+              - match: '(?=\))'
+                pop: true
+              - include: property-values
 
   # Filter Functions
   # https://drafts.fxtf.org/filters/#typedef-filter-function
@@ -1359,6 +1389,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: length-type
 
       # brightness(), contrast(), grayscale(), invert(), opacity(), saturate(), sepia()
@@ -1374,6 +1405,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: percentage-type
           - include: number-type
 
@@ -1390,6 +1422,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: length-type
           - include: color-values
 
@@ -1406,6 +1439,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: angle-type
 
   # calc()
@@ -1426,10 +1460,10 @@ contexts:
     - match: '(?=\))'
       set: function-notation-terminator
     - include: comment-block
+    - include: attr-function
     - include: calc-function
     - include: var-function
     - include: numeric-values
-    - include: attr-function
     - match: "[-/*+]"
       scope: keyword.operator.css
     - match: '\('
@@ -1450,6 +1484,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: qualified-name
           - include: literal-string
           - match: '({{ident}})'
@@ -1469,6 +1504,7 @@ contexts:
             - match: '(?=\))'
               pop: true
             - include: comma-delimiter
+            - include: var-function
             - include: property-value-constants
             - include: numeric-values
             - include: color-values
@@ -1487,6 +1523,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: literal-string
           - include: unquoted-string
 
@@ -1504,6 +1541,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: literal-string
           - include: unquoted-string
 
@@ -1521,6 +1559,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: literal-string
           - include: unquoted-string
 
@@ -1538,6 +1577,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: literal-string
 
   # image()
@@ -1554,10 +1594,11 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: comma-delimiter
+          - include: var-function
+          - include: color-values
           - include: image-type
           - include: literal-string
-          - include: color-values
-          - include: comma-delimiter
           - include: unquoted-string
 
   # image-set()
@@ -1574,16 +1615,17 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
-          - include: literal-string
-          - include: color-values
           - include: comma-delimiter
-          - include: resolution-type
+          - include: var-function
+          - include: color-values
           - include: image-type
+          - include: resolution-type
           - match: '([0-9]+)(x)'
             scope: meta.number.integer.decimal.css
             captures:
               1: constant.numeric.value.css
               2: constant.numeric.suffix.css
+          - include: literal-string
           - include: unquoted-string
 
   # Gradient Functions
@@ -1604,11 +1646,12 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
-          - include: angle-type
           - include: comma-delimiter
+          - include: var-function
           - include: color-values
-          - include: percentage-type
+          - include: angle-type
           - include: length-type
+          - include: percentage-type
           - match: '\bto\b'
             scope: keyword.other.css
           - match: \b(top|right|bottom|left)\b
@@ -1630,9 +1673,10 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: color-values
-          - include: percentage-type
           - include: length-type
+          - include: percentage-type
           - match: '\b(at|circle|ellipse)\b'
             scope: keyword.other.css
           - match: |-
@@ -1664,9 +1708,10 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
-          - include: percentage-type
+          - include: var-function
           - include: color-values
           - include: image-type
+          - include: percentage-type
           - include: literal-string
           - include: unquoted-string
 
@@ -1685,6 +1730,7 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: length-type
           - include: percentage-type
           - match: \b(auto|max-content|min-content)\b
@@ -1707,6 +1753,7 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: percentage-type
           - include: number-type
 
@@ -1726,6 +1773,7 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: angle-type
           - include: percentage-type
           - include: number-type
@@ -1744,6 +1792,7 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: percentage-type
           - include: number-type
 
@@ -1762,6 +1811,7 @@ contexts:
             pop: true
           - include: comma-delimiter
           - include: color-adjuster-functions # must be included before `color-values`
+          - include: var-function
           - include: color-values
           - include: percentage-type
           - include: number-type
@@ -1801,6 +1851,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: color-adjuster-operators
           - include: percentage-type
           - include: number-type
@@ -1817,6 +1868,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: color-adjuster-operators
           - include: angle-type
 
@@ -1832,6 +1884,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: color-adjuster-operators
           - include: percentage-type
 
@@ -1849,6 +1902,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: percentage-type
 
       # blend(), blenda() - Not yet implemented by browsers
@@ -1865,9 +1919,9 @@ contexts:
             pop: true
           - match: '\b(rgb|hsl|hwb)\b'
             scope: keyword.other.color-space.css
+          - include: var-function
           - include: color-values
           - include: percentage-type
-          - include: var-function
 
   unicode-range:
     - match: |-
