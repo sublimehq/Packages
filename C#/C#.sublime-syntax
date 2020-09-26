@@ -129,7 +129,7 @@ contexts:
     - match: '\b(line)\s+(\d*)\s+((").*("))?'
       captures:
         1: keyword.other.preprocessor.cs
-        2: constant.numeric.integer.decimal.cs
+        2: meta.number.integer.decimal.cs constant.numeric.value.cs
         3: string.quoted.double.cs
         4: punctuation.definition.string.begin.cs
         5: punctuation.definition.string.end.cs
@@ -144,7 +144,7 @@ contexts:
           push:
             - meta_scope: string.quoted.double.hash.cs
             - match: '[-\h]+'
-              scope: constant.numeric.integer.hexadecimal.cs
+              scope: meta.number.integer.hexadecimal.cs constant.numeric.value.cs
             - match: '}"'
               scope: punctuation.definition.string.end.cs
               pop: true
@@ -1582,7 +1582,7 @@ contexts:
     - match: '(\{)(\d+)'
       captures:
         1: punctuation.definition.placeholder.begin.cs
-        2: constant.numeric.integer.decimal.cs
+        2: meta.number.integer.decimal.cs constant.numeric.value.cs
       push: string_placeholder
     - match: $\n?
       scope: invalid.illegal.unclosed-string.cs
@@ -1639,7 +1639,7 @@ contexts:
       scope: constant.other.placeholder.cs
       captures:
         1: punctuation.definition.placeholder.begin.cs
-        2: constant.numeric.integer.decimal.cs invalid.illegal.unclosed-string-placeholder.cs
+        2: meta.number.integer.decimal.cs constant.numeric.value.cs invalid.illegal.unclosed-string-placeholder.cs
 
   inside_string_placeholder:
     - match: '(\})(\}(?!\}))?'
@@ -1665,10 +1665,11 @@ contexts:
       scope: invalid.illegal.unexpected-character-in-placeholder.cs
 
   string_placeholder_format:
-    - match: '\s*(?:(,)\s*(-?\d+)\s*)?'
+    - match: '\s*(?:(,)\s*((-?)\d+)\s*)?'
       captures:
         1: punctuation.separator.arguments.cs
-        2: constant.numeric.integer.decimal.formatting.cs
+        2: meta.number.integer.decimal.cs constant.numeric.value.cs
+        3: keyword.operator.arithmetic.cs
     - match: ':(?=")'
       scope: invalid.illegal.unclosed-string-placeholder.cs
       pop: true
@@ -1687,10 +1688,11 @@ contexts:
           scope: invalid.illegal.unescaped-placeholder.cs
 
   long_string_placeholder_format:
-    - match: '\s*(?:(,)\s*(-?\d+)\s*)?'
+    - match: '\s*(?:(,)\s*((-?)\d+)\s*)?'
       captures:
         1: punctuation.separator.arguments.cs
-        2: constant.numeric.integer.decimal.formatting.cs
+        2: meta.number.integer.decimal.cs constant.numeric.value.cs
+        3: keyword.operator.arithmetic.cs
     - match: ':(?="(?!"))'
       scope: invalid.illegal.unclosed-string-placeholder.cs
       pop: true
@@ -1724,7 +1726,7 @@ contexts:
     - match: '(\{)(\d+)'
       captures:
         1: punctuation.definition.placeholder.begin.cs
-        2: constant.numeric.integer.decimal.cs
+        2: meta.number.integer.decimal.cs constant.numeric.value.cs
       push: long_string_placeholder
     - match: '"'
       scope: punctuation.definition.string.end.cs

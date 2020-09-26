@@ -887,7 +887,7 @@ func_call(true, 1, "string");
 //                         ^ punctuation.section.group.end
 //        ^^^^ constant.language
 //            ^ punctuation.separator.php
-//              ^ constant.numeric.integer.decimal
+//              ^ meta.number.integer.decimal constant.numeric.value
 //               ^ punctuation.separator.php
 //                 ^^^^^^^^ string.quoted.double
 
@@ -1082,7 +1082,7 @@ $test = "\0 \12 \345g \x0f \u{a} \u{9999} \u{999}";
 //                                    ^^ variable.other
 //                                    ^ punctuation.definition.variable
 //                                      ^ punctuation.section.brackets.begin
-//                                       ^ constant.numeric.integer.decimal
+//                                       ^ meta.number.integer.decimal constant.numeric.value
 //                                        ^ punctuation.section.brackets.end
 //                                                      ^^ variable.other
 //                                                      ^ punctuation.definition.variable
@@ -1402,47 +1402,65 @@ function generate2()
 }
 
 $var = 0;
-//     ^ constant.numeric.integer.decimal
+//     ^ meta.number.integer.decimal constant.numeric.value
 
 $var2 = -123.456e10;
-//       ^^^^^^^^^^ constant.numeric.float.decimal
+//      ^ keyword.operator.arithmetic.php - meta.number - constant.numeric
+//       ^^^^^^^^^^ meta.number.float.decimal constant.numeric.value
+//          ^ punctuation.separator.decimal.php
 
 $var2 = -12_3.45_6e1_0;
-//       ^^^^^^^^^^^^^ constant.numeric.float.decimal
+//      ^ keyword.operator.arithmetic.php - meta.number - constant.numeric
+//       ^^^^^^^^^^^^^ meta.number.float.decimal constant.numeric.value
+//           ^ punctuation.separator.decimal.php
 
 $var2 = -123.e10;
-//       ^^^^^^^ constant.numeric.float.decimal
+//      ^ keyword.operator.arithmetic.php - meta.number - constant.numeric
+//       ^^^^^^^ meta.number.float.decimal constant.numeric.value
+//          ^ punctuation.separator.decimal.php
 
 $var2 = -12_3.e1_0;
-//       ^^^^^^^^^ constant.numeric.float.decimal
+//      ^ keyword.operator.arithmetic.php - meta.number - constant.numeric
+//       ^^^^^^^^^ meta.number.float.decimal constant.numeric.value
+//           ^ punctuation.separator.decimal.php
 
 $var2 = -.123e10;
-//       ^^^^^^^ constant.numeric.float.decimal
+//      ^ keyword.operator.arithmetic.php - meta.number - constant.numeric
+//       ^^^^^^^ meta.number.float.decimal constant.numeric.value
+//       ^ punctuation.separator.decimal.php
 
 $var2 = -.12_3e1_0;
-//       ^^^^^^^^^ constant.numeric.float.decimal
+//      ^ keyword.operator.arithmetic.php - meta.number - constant.numeric
+//       ^^^^^^^^^ meta.number.float.decimal constant.numeric.value
+//       ^ punctuation.separator.decimal.php
 
 $var2 = -123e10;
-//       ^^^^^^ constant.numeric.float.decimal
+//      ^ keyword.operator.arithmetic.php - meta.number - constant.numeric
+//       ^^^^^^ meta.number.float.decimal constant.numeric.value
 
 $var2 = -12_3e1_0;
-//       ^^^^^^^^ constant.numeric.float.decimal
+//      ^ keyword.operator.arithmetic.php - meta.number - constant.numeric
+//       ^^^^^^^^ meta.number.float.decimal constant.numeric.value
 
 $var3 = 0x0f;
-//      ^^^^ constant.numeric.integer.hexadecimal
-//      ^^ punctuation.definition.numeric.hexadecimal
+//      ^^^^ meta.number.integer.hexadecimal
+//      ^^ constant.numeric.base.php
+//        ^^ constant.numeric.value
 
 $var3 = 0x0_f;
-//      ^^^^ constant.numeric.integer.hexadecimal
-//      ^^ punctuation.definition.numeric.hexadecimal
+//      ^^^^ meta.number.integer.hexadecimal
+//      ^^ constant.numeric.base.php
+//        ^^^ constant.numeric.value
 
 $var4 = 0b0111;
-//      ^^^^^^ constant.numeric.integer.binary
-//      ^^ punctuation.definition.numeric.binary
+//      ^^^^^^ meta.number.integer.binary
+//      ^^ constant.numeric.base.php
+//        ^^^^ constant.numeric.value
 
 $var4 = 0b0_1_1_1;
-//      ^^^^^^^^^ constant.numeric.integer.binary
-//      ^^ punctuation.definition.numeric.binary
+//      ^^^^^^^^^ meta.number.integer.binary
+//      ^^ constant.numeric.base.php
+//        ^^^^^^^ constant.numeric.value
 
 // class name should be case-insensitive
 $object = new ArRaYoBjEcT();

@@ -110,29 +110,33 @@ variables:
 
   # patterns for plain scalars of implicit different types
   # (for the Core Schema: http://www.yaml.org/spec/1.2/spec.html#schema/core/)
-  _type_null: (?:null|Null|NULL|~) # http://yaml.org/type/null.html
-  _type_bool: |- # http://yaml.org/type/bool.html
+  
+  # http://yaml.org/type/null.html
+  _type_null: (?:null|Null|NULL|~)
+  
+  # http://yaml.org/type/bool.html
+  _type_bool: |-
     (?x:
        y|Y|yes|Yes|YES|n|N|no|No|NO
       |true|True|TRUE|false|False|FALSE
       |on|On|ON|off|Off|OFF
     )
-  _type_int: |- # http://yaml.org/type/int.html
-    (?x:
-        ([-+]? (0b) [0-1_]+) # (base 2)
-      | ([-+]? (0)  [0-7_]+) # (base 8)
-      | ([-+]? (?: 0|[1-9][0-9_]*)) # (base 10)
-      | ([-+]? (0x) [0-9a-fA-F_]+) # (base 16)
-      | ([-+]? [1-9] [0-9_]* (?: :[0-5]?[0-9])+) # (base 60)
-    )
-  _type_float: |- # http://yaml.org/type/float.html
-    (?x:
-        ([-+]? (?: [0-9] [0-9_]*)? (\.) [0-9.]* (?: [eE] [-+] [0-9]+)?) # (base 10)
-      | ([-+]? [0-9] [0-9_]* (?: :[0-5]?[0-9])+ (\.) [0-9_]*) # (base 60)
-      | ([-+]? (\.) (?: inf|Inf|INF)) # (infinity)
-      | (      (\.) (?: nan|NaN|NAN)) # (not a number)
-    )
-  _type_timestamp: |- # http://yaml.org/type/timestamp.html
+
+  # http://yaml.org/type/int.html
+  _type_int_binary: ([-+]?)(0b)([0-1_]+) # (base 2)
+  _type_int_octal: ([-+]?)(0)([0-7_]+) # (base 8)
+  _type_int_decimal: ([-+]?)(0|[1-9][0-9_]*) # (base 10)
+  _type_int_hexadecimal: ([-+]?)(0x)([0-9a-fA-F_]+) # (base 16)
+  _type_int_other: ([-+]?)([1-9][0-9_]*(?::[0-5]?[0-9])+) # (base 60)
+
+  # http://yaml.org/type/float.html
+  _type_float_decimal: ([-+]?)((?:[0-9][0-9_]*)?(\.)[0-9.]*(?:[eE][-+][0-9]+)?)
+  _type_float_other: ([-+]?)([0-9][0-9_]*(?::[0-5]?[0-9])+(\.)[0-9_]*) # (base 60)
+  _type_float_infinity: '([-+])?(\.(?:inf|Inf|INF))' # (infinity)
+  _type_float_nan: \.(?:nan|NaN|NAN) # (not a number)
+
+  # http://yaml.org/type/timestamp.html
+  _type_timestamp: |-
     (?x:
         \d{4} (-) \d{2} (-) \d{2}       # (y-m-d)
       | \d{4}                           # (year)
@@ -148,19 +152,11 @@ variables:
         )?                              # (time zone)
     )
 
-  _type_value: '=' # http://yaml.org/type/value.html
-  _type_merge: '<<' # http://yaml.org/type/merge.html
+  # http://yaml.org/type/value.html
+  _type_value: '='
 
-  _type_all: |-
-    (?x:
-        ({{_type_null}})
-      | ({{_type_bool}})
-      | ({{_type_int}})
-      | ({{_type_float}})
-      | ({{_type_timestamp}})
-      | ({{_type_value}})
-      | ({{_type_merge}})
-     )
+  # http://yaml.org/type/merge.html
+  _type_merge: '<<'
 
 ##############################################################################
 
@@ -325,99 +321,146 @@ contexts:
           pop: true
 
   flow-scalar-plain-in-implicit-type:
-    - match: |
-        (?x)
-        {{_type_all}}
-        {{_flow_scalar_end_plain_in}}
-      captures: # &implicit_type_captures
-        1: constant.language.null.yaml
-        2: constant.language.boolean.yaml
-        # binary integer
-        4: constant.numeric.integer.binary.yaml
-        5: punctuation.definition.numeric.base.yaml
-        # octal integer
-        6: constant.numeric.integer.octal.yaml
-        7: punctuation.definition.numeric.base.yaml
-        # decimal integer
-        8: constant.numeric.integer.decimal.yaml
-        # hexadecimal integer
-        9: constant.numeric.integer.hexadecimal.yaml
-        10: punctuation.definition.numeric.base.yaml
-        # other integer
-        11: constant.numeric.integer.other.yaml
-        # decimal float
-        13: constant.numeric.float.decimal.yaml
-        14: punctuation.separator.decimal.yaml
-        # other float
-        15: constant.numeric.float.other.yaml
-        16: punctuation.separator.decimal.yaml
-        # infinity float
-        17: constant.numeric.float.other.yaml
-        18: punctuation.separator.decimal.yaml
-        # not a number
-        19: constant.numeric.float.other.yaml
-        20: punctuation.separator.decimal.yaml
-        # timestamp
-        21: constant.other.timestamp.yaml
-        22: punctuation.separator.date.yaml
-        23: punctuation.separator.date.yaml
-        24: punctuation.separator.date.yaml
-        25: punctuation.separator.date.yaml
-        26: punctuation.separator.time.yaml
-        27: punctuation.separator.time.yaml
-        28: punctuation.separator.time.yaml
-        29: punctuation.separator.time.yaml
-        # constants
-        30: constant.language.value.yaml
-        31: constant.language.merge.yaml
+    - match: '{{_type_null}}{{_flow_scalar_end_plain_in}}'
+      scope: constant.language.null.yaml
+    - match: '{{_type_bool}}{{_flow_scalar_end_plain_in}}'
+      scope: constant.language.boolean.yaml
+    - match: '{{_type_value}}{{_flow_scalar_end_plain_in}}'
+      scope: constant.language.value.yaml
+    - match: '{{_type_merge}}{{_flow_scalar_end_plain_in}}'
+      scope: constant.language.merge.yaml
+    # integers
+    - match: '{{_type_int_binary}}{{_flow_scalar_end_plain_in}}'
+      scope: meta.number.integer.binary.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.base.yaml
+        3: constant.numeric.value.yaml
+    - match: '{{_type_int_octal}}{{_flow_scalar_end_plain_in}}'
+      scope: meta.number.integer.octal.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.base.yaml
+        3: constant.numeric.value.yaml
+    - match: '{{_type_int_decimal}}{{_flow_scalar_end_plain_in}}'
+      scope: meta.number.integer.decimal.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.value.yaml
+    - match: '{{_type_int_hexadecimal}}{{_flow_scalar_end_plain_in}}'
+      scope: meta.number.integer.hexadecimal.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.base.yaml
+        3: constant.numeric.value.yaml
+    - match: '{{_type_int_other}}{{_flow_scalar_end_plain_in}}'
+      scope: meta.number.integer.other.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.value.yaml
+    # floats
+    - match: '{{_type_float_decimal}}{{_flow_scalar_end_plain_in}}'
+      scope: meta.number.float.decimal.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.value.yaml
+        3: punctuation.separator.decimal.yaml
+    - match: '{{_type_float_other}}{{_flow_scalar_end_plain_in}}'
+      scope: meta.number.float.other.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.value.yaml
+        3: punctuation.separator.decimal.yaml
+    - match: '{{_type_float_infinity}}{{_flow_scalar_end_plain_in}}'
+      scope: meta.number.float.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.language.infinity.yaml
+    - match: '{{_type_float_nan}}{{_flow_scalar_end_plain_in}}'
+      scope: meta.number.yaml constant.language.nan.yaml
+    # timestamp
+    - match: '{{_type_timestamp}}{{_flow_scalar_end_plain_in}}'
+      scope: constant.other.timestamp.yaml
+      captures:
+        1: punctuation.separator.date.yaml
+        2: punctuation.separator.date.yaml
+        3: punctuation.separator.date.yaml
+        4: punctuation.separator.date.yaml
+        5: punctuation.separator.time.yaml
+        6: punctuation.separator.time.yaml
+        7: punctuation.separator.time.yaml
+        8: punctuation.separator.time.yaml
 
   flow-scalar-plain-out-implicit-type:
-    - match: |
-        (?x)
-        {{_type_all}}
-        {{_flow_scalar_end_plain_out}}
-      captures: # *implicit_type_captures
-        # Alias does not work, see https://github.com/SublimeTextIssues/Core/issues/967
-        1: constant.language.null.yaml
-        2: constant.language.boolean.yaml
-        # binary integer
-        4: constant.numeric.integer.binary.yaml
-        5: punctuation.definition.numeric.base.yaml
-        # octal integer
-        6: constant.numeric.integer.octal.yaml
-        7: punctuation.definition.numeric.base.yaml
-        # decimal integer
-        8: constant.numeric.integer.decimal.yaml
-        # hexadecimal integer
-        9: constant.numeric.integer.hexadecimal.yaml
-        10: punctuation.definition.numeric.base.yaml
-        # other integer
-        11: constant.numeric.integer.other.yaml
-        # decimal float
-        13: constant.numeric.float.decimal.yaml
-        14: punctuation.separator.decimal.yaml
-        # other float
-        15: constant.numeric.float.other.yaml
-        16: punctuation.separator.decimal.yaml
-        # infinity float
-        17: constant.numeric.float.other.yaml
-        18: punctuation.separator.decimal.yaml
-        # not a number
-        19: constant.numeric.float.other.yaml
-        20: punctuation.separator.decimal.yaml
-        # timestamp
-        21: constant.other.timestamp.yaml
-        22: punctuation.separator.date.yaml
-        23: punctuation.separator.date.yaml
-        24: punctuation.separator.date.yaml
-        25: punctuation.separator.date.yaml
-        26: punctuation.separator.time.yaml
-        27: punctuation.separator.time.yaml
-        28: punctuation.separator.time.yaml
-        29: punctuation.separator.time.yaml
-        # constants
-        30: constant.language.value.yaml
-        31: constant.language.merge.yaml
+    - match: '{{_type_null}}{{_flow_scalar_end_plain_out}}'
+      scope: constant.language.null.yaml
+    - match: '{{_type_bool}}{{_flow_scalar_end_plain_out}}'
+      scope: constant.language.boolean.yaml
+    - match: '{{_type_value}}{{_flow_scalar_end_plain_out}}'
+      scope: constant.language.value.yaml
+    - match: '{{_type_merge}}{{_flow_scalar_end_plain_out}}'
+      scope: constant.language.merge.yaml
+    # integers
+    - match: '{{_type_int_binary}}{{_flow_scalar_end_plain_out}}'
+      scope: meta.number.integer.binary.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.base.yaml
+        3: constant.numeric.value.yaml
+    - match: '{{_type_int_octal}}{{_flow_scalar_end_plain_out}}'
+      scope: meta.number.integer.octal.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.base.yaml
+        3: constant.numeric.value.yaml
+    - match: '{{_type_int_decimal}}{{_flow_scalar_end_plain_out}}'
+      scope: meta.number.integer.decimal.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.value.yaml
+    - match: '{{_type_int_hexadecimal}}{{_flow_scalar_end_plain_out}}'
+      scope: meta.number.integer.hexadecimal.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.base.yaml
+        3: constant.numeric.value.yaml
+    - match: '{{_type_int_other}}{{_flow_scalar_end_plain_out}}'
+      scope: meta.number.integer.other.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.value.yaml
+    # floats
+    - match: '{{_type_float_decimal}}{{_flow_scalar_end_plain_out}}'
+      scope: meta.number.float.decimal.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.value.yaml
+        3: punctuation.separator.decimal.yaml
+    - match: '{{_type_float_other}}{{_flow_scalar_end_plain_out}}'
+      scope: meta.number.float.other.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.numeric.value.yaml
+        3: punctuation.separator.decimal.yaml
+    - match: '{{_type_float_infinity}}{{_flow_scalar_end_plain_out}}'
+      scope: meta.number.float.yaml
+      captures:
+        1: keyword.operator.arithmetic.yaml
+        2: constant.language.infinity.yaml
+    - match: '{{_type_float_nan}}{{_flow_scalar_end_plain_out}}'
+      scope: meta.number.yaml constant.language.nan.yaml
+    # timestamp
+    - match: '{{_type_timestamp}}{{_flow_scalar_end_plain_out}}'
+      scope: constant.other.timestamp.yaml
+      captures:
+        1: punctuation.separator.date.yaml
+        2: punctuation.separator.date.yaml
+        3: punctuation.separator.date.yaml
+        4: punctuation.separator.date.yaml
+        5: punctuation.separator.time.yaml
+        6: punctuation.separator.time.yaml
+        7: punctuation.separator.time.yaml
+        8: punctuation.separator.time.yaml
 
   flow-scalar-plain-out:
     # http://yaml.org/spec/1.2/spec.html#style/flow/plain
@@ -526,7 +569,7 @@ contexts:
       captures:
         1: keyword.control.flow.block-scalar.literal.yaml
         2: keyword.control.flow.block-scalar.folded.yaml
-        3: constant.numeric.integer.decimal.indentation-indicator.yaml
+        3: constant.numeric.indentation-indicator.yaml
         4: storage.modifier.chomping-indicator.yaml
       push:
         - meta_include_prototype: false

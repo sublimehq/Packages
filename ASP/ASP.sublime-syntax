@@ -14,8 +14,8 @@ variables:
   math_operators: '(?:[+*^&/\\-]|\b(?i:Mod)\b)'
   logical_operators: '\b(?i:And|Not|Or|Xor|Is)\b'
   operators: '{{comparison_operators}}|{{math_operators}}|{{logical_operators}}'
-  literal_number_hex: '(&[hH])\h+(&)?(?={{whitespace_or_end_of_statement}}|{{operators}}|[,)_])'
-  literal_number_decimal: '(?:(?:\d+\.\d*|\.?\d+)(?i:e[+-]?\d+)?)(?={{whitespace_or_end_of_statement}}|{{operators}}|[,)_])'
+  literal_number_hex: '(&)([hH])(\h+)(&?)(?={{whitespace_or_end_of_statement}}|{{operators}}|[,)_])'
+  literal_number_decimal: '(?:(?:\d+(\.)\d*|(\.?)\d+)(?i:e[+-]?\d+)?)(?={{whitespace_or_end_of_statement}}|{{operators}}|[,)_])'
   reserved_words: '\b(?i:Class|Sub|Function|Const|Dim|ReDim|Public|Private|End|Preserve|Select|Case|If|Else|ElseIf|Then|For|Each|Next|ByRef|ByVal|Set|Call|New|Option|With|To|In|While|Wend|Until|Loop|On|GoTo|Resume|Let|Get|Exit|Do)\b' # Default|Step|Error|Property are not reserved words
   keywords: '\b(?i:Empty|False|Nothing|Null|True)\b'
   constants: '\b(?i:vbTrue|vbFalse|vbCr|vbCrLf|vbFormFeed|vbLf|vbNewLine|vbNullChar|vbNullString|vbTab|vbVerticalTab|vbBinaryCompare|vbTextCompare|vbSunday|vbMonday|vbTuesday|vbWednesday|vbThursday|vbFriday|vbSaturday|vbUseSystemDayOfWeek|vbFirstJan1|vbFirstFourDays|vbFirstFullWeek|vbGeneralDate|vbLongDate|vbShortDate|vbLongTime|vbShortTime|vbObjectError|vbEmpty|vbNull|vbInteger|vbLong|vbSingle|vbDouble|vbCurrency|vbDate|vbString|vbObject|vbError|vbBoolean|vbVariant|vbDataObject|vbDecimal|vbByte|vbArray|vbOkCancel|vbOkOnly|vbYesNo|vbYesNoCancel|vbAbortRetryIgnore|vbRetryCancel|vbYes|vbNo|vbAbort|vbCancel|vbIgnore|vbRetry|vbCritical|vbExclamation|vbInformation|vbQuestion|vbDefaultButton[123])\b'
@@ -258,13 +258,18 @@ contexts:
     - match: '{{whitespace_or_end_of_statement}}' # as the above include has been commented out, this match pattern has been added to pop at the end of the logical statement
       pop: true
     - match: '{{literal_number_hex}}'
-      scope: constant.numeric.integer.hexadecimal.asp
+      scope: meta.number.integer.hexadecimal.asp
       captures:
-        1: punctuation.definition.numeric.hexadecimal.asp
-        2: punctuation.definition.numeric.hexadecimal.asp
+        1: constant.numeric.asp punctuation.definition.numeric.asp
+        2: constant.numeric.base.asp
+        3: constant.numeric.value.asp
+        4: constant.numeric.asp punctuation.definition.numeric.asp
       pop: true
     - match: '{{literal_number_decimal}}'
-      scope: constant.numeric.float.decimal.asp
+      scope: meta.number.float.decimal.asp constant.numeric.value.asp
+      captures:
+        1: punctuation.separator.decimal.asp
+        2: punctuation.separator.decimal.asp
       pop: true
     - match: '{{constants}}'
       scope: constant.language.asp
@@ -444,12 +449,17 @@ contexts:
     - match: \)
       scope: invalid.illegal.stray-close-bracket.asp
     - match: '{{literal_number_hex}}'
-      scope: constant.numeric.integer.hexadecimal.asp
+      scope: meta.number.integer.hexadecimal.asp
       captures:
-        1: punctuation.definition.numeric.hexadecimal.asp
-        2: punctuation.definition.numeric.hexadecimal.asp
+        1: constant.numeric.asp punctuation.definition.numeric.asp
+        2: constant.numeric.base.asp
+        3: constant.numeric.value.asp
+        4: constant.numeric.asp punctuation.definition.numeric.asp
     - match: '{{literal_number_decimal}}'
-      scope: constant.numeric.float.decimal.asp
+      scope: meta.number.float.decimal.asp constant.numeric.value.asp
+      captures:
+        1: punctuation.separator.decimal.asp
+        2: punctuation.separator.decimal.asp
     - match: '{{constants}}'
       scope: support.type.vb.asp # maybe this should be constant.language.asp
     - match: '{{functions}}'

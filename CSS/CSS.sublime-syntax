@@ -19,13 +19,8 @@ variables:
   # Types
   # https://www.w3.org/TR/css3-values/#numeric-types
   # https://www.w3.org/TR/css-syntax-3/#number-token-diagram
-  integer: '(?:[-+]?\d+)'
-  exponent: '(?:[eE]{{integer}})'
-  float: |-
-    (?x:
-      [-+]? \d* (\.) \d+ {{exponent}}?
-    | [-+]? \d+          {{exponent}}
-    )
+  integer: '([-+]?)(\d+)'
+  float: '([-+]?)(\d*(\.)\d+(?:[eE][-+]?\d+)?|\d+[eE][-+]?\d+)'
 
   # Units
   # https://www.w3.org/TR/css3-values/#lengths
@@ -333,9 +328,9 @@ contexts:
           scope: support.constant.property-value.css
         - match: \s*(\d+)(/)(\d+)
           captures:
-            1: constant.numeric.integer.decimal.css
+            1: meta.number.integer.decimal.css constant.numeric.value.css
             2: keyword.operator.arithmetic.css
-            3: constant.numeric.integer.decimal.css
+            3: meta.number.integer.decimal.css constant.numeric.value.css
         - include: numeric-values
 
   media-query-list:
@@ -590,6 +585,7 @@ contexts:
 
   property-values:
     - include: comment-block
+    - include: comma-delimiter
     - include: vendor-prefix
     - include: builtin-functions
     - include: line-names
@@ -600,6 +596,8 @@ contexts:
     - include: literal-string
     - match: \!\s*important
       scope: keyword.other.important.css
+    - match: /
+      scope: keyword.operator.arithmetic.css
 
   rule-list-terminator:
     - match: '\s*(\})'
@@ -618,126 +616,160 @@ contexts:
 
   rule-list-body:
     - include: comment-block
-    - match: "(?=[-a-z])"
+    - match: (?=[-a-z])
       push:
         - meta_scope: meta.property-name.css
-        - match: "$|(?![-a-z])"
+        - match: $|(?![-a-z])
           pop: true
         - include: vendor-prefix
-        - match: '\b(var-)({{ident}})(?=\s)'
-          scope: invalid.deprecated.custom-property.css
-          captures:
-            1: keyword.other.custom-property.prefix.css
-            2: support.type.custom-property.name.css
+        - include: deprecated-property
         - include: custom-property-name
-        - match: \bfont(-family)?(?!-)\b
-          scope: support.type.property-name.css
-          push:
-            - match: (:)([ \t]*)
-              captures:
-                1: punctuation.separator.key-value.css
-                2: meta.property-value.css
-              push:
-                - meta_content_scope: meta.property-value.css
-                - match: '\s*(;)|(?=[})])'
-                  captures:
-                    1: punctuation.terminator.rule.css
-                  pop: true
-                - include: property-values
-                - include: comma-delimiter
-                - match: '{{ident}}(\s+{{ident}})*'
-                  scope: string.unquoted.css
-            - match: ''
-              pop: true
-        # Property names are sorted by popularity in descending order.
-        # Popularity data taken from https://www.chromestatus.com/metrics/css/popularity
-        - match: |-
-            \b(?x)(
-                display|width|background-color|height|position|font-family|font-weight
-              | top|opacity|cursor|background-image|right|visibility|box-sizing
-              | user-select|left|float|margin-left|margin-top|line-height
-              | padding-left|z-index|margin-bottom|margin-right|margin
-              | vertical-align|padding-top|white-space|border-radius|padding-bottom
-              | padding-right|padding|bottom|clear|max-width|box-shadow|content
-              | border-color|min-height|min-width|font-style|border-width
-              | border-collapse|background-size|text-overflow|max-height|text-transform
-              | text-shadow|text-indent|border-style|overflow-y|list-style-type
-              | word-wrap|border-spacing|appearance|zoom|overflow-x|border-top-left-radius
-              | border-bottom-left-radius|border-top-color|pointer-events
-              | border-bottom-color|align-items|justify-content|letter-spacing
-              | border-top-right-radius|border-bottom-right-radius|border-right-width
-              | font-smoothing|border-bottom-width|border-right-color|direction
-              | border-top-width|src|border-left-color|border-left-width
-              | tap-highlight-color|table-layout|background-clip|word-break
-              | transform-origin|resize|filter|backface-visibility|text-rendering
-              | box-orient|transition-property|transition-duration|word-spacing
-              | quotes|outline-offset|animation-timing-function|animation-duration
-              | animation-name|transition-timing-function|border-bottom-style
-              | border-bottom|transition-delay|transition|unicode-bidi|border-top-style
-              | border-top|unicode-range|list-style-position|orphans|outline-width
-              | line-clamp|order|flex-direction|box-pack|animation-fill-mode
-              | outline-color|list-style-image|list-style|touch-action|flex-grow
-              | border-left-style|border-left|animation-iteration-count
-              | page-break-inside|box-flex|box-align|page-break-after|animation-delay
-              | widows|border-right-style|border-right|flex-align|outline-style
-              | outline|background-origin|animation-direction|fill-opacity
-              | background-attachment|flex-wrap|transform-style|counter-increment
-              | overflow-wrap|counter-reset|animation-play-state|animation
-              | will-change|box-ordinal-group|image-rendering|mask-image|flex-flow
-              | background-position-y|stroke-width|background-position-x|background-position
-              | background-blend-mode|flex-shrink|flex-basis|flex-order|flex-item-align
-              | flex-line-pack|flex-negative|flex-pack|flex-positive|flex-preferred-size
-              | flex|user-drag|font-stretch|column-count|empty-cells|align-self
-              | caption-side|mask-size|column-gap|mask-repeat|box-direction
-              | font-feature-settings|mask-position|align-content|object-fit
-              | columns|text-fill-color|clip-path|stop-color|font-kerning
-              | page-break-before|stroke-dasharray|size|fill-rule|border-image-slice
-              | column-width|break-inside|column-break-before|border-image-width
-              | stroke-dashoffset|border-image-repeat|border-image-outset|line-break
-              | stroke-linejoin|stroke-linecap|stroke-miterlimit|stroke-opacity
-              | stroke|shape-rendering|border-image-source|border-image|border
-              | tab-size|writing-mode|perspective-origin-y|perspective-origin-x
-              | perspective-origin|perspective|text-align-last|text-align|clip-rule
-              | clip|text-anchor|column-rule-color|box-decoration-break|column-fill
-              | fill|column-rule-style|mix-blend-mode|text-emphasis-color
-              | baseline-shift|dominant-baseline|page|alignment-baseline
-              | column-rule-width|column-rule|break-after|font-variant-ligatures
-              | transform-origin-y|transform-origin-x|transform|object-position
-              | break-before|column-span|isolation|shape-outside|all
-              | color-interpolation-filters|marker|marker-end|marker-start
-              | marker-mid|color-rendering|color-interpolation|background-repeat-x
-              | background-repeat-y|background-repeat|background|mask-type
-              | flood-color|flood-opacity|text-orientation|mask-composite
-              | text-emphasis-style|paint-order|lighting-color|shape-margin
-              | text-emphasis-position|text-emphasis|shape-image-threshold
-              | mask-clip|mask-origin|mask|font-variant-caps|font-variant-alternates
-              | font-variant-east-asian|font-variant-numeric|font-variant-position
-              | font-variant|font-size-adjust|font-size|font-language-override
-              | font-display|font-synthesis|font|line-box-contain|text-justify
-              | text-decoration-color|text-decoration-style|text-decoration-line
-              | text-decoration|text-underline-position|grid-template-rows
-              | grid-template-columns|grid-template-areas|grid-template|rotate|scale
-              | translate|scroll-behavior|grid-column-start|grid-column-end
-              | grid-column-gap|grid-row-start|grid-row-end|grid-auto-rows
-              | grid-area|grid-auto-flow|grid-auto-columns|image-orientation
-              | hyphens|overflow-scrolling|overflow|color-profile|kerning
-              | nbsp-mode|color|image-resolution|grid-row-gap|grid-row|grid-column
-              | blend-mode|azimuth|pause-after|pause-before|pause|pitch-range|pitch
-              | text-height|system|negative|prefix|suffix|range|pad|fallback
-              | additive-symbols|symbols|speak-as|speak|grid-gap
-            )\b
-          scope: support.type.property-name.css
+        - include: counter-property
+        - include: font-property
+        - include: other-property
     - match: (:)([ \t]*)
       captures:
         1: punctuation.separator.key-value.css
         2: meta.property-value.css
+      push: property-value-content
+
+  property-value-content:
+    - meta_content_scope: meta.property-value.css
+    - include: property-value-end
+    - include: property-values
+
+  property-value-end:
+    - match: \s*(;)|(?=[})])
+      captures:
+        1: punctuation.terminator.rule.css
+      pop: true
+
+  counter-property:
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Lists_and_Counters/Using_CSS_counters
+    - match: \bcounter-(increment|reset|set)(?!-)\b
+      scope: support.type.property-name.css
       push:
-        - meta_content_scope: meta.property-value.css
-        - match: '\s*(;)|(?=[})])'
+        - match: (:)([ \t]*)
           captures:
-            1: punctuation.terminator.rule.css
+            1: punctuation.separator.key-value.css
+            2: meta.property-value.css
+          set:
+            - property-value-content
+            - counter-identifier
+        - match: ''
           pop: true
-        - include: property-values
+
+  counter-identifier:
+    - match: '{{ident}}'
+      scope: variable.other.counter.css
+      pop: true
+    - match: (?=\S)
+      pop: true
+
+  deprecated-property:
+    - match: \b(var-)({{ident}})(?=\s)
+      scope: invalid.deprecated.custom-property.css
+      captures:
+        1: keyword.other.custom-property.prefix.css
+        2: support.type.custom-property.name.css
+
+  font-property:
+    - match: \bfont(-family)?(?!-)\b
+      scope: support.type.property-name.css
+      push:
+        - match: (:)([ \t]*)
+          captures:
+            1: punctuation.separator.key-value.css
+            2: meta.property-value.css
+          set:
+            - meta_content_scope: meta.property-value.css
+            - include: property-value-end
+            - include: comma-delimiter
+            - include: property-values
+            - match: '{{ident}}(\s+{{ident}})*'
+              scope: string.unquoted.css
+        - match: ''
+          pop: true
+
+  other-property:
+    # Property names are sorted by popularity in descending order.
+    # Popularity data taken from https://www.chromestatus.com/metrics/css/popularity
+    - match: |-
+        \b(?x)(
+            display|width|background-color|height|position|font-family|font-weight
+          | top|opacity|cursor|background-image|right|visibility|box-sizing
+          | user-select|left|float|margin-left|margin-top|line-height
+          | padding-left|z-index|margin-bottom|margin-right|margin
+          | vertical-align|padding-top|white-space|border-radius|padding-bottom
+          | padding-right|padding|bottom|clear|max-width|box-shadow|content
+          | border-color|min-height|min-width|font-style|border-width
+          | border-collapse|background-size|text-overflow|max-height|text-transform
+          | text-shadow|text-indent|border-style|overflow-y|list-style-type
+          | word-wrap|border-spacing|appearance|zoom|overflow-x|border-top-left-radius
+          | border-bottom-left-radius|border-top-color|pointer-events
+          | border-bottom-color|align-items|justify-content|letter-spacing
+          | border-top-right-radius|border-bottom-right-radius|border-right-width
+          | font-smoothing|border-bottom-width|border-right-color|direction
+          | border-top-width|src|border-left-color|border-left-width
+          | tap-highlight-color|table-layout|background-clip|word-break
+          | transform-origin|resize|filter|backface-visibility|text-rendering
+          | box-orient|transition-property|transition-duration|word-spacing
+          | quotes|outline-offset|animation-timing-function|animation-duration
+          | animation-name|transition-timing-function|border-bottom-style
+          | border-bottom|transition-delay|transition|unicode-bidi|border-top-style
+          | border-top|unicode-range|list-style-position|orphans|outline-width
+          | line-clamp|order|flex-direction|box-pack|animation-fill-mode
+          | outline-color|list-style-image|list-style|touch-action|flex-grow
+          | border-left-style|border-left|animation-iteration-count
+          | page-break-inside|box-flex|box-align|page-break-after|animation-delay
+          | widows|border-right-style|border-right|flex-align|outline-style
+          | outline|background-origin|animation-direction|fill-opacity
+          | background-attachment|flex-wrap|transform-style
+          | overflow-wrap|animation-play-state|animation
+          | will-change|box-ordinal-group|image-rendering|mask-image|flex-flow
+          | background-position-y|stroke-width|background-position-x|background-position
+          | background-blend-mode|flex-shrink|flex-basis|flex-order|flex-item-align
+          | flex-line-pack|flex-negative|flex-pack|flex-positive|flex-preferred-size
+          | flex|user-drag|font-stretch|column-count|empty-cells|align-self
+          | caption-side|mask-size|column-gap|mask-repeat|box-direction
+          | font-feature-settings|mask-position|align-content|object-fit
+          | columns|text-fill-color|clip-path|stop-color|font-kerning
+          | page-break-before|stroke-dasharray|size|fill-rule|border-image-slice
+          | column-width|break-inside|column-break-before|border-image-width
+          | stroke-dashoffset|border-image-repeat|border-image-outset|line-break
+          | stroke-linejoin|stroke-linecap|stroke-miterlimit|stroke-opacity
+          | stroke|shape-rendering|border-image-source|border-image|border
+          | tab-size|writing-mode|perspective-origin-y|perspective-origin-x
+          | perspective-origin|perspective|text-align-last|text-align|clip-rule
+          | clip|text-anchor|column-rule-color|box-decoration-break|column-fill
+          | fill|column-rule-style|mix-blend-mode|text-emphasis-color
+          | baseline-shift|dominant-baseline|page|alignment-baseline
+          | column-rule-width|column-rule|break-after|font-variant-ligatures
+          | transform-origin-y|transform-origin-x|transform|object-position
+          | break-before|column-span|isolation|shape-outside|all
+          | color-interpolation-filters|marker|marker-end|marker-start
+          | marker-mid|color-rendering|color-interpolation|background-repeat-x
+          | background-repeat-y|background-repeat|background|mask-type
+          | flood-color|flood-opacity|text-orientation|mask-composite
+          | text-emphasis-style|paint-order|lighting-color|shape-margin
+          | text-emphasis-position|text-emphasis|shape-image-threshold
+          | mask-clip|mask-origin|mask|font-variant-caps|font-variant-alternates
+          | font-variant-east-asian|font-variant-numeric|font-variant-position
+          | font-variant|font-size-adjust|font-size|font-language-override
+          | font-display|font-synthesis|font|line-box-contain|text-justify
+          | text-decoration-color|text-decoration-style|text-decoration-line
+          | text-decoration|text-underline-position|grid-template-rows
+          | grid-template-columns|grid-template-areas|grid-template|rotate|scale
+          | translate|scroll-behavior|grid-column-start|grid-column-end
+          | grid-column-gap|grid-row-start|grid-row-end|grid-auto-rows
+          | grid-area|grid-auto-flow|grid-auto-columns|image-orientation
+          | hyphens|overflow-scrolling|overflow|color-profile|kerning
+          | nbsp-mode|color|image-resolution|grid-row-gap|grid-row|grid-column
+          | blend-mode|azimuth|pause-after|pause-before|pause|pitch-range|pitch
+          | text-height|system|negative|prefix|suffix|range|pad|fallback
+          | additive-symbols|symbols|speak-as|speak|grid-gap|grid
+        )\b
+      scope: support.type.property-name.css
 
   selector:
     - match: (?=[:.*#a-zA-Z\[])
@@ -831,6 +863,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: unquoted-string
 
       # Functional Pseudo Classes with selector list
@@ -865,6 +898,7 @@ contexts:
             pop: true
           - match: \b(active|valid|invalid)\b
             scope: keyword.other.pseudo-class.css
+          - include: var-function
 
       # Functional Pseudo Classes with `An+B` param
       # An+B Notation: https://drafts.csswg.org/css-syntax/#anb
@@ -884,13 +918,18 @@ contexts:
             pop: true
           - match: \b(even|odd)\b
             scope: keyword.other.pseudo-class.css
-          - match: '([-+]?\d*(n))\s*([-+]\s*\d+)?'
+          - match: '(([-+]?)(\d*)(n))\s*(([-+])(\s*\d+))?'
             captures:
-              1: constant.numeric.integer.decimal.css
-              2: keyword.other.unit.css
-              3: constant.numeric.integer.decimal.css
+              1: meta.number.integer.decimal.css
+              2: keyword.operator.arithmetic.css
+              3: constant.numeric.value.css
+              4: constant.numeric.suffix.css
+              5: meta.number.integer.decimal.css
+              6: keyword.operator.arithmetic.css
+              7: constant.numeric.value.css
           - match: '[-+]\s+\d+n?|[-+]?\d+\s+n'
             scope: invalid.illegal.numeric.css
+          - include: var-function
           - include: integer-type
 
       # Regular Pseudo Classes
@@ -926,6 +965,7 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: image-type
           - include: literal-string
           - include: filter-functions
@@ -950,8 +990,10 @@ contexts:
               - match: '(?=\))'
                 pop: true
               - include: comma-delimiter
+              - include: var-function
               - match: '\b({{counter_styles}}|none)\b'
                 scope: support.constant.property-value.counter-style.css
+          - include: var-function
 
       # counters()
       # https://drafts.csswg.org/css-lists-3/#funcdef-counters
@@ -973,9 +1015,11 @@ contexts:
               - match: '(?=\))'
                 pop: true
               - include: comma-delimiter
+              - include: var-function
               - include: literal-string
               - match: '\b({{counter_styles}}|none)\b'
                 scope: support.constant.property-value.counter-style.css
+          - include: var-function
 
       # symbols()
       # https://drafts.csswg.org/css-counter-styles-3/#symbols-function
@@ -993,6 +1037,7 @@ contexts:
           - match: '\b(cyclic|numeric|alphabetic|symbolic|fixed)\b'
             scope: support.constant.symbol-type.css
           - include: comma-delimiter
+          - include: var-function
           - include: literal-string
           - include: image-type
 
@@ -1011,6 +1056,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: literal-string
 
       # local()
@@ -1026,6 +1072,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: literal-string
           - include: unquoted-string
 
@@ -1063,10 +1110,10 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: percentage-type
           - include: length-type
           - include: number-type
-          - include: var-function
 
       # transform functions with a single <number> or <length> type
       # translateX(), translateY()
@@ -1081,6 +1128,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: percentage-type
           - include: length-type
           - include: number-type
@@ -1098,6 +1146,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: angle-type
 
       # transform functions with comma separated <angle> types
@@ -1114,6 +1163,7 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: angle-type
 
       # transform functions with a single <length> type
@@ -1129,6 +1179,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: length-type
 
       # transform functions with a comma separated <number> or <angle> types
@@ -1145,6 +1196,7 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: angle-type
           - include: number-type
 
@@ -1162,6 +1214,7 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: number-type
 
       # Timing Functions
@@ -1181,6 +1234,7 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: number-type
 
       # steps()
@@ -1197,6 +1251,7 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: integer-type
           - match: (end|middle|start)
             scope: support.keyword.timing-direction.css
@@ -1219,6 +1274,7 @@ contexts:
             pop: true
           - match: \bauto\b
             scope: support.constant.property-value.css
+          - include: var-function
           - include: length-type
 
       # inset()
@@ -1236,6 +1292,7 @@ contexts:
             pop: true
           - match: '\bround\b'
             scope: keyword.other.css
+          - include: var-function
           - include: length-type
           - include: percentage-type
 
@@ -1258,6 +1315,7 @@ contexts:
             scope: keyword.other.css
           - match: '\b(top|right|bottom|left|center|closest-side|farthest-side)\b'
             scope: support.constant.property-value.css
+          - include: var-function
           - include: length-type
           - include: percentage-type
 
@@ -1275,12 +1333,13 @@ contexts:
           - include: comment-block
           - match: '(?=\))'
             pop: true
-          - match: '\b(nonzero|evenodd)\b'
-            scope: support.constant.property-value.css
+          - include: comma-delimiter
+          - include: var-function
           - include: length-type
           - include: percentage-type
           - include: calc-function
-          - include: comma-delimiter
+          - match: '\b(nonzero|evenodd)\b'
+            scope: support.constant.property-value.css
 
       # toggle()
       # https://www.w3.org/TR/css3-values/#toggle-notation
@@ -1296,6 +1355,7 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: vendor-prefix
           - include: property-value-constants
           - include: numeric-values
@@ -1316,11 +1376,11 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: length-type
           - include: percentage-type
           - include: minmax-function
           - include: integer-type
-          - include: var-function
           - include: line-names
           - match: \b(auto-fill|auto-fit)\b
             scope: support.keyword.repetitions.css
@@ -1341,8 +1401,13 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
-          - include: comma-delimiter
+          - include: var-function
           - include: custom-property-name
+          - match: '(?=,)'
+            push:
+              - match: '(?=\))'
+                pop: true
+              - include: property-values
 
   # Filter Functions
   # https://drafts.fxtf.org/filters/#typedef-filter-function
@@ -1360,6 +1425,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: length-type
 
       # brightness(), contrast(), grayscale(), invert(), opacity(), saturate(), sepia()
@@ -1375,6 +1441,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: percentage-type
           - include: number-type
 
@@ -1391,6 +1458,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: length-type
           - include: color-values
 
@@ -1407,6 +1475,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: angle-type
 
   # calc()
@@ -1424,15 +1493,16 @@ contexts:
 
   inside-calc-parens:
     - meta_scope: meta.group.css
-    - match: '(?=\))'
-      set: function-notation-terminator
+    - match: '\)'
+      scope: punctuation.definition.group.end.css
+      set: maybe-illegal-operator
     - include: comment-block
+    - include: attr-function
     - include: calc-function
     - include: var-function
     - include: numeric-values
-    - include: attr-function
-    - match: "[-/*+]"
-      scope: keyword.operator.css
+    - match: '[-+*/]'
+      scope: keyword.operator.arithmetic.css
     - match: '\('
       scope: punctuation.definition.group.begin.css
       push: inside-calc-parens
@@ -1451,6 +1521,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: qualified-name
           - include: literal-string
           - match: '({{ident}})'
@@ -1470,6 +1541,7 @@ contexts:
             - match: '(?=\))'
               pop: true
             - include: comma-delimiter
+            - include: var-function
             - include: property-value-constants
             - include: numeric-values
             - include: color-values
@@ -1488,6 +1560,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: literal-string
           - include: unquoted-string
 
@@ -1505,6 +1578,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: literal-string
           - include: unquoted-string
 
@@ -1522,6 +1596,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: literal-string
           - include: unquoted-string
 
@@ -1539,6 +1614,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: literal-string
 
   # image()
@@ -1555,10 +1631,11 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: comma-delimiter
+          - include: var-function
+          - include: color-values
           - include: image-type
           - include: literal-string
-          - include: color-values
-          - include: comma-delimiter
           - include: unquoted-string
 
   # image-set()
@@ -1575,15 +1652,17 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
-          - include: literal-string
-          - include: color-values
           - include: comma-delimiter
-          - include: resolution-type
+          - include: var-function
+          - include: color-values
           - include: image-type
-          - match: '[0-9]+(x)'
-            scope: constant.numeric.integer.decimal.css
+          - include: resolution-type
+          - match: '([0-9]+)(x)'
+            scope: meta.number.integer.decimal.css
             captures:
-              1: keyword.other.unit.css
+              1: constant.numeric.value.css
+              2: constant.numeric.suffix.css
+          - include: literal-string
           - include: unquoted-string
 
   # Gradient Functions
@@ -1604,11 +1683,12 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
-          - include: angle-type
           - include: comma-delimiter
+          - include: var-function
           - include: color-values
-          - include: percentage-type
+          - include: angle-type
           - include: length-type
+          - include: percentage-type
           - match: '\bto\b'
             scope: keyword.other.css
           - match: \b(top|right|bottom|left)\b
@@ -1630,9 +1710,10 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: color-values
-          - include: percentage-type
           - include: length-type
+          - include: percentage-type
           - match: '\b(at|circle|ellipse)\b'
             scope: keyword.other.css
           - match: |-
@@ -1664,9 +1745,10 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
-          - include: percentage-type
+          - include: var-function
           - include: color-values
           - include: image-type
+          - include: percentage-type
           - include: literal-string
           - include: unquoted-string
 
@@ -1685,6 +1767,7 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: length-type
           - include: percentage-type
           - match: \b(auto|max-content|min-content)\b
@@ -1707,6 +1790,7 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: percentage-type
           - include: number-type
 
@@ -1726,6 +1810,7 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: angle-type
           - include: percentage-type
           - include: number-type
@@ -1744,6 +1829,7 @@ contexts:
           - match: '(?=\))'
             pop: true
           - include: comma-delimiter
+          - include: var-function
           - include: percentage-type
           - include: number-type
 
@@ -1762,6 +1848,7 @@ contexts:
             pop: true
           - include: comma-delimiter
           - include: color-adjuster-functions # must be included before `color-values`
+          - include: var-function
           - include: color-values
           - include: percentage-type
           - include: number-type
@@ -1801,6 +1888,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: color-adjuster-operators
           - include: percentage-type
           - include: number-type
@@ -1817,6 +1905,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: color-adjuster-operators
           - include: angle-type
 
@@ -1832,6 +1921,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: color-adjuster-operators
           - include: percentage-type
 
@@ -1849,6 +1939,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: '(?=\))'
             pop: true
+          - include: var-function
           - include: percentage-type
 
       # blend(), blenda() - Not yet implemented by browsers
@@ -1865,9 +1956,9 @@ contexts:
             pop: true
           - match: '\b(rgb|hsl|hwb)\b'
             scope: keyword.other.color-space.css
+          - include: var-function
           - include: color-values
           - include: percentage-type
-          - include: var-function
 
   unicode-range:
     - match: |-
@@ -1900,8 +1991,21 @@ contexts:
         2: support.type.custom-property.name.css
 
   color-adjuster-operators:
-    - match: '[\-\+*](?=\s+)'
-      scope: keyword.operator.css
+    - match: '[-+*](?=\s)'
+      scope: keyword.operator.arithmetic.css
+    - match: '[-+*/]'
+      scope: invalid.illegal.operator.css
+
+  maybe-illegal-operator:
+    - match: '[-+](?=\s*\d)'
+      scope: invalid.illegal.operator.css
+      pop: true
+    - match: '\s*([-+])(?=\d)'
+      captures:
+        1: invalid.illegal.operator.css
+      pop: true
+    - match: ''
+      pop: true
 
   comma-delimiter:
     - match: '\s*(,)\s*'
@@ -1974,13 +2078,20 @@ contexts:
 
   float-type:
     - match: '{{float}}'
-      scope: constant.numeric.float.decimal.css
+      scope: meta.number.float.decimal.css
       captures:
-        1: punctuation.separator.decimal.css
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+      push: maybe-illegal-operator
 
   integer-type:
     - match: '{{integer}}'
-      scope: constant.numeric.integer.decimal.css
+      scope: meta.number.integer.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+      push: maybe-illegal-operator
 
   # Make sure `number-type` is included after any other numeric values
   # as `number-type` will consume all numeric values.
@@ -1990,14 +2101,20 @@ contexts:
 
   percentage-type:
     - match: '{{float}}(%)'
-      scope: constant.numeric.float.decimal.css
+      scope: meta.number.float.decimal.css
       captures:
-        1: punctuation.separator.decimal.css
-        2: keyword.other.unit.css
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+        4: constant.numeric.suffix.css
+      push: maybe-illegal-operator
     - match: '{{integer}}(%)'
-      scope: constant.numeric.integer.decimal.css
+      scope: meta.number.integer.decimal.css
       captures:
-        1: keyword.other.unit.css
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: constant.numeric.suffix.css
+      push: maybe-illegal-operator
 
   dimensions:
     - include: angle-type
@@ -2006,64 +2123,96 @@ contexts:
     - include: resolution-type
     - include: time-type
 
-  length-type:
-    - match: '{{float}}({{font_relative_lengths}}|{{viewport_percentage_lengths}}|{{absolute_lengths}})\b'
-      scope: constant.numeric.float.decimal.css
+  angle-type:
+    - match: '{{float}}({{angle_units}})\b'
+      scope: meta.number.float.decimal.css
       captures:
-        1: punctuation.separator.decimal.css
-        2: keyword.other.unit.css
-    - match: '{{integer}}({{font_relative_lengths}}|{{viewport_percentage_lengths}}|{{absolute_lengths}})\b'
-      scope: constant.numeric.integer.decimal.css
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+        4: constant.numeric.suffix.css
+      push: maybe-illegal-operator
+    - match: '{{integer}}({{angle_units}})\b'
+      scope: meta.number.integer.decimal.css
       captures:
-        1: keyword.other.unit.css
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: constant.numeric.suffix.css
+      push: maybe-illegal-operator
     - match: '0\b(?!%)'
-      scope: constant.numeric.integer.decimal.css
-
-  time-type:
-    - match: '{{float}}({{duration_units}})\b'
-      scope: constant.numeric.float.decimal.css
-      captures:
-        1: punctuation.separator.decimal.css
-        2: keyword.other.unit.css
-    - match: '{{integer}}({{duration_units}})\b'
-      scope: constant.numeric.integer.decimal.css
-      captures:
-        1: keyword.other.unit.css
+      scope: meta.number.integer.decimal.css constant.numeric.value.css
+      push: maybe-illegal-operator
 
   frequency-type:
     - match: '{{float}}({{frequency_units}})\b'
-      scope: constant.numeric.float.decimal.css
+      scope: meta.number.float.decimal.css
       captures:
-        1: punctuation.separator.decimal.css
-        2: keyword.other.unit.css
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+        4: constant.numeric.suffix.css
+      push: maybe-illegal-operator
     - match: '{{integer}}({{frequency_units}})\b'
-      scope: constant.numeric.integer.decimal.css
+      scope: meta.number.integer.decimal.css
       captures:
-        1: keyword.other.unit.css
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: constant.numeric.suffix.css
+      push: maybe-illegal-operator
+
+  length-type:
+    - match: '{{float}}({{font_relative_lengths}}|{{viewport_percentage_lengths}}|{{absolute_lengths}})\b'
+      scope: meta.number.float.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+        4: constant.numeric.suffix.css
+      push: maybe-illegal-operator
+    - match: '{{integer}}({{font_relative_lengths}}|{{viewport_percentage_lengths}}|{{absolute_lengths}})\b'
+      scope: meta.number.integer.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: constant.numeric.suffix.css
+      push: maybe-illegal-operator
+    - match: '0\b(?!%)'
+      scope: meta.number.integer.decimal.css constant.numeric.value.css
+      push: maybe-illegal-operator
 
   resolution-type:
     - match: '{{float}}({{resolution_units}})\b'
-      scope: constant.numeric.float.decimal.css
+      scope: meta.number.float.decimal.css
       captures:
-        1: punctuation.separator.decimal.css
-        2: keyword.other.unit.css
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+        4: constant.numeric.suffix.css
+      push: maybe-illegal-operator
     - match: '{{integer}}({{resolution_units}})\b'
-      scope: constant.numeric.integer.decimal.css
+      scope: meta.number.integer.decimal.css
       captures:
-        1: keyword.other.unit.css
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: constant.numeric.suffix.css
+      push: maybe-illegal-operator
 
-  angle-type:
-    - match: '{{float}}({{angle_units}})\b'
-      scope: constant.numeric.float.decimal.css
+  time-type:
+    - match: '{{float}}({{duration_units}})\b'
+      scope: meta.number.float.decimal.css
       captures:
-        1: punctuation.separator.decimal.css
-        2: keyword.other.unit.css
-    - match: '{{integer}}({{angle_units}})\b'
-      scope: constant.numeric.integer.decimal.css
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+        4: constant.numeric.suffix.css
+      push: maybe-illegal-operator
+    - match: '{{integer}}({{duration_units}})\b'
+      scope: meta.number.integer.decimal.css
       captures:
-        1: keyword.other.unit.css
-    - match: '0\b(?!%)'
-      scope: constant.numeric.integer.decimal.css
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: constant.numeric.suffix.css
+      push: maybe-illegal-operator
 
   # https://drafts.csswg.org/css-images-3/#typedef-image
   image-type:

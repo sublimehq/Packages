@@ -23,12 +23,12 @@ variables:
   lambda_lookahead: (?:\(.*\)|{{id}})\s*->
 
   # digits
-  ddigits0: '\d[\d_]*?(_*)'
-  ddigits: (?:(_*){{ddigits0}})
-  hdigits: (?:(_*)\h[\h_]*?(_*))
-  exponent: '[-+]?{{ddigits}}'
-  eexponent: (?:[eE]{{exponent}})
-  pexponent: (?:[pP]{{exponent}})
+  bin_digit: '[01_]'
+  oct_digit: '[0-7_]'
+  dec_digit: '[\d_]'
+  hex_digit: '[\h_]'
+  dec_exponent: '[eE][-+]?{{dec_digit}}*'
+  hex_exponent: '[pP][-+]?{{dec_digit}}*'
 
 contexts:
   prototype:
@@ -500,94 +500,73 @@ contexts:
       scope: variable.language.java
     # hexadecimal floats
     - match: |-
-        \b(0[xX])(?x:
+        (?x)
+        \b(0[xX])
+        (
           # 0x1., 0x1.1, 0x1.1p1, 0x1.1p-1, 0x1.p1, 0x1.p-1 | 0x1p1
-          {{hdigits}} (?: (\.) (?: {{hdigits}}? {{pexponent}}? \b )? | {{pexponent}} \b )
+          {{hex_digit}}* (?: (\.) {{hex_digit}}* (?:{{hex_exponent}})? | {{hex_exponent}} )
           # 0x.1, 0x.1p1, 0x.1p-1
-          | (\.) {{hdigits}} {{pexponent}}? \b
+          | (\.) {{hex_digit}}+ (?:{{hex_exponent}})?
         )
-      scope: constant.numeric.float.hexadecimal.java
+      scope: meta.number.float.hexadecimal.java
       captures:
-        1: punctuation.definition.numeric.hexadecimal.java
-        2: invalid.illegal.numeric.java
-        3: invalid.illegal.numeric.java
+        1: constant.numeric.base.java
+        2: constant.numeric.value.java
+        3: punctuation.separator.decimal.java
         4: punctuation.separator.decimal.java
-        5: invalid.illegal.numeric.java
-        6: invalid.illegal.numeric.java
-        7: invalid.illegal.numeric.java
-        8: invalid.illegal.numeric.java
-        9: invalid.illegal.numeric.java
-        10: invalid.illegal.numeric.java
-        11: punctuation.separator.decimal.java
-        12: invalid.illegal.numeric.java
-        13: invalid.illegal.numeric.java
-        14: invalid.illegal.numeric.java
-        15: invalid.illegal.numeric.java
     # decimal floats
     - match: |-
-        (?x:
-          \b{{ddigits0}}
-          (?:
-            # 1., 1.1, 1.1e1, 1.1e-1, 1.e1, 1.e-1, 1.d, 1.1d, 1.1e1d, 1.1e-1d, 1.e1d, 1.e-1d
-            (\.) (?: {{ddigits}}? {{eexponent}}? ([dDfF])? \b )?
-            # 1e1 1e1d
-            | {{eexponent}} ([dDfF])? \b
-            # 1d
-            | ([dDfF]) \b
-          )
-          # .1, .1e1, .1e-1
-          | (\.) {{ddigits}} {{eexponent}}? ([dDfF])? \b
+        (?x)
+        \b([0-9]{{dec_digit}}*)
+        (?:
+          # 1., 1.1, 1.1e1, 1.1e-1, 1.e1, 1.e-1, 1.d, 1.1d, 1.1e1d, 1.1e-1d, 1.e1d, 1.e-1d
+          ( (\.) {{dec_digit}}* (?:{{dec_exponent}})? ) ([dDfF]\b)?
+          # 1e1 1e1d
+          | ({{dec_exponent}}) ([dDfF]\b)?
+          # 1d
+          | ([dDfF]\b)
         )
-      scope: constant.numeric.float.decimal.java
+        | ( (\.) {{dec_digit}}+ (?:{{dec_exponent}})? ) ([dDfF]\b)?
+      scope: meta.number.float.decimal.java
       captures:
-        1: invalid.illegal.numeric.java
-        2: punctuation.separator.decimal.java
-        3: invalid.illegal.numeric.java
-        4: invalid.illegal.numeric.java
-        5: invalid.illegal.numeric.java
-        6: invalid.illegal.numeric.java
-        7: storage.type.numeric.java
-        8: invalid.illegal.numeric.java
-        9: invalid.illegal.numeric.java
-        10: storage.type.numeric.java
-        11: storage.type.numeric.java
-        12: punctuation.separator.decimal.java
-        13: invalid.illegal.numeric.java
-        14: invalid.illegal.numeric.java
-        15: invalid.illegal.numeric.java
-        16: invalid.illegal.numeric.java
-        17: storage.type.numeric.java
+        1: constant.numeric.value.java
+        2: constant.numeric.value.java
+        3: punctuation.separator.decimal.java
+        4: constant.numeric.suffix.java
+        5: constant.numeric.value.java
+        6: constant.numeric.suffix.java
+        7: constant.numeric.suffix.java
+        8: constant.numeric.value.java
+        9: punctuation.separator.decimal.java
+        10: constant.numeric.suffix.java
     # binary integers
-    - match: \b(0[bB])(_*)[01][01_]*?(_*)([lL])?\b
-      scope: constant.numeric.integer.binary.java
+    - match: \b(0[bB])({{bin_digit}}*)([lL]\b)?
+      scope: meta.number.integer.binary.java
       captures:
-        1: punctuation.definition.numeric.binary.java
-        2: invalid.illegal.numeric.java
-        3: invalid.illegal.numeric.java
-        4: storage.type.numeric.java
+        1: constant.numeric.base.java
+        2: constant.numeric.value.java
+        3: constant.numeric.suffix.java
     # hexadecimal integers
-    - match: \b(0[xX]){{hdigits}}([lL])?\b
-      scope: constant.numeric.integer.hexadecimal.java
+    - match: \b(0[xX])({{hex_digit}}*)([lL]\b)?
+      scope: meta.number.integer.hexadecimal.java
       captures:
-        1: punctuation.definition.numeric.hexadecimal.java
-        2: invalid.illegal.numeric.java
-        3: invalid.illegal.numeric.java
-        4: storage.type.numeric.java
+        1: constant.numeric.base.java
+        2: constant.numeric.value.java
+        3: constant.numeric.suffix.java
     # octal integers
-    - match: \b(0)(?:(_+)|[0-7_]+?(_*)|([\d_]+))([lL])?\b
-      scope: constant.numeric.integer.octal.java
+    - match: \b(0)({{oct_digit}}+)([lL]\b|(?![\d_]))
+      scope: meta.number.integer.octal.java
       captures:
-        1: punctuation.definition.numeric.octal.java
-        2: invalid.illegal.numeric.java
-        3: invalid.illegal.numeric.java
-        4: invalid.illegal.numeric.java
-        5: storage.type.numeric.java
+        1: constant.numeric.base.java
+        2: constant.numeric.value.java
+        3: constant.numeric.suffix.java
     # decimal integers
-    - match: \b{{ddigits0}}([lL])?\b
-      scope: constant.numeric.integer.decimal.java
+    - match: \b((0_*)?[1-9]{{dec_digit}}*|0(?![\d_]))([lL]\b)?
+      scope: meta.number.integer.decimal.java
       captures:
-        1: invalid.illegal.numeric.java
-        2: storage.type.numeric.java
+        1: constant.numeric.value.java
+        2: invalid.illegal.numeric.java
+        3: constant.numeric.suffix.java
 
   keywords:
     - match: '::'
