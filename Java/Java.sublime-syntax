@@ -116,7 +116,7 @@ contexts:
     - include: punctuations
     - include: operators
     - include: instantiation
-    - include: constants
+    - include: builtins
     - include: strings
     - include: primitive-types
     - include: storage-modifiers
@@ -1754,10 +1754,6 @@ contexts:
 ###[ VARIABLES ]###############################################################
 
   variables:
-    - match: _\b
-      scope: variable.language.blank.java
-    - match: '{{variables}}\b'
-      scope: variable.language.java
     - match: (?={{identifier}})
       branch_point: variables-type
       branch:
@@ -1832,11 +1828,15 @@ contexts:
 
 ###[ CONSTANTS ]###############################################################
 
-  constants:
+  builtins:
+    - match: _\b
+      scope: variable.language.blank.java
     - match: (?:false|true)\b
       scope: constant.language.boolean.java
     - match: null\b
       scope: constant.language.null.java
+    - match: (?:super|this)\b
+      scope: variable.language.java
 
   numbers:
     # hexadecimal floats
