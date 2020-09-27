@@ -88,8 +88,8 @@ variables:
   dec_exponent: '[eE][-+]?{{dec_digit}}*'
   hex_exponent: '[pP][-+]?{{dec_digit}}*'
 
-  # operators
-  accessor_dot: \.(?=[^.])
+  # accessor but no variadic operator
+  accessor_dot: \.(?!\.\.)
 
 ###############################################################################
 
