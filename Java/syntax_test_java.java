@@ -5645,6 +5645,137 @@ class MethodReferenceExpressionsTests {
 
 
 /******************************************************************************
+ * Method Invocation Expressions Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.2
+ *****************************************************************************/
+
+class MethodInvocationExpressionsTests {
+
+  void invokeMethods() {
+
+     Foo();
+//   ^^^ - variable.function.java
+
+     foo( ;
+//   ^^^ meta.function-call.identifier.java
+//      ^^^ meta.function-call.arguments.java meta.parens.java
+//   ^^^ variable.function.java
+//      ^ punctuation.section.parens.begin.java
+//        ^ invalid.illegal.stray-terminator-end
+
+     foo();
+//   ^^^ meta.function-call.identifier.java
+//      ^^ meta.function-call.arguments.java meta.parens.java
+//   ^^^ variable.function.java
+//      ^ punctuation.section.parens.begin.java
+//       ^ punctuation.section.parens.end.java
+//        ^ punctuation.terminator.java
+
+     foo ();
+//   ^^^^ meta.function-call.identifier.java
+//       ^^ meta.function-call.arguments.java meta.parens.java
+//   ^^^ variable.function.java
+//       ^ punctuation.section.parens.begin.java
+//        ^ punctuation.section.parens.end.java
+//         ^ punctuation.terminator.java
+
+     foo
+//   ^^^^ meta.function-call.identifier.java
+//   ^^^ variable.function.java
+     () ;
+//^^^ meta.function-call.identifier.java
+//   ^^ meta.function-call.arguments.java meta.parens.java
+//   ^ punctuation.section.parens.begin.java
+//    ^ punctuation.section.parens.end.java
+//      ^ punctuation.terminator.java
+
+     object.foo();
+//   ^^^^^^ variable.other.readwrite.java
+//         ^ punctuation.accessor.dot.java
+//          ^^^ meta.function-call.identifier.java
+//             ^^ meta.function-call.arguments.java meta.parens.java
+//          ^^^ variable.function.java
+//             ^ punctuation.section.parens.begin.java
+//              ^ punctuation.section.parens.end.java
+//               ^ punctuation.terminator.java
+
+     super.foo();
+//   ^^^^^ variable.language.java
+//        ^ punctuation.accessor.dot.java
+//         ^^^ meta.function-call.identifier.java
+//            ^^ meta.function-call.arguments.java meta.parens.java
+//         ^^^ variable.function.java
+//            ^ punctuation.section.parens.begin.java
+//             ^ punctuation.section.parens.end.java
+//              ^ punctuation.terminator.java
+
+     super.<A>foo();
+//   ^^^^^ variable.language.java
+//        ^ punctuation.accessor.dot.java
+//         ^^^ meta.generic.java
+//         ^ punctuation.definition.generic.begin.java
+//          ^ support.class.java
+//           ^ punctuation.definition.generic.end.java
+//            ^^^ meta.function-call.identifier.java
+//               ^^ meta.function-call.arguments.java meta.parens.java
+//            ^^^ variable.function.java
+//               ^ punctuation.section.parens.begin.java
+//                ^ punctuation.section.parens.end.java
+//                 ^ punctuation.terminator.java
+
+     this.foo();
+//   ^^^^ variable.language.java
+//       ^ punctuation.accessor.dot.java
+//        ^^^ meta.function-call.identifier.java
+//           ^^ meta.function-call.arguments.java meta.parens.java
+//        ^^^ variable.function.java
+//           ^ punctuation.section.parens.begin.java
+//            ^ punctuation.section.parens.end.java
+//             ^ punctuation.terminator.java
+
+     this.<A>foo();
+//   ^^^^ variable.language.java
+//       ^ punctuation.accessor.dot.java
+//        ^^^ meta.generic.java
+//        ^ punctuation.definition.generic.begin.java
+//         ^ support.class.java
+//          ^ punctuation.definition.generic.end.java
+//           ^^^ meta.function-call.identifier.java
+//              ^^ meta.function-call.arguments.java meta.parens.java
+//           ^^^ variable.function.java
+//              ^ punctuation.section.parens.begin.java
+//               ^ punctuation.section.parens.end.java
+//                ^ punctuation.terminator.java
+
+     this.<B> foo();
+//   ^^^^ variable.language.java
+//       ^ punctuation.accessor.dot.java
+//        ^^^ meta.generic.java
+//        ^ punctuation.definition.generic.begin.java
+//         ^ support.class.java
+//          ^ punctuation.definition.generic.end.java
+//            ^^^ meta.function-call.identifier.java
+//               ^^ meta.function-call.arguments.java meta.parens.java
+//            ^^^ variable.function.java
+//               ^ punctuation.section.parens.begin.java
+//                ^ punctuation.section.parens.end.java
+//                 ^ punctuation.terminator.java
+
+     ( foo ).bar();
+//   ^^^^^^^ meta.parens.java
+//          ^ punctuation.accessor.dot.java
+//           ^^^ meta.function-call.identifier.java
+//              ^^ meta.function-call.arguments.java meta.parens.java
+//           ^^^ variable.function.java
+//              ^ punctuation.section.parens.begin.java
+//               ^ punctuation.section.parens.end.java
+//                ^ punctuation.terminator.java
+
+    }
+}
+
+
+/******************************************************************************
  * Lambda Expressions Tests
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.27
  *****************************************************************************/
@@ -5652,25 +5783,6 @@ class MethodReferenceExpressionsTests {
 class LambdasExpressionsTests {
 
   void anonymousFunctions() {
-     foo();
-//   ^^^ variable.function.java
-
-// Capital names are usually used for classes
-     Foo();
-//   ^^^ support.class.java
-
-     foo ();
-//   ^^^ variable.function.java
-     this.<A>foo();
-//           ^^^ variable.function.java
-//        ^^^ meta.generic.java
-//        ^ punctuation.definition.generic.begin.java
-//         ^ support.class.java
-     this.<B> foo();
-//            ^^^ variable.function.java
-//        ^^^ meta.generic.java
-//        ^ punctuation.definition.generic.begin.java
-//         ^ support.class.java
 
      Function<String, Integer> func = a -> 42;
 //                                    ^ variable.parameter.java
