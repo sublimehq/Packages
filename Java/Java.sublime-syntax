@@ -892,9 +892,11 @@ contexts:
 
   method-array-modifiers:
     - match: ''
-      set:
-        - meta_scope: meta.method.java
-        - include: maybe-array-modifiers
+      set: method-array-modifiers-content
+
+  method-array-modifiers-content:
+    - meta_scope: meta.method.java
+    - include: maybe-array-modifiers
 
   method-attributes:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4.6
