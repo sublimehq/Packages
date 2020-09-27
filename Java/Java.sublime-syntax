@@ -796,7 +796,7 @@ contexts:
 
   constructor-name:
     - include: declarations-reserved-fail
-    - match: '{{identifier}}'
+    - match: '{{id}}'
       scope: entity.name.function.constructor.java
       pop: 1
     - include: else-pop
