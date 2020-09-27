@@ -1807,11 +1807,6 @@ contexts:
     - match: (?!\s*\[)
       pop: 1
 
-  variable-namespace:
-    - match: '{{lowercase_id}}'
-      scope: variable.namespace.java
-    - include: punctuation-accessor-dot
-
   variable-language-class:
     - match: class\b
       scope: variable.language.class.java
@@ -2272,7 +2267,9 @@ contexts:
     - match: (?=(?:{{lowercase_id}}\.)+\p{Lu})
       push:
         - meta_scope: meta.path.java
-        - include: variable-namespace
+        - match: '{{lowercase_id}}'
+          scope: variable.namespace.java
+        - include: punctuation-accessor-dot
         - include: object-types-no-fqn
     - match: '{{classcase_id}}\b'
       scope: support.class.java
