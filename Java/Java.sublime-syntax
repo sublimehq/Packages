@@ -115,7 +115,7 @@ contexts:
     - include: numbers
     - include: punctuations
     - include: operators
-    - include: instantiation
+    - include: instantiations
     - include: builtins
     - include: strings
     - include: primitive-types
@@ -1404,9 +1404,9 @@ contexts:
         - maybe-array-modifiers
         - variable-declaration-type
 
-###[ INSTANTIATION ]###########################################################
+###[ INSTANTIATION EXPRESSIONS ]###############################################
 
-  instantiation:
+  instantiations:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.9
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.10
     - match: new\b
@@ -1456,7 +1456,7 @@ contexts:
         - include: expressions
     - include: else-pop
 
-###[ INITIALIZERS ]############################################################
+###[ INITIALIZATION EXPRESSIONS ]##############################################
 
   variable-initializers:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.3
@@ -1494,7 +1494,7 @@ contexts:
         - include: operator-ternary-colon
         - include: variable-initializer
 
-###[ LAMBDAS AND PARENS ]######################################################
+###[ LAMBDAS OR PARENS ]#######################################################
 
   parens-or-lambda:
     - match: \(
