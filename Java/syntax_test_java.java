@@ -819,7 +819,50 @@ class AnyClass { // comment
 //              ^^^^^^^^^^^ entity.name.class.java
 //                          ^ punctuation.section.block.begin.java
 
-      void test1() {
+      void declareLocalClasses() {
+
+        class
+//      ^^^^^ meta.class.java meta.class.java meta.class.java
+//           ^ meta.class.java meta.class.java meta.class.identifier.java
+//      ^^^^^ keyword.declaration.class.java
+
+        class LocalClass
+//      ^^^^^ meta.class.java meta.class.java meta.class.java
+//           ^^^^^^^^^^^^ meta.class.java meta.class.java meta.class.identifier.java
+//      ^^^^^ keyword.declaration.class.java
+//            ^^^^^^^^^^ entity.name.class.java
+
+        static class LocalClass
+//      ^^^^^^^^^^^^ meta.class.java meta.class.java meta.class.java
+//                  ^^^^^^^^^^^^ meta.class.java meta.class.java meta.class.identifier.java
+//      ^^^^^^ storage.modifier.java
+//             ^^^^^ keyword.declaration.class.java
+//                   ^^^^^^^^^^ entity.name.class.java
+
+        final class LocalClass extends OtherClass {
+//      ^^^^^^^^^^^ meta.class.java meta.class.java meta.class.java
+//                 ^^^^^^^^^^^^ meta.class.java meta.class.java meta.class.identifier.java
+//                             ^^^^^^^^^^^^^^^^^^^ meta.class.java meta.class.java meta.class.extends.java
+//                                                ^^ meta.class.java meta.class.java meta.class.java meta.block.java
+//      ^^^^^ storage.modifier.java
+//            ^^^^^ keyword.declaration.class.java
+//                  ^^^^^^^^^^ entity.name.class.java
+//                             ^^^^^^^ keyword.declaration.extends.java
+//                                     ^^^^^^^^^^ entity.other.inherited-class.java
+//                                                ^ punctuation.section.block.begin.java
+            public class LocalNestedClass;
+//          ^^^^^^^^^^^^ meta.class.java meta.class.java meta.class.java meta.class.java
+//                      ^^^^^^^^^^^^^^^^^ meta.class.java meta.class.java meta.class.java meta.class.identifier.java
+//          ^^^^^^ storage.modifier.java
+//                 ^^^^^ keyword.declaration.class.java
+//                       ^^^^^^^^^^^^^^^^ entity.name.class.java
+//                                       ^ punctuation.terminator.java
+        }
+//      ^ punctuation.section.block.end.java
+      }
+//    ^ punctuation.section.block.end.java
+
+      void classReferences() {
         Foo.class; // comment
 //      ^^^ support.class.java
 //         ^ punctuation.accessor.dot.java
@@ -3377,7 +3420,282 @@ class ReceiverArgTests {
 
 class LocalVariableDeclarationTests {
 
-  void genericTypeTests() {
+  void declarePrimitiveTypes() {
+
+    int
+// ^^^^^ - meta.declaration
+//  ^^^ storage.type.primitive.java
+
+    int foo
+//  ^^^^^^^^ meta.declaration.java
+//  ^^^ storage.type.primitive.java
+//      ^^^ variable.other.readwrite.java
+
+    int foo;
+// ^^^^^^^^ meta.declaration.java
+//         ^ - meta.declaration
+//  ^^^ storage.type.primitive.java
+//      ^^^ variable.other.readwrite.java
+//         ^ punctuation.terminator.java
+
+    int foo, bar;
+// ^ - meta.declaration
+//  ^^^^^^^^^^^^ meta.declaration.java
+//              ^ - meta.declaration
+//  ^^^ storage.type.primitive.java
+//      ^^^ variable.other.readwrite.java
+//         ^ punctuation.separator.sequence.java
+//           ^^^ variable.other.readwrite.java
+//              ^ punctuation.terminator.java
+
+    int foo =, bar =;
+// ^ - meta.declaration
+//  ^^^^^^^^^^^^^^^^ meta.declaration.java
+//                  ^ - meta.declaration
+//  ^^^ storage.type.primitive.java
+//      ^^^ variable.other.readwrite.java
+//          ^ keyword.operator.assignment.java
+//           ^ punctuation.separator.sequence.java
+//             ^^^ variable.other.readwrite.java
+//                 ^ keyword.operator.assignment.java
+//                  ^ punctuation.terminator.java
+
+    int foo = 0, bar = CONST;
+// ^ - meta.declaration
+//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.java
+//                          ^ - meta.declaration
+//  ^^^ storage.type.primitive.java
+//      ^^^ variable.other.readwrite.java
+//          ^ keyword.operator.assignment.java
+//            ^ constant.numeric.value.java
+//             ^ punctuation.separator.sequence.java
+//               ^^^ variable.other.readwrite.java
+//                   ^ keyword.operator.assignment.java
+//                     ^^^^^ constant.other.java
+//                          ^ punctuation.terminator.java
+
+    final int[] y = 10, z[] = 5;
+// ^ - meta.declaration
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.java
+//                             ^ - meta.declaration
+//  ^^^^^ storage.modifier.java
+//        ^^^ storage.type.primitive.java
+//           ^^ storage.modifier.array.java
+//              ^ variable.other.readwrite.java
+//                ^ keyword.operator.assignment.java
+//                  ^^ meta.number.integer.decimal.java constant.numeric.value.java
+//                    ^ punctuation.separator.sequence.java
+//                      ^ variable.other.readwrite.java
+//                       ^^ storage.modifier.array.java
+//                          ^ keyword.operator.assignment.java
+//                            ^ meta.number.integer.decimal.java constant.numeric.value.java
+//                             ^ punctuation.terminator.java
+
+    @Number final int y @Dim1 [] @Dim2 [] = { {10, 1}, {5, 2} };
+// ^ - meta.declaration
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.java
+//                                                             ^ - meta.declaration
+//  ^^^^^^^ meta.annotation.identifier.java
+//          ^^^^^ storage.modifier.java
+//                ^^^ storage.type.primitive.java
+//                    ^ variable.other.readwrite.java
+//                      ^^^^^ meta.annotation.identifier.java
+//                            ^^ storage.modifier.array.java
+//                               ^^^^^ meta.annotation.identifier.java
+//                                     ^^ storage.modifier.array.java
+//                                        ^ keyword.operator.assignment.java
+  }
+
+
+  void declareObjectTypes() {
+
+    TestClass ;
+//  ^^^^^^^^^ support.class.java
+
+    testclass ;
+//  ^^^^^^^^^ variable.other.readwrite.java
+
+    TestClass foo
+//  ^^^^^^^^^^^^^^ meta.declaration.java
+//  ^^^^^^^^^ support.class.java
+//            ^^^ variable.other.readwrite.java
+
+    testclass foo
+//  ^^^^^^^^^^^^^^ meta.declaration.java
+//  ^^^^^^^^^ support.class.java
+//            ^^^ variable.other.readwrite.java
+
+    TestClass foo;
+// ^^^^^^^^^^^^^^ meta.declaration.java
+//               ^ - meta.declaration
+//  ^^^^^^^^^ support.class.java
+//            ^^^ variable.other.readwrite.java
+//               ^ punctuation.terminator.java
+
+    TestClass foo, bar;
+// ^ - meta.declaration
+//  ^^^^^^^^^^^^^^^^^^ meta.declaration.java
+//                    ^ - meta.declaration
+//  ^^^^^^^^^ support.class.java
+//            ^^^ variable.other.readwrite.java
+//               ^ punctuation.separator.sequence.java
+//                 ^^^ variable.other.readwrite.java
+//                    ^ punctuation.terminator.java
+
+    TestClass foo =, bar =;
+// ^ - meta.declaration
+//  ^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.java
+//                        ^ - meta.declaration
+//  ^^^^^^^^^ support.class.java
+//            ^^^ variable.other.readwrite.java
+//                ^ keyword.operator.assignment.java
+//                 ^ punctuation.separator.sequence.java
+//                   ^^^ variable.other.readwrite.java
+//                       ^ keyword.operator.assignment.java
+//                        ^ punctuation.terminator.java
+
+    TestClass foo = 0, bar = 10;
+// ^ - meta.declaration
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.java
+//                             ^ - meta.declaration
+//  ^^^^^^^^^ support.class.java
+//            ^^^ variable.other.readwrite.java
+//                ^ keyword.operator.assignment.java
+//                  ^ constant.numeric.value.java
+//                   ^ punctuation.separator.sequence.java
+//                     ^^^ variable.other.readwrite.java
+//                         ^ keyword.operator.assignment.java
+//                           ^^ constant.numeric.value.java
+//                             ^ punctuation.terminator.java
+
+    final TestClass[] y = 10, z[] = 5;
+// ^ - meta.declaration
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.java
+//                                   ^ - meta.declaration
+//  ^^^^^ storage.modifier.java
+//        ^^^^^^^^^ support.class.java
+//                 ^^ storage.modifier.array.java
+//                    ^ variable.other.readwrite.java
+//                      ^ keyword.operator.assignment.java
+//                        ^^ meta.number.integer.decimal.java constant.numeric.value.java
+//                          ^ punctuation.separator.sequence.java
+//                            ^ variable.other.readwrite.java
+//                             ^^ storage.modifier.array.java
+//                                ^ keyword.operator.assignment.java
+//                                  ^ meta.number.integer.decimal.java constant.numeric.value.java
+//                                   ^ punctuation.terminator.java
+
+    @Number final TestClass y @Dim1 [] @Dim2 [] = { {10, 1}, {5, 2} };
+// ^ - meta.declaration
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.java
+//                                                                   ^ - meta.declaration
+//  ^^^^^^^ meta.annotation.identifier.java
+//          ^^^^^ storage.modifier.java
+//                ^^^^^^^^^ support.class.java
+//                          ^ variable.other.readwrite.java
+//                            ^^^^^ meta.annotation.identifier.java
+//                                  ^^ storage.modifier.array.java
+//                                     ^^^^^ meta.annotation.identifier.java
+//                                           ^^ storage.modifier.array.java
+//                                              ^ keyword.operator.assignment.java
+
+    @number final testclass y @dim1 [] @dim2 [] = { {10, 1}, {5, 2} };
+// ^ - meta.declaration
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.java
+//                                                                   ^ - meta.declaration
+//  ^^^^^^^ meta.annotation.identifier.java
+//          ^^^^^ storage.modifier.java
+//                ^^^^^^^^^ support.class.java
+//                          ^ variable.other.readwrite.java
+//                            ^^^^^ meta.annotation.identifier.java
+//                                  ^^ storage.modifier.array.java
+//                                     ^^^^^ meta.annotation.identifier.java
+//                                           ^^ storage.modifier.array.java
+//                                              ^ keyword.operator.assignment.java
+
+    foo.TestClass bar.baz;
+// ^ - meta.declaration
+//  ^^^^^^^^^^^^^ meta.declaration.java meta.path.java
+//               ^^^^^^^^ meta.declaration.java - meta.path
+//                       ^ - meta.declaration
+//  ^^^ variable.namespace.java
+//     ^ punctuation.accessor.dot.java
+//      ^^^^^^^^^ support.class.java
+//                ^^^ variable.other.readwrite.java
+//                   ^ invalid.illegal.unexpected-accessor.java
+//                    ^^^ invalid.illegal.unexpected-member.java
+
+    foo.testclass bar.baz;
+// ^ - meta.declaration
+//  ^^^^^^^^^^^^^ meta.declaration.java meta.path.java
+//               ^^^^^^^^ meta.declaration.java - meta.path
+//                       ^ - meta.declaration
+//  ^^^ variable.namespace.java
+//     ^ punctuation.accessor.dot.java
+//      ^^^^^^^^^ support.class.java
+//                ^^^ variable.other.readwrite.java
+//                   ^ invalid.illegal.unexpected-accessor.java
+//                    ^^^ invalid.illegal.unexpected-member.java
+
+    @anno foo . @anno TestClass<T> @anno . anno [] bar . baz;
+// ^ - meta.declaration
+//  ^^^^^^ meta.declaration.java meta.annotation.identifier.java - meta.path
+//        ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.java meta.path.java
+//                                ^ meta.declaration.java - meta.path
+//                                 ^^^^^^^^^^^^^ meta.declaration.java meta.annotation.identifier.java meta.path.java
+//                                              ^^^^^^^^^^^^ meta.declaration.java - meta.annotation - meta.path
+//                                                          ^ - meta.declaration
+//  ^ punctuation.definition.annotation.java
+//   ^^^^ variable.annotation.java
+//        ^^^ variable.namespace.java
+//            ^ punctuation.accessor.dot.java
+//              ^ punctuation.definition.annotation.java
+//               ^^^^ variable.annotation.java
+//                    ^^^^^^^^^ support.class.java
+//                             ^ punctuation.definition.generic.begin.java
+//                              ^ support.class.java
+//                               ^ punctuation.definition.generic.end.java
+//                                 ^ punctuation.definition.annotation.java
+//                                  ^^^^ variable.annotation.namespace.java
+//                                       ^ punctuation.accessor.dot.java
+//                                         ^^^^ variable.annotation.java
+//                                              ^^ storage.modifier.array.java
+//                                                 ^^^ variable.other.readwrite.java
+//                                                     ^ invalid.illegal.unexpected-accessor.java
+//                                                       ^^^ invalid.illegal.unexpected-member.java
+//                                                          ^ punctuation.terminator.java
+
+    @anno foo . @anno testclass<t> @anno . anno [] bar . baz;
+// ^ - meta.declaration
+//  ^^^^^^ meta.declaration.java meta.annotation.identifier.java - meta.path
+//        ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.java meta.path.java
+//                                ^ meta.declaration.java - meta.path
+//                                 ^^^^^^^^^^^^^ meta.declaration.java meta.annotation.identifier.java meta.path.java
+//                                              ^^^^^^^^^^^^ meta.declaration.java - meta.annotation - meta.path
+//                                                          ^ - meta.declaration
+//  ^ punctuation.definition.annotation.java
+//   ^^^^ variable.annotation.java
+//        ^^^ variable.namespace.java
+//            ^ punctuation.accessor.dot.java
+//              ^ punctuation.definition.annotation.java
+//               ^^^^ variable.annotation.java
+//                    ^^^^^^^^^ support.class.java
+//                             ^ punctuation.definition.generic.begin.java
+//                              ^ support.class.java
+//                               ^ punctuation.definition.generic.end.java
+//                                 ^ punctuation.definition.annotation.java
+//                                  ^^^^ variable.annotation.namespace.java
+//                                       ^ punctuation.accessor.dot.java
+//                                         ^^^^ variable.annotation.java
+//                                              ^^ storage.modifier.array.java
+//                                                 ^^^ variable.other.readwrite.java
+//                                                     ^ invalid.illegal.unexpected-accessor.java
+//                                                       ^^^ invalid.illegal.unexpected-member.java
+//                                                          ^ punctuation.terminator.java
+  }
+
+
+  void declareGenericTypes() {
     List<String> x;
 //      ^^^^^^^^ meta.generic.java
 //      ^ punctuation.definition.generic.begin.java
@@ -3430,7 +3748,7 @@ class LocalVariableDeclarationTests {
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.4
  *****************************************************************************/
 
-  void varTypeTests() {
+  void declareVarTypes() {
 
     var
 //  ^^^ storage.type.var.java
@@ -3438,7 +3756,7 @@ class LocalVariableDeclarationTests {
     var x, y;
 //  ^^^ storage.type.var.java
 //      ^ variable.other.readwrite.java
-//       ^ invalid.illegal.expect-terminator.java
+//       ^ punctuation.separator.sequence.java
 //         ^ variable.other.readwrite.java
 //          ^ punctuation.terminator.java
 
@@ -3464,11 +3782,11 @@ class LocalVariableDeclarationTests {
     final var[] y = 10, z[] = 5;
 //  ^^^^^ storage.modifier.java
 //        ^^^ storage.type.var.java
-//           ^^ invalid.illegal.unexpected-modifier.java
+//           ^^ storage.modifier.array.java
 //              ^ variable.other.readwrite.java
 //                ^ keyword.operator.assignment.java
 //                  ^^ meta.number.integer.decimal.java constant.numeric.value.java
-//                    ^ invalid.illegal.expect-terminator.java
+//                    ^ punctuation.separator.sequence.java
 //                             ^ punctuation.terminator.java
 
     @Number final var y @Dim1 [] @Dim2 [] = { {10, 1}, {5, 2} };
@@ -3477,9 +3795,9 @@ class LocalVariableDeclarationTests {
 //                ^^^ storage.type.var.java
 //                    ^ variable.other.readwrite.java
 //                      ^^^^^ meta.annotation.identifier.java
-//                            ^^ invalid.illegal.unexpected-modifier.java
+//                            ^^ storage.modifier.array.java
 //                               ^^^^^ meta.annotation.identifier.java
-//                                     ^^ invalid.illegal.unexpected-modifier.java
+//                                     ^^ storage.modifier.array.java
   }
 }
 
@@ -3701,6 +4019,7 @@ class InstanceCreationExpressionsTests {
 //                ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                 ^ punctuation.section.brackets.end.java
   }
+
 
   @SyntaxTest
   public void instantiateObjectArrays() {
