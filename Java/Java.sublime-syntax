@@ -99,9 +99,13 @@ contexts:
     - include: module
     - include: package
     - include: statements
-    - include: local-declarations
+    - include: declarations
 
   statements:
+    - include: class-body-statements
+    - include: synchronized-statement
+
+  class-body-statements:
     - include: punctuation-terminator-semicolon
     - include: blocks
     - include: flow-control-statement
@@ -109,7 +113,6 @@ contexts:
     - include: switch-case-statement
     - include: do-while-statement
     - include: for-statement
-    - include: synchronized-statement
     - include: try-catch-statement
     - include: labeled-statement
 
@@ -237,28 +240,6 @@ contexts:
       pop: 1
     - match: (?=\S)
       fail: annotation-parameter
-
-###[ DECLARATIONS ]############################################################
-
-  declarations:
-    - match: (?=\S)
-      branch_point: declarations
-      branch:
-        - constructor-declaration
-        - method-declaration
-        - field-declaration
-        - class-declaration
-        - enum-declaration
-        - interface-declaration
-        - expression-pop
-
-  declarations-else-fail:
-    - match: (?=\S)
-      fail: declarations
-
-  declarations-reserved-fail:
-    - match: (?={{reserved_words}}\b)
-      fail: declarations
 
 ###[ PACKAGE DECLARATIONS ]####################################################
 
@@ -461,12 +442,12 @@ contexts:
 
 ###[ CLASS DECLARATIONS ]######################################################
 
-  class-declaration:
+  member-maybe-class:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1
     - meta_scope: meta.class.java
     - include: class-keyword
     - include: class-modifier
-    - include: declarations-else-fail
+    - include: class-members-else-fail
 
   class-keyword:
     - match: class\b
@@ -531,25 +512,34 @@ contexts:
 
   class-body:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.6
-    - include: punctuation-terminator-semicolon
-    - include: blocks
-    - include: flow-control-statement
-    - include: if-else-statement
-    - include: switch-case-statement
-    - include: do-while-statement
-    - include: for-statement
-    - include: try-catch-statement
-    - include: labeled-statement
-    - include: declarations
+    - include: class-body-statements
+    - match: (?=\S)
+      branch_point: class-members
+      branch:
+        - member-maybe-constructor
+        - member-maybe-method
+        - member-maybe-field
+        - member-maybe-class
+        - member-maybe-enum
+        - member-maybe-interface
+        - expression-pop
+
+  class-members-else-fail:
+    - match: (?=\S)
+      fail: class-members
+
+  class-members-reserved-fail:
+    - match: (?={{reserved_words}}\b)
+      fail: class-members
 
 ###[ ENUM DECLARATIONS ]#######################################################
 
-  enum-declaration:
+  member-maybe-enum:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.9
     - meta_scope: meta.enum.java
     - include: enum-keyword
     - include: enum-modifier
-    - include: declarations-else-fail
+    - include: class-members-else-fail
 
   enum-keyword:
     - match: enum\b
@@ -647,12 +637,12 @@ contexts:
 
 ###[ INTERFACE DECLARATIONS ]##################################################
 
-  interface-declaration:
+  member-maybe-interface:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.1
     - meta_scope: meta.interface.java
     - include: interface-keyword
     - include: interface-modifier
-    - include: declarations-else-fail
+    - include: class-members-else-fail
 
   interface-keyword:
     - match: (@?)interface\b
@@ -717,7 +707,7 @@ contexts:
 
 ###[ FIELD DECLARATIONS ]######################################################
 
-  field-declaration:
+  member-maybe-field:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.3
     - match: ''
       push:
@@ -744,7 +734,7 @@ contexts:
   field-names:
     - meta_scope: meta.field.type.java
     - match: (?=[{(]|{{declaration_keywords}}\b)
-      fail: declarations
+      fail: class-members
     - match: ''
       set:
         - field-list
@@ -796,7 +786,7 @@ contexts:
 
 ###[ METHOD DECLARATIONS ]#####################################################
 
-  constructor-declaration:
+  member-maybe-constructor:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.8
     - match: ''
       push:
@@ -808,13 +798,13 @@ contexts:
         - method-modifier
 
   constructor-name:
-    - include: declarations-reserved-fail
+    - include: class-members-reserved-fail
     - match: '{{id}}'
       scope: entity.name.function.constructor.java
       pop: 1
     - include: else-pop
 
-  method-declaration:
+  member-maybe-method:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
     - match: ''
       push:
@@ -875,7 +865,7 @@ contexts:
   method-parameters-or-fail:
     - meta_content_scope: meta.method.identifier.java
     - include: method-parameters
-    - include: declarations-else-fail
+    - include: class-members-else-fail
 
   method-parameters-or-pop:
     - meta_content_scope: meta.method.identifier.java
@@ -982,65 +972,68 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.2
     - include: statements
     - include: stray-parens
-    - include: local-declarations
+    - include: declarations
 
-###[ LOCAL DECLARATIONS ]######################################################
+###[ DECLARATIONS ]############################################################
 
-  local-declarations:
+  declarations:
     - match: (?=\S)
-      branch_point: expression-statements
+      branch_point: declarations
       branch:
-        - local-class-declaration
-        - local-enum-declaration
-        - local-interface-declaration
-        - local-variable-declaration
+        - declaration-maybe-class
+        - declaration-maybe-enum
+        - declaration-maybe-interface
+        - declaration-maybe-variable
         - expression-pop
 
-  local-declaration-else-fail:
+  declaration-else-fail:
     - match: (?=\S)
-      fail: expression-statements
+      fail: declarations
 
-  local-class-declaration:
+  declaration-reserved-fail:
+    - match: (?={{reserved_words}}\b)
+      fail: declarations
+
+  declaration-maybe-class:
     - meta_scope: meta.class.java
     - include: class-keyword
     - include: class-modifier
-    - include: local-declaration-else-fail
+    - include: declaration-else-fail
 
-  local-enum-declaration:
+  declaration-maybe-enum:
     # Note: Local enum declarations are not valid,
     # but help maintaining highlighting in incomplete code.
     - meta_scope: meta.enum.java
     - include: enum-keyword
     - include: enum-modifier
-    - include: local-declaration-else-fail
+    - include: declaration-else-fail
 
-  local-interface-declaration:
+  declaration-maybe-interface:
     # Note: Local interface declarations are not valid,
     # but help maintaining highlighting in incomplete code.
     - meta_scope: meta.interface.java
     - include: interface-keyword
     - include: interface-modifier
-    - include: local-declaration-else-fail
+    - include: declaration-else-fail
 
-  local-variable-declaration:
+  declaration-maybe-variable:
     - match: ''
       set:
         - variable-declaration-list
         - variable-declaration-value
-        - local-variable-declaration-identifier
+        - declaration-identifier
         - maybe-array-modifiers
         - variable-declaration-type
 
-  local-variable-declaration-identifier:
-    - match: '{{variables}}\b'
-      fail: expression-statements
+  declaration-identifier:
+    - include: declaration-reserved-fail
     - match: '{{uppercase_id}}'
       scope: entity.name.constant.java
       set: [illegal-members, maybe-array-modifiers]
-    - match: '{{identifier}}'
+    - match: '{{id}}'
       scope: variable.other.readwrite.java
       set: [illegal-members, maybe-array-modifiers]
-    - include: local-declaration-else-fail
+    - include: declaration-else-fail
 
 ###[ VARIABLE DECLARATIONS ]###################################################
 
@@ -1063,13 +1056,13 @@ contexts:
 
   variable-declaration-identifier:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-VariableDeclaratorId
-    - match: '{{variables}}\b'
+    - match: '{{reserved_words}}\b'
       scope: invalid.illegal.identifier.java
       set: [illegal-members, maybe-array-modifiers]
     - match: '{{uppercase_id}}'
       scope: entity.name.constant.java
       set: [illegal-members, maybe-array-modifiers]
-    - match: '{{identifier}}'
+    - match: '{{id}}'
       scope: variable.other.readwrite.java
       set: [illegal-members, maybe-array-modifiers]
     - include: else-pop
