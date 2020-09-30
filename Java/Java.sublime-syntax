@@ -348,7 +348,7 @@ contexts:
   member-maybe-field:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.3
     - match: ''
-      push:
+      set:
         - field-names
         - maybe-array-modifiers
         - field-type
@@ -357,7 +357,7 @@ contexts:
   member-maybe-constructor:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.8
     - match: ''
-      push:
+      set:
         - method-body-block
         - method-attributes
         - method-array-modifiers
@@ -368,7 +368,7 @@ contexts:
   member-maybe-method:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
     - match: ''
-      push:
+      set:
         - method-body-block
         - method-attributes
         - method-array-modifiers
@@ -838,7 +838,7 @@ contexts:
         - field-value
         - field-name-meta
         - field-name
-    - include: else-pop2
+    - include: else-pop
 
   field-name:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-VariableDeclaratorId
@@ -995,11 +995,11 @@ contexts:
     - match: \{
       scope: punctuation.section.block.begin.java
       set: method-body-common
-    - include: else-pop2
+    - include: else-pop
 
   method-body-common:
     - meta_scope: meta.method.java meta.block.java
-    - include: block-end2
+    - include: block-end
     - include: blocks-body
 
 ###[ VARIABLE DECLARATIONS ]###################################################
@@ -1230,13 +1230,13 @@ contexts:
 
   for-parameter-assignment:
     - match: ''
-      push:
+      set:
         - for-parameter-assignment-end
         - variable-declaration-identifier
 
   for-parameter-assignment-end:
     - match: (?=[=,:;)}])
-      pop: 2
+      pop: 1
     - match: (?=\S)
       fail: for-parameter
 
@@ -1425,13 +1425,13 @@ contexts:
 
   try-parameter-assignment:
     - match: ''
-      push:
+      set:
         - try-parameter-assignment-end
         - variable-declaration-identifier
 
   try-parameter-assignment-end:
     - match: (?=[=,:;)}])
-      pop: 2
+      pop: 1
     - match: (?=\S)
       fail: try-parameter
 
@@ -1641,8 +1641,8 @@ contexts:
 
   receiver:
     - match: ''
-      push:
-        - immediately-pop3
+      set:
+        - immediately-pop2
         - receiver-identifier
         - receiver-type
 
@@ -1753,8 +1753,8 @@ contexts:
 
   parameter:
     - match: ''
-      push:
-        - immediately-pop3
+      set:
+        - immediately-pop2
         - parameter-identifier
         - parameter-variadic
         - maybe-array-modifiers
