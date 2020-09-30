@@ -108,13 +108,13 @@ contexts:
   class-body-statements:
     - include: punctuation-terminator-semicolon
     - include: blocks
-    - include: flow-control-statement
-    - include: if-else-statement
-    - include: switch-case-statement
-    - include: do-while-statement
-    - include: for-statement
-    - include: try-catch-statement
-    - include: labeled-statement
+    - include: flow-control-statements
+    - include: if-else-statements
+    - include: switch-case-statements
+    - include: do-while-statements
+    - include: for-statements
+    - include: try-catch-statements
+    - include: labeled-statements
 
   expressions:
     - include: parens-or-lambda
@@ -1078,9 +1078,9 @@ contexts:
     - include: stray-parens
     - include: declarations
 
-###[ IF ELSE STATEMENT ]#######################################################
+###[ IF ELSE STATEMENTS ]######################################################
 
-  if-else-statement:
+  if-else-statements:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.9
     - match: if\b
       scope: keyword.control.conditional.if.java
@@ -1102,9 +1102,9 @@ contexts:
     - meta_scope: meta.else.java
     - include: immediately-pop
 
-###[ SWITCH CASE STATEMENT ]###################################################
+###[ SWITCH CASE STATEMENTS ]##################################################
 
-  switch-case-statement:
+  switch-case-statements:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.11
     - match: case\b
       scope: keyword.control.conditional.case.java
@@ -1158,9 +1158,9 @@ contexts:
       pop: 1
     - include: else-pop
 
-###[ DO WHILE STATEMENT ]######################################################
+###[ DO WHILE STATEMENTS ]#####################################################
 
-  do-while-statement:
+  do-while-statements:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.12
     - match: while\b
       scope: keyword.control.loop.while.java
@@ -1183,9 +1183,9 @@ contexts:
     - meta_scope: meta.while.java
     - include: immediately-pop
 
-###[ FOR LOOP STATEMENT ]######################################################
+###[ FOR LOOP STATEMENTS ]#####################################################
 
-  for-statement:
+  for-statements:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.14
     - match: for\b
       scope: keyword.control.loop.for.java
@@ -1262,16 +1262,16 @@ contexts:
     - include: illegal-open-block
     - include: else-pop
 
-###[ FLOW CONTROL STATEMENT ]##################################################
+###[ FLOW CONTROL STATEMENTS ]#################################################
 
-  labeled-statement:
+  labeled-statements:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.7
     - match: ({{identifier}})(:)(?!:)
       captures:
         1: entity.name.label.java
         2: punctuation.separator.colon.java
 
-  flow-control-statement:
+  flow-control-statements:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.10
     - match: assert\b
       scope: keyword.control.flow.assert.java
@@ -1325,7 +1325,7 @@ contexts:
       pop: 1
     - include: else-pop
 
-###[ SYNCHRONIZED STATEMENT ]##################################################
+###[ SYNCHRONIZED STATEMENTS ]#################################################
 
   synchronized-statement:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.19
@@ -1340,9 +1340,9 @@ contexts:
     - meta_scope: meta.synchronized.java
     - include: immediately-pop
 
-###[ TRY CATCH STATEMENT ]#####################################################
+###[ TRY CATCH STATEMENTS ]####################################################
 
-  try-catch-statement:
+  try-catch-statements:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.20
     - match: catch\b
       scope: keyword.control.exception.catch.java
