@@ -493,6 +493,17 @@ class GenericTest<? extends Foo>
 //                          ^^^ support.class.java
 //                             ^ punctuation.definition.generic.end.java
 
+class GenericTest<? extends int>
+//<- meta.class.java keyword.declaration.class.java
+//^^^ meta.class.java - meta.class meta.class - meta.generic
+//   ^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class - meta.generic
+//               ^^^^^^^^^^^^^^^ meta.class.identifier.java meta.generic.declaration.java
+//               ^ punctuation.definition.generic.begin.java
+//                ^ invalid.illegal.unexpected-keyword.java
+//                  ^^^^^^^ keyword.declaration.extends.java
+//                          ^^^ invalid.illegal.unexpected-keyword.java
+//                             ^ punctuation.definition.generic.end.java
+
 class GenericTest<A super Foo>
 //<- meta.class.java keyword.declaration.class.java
 //^^^ meta.class.java - meta.class meta.class - meta.generic
@@ -3740,6 +3751,14 @@ class LocalVariableDeclarationTests {
 //       ^^^ storage.type.primitive.java
 //          ^^^^ storage.modifier.array.java
 //               ^^^^ storage.modifier.array.java
+
+    List<? extends int>
+//      ^^^^^^^^^^^^^^^ meta.generic.java
+//      ^ punctuation.definition.generic.begin.java
+//       ^ keyword.operator.wildcard.java
+//         ^^^^^^^ keyword.declaration.extends.java
+//                 ^^^ invalid.illegal.unexpected-keyword.java
+//                    ^ punctuation.definition.generic.end.java
   }
 
 

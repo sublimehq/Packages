@@ -2401,6 +2401,34 @@ contexts:
     - match: (?=\s*\S)
       pop: 4
 
+###[ REFERENCE TYPE ]##########################################################
+
+  reference-type:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.3
+    - match: '{{storage_types}}\b'
+      branch_point: primitive-array-type
+      branch:
+        - - meta_scope: storage.type.primitive.java
+          - match: ''
+            push:
+              - clear_scopes: 1
+              - match: (?=\[)
+                push:
+                  - include: array-modifiers
+                  - include: annotation
+                  - include: else-pop4
+              - include: annotation
+              - match: (?=\S)
+                fail: primitive-array-type
+        - - meta_scope: invalid.illegal.unexpected-keyword.java
+          - include: immediately-pop2
+    - include: reserved-pop
+    - include: annotation
+    - match: (?=\S)
+      set:
+        - maybe-array-modifiers
+        - object-type
+
 ###[ INHERRITED TYPE REFERENCES ]##############################################
 
   # Used in class-level 'extends' and 'implements'
@@ -2485,37 +2513,15 @@ contexts:
     - match: \?
       scope: keyword.operator.wildcard.java
       set: generic-type-arguments-bounds
-    - match: '{{storage_types}}\b'
-      branch_point: primitive-array-type
-      branch:
-        - - meta_scope: storage.type.primitive.java
-          - match: ''
-            push:
-              - clear_scopes: 1
-              - match: (?=\[)
-                push:
-                  - include: array-modifiers
-                  - include: annotation
-                  - include: else-pop4
-              - include: annotation
-              - match: (?=\S)
-                fail: primitive-array-type
-        - - meta_scope: invalid.illegal.unexpected-keyword.java
-          - include: immediately-pop2
-    - include: reserved-pop
-    - include: annotation
-    - match: (?=\S)
-      set:
-        - maybe-array-modifiers
-        - object-type
+    - include: reference-type
 
   generic-type-arguments-bounds:
     - match: extends\b
       scope: keyword.declaration.extends.java
-      set: [generic-type-additional-bounds, object-type]
+      set: [generic-type-additional-bounds, reference-type]
     - match: super\b
       scope: keyword.declaration.super.java
-      set: object-type
+      set: reference-type
     - include: else-pop
 
   generic-type:
@@ -2552,16 +2558,16 @@ contexts:
   generic-type-parameter-bounds:
     - match: extends\b
       scope: keyword.declaration.extends.java
-      set: [generic-type-additional-bounds, object-type]
+      set: [generic-type-additional-bounds, reference-type]
     - match: super\b
       scope: invalid.illegal.unexpected-keyword.java
-      set: object-type
+      set: reference-type
     - include: else-pop
 
   generic-type-additional-bounds:
     - match: '&'
       scope: keyword.operator.multiple-bounds.java
-      push: object-type
+      push: reference-type
     - include: else-pop
 
   generic-type-terminator:
@@ -2570,10 +2576,10 @@ contexts:
       pop: 1
     - match: extends\b
       scope: invalid.illegal.unexpected-keyword.java
-      push: [generic-type-additional-bounds, object-type]
+      push: [generic-type-additional-bounds, reference-type]
     - match: super\b
       scope: invalid.illegal.unexpected-keyword.java
-      push: object-type
+      push: reference-type
     - include: annotation-else-pop
 
 ###[ PRIMITIVE TYPES ]#########################################################
