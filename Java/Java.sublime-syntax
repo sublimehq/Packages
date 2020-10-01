@@ -833,10 +833,10 @@ contexts:
         - field-name
 
   field-list:
-    - match: \,
+    - match: ','
       scope:
         meta.field.java
-        punctuation.separator.sequence.java
+        punctuation.separator.comma.java
       push:
         - field-value
         - field-name-meta
@@ -951,7 +951,7 @@ contexts:
   method-parameters-common:
     - meta_scope: meta.method.parameters.java meta.parens.java
     - include: parens-end
-    - match: \,
+    - match: ','
       scope: punctuation.separator.comma.java
       push:
         - parameter-identifier
@@ -1017,8 +1017,8 @@ contexts:
 
   variable-declaration-list:
     - meta_scope: meta.declaration.java
-    - match: \,
-      scope: punctuation.separator.sequence.java
+    - match: ','
+      scope: punctuation.separator.comma.java
       push:
         - variable-declaration-value
         - variable-declaration-identifier
@@ -1219,7 +1219,7 @@ contexts:
       scope: punctuation.terminator.java
       set: for-parameters-condition
     - match: ','
-      scope: punctuation.separator.sequence.java
+      scope: punctuation.separator.comma.java
       push: variable-declaration-identifier
     - match: =
       scope: keyword.operator.assignment.java
@@ -1414,7 +1414,7 @@ contexts:
     - include: parens-end
     - include: punctuation-terminator-semicolon
     - match: ','
-      scope: punctuation.separator.sequence.java
+      scope: punctuation.separator.comma.java
       push: variable-declaration-identifier
     - match: =
       scope: keyword.operator.assignment.java
@@ -2049,7 +2049,7 @@ contexts:
       pop: 2
 
   punctuation-separator-comma:
-    - match: \,
+    - match: ','
       scope: punctuation.separator.comma.java
 
   punctuation-terminator-semicolon:
@@ -2335,7 +2335,7 @@ contexts:
 ###[ OBJECT TYPE ]#############################################################
 
   object-type-list:
-    - match: \,
+    - match: ','
       scope: punctuation.separator.comma.java
       push: object-type
 
@@ -2406,7 +2406,7 @@ contexts:
   # Used in class-level 'extends' and 'implements'
   inherited-object-type-list:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.4
-    - match: \,
+    - match: ','
       scope: punctuation.separator.comma.java
       push: inherited-object-type
 
@@ -2476,7 +2476,7 @@ contexts:
 
   generic-type-arguments-common:
     - meta_scope: meta.generic.java
-    - match: \,
+    - match: ','
       scope: punctuation.separator.comma.java
       push: generic-type-argument
     - include: generic-type-terminator
@@ -2534,7 +2534,7 @@ contexts:
 
   generic-type-parameters-common:
     - meta_scope: meta.generic.declaration.java
-    - match: \,
+    - match: ','
       scope: punctuation.separator.comma.java
       push: generic-type-parameter
     - include: generic-type-terminator

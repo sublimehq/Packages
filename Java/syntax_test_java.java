@@ -1674,7 +1674,7 @@ class FieldDeclarationTests {
 //    ^^^ variable.other.member.java
 //        ^ keyword.operator.assignment.java
 //          ^ meta.number.integer.decimal.java constant.numeric.value.java
-//            ^ punctuation.separator.sequence.java
+//            ^ punctuation.separator.comma.java
 
   int foo = 0 , bar ;
 //^^^^^^^^^^^^^^^^^^ - meta.field meta.field
@@ -1689,7 +1689,7 @@ class FieldDeclarationTests {
 //    ^^^ variable.other.member.java
 //        ^ keyword.operator.assignment.java
 //          ^ meta.number.integer.decimal.java constant.numeric.value.java
-//            ^ punctuation.separator.sequence.java
+//            ^ punctuation.separator.comma.java
 //              ^^^ variable.other.member.java
 //                  ^ punctuation.terminator.java
 
@@ -1714,14 +1714,14 @@ class FieldDeclarationTests {
 //         ^^^^^ meta.field.identifier.java
 //^^^ storage.type.primitive.java
 //    ^^^ variable.other.member.java
-//        ^ punctuation.separator.sequence.java
+//        ^ punctuation.separator.comma.java
 //          ^^^ variable.other.member.java
     , baz
 //^^^^^^^^ - meta.field meta.field
 //^^ meta.field.identifier.java
 //  ^ meta.field.java
 //    ^^^^ meta.field.identifier.java
-//  ^ punctuation.separator.sequence.java
+//  ^ punctuation.separator.comma.java
 //    ^^^ variable.other.member.java
       = 10 ,
 //^^^^^^^^^^^ - meta.field meta.field
@@ -1731,7 +1731,7 @@ class FieldDeclarationTests {
 //         ^ meta.field.java
 //    ^ keyword.operator.assignment.java
 //      ^^ meta.number.integer.decimal.java constant.numeric.value.java
-//         ^ punctuation.separator.sequence.java
+//         ^ punctuation.separator.comma.java
     , = 20
 //^^^^^^^^^ - meta.field meta.field
 //^^ meta.field.identifier.java
@@ -1739,15 +1739,15 @@ class FieldDeclarationTests {
 //   ^ meta.field.identifier.java
 //    ^ meta.field.java
 //     ^^^^ meta.field.value.java
-//  ^ punctuation.separator.sequence.java
+//  ^ punctuation.separator.comma.java
 //    ^ keyword.operator.assignment.java
 //      ^^ meta.number.integer.decimal.java constant.numeric.value.java
     , , ;
 //^^^^^^ - meta.field meta.field
 //^^ meta.field.value.java
-//  ^ meta.field.java punctuation.separator.sequence.java
+//  ^ meta.field.java punctuation.separator.comma.java
 //   ^ meta.field.identifier.java
-//    ^ meta.field.java punctuation.separator.sequence.java
+//    ^ meta.field.java punctuation.separator.comma.java
 //     ^ meta.field.identifier.java
 //      ^ punctuation.terminator.java - meta.field
 
@@ -1922,7 +1922,7 @@ class FieldDeclarationTests {
 //                 ^^^^^^^^ support.class.java
 //                         ^ punctuation.section.parens.begin.java
 //                          ^ punctuation.section.parens.end.java
-//                           ^ punctuation.separator.sequence.java
+//                           ^ punctuation.separator.comma.java
 
     _MY_ANOTHER_CONST = new MyObject();
 //^^^^^^^^^^^^^^^^^^^^ meta.field.identifier.java
@@ -3444,7 +3444,7 @@ class LocalVariableDeclarationTests {
 //              ^ - meta.declaration
 //  ^^^ storage.type.primitive.java
 //      ^^^ variable.other.readwrite.java
-//         ^ punctuation.separator.sequence.java
+//         ^ punctuation.separator.comma.java
 //           ^^^ variable.other.readwrite.java
 //              ^ punctuation.terminator.java
 
@@ -3455,7 +3455,7 @@ class LocalVariableDeclarationTests {
 //  ^^^ storage.type.primitive.java
 //      ^^^ variable.other.readwrite.java
 //          ^ keyword.operator.assignment.java
-//           ^ punctuation.separator.sequence.java
+//           ^ punctuation.separator.comma.java
 //             ^^^ variable.other.readwrite.java
 //                 ^ keyword.operator.assignment.java
 //                  ^ punctuation.terminator.java
@@ -3468,7 +3468,7 @@ class LocalVariableDeclarationTests {
 //      ^^^ variable.other.readwrite.java
 //          ^ keyword.operator.assignment.java
 //            ^ constant.numeric.value.java
-//             ^ punctuation.separator.sequence.java
+//             ^ punctuation.separator.comma.java
 //               ^^^ variable.other.readwrite.java
 //                   ^ keyword.operator.assignment.java
 //                     ^^^^^ constant.other.java
@@ -3484,7 +3484,7 @@ class LocalVariableDeclarationTests {
 //              ^ variable.other.readwrite.java
 //                ^ keyword.operator.assignment.java
 //                  ^^ meta.number.integer.decimal.java constant.numeric.value.java
-//                    ^ punctuation.separator.sequence.java
+//                    ^ punctuation.separator.comma.java
 //                      ^ variable.other.readwrite.java
 //                       ^^ storage.modifier.array.java
 //                          ^ keyword.operator.assignment.java
@@ -3538,7 +3538,7 @@ class LocalVariableDeclarationTests {
 //                    ^ - meta.declaration
 //  ^^^^^^^^^ support.class.java
 //            ^^^ variable.other.readwrite.java
-//               ^ punctuation.separator.sequence.java
+//               ^ punctuation.separator.comma.java
 //                 ^^^ variable.other.readwrite.java
 //                    ^ punctuation.terminator.java
 
@@ -3549,7 +3549,7 @@ class LocalVariableDeclarationTests {
 //  ^^^^^^^^^ support.class.java
 //            ^^^ variable.other.readwrite.java
 //                ^ keyword.operator.assignment.java
-//                 ^ punctuation.separator.sequence.java
+//                 ^ punctuation.separator.comma.java
 //                   ^^^ variable.other.readwrite.java
 //                       ^ keyword.operator.assignment.java
 //                        ^ punctuation.terminator.java
@@ -3562,7 +3562,7 @@ class LocalVariableDeclarationTests {
 //            ^^^ variable.other.readwrite.java
 //                ^ keyword.operator.assignment.java
 //                  ^ constant.numeric.value.java
-//                   ^ punctuation.separator.sequence.java
+//                   ^ punctuation.separator.comma.java
 //                     ^^^ variable.other.readwrite.java
 //                         ^ keyword.operator.assignment.java
 //                           ^^ constant.numeric.value.java
@@ -3578,7 +3578,7 @@ class LocalVariableDeclarationTests {
 //                    ^ variable.other.readwrite.java
 //                      ^ keyword.operator.assignment.java
 //                        ^^ meta.number.integer.decimal.java constant.numeric.value.java
-//                          ^ punctuation.separator.sequence.java
+//                          ^ punctuation.separator.comma.java
 //                            ^ variable.other.readwrite.java
 //                             ^^ storage.modifier.array.java
 //                                ^ keyword.operator.assignment.java
@@ -3756,7 +3756,7 @@ class LocalVariableDeclarationTests {
     var x, y;
 //  ^^^ storage.type.var.java
 //      ^ variable.other.readwrite.java
-//       ^ punctuation.separator.sequence.java
+//       ^ punctuation.separator.comma.java
 //         ^ variable.other.readwrite.java
 //          ^ punctuation.terminator.java
 
@@ -3786,7 +3786,7 @@ class LocalVariableDeclarationTests {
 //              ^ variable.other.readwrite.java
 //                ^ keyword.operator.assignment.java
 //                  ^^ meta.number.integer.decimal.java constant.numeric.value.java
-//                    ^ punctuation.separator.sequence.java
+//                    ^ punctuation.separator.comma.java
 //                             ^ punctuation.terminator.java
 
     @Number final var y @Dim1 [] @Dim2 [] = { {10, 1}, {5, 2} };
@@ -4592,7 +4592,7 @@ class ForStatementTests {
 //       ^ variable.other.readwrite.java
 //         ^ keyword.operator.assignment.java
 //           ^ meta.number.integer.decimal.java constant.numeric.value.java
-//            ^ punctuation.separator.sequence.java
+//            ^ punctuation.separator.comma.java
 //              ^ variable.other.readwrite.java
 //                ^ keyword.operator.assignment.java
 //                  ^ meta.number.integer.decimal.java constant.numeric.value.java
@@ -4644,7 +4644,7 @@ class ForStatementTests {
 //           ^ variable.other.readwrite.java
 //             ^ keyword.operator.assignment.java
 //               ^ meta.number.integer.decimal.java constant.numeric.value.java
-//                ^ punctuation.separator.sequence.java
+//                ^ punctuation.separator.comma.java
 //                  ^ variable.other.readwrite.java
 //                    ^ keyword.operator.assignment.java
 //                      ^ meta.number.integer.decimal.java constant.numeric.value.java
@@ -5616,14 +5616,14 @@ class TryStatementTests {
 //                                                ^ - meta.catch
 //  ^^^ keyword.control.exception.try.java
 //      ^ punctuation.section.parens.begin.java
-//       ^ punctuation.separator.sequence.java
-//         ^ punctuation.separator.sequence.java
+//       ^ punctuation.separator.comma.java
+//         ^ punctuation.separator.comma.java
 //           ^ keyword.operator.assignment.java
-//             ^ punctuation.separator.sequence.java
+//             ^ punctuation.separator.comma.java
 //               ^ keyword.operator.assignment.java
 //                 ^^^^ constant.language.null.java
 //                      ^ punctuation.terminator.java
-//                        ^ punctuation.separator.sequence.java
+//                        ^ punctuation.separator.comma.java
 //                          ^ keyword.operator.assignment.java
 //                           ^ punctuation.section.parens.end.java
 //                             ^ punctuation.section.block.begin.java
