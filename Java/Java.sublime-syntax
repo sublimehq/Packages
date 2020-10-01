@@ -262,22 +262,25 @@ contexts:
       fail: declarations
 
   declaration-maybe-class:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1
     - meta_scope: meta.class.java
     - include: class-keyword
     - include: class-modifier
     - include: declaration-else-fail
 
   declaration-maybe-enum:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.9
     # Note: Local enum declarations are not valid,
-    # but help maintaining highlighting in incomplete code.
+    #       but may help maintaining highlighting in incomplete code.
     - meta_scope: meta.enum.java
     - include: enum-keyword
     - include: enum-modifier
     - include: declaration-else-fail
 
   declaration-maybe-interface:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.1
     # Note: Local interface declarations are not valid,
-    # but help maintaining highlighting in incomplete code.
+    #       but may help maintaining highlighting in incomplete code.
     - meta_scope: meta.interface.java
     - include: interface-keyword
     - include: interface-modifier
