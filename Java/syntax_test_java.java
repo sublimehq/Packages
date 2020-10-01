@@ -2626,6 +2626,49 @@ class MethodDelcarationTests {
 //^ meta.method.java meta.block.java punctuation.section.block.end.java
 // ^ - meta.method
 
+  private static int methodthrows() throws int {}
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method
+//^^^^^^^^^^^^^^^ meta.method.modifier.java
+//               ^^^^ meta.method.return-type.java
+//                   ^^^^^^^^^^^^ meta.method.identifier.java
+//                               ^^ meta.method.parameters.java
+//                                 ^ meta.method.java
+//                                  ^^^^^^^^^^^ meta.method.throws.java
+//                                             ^^ meta.method.java
+//                                               ^ - meta.method
+//^^^^^^^ storage.modifier.java
+//        ^^^^^^ storage.modifier.java
+//               ^^^ storage.type.primitive.java
+//                   ^^^^^^^^^^^^ entity.name.function.java
+//                               ^ punctuation.section.group.begin.java
+//                                ^ punctuation.section.group.end.java
+//                                  ^^^^^^ keyword.declaration.throws.java
+//                                         ^^^ invalid.illegal.unexpected-keyword.java
+//                                             ^ punctuation.section.block.begin.java
+//                                              ^ punctuation.section.block.end.java
+
+  private static int methodthrows() throws array[] {}
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method
+//^^^^^^^^^^^^^^^ meta.method.modifier.java
+//               ^^^^ meta.method.return-type.java
+//                   ^^^^^^^^^^^^ meta.method.identifier.java
+//                               ^^ meta.method.parameters.java
+//                                 ^ meta.method.java
+//                                  ^^^^^^^^^^^^^^^ meta.method.throws.java
+//                                                 ^^ meta.method.java
+//                                                   ^ - meta.method
+//^^^^^^^ storage.modifier.java
+//        ^^^^^^ storage.modifier.java
+//               ^^^ storage.type.primitive.java
+//                   ^^^^^^^^^^^^ entity.name.function.java
+//                               ^ punctuation.section.group.begin.java
+//                                ^ punctuation.section.group.end.java
+//                                  ^^^^^^ keyword.declaration.throws.java
+//                                         ^^^^^ support.class.java
+//                                              ^^ invalid.illegal.unexpected-modifier.java
+//                                                 ^ punctuation.section.block.begin.java
+//                                                  ^ punctuation.section.block.end.java
+
   private static int methodthrows() throws myexception<abc> {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method
 //^^^^^^^^^^^^^^^ meta.method.modifier.java
@@ -5535,17 +5578,68 @@ class SynchronizedStatementTests {
 
 class TryStatementTests {
 
-  void run() {
+  void testTry() {
 
     try
 //  ^^^^ meta.try.java
 //  ^^^ keyword.control.exception.try.java
+  }
+
+  void testCatch() {
+
     catch
 //  ^^^^^^ meta.catch.java
 //  ^^^^^ keyword.control.exception.catch.java
+
+    catch (int e)
+//  ^^^^^^^^^^^^^^^ meta.catch.java
+//  ^^^^^ keyword.control.exception.catch.java
+//        ^ punctuation.section.group.begin.java
+//         ^^^ invalid.illegal.unexpected-keyword.java
+//             ^ variable.parameter.java
+//              ^ punctuation.section.group.end.java
+
+    catch (int[] e)
+//  ^^^^^^^^^^^^^^^ meta.catch.java
+//  ^^^^^ keyword.control.exception.catch.java
+//        ^ punctuation.section.group.begin.java
+//         ^^^ invalid.illegal.unexpected-keyword.java
+//            ^^ invalid.illegal.unexpected-modifier.java
+//               ^ variable.parameter.java
+//                ^ punctuation.section.group.end.java
+
+    catch (foo[] e)
+//  ^^^^^^^^^^^^^^^ meta.catch.java
+//  ^^^^^ keyword.control.exception.catch.java
+//        ^ punctuation.section.group.begin.java
+//         ^^^ support.class.java
+//            ^^ invalid.illegal.unexpected-modifier.java
+//               ^ variable.parameter.java
+//                ^ punctuation.section.group.end.java
+
+    catch (foo[] | bar[] | int e)
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.catch.java
+//  ^^^^^ keyword.control.exception.catch.java
+//        ^ punctuation.section.group.begin.java
+//         ^^^ support.class.java
+//            ^^ invalid.illegal.unexpected-modifier.java
+//               ^ punctuation.separator.pipe.java
+//                 ^^^ support.class.java
+//                    ^^ invalid.illegal.unexpected-modifier.java
+//                       ^ punctuation.separator.pipe.java
+//                         ^^^ invalid.illegal.unexpected-keyword.java
+//                             ^ variable.parameter.java
+//                              ^ punctuation.section.group.end.java
+  }
+
+  void testFinally() {
+
     finally
 //  ^^^^^^^^ meta.finally.java
 //  ^^^^^^^ keyword.control.exception.finally.java
+  }
+
+  void testSimleTryCatchFinally() {
 
     // ensure not to break highlighting even though braces are missing
     try foo() catch (Exception e) bar(e) finally baz()
@@ -5621,6 +5715,9 @@ class TryStatementTests {
     }
 //  ^ meta.finally.java meta.block.java punctuation.section.block.end.java
 //   ^ - meta.try - meta.catch - meta.finally
+  }
+
+  void testTryCatchFinallyWithResource() {
 
     try (, , = , = null ; , =) {} catch ( | | ) {}
 //  ^^^^ meta.try.java - meta.try meta.try

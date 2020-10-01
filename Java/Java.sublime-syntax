@@ -975,8 +975,9 @@ contexts:
     - match: throws\b
       scope: keyword.declaration.throws.java
       set:
-        - method-throws-object-type-list
-        - object-type
+        - method-throws-body
+        - maybe-illegal-array-modifiers
+        - expect-object-type
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.6.2
     - match: default\b
       scope: keyword.declaration.default.java
@@ -989,9 +990,13 @@ contexts:
     - meta_scope: meta.method.default.java
     - include: immediately-pop
 
-  method-throws-object-type-list:
+  method-throws-body:
     - meta_scope: meta.method.throws.java
-    - include: object-type-list
+    - match: ','
+      scope: punctuation.separator.comma.java
+      push:
+        - maybe-illegal-array-modifiers
+        - expect-object-type
     - include: else-pop
 
   method-body-block:
@@ -1376,17 +1381,22 @@ contexts:
         - catch-parameters-end
         - parameter-identifier
         - catch-parameters-typelist
-        - maybe-array-modifiers
-        - parameter-type
+        - maybe-illegal-array-modifiers
+        - catch-parameter-type
     - include: else-pop
 
   catch-parameters-typelist:
     - match: \|
       scope: punctuation.separator.pipe.java
       push:
-        - maybe-array-modifiers
-        - parameter-type
+        - maybe-illegal-array-modifiers
+        - catch-parameter-type
     - include: else-pop
+
+  catch-parameter-type:
+    - include: final-modifiers
+    - include: illegal-storage-modifiers
+    - include: expect-object-type
 
   catch-parameters-end:
     - meta_scope: meta.group.java
@@ -2334,10 +2344,11 @@ contexts:
 
 ###[ OBJECT TYPE ]#############################################################
 
-  object-type-list:
-    - match: ','
-      scope: punctuation.separator.comma.java
-      push: object-type
+  expect-object-type:
+    - match: '{{reserved_words}}\b'
+      scope: invalid.illegal.unexpected-keyword.java
+      pop: 1
+    - include: object-type
 
   object-type:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.3
