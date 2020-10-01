@@ -1143,21 +1143,21 @@ public enum TokenKind<T> extends MyEnum, FooBaz<? super T<TT>> implements Foo, B
 
     a(1, 2, 3),
 //  ^ meta.constant.identifier.java entity.name.constant.java - meta.constant meta.constant
-//   ^^^^^^^^^ meta.constant.arguments.java meta.parens.java - meta.constant meta.constant
-//   ^ punctuation.section.parens.begin.java
+//   ^^^^^^^^^ meta.constant.arguments.java meta.group.java - meta.constant meta.constant
+//   ^ punctuation.section.group.begin.java
 //    ^ meta.number.integer.decimal.java constant.numeric.value.java
 //     ^ punctuation.separator.comma.java
 //       ^ meta.number.integer.decimal.java constant.numeric.value.java
 //        ^ punctuation.separator.comma.java
 //          ^ meta.number.integer.decimal.java constant.numeric.value.java
-//           ^ punctuation.section.parens.end.java
+//           ^ punctuation.section.group.end.java
 //            ^ punctuation.separator.comma.java
 
     a
 //  ^ meta.constant.identifier.java entity.name.constant.java
     (),
-//  ^ meta.constant.arguments.java meta.parens.java punctuation.section.parens.begin.java
-//   ^ meta.constant.arguments.java meta.parens.java punctuation.section.parens.end.java
+//  ^ meta.constant.arguments.java meta.group.java punctuation.section.group.begin.java
+//   ^ meta.constant.arguments.java meta.group.java punctuation.section.group.end.java
 //    ^ punctuation.separator.comma.java
 
     a
@@ -1176,7 +1176,7 @@ public enum TokenKind<T> extends MyEnum, FooBaz<? super T<TT>> implements Foo, B
 //      ^^^^^^^ meta.method.modifier.java
 //             ^^^^^ meta.method.return-type.java
 //                  ^^^^^^^^^^^ meta.method.identifier.java
-//                             ^^ meta.method.parameters.java meta.parens.java
+//                             ^^ meta.method.parameters.java meta.group.java
 //                               ^ meta.method.java
 //                                ^^^^^^^^^^^ meta.method.java meta.block.java
 //  ^ entity.name.constant.java
@@ -1186,8 +1186,8 @@ public enum TokenKind<T> extends MyEnum, FooBaz<? super T<TT>> implements Foo, B
 //      ^^^^^^ storage.modifier.java
 //             ^^^^ storage.type.void.java
 //                  ^^^^^^^^^^^ entity.name.function.java
-//                             ^ punctuation.section.parens.begin.java
-//                              ^ punctuation.section.parens.end.java
+//                             ^ punctuation.section.group.begin.java
+//                              ^ punctuation.section.group.end.java
 //                                ^ punctuation.section.block.begin.java
 //                                  ^^^^^^ keyword.control.flow.return.java
 //                                        ^ punctuation.terminator.java
@@ -1197,29 +1197,29 @@ public enum TokenKind<T> extends MyEnum, FooBaz<? super T<TT>> implements Foo, B
 
     a ( 1 , 2 , 3 ) { public void doSomething() { return; } },
 //  ^^ meta.constant.identifier.java - meta.constant meta.constant
-//    ^^^^^^^^^^^^^ meta.constant.arguments.java meta.parens.java - meta.constant meta.constant
+//    ^^^^^^^^^^^^^ meta.constant.arguments.java meta.group.java - meta.constant meta.constant
 //                 ^ meta.constant.java - meta.constant meta.constant
 //                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.constant.java meta.block.java - meta.constant meta.constant
 //                    ^^^^^^^ meta.method.modifier.java
 //                           ^^^^^ meta.method.return-type.java
 //                                ^^^^^^^^^^^ meta.method.identifier.java
-//                                           ^^ meta.method.parameters.java meta.parens.java
+//                                           ^^ meta.method.parameters.java meta.group.java
 //                                             ^ meta.method.java
 //                                              ^^^^^^^^^^^ meta.method.java meta.block.java
 //  ^ entity.name.constant.java
-//    ^ punctuation.section.parens.begin.java
+//    ^ punctuation.section.group.begin.java
 //      ^ meta.number.integer.decimal.java constant.numeric.value.java
 //        ^ punctuation.separator.comma.java
 //          ^ meta.number.integer.decimal.java constant.numeric.value.java
 //            ^ punctuation.separator.comma.java
 //              ^ meta.number.integer.decimal.java constant.numeric.value.java
-//                ^ punctuation.section.parens.end.java
+//                ^ punctuation.section.group.end.java
 //                  ^ punctuation.section.block.begin.java
 //                    ^^^^^^ storage.modifier.java
 //                           ^^^^ storage.type.void.java
 //                                ^^^^^^^^^^^ entity.name.function.java
-//                                           ^ punctuation.section.parens.begin.java
-//                                            ^ punctuation.section.parens.end.java
+//                                           ^ punctuation.section.group.begin.java
+//                                            ^ punctuation.section.group.end.java
 //                                              ^ punctuation.section.block.begin.java
 //                                                ^^^^^^ keyword.control.flow.return.java
 //                                                      ^ punctuation.terminator.java
@@ -1233,9 +1233,9 @@ public enum TokenKind<T> extends MyEnum, FooBaz<? super T<TT>> implements Foo, B
 
     A(1),
 //  ^ meta.constant.identifier.java entity.name.constant.java
-//   ^ meta.constant.arguments.java meta.parens.java punctuation.section.parens.begin.java
-//    ^ meta.constant.arguments.java meta.parens.java meta.number.integer.decimal.java constant.numeric.value.java
-//     ^ meta.constant.arguments.java meta.parens.java punctuation.section.parens.end.java
+//   ^ meta.constant.arguments.java meta.group.java punctuation.section.group.begin.java
+//    ^ meta.constant.arguments.java meta.group.java meta.number.integer.decimal.java constant.numeric.value.java
+//     ^ meta.constant.arguments.java meta.group.java punctuation.section.group.end.java
 //      ^ punctuation.separator.comma.java
 
     A {},
@@ -1251,10 +1251,10 @@ public enum TokenKind<T> extends MyEnum, FooBaz<? super T<TT>> implements Foo, B
 
     integerToken("integer literal"),
 //  ^^^^^^^^^^^^ meta.constant.identifier.java entity.name.constant.java
-//              ^^^^^^^^^^^^^^^^^^^ meta.constant.arguments.java meta.parens.java
-//              ^ punctuation.section.parens.begin.java
+//              ^^^^^^^^^^^^^^^^^^^ meta.constant.arguments.java meta.group.java
+//              ^ punctuation.section.group.begin.java
 //               ^^^^^^^^^^^^^^^^^ string.quoted.double.java
-//                                ^ punctuation.section.parens.end.java
+//                                ^ punctuation.section.group.end.java
 //                                 ^ punctuation.separator.comma.java
 
     integerToken {};
@@ -1283,13 +1283,13 @@ public enum TokenKind<T> extends MyEnum, FooBaz<? super T<TT>> implements Foo, B
     TokenKind(String s) {}
 //  ^^^^^^^^^^^^^^^^^^^^^^ meta.enum.java meta.block.java meta.method - meta.method meta.method
 //  ^^^^^^^^^ meta.method.identifier.java
-//           ^^^^^^^^^^ meta.method.parameters.java meta.parens.java
+//           ^^^^^^^^^^ meta.method.parameters.java meta.group.java
 //                     ^^^ meta.method.java - meta.method meta.method
 //  ^^^^^^^^^ entity.name.function.constructor.java
-//           ^ punctuation.section.parens.begin.java
+//           ^ punctuation.section.group.begin.java
 //            ^^^^^^ support.class.java
 //                   ^ variable.parameter.java
-//                    ^ punctuation.section.parens.end.java
+//                    ^ punctuation.section.group.end.java
 //                      ^ punctuation.section.block.begin.java
 //                       ^ punctuation.section.block.end.java
 
@@ -1308,17 +1308,17 @@ public enum TokenKind<T> extends MyEnum, FooBaz<? super T<TT>> implements Foo, B
 //  ^^^^^^^^^^^^^^ meta.method.modifier.java
 //                ^^^^^ meta.method.return-type.java
 //                     ^^^^ meta.method.identifier.java
-//                         ^^^^^^^^^^^ meta.method.parameters.java meta.parens.java
+//                         ^^^^^^^^^^^ meta.method.parameters.java meta.group.java
 //                                    ^^ meta.method.java
 //  ^^^^^^ storage.modifier.java
 //         ^^^^^^ storage.modifier.java
 //                ^^^^ storage.type.void.java
 //                     ^^^^ entity.name.function.java
-//                         ^ punctuation.section.parens.begin.java
+//                         ^ punctuation.section.group.begin.java
 //                          ^^^^^^ support.class.java
 //                                ^^ storage.modifier.array.java
 //                                  ^ variable.parameter.java
-//                                   ^ punctuation.section.parens.end.java
+//                                   ^ punctuation.section.group.end.java
 //                                    ^ punctuation.section.block.begin.java
 //                                     ^ punctuation.section.block.end.java
 
@@ -1520,13 +1520,13 @@ Bar             // comment
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.java meta.block.java meta.method - meta.method meta.method
 //^^^^ meta.method.return-type.java
 //    ^^^^^^^^^^^^ meta.method.identifier.java
-//                ^^ meta.method.parameters.java meta.parens.java
+//                ^^ meta.method.parameters.java meta.group.java
 //                  ^ meta.method.java
 //                   ^^^^^^^^^^ meta.method.default.java
 //                             ^ - meta.method
 //    ^^^^^^^^^^^^ entity.name.function.java
-//                ^ punctuation.section.parens.begin.java
-//                 ^ punctuation.section.parens.end.java
+//                ^ punctuation.section.group.begin.java
+//                 ^ punctuation.section.group.end.java
 //                   ^^^^^^^ keyword.declaration.default.java
 //                           ^^ constant.numeric
 
@@ -1534,13 +1534,13 @@ Bar             // comment
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.java meta.block.java meta.method - meta.method meta.method
 //^^^^^^^^ meta.method.return-type.java
 //        ^^^^^^^^^^^^ meta.method.identifier.java
-//                    ^^ meta.method.parameters.java meta.parens.java
+//                    ^^ meta.method.parameters.java meta.group.java
 //                      ^ meta.method.java
 //                       ^^^^^^^^^^^^ meta.method.default.java
 //                                   ^ - meta.method
 //        ^^^^^^^^^^^^ entity.name.function.java
-//                    ^ punctuation.section.parens.begin.java
-//                     ^ punctuation.section.parens.end.java
+//                    ^ punctuation.section.group.begin.java
+//                     ^ punctuation.section.group.end.java
 //                       ^^^^^^^ keyword.declaration.default.java
 //                               ^^^^ constant.language
 
@@ -1548,13 +1548,13 @@ Bar             // comment
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.java meta.block.java meta.method - meta.method meta.method
 //^^^^^ meta.method.return-type.java
 //     ^^^^^^^^^ meta.method.identifier.java
-//              ^^ meta.method.parameters.java meta.parens.java
+//              ^^ meta.method.parameters.java meta.group.java
 //                ^ meta.method.java
 //                 ^^^^^^^^^^^ meta.method.default.java
 //                            ^ - meta.method
 //     ^^^^^^^^^ entity.name.function.java
-//              ^ punctuation.section.parens.begin.java
-//               ^ punctuation.section.parens.end.java
+//              ^ punctuation.section.group.begin.java
+//               ^ punctuation.section.group.end.java
 //                 ^^^^^^^ keyword.declaration.default.java
 //                         ^^^ string.quoted.single.java
 
@@ -1562,11 +1562,11 @@ Bar             // comment
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.java meta.block.java meta.method - meta.method meta.method
 //^^^^^^^ meta.method.return-type.java
 //       ^^^^^ meta.method.identifier.java
-//            ^^ meta.method.parameters.java meta.parens.java
+//            ^^ meta.method.parameters.java meta.group.java
 //              ^ meta.method.java
 //       ^^^^^ entity.name.function.java
-//            ^ punctuation.section.parens.begin.java
-//             ^ punctuation.section.parens.end.java
+//            ^ punctuation.section.group.begin.java
+//             ^ punctuation.section.group.end.java
 //               ^^^^^^^^^^^^^^^^^^^^^^^ meta.method.default.java
 //                                      ^ - meta.method
 //               ^^^^^^^ keyword.declaration.default.java
@@ -1576,13 +1576,13 @@ Bar             // comment
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.java meta.block.java meta.method - meta.method meta.method
 //^^^^^^^^^ meta.method.return-type.java
 //         ^^^^^^^^^^ meta.method.identifier.java
-//                   ^^ meta.method.parameters.java meta.parens.java
+//                   ^^ meta.method.parameters.java meta.group.java
 //                     ^ meta.method.java
 //                      ^^^^^^^^^^^^^^^^^^^^ meta.method.default.java
 //                                          ^ - meta.method
 //         ^^^^^^^^^^ entity.name.function.java
-//                   ^ punctuation.section.parens.begin.java
-//                    ^ punctuation.section.parens.end.java
+//                   ^ punctuation.section.group.begin.java
+//                    ^ punctuation.section.group.end.java
 //                      ^^^^^^^ keyword.declaration.default.java
 //                              ^^^^^^ support.class.java
 //                                    ^ punctuation.accessor.dot.java
@@ -1592,14 +1592,14 @@ Bar             // comment
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.java meta.block.java meta.method - meta.method meta.method
 //^^^^^^^^^ meta.method.return-type.java
 //         ^^^^^^^^^^ meta.method.identifier.java
-//                   ^^ meta.method.parameters.java meta.parens.java
+//                   ^^ meta.method.parameters.java meta.group.java
 //                     ^^^ meta.method.java
 //                        ^^^^^^^^ meta.method.default.java - meta.braces
 //                                ^^^^^^^^^^^^^^ meta.method.default.java meta.braces.java
 //                                              ^ - meta.method
 //         ^^^^^^^^^^ entity.name.function.java
-//                   ^ punctuation.section.parens.begin.java
-//                    ^ punctuation.section.parens.end.java
+//                   ^ punctuation.section.group.begin.java
+//                    ^ punctuation.section.group.end.java
 //                     ^^ storage.modifier.array.java
 //                        ^^^^^^^ keyword.declaration.default.java
 //                                ^ punctuation.section.braces.begin.java
@@ -1837,9 +1837,9 @@ class FieldDeclarationTests {
 //                                ^^^^ variable.annotation.java
 //                                     ^^^ keyword.other.storage.new.java
 //                                         ^^^^^^ support.class.java
-//                                               ^ punctuation.section.parens.begin.java
+//                                               ^ punctuation.section.group.begin.java
 //                                                ^^^^^^^ string.quoted.double.java
-//                                                       ^ punctuation.section.parens.end.java
+//                                                       ^ punctuation.section.group.end.java
 //                                                        ^ punctuation.terminator.java
 
   private String memberString3 = String.valueOf("Hello");
@@ -1849,7 +1849,7 @@ class FieldDeclarationTests {
 //                             ^ meta.field.java
 //                              ^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.field.value.java
 //                                      ^^^^^^^ meta.function-call.identifier.java
-//                                             ^^^^^^^^^ meta.function-call.arguments.java meta.parens.java
+//                                             ^^^^^^^^^ meta.function-call.arguments.java meta.group.java
 //                                                      ^ - meta.field
 //^^^^^^^ storage.modifier.java
 //        ^^^^^^ support.class.java
@@ -1858,9 +1858,9 @@ class FieldDeclarationTests {
 //                               ^^^^^^ support.class.java
 //                                     ^ punctuation.accessor.dot.java
 //                                      ^^^^^^^ variable.function.java
-//                                             ^ punctuation.section.parens.begin.java
+//                                             ^ punctuation.section.group.begin.java
 //                                              ^^^^^^^ string.quoted.double.java
-//                                                     ^ punctuation.section.parens.end.java
+//                                                     ^ punctuation.section.group.end.java
 //                                                      ^ punctuation.terminator.java
 
   private int memberLpos = memberString3.indexOf("l");
@@ -1870,7 +1870,7 @@ class FieldDeclarationTests {
 //                       ^ meta.field.java
 //                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.field.value.java
 //                                       ^^^^^^^ meta.function-call.identifier.java
-//                                              ^^^^^ meta.function-call.arguments.java meta.parens.java
+//                                              ^^^^^ meta.function-call.arguments.java meta.group.java
 //                                                   ^ - meta.field
 //^^^^^^^ storage.modifier.java
 //        ^^^ storage.type.primitive.java
@@ -1879,9 +1879,9 @@ class FieldDeclarationTests {
 //                         ^^^^^^^^^^^^^ variable.other.readwrite.java
 //                                      ^ punctuation.accessor.dot.java
 //                                       ^^^^^^^ variable.function.java
-//                                              ^ punctuation.section.parens.begin.java
+//                                              ^ punctuation.section.group.begin.java
 //                                               ^^^ string.quoted.double.java
-//                                                  ^ punctuation.section.parens.end.java
+//                                                  ^ punctuation.section.group.end.java
 //                                                   ^ punctuation.terminator.java
 
   private static final string DEFAULT_IDEMPOTENCY_KEY = 44493;
@@ -1920,8 +1920,8 @@ class FieldDeclarationTests {
 //           ^ keyword.operator.assignment.java
 //             ^^^ keyword.other.storage.new.java
 //                 ^^^^^^^^ support.class.java
-//                         ^ punctuation.section.parens.begin.java
-//                          ^ punctuation.section.parens.end.java
+//                         ^ punctuation.section.group.begin.java
+//                          ^ punctuation.section.group.end.java
 //                           ^ punctuation.separator.comma.java
 
     _MY_ANOTHER_CONST = new MyObject();
@@ -1933,8 +1933,8 @@ class FieldDeclarationTests {
 //                    ^ keyword.operator.assignment.java
 //                      ^^^ keyword.other.storage.new.java
 //                          ^^^^^^^^ support.class.java
-//                                  ^ punctuation.section.parens.begin.java
-//                                   ^ punctuation.section.parens.end.java
+//                                  ^ punctuation.section.group.begin.java
+//                                   ^ punctuation.section.group.end.java
 //                                    ^ punctuation.terminator.java
 
   private MyObject otherObject = MY_CONST;
@@ -1951,8 +1951,8 @@ class FieldDeclarationTests {
 //                               ^^^^^^^^^^ constant.other.java
 //                                         ^ punctuation.accessor.dot.java
 //                                          ^^^ variable.function.java
-//                                             ^ punctuation.section.parens.begin.java
-//                                              ^ punctuation.section.parens.end.java
+//                                             ^ punctuation.section.group.begin.java
+//                                              ^ punctuation.section.group.end.java
 //                                               ^ punctuation.terminator.java
 
   private a.b.myerror error = a.b.ErrorCode.COMMUNICATION_ERROR;
@@ -2023,8 +2023,8 @@ class FieldDeclarationTests {
 //                          ^^^^^^^^^ entity.name.constant
 //                                      ^^^^ support.class.java
 //                                           ^^^^^^^^^^ variable.function.java
-//                                                     ^ punctuation.section.parens.begin.java
-//                                                      ^ punctuation.section.parens.end.java
+//                                                     ^ punctuation.section.group.begin.java
+//                                                      ^ punctuation.section.group.end.java
 //                                                       ^ punctuation.terminator.java
 
   private URI uri = new URI();
@@ -2101,8 +2101,8 @@ class FieldDeclarationTests {
 //                    ^^^^^^^^^ variable.other.readwrite.java
 //                              ^ keyword.operator.ternary.java
 //                                ^^^ variable.function.java
-//                                   ^ punctuation.section.parens.begin.java
-//                                    ^ punctuation.section.parens.end.java
+//                                   ^ punctuation.section.group.begin.java
+//                                    ^ punctuation.section.group.end.java
 //                                      ^ keyword.operator.ternary.java
 //                                        ^ punctuation.section.braces.begin.java
 //                                         ^ meta.number.integer.decimal.java constant.numeric.value.java
@@ -2208,15 +2208,15 @@ class FieldDeclarationTests {
 //                 ^^^^^^^^^^^^ meta.field.type.java - meta.path
 //^^^^^^ meta.annotation.identifier.java
 //                  ^^^^^ meta.annotation.identifier.java
-//                       ^^ meta.annotation.parameters.java meta.parens.java
+//                       ^^ meta.annotation.parameters.java meta.group.java
 //^ punctuation.definition.annotation.java
 // ^^^^ variable.annotation.java
 //      ^^^^ comment.block.empty.java
 //           ^^^^^^ support.class.java
 //                  ^ punctuation.definition.annotation.java
 //                   ^^^^ variable.annotation.java
-//                       ^ punctuation.section.parens.begin.java
-//                        ^ punctuation.section.parens.end.java
+//                       ^ punctuation.section.group.begin.java
+//                        ^ punctuation.section.group.end.java
 //                          ^^ storage.modifier.array.java
 
   /**/ @anno /**/ [] /**/ doubleObjectArray;
@@ -2395,32 +2395,32 @@ class MethodDelcarationTests {
 //^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method
 //^^^^^ meta.method.return-type.java
 //     ^^^^^^ meta.method.identifier.java
-//           ^^ meta.method.parameters.java meta.parens.java
+//           ^^ meta.method.parameters.java meta.group.java
 //             ^ meta.method.java
 //^^^^ storage.type.void.java
 //     ^^^^^^ entity.name.function.java
-//           ^ punctuation.section.parens.begin.java
-//            ^ punctuation.section.parens.end.java
+//           ^ punctuation.section.group.begin.java
+//            ^ punctuation.section.group.end.java
 
   static void method()
 //^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method
 //^^^^^^^ meta.method.modifier.java
 //       ^^^^^ meta.method.return-type.java
 //            ^^^^^^ meta.method.identifier.java
-//                  ^^ meta.method.parameters.java meta.parens.java
+//                  ^^ meta.method.parameters.java meta.group.java
 //                    ^ meta.method.java
 //^^^^^^ storage.modifier.java
 //       ^^^^ storage.type.void.java
 //            ^^^^^^ entity.name.function.java
-//                  ^ punctuation.section.parens.begin.java
-//                   ^ punctuation.section.parens.end.java
+//                  ^ punctuation.section.group.begin.java
+//                   ^ punctuation.section.group.end.java
 
   native strictfp transient volatile void method() {private}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.modifier.java
 //                                   ^^^^^ meta.method.return-type.java
 //                                        ^^^^^^ meta.method.identifier.java
-//                                              ^^ meta.method.parameters.java meta.parens.java
+//                                              ^^ meta.method.parameters.java meta.group.java
 //                                                ^ meta.method.java
 //                                                 ^^^^^^^^^ meta.method.java meta.block.java
 //^^^^^^ invalid.illegal.unexpected-keyword.java
@@ -2434,8 +2434,8 @@ class MethodDelcarationTests {
 //                                   ^^^^ storage.type.void.java
 //                                       ^ - entity - storage
 //                                        ^^^^^^ entity.name.function.java
-//                                              ^ punctuation.section.parens.begin.java
-//                                               ^ punctuation.section.parens.end.java
+//                                              ^ punctuation.section.group.begin.java
+//                                               ^ punctuation.section.group.end.java
 //                                                 ^ punctuation.section.block.begin.java
 //                                                  ^^^^^^^ storage.modifier.java
 //                                                         ^ punctuation.section.block.end.java
@@ -2444,13 +2444,13 @@ class MethodDelcarationTests {
 //^^^^^^^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method
 //^^^^^ meta.method.return-type.java
 //     ^^ meta.method.identifier.java
-//       ^^^ meta.method.parameters.java meta.parens.java
+//       ^^^ meta.method.parameters.java meta.group.java
 //          ^ meta.method.java
 //           ^^ meta.method.java meta.block.java
 //^^^^ storage.type.void.java
 //     ^ entity.name.function
-//       ^ punctuation.section.parens.begin.java
-//         ^ punctuation.section.parens.end.java
+//       ^ punctuation.section.group.begin.java
+//         ^ punctuation.section.group.end.java
 //           ^ punctuation.section.block.begin.java
 //            ^ punctuation.section.block.end.java
 
@@ -2458,13 +2458,13 @@ class MethodDelcarationTests {
 //^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method
 //^^^^^ meta.method.return-type.java
 //     ^^^^^ meta.method.identifier.java
-//          ^^ meta.method.parameters.java meta.parens.java
+//          ^^ meta.method.parameters.java meta.group.java
 //            ^ meta.method.java
 //             ^^ meta.method.java meta.block.java
 //^^^^ storage.type.void.java
 //     ^^^^ entity.name.function
-//          ^ punctuation.section.parens.begin.java
-//           ^ punctuation.section.parens.end.java
+//          ^ punctuation.section.group.begin.java
+//           ^ punctuation.section.group.end.java
 //             ^ punctuation.section.block.begin.java
 //              ^ punctuation.section.block.end.java
 
@@ -2482,19 +2482,19 @@ class MethodDelcarationTests {
 //^^^^^^^^^ meta.method.modifier.java
 //         ^^^^^ meta.method.return-type.java
 //              ^^^^^^^^^^^^^^^^^ meta.method.identifier.java
-//                               ^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java
+//                               ^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java
 //                                    ^^^^^^^^^^^^^^ meta.generic.java
 //                                                       ^ - meta.method
 //^^^^^^^^ storage.modifier.java
 //         ^^^^ storage.type.void.java
 //              ^^^^^^^^^^^^^^^^ entity.name.function.java
-//                               ^ punctuation.section.parens.begin.java
+//                               ^ punctuation.section.group.begin.java
 //                                ^^^^ support.class.java
 //                                    ^ punctuation.definition.generic.begin.java
 //                                     ^^^^^^^^^^^^ support.class.java
 //                                                 ^ punctuation.definition.generic.end.java
 //                                                   ^^^ variable.parameter.java
-//                                                      ^ punctuation.section.parens.end.java
+//                                                      ^ punctuation.section.group.end.java
 //                                                       ^ punctuation.terminator.java
 
   private Long myOtherAbstractMethod(@WithAnnotation Blah blah);
@@ -2502,16 +2502,16 @@ class MethodDelcarationTests {
 //^^^^^^^^ meta.method.modifier.java
 //        ^^^^^ meta.method.return-type.java
 //             ^^^^^^^^^^^^^^^^^^^^^ meta.method.identifier.java
-//                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java
+//                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java
 //                                   ^^^^^^^^^^^^^^^ meta.annotation.identifier.java
 //                                                             ^ - meta.method
 //             ^^^^^^^^^^^^^^^^^^^^^ entity.name.function.java
-//                                  ^ punctuation.section.parens.begin.java
+//                                  ^ punctuation.section.group.begin.java
 //                                   ^ punctuation.definition.annotation.java
 //                                    ^^^^^^^^^^^^^^ variable.annotation.java
 //                                                   ^^^^ support.class.java
 //                                                        ^^^^ variable.parameter.java
-//                                                            ^ punctuation.section.parens.end.java
+//                                                            ^ punctuation.section.group.end.java
 //                                                             ^ punctuation.terminator.java
 
   protected static void methodList(List<String> args) {}
@@ -2526,13 +2526,13 @@ class MethodDelcarationTests {
 //          ^^^^^^ storage.modifier.java
 //                 ^^^^ storage.type
 //                      ^^^^^^^^^^ entity.name.function.java
-//                                ^ punctuation.section.parens.begin.java
+//                                ^ punctuation.section.group.begin.java
 //                                 ^^^^ support.class.java
 //                                     ^ punctuation.definition.generic.begin.java
 //                                      ^^^^^^ support.class.java
 //                                            ^ punctuation.definition.generic.end.java
 //                                              ^^^^ variable.parameter.java
-//                                                  ^ punctuation.section.parens.end.java
+//                                                  ^ punctuation.section.group.end.java
 //                                                    ^ punctuation.section.block.begin.java
 //                                                     ^ punctuation.section.block.end.java
 
@@ -2543,9 +2543,9 @@ class MethodDelcarationTests {
 //                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.return-type.java meta.generic.java
 //                                              ^ meta.method.return-type.java - meta.generic
 //                                               ^^^^^^^^^^^^^^ meta.method.identifier.java
-//                                                             ^^^^ meta.method.parameters.java meta.parens.java - meta.generic
-//                                                                 ^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java meta.generic.java
-//                                                                                ^^^^^ meta.method.parameters.java meta.parens.java - meta.generic
+//                                                             ^^^^ meta.method.parameters.java meta.group.java - meta.generic
+//                                                                 ^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java meta.generic.java
+//                                                                                ^^^^^ meta.method.parameters.java meta.group.java - meta.generic
 //^^^^^^ storage.modifier.java
 //       ^^^^^^^^^ support.class.java
 //                ^ punctuation.definition.generic.begin.java
@@ -2558,7 +2558,7 @@ class MethodDelcarationTests {
 //                                        ^^^^^ support.class.java
 //                                             ^ punctuation.definition.generic.end.java
 //                                               ^^^^^^^^^^^^^^ entity.name.function.java
-//                                                             ^ punctuation.section.parens.begin.java
+//                                                             ^ punctuation.section.group.begin.java
 //                                                              ^^^ support.class.java
 //                                                                 ^ punctuation.definition.generic.begin.java
 //                                                                  ^^^^ support.class.java
@@ -2566,7 +2566,7 @@ class MethodDelcarationTests {
 //                                                                        ^^^^^^^ support.class.java
 //                                                                               ^ punctuation.definition.generic.end.java
 //                                                                                 ^^^ variable.parameter.java
-//                                                                                    ^ punctuation.section.parens.end.java
+//                                                                                    ^ punctuation.section.group.end.java
 //                                                                                     ^ punctuation.terminator.java
 
   private static int methodThrows() throws MyException<Abc> {
@@ -2583,8 +2583,8 @@ class MethodDelcarationTests {
 //        ^^^^^^ storage.modifier.java
 //               ^^^ storage.type.primitive.java
 //                   ^^^^^^^^^^^^ entity.name.function.java
-//                               ^ punctuation.section.parens.begin.java
-//                                ^ punctuation.section.parens.end.java
+//                               ^ punctuation.section.group.begin.java
+//                                ^ punctuation.section.group.end.java
 //                                  ^^^^^^ keyword.declaration.throws.java
 //                                         ^^^^^^^^^^^ support.class.java
 //                                                    ^ punctuation.definition.generic.begin.java
@@ -2606,10 +2606,10 @@ class MethodDelcarationTests {
 //      ^^^^^^^^^^^ support.class.java
         ("hello (world)");
 //^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.java meta.block.java
-//      ^^^^^^^^^^^^^^^^^ meta.throw.java meta.instantiation.java meta.parens.java
-//      ^ punctuation.section.parens.begin.java
+//      ^^^^^^^^^^^^^^^^^ meta.throw.java meta.instantiation.java meta.group.java
+//      ^ punctuation.section.group.begin.java
 //       ^^^^^^^^^^^^^^^ string.quoted.double.java
-//                      ^ punctuation.section.parens.end.java
+//                      ^ punctuation.section.group.end.java
 //                       ^ punctuation.terminator.java
   }
 //^ meta.method.java meta.block.java punctuation.section.block.end.java
@@ -2630,8 +2630,8 @@ class MethodDelcarationTests {
 //        ^^^^^^ storage.modifier.java
 //               ^^^ storage.type.primitive.java
 //                   ^^^^^^^^^^^^ entity.name.function.java
-//                               ^ punctuation.section.parens.begin.java
-//                                ^ punctuation.section.parens.end.java
+//                               ^ punctuation.section.group.begin.java
+//                                ^ punctuation.section.group.end.java
 //                                  ^^^^^^ keyword.declaration.throws.java
 //                                         ^^^^^^^^^^^ support.class.java
 //                                                    ^ punctuation.definition.generic.begin.java
@@ -2659,8 +2659,8 @@ class MethodDelcarationTests {
 //        ^^^^^^ storage.modifier.java
 //               ^^^ storage.type.primitive.java
 //                   ^^^^^^^^^^^^ entity.name.function.java
-//                               ^ punctuation.section.parens.begin.java
-//                                ^ punctuation.section.parens.end.java
+//                               ^ punctuation.section.group.begin.java
+//                                ^ punctuation.section.group.end.java
 //                                  ^^^^^^ keyword.declaration.throws.java
 //                                         ^^^^ variable.namespace.java
 //                                             ^ punctuation.accessor.dot.java
@@ -2675,14 +2675,14 @@ class MethodDelcarationTests {
 
   void primitiveVarArgs(char... values) {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method
-//                     ^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java
+//                     ^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java
 //                      ^^^^ storage.type.primitive.java
 //                          ^^^ keyword.operator.variadic.java
 //                              ^^^^^^ variable.parameter.java
 
   void finalPrimitiveVarArgs(final int... values) {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method
-//                          ^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java
+//                          ^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java
 //                           ^^^^^ storage.modifier.java
 //                                 ^^^ storage.type.primitive.java
 //                                    ^^^ keyword.operator.variadic.java
@@ -2690,7 +2690,7 @@ class MethodDelcarationTests {
 
   void annotatedPrimitiveVarArgs(@anno int @foo.anno... values) {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method
-//                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java
+//                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java
 //                               ^^^^^ meta.annotation.identifier.java
 //                                     ^^^ storage.type.primitive.java
 //                                         ^^^^^^^^^ meta.annotation.identifier.java
@@ -2699,14 +2699,14 @@ class MethodDelcarationTests {
 
   void classVarArgs(String... values) {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method
-//                 ^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java
+//                 ^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java
 //                  ^^^^^^ support.class.java
 //                        ^^^ keyword.operator.variadic.java
 //                            ^^^^^^ variable.parameter.java
 
   void invalidPrivateClassVarArgs(private String... values) {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method
-//                               ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java
+//                               ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java
 //                                                         ^ - meta.method.parameters.java
 //                                ^^^^^^^ invalid.illegal.unexpected-modifier.java
 //                                        ^^^^^^ support.class.java
@@ -2715,7 +2715,7 @@ class MethodDelcarationTests {
 
   void invalidVarArgs(var... values) {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method
-//                   ^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java
+//                   ^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java
 //                    ^^^ invalid.illegal.unexpected-type.java
 //                       ^^^ keyword.operator.variadic.java
 //                           ^^^ variable.parameter.java
@@ -2738,8 +2738,8 @@ class MethodDelcarationTests {
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method
 //^^^^^^ meta.method.return-type.java
 //      ^^^^^^^^^^^ meta.method.identifier.java
-//                 ^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java
-//                                      ^^^ meta.method.java - meta.method meta.parens - meta.method meta.block
+//                 ^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java
+//                                      ^^^ meta.method.java - meta.method meta.group - meta.method meta.block
 //                                         ^^ meta.method.java meta.block.java
 //^^^ storage.type.primitive.java
 //   ^^ storage.modifier.array.java
@@ -2755,15 +2755,15 @@ class MethodDelcarationTests {
 //^^^^^^^^^^^^^ meta.method.modifier.java
 //             ^^^^^^^^ meta.method.return-type.java
 //                     ^^^^^^^^^^^ meta.method.identifier.java entity.name.function.java
-//                                ^^ meta.method.parameters.java meta.parens.java
+//                                ^^ meta.method.parameters.java meta.group.java
 //^^^^^^ meta.annotation.identifier.java
 //      ^^^^^^ storage.modifier.java
 //             ^^^ storage.type.primitive.java
 //                ^^^^ storage.modifier.array.java
-//                                ^ punctuation.section.parens.begin.java
+//                                ^ punctuation.section.group.begin.java
 
     Map<Long, Date>[] mapping,
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java - meta.method meta.method
 //  ^^^ support.class.java
 //     ^^^^^^^^^^^^ meta.generic.java
 //     ^ punctuation.definition.generic.begin.java
@@ -2776,7 +2776,7 @@ class MethodDelcarationTests {
 //                           ^ punctuation.separator.comma.java
 
     @Anno int[] arg[],
-// ^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
+// ^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java - meta.method meta.method
 //  ^^^^^ meta.annotation.identifier.java
 //        ^^^ storage.type.primitive.java
 //           ^^ storage.modifier.array.java
@@ -2785,7 +2785,7 @@ class MethodDelcarationTests {
 //                   ^ punctuation.separator.comma.java
 
     final int @Anno [] @Anno [] arg @Anno [] @Anno [],
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java - meta.method meta.method
 //  ^^^^^ storage.modifier.java
 //        ^^^ storage.type.primitive.java
 //            ^^^^^ meta.annotation.identifier.java
@@ -2799,7 +2799,7 @@ class MethodDelcarationTests {
 //                                                 ^^ storage.modifier.array.java
 
     String<int,int@Anno[]>@Anno[]@Anno[]arg@Anno[]@Anno[]
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java - meta.method meta.method
 //  ^^^^^^ support.class.java
 //        ^^^^^^^^^^^^^^^^ meta.generic.java
 //        ^ punctuation.definition.generic.begin.java
@@ -2819,7 +2819,7 @@ class MethodDelcarationTests {
 //                                                ^^^^^ meta.annotation.identifier.java
 //                                                     ^^ storage.modifier.array.java
   ) @Anno [] @ path . Anno (param = value) [] {}
-//^ meta.method.parameters.java meta.parens.java punctuation.section.parens.end.java
+//^ meta.method.parameters.java meta.group.java punctuation.section.group.end.java
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.java - meta.method meta.method
 //                                            ^^ meta.method.java meta.block.java - meta.method meta.method
 //                                              ^ - meta.method
@@ -2832,17 +2832,17 @@ class MethodDelcarationTests {
 //   ^ meta.method.modifier.java - meta.generic
 //    ^^^^^ meta.method.return-type.java
 //         ^^^^^^^^^^^^^^^^^ meta.method.identifier.java
-//                          ^^^^^^^ meta.method.parameters.java meta.parens.java
+//                          ^^^^^^^ meta.method.parameters.java meta.group.java
 //                                 ^ - meta.method
 //^ punctuation.definition.generic.begin.java
 // ^ variable.parameter.type
 //  ^ punctuation.definition.generic.end.java
 //    ^^^^ storage.type.void.java
 //         ^^^^^^^^^^^^^^^^^ entity.name.function.java
-//                          ^ punctuation.section.parens.begin.java
+//                          ^ punctuation.section.group.begin.java
 //                           ^ support.class.java
 //                             ^^^ variable.parameter.java
-//                                ^ punctuation.section.parens.end.java
+//                                ^ punctuation.section.group.end.java
 //                                 ^ punctuation.terminator.java
 
   <T> public static Set<T> unmodifiableSet(Set<T> set);
@@ -2853,9 +2853,9 @@ class MethodDelcarationTests {
 //                     ^^^ meta.method.return-type.java meta.generic.java
 //                        ^ meta.method.return-type.java - meta.generic
 //                         ^^^^^^^^^^^^^^^ meta.method.identifier.java
-//                                        ^^^^ meta.method.parameters.java meta.parens.java - meta.generic
-//                                            ^^^ meta.method.parameters.java meta.parens.java meta.generic.java
-//                                               ^^^^^ meta.method.parameters.java meta.parens.java - meta.generic
+//                                        ^^^^ meta.method.parameters.java meta.group.java - meta.generic
+//                                            ^^^ meta.method.parameters.java meta.group.java meta.generic.java
+//                                               ^^^^^ meta.method.parameters.java meta.group.java - meta.generic
 //                                                    ^ - meta.method
 //^ punctuation.definition.generic.begin.java
 // ^ variable.parameter.type
@@ -2867,13 +2867,13 @@ class MethodDelcarationTests {
 //                      ^ support.class.java
 //                       ^ punctuation.definition.generic.end.java
 //                         ^^^^^^^^^^^^^^^ entity.name.function.java
-//                                        ^ punctuation.section.parens.begin.java
+//                                        ^ punctuation.section.group.begin.java
 //                                         ^^^ support.class.java
 //                                            ^ punctuation.definition.generic.begin.java
 //                                             ^ support.class.java
 //                                              ^ punctuation.definition.generic.end.java
 //                                                ^^^ variable.parameter.java
-//                                                   ^ punctuation.section.parens.end.java
+//                                                   ^ punctuation.section.group.end.java
 //                                                    ^ punctuation.terminator.java
 
   public static <T> T genericTypeMethod(Collection<? extends T>, Sink<T>) {}
@@ -2883,7 +2883,7 @@ class MethodDelcarationTests {
 //                 ^ meta.method.modifier.java - meta.generic
 //                  ^^ meta.method.return-type.java - meta.generic
 //                    ^^^^^^^^^^^^^^^^^ meta.method.identifier.java
-//                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java
+//                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java
 //                                                ^^^^^^^^^^^^^ meta.generic.java
 //                                                                   ^^^ meta.generic.java
 //                                                                       ^ meta.method.java
@@ -2905,7 +2905,7 @@ class MethodDelcarationTests {
 //                                                                   ^ punctuation.definition.generic.begin.java
 //                                                                    ^ support.class.java
 //                                                                     ^ punctuation.definition.generic.end.java
-//                                                                      ^ punctuation.section.parens.end.java
+//                                                                      ^ punctuation.section.group.end.java
 //                                                                        ^ punctuation.section.block.begin.java
 //                                                                         ^ punctuation.section.block.end.java
 
@@ -2932,31 +2932,31 @@ class MethodDelcarationTests {
 //^^^^^^ meta.method.modifier.java
 //      ^^ meta.method.return-type.java
 //        ^^^ meta.method.identifier.java
-//           ^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java
+//           ^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java
 //                               ^ - meta.method
 //      ^ support.class.java
 //        ^^^ entity.name.function.java
-//           ^ punctuation.section.parens.begin.java
+//           ^ punctuation.section.group.begin.java
 //            ^^^^^^^^^^ support.class.java
 //                      ^ punctuation.definition.generic.begin.java
 //                       ^ support.class.java
 //                        ^ punctuation.definition.generic.end.java
 //                          ^^^^ variable.parameter.java
-//                              ^ punctuation.section.parens.end.java
+//                              ^ punctuation.section.group.end.java
 //                               ^ punctuation.terminator.java
 
   @RunWith(JUnit4.class)
 //^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method - meta.annotation meta.annotation
 //^^^^^^^^ meta.method.modifier.java meta.annotation.identifier.java
-//        ^^^^^^^^^^^^^^ meta.method.modifier.java meta.annotation.parameters.java meta.parens.java
+//        ^^^^^^^^^^^^^^ meta.method.modifier.java meta.annotation.parameters.java meta.group.java
 //                      ^ meta.method.modifier.java - meta.annotation
 //^ punctuation.definition.annotation.java
 // ^^^^^^^ variable.annotation.java
-//        ^ punctuation.section.parens.begin.java
+//        ^ punctuation.section.group.begin.java
 //         ^^^^^^ support.class.java
 //               ^ punctuation.accessor.dot.java
 //                ^^^^^ variable.language.class.java - storage.type.java
-//                     ^ punctuation.section.parens.end.java
+//                     ^ punctuation.section.group.end.java
   public
 //^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method
 //^^^^^^ meta.method.modifier.java storage.modifier.java
@@ -2996,10 +2996,10 @@ class MethodDelcarationTests {
     (
 //^^^^ - meta.method meta.method
 //^^ meta.method.identifier.java
-//  ^^ meta.method.parameters.java meta.parens.java
-//  ^ punctuation.section.parens.begin.java
+//  ^^ meta.method.parameters.java meta.group.java
+//  ^ punctuation.section.group.begin.java
       SomeType<T> root
-//^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
+//^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java - meta.method meta.method
 //    ^^^^^^^^ support.class.java
 //            ^ punctuation.definition.generic.begin.java
 //             ^ support.class.java
@@ -3007,9 +3007,9 @@ class MethodDelcarationTests {
 //                ^^^^ variable.parameter.java
     )
 //^^^^ - meta.method meta.method
-//^^^ meta.method.parameters.java meta.parens.java
+//^^^ meta.method.parameters.java meta.group.java
 //   ^ meta.method.java
-//  ^ punctuation.section.parens.end.java
+//  ^ punctuation.section.group.end.java
     throws
 //^^^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method
 //^^ meta.method.java
@@ -3037,20 +3037,20 @@ class MethodDelcarationTests {
   @RunWith(JUnit4.class)
 //^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method - meta.annotation meta.annotation
 //^^^^^^^^ meta.method.modifier.java meta.annotation.identifier.java
-//        ^^^^^^^^^^^^^^ meta.method.modifier.java meta.annotation.parameters.java meta.parens.java
+//        ^^^^^^^^^^^^^^ meta.method.modifier.java meta.annotation.parameters.java meta.group.java
 //                      ^ meta.method.modifier.java - meta.annotation
 //^ punctuation.definition.annotation.java
 // ^^^^^^^ variable.annotation.java
-//        ^ punctuation.section.parens.begin.java
+//        ^ punctuation.section.group.begin.java
 //         ^^^^^^ support.class.java
 //               ^ punctuation.accessor.dot.java
 //                ^^^^^ variable.language.class.java - storage.type.java
-//                     ^ punctuation.section.parens.end.java
+//                     ^ punctuation.section.group.end.java
   public void someReallyReallyLongMethodNameThatMakesTheBraceOverflowToTheNextLine(
 //^^^^^^^ meta.method.modifier.java
 //       ^^^^^ meta.method.return-type.java
 //            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.identifier.java entity.name.function.java
-//                                                                                ^ meta.method.parameters.java meta.parens.java punctuation.section.parens.begin.java
+//                                                                                ^ meta.method.parameters.java meta.group.java punctuation.section.group.begin.java
       WITHSOMEPARAMS foo,
 //    ^ meta.method.parameters.java support.class.java
 //                   ^ meta.method.parameters.java variable.parameter.java
@@ -3058,14 +3058,14 @@ class MethodDelcarationTests {
 //    ^ meta.method.parameters.java support.class.java
 //           ^^^^^^^ meta.generic.java
 //                   ^ meta.method.parameters.java variable.parameter.java
-//                      ^ punctuation.section.parens.end
+//                      ^ punctuation.section.group.end
       throws Exception {
 //    ^ meta.method.throws.java keyword.declaration.throws.java
 //           ^ meta.method.throws.java support.class.java
     return someMethod (new Function<V, V>() {
 //        ^ - meta.function-call
 //         ^^^^^^^^^^^ meta.function-call.identifier.java - meta.function-call meta.function-call
-//                    ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.java meta.parens.java - meta.function-call meta.function-call
+//                    ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.java meta.group.java - meta.function-call meta.function-call
 //                                          ^ meta.class.java punctuation.section.block.begin.java
 //        ^ - variable
 //         ^^^^^^^^^^ variable.function.java
@@ -3081,9 +3081,9 @@ class MethodDelcarationTests {
       }
 //    ^ meta.method
     }, executor);
-// ^^^^^^^^^^^^^ meta.function-call.arguments.java meta.parens.java
+// ^^^^^^^^^^^^^ meta.function-call.arguments.java meta.group.java
 //  ^ meta.class.java punctuation.section.block.end.java
-//             ^ punctuation.section.parens.end.java
+//             ^ punctuation.section.group.end.java
 //              ^ punctuation.terminator.java - meta.function-call
   }
 //^ meta.method.java punctuation.section.block.end.java
@@ -3119,15 +3119,15 @@ class ReceiverArgTests {
   //          but the syntax does not destinguish top-level and nested classses
   ReceiverArgTests(ReceiverArgTests this, A this) {}
 //^^^^^^^^^^^^^^^^ meta.method.identifier.java - meta.method meta.method
-//                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
+//                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java - meta.method meta.method
 //^^^^^^^^^^^^^^^^ entity.name.function.constructor.java
-//                ^ punctuation.section.parens.begin.java
+//                ^ punctuation.section.group.begin.java
 //                 ^^^^^^^^^^^^^^^^ support.class.java
 //                                  ^^^^ variable.parameter.this.java
 //                                      ^ punctuation.separator.comma.java
 //                                        ^ support.class.java
 //                                          ^^^^ invalid.illegal.identifier.java
-//                                              ^ punctuation.section.parens.end.java
+//                                              ^ punctuation.section.group.end.java
 //                                                ^ punctuation.section.block.begin.java
 //                                                 ^ punctuation.section.block.end.java
 
@@ -3135,12 +3135,12 @@ class ReceiverArgTests {
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method
 //^^^^^ meta.method.return-type.java
 //     ^^^^^^ meta.method.identifier.java
-//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java
 //                                                          ^^^ meta.method.java
 //                                                             ^^ meta.method.java meta.block.java
 //^^^^ storage.type.void.java
 //     ^^^^^^ entity.name.function.java
-//           ^ punctuation.section.parens.begin.java
+//           ^ punctuation.section.group.begin.java
 //            ^^^^^^^^^^^^^^^^ support.class.java
 //                             ^^^^ variable.parameter.this.java
 //                                 ^ punctuation.separator.comma.java
@@ -3152,7 +3152,7 @@ class ReceiverArgTests {
 //                                                  ^ punctuation.separator.comma.java
 //                                                    ^ support.class.java
 //                                                      ^^^ variable.parameter.java
-//                                                         ^ punctuation.section.parens.end.java
+//                                                         ^ punctuation.section.group.end.java
 //                                                          ^^ storage.modifier.array.java
 //                                                             ^ punctuation.section.block.begin.java
 //                                                              ^ punctuation.section.block.end.java
@@ -3164,21 +3164,21 @@ class ReceiverArgTests {
 //^^^^^^^ meta.method.modifier.java
 //       ^^^^^ meta.method.return-type.java
 //            ^^^^^^ meta.method.identifier.java
-//                  ^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java
+//                  ^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java
 //^^^^^^ storage.modifier.java
 //       ^^^^ storage.type.void.java
 //            ^^^^^^ entity.name.function.java
-//                  ^ punctuation.section.parens.begin.java
+//                  ^ punctuation.section.group.begin.java
 //                   ^^^^^^^^^^^^^^^^ support.class.java
 //                                    ^^^^ variable.parameter.this.java
-//                                        ^ punctuation.section.parens.end.java
+//                                        ^ punctuation.section.group.end.java
 //                                          ^ punctuation.section.block.begin.java
 //                                           ^ punctuation.section.block.end.java
 
   class A {
     A(ReceiverArgTests ReceiverArgTests.this, A ReceiverArgTests.this) {}
 //  ^ entity.name.function.constructor.java
-//   ^ punctuation.section.parens.begin.java
+//   ^ punctuation.section.group.begin.java
 //    ^^^^^^^^^^^^^^^^ support.class.java
 //                     ^^^^^^^^^^^^^^^^^^^^^ meta.path.java
 //                     ^^^^^^^^^^^^^^^^ support.class.java
@@ -3189,13 +3189,13 @@ class ReceiverArgTests {
 //                                              ^^^^^^^^^^^^^^^^ variable.parameter.java
 //                                                              ^ invalid.illegal.unexpected-accessor.java
 //                                                               ^^^^ invalid.illegal.unexpected-member.java
-//                                                                   ^ punctuation.section.parens.end.java
+//                                                                   ^ punctuation.section.group.end.java
 //                                                                     ^ punctuation.section.block.begin.java
 //                                                                      ^ punctuation.section.block.end.java
 
     A(
 //  ^ entity.name.function.constructor.java
-//   ^ punctuation.section.parens.begin.java
+//   ^ punctuation.section.group.begin.java
         /**/ ReceiverArgTests
 //      ^^^^ comment.block.empty.java
 //           ^^^^^^^^^^^^^^^^ support.class.java
@@ -3242,7 +3242,7 @@ class ReceiverArgTests {
 //                          ^^^ invalid.illegal.unexpected-member.java
         /**/ ) {}
 //      ^^^^ comment.block.empty.java
-//           ^ punctuation.section.parens.end.java
+//           ^ punctuation.section.group.end.java
 //             ^ punctuation.section.block.begin.java
 //              ^ punctuation.section.block.end.java
 
@@ -3251,13 +3251,13 @@ class ReceiverArgTests {
     void method(A this) {}
 //  ^^^^^ meta.method.return-type.java - meta.method meta.method
 //       ^^^^^^ meta.method.identifier.java - meta.method meta.method
-//             ^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
+//             ^^^^^^^^ meta.method.parameters.java meta.group.java - meta.method meta.method
 //  ^^^^ storage.type.void.java
 //       ^^^^^^ entity.name.function.java
-//             ^ punctuation.section.parens.begin.java
+//             ^ punctuation.section.group.begin.java
 //              ^ support.class.java
 //                ^^^^ variable.parameter.this.java
-//                    ^ punctuation.section.parens.end.java
+//                    ^ punctuation.section.group.end.java
 //                      ^ punctuation.section.block.begin.java
 //                       ^ punctuation.section.block.end.java
 
@@ -3266,7 +3266,7 @@ class ReceiverArgTests {
       // of A which immediately encloses the instance of B being constructed.
       B(ReceiverArgTests.A A.this) {}
 //    ^ entity.name.function.constructor.java
-//     ^ punctuation.section.parens.begin.java
+//     ^ punctuation.section.group.begin.java
 //      ^^^^^^^^^^^^^^^^ support.class.java
 //                      ^ punctuation.accessor.dot.java
 //                       ^ support.class.java
@@ -3274,14 +3274,14 @@ class ReceiverArgTests {
 //                         ^ support.class.java
 //                          ^ punctuation.accessor.dot.java
 //                           ^^^^ variable.parameter.this.java
-//                               ^ punctuation.section.parens.end.java
+//                               ^ punctuation.section.group.end.java
 //                                 ^ punctuation.section.block.begin.java
 //                                  ^ punctuation.section.block.end.java
 
       // FAIL: qualified parameter is a receiver and must end with "this".
       B(ReceiverArgTests.A A.fail) {}
 //    ^ entity.name.function.constructor.java
-//     ^ punctuation.section.parens.begin.java
+//     ^ punctuation.section.group.begin.java
 //      ^^^^^^^^^^^^^^^^ support.class.java
 //                      ^ punctuation.accessor.dot.java
 //                       ^ support.class.java
@@ -3289,7 +3289,7 @@ class ReceiverArgTests {
 //                         ^ support.class.java
 //                          ^ punctuation.accessor.dot.java
 //                           ^^^^ invalid.illegal.identifier.java
-//                               ^ punctuation.section.parens.end.java
+//                               ^ punctuation.section.group.end.java
 //                                 ^ punctuation.section.block.begin.java
 //                                  ^ punctuation.section.block.end.java
 
@@ -3298,27 +3298,27 @@ class ReceiverArgTests {
       void method(ReceiverArgTests.A.B this) {}
 //    ^^^^^ meta.method.return-type.java - meta.method meta.method
 //         ^^^^^^ meta.method.identifier.java - meta.method meta.method
-//               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
+//               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java - meta.method meta.method
 //               ^ - meta.path
 //                ^^^^^^^^^^^^^^^^^^^^ meta.path.java
 //                                    ^^^^^^ - meta.path
 //    ^^^^ storage.type.void.java
 //         ^^^^^^ entity.name.function.java
-//               ^ punctuation.section.parens.begin.java
+//               ^ punctuation.section.group.begin.java
 //                ^^^^^^^^^^^^^^^^ support.class.java
 //                                ^ punctuation.accessor.dot.java
 //                                 ^ support.class.java
 //                                  ^ punctuation.accessor.dot.java
 //                                   ^ support.class.java
 //                                     ^^^^ variable.parameter.this.java
-//                                         ^ punctuation.section.parens.end.java
+//                                         ^ punctuation.section.group.end.java
 //                                           ^ punctuation.section.block.begin.java
 //                                            ^ punctuation.section.block.end.java
 
       void method(ReceiverArgTests.A.B A.B.this) {}
 //    ^^^^^ meta.method.return-type.java - meta.method meta.method
 //         ^^^^^^ meta.method.identifier.java - meta.method meta.method
-//               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
+//               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java - meta.method meta.method
 //               ^ - meta.path
 //                ^^^^^^^^^^^^^^^^^^^^ meta.path.java
 //                                    ^ - meta.path
@@ -3326,7 +3326,7 @@ class ReceiverArgTests {
 //                                             ^ - meta.path
 //    ^^^^ storage.type.void.java
 //         ^^^^^^ entity.name.function.java
-//               ^ punctuation.section.parens.begin.java
+//               ^ punctuation.section.group.begin.java
 //                ^^^^^^^^^^^^^^^^ support.class.java
 //                                ^ punctuation.accessor.dot.java
 //                                 ^ support.class.java
@@ -3337,14 +3337,14 @@ class ReceiverArgTests {
 //                                       ^ support.class.java
 //                                        ^ punctuation.accessor.dot.java
 //                                         ^^^^ variable.parameter.this.java
-//                                             ^ punctuation.section.parens.end.java
+//                                             ^ punctuation.section.group.end.java
 //                                               ^ punctuation.section.block.begin.java
 //                                                ^ punctuation.section.block.end.java
 
       void method(receiverargtests.a.b a.b.this) {}
 //    ^^^^^ meta.method.return-type.java - meta.method meta.method
 //         ^^^^^^ meta.method.identifier.java - meta.method meta.method
-//               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
+//               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java - meta.method meta.method
 //               ^ - meta.path
 //                ^^^^^^^^^^^^^^^^^^^^ meta.path.java
 //                                    ^ - meta.path
@@ -3352,7 +3352,7 @@ class ReceiverArgTests {
 //                                             ^ - meta.path
 //    ^^^^ storage.type.void.java
 //         ^^^^^^ entity.name.function.java
-//               ^ punctuation.section.parens.begin.java
+//               ^ punctuation.section.group.begin.java
 //                ^^^^^^^^^^^^^^^^ support.class.java
 //                                ^ punctuation.accessor.dot.java
 //                                 ^ support.class.java
@@ -3363,14 +3363,14 @@ class ReceiverArgTests {
 //                                       ^ support.class.java
 //                                        ^ punctuation.accessor.dot.java
 //                                         ^^^^ variable.parameter.this.java
-//                                             ^ punctuation.section.parens.end.java
+//                                             ^ punctuation.section.group.end.java
 //                                               ^ punctuation.section.block.begin.java
 //                                                ^ punctuation.section.block.end.java
 
       void method(@á receiverargtests<?> . @ß a . @µ.c b @a a . @b.c b . @d . e(f="") this) {}
 //    ^^^^^ meta.method.return-type.java - meta.method meta.method
 //         ^^^^^^ meta.method.identifier.java - meta.method meta.method
-//               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.parens.java - meta.method meta.method
+//               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java - meta.method meta.method
 //               ^^^^ - meta.path
 //                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.java - meta.path meta.path
 //                                                ^^^^^ meta.path.java meta.path.java
@@ -3384,7 +3384,7 @@ class ReceiverArgTests {
 //                                                                                        ^^^^^ - meta.path
 //    ^^^^ storage.type.void.java
 //         ^^^^^^ entity.name.function.java
-//               ^ punctuation.section.parens.begin.java
+//               ^ punctuation.section.group.begin.java
 //                ^^^ meta.annotation.identifier.java
 //                   ^^^^^^^^^^^^^^^^ support.class.java
 //                                   ^^^ meta.generic.java
@@ -3401,9 +3401,9 @@ class ReceiverArgTests {
 //                                                                   ^ support.class.java
 //                                                                     ^ punctuation.accessor.dot.java
 //                                                                       ^^^^^^ meta.annotation.identifier.java
-//                                                                             ^^^^^^ meta.annotation.parameters.java meta.parens.java
+//                                                                             ^^^^^^ meta.annotation.parameters.java meta.group.java
 //                                                                                    ^^^^ variable.parameter.this.java
-//                                                                                        ^ punctuation.section.parens.end.java
+//                                                                                        ^ punctuation.section.group.end.java
 //                                                                                          ^ punctuation.section.block.begin.java
 //                                                                                           ^ punctuation.section.block.end.java
     }
@@ -3822,47 +3822,47 @@ class InstanceCreationExpressionsTests {
 
     new TestClass(foo);
 //  ^^^^^^^^^^^^^^^^^^ meta.instantiation.java
-//               ^^^^^ meta.parens.java
+//               ^^^^^ meta.group.java
 //                    ^^ - meta.instantiation
 //  ^^^ keyword.other.storage.new.java
 //      ^^^^^^^^^ support.class.java
-//               ^ punctuation.section.parens.begin.java
+//               ^ punctuation.section.group.begin.java
 //                ^^^ variable.other.readwrite.java
-//                   ^ punctuation.section.parens.end.java
+//                   ^ punctuation.section.group.end.java
 
     new testclass(foo);
 //  ^^^^^^^^^^^^^^^^^^ meta.instantiation.java
-//               ^^^^^ meta.parens.java
+//               ^^^^^ meta.group.java
 //                    ^^ - meta.instantiation
 //  ^^^ keyword.other.storage.new.java
 //      ^^^^^^^^^ support.class.java
-//               ^ punctuation.section.parens.begin.java
+//               ^ punctuation.section.group.begin.java
 //                ^^^ variable.other.readwrite.java
-//                   ^ punctuation.section.parens.end.java
+//                   ^ punctuation.section.group.end.java
 
     new @Foo TestClass(foo);
 //  ^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
 //      ^^^^^ meta.annotation.identifier.java
-//                    ^^^^^ meta.parens.java
+//                    ^^^^^ meta.group.java
 //                         ^^ - meta.instantiation
 //  ^^^ keyword.other.storage.new.java
 //       ^^^ variable.annotation.java
 //           ^^^^^^^^^ support.class.java
-//                    ^ punctuation.section.parens.begin.java
+//                    ^ punctuation.section.group.begin.java
 //                     ^^^ variable.other.readwrite.java
-//                        ^ punctuation.section.parens.end.java
+//                        ^ punctuation.section.group.end.java
 
     new @foo testclass(foo);
 //  ^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
 //      ^^^^^ meta.annotation.identifier.java
-//                    ^^^^^ meta.parens.java
+//                    ^^^^^ meta.group.java
 //                         ^^ - meta.instantiation
 //  ^^^ keyword.other.storage.new.java
 //       ^^^ variable.annotation.java
 //           ^^^^^^^^^ support.class.java
-//                    ^ punctuation.section.parens.begin.java
+//                    ^ punctuation.section.group.begin.java
 //                     ^^^ variable.other.readwrite.java
-//                        ^ punctuation.section.parens.end.java
+//                        ^ punctuation.section.group.end.java
 
     new com.java.TestClass(foo);
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
@@ -3874,10 +3874,10 @@ class InstanceCreationExpressionsTests {
 //          ^^^^ variable.namespace.java
 //              ^ punctuation.accessor.dot.java
 //               ^^^^^^^^^ support.class.java
-//                        ^^^^^ meta.parens.java
-//                        ^ punctuation.section.parens.begin.java
+//                        ^^^^^ meta.group.java
+//                        ^ punctuation.section.group.begin.java
 //                         ^^^ variable.other.readwrite.java
-//                            ^ punctuation.section.parens.end.java
+//                            ^ punctuation.section.group.end.java
 
     new com.java.testclass(foo);
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
@@ -3889,10 +3889,10 @@ class InstanceCreationExpressionsTests {
 //          ^^^^ variable.namespace.java
 //              ^ punctuation.accessor.dot.java
 //               ^^^^^^^^^ support.class.java
-//                        ^^^^^ meta.parens.java
-//                        ^ punctuation.section.parens.begin.java
+//                        ^^^^^ meta.group.java
+//                        ^ punctuation.section.group.begin.java
 //                         ^^^ variable.other.readwrite.java
-//                            ^ punctuation.section.parens.end.java
+//                            ^ punctuation.section.group.end.java
 
     new OuterClass.InnerClass();
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
@@ -3924,10 +3924,10 @@ class InstanceCreationExpressionsTests {
 //                                               ^ punctuation.definition.annotation.java
 //                                                ^^^ variable.annotation.java
 //                                                    ^^^^^^^^^^ support.class.java
-//                                                              ^^^^^ meta.parens.java
-//                                                              ^ punctuation.section.parens.begin.java
+//                                                              ^^^^^ meta.group.java
+//                                                              ^ punctuation.section.group.begin.java
 //                                                               ^^^ variable.other.readwrite.java
-//                                                                  ^ punctuation.section.parens.end.java
+//                                                                  ^ punctuation.section.group.end.java
 
     new @foo com . @foo java . @foo outerclass . @foo innerclass(foo);
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
@@ -3952,10 +3952,10 @@ class InstanceCreationExpressionsTests {
 //                                               ^ punctuation.definition.annotation.java
 //                                                ^^^ variable.annotation.java
 //                                                    ^^^^^^^^^^ support.class.java
-//                                                              ^^^^^ meta.parens.java
-//                                                              ^ punctuation.section.parens.begin.java
+//                                                              ^^^^^ meta.group.java
+//                                                              ^ punctuation.section.group.begin.java
 //                                                               ^^^ variable.other.readwrite.java
-//                                                                  ^ punctuation.section.parens.end.java
+//                                                                  ^ punctuation.section.group.end.java
 
   }
 
@@ -4173,32 +4173,32 @@ class InstanceCreationExpressionsTests {
     new Generic<>();
 //  ^^^^^^^^^^^^^^^ meta.instantiation.java
 //             ^^ meta.generic.java
-//               ^^ meta.parens.java
+//               ^^ meta.group.java
 //  ^^^ keyword.other.storage.new.java
 //      ^^^^^^^ support.class.java
 //             ^^ punctuation.definition.generic.diamond.java
-//               ^ punctuation.section.parens.begin.java
-//                ^ punctuation.section.parens.end.java
+//               ^ punctuation.section.group.begin.java
+//                ^ punctuation.section.group.end.java
 //                 ^ punctuation.terminator.java
 
     new Generic<Type>();
 //  ^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
 //             ^^^^^^ meta.generic.java
-//                   ^^ meta.parens.java
+//                   ^^ meta.group.java
 //  ^^^ keyword.other.storage.new.java
 //      ^^^^^^^ support.class.java
 //             ^ punctuation.definition.generic.begin.java
 //              ^^^^ support.class.java
 //                  ^ punctuation.definition.generic.end.java
-//                   ^ punctuation.section.parens.begin.java
-//                    ^ punctuation.section.parens.end.java
+//                   ^ punctuation.section.group.begin.java
+//                    ^ punctuation.section.group.end.java
 //                     ^ punctuation.terminator.java
 
     new Generic<@Anno Type>();
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
 //             ^^^^^^^^^^^^ meta.generic.java
 //              ^^^^^^ meta.annotation.identifier.java
-//                         ^^ meta.parens.java
+//                         ^^ meta.group.java
 //  ^^^ keyword.other.storage.new.java
 //      ^^^^^^^ support.class.java
 //             ^ punctuation.definition.generic.begin.java
@@ -4206,20 +4206,20 @@ class InstanceCreationExpressionsTests {
 //               ^^^^ variable.annotation.java
 //                    ^^^^ support.class.java
 //                        ^ punctuation.definition.generic.end.java
-//                         ^ punctuation.section.parens.begin.java
-//                          ^ punctuation.section.parens.end.java
+//                         ^ punctuation.section.group.begin.java
+//                          ^ punctuation.section.group.end.java
 //                           ^ punctuation.terminator.java
 
     new Generic<?>();
 //  ^^^^^^^^^^^^^^^^ meta.instantiation.java
 //             ^^^ meta.generic.java
-//                ^^ meta.parens.java
+//                ^^ meta.group.java
 //      ^^^^^^^ support.class.java
 //             ^ punctuation.definition.generic.begin.java
 //              ^ keyword.operator.wildcard.java
 //               ^ punctuation.definition.generic.end.java
-//                ^ punctuation.section.parens.begin.java
-//                 ^ punctuation.section.parens.end.java
+//                ^ punctuation.section.group.begin.java
+//                 ^ punctuation.section.group.end.java
 //                  ^ punctuation.terminator.java
 
     new @Anno Generic<@Anno ?>();
@@ -4227,7 +4227,7 @@ class InstanceCreationExpressionsTests {
 //      ^^^^^^ meta.annotation.identifier.java
 //                   ^^^^^^^^^ meta.generic.java
 //                    ^^^^^^ meta.annotation.identifier.java
-//                            ^^ meta.parens.java
+//                            ^^ meta.group.java
 //      ^ punctuation.definition.annotation.java
 //       ^^^^ variable.annotation.java
 //            ^^^^^^^ support.class.java
@@ -4236,27 +4236,27 @@ class InstanceCreationExpressionsTests {
 //                     ^^^^ variable.annotation.java
 //                          ^ keyword.operator.wildcard.java
 //                           ^ punctuation.definition.generic.end.java
-//                            ^ punctuation.section.parens.begin.java
-//                             ^ punctuation.section.parens.end.java
+//                            ^ punctuation.section.group.begin.java
+//                             ^ punctuation.section.group.end.java
 //                              ^ punctuation.terminator.java
 
     new Generic<? extends Type>();
 //  ^^^^^^^^^^^ meta.instantiation.java - meta.generic
 //             ^^^^^^^^^^^^^^^^ meta.instantiation.java meta.generic.java
-//                             ^^ meta.instantiation.java meta.parens.java
+//                             ^^ meta.instantiation.java meta.group.java
 //             ^ punctuation.definition.generic.begin.java
 //              ^ keyword.operator.wildcard.java
 //                ^^^^^^^ keyword.declaration.extends.java
 //                        ^^^^ support.class.java
 //                            ^ punctuation.definition.generic.end.java
-//                             ^ punctuation.section.parens.begin.java
-//                              ^ punctuation.section.parens.end.java
+//                             ^ punctuation.section.group.begin.java
+//                              ^ punctuation.section.group.end.java
 //                               ^ punctuation.terminator.java
 
     new @Anno Generic<@Anno ? extends @Anno Type>();
 //  ^^^^^^^^^^^^^^^^^ meta.instantiation.java - meta.generic
 //                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java meta.generic.java
-//                                               ^^ meta.instantiation.java meta.parens.java
+//                                               ^^ meta.instantiation.java meta.group.java
 //      ^ punctuation.definition.annotation.java
 //       ^^^^ variable.annotation.java
 //            ^^^^^^^ support.class.java
@@ -4269,14 +4269,14 @@ class InstanceCreationExpressionsTests {
 //                                     ^^^^ variable.annotation.java
 //                                          ^^^^ support.class.java
 //                                              ^ punctuation.definition.generic.end.java
-//                                               ^ punctuation.section.parens.begin.java
-//                                                ^ punctuation.section.parens.end.java
+//                                               ^ punctuation.section.group.begin.java
+//                                                ^ punctuation.section.group.end.java
 //                                                 ^ punctuation.terminator.java
 
     new @anno generic<@anno ? extends @anno type>();
 //  ^^^^^^^^^^^^^^^^^ meta.instantiation.java - meta.generic
 //                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java meta.generic.java
-//                                               ^^ meta.instantiation.java meta.parens.java
+//                                               ^^ meta.instantiation.java meta.group.java
 //      ^ punctuation.definition.annotation.java
 //       ^^^^ variable.annotation.java
 //            ^^^^^^^ support.class.java
@@ -4289,14 +4289,14 @@ class InstanceCreationExpressionsTests {
 //                                     ^^^^ variable.annotation.java
 //                                          ^^^^ support.class.java
 //                                              ^ punctuation.definition.generic.end.java
-//                                               ^ punctuation.section.parens.begin.java
-//                                                ^ punctuation.section.parens.end.java
+//                                               ^ punctuation.section.group.begin.java
+//                                                ^ punctuation.section.group.end.java
 //                                                 ^ punctuation.terminator.java
 
     new Generic<? extends Type, String>();
 //  ^^^^^^^^^^^ meta.instantiation.java - meta.generic
 //             ^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java meta.generic.java
-//                                     ^^ meta.instantiation.java meta.parens.java
+//                                     ^^ meta.instantiation.java meta.group.java
 //             ^ punctuation.definition.generic.begin.java
 //              ^ keyword.operator.wildcard.java
 //                ^^^^^^^ keyword.declaration.extends.java
@@ -4304,21 +4304,21 @@ class InstanceCreationExpressionsTests {
 //                            ^ punctuation.separator.comma.java
 //                              ^^^^^^ support.class.java
 //                                    ^ punctuation.definition.generic.end.java
-//                                     ^ punctuation.section.parens.begin.java
-//                                      ^ punctuation.section.parens.end.java
+//                                     ^ punctuation.section.group.begin.java
+//                                      ^ punctuation.section.group.end.java
 //                                       ^ punctuation.terminator.java
 
     new Generic<? super Type>();
 //  ^^^^^^^^^^^ meta.instantiation.java - meta.generic
 //             ^^^^^^^^^^^^^^ meta.instantiation.java meta.generic.java
-//                           ^^ meta.instantiation.java meta.parens.java
+//                           ^^ meta.instantiation.java meta.group.java
 //             ^ punctuation.definition.generic.begin.java
 //              ^ keyword.operator.wildcard.java
 //                ^^^^^ keyword.declaration.super.java
 //                      ^^^^ support.class.java
 //                          ^ punctuation.definition.generic.end.java
-//                           ^ punctuation.section.parens.begin.java
-//                            ^ punctuation.section.parens.end.java
+//                           ^ punctuation.section.group.begin.java
+//                            ^ punctuation.section.group.end.java
 //                             ^ punctuation.terminator.java
 
     new Generic<int>();
@@ -4336,13 +4336,13 @@ class InstanceCreationExpressionsTests {
     new Generic<int @com . Anno ( @Anno arg ) []>();
 //              ^^^ storage.type.primitive.java
 //                  ^^^^^^^^^^^^ meta.annotation.identifier.java
-//                              ^^^^^^^^^^^^^ meta.annotation.parameters.java meta.parens.java
+//                              ^^^^^^^^^^^^^ meta.annotation.parameters.java meta.group.java
 //                                            ^^ storage.modifier.array.java
 
     new generic<int @com . anno ( @anno arg ) []>();
 //              ^^^ storage.type.primitive.java
 //                  ^^^^^^^^^^^^ meta.annotation.identifier.java
-//                              ^^^^^^^^^^^^^ meta.annotation.parameters.java meta.parens.java
+//                              ^^^^^^^^^^^^^ meta.annotation.parameters.java meta.group.java
 //                                            ^^ storage.modifier.array.java
 
     new Generic<String, int>();
@@ -4413,16 +4413,16 @@ class InstanceCreationExpressionsTests {
 //                                             ^ punctuation.accessor.dot.java
 //                                              ^^^^ support.class.java
 //                                                  ^ punctuation.definition.generic.end.java
-//                                                   ^ punctuation.section.parens.begin.java
-//                                                    ^ punctuation.section.parens.end.java
+//                                                   ^ punctuation.section.group.begin.java
+//                                                    ^ punctuation.section.group.end.java
 //                                                     ^ punctuation.separator.comma.java
 //                                                       ^^^ keyword.other.storage.new.java
 //                                                           ^^^^^^^^^ support.class.java
 //                                                                    ^ punctuation.definition.generic.begin.java
 //                                                                     ^^^^ support.class.java
 //                                                                         ^ punctuation.definition.generic.end.java
-//                                                                          ^ punctuation.section.parens.begin.java
-//                                                                           ^ punctuation.section.parens.end.java
+//                                                                          ^ punctuation.section.group.begin.java
+//                                                                           ^ punctuation.section.group.end.java
 //                                                                             ^ punctuation.section.braces.end.java
 
     new 
@@ -4459,11 +4459,11 @@ class InstanceCreationExpressionsTests {
       >();
 //<- meta.instantiation.java meta.path.java meta.generic.java - meta.path meta.path
 //   ^^ meta.instantiation.java meta.path.java meta.generic.java - meta.path meta.path
-//     ^^ meta.instantiation.java meta.parens.java - meta.path
+//     ^^ meta.instantiation.java meta.group.java - meta.path
 //       ^ - meta.instantiation
 //    ^ punctuation.definition.generic.end.java
-//     ^ punctuation.section.parens.begin.java
-//      ^ punctuation.section.parens.end.java
+//     ^ punctuation.section.group.begin.java
+//      ^ punctuation.section.group.end.java
 //       ^ punctuation.terminator.java
 
     new <T1, T2> Generic<T>();
@@ -4488,45 +4488,45 @@ class ForStatementTests {
 
     for ()
 //  ^^^^^^ - meta.for meta.for
-//  ^^^^ meta.for.java - meta.parens
-//      ^^ meta.for.java meta.parens.java
+//  ^^^^ meta.for.java - meta.group
+//      ^^ meta.for.java meta.group.java
 //  ^^^ keyword.control.loop.for.java
 //     ^ - keyword
-//      ^ punctuation.section.parens.begin.java
-//       ^ punctuation.section.parens.end.java
+//      ^ punctuation.section.group.begin.java
+//       ^ punctuation.section.group.end.java
 
     for () {}
 //  ^^^^^^^^^ - meta.for meta.for
-//  ^^^^ meta.for.java - meta.parens
-//      ^^ meta.for.java meta.parens.java
+//  ^^^^ meta.for.java - meta.group
+//      ^^ meta.for.java meta.group.java
 //        ^ meta.for.java - meta.block meta.block meta.block
 //         ^^ meta.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
 //     ^ - keyword
-//      ^ punctuation.section.parens.begin.java
-//       ^ punctuation.section.parens.end.java
+//      ^ punctuation.section.group.begin.java
+//       ^ punctuation.section.group.end.java
 //         ^ punctuation.section.block.begin.java
 //          ^ punctuation.section.block.end.java
 
     for ( {}
 //  ^^^^^^^^ - meta.for meta.for
-//  ^^^^ meta.for.java - meta.parens
-//      ^^ meta.for.java meta.parens.java
+//  ^^^^ meta.for.java - meta.group
+//      ^^ meta.for.java meta.group.java
 //        ^^ meta.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
 //     ^ - keyword
-//      ^ punctuation.section.parens.begin.java
+//      ^ punctuation.section.group.begin.java
 //        ^ punctuation.section.block.begin.java
 //         ^ punctuation.section.block.end.java
 
     for (; {}
 //  ^^^^^^^^^ - meta.for meta.for
-//  ^^^^ meta.for.java - meta.parens
-//      ^^^ meta.for.java meta.parens.java
+//  ^^^^ meta.for.java - meta.group
+//      ^^^ meta.for.java meta.group.java
 //         ^^ meta.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
 //     ^ - keyword
-//      ^ punctuation.section.parens.begin.java
+//      ^ punctuation.section.group.begin.java
 //       ^ punctuation.terminator.java
 //        ^ invalid.illegal.stray-terminator-end
 //         ^ punctuation.section.block.begin.java
@@ -4534,12 +4534,12 @@ class ForStatementTests {
 
     for (;; {}
 //  ^^^^^^^^^^ - meta.for meta.for
-//  ^^^^ meta.for.java - meta.parens
-//      ^^^^ meta.for.java meta.parens.java
+//  ^^^^ meta.for.java - meta.group
+//      ^^^^ meta.for.java meta.group.java
 //          ^^ meta.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
 //     ^ - keyword
-//      ^ punctuation.section.parens.begin.java
+//      ^ punctuation.section.group.begin.java
 //       ^^ punctuation.terminator.java
 //         ^ invalid.illegal.stray-terminator-end
 //          ^ punctuation.section.block.begin.java
@@ -4547,27 +4547,27 @@ class ForStatementTests {
 
     for (;;;;) {;;;}
 //  ^^^^^^^^^^ - meta.for meta.for
-//  ^^^^ meta.for.java - meta.parens
-//      ^^^^^^ meta.for.java meta.parens.java
+//  ^^^^ meta.for.java - meta.group
+//      ^^^^^^ meta.for.java meta.group.java
 //            ^ meta.for.java - meta.block meta.block meta.block
 //             ^^^^^ meta.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
 //     ^ - keyword
-//      ^ punctuation.section.parens.begin.java
+//      ^ punctuation.section.group.begin.java
 //       ^^ punctuation.terminator.java
 //         ^^ invalid.illegal.stray-terminator-end
-//           ^ punctuation.section.parens.end.java
+//           ^ punctuation.section.group.end.java
 //             ^ punctuation.section.block.begin.java
 //              ^^^ punctuation.terminator.java
 //                 ^ punctuation.section.block.end.java
 
     for (i = 0; i < 10; i += 2) {}
 //  ^^^^ meta.for.java
-//      ^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.parens.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
 //                             ^ meta.for.java - meta.block meta.block meta.block
 //                              ^^ meta.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
-//      ^ punctuation.section.parens.begin.java
+//      ^ punctuation.section.group.begin.java
 //       ^ variable.other.readwrite.java
 //         ^ keyword.operator.assignment.java
 //           ^ meta.number.integer.decimal.java constant.numeric.value.java
@@ -4579,16 +4579,16 @@ class ForStatementTests {
 //                      ^ variable.other.readwrite.java
 //                        ^^ keyword.operator.assignment.augmented.java
 //                           ^ meta.number.integer.decimal.java constant.numeric.value.java
-//                            ^ punctuation.section.parens.end.java
+//                            ^ punctuation.section.group.end.java
 //                              ^ punctuation.section.block.begin.java
 
     for (i = 0, j = 0; i < 10 && j < 5; i += 2, ++j) {}
 //  ^^^^ meta.for.java - meta.for meta.for
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.parens.java - meta.for meta.for
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java - meta.for meta.for
 //                                                  ^ meta.for.java - meta.block meta.block meta.block
 //                                                   ^^ meta.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
-//      ^ punctuation.section.parens.begin.java
+//      ^ punctuation.section.group.begin.java
 //       ^ variable.other.readwrite.java
 //         ^ keyword.operator.assignment.java
 //           ^ meta.number.integer.decimal.java constant.numeric.value.java
@@ -4608,16 +4608,16 @@ class ForStatementTests {
 //                                      ^ variable.other.readwrite.java
 //                                        ^^ keyword.operator.assignment.augmented.java
 //                                           ^ meta.number.integer.decimal.java constant.numeric.value.java
-//                                                 ^ punctuation.section.parens.end.java
+//                                                 ^ punctuation.section.group.end.java
 //                                                   ^ punctuation.section.block.begin.java
 
     for (int i = 0; i < 10; i += 2) {}
 //  ^^^^ meta.for.java
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.parens.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
 //                                 ^ meta.for.java - meta.block meta.block meta.block
 //                                  ^^ meta.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
-//      ^ punctuation.section.parens.begin.java
+//      ^ punctuation.section.group.begin.java
 //       ^^^ storage.type.primitive.java
 //           ^ variable.other.readwrite.java
 //             ^ keyword.operator.assignment.java
@@ -4630,16 +4630,16 @@ class ForStatementTests {
 //                          ^ variable.other.readwrite.java
 //                            ^^ keyword.operator.assignment.augmented.java
 //                               ^ meta.number.integer.decimal.java constant.numeric.value.java
-//                                ^ punctuation.section.parens.end.java
+//                                ^ punctuation.section.group.end.java
 //                                  ^ punctuation.section.block.begin.java
 
     for (int i = 0, j = 0; i < 10 && j < 5; i += 2, ++j) {}
 //  ^^^^ meta.for.java - meta.for meta.for
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.parens.java - meta.for meta.for
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java - meta.for meta.for
 //                                                      ^ meta.for.java - meta.block meta.block meta.block
 //                                                       ^^ meta.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
-//      ^ punctuation.section.parens.begin.java
+//      ^ punctuation.section.group.begin.java
 //       ^^^ storage.type.primitive.java
 //           ^ variable.other.readwrite.java
 //             ^ keyword.operator.assignment.java
@@ -4660,12 +4660,12 @@ class ForStatementTests {
 //                                          ^ variable.other.readwrite.java
 //                                            ^^ keyword.operator.assignment.augmented.java
 //                                               ^ meta.number.integer.decimal.java constant.numeric.value.java
-//                                                     ^ punctuation.section.parens.end.java
+//                                                     ^ punctuation.section.group.end.java
 //                                                       ^ punctuation.section.block.begin.java
 
     for (final int x = 10;;) {}
 //  ^^^^ meta.for.java - meta.for meta.for
-//      ^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.parens.java - meta.for meta.for
+//      ^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java - meta.for meta.for
 //  ^^^ keyword.control.loop.for.java
 //       ^^^^^ storage.modifier.java
 //             ^^^ storage.type.primitive.java
@@ -4673,11 +4673,11 @@ class ForStatementTests {
 //                   ^ keyword.operator.assignment.java
 //                     ^^ meta.number.integer.decimal.java constant.numeric.value.java
 //                       ^^ punctuation.terminator.java
-//                         ^ punctuation.section.parens.end.java
+//                         ^ punctuation.section.group.end.java
 
     for (native int x = 10;;) {}
 //  ^^^^ meta.for.java - meta.for meta.for
-//      ^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.parens.java - meta.for meta.for
+//      ^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java - meta.for meta.for
 //  ^^^ keyword.control.loop.for.java
 //       ^^^^^^ invalid.illegal.unexpected-modifier.java
 //              ^^^ storage.type.primitive.java
@@ -4685,23 +4685,23 @@ class ForStatementTests {
 //                    ^ keyword.operator.assignment.java
 //                      ^^ meta.number.integer.decimal.java constant.numeric.value.java
 //                        ^^ punctuation.terminator.java
-//                          ^ punctuation.section.parens.end.java
+//                          ^ punctuation.section.group.end.java
 
     for (var i=0;i<new Test(i).run();i=new Test(i).iter()){}
 //  ^^^^ meta.for.java
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.parens.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
 //                                                        ^^ meta.for.java meta.block.java
 
     for (final @Anno Class iter : cond ? new Foo<> : new Bar[]) echo(iter);
 //  ^^^^ meta.for.java
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.parens.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
 //                                       ^^^^^^^^^^ meta.instantiation.java
 //                                                 ^^ - meta.instantiation
 //                                                   ^^^^^^^^^ meta.instantiation.java
 //                                                              ^^^^^^^^^^ meta.for.java
 //                                                                        ^ - meta.for
 //  ^^^ keyword.control.loop.for.java
-//      ^ punctuation.section.parens.begin.java
+//      ^ punctuation.section.group.begin.java
 //       ^^^^^ storage.modifier.java
 //             ^^^^^^ meta.annotation.identifier.java
 //                   ^^^^^ support.class.java
@@ -4717,23 +4717,23 @@ class ForStatementTests {
 //                                                       ^^^ support.class.java
 //                                                          ^ punctuation.section.brackets.begin.java
 //                                                           ^ punctuation.section.brackets.end.java
-//                                                            ^ punctuation.section.parens.end.java
+//                                                            ^ punctuation.section.group.end.java
 //                                                              ^^^^ variable.function.java
-//                                                                  ^ punctuation.section.parens.begin.java
+//                                                                  ^ punctuation.section.group.begin.java
 //                                                                   ^^^^ variable.other.readwrite.java
-//                                                                       ^ punctuation.section.parens.end.java
+//                                                                       ^ punctuation.section.group.end.java
 //                                                                        ^ punctuation.terminator.java
 
     for (private @Anno var iter : cond ? new Foo<> : new Bar[]) echo(iter);
 //  ^^^^ meta.for.java
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.parens.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
 //                                       ^^^^^^^^^^ meta.instantiation.java
 //                                                 ^^ - meta.instantiation
 //                                                   ^^^^^^^^^ meta.instantiation.java
 //                                                              ^^^^^^^^^^ meta.for.java
 //                                                                        ^ - meta.for
 //  ^^^ keyword.control.loop.for.java
-//      ^ punctuation.section.parens.begin.java
+//      ^ punctuation.section.group.begin.java
 //       ^^^^^^^ invalid.illegal.unexpected-modifier.java
 //               ^^^^^^ meta.annotation.identifier.java
 //                     ^^^ storage.type.var.java
@@ -4749,11 +4749,11 @@ class ForStatementTests {
 //                                                       ^^^ support.class.java
 //                                                          ^ punctuation.section.brackets.begin.java
 //                                                           ^ punctuation.section.brackets.end.java
-//                                                            ^ punctuation.section.parens.end.java
+//                                                            ^ punctuation.section.group.end.java
 //                                                              ^^^^ variable.function.java
-//                                                                  ^ punctuation.section.parens.begin.java
+//                                                                  ^ punctuation.section.group.begin.java
 //                                                                   ^^^^ variable.other.readwrite.java
-//                                                                       ^ punctuation.section.parens.end.java
+//                                                                       ^ punctuation.section.group.end.java
 //                                                                        ^ punctuation.terminator.java
 
   }
@@ -4781,53 +4781,53 @@ class IfStatementTests {
 //     ^^^ variable.other.readwrite.java
 
     if (foo)
-//  ^^^ meta.if.java - meta.parens
-//     ^^^^^ meta.if.java meta.parens.java
-//          ^ meta.if.java - meta.parens
+//  ^^^ meta.if.java - meta.group
+//     ^^^^^ meta.if.java meta.group.java
+//          ^ meta.if.java - meta.group
 //  ^^ keyword.control.conditional.if.java
-//     ^ punctuation.section.parens.begin.java
+//     ^ punctuation.section.group.begin.java
 //      ^^^ variable.other.readwrite.java
-//         ^ punctuation.section.parens.end.java
+//         ^ punctuation.section.group.end.java
 
     if (foo) {}
-//  ^^^ meta.if.java - meta.if meta.parens
-//     ^^^^^ meta.if.java meta.parens.java
-//          ^ meta.if.java - meta.if meta.block - meta.if meta.parens
+//  ^^^ meta.if.java - meta.if meta.group
+//     ^^^^^ meta.if.java meta.group.java
+//          ^ meta.if.java - meta.if meta.block - meta.if meta.group
 //           ^^ meta.if.java meta.block.java
 //             ^ - meta.if
 //  ^^ keyword.control.conditional.if.java
-//     ^ punctuation.section.parens.begin.java
+//     ^ punctuation.section.group.begin.java
 //      ^^^ variable.other.readwrite.java
-//         ^ punctuation.section.parens.end.java
+//         ^ punctuation.section.group.end.java
 //           ^ punctuation.section.block.begin.java
 //            ^ punctuation.section.block.end.java
 
     if (foo) else
 //  ^^^^^^^^^ - meta.else
-//  ^^^ meta.if.java - meta.if meta.parens
-//     ^^^^^ meta.if.java meta.parens.java
-//          ^ meta.if.java - meta.if meta.block - meta.if meta.parens
+//  ^^^ meta.if.java - meta.if meta.group
+//     ^^^^^ meta.if.java meta.group.java
+//          ^ meta.if.java - meta.if meta.block - meta.if meta.group
 //           ^^^^^ meta.else.java - meta.if
 //  ^^ keyword.control.conditional.if.java
-//     ^ punctuation.section.parens.begin.java
+//     ^ punctuation.section.group.begin.java
 //      ^^^ variable.other.readwrite.java
-//         ^ punctuation.section.parens.end.java
+//         ^ punctuation.section.group.end.java
 //           ^^^^ keyword.control.conditional.else.java
 
     if (foo) {} else {}
 //  ^^^^^^^^^^^^ - meta.else
-//  ^^^ meta.if.java - meta.parens
-//     ^^^^^ meta.if.java meta.parens.java
-//          ^ meta.if.java - meta.if meta.block - meta.if meta.parens
+//  ^^^ meta.if.java - meta.group
+//     ^^^^^ meta.if.java meta.group.java
+//          ^ meta.if.java - meta.if meta.block - meta.if meta.group
 //           ^^ meta.if.java meta.block.java
 //             ^^^^^^^^ - meta.if
 //              ^^^^^ meta.else.java - meta.else meta.block
 //                   ^^ meta.else.java meta.block.java
 //                     ^ - meta.if - meta.else
 //  ^^ keyword.control.conditional.if.java
-//     ^ punctuation.section.parens.begin.java
+//     ^ punctuation.section.group.begin.java
 //      ^^^ variable.other.readwrite.java
-//         ^ punctuation.section.parens.end.java
+//         ^ punctuation.section.group.end.java
 //           ^ punctuation.section.block.begin.java
 //            ^ punctuation.section.block.end.java
 //              ^^^^ keyword.control.conditional.else.java
@@ -4836,43 +4836,43 @@ class IfStatementTests {
 
     if (foo) else if (bar) else
 //  ^^^^^^^^^ - meta.else
-//  ^^^ meta.if.java - meta.if meta.parens
-//     ^^^^^ meta.if.java meta.parens.java
-//          ^ meta.if.java - meta.if meta.block - meta.if meta.parens
+//  ^^^ meta.if.java - meta.if meta.group
+//     ^^^^^ meta.if.java meta.group.java
+//          ^ meta.if.java - meta.if meta.block - meta.if meta.group
 //           ^^^^^ meta.else.java - meta.if
 //  ^^ keyword.control.conditional.if.java
-//     ^ punctuation.section.parens.begin.java
+//     ^ punctuation.section.group.begin.java
 //      ^^^ variable.other.readwrite.java
-//         ^ punctuation.section.parens.end.java
+//         ^ punctuation.section.group.end.java
 //           ^^^^ keyword.control.conditional.else.java
 //                ^^^^^^^^^ - meta.else
-//                ^^^ meta.if.java - meta.if meta.parens
-//                   ^^^^^ meta.if.java meta.parens.java
-//                        ^ meta.if.java - meta.if meta.block - meta.if meta.parens
+//                ^^^ meta.if.java - meta.if meta.group
+//                   ^^^^^ meta.if.java meta.group.java
+//                        ^ meta.if.java - meta.if meta.block - meta.if meta.group
 //                         ^^^^^ meta.else.java - meta.if
 //                ^^ keyword.control.conditional.if.java
-//                   ^ punctuation.section.parens.begin.java
+//                   ^ punctuation.section.group.begin.java
 //                    ^^^ variable.other.readwrite.java
-//                       ^ punctuation.section.parens.end.java
+//                       ^ punctuation.section.group.end.java
 //                         ^^^^ keyword.control.conditional.else.java
 
     if (foo() == true) fun() else if (bar != 0) bar = 1 else baz++
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.else
-//  ^^^ meta.if.java - meta.if meta.parens
-//     ^^^^^^^^^^^^^^^ meta.if.java meta.parens.java
-//                    ^ meta.if.java - meta.if meta.parens
+//  ^^^ meta.if.java - meta.if meta.group
+//     ^^^^^^^^^^^^^^^ meta.if.java meta.group.java
+//                    ^ meta.if.java - meta.if meta.group
 //                     ^^^^^^ meta.if.java
 //                           ^^^^^ meta.else.java - meta.if
 //                                ^^^^^^^^^^^^^^^^^^^^^^ - meta.else
-//                                ^^^ meta.if.java - meta.if meta.parens
-//                                   ^^^^^^^^^^ meta.if.java meta.parens.java
+//                                ^^^ meta.if.java - meta.if meta.group
+//                                   ^^^^^^^^^^ meta.if.java meta.group.java
 //                                                      ^^^^^ meta.else.java - meta.if
 //  ^^ keyword.control.conditional.if.java
-//     ^ punctuation.section.parens.begin.java
+//     ^ punctuation.section.group.begin.java
 //      ^^^ variable.function.java
 //            ^^ keyword.operator.comparison.java
 //               ^^^^ constant.language.boolean.java
-//                   ^ punctuation.section.parens.end.java
+//                   ^ punctuation.section.group.end.java
 //                     ^^^ variable.function.java
 //                           ^^^^ keyword.control.conditional.else.java
   }
@@ -4900,33 +4900,33 @@ class SwitchStatementTests {
     switch (foo)
 //  ^^^^^^^^^^^^^ - meta.switch meta.switch
 //  ^^^^^^^ meta.switch.java
-//         ^^^^^ meta.switch.java meta.parens.java
+//         ^^^^^ meta.switch.java meta.group.java
 //              ^ meta.switch.java
 //  ^^^^^^ keyword.control.conditional.switch.java
-//         ^ punctuation.section.parens.begin.java
+//         ^ punctuation.section.group.begin.java
 //          ^^^ variable.other.readwrite.java
-//             ^ punctuation.section.parens.end.java
+//             ^ punctuation.section.group.end.java
 
     switch (foo) {}
 //  ^^^^^^^^^^^^^^^ - meta.switch meta.switch
 //  ^^^^^^^ meta.switch.java
-//         ^^^^^ meta.switch.java meta.parens.java
+//         ^^^^^ meta.switch.java meta.group.java
 //              ^ meta.switch.java
 //               ^^ meta.switch.java meta.block.java
 //  ^^^^^^ keyword.control.conditional.switch.java
-//         ^ punctuation.section.parens.begin.java
+//         ^ punctuation.section.group.begin.java
 //          ^^^ variable.other.readwrite.java
-//             ^ punctuation.section.parens.end.java
+//             ^ punctuation.section.group.end.java
 //               ^ punctuation.section.block.begin.java
 //                ^ punctuation.section.block.end.java
 
     switch (foo {}
 //  ^^^^^^^^^^^^^^^ - meta.switch meta.switch
 //  ^^^^^^^ meta.switch.java
-//         ^^^^^ meta.switch.java meta.parens.java
+//         ^^^^^ meta.switch.java meta.group.java
 //              ^^ meta.switch.java meta.block.java
 //  ^^^^^^ keyword.control.conditional.switch.java
-//         ^ punctuation.section.parens.begin.java
+//         ^ punctuation.section.group.begin.java
 //          ^^^ variable.other.readwrite.java
 //             ^ invalid.illegal.stray-terminator-end
 //              ^ punctuation.section.block.begin.java
@@ -5019,17 +5019,17 @@ class SwitchStatementTests {
 
       case (constant << 0x5) :
 //   ^ meta.switch.java meta.block.java - meta.case
-//    ^^^^^ meta.switch.java meta.block.java meta.case.java - meta.parens
-//         ^^^^^^^^^^^^^^^^^ meta.switch.java meta.block.java meta.case.java meta.parens.java
-//                          ^^ meta.switch.java meta.block.java meta.case.java - meta.parens
+//    ^^^^^ meta.switch.java meta.block.java meta.case.java - meta.group
+//         ^^^^^^^^^^^^^^^^^ meta.switch.java meta.block.java meta.case.java meta.group.java
+//                          ^^ meta.switch.java meta.block.java meta.case.java - meta.group
 //                            ^ meta.switch.java meta.block.java - meta.case
 //    ^^^^ keyword.control.conditional.case.java
-//         ^ punctuation.section.parens.begin.java
+//         ^ punctuation.section.group.begin.java
 //          ^^^^^^^^ variable.other.readwrite.java
 //                   ^^ keyword.operator.bitwise.java
 //                      ^^ meta.number.integer.hexadecimal.java constant.numeric.base.java
 //                        ^ meta.number.integer.hexadecimal.java constant.numeric.value.java
-//                         ^ punctuation.section.parens.end.java
+//                         ^ punctuation.section.group.end.java
 //                           ^ punctuation.separator.expressions.java
 
       case CONSTANT:
@@ -5287,9 +5287,9 @@ class ReturnStatementTests {
 //         ^^^^^^^^ variable.other.readwrite.java
 //                  ^ keyword.operator.arithmetic.java
 //                    ^^^^ variable.function.java
-//                        ^ punctuation.section.parens.begin.java
+//                        ^ punctuation.section.group.begin.java
 //                         ^^ meta.number.integer.decimal.java constant.numeric.value.java
-//                           ^ punctuation.section.parens.end.java
+//                           ^ punctuation.section.group.end.java
 //                            ^ punctuation.terminator.java
 
     return
@@ -5307,13 +5307,13 @@ class ReturnStatementTests {
 //      ^^^^ variable.function.java
         (
 //     ^^^ meta.return.java
-//      ^ punctuation.section.parens.begin.java
+//      ^ punctuation.section.group.begin.java
             10
 //         ^^^^ meta.return.java
 //          ^^ meta.number.integer.decimal.java constant.numeric.value.java
         )
 //     ^^^ meta.return.java
-//      ^ punctuation.section.parens.end.java
+//      ^ punctuation.section.group.end.java
         ;
 //     ^ meta.return.java
 //      ^ - meta.return
@@ -5326,22 +5326,22 @@ class ReturnStatementTests {
 //  ^^^^^^ keyword.control.flow.return.java
 //         ^^^ keyword.other.storage.new.java
 //             ^^^^^^^ support.class.java
-//                    ^ punctuation.section.parens.begin.java
-//                     ^ punctuation.section.parens.end.java
+//                    ^ punctuation.section.group.begin.java
+//                     ^ punctuation.section.group.end.java
 //                      ^ punctuation.terminator.java
 
     return (a, int b) -> a + b;
 // ^ - meta.return - keyword
-//  ^^^^^^^ meta.return.java - meta.function - meta.parens
-//         ^^^^^^^^^^ meta.return.java meta.function.anonymous.parameters.java meta.parens.java
-//                   ^^^^^^^^^ meta.return.java meta.function.anonymous.java - meta.parens
+//  ^^^^^^^ meta.return.java - meta.function - meta.group
+//         ^^^^^^^^^^ meta.return.java meta.function.anonymous.parameters.java meta.group.java
+//                   ^^^^^^^^^ meta.return.java meta.function.anonymous.java - meta.group
 //  ^^^^^^ keyword.control.flow.return.java
-//         ^ punctuation.section.parens.begin.java
+//         ^ punctuation.section.group.begin.java
 //          ^ variable.parameter.java
 //           ^ punctuation.separator.comma.java
 //             ^^^ storage.type.primitive.java
 //                 ^ variable.parameter.java
-//                  ^ punctuation.section.parens.end.java
+//                  ^ punctuation.section.group.end.java
 //                    ^^ storage.type.function.anonymous.java
 //                       ^ variable.other.readwrite.java
 //                         ^ keyword.operator.arithmetic.java
@@ -5385,9 +5385,9 @@ class ThrowStatementTests {
 //        ^^^^^^^^ variable.other.readwrite.java
 //                 ^ keyword.operator.arithmetic.java
 //                   ^^^^ variable.function.java
-//                       ^ punctuation.section.parens.begin.java
+//                       ^ punctuation.section.group.begin.java
 //                        ^^ meta.number.integer.decimal.java constant.numeric.value.java
-//                          ^ punctuation.section.parens.end.java
+//                          ^ punctuation.section.group.end.java
 //                           ^ punctuation.terminator.java
 
     throw
@@ -5405,13 +5405,13 @@ class ThrowStatementTests {
 //      ^^^^ variable.function.java
         (
 //     ^^^ meta.throw.java
-//      ^ punctuation.section.parens.begin.java
+//      ^ punctuation.section.group.begin.java
             10
 //         ^^^^ meta.throw.java
 //          ^^ meta.number.integer.decimal.java constant.numeric.value.java
         )
 //     ^^^ meta.throw.java
-//      ^ punctuation.section.parens.end.java
+//      ^ punctuation.section.group.end.java
         ;
 //     ^ meta.throw.java
 //      ^ - meta.throw
@@ -5424,22 +5424,22 @@ class ThrowStatementTests {
 //  ^^^^^ keyword.control.flow.throw.java
 //        ^^^ keyword.other.storage.new.java
 //            ^^^^^^^ support.class.java
-//                   ^ punctuation.section.parens.begin.java
-//                    ^ punctuation.section.parens.end.java
+//                   ^ punctuation.section.group.begin.java
+//                    ^ punctuation.section.group.end.java
 //                     ^ punctuation.terminator.java
 
     throw (a, int b) -> a + b;
 // ^ - meta.throw - keyword
-//  ^^^^^^ meta.throw.java - meta.function - meta.parens
-//        ^^^^^^^^^^ meta.throw.java meta.function.anonymous.parameters.java meta.parens.java
-//                  ^^^^^^^^^ meta.throw.java meta.function.anonymous.java - meta.parens
+//  ^^^^^^ meta.throw.java - meta.function - meta.group
+//        ^^^^^^^^^^ meta.throw.java meta.function.anonymous.parameters.java meta.group.java
+//                  ^^^^^^^^^ meta.throw.java meta.function.anonymous.java - meta.group
 //  ^^^^^ keyword.control.flow.throw.java
-//        ^ punctuation.section.parens.begin.java
+//        ^ punctuation.section.group.begin.java
 //         ^ variable.parameter.java
 //          ^ punctuation.separator.comma.java
 //            ^^^ storage.type.primitive.java
 //                ^ variable.parameter.java
-//                 ^ punctuation.section.parens.end.java
+//                 ^ punctuation.section.group.end.java
 //                   ^^ storage.type.function.anonymous.java
 //                      ^ variable.other.readwrite.java
 //                        ^ keyword.operator.arithmetic.java
@@ -5465,14 +5465,14 @@ class SynchronizedStatementTests {
 //^^^^^^^^^^^^^ meta.method.modifier.java
 //             ^^^^^ meta.method.return-type.java
 //                  ^^^^^^^^^^^^^^^^^^ meta.method.identifier.java
-//                                    ^^ meta.method.parameters.java meta.parens.java
+//                                    ^^ meta.method.parameters.java meta.group.java
 //                                      ^ meta.method.java
 //                                       ^^ meta.method.java meta.block.java
 //^^^^^^^^^^^^ storage.modifier.java
 //             ^^^^ storage.type.void.java
 //                  ^^^^^^^^^^^^^^^^^^ entity.name.function.java
-//                                    ^ punctuation.section.parens.begin.java
-//                                     ^ punctuation.section.parens.end.java
+//                                    ^ punctuation.section.group.begin.java
+//                                     ^ punctuation.section.group.end.java
 //                                       ^ punctuation.section.block.begin.java
 
     synchronized
@@ -5483,26 +5483,26 @@ class SynchronizedStatementTests {
 
     synchronized ()  ;
 //^^^^^^^^^^^^^^^^^^^ meta.synchronized.java
-//               ^^ meta.parens.java
+//               ^^ meta.group.java
 //                   ^ - meta.synchronized
 // ^ - keyword
 //  ^^^^^^^^^^^^ keyword.control.flow.synchronized.java
 //              ^ - keyword
-//               ^ punctuation.section.parens.begin.java
-//                ^ punctuation.section.parens.end.java
+//               ^ punctuation.section.group.begin.java
+//                ^ punctuation.section.group.end.java
 //                   ^ punctuation.terminator.java
 
     synchronized () {}
 // ^ - meta.synchronized
 //  ^^^^^^^^^^^^^^^^^^ meta.synchronized.java
-//               ^^ meta.parens.java
+//               ^^ meta.group.java
 //                  ^^ meta.block.java
 //                    ^ - meta.synchronized
 // ^ - keyword
 //  ^^^^^^^^^^^^ keyword.control.flow.synchronized.java
 //              ^ - keyword
-//               ^ punctuation.section.parens.begin.java
-//                ^ punctuation.section.parens.end.java
+//               ^ punctuation.section.group.begin.java
+//                ^ punctuation.section.group.end.java
 //                  ^ punctuation.section.block.begin.java
 //                   ^ punctuation.section.block.end.java
   }
@@ -5532,11 +5532,11 @@ class TryStatementTests {
     try foo() catch (Exception e) bar(e) finally baz()
 //  ^^^^^^^^^^ meta.try.java - meta.try meta.try - meta.catch - meta.finally
 //            ^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.catch meta.catch - meta.finally - meta.try
-//            ^^^^^^ meta.catch.java - meta.parens
-//                  ^^^^^^^^^^^^^ meta.catch.java meta.parens.java
-//                               ^^^^ meta.catch.java - meta.parens
-//                                   ^^^ meta.catch.java meta.parens.java
-//                                      ^ meta.catch.java - meta.parens
+//            ^^^^^^ meta.catch.java - meta.group
+//                  ^^^^^^^^^^^^^ meta.catch.java meta.group.java
+//                               ^^^^ meta.catch.java - meta.group
+//                                   ^^^ meta.catch.java meta.group.java
+//                                      ^ meta.catch.java - meta.group
 //                                       ^^^^^^^^^^^^^ meta.finally.java - meta.finally meta.finally - meta.catch - meta.try
 //  ^^^ keyword.control.exception.try.java
 //      ^^^ variable.function.java
@@ -5549,7 +5549,7 @@ class TryStatementTests {
 //  ^^^^ meta.try.java - meta.try meta.block - meta.try meta.try
 //      ^^^^^^^^^^ meta.try.java meta.block.java - meta.try meta.try
 //                 ^^^^^^ meta.catch.java - meta.catch meta.catch
-//                       ^^^^^^^^^^^^^ meta.catch.java meta.parens.java - meta.catch meta.catch
+//                       ^^^^^^^^^^^^^ meta.catch.java meta.group.java - meta.catch meta.catch
 //                                    ^ meta.catch.java - meta.catch meta.catch
 //                                     ^^^^^^^^^^^ meta.catch.java meta.block.java - meta.catch meta.catch
 //                                                 ^^^^^^^^ meta.finally.java - meta.finally meta.finally
@@ -5557,10 +5557,10 @@ class TryStatementTests {
 //  ^^^ keyword.control.exception.try.java
 //        ^^^ variable.function.java
 //                 ^^^^^ keyword.control.exception.catch.java
-//                       ^ punctuation.section.parens.begin.java
+//                       ^ punctuation.section.group.begin.java
 //                        ^^^^^^^^^ support.class.java
 //                                  ^ variable.parameter.java
-//                                   ^ punctuation.section.parens.end.java
+//                                   ^ punctuation.section.group.end.java
 //                                     ^ punctuation.section.block.begin.java
 //                                       ^^^ variable.function.java
 //                                               ^ punctuation.section.block.end.java
@@ -5579,15 +5579,15 @@ class TryStatementTests {
 //  ^ meta.try.java meta.block.java
 //   ^ - meta.try - meta.catch - meta.finally
 //    ^^^^^^ meta.catch.java - meta.catch meta.catch
-//          ^^^^^^^^^^^^^ meta.catch.java meta.parens.java - meta.catch meta.catch
+//          ^^^^^^^^^^^^^ meta.catch.java meta.group.java - meta.catch meta.catch
 //                       ^ meta.catch.java - meta.catch meta.catch
 //                        ^^ meta.catch.java meta.block.java - meta.catch meta.catch
 //  ^ punctuation.section.block.end.java
 //    ^^^^^ keyword.control.exception.catch.java
-//          ^ punctuation.section.parens.begin.java
+//          ^ punctuation.section.group.begin.java
 //           ^^^^^^^^^ support.class.java
 //                     ^ variable.parameter.java
-//                      ^ punctuation.section.parens.end.java
+//                      ^ punctuation.section.group.end.java
 //                        ^ punctuation.section.block.begin.java
       bar(e);
     } finally {
@@ -5605,17 +5605,17 @@ class TryStatementTests {
 
     try (, , = , = null ; , =) {} catch ( | | ) {}
 //  ^^^^ meta.try.java - meta.try meta.try
-//      ^^^^^^^^^^^^^^^^^^^^^^ meta.try.java meta.parens.java - meta.try meta.try
-//                            ^ meta.try.java - meta.try meta.try - meta.parens
+//      ^^^^^^^^^^^^^^^^^^^^^^ meta.try.java meta.group.java - meta.try meta.try
+//                            ^ meta.try.java - meta.try meta.try - meta.group
 //                             ^^ meta.try.java meta.block.java
 //                               ^ - meta.try
-//                                ^^^^^^ meta.catch.java - meta.catch meta.parens
-//                                      ^^^^^^^ meta.catch.java meta.parens.java
-//                                             ^ meta.catch.java - meta.catch meta.parens - meta.catch meta.block
+//                                ^^^^^^ meta.catch.java - meta.catch meta.group
+//                                      ^^^^^^^ meta.catch.java meta.group.java
+//                                             ^ meta.catch.java - meta.catch meta.group - meta.catch meta.block
 //                                              ^^ meta.catch.java meta.block.java
 //                                                ^ - meta.catch
 //  ^^^ keyword.control.exception.try.java
-//      ^ punctuation.section.parens.begin.java
+//      ^ punctuation.section.group.begin.java
 //       ^ punctuation.separator.comma.java
 //         ^ punctuation.separator.comma.java
 //           ^ keyword.operator.assignment.java
@@ -5625,42 +5625,42 @@ class TryStatementTests {
 //                      ^ punctuation.terminator.java
 //                        ^ punctuation.separator.comma.java
 //                          ^ keyword.operator.assignment.java
-//                           ^ punctuation.section.parens.end.java
+//                           ^ punctuation.section.group.end.java
 //                             ^ punctuation.section.block.begin.java
 //                              ^ punctuation.section.block.end.java
 //                                ^^^^^ keyword.control.exception.catch.java
-//                                      ^ punctuation.section.parens.begin.java
+//                                      ^ punctuation.section.group.begin.java
 //                                        ^ punctuation.separator.pipe.java
 //                                          ^ punctuation.separator.pipe.java
-//                                            ^ punctuation.section.parens.end.java
+//                                            ^ punctuation.section.group.end.java
 //                                              ^ punctuation.section.block.begin.java
 //                                               ^ punctuation.section.block.end.java
 
     try (foo = Bar.baz(path)) {}
 //  ^^^^ meta.try.java - meta.try meta.try
-//      ^^^^^^^^^^^^^^^^^^^^^ meta.try.java meta.parens.java - meta.try meta.try
-//                           ^ meta.try.java - meta.try meta.try - meta.parens
+//      ^^^^^^^^^^^^^^^^^^^^^ meta.try.java meta.group.java - meta.try meta.try
+//                           ^ meta.try.java - meta.try meta.try - meta.group
 //                            ^^ meta.try.java meta.block.java
 //  ^^^ keyword.control.exception.try.java
-//      ^ punctuation.section.parens.begin.java
+//      ^ punctuation.section.group.begin.java
 //       ^^^ variable.other.readwrite.java
 //           ^ keyword.operator.assignment.java
 //             ^^^ support.class.java
 //                ^ punctuation.accessor.dot.java
 //                 ^^^ variable.function.java
-//                    ^ punctuation.section.parens.begin.java
+//                    ^ punctuation.section.group.begin.java
 //                     ^^^^ variable.other.readwrite.java
-//                         ^^ punctuation.section.parens.end.java
+//                         ^^ punctuation.section.group.end.java
 //                            ^ punctuation.section.block.begin.java
 //                             ^ punctuation.section.block.end.java
 
     try (Stream<String> lines = Files.lines(path)) {
 //  ^^^^ meta.try.java - meta.try meta.try
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.try.java meta.parens.java - meta.try meta.try
-//                                                ^ meta.try.java - meta.try meta.try - meta.parens
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.try.java meta.group.java - meta.try meta.try
+//                                                ^ meta.try.java - meta.try meta.try - meta.group
 //                                                 ^^ meta.try.java meta.block.java
 //  ^^^ keyword.control.exception.try.java
-//      ^ punctuation.section.parens.begin.java
+//      ^ punctuation.section.group.begin.java
 //       ^^^^^^ support.class.java
 //             ^ punctuation.definition.generic.begin.java
 //              ^^^^^^ support.class.java
@@ -5670,9 +5670,9 @@ class TryStatementTests {
 //                              ^^^^^ support.class.java
 //                                   ^ punctuation.accessor.dot.java
 //                                    ^^^^^ variable.function.java
-//                                         ^ punctuation.section.parens.begin.java
+//                                         ^ punctuation.section.group.begin.java
 //                                          ^^^^ variable.other.readwrite.java
-//                                              ^^ punctuation.section.parens.end.java
+//                                              ^^ punctuation.section.group.end.java
 //                                                 ^ punctuation.section.block.begin.java
       lines.forEach(System.out::println);
 //                              ^^^^^^^ variable.function.reference.java
@@ -5681,23 +5681,23 @@ class TryStatementTests {
 //^^^ meta.try.java meta.block.java
 //   ^ - meta.try - meta.catch
 //    ^^^^^^ meta.catch.java - meta.catch meta.catch
-//          ^^^^^^^^^^^^^^^^^^^^ meta.catch.java meta.parens.java - meta.catch meta.catch
+//          ^^^^^^^^^^^^^^^^^^^^ meta.catch.java meta.group.java - meta.catch meta.catch
 //                              ^ meta.catch.java - meta.catch meta.catch
 //                               ^^ meta.catch.java meta.block.java
 //  ^ punctuation.section.block.end.java
 //    ^^^^^ keyword.control.exception.catch.java
-//          ^ punctuation.section.parens.begin.java
+//          ^ punctuation.section.group.begin.java
 //           ^^^^^^^^^^^ support.class.java
 //                       ^^^^^^ variable.parameter.java
-//                             ^ punctuation.section.parens.end.java
+//                             ^ punctuation.section.group.end.java
 //                               ^ punctuation.section.block.begin.java
     } catch (final MyException | com.net.org.Foo.Bar |
 //^^^ meta.catch.java meta.block.java
 //   ^ - meta.catch
 //    ^^^^^^ meta.catch.java - meta.catch meta.catch
-//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.catch.java meta.parens.java - meta.catch meta.catch
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.catch.java meta.group.java - meta.catch meta.catch
 //    ^^^^^ keyword.control.exception.catch.java
-//          ^ punctuation.section.parens.begin
+//          ^ punctuation.section.group.begin
 //           ^^^^^ storage.modifier.java
 //                 ^^^^^^^^^^^ support.class
 //                             ^ punctuation.separator.pipe.java
@@ -5712,38 +5712,38 @@ class TryStatementTests {
 //                                               ^^^ support.class.java
 //                                                   ^ punctuation.separator.pipe.java
           YourException
-//       ^^^^^^^^^^^^^^^ meta.catch.java meta.parens.java - meta.catch meta.catch
+//       ^^^^^^^^^^^^^^^ meta.catch.java meta.group.java - meta.catch meta.catch
 //        ^^^^^^^^^^^^^ support.class.java
           ignore) {}
-//       ^^^^^^^ meta.catch.java meta.parens.java - meta.catch meta.catch
+//       ^^^^^^^ meta.catch.java meta.group.java - meta.catch meta.catch
 //               ^ meta.catch.java - meta.catch meta.catch
 //                ^^ meta.catch.java meta.block.java
 //        ^^^^^^ variable.parameter.java
-//              ^ punctuation.section.parens.end.java
+//              ^ punctuation.section.group.end.java
 //                ^ punctuation.section.block.begin.java
 //                 ^ punctuation.section.block.end.java
 
     try (final InputStream is = new FileInputStream(args[0]);
 //  ^^^^ meta.try.java - meta.try meta.try
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.try.java meta.parens.java - meta.try meta.try
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.try.java meta.group.java - meta.try meta.try
 //  ^^^ keyword.control.exception.try.java
-//      ^ punctuation.section.parens.begin.java
+//      ^ punctuation.section.group.begin.java
 //       ^^^^^ storage.modifier.java
 //             ^^^^^^^^^^^ support.class.java
 //                         ^^ variable.other.readwrite.java
 //                            ^ keyword.operator.assignment.java
 //                              ^^^ keyword.other.storage.new.java
 //                                  ^^^^^^^^^^^^^^^ support.class.java
-//                                                 ^ punctuation.section.parens.begin.java
+//                                                 ^ punctuation.section.group.begin.java
 //                                                  ^^^^ variable.other.readwrite.java
 //                                                      ^ punctuation.section.brackets.begin.java
 //                                                       ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                                        ^ punctuation.section.brackets.end.java
-//                                                         ^ punctuation.section.parens.end.java
+//                                                         ^ punctuation.section.group.end.java
 //                                                          ^ punctuation.terminator.java
          final OutputStream os = new FileOutputStream(args[1])) {
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.try.java meta.parens.java - meta.try meta.try
-//                                                             ^ meta.try.java - meta.try meta.try - meta.parens
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.try.java meta.group.java - meta.try meta.try
+//                                                             ^ meta.try.java - meta.try meta.try - meta.group
 //                                                              ^^ meta.try.java meta.block.java
 //       ^^^^^ storage.modifier.java
 //             ^^^^^^^^^^^^ support.class.java
@@ -5751,12 +5751,12 @@ class TryStatementTests {
 //                             ^ keyword.operator.assignment.java
 //                               ^^^ keyword.other.storage.new.java
 //                                   ^^^^^^^^^^^^^^^^ support.class.java
-//                                                   ^ punctuation.section.parens.begin.java
+//                                                   ^ punctuation.section.group.begin.java
 //                                                    ^^^^ variable.other.readwrite.java
 //                                                        ^ punctuation.section.brackets.begin.java
 //                                                         ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                                          ^ punctuation.section.brackets.end.java
-//                                                           ^^ punctuation.section.parens.end.java
+//                                                           ^^ punctuation.section.group.end.java
 //                                                              ^ punctuation.section.block.begin.java
     }
 //  ^ meta.try.java meta.block.java punctuation.section.block.end.java
@@ -5764,8 +5764,8 @@ class TryStatementTests {
 
     try (var in = new BufferedReader()) {
 //  ^^^^ meta.try.java - meta.try meta.try
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.try.java meta.parens.java - meta.try meta.try
-//                                     ^ meta.try.java - meta.try meta.try - meta.parens
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.try.java meta.group.java - meta.try meta.try
+//                                     ^ meta.try.java - meta.try meta.try - meta.group
 //                                      ^^ meta.try.java meta.block.java
 //       ^^^ storage.type.var.java
 //           ^^ variable.other.readwrite.java
@@ -5803,34 +5803,34 @@ class WhileStatementTests {
 
     while (false)
 //  ^^^^^^^^^^^^^^ - meta.while meta.while
-//  ^^^^^^ meta.while.java - meta.parens
-//        ^^^^^^^ meta.while.java meta.parens.java
-//               ^ meta.while.java - meta.parens
+//  ^^^^^^ meta.while.java - meta.group
+//        ^^^^^^^ meta.while.java meta.group.java
+//               ^ meta.while.java - meta.group
 //  ^^^^^ keyword.control.loop.while.java
-//        ^ punctuation.section.parens.begin.java
+//        ^ punctuation.section.group.begin.java
 //         ^^^^^ constant.language.boolean.java
-//              ^ punctuation.section.parens.end.java
+//              ^ punctuation.section.group.end.java
 
     while (false) {  }
 //  ^^^^^^^^^^^^^^^^^^ - meta.while meta.while
-//  ^^^^^^ meta.while.java - meta.parens
-//        ^^^^^^^ meta.while.java meta.parens.java
-//               ^ meta.while.java - meta.while.java meta.parens - meta.while.java meta.block
+//  ^^^^^^ meta.while.java - meta.group
+//        ^^^^^^^ meta.while.java meta.group.java
+//               ^ meta.while.java - meta.while.java meta.group - meta.while.java meta.block
 //                ^^^^ meta.while.java meta.block.java
 //  ^^^^^ keyword.control.loop.while.java
-//        ^ punctuation.section.parens.begin.java
+//        ^ punctuation.section.group.begin.java
 //         ^^^^^ constant.language.boolean.java
-//              ^ punctuation.section.parens.end.java
+//              ^ punctuation.section.group.end.java
 //                ^ punctuation.section.block.begin.java
 //                   ^ punctuation.section.block.end.java
 
     while (false {  }
 //  ^^^^^^^^^^^^^^^^^^ - meta.while meta.while
 //  ^^^^^^ meta.while.java
-//        ^^^^^^^ meta.while.java meta.parens.java
+//        ^^^^^^^ meta.while.java meta.group.java
 //               ^^^^ meta.while.java meta.block.java
 //  ^^^^^ keyword.control.loop.while.java
-//        ^ punctuation.section.parens.begin.java
+//        ^ punctuation.section.group.begin.java
 //         ^^^^^ constant.language.boolean.java
 //              ^ invalid.illegal.stray-terminator-end
 //               ^ punctuation.section.block.begin.java
@@ -5895,10 +5895,10 @@ class MethodReferenceExpressionsTests {
 //          ^^^ variable.function.reference.java
 
     (test ? list.replaceAll(String::trim) : list) :: iterator
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.parens.java
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.java
 //               ^^^^^^^^^^ meta.function-call.identifier.java
-//                         ^^^^^^^^^^^^^^ meta.function-call.arguments.java meta.parens.java
-//  ^ punctuation.section.parens.begin.java
+//                         ^^^^^^^^^^^^^^ meta.function-call.arguments.java meta.group.java
+//  ^ punctuation.section.group.begin.java
 //   ^^^^ variable.other.readwrite.java
 //        ^ keyword.operator.ternary.java
 //          ^^^^ variable.other.readwrite.java
@@ -5909,7 +5909,7 @@ class MethodReferenceExpressionsTests {
 //                                  ^^^^ variable.function.reference.java
 //                                        ^ keyword.operator.ternary.java
 //                                          ^^^^ variable.other.readwrite.java
-//                                              ^ punctuation.section.parens.end.java
+//                                              ^ punctuation.section.group.end.java
 //                                                ^^ punctuation.accessor.double-colon.java
 //                                                   ^^^^^^^^ variable.function.reference.java
 
@@ -5977,25 +5977,25 @@ class MethodInvocationExpressionsTests {
 
      foo( ;
 //   ^^^ meta.function-call.identifier.java
-//      ^^^ meta.function-call.arguments.java meta.parens.java
+//      ^^^ meta.function-call.arguments.java meta.group.java
 //   ^^^ variable.function.java
-//      ^ punctuation.section.parens.begin.java
+//      ^ punctuation.section.group.begin.java
 //        ^ invalid.illegal.stray-terminator-end
 
      foo();
 //   ^^^ meta.function-call.identifier.java
-//      ^^ meta.function-call.arguments.java meta.parens.java
+//      ^^ meta.function-call.arguments.java meta.group.java
 //   ^^^ variable.function.java
-//      ^ punctuation.section.parens.begin.java
-//       ^ punctuation.section.parens.end.java
+//      ^ punctuation.section.group.begin.java
+//       ^ punctuation.section.group.end.java
 //        ^ punctuation.terminator.java
 
      foo ();
 //   ^^^^ meta.function-call.identifier.java
-//       ^^ meta.function-call.arguments.java meta.parens.java
+//       ^^ meta.function-call.arguments.java meta.group.java
 //   ^^^ variable.function.java
-//       ^ punctuation.section.parens.begin.java
-//        ^ punctuation.section.parens.end.java
+//       ^ punctuation.section.group.begin.java
+//        ^ punctuation.section.group.end.java
 //         ^ punctuation.terminator.java
 
      foo
@@ -6003,29 +6003,29 @@ class MethodInvocationExpressionsTests {
 //   ^^^ variable.function.java
      () ;
 //^^^ meta.function-call.identifier.java
-//   ^^ meta.function-call.arguments.java meta.parens.java
-//   ^ punctuation.section.parens.begin.java
-//    ^ punctuation.section.parens.end.java
+//   ^^ meta.function-call.arguments.java meta.group.java
+//   ^ punctuation.section.group.begin.java
+//    ^ punctuation.section.group.end.java
 //      ^ punctuation.terminator.java
 
      object.foo();
 //   ^^^^^^ variable.other.readwrite.java
 //         ^ punctuation.accessor.dot.java
 //          ^^^ meta.function-call.identifier.java
-//             ^^ meta.function-call.arguments.java meta.parens.java
+//             ^^ meta.function-call.arguments.java meta.group.java
 //          ^^^ variable.function.java
-//             ^ punctuation.section.parens.begin.java
-//              ^ punctuation.section.parens.end.java
+//             ^ punctuation.section.group.begin.java
+//              ^ punctuation.section.group.end.java
 //               ^ punctuation.terminator.java
 
      super.foo();
 //   ^^^^^ variable.language.java
 //        ^ punctuation.accessor.dot.java
 //         ^^^ meta.function-call.identifier.java
-//            ^^ meta.function-call.arguments.java meta.parens.java
+//            ^^ meta.function-call.arguments.java meta.group.java
 //         ^^^ variable.function.java
-//            ^ punctuation.section.parens.begin.java
-//             ^ punctuation.section.parens.end.java
+//            ^ punctuation.section.group.begin.java
+//             ^ punctuation.section.group.end.java
 //              ^ punctuation.terminator.java
 
      super.<A>foo();
@@ -6036,20 +6036,20 @@ class MethodInvocationExpressionsTests {
 //          ^ support.class.java
 //           ^ punctuation.definition.generic.end.java
 //            ^^^ meta.function-call.identifier.java
-//               ^^ meta.function-call.arguments.java meta.parens.java
+//               ^^ meta.function-call.arguments.java meta.group.java
 //            ^^^ variable.function.java
-//               ^ punctuation.section.parens.begin.java
-//                ^ punctuation.section.parens.end.java
+//               ^ punctuation.section.group.begin.java
+//                ^ punctuation.section.group.end.java
 //                 ^ punctuation.terminator.java
 
      this.foo();
 //   ^^^^ variable.language.java
 //       ^ punctuation.accessor.dot.java
 //        ^^^ meta.function-call.identifier.java
-//           ^^ meta.function-call.arguments.java meta.parens.java
+//           ^^ meta.function-call.arguments.java meta.group.java
 //        ^^^ variable.function.java
-//           ^ punctuation.section.parens.begin.java
-//            ^ punctuation.section.parens.end.java
+//           ^ punctuation.section.group.begin.java
+//            ^ punctuation.section.group.end.java
 //             ^ punctuation.terminator.java
 
      this.<A>foo();
@@ -6060,10 +6060,10 @@ class MethodInvocationExpressionsTests {
 //         ^ support.class.java
 //          ^ punctuation.definition.generic.end.java
 //           ^^^ meta.function-call.identifier.java
-//              ^^ meta.function-call.arguments.java meta.parens.java
+//              ^^ meta.function-call.arguments.java meta.group.java
 //           ^^^ variable.function.java
-//              ^ punctuation.section.parens.begin.java
-//               ^ punctuation.section.parens.end.java
+//              ^ punctuation.section.group.begin.java
+//               ^ punctuation.section.group.end.java
 //                ^ punctuation.terminator.java
 
      this.<B> foo();
@@ -6074,20 +6074,20 @@ class MethodInvocationExpressionsTests {
 //         ^ support.class.java
 //          ^ punctuation.definition.generic.end.java
 //            ^^^ meta.function-call.identifier.java
-//               ^^ meta.function-call.arguments.java meta.parens.java
+//               ^^ meta.function-call.arguments.java meta.group.java
 //            ^^^ variable.function.java
-//               ^ punctuation.section.parens.begin.java
-//                ^ punctuation.section.parens.end.java
+//               ^ punctuation.section.group.begin.java
+//                ^ punctuation.section.group.end.java
 //                 ^ punctuation.terminator.java
 
      ( foo ).bar();
-//   ^^^^^^^ meta.parens.java
+//   ^^^^^^^ meta.group.java
 //          ^ punctuation.accessor.dot.java
 //           ^^^ meta.function-call.identifier.java
-//              ^^ meta.function-call.arguments.java meta.parens.java
+//              ^^ meta.function-call.arguments.java meta.group.java
 //           ^^^ variable.function.java
-//              ^ punctuation.section.parens.begin.java
-//               ^ punctuation.section.parens.end.java
+//              ^ punctuation.section.group.begin.java
+//               ^ punctuation.section.group.end.java
 //                ^ punctuation.terminator.java
 
     }
@@ -6110,13 +6110,13 @@ class LambdasExpressionsTests {
 //                                           ^ punctuation.terminator.java
      foo(a -> 42);
 //   ^^^ meta.function-call.identifier.java
-//      ^^^^^^^^^ meta.function-call.arguments.java meta.parens.java
+//      ^^^^^^^^^ meta.function-call.arguments.java meta.group.java
 //   ^^^ variable.function.java
-//      ^ punctuation.section.parens.begin.java
+//      ^ punctuation.section.group.begin.java
 //       ^ variable.parameter.java
 //         ^^ storage.type.function.anonymous.java
 //            ^^ meta.number.integer.decimal.java constant.numeric.value.java
-//              ^ punctuation.section.parens.end.java
+//              ^ punctuation.section.group.end.java
 //               ^ punctuation.terminator.java
 
      a -> { return 42; };
@@ -6129,7 +6129,7 @@ class LambdasExpressionsTests {
 //             ^^ meta.number.integer.decimal.java constant.numeric.value.java
 
      (int a, Foo<Integer>[] b) -> 42;
-//   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java meta.parens.java - meta.function meta.function
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java meta.group.java - meta.function meta.function
 //                            ^^^ meta.function.anonymous.java - meta.function meta.function
 //                               ^^^ meta.function.anonymous.java - meta.function meta.function
 //    ^^^ storage.type.primitive
@@ -6143,22 +6143,22 @@ class LambdasExpressionsTests {
 //                                ^^ meta.number.integer.decimal.java constant.numeric.value.java
 
     (
-//  ^^ meta.function.anonymous.parameters.java meta.parens.java - meta.function meta.function
-//  ^ punctuation.section.parens.begin.java
+//  ^^ meta.function.anonymous.parameters.java meta.group.java - meta.function meta.function
+//  ^ punctuation.section.group.begin.java
         int a,
-//     ^^^^^^^^ meta.function.anonymous.parameters.java meta.parens.java - meta.function meta.function
+//     ^^^^^^^^ meta.function.anonymous.parameters.java meta.group.java - meta.function meta.function
 //      ^^^ storage.type.primitive
 //          ^ variable.parameter.java
 //           ^ punctuation.separator.comma.java
         Foo<Integer>[] b
-//     ^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java meta.parens.java - meta.function meta.function
+//     ^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java meta.group.java - meta.function meta.function
 //      ^^^ support.class.java
 //         ^ punctuation.definition.generic.begin.java
 //          ^^^^^^^ support.class.java
 //                 ^ punctuation.definition.generic.end.java
 //                     ^ variable.parameter.java
     )
-//  ^ meta.function.anonymous.parameters.java meta.parens.java punctuation.section.parens.end.java - meta.function meta.function
+//  ^ meta.function.anonymous.parameters.java meta.group.java punctuation.section.group.end.java - meta.function meta.function
 //   ^ meta.function.anonymous.java - meta.function meta.function
      ->
 //  ^^^ meta.function.anonymous.java - meta.function meta.function
@@ -6263,10 +6263,10 @@ class LambdasExpressionsTests {
 //                         ^^ storage.type.function.anonymous.java
 //                            ^^^ keyword.other.storage.new.java
 //                                ^^^^^^^^ support.class.java
-//                                        ^ punctuation.section.parens.begin.java
-//                                        ^^^^^ meta.parens.java
+//                                        ^ punctuation.section.group.begin.java
+//                                        ^^^^^ meta.group.java
 //                                         ^^^ variable.other.readwrite.java
-//                                            ^ punctuation.section.parens.end.java
+//                                            ^ punctuation.section.group.end.java
 //                                             ^ punctuation.terminator.java
 
   Function<Foo, Bar> BLOCK_LAMBDA = foo -> { return 1; };
@@ -6283,8 +6283,8 @@ class LambdasExpressionsTests {
 
   Supplier<Foo> supplier = () -> true;
 //                       ^ keyword.operator.assignment.java
-//                         ^ punctuation.section.parens.begin.java
-//                          ^ punctuation.section.parens.end.java
+//                         ^ punctuation.section.group.begin.java
+//                          ^ punctuation.section.group.end.java
 //                            ^^ storage.type.function.anonymous.java
 //                               ^^^^ constant.language.boolean.java
 //                                   ^ punctuation.terminator.java
@@ -6298,11 +6298,11 @@ class LambdasExpressionsTests {
 @ClassName.FixMethodOrder( MethodSorters.NAME_ASCENDING )
 // <- meta.class.java meta.annotation.identifier.java punctuation.definition.annotation.java - meta.annotation meta.annotation
 //^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.annotation.identifier.java - meta.annotation meta.annotation
-//                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.annotation.parameters.java meta.parens.java - meta.annotation meta.annotation
+//                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.annotation.parameters.java meta.group.java - meta.annotation meta.annotation
 //^^^^^^^^ variable.annotation.namespace.java
 //        ^ punctuation.accessor.dot.java
 //         ^^^^^^^^^^^^^^ variable.annotation.java
-//                       ^ punctuation.section.parens.begin.java
+//                       ^ punctuation.section.group.begin.java
 //                         ^^^^^^^^^^^^^ support.class.java
 //                                      ^ punctuation.accessor.dot.java
 //                                       ^^^^^^^^^^^^^^ constant.other.java
@@ -6321,7 +6321,7 @@ public class GrafoTest {
 //         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.parameters.java
 //  ^ punctuation.definition.annotation
 //   ^^^^^^ variable.annotation.java
-//         ^ punctuation.section.parens.begin
+//         ^ punctuation.section.group.begin
 //          ^^^^^ variable.parameter.java
 //                ^ keyword.operator
 //                  ^^^^^^^^ string
@@ -6331,7 +6331,7 @@ public class GrafoTest {
 //^^^^^^^^^^^^^^^^^^ meta.annotation.parameters.java
 //      ^ keyword.operator.assignment.java
 //        ^^^^^^^^ string
-//                 ^ punctuation.section.parens.end
+//                 ^ punctuation.section.group.end
     void test2() {
 //       ^ entity.name.function
 
@@ -6371,7 +6371,7 @@ public class GrafoTest {
 @MultiLineAnnotation(
 // <- meta.class.java meta.annotation.identifier.java punctuation.definition.annotation.java
 //^^^^^^^^^^^^^^^^^^ meta.class.java meta.annotation.identifier.java variable.annotation.java
-//                  ^ meta.class.java meta.annotation.parameters.java punctuation.section.parens.begin.java
+//                  ^ meta.class.java meta.annotation.parameters.java punctuation.section.group.begin.java
   foo = BAR,
 //^^^ variable.parameter.java
 //    ^ keyword.operator.assignment.java
@@ -6382,7 +6382,7 @@ public class GrafoTest {
 //      ^ keyword.operator.assignment.java
 //        ^ string
 )
-// <- meta.class.java meta.annotation.parameters.java punctuation.section.parens.end.java
+// <- meta.class.java meta.annotation.parameters.java punctuation.section.group.end.java
 @fully.qualified.Annotation
 // <- meta.class.java meta.annotation.identifier.java punctuation.definition.annotation.java
 //^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.annotation.identifier.java meta.path.java
@@ -6422,7 +6422,7 @@ public class GrafoTest {
 //    ^^^^^ variable.language.class.java - storage.type.java
 })
 // <- punctuation.section.braces.end.java
- // <- meta.class.java meta.annotation.parameters.java punctuation.section.parens.end.java
+ // <- meta.class.java meta.annotation.parameters.java punctuation.section.group.end.java
 class Bàr {
 //    ^^^ entity.name.class.java
   Bàr() {}
@@ -6541,41 +6541,41 @@ public class Foo {
 
   Object bar = SomeStaticClass.newBuilder().doThings(1)
 //                             ^^^^^^^^^^ meta.function-call.identifier.java
-//                                       ^^ meta.function-call.arguments.java meta.parens.java
+//                                       ^^ meta.function-call.arguments.java meta.group.java
 //                                          ^^^^^^^^ meta.function-call.identifier.java
-//                                                  ^^^ meta.function-call.arguments.java meta.parens.java
+//                                                  ^^^ meta.function-call.arguments.java meta.group.java
 //                             ^^^^^^^^^^ variable.function.java
-//                                       ^ punctuation.section.parens.begin.java
-//                                        ^ punctuation.section.parens.end.java
+//                                       ^ punctuation.section.group.begin.java
+//                                        ^ punctuation.section.group.end.java
 //                                         ^ punctuation.accessor.dot.java
 //                                          ^^^^^^^^ variable.function.java
-//                                                  ^ punctuation.section.parens.begin.java
+//                                                  ^ punctuation.section.group.begin.java
 //                                                   ^ meta.number.integer.decimal.java constant.numeric.value.java
-//                                                    ^ punctuation.section.parens.end.java
+//                                                    ^ punctuation.section.group.end.java
       .withString("I am a string");
 //    ^ punctuation.accessor.dot.java
 //     ^^^^^^^^^^ meta.function-call.identifier.java
-//               ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.java meta.parens.java
+//               ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.java meta.group.java
 //     ^^^^^^^^^^ variable.function.java
-//               ^ punctuation.section.parens.begin.java
+//               ^ punctuation.section.group.begin.java
 //                ^^^^^^^^^^^^^^^ string.quoted.double.java
-//                               ^ punctuation.section.parens.end.java
+//                               ^ punctuation.section.group.end.java
 
   Object bah = someStaticMethodCall(4)
 //             ^^^^^^^^^^^^^^^^^^^^ meta.function-call.identifier.java
-//                                 ^^^ meta.function-call.arguments.java meta.parens.java
+//                                 ^^^ meta.function-call.arguments.java meta.group.java
 //             ^^^^^^^^^^^^^^^^^^^^ variable.function.java
-//                                 ^ punctuation.section.parens.begin.java
+//                                 ^ punctuation.section.group.begin.java
 //                                  ^ meta.number.integer.decimal.java constant.numeric.value.java
-//                                   ^ punctuation.section.parens.end.java
+//                                   ^ punctuation.section.group.end.java
       .withString("I am a string");
 //    ^ punctuation.accessor.dot.java
 //     ^^^^^^^^^^ meta.function-call.identifier.java
-//               ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.java meta.parens.java
+//               ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.java meta.group.java
 //     ^^^^^^^^^^ variable.function.java
-//               ^ punctuation.section.parens.begin.java
+//               ^ punctuation.section.group.begin.java
 //                ^^^^^^^^^^^^^^^ string.quoted.double.java
-//                               ^ punctuation.section.parens.end.java
+//                               ^ punctuation.section.group.end.java
 
 
 /******************************************************************************
@@ -6664,12 +6664,12 @@ public class Foo {
 
     if (this.scale<0) {
 //  ^^ keyword.control.conditional.if.java
-//     ^^^^^^^^^^^^^^ meta.parens.java
-//     ^ punctuation.section.parens.begin
+//     ^^^^^^^^^^^^^^ meta.group.java
+//     ^ punctuation.section.group.begin
 //          ^ punctuation.accessor.dot.java
 //                ^ keyword.operator.comparison.java
 //                 ^ meta.number.integer.decimal.java constant.numeric.value.java
-//                   ^ - meta.parens.java
+//                   ^ - meta.group.java
     return foo<<32;
 //  ^^^^^^ keyword.control.flow.return.java
 //            ^^ keyword.operator.bitwise.java
@@ -7347,7 +7347,7 @@ public class Bar {
 //                                 ^ punctuation.section.block.begin.java
     if (hello(world) {
 //                  ^ invalid.illegal
-//                   ^ - meta.parens.java
+//                   ^ - meta.group.java
 //                   ^ meta.block.java
       return false;
     }
@@ -7357,7 +7357,7 @@ public class Bar {
 //                                   ^ punctuation.section.block.begin.java
     for (;; {
 //         ^ invalid.illegal
-//          ^ meta.block.java - meta.parens.java
+//          ^ meta.block.java - meta.group.java
     }
   }
 //^ punctuation.section.block.end.java

@@ -117,7 +117,7 @@ contexts:
     - include: labeled-statements
 
   expressions:
-    - include: parens-or-lambda
+    - include: groups-or-lambdas
     - include: builtins
     - include: instantiations
     - include: numbers
@@ -175,13 +175,13 @@ contexts:
     - match: (?={{accessor_dot}})
       fail: annotation-identifier
     - match: \(
-      scope: punctuation.section.parens.begin.java
+      scope: punctuation.section.group.begin.java
       set: annotation-unqualified-parameters-common
     - include: else-pop2
 
   annotation-unqualified-parameters-common:
     - clear_scopes: 1
-    - meta_scope: meta.annotation.parameters.java meta.parens.java
+    - meta_scope: meta.annotation.parameters.java meta.group.java
     - include: annotation-parameters-common
 
   annotation-qualified-identifier:
@@ -211,17 +211,17 @@ contexts:
   annotation-qualified-parameters:
     - meta_content_scope: meta.annotation.identifier.java
     - match: \(
-      scope: punctuation.section.parens.begin.java
+      scope: punctuation.section.group.begin.java
       set: annotation-qualified-parameters-common
     - include: else-pop2
 
   annotation-qualified-parameters-common:
     - clear_scopes: 2
-    - meta_scope: meta.annotation.parameters.java meta.parens.java
+    - meta_scope: meta.annotation.parameters.java meta.group.java
     - include: annotation-parameters-common
 
   annotation-parameters-common:
-    - include: parens-end2
+    - include: group-end2
     - match: (?={{identifier}})
       branch_point: annotation-parameter
       branch:
@@ -720,14 +720,14 @@ contexts:
   enum-constant-arguments:
     - meta_content_scope: meta.constant.identifier.java
     - match: \(
-      scope: punctuation.section.parens.begin.java
+      scope: punctuation.section.group.begin.java
       set: [enum-constant-body-block, enum-constant-arguments-common]
     - include: enum-constant-body-block
 
   enum-constant-arguments-common:
     - clear_scopes: 1
-    - meta_scope: meta.constant.arguments.java meta.parens.java
-    - include: parens-common
+    - meta_scope: meta.constant.arguments.java meta.group.java
+    - include: group-common
 
   enum-constant-body-block:
     - meta_content_scope: meta.constant.java
@@ -943,14 +943,14 @@ contexts:
 
   method-parameters:
     - match: \(
-      scope: punctuation.section.parens.begin.java
+      scope: punctuation.section.group.begin.java
       set:
         - method-parameters-common
         - receiver-or-parameter
 
   method-parameters-common:
-    - meta_scope: meta.method.parameters.java meta.parens.java
-    - include: parens-end
+    - meta_scope: meta.method.parameters.java meta.group.java
+    - include: group-end
     - match: ','
       scope: punctuation.separator.comma.java
       push:
@@ -1078,7 +1078,7 @@ contexts:
   blocks-body:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.2
     - include: statements
-    - include: stray-parens
+    - include: stray-group
     - include: declarations
 
 ###[ IF ELSE STATEMENTS ]######################################################
@@ -1090,7 +1090,7 @@ contexts:
       push:
         - if-meta
         - block-or-expression
-        - maybe-parens
+        - maybe-group
     - match: else\b
       scope: keyword.control.conditional.else.java
       push:
@@ -1123,7 +1123,7 @@ contexts:
       push:
         - switch-meta
         - block-or-expression
-        - maybe-parens
+        - maybe-group
 
   switch-meta:
     - meta_scope: meta.switch.java
@@ -1170,7 +1170,7 @@ contexts:
       push:
         - while-meta
         - block-or-expression
-        - maybe-parens
+        - maybe-group
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.13
     - match: do\b
       scope: keyword.control.loop.do-while.java
@@ -1203,7 +1203,7 @@ contexts:
 
   for-parameters:
     - match: \(
-      scope: punctuation.section.parens.begin.java
+      scope: punctuation.section.group.begin.java
       set:
         - for-parameters-update
         - for-parameters-init
@@ -1257,8 +1257,8 @@ contexts:
     - include: else-pop
 
   for-parameters-update:
-    - meta_scope: meta.parens.java
-    - include: parens-end
+    - meta_scope: meta.group.java
+    - include: group-end
     - include: expressions
     - match: ;
       scope: invalid.illegal.stray-terminator-end
@@ -1337,7 +1337,7 @@ contexts:
       push:
         - synchronized-meta
         - block-or-expression
-        - maybe-parens
+        - maybe-group
 
   synchronized-meta:
     - meta_scope: meta.synchronized.java
@@ -1371,7 +1371,7 @@ contexts:
 
   catch-parameters:
     - match: \(
-      scope: punctuation.section.parens.begin.java
+      scope: punctuation.section.group.begin.java
       set:
         - catch-parameters-end
         - parameter-identifier
@@ -1389,8 +1389,8 @@ contexts:
     - include: else-pop
 
   catch-parameters-end:
-    - meta_scope: meta.parens.java
-    - include: parens-end
+    - meta_scope: meta.group.java
+    - include: group-end
     - match: \S
       scope: invalid.illegal.missing-parameter-end
       pop: 1
@@ -1405,13 +1405,13 @@ contexts:
 
   try-parameters:
     - match: \(
-      scope: punctuation.section.parens.begin.java
+      scope: punctuation.section.group.begin.java
       set: try-parameters-common
     - include: else-pop
 
   try-parameters-common:
-    - meta_scope: meta.parens.java
-    - include: parens-end
+    - meta_scope: meta.group.java
+    - include: group-end
     - include: punctuation-terminator-semicolon
     - match: ','
       scope: punctuation.separator.comma.java
@@ -1487,13 +1487,13 @@ contexts:
 
   constructor-arguments:
     - match: \(
-      scope: punctuation.section.parens.begin.java
+      scope: punctuation.section.group.begin.java
       set:
-        - meta_scope: meta.parens.java
+        - meta_scope: meta.group.java
         - match: \)
-          scope: punctuation.section.parens.end.java
+          scope: punctuation.section.group.end.java
           set: class-body-block
-        - include: illegal-parens-terminators
+        - include: illegal-group-terminators
         - include: expressions
     - include: else-pop
 
@@ -1535,15 +1535,15 @@ contexts:
         - include: operator-ternary-colon
         - include: variable-initializer
 
-###[ LAMBDAS OR PARENS ]#######################################################
+###[ LAMBDAS OR GROUPS ]#######################################################
 
-  parens-or-lambda:
+  groups-or-lambdas:
     - match: \(
-      scope: punctuation.section.parens.begin.java
-      branch_point: lambda-or-parens
+      scope: punctuation.section.group.begin.java
+      branch_point: lambda-or-group
       branch:
-        - parens-with-expressions
-        - parens-with-lambda-parameters
+        - group-with-expressions
+        - group-with-lambda-parameters
     - match: ->
       scope:
         meta.function.anonymous.java
@@ -1552,22 +1552,22 @@ contexts:
         - lambda-meta
         - block-or-expression
 
-  parens-with-expressions:
-    - meta_scope: meta.parens.java
+  group-with-expressions:
+    - meta_scope: meta.group.java
     - match: \)
-      scope: meta.parens.java punctuation.section.parens.end.java
+      scope: meta.group.java punctuation.section.group.end.java
       push:
         - clear_scopes: 1
         - match: (?=->)
-          fail: lambda-or-parens
+          fail: lambda-or-group
         - include: else-pop2
-    - include: parens-body
+    - include: group-body
 
-  parens-with-lambda-parameters:
+  group-with-lambda-parameters:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.27
-    - meta_scope: meta.function.anonymous.parameters.java meta.parens.java
+    - meta_scope: meta.function.anonymous.parameters.java meta.group.java
     - match: \)
-      scope: punctuation.section.parens.end.java
+      scope: punctuation.section.group.end.java
       set: lambda-meta
     - include: punctuation-separator-comma
     - match: (?=[\p{L}_$@<])
@@ -1600,34 +1600,34 @@ contexts:
     - meta_content_scope: meta.function.anonymous.java
     - include: else-pop
 
-  maybe-parens:
+  maybe-group:
     - match: \(
-      scope: punctuation.section.parens.begin.java
-      set: parens-common
+      scope: punctuation.section.group.begin.java
+      set: group-common
     - include: else-pop
 
-  parens-common:
-    - meta_scope: meta.parens.java
-    - include: parens-end
-    - include: parens-body
+  group-common:
+    - meta_scope: meta.group.java
+    - include: group-end
+    - include: group-body
 
-  parens-body:
-    - include: illegal-parens-terminators
+  group-body:
+    - include: illegal-group-terminators
     - include: expressions
 
-  parens-end:
+  group-end:
     - match: \)
-      scope: punctuation.section.parens.end.java
+      scope: punctuation.section.group.end.java
       pop: 1
 
-  parens-end2:
+  group-end2:
     - match: \)
-      scope: punctuation.section.parens.end.java
+      scope: punctuation.section.group.end.java
       pop: 2
 
   method-call-arguments:
-    - meta_scope: meta.function-call.arguments.java meta.parens.java
-    - include: parens-common
+    - meta_scope: meta.function-call.arguments.java meta.group.java
+    - include: group-common
 
 ###[ RECEIVER OR FORMAL PARAMETERS ]###########################################
 
@@ -1803,7 +1803,7 @@ contexts:
       set:
         - meta_content_scope: meta.function-call.identifier.java
         - match: \(
-          scope: punctuation.section.parens.begin.java
+          scope: punctuation.section.group.begin.java
           set: method-call-arguments
         - match: (?=\S)
           fail: variables-type
@@ -1836,7 +1836,7 @@ contexts:
         - match: \]
           scope: punctuation.section.brackets.end.java
           pop: 1
-        - include: illegal-parens-terminators
+        - include: illegal-group-terminators
         - include: expressions
     - match: (?!\s*\[)
       pop: 1
@@ -2750,7 +2750,7 @@ contexts:
       scope: invalid.illegal.stray-terminator-end
       pop: 1
 
-  illegal-parens-terminators:
+  illegal-group-terminators:
     # Pops the stack if anything matches
     - include: illegal-semicolon
     - include: illegal-open-block
@@ -2776,6 +2776,6 @@ contexts:
     - match: \}
       scope: invalid.illegal.stray-brace-end
 
-  stray-parens:
+  stray-group:
     - match: \)
-      scope: invalid.illegal.stray-parens-end
+      scope: invalid.illegal.stray-group-end
