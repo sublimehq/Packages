@@ -126,7 +126,7 @@ contexts:
     - include: punctuations
     - include: primitive-types
     - include: storage-modifiers
-    - include: illegal-unexpected-keyword
+    - include: illegal-unexpected-keywords
     - include: uppercase-identifiers
     - include: object-types
     - include: variables
@@ -819,7 +819,7 @@ contexts:
   field-type:
     - include: primitive-type
     - include: illegal-var-type
-    - include: object-type
+    - include: maybe-object-type
 
   field-names:
     - meta_scope: meta.field.type.java
@@ -918,7 +918,7 @@ contexts:
   method-result-type:
     - include: primitive-type
     - include: illegal-var-type
-    - include: object-type
+    - include: maybe-object-type
 
   method-void-type:
     - match: void\b
@@ -1018,7 +1018,7 @@ contexts:
     - include: illegal-storage-modifiers
     - include: primitive-type
     - include: var-type
-    - include: object-type
+    - include: maybe-object-type
 
   variable-declaration-list:
     - meta_scope: meta.declaration.java
@@ -1475,7 +1475,7 @@ contexts:
 
   instantiation-type:
     - include: primitive-type
-    - include: object-type
+    - include: maybe-object-type
 
   instantiation-value:
     - include: array-dimensions
@@ -1778,7 +1778,7 @@ contexts:
     - include: illegal-storage-modifiers
     - include: primitive-type
     - include: illegal-var-type
-    - include: object-type
+    - include: maybe-object-type
 
   parameter-variadic:
     - match: \.\.\.
@@ -2345,10 +2345,14 @@ contexts:
 ###[ OBJECT TYPE ]#############################################################
 
   expect-object-type:
-    - match: '{{reserved_words}}\b'
-      scope: invalid.illegal.unexpected-keyword.java
-      pop: 1
     - include: object-type
+    - include: annotation
+    - include: illegal-unexpected-reserved
+    - include: else-pop
+
+  maybe-object-type:
+    - include: object-type
+    - include: annotation-else-pop
 
   object-type:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.3
@@ -2357,7 +2361,6 @@ contexts:
       branch:
         - unqualified-object-type
         - qualified-object-type
-    - include: annotation-else-pop
 
   unqualified-object-type:
     - match: '{{identifier}}'
@@ -2438,7 +2441,7 @@ contexts:
     - match: (?=\S)
       set:
         - maybe-array-modifiers
-        - object-type
+        - maybe-object-type
 
 ###[ INHERRITED TYPE REFERENCES ]##############################################
 
@@ -2734,9 +2737,14 @@ contexts:
     - match: '{{illegal_keywords}}\b'
       scope: invalid.illegal.keyword.java
 
-  illegal-unexpected-keyword:
+  illegal-unexpected-keywords:
     - match: '{{keywords}}\b'
       scope: invalid.illegal.unexpected-keyword.java
+
+  illegal-unexpected-reserved:
+    - match: '{{reserved_words}}'
+      scope: invalid.illegal.unexpected-keyword.java
+      pop: 1
 
   illegal-members:
     - match: '{{accessor_dot}}'
