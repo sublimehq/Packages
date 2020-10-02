@@ -117,11 +117,12 @@ contexts:
     - include: labeled-statements
 
   expressions:
-    - include: groups-or-lambdas
+    - include: groups
     - include: builtins
     - include: instantiations
     - include: numbers
     - include: strings
+    - include: lambdas
     - include: operators
     - include: punctuations
     - include: primitive-types
@@ -1545,70 +1546,19 @@ contexts:
         - include: operator-ternary-colon
         - include: variable-initializer
 
-###[ LAMBDAS OR GROUPS ]#######################################################
+###[ GROUPS ]##################################################################
 
-  groups-or-lambdas:
-    - match: \(
-      scope: punctuation.section.group.begin.java
-      branch_point: lambda-or-group
+  groups:
+    - match: (?=\()
+      branch_point: groups
       branch:
-        - group-with-expressions
-        - group-with-lambda-parameters
-    - match: ->
-      scope:
-        meta.function.anonymous.java
-        storage.type.function.anonymous.java
-      push:
-        - lambda-meta
-        - block-or-expression
+        - cast-expression-group
+        - expression-group
+        - lambda-parameter-group
 
-  group-with-expressions:
-    - meta_scope: meta.group.java
-    - match: \)
-      scope: meta.group.java punctuation.section.group.end.java
-      push:
-        - clear_scopes: 1
-        - match: (?=->)
-          fail: lambda-or-group
-        - include: else-pop2
-    - include: group-body
-
-  group-with-lambda-parameters:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.27
-    - meta_scope: meta.function.anonymous.parameters.java meta.group.java
-    - match: \)
-      scope: punctuation.section.group.end.java
-      set: lambda-meta
-    - include: punctuation-separator-comma
-    - match: (?=[\p{L}_$@<])
-      branch_point: lambda-parameter-declaration
-      branch:
-        - lambda-parameter-implicit-declaration
-        - lambda-parameter-explicit-declaration
-    - include: expect-expression-terminator
-
-  lambda-parameter-implicit-declaration:
-    - match: '{{identifier}}'
-      scope: variable.parameter.java
-      push:
-        - match: (?=[=,:;)}])
-          pop: 2
-        - match: (?=\S)
-          fail: lambda-parameter-declaration
+  group-else-fail:
     - match: (?=\S)
-      fail: lambda-parameter-declaration
-
-  lambda-parameter-explicit-declaration:
-    - match: ''
-      set:
-        - parameter-identifier
-        - parameter-variadic
-        - maybe-array-modifiers
-        - variable-declaration-type
-
-  lambda-meta:
-    - meta_content_scope: meta.function.anonymous.java
-    - include: else-pop
+      fail: groups
 
   maybe-group:
     - match: \(
@@ -1635,9 +1585,114 @@ contexts:
       scope: punctuation.section.group.end.java
       pop: 2
 
-  method-call-arguments:
-    - meta_scope: meta.function-call.arguments.java meta.group.java
-    - include: group-common
+###[ CAST EXPRESSION GROUPS ]##################################################
+
+  cast-expression-group:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.16
+    - match: \(
+      scope: punctuation.section.group.begin.java
+      set:
+        - cast-expression-group-common
+        - maybe-array-modifiers
+        - cast-expression-type
+
+  cast-expression-group-common:
+    - meta_scope: meta.typecast.java meta.group.java
+    - match: \)
+      scope: punctuation.section.group.end.java
+      set: cast-expression-group-end
+    - include: additional-bounds
+    - include: group-else-fail
+
+  cast-expression-group-end:
+    # cast expressions may be followed by:
+    # - `!`     : unary operator
+    # - `~`     : unary operator
+    # - `(`     : cast, lambda or group expression
+    # - literal : variable, type or method
+    - match: (?=[\p{L}_$@!~(])
+      pop: 1
+    - include: group-else-fail
+
+  cast-expression-type:
+    - include: primitive-type
+    - include: object-type
+    - include: illegal-var-type
+    - include: annotation
+    - include: generic-type-arguments
+
+###[ EXPRESSION GROUPS ]#######################################################
+
+  expression-group:
+    - match: \(
+      scope: punctuation.section.group.begin.java
+      set: expression-group-common
+
+  expression-group-common:
+    - meta_scope: meta.group.java
+    - match: \)
+      scope: punctuation.section.group.end.java
+      set: expression-group-end
+    - include: group-body
+
+  expression-group-end:
+    # looks like a lambda
+    - match: (?=->)
+      fail: groups
+    - include: else-pop
+
+###[ LAMBDA PARAMETER GROUPS ]#################################################
+
+  lambda-parameter-group:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.27
+    - match: \(
+      scope: punctuation.section.group.begin.java
+      set: lambda-parameter-group-common
+
+  lambda-parameter-group-common:
+    - meta_scope: meta.function.anonymous.parameters.java meta.group.java
+    - match: \)
+      scope: punctuation.section.group.end.java
+      set: lambda-meta
+    - match: (?=[\p{L}_$@<])
+      branch_point: lambda-parameter-declaration
+      branch:
+        - lambda-implicit-parameter
+        - lambda-explicit-parameter
+    - include: punctuation-separator-comma
+    - include: expect-expression-terminator
+
+  lambda-implicit-parameter:
+    - match: '{{identifier}}'
+      scope: variable.parameter.java
+      push:
+        - match: (?=[=,:;)}])
+          pop: 2
+        - match: (?=\S)
+          fail: lambda-parameter-declaration
+    - match: (?=\S)
+      fail: lambda-parameter-declaration
+
+  lambda-explicit-parameter:
+    - match: ''
+      set:
+        - parameter-identifier
+        - parameter-variadic
+        - maybe-array-modifiers
+        - variable-declaration-type
+
+  lambdas:
+    - match: ->
+      scope:
+        meta.function.anonymous.java
+        storage.type.function.anonymous.java
+      push:
+        - lambda-meta
+        - block-or-expression
+
+  lambda-meta:
+    - meta_content_scope: meta.function.anonymous.java
+    - include: else-pop
 
 ###[ RECEIVER OR FORMAL PARAMETERS ]###########################################
 
@@ -1817,6 +1872,10 @@ contexts:
           set: method-call-arguments
         - match: (?=\S)
           fail: variables-type
+
+  method-call-arguments:
+    - meta_scope: meta.function-call.arguments.java meta.group.java
+    - include: group-common
 
   variable-maybe-lambda-parameter:
     - match: '{{identifier}}'
@@ -2417,6 +2476,11 @@ contexts:
 
 ###[ REFERENCE TYPE ]##########################################################
 
+  additional-bounds:
+    - match: '&'
+      scope: keyword.operator.multiple-bounds.java
+      push: reference-type
+
   reference-type:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.3
     - match: '{{storage_types}}\b'
@@ -2579,9 +2643,7 @@ contexts:
     - include: else-pop
 
   generic-type-additional-bounds:
-    - match: '&'
-      scope: keyword.operator.multiple-bounds.java
-      push: reference-type
+    - include: additional-bounds
     - include: else-pop
 
   generic-type-terminator:
