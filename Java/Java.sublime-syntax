@@ -1854,40 +1854,46 @@ contexts:
 
   variables:
     - match: (?={{identifier}})
-      branch_point: variables-type
+      branch_point: variables
       branch:
-        - variable-maybe-method-name
-        - variable-maybe-lambda-parameter
+        - method-call-identifier
+        - lambda-parameter
         - variable-other
 
-  variable-maybe-method-name:
+  variable-else-fail:
+    - match: (?=\S)
+      fail: variables
+
+  method-call-identifier:
     - match: '{{identifier}}'
       scope:
         meta.function-call.identifier.java
         variable.function.java
-      set:
-        - meta_content_scope: meta.function-call.identifier.java
-        - match: \(
-          scope: punctuation.section.group.begin.java
-          set: method-call-arguments
-        - match: (?=\S)
-          fail: variables-type
+      set: method-call-arguments
 
   method-call-arguments:
+    - meta_content_scope: meta.function-call.identifier.java
+    - match: \(
+      scope: punctuation.section.group.begin.java
+      set: method-call-arguments-common
+    - include: variable-else-fail
+
+  method-call-arguments-common:
     - meta_scope: meta.function-call.arguments.java meta.group.java
     - include: group-common
 
-  variable-maybe-lambda-parameter:
+  lambda-parameter:
     - match: '{{identifier}}'
       scope:
         meta.function.anonymous.parameters.java
         variable.parameter.java
-      set:
-        - meta_content_scope: meta.function.anonymous.java
-        - match: (?=->)
-          pop: 1
-        - match: (?=\S)
-          fail: variables-type
+      set: lambda-parameter-end
+
+  lambda-parameter-end:
+    - meta_content_scope: meta.function.anonymous.java
+    - match: (?=->)
+      pop: 1
+    - include: variable-else-fail
 
   variable-other:
     - match: '{{identifier}}'
