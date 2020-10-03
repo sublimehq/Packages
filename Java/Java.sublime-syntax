@@ -2485,33 +2485,43 @@ contexts:
   additional-bounds:
     - match: '&'
       scope: keyword.operator.multiple-bounds.java
-      push: reference-type
+      push: expect-reference-type
+
+  expect-reference-type:
+    - include: reference-type
+    - include: annotation-else-pop
 
   reference-type:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.3
-    - match: '{{storage_types}}\b'
+    - match: (?={{storage_types}}\b)
       branch_point: primitive-array-type
       branch:
-        - - meta_scope: storage.type.primitive.java
-          - match: ''
-            push:
-              - clear_scopes: 1
-              - match: (?=\[)
-                push:
-                  - include: array-modifiers
-                  - include: annotation
-                  - include: else-pop4
-              - include: annotation
-              - match: (?=\S)
-                fail: primitive-array-type
-        - - meta_scope: invalid.illegal.unexpected-keyword.java
-          - include: immediately-pop2
-    - include: reserved-pop
-    - include: annotation
-    - match: (?=\S)
+        - reference-type-array
+        - reference-type-illegal
+    - match: (?=[\p{L}_$])
       set:
         - maybe-array-modifiers
         - maybe-object-type
+
+  reference-type-array:
+    # note: simplified pattern as primitive types consist of ascii chars only
+    - match: '[A-Za-z]+'
+      scope: storage.type.primitive.java
+      set: reference-type-array-item-access
+
+  reference-type-array-item-access:
+    - match: (?=\[)
+      pop: 1
+      set: maybe-array-modifiers
+    - include: annotation
+    - match: (?=\S)
+      fail: primitive-array-type
+
+  reference-type-illegal:
+    # note: simplified pattern as primitive types consist of ascii chars only
+    - match: '[A-Za-z]+'
+      scope: invalid.illegal.unexpected-keyword.java
+      pop: 2
 
 ###[ INHERRITED TYPE REFERENCES ]##############################################
 
@@ -2597,15 +2607,15 @@ contexts:
     - match: \?
       scope: keyword.operator.wildcard.java
       set: generic-type-arguments-bounds
-    - include: reference-type
+    - include: expect-reference-type
 
   generic-type-arguments-bounds:
     - match: extends\b
       scope: keyword.declaration.extends.java
-      set: [generic-type-additional-bounds, reference-type]
+      set: [generic-type-additional-bounds, expect-reference-type]
     - match: super\b
       scope: keyword.declaration.super.java
-      set: reference-type
+      set: expect-reference-type
     - include: else-pop
 
   generic-type:
@@ -2642,10 +2652,10 @@ contexts:
   generic-type-parameter-bounds:
     - match: extends\b
       scope: keyword.declaration.extends.java
-      set: [generic-type-additional-bounds, reference-type]
+      set: [generic-type-additional-bounds, expect-reference-type]
     - match: super\b
       scope: invalid.illegal.unexpected-keyword.java
-      set: reference-type
+      set: expect-reference-type
     - include: else-pop
 
   generic-type-additional-bounds:
@@ -2658,10 +2668,10 @@ contexts:
       pop: 1
     - match: extends\b
       scope: invalid.illegal.unexpected-keyword.java
-      push: [generic-type-additional-bounds, reference-type]
+      push: [generic-type-additional-bounds, expect-reference-type]
     - match: super\b
       scope: invalid.illegal.unexpected-keyword.java
-      push: reference-type
+      push: expect-reference-type
     - include: annotation-else-pop
 
 ###[ PRIMITIVE TYPES ]#########################################################
