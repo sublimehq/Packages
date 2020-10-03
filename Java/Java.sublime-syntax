@@ -1052,44 +1052,6 @@ contexts:
       set: variable-initializer
     - include: else-pop
 
-###[ BLOCKS ]##################################################################
-
-  block-end:
-    - match: \}
-      scope: punctuation.section.block.end.java
-      pop: 1
-
-  block-end2:
-    - match: \}
-      scope: punctuation.section.block.end.java
-      pop: 2
-
-  blocks:
-    - match: \{
-      scope: punctuation.section.block.begin.java
-      push: blocks-common
-    - include: stray-braces
-
-  block:
-    - match: \{
-      scope: punctuation.section.block.begin.java
-      set: blocks-common
-
-  block-or-expression:
-    - include: block
-    - include: else-expression-pop
-
-  blocks-common:
-    - meta_scope: meta.block.java
-    - include: block-end
-    - include: blocks-body
-
-  blocks-body:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.2
-    - include: statements
-    - include: stray-group
-    - include: declarations
-
 ###[ IF ELSE STATEMENTS ]######################################################
 
   if-else-statements:
@@ -1548,6 +1510,44 @@ contexts:
       push:
         - include: operator-ternary-colon
         - include: variable-initializer
+
+###[ BLOCKS ]##################################################################
+
+  block-end:
+    - match: \}
+      scope: punctuation.section.block.end.java
+      pop: 1
+
+  block-end2:
+    - match: \}
+      scope: punctuation.section.block.end.java
+      pop: 2
+
+  blocks:
+    - match: \{
+      scope: punctuation.section.block.begin.java
+      push: blocks-common
+    - include: stray-braces
+
+  block:
+    - match: \{
+      scope: punctuation.section.block.begin.java
+      set: blocks-common
+
+  block-or-expression:
+    - include: block
+    - include: else-expression-pop
+
+  blocks-common:
+    - meta_scope: meta.block.java
+    - include: block-end
+    - include: blocks-body
+
+  blocks-body:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.2
+    - include: statements
+    - include: stray-group
+    - include: declarations
 
 ###[ GROUPS ]##################################################################
 
