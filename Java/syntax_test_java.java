@@ -3708,6 +3708,21 @@ class LocalVariableDeclarationTests {
 //                ^^^ variable.other.readwrite.java
 //                   ^ invalid.illegal.unexpected-accessor.java
 //                    ^^^ invalid.illegal.unexpected-member.java
+
+    a e = new a(){};
+//  ^^^^^^ meta.declaration.java - meta.instantiation
+//        ^^^^^^^^^ meta.declaration.java meta.instantiation.java
+//                 ^ - meta.declaration - meta.instantiation
+//  ^ support.class.java
+//    ^ variable.other.readwrite.java
+//      ^ keyword.operator.assignment.java
+//        ^^^ keyword.other.storage.new.java
+//            ^ support.class.java
+//             ^ punctuation.section.group.begin.java
+//              ^ punctuation.section.group.end.java
+//               ^ punctuation.section.block.begin.java
+//                ^ punctuation.section.block.end.java
+//                 ^ punctuation.terminator.java
   }
 
 
@@ -7286,6 +7301,44 @@ public class Foo {
 //                                     ^^^ keyword.operator.assignment.augmented.java
 //                                              ^^^^ keyword.operator.assignment.augmented.java
 
+    b=e.a(b<b)> b?b:b;
+//      ^ meta.function-call.identifier.java
+//       ^^^^^ meta.function-call.arguments.java meta.group.java
+//  ^ variable.other.readwrite.java
+//   ^ keyword.operator.assignment.java
+//    ^ variable.other.readwrite.java
+//      ^ variable.function.java
+//       ^ punctuation.section.group.begin.java
+//        ^ variable.other.readwrite.java
+//         ^ keyword.operator.comparison.java
+//          ^ variable.other.readwrite.java
+//           ^ punctuation.section.group.end.java
+//            ^ keyword.operator.comparison.java
+//              ^ variable.other.readwrite.java
+//               ^ keyword.operator.ternary.java
+//                ^ variable.other.readwrite.java
+//                 ^ keyword.operator.ternary.java
+//                  ^ variable.other.readwrite.java
+
+    b=e.a(b<b)>b?b:b;
+//      ^ meta.function-call.identifier.java
+//       ^^^^^ meta.function-call.arguments.java meta.group.java
+//  ^ variable.other.readwrite.java
+//   ^ keyword.operator.assignment.java
+//    ^ variable.other.readwrite.java
+//      ^ variable.function.java
+//       ^ punctuation.section.group.begin.java
+//        ^ variable.other.readwrite.java
+//         ^ keyword.operator.comparison.java
+//          ^ variable.other.readwrite.java
+//           ^ punctuation.section.group.end.java
+//            ^ keyword.operator.comparison.java
+//             ^ variable.other.readwrite.java
+//              ^ keyword.operator.ternary.java
+//               ^ variable.other.readwrite.java
+//                ^ keyword.operator.ternary.java
+//                 ^ variable.other.readwrite.java
+
     int foo = true ? 1 : 2;
 //            ^^^^ constant.language.boolean.java
 //                 ^ keyword.operator.ternary.java
@@ -7326,6 +7379,17 @@ public class Foo {
 
     boolean inst = a instanceof Object;
 //                   ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//                              ^^^^^^ support.class.java
+
+    b = e instanceof a?1__1:0b11110101;
+//        ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//                   ^ variable.other.readwrite.java
+//                    ^ keyword.operator.ternary.java
+//                     ^^^^ constant.numeric.value.java
+//                         ^ keyword.operator.ternary.java
+//                          ^^ constant.numeric.base.java
+//                            ^^^^^^^^ constant.numeric.value.java
+//                                    ^ punctuation.terminator.java
   }
 //^ meta.method.java punctuation.section.block.end.java
 
