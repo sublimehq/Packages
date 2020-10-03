@@ -590,7 +590,7 @@ contexts:
         - class-body-block
         - class-extends
         - class-name-meta
-        - generic-type-parameters
+        - maybe-generic-type-parameter
         - class-name
 
   class-modifier:
@@ -754,7 +754,7 @@ contexts:
         - interface-body-block
         - interface-extends
         - interface-name-meta
-        - generic-type-parameters
+        - maybe-generic-type-parameter
         - interface-name
 
   interface-modifier:
@@ -817,7 +817,7 @@ contexts:
       scope: storage.modifier.java
     - match: '{{field_no_modifier}}\b'
       scope: invalid.illegal.unexpected-keyword.java
-    - include: generic-type
+    - include: generic-type-parameters
     - include: annotation-else-pop
 
   field-type:
@@ -893,7 +893,7 @@ contexts:
       scope: storage.modifier.java
     - match: '{{method_no_modifier}}\b'
       scope: invalid.illegal.unexpected-keyword.java
-    - include: generic-type
+    - include: generic-type-parameters
     - include: annotation-else-pop
 
   method-signature:
@@ -1432,7 +1432,7 @@ contexts:
         - instantiation-meta
         - instantiation-value
         - instantiation-type
-        - generic-type-arguments
+        - maybe-generic-type-argument
     - include: annotation
 
   instantiation-meta:
@@ -1622,7 +1622,7 @@ contexts:
     - include: object-type
     - include: illegal-var-type
     - include: annotation
-    - include: generic-type-arguments
+    - include: maybe-generic-type-argument
 
 ###[ EXPRESSION GROUPS ]#######################################################
 
@@ -1735,7 +1735,7 @@ contexts:
       push:
         - receiver-unqualified-type-end
         - maybe-array-modifiers
-        - generic-type-arguments
+        - maybe-generic-type-argument
     - include: else-pop2
 
   receiver-unqualified-type-end:
@@ -1797,7 +1797,7 @@ contexts:
       scope: support.class.java
       push:
         - receiver-qualified-identifier-accessor
-        - generic-type-arguments
+        - maybe-generic-type-argument
     - include: annotation-else-pop3
 
   receiver-qualified-identifier-accessor:
@@ -2104,12 +2104,12 @@ contexts:
       scope: punctuation.accessor.double-colon.java
       push:
         - variable-maybe-function-reference
-        - generic-type-arguments
+        - maybe-generic-type-argument
     - match: '{{accessor_dot}}'
       scope: punctuation.accessor.dot.java
       push:
         - include: variable-language-class
-        - include: generic-type-arguments
+        - include: maybe-generic-type-argument
     - include: punctuation-separator-comma
 
   punctuation-accessor-dot:
@@ -2191,7 +2191,7 @@ contexts:
       scope: support.class.java
       set:
         - qualified-enum-constant-class-accessor
-        - generic-type-arguments
+        - maybe-generic-type-argument
 
   qualified-enum-constant-class-accessor:
     - include: punctuation-accessor-dot-pop
@@ -2235,7 +2235,7 @@ contexts:
       scope: variable.namespace.java
       set:
         - entity-class-accessor
-        - generic-type-arguments
+        - maybe-generic-type-argument
 
   entity-class-accessor:
     - include: punctuation-accessor-dot-pop
@@ -2247,12 +2247,12 @@ contexts:
       scope: entity.name.class.java
       set:
         - immediately-pop2
-        - generic-type-arguments
+        - maybe-generic-type-argument
 
   entity-class-unqualified-identifier:
     - match: '{{identifier}}'
       scope: entity.name.class.java
-      set: generic-type-arguments
+      set: maybe-generic-type-argument
 
 ###[ ENTITY MODULE ]###########################################################
 
@@ -2359,14 +2359,14 @@ contexts:
       push:
         - object-types-child
         - maybe-array-modifiers
-        - generic-type-arguments
+        - maybe-generic-type-argument
     # Generic type variable
     - match: \p{Lu}\b
       scope: support.class.java
       push:
         - object-types-child
         - maybe-array-modifiers
-        - generic-type-arguments
+        - maybe-generic-type-argument
     # Uppercase constants
     - match: '{{uppercase_id}}'
       scope: constant.other.java
@@ -2388,7 +2388,7 @@ contexts:
       push:
         - object-types-child
         - maybe-array-modifiers
-        - generic-type-arguments
+        - maybe-generic-type-argument
 
   object-types-no-fqn:
     - match: '{{classcase_id}}\b'
@@ -2396,7 +2396,7 @@ contexts:
       set:
         - object-types-child
         - maybe-array-modifiers
-        - generic-type-arguments
+        - maybe-generic-type-argument
     - include: annotation-else-pop
 
   object-types-child:
@@ -2435,7 +2435,7 @@ contexts:
       scope: support.class.java
       push:
         - unqualiefied-object-type-end
-        - generic-type-arguments
+        - maybe-generic-type-argument
 
   unqualiefied-object-type-end:
     - match: (?={{accessor_dot}})
@@ -2471,7 +2471,7 @@ contexts:
 
   qualified-object-type-arguments:
     - match: (?=\s*<)
-      set: generic-type-arguments
+      set: maybe-generic-type-argument
     - match: (?=\s*\S)
       pop: 1
 
@@ -2484,6 +2484,10 @@ contexts:
       pop: 4
 
 ###[ REFERENCE TYPE ]##########################################################
+
+  maybe-additional-bounds:
+    - include: additional-bounds
+    - include: else-pop
 
   additional-bounds:
     - match: '&'
@@ -2548,7 +2552,7 @@ contexts:
       scope: entity.other.inherited-class.java
       push:
         - unqualiefied-inherited-object-type-end
-        - generic-type-arguments
+        - maybe-generic-type-argument
 
   unqualiefied-inherited-object-type-end:
     - match: (?={{accessor_dot}})
@@ -2585,7 +2589,11 @@ contexts:
 
 ###[ GENERIC TYPES ]###########################################################
 
-  generic-type-arguments:
+  maybe-generic-type-argument:
+    - include: generic-type-argument
+    - include: else-pop
+
+  generic-type-argument:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.5.1
     - match: <>
       scope:
@@ -2595,54 +2603,61 @@ contexts:
     - match: <
       scope: punctuation.definition.generic.begin.java
       set:
-        - generic-type-arguments-common
-        - generic-type-argument
-    - include: else-pop
+        - generic-type-argument-common
+        - generic-type-argument-reference
 
-  generic-type-arguments-common:
+  generic-type-argument-common:
     - meta_scope: meta.generic.java
     - match: ','
       scope: punctuation.separator.comma.java
-      push: generic-type-argument
+      push: generic-type-argument-reference
     - include: generic-type-terminator
 
-  generic-type-argument:
+  generic-type-argument-reference:
     - match: \?
       scope: keyword.operator.wildcard.java
-      set: generic-type-arguments-bounds
+      set: generic-type-argument-bounds
     - include: expect-reference-type
 
-  generic-type-arguments-bounds:
+  generic-type-argument-bounds:
     - match: extends\b
       scope: keyword.declaration.extends.java
-      set: [generic-type-additional-bounds, expect-reference-type]
+      set:
+        - maybe-additional-bounds
+        - expect-reference-type
     - match: super\b
       scope: keyword.declaration.super.java
       set: expect-reference-type
     - include: else-pop
 
-  generic-type:
-    - match: <
-      scope: punctuation.definition.generic.begin.java
-      push:
-        - generic-type-parameters-common
-        - generic-type-parameter
+  maybe-generic-type-parameter:
+    - include: generic-type-parameter
+    - include: else-pop
 
   generic-type-parameters:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.2
     - match: <
       scope: punctuation.definition.generic.begin.java
-      set: [generic-type-parameters-common, generic-type-parameter]
-    - include: else-pop
+      push:
+        - generic-type-parameter-common
+        - generic-type-parameter-reference
 
-  generic-type-parameters-common:
+  generic-type-parameter:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.2
+    - match: <
+      scope: punctuation.definition.generic.begin.java
+      set:
+        - generic-type-parameter-common
+        - generic-type-parameter-reference
+
+  generic-type-parameter-common:
     - meta_scope: meta.generic.declaration.java
     - match: ','
       scope: punctuation.separator.comma.java
-      push: generic-type-parameter
+      push: generic-type-parameter-reference
     - include: generic-type-terminator
 
-  generic-type-parameter:
+  generic-type-parameter-reference:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.4
     - match: \?|{{storage_types}}\b
       scope: invalid.illegal.unexpected-keyword.java
@@ -2655,14 +2670,12 @@ contexts:
   generic-type-parameter-bounds:
     - match: extends\b
       scope: keyword.declaration.extends.java
-      set: [generic-type-additional-bounds, expect-reference-type]
+      set:
+        - maybe-additional-bounds
+        - expect-reference-type
     - match: super\b
       scope: invalid.illegal.unexpected-keyword.java
       set: expect-reference-type
-    - include: else-pop
-
-  generic-type-additional-bounds:
-    - include: additional-bounds
     - include: else-pop
 
   generic-type-terminator:
@@ -2671,7 +2684,9 @@ contexts:
       pop: 1
     - match: extends\b
       scope: invalid.illegal.unexpected-keyword.java
-      push: [generic-type-additional-bounds, expect-reference-type]
+      push:
+        - maybe-additional-bounds
+        - expect-reference-type
     - match: super\b
       scope: invalid.illegal.unexpected-keyword.java
       push: expect-reference-type
