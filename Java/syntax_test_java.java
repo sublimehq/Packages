@@ -3708,6 +3708,141 @@ class LocalVariableDeclarationTests {
 //                ^^^ variable.other.readwrite.java
 //                   ^ invalid.illegal.unexpected-accessor.java
 //                    ^^^ invalid.illegal.unexpected-member.java
+  }
+
+
+  void declareGenericTypes() {
+
+    List<String> x;
+//  ^^^^ meta.declaration.java - meta.generic - meta.path
+//      ^^^^^^^^ meta.declaration.java meta.generic.java - meta.path
+//              ^^ meta.declaration.java - meta.generic - meta.path
+//                ^ - meta.declaration
+//  ^^^^ support.class.java
+//      ^^^^^^^^ meta.generic.java
+//      ^ punctuation.definition.generic.begin.java
+//       ^^^^^^ support.class.java
+//             ^ punctuation.definition.generic.end.java
+//               ^ variable.other.readwrite.java
+//                ^ punctuation.terminator.java
+
+    List<java.lang.String> x;
+//  ^^^^ meta.declaration.java - meta.generic - meta.path
+//      ^ meta.declaration.java meta.generic.java - meta.path
+//       ^^^^^^^^^^^^^^^^ meta.declaration.java meta.generic.java meta.path.java
+//                       ^ meta.declaration.java meta.generic.java - meta.path
+//                        ^^ meta.declaration.java - meta.generic - meta.path
+//                          ^ - meta.declaration
+//  ^^^^ support.class.java
+//      ^ punctuation.definition.generic.begin.java
+//       ^^^^ variable.namespace.java
+//           ^ punctuation.accessor.dot.java
+//            ^^^^ variable.namespace.java
+//                ^ punctuation.accessor.dot.java
+//                 ^^^^^^ support.class.java
+//                       ^ punctuation.definition.generic.end.java
+//                         ^ variable.other.readwrite.java
+//                          ^ punctuation.terminator.java
+
+    List<URI> x;
+//  ^^^^ meta.declaration.java - meta.generic - meta.path
+//      ^^^^^ meta.declaration.java meta.generic.java - meta.path
+//           ^^ meta.declaration.java - meta.generic - meta.path
+//             ^ - meta.declaration
+//  ^^^^ support.class.java
+//      ^ punctuation.definition.generic.begin.java
+//       ^^^ support.class.java
+//          ^ punctuation.definition.generic.end.java
+//            ^ variable.other.readwrite.java
+//             ^ punctuation.terminator.java
+
+    List<java.net.URI> x;
+//  ^^^^ meta.declaration.java - meta.generic - meta.path
+//      ^ meta.declaration.java meta.generic.java - meta.path
+//       ^^^^^^^^^^^^ meta.declaration.java meta.generic.java meta.path.java
+//                   ^ meta.declaration.java meta.generic.java - meta.path
+//                    ^^ meta.declaration.java - meta.generic - meta.path
+//                      ^ - meta.declaration
+//  ^^^^ support.class.java
+//      ^ punctuation.definition.generic.begin.java
+//       ^^^^ variable.namespace.java
+//           ^ punctuation.accessor.dot.java
+//            ^^^ variable.namespace.java
+//               ^ punctuation.accessor.dot.java
+//                ^^^ support.class.java
+//                   ^ punctuation.definition.generic.end.java
+//                     ^ variable.other.readwrite.java
+//                      ^ punctuation.terminator.java
+
+    List<int[]> x;
+//  ^^^^ meta.declaration.java - meta.generic - meta.path
+//      ^^^^^^^ meta.declaration.java meta.generic.java - meta.path
+//             ^^ meta.declaration.java - meta.generic - meta.path
+//               ^ - meta.declaration
+//  ^^^^ support.class.java
+//      ^ punctuation.definition.generic.begin.java
+//       ^^^ storage.type.primitive.java
+//          ^^ storage.modifier.array.java
+//            ^ punctuation.definition.generic.end.java
+//              ^ variable.other.readwrite.java
+//               ^ punctuation.terminator.java
+
+    List<java.lang.String[]> x;
+//  ^^^^ meta.declaration.java - meta.generic - meta.path
+//      ^ meta.declaration.java meta.generic.java - meta.path
+//       ^^^^^^^^^^^^^^^^ meta.declaration.java meta.generic.java meta.path.java
+//                       ^^^ meta.declaration.java meta.generic.java - meta.path
+//                          ^^ meta.declaration.java - meta.generic - meta.path
+//                            ^ - meta.declaration
+//  ^^^^ support.class.java
+//      ^ punctuation.definition.generic.begin.java
+//       ^^^^ variable.namespace.java
+//           ^ punctuation.accessor.dot.java
+//            ^^^^ variable.namespace.java
+//                ^ punctuation.accessor.dot.java
+//                 ^^^^^^ support.class.java
+//                       ^^ storage.modifier.array.java
+//                         ^ punctuation.definition.generic.end.java
+//                           ^ variable.other.readwrite.java
+//                            ^ punctuation.terminator.java
+
+    List<URI[]> x;
+//  ^^^^ meta.declaration.java - meta.generic - meta.path
+//      ^^^^^^^ meta.declaration.java meta.generic.java - meta.path
+//             ^^ meta.declaration.java - meta.generic - meta.path
+//               ^ - meta.declaration
+//  ^^^^ support.class.java
+//      ^^^^^^^ meta.generic.java
+//       ^^^ support.class.java
+//          ^^ storage.modifier.array.java
+
+    List<int[][]>[][] x;
+//  ^^^^ meta.declaration.java - meta.generic - meta.path
+//      ^^^^^^^^^ meta.declaration.java meta.generic.java - meta.path
+//               ^^^^^^ meta.declaration.java - meta.generic - meta.path
+//                     ^ - meta.declaration
+//  ^^^^ support.class.java
+//      ^ punctuation.definition.generic.begin.java
+//       ^^^ storage.type.primitive.java
+//          ^^^^ storage.modifier.array.java
+//              ^ punctuation.definition.generic.end.java
+//               ^^^^ storage.modifier.array.java
+//                    ^ variable.other.readwrite.java
+//                     ^ punctuation.terminator.java
+
+    List<? extends int> x;
+//  ^^^^ meta.declaration.java - meta.generic - meta.path
+//      ^^^^^^^^^^^^^^^ meta.declaration.java meta.generic.java - meta.path
+//                     ^^ meta.declaration.java - meta.generic - meta.path
+//                       ^ - meta.declaration
+//  ^^^^ support.class.java
+//      ^ punctuation.definition.generic.begin.java
+//       ^ keyword.operator.wildcard.java
+//         ^^^^^^^ keyword.declaration.extends.java
+//                 ^^^ invalid.illegal.unexpected-keyword.java
+//                    ^ punctuation.definition.generic.end.java
+//                      ^ variable.other.readwrite.java
+//                       ^ punctuation.terminator.java
 
     @anno foo . @anno TestClass<T> @anno . anno [] bar . baz;
 // ^ - meta.declaration
@@ -3764,62 +3899,30 @@ class LocalVariableDeclarationTests {
 //                                                     ^ invalid.illegal.unexpected-accessor.java
 //                                                       ^^^ invalid.illegal.unexpected-member.java
 //                                                          ^ punctuation.terminator.java
-  }
 
-
-  void declareGenericTypes() {
-    List<String> x;
-//      ^^^^^^^^ meta.generic.java
-//      ^ punctuation.definition.generic.begin.java
-//             ^ punctuation.definition.generic.end.java
-
-    List<java.lang.String> x;
-//      ^^^^^^^^^^^^^^^^^^ meta.generic.java
-//       ^^^^^^^^^^^^^^^^ meta.path.java
-//       ^^^^ variable.namespace.java
-//           ^ punctuation.accessor.dot.java
-//            ^^^^ variable.namespace.java
-//                ^ punctuation.accessor.dot.java
-//                 ^^^^^^ support.class.java
-//                       ^ punctuation.definition.generic.end.java
-
-    List<URI> x;
-//      ^^^^^ meta.generic.java
-//       ^^^ support.class.java
-
-    List<java.net.URI> x;
-//      ^^^^^^^^^^^^^^ meta.generic.java
-//       ^^^^^^^^^^^^ meta.path.java
-//                ^^^ support.class.java
-
-    List<int[]> x;
-//      ^^^^^^^ meta.generic.java
-//       ^^^ storage.type.primitive.java
-//          ^^ storage.modifier.array.java
-
-    List<java.lang.String[]> x;
-//      ^^^^^^^^^^^^^^^^^^^^ meta.generic.java
-//       ^^^^^^^^^^^^^^^^ meta.path.java
-//                       ^^ storage.modifier.array.java - meta.path
-
-    List<URI[]> x;
-//      ^^^^^^^ meta.generic.java
-//       ^^^ support.class.java
-//          ^^ storage.modifier.array.java
-
-    List<int[][]>[][] x;
-//      ^^^^^^^^^ meta.generic.java
-//       ^^^ storage.type.primitive.java
-//          ^^^^ storage.modifier.array.java
-//               ^^^^ storage.modifier.array.java
-
-    List<? extends int>
-//      ^^^^^^^^^^^^^^^ meta.generic.java
-//      ^ punctuation.definition.generic.begin.java
-//       ^ keyword.operator.wildcard.java
-//         ^^^^^^^ keyword.declaration.extends.java
-//                 ^^^ invalid.illegal.unexpected-keyword.java
-//                    ^ punctuation.definition.generic.end.java
+    class a<b>{{
+//  ^^^^^ meta.method.java meta.class.java
+//       ^^ meta.method.java meta.class.identifier.java - meta.generic
+//         ^^^ meta.method.java meta.class.identifier.java meta.generic.declaration.java
+//            ^^ meta.method.java meta.class.java meta.block.java - meta.generic
+//  ^^^^^ keyword.declaration.class.java
+//        ^ entity.name.class.java
+//         ^ punctuation.definition.generic.begin.java
+//          ^ variable.parameter.type.java
+//           ^ punctuation.definition.generic.end.java
+//            ^^ punctuation.section.block.begin.java
+      a<a>a;
+//    ^ meta.declaration.java - meta.generic
+//     ^^^ meta.declaration.java meta.generic.java
+//        ^ meta.declaration.java - meta.generic
+//    ^ support.class.java
+//     ^ punctuation.definition.generic.begin.java
+//      ^ support.class.java
+//       ^ punctuation.definition.generic.end.java
+//        ^ variable.other.readwrite.java
+//         ^ punctuation.terminator.java
+    }}
+//  ^^ punctuation.section.block.end.java
   }
 
 
