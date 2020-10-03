@@ -75,8 +75,11 @@ variables:
   # Identifiers
   identifier: (?!{{reserved_words}}[^\w$]){{id}}
 
-  id: (?:[\p{L}_$][\p{L}\p{N}_$]*)
-  classcase_id: (?:\p{Lu}[\p{L}\p{N}_$]*)
+  id: (?:{{id_first_char}}{{id_char}}*)
+  id_first_char: '[\p{L}_$]'
+  id_char: '[\p{L}\p{N}_$]'
+
+  classcase_id: (?:\p{Lu}{{id_char}}*)
   lowercase_id: (?:[_$]*\p{Ll}[\p{Ll}\p{N}_$]*\b)
   uppercase_id: (?:[_$]*\p{Lu}[\p{Lu}\p{N}_$]*\b)
 
@@ -1230,7 +1233,7 @@ contexts:
     - match: =
       scope: keyword.operator.assignment.java
       push: variable-initializer
-    - match: (?=[\p{L}_$@<])
+    - match: (?={{id_first_char}}|[@<])
       branch_point: for-parameter
       branch:
         - for-parameter-assignment
@@ -1430,7 +1433,7 @@ contexts:
     - match: =
       scope: keyword.operator.assignment.java
       push: variable-initializer
-    - match: (?=[\p{L}_$@<])
+    - match: (?={{id_first_char}}|[@<])
       branch_point: try-parameter
       branch:
         - try-parameter-assignment
@@ -1610,7 +1613,7 @@ contexts:
     # - `~`     : unary operator
     # - `(`     : cast, lambda or group expression
     # - literal : variable, type or method
-    - match: (?=[\p{L}_$@!~(])
+    - match: (?={{id_first_char}}|[!~(])
       pop: 1
     - include: group-else-fail
 
@@ -1654,7 +1657,7 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.java
       set: lambda-meta
-    - match: (?=[\p{L}_$@<])
+    - match: (?={{id_first_char}}|[@<])
       branch_point: lambda-parameter-declaration
       branch:
         - lambda-implicit-parameter
@@ -1700,7 +1703,7 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
     # The first parameter of a method or constructor declaration may be a
     # receiver parameter which represents the object to invoke the method for.
-    - match: (?=[\p{L}_$<])
+    - match: (?={{id_first_char}}|<)
       branch_point: receiver-or-parameter
       branch:
         - receiver
@@ -1736,7 +1739,7 @@ contexts:
     - include: else-pop2
 
   receiver-unqualified-type-end:
-    - match: (?=[\p{L}_$])
+    - match: (?={{id_first_char}})
       pop: 3
     - match: (?={{accessor_dot}})
       fail: receiver-type
@@ -2498,7 +2501,7 @@ contexts:
       branch:
         - reference-type-array
         - reference-type-illegal
-    - match: (?=[\p{L}_$])
+    - match: (?={{id_first_char}})
       set:
         - maybe-array-modifiers
         - maybe-object-type
