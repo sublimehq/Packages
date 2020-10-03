@@ -430,6 +430,14 @@ class GenericTest<A
 //               ^ punctuation.definition.generic.begin.java
 //                ^ variable.parameter.type.java
 
+class GenericTest<extends
+//<- meta.class.java keyword.declaration.class.java
+//^^^ meta.class.java - meta.class meta.class - meta.generic
+//   ^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class - meta.generic
+//               ^^^^^^^^^ meta.class.identifier.java meta.generic.declaration.java
+//               ^ punctuation.definition.generic.begin.java
+//                ^^^^^^^ keyword.declaration.extends.java
+
 class GenericTest<A extends
 //<- meta.class.java keyword.declaration.class.java
 //^^^ meta.class.java - meta.class meta.class - meta.generic
@@ -514,6 +522,16 @@ class GenericTest<A super Foo>
 //                  ^^^^^ invalid.illegal.unexpected-keyword.java
 //                        ^^^ support.class.java
 //                           ^ punctuation.definition.generic.end.java
+
+class GenericTest<super Foo>
+//<- meta.class.java keyword.declaration.class.java
+//^^^ meta.class.java - meta.class meta.class - meta.generic
+//   ^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class - meta.generic
+//               ^^^^^^^^^^^ meta.class.identifier.java meta.generic.declaration.java
+//               ^ punctuation.definition.generic.begin.java
+//                ^^^^^ invalid.illegal.unexpected-keyword.java
+//                      ^^^ support.class.java
+//                         ^ punctuation.definition.generic.end.java
 
 class GenericTest<@Anno A extends @Anno com . @Anno Foo<A, @Anno com . @Anno Bar> & @Anno Foo<? super Baz> . @Anno Bar<A extends Foo>>
 //<- meta.class.java keyword.declaration.class.java

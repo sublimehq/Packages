@@ -2642,6 +2642,7 @@ contexts:
       scope: punctuation.definition.generic.begin.java
       push:
         - type-parameter-common
+        - type-parameter-bounds
         - type-parameter-reference
 
   type-parameter:
@@ -2650,23 +2651,26 @@ contexts:
       scope: punctuation.definition.generic.begin.java
       set:
         - type-parameter-common
+        - type-parameter-bounds
         - type-parameter-reference
 
   type-parameter-common:
     - meta_scope: meta.generic.declaration.java
     - match: ','
       scope: punctuation.separator.comma.java
-      push: type-parameter-reference
+      push:
+        - type-parameter-bounds
+        - type-parameter-reference
     - include: type-parameter-end
 
   type-parameter-reference:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-4.html#jls-4.4
-    - match: \?|{{storage_types}}\b
-      scope: invalid.illegal.unexpected-keyword.java
-      set: type-parameter-bounds
     - match: '{{identifier}}'
       scope: variable.parameter.type.java
-      set: type-parameter-bounds
+      pop: 1
+    - match: \?|{{storage_types}}\b
+      scope: invalid.illegal.unexpected-keyword.java
+      pop: 1
     - include: annotation-else-pop
 
   type-parameter-bounds:
