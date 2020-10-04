@@ -159,7 +159,7 @@ contexts:
 
 ###[ ANNOTATIONS ]#############################################################
 
-  annotation:
+  annotations:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.7
     - match: \@(?!interface\b)
       scope: punctuation.definition.annotation.java
@@ -598,7 +598,7 @@ contexts:
       scope: storage.modifier.java
     - match: '{{class_no_modifier}}\b'
       scope: invalid.illegal.unexpected-keyword.java
-    - include: annotation
+    - include: annotations
 
   class-name:
     - match: '{{identifier}}'
@@ -666,7 +666,7 @@ contexts:
       scope: storage.modifier.java
     - match: '{{class_no_modifier}}\b'
       scope: invalid.illegal.unexpected-keyword.java
-    - include: annotation
+    - include: annotations
 
   enum-name:
     - match: '{{identifier}}'
@@ -762,7 +762,7 @@ contexts:
       scope: storage.modifier.java
     - match: '{{interface_no_modifier}}\b'
       scope: invalid.illegal.unexpected-keyword.java
-    - include: annotation
+    - include: annotations
 
   interface-name:
     - match: '{{identifier}}'
@@ -1433,7 +1433,7 @@ contexts:
         - instantiation-value
         - instantiation-type
         - maybe-type-argument
-    - include: annotation
+    - include: annotations
 
   instantiation-meta:
     - meta_scope: meta.instantiation.java
@@ -1459,7 +1459,7 @@ contexts:
             - include: else-pop
         - include: expressions
     - include: array-initializer
-    - include: annotation
+    - include: annotations
 
   constructor-arguments:
     - match: \(
@@ -1621,7 +1621,7 @@ contexts:
     - include: primitive-type
     - include: object-type
     - include: illegal-var-type
-    - include: annotation
+    - include: annotations
     - include: maybe-type-argument
 
 ###[ EXPRESSION GROUPS ]#######################################################
@@ -2168,7 +2168,7 @@ contexts:
     - match: '{{lowercase_id}}'
       scope: variable.namespace.java
       set: qualified-enum-constant-package-accessor
-    - include: annotation
+    - include: annotations
     - match: (?=\S)
       fail: qualified-constant
 
@@ -2183,7 +2183,7 @@ contexts:
       branch:
         - qualified-enum-constant-class
         - qualified-enum-constant-name
-    - include: annotation
+    - include: annotations
     - include: else-pop3
 
   qualified-enum-constant-class:
@@ -2414,7 +2414,7 @@ contexts:
 
   expect-object-type:
     - include: object-type
-    - include: annotation
+    - include: annotations
     - include: illegal-unexpected-reserved
     - include: else-pop
 
@@ -2520,7 +2520,7 @@ contexts:
     - match: (?=\[)
       pop: 1
       set: maybe-array-modifiers
-    - include: annotation
+    - include: annotations
     - match: (?=\S)
       fail: primitive-array-type
 
@@ -2741,15 +2741,15 @@ contexts:
     - include: illegal-keywords
 
   annotation-else-pop:
-    - include: annotation
+    - include: annotations
     - include: else-pop
 
   annotation-else-pop2:
-    - include: annotation
+    - include: annotations
     - include: else-pop2
 
   annotation-else-pop3:
-    - include: annotation
+    - include: annotations
     - include: else-pop3
 
   else-pop:
