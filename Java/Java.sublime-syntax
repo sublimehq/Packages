@@ -178,19 +178,16 @@ contexts:
   annotation-unqualified-parameters:
     - match: (?={{accessor_dot}})
       fail: annotation-identifier
-    - match: \(
-      scope: punctuation.section.group.begin.java
-      set: annotation-unqualified-parameters-common
+    - match: (?=\()
+      pop: 2
+      set:
+        - annotation-parameters-common
+        - group-begin
     - include: else-pop2
-
-  annotation-unqualified-parameters-common:
-    - clear_scopes: 1
-    - meta_scope: meta.annotation.parameters.java meta.group.java
-    - include: annotation-parameters-common
 
   annotation-qualified-identifier:
     - meta_scope: meta.annotation.identifier.java meta.path.java
-    - match: (?={{identifier}})
+    - match: (?={{id_first_char}})
       branch_point: annotation-qualified-identifier
       branch:
         - annotation-qualified-identifier-path
@@ -201,6 +198,8 @@ contexts:
     - match: '{{identifier}}'
       scope: variable.annotation.namespace.java
       push: annotation-qualified-identifier-accessor
+    - match: (?=\S)
+      fail: annotation-qualified-identifier
 
   annotation-qualified-identifier-accessor:
     - include: punctuation-accessor-dot-pop2
@@ -210,23 +209,21 @@ contexts:
   annotation-qualified-identifier-name:
     - match: '{{identifier}}'
       scope: variable.annotation.java
-      set: annotation-qualified-parameters
-
-  annotation-qualified-parameters:
-    - meta_content_scope: meta.annotation.identifier.java
-    - match: \(
-      scope: punctuation.section.group.begin.java
-      set: annotation-qualified-parameters-common
+      push: annotation-qualified-parameters
     - include: else-pop2
 
-  annotation-qualified-parameters-common:
-    - clear_scopes: 2
-    - meta_scope: meta.annotation.parameters.java meta.group.java
-    - include: annotation-parameters-common
+  annotation-qualified-parameters:
+    - match: (?=\()
+      pop: 3
+      set:
+        - annotation-parameters-common
+        - group-begin
+    - include: else-pop3
 
   annotation-parameters-common:
-    - include: group-end2
-    - match: (?={{identifier}})
+    - meta_scope: meta.annotation.parameters.java meta.group.java
+    - include: group-end
+    - match: (?={{id_first_char}})
       branch_point: annotation-parameter
       branch:
         - annotation-parameter
@@ -237,11 +234,13 @@ contexts:
     - match: '{{identifier}}'
       scope: variable.parameter.java
       set: annotation-parameter-assignment
+    - match: (?=\S)
+      fail: annotation-parameter
 
   annotation-parameter-assignment:
     - match: =
       scope: keyword.operator.assignment.java
-      pop: 1
+      set: variable-initializer
     - match: (?=\S)
       fail: annotation-parameter
 
@@ -1578,15 +1577,15 @@ contexts:
     - include: illegal-group-terminators
     - include: expressions
 
+  group-begin:
+    - match: \(
+      scope: punctuation.section.group.begin.java
+      pop: 1
+
   group-end:
     - match: \)
       scope: punctuation.section.group.end.java
       pop: 1
-
-  group-end2:
-    - match: \)
-      scope: punctuation.section.group.end.java
-      pop: 2
 
 ###[ CAST EXPRESSION GROUPS ]##################################################
 
