@@ -176,14 +176,20 @@ contexts:
     - include: else-pop
 
   annotation-unqualified-parameters:
-    - match: (?={{accessor_dot}})
+    # fail: looks like a qualified annotation
+    - match: \s*{{accessor_dot}}
       fail: annotation-identifier
-    - match: (?=\()
+    # success: annotation ends with arguments
+    - match: \s*(?=\()
       pop: 2
       set:
         - annotation-parameters-common
         - group-begin
-    - include: else-pop2
+    # consume comments
+    - match: \s*(?=/[/*])
+    # success: annotation ends without arguments
+    - match: (?=\s*\S)
+      pop: 2
 
   annotation-qualified-identifier:
     - meta_scope: meta.annotation.identifier.java meta.path.java
@@ -213,12 +219,17 @@ contexts:
     - include: else-pop2
 
   annotation-qualified-parameters:
-    - match: (?=\()
+    # annotation ends with arguments
+    - match: \s*(?=\()
       pop: 3
       set:
         - annotation-parameters-common
         - group-begin
-    - include: else-pop3
+    # consume comments
+    - match: \s*(?=/[/*])
+    # annotation ends without arguments
+    - match: (?=\s*\S)
+      pop: 3
 
   annotation-parameters-common:
     - meta_scope: meta.annotation.parameters.java meta.group.java

@@ -1855,7 +1855,8 @@ class FieldDeclarationTests {
 //               ^^^^^^^^^^^^^^ meta.field.identifier.java
 //                             ^ meta.field.java
 //                              ^ meta.field.value.java - meta.instantiation - meta.annotation
-//                               ^^^^^^ meta.field.value.java meta.annotation.identifier.java
+//                               ^^^^^ meta.field.value.java meta.annotation.identifier.java
+//                                    ^ meta.field.value.java - meta.annotation - meta.instantiation
 //                                     ^^^^^^^^^^^^^^^^^^^ meta.field.value.java meta.instantiation.java - meta.annotation
 //                                                        ^ - meta.field
 //^^^^^^^ storage.modifier.java
@@ -2166,14 +2167,14 @@ class FieldDeclarationTests {
 //               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java
 //                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.identifier.java
 //                                                                         ^ - meta.field
-//^^^^^^^^^ meta.annotation.identifier.java
-//         ^^^^^^^^^^^^^ - meta.annotation
-//                      ^^^^^^ meta.annotation.identifier.java
-//                            ^^^^ - meta.annotation
-//                                ^^^^^^ meta.annotation.identifier.java
-//                                      ^^^^^^^^^^^^^^^^^^^^^^ - meta.annotation
-//                                                            ^^^^^^ meta.annotation.identifier.java
-//                                                                  ^^^^^^^^ - meta.annotation
+//^^^^^^^^ meta.annotation.identifier.java
+//        ^^^^^^^^^^^^^^ - meta.annotation
+//                      ^^^^^ meta.annotation.identifier.java
+//                           ^^^^^ - meta.annotation
+//                                ^^^^^ meta.annotation.identifier.java
+//                                     ^^^^^^^^^^^^^^^^^^^^^^^ - meta.annotation
+//                                                            ^^^^^ meta.annotation.identifier.java
+//                                                                 ^^^^^^^^^ - meta.annotation
 //         ^^^^^ storage.modifier.java
 //               ^^^^^^ support.class.java
 //                            ^^^ storage.modifier.array.java
@@ -2212,7 +2213,8 @@ class FieldDeclarationTests {
 //                                            ^ punctuation.terminator.java
 
   @anno /**/ fully // comment
-//^^^^^^^^^^^ meta.field.modifier.java meta.annotation.identifier.java
+//^^^^^^^^^^ meta.field.modifier.java meta.annotation.identifier.java
+//          ^ meta.field.modifier.java - meta.annotation - meta.pth
 //           ^^^^^^^^^^^^^^^^^ meta.field.type.java meta.path.java
 //^ punctuation.definition.annotation.java
 // ^^^^ variable.annotation.java
@@ -2221,7 +2223,7 @@ class FieldDeclarationTests {
 //                 ^^^^^^^^^^^ comment.line.double-slash.java
   . @anno qualified//comment
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java meta.path.java
-//  ^^^^^^ meta.annotation.identifier.java
+//  ^^^^^ meta.annotation.identifier.java
 //^ punctuation.accessor.dot.java
 //  ^ punctuation.definition.annotation.java
 //   ^^^^ variable.annotation.java
@@ -2235,7 +2237,7 @@ class FieldDeclarationTests {
   @anno /**/ object @anno() []
 //^^^^^^^^^^^^^^^^^ meta.field.type.java meta.path.java
 //                 ^^^^^^^^^^^^ meta.field.type.java - meta.path
-//^^^^^^ meta.annotation.identifier.java
+//^^^^^ meta.annotation.identifier.java
 //                  ^^^^^ meta.annotation.identifier.java
 //                       ^^ meta.annotation.parameters.java meta.group.java
 //^ punctuation.definition.annotation.java
@@ -2828,7 +2830,7 @@ class MethodDelcarationTests {
 //             ^^^^^^^^ meta.method.return-type.java
 //                     ^^^^^^^^^^^ meta.method.identifier.java entity.name.function.java
 //                                ^^ meta.method.parameters.java meta.group.java
-//^^^^^^ meta.annotation.identifier.java
+//^^^^^ meta.annotation.identifier.java
 //      ^^^^^^ storage.modifier.java
 //             ^^^ storage.type.primitive.java
 //                ^^^^ storage.modifier.array.java
@@ -3445,31 +3447,31 @@ class ReceiverArgTests {
 //               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java - meta.method meta.method
 //               ^^^^ - meta.path
 //                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.java - meta.path meta.path
-//                                                ^^^^^ meta.path.java meta.path.java
-//                                                     ^ meta.path.java - meta.path meta.path
+//                                                ^^^^ meta.path.java meta.path.java
+//                                                    ^^ meta.path.java - meta.path meta.path
 //                                                      ^ - meta.path
 //                                                       ^^^^^^^ meta.path.java - meta.path meta.path
-//                                                              ^^^^^ meta.path.java meta.path.java
-//                                                                   ^^^^ meta.path.java - meta.path meta.path
+//                                                              ^^^^ meta.path.java meta.path.java
+//                                                                  ^^^^^ meta.path.java - meta.path meta.path
 //                                                                       ^^^^^^ meta.path.java meta.path.java
 //                                                                             ^^^^^^^^^^^ meta.path.java - meta.path meta.path
 //                                                                                        ^^^^^ - meta.path
 //    ^^^^ storage.type.void.java
 //         ^^^^^^ entity.name.function.java
 //               ^ punctuation.section.group.begin.java
-//                ^^^ meta.annotation.identifier.java
+//                ^^ meta.annotation.identifier.java
 //                   ^^^^^^^^^^^^^^^^ support.class.java
 //                                   ^^^ meta.generic.java
 //                                       ^ punctuation.accessor.dot.java
-//                                         ^^^ meta.annotation.identifier.java
+//                                         ^^ meta.annotation.identifier.java
 //                                            ^ support.class.java
 //                                              ^ punctuation.accessor.dot.java
-//                                                ^^^^^ meta.annotation.identifier.java
+//                                                ^^^^ meta.annotation.identifier.java
 //                                                     ^ support.class.java
-//                                                       ^^^ meta.annotation.identifier.java
+//                                                       ^^ meta.annotation.identifier.java
 //                                                          ^ support.class.java
 //                                                            ^ punctuation.accessor.dot.java
-//                                                              ^^^^^ meta.annotation.identifier.java
+//                                                              ^^^^ meta.annotation.identifier.java
 //                                                                   ^ support.class.java
 //                                                                     ^ punctuation.accessor.dot.java
 //                                                                       ^^^^^^ meta.annotation.identifier.java
@@ -3861,11 +3863,12 @@ class LocalVariableDeclarationTests {
 
     @anno foo . @anno TestClass<T> @anno . anno [] bar . baz;
 // ^ - meta.declaration
-//  ^^^^^^ meta.declaration.java meta.annotation.identifier.java - meta.path
+//  ^^^^^ meta.declaration.java meta.annotation.identifier.java - meta.path
+//       ^ meta.declaration.java - meta.annotation - meta.path
 //        ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.java meta.path.java
 //                                ^ meta.declaration.java - meta.path
-//                                 ^^^^^^^^^^^^^ meta.declaration.java meta.annotation.identifier.java meta.path.java
-//                                              ^^^^^^^^^^^^ meta.declaration.java - meta.annotation - meta.path
+//                                 ^^^^^^^^^^^^ meta.declaration.java meta.annotation.identifier.java meta.path.java
+//                                             ^^^^^^^^^^^^^ meta.declaration.java - meta.annotation - meta.path
 //                                                          ^ - meta.declaration
 //  ^ punctuation.definition.annotation.java
 //   ^^^^ variable.annotation.java
@@ -3889,11 +3892,12 @@ class LocalVariableDeclarationTests {
 
     @anno foo . @anno testclass<t> @anno . anno [] bar . baz;
 // ^ - meta.declaration
-//  ^^^^^^ meta.declaration.java meta.annotation.identifier.java - meta.path
+//  ^^^^^ meta.declaration.java meta.annotation.identifier.java - meta.path
+//       ^ meta.declaration.java - meta.annotation - meta.path
 //        ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.java meta.path.java
 //                                ^ meta.declaration.java - meta.path
-//                                 ^^^^^^^^^^^^^ meta.declaration.java meta.annotation.identifier.java meta.path.java
-//                                              ^^^^^^^^^^^^ meta.declaration.java - meta.annotation - meta.path
+//                                 ^^^^^^^^^^^^ meta.declaration.java meta.annotation.identifier.java meta.path.java
+//                                             ^^^^^^^^^^^^^ meta.declaration.java - meta.annotation - meta.path
 //                                                          ^ - meta.declaration
 //  ^ punctuation.definition.annotation.java
 //   ^^^^ variable.annotation.java
@@ -4040,7 +4044,8 @@ class InstanceCreationExpressionsTests {
 
     new @Foo TestClass(foo);
 //  ^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
-//      ^^^^^ meta.annotation.identifier.java
+//      ^^^^ meta.annotation.identifier.java
+//          ^^^^^^^^^^^^^^^ - meta.annotation
 //                    ^^^^^ meta.group.java
 //                         ^^ - meta.instantiation
 //  ^^^ keyword.other.storage.new.java
@@ -4052,7 +4057,8 @@ class InstanceCreationExpressionsTests {
 
     new @foo testclass(foo);
 //  ^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
-//      ^^^^^ meta.annotation.identifier.java
+//      ^^^^ meta.annotation.identifier.java
+//          ^^^^^^^^^^^^^^^ - meta.annotation
 //                    ^^^^^ meta.group.java
 //                         ^^ - meta.instantiation
 //  ^^^ keyword.other.storage.new.java
@@ -4101,11 +4107,15 @@ class InstanceCreationExpressionsTests {
 
     new @Foo com . @Foo java . @Foo OuterClass . @Foo InnerClass(foo);
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
-//      ^^^^^ meta.annotation.identifier.java
+//      ^^^^ meta.annotation.identifier.java
+//          ^^^^^^^ - meta.annotation
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
-//                 ^^^^^ meta.annotation.identifier.java
-//                             ^^^^^ meta.annotation.identifier.java
-//                                               ^^^^^ meta.annotation.identifier.java
+//                 ^^^^ meta.annotation.identifier.java
+//                     ^^^^^^^^ - meta.annotation
+//                             ^^^^ meta.annotation.identifier.java
+//                                 ^^^^^^^^^^^^^^ - meta.annotation
+//                                               ^^^^ meta.annotation.identifier.java
+//                                                   ^^^^^^^^^^^^^^^^ - meta.annotation
 //  ^^^ keyword.other.storage.new.java
 //      ^ punctuation.definition.annotation.java
 //       ^^^ variable.annotation.java
@@ -4129,11 +4139,15 @@ class InstanceCreationExpressionsTests {
 
     new @foo com . @foo java . @foo outerclass . @foo innerclass(foo);
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
-//      ^^^^^ meta.annotation.identifier.java
+//      ^^^^ meta.annotation.identifier.java
+//          ^^^^^^^ - meta.annotation
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
-//                 ^^^^^ meta.annotation.identifier.java
-//                             ^^^^^ meta.annotation.identifier.java
-//                                               ^^^^^ meta.annotation.identifier.java
+//                 ^^^^ meta.annotation.identifier.java
+//                     ^^^^^^^^ - meta.annotation
+//                             ^^^^ meta.annotation.identifier.java
+//                                 ^^^^^^^^^^^^^^ - meta.annotation
+//                                               ^^^^ meta.annotation.identifier.java
+//                                                   ^^^^^^^^^^^^^^^^ - meta.annotation
 //  ^^^ keyword.other.storage.new.java
 //      ^ punctuation.definition.annotation.java
 //       ^^^ variable.annotation.java
@@ -4274,10 +4288,13 @@ class InstanceCreationExpressionsTests {
 
     new @notnull MyObject @bound [size + 10] @anno [];
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
-//      ^^^^^^^^^ meta.annotation.identifier.java
-//                        ^^^^^^^ meta.annotation.identifier.java
+//      ^^^^^^^^ meta.annotation.identifier.java
+//              ^ - meta.annotation
+//                        ^^^^^^ meta.annotation.identifier.java
+//                              ^ - meta.annotation
 //                               ^^^^^^^^^^^ meta.brackets.java
-//                                           ^^^^^^ meta.annotation.identifier.java
+//                                           ^^^^^ meta.annotation.identifier.java
+//                                                ^ - meta.annotation
 //                                                 ^^ meta.brackets.java
 //                                                   ^ - meta.instantiation - meta.brackets
 //  ^^^ keyword.other.storage.new.java
@@ -4299,10 +4316,13 @@ class InstanceCreationExpressionsTests {
 
     new @notnull myobject @bound [size + 10] @anno [];
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
-//      ^^^^^^^^^ meta.annotation.identifier.java
-//                        ^^^^^^^ meta.annotation.identifier.java
+//      ^^^^^^^^ meta.annotation.identifier.java
+//              ^ - meta.annotation
+//                        ^^^^^^ meta.annotation.identifier.java
+//                              ^ - meta.annotation
 //                               ^^^^^^^^^^^ meta.brackets.java
-//                                           ^^^^^^ meta.annotation.identifier.java
+//                                           ^^^^^ meta.annotation.identifier.java
+//                                                ^ - meta.annotation
 //                                                 ^^ meta.brackets.java
 //                                                   ^ - meta.instantiation - meta.brackets
 //  ^^^ keyword.other.storage.new.java
@@ -4395,7 +4415,8 @@ class InstanceCreationExpressionsTests {
     new Generic<@Anno Type>();
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
 //             ^^^^^^^^^^^^ meta.generic.java
-//              ^^^^^^ meta.annotation.identifier.java
+//              ^^^^^ meta.annotation.identifier.java
+//                   ^ - meta.annotation
 //                         ^^ meta.group.java
 //  ^^^ keyword.other.storage.new.java
 //      ^^^^^^^ support.class.java
@@ -4422,9 +4443,11 @@ class InstanceCreationExpressionsTests {
 
     new @Anno Generic<@Anno ?>();
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
-//      ^^^^^^ meta.annotation.identifier.java
+//      ^^^^^ meta.annotation.identifier.java
+//           ^^^^^^^^^ - meta.annotation
 //                   ^^^^^^^^^ meta.generic.java
-//                    ^^^^^^ meta.annotation.identifier.java
+//                    ^^^^^ meta.annotation.identifier.java
+//                         ^^^ - meta.annotation
 //                            ^^ meta.group.java
 //      ^ punctuation.definition.annotation.java
 //       ^^^^ variable.annotation.java
@@ -4528,14 +4551,15 @@ class InstanceCreationExpressionsTests {
 
     new Generic<int @Anno []>();
 //              ^^^ storage.type.primitive.java
-//                  ^^^^^^ meta.annotation.identifier.java
+//                  ^^^^^ meta.annotation.identifier.java
+//                       ^^^^ - meta.annotation
 //                        ^^ storage.modifier.array.java
 
-    new Generic<int @com . Anno ( @Anno arg ) []>();
+    new Generic<int @com /**/ . /**/ Anno ( @Anno arg ) []>();
 //              ^^^ storage.type.primitive.java
-//                  ^^^^^^^^^^^^ meta.annotation.identifier.java
-//                              ^^^^^^^^^^^^^ meta.annotation.parameters.java meta.group.java
-//                                            ^^ storage.modifier.array.java
+//                  ^^^^^^^^^^^^^^^^^^^^^^ meta.annotation.identifier.java
+//                                        ^^^^^^^^^^^^^ meta.annotation.parameters.java meta.group.java
+//                                                      ^^ storage.modifier.array.java
 
     new generic<int @com . anno ( @anno arg ) []>();
 //              ^^^ storage.type.primitive.java
@@ -4891,10 +4915,10 @@ class CastExpressionsTests {
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.typecast.java meta.group.java
 //                                      ^^^^ - meta.typecast - meta.group
 //  ^ punctuation.section.group.begin.java
-//   ^^^^^^ meta.annotation.identifier.java
+//   ^^^^^ meta.annotation.identifier.java
 //         ^^^^^^^^^ support.class.java
 //                   ^ keyword.operator.multiple-bounds.java
-//                     ^^^^^^ meta.annotation.identifier.java
+//                     ^^^^^ meta.annotation.identifier.java
 //                           ^^^^^^^^^^ support.class.java
 //                                     ^ punctuation.section.group.end.java
 //                                       ^^^ variable.other.readwrite.java
@@ -5306,7 +5330,7 @@ class ForStatementTests {
 //  ^^^ keyword.control.loop.for.java
 //      ^ punctuation.section.group.begin.java
 //       ^^^^^ storage.modifier.java
-//             ^^^^^^ meta.annotation.identifier.java
+//             ^^^^^ meta.annotation.identifier.java
 //                   ^^^^^ support.class.java
 //                         ^^^^ variable.other.readwrite.java
 //                              ^ keyword.operator.assignment.java
@@ -5338,7 +5362,7 @@ class ForStatementTests {
 //  ^^^ keyword.control.loop.for.java
 //      ^ punctuation.section.group.begin.java
 //       ^^^^^^^ invalid.illegal.unexpected-modifier.java
-//               ^^^^^^ meta.annotation.identifier.java
+//               ^^^^^ meta.annotation.identifier.java
 //                     ^^^ storage.type.var.java
 //                         ^^^^ variable.other.readwrite.java
 //                              ^ keyword.operator.assignment.java
@@ -7156,7 +7180,7 @@ public class Foo {
     @MyAnnotation FooType annotatedParam,
 //  ^ meta.annotation.identifier.java punctuation.definition.annotation.java
 //   ^^^^^^^^^^^^ meta.annotation.identifier.java variable.annotation.java
-//               ^ meta.annotation.identifier.java - variable
+//               ^ - meta.annotation.identifier.java - variable
 //                ^ - meta.annotation.identifier.java
 //                ^^^^^^^ support.class.java
 //                        ^^^^^^^^^^^^^^ variable.parameter.java
