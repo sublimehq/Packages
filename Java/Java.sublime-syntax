@@ -238,7 +238,7 @@ contexts:
       branch_point: annotation-parameter
       branch:
         - annotation-parameter
-        - expression-pop
+        - expression
     - include: variable-initializers
 
   annotation-parameter:
@@ -265,7 +265,7 @@ contexts:
         - declaration-maybe-enum
         - declaration-maybe-interface
         - declaration-maybe-variable
-        - expression-pop
+        - expression
 
   declaration-else-fail:
     - match: (?=\S)
@@ -331,7 +331,7 @@ contexts:
         - member-maybe-class
         - member-maybe-enum
         - member-maybe-interface
-        - expression-pop
+        - expression
 
   member-else-fail:
     - match: (?=\S)
@@ -1133,7 +1133,7 @@ contexts:
     - match: ':'
       scope: punctuation.separator.expressions.java
       pop: 1
-    - include: expression-pop
+    - include: expression
 
   default-end:
     - meta_scope: meta.default.java
@@ -1285,7 +1285,7 @@ contexts:
     - meta_scope: meta.assertion.java
     - match: ':'
       scope: punctuation.separator.expressions.java
-    - include: expression-pop
+    - include: expression
 
   break-statement-end:
     - meta_scope: meta.break.java
@@ -1297,11 +1297,11 @@ contexts:
 
   return-statement-body:
     - meta_scope: meta.return.java
-    - include: expression-pop
+    - include: expression
 
   throw-statement-body:
     - meta_scope: meta.throw.java
-    - include: expression-pop
+    - include: expression
 
   variable-label:
     - match: '{{identifier}}'
@@ -1431,6 +1431,33 @@ contexts:
         - maybe-array-modifiers
         - variable-declaration-type
 
+###[ EXPRESSIONS ]#############################################################
+
+  else-expression:
+    - match: (?=\S)
+      set: expression
+
+  expression:
+    - include: expression-terminator
+    - include: expressions
+
+  expression-terminator:
+    - match: |-
+        (?x)(?=
+          [,:;)\]{}] |
+          ( {{control_keywords}}
+          | {{declaration_keywords}}
+          | {{storage_modifiers}}
+          | {{storage_types}}
+          )\b
+        )
+      pop: 1
+
+  expect-expression-terminator:
+    - include: expression-terminator
+    - match: \S
+      scope: invalid.illegal.expect-terminator.java
+
 ###[ INSTANTIATION EXPRESSIONS ]###############################################
 
   instantiations:
@@ -1494,7 +1521,7 @@ contexts:
   variable-initializer:
     - include: array-initializers
     - include: ternary-initializers
-    - include: expression-pop
+    - include: expression
 
   array-initializers:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-10.html#jls-10.6
@@ -1546,7 +1573,7 @@ contexts:
 
   block-or-expression:
     - include: block
-    - include: else-expression-pop
+    - include: else-expression
 
   blocks-common:
     - meta_scope: meta.block.java
@@ -2080,14 +2107,14 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.12
     - match: (<<|>>>?|[-+*/%|&\^])=
       scope: keyword.operator.assignment.augmented.java
-      push: expression-pop
+      push: expression
     - match: '<<|>>>?'
       scope: keyword.operator.bitwise.java
     - match: '==|!=|<=|>=|<>|<|>'
       scope: keyword.operator.comparison.java
     - match: '='
       scope: keyword.operator.assignment.java
-      push: expression-pop
+      push: expression
     - match: '\+\+?|\-\-?|[*/%]'
       scope: keyword.operator.arithmetic.java
     - match: '!|&&|\|\|'
@@ -2098,7 +2125,7 @@ contexts:
       scope: keyword.operator.ternary.java
       push:
         - include: operator-ternary-colon
-        - include: expression-pop
+        - include: expression
     - match: instanceof\b
       scope: keyword.other.storage.instanceof.java
 
@@ -2809,31 +2836,6 @@ contexts:
   reserved-pop4:
     - match: (?={{reserved_words}}\b)
       pop: 4
-
-  else-expression-pop:
-    - match: (?=\S)
-      set: expression-pop
-
-  expression-pop:
-    - include: expression-terminator
-    - include: expressions
-
-  expression-terminator:
-    - match: |-
-        (?x)(?=
-          [,:;)\]{}] |
-          ( {{control_keywords}}
-          | {{declaration_keywords}}
-          | {{storage_modifiers}}
-          | {{storage_types}}
-          )\b
-        )
-      pop: 1
-
-  expect-expression-terminator:
-    - include: expression-terminator
-    - match: \S
-      scope: invalid.illegal.expect-terminator.java
 
 ###[ ILLEGALS ]################################################################
 
