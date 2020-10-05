@@ -103,6 +103,7 @@ contexts:
     - include: package
     - include: statements
     - include: declarations
+    - include: else-expressions
 
   statements:
     - include: class-body-statements
@@ -258,21 +259,18 @@ contexts:
 ###[ DECLARATIONS ]############################################################
 
   declarations:
-    - match: (?=\S)
+    - match: (?={{id_first_char}}|[@<])
       branch_point: declarations
       branch:
         - declaration-maybe-class
         - declaration-maybe-enum
         - declaration-maybe-interface
+        - declaration-maybe-assignment
         - declaration-maybe-variable
         - expression
 
   declaration-else-fail:
     - match: (?=\S)
-      fail: declarations
-
-  declaration-reserved-fail:
-    - match: (?={{reserved_words}}\b)
       fail: declarations
 
   declaration-maybe-class:
@@ -300,6 +298,18 @@ contexts:
     - include: interface-modifier
     - include: declaration-else-fail
 
+  declaration-maybe-assignment:
+    - match: ''
+      set:
+        - declaration-assignment
+        - declaration-identifier
+
+  declaration-assignment:
+    - match: =
+      scope: keyword.operator.assignment.java
+      set: variable-initializer
+    - include: declaration-else-fail
+
   declaration-maybe-variable:
     - match: ''
       set:
@@ -310,11 +320,10 @@ contexts:
         - variable-declaration-type
 
   declaration-identifier:
-    - include: declaration-reserved-fail
     - match: '{{uppercase_id}}'
       scope: entity.name.constant.java
       set: [illegal-members, maybe-array-modifiers]
-    - match: '{{id}}'
+    - match: '{{identifier}}'
       scope: variable.other.readwrite.java
       set: [illegal-members, maybe-array-modifiers]
     - include: declaration-else-fail
@@ -322,7 +331,7 @@ contexts:
 ###[ MEMBER DECLARATIONS ]#####################################################
 
   member-declarations:
-    - match: (?=\S)
+    - match: (?={{id_first_char}}|[@<])
       branch_point: class-members
       branch:
         - member-maybe-constructor
@@ -658,6 +667,7 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.6
     - include: class-body-statements
     - include: member-declarations
+    - include: else-expressions
 
 ###[ ENUM DECLARATIONS ]#######################################################
 
@@ -1433,6 +1443,10 @@ contexts:
 
 ###[ EXPRESSIONS ]#############################################################
 
+  else-expressions:
+    - match: (?=\S)
+      push: expression
+
   else-expression:
     - match: (?=\S)
       set: expression
@@ -1585,6 +1599,7 @@ contexts:
     - include: statements
     - include: stray-group
     - include: declarations
+    - include: else-expressions
 
 ###[ GROUPS ]##################################################################
 
