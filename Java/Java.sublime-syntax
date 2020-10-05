@@ -1382,37 +1382,9 @@ contexts:
     - meta_scope: meta.group.java
     - include: group-end
     - include: punctuation-terminator-semicolon
-    - match: ','
-      scope: punctuation.separator.comma.java
-      push: variable-declaration-identifier
-    - match: =
-      scope: keyword.operator.assignment.java
-      push: variable-initializer
-    - match: (?={{id_first_char}}|[@<])
-      branch_point: try-parameter
-      branch:
-        - try-parameter-assignment
-        - try-parameter-definition
-    - include: expect-expression-terminator
-
-  try-parameter-assignment:
-    - match: ''
-      set:
-        - try-parameter-assignment-end
-        - variable-declaration-identifier
-
-  try-parameter-assignment-end:
-    - match: (?=[=,:;)}])
-      pop: 1
-    - match: (?=\S)
-      fail: try-parameter
-
-  try-parameter-definition:
-    - match: ''
-      set:
-        - variable-declaration-identifier
-        - maybe-array-modifiers
-        - variable-declaration-type
+    - include: declarations
+    - include: expressions
+    - include: illegal-open-block
 
 ###[ EXPRESSIONS ]#############################################################
 
