@@ -990,14 +990,12 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.6.2
     - match: default\b
       scope: keyword.declaration.default.java
-      set:
-        - method-default-meta
-        - variable-initializer
+      set: method-default-body
     - include: else-pop
 
-  method-default-meta:
+  method-default-body:
     - meta_scope: meta.method.default.java
-    - include: immediately-pop
+    - include: variable-initializer
 
   method-throws-body:
     - meta_scope: meta.method.throws.java
