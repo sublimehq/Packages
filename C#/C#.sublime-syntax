@@ -1139,6 +1139,9 @@ contexts:
         1: keyword.operator.with.cs
         2: meta.instance.cs meta.braces.cs punctuation.section.braces.begin.cs
       push: initializer_constructor #maybe_an_anonymous_class
+    - match: '\b(and)\s+'
+      captures:
+        1: keyword.operator.logical.cs
     - match: '{{visibility}}'
       scope: storage.modifier.access.cs
 

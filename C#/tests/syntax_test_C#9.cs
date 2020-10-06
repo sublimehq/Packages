@@ -35,7 +35,60 @@ Person person = new Student { FirstName = "Scott", LastName = "Hunter", ID = Get
 otherPerson = person with { LastName = "Hanselman" };
 
 // https://devblogs.microsoft.com/dotnet/welcome-to-c-9-0/#improved-pattern-matching
+// https://dotnetcoretutorials.com/2020/08/10/relational-pattern-matching-in-c-9/
+if (myValue is > 0 and <= 10)
+/// ^^^^^^^ variable.other
+///         ^^ keyword.operator
+///            ^ keyword.operator
+///              ^ constant.numeric.value
+///                ^^^ keyword.operator.logical
+///                    ^^ keyword.operator
+///                       ^^ constant.numeric.value
+    Console.WriteLine("More than 0 but less than or equal to 10");
 
+switch (myValue)
+{
+    case <= 0:
+/// ^^^^ keyword.control.switch.case
+///      ^^ keyword.operator
+///         ^ constant.numeric.value
+///          ^ punctuation.separator.case-statement
+        Console.WriteLine("Less than or equal to 0");
+        break;
+    case > 0 and <= 10:
+/// ^^^^ keyword.control.switch.case
+///      ^ keyword.operator
+///        ^ constant.numeric.value
+///          ^^^ keyword.operator.logical
+///              ^^ keyword.operator
+///                 ^^ constant.numeric.value
+///                   ^ punctuation.separator.case-statement
+        Console.WriteLine("More than 0 but less than or equal to 10");
+        break;
+    default:
+        Console.WriteLine("More than 10");
+        break;
+}
 
+var message = myValue switch
+///                   ^^^^^^ keyword.other
+{
+    <= 0 => "Less than or equal to 0",
+/// ^^ keyword.operator
+///    ^ constant.numeric.value
+///      ^^ TODO
+///         ^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+///                                  ^ TODO
+    > 0 and <= 10 => "More than 0 but less than or equal to 10",
+/// ^ keyword.operator
+///   ^ constant.numeric.value
+///     ^^^ keyword.operator.logical
+///         ^^ keyword.operator
+///            ^^ constant.numeric.value
+///               ^^ TODO
+    _ => "More than 10"
+/// ^ TODO
+///   ^^ storage.type.function.lambda
+};
 
 Point p = new (3, 5);
