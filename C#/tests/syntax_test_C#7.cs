@@ -493,6 +493,24 @@ class Foo {
         {
             Console.WriteLine($"x={x} y={y}");
         }
+
+        foreach ((var a, var b) in positions)
+///     ^^^^^^^ meta.class.body meta.block meta.method.body meta.block keyword.control.loop.foreach
+///             ^ punctuation.section.group.begin - meta.group.tuple
+///              ^^^^^^^^^^^^^^ meta.group.tuple
+///              ^ punctuation.section.group.begin
+///               ^^^ support.type
+///                   ^ variable.other
+///                    ^ punctuation.separator.tuple
+///                      ^^^ support.type
+///                          ^ variable.other
+///                           ^ punctuation.section.group.end
+///                             ^^ keyword.control.flow
+///                                ^^^^^^^^^ variable.other
+///                                         ^ punctuation.section.group.end
+        ; // empty statement
+///     ^ punctuation.terminator.statement
+
     }
 
     private static (int Max, int Min) Range(IEnumerable<int> numbers)

@@ -851,7 +851,7 @@ contexts:
       captures:
         1: keyword.control.loop.foreach.cs
         2: meta.group.cs punctuation.section.group.begin.cs
-      set: [for_block, foreach_var_assignment, var_declaration]
+      set: [for_block, foreach_var_assignment, var_declaration_including_tuple]
     - match: \b(try)\b
       scope: keyword.control.trycatch.try.cs
       set: [finally_block, catch_expr, try_block]
@@ -1993,6 +1993,10 @@ contexts:
         2: variable.other.cs
       pop: true
     - include: var_declaration_explicit
+
+  var_declaration_including_tuple:
+    - include: var_declaration
+    - include: type_tuple
 
   var_declaration_explicit:
     - match: '({{name}})\s*(\.)'
