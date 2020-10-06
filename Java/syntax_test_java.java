@@ -5208,6 +5208,32 @@ class ForStatementTests {
 //                           ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                            ^ punctuation.section.group.end.java
 //                              ^ punctuation.section.block.begin.java
+//                               ^ punctuation.section.block.end.java
+
+    for (i = , =, , 0; < 10 &&; += 2) {}
+//  ^^^^ meta.for.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
+//                                   ^ meta.for.java - meta.block meta.block meta.block
+//                                    ^^ meta.for.java meta.block.java
+//  ^^^ keyword.control.loop.for.java
+//      ^ punctuation.section.group.begin.java
+//       ^ variable.other.readwrite.java
+//         ^ keyword.operator.assignment.java
+//           ^ punctuation.separator.comma.java
+//             ^ keyword.operator.assignment.java
+//              ^ punctuation.separator.comma.java
+//                ^ punctuation.separator.comma.java
+//                  ^ constant.numeric.value.java
+//                   ^ punctuation.terminator.java
+//                     ^ keyword.operator.comparison.java
+//                       ^^ constant.numeric.value.java
+//                          ^^ keyword.operator.logical.java
+//                            ^ punctuation.terminator.java
+//                              ^^ keyword.operator.assignment.augmented.java
+//                                 ^ constant.numeric.value.java
+//                                  ^ punctuation.section.group.end.java
+//                                    ^ punctuation.section.block.begin.java
+//                                     ^ punctuation.section.block.end.java
 
     for (i = 0, j = 0; i < 10 && j < 5; i += 2, ++j) {}
 //  ^^^^ meta.for.java - meta.for meta.for
@@ -5259,6 +5285,32 @@ class ForStatementTests {
 //                               ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                ^ punctuation.section.group.end.java
 //                                  ^ punctuation.section.block.begin.java
+
+    for (int i = , =, , 0; < 10 &&; += 2) {}
+//  ^^^^ meta.for.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
+//                                       ^ meta.for.java - meta.block meta.block meta.block
+//                                        ^^ meta.for.java meta.block.java
+//  ^^^ keyword.control.loop.for.java
+//      ^ punctuation.section.group.begin.java
+//       ^^^ storage.type.primitive.java
+//           ^ variable.other.readwrite.java
+//             ^ keyword.operator.assignment.java
+//               ^ punctuation.separator.comma.java
+//                 ^ keyword.operator.assignment.java
+//                  ^ punctuation.separator.comma.java
+//                    ^ punctuation.separator.comma.java
+//                      ^ constant.numeric.value.java
+//                       ^ punctuation.terminator.java
+//                         ^ keyword.operator.comparison.java
+//                           ^^ constant.numeric.value.java
+//                              ^^ keyword.operator.logical.java
+//                                ^ punctuation.terminator.java
+//                                  ^^ keyword.operator.assignment.augmented.java
+//                                     ^ constant.numeric.value.java
+//                                      ^ punctuation.section.group.end.java
+//                                        ^ punctuation.section.block.begin.java
+//                                         ^ punctuation.section.block.end.java
 
     for (int i = 0, j = 0; i < 10 && j < 5; i += 2, ++j) {}
 //  ^^^^ meta.for.java - meta.for meta.for
