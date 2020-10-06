@@ -347,79 +347,6 @@ contexts:
     - include: variable-initializer-assignment
     - include: else-pop
 
-###[ MEMBER DECLARATIONS ]#####################################################
-
-  member-declarations:
-    - match: (?={{id_first_char}}|[@<])
-      branch_point: class-members
-      branch:
-        - member-maybe-constructor
-        - member-maybe-method
-        - member-maybe-field
-        - member-maybe-class
-        - member-maybe-enum
-        - member-maybe-interface
-        - expression
-
-  member-else-fail:
-    - match: (?=\S)
-      fail: class-members
-
-  member-reserved-fail:
-    - match: (?={{reserved_words}}\b)
-      fail: class-members
-
-  member-maybe-class:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1
-    - meta_scope: meta.class.java
-    - include: class-keyword
-    - include: class-modifier
-    - include: member-else-fail
-
-  member-maybe-enum:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.9
-    - meta_scope: meta.enum.java
-    - include: enum-keyword
-    - include: enum-modifier
-    - include: member-else-fail
-
-  member-maybe-interface:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.1
-    - meta_scope: meta.interface.java
-    - include: interface-keyword
-    - include: interface-modifier
-    - include: member-else-fail
-
-  member-maybe-field:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.3
-    - match: ''
-      set:
-        - field-names
-        - maybe-array-modifiers
-        - field-type
-        - field-modifier
-
-  member-maybe-constructor:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.8
-    - match: ''
-      set:
-        - method-body-block
-        - method-attributes
-        - method-array-modifiers
-        - method-parameters-or-fail
-        - constructor-name
-        - method-modifier
-
-  member-maybe-method:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
-    - match: ''
-      set:
-        - method-body-block
-        - method-attributes
-        - method-array-modifiers
-        - method-signature
-        - method-modifier
-
 ###[ PACKAGE DECLARATIONS ]####################################################
 
   package:
@@ -846,6 +773,79 @@ contexts:
     - meta_scope: meta.interface.java meta.block.java
     - include: block-end
     - include: class-body
+
+###[ MEMBER DECLARATIONS ]#####################################################
+
+  member-declarations:
+    - match: (?={{id_first_char}}|[@<])
+      branch_point: class-members
+      branch:
+        - member-maybe-constructor
+        - member-maybe-method
+        - member-maybe-field
+        - member-maybe-class
+        - member-maybe-enum
+        - member-maybe-interface
+        - expression
+
+  member-else-fail:
+    - match: (?=\S)
+      fail: class-members
+
+  member-reserved-fail:
+    - match: (?={{reserved_words}}\b)
+      fail: class-members
+
+  member-maybe-class:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1
+    - meta_scope: meta.class.java
+    - include: class-keyword
+    - include: class-modifier
+    - include: member-else-fail
+
+  member-maybe-enum:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.9
+    - meta_scope: meta.enum.java
+    - include: enum-keyword
+    - include: enum-modifier
+    - include: member-else-fail
+
+  member-maybe-interface:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.1
+    - meta_scope: meta.interface.java
+    - include: interface-keyword
+    - include: interface-modifier
+    - include: member-else-fail
+
+  member-maybe-field:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.3
+    - match: ''
+      set:
+        - field-names
+        - maybe-array-modifiers
+        - field-type
+        - field-modifier
+
+  member-maybe-constructor:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.8
+    - match: ''
+      set:
+        - method-body-block
+        - method-attributes
+        - method-array-modifiers
+        - method-parameters-or-fail
+        - constructor-name
+        - method-modifier
+
+  member-maybe-method:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
+    - match: ''
+      set:
+        - method-body-block
+        - method-attributes
+        - method-array-modifiers
+        - method-signature
+        - method-modifier
 
 ###[ FIELD DECLARATIONS ]######################################################
 
