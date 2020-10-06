@@ -299,20 +299,53 @@ contexts:
   declaration-maybe-variable:
     - match: ''
       set:
-        - variable-declaration-list
-        - variable-declaration-value
-        - declaration-identifier
+        - declaration-list
+        - declaration-assignment
+        - declaration-expect-identifier
         - maybe-array-modifiers
-        - variable-declaration-type
+        - declaration-type
+
+###[ VARIABLE DECLARATIONS ]###################################################
+
+  declaration-type:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.4
+    - include: var-type
+    - include: primitive-type
+    - include: object-type
+    - include: final-modifiers
+    - include: annotations
+    - include: illegal-storage-modifiers
+    - include: else-pop
+
+  declaration-list:
+    - meta_scope: meta.declaration.java
+    - match: ','
+      scope: punctuation.separator.comma.java
+      push:
+        - declaration-assignment
+        - declaration-maybe-identifier
+    - include: else-pop
+
+  declaration-expect-identifier:
+    - include: declaration-identifier
+    - include: declaration-else-fail
+
+  declaration-maybe-identifier:
+    - include: declaration-identifier
+    - include: else-pop
 
   declaration-identifier:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-VariableDeclaratorId
     - match: '{{uppercase_id}}'
       scope: entity.name.constant.java
       set: [illegal-members, maybe-array-modifiers]
     - match: '{{identifier}}'
       scope: variable.other.readwrite.java
       set: [illegal-members, maybe-array-modifiers]
-    - include: declaration-else-fail
+
+  declaration-assignment:
+    - include: variable-initializer-assignment
+    - include: else-pop
 
 ###[ MEMBER DECLARATIONS ]#####################################################
 
@@ -1018,39 +1051,6 @@ contexts:
     - include: block-end
     - include: blocks-body
 
-###[ VARIABLE DECLARATIONS ]###################################################
-
-  variable-declaration-type:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.4
-    - include: final-modifiers
-    - include: illegal-storage-modifiers
-    - include: primitive-type
-    - include: var-type
-    - include: maybe-object-type
-
-  variable-declaration-list:
-    - meta_scope: meta.declaration.java
-    - match: ','
-      scope: punctuation.separator.comma.java
-      push:
-        - variable-declaration-value
-        - variable-declaration-identifier
-    - include: else-pop
-
-  variable-declaration-identifier:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-VariableDeclaratorId
-    - match: '{{uppercase_id}}'
-      scope: entity.name.constant.java
-      set: [illegal-members, maybe-array-modifiers]
-    - match: '{{identifier}}'
-      scope: variable.other.readwrite.java
-      set: [illegal-members, maybe-array-modifiers]
-    - include: else-pop
-
-  variable-declaration-value:
-    - include: variable-initializer-assignment
-    - include: else-pop
-
 ###[ IF ELSE STATEMENTS ]######################################################
 
   if-else-statements:
@@ -1662,7 +1662,7 @@ contexts:
         - parameter-identifier
         - parameter-variadic
         - maybe-array-modifiers
-        - variable-declaration-type
+        - declaration-type
 
   lambdas:
     - match: ->
