@@ -250,9 +250,7 @@ contexts:
       fail: annotation-parameter
 
   annotation-parameter-assignment:
-    - match: =
-      scope: keyword.operator.assignment.java
-      set: variable-initializer
+    - include: variable-initializer-assignment
     - match: (?=\S)
       fail: annotation-parameter
 
@@ -305,9 +303,7 @@ contexts:
         - declaration-identifier
 
   declaration-assignment:
-    - match: =
-      scope: keyword.operator.assignment.java
-      set: variable-initializer
+    - include: variable-initializer-assignment
     - include: declaration-else-fail
 
   declaration-maybe-variable:
@@ -1064,9 +1060,7 @@ contexts:
     - include: else-pop
 
   variable-declaration-value:
-    - match: =
-      scope: keyword.operator.assignment.java
-      set: variable-initializer
+    - include: variable-initializer-assignment
     - include: else-pop
 
 ###[ IF ELSE STATEMENTS ]######################################################
@@ -1467,6 +1461,11 @@ contexts:
     - include: else-pop
 
 ###[ INITIALIZATION EXPRESSIONS ]##############################################
+
+  variable-initializer-assignment:
+    - match: =
+      scope: keyword.operator.assignment.java
+      set: variable-initializer
 
   variable-initializers:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.3
@@ -2067,14 +2066,12 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.12
     - match: (<<|>>>?|[-+*/%|&\^])=
       scope: keyword.operator.assignment.augmented.java
-      push: expression
     - match: '<<|>>>?'
       scope: keyword.operator.bitwise.java
     - match: '==|!=|<=|>=|<>|<|>'
       scope: keyword.operator.comparison.java
     - match: '='
       scope: keyword.operator.assignment.java
-      push: expression
     - match: '\+\+?|\-\-?|[*/%]'
       scope: keyword.operator.arithmetic.java
     - match: '!|&&|\|\|'
