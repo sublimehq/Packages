@@ -201,7 +201,7 @@ contexts:
     # allows coloration of code outside a class
     - match: (?=\S)
       push:
-        - match: (?={{visibility}}|\b(?:class|delegate|interface|namespace|readonly)\b)
+        - match: (?={{visibility}}|\b(?:class|delegate|interface|namespace|readonly|record)\b)
           pop: true
         - include: line_of_code
 
@@ -279,7 +279,7 @@ contexts:
       scope: storage.modifier.cs
     - match: '{{visibility}}'
       scope: storage.modifier.access.cs
-    - match: '\b(class)\s+({{name}})'
+    - match: \b(class|record)\s+({{name}})
       captures:
         1: storage.type.class.cs
         2: entity.name.class.cs
@@ -773,7 +773,7 @@ contexts:
             1: storage.modifier.cs
             2: storage.type.function.accessor.get.cs
           push: method_body
-        - match: \b(set)\b
+        - match: \b(set|init)\b
           scope: storage.type.function.accessor.set.cs
           push: method_body
         - match: '{{visibility}}'
@@ -1134,6 +1134,11 @@ contexts:
     - match: \b(new)\b
       scope: meta.instance.cs keyword.operator.new.cs
       push: maybe_an_anonymous_class
+    - match: \b(with)\s+(\{)
+      captures:
+        1: keyword.operator.with.cs
+        2: meta.instance.cs meta.braces.cs punctuation.section.braces.begin.cs
+      push: initializer_constructor #maybe_an_anonymous_class
     - match: '{{visibility}}'
       scope: storage.modifier.access.cs
 
