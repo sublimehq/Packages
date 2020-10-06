@@ -112,6 +112,7 @@ contexts:
   class-body-statements:
     - include: punctuation-terminator-semicolon
     - include: blocks
+    - include: stray-group
     - include: flow-control-statements
     - include: if-else-statements
     - include: switch-case-statements
@@ -1525,7 +1526,6 @@ contexts:
   blocks-body:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.2
     - include: statements
-    - include: stray-group
     - include: declarations
     - include: else-expressions
 
