@@ -7415,6 +7415,51 @@ public class Foo {
 //                ^ keyword.operator.ternary.java
 //                 ^ variable.other.readwrite.java
 
+    a[0] = true;
+//  ^ meta.variable.identifier.java
+//   ^^^ meta.variable.item-access.java meta.brackets.java
+//  ^ variable.other.readwrite.java
+//   ^ punctuation.section.brackets.begin.java
+//    ^ constant.numeric.value.java
+//     ^ punctuation.section.brackets.end.java
+//       ^ keyword.operator.assignment.java
+//         ^^^^ constant.language.boolean.java
+//             ^ punctuation.terminator.java
+
+    a.c = true;
+// ^ - meta.variable
+//  ^ meta.variable.identifier.java
+//   ^ - meta.variable
+//    ^ meta.variable.identifier.java
+//     ^ - meta.variable
+//  ^ variable.other.readwrite.java
+//   ^ punctuation.accessor.dot.java
+//    ^ variable.other.readwrite.java
+//      ^ keyword.operator.assignment.java
+//        ^^^^ constant.language.boolean.java
+//            ^ punctuation.terminator.java
+
+    a[0].c[1] = true;
+// ^ - meta.variable
+//  ^ meta.variable.identifier.java
+//   ^^^ meta.variable.item-access.java meta.brackets.java
+//      ^ - meta.variable
+//       ^ meta.variable.identifier.java
+//        ^^^ meta.variable.item-access.java meta.brackets.java
+//           ^ - meta.variable
+//  ^ variable.other.readwrite.java
+//   ^ punctuation.section.brackets.begin.java
+//    ^ constant.numeric.value.java
+//     ^ punctuation.section.brackets.end.java
+//      ^ punctuation.accessor.dot.java
+//       ^ variable.other.readwrite.java
+//        ^ punctuation.section.brackets.begin.java
+//         ^ constant.numeric.value.java
+//          ^ punctuation.section.brackets.end.java
+//            ^ keyword.operator.assignment.java
+//              ^^^^ constant.language.boolean.java
+//                  ^ punctuation.terminator.java
+
     int foo = true ? 1 : 2;
 //            ^^^^ constant.language.boolean.java
 //                 ^ keyword.operator.ternary.java

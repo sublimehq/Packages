@@ -263,7 +263,6 @@ contexts:
         - declaration-maybe-class
         - declaration-maybe-enum
         - declaration-maybe-interface
-        - declaration-maybe-assignment
         - declaration-maybe-variable
         - expression
 
@@ -294,16 +293,6 @@ contexts:
     - meta_scope: meta.interface.java
     - include: interface-keyword
     - include: interface-modifier
-    - include: declaration-else-fail
-
-  declaration-maybe-assignment:
-    - match: ''
-      set:
-        - declaration-assignment
-        - declaration-identifier
-
-  declaration-assignment:
-    - include: variable-initializer-assignment
     - include: declaration-else-fail
 
   declaration-maybe-variable:
