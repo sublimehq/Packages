@@ -106,10 +106,10 @@ contexts:
     - include: else-expressions
 
   statements:
-    - include: class-body-statements
-    - include: synchronized-statement
+    - include: member-statements
+    - include: synchronized-statements
 
-  class-body-statements:
+  member-statements:
     - include: punctuation-terminator-semicolon
     - include: blocks
     - include: stray-group
@@ -611,7 +611,7 @@ contexts:
 
   class-body:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.6
-    - include: class-body-statements
+    - include: member-statements
     - include: member-declarations
     - include: else-expressions
 
@@ -1273,7 +1273,7 @@ contexts:
 
 ###[ SYNCHRONIZED STATEMENTS ]#################################################
 
-  synchronized-statement:
+  synchronized-statements:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.19
     - match: synchronized\b
       scope: keyword.control.flow.synchronized.java
