@@ -605,12 +605,9 @@ contexts:
     - include: else-pop
 
   class-body-block-common:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.6
     - meta_scope: meta.class.java meta.block.java
     - include: block-end
-    - include: class-body
-
-  class-body:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.6
     - include: member-statements
     - include: member-declarations
     - include: else-expressions
@@ -676,8 +673,7 @@ contexts:
 
   enum-body-block-common:
     - meta_scope: meta.enum.java meta.block.java
-    - include: block-end
-    - include: class-body
+    - include: class-body-block-common
 
   enum-constants-list:
     - meta_content_scope: meta.sequence.constants.java
@@ -708,8 +704,7 @@ contexts:
 
   enum-constant-body-block-common:
     - meta_scope: meta.constant.java meta.block.java
-    - include: block-end
-    - include: class-body
+    - include: class-body-block-common
 
 ###[ INTERFACE DECLARATIONS ]##################################################
 
@@ -771,8 +766,7 @@ contexts:
 
   interface-body-block-common:
     - meta_scope: meta.interface.java meta.block.java
-    - include: block-end
-    - include: class-body
+    - include: class-body-block-common
 
 ###[ MEMBER DECLARATIONS ]#####################################################
 
