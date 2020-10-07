@@ -815,8 +815,10 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.3
     - match: ''
       set:
-        - field-names
-        - maybe-array-modifiers
+        - field-identifier-list
+        - field-value-assignment
+        - field-identifier
+        - field-type-modifier
         - field-type
         - field-modifier
 
@@ -855,32 +857,30 @@ contexts:
 
   field-type:
     - include: primitive-type
+    - include: object-type
     - include: illegal-var-type
-    - include: maybe-object-type
+    - include: member-else-fail
 
-  field-names:
+  field-type-modifier:
+    - clear_scopes: 1
     - meta_scope: meta.field.type.java
+    - include: array-modifiers
+    - include: annotations
     - match: (?=[{(]|{{declaration_keywords}}\b)
       fail: class-members
-    - match: ''
-      set:
-        - field-list
-        - field-value
-        - field-name-meta
-        - field-name
+    - include: else-pop
 
-  field-list:
+  field-identifier-list:
     - match: ','
       scope:
         meta.field.java
         punctuation.separator.comma.java
       push:
-        - field-value
-        - field-name-meta
-        - field-name
+        - field-value-assignment
+        - field-identifier
     - include: else-pop
 
-  field-name:
+  field-identifier:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-VariableDeclaratorId
     - match: '{{uppercase_id}}'
       scope: entity.name.constant.java
@@ -893,23 +893,18 @@ contexts:
       set: [illegal-members, maybe-array-modifiers]
     - include: else-pop
 
-  field-name-meta:
+  field-value-assignment:
     - meta_content_scope: meta.field.identifier.java
-    - include: immediately-pop
-
-  field-value:
     - match: =
       scope:
         meta.field.java
         keyword.operator.assignment.java
-      set:
-        - field-value-meta
-        - variable-initializer
+      set: field-value-initializer
     - include: else-pop
 
-  field-value-meta:
+  field-value-initializer:
     - meta_content_scope: meta.field.value.java
-    - include: immediately-pop
+    - include: variable-initializer
 
 ###[ METHOD DECLARATIONS ]#####################################################
 
@@ -954,8 +949,9 @@ contexts:
 
   method-result-type:
     - include: primitive-type
+    - include: object-type
     - include: illegal-var-type
-    - include: maybe-object-type
+    - include: member-else-fail
 
   method-void-type:
     - match: void\b
