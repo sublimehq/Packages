@@ -1781,6 +1781,7 @@ class FieldDeclarationTests {
 //      ^ punctuation.terminator.java - meta.field
 
   public protected private static final transient volatile int foo
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.modifier.java
 //                                                         ^^^^ meta.field.type.java
 //                                                             ^^^^ meta.field.identifier.java
@@ -1804,6 +1805,7 @@ class FieldDeclarationTests {
 //                                                                ^ - variable
 
   abstract native synchronized strictfp default int foo.bar
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.modifier.java - storage
 //                                              ^^^^ meta.field.type.java
 //                                                  ^^^^^^^^ meta.field.identifier.java
@@ -1836,6 +1838,7 @@ class FieldDeclarationTests {
 //        ^^^^^^ support.class.java
 
   private String memberString1 = "Hello";
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^ meta.field.modifier.java
 //        ^^^^^^^ meta.field.type.java
 //               ^^^^^^^^^^^^^^ meta.field.identifier.java
@@ -1850,6 +1853,7 @@ class FieldDeclarationTests {
 //                                      ^ punctuation.terminator.java
 
   private String memberString2 = @Anno new String("Hello");
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^ meta.field.modifier.java
 //        ^^^^^^^ meta.field.type.java
 //               ^^^^^^^^^^^^^^ meta.field.identifier.java
@@ -1873,6 +1877,7 @@ class FieldDeclarationTests {
 //                                                        ^ punctuation.terminator.java
 
   private String memberString3 = String.valueOf("Hello");
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^ meta.field.modifier.java
 //        ^^^^^^^ meta.field.type.java
 //               ^^^^^^^^^^^^^^ meta.field.identifier.java
@@ -1894,6 +1899,7 @@ class FieldDeclarationTests {
 //                                                      ^ punctuation.terminator.java
 
   private int memberLpos = memberString3.indexOf("l");
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^ meta.field.modifier.java
 //        ^^^^ meta.field.type.java
 //            ^^^^^^^^^^^ meta.field.identifier.java
@@ -1914,21 +1920,37 @@ class FieldDeclarationTests {
 //                                                  ^ punctuation.section.group.end.java
 //                                                   ^ punctuation.terminator.java
 
-  private static final string DEFAULT_IDEMPOTENCY_KEY = 44493;
+  public var MY_CONST = 0x4002;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
+//^^^^^^^ meta.field.modifier.java
+//       ^^^^ meta.field.type.java
+//           ^^^^^^^^^ meta.field.identifier.java
+//                    ^ meta.field.java
+//                     ^^^^^^^ meta.field.value.java
+//                            ^ - meta.field
+//^^^^^^ storage.modifier.java
+//       ^^^ invalid.illegal.unexpected-type.java
+//           ^^^^^^^^ entity.name.constant.java
+//                    ^ keyword.operator.assignment.java
+//                      ^^^^^^ constant.numeric
+//                            ^ punctuation.terminator.java
+
+  private static final string DEFAULT_IDEMPOTENCY_KEY = "44493";
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^^^^^^^^^^^^^^ meta.field.modifier.java
+//                     ^^^^^^^ meta.field.type.java
+//                            ^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.identifier.java
+//                                                    ^ meta.field.java
+//                                                     ^^^^^^^^ meta.field.value.java
+//                                                             ^ - meta.field
 //^^^^^^^ storage.modifier.java
 //        ^^^^^^ storage.modifier.java
 //               ^^^^^ storage.modifier.java
-//                     ^^^^^^^ meta.field.type.java
 //                     ^^^^^^ support.class.java
-//                            ^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.identifier.java
 //                            ^^^^^^^^^^^^^^^^^^^^^^^ entity.name.constant.java
-//                                                    ^ meta.field.java
-//                                                     ^^^^^^ meta.field.value.java
-//                                                           ^ - meta.field
 //                                                    ^ keyword.operator.assignment.java
-//                                                      ^^^^^ meta.number.integer.decimal.java constant.numeric.value.java
-//                                                           ^ punctuation.terminator.java
+//                                                      ^^^^^^^ string.quoted.double.java
+//                                                             ^ punctuation.terminator.java
 //
 
   public static
@@ -1986,6 +2008,7 @@ class FieldDeclarationTests {
 //                                               ^ punctuation.terminator.java
 
   private a.b.myerror error = a.b.ErrorCode.COMMUNICATION_ERROR;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^ meta.field.modifier.java
 //        ^^^^^^^^^^^^ meta.field.type.java
 //                    ^^^^^^ meta.field.identifier.java
@@ -2014,6 +2037,7 @@ class FieldDeclarationTests {
 //                                                             ^ punctuation.terminator.java
 
   private a /**/ . /**/ b /**/ . /**/ myerror /**/ error /**/ = /**/ a.b.ErrorCode.COMMUNICATION_ERROR;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^ meta.field.modifier.java
 //        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java
 //                                                 ^^^^^^^^^^^ meta.field.identifier.java
@@ -2077,6 +2101,7 @@ class FieldDeclarationTests {
 //                ^ punctuation.terminator.java
 
   byte byteArray2[] = {1, 2};
+//^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^ meta.field.type.java
 //     ^^^^^^^^^^^^^ meta.field.identifier.java
 //                  ^ meta.field.java
@@ -2094,6 +2119,7 @@ class FieldDeclarationTests {
 //                          ^ punctuation.terminator.java
 
   byte byteArray3[] = condition ? {1, 2} : {4, 5};
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^ meta.field.type.java
 //     ^^^^^^^^^^^^^ meta.field.identifier.java
 //                  ^ meta.field.java
@@ -2119,6 +2145,7 @@ class FieldDeclarationTests {
 //                                               ^ punctuation.terminator.java
 
   byte byteArray4[] = condition ? fun() ? {1, 2} : {3, 0} : {4, 5};
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^ meta.field.type.java
 //     ^^^^^^^^^^^^^ meta.field.identifier.java
 //                  ^ meta.field.java
@@ -2154,6 +2181,7 @@ class FieldDeclarationTests {
 //                                                                ^ punctuation.terminator.java
 
   String[][] doubleStringArray;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^^^^ meta.field.type.java
 //           ^^^^^^^^^^^^^^^^^ meta.field.identifier.java
 //                            ^ - meta.field
@@ -2163,6 +2191,7 @@ class FieldDeclarationTests {
 //                            ^ punctuation.terminator.java
 
   @NotNull final String @Anno [ ] @Anno [ ] doubleStringArray @Anno [ ] [ ];
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^^^^^^^^ meta.field.modifier.java
 //               ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java
 //                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.identifier.java
@@ -2185,6 +2214,7 @@ class FieldDeclarationTests {
 //                                                                         ^ punctuation.terminator.java
 
   qualified.String[][] doubleStringArray;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java
 //                     ^^^^^^^^^^^^^^^^^ meta.field.identifier.java
 //                                      ^ - meta.field
@@ -2198,6 +2228,7 @@ class FieldDeclarationTests {
 //                                      ^ punctuation.terminator.java
 
   fully.qualified.string[][] doubleStringArray;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java
 //                           ^^^^^^^^^^^^^^^^^ meta.field.identifier.java
 //                                            ^ - meta.field
@@ -2213,6 +2244,7 @@ class FieldDeclarationTests {
 //                                            ^ punctuation.terminator.java
 
   @anno /**/ fully // comment
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^^^ meta.field.modifier.java meta.annotation.identifier.java
 //          ^ meta.field.modifier.java - meta.annotation - meta.pth
 //           ^^^^^^^^^^^^^^^^^ meta.field.type.java meta.path.java
@@ -2222,7 +2254,7 @@ class FieldDeclarationTests {
 //           ^^^^^ variable.namespace.java
 //                 ^^^^^^^^^^^ comment.line.double-slash.java
   . @anno qualified//comment
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java meta.path.java
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java meta.path.java - meta.field meta.field
 //  ^^^^^ meta.annotation.identifier.java
 //^ punctuation.accessor.dot.java
 //  ^ punctuation.definition.annotation.java
@@ -2235,6 +2267,7 @@ class FieldDeclarationTests {
 //     ^ punctuation.accessor.dot.java
 //       ^^^^ comment.block.empty.java
   @anno /**/ object @anno() []
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^^^^^^^^^^ meta.field.type.java meta.path.java
 //                 ^^^^^^^^^^^^ meta.field.type.java - meta.path
 //^^^^^ meta.annotation.identifier.java
@@ -2251,6 +2284,7 @@ class FieldDeclarationTests {
 //                          ^^ storage.modifier.array.java
 
   /**/ @anno /**/ [] /**/ doubleObjectArray;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java - meta.path
 //                        ^^^^^^^^^^^^^^^^^ meta.field.identifier.java - meta.path
 //                                         ^ - meta.field
@@ -2264,6 +2298,7 @@ class FieldDeclarationTests {
 //                                         ^ punctuation.terminator.java
 
   List<int> field;
+//^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^ meta.field.type.java - meta.generic
 //    ^^^^^ meta.field.type.java meta.generic.java
 //         ^ meta.field.type.java - meta.generic
@@ -2277,6 +2312,7 @@ class FieldDeclarationTests {
 //               ^ punctuation.terminator.java
 
   list<int> field;
+//^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^ meta.field.type.java - meta.generic
 //    ^^^^^ meta.field.type.java meta.generic.java
 //         ^ meta.field.type.java - meta.generic
@@ -2290,6 +2326,7 @@ class FieldDeclarationTests {
 //               ^ punctuation.terminator.java
 
   List<String> field;
+//^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^ meta.field.type.java - meta.generic
 //    ^^^^^^^^ meta.field.type.java meta.generic.java
 //            ^ meta.field.type.java - meta.generic
@@ -2303,6 +2340,7 @@ class FieldDeclarationTests {
 //                  ^ punctuation.terminator.java
 
   list<string> field;
+//^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^ meta.field.type.java - meta.generic
 //    ^^^^^^^^ meta.field.type.java meta.generic.java
 //            ^ meta.field.type.java - meta.generic
@@ -2316,6 +2354,7 @@ class FieldDeclarationTests {
 //                  ^ punctuation.terminator.java
 
   java.base.List<java.net.URI> field;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^^^^^^^ meta.field.type.java meta.path.java - meta.generic
 //              ^ meta.field.type.java meta.path.java meta.generic.java - meta.path meta.path
 //               ^^^^^^^^^^^^ meta.field.type.java meta.path.java meta.generic.java meta.path.java
@@ -2339,6 +2378,7 @@ class FieldDeclarationTests {
 //                                  ^ punctuation.terminator.java
 
   java.base.list<java.net.uri> field;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^^^^^^^ meta.field.type.java meta.path.java - meta.generic
 //              ^ meta.field.type.java meta.path.java meta.generic.java - meta.path meta.path
 //               ^^^^^^^^^^^^ meta.field.type.java meta.path.java meta.generic.java meta.path.java
@@ -2362,6 +2402,7 @@ class FieldDeclarationTests {
 //                                  ^ punctuation.terminator.java
 
   java.tmpl<>.list<java.net.uri> field;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^^ meta.field.type.java meta.path.java - meta.generic
 //         ^^ meta.field.type.java meta.path.java meta.generic.java
 //           ^^^^^ meta.field.type.java meta.path.java - meta.generic
@@ -2388,6 +2429,7 @@ class FieldDeclarationTests {
 //                                    ^ punctuation.terminator.java
 
   private MyGenric<Param, With.Dots, With.Nested<Generic>, and.fully.Qualified,
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^ meta.field.modifier.java
 //        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java
 //                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.java - meta.generic meta.generic
@@ -2395,6 +2437,7 @@ class FieldDeclarationTests {
 //                                                       ^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.java - meta.generic meta.generic
 //                                                         ^^^^^^^^^^^^^^^^^^^ meta.path.java
       and.fully.Qualified<Generic>> myVariable;
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.type.java
 //^^^^^^^^^^^^^^^^^^^^^^^ meta.generic.java - meta.generic meta.generic
 //    ^^^^^^^^^^^^^^^^^^^ meta.path.java
@@ -2402,6 +2445,7 @@ class FieldDeclarationTests {
 //                                ^ meta.generic.java - meta.generic meta.generic
 //                                 ^ - meta.generic
 //                                  ^^^^^^^^^^ meta.field.identifier.java
+//                                            ^ - meta.field
 }
 
 
