@@ -2462,9 +2462,9 @@ contexts:
   additional-bounds:
     - match: '&'
       scope: keyword.operator.multiple-bounds.java
-      push: expect-reference-type
+      push: maybe-reference-type
 
-  expect-reference-type:
+  maybe-reference-type:
     - include: reference-type
     - include: annotation-else-pop
 
@@ -2587,17 +2587,17 @@ contexts:
     - match: \?
       scope: keyword.operator.wildcard.java
       set: type-argument-bounds
-    - include: expect-reference-type
+    - include: maybe-reference-type
 
   type-argument-bounds:
     - match: extends\b
       scope: keyword.declaration.extends.java
       set:
         - maybe-additional-bounds
-        - expect-reference-type
+        - maybe-reference-type
     - match: super\b
       scope: keyword.declaration.super.java
-      set: expect-reference-type
+      set: maybe-reference-type
     - include: else-pop
 
 ###[ TYPE PARAMETERS ]#########################################################
@@ -2648,10 +2648,10 @@ contexts:
       scope: keyword.declaration.extends.java
       set:
         - maybe-additional-bounds
-        - expect-reference-type
+        - maybe-reference-type
     - match: super\b
       scope: invalid.illegal.unexpected-keyword.java
-      set: expect-reference-type
+      set: maybe-reference-type
     - include: else-pop
 
   type-parameter-end:
@@ -2662,10 +2662,10 @@ contexts:
       scope: invalid.illegal.unexpected-keyword.java
       push:
         - maybe-additional-bounds
-        - expect-reference-type
+        - maybe-reference-type
     - match: super\b
       scope: invalid.illegal.unexpected-keyword.java
-      push: expect-reference-type
+      push: maybe-reference-type
     - include: annotation-else-pop
 
 ###[ PRIMITIVE TYPES ]#########################################################
