@@ -829,7 +829,7 @@ contexts:
         - method-body-block
         - method-attributes
         - method-array-modifiers
-        - method-parameters-or-fail
+        - method-expect-parameters
         - constructor-name
         - method-modifier
 
@@ -928,24 +928,17 @@ contexts:
     # void indicates a method for sure
     - match: (?=void\b)
       set:
-        - method-parameters-or-pop
-        - method-name
-        - method-result-meta
-        - maybe-array-modifiers
+        - method-maybe-parameters
+        - method-identifier
+        - method-result-modifier
         - method-void-type
     # a method only if parameter list found
     - match: (?=\S)
       set:
-        - method-parameters-or-fail
-        - method-name
-        - method-result-meta
-        - maybe-array-modifiers
+        - method-expect-parameters
+        - method-identifier
+        - method-result-modifier
         - method-result-type
-
-  method-result-meta:
-    - clear_scopes: 1
-    - meta_scope: meta.method.return-type.java
-    - include: else-pop
 
   method-result-type:
     - include: primitive-type
@@ -958,18 +951,23 @@ contexts:
       scope: storage.type.void.java
       pop: 1
 
-  method-name:
+  method-result-modifier:
+    - clear_scopes: 1
+    - meta_scope: meta.method.return-type.java
+    - include: maybe-array-modifiers
+
+  method-identifier:
     - match: '{{identifier}}'
       scope: entity.name.function.java
       pop: 1
     - include: else-pop
 
-  method-parameters-or-fail:
+  method-expect-parameters:
     - meta_content_scope: meta.method.identifier.java
     - include: method-parameters
     - include: member-else-fail
 
-  method-parameters-or-pop:
+  method-maybe-parameters:
     - meta_content_scope: meta.method.identifier.java
     - include: method-parameters
     - include: else-pop
