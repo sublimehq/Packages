@@ -351,10 +351,11 @@ contexts:
 
   package:
     - match: package\b
-      scope:
-        meta.namespace.package.java
-        keyword.declaration.namespace.package.java
-      push: [package-identifier, else-pop]
+      scope: keyword.declaration.namespace.package.java
+      push:
+        - meta_scope: meta.namespace.package.java
+        - match: (?=\S)
+          set: package-identifier
 
   package-identifier:
     - meta_content_scope: meta.namespace.package.identifier.java

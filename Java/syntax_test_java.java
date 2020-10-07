@@ -6,21 +6,21 @@
 
 package
 // <- meta.namespace.package.java keyword.declaration.namespace.package.java
-//^^^^^ meta.namespace.package.java - meta.path
-//     ^ meta.namespace.package.identifier.java
+//^^^^^^ meta.namespace.package.java - meta.path
 //^^^^^ keyword.declaration.namespace.package.java
 
-package apple
+package apple dot
 // <- meta.namespace.package.java keyword.declaration.namespace.package.java
-//^^^^^ meta.namespace.package.java - meta.path
-//     ^^^^^^ meta.namespace.package.identifier.java - meta.path
+//^^^^^^ meta.namespace.package.java - meta.path
+//      ^^^^^ meta.namespace.package.identifier.java - meta.path
 //^^^^^ keyword.declaration.namespace.package.java
 //      ^^^^^ entity.name.namespace.package.java
+//            ^^^ variable.other.readwrite.java
 
 package apple;
 // <- meta.namespace.package.java keyword.declaration.namespace.package.java
-//^^^^^ meta.namespace.package.java - meta.path
-//     ^^^^^^ meta.namespace.package.identifier.java - meta.path
+//^^^^^^ meta.namespace.package.java - meta.path
+//      ^^^^^ meta.namespace.package.identifier.java - meta.path
 //^^^^^ keyword.declaration.namespace.package.java
 //      ^^^^^ entity.name.namespace.package.java
 //           ^ punctuation.terminator.java
@@ -28,6 +28,7 @@ package apple;
 package
 // <- meta.namespace.package.java keyword.declaration.namespace.package.java
 //^^^^^ meta.namespace.package.java keyword.declaration.namespace.package.java
+//     ^ meta.namespace.package.java - keyword
 apple
 //^^^ meta.namespace.package.identifier.java entity.name.namespace.package.java - meta.path
 ;
@@ -35,16 +36,14 @@ apple
 
 package com.
 // <- meta.namespace.package.java keyword.declaration.namespace.package.java
-//^^^^^ meta.namespace.package.java - meta.path
-//     ^ meta.namespace.package.identifier.java - meta.path
+//^^^^^^ meta.namespace.package.java - meta.path
 //      ^^^^^ meta.namespace.package.identifier.java meta.path.java
 //      ^^^ variable.namespace.java - punctuation
 //         ^ punctuation.accessor.dot.java - entity - variable
 
 package com.example.apple;
 // <- meta.namespace.package.java keyword.declaration.namespace.package.java
-//^^^^^ meta.namespace.package.java - meta.path
-//     ^ meta.namespace.package.identifier.java - meta.path
+//^^^^^^ meta.namespace.package.java - meta.path
 //      ^^^^^^^^^^^^^^^^^ meta.namespace.package.identifier.java meta.path.java
 //      ^^^ variable.namespace.java - punctuation
 //         ^ punctuation.accessor.dot.java - entity - variable
@@ -56,6 +55,7 @@ package com.example.apple;
 package
 // <- meta.namespace.package.java keyword.declaration.namespace.package.java
 //^^^^^ meta.namespace.package.java keyword.declaration.namespace.package.java
+//     ^ meta.namespace.package.java - keyword
     com
 //  ^^^ meta.namespace.package.identifier.java meta.path.java variable.namespace.java - punctuation
     .
