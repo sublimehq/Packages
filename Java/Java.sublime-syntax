@@ -275,7 +275,7 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1
     - meta_scope: meta.class.java
     - include: class-keyword
-    - include: class-modifier
+    - include: class-modifiers
     - include: declaration-else-fail
 
   declaration-maybe-enum:
@@ -284,7 +284,7 @@ contexts:
     #       but may help maintaining highlighting in incomplete code.
     - meta_scope: meta.enum.java
     - include: enum-keyword
-    - include: enum-modifier
+    - include: enum-modifiers
     - include: declaration-else-fail
 
   declaration-maybe-interface:
@@ -293,7 +293,7 @@ contexts:
     #       but may help maintaining highlighting in incomplete code.
     - meta_scope: meta.interface.java
     - include: interface-keyword
-    - include: interface-modifier
+    - include: interface-modifiers
     - include: declaration-else-fail
 
   declaration-maybe-variable:
@@ -558,7 +558,7 @@ contexts:
         - maybe-type-parameter
         - class-name
 
-  class-modifier:
+  class-modifiers:
     - match: '{{class_modifier}}\b'
       scope: storage.modifier.java
     - match: '{{class_no_modifier}}\b'
@@ -624,7 +624,7 @@ contexts:
         - illegal-type-parameters
         - enum-name
 
-  enum-modifier:
+  enum-modifiers:
     - match: '{{class_modifier}}\b'
       scope: storage.modifier.java
     - match: '{{class_no_modifier}}\b'
@@ -718,7 +718,7 @@ contexts:
         - maybe-type-parameter
         - interface-name
 
-  interface-modifier:
+  interface-modifiers:
     - match: '{{interface_modifier}}\b'
       scope: storage.modifier.java
     - match: '{{interface_no_modifier}}\b'
@@ -794,21 +794,21 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1
     - meta_scope: meta.class.java
     - include: class-keyword
-    - include: class-modifier
+    - include: class-modifiers
     - include: member-else-fail
 
   member-maybe-enum:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.9
     - meta_scope: meta.enum.java
     - include: enum-keyword
-    - include: enum-modifier
+    - include: enum-modifiers
     - include: member-else-fail
 
   member-maybe-interface:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.1
     - meta_scope: meta.interface.java
     - include: interface-keyword
-    - include: interface-modifier
+    - include: interface-modifiers
     - include: member-else-fail
 
   member-maybe-field:
