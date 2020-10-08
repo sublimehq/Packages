@@ -512,6 +512,7 @@ contexts:
     - match: \[
       scope: punctuation.definition.sequence.begin.yaml
       push:
+        # TODO use meta.sequence and adjust to flow-pair's clear_scopes
         - meta_scope: meta.flow-sequence.yaml
         - match: \]
           scope: punctuation.definition.sequence.end.yaml
@@ -525,7 +526,7 @@ contexts:
     - match: \{
       scope: punctuation.definition.mapping.begin.yaml
       push:
-        - meta_scope: meta.flow-mapping.yaml
+        - meta_scope: meta.mapping.yaml
         - match: \}
           scope: punctuation.definition.mapping.end.yaml
           pop: true
@@ -535,51 +536,48 @@ contexts:
 
   flow-pair:
     - match: \?
-      scope: punctuation.definition.key-value.begin.yaml
+      scope: meta.mapping.key.explicit.yaml punctuation.definition.key.begin.yaml
       push:
-        - meta_scope: meta.flow-pair.explicit.yaml
-        - match: (?=[},\]]) # Empty mapping keys & values are allowed
-          pop: true
-        - include: flow-pair
-        - include: flow-node
-        - match: :(?=\s|$|{{c_flow_indicator}})
-          scope: punctuation.separator.key-value.mapping.yaml
-          set: flow-pair-value
-    # Attempt to match plain-in scalars and highlight as "entity.name.tag",
-    # if followed by a colon
+        - - match: ''
+            set: flow-pair-value
+        - - clear_scopes: 1
+          - meta_content_scope: meta.mapping.key.explicit.yaml
+          - match: (?=[},\]])  # Empty mapping keys & values are allowed
+            pop: true
+          - match: :(?=\s|$|{{c_flow_indicator}})
+            scope: meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
+            pop: true
+          - include: flow-node
+    # Attempt to match plain-in scalars followed by a colon
     - match: |
         (?x)
         (?=
           {{ns_plain_first_plain_in}}
-          (
-              [^\s:{{c_flow_indicator}}]
-            | : [^\s{{c_flow_indicator}}]
-            | \s+ (?![#\s])
+          ( [^\s:{{c_flow_indicator}}]
+          | : [^\s{{c_flow_indicator}}]
+          | \s+ (?![#\s])
           )*
           \s*
           :
           (\s|$)
         )
       push:
-        # TODO Use a merge type here and add "pop: true" and "scope: entity.name.tag.yaml";
-        # https://github.com/SublimeTextIssues/Core/issues/966
-        - meta_scope: meta.flow-pair.key.yaml
-        - include: flow-scalar-plain-in-implicit-type-12
-        - match: '{{_flow_scalar_end_plain_in}}'
-          pop: true
-        - match: (?={{ns_plain_first_plain_in}})
-          set:
-            - meta_scope: meta.flow-pair.key.yaml string.unquoted.plain.in.yaml entity.name.tag.yaml
-            - meta_include_prototype: false
-            - match: '{{_flow_scalar_end_plain_in}}'
-              pop: true
-    - include: flow-node
+        - - clear_scopes: 1
+          - meta_scope: meta.mapping.key.yaml
+          - include: flow-scalar-plain-in-implicit-type-12
+          - match: ''
+            pop: true
+        - - match: (?=\S)
+            pop: true
     - match: :(?=\s|$|{{c_flow_indicator}}) # Empty mapping keys allowed
-      scope: meta.flow-pair.yaml punctuation.separator.key-value.mapping.yaml
+      scope: meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
       push: flow-pair-value
+    # TODO match as meta.mapping.key
+    - include: flow-node
 
   flow-pair-value:
-    - meta_content_scope: meta.flow-pair.value.yaml
+    - clear_scopes: 1
+    - meta_content_scope: meta.mapping.value.yaml
     - include: flow-node
     - match: (?=[},\]])
       pop: true
