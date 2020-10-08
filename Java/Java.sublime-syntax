@@ -1421,7 +1421,7 @@ contexts:
           set:
             - include: array-dimensions
             - include: else-pop
-        - include: expressions
+        - include: group-body
     - include: array-initializer
     - include: annotations
 
@@ -1433,8 +1433,7 @@ contexts:
         - match: \)
           scope: punctuation.section.group.end.java
           set: class-body-block
-        - include: illegal-group-terminators
-        - include: expressions
+        - include: group-body
     - include: else-pop
 
 ###[ INITIALIZATION EXPRESSIONS ]##############################################
@@ -1544,8 +1543,8 @@ contexts:
     - include: group-body
 
   group-body:
-    - include: illegal-group-terminators
     - include: expressions
+    - include: illegal-group-terminator
 
   group-begin:
     - match: \(
@@ -1886,8 +1885,7 @@ contexts:
         - match: \]
           scope: punctuation.section.brackets.end.java
           pop: 1
-        - include: illegal-group-terminators
-        - include: expressions
+        - include: group-body
     - match: (?!\s*\[)
       pop: 1
 
@@ -2822,7 +2820,7 @@ contexts:
       scope: invalid.illegal.stray-terminator-end
       pop: 1
 
-  illegal-group-terminators:
+  illegal-group-terminator:
     # Pops the stack if anything matches
     - include: illegal-semicolon
     - include: illegal-open-block
