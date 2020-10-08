@@ -364,11 +364,13 @@ contexts:
 
   module:
     - match: (?:(open)\s+)?(module)\b
-      scope: meta.namespace.module.java
       captures:
         1: storage.modifier.java
         2: keyword.declaration.namespace.module.java
-      push: [module-body-block, module-identifier, else-pop]
+      push:
+        - meta_scope: meta.namespace.module.java
+        - match: (?=\S)
+          set: [module-body-block, module-identifier]
 
   module-identifier:
     - include: entity-module

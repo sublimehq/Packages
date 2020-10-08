@@ -8621,8 +8621,7 @@ class JavadocTests {
  *****************************************************************************/
 
 module java.base {
-//^^^^ meta.namespace.module.java - meta.namespace.module.identifier
-//    ^ meta.namespace.module.identifier.java - meta.path
+//^^^^^ meta.namespace.module.java - meta.namespace.module.identifier
 //     ^^^^^^^^^ meta.namespace.module.identifier.java meta.path.java
 //              ^ meta.namespace.module.identifier - meta.path
 //               ^^ meta.namespace.module.java meta.block.java
@@ -8746,8 +8745,7 @@ module java.base {
 //<- meta.namespace.module.java meta.block.java punctuation.section.block.end.java
 
 open module open.module {}
-//^^^^^^^^^ meta.namespace.module.java - meta.namespace.module.identifier
-//         ^ meta.namespace.module.identifier.java - meta.path
+//^^^^^^^^^^ meta.namespace.module.java - meta.namespace.module.identifier
 //          ^^^^^^^^^^^ meta.namespace.module.identifier.java meta.path.java
 //                     ^ meta.namespace.module.identifier.java - meta.path
 //                      ^^ meta.namespace.module.java meta.block.java
