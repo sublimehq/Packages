@@ -1916,22 +1916,18 @@ contexts:
       scope: variable.language.java
 
   numbers:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10
     # hexadecimal floats
     - match: |-
         (?x)
-        (0[xX])
-        (
-          # 0x1., 0x1.1, 0x1.1p1, 0x1.1p-1, 0x1.p1, 0x1.p-1 | 0x1p1
-          {{hex_digit}}* (?: (\.) {{hex_digit}}* (?:{{hex_exponent}})? | {{hex_exponent}} )
-          # 0x.1, 0x.1p1, 0x.1p-1
-          | (\.) {{hex_digit}}+ (?:{{hex_exponent}})?
-        )
+        # 0x1., 0x1.1, 0x1.1p1, 0x1.1p-1, 0x1.p1, 0x1.p-1 | 0x1p1 | 0x.1, 0x.1p1, 0x.1p-1
+        (0[xX]) ( {{hex_digit}}* (?: (\.) {{hex_digit}}* (?:{{hex_exponent}})? | {{hex_exponent}} ) ) ([dDfF]\b)?
       scope: meta.number.float.hexadecimal.java
       captures:
         1: constant.numeric.base.java
         2: constant.numeric.value.java
         3: punctuation.separator.decimal.java
-        4: punctuation.separator.decimal.java
+        4: constant.numeric.suffix.java
     # decimal floats
     - match: |-
         (?x)

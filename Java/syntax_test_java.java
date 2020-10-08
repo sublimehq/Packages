@@ -7672,44 +7672,89 @@ public class Foo {
 //                                    ^ punctuation.terminator.java
   }
 //^ meta.method.java punctuation.section.block.end.java
+}
 
 
 /******************************************************************************
- * Numeric Constants Tests
+ * Literals Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10
  *****************************************************************************/
 
-  int numbersTests() {
+class LiteralsTests {
 
-    a = 0x1.;
+  void hexadecimalFloatsTests() {
+
+    a = 0x1. ;
+//     ^ - meta.number - constant
 //      ^^ meta.number.float.hexadecimal.java constant.numeric.base.java
 //        ^^ meta.number.float.hexadecimal.java constant.numeric.value.java
+//          ^ - meta.number - constant
+//      ^^^ - punctuation.separator
 //         ^ punctuation.separator.decimal.java
 
-    a = 0x.1a2f;
+    a = 0x.1a2f ;
+//     ^ - meta.number - constant
 //      ^^ meta.number.float.hexadecimal.java constant.numeric.base.java
 //        ^^^^^ meta.number.float.hexadecimal.java constant.numeric.value.java
+//             ^ - meta.number - constant
+//      ^^ - punctuation.separator
 //        ^ punctuation.separator.decimal.java
 
-    a = 0x1.a2f;
+    a = 0x1.a2f ;
+//     ^ - meta.number - constant
 //      ^^ meta.number.float.hexadecimal.java constant.numeric.base.java
 //        ^^^^^ meta.number.float.hexadecimal.java constant.numeric.value.java
+//             ^ - meta.number - constant
+//      ^^^ - punctuation.separator
 //         ^ punctuation.separator.decimal.java
+//          ^^^ - punctuation.separator
 
-    a = 0x1ffp+1023 0x1ffp+_1023_;
+    a = 0x1ffp+1023 0x1ffp+_1023_ ;
+//     ^ - meta.number - constant
 //      ^^ meta.number.float.hexadecimal.java constant.numeric.base.java
 //        ^^^^^^^^^ meta.number.float.hexadecimal.java constant.numeric.value.java
+//                 ^ - meta.number - constant
 //                  ^^ meta.number.float.hexadecimal.java constant.numeric.base.java
 //                    ^^^^^^^^^^^ meta.number.float.hexadecimal.java constant.numeric.value.java
+//                               ^ - meta.number - constant
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^ - punctuation.separator
 
-    a = 0xd.aP-1074 0x_1_f_._a_d_P-_10_74_;
+    a = 0xd.aP-1074 0x_1_f_._a_d_P-_10_74_ ;
+//     ^ - meta.number - constant
 //      ^^ meta.number.float.hexadecimal.java constant.numeric.base.java
 //        ^^^^^^^^^ meta.number.float.hexadecimal.java constant.numeric.value.java
+//                 ^ - meta.number - constant
 //                  ^^ meta.number.float.hexadecimal.java constant.numeric.base.java
 //                    ^^^^^^^^^^^^^^^^^^^^ meta.number.float.hexadecimal.java constant.numeric.value.java
+//                                        ^ - meta.number - constant
+//      ^^^ - punctuation.separator
 //         ^ punctuation.separator.decimal.java
+//          ^^^^^^^^^^^^^^^ - punctuation.separator
 //                         ^ punctuation.separator.decimal.java
+//                          ^^^^^^^^^^^^^^ - punctuation.separator
 
-//  decimal floats
+    a = 0x.aap0 0x.aP+1 ;
+//     ^ - meta.number - constant
+//      ^^ meta.number.float.hexadecimal.java constant.numeric.base.java
+//        ^^^^^ meta.number.float.hexadecimal.java constant.numeric.value.java
+//             ^ - meta.number - constant
+//              ^^ meta.number.float.hexadecimal.java constant.numeric.base.java
+//                ^^^^^ meta.number.float.hexadecimal.java constant.numeric.value.java
+//                     ^ - meta.number - constant
+
+    a = 0x.aap0f 0x.aP-1F ;
+//     ^ - meta.number - constant
+//      ^^ meta.number.float.hexadecimal.java constant.numeric.base.java
+//        ^^^^^ meta.number.float.hexadecimal.java constant.numeric.value.java
+//             ^ meta.number.float.hexadecimal.java constant.numeric.suffix.java
+//              ^ - meta.number - constant
+//               ^^ meta.number.float.hexadecimal.java constant.numeric.base.java
+//                 ^^^^^ meta.number.float.hexadecimal.java constant.numeric.value.java
+//                      ^ meta.number.float.hexadecimal.java constant.numeric.suffix.java
+//                       ^ - meta.number - constant
+  }
+
+  void decimalFloatsTests() {
 
     a = 0D + 12345D + 12345D + 12_34_5_D - _12_34_5D - 12a45D;
 //      ^ meta.number.float.decimal.java constant.numeric.value.java
@@ -7983,8 +8028,9 @@ public class Foo {
 //                        ^ keyword.operator
 //                         ^^^^^^^^^ meta.number.float.decimal.java constant.numeric.value.java
 //                                  ^ meta.number.float.decimal.java constant.numeric.suffix.java
+  }
 
-// binary integers
+  void binaryIntegersTests() {
 
     a = 0b101101 + 0b10_11_01 + 0b10_11_01_ + 0b_101101 - 0_b10_1101 + 0b;
 //      ^^ meta.number.integer.binary.java constant.numeric.base.java
@@ -8018,8 +8064,9 @@ public class Foo {
 //                                                              ^^^^^^^^^ - constant.numeric
 //                                                                          ^^ meta.number.integer.binary.java constant.numeric.base.java
 //                                                                            ^ meta.number.integer.binary.java constant.numeric.suffix.java
+  }
 
-// hexadecimal integers
+  void hexadecimalIntegersTests() {
 
     a = 0xABCD + 0xAB_CD + 0xAB_CD_ + 0x_AB_CD - 0_xAB_CD - 0x;
 //      ^^ meta.number.integer.hexadecimal.java constant.numeric.base.java
@@ -8060,8 +8107,9 @@ public class Foo {
 //                                                   ^ meta.number.integer.octal.java constant.numeric.base.java
 //                                                    ^ meta.number.integer.octal.java constant.numeric.value.java
 //                                                     ^^^^^^^ - constant.numeric
+  }
 
-//  octal integers
+  void octalIntegersTests() {
 
     a = 07 + 0_ + 0_7 + 07_ + 079 + 079_ + 0_79_ - 0a - 0_a;
 //      ^ meta.number.integer.octal.java constant.numeric.base.java
@@ -8108,8 +8156,9 @@ public class Foo {
 //                                                        ^ meta.number.integer.octal.java constant.numeric.base.java
 //                                                         ^ meta.number.integer.octal.java constant.numeric.value.java
 //                                                          ^^^ - constant.numeric
+  }
 
-//  decimal integers
+  void decimalIntegersTests() {
 
     a = 0 + 0L;
 //      ^ meta.number.integer.decimal.java constant.numeric.value.java
@@ -8141,17 +8190,6 @@ public class Foo {
 //          ^ keyword.operator
 //           ^^^^ - constant.numeric
   }
-
-
-/******************************************************************************
- * String and Character Constants Tests
- *
- * https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.3
- * https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.4
- * https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.5
- * https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.6
- * https://docs.oracle.com/en/java/javase/13/text_blocks/index.html
- *****************************************************************************/
 
   String stringAndCharsTests() {
 
@@ -8262,6 +8300,10 @@ public class Foo {
     System.out.println(letter);
 //  ^^^^^^ support.class
   }
+}
+
+
+class MiscIncompleteTests {
 
   @Test
 //^ meta.annotation.identifier.java punctuation.definition.annotation.java
