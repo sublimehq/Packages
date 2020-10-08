@@ -101,9 +101,7 @@ contexts:
     - include: import
     - include: module
     - include: package
-    - include: statements
-    - include: declarations
-    - include: else-expressions
+    - include: blocks-body
 
   statements:
     - include: member-statements
