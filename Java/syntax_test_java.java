@@ -744,7 +744,7 @@ class ImplementsTest implements Foo {}
 //                                  ^ punctuation.section.block.begin.java
 //                                   ^ punctuation.section.block.end.java
 
-class lowerCaseTest<T> implements fully.qualified.Other<T> {
+class lowercasetest<t> implements fully.qualified.other<t> {
 //^^^ meta.class.java - meta.class meta.class
 //   ^^^^^^^^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class
 //                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.implements.java - meta.class meta.class
@@ -831,6 +831,40 @@ class ExtendsAndImplementsTest extends Foo, bar implements bar<Foo>, OtherBar {}
 //                                                                   ^^^^^^^^ entity.other.inherited-class.java
 //                                                                            ^ punctuation.section.block.begin.java
 //                                                                             ^ punctuation.section.block.end.java
+
+class AnyClass{AnyClass(){}}
+//^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class meta.class
+//^^^ meta.class.java
+//   ^^^^^^^^^ meta.class.identifier.java
+//            ^^^^^^^^^^^^^^ meta.class.java meta.block.java
+//             ^^^^^^^^ meta.method.identifier.java
+//                     ^^ meta.method.parameters.java meta.group.java
+//                       ^^ meta.method.java meta.block.java
+//^^^ keyword.declaration.class.java
+//    ^^^^^^^^ entity.name.class.java
+//            ^ punctuation.section.block.begin.java
+//             ^^^^^^^^ entity.name.function.constructor.java
+//                     ^ punctuation.section.group.begin.java
+//                      ^ punctuation.section.group.end.java
+//                       ^ punctuation.section.block.begin.java
+//                        ^^ punctuation.section.block.end.java
+
+class anyclass{anyclass(){}}
+//^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.class meta.class
+//^^^ meta.class.java
+//   ^^^^^^^^^ meta.class.identifier.java
+//            ^^^^^^^^^^^^^^ meta.class.java meta.block.java
+//             ^^^^^^^^ meta.method.identifier.java
+//                     ^^ meta.method.parameters.java meta.group.java
+//                       ^^ meta.method.java meta.block.java
+//^^^ keyword.declaration.class.java
+//    ^^^^^^^^ entity.name.class.java
+//            ^ punctuation.section.block.begin.java
+//             ^^^^^^^^ entity.name.function.constructor.java
+//                     ^ punctuation.section.group.begin.java
+//                      ^ punctuation.section.group.end.java
+//                       ^ punctuation.section.block.begin.java
+//                        ^^ punctuation.section.block.end.java
 
 class AnyClass { // comment
 //^^^ meta.class.java keyword.declaration.class.java
