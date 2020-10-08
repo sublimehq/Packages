@@ -597,8 +597,8 @@
     Call NoParams
     
          Sub Wow (test _ 'test
- ,def _ '^^^^^^^^^^^^^^^^^^^^^^ meta.method.asp meta.method.identifier.asp
-      _ '^^^ storage.type.function.asp
+        '^^^^^^^^^^^^^^^^^^^^^^ meta.method.asp meta.method.identifier.asp
+        '^^^ storage.type.function.asp
         '    ^^^ entity.name.function.asp
         '                ^^^^^ invalid.illegal.expected-end-of-line.asp
     ) ' this bracket doesn't form part of the method declaration - the line above is missing a _ and contains non-whitespace
