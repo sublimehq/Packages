@@ -1403,7 +1403,11 @@ contexts:
 
   instantiation-type:
     - include: primitive-type
-    - include: maybe-object-type
+    - include: object-type
+    - include: annotations
+    - include: illegal-storage-modifiers
+    - include: illegal-unexpected-keywords
+    - include: else-pop
 
   instantiation-value:
     - include: array-dimensions
@@ -1479,15 +1483,9 @@ contexts:
 
 ###[ BLOCKS ]##################################################################
 
-  block-end:
-    - match: \}
-      scope: punctuation.section.block.end.java
-      pop: 1
-
-  block-end2:
-    - match: \}
-      scope: punctuation.section.block.end.java
-      pop: 2
+  block-or-expression:
+    - include: block
+    - include: else-expression
 
   blocks:
     - match: \{
@@ -1500,9 +1498,10 @@ contexts:
       scope: punctuation.section.block.begin.java
       set: blocks-common
 
-  block-or-expression:
-    - include: block
-    - include: else-expression
+  block-end:
+    - match: \}
+      scope: punctuation.section.block.end.java
+      pop: 1
 
   blocks-common:
     - meta_scope: meta.block.java
@@ -2825,7 +2824,7 @@ contexts:
 
   illegal-storage-modifiers:
     - match: '{{storage_modifiers}}\b'
-      scope: invalid.illegal.unexpected-modifier.java
+      scope: invalid.illegal.unexpected-keyword.java
 
   illegal-type-parameters:
     - match: \<
@@ -2837,7 +2836,7 @@ contexts:
 
   illegal-var-type:
     - match: var\b
-      scope: invalid.illegal.unexpected-type.java
+      scope: invalid.illegal.unexpected-keyword.java
       pop: 1
 
   stray-braces:

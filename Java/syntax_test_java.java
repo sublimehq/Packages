@@ -1929,7 +1929,7 @@ class FieldDeclarationTests {
 //                     ^^^^^^^ meta.field.value.java
 //                            ^ - meta.field
 //^^^^^^ storage.modifier.java
-//       ^^^ invalid.illegal.unexpected-type.java
+//       ^^^ invalid.illegal.unexpected-keyword.java
 //           ^^^^^^^^ entity.name.constant.java
 //                    ^ keyword.operator.assignment.java
 //                      ^^^^^^ constant.numeric
@@ -2826,7 +2826,7 @@ class MethodDelcarationTests {
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method
 //                               ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java
 //                                                         ^ - meta.method.parameters.java
-//                                ^^^^^^^ invalid.illegal.unexpected-modifier.java
+//                                ^^^^^^^ invalid.illegal.unexpected-keyword.java
 //                                        ^^^^^^ support.class.java
 //                                              ^^^ keyword.operator.variadic.java
 //                                                  ^^^^^^ variable.parameter.java
@@ -2834,7 +2834,7 @@ class MethodDelcarationTests {
   void invalidVarArgs(var... values) {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method
 //                   ^^^^^^^^^^^^^^^ meta.method.parameters.java meta.group.java
-//                    ^^^ invalid.illegal.unexpected-type.java
+//                    ^^^ invalid.illegal.unexpected-keyword.java
 //                       ^^^ keyword.operator.variadic.java
 //                           ^^^ variable.parameter.java
 
@@ -4181,8 +4181,9 @@ class InstanceCreationExpressionsTests {
 //                                                               ^^^ variable.other.readwrite.java
 //                                                                  ^ punctuation.section.group.end.java
 
-    new @foo com . @foo java . @foo outerclass . @foo innerclass(foo);
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
+    new @foo com . @foo java . @foo outerclass . @foo innerclass(foo) { };
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java - meta.block meta.block meta.block
+//                                                                    ^^^ meta.instantiation.java meta.class.java meta.block.java
 //      ^^^^ meta.annotation.identifier.java
 //          ^^^^^^^ - meta.annotation
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.java
@@ -4212,7 +4213,52 @@ class InstanceCreationExpressionsTests {
 //                                                              ^ punctuation.section.group.begin.java
 //                                                               ^^^ variable.other.readwrite.java
 //                                                                  ^ punctuation.section.group.end.java
+//                                                                    ^ punctuation.section.block.begin.java
+//                                                                      ^ punctuation.section.block.end.java
+//                                                                       ^ punctuation.terminator.java
 
+    new var();
+//  ^^^^^^^^^ meta.instantiation.java
+//  ^^^ keyword.other.storage.new.java
+//      ^^^ invalid.illegal.unexpected-keyword.java
+//         ^ punctuation.section.group.begin.java
+//          ^ punctuation.section.group.end.java
+//           ^ punctuation.terminator.java
+
+    new static LocalClass() {};
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
+//  ^^^ keyword.other.storage.new.java
+//      ^^^^^^ invalid.illegal.unexpected-keyword.java
+//             ^^^^^^^^^^ support.class.java
+//                       ^ punctuation.section.group.begin.java
+//                        ^ punctuation.section.group.end.java
+//                          ^ punctuation.section.block.begin.java
+//                           ^ punctuation.section.block.end.java
+//                            ^ punctuation.terminator.java
+
+    new class LocalClass() {};
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
+//  ^^^ keyword.other.storage.new.java
+//      ^^^^^ invalid.illegal.unexpected-keyword.java
+//            ^^^^^^^^^^ support.class.java
+//                      ^ punctuation.section.group.begin.java
+//                       ^ punctuation.section.group.end.java
+//                         ^ punctuation.section.block.begin.java
+//                          ^ punctuation.section.block.end.java
+//                           ^ punctuation.terminator.java
+
+    new if (foo == true) {};
+//  ^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
+//  ^^^ keyword.other.storage.new.java
+//      ^^ invalid.illegal.unexpected-keyword.java
+//         ^ punctuation.section.group.begin.java
+//          ^^^ variable.other.readwrite.java
+//              ^^ keyword.operator.comparison.java
+//                 ^^^^ constant.language.boolean.java
+//                     ^ punctuation.section.group.end.java
+//                       ^ punctuation.section.block.begin.java
+//                        ^ punctuation.section.block.end.java
+//                         ^ punctuation.terminator.java
   }
 
   @SyntaxTest
@@ -4236,6 +4282,8 @@ class InstanceCreationExpressionsTests {
 //      ^^^^ storage.type.primitive.java
 
     new int[][][] {
+//  ^^^^^^^^^^^^^^ meta.instantiation.java - meta.braces
+//                ^^ meta.instantiation.java meta.braces.java
 //      ^^^ storage.type.primitive.java
 //         ^ punctuation.section.brackets.begin.java
 //          ^ punctuation.section.brackets.end.java
@@ -4245,20 +4293,51 @@ class InstanceCreationExpressionsTests {
 //              ^ punctuation.section.brackets.end.java
 //                ^ punctuation.section.braces.begin.java
       { { 1, 2 }, { 3, 4 } },
-//        ^ meta.number.integer.decimal.java constant.numeric.value.java
-//         ^ punctuation.separator.comma.java
-//           ^ meta.number.integer.decimal.java constant.numeric.value.java
+//    ^^ meta.instantiation.java meta.braces.java meta.braces.java - meta.braces meta.braces meta.braces
+//      ^^^^^^^^ meta.instantiation.java meta.braces.java meta.braces.java meta.braces.java
+//              ^^ meta.instantiation.java meta.braces.java meta.braces.java - meta.braces meta.braces meta.braces
+//                ^^^^^^^^ meta.instantiation.java meta.braces.java meta.braces.java meta.braces.java
+//                        ^^ meta.instantiation.java meta.braces.java meta.braces.java - meta.braces meta.braces meta.braces
+//                          ^ meta.instantiation.java meta.braces.java - meta.braces meta.braces
 //    ^ punctuation.section.braces.begin.java
+//      ^ punctuation.section.braces.begin.java
+//        ^ constant.numeric.value.java
+//         ^ punctuation.separator.comma.java
+//           ^ constant.numeric.value.java
+//             ^ punctuation.section.braces.end.java
+//              ^ punctuation.separator.comma.java
+//                ^ punctuation.section.braces.begin.java
+//                  ^ constant.numeric.value.java
+//                   ^ punctuation.separator.comma.java
+//                     ^ constant.numeric.value.java
+//                       ^ punctuation.section.braces.end.java
 //                         ^ punctuation.section.braces.end.java
 //                          ^ punctuation.separator.comma.java
       { { 5, 6 }, { 7, 8 } }
-//        ^ meta.number.integer.decimal.java constant.numeric.value.java
-//         ^ punctuation.separator.comma.java
-//           ^ meta.number.integer.decimal.java constant.numeric.value.java
+//    ^^ meta.instantiation.java meta.braces.java meta.braces.java - meta.braces meta.braces meta.braces
+//      ^^^^^^^^ meta.instantiation.java meta.braces.java meta.braces.java meta.braces.java
+//              ^^ meta.instantiation.java meta.braces.java meta.braces.java - meta.braces meta.braces meta.braces
+//                ^^^^^^^^ meta.instantiation.java meta.braces.java meta.braces.java meta.braces.java
+//                        ^^ meta.instantiation.java meta.braces.java meta.braces.java - meta.braces meta.braces meta.braces
+//                          ^ meta.instantiation.java meta.braces.java - meta.braces meta.braces
 //    ^ punctuation.section.braces.begin.java
+//      ^ punctuation.section.braces.begin.java
+//        ^ constant.numeric.value.java
+//         ^ punctuation.separator.comma.java
+//           ^ constant.numeric.value.java
+//             ^ punctuation.section.braces.end.java
+//              ^ punctuation.separator.comma.java
+//                ^ punctuation.section.braces.begin.java
+//                  ^ constant.numeric.value.java
+//                   ^ punctuation.separator.comma.java
+//                     ^ constant.numeric.value.java
+//                       ^ punctuation.section.braces.end.java
 //                         ^ punctuation.section.braces.end.java
     };
+// ^^ meta.instantiation.java meta.braces.java
+//   ^ - meta.instantiation - meta.braces
 //  ^ punctuation.section.braces.end.java
+//   ^ punctuation.terminator.java
 
     new int[1][3][4];
 //  ^^^^^^^^^^^^^^^^ meta.instantiation.java
@@ -4281,13 +4360,13 @@ class InstanceCreationExpressionsTests {
   public void instantiateObjectArrays() {
 
     new String[] {"foo", "bar"};
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java
+//  ^^^^^^^^^^^^^ meta.instantiation.java - meta.braces
+//               ^^^^^^^^^^^^^^ meta.instantiation.java meta.braces.java
 //                             ^ - meta.instantiation - meta.braces
 //  ^^^ keyword.other.storage.new.java
 //      ^^^^^^ support.class.java
 //            ^ punctuation.section.brackets.begin.java
 //             ^ punctuation.section.brackets.end.java
-//               ^^^^^^^^^^^^^^ meta.braces.java
 //               ^ punctuation.section.braces.begin.java
 //                ^^^^^ string.quoted.double.java
 //                     ^ punctuation.separator.comma.java
@@ -4632,12 +4711,13 @@ class InstanceCreationExpressionsTests {
 //                 ^ punctuation.accessor.dot.java
 
     new generic<?>[] { new generic(1), new generic(2) };
-//  ^^^^^^^^^^^^^^^^^^^ meta.instantiation.java - meta.instantiation meta.instantiation
-//                     ^^^^^^^^^^^^^^ meta.instantiation.java meta.instantiation.java
-//                                   ^^ meta.instantiation.java - meta.instantiation meta.instantiation
-//                                     ^^^^^^^^^^^^^^^ meta.instantiation.java meta.instantiation.java
-//                                                    ^ meta.instantiation.java - meta.instantiation meta.instantiation
-//                                                     ^ - meta.instantiation
+//  ^^^^^^^^^^^^^^^^^ meta.instantiation.java - meta.braces - meta.instantiation meta.instantiation
+//                   ^^ meta.instantiation.java meta.braces.java - meta.instantiation meta.instantiation
+//                     ^^^^^^^^^^^^^^ meta.instantiation.java meta.braces.java meta.instantiation.java
+//                                   ^^ meta.instantiation.java meta.braces.java - meta.instantiation meta.instantiation
+//                                     ^^^^^^^^^^^^^^^ meta.instantiation.java meta.braces.java meta.instantiation.java
+//                                                    ^ meta.instantiation.java meta.braces.java - meta.instantiation meta.instantiation
+//                                                     ^ - meta.instantiation - meta.braces
 //  ^^^ keyword.other.storage.new.java
 //      ^^^^^^^ support.class.java
 //             ^^^ meta.generic.java
@@ -4652,12 +4732,13 @@ class InstanceCreationExpressionsTests {
 //                                                    ^ punctuation.section.braces.end
 
     new ArrayList<?>[] { new ArrayList<java.sql.Date>(), new ArrayList<Date>() }
-//  ^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java - meta.instantiation meta.instantiation
-//                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java meta.instantiation.java
-//                                                     ^^ meta.instantiation.java - meta.instantiation meta.instantiation
-//                                                       ^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java meta.instantiation.java
-//                                                                             ^ meta.instantiation.java - meta.instantiation meta.instantiation
-//                                                                              ^ - meta.instantiation
+//  ^^^^^^^^^^^^^^^^^^^ meta.instantiation.java - meta.braces - meta.instantiation meta.instantiation
+//                     ^^ meta.instantiation.java meta.braces.java - meta.instantiation meta.instantiation
+//                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java meta.braces.java meta.instantiation.java
+//                                                     ^^ meta.instantiation.java meta.braces.java - meta.instantiation meta.instantiation
+//                                                       ^^^^^^^^^^^^^^^^^^^^^^ meta.instantiation.java meta.braces.java meta.instantiation.java
+//                                                                             ^ meta.instantiation.java meta.braces.java - meta.instantiation meta.instantiation
+//                                                                              ^ - meta.instantiation - meta.braces
 //               ^^^ meta.generic.java
 //                                    ^^^^^^^^^^^^^^^ meta.generic.java
 //                                     ^^^^^^^^^^^^^ meta.path.java
@@ -4894,7 +4975,7 @@ class CastExpressionsTests {
 //  ^^^^^ meta.typecast.java meta.group.java
 //       ^^^^ - meta.typecast - meta.group
 //  ^ punctuation.section.group.begin.java
-//   ^^^ invalid.illegal.unexpected-type.java
+//   ^^^ invalid.illegal.unexpected-keyword.java
 //      ^ punctuation.section.group.end.java
 //        ^^^ variable.other.readwrite.java
   }
@@ -5402,7 +5483,7 @@ class ForStatementTests {
 //  ^^^^ meta.for.java - meta.for meta.for
 //      ^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java - meta.for meta.for
 //  ^^^ keyword.control.loop.for.java
-//       ^^^^^^ invalid.illegal.unexpected-modifier.java
+//       ^^^^^^ invalid.illegal.unexpected-keyword.java
 //              ^^^ storage.type.primitive.java
 //                  ^ variable.other.readwrite.java
 //                    ^ keyword.operator.assignment.java
@@ -5457,7 +5538,7 @@ class ForStatementTests {
 //                                                                        ^ - meta.for
 //  ^^^ keyword.control.loop.for.java
 //      ^ punctuation.section.group.begin.java
-//       ^^^^^^^ invalid.illegal.unexpected-modifier.java
+//       ^^^^^^^ invalid.illegal.unexpected-keyword.java
 //               ^^^^^ meta.annotation.identifier.java
 //                     ^^^ storage.type.var.java
 //                         ^^^^ variable.other.readwrite.java
