@@ -1178,22 +1178,23 @@ contexts:
     - include: declarations
     - include: expressions
     - include: illegal-open-block
-    - include: else-pop
+    - match: (?=\))
+      pop: 1
 
   for-parameters-condition:
     - include: punctuation-terminator-semicolon-pop
     - include: expressions
     - include: illegal-open-block
-    - include: else-pop
+    - match: (?=\))
+      pop: 1
 
   for-parameters-update:
     - meta_scope: meta.group.java
     - include: group-end
     - include: expressions
+    - include: illegal-open-block
     - match: ;
       scope: invalid.illegal.stray-terminator-end
-    - include: illegal-open-block
-    - include: else-pop
 
 ###[ FLOW CONTROL STATEMENTS ]#################################################
 
