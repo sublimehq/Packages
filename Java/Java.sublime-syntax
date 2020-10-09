@@ -622,7 +622,7 @@ contexts:
         - enum-body-block
         - enum-extends
         - enum-name-meta
-        - illegal-type-parameters
+        - illegal-type-parameter
         - enum-name
 
   enum-modifiers:
@@ -2804,7 +2804,7 @@ contexts:
     - match: '{{storage_modifiers}}\b'
       scope: invalid.illegal.unexpected-keyword.java
 
-  illegal-type-parameters:
+  illegal-type-parameter:
     - match: \<
       set:
         - meta_scope: invalid.illegal.unexpected-type-parameters.java
