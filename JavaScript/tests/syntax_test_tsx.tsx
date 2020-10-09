@@ -28,6 +28,14 @@ let x : T.U<V>;
 //          ^ support.class
 
 // This is invalid TSX as the TypeScript type assertion is parsed as a JSX tag
-let strLength: number = (<string>someValue).length; // </string>
+let strLength: number = (<string>someValue).length; // </string> );
 //                       ^^^^^^^^ meta.tag - meta.assertion
 //                                                     ^^^^^^^^^ meta.tag - comment
+
+var foo = 1 << 0;
+//          ^^ keyword.operator.bitwise
+
+if (a < b || c < d) {}
+//    ^ keyword.operator.logical
+//        ^^ keyword.operator.logical
+//             ^ keyword.operator.logical

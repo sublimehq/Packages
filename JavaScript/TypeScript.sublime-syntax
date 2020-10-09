@@ -321,7 +321,7 @@ contexts:
         - function-declaration-expect-async
 
   ts-type-parameter-list:
-    - match: \<
+    - match: \<(?!<)
       scope: punctuation.definition.generic.begin.js
       set:
         - meta_scope: meta.generic.js
@@ -412,7 +412,9 @@ contexts:
   expression-end:
     - meta_prepend: true
     - include: ts-type-assertion
-
+    - match: '<<'
+      scope: keyword.operator.bitwise.js
+      set: expression-begin
     - match: (?=<)
       branch_point: ts-function-type-arguments
       branch:
@@ -420,7 +422,7 @@ contexts:
         - ts-less-than
 
   ts-function-type-arguments:
-    - match: \<
+    - match: \<(?!<)
       scope: punctuation.definition.generic.begin.js
       set:
         - - meta_scope: meta.generic.js
@@ -446,7 +448,7 @@ contexts:
 
   expression-begin:
     - meta_prepend: true
-    - match: \<
+    - match: \<(?!<)
       scope: punctuation.definition.assertion.begin.js
       set:
         - - meta_scope: meta.assertion.js
@@ -503,6 +505,8 @@ contexts:
     - include: immediately-pop
 
   ts-type-expression-end:
+    - match: (?=\|\||&&)
+      fail: ts-function-type-arguments
     - match: \&
       scope: keyword.operator.type.intersection.js
       push: [ts-type-expression-end-no-line-terminator, ts-type-expression-begin]
@@ -574,7 +578,7 @@ contexts:
     - include: else-pop
 
   ts-generic-type-arguments:
-    - match: \<
+    - match: \<(?!<)
       scope: punctuation.definition.generic.begin.js
       set:
         - meta_scope: meta.generic.js
