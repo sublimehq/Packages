@@ -1366,7 +1366,7 @@ contexts:
   expression-terminator:
     - match: |-
         (?x)(?=
-          [,:;)\]{}] |
+          [;)\]{}] |
           ( {{control_keywords}}
           | {{declaration_keywords}}
           | {{storage_modifiers}}
@@ -1449,6 +1449,8 @@ contexts:
     - include: expressions
 
   variable-initializer:
+    - match: (?=,)
+      pop: 1
     - include: array-initializers
     - include: ternary-initializers
     - include: expression
