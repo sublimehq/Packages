@@ -356,7 +356,7 @@ class ClassTest
 //    ^^^^^^^^^ entity.name.class.java
 //             ^ - entity - keyword - storage
 
-class ClassTest {}
+class ClassTest {}}
 // <- meta.class.java - meta.class meta.class
 //^^^ meta.class.java - meta.class meta.class
 //   ^^^^^^^^^^^ meta.class.identifier.java - meta.class meta.class
@@ -369,6 +369,7 @@ class ClassTest {}
 //             ^ - entity - keyword - storage
 //              ^ punctuation.section.block.begin.java
 //               ^ punctuation.section.block.end.java
+//                ^ invalid.illegal.stray-brace-end
 
 class ExtendsTest extends
 //^^^ meta.class.java - meta.class meta.class
@@ -3656,8 +3657,26 @@ class LocalVariableDeclarationTests {
 //                               ^^^^^ meta.annotation.identifier.java
 //                                     ^^ storage.modifier.array.java
 //                                        ^ keyword.operator.assignment.java
-  }
 
+    @Number
+//  ^^^^^^^^ meta.declaration.java meta.annotation.identifier.java
+    final
+//  ^^^^^ meta.declaration.java storage.modifier.java
+    int
+//  ^^^ meta.declaration.java storage.type.primitive.java
+    foo
+//  ^^^ meta.declaration.java variable.other.readwrite.java
+    @Dim1
+//  ^^^^^^ meta.declaration.java meta.annotation.identifier.java
+    []
+//  ^^ meta.declaration.java storage.modifier.array.java
+    =
+//  ^ meta.declaration.java keyword.operator.assignment.java
+    {0, 1}
+//  ^^^^^^ meta.declaration.java meta.braces.java
+  }
+//^ meta.class.java meta.block.java meta.method.java meta.block.java punctuation.section.block.end.java
+// ^ meta.class.java meta.block.java - meta.method
 
   void declareObjectTypes() {
 
@@ -4250,6 +4269,21 @@ class InstanceCreationExpressionsTests {
 //                                                                    ^ punctuation.section.block.begin.java
 //                                                                      ^ punctuation.section.block.end.java
 //                                                                       ^ punctuation.terminator.java
+
+    new SubClass(new SubClass[0], true);
+//  ^^^^^^^^^^^^^ meta.instantiation.java - meta.instantiation meta.instantiation
+//               ^^^^^^^^^^^^^^^ meta.instantiation.java meta.instantiation.java
+//                              ^^^^^^^ meta.instantiation.java - meta.instantiation meta.instantiation
+//  ^^^ keyword.other.storage.new.java
+//      ^^^^^^^^ support.class.java
+//              ^ punctuation.section.group.begin.java
+//               ^^^ keyword.other.storage.new.java
+//                   ^^^^^^^^ support.class.java
+//                           ^^^ meta.brackets.java
+//                              ^ punctuation.separator.comma.java
+//                                ^^^^ constant.language.boolean.java
+//                                    ^ punctuation.section.group.end.java
+//                                     ^ punctuation.terminator.java
 
     new var();
 //  ^^^^^^^^^ meta.instantiation.java
@@ -5640,6 +5674,29 @@ class IfStatementTests {
 //           ^ punctuation.section.block.begin.java
 //            ^ punctuation.section.block.end.java
 
+    if (foo {}
+//  ^^^ meta.if.java - meta.if meta.group
+//     ^^^^^ meta.if.java meta.group.java
+//          ^^ meta.if.java meta.block.java
+//            ^ - meta.if
+//  ^^ keyword.control.conditional.if.java
+//     ^ punctuation.section.group.begin.java
+//      ^^^ variable.other.readwrite.java
+//         ^ invalid.illegal.stray-terminator-end
+//          ^ punctuation.section.block.begin.java
+//           ^ punctuation.section.block.end.java
+
+    if (hello(world) { return false }
+//  ^^^ meta.if.java - meta.if meta.group
+//     ^^^^^^^^^^^^^^ meta.if.java meta.group.java
+//                   ^^^^^^^^^^^^^^^^ meta.if.java meta.block.java
+//                                   ^ - meta.if
+//                  ^ invalid.illegal.stray-terminator-end
+//                   ^ punctuation.section.block.begin.java
+//                     ^^^^^^ keyword.control.flow.return.java
+//                            ^^^^^ constant.language.boolean.java
+//                                  ^ punctuation.section.block.end.java
+
     if (foo) else
 //  ^^^^^^^^^ - meta.else
 //  ^^^ meta.if.java - meta.if meta.group
@@ -6566,8 +6623,6 @@ class TryStatementTests {
 //                                          ^^^^ variable.other.readwrite.java
 //                                              ^^ punctuation.section.group.end.java
 //                                                 ^ punctuation.section.block.begin.java
-      lines.forEach(System.out::println);
-//                              ^^^^^^^ variable.function.reference.java
 
     } catch (IOException ignore) {
 //^^^ meta.try.java meta.block.java
@@ -6822,6 +6877,12 @@ class MethodReferenceExpressionsTests {
 //                   ^^ punctuation.accessor.double-colon.java
 //                     ^^^ keyword.other.storage.new.java
 
+    ArrayList<String ::new     // constructor for parameterized type
+//  ^^^^^^^^^ support.class.java
+//           ^^^^^^^^ meta.generic.java
+//                   ^^ punctuation.accessor.double-colon.java
+//                     ^^^ keyword.other.storage.new.java
+
     ArrayList::new             // inferred type arguments for generic class
 //  ^^^^^^^^^ support.class.java
 //           ^^ punctuation.accessor.double-colon.java
@@ -6974,14 +7035,26 @@ class MethodInvocationExpressionsTests {
 
      ( foo ).bar();
 //   ^^^^^^^ meta.group.java
-//          ^ punctuation.accessor.dot.java
+//          ^^^^ - meta.group
 //           ^^^ meta.function-call.identifier.java
 //              ^^ meta.function-call.arguments.java meta.group.java
+//                ^ - meta.function-call - meta.group
+//          ^ punctuation.accessor.dot.java
 //           ^^^ variable.function.java
 //              ^ punctuation.section.group.begin.java
 //               ^ punctuation.section.group.end.java
 //                ^ punctuation.terminator.java
 
+     ( foo .bar();
+//   ^^^^^^^^^^^^^ meta.group.java
+//          ^^^ meta.function-call.identifier.java
+//             ^^ meta.function-call.arguments.java
+//               ^ - meta.function-call
+//         ^ punctuation.accessor.dot.java
+//          ^^^ variable.function.java
+//             ^ punctuation.section.group.begin.java
+//              ^ punctuation.section.group.end.java
+//               ^ invalid.illegal.stray-terminator-end
     }
 }
 
@@ -7060,6 +7133,25 @@ class LambdasExpressionsTests {
 //   ^^ meta.number.integer.decimal.java constant.numeric.value.java
 //     ^ punctuation.terminator.java
 
+    foo.forEach((k, v) -> {
+//              ^^^^^^^^^^^^ meta.function-call.arguments.java
+//              ^^^^^^ meta.function.anonymous.parameters.java meta.group.java
+//              ^ punctuation.section.group.begin.java
+//               ^ variable.parameter.java
+//                ^ punctuation.separator.comma.java
+//                  ^ variable.parameter.java
+//                   ^ punctuation.section.group.end.java
+//                    ^^^^^^ meta.function.anonymous.java
+//                     ^^ storage.type.function.anonymous.java
+//                        ^ punctuation.section.block.begin
+      return;
+//   ^^^^^^^^^ meta.function-call.arguments.java meta.group.java meta.function.anonymous.java meta.block.java
+//    ^^^^^^ meta.return.java keyword.control.flow.return.java
+//          ^ punctuation.terminator.java - meta.return
+    });
+//  ^ punctuation.section.block.end.java
+//   ^ punctuation.section.group.end.java
+//    ^ punctuation.terminator.java
   }
 //^ meta.class.java meta.block.java meta.method.java meta.block.java punctuation.section.block.end.java
 
@@ -8303,36 +8395,10 @@ class LiteralsTests {
 }
 
 
-class MiscIncompleteTests {
+class MiscTests {
 
-  @Test
-//^ meta.annotation.identifier.java punctuation.definition.annotation.java
-// ^^^^ meta.annotation.identifier.java variable.annotation.java
-  public void someMethod(WithParam foo) throws Exception {
-//            ^^^^^^^^^^ meta.method.identifier.java entity.name.function.java
-//                       ^ support.class.java
-//                                 ^ variable.parameter.java
-//                                      ^^^^^^^^^^^^^^^^ meta.method.throws.java
-//                                      ^^^^^^ keyword.declaration.throws.java
-//                                             ^^^^^^^^^ support.class.java
-//                                                       ^ meta.method.java punctuation.section.block.begin.java
+  public void someMethod() {
 
-    foo.forEach((k, v) -> {
-//                     ^ storage.type.function.anonymous.java
-//                        ^ punctuation.section.block.begin
-
-      return;
-//    ^^^^^^ keyword.control.flow.return.java
-//          ^ punctuation.terminator
-    });
-//  ^ punctuation.section.block.end.java
-//    ^ punctuation.terminator
-
-    this.foo = new SubClass(new SubClass[0], true);
-//             ^ keyword.other.storage.new.java
-//                 ^ support.class.java
-//                                      ^^^ meta.brackets
-//                                           ^ constant.language.boolean.java
 /* We can't support this yet.*/
     some.other.path.
 /*  ^^^^^^^^^^^^^^^^ support.class.java */
@@ -8344,21 +8410,13 @@ class MiscIncompleteTests {
         .foo.MyClass.staticMethod(true);
 /*      ^^^^^^^^^^^^ support.class.java */
 
-    @MyAnnotation
-//  ^ meta.annotation.identifier.java punctuation.definition.annotation.java
-//   ^^^^^^^^^^^^ meta.annotation.identifier.java variable.annotation.java
-    int foo;
   }
 //^ meta.method.java punctuation.section.block.end.java
-}}
+}
 // <- meta.class.java punctuation.section.block.end.java
- //<- invalid.illegal.stray-brace-end
+
 
 public class Bar {
-  public void missingSemiColon() {
-    boolean foo = foo
-  }
-//^ punctuation.section.block.end.java
 
   private SomeClass methodWithBadParens(
     CombinedServerSpec vendorManagementServerSpec;
@@ -8368,25 +8426,6 @@ public class Bar {
 //                          ^ punctuation.section.block.begin.java
     foo.bar(hello(world);
 //                      ^ invalid.illegal.stray-terminator-end
-  }
-//^ punctuation.section.block.end.java
-
-  public void strayParansInBlock() {
-//                                 ^ punctuation.section.block.begin.java
-    if (hello(world) {
-//                  ^ invalid.illegal
-//                   ^ - meta.group.java
-//                   ^ meta.block.java
-      return false;
-    }
-  }
-
-  public void strayParansInForLoop() {
-//                                   ^ punctuation.section.block.begin.java
-    for (;; {
-//         ^ invalid.illegal
-//          ^ meta.block.java - meta.group.java
-    }
   }
 //^ punctuation.section.block.end.java
 
