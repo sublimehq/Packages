@@ -2501,6 +2501,17 @@ class MethodDelcarationTests {
 //^^^^ storage.type.void.java
 //     ^^^^^^ entity.name.function.java
 
+  void method( ;
+//^^^^^^^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method
+//^^^^^ meta.method.return-type.java
+//     ^^^^^^ meta.method.identifier.java
+//           ^^ meta.method.parameters.java meta.group.java
+//             ^ - meta.method
+//^^^^ storage.type.void.java
+//     ^^^^^^ entity.name.function.java
+//           ^ punctuation.section.group.begin.java
+//             ^ punctuation.terminator.java
+
   void method()
 //^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method
 //^^^^^ meta.method.return-type.java
@@ -2511,6 +2522,19 @@ class MethodDelcarationTests {
 //     ^^^^^^ entity.name.function.java
 //           ^ punctuation.section.group.begin.java
 //            ^ punctuation.section.group.end.java
+
+  void method(foo bar ;
+//^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method
+//^^^^^ meta.method.return-type.java
+//     ^^^^^^ meta.method.identifier.java
+//           ^^^^^^^^^ meta.method.parameters.java meta.group.java
+//                    ^ - meta.method
+//^^^^ storage.type.void.java
+//     ^^^^^^ entity.name.function.java
+//           ^ punctuation.section.group.begin.java
+//            ^^^ support.class.java
+//                ^^^ variable.parameter.java
+//                    ^ punctuation.terminator.java
 
   static void method()
 //^^^^^^^^^^^^^^^^^^^^^ meta.class.java meta.block.java meta.method - meta.method meta.method
@@ -4119,6 +4143,32 @@ class InstanceCreationExpressionsTests {
 //      ^^^^^^^^^ support.class.java
 //                ^ punctuation.terminator.java
 
+    new TestClass(
+//  ^^^^^^^^^^^^^^^ meta.instantiation.java
+//               ^^ meta.group.java
+//  ^^^ keyword.other.storage.new.java
+//      ^^^^^^^^^ support.class.java
+//               ^ punctuation.section.group.begin.java
+
+    new TestClass( ;
+//  ^^^^^^^^^^^^^^^ meta.instantiation.java
+//               ^^ meta.group.java
+//                 ^^ - meta.instantiation - meta.group
+//  ^^^ keyword.other.storage.new.java
+//      ^^^^^^^^^ support.class.java
+//               ^ punctuation.section.group.begin.java
+//                 ^ punctuation.terminator.java
+
+    new TestClass(foo ;
+//  ^^^^^^^^^^^^^^^^^^ meta.instantiation.java
+//               ^^^^^ meta.group.java
+//                    ^^ - meta.instantiation - meta.group
+//  ^^^ keyword.other.storage.new.java
+//      ^^^^^^^^^ support.class.java
+//               ^ punctuation.section.group.begin.java
+//                ^^^ variable.other.readwrite.java
+//                    ^ punctuation.terminator.java
+
     new TestClass(foo);
 //  ^^^^^^^^^^^^^^^^^^ meta.instantiation.java
 //               ^^^^^ meta.group.java
@@ -4128,6 +4178,7 @@ class InstanceCreationExpressionsTests {
 //               ^ punctuation.section.group.begin.java
 //                ^^^ variable.other.readwrite.java
 //                   ^ punctuation.section.group.end.java
+//                    ^ punctuation.terminator.java
 
     new testclass(foo);
 //  ^^^^^^^^^^^^^^^^^^ meta.instantiation.java
@@ -5348,7 +5399,6 @@ class ForStatementTests {
 //     ^ - keyword
 //      ^ punctuation.section.group.begin.java
 //       ^ punctuation.terminator.java
-//        ^ invalid.illegal.stray-terminator-end
 //         ^ punctuation.section.block.begin.java
 //          ^ punctuation.section.block.end.java
 
@@ -5361,7 +5411,6 @@ class ForStatementTests {
 //     ^ - keyword
 //      ^ punctuation.section.group.begin.java
 //       ^^ punctuation.terminator.java
-//         ^ invalid.illegal.stray-terminator-end
 //          ^ punctuation.section.block.begin.java
 //           ^ punctuation.section.block.end.java
 
@@ -5375,7 +5424,6 @@ class ForStatementTests {
 //     ^ - keyword
 //      ^ punctuation.section.group.begin.java
 //       ^^ punctuation.terminator.java
-//         ^^ invalid.illegal.stray-terminator-end
 //           ^ punctuation.section.group.end.java
 //             ^ punctuation.section.block.begin.java
 //              ^^^ punctuation.terminator.java
@@ -5682,7 +5730,6 @@ class IfStatementTests {
 //  ^^ keyword.control.conditional.if.java
 //     ^ punctuation.section.group.begin.java
 //      ^^^ variable.other.readwrite.java
-//         ^ invalid.illegal.stray-terminator-end
 //          ^ punctuation.section.block.begin.java
 //           ^ punctuation.section.block.end.java
 
@@ -5691,7 +5738,6 @@ class IfStatementTests {
 //     ^^^^^^^^^^^^^^ meta.if.java meta.group.java
 //                   ^^^^^^^^^^^^^^^^ meta.if.java meta.block.java
 //                                   ^ - meta.if
-//                  ^ invalid.illegal.stray-terminator-end
 //                   ^ punctuation.section.block.begin.java
 //                     ^^^^^^ keyword.control.flow.return.java
 //                            ^^^^^ constant.language.boolean.java
@@ -5823,7 +5869,6 @@ class SwitchStatementTests {
 //  ^^^^^^ keyword.control.conditional.switch.java
 //         ^ punctuation.section.group.begin.java
 //          ^^^ variable.other.readwrite.java
-//             ^ invalid.illegal.stray-terminator-end
 //              ^ punctuation.section.block.begin.java
 //               ^ punctuation.section.block.end.java
 
@@ -6779,10 +6824,8 @@ class WhileStatementTests {
 //  ^^^^^ keyword.control.loop.while.java
 //        ^ punctuation.section.group.begin.java
 //         ^^^^^ constant.language.boolean.java
-//              ^ invalid.illegal.stray-terminator-end
 //               ^ punctuation.section.block.begin.java
 //                  ^ punctuation.section.block.end.java
-
   }
 }
 
@@ -6930,10 +6973,10 @@ class MethodInvocationExpressionsTests {
 
      foo( ;
 //   ^^^ meta.function-call.identifier.java
-//      ^^^ meta.function-call.arguments.java meta.group.java
+//      ^^ meta.function-call.arguments.java meta.group.java
 //   ^^^ variable.function.java
 //      ^ punctuation.section.group.begin.java
-//        ^ invalid.illegal.stray-terminator-end
+//        ^ punctuation.terminator.java
 
      foo();
 //   ^^^ meta.function-call.identifier.java
@@ -7046,16 +7089,33 @@ class MethodInvocationExpressionsTests {
 //                ^ punctuation.terminator.java
 
      ( foo .bar();
-//   ^^^^^^^^^^^^^ meta.group.java
+//   ^^^^^^^^^^^^ meta.group.java
 //          ^^^ meta.function-call.identifier.java
 //             ^^ meta.function-call.arguments.java
-//               ^ - meta.function-call
+//               ^ - meta.function-call - meta.group
 //         ^ punctuation.accessor.dot.java
 //          ^^^ variable.function.java
 //             ^ punctuation.section.group.begin.java
 //              ^ punctuation.section.group.end.java
-//               ^ invalid.illegal.stray-terminator-end
-    }
+//               ^ punctuation.terminator.java
+
+    foo.bar(hello(world);
+//         ^^^^^^ meta.group.java - meta.group meta.group
+//               ^^^^^^^ meta.group.java meta.group.java
+//      ^^^ meta.function-call.identifier.java - meta.function-call meta.function-call
+//         ^ meta.function-call.arguments.java - meta.function-call meta.function-call
+//          ^^^^^ meta.function-call.arguments.java meta.function-call.identifier.java
+//               ^^^^^^^ meta.function-call.arguments.java meta.function-call.arguments.java
+//                      ^ - meta.function-call - meta.group
+//     ^ punctuation.accessor.dot.java
+//      ^^^ variable.function.java
+//         ^ punctuation.section.group.begin.java
+//          ^^^^^ variable.function.java
+//               ^ punctuation.section.group.begin.java
+//                ^^^^^ variable.other.readwrite.java
+//                     ^ punctuation.section.group.end.java
+//                      ^ punctuation.terminator.java
+  }
 }
 
 
@@ -8412,48 +8472,6 @@ class MiscTests {
 
   }
 //^ meta.method.java punctuation.section.block.end.java
-}
-// <- meta.class.java punctuation.section.block.end.java
-
-
-public class Bar {
-
-  private SomeClass methodWithBadParens(
-    CombinedServerSpec vendorManagementServerSpec;
-//                                               ^ invalid.illegal.missing-parameter-end
-
-  public void strayParans() {
-//                          ^ punctuation.section.block.begin.java
-    foo.bar(hello(world);
-//                      ^ invalid.illegal.stray-terminator-end
-  }
-//^ punctuation.section.block.end.java
-
-  public void strayParansInConstructor() {
-//                                       ^ punctuation.section.block.begin.java
-    return new Foo(;
-//                 ^ invalid.illegal
-  }
-//^ punctuation.section.block.end.java
-
-  private boolean missingSemiColonForStaticAssignment = true
-
-  public void strayParansInConstructor() {
-//^^^^^^ meta.class.java storage.modifier.java
-//            ^ meta.method.identifier.java entity.name.function.java
-//                                       ^ punctuation.section.block.begin.java
-    return;
-  }
-
-  private boolean missingSemiColonForStaticAssignmentPackageProtected = true
-
-  void strayParansInConstructor() {
-//^^^^ storage.type.void.java
-//     ^ meta.method.identifier.java entity.name.function.java
-//                                ^ punctuation.section.block.begin.java
-    return;
-  }
-//^ punctuation.section.block.end.java
 }
 // <- punctuation.section.block.end.java
 

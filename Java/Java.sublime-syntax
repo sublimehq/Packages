@@ -990,9 +990,7 @@ contexts:
         - parameter-variadic
         - maybe-array-modifiers
         - parameter-type
-    - match: \S
-      scope: invalid.illegal.missing-parameter-end
-      pop: 1
+    - include: expression-terminator
 
   method-array-modifiers:
     - match: ''
@@ -1179,24 +1177,20 @@ contexts:
       set: for-parameters-condition
     - include: declarations
     - include: expressions
-    - include: illegal-open-block
-    - match: (?=\))
-      pop: 1
+    - include: expression-terminator
 
   for-parameters-condition:
     - include: punctuation-terminator-semicolon-pop
     - include: expressions
-    - include: illegal-open-block
-    - match: (?=\))
-      pop: 1
+    - include: expression-terminator
 
   for-parameters-update:
     - meta_scope: meta.group.java
     - include: group-end
     - include: expressions
-    - include: illegal-open-block
     - match: ;
       scope: invalid.illegal.stray-terminator-end
+    - include: expression-terminator
 
 ###[ FLOW CONTROL STATEMENTS ]#################################################
 
@@ -1353,7 +1347,7 @@ contexts:
     - include: punctuation-terminator-semicolon
     - include: declarations
     - include: expressions
-    - include: illegal-open-block
+    - include: expression-terminator
 
 ###[ EXPRESSIONS ]#############################################################
 
@@ -1544,7 +1538,7 @@ contexts:
 
   group-body:
     - include: expressions
-    - include: illegal-group-terminator
+    - include: expression-terminator
 
   group-begin:
     - match: \(
@@ -2805,21 +2799,6 @@ contexts:
     - match: \n
       scope: invalid.illegal.unexpected-newline.java
       pop: 1
-
-  illegal-open-block:
-    - match: \s?(?={)
-      scope: invalid.illegal.stray-terminator-end
-      pop: 1
-
-  illegal-semicolon:
-    - match: ;
-      scope: invalid.illegal.stray-terminator-end
-      pop: 1
-
-  illegal-group-terminator:
-    # Pops the stack if anything matches
-    - include: illegal-semicolon
-    - include: illegal-open-block
 
   illegal-storage-modifiers:
     - match: '{{storage_modifiers}}\b'
