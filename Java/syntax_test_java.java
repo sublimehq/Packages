@@ -4127,6 +4127,37 @@ class LocalVariableDeclarationTests {
   }
 }
 
+/******************************************************************************
+ * Labeled Statement Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.7
+ *****************************************************************************/
+
+class LabeledStatementTests {
+
+    void run() {
+
+        label:
+//      ^^^^^ entity.name.label.java
+//           ^ punctuation.separator.colon.java
+
+        label: if () {} else {}
+//      ^^^^^ entity.name.label.java
+//           ^ punctuation.separator.colon.java
+//             ^^^^^^^^ meta.if.java
+//                      ^^^^^^^ meta.else.java
+
+        label: run();
+//      ^^^^^ entity.name.label.java
+//           ^ punctuation.separator.colon.java
+//             ^^^^^ meta.function-call
+
+        label: a = b;
+//      ^^^^^ entity.name.label.java
+//           ^ punctuation.separator.colon.java
+    }
+}
+
+
 
 /******************************************************************************
  * If Statement Tests
