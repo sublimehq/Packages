@@ -11,7 +11,9 @@
 		<key>showInIndexedSymbolList</key>
 		<string>1</string>
 		<key>symbolIndexTransformation</key>
-		<string>/[#.]([A-Za-z0-9_~]+)/$1/;</string>
+		<string>
+			s/[#.]([\w_-]+)/$1/;
+		</string>
 	</dict>
 </dict>
 </plist>
