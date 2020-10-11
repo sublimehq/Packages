@@ -3269,27 +3269,6 @@ class MethodDelcarationTests {
 // <- meta.class.java punctuation.section.block.end.java
 
 
-class IncompleteMethodTests {
-
-  int if(true)
-//^^^^^^^^^^^^ - meta.method
-//^^^ storage.type.primitive.java
-//    ^^ - entity
-
-  int class MyClass
-//^^^^^^^^^^^^^^^^^ - meta.method
-//^^^ storage.type.primitive.java
-//    ^^ - entity
-
-  int package dump
-//^^^^^^^^^^^^^^^^ - meta.method
-//^^^ storage.type.primitive.java
-//    ^^ - entity
-
-}
-// <- meta.class.java punctuation.section.block.end.java
-
-
 class ReceiverArgTests {
 
   // Illegal: Top-level constructors can't contain receiver parameters,
@@ -3589,6 +3568,35 @@ class ReceiverArgTests {
 //^ meta.class.java meta.block.java meta.class.java meta.block.java punctuation.section.block.end.java
 }
 //<- meta.class.java meta.block.java punctuation.section.block.end.java
+
+
+/******************************************************************************
+ * Invalid Class Member Fallback Tests
+ *   Things that are not supported by Java but might need to be handled by the
+ *   syntax to prevent highligthing from breaking due to incomplete code blocks.
+ *
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
+ *****************************************************************************/
+
+class InvalidMemberTests {
+
+  int if(true)
+//^^^^^^^^^^^^ - meta.method
+//^^^ storage.type.primitive.java
+//    ^^ - entity
+
+  int class MyClass
+//^^^^^^^^^^^^^^^^^ - meta.method
+//^^^ storage.type.primitive.java
+//    ^^ - entity
+
+  int package dump
+//^^^^^^^^^^^^^^^^ - meta.method
+//^^^ storage.type.primitive.java
+//    ^^ - entity
+
+}
+// <- meta.class.java punctuation.section.block.end.java
 
 
 /******************************************************************************
