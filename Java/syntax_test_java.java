@@ -4126,411 +4126,6 @@ class LocalVariableDeclarationTests {
 
 
 /******************************************************************************
- * Cast Expressions Tests
- * https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.16
- *****************************************************************************/
-
-class CastExpressionsTests {
-
-  void primitiveTypeCastExpression() {
-
-    () foo;
-//  ^^ meta.typecast.java meta.group.java
-//    ^^^^ - meta.typecast - meta.group
-//  ^ punctuation.section.group.begin.java
-//   ^ punctuation.section.group.end.java
-//     ^^^ variable.other.readwrite.java
-
-    (int) foo;
-//  ^^^^^ meta.typecast.java meta.group.java
-//       ^^^^ - meta.typecast - meta.group
-//  ^ punctuation.section.group.begin.java
-//   ^^^ storage.type.primitive.java
-//      ^ punctuation.section.group.end.java
-//        ^^^ variable.other.readwrite.java
-
-    (int) foo[10];
-//  ^^^^^ meta.typecast.java meta.group.java
-//       ^^^^^^^^ - meta.typecast - meta.group
-//        ^^^ meta.variable.identifier.java
-//           ^^^^ meta.variable.item-access.java meta.brackets.java
-//  ^ punctuation.section.group.begin.java
-//   ^^^ storage.type.primitive.java
-//      ^ punctuation.section.group.end.java
-//        ^^^ variable.other.readwrite.java
-
-    (int) foo();
-//  ^^^^^ meta.typecast.java meta.group.java
-//       ^ - meta.function-call - meta.typecast - meta.group
-//        ^^^ meta.function-call.identifier.java
-//           ^^ meta.function-call.arguments.java meta.group.java
-//  ^ punctuation.section.group.begin.java
-//   ^^^ storage.type.primitive.java
-//      ^ punctuation.section.group.end.java
-//        ^^^ variable.function.java
-//           ^ punctuation.section.group.begin.java
-//            ^ punctuation.section.group.end.java
-//             ^ punctuation.terminator.java
-
-    (int) foo -> {return 0};
-//  ^^^^^ meta.typecast.java meta.group.java
-//       ^ - meta.function - meta.typecast - meta.group
-//        ^^^ meta.function.anonymous.parameters.java
-//           ^^^^^^^^^^^^^^ meta.function.anonymous.java
-//  ^ punctuation.section.group.begin.java
-//   ^^^ storage.type.primitive.java
-//      ^ punctuation.section.group.end.java
-//        ^^^ variable.parameter.java
-//            ^^ storage.type.function.anonymous.java
-//               ^ punctuation.section.block.begin.java
-//                ^^^^^^ keyword.control.flow.return.java
-//                       ^ constant.numeric.value.java
-//                        ^ punctuation.section.block.end.java
-//                         ^ punctuation.terminator.java
-
-    (int) this;
-//  ^^^^^ meta.typecast.java meta.group.java
-//       ^^^^^ - meta.typecast - meta.group
-//  ^ punctuation.section.group.begin.java
-//   ^^^ storage.type.primitive.java
-//      ^ punctuation.section.group.end.java
-//        ^^^^ variable.language.java
-//            ^ punctuation.terminator.java
-
-    (int) super.class;
-//  ^^^^^ meta.typecast.java meta.group.java
-//       ^^^^^^^^^^^^ - meta.typecast - meta.group
-//  ^ punctuation.section.group.begin.java
-//   ^^^ storage.type.primitive.java
-//      ^ punctuation.section.group.end.java
-//        ^^^^^ variable.language.java
-//             ^ punctuation.accessor.dot.java
-//              ^^^^^ variable.language.class.java
-//                   ^ punctuation.terminator.java
-
-    (int) TestClass;
-//  ^^^^^ meta.typecast.java meta.group.java
-//       ^^^^^^^^^^ - meta.typecast - meta.group
-//  ^ punctuation.section.group.begin.java
-//   ^^^ storage.type.primitive.java
-//      ^ punctuation.section.group.end.java
-//        ^^^^^^^^^ support.class.java
-//                 ^ punctuation.terminator.java
-
-    (int) new TestClass();
-//  ^^^^^ meta.typecast.java meta.group.java
-//       ^ - meta.typecast - meta.group - meta.instantiation
-//        ^^^^^^^^^^^^^^^ meta.instantiation.java - meta.typecast
-//  ^ punctuation.section.group.begin.java
-//   ^^^ storage.type.primitive.java
-//      ^ punctuation.section.group.end.java
-//        ^^^ keyword.other.storage.new.java
-//            ^^^^^^^^^ support.class.java
-//                     ^ punctuation.section.group.begin.java
-//                      ^ punctuation.section.group.end.java
-//                       ^ punctuation.terminator.java
-
-    (int) (char) (foo + 10);
-//  ^^^^^ meta.typecast.java meta.group.java
-//       ^ - meta.typecast - meta.group
-//        ^^^^^^ meta.typecast.java meta.group.java
-//              ^ - meta.typecast - meta.group
-//               ^^^^^^^^^^ meta.group.java - meta.typecast
-//  ^ punctuation.section.group.begin.java
-//   ^^^ storage.type.primitive.java
-//      ^ punctuation.section.group.end.java
-//        ^ punctuation.section.group.begin.java
-//         ^^^^ storage.type.primitive.java
-//             ^ punctuation.section.group.end.java
-//               ^ punctuation.section.group.begin.java
-//                ^^^ variable.other.readwrite.java
-//                    ^ keyword.operator.arithmetic.java
-//                      ^^ constant.numeric.value.java
-//                        ^ punctuation.section.group.end.java
-
-    (int[]) foo;
-//  ^^^^^^^ meta.typecast.java meta.group.java
-//         ^^^^ - meta.typecast - meta.group
-//  ^ punctuation.section.group.begin.java
-//   ^^^ storage.type.primitive.java
-//      ^^ storage.modifier.array.java
-//        ^ punctuation.section.group.end.java
-//          ^^^ variable.other.readwrite.java
-
-    (int[]) ! foo;
-//  ^^^^^^^ meta.typecast.java meta.group.java
-//         ^^^^^^ - meta.typecast - meta.group
-//  ^ punctuation.section.group.begin.java
-//   ^^^ storage.type.primitive.java
-//      ^^ storage.modifier.array.java
-//        ^ punctuation.section.group.end.java
-//          ^ keyword.operator.logical.java
-//            ^^^ variable.other.readwrite.java
-
-    (int[]) ~ foo;
-//  ^^^^^^^ meta.typecast.java meta.group.java
-//         ^^^^^^ - meta.typecast - meta.group
-//  ^ punctuation.section.group.begin.java
-//   ^^^ storage.type.primitive.java
-//      ^^ storage.modifier.array.java
-//        ^ punctuation.section.group.end.java
-//          ^ keyword.operator.bitwise.java
-//            ^^^ variable.other.readwrite.java
-
-    (var) foo;
-//  ^^^^^ meta.typecast.java meta.group.java
-//       ^^^^ - meta.typecast - meta.group
-//  ^ punctuation.section.group.begin.java
-//   ^^^ invalid.illegal.unexpected-keyword.java
-//      ^ punctuation.section.group.end.java
-//        ^^^ variable.other.readwrite.java
-  }
-
-  void classTypeCastExpression() {
-
-    (TestClass) foo;
-//  ^^^^^^^^^^^ meta.typecast.java meta.group.java
-//             ^^^^ - meta.typecast - meta.group
-//  ^ punctuation.section.group.begin.java
-//   ^^^^^^^^^ support.class.java
-//            ^ punctuation.section.group.end.java
-//              ^^^ variable.other.readwrite.java
-
-    (TestClass[]) foo;
-//  ^^^^^^^^^^^^^ meta.typecast.java meta.group.java
-//               ^^^^ - meta.typecast - meta.group
-//  ^ punctuation.section.group.begin.java
-//   ^^^^^^^^^ support.class.java
-//            ^^ storage.modifier.array.java
-//              ^ punctuation.section.group.end.java
-//                ^^^ variable.other.readwrite.java
-
-    (testclass) foo;
-//  ^^^^^^^^^^^ meta.typecast.java meta.group.java
-//             ^^^^ - meta.typecast - meta.group
-//  ^ punctuation.section.group.begin.java
-//   ^^^^^^^^^ support.class.java
-//            ^ punctuation.section.group.end.java
-//              ^^^ variable.other.readwrite.java
-
-    (testclass[]) foo;
-//  ^^^^^^^^^^^^^ meta.typecast.java meta.group.java
-//               ^^^^ - meta.typecast - meta.group
-//  ^ punctuation.section.group.begin.java
-//   ^^^^^^^^^ support.class.java
-//            ^^ storage.modifier.array.java
-//              ^ punctuation.section.group.end.java
-//                ^^^ variable.other.readwrite.java
-
-    (TestClass & OtherClass) foo;
-//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.typecast.java meta.group.java
-//                          ^^^^ - meta.typecast - meta.group
-//  ^ punctuation.section.group.begin.java
-//   ^^^^^^^^^ support.class.java
-//             ^ keyword.operator.multiple-bounds.java
-//               ^^^^^^^^^^ support.class.java
-//                         ^ punctuation.section.group.end.java
-//                           ^^^ variable.other.readwrite.java
-
-    (testclass & otherclass) foo;
-//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.typecast.java meta.group.java
-//                          ^^^^ - meta.typecast - meta.group
-//  ^ punctuation.section.group.begin.java
-//   ^^^^^^^^^ support.class.java
-//             ^ keyword.operator.multiple-bounds.java
-//               ^^^^^^^^^^ support.class.java
-//                         ^ punctuation.section.group.end.java
-//                           ^^^ variable.other.readwrite.java
-
-    (@anno testclass & @anno otherclass) foo;
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.typecast.java meta.group.java
-//                                      ^^^^ - meta.typecast - meta.group
-//  ^ punctuation.section.group.begin.java
-//   ^^^^^ meta.annotation.identifier.java
-//         ^^^^^^^^^ support.class.java
-//                   ^ keyword.operator.multiple-bounds.java
-//                     ^^^^^ meta.annotation.identifier.java
-//                           ^^^^^^^^^^ support.class.java
-//                                     ^ punctuation.section.group.end.java
-//                                       ^^^ variable.other.readwrite.java
-  }
-
-  void genericTypeCastExpression() {
-
-    (a < b) foo;
-//  ^^^^^^^ meta.group.java
-//  ^ punctuation.section.group.begin.java
-//   ^ support.class.java
-//     ^ punctuation.definition.generic.begin.java
-//       ^ support.class.java
-//        ^ punctuation.section.group.end.java
-//          ^^^ variable.other.readwrite.java
-
-    (a < b) ~ foo;
-//  ^^^^^^^ meta.group.java
-//  ^ punctuation.section.group.begin.java
-//   ^ support.class.java
-//     ^ punctuation.definition.generic.begin.java
-//       ^ support.class.java
-//        ^ punctuation.section.group.end.java
-//          ^ keyword.operator.bitwise.java
-//            ^^^ variable.other.readwrite.java
-
-    (List<T>) foo;
-//  ^^^^^ meta.typecast.java meta.group.java - meta.generic
-//       ^^^ meta.typecast.java meta.group.java meta.generic.java
-//          ^ meta.typecast.java meta.group.java - meta.generic
-//           ^^^^ - meta.typecast - meta.group
-//  ^ punctuation.section.group.begin.java
-//   ^^^^ support.class.java
-//       ^ punctuation.definition.generic.begin.java
-//        ^ support.class.java
-//         ^ punctuation.definition.generic.end.java
-//          ^ punctuation.section.group.end.java
-//            ^^^ variable.other.readwrite.java
-
-    (List<T>[]) foo;
-//  ^^^^^ meta.typecast.java meta.group.java - meta.generic
-//       ^^^ meta.typecast.java meta.group.java meta.generic.java
-//          ^^^ meta.typecast.java meta.group.java - meta.generic
-//             ^^^^ - meta.typecast - meta.group
-//  ^ punctuation.section.group.begin.java
-//   ^^^^ support.class.java
-//       ^ punctuation.definition.generic.begin.java
-//        ^ support.class.java
-//         ^ punctuation.definition.generic.end.java
-//          ^^ storage.modifier.array.java
-//            ^ punctuation.section.group.end.java
-//              ^^^ variable.other.readwrite.java
-
-    (list<t>) foo;
-//  ^^^^^ meta.typecast.java meta.group.java - meta.generic
-//       ^^^ meta.typecast.java meta.group.java meta.generic.java
-//          ^ meta.typecast.java meta.group.java - meta.generic
-//           ^^^^ - meta.typecast - meta.group
-//  ^ punctuation.section.group.begin.java
-//   ^^^^ support.class.java
-//       ^ punctuation.definition.generic.begin.java
-//        ^ support.class.java
-//         ^ punctuation.definition.generic.end.java
-//          ^ punctuation.section.group.end.java
-//            ^^^ variable.other.readwrite.java
-
-    (list<t>[]) foo;
-//  ^^^^^ meta.typecast.java meta.group.java - meta.generic
-//       ^^^ meta.typecast.java meta.group.java meta.generic.java
-//          ^^^ meta.typecast.java meta.group.java - meta.generic
-//             ^^^^ - meta.typecast - meta.group
-//  ^ punctuation.section.group.begin.java
-//   ^^^^ support.class.java
-//       ^ punctuation.definition.generic.begin.java
-//        ^ support.class.java
-//         ^ punctuation.definition.generic.end.java
-//          ^^ storage.modifier.array.java
-//            ^ punctuation.section.group.end.java
-//              ^^^ variable.other.readwrite.java
-
-    (list<t>[] & OtherList<T> & None) foo;
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.typecast.java meta.group.java
-//  ^ punctuation.section.group.begin.java
-//   ^^^^ support.class.java
-//       ^ punctuation.definition.generic.begin.java
-//        ^ support.class.java
-//         ^ punctuation.definition.generic.end.java
-//          ^^ storage.modifier.array.java
-//             ^ keyword.operator.multiple-bounds.java
-//               ^^^^^^^^^ support.class.java
-//                        ^ punctuation.definition.generic.begin.java
-//                         ^ support.class.java
-//                          ^ punctuation.definition.generic.end.java
-//                            ^ keyword.operator.multiple-bounds.java
-//                              ^^^^ support.class.java
-//                                  ^ punctuation.section.group.end.java
-//                                    ^^^ variable.other.readwrite.java
-
-    (<T>) foo;
-//  ^ meta.typecast.java meta.group.java - meta.generic
-//   ^^^ meta.typecast.java meta.group.java meta.generic.java
-//      ^ meta.typecast.java meta.group.java - meta.generic
-//       ^^^^ - meta.typecast - meta.group
-//  ^ punctuation.section.group.begin.java
-//   ^ punctuation.definition.generic.begin.java
-//    ^ support.class.java
-//     ^ punctuation.definition.generic.end.java
-//      ^ punctuation.section.group.end.java
-//        ^^^ variable.other.readwrite.java
-
-    (<T>[]) foo;
-//  ^ meta.typecast.java meta.group.java - meta.generic
-//   ^^^ meta.typecast.java meta.group.java meta.generic.java
-//      ^^^ meta.typecast.java meta.group.java - meta.generic
-//         ^^^^ - meta.typecast - meta.group
-//  ^ punctuation.section.group.begin.java
-//   ^ punctuation.definition.generic.begin.java
-//    ^ support.class.java
-//     ^ punctuation.definition.generic.end.java
-//      ^^ storage.modifier.array.java
-//        ^ punctuation.section.group.end.java
-//          ^^^ variable.other.readwrite.java
-
-    (<t>) foo;
-//  ^ meta.typecast.java meta.group.java - meta.generic
-//   ^^^ meta.typecast.java meta.group.java meta.generic.java
-//      ^ meta.typecast.java meta.group.java - meta.generic
-//       ^^^^ - meta.typecast - meta.group
-//  ^ punctuation.section.group.begin.java
-//   ^ punctuation.definition.generic.begin.java
-//    ^ support.class.java
-//     ^ punctuation.definition.generic.end.java
-//      ^ punctuation.section.group.end.java
-//        ^^^ variable.other.readwrite.java
-
-    (<t>[]) foo;
-//  ^ meta.typecast.java meta.group.java - meta.generic
-//   ^^^ meta.typecast.java meta.group.java meta.generic.java
-//      ^^^ meta.typecast.java meta.group.java - meta.generic
-//         ^^^^ - meta.typecast - meta.group
-//  ^ punctuation.section.group.begin.java
-//   ^ punctuation.definition.generic.begin.java
-//    ^ support.class.java
-//     ^ punctuation.definition.generic.end.java
-//      ^^ storage.modifier.array.java
-//        ^ punctuation.section.group.end.java
-//          ^^^ variable.other.readwrite.java
-  }
-
-  void noCastExpressionsTests() {
-
-    (a + b) foo;
-//  ^^^^^^^ meta.group.java
-//  ^ punctuation.section.group.begin.java
-//   ^ variable.other.readwrite.java
-//     ^ keyword.operator.arithmetic.java
-//       ^ variable.other.readwrite.java
-//        ^ punctuation.section.group.end.java
-//          ^^^ variable.other.readwrite.java
-
-    (a < b) & foo;
-//  ^^^^^^^ meta.group.java
-//  ^ punctuation.section.group.begin.java
-//   ^ variable.other.readwrite.java
-//     ^ keyword.operator.comparison.java
-//       ^ variable.other.readwrite.java
-//        ^ punctuation.section.group.end.java
-//          ^ keyword.operator.bitwise.java
-//            ^^^ variable.other.readwrite.java
-
-    (0) foo;
-//  ^^^ meta.group.java
-//  ^ punctuation.section.group.begin.java
-//   ^ constant.numeric.value.java
-//    ^ punctuation.section.group.end.java
-//      ^^^ variable.other.readwrite.java
-  }
-}
-
-
-/******************************************************************************
  * If Statement Tests
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.9
  *****************************************************************************/
@@ -7178,6 +6773,411 @@ class MethodReferenceExpressionsTests {
 //     ^^ storage.modifier.array.java
 //       ^^ punctuation.accessor.double-colon.java
 //         ^^^ keyword.other.storage.new.java
+  }
+}
+
+
+/******************************************************************************
+ * Cast Expressions Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.16
+ *****************************************************************************/
+
+class CastExpressionsTests {
+
+  void primitiveTypeCastExpression() {
+
+    () foo;
+//  ^^ meta.typecast.java meta.group.java
+//    ^^^^ - meta.typecast - meta.group
+//  ^ punctuation.section.group.begin.java
+//   ^ punctuation.section.group.end.java
+//     ^^^ variable.other.readwrite.java
+
+    (int) foo;
+//  ^^^^^ meta.typecast.java meta.group.java
+//       ^^^^ - meta.typecast - meta.group
+//  ^ punctuation.section.group.begin.java
+//   ^^^ storage.type.primitive.java
+//      ^ punctuation.section.group.end.java
+//        ^^^ variable.other.readwrite.java
+
+    (int) foo[10];
+//  ^^^^^ meta.typecast.java meta.group.java
+//       ^^^^^^^^ - meta.typecast - meta.group
+//        ^^^ meta.variable.identifier.java
+//           ^^^^ meta.variable.item-access.java meta.brackets.java
+//  ^ punctuation.section.group.begin.java
+//   ^^^ storage.type.primitive.java
+//      ^ punctuation.section.group.end.java
+//        ^^^ variable.other.readwrite.java
+
+    (int) foo();
+//  ^^^^^ meta.typecast.java meta.group.java
+//       ^ - meta.function-call - meta.typecast - meta.group
+//        ^^^ meta.function-call.identifier.java
+//           ^^ meta.function-call.arguments.java meta.group.java
+//  ^ punctuation.section.group.begin.java
+//   ^^^ storage.type.primitive.java
+//      ^ punctuation.section.group.end.java
+//        ^^^ variable.function.java
+//           ^ punctuation.section.group.begin.java
+//            ^ punctuation.section.group.end.java
+//             ^ punctuation.terminator.java
+
+    (int) foo -> {return 0};
+//  ^^^^^ meta.typecast.java meta.group.java
+//       ^ - meta.function - meta.typecast - meta.group
+//        ^^^ meta.function.anonymous.parameters.java
+//           ^^^^^^^^^^^^^^ meta.function.anonymous.java
+//  ^ punctuation.section.group.begin.java
+//   ^^^ storage.type.primitive.java
+//      ^ punctuation.section.group.end.java
+//        ^^^ variable.parameter.java
+//            ^^ storage.type.function.anonymous.java
+//               ^ punctuation.section.block.begin.java
+//                ^^^^^^ keyword.control.flow.return.java
+//                       ^ constant.numeric.value.java
+//                        ^ punctuation.section.block.end.java
+//                         ^ punctuation.terminator.java
+
+    (int) this;
+//  ^^^^^ meta.typecast.java meta.group.java
+//       ^^^^^ - meta.typecast - meta.group
+//  ^ punctuation.section.group.begin.java
+//   ^^^ storage.type.primitive.java
+//      ^ punctuation.section.group.end.java
+//        ^^^^ variable.language.java
+//            ^ punctuation.terminator.java
+
+    (int) super.class;
+//  ^^^^^ meta.typecast.java meta.group.java
+//       ^^^^^^^^^^^^ - meta.typecast - meta.group
+//  ^ punctuation.section.group.begin.java
+//   ^^^ storage.type.primitive.java
+//      ^ punctuation.section.group.end.java
+//        ^^^^^ variable.language.java
+//             ^ punctuation.accessor.dot.java
+//              ^^^^^ variable.language.class.java
+//                   ^ punctuation.terminator.java
+
+    (int) TestClass;
+//  ^^^^^ meta.typecast.java meta.group.java
+//       ^^^^^^^^^^ - meta.typecast - meta.group
+//  ^ punctuation.section.group.begin.java
+//   ^^^ storage.type.primitive.java
+//      ^ punctuation.section.group.end.java
+//        ^^^^^^^^^ support.class.java
+//                 ^ punctuation.terminator.java
+
+    (int) new TestClass();
+//  ^^^^^ meta.typecast.java meta.group.java
+//       ^ - meta.typecast - meta.group - meta.instantiation
+//        ^^^^^^^^^^^^^^^ meta.instantiation.java - meta.typecast
+//  ^ punctuation.section.group.begin.java
+//   ^^^ storage.type.primitive.java
+//      ^ punctuation.section.group.end.java
+//        ^^^ keyword.other.storage.new.java
+//            ^^^^^^^^^ support.class.java
+//                     ^ punctuation.section.group.begin.java
+//                      ^ punctuation.section.group.end.java
+//                       ^ punctuation.terminator.java
+
+    (int) (char) (foo + 10);
+//  ^^^^^ meta.typecast.java meta.group.java
+//       ^ - meta.typecast - meta.group
+//        ^^^^^^ meta.typecast.java meta.group.java
+//              ^ - meta.typecast - meta.group
+//               ^^^^^^^^^^ meta.group.java - meta.typecast
+//  ^ punctuation.section.group.begin.java
+//   ^^^ storage.type.primitive.java
+//      ^ punctuation.section.group.end.java
+//        ^ punctuation.section.group.begin.java
+//         ^^^^ storage.type.primitive.java
+//             ^ punctuation.section.group.end.java
+//               ^ punctuation.section.group.begin.java
+//                ^^^ variable.other.readwrite.java
+//                    ^ keyword.operator.arithmetic.java
+//                      ^^ constant.numeric.value.java
+//                        ^ punctuation.section.group.end.java
+
+    (int[]) foo;
+//  ^^^^^^^ meta.typecast.java meta.group.java
+//         ^^^^ - meta.typecast - meta.group
+//  ^ punctuation.section.group.begin.java
+//   ^^^ storage.type.primitive.java
+//      ^^ storage.modifier.array.java
+//        ^ punctuation.section.group.end.java
+//          ^^^ variable.other.readwrite.java
+
+    (int[]) ! foo;
+//  ^^^^^^^ meta.typecast.java meta.group.java
+//         ^^^^^^ - meta.typecast - meta.group
+//  ^ punctuation.section.group.begin.java
+//   ^^^ storage.type.primitive.java
+//      ^^ storage.modifier.array.java
+//        ^ punctuation.section.group.end.java
+//          ^ keyword.operator.logical.java
+//            ^^^ variable.other.readwrite.java
+
+    (int[]) ~ foo;
+//  ^^^^^^^ meta.typecast.java meta.group.java
+//         ^^^^^^ - meta.typecast - meta.group
+//  ^ punctuation.section.group.begin.java
+//   ^^^ storage.type.primitive.java
+//      ^^ storage.modifier.array.java
+//        ^ punctuation.section.group.end.java
+//          ^ keyword.operator.bitwise.java
+//            ^^^ variable.other.readwrite.java
+
+    (var) foo;
+//  ^^^^^ meta.typecast.java meta.group.java
+//       ^^^^ - meta.typecast - meta.group
+//  ^ punctuation.section.group.begin.java
+//   ^^^ invalid.illegal.unexpected-keyword.java
+//      ^ punctuation.section.group.end.java
+//        ^^^ variable.other.readwrite.java
+  }
+
+  void classTypeCastExpression() {
+
+    (TestClass) foo;
+//  ^^^^^^^^^^^ meta.typecast.java meta.group.java
+//             ^^^^ - meta.typecast - meta.group
+//  ^ punctuation.section.group.begin.java
+//   ^^^^^^^^^ support.class.java
+//            ^ punctuation.section.group.end.java
+//              ^^^ variable.other.readwrite.java
+
+    (TestClass[]) foo;
+//  ^^^^^^^^^^^^^ meta.typecast.java meta.group.java
+//               ^^^^ - meta.typecast - meta.group
+//  ^ punctuation.section.group.begin.java
+//   ^^^^^^^^^ support.class.java
+//            ^^ storage.modifier.array.java
+//              ^ punctuation.section.group.end.java
+//                ^^^ variable.other.readwrite.java
+
+    (testclass) foo;
+//  ^^^^^^^^^^^ meta.typecast.java meta.group.java
+//             ^^^^ - meta.typecast - meta.group
+//  ^ punctuation.section.group.begin.java
+//   ^^^^^^^^^ support.class.java
+//            ^ punctuation.section.group.end.java
+//              ^^^ variable.other.readwrite.java
+
+    (testclass[]) foo;
+//  ^^^^^^^^^^^^^ meta.typecast.java meta.group.java
+//               ^^^^ - meta.typecast - meta.group
+//  ^ punctuation.section.group.begin.java
+//   ^^^^^^^^^ support.class.java
+//            ^^ storage.modifier.array.java
+//              ^ punctuation.section.group.end.java
+//                ^^^ variable.other.readwrite.java
+
+    (TestClass & OtherClass) foo;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.typecast.java meta.group.java
+//                          ^^^^ - meta.typecast - meta.group
+//  ^ punctuation.section.group.begin.java
+//   ^^^^^^^^^ support.class.java
+//             ^ keyword.operator.multiple-bounds.java
+//               ^^^^^^^^^^ support.class.java
+//                         ^ punctuation.section.group.end.java
+//                           ^^^ variable.other.readwrite.java
+
+    (testclass & otherclass) foo;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.typecast.java meta.group.java
+//                          ^^^^ - meta.typecast - meta.group
+//  ^ punctuation.section.group.begin.java
+//   ^^^^^^^^^ support.class.java
+//             ^ keyword.operator.multiple-bounds.java
+//               ^^^^^^^^^^ support.class.java
+//                         ^ punctuation.section.group.end.java
+//                           ^^^ variable.other.readwrite.java
+
+    (@anno testclass & @anno otherclass) foo;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.typecast.java meta.group.java
+//                                      ^^^^ - meta.typecast - meta.group
+//  ^ punctuation.section.group.begin.java
+//   ^^^^^ meta.annotation.identifier.java
+//         ^^^^^^^^^ support.class.java
+//                   ^ keyword.operator.multiple-bounds.java
+//                     ^^^^^ meta.annotation.identifier.java
+//                           ^^^^^^^^^^ support.class.java
+//                                     ^ punctuation.section.group.end.java
+//                                       ^^^ variable.other.readwrite.java
+  }
+
+  void genericTypeCastExpression() {
+
+    (a < b) foo;
+//  ^^^^^^^ meta.group.java
+//  ^ punctuation.section.group.begin.java
+//   ^ support.class.java
+//     ^ punctuation.definition.generic.begin.java
+//       ^ support.class.java
+//        ^ punctuation.section.group.end.java
+//          ^^^ variable.other.readwrite.java
+
+    (a < b) ~ foo;
+//  ^^^^^^^ meta.group.java
+//  ^ punctuation.section.group.begin.java
+//   ^ support.class.java
+//     ^ punctuation.definition.generic.begin.java
+//       ^ support.class.java
+//        ^ punctuation.section.group.end.java
+//          ^ keyword.operator.bitwise.java
+//            ^^^ variable.other.readwrite.java
+
+    (List<T>) foo;
+//  ^^^^^ meta.typecast.java meta.group.java - meta.generic
+//       ^^^ meta.typecast.java meta.group.java meta.generic.java
+//          ^ meta.typecast.java meta.group.java - meta.generic
+//           ^^^^ - meta.typecast - meta.group
+//  ^ punctuation.section.group.begin.java
+//   ^^^^ support.class.java
+//       ^ punctuation.definition.generic.begin.java
+//        ^ support.class.java
+//         ^ punctuation.definition.generic.end.java
+//          ^ punctuation.section.group.end.java
+//            ^^^ variable.other.readwrite.java
+
+    (List<T>[]) foo;
+//  ^^^^^ meta.typecast.java meta.group.java - meta.generic
+//       ^^^ meta.typecast.java meta.group.java meta.generic.java
+//          ^^^ meta.typecast.java meta.group.java - meta.generic
+//             ^^^^ - meta.typecast - meta.group
+//  ^ punctuation.section.group.begin.java
+//   ^^^^ support.class.java
+//       ^ punctuation.definition.generic.begin.java
+//        ^ support.class.java
+//         ^ punctuation.definition.generic.end.java
+//          ^^ storage.modifier.array.java
+//            ^ punctuation.section.group.end.java
+//              ^^^ variable.other.readwrite.java
+
+    (list<t>) foo;
+//  ^^^^^ meta.typecast.java meta.group.java - meta.generic
+//       ^^^ meta.typecast.java meta.group.java meta.generic.java
+//          ^ meta.typecast.java meta.group.java - meta.generic
+//           ^^^^ - meta.typecast - meta.group
+//  ^ punctuation.section.group.begin.java
+//   ^^^^ support.class.java
+//       ^ punctuation.definition.generic.begin.java
+//        ^ support.class.java
+//         ^ punctuation.definition.generic.end.java
+//          ^ punctuation.section.group.end.java
+//            ^^^ variable.other.readwrite.java
+
+    (list<t>[]) foo;
+//  ^^^^^ meta.typecast.java meta.group.java - meta.generic
+//       ^^^ meta.typecast.java meta.group.java meta.generic.java
+//          ^^^ meta.typecast.java meta.group.java - meta.generic
+//             ^^^^ - meta.typecast - meta.group
+//  ^ punctuation.section.group.begin.java
+//   ^^^^ support.class.java
+//       ^ punctuation.definition.generic.begin.java
+//        ^ support.class.java
+//         ^ punctuation.definition.generic.end.java
+//          ^^ storage.modifier.array.java
+//            ^ punctuation.section.group.end.java
+//              ^^^ variable.other.readwrite.java
+
+    (list<t>[] & OtherList<T> & None) foo;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.typecast.java meta.group.java
+//  ^ punctuation.section.group.begin.java
+//   ^^^^ support.class.java
+//       ^ punctuation.definition.generic.begin.java
+//        ^ support.class.java
+//         ^ punctuation.definition.generic.end.java
+//          ^^ storage.modifier.array.java
+//             ^ keyword.operator.multiple-bounds.java
+//               ^^^^^^^^^ support.class.java
+//                        ^ punctuation.definition.generic.begin.java
+//                         ^ support.class.java
+//                          ^ punctuation.definition.generic.end.java
+//                            ^ keyword.operator.multiple-bounds.java
+//                              ^^^^ support.class.java
+//                                  ^ punctuation.section.group.end.java
+//                                    ^^^ variable.other.readwrite.java
+
+    (<T>) foo;
+//  ^ meta.typecast.java meta.group.java - meta.generic
+//   ^^^ meta.typecast.java meta.group.java meta.generic.java
+//      ^ meta.typecast.java meta.group.java - meta.generic
+//       ^^^^ - meta.typecast - meta.group
+//  ^ punctuation.section.group.begin.java
+//   ^ punctuation.definition.generic.begin.java
+//    ^ support.class.java
+//     ^ punctuation.definition.generic.end.java
+//      ^ punctuation.section.group.end.java
+//        ^^^ variable.other.readwrite.java
+
+    (<T>[]) foo;
+//  ^ meta.typecast.java meta.group.java - meta.generic
+//   ^^^ meta.typecast.java meta.group.java meta.generic.java
+//      ^^^ meta.typecast.java meta.group.java - meta.generic
+//         ^^^^ - meta.typecast - meta.group
+//  ^ punctuation.section.group.begin.java
+//   ^ punctuation.definition.generic.begin.java
+//    ^ support.class.java
+//     ^ punctuation.definition.generic.end.java
+//      ^^ storage.modifier.array.java
+//        ^ punctuation.section.group.end.java
+//          ^^^ variable.other.readwrite.java
+
+    (<t>) foo;
+//  ^ meta.typecast.java meta.group.java - meta.generic
+//   ^^^ meta.typecast.java meta.group.java meta.generic.java
+//      ^ meta.typecast.java meta.group.java - meta.generic
+//       ^^^^ - meta.typecast - meta.group
+//  ^ punctuation.section.group.begin.java
+//   ^ punctuation.definition.generic.begin.java
+//    ^ support.class.java
+//     ^ punctuation.definition.generic.end.java
+//      ^ punctuation.section.group.end.java
+//        ^^^ variable.other.readwrite.java
+
+    (<t>[]) foo;
+//  ^ meta.typecast.java meta.group.java - meta.generic
+//   ^^^ meta.typecast.java meta.group.java meta.generic.java
+//      ^^^ meta.typecast.java meta.group.java - meta.generic
+//         ^^^^ - meta.typecast - meta.group
+//  ^ punctuation.section.group.begin.java
+//   ^ punctuation.definition.generic.begin.java
+//    ^ support.class.java
+//     ^ punctuation.definition.generic.end.java
+//      ^^ storage.modifier.array.java
+//        ^ punctuation.section.group.end.java
+//          ^^^ variable.other.readwrite.java
+  }
+
+  void noCastExpressionsTests() {
+
+    (a + b) foo;
+//  ^^^^^^^ meta.group.java
+//  ^ punctuation.section.group.begin.java
+//   ^ variable.other.readwrite.java
+//     ^ keyword.operator.arithmetic.java
+//       ^ variable.other.readwrite.java
+//        ^ punctuation.section.group.end.java
+//          ^^^ variable.other.readwrite.java
+
+    (a < b) & foo;
+//  ^^^^^^^ meta.group.java
+//  ^ punctuation.section.group.begin.java
+//   ^ variable.other.readwrite.java
+//     ^ keyword.operator.comparison.java
+//       ^ variable.other.readwrite.java
+//        ^ punctuation.section.group.end.java
+//          ^ keyword.operator.bitwise.java
+//            ^^^ variable.other.readwrite.java
+
+    (0) foo;
+//  ^^^ meta.group.java
+//  ^ punctuation.section.group.begin.java
+//   ^ constant.numeric.value.java
+//    ^ punctuation.section.group.end.java
+//      ^^^ variable.other.readwrite.java
   }
 }
 
