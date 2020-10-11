@@ -8,7 +8,9 @@
 		<key>showInSymbolList</key>
 		<integer>1</integer>
 		<key>symbolTransformation</key>
-		<string>s/^\s*/CSS: /; s/\s+/ /g</string>
+		<string>
+			s/\s+/ /g;	# remove multiple whitespace
+		</string>
 	</dict>
 </dict>
 </plist>
