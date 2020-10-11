@@ -5344,345 +5344,6 @@ class CastExpressionsTests {
 
 
 /******************************************************************************
- * For Statement Tests
- * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.14
- *****************************************************************************/
-
-class ForStatementTests {
-
-  void run() {
-
-    for
-//  ^^^^ meta.for.java
-//  ^^^ keyword.control.loop.for.java
-//     ^ - keyword
-
-    for ()
-//  ^^^^^^ - meta.for meta.for
-//  ^^^^ meta.for.java - meta.group
-//      ^^ meta.for.java meta.group.java
-//  ^^^ keyword.control.loop.for.java
-//     ^ - keyword
-//      ^ punctuation.section.group.begin.java
-//       ^ punctuation.section.group.end.java
-
-    for () {}
-//  ^^^^^^^^^ - meta.for meta.for
-//  ^^^^ meta.for.java - meta.group
-//      ^^ meta.for.java meta.group.java
-//        ^ meta.for.java - meta.block meta.block meta.block
-//         ^^ meta.for.java meta.block.java
-//  ^^^ keyword.control.loop.for.java
-//     ^ - keyword
-//      ^ punctuation.section.group.begin.java
-//       ^ punctuation.section.group.end.java
-//         ^ punctuation.section.block.begin.java
-//          ^ punctuation.section.block.end.java
-
-    for ( {}
-//  ^^^^^^^^ - meta.for meta.for
-//  ^^^^ meta.for.java - meta.group
-//      ^^ meta.for.java meta.group.java
-//        ^^ meta.for.java meta.block.java
-//  ^^^ keyword.control.loop.for.java
-//     ^ - keyword
-//      ^ punctuation.section.group.begin.java
-//        ^ punctuation.section.block.begin.java
-//         ^ punctuation.section.block.end.java
-
-    for (; {}
-//  ^^^^^^^^^ - meta.for meta.for
-//  ^^^^ meta.for.java - meta.group
-//      ^^^ meta.for.java meta.group.java
-//         ^^ meta.for.java meta.block.java
-//  ^^^ keyword.control.loop.for.java
-//     ^ - keyword
-//      ^ punctuation.section.group.begin.java
-//       ^ punctuation.terminator.java
-//         ^ punctuation.section.block.begin.java
-//          ^ punctuation.section.block.end.java
-
-    for (;; {}
-//  ^^^^^^^^^^ - meta.for meta.for
-//  ^^^^ meta.for.java - meta.group
-//      ^^^^ meta.for.java meta.group.java
-//          ^^ meta.for.java meta.block.java
-//  ^^^ keyword.control.loop.for.java
-//     ^ - keyword
-//      ^ punctuation.section.group.begin.java
-//       ^^ punctuation.terminator.java
-//          ^ punctuation.section.block.begin.java
-//           ^ punctuation.section.block.end.java
-
-    for (;;;;) {;;;}
-//  ^^^^^^^^^^ - meta.for meta.for
-//  ^^^^ meta.for.java - meta.group
-//      ^^^^^^ meta.for.java meta.group.java
-//            ^ meta.for.java - meta.block meta.block meta.block
-//             ^^^^^ meta.for.java meta.block.java
-//  ^^^ keyword.control.loop.for.java
-//     ^ - keyword
-//      ^ punctuation.section.group.begin.java
-//       ^^ punctuation.terminator.java
-//           ^ punctuation.section.group.end.java
-//             ^ punctuation.section.block.begin.java
-//              ^^^ punctuation.terminator.java
-//                 ^ punctuation.section.block.end.java
-
-    for (i = 0; i < 10; i += 2) {}
-//  ^^^^ meta.for.java
-//      ^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
-//                             ^ meta.for.java - meta.block meta.block meta.block
-//                              ^^ meta.for.java meta.block.java
-//  ^^^ keyword.control.loop.for.java
-//      ^ punctuation.section.group.begin.java
-//       ^ variable.other.readwrite.java
-//         ^ keyword.operator.assignment.java
-//           ^ meta.number.integer.decimal.java constant.numeric.value.java
-//            ^ punctuation.terminator.java
-//              ^ variable.other.readwrite.java
-//                ^ keyword.operator.comparison.java
-//                  ^^ meta.number.integer.decimal.java constant.numeric.value.java
-//                    ^ punctuation.terminator.java
-//                      ^ variable.other.readwrite.java
-//                        ^^ keyword.operator.assignment.augmented.java
-//                           ^ meta.number.integer.decimal.java constant.numeric.value.java
-//                            ^ punctuation.section.group.end.java
-//                              ^ punctuation.section.block.begin.java
-//                               ^ punctuation.section.block.end.java
-
-    for (i = , =, , 0; < 10 &&; += 2) {}
-//  ^^^^ meta.for.java
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
-//                                   ^ meta.for.java - meta.block meta.block meta.block
-//                                    ^^ meta.for.java meta.block.java
-//  ^^^ keyword.control.loop.for.java
-//      ^ punctuation.section.group.begin.java
-//       ^ variable.other.readwrite.java
-//         ^ keyword.operator.assignment.java
-//           ^ punctuation.separator.comma.java
-//             ^ keyword.operator.assignment.java
-//              ^ punctuation.separator.comma.java
-//                ^ punctuation.separator.comma.java
-//                  ^ constant.numeric.value.java
-//                   ^ punctuation.terminator.java
-//                     ^ keyword.operator.comparison.java
-//                       ^^ constant.numeric.value.java
-//                          ^^ keyword.operator.logical.java
-//                            ^ punctuation.terminator.java
-//                              ^^ keyword.operator.assignment.augmented.java
-//                                 ^ constant.numeric.value.java
-//                                  ^ punctuation.section.group.end.java
-//                                    ^ punctuation.section.block.begin.java
-//                                     ^ punctuation.section.block.end.java
-
-    for (i = 0, j = 0; i < 10 && j < 5; i += 2, ++j) {}
-//  ^^^^ meta.for.java - meta.for meta.for
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java - meta.for meta.for
-//                                                  ^ meta.for.java - meta.block meta.block meta.block
-//                                                   ^^ meta.for.java meta.block.java
-//  ^^^ keyword.control.loop.for.java
-//      ^ punctuation.section.group.begin.java
-//       ^ variable.other.readwrite.java
-//         ^ keyword.operator.assignment.java
-//           ^ meta.number.integer.decimal.java constant.numeric.value.java
-//            ^ punctuation.separator.comma.java
-//              ^ variable.other.readwrite.java
-//                ^ keyword.operator.assignment.java
-//                  ^ meta.number.integer.decimal.java constant.numeric.value.java
-//                   ^ punctuation.terminator.java
-//                     ^ variable.other.readwrite.java
-//                       ^ keyword.operator.comparison.java
-//                         ^^ meta.number.integer.decimal.java constant.numeric.value.java
-//                            ^^ keyword.operator.logical.java
-//                               ^ variable.other.readwrite.java
-//                                 ^ keyword.operator.comparison.java
-//                                   ^ meta.number.integer.decimal.java constant.numeric.value.java
-//                                    ^ punctuation.terminator.java
-//                                      ^ variable.other.readwrite.java
-//                                        ^^ keyword.operator.assignment.augmented.java
-//                                           ^ meta.number.integer.decimal.java constant.numeric.value.java
-//                                                 ^ punctuation.section.group.end.java
-//                                                   ^ punctuation.section.block.begin.java
-
-    for (int i = 0; i < 10; i += 2) {}
-//  ^^^^ meta.for.java
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
-//                                 ^ meta.for.java - meta.block meta.block meta.block
-//                                  ^^ meta.for.java meta.block.java
-//  ^^^ keyword.control.loop.for.java
-//      ^ punctuation.section.group.begin.java
-//       ^^^ storage.type.primitive.java
-//           ^ variable.other.readwrite.java
-//             ^ keyword.operator.assignment.java
-//               ^ meta.number.integer.decimal.java constant.numeric.value.java
-//                ^ punctuation.terminator.java
-//                  ^ variable.other.readwrite.java
-//                    ^ keyword.operator.comparison.java
-//                      ^^ meta.number.integer.decimal.java constant.numeric.value.java
-//                        ^ punctuation.terminator.java
-//                          ^ variable.other.readwrite.java
-//                            ^^ keyword.operator.assignment.augmented.java
-//                               ^ meta.number.integer.decimal.java constant.numeric.value.java
-//                                ^ punctuation.section.group.end.java
-//                                  ^ punctuation.section.block.begin.java
-
-    for (int i = , =, , 0; < 10 &&; += 2) {}
-//  ^^^^ meta.for.java
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
-//                                       ^ meta.for.java - meta.block meta.block meta.block
-//                                        ^^ meta.for.java meta.block.java
-//  ^^^ keyword.control.loop.for.java
-//      ^ punctuation.section.group.begin.java
-//       ^^^ storage.type.primitive.java
-//           ^ variable.other.readwrite.java
-//             ^ keyword.operator.assignment.java
-//               ^ punctuation.separator.comma.java
-//                 ^ keyword.operator.assignment.java
-//                  ^ punctuation.separator.comma.java
-//                    ^ punctuation.separator.comma.java
-//                      ^ constant.numeric.value.java
-//                       ^ punctuation.terminator.java
-//                         ^ keyword.operator.comparison.java
-//                           ^^ constant.numeric.value.java
-//                              ^^ keyword.operator.logical.java
-//                                ^ punctuation.terminator.java
-//                                  ^^ keyword.operator.assignment.augmented.java
-//                                     ^ constant.numeric.value.java
-//                                      ^ punctuation.section.group.end.java
-//                                        ^ punctuation.section.block.begin.java
-//                                         ^ punctuation.section.block.end.java
-
-    for (int i = 0, j = 0; i < 10 && j < 5; i += 2, ++j) {}
-//  ^^^^ meta.for.java - meta.for meta.for
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java - meta.for meta.for
-//                                                      ^ meta.for.java - meta.block meta.block meta.block
-//                                                       ^^ meta.for.java meta.block.java
-//  ^^^ keyword.control.loop.for.java
-//      ^ punctuation.section.group.begin.java
-//       ^^^ storage.type.primitive.java
-//           ^ variable.other.readwrite.java
-//             ^ keyword.operator.assignment.java
-//               ^ meta.number.integer.decimal.java constant.numeric.value.java
-//                ^ punctuation.separator.comma.java
-//                  ^ variable.other.readwrite.java
-//                    ^ keyword.operator.assignment.java
-//                      ^ meta.number.integer.decimal.java constant.numeric.value.java
-//                       ^ punctuation.terminator.java
-//                         ^ variable.other.readwrite.java
-//                           ^ keyword.operator.comparison.java
-//                             ^^ meta.number.integer.decimal.java constant.numeric.value.java
-//                                ^^ keyword.operator.logical.java
-//                                   ^ variable.other.readwrite.java
-//                                     ^ keyword.operator.comparison.java
-//                                       ^ meta.number.integer.decimal.java constant.numeric.value.java
-//                                        ^ punctuation.terminator.java
-//                                          ^ variable.other.readwrite.java
-//                                            ^^ keyword.operator.assignment.augmented.java
-//                                               ^ meta.number.integer.decimal.java constant.numeric.value.java
-//                                                     ^ punctuation.section.group.end.java
-//                                                       ^ punctuation.section.block.begin.java
-
-    for (final int x = 10;;) {}
-//  ^^^^ meta.for.java - meta.for meta.for
-//      ^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java - meta.for meta.for
-//  ^^^ keyword.control.loop.for.java
-//       ^^^^^ storage.modifier.java
-//             ^^^ storage.type.primitive.java
-//                 ^ variable.other.readwrite.java
-//                   ^ keyword.operator.assignment.java
-//                     ^^ meta.number.integer.decimal.java constant.numeric.value.java
-//                       ^^ punctuation.terminator.java
-//                         ^ punctuation.section.group.end.java
-
-    for (native int x = 10;;) {}
-//  ^^^^ meta.for.java - meta.for meta.for
-//      ^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java - meta.for meta.for
-//  ^^^ keyword.control.loop.for.java
-//       ^^^^^^ invalid.illegal.unexpected-keyword.java
-//              ^^^ storage.type.primitive.java
-//                  ^ variable.other.readwrite.java
-//                    ^ keyword.operator.assignment.java
-//                      ^^ meta.number.integer.decimal.java constant.numeric.value.java
-//                        ^^ punctuation.terminator.java
-//                          ^ punctuation.section.group.end.java
-
-    for (var i=0;i<new Test(i).run();i=new Test(i).iter()){}
-//  ^^^^ meta.for.java
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
-//                                                        ^^ meta.for.java meta.block.java
-
-    for (final @Anno Class iter : cond ? new Foo<> : new Bar[]) echo(iter);
-//  ^^^^ meta.for.java
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
-//                                       ^^^^^^^^^^ meta.instantiation.java
-//                                                 ^^ - meta.instantiation
-//                                                   ^^^^^^^^^ meta.instantiation.java
-//                                                              ^^^^^^^^^^ meta.for.java
-//                                                                        ^ - meta.for
-//  ^^^ keyword.control.loop.for.java
-//      ^ punctuation.section.group.begin.java
-//       ^^^^^ storage.modifier.java
-//             ^^^^^ meta.annotation.identifier.java
-//                   ^^^^^ support.class.java
-//                         ^^^^ variable.other.readwrite.java
-//                              ^ keyword.operator.assignment.java
-//                                ^^^^ variable.other.readwrite.java
-//                                     ^ keyword.operator.ternary.java
-//                                       ^^^ keyword.other.storage.new.java
-//                                           ^^^ support.class.java
-//                                              ^^ punctuation.definition.generic.diamond.java
-//                                                 ^ keyword.operator.ternary.java
-//                                                   ^^^ keyword.other.storage.new.java
-//                                                       ^^^ support.class.java
-//                                                          ^ punctuation.section.brackets.begin.java
-//                                                           ^ punctuation.section.brackets.end.java
-//                                                            ^ punctuation.section.group.end.java
-//                                                              ^^^^ variable.function.java
-//                                                                  ^ punctuation.section.group.begin.java
-//                                                                   ^^^^ variable.other.readwrite.java
-//                                                                       ^ punctuation.section.group.end.java
-//                                                                        ^ punctuation.terminator.java
-
-    for (private @Anno var iter : cond ? new Foo<> : new Bar[]) echo(iter);
-//  ^^^^ meta.for.java
-//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
-//                                       ^^^^^^^^^^ meta.instantiation.java
-//                                                 ^^ - meta.instantiation
-//                                                   ^^^^^^^^^ meta.instantiation.java
-//                                                              ^^^^^^^^^^ meta.for.java
-//                                                                        ^ - meta.for
-//  ^^^ keyword.control.loop.for.java
-//      ^ punctuation.section.group.begin.java
-//       ^^^^^^^ invalid.illegal.unexpected-keyword.java
-//               ^^^^^ meta.annotation.identifier.java
-//                     ^^^ storage.type.var.java
-//                         ^^^^ variable.other.readwrite.java
-//                              ^ keyword.operator.assignment.java
-//                                ^^^^ variable.other.readwrite.java
-//                                     ^ keyword.operator.ternary.java
-//                                       ^^^ keyword.other.storage.new.java
-//                                           ^^^ support.class.java
-//                                              ^^ punctuation.definition.generic.diamond.java
-//                                                 ^ keyword.operator.ternary.java
-//                                                   ^^^ keyword.other.storage.new.java
-//                                                       ^^^ support.class.java
-//                                                          ^ punctuation.section.brackets.begin.java
-//                                                           ^ punctuation.section.brackets.end.java
-//                                                            ^ punctuation.section.group.end.java
-//                                                              ^^^^ variable.function.java
-//                                                                  ^ punctuation.section.group.begin.java
-//                                                                   ^^^^ variable.other.readwrite.java
-//                                                                       ^ punctuation.section.group.end.java
-//                                                                        ^ punctuation.terminator.java
-
-  }
-//^ meta.class.java meta.block.java meta.method.java meta.block.java punctuation.section.block.end.java
-}
-//<- meta.class.java meta.block.java punctuation.section.block.end.java
-
-
-/******************************************************************************
  * If Statement Tests
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.9
  *****************************************************************************/
@@ -6172,6 +5833,345 @@ class WhileStatementTests {
 //                  ^ punctuation.section.block.end.java
   }
 }
+
+
+/******************************************************************************
+ * For Statement Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.14
+ *****************************************************************************/
+
+class ForStatementTests {
+
+  void run() {
+
+    for
+//  ^^^^ meta.for.java
+//  ^^^ keyword.control.loop.for.java
+//     ^ - keyword
+
+    for ()
+//  ^^^^^^ - meta.for meta.for
+//  ^^^^ meta.for.java - meta.group
+//      ^^ meta.for.java meta.group.java
+//  ^^^ keyword.control.loop.for.java
+//     ^ - keyword
+//      ^ punctuation.section.group.begin.java
+//       ^ punctuation.section.group.end.java
+
+    for () {}
+//  ^^^^^^^^^ - meta.for meta.for
+//  ^^^^ meta.for.java - meta.group
+//      ^^ meta.for.java meta.group.java
+//        ^ meta.for.java - meta.block meta.block meta.block
+//         ^^ meta.for.java meta.block.java
+//  ^^^ keyword.control.loop.for.java
+//     ^ - keyword
+//      ^ punctuation.section.group.begin.java
+//       ^ punctuation.section.group.end.java
+//         ^ punctuation.section.block.begin.java
+//          ^ punctuation.section.block.end.java
+
+    for ( {}
+//  ^^^^^^^^ - meta.for meta.for
+//  ^^^^ meta.for.java - meta.group
+//      ^^ meta.for.java meta.group.java
+//        ^^ meta.for.java meta.block.java
+//  ^^^ keyword.control.loop.for.java
+//     ^ - keyword
+//      ^ punctuation.section.group.begin.java
+//        ^ punctuation.section.block.begin.java
+//         ^ punctuation.section.block.end.java
+
+    for (; {}
+//  ^^^^^^^^^ - meta.for meta.for
+//  ^^^^ meta.for.java - meta.group
+//      ^^^ meta.for.java meta.group.java
+//         ^^ meta.for.java meta.block.java
+//  ^^^ keyword.control.loop.for.java
+//     ^ - keyword
+//      ^ punctuation.section.group.begin.java
+//       ^ punctuation.terminator.java
+//         ^ punctuation.section.block.begin.java
+//          ^ punctuation.section.block.end.java
+
+    for (;; {}
+//  ^^^^^^^^^^ - meta.for meta.for
+//  ^^^^ meta.for.java - meta.group
+//      ^^^^ meta.for.java meta.group.java
+//          ^^ meta.for.java meta.block.java
+//  ^^^ keyword.control.loop.for.java
+//     ^ - keyword
+//      ^ punctuation.section.group.begin.java
+//       ^^ punctuation.terminator.java
+//          ^ punctuation.section.block.begin.java
+//           ^ punctuation.section.block.end.java
+
+    for (;;;;) {;;;}
+//  ^^^^^^^^^^ - meta.for meta.for
+//  ^^^^ meta.for.java - meta.group
+//      ^^^^^^ meta.for.java meta.group.java
+//            ^ meta.for.java - meta.block meta.block meta.block
+//             ^^^^^ meta.for.java meta.block.java
+//  ^^^ keyword.control.loop.for.java
+//     ^ - keyword
+//      ^ punctuation.section.group.begin.java
+//       ^^ punctuation.terminator.java
+//           ^ punctuation.section.group.end.java
+//             ^ punctuation.section.block.begin.java
+//              ^^^ punctuation.terminator.java
+//                 ^ punctuation.section.block.end.java
+
+    for (i = 0; i < 10; i += 2) {}
+//  ^^^^ meta.for.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
+//                             ^ meta.for.java - meta.block meta.block meta.block
+//                              ^^ meta.for.java meta.block.java
+//  ^^^ keyword.control.loop.for.java
+//      ^ punctuation.section.group.begin.java
+//       ^ variable.other.readwrite.java
+//         ^ keyword.operator.assignment.java
+//           ^ meta.number.integer.decimal.java constant.numeric.value.java
+//            ^ punctuation.terminator.java
+//              ^ variable.other.readwrite.java
+//                ^ keyword.operator.comparison.java
+//                  ^^ meta.number.integer.decimal.java constant.numeric.value.java
+//                    ^ punctuation.terminator.java
+//                      ^ variable.other.readwrite.java
+//                        ^^ keyword.operator.assignment.augmented.java
+//                           ^ meta.number.integer.decimal.java constant.numeric.value.java
+//                            ^ punctuation.section.group.end.java
+//                              ^ punctuation.section.block.begin.java
+//                               ^ punctuation.section.block.end.java
+
+    for (i = , =, , 0; < 10 &&; += 2) {}
+//  ^^^^ meta.for.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
+//                                   ^ meta.for.java - meta.block meta.block meta.block
+//                                    ^^ meta.for.java meta.block.java
+//  ^^^ keyword.control.loop.for.java
+//      ^ punctuation.section.group.begin.java
+//       ^ variable.other.readwrite.java
+//         ^ keyword.operator.assignment.java
+//           ^ punctuation.separator.comma.java
+//             ^ keyword.operator.assignment.java
+//              ^ punctuation.separator.comma.java
+//                ^ punctuation.separator.comma.java
+//                  ^ constant.numeric.value.java
+//                   ^ punctuation.terminator.java
+//                     ^ keyword.operator.comparison.java
+//                       ^^ constant.numeric.value.java
+//                          ^^ keyword.operator.logical.java
+//                            ^ punctuation.terminator.java
+//                              ^^ keyword.operator.assignment.augmented.java
+//                                 ^ constant.numeric.value.java
+//                                  ^ punctuation.section.group.end.java
+//                                    ^ punctuation.section.block.begin.java
+//                                     ^ punctuation.section.block.end.java
+
+    for (i = 0, j = 0; i < 10 && j < 5; i += 2, ++j) {}
+//  ^^^^ meta.for.java - meta.for meta.for
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java - meta.for meta.for
+//                                                  ^ meta.for.java - meta.block meta.block meta.block
+//                                                   ^^ meta.for.java meta.block.java
+//  ^^^ keyword.control.loop.for.java
+//      ^ punctuation.section.group.begin.java
+//       ^ variable.other.readwrite.java
+//         ^ keyword.operator.assignment.java
+//           ^ meta.number.integer.decimal.java constant.numeric.value.java
+//            ^ punctuation.separator.comma.java
+//              ^ variable.other.readwrite.java
+//                ^ keyword.operator.assignment.java
+//                  ^ meta.number.integer.decimal.java constant.numeric.value.java
+//                   ^ punctuation.terminator.java
+//                     ^ variable.other.readwrite.java
+//                       ^ keyword.operator.comparison.java
+//                         ^^ meta.number.integer.decimal.java constant.numeric.value.java
+//                            ^^ keyword.operator.logical.java
+//                               ^ variable.other.readwrite.java
+//                                 ^ keyword.operator.comparison.java
+//                                   ^ meta.number.integer.decimal.java constant.numeric.value.java
+//                                    ^ punctuation.terminator.java
+//                                      ^ variable.other.readwrite.java
+//                                        ^^ keyword.operator.assignment.augmented.java
+//                                           ^ meta.number.integer.decimal.java constant.numeric.value.java
+//                                                 ^ punctuation.section.group.end.java
+//                                                   ^ punctuation.section.block.begin.java
+
+    for (int i = 0; i < 10; i += 2) {}
+//  ^^^^ meta.for.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
+//                                 ^ meta.for.java - meta.block meta.block meta.block
+//                                  ^^ meta.for.java meta.block.java
+//  ^^^ keyword.control.loop.for.java
+//      ^ punctuation.section.group.begin.java
+//       ^^^ storage.type.primitive.java
+//           ^ variable.other.readwrite.java
+//             ^ keyword.operator.assignment.java
+//               ^ meta.number.integer.decimal.java constant.numeric.value.java
+//                ^ punctuation.terminator.java
+//                  ^ variable.other.readwrite.java
+//                    ^ keyword.operator.comparison.java
+//                      ^^ meta.number.integer.decimal.java constant.numeric.value.java
+//                        ^ punctuation.terminator.java
+//                          ^ variable.other.readwrite.java
+//                            ^^ keyword.operator.assignment.augmented.java
+//                               ^ meta.number.integer.decimal.java constant.numeric.value.java
+//                                ^ punctuation.section.group.end.java
+//                                  ^ punctuation.section.block.begin.java
+
+    for (int i = , =, , 0; < 10 &&; += 2) {}
+//  ^^^^ meta.for.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
+//                                       ^ meta.for.java - meta.block meta.block meta.block
+//                                        ^^ meta.for.java meta.block.java
+//  ^^^ keyword.control.loop.for.java
+//      ^ punctuation.section.group.begin.java
+//       ^^^ storage.type.primitive.java
+//           ^ variable.other.readwrite.java
+//             ^ keyword.operator.assignment.java
+//               ^ punctuation.separator.comma.java
+//                 ^ keyword.operator.assignment.java
+//                  ^ punctuation.separator.comma.java
+//                    ^ punctuation.separator.comma.java
+//                      ^ constant.numeric.value.java
+//                       ^ punctuation.terminator.java
+//                         ^ keyword.operator.comparison.java
+//                           ^^ constant.numeric.value.java
+//                              ^^ keyword.operator.logical.java
+//                                ^ punctuation.terminator.java
+//                                  ^^ keyword.operator.assignment.augmented.java
+//                                     ^ constant.numeric.value.java
+//                                      ^ punctuation.section.group.end.java
+//                                        ^ punctuation.section.block.begin.java
+//                                         ^ punctuation.section.block.end.java
+
+    for (int i = 0, j = 0; i < 10 && j < 5; i += 2, ++j) {}
+//  ^^^^ meta.for.java - meta.for meta.for
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java - meta.for meta.for
+//                                                      ^ meta.for.java - meta.block meta.block meta.block
+//                                                       ^^ meta.for.java meta.block.java
+//  ^^^ keyword.control.loop.for.java
+//      ^ punctuation.section.group.begin.java
+//       ^^^ storage.type.primitive.java
+//           ^ variable.other.readwrite.java
+//             ^ keyword.operator.assignment.java
+//               ^ meta.number.integer.decimal.java constant.numeric.value.java
+//                ^ punctuation.separator.comma.java
+//                  ^ variable.other.readwrite.java
+//                    ^ keyword.operator.assignment.java
+//                      ^ meta.number.integer.decimal.java constant.numeric.value.java
+//                       ^ punctuation.terminator.java
+//                         ^ variable.other.readwrite.java
+//                           ^ keyword.operator.comparison.java
+//                             ^^ meta.number.integer.decimal.java constant.numeric.value.java
+//                                ^^ keyword.operator.logical.java
+//                                   ^ variable.other.readwrite.java
+//                                     ^ keyword.operator.comparison.java
+//                                       ^ meta.number.integer.decimal.java constant.numeric.value.java
+//                                        ^ punctuation.terminator.java
+//                                          ^ variable.other.readwrite.java
+//                                            ^^ keyword.operator.assignment.augmented.java
+//                                               ^ meta.number.integer.decimal.java constant.numeric.value.java
+//                                                     ^ punctuation.section.group.end.java
+//                                                       ^ punctuation.section.block.begin.java
+
+    for (final int x = 10;;) {}
+//  ^^^^ meta.for.java - meta.for meta.for
+//      ^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java - meta.for meta.for
+//  ^^^ keyword.control.loop.for.java
+//       ^^^^^ storage.modifier.java
+//             ^^^ storage.type.primitive.java
+//                 ^ variable.other.readwrite.java
+//                   ^ keyword.operator.assignment.java
+//                     ^^ meta.number.integer.decimal.java constant.numeric.value.java
+//                       ^^ punctuation.terminator.java
+//                         ^ punctuation.section.group.end.java
+
+    for (native int x = 10;;) {}
+//  ^^^^ meta.for.java - meta.for meta.for
+//      ^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java - meta.for meta.for
+//  ^^^ keyword.control.loop.for.java
+//       ^^^^^^ invalid.illegal.unexpected-keyword.java
+//              ^^^ storage.type.primitive.java
+//                  ^ variable.other.readwrite.java
+//                    ^ keyword.operator.assignment.java
+//                      ^^ meta.number.integer.decimal.java constant.numeric.value.java
+//                        ^^ punctuation.terminator.java
+//                          ^ punctuation.section.group.end.java
+
+    for (var i=0;i<new Test(i).run();i=new Test(i).iter()){}
+//  ^^^^ meta.for.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
+//                                                        ^^ meta.for.java meta.block.java
+
+    for (final @Anno Class iter : cond ? new Foo<> : new Bar[]) echo(iter);
+//  ^^^^ meta.for.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
+//                                       ^^^^^^^^^^ meta.instantiation.java
+//                                                 ^^ - meta.instantiation
+//                                                   ^^^^^^^^^ meta.instantiation.java
+//                                                              ^^^^^^^^^^ meta.for.java
+//                                                                        ^ - meta.for
+//  ^^^ keyword.control.loop.for.java
+//      ^ punctuation.section.group.begin.java
+//       ^^^^^ storage.modifier.java
+//             ^^^^^ meta.annotation.identifier.java
+//                   ^^^^^ support.class.java
+//                         ^^^^ variable.other.readwrite.java
+//                              ^ keyword.operator.assignment.java
+//                                ^^^^ variable.other.readwrite.java
+//                                     ^ keyword.operator.ternary.java
+//                                       ^^^ keyword.other.storage.new.java
+//                                           ^^^ support.class.java
+//                                              ^^ punctuation.definition.generic.diamond.java
+//                                                 ^ keyword.operator.ternary.java
+//                                                   ^^^ keyword.other.storage.new.java
+//                                                       ^^^ support.class.java
+//                                                          ^ punctuation.section.brackets.begin.java
+//                                                           ^ punctuation.section.brackets.end.java
+//                                                            ^ punctuation.section.group.end.java
+//                                                              ^^^^ variable.function.java
+//                                                                  ^ punctuation.section.group.begin.java
+//                                                                   ^^^^ variable.other.readwrite.java
+//                                                                       ^ punctuation.section.group.end.java
+//                                                                        ^ punctuation.terminator.java
+
+    for (private @Anno var iter : cond ? new Foo<> : new Bar[]) echo(iter);
+//  ^^^^ meta.for.java
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.for.java meta.group.java
+//                                       ^^^^^^^^^^ meta.instantiation.java
+//                                                 ^^ - meta.instantiation
+//                                                   ^^^^^^^^^ meta.instantiation.java
+//                                                              ^^^^^^^^^^ meta.for.java
+//                                                                        ^ - meta.for
+//  ^^^ keyword.control.loop.for.java
+//      ^ punctuation.section.group.begin.java
+//       ^^^^^^^ invalid.illegal.unexpected-keyword.java
+//               ^^^^^ meta.annotation.identifier.java
+//                     ^^^ storage.type.var.java
+//                         ^^^^ variable.other.readwrite.java
+//                              ^ keyword.operator.assignment.java
+//                                ^^^^ variable.other.readwrite.java
+//                                     ^ keyword.operator.ternary.java
+//                                       ^^^ keyword.other.storage.new.java
+//                                           ^^^ support.class.java
+//                                              ^^ punctuation.definition.generic.diamond.java
+//                                                 ^ keyword.operator.ternary.java
+//                                                   ^^^ keyword.other.storage.new.java
+//                                                       ^^^ support.class.java
+//                                                          ^ punctuation.section.brackets.begin.java
+//                                                           ^ punctuation.section.brackets.end.java
+//                                                            ^ punctuation.section.group.end.java
+//                                                              ^^^^ variable.function.java
+//                                                                  ^ punctuation.section.group.begin.java
+//                                                                   ^^^^ variable.other.readwrite.java
+//                                                                       ^ punctuation.section.group.end.java
+//                                                                        ^ punctuation.terminator.java
+
+  }
+//^ meta.class.java meta.block.java meta.method.java meta.block.java punctuation.section.block.end.java
+}
+//<- meta.class.java meta.block.java punctuation.section.block.end.java
 
 
 /******************************************************************************
