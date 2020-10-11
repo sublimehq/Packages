@@ -3601,6 +3601,7 @@ class InvalidMemberTests {
 
 /******************************************************************************
  * Local Variable Declaration Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.4
  *****************************************************************************/
 
 class LocalVariableDeclarationTests {
@@ -4072,12 +4073,6 @@ class LocalVariableDeclarationTests {
     }}
 //  ^^ punctuation.section.block.end.java
   }
-
-
-/******************************************************************************
- * Var Type Tests
- * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.4
- *****************************************************************************/
 
   void declareVarTypes() {
 
