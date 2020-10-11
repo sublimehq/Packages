@@ -2091,7 +2091,7 @@ contexts:
 ###[ ENUM CONSTANT ]###########################################################
 
   enum-constant:
-    - match: (?={{identifier}})
+    - match: (?={{id_first_char}})
       branch_point: enum-constant
       branch:
         - unqualified-enum-constant
@@ -2100,15 +2100,18 @@ contexts:
   unqualified-enum-constant:
     - match: '{{identifier}}'
       scope: constant.other.java
-      set:
-        - match: (?={{accessor_dot}})
-          fail: enum-constant
-        - include: else-pop2
+      set: unqualified-enum-constant-end
+    - include: immediately-pop2
+
+  unqualified-enum-constant-end:
+    - match: (?={{accessor_dot}})
+      fail: enum-constant
+    - include: else-pop2
 
   qualified-enum-constant:
     - meta_content_scope: meta.path.java
     - match: ''
-      branch_point: qualified-constant
+      branch_point: qualified-enum-constant
       branch:
         - qualified-enum-constant-package
         - qualified-enum-constant-class-or-name
@@ -2119,15 +2122,15 @@ contexts:
       set: qualified-enum-constant-package-accessor
     - include: annotations
     - match: (?=\S)
-      fail: qualified-constant
+      fail: qualified-enum-constant
 
   qualified-enum-constant-package-accessor:
     - include: punctuation-accessor-dot-pop
     - match: (?=\S)
-      fail: qualified-constant
+      fail: qualified-enum-constant
 
   qualified-enum-constant-class-or-name:
-    - match: (?={{identifier}})
+    - match: (?={{id_first_char}})
       branch_point: qualified-enum-constant-class-or-name
       branch:
         - qualified-enum-constant-class
@@ -2141,6 +2144,7 @@ contexts:
       set:
         - qualified-enum-constant-class-accessor
         - maybe-type-argument
+    - include: immediately-pop4
 
   qualified-enum-constant-class-accessor:
     - include: punctuation-accessor-dot-pop
@@ -2151,6 +2155,7 @@ contexts:
     - match: '{{identifier}}'
       scope: constant.other.java
       pop: 4
+    - include: immediately-pop4
 
 ###[ ENTITY CLASS ]############################################################
 
