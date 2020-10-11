@@ -6120,6 +6120,61 @@ class SwitchStatementTests {
 
 
 /******************************************************************************
+ * While Statement Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.12
+ *****************************************************************************/
+
+class WhileStatementTests {
+
+  void run() {
+
+    while
+//  ^^^^^^ meta.while.java
+//  ^^^^^ keyword.control.loop.while.java
+
+    while false
+//  ^^^^^^^^^^^^ meta.while.java
+//  ^^^^^ keyword.control.loop.while.java
+//        ^^^^^ constant.language.boolean.java
+
+    while (false)
+//  ^^^^^^^^^^^^^^ - meta.while meta.while
+//  ^^^^^^ meta.while.java - meta.group
+//        ^^^^^^^ meta.while.java meta.group.java
+//               ^ meta.while.java - meta.group
+//  ^^^^^ keyword.control.loop.while.java
+//        ^ punctuation.section.group.begin.java
+//         ^^^^^ constant.language.boolean.java
+//              ^ punctuation.section.group.end.java
+
+    while (false) {  }
+//  ^^^^^^^^^^^^^^^^^^ - meta.while meta.while
+//  ^^^^^^ meta.while.java - meta.group
+//        ^^^^^^^ meta.while.java meta.group.java
+//               ^ meta.while.java - meta.while.java meta.group - meta.while.java meta.block
+//                ^^^^ meta.while.java meta.block.java
+//  ^^^^^ keyword.control.loop.while.java
+//        ^ punctuation.section.group.begin.java
+//         ^^^^^ constant.language.boolean.java
+//              ^ punctuation.section.group.end.java
+//                ^ punctuation.section.block.begin.java
+//                   ^ punctuation.section.block.end.java
+
+    while (false {  }
+//  ^^^^^^^^^^^^^^^^^^ - meta.while meta.while
+//  ^^^^^^ meta.while.java
+//        ^^^^^^^ meta.while.java meta.group.java
+//               ^^^^ meta.while.java meta.block.java
+//  ^^^^^ keyword.control.loop.while.java
+//        ^ punctuation.section.group.begin.java
+//         ^^^^^ constant.language.boolean.java
+//               ^ punctuation.section.block.begin.java
+//                  ^ punctuation.section.block.end.java
+  }
+}
+
+
+/******************************************************************************
  * Break Statement Tests
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.15
  *****************************************************************************/
@@ -6834,61 +6889,6 @@ class TryStatementTests {
     }
 //  ^ meta.try.java meta.block.java punctuation.section.block.end.java
 //   ^ - meta.try
-  }
-}
-
-
-/******************************************************************************
- * While Statement Tests
- * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.12
- *****************************************************************************/
-
-class WhileStatementTests {
-
-  void run() {
-
-    while
-//  ^^^^^^ meta.while.java
-//  ^^^^^ keyword.control.loop.while.java
-
-    while false
-//  ^^^^^^^^^^^^ meta.while.java
-//  ^^^^^ keyword.control.loop.while.java
-//        ^^^^^ constant.language.boolean.java
-
-    while (false)
-//  ^^^^^^^^^^^^^^ - meta.while meta.while
-//  ^^^^^^ meta.while.java - meta.group
-//        ^^^^^^^ meta.while.java meta.group.java
-//               ^ meta.while.java - meta.group
-//  ^^^^^ keyword.control.loop.while.java
-//        ^ punctuation.section.group.begin.java
-//         ^^^^^ constant.language.boolean.java
-//              ^ punctuation.section.group.end.java
-
-    while (false) {  }
-//  ^^^^^^^^^^^^^^^^^^ - meta.while meta.while
-//  ^^^^^^ meta.while.java - meta.group
-//        ^^^^^^^ meta.while.java meta.group.java
-//               ^ meta.while.java - meta.while.java meta.group - meta.while.java meta.block
-//                ^^^^ meta.while.java meta.block.java
-//  ^^^^^ keyword.control.loop.while.java
-//        ^ punctuation.section.group.begin.java
-//         ^^^^^ constant.language.boolean.java
-//              ^ punctuation.section.group.end.java
-//                ^ punctuation.section.block.begin.java
-//                   ^ punctuation.section.block.end.java
-
-    while (false {  }
-//  ^^^^^^^^^^^^^^^^^^ - meta.while meta.while
-//  ^^^^^^ meta.while.java
-//        ^^^^^^^ meta.while.java meta.group.java
-//               ^^^^ meta.while.java meta.block.java
-//  ^^^^^ keyword.control.loop.while.java
-//        ^ punctuation.section.group.begin.java
-//         ^^^^^ constant.language.boolean.java
-//               ^ punctuation.section.block.begin.java
-//                  ^ punctuation.section.block.end.java
   }
 }
 
