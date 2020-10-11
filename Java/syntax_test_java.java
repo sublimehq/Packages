@@ -4298,6 +4298,115 @@ class IfStatementTests {
 
 
 /******************************************************************************
+ * Assert Statement Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.10
+ *****************************************************************************/
+
+class AssertStatementTests {
+
+  void run() {
+
+    assert
+// ^ - meta.assertion
+//  ^^^^^^^ meta.assertion.java
+// ^ - keyword
+//  ^^^^^^ keyword.control.flow.assert.java
+//        ^ - keyword
+
+    assert ;
+// ^^^^^^^^ meta.assertion.java
+//         ^ - meta.assertion
+// ^ - keyword
+//  ^^^^^^ keyword.control.flow.assert.java
+//        ^^ - keyword
+//         ^ punctuation.terminator.java
+
+    assert true;
+// ^ - meta.assertion
+//  ^^^^^^^ meta.assertion.java
+//             ^ - meta.assertion
+// ^ - keyword
+//  ^^^^^^ keyword.control.flow.assert.java
+//        ^ - keyword - constant
+//         ^^^^ constant.language.boolean.java
+//             ^ punctuation.terminator.java
+
+    assert :
+// ^ - meta.assertion
+//  ^^^^^^^^^ meta.assertion.java
+// ^ - keyword
+//  ^^^^^^ keyword.control.flow.assert.java
+//        ^ - keyword - punctuation
+//         ^ punctuation.separator.expressions.java
+
+    assert : ;
+// ^^^^^^^^^^ meta.assertion.java
+//           ^ - meta.assertion
+// ^ - keyword
+//  ^^^^^^ keyword.control.flow.assert.java
+//        ^ - keyword - punctuation
+//         ^ punctuation.separator.expressions.java
+//          ^ - punctuation
+//           ^ punctuation.terminator.java
+
+// Note: Only two expressions are allowed, but we don't care here.
+    assert : : ;
+// ^ - meta.assertion
+//  ^^^^^^^^^^^ meta.assertion.java
+//             ^ - meta.assertion
+// ^ - keyword
+//  ^^^^^^ keyword.control.flow.assert.java
+//        ^ - keyword - punctuation
+//         ^ punctuation.separator.expressions.java
+//          ^ - punctuation
+//           ^ punctuation.separator.expressions.java
+//             ^ punctuation.terminator.java
+
+    assert foo():bar.baz();
+// ^ - meta.assertion
+//  ^^^^^^^^^^^^^^^^^^^^^^ meta.assertion.java
+//                        ^ - meta.assertion
+// ^ - keyword
+//  ^^^^^^ keyword.control.flow.assert.java
+//        ^ - keyword - variable
+//         ^^^ variable.function.java
+//              ^ punctuation.separator.expressions.java
+//               ^^^ variable.other.readwrite.java
+//                  ^ punctuation.accessor.dot.java
+//                   ^^^ variable.function.java
+//                        ^ punctuation.terminator.java
+
+    assert scale > -100 : foo == true;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assertion.java
+//  ^^^^^^ keyword.control.flow.assert.java
+//         ^^^^^ variable.other.readwrite.java
+//               ^ keyword.operator.comparison.java
+//                 ^ keyword.operator.arithmetic.java
+//                  ^^^ constant.numeric.value.java
+//                      ^ punctuation.separator.expressions.java
+//                        ^^^ variable.other.readwrite.java
+//                            ^^ keyword.operator.comparison.java
+//                               ^^^^ constant.language.boolean.java
+//                                   ^ punctuation.terminator.java
+
+    assert int foo=0;
+//  ^^^^^^^ meta.assertion.java
+//         ^^^^^^^^^ meta.declaration.java - meta.assertion
+
+    assert if (true) {}
+//  ^^^^^^^ meta.assertion.java
+//         ^^^^^^^^^^^^ meta.if.java - meta.assertion
+
+    assert while (true) {}
+//  ^^^^^^^ meta.assertion.java
+//         ^^^^^^^^^^^^^^^ meta.while.java - meta.assertion
+
+  }
+//^ meta.class.java meta.block.java meta.method.java meta.block.java punctuation.section.block.end.java
+}
+
+
+/******************************************************************************
  * Switch Statement Tests
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.11
  *****************************************************************************/
@@ -7875,13 +7984,6 @@ public class Foo {
 //                     ^ keyword.operator.ternary.java
 //                       ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                        ^ punctuation.terminator.java
-
-    assert scale > -100 : foo == true;
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assertion.java
-//  ^^^^^^ keyword.control.flow.assert.java
-//               ^ keyword.operator.comparison.java
-//                      ^ punctuation.separator.expressions.java
-//                            ^^ keyword.operator.comparison.java
 
     if (a == false) {}
 //        ^^ keyword.operator.comparison.java
