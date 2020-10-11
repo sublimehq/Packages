@@ -4,6 +4,14 @@
  * Package Declaration Tests
  *****************************************************************************/
 
+package$ ;
+// <- meta.variable.identifier.java variable.other.readwrite.java
+//^^^^^^ meta.variable.identifier.java variable.other.readwrite.java
+
+$package ;
+// <- meta.variable.identifier.java variable.other.readwrite.java
+//^^^^^^ meta.variable.identifier.java variable.other.readwrite.java
+
 package
 // <- meta.namespace.package.java keyword.declaration.namespace.package.java
 //^^^^^^ meta.namespace.package.java - meta.path
@@ -68,9 +76,18 @@ package
 ;
 // <- punctuation.terminator.java
 
+
 /******************************************************************************
  * Import Statement Tests
  *****************************************************************************/
+
+import$ ;
+// <- meta.variable.identifier.java variable.other.readwrite.java
+//^^^^^ meta.variable.identifier.java variable.other.readwrite.java
+
+$import ;
+// <- meta.variable.identifier.java variable.other.readwrite.java
+//^^^^^ meta.variable.identifier.java variable.other.readwrite.java
 
 import
 // <- meta.import.java keyword.control.import.java
@@ -343,6 +360,14 @@ import static a.b.Class.*;
  * Class Declaration Tests
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1
  *****************************************************************************/
+
+class$ ;
+// <- meta.variable.identifier.java variable.other.readwrite.java
+//^^^^ meta.variable.identifier.java variable.other.readwrite.java
+
+$class ;
+// <- meta.variable.identifier.java variable.other.readwrite.java
+//^^^^ meta.variable.identifier.java variable.other.readwrite.java
 
 class
 // <- meta.class.java keyword.declaration.class.java
@@ -1068,6 +1093,14 @@ Bar             // comment
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.9
  *****************************************************************************/
 
+enum$ ;
+// <- meta.variable.identifier.java variable.other.readwrite.java
+//^^^ meta.variable.identifier.java variable.other.readwrite.java
+
+$enum ;
+// <- meta.variable.identifier.java variable.other.readwrite.java
+//^^^ meta.variable.identifier.java variable.other.readwrite.java
+
 enum
 //<- meta.enum.java keyword.declaration.enum.java
 //^^ meta.enum.java keyword.declaration.enum.java
@@ -1450,6 +1483,14 @@ Bar             // comment
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.1
  *****************************************************************************/
 
+interface$ ;
+// <- meta.variable.identifier.java variable.other.readwrite.java
+//^^^^^^^^ meta.variable.identifier.java variable.other.readwrite.java
+
+$interface ;
+// <- meta.variable.identifier.java variable.other.readwrite.java
+//^^^^^^^^ meta.variable.identifier.java variable.other.readwrite.java
+
 interface
 //<- meta.interface.java keyword.declaration.interface.java
 //^^^^^^^ meta.interface.java keyword.declaration.interface.java
@@ -1547,6 +1588,14 @@ Bar             // comment
  * Annotation Declaration Tests
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-9.html#jls-9.6
  *****************************************************************************/
+
+@interface$ ;
+//<- meta.annotation.identifier.java punctuation.definition.annotation.java
+//^^^^^^^^^ meta.annotation.identifier.java variable.annotation.java
+
+@$interface ;
+//<- meta.annotation.identifier.java punctuation.definition.annotation.java
+//^^^^^^^^^ meta.annotation.identifier.java variable.annotation.java
 
 @interface
 //<- meta.interface.java keyword.declaration.interface.java
@@ -4168,6 +4217,12 @@ class IfStatementTests {
 
   void run() {
 
+    if$ ;
+//  ^^^ variable.other.readwrite.java - keyword
+
+    $if ;
+//  ^^^ variable.other.readwrite.java - keyword
+
     if
 //  ^^^ meta.if.java
 //  ^^ keyword.control.conditional.if.java
@@ -4306,6 +4361,15 @@ class AssertStatementTests {
 
   void run() {
 
+    assert0;
+//  ^^^^^^^ variable.other.readwrite.java - keyword
+
+    assert$;
+//  ^^^^^^^ variable.other.readwrite.java - keyword
+
+    $assert;
+//  ^^^^^^^ variable.other.readwrite.java - keyword
+
     assert
 // ^ - meta.assertion
 //  ^^^^^^^ meta.assertion.java
@@ -4415,6 +4479,12 @@ class SwitchStatementTests {
 
   void run() {
 
+    switch$ ;
+//  ^^^^^^^ variable.other.readwrite.java - keyword
+
+    $switch ;
+//  ^^^^^^^ variable.other.readwrite.java - keyword
+
     switch
 //  ^^^^^^^ meta.switch.java
 //  ^^^^^^ keyword.control.conditional.switch.java
@@ -4459,6 +4529,12 @@ class SwitchStatementTests {
 //               ^ punctuation.section.block.end.java
 
     switch (foo%2) {
+
+      case$ ;
+//    ^^^^^ variable.other.readwrite.java - keyword
+
+      $case ;
+//    ^^^^^ variable.other.readwrite.java - keyword
 
       case
 //   ^ meta.switch.java meta.block.java - meta.case
@@ -4697,6 +4773,12 @@ class SwitchStatementTests {
 //            ^ punctuation.separator.expressions.java
 //              ^ punctuation.section.block.begin.java
 //               ^ punctuation.section.block.end.java
+
+      default$ ;
+//    ^^^^^^^^ variable.other.readwrite.java - keyword
+
+      $default ;
+//    ^^^^^^^^ variable.other.readwrite.java - keyword
     }
 //  ^ meta.switch.java meta.block.java punctuation.section.block.end.java
   }
@@ -4713,6 +4795,12 @@ class SwitchStatementTests {
 class WhileStatementTests {
 
   void run() {
+
+    while$ ;
+//  ^^^^^^ variable.other.readwrite.java - keyword
+
+    $while ;
+//  ^^^^^^ variable.other.readwrite.java - keyword
 
     while
 //  ^^^^^^ meta.while.java
@@ -4768,6 +4856,12 @@ class WhileStatementTests {
 class ForStatementTests {
 
   void run() {
+
+    for$ ;
+//  ^^^^ variable.other.readwrite.java - keyword
+
+    $for ;
+//  ^^^^ variable.other.readwrite.java - keyword
 
     for
 //  ^^^^ meta.for.java
@@ -5112,6 +5206,12 @@ class BreakStatementTests {
 //  ^^^^^ entity.name.label.java
 //       ^ punctuation.separator.colon.java
 
+    break$ ;
+//  ^^^^^^ variable.other.readwrite.java - keyword
+
+    $break ;
+//  ^^^^^^ variable.other.readwrite.java - keyword
+
     break
 // ^ - meta.break
 //  ^^^^^^ meta.break.java
@@ -5183,6 +5283,12 @@ class ContinueStatementTests {
 //  ^^^^^ entity.name.label.java
 //       ^ punctuation.separator.colon.java
 
+    continue$ ;
+//  ^^^^^^^^^ variable.other.readwrite.java - keyword
+
+    $continue ;
+//  ^^^^^^^^^ variable.other.readwrite.java - keyword
+
     continue
 // ^ - meta.continue
 //  ^^^^^^^^^ meta.continue.java
@@ -5245,6 +5351,12 @@ class ContinueStatementTests {
 class ReturnStatementTests {
 
   void run() {
+
+    return$ ;
+//  ^^^^^^^ variable.other.readwrite.java - keyword
+
+    $return ;
+//  ^^^^^^^ variable.other.readwrite.java - keyword
 
     return
 // ^ - meta.return - keyword
@@ -5344,6 +5456,12 @@ class ThrowStatementTests {
 
   void run() {
 
+    throw$ ;
+//  ^^^^^^ variable.other.readwrite.java - keyword
+
+    $throw ;
+//  ^^^^^^ variable.other.readwrite.java - keyword
+
     throw
 // ^ - meta.throw - keyword
 //  ^^^^^^ meta.throw.java
@@ -5440,6 +5558,13 @@ class ThrowStatementTests {
 
 class SynchronizedStatementTests {
 
+
+  synchronized$ ;
+//^^^^^^^^^^^^^ meta.field.type.java support.class.java - keyword
+
+  $synchronized ;
+//^^^^^^^^^^^^^ meta.field.type.java support.class.java - keyword
+
   synchronized
 //^^^^^^^^^^^^^ meta.method.modifier.java
 //^^^^^^^^^^^^ storage.modifier.java
@@ -5457,6 +5582,12 @@ class SynchronizedStatementTests {
 //                                    ^ punctuation.section.group.begin.java
 //                                     ^ punctuation.section.group.end.java
 //                                       ^ punctuation.section.block.begin.java
+
+    synchronized$ ;
+//  ^^^^^^^^^^^^^ variable.other.readwrite.java - keyword
+
+    $synchronized ;
+//  ^^^^^^^^^^^^^ variable.other.readwrite.java - keyword
 
     synchronized
 // ^ - meta.synchronized - keyword
@@ -5501,12 +5632,24 @@ class TryStatementTests {
 
   void testTry() {
 
+    try$ ;
+//  ^^^^ variable.other.readwrite.java - keyword
+
+    $try ;
+//  ^^^^ variable.other.readwrite.java - keyword
+
     try
 //  ^^^^ meta.try.java
 //  ^^^ keyword.control.exception.try.java
   }
 
   void testCatch() {
+
+    catch$ ;
+//  ^^^^^^ variable.other.readwrite.java - keyword
+
+    $catch ;
+//  ^^^^^^ variable.other.readwrite.java - keyword
 
     catch
 //  ^^^^^^ meta.catch.java
@@ -5554,6 +5697,12 @@ class TryStatementTests {
   }
 
   void testFinally() {
+
+    finally$ ;
+//  ^^^^^^^^ variable.other.readwrite.java - keyword
+
+    $finally ;
+//  ^^^^^^^^ variable.other.readwrite.java - keyword
 
     finally
 //  ^^^^^^^^ meta.finally.java
@@ -5988,6 +6137,12 @@ class InstanceCreationExpressionsTests {
 
   @SyntaxTest
   public void instantiateClassesObjects() {
+
+    new$ ;
+//  ^^^^ variable.other.readwrite.java - keyword
+
+    $new ;
+//  ^^^^ variable.other.readwrite.java - keyword
 
     new TestClass ;
 //  ^^^^^^^^^^^^^^ meta.instantiation.java
@@ -6943,6 +7098,14 @@ class CastExpressionsTests {
 //   ^^^ storage.type.primitive.java
 //      ^ punctuation.section.group.end.java
 //        ^^^ variable.other.readwrite.java
+
+    (int$) foo;
+//  ^^^^^^ meta.typecast.java meta.group.java
+//        ^^^^ - meta.typecast - meta.group
+//  ^ punctuation.section.group.begin.java
+//   ^^^^ support.class.java
+//       ^ punctuation.section.group.end.java
+//         ^^^ variable.other.readwrite.java
 
     (int) foo[10];
 //  ^^^^^ meta.typecast.java meta.group.java
