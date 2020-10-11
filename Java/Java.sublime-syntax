@@ -179,17 +179,7 @@ contexts:
     # fail: looks like a qualified annotation
     - match: \s*{{accessor_dot}}
       fail: annotation-identifier
-    # success: annotation ends with arguments
-    - match: \s*(?=\()
-      pop: 2
-      set:
-        - annotation-parameters-common
-        - group-begin
-    # consume comments
-    - match: \s*(?=/[/*])
-    # success: annotation ends without arguments
-    - match: (?=\s*\S)
-      pop: 2
+    - include: annotation-parameters
 
   annotation-qualified-identifier:
     - meta_scope: meta.annotation.identifier.java meta.path.java
@@ -203,25 +193,24 @@ contexts:
   annotation-qualified-identifier-path:
     - match: '{{identifier}}'
       scope: variable.annotation.namespace.java
-      push: annotation-qualified-identifier-accessor
-    - match: (?=\S)
-      fail: annotation-qualified-identifier
+      set: annotation-qualified-identifier-accessor
+    - include: immediately-pop2
 
   annotation-qualified-identifier-accessor:
-    - include: punctuation-accessor-dot-pop2
+    - include: punctuation-accessor-dot-pop
     - match: (?=\S)
       fail: annotation-qualified-identifier
 
   annotation-qualified-identifier-name:
     - match: '{{identifier}}'
       scope: variable.annotation.java
-      push: annotation-qualified-parameters
-    - include: else-pop2
+      set: annotation-parameters
+    - include: immediately-pop2
 
-  annotation-qualified-parameters:
+  annotation-parameters:
     # annotation ends with arguments
     - match: \s*(?=\()
-      pop: 3
+      pop: 2
       set:
         - annotation-parameters-common
         - group-begin
@@ -229,7 +218,7 @@ contexts:
     - match: \s*(?=/[/*])
     # annotation ends without arguments
     - match: (?=\s*\S)
-      pop: 3
+      pop: 2
 
   annotation-parameters-common:
     - meta_scope: meta.annotation.parameters.java meta.group.java
@@ -245,7 +234,7 @@ contexts:
     - match: '{{identifier}}'
       scope: variable.parameter.java
       set: annotation-parameter-assignment
-    - match: (?=\S)
+    - match: ''
       fail: annotation-parameter
 
   annotation-parameter-assignment:
