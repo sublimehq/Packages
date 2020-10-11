@@ -1090,6 +1090,8 @@ contexts:
     - match: ':'
       scope: punctuation.separator.expressions.java
       pop: 2
+    - match: (?=[;{}]|{{reserved_words}})
+      pop: 2
     - match: (?=\S)
       fail: case-label
 

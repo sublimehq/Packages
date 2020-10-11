@@ -5972,13 +5972,39 @@ class SwitchStatementTests {
 //                         ^ punctuation.section.group.end.java
 //                           ^ punctuation.separator.expressions.java
 
-      case CONSTANT:
+      case CONSTANT
 //   ^ meta.switch.java meta.block.java - meta.case
 //    ^^^^^^^^^^^^^^ meta.switch.java meta.block.java meta.case.java - meta.path
+//    ^^^^ keyword.control.conditional.case.java
+//         ^^^^^^^^ constant.other.java
+
+      case CONSTANT:
+//   ^^^^^^^^^^^^^^^ meta.switch.java meta.block.java meta.case.java - meta.path
 //                  ^ meta.switch.java meta.block.java - meta.case
 //    ^^^^ keyword.control.conditional.case.java
 //         ^^^^^^^^ constant.other.java
 //                 ^ punctuation.separator.expressions.java
+
+      case constant
+//   ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^^^^^^^^^^^ meta.switch.java meta.block.java meta.case.java - meta.path
+//    ^^^^ keyword.control.conditional.case.java
+//         ^^^^^^^^ constant.other.java
+
+      case constant
+//   ^^^^^^^^^^^^^^^ meta.switch.java meta.block.java meta.case.java - meta.path
+//    ^^^^ keyword.control.conditional.case.java
+//         ^^^^^^^^ constant.other.java
+      { }
+//    ^^^ meta.switch.java meta.block.java meta.block.java
+
+      case constant
+//   ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^^^^^^^^^^^ meta.switch.java meta.block.java meta.case.java - meta.path
+//    ^^^^ keyword.control.conditional.case.java
+//         ^^^^^^^^ constant.other.java
+      ;
+//    ^ meta.switch.java meta.block.java punctuation.terminator.java
 
       case constant:
 //   ^ meta.switch.java meta.block.java - meta.case
@@ -5988,15 +6014,21 @@ class SwitchStatementTests {
 //         ^^^^^^^^ constant.other.java
 //                 ^ punctuation.separator.expressions.java
 
-      case EnumConst:
+      case EnumConst
 //   ^ meta.switch.java meta.block.java - meta.case
 //    ^^^^^^^^^^^^^^^ meta.switch.java meta.block.java meta.case.java - meta.path
+//    ^^^^ keyword.control.conditional.case.java
+//         ^^^^^^^^^ constant.other.java
+
+      case EnumConst:
+//   ^^^^^^^^^^^^^^^^ meta.switch.java meta.block.java meta.case.java - meta.path
 //                   ^ meta.switch.java meta.block.java - meta.case
 //    ^^^^ keyword.control.conditional.case.java
 //         ^^^^^^^^^ constant.other.java
 //                  ^ punctuation.separator.expressions.java
 
       case module.CONSTANT:
+//   ^ meta.switch.java meta.block.java - meta.case
 //    ^^^^^ meta.case.java - meta.path
 //         ^^^^^^^^^^^^^^^  meta.case.java meta.path.java
 //                        ^ meta.case.java - meta.path
@@ -6007,6 +6039,7 @@ class SwitchStatementTests {
 //                        ^ punctuation.separator.expressions.java
 
       case MyClass.CONSTANT:
+//   ^ meta.switch.java meta.block.java - meta.case
 //    ^^^^^ meta.case.java - meta.path
 //         ^^^^^^^^^^^^^^^^  meta.case.java meta.path.java
 //                         ^ meta.case.java - meta.path
@@ -6015,6 +6048,18 @@ class SwitchStatementTests {
 //                ^ punctuation.accessor.dot.java
 //                 ^^^^^^^^ constant.other.java
 //                         ^ punctuation.separator.expressions.java
+
+      case mod.sub.MyClass.EnumConst
+//   ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^^ meta.case.java - meta.path
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^  meta.case.java meta.path.java
+//    ^^^^ keyword.control.conditional.case.java
+//         ^^^ variable.namespace.java
+//            ^ punctuation.accessor.dot.java
+//             ^^^ variable.namespace.java
+//                ^ punctuation.accessor.dot.java
+//                 ^^^^^^^ support.class.java
+//                         ^^^^^^^^^ constant.other.java
 
       case mod.sub.MyClass.EnumConst:
 //    ^^^^^ meta.case.java - meta.path
@@ -6029,7 +6074,23 @@ class SwitchStatementTests {
 //                         ^^^^^^^^^ constant.other.java
 //                                  ^ punctuation.separator.expressions.java
 
+      case mod.sub.myclass.enumconst
+//   ^ meta.switch.java meta.block.java - meta.case
+//    ^^^^^ meta.case.java - meta.path
+//         ^^^^^^^^^^^^^^^^^^^^^^^^^  meta.case.java meta.path.java
+//    ^^^^ keyword.control.conditional.case.java
+//         ^^^ variable.namespace.java
+//            ^ punctuation.accessor.dot.java
+//             ^^^ variable.namespace.java
+//                ^ punctuation.accessor.dot.java
+//                 ^^^^^^^ variable.namespace.java
+//                         ^^^^^^^^^ constant.other.java
+        break
+//      ^^^^^^ meta.switch.java meta.block.java meta.break.java
+//      ^^^^^ keyword.control.flow.break.java
+
       case mod.sub.myclass.enumconst:
+//   ^ meta.switch.java meta.block.java meta.break.java - meta.case
 //    ^^^^^ meta.case.java - meta.path
 //         ^^^^^^^^^^^^^^^^^^^^^^^^^  meta.case.java meta.path.java
 //                                  ^ meta.case.java - meta.path
@@ -6053,7 +6114,9 @@ class SwitchStatementTests {
     }
 //  ^ meta.switch.java meta.block.java punctuation.section.block.end.java
   }
+//^ meta.class.java meta.block.java meta.method.java meta.block.java punctuation.section.block.end.java
 }
+//<- meta.class.java meta.block.java punctuation.section.block.end.java
 
 
 /******************************************************************************
