@@ -1830,7 +1830,7 @@ contexts:
         meta.function-call.identifier.java
         variable.function.java
       set: method-call-arguments
-    - include: else-pop
+    - include: immediately-pop
 
   method-call-arguments:
     - meta_content_scope: meta.function-call.identifier.java
@@ -1849,7 +1849,7 @@ contexts:
         meta.function.anonymous.parameters.java
         variable.parameter.java
       set: lambda-parameter-end
-    - include: else-pop
+    - include: immediately-pop
 
   lambda-parameter-end:
     - meta_content_scope: meta.function.anonymous.java
@@ -1863,7 +1863,7 @@ contexts:
         meta.variable.identifier.java
         variable.other.readwrite.java
       set: variable-maybe-item-access
-    - include: else-pop
+    - include: immediately-pop
 
   variable-maybe-item-access:
     - meta_content_scope: meta.variable.item-access.java
