@@ -75,7 +75,7 @@ variables:
   # Identifiers
   break: (?!{{id_char}})
 
-  identifier: (?!{{reserved_words}}{{break}}){{id}}
+  identifier: (?!{{reserved_words}}[^{{id_char}}]){{id}}
 
   id: (?:{{id_first_char}}{{id_char}}*)
   id_first_char: '[\p{L}_$]'
