@@ -193,6 +193,9 @@ public class TollCalculator
 ///                        ^^^^^ keyword.other
 ///                              ^^^ keyword.operator.new
 ///                                  ^^^^^^^^^^^^^^^^^ support.type
+        not null        => throw new ArgumentException(message: "Not a known vehicle type", paramName: nameof(vehicle)), // https://devblogs.microsoft.com/dotnet/welcome-to-c-9-0/#logical-patterns
+///     ^^^ keyword.operator.logical
+///         ^^^^ constant.language
         null            => throw new ArgumentNullException(nameof(vehicle))
 ///     ^^^^ constant.language
     };
@@ -291,3 +294,7 @@ Point p = new (3, 5);
 ///               ^ constant.numeric.value
 ///                ^ punctuation.section.group.end
 ///                 ^ punctuation.terminator.statement
+
+if (e is not Customer) { }
+///   ^^^^^^ keyword.operator.reflection
+///          ^^^^^^^^ support.type

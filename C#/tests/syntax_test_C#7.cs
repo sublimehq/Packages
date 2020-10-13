@@ -738,18 +738,6 @@ void Test ()
 ///                     ^^^^ variable.function
     place = 9; // replaces 7 with 9 in the array
     Console.WriteLine (array [4]); // prints 9
-
-    // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-statement#example
-    using var socket = new ClientWebSocket();
-/// ^^^^^ keyword.control.using
-///       ^^^ storage.type.variable
-///           ^^^^^^ variable.other
-///                  ^ keyword.operator.assignment
-///                    ^^^ keyword.operator.new
-///                        ^^^^^^^^^^^^^^^ support.type
-///                                       ^ punctuation.section.group.begin
-///                                        ^ punctuation.section.group.end
-///                                         ^ punctuation.terminator.statement
 }
 
 public ref int Find (int number, int[] numbers)
@@ -815,3 +803,11 @@ public class Person // https://stackoverflow.com/a/41974829/4473405
 ///                                                                ^ meta.group punctuation.section.group.end
 ///                                                                 ^ punctuation.terminator.statement
 }
+
+// https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-7#pattern-matching
+if (input is int count)
+/// ^^^^^ variable.other
+///       ^^ keyword.operator.reflection
+///          ^^^ storage.type
+///              ^^^^^ variable.other
+    sum += count;
