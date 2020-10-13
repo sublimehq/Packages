@@ -414,7 +414,7 @@ contexts:
     - include: ts-type-assertion
     - match: '<<'
       scope: keyword.operator.bitwise.js
-      set: expression-begin
+      push: expression-begin
     - match: (?=<)
       branch_point: ts-function-type-arguments
       branch:

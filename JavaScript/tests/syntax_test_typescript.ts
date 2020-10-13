@@ -757,8 +757,12 @@ let x: import ( "foo" ) . Bar ;
 //     ^^^^^ meta.generic
 //          ^^ meta.string string.quoted.other
 
-var foo = 1 << 0;
+var foo = 1 << 0 /x/g;
 //          ^^ keyword.operator.bitwise
+//               ^ keyword.operator.arithmetic
+//                ^ variable.other.readwrite
+//                 ^ keyword.operator.arithmetic
+//                  ^ variable.other.readwrite
 
 if (a < b || c < d) {}
 //    ^ keyword.operator.logical
