@@ -24,8 +24,6 @@ hidden_file_extensions:
   - .bash_profile
   - .bash_variables
   - .bashrc
-  - .ebuild
-  - .eclass
   - .profile
   - .textmate_init
   - .zlogin
@@ -34,6 +32,8 @@ hidden_file_extensions:
   - .zshenv
   - .zshrc
   - PKGBUILD  # https://jlk.fjfi.cvut.cz/arch/manpages/man/PKGBUILD.5
+  - ebuild
+  - eclass
 
 first_line_match: |-
   (?x:

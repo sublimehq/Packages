@@ -756,3 +756,11 @@ let x: import ( "foo" ) . Bar ;
 //  ^^^ variable.other.readwrite
 //     ^^^^^ meta.generic
 //          ^^ meta.string string.quoted.other
+
+var foo = 1 << 0;
+//          ^^ keyword.operator.bitwise
+
+if (a < b || c < d) {}
+//    ^ keyword.operator.logical
+//        ^^ keyword.operator.logical
+//             ^ keyword.operator.logical
