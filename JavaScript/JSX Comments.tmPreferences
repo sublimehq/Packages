@@ -5,7 +5,7 @@
     <key>name</key>
     <string>JSX Comments</string>
     <key>scope</key>
-    <string>source.jsx meta.jsx - source.jsx.embedded.jsx, source.ts meta.jsx - source.ts.embedded.jsx</string>
+    <string>source.jsx meta.jsx - source.jsx.embedded.jsx, source.ts meta.jsx - source.ts.embedded.jsx, source.tsx meta.jsx - source.tsx.embedded.jsx</string>
     <key>settings</key>
     <dict>
         <key>shellVariables</key>
