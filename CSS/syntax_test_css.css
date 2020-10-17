@@ -1,9 +1,29 @@
 /* SYNTAX TEST "Packages/CSS/CSS.sublime-syntax" */
 
+   /**/
+/*^ - comment - punctuation */
+/* ^^ comment.block.css punctuation.definition.comment.begin.css */
+/*   ^^ comment.block.css punctuation.definition.comment.end.css */
+/*     ^ - comment - punctuation */
+   /************/
+/*^ - comment - punctuation */
+/* ^^^^^^^^^^^^ comment.block.css punctuation.definition.comment.begin.css */
+/*             ^^ comment.block.css punctuation.definition.comment.end.css */
+/*               ^ - comment - punctuation */
+
    /* What am I, a comment? */
-/* ^^ punctuation.definition.comment.css */
+/*^ - comment - punctuation */
+/* ^^ punctuation.definition.comment.begin.css */
 /* ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.css */
-/*                          ^^ punctuation.definition.comment.css */
+/*                          ^^ punctuation.definition.comment.end.css */
+/*                            ^ - comment - punctuation */
+
+   /** What am I, a comment? **/
+/*^ - comment - punctuation */
+/* ^^^ punctuation.definition.comment.begin.css */
+/* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.css */
+/*                           ^^^ punctuation.definition.comment.end.css */
+/*                              ^ - comment - punctuation */
 
    /**
     *

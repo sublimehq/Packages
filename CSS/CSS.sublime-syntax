@@ -385,22 +385,33 @@ variables:
 contexts:
 
   main:
-    - include: comment-block
+    - include: comments
     - include: selectors
     - include: at-rules
     - include: property-lists
 
-  comment-block:
-    - match: /\*
-      scope: punctuation.definition.comment.css
-      push:
-        - meta_scope: comment.block.css
-        - match: \*/
-          scope: punctuation.definition.comment.css
-          pop: 1
-        - match: ^\s*(\*)(?!/)
-          captures:
-            1: punctuation.definition.comment.css
+###[ COMMENTS ]################################################################
+
+  comments:
+    # empty block comment
+    - match: (/\*+)(\*/)
+      scope: comment.block.css
+      captures:
+         1: punctuation.definition.comment.begin.css
+         2: punctuation.definition.comment.end.css
+    # normal block comment
+    - match: /\*+
+      scope: punctuation.definition.comment.begin.css
+      push: comments-content
+
+  comments-content:
+    - meta_scope: comment.block.css
+    - match: \*+/
+      scope: punctuation.definition.comment.end.css
+      pop: 1
+    - match: ^\s*(\*)(?!/)
+      captures:
+        1: punctuation.definition.comment.css
 
 ###[ AT RULES ]################################################################
 
@@ -438,7 +449,7 @@ contexts:
         4: entity.other.counter-style-name.css
       push:
         - meta_scope: meta.at-rule.counter-style.css
-        - include: comment-block
+        - include: comments
         - include: rule-list-end
         - include: rule-list
 
@@ -478,7 +489,7 @@ contexts:
         - match: '\}'
           scope: meta.block.css punctuation.definition.block.end.css
           pop: 1
-        - include: comment-block
+        - include: comments
         - include: url-function
         - include: url-prefix-function
         - include: domain-function
@@ -492,7 +503,7 @@ contexts:
         2: punctuation.definition.keyword.css
       push:
         - meta_scope: meta.at-rule.font-face.css
-        - include: comment-block
+        - include: comments
         - include: rule-list-end
         - include: rule-list
 
@@ -576,7 +587,7 @@ contexts:
 
   media-query:
     # Media Types: https://www.w3.org/TR/CSS21/media.html
-    - include: comment-block
+    - include: comments
     - match: \b(?i:all|aural|braille|embossed|handheld|print|projection|screen|speech|tty|tv)\b
       scope: support.constant.media.css
     - match: \b(?i:and|or|not|only)\b
@@ -589,7 +600,7 @@ contexts:
         - match: \)
           scope: punctuation.definition.group.end.css
           pop: 1
-        - include: comment-block
+        - include: comments
         - match: |-
             (?x)
             (
@@ -638,7 +649,7 @@ contexts:
         - include: at-rule-punctuation
         - include: literal-string
         - include: url-function
-        - include: comment-block
+        - include: comments
 
   # @page
   # https://www.w3.org/TR/CSS2/page.html
@@ -651,7 +662,7 @@ contexts:
         4: entity.other.pseudo-class.css
       push:
         - meta_scope: meta.at-rule.page.css
-        - include: comment-block
+        - include: comments
         - include: rule-list-end
         - include: rule-list
 
@@ -717,7 +728,7 @@ contexts:
     - include: rule-list-body
 
   rule-list-body:
-    - include: comment-block
+    - include: comments
     - include: property-identifiers
     - include: property-values
 
@@ -817,7 +828,7 @@ contexts:
     - include: property-value-body
 
   property-value-body:
-    - include: comment-block
+    - include: comments
     - include: comma-delimiter
     - include: vendor-prefix
     - include: builtin-functions
@@ -1425,7 +1436,7 @@ contexts:
           scope: punctuation.definition.group.begin.css
           push:
           - meta_scope: meta.group.css
-          - include: comment-block
+          - include: comments
           - match: '(?=\))'
             pop: 1
           - include: comma-delimiter
@@ -1591,7 +1602,7 @@ contexts:
     - match: '\)'
       scope: punctuation.definition.group.end.css
       set: maybe-illegal-operator
-    - include: comment-block
+    - include: comments
     - include: attr-function
     - include: calc-function
     - include: var-function
