@@ -46,22 +46,22 @@
 
     .classname {}
 /*^^ - meta.selector.css */
-/*  ^^^^^^^^^^^ meta.selector.css */
-/*             ^^ - meta.selector.css */
+/*  ^^^^^^^^^^ meta.selector.css */
+/*            ^^^ - meta.selector.css */
 /*  ^ punctuation.definition.entity.css */
 /*   ^^^^^^^^^ entity.other.attribute-name.class.css */
 
     #id {}
 /*^^ - meta.selector.css */
-/*  ^^^^ meta.selector.css */
-/*      ^^ - meta.selector.css */
+/*  ^^^ meta.selector.css */
+/*     ^^^ - meta.selector.css */
 /*  ^ punctuation.definition.entity.css */
 /*   ^^ entity.other.attribute-name.id.css */
 
     html, h1 {}
 /*^^ - meta.selector.css */
-/*  ^^^^^^^^^ meta.selector.css */
-/*           ^^ - meta.selector.css */
+/*  ^^^^^^^^ meta.selector.css */
+/*          ^^^ - meta.selector.css */
 /*  ^^^^ entity.name.tag.css */
 /*      ^ punctuation.separator.sequence.css */
 /*        ^^ entity.name.tag.css */
@@ -458,8 +458,8 @@
 
 /* Test Functional Pseudo Class Meta Scopes */
 .test:nth-child(even) {}
-/*^^^^^^^^^^^^^^^^^^^^ meta.selector.css */
-/*                    ^ - meta.selector.css */
+/*^^^^^^^^^^^^^^^^^^^ meta.selector.css */
+/*                   ^^ - meta.selector.css */
 /*   ^^^^^^^^^^^^^^^^ meta.function-call.css */
 /*             ^^^^^^ meta.group.css */
 /*             ^ punctuation.definition.group.begin.css */
@@ -500,8 +500,8 @@
 /*              ^^^^ invalid.illegal.numeric.css */
 
 .test-pseudo-classes:nth-child(2):hover {}
-/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css */
-/*                                      ^ - meta.selector.css */
+/*^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css */
+/*                                     ^^ - meta.selector.css */
 /*                   ^^^^^^^^^ entity.other.pseudo-class.css */
 /*                             ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                               ^ punctuation.definition.entity.css */

@@ -59,6 +59,27 @@ variables:
 
   combinators: '(?:>{1,3}|[~+])'
 
+  html_tag_names:  |-
+    \b(?xi:
+        a | abbr | acronym | address | applet | area | article | aside | audio
+      | b | base | basefont | bdi | bdo | big | blockquote | body | br | button
+      | canvas | caption | cite | code | col | colgroup | content | data
+      | datalist | dd | del | details | dfn | dir | dialog | div | dl | dt
+      | element | em | embed | eventsource | fieldset | figure | figcaption
+      | footer | form | frame | frameset | h[1-6] | head | header | hgroup | hr
+      | html | i | iframe | img | input | ins | isindex | kbd | keygen | label
+      | legend | li | link | main | map | mark | menu | meta | meter | nav
+      | noframes | noscript | object | ol | optgroup | option | output | p
+      | param | picture | pre | progress | q | rp | rt | rtc | s | samp | script
+      | section | select | shadow | small | source | span | strike | strong
+      | style | sub | summary | sup | svg | table | tbody | td | template
+      | textarea | tfoot | th | thead | time | title | tr | track | tt | u | ul
+      | var | video | wbr | xmp | circle | clipPath | defs | ellipse | filter
+      | foreignObject | g | glyph | glyphRef | image | line | linearGradient
+      | marker | mask | path | pattern | polygon | polyline | radialGradient
+      | rect | stop | switch | symbol | text | textPath | tref | tspan | use
+    )\b
+
   # Predefined Color Values (Standard Set)
   # https://www.w3.org/TR/CSS22/syndata.html#color-units
   standard_colors: |-
@@ -365,7 +386,7 @@ contexts:
 
   main:
     - include: comment-block
-    - include: selector
+    - include: selectors
     - include: at-rules
     - include: property-list
 
@@ -806,63 +827,171 @@ contexts:
     - match: '{{property_names}}'
       scope: support.type.property-name.css
 
-  selector:
+###[ SELECTORS ]###############################################################
+
+  selectors:
     - match: (?=[:.*#a-zA-Z\[])
+      push: selector-content
+
+  selector-content:
+    - meta_scope: meta.selector.css
+    - match: (?=\s*[/@{)])
+      pop: 1
+    # Custom Elements: http://w3c.github.io/webcomponents/spec/custom/#custom-elements-core-concepts
+    - match: \b([a-z](?:{{custom_element_chars}})*-(?:{{custom_element_chars}})*)\b
+      scope: entity.name.tag.custom.css
+    - match: '{{html_tag_names}}'
+      scope: entity.name.tag.css
+    # https://drafts.csswg.org/selectors-4/#class-html
+    - match: (\.){{ident}}
+      scope: entity.other.attribute-name.class.css
+      captures:
+        1: punctuation.definition.entity.css
+    # https://drafts.csswg.org/selectors-4/#id-selectors
+    - match: (#){{ident}}
+      scope: entity.other.attribute-name.id.css
+      captures:
+        1: punctuation.definition.entity.css
+    - match: \*
+      scope: entity.name.tag.wildcard.css
+    # Combinators
+    # https://drafts.csswg.org/selectors-4/#combinators
+    # https://drafts.csswg.org/css-scoping/#deep-combinator
+    - match: ({{combinators}})(?![>~+])
+      scope: punctuation.separator.combinator.css
+    - match: ({{combinators}}){2,}
+      scope: invalid.illegal.combinator.css
+    - include: pseudo-elements
+    - include: pseudo-classes # pseudo-classes must be included after pseudo-elements
+    - include: attribute-selectors
+    - include: comma-delimiter
+
+  # Attribute Selectors
+  # https://drafts.csswg.org/selectors-4/#attribute-selectors
+  attribute-selectors:
+    - match: \[
+      scope: punctuation.definition.entity.css
+      push: attribute-selector-content
+
+  attribute-selector-content:
+    - meta_scope: meta.attribute-selector.css
+    - match: \]
+      scope: punctuation.definition.entity.css
+      pop: 1
+    # identifiers
+    - include: qualified-name
+    - match: '{{ident}}'
+      scope: entity.other.attribute-name.css
+    # values
+    - match: '[~*|^$]?='
+      scope: keyword.operator.attribute-selector.css
+      push: attribute-selector-value
+    # case insensitive flag
+    - match: \s+([iI])
+      captures:
+        1: keyword.other.css
+
+  attribute-selector-value:
+    - match: '[^\s\]\[''"]'
+      scope: string.unquoted.css
+    - include: literal-string
+    - match: ''
+      pop: 1
+
+  # Pseudo Classes
+  # https://drafts.csswg.org/selectors-4/#pseudo-classes
+  pseudo-classes:
+    # Functional Pseudo Classes
+    # https://drafts.csswg.org/selectors-4/#functional-pseudo-class
+
+    # Functional Pseudo Classes with a single unquoted string
+    - match: (:)(dir|lang)(?=\()
+      scope: entity.other.pseudo-class.css
+      captures:
+        1: punctuation.definition.entity.css
       push:
-        - meta_scope: meta.selector.css
-        - match: "(?=[/@{)])"
-          pop: 1
-          # Custom Elements: http://w3c.github.io/webcomponents/spec/custom/#custom-elements-core-concepts
-        - match: '\b([a-z](?:{{custom_element_chars}})*-(?:{{custom_element_chars}})*)\b'
-          scope: entity.name.tag.custom.css
-        - match: '\b(a|abbr|acronym|address|applet|area|article|aside|audio|b|base|basefont|bdi|bdo|big|blockquote|body|br|button|canvas|caption|cite|code|col|colgroup|content|data|datalist|dd|del|details|dfn|dir|dialog|div|dl|dt|element|em|embed|eventsource|fieldset|figure|figcaption|footer|form|frame|frameset|h[1-6]|head|header|hgroup|hr|html|i|iframe|img|input|ins|isindex|kbd|keygen|label|legend|li|link|main|map|mark|menu|meta|meter|nav|noframes|noscript|object|ol|optgroup|option|output|p|param|picture|pre|progress|q|rp|rt|rtc|s|samp|script|section|select|shadow|small|source|span|strike|strong|style|sub|summary|sup|svg|table|tbody|td|template|textarea|tfoot|th|thead|time|title|tr|track|tt|u|ul|var|video|wbr|xmp|circle|clipPath|defs|ellipse|filter|foreignObject|g|glyph|glyphRef|image|line|linearGradient|marker|mask|path|pattern|polygon|polyline|radialGradient|rect|stop|switch|symbol|text|textPath|tref|tspan|use)\b'
-          scope: entity.name.tag.css
-          # https://drafts.csswg.org/selectors-4/#class-html
-        - match: '(\.){{ident}}'
-          scope: entity.other.attribute-name.class.css
-          captures:
-            1: punctuation.definition.entity.css
-          # https://drafts.csswg.org/selectors-4/#id-selectors
-        - match: "(#){{ident}}"
-          scope: entity.other.attribute-name.id.css
-          captures:
-            1: punctuation.definition.entity.css
-        - match: \*
-          scope: entity.name.tag.wildcard.css
-          # Combinators
-          # https://drafts.csswg.org/selectors-4/#combinators
-          # https://drafts.csswg.org/css-scoping/#deep-combinator
-        - match: '({{combinators}})(?![>~+])'
-          scope: punctuation.separator.combinator.css
-        - match: '({{combinators}}){2,}'
-          scope: invalid.illegal.combinator.css
-        - include: pseudo-elements
-        - include: pseudo-classes # pseudo-classes must be included after pseudo-elements
-        # Attribute Selectors
-        # https://drafts.csswg.org/selectors-4/#attribute-selectors
-        - match: '\['
-          scope: punctuation.definition.entity.css
+        - meta_scope: meta.function-call.css
+        - include: function-notation-terminator
+        - match: \(
+          scope: punctuation.definition.group.begin.css
           push:
-            - meta_scope: meta.attribute-selector.css
-            - include: qualified-name
-            - match: '({{ident}})'
-              scope: entity.other.attribute-name.css
-            - match: '\s*([~*|^$]?=)\s*'
-              captures:
-                1: keyword.operator.attribute-selector.css
-              push:
-                - match: '[^\s\]\[''"]'
-                  scope: string.unquoted.css
-                - include: literal-string
-                - match: '(?=(\s|\]))'
-                  pop: 1
-            - match: '(?:\s+([iI]))?'  # case insensitive flag
-              captures:
-                1: keyword.other.css
-            - match: '\]'
-              scope: punctuation.definition.entity.css
-              pop: 1
-        - include: comma-delimiter
+          - meta_scope: meta.group.css
+          - match: (?=\))
+            pop: 1
+          - include: var-function
+          - include: unquoted-string
+
+    # Functional Pseudo Classes with selector list
+    - match: (:)(matches|not|has)(?=\()
+      scope: entity.other.pseudo-class.css
+      captures:
+        1: punctuation.definition.entity.css
+      push:
+        - meta_scope: meta.function-call.css
+        - include: function-notation-terminator
+        - match: \(
+          scope: punctuation.definition.group.begin.css
+          push:
+          - meta_scope: meta.group.css
+          - match: (?=\))
+            pop: 1
+          - include: selectors
+
+    # Special :drop() pseudo-class
+    - match: (:)(drop)(?=\()
+      scope: entity.other.pseudo-class.css
+      captures:
+        1: punctuation.definition.entity.css
+      push:
+        - meta_scope: meta.function-call.css
+        - include: function-notation-terminator
+        - match: \(
+          scope: punctuation.definition.group.begin.css
+          push:
+          - meta_scope: meta.group.css
+          - match: (?=\))
+            pop: 1
+          - match: \b(active|valid|invalid)\b
+            scope: keyword.other.pseudo-class.css
+          - include: var-function
+
+    # Functional Pseudo Classes with `An+B` param
+    # An+B Notation: https://drafts.csswg.org/css-syntax/#anb
+    # nth-last-child(), nth-child(), nth-last-of-type(), nth-of-type()
+    - match: (:)(nth-last-child|nth-child|nth-last-of-type|nth-of-type)(?=\()
+      scope: entity.other.pseudo-class.css
+      captures:
+        1: punctuation.definition.entity.css
+      push:
+        - meta_scope: meta.function-call.css
+        - include: function-notation-terminator
+        - match: \(
+          scope: punctuation.definition.group.begin.css
+          push:
+          - meta_scope: meta.group.css
+          - match: (?=\))
+            pop: 1
+          - match: \b(even|odd)\b
+            scope: keyword.other.pseudo-class.css
+          - match: (([-+]?)(\d*)(n))\s*(([-+])(\s*\d+))?
+            captures:
+              1: meta.number.integer.decimal.css
+              2: keyword.operator.arithmetic.css
+              3: constant.numeric.value.css
+              4: constant.numeric.suffix.css
+              5: meta.number.integer.decimal.css
+              6: keyword.operator.arithmetic.css
+              7: constant.numeric.value.css
+          - match: '[-+]\s+\d+n?|[-+]?\d+\s+n'
+            scope: invalid.illegal.numeric.css
+          - include: var-function
+          - include: integer-type
+
+    # Regular Pseudo Classes
+    - match: (:)({{ident}})
+      scope: entity.other.pseudo-class.css
+      captures:
+        1: punctuation.definition.entity.css
 
   # Pseudo Elements
   # https://drafts.csswg.org/selectors-4/#pseudo-elements
@@ -878,100 +1007,18 @@ contexts:
         2: punctuation.definition.entity.css
         3: support.type.vendor-prefix.css
 
-  # Pseudo Classes
-  # https://drafts.csswg.org/selectors-4/#pseudo-classes
-  pseudo-classes:
-      # Functional Pseudo Classes
-      # https://drafts.csswg.org/selectors-4/#functional-pseudo-class
-
-      # Functional Pseudo Classes with a single unquoted string
-    - match: '(:)(dir|lang)(?=\()'
-      scope: entity.other.pseudo-class.css
+  # Qualified Name
+  # https://drafts.csswg.org/css-namespaces-3/#css-qnames
+  qualified-name:
+    - match: (?:({{ident}})|(\*))?(\|)(?!=)
       captures:
-        1: punctuation.definition.entity.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: 1
-          - include: var-function
-          - include: unquoted-string
+        1: entity.other.namespace-prefix.css
+        2: entity.name.namespace.wildcard.css
+        3: punctuation.separator.namespace.css
 
-      # Functional Pseudo Classes with selector list
-    - match: '(:)(matches|not|has)(?=\()'
-      scope: entity.other.pseudo-class.css
-      captures:
-        1: punctuation.definition.entity.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: 1
-          - include: selector
-
-      # Special :drop() pseudo-class
-    - match: '(:)(drop)(?=\()'
-      scope: entity.other.pseudo-class.css
-      captures:
-        1: punctuation.definition.entity.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: 1
-          - match: \b(active|valid|invalid)\b
-            scope: keyword.other.pseudo-class.css
-          - include: var-function
-
-      # Functional Pseudo Classes with `An+B` param
-      # An+B Notation: https://drafts.csswg.org/css-syntax/#anb
-      # nth-last-child(), nth-child(), nth-last-of-type(), nth-of-type()
-    - match: '(:)(nth-last-child|nth-child|nth-last-of-type|nth-of-type)(?=\()'
-      scope: entity.other.pseudo-class.css
-      captures:
-        1: punctuation.definition.entity.css
-      push:
-        - meta_scope: meta.function-call.css
-        - include: function-notation-terminator
-        - match: '\('
-          scope: punctuation.definition.group.begin.css
-          push:
-          - meta_scope: meta.group.css
-          - match: '(?=\))'
-            pop: 1
-          - match: \b(even|odd)\b
-            scope: keyword.other.pseudo-class.css
-          - match: '(([-+]?)(\d*)(n))\s*(([-+])(\s*\d+))?'
-            captures:
-              1: meta.number.integer.decimal.css
-              2: keyword.operator.arithmetic.css
-              3: constant.numeric.value.css
-              4: constant.numeric.suffix.css
-              5: meta.number.integer.decimal.css
-              6: keyword.operator.arithmetic.css
-              7: constant.numeric.value.css
-          - match: '[-+]\s+\d+n?|[-+]?\d+\s+n'
-            scope: invalid.illegal.numeric.css
-          - include: var-function
-          - include: integer-type
-
-      # Regular Pseudo Classes
-    - match: '(:)({{ident}})'
-      scope: entity.other.pseudo-class.css
-      captures:
-        1: punctuation.definition.entity.css
+  vendor-prefix:
+    - match: -(?:webkit|moz|ms|o)-
+      scope: support.type.vendor-prefix.css
 
   builtin-functions:
     - include: attr-function
@@ -1994,19 +2041,6 @@ contexts:
           - include: var-function
           - include: color-values
           - include: percentage-type
-
-  # Qualified Name
-  # https://drafts.csswg.org/css-namespaces-3/#css-qnames
-  qualified-name:
-    - match: '(?:({{ident}})|(\*))?([|])(?!=)'
-      captures:
-        1: entity.other.namespace-prefix.css
-        2: entity.name.namespace.wildcard.css
-        3: punctuation.separator.namespace.css
-
-  vendor-prefix:
-    - match: "-(?:webkit|moz|ms|o)-"
-      scope: support.type.vendor-prefix.css
 
 ###[ OPERATORS ]###############################################################
 
