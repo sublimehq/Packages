@@ -1981,18 +1981,6 @@ contexts:
           - include: color-values
           - include: percentage-type
 
-  unicode-range:
-    - match: |-
-        (?xi)
-            (u\+)
-            ([0-9a-f?]{1,6}
-            (?:(-)[0-9a-f]{1,6})?)
-      scope: support.unicode-range.css
-      captures:
-        1: support.constant.unicode-range.prefix.css
-        2: constant.codepoint-range.css
-        3: punctuation.section.range.css
-
   # Qualified Name
   # https://drafts.csswg.org/css-namespaces-3/#css-qnames
   qualified-name:
@@ -2127,6 +2115,19 @@ contexts:
       scope: constant.character.escape.newline.css
     - match: \\(?:\h{1,6}|.)
       scope: constant.character.escape.css
+
+  unicode-range:
+    - match: |-
+        (?xi:
+          (u\+)
+          ([0-9a-f?]{1,6}
+          (?:(-)[0-9a-f]{1,6})?)
+        )
+      scope: support.unicode-range.css
+      captures:
+        1: support.constant.unicode-range.prefix.css
+        2: constant.codepoint-range.css
+        3: punctuation.section.range.css
 
   # https://www.w3.org/TR/css3-values/#numeric-types
   numeric-values:
