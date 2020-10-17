@@ -388,7 +388,7 @@ contexts:
     - include: comment-block
     - include: selectors
     - include: at-rules
-    - include: property-list
+    - include: property-lists
 
   at-rules:
     - include: at-charset
@@ -437,7 +437,7 @@ contexts:
       push:
         - meta_scope: meta.at-rule.counter-style.css
         - include: comment-block
-        - include: rule-list-terminator
+        - include: rule-list-end
         - include: rule-list
 
   at-custom-media:
@@ -491,7 +491,7 @@ contexts:
       push:
         - meta_scope: meta.at-rule.font-face.css
         - include: comment-block
-        - include: rule-list-terminator
+        - include: rule-list-end
         - include: rule-list
 
   at-import:
@@ -522,7 +522,7 @@ contexts:
   at-keyframes:
     - match: (?=\s*@(?:-webkit-|-moz-|-o-)?keyframes\b)
       push:
-        - include: rule-list-terminator
+        - include: rule-list-end
         - match: \s*((@)(-webkit-|-moz-|-o-)?keyframes)
           captures:
             1: keyword.control.at-rule.keyframe.css
@@ -553,7 +553,7 @@ contexts:
   at-media:
     - match: (?=\s*@media\b)
       push:
-        - include: rule-list-terminator
+        - include: rule-list-end
         - match: \s*((@)media)
           captures:
             1: keyword.control.at-rule.media.css
@@ -650,7 +650,7 @@ contexts:
       push:
         - meta_scope: meta.at-rule.page.css
         - include: comment-block
-        - include: rule-list-terminator
+        - include: rule-list-end
         - include: rule-list
 
   # @supports
@@ -691,54 +691,43 @@ contexts:
         - include: at-supports-parens
         - include: rule-list-body
 
-  property-list:
-    - match: '(?=\{)'
-      push:
-        - match: '\}'
-          scope: punctuation.section.property-list.css
-          pop: 1
-        - include: rule-list
+###[ PROPERTY LISTS ]##########################################################
 
-  property-value-constants:
-    - match: '{{property_values}}'
-      scope: support.constant.property-value.css
-    # Generic Font Families: https://www.w3.org/TR/CSS2/fonts.html
-    - match: \b(?i:sans-serif|serif|monospace|fantasy|cursive|system-ui)\b(?=\s*[;,\n}])
-      scope: support.constant.font-name.css
+  property-lists:
+    - match: (?=\{)
+      push: property-list-content
 
-  property-values:
+  property-list-content:
+    - match: \}
+      scope: punctuation.section.property-list.css
+      pop: 1
+    - include: rule-list
+
+  rule-list:
+    - match: \{
+      scope: punctuation.section.property-list.css
+      push: rule-list-content
+
+  rule-list-content:
+    - meta_scope: meta.property-list.css
+    - match: (?=\s*\})
+      pop: 1
+    - include: rule-list-body
+
+  rule-list-body:
     - include: comment-block
-    - include: comma-delimiter
-    - include: vendor-prefix
-    - include: builtin-functions
-    - include: line-names
-    - include: unicode-range
-    - include: numeric-values
-    - include: color-values
-    - include: property-value-constants
-    - include: literal-string
-    - match: \!\s*important
-      scope: keyword.other.important.css
-    - match: /
-      scope: keyword.operator.arithmetic.css
+    - include: property-identifiers
+    - include: property-values
 
-  rule-list-terminator:
-    - match: '\s*(\})'
+  rule-list-end:
+    - match: \s*(\})
       captures:
         1: punctuation.section.property-list.css
       pop: 1
 
-  rule-list:
-    - match: '\{'
-      scope: punctuation.section.property-list.css
-      push:
-        - meta_scope: meta.property-list.css
-        - match: '(?=\s*\})'
-          pop: 1
-        - include: rule-list-body
+###[ PROPERTY IDENTIFIERS ]####################################################
 
-  rule-list-body:
-    - include: comment-block
+  property-identifiers:
     - match: (?=[-a-z])
       push:
         - meta_scope: meta.property-name.css
@@ -750,22 +739,6 @@ contexts:
         - include: counter-property
         - include: font-property
         - include: other-property
-    - match: (:)([ \t]*)
-      captures:
-        1: punctuation.separator.key-value.css
-        2: meta.property-value.css
-      push: property-value-content
-
-  property-value-content:
-    - meta_content_scope: meta.property-value.css
-    - include: property-value-end
-    - include: property-values
-
-  property-value-end:
-    - match: \s*(;)|(?=[})])
-      captures:
-        1: punctuation.terminator.rule.css
-      pop: 1
 
   counter-property:
     # https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Lists_and_Counters/Using_CSS_counters
@@ -777,7 +750,7 @@ contexts:
             1: punctuation.separator.key-value.css
             2: meta.property-value.css
           set:
-            - property-value-content
+            - property-value-common
             - counter-identifier
         - match: ''
           pop: 1
@@ -792,7 +765,7 @@ contexts:
   # Custom Properties
   # https://drafts.csswg.org/css-variables/#typedef-custom-property
   custom-property:
-    - match: '(--)({{nmchar}}+)'
+    - match: (--)({{nmchar}}+)
       scope: support.type.custom-property.css
       captures:
         1: punctuation.definition.custom-property.css
@@ -817,7 +790,7 @@ contexts:
             - meta_content_scope: meta.property-value.css
             - include: property-value-end
             - include: comma-delimiter
-            - include: property-values
+            - include: property-value-body
             - match: '{{ident}}(\s+{{ident}})*'
               scope: string.unquoted.css
         - match: ''
@@ -826,6 +799,42 @@ contexts:
   other-property:
     - match: '{{property_names}}'
       scope: support.type.property-name.css
+
+###[ PROPERTY VALUES ]#########################################################
+
+  property-values:
+    - match: (:)([ \t]*)
+      captures:
+        1: punctuation.separator.key-value.css
+        2: meta.property-value.css
+      push: property-value-common
+
+  property-value-common:
+    - meta_content_scope: meta.property-value.css
+    - include: property-value-end
+    - include: property-value-body
+
+  property-value-body:
+    - include: comment-block
+    - include: comma-delimiter
+    - include: vendor-prefix
+    - include: builtin-functions
+    - include: line-names
+    - include: unicode-range
+    - include: numeric-values
+    - include: color-values
+    - include: common-constants
+    - include: literal-string
+    - match: \!\s*important
+      scope: keyword.other.important.css
+    - match: /
+      scope: keyword.operator.arithmetic.css
+
+  property-value-end:
+    - match: \s*(;)|(?=[})])
+      captures:
+        1: punctuation.terminator.rule.css
+      pop: 1
 
 ###[ SELECTORS ]###############################################################
 
@@ -1441,7 +1450,7 @@ contexts:
           - include: comma-delimiter
           - include: var-function
           - include: vendor-prefix
-          - include: property-value-constants
+          - include: common-constants
           - include: numeric-values
           - include: color-values
           - include: literal-string
@@ -1491,7 +1500,7 @@ contexts:
             push:
               - match: '(?=\))'
                 pop: 1
-              - include: property-values
+              - include: property-value-body
 
   # Filter Functions
   # https://drafts.fxtf.org/filters/#typedef-filter-function
@@ -1626,7 +1635,7 @@ contexts:
               pop: 1
             - include: comma-delimiter
             - include: var-function
-            - include: property-value-constants
+            - include: common-constants
             - include: numeric-values
             - include: color-values
 
@@ -2113,6 +2122,13 @@ contexts:
       scope: constant.other.color.rgba-value.css
       captures:
         1: punctuation.definition.constant.css
+
+  common-constants:
+    - match: '{{property_values}}'
+      scope: support.constant.property-value.css
+    # Generic Font Families: https://www.w3.org/TR/CSS2/fonts.html
+    - match: \b(?i:sans-serif|serif|monospace|fantasy|cursive|system-ui)\b(?=\s*[;,\n}])
+      scope: support.constant.font-name.css
 
   # Named Grid Lines
   # https://drafts.csswg.org/css-grid/#named-lines
