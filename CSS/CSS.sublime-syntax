@@ -59,6 +59,44 @@ variables:
 
   combinators: '(?:>{1,3}|[~+])'
 
+  # Predefined Color Values (Standard Set)
+  # https://www.w3.org/TR/CSS22/syndata.html#color-units
+  standard_colors: |-
+    \b(?xi:
+        aqua | black | blue | fuchsia | gray | green | lime | maroon | navy
+      | olive | orange | purple | red | silver | teal | white | yellow
+    )\b
+
+  # Predefined Color Values (Extended Set)
+  # https://www.w3.org/TR/css3-color/#svg-color
+  extended_colors: |-
+    \b(?xi:
+        aliceblue | antiquewhite | aquamarine | azure | beige | bisque
+      | blanchedalmond | blueviolet | brown | burlywood | cadetblue | chartreuse
+      | chocolate | coral | cornflowerblue | cornsilk | crimson | cyan | darkblue
+      | darkcyan | darkgoldenrod | darkgray | darkgreen | darkgrey | darkkhaki
+      | darkmagenta | darkolivegreen | darkorange | darkorchid | darkred
+      | darksalmon | darkseagreen | darkslateblue | darkslategray | darkslategrey
+      | darkturquoise | darkviolet | deeppink | deepskyblue | dimgray | dimgrey
+      | dodgerblue | firebrick | floralwhite | forestgreen | gainsboro
+      | ghostwhite | gold | goldenrod | greenyellow | grey | honeydew | hotpink
+      | indianred | indigo | ivory | khaki | lavender | lavenderblush | lawngreen
+      | lemonchiffon | lightblue | lightcoral | lightcyan | lightgoldenrodyellow
+      | lightgray | lightgreen | lightgrey | lightpink | lightsalmon
+      | lightseagreen | lightskyblue | lightslategray | lightslategrey
+      | lightsteelblue | lightyellow | limegreen | linen | magenta
+      | mediumaquamarine | mediumblue | mediumorchid | mediumpurple
+      | mediumseagreen | mediumslateblue | mediumspringgreen | mediumturquoise
+      | mediumvioletred | midnightblue | mintcream | mistyrose | moccasin
+      | navajowhite | oldlace | olivedrab | orangered | orchid | palegoldenrod
+      | palegreen | paleturquoise | palevioletred | papayawhip | peachpuff | peru
+      | pink | plum | powderblue | rebeccapurple | rosybrown | royalblue
+      | saddlebrown | salmon | sandybrown | seagreen | seashell | sienna
+      | skyblue | slateblue | slategray | slategrey | snow | springgreen
+      | steelblue | tan | thistle | tomato | turquoise | violet | wheat
+      | whitesmoke | yellowgreen
+    )\b
+
   # Predefined Counter Styles
   # https://drafts.csswg.org/css-counter-styles-3/#predefined-counters
   counter_styles: |-
@@ -100,34 +138,6 @@ contexts:
     - include: at-namespace
     - include: at-page
     - include: at-supports
-
-  # When including `color-values` and `color-adjuster-functions`, make sure it is
-  # included after the color adjustors to prevent `color-values` from consuming
-  # conflicting function names & color constants such as `red`, `green`, or `blue`.
-  color-values:
-    - include: color-functions
-      # https://www.w3.org/TR/CSS22/syndata.html#color-units
-    - match: \b(?i:aqua|black|blue|fuchsia|gray|green|lime|maroon|navy|olive|orange|purple|red|silver|teal|white|yellow)\b
-      scope: support.constant.color.w3c-standard-color-name.css
-      # https://www.w3.org/TR/css3-color/#svg-color
-    - match: \b(?i:aliceblue|antiquewhite|aquamarine|azure|beige|bisque|blanchedalmond|blueviolet|brown|burlywood|cadetblue|chartreuse|chocolate|coral|cornflowerblue|cornsilk|crimson|cyan|darkblue|darkcyan|darkgoldenrod|darkgray|darkgreen|darkgrey|darkkhaki|darkmagenta|darkolivegreen|darkorange|darkorchid|darkred|darksalmon|darkseagreen|darkslateblue|darkslategray|darkslategrey|darkturquoise|darkviolet|deeppink|deepskyblue|dimgray|dimgrey|dodgerblue|firebrick|floralwhite|forestgreen|gainsboro|ghostwhite|gold|goldenrod|greenyellow|grey|honeydew|hotpink|indianred|indigo|ivory|khaki|lavender|lavenderblush|lawngreen|lemonchiffon|lightblue|lightcoral|lightcyan|lightgoldenrodyellow|lightgray|lightgreen|lightgrey|lightpink|lightsalmon|lightseagreen|lightskyblue|lightslategray|lightslategrey|lightsteelblue|lightyellow|limegreen|linen|magenta|mediumaquamarine|mediumblue|mediumorchid|mediumpurple|mediumseagreen|mediumslateblue|mediumspringgreen|mediumturquoise|mediumvioletred|midnightblue|mintcream|mistyrose|moccasin|navajowhite|oldlace|olivedrab|orangered|orchid|palegoldenrod|palegreen|paleturquoise|palevioletred|papayawhip|peachpuff|peru|pink|plum|powderblue|rebeccapurple|rosybrown|royalblue|saddlebrown|salmon|sandybrown|seagreen|seashell|sienna|skyblue|slateblue|slategray|slategrey|snow|springgreen|steelblue|tan|thistle|tomato|turquoise|violet|wheat|whitesmoke|yellowgreen)\b
-      scope: support.constant.color.w3c-extended-color-keywords.css
-      # Special Color Keywords
-      # https://www.w3.org/TR/css3-color/#currentcolor
-      # https://www.w3.org/TR/css3-color/#transparent-def
-    - match: \b(?i:currentColor|transparent)\b
-      scope: support.constant.color.w3c-special-color-keyword.css
-      # Hex Color
-    - match: '(#)(\h{3}|\h{6})\b'
-      scope: constant.other.color.rgb-value.css
-      captures:
-        1: punctuation.definition.constant.css
-      # RGBA Hexadecimal Colors
-      # https://en.wikipedia.org/wiki/RGBA_color_space#RGBA_hexadecimal_.28word-order.29
-    - match: '(#)(\h{4}|\h{8})\b'
-      scope: constant.other.color.rgba-value.css
-      captures:
-        1: punctuation.definition.constant.css
 
   comment-block:
     - match: /\*
@@ -2035,6 +2045,39 @@ contexts:
       scope: punctuation.terminator.rule.css
     - match: (?=;|$)
       pop: 1
+
+###[ CONSTANTS ]###############################################################
+
+  # When including `color-values` and `color-adjuster-functions`, make sure it is
+  # included after the color adjustors to prevent `color-values` from consuming
+  # conflicting function names & color constants such as `red`, `green`, or `blue`.
+  color-values:
+    - include: color-functions
+    - include: color-constants
+
+  color-constants:
+    # https://www.w3.org/TR/CSS22/syndata.html#color-units
+    - match: '{{standard_colors}}'
+      scope: support.constant.color.w3c-standard-color-name.css
+    # https://www.w3.org/TR/css3-color/#svg-color
+    - match: '{{extended_colors}}'
+      scope: support.constant.color.w3c-extended-color-keywords.css
+    # Special Color Keywords
+    # https://www.w3.org/TR/css3-color/#currentcolor
+    # https://www.w3.org/TR/css3-color/#transparent-def
+    - match: \b(?i:currentColor|transparent)\b
+      scope: support.constant.color.w3c-special-color-keyword.css
+    # Hex Color
+    - match: (#)(\h{3}|\h{6})\b
+      scope: constant.other.color.rgb-value.css
+      captures:
+        1: punctuation.definition.constant.css
+    # RGBA Hexadecimal Colors
+    # https://en.wikipedia.org/wiki/RGBA_color_space#RGBA_hexadecimal_.28word-order.29
+    - match: (#)(\h{4}|\h{8})\b
+      scope: constant.other.color.rgba-value.css
+      captures:
+        1: punctuation.definition.constant.css
 
   # Named Grid Lines
   # https://drafts.csswg.org/css-grid/#named-lines
