@@ -725,7 +725,7 @@ contexts:
           pop: 1
         - include: vendor-prefix
         - include: deprecated-property
-        - include: custom-property-name
+        - include: custom-property
         - include: counter-property
         - include: font-property
         - include: other-property
@@ -767,6 +767,15 @@ contexts:
       pop: 1
     - match: (?=\S)
       pop: 1
+
+  # Custom Properties
+  # https://drafts.csswg.org/css-variables/#typedef-custom-property
+  custom-property:
+    - match: '(--)({{nmchar}}+)'
+      scope: support.type.custom-property.css
+      captures:
+        1: punctuation.definition.custom-property.css
+        2: support.type.custom-property.name.css
 
   deprecated-property:
     - match: \b(var-)({{ident}})(?=\s)
@@ -1428,7 +1437,7 @@ contexts:
           - match: '(?=\))'
             pop: 1
           - include: var-function
-          - include: custom-property-name
+          - include: custom-property
           - match: '(?=,)'
             push:
               - match: '(?=\))'
@@ -1994,15 +2003,6 @@ contexts:
         1: entity.other.namespace-prefix.css
         2: entity.name.namespace.wildcard.css
         3: punctuation.separator.namespace.css
-
-  # Custom Properties
-  # https://drafts.csswg.org/css-variables/#typedef-custom-property-name
-  custom-property-name:
-    - match: '(--)({{nmchar}}+)'
-      scope: support.type.custom-property.css
-      captures:
-        1: punctuation.definition.custom-property.css
-        2: support.type.custom-property.name.css
 
   vendor-prefix:
     - match: "-(?:webkit|moz|ms|o)-"
