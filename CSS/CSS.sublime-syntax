@@ -2009,6 +2009,12 @@ contexts:
         1: punctuation.definition.custom-property.css
         2: support.type.custom-property.name.css
 
+  vendor-prefix:
+    - match: "-(?:webkit|moz|ms|o)-"
+      scope: support.type.vendor-prefix.css
+
+###[ OPERATORS ]###############################################################
+
   color-adjuster-operators:
     - match: '[-+*](?=\s)'
       scope: keyword.operator.arithmetic.css
@@ -2026,17 +2032,15 @@ contexts:
     - match: ''
       pop: 1
 
+###[ PUNCTUATION ]#############################################################
+
   comma-delimiter:
-    - match: '\s*(,)\s*'
+    - match: \s*(,)\s*
       captures:
         1: punctuation.separator.sequence.css
 
-  vendor-prefix:
-    - match: "-(?:webkit|moz|ms|o)-"
-      scope: support.type.vendor-prefix.css
-
   function-notation-terminator:
-    - match: '\)'
+    - match: \)
       scope: meta.group.css punctuation.definition.group.end.css
       pop: 1
 
