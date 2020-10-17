@@ -2058,15 +2058,15 @@ contexts:
   color-constants:
     # https://www.w3.org/TR/CSS22/syndata.html#color-units
     - match: '{{standard_colors}}'
-      scope: support.constant.color.w3c-standard-color-name.css
+      scope: support.constant.color.w3c.standard.css
     # https://www.w3.org/TR/css3-color/#svg-color
     - match: '{{extended_colors}}'
-      scope: support.constant.color.w3c-extended-color-keywords.css
+      scope: support.constant.color.w3c.extended.css
     # Special Color Keywords
     # https://www.w3.org/TR/css3-color/#currentcolor
     # https://www.w3.org/TR/css3-color/#transparent-def
     - match: \b(?i:currentColor|transparent)\b
-      scope: support.constant.color.w3c-special-color-keyword.css
+      scope: support.constant.color.w3c.special.css
     # Hex Color
     - match: (#)(\h{3}|\h{6})\b
       scope: constant.other.color.rgb-value.css

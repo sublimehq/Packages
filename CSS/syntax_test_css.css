@@ -642,16 +642,16 @@
 
 .test-color-values {
     color: aqua;
-/*         ^^^^ support.constant.color.w3c-standard-color-name.css */
+/*         ^^^^ support.constant.color.w3c.standard.css */
 
     color: aliceblue;
-/*         ^^^^^^^^^ support.constant.color.w3c-extended-color-keywords.css */
+/*         ^^^^^^^^^ support.constant.color.w3c.extended.css */
 
     color: currentColor;
-/*         ^^^^^^^^^^^^ support.constant.color.w3c-special-color-keyword.css */
+/*         ^^^^^^^^^^^^ support.constant.color.w3c.special.css */
 
     color: transparent;
-/*         ^^^^^^^^^^^ support.constant.color.w3c-special-color-keyword.css */
+/*         ^^^^^^^^^^^ support.constant.color.w3c.special.css */
 
     color: #b4da55;
 /*         ^ punctuation.definition.constant.css */
@@ -760,7 +760,7 @@
 
     top: blenda(red 50% hsl);
 /*       ^^^^^^ support.function.color.css */
-/*              ^^^ support.constant.color.w3c-standard-color-name.css */
+/*              ^^^ support.constant.color.w3c.standard.css */
 /*                  ^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                    ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                      ^^^ keyword.other.color-space.css */
@@ -990,7 +990,7 @@
 /*       ^^^^^^ support.function.toggle.css */
 /*              ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*               ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
-/*                  ^^^ support.constant.color.w3c-standard-color-name.css */
+/*                  ^^^ support.constant.color.w3c.standard.css */
 /*                      ^^^^^^^^^^^ support.constant.property-value.css */
 
     top: toggle(var(--5px) var(red) preserve-3d);
@@ -1109,7 +1109,7 @@
 /*                       ^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                         ^^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                            ^ punctuation.separator.sequence.css */
-/*                              ^^^^^ support.constant.color.w3c-standard-color-name.css */
+/*                              ^^^^^ support.constant.color.w3c.standard.css */
 
     top: linear-gradient(to top left);
 /*                       ^^ keyword.other.css */
@@ -1135,7 +1135,7 @@
 /*                                     ^^^^ support.constant.property-value.css */
 
     top: radial-gradient(red, blue);
-/*                       ^^^ support.constant.color.w3c-standard-color-name.css */
+/*                       ^^^ support.constant.color.w3c.standard.css */
 /*                          ^ punctuation.separator.sequence.css */
 
     top: repeating-radial-gradient();
