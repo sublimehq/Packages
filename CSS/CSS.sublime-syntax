@@ -1020,6 +1020,8 @@ contexts:
     - match: -(?:webkit|moz|ms|o)-
       scope: support.type.vendor-prefix.css
 
+###[ BUILTIN FUNCTIONS ]#######################################################
+
   builtin-functions:
     - include: attr-function
     - include: calc-function
@@ -1033,8 +1035,8 @@ contexts:
     - include: var-function
     - include: color-adjuster-functions
 
-      # filter()
-      # https://drafts.fxtf.org/filters/#funcdef-filter
+    # filter()
+    # https://drafts.fxtf.org/filters/#funcdef-filter
     - match: '\b(filter)(?=\()'
       scope: support.function.filter.css
       push:
@@ -1052,8 +1054,8 @@ contexts:
           - include: literal-string
           - include: filter-functions
 
-      # counter()
-      # https://drafts.csswg.org/css-lists-3/#funcdef-counter
+    # counter()
+    # https://drafts.csswg.org/css-lists-3/#funcdef-counter
     - match: '\b(counter)(?=\()'
       scope: support.function.counter.css
       push:
@@ -1077,8 +1079,8 @@ contexts:
                 scope: support.constant.property-value.counter-style.css
           - include: var-function
 
-      # counters()
-      # https://drafts.csswg.org/css-lists-3/#funcdef-counters
+    # counters()
+    # https://drafts.csswg.org/css-lists-3/#funcdef-counters
     - match: '\b(counters)(?=\()'
       scope: support.function.counter.css
       push:
@@ -1103,8 +1105,8 @@ contexts:
                 scope: support.constant.property-value.counter-style.css
           - include: var-function
 
-      # symbols()
-      # https://drafts.csswg.org/css-counter-styles-3/#symbols-function
+    # symbols()
+    # https://drafts.csswg.org/css-counter-styles-3/#symbols-function
     - match: '\b(symbols)(?=\()'
       scope: support.function.counter.css
       push:
@@ -1123,10 +1125,10 @@ contexts:
           - include: literal-string
           - include: image-type
 
-      # format()
-      # https://drafts.csswg.org/css-fonts-3/#descdef-src
-      # format() is also mentioned in `issue 2` at https://drafts.csswg.org/css-images-3/#issues-index
-      # but does not seem to be implemented in any manner
+    # format()
+    # https://drafts.csswg.org/css-fonts-3/#descdef-src
+    # format() is also mentioned in `issue 2` at https://drafts.csswg.org/css-images-3/#issues-index
+    # but does not seem to be implemented in any manner
     - match: '\b(format)(?=\()'
       scope: support.function.font-face.css
       push:
@@ -1141,8 +1143,8 @@ contexts:
           - include: var-function
           - include: literal-string
 
-      # local()
-      # https://drafts.csswg.org/css-fonts-3/#descdef-src
+    # local()
+    # https://drafts.csswg.org/css-fonts-3/#descdef-src
     - match: '\b(local)(?=\()'
       scope: support.function.font-face.css
       push:
@@ -1158,11 +1160,11 @@ contexts:
           - include: literal-string
           - include: unquoted-string
 
-      # Transform Functions
-      # https://www.w3.org/TR/css-transforms-1/#transform-functions
+    # Transform Functions
+    # https://www.w3.org/TR/css-transforms-1/#transform-functions
 
-      # transform functions with comma separated <number> types
-      # matrix(), scale(), matrix3d(), scale3d()
+    # transform functions with comma separated <number> types
+    # matrix(), scale(), matrix3d(), scale3d()
     - match: '\b(matrix3d|scale3d|matrix|scale)(?=\()'
       scope: support.function.transform.css
       push:
@@ -1178,8 +1180,8 @@ contexts:
           - include: number-type
           - include: var-function
 
-      # transform functions with comma separated <number> or <length> types
-      # translate(), translate3d()
+    # transform functions with comma separated <number> or <length> types
+    # translate(), translate3d()
     - match: '\b(translate(3d)?)(?=\()'
       scope: support.function.transform.css
       push:
@@ -1197,8 +1199,8 @@ contexts:
           - include: length-type
           - include: number-type
 
-      # transform functions with a single <number> or <length> type
-      # translateX(), translateY()
+    # transform functions with a single <number> or <length> type
+    # translateX(), translateY()
     - match: '\b(translate[XY])(?=\()'
       scope: support.function.transform.css
       push:
@@ -1215,8 +1217,8 @@ contexts:
           - include: length-type
           - include: number-type
 
-      # transform functions with a single <angle> type
-      # rotate(), skewX(), skewY(), rotateX(), rotateY(), rotateZ()
+    # transform functions with a single <angle> type
+    # rotate(), skewX(), skewY(), rotateX(), rotateY(), rotateZ()
     - match: '\b(rotate[XYZ]?|skew[XY])(?=\()'
       scope: support.function.transform.css
       push:
@@ -1231,8 +1233,8 @@ contexts:
           - include: var-function
           - include: angle-type
 
-      # transform functions with comma separated <angle> types
-      # skew()
+    # transform functions with comma separated <angle> types
+    # skew()
     - match: '\b(skew)(?=\()'
       scope: support.function.transform.css
       push:
@@ -1248,8 +1250,8 @@ contexts:
           - include: var-function
           - include: angle-type
 
-      # transform functions with a single <length> type
-      # translateZ(), perspective()
+    # transform functions with a single <length> type
+    # translateZ(), perspective()
     - match: '\b(translateZ|perspective)(?=\()'
       scope: support.function.transform.css
       push:
@@ -1264,8 +1266,8 @@ contexts:
           - include: var-function
           - include: length-type
 
-      # transform functions with a comma separated <number> or <angle> types
-      # rotate3d()
+    # transform functions with a comma separated <number> or <angle> types
+    # rotate3d()
     - match: '\b(rotate3d)(?=\()'
       scope: support.function.transform.css
       push:
@@ -1282,8 +1284,8 @@ contexts:
           - include: angle-type
           - include: number-type
 
-      # transform functions with a single <number> type
-      # scaleX(), scaleY(), scaleZ()
+    # transform functions with a single <number> type
+    # scaleX(), scaleY(), scaleZ()
     - match: '\b(scale[XYZ])(?=\()'
       scope: support.function.transform.css
       push:
@@ -1299,11 +1301,11 @@ contexts:
           - include: var-function
           - include: number-type
 
-      # Timing Functions
-      # https://www.w3.org/TR/web-animations-1/#timing-functions
+    # Timing Functions
+    # https://www.w3.org/TR/web-animations-1/#timing-functions
 
-      # cubic-bezier()
-      # https://www.w3.org/TR/web-animations-1/#cubic-bzier-timing-function
+    # cubic-bezier()
+    # https://www.w3.org/TR/web-animations-1/#cubic-bzier-timing-function
     - match: '\b(cubic-bezier)(?=\()'
       scope: support.function.timing.css
       push:
@@ -1319,8 +1321,8 @@ contexts:
           - include: var-function
           - include: number-type
 
-      # steps()
-      # https://www.w3.org/TR/web-animations-1/#step-timing-function
+    # steps()
+    # https://www.w3.org/TR/web-animations-1/#step-timing-function
     - match: '\b(steps)(?=\()'
       scope: support.function.timing.css
       push:
@@ -1338,11 +1340,11 @@ contexts:
           - match: (end|middle|start)
             scope: support.keyword.timing-direction.css
 
-      # Shape Functions
-      # https://www.w3.org/TR/css-shapes-1/#typedef-basic-shape
+    # Shape Functions
+    # https://www.w3.org/TR/css-shapes-1/#typedef-basic-shape
 
-      # rect() - Deprecated
-      # https://drafts.fxtf.org/css-masking-1/#funcdef-clip-rect
+    # rect() - Deprecated
+    # https://drafts.fxtf.org/css-masking-1/#funcdef-clip-rect
     - match: '\b(rect)(?=\()'
       scope: support.function.shape.css
       push:
@@ -1359,8 +1361,8 @@ contexts:
           - include: var-function
           - include: length-type
 
-      # inset()
-      # https://www.w3.org/TR/css-shapes-1/#funcdef-inset
+    # inset()
+    # https://www.w3.org/TR/css-shapes-1/#funcdef-inset
     - match: '\b(inset)(?=\()'
       scope: support.function.shape.css
       push:
@@ -1378,10 +1380,10 @@ contexts:
           - include: length-type
           - include: percentage-type
 
-      # circle()
-      # https://www.w3.org/TR/css-shapes-1/#funcdef-circle
-      # ellipse()
-      # https://www.w3.org/TR/css-shapes-1/#funcdef-ellipse
+    # circle()
+    # https://www.w3.org/TR/css-shapes-1/#funcdef-circle
+    # ellipse()
+    # https://www.w3.org/TR/css-shapes-1/#funcdef-ellipse
     - match: '\b(circle|ellipse)(?=\()'
       scope: support.function.shape.css
       push:
@@ -1401,8 +1403,8 @@ contexts:
           - include: length-type
           - include: percentage-type
 
-      # polygon()
-      # https://www.w3.org/TR/css-shapes-1/#funcdef-polygon
+    # polygon()
+    # https://www.w3.org/TR/css-shapes-1/#funcdef-polygon
     - match: '\b(polygon)(?=\()'
       scope: support.function.shape.css
       push:
@@ -1423,8 +1425,8 @@ contexts:
           - match: '\b(nonzero|evenodd)\b'
             scope: support.constant.property-value.css
 
-      # toggle()
-      # https://www.w3.org/TR/css3-values/#toggle-notation
+    # toggle()
+    # https://www.w3.org/TR/css3-values/#toggle-notation
     - match: '\b(toggle)(?=\()'
       scope: support.function.toggle.css
       push:
@@ -1444,8 +1446,8 @@ contexts:
           - include: color-values
           - include: literal-string
 
-      # repeat()
-      # https://drafts.csswg.org/css-grid/#funcdef-repeat
+    # repeat()
+    # https://drafts.csswg.org/css-grid/#funcdef-repeat
     - match: '\b(repeat)(?=\()'
       scope: support.function.grid.css
       push:
@@ -1494,8 +1496,8 @@ contexts:
   # Filter Functions
   # https://drafts.fxtf.org/filters/#typedef-filter-function
   filter-functions:
-      # blur()
-      # https://drafts.fxtf.org/filters/#funcdef-filter-blur
+    # blur()
+    # https://drafts.fxtf.org/filters/#funcdef-filter-blur
     - match: '\b(blur)(?=\()'
       scope: support.function.filter.css
       push:
@@ -1510,8 +1512,8 @@ contexts:
           - include: var-function
           - include: length-type
 
-      # brightness(), contrast(), grayscale(), invert(), opacity(), saturate(), sepia()
-      # https://drafts.fxtf.org/filters/#funcdef-filter-brightness
+    # brightness(), contrast(), grayscale(), invert(), opacity(), saturate(), sepia()
+    # https://drafts.fxtf.org/filters/#funcdef-filter-brightness
     - match: '\b(brightness|contrast|grayscale|invert|opacity|saturate|sepia)(?=\()'
       scope: support.function.filter.css
       push:
@@ -1527,8 +1529,8 @@ contexts:
           - include: percentage-type
           - include: number-type
 
-      # drop-shadow()
-      # https://drafts.fxtf.org/filters/#funcdef-filter-drop-shadow
+    # drop-shadow()
+    # https://drafts.fxtf.org/filters/#funcdef-filter-drop-shadow
     - match: '\b(drop-shadow)(?=\()'
       scope: support.function.filter.css
       push:
@@ -1544,8 +1546,8 @@ contexts:
           - include: length-type
           - include: color-values
 
-      # hue-rotate()
-      # https://drafts.fxtf.org/filters/#funcdef-filter-hue-rotate
+    # hue-rotate()
+    # https://drafts.fxtf.org/filters/#funcdef-filter-hue-rotate
     - match: '\b(hue-rotate)(?=\()'
       scope: support.function.filter.css
       push:
@@ -1750,10 +1752,10 @@ contexts:
   # Gradient Functions
   # https://drafts.csswg.org/css-images-3/#gradients
   gradient-functions:
-      # linear-gradient()
-      # https://drafts.csswg.org/css-images-3/#linear-gradients
-      # repeating-linear-gradient()
-      # https://drafts.csswg.org/css-images-3/#funcdef-repeating-linear-gradient
+    # linear-gradient()
+    # https://drafts.csswg.org/css-images-3/#linear-gradients
+    # repeating-linear-gradient()
+    # https://drafts.csswg.org/css-images-3/#funcdef-repeating-linear-gradient
     - match: '\b((?:repeating-)?linear-gradient)(?=\()'
       scope: support.function.gradient.css
       push:
@@ -1776,10 +1778,10 @@ contexts:
           - match: \b(top|right|bottom|left)\b
             scope: support.constant.property-value.css
 
-      # radial-gradient()
-      # https://drafts.csswg.org/css-images-3/#radial-gradients
-      # repeating-radial-gradient()
-      # https://drafts.csswg.org/css-images-3/#funcdef-repeating-radial-gradient
+    # radial-gradient()
+    # https://drafts.csswg.org/css-images-3/#radial-gradients
+    # repeating-radial-gradient()
+    # https://drafts.csswg.org/css-images-3/#funcdef-repeating-radial-gradient
     - match: '\b((?:repeating-)?radial-gradient)(?=\()'
       scope: support.function.gradient.css
       push:
@@ -1858,8 +1860,8 @@ contexts:
   # Color Functions
   # https://drafts.csswg.org/css-color
   color-functions:
-      # rgb(), rgba()
-      # https://drafts.csswg.org/css-color/#rgb-functions
+    # rgb(), rgba()
+    # https://drafts.csswg.org/css-color/#rgb-functions
     - match: '\b(rgba?)(?=\()'
       scope: support.function.color.css
       push:
@@ -1876,10 +1878,10 @@ contexts:
           - include: percentage-type
           - include: number-type
 
-      # hsl(), hsla()
-      # https://drafts.csswg.org/css-color/#the-hsl-notation
-      # hwb() - Not yet implemented by browsers
-      # https://drafts.csswg.org/css-color/#funcdef-hwb
+    # hsl(), hsla()
+    # https://drafts.csswg.org/css-color/#the-hsl-notation
+    # hwb() - Not yet implemented by browsers
+    # https://drafts.csswg.org/css-color/#funcdef-hwb
     - match: '\b(hsla?|hwb)(?=\()'
       scope: support.function.color.css
       push:
@@ -1897,8 +1899,8 @@ contexts:
           - include: percentage-type
           - include: number-type
 
-      # gray() - Not yet implemented by browsers
-      # https://drafts.csswg.org/css-color/#funcdef-gray
+    # gray() - Not yet implemented by browsers
+    # https://drafts.csswg.org/css-color/#funcdef-gray
     - match: '\b(gray)(?=\()'
       scope: support.function.color.css
       push:
@@ -1915,8 +1917,8 @@ contexts:
           - include: percentage-type
           - include: number-type
 
-      # device-cmyk() - Not yet implemented by browsers
-      # https://drafts.csswg.org/css-color/#funcdef-device-cmyk
+    # device-cmyk() - Not yet implemented by browsers
+    # https://drafts.csswg.org/css-color/#funcdef-device-cmyk
     - match: '\b(device-cmyk)(?=\()'
       scope: support.function.color.css
       push:
@@ -1935,8 +1937,8 @@ contexts:
           - include: percentage-type
           - include: number-type
 
-      # color-mod() - Not yet implemented by browsers
-      # https://drafts.csswg.org/css-color/#funcdef-color-mod
+    # color-mod() - Not yet implemented by browsers
+    # https://drafts.csswg.org/css-color/#funcdef-color-mod
     - match: '\b(color)(?=\()'
       scope: support.function.color.css
       push:
@@ -1958,7 +1960,7 @@ contexts:
   # Color Adjuster Functions - Not yet implemented by browsers
   # https://drafts.csswg.org/css-color/#typedef-color-adjuster
   color-adjuster-functions:
-      # red(), green(), blue(), alpha() - Not yet implemented by browsers
+    # red(), green(), blue(), alpha() - Not yet implemented by browsers
     - match: '\b(red|green|blue|alpha|a)(?=\()'
       scope: support.function.color.css
       push:
@@ -1975,7 +1977,7 @@ contexts:
           - include: percentage-type
           - include: number-type
 
-      # hue() - Not yet implemented by browsers
+    # hue() - Not yet implemented by browsers
     - match: '\b(hue|h)(?=\()'
       scope: support.function.color.css
       push:
@@ -1991,7 +1993,7 @@ contexts:
           - include: color-adjuster-operators
           - include: angle-type
 
-      # saturation(), lightness(), whiteness(), blackness() - Not yet implemented by browsers
+    # saturation(), lightness(), whiteness(), blackness() - Not yet implemented by browsers
     - match: '\b(saturation|lightness|whiteness|blackness|[slwb])(?=\()'
       scope: support.function.color.css
       push:
@@ -2007,9 +2009,9 @@ contexts:
           - include: color-adjuster-operators
           - include: percentage-type
 
-      # tint(), shade(), contrast() - Not yet implemented by browsers
-      # contrast() interferes with the contrast() filter function;
-      # therefore, it is not yet implemented here
+    # tint(), shade(), contrast() - Not yet implemented by browsers
+    # contrast() interferes with the contrast() filter function;
+    # therefore, it is not yet implemented here
     - match: '\b(tint|shade)(?=\()'
       scope: support.function.color.css
       push:
@@ -2024,7 +2026,7 @@ contexts:
           - include: var-function
           - include: percentage-type
 
-      # blend(), blenda() - Not yet implemented by browsers
+    # blend(), blenda() - Not yet implemented by browsers
     - match: '\b(blenda|blend)(?=\()'
       scope: support.function.color.css
       push:
