@@ -429,10 +429,10 @@ contexts:
     - include: at-supports
 
   at-charset:
-    - match: \s*((@)charset\b)\s*
+    - match: (@)charset\b
+      scope: keyword.control.at-rule.charset.css
       captures:
-        1: keyword.control.at-rule.charset.css
-        2: punctuation.definition.keyword.css
+        1: punctuation.definition.keyword.css
       push:
         - meta_scope: meta.at-rule.charset.css
         - include: at-rule-punctuation
@@ -441,7 +441,7 @@ contexts:
   # @counter-style
   # https://drafts.csswg.org/css-counter-styles-3/#the-counter-style-rule
   at-counter-style:
-    - match: \s*((@)counter-style\b)\s+(?:(?i:\b(decimal|none)\b)|({{ident}}))?\s*(?=\{|$)
+    - match: ((@)counter-style\b)\s+(?:(?i:(decimal|none))|({{ident}}))?\s*(?=\{|$)
       captures:
         1: keyword.control.at-rule.counter-style.css
         2: punctuation.definition.keyword.css
@@ -454,39 +454,38 @@ contexts:
         - include: rule-list
 
   at-custom-media:
-    - match: (?=\s*@custom-media\b)
+    - match: (?=@custom-media\b)
       push:
         - match: ;
           scope: punctuation.terminator.css
           pop: 1
-        - match: \s*((@)custom-media)
+        - match: (@)custom-media\b
           captures:
-            1: keyword.control.at-rule.custom-media.css
-            2: punctuation.definition.keyword.css
-            3: support.constant.custom-media.css
+            0: keyword.control.at-rule.custom-media.css
+            1: punctuation.definition.keyword.css
           push:
             - meta_scope: meta.at-rule.custom-media.css
-            - match: \s*(?=;)
+            - match: (?=;)
               pop: 1
             - include: media-query-list
 
   # @document
   # https://www.w3.org/TR/2012/WD-css3-conditional-20120911/#at-document
   at-document:
-    - match: '((@)document)'
+    - match: (@)document\b
       captures:
-        1: keyword.control.at-rule.document.css
-        2: punctuation.definition.keyword.css
+        0: keyword.control.at-rule.document.css
+        1: punctuation.definition.keyword.css
       push:
         - meta_scope: meta.at-rule.document.css
-        - match: '\{'
+        - match: \{
           scope: punctuation.definition.block.begin.css
           push:
             - meta_scope: meta.block.css
-            - match: '(?=\})'
+            - match: (?=\})
               pop: 1
             - include: main
-        - match: '\}'
+        - match: \}
           scope: meta.block.css punctuation.definition.block.end.css
           pop: 1
         - include: comments
@@ -497,7 +496,7 @@ contexts:
         - include: comma-delimiter
 
   at-font-face:
-    - match: '\s*((@)font-face)\s*(?=\{|$)'
+    - match: ((@)font-face)\s*(?=\{|$)
       captures:
         1: keyword.control.at-rule.font-face.css
         2: punctuation.definition.keyword.css
@@ -508,10 +507,10 @@ contexts:
         - include: rule-list
 
   at-import:
-    - match: \s*((@)import\b)\s*
+    - match: (@)import\b
       captures:
-        1: keyword.control.at-rule.import.css
-        2: punctuation.definition.keyword.css
+        0: keyword.control.at-rule.import.css
+        1: punctuation.definition.keyword.css
       push:
         - meta_scope: meta.at-rule.import.css
         - include: at-rule-punctuation
@@ -519,43 +518,31 @@ contexts:
         - include: url-function
         - include: media-query-list
 
-  # https://drafts.csswg.org/css-animations/#propdef-animation-name
-  keyframe-name:
-    - match: '\s*({{ident}})?'
-      captures:
-        1: entity.other.animation-name.css
-      push:
-        - match: '\s*(?:(,)|(?=[{;]))'
-          captures:
-            1: punctuation.definition.arbitrary-repetition.css
-          pop: 1
-
   # @keyframes
   # https://drafts.csswg.org/css-animations/#keyframes
   at-keyframes:
-    - match: (?=\s*@(?:-webkit-|-moz-|-o-)?keyframes\b)
+    - match: (?=@(?:-webkit-|-moz-|-o-)?keyframes\b)
       push:
         - include: rule-list-end
-        - match: \s*((@)(-webkit-|-moz-|-o-)?keyframes)
+        - match: (@)(-webkit-|-moz-|-o-)?keyframes\b
           captures:
-            1: keyword.control.at-rule.keyframe.css
-            2: punctuation.definition.keyword.css
-            3: support.type.property-vendor.css
-            4: support.constant.keyframe.css
+            0: keyword.control.at-rule.keyframe.css
+            1: punctuation.definition.keyword.css
+            2: support.type.property-vendor.css
           push:
             - meta_scope: meta.at-rule.keyframe.css
-            - match: '\s*(?=\{)'
+            - match: \s*(?=\{)
               pop: 1
-            - match: '\s*(?=[^{;])'
+            - match: \s*(?=[^{;])
               push:
-                - match: '\s*(?=[{;])'
+                - match: \s*(?=[{;])
                   pop: 1
                 - include: keyframe-name
-        - match: '\s*(\{)'
+        - match: \s*(\{)
           captures:
             1: punctuation.section.property-list.css
           push:
-            - match: '(?=\})'
+            - match: (?=\})
               pop: 1
             - match: \b(from|to)\b
               scope: keyword.keyframe-selector.css
@@ -563,27 +550,44 @@ contexts:
             - include: numeric-values
             - include: main
 
+  # https://drafts.csswg.org/css-animations/#propdef-animation-name
+  keyframe-name:
+    - match: \s*({{ident}})?
+      captures:
+        1: entity.other.animation-name.css
+      push:
+        - match: \s*(?:(,)|(?=[{;]))
+          captures:
+            1: punctuation.definition.arbitrary-repetition.css
+          pop: 1
+
   at-media:
-    - match: (?=\s*@media\b)
+    - match: (?=@media\b)
       push:
         - include: rule-list-end
-        - match: \s*((@)media)
+        - match: (@)media\b
           captures:
-            1: keyword.control.at-rule.media.css
-            2: punctuation.definition.keyword.css
-            3: support.constant.media.css
+            0: keyword.control.at-rule.media.css
+            1: punctuation.definition.keyword.css
           push:
             - meta_scope: meta.at-rule.media.css
-            - match: '\s*(?=\{)'
+            - match: \s*(?=\{)
               pop: 1
             - include: media-query-list
-        - match: '\s*(\{)'
+        - match: \s*(\{)
           captures:
             1: punctuation.section.property-list.css
           push:
-            - match: '(?=\})'
+            - match: (?=\})
               pop: 1
             - include: main
+
+  media-query-list:
+    - match: \s*(?=[^{;])
+      push:
+        - match: \s*(?=[{;])
+          pop: 1
+        - include: media-query
 
   media-query:
     # Media Types: https://www.w3.org/TR/CSS21/media.html
@@ -622,24 +626,17 @@ contexts:
             4: punctuation.separator.key-value.css
         - match: \b(portrait|landscape|progressive|interlace)\b
           scope: support.constant.property-value.css
-        - match: \s*(\d+)(/)(\d+)
+        - match: (\d+)(/)(\d+)
           captures:
             1: meta.number.integer.decimal.css constant.numeric.value.css
             2: keyword.operator.arithmetic.css
             3: meta.number.integer.decimal.css constant.numeric.value.css
         - include: numeric-values
 
-  media-query-list:
-    - match: '\s*(?=[^{;])'
-      push:
-        - match: '\s*(?=[{;])'
-          pop: 1
-        - include: media-query
-
   # @namespace
   # https://www.w3.org/TR/css3-namespace/
   at-namespace:
-    - match: '\s*((@)namespace)\s+({{ident}}(?!{{nmchar}}|\())?'
+    - match: ((@)namespace)\s+({{ident}}(?!{{nmchar}}|\())?
       captures:
         1: keyword.control.at-rule.namespace.css
         2: punctuation.definition.keyword.css
@@ -654,7 +651,7 @@ contexts:
   # @page
   # https://www.w3.org/TR/CSS2/page.html
   at-page:
-    - match: '\s*((@)page)\s*(?:(:)(first|left|right))?\s*(?=\{|$)'
+    - match: ((@)page)\s*(?:(:)(first|left|right))?\s*(?=\{|$)
       captures:
         1: keyword.control.at-rule.page.css
         2: punctuation.definition.keyword.css
@@ -669,35 +666,35 @@ contexts:
   # @supports
   # https://drafts.csswg.org/css-conditional-3/#at-supports
   at-supports:
-    - match: '((@)supports)'
+    - match: (@)supports\b
       captures:
-        1: keyword.control.at-rule.supports.css
-        2: punctuation.definition.keyword.css
+        0: keyword.control.at-rule.supports.css
+        1: punctuation.definition.keyword.css
       push:
         - meta_scope: meta.at-rule.supports.css
-        - match: '\{'
+        - match: \{
           scope: punctuation.definition.block.begin.css
           push:
             - meta_scope: meta.block.css
-            - match: '(?=\})'
+            - match: (?=\})
               pop: 1
             - include: main
-        - match: '\}'
+        - match: \}
           scope: meta.block.css punctuation.definition.block.end.css
           pop: 1
         - include: at-supports-operators
         - include: at-supports-parens
 
   at-supports-operators:
-    - match: '\b(?i:and|or|not)\b'
+    - match: \b(?i:and|or|not)\b
       scope: keyword.operator.logic.css
 
   at-supports-parens:
-    - match: '\('
+    - match: \(
       scope: punctuation.definition.group.begin.css
       push:
         - meta_scope: meta.group.css
-        - match: '\)'
+        - match: \)
           scope: punctuation.definition.group.end.css
           pop: 1
         - include: at-supports-operators
