@@ -106,7 +106,9 @@
 /*             ^^^ entity.other.namespace-prefix.css */
 
     @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"); /* only needed once */
-/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.namespace.css */
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.namespace.css */
+/*                                                                                  ^ - meta.at-rule - comment */
+/*                                                                                   ^^^^^^^^^^^^^^^^^^^^^^ comment.block.css - meta.at-rule */
 /*             ^^^ support.function.url.css */
 /*             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.css */
 /*                ^ meta.group.css punctuation.definition.group.begin.css */
