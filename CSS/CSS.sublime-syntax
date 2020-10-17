@@ -116,6 +116,87 @@ variables:
       | upper-alpha | upper-armenian | upper-latin | upper-roman
     )
 
+  # Property names are sorted by popularity in descending order.
+  # Popularity data taken from https://www.chromestatus.com/metrics/css/popularity
+  property_names: |-
+    \b(?x:
+        display | width | background-color | height | position | font-family
+      | font-weight | top | opacity | cursor | background-image | right
+      | visibility | box-sizing | user-select | left | float | margin-left
+      | margin-top | line-height | padding-left | z-index | margin-bottom
+      | margin-right | margin | vertical-align | padding-top | white-space
+      | border-radius | padding-bottom | padding-right | padding | bottom | clear
+      | max-width | box-shadow | content | border-color | min-height | min-width
+      | font-style | border-width | border-collapse | background-size
+      | text-overflow | max-height | text-transform | text-shadow | text-indent
+      | border-style | overflow-y | list-style-type | word-wrap | border-spacing
+      | appearance | zoom | overflow-x | border-top-left-radius
+      | border-bottom-left-radius | border-top-color | pointer-events
+      | border-bottom-color | align-items | justify-content | letter-spacing
+      | border-top-right-radius | border-bottom-right-radius | border-right-width
+      | font-smoothing | border-bottom-width | border-right-color | direction
+      | border-top-width | src | border-left-color | border-left-width
+      | tap-highlight-color | table-layout | background-clip | word-break
+      | transform-origin | resize | filter | backface-visibility | text-rendering
+      | box-orient | transition-property | transition-duration | word-spacing
+      | quotes | outline-offset | animation-timing-function | animation-duration
+      | animation-name | transition-timing-function | border-bottom-style
+      | border-bottom | transition-delay | transition | unicode-bidi
+      | border-top-style | border-top | unicode-range | list-style-position
+      | orphans | outline-width | line-clamp | order | flex-direction | box-pack
+      | animation-fill-mode | outline-color | list-style-image | list-style
+      | touch-action | flex-grow | border-left-style | border-left
+      | animation-iteration-count | page-break-inside | box-flex | box-align
+      | page-break-after | animation-delay | widows | border-right-style
+      | border-right | flex-align | outline-style | outline | background-origin
+      | animation-direction | fill-opacity | background-attachment | flex-wrap
+      | transform-style | overflow-wrap | animation-play-state | animation
+      | will-change | box-ordinal-group | image-rendering | mask-image | flex-flow
+      | background-position-y | stroke-width | background-position-x
+      | background-position | background-blend-mode | flex-shrink | flex-basis
+      | flex-order | flex-item-align | flex-line-pack | flex-negative | flex-pack
+      | flex-positive | flex-preferred-size | flex | user-drag | font-stretch
+      | column-count | empty-cells | align-self | caption-side | mask-size
+      | column-gap | mask-repeat | box-direction | font-feature-settings
+      | mask-position | align-content | object-fit | columns | text-fill-color
+      | clip-path | stop-color | font-kerning | page-break-before
+      | stroke-dasharray | size | fill-rule | border-image-slice | column-width
+      | break-inside | column-break-before | border-image-width| stroke-dashoffset
+      | border-image-repeat | border-image-outset | line-break | stroke-linejoin
+      | stroke-linecap | stroke-miterlimit | stroke-opacity | stroke
+      | shape-rendering | border-image-source | border-image | border | tab-size
+      | writing-mode | perspective-origin-y | perspective-origin-x
+      | perspective-origin | perspective | text-align-last | text-align
+      | clip-rule | clip | text-anchor | column-rule-color | box-decoration-break
+      | column-fill | fill | column-rule-style | mix-blend-mode
+      | text-emphasis-color | baseline-shift | dominant-baseline | page
+      | alignment-baseline | column-rule-width | column-rule | break-after
+      | font-variant-ligatures | transform-origin-y | transform-origin-x
+      | transform | object-position | break-before | column-span | isolation
+      | shape-outside | all | color-interpolation-filters | marker | marker-end
+      | marker-start | marker-mid | color-rendering | color-interpolation
+      | background-repeat-x | background-repeat-y | background-repeat
+      | background | mask-type | flood-color | flood-opacity | text-orientation
+      | mask-composite | text-emphasis-style | paint-order | lighting-color
+      | shape-margin | text-emphasis-position | text-emphasis
+      | shape-image-threshold | mask-clip | mask-origin | mask | font-variant-caps
+      | font-variant-alternates | font-variant-east-asian | font-variant-numeric
+      | font-variant-position | font-variant | font-size-adjust | font-size
+      | font-language-override | font-display | font-synthesis | font
+      | line-box-contain | text-justify | text-decoration-color
+      | text-decoration-style | text-decoration-line | text-decoration
+      | text-underline-position | grid-template-rows | grid-template-columns
+      | grid-template-areas | grid-template | rotate | scale | translate
+      | scroll-behavior | grid-column-start | grid-column-end | grid-column-gap
+      | grid-row-start | grid-row-end | grid-auto-rows | grid-area
+      | grid-auto-flow | grid-auto-columns | image-orientation | hyphens
+      | overflow-scrolling | overflow | color-profile | kerning | nbsp-mode
+      | color | image-resolution | grid-row-gap | grid-row | grid-column
+      | blend-mode | azimuth | pause-after | pause-before | pause | pitch-range
+      | pitch | text-height | system | negative | prefix | suffix | range | pad
+      | fallback | additive-symbols | symbols | speak-as | speak | grid-gap | grid
+    )\b
+
   property_values: |-
     \b(?x:
         absolute|active|add
@@ -713,83 +794,7 @@ contexts:
           pop: 1
 
   other-property:
-    # Property names are sorted by popularity in descending order.
-    # Popularity data taken from https://www.chromestatus.com/metrics/css/popularity
-    - match: |-
-        \b(?x)(
-            display|width|background-color|height|position|font-family|font-weight
-          | top|opacity|cursor|background-image|right|visibility|box-sizing
-          | user-select|left|float|margin-left|margin-top|line-height
-          | padding-left|z-index|margin-bottom|margin-right|margin
-          | vertical-align|padding-top|white-space|border-radius|padding-bottom
-          | padding-right|padding|bottom|clear|max-width|box-shadow|content
-          | border-color|min-height|min-width|font-style|border-width
-          | border-collapse|background-size|text-overflow|max-height|text-transform
-          | text-shadow|text-indent|border-style|overflow-y|list-style-type
-          | word-wrap|border-spacing|appearance|zoom|overflow-x|border-top-left-radius
-          | border-bottom-left-radius|border-top-color|pointer-events
-          | border-bottom-color|align-items|justify-content|letter-spacing
-          | border-top-right-radius|border-bottom-right-radius|border-right-width
-          | font-smoothing|border-bottom-width|border-right-color|direction
-          | border-top-width|src|border-left-color|border-left-width
-          | tap-highlight-color|table-layout|background-clip|word-break
-          | transform-origin|resize|filter|backface-visibility|text-rendering
-          | box-orient|transition-property|transition-duration|word-spacing
-          | quotes|outline-offset|animation-timing-function|animation-duration
-          | animation-name|transition-timing-function|border-bottom-style
-          | border-bottom|transition-delay|transition|unicode-bidi|border-top-style
-          | border-top|unicode-range|list-style-position|orphans|outline-width
-          | line-clamp|order|flex-direction|box-pack|animation-fill-mode
-          | outline-color|list-style-image|list-style|touch-action|flex-grow
-          | border-left-style|border-left|animation-iteration-count
-          | page-break-inside|box-flex|box-align|page-break-after|animation-delay
-          | widows|border-right-style|border-right|flex-align|outline-style
-          | outline|background-origin|animation-direction|fill-opacity
-          | background-attachment|flex-wrap|transform-style
-          | overflow-wrap|animation-play-state|animation
-          | will-change|box-ordinal-group|image-rendering|mask-image|flex-flow
-          | background-position-y|stroke-width|background-position-x|background-position
-          | background-blend-mode|flex-shrink|flex-basis|flex-order|flex-item-align
-          | flex-line-pack|flex-negative|flex-pack|flex-positive|flex-preferred-size
-          | flex|user-drag|font-stretch|column-count|empty-cells|align-self
-          | caption-side|mask-size|column-gap|mask-repeat|box-direction
-          | font-feature-settings|mask-position|align-content|object-fit
-          | columns|text-fill-color|clip-path|stop-color|font-kerning
-          | page-break-before|stroke-dasharray|size|fill-rule|border-image-slice
-          | column-width|break-inside|column-break-before|border-image-width
-          | stroke-dashoffset|border-image-repeat|border-image-outset|line-break
-          | stroke-linejoin|stroke-linecap|stroke-miterlimit|stroke-opacity
-          | stroke|shape-rendering|border-image-source|border-image|border
-          | tab-size|writing-mode|perspective-origin-y|perspective-origin-x
-          | perspective-origin|perspective|text-align-last|text-align|clip-rule
-          | clip|text-anchor|column-rule-color|box-decoration-break|column-fill
-          | fill|column-rule-style|mix-blend-mode|text-emphasis-color
-          | baseline-shift|dominant-baseline|page|alignment-baseline
-          | column-rule-width|column-rule|break-after|font-variant-ligatures
-          | transform-origin-y|transform-origin-x|transform|object-position
-          | break-before|column-span|isolation|shape-outside|all
-          | color-interpolation-filters|marker|marker-end|marker-start
-          | marker-mid|color-rendering|color-interpolation|background-repeat-x
-          | background-repeat-y|background-repeat|background|mask-type
-          | flood-color|flood-opacity|text-orientation|mask-composite
-          | text-emphasis-style|paint-order|lighting-color|shape-margin
-          | text-emphasis-position|text-emphasis|shape-image-threshold
-          | mask-clip|mask-origin|mask|font-variant-caps|font-variant-alternates
-          | font-variant-east-asian|font-variant-numeric|font-variant-position
-          | font-variant|font-size-adjust|font-size|font-language-override
-          | font-display|font-synthesis|font|line-box-contain|text-justify
-          | text-decoration-color|text-decoration-style|text-decoration-line
-          | text-decoration|text-underline-position|grid-template-rows
-          | grid-template-columns|grid-template-areas|grid-template|rotate|scale
-          | translate|scroll-behavior|grid-column-start|grid-column-end
-          | grid-column-gap|grid-row-start|grid-row-end|grid-auto-rows
-          | grid-area|grid-auto-flow|grid-auto-columns|image-orientation
-          | hyphens|overflow-scrolling|overflow|color-profile|kerning
-          | nbsp-mode|color|image-resolution|grid-row-gap|grid-row|grid-column
-          | blend-mode|azimuth|pause-after|pause-before|pause|pitch-range|pitch
-          | text-height|system|negative|prefix|suffix|range|pad|fallback
-          | additive-symbols|symbols|speak-as|speak|grid-gap|grid
-        )\b
+    - match: '{{property_names}}'
       scope: support.type.property-name.css
 
   selector:
