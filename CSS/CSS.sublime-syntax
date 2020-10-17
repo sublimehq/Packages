@@ -390,6 +390,20 @@ contexts:
     - include: at-rules
     - include: property-lists
 
+  comment-block:
+    - match: /\*
+      scope: punctuation.definition.comment.css
+      push:
+        - meta_scope: comment.block.css
+        - match: \*/
+          scope: punctuation.definition.comment.css
+          pop: 1
+        - match: ^\s*(\*)(?!/)
+          captures:
+            1: punctuation.definition.comment.css
+
+###[ AT RULES ]################################################################
+
   at-rules:
     - include: at-charset
     - include: at-counter-style
@@ -402,18 +416,6 @@ contexts:
     - include: at-namespace
     - include: at-page
     - include: at-supports
-
-  comment-block:
-    - match: /\*
-      scope: punctuation.definition.comment.css
-      push:
-        - meta_scope: comment.block.css
-        - match: \*/
-          scope: punctuation.definition.comment.css
-          pop: 1
-        - match: ^\s*(\*)(?!/)
-          captures:
-            1: punctuation.definition.comment.css
 
   at-charset:
     - match: \s*((@)charset\b)\s*
