@@ -1,12 +1,18 @@
 %YAML 1.2
 ---
+# https://www.sublimetext.com/docs/syntax.html
 # Derived from https://github.com/i-akhmadullin/Sublime-CSS3
 name: CSS
+scope: source.css
+version: 2
+
 file_extensions:
   - css
   - css.erb
   - css.liquid
-scope: source.css
+
+###############################################################################
+
 variables:
   # Many variable names taken directly from https://www.w3.org/TR/css3-selectors/#lex
   unicode: '\\\h{1,6}[ \t\n\f]?'
@@ -72,7 +78,10 @@ variables:
       | upper-alpha | upper-armenian | upper-latin | upper-roman
     )
 
+###############################################################################
+
 contexts:
+
   main:
     - include: comment-block
     - include: selector
@@ -127,7 +136,7 @@ contexts:
         - meta_scope: comment.block.css
         - match: \*/
           scope: punctuation.definition.comment.css
-          pop: true
+          pop: 1
         - match: ^\s*(\*)(?!/)
           captures:
             1: punctuation.definition.comment.css
@@ -162,7 +171,7 @@ contexts:
       push:
         - match: ;
           scope: punctuation.terminator.css
-          pop: true
+          pop: 1
         - match: \s*((@)custom-media)
           captures:
             1: keyword.control.at-rule.custom-media.css
@@ -171,7 +180,7 @@ contexts:
           push:
             - meta_scope: meta.at-rule.custom-media.css
             - match: \s*(?=;)
-              pop: true
+              pop: 1
             - include: media-query-list
 
   # @document
@@ -188,11 +197,11 @@ contexts:
           push:
             - meta_scope: meta.block.css
             - match: '(?=\})'
-              pop: true
+              pop: 1
             - include: main
         - match: '\}'
           scope: meta.block.css punctuation.definition.block.end.css
-          pop: true
+          pop: 1
         - include: comment-block
         - include: url-function
         - include: url-prefix-function
@@ -232,7 +241,7 @@ contexts:
         - match: '\s*(?:(,)|(?=[{;]))'
           captures:
             1: punctuation.definition.arbitrary-repetition.css
-          pop: true
+          pop: 1
 
   # @keyframes
   # https://drafts.csswg.org/css-animations/#keyframes
@@ -249,18 +258,18 @@ contexts:
           push:
             - meta_scope: meta.at-rule.keyframe.css
             - match: '\s*(?=\{)'
-              pop: true
+              pop: 1
             - match: '\s*(?=[^{;])'
               push:
                 - match: '\s*(?=[{;])'
-                  pop: true
+                  pop: 1
                 - include: keyframe-name
         - match: '\s*(\{)'
           captures:
             1: punctuation.section.property-list.css
           push:
             - match: '(?=\})'
-              pop: true
+              pop: 1
             - match: \b(from|to)\b
               scope: keyword.keyframe-selector.css
             - include: comma-delimiter
@@ -279,14 +288,14 @@ contexts:
           push:
             - meta_scope: meta.at-rule.media.css
             - match: '\s*(?=\{)'
-              pop: true
+              pop: 1
             - include: media-query-list
         - match: '\s*(\{)'
           captures:
             1: punctuation.section.property-list.css
           push:
             - match: '(?=\})'
-              pop: true
+              pop: 1
             - include: main
 
   media-query:
@@ -303,7 +312,7 @@ contexts:
       push:
         - match: \)
           scope: punctuation.definition.group.end.css
-          pop: true
+          pop: 1
         - include: comment-block
         - match: |-
             (?x)
@@ -337,7 +346,7 @@ contexts:
     - match: '\s*(?=[^{;])'
       push:
         - match: '\s*(?=[{;])'
-          pop: true
+          pop: 1
         - include: media-query
 
   # @namespace
@@ -384,11 +393,11 @@ contexts:
           push:
             - meta_scope: meta.block.css
             - match: '(?=\})'
-              pop: true
+              pop: 1
             - include: main
         - match: '\}'
           scope: meta.block.css punctuation.definition.block.end.css
-          pop: true
+          pop: 1
         - include: at-supports-operators
         - include: at-supports-parens
 
@@ -403,7 +412,7 @@ contexts:
         - meta_scope: meta.group.css
         - match: '\)'
           scope: punctuation.definition.group.end.css
-          pop: true
+          pop: 1
         - include: at-supports-operators
         - include: at-supports-parens
         - include: rule-list-body
@@ -413,7 +422,7 @@ contexts:
       push:
         - match: '\}'
           scope: punctuation.section.property-list.css
-          pop: true
+          pop: 1
         - include: rule-list
 
   property-value-constants:
@@ -603,7 +612,7 @@ contexts:
     - match: '\s*(\})'
       captures:
         1: punctuation.section.property-list.css
-      pop: true
+      pop: 1
 
   rule-list:
     - match: '\{'
@@ -611,7 +620,7 @@ contexts:
       push:
         - meta_scope: meta.property-list.css
         - match: '(?=\s*\})'
-          pop: true
+          pop: 1
         - include: rule-list-body
 
   rule-list-body:
@@ -620,7 +629,7 @@ contexts:
       push:
         - meta_scope: meta.property-name.css
         - match: $|(?![-a-z])
-          pop: true
+          pop: 1
         - include: vendor-prefix
         - include: deprecated-property
         - include: custom-property-name
@@ -642,7 +651,7 @@ contexts:
     - match: \s*(;)|(?=[})])
       captures:
         1: punctuation.terminator.rule.css
-      pop: true
+      pop: 1
 
   counter-property:
     # https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Lists_and_Counters/Using_CSS_counters
@@ -657,14 +666,14 @@ contexts:
             - property-value-content
             - counter-identifier
         - match: ''
-          pop: true
+          pop: 1
 
   counter-identifier:
     - match: '{{ident}}'
       scope: variable.other.counter.css
-      pop: true
+      pop: 1
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   deprecated-property:
     - match: \b(var-)({{ident}})(?=\s)
@@ -689,7 +698,7 @@ contexts:
             - match: '{{ident}}(\s+{{ident}})*'
               scope: string.unquoted.css
         - match: ''
-          pop: true
+          pop: 1
 
   other-property:
     # Property names are sorted by popularity in descending order.
@@ -776,7 +785,7 @@ contexts:
       push:
         - meta_scope: meta.selector.css
         - match: "(?=[/@{)])"
-          pop: true
+          pop: 1
           # Custom Elements: http://w3c.github.io/webcomponents/spec/custom/#custom-elements-core-concepts
         - match: '\b([a-z](?:{{custom_element_chars}})*-(?:{{custom_element_chars}})*)\b'
           scope: entity.name.tag.custom.css
@@ -820,13 +829,13 @@ contexts:
                   scope: string.unquoted.css
                 - include: literal-string
                 - match: '(?=(\s|\]))'
-                  pop: true
+                  pop: 1
             - match: '(?:\s+([iI]))?'  # case insensitive flag
               captures:
                 1: keyword.other.css
             - match: '\]'
               scope: punctuation.definition.entity.css
-              pop: true
+              pop: 1
         - include: comma-delimiter
 
   # Pseudo Elements
@@ -862,7 +871,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: var-function
           - include: unquoted-string
 
@@ -879,7 +888,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: selector
 
       # Special :drop() pseudo-class
@@ -895,7 +904,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - match: \b(active|valid|invalid)\b
             scope: keyword.other.pseudo-class.css
           - include: var-function
@@ -915,7 +924,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - match: \b(even|odd)\b
             scope: keyword.other.pseudo-class.css
           - match: '(([-+]?)(\d*)(n))\s*(([-+])(\s*\d+))?'
@@ -963,7 +972,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: comma-delimiter
           - include: var-function
           - include: image-type
@@ -982,13 +991,13 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - match: '({{ident}})'
             scope: entity.other.counter-name.css string.unquoted.css
           - match: '(?=,)'
             push:
               - match: '(?=\))'
-                pop: true
+                pop: 1
               - include: comma-delimiter
               - include: var-function
               - match: '\b({{counter_styles}}|none)\b'
@@ -1007,13 +1016,13 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - match: '({{ident}})'
             scope: entity.other.counter-name.css string.unquoted.css
           - match: '(?=,)'
             push:
               - match: '(?=\))'
-                pop: true
+                pop: 1
               - include: comma-delimiter
               - include: var-function
               - include: literal-string
@@ -1033,7 +1042,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - match: '\b(cyclic|numeric|alphabetic|symbolic|fixed)\b'
             scope: support.constant.symbol-type.css
           - include: comma-delimiter
@@ -1055,7 +1064,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: var-function
           - include: literal-string
 
@@ -1071,7 +1080,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: var-function
           - include: literal-string
           - include: unquoted-string
@@ -1091,7 +1100,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: comma-delimiter
           - include: number-type
           - include: var-function
@@ -1108,7 +1117,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: comma-delimiter
           - include: var-function
           - include: percentage-type
@@ -1127,7 +1136,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: var-function
           - include: percentage-type
           - include: length-type
@@ -1145,7 +1154,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: var-function
           - include: angle-type
 
@@ -1161,7 +1170,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: comma-delimiter
           - include: var-function
           - include: angle-type
@@ -1178,7 +1187,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: var-function
           - include: length-type
 
@@ -1194,7 +1203,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: comma-delimiter
           - include: var-function
           - include: angle-type
@@ -1212,7 +1221,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: comma-delimiter
           - include: var-function
           - include: number-type
@@ -1232,7 +1241,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: comma-delimiter
           - include: var-function
           - include: number-type
@@ -1249,7 +1258,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: comma-delimiter
           - include: var-function
           - include: integer-type
@@ -1271,7 +1280,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - match: \bauto\b
             scope: support.constant.property-value.css
           - include: var-function
@@ -1289,7 +1298,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - match: '\bround\b'
             scope: keyword.other.css
           - include: var-function
@@ -1310,7 +1319,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - match: '\bat\b'
             scope: keyword.other.css
           - match: '\b(top|right|bottom|left|center|closest-side|farthest-side)\b'
@@ -1332,7 +1341,7 @@ contexts:
           - meta_scope: meta.group.css
           - include: comment-block
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: comma-delimiter
           - include: var-function
           - include: length-type
@@ -1353,7 +1362,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: comma-delimiter
           - include: var-function
           - include: vendor-prefix
@@ -1374,7 +1383,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: comma-delimiter
           - include: var-function
           - include: length-type
@@ -1400,13 +1409,13 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: var-function
           - include: custom-property-name
           - match: '(?=,)'
             push:
               - match: '(?=\))'
-                pop: true
+                pop: 1
               - include: property-values
 
   # Filter Functions
@@ -1424,7 +1433,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: var-function
           - include: length-type
 
@@ -1440,7 +1449,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: var-function
           - include: percentage-type
           - include: number-type
@@ -1457,7 +1466,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: var-function
           - include: length-type
           - include: color-values
@@ -1474,7 +1483,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: var-function
           - include: angle-type
 
@@ -1489,7 +1498,7 @@ contexts:
           scope: punctuation.definition.group.begin.css
           push: inside-calc-parens
         - match: ''
-          pop: true
+          pop: 1
 
   inside-calc-parens:
     - meta_scope: meta.group.css
@@ -1520,7 +1529,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: var-function
           - include: qualified-name
           - include: literal-string
@@ -1539,7 +1548,7 @@ contexts:
                 )\b
               scope: keyword.other.unit.css
             - match: '(?=\))'
-              pop: true
+              pop: 1
             - include: comma-delimiter
             - include: var-function
             - include: property-value-constants
@@ -1559,7 +1568,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: var-function
           - include: literal-string
           - include: unquoted-string
@@ -1577,7 +1586,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: var-function
           - include: literal-string
           - include: unquoted-string
@@ -1595,7 +1604,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: var-function
           - include: literal-string
           - include: unquoted-string
@@ -1613,7 +1622,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: var-function
           - include: literal-string
 
@@ -1630,7 +1639,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: comma-delimiter
           - include: var-function
           - include: color-values
@@ -1651,7 +1660,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: comma-delimiter
           - include: var-function
           - include: color-values
@@ -1682,7 +1691,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: comma-delimiter
           - include: var-function
           - include: color-values
@@ -1708,7 +1717,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: comma-delimiter
           - include: var-function
           - include: color-values
@@ -1743,7 +1752,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: comma-delimiter
           - include: var-function
           - include: color-values
@@ -1765,7 +1774,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: comma-delimiter
           - include: var-function
           - include: length-type
@@ -1788,7 +1797,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: comma-delimiter
           - include: var-function
           - include: percentage-type
@@ -1808,7 +1817,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: comma-delimiter
           - include: var-function
           - include: angle-type
@@ -1827,7 +1836,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: comma-delimiter
           - include: var-function
           - include: percentage-type
@@ -1845,7 +1854,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: comma-delimiter
           - include: color-adjuster-functions # must be included before `color-values`
           - include: var-function
@@ -1865,7 +1874,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: comma-delimiter
           - include: color-adjuster-functions # must be included before `color-values`
           - include: var-function
@@ -1887,7 +1896,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: var-function
           - include: color-adjuster-operators
           - include: percentage-type
@@ -1904,7 +1913,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: var-function
           - include: color-adjuster-operators
           - include: angle-type
@@ -1920,7 +1929,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: var-function
           - include: color-adjuster-operators
           - include: percentage-type
@@ -1938,7 +1947,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - include: var-function
           - include: percentage-type
 
@@ -1953,7 +1962,7 @@ contexts:
           push:
           - meta_scope: meta.group.css
           - match: '(?=\))'
-            pop: true
+            pop: 1
           - match: '\b(rgb|hsl|hwb)\b'
             scope: keyword.other.color-space.css
           - include: var-function
@@ -1999,13 +2008,13 @@ contexts:
   maybe-illegal-operator:
     - match: '[-+](?=\s*\d)'
       scope: invalid.illegal.operator.css
-      pop: true
+      pop: 1
     - match: '\s*([-+])(?=\d)'
       captures:
         1: invalid.illegal.operator.css
-      pop: true
+      pop: 1
     - match: ''
-      pop: true
+      pop: 1
 
   comma-delimiter:
     - match: '\s*(,)\s*'
@@ -2019,13 +2028,13 @@ contexts:
   function-notation-terminator:
     - match: '\)'
       scope: meta.group.css punctuation.definition.group.end.css
-      pop: true
+      pop: 1
 
   at-rule-punctuation:
     - match: \;
       scope: punctuation.terminator.rule.css
     - match: (?=;|$)
-      pop: true
+      pop: 1
 
   # Named Grid Lines
   # https://drafts.csswg.org/css-grid/#named-lines
@@ -2037,7 +2046,7 @@ contexts:
           scope: string.unquoted.line-name.css
         - match: '\]'
           scope: punctuation.section.end.css
-          pop: true
+          pop: 1
 
   unquoted-string:
     - match: '[^\s''"]'
@@ -2050,7 +2059,7 @@ contexts:
         - meta_scope: string.quoted.single.css
         - match: \'
           scope: punctuation.definition.string.end.css
-          pop: true
+          pop: 1
         - include: string-content
     - match: \"
       scope: punctuation.definition.string.begin.css
@@ -2058,13 +2067,13 @@ contexts:
         - meta_scope: string.quoted.double.css
         - match: \"
           scope: punctuation.definition.string.end.css
-          pop: true
+          pop: 1
         - include: string-content
 
   string-content:
     - match: \n
       scope: invalid.illegal.newline.css
-      pop: true
+      pop: 1
     - match: \\\s*\n
       scope: constant.character.escape.newline.css
     - match: \\(?:\h{1,6}|.)
