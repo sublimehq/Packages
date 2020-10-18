@@ -667,11 +667,26 @@
 /*                                                                   ^^^^ comment.block.css */
 /*                                                                        ^ punctuation.definition.entity.css */
 
-.test-attribute-selectors-incomplete[ = button]
-/*                                  ^^^^^^^^^^^ meta.selector.css meta.attribute-selector.css */
-/*                                             ^ meta.selector.css - meta.attribute-selector */
-/*                                    ^ keyword.operator.attribute-selector.css */
-/*                                      ^^^^^^ string.unquoted.css */
+.test-attribute-selectors-illegal[button button = button button i button] {}
+/*                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css meta.attribute-selector.css */
+/*                                                                       ^^^ - meta.selector.css - meta.attribute-selector */
+/*                               ^ punctuation.definition.entity.css */
+/*                                ^^^^^^ entity.other.attribute-name.css */
+/*                                       ^^^^^^ invalid.illegal.css */
+/*                                              ^ keyword.operator.attribute-selector.css */
+/*                                                ^^^^^^ string.unquoted.css */
+/*                                                       ^^^^^^ invalid.illegal.css */
+/*                                                              ^ keyword.other.css */
+/*                                                                ^^^^^^ invalid.illegal.css */
+/*                                                                      ^ punctuation.definition.entity.css */
+
+.test-attribute-selectors-incomplete[=button {}
+/*                                  ^^^^^^^^ meta.selector.css meta.attribute-selector.css */
+/*                                          ^ - meta.property-list - meta.selector */
+/*                                           ^^ meta.property-list.css - meta.selector */
+/*                                  ^ punctuation.definition.entity.css */
+/*                                   ^ keyword.operator.attribute-selector.css */
+/*                                    ^^^^^^ string.unquoted.css */
 
 .test-attribute-selectors-namespaces[n|a=""][*|a=""][|att] {}
 /*                                   ^ entity.other.namespace-prefix.css */

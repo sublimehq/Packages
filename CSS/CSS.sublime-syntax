@@ -707,9 +707,7 @@ contexts:
 
   selector-content:
     - meta_scope: meta.selector.css
-    - match: (?=\s*[@{)])
-      pop: 1
-    - include: comments
+    - include: selector-end
     - include: comma-delimiter
     # Custom Elements
     # http://w3c.github.io/webcomponents/spec/custom/#custom-elements-core-concepts
@@ -741,7 +739,9 @@ contexts:
     # https://drafts.csswg.org/selectors-4/#attribute-selectors
     - match: \[
       scope: punctuation.definition.entity.css
-      push: attribute-selector-content
+      push:
+        - attribute-selector-meta
+        - attribute-selector-key
     # Pseudo Classes and Elements
     # https://drafts.csswg.org/selectors-4/#pseudo-classes
     # https://drafts.csswg.org/selectors-4/#pseudo-elements
@@ -765,32 +765,51 @@ contexts:
     - match: ({{combinators}}){2,}
       scope: invalid.illegal.combinator.css
 
-  attribute-selector-content:
-    - meta_scope: meta.attribute-selector.css
-    - match: \]
-      scope: punctuation.definition.entity.css
+  selector-end:
+    - match: (?=\s*[@){}])
       pop: 1
     - include: comments
-    # identifiers
+
+  attribute-selector-meta:
+    - meta_scope: meta.attribute-selector.css
+    - include: immediately-pop
+
+  attribute-selector-key:
     - include: qualified-names
     - match: '{{ident}}'
       scope: entity.other.attribute-name.css
-    # values
+      set: attribute-selector-operator
+    - include: attribute-selector-operator
+
+  attribute-selector-operator:
     - match: '[~*|^$]?='
       scope: keyword.operator.attribute-selector.css
-      push: attribute-selector-value
-    # case insensitive flag
-    - match: \s+([iI])
-      captures:
-        1: keyword.other.css
+      set:
+        - attribute-selector-flag
+        - attribute-selector-value
+    - include: attribute-selector-flag
 
   attribute-selector-value:
     - include: comments
+    - include: quoted-string
     - match: '[^\s\]\[''"]+'
       scope: string.unquoted.css
       pop: 1
-    - include: quoted-string
     - include: else-pop
+
+  attribute-selector-flag:
+    - match: \b[iI]\b
+      scope: keyword.other.css
+      set: attribute-selector-end
+    - include: attribute-selector-end
+
+  attribute-selector-end:
+    - match: \]
+      scope: punctuation.definition.entity.css
+      pop: 1
+    - include: selector-end
+    - match: \S
+      scope: invalid.illegal.css
 
   # Pseudo Classes
   # https://drafts.csswg.org/selectors-4/#pseudo-classes
