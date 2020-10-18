@@ -121,11 +121,12 @@
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.namespace.css */
 /*                                                                                  ^ - meta.at-rule - comment */
 /*                                                                                   ^^^^^^^^^^^^^^^^^^^^^^ comment.block.css - meta.at-rule */
+/*             ^^^ meta.function-call.identifier.css - meta.function-call meta.function-call - meta.group */
+/*                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
 /*             ^^^ support.function.url.css */
-/*             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.css */
-/*                ^ meta.group.css punctuation.definition.group.begin.css */
-/*                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.css string.quoted.double.css */
-/*                                                                                ^ meta.group.css punctuation.definition.group.end.css */
+/*                ^ punctuation.definition.group.begin.css */
+/*                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.css */
+/*                                                                                ^ punctuation.definition.group.end.css */
 
     @page :left {}
 /*  ^^^^^^^^^^^^^^ meta.at-rule.page.css */
@@ -831,12 +832,16 @@
 
 .test-function-meta {
     top: filter(param1, 20px);
-/*       ^^^^^^^^^^^^^^^^^^^^ meta.function-call.css */
-/*             ^^^^^^^^^^^^^^ meta.group.css */
+/*       ^^^^^^^^^^^^^^^^^^^^ - meta.function-call meta.function-call */
+/*       ^^^^^^ meta.function-call.identifier.css */
+/*             ^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
 }
 
 .test-color-functions {
     top: rgb(1, 4.5%);
+/*       ^^^^^^^^^^^^ - meta.function-call meta.function-call */
+/*       ^^^ meta.function-call.identifier.css */
+/*          ^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
 /*       ^^^ support.function.color.css */
 /*           ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*            ^ punctuation.separator.sequence.css */
@@ -1114,9 +1119,10 @@
 /*                    ^^^ support.function.var.css */
 
     top: calc(100% - (1 * 10px) / 1 - (1 * 10px) / 1 - (1 * 10px) / 1);
-/*       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.css */
+/*       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function-call meta.function-call */
+/*       ^^^^ meta.function-call.identifier.css */
+/*           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
 /*       ^^^^ support.function.calc.css */
-/*           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.css */
 /*           ^ punctuation.definition.group.begin.css */
 /*            ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*               ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
@@ -1184,11 +1190,14 @@
 /*            ^^^^^^^^^^^ entity.other.attribute-name.css */
 
     top: attr(var(--name) var(--val));
-/*       ^^^^^ meta.function-call.css - meta.function-call meta.function-call */
-/*            ^^^^^^^^^^^ meta.function-call.css meta.function-call.css */
-/*                       ^ meta.function-call.css - meta.function-call meta.function-call */
-/*                        ^^^^^^^^^^ meta.function-call.css meta.function-call.css */
-/*                                  ^ meta.function-call.css - meta.function-call meta.function-call */
+/*       ^^^^ meta.function-call.identifier.css - meta.function-call meta.function-call */
+/*           ^ meta.function-call.arguments.css - meta.function-call meta.function-call */
+/*            ^^^ meta.function-call.arguments.css meta.function-call.identifier.css */
+/*               ^^^^^^^^ meta.function-call.arguments.css meta.function-call.arguments.css */
+/*                       ^ meta.function-call.arguments.css - meta.function-call meta.function-call */
+/*                        ^^^ meta.function-call.arguments.css meta.function-call.identifier.css */
+/*                           ^^^^^^^ meta.function-call.arguments.css meta.function-call.arguments.css */
+/*                                  ^ meta.function-call.arguments.css - meta.function-call meta.function-call */
 /*       ^^^^ support.function.attr.css */
 /*           ^ punctuation.definition.group.begin.css */
 /*            ^^^ support.function.var.css */
@@ -1201,19 +1210,25 @@
 
 .test-url-function {
     top: url("a");
-/*       ^^^^^^^^ meta.function-call.css */
+/*       ^^^^^^^^ - meta.function-call meta.function-call */
+/*       ^^^ meta.function-call.identifier.css */
+/*          ^^^^^ meta.function-call.arguments.css meta.group.css */
 /*       ^^^ support.function.url.css */
 /*           ^^^ string.quoted.double.css */
 
     top: url(a);
-/*       ^^^^^^ meta.function-call.css */
+/*       ^^^^^^^^ - meta.function-call meta.function-call */
+/*       ^^^ meta.function-call.identifier.css */
+/*          ^^^ meta.function-call.arguments.css meta.group.css */
 /*       ^^^ support.function.url.css */
 /*           ^ string.unquoted.css */
 
     top: url(var(--image));
-/*       ^^^^ meta.function-call.css - meta.function-call meta.function-call */
-/*           ^^^^^^^^^^^^ meta.function-call.css meta.function-call.css */
-/*                       ^ meta.function-call.css - meta.function-call meta.function-call */
+/*       ^^^ meta.function-call.identifier.css - meta.function-call meta.function-call */
+/*          ^ meta.function-call.arguments.css - meta.function-call meta.function-call */
+/*           ^^^ meta.function-call.arguments.css meta.function-call.identifier.css */
+/*              ^^^^^^^^^ meta.function-call.arguments.css meta.function-call.arguments.css */
+/*                       ^ meta.function-call.arguments.css - meta.function-call meta.function-call */
 /*       ^^^ support.function.url.css */
 /*          ^ punctuation.definition.group.begin.css */
 /*           ^^^ support.function.var.css */
@@ -1224,18 +1239,33 @@
 
 .test-image-functions {
     top: image("a");
-/*       ^^^^^ support.function.image.css */
+/*       ^^^^^^^^^^ - meta.function-call meta.function-call */
+/*       ^^^^^ meta.function-call.identifier.css */
+/*            ^^^^^ meta.function-call.arguments.css meta.group.css */
 /*             ^^^ string.quoted.double.css */
 
     top: image(a);
+/*       ^^^^^^^^ - meta.function-call meta.function-call */
+/*       ^^^^^ meta.function-call.identifier.css */
+/*            ^^^ meta.function-call.arguments.css meta.group.css */
 /*       ^^^^^ support.function.image.css */
 /*             ^ string.unquoted.css */
 
     top: image(var(--url));
+/*       ^^^^^ meta.function-call.identifier.css - meta.function-call meta.function-call */
+/*            ^ meta.function-call.arguments.css - meta.function-call meta.function-call */
+/*             ^^^ meta.function-call.arguments.css meta.function-call.identifier.css */
+/*                ^^^^^^^ meta.function-call.arguments.css meta.function-call.arguments.css */
+/*                       ^ meta.function-call.arguments.css - meta.function-call meta.function-call */
 /*       ^^^^^ support.function.image.css */
 /*             ^^^ support.function.var.css */
 
     top: image("a", rgb(0, 0, 0));
+/*       ^^^^^ meta.function-call.identifier.css - meta.function-call meta.function-call */
+/*            ^^^^^^ meta.function-call.arguments.css - meta.function-call meta.function-call */
+/*                  ^^^ meta.function-call.arguments.css meta.function-call.identifier.css */
+/*                     ^^^^^^^^^ meta.function-call.arguments.css meta.function-call.arguments.css */
+/*                              ^ meta.function-call.arguments.css - meta.function-call meta.function-call */
 /*       ^^^^^ support.function.image.css */
 /*                ^ punctuation.separator.sequence.css */
 /*                      ^ meta.number.integer.decimal.css constant.numeric.value.css */
@@ -1327,13 +1357,19 @@
 
     top: counter(name, decimal-leading-zero);
 /*       ^^^^^^^ support.function.counter.css */
-/*               ^^^^ entity.other.counter-name.css string.unquoted.css */
+/*               ^^^^ entity.other.counter-name.css */
 /*                   ^ punctuation.separator.sequence.css */
 /*                     ^^^^^^^^^^^^^^^^^^^^ support.constant.property-value.counter-style.css */
 
+    top: counter(name other decimal-leading-zero);
+/*       ^^^^^^^ support.function.counter.css */
+/*               ^^^^ entity.other.counter-name.css */
+/*                    ^^^^^ - constant - entity - variable */
+/*                          ^^^^^^^^^^^^^^^^^^^^ support.constant.property-value.counter-style.css */
+
     top: counters(name, "str", none);
 /*       ^^^^^^^^ support.function.counter.css */
-/*                ^^^^ entity.other.counter-name.css string.unquoted.css */
+/*                ^^^^ entity.other.counter-name.css */
 /*                    ^ punctuation.separator.sequence.css */
 /*                      ^^^^^ string.quoted.double.css */
 /*                           ^ punctuation.separator.sequence.css */
