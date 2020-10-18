@@ -64,27 +64,39 @@
 }
 /* < punctuation.section.property-list.css */
 
+    . {}
+/*^^ - meta.selector.css */
+/*  ^ meta.selector.css */
+/*   ^^^ - meta.selector.css */
+/*  ^ entity.other.attribute-name.class.css punctuation.definition.entity.css */
+
     .classname {}
 /*^^ - meta.selector.css */
 /*  ^^^^^^^^^^ meta.selector.css */
 /*            ^^^ - meta.selector.css */
-/*  ^ punctuation.definition.entity.css */
-/*   ^^^^^^^^^ entity.other.attribute-name.class.css */
+/*  ^ entity.other.attribute-name.class.css punctuation.definition.entity.css */
+/*   ^^^^^^^^^ entity.other.attribute-name.class.css - punctuation */
+
+    # {}
+/*^^ - meta.selector.css */
+/*  ^ meta.selector.css */
+/*   ^^^ - meta.selector.css */
+/*  ^ entity.other.attribute-name.id.css punctuation.definition.entity.css */
 
     #id {}
 /*^^ - meta.selector.css */
 /*  ^^^ meta.selector.css */
 /*     ^^^ - meta.selector.css */
-/*  ^ punctuation.definition.entity.css */
-/*   ^^ entity.other.attribute-name.id.css */
+/*  ^ entity.other.attribute-name.id.css punctuation.definition.entity.css */
+/*   ^^ entity.other.attribute-name.id.css - punctuation */
 
     html, h1 {}
 /*^^ - meta.selector.css */
 /*  ^^^^^^^^ meta.selector.css */
 /*          ^^^ - meta.selector.css */
-/*  ^^^^ entity.name.tag.css */
+/*  ^^^^ entity.name.tag.html.css */
 /*      ^ punctuation.separator.sequence.css */
-/*        ^^ entity.name.tag.css */
+/*        ^^ entity.name.tag.html.css */
 /*           ^ punctuation.section.property-list.css */
 /*            ^ punctuation.section.property-list.css */
 
@@ -1383,8 +1395,8 @@
 
 .test-custom-tags > div > span + cust·m-tÀg > div-cøstom-tag ~ form-Çust😀m-tag.classname:last-child:hover {}
 /*                ^ -entity.name.tag.custom.css */
-/*                  ^^^ entity.name.tag.css */
-/*                        ^^^^ entity.name.tag.css */
+/*                  ^^^ entity.name.tag.html.css */
+/*                        ^^^^ entity.name.tag.html.css */
 /*                             ^ -entity.name.tag.custom.css */
 /*                               ^^^^^^^^^^ entity.name.tag.custom.css */
 /*                                            ^^^^^^^^^^^^^^ entity.name.tag.custom.css */

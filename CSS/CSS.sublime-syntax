@@ -711,30 +711,37 @@ contexts:
       pop: 1
     - include: comments
     - include: comma-delimiter
-    # Custom Elements: http://w3c.github.io/webcomponents/spec/custom/#custom-elements-core-concepts
+    # Custom Elements
+    # http://w3c.github.io/webcomponents/spec/custom/#custom-elements-core-concepts
     - match: \b([a-z](?:{{custom_element_chars}})*-(?:{{custom_element_chars}})*)\b
       scope: entity.name.tag.custom.css
+    # Html Tags
     - match: '{{html_tag_names}}'
-      scope: entity.name.tag.css
-    # https://drafts.csswg.org/selectors-4/#class-html
-    - match: (\.){{ident}}
-      scope: entity.other.attribute-name.class.css
-      captures:
-        1: punctuation.definition.entity.css
-    # https://drafts.csswg.org/selectors-4/#id-selectors
-    - match: (#){{ident}}
-      scope: entity.other.attribute-name.id.css
-      captures:
-        1: punctuation.definition.entity.css
+      scope: entity.name.tag.html.css
     - match: \*
       scope: entity.name.tag.wildcard.css
-    # Combinators
-    # https://drafts.csswg.org/selectors-4/#combinators
-    # https://drafts.csswg.org/css-scoping/#deep-combinator
-    - match: ({{combinators}})(?![>~+])
-      scope: punctuation.separator.combinator.css
-    - match: ({{combinators}}){2,}
-      scope: invalid.illegal.combinator.css
+    # Class and Id Selectors
+    # https://drafts.csswg.org/selectors-4/#class-html
+    - match: \.
+      scope: punctuation.definition.entity.css
+      push:
+        - meta_scope: entity.other.attribute-name.class.css
+        - match: '{{ident}}'
+          pop: 1
+        - include: immediately-pop
+    # https://drafts.csswg.org/selectors-4/#id-selectors
+    - match: \#
+      scope: punctuation.definition.entity.css
+      push:
+        - meta_scope: entity.other.attribute-name.id.css
+        - match: '{{ident}}'
+          pop: 1
+        - include: immediately-pop
+    # Attribute Selectors
+    # https://drafts.csswg.org/selectors-4/#attribute-selectors
+    - match: \[
+      scope: punctuation.definition.entity.css
+      push: attribute-selector-content
     # Pseudo Classes and Elements
     # https://drafts.csswg.org/selectors-4/#pseudo-classes
     # https://drafts.csswg.org/selectors-4/#pseudo-elements
@@ -750,11 +757,13 @@ contexts:
         - include: pseudo-element-css2
         - include: pseudo-class
         - include: immediately-pop
-    # Attribute Selectors
-    # https://drafts.csswg.org/selectors-4/#attribute-selectors
-    - match: \[
-      scope: punctuation.definition.entity.css
-      push: attribute-selector-content
+    # Combinators
+    # https://drafts.csswg.org/selectors-4/#combinators
+    # https://drafts.csswg.org/css-scoping/#deep-combinator
+    - match: ({{combinators}})(?![>~+])
+      scope: punctuation.separator.combinator.css
+    - match: ({{combinators}}){2,}
+      scope: invalid.illegal.combinator.css
 
   attribute-selector-content:
     - meta_scope: meta.attribute-selector.css
