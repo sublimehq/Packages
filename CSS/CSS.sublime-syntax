@@ -740,7 +740,7 @@ contexts:
     # Attribute Selectors
     # https://drafts.csswg.org/selectors-4/#attribute-selectors
     - match: \[
-      scope: punctuation.definition.entity.css
+      scope: punctuation.section.attribute-selector.begin.css
       push:
         - attribute-selector-meta
         - attribute-selector-key
@@ -807,7 +807,7 @@ contexts:
 
   attribute-selector-end:
     - match: \]
-      scope: punctuation.definition.entity.css
+      scope: punctuation.section.attribute-selector.end.css
       pop: 1
     - include: selector-end
     - match: \S
