@@ -783,7 +783,7 @@ contexts:
 
   attribute-selector-operator:
     - match: '[~*|^$]?='
-      scope: keyword.operator.attribute-selector.css
+      scope: keyword.operator.logical.css
       set:
         - attribute-selector-flag
         - attribute-selector-value

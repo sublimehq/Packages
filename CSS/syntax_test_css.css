@@ -673,7 +673,7 @@
 /*                               ^ punctuation.definition.entity.css */
 /*                                ^^^^^^ entity.other.attribute-name.css */
 /*                                       ^^^^^^ invalid.illegal.css */
-/*                                              ^ keyword.operator.attribute-selector.css */
+/*                                              ^ keyword.operator.logical.css */
 /*                                                ^^^^^^ string.unquoted.css */
 /*                                                       ^^^^^^ invalid.illegal.css */
 /*                                                              ^ keyword.other.css */
@@ -685,7 +685,7 @@
 /*                                          ^ - meta.property-list - meta.selector */
 /*                                           ^^ meta.property-list.css - meta.selector */
 /*                                  ^ punctuation.definition.entity.css */
-/*                                   ^ keyword.operator.attribute-selector.css */
+/*                                   ^ keyword.operator.logical.css */
 /*                                    ^^^^^^ string.unquoted.css */
 
 .test-attribute-selectors-namespaces[n|a=""][*|a=""][|att] {}
@@ -696,16 +696,16 @@
 /*                                                   ^ punctuation.separator.namespace.css */
 
 .test-attribute-selectors-operators[a=""][a~=""][a|=""][a^=""][a$=""][a*=""] {}
-/*                                   ^ keyword.operator.attribute-selector.css */
-/*                                         ^^ keyword.operator.attribute-selector.css */
-/*                                                ^^ keyword.operator.attribute-selector.css */
-/*                                                       ^^ keyword.operator.attribute-selector.css */
-/*                                                              ^^ keyword.operator.attribute-selector.css */
-/*                                                                     ^^ keyword.operator.attribute-selector.css */
+/*                                   ^ keyword.operator.logical.css */
+/*                                         ^^ keyword.operator.logical.css */
+/*                                                ^^ keyword.operator.logical.css */
+/*                                                       ^^ keyword.operator.logical.css */
+/*                                                              ^^ keyword.operator.logical.css */
+/*                                                                     ^^ keyword.operator.logical.css */
 
 .test-attribute-selectors-whitespace[a = ""] {}
 /*                                   ^ entity.other.attribute-name.css */
-/*                                     ^ keyword.operator.attribute-selector.css */
+/*                                     ^ keyword.operator.logical.css */
 
 .test-attribute-selectors-flags[a="" i] {}
 /*                                   ^ keyword.other.css */
