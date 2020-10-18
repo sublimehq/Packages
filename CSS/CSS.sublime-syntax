@@ -484,7 +484,7 @@ contexts:
     - meta_scope: meta.at-rule.document.css
     - include: at-block
     - include: comments
-    - include: comma-delimiter
+    - include: comma-delimiters
     - include: url-functions
     - include: url-prefix-functions
     - include: domain-functions
@@ -559,7 +559,7 @@ contexts:
           pop: 2
         - match: \b(from|to)\b
           scope: keyword.keyframe-selector.css
-        - include: comma-delimiter
+        - include: comma-delimiters
         - include: numeric-values
         - include: main
 
@@ -710,7 +710,7 @@ contexts:
   selector-content:
     - meta_scope: meta.selector.css
     - include: selector-end
-    - include: comma-delimiter
+    - include: comma-delimiters
     # Custom Elements
     # http://w3c.github.io/webcomponents/spec/custom/#custom-elements-core-concepts
     - match: \b([a-z](?:{{custom_element_chars}})*-(?:{{custom_element_chars}})*)\b
@@ -1046,7 +1046,7 @@ contexts:
     - meta_content_scope: meta.property-value.css
     - include: property-value-end
     - include: comments
-    - include: comma-delimiter
+    - include: comma-delimiters
     - include: vendor-prefixes
     - include: builtin-functions
     - include: line-names
@@ -1092,7 +1092,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
-            - include: comma-delimiter
+            - include: comma-delimiters
             - include: var-functions
             - include: image-type
             - include: quoted-strings
@@ -1110,7 +1110,7 @@ contexts:
           set:
             - - meta_scope: meta.function-call.arguments.css meta.group.css
               - include: group-end
-              - include: comma-delimiter
+              - include: comma-delimiters
               - match: \b({{counter_styles}}|none)\b
                 scope: support.constant.property-value.counter-style.css
               - include: var-functions
@@ -1128,7 +1128,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
-            - include: comma-delimiter
+            - include: comma-delimiters
             - match: \b(cyclic|numeric|alphabetic|symbolic|fixed)\b
               scope: support.constant.symbol-type.css
             - include: var-functions
@@ -1177,7 +1177,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
-            - include: comma-delimiter
+            - include: comma-delimiters
             - include: number-type
             - include: var-functions
 
@@ -1191,7 +1191,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
-            - include: comma-delimiter
+            - include: comma-delimiters
             - include: var-functions
             - include: percentage-type
             - include: length-type
@@ -1235,7 +1235,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
-            - include: comma-delimiter
+            - include: comma-delimiters
             - include: var-functions
             - include: angle-type
 
@@ -1262,7 +1262,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
-            - include: comma-delimiter
+            - include: comma-delimiters
             - include: var-functions
             - include: angle-type
             - include: number-type
@@ -1277,7 +1277,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
-            - include: comma-delimiter
+            - include: comma-delimiters
             - include: var-functions
             - include: number-type
 
@@ -1294,7 +1294,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
-            - include: comma-delimiter
+            - include: comma-delimiters
             - include: var-functions
             - include: number-type
 
@@ -1308,7 +1308,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
-            - include: comma-delimiter
+            - include: comma-delimiters
             - match: \b(end|middle|start)\b
               scope: support.keyword.timing-direction.css
             - include: var-functions
@@ -1378,7 +1378,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
-            - include: comma-delimiter
+            - include: comma-delimiters
             - match: \b(nonzero|evenodd)\b
               scope: support.constant.property-value.css
             - include: calc-functions
@@ -1396,7 +1396,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
-            - include: comma-delimiter
+            - include: comma-delimiters
             - include: var-functions
             - include: vendor-prefixes
             - include: common-constants
@@ -1414,7 +1414,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
-            - include: comma-delimiter
+            - include: comma-delimiters
             - match: \b(auto-fill|auto-fit)\b
               scope: support.keyword.repetitions.css
             - match: \b(max-content|min-content|auto)\b
@@ -1554,7 +1554,7 @@ contexts:
   attr-function-arguments-value:
     - meta_scope: meta.function-call.arguments.css meta.group.css
     - include: group-end
-    - include: comma-delimiter
+    - include: comma-delimiters
     - match: |-
         \b(?x:
             {{font_relative_lengths}}
@@ -1641,7 +1641,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
-            - include: comma-delimiter
+            - include: comma-delimiters
             - include: var-functions
             - include: color-values
             - include: image-type
@@ -1659,7 +1659,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
-            - include: comma-delimiter
+            - include: comma-delimiters
             - include: var-functions
             - include: color-values
             - include: image-type
@@ -1687,7 +1687,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
-            - include: comma-delimiter
+            - include: comma-delimiters
             - match: \bto\b
               scope: keyword.other.css
             - match: \b(top|right|bottom|left)\b
@@ -1710,7 +1710,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
-            - include: comma-delimiter
+            - include: comma-delimiters
             - match: \b(at|circle|ellipse)\b
               scope: keyword.other.css
             - match: \b(left|center|right|top|bottom|(closest|farthest)-(corner|side))\b
@@ -1731,7 +1731,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
-            - include: comma-delimiter
+            - include: comma-delimiters
             - include: var-functions
             - include: color-values
             - include: image-type
@@ -1750,7 +1750,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
-            - include: comma-delimiter
+            - include: comma-delimiters
             - match: \b(auto|max-content|min-content)\b
               scope: support.constant.property-value.css
             - include: var-functions
@@ -1770,7 +1770,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
-            - include: comma-delimiter
+            - include: comma-delimiters
             - include: var-functions
             - include: percentage-type
             - include: number-type
@@ -1787,7 +1787,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
-            - include: comma-delimiter
+            - include: comma-delimiters
             - include: var-functions
             - include: angle-type
             - include: percentage-type
@@ -1803,7 +1803,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
-            - include: comma-delimiter
+            - include: comma-delimiters
             - include: var-functions
             - include: percentage-type
             - include: number-type
@@ -1818,7 +1818,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
-            - include: comma-delimiter
+            - include: comma-delimiters
             - include: color-adjuster-functions # must be included before `color-values`
             - include: var-functions
             - include: color-values
@@ -1835,7 +1835,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
-            - include: comma-delimiter
+            - include: comma-delimiters
             - include: color-adjuster-functions # must be included before `color-values`
             - include: var-functions
             - include: color-values
@@ -1935,10 +1935,9 @@ contexts:
 
 ###[ PUNCTUATION ]#############################################################
 
-  comma-delimiter:
-    - match: \s*(,)\s*
-      captures:
-        1: punctuation.separator.sequence.css
+  comma-delimiters:
+    - match: ','
+      scope: punctuation.separator.sequence.css
 
   group-end:
     - match: \)
