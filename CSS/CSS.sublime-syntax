@@ -772,7 +772,7 @@ contexts:
       pop: 1
     - include: comments
     # identifiers
-    - include: qualified-name
+    - include: qualified-names
     - match: '{{ident}}'
       scope: entity.other.attribute-name.css
     # values
@@ -887,14 +887,14 @@ contexts:
 
   # Qualified Name
   # https://drafts.csswg.org/css-namespaces-3/#css-qnames
-  qualified-name:
+  qualified-names:
     - match: (?:({{ident}})|(\*))?(\|)(?!=)
       captures:
         1: entity.other.namespace-prefix.css
         2: entity.name.namespace.wildcard.css
         3: punctuation.separator.namespace.css
 
-  vendor-prefix:
+  vendor-prefixes:
     - match: -(?:webkit|moz|ms|o)-
       scope: support.type.vendor-prefix.css
 
@@ -938,7 +938,7 @@ contexts:
         - meta_scope: meta.property-name.css
         - match: $|(?![-a-z])
           pop: 1
-        - include: vendor-prefix
+        - include: vendor-prefixes
         - include: deprecated-property
         - include: custom-property
         - include: counter-property
@@ -1022,7 +1022,7 @@ contexts:
   property-value-body:
     - include: comments
     - include: comma-delimiter
-    - include: vendor-prefix
+    - include: vendor-prefixes
     - include: builtin-functions
     - include: line-names
     - include: unicode-range
@@ -1461,7 +1461,7 @@ contexts:
             pop: 1
           - include: comma-delimiter
           - include: var-function
-          - include: vendor-prefix
+          - include: vendor-prefixes
           - include: common-constants
           - include: numeric-values
           - include: color-values
@@ -1627,7 +1627,7 @@ contexts:
           - match: '(?=\))'
             pop: 1
           - include: var-function
-          - include: qualified-name
+          - include: qualified-names
           - include: literal-string
           - match: '({{ident}})'
             scope: entity.other.attribute-name.css
