@@ -713,17 +713,19 @@
    *.test-universal-selector {}
 /* ^ entity.name.tag.wildcard.css */
 
-.test-combinators >>> a >> a > a + b ~ a {}
+.test-combinators >>> a >> a > a + b ~ a || td {}
 /*                ^^^ keyword.operator.combinator.css */
 /*                      ^^ keyword.operator.combinator.css */
 /*                           ^ keyword.operator.combinator.css */
 /*                               ^ keyword.operator.combinator.css */
 /*                                   ^ keyword.operator.combinator.css */
+/*                                       ^^ keyword.operator.combinator.css */
 
-.test-invalid-combinators +>> a +++ a ~+> {}
+.test-invalid-combinators +>> a +++ a ~+> a ||| td {}
 /*                        ^^^ invalid.illegal.combinator.css */
 /*                              ^^^ invalid.illegal.combinator.css */
 /*                                    ^^^ invalid.illegal.combinator.css */
+/*                                          ^^^ invalid.illegal.combinator.css */
 
 .test-generic-font-families {
     font: serif;

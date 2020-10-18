@@ -38,6 +38,10 @@ variables:
   frequency_units: '(?i:Hz|kHz)'
   resolution_units: '(?i:dpi|dpcm|dppx)'
 
+  # Combinators
+  # https://drafts.csswg.org/selectors-4/#combinators
+  combinators: (?:>{1,3}|[~+]|\|{2})
+
   custom_element_chars: |-
     (?x:
         [-_a-z0-9\x{00B7}]
@@ -56,8 +60,6 @@ variables:
       | [\x{FDF0}-\x{FFFD}]
       | [\x{10000}-\x{EFFFF}]
     )
-
-  combinators: '(?:>{1,3}|[~+])'
 
   html_tag_names:  |-
     \b(?xi:
@@ -760,9 +762,9 @@ contexts:
     # Combinators
     # https://drafts.csswg.org/selectors-4/#combinators
     # https://drafts.csswg.org/css-scoping/#deep-combinator
-    - match: ({{combinators}})(?![>~+])
+    - match: '{{combinators}}(?![>~+|])'
       scope: keyword.operator.combinator.css
-    - match: ({{combinators}}){2,}
+    - match: '{{combinators}}{2,}|\|{3,}'
       scope: invalid.illegal.combinator.css
 
   selector-end:
