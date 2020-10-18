@@ -591,7 +591,7 @@ contexts:
     - match: ','
       scope: punctuation.definition.arbitrary-repetition.css
     - match: \(
-      scope: punctuation.definition.group.begin.css
+      scope: punctuation.section.group.begin.css
       push: media-query-group-content
 
   media-query-group-content:
@@ -678,7 +678,7 @@ contexts:
 
   at-supports-parens:
     - match: \(
-      scope: punctuation.definition.group.begin.css
+      scope: punctuation.section.group.begin.css
       push:
         - meta_scope: meta.group.css
         - include: group-end
@@ -824,7 +824,7 @@ contexts:
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -837,7 +837,7 @@ contexts:
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -849,7 +849,7 @@ contexts:
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -865,7 +865,7 @@ contexts:
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1088,7 +1088,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.filter.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1106,7 +1106,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.counter.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - - meta_scope: meta.function-call.arguments.css meta.group.css
               - include: group-end
@@ -1124,7 +1124,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.counter.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1143,7 +1143,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.font-face.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1156,7 +1156,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.font-face.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1173,7 +1173,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.transform.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1187,7 +1187,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.transform.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1203,7 +1203,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.transform.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1218,7 +1218,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.transform.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1231,7 +1231,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.transform.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1245,7 +1245,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.transform.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1258,7 +1258,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.transform.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1273,7 +1273,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.transform.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1290,7 +1290,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.timing.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1304,7 +1304,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.timing.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1323,7 +1323,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.shape.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1338,7 +1338,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.shape.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1356,7 +1356,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.shape.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1374,7 +1374,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.shape.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1392,7 +1392,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.toggle.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1410,7 +1410,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.grid.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1433,7 +1433,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.var.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1452,7 +1452,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.filter.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1465,7 +1465,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.filter.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1479,7 +1479,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.filter.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1493,7 +1493,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.filter.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1507,7 +1507,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.calc.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: calc-function-arguments-content
@@ -1515,7 +1515,7 @@ contexts:
   calc-function-arguments-content:
     - meta_scope: meta.group.css
     - match: \)
-      scope: punctuation.definition.group.end.css
+      scope: punctuation.section.group.end.css
       set: maybe-illegal-operator
     - include: comments
     - include: attr-functions
@@ -1525,7 +1525,7 @@ contexts:
     - match: '[-+*/]'
       scope: keyword.operator.arithmetic.css
     - match: \(
-      scope: punctuation.definition.group.begin.css
+      scope: punctuation.section.group.begin.css
       push: calc-function-arguments-content
 
   # attr()
@@ -1535,7 +1535,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.attr.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - attr-function-arguments-value
             - attr-function-arguments-identifier
@@ -1578,7 +1578,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.url.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1593,7 +1593,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.url-prefix.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1608,7 +1608,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.domain.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1623,7 +1623,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.regexp.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1637,7 +1637,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.image.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1655,7 +1655,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.image.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1683,7 +1683,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.gradient.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1706,7 +1706,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.gradient.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1727,7 +1727,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.image.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1746,7 +1746,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.grid.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1766,7 +1766,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.color.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1783,7 +1783,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.color.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1799,7 +1799,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.color.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1814,7 +1814,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.color.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1831,7 +1831,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.color.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1850,7 +1850,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.color.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1864,7 +1864,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.color.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1877,7 +1877,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.color.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1892,7 +1892,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.color.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1904,7 +1904,7 @@ contexts:
       scope: meta.function-call.identifier.css support.function.color.css
       push:
         - match: \(
-          scope: punctuation.definition.group.begin.css
+          scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
@@ -1940,7 +1940,7 @@ contexts:
 
   group-end:
     - match: \)
-      scope: punctuation.definition.group.end.css
+      scope: punctuation.section.group.end.css
       pop: 1
     - include: comments
 

@@ -59,8 +59,8 @@
 /*                             ^ punctuation.separator.decimal.css */
 
     top: url("image");
-/*          ^ punctuation.definition.group.begin.css */
-/*                  ^ punctuation.definition.group.end.css */
+/*          ^ punctuation.section.group.begin.css */
+/*                  ^ punctuation.section.group.end.css */
 }
 /* < punctuation.section.property-list.css */
 
@@ -124,9 +124,9 @@
 /*             ^^^ meta.function-call.identifier.css - meta.function-call meta.function-call - meta.group */
 /*                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
 /*             ^^^ support.function.url.css */
-/*                ^ punctuation.definition.group.begin.css */
+/*                ^ punctuation.section.group.begin.css */
 /*                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.css */
-/*                                                                                ^ punctuation.definition.group.end.css */
+/*                                                                                ^ punctuation.section.group.end.css */
 
     @page :left {}
 /*  ^^^^^^^^^^^^^^ meta.at-rule.page.css */
@@ -144,27 +144,27 @@
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css */
 /*  ^ punctuation.definition.keyword.css */
 /*   ^^^^^ keyword.control.at-rule.media.css */
-/*         ^ punctuation.definition.group.begin.css */
+/*         ^ punctuation.section.group.begin.css */
 /*          ^^^^^^^^^ support.type.property-name.media.css */
 /*                     ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                        ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
-/*                          ^ punctuation.definition.group.end.css */
+/*                          ^ punctuation.section.group.end.css */
 
     @media (min-width: 700px) and (max-width: 2000px) {}
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css */
 /*  ^ punctuation.definition.keyword.css */
 /*   ^^^^^ keyword.control.at-rule.media.css */
-/*         ^ punctuation.definition.group.begin.css */
+/*         ^ punctuation.section.group.begin.css */
 /*          ^^^^^^^^^ support.type.property-name.media.css */
 /*                     ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                        ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
-/*                          ^ punctuation.definition.group.end.css */
+/*                          ^ punctuation.section.group.end.css */
 /*                            ^^^ keyword.operator.logic */
-/*                                ^ punctuation.definition.group.begin.css */
+/*                                ^ punctuation.section.group.begin.css */
 /*                                 ^^^^^^^^^ support.type.property-name.media.css */
 /*                                            ^^^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                                                ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
-/*                                                  ^ punctuation.definition.group.end.css */
+/*                                                  ^ punctuation.section.group.end.css */
 
     @media only screen and (-webkit-min-device-pixel-ratio: /* comment */ 1.3),
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css */
@@ -173,37 +173,37 @@
 /*         ^^^^ keyword.operator.logic.media.css */
 /*              ^^^^^^ support.constant.media.css */
 /*                     ^^^ keyword.operator.logic.media.css */
-/*                         ^ punctuation.definition.group.begin.css */
+/*                         ^ punctuation.section.group.begin.css */
 /*                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ support.type.property-name.media.css */
 /*                                                        ^ punctuation.separator.key-value.css */
 /*                                                          ^^^^^^^^^^^^^ comment.block.css */
 /*                                                                        ^^^ meta.number.float.decimal.css constant.numeric.value.css */
-/*                                                                           ^ punctuation.definition.group.end.css */
+/*                                                                           ^ punctuation.section.group.end.css */
 /*                                                                            ^ punctuation.definition.arbitrary-repetition */
     only screen and (-o-min-device-pixel-ratio: 13/10),
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css */
 /*  ^^^^ keyword.operator.logic.media.css */
 /*       ^^^^^^ support.constant.media.css */
 /*              ^^^ keyword.operator.logic.media.css */
-/*                  ^ punctuation.definition.group.begin.css */
+/*                  ^ punctuation.section.group.begin.css */
 /*                   ^^^^^^^^^^^^^^^^^^^^^^^^^ support.type.property-name.media.css */
 /*                                            ^ punctuation.separator.key-value.css */
 /*                                              ^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                                                ^ keyword.operator.arithmetic.css - constant */
 /*                                                 ^^ meta.number.integer.decimal.css constant.numeric.value.css */
-/*                                                   ^ punctuation.definition.group.end.css */
+/*                                                   ^ punctuation.section.group.end.css */
 /*                                                    ^ punctuation.definition.arbitrary-repetition */
     only screen and (min-resolution: 120dpi)
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css */
 /*  ^^^^ keyword.operator.logic.media.css */
 /*       ^^^^^^ support.constant.media.css */
 /*              ^^^ keyword.operator.logic.media.css */
-/*                  ^ punctuation.definition.group.begin.css */
+/*                  ^ punctuation.section.group.begin.css */
 /*                   ^^^^^^^^^^^^^^ support.type.property-name.media.css */
 /*                                 ^ punctuation.separator.key-value.css */
 /*                                   ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                                      ^^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
-/*                                         ^ punctuation.definition.group.end.css */
+/*                                         ^ punctuation.section.group.end.css */
 {}
 
     @custom-media --a-b (width: 1px);
@@ -308,15 +308,15 @@
 /*  ^ punctuation.definition.keyword.css */
 /*   ^^^^^^^^ keyword.control.at-rule.supports.css */
 /*            ^^^ keyword.operator.logical.css */
-/*                ^ meta.group.css punctuation.definition.group.begin.css */
+/*                ^ meta.group.css punctuation.section.group.begin.css */
 /*                  ^^^ keyword.operator.logical.css */
-/*                      ^ meta.group.css punctuation.definition.group.begin.css */
+/*                      ^ meta.group.css punctuation.section.group.begin.css */
 /*                        ^^^ support.type.property-name.css */
 /*                           ^ punctuation.separator.key-value.css */
 /*                             ^ meta.number.integer.decimal.css constant.numeric.value.css*/
 /*                              ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
-/*                                 ^ meta.group.css punctuation.definition.group.end.css */
-/*                                   ^ meta.group.css punctuation.definition.group.end.css */
+/*                                 ^ meta.group.css punctuation.section.group.end.css */
+/*                                   ^ meta.group.css punctuation.section.group.end.css */
 /*                                     ^^^ meta.block.css */
 /*                                     ^ punctuation.definition.block.begin.css */
 /*                                       ^ punctuation.definition.block.end.css */
@@ -497,18 +497,18 @@
 /*                   ^^ - meta.selector.css */
 /*    ^^^^^^^^^ meta.function-call.identifier.css - meta.function-call meta.function-call - meta.group*/
 /*             ^^^^^^ meta.function-call.arguments.css meta.group.css */
-/*             ^ punctuation.definition.group.begin.css */
-/*                  ^ punctuation.definition.group.end.css */
+/*             ^ punctuation.section.group.begin.css */
+/*                  ^ punctuation.section.group.end.css */
 
 /* Test Functional Pseudo Class Meta Scopes */
 .test:nth-child( /**/ odd)
 /*^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css */
 /*    ^^^^^^^^^ meta.function-call.identifier.css - meta.function-call meta.function-call */
 /*             ^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
-/*             ^ punctuation.definition.group.begin.css */
+/*             ^ punctuation.section.group.begin.css */
 /*               ^^^^ comment.block.css */
 /*                    ^^^ keyword.other.pseudo-class.css */
-/*                       ^ punctuation.definition.group.end.css */
+/*                       ^ punctuation.section.group.end.css */
     ,
 /* ^^^ meta.selector.css */
 /*  ^ punctuation.separator.sequence.css */
@@ -517,10 +517,10 @@
 /*                           ^^^^ - meta.selector */
 /*    ^^^^^^^^^ meta.function-call.identifier.css - meta.function-call meta.function-call */
 /*             ^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
-/*             ^ punctuation.definition.group.begin.css */
+/*             ^ punctuation.section.group.begin.css */
 /*               ^^^^ comment.block.css */
 /*                    ^ constant.numeric.value.css */
-/*                     ^ punctuation.definition.group.end.css */
+/*                     ^ punctuation.section.group.end.css */
 /*                       ^^^^ comment.block.css */
 
 .test:nth-child(+2n + 3) {}
@@ -932,20 +932,20 @@
 /*  ^^^^^^^^^^^^^^^^ support.type.property-name.css */
 /*                  ^ punctuation.separator.key-value.css */
 /*                    ^^^^^ support.function.color.css */
-/*                         ^ punctuation.definition.group.begin.css */
+/*                         ^ punctuation.section.group.begin.css */
 /*                          ^^^ support.function.var.css */
-/*                             ^ punctuation.definition.group.begin.css */
+/*                             ^ punctuation.section.group.begin.css */
 /*                              ^^^^^^^^^^^^ support.type.custom-property */
-/*                                          ^ punctuation.definition.group.end.css */
+/*                                          ^ punctuation.section.group.end.css */
 /*                                            ^^^^^ support.function.color.css */
-/*                                                 ^ punctuation.definition.group.begin.css */
+/*                                                 ^ punctuation.section.group.begin.css */
 /*                                                  ^^^ support.function.var.css */
-/*                                                     ^ punctuation.definition.group.begin.css */
+/*                                                     ^ punctuation.section.group.begin.css */
 /*                                                      ^^^^^^^^^^^^ support.type.custom-property.css */
-/*                                                                  ^ punctuation.definition.group.end.css */
+/*                                                                  ^ punctuation.section.group.end.css */
 /*                                                                    ^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                                                                      ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
-/*                                                                       ^^ punctuation.definition.group.end.css */
+/*                                                                       ^^ punctuation.section.group.end.css */
 /*                                                                         ^ punctuation.terminator.rule.css */
 }
 
@@ -1123,29 +1123,29 @@
 /*       ^^^^ meta.function-call.identifier.css */
 /*           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
 /*       ^^^^ support.function.calc.css */
-/*           ^ punctuation.definition.group.begin.css */
+/*           ^ punctuation.section.group.begin.css */
 /*            ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*               ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                 ^ keyword.operator.arithmetic.css */
-/*                   ^ punctuation.definition.group.begin.css */
+/*                   ^ punctuation.section.group.begin.css */
 /*                   ^^^^^^^^^^ meta.group.css meta.group.css */
-/*                            ^ punctuation.definition.group.end.css */
+/*                            ^ punctuation.section.group.end.css */
 /*                              ^ keyword.operator.arithmetic.css */
-/*                                    ^ punctuation.definition.group.begin.css */
+/*                                    ^ punctuation.section.group.begin.css */
 /*                                         ^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                                           ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
-/*                                             ^ punctuation.definition.group.end.css */
+/*                                             ^ punctuation.section.group.end.css */
 /*                                               ^ keyword.operator.arithmetic.css */
 /*                                                   ^ keyword.operator.arithmetic.css */
-/*                                                     ^ punctuation.definition.group.begin.css */
+/*                                                     ^ punctuation.section.group.begin.css */
 /*                                                      ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                                                        ^ keyword.operator.arithmetic.css */
 /*                                                          ^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                                                            ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
-/*                                                              ^ punctuation.definition.group.end.css */
+/*                                                              ^ punctuation.section.group.end.css */
 /*                                                                ^ keyword.operator.arithmetic.css */
 /*                                                                  ^ meta.number.integer.decimal.css constant.numeric.value.css */
-/*                                                                   ^ punctuation.definition.group.end.css */
+/*                                                                   ^ punctuation.section.group.end.css */
 /*                                                                    ^ punctuation.terminator.rule.css - meta.group */
 }
 
@@ -1160,13 +1160,13 @@
     top: toggle(var(--5px) var(red) preserve-3d);
 /*       ^^^^^^ support.function.toggle.css */
 /*              ^^^ support.function.var.css */
-/*                 ^ punctuation.definition.group.begin.css */
-/*                       ^ punctuation.definition.group.end.css */
+/*                 ^ punctuation.section.group.begin.css */
+/*                       ^ punctuation.section.group.end.css */
 /*                         ^^^ support.function.var.css */
-/*                            ^ punctuation.definition.group.begin.css */
-/*                                ^ punctuation.definition.group.end.css */
+/*                            ^ punctuation.section.group.begin.css */
+/*                                ^ punctuation.section.group.end.css */
 /*                                  ^^^^^^^^^^^ support.constant.property-value.css */
-/*                                             ^ punctuation.definition.group.end.css */
+/*                                             ^ punctuation.section.group.end.css */
 }
 
 .test-attr-function {
@@ -1199,13 +1199,13 @@
 /*                           ^^^^^^^ meta.function-call.arguments.css meta.function-call.arguments.css */
 /*                                  ^ meta.function-call.arguments.css - meta.function-call meta.function-call */
 /*       ^^^^ support.function.attr.css */
-/*           ^ punctuation.definition.group.begin.css */
+/*           ^ punctuation.section.group.begin.css */
 /*            ^^^ support.function.var.css */
-/*               ^ punctuation.definition.group.begin.css */
-/*                      ^ punctuation.definition.group.end.css */
+/*               ^ punctuation.section.group.begin.css */
+/*                      ^ punctuation.section.group.end.css */
 /*                        ^^^ support.function.var.css */
-/*                           ^ punctuation.definition.group.begin.css */
-/*                                 ^^ punctuation.definition.group.end.css */
+/*                           ^ punctuation.section.group.begin.css */
+/*                                 ^^ punctuation.section.group.end.css */
 }
 
 .test-url-function {
@@ -1230,10 +1230,10 @@
 /*              ^^^^^^^^^ meta.function-call.arguments.css meta.function-call.arguments.css */
 /*                       ^ meta.function-call.arguments.css - meta.function-call meta.function-call */
 /*       ^^^ support.function.url.css */
-/*          ^ punctuation.definition.group.begin.css */
+/*          ^ punctuation.section.group.begin.css */
 /*           ^^^ support.function.var.css */
-/*              ^ punctuation.definition.group.begin.css */
-/*                      ^^ punctuation.definition.group.end.css */
+/*              ^ punctuation.section.group.begin.css */
+/*                      ^^ punctuation.section.group.end.css */
 
 }
 
@@ -1429,7 +1429,7 @@
     grid-template: repeat(2, var(--size)) / repeat(2, 50%);
 /*                           ^^^ support.function.var.css */
 /*                               ^^^^^^ support.type.custom-property.css */
-/*                                     ^^ punctuation.definition.group.end.css */
+/*                                     ^^ punctuation.section.group.end.css */
 /*                                        ^ keyword.operator.arithmetic.css */
 /*                                          ^^^^^^ support.function.grid.css */
 
@@ -1592,7 +1592,7 @@ a {
   height:calc(10px/*);
   font-family:"a*/);
 /* ^^^^^^^^^^^^^^^ comment.block.css */
-/*                ^ punctuation.definition.group.end.css */
+/*                ^ punctuation.section.group.end.css */
 }
 
 .variable-beginnings {
@@ -1624,7 +1624,7 @@ img{
     calc(100% - 196px) 100%,
     0% 100%
   ) !important;
-/*^ punctuation.definition.group.end */
+/*^ punctuation.section.group.end */
 /*  ^^^^^^^^^^ keyword.other.important */
 }
 
