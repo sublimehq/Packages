@@ -9,7 +9,10 @@
 		<integer>1</integer>
 		<key>symbolTransformation</key>
 		<string>
-			s/\s+/ /g;	# remove multiple whitespace
+			s/\/\*.*?\*\///g;		# remove comments
+			s/\s+([,)\]}])/$1/g;	# remove whitespace before punctuation
+			s/([(\[{])\s+/$1/g;		# remove whitespace after punctuation
+			s/\s+/ /g;				# remove multiple whitespace
 		</string>
 	</dict>
 </dict>
