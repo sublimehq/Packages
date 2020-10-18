@@ -466,6 +466,7 @@ contexts:
   at-custom-media-content:
     - meta_scope: meta.at-rule.custom-media.css
     - include: rule-terminator
+    - include: comments
     - include: media-query-list
 
   # @document
@@ -523,6 +524,7 @@ contexts:
         2: support.type.property-vendor.css
       push:
         - meta_scope: meta.at-rule.keyframe.css
+        - include: comments
         - include: at-keyframe-block
         - include: at-keyframe-names-list
 
@@ -531,6 +533,7 @@ contexts:
       push:
         - match: \s*(?=[{;])
           pop: 1
+        - include: comments
         - include: at-keyframe-names
 
   # https://drafts.csswg.org/css-animations/#propdef-animation-name
@@ -565,6 +568,7 @@ contexts:
         1: punctuation.definition.keyword.css
       push:
         - meta_scope: meta.at-rule.media.css
+        - include: comments
         - include: at-block
         - include: media-query-list
 
@@ -631,7 +635,6 @@ contexts:
   at-namespace-content:
     - meta_scope: meta.at-rule.namespace.css
     - include: at-rule-end
-    - include: comments
     - include: literal-string
     - include: url-function
 
@@ -662,6 +665,7 @@ contexts:
 
   at-supports-content:
     - meta_scope: meta.at-rule.supports.css
+    - include: comments
     - include: at-block
     - include: at-supports-operators
     - include: at-supports-parens
@@ -693,6 +697,7 @@ contexts:
   at-rule-end:
     - include: rule-terminator
     - include: eol-pop
+    - include: comments
 
 ###[ SELECTORS ]###############################################################
 
@@ -702,8 +707,9 @@ contexts:
 
   selector-content:
     - meta_scope: meta.selector.css
-    - match: (?=\s*[/@{)])
+    - match: (?=\s*[@{)])
       pop: 1
+    - include: comments
     # Custom Elements: http://w3c.github.io/webcomponents/spec/custom/#custom-elements-core-concepts
     - match: \b([a-z](?:{{custom_element_chars}})*-(?:{{custom_element_chars}})*)\b
       scope: entity.name.tag.custom.css
@@ -745,6 +751,7 @@ contexts:
     - match: \]
       scope: punctuation.definition.entity.css
       pop: 1
+    - include: comments
     # identifiers
     - include: qualified-name
     - match: '{{ident}}'
@@ -759,7 +766,7 @@ contexts:
         1: keyword.other.css
 
   attribute-selector-value:
-    - match: '[^\s\]\[''"]'
+    - include: comments
       scope: string.unquoted.css
     - include: literal-string
     - match: ''
@@ -785,6 +792,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: (?=\))
             pop: 1
+          - include: comments
           - include: var-function
           - include: unquoted-string
 
@@ -802,6 +810,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: (?=\))
             pop: 1
+          - include: comments
           - include: selectors
 
     # Special :drop() pseudo-class
@@ -818,6 +827,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: (?=\))
             pop: 1
+          - include: comments
           - match: \b(active|valid|invalid)\b
             scope: keyword.other.pseudo-class.css
           - include: var-function
@@ -838,6 +848,7 @@ contexts:
           - meta_scope: meta.group.css
           - match: (?=\))
             pop: 1
+          - include: comments
           - match: \b(even|odd)\b
             scope: keyword.other.pseudo-class.css
           - match: (([-+]?)(\d*)(n))\s*(([-+])(\s*\d+))?

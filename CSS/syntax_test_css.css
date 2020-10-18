@@ -487,6 +487,29 @@
 /*             ^ punctuation.definition.group.begin.css */
 /*                  ^ punctuation.definition.group.end.css */
 
+/* Test Functional Pseudo Class Meta Scopes */
+.test:nth-child( /**/ odd)
+/*^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css */
+/*   ^^^^^^^^^^ meta.function-call.css - meta.function-call meta.function-call */
+/*             ^^^^^^^^^^^ meta.function-call.css meta.group.css */
+/*             ^ punctuation.definition.group.begin.css */
+/*               ^^^^ comment.block.css */
+/*                    ^^^ keyword.other.pseudo-class.css */
+/*                       ^ punctuation.definition.group.end.css */
+    ,
+/* ^^^ meta.selector.css */
+/*  ^ punctuation.separator.sequence.css */
+.test:nth-child( /**/ 2) /**/ {}
+/*^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css */
+/*                           ^^^^ - meta.selector */
+/*    ^^^^^^^^^ meta.function-call.css - meta.function-call meta.function-call */
+/*             ^^^^^^^^^ meta.function-call.css meta.group.css */
+/*             ^ punctuation.definition.group.begin.css */
+/*               ^^^^ comment.block.css */
+/*                    ^ constant.numeric.value.css */
+/*                     ^ punctuation.definition.group.end.css */
+/*                       ^^^^ comment.block.css */
+
 .test:nth-child(+2n + 3) {}
 /*              ^ meta.number.integer.decimal.css keyword.operator.arithmetic.css */
 /*               ^ meta.number.integer.decimal.css constant.numeric.value.css */
@@ -579,13 +602,16 @@
 /*                             ^^ constant.character.escape.css */
 /*                                     ^^ constant.character.escape.css */
 
-.test-attribute-selectors[disabled][type=button] {}
+.test-attribute-selectors[disabled][ /**/ type=button] {}
 /*                       ^^^^^^^^^^ meta.attribute-selector.css */
 /*                       ^ punctuation.definition.entity.css */
 /*                        ^^^^^^^^ entity.other.attribute-name.css */
 /*                                ^ punctuation.definition.entity.css */
-/*                                  ^^^^ entity.other.attribute-name.css */
-/*                                       ^^^^^^ string.unquoted.css */
+/*                                 ^ punctuation.definition.entity.css*/
+/*                                   ^^^^ comment.block.css */
+/*                                        ^^^^ entity.other.attribute-name.css */
+/*                                             ^^^^^^ string.unquoted.css */
+/*                                                   ^ punctuation.definition.entity.css */
 
 .test-attribute-selectors-namespaces[n|a=""][*|a=""][|att] {}
 /*                                   ^ entity.other.namespace-prefix.css */
