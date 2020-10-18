@@ -714,11 +714,11 @@
 /* ^ entity.name.tag.wildcard.css */
 
 .test-combinators >>> a >> a > a + b ~ a {}
-/*                ^^^ punctuation.separator.combinator.css */
-/*                      ^^ punctuation.separator.combinator.css */
-/*                           ^ punctuation.separator.combinator.css */
-/*                               ^ punctuation.separator.combinator.css */
-/*                                   ^ punctuation.separator.combinator.css */
+/*                ^^^ keyword.operator.combinator.css */
+/*                      ^^ keyword.operator.combinator.css */
+/*                           ^ keyword.operator.combinator.css */
+/*                               ^ keyword.operator.combinator.css */
+/*                                   ^ keyword.operator.combinator.css */
 
 .test-invalid-combinators +>> a +++ a ~+> {}
 /*                        ^^^ invalid.illegal.combinator.css */

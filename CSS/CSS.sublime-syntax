@@ -761,7 +761,7 @@ contexts:
     # https://drafts.csswg.org/selectors-4/#combinators
     # https://drafts.csswg.org/css-scoping/#deep-combinator
     - match: ({{combinators}})(?![>~+])
-      scope: punctuation.separator.combinator.css
+      scope: keyword.operator.combinator.css
     - match: ({{combinators}}){2,}
       scope: invalid.illegal.combinator.css
 
