@@ -1021,7 +1021,7 @@ contexts:
 
   counter-property-identifier:
     - match: '{{ident}}'
-      scope: variable.other.counter.css
+      scope: entity.other.counter-name.css
       pop: 1
     - include: comments
     - include: else-pop

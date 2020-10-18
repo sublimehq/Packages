@@ -1305,24 +1305,24 @@
     counter-increment: section;
 /*  ^^^^^^^^^^^^^^^^^ support.type.property-name.css */
 /*                   ^ punctuation.separator.key-value.css */
-/*                     ^^^^^^^ variable.other.counter.css */
+/*                     ^^^^^^^ entity.other.counter-name.css */
 
     counter-reset: chapter-count 0;
 /*  ^^^^^^^^^^^^^ support.type.property-name.css */
 /*               ^ punctuation.separator.key-value.css */
-/*                 ^^^^^^^^^^^^^ variable.other.counter.css */
+/*                 ^^^^^^^^^^^^^ entity.other.counter-name.css */
 /*                               ^ meta.number.integer.decimal.css constant.numeric.value.css */
 
     counter-reset: counter 0;
 /*  ^^^^^^^^^^^^^ support.type.property-name.css */
 /*               ^ punctuation.separator.key-value.css */
-/*                 ^^^^^^^ variable.other.counter.css */
+/*                 ^^^^^^^ entity.other.counter-name.css */
 /*                         ^ meta.number.integer.decimal.css constant.numeric.value.css */
 
     counter-reset: counter1 0;
 /*  ^^^^^^^^^^^^^ support.type.property-name.css */
 /*               ^ punctuation.separator.key-value.css */
-/*                 ^^^^^^^^ variable.other.counter.css */
+/*                 ^^^^^^^^ entity.other.counter-name.css */
 /*                          ^ meta.number.integer.decimal.css constant.numeric.value.css */
 
     top: counter(name, decimal-leading-zero);
