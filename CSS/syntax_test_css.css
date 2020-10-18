@@ -729,7 +729,14 @@
 
 .test-generic-font-families {
     font: serif;
+/*  ^^^^ meta.property-list.css meta.property-name.css */
+/*      ^ meta.property-list.css - meta.property-name - meta.property-value */
+/*       ^^^^^^ meta.property-list.css meta.property-value.css */
+/*             ^ meta.property-list.css - meta.property-name - meta.property-value */
+/*  ^^^^ support.type.property-name.css */
+/*      ^ punctuation.separator.key-value.css */
 /*        ^^^^^ support.constant.font-name.css */
+/*             ^ punctuation.terminator.rule.css */
     font: sans-serif;
 /*        ^^^^^^^^^^ support.constant.font-name.css */
     font: cursive;
@@ -738,14 +745,24 @@
 /*        ^^^^^^^ support.constant.font-name.css */
     font: monospace;
 /*        ^^^^^^^^^ support.constant.font-name.css */
+    font: monospace !important;
+/*        ^^^^^^^^^ support.constant.font-name.css */
+/*                  ^^^^^^^^^^ keyword.other.important.css */
 }
 
 .test-unquoted-font-name {
     font: m700, aria;
-/*        ^^^^ string.unquoted */
-/*            ^ punctuation.separator */
+/*  ^^^^ meta.property-list.css meta.property-name.css */
+/*      ^ meta.property-list.css - meta.property-name - meta.property-value */
+/*       ^^^^^^^^^^^ meta.property-list.css meta.property-value.css */
+/*                  ^ meta.property-list.css - meta.property-name - meta.property-value */
+/*  ^^^^ support.type.property-name.css */
+/*      ^ punctuation.separator.key-value.css */
+/*        ^^^^ string.unquoted.css */
+/*            ^ punctuation.separator.sequence.css */
 /*            ^^ - string */
-/*              ^^^^ string.unquoted */
+/*              ^^^^ string.unquoted.css */
+/*                  ^ punctuation.terminator.rule.css */
     font: inherit;
 /*        ^ - string */
     font: initial;
@@ -757,12 +774,28 @@
     font: small-caps;
 /*        ^ - string */
     font: 2em m700, sans-serif;
-/*        ^ - string */
-/*            ^^^^ string.unquoted */
+/*  ^^^^ meta.property-list.css meta.property-name.css */
+/*      ^ meta.property-list.css - meta.property-name - meta.property-value */
+/*       ^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.property-value.css */
+/*                            ^ meta.property-list.css - meta.property-name - meta.property-value */
+/*  ^^^^ support.type.property-name.css */
+/*      ^ punctuation.separator.key-value.css */
+/*        ^^^ meta.number.integer.decimal.css */
+/*            ^^^^ string.unquoted.css */
 /*                ^ punctuation.separator */
-/*                  ^ - string */
+/*                  ^^^^^^^^^^ support.constant.font-name.css */
+}
+
+.test-font-weight {
     font-weight: bold;
-/*  ^^^^^^^^^^^ meta.property-name support.type.property-name */
+/*  ^^^^^^^^^^^ meta.property-list.css meta.property-name.css */
+/*             ^ meta.property-list.css - meta.property-name - meta.property-value */
+/*              ^^^^^ meta.property-list.css meta.property-value.css */
+/*                   ^ meta.property-list.css - meta.property-name - meta.property-value */
+/*  ^^^^^^^^^^^ support.type.property-name.css */
+/*             ^ punctuation.separator.key-value.css */
+/*               ^^^^ support.constant.property-value.css */
+/*                   ^ punctuation.terminator.rule.css */
 }
 
 .test-color-values {

@@ -972,22 +972,7 @@ contexts:
     # https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Lists_and_Counters/Using_CSS_counters
     - match: \bcounter-(increment|reset|set)(?!-)\b
       scope: support.type.property-name.css
-      set: counter-property-assignment
-
-  counter-property-assignment:
-    - match: ':'
-      scope: punctuation.separator.key-value.css
-      set:
-        - property-value-common
-        - counter-property-identifier
-    - include: immediately-pop
-
-  counter-property-identifier:
-    - match: '{{ident}}'
-      scope: variable.other.counter.css
-      pop: 1
-    - include: comments
-    - include: else-pop
+      set: counter-property-value
 
   # Custom Properties
   # https://drafts.csswg.org/css-variables/#typedef-custom-property
@@ -1017,21 +1002,7 @@ contexts:
   font-property:
     - match: \bfont(-family)?(?!-)\b
       scope: support.type.property-name.css
-      set: font-property-assignment
-
-  font-property-assignment:
-    - match: ':'
-      scope: punctuation.separator.key-value.css
       set: font-property-value
-    - include: immediately-pop
-
-  font-property-value:
-    - meta_content_scope: meta.property-value.css
-    - include: property-value-end
-    - include: comma-delimiter
-    - include: property-value-body
-    - match: '{{ident}}(\s+{{ident}})*'
-      scope: string.unquoted.css
 
   other-property:
     - match: '{{property_names}}'
@@ -1040,19 +1011,40 @@ contexts:
 
 ###[ PROPERTY VALUES ]#########################################################
 
-  property-values:
-    - match: (:)([ \t]*)
-      captures:
-        1: punctuation.separator.key-value.css
-        2: meta.property-value.css
-      push: property-value-common
+  counter-property-value:
+    - match: ':'
+      scope: punctuation.separator.key-value.css
+      set:
+        - property-value-content
+        - counter-property-identifier
+    - include: immediately-pop
 
-  property-value-common:
+  counter-property-identifier:
+    - match: '{{ident}}'
+      scope: variable.other.counter.css
+      pop: 1
+    - include: comments
+    - include: else-pop
+
+  font-property-value:
+    - match: ':'
+      scope: punctuation.separator.key-value.css
+      set: font-property-value-content
+    - include: immediately-pop
+
+  font-property-value-content:
+    - meta_content_scope: meta.property-value.css
+    - include: property-value-content
+    - include: unquoted-name-strings
+
+  property-values:
+    - match: ':'
+      scope: punctuation.separator.key-value.css
+      push: property-value-content
+
+  property-value-content:
     - meta_content_scope: meta.property-value.css
     - include: property-value-end
-    - include: property-value-body
-
-  property-value-body:
     - include: comments
     - include: comma-delimiter
     - include: vendor-prefixes
@@ -1069,9 +1061,10 @@ contexts:
       scope: keyword.operator.arithmetic.css
 
   property-value-end:
-    - match: \s*(;)|(?=[})])
-      captures:
-        1: punctuation.terminator.rule.css
+    - match: ;
+      scope: punctuation.terminator.rule.css
+      pop: 1
+    - match: (?=[})])
       pop: 1
 
 ###[ BUILTIN FUNCTIONS ]#######################################################
@@ -1545,7 +1538,7 @@ contexts:
             push:
               - match: '(?=\))'
                 pop: 1
-              - include: property-value-body
+              - include: property-value-content
 
   # Filter Functions
   # https://drafts.fxtf.org/filters/#typedef-filter-function
@@ -2188,8 +2181,9 @@ contexts:
   common-constants:
     - match: '{{property_values}}'
       scope: support.constant.property-value.css
-    # Generic Font Families: https://www.w3.org/TR/CSS2/fonts.html
-    - match: \b(?i:sans-serif|serif|monospace|fantasy|cursive|system-ui)\b(?=\s*[;,\n}])
+    # Generic Font Families
+    # https://www.w3.org/TR/CSS22/fonts.html#generic-font-families
+    - match: \b(?i:sans-serif|serif|monospace|fantasy|cursive|system-ui)\b
       scope: support.constant.font-name.css
 
   # Named Grid Lines
@@ -2245,6 +2239,10 @@ contexts:
 
   unquoted-strings:
     - match: '[^\s''"]'
+      scope: string.unquoted.css
+
+  unquoted-name-strings:
+    - match: '{{ident}}(?:\s+{{ident}}(?!\())*'
       scope: string.unquoted.css
 
   unicode-range:
