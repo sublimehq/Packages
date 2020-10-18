@@ -2006,13 +2006,14 @@ contexts:
   # Named Grid Lines
   # https://drafts.csswg.org/css-grid/#named-lines
   line-names:
-    - match: '\['
-      scope: punctuation.section.begin.css
+    - match: \[
+      scope: punctuation.section.brackets.begin.css
       push:
+        - meta_scope: meta.line-names.css meta.brackets.css
         - match: '{{ident}}'
           scope: string.unquoted.line-name.css
-        - match: '\]'
-          scope: punctuation.section.end.css
+        - match: \]
+          scope: punctuation.section.brackets.end.css
           pop: 1
 
   quoted-strings:

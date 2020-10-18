@@ -1398,14 +1398,14 @@
 /*       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.property-value.css */
 /*  ^^^^ support.type.property-name.css */
 /*      ^ punctuation.separator.key-value.css */
-/*        ^ punctuation.section.begin.css */
+/*        ^ punctuation.section.brackets.begin.css */
 /*         ^^^^^^^^^ string.unquoted.line-name.css */
-/*                  ^ punctuation.section.end.css */
+/*                  ^ punctuation.section.brackets.end.css */
 /*                    ^^^ string.quoted.double.css */
 /*                        ^^^^^ meta.number.integer.decimal.css */
-/*                              ^ punctuation.section.begin.css */
+/*                              ^ punctuation.section.brackets.begin.css */
 /*                               ^^^^^^^^^ string.unquoted.line-name.css */
-/*                                        ^ punctuation.section.end.css */
+/*                                        ^ punctuation.section.brackets.end.css */
 
     top: repeat(auto-fit, 2fr minmax(auto) 5%);
 /*              ^^^^^^^^ support.keyword.repetitions.css */
@@ -1435,19 +1435,19 @@
 
     grid-template-columns:
       [a-line-name] auto
-/*    ^ punctuation.section.begin.css */
+/*    ^ punctuation.section.brackets.begin.css */
 /*     ^^^^^^^^^^^ string.unquoted.line-name.css */
-/*                ^ punctuation.section.end.css */
+/*                ^ punctuation.section.brackets.end.css */
       [b]     minmax(min-content, 1fr)
       [b c d] repeat(2, [e] 40px)
-/*    ^ punctuation.section.begin.css */
+/*    ^ punctuation.section.brackets.begin.css */
 /*     ^ string.unquoted.line-name.css */
 /*      ^ - string.unquoted.line-name.css */
 /*       ^ string.unquoted.line-name.css */
-/*          ^ punctuation.section.end.css */
-/*                      ^ punctuation.section.begin.css */
+/*          ^ punctuation.section.brackets.end.css */
+/*                      ^ punctuation.section.brackets.begin.css */
 /*                       ^ string.unquoted.line-name.css */
-/*                        ^ punctuation.section.end.css */
+/*                        ^ punctuation.section.brackets.end.css */
               repeat(5, auto);
 }
 
