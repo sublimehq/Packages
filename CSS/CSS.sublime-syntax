@@ -42,6 +42,8 @@ variables:
   # https://drafts.csswg.org/selectors-4/#combinators
   combinators: (?:>{1,3}|[~+]|\|{2})
 
+  vendor_prefix: -(?:webkit|moz|ms|o)-
+
   custom_element_chars: |-
     (?x:
         [-_a-z0-9\x{00B7}]
@@ -519,7 +521,7 @@ contexts:
   # @keyframes
   # https://drafts.csswg.org/css-animations/#keyframes
   at-keyframes:
-    - match: (@)(-webkit-|-moz-|-o-)?keyframes\b
+    - match: (@)({{vendor_prefix}})?keyframes\b
       captures:
         0: keyword.control.at-rule.keyframe.css
         1: punctuation.definition.keyword.css
@@ -900,7 +902,7 @@ contexts:
 
   pseudo-element-css3:
     # CSS3 requires ::
-    - match: (-(?:webkit|moz|ms|o)-)?{{ident}}\b
+    - match: ({{vendor_prefix}})?{{ident}}\b
       captures:
         0: entity.other.pseudo-element.css
         1: support.type.vendor-prefix.css
@@ -916,7 +918,7 @@ contexts:
         3: punctuation.separator.namespace.css
 
   vendor-prefixes:
-    - match: -(?:webkit|moz|ms|o)-
+    - match: '{{vendor_prefix}}'
       scope: support.type.vendor-prefix.css
 
 ###[ PROPERTY LISTS ]##########################################################
