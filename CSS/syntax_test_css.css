@@ -44,7 +44,7 @@
 }
 
 .test-punctuation {
-/*                ^ punctuation.section.property-list.css */
+/*                ^ punctuation.section.block.begin.css */
     top: 1px;
 /*     ^ punctuation.separator.key-value.css */
 /*          ^ punctuation.terminator.rule.css */
@@ -97,8 +97,8 @@
 /*  ^^^^ entity.name.tag.html.css */
 /*      ^ punctuation.separator.sequence.css */
 /*        ^^ entity.name.tag.html.css */
-/*           ^ punctuation.section.property-list.css */
-/*            ^ punctuation.section.property-list.css */
+/*           ^ punctuation.section.block.begin.css */
+/*            ^ punctuation.section.block.end.css */
 
     @charset "UTF-8";
 /*  ^^^^^^^^^^^^^^^^ meta.at-rule.charset.css */
@@ -257,8 +257,8 @@
 /*  ^ punctuation.definition.keyword.css */
 /*  ^^^^^^^^^ keyword.control.at-rule.document.css */
 /*                         ^^^ meta.block.css */
-/*                         ^ punctuation.definition.block.begin.css */
-/*                           ^ punctuation.definition.block.end.css */
+/*                         ^ punctuation.section.block.begin.css */
+/*                           ^ punctuation.section.block.end.css */
 
 @document url(http://www),
 /*        ^^^ support.function.url.css */
@@ -318,8 +318,8 @@
 /*                                 ^ meta.group.css punctuation.section.group.end.css */
 /*                                   ^ meta.group.css punctuation.section.group.end.css */
 /*                                     ^^^ meta.block.css */
-/*                                     ^ punctuation.definition.block.begin.css */
-/*                                       ^ punctuation.definition.block.end.css */
+/*                                     ^ punctuation.section.block.begin.css */
+/*                                       ^ punctuation.section.block.end.css */
 
 @supports (--foo: green) {
 /*         ^^^^^ support.type.custom-property.css */

@@ -551,11 +551,11 @@ contexts:
 
   at-keyframe-block:
     - match: \{
-      scope: punctuation.definition.block.begin.css
+      scope: punctuation.section.block.begin.css
       push:
         - meta_scope: meta.block.css
         - match: \}
-          scope: punctuation.definition.block.end.css
+          scope: punctuation.section.block.end.css
           pop: 2
         - match: \b(from|to)\b
           scope: keyword.keyframe-selector.css
@@ -688,11 +688,11 @@ contexts:
 
   at-block:
     - match: \{
-      scope: punctuation.definition.block.begin.css
+      scope: punctuation.section.block.begin.css
       push:
         - meta_scope: meta.block.css
         - match: \}
-          scope: punctuation.definition.block.end.css
+          scope: punctuation.section.block.end.css
           pop: 2
         - include: main
 
@@ -924,25 +924,25 @@ contexts:
 
   property-lists:
     - match: \{
-      scope: punctuation.section.property-list.css
+      scope: punctuation.section.block.begin.css
       push: property-list-content
 
   property-list-content:
-    - meta_scope: meta.property-list.css
+    - meta_scope: meta.property-list.css meta.block.css
     - match: \}
-      scope: punctuation.section.property-list.css
+      scope: punctuation.section.block.end.css
       pop: 1
     - include: rule-list-body
 
   rule-list:
     - match: \{
-      scope: punctuation.section.property-list.css
+      scope: punctuation.section.block.begin.css
       push: rule-list-content
 
   rule-list-content:
-    - meta_scope: meta.property-list.css
+    - meta_scope: meta.property-list.css meta.block.css
     - match: \}
-      scope: punctuation.section.property-list.css
+      scope: punctuation.section.block.end.css
       pop: 2
     - include: rule-list-body
 
