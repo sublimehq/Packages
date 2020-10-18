@@ -546,7 +546,7 @@ contexts:
       push:
         - match: \s*(?:(,)|(?=[{;]))
           captures:
-            1: punctuation.definition.arbitrary-repetition.css
+            1: punctuation.separator.sequence.css
           pop: 1
 
   at-keyframe-block:
@@ -584,12 +584,11 @@ contexts:
   media-query:
     # Media Types: https://www.w3.org/TR/CSS21/media.html
     - include: comments
+    - include: comma-delimiters
     - match: \b(?i:all|aural|braille|embossed|handheld|print|projection|screen|speech|tty|tv)\b
       scope: support.constant.media.css
     - match: \b(?i:and|or|not|only)\b
       scope: keyword.operator.logic.media.css
-    - match: ','
-      scope: punctuation.definition.arbitrary-repetition.css
     - match: \(
       scope: punctuation.section.group.begin.css
       push: media-query-group-content

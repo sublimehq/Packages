@@ -179,7 +179,7 @@
 /*                                                          ^^^^^^^^^^^^^ comment.block.css */
 /*                                                                        ^^^ meta.number.float.decimal.css constant.numeric.value.css */
 /*                                                                           ^ punctuation.section.group.end.css */
-/*                                                                            ^ punctuation.definition.arbitrary-repetition */
+/*                                                                            ^ punctuation.separator.sequence.css */
     only screen and (-o-min-device-pixel-ratio: 13/10),
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css */
 /*  ^^^^ keyword.operator.logic.media.css */
@@ -192,7 +192,7 @@
 /*                                                ^ keyword.operator.arithmetic.css - constant */
 /*                                                 ^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                                                   ^ punctuation.section.group.end.css */
-/*                                                    ^ punctuation.definition.arbitrary-repetition */
+/*                                                    ^ punctuation.separator.sequence.css */
     only screen and (min-resolution: 120dpi)
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css */
 /*  ^^^^ keyword.operator.logic.media.css */
@@ -220,7 +220,7 @@
 /*  ^ punctuation.definition.keyword.css */
 /*   ^^^^^^^^^ keyword.control.at-rule.keyframe.css */
 /*             ^^^^ entity.other.animation-name.css */
-/*                 ^ punctuation.definition.arbitrary-repetition.css */
+/*                 ^ punctuation.separator.sequence.css */
 /*                   ^^^^^^ entity.other.animation-name.css */
 
 @keyframes test-keyframes-keywords {
