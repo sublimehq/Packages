@@ -956,47 +956,55 @@ contexts:
 
   property-identifiers:
     - match: (?=[-a-z])
-      push:
-        - meta_scope: meta.property-name.css
-        - match: $|(?![-a-z])
-          pop: 1
-        - include: vendor-prefixes
-        - include: deprecated-property
-        - include: custom-property
-        - include: counter-property
-        - include: font-property
-        - include: other-property
+      push: property-identifier-content
+
+  property-identifier-content:
+    - meta_scope: meta.property-name.css
+    - include: vendor-prefixes
+    - include: font-property
+    - include: counter-property
+    - include: other-property
+    - include: custom-property
+    - include: deprecated-property
+    - include: immediately-pop
 
   counter-property:
     # https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Lists_and_Counters/Using_CSS_counters
     - match: \bcounter-(increment|reset|set)(?!-)\b
       scope: support.type.property-name.css
-      push:
-        - match: (:)([ \t]*)
-          captures:
-            1: punctuation.separator.key-value.css
-            2: meta.property-value.css
-          set:
-            - property-value-common
-            - counter-identifier
-        - match: ''
-          pop: 1
+      set: counter-property-assignment
 
-  counter-identifier:
+  counter-property-assignment:
+    - match: ':'
+      scope: punctuation.separator.key-value.css
+      set:
+        - property-value-common
+        - counter-property-identifier
+    - include: immediately-pop
+
+  counter-property-identifier:
     - match: '{{ident}}'
       scope: variable.other.counter.css
       pop: 1
-    - match: (?=\S)
-      pop: 1
+    - include: comments
+    - include: else-pop
 
   # Custom Properties
   # https://drafts.csswg.org/css-variables/#typedef-custom-property
+  custom-properties:
+    - match: (--)({{nmchar}}+)
+      scope: support.type.custom-property.css
+      captures:
+        1: punctuation.definition.custom-property.css
+        2: support.type.custom-property.name.css
+
   custom-property:
     - match: (--)({{nmchar}}+)
       scope: support.type.custom-property.css
       captures:
         1: punctuation.definition.custom-property.css
         2: support.type.custom-property.name.css
+      pop: 1
 
   deprecated-property:
     - match: \b(var-)({{ident}})(?=\s)
@@ -1004,28 +1012,31 @@ contexts:
       captures:
         1: keyword.other.custom-property.prefix.css
         2: support.type.custom-property.name.css
+      pop: 1
 
   font-property:
     - match: \bfont(-family)?(?!-)\b
       scope: support.type.property-name.css
-      push:
-        - match: (:)([ \t]*)
-          captures:
-            1: punctuation.separator.key-value.css
-            2: meta.property-value.css
-          set:
-            - meta_content_scope: meta.property-value.css
-            - include: property-value-end
-            - include: comma-delimiter
-            - include: property-value-body
-            - match: '{{ident}}(\s+{{ident}})*'
-              scope: string.unquoted.css
-        - match: ''
-          pop: 1
+      set: font-property-assignment
+
+  font-property-assignment:
+    - match: ':'
+      scope: punctuation.separator.key-value.css
+      set: font-property-value
+    - include: immediately-pop
+
+  font-property-value:
+    - meta_content_scope: meta.property-value.css
+    - include: property-value-end
+    - include: comma-delimiter
+    - include: property-value-body
+    - match: '{{ident}}(\s+{{ident}})*'
+      scope: string.unquoted.css
 
   other-property:
     - match: '{{property_names}}'
       scope: support.type.property-name.css
+      pop: 1
 
 ###[ PROPERTY VALUES ]#########################################################
 
@@ -1529,7 +1540,7 @@ contexts:
           - match: '(?=\))'
             pop: 1
           - include: var-function
-          - include: custom-property
+          - include: custom-properties
           - match: '(?=,)'
             push:
               - match: '(?=\))'
