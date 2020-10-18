@@ -672,7 +672,7 @@ contexts:
 
   at-supports-operators:
     - match: \b(?i:and|or|not)\b
-      scope: keyword.operator.logic.css
+      scope: keyword.operator.logical.css
 
   at-supports-parens:
     - match: \(

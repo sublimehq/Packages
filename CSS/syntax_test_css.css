@@ -306,9 +306,9 @@
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.supports.css */
 /*  ^ punctuation.definition.keyword.css */
 /*   ^^^^^^^^ keyword.control.at-rule.supports.css */
-/*            ^^^ keyword.operator.logic.css */
+/*            ^^^ keyword.operator.logical.css */
 /*                ^ meta.group.css punctuation.definition.group.begin.css */
-/*                  ^^^ keyword.operator.logic.css */
+/*                  ^^^ keyword.operator.logical.css */
 /*                      ^ meta.group.css punctuation.definition.group.begin.css */
 /*                        ^^^ support.type.property-name.css */
 /*                           ^ punctuation.separator.key-value.css */
