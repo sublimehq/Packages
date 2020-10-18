@@ -1926,12 +1926,11 @@ contexts:
     - match: '[-+](?=\s*\d)'
       scope: invalid.illegal.operator.css
       pop: 1
-    - match: '\s*([-+])(?=\d)'
+    - match: \s*([-+])(?=\d)
       captures:
         1: invalid.illegal.operator.css
       pop: 1
-    - match: ''
-      pop: 1
+    - include: immediately-pop
 
 ###[ PUNCTUATION ]#############################################################
 
