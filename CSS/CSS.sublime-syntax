@@ -1044,7 +1044,7 @@ contexts:
     - include: vendor-prefixes
     - include: builtin-functions
     - include: line-names
-    - include: unicode-range
+    - include: unicode-ranges
     - include: numeric-values
     - include: color-values
     - include: common-constants
@@ -2068,7 +2068,7 @@ contexts:
     - match: '{{ident}}(?:\s+{{ident}}(?!\())*'
       scope: meta.string.css string.unquoted.css
 
-  unicode-range:
+  unicode-ranges:
     - match: |-
         (?xi:
           (u\+)
