@@ -322,7 +322,8 @@
 /*                                       ^ punctuation.section.block.end.css */
 
 @supports (--foo: green) {
-/*         ^^^^^ support.type.custom-property.css */
+/*         ^^ entity.other.custom-property.css punctuation.definition.custom-property.css */
+/*           ^^^ entity.other.custom-property.css - punctuation */
     .class {
 /*  ^^^^^^ meta.at-rule.supports.css entity.other.attribute-name.class.css */
         display: none;
@@ -368,14 +369,16 @@
 /*^^^^^^^^ support.type.property-name.css */
 }
 
-.test-var { --test-var: arial; }
-/*          ^^^^^^^^^^ support.type.custom-property.css */
-/*          ^^ punctuation.definition.custom-property */
-/*            ^^^^^^^^ support.type.custom-property.name.css */
+.test-var { --test-var: arial; font-family: var(--test-var) }
+/*          ^^ entity.other.custom-property.css punctuation.definition.custom-property.css */
+/*            ^^^^^^^^ entity.other.custom-property.css - punctuation */
+/*                    ^ punctuation.separator.key-value.css*/
+/*                                              ^^^^^^^^^^ variable.other.custom-property.css */
 
 .test-deprecated-var { var-deprecated- }
 /*                     ^^^^^^^^^^^^^^^ invalid.deprecated.custom-property.css */
-/*                     ^^^^ keyword.other.custom-property.prefix.css */
+/*                     ^^^^ entity.other.custom-property.prefix.css */
+/*                         ^^^^^^^^^^^ entity.other.custom-property.name.css */
 
 .test-types {
     top: 20;
@@ -935,13 +938,13 @@
 /*                         ^ punctuation.section.group.begin.css */
 /*                          ^^^ support.function.var.css */
 /*                             ^ punctuation.section.group.begin.css */
-/*                              ^^^^^^^^^^^^ support.type.custom-property */
+/*                              ^^^^^^^^^^^^ variable.other.custom-property.css */
 /*                                          ^ punctuation.section.group.end.css */
 /*                                            ^^^^^ support.function.color.css */
 /*                                                 ^ punctuation.section.group.begin.css */
 /*                                                  ^^^ support.function.var.css */
 /*                                                     ^ punctuation.section.group.begin.css */
-/*                                                      ^^^^^^^^^^^^ support.type.custom-property.css */
+/*                                                      ^^^^^^^^^^^^ variable.other.custom-property.css */
 /*                                                                  ^ punctuation.section.group.end.css */
 /*                                                                    ^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                                                                      ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
@@ -1027,7 +1030,7 @@
     transform: translate(var(--center), 0) scale(var(--ripple-scale), 1);
 /*             ^^^^^^^^^ support.function.transform */
 /*                       ^^^ support.function.var */
-/*                           ^^^^^^^^ support.type.custom-property */
+/*                           ^^^^^^^^ variable.other.custom-property.css */
 /*                                      ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                                               ^^^ support.function.var */
 }
@@ -1428,7 +1431,7 @@
 
     grid-template: repeat(2, var(--size)) / repeat(2, 50%);
 /*                           ^^^ support.function.var.css */
-/*                               ^^^^^^ support.type.custom-property.css */
+/*                               ^^^^^^ variable.other.custom-property.css */
 /*                                     ^^ punctuation.section.group.end.css */
 /*                                        ^ keyword.operator.arithmetic.css */
 /*                                          ^^^^^^ support.function.grid.css */
@@ -1513,12 +1516,12 @@
     top: var(--name);
 /*       ^^^ support.function.var.css */
 /*           ^^ punctuation.definition.custom-property.css */
-/*             ^^^^ support.type.custom-property.name.css */
+/*           ^^^^^^ variable.other.custom-property.css */
 
     top: var(--name, 1px);
 /*       ^^^ support.function.var.css */
 /*           ^^ punctuation.definition.custom-property.css */
-/*             ^^^^ support.type.custom-property.name.css */
+/*           ^^^^^^ variable.other.custom-property.css */
 /*                 ^ punctuation.separator.sequence.css */
 /*                   ^ constant.numeric.value.css */
 }
@@ -1597,18 +1600,15 @@ a {
 
 .variable-beginnings {
     --1x: url(data:image/png;base64,PNG);
-/*  ^^^^ support.type.custom-property */
-/*  ^^ punctuation.definition.custom-property */
-/*    ^^ support.type.custom-property.name */
+/*  ^^ entity.other.custom-property.css punctuation.definition.custom-property.css */
+/*    ^^ entity.other.custom-property.css - punctuation */
 /*      ^ punctuation.separator.key-value */
     background-image: var(--1x);
-/*                        ^^^^ support.type.custom-property */
 /*                        ^^ punctuation.definition.custom-property */
-/*                          ^^ support.type.custom-property.name */
+/*                        ^^^^ variable.other.custom-property.css */
     --\ff: 5px;
-/*  ^^^^^ support.type.custom-property */
-/*  ^^ punctuation.definition.custom-property */
-/*    ^^^ support.type.custom-property.name */
+/*  ^^ entity.other.custom-property.css punctuation.definition.custom-property.css */
+/*    ^^^ entity.other.custom-property.css - punctuation */
 /*       ^ punctuation.separator.key-value */
 }
 

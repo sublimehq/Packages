@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>
+		source.css variable.other.custom-property
+	</string>
+	<key>settings</key>
+	<dict>
+		<key>showInIndexedReferenceList</key>
+		<string>1</string>
+	</dict>
+</dict>
+</plist>

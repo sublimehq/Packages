@@ -977,27 +977,20 @@ contexts:
 
   # Custom Properties
   # https://drafts.csswg.org/css-variables/#typedef-custom-property
-  custom-properties:
-    - match: (--)({{nmchar}}+)
-      scope: support.type.custom-property.css
-      captures:
-        1: punctuation.definition.custom-property.css
-        2: support.type.custom-property.name.css
-
   custom-property:
-    - match: (--)({{nmchar}}+)
-      scope: support.type.custom-property.css
+    # custom property definition
+    - match: (--){{nmchar}}+
+      scope: entity.other.custom-property.css
       captures:
         1: punctuation.definition.custom-property.css
-        2: support.type.custom-property.name.css
       pop: 1
 
   deprecated-property:
     - match: \b(var-)({{ident}})(?=\s)
       scope: invalid.deprecated.custom-property.css
       captures:
-        1: keyword.other.custom-property.prefix.css
-        2: support.type.custom-property.name.css
+        1: entity.other.custom-property.prefix.css
+        2: entity.other.custom-property.name.css
       pop: 1
 
   font-property:
@@ -2002,6 +1995,15 @@ contexts:
     # https://www.w3.org/TR/CSS22/fonts.html#generic-font-families
     - match: \b(?i:sans-serif|serif|monospace|fantasy|cursive|system-ui)\b
       scope: support.constant.font-name.css
+
+  # Custom Properties
+  # https://drafts.csswg.org/css-variables/#typedef-custom-property
+  custom-properties:
+    # custom property reference
+    - match: (--){{nmchar}}+
+      scope: variable.other.custom-property.css
+      captures:
+        1: punctuation.definition.custom-property.css
 
   # Named Grid Lines
   # https://drafts.csswg.org/css-grid/#named-lines
