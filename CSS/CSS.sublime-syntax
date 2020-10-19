@@ -796,7 +796,7 @@ contexts:
     - include: comments
     - include: quoted-string
     - match: '[^\s\]\[''"]+'
-      scope: string.unquoted.css
+      scope: meta.string.css string.unquoted.css
       pop: 1
     - include: else-pop
 
@@ -2013,7 +2013,7 @@ contexts:
       push:
         - meta_scope: meta.line-names.css meta.brackets.css
         - match: '{{ident}}'
-          scope: string.unquoted.line-name.css
+          scope: meta.string.css string.unquoted.line-name.css
         - match: \]
           scope: punctuation.section.brackets.end.css
           pop: 1
@@ -2035,20 +2035,23 @@ contexts:
       set: single-quoted-string-content
 
   double-quoted-string-content:
-    - meta_scope: string.quoted.double.css
+    - meta_include_prototype: false
+    - meta_scope: meta.string.css string.quoted.double.css
     - match: \"
       scope: punctuation.definition.string.end.css
       pop: 1
     - include: string-content
 
   single-quoted-string-content:
-    - meta_scope: string.quoted.single.css
+    - meta_include_prototype: false
+    - meta_scope: meta.string.css string.quoted.single.css
     - match: \'
       scope: punctuation.definition.string.end.css
       pop: 1
     - include: string-content
 
   string-content:
+    - meta_include_prototype: false
     - match: \n
       scope: invalid.illegal.newline.css
       pop: 1
@@ -2059,11 +2062,11 @@ contexts:
 
   unquoted-strings:
     - match: '[^\s''"]'
-      scope: string.unquoted.css
+      scope: meta.string.css string.unquoted.css
 
   unquoted-name-strings:
     - match: '{{ident}}(?:\s+{{ident}}(?!\())*'
-      scope: string.unquoted.css
+      scope: meta.string.css string.unquoted.css
 
   unicode-range:
     - match: |-

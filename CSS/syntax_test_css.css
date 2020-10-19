@@ -31,11 +31,11 @@
 
 .test-strings {
     content: "double";
-/*           ^^^^^^^^ string.quoted.double.css */
+/*           ^^^^^^^^ meta.string.css string.quoted.double.css */
 /*           ^ punctuation.definition.string.begin.css */
 /*                  ^ punctuation.definition.string.end.css */
     content: 'single';
-/*           ^^^^^^^^ string.quoted.single.css */
+/*           ^^^^^^^^ meta.string.css string.quoted.single.css */
 /*           ^ punctuation.definition.string.begin.css */
 /*                  ^ punctuation.definition.string.end.css */
 
@@ -125,7 +125,7 @@
 /*                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
 /*             ^^^ support.function.url.css */
 /*                ^ punctuation.section.group.begin.css */
-/*                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.css */
+/*                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.css string.quoted.double.css */
 /*                                                                                ^ punctuation.section.group.end.css */
 
     @page :left {}
@@ -262,17 +262,17 @@
 
 @document url(http://www),
 /*        ^^^ support.function.url.css */
-/*            ^^^^^^^^^^ string.unquoted.css */
+/*            ^^^^^^^^^^ meta.string.css string.unquoted.css */
 /*                       ^ punctuation.separator.sequence.css */
           url-prefix("http://www"),
 /*        ^^^^^^^^^^ support.function.url-prefix.css */
-/*                   ^^^^^^^^^^^^ string.quoted.double.css */
+/*                   ^^^^^^^^^^^^ meta.string.css string.quoted.double.css */
           domain(mozilla.org),
 /*        ^^^^^^ support.function.domain.css */
-/*               ^^^^^^^^^^^ string.unquoted.css */
+/*               ^^^^^^^^^^^ meta.string.css string.unquoted.css */
           regexp("https:.*")
 /*        ^^^^^^ support.function.regexp.css */
-/*               ^^^^^^^^^^ string.quoted.double.css */
+/*               ^^^^^^^^^^ meta.string.css string.quoted.double.css */
 {
     .class {
 /*  ^^^^^^ meta.at-rule.document.css entity.other.attribute-name.class.css */
@@ -352,7 +352,7 @@
 /*  ^^^^^^^ meta.at-rule.counter-style.css support.type.property-name.css */
     suffix: " ";
 /*  ^^^^^^ meta.at-rule.counter-style.css support.type.property-name.css */
-/*          ^^^ string.quoted.double.css */
+/*          ^^^ meta.string.css string.quoted.double.css */
 }
 
     @counter-style blacknwhite
@@ -584,7 +584,7 @@
 .test-pseudo-class-strings:dir(ltr) {}
 /*                        ^ punctuation.accessor.colon.css - entity */
 /*                         ^^^ entity.other.pseudo-class.css */
-/*                             ^^^ string.unquoted.css */
+/*                             ^^^ meta.string.css string.unquoted.css */
 
 .test-pseudo-class-tag:not(*) {}
 /*                    ^ punctuation.accessor.colon.css - entity */
@@ -632,7 +632,7 @@
 /*                                 ^ punctuation.section.attribute-selector.begin.css*/
 /*                                   ^^^^ comment.block.css */
 /*                                        ^^^^ entity.other.attribute-name.css */
-/*                                             ^^^^^^ string.unquoted.css */
+/*                                             ^^^^^^ meta.string.css string.unquoted.css */
 /*                                                   ^ punctuation.section.attribute-selector.end.css */
 
 .test-attribute-selectors-whitespace[ /**/ type /**/ = /**/ button /**/ ] {}
@@ -643,7 +643,7 @@
 /*                                         ^^^^ entity.other.attribute-name.css */
 /*                                              ^^^^ comment.block.css */
 /*                                                     ^^^^ comment.block.css */
-/*                                                          ^^^^^^ string.unquoted.css */
+/*                                                          ^^^^^^ meta.string.css string.unquoted.css */
 /*                                                                 ^^^^ comment.block.css */
 /*                                                                      ^ punctuation.section.attribute-selector.end.css */
 
@@ -655,7 +655,7 @@
 /*                                         ^^^^ entity.other.attribute-name.css */
 /*                                              ^^^^ comment.block.css */
 /*                                                     ^^^^ comment.block.css */
-/*                                                          ^^^^^^^^ string.quoted.single.css */
+/*                                                          ^^^^^^^^ meta.string.css string.quoted.single.css */
 /*                                                                   ^^^^ comment.block.css */
 /*                                                                        ^ punctuation.section.attribute-selector.end.css */
 
@@ -667,7 +667,7 @@
 /*                                         ^^^^ entity.other.attribute-name.css */
 /*                                              ^^^^ comment.block.css */
 /*                                                     ^^^^ comment.block.css */
-/*                                                          ^^^^^^^^ string.quoted.double.css */
+/*                                                          ^^^^^^^^ meta.string.css string.quoted.double.css */
 /*                                                                   ^^^^ comment.block.css */
 /*                                                                        ^ punctuation.section.attribute-selector.end.css */
 
@@ -678,7 +678,7 @@
 /*                                ^^^^^^ entity.other.attribute-name.css */
 /*                                       ^^^^^^ invalid.illegal.css */
 /*                                              ^ keyword.operator.logical.css */
-/*                                                ^^^^^^ string.unquoted.css */
+/*                                                ^^^^^^ meta.string.css string.unquoted.css */
 /*                                                       ^^^^^^ invalid.illegal.css */
 /*                                                              ^ keyword.other.css */
 /*                                                                ^^^^^^ invalid.illegal.css */
@@ -690,7 +690,7 @@
 /*                                           ^^ meta.property-list.css - meta.selector */
 /*                                  ^ punctuation.section.attribute-selector.begin.css */
 /*                                   ^ keyword.operator.logical.css */
-/*                                    ^^^^^^ string.unquoted.css */
+/*                                    ^^^^^^ meta.string.css string.unquoted.css */
 
 .test-attribute-selectors-namespaces[n|a=""][*|a=""][|att] {}
 /*                                   ^ entity.other.namespace-prefix.css */
@@ -762,10 +762,10 @@
 /*                  ^ meta.property-list.css - meta.property-name - meta.property-value */
 /*  ^^^^ support.type.property-name.css */
 /*      ^ punctuation.separator.key-value.css */
-/*        ^^^^ string.unquoted.css */
+/*        ^^^^ meta.string.css string.unquoted.css */
 /*            ^ punctuation.separator.sequence.css */
 /*            ^^ - string */
-/*              ^^^^ string.unquoted.css */
+/*              ^^^^ meta.string.css string.unquoted.css */
 /*                  ^ punctuation.terminator.rule.css */
     font: inherit;
 /*        ^ - string */
@@ -785,7 +785,7 @@
 /*  ^^^^ support.type.property-name.css */
 /*      ^ punctuation.separator.key-value.css */
 /*        ^^^ meta.number.integer.decimal.css */
-/*            ^^^^ string.unquoted.css */
+/*            ^^^^ meta.string.css string.unquoted.css */
 /*                ^ punctuation.separator */
 /*                  ^^^^^^^^^^ support.constant.font-name.css */
 }
@@ -1217,14 +1217,14 @@
 /*       ^^^ meta.function-call.identifier.css */
 /*          ^^^^^ meta.function-call.arguments.css meta.group.css */
 /*       ^^^ support.function.url.css */
-/*           ^^^ string.quoted.double.css */
+/*           ^^^ meta.string.css string.quoted.double.css */
 
     top: url(a);
 /*       ^^^^^^^^ - meta.function-call meta.function-call */
 /*       ^^^ meta.function-call.identifier.css */
 /*          ^^^ meta.function-call.arguments.css meta.group.css */
 /*       ^^^ support.function.url.css */
-/*           ^ string.unquoted.css */
+/*           ^ meta.string.css string.unquoted.css */
 
     top: url(var(--image));
 /*       ^^^ meta.function-call.identifier.css - meta.function-call meta.function-call */
@@ -1245,14 +1245,14 @@
 /*       ^^^^^^^^^^ - meta.function-call meta.function-call */
 /*       ^^^^^ meta.function-call.identifier.css */
 /*            ^^^^^ meta.function-call.arguments.css meta.group.css */
-/*             ^^^ string.quoted.double.css */
+/*             ^^^ meta.string.css string.quoted.double.css */
 
     top: image(a);
 /*       ^^^^^^^^ - meta.function-call meta.function-call */
 /*       ^^^^^ meta.function-call.identifier.css */
 /*            ^^^ meta.function-call.arguments.css meta.group.css */
 /*       ^^^^^ support.function.image.css */
-/*             ^ string.unquoted.css */
+/*             ^ meta.string.css string.unquoted.css */
 
     top: image(var(--url));
 /*       ^^^^^ meta.function-call.identifier.css - meta.function-call meta.function-call */
@@ -1275,11 +1275,11 @@
 
     top: image-set("a" 1x, a 4dpi);
 /*       ^^^^^^^^^ support.function.image.css */
-/*                 ^^^ string.quoted.double.css */
+/*                 ^^^ meta.string.css string.quoted.double.css */
 /*                     ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                      ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                       ^ punctuation.separator.sequence.css */
-/*                         ^ string.unquoted.css */
+/*                         ^ meta.string.css string.unquoted.css */
 /*                           ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                            ^^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 
@@ -1287,9 +1287,9 @@
 /*       ^^^^^^^^^^ support.function.image.css */
 /*                  ^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                    ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
-/*                      ^^^ string.quoted.double.css */
+/*                      ^^^ meta.string.css string.quoted.double.css */
 /*                         ^ punctuation.separator.sequence.css */
-/*                           ^ string.unquoted.css */
+/*                           ^ meta.string.css string.unquoted.css */
 }
 
 .test-gradient-functions {
@@ -1374,14 +1374,14 @@
 /*       ^^^^^^^^ support.function.counter.css */
 /*                ^^^^ entity.other.counter-name.css */
 /*                    ^ punctuation.separator.sequence.css */
-/*                      ^^^^^ string.quoted.double.css */
+/*                      ^^^^^ meta.string.css string.quoted.double.css */
 /*                           ^ punctuation.separator.sequence.css */
 /*                             ^^^^ support.constant.property-value.counter-style.css */
 
     top: symbols(fixed "\2020" url());
 /*       ^^^^^^^ support.function.counter.css */
 /*               ^^^^^ support.constant.symbol-type.css */
-/*                     ^^^^^^^ string.quoted.double.css */
+/*                     ^^^^^^^ meta.string.css string.quoted.double.css */
 /*                             ^^^ support.function.url.css */
 }
 
@@ -1402,12 +1402,12 @@
 /*  ^^^^ support.type.property-name.css */
 /*      ^ punctuation.separator.key-value.css */
 /*        ^ punctuation.section.brackets.begin.css */
-/*         ^^^^^^^^^ string.unquoted.line-name.css */
+/*         ^^^^^^^^^ meta.string.css string.unquoted.line-name.css */
 /*                  ^ punctuation.section.brackets.end.css */
-/*                    ^^^ string.quoted.double.css */
+/*                    ^^^ meta.string.css string.quoted.double.css */
 /*                        ^^^^^ meta.number.integer.decimal.css */
 /*                              ^ punctuation.section.brackets.begin.css */
-/*                               ^^^^^^^^^ string.unquoted.line-name.css */
+/*                               ^^^^^^^^^ meta.string.css string.unquoted.line-name.css */
 /*                                        ^ punctuation.section.brackets.end.css */
 
     top: repeat(auto-fit, 2fr minmax(auto) 5%);
@@ -1439,17 +1439,17 @@
     grid-template-columns:
       [a-line-name] auto
 /*    ^ punctuation.section.brackets.begin.css */
-/*     ^^^^^^^^^^^ string.unquoted.line-name.css */
+/*     ^^^^^^^^^^^ meta.string.css string.unquoted.line-name.css */
 /*                ^ punctuation.section.brackets.end.css */
       [b]     minmax(min-content, 1fr)
       [b c d] repeat(2, [e] 40px)
 /*    ^ punctuation.section.brackets.begin.css */
-/*     ^ string.unquoted.line-name.css */
-/*      ^ - string.unquoted.line-name.css */
-/*       ^ string.unquoted.line-name.css */
+/*     ^ meta.string.css string.unquoted.line-name.css */
+/*      ^ - meta.string.css string.unquoted.line-name.css */
+/*       ^ meta.string.css string.unquoted.line-name.css */
 /*          ^ punctuation.section.brackets.end.css */
 /*                      ^ punctuation.section.brackets.begin.css */
-/*                       ^ string.unquoted.line-name.css */
+/*                       ^ meta.string.css string.unquoted.line-name.css */
 /*                        ^ punctuation.section.brackets.end.css */
               repeat(5, auto);
 }
@@ -1487,29 +1487,29 @@
 @font-face {
   src: format("embedded-opentype");
 /*     ^^^^^^ support.function.font-face.css */
-/*            ^^^^^^^^^^^^^^^^^^^ string.quoted.double.css */
+/*            ^^^^^^^^^^^^^^^^^^^ meta.string.css string.quoted.double.css */
 
   src: local(Gentium-Bold);
 /*     ^^^^^ support.function.font-face.css */
-/*           ^^^^^^^^^^^^ string.unquoted.css */
+/*           ^^^^^^^^^^^^ meta.string.css string.unquoted.css */
 
   src: local('Gentium-Bold');
 /*     ^^^^^ support.function.font-face.css */
-/*           ^^^^^^^^^^^^^^ string.quoted.single.css */
+/*           ^^^^^^^^^^^^^^ meta.string.css string.quoted.single.css */
 /*           ^ punctuation.definition.string.begin.css */
 /*                        ^ punctuation.definition.string.end.css */
 
   src: local("Gentium-Bold");
 /*     ^^^^^ support.function.font-face.css */
-/*           ^^^^^^^^^^^^^^ string.quoted.double.css */
+/*           ^^^^^^^^^^^^^^ meta.string.css string.quoted.double.css */
 /*           ^ punctuation.definition.string.begin.css */
 /*                        ^ punctuation.definition.string.end.css */
 }
 
 @font-face {
     font-family: m700, aria;
-/*               ^^^^ string.unquoted.css */
-/*                     ^^^^ string.unquoted.css */
+/*               ^^^^ meta.string.css string.unquoted.css */
+/*                     ^^^^ meta.string.css string.unquoted.css */
 }
 
 .test-var-function {
@@ -1575,7 +1575,7 @@
 }/*     ^ meta.property-value */
 
 .generic-font-family { font-family: my-serif, serif }
-/*                                  ^^^^^^^^ string.unquoted */
+/*                                  ^^^^^^^^ meta.string.css string.unquoted */
 /*                                          ^ - string */
 /*                                            ^^^^^ support.constant.font-name */
 .generic-font-family2 { font-family: sans-serif , fantasy , system-ui; }
@@ -1588,7 +1588,7 @@
 }
 .generic-font-family4 {
     font-family: droid serif;
-/*               ^^^^^^^^^^^ string.unquoted */
+/*               ^^^^^^^^^^^ meta.string.css string.unquoted */
 }
 
 a {
