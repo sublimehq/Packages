@@ -562,7 +562,7 @@ contexts:
         - match: \b(from|to)\b
           scope: keyword.keyframe-selector.css
         - include: comma-delimiters
-        - include: numeric-values
+        - include: numeric-constants
         - include: main
 
   at-media:
@@ -623,7 +623,7 @@ contexts:
         1: meta.number.integer.decimal.css constant.numeric.value.css
         2: keyword.operator.arithmetic.css
         3: meta.number.integer.decimal.css constant.numeric.value.css
-    - include: numeric-values
+    - include: numeric-constants
 
   # @namespace
   # https://www.w3.org/TR/css3-namespace/
@@ -884,7 +884,7 @@ contexts:
             - match: '[-+]\s+\d+n?|[-+]?\d+\s+n'
               scope: invalid.illegal.numeric.css
             - include: var-functions
-            - include: integer-type
+            - include: scalar-integer-constants
         - include: immediately-pop
 
     # Regular Pseudo Classes
@@ -1045,8 +1045,8 @@ contexts:
     - include: builtin-functions
     - include: line-names
     - include: unicode-ranges
-    - include: numeric-values
     - include: color-values
+    - include: numeric-constants
     - include: common-constants
     - include: quoted-strings
     - match: \!\s*important
@@ -1060,6 +1060,21 @@ contexts:
       pop: 1
     - match: (?=[})])
       pop: 1
+
+  # When including `color-values` and `color-adjuster-functions`, make sure it is
+  # included after the color adjustors to prevent `color-values` from consuming
+  # conflicting function names & color constants such as `red`, `green`, or `blue`.
+  color-values:
+    - include: color-functions
+    - include: color-constants
+
+  # https://drafts.csswg.org/css-images-3/#typedef-image
+  image-values:
+    - include: cross-fade-functions
+    - include: gradient-functions
+    - include: image-functions
+    - include: image-set-functions
+    - include: url-functions
 
 ###[ BUILTIN FUNCTIONS ]#######################################################
 
@@ -1088,9 +1103,9 @@ contexts:
             - include: group-end
             - include: comma-delimiters
             - include: var-functions
-            - include: image-type
-            - include: quoted-strings
             - include: filter-functions
+            - include: image-values
+            - include: quoted-strings
 
     # counter()
     # https://drafts.csswg.org/css-lists-3/#funcdef-counter
@@ -1126,8 +1141,8 @@ contexts:
             - match: \b(cyclic|numeric|alphabetic|symbolic|fixed)\b
               scope: support.constant.symbol-type.css
             - include: var-functions
+            - include: image-values
             - include: quoted-strings
-            - include: image-type
 
     # format()
     # https://drafts.csswg.org/css-fonts-3/#descdef-src
@@ -1172,8 +1187,8 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
             - include: comma-delimiters
-            - include: number-type
             - include: var-functions
+            - include: scalar-constants
 
     # transform functions with comma separated <number> or <length> types
     # translate(), translate3d()
@@ -1187,9 +1202,9 @@ contexts:
             - include: group-end
             - include: comma-delimiters
             - include: var-functions
-            - include: percentage-type
-            - include: length-type
-            - include: number-type
+            - include: percentage-constants
+            - include: length-constants
+            - include: scalar-constants
 
     # transform functions with a single <number> or <length> type
     # translateX(), translateY()
@@ -1202,9 +1217,9 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
             - include: var-functions
-            - include: percentage-type
-            - include: length-type
-            - include: number-type
+            - include: percentage-constants
+            - include: length-constants
+            - include: scalar-constants
 
     # transform functions with a single <angle> type
     # rotate(), skewX(), skewY(), rotateX(), rotateY(), rotateZ()
@@ -1217,7 +1232,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
             - include: var-functions
-            - include: angle-type
+            - include: angle-constants
 
     # transform functions with comma separated <angle> types
     # skew()
@@ -1231,7 +1246,7 @@ contexts:
             - include: group-end
             - include: comma-delimiters
             - include: var-functions
-            - include: angle-type
+            - include: angle-constants
 
     # transform functions with a single <length> type
     # translateZ(), perspective()
@@ -1244,7 +1259,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
             - include: var-functions
-            - include: length-type
+            - include: length-constants
 
     # transform functions with a comma separated <number> or <angle> types
     # rotate3d()
@@ -1258,8 +1273,8 @@ contexts:
             - include: group-end
             - include: comma-delimiters
             - include: var-functions
-            - include: angle-type
-            - include: number-type
+            - include: angle-constants
+            - include: scalar-constants
 
     # transform functions with a single <number> type
     # scaleX(), scaleY(), scaleZ()
@@ -1273,7 +1288,7 @@ contexts:
             - include: group-end
             - include: comma-delimiters
             - include: var-functions
-            - include: number-type
+            - include: scalar-constants
 
     # Timing Functions
     # https://www.w3.org/TR/web-animations-1/#timing-functions
@@ -1290,7 +1305,7 @@ contexts:
             - include: group-end
             - include: comma-delimiters
             - include: var-functions
-            - include: number-type
+            - include: scalar-constants
 
     # steps()
     # https://www.w3.org/TR/web-animations-1/#step-timing-function
@@ -1306,7 +1321,7 @@ contexts:
             - match: \b(end|middle|start)\b
               scope: support.keyword.timing-direction.css
             - include: var-functions
-            - include: integer-type
+            - include: scalar-integer-constants
 
     # Shape Functions
     # https://www.w3.org/TR/css-shapes-1/#typedef-basic-shape
@@ -1324,7 +1339,7 @@ contexts:
             - match: \bauto\b
               scope: support.constant.property-value.css
             - include: var-functions
-            - include: length-type
+            - include: length-constants
 
     # inset()
     # https://www.w3.org/TR/css-shapes-1/#funcdef-inset
@@ -1339,8 +1354,8 @@ contexts:
             - match: \bround\b
               scope: keyword.other.css
             - include: var-functions
-            - include: length-type
-            - include: percentage-type
+            - include: length-constants
+            - include: percentage-constants
 
     # circle()
     # https://www.w3.org/TR/css-shapes-1/#funcdef-circle
@@ -1359,8 +1374,8 @@ contexts:
             - match: \b(top|right|bottom|left|center|closest-side|farthest-side)\b
               scope: support.constant.property-value.css
             - include: var-functions
-            - include: length-type
-            - include: percentage-type
+            - include: length-constants
+            - include: percentage-constants
 
     # polygon()
     # https://www.w3.org/TR/css-shapes-1/#funcdef-polygon
@@ -1377,8 +1392,8 @@ contexts:
               scope: support.constant.property-value.css
             - include: calc-functions
             - include: var-functions
-            - include: length-type
-            - include: percentage-type
+            - include: length-constants
+            - include: percentage-constants
 
     # toggle()
     # https://www.w3.org/TR/css3-values/#toggle-notation
@@ -1393,9 +1408,9 @@ contexts:
             - include: comma-delimiters
             - include: var-functions
             - include: vendor-prefixes
-            - include: common-constants
-            - include: numeric-values
             - include: color-values
+            - include: common-constants
+            - include: numeric-constants
             - include: quoted-strings
 
     # repeat()
@@ -1415,9 +1430,9 @@ contexts:
               scope: support.constant.property-value.css
             - include: minmax-functions
             - include: var-functions
-            - include: length-type
-            - include: percentage-type
-            - include: integer-type
+            - include: length-constants
+            - include: percentage-constants
+            - include: scalar-integer-constants
             - include: line-names
 
   # var()
@@ -1451,7 +1466,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
             - include: var-functions
-            - include: length-type
+            - include: length-constants
 
     # brightness(), contrast(), grayscale(), invert(), opacity(), saturate(), sepia()
     # https://drafts.fxtf.org/filters/#funcdef-filter-brightness
@@ -1464,8 +1479,8 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
             - include: var-functions
-            - include: percentage-type
-            - include: number-type
+            - include: percentage-constants
+            - include: scalar-constants
 
     # drop-shadow()
     # https://drafts.fxtf.org/filters/#funcdef-filter-drop-shadow
@@ -1478,8 +1493,8 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
             - include: var-functions
-            - include: length-type
             - include: color-values
+            - include: length-constants
 
     # hue-rotate()
     # https://drafts.fxtf.org/filters/#funcdef-filter-hue-rotate
@@ -1492,7 +1507,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
             - include: var-functions
-            - include: angle-type
+            - include: angle-constants
 
   # calc()
   # https://www.w3.org/TR/css3-values/#funcdef-calc
@@ -1515,7 +1530,7 @@ contexts:
     - include: attr-functions
     - include: calc-functions
     - include: var-functions
-    - include: numeric-values
+    - include: numeric-constants
     - match: '[-+*/]'
       scope: keyword.operator.arithmetic.css
     - match: \(
@@ -1561,9 +1576,9 @@ contexts:
         )\b
       scope: keyword.other.unit.css
     - include: var-functions
-    - include: common-constants
     - include: color-values
-    - include: numeric-values
+    - include: common-constants
+    - include: numeric-constants
 
   # url()
   # https://drafts.csswg.org/css-images-3/#url-notation
@@ -1638,7 +1653,7 @@ contexts:
             - include: comma-delimiters
             - include: var-functions
             - include: color-values
-            - include: image-type
+            - include: image-values
             - include: quoted-strings
             - include: unquoted-strings
 
@@ -1656,8 +1671,8 @@ contexts:
             - include: comma-delimiters
             - include: var-functions
             - include: color-values
-            - include: image-type
-            - include: resolution-type
+            - include: image-values
+            - include: resolution-constants
             - match: ([0-9]+)(x)
               scope: meta.number.integer.decimal.css
               captures:
@@ -1688,9 +1703,9 @@ contexts:
               scope: support.constant.property-value.css
             - include: var-functions
             - include: color-values
-            - include: angle-type
-            - include: length-type
-            - include: percentage-type
+            - include: angle-constants
+            - include: length-constants
+            - include: percentage-constants
 
     # radial-gradient()
     # https://drafts.csswg.org/css-images-3/#radial-gradients
@@ -1711,8 +1726,8 @@ contexts:
               scope: support.constant.property-value.css
             - include: var-functions
             - include: color-values
-            - include: length-type
-            - include: percentage-type
+            - include: length-constants
+            - include: percentage-constants
 
   # cross-fade()
   # https://drafts.csswg.org/css-images-3/#cross-fade-functions
@@ -1728,8 +1743,8 @@ contexts:
             - include: comma-delimiters
             - include: var-functions
             - include: color-values
-            - include: image-type
-            - include: percentage-type
+            - include: image-values
+            - include: percentage-constants
             - include: quoted-strings
             - include: unquoted-strings
 
@@ -1748,8 +1763,8 @@ contexts:
             - match: \b(auto|max-content|min-content)\b
               scope: support.constant.property-value.css
             - include: var-functions
-            - include: length-type
-            - include: percentage-type
+            - include: length-constants
+            - include: percentage-constants
 
   # Color Functions
   # https://drafts.csswg.org/css-color
@@ -1766,8 +1781,8 @@ contexts:
             - include: group-end
             - include: comma-delimiters
             - include: var-functions
-            - include: percentage-type
-            - include: number-type
+            - include: percentage-constants
+            - include: scalar-constants
 
     # hsl(), hsla()
     # https://drafts.csswg.org/css-color/#the-hsl-notation
@@ -1783,9 +1798,9 @@ contexts:
             - include: group-end
             - include: comma-delimiters
             - include: var-functions
-            - include: angle-type
-            - include: percentage-type
-            - include: number-type
+            - include: angle-constants
+            - include: percentage-constants
+            - include: scalar-constants
 
     # gray() - Not yet implemented by browsers
     # https://drafts.csswg.org/css-color/#funcdef-gray
@@ -1799,8 +1814,8 @@ contexts:
             - include: group-end
             - include: comma-delimiters
             - include: var-functions
-            - include: percentage-type
-            - include: number-type
+            - include: percentage-constants
+            - include: scalar-constants
 
     # device-cmyk() - Not yet implemented by browsers
     # https://drafts.csswg.org/css-color/#funcdef-device-cmyk
@@ -1813,11 +1828,11 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
             - include: comma-delimiters
-            - include: color-adjuster-functions # must be included before `color-values`
             - include: var-functions
+            - include: color-adjuster-functions # must be included before `color-values`
             - include: color-values
-            - include: percentage-type
-            - include: number-type
+            - include: percentage-constants
+            - include: scalar-constants
 
     # color-mod() - Not yet implemented by browsers
     # https://drafts.csswg.org/css-color/#funcdef-color-mod
@@ -1830,11 +1845,11 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
             - include: comma-delimiters
-            - include: color-adjuster-functions # must be included before `color-values`
             - include: var-functions
+            - include: color-adjuster-functions # must be included before `color-values`
             - include: color-values
-            - include: angle-type
-            - include: number-type
+            - include: angle-constants
+            - include: scalar-constants
 
   # Color Adjuster Functions - Not yet implemented by browsers
   # https://drafts.csswg.org/css-color/#typedef-color-adjuster
@@ -1850,8 +1865,8 @@ contexts:
             - include: group-end
             - include: var-functions
             - include: color-adjuster-operators
-            - include: percentage-type
-            - include: number-type
+            - include: percentage-constants
+            - include: scalar-constants
 
     # hue() - Not yet implemented by browsers
     - match: \b(hue|h)(?=\()
@@ -1864,7 +1879,7 @@ contexts:
             - include: group-end
             - include: var-functions
             - include: color-adjuster-operators
-            - include: angle-type
+            - include: angle-constants
 
     # saturation(), lightness(), whiteness(), blackness() - Not yet implemented by browsers
     - match: \b(saturation|lightness|whiteness|blackness|[slwb])(?=\()
@@ -1877,7 +1892,7 @@ contexts:
             - include: group-end
             - include: var-functions
             - include: color-adjuster-operators
-            - include: percentage-type
+            - include: percentage-constants
 
     # tint(), shade(), contrast() - Not yet implemented by browsers
     # contrast() interferes with the contrast() filter function;
@@ -1891,7 +1906,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
             - include: var-functions
-            - include: percentage-type
+            - include: percentage-constants
 
     # blend(), blenda() - Not yet implemented by browsers
     - match: \b(blenda|blend)(?=\()
@@ -1906,7 +1921,7 @@ contexts:
               scope: keyword.other.color-space.css
             - include: var-functions
             - include: color-values
-            - include: percentage-type
+            - include: percentage-constants
 
 ###[ OPERATORS ]###############################################################
 
@@ -1957,13 +1972,6 @@ contexts:
 
 ###[ CONSTANTS ]###############################################################
 
-  # When including `color-values` and `color-adjuster-functions`, make sure it is
-  # included after the color adjustors to prevent `color-values` from consuming
-  # conflicting function names & color constants such as `red`, `green`, or `blue`.
-  color-values:
-    - include: color-functions
-    - include: color-constants
-
   color-constants:
     # https://www.w3.org/TR/CSS22/syndata.html#color-units
     - match: '{{standard_colors}}'
@@ -2004,6 +2012,8 @@ contexts:
       scope: variable.other.custom-property.css
       captures:
         1: punctuation.definition.custom-property.css
+
+###[ STRING CONSTANTS ]########################################################
 
   # Named Grid Lines
   # https://drafts.csswg.org/css-grid/#named-lines
@@ -2081,60 +2091,19 @@ contexts:
         2: constant.codepoint-range.css
         3: punctuation.section.range.css
 
-  # https://www.w3.org/TR/css3-values/#numeric-types
-  numeric-values:
-    - include: dimensions
-    - include: percentage-type
-    - include: number-type
+###[ NUMERIC CONSTANTS ]#######################################################
 
-  float-type:
-    - match: '{{float}}'
-      scope: meta.number.float.decimal.css
-      captures:
-        1: keyword.operator.arithmetic.css
-        2: constant.numeric.value.css
-        3: punctuation.separator.decimal.css
-      push: maybe-illegal-operator
+  # https://www.w3.org/TR/css3-values/#numeric-constantss
+  numeric-constants:
+    - include: angle-constants
+    - include: frequency-constants
+    - include: length-constants
+    - include: resolution-constants
+    - include: percentage-constants
+    - include: time-constants
+    - include: scalar-constants
 
-  integer-type:
-    - match: '{{integer}}'
-      scope: meta.number.integer.decimal.css
-      captures:
-        1: keyword.operator.arithmetic.css
-        2: constant.numeric.value.css
-      push: maybe-illegal-operator
-
-  # Make sure `number-type` is included after any other numeric values
-  # as `number-type` will consume all numeric values.
-  number-type:
-    - include: float-type
-    - include: integer-type
-
-  percentage-type:
-    - match: '{{float}}(%)'
-      scope: meta.number.float.decimal.css
-      captures:
-        1: keyword.operator.arithmetic.css
-        2: constant.numeric.value.css
-        3: punctuation.separator.decimal.css
-        4: constant.numeric.suffix.css
-      push: maybe-illegal-operator
-    - match: '{{integer}}(%)'
-      scope: meta.number.integer.decimal.css
-      captures:
-        1: keyword.operator.arithmetic.css
-        2: constant.numeric.value.css
-        3: constant.numeric.suffix.css
-      push: maybe-illegal-operator
-
-  dimensions:
-    - include: angle-type
-    - include: frequency-type
-    - include: length-type
-    - include: resolution-type
-    - include: time-type
-
-  angle-type:
+  angle-constants:
     - match: '{{float}}({{angle_units}})\b'
       scope: meta.number.float.decimal.css
       captures:
@@ -2154,7 +2123,7 @@ contexts:
       scope: meta.number.integer.decimal.css constant.numeric.value.css
       push: maybe-illegal-operator
 
-  frequency-type:
+  frequency-constants:
     - match: '{{float}}({{frequency_units}})\b'
       scope: meta.number.float.decimal.css
       captures:
@@ -2171,7 +2140,7 @@ contexts:
         3: constant.numeric.suffix.css
       push: maybe-illegal-operator
 
-  length-type:
+  length-constants:
     - match: '{{float}}({{font_relative_lengths}}|{{viewport_percentage_lengths}}|{{absolute_lengths}})\b'
       scope: meta.number.float.decimal.css
       captures:
@@ -2191,7 +2160,7 @@ contexts:
       scope: meta.number.integer.decimal.css constant.numeric.value.css
       push: maybe-illegal-operator
 
-  resolution-type:
+  resolution-constants:
     - match: '{{float}}({{resolution_units}})\b'
       scope: meta.number.float.decimal.css
       captures:
@@ -2208,7 +2177,47 @@ contexts:
         3: constant.numeric.suffix.css
       push: maybe-illegal-operator
 
-  time-type:
+  # Make sure `scalar-constants` is included after any other numeric values
+  # as `scalar-constants` will consume all numeric values.
+  scalar-constants:
+    - include: scalar-float-constants
+    - include: scalar-integer-constants
+
+  scalar-float-constants:
+    - match: '{{float}}'
+      scope: meta.number.float.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+      push: maybe-illegal-operator
+
+  scalar-integer-constants:
+    - match: '{{integer}}'
+      scope: meta.number.integer.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+      push: maybe-illegal-operator
+
+  percentage-constants:
+    - match: '{{float}}(%)'
+      scope: meta.number.float.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+        4: constant.numeric.suffix.css
+      push: maybe-illegal-operator
+    - match: '{{integer}}(%)'
+      scope: meta.number.integer.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: constant.numeric.suffix.css
+      push: maybe-illegal-operator
+
+  time-constants:
     - match: '{{float}}({{duration_units}})\b'
       scope: meta.number.float.decimal.css
       captures:
@@ -2224,11 +2233,3 @@ contexts:
         2: constant.numeric.value.css
         3: constant.numeric.suffix.css
       push: maybe-illegal-operator
-
-  # https://drafts.csswg.org/css-images-3/#typedef-image
-  image-type:
-    - include: cross-fade-functions
-    - include: gradient-functions
-    - include: image-functions
-    - include: image-set-functions
-    - include: url-functions
