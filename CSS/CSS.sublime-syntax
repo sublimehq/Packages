@@ -2013,6 +2013,149 @@ contexts:
       captures:
         1: punctuation.definition.custom-property.css
 
+###[ NUMERIC CONSTANTS ]#######################################################
+
+  # https://www.w3.org/TR/css3-values/#numeric-constantss
+  numeric-constants:
+    - include: angle-constants
+    - include: frequency-constants
+    - include: length-constants
+    - include: resolution-constants
+    - include: percentage-constants
+    - include: time-constants
+    - include: scalar-constants
+
+  # Make sure `scalar-constants` is included after any other numeric values
+  # as `scalar-constants` will consume all numeric values.
+  scalar-constants:
+    - include: scalar-float-constants
+    - include: scalar-integer-constants
+
+  scalar-float-constants:
+    - match: '{{float}}'
+      scope: meta.number.float.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+      push: maybe-illegal-operator
+
+  scalar-integer-constants:
+    - match: '{{integer}}'
+      scope: meta.number.integer.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+      push: maybe-illegal-operator
+
+  angle-constants:
+    - match: '{{float}}({{angle_units}})\b'
+      scope: meta.number.float.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+        4: constant.numeric.suffix.css
+      push: maybe-illegal-operator
+    - match: '{{integer}}({{angle_units}})\b'
+      scope: meta.number.integer.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: constant.numeric.suffix.css
+      push: maybe-illegal-operator
+    - match: \b0\b(?!%)
+      scope: meta.number.integer.decimal.css constant.numeric.value.css
+      push: maybe-illegal-operator
+
+  frequency-constants:
+    - match: '{{float}}({{frequency_units}})\b'
+      scope: meta.number.float.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+        4: constant.numeric.suffix.css
+      push: maybe-illegal-operator
+    - match: '{{integer}}({{frequency_units}})\b'
+      scope: meta.number.integer.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: constant.numeric.suffix.css
+      push: maybe-illegal-operator
+
+  length-constants:
+    - match: '{{float}}({{font_relative_lengths}}|{{viewport_percentage_lengths}}|{{absolute_lengths}})\b'
+      scope: meta.number.float.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+        4: constant.numeric.suffix.css
+      push: maybe-illegal-operator
+    - match: '{{integer}}({{font_relative_lengths}}|{{viewport_percentage_lengths}}|{{absolute_lengths}})\b'
+      scope: meta.number.integer.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: constant.numeric.suffix.css
+      push: maybe-illegal-operator
+    - match: \b0\b(?!%)
+      scope: meta.number.integer.decimal.css constant.numeric.value.css
+      push: maybe-illegal-operator
+
+  resolution-constants:
+    - match: '{{float}}({{resolution_units}})\b'
+      scope: meta.number.float.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+        4: constant.numeric.suffix.css
+      push: maybe-illegal-operator
+    - match: '{{integer}}({{resolution_units}})\b'
+      scope: meta.number.integer.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: constant.numeric.suffix.css
+      push: maybe-illegal-operator
+
+  percentage-constants:
+    - match: '{{float}}(%)'
+      scope: meta.number.float.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+        4: constant.numeric.suffix.css
+      push: maybe-illegal-operator
+    - match: '{{integer}}(%)'
+      scope: meta.number.integer.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: constant.numeric.suffix.css
+      push: maybe-illegal-operator
+
+  time-constants:
+    - match: '{{float}}({{duration_units}})\b'
+      scope: meta.number.float.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+        4: constant.numeric.suffix.css
+      push: maybe-illegal-operator
+    - match: '{{integer}}({{duration_units}})\b'
+      scope: meta.number.integer.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: constant.numeric.suffix.css
+      push: maybe-illegal-operator
+
 ###[ STRING CONSTANTS ]########################################################
 
   # Named Grid Lines
@@ -2090,146 +2233,3 @@ contexts:
         1: support.constant.unicode-range.prefix.css
         2: constant.codepoint-range.css
         3: punctuation.section.range.css
-
-###[ NUMERIC CONSTANTS ]#######################################################
-
-  # https://www.w3.org/TR/css3-values/#numeric-constantss
-  numeric-constants:
-    - include: angle-constants
-    - include: frequency-constants
-    - include: length-constants
-    - include: resolution-constants
-    - include: percentage-constants
-    - include: time-constants
-    - include: scalar-constants
-
-  angle-constants:
-    - match: '{{float}}({{angle_units}})\b'
-      scope: meta.number.float.decimal.css
-      captures:
-        1: keyword.operator.arithmetic.css
-        2: constant.numeric.value.css
-        3: punctuation.separator.decimal.css
-        4: constant.numeric.suffix.css
-      push: maybe-illegal-operator
-    - match: '{{integer}}({{angle_units}})\b'
-      scope: meta.number.integer.decimal.css
-      captures:
-        1: keyword.operator.arithmetic.css
-        2: constant.numeric.value.css
-        3: constant.numeric.suffix.css
-      push: maybe-illegal-operator
-    - match: \b0\b(?!%)
-      scope: meta.number.integer.decimal.css constant.numeric.value.css
-      push: maybe-illegal-operator
-
-  frequency-constants:
-    - match: '{{float}}({{frequency_units}})\b'
-      scope: meta.number.float.decimal.css
-      captures:
-        1: keyword.operator.arithmetic.css
-        2: constant.numeric.value.css
-        3: punctuation.separator.decimal.css
-        4: constant.numeric.suffix.css
-      push: maybe-illegal-operator
-    - match: '{{integer}}({{frequency_units}})\b'
-      scope: meta.number.integer.decimal.css
-      captures:
-        1: keyword.operator.arithmetic.css
-        2: constant.numeric.value.css
-        3: constant.numeric.suffix.css
-      push: maybe-illegal-operator
-
-  length-constants:
-    - match: '{{float}}({{font_relative_lengths}}|{{viewport_percentage_lengths}}|{{absolute_lengths}})\b'
-      scope: meta.number.float.decimal.css
-      captures:
-        1: keyword.operator.arithmetic.css
-        2: constant.numeric.value.css
-        3: punctuation.separator.decimal.css
-        4: constant.numeric.suffix.css
-      push: maybe-illegal-operator
-    - match: '{{integer}}({{font_relative_lengths}}|{{viewport_percentage_lengths}}|{{absolute_lengths}})\b'
-      scope: meta.number.integer.decimal.css
-      captures:
-        1: keyword.operator.arithmetic.css
-        2: constant.numeric.value.css
-        3: constant.numeric.suffix.css
-      push: maybe-illegal-operator
-    - match: \b0\b(?!%)
-      scope: meta.number.integer.decimal.css constant.numeric.value.css
-      push: maybe-illegal-operator
-
-  resolution-constants:
-    - match: '{{float}}({{resolution_units}})\b'
-      scope: meta.number.float.decimal.css
-      captures:
-        1: keyword.operator.arithmetic.css
-        2: constant.numeric.value.css
-        3: punctuation.separator.decimal.css
-        4: constant.numeric.suffix.css
-      push: maybe-illegal-operator
-    - match: '{{integer}}({{resolution_units}})\b'
-      scope: meta.number.integer.decimal.css
-      captures:
-        1: keyword.operator.arithmetic.css
-        2: constant.numeric.value.css
-        3: constant.numeric.suffix.css
-      push: maybe-illegal-operator
-
-  # Make sure `scalar-constants` is included after any other numeric values
-  # as `scalar-constants` will consume all numeric values.
-  scalar-constants:
-    - include: scalar-float-constants
-    - include: scalar-integer-constants
-
-  scalar-float-constants:
-    - match: '{{float}}'
-      scope: meta.number.float.decimal.css
-      captures:
-        1: keyword.operator.arithmetic.css
-        2: constant.numeric.value.css
-        3: punctuation.separator.decimal.css
-      push: maybe-illegal-operator
-
-  scalar-integer-constants:
-    - match: '{{integer}}'
-      scope: meta.number.integer.decimal.css
-      captures:
-        1: keyword.operator.arithmetic.css
-        2: constant.numeric.value.css
-      push: maybe-illegal-operator
-
-  percentage-constants:
-    - match: '{{float}}(%)'
-      scope: meta.number.float.decimal.css
-      captures:
-        1: keyword.operator.arithmetic.css
-        2: constant.numeric.value.css
-        3: punctuation.separator.decimal.css
-        4: constant.numeric.suffix.css
-      push: maybe-illegal-operator
-    - match: '{{integer}}(%)'
-      scope: meta.number.integer.decimal.css
-      captures:
-        1: keyword.operator.arithmetic.css
-        2: constant.numeric.value.css
-        3: constant.numeric.suffix.css
-      push: maybe-illegal-operator
-
-  time-constants:
-    - match: '{{float}}({{duration_units}})\b'
-      scope: meta.number.float.decimal.css
-      captures:
-        1: keyword.operator.arithmetic.css
-        2: constant.numeric.value.css
-        3: punctuation.separator.decimal.css
-        4: constant.numeric.suffix.css
-      push: maybe-illegal-operator
-    - match: '{{integer}}({{duration_units}})\b'
-      scope: meta.number.integer.decimal.css
-      captures:
-        1: keyword.operator.arithmetic.css
-        2: constant.numeric.value.css
-        3: constant.numeric.suffix.css
-      push: maybe-illegal-operator
