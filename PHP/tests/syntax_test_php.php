@@ -1713,7 +1713,7 @@ EOT;
 // <- keyword.operator.heredoc
 
 // PHP 7.3: Flexible Heredoc and Nowdoc Syntaxes
-// @see https://wiki.php.net/rfc/flexible_heredoc_nowdoc_syntaxes
+// see https://wiki.php.net/rfc/flexible_heredoc_nowdoc_syntaxes
 echo <<<EOT
 //   ^^^^^^ punctuation.definition.string
 //      ^^^ keyword.operator.heredoc
@@ -1769,7 +1769,7 @@ echo <<<CSS
 h2 {font-family: 'Arial';}
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.css source.css
 // <- entity.name.tag
-// ^ punctuation.section.property-list
+// ^ punctuation.section.block
 //               ^^^^^^^ string.quoted.single
 h3 {font-size: "$h3_size";}
 //              ^^^^^^^^ variable.other.php
