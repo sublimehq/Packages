@@ -778,7 +778,7 @@ contexts:
     - include: immediately-pop
 
   attribute-selector-key:
-    - include: qualified-names
+    - include: namespace-prefixes
     - match: '{{ident}}'
       scope: entity.other.attribute-name.css
       set: attribute-selector-operator
@@ -908,9 +908,9 @@ contexts:
         1: support.type.vendor-prefix.css
       pop: 1
 
-  # Qualified Name
+  # Qualified Names
   # https://drafts.csswg.org/css-namespaces-3/#css-qnames
-  qualified-names:
+  namespace-prefixes:
     - match: (?:({{ident}})|(\*))?(\|)(?!=)
       captures:
         1: entity.other.namespace-prefix.css
@@ -1552,7 +1552,7 @@ contexts:
   attr-function-arguments-identifier:
     - match: (?=\S)
       set:
-        - include: qualified-names
+        - include: namespace-prefixes
         - include: quoted-string
         - include: var-functions
         - match: '{{ident}}'
