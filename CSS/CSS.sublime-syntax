@@ -741,7 +741,7 @@ contexts:
     # Attribute Selectors
     # https://drafts.csswg.org/selectors-4/#attribute-selectors
     - match: \[
-      scope: punctuation.section.attribute-selector.begin.css
+      scope: punctuation.section.brackets.begin.css
       push:
         - attribute-selector-meta
         - attribute-selector-key
@@ -774,7 +774,7 @@ contexts:
     - include: comments
 
   attribute-selector-meta:
-    - meta_scope: meta.attribute-selector.css
+    - meta_scope: meta.attribute-selector.css meta.brackets.css
     - include: immediately-pop
 
   attribute-selector-key:
@@ -808,7 +808,7 @@ contexts:
 
   attribute-selector-end:
     - match: \]
-      scope: punctuation.section.attribute-selector.end.css
+      scope: punctuation.section.brackets.end.css
       pop: 1
     - include: selector-end
     - match: \S

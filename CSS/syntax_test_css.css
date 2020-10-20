@@ -626,55 +626,55 @@
 /*                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css meta.attribute-selector.css */
 /*                                                    ^^^ - meta.selector.css - meta.attribute-selector */
 /*                       ^^^^^^^^^^ meta.attribute-selector.css */
-/*                       ^ punctuation.section.attribute-selector.begin.css */
+/*                       ^ punctuation.section.brackets.begin.css */
 /*                        ^^^^^^^^ entity.other.attribute-name.css */
-/*                                ^ punctuation.section.attribute-selector.end.css */
-/*                                 ^ punctuation.section.attribute-selector.begin.css*/
+/*                                ^ punctuation.section.brackets.end.css */
+/*                                 ^ punctuation.section.brackets.begin.css*/
 /*                                   ^^^^ comment.block.css */
 /*                                        ^^^^ entity.other.attribute-name.css */
 /*                                             ^^^^^^ meta.string.css string.unquoted.css */
-/*                                                   ^ punctuation.section.attribute-selector.end.css */
+/*                                                   ^ punctuation.section.brackets.end.css */
 
 .test-attribute-selectors-whitespace[ /**/ type /**/ = /**/ button /**/ ] {}
 /*                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css meta.attribute-selector.css */
 /*                                                                       ^^^ - meta.selector.css - meta.attribute-selector */
-/*                                  ^ punctuation.section.attribute-selector.begin.css */
+/*                                  ^ punctuation.section.brackets.begin.css */
 /*                                    ^^^^ comment.block.css */
 /*                                         ^^^^ entity.other.attribute-name.css */
 /*                                              ^^^^ comment.block.css */
 /*                                                     ^^^^ comment.block.css */
 /*                                                          ^^^^^^ meta.string.css string.unquoted.css */
 /*                                                                 ^^^^ comment.block.css */
-/*                                                                      ^ punctuation.section.attribute-selector.end.css */
+/*                                                                      ^ punctuation.section.brackets.end.css */
 
 .test-attribute-selectors-whitespace[ /**/ type /**/ = /**/ 'button' /**/ ] {}
 /*                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css meta.attribute-selector.css */
 /*                                                                         ^^^ - meta.selector.css - meta.attribute-selector */
-/*                                  ^ punctuation.section.attribute-selector.begin.css */
+/*                                  ^ punctuation.section.brackets.begin.css */
 /*                                    ^^^^ comment.block.css */
 /*                                         ^^^^ entity.other.attribute-name.css */
 /*                                              ^^^^ comment.block.css */
 /*                                                     ^^^^ comment.block.css */
 /*                                                          ^^^^^^^^ meta.string.css string.quoted.single.css */
 /*                                                                   ^^^^ comment.block.css */
-/*                                                                        ^ punctuation.section.attribute-selector.end.css */
+/*                                                                        ^ punctuation.section.brackets.end.css */
 
 .test-attribute-selectors-whitespace[ /**/ type /**/ = /**/ "button" /**/ ] {}
 /*                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css meta.attribute-selector.css */
 /*                                                                         ^^^ - meta.selector.css - meta.attribute-selector */
-/*                                  ^ punctuation.section.attribute-selector.begin.css */
+/*                                  ^ punctuation.section.brackets.begin.css */
 /*                                    ^^^^ comment.block.css */
 /*                                         ^^^^ entity.other.attribute-name.css */
 /*                                              ^^^^ comment.block.css */
 /*                                                     ^^^^ comment.block.css */
 /*                                                          ^^^^^^^^ meta.string.css string.quoted.double.css */
 /*                                                                   ^^^^ comment.block.css */
-/*                                                                        ^ punctuation.section.attribute-selector.end.css */
+/*                                                                        ^ punctuation.section.brackets.end.css */
 
 .test-attribute-selectors-illegal[button button = button button i button] {}
 /*                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.selector.css meta.attribute-selector.css */
 /*                                                                       ^^^ - meta.selector.css - meta.attribute-selector */
-/*                               ^ punctuation.section.attribute-selector.begin.css */
+/*                               ^ punctuation.section.brackets.begin.css */
 /*                                ^^^^^^ entity.other.attribute-name.css */
 /*                                       ^^^^^^ invalid.illegal.css */
 /*                                              ^ keyword.operator.logical.css */
@@ -682,13 +682,13 @@
 /*                                                       ^^^^^^ invalid.illegal.css */
 /*                                                              ^ keyword.other.css */
 /*                                                                ^^^^^^ invalid.illegal.css */
-/*                                                                      ^ punctuation.section.attribute-selector.end.css */
+/*                                                                      ^ punctuation.section.brackets.end.css */
 
 .test-attribute-selectors-incomplete[=button {}
 /*                                  ^^^^^^^^ meta.selector.css meta.attribute-selector.css */
 /*                                          ^ - meta.property-list - meta.selector */
 /*                                           ^^ meta.property-list.css - meta.selector */
-/*                                  ^ punctuation.section.attribute-selector.begin.css */
+/*                                  ^ punctuation.section.brackets.begin.css */
 /*                                   ^ keyword.operator.logical.css */
 /*                                    ^^^^^^ meta.string.css string.unquoted.css */
 
