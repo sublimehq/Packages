@@ -670,21 +670,21 @@ contexts:
     - meta_scope: meta.at-rule.supports.css
     - include: comments
     - include: at-block
+    - include: at-supports-groups
     - include: at-supports-operators
-    - include: at-supports-parens
 
   at-supports-operators:
     - match: \b(?i:and|or|not)\b
       scope: keyword.operator.logical.css
 
-  at-supports-parens:
+  at-supports-groups:
     - match: \(
       scope: punctuation.section.group.begin.css
       push:
         - meta_scope: meta.group.css
         - include: group-end
+        - include: at-supports-groups
         - include: at-supports-operators
-        - include: at-supports-parens
         - include: rule-list-body
 
   at-block:
