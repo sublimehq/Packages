@@ -15,28 +15,28 @@ file_extensions:
 
 variables:
   # Many variable names taken directly from https://www.w3.org/TR/css3-selectors/#lex
-  unicode: '\\\h{1,6}[ \t\n\f]?'
-  escape: '(?:{{unicode}}|\\[^\n\f\h])'
+  unicode: \\\h{1,6}[ \t\n\f]?
+  escape: (?:{{unicode}}|\\[^\n\f\h])
   nonascii: '[\p{L}\p{M}\p{S}\p{N}&&[[:^ascii:]]]'
-  nmstart: '(?:[[_a-zA-Z]{{nonascii}}]|{{escape}})'
-  nmchar: '(?:[[-\w]{{nonascii}}]|{{escape}})'
-  ident: '(?:--{{nmchar}}+|-?{{nmstart}}{{nmchar}}*)'
+  nmstart: (?:[[_a-zA-Z]{{nonascii}}]|{{escape}})
+  nmchar: (?:[[-\w]{{nonascii}}]|{{escape}})
+  ident: (?:--{{nmchar}}+|-?{{nmstart}}{{nmchar}}*)
 
   # Types
   # https://www.w3.org/TR/css3-values/#numeric-types
   # https://www.w3.org/TR/css-syntax-3/#number-token-diagram
-  integer: '([-+]?)(\d+)'
-  float: '([-+]?)(\d*(\.)\d+(?:[eE][-+]?\d+)?|\d+[eE][-+]?\d+)'
+  integer: ([-+]?)(\d+)
+  float: ([-+]?)(\d*(\.)\d+(?:[eE][-+]?\d+)?|\d+[eE][-+]?\d+)
 
   # Units
   # https://www.w3.org/TR/css3-values/#lengths
-  font_relative_lengths: '(?i:em|ex|ch|rem)'
-  viewport_percentage_lengths: '(?i:vw|vh|vmin|vmax)'
-  absolute_lengths: '(?i:cm|mm|q|in|pt|pc|px|fr)'
-  angle_units: '(?i:deg|grad|rad|turn)'
-  duration_units: '(?i:s|ms)'
-  frequency_units: '(?i:Hz|kHz)'
-  resolution_units: '(?i:dpi|dpcm|dppx)'
+  font_relative_lengths: (?i:em|ex|ch|rem)
+  viewport_percentage_lengths: (?i:vw|vh|vmin|vmax)
+  absolute_lengths: (?i:cm|mm|q|in|pt|pc|px|fr)
+  angle_units: (?i:deg|grad|rad|turn)
+  duration_units: (?i:s|ms)
+  frequency_units: (?i:Hz|kHz)
+  resolution_units: (?i:dpi|dpcm|dppx)
 
   # Combinators
   # https://drafts.csswg.org/selectors-4/#combinators
