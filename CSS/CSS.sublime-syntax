@@ -1929,53 +1929,6 @@ contexts:
             - include: color-values
             - include: percentage-constants
 
-###[ OPERATORS ]###############################################################
-
-  color-adjuster-operators:
-    - match: '[-+*](?=\s)'
-      scope: keyword.operator.arithmetic.css
-    - match: '[-+*/]'
-      scope: invalid.illegal.operator.css
-
-  maybe-illegal-operator:
-    - match: '[-+](?=\s*\d)'
-      scope: invalid.illegal.operator.css
-      pop: 1
-    - match: \s*([-+])(?=\d)
-      captures:
-        1: invalid.illegal.operator.css
-      pop: 1
-    - include: immediately-pop
-
-###[ PUNCTUATION ]#############################################################
-
-  comma-delimiters:
-    - match: ','
-      scope: punctuation.separator.sequence.css
-
-  group-end:
-    - match: \)
-      scope: punctuation.section.group.end.css
-      pop: 1
-    - include: comments
-
-  rule-terminator:
-    - match: ;
-      scope: punctuation.terminator.rule.css
-      pop: 1
-
-  eol-pop:
-    - match: $
-      pop: 1
-
-  else-pop:
-    - match: (?=\S)
-      pop: 1
-
-  immediately-pop:
-    - match: ''
-      pop: 1
-
 ###[ CONSTANTS ]###############################################################
 
   color-constants:
@@ -2239,3 +2192,52 @@ contexts:
         1: support.constant.unicode-range.prefix.css
         2: constant.codepoint-range.css
         3: punctuation.section.range.css
+
+###[ OPERATORS ]###############################################################
+
+  color-adjuster-operators:
+    - match: '[-+*](?=\s)'
+      scope: keyword.operator.arithmetic.css
+    - match: '[-+*/]'
+      scope: invalid.illegal.operator.css
+
+  maybe-illegal-operator:
+    - match: '[-+](?=\s*\d)'
+      scope: invalid.illegal.operator.css
+      pop: 1
+    - match: \s*([-+])(?=\d)
+      captures:
+        1: invalid.illegal.operator.css
+      pop: 1
+    - include: immediately-pop
+
+###[ PUNCTUATION ]#############################################################
+
+  comma-delimiters:
+    - match: ','
+      scope: punctuation.separator.sequence.css
+
+  group-end:
+    - match: \)
+      scope: punctuation.section.group.end.css
+      pop: 1
+    - include: comments
+
+  rule-terminator:
+    - match: ;
+      scope: punctuation.terminator.rule.css
+      pop: 1
+
+###[ PROTOTYPES ]##############################################################
+
+  eol-pop:
+    - match: $
+      pop: 1
+
+  else-pop:
+    - match: (?=\S)
+      pop: 1
+
+  immediately-pop:
+    - match: ''
+      pop: 1
