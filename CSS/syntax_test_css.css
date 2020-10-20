@@ -1192,6 +1192,10 @@
     top: attr(preserve-3d);
 /*            ^^^^^^^^^^^ entity.other.attribute-name.css */
 
+    top: attr("name" auto);
+/*            ^^^^^^ meta.string.css string.quoted.double.css */
+/*                   ^^^^ support.constant.property-value.css */
+
     top: attr(var(--name) var(--val));
 /*       ^^^^ meta.function-call.identifier.css - meta.function-call meta.function-call */
 /*           ^ meta.function-call.arguments.css - meta.function-call meta.function-call */

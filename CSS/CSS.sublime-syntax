@@ -1440,17 +1440,24 @@ contexts:
   var-functions:
     - match: \b(var)(?=\()
       scope: meta.function-call.identifier.css support.function.var.css
-      push:
-        - match: \(
-          scope: punctuation.section.group.begin.css
-          set:
-            - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: var-functions
-            - include: custom-properties
-            - match: (?=,)
-              push:
-                - include: property-value-content
+      push: var-function-arguments
+
+  var-function:
+    - match: \b(var)(?=\()
+      scope: meta.function-call.identifier.css support.function.var.css
+      set: var-function-arguments
+
+  var-function-arguments:
+    - match: \(
+      scope: punctuation.section.group.begin.css
+      set:
+        - meta_scope: meta.function-call.arguments.css meta.group.css
+        - include: group-end
+        - include: var-functions
+        - include: custom-properties
+        - match: (?=,)
+          push:
+            - include: property-value-content
 
   # Filter Functions
   # https://drafts.fxtf.org/filters/#typedef-filter-function
@@ -1550,15 +1557,14 @@ contexts:
             - attr-function-arguments-identifier
 
   attr-function-arguments-identifier:
-    - match: (?=\S)
-      set:
-        - include: namespace-prefixes
-        - include: quoted-string
-        - include: var-functions
-        - match: '{{ident}}'
-          scope: entity.other.attribute-name.css
-          pop: 1
-        - include: immediately-pop
+    - include: namespace-prefixes
+    - include: quoted-string
+    - include: var-function
+    - match: '{{ident}}'
+      scope: entity.other.attribute-name.css
+      pop: 1
+    - include: comments
+    - include: else-pop
 
   attr-function-arguments-value:
     - meta_scope: meta.function-call.arguments.css meta.group.css
