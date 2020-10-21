@@ -530,27 +530,14 @@ contexts:
       push:
         - meta_scope: meta.at-rule.keyframe.css
         - include: comments
+        - include: comma-delimiters
         - include: at-keyframe-block
-        - include: at-keyframe-names-list
-
-  at-keyframe-names-list:
-    - match: \s*(?=[^{;])
-      push:
-        - match: \s*(?=[{;])
-          pop: 1
-        - include: comments
         - include: at-keyframe-names
+        - include: rule-terminator
 
-  # https://drafts.csswg.org/css-animations/#propdef-animation-name
   at-keyframe-names:
-    - match: \s*({{ident}})?
-      captures:
-        1: entity.other.animation-name.css
-      push:
-        - match: \s*(?:(,)|(?=[{;]))
-          captures:
-            1: punctuation.separator.sequence.css
-          pop: 1
+    - match: '{{ident}}'
+      scope: entity.other.animation-name.css
 
   at-keyframe-block:
     - match: \{
