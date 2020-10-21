@@ -140,6 +140,17 @@
 /*         ^^^^ keyword.operator.logic.media.css */
 /*              ^^^^^^ support.constant.media.css */
 
+    @media (min-width: 700px {}
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css - meta.block */
+/*                           ^^ meta.at-rule.media.css meta.block.css */
+/*  ^ punctuation.definition.keyword.css */
+/*   ^^^^^ keyword.control.at-rule.media.css */
+/*         ^ punctuation.section.group.begin.css */
+/*          ^^^^^^^^^ support.type.property-name.media.css */
+/*                     ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                        ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
+/*                           ^ punctuation.section.block.begin.css */
+
     @media (min-width: 700px) {}
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css */
 /*  ^ punctuation.definition.keyword.css */
@@ -692,6 +703,12 @@
 /*                                   ^ keyword.operator.logical.css */
 /*                                    ^^^^^^ meta.string.css string.unquoted.css */
 
+.test-attribute-selectors-incomplete[ ;
+/*                                  ^ meta.selector.css meta.attribute-selector.css */
+/*                                   ^^ - meta.property-list - meta.selector */
+/*                                  ^ punctuation.section.brackets.begin.css */
+/*                                    ^ punctuation.terminator.rule.css */
+
 .test-attribute-selectors-namespaces[n|a=""][*|a=""][|att] {}
 /*                                   ^ entity.other.namespace-prefix.css */
 /*                                    ^ punctuation.separator.namespace.css */
@@ -835,9 +852,29 @@
 
 .test-function-meta {
     top: filter(param1, 20px);
+/*      ^ - meta.function-call */
 /*       ^^^^^^^^^^^^^^^^^^^^ - meta.function-call meta.function-call */
 /*       ^^^^^^ meta.function-call.identifier.css */
 /*             ^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*                           ^ - meta.function-call */
+}
+
+.test-incomplete-function-call: {
+    top: filter(param1, 20px ;
+/*      ^ - meta.function-call */
+/*       ^^^^^^^^^^^^^^^^^^^^ - meta.function-call meta.function-call */
+/*       ^^^^^^ meta.function-call.identifier.css */
+/*             ^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*                           ^ - meta.function-call */
+/*                           ^ punctuation.terminator.rule.css  */
+    top: calc(var(--test ;
+/*      ^ - meta.function-call */
+/*       ^^^^ meta.function-call.identifier.css */
+/*           ^ meta.function-call.arguments.css*/
+/*            ^^^ meta.function-call.arguments.css meta.function-call.identifier.css */
+/*               ^^^^^^^^ meta.function-call.arguments.css meta.function-call.arguments.css */
+/*                       ^ - meta.function-call */
+/*                       ^ punctuation.terminator.rule.css  */
 }
 
 .test-color-functions {
