@@ -597,6 +597,7 @@ contexts:
       push: media-query-group-content
 
   media-query-group-content:
+    - meta_scope: meta.group.css
     - include: group-end
     - match: |-
         (?x)

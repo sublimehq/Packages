@@ -141,8 +141,9 @@
 /*              ^^^^^^ support.constant.media.css */
 
     @media (min-width: 700px {}
-/*  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css - meta.block */
-/*                           ^^ meta.at-rule.media.css meta.block.css */
+/*  ^^^^^^^ meta.at-rule.media.css - meta.group */
+/*         ^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css meta.group.css */
+/*                           ^^ meta.at-rule.media.css meta.block.css - meta.group */
 /*  ^ punctuation.definition.keyword.css */
 /*   ^^^^^ keyword.control.at-rule.media.css */
 /*         ^ punctuation.section.group.begin.css */
@@ -152,7 +153,10 @@
 /*                           ^ punctuation.section.block.begin.css */
 
     @media (min-width: 700px) {}
-/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css */
+/*  ^^^^^^^ meta.at-rule.media.css - meta.group */
+/*         ^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css meta.group.css */
+/*                           ^ meta.at-rule.media.css - meta.group - meta.block*/
+/*                            ^^ meta.at-rule.media.css meta.block.css - meta.group */
 /*  ^ punctuation.definition.keyword.css */
 /*   ^^^^^ keyword.control.at-rule.media.css */
 /*         ^ punctuation.section.group.begin.css */
@@ -162,7 +166,12 @@
 /*                          ^ punctuation.section.group.end.css */
 
     @media (min-width: 700px) and (max-width: 2000px) {}
-/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css */
+/*  ^^^^^^^ meta.at-rule.media.css - meta.group */
+/*         ^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css meta.group.css */
+/*                           ^^^^^ meta.at-rule.media.css - meta.group */
+/*                                ^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css meta.group.css */
+/*                                                   ^ meta.at-rule.media.css - meta.group - meta.block*/
+/*                                                    ^^ meta.at-rule.media.css meta.block.css - meta.group */
 /*  ^ punctuation.definition.keyword.css */
 /*   ^^^^^ keyword.control.at-rule.media.css */
 /*         ^ punctuation.section.group.begin.css */
