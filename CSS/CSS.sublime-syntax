@@ -471,8 +471,7 @@ contexts:
   at-custom-media-content:
     - meta_scope: meta.at-rule.custom-media.css
     - include: rule-terminator
-    - include: comments
-    - include: media-query-list
+    - include: media-query-content
 
   # @document
   # https://www.w3.org/TR/2012/WD-css3-conditional-20120911/#at-document
@@ -517,7 +516,7 @@ contexts:
     - include: at-rule-end
     - include: quoted-strings
     - include: url-functions
-    - include: media-query-list
+    - include: media-query-content
 
   # @keyframes
   # https://drafts.csswg.org/css-animations/#keyframes
@@ -560,18 +559,11 @@ contexts:
         1: punctuation.definition.keyword.css
       push:
         - meta_scope: meta.at-rule.media.css
-        - include: comments
         - include: at-block
-        - include: media-query-list
+        - include: media-query-content
+        - include: rule-terminator
 
-  media-query-list:
-    - match: \s*(?=[^{;])
-      push:
-        - match: \s*(?=[{;])
-          pop: 1
-        - include: media-query
-
-  media-query:
+  media-query-content:
     # Media Types: https://www.w3.org/TR/CSS21/media.html
     - include: comments
     - include: comma-delimiters
