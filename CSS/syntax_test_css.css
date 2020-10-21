@@ -629,13 +629,13 @@
 
 .test-unicode-range {
     unicode-range: U+0025-00FF, U+4??;
-/*                 ^^^^^^^^^^^ support.unicode-range.css */
-/*                 ^^ support.constant.unicode-range.prefix.css */
-/*                   ^^^^^^^^^ constant.codepoint-range.css */
-/*                       ^ punctuation.section.range.css */
-/*                              ^^^^^ support.unicode-range.css */
-/*                              ^^ support.constant.unicode-range.prefix.css */
-/*                                ^^^ constant.codepoint-range.css */
+/*                 ^^^^^^^^^^^ meta.number.unicode-range.css */
+/*                 ^^ constant.numeric.prefix.css */
+/*                   ^^^^^^^^^ constant.numeric.value.css */
+/*                       ^ punctuation.separator.range.css */
+/*                              ^^^^^ meta.number.unicode-range.css */
+/*                              ^^ constant.numeric.prefix.css */
+/*                                ^^^ constant.numeric.value.css */
 }
 
 .test-escape-character { top: "\nstring\n"; }

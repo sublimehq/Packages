@@ -2167,11 +2167,11 @@ contexts:
           ([0-9a-f?]{1,6}
           (?:(-)[0-9a-f]{1,6})?)
         )
-      scope: support.unicode-range.css
+      scope: meta.number.unicode-range.css
       captures:
-        1: support.constant.unicode-range.prefix.css
-        2: constant.codepoint-range.css
-        3: punctuation.section.range.css
+        1: constant.numeric.prefix.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.range.css
 
 ###[ OPERATORS ]###############################################################
 
