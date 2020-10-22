@@ -2094,6 +2094,19 @@ contexts:
         3: constant.numeric.suffix.css
       push: maybe-illegal-operator
 
+  unicode-ranges:
+    - match: |-
+        (?xi:
+          (u\+)
+          ([0-9a-f?]{1,6}
+          (?:(-)[0-9a-f]{1,6})?)
+        )
+      scope: meta.number.unicode-range.css
+      captures:
+        1: constant.numeric.prefix.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.range.css
+
 ###[ STRING CONSTANTS ]########################################################
 
   # Named Grid Lines
@@ -2161,19 +2174,6 @@ contexts:
   unquoted-name-strings:
     - match: '{{ident}}(?:\s+{{ident}}(?!\())*'
       scope: meta.string.css string.unquoted.css
-
-  unicode-ranges:
-    - match: |-
-        (?xi:
-          (u\+)
-          ([0-9a-f?]{1,6}
-          (?:(-)[0-9a-f]{1,6})?)
-        )
-      scope: meta.number.unicode-range.css
-      captures:
-        1: constant.numeric.prefix.css
-        2: constant.numeric.value.css
-        3: punctuation.separator.range.css
 
 ###[ OPERATORS ]###############################################################
 
