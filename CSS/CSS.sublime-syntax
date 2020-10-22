@@ -2101,14 +2101,16 @@ contexts:
   line-names:
     - match: \[
       scope: punctuation.section.brackets.begin.css
-      push:
-        - meta_scope: meta.line-names.css meta.brackets.css
-        - match: \]
-          scope: punctuation.section.brackets.end.css
-          pop: 1
-        - match: '{{ident}}'
-          scope: meta.string.css string.unquoted.line-name.css
-        - include: terminator-pop
+      push: line-names-content
+
+  line-names-content:
+    - meta_scope: meta.line-names.css meta.brackets.css
+    - match: \]
+      scope: punctuation.section.brackets.end.css
+      pop: 1
+    - match: '{{ident}}'
+      scope: meta.string.css string.unquoted.line-name.css
+    - include: terminator-pop
 
   quoted-strings:
     - match: \"
