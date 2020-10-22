@@ -97,7 +97,7 @@ variables:
   function_call_lookahead: (?={{identifier}}\s*(?:{{dot_accessor}})?\()
 
   # '@' followed by a pattern like \S but excluding literal '*' and '@'.
-  jsdoc_tag: \@[^\n\t\f\v *@]+
+  jsdoc_block_tag: \@[^\n\t\f\v *@]+
 
 contexts:
   main:
@@ -115,7 +115,9 @@ contexts:
   comments:
     - match: /\*\*(?!/)
       scope: punctuation.definition.comment.begin.js
-      push: jsdoc-comment
+      push:
+        - jsdoc-comment
+        - jsdoc-block-tag
     - match: /\*
       scope: punctuation.definition.comment.begin.js
       push:
@@ -135,34 +137,22 @@ contexts:
   jsdoc-comment:
     - meta_include_prototype: false
     - meta_scope: comment.block.documentation.js
-    - match: '\s*({{jsdoc_tag}})'
-      captures:
-        1: meta.tag.jsdoc entity.name.jsdoc
-      push: jsdoc-comment-line-continuation
-    - match: ''
-      push: jsdoc-comment-line-continuation
-
-  jsdoc-comment-line-continuation:
     - match: \*/
       scope: punctuation.definition.comment.end.js
-      pop: 2
-    - match: ^
-      set: jsdoc-comment-line-start
-
-  jsdoc-comment-line-start:
+      pop: 1
     # JSDoc "block" tags (i.e. @param) are only accepted at the beginning of the documentation
     # line so directly after the '/**' or after the '*' marker on the next lines.
-    - match: '^\s*(\*)\s*({{jsdoc_tag}})'
-      captures:
-        1: punctuation.definition.comment.js
-        2: meta.tag.jsdoc entity.name.jsdoc
-      set: jsdoc-comment-line-continuation
     - match: ^\s*(\*)(?!/)
       captures:
         1: punctuation.definition.comment.js
-      set: jsdoc-comment-line-continuation
-    - match: (?=\S)
-      set: jsdoc-comment-line-continuation
+      push: jsdoc-block-tag
+
+  jsdoc-block-tag:
+    - match: '{{jsdoc_block_tag}}'
+      scope: meta.tag.jsdoc entity.name.jsdoc
+      pop: 1
+    - match: (?=\S)|$
+      pop: 1
 
   comments-top-level:
     - match: ^(#!).*$\n?
