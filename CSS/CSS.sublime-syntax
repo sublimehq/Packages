@@ -481,8 +481,8 @@ contexts:
 
   at-custom-media-content:
     - meta_scope: meta.at-rule.custom-media.css
-    - include: rule-terminator
     - include: media-query-content
+    - include: rule-terminator
 
   # @document
   # https://www.w3.org/TR/2012/WD-css3-conditional-20120911/#at-document
@@ -537,13 +537,15 @@ contexts:
         0: keyword.control.at-rule.keyframe.css
         1: punctuation.definition.keyword.css
         2: support.type.property-vendor.css
-      push:
-        - meta_scope: meta.at-rule.keyframe.css
-        - include: comments
-        - include: comma-delimiters
-        - include: at-keyframe-block
-        - include: at-keyframe-names
-        - include: rule-terminator
+      push: at-keyframe-content
+
+  at-keyframe-content:
+    - meta_scope: meta.at-rule.keyframe.css
+    - include: comments
+    - include: comma-delimiters
+    - include: at-keyframe-block
+    - include: at-keyframe-names
+    - include: rule-terminator
 
   at-keyframe-names:
     - match: '{{ident}}'
@@ -552,29 +554,33 @@ contexts:
   at-keyframe-block:
     - match: \{
       scope: punctuation.section.block.begin.css
-      push:
-        - meta_scope: meta.block.css
-        - match: \}
-          scope: punctuation.section.block.end.css
-          pop: 2
-        - match: \b(from|to)\b
-          scope: keyword.keyframe-selector.css
-        - include: comma-delimiters
-        - include: numeric-constants
-        - include: main
+      push: at-keyframe-block-content
+
+  at-keyframe-block-content:
+    - meta_scope: meta.block.css
+    - match: \}
+      scope: punctuation.section.block.end.css
+      pop: 2
+    - match: \b(from|to)\b
+      scope: keyword.keyframe-selector.css
+    - include: comma-delimiters
+    - include: numeric-constants
+    - include: main
 
   at-media:
     - match: (@)media\b
       captures:
         0: keyword.control.at-rule.media.css
         1: punctuation.definition.keyword.css
-      push:
-        - meta_scope: meta.at-rule.media.css
-        - include: at-block
-        - include: media-query-content
-        - include: rule-terminator
+      push: at-media-content
 
+  at-media-content:
+    - meta_scope: meta.at-rule.media.css
+    - include: media-query-content
+    - include: at-block
+    - include: rule-terminator
   media-query-content:
+
     # Media Types: https://www.w3.org/TR/CSS21/media.html
     - include: comments
     - include: comma-delimiters
@@ -672,22 +678,26 @@ contexts:
   at-supports-groups:
     - match: \(
       scope: punctuation.section.group.begin.css
-      push:
-        - meta_scope: meta.group.css
-        - include: group-end
-        - include: at-supports-groups
-        - include: at-supports-operators
-        - include: rule-list-body
+      push: at-supports-group-content
+
+  at-supports-group-content:
+    - meta_scope: meta.group.css
+    - include: group-end
+    - include: at-supports-groups
+    - include: at-supports-operators
+    - include: rule-list-body
 
   at-block:
     - match: \{
       scope: punctuation.section.block.begin.css
-      push:
-        - meta_scope: meta.block.css
-        - match: \}
-          scope: punctuation.section.block.end.css
-          pop: 2
-        - include: main
+      push: at-block-content
+
+  at-block-content:
+    - meta_scope: meta.block.css
+    - match: \}
+      scope: punctuation.section.block.end.css
+      pop: 2
+    - include: main
 
   at-rule-end:
     - include: rule-terminator
