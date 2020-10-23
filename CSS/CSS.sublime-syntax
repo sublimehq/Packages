@@ -448,18 +448,29 @@ contexts:
   # @counter-style
   # https://drafts.csswg.org/css-counter-styles-3/#the-counter-style-rule
   at-counter-style:
-    - match: ((@)counter-style\b)\s+(?:(?i:(decimal|none))|({{ident}}))?\s*(?=\{|$)
+    - match: (@)counter-style\b
       captures:
-        1: keyword.control.at-rule.counter-style.css
-        2: punctuation.definition.keyword.css
-        3: invalid.illegal.counter-style-name.css
-        4: entity.other.counter-style-name.css
-      push: at-counter-style-content
+        0: keyword.control.at-rule.counter-style.css
+        1: punctuation.definition.keyword.css
+      push:
+        - at-counter-style-content
+        - at-counter-style-identifier
+
+  at-counter-style-identifier:
+    - match: (decimal|none)\b
+      scope: invalid.illegal.counter-style-name.css
+      pop: 1
+    - match: '{{ident}}'
+      scope: entity.other.counter-style-name.css
+      pop: 1
+    - include: comments
+    - include: else-pop
 
   at-counter-style-content:
     - meta_scope: meta.at-rule.counter-style.css
     - include: comments
     - include: rule-list
+    - include: else-pop
 
   at-custom-media:
     - match: (@)custom-media\b
