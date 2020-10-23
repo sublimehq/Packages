@@ -2145,3 +2145,12 @@ end
 link with a single underscore inside the text : [@_test](http://example.com)
 |                                                ^^^^^^ meta.paragraph meta.link.inline.description - punctuation.definition
 |                                                      ^ meta.paragraph meta.link.inline punctuation.definition.link.end
+
+# h1
+- list
+## h2
+|^ punctuation.definition.heading.begin
+1. list
+### h3
+|^^ punctuation.definition.heading.begin
+
