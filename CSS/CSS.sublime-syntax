@@ -442,8 +442,8 @@ contexts:
 
   at-charset-content:
     - meta_scope: meta.at-rule.charset.css
-    - include: at-rule-end
     - include: quoted-strings
+    - include: at-rule-end
 
   # @counter-style
   # https://drafts.csswg.org/css-counter-styles-3/#the-counter-style-rule
@@ -452,25 +452,16 @@ contexts:
       captures:
         0: keyword.control.at-rule.counter-style.css
         1: punctuation.definition.keyword.css
-      push:
-        - at-counter-style-content
-        - at-counter-style-identifier
-
-  at-counter-style-identifier:
-    - match: (decimal|none)\b
-      scope: invalid.illegal.counter-style-name.css
-      pop: 1
-    - match: '{{ident}}'
-      scope: entity.other.counter-style-name.css
-      pop: 1
-    - include: comments
-    - include: else-pop
+      push: at-counter-style-content
 
   at-counter-style-content:
     - meta_scope: meta.at-rule.counter-style.css
-    - include: comments
+    - match: \b(decimal|none)\b
+      scope: invalid.illegal.counter-style-name.css
+    - match: '{{ident}}'
+      scope: entity.other.counter-style-name.css
     - include: rule-list
-    - include: else-pop
+    - include: at-rule-end
 
   at-custom-media:
     - match: (@)custom-media\b
@@ -482,7 +473,7 @@ contexts:
   at-custom-media-content:
     - meta_scope: meta.at-rule.custom-media.css
     - include: media-query-content
-    - include: rule-terminator
+    - include: at-rule-end
 
   # @document
   # https://www.w3.org/TR/2012/WD-css3-conditional-20120911/#at-document
@@ -495,16 +486,16 @@ contexts:
 
   at-document-content:
     - meta_scope: meta.at-rule.document.css
-    - include: at-block
-    - include: comments
     - include: comma-delimiters
     - include: url-functions
     - include: url-prefix-functions
     - include: domain-functions
     - include: regexp-functions
+    - include: at-block
+    - include: at-rule-end
 
   at-font-face:
-    - match: ((@)font-face)\s*(?=\{|$)
+    - match: ((@)font-face)\b
       captures:
         1: keyword.control.at-rule.font-face.css
         2: punctuation.definition.keyword.css
@@ -512,8 +503,8 @@ contexts:
 
   at-font-face-content:
     - meta_scope: meta.at-rule.font-face.css
-    - include: comments
     - include: rule-list
+    - include: at-rule-end
 
   at-import:
     - match: (@)import\b
@@ -524,10 +515,10 @@ contexts:
 
   at-import-content:
     - meta_scope: meta.at-rule.import.css
-    - include: at-rule-end
     - include: quoted-strings
     - include: url-functions
     - include: media-query-content
+    - include: at-rule-end
 
   # @keyframes
   # https://drafts.csswg.org/css-animations/#keyframes
@@ -541,11 +532,10 @@ contexts:
 
   at-keyframe-content:
     - meta_scope: meta.at-rule.keyframe.css
-    - include: comments
     - include: comma-delimiters
     - include: at-keyframe-block
     - include: at-keyframe-names
-    - include: rule-terminator
+    - include: at-rule-end
 
   at-keyframe-names:
     - match: '{{ident}}'
@@ -578,11 +568,10 @@ contexts:
     - meta_scope: meta.at-rule.media.css
     - include: media-query-content
     - include: at-block
-    - include: rule-terminator
-  media-query-content:
+    - include: at-rule-end
 
+  media-query-content:
     # Media Types: https://www.w3.org/TR/CSS21/media.html
-    - include: comments
     - include: comma-delimiters
     - match: \b(?i:all|aural|braille|embossed|handheld|print|projection|screen|speech|tty|tv)\b
       scope: support.constant.media.css
@@ -635,9 +624,9 @@ contexts:
 
   at-namespace-content:
     - meta_scope: meta.at-rule.namespace.css
-    - include: at-rule-end
     - include: quoted-strings
     - include: url-functions
+    - include: at-rule-end
 
   # @page
   # https://www.w3.org/TR/CSS2/page.html
@@ -652,8 +641,8 @@ contexts:
 
   at-page-content:
     - meta_scope: meta.at-rule.page.css
-    - include: comments
     - include: rule-list
+    - include: at-rule-end
 
   # @supports
   # https://drafts.csswg.org/css-conditional-3/#at-supports
@@ -666,10 +655,10 @@ contexts:
 
   at-supports-content:
     - meta_scope: meta.at-rule.supports.css
-    - include: comments
-    - include: at-block
     - include: at-supports-groups
     - include: at-supports-operators
+    - include: at-block
+    - include: at-rule-end
 
   at-supports-operators:
     - match: \b(?i:and|or|not)\b
@@ -700,9 +689,10 @@ contexts:
     - include: main
 
   at-rule-end:
-    - include: rule-terminator
-    - include: eol-pop
     - include: comments
+    - include: rule-terminator
+    - match: (?=[{}])
+      pop: 1
 
 ###[ SELECTORS ]###############################################################
 
