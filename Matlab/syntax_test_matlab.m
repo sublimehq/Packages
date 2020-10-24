@@ -55,6 +55,32 @@ xAprox = fMetodoDeNewton( xi )
 
 
 %---------------------------------------------
+% Line comment test
+
+% comment % comment
+%<- comment.line.percentage.matlab punctuation.definition.comment.matlab
+%^^^^^^^^^^^^^^^^^^^ comment.line.percentage.matlab - punctuation
+
+%% comment % comment
+%<- comment.line.percentage.matlab punctuation.definition.comment.matlab
+%^ comment.line.percentage.matlab punctuation.definition.comment.matlab
+% ^^^^^^^^^^^^^^^^^^^ comment.line.percentage.matlab - punctuation
+
+%%%%% comment % comment %%%%
+%<- comment.line.percentage.matlab punctuation.definition.comment.matlab
+%^^^^ comment.line.percentage.matlab punctuation.definition.comment.matlab
+%    ^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.percentage.matlab - punctuation
+
+a = b % doc
+%     ^ comment.line.percentage.matlab punctuation.definition.comment.matlab
+%      ^^^^^ comment.line.percentage.matlab - punctuation
+
+a = b %% doc
+%     ^^ comment.line.percentage.matlab punctuation.definition.comment.matlab
+%       ^^^^^ comment.line.percentage.matlab - punctuation
+
+
+%---------------------------------------------
 % Block comment test
 
 % Success case
