@@ -495,10 +495,10 @@ contexts:
     - include: at-rule-end
 
   at-font-face:
-    - match: ((@)font-face)\b
+    - match: (@)font-face\b
       captures:
-        1: keyword.control.at-rule.font-face.css
-        2: punctuation.definition.keyword.css
+        0: keyword.control.at-rule.font-face.css
+        1: punctuation.definition.keyword.css
       push: at-font-face-content
 
   at-font-face-content:
