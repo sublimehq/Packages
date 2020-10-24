@@ -83,16 +83,23 @@ x = 5
 
 header = ['Last Name, ',      ... comment
 %        ^^^^^^^^^^^^^^^^^^^^^ meta.brackets.matlab - comment
-%                             ^^^ meta.brackets.matlab comment.line.ellipsis.matlab punctuation.definition.comment.matlab
-%                                ^^^^^^^^^ meta.brackets.matlab comment.line.ellipsis.matlab - punctuation
+%                             ^^^ meta.brackets.matlab punctuation.separator.continuation.matlab
+%                                ^ meta.brackets.matlab - punctuation - comment
+%                                 ^^^^^^^^ meta.brackets.matlab comment.line.matlab - punctuation
           'First Name, ',     ... comment
 %        ^^^^^^^^^^^^^^^^^^^^^ meta.brackets.matlab - comment
-%                             ^^^ meta.brackets.matlab comment.line.ellipsis.matlab punctuation.definition.comment.matlab
-%                                ^^^^^^^^^ meta.brackets.matlab comment.line.ellipsis.matlab - punctuation
+%                             ^^^ punctuation.separator.continuation.matlab
+%                                ^ meta.brackets.matlab - punctuation - comment
+%                                 ^^^^^^^^ meta.brackets.matlab comment.line.matlab - punctuation
+          'Alias Name, ',     ...
+%        ^^^^^^^^^^^^^^^^^^^^^ meta.brackets.matlab - comment
+%                             ^^^ punctuation.separator.continuation.matlab
+%                                ^ meta.brackets.matlab - punctuation - comment
       ... 'Middle Initial, ', ...
 %^^^^^ meta.brackets.matlab - comment
-%     ^^^ meta.brackets.matlab comment.line.ellipsis.matlab punctuation.definition.comment.matlab
-%        ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets.matlab comment.line.ellipsis.matlab - punctuation
+%     ^^^ meta.brackets.matlab punctuation.separator.continuation.matlab
+%        ^ meta.brackets.matlab - punctuation - comment
+%         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets.matlab comment.line.matlab - punctuation
           'Title']
 %^^^^^^^^^^^^^^^^^ meta.brackets.matlab - comment
 
