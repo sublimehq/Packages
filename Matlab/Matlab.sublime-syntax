@@ -48,6 +48,10 @@ contexts:
       scope: comment.line.percentage.matlab
       captures:
         1: punctuation.definition.comment.matlab
+    - match: (\.{3}).*$\n?
+      scope: comment.line.ellipsis.matlab
+      captures:
+        1: punctuation.definition.comment.matlab
   all_matlab_keywords:
     - include: matlab_keyword_control
     - include: matlab_keyword_operator
