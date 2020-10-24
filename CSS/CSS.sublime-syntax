@@ -638,13 +638,21 @@ contexts:
   # @page
   # https://www.w3.org/TR/CSS2/page.html
   at-page:
-    - match: ((@)page)\s*(?:(:)(first|left|right))?\s*(?=\{|$)
+    - match: (@)page\b
       captures:
-        1: keyword.control.at-rule.page.css
-        2: punctuation.definition.keyword.css
-        3: punctuation.definition.entity.css
-        4: entity.other.pseudo-class.css
-      push: at-page-content
+        0: keyword.control.at-rule.page.css
+        1: punctuation.definition.keyword.css
+      push:
+        - at-page-content
+        - at-page-identifier
+
+  at-page-identifier:
+    - match: (:)(first|left|right)\b
+      captures:
+        0: entity.other.pseudo-class.css
+        1: punctuation.definition.entity.css
+      pop: 1
+    - include: else-pop
 
   at-page-content:
     - meta_scope: meta.at-rule.page.css

@@ -132,8 +132,10 @@
 
     @page :left {}
 /*  ^^^^^^^^^^^^^^ meta.at-rule.page.css */
-/*  ^ punctuation.definition.keyword.css */
-/*   ^^^^ keyword.control.at-rule.page.css */
+/*  ^ keyword.control.at-rule.page.css punctuation.definition.keyword.css */
+/*   ^^^^ keyword.control.at-rule.page.css - punctuation */
+/*        ^ entity.other.pseudo-class.css punctuation.definition.entity.css */
+/*         ^^^^ entity.other.pseudo-class.css - punctuation */
 
     @media only screen {}
 /*  ^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css */
