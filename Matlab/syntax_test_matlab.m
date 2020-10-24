@@ -57,14 +57,28 @@ xAprox = fMetodoDeNewton( xi )
 %---------------------------------------------
 % Line comment test
 
+%
+%<- comment.line.percentage.matlab punctuation.definition.comment.matlab
+%^ comment.line.percentage.matlab - punctuation
+
 % comment % comment
 %<- comment.line.percentage.matlab punctuation.definition.comment.matlab
 %^^^^^^^^^^^^^^^^^^^ comment.line.percentage.matlab - punctuation
 
+%%
+%<- comment.line.double-percentage.matlab punctuation.definition.comment.matlab
+%^ comment.line.double-percentage.matlab punctuation.definition.comment.matlab
+% ^ comment.line.double-percentage.matlab - punctuation
+
 %% comment % comment
+%<- comment.line.double-percentage.matlab punctuation.definition.comment.matlab
+%^ comment.line.double-percentage.matlab punctuation.definition.comment.matlab
+% ^^^^^^^^^^^^^^^^^^^ comment.line.double-percentage.matlab - punctuation
+
+%%%
 %<- comment.line.percentage.matlab punctuation.definition.comment.matlab
-%^ comment.line.percentage.matlab punctuation.definition.comment.matlab
-% ^^^^^^^^^^^^^^^^^^^ comment.line.percentage.matlab - punctuation
+%^^ comment.line.percentage.matlab punctuation.definition.comment.matlab
+%  ^ comment.line.percentage.matlab - punctuation
 
 %%%%% comment % comment %%%%
 %<- comment.line.percentage.matlab punctuation.definition.comment.matlab
@@ -76,8 +90,8 @@ a = b % doc
 %      ^^^^^ comment.line.percentage.matlab - punctuation
 
 a = b %% doc
-%     ^^ comment.line.percentage.matlab punctuation.definition.comment.matlab
-%       ^^^^^ comment.line.percentage.matlab - punctuation
+%     ^^ comment.line.double-percentage.matlab punctuation.definition.comment.matlab
+%       ^^^^^ comment.line.double-percentage.matlab - punctuation
 
 
 %---------------------------------------------

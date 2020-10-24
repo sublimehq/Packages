@@ -40,7 +40,11 @@ contexts:
           captures:
             1: punctuation.definition.comment.matlab
           pop: true
-    - match: (%+).*$\n?
+    - match: (%%(?!%)).*\n?
+      scope: comment.line.double-percentage.matlab
+      captures:
+        1: punctuation.definition.comment.matlab
+    - match: (%+).*\n?
       scope: comment.line.percentage.matlab
       captures:
         1: punctuation.definition.comment.matlab
