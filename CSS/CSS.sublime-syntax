@@ -615,12 +615,19 @@ contexts:
   # @namespace
   # https://www.w3.org/TR/css3-namespace/
   at-namespace:
-    - match: ((@)namespace)\s+({{ident}}(?!{{nmchar}}|\())?
+    - match: (@)namespace\b
       captures:
-        1: keyword.control.at-rule.namespace.css
-        2: punctuation.definition.keyword.css
-        3: entity.other.namespace-prefix.css
-      push: at-namespace-content
+        0: keyword.control.at-rule.namespace.css
+        1: punctuation.definition.keyword.css
+      push:
+        - at-namespace-content
+        - at-namespace-identifier
+
+  at-namespace-identifier:
+    - match: '{{ident}}(?!{{nmchar}}|\()'
+      scope: entity.other.namespace-prefix.css
+      pop: 1
+    - include: else-pop
 
   at-namespace-content:
     - meta_scope: meta.at-rule.namespace.css

@@ -113,14 +113,16 @@
 
     @namespace svg "http://www.w3.org/1999/xhtml";
 /*  ^^^^^^^^^^^^^^^^^ meta.at-rule.namespace.css */
-/*  ^ punctuation.definition.keyword.css */
-/*   ^^^^^^^^^ keyword.control.at-rule.namespace.css */
+/*  ^ keyword.control.at-rule.namespace.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^ keyword.control.at-rule.namespace.css - punctuation */
 /*             ^^^ entity.other.namespace-prefix.css */
 
     @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"); /* only needed once */
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.namespace.css */
 /*                                                                                  ^ - meta.at-rule - comment */
 /*                                                                                   ^^^^^^^^^^^^^^^^^^^^^^ comment.block.css - meta.at-rule */
+/*  ^ keyword.control.at-rule.namespace.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^ keyword.control.at-rule.namespace.css - punctuation */
 /*             ^^^ meta.function-call.identifier.css - meta.function-call meta.function-call - meta.group */
 /*                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
 /*             ^^^ support.function.url.css */
