@@ -432,6 +432,7 @@ contexts:
     - include: at-namespace
     - include: at-page
     - include: at-supports
+    - include: at-other
 
   # @charset
   # https://www.w3.org/TR/css-syntax-3/#at-ruledef-charset
@@ -658,6 +659,24 @@ contexts:
     - include: at-supports-groups
     - include: at-supports-operators
     - include: rule-list-body
+
+  # @<ident>
+  # Fallback context for incomplete or unknown at-rules.
+  # https://www.w3.org/TR/css-syntax-3/#at-rule
+  at-other:
+    - match: (@){{ident}}
+      captures:
+        0: keyword.control.at-rule.other.css
+        1: punctuation.definition.keyword.css
+      push: at-other-content
+
+  at-other-content:
+    - meta_scope: meta.at-rule.other.css
+    - include: at-block
+    - include: at-rule-end
+    - include: numeric-constants
+    - include: quoted-strings
+    - include: unquoted-strings
 
   at-block:
     - match: \{

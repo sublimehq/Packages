@@ -100,6 +100,47 @@
 /*           ^ punctuation.section.block.begin.css */
 /*            ^ punctuation.section.block.end.css */
 
+    @123
+/*  ^^^^^ - meta.at-rule - constant - keyword - punctuation */
+
+    /* at-rule with unicode keyword */
+    @ℜ- ;
+/*  ^^^^ meta.at-rule.other.css */
+/*      ^ - meta.at-rule */
+/*  ^ keyword.control.at-rule.other.css punctuation.definition.keyword.css */
+/*   ^^ keyword.control.at-rule.other.css - punctuation */
+/*      ^ punctuation.terminator.rule.css */
+
+    /* at-rule with escaped unicode keyword */
+    @\211C \7B- ;
+/*  ^^^^^^^^^^^^ meta.at-rule.other.css */
+/*              ^ - meta.at-rule */
+/*  ^ keyword.control.at-rule.other.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^^ keyword.control.at-rule.other.css - punctuation */
+/*              ^ punctuation.terminator.rule.css */
+    @font-ℜ- ;
+/*  ^^^^^^^^^  meta.at-rule.other.css */
+/*           ^ - meta.at-rule */
+/*  ^ keyword.control.at-rule.other.css punctuation.definition.keyword.css */
+/*   ^^^^^^^ keyword.control.at-rule.other.css - punctuation */
+/*           ^ punctuation.terminator.rule.css */
+
+    /* css draft with basic highlighting */
+    @font-feature-values ;
+/*  ^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.other.css */
+/*                       ^ - meta.at-rule */
+/*  ^ keyword.control.at-rule.other.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^^^^^^^^^^^ keyword.control.at-rule.other.css - punctuation */
+/*                       ^ punctuation.terminator.rule.css */
+
+    /* incomplete @charset */
+    @char ;
+/*  ^^^^^^ meta.at-rule.other.css */
+/*        ^ - meta.at-rule */
+/*  ^ keyword.control.at-rule.other.css punctuation.definition.keyword.css */
+/*   ^^^^ keyword.control.at-rule.other.css - punctuation */
+/*        ^ punctuation.terminator.rule.css */
+
     @charset "UTF-8";
 /*  ^^^^^^^^^^^^^^^^ meta.at-rule.charset.css */
 /*                  ^ - meta.at-rule */
