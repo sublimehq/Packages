@@ -620,17 +620,18 @@ contexts:
 
   block-pair:
     - match: \?
-      scope: punctuation.definition.key-value.begin.yaml
+      scope: meta.mapping.yaml punctuation.definition.key-value.begin.yaml
       push:
-        - meta_scope: meta.block-mapping.yaml
+        - meta_content_scope: meta.mapping.key.yaml
         - match: (?=\?) # Empty mapping keys & values are allowed
           pop: true
         - match: ^ *(:)
+          scope: meta.mapping.yaml
           captures:
             1: punctuation.separator.key-value.mapping.yaml
           pop: true
         - match: ':'
-          scope: invalid.illegal.expected-newline.yaml
+          scope: meta.mapping.yaml invalid.illegal.expected-newline.yaml
           pop: true
         - include: block-node
     # Attempt to match plain-out scalars and highlight as "entity.name.tag",

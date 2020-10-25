@@ -104,17 +104,17 @@ key on line one:
   value on line two
 
 ? explicit key # Empty value
-#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-mapping
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key
 # ^^^^^^^^^^^^               string.unquoted.plain.out
 #              ^^^^^^^^^^^^^ comment
-# <- meta.block-mapping punctuation.definition.key-value.begin
+# <- meta.mapping punctuation.definition.key-value.begin
 
 ? |
   block key
-# ^^^^^^^^^ meta.block-mapping string.unquoted.block
-# ^^^^^^^^^ -meta.block-mapping meta.block-mapping
+# ^^^^^^^^^ meta.mapping string.unquoted.block
+# ^^^^^^^^^ -meta.mapping meta.mapping
 : - one # Explicit compact
-# <- meta.block-mapping punctuation.separator.key-value.mapping
+# <- meta.mapping punctuation.separator.key-value.mapping
   - two: :three # block value
 # ^ punctuation.definition.block.sequence
 #   ^^^ string.unquoted.plain.out entity.name.tag
@@ -122,10 +122,10 @@ key on line one:
 #        ^^^^^^ string.unquoted.plain.out
 
 ? a key : not a value
-#       ^ meta.block-mapping invalid.illegal.expected-newline
+#       ^ meta.mapping invalid.illegal.expected-newline
 
 scalar
-# <- -meta.block-mapping
+# <- -meta.mapping
 
 x:
   - #1
