@@ -569,6 +569,7 @@ contexts:
     - match: '--{{name}}'
       scope: entity.other.custom-media.css
       pop: 1
+    - include: comments
     - include: else-pop
 
   at-custom-media-content:
@@ -692,6 +693,7 @@ contexts:
     - match: '{{ident}}(?!{{nmchar}}|\()'
       scope: entity.other.namespace-prefix.css
       pop: 1
+    - include: comments
     - include: else-pop
 
   at-namespace-content:
