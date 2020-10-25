@@ -260,6 +260,29 @@
 /*   ^ meta.at-rule.media.css meta.block.css punctuation.section.block.end.css */
 /*    ^ - meta.at-rule - meta.block */
 
+    @media only screen and (width <= 100px or (height > 20px));
+/*  ^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css - meta.group */
+/*                         ^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css meta.group.css - meta.group meta.group */
+/*                                            ^^^^^^^^^^^^^^^ meta.at-rule.media.css meta.group.css meta.group.css */
+/*                                                           ^ meta.at-rule.media.css meta.group.css - meta.group meta.group */
+/*                                                            ^ - meta.at-rule */
+/*  ^ keyword.control.at-rule.media.css punctuation.definition.keyword.css */
+/*   ^^^^^ keyword.control.at-rule.media.css - punctuation */
+/*         ^^^^ keyword.operator.logic.media.css */
+/*              ^^^^^^ support.constant.media.css */
+/*                     ^^^ keyword.operator.logic.media.css */
+/*                         ^ punctuation.section.group.begin.css */
+/*                          ^^^^^ support.type.property-name.media.css */
+/*                                ^^ keyword.operator.comparison.css */
+/*                                   ^^^^^ meta.number.integer.decimal.css */
+/*                                         ^^ keyword.operator.logic.media.css */
+/*                                            ^ punctuation.section.group.begin.css */
+/*                                             ^^^^^^ support.type.property-name.media.css */
+/*                                                    ^ keyword.operator.comparison.css */
+/*                                                      ^^^^ meta.number.integer.decimal.css */
+/*                                                          ^^ punctuation.section.group.end.css */
+/*                                                            ^ punctuation.terminator.rule.css */
+
     @custom-media --a-b (width: 1px);
 /*  ^^^^^^^^^^^^^^^^^^^^ meta.at-rule.custom-media.css - meta.group */
 /*                      ^^^^^^^^^^^^ meta.at-rule.custom-media.css meta.group.css */
