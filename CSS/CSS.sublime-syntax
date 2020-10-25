@@ -14,12 +14,12 @@ file_extensions:
 ###############################################################################
 
 variables:
-  # Many variable names taken directly from https://www.w3.org/TR/css3-selectors/#lex
+  # Basic tokens
+  # https://www.w3.org/TR/css3-selectors/#lex
   unicode: \\\h{1,6}[ \t\n\f]?
   escape: (?:{{unicode}}|\\[^\n\f\h])
-  nonascii: '[\p{L}\p{M}\p{S}\p{N}&&[[:^ascii:]]]'
-  nmstart: (?:[[_a-zA-Z]{{nonascii}}]|{{escape}})
-  nmchar: (?:[[-\w]{{nonascii}}]|{{escape}})
+  nmstart: (?:[_a-zA-Z[:^ascii:]]|{{escape}})
+  nmchar: (?:[-_a-zA-Z0-9[:^ascii:]]|{{escape}})
 
   # Identifiers  
   # https://www.w3.org/TR/css-syntax-3/#typedef-ident-token
