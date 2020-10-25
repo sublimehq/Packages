@@ -958,6 +958,7 @@ contexts:
     - include: comments
     - include: property-identifiers
     - include: property-values
+    - include: rule-terminators
 
 ###[ PROPERTY IDENTIFIERS ]####################################################
 
@@ -1044,7 +1045,7 @@ contexts:
 
   property-value-content:
     - meta_content_scope: meta.property-value.css
-    - include: property-value-end
+    - include: terminator-pop
     - include: comments
     - include: comma-delimiters
     - include: vendor-prefixes
@@ -1059,10 +1060,6 @@ contexts:
       scope: keyword.other.important.css
     - match: /
       scope: keyword.operator.arithmetic.css
-
-  property-value-end:
-    - include: rule-terminator
-    - include: terminator-pop
 
   # When including `color-values` and `color-adjuster-functions`, make sure it is
   # included after the color adjustors to prevent `color-values` from consuming
@@ -2234,11 +2231,6 @@ contexts:
   rule-terminators:
     - match: ;
       scope: punctuation.terminator.rule.css
-
-  rule-terminator:
-    - match: ;
-      scope: punctuation.terminator.rule.css
-      pop: 1
 
 ###[ PROTOTYPES ]##############################################################
 
