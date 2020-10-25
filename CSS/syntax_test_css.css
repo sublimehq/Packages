@@ -218,6 +218,22 @@
 /*              ^ punctuation.section.block.begin.css */
 /*               ^ punctuation.section.block.end.css */
 
+    @page :left- {}
+/*  ^^^^^^^^^^^^^^^ meta.at-rule.page.css */
+/*  ^ keyword.control.at-rule.page.css punctuation.definition.keyword.css */
+/*   ^^^^ keyword.control.at-rule.page.css - punctuation */
+/*        ^^^^^^ - entity.other */
+
+    @media onlyℜ screenℜ screen\211C {}
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css - meta.block */
+/*                                   ^^ meta.at-rule.media.css meta.block.css - meta.property-list */
+/*                                     ^ - meta.at-rule - meta.block */
+/*  ^ keyword.control.at-rule.media.css punctuation.definition.keyword.css */
+/*   ^^^^^ keyword.control.at-rule.media.css - punctuation */
+/*         ^^^^^^^^^^^^^^^^^^^^^^^^^ - keyword - support */
+/*                                   ^ punctuation.section.block.begin.css */
+/*                                    ^ punctuation.section.block.end.css */
+
     @media only screen {}
 /*  ^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css - meta.block */
 /*                     ^^ meta.at-rule.media.css meta.block.css - meta.property-list */
@@ -376,6 +392,13 @@
 /*                   ^^^^^^ entity.other.animation-name.css */
 /*                          ^ punctuation.section.block.begin.css */
 /*                           ^ punctuation.section.block.end.css */
+
+    @keyframes- beat, bounce {}
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.other.css */
+/*  ^ keyword.control.at-rule.other.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^^ keyword.control.at-rule.other.css - punctuation */
+/*              ^^^^^ string.unquoted.css */
+/*                    ^^^^^^ string.unquoted.css */
 
 @keyframes test-keyframes-keywords {
     from, to {}
@@ -1001,8 +1024,24 @@
     font: monospace;
 /*        ^^^^^^^^^ support.constant.font-name.css */
     font: monospace !important;
-/*        ^^^^^^^^^ support.constant.font-name.css */
 /*                  ^^^^^^^^^^ keyword.other.important.css */
+
+    font-family: monospace;
+/*  ^^^^^^^^^^^ meta.property-list.css meta.property-name.css */
+/*             ^ meta.property-list.css - meta.property-name - meta.property-value */
+/*              ^^^^^^^^^^ meta.property-list.css meta.property-value.css */
+/*                        ^ meta.property-list.css - meta.property-name - meta.property-value */
+/*  ^^^^^^^^^^^ support.type.property-name.css */
+/*               ^^^^^^^^^ support.constant.font-name.css */
+
+    font-: moto;
+/*  ^^^^^ meta.property-list.css meta.property-name.css */
+/*       ^ meta.property-list.css - meta.property-name - meta.property-value */
+/*        ^^^^^ meta.property-list.css meta.property-value.css */
+/*             ^ meta.property-list.css - meta.property-name - meta.property-value */
+/*  ^^^^^ - entity - support */
+/*       ^ punctuation.separator.key-value.css */
+/*         ^^^^ - constant - support */
 }
 
 .test-unquoted-font-name {
