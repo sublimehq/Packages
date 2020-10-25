@@ -102,24 +102,30 @@
 
     @charset "UTF-8";
 /*  ^^^^^^^^^^^^^^^^ meta.at-rule.charset.css */
+/*                  ^ - meta.at-rule */
 /*  ^ keyword.control.at-rule.charset.css punctuation.definition.keyword.css */
 /*   ^^^^^^^ keyword.control.at-rule.charset.css - punctuation */
+/*                  ^ punctuation.terminator.rule.css */
 
     @import "x" print;
 /*  ^^^^^^^^^^^^^^^^^ meta.at-rule.import.css */
+/*                   ^ - meta.at-rule */
 /*  ^ keyword.control.at-rule.import.css punctuation.definition.keyword.css */
 /*   ^^^^^^ keyword.control.at-rule.import.css - punctuation */
 /*              ^^^^^ support.constant.media.css */
+/*                   ^ punctuation.terminator.rule.css */
 
     @namespace svg "http://www.w3.org/1999/xhtml";
-/*  ^^^^^^^^^^^^^^^^^ meta.at-rule.namespace.css */
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.namespace.css */
+/*                                               ^ - meta.at-rule */
 /*  ^ keyword.control.at-rule.namespace.css punctuation.definition.keyword.css */
 /*   ^^^^^^^^^ keyword.control.at-rule.namespace.css - punctuation */
 /*             ^^^ entity.other.namespace-prefix.css */
+/*                                               ^ punctuation.terminator.rule.css */
 
     @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"); /* only needed once */
-/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.namespace.css */
-/*                                                                                  ^ - meta.at-rule - comment */
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.namespace.css */
+/*                                                                                 ^^ - meta.at-rule - comment */
 /*                                                                                   ^^^^^^^^^^^^^^^^^^^^^^ comment.block.css - meta.at-rule */
 /*  ^ keyword.control.at-rule.namespace.css punctuation.definition.keyword.css */
 /*   ^^^^^^^^^ keyword.control.at-rule.namespace.css - punctuation */
@@ -231,7 +237,9 @@
 {}
 
     @custom-media --a-b (width: 1px);
-/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.custom-media.css */
+/*  ^^^^^^^^^^^^^^^^^^^^ meta.at-rule.custom-media.css - meta.group */
+/*                      ^^^^^^^^^^^^ meta.at-rule.custom-media.css meta.group.css */
+/*                                  ^ - meta.at-rule */
 /*  ^ keyword.control.at-rule.custom-media.css punctuation.definition.keyword.css */
 /*   ^^^^^^^^^^^^ keyword.control.at-rule.custom-media.css - punctuation */
 /*                       ^^^^^ support.type.property-name.media.css */

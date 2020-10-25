@@ -704,10 +704,9 @@ contexts:
     - include: main
 
   at-rule-end:
-    - include: comments
-    - include: rule-terminator
-    - match: (?=[{}])
+    - match: (?=[;{}])
       pop: 1
+    - include: comments
 
 ###[ SELECTORS ]###############################################################
 
