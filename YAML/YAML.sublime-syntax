@@ -112,10 +112,10 @@ variables:
 
   # patterns for plain scalars of implicit different types
   # (for the Core Schema: http://www.yaml.org/spec/1.2/spec.html#schema/core/)
-  
+
   # http://yaml.org/type/null.html
   _type_null: (?:null|Null|NULL|~)
-  
+
   # http://yaml.org/type/bool.html
   _type_bool_11: |-
     (?x:
@@ -266,23 +266,23 @@ contexts:
     # http://yaml.org/spec/1.2/spec.html#node/property/
     - match: (?=!|&)
       push:
-      - meta_scope: meta.property.yaml
-      # &Anchor
-      # http://yaml.org/spec/1.2/spec.html#&%20anchor//
-      - match: (&)({{ns_anchor_name}})(\S+)?
-        captures:
-          1: keyword.control.property.anchor.yaml punctuation.definition.anchor.yaml
-          2: entity.name.other.anchor.yaml
-          3: invalid.illegal.character.anchor.yaml
-        pop: true
-      # !Tag Handle
-      # http://yaml.org/spec/1.2/spec.html#tag/property/
-      - match: '{{c_ns_tag_property}}(?=\ |\t|$)'
-        scope: storage.type.tag-handle.yaml
-        pop: true
-      - match: \S+
-        scope: invalid.illegal.tag-handle.yaml
-        pop: true
+        - meta_scope: meta.property.yaml
+        # &Anchor
+        # http://yaml.org/spec/1.2/spec.html#&%20anchor//
+        - match: (&)({{ns_anchor_name}})(\S+)?
+          captures:
+            1: keyword.control.property.anchor.yaml punctuation.definition.anchor.yaml
+            2: entity.name.other.anchor.yaml
+            3: invalid.illegal.character.anchor.yaml
+          pop: true
+        # !Tag Handle
+        # http://yaml.org/spec/1.2/spec.html#tag/property/
+        - match: '{{c_ns_tag_property}}(?=\ |\t|$)'
+          scope: storage.type.tag-handle.yaml
+          pop: true
+        - match: \S+
+          scope: invalid.illegal.tag-handle.yaml
+          pop: true
 
   flow-alias:
     # http://yaml.org/spec/1.2/spec.html#alias//
@@ -672,7 +672,7 @@ contexts:
         - match: '#'
           scope: punctuation.definition.comment.line.number-sign.yaml
           set:
-          - meta_scope: comment.line.number-sign.yaml
-          - match: \n|\z
-            pop: true
+            - meta_scope: comment.line.number-sign.yaml
+            - match: \n|\z
+              pop: true
 ...
