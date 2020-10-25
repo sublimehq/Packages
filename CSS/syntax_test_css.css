@@ -83,6 +83,34 @@
 /*   ^^^ - meta.selector.css */
 /*  ^ entity.other.attribute-name.id.css punctuation.definition.entity.css */
 
+    #01 {}
+/*^^ - meta.selector.css */
+/*  ^^^ meta.selector.css */
+/*     ^^^ - meta.selector.css */
+/*  ^ entity.other.attribute-name.id.css punctuation.definition.entity.css */
+/*   ^^ entity.other.attribute-name.id.css - punctuation */
+
+    #_1 {}
+/*^^ - meta.selector.css */
+/*  ^^^ meta.selector.css */
+/*     ^^^ - meta.selector.css */
+/*  ^ entity.other.attribute-name.id.css punctuation.definition.entity.css */
+/*   ^^ entity.other.attribute-name.id.css - punctuation */
+
+    #ℜ- {}
+/*^^ - meta.selector.css */
+/*  ^^^ meta.selector.css */
+/*     ^^^ - meta.selector.css */
+/*  ^ entity.other.attribute-name.id.css punctuation.definition.entity.css */
+/*   ^^ entity.other.attribute-name.id.css - punctuation */
+
+    #\211C \7B- {}
+/*^^ - meta.selector.css */
+/*  ^^^^^^^^^^^ meta.selector.css */
+/*             ^^^ - meta.selector.css */
+/*  ^ entity.other.attribute-name.id.css punctuation.definition.entity.css */
+/*   ^^^^^^^^^^ entity.other.attribute-name.id.css - punctuation */
+
     #id {}
 /*^^ - meta.selector.css */
 /*  ^^^ meta.selector.css */

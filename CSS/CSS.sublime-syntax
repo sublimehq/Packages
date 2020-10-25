@@ -20,7 +20,12 @@ variables:
   nonascii: '[\p{L}\p{M}\p{S}\p{N}&&[[:^ascii:]]]'
   nmstart: (?:[[_a-zA-Z]{{nonascii}}]|{{escape}})
   nmchar: (?:[[-\w]{{nonascii}}]|{{escape}})
-  ident: (?:--{{nmchar}}+|-?{{nmstart}}{{nmchar}}*)
+
+  # Identifiers  
+  # https://www.w3.org/TR/css-syntax-3/#typedef-ident-token
+  ident: (?:--{{name}}|-?{{nmstart}}{{nmchar}}*)
+  # https://www.w3.org/TR/css3-selectors/#lex
+  name: '{{nmchar}}+'
 
   # Types
   # https://www.w3.org/TR/css3-values/#numeric-types
@@ -784,7 +789,7 @@ contexts:
       scope: punctuation.definition.entity.css
       push:
         - meta_scope: entity.other.attribute-name.id.css
-        - match: '{{ident}}'
+        - match: '{{name}}'
           pop: 1
         - include: immediately-pop
     # Attribute Selectors
@@ -1029,7 +1034,7 @@ contexts:
   # https://drafts.csswg.org/css-variables/#typedef-custom-property
   custom-property:
     # custom property definition
-    - match: (--){{nmchar}}+
+    - match: (--){{name}}
       scope: entity.other.custom-property.css
       captures:
         1: punctuation.definition.custom-property.css
@@ -2011,7 +2016,7 @@ contexts:
   # https://drafts.csswg.org/css-variables/#typedef-custom-property
   custom-properties:
     # custom property reference
-    - match: (--){{nmchar}}+
+    - match: (--){{name}}
       scope: variable.other.custom-property.css
       captures:
         1: punctuation.definition.custom-property.css
