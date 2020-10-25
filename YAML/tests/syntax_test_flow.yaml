@@ -86,13 +86,13 @@ continuation"
 # http://yaml.org/spec/1.2/spec.html#style/flow/sequence
 
 [a, b, c,
-# <- meta.flow-sequence punctuation.definition.sequence.begin
+# <- meta.sequence.flow punctuation.definition.sequence.begin
 #^        string.unquoted.plain.in
 # ^       punctuation.separator.sequence
 #    ^    punctuation.separator.sequence
 *alias]
 #^^^^^ variable.other.alias
-#     ^ meta.flow-sequence punctuation.definition.sequence.end
+#     ^ meta.sequence.flow punctuation.definition.sequence.end
 
 [a: b, c,'d', e: f, g:h]
 #^                      meta.mapping.key string.unquoted.plain.in
