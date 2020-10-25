@@ -634,8 +634,9 @@ contexts:
           scope: meta.mapping.yaml invalid.illegal.expected-newline.yaml
           pop: true
         - include: block-node
-    # Attempt to match plain-out scalars and highlight as "entity.name.tag",
+    # Attempt to match plain-out scalars and highlight as "meta.mapping.key",
     # if followed by a colon
+    # TODO rewrite with branching
     - match: |
         (?x)
         (?=
@@ -650,17 +651,20 @@ contexts:
           (\s|$)
         )
       push:
-        - include: flow-scalar-plain-out-implicit-type-12
-        - match: '{{_flow_scalar_end_plain_out}}'
-          pop: true
-        - match: (?={{ns_plain_first_plain_out}})
-          set:
-            - meta_scope: string.unquoted.plain.out.yaml entity.name.tag.yaml
-            - meta_include_prototype: false
-            - match: '{{_flow_scalar_end_plain_out}}'
-              pop: true
+        - - meta_scope: meta.mapping.key.yaml
+          - match: ''
+            pop: true
+        - - include: flow-scalar-plain-out-implicit-type-12
+          - match: '{{_flow_scalar_end_plain_out}}'
+            pop: true
+          - match: (?={{ns_plain_first_plain_out}})
+            set:
+              - meta_scope: string.unquoted.plain.out.yaml
+              - meta_include_prototype: false
+              - match: '{{_flow_scalar_end_plain_out}}'
+                pop: true
     - match: :(?=\s|$)
-      scope: punctuation.separator.key-value.mapping.yaml
+      scope: meta.mapping.yaml punctuation.separator.key-value.mapping.yaml
 
   comment:
     # http://www.yaml.org/spec/1.2/spec.html#comment//
