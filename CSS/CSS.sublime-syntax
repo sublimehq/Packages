@@ -61,41 +61,113 @@ variables:
   # https://html.spec.whatwg.org/multipage/custom-elements.html#custom-elements-core-concepts
   custom_element_chars: |-
     (?x:
-        [-_a-z0-9\x{00B7}]
-      | [\x{00C0}-\x{00D6}]
-      | [\x{00D8}-\x{00F6}]
-      | [\x{00F8}-\x{02FF}]
-      | [\x{0300}-\x{037D}]
-      | [\x{037F}-\x{1FFF}]
-      | [\x{200C}-\x{200D}]
-      | [\x{203F}-\x{2040}]
-      | [\x{2070}-\x{218F}]
-      | [\x{2C00}-\x{2FEF}]
-      | [\x{3001}-\x{D7FF}]
-      | [\x{F900}-\x{FDCF}]
-      | [\x{FDF0}-\x{FFFD}]
-      | [\x{10000}-\x{EFFFF}]
+      [-_a-z0-9\x{00B7}]
+    | [\x{00C0}-\x{00D6}]
+    | [\x{00D8}-\x{00F6}]
+    | [\x{00F8}-\x{02FF}]
+    | [\x{0300}-\x{037D}]
+    | [\x{037F}-\x{1FFF}]
+    | [\x{200C}-\x{200D}]
+    | [\x{203F}-\x{2040}]
+    | [\x{2070}-\x{218F}]
+    | [\x{2C00}-\x{2FEF}]
+    | [\x{3001}-\x{D7FF}]
+    | [\x{F900}-\x{FDCF}]
+    | [\x{FDF0}-\x{FFFD}]
+    | [\x{10000}-\x{EFFFF}]
     )
 
-  html_tag_names:  |-
+  # HTML tags
+  # https://developer.mozilla.org/en-US/docs/Web/HTML/Element
+  # Note: Sections are sorted by expected frequency.
+  html_tags:  |-
+    (?x:
+      {{html_inline_tags}}
+    | {{html_text_tags}}
+    | {{html_section_tags}}
+    | {{html_table_tags}}
+    | {{html_embedded_tags}}
+    | {{html_forms_tags}}
+    | {{html_media_tags}}
+    | {{html_interactive_tags}}
+    | {{html_script_tags}}
+    | {{html_web_tags}}
+    | {{html_markup_tags}}
+    | {{html_header_tags}}
+    | {{html_root_tags}}
+    | {{html_deprecated_tags}}
+    )
+
+  html_root_tags: |-
+    \b(?xi: html | body ){{break}}
+
+  html_header_tags: |-
+    \b(?xi: base | head | link | meta | script | style | title ){{break}}
+
+  html_section_tags: |-
     \b(?xi:
-        a | abbr | acronym | address | applet | area | article | aside | audio
-      | b | base | basefont | bdi | bdo | big | blockquote | body | br | button
-      | canvas | caption | cite | code | col | colgroup | content | data
-      | datalist | dd | del | details | dfn | dir | dialog | div | dl | dt
-      | element | em | embed | eventsource | fieldset | figure | figcaption
-      | footer | form | frame | frameset | h[1-6] | head | header | hgroup | hr
-      | html | i | iframe | img | input | ins | isindex | kbd | keygen | label
-      | legend | li | link | main | map | mark | menu | meta | meter | nav
-      | noframes | noscript | object | ol | optgroup | option | output | p
-      | param | picture | pre | progress | q | rp | rt | rtc | s | samp | script
-      | section | select | shadow | small | source | span | strike | strong
-      | style | sub | summary | sup | svg | table | tbody | td | template
-      | textarea | tfoot | th | thead | time | title | tr | track | tt | u | ul
-      | var | video | wbr | xmp | circle | clipPath | defs | ellipse | filter
-      | foreignObject | g | glyph | glyphRef | image | line | linearGradient
-      | marker | mask | path | pattern | polygon | polyline | radialGradient
-      | rect | stop | switch | symbol | text | textPath | tref | tspan | use
+        address | article | aside | footer | header | h1 | h2 | h3 | h4 | h5 | h6
+      | hgroup | main | nav | section
+    ){{break}}
+
+  html_text_tags: |-
+    \b(?xi:
+        blockquote | cite | dd | dt | dl | div | figcaption | figure | hr | li
+      | ol | p | pre | ul
+    ){{break}}
+
+  html_inline_tags: |-
+    \b(?xi:
+        a | abbr | b | bdi | bdo | br | code | data | time | dfn | em | i | kbd
+      | mark | q | rb | ruby | rp | rt | rtc | s | samp | small | span | strong
+      | sub | sup | u | var | wbr
+    ){{break}}
+
+  html_media_tags: |-
+    \b(?xi: area | audio | source | img | map | track | video ){{break}}
+
+  html_embedded_tags: |-
+    \b(?xi: embed | iframe | object | param | picture | source ){{break}}
+
+  html_script_tags: |-
+    \b(?xi: canvas | noscript | script ){{break}}
+
+  html_markup_tags: |-
+    \b(?xi: del | ins ){{break}}
+
+  html_table_tags: |-
+    \b(?xi:
+        caption | col | colgroup | table | tbody | tr | td | tfoot | th | thead
+    ){{break}}
+
+  html_forms_tags: |-
+    \b(?xi:
+        button | datalist | option | fieldset | label | form | input | legend
+      | meter | optgroup | select | output | progress | textarea
+    ){{break}}
+
+  html_interactive_tags: |-
+    \b(?xi: details | dialog | menu | summary ){{break}}
+
+  html_web_tags: |-
+    \b(?xi: slot | template ){{break}}
+
+  html_deprecated_tags: |-
+    \b(?xi:
+        acronym | applet | basefont | bgsound | big | blink | center | command
+      | content | dir | element | font | frame | frameset | image | isindex
+      | keygen | listing | marquee | menuitem | multicol | nextid | nobr
+      | noembed | noframes | plaintext | shadow | spacer | strike | tt | xmp
+    ){{break}}
+
+  # SVG tag names
+  # maintained from previous CSS.sublime-syntax
+  svg_tags: |-
+    \b(?xi:
+        circle | clipPath | defs | ellipse | eventsource | filter | foreignObject
+      | g | glyph | glyphRef | line | linearGradient | marker | mask | path
+      | pattern | polygon | polyline | radialGradient | rect | stop | svg
+      | switch | symbol | text | textPath | tref | tspan | use
     ){{break}}
 
   # Predefined Color Values (Standard Set)
@@ -783,13 +855,15 @@ contexts:
     - meta_scope: meta.selector.css
     - include: selector-end
     - include: comma-delimiters
+    # Html Tags
+    - match: '{{html_tags}}'
+      scope: entity.name.tag.html.css
+    - match: '{{svg_tags}}'
+      scope: entity.name.tag.svg.css
     # Custom Elements
     # http://w3c.github.io/webcomponents/spec/custom/#custom-elements-core-concepts
-    - match: \b([a-z](?:{{custom_element_chars}})*-(?:{{custom_element_chars}})*){{break}}
+    - match: \b[A-Aa-z]{{custom_element_chars}}*-{{custom_element_chars}}*{{break}}
       scope: entity.name.tag.custom.css
-    # Html Tags
-    - match: '{{html_tag_names}}'
-      scope: entity.name.tag.html.css
     - match: \*
       scope: entity.name.tag.wildcard.css
     # Class and Id Selectors
