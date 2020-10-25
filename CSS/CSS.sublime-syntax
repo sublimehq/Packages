@@ -979,6 +979,9 @@ contexts:
     - match: '{{ident}}'
       scope: entity.other.attribute-name.css
       set: attribute-selector-operator
+    - match: \*
+      scope: entity.name.attribute-name.wildcard.css
+      set: attribute-selector-operator
     - include: attribute-selector-operator
 
   attribute-selector-operator:

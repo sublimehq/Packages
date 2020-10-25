@@ -1184,12 +1184,15 @@
 /*                                  ^ punctuation.section.brackets.begin.css */
 /*                                    ^ punctuation.terminator.rule.css */
 
-.test-attribute-selectors-namespaces[n|a=""][*|a=""][|att] {}
+.test-attribute-selectors-namespaces[n|a=""][*|a=""][|att][*|*] {}
 /*                                   ^ entity.other.namespace-prefix.css */
 /*                                    ^ punctuation.separator.namespace.css */
 /*                                           ^ entity.name.namespace.wildcard.css */
 /*                                            ^ punctuation.separator.namespace.css */
 /*                                                   ^ punctuation.separator.namespace.css */
+/*                                                         ^ entity.name.namespace.wildcard.css */
+/*                                                          ^ punctuation.separator.namespace.css */
+/*                                                           ^ entity.name.attribute-name.wildcard.css */
 
 .test-attribute-selectors-operators[a=""][a~=""][a|=""][a^=""][a$=""][a*=""] {}
 /*                                   ^ keyword.operator.logical.css */
