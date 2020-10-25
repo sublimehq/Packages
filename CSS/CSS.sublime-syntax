@@ -443,8 +443,8 @@ contexts:
   # https://www.w3.org/TR/css-syntax-3/#at-ruledef-charset
   at-charset:
     - match: (@)charset\b
-      scope: keyword.control.at-rule.charset.css
       captures:
+        0: keyword.control.at-rule.charset.css
         1: punctuation.definition.keyword.css
       push: at-charset-content
 
