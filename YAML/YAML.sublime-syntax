@@ -512,8 +512,9 @@ contexts:
     - match: \[
       scope: punctuation.definition.sequence.begin.yaml
       push:
-        # TODO use meta.sequence and adjust to flow-pair's clear_scopes
-        - meta_scope: meta.sequence.flow.yaml
+        # Pushes an extra 'meta' on the scope stack that flow-pair can then clear,
+        # so we don't have to duplicate the context
+        - meta_scope: meta.sequence.flow.yaml meta.workaround.yaml
         - match: \]
           scope: punctuation.definition.sequence.end.yaml
           pop: true

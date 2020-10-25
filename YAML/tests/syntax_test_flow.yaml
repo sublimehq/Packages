@@ -95,6 +95,7 @@ continuation"
 #     ^ meta.sequence.flow punctuation.definition.sequence.end
 
 [a: b, c,'d', e: f, g:h]
+#^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.flow.yaml
 #^                      meta.mapping.key string.unquoted.plain.in
 # ^                     meta.mapping punctuation.separator.key-value.mapping -meta.mapping.value
 #   ^                   meta.mapping.value string.unquoted.plain.in
