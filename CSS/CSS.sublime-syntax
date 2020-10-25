@@ -478,7 +478,15 @@ contexts:
       captures:
         0: keyword.control.at-rule.custom-media.css
         1: punctuation.definition.keyword.css
-      push: at-custom-media-content
+      push:
+        - at-custom-media-content
+        - at-custom-media-identifier
+
+  at-custom-media-identifier:
+    - match: '--{{name}}'
+      scope: entity.other.custom-media.css
+      pop: 1
+    - include: else-pop
 
   at-custom-media-content:
     - meta_scope: meta.at-rule.custom-media.css

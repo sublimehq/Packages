@@ -358,6 +358,7 @@
 /*                                  ^ - meta.at-rule */
 /*  ^ keyword.control.at-rule.custom-media.css punctuation.definition.keyword.css */
 /*   ^^^^^^^^^^^^ keyword.control.at-rule.custom-media.css - punctuation */
+/*                ^^^^^ entity.other.custom-media.css */
 /*                       ^^^^^ support.type.property-name.media.css */
 /*                            ^ punctuation.separator.key-value.css */
 /*                              ^ meta.number.integer.decimal.css constant.numeric.value.css */
