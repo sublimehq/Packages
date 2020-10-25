@@ -102,13 +102,13 @@
 
     @charset "UTF-8";
 /*  ^^^^^^^^^^^^^^^^ meta.at-rule.charset.css */
-/*  ^ punctuation.definition.keyword.css */
-/*   ^^^^^^^ keyword.control.at-rule.charset.css */
+/*  ^ keyword.control.at-rule.charset.css punctuation.definition.keyword.css */
+/*   ^^^^^^^ keyword.control.at-rule.charset.css - punctuation */
 
     @import "x" print;
 /*  ^^^^^^^^^^^^^^^^^ meta.at-rule.import.css */
-/*  ^ punctuation.definition.keyword.css */
-/*   ^^^^^^ keyword.control.at-rule.import.css */
+/*  ^ keyword.control.at-rule.import.css punctuation.definition.keyword.css */
+/*   ^^^^^^ keyword.control.at-rule.import.css - punctuation */
 /*              ^^^^^ support.constant.media.css */
 
     @namespace svg "http://www.w3.org/1999/xhtml";
@@ -139,8 +139,8 @@
 
     @media only screen {}
 /*  ^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css */
-/*  ^ punctuation.definition.keyword.css */
-/*   ^^^^^ keyword.control.at-rule.media.css */
+/*  ^ keyword.control.at-rule.media.css punctuation.definition.keyword.css */
+/*   ^^^^^ keyword.control.at-rule.media.css - punctuation */
 /*         ^^^^ keyword.operator.logic.media.css */
 /*              ^^^^^^ support.constant.media.css */
 
@@ -148,8 +148,8 @@
 /*  ^^^^^^^ meta.at-rule.media.css - meta.group */
 /*         ^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css meta.group.css */
 /*                           ^^ meta.at-rule.media.css meta.block.css - meta.group */
-/*  ^ punctuation.definition.keyword.css */
-/*   ^^^^^ keyword.control.at-rule.media.css */
+/*  ^ keyword.control.at-rule.media.css punctuation.definition.keyword.css */
+/*   ^^^^^ keyword.control.at-rule.media.css - punctuation */
 /*         ^ punctuation.section.group.begin.css */
 /*          ^^^^^^^^^ support.type.property-name.media.css */
 /*                     ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
@@ -161,8 +161,8 @@
 /*         ^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css meta.group.css */
 /*                           ^ meta.at-rule.media.css - meta.group - meta.block*/
 /*                            ^^ meta.at-rule.media.css meta.block.css - meta.group */
-/*  ^ punctuation.definition.keyword.css */
-/*   ^^^^^ keyword.control.at-rule.media.css */
+/*  ^ keyword.control.at-rule.media.css punctuation.definition.keyword.css */
+/*   ^^^^^ keyword.control.at-rule.media.css - punctuation */
 /*         ^ punctuation.section.group.begin.css */
 /*          ^^^^^^^^^ support.type.property-name.media.css */
 /*                     ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
@@ -176,8 +176,8 @@
 /*                                ^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css meta.group.css */
 /*                                                   ^ meta.at-rule.media.css - meta.group - meta.block*/
 /*                                                    ^^ meta.at-rule.media.css meta.block.css - meta.group */
-/*  ^ punctuation.definition.keyword.css */
-/*   ^^^^^ keyword.control.at-rule.media.css */
+/*  ^ keyword.control.at-rule.media.css punctuation.definition.keyword.css */
+/*   ^^^^^ keyword.control.at-rule.media.css - punctuation */
 /*         ^ punctuation.section.group.begin.css */
 /*          ^^^^^^^^^ support.type.property-name.media.css */
 /*                     ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
@@ -192,8 +192,8 @@
 
     @media only screen and (-webkit-min-device-pixel-ratio: /* comment */ 1.3),
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css */
-/*  ^ punctuation.definition.keyword.css */
-/*   ^^^^^ keyword.control.at-rule.media.css */
+/*  ^ keyword.control.at-rule.media.css punctuation.definition.keyword.css */
+/*   ^^^^^ keyword.control.at-rule.media.css - punctuation */
 /*         ^^^^ keyword.operator.logic.media.css */
 /*              ^^^^^^ support.constant.media.css */
 /*                     ^^^ keyword.operator.logic.media.css */
@@ -232,8 +232,8 @@
 
     @custom-media --a-b (width: 1px);
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.custom-media.css */
-/*  ^ punctuation.definition.keyword.css */
-/*   ^^^^^^^^^^^^ keyword.control.at-rule.custom-media.css */
+/*  ^ keyword.control.at-rule.custom-media.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^^^^ keyword.control.at-rule.custom-media.css - punctuation */
 /*                       ^^^^^ support.type.property-name.media.css */
 /*                            ^ punctuation.separator.key-value.css */
 /*                              ^ meta.number.integer.decimal.css constant.numeric.value.css */
@@ -241,8 +241,8 @@
 
     @keyframes beat, bounce {}
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.keyframe.css */
-/*  ^ punctuation.definition.keyword.css */
-/*   ^^^^^^^^^ keyword.control.at-rule.keyframe.css */
+/*  ^ keyword.control.at-rule.keyframe.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^ keyword.control.at-rule.keyframe.css - punctuation */
 /*             ^^^^ entity.other.animation-name.css */
 /*                 ^ punctuation.separator.sequence.css */
 /*                   ^^^^^^ entity.other.animation-name.css */
@@ -278,13 +278,15 @@
 
     @document url(http://) { }
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.document.css */
-/*  ^ punctuation.definition.keyword.css */
-/*  ^^^^^^^^^ keyword.control.at-rule.document.css */
 /*                         ^^^ meta.block.css */
+/*  ^ keyword.control.at-rule.document.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^ keyword.control.at-rule.document.css - punctuation */
 /*                         ^ punctuation.section.block.begin.css */
 /*                           ^ punctuation.section.block.end.css */
 
 @document url(http://www),
+/* <- keyword.control.at-rule.document.css punctuation.definition.keyword.css */
+/*^^^^^^^ keyword.control.at-rule.document.css - punctuation */
 /*        ^^^ support.function.url.css */
 /*            ^^^^^^^^^^ meta.string.css string.unquoted.css */
 /*                       ^ punctuation.separator.sequence.css */
@@ -307,8 +309,8 @@
 
     @font-face {
 /*  ^^^^^^^^^^^ meta.at-rule.font-face.css */
-/*  ^ punctuation.definition.keyword.css */
-/*   ^^^^^^^^^ keyword.control.at-rule.font-face.css */
+/*  ^ keyword.control.at-rule.font-face.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^ keyword.control.at-rule.font-face.css - punctuation */
 
     src: local(Font),
         /* */
@@ -317,8 +319,8 @@
 
     @font-face
 /*  ^^^^^^^^^^^ meta.at-rule.font-face.css */
-/*  ^ punctuation.definition.keyword.css */
-/*   ^^^^^^^^^ keyword.control.at-rule.font-face.css */
+/*  ^ keyword.control.at-rule.font-face.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^ keyword.control.at-rule.font-face.css - punctuation */
 {
     font-family: monospace,
 /*  ^^^^^^^^^^^ support.type.property-name.css */
@@ -369,8 +371,8 @@
 /*             ^^^^^^^ invalid.illegal.counter-style-name.css */
 
     @counter-style name {
-/*  ^ punctuation.definition.keyword.css */
-/*  ^^^^^^^^^^^^^^ keyword.control.at-rule.counter-style.css */
+/*  ^ keyword.control.at-rule.counter-style.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^^^^^ keyword.control.at-rule.counter-style.css - punctuation */
 /*                 ^^^^ entity.other.counter-style-name.css */
     symbols: "‣";
 /*  ^^^^^^^ meta.at-rule.counter-style.css support.type.property-name.css */
@@ -381,6 +383,8 @@
 
     @counter-style blacknwhite
 /*  ^^^^^^^^^^^^^^ meta.at-rule.counter-style.css keyword.control.at-rule.counter-style.css */
+/*  ^ keyword.control.at-rule.counter-style.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^^^^^ keyword.control.at-rule.counter-style.css - punctuation */
 /*                 ^^^^^^^^^^^ entity.other.counter-style-name.css */
 {
   system: cyclic;
