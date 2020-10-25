@@ -526,6 +526,12 @@
 --  ^^^^^^^^^^^ - meta.block
 --          ^^^ invalid.illegal.unexpected-end
 
+
+    if a ! = b then end
+--       ^ invalid.illegal.unexpected-character.lua
+--             ^^^^ keyword.control.conditional
+--                  ^^^ keyword.control.end
+
     while true do
 --  ^^^^^ keyword.control.loop
 --             ^^ keyword.control
