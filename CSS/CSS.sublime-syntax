@@ -2234,10 +2234,6 @@ contexts:
 
 ###[ PROTOTYPES ]##############################################################
 
-  eol-pop:
-    - match: $
-      pop: 1
-
   else-pop:
     - match: (?=\S)
       pop: 1
