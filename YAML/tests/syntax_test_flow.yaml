@@ -139,7 +139,7 @@ continuation"
 #               ^^^^^^^^^^^^ meta.mapping.value
 #                           ^ punctuation.separator.mapping - meta.mapping.value
 #^ punctuation.definition.key.begin.yaml
-#^^^^^^^^^^^^^^ meta.mapping.key.explicit.yaml
+#^^^^^^^^^^^^^^ meta.mapping.key.yaml
 #  ^^^^^ storage
 #        ^^^^^ string
 #        ^ punctuation
@@ -148,7 +148,7 @@ continuation"
 #                ^^^^^ storage
 #                      ^^^^^ string
  ? !!str foo : :bar
-#^^^^^^^^^^^^ meta.mapping.key.explicit.yaml
+#^^^^^^^^^^^^ meta.mapping.key.yaml
 #^ punctuation.definition.key.begin.yaml
 #  ^^^^^ storage
 #        ^^^ string.unquoted.plain.in.yaml
