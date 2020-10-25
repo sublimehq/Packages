@@ -433,6 +433,8 @@ contexts:
     - include: at-page
     - include: at-supports
 
+  # @charset
+  # https://www.w3.org/TR/css-syntax-3/#at-ruledef-charset
   at-charset:
     - match: (@)charset\b
       scope: keyword.control.at-rule.charset.css
@@ -463,6 +465,8 @@ contexts:
     - include: rule-list
     - include: at-rule-end
 
+  # @custom-media
+  # https://??
   at-custom-media:
     - match: (@)custom-media\b
       captures:
@@ -494,6 +498,8 @@ contexts:
     - include: at-block
     - include: at-rule-end
 
+  # @font-face
+  # https://www.w3.org/TR/css-fonts-4/#at-font-face-rule
   at-font-face:
     - match: (@)font-face\b
       captures:
@@ -506,6 +512,8 @@ contexts:
     - include: rule-list
     - include: at-rule-end
 
+  # @import
+  # https://www.w3.org/TR/css-cascade-4/#at-ruledef-import
   at-import:
     - match: (@)import\b
       captures:
@@ -521,7 +529,7 @@ contexts:
     - include: at-rule-end
 
   # @keyframes
-  # https://drafts.csswg.org/css-animations/#keyframes
+  # https://www.w3.org/TR/css3-animations/#at-ruledef-keyframes
   at-keyframes:
     - match: (@)({{vendor_prefix}})?keyframes\b
       captures:
@@ -557,6 +565,8 @@ contexts:
     - include: numeric-constants
     - include: main
 
+  # @media
+  # https://drafts.csswg.org/css-conditional-3/#at-ruledef-media
   at-media:
     - match: (@)media\b
       captures:
@@ -636,7 +646,7 @@ contexts:
     - include: at-rule-end
 
   # @page
-  # https://www.w3.org/TR/CSS2/page.html
+  # https://www.w3.org/TR/css3-page/#at-ruledef-page
   at-page:
     - match: (@)page\b
       captures:
