@@ -262,8 +262,8 @@ variables:
       | border-right | flex-align | outline-style | outline | background-origin
       | animation-direction | fill-opacity | background-attachment | flex-wrap
       | transform-style | overflow-wrap | animation-play-state | animation
-      | will-change | box-ordinal-group | image-rendering | mask-image | flex-flow
-      | background-position-y | stroke-width | background-position-x
+      | will-change | box-ordinal-group | image-rendering | marks | mask-image
+      | flex-flow | background-position-y | stroke-width | background-position-x
       | background-position | background-blend-mode | flex-shrink | flex-basis
       | flex-order | flex-item-align | flex-line-pack | flex-negative | flex-pack
       | flex-positive | flex-preferred-size | flex | user-drag | font-stretch
@@ -381,6 +381,7 @@ variables:
       | justify(-all)?
       | keep-all
       | large[r]?
+      | landscape|ledger|legal|letter|A[3-5]|(JIS-)?B[4-5]|portrait
       | last|left|letter-spacing
       | light(e[nr]|ing-color)
       | line(-edge|-height|-through)?
@@ -517,6 +518,7 @@ contexts:
     - include: at-media
     - include: at-namespace
     - include: at-page
+    - include: at-page-margin
     - include: at-supports
     - include: at-other
 
@@ -705,21 +707,69 @@ contexts:
       captures:
         0: keyword.control.at-rule.page.css
         1: punctuation.definition.keyword.css
-      push:
-        - at-page-content
-        - at-page-identifier
-
-  at-page-identifier:
-    - match: (:)(first|left|right){{break}}
-      captures:
-        0: entity.other.pseudo-class.css
-        1: punctuation.definition.entity.css
-      pop: 1
-    - include: else-pop
+      push: at-page-content
 
   at-page-content:
     - meta_scope: meta.at-rule.page.css
-    - include: rule-list
+    - match: (:)(blank|first|left|right){{break}}
+      captures:
+        0: entity.other.pseudo-class.css
+        1: punctuation.definition.entity.css
+    - match: (:){{name}}
+      captures:
+        # 0: invalid.illegal.pseudo-class.css
+        1: punctuation.definition.entity.css
+    - match: '{{ident}}'
+      scope: entity.other.page-name.css
+    - include: comma-delimiters
+    - include: at-page-block
+    - include: at-rule-end
+
+  at-page-block:
+    - match: \{
+      scope: punctuation.section.block.begin.css
+      push: at-page-block-content
+
+  at-page-block-content:
+    - meta_scope: meta.property-list.css meta.block.css
+    - match: \}
+      scope: punctuation.section.block.end.css
+      pop: 2
+    - include: at-page-margin
+    - include: property-lists
+    - include: rule-list-body
+
+  # @top-center, ...
+  # https://www.w3.org/TR/css-page-3/#margin-at-rule
+  at-page-margin:
+    - match: |-
+        (?x)
+        (@)
+        ( top-left-corner
+        | top-left
+        | top-center
+        | top-right
+        | top-right-corner
+        | bottom-left-corner
+        | bottom-left
+        | bottom-center
+        | bottom-right
+        | bottom-right-corner
+        | left-top
+        | left-middle
+        | left-bottom
+        | right-top
+        | right-middle
+        | right-bottom
+        ){{break}}
+      captures:
+        0: keyword.control.at-rule.margin.css
+        1: punctuation.definition.keyword.css
+      push: at-page-margin-content
+
+  at-page-margin-content:
+    - meta_scope: meta.at-rule.margin.css
+    - include: at-page-block
     - include: at-rule-end
 
   # @supports

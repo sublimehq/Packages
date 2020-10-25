@@ -469,8 +469,8 @@ def get_properties():
             'auto', 'optimizeSpeed', 'crispEdges', 'geometricPrecision'
         ],
         'size': [
-            'a3', 'a4', 'a5', 'b4', 'b5', 'landscape', 'ledger', 'legal',
-            'letter', 'portrait'
+            'a3', 'a4', 'a5', 'b4', 'b5', 'jis-b4', 'jis-b5', 'landscape',
+            'ledger', 'legal', 'letter', 'portrait'
         ],
         'stop-color': ['<color>'],
         'stroke': ['<color>'],
