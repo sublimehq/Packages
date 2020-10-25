@@ -580,60 +580,6 @@ contexts:
     - include: at-block
     - include: at-rule-end
 
-  # https://drafts.csswg.org/mediaqueries-5/#media
-  media-query-content:
-    - include: comma-delimiters
-    - include: media-query-conditions
-    - include: media-query-types
-
-  media-query-conditions:
-    - match: \(
-      scope: punctuation.section.group.begin.css
-      push: media-query-group-content
-    - match: '[<>]=?|='
-      scope: keyword.operator.comparison.css
-    - match: \b(?i:and|or|not|only)(?=\s)
-      scope: keyword.operator.logic.media.css
-
-  media-query-group-content:
-    - meta_scope: meta.group.css
-    - include: group-end
-    - include: media-query-conditions
-    - match: |-
-        (?x)
-        (
-          (?:
-            (-webkit-|-o-)?
-            (?:min-|max-)?
-            (-moz-)?
-            (?:
-              (?:device-)?(?:height|width|aspect-ratio|pixel-ratio)
-              |color(?:-index)?|monochrome|resolution
-            )
-          )
-          |grid|scan|orientation
-        )\s*(:)?
-      captures:
-        1: support.type.property-name.media.css
-        2: support.type.vendor-prefix.css
-        3: support.type.vendor-prefix.css
-        4: punctuation.separator.key-value.css
-    - match: \b(portrait|landscape|progressive|interlace)\b
-      scope: support.constant.property-value.css
-    - match: (\d+)(/)(\d+)
-      captures:
-        1: meta.number.integer.decimal.css constant.numeric.value.css
-        2: keyword.operator.arithmetic.css
-        3: meta.number.integer.decimal.css constant.numeric.value.css
-    - include: numeric-constants
-
-  media-query-types:
-    # Media Types:
-    # https://www.w3.org/TR/CSS21/media.html
-    # https://drafts.csswg.org/mediaqueries-5/#media-types
-    - match: \b(?i:all|aural|braille|embossed|handheld|print|projection|screen|speech|tty|tv)\b
-      scope: support.constant.media.css
-
   # @namespace
   # https://www.w3.org/TR/css3-namespace/
   at-namespace:
@@ -729,6 +675,62 @@ contexts:
     - match: (?=[;{}])
       pop: 1
     - include: comments
+
+###[ MEDIA QUERIES ]###########################################################
+
+  # https://drafts.csswg.org/mediaqueries-5/#media
+  media-query-content:
+    - include: comma-delimiters
+    - include: media-query-conditions
+    - include: media-query-types
+
+  media-query-conditions:
+    - match: \(
+      scope: punctuation.section.group.begin.css
+      push: media-query-group-content
+    - match: '[<>]=?|='
+      scope: keyword.operator.comparison.css
+    - match: \b(?i:and|or|not|only)\b
+      scope: keyword.operator.logic.media.css
+
+  media-query-group-content:
+    - meta_scope: meta.group.css
+    - include: group-end
+    - include: media-query-conditions
+    - match: |-
+        (?x)
+        (
+          (?:
+            (-webkit-|-o-)?
+            (?:min-|max-)?
+            (-moz-)?
+            (?:
+              (?:device-)?(?:height|width|aspect-ratio|pixel-ratio)
+              |color(?:-index)?|monochrome|resolution
+            )
+          )
+          |grid|scan|orientation
+        )\s*(:)?
+      captures:
+        1: support.type.property-name.media.css
+        2: support.type.vendor-prefix.css
+        3: support.type.vendor-prefix.css
+        4: punctuation.separator.key-value.css
+    - match: \b(portrait|landscape|progressive|interlace)\b
+      scope: support.constant.property-value.css
+    - match: (\d+)(/)(\d+)
+      captures:
+        1: meta.number.integer.decimal.css constant.numeric.value.css
+        2: keyword.operator.arithmetic.css
+        3: meta.number.integer.decimal.css constant.numeric.value.css
+    - include: numeric-constants
+
+  media-query-types:
+    # Media Types:
+    # https://www.w3.org/TR/CSS21/media.html
+    # https://drafts.csswg.org/mediaqueries-5/#media-types
+    - match: \b(?i:all|aural|braille|embossed|handheld|print|projection|screen|speech|tty|tv)\b
+      scope: support.constant.media.css
 
 ###[ SELECTORS ]###############################################################
 
