@@ -1197,29 +1197,12 @@ contexts:
         2: entity.other.custom-property.name.css
       pop: 1
 
-  font-property:
-    - match: \bfont(-family)?{{break}}
-      scope: support.type.property-name.css
-      set: font-property-value
-
   other-property:
     - match: '{{property_names}}'
       scope: support.type.property-name.css
       pop: 1
 
 ###[ PROPERTY VALUES ]#########################################################
-
-
-  font-property-value:
-    - match: ':'
-      scope: punctuation.separator.key-value.css
-      set: font-property-value-content
-    - include: immediately-pop
-
-  font-property-value-content:
-    - meta_content_scope: meta.property-value.css
-    - include: property-value-content
-    - include: unquoted-name-strings
 
   property-values:
     - match: ':'
@@ -1322,6 +1305,24 @@ contexts:
       pop: 1
     - include: comments
     - include: else-pop
+
+###[ FONT PROPERTY ]###########################################################
+
+  font-property:
+    - match: \bfont(-family)?{{break}}
+      scope: support.type.property-name.css
+      set: font-property-value
+
+  font-property-value:
+    - match: ':'
+      scope: punctuation.separator.key-value.css
+      set: font-property-value-content
+    - include: else-pop
+
+  font-property-value-content:
+    - meta_content_scope: meta.property-value.css
+    - include: property-value-content
+    - include: unquoted-name-strings
 
 ###[ BUILTIN FUNCTIONS ]#######################################################
 
