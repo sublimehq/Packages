@@ -880,6 +880,54 @@
 /*                ^ constant.numeric.value.css */
 /*                 ^ punctuation.terminator.rule.css */
 
+    negative: "(" ")";
+/* ^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
+/*  ^^^^^^^^ meta.property-name.css */
+/*          ^ - meta.property-name - meta.property-value */
+/*           ^^^^^^^^ meta.property-value.css */
+/*                   ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^^^ support.type.property-name.css */
+/*          ^ punctuation.separator.key-value.css */
+/*            ^^^ meta.string.css string.quoted.double.css */
+/*               ^ - meta.string - string */
+/*                ^^^ meta.string.css string.quoted.double.css */
+/*                   ^ punctuation.terminator.rule.css */
+
+    range: 2 4;
+/* ^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
+/*  ^^^^^ meta.property-name.css */
+/*       ^ - meta.property-name - meta.property-value */
+/*        ^^^^ meta.property-value.css */
+/*            ^ - meta.property-name - meta.property-value */
+/*  ^^^^^ support.type.property-name.css */
+/*       ^ punctuation.separator.key-value.css */
+/*         ^ constant.numeric.value.css */
+/*          ^ - constant */
+/*           ^ constant.numeric.value.css */
+/*            ^ punctuation.terminator.rule.css */
+
+    prefix: " /";
+/* ^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
+/*  ^^^^^^ meta.property-name.css */
+/*        ^ - meta.property-name - meta.property-value */
+/*         ^^^^^ meta.property-value.css */
+/*              ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^ support.type.property-name.css */
+/*        ^ punctuation.separator.key-value.css */
+/*          ^^^^ meta.string.css string.quoted.double.css */
+/*              ^ punctuation.terminator.rule.css */
+
+    suffix: "/ ";
+/* ^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
+/*  ^^^^^^ meta.property-name.css */
+/*        ^ - meta.property-name - meta.property-value */
+/*         ^^^^^ meta.property-value.css */
+/*              ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^ support.type.property-name.css */
+/*        ^ punctuation.separator.key-value.css */
+/*          ^^^^ meta.string.css string.quoted.double.css */
+/*              ^ punctuation.terminator.rule.css */
+
     symbols: "‣";
 /* ^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
 /* ^ - meta.property-name - meta.property-value */
@@ -890,6 +938,17 @@
 /*  ^^^^^^^ support.type.property-name.css */
 /*         ^ punctuation.separator.key-value.css */
 /*           ^^^ meta.string.css string.quoted.double.css */
+/*              ^ punctuation.terminator.rule.css */
+
+    symbols: ◆ ◇;
+/* ^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
+/* ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^^ meta.property-name.css */
+/*         ^ - meta.property-name - meta.property-value */
+/*          ^^^^ meta.property-value.css */
+/*              ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^^ support.type.property-name.css */
+/*         ^ punctuation.separator.key-value.css */
 /*              ^ punctuation.terminator.rule.css */
 
     symbols: url(white.svg) url(black.svg);
@@ -903,10 +962,6 @@
 /*           ^^^ support.function.url.css */
 /*                          ^^^ support.function.url.css */
 /*                                        ^ punctuation.terminator.rule.css */
-
-    suffix: " ";
-/*  ^^^^^^ meta.at-rule.counter-style.css support.type.property-name.css */
-/*          ^^^ meta.string.css string.quoted.double.css */
 
     speak-as: "bullets";
 /* ^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
@@ -945,19 +1000,6 @@
 /*                ^ punctuation.terminator.rule.css */
 }
 /* <- meta.at-rule.counter-style.css meta.property-list.css meta.block.css punctuation.section.block.end.css */
-
-    @counter-style blacknwhite
-/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css */
-/*  ^ keyword.control.at-rule.counter-style.css punctuation.definition.keyword.css */
-/*   ^^^^^^^^^^^^^ keyword.control.at-rule.counter-style.css - punctuation */
-/*                 ^^^^^^^^^^^ entity.other.counter-style-name.css */
-{
-  negative: "(" ")";
-  prefix: "/";
-  symbols: ◆ ◇;
-  suffix: "/ ";
-  range: 2 4;
-}
 
 .test-var { --test-var: arial; font-family: var(--test-var) }
 /*          ^^ entity.other.custom-property.css punctuation.definition.custom-property.css */
