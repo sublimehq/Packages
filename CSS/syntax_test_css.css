@@ -907,6 +907,42 @@
     suffix: " ";
 /*  ^^^^^^ meta.at-rule.counter-style.css support.type.property-name.css */
 /*          ^^^ meta.string.css string.quoted.double.css */
+
+    speak-as: "bullets";
+/* ^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
+/* ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^^^ meta.property-name.css */
+/*          ^ - meta.property-name - meta.property-value */
+/*            ^^^^^^^^^ meta.property-value.css */
+/*                     ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^^^ support.type.property-name.css */
+/*          ^ punctuation.separator.key-value.css */
+/*            ^^^^^^^^^ meta.string.css string.quoted.double.css */
+/*                     ^ punctuation.terminator.rule.css */
+
+    speak-as: numbers;
+/* ^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
+/* ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^^^ meta.property-name.css */
+/*          ^ - meta.property-name - meta.property-value */
+/*            ^^^^^^^ meta.property-value.css */
+/*                   ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^^^ support.type.property-name.css */
+/*          ^ punctuation.separator.key-value.css */
+/*            ^^^^^^^ support.constant.property-value.css */
+/*                   ^ punctuation.terminator.rule.css */
+
+    speak-as: name;
+/* ^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
+/* ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^^^ meta.property-name.css */
+/*          ^ - meta.property-name - meta.property-value */
+/*            ^^^^ meta.property-value.css */
+/*                ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^^^ support.type.property-name.css */
+/*          ^ punctuation.separator.key-value.css */
+/*            ^^^^ entity.other.counter-style-name.css */
+/*                ^ punctuation.terminator.rule.css */
 }
 /* <- meta.at-rule.counter-style.css meta.property-list.css meta.block.css punctuation.section.block.end.css */
 
@@ -921,8 +957,6 @@
   symbols: ◆ ◇;
   suffix: "/ ";
   range: 2 4;
-  speak-as: "bullets";
-/*^^^^^^^^ support.type.property-name.css */
 }
 
 .test-var { --test-var: arial; font-family: var(--test-var) }

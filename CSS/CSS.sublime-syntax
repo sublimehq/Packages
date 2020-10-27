@@ -230,6 +230,11 @@ variables:
       | upper-alpha | upper-armenian | upper-latin | upper-roman
     )
 
+  # Predefined Counter Speak As Property Constants
+  # https://drafts.csswg.org/css-counter-styles-3/#counter-style-speak-as
+  counter_speak_as_constants: |-
+    \b(?x: auto | bullets | numbers | words | spell-out ){{break}}
+
   # Predefined Counter Style System Constants
   # https://drafts.csswg.org/css-counter-styles-3/#counter-style-system
   counter_system_constants: |-
@@ -1174,6 +1179,7 @@ contexts:
     - include: font-property
     - include: counter-property
     - include: counter-style-system-property
+    - include: counter-style-speak-as-property
     - include: other-property
     - include: custom-property
     - include: deprecated-property
@@ -1305,6 +1311,32 @@ contexts:
       pop: 1
     - include: comments
     - include: else-pop
+
+###[ COUNTER STYLE SPEAK AS PROPERTY ]#########################################
+
+  # Counter Style Speak As
+  # https://drafts.csswg.org/css-counter-styles-3/#counter-style-speak-as
+  counter-style-speak-as-property:
+    - match: \bspeak-as{{break}}
+      scope: support.type.property-name.css
+      set: counter-style-speak-as-property-value
+
+  counter-style-speak-as-property-value:
+    - match: ':'
+      scope: punctuation.separator.key-value.css
+      set: counter-style-speak-as-property-value-content
+    - include: else-pop
+
+  counter-style-speak-as-property-value-content:
+    - meta_content_scope: meta.property-value.css
+    - include: terminator-pop
+    - include: comments
+    - include: quoted-strings
+    - include: counter-speak-as-constants
+    - match: '{{counter_style_illegal_names}}'
+      scope: invalid.illegal.counter-style-name.css
+    - match: '{{ident}}'
+      scope: entity.other.counter-style-name.css
 
 ###[ FONT PROPERTY ]###########################################################
 
@@ -2207,6 +2239,10 @@ contexts:
     # https://www.w3.org/TR/CSS22/fonts.html#generic-font-families
     - match: \b(?i:sans-serif|serif|monospace|fantasy|cursive|system-ui){{break}}
       scope: support.constant.font-name.css
+
+  counter-speak-as-constants:
+    - match: '{{counter_speak_as_constants}}'
+      scope: support.constant.property-value.css
 
   counter-system-constants:
     - match: '{{counter_system_constants}}'
