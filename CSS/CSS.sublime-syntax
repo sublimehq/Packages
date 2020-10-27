@@ -547,7 +547,7 @@ contexts:
 
   at-counter-style-content:
     - meta_scope: meta.at-rule.counter-style.css
-    - match: (decimal|none){{break}}
+    - match: \b(decimal|disc|inherit|initial|none|unset){{break}}
       scope: invalid.illegal.counter-style-name.css
     - match: '{{ident}}'
       scope: entity.other.counter-style-name.css

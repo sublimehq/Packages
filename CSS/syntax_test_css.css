@@ -825,6 +825,16 @@
 /*                         ^ punctuation.section.block.begin.css */
 /*                          ^ punctuation.section.block.end.css */
 
+    @counter-style disc {}
+/*  ^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css - meta.block */
+/*                      ^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
+/*                        ^ - meta.at-rule - meta.block */
+/*  ^ keyword.control.at-rule.counter-style.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^^^^^ keyword.control.at-rule.counter-style.css - punctuation */
+/*                 ^^^^ invalid.illegal.counter-style-name.css */
+/*                      ^ punctuation.section.block.begin.css */
+/*                       ^ punctuation.section.block.end.css */
+
     @counter-style name {
 /*  ^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css - meta.block */
 /*                      ^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
