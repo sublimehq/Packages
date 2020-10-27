@@ -1179,12 +1179,6 @@ contexts:
     - include: deprecated-property
     - include: immediately-pop
 
-  counter-property:
-    # https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Lists_and_Counters/Using_CSS_counters
-    - match: \bcounter-(increment|reset|set){{break}}
-      scope: support.type.property-name.css
-      set: counter-property-value
-
   # Custom Properties
   # https://drafts.csswg.org/css-variables/#typedef-custom-property
   custom-property:
@@ -1215,20 +1209,6 @@ contexts:
 
 ###[ PROPERTY VALUES ]#########################################################
 
-  counter-property-value:
-    - match: ':'
-      scope: punctuation.separator.key-value.css
-      set:
-        - property-value-content
-        - counter-property-identifier
-    - include: immediately-pop
-
-  counter-property-identifier:
-    - match: '{{ident}}'
-      scope: entity.other.counter-name.css
-      pop: 1
-    - include: comments
-    - include: else-pop
 
   font-property-value:
     - match: ':'
@@ -1285,6 +1265,29 @@ contexts:
     - include: image-functions
     - include: image-set-functions
     - include: url-functions
+
+###[ COUNTER PROPERTY ]########################################################
+
+  counter-property:
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Lists_and_Counters/Using_CSS_counters
+    - match: \bcounter-(increment|reset|set){{break}}
+      scope: support.type.property-name.css
+      set: counter-property-value
+
+  counter-property-value:
+    - match: ':'
+      scope: punctuation.separator.key-value.css
+      set:
+        - property-value-content
+        - counter-property-identifier
+    - include: else-pop
+
+  counter-property-identifier:
+    - match: '{{ident}}'
+      scope: entity.other.counter-name.css
+      pop: 1
+    - include: comments
+    - include: else-pop
 
 ###[ COUNTER STYLE SYSTEM PROPERTY ]###########################################
 
