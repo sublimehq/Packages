@@ -240,6 +240,11 @@ variables:
   counter_system_constants: |-
     \b(?x: cyclic | numeric | alphabetic | symbolic | additive | fixed ){{break}}
 
+  # Generic Font Families
+  # https://www.w3.org/TR/CSS22/fonts.html#generic-font-families
+  font_family_constants: |-
+    \b(?xi: sans-serif | serif | monospace | fantasy | cursive | system-ui){{break}}
+
   # Property names are sorted by popularity in descending order.
   # Popularity data taken from https://www.chromestatus.com/metrics/css/popularity
   property_names: |-
@@ -2235,9 +2240,7 @@ contexts:
   common-constants:
     - match: '{{property_values}}'
       scope: support.constant.property-value.css
-    # Generic Font Families
-    # https://www.w3.org/TR/CSS22/fonts.html#generic-font-families
-    - match: \b(?i:sans-serif|serif|monospace|fantasy|cursive|system-ui){{break}}
+    - match: '{{font_family_constants}}'
       scope: support.constant.font-name.css
 
   counter-speak-as-constants:
