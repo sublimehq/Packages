@@ -841,8 +841,69 @@
 /*  ^ keyword.control.at-rule.counter-style.css punctuation.definition.keyword.css */
 /*   ^^^^^^^^^^^^^ keyword.control.at-rule.counter-style.css - punctuation */
 /*                 ^^^^ entity.other.counter-style-name.css */
+
+    system: extends name;
+/* ^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
+/* ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^ meta.property-name.css */
+/*        ^ - meta.property-name - meta.property-value */
+/*          ^^^^^^^^^^^^ meta.property-value.css */
+/*                      ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^ support.type.property-name.css */
+/*        ^ punctuation.separator.key-value.css */
+/*          ^^^^^^^ keyword.declaration.extends.css */
+/*                  ^^^^ entity.other.counter-style-name.css */
+/*                      ^ punctuation.terminator.rule.css */
+
+    system: cyclic;
+/* ^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
+/* ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^ meta.property-name.css */
+/*        ^ - meta.property-name - meta.property-value */
+/*          ^^^^^^ meta.property-value.css */
+/*                ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^ support.type.property-name.css */
+/*        ^ punctuation.separator.key-value.css */
+/*          ^^^^^^ support.constant.symbol-type.css */
+/*                ^ punctuation.terminator.rule.css */
+
+    system: fixed 4;
+/* ^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
+/* ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^ meta.property-name.css */
+/*        ^ - meta.property-name - meta.property-value */
+/*          ^^^^^^^ meta.property-value.css */
+/*                 ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^ support.type.property-name.css */
+/*        ^ punctuation.separator.key-value.css */
+/*          ^^^^^ support.constant.symbol-type.css */
+/*                ^ constant.numeric.value.css */
+/*                 ^ punctuation.terminator.rule.css */
+
     symbols: "‣";
-/*  ^^^^^^^ meta.at-rule.counter-style.css support.type.property-name.css */
+/* ^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
+/* ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^^ meta.property-name.css */
+/*         ^ - meta.property-name - meta.property-value */
+/*          ^^^^ meta.property-value.css */
+/*              ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^^ support.type.property-name.css */
+/*         ^ punctuation.separator.key-value.css */
+/*           ^^^ meta.string.css string.quoted.double.css */
+/*              ^ punctuation.terminator.rule.css */
+
+    symbols: url(white.svg) url(black.svg);
+/* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
+/*  ^^^^^^^ meta.property-name.css */
+/*         ^ - meta.property-name - meta.property-value */
+/*          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-value.css */
+/*                                        ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^^ support.type.property-name.css */
+/*         ^ punctuation.separator.key-value.css */
+/*           ^^^ support.function.url.css */
+/*                          ^^^ support.function.url.css */
+/*                                        ^ punctuation.terminator.rule.css */
+
     suffix: " ";
 /*  ^^^^^^ meta.at-rule.counter-style.css support.type.property-name.css */
 /*          ^^^ meta.string.css string.quoted.double.css */
@@ -855,7 +916,6 @@
 /*   ^^^^^^^^^^^^^ keyword.control.at-rule.counter-style.css - punctuation */
 /*                 ^^^^^^^^^^^ entity.other.counter-style-name.css */
 {
-  system: cyclic;
   negative: "(" ")";
   prefix: "/";
   symbols: ◆ ◇;

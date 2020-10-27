@@ -208,6 +208,9 @@ variables:
       | whitesmoke | yellowgreen
     ){{break}}
 
+  counter_style_illegal_names: |-
+    \b(?xi: decimal | disc | inherit | initial | none | unset ){{break}}
+
   # Predefined Counter Styles
   # https://drafts.csswg.org/css-counter-styles-3/#predefined-counters
   counter_styles: |-
@@ -226,6 +229,11 @@ variables:
       | trad-chinese-formal | trad-chinese-informal
       | upper-alpha | upper-armenian | upper-latin | upper-roman
     )
+
+  # Predefined Counter Style System Constants
+  # https://drafts.csswg.org/css-counter-styles-3/#counter-style-system
+  counter_system_constants: |-
+    \b(?x: cyclic | numeric | alphabetic | symbolic | additive | fixed ){{break}}
 
   # Property names are sorted by popularity in descending order.
   # Popularity data taken from https://www.chromestatus.com/metrics/css/popularity
@@ -547,7 +555,7 @@ contexts:
 
   at-counter-style-content:
     - meta_scope: meta.at-rule.counter-style.css
-    - match: \b(decimal|disc|inherit|initial|none|unset){{break}}
+    - match: '{{counter_style_illegal_names}}'
       scope: invalid.illegal.counter-style-name.css
     - match: '{{ident}}'
       scope: entity.other.counter-style-name.css
@@ -1165,6 +1173,7 @@ contexts:
     - include: vendor-prefixes
     - include: font-property
     - include: counter-property
+    - include: counter-style-system-property
     - include: other-property
     - include: custom-property
     - include: deprecated-property
@@ -1262,6 +1271,13 @@ contexts:
     - include: color-functions
     - include: color-constants
 
+  counter-symbol-values:
+    - include: var-functions
+    - include: image-values
+    - include: counter-system-constants
+    - include: scalar-integer-constants
+    - include: quoted-strings
+
   # https://drafts.csswg.org/css-images-3/#typedef-image
   image-values:
     - include: cross-fade-functions
@@ -1269,6 +1285,40 @@ contexts:
     - include: image-functions
     - include: image-set-functions
     - include: url-functions
+
+###[ COUNTER STYLE SYSTEM PROPERTY ]###########################################
+
+  # Counter Style System
+  # https://drafts.csswg.org/css-counter-styles-3/#counter-style-system
+  counter-style-system-property:
+    - match: \bsystem{{break}}
+      scope: support.type.property-name.css
+      set: counter-style-system-property-value
+
+  counter-style-system-property-value:
+    - match: ':'
+      scope: punctuation.separator.key-value.css
+      set: counter-style-system-property-value-content
+    - include: else-pop
+
+  counter-style-system-property-value-content:
+    - meta_content_scope: meta.property-value.css
+    - include: terminator-pop
+    - include: comments
+    - include: counter-symbol-values
+    - match: \bextends{{break}}
+      scope: keyword.declaration.extends.css
+      push: counter-style-property-identifier
+
+  counter-style-property-identifier:
+    - match: '{{counter_style_illegal_names}}'
+      scope: invalid.illegal.counter-style-name.css
+      pop: 1
+    - match: '{{ident}}'
+      scope: entity.other.counter-style-name.css
+      pop: 1
+    - include: comments
+    - include: else-pop
 
 ###[ BUILTIN FUNCTIONS ]#######################################################
 
@@ -1332,11 +1382,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
             - include: comma-delimiters
-            - match: \b(cyclic|numeric|alphabetic|symbolic|fixed){{break}}
-              scope: support.constant.symbol-type.css
-            - include: var-functions
-            - include: image-values
-            - include: quoted-strings
+            - include: counter-symbol-values
 
     # format()
     # https://drafts.csswg.org/css-fonts-3/#descdef-src
@@ -2157,6 +2203,10 @@ contexts:
     # https://www.w3.org/TR/CSS22/fonts.html#generic-font-families
     - match: \b(?i:sans-serif|serif|monospace|fantasy|cursive|system-ui){{break}}
       scope: support.constant.font-name.css
+
+  counter-system-constants:
+    - match: '{{counter_system_constants}}'
+      scope: support.constant.symbol-type.css
 
   # Custom Properties
   # https://drafts.csswg.org/css-variables/#typedef-custom-property

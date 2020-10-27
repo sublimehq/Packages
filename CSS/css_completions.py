@@ -111,6 +111,9 @@ def get_properties():
             'teal', 'thistle', 'tomato', 'turquoise', 'violet', 'wheat', 'white',
             'whitesmoke', 'yellow', 'yellowgreen'
         ],
+        'counter_symbols': [
+            'cyclic', 'numeric', 'alphabetic', 'symbolic', 'additive', 'fixed'
+        ],
         'font_variant_alternates': [
             'normal', 'historical-forms',
             ['stylistic()', 'stylistic($1)'],
@@ -477,6 +480,7 @@ def get_properties():
         'stroke-dasharray': ['none'],
         'stroke-linecap': ['butt', 'round', 'square'],
         'stroke-linejoin': ['round', 'miter', 'bevel'],
+        'system': ['<counter_symbols>'],
         'table-layout': ['auto', 'fixed'],
         'text-align': ['left', 'right', 'center', 'justify', 'justify-all'],
         'text-align-last': ['start', 'end', 'left', 'right', 'center', 'justify'],
