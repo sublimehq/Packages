@@ -756,6 +756,7 @@ contexts:
       scope: punctuation.section.block.end.css
       pop: 2
     - include: at-page-margin
+    - include: at-other
     - include: property-lists
     - include: rule-list-body
 
@@ -827,31 +828,35 @@ contexts:
   # @<ident>
   # Fallback context for incomplete or unknown at-rules.
   # https://www.w3.org/TR/css-syntax-3/#at-rule
+  # https://www.w3.org/TR/CSS22/syndata.html#parsing-errors
   at-other:
     - match: (@){{ident}}
-      captures:
-        0: keyword.control.at-rule.other.css
-        1: punctuation.definition.keyword.css
       push: at-other-content
 
   at-other-content:
     - meta_scope: meta.at-rule.other.css
-    - include: at-block
+    - match: \{
+      scope: punctuation.section.block.begin.css
+      push: at-other-block-content
     - include: at-rule-end
-    - include: numeric-constants
-    - include: quoted-strings
-    - include: unquoted-strings
+
+  at-other-block-content:
+    - meta_scope: meta.block.css
+    - include: at-block-end
 
   at-block:
     - match: \{
       scope: punctuation.section.block.begin.css
       push: at-block-content
 
-  at-block-content:
-    - meta_scope: meta.block.css
+  at-block-end:
     - match: \}
       scope: punctuation.section.block.end.css
       pop: 2
+
+  at-block-content:
+    - meta_scope: meta.block.css
+    - include: at-block-end
     - include: main
 
   at-rule-end:
