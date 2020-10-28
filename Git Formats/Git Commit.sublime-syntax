@@ -57,6 +57,7 @@ contexts:
     - match: $\n?
       set: commit-separator
     - include: Git Common.sublime-syntax#references
+    - include: commit-subject-length
 
   commit-separator:
     # empty line between subject and message
@@ -81,6 +82,12 @@ contexts:
       captures:
         1: keyword.other.signed-off-by.git.commit
         2: punctuation.separator.mapping.pair.git.commit
+
+  commit-subject-length:
+    - match: '^((.{1,50}\s*)|(.{51,72}\s*)|(.+\s*))$'
+      captures:
+        3: invalid.warning.line-too-long.git.commit
+        4: invalid.error.line-too-long.git.commit
 
 ##[ COMMENTS ]#########################################################
 
