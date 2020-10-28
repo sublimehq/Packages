@@ -672,9 +672,7 @@ contexts:
 
   at-keyframe-block-content:
     - meta_scope: meta.block.css
-    - match: \}
-      scope: punctuation.section.block.end.css
-      pop: 2
+    - include: block-end2
     - match: (from|to){{break}}
       scope: keyword.keyframe-selector.css
     - include: comma-delimiters
@@ -752,9 +750,7 @@ contexts:
 
   at-page-block-content:
     - meta_scope: meta.property-list.css meta.block.css
-    - match: \}
-      scope: punctuation.section.block.end.css
-      pop: 2
+    - include: block-end2
     - include: at-page-margin
     - include: at-other
     - include: property-lists
@@ -842,21 +838,16 @@ contexts:
 
   at-other-block-content:
     - meta_scope: meta.block.css
-    - include: at-block-end
+    - include: block-end2
 
   at-block:
     - match: \{
       scope: punctuation.section.block.begin.css
       push: at-block-content
 
-  at-block-end:
-    - match: \}
-      scope: punctuation.section.block.end.css
-      pop: 2
-
   at-block-content:
     - meta_scope: meta.block.css
-    - include: at-block-end
+    - include: block-end2
     - include: main
 
   at-rule-end:
@@ -1165,9 +1156,7 @@ contexts:
 
   rule-list-content:
     - meta_scope: meta.property-list.css meta.block.css
-    - match: \}
-      scope: punctuation.section.block.end.css
-      pop: 2
+    - include: block-end2
     - include: rule-list-body
 
   rule-list-body:
@@ -2517,6 +2506,11 @@ contexts:
   comma-delimiters:
     - match: ','
       scope: punctuation.separator.sequence.css
+
+  block-end2:
+    - match: \}
+      scope: punctuation.section.block.end.css
+      pop: 2
 
   group-end:
     - match: \)
