@@ -1387,6 +1387,74 @@
 /*                                    ^^^ invalid.illegal.combinator.css */
 /*                                          ^^^ invalid.illegal.combinator.css */
 
+ /* malformed declaration missing ':', value => ignore it! */
+.test-parsing-errors { color }
+/*                   ^^^^^^^^^ meta.property-list.css meta.block.css */
+/*                            ^ - meta.property-list */
+/*                   ^ punctuation.section.block.begin.css */
+/*                     ^^^^^ support.type.property-name.css */
+/*                           ^ punctuation.section.block.end.css */
+
+/* same with expected recovery => ignore it! */
+.test-parsing-errors { color; color:green }
+/*                   ^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.block.css */
+/*                                         ^ - meta.property-list */
+/*                   ^ punctuation.section.block.begin.css */
+/*                     ^^^^^ support.type.property-name.css */
+/*                          ^ punctuation.terminator.rule.css */
+/*                            ^^^^^ support.type.property-name.css */
+/*                                 ^ punctuation.separator.key-value.css */
+/*                                  ^^^^^ support.constant.color.w3c.standard.css */
+/*                                        ^ punctuation.section.block.end.css */
+
+/* malformed declaration missing value  => ignore it! */
+.test-parsing-errors { color: }
+/*                   ^^^^^^^^^^ meta.property-list.css meta.block.css */
+/*                             ^ - meta.property-list */
+/*                   ^ punctuation.section.block.begin.css */
+/*                     ^^^^^ support.type.property-name.css */
+/*                          ^ punctuation.separator.key-value.css */
+/*                            ^ punctuation.section.block.end.css */
+
+/* same with expected recovery => ignore it! */
+.test-parsing-errors { color:; color:green }
+/*                   ^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.block.css */
+/*                                          ^ - meta.property-list */
+/*                   ^ punctuation.section.block.begin.css */
+/*                     ^^^^^ support.type.property-name.css */
+/*                          ^ punctuation.separator.key-value.css */
+/*                           ^ punctuation.terminator.rule.css */
+/*                             ^^^^^ support.type.property-name.css */
+/*                                  ^ punctuation.separator.key-value.css */
+/*                                   ^^^^^ support.constant.color.w3c.standard.css */
+/*                                         ^ punctuation.section.block.end.css */
+
+/* unexpected tokens { } => handle it as expected, using pairing */
+.test-parsing-errors { color{;color:maroon} }
+/*                   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.block.css */
+/*                                           ^ - meta.property-list */
+/*                   ^ punctuation.section.block.begin.css */
+/*                     ^^^^^ support.type.property-name.css */
+/*                          ^ invalid.illegal.unexpected-token.css */
+/*                           ^^^^^^^^^^^^^ - constant - keyword - punctuation - support - variable */
+/*                                        ^ invalid.illegal.unexpected-token.css */
+/*                                          ^ punctuation.section.block.end.css */
+
+/* same with recovery => handle it as expected, using pairing */
+.test-parsing-errors { color{;color:maroon}; color:green }
+/*                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.block.css */
+/*                                                        ^ - meta.property-list */
+/*                   ^ punctuation.section.block.begin.css */
+/*                     ^^^^^ support.type.property-name.css */
+/*                          ^ invalid.illegal.unexpected-token.css */
+/*                           ^^^^^^^^^^^^^ - constant - keyword - punctuation - support - variable */
+/*                                        ^ invalid.illegal.unexpected-token.css */
+/*                                         ^ punctuation.terminator.rule.css */
+/*                                           ^^^^^ support.type.property-name.css */
+/*                                                ^ punctuation.separator.key-value.css */
+/*                                                 ^^^^^ support.constant.color.w3c.standard.css */
+/*                                                       ^ punctuation.section.block.end.css */
+
 .test-generic-font-families {
     font: serif;
 /*  ^^^^ meta.property-list.css meta.property-name.css */

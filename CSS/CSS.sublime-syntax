@@ -1171,6 +1171,7 @@ contexts:
     - include: property-identifiers
     - include: property-values
     - include: rule-terminators
+    - include: illegal-blocks
 
 ###[ PROPERTY IDENTIFIERS ]####################################################
 
@@ -2522,6 +2523,17 @@ contexts:
   rule-terminators:
     - match: ;
       scope: punctuation.terminator.rule.css
+
+  illegal-blocks:
+    # https://www.w3.org/TR/CSS22/syndata.html#parsing-errors
+    - match: \{
+      scope: invalid.illegal.unexpected-token.css
+      push:
+        - match: \}
+          scope: invalid.illegal.unexpected-token.css
+          pop: 1
+    - match: \}
+      scope: invalid.illegal.unexpected-token.css
 
 ###[ PROTOTYPES ]##############################################################
 
