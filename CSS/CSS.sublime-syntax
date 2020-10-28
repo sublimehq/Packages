@@ -1336,6 +1336,7 @@ contexts:
     - meta_content_scope: meta.property-value.css
     - include: terminator-pop
     - include: comments
+    - include: var-functions
     - include: quoted-strings
     - include: counter-speak-as-constants
     - match: '{{counter_style_illegal_names}}'

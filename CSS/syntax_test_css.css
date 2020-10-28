@@ -998,6 +998,21 @@
 /*          ^ punctuation.separator.key-value.css */
 /*            ^^^^ entity.other.counter-style-name.css */
 /*                ^ punctuation.terminator.rule.css */
+
+    speak-as: var(--name);
+/* ^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
+/* ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^^^ meta.property-name.css */
+/*          ^ - meta.property-name - meta.property-value */
+/*            ^^^^^^^^^^^ meta.property-value.css */
+/*                       ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^^^ support.type.property-name.css */
+/*          ^ punctuation.separator.key-value.css */
+/*            ^^^ support.function.var.css */
+/*               ^ punctuation.section.group.begin.css */
+/*                ^^^^^^ variable.other.custom-property.css */
+/*                      ^ punctuation.section.group.end.css */
+/*                       ^ punctuation.terminator.rule.css */
 }
 /* <- meta.at-rule.counter-style.css meta.property-list.css meta.block.css punctuation.section.block.end.css */
 
