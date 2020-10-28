@@ -1225,18 +1225,21 @@ contexts:
     - include: terminator-pop
     - include: comments
     - include: comma-delimiters
-    - include: vendor-prefixes
-    - include: builtin-functions
-    - include: line-names
-    - include: unicode-ranges
-    - include: color-values
-    - include: numeric-constants
-    - include: common-constants
-    - include: quoted-strings
-    - match: \!\s*important
+    - include: builtin-values
+    - match: \!\s*important{{break}}
       scope: keyword.other.important.css
     - match: /
       scope: keyword.operator.arithmetic.css
+
+  builtin-values:
+    - include: builtin-functions
+    - include: color-values
+    - include: line-names
+    - include: unicode-ranges
+    - include: numeric-constants
+    - include: common-constants
+    - include: quoted-strings
+    - include: vendor-prefixes
 
   # When including `color-values` and `color-adjuster-functions`, make sure it is
   # included after the color adjustors to prevent `color-values` from consuming
