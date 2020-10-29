@@ -513,7 +513,8 @@
 /*              ^^^^^^ support.constant.media.css */
 /*                     ^^^ keyword.operator.logic.media.css */
 /*                         ^ punctuation.section.group.begin.css */
-/*                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ support.type.property-name.media.css */
+/*                          ^^^^^^^^ support.type.vendor-prefix.css */
+/*                                  ^^^^^^^^^^^^^^^^^^^^^^ support.type.property-name.media.css */
 /*                                                        ^ punctuation.separator.key-value.css */
 /*                                                          ^^^^^^^^^^^^^ comment.block.css */
 /*                                                                        ^^^ meta.number.float.decimal.css constant.numeric.value.css */
@@ -527,7 +528,8 @@
 /*       ^^^^^^ support.constant.media.css */
 /*              ^^^ keyword.operator.logic.media.css */
 /*                  ^ punctuation.section.group.begin.css */
-/*                   ^^^^^^^^^^^^^^^^^^^^^^^^^ support.type.property-name.media.css */
+/*                   ^^^ support.type.vendor-prefix.css */
+/*                      ^^^^^^^^^^^^^^^^^^^^^^ support.type.property-name.media.css */
 /*                                            ^ punctuation.separator.key-value.css */
 /*                                              ^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                                                ^ keyword.operator.arithmetic.css - constant */

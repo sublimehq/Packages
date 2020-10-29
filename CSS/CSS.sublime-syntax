@@ -876,39 +876,67 @@ contexts:
     - meta_scope: meta.group.css
     - include: group-end
     - include: media-query-conditions
+    - include: var-functions
+    - include: calc-functions
+    - include: ratio-constants
+    - include: numeric-constants
     - match: |-
-        (?x)
-        (
-          (?:
-            (-webkit-|-o-)?
-            (?:min-|max-)?
-            (-moz-)?
+        (?xi:
+          ({{vendor_prefix}})?
+          (
+            (?: min- | max- )?
             (?:
-              (?:device-)?(?:height|width|aspect-ratio|pixel-ratio)
-              |color(?:-index)?|monochrome|resolution
+              color (?: -gamut | -index )?
+            | monochrome | resolution | update
+            | (?: device- )? (?: height | width | aspect-ratio | pixel-ratio )
             )
+          | (?:any-)?(?: pointer | hover )
+          | display-mode | grid | orientation | scan | scripting
+          | overflow-(?: block | inline )
           )
-          |grid|scan|orientation
         )\s*(:)?
       captures:
-        1: support.type.property-name.media.css
-        2: support.type.vendor-prefix.css
-        3: support.type.vendor-prefix.css
-        4: punctuation.separator.key-value.css
-    - match: \b(portrait|landscape|progressive|interlace){{break}}
+        1: support.type.vendor-prefix.css
+        2: support.type.property-name.media.css
+        3: punctuation.separator.key-value.css
+    - match: |-
+        \b(?xi:
+          # global css constants
+            all | inherit | initial | none | unset
+          # color-gamut / color-index:
+          | srgb | p3 | rec2020
+          # display-mode:
+          | browser | fullscreen | standalone | minimal-ui
+          # hover:
+          | hover
+          # orientation:
+          | landscape | portrait
+          # overflow:
+          | optional-paged | paged | scroll
+          # pointer:
+          | coarse | fine
+          # scan:
+          | interlace | progressive
+          # scripting:
+          | enabled | initial-only
+          # update:
+          | fast | normal | slow
+        ){{break}}
       scope: support.constant.property-value.css
-    - match: (\d+)(/)(\d+)
-      captures:
-        1: meta.number.integer.decimal.css constant.numeric.value.css
-        2: keyword.operator.arithmetic.css
-        3: meta.number.integer.decimal.css constant.numeric.value.css
-    - include: numeric-constants
 
   media-query-types:
     # Media Types:
     # https://www.w3.org/TR/CSS21/media.html
     # https://drafts.csswg.org/mediaqueries-5/#media-types
-    - match: \b(?i:all|aural|braille|embossed|handheld|print|projection|screen|speech|tty|tv){{break}}
+    - match: |-
+        \b(?xi:
+          # global css constants
+            all | inherit | initial | none | unset
+          # specs
+          | print | screen | speech
+          # deprecated
+          | aural | braille | embossed | handheld | projection | tty | tv
+        ){{break}}
       scope: support.constant.media.css
 
 ###[ SELECTORS ]###############################################################
@@ -2350,6 +2378,13 @@ contexts:
     - match: \b0\b(?!%)
       scope: meta.number.integer.decimal.css constant.numeric.value.css
       push: maybe-illegal-operator
+
+  ratio-constants:
+    - match: (\d+)(/)(\d+)
+      captures:
+        1: meta.number.integer.decimal.css constant.numeric.value.css
+        2: keyword.operator.arithmetic.css
+        3: meta.number.integer.decimal.css constant.numeric.value.css
 
   resolution-constants:
     - match: '{{float}}({{resolution_units}})\b'
