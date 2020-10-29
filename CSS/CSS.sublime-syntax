@@ -2438,12 +2438,7 @@ contexts:
       push: maybe-illegal-operator
 
   unicode-ranges:
-    - match: |-
-        (?xi:
-          (u\+)
-          ([0-9a-f?]{1,6}
-          (?:(-)[0-9a-f]{1,6})?)
-        )
+    - match: ([Uu]\+)([\h?]{1,6}(?:(-)\h{1,6})?)
       scope: meta.number.unicode-range.css
       captures:
         1: constant.numeric.prefix.css
