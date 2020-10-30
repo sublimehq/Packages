@@ -843,6 +843,19 @@
 /*   ^^^^^^^^^^^^^ keyword.control.at-rule.counter-style.css - punctuation */
 /*                 ^^^^ entity.other.counter-style-name.css */
 
+    system: extends disc;
+/* ^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
+/* ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^ meta.property-name.css */
+/*        ^ - meta.property-name - meta.property-value */
+/*          ^^^^^^^^^^^^ meta.property-value.css */
+/*                      ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^ support.type.property-name.css */
+/*        ^ punctuation.separator.key-value.css */
+/*          ^^^^^^^ keyword.declaration.extends.css */
+/*                  ^^^^ entity.other.counter-style-name.css */
+/*                      ^ punctuation.terminator.rule.css */
+
     system: extends name;
 /* ^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
 /* ^ - meta.property-name - meta.property-value */
@@ -2127,13 +2140,13 @@
 /*       ^^^^^^^ support.function.counter.css */
 /*               ^^^^ entity.other.counter-name.css */
 /*                   ^ punctuation.separator.sequence.css */
-/*                     ^^^^^^^^^^^^^^^^^^^^ support.constant.property-value.counter-style.css */
+/*                     ^^^^^^^^^^^^^^^^^^^^ support.constant.property-value.css */
 
     top: counter(name other decimal-leading-zero);
 /*       ^^^^^^^ support.function.counter.css */
 /*               ^^^^ entity.other.counter-name.css */
 /*                    ^^^^^ - constant - entity - variable */
-/*                          ^^^^^^^^^^^^^^^^^^^^ support.constant.property-value.counter-style.css */
+/*                          ^^^^^^^^^^^^^^^^^^^^ support.constant.property-value.css */
 
     top: counters(name, "str", none);
 /*       ^^^^^^^^ support.function.counter.css */
@@ -2141,7 +2154,7 @@
 /*                    ^ punctuation.separator.sequence.css */
 /*                      ^^^^^ meta.string.css string.quoted.double.css */
 /*                           ^ punctuation.separator.sequence.css */
-/*                             ^^^^ support.constant.property-value.counter-style.css */
+/*                             ^^^^ support.constant.property-value.css */
 
     top: symbols(fixed "\2020" url());
 /*       ^^^^^^^ support.function.counter.css */

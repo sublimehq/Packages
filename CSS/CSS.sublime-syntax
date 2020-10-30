@@ -208,6 +208,8 @@ variables:
       | whitesmoke | yellowgreen
     ){{break}}
 
+  # Illegal Counter Style Definition Names
+  # https://drafts.csswg.org/css-counter-styles-3/#typedef-counter-style-name
   counter_style_illegal_names: |-
     \b(?xi: decimal | disc | inherit | initial | none | unset ){{break}}
 
@@ -215,7 +217,7 @@ variables:
   # https://drafts.csswg.org/css-counter-styles-3/#predefined-counters
   counter_styles: |-
     \b(?xi:
-        arabic-indic | armenian | bengali | cambodian | circle
+        none | arabic-indic | armenian | bengali | cambodian | circle
       | cjk-decimal | cjk-earthly-branch | cjk-heavenly-stem | decimal-leading-zero
       | decimal | devanagari | disclosure-closed | disclosure-open | disc
       | ethiopic-numeric | georgian | gujarati | gurmukhi | hebrew
@@ -228,7 +230,7 @@ variables:
       | square | tamil | telugu | thai | tibetan
       | trad-chinese-formal | trad-chinese-informal
       | upper-alpha | upper-armenian | upper-latin | upper-roman
-    )
+    ){{break}}
 
   # Predefined Counter Speak As Property Constants
   # https://drafts.csswg.org/css-counter-styles-3/#counter-style-speak-as
@@ -486,7 +488,6 @@ variables:
       | x{1,2}-(large|small)
       | z-index|zero
       | zoom(-in|-out)?
-      | {{counter_styles}}
     ){{break}}
 
 ###############################################################################
@@ -1333,9 +1334,6 @@ contexts:
       push: counter-style-property-identifier
 
   counter-style-property-identifier:
-    - match: '{{counter_style_illegal_names}}'
-      scope: invalid.illegal.counter-style-name.css
-      pop: 1
     - match: '{{ident}}'
       scope: entity.other.counter-style-name.css
       pop: 1
@@ -1364,8 +1362,6 @@ contexts:
     - include: var-functions
     - include: quoted-strings
     - include: counter-speak-as-constants
-    - match: '{{counter_style_illegal_names}}'
-      scope: invalid.illegal.counter-style-name.css
     - match: '{{ident}}'
       scope: entity.other.counter-style-name.css
 
@@ -1431,8 +1427,8 @@ contexts:
             - - meta_scope: meta.function-call.arguments.css meta.group.css
               - include: group-end
               - include: comma-delimiters
-              - match: \b(?i:{{counter_styles}}|none){{break}}
-                scope: support.constant.property-value.counter-style.css
+              - match: '{{counter_styles}}'
+                scope: support.constant.property-value.css
               - include: var-functions
               - include: quoted-strings
               - include: unquoted-strings
