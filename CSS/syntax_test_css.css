@@ -167,24 +167,24 @@
     @charset "UTF-8";
 /*  ^^^^^^^^^^^^^^^^ meta.at-rule.charset.css */
 /*                  ^ - meta.at-rule */
-/*  ^ keyword.control.at-rule.charset.css punctuation.definition.keyword.css */
-/*   ^^^^^^^ keyword.control.at-rule.charset.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^ keyword.control.directive.css - punctuation */
 /*           ^^^^^^^ meta.string.css string.quoted.double.css */
 /*                  ^ punctuation.terminator.rule.css */
 
     @import "x" print;
 /*  ^^^^^^^^^^^^^^^^^ meta.at-rule.import.css */
 /*                   ^ - meta.at-rule */
-/*  ^ keyword.control.at-rule.import.css punctuation.definition.keyword.css */
-/*   ^^^^^^ keyword.control.at-rule.import.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^ keyword.control.directive.css - punctuation */
 /*              ^^^^^ support.constant.media.css */
 /*                   ^ punctuation.terminator.rule.css */
 
     @namespace svg "http://www.w3.org/1999/xhtml";
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.namespace.css */
 /*                                               ^ - meta.at-rule */
-/*  ^ keyword.control.at-rule.namespace.css punctuation.definition.keyword.css */
-/*   ^^^^^^^^^ keyword.control.at-rule.namespace.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^ keyword.control.directive.css - punctuation */
 /*             ^^^ entity.other.namespace-prefix.css */
 /*                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.css string.quoted.double.css */
 /*                                               ^ punctuation.terminator.rule.css */
@@ -193,7 +193,7 @@
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.namespace.css */
 /*                                                              ^ - meta.at-rule */
 /*  ^ punctuation.definition.keyword.css */
-/*   ^^^^^^^^^ keyword.control.at-rule.namespace.css */
+/*   ^^^^^^^^^ keyword.control.directive.css */
 /*             ^^^^ comment.block.css */
 /*                  ^^^ entity.other.namespace-prefix.css */
 /*                      ^^^^ comment.block.css */
@@ -205,8 +205,8 @@
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.namespace.css */
 /*                                                                                 ^^ - meta.at-rule - comment */
 /*                                                                                   ^^^^^^^^^^^^^^^^^^^^^^ comment.block.css - meta.at-rule */
-/*  ^ keyword.control.at-rule.namespace.css punctuation.definition.keyword.css */
-/*   ^^^^^^^^^ keyword.control.at-rule.namespace.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^ keyword.control.directive.css - punctuation */
 /*             ^^^ meta.function-call.identifier.css - meta.function-call meta.function-call - meta.group */
 /*                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
 /*             ^^^ support.function.url.css */
@@ -217,8 +217,8 @@
 /*  ^^^^^^ meta.at-rule.page.css - meta.block */
 /*        ^^ meta.at-rule.page.css meta.property-list.css meta.block.css */
 /*          ^ - meta.at-rule - meta.block */
-/*  ^ keyword.control.at-rule.page.css punctuation.definition.keyword.css */
-/*   ^^^^ keyword.control.at-rule.page.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^ keyword.control.directive.css - punctuation */
 /*        ^ punctuation.section.block.begin.css */
 /*         ^ punctuation.section.block.end.css */
 
@@ -226,8 +226,8 @@
 /*  ^^^^^^^^^^^^ meta.at-rule.page.css - meta.block */
 /*              ^^ meta.at-rule.page.css meta.property-list.css meta.block.css */
 /*                ^ - meta.at-rule - meta.block */
-/*  ^ keyword.control.at-rule.page.css punctuation.definition.keyword.css */
-/*   ^^^^ keyword.control.at-rule.page.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^ keyword.control.directive.css - punctuation */
 /*       ^ entity.other.pseudo-class.css punctuation.definition.entity.css */
 /*        ^^^^^ entity.other.pseudo-class.css - punctuation */
 /*              ^ punctuation.section.block.begin.css */
@@ -237,8 +237,8 @@
 /*  ^^^^^^^^^^^^ meta.at-rule.page.css - meta.block */
 /*              ^^ meta.at-rule.page.css meta.property-list.css meta.block.css */
 /*                ^ - meta.at-rule - meta.block */
-/*  ^ keyword.control.at-rule.page.css punctuation.definition.keyword.css */
-/*   ^^^^ keyword.control.at-rule.page.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^ keyword.control.directive.css - punctuation */
 /*        ^ entity.other.pseudo-class.css punctuation.definition.entity.css */
 /*         ^^^^ entity.other.pseudo-class.css - punctuation */
 /*              ^ punctuation.section.block.begin.css */
@@ -246,16 +246,16 @@
 
     @page :left- {}
 /*  ^^^^^^^^^^^^^^^ meta.at-rule.page.css */
-/*  ^ keyword.control.at-rule.page.css punctuation.definition.keyword.css */
-/*   ^^^^ keyword.control.at-rule.page.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^ keyword.control.directive.css - punctuation */
 /*        ^^^^^^ - entity.other */
 
     @page LandscapeTable {}
 /*  ^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.page.css - meta.block */
 /*                       ^^ meta.at-rule.page.css meta.property-list.css meta.block.css */
 /*                         ^ - meta.at-rule - meta.block */
-/*  ^ keyword.control.at-rule.page.css punctuation.definition.keyword.css */
-/*   ^^^^ keyword.control.at-rule.page.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^ keyword.control.directive.css - punctuation */
 /*        ^^^^^^^^^^^^^^ entity.other.page-name.css */
 /*                       ^ punctuation.section.block.begin.css */
 /*                        ^ punctuation.section.block.end.css */
@@ -264,8 +264,8 @@
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.page.css - meta.block */
 /*                                ^^ meta.at-rule.page.css meta.property-list.css meta.block.css */
 /*                                  ^ - meta.at-rule - meta.block */
-/*  ^ keyword.control.at-rule.page.css punctuation.definition.keyword.css */
-/*   ^^^^ keyword.control.at-rule.page.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^ keyword.control.directive.css - punctuation */
 /*        ^^^^^^^^^^^^^^^^^ entity.other.page-name.css */
 /*                         ^ entity.other.pseudo-class.css punctuation.definition.entity.css */
 /*                          ^^^^^ entity.other.pseudo-class.css - punctuation */
@@ -276,8 +276,8 @@
 /*  ^^^^^^^^^^^^^^^^^ meta.at-rule.page.css - meta.block */
 /*                   ^^ meta.at-rule.page.css meta.property-list.css meta.block.css */
 /*                     ^ - meta.at-rule - meta.block */
-/*  ^ keyword.control.at-rule.page.css punctuation.definition.keyword.css */
-/*   ^^^^ keyword.control.at-rule.page.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^ keyword.control.directive.css - punctuation */
 /*        ^^^ entity.other.page-name.css */
 /*           ^ punctuation.separator.sequence.css */
 /*             ^^^^^ entity.other.page-name.css */
@@ -288,8 +288,8 @@
 /*  ^^^^^^^^^^^^^^^^^^^ meta.at-rule.page.css - meta.block */
 /*                     ^^ meta.at-rule.page.css meta.property-list.css meta.block.css */
 /*                       ^ - meta.at-rule - meta.block */
-/*  ^ keyword.control.at-rule.page.css punctuation.definition.keyword.css */
-/*   ^^^^ keyword.control.at-rule.page.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^ keyword.control.directive.css - punctuation */
 /*        ^ entity.other.pseudo-class.css punctuation.definition.entity.css */
 /*         ^^^^^ entity.other.pseudo-class.css - punctuation */
 /*              ^ entity.other.pseudo-class.css punctuation.definition.entity.css */
@@ -339,8 +339,8 @@
         @top-left-corner { margin: 5pt; }
 /*      ^^^^^^^^^^^^^^^^^ meta.at-rule.page.css meta.property-list.css meta.block.css meta.at-rule.margin.css */
 /*                       ^^^^^^^^^^^^^^^^ meta.at-rule.page.css meta.property-list.css meta.block.css meta.at-rule.margin.css meta.property-list.css meta.block.css */
-/*      ^ keyword.control.at-rule.margin.css punctuation.definition.keyword.css */
-/*       ^^^^^^^^^^^^^^^ keyword.control.at-rule.margin.css - punctuation */
+/*      ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*       ^^^^^^^^^^^^^^^ keyword.control.directive.css - punctuation */
 /*                       ^ punctuation.section.block.begin.css */
 /*                         ^^^^^^ meta.property-name.css support.type.property-name.css */
 /*                               ^ punctuation.separator.key-value.css */
@@ -349,64 +349,64 @@
 /*                                      ^ punctuation.section.block.end.css */
 
         @top-left { margin: 5pt; }
-/*      ^ keyword.control.at-rule.margin.css punctuation.definition.keyword.css */
-/*       ^^^^^^^^ keyword.control.at-rule.margin.css - punctuation */
+/*      ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*       ^^^^^^^^ keyword.control.directive.css - punctuation */
 
         @top-center { margin: 5pt; }
-/*      ^ keyword.control.at-rule.margin.css punctuation.definition.keyword.css */
-/*       ^^^^^^^^^^ keyword.control.at-rule.margin.css - punctuation */
+/*      ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*       ^^^^^^^^^^ keyword.control.directive.css - punctuation */
 
         @top-right { margin: 5pt; }
-/*      ^ keyword.control.at-rule.margin.css punctuation.definition.keyword.css */
-/*       ^^^^^^^^^ keyword.control.at-rule.margin.css - punctuation */
+/*      ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*       ^^^^^^^^^ keyword.control.directive.css - punctuation */
 
         @top-right-corner { margin: 5pt; }
-/*      ^ keyword.control.at-rule.margin.css punctuation.definition.keyword.css */
-/*       ^^^^^^^^^^^^^^^^ keyword.control.at-rule.margin.css - punctuation */
+/*      ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*       ^^^^^^^^^^^^^^^^ keyword.control.directive.css - punctuation */
 
         @bottom-left-corner { margin: 5pt; }
-/*      ^ keyword.control.at-rule.margin.css punctuation.definition.keyword.css */
-/*       ^^^^^^^^^^^^^^^^^^ keyword.control.at-rule.margin.css - punctuation */
+/*      ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*       ^^^^^^^^^^^^^^^^^^ keyword.control.directive.css - punctuation */
 
         @bottom-left { margin: 5pt; }
-/*      ^ keyword.control.at-rule.margin.css punctuation.definition.keyword.css */
-/*       ^^^^^^^^^^^ keyword.control.at-rule.margin.css - punctuation */
+/*      ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*       ^^^^^^^^^^^ keyword.control.directive.css - punctuation */
 
         @bottom-center { margin: 5pt; }
-/*      ^ keyword.control.at-rule.margin.css punctuation.definition.keyword.css */
-/*       ^^^^^^^^^^^^^ keyword.control.at-rule.margin.css - punctuation */
+/*      ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*       ^^^^^^^^^^^^^ keyword.control.directive.css - punctuation */
 
         @bottom-right { margin: 5pt; }
-/*      ^ keyword.control.at-rule.margin.css punctuation.definition.keyword.css */
-/*       ^^^^^^^^^^^^ keyword.control.at-rule.margin.css - punctuation */
+/*      ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*       ^^^^^^^^^^^^ keyword.control.directive.css - punctuation */
 
         @bottom-right-corner { margin: 5pt; }
-/*      ^ keyword.control.at-rule.margin.css punctuation.definition.keyword.css */
-/*       ^^^^^^^^^^^^^^^^^^^ keyword.control.at-rule.margin.css - punctuation */
+/*      ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*       ^^^^^^^^^^^^^^^^^^^ keyword.control.directive.css - punctuation */
 
         @left-top { margin: 5pt; }
-/*      ^ keyword.control.at-rule.margin.css punctuation.definition.keyword.css */
-/*       ^^^^^^^^ keyword.control.at-rule.margin.css - punctuation */
+/*      ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*       ^^^^^^^^ keyword.control.directive.css - punctuation */
 
         @left-middle { margin: 5pt; }
-/*      ^ keyword.control.at-rule.margin.css punctuation.definition.keyword.css */
-/*       ^^^^^^^^^^^ keyword.control.at-rule.margin.css - punctuation */
+/*      ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*       ^^^^^^^^^^^ keyword.control.directive.css - punctuation */
 
         @left-bottom { margin: 5pt; }
-/*      ^ keyword.control.at-rule.margin.css punctuation.definition.keyword.css */
-/*       ^^^^^^^^^^^ keyword.control.at-rule.margin.css - punctuation */
+/*      ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*       ^^^^^^^^^^^ keyword.control.directive.css - punctuation */
 
         @right-top { margin: 5pt; }
-/*      ^ keyword.control.at-rule.margin.css punctuation.definition.keyword.css */
-/*       ^^^^^^^^^ keyword.control.at-rule.margin.css - punctuation */
+/*      ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*       ^^^^^^^^^ keyword.control.directive.css - punctuation */
 
         @right-middle { margin: 5pt; }
-/*      ^ keyword.control.at-rule.margin.css punctuation.definition.keyword.css */
-/*       ^^^^^^^^^^^^ keyword.control.at-rule.margin.css - punctuation */
+/*      ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*       ^^^^^^^^^^^^ keyword.control.directive.css - punctuation */
 
         @right-bottom { margin: 5pt; }
-/*      ^ keyword.control.at-rule.margin.css punctuation.definition.keyword.css */
-/*       ^^^^^^^^^^^^ keyword.control.at-rule.margin.css - punctuation */
+/*      ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*       ^^^^^^^^^^^^ keyword.control.directive.css - punctuation */
 
         @left-margin-left: ;
 /*      ^^^^^^^^^^^^^^^^^^^ meta.at-rule.page.css meta.property-list.css meta.block.css meta.at-rule.other.css */
@@ -428,15 +428,15 @@
 /*  ^ meta.at-rule.page.css meta.property-list.css meta.block.css punctuation.section.block.end.css*/
 
     @right-bottom { margin: 5pt; }
-/*  ^ keyword.control.at-rule.margin.css punctuation.definition.keyword.css */
-/*   ^^^^^^^^^^^^ keyword.control.at-rule.margin.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^^^^ keyword.control.directive.css - punctuation */
 
     @media onlyℜ screenℜ screen\211C {}
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css - meta.block */
 /*                                   ^^ meta.at-rule.media.css meta.block.css - meta.property-list */
 /*                                     ^ - meta.at-rule - meta.block */
-/*  ^ keyword.control.at-rule.media.css punctuation.definition.keyword.css */
-/*   ^^^^^ keyword.control.at-rule.media.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^ keyword.control.directive.css - punctuation */
 /*         ^^^^^^^^^^^^^^^^^^^^^^^^^ - keyword - support */
 /*                                   ^ punctuation.section.block.begin.css */
 /*                                    ^ punctuation.section.block.end.css */
@@ -445,8 +445,8 @@
 /*  ^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css - meta.block */
 /*                     ^^ meta.at-rule.media.css meta.block.css - meta.property-list */
 /*                       ^ - meta.at-rule - meta.block */
-/*  ^ keyword.control.at-rule.media.css punctuation.definition.keyword.css */
-/*   ^^^^^ keyword.control.at-rule.media.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^ keyword.control.directive.css - punctuation */
 /*         ^^^^ keyword.operator.logic.media.css */
 /*              ^^^^^^ support.constant.media.css */
 /*                     ^ punctuation.section.block.begin.css */
@@ -457,8 +457,8 @@
 /*         ^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css meta.group.css */
 /*                           ^^ meta.at-rule.media.css meta.block.css - meta.group - meta.property-list */
 /*                             ^ - meta.at-rule - meta.block */
-/*  ^ keyword.control.at-rule.media.css punctuation.definition.keyword.css */
-/*   ^^^^^ keyword.control.at-rule.media.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^ keyword.control.directive.css - punctuation */
 /*         ^ punctuation.section.group.begin.css */
 /*          ^^^^^^^^^ support.type.property-name.media.css */
 /*                     ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
@@ -472,8 +472,8 @@
 /*                           ^ meta.at-rule.media.css - meta.block - meta.group */
 /*                            ^^ meta.at-rule.media.css meta.block.css - meta.group - meta.property-list */
 /*                              ^ - meta.at-rule - meta.block */
-/*  ^ keyword.control.at-rule.media.css punctuation.definition.keyword.css */
-/*   ^^^^^ keyword.control.at-rule.media.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^ keyword.control.directive.css - punctuation */
 /*         ^ punctuation.section.group.begin.css */
 /*          ^^^^^^^^^ support.type.property-name.media.css */
 /*                     ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
@@ -489,8 +489,8 @@
 /*                                ^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css meta.group.css */
 /*                                                   ^ meta.at-rule.media.css - meta.group - meta.block*/
 /*                                                    ^^ meta.at-rule.media.css meta.block.css - meta.group */
-/*  ^ keyword.control.at-rule.media.css punctuation.definition.keyword.css */
-/*   ^^^^^ keyword.control.at-rule.media.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^ keyword.control.directive.css - punctuation */
 /*         ^ punctuation.section.group.begin.css */
 /*          ^^^^^^^^^ support.type.property-name.media.css */
 /*                     ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
@@ -507,8 +507,8 @@
 /*  ^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css - meta.group */
 /*                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css meta.group.css */
 /*                                                                            ^^ meta.at-rule.media.css - meta.group */
-/*  ^ keyword.control.at-rule.media.css punctuation.definition.keyword.css */
-/*   ^^^^^ keyword.control.at-rule.media.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^ keyword.control.directive.css - punctuation */
 /*         ^^^^ keyword.operator.logic.media.css */
 /*              ^^^^^^ support.constant.media.css */
 /*                     ^^^ keyword.operator.logic.media.css */
@@ -560,8 +560,8 @@
 /*                                            ^^^^^^^^^^^^^^^ meta.at-rule.media.css meta.group.css meta.group.css */
 /*                                                           ^ meta.at-rule.media.css meta.group.css - meta.group meta.group */
 /*                                                            ^ - meta.at-rule */
-/*  ^ keyword.control.at-rule.media.css punctuation.definition.keyword.css */
-/*   ^^^^^ keyword.control.at-rule.media.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^ keyword.control.directive.css - punctuation */
 /*         ^^^^ keyword.operator.logic.media.css */
 /*              ^^^^^^ support.constant.media.css */
 /*                     ^^^ keyword.operator.logic.media.css */
@@ -581,8 +581,8 @@
 /*  ^^^^^^^^^^^^^^^^^^^^ meta.at-rule.custom-media.css - meta.group */
 /*                      ^^^^^^^^^^^^ meta.at-rule.custom-media.css meta.group.css */
 /*                                  ^ - meta.at-rule */
-/*  ^ keyword.control.at-rule.custom-media.css punctuation.definition.keyword.css */
-/*   ^^^^^^^^^^^^ keyword.control.at-rule.custom-media.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^^^^ keyword.control.directive.css - punctuation */
 /*                ^^^^^ entity.other.custom-media.css */
 /*                       ^^^^^ support.type.property-name.media.css */
 /*                            ^ punctuation.separator.key-value.css */
@@ -593,7 +593,7 @@
     @custom-media /**/ --a-b /**/ ( /**/ width: 1px);
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.custom-media.css */
 /*  ^ punctuation.definition.keyword.css */
-/*   ^^^^^^^^^^^^ keyword.control.at-rule.custom-media.css */
+/*   ^^^^^^^^^^^^ keyword.control.directive.css */
 /*                ^^^^ comment.block.css */
 /*                     ^^^^^ entity.other.custom-media.css */
 /*                           ^^^^ comment.block.css */
@@ -607,8 +607,8 @@
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.keyframe.css - meta.block */
 /*                          ^^ meta.at-rule.keyframe.css meta.block.css - meta.property-list */
 /*                            ^ - meta.at-rule - meta.block */
-/*  ^ keyword.control.at-rule.keyframe.css punctuation.definition.keyword.css */
-/*   ^^^^^^^^^ keyword.control.at-rule.keyframe.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^ keyword.control.directive.css - punctuation */
 /*             ^^^^ entity.other.animation-name.css */
 /*                 ^ punctuation.separator.sequence.css */
 /*                   ^^^^^^ entity.other.animation-name.css */
@@ -664,15 +664,15 @@
 /*  ^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.document.css - meta.block */
 /*                         ^^^ meta.at-rule.document.css meta.block.css - meta.property-list */
 /*                            ^ - meta.at-rule - meta.block */
-/*  ^ keyword.control.at-rule.document.css punctuation.definition.keyword.css */
-/*   ^^^^^^^^ keyword.control.at-rule.document.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^ keyword.control.directive.css - punctuation */
 /*                         ^ punctuation.section.block.begin.css */
 /*                           ^ punctuation.section.block.end.css */
 
 @document url(http://www),
 /*^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.document.css - meta.block */
-/* <- keyword.control.at-rule.document.css punctuation.definition.keyword.css */
-/*^^^^^^^ keyword.control.at-rule.document.css - punctuation */
+/* <- keyword.control.directive.css punctuation.definition.keyword.css */
+/*^^^^^^^ keyword.control.directive.css - punctuation */
 /*        ^^^ support.function.url.css */
 /*            ^^^^^^^^^^ meta.string.css string.unquoted.css */
 /*                       ^ punctuation.separator.sequence.css */
@@ -708,8 +708,8 @@
     @font-face {
 /*  ^^^^^^^^^^^ meta.at-rule.font-face.css - meta.block */
 /*             ^ meta.at-rule.font-face.css meta.property-list.css meta.block.css */
-/*  ^ keyword.control.at-rule.font-face.css punctuation.definition.keyword.css */
-/*   ^^^^^^^^^ keyword.control.at-rule.font-face.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^ keyword.control.directive.css - punctuation */
 /*             ^ punctuation.section.block.begin.css */
 
     src: local(Font),
@@ -719,8 +719,8 @@
 
     @font-face
 /*  ^^^^^^^^^^^ meta.at-rule.font-face.css */
-/*  ^ keyword.control.at-rule.font-face.css punctuation.definition.keyword.css */
-/*   ^^^^^^^^^ keyword.control.at-rule.font-face.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^ keyword.control.directive.css - punctuation */
 {
 /* <- meta.at-rule.font-face.css meta.property-list.css meta.block.css punctuation.section.block.begin.css */
     font-family: monospace,
@@ -743,7 +743,7 @@
 /*                                  ^^ meta.group.css - meta.group meta.group */
 /*                                    ^ - meta.group */
 /*  ^ punctuation.definition.keyword.css */
-/*   ^^^^^^^^ keyword.control.at-rule.supports.css */
+/*   ^^^^^^^^ keyword.control.directive.css */
 /*            ^^^ keyword.operator.logical.css */
 /*                ^ punctuation.section.group.begin.css */
 /*                  ^^^ keyword.operator.logical.css */
@@ -758,11 +758,11 @@
 /*                                       ^ punctuation.section.block.end.css */
 
 @supports (--foo: green)
-/* <- meta.at-rule.supports.css keyword.control.at-rule.supports.css punctuation.definition.keyword.css */
+/* <- meta.at-rule.supports.css keyword.control.directive.css punctuation.definition.keyword.css */
 /*^^^^^^^^ meta.at-rule.supports.css - meta.group */
 /*        ^^^^^^^^^^^^^^ meta.at-rule.supports.css meta.group.css */
 /*                      ^ meta.at-rule.supports.css - meta.group */
-/*^^^^^^^ keyword.control.at-rule.supports.css */
+/*^^^^^^^ keyword.control.directive.css */
 /*        ^ punctuation.section.group.begin.css */
 /*         ^^ entity.other.custom-property.css punctuation.definition.custom-property.css */
 /*           ^^^ entity.other.custom-property.css - punctuation */
@@ -801,8 +801,8 @@
 /*  ^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css - meta.block */
 /*                 ^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
 /*                   ^ - meta.at-rule - meta.block */
-/*  ^ keyword.control.at-rule.counter-style.css punctuation.definition.keyword.css */
-/*   ^^^^^^^^^^^^^ keyword.control.at-rule.counter-style.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^^^^^ keyword.control.directive.css - punctuation */
 /*                 ^ punctuation.section.block.begin.css */
 /*                  ^ punctuation.section.block.end.css */
 
@@ -810,8 +810,8 @@
 /*  ^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css - meta.block */
 /*                      ^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
 /*                        ^ - meta.at-rule - meta.block */
-/*  ^ keyword.control.at-rule.counter-style.css punctuation.definition.keyword.css */
-/*   ^^^^^^^^^^^^^ keyword.control.at-rule.counter-style.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^^^^^ keyword.control.directive.css - punctuation */
 /*                 ^^^^ invalid.illegal.counter-style-name.css */
 /*                      ^ punctuation.section.block.begin.css */
 /*                       ^ punctuation.section.block.end.css */
@@ -820,8 +820,8 @@
 /*  ^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css - meta.block */
 /*                         ^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
 /*                           ^ - meta.at-rule - meta.block */
-/*  ^ keyword.control.at-rule.counter-style.css punctuation.definition.keyword.css */
-/*   ^^^^^^^^^^^^^ keyword.control.at-rule.counter-style.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^^^^^ keyword.control.directive.css - punctuation */
 /*                 ^^^^^^^ invalid.illegal.counter-style-name.css */
 /*                         ^ punctuation.section.block.begin.css */
 /*                          ^ punctuation.section.block.end.css */
@@ -830,8 +830,8 @@
 /*  ^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css - meta.block */
 /*                      ^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
 /*                        ^ - meta.at-rule - meta.block */
-/*  ^ keyword.control.at-rule.counter-style.css punctuation.definition.keyword.css */
-/*   ^^^^^^^^^^^^^ keyword.control.at-rule.counter-style.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^^^^^ keyword.control.directive.css - punctuation */
 /*                 ^^^^ invalid.illegal.counter-style-name.css */
 /*                      ^ punctuation.section.block.begin.css */
 /*                       ^ punctuation.section.block.end.css */
@@ -839,8 +839,8 @@
     @counter-style name {
 /*  ^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css - meta.block */
 /*                      ^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
-/*  ^ keyword.control.at-rule.counter-style.css punctuation.definition.keyword.css */
-/*   ^^^^^^^^^^^^^ keyword.control.at-rule.counter-style.css - punctuation */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^^^^^^^^ keyword.control.directive.css - punctuation */
 /*                 ^^^^ entity.other.counter-style-name.css */
 
     system: extends disc;

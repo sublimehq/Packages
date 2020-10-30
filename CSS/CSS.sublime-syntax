@@ -546,7 +546,7 @@ contexts:
   at-charset:
     - match: (@)(?i:charset){{break}}
       captures:
-        0: keyword.control.at-rule.charset.css
+        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-charset-content
 
@@ -560,7 +560,7 @@ contexts:
   at-counter-style:
     - match: (@)(?i:counter-style){{break}}
       captures:
-        0: keyword.control.at-rule.counter-style.css
+        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-counter-style-content
 
@@ -578,7 +578,7 @@ contexts:
   at-custom-media:
     - match: (@)(?i:custom-media){{break}}
       captures:
-        0: keyword.control.at-rule.custom-media.css
+        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push:
         - at-custom-media-content
@@ -601,7 +601,7 @@ contexts:
   at-document:
     - match: (@)(?i:document){{break}}
       captures:
-        0: keyword.control.at-rule.document.css
+        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-document-content
 
@@ -620,7 +620,7 @@ contexts:
   at-font-face:
     - match: (@)(?i:font-face){{break}}
       captures:
-        0: keyword.control.at-rule.font-face.css
+        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-font-face-content
 
@@ -634,7 +634,7 @@ contexts:
   at-import:
     - match: (@)(?i:import){{break}}
       captures:
-        0: keyword.control.at-rule.import.css
+        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-import-content
 
@@ -650,7 +650,7 @@ contexts:
   at-keyframes:
     - match: (@)(?i:keyframes){{break}}
       captures:
-        0: keyword.control.at-rule.keyframe.css
+        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-keyframe-content
 
@@ -684,7 +684,7 @@ contexts:
   at-media:
     - match: (@)(?i:media){{break}}
       captures:
-        0: keyword.control.at-rule.media.css
+        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-media-content
 
@@ -699,7 +699,7 @@ contexts:
   at-namespace:
     - match: (@)(?i:namespace){{break}}
       captures:
-        0: keyword.control.at-rule.namespace.css
+        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push:
         - at-namespace-content
@@ -723,7 +723,7 @@ contexts:
   at-page:
     - match: (@)(?i:page){{break}}
       captures:
-        0: keyword.control.at-rule.page.css
+        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-page-content
 
@@ -780,7 +780,7 @@ contexts:
         | right-bottom
         ){{break}}
       captures:
-        0: keyword.control.at-rule.margin.css
+        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-page-margin-content
 
@@ -794,7 +794,7 @@ contexts:
   at-supports:
     - match: (@)(?i:supports){{break}}
       captures:
-        0: keyword.control.at-rule.supports.css
+        0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
       push: at-supports-content
 
