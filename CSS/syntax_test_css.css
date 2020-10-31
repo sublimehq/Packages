@@ -866,7 +866,7 @@
 /*  ^^^^^^ support.type.property-name.css */
 /*        ^ punctuation.separator.key-value.css */
 /*          ^^^^^^^ keyword.declaration.extends.css */
-/*                  ^^^^ entity.other.counter-style-name.css */
+/*                  ^^^^ support.constant.counter-style-name.css */
 /*                      ^ punctuation.terminator.rule.css */
 
     system: extends name;
@@ -2184,26 +2184,87 @@
 /*               ^ punctuation.separator.key-value.css */
 /*                 ^^^^^^^^ entity.other.counter-name.css */
 /*                          ^ meta.number.integer.decimal.css constant.numeric.value.css */
+    top: counter(name, ;
+/*       ^^^^^^^ support.function.counter.css */
+/*              ^ punctuation.section.group.begin.css */
+/*               ^^^^ entity.other.counter-name.css */
+/*                   ^ punctuation.separator.sequence.css */
+/*                     ^ punctuation.terminator.rule.css */
+
+    top: counter(name none;
+/*       ^^^^^^^ support.function.counter.css */
+/*              ^ punctuation.section.group.begin.css */
+/*               ^^^^ entity.other.counter-name.css */
+/*                    ^^^^ support.constant.counter-style-name.css */
+/*                        ^ punctuation.terminator.rule.css */
+
+    top: counter(name, none;
+/*       ^^^^^^^ support.function.counter.css */
+/*              ^ punctuation.section.group.begin.css */
+/*               ^^^^ entity.other.counter-name.css */
+/*                   ^ punctuation.separator.sequence.css */
+/*                     ^^^^ support.constant.counter-style-name.css */
+/*                         ^ punctuation.terminator.rule.css */
 
     top: counter(name, decimal-leading-zero);
 /*       ^^^^^^^ support.function.counter.css */
+/*              ^ punctuation.section.group.begin.css */
 /*               ^^^^ entity.other.counter-name.css */
 /*                   ^ punctuation.separator.sequence.css */
-/*                     ^^^^^^^^^^^^^^^^^^^^ support.constant.property-value.css */
+/*                     ^^^^^^^^^^^^^^^^^^^^ support.constant.counter-style-name.css */
+/*                                         ^ punctuation.section.group.end.css */
+/*                                          ^ punctuation.terminator.rule.css */
 
-    top: counter(name other decimal-leading-zero);
-/*       ^^^^^^^ support.function.counter.css */
-/*               ^^^^ entity.other.counter-name.css */
-/*                    ^^^^^ - constant - entity - variable */
-/*                          ^^^^^^^^^^^^^^^^^^^^ support.constant.property-value.css */
+    top: counters(name, ;
+/*       ^^^^^^^^ support.function.counter.css */
+/*               ^ punctuation.section.group.begin.css */
+/*                ^^^^ entity.other.counter-name.css */
+/*                    ^ punctuation.separator.sequence.css */
+/*                      ^ punctuation.terminator.rule.css */
+
+    /* The second argument must be a string, but it is ignored here. */
+    top: counters(name, other, ;
+/*       ^^^^^^^^ support.function.counter.css */
+/*               ^ punctuation.section.group.begin.css */
+/*                ^^^^ entity.other.counter-name.css */
+/*                    ^ punctuation.separator.sequence.css */
+/*                      ^^^^^ entity.other.counter-style-name.css */
+/*                           ^ punctuation.separator.sequence.css */
+/*                             ^ punctuation.terminator.rule.css */
+
+    /* The second argument must be a string, but it is ignored here. */
+    top: counters(name, other, deci ;
+/*       ^^^^^^^^ support.function.counter.css */
+/*               ^ punctuation.section.group.begin.css */
+/*                ^^^^ entity.other.counter-name.css */
+/*                    ^ punctuation.separator.sequence.css */
+/*                      ^^^^^ entity.other.counter-style-name.css */
+/*                           ^ punctuation.separator.sequence.css */
+/*                             ^^^^ entity.other.counter-style-name.css */
+/*                                  ^ punctuation.terminator.rule.css */
+
+    /* The second argument must be a string, but it is ignored here. */
+    top: counters(name, decimal-leading-zero, decimal-leading-zero);
+/*       ^^^^^^^^ support.function.counter.css */
+/*               ^ punctuation.section.group.begin.css */
+/*                ^^^^ entity.other.counter-name.css */
+/*                    ^ punctuation.separator.sequence.css */
+/*                      ^^^^^^^^^^^^^^^^^^^^ support.constant.counter-style-name.css */
+/*                                          ^ punctuation.separator.sequence.css */
+/*                                            ^^^^^^^^^^^^^^^^^^^^ support.constant.counter-style-name.css */
+/*                                                                ^ punctuation.section.group.end.css */
+/*                                                                 ^ punctuation.terminator.rule.css */
 
     top: counters(name, "str", none);
 /*       ^^^^^^^^ support.function.counter.css */
+/*               ^ punctuation.section.group.begin.css */
 /*                ^^^^ entity.other.counter-name.css */
 /*                    ^ punctuation.separator.sequence.css */
 /*                      ^^^^^ meta.string.css string.quoted.double.css */
 /*                           ^ punctuation.separator.sequence.css */
-/*                             ^^^^ support.constant.property-value.css */
+/*                             ^^^^ support.constant.counter-style-name.css */
+/*                                 ^ punctuation.section.group.end.css */
+/*                                  ^ punctuation.terminator.rule.css */
 
     top: symbols(fixed "\2020" url());
 /*       ^^^^^^^ support.function.counter.css */

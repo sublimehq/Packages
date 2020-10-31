@@ -221,7 +221,7 @@ variables:
 
   # Predefined Counter Styles
   # https://drafts.csswg.org/css-counter-styles-3/#predefined-counters
-  counter_styles: |-
+  counter_style_names: |-
     \b(?xi:
         none | arabic-indic | armenian | bengali | cambodian | circle
       | cjk-decimal | cjk-earthly-branch | cjk-heavenly-stem | decimal-leading-zero
@@ -1306,10 +1306,10 @@ contexts:
       scope: punctuation.separator.key-value.css
       set:
         - property-value-content
-        - counter-property-identifier
+        - counter-identifier
     - include: else-pop
 
-  counter-property-identifier:
+  counter-identifier:
     - match: '{{ident}}'
       scope: entity.other.counter-name.css
       pop: 1
@@ -1339,7 +1339,7 @@ contexts:
     - include: counter-style-identifiers
 
   counter-style-identifiers:
-    - match: '{{counter_styles}}'
+    - match: '{{counter_style_names}}'
       scope: support.constant.counter-style-name.css
     - match: '{{ident}}'
       scope: entity.other.counter-style-name.css
@@ -1366,9 +1366,12 @@ contexts:
     - include: counter-symbol-values
     - match: \b(?i:extends){{break}}
       scope: keyword.declaration.extends.css
-      push: counter-style-property-identifier
+      push: counter-style-identifier
 
-  counter-style-property-identifier:
+  counter-style-identifier:
+    - match: '{{counter_style_names}}'
+      scope: support.constant.counter-style-name.css
+      pop: 1
     - match: '{{ident}}'
       scope: entity.other.counter-style-name.css
       pop: 1
@@ -1397,8 +1400,7 @@ contexts:
     - include: var-functions
     - include: quoted-strings
     - include: counter-speak-as-constants
-    - match: '{{ident}}'
-      scope: entity.other.counter-style-name.css
+    - include: counter-style-identifiers
 
 ###[ FONT PROPERTY ]###########################################################
 
@@ -1424,6 +1426,7 @@ contexts:
     - include: attr-functions
     - include: calc-functions
     - include: cross-fade-functions
+    - include: counter-style-functions
     - include: filter-functions
     - include: gradient-functions
     - include: image-functions
@@ -1448,39 +1451,6 @@ contexts:
             - include: filter-functions
             - include: image-values
             - include: quoted-strings
-
-    # counter()
-    # https://drafts.csswg.org/css-lists-3/#funcdef-counter
-    # counters()
-    # https://drafts.csswg.org/css-lists-3/#funcdef-counters
-    - match: \b(?i:counters|counter)(?=\()
-      scope: meta.function-call.identifier.css support.function.counter.css
-      push:
-        - match: \(
-          scope: punctuation.section.group.begin.css
-          set:
-            - - meta_scope: meta.function-call.arguments.css meta.group.css
-              - include: group-end
-              - include: comma-delimiters
-              - match: '{{counter_styles}}'
-                scope: support.constant.property-value.css
-              - include: var-functions
-              - include: quoted-strings
-              - include: unquoted-strings
-            - counter-property-identifier
-
-    # symbols()
-    # https://drafts.csswg.org/css-counter-styles-3/#symbols-function
-    - match: \b(?i:symbols)(?=\()
-      scope: meta.function-call.identifier.css support.function.counter.css
-      push:
-        - match: \(
-          scope: punctuation.section.group.begin.css
-          set:
-            - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: comma-delimiters
-            - include: counter-symbol-values
 
     # format()
     # https://drafts.csswg.org/css-fonts-3/#descdef-src
@@ -1772,6 +1742,38 @@ contexts:
             - include: percentage-constants
             - include: scalar-integer-constants
             - include: line-names
+
+  counter-style-functions:
+    # counter()
+    # https://drafts.csswg.org/css-lists-3/#funcdef-counter
+    # counters()
+    # https://drafts.csswg.org/css-lists-3/#funcdef-counters
+    - match: \b(?i:counters?)(?=\()
+      scope: meta.function-call.identifier.css support.function.counter.css
+      push:
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - - meta_scope: meta.function-call.arguments.css meta.group.css
+              - include: group-end
+              - include: comma-delimiters
+              - include: var-functions
+              - include: counter-style-identifiers
+              - include: quoted-strings
+            - counter-identifier
+
+    # symbols()
+    # https://drafts.csswg.org/css-counter-styles-3/#symbols-function
+    - match: \b(?i:symbols)(?=\()
+      scope: meta.function-call.identifier.css support.function.counter.css
+      push:
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: group-end
+            - include: comma-delimiters
+            - include: counter-symbol-values
 
   # var()
   # https://drafts.csswg.org/css-variables/#funcdef-var
