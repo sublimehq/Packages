@@ -1780,33 +1780,6 @@ contexts:
             - include: comma-delimiters
             - include: counter-symbol-values
 
-  # var()
-  # https://drafts.csswg.org/css-variables/#funcdef-var
-  # Note: Match valid groups before `var-functions` context is included.
-  var-functions:
-    - match: \b(?i:var)(?=\()
-      scope: meta.function-call.identifier.css support.function.var.css
-      push: var-function-arguments
-    - include: illegal-groups
-
-  var-function:
-    - match: \b(?i:var)(?=\()
-      scope: meta.function-call.identifier.css support.function.var.css
-      set: var-function-arguments
-    - include: illegal-groups
-
-  var-function-arguments:
-    - match: \(
-      scope: punctuation.section.group.begin.css
-      set:
-        - meta_scope: meta.function-call.arguments.css meta.group.css
-        - include: group-end
-        - include: var-functions
-        - include: custom-properties
-        - match: (?=,)
-          push:
-            - include: property-value-content
-
   # Filter Functions
   # https://drafts.fxtf.org/filters/#typedef-filter-function
   filter-functions:
@@ -2277,6 +2250,33 @@ contexts:
             - include: var-functions
             - include: color-values
             - include: percentage-constants
+
+  # var()
+  # https://drafts.csswg.org/css-variables/#funcdef-var
+  # Note: Match valid groups before `var-functions` context is included.
+  var-functions:
+    - match: \b(?i:var)(?=\()
+      scope: meta.function-call.identifier.css support.function.var.css
+      push: var-function-arguments
+    - include: illegal-groups
+
+  var-function:
+    - match: \b(?i:var)(?=\()
+      scope: meta.function-call.identifier.css support.function.var.css
+      set: var-function-arguments
+    - include: illegal-groups
+
+  var-function-arguments:
+    - match: \(
+      scope: punctuation.section.group.begin.css
+      set:
+        - meta_scope: meta.function-call.arguments.css meta.group.css
+        - include: group-end
+        - include: var-functions
+        - include: custom-properties
+        - match: (?=,)
+          push:
+            - include: property-value-content
 
 ###[ CONSTANTS ]###############################################################
 
