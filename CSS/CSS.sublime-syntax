@@ -2124,6 +2124,25 @@ contexts:
             - include: var-functions
             - include: quoted-strings
 
+  # cross-fade()
+  # https://drafts.csswg.org/css-images-3/#cross-fade-functions
+  cross-fade-functions:
+    - match: \b(?i:cross-fade)(?=\()
+      scope: meta.function-call.identifier.css support.function.image.css
+      push:
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: group-end
+            - include: comma-delimiters
+            - include: var-functions
+            - include: color-values
+            - include: image-values
+            - include: percentage-constants
+            - include: quoted-strings
+            - include: unquoted-strings
+
   # image()
   # https://drafts.csswg.org/css-images-3/#funcdef-image
   image-functions:
@@ -2213,25 +2232,6 @@ contexts:
             - include: color-values
             - include: length-constants
             - include: percentage-constants
-
-  # cross-fade()
-  # https://drafts.csswg.org/css-images-3/#cross-fade-functions
-  cross-fade-functions:
-    - match: \b(?i:cross-fade)(?=\()
-      scope: meta.function-call.identifier.css support.function.image.css
-      push:
-        - match: \(
-          scope: punctuation.section.group.begin.css
-          set:
-            - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: comma-delimiters
-            - include: var-functions
-            - include: color-values
-            - include: image-values
-            - include: percentage-constants
-            - include: quoted-strings
-            - include: unquoted-strings
 
   # minmax()
   # https://drafts.csswg.org/css-grid/#valdef-grid-template-columns-minmax
