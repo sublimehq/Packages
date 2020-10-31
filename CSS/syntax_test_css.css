@@ -956,8 +956,20 @@
 /*                ^^^ meta.string.css string.quoted.double.css */
 /*                   ^ punctuation.terminator.rule.css */
 
+    pad: 5 "0";
+/* ^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
+/*  ^^^ meta.property-name.css */
+/*     ^ - meta.property-name - meta.property-value */
+/*      ^^^^^^ meta.property-value.css */
+/*            ^ - meta.property-name - meta.property-value */
+/*  ^^^ support.type.property-name.css */
+/*     ^ punctuation.separator.key-value.css */
+/*       ^ constant.numeric.value.css */
+/*         ^^^ meta.string.css string.quoted.double.css*/
+/*            ^ punctuation.terminator.rule.css */
+
     range: 2 4;
-/* ^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
+/* ^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
 /*  ^^^^^ meta.property-name.css */
 /*       ^ - meta.property-name - meta.property-value */
 /*        ^^^^ meta.property-value.css */
@@ -992,7 +1004,7 @@
 /*              ^ punctuation.terminator.rule.css */
 
     symbols: "‣";
-/* ^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
+/* ^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
 /* ^ - meta.property-name - meta.property-value */
 /*  ^^^^^^^ meta.property-name.css */
 /*         ^ - meta.property-name - meta.property-value */
@@ -1004,7 +1016,7 @@
 /*              ^ punctuation.terminator.rule.css */
 
     symbols: ◆ ◇;
-/* ^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
+/* ^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
 /* ^ - meta.property-name - meta.property-value */
 /*  ^^^^^^^ meta.property-name.css */
 /*         ^ - meta.property-name - meta.property-value */
