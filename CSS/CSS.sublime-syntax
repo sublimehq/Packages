@@ -1748,6 +1748,48 @@ contexts:
             - include: scalar-integer-constants
             - include: line-names
 
+  # attr()
+  # https://www.w3.org/TR/css3-values/#funcdef-attr
+  attr-functions:
+    - match: \b(?i:attr)(?=\()
+      scope: meta.function-call.identifier.css support.function.attr.css
+      push:
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - attr-function-arguments-value
+            - attr-function-arguments-identifier
+
+  attr-function-arguments-identifier:
+    - include: namespace-prefixes
+    - include: quoted-string
+    - include: var-function
+    - match: '{{ident}}'
+      scope: entity.other.attribute-name.css
+      pop: 1
+    - include: comments
+    - include: else-pop
+
+  attr-function-arguments-value:
+    - meta_scope: meta.function-call.arguments.css meta.group.css
+    - include: group-end
+    - include: comma-delimiters
+    - match: |-
+        \b(?x:
+            {{font_relative_lengths}}
+          | {{viewport_percentage_lengths}}
+          | {{absolute_lengths}}
+          | {{angle_units}}
+          | {{duration_units}}
+          | {{frequency_units}}
+          | {{resolution_units}}
+        ){{break}}
+      scope: keyword.other.unit.css
+    - include: var-functions
+    - include: color-values
+    - include: common-constants
+    - include: numeric-constants
+
   # calc()
   # https://www.w3.org/TR/css3-values/#funcdef-calc
   calc-functions:
@@ -1865,48 +1907,6 @@ contexts:
             - include: group-end
             - include: var-functions
             - include: angle-constants
-
-  # attr()
-  # https://www.w3.org/TR/css3-values/#funcdef-attr
-  attr-functions:
-    - match: \b(?i:attr)(?=\()
-      scope: meta.function-call.identifier.css support.function.attr.css
-      push:
-        - match: \(
-          scope: punctuation.section.group.begin.css
-          set:
-            - attr-function-arguments-value
-            - attr-function-arguments-identifier
-
-  attr-function-arguments-identifier:
-    - include: namespace-prefixes
-    - include: quoted-string
-    - include: var-function
-    - match: '{{ident}}'
-      scope: entity.other.attribute-name.css
-      pop: 1
-    - include: comments
-    - include: else-pop
-
-  attr-function-arguments-value:
-    - meta_scope: meta.function-call.arguments.css meta.group.css
-    - include: group-end
-    - include: comma-delimiters
-    - match: |-
-        \b(?x:
-            {{font_relative_lengths}}
-          | {{viewport_percentage_lengths}}
-          | {{absolute_lengths}}
-          | {{angle_units}}
-          | {{duration_units}}
-          | {{frequency_units}}
-          | {{resolution_units}}
-        ){{break}}
-      scope: keyword.other.unit.css
-    - include: var-functions
-    - include: color-values
-    - include: common-constants
-    - include: numeric-constants
 
   # url()
   # https://drafts.csswg.org/css-images-3/#url-notation
