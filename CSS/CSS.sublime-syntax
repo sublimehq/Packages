@@ -171,6 +171,9 @@ variables:
       | g | glyph | glyphRef | line | linearGradient | marker | mask | path
       | pattern | polygon | polyline | radialGradient | rect | stop | svg
       | switch | symbol | text | textPath | tref | tspan | use
+      # custom element like tags reserved for SVG/MathML
+      | annotation-xml | color-profile | missing-glyph
+      | font-face(?: -src | -uri | -format | -name )?
     ){{break}}
 
   # Predefined Color Values (Standard Set)
