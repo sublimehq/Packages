@@ -1210,15 +1210,23 @@ contexts:
   property-identifier-content:
     - meta_scope: meta.property-name.css
     - include: vendor-prefixes
-    - include: font-property
+    # specific properties with special treatment
     - include: counter-property
     - include: counter-style-fallback-property
     - include: counter-style-system-property
     - include: counter-style-speak-as-property
-    - include: other-property
+    - include: font-property
+    # common properties
+    - include: builtin-property
     - include: custom-property
     - include: deprecated-property
+    # bailout
     - include: immediately-pop
+
+  builtin-property:
+    - match: '{{property_names}}'
+      scope: support.type.property-name.css
+      pop: 1
 
   # Custom Properties
   # https://drafts.csswg.org/css-variables/#typedef-custom-property
@@ -1236,11 +1244,6 @@ contexts:
       captures:
         1: entity.other.custom-property.prefix.css
         2: entity.other.custom-property.name.css
-      pop: 1
-
-  other-property:
-    - match: '{{property_names}}'
-      scope: support.type.property-name.css
       pop: 1
 
 ###[ PROPERTY VALUES ]#########################################################
