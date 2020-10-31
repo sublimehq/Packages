@@ -1748,6 +1748,35 @@ contexts:
             - include: scalar-integer-constants
             - include: line-names
 
+  # calc()
+  # https://www.w3.org/TR/css3-values/#funcdef-calc
+  calc-functions:
+    - match: \b(?i:calc)(?=\()
+      scope: meta.function-call.identifier.css support.function.calc.css
+      push:
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: calc-function-arguments-content
+
+  calc-function-arguments-content:
+    - meta_scope: meta.group.css
+    - match: \)
+      scope: punctuation.section.group.end.css
+      set: maybe-illegal-operator
+    - match: \(
+      scope: punctuation.section.group.begin.css
+      push: calc-function-arguments-content
+    - include: terminator-pop
+    - include: comments
+    - include: attr-functions
+    - include: calc-functions
+    - include: var-functions
+    - include: numeric-constants
+    - match: '[-+*/]'
+      scope: keyword.operator.arithmetic.css
+
   counter-style-functions:
     # counter()
     # https://drafts.csswg.org/css-lists-3/#funcdef-counter
@@ -1836,35 +1865,6 @@ contexts:
             - include: group-end
             - include: var-functions
             - include: angle-constants
-
-  # calc()
-  # https://www.w3.org/TR/css3-values/#funcdef-calc
-  calc-functions:
-    - match: \b(?i:calc)(?=\()
-      scope: meta.function-call.identifier.css support.function.calc.css
-      push:
-        - match: \(
-          scope: punctuation.section.group.begin.css
-          set:
-            - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: calc-function-arguments-content
-
-  calc-function-arguments-content:
-    - meta_scope: meta.group.css
-    - match: \)
-      scope: punctuation.section.group.end.css
-      set: maybe-illegal-operator
-    - match: \(
-      scope: punctuation.section.group.begin.css
-      push: calc-function-arguments-content
-    - include: terminator-pop
-    - include: comments
-    - include: attr-functions
-    - include: calc-functions
-    - include: var-functions
-    - include: numeric-constants
-    - match: '[-+*/]'
-      scope: keyword.operator.arithmetic.css
 
   # attr()
   # https://www.w3.org/TR/css3-values/#funcdef-attr
