@@ -907,6 +907,42 @@
 /*                ^ constant.numeric.value.css */
 /*                 ^ punctuation.terminator.rule.css */
 
+    fallback: decimal;
+/* ^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
+/*  ^^^^^^^^ meta.property-name.css */
+/*          ^ - meta.property-name - meta.property-value */
+/*           ^^^^^^^^ meta.property-value.css */
+/*                   ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^^^ support.type.property-name.css */
+/*          ^ punctuation.separator.key-value.css */
+/*            ^^^^^^^ support.constant.counter-style-name.css */
+/*                   ^ punctuation.terminator.rule.css */
+
+    fallback: counter-style-name;
+/* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
+/*  ^^^^^^^^ meta.property-name.css */
+/*          ^ - meta.property-name - meta.property-value */
+/*           ^^^^^^^^^^^^^^^^^^^ meta.property-value.css */
+/*                              ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^^^ support.type.property-name.css */
+/*          ^ punctuation.separator.key-value.css */
+/*            ^^^^^^^^^^^^^^^^^^ entity.other.counter-style-name.css */
+/*                              ^ punctuation.terminator.rule.css */
+
+    fallback: var(--name);
+/* ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
+/*  ^^^^^^^^ meta.property-name.css */
+/*          ^ - meta.property-name - meta.property-value */
+/*           ^^^^^^^^^^^^ meta.property-value.css */
+/*                       ^ - meta.property-name - meta.property-value */
+/*  ^^^^^^^^ support.type.property-name.css */
+/*          ^ punctuation.separator.key-value.css */
+/*            ^^^ support.function.var.css */
+/*               ^ punctuation.section.group.begin.css */
+/*                ^^^^^^ variable.other.custom-property.css */
+/*                      ^ punctuation.section.group.end.css */
+/*                       ^ punctuation.terminator.rule.css */
+
     negative: "(" ")";
 /* ^^^^^^^^^^^^^^^^^^^^ meta.at-rule.counter-style.css meta.property-list.css meta.block.css */
 /*  ^^^^^^^^ meta.property-name.css */

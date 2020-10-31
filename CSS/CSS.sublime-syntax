@@ -1212,6 +1212,7 @@ contexts:
     - include: vendor-prefixes
     - include: font-property
     - include: counter-property
+    - include: counter-style-fallback-property
     - include: counter-style-system-property
     - include: counter-style-speak-as-property
     - include: other-property
@@ -1314,6 +1315,34 @@ contexts:
       pop: 1
     - include: comments
     - include: else-pop
+
+###[ COUNTER STYLE FALLBACK PROPERTY ]#########################################
+
+  # Counter Style Fallback
+  # https://drafts.csswg.org/css-counter-styles-3/#counter-style-fallback
+  counter-style-fallback-property:
+    - match: \b(?i:fallback){{break}}
+      scope: support.type.property-name.css
+      set: counter-style-fallback-property-value
+
+  counter-style-fallback-property-value:
+    - match: ':'
+      scope: punctuation.separator.key-value.css
+      set: counter-style-fallback-property-value-content
+    - include: else-pop
+
+  counter-style-fallback-property-value-content:
+    - meta_content_scope: meta.property-value.css
+    - include: terminator-pop
+    - include: comments
+    - include: var-functions
+    - include: counter-style-identifiers
+
+  counter-style-identifiers:
+    - match: '{{counter_styles}}'
+      scope: support.constant.counter-style-name.css
+    - match: '{{ident}}'
+      scope: entity.other.counter-style-name.css
 
 ###[ COUNTER STYLE SYSTEM PROPERTY ]###########################################
 
