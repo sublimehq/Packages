@@ -1851,6 +1851,163 @@ contexts:
             - include: comma-delimiters
             - include: counter-symbol-values
 
+  # Color Functions
+  # https://drafts.csswg.org/css-color
+  color-functions:
+    # rgb(), rgba()
+    # https://drafts.csswg.org/css-color/#rgb-functions
+    - match: \b(?i:rgba?)(?=\()
+      scope: meta.function-call.identifier.css support.function.color.css
+      push:
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: group-end
+            - include: comma-delimiters
+            - include: var-functions
+            - include: percentage-constants
+            - include: scalar-constants
+
+    # hsl(), hsla()
+    # https://drafts.csswg.org/css-color/#the-hsl-notation
+    # hwb() - Not yet implemented by browsers
+    # https://drafts.csswg.org/css-color/#funcdef-hwb
+    - match: \b(?i:hsla?|hwb)(?=\()
+      scope: meta.function-call.identifier.css support.function.color.css
+      push:
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: group-end
+            - include: comma-delimiters
+            - include: var-functions
+            - include: angle-constants
+            - include: percentage-constants
+            - include: scalar-constants
+
+    # gray() - Not yet implemented by browsers
+    # https://drafts.csswg.org/css-color/#funcdef-gray
+    - match: \b(?i:gray)(?=\()
+      scope: meta.function-call.identifier.css support.function.color.css
+      push:
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: group-end
+            - include: comma-delimiters
+            - include: var-functions
+            - include: percentage-constants
+            - include: scalar-constants
+
+    # device-cmyk() - Not yet implemented by browsers
+    # https://drafts.csswg.org/css-color/#funcdef-device-cmyk
+    - match: \b(?i:device-cmyk)(?=\()
+      scope: meta.function-call.identifier.css support.function.color.css
+      push:
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: group-end
+            - include: comma-delimiters
+            - include: var-functions
+            - include: color-adjuster-functions # must be included before `color-values`
+            - include: color-values
+            - include: percentage-constants
+            - include: scalar-constants
+
+    # color-mod() - Not yet implemented by browsers
+    # https://drafts.csswg.org/css-color/#funcdef-color-mod
+    - match: \b(?i:color)(?=\()
+      scope: meta.function-call.identifier.css support.function.color.css
+      push:
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: group-end
+            - include: comma-delimiters
+            - include: var-functions
+            - include: color-adjuster-functions # must be included before `color-values`
+            - include: color-values
+            - include: angle-constants
+            - include: scalar-constants
+
+  # Color Adjuster Functions - Not yet implemented by browsers
+  # https://drafts.csswg.org/css-color/#typedef-color-adjuster
+  color-adjuster-functions:
+    # red(), green(), blue(), alpha() - Not yet implemented by browsers
+    - match: \b(?i:red|green|blue|alpha|a)(?=\()
+      scope: meta.function-call.identifier.css support.function.color.css
+      push:
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: group-end
+            - include: var-functions
+            - include: color-adjuster-operators
+            - include: percentage-constants
+            - include: scalar-constants
+
+    # hue() - Not yet implemented by browsers
+    - match: \b(?i:hue|h)(?=\()
+      scope: meta.function-call.identifier.css support.function.color.css
+      push:
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: group-end
+            - include: var-functions
+            - include: color-adjuster-operators
+            - include: angle-constants
+
+    # saturation(), lightness(), whiteness(), blackness() - Not yet implemented by browsers
+    - match: \b(?i:saturation|lightness|whiteness|blackness|[slwb])(?=\()
+      scope: meta.function-call.identifier.css support.function.color.css
+      push:
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: group-end
+            - include: var-functions
+            - include: color-adjuster-operators
+            - include: percentage-constants
+
+    # tint(), shade(), contrast() - Not yet implemented by browsers
+    # contrast() interferes with the contrast() filter function;
+    # therefore, it is not yet implemented here
+    - match: \b(?i:tint|shade)(?=\()
+      scope: meta.function-call.identifier.css support.function.color.css
+      push:
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: group-end
+            - include: var-functions
+            - include: percentage-constants
+
+    # blend(), blenda() - Not yet implemented by browsers
+    - match: \b(?i:blenda|blend)(?=\()
+      scope: meta.function-call.identifier.css support.function.color.css
+      push:
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: group-end
+            - match: \b(?i:rgb|hsl|hwb){{break}}
+              scope: keyword.other.color-space.css
+            - include: var-functions
+            - include: color-values
+            - include: percentage-constants
+
   # Filter Functions
   # https://drafts.fxtf.org/filters/#typedef-filter-function
   filter-functions:
@@ -2092,163 +2249,6 @@ contexts:
               scope: support.constant.property-value.css
             - include: var-functions
             - include: length-constants
-            - include: percentage-constants
-
-  # Color Functions
-  # https://drafts.csswg.org/css-color
-  color-functions:
-    # rgb(), rgba()
-    # https://drafts.csswg.org/css-color/#rgb-functions
-    - match: \b(?i:rgba?)(?=\()
-      scope: meta.function-call.identifier.css support.function.color.css
-      push:
-        - match: \(
-          scope: punctuation.section.group.begin.css
-          set:
-            - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: comma-delimiters
-            - include: var-functions
-            - include: percentage-constants
-            - include: scalar-constants
-
-    # hsl(), hsla()
-    # https://drafts.csswg.org/css-color/#the-hsl-notation
-    # hwb() - Not yet implemented by browsers
-    # https://drafts.csswg.org/css-color/#funcdef-hwb
-    - match: \b(?i:hsla?|hwb)(?=\()
-      scope: meta.function-call.identifier.css support.function.color.css
-      push:
-        - match: \(
-          scope: punctuation.section.group.begin.css
-          set:
-            - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: comma-delimiters
-            - include: var-functions
-            - include: angle-constants
-            - include: percentage-constants
-            - include: scalar-constants
-
-    # gray() - Not yet implemented by browsers
-    # https://drafts.csswg.org/css-color/#funcdef-gray
-    - match: \b(?i:gray)(?=\()
-      scope: meta.function-call.identifier.css support.function.color.css
-      push:
-        - match: \(
-          scope: punctuation.section.group.begin.css
-          set:
-            - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: comma-delimiters
-            - include: var-functions
-            - include: percentage-constants
-            - include: scalar-constants
-
-    # device-cmyk() - Not yet implemented by browsers
-    # https://drafts.csswg.org/css-color/#funcdef-device-cmyk
-    - match: \b(?i:device-cmyk)(?=\()
-      scope: meta.function-call.identifier.css support.function.color.css
-      push:
-        - match: \(
-          scope: punctuation.section.group.begin.css
-          set:
-            - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: comma-delimiters
-            - include: var-functions
-            - include: color-adjuster-functions # must be included before `color-values`
-            - include: color-values
-            - include: percentage-constants
-            - include: scalar-constants
-
-    # color-mod() - Not yet implemented by browsers
-    # https://drafts.csswg.org/css-color/#funcdef-color-mod
-    - match: \b(?i:color)(?=\()
-      scope: meta.function-call.identifier.css support.function.color.css
-      push:
-        - match: \(
-          scope: punctuation.section.group.begin.css
-          set:
-            - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: comma-delimiters
-            - include: var-functions
-            - include: color-adjuster-functions # must be included before `color-values`
-            - include: color-values
-            - include: angle-constants
-            - include: scalar-constants
-
-  # Color Adjuster Functions - Not yet implemented by browsers
-  # https://drafts.csswg.org/css-color/#typedef-color-adjuster
-  color-adjuster-functions:
-    # red(), green(), blue(), alpha() - Not yet implemented by browsers
-    - match: \b(?i:red|green|blue|alpha|a)(?=\()
-      scope: meta.function-call.identifier.css support.function.color.css
-      push:
-        - match: \(
-          scope: punctuation.section.group.begin.css
-          set:
-            - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: var-functions
-            - include: color-adjuster-operators
-            - include: percentage-constants
-            - include: scalar-constants
-
-    # hue() - Not yet implemented by browsers
-    - match: \b(?i:hue|h)(?=\()
-      scope: meta.function-call.identifier.css support.function.color.css
-      push:
-        - match: \(
-          scope: punctuation.section.group.begin.css
-          set:
-            - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: var-functions
-            - include: color-adjuster-operators
-            - include: angle-constants
-
-    # saturation(), lightness(), whiteness(), blackness() - Not yet implemented by browsers
-    - match: \b(?i:saturation|lightness|whiteness|blackness|[slwb])(?=\()
-      scope: meta.function-call.identifier.css support.function.color.css
-      push:
-        - match: \(
-          scope: punctuation.section.group.begin.css
-          set:
-            - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: var-functions
-            - include: color-adjuster-operators
-            - include: percentage-constants
-
-    # tint(), shade(), contrast() - Not yet implemented by browsers
-    # contrast() interferes with the contrast() filter function;
-    # therefore, it is not yet implemented here
-    - match: \b(?i:tint|shade)(?=\()
-      scope: meta.function-call.identifier.css support.function.color.css
-      push:
-        - match: \(
-          scope: punctuation.section.group.begin.css
-          set:
-            - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: var-functions
-            - include: percentage-constants
-
-    # blend(), blenda() - Not yet implemented by browsers
-    - match: \b(?i:blenda|blend)(?=\()
-      scope: meta.function-call.identifier.css support.function.color.css
-      push:
-        - match: \(
-          scope: punctuation.section.group.begin.css
-          set:
-            - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - match: \b(?i:rgb|hsl|hwb){{break}}
-              scope: keyword.other.color-space.css
-            - include: var-functions
-            - include: color-values
             - include: percentage-constants
 
   # var()
