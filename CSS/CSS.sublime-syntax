@@ -1436,7 +1436,7 @@ contexts:
     - include: gradient-functions
     - include: image-functions
     - include: image-set-functions
-    - include: minmax-functions
+    - include: grid-minmax-functions
     - include: grid-repeat-functions
     - include: url-functions
     - include: var-functions
@@ -2214,7 +2214,7 @@ contexts:
 
   # minmax()
   # https://drafts.csswg.org/css-grid/#valdef-grid-template-columns-minmax
-  minmax-functions:
+  grid-minmax-functions:
     - match: \b(?i:minmax)(?=\()
       scope: meta.function-call.identifier.css support.function.grid.css
       push:
@@ -2246,7 +2246,7 @@ contexts:
               scope: support.keyword.repetitions.css
             - match: \b(?i:max-content|min-content|auto){{break}}
               scope: support.constant.property-value.css
-            - include: minmax-functions
+            - include: grid-minmax-functions
             - include: var-functions
             - include: length-constants
             - include: percentage-constants
