@@ -959,7 +959,7 @@ contexts:
     - match: \b[[:alpha:]]{{custom_element_chars}}*-{{custom_element_chars}}*{{break}}
       scope: entity.name.tag.custom.css
     - match: \*
-      scope: entity.name.tag.wildcard.css
+      scope: variable.language.wildcard.asterisk.css
     # Class and Id Selectors
     # https://drafts.csswg.org/selectors-4/#class-html
     - match: \.
@@ -1022,7 +1022,7 @@ contexts:
       scope: entity.other.attribute-name.css
       set: attribute-selector-operator
     - match: \*
-      scope: entity.name.attribute-name.wildcard.css
+      scope: variable.language.wildcard.asterisk.css
       set: attribute-selector-operator
     - include: attribute-selector-operator
 
@@ -1156,7 +1156,7 @@ contexts:
     - match: (?:({{ident}})|(\*))?(\|)(?!=)
       captures:
         1: entity.other.namespace-prefix.css
-        2: entity.name.namespace.wildcard.css
+        2: variable.language.wildcard.asterisk.css
         3: punctuation.separator.namespace.css
 
   vendor-prefixes:

@@ -77,11 +77,24 @@
 /*  ^ entity.other.attribute-name.class.css punctuation.definition.entity.css */
 /*   ^^^^^^^^^ entity.other.attribute-name.class.css - punctuation */
 
+    *.* {}
+/*  ^^^ meta.selector.css */
+/*  ^ variable.language.wildcard.asterisk.css - punctuation */
+/*   ^ entity.other.attribute-name.class.css punctuation.definition.entity.css */
+/*    ^ variable.language.wildcard.asterisk.css - punctuation */
+
     # {}
 /*^^ - meta.selector.css */
 /*  ^ meta.selector.css */
 /*   ^^^ - meta.selector.css */
 /*  ^ entity.other.attribute-name.id.css punctuation.definition.entity.css */
+
+    #* {}
+/*^^ - meta.selector.css */
+/*  ^^ meta.selector.css */
+/*    ^^^ - meta.selector.css */
+/*  ^ entity.other.attribute-name.id.css punctuation.definition.entity.css */
+/*   ^ variable.language.wildcard.asterisk.css - punctuation */
 
     #01 {}
 /*^^ - meta.selector.css */
@@ -1250,7 +1263,7 @@
 .test-pseudo-class-tag:not(*) {}
 /*                    ^ punctuation.accessor.colon.css - entity */
 /*                     ^^^ entity.other.pseudo-class.css */
-/*                         ^ entity.name.tag.wildcard.css */
+/*                         ^ variable.language.wildcard.asterisk.css */
 
 .test-pseudo-elements::before {}
 /*                   ^^ punctuation.accessor.double-colon.css - entity */
@@ -1362,12 +1375,12 @@
 .test-attribute-selectors-namespaces[n|a=""][*|a=""][|att][*|*] {}
 /*                                   ^ entity.other.namespace-prefix.css */
 /*                                    ^ punctuation.separator.namespace.css */
-/*                                           ^ entity.name.namespace.wildcard.css */
+/*                                           ^ variable.language.wildcard.asterisk.css */
 /*                                            ^ punctuation.separator.namespace.css */
 /*                                                   ^ punctuation.separator.namespace.css */
-/*                                                         ^ entity.name.namespace.wildcard.css */
+/*                                                         ^ variable.language.wildcard.asterisk.css */
 /*                                                          ^ punctuation.separator.namespace.css */
-/*                                                           ^ entity.name.attribute-name.wildcard.css */
+/*                                                           ^ variable.language.wildcard.asterisk.css */
 
 .test-attribute-selectors-operators[a=""][a~=""][a|=""][a^=""][a$=""][a*=""] {}
 /*                                   ^ keyword.operator.logical.css */
@@ -1385,7 +1398,7 @@
 /*                                   ^ keyword.other.css */
 
    *.test-universal-selector {}
-/* ^ entity.name.tag.wildcard.css */
+/* ^ variable.language.wildcard.asterisk.css */
 
 .test-combinators >>> a >> a > a + b ~ a || td {}
 /*                ^^^ keyword.operator.combinator.css */
@@ -1949,7 +1962,7 @@
 .test-attr-function {
     top: attr(*|c);
 /*       ^^^^ support.function.attr.css */
-/*            ^ entity.name.namespace.wildcard.css */
+/*            ^ variable.language.wildcard.asterisk.css */
 /*             ^ punctuation.separator.namespace.css */
 /*              ^ entity.other.attribute-name.css */
 
