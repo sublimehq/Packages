@@ -506,6 +506,7 @@ contexts:
     - include: at-rules
     - include: property-lists
     - include: rule-terminators
+    - include: illegal-groups
 
 ###[ COMMENTS ]################################################################
 
@@ -1014,7 +1015,7 @@ contexts:
       scope: invalid.illegal.combinator.css
 
   selector-end:
-    - match: (?=\s*[;@){}])
+    - match: (?=\s*[;@(){}])
       pop: 1
     - include: comments
 
@@ -1200,6 +1201,7 @@ contexts:
     - include: property-values
     - include: rule-terminators
     - include: illegal-blocks
+    - include: illegal-groups
 
 ###[ PROPERTY IDENTIFIERS ]####################################################
 
@@ -1780,15 +1782,18 @@ contexts:
 
   # var()
   # https://drafts.csswg.org/css-variables/#funcdef-var
+  # Note: Match valid groups before `var-functions` context is included.
   var-functions:
     - match: \b(?i:var)(?=\()
       scope: meta.function-call.identifier.css support.function.var.css
       push: var-function-arguments
+    - include: illegal-groups
 
   var-function:
     - match: \b(?i:var)(?=\()
       scope: meta.function-call.identifier.css support.function.var.css
       set: var-function-arguments
+    - include: illegal-groups
 
   var-function-arguments:
     - match: \(
@@ -1876,6 +1881,9 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.css
       set: maybe-illegal-operator
+    - match: \(
+      scope: punctuation.section.group.begin.css
+      push: calc-function-arguments-content
     - include: terminator-pop
     - include: comments
     - include: attr-functions
@@ -1884,9 +1892,6 @@ contexts:
     - include: numeric-constants
     - match: '[-+*/]'
       scope: keyword.operator.arithmetic.css
-    - match: \(
-      scope: punctuation.section.group.begin.css
-      push: calc-function-arguments-content
 
   # attr()
   # https://www.w3.org/TR/css3-values/#funcdef-attr
@@ -2597,6 +2602,17 @@ contexts:
           scope: invalid.illegal.unexpected-token.css
           pop: 1
     - match: \}
+      scope: invalid.illegal.unexpected-token.css
+
+  illegal-groups:
+    # https://www.w3.org/TR/CSS22/syndata.html#parsing-errors
+    - match: \(
+      scope: invalid.illegal.unexpected-token.css
+      push:
+        - match: \)
+          scope: invalid.illegal.unexpected-token.css
+          pop: 1
+    - match: \)
       scope: invalid.illegal.unexpected-token.css
 
 ###[ PROTOTYPES ]##############################################################

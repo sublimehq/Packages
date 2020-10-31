@@ -64,6 +64,9 @@
 }
 /* < punctuation.section.property-list.css */
 
+    . ()
+
+
     . {}
 /*^^ - meta.selector.css */
 /*  ^ meta.selector.css */
@@ -1723,12 +1726,22 @@
 /*                         ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                            ^^^ support.function.color.css */
 
-    top: color(w(var()) s(var()));
+    top: color(w(var()) s(var()) () ));
 /*       ^^^^^ support.function.color.css */
+/*            ^ punctuation.section.group.begin.css */
 /*             ^ support.function.color.css */
+/*              ^ punctuation.section.group.begin.css */
 /*               ^^^ support.function.var.css */
+/*                  ^ punctuation.section.group.begin.css */
+/*                   ^^ punctuation.section.group.end.css */
 /*                      ^ support.function.color.css */
+/*                       ^ punctuation.section.group.begin.css */
 /*                        ^^^ support.function.var.css */
+/*                           ^ punctuation.section.group.begin.css */
+/*                            ^^ punctuation.section.group.end.css */
+/*                               ^^ invalid.illegal.unexpected-token.css */
+/*                                  ^ punctuation.section.group.end.css */
+/*                                   ^ invalid.illegal.unexpected-token.css */
 
     top: alpha(- 1.5%);
 /*       ^^^^^ support.function.color.css */
