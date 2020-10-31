@@ -2327,8 +2327,15 @@
 /*                                                           ^ -entity.name.tag.custom.css */
 /*                                                             ^^^^^^^^^^^^^^^ entity.name.tag.custom.css */
 /*                                                                             ^^^^^^^^^ entity.other.attribute-name.class.css */
-/*                                                                                       ^^^^^^^^^^ -entity.name.tag.custom.css */
-/*                                                                                                  ^^^^^ -entity.name.tag.custom.css */
+/*                                                                                       ^^^^^^^^^^ - entity.name.tag.custom.css */
+/*                                                                                                  ^^^^^ - entity.name.tag.custom.css */
+
+.no-custom-tags > FORM-ÇUST😀M-TAG.CLASSNAME:LAST-CHILD:HOVER {}
+/*^^^^^^^^^^^^^ entity.other.attribute-name.class.css */
+/*             ^^^^^^^^^^^^^^^^^^ - entity.name.tag.custom */
+/*                               ^^^^^^^^^^ entity.other.attribute-name.class.css */
+/*                                          ^^^^^^^^^^ entity.other.pseudo-class.css */
+/*                                                     ^^^^^ entity.other.pseudo-class.css */
 
 .test-property-name-order-doesnt-prevent-full-matches {
     grid-template-rows: none;

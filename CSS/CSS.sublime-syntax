@@ -58,10 +58,13 @@ variables:
 
   vendor_prefix: -(?:webkit|moz|ms|o)-
 
+  # Custom Element Names
   # https://html.spec.whatwg.org/multipage/custom-elements.html#custom-elements-core-concepts
+  custom_element_tags: \b[a-z]{{custom_element_chars}}*-{{custom_element_chars}}*{{break}}
+  # Note: Excludes `.` as it is used to identify attribute access
   custom_element_chars: |-
     (?x:
-      [-_[:alnum:]\x{00B7}]
+      [-_a-z0-9\x{00B7}]
     | [\x{00C0}-\x{00D6}]
     | [\x{00D8}-\x{00F6}]
     | [\x{00F8}-\x{02FF}]
@@ -956,7 +959,7 @@ contexts:
       scope: entity.name.tag.svg.css
     # Custom Elements
     # http://w3c.github.io/webcomponents/spec/custom/#custom-elements-core-concepts
-    - match: \b[[:alpha:]]{{custom_element_chars}}*-{{custom_element_chars}}*{{break}}
+    - match: '{{custom_element_tags}}'
       scope: entity.name.tag.custom.css
     - match: \*
       scope: variable.language.wildcard.asterisk.css
