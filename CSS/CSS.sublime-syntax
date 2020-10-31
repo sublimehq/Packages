@@ -1437,6 +1437,7 @@ contexts:
     - include: image-functions
     - include: image-set-functions
     - include: minmax-functions
+    - include: grid-repeat-functions
     - include: url-functions
     - include: var-functions
     - include: color-adjuster-functions
@@ -1725,28 +1726,6 @@ contexts:
             - include: common-constants
             - include: numeric-constants
             - include: quoted-strings
-
-    # repeat()
-    # https://drafts.csswg.org/css-grid/#funcdef-repeat
-    - match: \b(?i:repeat)(?=\()
-      scope: meta.function-call.identifier.css support.function.grid.css
-      push:
-        - match: \(
-          scope: punctuation.section.group.begin.css
-          set:
-            - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: comma-delimiters
-            - match: \b(?i:auto-fill|auto-fit){{break}}
-              scope: support.keyword.repetitions.css
-            - match: \b(?i:max-content|min-content|auto){{break}}
-              scope: support.constant.property-value.css
-            - include: minmax-functions
-            - include: var-functions
-            - include: length-constants
-            - include: percentage-constants
-            - include: scalar-integer-constants
-            - include: line-names
 
   # attr()
   # https://www.w3.org/TR/css3-values/#funcdef-attr
@@ -2250,6 +2229,29 @@ contexts:
             - include: var-functions
             - include: length-constants
             - include: percentage-constants
+
+  # repeat()
+  # https://drafts.csswg.org/css-grid/#funcdef-repeat
+  grid-repeat-functions:
+    - match: \b(?i:repeat)(?=\()
+      scope: meta.function-call.identifier.css support.function.grid.css
+      push:
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: group-end
+            - include: comma-delimiters
+            - match: \b(?i:auto-fill|auto-fit){{break}}
+              scope: support.keyword.repetitions.css
+            - match: \b(?i:max-content|min-content|auto){{break}}
+              scope: support.constant.property-value.css
+            - include: minmax-functions
+            - include: var-functions
+            - include: length-constants
+            - include: percentage-constants
+            - include: scalar-integer-constants
+            - include: line-names
 
   # var()
   # https://drafts.csswg.org/css-variables/#funcdef-var
