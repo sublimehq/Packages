@@ -65,7 +65,9 @@
 /* < punctuation.section.property-list.css */
 
     . ()
-
+/*  ^ meta.selector.css entity.other.attribute-name.class.css punctuation.definition.entity.css */
+/*   ^^^ - meta.selector.css */
+/*    ^^ invalid.illegal.unexpected-token.css */
 
     . {}
 /*^^ - meta.selector.css */
