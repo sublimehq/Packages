@@ -2439,6 +2439,18 @@
 /*                   ^ constant.numeric.value.css */
 }
 
+.test-uppercase DIV:HOVER {
+/*              ^^^ entity.name.tag.html.css */
+/*                 ^ punctuation.accessor.colon.css */
+/*                  ^^^^^ entity.other.pseudo-class.css */
+
+    FONT-WEIGHT: bold; FONT-SIZE: 10pt; COLOR: #0d3372; FONT-FAMILY: tahoma
+/*  ^^^^^^^^^^^ support.type.property-name.css */
+/*                     ^^^^^^^^^ support.type.property-name.css */
+/*                                      ^^^^^ support.type.property-name.css */
+/*                                                      ^^^^^^^^^^^ support.type.property-name.css */
+}
+
 .test-custom-tags > div > span + cust·m-tÀg > div-cøstom-tag ~ form-Çust😀m-tag.classname:last-child:hover {}
 /*                ^ - entity.name.tag.custom.css */
 /*                  ^^^ entity.name.tag.html.css */

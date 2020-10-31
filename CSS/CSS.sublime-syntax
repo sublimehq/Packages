@@ -2045,7 +2045,7 @@ contexts:
             - include: angle-constants
 
   # url()
-  # https://drafts.csswg.org/css-images-3/#url-notation
+  # https://drafts.csswg.org/css-values-3/#urls
   url-functions:
     - match: \b(?i:url)(?=\()
       scope: meta.function-call.identifier.css support.function.url.css
