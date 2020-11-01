@@ -36,6 +36,13 @@ variables:
   # https://www.w3.org/TR/css3-selectors/#lex
   name: '{{nmchar}}+'
 
+  # Ilegal Custom Identifier Names
+  # https://www.w3.org/TR/css-values-4/#custom-idents
+  illegal_custom_ident: |-
+    \b{{illegal_custom_ident_tokens}}{{break}}
+  illegal_custom_ident_tokens: |-
+    (?xi: auto | default | inherit | initial | none | unset )
+
   # Types
   # https://www.w3.org/TR/css3-values/#numeric-types
   # https://www.w3.org/TR/css-syntax-3/#number-token-diagram
@@ -217,7 +224,7 @@ variables:
   # Illegal Counter Style Definition Names
   # https://drafts.csswg.org/css-counter-styles-3/#typedef-counter-style-name
   counter_style_illegal_names: |-
-    \b(?xi: decimal | disc | inherit | initial | none | unset ){{break}}
+    \b(?xi: decimal | disc | {{illegal_custom_ident_tokens}} ){{break}}
 
   # Predefined Counter Styles
   # https://drafts.csswg.org/css-counter-styles-3/#predefined-counters
@@ -669,6 +676,8 @@ contexts:
     - include: at-rule-end
 
   at-keyframe-names:
+    - match: '{{illegal_custom_ident}}'
+      scope: invalid.illegal.identifier.css
     - match: '{{ident}}'
       scope: entity.other.animation-name.css
     - include: quoted-strings
