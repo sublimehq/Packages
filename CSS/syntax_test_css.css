@@ -198,6 +198,27 @@
 /*              ^^^^^ support.constant.media.css */
 /*                   ^ punctuation.terminator.rule.css */
 
+    @import url( 'landscape.css' ) screen and (orientation:landscape);
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.import.css */
+/*                                                                   ^ - meta.at-rule */
+/*          ^^^ meta.function-call.identifier.css */
+/*             ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*                                            ^^^^^^^^^^^^^^^^^^^^^^^ meta.group.css */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^^ keyword.control.directive.css - punctuation */
+/*          ^^^ support.function.url.css */
+/*             ^ punctuation.section.group.begin.css */
+/*               ^^^^^^^^^^^^^^^ string.quoted.single.css */
+/*                               ^ punctuation.section.group.end.css */
+/*                                 ^^^^^^ support.constant.media.css */
+/*                                        ^^^ keyword.operator.logic.css */
+/*                                            ^ punctuation.section.group.begin.css */
+/*                                             ^^^^^^^^^^^ support.type.property-name.css */
+/*                                                        ^ punctuation.separator.key-value.css */
+/*                                                         ^^^^^^^^^ support.constant.property-value.css */
+/*                                                                  ^ punctuation.section.group.end.css */
+/*                                                                   ^ punctuation.terminator.rule.css */
+
     @namespace svg "http://www.w3.org/1999/xhtml";
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.namespace.css */
 /*                                               ^ - meta.at-rule */
