@@ -1035,14 +1035,17 @@ contexts:
     - match: '::'
       scope: punctuation.accessor.double-colon.css
       push:
+        - meta_include_prototype: false
         - include: pseudo-element-css2
         - include: pseudo-element-css3
         - include: immediately-pop
     - match: ':'
       scope: punctuation.accessor.colon.css
       push:
+        - meta_include_prototype: false
         - include: pseudo-element-css2
-        - include: pseudo-class
+        - include: pseudo-class-function
+        - include: pseudo-class-regular
         - include: immediately-pop
     # Combinators
     # https://drafts.csswg.org/selectors-4/#combinators
@@ -1101,40 +1104,20 @@ contexts:
     - match: \S
       scope: invalid.illegal.css
 
-  # Pseudo Classes
-  # https://drafts.csswg.org/selectors-4/#pseudo-classes
-  pseudo-class:
-    # Functional Pseudo Classes
-    # https://drafts.csswg.org/selectors-4/#functional-pseudo-class
+###[ SELECTORS / PSEUDO CLASSES ]##############################################
 
-    # Functional Pseudo Classes with a single unquoted string
-    - match: (?i:lang){{break}}
-      scope: meta.function-call.identifier.css entity.other.pseudo-class.css
-      set:
-        - meta_include_prototype: false
-        - match: \(
-          scope: punctuation.section.group.begin.css
-          set:
-            - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: function-arguments-common
-            - include: unquoted-strings
-        - include: immediately-pop
+  # Functional Pseudo Classes
+  # https://drafts.csswg.org/selectors-4/#functional-pseudo-class
+  pseudo-class-function:
+    - include: pseudo-class-function-dir
+    - include: pseudo-class-function-drop
+    - include: pseudo-class-function-with-anb-args
+    - include: pseudo-class-function-with-selector-args
+    - include: pseudo-class-function-with-string-args
 
-    # Functional Pseudo Classes with selector list
-    - match: (?i:matches|not|has){{break}}
-      scope: meta.function-call.identifier.css entity.other.pseudo-class.css
-      set:
-        - meta_include_prototype: false
-        - match: \(
-          scope: punctuation.section.group.begin.css
-          set:
-            - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: function-arguments-common
-            - include: selectors
-        - include: immediately-pop
-
-    # Special :dir() pseudo-class
-    # https://drafts.csswg.org/selectors-4/#the-dir-pseudo
+  # Special :dir() pseudo-class
+  # https://drafts.csswg.org/selectors-4/#the-dir-pseudo
+  pseudo-class-function-dir:
     - match: (?i:dir){{break}}
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
@@ -1148,7 +1131,8 @@ contexts:
               scope: support.constant.property-value.css
         - include: immediately-pop
 
-    # Special :drop() pseudo-class
+  # Special :drop() pseudo-class
+  pseudo-class-function-drop:
     - match: (?i:drop){{break}}
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
@@ -1162,8 +1146,9 @@ contexts:
               scope: support.constant.property-value.css
         - include: immediately-pop
 
-    # Functional Pseudo Classes with `An+B` param
-    # An+B Notation: https://drafts.csswg.org/css-syntax/#anb
+  # Functional Pseudo Classes with `An+B` param
+  # An+B Notation: https://drafts.csswg.org/css-syntax/#anb
+  pseudo-class-function-with-anb-args:
     - match: |-
         (?xi:
         # https://drafts.csswg.org/selectors-4/#table-pseudos
@@ -1183,22 +1168,56 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
-            - match: \b(even|odd){{break}}
-              scope: support.constant.property-value.css
-            - match: (([-+]?)(\d*)(n))\s*(([-+])(\s*\d+))?
-              captures:
-                1: meta.number.integer.decimal.css
-                2: keyword.operator.arithmetic.css
-                3: constant.numeric.value.css
-                4: constant.numeric.suffix.css
-                5: meta.number.integer.decimal.css
-                6: keyword.operator.arithmetic.css
-                7: constant.numeric.value.css
-            - match: '[-+]\s+\d+n?|[-+]?\d+\s+n'
-              scope: invalid.illegal.numeric.css
+            - include: anb-notation-values
             - include: scalar-integer-constants
         - include: immediately-pop
 
+  anb-notation-values:
+    - match: \b(even|odd){{break}}
+      scope: support.constant.property-value.css
+    - match: (([-+]?)(\d*)(n))\s*(([-+])(\s*\d+))?
+      captures:
+        1: meta.number.integer.decimal.css
+        2: keyword.operator.arithmetic.css
+        3: constant.numeric.value.css
+        4: constant.numeric.suffix.css
+        5: meta.number.integer.decimal.css
+        6: keyword.operator.arithmetic.css
+        7: constant.numeric.value.css
+    - match: '[-+]\s+\d+n?|[-+]?\d+\s+n'
+      scope: invalid.illegal.numeric.css
+
+  # Functional Pseudo Classes with selector list
+  pseudo-class-function-with-selector-args:
+    - match: (?i:matches|not|has){{break}}
+      scope: meta.function-call.identifier.css entity.other.pseudo-class.css
+      set:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: selectors
+        - include: immediately-pop
+
+  # Functional Pseudo Classes with a single unquoted string
+  pseudo-class-function-with-string-args:
+    - match: (?i:lang){{break}}
+      scope: meta.function-call.identifier.css entity.other.pseudo-class.css
+      set:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: unquoted-strings
+        - include: immediately-pop
+
+  # Regular Pseudo Classes
+  # https://drafts.csswg.org/selectors-4/#pseudo-classes
+  pseudo-class-regular:
     # Regular Pseudo Classes
     - match: '{{ident}}'
       scope: entity.other.pseudo-class.css
