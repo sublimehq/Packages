@@ -649,17 +649,17 @@
 /*                                              ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                                               ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 
-    @keyframes beat, bounce {}
-/*  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.keyframe.css - meta.block */
-/*                          ^^ meta.at-rule.keyframe.css meta.block.css - meta.property-list */
-/*                            ^ - meta.at-rule - meta.block */
+    @keyframes beat, "bounce" {}
+/*  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.keyframe.css - meta.block */
+/*                            ^^ meta.at-rule.keyframe.css meta.block.css - meta.property-list */
+/*                              ^ - meta.at-rule - meta.block */
 /*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
 /*   ^^^^^^^^^ keyword.control.directive.css - punctuation */
 /*             ^^^^ entity.other.animation-name.css */
 /*                 ^ punctuation.separator.sequence.css */
-/*                   ^^^^^^ entity.other.animation-name.css */
-/*                          ^ punctuation.section.block.begin.css */
-/*                           ^ punctuation.section.block.end.css */
+/*                   ^^^^^^^^ meta.string.css string.quoted.double.css */
+/*                            ^ punctuation.section.block.begin.css */
+/*                             ^ punctuation.section.block.end.css */
 
     @keyframes- beat, bounce {}
 /*  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.other.css */

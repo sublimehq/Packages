@@ -671,6 +671,7 @@ contexts:
   at-keyframe-names:
     - match: '{{ident}}'
       scope: entity.other.animation-name.css
+    - include: quoted-strings
 
   at-keyframe-block:
     - match: \{
