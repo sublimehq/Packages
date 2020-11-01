@@ -577,9 +577,8 @@
 /*                   ^^^ support.type.vendor-prefix.css */
 /*                      ^^^^^^^^^^^^^^^^^^^^^^ support.type.property-name.css */
 /*                                            ^ punctuation.separator.key-value.css */
-/*                                              ^^ meta.number.integer.decimal.css constant.numeric.value.css */
-/*                                                ^ keyword.operator.arithmetic.css - constant */
-/*                                                 ^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                                              ^^^^^ meta.number.rational.css constant.numeric.value.css */
+/*                                                ^ keyword.operator.arithmetic.css */
 /*                                                   ^ punctuation.section.group.end.css */
 /*                                                    ^ punctuation.separator.sequence.css */
     only screen and (min-resolution: 120dpi)
