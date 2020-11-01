@@ -600,7 +600,7 @@ contexts:
 
   at-custom-media-content:
     - meta_scope: meta.at-rule.custom-media.css
-    - include: media-query-content
+    - include: media-queries
     - include: at-rule-end
 
   # @document
@@ -649,7 +649,7 @@ contexts:
     - meta_scope: meta.at-rule.import.css
     - include: quoted-strings
     - include: url-functions
-    - include: media-query-content
+    - include: media-queries
     - include: at-rule-end
 
   # @keyframes
@@ -709,7 +709,7 @@ contexts:
 
   at-media-content:
     - meta_scope: meta.at-rule.media.css
-    - include: media-query-content
+    - include: media-queries
     - include: at-block
     - include: at-rule-end
 
@@ -879,10 +879,10 @@ contexts:
 ###[ MEDIA QUERIES ]###########################################################
 
   # https://drafts.csswg.org/mediaqueries-5/#media
-  media-query-content:
+  media-queries:
     - include: comma-delimiters
     - include: media-query-conditions
-    - include: media-query-types
+    - include: media-query-media-types
 
   media-query-conditions:
     - match: \(
@@ -900,10 +900,14 @@ contexts:
     - include: group-end
     - include: comments
     - include: media-query-conditions
+    - include: media-query-property-names
+    - include: media-query-property-values
     - include: var-functions
     - include: calc-functions
     - include: ratio-constants
     - include: numeric-constants
+
+  media-query-property-names:
     - match: |-
         (?xi:
           ({{vendor_prefix}})?
@@ -923,6 +927,8 @@ contexts:
         1: support.type.vendor-prefix.css
         2: support.type.property-name.css
         3: punctuation.separator.key-value.css
+
+  media-query-property-values:
     - match: |-
         \b(?xi:
           # global css constants
@@ -948,7 +954,7 @@ contexts:
         ){{break}}
       scope: support.constant.property-value.css
 
-  media-query-types:
+  media-query-media-types:
     # Media Types:
     # https://www.w3.org/TR/CSS21/media.html
     # https://drafts.csswg.org/mediaqueries-5/#media-types
