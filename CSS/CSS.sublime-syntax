@@ -580,12 +580,15 @@ contexts:
 
   at-counter-style-content:
     - meta_scope: meta.at-rule.counter-style.css
+    - include: rule-list
+    - include: at-counter-style-names
+    - include: at-rule-end
+
+  at-counter-style-names:
     - match: '{{counter_style_illegal_names}}'
       scope: invalid.illegal.identifier.css
     - match: '{{ident}}'
       scope: entity.other.counter-style-name.css
-    - include: rule-list
-    - include: at-rule-end
 
   # @custom-media
   # https://??
