@@ -825,6 +825,7 @@ contexts:
   at-supports-group-content:
     - meta_scope: meta.group.css
     - include: group-end
+    - include: at-rule-end
     - include: at-supports-groups
     - include: at-supports-operators
     - include: rule-list-body
@@ -883,6 +884,7 @@ contexts:
   media-query-group-content:
     - meta_scope: meta.group.css
     - include: group-end
+    - include: at-rule-end
     - include: media-query-conditions
     - include: var-functions
     - include: calc-functions
@@ -1078,8 +1080,7 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: var-functions
+            - include: function-arguments-common
             - include: unquoted-strings
         - include: immediately-pop
 
@@ -1091,7 +1092,7 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - include: selectors
         - include: immediately-pop
 
@@ -1103,10 +1104,9 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - match: \b(active|valid|invalid){{break}}
               scope: keyword.other.pseudo-class.css
-            - include: var-functions
         - include: immediately-pop
 
     # Functional Pseudo Classes with `An+B` param
@@ -1119,7 +1119,7 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - match: \b(even|odd){{break}}
               scope: keyword.other.pseudo-class.css
             - match: (([-+]?)(\d*)(n))\s*(([-+])(\s*\d+))?
@@ -1133,7 +1133,6 @@ contexts:
                 7: constant.numeric.value.css
             - match: '[-+]\s+\d+n?|[-+]?\d+\s+n'
               scope: invalid.illegal.numeric.css
-            - include: var-functions
             - include: scalar-integer-constants
         - include: immediately-pop
 
@@ -1285,7 +1284,6 @@ contexts:
     - include: color-constants
 
   counter-symbol-values:
-    - include: var-functions
     - include: image-values
     - include: counter-system-constants
     - include: scalar-integer-constants
@@ -1369,6 +1367,7 @@ contexts:
     - meta_content_scope: meta.property-value.css
     - include: terminator-pop
     - include: comments
+    - include: var-functions
     - include: counter-symbol-values
     - match: \b(?i:extends){{break}}
       scope: keyword.declaration.extends.css
@@ -1452,9 +1451,8 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - include: comma-delimiters
-            - include: var-functions
             - include: filter-functions
             - include: image-values
             - include: quoted-strings
@@ -1470,8 +1468,7 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: var-functions
+            - include: function-arguments-common
             - include: quoted-strings
 
     # local()
@@ -1483,8 +1480,7 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: var-functions
+            - include: function-arguments-common
             - include: quoted-strings
             - include: unquoted-strings
 
@@ -1500,9 +1496,8 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - include: comma-delimiters
-            - include: var-functions
             - include: scalar-constants
 
     # transform functions with comma separated <number> or <length> types
@@ -1514,9 +1509,8 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - include: comma-delimiters
-            - include: var-functions
             - include: percentage-constants
             - include: length-constants
             - include: scalar-constants
@@ -1530,8 +1524,7 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: var-functions
+            - include: function-arguments-common
             - include: percentage-constants
             - include: length-constants
             - include: scalar-constants
@@ -1545,8 +1538,7 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: var-functions
+            - include: function-arguments-common
             - include: angle-constants
 
     # transform functions with comma separated <angle> types
@@ -1558,9 +1550,8 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - include: comma-delimiters
-            - include: var-functions
             - include: angle-constants
 
     # transform functions with a single <length> type
@@ -1572,8 +1563,7 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: var-functions
+            - include: function-arguments-common
             - include: length-constants
 
     # transform functions with a comma separated <number> or <angle> types
@@ -1585,9 +1575,8 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - include: comma-delimiters
-            - include: var-functions
             - include: angle-constants
             - include: scalar-constants
 
@@ -1600,9 +1589,8 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - include: comma-delimiters
-            - include: var-functions
             - include: scalar-constants
 
     # Timing Functions
@@ -1617,9 +1605,8 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - include: comma-delimiters
-            - include: var-functions
             - include: scalar-constants
 
     # steps()
@@ -1631,11 +1618,10 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - include: comma-delimiters
             - match: \b(?i:end|middle|start){{break}}
               scope: support.keyword.timing-direction.css
-            - include: var-functions
             - include: scalar-integer-constants
 
     # Shape Functions
@@ -1650,10 +1636,9 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - match: \b(?i:auto){{break}}
               scope: support.constant.property-value.css
-            - include: var-functions
             - include: length-constants
 
     # inset()
@@ -1665,10 +1650,9 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - match: \b(?i:round){{break}}
               scope: keyword.other.css
-            - include: var-functions
             - include: length-constants
             - include: percentage-constants
 
@@ -1683,12 +1667,11 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - match: \b(?i:at){{break}}
               scope: keyword.other.css
             - match: \b(?i:top|right|bottom|left|center|closest-side|farthest-side){{break}}
               scope: support.constant.property-value.css
-            - include: var-functions
             - include: length-constants
             - include: percentage-constants
 
@@ -1701,12 +1684,11 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - include: comma-delimiters
             - match: \b(?i:nonzero|evenodd){{break}}
               scope: support.constant.property-value.css
             - include: calc-functions
-            - include: var-functions
             - include: length-constants
             - include: percentage-constants
 
@@ -1719,9 +1701,8 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - include: comma-delimiters
-            - include: var-functions
             - include: vendor-prefixes
             - include: color-values
             - include: common-constants
@@ -1752,7 +1733,7 @@ contexts:
 
   attr-function-arguments-value:
     - meta_scope: meta.function-call.arguments.css meta.group.css
-    - include: group-end
+    - include: function-arguments-common
     - include: comma-delimiters
     - match: |-
         \b(?x:
@@ -1765,7 +1746,6 @@ contexts:
           | {{resolution_units}}
         ){{break}}
       scope: keyword.other.unit.css
-    - include: var-functions
     - include: color-values
     - include: common-constants
     - include: numeric-constants
@@ -1811,9 +1791,8 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - - meta_scope: meta.function-call.arguments.css meta.group.css
-              - include: group-end
+              - include: function-arguments-common
               - include: comma-delimiters
-              - include: var-functions
               - include: counter-style-identifiers
               - include: quoted-strings
             - counter-identifier
@@ -1827,7 +1806,7 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - include: comma-delimiters
             - include: counter-symbol-values
 
@@ -1843,9 +1822,8 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - include: comma-delimiters
-            - include: var-functions
             - include: percentage-constants
             - include: scalar-constants
 
@@ -1860,9 +1838,8 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - include: comma-delimiters
-            - include: var-functions
             - include: angle-constants
             - include: percentage-constants
             - include: scalar-constants
@@ -1876,9 +1853,8 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - include: comma-delimiters
-            - include: var-functions
             - include: percentage-constants
             - include: scalar-constants
 
@@ -1891,9 +1867,8 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - include: comma-delimiters
-            - include: var-functions
             - include: color-adjuster-functions # must be included before `color-values`
             - include: color-values
             - include: percentage-constants
@@ -1908,9 +1883,8 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - include: comma-delimiters
-            - include: var-functions
             - include: color-adjuster-functions # must be included before `color-values`
             - include: color-values
             - include: angle-constants
@@ -1927,8 +1901,7 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: var-functions
+            - include: function-arguments-common
             - include: color-adjuster-operators
             - include: percentage-constants
             - include: scalar-constants
@@ -1941,8 +1914,7 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: var-functions
+            - include: function-arguments-common
             - include: color-adjuster-operators
             - include: angle-constants
 
@@ -1954,8 +1926,7 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: var-functions
+            - include: function-arguments-common
             - include: color-adjuster-operators
             - include: percentage-constants
 
@@ -1969,8 +1940,7 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: var-functions
+            - include: function-arguments-common
             - include: percentage-constants
 
     # blend(), blenda() - Not yet implemented by browsers
@@ -1981,10 +1951,9 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - match: \b(?i:rgb|hsl|hwb){{break}}
               scope: keyword.other.color-space.css
-            - include: var-functions
             - include: color-values
             - include: percentage-constants
 
@@ -2000,8 +1969,7 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: var-functions
+            - include: function-arguments-common
             - include: length-constants
 
     # brightness(), contrast(), grayscale(), invert(), opacity(), saturate(), sepia()
@@ -2013,8 +1981,7 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: var-functions
+            - include: function-arguments-common
             - include: percentage-constants
             - include: scalar-constants
 
@@ -2027,8 +1994,7 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: var-functions
+            - include: function-arguments-common
             - include: color-values
             - include: length-constants
 
@@ -2041,8 +2007,7 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: var-functions
+            - include: function-arguments-common
             - include: angle-constants
 
   # url()
@@ -2055,8 +2020,7 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: var-functions
+            - include: function-arguments-common
             - include: quoted-urls
             - include: unquoted-urls
 
@@ -2070,8 +2034,7 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: var-functions
+            - include: function-arguments-common
             - include: quoted-urls
             - include: unquoted-urls
 
@@ -2085,8 +2048,7 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: var-functions
+            - include: function-arguments-common
             - include: quoted-urls
             - include: unquoted-urls
 
@@ -2100,8 +2062,7 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
-            - include: var-functions
+            - include: function-arguments-common
             - include: quoted-strings
 
   # cross-fade()
@@ -2114,9 +2075,8 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - include: comma-delimiters
-            - include: var-functions
             - include: color-values
             - include: image-values
             - include: percentage-constants
@@ -2133,9 +2093,8 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - include: comma-delimiters
-            - include: var-functions
             - include: color-values
             - include: image-values
             - include: quoted-strings
@@ -2151,9 +2110,8 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - include: comma-delimiters
-            - include: var-functions
             - include: color-values
             - include: image-values
             - include: resolution-constants
@@ -2179,13 +2137,12 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - include: comma-delimiters
             - match: \b(?i:to){{break}}
               scope: keyword.other.css
             - match: \b(?i:top|right|bottom|left){{break}}
               scope: support.constant.property-value.css
-            - include: var-functions
             - include: color-values
             - include: angle-constants
             - include: length-constants
@@ -2202,13 +2159,12 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - include: comma-delimiters
             - match: \b(?i:at|circle|ellipse){{break}}
               scope: keyword.other.css
             - match: \b(?i:left|center|right|top|bottom|(closest|farthest)-(corner|side)){{break}}
               scope: support.constant.property-value.css
-            - include: var-functions
             - include: color-values
             - include: length-constants
             - include: percentage-constants
@@ -2223,11 +2179,10 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - include: comma-delimiters
             - match: \b(?i:auto|max-content|min-content){{break}}
               scope: support.constant.property-value.css
-            - include: var-functions
             - include: length-constants
             - include: percentage-constants
 
@@ -2241,14 +2196,13 @@ contexts:
           scope: punctuation.section.group.begin.css
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: group-end
+            - include: function-arguments-common
             - include: comma-delimiters
             - match: \b(?i:auto-fill|auto-fit){{break}}
               scope: support.keyword.repetitions.css
             - match: \b(?i:max-content|min-content|auto){{break}}
               scope: support.constant.property-value.css
             - include: grid-minmax-functions
-            - include: var-functions
             - include: length-constants
             - include: percentage-constants
             - include: scalar-integer-constants
@@ -2274,12 +2228,17 @@ contexts:
       scope: punctuation.section.group.begin.css
       set:
         - meta_scope: meta.function-call.arguments.css meta.group.css
-        - include: group-end
-        - include: var-functions
+        - include: function-arguments-common
         - include: custom-properties
         - match: (?=,)
           push:
             - include: property-value-content
+
+  function-arguments-common:
+    - include: group-end
+    - include: terminator-pop
+    - include: comments
+    - include: var-functions
 
 ###[ CONSTANTS ]###############################################################
 
@@ -2668,8 +2627,6 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.css
       pop: 1
-    - include: terminator-pop
-    - include: comments
 
   rule-terminators:
     - match: ;
