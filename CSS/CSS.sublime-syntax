@@ -1111,6 +1111,7 @@ contexts:
     - match: (?i:lang){{break}}
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1123,6 +1124,7 @@ contexts:
     - match: (?i:matches|not|has){{break}}
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1136,6 +1138,7 @@ contexts:
     - match: (?i:dir){{break}}
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1149,6 +1152,7 @@ contexts:
     - match: (?i:drop){{break}}
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1164,6 +1168,7 @@ contexts:
     - match: (?i:nth-last-child|nth-child|nth-last-of-type|nth-of-type){{break}}
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1496,6 +1501,7 @@ contexts:
     - match: \b(?i:filter)(?=\()
       scope: meta.function-call.identifier.css support.function.filter.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1513,6 +1519,7 @@ contexts:
     - match: \b(?i:format)(?=\()
       scope: meta.function-call.identifier.css support.function.font-face.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1525,6 +1532,7 @@ contexts:
     - match: \b(?i:local)(?=\()
       scope: meta.function-call.identifier.css support.function.font-face.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1541,6 +1549,7 @@ contexts:
     - match: \b(?i:matrix3d|scale3d|matrix|scale)(?=\()
       scope: meta.function-call.identifier.css support.function.transform.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1554,6 +1563,7 @@ contexts:
     - match: \b(?i:translate(3d)?)(?=\()
       scope: meta.function-call.identifier.css support.function.transform.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1569,6 +1579,7 @@ contexts:
     - match: \b(?i:translate[XY])(?=\()
       scope: meta.function-call.identifier.css support.function.transform.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1583,6 +1594,7 @@ contexts:
     - match: \b(?i:rotate[XYZ]?|skew[XY])(?=\()
       scope: meta.function-call.identifier.css support.function.transform.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1595,6 +1607,7 @@ contexts:
     - match: \b(?i:skew)(?=\()
       scope: meta.function-call.identifier.css support.function.transform.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1608,6 +1621,7 @@ contexts:
     - match: \b(?i:translateZ|perspective)(?=\()
       scope: meta.function-call.identifier.css support.function.transform.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1620,6 +1634,7 @@ contexts:
     - match: \b(?i:rotate3d)(?=\()
       scope: meta.function-call.identifier.css support.function.transform.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1634,6 +1649,7 @@ contexts:
     - match: \b(?i:scale[XYZ])(?=\()
       scope: meta.function-call.identifier.css support.function.transform.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1650,6 +1666,7 @@ contexts:
     - match: \b(?i:cubic-bezier)(?=\()
       scope: meta.function-call.identifier.css support.function.timing.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1663,6 +1680,7 @@ contexts:
     - match: \b(?i:steps)(?=\()
       scope: meta.function-call.identifier.css support.function.timing.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1681,6 +1699,7 @@ contexts:
     - match: \b(?i:rect)(?=\()
       scope: meta.function-call.identifier.css support.function.shape.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1695,6 +1714,7 @@ contexts:
     - match: \b(?i:inset)(?=\()
       scope: meta.function-call.identifier.css support.function.shape.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1712,6 +1732,7 @@ contexts:
     - match: \b(?i:circle|ellipse)(?=\()
       scope: meta.function-call.identifier.css support.function.shape.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1729,6 +1750,7 @@ contexts:
     - match: \b(?i:polygon)(?=\()
       scope: meta.function-call.identifier.css support.function.shape.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1746,6 +1768,7 @@ contexts:
     - match: \b(?i:toggle)(?=\()
       scope: meta.function-call.identifier.css support.function.toggle.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1764,6 +1787,7 @@ contexts:
     - match: \b(?i:attr)(?=\()
       scope: meta.function-call.identifier.css support.function.attr.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1805,6 +1829,7 @@ contexts:
     - match: \b(?i:calc)(?=\()
       scope: meta.function-call.identifier.css support.function.calc.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1836,6 +1861,7 @@ contexts:
     - match: \b(?i:counters?)(?=\()
       scope: meta.function-call.identifier.css support.function.counter.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1851,6 +1877,7 @@ contexts:
     - match: \b(?i:symbols)(?=\()
       scope: meta.function-call.identifier.css support.function.counter.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1867,6 +1894,7 @@ contexts:
     - match: \b(?i:rgba?)(?=\()
       scope: meta.function-call.identifier.css support.function.color.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1883,6 +1911,7 @@ contexts:
     - match: \b(?i:hsla?|hwb)(?=\()
       scope: meta.function-call.identifier.css support.function.color.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1898,6 +1927,7 @@ contexts:
     - match: \b(?i:gray)(?=\()
       scope: meta.function-call.identifier.css support.function.color.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1912,6 +1942,7 @@ contexts:
     - match: \b(?i:device-cmyk)(?=\()
       scope: meta.function-call.identifier.css support.function.color.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1928,6 +1959,7 @@ contexts:
     - match: \b(?i:color)(?=\()
       scope: meta.function-call.identifier.css support.function.color.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1946,6 +1978,7 @@ contexts:
     - match: \b(?i:red|green|blue|alpha|a)(?=\()
       scope: meta.function-call.identifier.css support.function.color.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1959,6 +1992,7 @@ contexts:
     - match: \b(?i:hue|h)(?=\()
       scope: meta.function-call.identifier.css support.function.color.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1971,6 +2005,7 @@ contexts:
     - match: \b(?i:saturation|lightness|whiteness|blackness|[slwb])(?=\()
       scope: meta.function-call.identifier.css support.function.color.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1985,6 +2020,7 @@ contexts:
     - match: \b(?i:tint|shade)(?=\()
       scope: meta.function-call.identifier.css support.function.color.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -1996,6 +2032,7 @@ contexts:
     - match: \b(?i:blenda|blend)(?=\()
       scope: meta.function-call.identifier.css support.function.color.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -2014,6 +2051,7 @@ contexts:
     - match: \b(?i:blur)(?=\()
       scope: meta.function-call.identifier.css support.function.filter.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -2026,6 +2064,7 @@ contexts:
     - match: \b(?i:brightness|contrast|grayscale|invert|opacity|saturate|sepia)(?=\()
       scope: meta.function-call.identifier.css support.function.filter.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -2039,6 +2078,7 @@ contexts:
     - match: \b(?i:drop-shadow)(?=\()
       scope: meta.function-call.identifier.css support.function.filter.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -2052,6 +2092,7 @@ contexts:
     - match: \b(?i:hue-rotate)(?=\()
       scope: meta.function-call.identifier.css support.function.filter.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -2065,6 +2106,7 @@ contexts:
     - match: \b(?i:url)(?=\()
       scope: meta.function-call.identifier.css support.function.url.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -2079,6 +2121,7 @@ contexts:
     - match: \b(?i:url-prefix)(?=\()
       scope: meta.function-call.identifier.css support.function.url-prefix.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -2093,6 +2136,7 @@ contexts:
     - match: \b(?i:domain)(?=\()
       scope: meta.function-call.identifier.css support.function.domain.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -2107,6 +2151,7 @@ contexts:
     - match: \b(?i:regexp)(?=\()
       scope: meta.function-call.identifier.css support.function.regexp.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -2120,6 +2165,7 @@ contexts:
     - match: \b(?i:cross-fade)(?=\()
       scope: meta.function-call.identifier.css support.function.image.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -2138,6 +2184,7 @@ contexts:
     - match: \b(?i:image)(?=\()
       scope: meta.function-call.identifier.css support.function.image.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -2155,6 +2202,7 @@ contexts:
     - match: \b(?i:image-set)(?=\()
       scope: meta.function-call.identifier.css support.function.image.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -2182,6 +2230,7 @@ contexts:
     - match: \b((?:repeating-)?linear-gradient)(?=\()
       scope: meta.function-call.identifier.css support.function.gradient.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -2204,6 +2253,7 @@ contexts:
     - match: \b((?:repeating-)?radial-gradient)(?=\()
       scope: meta.function-call.identifier.css support.function.gradient.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -2224,6 +2274,7 @@ contexts:
     - match: \b(?i:minmax)(?=\()
       scope: meta.function-call.identifier.css support.function.grid.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
@@ -2241,6 +2292,7 @@ contexts:
     - match: \b(?i:repeat)(?=\()
       scope: meta.function-call.identifier.css support.function.grid.css
       push:
+        - meta_include_prototype: false
         - match: \(
           scope: punctuation.section.group.begin.css
           set:
