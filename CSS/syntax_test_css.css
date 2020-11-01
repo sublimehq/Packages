@@ -465,7 +465,7 @@
 /*                       ^ - meta.at-rule - meta.block */
 /*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
 /*   ^^^^^ keyword.control.directive.css - punctuation */
-/*         ^^^^ keyword.operator.logic.media.css */
+/*         ^^^^ keyword.operator.logic.css */
 /*              ^^^^^^ support.constant.media.css */
 /*                     ^ punctuation.section.block.begin.css */
 /*                      ^ punctuation.section.block.end.css */
@@ -534,9 +534,9 @@
 /*                                                                            ^^ meta.at-rule.media.css - meta.group */
 /*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
 /*   ^^^^^ keyword.control.directive.css - punctuation */
-/*         ^^^^ keyword.operator.logic.media.css */
+/*         ^^^^ keyword.operator.logic.css */
 /*              ^^^^^^ support.constant.media.css */
-/*                     ^^^ keyword.operator.logic.media.css */
+/*                     ^^^ keyword.operator.logic.css */
 /*                         ^ punctuation.section.group.begin.css */
 /*                          ^^^^^^^^ support.type.vendor-prefix.css */
 /*                                  ^^^^^^^^^^^^^^^^^^^^^^ support.type.property-name.css */
@@ -549,9 +549,9 @@
 /*  ^^^^^^^^^^^^^^^^ meta.at-rule.media.css - meta.group */
 /*                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css meta.group.css */
 /*                                                    ^^ meta.at-rule.media.css - meta.group */
-/*  ^^^^ keyword.operator.logic.media.css */
+/*  ^^^^ keyword.operator.logic.css */
 /*       ^^^^^^ support.constant.media.css */
-/*              ^^^ keyword.operator.logic.media.css */
+/*              ^^^ keyword.operator.logic.css */
 /*                  ^ punctuation.section.group.begin.css */
 /*                   ^^^ support.type.vendor-prefix.css */
 /*                      ^^^^^^^^^^^^^^^^^^^^^^ support.type.property-name.css */
@@ -565,9 +565,9 @@
 /*  ^^^^^^^^^^^^^^^^ meta.at-rule.media.css - meta.group */
 /*                  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css meta.group.css */
 /*                                          ^ meta.at-rule.media.css - meta.group */
-/*  ^^^^ keyword.operator.logic.media.css */
+/*  ^^^^ keyword.operator.logic.css */
 /*       ^^^^^^ support.constant.media.css */
-/*              ^^^ keyword.operator.logic.media.css */
+/*              ^^^ keyword.operator.logic.css */
 /*                  ^ punctuation.section.group.begin.css */
 /*                   ^^^^^^^^^^^^^^ support.type.property-name.css */
 /*                                 ^ punctuation.separator.key-value.css */
@@ -587,14 +587,14 @@
 /*                                                            ^ - meta.at-rule */
 /*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
 /*   ^^^^^ keyword.control.directive.css - punctuation */
-/*         ^^^^ keyword.operator.logic.media.css */
+/*         ^^^^ keyword.operator.logic.css */
 /*              ^^^^^^ support.constant.media.css */
-/*                     ^^^ keyword.operator.logic.media.css */
+/*                     ^^^ keyword.operator.logic.css */
 /*                         ^ punctuation.section.group.begin.css */
 /*                          ^^^^^ support.type.property-name.css */
 /*                                ^^ keyword.operator.comparison.css */
 /*                                   ^^^^^ meta.number.integer.decimal.css */
-/*                                         ^^ keyword.operator.logic.media.css */
+/*                                         ^^ keyword.operator.logic.css */
 /*                                            ^ punctuation.section.group.begin.css */
 /*                                             ^^^^^^ support.type.property-name.css */
 /*                                                    ^ keyword.operator.comparison.css */

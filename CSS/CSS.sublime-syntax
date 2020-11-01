@@ -879,7 +879,7 @@ contexts:
     - match: '[<>]=?|='
       scope: keyword.operator.comparison.css
     - match: \b(?i:and|or|not|only){{break}}
-      scope: keyword.operator.logic.media.css
+      scope: keyword.operator.logic.css
 
   media-query-group-content:
     - meta_scope: meta.group.css
