@@ -703,7 +703,7 @@
 /*  ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*   ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*    ^ punctuation.separator.sequence.css */
-/*      ^^ keyword.keyframe-selector.css */
+/*      ^^ keyword.other.keyframe-selector.css */
 
     @media ;
 /*  ^^^^^^^^ - keyword - punctuation */

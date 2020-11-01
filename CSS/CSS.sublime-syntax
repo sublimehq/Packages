@@ -687,7 +687,7 @@ contexts:
     - include: scalar-constants # to handle incomplete percentages
     - include: property-lists
     - match: \b(?i:from|to){{break}}
-      scope: keyword.keyframe-selector.css
+      scope: keyword.other.keyframe-selector.css
 
   # @media
   # https://drafts.csswg.org/css-conditional-3/#at-ruledef-media
