@@ -1060,6 +1060,21 @@ contexts:
       pop: 1
     - include: comments
 
+  # Qualified Names
+  # https://drafts.csswg.org/css-namespaces-3/#css-qnames
+  namespace-prefixes:
+    - match: (?:({{ident}})|(\*))?(\|)(?!=)
+      captures:
+        1: entity.other.namespace-prefix.css
+        2: variable.language.wildcard.asterisk.css
+        3: punctuation.separator.namespace.css
+
+  vendor-prefixes:
+    - match: '{{vendor_prefix}}'
+      scope: support.type.vendor-prefix.css
+
+###[ SELECTORS / ATTRIBUTE SELECTORS ]#########################################
+
   attribute-selector-meta:
     - meta_scope: meta.attribute-selector.css meta.brackets.css
     - include: immediately-pop
@@ -1238,19 +1253,6 @@ contexts:
         0: entity.other.pseudo-element.css
         1: support.type.vendor-prefix.css
       pop: 1
-
-  # Qualified Names
-  # https://drafts.csswg.org/css-namespaces-3/#css-qnames
-  namespace-prefixes:
-    - match: (?:({{ident}})|(\*))?(\|)(?!=)
-      captures:
-        1: entity.other.namespace-prefix.css
-        2: variable.language.wildcard.asterisk.css
-        3: punctuation.separator.namespace.css
-
-  vendor-prefixes:
-    - match: '{{vendor_prefix}}'
-      scope: support.type.vendor-prefix.css
 
 ###[ PROPERTY LISTS ]##########################################################
 
