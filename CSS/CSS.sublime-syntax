@@ -1126,9 +1126,10 @@ contexts:
   pseudo-class-function:
     - include: pseudo-class-function-dir
     - include: pseudo-class-function-drop
+    - include: pseudo-class-function-lang
     - include: pseudo-class-function-with-anb-args
     - include: pseudo-class-function-with-selector-args
-    - include: pseudo-class-function-with-string-args
+    - include: pseudo-class-function-with-generic-args
 
   # Special :dir() pseudo-class
   # https://drafts.csswg.org/selectors-4/#the-dir-pseudo
@@ -1159,6 +1160,23 @@ contexts:
             - include: function-arguments-common
             - match: \b(active|valid|invalid){{break}}
               scope: support.constant.property-value.css
+        - include: immediately-pop
+
+  # Special :lang() pseudo-class
+  # https://drafts.csswg.org/selectors-4/#the-lang-pseudo
+  pseudo-class-function-lang:
+    - match: (?i:lang){{break}}
+      scope: meta.function-call.identifier.css entity.other.pseudo-class.css
+      set:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - include: quoted-strings
+            - include: language-ranges
         - include: immediately-pop
 
   # Functional Pseudo Classes with `An+B` param
@@ -1216,9 +1234,9 @@ contexts:
             - include: selectors
         - include: immediately-pop
 
-  # Functional Pseudo Classes with a single unquoted string
-  pseudo-class-function-with-string-args:
-    - match: (?i:lang){{break}}
+  # Functional Pseudo Classes with generic arguments
+  pseudo-class-function-with-generic-args:
+    - match: '{{ident}}(?=\()'
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
         - meta_include_prototype: false
@@ -1227,6 +1245,8 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: numeric-constants
+            - include: quoted-strings
             - include: unquoted-strings
         - include: immediately-pop
 
@@ -2570,6 +2590,21 @@ contexts:
         3: constant.numeric.suffix.css
       push: maybe-illegal-operator
 
+  # Language Ranges
+  # https://drafts.csswg.org/selectors-4/#language-range
+  language-ranges:
+    - match: (?={{nmstart}}|\*)
+      push:
+        - meta_include_prototype: false
+        - meta_scope: meta.string.css string.unquoted.css
+        - include: string-content
+        - match: \*
+          scope: variable.language.wildcard.asterisk.css
+        - match: (?!{{nmchar}})
+          pop: 1
+
+  # Unicode Ranges
+  # https://www.w3.org/TR/css-syntax-3/#urange
   unicode-ranges:
     - match: ([Uu]\+)([\h?]{1,6}(?:(-)\h{1,6})?)
       scope: meta.number.unicode-range.css

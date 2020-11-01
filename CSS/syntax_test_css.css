@@ -1401,6 +1401,26 @@
 /*                         ^^^ entity.other.pseudo-class.css */
 /*                             ^^^ support.constant.property-value.css */
 
+.test-pseudo-class-lang:lang(en-*K\*, de-DE, *-EN, "de-*EN\*") {}
+/*                     ^ punctuation.accessor.colon.css - entity */
+/*                      ^^^^ entity.other.pseudo-class.css */
+/*                           ^^^^^^^ meta.string.css string.unquoted.css */
+/*                                  ^^ - meta.string - string */
+/*                                    ^^^^^ meta.string.css string.unquoted.css */
+/*                                         ^^ - meta.string - string */
+/*                                           ^^^^ meta.string.css string.unquoted.css */
+/*                                               ^^ - meta.string - string */
+/*                                                 ^^^^^^^^^^ meta.string.css string.quoted.double.css */
+/*                                                           ^^^^ - meta.string - string */
+/*                              ^ variable.language.wildcard.asterisk.css */
+/*                                ^^ constant.character.escape.css */
+/*                                  ^ punctuation.separator.sequence.css */
+/*                                         ^ punctuation.separator.sequence.css */
+/*                                           ^ variable.language.wildcard.asterisk.css */
+/*                                               ^ punctuation.separator.sequence.css */
+/*                                                     ^ - variable.language.wildcard */
+/*                                                        ^^ constant.character.escape.css */
+
 .test-pseudo-class-tag:not(*) {}
 /*                    ^ punctuation.accessor.colon.css - entity */
 /*                     ^^^ entity.other.pseudo-class.css */
