@@ -1438,6 +1438,15 @@
 /*                   ^^ punctuation.accessor.double-colon.css - entity */
 /*                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.other.pseudo-element.css */
 
+.test-pseudo-elements::attr("name") {}
+/*                   ^^ punctuation.accessor.double-colon.css  */
+/*                     ^^^^ meta.function-call.identifier.css */
+/*                         ^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*                     ^^^^ entity.other.pseudo-element.css */
+/*                         ^ punctuation.section.group.begin.css */
+/*                          ^^^^^^ string.quoted.double.css */
+/*                                ^ punctuation.section.group.end.css */
+
 .test-unicode { top: "\2764 \273e"; }
 /*                    ^^^^^ constant.character.escape.css */
 /*                          ^^^^^ constant.character.escape.css */

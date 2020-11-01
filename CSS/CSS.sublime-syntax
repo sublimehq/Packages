@@ -1037,7 +1037,8 @@ contexts:
       push:
         - meta_include_prototype: false
         - include: pseudo-element-css2
-        - include: pseudo-element-css3
+        - include: pseudo-element-function
+        - include: pseudo-element-regular
         - include: immediately-pop
     - match: ':'
       scope: punctuation.accessor.colon.css
@@ -1266,7 +1267,24 @@ contexts:
       scope: entity.other.pseudo-element.css
       pop: 1
 
-  pseudo-element-css3:
+  # Functional Pseudo Elements
+  # https://drafts.csswg.org/selectors-4/#pseudo-elements
+  pseudo-element-function:
+    - match: '{{ident}}(?=\()'
+      scope: meta.function-call.identifier.css entity.other.pseudo-element.css
+      set:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: numeric-constants
+            - include: quoted-strings
+            - include: unquoted-strings
+        - include: immediately-pop
+
+  pseudo-element-regular:
     # CSS3 requires ::
     - match: ({{vendor_prefix}})?{{ident}}
       captures:
