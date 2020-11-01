@@ -761,6 +761,12 @@ contexts:
 
   at-page-content:
     - meta_scope: meta.at-rule.page.css
+    - include: comma-delimiters
+    - include: at-page-block
+    - include: at-page-names
+    - include: at-rule-end
+
+  at-page-names:
     - match: (:)(?i:blank|first|left|right){{break}}
       captures:
         0: entity.other.pseudo-class.css
@@ -771,9 +777,6 @@ contexts:
         1: punctuation.definition.entity.css
     - match: '{{ident}}'
       scope: entity.other.page-name.css
-    - include: comma-delimiters
-    - include: at-page-block
-    - include: at-rule-end
 
   at-page-block:
     - match: \{
