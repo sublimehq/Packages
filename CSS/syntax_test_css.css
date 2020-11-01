@@ -667,15 +667,17 @@
 
 @keyframes test-keyframes-keywords {
     from, to {}
-/*  ^^^^^^^^^ meta.at-rule.keyframe.css meta.block.css - meta.property-list - meta.block meta.block */
+/*  ^^^^^^^^ meta.at-rule.keyframe.css meta.block.css meta.selector.css */
+/*          ^ meta.at-rule.keyframe.css meta.block.css - meta.selector - meta.property-list - meta.block meta.block */
 /*           ^^ meta.at-rule.keyframe.css meta.block.css meta.property-list.css meta.block.css */
 /*             ^ meta.at-rule.keyframe.css meta.block.css - meta.property-list - meta.block meta.block */
-/*  ^^^^ keyword.keyframe-selector.css */
+/*  ^^^^ keyword.other.keyframe-selector.css */
 /*      ^ punctuation.separator.sequence.css */
-/*        ^^ keyword.keyframe-selector.css */
+/*        ^^ keyword.other.keyframe-selector.css */
 
     0%, 100% {}
-/*  ^^^^^^^^^ meta.at-rule.keyframe.css meta.block.css - meta.property-list - meta.block meta.block */
+/*  ^^^^^^^^ meta.at-rule.keyframe.css meta.block.css meta.selector.css */
+/*          ^ meta.at-rule.keyframe.css meta.block.css - meta.selector - meta.property-list - meta.block meta.block */
 /*           ^^ meta.at-rule.keyframe.css meta.block.css meta.property-list.css meta.block.css */
 /*             ^ meta.at-rule.keyframe.css meta.block.css - meta.property-list - meta.block meta.block */
 /*  ^ meta.number.integer.decimal.css constant.numeric.value.css */
@@ -685,7 +687,8 @@
 /*         ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 
     .99%, 100.99% {}
-/*  ^^^^^^^^^^^^^^ meta.at-rule.keyframe.css meta.block.css - meta.property-list - meta.block meta.block */
+/*  ^^^^^^^^^^^^^ meta.at-rule.keyframe.css meta.block.css meta.selector.css */
+/*               ^ meta.at-rule.keyframe.css meta.block.css - meta.selector - meta.property-list - meta.block meta.block */
 /*                ^^ meta.at-rule.keyframe.css meta.block.css meta.property-list.css meta.block.css */
 /*                  ^ meta.at-rule.keyframe.css meta.block.css - meta.property-list - meta.block meta.block */
 /*  ^^^ meta.number.float.decimal.css constant.numeric.value.css */
@@ -697,13 +700,30 @@
 /*              ^ meta.number.float.decimal.css constant.numeric.suffix.css */
 
     0%, to {}
-/*  ^^^^^^^ meta.at-rule.keyframe.css meta.block.css - meta.property-list - meta.block meta.block */
+/*  ^^^^^^ meta.at-rule.keyframe.css meta.block.css meta.selector.css */
+/*        ^ meta.at-rule.keyframe.css meta.block.css - meta.selector - meta.property-list - meta.block meta.block */
 /*         ^^ meta.at-rule.keyframe.css meta.block.css meta.property-list.css meta.block.css */
 /*           ^ meta.at-rule.keyframe.css meta.block.css - meta.property-list - meta.block meta.block */
 /*  ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*   ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*    ^ punctuation.separator.sequence.css */
 /*      ^^ keyword.other.keyframe-selector.css */
+
+    %, to {}
+/*  ^^^^^ meta.at-rule.keyframe.css meta.block.css meta.selector.css */
+/*       ^ meta.at-rule.keyframe.css meta.block.css - meta.selector - meta.property-list - meta.block meta.block */
+/*        ^^ meta.at-rule.keyframe.css meta.block.css meta.property-list.css meta.block.css */
+/*          ^ meta.at-rule.keyframe.css meta.block.css - meta.property-list - meta.block meta.block */
+/*   ^ punctuation.separator.sequence.css */
+/*     ^^ keyword.other.keyframe-selector.css */
+
+    , to {}
+/*  ^^^^ meta.at-rule.keyframe.css meta.block.css meta.selector.css */
+/*      ^ meta.at-rule.keyframe.css meta.block.css - meta.selector - meta.property-list - meta.block meta.block */
+/*       ^^ meta.at-rule.keyframe.css meta.block.css meta.property-list.css meta.block.css */
+/*         ^ meta.at-rule.keyframe.css meta.block.css - meta.property-list - meta.block meta.block */
+/*  ^ punctuation.separator.sequence.css */
+/*    ^^ keyword.other.keyframe-selector.css */
 
     @media ;
 /*  ^^^^^^^^ - keyword - punctuation */

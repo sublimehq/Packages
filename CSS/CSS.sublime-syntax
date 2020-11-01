@@ -682,12 +682,21 @@ contexts:
     - meta_scope: meta.block.css
     - include: block-end2
     - include: comments
+    - include: property-lists
+    - include: at-keyframe-selectors
+
+  at-keyframe-selectors:
+    - match: (?=[[:alnum:].,%])
+      push: at-keyframe-selector-content
+
+  at-keyframe-selector-content:
+    - meta_scope: meta.selector.css
     - include: comma-delimiters
     - include: percentage-constants
     - include: scalar-constants # to handle incomplete percentages
-    - include: property-lists
     - match: \b(?i:from|to){{break}}
       scope: keyword.other.keyframe-selector.css
+    - include: selector-end
 
   # @media
   # https://drafts.csswg.org/css-conditional-3/#at-ruledef-media
