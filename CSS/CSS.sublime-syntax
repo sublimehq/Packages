@@ -581,7 +581,7 @@ contexts:
   at-counter-style-content:
     - meta_scope: meta.at-rule.counter-style.css
     - match: '{{counter_style_illegal_names}}'
-      scope: invalid.illegal.counter-style-name.css
+      scope: invalid.illegal.identifier.css
     - match: '{{ident}}'
       scope: entity.other.counter-style-name.css
     - include: rule-list

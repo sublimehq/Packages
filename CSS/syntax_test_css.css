@@ -918,7 +918,7 @@
 /*                        ^ - meta.at-rule - meta.block */
 /*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
 /*   ^^^^^^^^^^^^^ keyword.control.directive.css - punctuation */
-/*                 ^^^^ invalid.illegal.counter-style-name.css */
+/*                 ^^^^ invalid.illegal.identifier.css */
 /*                      ^ punctuation.section.block.begin.css */
 /*                       ^ punctuation.section.block.end.css */
 
@@ -928,7 +928,7 @@
 /*                           ^ - meta.at-rule - meta.block */
 /*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
 /*   ^^^^^^^^^^^^^ keyword.control.directive.css - punctuation */
-/*                 ^^^^^^^ invalid.illegal.counter-style-name.css */
+/*                 ^^^^^^^ invalid.illegal.identifier.css */
 /*                         ^ punctuation.section.block.begin.css */
 /*                          ^ punctuation.section.block.end.css */
 
@@ -938,7 +938,7 @@
 /*                        ^ - meta.at-rule - meta.block */
 /*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
 /*   ^^^^^^^^^^^^^ keyword.control.directive.css - punctuation */
-/*                 ^^^^ invalid.illegal.counter-style-name.css */
+/*                 ^^^^ invalid.illegal.identifier.css */
 /*                      ^ punctuation.section.block.begin.css */
 /*                       ^ punctuation.section.block.end.css */
 
