@@ -1397,7 +1397,7 @@
 .test-pseudo-class-strings:dir(ltr) {}
 /*                        ^ punctuation.accessor.colon.css - entity */
 /*                         ^^^ entity.other.pseudo-class.css */
-/*                             ^^^ meta.string.css string.unquoted.css */
+/*                             ^^^ support.constant.property-value.css */
 
 .test-pseudo-class-tag:not(*) {}
 /*                    ^ punctuation.accessor.colon.css - entity */

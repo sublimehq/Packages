@@ -1093,7 +1093,7 @@ contexts:
     # https://drafts.csswg.org/selectors-4/#functional-pseudo-class
 
     # Functional Pseudo Classes with a single unquoted string
-    - match: (?i:dir|lang){{break}}
+    - match: (?i:lang){{break}}
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
         - match: \(
@@ -1114,6 +1114,20 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: selectors
+        - include: immediately-pop
+
+    # Special :dir() pseudo-class
+    # https://drafts.csswg.org/selectors-4/#the-dir-pseudo
+    - match: (?i:dir){{break}}
+      scope: meta.function-call.identifier.css entity.other.pseudo-class.css
+      set:
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - match: \b(ltr|rtl){{break}}
+              scope: support.constant.property-value.css
         - include: immediately-pop
 
     # Special :drop() pseudo-class
