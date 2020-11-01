@@ -1164,8 +1164,17 @@ contexts:
 
     # Functional Pseudo Classes with `An+B` param
     # An+B Notation: https://drafts.csswg.org/css-syntax/#anb
-    # nth-last-child(), nth-child(), nth-last-of-type(), nth-of-type()
-    - match: (?i:nth-last-child|nth-child|nth-last-of-type|nth-of-type){{break}}
+    - match: |-
+        (?xi:
+        # https://drafts.csswg.org/selectors-4/#table-pseudos
+          nth-last-col
+        | nth-col
+        # https://drafts.csswg.org/selectors-4/#typed-child-index
+        | nth-last-child
+        | nth-child
+        | nth-last-of-type
+        | nth-of-type
+        ){{break}}
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
         - meta_include_prototype: false
