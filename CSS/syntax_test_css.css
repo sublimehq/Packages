@@ -478,7 +478,7 @@
 /*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
 /*   ^^^^^ keyword.control.directive.css - punctuation */
 /*         ^ punctuation.section.group.begin.css */
-/*          ^^^^^^^^^ support.type.property-name.media.css */
+/*          ^^^^^^^^^ support.type.property-name.css */
 /*                     ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                        ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                           ^ punctuation.section.block.begin.css */
@@ -493,7 +493,7 @@
 /*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
 /*   ^^^^^ keyword.control.directive.css - punctuation */
 /*         ^ punctuation.section.group.begin.css */
-/*          ^^^^^^^^^ support.type.property-name.media.css */
+/*          ^^^^^^^^^ support.type.property-name.css */
 /*                     ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                        ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                          ^ punctuation.section.group.end.css */
@@ -510,13 +510,13 @@
 /*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
 /*   ^^^^^ keyword.control.directive.css - punctuation */
 /*         ^ punctuation.section.group.begin.css */
-/*          ^^^^^^^^^ support.type.property-name.media.css */
+/*          ^^^^^^^^^ support.type.property-name.css */
 /*                     ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                        ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                          ^ punctuation.section.group.end.css */
 /*                            ^^^ keyword.operator.logic */
 /*                                ^ punctuation.section.group.begin.css */
-/*                                 ^^^^^^^^^ support.type.property-name.media.css */
+/*                                 ^^^^^^^^^ support.type.property-name.css */
 /*                                            ^^^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                                                ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                                                  ^ punctuation.section.group.end.css */
@@ -532,7 +532,7 @@
 /*                     ^^^ keyword.operator.logic.media.css */
 /*                         ^ punctuation.section.group.begin.css */
 /*                          ^^^^^^^^ support.type.vendor-prefix.css */
-/*                                  ^^^^^^^^^^^^^^^^^^^^^^ support.type.property-name.media.css */
+/*                                  ^^^^^^^^^^^^^^^^^^^^^^ support.type.property-name.css */
 /*                                                        ^ punctuation.separator.key-value.css */
 /*                                                          ^^^^^^^^^^^^^ comment.block.css */
 /*                                                                        ^^^ meta.number.float.decimal.css constant.numeric.value.css */
@@ -547,7 +547,7 @@
 /*              ^^^ keyword.operator.logic.media.css */
 /*                  ^ punctuation.section.group.begin.css */
 /*                   ^^^ support.type.vendor-prefix.css */
-/*                      ^^^^^^^^^^^^^^^^^^^^^^ support.type.property-name.media.css */
+/*                      ^^^^^^^^^^^^^^^^^^^^^^ support.type.property-name.css */
 /*                                            ^ punctuation.separator.key-value.css */
 /*                                              ^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                                                ^ keyword.operator.arithmetic.css - constant */
@@ -562,7 +562,7 @@
 /*       ^^^^^^ support.constant.media.css */
 /*              ^^^ keyword.operator.logic.media.css */
 /*                  ^ punctuation.section.group.begin.css */
-/*                   ^^^^^^^^^^^^^^ support.type.property-name.media.css */
+/*                   ^^^^^^^^^^^^^^ support.type.property-name.css */
 /*                                 ^ punctuation.separator.key-value.css */
 /*                                   ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                                      ^^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
@@ -584,12 +584,12 @@
 /*              ^^^^^^ support.constant.media.css */
 /*                     ^^^ keyword.operator.logic.media.css */
 /*                         ^ punctuation.section.group.begin.css */
-/*                          ^^^^^ support.type.property-name.media.css */
+/*                          ^^^^^ support.type.property-name.css */
 /*                                ^^ keyword.operator.comparison.css */
 /*                                   ^^^^^ meta.number.integer.decimal.css */
 /*                                         ^^ keyword.operator.logic.media.css */
 /*                                            ^ punctuation.section.group.begin.css */
-/*                                             ^^^^^^ support.type.property-name.media.css */
+/*                                             ^^^^^^ support.type.property-name.css */
 /*                                                    ^ keyword.operator.comparison.css */
 /*                                                      ^^^^ meta.number.integer.decimal.css */
 /*                                                          ^^ punctuation.section.group.end.css */
@@ -602,7 +602,7 @@
 /*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
 /*   ^^^^^^^^^^^^ keyword.control.directive.css - punctuation */
 /*                ^^^^^ entity.other.custom-media.css */
-/*                       ^^^^^ support.type.property-name.media.css */
+/*                       ^^^^^ support.type.property-name.css */
 /*                            ^ punctuation.separator.key-value.css */
 /*                              ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                               ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
@@ -616,7 +616,7 @@
 /*                     ^^^^^ entity.other.custom-media.css */
 /*                           ^^^^ comment.block.css */
 /*                                  ^^^^ comment.block.css */
-/*                                       ^^^^^ support.type.property-name.media.css */
+/*                                       ^^^^^ support.type.property-name.css */
 /*                                            ^ punctuation.separator.key-value.css */
 /*                                              ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                                               ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */

@@ -904,7 +904,7 @@ contexts:
         )\s*(:)?
       captures:
         1: support.type.vendor-prefix.css
-        2: support.type.property-name.media.css
+        2: support.type.property-name.css
         3: punctuation.separator.key-value.css
     - match: |-
         \b(?xi:
