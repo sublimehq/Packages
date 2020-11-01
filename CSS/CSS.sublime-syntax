@@ -1126,7 +1126,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - match: \b(active|valid|invalid){{break}}
-              scope: keyword.other.pseudo-class.css
+              scope: support.constant.property-value.css
         - include: immediately-pop
 
     # Functional Pseudo Classes with `An+B` param
@@ -1141,7 +1141,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - match: \b(even|odd){{break}}
-              scope: keyword.other.pseudo-class.css
+              scope: support.constant.property-value.css
             - match: (([-+]?)(\d*)(n))\s*(([-+])(\s*\d+))?
               captures:
                 1: meta.number.integer.decimal.css

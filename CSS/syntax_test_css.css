@@ -1323,7 +1323,7 @@
 /*             ^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
 /*             ^ punctuation.section.group.begin.css */
 /*               ^^^^ comment.block.css */
-/*                    ^^^ keyword.other.pseudo-class.css */
+/*                    ^^^ support.constant.property-value.css */
 /*                       ^ punctuation.section.group.end.css */
     ,
 /* ^^^ meta.selector.css */
@@ -1392,7 +1392,7 @@
 .test-pseudo-class-keywords:nth-of-type(odd) {}
 /*                         ^ punctuation.accessor.colon.css - entity */
 /*                          ^^^^^^^^^^^ entity.other.pseudo-class.css */
-/*                                      ^^^ keyword.other.pseudo-class.css */
+/*                                      ^^^ support.constant.property-value.css */
 
 .test-pseudo-class-strings:dir(ltr) {}
 /*                        ^ punctuation.accessor.colon.css - entity */
