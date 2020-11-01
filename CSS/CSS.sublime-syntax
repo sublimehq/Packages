@@ -681,11 +681,13 @@ contexts:
   at-keyframe-block-content:
     - meta_scope: meta.block.css
     - include: block-end2
+    - include: comments
+    - include: comma-delimiters
+    - include: percentage-constants
+    - include: scalar-constants # to handle incomplete percentages
+    - include: property-lists
     - match: \b(?i:from|to){{break}}
       scope: keyword.keyframe-selector.css
-    - include: comma-delimiters
-    - include: numeric-constants
-    - include: main
 
   # @media
   # https://drafts.csswg.org/css-conditional-3/#at-ruledef-media
