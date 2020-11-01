@@ -721,8 +721,9 @@ contexts:
 
   at-namespace-content:
     - meta_scope: meta.at-rule.namespace.css
-    - include: quoted-strings
+    - include: var-functions
     - include: url-functions
+    - include: quoted-urls
     - include: at-rule-end
 
   # @page
@@ -2056,8 +2057,8 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
             - include: var-functions
-            - include: quoted-strings
-            - include: unquoted-strings
+            - include: quoted-urls
+            - include: unquoted-urls
 
   # url-prefix()
   # https://www.w3.org/TR/2012/WD-css3-conditional-20120911/#url-prefix
@@ -2071,8 +2072,8 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
             - include: var-functions
-            - include: quoted-strings
-            - include: unquoted-strings
+            - include: quoted-urls
+            - include: unquoted-urls
 
   # domain()
   # https://www.w3.org/TR/2012/WD-css3-conditional-20120911/#url-domain
@@ -2086,8 +2087,8 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: group-end
             - include: var-functions
-            - include: quoted-strings
-            - include: unquoted-strings
+            - include: quoted-urls
+            - include: unquoted-urls
 
   # regexp()
   # https://www.w3.org/TR/2012/WD-css3-conditional-20120911/#url-regexp
@@ -2554,6 +2555,85 @@ contexts:
   unquoted-name-strings:
     - match: '{{ident}}(?:\s+{{ident}}(?!\())*'
       scope: meta.string.css string.unquoted.css
+
+###[ URL STRING CONSTANTS ]####################################################
+
+  quoted-urls:
+    - match: \"
+      scope:
+        meta.string.css string.quoted.double.css
+        punctuation.definition.string.begin.css
+      push: double-quoted-url-content
+    - match: \'
+      scope:
+        meta.string.css string.quoted.single.css
+        punctuation.definition.string.begin.css
+      push: single-quoted-url-content
+
+  double-quoted-url-content:
+    - meta_include_prototype: false
+    - meta_content_scope:
+        meta.path.url.css
+        meta.string.css string.quoted.double.css
+    - match: \"
+      scope:
+        meta.string.css string.quoted.double.css
+        punctuation.definition.string.end.css
+      pop: 1
+    - include: string-content
+    - include: url-content
+
+  single-quoted-url-content:
+    - meta_include_prototype: false
+    - meta_content_scope:
+        meta.path.url.css
+        meta.string.css string.quoted.single.css
+    - match: \'
+      scope:
+        meta.string.css string.quoted.single.css
+        punctuation.definition.string.end.css
+      pop: 1
+    - include: string-content
+    - include: url-content
+
+  unquoted-urls:
+    - match: (?=[[:alnum:]/])
+      push: unquoted-url-content
+
+  unquoted-url-content:
+    - meta_include_prototype: false
+    - meta_content_scope:
+        meta.path.url.css
+        meta.string.css string.unquoted.css
+    - match: \(
+      push:
+        - meta_include_prototype: false
+        - match: \)
+          pop: 1
+        - include: unquoted-url-content
+    - match: \[
+      push:
+        - meta_include_prototype: false
+        - match: \]
+          pop: 1
+        - include: unquoted-url-content
+    - match: \{
+      push:
+        - meta_include_prototype: false
+        - match: \}
+          pop: 1
+        - include: unquoted-url-content
+    - match: (?=[\s)\]}])
+      pop: 1
+    - include: url-content
+
+  url-content:
+    - match: (%)\h{2}
+      scope: constant.character.escape.url.css
+      captures:
+        1: punctuation.definition.escape.css
+    - match: '[/&?]'
+      scope: punctuation.separator.path.css
 
 ###[ OPERATORS ]###############################################################
 
