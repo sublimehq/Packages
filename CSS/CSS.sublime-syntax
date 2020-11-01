@@ -883,8 +883,10 @@ contexts:
 
   media-query-group-content:
     - meta_scope: meta.group.css
+    - match: (?=[,;{}])
+      pop: 1
     - include: group-end
-    - include: at-rule-end
+    - include: comments
     - include: media-query-conditions
     - include: var-functions
     - include: calc-functions

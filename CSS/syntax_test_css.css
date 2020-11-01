@@ -470,19 +470,26 @@
 /*                     ^ punctuation.section.block.begin.css */
 /*                      ^ punctuation.section.block.end.css */
 
-    @media (min-width: 700px {}
+    @media (min-width: 700px, (max-width < 100 {}
 /*  ^^^^^^^ meta.at-rule.media.css - meta.group */
-/*         ^^^^^^^^^^^^^^^^^^ meta.at-rule.media.css meta.group.css */
-/*                           ^^ meta.at-rule.media.css meta.block.css - meta.group - meta.property-list */
-/*                             ^ - meta.at-rule - meta.block */
+/*         ^^^^^^^^^^^^^^^^^ meta.at-rule.media.css meta.group.css - meta.group meta.group */
+/*                          ^^ meta.at-rule.media.css - meta.group */
+/*                            ^^^^^^^^^^^^^^^^^ meta.at-rule.media.css meta.group.css - meta.group meta.group */
+/*                                             ^^ meta.at-rule.media.css meta.block.css - meta.group - meta.property-list */
+/*                                               ^ - meta.at-rule - meta.block */
 /*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
 /*   ^^^^^ keyword.control.directive.css - punctuation */
 /*         ^ punctuation.section.group.begin.css */
 /*          ^^^^^^^^^ support.type.property-name.css */
 /*                     ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                        ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
-/*                           ^ punctuation.section.block.begin.css */
-/*                            ^ punctuation.section.block.end.css */
+/*                          ^ punctuation.separator.sequence.css */
+/*                            ^ punctuation.section.group.begin.css */
+/*                             ^^^^^^^^^ support.type.property-name.css */
+/*                                       ^ keyword.operator.comparison.css */
+/*                                         ^^^ constant.numeric.value.css */
+/*                                             ^ punctuation.section.block.begin.css */
+/*                                              ^ punctuation.section.block.end.css */
 
     @media (min-width: 700px) {}
 /*  ^^^^^^^ meta.at-rule.media.css - meta.group */
