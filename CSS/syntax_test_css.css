@@ -2259,14 +2259,14 @@
 /*                                                  ^ punctuation.section.group.end.css */
 /*                                                   ^ punctuation.terminator.rule.css */
 
-    top: url(foo/bar%20baz.php?page=10&func=test-._~:#[]'"@!$()*+%,;));
-/*       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function-call meta.function-call */
+    top: url(foo/bar%20baz.php?page=10&func=test-._~:#[]\'\"@!$*+%,;(bad-url\)));
+/*       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function-call meta.function-call */
 /*       ^^^ meta.function-call.identifier.css */
-/*          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
-/*                                                                   ^^ - meta.function-call */
+/*          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*                                                                             ^^ - meta.function-call */
 /*          ^ - meta.string - meta.path */
 /*           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.url.css meta.string.css string.unquoted.css */
-/*                                                                  ^^ - meta.string - meta.path */
+/*                                                                  ^^^^^^^^^^^^^ - meta.string - meta.path */
 /*       ^^^ support.function.url.css */
 /*          ^ punctuation.section.group.begin.css - string */
 /*              ^ punctuation.separator.path.css */
@@ -2274,9 +2274,12 @@
 /*                   ^^ constant.character.escape.url.css - punctuation */
 /*                            ^ punctuation.separator.path.css */
 /*                                    ^ punctuation.separator.path.css */
-/*                                                                  ^ punctuation.section.group.end.css - string */
-/*                                                                   ^ invalid.illegal.unexpected-token.css */
-/*                                                                    ^ punctuation.terminator.rule.css */
+/*                                                      ^^^^ constant.character.escape.css */
+/*                                                                  ^ invalid.illegal.unexpected-token.css */
+/*                                                                          ^^ constant.character.escape.css */
+/*                                                                            ^ punctuation.section.group.end.css - string */
+/*                                                                             ^ invalid.illegal.unexpected-token.css */
+/*                                                                              ^ punctuation.terminator.rule.css */
 
     top: url(var(--image));
 /*       ^^^ meta.function-call.identifier.css - meta.function-call meta.function-call */

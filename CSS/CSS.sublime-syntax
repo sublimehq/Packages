@@ -2722,6 +2722,8 @@ contexts:
     - include: string-content
     - include: url-content
 
+  # Unquoted URL token
+  # https://drafts.csswg.org/css-syntax-3/#consume-a-url-token
   unquoted-urls:
     - match: (?=[[:alnum:]/])
       push: unquoted-url-content
@@ -2731,29 +2733,19 @@ contexts:
     - meta_content_scope:
         meta.path.url.css
         meta.string.css string.unquoted.css
-    - match: \(
-      push:
+    - match: '["''(]'
+      scope: invalid.illegal.unexpected-token.css
+      set:
         - meta_include_prototype: false
-        - match: \)
+        - match: (?=\))
           pop: 1
-        - include: unquoted-url-content
-    - match: \[
-      push:
-        - meta_include_prototype: false
-        - match: \]
-          pop: 1
-        - include: unquoted-url-content
-    - match: \{
-      push:
-        - meta_include_prototype: false
-        - match: \}
-          pop: 1
-        - include: unquoted-url-content
-    - match: (?=[\s)\]}])
+        - include: string-content
+    - match: (?=\))
       pop: 1
     - include: url-content
 
   url-content:
+    - include: string-content
     - match: (%)\h{2}
       scope: constant.character.escape.url.css
       captures:
