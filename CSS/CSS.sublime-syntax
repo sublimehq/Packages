@@ -1126,7 +1126,6 @@ contexts:
   # https://drafts.csswg.org/selectors-4/#functional-pseudo-class
   pseudo-class-function:
     - include: pseudo-class-function-dir
-    - include: pseudo-class-function-drop
     - include: pseudo-class-function-lang
     - include: pseudo-class-function-with-anb-args
     - include: pseudo-class-function-with-selector-args
@@ -1145,21 +1144,6 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - match: \b(ltr|rtl){{break}}
-              scope: support.constant.property-value.css
-        - include: immediately-pop
-
-  # Special :drop() pseudo-class
-  pseudo-class-function-drop:
-    - match: (?i:drop){{break}}
-      scope: meta.function-call.identifier.css entity.other.pseudo-class.css
-      set:
-        - meta_include_prototype: false
-        - match: \(
-          scope: punctuation.section.group.begin.css
-          set:
-            - meta_scope: meta.function-call.arguments.css meta.group.css
-            - include: function-arguments-common
-            - match: \b(active|valid|invalid){{break}}
               scope: support.constant.property-value.css
         - include: immediately-pop
 
