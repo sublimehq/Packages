@@ -1134,7 +1134,7 @@ contexts:
   # Special :dir() pseudo-class
   # https://drafts.csswg.org/selectors-4/#the-dir-pseudo
   pseudo-class-function-dir:
-    - match: (?i:dir){{break}}
+    - match: (?i:dir)(?=\()
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
         - meta_include_prototype: false
@@ -1150,7 +1150,7 @@ contexts:
   # Special :lang() pseudo-class
   # https://drafts.csswg.org/selectors-4/#the-lang-pseudo
   pseudo-class-function-lang:
-    - match: (?i:lang){{break}}
+    - match: (?i:lang)(?=\()
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
         - meta_include_prototype: false
@@ -1177,7 +1177,7 @@ contexts:
         | nth-child
         | nth-last-of-type
         | nth-of-type
-        ){{break}}
+        )(?=\()
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
         - meta_include_prototype: false
@@ -1207,7 +1207,7 @@ contexts:
 
   # Functional Pseudo Classes with selector list
   pseudo-class-function-with-selector-args:
-    - match: (?i:matches|not|has){{break}}
+    - match: (?i:matches|not|has)(?=\()
       scope: meta.function-call.identifier.css entity.other.pseudo-class.css
       set:
         - meta_include_prototype: false

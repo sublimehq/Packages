@@ -1395,7 +1395,13 @@
 /*                          ^^^^^^^^^^^ entity.other.pseudo-class.css */
 /*                                      ^^^ support.constant.property-value.css */
 
+.test-pseudo-class-strings:dir {}
+/*                        ^ punctuation.accessor.colon.css - entity */
+/*                         ^^^ entity.other.pseudo-class.css - meta.function-call */
+
 .test-pseudo-class-strings:dir(ltr) {}
+/*                         ^^^ meta.function-call.identifier.css */
+/*                            ^^^^^ meta.function-call.arguments.css meta.group.css */
 /*                        ^ punctuation.accessor.colon.css - entity */
 /*                         ^^^ entity.other.pseudo-class.css */
 /*                             ^^^ support.constant.property-value.css */
