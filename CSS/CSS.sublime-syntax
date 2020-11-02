@@ -1029,17 +1029,17 @@ contexts:
       push:
         - attribute-selector-meta
         - attribute-selector-key
-    # Pseudo Classes and Elements
-    # https://drafts.csswg.org/selectors-4/#pseudo-classes
+    # Pseudo Elements
     # https://drafts.csswg.org/selectors-4/#pseudo-elements
     - match: '::'
       scope: punctuation.accessor.double-colon.css
       push:
         - meta_include_prototype: false
-        - include: pseudo-element-css2
         - include: pseudo-element-function
         - include: pseudo-element-regular
         - include: immediately-pop
+    # Pseudo Classes
+    # https://drafts.csswg.org/selectors-4/#pseudo-classes
     - match: ':'
       scope: punctuation.accessor.colon.css
       push:
@@ -1254,15 +1254,14 @@ contexts:
   # Regular Pseudo Classes
   # https://drafts.csswg.org/selectors-4/#pseudo-classes
   pseudo-class-regular:
-    # Regular Pseudo Classes
     - match: '{{ident}}'
       scope: entity.other.pseudo-class.css
       pop: 1
 
-  # Pseudo Elements
+  # Legacy Pseudo Elements
   # https://drafts.csswg.org/selectors-4/#pseudo-elements
   pseudo-element-css2:
-    # CSS1 & CSS2 require : or ::
+    # Note: CSS1 & CSS2 compatibility requires those to be matched after `:`
     - match: (?i:before|after|first-line|first-letter){{break}}
       scope: entity.other.pseudo-element.css
       pop: 1
@@ -1284,8 +1283,9 @@ contexts:
             - include: unquoted-strings
         - include: immediately-pop
 
+  # Pseudo Elements
+  # https://drafts.csswg.org/selectors-4/#pseudo-elements
   pseudo-element-regular:
-    # CSS3 requires ::
     - match: ({{vendor_prefix}})?{{ident}}
       captures:
         0: entity.other.pseudo-element.css
