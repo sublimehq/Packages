@@ -2758,7 +2758,7 @@ contexts:
       scope: constant.character.escape.url.css
       captures:
         1: punctuation.definition.escape.css
-    - match: '[/&?]'
+    - match: '[/&?]|://'
       scope: punctuation.separator.path.css
 
 ###[ OPERATORS ]###############################################################

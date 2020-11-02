@@ -742,7 +742,7 @@
 /*            ^^^ support.function.url.css */
 /*               ^ punctuation.section.group.begin.css */
 /*                ^^^^^^^ meta.path.url.css meta.string.css string.unquoted.css */
-/*                     ^^ punctuation.separator.path.css */
+/*                    ^^^ punctuation.separator.path.css */
 /*                       ^ punctuation.section.group.end.css */
 /*                         ^ punctuation.section.block.begin.css */
 /*                           ^ punctuation.section.block.end.css */
@@ -754,7 +754,7 @@
 /*        ^^^ support.function.url.css */
 /*           ^ punctuation.section.group.begin.css */
 /*            ^^^^^^^^^^ meta.path.url.css meta.string.css string.unquoted.css */
-/*                 ^^ punctuation.separator.path.css */
+/*                ^^^ punctuation.separator.path.css */
 /*                      ^ punctuation.section.group.end.css */
 /*                       ^ punctuation.separator.sequence.css */
           url-prefix("http://www"),
@@ -771,7 +771,7 @@
 /*                  ^ punctuation.section.group.begin.css */
 /*                   ^^^^^^^^^^^^ string.quoted.double.css */
 /*                   ^ punctuation.definition.string.begin.css */
-/*                         ^^ punctuation.separator.path.css */
+/*                        ^^^ punctuation.separator.path.css */
 /*                              ^ punctuation.definition.string.end.css */
 /*                               ^ punctuation.section.group.end.css */
 /*                                ^ punctuation.separator.sequence.css */
