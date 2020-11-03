@@ -2591,6 +2591,18 @@ contexts:
         3: constant.numeric.suffix.css
       push: maybe-illegal-operator
 
+  # Unicode Ranges
+  # https://www.w3.org/TR/css-syntax-3/#urange
+  unicode-ranges:
+    - match: ([Uu]\+)([\h?]{1,6}(?:(-)\h{1,6})?)
+      scope: meta.number.unicode-range.css
+      captures:
+        1: constant.numeric.prefix.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.range.css
+
+###[ STRING CONSTANTS ]########################################################
+
   # Language Ranges
   # https://drafts.csswg.org/selectors-4/#language-range
   language-ranges:
@@ -2603,18 +2615,6 @@ contexts:
           scope: variable.language.wildcard.asterisk.css
         - match: (?!{{nmchar}})
           pop: 1
-
-  # Unicode Ranges
-  # https://www.w3.org/TR/css-syntax-3/#urange
-  unicode-ranges:
-    - match: ([Uu]\+)([\h?]{1,6}(?:(-)\h{1,6})?)
-      scope: meta.number.unicode-range.css
-      captures:
-        1: constant.numeric.prefix.css
-        2: constant.numeric.value.css
-        3: punctuation.separator.range.css
-
-###[ STRING CONSTANTS ]########################################################
 
   # Named Grid Lines
   # https://drafts.csswg.org/css-grid/#named-lines
