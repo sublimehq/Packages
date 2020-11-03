@@ -2312,7 +2312,7 @@
 /*       ^^^^^ meta.function-call.identifier.css */
 /*            ^^^ meta.function-call.arguments.css meta.group.css */
 /*       ^^^^^ support.function.image.css */
-/*             ^ meta.string.css string.unquoted.css */
+/*             ^ - constant - string - support */
 
     top: image(var(--url));
 /*       ^^^^^ meta.function-call.identifier.css - meta.function-call meta.function-call */
@@ -2333,15 +2333,65 @@
 /*                ^ punctuation.separator.sequence.css */
 /*                      ^ meta.number.integer.decimal.css constant.numeric.value.css */
 
+    top: image(ltr "/images/image.png", rgb(0, 0, 0));
+/*       ^^^^^ meta.function-call.identifier.css - meta.function-call meta.function-call */
+/*            ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css - meta.function-call meta.function-call */
+/*                  ^^^^^^^^^^^^^^^^^ meta.path.url.css meta.string.css */
+/*                                      ^^^ meta.function-call.arguments.css meta.function-call.identifier.css */
+/*                                         ^^^^^^^^^ meta.function-call.arguments.css meta.function-call.arguments.css */
+/*                                                  ^ meta.function-call.arguments.css - meta.function-call meta.function-call */
+/*                                                   ^ - meta.function-call */
+/*       ^^^^^ support.function.image.css */
+/*             ^^^ support.constant.property-value.css */
+/*                 ^^^^^^^^^^^^^^^^^^^ string.quoted.double.css */
+/*                                    ^ punctuation.separator.sequence.css */
+/*                                      ^^^ support.function.color.css */
+
+    top: image(ltr url(/images/image.png), rgb(0, 0, 0));
+/*       ^^^^^ meta.function-call.identifier.css - meta.function-call meta.function-call */
+/*            ^^^^^ meta.function-call.arguments.css - meta.function-call meta.function-call */
+/*                 ^^^ meta.function-call.arguments.css meta.function-call.identifier.css */
+/*                    ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.function-call.arguments.css */
+/*                     ^^^^^^^^^^^^^^^^^ meta.path.url.css meta.string.css */
+/*                                       ^^ meta.function-call.arguments.css - meta.function-call meta.function-call */
+/*                                         ^^^ meta.function-call.arguments.css meta.function-call.identifier.css */
+/*                                            ^^^^^^^^^ meta.function-call.arguments.css meta.function-call.arguments.css */
+/*                                                     ^ meta.function-call.arguments.css - meta.function-call meta.function-call */
+/*                                                      ^ - meta.function-call */
+/*       ^^^^^ support.function.image.css */
+/*             ^^^ support.constant.property-value.css */
+/*                     ^^^^^^^^^^^^^^^^^ string.unquoted.css */
+/*                                       ^ punctuation.separator.sequence.css */
+/*                                         ^^^ support.function.color.css */
+
     top: image-set("a" 1x, a 4dpi);
 /*       ^^^^^^^^^ support.function.image.css */
 /*                 ^^^ meta.string.css string.quoted.double.css */
 /*                     ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                      ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                       ^ punctuation.separator.sequence.css */
-/*                         ^ meta.string.css string.unquoted.css */
+/*                         ^ - constant - string - support */
 /*                           ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                            ^^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
+
+    top: image-set("../assets/image.png" 1x, url(other/image.jpg) 4dpi);
+/*       ^^^^^^^^^ meta.function-call.identifier.css - meta.function-call meta.function-call */
+/*                ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css - meta.function-call meta.function-call */
+/*                                           ^^^ meta.function-call.arguments.css meta.function-call.identifier.css */
+/*                                              ^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.function-call.arguments.css */
+/*                                                               ^^^^^^ meta.function-call.arguments.css - meta.function-call meta.function-call */
+/*                                                                     ^ - meta.function-call */
+/*       ^^^^^^^^^ support.function.image.css */
+/*                 ^ meta.string.css string.quoted.double.css - meta.path */
+/*                  ^^^^^^^^^^^^^^^^^^^ meta.path.url.css meta.string.css string.quoted.double.css */
+/*                                     ^ meta.string.css string.quoted.double.css - meta.path */
+/*                                       ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                                        ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
+/*                                         ^ punctuation.separator.sequence.css */
+/*                                           ^^^ support.function.url.css */
+/*                                               ^^^^^^^^^^^^^^^ meta.path.url.css meta.string.css string.unquoted.css */
+/*                                                                ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                                                                 ^^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 
     top: cross-fade(50% "a", b);
 /*       ^^^^^^^^^^ support.function.image.css */
@@ -2349,7 +2399,16 @@
 /*                    ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*                      ^^^ meta.string.css string.quoted.double.css */
 /*                         ^ punctuation.separator.sequence.css */
-/*                           ^ meta.string.css string.unquoted.css */
+/*                           ^ - constant - string - support */
+
+    top: cross-fade(50% "a", url(b));
+/*       ^^^^^^^^^^ support.function.image.css */
+/*                  ^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                    ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
+/*                      ^^^ meta.string.css string.quoted.double.css */
+/*                         ^ punctuation.separator.sequence.css */
+/*                           ^^^ support.function.url.css */
+/*                               ^ meta.path.url.css meta.string.css string.unquoted.css */
 }
 
 .test-gradient-functions {

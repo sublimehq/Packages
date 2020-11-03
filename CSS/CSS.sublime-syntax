@@ -2212,7 +2212,7 @@ contexts:
             - include: quoted-strings
 
   # cross-fade()
-  # https://drafts.csswg.org/css-images-3/#cross-fade-functions
+  # https://drafts.csswg.org/css-images-4/#funcdef-cross-fade
   cross-fade-functions:
     - match: \b(?i:cross-fade)(?=\()
       scope: meta.function-call.identifier.css support.function.image.css
@@ -2227,11 +2227,10 @@ contexts:
             - include: color-values
             - include: image-values
             - include: percentage-constants
-            - include: quoted-strings
-            - include: unquoted-strings
+            - include: quoted-urls
 
   # image()
-  # https://drafts.csswg.org/css-images-3/#funcdef-image
+  # https://drafts.csswg.org/css-images-4/#funcdef-image
   image-functions:
     - match: \b(?i:image)(?=\()
       scope: meta.function-call.identifier.css support.function.image.css
@@ -2245,11 +2244,12 @@ contexts:
             - include: comma-delimiters
             - include: color-values
             - include: image-values
-            - include: quoted-strings
-            - include: unquoted-strings
+            - include: quoted-urls
+            - match: \b(ltr|rtl){{break}}
+              scope: support.constant.property-value.css
 
   # image-set()
-  # https://drafts.csswg.org/css-images-3/#funcdef-image-set
+  # https://drafts.csswg.org/css-images-4/#funcdef-image-set
   image-set-functions:
     - match: \b(?i:image-set)(?=\()
       scope: meta.function-call.identifier.css support.function.image.css
@@ -2263,14 +2263,13 @@ contexts:
             - include: comma-delimiters
             - include: color-values
             - include: image-values
+            - include: quoted-urls
             - include: resolution-constants
             - match: ([0-9]+)(x)
               scope: meta.number.integer.decimal.css
               captures:
                 1: constant.numeric.value.css
                 2: constant.numeric.suffix.css
-            - include: quoted-strings
-            - include: unquoted-strings
 
   # Gradient Functions
   # https://drafts.csswg.org/css-images-3/#gradients
