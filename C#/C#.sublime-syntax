@@ -1533,11 +1533,17 @@ contexts:
     - match: '''\'''
       scope: invalid.illegal.lone-escape.cs
     - match: (')({{escaped_char}})(')
-      scope: constant.character.cs
+      scope: string.quoted.single.cs
       captures:
+        1: punctuation.definition.string.begin.cs
         2: constant.character.escape.cs
-    - match: (').(')
-      scope: constant.character.cs
+        3: punctuation.definition.string.end.cs
+    - match: (')(.)(')
+      scope: string.quoted.single.cs
+      captures:
+        1: punctuation.definition.string.begin.cs
+        2: constant.character.cs
+        3: punctuation.definition.string.end.cs
     - match: (')[^']+(')
       scope: invalid.illegal.not_a_char.cs
     # numbers
