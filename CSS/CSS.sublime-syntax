@@ -721,7 +721,6 @@ contexts:
     - meta_scope: meta.selector.css
     - include: comma-delimiters
     - include: percentage-constants
-    - include: scalar-constants # to handle incomplete percentages
     - match: \b(?i:from|to){{break}}
       scope: keyword.other.keyframe-selector.css
     - include: selector-end
