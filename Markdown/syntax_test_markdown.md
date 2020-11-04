@@ -1313,6 +1313,12 @@ for (var i = 0; i < 10; i++) {
 ```
 | <- punctuation.definition.raw.code-fence.end
 
+```ts
+|  ^^ constant.other.language-name
+declare type foo = 'bar'
+|       ^^^^ source.ts storage.type meta.type-alias
+```
+
 ```testing``123```
 | <- punctuation.definition.raw.begin
 |         ^^ - punctuation
