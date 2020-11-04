@@ -260,6 +260,14 @@ variables:
   font_family_constants: |-
     \b(?xi: sans-serif | serif | monospace | fantasy | cursive | system-ui){{break}}
 
+  # Page Margin Property Names
+  # https://www.w3.org/TR/css-page-3/#margin-at-rule
+  page_margin_property_names: |-
+    \b(?xi:
+        (?: bottom | top ) - (?: left-corner | left | center | right | right-corner )
+      | (?: left | right ) - (?: top | middle | bottom )
+    ){{break}}
+
   # Property names are sorted by popularity in descending order.
   # Popularity data taken from https://www.chromestatus.com/metrics/css/popularity
   property_names: |-
@@ -794,26 +802,7 @@ contexts:
   # @top-center, ...
   # https://www.w3.org/TR/css-page-3/#margin-at-rule
   at-page-margin:
-    - match: |-
-        (?xi)
-        (@)
-        ( top-left-corner
-        | top-left
-        | top-center
-        | top-right
-        | top-right-corner
-        | bottom-left-corner
-        | bottom-left
-        | bottom-center
-        | bottom-right
-        | bottom-right-corner
-        | left-top
-        | left-middle
-        | left-bottom
-        | right-top
-        | right-middle
-        | right-bottom
-        ){{break}}
+    - match: (@){{page_margin_property_names}}
       captures:
         0: keyword.control.directive.css
         1: punctuation.definition.keyword.css
