@@ -1316,7 +1316,7 @@ for (var i = 0; i < 10; i++) {
 ```ts
 |  ^^ constant.other.language-name
 declare type foo = 'bar'
-|       ^^^^ source.ts storage.type meta.type-alias
+|       ^^^^ source.ts meta.type-alias storage.type
 ```
 
 ```testing``123```
