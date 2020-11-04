@@ -1021,7 +1021,7 @@ contexts:
     # Pseudo Elements
     # https://drafts.csswg.org/selectors-4/#pseudo-elements
     - match: '::'
-      scope: punctuation.accessor.double-colon.css
+      scope: punctuation.definition.pseudo-element.css
       push:
         - meta_include_prototype: false
         - include: pseudo-element-function
@@ -1030,7 +1030,7 @@ contexts:
     # Pseudo Classes
     # https://drafts.csswg.org/selectors-4/#pseudo-classes
     - match: ':'
-      scope: punctuation.accessor.colon.css
+      scope: punctuation.definition.pseudo-class.css
       push:
         - meta_include_prototype: false
         - include: pseudo-element-css2
