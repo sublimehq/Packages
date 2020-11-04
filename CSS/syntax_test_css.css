@@ -1658,42 +1658,98 @@
 /*                                                       ^ punctuation.section.block.end.css */
 
 .test-generic-font-families {
-    font: serif;
-/*  ^^^^ meta.property-list.css meta.property-name.css */
-/*      ^ meta.property-list.css - meta.property-name - meta.property-value */
-/*       ^^^^^^ meta.property-list.css meta.property-value.css */
-/*             ^ meta.property-list.css - meta.property-name - meta.property-value */
-/*  ^^^^ support.type.property-name.css */
-/*      ^ punctuation.separator.key-value.css */
-/*        ^^^^^ support.constant.font-name.css */
-/*             ^ punctuation.terminator.rule.css */
-    font: sans-serif;
-/*        ^^^^^^^^^^ support.constant.font-name.css */
-    font: cursive;
-/*        ^^^^^^^ support.constant.font-name.css */
-    font: fantasy;
-/*        ^^^^^^^ support.constant.font-name.css */
-    font: monospace;
-/*        ^^^^^^^^^ support.constant.font-name.css */
-    font: monospace !important;
-/*                  ^^^^^^^^^^ keyword.other.important.css */
-
-    font-family: monospace;
+    font-family: my-serif, serif, inherit;
 /*  ^^^^^^^^^^^ meta.property-list.css meta.property-name.css */
 /*             ^ meta.property-list.css - meta.property-name - meta.property-value */
-/*              ^^^^^^^^^^ meta.property-list.css meta.property-value.css */
-/*                        ^ meta.property-list.css - meta.property-name - meta.property-value */
-/*  ^^^^^^^^^^^ support.type.property-name.css */
-/*               ^^^^^^^^^ support.constant.font-name.css */
+/*              ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.property-value.css */
+/*                                       ^ meta.property-list.css - meta.property-name - meta.property-value */
+/*               ^^^^^^^^ string.unquoted */
+/*                       ^^ - string - support */
+/*                         ^^^^^ support.constant.font-name.css */
+/*                              ^^ - string - support */
+/*                                ^^^^^^^ support.constant.property-value.css */
 
-    font-: moto;
+    font-family: sans-serif, cursive, fantasy, monospace;
+/*  ^^^^^^^^^^^ meta.property-list.css meta.property-name.css */
+/*             ^ meta.property-list.css - meta.property-name - meta.property-value */
+/*              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.property-value.css */
+/*                                                      ^ meta.property-list.css - meta.property-name - meta.property-value */
+/*             ^^ - support */
+/*               ^^^^^^^^^^ support.constant.font-name.css */
+/*                         ^^ - support */
+/*                           ^^^^^^^ support.constant.font-name.css */
+/*                                  ^^ - support */
+/*                                    ^^^^^^^ support.constant.font-name.css */
+/*                                           ^^ - support */
+
+    font-family: monospace !important;
+/*               ^^^^^^^^^ support.constant.font-name.css */
+/*                         ^^^^^^^^^^ keyword.other.important.css */
+
+    font-family: emoji, math, fangsong, system-ui;
+/*  ^^^^^^^^^^^ meta.property-list.css meta.property-name.css */
+/*             ^ meta.property-list.css - meta.property-name - meta.property-value */
+/*              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.property-value.css */
+/*                                               ^ meta.property-list.css - meta.property-name - meta.property-value */
+/*             ^^ - support */
+/*               ^^^^^ support.constant.font-name.css */
+/*                    ^^ - support */
+/*                      ^^^^ support.constant.font-name.css */
+/*                          ^^ - support */
+/*                            ^^^^^^^^ support.constant.font-name.css */
+/*                                    ^^ - support */
+/*                                      ^^^^^^^^^ support.constant.font-name.css */
+/*                                               ^ - support */
+
+    font-family: droid serif;
+/*  ^^^^^^^^^^^ meta.property-list.css meta.property-name.css */
+/*             ^ meta.property-list.css - meta.property-name - meta.property-value */
+/*              ^^^^^^^^^^^^ meta.property-list.css meta.property-value.css */
+/*                          ^ meta.property-list.css - meta.property-name - meta.property-value */
+/*               ^^^^^^^^^^^ string.unquoted */
+}
+
+.invalid-font-family {
+    font-: sans-;
 /*  ^^^^^ meta.property-list.css meta.property-name.css */
 /*       ^ meta.property-list.css - meta.property-name - meta.property-value */
-/*        ^^^^^ meta.property-list.css meta.property-value.css */
-/*             ^ meta.property-list.css - meta.property-name - meta.property-value */
+/*        ^^^^^^ meta.property-list.css meta.property-value.css */
+/*              ^ meta.property-list.css - meta.property-name - meta.property-value */
 /*  ^^^^^ - entity - support */
 /*       ^ punctuation.separator.key-value.css */
-/*         ^^^^ - constant - support */
+/*         ^^^^^ - constant - support */
+
+    font-family: Red/Black, sans-serif;
+/*               ^^^^^^^^^ - string */
+/*                        ^ punctuation.separator.sequence.css */
+/*                          ^^^^^^^^^^ support.constant.font-name.css */
+
+    font-family: "Lucida" Grande, sans-serif;
+/*               ^^^^^^^^ string.quoted.double.css */
+/*                        ^^^^^^ string.unquoted.css */
+/*                              ^ punctuation.separator.sequence.css */
+/*                                ^^^^^^^^^^ support.constant.font-name.css */
+
+    font-family: Ahem!, sans-serif;
+/*               ^^^^ meta.string.css string.unquoted.css */
+/*                   ^ - string */
+/*                    ^ punctuation.separator.sequence.css */
+/*                      ^^^^^^^^^^ support.constant.font-name.css */
+
+    font-family: test@foo, sans-serif;
+/*                   ^ - string */
+/*                       ^ punctuation.separator.sequence.css */
+/*                         ^^^^^^^^^^ support.constant.font-name.css */
+
+    font-family: #POUND, sans-serif;
+/*               ^ - string */
+/*                     ^ punctuation.separator.sequence.css */
+/*                       ^^^^^^^^^^ support.constant.font-name.css */
+
+    font-family: Hawaii 5-0, sans-serif;
+/*                      ^^^ - string */
+/*                         ^ punctuation.separator.sequence.css */
+/*                           ^^^^^^^^^^ support.constant.font-name.css */
 }
 
 .test-unquoted-font-name {
@@ -1709,16 +1765,31 @@
 /*            ^^ - string */
 /*              ^^^^ meta.string.css string.unquoted.css */
 /*                  ^ punctuation.terminator.rule.css */
+
     font: inherit;
-/*        ^ - string */
+/*        ^^^^^^^ support - string */
+
     font: initial;
-/*        ^ - string */
+/*        ^^^^^^^ support - string */
+
     font: unset;
-/*        ^ - string */
+/*        ^^^^^ support - string */
+
     font: italic;
-/*        ^ - string */
+/*        ^^^^^^ support - string */
+
     font: small-caps;
-/*        ^ - string */
+/*        ^^^^^^^^^^ support - string */
+
+    font: caption;
+/*        ^^^^^^^ support - string */
+
+    font: icon;
+/*        ^^^^ support - string */
+
+    font: menu;
+/*        ^^^^ support - string */
+
     font: 2em m700, sans-serif;
 /*  ^^^^ meta.property-list.css meta.property-name.css */
 /*      ^ meta.property-list.css - meta.property-name - meta.property-value */
@@ -1730,6 +1801,71 @@
 /*            ^^^^ meta.string.css string.unquoted.css */
 /*                ^ punctuation.separator */
 /*                  ^^^^^^^^^^ support.constant.font-name.css */
+
+    font: 12pt/14pt sans-serif;
+/*        ^^ constant.numeric.value.css */
+/*          ^^ constant.numeric.suffix.css */
+/*            ^ keyword.operator.arithmetic.css */
+/*             ^^ constant.numeric.value.css */
+/*               ^^ constant.numeric.suffix.css */
+/*                  ^^^^^^^^^^ support.constant.font-name.css */
+/*                            ^ punctuation.terminator.rule.css */
+
+    font: 80% sans-serif;
+/*        ^^ constant.numeric.value.css */
+/*          ^ constant.numeric.suffix.css */
+/*            ^^^^^^^^^^ support.constant.font-name.css */
+/*                      ^ punctuation.terminator.rule.css */
+
+    font: x-large/110% "new century schoolbook", serif;
+/*        ^^^^^^^ support.constant.property-value.css */
+/*               ^ keyword.operator.arithmetic.css */
+/*                ^^^ constant.numeric.value.css */
+/*                   ^ constant.numeric.suffix.css */
+/*                     ^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.css */
+/*                                             ^ punctuation.separator.sequence.css */
+/*                                               ^^^^^ support.constant.font-name.css */
+
+    font: bold italic large Palatino, serif;
+/*        ^^^^ support.constant.property-value.css */
+/*             ^^^^^^ support.constant.property-value.css */
+/*                    ^^^^^ support.constant.property-value.css */
+/*                          ^^^^^^^^ string.unquoted.css */
+/*                                  ^ punctuation.separator.sequence.css */
+/*                                    ^^^^^ support.constant.font-name.css */
+/*                                         ^ punctuation.terminator.rule.css */
+
+    font: normal small-caps 120%/120% fantasy;
+/*        ^^^^^^ support.constant.property-value.css */
+/*               ^^^^^^^^^^ support.constant.property-value.css */
+/*                          ^^^ constant.numeric.value.css */
+/*                             ^ constant.numeric.suffix.css */
+/*                              ^ keyword.operator.arithmetic.css */
+/*                               ^^^ constant.numeric.value.css */
+/*                                  ^ constant.numeric.suffix.css */
+/*                                    ^^^^^^^ support.constant.font-name.css */
+/*                                           ^ punctuation.terminator.rule.css */
+
+    font: condensed oblique 12pt "Helvetica Neue", serif;
+/*        ^^^^^^^^^ support.constant.property-value.css */
+/*                  ^^^^^^^ support.constant.property-value.css */
+/*                          ^^ constant.numeric.value.css */
+/*                            ^^ constant.numeric.suffix.css */
+/*                               ^^^^^^^^^^^^^^^^ string.quoted.double.css */
+/*                                                 ^^^^^ support.constant.font-name.css */
+/*                                                      ^ punctuation.terminator.rule.css */
+
+    font: condensed oblique 25deg 753 12pt "Helvetica Neue", serif;
+/*        ^^^^^^^^^ support.constant.property-value.css */
+/*                  ^^^^^^^ support.constant.property-value.css */
+/*                          ^^ constant.numeric.value.css */
+/*                            ^^^ constant.numeric.suffix.css */
+/*                                ^^^ constant.numeric.value.css */
+/*                                    ^^ constant.numeric.value.css */
+/*                                      ^^ constant.numeric.suffix.css */
+/*                                         ^^^^^^^^^^^^^^^^ string.quoted.double.css */
+/*                                                           ^^^^^ support.constant.font-name.css */
+/*                                                                ^ punctuation.terminator.rule.css */
 }
 
 .test-font-weight {
@@ -2778,23 +2914,6 @@ svg > color-profile {}
 /*^^^^^^^ meta.property-list */
 /*  ^^^ meta.property-name */
 }/*     ^ meta.property-value */
-
-.generic-font-family { font-family: my-serif, serif }
-/*                                  ^^^^^^^^ meta.string.css string.unquoted */
-/*                                          ^ - string */
-/*                                            ^^^^^ support.constant.font-name */
-.generic-font-family2 { font-family: sans-serif , fantasy , system-ui; }
-/*                                   ^^^^^^^^^^ support.constant.font-name */
-/*                                                ^^^^^^^ support.constant.font-name */
-/*                                                          ^^^^^^^^^ support.constant.font-name */
-.generic-font-family3 {
-    font-family: cursive
-/*               ^^^^^^^ support.constant.font-name */
-}
-.generic-font-family4 {
-    font-family: droid serif;
-/*               ^^^^^^^^^^^ meta.string.css string.unquoted */
-}
 
 a {
   height:calc(10px/*);

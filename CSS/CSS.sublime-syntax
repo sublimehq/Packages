@@ -517,7 +517,11 @@ variables:
       | x{1,2}-(large|small)
       | z-index|zero
       | zoom(-in|-out)?
+      | {{font_property_values}}
     ){{break}}
+
+  font_property_values: |-
+    (?xi: caption | icon | menu | message-box | small-caption | status-bar )
 
 ###############################################################################
 
@@ -2819,5 +2823,5 @@ contexts:
       pop: 1
 
   terminator-pop:
-    - match: (?=[;@){}])
+    - match: (?=[;){}])
       pop: 1
