@@ -256,9 +256,17 @@ variables:
     \b(?xi: cyclic | numeric | alphabetic | symbolic | additive | fixed ){{break}}
 
   # Generic Font Families
-  # https://www.w3.org/TR/CSS22/fonts.html#generic-font-families
-  font_family_constants: |-
-    \b(?xi: sans-serif | serif | monospace | fantasy | cursive | system-ui){{break}}
+  generic_font_family_constants: |-
+    \b(?xi:
+      # CSS 2 fonts
+      # https://www.w3.org/TR/CSS22/fonts.html#generic-font-families
+        sans-serif | serif | cursive | monospace | fantasy
+      # CSS 3 level 4 fonts
+      # https://www.w3.org/TR/2019/WD-css-fonts-4-20191113/#generic-family-value
+      | emoji | math | fangsong | system-ui
+      # https://www.w3.org/TR/2019/WD-css-fonts-4-20191113/#standard-font-families
+      | ui-sans-serif | ui-serif | ui-monospace | ui-rounded
+    ){{break}}
 
   # Page Margin Property Names
   # https://www.w3.org/TR/css-page-3/#margin-at-rule
@@ -2410,7 +2418,7 @@ contexts:
   common-constants:
     - match: '{{property_values}}'
       scope: support.constant.property-value.css
-    - match: '{{font_family_constants}}'
+    - match: '{{generic_font_family_constants}}'
       scope: support.constant.font-name.css
 
   counter-speak-as-constants:
