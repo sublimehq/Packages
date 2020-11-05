@@ -959,37 +959,43 @@ contexts:
           | display-mode | grid | orientation | scan | scripting
           | overflow-(?: block | inline )
           )
-        )\s*(:)?
+        ){{break}}
       captures:
         1: support.type.vendor-prefix.css
         2: support.type.property-name.css
-        3: punctuation.separator.key-value.css
 
   media-query-property-values:
+    - match: ':'
+      scope: punctuation.separator.key-value.css
+      push: media-query-property-value-content
+
+  media-query-property-value-content:
     - match: |-
         \b(?xi:
-          # global css constants
-            all | inherit | initial | none | unset
-          # color-gamut / color-index:
-          | srgb | p3 | rec2020
-          # display-mode:
-          | browser | fullscreen | standalone | minimal-ui
-          # hover:
-          | hover
-          # orientation:
-          | landscape | portrait
-          # overflow:
-          | optional-paged | paged | scroll
-          # pointer:
-          | coarse | fine
-          # scan:
-          | interlace | progressive
-          # scripting:
-          | enabled | initial-only
-          # update:
-          | fast | normal | slow
+        # global css constants
+          all | inherit | initial | none | unset
+        # color-gamut / color-index:
+        | srgb | p3 | rec2020
+        # display-mode:
+        | browser | fullscreen | standalone | minimal-ui
+        # hover:
+        | hover
+        # orientation:
+        | landscape | portrait
+        # overflow:
+        | optional-paged | paged | scroll
+        # pointer:
+        | coarse | fine
+        # scan:
+        | interlace | progressive
+        # scripting:
+        | enabled | initial-only
+        # update:
+        | fast | normal | slow
         ){{break}}
       scope: support.constant.property-value.css
+      pop: 1
+    - include: else-pop
 
   media-query-media-types:
     # Media Types:
@@ -997,12 +1003,12 @@ contexts:
     # https://drafts.csswg.org/mediaqueries-5/#media-types
     - match: |-
         \b(?xi:
-          # global css constants
-            all | inherit | initial | none | unset
-          # specs
-          | print | screen | speech
-          # deprecated
-          | aural | braille | embossed | handheld | projection | tty | tv
+        # global css constants
+          all | inherit | initial | none | unset
+        # specs
+        | print | screen | speech
+        # deprecated
+        | aural | braille | embossed | handheld | projection | tty | tv
         ){{break}}
       scope: support.constant.media.css
 

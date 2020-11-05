@@ -491,6 +491,20 @@
 /*                     ^ punctuation.section.block.begin.css */
 /*                      ^ punctuation.section.block.end.css */
 
+    @media (hover: hover) {}
+/*  ^^^^^^^ meta.at-rule.media.css - meta.group */
+/*         ^^^^^^^^^^^^^^ meta.at-rule.media.css meta.group.css - meta.group meta.group */
+/*                       ^ meta.at-rule.media.css - meta.block - meta.group */
+/*                        ^^ meta.at-rule.media.css meta.block.css - meta.group - meta.property-list */
+/*                          ^ - meta.at-rule - meta.block */
+/*  ^ keyword.control.directive.css punctuation.definition.keyword.css */
+/*   ^^^^^ keyword.control.directive.css - punctuation */
+/*         ^ punctuation.section.group.begin.css */
+/*          ^^^^^ support.type.property-name.css */
+/*               ^ punctuation.separator.key-value.css */
+/*                 ^^^^^ support.constant.property-value.css */
+/*                      ^ punctuation.section.group.end.css */
+
     @media (min-width: 700px, (max-width < 100 {}
 /*  ^^^^^^^ meta.at-rule.media.css - meta.group */
 /*         ^^^^^^^^^^^^^^^^^ meta.at-rule.media.css meta.group.css - meta.group meta.group */
