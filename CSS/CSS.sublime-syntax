@@ -1328,6 +1328,7 @@ contexts:
     - include: builtin-property
     - include: custom-property
     - include: deprecated-property
+    - include: other-property
     # bailout
     - include: immediately-pop
 
@@ -1352,6 +1353,11 @@ contexts:
       captures:
         1: entity.other.custom-property.prefix.css
         2: entity.other.custom-property.name.css
+      pop: 1
+
+  other-property:
+    # Note: Consume unknown identifiers to maintain word boundaries.
+    - match: '{{ident}}'
       pop: 1
 
 ###[ PROPERTY VALUES ]#########################################################

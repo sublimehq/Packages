@@ -1711,14 +1711,14 @@
 }
 
 .invalid-font-family {
-    font-: sans-;
-/*  ^^^^^ meta.property-list.css meta.property-name.css */
-/*       ^ meta.property-list.css - meta.property-name - meta.property-value */
-/*        ^^^^^^ meta.property-list.css meta.property-value.css */
+    -font-family: -sans;
+/*  ^^^^^^^^^^^^ meta.property-list.css meta.property-name.css */
 /*              ^ meta.property-list.css - meta.property-name - meta.property-value */
-/*  ^^^^^ - entity - support */
-/*       ^ punctuation.separator.key-value.css */
-/*         ^^^^^ - constant - support */
+/*               ^^^^^^ meta.property-list.css meta.property-value.css */
+/*                     ^ meta.property-list.css - meta.property-name - meta.property-value */
+/*  ^^^^^^^^^^^^ - entity - support */
+/*              ^ punctuation.separator.key-value.css */
+/*                ^^^^^ - constant - support */
 
     font-family: Red/Black, sans-serif;
 /*               ^^^^^^^^^ - string */
