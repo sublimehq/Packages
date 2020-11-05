@@ -1398,11 +1398,9 @@ contexts:
     - include: terminator-pop
     - include: comments
     - include: comma-delimiters
+    - include: common-operators
     - include: builtin-values
-    - match: \!\s*(?i:important){{break}}
-      scope: keyword.other.important.css
-    - match: /
-      scope: keyword.operator.arithmetic.css
+    - include: other-values
 
   builtin-values:
     - include: builtin-functions
@@ -1434,6 +1432,10 @@ contexts:
     - include: image-functions
     - include: image-set-functions
     - include: url-functions
+
+  other-values:
+    # Note: Consume unknown identifiers to maintain word boundaries.
+    - match: '{{ident}}'
 
 ###[ COUNTER PROPERTY ]########################################################
 
@@ -1560,8 +1562,11 @@ contexts:
 
   font-property-value-content:
     - meta_content_scope: meta.property-value.css
-    - include: property-value-content
-    - include: unquoted-name-strings
+    - include: terminator-pop
+    - include: comments
+    - include: comma-delimiters
+    - include: common-operators
+    - include: builtin-values
     - match: '{{ident}}(?:\s+{{ident}}(?!\())*'
       scope: meta.string.css string.unquoted.css
 
@@ -2779,6 +2784,12 @@ contexts:
       scope: punctuation.separator.path.css
 
 ###[ OPERATORS ]###############################################################
+
+  common-operators:
+    - match: \!\s*(?i:important){{break}}
+      scope: keyword.other.important.css
+    - match: /
+      scope: keyword.operator.arithmetic.css
 
   color-adjuster-operators:
     - match: '[-+*](?=\s)'
