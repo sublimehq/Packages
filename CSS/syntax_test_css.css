@@ -831,7 +831,7 @@
     font-family: monospace,
 /* ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.font-face.css meta.property-list.css meta.block.css */
 /*  ^^^^^^^^^^^ support.type.property-name.css */
-/*               ^^^^^^^^^ support.constant.font-name.css */
+/*               ^^^^^^^^^ support.constant.property-value.css */
         /* */
 /* ^^^^^^^^^^^ meta.at-rule.font-face.css meta.property-list.css meta.block.css meta.property-value.css */
 /*      ^^^^^ comment.block.css */
@@ -1664,7 +1664,7 @@
 /*                                       ^ meta.property-list.css - meta.property-name - meta.property-value */
 /*               ^^^^^^^^ string.unquoted */
 /*                       ^^ - string - support */
-/*                         ^^^^^ support.constant.font-name.css */
+/*                         ^^^^^ support.constant.property-value.css */
 /*                              ^^ - string - support */
 /*                                ^^^^^^^ support.constant.property-value.css */
 
@@ -1674,15 +1674,15 @@
 /*              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.property-value.css */
 /*                                                      ^ meta.property-list.css - meta.property-name - meta.property-value */
 /*             ^^ - support */
-/*               ^^^^^^^^^^ support.constant.font-name.css */
+/*               ^^^^^^^^^^ support.constant.property-value.css */
 /*                         ^^ - support */
-/*                           ^^^^^^^ support.constant.font-name.css */
+/*                           ^^^^^^^ support.constant.property-value.css */
 /*                                  ^^ - support */
-/*                                    ^^^^^^^ support.constant.font-name.css */
+/*                                    ^^^^^^^ support.constant.property-value.css */
 /*                                           ^^ - support */
 
     font-family: monospace !important;
-/*               ^^^^^^^^^ support.constant.font-name.css */
+/*               ^^^^^^^^^ support.constant.property-value.css */
 /*                         ^^^^^^^^^^ keyword.other.important.css */
 
     font-family: emoji, math, fangsong, system-ui;
@@ -1691,13 +1691,13 @@
 /*              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.property-list.css meta.property-value.css */
 /*                                               ^ meta.property-list.css - meta.property-name - meta.property-value */
 /*             ^^ - support */
-/*               ^^^^^ support.constant.font-name.css */
+/*               ^^^^^ support.constant.property-value.css */
 /*                    ^^ - support */
-/*                      ^^^^ support.constant.font-name.css */
+/*                      ^^^^ support.constant.property-value.css */
 /*                          ^^ - support */
-/*                            ^^^^^^^^ support.constant.font-name.css */
+/*                            ^^^^^^^^ support.constant.property-value.css */
 /*                                    ^^ - support */
-/*                                      ^^^^^^^^^ support.constant.font-name.css */
+/*                                      ^^^^^^^^^ support.constant.property-value.css */
 /*                                               ^ - support */
 
     font-family: droid serif;
@@ -1721,34 +1721,34 @@
     font-family: Red/Black, sans-serif;
 /*               ^^^^^^^^^ - string */
 /*                        ^ punctuation.separator.sequence.css */
-/*                          ^^^^^^^^^^ support.constant.font-name.css */
+/*                          ^^^^^^^^^^ support.constant.property-value.css */
 
     font-family: "Lucida" Grande, sans-serif;
 /*               ^^^^^^^^ string.quoted.double.css */
 /*                        ^^^^^^ string.unquoted.css */
 /*                              ^ punctuation.separator.sequence.css */
-/*                                ^^^^^^^^^^ support.constant.font-name.css */
+/*                                ^^^^^^^^^^ support.constant.property-value.css */
 
     font-family: Ahem!, sans-serif;
 /*               ^^^^ meta.string.css string.unquoted.css */
 /*                   ^ - string */
 /*                    ^ punctuation.separator.sequence.css */
-/*                      ^^^^^^^^^^ support.constant.font-name.css */
+/*                      ^^^^^^^^^^ support.constant.property-value.css */
 
     font-family: test@foo, sans-serif;
 /*                   ^ - string */
 /*                       ^ punctuation.separator.sequence.css */
-/*                         ^^^^^^^^^^ support.constant.font-name.css */
+/*                         ^^^^^^^^^^ support.constant.property-value.css */
 
     font-family: #POUND, sans-serif;
 /*               ^ - string */
 /*                     ^ punctuation.separator.sequence.css */
-/*                       ^^^^^^^^^^ support.constant.font-name.css */
+/*                       ^^^^^^^^^^ support.constant.property-value.css */
 
     font-family: Hawaii 5-0, sans-serif;
 /*                      ^^^ - string */
 /*                         ^ punctuation.separator.sequence.css */
-/*                           ^^^^^^^^^^ support.constant.font-name.css */
+/*                           ^^^^^^^^^^ support.constant.property-value.css */
 }
 
 .test-unquoted-font-name {
@@ -1799,7 +1799,7 @@
 /*        ^^^ meta.number.integer.decimal.css */
 /*            ^^^^ meta.string.css string.unquoted.css */
 /*                ^ punctuation.separator */
-/*                  ^^^^^^^^^^ support.constant.font-name.css */
+/*                  ^^^^^^^^^^ support.constant.property-value.css */
 
     font: 12pt/14pt sans-serif;
 /*        ^^ constant.numeric.value.css */
@@ -1807,13 +1807,13 @@
 /*            ^ keyword.operator.arithmetic.css */
 /*             ^^ constant.numeric.value.css */
 /*               ^^ constant.numeric.suffix.css */
-/*                  ^^^^^^^^^^ support.constant.font-name.css */
+/*                  ^^^^^^^^^^ support.constant.property-value.css */
 /*                            ^ punctuation.terminator.rule.css */
 
     font: 80% sans-serif;
 /*        ^^ constant.numeric.value.css */
 /*          ^ constant.numeric.suffix.css */
-/*            ^^^^^^^^^^ support.constant.font-name.css */
+/*            ^^^^^^^^^^ support.constant.property-value.css */
 /*                      ^ punctuation.terminator.rule.css */
 
     font: x-large/110% "new century schoolbook", serif;
@@ -1823,7 +1823,7 @@
 /*                   ^ constant.numeric.suffix.css */
 /*                     ^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.css */
 /*                                             ^ punctuation.separator.sequence.css */
-/*                                               ^^^^^ support.constant.font-name.css */
+/*                                               ^^^^^ support.constant.property-value.css */
 
     font: bold italic large Palatino, serif;
 /*        ^^^^ support.constant.property-value.css */
@@ -1831,7 +1831,7 @@
 /*                    ^^^^^ support.constant.property-value.css */
 /*                          ^^^^^^^^ string.unquoted.css */
 /*                                  ^ punctuation.separator.sequence.css */
-/*                                    ^^^^^ support.constant.font-name.css */
+/*                                    ^^^^^ support.constant.property-value.css */
 /*                                         ^ punctuation.terminator.rule.css */
 
     font: normal small-caps 120%/120% fantasy;
@@ -1842,7 +1842,7 @@
 /*                              ^ keyword.operator.arithmetic.css */
 /*                               ^^^ constant.numeric.value.css */
 /*                                  ^ constant.numeric.suffix.css */
-/*                                    ^^^^^^^ support.constant.font-name.css */
+/*                                    ^^^^^^^ support.constant.property-value.css */
 /*                                           ^ punctuation.terminator.rule.css */
 
     font: condensed oblique 12pt "Helvetica Neue", serif;
@@ -1851,7 +1851,7 @@
 /*                          ^^ constant.numeric.value.css */
 /*                            ^^ constant.numeric.suffix.css */
 /*                               ^^^^^^^^^^^^^^^^ string.quoted.double.css */
-/*                                                 ^^^^^ support.constant.font-name.css */
+/*                                                 ^^^^^ support.constant.property-value.css */
 /*                                                      ^ punctuation.terminator.rule.css */
 
     font: condensed oblique 25deg 753 12pt "Helvetica Neue", serif;
@@ -1863,7 +1863,7 @@
 /*                                    ^^ constant.numeric.value.css */
 /*                                      ^^ constant.numeric.suffix.css */
 /*                                         ^^^^^^^^^^^^^^^^ string.quoted.double.css */
-/*                                                           ^^^^^ support.constant.font-name.css */
+/*                                                           ^^^^^ support.constant.property-value.css */
 /*                                                                ^ punctuation.terminator.rule.css */
 }
 
