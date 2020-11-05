@@ -32,9 +32,10 @@ variables:
 
   # Identifiers  
   # https://www.w3.org/TR/css-syntax-3/#typedef-ident-token
-  ident: (?:--{{name}}|-?{{nmstart}}{{nmchar}}*)
   # https://www.w3.org/TR/css3-selectors/#lex
-  name: '{{nmchar}}+'
+  ident: (?:{{custom_ident}}|{{generic_ident}})
+  custom_ident: (?:--{{nmchar}}*)
+  generic_ident: (?:-?{{nmstart}}{{nmchar}}*)
 
   # Ilegal Custom Identifier Names
   # https://www.w3.org/TR/css-values-4/#custom-idents
@@ -622,7 +623,7 @@ contexts:
         - at-custom-media-identifier
 
   at-custom-media-identifier:
-    - match: '--{{name}}'
+    - match: '{{custom_ident}}'
       scope: entity.other.custom-media.css
       pop: 1
     - include: comments
@@ -790,7 +791,7 @@ contexts:
       captures:
         0: entity.other.pseudo-class.css
         1: punctuation.definition.entity.css
-    - match: (:){{name}}
+    - match: (:){{nmchar}}*
       captures:
         # 0: invalid.illegal.pseudo-class.css
         1: punctuation.definition.entity.css
@@ -1011,7 +1012,7 @@ contexts:
       scope: punctuation.definition.entity.css
       push:
         - meta_scope: entity.other.attribute-name.class.css
-        - match: '{{ident}}'
+        - match: '{{generic_ident}}'
           pop: 1
         - include: immediately-pop
     # https://drafts.csswg.org/selectors-4/#id-selectors
@@ -1019,7 +1020,7 @@ contexts:
       scope: punctuation.definition.entity.css
       push:
         - meta_scope: entity.other.attribute-name.id.css
-        - match: '{{name}}'
+        - match: '{{generic_ident}}'
           pop: 1
         - include: immediately-pop
     # Attribute Selectors
@@ -1341,10 +1342,8 @@ contexts:
   # https://drafts.csswg.org/css-variables/#typedef-custom-property
   custom-property:
     # custom property definition
-    - match: (--){{name}}
+    - match: '{{custom_ident}}'
       scope: entity.other.custom-property.css
-      captures:
-        1: punctuation.definition.custom-property.css
       pop: 1
 
   deprecated-property:
@@ -1357,7 +1356,7 @@ contexts:
 
   other-property:
     # Note: Consume unknown identifiers to maintain word boundaries.
-    - match: '{{ident}}'
+    - match: '{{generic_ident}}'
       pop: 1
 
 ###[ PROPERTY VALUES ]#########################################################
@@ -1536,6 +1535,8 @@ contexts:
     - meta_content_scope: meta.property-value.css
     - include: property-value-content
     - include: unquoted-name-strings
+    - match: '{{ident}}(?:\s+{{ident}}(?!\())*'
+      scope: meta.string.css string.unquoted.css
 
 ###[ BUILTIN FUNCTIONS ]#######################################################
 
@@ -2442,10 +2443,8 @@ contexts:
   # https://drafts.csswg.org/css-variables/#typedef-custom-property
   custom-properties:
     # custom property reference
-    - match: (--){{name}}
+    - match: '{{custom_ident}}'
       scope: variable.other.custom-property.css
-      captures:
-        1: punctuation.definition.custom-property.css
 
 ###[ NUMERIC CONSTANTS ]#######################################################
 
@@ -2681,10 +2680,6 @@ contexts:
 
   unquoted-strings:
     - match: '[^\s''"]'
-      scope: meta.string.css string.unquoted.css
-
-  unquoted-name-strings:
-    - match: '{{ident}}(?:\s+{{ident}}(?!\())*'
       scope: meta.string.css string.unquoted.css
 
 ###[ URL STRING CONSTANTS ]####################################################

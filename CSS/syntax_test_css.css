@@ -106,7 +106,7 @@
 /*  ^^^ meta.selector.css */
 /*     ^^^ - meta.selector.css */
 /*  ^ entity.other.attribute-name.id.css punctuation.definition.entity.css */
-/*   ^^ entity.other.attribute-name.id.css - punctuation */
+/*   ^^ - entity - punctuation */
 
     #_1 {}
 /*^^ - meta.selector.css */
@@ -869,8 +869,7 @@
 /*                      ^ meta.at-rule.supports.css - meta.group */
 /*^^^^^^^ keyword.control.directive.css */
 /*        ^ punctuation.section.group.begin.css */
-/*         ^^ entity.other.custom-property.css punctuation.definition.custom-property.css */
-/*           ^^^ entity.other.custom-property.css - punctuation */
+/*         ^^^^^ entity.other.custom-property.css */
 /*              ^ punctuation.separator.key-value.css */
 /*                ^^^^^ support.constant.color.w3c.standard.css */
 /*                     ^ punctuation.section.group.end.css */
@@ -1184,8 +1183,7 @@
 /* <- meta.at-rule.counter-style.css meta.property-list.css meta.block.css punctuation.section.block.end.css */
 
 .test-var { --test-var: arial; font-family: var(--test-var) }
-/*          ^^ entity.other.custom-property.css punctuation.definition.custom-property.css */
-/*            ^^^^^^^^ entity.other.custom-property.css - punctuation */
+/*          ^^^^^^^^^^ entity.other.custom-property.css */
 /*                    ^ punctuation.separator.key-value.css*/
 /*                                              ^^^^^^^^^^ variable.other.custom-property.css */
 
@@ -2832,12 +2830,10 @@
 .test-var-function {
     top: var(--name);
 /*       ^^^ support.function.var.css */
-/*           ^^ punctuation.definition.custom-property.css */
 /*           ^^^^^^ variable.other.custom-property.css */
 
     top: var(--name, 1px);
 /*       ^^^ support.function.var.css */
-/*           ^^ punctuation.definition.custom-property.css */
 /*           ^^^^^^ variable.other.custom-property.css */
 /*                 ^ punctuation.separator.sequence.css */
 /*                   ^ constant.numeric.value.css */
@@ -2925,15 +2921,12 @@ a {
 
 .variable-beginnings {
     --1x: url(data:image/png;base64,PNG);
-/*  ^^ entity.other.custom-property.css punctuation.definition.custom-property.css */
-/*    ^^ entity.other.custom-property.css - punctuation */
+/*  ^^^^ entity.other.custom-property.css */
 /*      ^ punctuation.separator.key-value */
     background-image: var(--1x);
-/*                        ^^ punctuation.definition.custom-property */
 /*                        ^^^^ variable.other.custom-property.css */
     --\ff: 5px;
-/*  ^^ entity.other.custom-property.css punctuation.definition.custom-property.css */
-/*    ^^^ entity.other.custom-property.css - punctuation */
+/*  ^^^^^ entity.other.custom-property.css */
 /*       ^ punctuation.separator.key-value */
 }
 
