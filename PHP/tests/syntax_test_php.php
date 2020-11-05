@@ -920,7 +920,7 @@ null?->foo(bar())->baz();
 
 strval($foo);
 //^^^^^^^^^^ meta.function-call
-//^^^^ support.function.var - variable.function
+//^^^^ support.function.builtin - variable.function
 //    ^^^^^^ meta.group
 
 array_slice($array, $offset, $length, preserve_keys: true);
@@ -1464,7 +1464,7 @@ $var4 = 0b0_1_1_1;
 
 // class name should be case-insensitive
 $object = new ArRaYoBjEcT();
-//            ^^^^^^^^^^^ support.class.builtin
+//            ^^^^^^^^^^^ support.class
 
 // constant name should be case-sensitive
 $const = E_aLL;
@@ -1478,11 +1478,11 @@ $random = ArRaY_RaNd($array);
 $const = E_ALL;
 //       ^^^^^ support.constant.core
 $const = CASE_LOWER;
-//       ^^^^^^^^^^ support.constant.std
+//       ^^^^^^^^^^ support.constant.ext
 $const = CURLAUTH_BASIC;
 //       ^^^^^^^^^^^^^^ support.constant.ext
 $const = T_ABSTRACT;
-//       ^^^^^^^^^^ support.constant.parser-token
+//       ^^^^^^^^^^ support.constant.core
 
   foo_bar:
 //^^^^^^^ entity.name.label.php - keyword.control.php

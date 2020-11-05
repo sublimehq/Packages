@@ -2066,7 +2066,7 @@ graph n {}
 
 ```php
 var_dump(expression);
-| ^^^^^^ support.function.var.php
+| ^^^^^^ support.function.builtin.php
 ```
 
 ```html+php
@@ -2075,7 +2075,7 @@ var_dump(expression);
 <?php
 |^^^^ punctuation.section.embedded.begin.php
 var_dump(expression);
-| ^^^^^^ support.function.var.php
+| ^^^^^^ support.function.builtin.php
 ```
 |^^ punctuation.definition.raw.code-fence.end.markdown
 
