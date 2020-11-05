@@ -396,14 +396,14 @@ def get_properties():
         ],
         'ime-mode': ['auto', 'normal', 'active', 'inactive', 'disabled'],
         'isolation': ['auto', 'isolation'],
-        'justify-content': [
+        'justify-content | justify-items | justify-self': [
             'start', 'end', 'flex-start', 'flex-end', 'center', 'left', 'right',
             'safe start', 'safe end', 'safe flex-start', 'safe flex-end',
             'safe center', 'safe left', 'safe right', 'unsafe start',
             'unsafe end', 'unsafe flex-start', 'unsafe flex-end', 'unsafe center',
             'unsafe left', 'unsafe right', 'normal', 'baseline', 'first baseline',
             'last baseline', 'space-between', 'space-around', 'space-evenly',
-            'stretch'
+            'stretch', 'legacy', 'lecacy center', 'legacy left', 'legacy right'
         ],
         'kerning': ['auto'],
         'left': ['<length>', '<percentage>', 'auto'],

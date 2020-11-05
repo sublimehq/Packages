@@ -343,6 +343,7 @@ variables:
       | blend-mode | azimuth | pause-after | pause-before | pause | pitch-range
       | pitch | text-height | system | negative | prefix | suffix | range | pad
       | fallback | additive-symbols | symbols | speak-as | speak | grid-gap | grid
+      | justify-items | justify-self
     ){{break}}
 
   property_value_constants: |-
@@ -426,7 +427,7 @@ variables:
     | justify(-all)?
     | keep-all
     | landscape|ledger|legal|letter|A[3-5]|(JIS-)?B[4-5]|portrait
-    | last|left|letter-spacing
+    | last|left|letter-spacing|legacy
     | light(e[nr]|ing-color)
     | line(-edge|-height|-through)?
     | linear(-gradient|RGB)?
