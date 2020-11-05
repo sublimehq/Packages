@@ -1,0 +1,96 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.pgsql
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          pg_affected_rows
+          | pg_cancel_query
+          | pg_client_encoding
+          | pg_close
+          | pg_connect
+          | pg_connection_busy
+          | pg_connection_reset
+          | pg_connection_status
+          | pg_convert
+          | pg_copy_from
+          | pg_copy_to
+          | pg_dbname
+          | pg_delete
+          | pg_end_copy
+          | pg_escape_bytea
+          | pg_escape_string
+          | pg_execute
+          | pg_fetch_all
+          | pg_fetch_all_columns
+          | pg_fetch_array
+          | pg_fetch_assoc
+          | pg_fetch_object
+          | pg_fetch_result
+          | pg_fetch_row
+          | pg_field_is_null
+          | pg_field_name
+          | pg_field_num
+          | pg_field_prtlen
+          | pg_field_size
+          | pg_field_table
+          | pg_field_type
+          | pg_field_type_oid
+          | pg_free_result
+          | pg_get_notify
+          | pg_get_pid
+          | pg_get_result
+          | pg_host
+          | pg_insert
+          | pg_last_error
+          | pg_last_notice
+          | pg_last_oid
+          | pg_lo_close
+          | pg_lo_create
+          | pg_lo_export
+          | pg_lo_import
+          | pg_lo_open
+          | pg_lo_read
+          | pg_lo_read_all
+          | pg_lo_seek
+          | pg_lo_tell
+          | pg_lo_unlink
+          | pg_lo_write
+          | pg_meta_data
+          | pg_num_fields
+          | pg_num_rows
+          | pg_options
+          | pg_parameter_status
+          | pg_pconnect
+          | pg_ping
+          | pg_port
+          | pg_prepare
+          | pg_put_line
+          | pg_query
+          | pg_query_params
+          | pg_result_error
+          | pg_result_error_field
+          | pg_result_seek
+          | pg_result_status
+          | pg_select
+          | pg_send_execute
+          | pg_send_prepare
+          | pg_send_query
+          | pg_send_query_params
+          | pg_set_client_encoding
+          | pg_set_error_verbosity
+          | pg_trace
+          | pg_transaction_status
+          | pg_tty
+          | pg_unescape_bytea
+          | pg_untrace
+          | pg_update
+          | pg_version
+        )\b
+      scope: support.function.pgsql.php

@@ -1,0 +1,40 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.apc
+contexts:
+  main: []
+  class: 
+    - match: |-
+        (?xi)(\\)?\b(
+          APCIterator
+        )\b
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.class.ext.php
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          apc_add
+          | apc_bin_dump
+          | apc_bin_dumpfile
+          | apc_bin_load
+          | apc_bin_loadfile
+          | apc_cache_info
+          | apc_cas
+          | apc_clear_cache
+          | apc_compile_file
+          | apc_dec
+          | apc_define_constants
+          | apc_delete
+          | apc_delete_file
+          | apc_exists
+          | apc_fetch
+          | apc_inc
+          | apc_load_constants
+          | apc_sma_info
+          | apc_store
+        )\b
+      scope: support.function.apc.php

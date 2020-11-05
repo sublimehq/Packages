@@ -1,0 +1,40 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.xslt
+contexts:
+  main: []
+  class: 
+    - match: |-
+        (?xi)(\\)?\b(
+          XSLTProcessor
+        )\b
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.class.ext.php
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          xslt_backend_info
+          | xslt_backend_name
+          | xslt_backend_version
+          | xslt_create
+          | xslt_errno
+          | xslt_error
+          | xslt_free
+          | xslt_getopt
+          | xslt_process
+          | xslt_set_base
+          | xslt_set_encoding
+          | xslt_set_error_handler
+          | xslt_set_log
+          | xslt_set_object
+          | xslt_set_sax_handler
+          | xslt_set_sax_handlers
+          | xslt_set_scheme_handler
+          | xslt_set_scheme_handlers
+          | xslt_setopt
+        )\b
+      scope: support.function.xslt.php

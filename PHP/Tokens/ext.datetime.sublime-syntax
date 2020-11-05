@@ -1,0 +1,96 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.datetime
+contexts:
+  main: []
+  class: 
+    - match: |-
+        (?xi)(\\)?\b(
+          DATE_ATOM
+          | DATE_COOKIE
+          | DATE_ISO8601
+          | DATE_RFC1036
+          | DATE_RFC1123
+          | DATE_RFC2822
+          | DATE_RFC3339
+          | DATE_RFC822
+          | DATE_RFC850
+          | DATE_RSS
+          | DATE_W3C
+          | DateInterval
+          | DatePeriod
+          | DateTime
+          | DateTimeImmutable
+          | DateTimeInterface
+          | DateTimeZone
+        )\b
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.class.ext.php
+  constant:
+    - match: |-
+        (?x)(\\)?\b(
+          SUNFUNCS_RET_DOUBLE
+          | SUNFUNCS_RET_STRING
+          | SUNFUNCS_RET_TIMESTAMP
+        )\b
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.constant.ext.php
+  function:
+    - match: |-
+        \b(?xi:
+          checkdate
+          | date
+          | date_add
+          | date_create
+          | date_create_from_format
+          | date_date_set
+          | date_default_timezone_get
+          | date_default_timezone_set
+          | date_diff
+          | date_format
+          | date_get_last_errors
+          | date_interval_create_from_date_string
+          | date_interval_format
+          | date_isodate_set
+          | date_modify
+          | date_offset_get
+          | date_parse
+          | date_parse_from_format
+          | date_sub
+          | date_sun_info
+          | date_sunrise
+          | date_sunset
+          | date_time_set
+          | date_timestamp_get
+          | date_timestamp_set
+          | date_timezone_get
+          | date_timezone_set
+          | getdate
+          | gettimeofday
+          | gmdate
+          | gmmktime
+          | gmstrftime
+          | hrtime
+          | idate
+          | localtime
+          | microtime
+          | mktime
+          | strftime
+          | strptime
+          | strtotime
+          | time
+          | timezone_abbreviations_list
+          | timezone_identifiers_list
+          | timezone_location_get
+          | timezone_name_from_abbr
+          | timezone_name_get
+          | timezone_offset_get
+          | timezone_open
+          | timezone_transitions_get
+          | timezone_version_get
+        )\b
+      scope: support.function.datetime.php

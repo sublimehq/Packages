@@ -1,0 +1,16 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.mail
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          ezmlm_hash
+          | mail
+        )\b
+      scope: support.function.mail.php

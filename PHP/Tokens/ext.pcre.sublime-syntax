@@ -1,0 +1,46 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.pcre
+contexts:
+  main: []
+  class: []
+  constant:
+    - match: |-
+        (?x)(\\)?\b(
+          PCRE_VERSION
+          | PREG_BACKTRACK_LIMIT_ERROR
+          | PREG_BAD_UTF8_ERROR
+          | PREG_BAD_UTF8_OFFSET_ERROR
+          | PREG_GREP_INVERT
+          | PREG_INTERNAL_ERROR
+          | PREG_JIT_STACKLIMIT_ERROR
+          | PREG_NO_ERROR
+          | PREG_OFFSET_CAPTURE
+          | PREG_PATTERN_ORDER
+          | PREG_RECURSION_LIMIT_ERROR
+          | PREG_SET_ORDER
+          | PREG_SPLIT_DELIM_CAPTURE
+          | PREG_SPLIT_NO_EMPTY
+          | PREG_SPLIT_OFFSET_CAPTURE
+          | PREG_UNMATCHED_AS_NULL
+        )\b
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.constant.ext.php
+  function:
+    - match: |-
+        \b(?xi:
+          preg_filter
+          | preg_grep
+          | preg_last_error
+          | preg_match
+          | preg_match_all
+          | preg_quote
+          | preg_replace
+          | preg_replace_callback
+          | preg_replace_callback_array
+          | preg_split
+        )\b
+      scope: support.function.pcre.php

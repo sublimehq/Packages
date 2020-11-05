@@ -1,0 +1,94 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.math
+contexts:
+  main: []
+  class: []
+  constant:
+    - match: |-
+        (?x)(\\)?\b(
+          INF
+          | M_1_PI
+          | M_2_PI
+          | M_2_SQRTPI
+          | M_E
+          | M_EULER
+          | M_LN10
+          | M_LN2
+          | M_LNPI
+          | M_LOG10E
+          | M_LOG2E
+          | M_PI
+          | M_PI_2
+          | M_PI_4
+          | M_SQRT1_2
+          | M_SQRT2
+          | M_SQRT3
+          | M_SQRTPI
+          | MT_RAND_PHP
+          | NAN
+          | PHP_ROUND_HALF_DOWN
+          | PHP_ROUND_HALF_EVEN
+          | PHP_ROUND_HALF_ODD
+          | PHP_ROUND_HALF_UP
+        )\b
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.constant.ext.php
+  function:
+    - match: |-
+        \b(?xi:
+          abs
+          | acos
+          | acosh
+          | asin
+          | asinh
+          | atan
+          | atan2
+          | atanh
+          | base_convert
+          | bindec
+          | ceil
+          | cos
+          | cosh
+          | decbin
+          | dechex
+          | decoct
+          | deg2rad
+          | exp
+          | expm1
+          | fdiv
+          | floor
+          | fmod
+          | getrandmax
+          | hexdec
+          | hypot
+          | intdiv
+          | is_finite
+          | is_infinite
+          | is_nan
+          | lcg_value
+          | log
+          | log10
+          | log1p
+          | max
+          | min
+          | mt_getrandmax
+          | mt_rand
+          | mt_srand
+          | octdec
+          | pi
+          | pow
+          | rad2deg
+          | rand
+          | round
+          | sin
+          | sinh
+          | sqrt
+          | srand
+          | tan
+          | tanh
+        )\b
+      scope: support.function.math.php

@@ -1,0 +1,17 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.simplexml
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          simplexml_import_dom
+          | simplexml_load_file
+          | simplexml_load_string
+        )\b
+      scope: support.function.simplexml.php

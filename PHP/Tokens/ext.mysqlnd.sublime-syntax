@@ -1,0 +1,24 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.mysqlnd
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          mysqlnd_ms_get_stats
+          | mysqlnd_ms_query_is_select
+          | mysqlnd_ms_set_user_pick_server
+          | mysqlnd_qc_change_handler
+          | mysqlnd_qc_clear_cache
+          | mysqlnd_qc_get_cache_info
+          | mysqlnd_qc_get_core_stats
+          | mysqlnd_qc_get_handler
+          | mysqlnd_qc_get_query_trace_log
+          | mysqlnd_qc_set_user_handlers
+        )\b
+      scope: support.function.mysqlnd.php

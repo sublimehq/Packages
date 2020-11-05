@@ -1,0 +1,126 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.stream
+contexts:
+  main: []
+  class: 
+    - match: |-
+        (?xi)(\\)?\b(
+          streamWrapper
+        )\b
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.class.ext.php
+  constant:
+    - match: |-
+        (?x)(\\)?\b(
+          PSFS_ERR_FATAL
+          | PSFS_FEED_ME
+          | PSFS_FLAG_FLUSH_CLOSE
+          | PSFS_FLAG_FLUSH_INC
+          | PSFS_FLAG_NORMAL
+          | PSFS_PASS_ON
+          | STREAM_CAST_AS_STREAM
+          | STREAM_CAST_FOR_SELECT
+          | STREAM_CLIENT_ASYNC_CONNECT
+          | STREAM_CLIENT_CONNECT
+          | STREAM_CLIENT_PERSISTENT
+          | STREAM_FILTER_ALL
+          | STREAM_FILTER_READ
+          | STREAM_FILTER_WRITE
+          | STREAM_IPPROTO_ICMP
+          | STREAM_IPPROTO_IP
+          | STREAM_IPPROTO_RAW
+          | STREAM_IPPROTO_TCP
+          | STREAM_IPPROTO_UDP
+          | STREAM_META_ACCESS
+          | STREAM_META_GROUP
+          | STREAM_META_GROUP_NAME
+          | STREAM_META_OWNER
+          | STREAM_META_OWNER_NAME
+          | STREAM_META_TOUCH
+          | STREAM_NOTIFY_AUTH_REQUIRED
+          | STREAM_NOTIFY_AUTH_RESULT
+          | STREAM_NOTIFY_COMPLETED
+          | STREAM_NOTIFY_CONNECT
+          | STREAM_NOTIFY_FAILURE
+          | STREAM_NOTIFY_FILE_SIZE_IS
+          | STREAM_NOTIFY_MIME_TYPE_IS
+          | STREAM_NOTIFY_PROGRESS
+          | STREAM_NOTIFY_REDIRECTED
+          | STREAM_NOTIFY_RESOLVE
+          | STREAM_NOTIFY_SEVERITY_ERR
+          | STREAM_NOTIFY_SEVERITY_INFO
+          | STREAM_NOTIFY_SEVERITY_WARN
+          | STREAM_PF_INET
+          | STREAM_PF_INET6
+          | STREAM_PF_UNIX
+          | STREAM_REPORT_ERRORS
+          | STREAM_SERVER_BIND
+          | STREAM_SERVER_LISTEN
+          | STREAM_SHUT_RD
+          | STREAM_SHUT_RDWR
+          | STREAM_SHUT_WR
+          | STREAM_SOCK_DGRAM
+          | STREAM_SOCK_RAW
+          | STREAM_SOCK_RDM
+          | STREAM_SOCK_SEQPACKET
+          | STREAM_SOCK_STREAM
+          | STREAM_USE_PATH
+        )\b
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.constant.ext.php
+  function:
+    - match: |-
+        \b(?xi:
+          set_socket_blocking
+          | stream_bucket_append
+          | stream_bucket_make_writeable
+          | stream_bucket_new
+          | stream_bucket_prepend
+          | stream_context_create
+          | stream_context_get_default
+          | stream_context_get_options
+          | stream_context_get_params
+          | stream_context_set_default
+          | stream_context_set_option
+          | stream_context_set_params
+          | stream_copy_to_stream
+          | stream_encoding
+          | stream_filter_append
+          | stream_filter_prepend
+          | stream_filter_register
+          | stream_filter_remove
+          | stream_get_contents
+          | stream_get_filters
+          | stream_get_line
+          | stream_get_meta_data
+          | stream_get_transports
+          | stream_get_wrappers
+          | stream_is_local
+          | stream_notification_callback
+          | stream_register_wrapper
+          | stream_resolve_include_path
+          | stream_select
+          | stream_set_blocking
+          | stream_set_read_buffer
+          | stream_set_timeout
+          | stream_set_write_buffer
+          | stream_socket_accept
+          | stream_socket_client
+          | stream_socket_enable_crypto
+          | stream_socket_get_name
+          | stream_socket_pair
+          | stream_socket_recvfrom
+          | stream_socket_sendto
+          | stream_socket_server
+          | stream_socket_shutdown
+          | stream_supports_lock
+          | stream_wrapper_register
+          | stream_wrapper_restore
+          | stream_wrapper_unregister
+        )\b
+      scope: support.function.stream.php

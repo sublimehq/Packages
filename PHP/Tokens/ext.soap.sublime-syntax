@@ -1,0 +1,28 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.soap
+contexts:
+  main: []
+  class: 
+    - match: |-
+        (?xi)(\\)?\b(
+          SoapClient
+          | SoapFault
+          | SoapHeader
+          | SoapParam
+          | SoapServer
+          | SoapVar
+        )\b
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.class.ext.php
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          is_soap_fault
+          | use_soap_error_handler
+        )\b
+      scope: support.function.soap.php

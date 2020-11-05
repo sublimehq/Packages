@@ -1,0 +1,19 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.exif
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          exif_imagetype
+          | exif_read_data
+          | exif_tagname
+          | exif_thumbnail
+          | read_exif_data
+        )\b
+      scope: support.function.exif.php

@@ -1,0 +1,42 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.fileinfo
+contexts:
+  main: []
+  class: 
+    - match: |-
+        (?xi)(\\)?\b(
+          finfo
+        )\b
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.class.ext.php
+  constant:
+    - match: |-
+        (?x)(\\)?\b(
+          FILEINFO_CONTINUE
+          | FILEINFO_DEVICES
+          | FILEINFO_MIME
+          | FILEINFO_MIME_ENCODING
+          | FILEINFO_MIME_TYPE
+          | FILEINFO_NONE
+          | FILEINFO_PRESERVE_ATIME
+          | FILEINFO_RAW
+          | FILEINFO_SYMLINK
+        )\b
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.constant.ext.php
+  function:
+    - match: |-
+        \b(?xi:
+          finfo_buffer
+          | finfo_close
+          | finfo_file
+          | finfo_open
+          | finfo_set_flags
+          | mime_content_type
+        )\b
+      scope: support.function.fileinfo.php

@@ -1,0 +1,24 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.bcmath
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          bcadd
+          | bccomp
+          | bcdiv
+          | bcmod
+          | bcmul
+          | bcpow
+          | bcpowmod
+          | bcscale
+          | bcsqrt
+          | bcsub
+        )\b
+      scope: support.function.bcmath.php

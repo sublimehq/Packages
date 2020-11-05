@@ -1,0 +1,26 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.hash
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          hash
+          | hash_algos
+          | hash_copy
+          | hash_file
+          | hash_final
+          | hash_hkdf
+          | hash_hmac
+          | hash_hmac_file
+          | hash_init
+          | hash_update
+          | hash_update_file
+          | hash_update_stream
+        )\b
+      scope: support.function.hash.php

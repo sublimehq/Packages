@@ -1,0 +1,56 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.com
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          com_addref
+          | com_create_guid
+          | com_event_sink
+          | com_get
+          | com_get_active_object
+          | com_invoke
+          | com_isenum
+          | com_load
+          | com_load_typelib
+          | com_message_pump
+          | com_print_typeinfo
+          | com_propget
+          | com_propput
+          | com_propset
+          | com_release
+          | com_set
+          | variant_abs
+          | variant_add
+          | variant_and
+          | variant_cast
+          | variant_cat
+          | variant_cmp
+          | variant_date_from_timestamp
+          | variant_date_to_timestamp
+          | variant_div
+          | variant_eqv
+          | variant_fix
+          | variant_get_type
+          | variant_idiv
+          | variant_imp
+          | variant_int
+          | variant_mod
+          | variant_mul
+          | variant_neg
+          | variant_not
+          | variant_or
+          | variant_pow
+          | variant_round
+          | variant_set
+          | variant_set_type
+          | variant_sub
+          | variant_xor
+        )\b
+      scope: support.function.com.php

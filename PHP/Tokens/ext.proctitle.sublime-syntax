@@ -1,0 +1,16 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.proctitle
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          setproctitle
+          | setthreadtitle
+        )\b
+      scope: support.function.proctitle.php

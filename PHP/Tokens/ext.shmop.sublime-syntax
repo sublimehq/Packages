@@ -1,0 +1,20 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.shmop
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          shmop_close
+          | shmop_delete
+          | shmop_open
+          | shmop_read
+          | shmop_size
+          | shmop_write
+        )\b
+      scope: support.function.shmop.php

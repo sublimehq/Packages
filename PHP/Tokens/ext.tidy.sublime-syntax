@@ -1,0 +1,52 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.tidy
+contexts:
+  main: []
+  class: 
+    - match: |-
+        (?xi)(\\)?\b(
+          tidy
+          | tidyNode
+        )\b
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.class.ext.php
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          ob_tidyhandler
+          | tidy_access_count
+          | tidy_clean_repair
+          | tidy_config_count
+          | tidy_diagnose
+          | tidy_error_count
+          | tidy_get_body
+          | tidy_get_config
+          | tidy_get_error_buffer
+          | tidy_get_head
+          | tidy_get_html
+          | tidy_get_html_ver
+          | tidy_get_opt_doc
+          | tidy_get_output
+          | tidy_get_release
+          | tidy_get_root
+          | tidy_get_status
+          | tidy_getopt
+          | tidy_is_xhtml
+          | tidy_is_xml
+          | tidy_load_config
+          | tidy_parse_file
+          | tidy_parse_string
+          | tidy_repair_file
+          | tidy_repair_string
+          | tidy_reset_config
+          | tidy_save_config
+          | tidy_set_encoding
+          | tidy_setopt
+          | tidy_warning_count
+        )\b
+      scope: support.function.tidy.php

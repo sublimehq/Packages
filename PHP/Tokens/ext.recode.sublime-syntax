@@ -1,0 +1,17 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.recode
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          recode
+          | recode_file
+          | recode_string
+        )\b
+      scope: support.function.recode.php

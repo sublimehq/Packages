@@ -1,0 +1,40 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.url
+contexts:
+  main: []
+  class: []
+  constant:
+    - match: |-
+        (?x)(\\)?\b(
+          PHP_QUERY_RFC1738
+          | PHP_QUERY_RFC3986
+          | PHP_URL_FRAGMENT
+          | PHP_URL_HOST
+          | PHP_URL_PASS
+          | PHP_URL_PATH
+          | PHP_URL_PORT
+          | PHP_URL_QUERY
+          | PHP_URL_SCHEME
+          | PHP_URL_USER
+        )\b
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.constant.ext.php
+  function:
+    - match: |-
+        \b(?xi:
+          base64_decode
+          | base64_encode
+          | get_headers
+          | get_meta_tags
+          | http_build_query
+          | parse_url
+          | rawurldecode
+          | rawurlencode
+          | urldecode
+          | urlencode
+        )\b
+      scope: support.function.url.php

@@ -1,0 +1,154 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.image
+contexts:
+  main: []
+  class: 
+    - match: |-
+        (?xi)(\\)?\b(
+          Gmagick
+          | GmagickDraw
+          | GmagickPixel
+          | Imagick
+          | ImagickDraw
+          | ImagickPixel
+          | ImagickPixelIterator
+        )\b
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.class.ext.php
+  constant:
+    - match: |-
+        (?x)(\\)?\b(
+          IMAGETYPE_BMP
+          | IMAGETYPE_COUNT
+          | IMAGETYPE_GIF
+          | IMAGETYPE_ICO
+          | IMAGETYPE_IFF
+          | IMAGETYPE_JB2
+          | IMAGETYPE_JP2
+          | IMAGETYPE_JPC
+          | IMAGETYPE_JPEG
+          | IMAGETYPE_JPEG2000
+          | IMAGETYPE_JPX
+          | IMAGETYPE_PNG
+          | IMAGETYPE_PSD
+          | IMAGETYPE_SWC
+          | IMAGETYPE_SWF
+          | IMAGETYPE_TIFF_II
+          | IMAGETYPE_TIFF_MM
+          | IMAGETYPE_UNKNOWN
+          | IMAGETYPE_WBMP
+          | IMAGETYPE_WEBP
+          | IMAGETYPE_XBM
+        )\b
+      scope: support.constant.ext.php
+  function:
+    - match: |-
+        \b(?xi:
+          gd_info
+          | getimagesize
+          | image2wbmp
+          | image_type_to_extension
+          | image_type_to_mime_type
+          | imagealphablending
+          | imageantialias
+          | imagearc
+          | imagechar
+          | imagecharup
+          | imagecolorallocate
+          | imagecolorallocatealpha
+          | imagecolorat
+          | imagecolorclosest
+          | imagecolorclosestalpha
+          | imagecolorclosesthwb
+          | imagecolordeallocate
+          | imagecolorexact
+          | imagecolorexactalpha
+          | imagecolormatch
+          | imagecolorresolve
+          | imagecolorresolvealpha
+          | imagecolorset
+          | imagecolorsforindex
+          | imagecolorstotal
+          | imagecolortransparent
+          | imageconvolution
+          | imagecopy
+          | imagecopymerge
+          | imagecopymergegray
+          | imagecopyresampled
+          | imagecopyresized
+          | imagecreate
+          | imagecreatefromgd
+          | imagecreatefromgd2
+          | imagecreatefromgd2part
+          | imagecreatefromgif
+          | imagecreatefromjpeg
+          | imagecreatefrompng
+          | imagecreatefromstring
+          | imagecreatefromwbmp
+          | imagecreatefromxbm
+          | imagecreatefromxpm
+          | imagecreatetruecolor
+          | imagedashedline
+          | imagedestroy
+          | imageellipse
+          | imagefill
+          | imagefilledarc
+          | imagefilledellipse
+          | imagefilledpolygon
+          | imagefilledrectangle
+          | imagefilltoborder
+          | imagefilter
+          | imagefontheight
+          | imagefontwidth
+          | imageftbbox
+          | imagefttext
+          | imagegammacorrect
+          | imagegd
+          | imagegd2
+          | imagegif
+          | imagegrabscreen
+          | imagegrabwindow
+          | imageinterlace
+          | imageistruecolor
+          | imagejpeg
+          | imagelayereffect
+          | imageline
+          | imageloadfont
+          | imagepalettecopy
+          | imagepng
+          | imagepolygon
+          | imagepsbbox
+          | imagepsencodefont
+          | imagepsextendfont
+          | imagepsfreefont
+          | imagepsloadfont
+          | imagepsslantfont
+          | imagepstext
+          | imagerectangle
+          | imagerotate
+          | imagesavealpha
+          | imagesetbrush
+          | imagesetpixel
+          | imagesetstyle
+          | imagesetthickness
+          | imagesettile
+          | imagestring
+          | imagestringup
+          | imagesx
+          | imagesy
+          | imagetruecolortopalette
+          | imagettfbbox
+          | imagettftext
+          | imagetypes
+          | imagewbmp
+          | imagexbm
+          | iptcembed
+          | iptcparse
+          | jpeg2wbmp
+          | png2wbmp
+        )\b
+      scope: support.function.image.php

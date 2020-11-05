@@ -1,0 +1,35 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.rrd
+contexts:
+  main: []
+  class: 
+    - match: |-
+        (?xi)(\\)?\b(
+          RRDCreator
+          | RRDGraph
+          | RRDUpdater
+        )\b
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.class.ext.php
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          rrd_create
+          | rrd_error
+          | rrd_fetch
+          | rrd_first
+          | rrd_graph
+          | rrd_info
+          | rrd_last
+          | rrd_lastupdate
+          | rrd_restore
+          | rrd_tune
+          | rrd_update
+          | rrd_xport
+        )\b
+      scope: support.function.rrd.php

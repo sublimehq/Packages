@@ -1,0 +1,40 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.sockets
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          socket_accept
+          | socket_bind
+          | socket_clear_error
+          | socket_close
+          | socket_connect
+          | socket_create
+          | socket_create_listen
+          | socket_create_pair
+          | socket_export_stream
+          | socket_get_option
+          | socket_getpeername
+          | socket_getsockname
+          | socket_last_error
+          | socket_listen
+          | socket_read
+          | socket_recv
+          | socket_recvfrom
+          | socket_select
+          | socket_send
+          | socket_sendto
+          | socket_set_block
+          | socket_set_nonblock
+          | socket_set_option
+          | socket_shutdown
+          | socket_strerror
+          | socket_write
+        )\b
+      scope: support.function.sockets.php

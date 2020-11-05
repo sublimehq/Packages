@@ -1,0 +1,38 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.snmp
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          snmp2_get
+          | snmp2_getnext
+          | snmp2_real_walk
+          | snmp2_set
+          | snmp2_walk
+          | snmp3_get
+          | snmp3_getnext
+          | snmp3_real_walk
+          | snmp3_set
+          | snmp3_walk
+          | snmp_get_quick_print
+          | snmp_get_valueretrieval
+          | snmp_read_mib
+          | snmp_set_enum_print
+          | snmp_set_oid_numeric_print
+          | snmp_set_oid_output_format
+          | snmp_set_quick_print
+          | snmp_set_valueretrieval
+          | snmpget
+          | snmpgetnext
+          | snmprealwalk
+          | snmpset
+          | snmpwalk
+          | snmpwalkoid
+        )\b
+      scope: support.function.snmp.php

@@ -1,0 +1,35 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.iconv
+contexts:
+  main: []
+  class: []
+  constant: 
+    - match: |-
+        (?x)(\\)?\b(
+          ICONV_IMPL
+          | ICONV_MIME_DECODE_CONTINUE_ON_ERROR
+          | ICONV_MIME_DECODE_STRICT
+          | ICONV_VERSION
+        )\b
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.constant.ext.php
+  function:
+    - match: |-
+        \b(?xi:
+          iconv
+          | iconv_get_encoding
+          | iconv_mime_decode
+          | iconv_mime_decode_headers
+          | iconv_mime_encode
+          | iconv_set_encoding
+          | iconv_strlen
+          | iconv_strpos
+          | iconv_strrpos
+          | iconv_substr
+          | ob_iconv_handler
+        )\b
+      scope: support.function.iconv.php

@@ -1,0 +1,30 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.iisfunc
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          iis_add_server
+          | iis_get_dir_security
+          | iis_get_script_map
+          | iis_get_server_by_comment
+          | iis_get_server_by_path
+          | iis_get_server_rights
+          | iis_get_service_state
+          | iis_remove_server
+          | iis_set_app_settings
+          | iis_set_dir_security
+          | iis_set_script_map
+          | iis_set_server_rights
+          | iis_start_server
+          | iis_start_service
+          | iis_stop_server
+          | iis_stop_service
+        )\b
+      scope: support.function.iisfunc.php

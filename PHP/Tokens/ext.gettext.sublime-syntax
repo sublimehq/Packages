@@ -1,0 +1,23 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.gettext
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          bind_textdomain_codeset
+          | bindtextdomain
+          | dcgettext
+          | dcngettext
+          | dgettext
+          | dngettext
+          | gettext
+          | ngettext
+          | textdomain
+        )\b
+      scope: support.function.gettext.php

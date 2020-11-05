@@ -1,0 +1,59 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.gmp
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          gmp_abs
+          | gmp_add
+          | gmp_and
+          | gmp_binomial
+          | gmp_clrbit
+          | gmp_cmp
+          | gmp_com
+          | gmp_div
+          | gmp_fact
+          | gmp_gcd
+          | gmp_gcdext
+          | gmp_hamdist
+          | gmp_init
+          | gmp_intval
+          | gmp_invert
+          | gmp_jacobi
+          | gmp_kronecker
+          | gmp_kronecker_q
+          | gmp_kronecker_qr
+          | gmp_kronecker_r
+          | gmp_kroneckerexact
+          | gmp_lcm
+          | gmp_legendre
+          | gmp_mod
+          | gmp_mul
+          | gmp_neg
+          | gmp_nextprime
+          | gmp_or
+          | gmp_perfect_power
+          | gmp_perfect_square
+          | gmp_popcount
+          | gmp_pow
+          | gmp_powm
+          | gmp_prob_prime
+          | gmp_random
+          | gmp_scan0
+          | gmp_scan1
+          | gmp_setbit
+          | gmp_sign
+          | gmp_sqrt
+          | gmp_sqrtrem
+          | gmp_strval
+          | gmp_sub
+          | gmp_testbit
+          | gmp_xor
+        )\b
+      scope: support.function.gmp.php

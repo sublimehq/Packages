@@ -1,0 +1,33 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.pspell
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          pspell_add_to_personal
+          | pspell_add_to_session
+          | pspell_check
+          | pspell_clear_session
+          | pspell_config_create
+          | pspell_config_data_dir
+          | pspell_config_dict_dir
+          | pspell_config_ignore
+          | pspell_config_mode
+          | pspell_config_personal
+          | pspell_config_repl
+          | pspell_config_runtogether
+          | pspell_config_save_repl
+          | pspell_new
+          | pspell_new_config
+          | pspell_new_personal
+          | pspell_save_wordlist
+          | pspell_store_replacement
+          | pspell_suggest
+        )\b
+      scope: support.function.pspell.php

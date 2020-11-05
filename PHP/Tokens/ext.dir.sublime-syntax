@@ -1,0 +1,23 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.dir
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          chdir
+          | chroot
+          | closedir
+          | dir
+          | getcwd
+          | opendir
+          | readdir
+          | rewinddir
+          | scandir
+        )\b
+      scope: support.function.dir.php

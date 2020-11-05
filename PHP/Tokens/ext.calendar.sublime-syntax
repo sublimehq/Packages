@@ -1,0 +1,32 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.calendar
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          cal_days_in_month
+          | cal_from_jd
+          | cal_info
+          | cal_to_jd
+          | easter_date
+          | easter_days
+          | FrenchToJD
+          | GregorianToJD
+          | JDDayOfWeek
+          | JDMonthName
+          | JDToFrench
+          | JDToGregorian
+          | JDToJewish
+          | JDToJulian
+          | JDtoUnix
+          | JewishToJD
+          | JulianToJD
+          | UnixToJD
+        )\b
+      scope: support.function.calendar.php

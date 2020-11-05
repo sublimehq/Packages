@@ -1,0 +1,28 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.xmlrpc
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          xmlrpc_decode
+          | xmlrpc_decode_request
+          | xmlrpc_encode
+          | xmlrpc_encode_request
+          | xmlrpc_get_type
+          | xmlrpc_is_fault
+          | xmlrpc_parse_method_descriptions
+          | xmlrpc_server_add_introspection_data
+          | xmlrpc_server_call_method
+          | xmlrpc_server_create
+          | xmlrpc_server_destroy
+          | xmlrpc_server_register_introspection_callback
+          | xmlrpc_server_register_method
+          | xmlrpc_set_type
+        )\b
+      scope: support.function.xmlrpc.php

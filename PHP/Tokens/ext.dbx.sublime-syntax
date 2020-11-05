@@ -1,0 +1,22 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.dbx
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          dbx_close
+          | dbx_compare
+          | dbx_connect
+          | dbx_error
+          | dbx_escape_string
+          | dbx_fetch_row
+          | dbx_query
+          | dbx_sort
+        )\b
+      scope: support.function.dbx.php

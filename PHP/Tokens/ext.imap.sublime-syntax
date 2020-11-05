@@ -1,0 +1,87 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.imap
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          imap_8bit
+          | imap_alerts
+          | imap_append
+          | imap_base64
+          | imap_binary
+          | imap_body
+          | imap_bodystruct
+          | imap_check
+          | imap_clearflag_full
+          | imap_close
+          | imap_create
+          | imap_createmailbox
+          | imap_delete
+          | imap_deletemailbox
+          | imap_errors
+          | imap_expunge
+          | imap_fetch_overview
+          | imap_fetchbody
+          | imap_fetchheader
+          | imap_fetchmime
+          | imap_fetchstructure
+          | imap_fetchtext
+          | imap_gc
+          | imap_get_quota
+          | imap_get_quotaroot
+          | imap_getacl
+          | imap_getmailboxes
+          | imap_getsubscribed
+          | imap_header
+          | imap_headerinfo
+          | imap_headers
+          | imap_last_error
+          | imap_list
+          | imap_listmailbox
+          | imap_listscan
+          | imap_listsubscribed
+          | imap_lsub
+          | imap_mail
+          | imap_mail_compose
+          | imap_mail_copy
+          | imap_mail_move
+          | imap_mailboxmsginfo
+          | imap_mime_header_decode
+          | imap_msgno
+          | imap_num_msg
+          | imap_num_recent
+          | imap_open
+          | imap_ping
+          | imap_qprint
+          | imap_rename
+          | imap_renamemailbox
+          | imap_reopen
+          | imap_rfc822_parse_adrlist
+          | imap_rfc822_parse_headers
+          | imap_rfc822_write_address
+          | imap_savebody
+          | imap_scan
+          | imap_scanmailbox
+          | imap_search
+          | imap_set_quota
+          | imap_setacl
+          | imap_setflag_full
+          | imap_sort
+          | imap_status
+          | imap_subscribe
+          | imap_thread
+          | imap_timeout
+          | imap_uid
+          | imap_undelete
+          | imap_unsubscribe
+          | imap_utf7_decode
+          | imap_utf7_encode
+          | imap_utf8
+        )\b
+      scope: support.function.imap.php

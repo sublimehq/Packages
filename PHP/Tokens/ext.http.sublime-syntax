@@ -1,0 +1,79 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.http
+contexts:
+  main: []
+  class: 
+    - match: |-
+        (?xi)(\\)?\b(
+          HttpDeflateStream
+          | HttpInflateStream
+          | HttpMessage
+          | HttpQueryString
+          | HttpRequest
+          | HttpRequestPool
+          | HttpResponse
+        )\b
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.class.ext.php
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          http_build_cookie
+          | http_build_str
+          | http_build_url
+          | http_cache_etag
+          | http_cache_last_modified
+          | http_chunked_decode
+          | http_date
+          | http_deflate
+          | http_get
+          | http_get_request_body
+          | http_get_request_body_stream
+          | http_get_request_headers
+          | http_head
+          | http_inflate
+          | http_match_etag
+          | http_match_modified
+          | http_match_request_header
+          | http_negotiate_charset
+          | http_negotiate_content_type
+          | http_negotiate_language
+          | http_parse_cookie
+          | http_parse_headers
+          | http_parse_message
+          | http_parse_params
+          | http_persistent_handles_clean
+          | http_persistent_handles_count
+          | http_persistent_handles_ident
+          | http_post_data
+          | http_post_fields
+          | http_put_data
+          | http_put_file
+          | http_put_stream
+          | http_redirect
+          | http_request
+          | http_request_body_encode
+          | http_request_method_exists
+          | http_request_method_name
+          | http_request_method_register
+          | http_request_method_unregister
+          | http_response_code
+          | http_send_content_disposition
+          | http_send_content_type
+          | http_send_data
+          | http_send_file
+          | http_send_last_modified
+          | http_send_status
+          | http_send_stream
+          | http_support
+          | http_throttle
+          | ob_deflatehandler
+          | ob_etaghandler
+          | ob_inflatehandler
+        )\b
+      scope: support.function.http.php

@@ -1,0 +1,17 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.nsapi
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          nsapi_request_headers
+          | nsapi_response_headers
+          | nsapi_virtual
+        )\b
+      scope: support.function.nsapi.php

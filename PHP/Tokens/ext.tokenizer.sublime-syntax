@@ -1,0 +1,16 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.tokenizer
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          token_get_all
+          | token_name
+        )\b
+      scope: support.function.tokenizer.php

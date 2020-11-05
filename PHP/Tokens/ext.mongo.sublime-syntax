@@ -1,0 +1,39 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.mongo
+contexts:
+  main: []
+  class: 
+    - match: |-
+        (?xi)(\\)?\b(
+          Mongo
+          | MongoBinData
+          | MongoCode
+          | MongoCollection
+          | MongoCursor
+          | MongoDate
+          | MongoDB
+          | MongoDBRef
+          | MongoGridFS
+          | MongoGridFSCursor
+          | MongoGridFSFile
+          | MongoGridfsFile
+          | MongoId
+          | MongoInt32
+          | MongoInt64
+          | MongoRegex
+          | MongoTimestamp
+        )\b
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.class.ext.php
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          bson_decode
+          | bson_encode
+        )\b
+      scope: support.function.mongo.php

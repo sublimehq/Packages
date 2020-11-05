@@ -1,0 +1,20 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.wddx
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          wddx_add_vars
+          | wddx_deserialize
+          | wddx_packet_end
+          | wddx_packet_start
+          | wddx_serialize_value
+          | wddx_serialize_vars
+        )\b
+      scope: support.function.wddx.php

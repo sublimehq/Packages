@@ -1,0 +1,33 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.sem
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          ftok
+          | msg_get_queue
+          | msg_queue_exists
+          | msg_receive
+          | msg_remove_queue
+          | msg_send
+          | msg_set_queue
+          | msg_stat_queue
+          | sem_acquire
+          | sem_get
+          | sem_release
+          | sem_remove
+          | shm_attach
+          | shm_detach
+          | shm_get_var
+          | shm_has_var
+          | shm_put_var
+          | shm_remove
+          | shm_remove_var
+        )\b
+      scope: support.function.sem.php

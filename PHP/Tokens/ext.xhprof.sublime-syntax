@@ -1,0 +1,18 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.xhprof
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          xhprof_disable
+          | xhprof_enable
+          | xhprof_sample_disable
+          | xhprof_sample_enable
+        )\b
+      scope: support.function.xhprof.php

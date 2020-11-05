@@ -1,0 +1,48 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.ftp
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          ftp_alloc
+          | ftp_cdup
+          | ftp_chdir
+          | ftp_chmod
+          | ftp_close
+          | ftp_connect
+          | ftp_delete
+          | ftp_exec
+          | ftp_fget
+          | ftp_fput
+          | ftp_get
+          | ftp_get_option
+          | ftp_login
+          | ftp_mdtm
+          | ftp_mkdir
+          | ftp_nb_continue
+          | ftp_nb_fget
+          | ftp_nb_fput
+          | ftp_nb_get
+          | ftp_nb_put
+          | ftp_nlist
+          | ftp_pasv
+          | ftp_put
+          | ftp_pwd
+          | ftp_quit
+          | ftp_raw
+          | ftp_rawlist
+          | ftp_rename
+          | ftp_rmdir
+          | ftp_set_option
+          | ftp_site
+          | ftp_size
+          | ftp_ssl_connect
+          | ftp_systype
+        )\b
+      scope: support.function.ftp.php

@@ -1,0 +1,44 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.zlib
+contexts:
+  main: []
+  class: []
+  constant:
+    - match: |-
+        (?x)(\\)?\b(
+          FORCE_DEFLATE
+          | FORCE_GZIP
+        )\b
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.constant.ext.php
+  function:
+    - match: |-
+        \b(?xi:
+          gzclose
+          | gzcompress
+          | gzdecode
+          | gzdeflate
+          | gzencode
+          | gzeof
+          | gzfile
+          | gzgetc
+          | gzgets
+          | gzgetss
+          | gzinflate
+          | gzopen
+          | gzpassthru
+          | gzputs
+          | gzread
+          | gzrewind
+          | gzseek
+          | gztell
+          | gzuncompress
+          | gzwrite
+          | readgzfile
+          | zlib_get_coding_type
+        )\b
+      scope: support.function.zlib.php

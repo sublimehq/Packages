@@ -1,0 +1,82 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.posix
+contexts:
+  main: []
+  class: []
+  constant:
+    - match: |-
+        (?x)(\\)?\b(
+          POSIX_F_OK
+          | POSIX_R_OK
+          | POSIX_RLIMIT_AS
+          | POSIX_RLIMIT_CORE
+          | POSIX_RLIMIT_CPU
+          | POSIX_RLIMIT_DATA
+          | POSIX_RLIMIT_FSIZE
+          | POSIX_RLIMIT_INFINITY
+          | POSIX_RLIMIT_LOCKS
+          | POSIX_RLIMIT_MEMLOCK
+          | POSIX_RLIMIT_MSGQUEUE
+          | POSIX_RLIMIT_NICE
+          | POSIX_RLIMIT_NOFILE
+          | POSIX_RLIMIT_NPROC
+          | POSIX_RLIMIT_RSS
+          | POSIX_RLIMIT_RTPRIO
+          | POSIX_RLIMIT_RTTIME
+          | POSIX_RLIMIT_SIGPENDING
+          | POSIX_RLIMIT_STACK
+          | POSIX_S_IFBLK
+          | POSIX_S_IFCHR
+          | POSIX_S_IFIFO
+          | POSIX_S_IFREG
+          | POSIX_S_IFSOCK
+          | POSIX_W_OK
+          | POSIX_X_OK
+        )\b
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.constant.ext.php
+  function:
+    - match: |-
+        \b(?xi:
+          posix_access
+          | posix_ctermid
+          | posix_errno
+          | posix_get_last_error
+          | posix_getcwd
+          | posix_getegid
+          | posix_geteuid
+          | posix_getgid
+          | posix_getgrgid
+          | posix_getgrnam
+          | posix_getgroups
+          | posix_getlogin
+          | posix_getpgid
+          | posix_getpgrp
+          | posix_getpid
+          | posix_getppid
+          | posix_getpwnam
+          | posix_getpwuid
+          | posix_getrlimit
+          | posix_getsid
+          | posix_getuid
+          | posix_initgroups
+          | posix_isatty
+          | posix_kill
+          | posix_mkfifo
+          | posix_mknod
+          | posix_setegid
+          | posix_seteuid
+          | posix_setgid
+          | posix_setpgid
+          | posix_setsid
+          | posix_setuid
+          | posix_strerror
+          | posix_times
+          | posix_ttyname
+          | posix_uname
+        )\b
+      scope: support.function.posix.php

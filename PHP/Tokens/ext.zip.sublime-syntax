@@ -1,0 +1,31 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.zip
+contexts:
+  main: []
+  class: 
+    - match: |-
+        (?xi)(\\)?\b(
+          ZipArchive
+        )\b
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.class.ext.php
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          zip_close
+          | zip_entry_close
+          | zip_entry_compressedsize
+          | zip_entry_compressionmethod
+          | zip_entry_filesize
+          | zip_entry_name
+          | zip_entry_open
+          | zip_entry_read
+          | zip_open
+          | zip_read
+        )\b
+      scope: support.function.zip.php

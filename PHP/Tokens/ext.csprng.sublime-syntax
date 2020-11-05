@@ -1,0 +1,16 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.csprng
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          random_bytes
+          | random_int
+        )\b
+      scope: support.function.csprng.php

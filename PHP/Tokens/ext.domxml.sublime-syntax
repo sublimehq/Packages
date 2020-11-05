@@ -1,0 +1,30 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.domxml
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          domxml_new_doc
+          | domxml_open_file
+          | domxml_open_mem
+          | domxml_version
+          | domxml_xmltree
+          | domxml_xslt_stylesheet
+          | domxml_xslt_stylesheet_doc
+          | domxml_xslt_stylesheet_file
+          | domxml_xslt_version
+          | xpath_eval
+          | xpath_eval_expression
+          | xpath_new_context
+          | xpath_register_ns
+          | xpath_register_ns_auto
+          | xptr_eval
+          | xptr_new_context
+        )\b
+      scope: support.function.domxml.php

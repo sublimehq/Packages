@@ -1,0 +1,21 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.ereg
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          ereg
+          | ereg_replace
+          | eregi
+          | eregi_replace
+          | split
+          | spliti
+          | sql_regcase
+        )\b
+      scope: support.function.ereg.php

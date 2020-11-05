@@ -1,0 +1,114 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.sqlite
+contexts:
+  main: []
+  class:
+    - match: |-
+        (?x)(\\)?\b(
+          SQLite3
+          | SQLite3Result
+          | SQLite3Stmt
+          | SQLiteDatabase
+          | SQLiteResult
+          | SQLiteUnbuffered
+        )\b
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.class.ext.php
+  constant:
+    - match: |-
+        (?x)(\\)?\b(
+          SQLITE3_ASSOC
+          | SQLITE3_BLOB
+          | SQLITE3_BOTH
+          | SQLITE3_FLOAT
+          | SQLITE3_INTEGER
+          | SQLITE3_NULL
+          | SQLITE3_NUM
+          | SQLITE3_OPEN_CREATE
+          | SQLITE3_OPEN_READONLY
+          | SQLITE3_OPEN_READWRITE
+          | SQLITE3_TEXT
+          | SQLITE_ABORT
+          | SQLITE_ASSOC
+          | SQLITE_AUTH
+          | SQLITE_BOTH
+          | SQLITE_BUSY
+          | SQLITE_CANTOPEN
+          | SQLITE_CONSTRAINT
+          | SQLITE_CORRUPT
+          | SQLITE_DONE
+          | SQLITE_EMPTY
+          | SQLITE_ERROR
+          | SQLITE_FORMAT
+          | SQLITE_FULL
+          | SQLITE_INTERNAL
+          | SQLITE_INTERRUPT
+          | SQLITE_IOERR
+          | SQLITE_LOCKED
+          | SQLITE_MISMATCH
+          | SQLITE_MISUSE
+          | SQLITE_NOLFS
+          | SQLITE_NOMEM
+          | SQLITE_NOTADB
+          | SQLITE_NOTFOUND
+          | SQLITE_NUM
+          | SQLITE_OK
+          | SQLITE_PERM
+          | SQLITE_PROTOCOL
+          | SQLITE_READONLY
+          | SQLITE_ROW
+          | SQLITE_SCHEMA
+          | SQLITE_TOOBIG
+        )\b
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.constant.ext.php
+  function:
+    - match: |-
+        \b(?xi:
+          sqlite_array_query
+          | sqlite_busy_timeout
+          | sqlite_changes
+          | sqlite_close
+          | sqlite_column
+          | sqlite_create_aggregate
+          | sqlite_create_function
+          | sqlite_current
+          | sqlite_error_string
+          | sqlite_escape_string
+          | sqlite_exec
+          | sqlite_factory
+          | sqlite_fetch_all
+          | sqlite_fetch_array
+          | sqlite_fetch_column_types
+          | sqlite_fetch_object
+          | sqlite_fetch_single
+          | sqlite_fetch_string
+          | sqlite_field_name
+          | sqlite_has_more
+          | sqlite_has_prev
+          | sqlite_key
+          | sqlite_last_error
+          | sqlite_last_insert_rowid
+          | sqlite_libencoding
+          | sqlite_libversion
+          | sqlite_next
+          | sqlite_num_fields
+          | sqlite_num_rows
+          | sqlite_open
+          | sqlite_popen
+          | sqlite_prev
+          | sqlite_query
+          | sqlite_rewind
+          | sqlite_seek
+          | sqlite_single_query
+          | sqlite_udf_decode_binary
+          | sqlite_udf_encode_binary
+          | sqlite_unbuffered_query
+          | sqlite_valid
+        )\b
+      scope: support.function.sqlite.php

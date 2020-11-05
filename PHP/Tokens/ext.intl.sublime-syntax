@@ -1,0 +1,131 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.intl
+contexts:
+  main: []
+  class: 
+    - match: |-
+        (?xi)(\\)?\b(
+          IntlDateFormatter
+          | Locale
+          | MessageFormatter
+          | Normalizer
+          | NumberFormatter
+          | ResourceBundle
+          | Transliterator
+        )\b
+      captures:
+        1: punctuation.separator.namespace.php
+        2: support.class.ext.php
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          collator_asort
+          | collator_compare
+          | collator_create
+          | collator_get_attribute
+          | collator_get_error_code
+          | collator_get_error_message
+          | collator_get_locale
+          | collator_get_sort_key
+          | collator_get_strength
+          | collator_set_attribute
+          | collator_set_strength
+          | collator_sort
+          | collator_sort_with_sort_keys
+          | datefmt_create
+          | datefmt_format
+          | datefmt_get_calendar
+          | datefmt_get_datetype
+          | datefmt_get_error_code
+          | datefmt_get_error_message
+          | datefmt_get_locale
+          | datefmt_get_pattern
+          | datefmt_get_timetype
+          | datefmt_get_timezone_id
+          | datefmt_is_lenient
+          | datefmt_localtime
+          | datefmt_parse
+          | datefmt_set_calendar
+          | datefmt_set_lenient
+          | datefmt_set_pattern
+          | datefmt_set_timezone_id
+          | grapheme_extract
+          | grapheme_stripos
+          | grapheme_stristr
+          | grapheme_strlen
+          | grapheme_strpos
+          | grapheme_strripos
+          | grapheme_strrpos
+          | grapheme_strstr
+          | grapheme_substr
+          | idn_to_ascii
+          | idn_to_unicode
+          | idn_to_utf8
+          | intl_error_name
+          | intl_get_error_code
+          | intl_get_error_message
+          | intl_is_failure
+          | locale_accept_from_http
+          | locale_compose
+          | locale_filter_matches
+          | locale_get_all_variants
+          | locale_get_default
+          | locale_get_display_language
+          | locale_get_display_name
+          | locale_get_display_region
+          | locale_get_display_script
+          | locale_get_display_variant
+          | locale_get_keywords
+          | locale_get_primary_language
+          | locale_get_region
+          | locale_get_script
+          | locale_lookup
+          | locale_parse
+          | locale_set_default
+          | msgfmt_create
+          | msgfmt_format
+          | msgfmt_format_message
+          | msgfmt_get_error_code
+          | msgfmt_get_error_message
+          | msgfmt_get_locale
+          | msgfmt_get_pattern
+          | msgfmt_parse
+          | msgfmt_parse_message
+          | msgfmt_set_pattern
+          | normalizer_is_normalized
+          | normalizer_normalize
+          | numfmt_create
+          | numfmt_format
+          | numfmt_format_currency
+          | numfmt_get_attribute
+          | numfmt_get_error_code
+          | numfmt_get_error_message
+          | numfmt_get_locale
+          | numfmt_get_pattern
+          | numfmt_get_symbol
+          | numfmt_get_text_attribute
+          | numfmt_parse
+          | numfmt_parse_currency
+          | numfmt_set_attribute
+          | numfmt_set_pattern
+          | numfmt_set_symbol
+          | numfmt_set_text_attribute
+          | resourcebundle_count
+          | resourcebundle_create
+          | resourcebundle_get
+          | resourcebundle_get_error_code
+          | resourcebundle_get_error_message
+          | resourcebundle_locales
+          | transliterator_create
+          | transliterator_create_from_rules
+          | transliterator_create_inverse
+          | transliterator_get_error_code
+          | transliterator_get_error_message
+          | transliterator_list_ids
+          | transliterator_transliterate
+        )\b
+      scope: support.function.intl.php

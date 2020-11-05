@@ -1,0 +1,82 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.stats
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          stats_absolute_deviation
+          | stats_cdf_beta
+          | stats_cdf_binomial
+          | stats_cdf_cauchy
+          | stats_cdf_chisquare
+          | stats_cdf_exponential
+          | stats_cdf_f
+          | stats_cdf_gamma
+          | stats_cdf_laplace
+          | stats_cdf_logistic
+          | stats_cdf_negative_binomial
+          | stats_cdf_noncentral_chisquare
+          | stats_cdf_noncentral_f
+          | stats_cdf_poisson
+          | stats_cdf_t
+          | stats_cdf_uniform
+          | stats_cdf_weibull
+          | stats_covariance
+          | stats_den_uniform
+          | stats_dens_beta
+          | stats_dens_cauchy
+          | stats_dens_chisquare
+          | stats_dens_exponential
+          | stats_dens_f
+          | stats_dens_gamma
+          | stats_dens_laplace
+          | stats_dens_logistic
+          | stats_dens_negative_binomial
+          | stats_dens_normal
+          | stats_dens_pmf_binomial
+          | stats_dens_pmf_hypergeometric
+          | stats_dens_pmf_poisson
+          | stats_dens_t
+          | stats_dens_weibull
+          | stats_harmonic_mean
+          | stats_kurtosis
+          | stats_rand_gen_beta
+          | stats_rand_gen_chisquare
+          | stats_rand_gen_exponential
+          | stats_rand_gen_f
+          | stats_rand_gen_funiform
+          | stats_rand_gen_gamma
+          | stats_rand_gen_ibinomial
+          | stats_rand_gen_ibinomial_negative
+          | stats_rand_gen_int
+          | stats_rand_gen_ipoisson
+          | stats_rand_gen_iuniform
+          | stats_rand_gen_noncenral_chisquare
+          | stats_rand_gen_noncentral_f
+          | stats_rand_gen_noncentral_t
+          | stats_rand_gen_normal
+          | stats_rand_gen_t
+          | stats_rand_get_seeds
+          | stats_rand_phrase_to_seeds
+          | stats_rand_ranf
+          | stats_rand_setall
+          | stats_skew
+          | stats_standard_deviation
+          | stats_stat_binomial_coef
+          | stats_stat_correlation
+          | stats_stat_gennch
+          | stats_stat_independent_t
+          | stats_stat_innerproduct
+          | stats_stat_noncentral_t
+          | stats_stat_paired_t
+          | stats_stat_percentile
+          | stats_stat_powersum
+          | stats_variance
+        )\b
+      scope: support.function.stats.php

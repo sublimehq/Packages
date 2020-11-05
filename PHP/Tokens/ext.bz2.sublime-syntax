@@ -1,0 +1,24 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.bz2
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          bzclose
+          | bzcompress
+          | bzdecompress
+          | bzerrno
+          | bzerror
+          | bzerrstr
+          | bzflush
+          | bzopen
+          | bzread
+          | bzwrite
+        )\b
+      scope: support.function.bz2.php

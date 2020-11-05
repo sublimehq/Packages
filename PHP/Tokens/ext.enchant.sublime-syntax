@@ -1,0 +1,33 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.enchant
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          enchant_broker_describe
+          | enchant_broker_dict_exists
+          | enchant_broker_free
+          | enchant_broker_free_dict
+          | enchant_broker_get_error
+          | enchant_broker_init
+          | enchant_broker_list_dicts
+          | enchant_broker_request_dict
+          | enchant_broker_request_pwl_dict
+          | enchant_broker_set_ordering
+          | enchant_dict_add_to_personal
+          | enchant_dict_add_to_session
+          | enchant_dict_check
+          | enchant_dict_describe
+          | enchant_dict_get_error
+          | enchant_dict_is_in_session
+          | enchant_dict_quick_check
+          | enchant_dict_store_replacement
+          | enchant_dict_suggest
+        )\b
+      scope: support.function.enchant.php

@@ -1,0 +1,111 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.oci8
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          oci_bind_array_by_name
+          | oci_bind_by_name
+          | oci_cancel
+          | oci_client_version
+          | oci_close
+          | oci_commit
+          | oci_connect
+          | oci_define_by_name
+          | oci_error
+          | oci_execute
+          | oci_fetch
+          | oci_fetch_all
+          | oci_fetch_array
+          | oci_fetch_assoc
+          | oci_fetch_object
+          | oci_fetch_row
+          | oci_field_is_null
+          | oci_field_name
+          | oci_field_precision
+          | oci_field_scale
+          | oci_field_size
+          | oci_field_type
+          | oci_field_type_raw
+          | oci_free_statement
+          | oci_internal_debug
+          | oci_lob_copy
+          | oci_lob_is_equal
+          | oci_new_collection
+          | oci_new_connect
+          | oci_new_cursor
+          | oci_new_descriptor
+          | oci_num_fields
+          | oci_num_rows
+          | oci_parse
+          | oci_password_change
+          | oci_pconnect
+          | oci_result
+          | oci_rollback
+          | oci_server_version
+          | oci_set_action
+          | oci_set_call_timeout
+          | oci_set_client_identifier
+          | oci_set_client_info
+          | oci_set_db_operation
+          | oci_set_edition
+          | oci_set_module_name
+          | oci_set_prefetch
+          | oci_statement_type
+          | ocibindbyname
+          | ocicancel
+          | ocicloselob
+          | ocicollappend
+          | ocicollassign
+          | ocicollassignelem
+          | ocicollgetelem
+          | ocicollmax
+          | ocicollsize
+          | ocicolltrim
+          | ocicolumnisnull
+          | ocicolumnname
+          | ocicolumnprecision
+          | ocicolumnscale
+          | ocicolumnsize
+          | ocicolumntype
+          | ocicolumntyperaw
+          | ocicommit
+          | ocidefinebyname
+          | ocierror
+          | ociexecute
+          | ocifetch
+          | ocifetchinto
+          | ocifetchstatement
+          | ocifreecollection
+          | ocifreecursor
+          | ocifreedesc
+          | ocifreestatement
+          | ociinternaldebug
+          | ociloadlob
+          | ocilogoff
+          | ocilogon
+          | ocinewcollection
+          | ocinewcursor
+          | ocinewdescriptor
+          | ocinlogon
+          | ocinumcols
+          | ociparse
+          | ociplogon
+          | ociresult
+          | ocirollback
+          | ocirowcount
+          | ocisavelob
+          | ocisavelobfile
+          | ociserverversion
+          | ocisetprefetch
+          | ocistatementtype
+          | ociwritelobtofile
+          | ociwritetemporarylob
+        )\b
+      scope: support.function.oci8.php

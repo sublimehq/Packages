@@ -1,0 +1,39 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.sybase
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          sybase_affected_rows
+          | sybase_close
+          | sybase_connect
+          | sybase_data_seek
+          | sybase_deadlock_retry_count
+          | sybase_fetch_array
+          | sybase_fetch_assoc
+          | sybase_fetch_field
+          | sybase_fetch_object
+          | sybase_fetch_row
+          | sybase_field_seek
+          | sybase_free_result
+          | sybase_get_last_message
+          | sybase_min_client_severity
+          | sybase_min_error_severity
+          | sybase_min_message_severity
+          | sybase_min_server_severity
+          | sybase_num_fields
+          | sybase_num_rows
+          | sybase_pconnect
+          | sybase_query
+          | sybase_result
+          | sybase_select_db
+          | sybase_set_message_handler
+          | sybase_unbuffered_query
+        )\b
+      scope: support.function.sybase.php

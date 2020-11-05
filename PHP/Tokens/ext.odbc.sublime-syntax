@@ -1,0 +1,59 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.odbc
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          odbc_autocommit
+          | odbc_binmode
+          | odbc_close
+          | odbc_close_all
+          | odbc_columnprivileges
+          | odbc_columns
+          | odbc_commit
+          | odbc_connect
+          | odbc_cursor
+          | odbc_data_source
+          | odbc_do
+          | odbc_error
+          | odbc_errormsg
+          | odbc_exec
+          | odbc_execute
+          | odbc_fetch_array
+          | odbc_fetch_into
+          | odbc_fetch_object
+          | odbc_fetch_row
+          | odbc_field_len
+          | odbc_field_name
+          | odbc_field_num
+          | odbc_field_precision
+          | odbc_field_scale
+          | odbc_field_type
+          | odbc_foreignkeys
+          | odbc_free_result
+          | odbc_gettypeinfo
+          | odbc_longreadlen
+          | odbc_next_result
+          | odbc_num_fields
+          | odbc_num_rows
+          | odbc_pconnect
+          | odbc_prepare
+          | odbc_primarykeys
+          | odbc_procedurecolumns
+          | odbc_procedures
+          | odbc_result
+          | odbc_result_all
+          | odbc_rollback
+          | odbc_setoption
+          | odbc_specialcolumns
+          | odbc_statistics
+          | odbc_tableprivileges
+          | odbc_tables
+        )\b
+      scope: support.function.odbc.php

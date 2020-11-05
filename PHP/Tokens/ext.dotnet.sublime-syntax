@@ -1,0 +1,15 @@
+%YAML 1.2
+---
+hidden: true
+version: 2
+scope: source.php.ext.dotnet
+contexts:
+  main: []
+  class: []
+  constant: []
+  function:
+    - match: |-
+        \b(?xi:
+          dotnet_load
+        )\b
+      scope: support.function.dotnet.php
