@@ -1441,7 +1441,8 @@
 
 .test-pseudo-elements::-webkit-slider-runnable-track
 /*                   ^^ punctuation.definition.pseudo-element.css - entity */
-/*                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.other.pseudo-element.css */
+/*                     ^^^^^^^^ support.type.vendor-prefix.css */
+/*                             ^^^^^^^^^^^^^^^^^^^^^ entity.other.pseudo-element.css */
 
 .test-pseudo-elements::attr("name") {}
 /*                   ^^ punctuation.definition.pseudo-element.css  */

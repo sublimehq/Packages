@@ -1035,6 +1035,7 @@ contexts:
       scope: punctuation.definition.pseudo-element.css
       push:
         - meta_include_prototype: false
+        - include: vendor-prefixes
         - include: pseudo-element-function
         - include: pseudo-element-regular
         - include: immediately-pop
@@ -1044,6 +1045,7 @@ contexts:
       scope: punctuation.definition.pseudo-class.css
       push:
         - meta_include_prototype: false
+        - include: vendor-prefixes
         - include: pseudo-element-css2
         - include: pseudo-class-function
         - include: pseudo-class-regular
@@ -1270,10 +1272,8 @@ contexts:
   # Pseudo Elements
   # https://drafts.csswg.org/selectors-4/#pseudo-elements
   pseudo-element-regular:
-    - match: ({{vendor_prefix}})?{{ident}}
-      captures:
-        0: entity.other.pseudo-element.css
-        1: support.type.vendor-prefix.css
+    - match: '{{ident}}'
+      scope: entity.other.pseudo-element.css
       pop: 1
 
 ###[ PROPERTY LISTS ]##########################################################
