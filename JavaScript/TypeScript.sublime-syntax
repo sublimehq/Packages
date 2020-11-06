@@ -25,20 +25,23 @@ variables:
     ))
 
 contexts:
-  branch-possible-arrow-function:
+  branch-possible-parenthesized-arrow-function:
     - meta_include_prototype: false
     - match: ''
       push:
-        - ts-detect-arrow-function
-        - branch-not-arrow-function
+        - ts-detect-parenthesized-arrow-function
+        - parenthesized-expression
 
-  ts-detect-arrow-function:
+  ts-detect-parenthesized-arrow-function:
     - match: (?=:)
       branch_point: ts-arrow-function-return-type
       branch:
         - ts-detect-arrow-function-return-type
         - ts-immediately-pop-3
-    - include: detect-arrow
+    - match: (?==>)
+      fail: parenthesized-arrow-function
+    - match: (?=\S)
+      pop: 3
 
   ts-immediately-pop-3:
     - meta_include_prototype: false
@@ -48,14 +51,14 @@ contexts:
   ts-detect-arrow-function-return-type:
     - match: ':'
       push:
-        - ts-detect-arrow
+        - ts-detect-arrow-after-return-type
         - ts-type-expression-end
         - ts-type-expression-end-no-line-terminator
         - ts-type-expression-begin
 
-  ts-detect-arrow:
+  ts-detect-arrow-after-return-type:
     - match: (?==>)
-      fail: arrow-function
+      fail: parenthesized-arrow-function
     - match: (?=\S)
       fail: ts-arrow-function-return-type
 

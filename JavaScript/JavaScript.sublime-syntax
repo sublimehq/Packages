@@ -924,10 +924,18 @@ contexts:
     - include: either-function-declaration
     - include: object-literal
 
-    - match: (?=\(|{{identifier_start}})
-      branch_point: arrow-function
+    - include: literal-call
+
+    - match: (?={{identifier_start}})
+      branch_point: bare-arrow-function
       branch:
-        - branch-possible-arrow-function
+        - branch-possible-bare-arrow-function
+        - arrow-function-fallback
+
+    - match: (?=\()
+      branch_point: parenthesized-arrow-function
+      branch:
+        - branch-possible-parenthesized-arrow-function
         - arrow-function-fallback
 
     - include: array-literal
@@ -936,21 +944,29 @@ contexts:
 
     - include: else-pop
 
-  branch-possible-arrow-function:
+  branch-possible-bare-arrow-function:
     - meta_include_prototype: false
     - match: ''
       push:
-        - detect-arrow
-        - branch-not-arrow-function
+        - detect-bare-arrow
+        - literal-variable
 
-  branch-not-arrow-function:
-    - include: parenthesized-expression
-    - include: literal-call
-    - include: literal-variable
-
-  detect-arrow:
+  detect-bare-arrow:
     - match: (?==>)
-      fail: arrow-function
+      fail: bare-arrow-function
+    - match: (?=\S)
+      pop: 3
+
+  branch-possible-parenthesized-arrow-function:
+    - meta_include_prototype: false
+    - match: ''
+      push:
+        - detect-parenthesized-arrow
+        - parenthesized-expression
+
+  detect-parenthesized-arrow:
+    - match: (?==>)
+      fail: parenthesized-arrow-function
     - match: (?=\S)
       pop: 3
 

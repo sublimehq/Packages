@@ -379,6 +379,13 @@ function f(this : any) {}
 //                   ^ keyword.operator.ternary
 //                     ^ variable.other.readwrite
 
+    x ? y : T => z;
+//      ^ variable.other.readwrite - variable.parameter
+//        ^ keyword.operator.ternary
+//          ^^^^^^ meta.function
+//          ^ variable.parameter.function
+//            ^^ storage.type.function.arrow
+
 /* Assertions */
 
 x as boolean;
