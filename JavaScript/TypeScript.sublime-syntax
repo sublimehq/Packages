@@ -24,6 +24,18 @@ variables:
       \(
     ))
 
+  arrow_func_lookahead: |-
+    (?x:
+      \s*
+      (?:async\s*)?
+      (?:
+        {{identifier}}
+        | \( ( [^()] | \( [^()]* \) )* \)
+      )
+      \s*
+      (?:=>|:)
+    )
+
 contexts:
   branch-possible-arrow-function:
     - meta_include_prototype: false

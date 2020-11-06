@@ -379,6 +379,9 @@ function f(this : any) {}
 //                   ^ keyword.operator.ternary
 //                     ^ variable.other.readwrite
 
+    const f = (): T => 42;
+//        ^ meta.function.declaration entity.name.function variable.other.readwrite
+
 /* Assertions */
 
 x as boolean;
