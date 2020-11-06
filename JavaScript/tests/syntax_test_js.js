@@ -502,6 +502,9 @@ var obj = {
 //           ^^^ meta.property
     }(),
 
+    objKey: new/**/function() {}(),
+//                 ^^^^^^^^ storage.type.function
+
     objKey: new class Foo {
 //              ^^^^^ storage.type.class
         get baz() {}
@@ -548,6 +551,9 @@ var obj = {
 //   ^^^^^^^^^^^^^^^^^^^^^ entity.name.function
 //       ^^ constant.character.escape
     },
+
+    f: function(){} + 1,
+//                  ^ keyword.operator.arithmetic
 
     key: 'str' + (true ? 'true' : 'false'),
 //                ^^^^ constant.language.boolean.true
@@ -1268,6 +1274,34 @@ class{}/**/
 //  ^^^^^ meta.function
 //  ^^ meta.function.declaration storage.type.function.arrow
 
+    async x => y;
+//  ^^^^^^^^^^^^ meta.function
+//  ^^^^^^^^^^ meta.function.declaration
+//  ^^^^^ storage.type
+//        ^ variable.parameter.function
+//          ^^ storage.type.function.arrow
+//             ^ variable.other.readwrite
+
+    async (x) => y;
+//  ^^^^^^^^^^^^^^ meta.function
+//  ^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^ storage.type
+//         ^ variable.parameter.function
+//            ^^ storage.type.function.arrow
+//               ^ variable.other.readwrite
+
+    async => {};
+//  ^^^^^^^^^^^ meta.function
+//  ^^^^^^^^ meta.function.declaration
+//  ^^^^^ variable.parameter.function
+//        ^^ storage.type.function.arrow
+
+    async;
+//  ^^^^^ variable.other.readwrite
+
+    async ();
+//  ^^^^^ variable.function
+
 const test = ({a, b, c=()=>({active:false}) }) => {};
 //    ^ entity.name.function
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
@@ -1410,8 +1444,8 @@ var foo = ~{a:function(){}.a()}
 //                      ^ meta.block punctuation.section.block.begin
 //                       ^ meta.block punctuation.section.block.end
 //                        ^ meta.mapping
-//                         ^^^ meta.function.declaration
-//                         ^ entity.name.function
+//                         ^^^ - meta.function.declaration
+//                         ^ variable.function - entity.name.function
 //                          ^ punctuation.section.group.begin
 //                           ^ punctuation.section.group.end
 //                            ^ punctuation.section.block.end

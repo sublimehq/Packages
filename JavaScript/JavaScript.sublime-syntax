@@ -65,16 +65,15 @@ variables:
       | \#{{identifier}}
     )
 
+  # Newline not permitted between `async` and `function`.
   func_lookahead: |-
     (?x:
-      \s*
       (?:async{{identifier_break}}{{nothing}})?
       function{{identifier_break}}
     )
 
   arrow_func_lookahead: |-
     (?x:
-      \s*
       (?:async\s*)?
       (?:
         {{identifier}}
@@ -257,12 +256,14 @@ contexts:
 
   export-extended:
     - include: variable-declaration
-    - include: function-or-class-declaration
+    - include: class
+    - include: regular-function
 
     - match: 'default{{identifier_break}}'
       scope: keyword.control.import-export.js
       set:
-        - include: function-or-class-declaration
+        - include: class
+        - include: regular-function
         - match: (?=\S)
           set: expression-statement
 
@@ -352,7 +353,8 @@ contexts:
       scope: keyword.control.flow.throw.js
       set: restricted-production
 
-    - include: function-or-class-declaration
+    - include: class
+    - include: regular-function
 
     - include: decorator
 
@@ -550,13 +552,6 @@ contexts:
         - function-parameter-binding-pattern
     - include: else-pop
 
-  function-or-class-declaration:
-    - match: (?=class{{identifier_break}})
-      set: class
-
-    - match: (?={{func_lookahead}})
-      set: function-declaration
-
   initializer:
     - match: '='
       scope: keyword.operator.assignment.js
@@ -565,11 +560,10 @@ contexts:
 
   function-initializer:
     - meta_scope: meta.function.declaration.js
-    - match: '='
-      scope: keyword.operator.assignment.js
-      set:
-        - meta_content_scope: meta.function.declaration.js
-        - include: expression-no-comma
+    - match: (=){{nothing}}
+      captures:
+        1: keyword.operator.assignment.js
+      set: expression-no-comma
 
     - include: else-pop
 
@@ -921,10 +915,22 @@ contexts:
     - include: class
     - include: constants
     - include: function-assignment
-    - include: either-function-declaration
+
+    - include: regular-function
     - include: object-literal
 
+    # Newline not allowed between `async` and parameters.
+    - match: (?=async{{identifier_break}}{{nothing}}(?:\(|{{identifier_start}}))
+      pop: true
+      branch_point: async-arrow-function
+      branch:
+        - async-arrow-function
+        - literal-variable
+
+    - include: literal-call
+
     - match: (?=\(|{{identifier_start}})
+      pop: true
       branch_point: arrow-function
       branch:
         - branch-possible-arrow-function
@@ -936,6 +942,23 @@ contexts:
 
     - include: else-pop
 
+  async-arrow-function:
+    - match: async{{identifier_break}}
+      scope: storage.type.js
+      set:
+        - function-meta
+        - arrow-function-expect-body
+        - function-declaration-meta
+        - arrow-function-expect-arrow-or-fail-async
+        - arrow-function-expect-parameters
+
+  arrow-function-expect-arrow-or-fail-async:
+    - match: '=>'
+      scope: storage.type.function.arrow.js
+      pop: true
+    - match: (?=\S)
+      fail: async-arrow-function
+
   branch-possible-arrow-function:
     - meta_include_prototype: false
     - match: ''
@@ -945,14 +968,13 @@ contexts:
 
   branch-not-arrow-function:
     - include: parenthesized-expression
-    - include: literal-call
     - include: literal-variable
 
   detect-arrow:
     - match: (?==>)
       fail: arrow-function
     - match: (?=\S)
-      pop: 3
+      pop: 2
 
   arrow-function-fallback:
     - meta_include_prototype: false
@@ -964,7 +986,7 @@ contexts:
   branch-arrow-function-end:
     - meta_include_prototype: false
     - match: ''
-      pop: 3
+      pop: 2
 
   literal-string:
     - match: "'"
@@ -1076,7 +1098,7 @@ contexts:
     - include: else-pop
 
   constructor-body-expect-class-begin:
-    - match: (?={{identifier}}\s*\()
+    - match: (?={{non_reserved_identifier}}\s*\()
       set:
         - include: support
         - match: '{{dollar_only_identifier}}'
@@ -1443,11 +1465,9 @@ contexts:
     - meta_scope: entity.name.function.js
     - include: immediately-pop
 
-  either-function-declaration:
-    - match: '(?={{func_lookahead}})'
+  regular-function:
+    - match: (?={{func_lookahead}})
       set: function-declaration
-    - match: '(?={{arrow_func_lookahead}})'
-      set: arrow-function-declaration
 
   function-declaration:
     - meta_include_prototype: false
@@ -1519,7 +1539,6 @@ contexts:
         - function-declaration-meta
         - arrow-function-expect-arrow
         - arrow-function-expect-parameters
-        - function-declaration-expect-async
 
   arrow-function-expect-body:
     - include: function-block
@@ -1584,11 +1603,11 @@ contexts:
 
     - match: >-
         (?x)(?=
-          {{property_name}}\s*:
-          (?: {{either_func_lookahead}} )
+          {{property_name}}\s*:\s*
+          {{either_func_lookahead}}
         )
       push:
-        - either-function-declaration
+        - expression-no-comma
         - function-declaration-meta-no-clear
         - object-literal-expect-colon
         - object-literal-meta-key
@@ -1613,6 +1632,12 @@ contexts:
 
     - match: ':'
       scope: punctuation.separator.key-value.js
+      push: expression-no-comma
+
+    # This can't occur in an object literal,
+    # but it can occur in parenthesized arrow function parameters,
+    # so we handle it gracefully here.
+    - match: '='
       push: expression-no-comma
 
   object-literal-element:
