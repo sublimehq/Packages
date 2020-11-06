@@ -48,11 +48,11 @@ contexts:
   ts-detect-arrow-function-return-type:
     - match: ':'
       push:
-        - ts-detect-arrow-foobar
+        - ts-detect-arrow
         - ts-type-expression-end
         - ts-type-expression-begin
 
-  ts-detect-arrow-foobar:
+  ts-detect-arrow:
     - match: (?==>)
       fail: arrow-function
     - match: (?=\S)
