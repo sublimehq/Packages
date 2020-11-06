@@ -50,6 +50,7 @@ contexts:
       push:
         - ts-detect-arrow
         - ts-type-expression-end
+        - ts-type-expression-end-no-line-terminator
         - ts-type-expression-begin
 
   ts-detect-arrow:
@@ -673,6 +674,7 @@ contexts:
     - include: ts-type-basic
 
     - match: (?=\()
+      pop: true
       branch_point: ts-function-type
       branch:
         - ts-type-parenthesized
