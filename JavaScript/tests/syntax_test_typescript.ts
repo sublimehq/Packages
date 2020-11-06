@@ -359,6 +359,26 @@ function f(this : any) {}
 //      ^^^ meta.type support.type.any
 //           ^^ storage.type.function.arrow
 
+    x ? (y) : z;
+//  ^ variable.other.readwrite
+//    ^ keyword.operator.ternary
+//      ^^^ meta.group
+//       ^ variable.other.readwrite
+//          ^ keyword.operator.ternary
+
+    x ? (y) : T => r : z;
+//  ^ variable.other.readwrite
+//    ^ keyword.operator.ternary
+//      ^^^^^^^^^^^^^ meta.function
+//      ^ meta.function.declaration
+//       ^ meta.binding.name variable.parameter.function
+//          ^ punctuation.separator.type
+//            ^ meta.type support.class
+//              ^^ storage.type.function.arrow
+//                 ^meta.block variable.other.readwrite
+//                   ^ keyword.operator.ternary
+//                     ^ variable.other.readwrite
+
 /* Assertions */
 
 x as boolean;

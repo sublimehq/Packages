@@ -25,6 +25,51 @@ variables:
     ))
 
 contexts:
+  branch-possible-arrow-function:
+    - meta_include_prototype: false
+    - match: ''
+      push:
+        - ts-detect-arrow-function
+        - branch-not-arrow-function
+
+  ts-detect-arrow-function:
+    - match: (?=:)
+      branch_point: ts-arrow-function-return-type
+      branch:
+        - ts-detect-arrow-function-return-type
+        - ts-immediately-pop-3
+    - include: detect-arrow
+
+  ts-immediately-pop-3:
+    - meta_include_prototype: false
+    - match: ''
+      pop: 3
+
+  ts-detect-arrow-function-return-type:
+    - match: ':'
+      push:
+        - ts-detect-arrow-foobar
+        - ts-type-expression-end
+        - ts-type-expression-begin
+
+  ts-detect-arrow-foobar:
+    - match: (?==>)
+      fail: arrow-function
+    - match: (?=\S)
+      fail: ts-arrow-function-return-type
+
+  arrow-function-declaration:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - function-meta
+        - arrow-function-expect-body
+        - function-declaration-meta
+        - arrow-function-expect-arrow
+        - ts-type-annotation
+        - arrow-function-expect-parameters
+        - function-declaration-expect-async
+
   ts-import-type:
     - match: type{{identifier_break}}
       scope: keyword.control.import-export.js
