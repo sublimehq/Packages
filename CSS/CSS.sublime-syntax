@@ -1578,8 +1578,8 @@ contexts:
     - include: gradient-functions
     - include: image-functions
     - include: image-set-functions
-    - include: grid-minmax-functions
-    - include: grid-repeat-functions
+    - include: minmax-functions
+    - include: repeat-functions
     - include: url-functions
     - include: var-functions
     - include: color-adjuster-functions
@@ -2359,7 +2359,7 @@ contexts:
 
   # minmax()
   # https://drafts.csswg.org/css-grid/#valdef-grid-template-columns-minmax
-  grid-minmax-functions:
+  minmax-functions:
     - match: \b(?i:minmax)(?=\()
       scope: meta.function-call.identifier.css support.function.grid.css
       push:
@@ -2377,7 +2377,7 @@ contexts:
 
   # repeat()
   # https://drafts.csswg.org/css-grid/#funcdef-repeat
-  grid-repeat-functions:
+  repeat-functions:
     - match: \b(?i:repeat)(?=\()
       scope: meta.function-call.identifier.css support.function.grid.css
       push:
@@ -2392,7 +2392,7 @@ contexts:
               scope: support.keyword.repetitions.css
             - match: \b(?i:max-content|min-content|auto){{break}}
               scope: support.constant.property-value.css
-            - include: grid-minmax-functions
+            - include: minmax-functions
             - include: length-constants
             - include: percentage-constants
             - include: scalar-integer-constants
