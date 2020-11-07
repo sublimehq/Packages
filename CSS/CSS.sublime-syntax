@@ -1375,7 +1375,7 @@ contexts:
     - include: common-operators
     - include: builtin-values
     - include: other-functions
-    - include: other-values
+    - include: other-constants
 
   builtin-values:
     - include: quoted-strings
@@ -1408,10 +1408,6 @@ contexts:
     - include: image-functions
     - include: image-set-functions
     - include: url-functions
-
-  other-values:
-    # Note: Consume unknown identifiers to maintain word boundaries.
-    - match: '{{ident}}'
 
 ###[ COUNTER PROPERTY ]########################################################
 
@@ -2505,6 +2501,10 @@ contexts:
   generic-font-names:
     - match: '{{font_family_constants}}'
       scope: support.constant.property-value.css
+
+  other-constants:
+    - match: '{{ident}}'
+      scope: constant.other.css
 
 ###[ NUMERIC CONSTANTS ]#######################################################
 

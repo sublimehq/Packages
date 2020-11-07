@@ -1819,7 +1819,7 @@
 /*                         ^ meta.property-list.css - meta.property-name - meta.property-value */
 /*  ^^^^^^^^^^^^ - entity - support */
 /*              ^ punctuation.separator.key-value.css */
-/*                ^^^^^^^^^ - constant - support */
+/*                ^^^^^^^^^ constant.other.css - support */
 
     font-family: Red/Black, sans-serif;
 /*               ^^^^^^^^^ - string */
