@@ -1176,7 +1176,6 @@ contexts:
             - include: function-arguments-common
             - match: \b(ltr|rtl){{break}}
               scope: support.constant.property-value.css
-        - include: immediately-pop
 
   # Special :lang() pseudo-class
   # https://drafts.csswg.org/selectors-4/#the-lang-pseudo
@@ -1193,7 +1192,6 @@ contexts:
             - include: comma-delimiters
             - include: quoted-strings
             - include: language-ranges
-        - include: immediately-pop
 
   # Functional Pseudo Classes with `An+B` param
   # An+B Notation: https://drafts.csswg.org/css-syntax/#anb
@@ -1219,7 +1217,6 @@ contexts:
             - include: function-arguments-common
             - include: anb-notation-values
             - include: scalar-integer-constants
-        - include: immediately-pop
 
   anb-notation-values:
     - match: \b(even|odd){{break}}
@@ -1248,7 +1245,6 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: selectors
-        - include: immediately-pop
 
   # Functional Pseudo Classes with generic arguments
   pseudo-class-function-with-generic-args:
@@ -1264,7 +1260,6 @@ contexts:
             - include: numeric-constants
             - include: quoted-strings
             - include: unquoted-strings
-        - include: immediately-pop
 
   # Regular Pseudo Classes
   # https://drafts.csswg.org/selectors-4/#pseudo-classes
@@ -1296,7 +1291,6 @@ contexts:
             - include: numeric-constants
             - include: quoted-strings
             - include: unquoted-strings
-        - include: immediately-pop
 
   # Pseudo Elements
   # https://drafts.csswg.org/selectors-4/#pseudo-elements
