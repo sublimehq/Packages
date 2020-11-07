@@ -842,13 +842,74 @@
 /*   ^^^^^^^^^ keyword.control.directive.css - punctuation */
 {
 /* <- meta.at-rule.font-face.css meta.property-list.css meta.block.css punctuation.section.block.begin.css */
+
     font-family: monospace,
 /* ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.at-rule.font-face.css meta.property-list.css meta.block.css */
 /*  ^^^^^^^^^^^ support.type.property-name.css */
 /*               ^^^^^^^^^ support.constant.property-value.css */
-        /* */
+        /* */ ;
 /* ^^^^^^^^^^^ meta.at-rule.font-face.css meta.property-list.css meta.block.css meta.property-value.css */
+/*            ^ meta.at-rule.font-face.css meta.property-list.css meta.block.css punctuation.terminator.rule.css */
 /*      ^^^^^ comment.block.css */
+
+    font-family: m700, aria;
+/*               ^^^^ meta.string.css string.unquoted.css */
+/*                     ^^^^ meta.string.css string.unquoted.css */
+
+    font-family: Gentium Bold;
+/*               ^^^^^^^^^^^^ meta.string.css string.unquoted.css */
+
+    src: format("embedded-opentype");
+/*       ^^^^^^ support.function.font-face.css */
+/*              ^ punctuation.definition.string.begin.css */
+/*              ^^^^^^^^^^^^^^^^^^^ meta.string.css string.quoted.double.css */
+/*                                ^ punctuation.definition.string.end.css */
+
+    src: local(monospace);
+/*       ^^^^^ support.function.font-face.css */
+/*            ^ punctuation.section.group.begin.css */
+/*             ^^^^^^^^^ support.constant.property-value.css */
+/*                      ^ punctuation.section.group.end.css */
+
+    src: local(Gentium/Bold);
+/*       ^^^^^ support.function.font-face.css */
+/*            ^ punctuation.section.group.begin.css */
+/*             ^^^^^^^ meta.string.css string.unquoted.css */
+/*                    ^ - string */
+/*                     ^^^^ meta.string.css string.unquoted.css */
+/*                         ^ punctuation.section.group.end.css */
+
+    src: local(Gentium Bold);
+/*       ^^^^^ support.function.font-face.css */
+/*            ^ punctuation.section.group.begin.css */
+/*             ^^^^^^^^^^^^ meta.string.css string.unquoted.css */
+/*                         ^ punctuation.section.group.end.css */
+
+    src: local(Gentium-Bold);
+/*       ^^^^^ support.function.font-face.css */
+/*            ^ punctuation.section.group.begin.css */
+/*             ^^^^^^^^^^^^ meta.string.css string.unquoted.css */
+/*                         ^ punctuation.section.group.end.css */
+
+    src: local('Gentium-Bold');
+/*       ^^^^^ support.function.font-face.css */
+/*             ^ punctuation.definition.string.begin.css */
+/*             ^^^^^^^^^^^^^^ meta.string.css string.quoted.single.css */
+/*                          ^ punctuation.definition.string.end.css */
+
+    src: local("Gentium-Bold");
+/*       ^^^^^ support.function.font-face.css */
+/*             ^ punctuation.definition.string.begin.css */
+/*             ^^^^^^^^^^^^^^ meta.string.css string.quoted.double.css */
+/*                          ^ punctuation.definition.string.end.css */
+
+    src: local(var(--local-font));
+/*       ^^^^^ support.function.font-face.css */
+/*            ^ punctuation.section.group.begin.css */
+/*             ^^^ support.function.var.css */
+/*                ^ punctuation.section.group.begin.css */
+/*                 ^^^^^^^^^^^^ variable.other.custom-property.css */
+/*                             ^^ punctuation.section.group.end.css */
 }
 /* <- meta.at-rule.font-face.css meta.property-list.css meta.block.css punctuation.section.block.end.css */
 
@@ -1778,6 +1839,12 @@
 /*            ^^ - string */
 /*              ^^^^ meta.string.css string.unquoted.css */
 /*                  ^ punctuation.terminator.rule.css */
+
+    font: Gentium Bold;
+/*        ^^^^^^^^^^^^ meta.string.css string.unquoted.css */
+
+    font: sans serif;
+/*        ^^^^^^^^^^ meta.string.css string.unquoted.css */
 
     font: inherit;
 /*        ^^^^^^^ support - string */
@@ -2810,35 +2877,6 @@
 /*       ^^^^^^^^^^ support.function.filter.css */
 /*                  ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                   ^^^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
-}
-
-/* Test Font Functions: format() & local() */
-@font-face {
-  src: format("embedded-opentype");
-/*     ^^^^^^ support.function.font-face.css */
-/*            ^^^^^^^^^^^^^^^^^^^ meta.string.css string.quoted.double.css */
-
-  src: local(Gentium-Bold);
-/*     ^^^^^ support.function.font-face.css */
-/*           ^^^^^^^^^^^^ meta.string.css string.unquoted.css */
-
-  src: local('Gentium-Bold');
-/*     ^^^^^ support.function.font-face.css */
-/*           ^^^^^^^^^^^^^^ meta.string.css string.quoted.single.css */
-/*           ^ punctuation.definition.string.begin.css */
-/*                        ^ punctuation.definition.string.end.css */
-
-  src: local("Gentium-Bold");
-/*     ^^^^^ support.function.font-face.css */
-/*           ^^^^^^^^^^^^^^ meta.string.css string.quoted.double.css */
-/*           ^ punctuation.definition.string.begin.css */
-/*                        ^ punctuation.definition.string.end.css */
-}
-
-@font-face {
-    font-family: m700, aria;
-/*               ^^^^ meta.string.css string.unquoted.css */
-/*                     ^^^^ meta.string.css string.unquoted.css */
 }
 
 .test-var-function {

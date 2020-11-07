@@ -269,7 +269,7 @@ variables:
   property_names: |-
     \b(?xi:
         display | width | background-color | height | position | font-family
-      | font-weight | top | opacity | cursor | background-image | right
+      | font-weight | font | top | opacity | cursor | background-image | right
       | visibility | box-sizing | user-select | left | float | margin-left
       | margin-top | line-height | padding-left | z-index | margin-bottom
       | margin-right | margin | vertical-align | padding-top | white-space
@@ -348,8 +348,7 @@ variables:
 
   property_value_constants: |-
     (?x:
-      {{font_family_constants}}
-    | {{font_property_constants}}
+      {{font_property_constants}}
     | {{font_size_constants}}
     | {{font_style_constants}}
     | {{unsorted_property_constants}}
@@ -1398,13 +1397,14 @@ contexts:
     - include: other-values
 
   builtin-values:
+    - include: quoted-strings
     - include: builtin-functions
     - include: color-values
     - include: line-names
     - include: unicode-ranges
     - include: numeric-constants
     - include: common-constants
-    - include: quoted-strings
+    - include: generic-font-names
     - include: vendor-prefixes
 
   # When including `color-values` and `color-adjuster-functions`, make sure it is
@@ -1544,6 +1544,9 @@ contexts:
 
 ###[ FONT PROPERTY ]###########################################################
 
+  # Font and Font-Family Property
+  # https://drafts.csswg.org/css-fonts-3/#font-family-prop
+  # https://drafts.csswg.org/css-fonts-3/#font-prop
   font-property:
     - match: \b(?i:font(-family)?){{break}}
       scope: support.type.property-name.css
@@ -1562,8 +1565,7 @@ contexts:
     - include: comma-delimiters
     - include: common-operators
     - include: builtin-values
-    - match: '{{ident}}(?:\s+{{ident}}(?!\())*'
-      scope: meta.string.css string.unquoted.css
+    - include: font-family-names
 
 ###[ BUILTIN FUNCTIONS ]#######################################################
 
@@ -1625,7 +1627,8 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: quoted-strings
-            - include: unquoted-strings
+            - include: generic-font-names
+            - include: font-family-names
 
     # Transform Functions
     # https://www.w3.org/TR/css-transforms-1/#transform-functions
@@ -1907,6 +1910,7 @@ contexts:
       scope: keyword.other.unit.css
     - include: color-values
     - include: common-constants
+    - include: generic-font-names
     - include: numeric-constants
 
   # calc()
@@ -2471,6 +2475,12 @@ contexts:
     - match: '{{custom_ident}}'
       scope: variable.other.custom-property.css
 
+  # Generic Font Families
+  # https://drafts.csswg.org/css-fonts-3/#family-name-value
+  generic-font-names:
+    - match: '{{font_family_constants}}'
+      scope: support.constant.property-value.css
+
 ###[ NUMERIC CONSTANTS ]#######################################################
 
   # https://www.w3.org/TR/css3-values/#numeric-constantss
@@ -2631,6 +2641,12 @@ contexts:
         3: punctuation.separator.range.css
 
 ###[ STRING CONSTANTS ]########################################################
+
+  # Font Family Names
+  # https://drafts.csswg.org/css-fonts-3/#family-name-value
+  font-family-names:
+    - match: '{{ident}}(?:\s+{{ident}}(?!\())*'
+      scope: meta.string.css string.unquoted.css
 
   # Language Ranges
   # https://drafts.csswg.org/selectors-4/#language-range
