@@ -672,7 +672,7 @@ contexts:
     - include: url-prefix-functions
     - include: domain-functions
     - include: regexp-functions
-    - include: at-block
+    - include: at-rule-block
     - include: at-rule-end
 
   # @font-face
@@ -764,7 +764,7 @@ contexts:
   at-media-content:
     - meta_scope: meta.at-rule.media.css
     - include: media-queries
-    - include: at-block
+    - include: at-rule-block
     - include: at-rule-end
 
   # @namespace
@@ -860,7 +860,7 @@ contexts:
     - meta_scope: meta.at-rule.supports.css
     - include: at-supports-groups
     - include: at-supports-operators
-    - include: at-block
+    - include: at-rule-block
     - include: at-rule-end
 
   at-supports-operators:
@@ -899,12 +899,12 @@ contexts:
     - meta_scope: meta.block.css
     - include: block-end2
 
-  at-block:
+  at-rule-block:
     - match: \{
       scope: punctuation.section.block.begin.css
-      push: at-block-content
+      push: at-rule-block-content
 
-  at-block-content:
+  at-rule-block-content:
     - meta_scope: meta.block.css
     - include: block-end2
     - include: main
