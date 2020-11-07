@@ -1533,13 +1533,15 @@ contexts:
     - match: '''\'''
       scope: invalid.illegal.lone-escape.cs
     - match: (')({{escaped_char}})(')
-      scope: string.quoted.single.cs
+      scope: meta.string.cs
+             string.quoted.single.cs
       captures:
         1: punctuation.definition.string.begin.cs
         2: constant.character.escape.cs
         3: punctuation.definition.string.end.cs
     - match: (')(.)(')
-      scope: string.quoted.single.cs
+      scope: meta.string.cs
+             string.quoted.single.cs
       captures:
         1: punctuation.definition.string.begin.cs
         2: constant.character.cs

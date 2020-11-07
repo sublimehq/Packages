@@ -1100,14 +1100,14 @@ namespace TestNamespace.Test
                 goto case 'b';
 ///             ^^^^ keyword.control.flow.goto
 ///                  ^^^^ keyword.control.switch.case
-///                       ^^^ string.quoted.single
+///                       ^^^ meta.string string.quoted.single
 ///                       ^ punctuation.definition.string.begin
 ///                        ^ constant.character
 ///                         ^ punctuation.definition.string.end
 ///                          ^ punctuation.terminator.statement
             case 'b':
 ///         ^^^^ keyword.control.switch.case - invalid
-///              ^^^ string.quoted.single
+///              ^^^ meta.string string.quoted.single
 ///              ^ punctuation.definition.string.begin
 ///               ^ constant.character
 ///                ^ punctuation.definition.string.end
