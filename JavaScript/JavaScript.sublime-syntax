@@ -1634,10 +1634,9 @@ contexts:
       scope: punctuation.separator.key-value.js
       push: expression-no-comma
 
-    # This can't occur in an object literal,
-    # but it can occur in parenthesized arrow function parameters,
-    # so we handle it gracefully here.
-    - match: '='
+    # If there's any garbage, parse it as an expression
+    # so that close braces won't break things.
+    - match: (?=\S)
       push: expression-no-comma
 
   object-literal-element:
