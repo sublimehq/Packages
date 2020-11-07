@@ -2417,12 +2417,20 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.css
       set:
-        - meta_scope: meta.function-call.arguments.css meta.group.css
-        - include: function-arguments-common
-        - include: custom-properties
-        - match: (?=,)
-          push:
-            - include: property-value-content
+        - var-function-arguments-defaults
+        - var-function-arguments-identifier
+
+  var-function-arguments-defaults:
+    - meta_scope: meta.function-call.arguments.css meta.group.css
+    - include: group-end
+    - include: font-property-value-content
+
+  var-function-arguments-identifier:
+    - match: '{{custom_ident}}'
+      scope: variable.other.custom-property.css
+      pop: 1
+    - include: comments
+    - include: else-pop
 
   function-arguments-common:
     - include: group-end
@@ -2467,13 +2475,6 @@ contexts:
   counter-system-constants:
     - match: '{{counter_system_constants}}'
       scope: support.constant.symbol-type.css
-
-  # Custom Properties
-  # https://drafts.csswg.org/css-variables/#typedef-custom-property
-  custom-properties:
-    # custom property reference
-    - match: '{{custom_ident}}'
-      scope: variable.other.custom-property.css
 
   # Generic Font Families
   # https://drafts.csswg.org/css-fonts-3/#family-name-value

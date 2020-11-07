@@ -1257,10 +1257,38 @@
 }
 /* <- meta.at-rule.counter-style.css meta.property-list.css meta.block.css punctuation.section.block.end.css */
 
-.test-var { --test-var: arial; font-family: var(--test-var) }
-/*          ^^^^^^^^^^ entity.other.custom-property.css */
-/*                    ^ punctuation.separator.key-value.css*/
-/*                                              ^^^^^^^^^^ variable.other.custom-property.css */
+.test-var-functions { 
+    --test-var: arial;
+/*  ^^^^^^^^^^ entity.other.custom-property.css */
+/*            ^ punctuation.separator.key-value.css*/
+
+    font-family: var(--test-var, sans-serif);
+/*               ^^^ meta.function-call.identifier.css support.function.var.css */
+/*                  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*                  ^ punctuation.section.group.begin.css */
+/*                   ^^^^^^^^^^ variable.other.custom-property.css */
+/*                             ^ punctuation.separator.sequence.css */
+/*                               ^^^^^^^^^^ support.constant.property-value.css */
+/*                                         ^ punctuation.section.group.end.css */
+
+    font-family: var(--test-var, sans serif);
+/*               ^^^ meta.function-call.identifier.css support.function.var.css */
+/*                  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*                  ^ punctuation.section.group.begin.css */
+/*                   ^^^^^^^^^^ variable.other.custom-property.css */
+/*                             ^ punctuation.separator.sequence.css */
+/*                               ^^^^^^^^^^ meta.string.css string.unquoted.css */
+/*                                         ^ punctuation.section.group.end.css */
+
+    font-size: var(--test-var, 10pt);
+/*             ^^^ meta.function-call.identifier.css support.function.var.css */
+/*                ^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*                ^ punctuation.section.group.begin.css */
+/*                 ^^^^^^^^^^ variable.other.custom-property.css */
+/*                           ^ punctuation.separator.sequence.css */
+/*                             ^^^^ meta.number.integer.decimal.css */
+/*                                 ^ punctuation.section.group.end.css */
+ }
 
 .test-deprecated-var { var-deprecated- }
 /*                     ^^^^^^^^^^^^^^^ invalid.deprecated.custom-property.css */
