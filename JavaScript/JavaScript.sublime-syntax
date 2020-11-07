@@ -930,6 +930,7 @@ contexts:
     - include: literal-call
 
     - match: (?=\(|{{identifier_start}})
+      pop: true
       branch_point: arrow-function
       branch:
         - branch-possible-arrow-function
@@ -973,7 +974,7 @@ contexts:
     - match: (?==>)
       fail: arrow-function
     - match: (?=\S)
-      pop: 3
+      pop: 2
 
   arrow-function-fallback:
     - meta_include_prototype: false
@@ -985,7 +986,7 @@ contexts:
   branch-arrow-function-end:
     - meta_include_prototype: false
     - match: ''
-      pop: 3
+      pop: 2
 
   literal-string:
     - match: "'"
