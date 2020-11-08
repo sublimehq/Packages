@@ -2184,32 +2184,48 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 // ## Runes
 
     ' '
-//  ^^^ constant.character.go
+//  ^^^ meta.string.go string.quoted.single.go
+//  ^ punctuation.definition.string.begin.go - constant
+//   ^ constant.character.literal.go
+//    ^ punctuation.definition.string.end.go - constant
 
     '0'
-//  ^^^ constant.character.go
+//  ^^^ meta.string.go string.quoted.single.go
+//  ^ punctuation.definition.string.begin.go - constant
+//   ^ constant.character.literal.go
+//    ^ punctuation.definition.string.end.go - constant
 
 // Escapes:
 
     '\n'
-//  ^^^^ constant.character.go
-//   ^^ constant.character.go constant.character.escape.go
+//  ^^^ meta.string.go string.quoted.single.go
+//  ^ punctuation.definition.string.begin.go - constant
+//   ^^ constant.character.escape.go
+//     ^ punctuation.definition.string.end.go - constant
 
     '\x00'
-//  ^^^^^^ constant.character.go
-//   ^^^^ constant.character.go constant.character.escape.go
+//  ^^^^^^ meta.string.go string.quoted.single.go
+//  ^ punctuation.definition.string.begin.go - constant
+//   ^^^^ constant.character.escape.go
+//       ^ punctuation.definition.string.end.go - constant
 
     '\u0000'
-//  ^^^^^^^^ constant.character.go
-//   ^^^^^^ constant.character.go constant.character.escape.go
+//  ^^^^^^^^ meta.string.go string.quoted.single.go
+//  ^ punctuation.definition.string.begin.go - constant
+//   ^^^^^^ constant.character.escape.go
+//         ^ punctuation.definition.string.end.go - constant
 
     '\U00000000'
-//  ^^^^^^^^^^^^ constant.character.go
-//   ^^^^^^^^^^ constant.character.go constant.character.escape.go
+//  ^^^^^^^^^^^^ meta.string.go string.quoted.single.go
+//  ^ punctuation.definition.string.begin.go - constant
+//   ^^^^^^^^^^ constant.character.escape.go
+//             ^ punctuation.definition.string.end.go - constant
 
     '\000'
-//  ^^^^^^ constant.character.go
-//   ^^^^ constant.character.go constant.character.escape.go
+//  ^^^^^^ meta.string.go string.quoted.single.go
+//  ^ punctuation.definition.string.begin.go - constant
+//   ^^^^ constant.character.escape.go
+//       ^ punctuation.definition.string.end.go - constant
 
 // ## Strings
 
