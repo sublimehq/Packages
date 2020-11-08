@@ -92,6 +92,26 @@ from a.b.c.
 #     ^ punctuation.accessor.dot.python
 #       ^ punctuation.accessor.dot.python
 #         ^ punctuation.accessor.dot.python
+from a.b.c. import module
+#^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#   ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#    ^^^^^^^ meta.statement.import.python meta.import-source.python meta.import-path.python
+#           ^^^^^^^^^^^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#                        ^ - meta.statement
+#     ^ punctuation.accessor.dot.python
+#       ^ punctuation.accessor.dot.python
+#         ^ punctuation.accessor.dot.python
+#           ^^^^^^ keyword.control.import
+from a.b.c. as module
+#^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#   ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#    ^^^^^^^ meta.statement.import.python meta.import-source.python meta.import-path.python
+#           ^^^^^^^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#                    ^ - meta.statement
+#     ^ punctuation.accessor.dot.python
+#       ^ punctuation.accessor.dot.python
+#         ^ punctuation.accessor.dot.python
+#           ^^ keyword.control.import.as.python
 from a.b.c..
 #^^^ meta.statement.import.python - meta.import-source - meta.import-path
 #   ^ meta.statement.import.python meta.import-source.python - meta.import-path

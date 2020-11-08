@@ -121,7 +121,9 @@ contexts:
         - expect-absolute-import
     - match: \b(from)\b
       scope: keyword.control.import.from.python
-      push: imports-from-body
+      push:
+        - imports-from-body
+        - maybe-relative-import
 
   imports-import-body:
     - meta_scope: meta.statement.import.python
@@ -130,10 +132,7 @@ contexts:
       scope: punctuation.separator.import-list.python
       push: expect-absolute-import
     - match: (?=\bas\b)
-      set:
-        - meta_scope: meta.statement.import.python
-        - include: line-continuation-or-pop
-        - include: import-name-list
+      set: import-alias-list
     - include: qualified-name
     - match: (?=\S)
       pop: true
@@ -142,32 +141,26 @@ contexts:
     - meta_scope: meta.statement.import.python
     - meta_content_scope: meta.import-source.python
     - include: line-continuation-or-pop
+    - match: (?=\bas\b)
+      set: import-alias-list
     - match: (?=\bimport\b)
       set:
         - meta_include_prototype: false
         - match: import
           scope: keyword.control.import.python
           set: imports-from-import-body
-    - match: \.*
-      scope: meta.import-path.python keyword.control.import.relative.python
-    - match: (?={{path}})
-      push:
-        - meta_scope: meta.import-path.python
-        - match: '{{illegal_names}}\b'
-          scope: invalid.illegal.name.python
-        - match: '{{identifier}}'
-          scope: meta.import-name.python
-        - match: \s*(\.) *(?:({{illegal_names}}\b)|({{identifier}})|$)
-          captures:
-            1: punctuation.accessor.dot.python
-            2: invalid.illegal.name.python
-            3: meta.import-name.python
-        - match: \ *(\. *\S+) # matches and consumes the remainder of "abc.123" or "abc.+"
-          captures:
-            1: invalid.illegal.name.python
-          pop: true
-        - match: ''
-          pop: true
+    - match: '{{illegal_names}}\b'
+      scope: meta.import-path.python invalid.illegal.name.python
+    - match: '{{identifier}}'
+      scope: meta.import-path.python meta.import-name.python
+    - match: \s*(\.) *(?={{identifier}}|$)
+      captures:
+        0: meta.import-path.python
+        1: punctuation.accessor.dot.python
+    - match: \s*(\. *\S+) # matches and consumes the remainder of "abc.123" or "abc.+"
+      captures:
+        0: meta.import-path.python
+        1: invalid.illegal.name.python
     - match: (?=\S)
       pop: true
 
@@ -187,10 +180,12 @@ contexts:
             - include: comments
             - include: import-name-list
     - match: (?=\S)
-      set:
-        - meta_scope: meta.statement.import.python
-        - include: line-continuation-or-pop
-        - include: import-name-list
+      set: import-alias-list
+
+  import-alias-list:
+    - meta_content_scope: meta.statement.import.python
+    - include: line-continuation-or-pop
+    - include: import-name-list
 
   import-name-list:
     - match: ','
@@ -207,6 +202,13 @@ contexts:
     - include: line-continuation-or-pop
     - match: \.+
       scope: invalid.illegal.unexpected-relative-import.python
+    - match: (?=\S)
+      pop: true
+
+  maybe-relative-import:
+    - include: line-continuation-or-pop
+    - match: \.+
+      scope: meta.import-path.python keyword.control.import.relative.python
     - match: (?=\S)
       pop: true
 
