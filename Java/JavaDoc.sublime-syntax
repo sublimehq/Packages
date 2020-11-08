@@ -51,39 +51,39 @@ contexts:
   javadoc-block-tag:
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#param
     - match: (@)param\b
-      scope: keyword.other.documentation.param.javadoc
+      scope: entity.name.tag.documentation.param.javadoc
       captures:
-        1: punctuation.definition.keyword.javadoc
+        1: punctuation.definition.tag.javadoc
       set:
         - javadoc-block-tag-common
         - javadoc-block-tag-param-args
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#see
     - match: (@)see\b
-      scope: keyword.other.documentation.see.javadoc
+      scope: entity.name.tag.documentation.see.javadoc
       captures:
-        1: punctuation.definition.keyword.javadoc
+        1: punctuation.definition.tag.javadoc
       set:
         - javadoc-block-tag-common
         - javadoc-block-tag-reference
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#throws
     - match: (@)(throws|exception)\b
-      scope: keyword.other.documentation.throws.javadoc
+      scope: entity.name.tag.documentation.throws.javadoc
       captures:
-        1: punctuation.definition.keyword.javadoc
+        1: punctuation.definition.tag.javadoc
       set:
         - javadoc-block-tag-common
         - javadoc-block-tag-reference
     - match: (@)(uses|provides)\b
-      scope: keyword.other.documentation.uses-or-provides.javadoc
+      scope: entity.name.tag.documentation.uses-or-provides.javadoc
       captures:
-        1: punctuation.definition.keyword.javadoc
+        1: punctuation.definition.tag.javadoc
       set:
         - javadoc-block-tag-common
         - javadoc-block-tag-reference
     - match: (@)(return|deprecated|author|version|since|apiNote|impl(?:Note|Spec)|moduleGraph|serial(?:Field|Data)?)\b
-      scope: keyword.other.documentation.javadoc
+      scope: entity.name.tag.documentation.javadoc
       captures:
-        1: punctuation.definition.keyword.javadoc
+        1: punctuation.definition.tag.javadoc
       set: javadoc-block-tag-common
     - match: (?=\S)|$
       pop: 1
@@ -122,15 +122,15 @@ contexts:
     - match: ({)((@)(?:code|literal))(?:\s+|(?=\}))
       captures:
         1: punctuation.section.inline-tag.begin.javadoc
-        2: keyword.other.documentation.code-or-literal.javadoc
-        3: punctuation.definition.keyword.javadoc
+        2: entity.name.tag.documentation.code-or-literal.javadoc
+        3: punctuation.definition.tag.javadoc
       push: javadoc-inline-tag-raw
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#link
     - match: ({)((@)link(?:plain)?)\b
       captures:
         1: punctuation.section.inline-tag.begin.javadoc
-        2: keyword.other.documentation.link.javadoc
-        3: punctuation.definition.keyword.javadoc
+        2: entity.name.tag.documentation.link.javadoc
+        3: punctuation.definition.tag.javadoc
       push:
         - javadoc-inline-tag-common
         - javadoc-inline-tag-label
@@ -139,8 +139,8 @@ contexts:
     - match: ({)((@)value)\b
       captures:
         1: punctuation.section.inline-tag.begin.javadoc
-        2: keyword.other.documentation.value.javadoc
-        3: punctuation.definition.keyword.javadoc
+        2: entity.name.tag.documentation.value.javadoc
+        3: punctuation.definition.tag.javadoc
       push:
         - javadoc-inline-tag-common
         - javadoc-inline-tag-reference
@@ -149,16 +149,16 @@ contexts:
     - match: ({)((@)(?:index|extLink))\b
       captures:
         1: punctuation.section.inline-tag.begin.javadoc
-        2: keyword.other.documentation.javadoc
-        3: punctuation.definition.keyword.javadoc
+        2: entity.name.tag.documentation.javadoc
+        3: punctuation.definition.tag.javadoc
       push: javadoc-inline-tag-common
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#inheritDoc
     - match: ({)((@)inheritDoc)(})
       scope: meta.inline-tag.javadoc
       captures:
         1: punctuation.section.inline-tag.begin.javadoc
-        2: keyword.other.documentation.javadoc
-        3: punctuation.definition.keyword.javadoc
+        2: entity.name.tag.documentation.javadoc
+        3: punctuation.definition.tag.javadoc
         4: punctuation.section.inline-tag.end.javadoc
 
   javadoc-inline-tag-common:

@@ -8866,15 +8866,15 @@ class JavadocTests {
 //                          ^^^ comment.block.documentation.javadoc meta.tag
 
   /** @param onFirstLine     @param
-//    ^^^^^^ keyword.other.documentation.param.javadoc
-//                           ^^^^^^ - keyword.other.documentation.param.javadoc
+//    ^^^^^^ entity.name.tag.documentation.param.javadoc
+//                           ^^^^^^ - entity.name.tag.documentation.param.javadoc
    *  @param normal          @param
-//                           ^^^^^^ - keyword.other.documentation.param.javadoc
-//    ^^^^^^ keyword.other.documentation.param.javadoc
+//                           ^^^^^^ - entity.name.tag.documentation.param.javadoc
+//    ^^^^^^ entity.name.tag.documentation.param.javadoc
    *
       @param withoutAsterisk @param
-//                           ^^^^^^ - keyword.other.documentation.param.javadoc
-//    ^^^^^^ keyword.other.documentation.param.javadoc
+//                           ^^^^^^ - entity.name.tag.documentation.param.javadoc
+//    ^^^^^^ entity.name.tag.documentation.param.javadoc
    */
 
   /**
@@ -8908,20 +8908,20 @@ class JavadocTests {
 
   /** Not a @param tag */
 // ^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.javadoc
-//          ^^^^^^ - keyword.other.documentation.param.javadoc
+//          ^^^^^^ - entity.name.tag.documentation.param.javadoc
 
   /**
    * Code blocks
    *
    * {@code} {@literal}
-//    ^^^^^ keyword.other.documentation.code-or-literal.javadoc
-//    ^ punctuation.definition.keyword.javadoc
-//            ^^^^^^^^ keyword.other.documentation.code-or-literal.javadoc
-//            ^ punctuation.definition.keyword.javadoc
+//    ^^^^^ entity.name.tag.documentation.code-or-literal.javadoc
+//    ^ punctuation.definition.tag.javadoc
+//            ^^^^^^^^ entity.name.tag.documentation.code-or-literal.javadoc
+//            ^ punctuation.definition.tag.javadoc
 
    * {@code List<T> lst = new ArrayList<>()}
 //   ^ punctuation.section.inline-tag.begin.javadoc
-//    ^^^^^ keyword.other.documentation.code-or-literal.javadoc
+//    ^^^^^ entity.name.tag.documentation.code-or-literal.javadoc
 //         ^ - markup.raw.javadoc
 //          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.raw.javadoc -meta.tag
 //                                         ^ punctuation.section.inline-tag.end.javadoc
@@ -8958,13 +8958,13 @@ class JavadocTests {
    * Inline tags with references
 
    * {@link} {@linkplain}
-//    ^^^^^ keyword.other.documentation.link.javadoc
-//            ^^^^^^^^^^ keyword.other.documentation.link.javadoc
+//    ^^^^^ entity.name.tag.documentation.link.javadoc
+//            ^^^^^^^^^^ entity.name.tag.documentation.link.javadoc
 
    * {@link Class} {@linkplain org.package.Class} {@link org.package.Class.NestedClass}
-//    ^^^^^ keyword.other.documentation.link.javadoc
+//    ^^^^^ entity.name.tag.documentation.link.javadoc
 //          ^^^^^ markup.underline.link.javadoc
-//                   ^^^^^^^^^ keyword.other.documentation.link.javadoc
+//                   ^^^^^^^^^ entity.name.tag.documentation.link.javadoc
 //                             ^^^^^^^^^^^^^^^^^ markup.underline.link.javadoc
 //                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.javadoc
 
@@ -9008,7 +9008,7 @@ class JavadocTests {
 //                                                 ^^^^ meta.tag
    *
    * {@value} {@value #SOME_CONSTANT} {@value package.Class#SOME_CONSTANT}
-//    ^^^^^^ keyword.other.documentation.value.javadoc
+//    ^^^^^^ entity.name.tag.documentation.value.javadoc
 //                    ^^^^^^^^^^^ markup.underline.link.javadoc
 //                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.javadoc
    */
@@ -9017,29 +9017,29 @@ class JavadocTests {
    * Block tags with reference
    *
    * @see Class#method(Type, Type)
-//   ^^^^ keyword.other.documentation.see.javadoc
+//   ^^^^ entity.name.tag.documentation.see.javadoc
 //        ^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.javadoc
    *
    * @see <a>java.util.stream</a>
-//   ^^^^ keyword.other.documentation.see.javadoc
+//   ^^^^ entity.name.tag.documentation.see.javadoc
 //        ^^^^^^^^^^^^^^^^^^^^^^^ - markup.underline.link.javadoc
 //        ^^^ meta.tag
 //                           ^^^ meta.tag
    *
    * @see 'java.util.stream'
-//   ^^^^ keyword.other.documentation.see.javadoc
+//   ^^^^ entity.name.tag.documentation.see.javadoc
 //        ^^^^^^^^^^^^^^^^^^ - markup.underline.link.javadoc
    *
    * @see https://wiki.xmldation.com/Support/Validator/ETagUnterminated
-//   ^^^^ keyword.other.documentation.see.javadoc
+//   ^^^^ entity.name.tag.documentation.see.javadoc
 //        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.javadoc
    *
    * @throws IOException
-//   ^^^^^^^ keyword.other.documentation.throws.javadoc
+//   ^^^^^^^ entity.name.tag.documentation.throws.javadoc
 //           ^^^^^^^^^^^ markup.underline.link.javadoc
 
    * @throws IOException because IOException
-//   ^^^^^^^ keyword.other.documentation.throws.javadoc
+//   ^^^^^^^ entity.name.tag.documentation.throws.javadoc
 //           ^^^^^^^^^^^ markup.underline.link.javadoc
 //                       ^^^^^^^^^^^^^^^^^^^ - markup.underline.link.javadoc
    *
