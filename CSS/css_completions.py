@@ -640,7 +640,11 @@ class CSSCompletions(sublime_plugin.EventListener):
         return None
 
     def complete_property_name(self, view, prefix, pt):
-        suffix = ": $0;"
+        if match_selector(view, pt, "meta.group"):
+            # don't append semicolon in groups e.g.: `@media screen (prop: |)`
+            suffix = ": $0"
+        else:
+            suffix = ": $0;"
         text = view.substr(sublime.Region(pt, view.line(pt).end()))
         matches = self.re_value.search(text)
         if matches:
@@ -674,7 +678,10 @@ class CSSCompletions(sublime_plugin.EventListener):
             if values:
                 details = f"<code>{prop}</code> property-value"
 
-                if next_none_whitespace(view, pt) == ";":
+                if match_selector(view, pt, "meta.group"):
+                    # don't append semicolon in groups e.g.: `@media screen (prop: val)`
+                    suffix = ""
+                elif next_none_whitespace(view, pt) == ";":
                     suffix = ""
                 else:
                     suffix = "$0;"
