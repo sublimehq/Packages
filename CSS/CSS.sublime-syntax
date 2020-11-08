@@ -1394,13 +1394,17 @@ contexts:
     - include: color-functions
     - include: color-constants
 
+  # Counter Symbol Values
+  # https://drafts.csswg.org/css-counter-styles-3/#counter-style-system
+  # https://drafts.csswg.org/css-counter-styles-3/#symbols-function
   counter-symbol-values:
     - include: image-values
     - include: counter-system-constants
     - include: scalar-integer-constants
     - include: quoted-strings
 
-  # https://drafts.csswg.org/css-images-3/#typedef-image
+  # 2D Image Values
+  # https://drafts.csswg.org/css-images-4/#image-values
   image-values:
     - include: cross-fade-functions
     - include: gradient-functions
