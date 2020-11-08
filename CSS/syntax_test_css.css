@@ -2062,7 +2062,7 @@
 /*                           ^ constant.numeric.value.css */
 /*                            ^ punctuation.section.group.end.css */
 /*                              ^^^^^ meta.number.integer.decimal.css */
-/*                                    ^^^^^ meta.string.css string.unquoted.css */
+/*                                    ^^^^^ constant.other.css */
 /*                                         ^ punctuation.section.group.end.css */
 /*                                          ^ punctuation.terminator.rule.css */
 }

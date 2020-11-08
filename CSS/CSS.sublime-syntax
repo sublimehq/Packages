@@ -2454,9 +2454,9 @@ contexts:
       set:
         - meta_scope: meta.function-call.arguments.css meta.group.css
         - include: function-arguments-common
-        - include: numeric-constants
         - include: quoted-strings
-        - include: unquoted-strings
+        - include: numeric-constants
+        - include: other-constants
 
 ###[ CONSTANTS ]###############################################################
 
@@ -2751,10 +2751,6 @@ contexts:
       scope: constant.character.escape.newline.css
     - match: \\(?:\h{1,6}|.)
       scope: constant.character.escape.css
-
-  unquoted-strings:
-    - match: '[^\s''"]'
-      scope: meta.string.css string.unquoted.css
 
 ###[ URL STRING CONSTANTS ]####################################################
 
