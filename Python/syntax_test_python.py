@@ -33,39 +33,154 @@ This is a variable docstring, as supported by sphinx and epydoc
 import sys # comment
 #^^^^^ keyword.control.import
 #          ^ comment
+import sys. # comment
+#^^^^^ keyword.control.import
+#         ^ punctuation.accessor.dot.python
+#           ^ comment
+import sys.path # comment
+#^^^^^ keyword.control.import
+#         ^ punctuation.accessor.dot.python
+#               ^ comment
+import .
+#      ^ invalid.illegal.unexpected-relative-import.python
+import ..
+#      ^^ invalid.illegal.unexpected-relative-import.python
+import .. sys
+#      ^^ invalid.illegal.unexpected-relative-import.python
+
 from os import path, chdir # comment
+#^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#   ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#    ^^ meta.statement.import.python meta.import-source.python meta.import-path.python
+#      ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#       ^^^^^^^^^^^^^^^^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#                         ^ - meta.statement
 #^^^ keyword.control.import.from
 #       ^^^^^^ keyword.control.import
 #                  ^ punctuation.separator.import-list
 #                          ^ comment
 from . import module
+#^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#   ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#    ^ meta.statement.import.python meta.import-source.python meta.import-path.python
+#     ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#      ^^^^^^^^^^^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#                   ^ - meta.statement
 #    ^ keyword.control.import.relative.python
 #      ^^^^^^ keyword.control.import
 from .import module  # yes, this is actually legit
+#^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#   ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#    ^ meta.statement.import.python meta.import-source.python meta.import-path.python
+#     ^^^^^^^^^^^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#                  ^ - meta.statement
 #    ^ keyword.control.import.relative.python
 #     ^^^^^^ keyword.control.import.python
 from collections.abc import Iterable
+#^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#   ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#    ^^^^^^^^^^^^^^^ meta.statement.import.python meta.import-source.python meta.import-path.python
+#                   ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#                    ^^^^^^^^^^^^^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#                                   ^ - meta.statement
 #                    ^^^^^^ keyword.control.import
+from a.b.c.
+#^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#   ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#    ^^^^^^ meta.statement.import.python meta.import-source.python meta.import-path.python
+#          ^ - meta.statement
+#     ^ punctuation.accessor.dot.python
+#       ^ punctuation.accessor.dot.python
+#         ^ punctuation.accessor.dot.python
+from a.b.c..
+#^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#   ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#    ^^^^^^^ meta.statement.import.python meta.import-source.python meta.import-path.python
+#           ^ - meta.statement
+#     ^ punctuation.accessor.dot.python
+#       ^ punctuation.accessor.dot.python
+#         ^^ invalid.illegal.name.python
+from a.b.c.. import module
+#^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#   ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#    ^^^^^^^ meta.statement.import.python meta.import-source.python meta.import-path.python
+#           ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#            ^^^^^^^^^^^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#                         ^ - meta.statement
+#     ^ punctuation.accessor.dot.python
+#       ^ punctuation.accessor.dot.python
+#         ^^ invalid.illegal.name.python
+#            ^^^^^^ keyword.control.import
 from a.b.c.else import module
+#^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#   ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#    ^^^^^^^^^^ meta.statement.import.python meta.import-source.python meta.import-path.python
+#              ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#               ^^^^^^^^^^^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#                            ^ - meta.statement
+#     ^ punctuation.accessor.dot.python
+#       ^ punctuation.accessor.dot.python
+#         ^ punctuation.accessor.dot.python
 #          ^^^^ invalid.illegal.name.python
 #               ^^^^^^ keyword.control.import
 from .while import module
+#^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#   ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#    ^^^^^^ meta.statement.import.python meta.import-source.python meta.import-path.python
+#          ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#           ^^^^^^^^^^^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#                        ^ - meta.statement
+#    ^ keyword.control.import.relative.python
 #     ^^^^^ invalid.illegal.name.python
 #           ^^^^^^ keyword.control.import
 from .index import module
+#^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#   ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#    ^^^^^^ meta.statement.import.python meta.import-source.python meta.import-path.python
+#          ^ meta.statement.import.python meta.import-source.python - meta.import-path
+#           ^^^^^^^^^^^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#                        ^ - meta.statement
+#    ^ keyword.control.import.relative.python
 #     ^^^^^ - invalid
+#           ^^^^^^ keyword.control.import.python
+from \
+#^^^ meta.statement.import.python - meta.import-source - meta.import-path
+#   ^^^ meta.statement.import.python meta.import-source.python - meta.import-path
+from \
+    ..\
+#^^^ meta.statement.import.python meta.import-source.python - meta.import-path
+#   ^^ meta.statement.import.python meta.import-source.python meta.import-path.python
+#     ^^ meta.statement.import.python meta.import-source.python - meta.import-path
+#   ^^ keyword.control.import.relative.python
+#     ^ punctuation.separator.continuation.line.python
+from \
+    ..\
+    lib \
+#^^^ meta.statement.import.python meta.import-source.python - meta.import-path
+#   ^^^ meta.statement.import.python meta.import-source.python meta.import-path.python
+#      ^^^ meta.statement.import.python meta.import-source.python - meta.import-path
+#       ^ punctuation.separator.continuation.line.python
+from \
+    ..\
+    lib \
+    import \
+#^^^ meta.statement.import.python meta.import-source.python - meta.import-path
+#   ^^^^^^^^^ meta.statement.import.python - meta.import-source meta.import-path.python
+#   ^^^^^^ keyword.control.import.python
+#          ^ punctuation.separator.continuation.line.python
 from \
     os \
     import \
     path
-#   ^^^^ meta.statement.import
+# ^^^^^^ meta.statement.import
+#       ^ - meta.statement
 from sys import (version, # comment
 #^^^^^^^^^^^^^^^^^^^^^^^^ meta.statement.import
 #               ^ punctuation.section.import-list.begin
 #                         ^ comment
                  version_info, . ) # comment
 #                ^^^^^^^^^^^^^ meta.statement.import
-#                              ^ invalid.illegal.name.import
+#                              ^ invalid.illegal.name.import.python
 #                                ^ punctuation.section.import-list.end
 #                                  ^ comment
 import path from os
@@ -74,6 +189,10 @@ from .sub import *
 #                ^ constant.language.import-all.python
 import a as b
 #        ^^ keyword.control.import.as.python
+import a as .b, .b
+#        ^^ keyword.control.import.as.python
+#           ^^ invalid.illegal.name.import.python
+#               ^^ invalid.illegal.name.import.python
 from a import b as c, d as e
 #               ^^ keyword.control.import.as.python
 #                       ^^ keyword.control.import.as.python
