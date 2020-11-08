@@ -131,8 +131,11 @@ TypeError module.TypeError
 #^^^^^^^^ support.type.exception
 #                ^^^^^^^^^ - support
 
-open.open.open
+open.open.open.
 #    ^^^^^^^^^ - support
+#   ^ punctuation.accessor.dot.python
+#        ^ punctuation.accessor.dot.python
+#             ^ punctuation.accessor.dot.python
 
 ... Ellipsis __debug__
 #^^ constant.language.python
@@ -172,6 +175,12 @@ identifier()
 
 IDENTIFIER()
 #^^^^^^^^^ meta.qualified-name variable.function - variable.other.constant
+
+dotted.
+#     ^ punctuation.accessor.dot
+
+dotted .
+#      ^ punctuation.accessor.dot
 
 dotted . identifier(12, True)
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call - meta.function-call meta.function-call
@@ -234,8 +243,9 @@ def _():
 #   ^^^^^ keyword.control.flow.yield
 #         ^^^^ keyword.control.flow.yield-from
 
-    yield fromsomething
+    yield fromsomething.
 #         ^^^^ - keyword
+#                      ^ punctuation.accessor.dot.python
 
     a if b else c
 #     ^^ keyword.control.conditional.if
@@ -404,8 +414,12 @@ range(20)[10:2:-2]
 "string"[12]
 #       ^^^^ meta.item-access - meta.structure
 
+"string".
+#       ^ punctuation.accessor.dot.python
+
 "string".upper()
 #       ^^^^^^^^ meta.function-call
+#       ^ punctuation.accessor.dot.python
 
 (i for i in range(10))[5]
 #                     ^^^ meta.item-access - meta.structure
@@ -414,8 +428,24 @@ range(20)[10:2:-2]
 #^^^^^^^^ meta.sequence
 #        ^^^ meta.item-access - meta.structure
 
+[a.b., a., .][2]
+#^^^^^^^^^^^^ meta.sequence
+# ^ punctuation.accessor.dot.python
+#   ^ punctuation.accessor.dot.python
+#       ^ punctuation.accessor.dot.python
+#          ^ punctuation.accessor.dot.python
+#            ^^^ meta.item-access - meta.structure
+
+{foo.: bar.baz.}.
+#   ^ punctuation.accessor.dot.python
+#    ^ punctuation.separator.mapping.key-value.python
+#         ^ punctuation.accessor.dot.python
+#             ^ punctuation.accessor.dot.python
+#               ^ punctuation.accessor.dot.python
+
 {True: False}.get(True)
 #            ^^^^^^^^^^ meta.function-call
+#            ^ punctuation.accessor.dot.python
 
 1[12]
 #^^^^ - meta.item-access
@@ -428,8 +458,12 @@ range(20)[10:2:-2]
 def _():
     print (file=None)
 #   ^^^^^ support.function.builtin - keyword
+    print .
+#   ^^^^^ support.function.builtin - keyword
+#         ^ punctuation.accessor.dot.python
     print . __class__
 #   ^^^^^ support.function.builtin - keyword
+#         ^ punctuation.accessor.dot.python
     print "keyword"
 #   ^^^^^ keyword.other.print
     print __init__

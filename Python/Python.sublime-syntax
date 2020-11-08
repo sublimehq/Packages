@@ -1165,6 +1165,8 @@ contexts:
         - include: dotted-name
         - match: ''
           pop: true
+    - match: \.
+      scope: punctuation.accessor.dot.python
 
   qualified-name-until-leaf:
     # Push this together with another context to match a qualified name
