@@ -519,7 +519,7 @@ contexts:
     - match: \*
       scope:
         meta.import.java meta.path.java
-        keyword.operator.wildcard.asterisk.java
+        variable.language.wildcard.asterisk.java
       set: import-expect-terminator
 
   import-acessor-or-termintor:
@@ -2573,7 +2573,7 @@ contexts:
 
   type-argument-reference:
     - match: \?
-      scope: keyword.operator.wildcard.java
+      scope: variable.language.wildcard.java
       set: type-argument-bounds
     - include: maybe-reference-type
 
