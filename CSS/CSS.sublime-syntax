@@ -1931,8 +1931,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
-            - match: \b(?i:auto|max-content|min-content){{break}}
-              scope: support.constant.property-value.css
+            - include: grid-constants
             - include: length-constants
             - include: percentage-constants
 
@@ -1951,9 +1950,8 @@ contexts:
             - include: comma-delimiters
             - match: \b(?i:auto-fill|auto-fit){{break}}
               scope: support.keyword.repetitions.css
-            - match: \b(?i:max-content|min-content|auto){{break}}
-              scope: support.constant.property-value.css
             - include: minmax-functions
+            - include: grid-constants
             - include: length-constants
             - include: percentage-constants
             - include: scalar-integer-constants
@@ -2500,6 +2498,10 @@ contexts:
   # https://drafts.csswg.org/css-fonts-3/#family-name-value
   generic-font-names:
     - match: '{{font_family_constants}}'
+      scope: support.constant.property-value.css
+
+  grid-constants:
+    - match: \b(?i:auto|max-content|min-content){{break}}
       scope: support.constant.property-value.css
 
   other-constants:
