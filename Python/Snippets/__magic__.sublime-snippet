@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[__${1:init}__]]></content>
 	<tabTrigger>__</tabTrigger>
-	<scope>source.python</scope>
+	<scope>source.python - comments - string</scope>
 	<description>__magic__</description>
 </snippet>
