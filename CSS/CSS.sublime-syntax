@@ -746,7 +746,7 @@ contexts:
     - include: comma-delimiters
     - include: percentage-constants
     - match: \b(?i:from|to){{break}}
-      scope: keyword.other.keyframe-selector.css
+      scope: keyword.other.selector.css
     - include: selector-end
 
   # @media
@@ -1136,7 +1136,7 @@ contexts:
 
   attribute-selector-flag:
     - match: \b[iI]{{break}}
-      scope: keyword.other.css
+      scope: keyword.other.flag.css
       set: attribute-selector-end
     - include: attribute-selector-end
 
@@ -1952,7 +1952,7 @@ contexts:
             - include: function-arguments-common
             - include: comma-delimiters
             - match: \b(?i:auto-fill|auto-fit){{break}}
-              scope: support.keyword.repetitions.css
+              scope: keyword.other.grid.css
             - include: minmax-functions
             - include: grid-constants
             - include: length-constants
@@ -2039,7 +2039,7 @@ contexts:
             - include: function-arguments-common
             - include: comma-delimiters
             - match: \b(?i:to){{break}}
-              scope: keyword.other.css
+              scope: keyword.other.gradient.css
             - match: \b(?i:top|right|bottom|left){{break}}
               scope: support.constant.property-value.css
             - include: color-values
@@ -2062,7 +2062,7 @@ contexts:
             - include: function-arguments-common
             - include: comma-delimiters
             - match: \b(?i:at|circle|ellipse){{break}}
-              scope: keyword.other.css
+              scope: keyword.other.gradient.css
             - match: \b(?i:left|center|right|top|bottom|(closest|farthest)-(corner|side)){{break}}
               scope: support.constant.property-value.css
             - include: color-values
@@ -2101,7 +2101,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - match: \b(?i:round){{break}}
-              scope: keyword.other.css
+              scope: keyword.other.shape.css
             - include: length-constants
             - include: percentage-constants
 
@@ -2119,7 +2119,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - match: \b(?i:at){{break}}
-              scope: keyword.other.css
+              scope: keyword.other.shape.css
             - match: \b(?i:top|right|bottom|left|center|closest-side|farthest-side){{break}}
               scope: support.constant.property-value.css
             - include: length-constants
@@ -2175,7 +2175,7 @@ contexts:
             - include: function-arguments-common
             - include: comma-delimiters
             - match: \b(?i:end|middle|start){{break}}
-              scope: support.keyword.timing-direction.css
+              scope: keyword.other.timing.css
             - include: scalar-integer-constants
 
 ###[ BUILTIN TRANSFORM FUNCTIONS ]#############################################

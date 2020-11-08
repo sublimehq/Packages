@@ -686,9 +686,9 @@
 /*          ^ meta.at-rule.keyframe.css meta.block.css - meta.selector - meta.property-list - meta.block meta.block */
 /*           ^^ meta.at-rule.keyframe.css meta.block.css meta.property-list.css meta.block.css */
 /*             ^ meta.at-rule.keyframe.css meta.block.css - meta.property-list - meta.block meta.block */
-/*  ^^^^ keyword.other.keyframe-selector.css */
+/*  ^^^^ keyword.other.selector.css */
 /*      ^ punctuation.separator.sequence.css */
-/*        ^^ keyword.other.keyframe-selector.css */
+/*        ^^ keyword.other.selector.css */
 
     0%, 100% {}
 /*  ^^^^^^^^ meta.at-rule.keyframe.css meta.block.css meta.selector.css */
@@ -722,7 +722,7 @@
 /*  ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*   ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 /*    ^ punctuation.separator.sequence.css */
-/*      ^^ keyword.other.keyframe-selector.css */
+/*      ^^ keyword.other.selector.css */
 
     %, to {}
 /*  ^^^^^ meta.at-rule.keyframe.css meta.block.css meta.selector.css */
@@ -730,7 +730,7 @@
 /*        ^^ meta.at-rule.keyframe.css meta.block.css meta.property-list.css meta.block.css */
 /*          ^ meta.at-rule.keyframe.css meta.block.css - meta.property-list - meta.block meta.block */
 /*   ^ punctuation.separator.sequence.css */
-/*     ^^ keyword.other.keyframe-selector.css */
+/*     ^^ keyword.other.selector.css */
 
     , to {}
 /*  ^^^^ meta.at-rule.keyframe.css meta.block.css meta.selector.css */
@@ -738,7 +738,7 @@
 /*       ^^ meta.at-rule.keyframe.css meta.block.css meta.property-list.css meta.block.css */
 /*         ^ meta.at-rule.keyframe.css meta.block.css - meta.property-list - meta.block meta.block */
 /*  ^ punctuation.separator.sequence.css */
-/*    ^^ keyword.other.keyframe-selector.css */
+/*    ^^ keyword.other.selector.css */
 
     @media ;
 /*  ^^^^^^^^ - keyword - punctuation */
@@ -1631,7 +1631,7 @@
 /*                                              ^ keyword.operator.logical.css */
 /*                                                ^^^^^^ meta.string.css string.unquoted.css */
 /*                                                       ^^^^^^ invalid.illegal.css */
-/*                                                              ^ keyword.other.css */
+/*                                                              ^ keyword.other.flag.css */
 /*                                                                ^^^^^^ invalid.illegal.css */
 /*                                                                      ^ punctuation.section.brackets.end.css */
 
@@ -1672,7 +1672,7 @@
 /*                                     ^ keyword.operator.logical.css */
 
 .test-attribute-selectors-flags[a="" i] {}
-/*                                   ^ keyword.other.css */
+/*                                   ^ keyword.other.flag.css */
 
    *.test-universal-selector {}
 /* ^ variable.language.wildcard.asterisk.css */
@@ -2286,13 +2286,13 @@
     top: steps(020, start);
 /*       ^^^^^ support.function.timing.css */
 /*             ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
-/*                  ^^^^^ support.keyword.timing-direction.css */
+/*                  ^^^^^ keyword.other.timing.css */
 
     top: steps(1, end);
-/*                ^^^ support.keyword.timing-direction.css */
+/*                ^^^ keyword.other.timing.css */
 
     top: steps(1, middle);
-/*                ^^^^^^ support.keyword.timing-direction.css */
+/*                ^^^^^^ keyword.other.timing.css */
 
     top: steps(1, var(--end));
 /*                ^^^ support.function.var.css */
@@ -2301,14 +2301,14 @@
 .test-shape-functions {
     top: circle(at top 5.5e20em);
 /*       ^^^^^^ support.function.shape.css */
-/*              ^^ keyword.other.css */
+/*              ^^ keyword.other.shape.css */
 /*                 ^^^ support.constant.property-value.css */
 /*                     ^^^^^^ meta.number.float.decimal.css constant.numeric.value.css */
 /*                           ^^ meta.number.float.decimal.css constant.numeric.suffix.css */
 
     top: ellipse(at 0%);
 /*       ^^^^^^^ support.function.shape.css */
-/*               ^^ keyword.other.css */
+/*               ^^ keyword.other.shape.css */
 /*                  ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                   ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
 
@@ -2319,7 +2319,7 @@
 /*       ^^^^^ support.function.shape.css */
 /*             ^^^ meta.number.float.decimal.css constant.numeric.value.css */
 /*                ^^ meta.number.float.decimal.css constant.numeric.suffix.css */
-/*                   ^^^^^ keyword.other.css */
+/*                   ^^^^^ keyword.other.shape.css */
 
     top: rect(auto);
 /*       ^^^^ support.function.shape.css */
@@ -2687,7 +2687,7 @@
 /*                              ^^^^^ support.constant.color.w3c.standard.css */
 
     top: linear-gradient(to top left);
-/*                       ^^ keyword.other.css */
+/*                       ^^ keyword.other.gradient.css */
 /*                          ^^^ support.constant.property-value.css */
 /*                              ^^^^ support.constant.property-value.css */
 
@@ -2704,8 +2704,8 @@
 /*       ^^^^^^^^^^^^^^^ support.function.gradient.css */
 
     top: radial-gradient(circle at top left);
-/*                       ^^^^^^ keyword.other.css */
-/*                              ^^ keyword.other.css */
+/*                       ^^^^^^ keyword.other.gradient.css */
+/*                              ^^ keyword.other.gradient.css */
 /*                                 ^^^ support.constant.property-value.css */
 /*                                     ^^^^ support.constant.property-value.css */
 
@@ -2856,7 +2856,7 @@
 /*                                        ^ punctuation.section.brackets.end.css */
 
     top: repeat(auto-fit, 2fr minmax(auto) 5%);
-/*              ^^^^^^^^ support.keyword.repetitions.css */
+/*              ^^^^^^^^ keyword.other.grid.css */
 /*                      ^ punctuation.separator.sequence.css */
 /*                        ^ meta.number.integer.decimal.css constant.numeric.value.css */
 /*                         ^^ meta.number.integer.decimal.css constant.numeric.suffix.css */
