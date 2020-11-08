@@ -1171,8 +1171,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
-            - match: \b(ltr|rtl){{break}}
-              scope: support.constant.property-value.css
+            - include: direction-constants
 
   # Special :lang() pseudo-class
   # https://drafts.csswg.org/selectors-4/#the-lang-pseudo
@@ -1993,8 +1992,7 @@ contexts:
             - include: color-values
             - include: image-values
             - include: quoted-urls
-            - match: \b(ltr|rtl){{break}}
-              scope: support.constant.property-value.css
+            - include: direction-constants
 
   # image-set()
   # https://drafts.csswg.org/css-images-4/#funcdef-image-set
@@ -2493,6 +2491,10 @@ contexts:
   counter-system-constants:
     - match: '{{counter_system_constants}}'
       scope: support.constant.symbol-type.css
+
+  direction-constants:
+    - match: \b(ltr|rtl){{break}}
+      scope: support.constant.property-value.css
 
   # Generic Font Families
   # https://drafts.csswg.org/css-fonts-3/#family-name-value
