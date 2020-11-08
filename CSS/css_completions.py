@@ -629,8 +629,11 @@ class CSSCompletions(sublime_plugin.EventListener):
             items = self.complete_function_argument(view, prefix, pt)
         elif match_selector(view, pt, "meta.property-value.css"):
             items = self.complete_property_value(view, prefix, pt)
-        else:
+        elif match_selector(view, pt, "meta.property-list.css, meta.property-name.css"):
             items = self.complete_property_name(view, prefix, pt)
+        else:
+            # TODO: provide selectors, at-rules
+            items = None
 
         if items:
             return sublime.CompletionList(items, sublime.INHIBIT_WORD_COMPLETIONS)
