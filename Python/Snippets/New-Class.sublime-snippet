@@ -4,6 +4,6 @@
 		${5:super($1, self).__init__()}
 ${4/(\A\s*,\s*\Z)|,?\s*([A-Za-z_][a-zA-Z0-9_]*)\s*(=[^,]*)?(,\s*|$)/(?2:\t\tself.$2 = $2\n)/g}		$0]]></content>
 	<tabTrigger>class</tabTrigger>
-	<scope>source.python</scope>
+	<scope>source.python - meta.function.parameters - meta.function-call - meta.statement - meta.mapping - meta.sequence - meta.set - comment - string</scope>
 	<description>New Class</description>
 </snippet>
