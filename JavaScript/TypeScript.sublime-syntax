@@ -628,6 +628,7 @@ contexts:
     - include: ts-type-basic
 
     - match: (?=\()
+      pop: true
       branch_point: ts-function-type
       branch:
         - ts-type-parenthesized
