@@ -113,8 +113,10 @@ contexts:
     - include: number
     - include: variable_invalid
     - include: operators
-    - match: \.\.\.
-      scope: punctuation.separator.continuation.matlab
+    - match: (\.\.\.)\s*(\S.*\n?)?
+      captures:
+        1: punctuation.separator.continuation.matlab
+        2: comment.line.matlab
   brackets:
     - match: '\['
       scope: punctuation.section.brackets.begin.matlab

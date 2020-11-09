@@ -81,6 +81,27 @@ x = 5 %{ not block comment
 x = 5
 %   ^ meta.number.float.decimal.matlab constant.numeric.value.matlab
 
+header = ['Last Name, ',      ... comment
+%        ^^^^^^^^^^^^^^^^^^^^^ meta.brackets.matlab - comment
+%                             ^^^ meta.brackets.matlab punctuation.separator.continuation.matlab
+%                                ^ meta.brackets.matlab - punctuation - comment
+%                                 ^^^^^^^^ meta.brackets.matlab comment.line.matlab - punctuation
+          'First Name, ',     ... comment
+%        ^^^^^^^^^^^^^^^^^^^^^ meta.brackets.matlab - comment
+%                             ^^^ punctuation.separator.continuation.matlab
+%                                ^ meta.brackets.matlab - punctuation - comment
+%                                 ^^^^^^^^ meta.brackets.matlab comment.line.matlab - punctuation
+          'Alias Name, ',     ...
+%        ^^^^^^^^^^^^^^^^^^^^^ meta.brackets.matlab - comment
+%                             ^^^ punctuation.separator.continuation.matlab
+%                                ^ meta.brackets.matlab - punctuation - comment
+      ... 'Middle Initial, ', ...
+%^^^^^ meta.brackets.matlab - comment
+%     ^^^ meta.brackets.matlab punctuation.separator.continuation.matlab
+%        ^ meta.brackets.matlab - punctuation - comment
+%         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets.matlab comment.line.matlab - punctuation
+          'Title']
+%^^^^^^^^^^^^^^^^^ meta.brackets.matlab - comment
 
 %---------------------------------------------
 % Function
