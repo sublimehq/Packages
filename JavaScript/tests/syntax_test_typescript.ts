@@ -696,6 +696,10 @@ let x: ( foo ? : any ) => bar;
 //                     ^^ storage.type.function
 //                        ^^^ support.class
 
+let x: () => T
+    U
+//  ^ variable.other.constant - meta.type
+
 let x: ( foo );
 //     ^^^^^^^ meta.type meta.group
 //     ^ punctuation.section.group.begin
