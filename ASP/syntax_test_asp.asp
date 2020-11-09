@@ -1,4 +1,4 @@
-' SYNTAX TEST "Packages/ASP/HTML-ASP.sublime-syntax"
+' SYNTAX TEST "Packages/ASP/HTML (ASP).sublime-syntax"
 <!DOCTYPE html>
 <html>
 '<- meta.tag.structure.any.html punctuation.definition.tag.begin.html - source.asp.embedded.html
