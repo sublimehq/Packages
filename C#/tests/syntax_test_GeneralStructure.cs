@@ -1102,14 +1102,14 @@ namespace TestNamespace.Test
 ///                  ^^^^ keyword.control.switch.case
 ///                       ^^^ meta.string string.quoted.single
 ///                       ^ punctuation.definition.string.begin
-///                        ^ constant.character
+///                        ^ constant.character.literal
 ///                         ^ punctuation.definition.string.end
 ///                          ^ punctuation.terminator.statement
             case 'b':
 ///         ^^^^ keyword.control.switch.case - invalid
 ///              ^^^ meta.string string.quoted.single
 ///              ^ punctuation.definition.string.begin
-///               ^ constant.character
+///               ^ constant.character.literal
 ///                ^ punctuation.definition.string.end
                 result += 6;
                 break;
