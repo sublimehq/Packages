@@ -6,7 +6,7 @@ name: HTML
 scope: text.html.basic
 version: 2
 
-extends: HTML-Plain.sublime-syntax
+extends: HTML (Plain).sublime-syntax
 
 file_extensions:
   - html
