@@ -15,7 +15,6 @@ contexts:
 ###[ HTML TAGS ]##############################################################
 
   prototype:
-    # must use prototype to also apply to CSS/JS
     - meta_prepend: true
     - include: asp-tags
 
@@ -23,69 +22,9 @@ contexts:
     - meta_prepend: true
     - include: asp-interpolations
 
-  tag-class-attribute-value-double-quoted-content:
-    # must explicitly disable prototypes
-    # to apply asp-interpolation instead of asp-tags
-    - meta_prepend: true
-    - meta_include_prototype: false
-
-  tag-class-attribute-value-single-quoted-content:
-    # must explicitly disable prototypes
-    # to apply asp-interpolation instead of asp-tags
-    - meta_prepend: true
-    - meta_include_prototype: false
-
-  tag-generic-attribute-value-double-quoted-content:
-    # must explicitly disable prototypes
-    # to apply asp-interpolation instead of asp-tags
-    - meta_prepend: true
-    - meta_include_prototype: false
-
-  tag-generic-attribute-value-single-quoted-content:
-    # must explicitly disable prototypes
-    # to apply asp-interpolation instead of asp-tags
-    - meta_prepend: true
-    - meta_include_prototype: false
-
-  tag-href-attribute-value-double-quoted-content:
-    # must explicitly disable prototypes
-    # to apply asp-interpolation instead of asp-tags
-    - meta_prepend: true
-    - meta_include_prototype: false
-
-  tag-href-attribute-value-single-quoted-content:
-    # must explicitly disable prototypes
-    # to apply asp-interpolation instead of asp-tags
-    - meta_prepend: true
-    - meta_include_prototype: false
-
-  tag-id-attribute-value-double-quoted-content:
-    # must explicitly disable prototypes
-    # to apply asp-interpolation instead of asp-tags
-    - meta_prepend: true
-    - meta_include_prototype: false
-
-  tag-id-attribute-value-single-quoted-content:
-    # must explicitly disable prototypes
-    # to apply asp-interpolation instead of asp-tags
-    - meta_prepend: true
-    - meta_include_prototype: false
-
   strings-common-content:
     - meta_prepend: true
     - include: asp-interpolations
-
-  strings-double-quoted-content:
-    # must explicitly disable prototypes
-    # to apply asp-interpolation instead of asp-tags
-    - meta_prepend: true
-    - meta_include_prototype: false
-
-  strings-single-quoted-content:
-    # must explicitly disable prototypes
-    # to apply asp-interpolation instead of asp-tags
-    - meta_prepend: true
-    - meta_include_prototype: false
 
 ###[ ASP TAGS ]###############################################################
 

@@ -389,6 +389,7 @@ contexts:
         - tag-class-attribute-assignment
 
   tag-class-attribute-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.attribute-with-value.class.html
     - include: immediately-pop
 
@@ -414,12 +415,19 @@ contexts:
     - include: else-pop
 
   tag-class-attribute-value-double-quoted-content:
+    # Exclude prototypes from quoted strings by default to kindly ask an inherited
+    # syntax definition to explicitly handle string interpolation.
+    # See: HTML (Plain).sublime-syntax to learn more.
+    - meta_include_prototype: false
     - meta_content_scope: meta.class-name.html meta.string.html string.quoted.double.html
     - include: strings-double-quoted-end
     - include: tag-class-attribute-value-quoted-content
     - include: tag-attribute-value-separator-double-quoted
 
   tag-class-attribute-value-single-quoted-content:
+    # Exclude prototypes from quoted strings by default to kindly ask an inherited
+    # syntax definition to explicitly handle string interpolation.
+    - meta_include_prototype: false
     - meta_content_scope: meta.class-name.html meta.string.html string.quoted.single.html
     - include: strings-single-quoted-end
     - include: tag-class-attribute-value-quoted-content
@@ -429,6 +437,9 @@ contexts:
     - include: tag-class-attribute-value-content
 
   tag-class-attribute-value-unquoted-content:
+    # Exclude prototypes from quoted strings by default to kindly ask an inherited
+    # syntax definition to explicitly handle string interpolation.
+    - meta_include_prototype: false
     - meta_content_scope: meta.class-name.html meta.string.html string.unquoted.html
     - include: tag-attribute-value-unquoted-end
     - include: tag-class-attribute-value-content
@@ -458,6 +469,7 @@ contexts:
         - tag-event-attribute-assignment
 
   tag-event-attribute-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.attribute-with-value.event.html
     - include: immediately-pop
 
@@ -494,6 +506,7 @@ contexts:
         - tag-href-attributes-assignment
 
   tag-href-attributes-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.attribute-with-value.href.html
     - include: immediately-pop
 
@@ -519,11 +532,19 @@ contexts:
     - include: else-pop
 
   tag-href-attribute-value-double-quoted-content:
+    # Exclude prototypes from quoted strings by default to kindly ask an inherited
+    # syntax definition to explicitly handle string interpolation.
+    # See: HTML (Plain).sublime-syntax to learn more.
+    - meta_include_prototype: false
     - meta_content_scope: meta.path.url.html meta.string.html string.quoted.double.html
     - include: strings-double-quoted-end
     - include: tag-href-attribute-value-quoted-content
 
   tag-href-attribute-value-single-quoted-content:
+    # Exclude prototypes from quoted strings by default to kindly ask an inherited
+    # syntax definition to explicitly handle string interpolation.
+    # See: HTML (Plain).sublime-syntax to learn more.
+    - meta_include_prototype: false
     - meta_content_scope: meta.path.url.html meta.string.html string.quoted.single.html
     - include: strings-single-quoted-end
     - include: tag-href-attribute-value-quoted-content
@@ -532,6 +553,10 @@ contexts:
     - include: tag-href-attribute-value-content
 
   tag-href-attribute-value-unquoted-content:
+    # Exclude prototypes from quoted strings by default to kindly ask an inherited
+    # syntax definition to explicitly handle string interpolation.
+    # See: HTML (Plain).sublime-syntax to learn more.
+    - meta_include_prototype: false
     - meta_content_scope: meta.path.url.html meta.string.html string.unquoted.html
     - include: tag-attribute-value-unquoted-end
     - include: tag-href-attribute-value-content
@@ -554,6 +579,7 @@ contexts:
         - tag-id-attribute-assignment
 
   tag-id-attribute-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.attribute-with-value.id.html
     - include: immediately-pop
 
@@ -579,12 +605,19 @@ contexts:
     - include: else-pop
 
   tag-id-attribute-value-double-quoted-content:
+    # Exclude prototypes from quoted strings by default to kindly ask an inherited
+    # syntax definition to explicitly handle string interpolation.
+    # See: HTML (Plain).sublime-syntax to learn more.
+    - meta_include_prototype: false
     - meta_content_scope: meta.toc-list.id.html meta.string.html string.quoted.double.html
     - include: strings-double-quoted-end
     - include: tag-id-attribute-value-quoted-content
     - include: tag-attribute-value-separator-double-quoted
 
   tag-id-attribute-value-single-quoted-content:
+    # Exclude prototypes from quoted strings by default to kindly ask an inherited
+    # syntax definition to explicitly handle string interpolation.
+    - meta_include_prototype: false
     - meta_content_scope: meta.toc-list.id.html meta.string.html string.quoted.single.html
     - include: strings-single-quoted-end
     - include: tag-id-attribute-value-quoted-content
@@ -594,6 +627,9 @@ contexts:
     - include: tag-id-attribute-value-content
 
   tag-id-attribute-value-unquoted-content:
+    # Exclude prototypes from quoted strings by default to kindly ask an inherited
+    # syntax definition to explicitly handle string interpolation.
+    - meta_include_prototype: false
     - meta_content_scope: meta.toc-list.id.html meta.string.html string.unquoted.html
     - include: tag-attribute-value-unquoted-end
     - include: tag-id-attribute-value-content
@@ -612,6 +648,7 @@ contexts:
         - tag-style-attribute-assignment
 
   tag-style-attribute-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.attribute-with-value.style.html
     - include: immediately-pop
 
