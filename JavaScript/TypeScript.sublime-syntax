@@ -311,7 +311,6 @@ contexts:
       set:
         - function-meta
         - function-declaration-expect-body
-        - function-declaration-meta
         - ts-type-annotation
         - function-declaration-expect-parameters
         - ts-type-parameter-list
@@ -401,7 +400,6 @@ contexts:
       set:
         - function-meta
         - function-declaration-expect-body
-        - function-declaration-meta
         - ts-type-annotation
         - function-declaration-expect-parameters
         - ts-type-parameter-list

@@ -559,7 +559,7 @@ contexts:
     - include: else-pop
 
   function-initializer:
-    - meta_scope: meta.function.declaration.js
+    - meta_scope: meta.function.js
     - match: (=){{nothing}}
       captures:
         1: keyword.operator.assignment.js
@@ -948,7 +948,6 @@ contexts:
       set:
         - function-meta
         - arrow-function-expect-body
-        - function-declaration-meta
         - arrow-function-expect-arrow-or-fail-async
         - arrow-function-expect-parameters
 
@@ -1283,7 +1282,6 @@ contexts:
       push:
         - function-meta
         - function-declaration-expect-body
-        - function-declaration-meta
         - function-declaration-expect-parameters
 
     - match: static{{identifier_break}}
@@ -1356,7 +1354,7 @@ contexts:
     - match: (?:get|set){{identifier_break}}
       scope: storage.type.accessor.js
       set:
-        - meta_scope: meta.function.declaration.js
+        - meta_scope: meta.function.js
         - match: (?={{class_element_name}})
           set: method-declaration
         - match: (?=\S)
@@ -1364,7 +1362,7 @@ contexts:
     - match: (?:async){{identifier_break}}
       scope: storage.type.js
       set:
-        - meta_scope: meta.function.declaration.js
+        - meta_scope: meta.function.js
         - match: (?=\*|{{class_element_name}})
           set: method-declaration
         - match: (?=\S)
@@ -1374,7 +1372,7 @@ contexts:
     - match: (?:get|set){{identifier_break}}
       scope: storage.type.accessor.js
       set:
-        - meta_scope: meta.function.declaration.js
+        - meta_scope: meta.function.js
         - match: (?={{class_element_name}})
           set: method-declaration
         - match: (?=\S)
@@ -1382,7 +1380,7 @@ contexts:
     - match: (?:async){{identifier_break}}
       scope: storage.type.js
       set:
-        - meta_scope: meta.function.declaration.js
+        - meta_scope: meta.function.js
         - match: (?=\*|{{class_element_name}})
           set: method-declaration
         - match: (?=\S)
@@ -1475,7 +1473,6 @@ contexts:
       set:
         - function-meta
         - function-declaration-expect-body
-        - function-declaration-meta
         - function-declaration-expect-parameters
         - function-declaration-expect-name
         - function-declaration-expect-generator-star
@@ -1489,17 +1486,6 @@ contexts:
   function-meta:
     - meta_include_prototype: false
     - meta_scope: meta.function.js
-    - include: immediately-pop
-
-  function-declaration-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.function.declaration.js
-    - clear_scopes: 1
-    - include: immediately-pop
-
-  function-declaration-meta-no-clear:
-    - meta_include_prototype: false
-    - meta_scope: meta.function.declaration.js
     - include: immediately-pop
 
   function-declaration-expect-parameters:
@@ -1536,7 +1522,6 @@ contexts:
       set:
         - function-meta
         - arrow-function-expect-body
-        - function-declaration-meta
         - arrow-function-expect-arrow
         - arrow-function-expect-parameters
 
@@ -1608,7 +1593,7 @@ contexts:
         )
       push:
         - expression-no-comma
-        - function-declaration-meta-no-clear
+        - function-meta
         - object-literal-expect-colon
         - object-literal-meta-key
         - method-name
@@ -1787,7 +1772,6 @@ contexts:
       set:
         - function-meta
         - function-declaration-expect-body
-        - function-declaration-meta
         - function-declaration-expect-parameters
         - method-name
         - method-declaration-expect-prefix

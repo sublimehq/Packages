@@ -105,7 +105,7 @@ function f ([ x, [a, b], z]) {}
 function f ([ x = 42, y = [a, b, c] ]) {}
 //          ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
 //              ^ keyword.operator.assignment
-//                ^^ meta.function.declaration.js meta.binding.destructuring.sequence.js meta.number.integer.decimal.js constant.numeric.value.js
+//                ^^ meta.function meta.binding.destructuring.sequence meta.number.integer.decimal constant.numeric.value
 //                      ^ keyword.operator.assignment
 //                        ^^^^^^^^^ meta.sequence
 //                         ^ variable.other.readwrite - meta.binding.name
@@ -142,7 +142,7 @@ function f (new) {}
 //          ^^^ invalid.illegal.identifier meta.binding.name variable.parameter.function
 
 let f = ([ x, y, ...z, ]) => {};
-//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //       ^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
 //         ^ meta.binding.name variable.parameter.function
 //          ^ punctuation.separator.parameter
@@ -153,7 +153,7 @@ let f = ([ x, y, ...z, ]) => {};
 //                   ^ punctuation.separator.parameter
 
 let f = ([ x, [a, b], z]) => {};
-//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //  ^ entity.name.function variable.other.readwrite
 //       ^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
 //            ^^^^^^ meta.binding.destructuring.sequence meta.binding.destructuring.sequence
@@ -161,17 +161,17 @@ let f = ([ x, [a, b], z]) => {};
 //                ^ meta.binding.name variable.parameter.function
 
 let f = ([ x = 42, y = [a, b, c] ]) => {};
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //  ^ entity.name.function variable.other.readwrite
 //       ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
 //           ^ keyword.operator.assignment
-//             ^^ meta.function.declaration.js meta.binding.destructuring.sequence.js meta.number.integer.decimal.js constant.numeric.value.js
+//             ^^ meta.binding.destructuring.sequence.js meta.number.integer.decimal.js constant.numeric.value.js
 //                   ^ keyword.operator.assignment
 //                     ^^^^^^^^^ meta.sequence
 //                      ^ variable.other.readwrite - meta.binding.name
 
 let f = ({ a, b: c, ...d }) => {};
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //  ^ entity.name.function variable.other.readwrite
 //       ^^^^^^^^^^^^^^^^^ meta.binding.destructuring.mapping
 //         ^ meta.mapping.key meta.binding.name variable.parameter.function
@@ -195,7 +195,7 @@ let f = ({ 'a': x, "b": y, [c]: z }) => {};
 //                              ^ meta.binding.name variable.parameter.function
 
 let f = (a, ...rest) => {};
-//  ^^^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //  ^ entity.name.function variable.other.readwrite
 //       ^ meta.binding.name variable.parameter.function
 //          ^^^ keyword.operator.spread
