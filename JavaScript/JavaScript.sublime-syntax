@@ -150,6 +150,11 @@ contexts:
     - match: ''
       pop: true
 
+  immediately-pop-2:
+    - meta_include_prototype: false
+    - match: ''
+      pop: 2
+
   comma-separator:
     - match: ','
       scope: punctuation.separator.comma.js
@@ -929,12 +934,19 @@ contexts:
 
     - include: literal-call
 
-    - match: (?=\(|{{identifier_start}})
+    - match: (?={{identifier_start}})
       pop: true
-      branch_point: arrow-function
+      branch_point: bare-arrow-function
       branch:
-        - branch-possible-arrow-function
-        - arrow-function-fallback
+        - branch-possible-bare-arrow-function
+        - bare-arrow-function-fallback
+
+    - match: (?=\()
+      pop: true
+      branch_point: parenthesized-arrow-function
+      branch:
+        - branch-possible-parenthesized-arrow-function
+        - parenthesized-arrow-function-fallback
 
     - include: array-literal
 
@@ -959,34 +971,45 @@ contexts:
     - match: (?=\S)
       fail: async-arrow-function
 
-  branch-possible-arrow-function:
+  branch-possible-bare-arrow-function:
     - meta_include_prototype: false
     - match: ''
       push:
-        - detect-arrow
-        - branch-not-arrow-function
+        - detect-bare-arrow
+        - literal-variable
 
-  branch-not-arrow-function:
-    - include: parenthesized-expression
-    - include: literal-variable
-
-  detect-arrow:
+  detect-bare-arrow:
     - match: (?==>)
-      fail: arrow-function
+      fail: bare-arrow-function
     - match: (?=\S)
       pop: 2
 
-  arrow-function-fallback:
+  bare-arrow-function-fallback:
     - meta_include_prototype: false
     - match: ''
       push:
-        - branch-arrow-function-end
+        - immediately-pop-2
         - arrow-function-declaration
 
-  branch-arrow-function-end:
+  branch-possible-parenthesized-arrow-function:
     - meta_include_prototype: false
     - match: ''
+      push:
+        - detect-parenthesized-arrow
+        - parenthesized-expression
+
+  detect-parenthesized-arrow:
+    - match: (?==>)
+      fail: parenthesized-arrow-function
+    - match: (?=\S)
       pop: 2
+
+  parenthesized-arrow-function-fallback:
+    - meta_include_prototype: false
+    - match: ''
+      push:
+        - immediately-pop-2
+        - arrow-function-declaration
 
   literal-string:
     - match: "'"
