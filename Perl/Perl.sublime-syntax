@@ -351,7 +351,7 @@ contexts:
     # package NAMESPACE BLOCK
     # package NAMESPACE VERSION BLOCK
     - match: \bpackage{{break}}
-      scope: storage.type.namespace.perl keyword.declaration.namespace.perl
+      scope: keyword.declaration.namespace.perl
       push: [package-end, package-version, package-namespace]
 
   package-namespace:
@@ -478,7 +478,7 @@ contexts:
 
   sub:
     - match: \bsub{{break}}
-      scope: storage.type.function.perl keyword.declaration.function.perl
+      scope: keyword.declaration.function.perl
       push: [sub-end, sub-parameters, sub-path]
     # special functions which are executed at compile time
     # SEE: https://perldoc.perl.org/perlmod.html#BEGIN%2c-UNITCHECK%2c-CHECK%2c-INIT-and-END
@@ -1043,7 +1043,7 @@ contexts:
         2: punctuation.accessor.double-colon.perl
     # declaration
     - match: \b(?:{{storage_keywords}}){{break}}
-      scope: storage.type.variable.perl
+      scope: keyword.declaration.variable.perl
     # conditional
     - match: \bdefault{{break}}
       scope: keyword.control.conditional.default.perl
