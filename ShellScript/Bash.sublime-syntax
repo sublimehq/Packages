@@ -202,7 +202,6 @@ contexts:
     - match: function{{cmd_break}}
       scope:
         meta.function.shell
-        storage.type.function.shell
         keyword.declaration.function.shell
       push:
         - def-functions-redirection
@@ -323,7 +322,6 @@ contexts:
     - match: alias{{cmd_break}}
       scope:
         meta.declaration.alias.shell
-        storage.type.alias.shell
         keyword.declaration.alias.shell
       push:
         - cmd-alias-args-meta
@@ -419,7 +417,6 @@ contexts:
     - match: coproc{{cmd_break}}
       scope:
         meta.coproc.shell
-        storage.type.coproc.shell
         keyword.declaration.coproc.shell
       push: cmd-coproc-identifier
 
@@ -459,7 +456,6 @@ contexts:
     - match: (declare|local|typeset){{cmd_break}}
       scope:
         meta.declaration.variable.shell
-        storage.type.variable.shell
         keyword.declaration.variable.shell
       push:
         - cmd-declare-args-meta
@@ -542,7 +538,6 @@ contexts:
     - match: readonly{{cmd_break}}
       scope:
         meta.declaration.variable.shell
-        storage.type.variable.shell
         keyword.declaration.variable.shell
       push:
         - cmd-readonly-args-meta
