@@ -150,6 +150,11 @@ contexts:
     - match: ''
       pop: true
 
+  immediately-pop-2:
+    - meta_include_prototype: false
+    - match: ''
+      pop: 2
+
   comma-separator:
     - match: ','
       scope: punctuation.separator.comma.js
@@ -983,13 +988,8 @@ contexts:
     - meta_include_prototype: false
     - match: ''
       push:
-        - branch-bare-arrow-function-end
+        - immediately-pop-2
         - arrow-function-declaration
-
-  branch-bare-arrow-function-end:
-    - meta_include_prototype: false
-    - match: ''
-      pop: 2
 
   branch-possible-parenthesized-arrow-function:
     - meta_include_prototype: false
@@ -1008,13 +1008,8 @@ contexts:
     - meta_include_prototype: false
     - match: ''
       push:
-        - branch-parenthesized-arrow-function-end
+        - immediately-pop-2
         - arrow-function-declaration
-
-  branch-parenthesized-arrow-function-end:
-    - meta_include_prototype: false
-    - match: ''
-      pop: 2
 
   literal-string:
     - match: "'"

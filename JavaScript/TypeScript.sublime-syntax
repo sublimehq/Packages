@@ -25,6 +25,50 @@ variables:
     ))
 
 contexts:
+  detect-parenthesized-arrow:
+    - meta_prepend: true
+    - match: (?=:)
+      pop: true
+      branch_point: ts-arrow-function-return-type
+      branch:
+        - ts-detect-arrow-function-return-type
+        - immediately-pop-2
+
+  ts-detect-arrow-function-return-type:
+    - match: ''
+      push:
+        - ts-detect-arrow-after-return-type
+        - ts-type-annotation
+
+  ts-detect-arrow-after-return-type:
+    - match: (?==>)
+      fail: parenthesized-arrow-function
+    - match: (?=\S)
+      fail: ts-arrow-function-return-type
+
+  async-arrow-function:
+    - match: async{{identifier_break}}
+      scope: storage.type.js
+      set:
+        - function-meta
+        - arrow-function-expect-body
+        - function-declaration-meta
+        - arrow-function-expect-arrow-or-fail-async
+        - ts-type-annotation
+        - arrow-function-expect-parameters
+
+  arrow-function-declaration:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - function-meta
+        - arrow-function-expect-body
+        - function-declaration-meta
+        - arrow-function-expect-arrow
+        - ts-type-annotation
+        - arrow-function-expect-parameters
+        - function-declaration-expect-async
+
   ts-import-type:
     - match: type{{identifier_break}}
       scope: keyword.control.import-export.js
