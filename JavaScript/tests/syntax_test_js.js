@@ -255,14 +255,14 @@ someFunction({
 
     var bar = function() {
 //  ^^^ storage.type
-//      ^^^^^^^^^^^^^^^^^^ meta.function - meta.function meta.function
 //      ^^^ entity.name.function variable.other.readwrite
+//            ^^^^^^^^^^^^ meta.function - meta.function meta.function
 //            ^^^^^^^^ storage.type.function
     }
 
     baz = function*()
-//  ^^^^^^^^^^^^^^^^^ meta.function - meta.function meta.function
 //  ^^^ entity.name.function variable.other.readwrite
+//        ^^^^^^^^^^^ meta.function - meta.function meta.function
 //        ^^^^^^^^ storage.type.function
 //                ^ keyword.generator.asterisk
     {
@@ -464,9 +464,10 @@ var obj = {
     //     ^^^^^^^^^^^^^^ meta.string string.quoted.double
 
     $keyFunc: function() {
-//  ^^^^^^^^^^^^^^^^^^^^^^ meta.function
-    // <- meta.mapping.key.dollar entity.name.function punctuation.dollar
-     // <- meta.mapping.key.dollar entity.name.function - punctuation.dollar
+//  ^^^^^^^^ meta.mapping.key.dollar entity.name.function
+//  ^ punctuation.dollar
+//   ^^^^^^^ - punctuation.dollar
+//            ^^^^^^^^^^^^ meta.function
     },
 
     [true==false ? 'one' : 'two']: false,
@@ -509,40 +510,40 @@ var obj = {
     }(),
 
     funcKey: function() {
-//  ^^^^^^^^^^^^^^^^^^^^^ meta.function
 //  ^^^^^^^ meta.mapping.key entity.name.function
+//           ^^^^^^^^^^^^ meta.function
     },
 
     func2Key: function func2Key() {
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 //  ^^^^^^^^ meta.mapping.key entity.name.function
+//            ^^^^^^^^^^^^^^^^^^^^^ meta.function
     },
 
     funcKeyArrow: () => {
-//  ^^^^^^^^^^^^^^^^^^^^^ meta.function
 //  ^^^^^^^^^^^^ meta.mapping.key entity.name.function
+//                ^^^^^^^ meta.function
     },
 
     "funcStringKey": function funcStringKey()
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //  ^^^^^^^^^^^^^^^ meta.mapping.key meta.string string.quoted.double
 //   ^^^^^^^^^^^^^ entity.name.function
+//                   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
     { },
 
     'funcStringKey': function() {
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //  ^^^^^^^^^^^^^^^ meta.mapping.key meta.string string.quoted.single
 //   ^^^^^^^^^^^^^ entity.name.function
+//                   ^^^^^^^^^^^^ meta.function
     },
 
     'funcStringKeyArrow': () => {
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //  ^^^^^^^^^^^^^^^^^^^^ meta.mapping.key meta.string string.quoted.single
 //   ^^^^^^^^^^^^^^^^^^ entity.name.function
+//                        ^^^^^^^ meta.function
     },
 
     "func\\String2KeyArrow": (foo) => {
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+//                           ^^^^^^^^^^ meta.function
 //  ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key meta.string string.quoted.double
 //   ^^^^^^^^^^^^^^^^^^^^^ entity.name.function
 //       ^^ constant.character.escape
@@ -648,8 +649,8 @@ function x() {}
 // <- meta.brackets.js
 
 var $ = function(baz) {
-//  ^^^^^^^^^^^^^^^^^ meta.function
 //  ^ entity.name.function variable.other.dollar.only punctuation.dollar
+//      ^^^^^^^^^^^^^ meta.function
 }
 
 $()
@@ -990,18 +991,18 @@ class MyClass extends TheirClass {
 //       ^^ constant.numeric
 
     f = a => b;
-//  ^^^^^^^^^^ meta.function
 //  ^ entity.name.function variable.other.readwrite
+//      ^^^^^^ meta.function
 //      ^ variable.parameter.function
 
     g = function() {};
-//  ^^^^^^^^^^^^^^^^^ meta.function
 //  ^ entity.name.function variable.other.readwrite
+//      ^^^^^^^^^^^^^ meta.function
 
     #h = function() {};
-//  ^^^^^^^^^^^^^^^^^^ meta.function
 //  ^ punctuation.definition.variable
 //   ^ entity.name.function variable.other.readwrite
+//       ^^^^^^^^^^^^^ meta.function
 
     static x = 42;
 //  ^^^^^^ storage.modifier.js
@@ -1038,13 +1039,13 @@ class MyClass extends TheirClass {
 //              ^^ constant.numeric
 
     static f = a => b;
-//         ^^^^^^^^^^ meta.function
 //         ^ entity.name.function variable.other.readwrite
+//             ^^^^^^ meta.function
 //             ^ variable.parameter.function
 
     static g = function() {};
-//         ^^^^^^^^^^^^^^^^^ meta.function
 //         ^ entity.name.function variable.other.readwrite
+//             ^^^^^^^^^^^^^ meta.function
 
     foo // You thought I was a field...
     () { return '...but was a method all along!'; }
@@ -1335,34 +1336,34 @@ const test = ({a, b, c=()=>({active:false}) }) => {};
 // ^^ storage.type.function.arrow
 
 MyClass.foo = function() {}
-// ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 // ^ support.class
 //       ^ entity.name.function
+//            ^^^^^^^^^^^^^ meta.function
 
 MyClass.foo = () => {}
-// ^^^^^^^^^^^^^^^^^^^ meta.function
 // ^ support.class
 //       ^ entity.name.function
+//            ^^^^^^^^ meta.function
 
 xhr.onload = function() {}
-// ^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 // <- support.class.js
 //  ^ entity.name.function
+//           ^^^^^^^^^^^^^ meta.function
 
 xhr.onload = () => {}
-// ^^^^^^^^^^^^^^^^^^ meta.function
 // <- support.class.js
 //  ^ entity.name.function
+//           ^^^^^^^^ meta.function
 
 var simpleArrow = foo => bar;
-//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //   ^ entity.name.function
-//                 ^ variable.parameter.function
-//                    ^ storage.type.function.arrow
+//                ^^^^^^^^^^ meta.function
+//                ^^^ variable.parameter.function
+//                    ^^ storage.type.function.arrow
 
 var Proto = () => {
-//  ^^^^^^^^^^^^^^^ meta.function
 //   ^ entity.name.function
+//          ^^^^^^^ meta.function
 //             ^ storage.type.function.arrow
     this._var = 1;
 }
@@ -1371,16 +1372,16 @@ var notAFunc = function$;
 //  ^^^^^^^^ - entity.name.function
 
 Proto.prototype.getVar = () => this._var;
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+//                       ^^^^^^^^^^^^^^^ meta.function
 // ^ support.class
 //     ^ support.constant.prototype
 //                ^ entity.name.function
 //                           ^ storage.type.function.arrow
 
 Class3.prototype = function() {
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 // ^ support.class
 //       ^ support.constant.prototype
+//                 ^^^^^^^^^^^^ meta.function
 }
 
 Proto.prototype.attr
@@ -1390,9 +1391,9 @@ Proto.prototype.attr
 
 Proto.prototype = {
     funcName: function() {
-//  ^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //  ^^^^^^^^ entity.name.function
 //          ^ punctuation.separator.key-value
+//            ^^^^^^^^^^^^ meta.function
     }
 }
 
@@ -1426,7 +1427,7 @@ var foo = ~{a:function(){}.a()}
 //        ^ keyword.operator.bitwise
 //         ^ punctuation.section.block.begin
 //         ^^^^^^^^^^^^^^^^^^^^ meta.mapping
-//          ^^^^^^^^^^^^^^ meta.function
+//            ^^^^^^^^^^^^ meta.function
 //          ^ entity.name.function
 //           ^ punctuation.separator.key-value
 //            ^^^^^^^^ storage.type.function

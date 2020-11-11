@@ -142,7 +142,7 @@ function f (new) {}
 //          ^^^ invalid.illegal.identifier meta.binding.name variable.parameter.function
 
 let f = ([ x, y, ...z, ]) => {};
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+//      ^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //       ^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
 //         ^ meta.binding.name variable.parameter.function
 //          ^ punctuation.separator.parameter
@@ -153,16 +153,16 @@ let f = ([ x, y, ...z, ]) => {};
 //                   ^ punctuation.separator.parameter
 
 let f = ([ x, [a, b], z]) => {};
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //  ^ entity.name.function variable.other.readwrite
+//      ^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //       ^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
 //            ^^^^^^ meta.binding.destructuring.sequence meta.binding.destructuring.sequence
 //             ^ meta.binding.name variable.parameter.function
 //                ^ meta.binding.name variable.parameter.function
 
 let f = ([ x = 42, y = [a, b, c] ]) => {};
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //  ^ entity.name.function variable.other.readwrite
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //       ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring.sequence
 //           ^ keyword.operator.assignment
 //             ^^ meta.binding.destructuring.sequence.js meta.number.integer.decimal.js constant.numeric.value.js
@@ -171,8 +171,8 @@ let f = ([ x = 42, y = [a, b, c] ]) => {};
 //                      ^ variable.other.readwrite - meta.binding.name
 
 let f = ({ a, b: c, ...d }) => {};
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //  ^ entity.name.function variable.other.readwrite
+//      ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //       ^^^^^^^^^^^^^^^^^ meta.binding.destructuring.mapping
 //         ^ meta.mapping.key meta.binding.name variable.parameter.function
 //          ^ punctuation.separator.parameter
@@ -195,12 +195,12 @@ let f = ({ 'a': x, "b": y, [c]: z }) => {};
 //                              ^ meta.binding.name variable.parameter.function
 
 let f = (a, ...rest) => {};
-//  ^^^^^^^^^^^^^^^^^^^^^^ meta.function
 //  ^ entity.name.function variable.other.readwrite
+//      ^^^^^^^^^^^^^^^^^^ meta.function
 //       ^ meta.binding.name variable.parameter.function
 //          ^^^ keyword.operator.spread
 //             ^^^^ meta.binding.name variable.parameter.function
 
 let f = (new) => {};
-//  ^^^^^^^^^^^^^^^ meta.function
+//      ^^^^^^^^^^^ meta.function
 //       ^^^ invalid.illegal.identifier meta.binding.name variable.parameter.function

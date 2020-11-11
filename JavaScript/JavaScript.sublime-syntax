@@ -563,15 +563,6 @@ contexts:
       set: expression-no-comma
     - include: else-pop
 
-  function-initializer:
-    - meta_scope: meta.function.js
-    - match: (=){{nothing}}
-      captures:
-        1: keyword.operator.assignment.js
-      set: expression-no-comma
-
-    - include: else-pop
-
   expression-statement:
     - match: (?=\S)
       set:
@@ -1317,7 +1308,7 @@ contexts:
           {{either_func_lookahead}}
         )
       push:
-        - function-initializer
+        - initializer
         - function-name-meta
         - literal-variable-base
 
@@ -1440,9 +1431,7 @@ contexts:
           \s* = \s*
           {{either_func_lookahead}}
         )
-      set:
-        - function-initializer
-        - function-declaration-identifiers
+      set: function-declaration-identifiers
 
   function-declaration-identifiers:
     - match: '(?={{identifier}}\s*{{dot_accessor}})'
@@ -1616,7 +1605,6 @@ contexts:
         )
       push:
         - expression-no-comma
-        - function-meta
         - object-literal-expect-colon
         - object-literal-meta-key
         - method-name
@@ -2415,7 +2403,6 @@ contexts:
           {{either_func_lookahead}}
         )
       set:
-        - function-initializer
         - function-name-meta
         - object-property-base
 
