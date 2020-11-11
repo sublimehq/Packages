@@ -180,14 +180,14 @@
 //                     ^^^ variable.other.readwrite
 
         foo(): any {}
-//      ^^^^^^^^^^^ meta.function.declaration
+//      ^^^^^^^^^^^^^ meta.function
 //      ^^^ entity.name.function
 //           ^ punctuation.separator.type
 //             ^^^ meta.type support.type.any
 //                 ^^ meta.function meta.block
 
         foo<T>(): any {}
-//      ^^^^^^^^^^^^^ meta.function.declaration
+//      ^^^^^^^^^^^^^^^^ meta.function
 //      ^^^ entity.name.function
 //         ^^^ meta.generic
 //              ^ punctuation.separator.type
@@ -293,15 +293,12 @@ function f(x?: any) {}
 
 function f(): any {}
 //^^^^^^^^^^^^^^^^^^ meta.function
-//^^^^^^ meta.function.declaration
 //          ^ punctuation.separator.type
 //            ^^^meta.type support.type.any
 //                ^^ meta.block
 
 function f ( x : any , ... y : any ) {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
-//         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
 //           ^ meta.binding.name variable.parameter.function
 //             ^ punctuation.separator.type
 //               ^^^ meta.type support.type.any
@@ -324,7 +321,6 @@ function f ( @foo x , @bar() y ) {}
 
 function f<T, U>() {}
 //^^^^^^^^^^^^^^^^^^^ meta.function
-//^^^^^^^^^^^^^^^^^ meta.function.declaration
 //        ^^^^^^ meta.generic
 //         ^ variable.parameter.generic
 //          ^ punctuation.separator.comma
@@ -332,7 +328,6 @@ function f<T, U>() {}
 
 function f(x): x is any {};
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-//^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
 //           ^ punctuation.separator.type
 //             ^^^^^^^^^ meta.type
 //               ^^ keyword.operator.word
@@ -340,7 +335,6 @@ function f(x): x is any {};
 
 function f(x): asserts x is any {};
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.declaration
 //           ^ punctuation.separator.type
 //            ^^^^^^^^^^^^^^^^^ meta.type
 //             ^^^^^^^ storage.modifier.asserts
@@ -354,7 +348,6 @@ function f(this : any) {}
 
     (x: any) => 42;
 //  ^^^^^^^^^^^^^^ meta.function
-//  ^^^^^^^^^^^ meta.function.declaration
 //    ^ punctuation.separator.type
 //      ^^^ meta.type support.type.any
 //           ^^ storage.type.function.arrow
@@ -370,7 +363,6 @@ function f(this : any) {}
 //  ^ variable.other.readwrite
 //    ^ keyword.operator.ternary
 //      ^^^^^^^^^^^^^ meta.function
-//      ^ meta.function.declaration
 //       ^ meta.binding.name variable.parameter.function
 //          ^ punctuation.separator.type
 //            ^ meta.type support.class
@@ -388,7 +380,6 @@ function f(this : any) {}
 
     async (x): T => y;
 //  ^^^^^^^^^^^^^^^^^ meta.function
-//  ^^^^^^^^^^^^^^^ meta.function.declaration
 //  ^^^^^ storage.type
 //         ^ meta.binding.name variable.parameter.function
 //           ^ punctuation.separator.type
@@ -516,7 +507,7 @@ let x: Foo<any, any>;
 
 
 function f<T extends Foo>() {}
-//        ^^^^^^^^^^^^^^^ meta.function.declaration meta.generic
+//        ^^^^^^^^^^^^^^^ meta.function meta.generic
 //         ^ variable.parameter.generic
 //           ^^^^^^^ storage.modifier.extends
 //                   ^^^ support.class
