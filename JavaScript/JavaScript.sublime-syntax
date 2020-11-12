@@ -1512,7 +1512,7 @@ contexts:
 
   function-declaration-expect-generator-star:
     - match: \*
-      scope: keyword.generator.asterisk.js
+      scope: keyword.declaration.generator.js
       pop: true
     - include: else-pop
 

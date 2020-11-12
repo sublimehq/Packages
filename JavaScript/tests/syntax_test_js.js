@@ -264,7 +264,7 @@ someFunction({
 //  ^^^ entity.name.function variable.other.readwrite
 //        ^^^^^^^^^^^ meta.function - meta.function meta.function
 //        ^^^^^^^^ keyword.declaration.function
-//                ^ keyword.generator.asterisk
+//                ^ keyword.declaration.generator
     {
 
     }
