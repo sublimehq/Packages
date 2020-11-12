@@ -783,7 +783,7 @@ contexts:
           scope: punctuation.section.group.end.js
           set:
             - match: =>
-              scope: storage.type.function.js
+              scope: keyword.declaration.function.js
               set:
                 - ts-type-expression-end
                 - ts-type-expression-end-no-line-terminator

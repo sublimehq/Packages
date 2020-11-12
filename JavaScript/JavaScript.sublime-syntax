@@ -947,7 +947,7 @@ contexts:
 
   async-arrow-function:
     - match: async{{identifier_break}}
-      scope: storage.type.js
+      scope: keyword.declaration.async.js
       set:
         - function-meta
         - arrow-function-expect-body
@@ -956,7 +956,7 @@ contexts:
 
   arrow-function-expect-arrow-or-fail-async:
     - match: '=>'
-      scope: storage.type.function.arrow.js
+      scope: keyword.declaration.function.arrow.js
       pop: true
     - match: (?=\S)
       fail: async-arrow-function
@@ -1374,7 +1374,7 @@ contexts:
         - match: (?=\S)
           fail: prefixed-method
     - match: (?:async){{identifier_break}}
-      scope: storage.type.js
+      scope: keyword.declaration.async.js
       set:
         - meta_scope: meta.function.js
         - match: (?=\*|{{class_element_name}})
@@ -1392,7 +1392,7 @@ contexts:
         - match: (?=\S)
           fail: prefixed-object-literal-method
     - match: (?:async){{identifier_break}}
-      scope: storage.type.js
+      scope: keyword.declaration.async.js
       set:
         - meta_scope: meta.function.js
         - match: (?=\*|{{class_element_name}})
@@ -1512,19 +1512,19 @@ contexts:
 
   function-declaration-expect-generator-star:
     - match: \*
-      scope: keyword.generator.asterisk.js
+      scope: keyword.declaration.generator.js
       pop: true
     - include: else-pop
 
   function-declaration-expect-function-keyword:
     - match: function{{identifier_break}}
-      scope: storage.type.function.js
+      scope: keyword.declaration.function.js
       pop: true
     - include: else-pop
 
   function-declaration-expect-async:
     - match: 'async{{identifier_break}}'
-      scope: storage.type.js
+      scope: keyword.declaration.async.js
       pop: true
     - include: else-pop
 
@@ -1546,7 +1546,7 @@ contexts:
 
   arrow-function-expect-arrow:
     - match: '=>'
-      scope: storage.type.function.arrow.js
+      scope: keyword.declaration.function.arrow.js
       pop: true
     - include: else-pop
 
