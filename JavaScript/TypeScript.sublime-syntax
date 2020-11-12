@@ -52,7 +52,6 @@ contexts:
       set:
         - function-meta
         - arrow-function-expect-body
-        - function-declaration-meta
         - arrow-function-expect-arrow-or-fail-async
         - ts-type-annotation
         - arrow-function-expect-parameters
@@ -63,7 +62,6 @@ contexts:
       set:
         - function-meta
         - arrow-function-expect-body
-        - function-declaration-meta
         - arrow-function-expect-arrow
         - ts-type-annotation
         - arrow-function-expect-parameters
@@ -355,7 +353,6 @@ contexts:
       set:
         - function-meta
         - function-declaration-expect-body
-        - function-declaration-meta
         - ts-type-annotation
         - function-declaration-expect-parameters
         - ts-type-parameter-list
@@ -445,7 +442,6 @@ contexts:
       set:
         - function-meta
         - function-declaration-expect-body
-        - function-declaration-meta
         - ts-type-annotation
         - function-declaration-expect-parameters
         - ts-type-parameter-list
