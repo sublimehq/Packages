@@ -359,6 +359,52 @@ function f(this : any) {}
 //      ^^^ meta.type support.type.any
 //           ^^ storage.type.function.arrow
 
+    x ? (y) : z;
+//  ^ variable.other.readwrite
+//    ^ keyword.operator.ternary
+//      ^^^ meta.group
+//       ^ variable.other.readwrite
+//          ^ keyword.operator.ternary
+
+    x ? (y) : T => r : z;
+//  ^ variable.other.readwrite
+//    ^ keyword.operator.ternary
+//      ^^^^^^^^^^^^^ meta.function
+//      ^ meta.function.declaration
+//       ^ meta.binding.name variable.parameter.function
+//          ^ punctuation.separator.type
+//            ^ meta.type support.class
+//              ^^ storage.type.function.arrow
+//                 ^meta.block variable.other.readwrite
+//                   ^ keyword.operator.ternary
+//                     ^ variable.other.readwrite
+
+    x ? y : T => z;
+//      ^ variable.other.readwrite - variable.parameter
+//        ^ keyword.operator.ternary
+//          ^^^^^^ meta.function
+//          ^ variable.parameter.function
+//            ^^ storage.type.function.arrow
+
+    async (x): T => y;
+//  ^^^^^^^^^^^^^^^^^ meta.function
+//  ^^^^^^^^^^^^^^^ meta.function.declaration
+//  ^^^^^ storage.type
+//         ^ meta.binding.name variable.parameter.function
+//           ^ punctuation.separator.type
+//             ^ meta.type support.class
+//               ^^ storage.type.function.arrow
+//                  ^ meta.block variable.other.readwrite
+
+    x ? async (y) : T => r : z;
+//      ^^^^^^^^^^^^^^^^^^ meta.function
+//                ^ punctuation.separator.type
+//                         ^ keyword.operator.ternary
+
+    x ? async (y) : T;
+//      ^^^^^ variable.function
+//                ^ keyword.operator.ternary
+
 /* Assertions */
 
 x as boolean;
@@ -696,6 +742,10 @@ let x: ( foo ? : any ) => bar;
 //                     ^^ storage.type.function
 //                        ^^^ support.class
 
+let x: () => T
+    U
+//  ^ variable.other.constant - meta.type
+
 let x: ( foo );
 //     ^^^^^^^ meta.type meta.group
 //     ^ punctuation.section.group.begin
@@ -757,8 +807,12 @@ let x: import ( "foo" ) . Bar ;
 //     ^^^^^ meta.generic
 //          ^^ meta.string string.quoted.other
 
-var foo = 1 << 0;
+var foo = 1 << 0 /x/g;
 //          ^^ keyword.operator.bitwise
+//               ^ keyword.operator.arithmetic
+//                ^ variable.other.readwrite
+//                 ^ keyword.operator.arithmetic
+//                  ^ variable.other.readwrite
 
 if (a < b || c < d) {}
 //    ^ keyword.operator.logical
