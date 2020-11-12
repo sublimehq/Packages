@@ -123,9 +123,9 @@ contexts:
   class:
     # Defining a class method
     - match: \bclass\b(?=\s*<)
-      scope: storage.type.class.ruby keyword.declaration.class.ruby
+      scope: keyword.declaration.class.ruby
     - match: \bclass\b
-      scope: storage.type.class.ruby keyword.declaration.class.ruby
+      scope: keyword.declaration.class.ruby
       push: class-declaration
 
   class-declaration:
@@ -163,7 +163,7 @@ contexts:
 
   module:
     - match: \bmodule\b
-      scope: storage.type.namespace.ruby keyword.declaration.namespace.ruby
+      scope: keyword.declaration.namespace.ruby
       push: module-declaration
 
   module-declaration:
@@ -879,7 +879,7 @@ contexts:
       push: function-call-arguments
     # Lambda operator from the Kernel class not handled elsewhere
     - match: '->'
-      scope: meta.function.ruby storage.type.function.ruby keyword.declaration.function.lambda.ruby
+      scope: meta.function.ruby keyword.declaration.function.anonymous.ruby
       push: function-call-arguments
     # Methods from the Module class not handled elsewhere
     - match: |-
@@ -936,7 +936,7 @@ contexts:
 
   method:
     - match: \bdef\b
-      scope: meta.function.ruby storage.type.function.ruby keyword.declaration.function.ruby
+      scope: meta.function.ruby keyword.declaration.function.ruby
       push:
         - meta_content_scope: meta.function.ruby
         - match: '(self)(\.)({{identifier}}{{method_punctuation}}|===?|>[>=]?|<=>|<[<=]?|[%&`/\|]|\*\*?|=?~|[-+]@?|\[\]=?)'
