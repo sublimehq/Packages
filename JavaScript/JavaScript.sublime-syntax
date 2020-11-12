@@ -101,6 +101,9 @@ variables:
       {{either_func_lookahead}}
     ))
 
+  # '@' followed by a pattern like \S but excluding literal '*' and '@'.
+  jsdoc_block_tag: \@[^\n\t\f\v *@]+
+
 contexts:
   main:
     - include: comments-top-level
@@ -118,14 +121,8 @@ contexts:
     - match: /\*\*(?!/)
       scope: punctuation.definition.comment.begin.js
       push:
-        - meta_include_prototype: false
-        - meta_scope: comment.block.documentation.js
-        - match: \*/
-          scope: punctuation.definition.comment.end.js
-          pop: true
-        - match: ^\s*(\*)(?!/)
-          captures:
-            1: punctuation.definition.comment.js
+        - jsdoc-comment
+        - jsdoc-block-tag
     - match: /\*
       scope: punctuation.definition.comment.begin.js
       push:
@@ -141,6 +138,26 @@ contexts:
         - meta_scope: comment.line.double-slash.js
         - match: \n
           pop: true
+
+  jsdoc-comment:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.documentation.js
+    - match: \*/
+      scope: punctuation.definition.comment.end.js
+      pop: 1
+    # JSDoc "block" tags (i.e. @param) are only accepted at the beginning of the documentation
+    # line so directly after the '/**' or after the '*' marker on the next lines.
+    - match: ^\s*(\*)(?!/)
+      captures:
+        1: punctuation.definition.comment.js
+      push: jsdoc-block-tag
+
+  jsdoc-block-tag:
+    - match: '{{jsdoc_block_tag}}'
+      scope: entity.other.attribute-name.documentation.js
+      pop: 1
+    - match: (?=\S)|$
+      pop: 1
 
   comments-top-level:
     - match: ^(#!).*$\n?
