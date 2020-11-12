@@ -972,8 +972,6 @@ contexts:
         1: support.type.cs
         2: variable.other.cs
       set: variables_declaration
-    # - match: \.
-    #   scope: punctuation.accessor.dot.cs
     - match: '(?=\S)'
       set: line_of_code_in
 
