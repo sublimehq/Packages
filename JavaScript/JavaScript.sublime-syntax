@@ -947,7 +947,7 @@ contexts:
 
   async-arrow-function:
     - match: async{{identifier_break}}
-      scope: storage.type.js
+      scope: keyword.declaration.async.js
       set:
         - function-meta
         - arrow-function-expect-body
@@ -1374,7 +1374,7 @@ contexts:
         - match: (?=\S)
           fail: prefixed-method
     - match: (?:async){{identifier_break}}
-      scope: storage.type.js
+      scope: keyword.declaration.async.js
       set:
         - meta_scope: meta.function.js
         - match: (?=\*|{{class_element_name}})
@@ -1392,7 +1392,7 @@ contexts:
         - match: (?=\S)
           fail: prefixed-object-literal-method
     - match: (?:async){{identifier_break}}
-      scope: storage.type.js
+      scope: keyword.declaration.async.js
       set:
         - meta_scope: meta.function.js
         - match: (?=\*|{{class_element_name}})
@@ -1524,7 +1524,7 @@ contexts:
 
   function-declaration-expect-async:
     - match: 'async{{identifier_break}}'
-      scope: storage.type.js
+      scope: keyword.declaration.async.js
       pop: true
     - include: else-pop
 

@@ -1159,17 +1159,17 @@ class MyClass extends TheirClass {
 //         ^^^^^^^^^^^^ meta.function
 
     async foo() {}
-//  ^^^^^ storage.type
+//  ^^^^^ keyword.declaration.async
 
     *foo() {}
 //  ^ keyword.generator.asterisk
 
     async *foo() {}
-//  ^^^^^ storage.type
+//  ^^^^^ keyword.declaration.async
 //        ^ keyword.generator.asterisk
 
     static async foo() {}
-//         ^^^^^ storage.type
+//         ^^^^^ keyword.declaration.async
 }
 // <- meta.block punctuation.section.block.end
 
@@ -1273,14 +1273,14 @@ class{}/**/
 
     async x => y;
 //  ^^^^^^^^^^^^ meta.function
-//  ^^^^^ storage.type
+//  ^^^^^ keyword.declaration.async
 //        ^ meta.function.parameters variable.parameter.function
 //          ^^ keyword.declaration.function.arrow
 //             ^ variable.other.readwrite
 
     async (x) => y;
 //  ^^^^^^^^^^^^^^ meta.function
-//  ^^^^^ storage.type
+//  ^^^^^ keyword.declaration.async
 //        ^^^ meta.function.parameters
 //         ^ variable.parameter.function
 //            ^^ keyword.declaration.function.arrow
