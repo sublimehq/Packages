@@ -248,9 +248,9 @@ identifier
 #^^^^^^^^^ meta.qualified-name meta.generic-name
 
 class
-#^^^^ storage.type.class keyword.declaration.class.python
+#^^^^ keyword.declaration.class.python
 def
-#^^ storage.type.function keyword.declaration.function.python
+#^^ keyword.declaration.function.python
 
 # async and await are still recognized as valid identifiers unless in an "async" block
 async
@@ -963,8 +963,8 @@ def type_annotations_line_continuation() \
 async def coroutine(param1):
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
 #                  ^^^^^^^^ meta.function.parameters - meta.function meta.function
-# <- storage.modifier.async
-#     ^ storage.type
+# <- keyword.declaration.async
+#     ^^^ keyword.declaration.function.python
 #         ^ entity.name.function
    pass
 
@@ -1174,7 +1174,7 @@ class Class():
     @deco \
 
     def f(): pass
-#   ^^^ storage.type.function keyword.declaration.function.python - meta.decorator
+#   ^^^ keyword.declaration.function.python - meta.decorator
 
 
 class AClass:
