@@ -1,7 +1,7 @@
 <snippet>
-	<tabTrigger>def</tabTrigger>
-	<scope>source.python</scope>
-	<description>Function</description>
 	<content><![CDATA[def ${1:function}($2):
 	${0:pass}]]></content>
+	<tabTrigger>def</tabTrigger>
+	<scope>source.python - meta.function.parameters - meta.function-call - meta.statement - meta.mapping - meta.sequence - meta.set - comment - string</scope>
+	<description>Function</description>
 </snippet>

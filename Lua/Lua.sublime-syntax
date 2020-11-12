@@ -28,11 +28,13 @@ variables:
   # __metatable and __mode don't use functions
   metaproperty: (?:__(?:metatable|mode){{identifier_break}})
 
-  identifier_start: (?:[A-Za-z_])
-  identifier_char: (?:[A-Za-z0-9_])
+  identifier_start: '[A-Za-z_]'
+  identifier_char: '[A-Za-z0-9_]'
   identifier_break: (?!{{identifier_char}})
   identifier_raw: (?:{{identifier_start}}{{identifier_char}}*)
   identifier: (?:(?!{{reserved_word}}){{identifier_raw}})
+
+  trailing_expression_char: '[,\]})]'
 
   function_args_begin: (?:\(|"|'|\[=*\[|\{)
   function_call_ahead: (?=\s*{{function_args_begin}})
@@ -272,6 +274,10 @@ contexts:
 
     - include: infix-operator
     - include: accessor
+
+    # Safety match for unexpected characters so we don't confuse the syntax by exiting contexts too early
+    - match: '[^{{trailing_expression_char}}{{identifier_char}}\s]'
+      scope: invalid.illegal.unexpected-character.lua
 
     - include: else-pop
 

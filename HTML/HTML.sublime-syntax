@@ -6,7 +6,7 @@ name: HTML
 scope: text.html.basic
 version: 2
 
-extends: HTML-Plain.sublime-syntax
+extends: HTML (Plain).sublime-syntax
 
 file_extensions:
   - html
@@ -199,10 +199,13 @@ contexts:
       scope: punctuation.definition.tag.end.html
       set:
         - include: script-close-tag
-        - match: (?=\S)
-          embed: scope:source.js
-          embed_scope: source.js.embedded.html
-          escape: '{{script_close_lookahead}}'
+        - include: script-javascript-content
+
+  script-javascript-content:
+    - match: (?=\S)
+      embed: scope:source.js
+      embed_scope: source.js.embedded.html
+      escape: '{{script_close_lookahead}}'
 
   script-html:
     - meta_scope: meta.tag.script.begin.html
@@ -292,10 +295,13 @@ contexts:
       scope: punctuation.definition.tag.end.html
       set:
         - include: style-close-tag
-        - match: ''
-          embed: scope:source.css
-          embed_scope: source.css.embedded.html
-          escape: '{{style_close_lookahead}}'
+        - include: style-css-content
+
+  style-css-content:
+    - match: ''
+      embed: scope:source.css
+      embed_scope: source.css.embedded.html
+      escape: '{{style_close_lookahead}}'
 
   style-other:
     - meta_scope: meta.tag.style.begin.html

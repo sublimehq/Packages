@@ -55,6 +55,46 @@ xAprox = fMetodoDeNewton( xi )
 
 
 %---------------------------------------------
+% Line comment test
+
+%
+%<- comment.line.percentage.matlab punctuation.definition.comment.matlab
+%^ comment.line.percentage.matlab - punctuation
+
+% comment % comment
+%<- comment.line.percentage.matlab punctuation.definition.comment.matlab
+%^^^^^^^^^^^^^^^^^^^ comment.line.percentage.matlab - punctuation
+
+%%
+%<- comment.line.double-percentage.matlab punctuation.definition.comment.matlab
+%^ comment.line.double-percentage.matlab punctuation.definition.comment.matlab
+% ^ comment.line.double-percentage.matlab - punctuation
+
+%% comment % comment
+%<- comment.line.double-percentage.matlab punctuation.definition.comment.matlab
+%^ comment.line.double-percentage.matlab punctuation.definition.comment.matlab
+% ^^^^^^^^^^^^^^^^^^^ comment.line.double-percentage.matlab - punctuation
+
+%%%
+%<- comment.line.percentage.matlab punctuation.definition.comment.matlab
+%^^ comment.line.percentage.matlab punctuation.definition.comment.matlab
+%  ^ comment.line.percentage.matlab - punctuation
+
+%%%%% comment % comment %%%%
+%<- comment.line.percentage.matlab punctuation.definition.comment.matlab
+%^^^^ comment.line.percentage.matlab punctuation.definition.comment.matlab
+%    ^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.percentage.matlab - punctuation
+
+a = b % doc
+%     ^ comment.line.percentage.matlab punctuation.definition.comment.matlab
+%      ^^^^^ comment.line.percentage.matlab - punctuation
+
+a = b %% doc
+%     ^^ comment.line.double-percentage.matlab punctuation.definition.comment.matlab
+%       ^^^^^ comment.line.double-percentage.matlab - punctuation
+
+
+%---------------------------------------------
 % Block comment test
 
 % Success case
@@ -81,6 +121,27 @@ x = 5 %{ not block comment
 x = 5
 %   ^ meta.number.float.decimal.matlab constant.numeric.value.matlab
 
+header = ['Last Name, ',      ... comment
+%        ^^^^^^^^^^^^^^^^^^^^^ meta.brackets.matlab - comment
+%                             ^^^ meta.brackets.matlab punctuation.separator.continuation.matlab
+%                                ^ meta.brackets.matlab - punctuation - comment
+%                                 ^^^^^^^^ meta.brackets.matlab comment.line.matlab - punctuation
+          'First Name, ',     ... comment
+%        ^^^^^^^^^^^^^^^^^^^^^ meta.brackets.matlab - comment
+%                             ^^^ punctuation.separator.continuation.matlab
+%                                ^ meta.brackets.matlab - punctuation - comment
+%                                 ^^^^^^^^ meta.brackets.matlab comment.line.matlab - punctuation
+          'Alias Name, ',     ...
+%        ^^^^^^^^^^^^^^^^^^^^^ meta.brackets.matlab - comment
+%                             ^^^ punctuation.separator.continuation.matlab
+%                                ^ meta.brackets.matlab - punctuation - comment
+      ... 'Middle Initial, ', ...
+%^^^^^ meta.brackets.matlab - comment
+%     ^^^ meta.brackets.matlab punctuation.separator.continuation.matlab
+%        ^ meta.brackets.matlab - punctuation - comment
+%         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets.matlab comment.line.matlab - punctuation
+          'Title']
+%^^^^^^^^^^^^^^^^^ meta.brackets.matlab - comment
 
 %---------------------------------------------
 % Function

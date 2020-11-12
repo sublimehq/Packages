@@ -200,3 +200,6 @@ true: false
 #            ^^^^^^^^^^ constant.other.timestamp.yaml
 #                ^ punctuation.separator.date.yaml
 #                   ^ punctuation.separator.date.yaml
+y: n
+# <- -constant
+#  ^ constant.language.boolean.yaml

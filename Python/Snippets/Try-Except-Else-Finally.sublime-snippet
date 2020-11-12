@@ -8,6 +8,6 @@ else:
 finally:
 	${7:pass}]]></content>
 	<tabTrigger>try</tabTrigger>
-	<scope>source.python</scope>
+	<scope>source.python - meta.function.parameters - meta.function-call - meta.statement - meta.mapping - meta.sequence - meta.set - comment - string</scope>
 	<description>Try/Except/Else/Finally</description>
 </snippet>

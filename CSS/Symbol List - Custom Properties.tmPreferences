@@ -2,13 +2,11 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.js meta.function.anonymous</string>
+	<string>source.css entity.other.custom-property</string>
 	<key>settings</key>
 	<dict>
-		<key>showInIndexedSymbolList</key>
-		<string>0</string>
 		<key>showInSymbolList</key>
-		<string>0</string>
+		<integer>1</integer>
 	</dict>
 </dict>
 </plist>
