@@ -299,7 +299,7 @@ contexts:
     - match: \b(function)\s*(?=\()
       scope: meta.function.r
       captures:
-        1: storage.type.function.r
+        1: keyword.declaration.function.r
       push:
         - match: \(
           scope: punctuation.section.parameters.begin.r
