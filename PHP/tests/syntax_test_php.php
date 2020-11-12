@@ -1769,7 +1769,7 @@ echo <<<CSS
 h2 {font-family: 'Arial';}
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.css source.css
 // <- entity.name.tag
-// ^ punctuation.section.property-list
+// ^ punctuation.section.block
 //               ^^^^^^^ string.quoted.single
 h3 {font-size: "$h3_size";}
 //              ^^^^^^^^ variable.other.php

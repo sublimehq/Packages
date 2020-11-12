@@ -493,6 +493,24 @@ class Foo {
         {
             Console.WriteLine($"x={x} y={y}");
         }
+
+        foreach ((var a, var b) in positions)
+///     ^^^^^^^ meta.class.body meta.block meta.method.body meta.block keyword.control.loop.foreach
+///             ^ punctuation.section.group.begin - meta.group.tuple
+///              ^^^^^^^^^^^^^^ meta.group.tuple
+///              ^ punctuation.section.group.begin
+///               ^^^ support.type
+///                   ^ variable.other
+///                    ^ punctuation.separator.tuple
+///                      ^^^ support.type
+///                          ^ variable.other
+///                           ^ punctuation.section.group.end
+///                             ^^ keyword.control.flow
+///                                ^^^^^^^^^ variable.other
+///                                         ^ punctuation.section.group.end
+        ; // empty statement
+///     ^ punctuation.terminator.statement
+
     }
 
     private static (int Max, int Min) Range(IEnumerable<int> numbers)
@@ -720,18 +738,6 @@ void Test ()
 ///                     ^^^^ variable.function
     place = 9; // replaces 7 with 9 in the array
     Console.WriteLine (array [4]); // prints 9
-
-    // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/using-statement#example
-    using var socket = new ClientWebSocket();
-/// ^^^^^ keyword.control.using
-///       ^^^ storage.type.variable
-///           ^^^^^^ variable.other
-///                  ^ keyword.operator.assignment
-///                    ^^^ keyword.operator.new
-///                        ^^^^^^^^^^^^^^^ support.type
-///                                       ^ punctuation.section.group.begin
-///                                        ^ punctuation.section.group.end
-///                                         ^ punctuation.terminator.statement
 }
 
 public ref int Find (int number, int[] numbers)
@@ -797,3 +803,11 @@ public class Person // https://stackoverflow.com/a/41974829/4473405
 ///                                                                ^ meta.group punctuation.section.group.end
 ///                                                                 ^ punctuation.terminator.statement
 }
+
+// https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-7#pattern-matching
+if (input is int count)
+/// ^^^^^ variable.other
+///       ^^ keyword.operator.reflection
+///          ^^^ storage.type
+///              ^^^^^ variable.other
+    sum += count;

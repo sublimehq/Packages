@@ -2,7 +2,7 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>text.html meta.toc-list.id.html</string>
+	<string>source.css entity.other.custom-property</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>

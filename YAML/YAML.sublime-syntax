@@ -115,12 +115,14 @@ variables:
   _type_null: (?:null|Null|NULL|~)
   
   # http://yaml.org/type/bool.html
-  _type_bool: |-
+  _type_bool_11: |-
     (?x:
        y|Y|yes|Yes|YES|n|N|no|No|NO
       |true|True|TRUE|false|False|FALSE
       |on|On|ON|off|Off|OFF
     )
+  # https://yaml.org/spec/1.2/spec.html#id2805071
+  _type_bool_12: (?x:true | True | TRUE | false | False | FALSE)
 
   # http://yaml.org/type/int.html
   _type_int_binary: ([-+]?)(0b)([0-1_]+) # (base 2)
@@ -320,11 +322,20 @@ contexts:
           scope: punctuation.definition.string.end.yaml
           pop: true
 
-  flow-scalar-plain-in-implicit-type:
+  flow-scalar-plain-in-implicit-type-11:
+    - match: '{{_type_bool_11}}{{_flow_scalar_end_plain_in}}'
+      scope: constant.language.boolean.yaml
+    - include: flow-scalar-plain-in-implicit-type-common
+
+  flow-scalar-plain-in-implicit-type-12:
+    # Less aggressive variant based on the YAML 1.2 core schema
+    - match: '{{_type_bool_12}}{{_flow_scalar_end_plain_in}}'
+      scope: constant.language.boolean.yaml
+    - include: flow-scalar-plain-in-implicit-type-common
+
+  flow-scalar-plain-in-implicit-type-common:
     - match: '{{_type_null}}{{_flow_scalar_end_plain_in}}'
       scope: constant.language.null.yaml
-    - match: '{{_type_bool}}{{_flow_scalar_end_plain_in}}'
-      scope: constant.language.boolean.yaml
     - match: '{{_type_value}}{{_flow_scalar_end_plain_in}}'
       scope: constant.language.value.yaml
     - match: '{{_type_merge}}{{_flow_scalar_end_plain_in}}'
@@ -391,11 +402,20 @@ contexts:
         7: punctuation.separator.time.yaml
         8: punctuation.separator.time.yaml
 
-  flow-scalar-plain-out-implicit-type:
+  flow-scalar-plain-out-implicit-type-11:
+    - match: '{{_type_bool_11}}{{_flow_scalar_end_plain_out}}'
+      scope: constant.language.boolean.yaml
+    - include: flow-scalar-plain-out-implicit-type-common
+
+  flow-scalar-plain-out-implicit-type-12:
+    # Less aggressive variant based on the YAML 1.2 core schema
+    - match: '{{_type_bool_12}}{{_flow_scalar_end_plain_out}}'
+      scope: constant.language.boolean.yaml
+    - include: flow-scalar-plain-out-implicit-type-common
+
+  flow-scalar-plain-out-implicit-type-common:
     - match: '{{_type_null}}{{_flow_scalar_end_plain_out}}'
       scope: constant.language.null.yaml
-    - match: '{{_type_bool}}{{_flow_scalar_end_plain_out}}'
-      scope: constant.language.boolean.yaml
     - match: '{{_type_value}}{{_flow_scalar_end_plain_out}}'
       scope: constant.language.value.yaml
     - match: '{{_type_merge}}{{_flow_scalar_end_plain_out}}'
@@ -465,7 +485,7 @@ contexts:
   flow-scalar-plain-out:
     # http://yaml.org/spec/1.2/spec.html#style/flow/plain
     # ns-plain(n,c) (c=flow-out, c=block-key)
-    - include: flow-scalar-plain-out-implicit-type
+    - include: flow-scalar-plain-out-implicit-type-11
     - match: (?={{ns_plain_first_plain_out}})
       push:
         - meta_scope: string.unquoted.plain.out.yaml
@@ -476,7 +496,7 @@ contexts:
   flow-scalar-plain-in:
     # http://yaml.org/spec/1.2/spec.html#style/flow/plain
     # ns-plain(n,c) (c=flow-in, c=flow-key)
-    - include: flow-scalar-plain-in-implicit-type
+    - include: flow-scalar-plain-in-implicit-type-11
     - match: (?={{ns_plain_first_plain_in}})
       push:
         - meta_scope: string.unquoted.plain.in.yaml
@@ -542,7 +562,7 @@ contexts:
         # TODO Use a merge type here and add "pop: true" and "scope: entity.name.tag.yaml";
         # https://github.com/SublimeTextIssues/Core/issues/966
         - meta_scope: meta.flow-pair.key.yaml
-        - include: flow-scalar-plain-in-implicit-type
+        - include: flow-scalar-plain-in-implicit-type-12
         - match: '{{_flow_scalar_end_plain_in}}'
           pop: true
         - match: (?={{ns_plain_first_plain_in}})
@@ -628,7 +648,7 @@ contexts:
           (\s|$)
         )
       push:
-        - include: flow-scalar-plain-out-implicit-type
+        - include: flow-scalar-plain-out-implicit-type-12
         - match: '{{_flow_scalar_end_plain_out}}'
           pop: true
         - match: (?={{ns_plain_first_plain_out}})

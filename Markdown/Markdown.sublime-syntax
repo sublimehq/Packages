@@ -1055,6 +1055,8 @@ contexts:
             - include: list-content
         - match: \s+
           scope: meta.paragraph.list.markdown
+        - match: (?=^{{atx_heading}})
+          pop: true
         - match: '(?=\S)'
           push: list-content
     - match: '(?=\S)'
