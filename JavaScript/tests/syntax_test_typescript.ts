@@ -350,7 +350,7 @@ function f(this : any) {}
 //  ^^^^^^^^^^^^^^ meta.function
 //    ^ punctuation.separator.type
 //      ^^^ meta.type support.type.any
-//           ^^ storage.type.function.arrow
+//           ^^ keyword.declaration.function.arrow
 
     x ? (y) : z;
 //  ^ variable.other.readwrite
@@ -366,7 +366,7 @@ function f(this : any) {}
 //       ^ meta.binding.name variable.parameter.function
 //          ^ punctuation.separator.type
 //            ^ meta.type support.class
-//              ^^ storage.type.function.arrow
+//              ^^ keyword.declaration.function.arrow
 //                 ^meta.block variable.other.readwrite
 //                   ^ keyword.operator.ternary
 //                     ^ variable.other.readwrite
@@ -376,7 +376,7 @@ function f(this : any) {}
 //        ^ keyword.operator.ternary
 //          ^^^^^^ meta.function
 //          ^ variable.parameter.function
-//            ^^ storage.type.function.arrow
+//            ^^ keyword.declaration.function.arrow
 
     async (x): T => y;
 //  ^^^^^^^^^^^^^^^^^ meta.function
@@ -384,7 +384,7 @@ function f(this : any) {}
 //         ^ meta.binding.name variable.parameter.function
 //           ^ punctuation.separator.type
 //             ^ meta.type support.class
-//               ^^ storage.type.function.arrow
+//               ^^ keyword.declaration.function.arrow
 //                  ^ meta.block variable.other.readwrite
 
     x ? async (y) : T => r : z;
@@ -730,7 +730,7 @@ let x: ( foo ? : any ) => bar;
 //             ^ punctuation.separator.type
 //               ^^^ support.type.any
 //                   ^ punctuation.section.group.end
-//                     ^^ storage.type.function
+//                     ^^ keyword.declaration.function
 //                        ^^^ support.class
 
 let x: () => T

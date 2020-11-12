@@ -87,7 +87,7 @@ contexts:
       scope: punctuation.terminator.statement.lua
 
     - match: function{{identifier_break}}
-      scope: storage.type.function.lua keyword.declaration.function.lua
+      scope: keyword.declaration.function.lua
       push:
         - function-meta
         - block-contents
@@ -595,7 +595,7 @@ contexts:
 
   function-literal:
     - match: function{{identifier_break}}
-      scope: storage.type.function.lua keyword.declaration.function.lua
+      scope: keyword.declaration.function.lua
       set:
         - function-meta
         - block-contents

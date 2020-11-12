@@ -95,6 +95,12 @@ variables:
 
   function_call_lookahead: (?={{identifier}}\s*(?:{{dot_accessor}})?\()
 
+  function_assignment_lookahead: |-
+    (?x:(?=
+      \s* = \s*
+      {{either_func_lookahead}}
+    ))
+
   # '@' followed by a pattern like \S but excluding literal '*' and '@'.
   jsdoc_block_tag: \@[^\n\t\f\v *@]+
 
@@ -479,7 +485,11 @@ contexts:
     - include: else-pop
 
   variable-binding-top:
-    - include: function-assignment
+    - match: (?={{identifier}}{{function_assignment_lookahead}})
+      set:
+        - initializer
+        - function-name-meta
+        - variable-binding-pattern
     - match: (?={{binding_pattern_lookahead}})
       set:
         - initializer
@@ -927,7 +937,11 @@ contexts:
 
     - include: class
     - include: constants
-    - include: function-assignment
+
+    - match: (?={{identifier}}{{function_assignment_lookahead}})
+      set:
+        - function-name-meta
+        - literal-variable
 
     - include: regular-function
     - include: object-literal
@@ -964,7 +978,7 @@ contexts:
 
   async-arrow-function:
     - match: async{{identifier_break}}
-      scope: storage.type.js
+      scope: keyword.declaration.async.js
       set:
         - function-meta
         - arrow-function-expect-body
@@ -973,7 +987,7 @@ contexts:
 
   arrow-function-expect-arrow-or-fail-async:
     - match: '=>'
-      scope: storage.type.function.arrow.js
+      scope: keyword.declaration.function.arrow.js
       pop: true
     - match: (?=\S)
       fail: async-arrow-function
@@ -1391,7 +1405,7 @@ contexts:
         - match: (?=\S)
           fail: prefixed-method
     - match: (?:async){{identifier_break}}
-      scope: storage.type.js
+      scope: keyword.declaration.async.js
       set:
         - meta_scope: meta.function.js
         - match: (?=\*|{{class_element_name}})
@@ -1409,7 +1423,7 @@ contexts:
         - match: (?=\S)
           fail: prefixed-object-literal-method
     - match: (?:async){{identifier_break}}
-      scope: storage.type.js
+      scope: keyword.declaration.async.js
       set:
         - meta_scope: meta.function.js
         - match: (?=\*|{{class_element_name}})
@@ -1439,53 +1453,6 @@ contexts:
     - match: null{{identifier_break}}
       scope: constant.language.null.js
       pop: true
-
-  function-assignment:
-    - match: |-
-        (?x)(?=
-          (?:{{identifier}} \s* \. \s*)*
-          {{identifier}}
-          \s* = \s*
-          {{either_func_lookahead}}
-        )
-      set: function-declaration-identifiers
-
-  function-declaration-identifiers:
-    - match: '(?={{identifier}}\s*{{dot_accessor}})'
-      push:
-        - expect-dot-accessor
-        - function-declaration-identifiers-expect-class
-    - match: 'prototype{{identifier_break}}'
-      scope: support.constant.prototype.js
-      pop: true
-    - match: (?=#?{{identifier}})
-      set:
-        - function-name-meta
-        - literal-variable-base
-
-  expect-dot-accessor:
-    - match: '{{dot_accessor}}'
-      scope: punctuation.accessor.js
-      pop: true
-    - include: else-pop
-
-  function-declaration-identifiers-expect-class:
-    - match: 'prototype{{identifier_break}}'
-      scope: support.constant.prototype.js
-      pop: true
-    - include: language-identifiers
-    - match: '{{dollar_only_identifier}}'
-      scope: support.class.dollar.only.js punctuation.dollar.js
-      pop: true
-    - match: '{{dollar_identifier}}'
-      scope: support.class.dollar.js
-      captures:
-        1: punctuation.dollar.js
-      pop: true
-    - match: '{{identifier}}'
-      scope: support.class.js
-      pop: true
-    - include: else-pop
 
   function-name-meta:
     - meta_include_prototype: false
@@ -1529,19 +1496,19 @@ contexts:
 
   function-declaration-expect-generator-star:
     - match: \*
-      scope: keyword.generator.asterisk.js
+      scope: keyword.declaration.generator.js
       pop: true
     - include: else-pop
 
   function-declaration-expect-function-keyword:
     - match: function{{identifier_break}}
-      scope: storage.type.function.js
+      scope: keyword.declaration.function.js
       pop: true
     - include: else-pop
 
   function-declaration-expect-async:
     - match: 'async{{identifier_break}}'
-      scope: storage.type.js
+      scope: keyword.declaration.async.js
       pop: true
     - include: else-pop
 
@@ -1563,14 +1530,18 @@ contexts:
 
   arrow-function-expect-arrow:
     - match: '=>'
-      scope: storage.type.function.arrow.js
+      scope: keyword.declaration.function.arrow.js
       pop: true
     - include: else-pop
 
   arrow-function-expect-parameters:
-    - match: '{{identifier}}'
-      scope: variable.parameter.function.js
-      pop: true
+    - match: (?={{identifier_start}})
+      set:
+        - clear_scopes: 1
+        - meta_scope: meta.function.parameters.js
+        - match: '{{identifier}}'
+          scope: variable.parameter.function.js
+          pop: true
     - include: function-declaration-parameters
     - include: else-pop
 
@@ -1588,6 +1559,8 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.js
       set:
+        - clear_scopes: 1
+        - meta_scope: meta.function.parameters.js
         - match: \)
           scope: punctuation.section.group.end.js
           pop: true
@@ -1621,8 +1594,6 @@ contexts:
           {{either_func_lookahead}}
         )
       push:
-        - expression-no-comma
-        - object-literal-expect-colon
         - object-literal-meta-key
         - method-name
 
@@ -1696,11 +1667,6 @@ contexts:
 
   object-literal-meta-key:
     - meta_scope: meta.mapping.key.js
-    - include: else-pop
-
-  object-literal-expect-colon:
-    - match: ':'
-      scope: punctuation.separator.key-value.js
     - include: else-pop
 
   method-name:
@@ -2413,17 +2379,12 @@ contexts:
     - include: object-property
 
   object-property:
-    - match: |-
-        (?x)(?=
-          \#?{{identifier}}
-          \s* = \s*
-          {{either_func_lookahead}}
-        )
+    - include: support-property
+
+    - match: (?=\#?{{identifier}}{{function_assignment_lookahead}})
       set:
         - function-name-meta
         - object-property-base
-
-    - include: support-property
 
     - match: '(?=#?{{identifier}}\s*(?:{{dot_accessor}})?\()'
       set: call-method-name

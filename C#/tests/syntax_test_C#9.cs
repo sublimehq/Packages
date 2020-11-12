@@ -19,7 +19,7 @@ public record Person
         get => lastName;
         init => lastName = (value ?? throw new ArgumentNullException(nameof(LastName)));
 ///     ^^^^ storage.type.function.accessor.set
-///          ^^ storage.type.function
+///          ^^ keyword.declaration.function.anonymous
 ///             ^^^^^^^^ variable.other
     }
 }

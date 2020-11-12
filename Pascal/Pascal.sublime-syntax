@@ -14,12 +14,12 @@ contexts:
     - match: \b(?i:(function|procedure))\b\s+(\w+(\.\w+)?)(\(.*?\))?;\s*(?=(?i:attribute|forward|external))
       scope: meta.function.prototype.pascal
       captures:
-        1: storage.type.prototype.pascal
-        2: entity.name.function.prototype.pascal
+        1: keyword.declaration.function.pascal
+        2: entity.name.function.pascal
     - match: \b(?i:(function|procedure))\b\s+(\w+(\.\w+)?)
       scope: meta.function.pascal
       captures:
-        1: storage.type.function.pascal
+        1: keyword.declaration.function.pascal
         2: entity.name.function.pascal
     - match: '\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\b'
       scope: constant.numeric.pascal

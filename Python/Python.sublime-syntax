@@ -579,7 +579,7 @@ contexts:
   classes:
     - match: '^\s*(class)\b'
       captures:
-        1: storage.type.class.python keyword.declaration.class.python
+        1: keyword.declaration.class.python
       push:
         - meta_scope: meta.class.python
         - include: line-continuation-or-pop
@@ -628,8 +628,8 @@ contexts:
   functions:
     - match: '^\s*(?:(async)\s+)?(def)\b'
       captures:
-        1: storage.modifier.async.python
-        2: storage.type.function.python keyword.declaration.function.python
+        1: keyword.declaration.async.python
+        2: keyword.declaration.function.python
       push:
         - meta_scope: meta.function.python
         - include: line-continuation-or-pop

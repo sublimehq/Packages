@@ -1,7 +1,7 @@
 # SYNTAX TEST "Packages/Rails/Ruby on Rails.sublime-syntax"
 
 class ApplicationController < ApplicationController
-# <- storage.type.class
+# <- keyword.declaration.class
 #     ^ entity.name.class
 #                           ^ punctuation.separator
 #                             ^ entity.other.inherited-class

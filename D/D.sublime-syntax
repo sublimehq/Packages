@@ -1231,7 +1231,7 @@ contexts:
     - match: '\b({{name}})\s*(=>)'
       captures:
         1: variable.parameter.d
-        2: storage.type.function.d keyword.declaration.function.lambda.d
+        2: keyword.declaration.function.anonymous.d
       set: [meta-function, value]
     - match: \.
       scope: meta.path.d punctuation.accessor.dot.d
@@ -1256,7 +1256,7 @@ contexts:
     - include: not-whitespace-illegal-pop
   new-after:
     - match: '\bclass\b'
-      scope: meta.class.d storage.type.class.d keyword.declaration.class.d
+      scope: meta.class.d keyword.declaration.class.d
       set: [meta-class, new-class]
     - match: (?={{identifier_ref}}\s*\()
       set: [new-after-named, new-type-identifier-ref]
@@ -1323,7 +1323,7 @@ contexts:
           pop: true
         - include: type-specialization
     - match: '\b(?:struct|union|class|interface|enum)\b'
-      scope: storage.type.d keyword.declaration.d
+      scope: keyword.declaration.d
       set:
         - match: '(?=\))'
           pop: true
@@ -1353,7 +1353,7 @@ contexts:
     - match: (?={)
       set: [value-after, meta-function, block-statement]
     - match: '=>'
-      scope: meta.function.d storage.type.function.d keyword.declaration.function.lambda.d
+      scope: meta.function.d keyword.declaration.function.anonymous.d
       set: [meta-function, value]
     - match: (?=\S)
       set: value-after
@@ -1363,7 +1363,7 @@ contexts:
     - match: (?={)
       set: [value-after, meta-function, block-statement]
     - match: '=>'
-      scope: meta.function.d storage.type.function.d keyword.declaration.function.lambda.d
+      scope: meta.function.d keyword.declaration.function.anonymous.d
       set: [meta-function, value]
     - include: not-whitespace-illegal-pop
   value-identifier:
@@ -1566,7 +1566,7 @@ contexts:
 
   class-in:
     - match: '\b(class)\b'
-      scope: storage.type.class.d keyword.declaration.class.d
+      scope: keyword.declaration.class.d
       push: [meta-class, class-name]
   class-name:
     - match: '\b({{name}})\b'
@@ -1598,7 +1598,7 @@ contexts:
 
   interface-in:
     - match: '\b(interface)\b'
-      scope: storage.type.interface.d keyword.declaration.interface.d
+      scope: keyword.declaration.interface.d
       push: [meta-interface, interface-name]
   interface-name:
     - match: '\b({{name}})\b'
@@ -1619,7 +1619,7 @@ contexts:
 
   struct-in:
     - match: '\b(struct)\b'
-      scope: storage.type.struct.d keyword.declaration.struct.d
+      scope: keyword.declaration.struct.d
       push: [meta-struct, struct-name]
   struct-name:
     - match: '\b({{name}})\b'
@@ -1635,7 +1635,7 @@ contexts:
 
   union-in:
     - match: '\b(union)\b'
-      scope: storage.type.union.d keyword.declaration.union.d
+      scope: keyword.declaration.union.d
       push: [meta-union, union-name]
   union-name:
     - match: '\b({{name}})\b'
@@ -1651,7 +1651,7 @@ contexts:
 
   enum-in:
     - match: '\b(enum)\b'
-      scope: storage.type.enum.d keyword.declaration.enum.d
+      scope: keyword.declaration.enum.d
       push: [meta-enum, enum-after-kw]
   enum-after-kw:
     - match: '(?=\b({{basic_type}})\b)'
@@ -1902,7 +1902,7 @@ contexts:
 
   template-in:
     - match: '\b(template)\b'
-      scope: storage.type.d keyword.declaration.template.d
+      scope: keyword.declaration.template.d
       push: template
   template:
     - match: '\b({{name}})\b'
@@ -1918,7 +1918,7 @@ contexts:
     - match: '\b(mixin)\s+(template)\b'
       captures:
         1: keyword.control.d
-        2: storage.type.d keyword.declaration.template.d
+        2: keyword.declaration.template.d
       push: template
     - match: '\b(mixin)(?!\s*\()'
       scope: keyword.control.d

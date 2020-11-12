@@ -1,5 +1,6 @@
 %YAML 1.2
 ---
+###############################################################################
 # This is a very low-level HTML implementation, which is meant to be used as
 # base definition for any kind of context/syntax, which just needs plain HTML
 # tag and attribute highlighting support without the overhead of:
@@ -8,9 +9,58 @@
 #
 # Any kind of high-level highlighting support such as additional tag types,
 # attributes or embedded syntaxes are to be implemented into HTML.sublime-syntax
+###############################################################################
 #
+# NOTES
+#
+#  1 STRING INTERPOLATION
+#
+#    The syntax definition excludes prototypes from quoted strings by default
+#    to kindly ask an inherited syntax definition to explicitly handle string
+#    interpolation.
+#
+#    An inherited syntax might most likely want to define a `prototype` to
+#    inject its templating patterns in all (appropriate) contexts which are
+#    already defined by this base syntax definition. That's basically fine.
+#
+#    What we want is replacing `string` scope by `meta.interpolation` in case
+#    of injecting template patterns into a string, which can't be achieved
+#    using prototype context. Interpolation requires special patterns which
+#    push into contexts with `- clear_scope: 1`.
+#
+#    Example:
+#
+#      prototype:
+#        - meta_prepend: true
+#        - include: asp-tags
+#
+#      tag-attribute-value-content:
+#        - meta_prepend: true
+#        - include: asp-interpolations
+#
+#      strings-common-content:
+#        - meta_prepend: true
+#        - include: asp-interpolations
+#
+#      asp-interpolations:
+#        - match: <%
+#          scope: punctuation.section.embedded.begin.html
+#          push: asp-tag-content
+#
+#      asp-tag-content:
+#        - clear_scopes: 1
+#        - meta_scope: meta.interpolation.html
+#        - meta_content_scope: source.asp.embedded.html
+#        - match: '%>'
+#          scope: punctuation.section.embedded.end.html
+#          pop: 1
+#        - ...
+#
+###############################################################################
 # https://www.sublimetext.com/docs/syntax.html
 # https://html.spec.whatwg.org/multipage/syntax.html
+###############################################################################
+
 name: HTML (Plain)
 scope: text.html.plain
 version: 2
@@ -226,6 +276,7 @@ contexts:
       scope: invalid.illegal.attribute-name.html
 
   tag-generic-attribute-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.attribute-with-value.html
     - include: immediately-pop
 
@@ -251,11 +302,15 @@ contexts:
     - include: else-pop
 
   tag-generic-attribute-value-double-quoted-content:
+    # See the top of this file for why prototype is excluded
+    - meta_include_prototype: false
     - meta_content_scope: meta.string.html string.quoted.double.html
     - include: strings-double-quoted-end
     - include: tag-generic-attribute-value-quoted-content
 
   tag-generic-attribute-value-single-quoted-content:
+    # See the top of this file for why prototype is excluded
+    - meta_include_prototype: false
     - meta_content_scope: meta.string.html string.quoted.single.html
     - include: strings-single-quoted-end
     - include: tag-generic-attribute-value-quoted-content
@@ -264,6 +319,8 @@ contexts:
     - include: tag-generic-attribute-value-content
 
   tag-generic-attribute-value-unquoted-content:
+    # See the top of this file for why prototype is excluded
+    - meta_include_prototype: false
     - meta_content_scope: meta.string.html string.unquoted.html
     - include: tag-attribute-value-unquoted-end
     - include: tag-generic-attribute-value-content
@@ -310,6 +367,8 @@ contexts:
       pop: 1
 
   strings-double-quoted-content:
+    # See the top of this file for why prototype is excluded
+    - meta_include_prototype: false
     - meta_content_scope: meta.string.html string.quoted.double.html
     - include: strings-double-quoted-end
     - include: strings-quoted-content
@@ -329,6 +388,8 @@ contexts:
       pop: 1
 
   strings-single-quoted-content:
+    # See the top of this file for why prototype is excluded
+    - meta_include_prototype: false
     - meta_content_scope: meta.string.html string.quoted.single.html
     - include: strings-single-quoted-end
     - include: strings-quoted-content

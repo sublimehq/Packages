@@ -195,7 +195,7 @@ extern(C):
 struct the_c_struct;
 
 class MyClass {
-// <- storage.type
+// <- keyword.declaration.class
 }
 
 string sA = r"$";

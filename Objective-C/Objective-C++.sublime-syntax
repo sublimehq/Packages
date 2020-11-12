@@ -497,7 +497,7 @@ contexts:
   types-parens:
     - match: '\b(decltype)\b\s*(\()'
       captures:
-        1: storage.type.objc++
+        1: keyword.declaration.type.objc++
         2: meta.group.objc++ punctuation.section.group.begin.objc++
       push:
         - meta_content_scope: meta.group.objc++
@@ -581,7 +581,7 @@ contexts:
 
   template:
     - match: \btemplate\b
-      scope: storage.type.template.objc++
+      scope: keyword.declaration.template.objc++
       push:
         - meta_scope: meta.template.objc++
         # Explicitly include comments here at the top, in order to NOT match the
@@ -597,14 +597,14 @@ contexts:
             - match: \.{3}
               scope: keyword.operator.variadic.objc++
             - match: \b(typename|{{before_tag}})\b
-              scope: storage.type.objc++
+              scope: keyword.declaration.objc++
             - include: template # include template here for nested templates
             - include: template-common
         - match: (?=\S)
           set:
             - meta_content_scope: meta.template.objc++
             - match: \b({{before_tag}})\b
-              scope: storage.type.objc++
+              scope: keyword.declaration.objc++
             - include: template-common
 
   generic-type:
@@ -612,7 +612,7 @@ contexts:
       push:
         - meta_scope: meta.function-call.objc++
         - match: \btemplate\b
-          scope: storage.type.template.objc++
+          scope: keyword.declaration.template.objc++
         - match: (?:(::)\s*)?({{identifier}})\s*(<)
           captures:
             1: punctuation.accessor.double-colon.objc++
@@ -742,7 +742,7 @@ contexts:
     # kind of entity we're accessing.
     - include: comments
     - match: \btemplate\b
-      scope: meta.method-call.objc++ storage.type.template.objc++
+      scope: meta.method-call.objc++ keyword.declaration.template.objc++
       # Guaranteed to be a template member function call after we match this
       set:
         - meta_content_scope: meta.method-call.objc++
@@ -828,7 +828,7 @@ contexts:
 
   typedef:
     - match: \btypedef\b
-      scope: storage.type.objc++
+      scope: keyword.declaration.type.objc++
       push:
         - match: ({{identifier}})?\s*(?=;)
           captures:
@@ -836,7 +836,7 @@ contexts:
           pop: true
         - match: \b(struct)\s+({{identifier}})\b
           captures:
-            1: storage.type.objc++
+            1: keyword.declaration.struct.objc++
         - include: expressions-minus-generic-type
 
   parens:
@@ -952,7 +952,7 @@ contexts:
           )
         )
       captures:
-        1: storage.type.objc++
+        1: keyword.declaration.objc++
       set:
         - include: scope:source.c++#identifiers
         - match: ''
@@ -1132,19 +1132,19 @@ contexts:
 
   data-structures:
     - match: '\bclass\b'
-      scope: storage.type.objc++
+      scope: keyword.declaration.class.objc++
       set: data-structures-class-definition
     # Detect variable type definitions using struct/enum/union followed by a tag
     - match: '\b({{before_tag}})(?=\s+{{path_lookahead}}\s+{{path_lookahead}}\s*[=;\[])'
-      scope: storage.type.objc++
+      scope: keyword.declaration.objc++
     - match: '\bstruct\b'
-      scope: storage.type.objc++
+      scope: keyword.declaration.struct.objc++
       set: data-structures-struct-definition
     - match: '\benum(\s+(class|struct))?\b'
-      scope: storage.type.objc++
+      scope: keyword.declaration.enum.objc++
       set: data-structures-enum-definition
     - match: '\bunion\b'
-      scope: storage.type.objc++
+      scope: keyword.declaration.union.objc++
       set: data-structures-union-definition
     - match: '(?=\S)'
       pop: true
@@ -1371,7 +1371,7 @@ contexts:
       push:
         - include: comments
         - match: '\b({{before_tag}})\b'
-          scope: storage.type.objc++
+          scope: keyword.declaration.objc++
           set: data-structures-modifier-friend
         - match: '(?=\S)(?=[^;]+;)'
           set: data-structures-modifier-friend
@@ -1450,7 +1450,7 @@ contexts:
           )
         )
       captures:
-        1: storage.type.objc++
+        1: keyword.declaration.objc++
       set:
         - include: scope:source.c++#identifiers
         - match: ''

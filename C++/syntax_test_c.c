@@ -32,9 +32,9 @@ struct __declspec(dllimport) baz X {};
 struct foo {
 /*     ^ entity.name.struct */
     union {
-/*  ^ storage.type */
+/*  ^ keyword.declaration */
         struct {
-/*      ^ storage.type */
+/*      ^ keyword.declaration */
             int a;
 /*          ^ storage.type */
             int b;
@@ -51,7 +51,7 @@ struct foo {
 /*      ^ entity.name.constant.preprocessor */
 /*                                        ^ comment.block */
 /*                                                              ^ keyword.operator.word */
-/*                                                                     ^ storage.type */
+/*                                                                     ^ keyword.declaration */
 /*                                                                                              ^ comment.line */
 
 #pragma foo(bar, \
@@ -284,11 +284,11 @@ if (4) {
 /////////////////////////////////////////////
 
 typedef int myint;
-/* <- storage.type */
+/* <- keyword.declaration */
 /*          ^ entity.name.type */
 
 typedef struct mystruct {
-/* <- storage.type */
+/* <- keyword.declaration */
 /*             ^ - entity */
 } mystruct;
 /* ^ entity.name.type */
@@ -298,7 +298,7 @@ typedef struct mystruct {
 /////////////////////////////////////////////
 
 struct point
-/* ^ storage.type */
+/* ^ keyword.declaration */
 /*     ^ entity.name.struct */
 {
     int x;
@@ -306,7 +306,7 @@ struct point
 }
 
 struct point2 {
-/* ^ storage.type */
+/* ^ keyword.declaration */
 /*     ^ entity.name.struct */
     int x;
     int y;
@@ -323,12 +323,12 @@ struct point get_point() {}
 /*                       ^^ meta.block */
 /*                       ^ punctuation.section.block.begin
 /*                        ^ punctuation.section.block.end
-/* ^ storage.type */
+/* ^ keyword.declaration */
 /*     ^ - entity.name.struct */
 /*           ^ entity.name.function */
 
 struct point **alloc_points();
-/* ^ storage.type */
+/* ^ keyword.declaration */
 /*     ^ - entity.name.struct */
 /*           ^^ keyword.operator */
 /*             ^ entity.name.function */
@@ -356,7 +356,7 @@ struct foo
 /*     ^ entity.name */
 
 struct UI_MenuBoxData
-/* <- storage.type */
+/* <- keyword.declaration */
 /*     ^ entity.name.struct */
 {
     struct UI_BoundingBox position;
@@ -511,14 +511,14 @@ MACRO1 void * MACRO2 myfuncname () {
     }
 
     struct Args {
-/*  ^ storage.type */
+/*  ^ keyword.declaration */
 /*         ^ entity.name.struct */
         void* hello;
         void* foobar;
     };
 
     struct Args args;
-/*  ^ storage.type */
+/*  ^ keyword.declaration */
 /*         ^ - entity */
 
 }

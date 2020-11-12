@@ -110,7 +110,7 @@ export default function name1(b) { }
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
 //     ^ keyword.control.import-export
-//             ^ storage.type
+//             ^^^^^^^^ keyword.declaration.function
 //                      ^ entity.name.function
 
 export default class Foo {};
@@ -248,7 +248,7 @@ someFunction({
 
     function foo() {
 //  ^^^^^^^^^^^^^^^^ meta.function - meta.function meta.function
-//  ^^^^^^^^ storage.type.function
+//  ^^^^^^^^ keyword.declaration.function
 //           ^^^ entity.name.function
     }
 //  ^ meta.function meta.block
@@ -257,14 +257,14 @@ someFunction({
 //  ^^^ storage.type
 //      ^^^ entity.name.function variable.other.readwrite
 //            ^^^^^^^^^^^^ meta.function - meta.function meta.function
-//            ^^^^^^^^ storage.type.function
+//            ^^^^^^^^ keyword.declaration.function
     }
 
     baz = function*()
 //  ^^^ entity.name.function variable.other.readwrite
 //        ^^^^^^^^^^^ meta.function - meta.function meta.function
-//        ^^^^^^^^ storage.type.function
-//                ^ keyword.generator.asterisk
+//        ^^^^^^^^ keyword.declaration.function
+//                ^ keyword.declaration.generator
     {
 
     }
@@ -275,7 +275,7 @@ someFunction({
 // Better highlighting when typing
 function
 function() {}
-// <- storage.type.function - entity.name.function
+// <- keyword.declaration.function - entity.name.function
 
 function foo(){}/**/
 //              ^ - meta.function
@@ -492,7 +492,7 @@ var obj = {
 //          ^^^^^ constant.language.boolean.false
 
     objKey: new function() {
-//              ^^^^^^^^ storage.type.function
+//              ^^^^^^^^ keyword.declaration.function
         this.foo = baz;
 //      ^^^^ variable.language.this
 //          ^ punctuation.accessor
@@ -500,7 +500,7 @@ var obj = {
     }(),
 
     objKey: new/**/function() {}(),
-//                 ^^^^^^^^ storage.type.function
+//                 ^^^^^^^^ keyword.declaration.function
 
     objKey: new class Foo {
 //              ^^^^^ storage.type.class
@@ -1159,17 +1159,17 @@ class MyClass extends TheirClass {
 //         ^^^^^^^^^^^^ meta.function
 
     async foo() {}
-//  ^^^^^ storage.type
+//  ^^^^^ keyword.declaration.async
 
     *foo() {}
 //  ^ keyword.generator.asterisk
 
     async *foo() {}
-//  ^^^^^ storage.type
+//  ^^^^^ keyword.declaration.async
 //        ^ keyword.generator.asterisk
 
     static async foo() {}
-//         ^^^^^ storage.type
+//         ^^^^^ keyword.declaration.async
 }
 // <- meta.block punctuation.section.block.end
 
@@ -1223,9 +1223,10 @@ class{}/**/
 
     () => {}
 //  ^^^^^^^^ meta.function - meta.function meta.function
+//  ^^ meta.function.parameters
 //  ^ punctuation.section.group.begin
 //   ^ punctuation.section.group.end
-//     ^^ storage.type.function.arrow
+//     ^^ keyword.declaration.function.arrow
 //        ^^ meta.block
 //        ^ punctuation.section.block
 //         ^ punctuation.section.block
@@ -1257,37 +1258,38 @@ class{}/**/
 //         ^ meta.block punctuation.section.block.end
 
     (foo, bar = 42)
-//  ^^^^^^^^^^^^^^^ meta.function
+//  ^^^^^^^^^^^^^^^ meta.function.parameters
 //   ^^^ meta.binding.name
 //        ^^^ meta.binding.name
     => 42;
 //  ^^^^^ meta.function
-//  ^^ storage.type.function.arrow
+//  ^^ keyword.declaration.function.arrow
 
     foo
-//  ^^^ meta.function variable.parameter.function
+//  ^^^ meta.function.parameters variable.parameter.function
     => 42;
 //  ^^^^^ meta.function
-//  ^^ storage.type.function.arrow
+//  ^^ keyword.declaration.function.arrow
 
     async x => y;
 //  ^^^^^^^^^^^^ meta.function
-//  ^^^^^ storage.type
-//        ^ variable.parameter.function
-//          ^^ storage.type.function.arrow
+//  ^^^^^ keyword.declaration.async
+//        ^ meta.function.parameters variable.parameter.function
+//          ^^ keyword.declaration.function.arrow
 //             ^ variable.other.readwrite
 
     async (x) => y;
 //  ^^^^^^^^^^^^^^ meta.function
-//  ^^^^^ storage.type
+//  ^^^^^ keyword.declaration.async
+//        ^^^ meta.function.parameters
 //         ^ variable.parameter.function
-//            ^^ storage.type.function.arrow
+//            ^^ keyword.declaration.function.arrow
 //               ^ variable.other.readwrite
 
     async => {};
 //  ^^^^^^^^^^^ meta.function
-//  ^^^^^ variable.parameter.function
-//        ^^ storage.type.function.arrow
+//  ^^^^^ meta.function.parameters variable.parameter.function
+//        ^^ keyword.declaration.function.arrow
 
     async;
 //  ^^^^^ variable.other.readwrite
@@ -1298,29 +1300,30 @@ class{}/**/
 const test = ({a, b, c=()=>({active:false}) }) => {};
 //    ^ entity.name.function
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 //            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring
 //            ^ punctuation.section.block.begin
 //             ^ variable.parameter
 //                ^ variable.parameter
 //                   ^ variable.parameter
 //                     ^^^^ meta.function meta.function
+//                     ^^ meta.function meta.function.parameters
 //                     ^ punctuation.section.group.begin
 //                      ^ punctuation.section.group.end
 //                         ^^^^^^^^^^^^^^^^ meta.group
 //                                   ^ constant.language
 //                                          ^ punctuation.section.block.end
 
-// We can't currently detect this properly, but we need to consume => properly
 ([a,
   b]) => { return x; }
 //    ^^^^^^^^^^^^^^^^ meta.function
-//    ^^ storage.type.function.arrow
+//    ^^ keyword.declaration.function.arrow
 //         ^^^^^^ meta.block keyword.control.flow
 
 (
     ()
     => { return; }
-//  ^^ storage.type.function.arrow
+//  ^^ keyword.declaration.function.arrow
 //     ^^^^^^^^^^^ meta.block - meta.mapping
 //       ^^^^^^ keyword.control.flow
 );
@@ -1333,7 +1336,7 @@ const test = ({a, b, c=()=>({active:false}) }) => {};
     b,
 //   ^ punctuation.separator.parameter - keyword.operator.comma
 }) => null;
-// ^^ storage.type.function.arrow
+// ^^ keyword.declaration.function.arrow
 
 MyClass.foo = function() {}
 // ^ support.class
@@ -1346,12 +1349,10 @@ MyClass.foo = () => {}
 //            ^^^^^^^^ meta.function
 
 xhr.onload = function() {}
-// <- support.class.js
 //  ^ entity.name.function
 //           ^^^^^^^^^^^^^ meta.function
 
 xhr.onload = () => {}
-// <- support.class.js
 //  ^ entity.name.function
 //           ^^^^^^^^ meta.function
 
@@ -1359,12 +1360,12 @@ var simpleArrow = foo => bar;
 //   ^ entity.name.function
 //                ^^^^^^^^^^ meta.function
 //                ^^^ variable.parameter.function
-//                    ^^ storage.type.function.arrow
+//                    ^^ keyword.declaration.function.arrow
 
 var Proto = () => {
 //   ^ entity.name.function
 //          ^^^^^^^ meta.function
-//             ^ storage.type.function.arrow
+//             ^ keyword.declaration.function.arrow
     this._var = 1;
 }
 
@@ -1376,7 +1377,7 @@ Proto.prototype.getVar = () => this._var;
 // ^ support.class
 //     ^ support.constant.prototype
 //                ^ entity.name.function
-//                           ^ storage.type.function.arrow
+//                           ^ keyword.declaration.function.arrow
 
 Class3.prototype = function() {
 // ^ support.class
@@ -1430,7 +1431,7 @@ var foo = ~{a:function(){}.a()}
 //            ^^^^^^^^^^^^ meta.function
 //          ^ entity.name.function
 //           ^ punctuation.separator.key-value
-//            ^^^^^^^^ storage.type.function
+//            ^^^^^^^^ keyword.declaration.function
 //                    ^ punctuation.section.group.begin
 //                     ^ punctuation.section.group.end
 //                      ^ meta.block punctuation.section.block.begin
@@ -1466,7 +1467,7 @@ var instance = new Constructor(param1, param2)
 //                                           ^ punctuation.section.group.end
 
 var obj = new function() {}();
-//            ^^^^^^^^ storage.type
+//            ^^^^^^^^ keyword.declaration.function
 
 var obj2 = new class Foo{}();
 //             ^^^^^ storage.type.class
@@ -1741,7 +1742,7 @@ var test =
 
 var arrowFuncBraceNextLine = () => /* comments! */
 //  ^ entity.name.function
-//                              ^^ storage.type.function
+//                              ^^ keyword.declaration.function
 //                                 ^^^^^^^^^^^^^^^ comment
 {
     foo.bar();
@@ -1782,11 +1783,11 @@ $varname.method()
 // ^ variable.other.dollar
 
 $.fn.new_plugin = function() {}
-// <- support.class.dollar.only punctuation.dollar
+// <- variable.other.dollar.only punctuation.dollar
 
 $var.fn.name = () => {}
-// <- support.class.dollar punctuation.dollar - support.class.dollar.only
-// ^ support.class.dollar - punctuation.dollar
+// <- variable.other.dollar punctuation.dollar - variable.other.dollar.only
+// ^ variable.other.dollar - punctuation.dollar
 
 someFunction(() => [() => 'X']);
 //                           ^ punctuation.section.brackets.end
@@ -1881,6 +1882,7 @@ var str = `Hello, ${name}!`;
 function yy (a, b) {
 // ^^^^^^^^^^^^^^^^^ meta.function
 //       ^^ entity.name.function
+//          ^^^^^^ meta.function.parameters
 //          ^ punctuation.section.group.begin
 //           ^ variable.parameter.function
 //            ^ punctuation.separator.parameter.function
