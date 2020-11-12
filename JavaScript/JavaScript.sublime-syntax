@@ -1551,9 +1551,13 @@ contexts:
     - include: else-pop
 
   arrow-function-expect-parameters:
-    - match: '{{identifier}}'
-      scope: variable.parameter.function.js
-      pop: true
+    - match: (?={{identifier_start}})
+      set:
+        - clear_scopes: 1
+        - meta_scope: meta.function.parameters.js
+        - match: '{{identifier}}'
+          scope: variable.parameter.function.js
+          pop: true
     - include: function-declaration-parameters
     - include: else-pop
 
@@ -1571,6 +1575,8 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.js
       set:
+        - clear_scopes: 1
+        - meta_scope: meta.function.parameters.js
         - match: \)
           scope: punctuation.section.group.end.js
           pop: true
