@@ -162,7 +162,9 @@ contexts:
       scope: support.function.C99.c
 
   types:
-    - match: \b({{basic_types}}|{{before_tag}})\b
+    - match: \b({{before_tag}})\b
+      scope: keyword.declaration.c
+    - match: \b({{basic_types}})\b
       scope: storage.type.c
     - match: \b(u_char|u_short|u_int|u_long|ushort|uint|u_quad_t|quad_t|qaddr_t|caddr_t|daddr_t|dev_t|fixpt_t|blkcnt_t|blksize_t|gid_t|in_addr_t|in_port_t|ino_t|key_t|mode_t|nlink_t|id_t|pid_t|off_t|segsz_t|swblk_t|uid_t|id_t|clock_t|size_t|ssize_t|time_t|useconds_t|suseconds_t|ptrdiff_t)\b
       scope: support.type.sys-types.c
@@ -451,7 +453,7 @@ contexts:
           )
         )
       captures:
-        1: storage.type.c
+        1: keyword.declaration.c
       set: global-maybe-function
     # The previous match handles return types of struct/enum/etc from a func,
     # there this one exits the context to allow matching an actual struct/union
@@ -553,15 +555,15 @@ contexts:
   data-structures:
     # Detect variable type definitions using struct/enum/union followed by a tag
     - match: '\b({{before_tag}})(?=\s+{{identifier}}\s+{{identifier}}\s*[=;\[])'
-      scope: storage.type.c
+      scope: keyword.declaration.c
     - match: '\bstruct\b'
-      scope: storage.type.c
+      scope: keyword.declaration.struct.c
       set: data-structures-struct-definition
     - match: '\benum\b'
-      scope: storage.type.c
+      scope: keyword.declaration.enum.c
       set: data-structures-enum-definition
     - match: '\bunion\b'
-      scope: storage.type.c
+      scope: keyword.declaration.union.c
       set: data-structures-union-definition
     - match: '(?=\S)'
       pop: true
@@ -775,7 +777,7 @@ contexts:
 
   typedef:
     - match: \btypedef\b
-      scope: storage.type.c
+      scope: keyword.declaration.type.c
       push:
         - match: ({{identifier}})?\s*(?=;)
           captures:
@@ -783,7 +785,7 @@ contexts:
           pop: true
         - match: \b(struct)\s+({{identifier}})
           captures:
-            1: storage.type.c
+            1: keyword.declaration.struct.c
         - include: expressions
 
   function-call:
