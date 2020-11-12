@@ -1349,12 +1349,10 @@ MyClass.foo = () => {}
 //            ^^^^^^^^ meta.function
 
 xhr.onload = function() {}
-// <- support.class.js
 //  ^ entity.name.function
 //           ^^^^^^^^^^^^^ meta.function
 
 xhr.onload = () => {}
-// <- support.class.js
 //  ^ entity.name.function
 //           ^^^^^^^^ meta.function
 
@@ -1785,11 +1783,11 @@ $varname.method()
 // ^ variable.other.dollar
 
 $.fn.new_plugin = function() {}
-// <- support.class.dollar.only punctuation.dollar
+// <- variable.other.dollar.only punctuation.dollar
 
 $var.fn.name = () => {}
-// <- support.class.dollar punctuation.dollar - support.class.dollar.only
-// ^ support.class.dollar - punctuation.dollar
+// <- variable.other.dollar punctuation.dollar - variable.other.dollar.only
+// ^ variable.other.dollar - punctuation.dollar
 
 someFunction(() => [() => 'X']);
 //                           ^ punctuation.section.brackets.end

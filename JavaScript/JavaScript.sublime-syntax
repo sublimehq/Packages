@@ -95,6 +95,12 @@ variables:
 
   function_call_lookahead: (?={{identifier}}\s*(?:{{dot_accessor}})?\()
 
+  function_assignment_lookahead: |-
+    (?x:(?=
+      \s* = \s*
+      {{either_func_lookahead}}
+    ))
+
 contexts:
   main:
     - include: comments-top-level
@@ -462,7 +468,11 @@ contexts:
     - include: else-pop
 
   variable-binding-top:
-    - include: function-assignment
+    - match: (?={{identifier}}{{function_assignment_lookahead}})
+      set:
+        - initializer
+        - function-name-meta
+        - variable-binding-pattern
     - match: (?={{binding_pattern_lookahead}})
       set:
         - initializer
@@ -910,7 +920,11 @@ contexts:
 
     - include: class
     - include: constants
-    - include: function-assignment
+
+    - match: (?={{identifier}}{{function_assignment_lookahead}})
+      set:
+        - function-name-meta
+        - literal-variable
 
     - include: regular-function
     - include: object-literal
@@ -1423,53 +1437,6 @@ contexts:
       scope: constant.language.null.js
       pop: true
 
-  function-assignment:
-    - match: |-
-        (?x)(?=
-          (?:{{identifier}} \s* \. \s*)*
-          {{identifier}}
-          \s* = \s*
-          {{either_func_lookahead}}
-        )
-      set: function-declaration-identifiers
-
-  function-declaration-identifiers:
-    - match: '(?={{identifier}}\s*{{dot_accessor}})'
-      push:
-        - expect-dot-accessor
-        - function-declaration-identifiers-expect-class
-    - match: 'prototype{{identifier_break}}'
-      scope: support.constant.prototype.js
-      pop: true
-    - match: (?=#?{{identifier}})
-      set:
-        - function-name-meta
-        - literal-variable-base
-
-  expect-dot-accessor:
-    - match: '{{dot_accessor}}'
-      scope: punctuation.accessor.js
-      pop: true
-    - include: else-pop
-
-  function-declaration-identifiers-expect-class:
-    - match: 'prototype{{identifier_break}}'
-      scope: support.constant.prototype.js
-      pop: true
-    - include: language-identifiers
-    - match: '{{dollar_only_identifier}}'
-      scope: support.class.dollar.only.js punctuation.dollar.js
-      pop: true
-    - match: '{{dollar_identifier}}'
-      scope: support.class.dollar.js
-      captures:
-        1: punctuation.dollar.js
-      pop: true
-    - match: '{{identifier}}'
-      scope: support.class.js
-      pop: true
-    - include: else-pop
-
   function-name-meta:
     - meta_include_prototype: false
     - meta_scope: entity.name.function.js
@@ -1610,8 +1577,6 @@ contexts:
           {{either_func_lookahead}}
         )
       push:
-        - expression-no-comma
-        - object-literal-expect-colon
         - object-literal-meta-key
         - method-name
 
@@ -1685,11 +1650,6 @@ contexts:
 
   object-literal-meta-key:
     - meta_scope: meta.mapping.key.js
-    - include: else-pop
-
-  object-literal-expect-colon:
-    - match: ':'
-      scope: punctuation.separator.key-value.js
     - include: else-pop
 
   method-name:
@@ -2402,17 +2362,12 @@ contexts:
     - include: object-property
 
   object-property:
-    - match: |-
-        (?x)(?=
-          \#?{{identifier}}
-          \s* = \s*
-          {{either_func_lookahead}}
-        )
+    - include: support-property
+
+    - match: (?=\#?{{identifier}}{{function_assignment_lookahead}})
       set:
         - function-name-meta
         - object-property-base
-
-    - include: support-property
 
     - match: '(?=#?{{identifier}}\s*(?:{{dot_accessor}})?\()'
       set: call-method-name
