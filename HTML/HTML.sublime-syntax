@@ -415,9 +415,7 @@ contexts:
     - include: else-pop
 
   tag-class-attribute-value-double-quoted-content:
-    # Exclude prototypes from quoted strings by default to kindly ask an inherited
-    # syntax definition to explicitly handle string interpolation.
-    # See: HTML (Plain).sublime-syntax to learn more.
+    # See HTML (Plain).sublime-syntax for why prototype is excluded
     - meta_include_prototype: false
     - meta_content_scope: meta.class-name.html meta.string.html string.quoted.double.html
     - include: strings-double-quoted-end
@@ -425,8 +423,7 @@ contexts:
     - include: tag-attribute-value-separator-double-quoted
 
   tag-class-attribute-value-single-quoted-content:
-    # Exclude prototypes from quoted strings by default to kindly ask an inherited
-    # syntax definition to explicitly handle string interpolation.
+    # See HTML (Plain).sublime-syntax for why prototype is excluded
     - meta_include_prototype: false
     - meta_content_scope: meta.class-name.html meta.string.html string.quoted.single.html
     - include: strings-single-quoted-end
@@ -437,8 +434,7 @@ contexts:
     - include: tag-class-attribute-value-content
 
   tag-class-attribute-value-unquoted-content:
-    # Exclude prototypes from quoted strings by default to kindly ask an inherited
-    # syntax definition to explicitly handle string interpolation.
+    # See HTML (Plain).sublime-syntax for why prototype is excluded
     - meta_include_prototype: false
     - meta_content_scope: meta.class-name.html meta.string.html string.unquoted.html
     - include: tag-attribute-value-unquoted-end
@@ -532,18 +528,14 @@ contexts:
     - include: else-pop
 
   tag-href-attribute-value-double-quoted-content:
-    # Exclude prototypes from quoted strings by default to kindly ask an inherited
-    # syntax definition to explicitly handle string interpolation.
-    # See: HTML (Plain).sublime-syntax to learn more.
+    # See HTML (Plain).sublime-syntax for why prototype is excluded
     - meta_include_prototype: false
     - meta_content_scope: meta.path.url.html meta.string.html string.quoted.double.html
     - include: strings-double-quoted-end
     - include: tag-href-attribute-value-quoted-content
 
   tag-href-attribute-value-single-quoted-content:
-    # Exclude prototypes from quoted strings by default to kindly ask an inherited
-    # syntax definition to explicitly handle string interpolation.
-    # See: HTML (Plain).sublime-syntax to learn more.
+    # See HTML (Plain).sublime-syntax for why prototype is excluded
     - meta_include_prototype: false
     - meta_content_scope: meta.path.url.html meta.string.html string.quoted.single.html
     - include: strings-single-quoted-end
@@ -553,9 +545,7 @@ contexts:
     - include: tag-href-attribute-value-content
 
   tag-href-attribute-value-unquoted-content:
-    # Exclude prototypes from quoted strings by default to kindly ask an inherited
-    # syntax definition to explicitly handle string interpolation.
-    # See: HTML (Plain).sublime-syntax to learn more.
+    # See HTML (Plain).sublime-syntax for why prototype is excluded
     - meta_include_prototype: false
     - meta_content_scope: meta.path.url.html meta.string.html string.unquoted.html
     - include: tag-attribute-value-unquoted-end
@@ -605,9 +595,7 @@ contexts:
     - include: else-pop
 
   tag-id-attribute-value-double-quoted-content:
-    # Exclude prototypes from quoted strings by default to kindly ask an inherited
-    # syntax definition to explicitly handle string interpolation.
-    # See: HTML (Plain).sublime-syntax to learn more.
+    # See HTML (Plain).sublime-syntax for why prototype is excluded
     - meta_include_prototype: false
     - meta_content_scope: meta.toc-list.id.html meta.string.html string.quoted.double.html
     - include: strings-double-quoted-end
@@ -615,8 +603,7 @@ contexts:
     - include: tag-attribute-value-separator-double-quoted
 
   tag-id-attribute-value-single-quoted-content:
-    # Exclude prototypes from quoted strings by default to kindly ask an inherited
-    # syntax definition to explicitly handle string interpolation.
+    # See HTML (Plain).sublime-syntax for why prototype is excluded
     - meta_include_prototype: false
     - meta_content_scope: meta.toc-list.id.html meta.string.html string.quoted.single.html
     - include: strings-single-quoted-end
@@ -627,8 +614,7 @@ contexts:
     - include: tag-id-attribute-value-content
 
   tag-id-attribute-value-unquoted-content:
-    # Exclude prototypes from quoted strings by default to kindly ask an inherited
-    # syntax definition to explicitly handle string interpolation.
+    # See HTML (Plain).sublime-syntax for why prototype is excluded
     - meta_include_prototype: false
     - meta_content_scope: meta.toc-list.id.html meta.string.html string.unquoted.html
     - include: tag-attribute-value-unquoted-end

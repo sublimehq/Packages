@@ -302,16 +302,14 @@ contexts:
     - include: else-pop
 
   tag-generic-attribute-value-double-quoted-content:
-    # Exclude prototypes from quoted strings by default to kindly ask an inherited
-    # syntax definition to explicitly handle string interpolation.
+    # See the top of this file for why prototype is excluded
     - meta_include_prototype: false
     - meta_content_scope: meta.string.html string.quoted.double.html
     - include: strings-double-quoted-end
     - include: tag-generic-attribute-value-quoted-content
 
   tag-generic-attribute-value-single-quoted-content:
-    # Exclude prototypes from strings by default to kindly ask an inherited
-    # syntax definition to explicitly handle string interpolation.
+    # See the top of this file for why prototype is excluded
     - meta_include_prototype: false
     - meta_content_scope: meta.string.html string.quoted.single.html
     - include: strings-single-quoted-end
@@ -321,8 +319,7 @@ contexts:
     - include: tag-generic-attribute-value-content
 
   tag-generic-attribute-value-unquoted-content:
-    # Exclude prototypes from strings by default to kindly ask an inherited
-    # syntax definition to explicitly handle string interpolation.
+    # See the top of this file for why prototype is excluded
     - meta_include_prototype: false
     - meta_content_scope: meta.string.html string.unquoted.html
     - include: tag-attribute-value-unquoted-end
@@ -370,8 +367,7 @@ contexts:
       pop: 1
 
   strings-double-quoted-content:
-    # Exclude prototypes from strings by default to kindly ask an inherited
-    # syntax definition to explicitly handle string interpolation.
+    # See the top of this file for why prototype is excluded
     - meta_include_prototype: false
     - meta_content_scope: meta.string.html string.quoted.double.html
     - include: strings-double-quoted-end
@@ -392,8 +388,7 @@ contexts:
       pop: 1
 
   strings-single-quoted-content:
-    # Exclude prototypes from strings by default to kindly ask an inherited
-    # syntax definition to explicitly handle string interpolation.
+    # See the top of this file for why prototype is excluded
     - meta_include_prototype: false
     - meta_content_scope: meta.string.html string.quoted.single.html
     - include: strings-single-quoted-end
