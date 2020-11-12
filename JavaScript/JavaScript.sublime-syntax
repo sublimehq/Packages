@@ -956,7 +956,7 @@ contexts:
 
   arrow-function-expect-arrow-or-fail-async:
     - match: '=>'
-      scope: storage.type.function.arrow.js
+      scope: keyword.declaration.function.arrow.js
       pop: true
     - match: (?=\S)
       fail: async-arrow-function
@@ -1518,7 +1518,7 @@ contexts:
 
   function-declaration-expect-function-keyword:
     - match: function{{identifier_break}}
-      scope: storage.type.function.js
+      scope: keyword.declaration.function.js
       pop: true
     - include: else-pop
 
@@ -1546,7 +1546,7 @@ contexts:
 
   arrow-function-expect-arrow:
     - match: '=>'
-      scope: storage.type.function.arrow.js
+      scope: keyword.declaration.function.arrow.js
       pop: true
     - include: else-pop
 
