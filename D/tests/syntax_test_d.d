@@ -569,7 +569,7 @@ extern(1)
 //            ^ keyword.operator.assignment.d
 //              ^^^^^^ meta.function.d
 //              ^ variable.parameter.d
-//                ^^ storage.type.function.d keyword.declaration.function.lambda.d
+//                ^^ keyword.declaration.function.anonymous.d
 //                   ^ meta.path.d variable.other.d
 //                    ^ punctuation.terminator.d
 
@@ -615,13 +615,13 @@ extern(1)
 
   class Foo;
 //^^^^^^^^^ meta.class.d
-//^^^^^ storage.type.class.d keyword.declaration.class.d
+//^^^^^ keyword.declaration.class.d
 //      ^^^ entity.name.class.d
 //         ^ punctuation.terminator.d
 
   class Bar : Foo, b {
 //^^^^^^^^^^^^^^^^^^^^^ meta.class.d
-//^^^^^ storage.type.class.d keyword.declaration.class.d
+//^^^^^ keyword.declaration.class.d
 //      ^^^ entity.name.class.d
 //          ^ punctuation.separator.mapping.d
 //            ^^^ storage.type.d
@@ -630,7 +630,7 @@ extern(1)
 //                   ^ punctuation.section.block.begin.d
     class b {}
   //^^^^^^^^^^ meta.class.d meta.block.d meta.class.d
-  //^^^^^ storage.type.class.d keyword.declaration.class.d
+  //^^^^^ keyword.declaration.class.d
   //      ^ entity.name.class.d
   //        ^ punctuation.section.block.begin.d
   //         ^ punctuation.section.block.end.d
@@ -638,7 +638,7 @@ extern(1)
 //^ meta.class.d punctuation.section.block.end.d
   class b(T, int s) {
 //^^^^^^^^^^^^^^^^^^^^ meta.class.d
-//^^^^^ storage.type.class.d keyword.declaration.class.d
+//^^^^^ keyword.declaration.class.d
 //      ^ entity.name.class.d
 //       ^ punctuation.section.group.begin.d
 //        ^ variable.parameter.d
@@ -652,12 +652,12 @@ extern(1)
 
   interface S;
 //^^^^^^^^^^^^ meta.interface.d
-//^^^^^^^^^ storage.type.interface.d keyword.declaration.interface.d
+//^^^^^^^^^ keyword.declaration.interface.d
 //          ^ entity.name.interface.d
 //           ^ punctuation.terminator.d
   interface Foo: Bar, Baz {
 //^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.d
-//^^^^^^^^^ storage.type.interface.d keyword.declaration.interface.d
+//^^^^^^^^^ keyword.declaration.interface.d
 //          ^^^ entity.name.interface.d
 //             ^ punctuation.separator.mapping.d
 //               ^^^ storage.type.d
@@ -666,7 +666,7 @@ extern(1)
 //                        ^ punctuation.section.block.begin.d
     interface c{}
   //^^^^^^^^^^^^^ meta.interface.d meta.block.d meta.interface.d
-  //^^^^^^^^^ storage.type.interface.d keyword.declaration.interface.d
+  //^^^^^^^^^ keyword.declaration.interface.d
   //          ^ entity.name.interface.d
   //           ^ punctuation.section.block.begin.d
   //            ^ punctuation.section.block.end.d
@@ -674,7 +674,7 @@ extern(1)
 //^ meta.interface.d meta.block.d punctuation.section.block.end.d
   interface A(T, float f) {
 //^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface.d
-//^^^^^^^^^ storage.type.interface.d keyword.declaration.interface.d
+//^^^^^^^^^ keyword.declaration.interface.d
 //          ^ entity.name.interface.d
 //           ^ punctuation.section.group.begin.d
 //            ^ variable.parameter.d
@@ -688,16 +688,16 @@ extern(1)
 
   struct Foo {
 //^^^^^^^^^^^^^ meta.struct.d
-//^^^^^^ storage.type.struct.d keyword.declaration.struct.d
+//^^^^^^ keyword.declaration.struct.d
 //       ^^^ entity.name.struct.d
 //           ^ punctuation.section.block.begin.d
     struct {
   //^^^^^^^^^ meta.struct.d meta.block.d meta.struct.d
-  //^^^^^^ storage.type.struct.d keyword.declaration.struct.d
+  //^^^^^^ keyword.declaration.struct.d
   //       ^ punctuation.section.block.begin.d
       union {}
     //^^^^^^^^ meta.struct.d meta.block.d meta.struct.d meta.block.d meta.union.d
-    //^^^^^ storage.type.union.d keyword.declaration.union.d
+    //^^^^^ keyword.declaration.union.d
     //      ^ punctuation.section.block.begin.d
     //       ^ punctuation.section.block.end.d
     }
@@ -706,7 +706,7 @@ extern(1)
 //^ meta.struct.d meta.block.d punctuation.section.block.end.d
   struct F(int a, T) {
 //^^^^^^^^^^^^^^^^^^^^^ meta.struct.d
-//^^^^^^ storage.type.struct.d keyword.declaration.struct.d
+//^^^^^^ keyword.declaration.struct.d
 //       ^ entity.name.struct.d
 //        ^ punctuation.section.group.begin.d
 //         ^^^ storage.type.d
@@ -720,13 +720,13 @@ extern(1)
 
   union Foo {}
 //^^^^^^^^^^^^ meta.union.d
-//^^^^^ storage.type.union.d keyword.declaration.union.d
+//^^^^^ keyword.declaration.union.d
 //      ^^^ entity.name.union.d
 //          ^ punctuation.section.block.begin.d
 //           ^ punctuation.section.block.end.d
   union Test(string s, F) {}
 //^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.union.d
-//^^^^^ storage.type.union.d keyword.declaration.union.d
+//^^^^^ keyword.declaration.union.d
 //      ^^^^ entity.name.union.d
 //          ^ punctuation.section.group.begin.d
 //           ^^^^^^ storage.type.d
@@ -739,7 +739,7 @@ extern(1)
 
   enum Foo {
 //^^^^^^^^^^^ meta.enum.d
-//^^^^ storage.type.enum.d keyword.declaration.enum.d
+//^^^^ keyword.declaration.enum.d
 //     ^^^ entity.name.enum.d
 //         ^ punctuation.section.block.begin.d
     foo,
@@ -758,7 +758,7 @@ extern(1)
 //^ meta.enum.d punctuation.section.block.end.d
   enum Foo : int { a = 12 }
 //^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.d
-//^^^^ storage.type.enum.d keyword.declaration.enum.d
+//^^^^ keyword.declaration.enum.d
 //     ^^^ entity.name.enum.d
 //         ^ punctuation.separator.mapping.d
 //           ^^^ storage.type.d
@@ -769,7 +769,7 @@ extern(1)
 //                        ^ punctuation.section.block.end.d
   enum : foo[string] { TEST }
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.d
-//^^^^ storage.type.enum.d keyword.declaration.enum.d
+//^^^^ keyword.declaration.enum.d
 //     ^ punctuation.separator.mapping.d
 //       ^^^ storage.type.d
 //          ^ punctuation.section.brackets.begin.d
@@ -780,7 +780,7 @@ extern(1)
 //                          ^ punctuation.section.block.end.d
   enum { int a = 12,
 //^^^^^^^^^^^^^^^^^^^ meta.enum.d
-//^^^^ storage.type.enum.d keyword.declaration.enum.d
+//^^^^ keyword.declaration.enum.d
 //     ^ punctuation.section.block.begin.d
 //       ^^^ storage.type.d
 //           ^ entity.name.constant.d
@@ -797,14 +797,14 @@ extern(1)
 //^ meta.enum.d punctuation.section.block.end.d
   enum f = 12;
 //^^^^^^^^^^^^ meta.enum.d
-//^^^^ storage.type.enum.d keyword.declaration.enum.d
+//^^^^ keyword.declaration.enum.d
 //     ^ entity.name.enum.d
 //       ^ keyword.operator.assignment.d
 //         ^^ meta.number.integer.decimal.d
 //           ^ punctuation.terminator.d
   enum f(x, int t) = cast(x)t;
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.d
-//^^^^ storage.type.enum.d keyword.declaration.enum.d
+//^^^^ keyword.declaration.enum.d
 //     ^ entity.name.enum.d
 //      ^ punctuation.section.group.begin.d
 //       ^ variable.parameter.d
@@ -821,7 +821,7 @@ extern(1)
 //                           ^ punctuation.terminator.d
   enum bool[] foo = 12;
 //^^^^^^^^^^^^^^^^^^^^^ meta.enum.d
-//^^^^ storage.type.enum.d keyword.declaration.enum.d
+//^^^^ keyword.declaration.enum.d
 //     ^^^^ storage.type.d
 //         ^ punctuation.section.brackets.begin.d
 //          ^ punctuation.section.brackets.end.d
@@ -831,7 +831,7 @@ extern(1)
 //                    ^ punctuation.terminator.d
   enum fool
 //^^^^^^^^^^ meta.enum.d
-//^^^^ storage.type.enum.d keyword.declaration.enum.d
+//^^^^ keyword.declaration.enum.d
 //     ^^^^ entity.name.enum.d
   {
 //^ meta.enum.d punctuation.section.block.begin.d
@@ -839,7 +839,7 @@ extern(1)
 //^ meta.enum.d punctuation.section.block.end.d
   enum uint a = 1, b = 2, exponentBits = 3;
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.d
-//^^^^ storage.type.enum.d keyword.declaration.enum.d
+//^^^^ keyword.declaration.enum.d
 //     ^^^^ storage.type.d
 //          ^ entity.name.enum.d
 //            ^ keyword.operator.assignment.d
@@ -855,7 +855,7 @@ extern(1)
 //                                        ^ punctuation.terminator.d
   enum immutable(Char)[] seqBefore = "[";
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.d
-//^^^^ storage.type.enum.d keyword.declaration.enum.d
+//^^^^ keyword.declaration.enum.d
 //     ^^^^^^^^^ storage.modifier.d
 //              ^ punctuation.section.group.begin.d
 //               ^^^^ storage.type.d
@@ -868,14 +868,14 @@ extern(1)
 //                                      ^ punctuation.terminator.d
   enum foo : int;
 //^^^^^^^^^^^^^^^ meta.enum.d
-//^^^^ storage.type.enum.d keyword.declaration.enum.d
+//^^^^ keyword.declaration.enum.d
 //     ^^^ entity.name.enum.d
 //         ^ punctuation.separator.mapping.d
 //           ^^^ meta.path.d storage.type.d
 //              ^ punctuation.terminator.d
   enum ulong
 //^^^^^^^^^^^ meta.enum.d
-//^^^^ storage.type.enum.d keyword.declaration.enum.d
+//^^^^ keyword.declaration.enum.d
 //     ^^^^^ storage.type.d
     a = 1 << 2,
   //^^^^^^^^^^^^ meta.enum.d
@@ -895,7 +895,7 @@ extern(1)
   //          ^ punctuation.terminator.d
   enum foo
 //^^^^^^^^^ meta.enum.d
-//^^^^ storage.type.enum.d keyword.declaration.enum.d
+//^^^^ keyword.declaration.enum.d
 //     ^^^ entity.name.enum.d
     bar = 2;
   //^^^^^^^^ meta.enum.d
@@ -905,7 +905,7 @@ extern(1)
   //       ^ punctuation.terminator.d
   enum Attr;
 //^^^^^^^^^^ meta.enum.d
-//^^^^ storage.type.enum.d keyword.declaration.enum.d
+//^^^^ keyword.declaration.enum.d
 
   version(unittest) {}
 //^^^^^^^ keyword.control.conditional.d
@@ -1561,7 +1561,7 @@ extern(1)
 //^ punctuation.section.block.end.d
 
   template foo(T, A) {
-//^^^^^^^^ storage.type.d keyword.declaration.template.d
+//^^^^^^^^ keyword.declaration.template.d
 //         ^^^ entity.name.template.d
 //            ^ punctuation.section.group.begin.d
 //             ^ variable.parameter.d
@@ -1570,7 +1570,7 @@ extern(1)
 //                 ^ punctuation.section.group.end.d
 //                   ^ punctuation.section.block.begin.d
     template a(size_t f) {
-  //^^^^^^^^ storage.type.d keyword.declaration.template.d
+  //^^^^^^^^ keyword.declaration.template.d
   //         ^ entity.name.template.d
   //          ^ punctuation.section.group.begin.d
   //           ^^^^^^ storage.type.d
@@ -1582,7 +1582,7 @@ extern(1)
   }
 //^ punctuation.section.block.end.d
   template foo(T) if (is(T : class)) {}
-//^^^^^^^^ storage.type.d keyword.declaration.template.d
+//^^^^^^^^ keyword.declaration.template.d
 //         ^^^ entity.name.template.d
 //            ^ punctuation.section.group.begin.d
 //             ^ variable.parameter.d
@@ -1593,7 +1593,7 @@ extern(1)
 //                      ^ punctuation.section.parens.begin.d
 //                       ^ storage.type.d
 //                         ^ keyword.operator.comparison.d
-//                           ^^^^^ storage.type.d
+//                           ^^^^^ keyword.declaration.d
 //                                ^ punctuation.section.parens.end.d
 //                                 ^ punctuation.section.parens.end.d
 //                                   ^ punctuation.section.block.begin.d
@@ -1618,7 +1618,7 @@ extern(1)
 
   mixin template f(int a) {
 //^^^^^ keyword.control.d
-//      ^^^^^^^^ storage.type.d keyword.declaration.template.d
+//      ^^^^^^^^ keyword.declaration.template.d
 //               ^ entity.name.template.d
 //                ^ punctuation.section.group.begin.d
 //                 ^^^ storage.type.d
@@ -2025,7 +2025,7 @@ extern(1)
 //       ^ keyword.operator.assignment.d
 //         ^^^ keyword.operator.word.d
 //             ^^^^^^^^^^^^^^^^^^^^ meta.class.d
-//             ^^^^^ storage.type.class.d keyword.declaration.class.d
+//             ^^^^^ keyword.declaration.class.d
 //                   ^ punctuation.section.parens.begin.d
 //                    ^^ meta.number.integer.decimal.d
 //                      ^ punctuation.section.parens.end.d
@@ -2214,7 +2214,7 @@ extern(1)
 //   ^^^ storage.type.d
 //       ^ variable.parameter.d
 //         ^^ keyword.operator.comparison.d
-//            ^^^^^ storage.type.d
+//            ^^^^^ keyword.declaration.d
 //                 ^ punctuation.separator.sequence.d
 //                   ^ variable.parameter.d
 //                    ^ punctuation.separator.sequence.d
@@ -2276,7 +2276,7 @@ extern(1)
 //  ^ punctuation.section.parens.begin.d
 //   ^^^ meta.path.d storage.type.d
 //       ^ keyword.operator.comparison.d
-//         ^^^^^ storage.type.d keyword.declaration.d
+//         ^^^^^ keyword.declaration.d
 //              ^ punctuation.section.parens.end.d
 //               ^ punctuation.terminator.d
 
@@ -2308,14 +2308,14 @@ extern(1)
 // ^ punctuation.section.parens.end.d
 //   ^^^^^^^^^^^^^ meta.function.d
 //   ^^^^^^^^ storage.modifier.d
-//            ^^ storage.type.function.d keyword.declaration.function.lambda.d
+//            ^^ keyword.declaration.function.anonymous.d
 //               ^ meta.number.integer.decimal.d
 //                ^ punctuation.terminator.d
   (a => 2);
 //^ punctuation.section.group.begin.d
 // ^^^^^^ meta.function.d
 // ^ variable.parameter.d
-//   ^^ storage.type.function.d keyword.declaration.function.lambda.d
+//   ^^ keyword.declaration.function.anonymous.d
 //      ^ meta.number.integer.decimal.d
 //       ^ punctuation.section.group.end.d
 //        ^ punctuation.terminator.d
@@ -2325,7 +2325,7 @@ extern(1)
 //    ^ punctuation.section.group.end.d
 //      ^^^^^^^^^^^^^^^^^^ meta.function.d
 //      ^^^^^^^^ storage.modifier.d
-//               ^^ storage.type.function.d keyword.declaration.function.lambda.d
+//               ^^ keyword.declaration.function.anonymous.d
 //                  ^^^^^^ meta.function-call.d
 //                  ^^^ variable.function.d
 //                     ^ punctuation.section.parens.begin.d
@@ -2815,7 +2815,7 @@ extern(1)
 //                               ^^^^^ variable.parameter.d
 //                                    ^ punctuation.section.group.end.d
 //                                      ^^^^^^^^^^ meta.function.d
-//                                      ^^ storage.type.function.d keyword.declaration.function.lambda.d
+//                                      ^^ keyword.declaration.function.anonymous.d
 //                                         ^^^^^^^ meta.path.d
 //                                         ^^^^^ variable.other.d
 //                                              ^ punctuation.accessor.dot.d
