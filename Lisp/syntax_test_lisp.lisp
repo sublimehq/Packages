@@ -209,7 +209,7 @@
 ;############
 
 (defun averagenum (n1 n2 n3 n4)
-;^ storage.type.function-type
+;^ keyword.declaration.function
 ;      ^ entity.name.function
    (/ ( + n1 n2 n3 n4) 4)
 ;   ^ keyword.operator
@@ -218,11 +218,11 @@
 )
 
 (defun what? (n1 n2 n3 n4)
-;^ storage.type.function-type
+;^ keyword.declaration.function
 ;      ^^^^^ entity.name.function
 )
 
 (defun is>?! (n1 n2 n3 n4)
-;^ storage.type.function-type
+;^ keyword.declaration.function
 ;      ^^^^^ entity.name.function
 )
