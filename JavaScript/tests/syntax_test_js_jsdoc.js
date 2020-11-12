@@ -2,22 +2,22 @@
 
     /**@a*/
 //  ^^^ punctuation.definition.comment.begin
-//     ^^ meta.tag.jsdoc
-//       ^^ punctuation.definition.comment.end - meta.tag.jsdoc
+//     ^^ entity.other.attribute-name.documentation
+//       ^^ punctuation.definition.comment.end - entity.other.attribute-name.documentation
 //  ^^^^^^^ comment.block.documentation.js
 
 /** @a b */
-//  ^^ meta.tag.jsdoc
-//     ^ - meta.tag.jsdoc
+//  ^^ entity.other.attribute-name.documentation
+//     ^ - entity.other.attribute-name.documentation
 //       ^^ punctuation.definition.comment.end
 
 /** @a@b */
-//  ^^ meta.tag.jsdoc
-//    ^^ - meta.tag.jsdoc
+//  ^^ entity.other.attribute-name.documentation
+//    ^^ - entity.other.attribute-name.documentation
 
 /**
  * @a b
-// ^^ meta.tag.jsdoc
+// ^^ entity.other.attribute-name.documentation
 //    ^ comment.block.documentation
 */
 // <- punctuation.definition.comment.end
@@ -25,8 +25,8 @@
 /**
  * First line
  * @a @b c */
-// ^^ meta.tag.jsdoc
-//    ^^ - meta.tag.jsdoc
+// ^^ entity.other.attribute-name.documentation
+//    ^^ - entity.other.attribute-name.documentation
 //    ^^^^ comment.block.documentation
 //    ^^^^ - comment.block.documentation comment.block.documentation
 //         ^^ comment.block.documentation punctuation.definition.comment.end
@@ -34,9 +34,9 @@
 /**
 
   @a */
-//^^ - meta.tag.jsdoc
+//^^ - entity.other.attribute-name.documentation
 //   ^^ punctuation.definition.comment.end
 
 /*@a */
-//^^ - meta.tag.jsdoc
+//^^ - entity.other.attribute-name.documentation
 //   ^^ punctuation.definition.comment.end

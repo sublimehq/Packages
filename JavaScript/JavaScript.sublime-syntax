@@ -148,7 +148,7 @@ contexts:
 
   jsdoc-block-tag:
     - match: '{{jsdoc_block_tag}}'
-      scope: meta.tag.jsdoc entity.other.attribute-name.documentation.jsdoc
+      scope: entity.other.attribute-name.documentation.js
       pop: 1
     - match: (?=\S)|$
       pop: 1
