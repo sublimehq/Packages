@@ -1499,6 +1499,9 @@ if (include('vars.php') == TRUE) {
 //                             ^ - meta.include.php
 }
 
+$
+# <- punctuation.definition.variable
+
 $a += .5;
 // ^^ keyword.operator.assignment.augmented.php
 //    ^^ constant.numeric
