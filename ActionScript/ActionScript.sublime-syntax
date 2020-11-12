@@ -87,5 +87,5 @@ contexts:
       captures:
         1: keyword.declaration.class.actionscript.2
         2: entity.name.type.class.actionscript.2
-        3: keyword.declaration.extends.actionscript.2
+        3: storage.modifier.extends.actionscript.2
         4: entity.other.inherited-class.actionscript.2
