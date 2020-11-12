@@ -71,7 +71,7 @@ contexts:
         1: punctuation.definition.preprocessor.actionscript.2
     - match: '\b(function)\s+([a-zA-Z_]\w*)\s*(\()'
       captures:
-        1: storage.type.function.actionscript.2
+        1: keyword.declaration.function.actionscript.2
         2: entity.name.function.actionscript.2
         3: punctuation.definition.parameters.begin.actionscript.2
       push:
@@ -85,7 +85,7 @@ contexts:
     - match: '\b(class)\s+([a-zA-Z_](?:\w|\.)*)(?:\s+(extends)\s+([a-zA-Z_](?:\w|\.)*))?'
       scope: meta.class.actionscript.2
       captures:
-        1: storage.type.class.actionscript.2
+        1: keyword.declaration.class.actionscript.2
         2: entity.name.type.class.actionscript.2
-        3: storage.modifier.extends.actionscript.2
+        3: keyword.declaration.extends.actionscript.2
         4: entity.other.inherited-class.actionscript.2
