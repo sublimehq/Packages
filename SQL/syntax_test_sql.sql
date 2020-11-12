@@ -49,9 +49,11 @@ create table IF NOT EXISTS `testing123` (
     `lastchanged` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 --                ^^^^^^^^^ storage.type.sql
 --                                           ^^^^^^^^^^^^^^^^^ support.function.scalar.sql
+--                                                             ^^^^^^^^^ storage.modifier.sql
     `col` bool DEFAULT FALSE,
 --        ^^^^ storage.type.sql
 --             ^^^^^^^ storage.modifier.sql
+--                     ^^^^^ constant.boolean.sql
     `fkey` INT UNSIGNED NULL REFERENCES test2(id),
 --                           ^^^^^^^^^^ storage.modifier.sql
     `version` tinytext DEFAULT NULL COMMENT 'important clarification',
@@ -71,13 +73,14 @@ create table fancy_table (
 --             ^^^^^^^ storage.type.sql
     myflag boolean DEFAULT false,
 --         ^^^^^^^ storage.type.sql
-    mycount double precision DEFAULT 1,
---          ^^^^^^^^^^^^^^^^ storage.type.sql
-    fancy_column character varying(42) DEFAULT 'nice'::character varying,
---               ^^^^^^^^^^^^^^^^^ storage.type.sql
+    mycount double  precision DEFAULT 1,
+--          ^^^^^^^^^^^^^^^^^ storage.type.sql
+    fancy_column character  varying(42) DEFAULT 'nice'::character varying,
+--               ^^^^^^^^^^^^^^^^^^ storage.type.sql
     mytime timestamp(3) without time zone DEFAULT now(),
 --                      ^^^^^^^^^^^^^^^^^ storage.type.sql
     mytime2 timestamp(3) without  time  zone DEFAULT '2008-01-18 00:00:00'::timestamp(3) without time zone,
+--                       ^^^^^^^^^^^^^^^^^^^ storage.type.sql
     primary key (id),
 --  ^^^^^^^^^^^ storage.modifier.sql
     UNIQUE (foreign_id),
@@ -107,6 +110,8 @@ create fulltext index if not exists `myindex` ON mytable;
 --     ^^^^^^^^^^^^^^ keyword.other.sql
 
 ALTER TABLE dbo.testing123 ADD COLUMN mycolumn longtext;
+--                         ^^^ keyword.other.add.sql
+--                             ^^^^^^ keyword.other.sql
 --                                             ^^^^^^^^ storage.type.sql
 
 ALTER TABLE testing123 CHANGE COLUMN mycolumn mycolumn ENUM('foo', 'bar');

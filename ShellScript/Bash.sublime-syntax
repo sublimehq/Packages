@@ -1518,8 +1518,10 @@ contexts:
     - include: expansions-tilde
 
   expansions-arithmetic:
-    - match: \$\(\((?=.+\)\))
-      scope: punctuation.section.interpolation.begin.shell
+    - match: (\$)(\(\((?=.+\)\)))
+      captures:
+        1: punctuation.definition.variable.shell
+        2: punctuation.section.interpolation.begin.shell
       push:
         - meta_scope: meta.interpolation.arithmetic.shell
         - match: \)\)
@@ -1540,8 +1542,10 @@ contexts:
         - include: expansions-and-strings
 
   expansions-command:
-    - match: \$\(
-      scope: punctuation.section.interpolation.begin.shell
+    - match: (\$)(\()
+      captures:
+        1: punctuation.definition.variable.shell
+        2: punctuation.section.interpolation.begin.shell
       push:
         - meta_scope: meta.interpolation.command.shell
         - match: \s*(\))
@@ -1588,8 +1592,10 @@ contexts:
         2: keyword.operator.match.shell
 
   expansions-parameter:
-    - match: \$\{
-      scope: punctuation.section.interpolation.begin.shell
+    - match: (\$)(\{)
+      captures:
+        1: punctuation.definition.variable.shell
+        2: punctuation.section.interpolation.begin.shell
       push:
         - expansions-parameter-meta
         - expansions-parameter-chars

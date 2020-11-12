@@ -1499,6 +1499,9 @@ if (include('vars.php') == TRUE) {
 //                             ^ - meta.include.php
 }
 
+$
+# <- punctuation.definition.variable
+
 $a += .5;
 // ^^ keyword.operator.assignment.augmented.php
 //    ^^ constant.numeric
@@ -1769,7 +1772,7 @@ echo <<<CSS
 h2 {font-family: 'Arial';}
 //^^^^^^^^^^^^^^^^^^^^^^^^ meta.embedded.css source.css
 // <- entity.name.tag
-// ^ punctuation.section.property-list
+// ^ punctuation.section.block
 //               ^^^^^^^ string.quoted.single
 h3 {font-size: "$h3_size";}
 //              ^^^^^^^^ variable.other.php
