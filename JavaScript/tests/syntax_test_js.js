@@ -1223,6 +1223,7 @@ class{}/**/
 
     () => {}
 //  ^^^^^^^^ meta.function - meta.function meta.function
+//  ^^ meta.function.parameters
 //  ^ punctuation.section.group.begin
 //   ^ punctuation.section.group.end
 //     ^^ keyword.declaration.function.arrow
@@ -1257,7 +1258,7 @@ class{}/**/
 //         ^ meta.block punctuation.section.block.end
 
     (foo, bar = 42)
-//  ^^^^^^^^^^^^^^^ meta.function
+//  ^^^^^^^^^^^^^^^ meta.function.parameters
 //   ^^^ meta.binding.name
 //        ^^^ meta.binding.name
     => 42;
@@ -1265,7 +1266,7 @@ class{}/**/
 //  ^^ keyword.declaration.function.arrow
 
     foo
-//  ^^^ meta.function variable.parameter.function
+//  ^^^ meta.function.parameters variable.parameter.function
     => 42;
 //  ^^^^^ meta.function
 //  ^^ keyword.declaration.function.arrow
@@ -1273,20 +1274,21 @@ class{}/**/
     async x => y;
 //  ^^^^^^^^^^^^ meta.function
 //  ^^^^^ storage.type
-//        ^ variable.parameter.function
+//        ^ meta.function.parameters variable.parameter.function
 //          ^^ keyword.declaration.function.arrow
 //             ^ variable.other.readwrite
 
     async (x) => y;
 //  ^^^^^^^^^^^^^^ meta.function
 //  ^^^^^ storage.type
+//        ^^^ meta.function.parameters
 //         ^ variable.parameter.function
 //            ^^ keyword.declaration.function.arrow
 //               ^ variable.other.readwrite
 
     async => {};
 //  ^^^^^^^^^^^ meta.function
-//  ^^^^^ variable.parameter.function
+//  ^^^^^ meta.function.parameters variable.parameter.function
 //        ^^ keyword.declaration.function.arrow
 
     async;
@@ -1298,19 +1300,20 @@ class{}/**/
 const test = ({a, b, c=()=>({active:false}) }) => {};
 //    ^ entity.name.function
 //           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
+//           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 //            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.binding.destructuring
 //            ^ punctuation.section.block.begin
 //             ^ variable.parameter
 //                ^ variable.parameter
 //                   ^ variable.parameter
 //                     ^^^^ meta.function meta.function
+//                     ^^ meta.function meta.function.parameters
 //                     ^ punctuation.section.group.begin
 //                      ^ punctuation.section.group.end
 //                         ^^^^^^^^^^^^^^^^ meta.group
 //                                   ^ constant.language
 //                                          ^ punctuation.section.block.end
 
-// We can't currently detect this properly, but we need to consume => properly
 ([a,
   b]) => { return x; }
 //    ^^^^^^^^^^^^^^^^ meta.function
@@ -1881,6 +1884,7 @@ var str = `Hello, ${name}!`;
 function yy (a, b) {
 // ^^^^^^^^^^^^^^^^^ meta.function
 //       ^^ entity.name.function
+//          ^^^^^^ meta.function.parameters
 //          ^ punctuation.section.group.begin
 //           ^ variable.parameter.function
 //            ^ punctuation.separator.parameter.function
