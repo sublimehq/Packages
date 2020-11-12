@@ -111,6 +111,9 @@ def get_properties():
             'teal', 'thistle', 'tomato', 'turquoise', 'violet', 'wheat', 'white',
             'whitesmoke', 'yellow', 'yellowgreen'
         ],
+        'counter_symbols': [
+            'cyclic', 'numeric', 'alphabetic', 'symbolic', 'additive', 'fixed'
+        ],
         'font_variant_alternates': [
             'normal', 'historical-forms',
             ['stylistic()', 'stylistic($1)'],
@@ -393,14 +396,14 @@ def get_properties():
         ],
         'ime-mode': ['auto', 'normal', 'active', 'inactive', 'disabled'],
         'isolation': ['auto', 'isolation'],
-        'justify-content': [
+        'justify-content | justify-items | justify-self': [
             'start', 'end', 'flex-start', 'flex-end', 'center', 'left', 'right',
             'safe start', 'safe end', 'safe flex-start', 'safe flex-end',
             'safe center', 'safe left', 'safe right', 'unsafe start',
             'unsafe end', 'unsafe flex-start', 'unsafe flex-end', 'unsafe center',
             'unsafe left', 'unsafe right', 'normal', 'baseline', 'first baseline',
             'last baseline', 'space-between', 'space-around', 'space-evenly',
-            'stretch'
+            'stretch', 'legacy', 'lecacy center', 'legacy left', 'legacy right'
         ],
         'kerning': ['auto'],
         'left': ['<length>', '<percentage>', 'auto'],
@@ -469,14 +472,15 @@ def get_properties():
             'auto', 'optimizeSpeed', 'crispEdges', 'geometricPrecision'
         ],
         'size': [
-            'a3', 'a4', 'a5', 'b4', 'b5', 'landscape', 'ledger', 'legal',
-            'letter', 'portrait'
+            'a3', 'a4', 'a5', 'b4', 'b5', 'jis-b4', 'jis-b5', 'landscape',
+            'ledger', 'legal', 'letter', 'portrait'
         ],
         'stop-color': ['<color>'],
         'stroke': ['<color>'],
         'stroke-dasharray': ['none'],
         'stroke-linecap': ['butt', 'round', 'square'],
         'stroke-linejoin': ['round', 'miter', 'bevel'],
+        'system': ['<counter_symbols>'],
         'table-layout': ['auto', 'fixed'],
         'text-align': ['left', 'right', 'center', 'justify', 'justify-all'],
         'text-align-last': ['start', 'end', 'left', 'right', 'center', 'justify'],
@@ -625,15 +629,22 @@ class CSSCompletions(sublime_plugin.EventListener):
             items = self.complete_function_argument(view, prefix, pt)
         elif match_selector(view, pt, "meta.property-value.css"):
             items = self.complete_property_value(view, prefix, pt)
-        else:
+        elif match_selector(view, pt, "meta.property-list.css, meta.property-name.css"):
             items = self.complete_property_name(view, prefix, pt)
+        else:
+            # TODO: provide selectors, at-rules
+            items = None
 
         if items:
             return sublime.CompletionList(items, sublime.INHIBIT_WORD_COMPLETIONS)
         return None
 
     def complete_property_name(self, view, prefix, pt):
-        suffix = ": $0;"
+        if match_selector(view, pt, "meta.group"):
+            # don't append semicolon in groups e.g.: `@media screen (prop: |)`
+            suffix = ": $0"
+        else:
+            suffix = ": $0;"
         text = view.substr(sublime.Region(pt, view.line(pt).end()))
         matches = self.re_value.search(text)
         if matches:
@@ -667,7 +678,10 @@ class CSSCompletions(sublime_plugin.EventListener):
             if values:
                 details = f"<code>{prop}</code> property-value"
 
-                if next_none_whitespace(view, pt) == ";":
+                if match_selector(view, pt, "meta.group"):
+                    # don't append semicolon in groups e.g.: `@media screen (prop: val)`
+                    suffix = ""
+                elif next_none_whitespace(view, pt) == ";":
                     suffix = ""
                 else:
                     suffix = "$0;"
