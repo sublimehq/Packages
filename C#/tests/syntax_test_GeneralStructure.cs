@@ -71,7 +71,7 @@ namespace YourNamespace
 ///                         ^^^^ support.type
 ///                              ^^^^^ variable.parameter
 ///                                   ^ punctuation.section.parameters.end
-///                                     ^^ storage.type.function
+///                                     ^^ keyword.declaration.function.anonymous.cs
 ///                                        ^^^^ variable.language
 ///                                             ^^ keyword.operator.reflection
 ///                                                ^^^^^ support.type
@@ -120,7 +120,7 @@ namespace YourNamespace
 ///                     ^^^^^^^^^^^^^^^^^^^^ meta.method
 ///                     ^^^^^^^^^ entity.name.function
 ///                              ^^ meta.method.parameters
-///                                 ^^ storage.type.function
+///                                 ^^ keyword.declaration.function.anonymous.cs
 ///                                    ^^^^^ constant.language
     }
 

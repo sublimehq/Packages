@@ -764,7 +764,7 @@ public class MyClass {
     public MyClass () => obj = null;
 ///        ^^^^^^^ meta.method.constructor entity.name.function.constructor
 ///               ^^^^^^^^^^^^^^^^^ meta.class.body meta.block meta.method
-///                   ^^ storage.type.function
+///                   ^^ keyword.declaration.function.anonymous.cs
 ///                      ^^^ variable.other
 ///                          ^ keyword.operator.assignment
 ///                            ^^^^ constant.language
@@ -789,7 +789,7 @@ public class Person // https://stackoverflow.com/a/41974829/4473405
 ///                                ^^^ variable.parameter
 ///                                   ^ punctuation.section.parameters.end
 ///                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
-///                                     ^^ storage.type.function
+///                                     ^^ keyword.declaration.function.anonymous.cs
 ///                                        ^ meta.group punctuation.section.group.begin
 ///                                         ^^^^ meta.group variable.other
 ///                                             ^ meta.group punctuation.separator.tuple

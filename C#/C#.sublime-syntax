@@ -729,7 +729,7 @@ contexts:
       scope: storage.modifier.other.cs
       push: type_constraint
     - match: (=>)
-      scope: storage.type.function.cs
+      scope: keyword.declaration.function.anonymous.cs
       set:
         - meta_content_scope: meta.method.cs
         - include: line_of_code_in
@@ -780,7 +780,7 @@ contexts:
           scope: storage.modifier.access.cs
         - include: attribute
     - match: '=>'
-      scope: storage.type.function.cs
+      scope: keyword.declaration.function.anonymous.cs
       set:
         - meta_content_scope: meta.method.cs
         - include: line_of_code_in
