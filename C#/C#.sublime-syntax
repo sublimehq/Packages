@@ -56,7 +56,7 @@ contexts:
   comments:
     - match: '^\s*(///)'
       captures:
-        1: comment.block.documentation.cs punctuation.definition.comment.documentation.cs
+        1: comment.line.documentation.cs punctuation.definition.comment.documentation.cs
       push: documentation
     - match: '//'
       scope: punctuation.definition.comment.cs
@@ -2182,7 +2182,7 @@ contexts:
 
   documentation:
     - meta_include_prototype: false
-    - meta_content_scope: comment.block.documentation.cs
+    - meta_content_scope: comment.line.documentation.cs
     - match: '(<)({{name}})'
       captures:
         1: punctuation.definition.tag.begin.cs
