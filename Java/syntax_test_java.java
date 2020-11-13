@@ -1215,7 +1215,7 @@ public enum TokenKind<T> extends MyEnum, FooBaz<? super T<TT>> implements Foo, B
 //     ^^^^
 //          ^^^^^^^^^ entity.name.enum.java
 //                   ^^^ invalid.illegal.unexpected-type-parameters.java
-//                       ^^^^^^^ invalid.illegal.unexpected-extends.java
+//                       ^^^^^^^ invalid.illegal.unexpected-keyword.java
 //                               ^^^^^^ entity.other.inherited-class.java
 //                                     ^ punctuation.separator.comma.java
 //                                       ^^^^^^ entity.other.inherited-class.java
@@ -1462,7 +1462,7 @@ enum            // comment
 TokenKind       // comment
 //<- meta.enum.identifier.java entity.name.enum.java
 extends         // comment
-//<- meta.enum.extends.java invalid.illegal.unexpected-extends.java
+//<- meta.enum.extends.java invalid.illegal.unexpected-keyword.java
 MyEnum,         // comment
 //<- meta.enum.extends.java entity.other.inherited-class.java
 FooBaz          // comment
@@ -1574,7 +1574,7 @@ MyEnum,         // comment
 FooBaz          // comment
 //<- meta.interface.extends.java entity.other.inherited-class.java
 implements      // comment
-//<- meta.interface.implements.java invalid.illegal.unexpected-implements.java
+//<- meta.interface.implements.java invalid.illegal.unexpected-keyword.java
 Foo,            // comment
 //<- meta.interface.implements.java entity.other.inherited-class.java
 Bar             // comment

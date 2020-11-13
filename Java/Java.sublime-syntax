@@ -635,7 +635,7 @@ contexts:
 
   enum-extends:
     - match: extends{{break}}
-      scope: invalid.illegal.unexpected-extends.java
+      scope: invalid.illegal.unexpected-keyword.java
       push:
         - enum-extends-object-type-list
         - inherited-object-type
@@ -734,7 +734,7 @@ contexts:
         - interface-extends-object-type-list
         - inherited-object-type
     - match: implements{{break}}
-      scope: invalid.illegal.unexpected-implements.java
+      scope: invalid.illegal.unexpected-keyword.java
       push:
         - interface-implements-object-type-list
         - inherited-object-type
