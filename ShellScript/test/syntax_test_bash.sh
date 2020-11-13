@@ -865,6 +865,46 @@ coproc foobar {
 # 3.3 Shell Functions                                              #
 ####################################################################
 
+   ()
+#^^ - meta.function
+#  ^ meta.function.parameters.shell
+#   ^ meta.function.parameters.shell
+#    ^ meta.function.shell
+
+   ()
+   {}
+# ^ meta.function.shell - meta.compound
+#  ^^ meta.function.shell meta.compound.shell
+#    ^ - meta.function
+#  ^ punctuation.section.compound.begin.shell
+#   ^ punctuation.section.compound.end.shell
+
+   () \
+   {}
+# ^ meta.function.shell - meta.compound
+#  ^^ meta.function.shell meta.compound.shell
+#    ^ - meta.function
+#  ^ punctuation.section.compound.begin.shell
+#   ^ punctuation.section.compound.end.shell
+
+   () { [[ $# == 2 ]] && tput setaf $2 || tput setaf 3; echo -e "$1"; tput setaf 15; }
+#^^ - meta.function
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+#  ^ meta.function.parameters.shell
+#   ^ meta.function.parameters.shell
+#    ^ meta.function.shell - meta.function.identifier - meta.compound
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.shell meta.compound.shell
+#  ^ punctuation.section.parameters.begin.shell
+#   ^ punctuation.section.parameters.end.shell
+#    ^ - punctuation
+#     ^ punctuation.section.compound.begin.shell
+#       ^^ support.function.double-brace.begin
+#          ^ punctuation.definition.variable
+#           ^ variable.language
+#             ^^ keyword.operator.comparison
+#                  ^^ support.function.double-brace.end
+#                     ^^ keyword.operator.logical
+
    logC () { [[ $# == 2 ]] && tput setaf $2 || tput setaf 3; echo -e "$1"; tput setaf 15; }
 #^^ - meta.function
 #  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
