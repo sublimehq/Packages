@@ -1109,6 +1109,13 @@ contexts:
     - include: first-value-parens-after
 
   value:
+    - match: '\b({{name}})\s*(:)'
+      captures:
+        1: variable.other.d
+        2: punctuation.separator.mapping.key-value.d
+      set: value
+    - include: value-no-mapping-key
+  value-no-mapping-key:
     - include: attribute-in
     - match: '!'
       scope: keyword.operator.logical.d
@@ -1236,11 +1243,6 @@ contexts:
     - match: \.
       scope: meta.path.d punctuation.accessor.dot.d
       set: [value-after, value-identifier]
-    - match: '\b({{name}})\s*(:)'
-      captures:
-        1: variable.other.d
-        2: punctuation.separator.mapping.key-value.d
-      set: value
     - match: '{{name_lookahead}}'
       set: [value-after, value-identifier]
     - include: not-whitespace-illegal-pop
@@ -1432,7 +1434,7 @@ contexts:
       set: value-maybe-pointer-after
     - match: '\?'
       scope: keyword.operator.ternary.d
-      set: [value-condition-after, value]
+      set: [value-condition-after, value-condition]
     - match: '(?=\b(function|delegate)\b)'
       set: [value-after, basic-type2]
     - match: '(?=\S)'
@@ -1464,6 +1466,10 @@ contexts:
       set: basic-type2
     - match: '(?=\S)'
       set: value
+  value-condition:
+    - match: (?=:)
+      pop: 1
+    - include: value-no-mapping-key
   value-condition-after:
     - match: ':'
       scope: keyword.operator.ternary.d

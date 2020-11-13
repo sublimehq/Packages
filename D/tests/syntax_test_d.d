@@ -2118,6 +2118,28 @@ extern(1)
 //                    ^^ meta.number.integer.decimal.d
 //                      ^ punctuation.terminator.d
 
+  int a = b ? c : d;
+//^^^ storage.type.d
+//    ^ variable.other.d
+//      ^ keyword.operator.assignment.d
+//        ^ meta.path.d variable.other.d
+//          ^ keyword.operator.ternary.d
+//            ^ meta.path.d variable.other.d
+//              ^ keyword.operator.ternary.d
+//                ^ meta.path.d variable.other.d
+//                 ^ punctuation.terminator.d
+
+  int a=b?c:d;
+//^^^ storage.type.d
+//    ^ variable.other.d
+//     ^ keyword.operator.assignment.d
+//      ^ meta.path.d variable.other.d
+//       ^ keyword.operator.ternary.d
+//        ^ meta.path.d variable.other.d
+//         ^ keyword.operator.ternary.d
+//          ^ meta.path.d variable.other.d
+//           ^ punctuation.terminator.d
+
   foreach (ref a; foo) {}
 //^^^^^^^ keyword.control.loop.d
 //        ^ punctuation.section.parens.begin.d
