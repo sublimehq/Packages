@@ -2224,6 +2224,30 @@ extern(1)
   //           ^^^^ keyword.control.flow.d
   //                ^ meta.number.integer.decimal.d
   //                 ^ punctuation.separator.case-statement.d
+    case NO_KEY:
+  //^^^^ keyword.control.flow.d
+  //     ^^^^^^ meta.path.d variable.other.d
+  //           ^ punctuation.separator.case-statement.d
+      if (foo) {
+  //  ^^ keyword.control.conditional.d
+      }
+      break;
+  //  ^^^^^ keyword.control.flow.d
+  //       ^ punctuation.terminator.d
+    case no_key: .. case NO_KEY:
+  //^^^^ keyword.control.flow.d
+  //     ^^^^^^ meta.path.d variable.other.d
+  //           ^ punctuation.separator.case-statement.d
+  //             ^^ keyword.operator.d
+  //                ^^^^ keyword.control.flow.d
+  //                     ^^^^^^ meta.path.d variable.other.d
+  //                           ^ punctuation.separator.case-statement.d
+      if (foo) {
+  //  ^^ keyword.control.conditional.d
+      }
+      break;
+  //  ^^^^^ keyword.control.flow.d
+  //       ^ punctuation.terminator.d
     default:
   //^^^^^^^ keyword.control.flow.d
   //       ^ punctuation.separator.case-statement.d

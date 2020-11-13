@@ -1494,6 +1494,11 @@ contexts:
       pop: true
     - match: '(?=\S)'
       set: [value-list-after, value]
+  value-list-no-mapping-key:
+    - match: '(?=\)|}|]|;|:)'
+      pop: true
+    - match: '(?=\S)'
+      set: [value-list-after, value-no-mapping-key]
   value-list-after:
     - match: '(?=\)|}|]|;|:)'
       pop: true
@@ -2086,9 +2091,10 @@ contexts:
         - match: '\('
           scope: punctuation.section.parens.begin.d
           set: [switch-after, value]
+        - include: not-whitespace-illegal-pop
     - match: '\bcase\b'
       scope: keyword.control.flow.d
-      push: [case-after, value-list]
+      push: [case-after, value-list-no-mapping-key]
     - match: '\bdefault\b'
       scope: keyword.control.flow.d
       push:
@@ -2110,7 +2116,7 @@ contexts:
           set:
             - match: '\bcase\b'
               scope: keyword.control.flow.d
-              set: [case-after, value]
+              set: [case-after, value-no-mapping-key]
             - include: not-whitespace-illegal-pop
         - match: '(?=\S)'
           pop: true
