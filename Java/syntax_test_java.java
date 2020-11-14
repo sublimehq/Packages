@@ -5438,7 +5438,7 @@ class ReturnStatementTests {
 //             ^^^ storage.type.primitive.java
 //                 ^ variable.parameter.java
 //                  ^ punctuation.section.group.end.java
-//                    ^^ storage.type.function.anonymous.java
+//                    ^^ keyword.declaration.function.anonymous.java
 //                       ^ variable.other.readwrite.java
 //                         ^ keyword.operator.arithmetic.java
 //                           ^ variable.other.readwrite.java
@@ -5542,7 +5542,7 @@ class ThrowStatementTests {
 //            ^^^ storage.type.primitive.java
 //                ^ variable.parameter.java
 //                 ^ punctuation.section.group.end.java
-//                   ^^ storage.type.function.anonymous.java
+//                   ^^ keyword.declaration.function.anonymous.java
 //                      ^ variable.other.readwrite.java
 //                        ^ keyword.operator.arithmetic.java
 //                          ^ variable.other.readwrite.java
@@ -7140,7 +7140,7 @@ class CastExpressionsTests {
 //   ^^^ storage.type.primitive.java
 //      ^ punctuation.section.group.end.java
 //        ^^^ variable.parameter.java
-//            ^^ storage.type.function.anonymous.java
+//            ^^ keyword.declaration.function.anonymous.java
 //               ^ punctuation.section.block.begin.java
 //                ^^^^^^ keyword.control.flow.return.java
 //                       ^ constant.numeric.value.java
@@ -7500,7 +7500,7 @@ class LambdasExpressionsTests {
 
      Function<String, Integer> func = a -> 42;
 //                                    ^ variable.parameter.java
-//                                      ^^ storage.type.function.anonymous.java
+//                                      ^^ keyword.declaration.function.anonymous.java
 //                                         ^^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                           ^ punctuation.terminator.java
      foo(a -> 42);
@@ -7509,7 +7509,7 @@ class LambdasExpressionsTests {
 //   ^^^ variable.function.java
 //      ^ punctuation.section.group.begin.java
 //       ^ variable.parameter.java
-//         ^^ storage.type.function.anonymous.java
+//         ^^ keyword.declaration.function.anonymous.java
 //            ^^ meta.number.integer.decimal.java constant.numeric.value.java
 //              ^ punctuation.section.group.end.java
 //               ^ punctuation.terminator.java
@@ -7520,7 +7520,7 @@ class LambdasExpressionsTests {
      (a, b) -> 42;
 //    ^ variable.parameter.java
 //       ^ variable.parameter.java
-//          ^^ storage.type.function.anonymous.java
+//          ^^ keyword.declaration.function.anonymous.java
 //             ^^ meta.number.integer.decimal.java constant.numeric.value.java
 
      (int a, Foo<Integer>[] b) -> 42;
@@ -7534,7 +7534,7 @@ class LambdasExpressionsTests {
 //               ^^^^^^^ support.class.java
 //                      ^ punctuation.definition.generic.end.java
 //                          ^ variable.parameter.java
-//                             ^^ storage.type.function.anonymous.java
+//                             ^^ keyword.declaration.function.anonymous.java
 //                                ^^ meta.number.integer.decimal.java constant.numeric.value.java
 
     (
@@ -7557,7 +7557,7 @@ class LambdasExpressionsTests {
 //   ^ meta.function.anonymous.java - meta.function meta.function
      ->
 //  ^^^ meta.function.anonymous.java - meta.function meta.function
-//   ^^ storage.type.function.anonymous.java
+//   ^^ keyword.declaration.function.anonymous.java
      42;
 //  ^^^ meta.function.anonymous.java - meta.function meta.function
 //   ^^ meta.number.integer.decimal.java constant.numeric.value.java
@@ -7572,7 +7572,7 @@ class LambdasExpressionsTests {
 //                  ^ variable.parameter.java
 //                   ^ punctuation.section.group.end.java
 //                    ^^^^^^ meta.function.anonymous.java
-//                     ^^ storage.type.function.anonymous.java
+//                     ^^ keyword.declaration.function.anonymous.java
 //                        ^ punctuation.section.block.begin
       return;
 //   ^^^^^^^^^ meta.function-call.arguments.java meta.group.java meta.function.anonymous.java meta.block.java
@@ -7593,7 +7593,7 @@ class LambdasExpressionsTests {
 //                                          ^ punctuation.definition.annotation
 //                                                        ^^^^^^ support.class.java - meta.annotation
 //                                                               ^^^ variable.parameter.java
-//                                                                    ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+//                                                                    ^^ keyword.declaration.function.anonymous.java - meta.function.anonymous.parameters.java
 
   Function<String, String> lambda2 = (@MyAnnotation String foo) -> foo;
 //                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java
@@ -7601,7 +7601,7 @@ class LambdasExpressionsTests {
 //                                    ^ punctuation.definition.annotation
 //                                                  ^^^^^^ support.class.java - meta.annotation
 //                                                         ^^^ variable.parameter.java
-//                                                              ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+//                                                              ^^ keyword.declaration.function.anonymous.java - meta.function.anonymous.parameters.java
 
   Function<String, String> lambda3 = (@MyAnnotation(foo = Foo.BAR) String foo) -> foo;
 //                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java
@@ -7613,68 +7613,68 @@ class LambdasExpressionsTests {
 //                                                            ^^^ constant.other.java
 //                                                                 ^^^^^^ support.class.java - meta.annotation
 //                                                                        ^^^ variable.parameter.java
-//                                                                             ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+//                                                                             ^^ keyword.declaration.function.anonymous.java - meta.function.anonymous.parameters.java
 
   Function<String, String> lambda4 = (String foo) -> foo;
 //                                   ^^^^^^^^^^^^ meta.function.anonymous.parameters.java
 //                                    ^^^^^^ support.class.java - meta.annotation
 //                                           ^^^ variable.parameter.java
-//                                                ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+//                                                ^^ keyword.declaration.function.anonymous.java - meta.function.anonymous.parameters.java
 
   Function<String, String> lambda4 = (var foo) -> foo;
 //                                   ^^^^^^^^^ meta.function.anonymous.parameters.java
 //                                    ^^^ storage.type.var.java
 //                                        ^^^ variable.parameter.java
-//                                             ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+//                                             ^^ keyword.declaration.function.anonymous.java - meta.function.anonymous.parameters.java
 
   Function<String, String> lambda5 = (foo) -> foo;
 //                                   ^^^^^ meta.function.anonymous.parameters.java
 //                                    ^^^ variable.parameter.java
-//                                         ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+//                                         ^^ keyword.declaration.function.anonymous.java - meta.function.anonymous.parameters.java
 
   Function<String, String> lambda5 = (foo = 0) -> foo;
 //                                   ^^^^^^^^^ meta.function.anonymous.parameters.java
 //                                    ^^^ variable.parameter.java
 //                                        ^ invalid.illegal.expect-terminator.java
 //                                          ^ invalid.illegal.expect-terminator.java
-//                                             ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+//                                             ^^ keyword.declaration.function.anonymous.java - meta.function.anonymous.parameters.java
 
   Function<String, String> lambda6 = (foo, foo) -> foo;
 //                                   ^^^^^^^^^^ meta.function.anonymous.parameters.java
 //                                    ^^^ variable.parameter.java
 //                                       ^ punctuation.separator.comma.java
 //                                         ^^^ variable.parameter.java
-//                                              ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+//                                              ^^ keyword.declaration.function.anonymous.java - meta.function.anonymous.parameters.java
 
   Function<String, String> lambda7 = (Foo, Foo) -> foo;
 //                                   ^^^^^^^^^^ meta.function.anonymous.parameters.java
 //                                    ^^^ variable.parameter.java
 //                                       ^ punctuation.separator.comma.java
 //                                         ^^^ variable.parameter.java
-//                                              ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+//                                              ^^ keyword.declaration.function.anonymous.java - meta.function.anonymous.parameters.java
 
   Function<String, String> lambda8 = foo -> foo;
 //                                   ^^^ meta.function.anonymous.parameters.java
 //                                   ^^^ variable.parameter.java
-//                                       ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+//                                       ^^ keyword.declaration.function.anonymous.java - meta.function.anonymous.parameters.java
 
   Function<String[], String> lambda9 = (String... foo) -> foo[0];
 //                                     ^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java
 //                                      ^^^^^^ support.class.java - meta.annotation
 //                                            ^^^ keyword.operator.variadic.java
 //                                                ^^^ variable.parameter.java
-//                                                     ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+//                                                     ^^ keyword.declaration.function.anonymous.java - meta.function.anonymous.parameters.java
 
   IntFunction<String> intLambda1 = (int foo) -> String.valueOf(foo);
 //                                 ^^^^^^^^^ meta.function.anonymous.parameters.java
 //                                  ^^^ storage.type.primitive - meta.annotation
 //                                      ^^^ variable.parameter.java
-//                                           ^^ storage.type.function.anonymous.java - meta.function.anonymous.parameters.java
+//                                           ^^ keyword.declaration.function.anonymous.java - meta.function.anonymous.parameters.java
 
   MyObject objLambda = arg -> new MyObject(arg);
 //                     ^^^ meta.function.anonymous.parameters.java variable.parameter.java
 //                        ^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.java
-//                         ^^ storage.type.function.anonymous.java
+//                         ^^ keyword.declaration.function.anonymous.java
 //                            ^^^ keyword.other.storage.new.java
 //                                ^^^^^^^^ support.class.java
 //                                        ^ punctuation.section.group.begin.java
@@ -7687,7 +7687,7 @@ class LambdasExpressionsTests {
 //                   ^^^^^^^^^^^^ entity.name.constant.java
 //                                ^ keyword.operator.assignment.java
 //                                  ^^^ variable.parameter.java
-//                                      ^^ storage.type.function.anonymous.java
+//                                      ^^ keyword.declaration.function.anonymous.java
 //                                         ^ meta.block punctuation.section.block.begin
 //                                           ^^^^^^ keyword.control.flow.return.java
 //                                                  ^ meta.number.integer.decimal.java constant.numeric.value.java
@@ -7699,7 +7699,7 @@ class LambdasExpressionsTests {
 //                       ^ keyword.operator.assignment.java
 //                         ^ punctuation.section.group.begin.java
 //                          ^ punctuation.section.group.end.java
-//                            ^^ storage.type.function.anonymous.java
+//                            ^^ keyword.declaration.function.anonymous.java
 //                               ^^^^ constant.language.boolean.java
 //                                   ^ punctuation.terminator.java
 }
