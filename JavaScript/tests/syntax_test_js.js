@@ -470,6 +470,9 @@ var obj = {
 //            ^^^^^^^^^^^^ meta.function
     },
 
+    class: null, // Keys are IdentifierNames, not merely Identifiers
+//  ^^^^^ meta.mapping.key
+
     [true==false ? 'one' : 'two']: false,
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key
 //  ^ punctuation.section.brackets.begin
@@ -1003,6 +1006,9 @@ class MyClass extends TheirClass {
 //  ^ punctuation.definition.variable
 //   ^ entity.name.function variable.other.readwrite
 //       ^^^^^^^^^^^^^ meta.function
+
+    class = null;
+//  ^^^^^ variable.other.readwrite
 
     static x = 42;
 //  ^^^^^^ storage.modifier.js
