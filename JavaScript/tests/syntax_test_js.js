@@ -1226,7 +1226,7 @@ class{}/**/
 //  ^^ meta.function.parameters
 //  ^ punctuation.section.group.begin
 //   ^ punctuation.section.group.end
-//     ^^ keyword.declaration.function.arrow
+//     ^^ keyword.declaration.function.anonymous
 //        ^^ meta.block
 //        ^ punctuation.section.block
 //         ^ punctuation.section.block
@@ -1263,19 +1263,19 @@ class{}/**/
 //        ^^^ meta.binding.name
     => 42;
 //  ^^^^^ meta.function
-//  ^^ keyword.declaration.function.arrow
+//  ^^ keyword.declaration.function.anonymous
 
     foo
 //  ^^^ meta.function.parameters variable.parameter.function
     => 42;
 //  ^^^^^ meta.function
-//  ^^ keyword.declaration.function.arrow
+//  ^^ keyword.declaration.function.anonymous
 
     async x => y;
 //  ^^^^^^^^^^^^ meta.function
 //  ^^^^^ keyword.declaration.async
 //        ^ meta.function.parameters variable.parameter.function
-//          ^^ keyword.declaration.function.arrow
+//          ^^ keyword.declaration.function.anonymous
 //             ^ variable.other.readwrite
 
     async (x) => y;
@@ -1283,13 +1283,13 @@ class{}/**/
 //  ^^^^^ keyword.declaration.async
 //        ^^^ meta.function.parameters
 //         ^ variable.parameter.function
-//            ^^ keyword.declaration.function.arrow
+//            ^^ keyword.declaration.function.anonymous
 //               ^ variable.other.readwrite
 
     async => {};
 //  ^^^^^^^^^^^ meta.function
 //  ^^^^^ meta.function.parameters variable.parameter.function
-//        ^^ keyword.declaration.function.arrow
+//        ^^ keyword.declaration.function.anonymous
 
     async;
 //  ^^^^^ variable.other.readwrite
@@ -1317,13 +1317,13 @@ const test = ({a, b, c=()=>({active:false}) }) => {};
 ([a,
   b]) => { return x; }
 //    ^^^^^^^^^^^^^^^^ meta.function
-//    ^^ keyword.declaration.function.arrow
+//    ^^ keyword.declaration.function.anonymous
 //         ^^^^^^ meta.block keyword.control.flow
 
 (
     ()
     => { return; }
-//  ^^ keyword.declaration.function.arrow
+//  ^^ keyword.declaration.function.anonymous
 //     ^^^^^^^^^^^ meta.block - meta.mapping
 //       ^^^^^^ keyword.control.flow
 );
@@ -1336,7 +1336,7 @@ const test = ({a, b, c=()=>({active:false}) }) => {};
     b,
 //   ^ punctuation.separator.parameter - keyword.operator.comma
 }) => null;
-// ^^ keyword.declaration.function.arrow
+// ^^ keyword.declaration.function.anonymous
 
 MyClass.foo = function() {}
 // ^ support.class
@@ -1360,12 +1360,12 @@ var simpleArrow = foo => bar;
 //   ^ entity.name.function
 //                ^^^^^^^^^^ meta.function
 //                ^^^ variable.parameter.function
-//                    ^^ keyword.declaration.function.arrow
+//                    ^^ keyword.declaration.function.anonymous
 
 var Proto = () => {
 //   ^ entity.name.function
 //          ^^^^^^^ meta.function
-//             ^ keyword.declaration.function.arrow
+//             ^ keyword.declaration.function.anonymous
     this._var = 1;
 }
 
@@ -1377,7 +1377,7 @@ Proto.prototype.getVar = () => this._var;
 // ^ support.class
 //     ^ support.constant.prototype
 //                ^ entity.name.function
-//                           ^ keyword.declaration.function.arrow
+//                           ^ keyword.declaration.function.anonymous
 
 Class3.prototype = function() {
 // ^ support.class

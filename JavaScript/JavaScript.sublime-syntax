@@ -987,7 +987,7 @@ contexts:
 
   arrow-function-expect-arrow-or-fail-async:
     - match: '=>'
-      scope: keyword.declaration.function.arrow.js
+      scope: keyword.declaration.function.anonymous.js
       pop: true
     - match: (?=\S)
       fail: async-arrow-function
@@ -1530,7 +1530,7 @@ contexts:
 
   arrow-function-expect-arrow:
     - match: '=>'
-      scope: keyword.declaration.function.arrow.js
+      scope: keyword.declaration.function.anonymous.js
       pop: true
     - include: else-pop
 
