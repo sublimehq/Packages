@@ -141,7 +141,7 @@ internal sealed partial class Test : sys::Configuration.ApplicationSettingsBase 
 ///     ^^^^^ meta.annotation
 ///       ^ variable.annotation
         get {
-///       ^ storage.type.function.accessor.get
+///       ^ keyword.declaration.function.accessor.get
             return defaultInstance;
         }
     }
