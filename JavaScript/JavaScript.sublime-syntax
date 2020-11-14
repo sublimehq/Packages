@@ -936,7 +936,7 @@ contexts:
     - include: import-meta-expression
 
     - include: class
-    - include: constants
+    - include: special-name
 
     - include: regular-function
 
@@ -1447,7 +1447,7 @@ contexts:
       fail: class-field
     - include: else-pop
 
-  constants:
+  special-name:
     - match: true{{identifier_break}}
       scope: constant.language.boolean.true.js
       pop: true
@@ -1968,7 +1968,7 @@ contexts:
     - include: else-pop
 
   literal-variable:
-    - include: language-identifiers
+    - include: special-identifier
     - include: support
 
     - match: '{{constant_identifier}}(?=\s*(?:{{dot_accessor}}|\[))'
@@ -2004,15 +2004,14 @@ contexts:
         2: variable.other.readwrite.js
       pop: true
 
-  language-identifiers:
+  special-identifier:
+    # These are ordinary identifiers, not reserved words
     - match: arguments{{identifier_break}}
       scope: variable.language.arguments.js
       pop: true
     - match: globalThis{{identifier_break}}
       scope: variable.language.global.js
       pop: true
-
-    # These three are ordinary variables, not literals!
     - match: undefined{{identifier_break}}
       scope: constant.language.undefined.js
       pop: true
