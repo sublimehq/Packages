@@ -395,10 +395,12 @@ contexts:
       push: [module-provides-meta, module-provides-or-uses-body]
 
   module-exports-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.exports.java
     - include: immediately-pop
 
   module-opens-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.opens.java
     - include: immediately-pop
 
@@ -420,10 +422,12 @@ contexts:
     - include: entity-module
 
   module-uses-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.uses.java
     - include: immediately-pop
 
   module-provides-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.provides.java
     - include: immediately-pop
 
@@ -1046,10 +1050,12 @@ contexts:
         - block-or-expression
 
   if-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.if.java
     - include: immediately-pop
 
   else-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.else.java
     - include: immediately-pop
 
@@ -1074,6 +1080,7 @@ contexts:
         - maybe-group
 
   switch-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.switch.java
     - include: immediately-pop
 
@@ -1129,10 +1136,12 @@ contexts:
         - block-or-expression
 
   do-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.do.java
     - include: immediately-pop
 
   while-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.while.java
     - include: immediately-pop
 
@@ -1148,6 +1157,7 @@ contexts:
         - for-parameters
 
   for-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.for.java
     - include: immediately-pop
 
@@ -1260,6 +1270,7 @@ contexts:
         - maybe-group
 
   synchronized-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.synchronized.java
     - include: immediately-pop
 
@@ -1286,6 +1297,7 @@ contexts:
         - try-parameters
 
   catch-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.catch.java
     - include: immediately-pop
 
@@ -1321,10 +1333,12 @@ contexts:
       pop: 1
 
   finally-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.finally.java
     - include: immediately-pop
 
   try-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.try.java
     - include: immediately-pop
 
@@ -1388,6 +1402,7 @@ contexts:
     - include: annotations
 
   instantiation-meta:
+    - meta_include_prototype: false
     - meta_scope: meta.instantiation.java
     - include: immediately-pop
 
