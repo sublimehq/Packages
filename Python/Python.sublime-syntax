@@ -1143,8 +1143,10 @@ contexts:
   builtin-types:
     - match: |-
         (?x)\b(
-        	basestring|bool|buffer|bytearray|bytes|complex|dict|float|frozenset|int|
+        	basestring|bool|bytearray|bytes|complex|dict|float|frozenset|int|
         	list|long|memoryview|object|range|set|slice|str|tuple|unicode|xrange
+          # Old Python 2 types prone to conflicts:
+          # buffer
         )\b
       scope: support.type.python
 
