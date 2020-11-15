@@ -1113,24 +1113,24 @@ contexts:
   builtin-exceptions:
     - match: |-
         (?x)\b(
-          (
+          (?:
             Arithmetic|Assertion|Attribute|BlockingIO|BrokenPipe|Buffer|ChildProcess|
-            Connection(Aborted|Refused|Reset)?|EOF|Environment|FileExists|
+            Connection(?:Aborted|Refused|Reset)?|EOF|Environment|FileExists|
             FileNotFound|FloatingPoint|Interrupted|IO|IsADirectoryError|
             Import|Indentation|Index|Key|Lookup|Memory|Name|NotADirectory|
             NotImplemented|OS|Overflow|Permission|ProcessLookup|Reference|
             Runtime|Standard|Syntax|System|Tab|Timeout|Type|UnboundLocal|
-            Unicode(Encode|Decode|Translate)?|Value|VMS|Windows|ZeroDivision
+            Unicode(?:Encode|Decode|Translate)?|Value|VMS|Windows|ZeroDivision
           )Error|
-          ((Pending)?Deprecation|Resource|Runtime|Syntax|User|Future|Import|Unicode|Bytes)?Warning|
-          (Base)?Exception|
+          (?:(?:Pending)?Deprecation|Resource|Runtime|Syntax|User|Future|Import|Unicode|Bytes)?Warning|
+          (?:Base)?Exception|
           SystemExit|StopIteration|NotImplemented|KeyboardInterrupt|GeneratorExit
         )\b
       scope: support.type.exception.python
 
   builtin-functions:
     - match: |-
-        (?x)\b(
+        (?x)\b(?:
           __import__|all|abs|any|apply|ascii|bin|callable|chr|classmethod|
           compile|delattr|dir|divmod|enumerate|eval|filter|format|getattr|
           globals|hasattr|hash|help|hex|id|input|isinstance|issubclass|iter|
@@ -1146,7 +1146,7 @@ contexts:
 
   builtin-types:
     - match: |-
-        (?x)\b(
+        (?x)\b(?:
           basestring|bool|bytearray|bytes|complex|dict|float|frozenset|int|
           list|memoryview|object|set|slice|str|tuple
           # Python 2 types
