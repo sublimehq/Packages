@@ -1131,12 +1131,16 @@ contexts:
   builtin-functions:
     - match: |-
         (?x)\b(
-          __import__|all|abs|any|apply|ascii|bin|breakpoint|callable|chr|classmethod|cmp|coerce|
-          compile|delattr|dir|divmod|enumerate|eval|exec|execfile|filter|format|getattr|
-          globals|hasattr|hash|help|hex|id|input|intern|isinstance|issubclass|iter|
-          len|locals|map|max|min|next|oct|open|ord|pow|print|property|x?range|
-          raw_input|reduce|reload|repr|reversed|round|setattr|sorted|staticmethod|
-          sum|super|type|unichr|vars|zip
+          __import__|all|abs|any|apply|ascii|bin|callable|chr|classmethod|
+          compile|delattr|dir|divmod|enumerate|eval|filter|format|getattr|
+          globals|hasattr|hash|help|hex|id|input|isinstance|issubclass|iter|
+          len|locals|map|max|min|next|oct|open|ord|pow|property|range|
+          repr|reversed|round|setattr|sorted|staticmethod|
+          sum|super|type|vars|zip
+          # Python 2 functions
+          |cmp|coerce|execfile|intern|raw_input|reduce|reload|unichr|xrange
+          # Python 3 functions
+          |breakpoint|exec|print
         )\b
       scope: support.function.builtin.python
 
@@ -1144,9 +1148,11 @@ contexts:
     - match: |-
         (?x)\b(
           basestring|bool|bytearray|bytes|complex|dict|float|frozenset|int|
-          list|long|memoryview|object|range|set|slice|str|tuple|unicode|xrange
-          # Old Python 2 types prone to conflicts:
-          # buffer
+          list|memoryview|object|set|slice|str|tuple
+          # Python 2 types
+          |basestring|long|unicode
+          # Python 2 types prone to conflicts
+          # |buffer|file
         )\b
       scope: support.type.python
 
