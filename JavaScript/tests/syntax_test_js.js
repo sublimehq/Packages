@@ -953,7 +953,7 @@ catch{}/**/
 finally{}/**/
 //       ^ - meta.finally
 
-    () => {}
+    () => {};
 //  ^^^^^^^^ meta.function - meta.function meta.function
 //  ^^ meta.function.parameters
 //  ^ punctuation.section.group.begin
