@@ -449,7 +449,7 @@ contexts:
           scope: punctuation.section.block.end.js
           pop: true
         - include: variable-binding-spread
-        - match: (?={{identifier_name}}|\[|'|")
+        - match: (?={{identifier_start}}|\[|'|")
           push:
             - initializer
             - variable-binding-object-alias
@@ -548,7 +548,7 @@ contexts:
           scope: punctuation.section.block.end.js
           pop: true
         - include: function-parameter-binding-spread
-        - match: (?={{identifier_name}}|\[|'|")
+        - match: (?={{identifier_start}}|\[|'|")
           push:
             - initializer
             - function-parameter-binding-object-alias
