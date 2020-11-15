@@ -9,6 +9,7 @@ version: 2
 file_extensions:
   - xml
   - xsd
+  - xsl
   - xslt
   - tld
   - dtml
