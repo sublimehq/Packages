@@ -6,7 +6,7 @@ scope: text.html.javadoc
 version: 2
 hidden: true
 
-extends: Packages/HTML/HTML-Plain.sublime-syntax
+extends: Packages/HTML/HTML (Plain).sublime-syntax
 
 ###############################################################################
 
