@@ -14,14 +14,13 @@
 #   ^ punctuation.definition.comment.shell
 
 # This is a \
-#^^^^^^^^^^^ comment.line.number-sign.shell - punctuation
-#           ^^ comment.line.number-sign.shell punctuation.separator.continuation.line.shell
+#^^^^^^^^^^^^^ comment.line.number-sign.shell - punctuation
   command.
-#^^^^^^^^^^ - comment.line
+#^^^^^^^^^^ - comment
 
 # This is a \
   comment.
-#^^^^^^^^^^ comment.line.number-sign.shell - punctuation
+#^^^^^^^^^^ - comment
 
 ### \\ \. \a \b \f \n \r
 # <- comment.line.number-sign.shell punctuation.definition.comment.shell
@@ -33,6 +32,12 @@ echo hello #a-comment
 
 echo hello#not-a-comment
 #         ^^^^^^^^^^^^^^ meta.function-call.arguments - comment.line - variable.function
+
+curl -s \
+  # This is comment \
+  --request POST
+# ^^^^^^^^^ meta.function-call.identifier.shell variable.function.shell
+#          ^^^^^ meta.function-call.arguments.shell
 
 foo | `# get quarks ` \
 # <- variable.function
