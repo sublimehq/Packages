@@ -1524,7 +1524,8 @@ contexts:
 ###[ GROUPS ]##################################################################
 
   groups:
-    - match: (?=\()
+    - match: \(
+      scope: punctuation.section.group.begin.java
       branch_point: groups
       branch:
         - cast-expression-group
@@ -1564,8 +1565,8 @@ contexts:
 
   cast-expression-group:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.16
-    - match: \(
-      scope: punctuation.section.group.begin.java
+    - meta_scope: meta.typecast.java meta.group.java
+    - match: ''
       set:
         - cast-expression-group-common
         - maybe-array-modifiers
@@ -1599,11 +1600,6 @@ contexts:
 ###[ EXPRESSION GROUPS ]#######################################################
 
   expression-group:
-    - match: \(
-      scope: punctuation.section.group.begin.java
-      set: expression-group-common
-
-  expression-group-common:
     - meta_scope: meta.group.java
     - match: \)
       scope: punctuation.section.group.end.java
@@ -1620,11 +1616,6 @@ contexts:
 
   lambda-parameter-group:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.27
-    - match: \(
-      scope: punctuation.section.group.begin.java
-      set: lambda-parameter-group-common
-
-  lambda-parameter-group-common:
     - meta_scope: meta.function.anonymous.parameters.java meta.group.java
     - match: \)
       scope: punctuation.section.group.end.java

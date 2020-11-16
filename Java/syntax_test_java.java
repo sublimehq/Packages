@@ -7582,6 +7582,59 @@ class LambdasExpressionsTests {
 //  ^ punctuation.section.block.end.java
 //   ^ punctuation.section.group.end.java
 //    ^ punctuation.terminator.java
+
+    a = (int) a + (a, int b) -> { return c };
+//      ^^^^^ meta.typecast.java meta.group.java
+//           ^^^^^ - meta.group
+//                ^^^^^^^^^^ meta.function.anonymous.parameters.java meta.group.java
+//                          ^^^^ meta.function.anonymous.java - meta.group - meta.function.anonymous meta.block
+//                              ^^^^^^^^^^^^ meta.function.anonymous.java meta.block.java
+//                                          ^ - meta.function.anonymous
+//      ^ punctuation.section.group.begin.java
+//       ^^^ storage.type.primitive.java
+//          ^ punctuation.section.group.end.java
+//            ^ variable.other.readwrite.java
+//              ^ keyword.operator.arithmetic.java
+//                ^ punctuation.section.group.begin.java
+//                 ^ variable.parameter.java
+//                  ^ punctuation.separator.comma.java
+//                    ^^^ storage.type.primitive.java
+//                        ^ variable.parameter.java
+//                         ^ punctuation.section.group.end.java
+//                           ^^ keyword.declaration.function.anonymous.java
+//                              ^ punctuation.section.block.begin.java
+//                                ^^^^^^ keyword.control.flow.return.java
+//                                       ^ variable.other.readwrite.java
+//                                         ^ punctuation.section.block.end.java
+//                                          ^ punctuation.terminator.java
+
+    a = ((int) a + (a, int b) -> { return c });
+//      ^ meta.group.java - meta.group meta.group
+//       ^^^^^ meta.group.java meta.typecast.java meta.group.java
+//            ^^^^^ meta.group.java - meta.group meta.group
+//                 ^^^^^^^^^^ meta.group.java meta.function.anonymous.parameters.java meta.group.java
+//                           ^^^^ meta.group.java meta.function.anonymous.java - meta.group meta.group - meta.function.anonymous meta.block
+//                               ^^^^^^^^^^^^ meta.group.java meta.function.anonymous.java meta.block.java
+//                                           ^ - meta.function.anonymous - meta.group meta.group
+//                                            ^ - meta.group
+//      ^^ punctuation.section.group.begin.java
+//        ^^^ storage.type.primitive.java
+//           ^ punctuation.section.group.end.java
+//             ^ variable.other.readwrite.java
+//               ^ keyword.operator.arithmetic.java
+//                 ^ punctuation.section.group.begin.java
+//                  ^ variable.parameter.java
+//                   ^ punctuation.separator.comma.java
+//                     ^^^ storage.type.primitive.java
+//                         ^ variable.parameter.java
+//                          ^ punctuation.section.group.end.java
+//                            ^^ keyword.declaration.function.anonymous.java
+//                               ^ punctuation.section.block.begin.java
+//                                 ^^^^^^ keyword.control.flow.return.java
+//                                        ^ variable.other.readwrite.java
+//                                          ^ punctuation.section.block.end.java
+//                                           ^ punctuation.section.group.end.java
+//                                            ^ punctuation.terminator.java
   }
 //^ meta.class.java meta.block.java meta.method.java meta.block.java punctuation.section.block.end.java
 
