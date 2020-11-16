@@ -3,6 +3,9 @@
 23*36  -- single line comment
 --     ^^ punctuation.definition.comment.haskell
 --     ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-dash.haskell
+23*36  --------------------------------------------------- single line comment
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ punctuation.definition.comment.haskell
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-dash.haskell
 23*36
 -- <- - comment.line.double-dash.haskell
 
