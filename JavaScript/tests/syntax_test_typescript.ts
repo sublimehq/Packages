@@ -725,7 +725,7 @@ let x: ( foo ? : any ) => bar;
 //     ^^^^^^^^^^^^^^^^^^^^^^ meta.type
 //     ^^^^^^^^^^^^^^^ meta.group
 //     ^ punctuation.section.group.begin
-//       ^^^ variable.other.readwrite - support.class
+//       ^^^ variable.parameter - support.class
 //           ^ storage.modifier.optional
 //             ^ punctuation.separator.type
 //               ^^^ support.type.any

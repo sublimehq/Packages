@@ -791,7 +791,7 @@ contexts:
             - include: else-pop
         - include: comma-separator
         - match: '{{identifier}}'
-          scope: variable.other.readwrite.js
+          scope: variable.parameter.js
           push:
             - ts-type-annotation
             - ts-type-annotation-optional
