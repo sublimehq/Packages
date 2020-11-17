@@ -733,6 +733,14 @@ let x: ( foo ? : any ) => bar;
 //                     ^^ keyword.declaration.function
 //                        ^^^ support.class
 
+let x: ( ... foo : any ) => any;
+//     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.type
+//     ^^^^^^^^^^^^^^^^^ meta.group
+//       ^^^ keyword.operator.spread
+//           ^^^ variable.parameter
+//               ^ punctuation.separator.type
+//                 ^^^ support.type.any
+
 let x: () => T
     U
 //  ^ variable.other.constant - meta.type

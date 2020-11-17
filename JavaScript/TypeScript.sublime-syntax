@@ -790,6 +790,8 @@ contexts:
                 - ts-type-expression-begin
             - include: else-pop
         - include: comma-separator
+        - match: '\.\.\.'
+          scope: keyword.operator.spread.js
         - match: '{{identifier}}'
           scope: variable.parameter.js
           push:
