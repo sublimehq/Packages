@@ -5460,7 +5460,7 @@ class ReturnStatementTests {
 
     return (a, int b) -> a + b;
 // ^ - meta.return - keyword
-//  ^^^^^^^ meta.return.java - meta.function - meta.group
+//  ^^^^^^^ meta.return.java - meta.function.anonymous - meta.group
 //         ^^^^^^^^^^ meta.return.java meta.function.anonymous.parameters.java meta.group.java
 //                   ^^^^^^^^^ meta.return.java meta.function.anonymous.java - meta.group
 //  ^^^^^^ keyword.control.flow.return.java
@@ -5564,7 +5564,7 @@ class ThrowStatementTests {
 
     throw (a, int b) -> a + b;
 // ^ - meta.throw - keyword
-//  ^^^^^^ meta.throw.java - meta.function - meta.group
+//  ^^^^^^ meta.throw.java - meta.function.anonymous - meta.group
 //        ^^^^^^^^^^ meta.throw.java meta.function.anonymous.parameters.java meta.group.java
 //                  ^^^^^^^^^ meta.throw.java meta.function.anonymous.java - meta.group
 //  ^^^^^ keyword.control.flow.throw.java
@@ -7174,7 +7174,7 @@ class CastExpressionsTests {
 
     (int) foo -> {return 0};
 //  ^^^^^ meta.typecast.java meta.group.java
-//       ^ - meta.function - meta.typecast - meta.group
+//       ^ - meta.function.anonymous - meta.typecast - meta.group
 //        ^^^ meta.function.anonymous.parameters.java
 //           ^^^^^^^^^^^^^^ meta.function.anonymous.java
 //  ^ punctuation.section.group.begin.java
@@ -7565,9 +7565,9 @@ class LambdasExpressionsTests {
 //             ^^ meta.number.integer.decimal.java constant.numeric.value.java
 
      (int a, Foo<Integer>[] b) -> 42;
-//   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java meta.group.java - meta.function meta.function
-//                            ^^^ meta.function.anonymous.java - meta.function meta.function
-//                               ^^^ meta.function.anonymous.java - meta.function meta.function
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function.anonymous meta.function.anonymous
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java meta.group.java
+//                            ^^^^^^ meta.function.anonymous.java - meta.group
 //    ^^^ storage.type.primitive
 //        ^ variable.parameter.java
 //           ^^^ support.class.java
@@ -7579,28 +7579,28 @@ class LambdasExpressionsTests {
 //                                ^^ meta.number.integer.decimal.java constant.numeric.value.java
 
     (
-//  ^^ meta.function.anonymous.parameters.java meta.group.java - meta.function meta.function
+//  ^^ meta.function.anonymous.parameters.java meta.group.java - meta.function.anonymous meta.function.anonymous
 //  ^ punctuation.section.group.begin.java
         int a,
-//     ^^^^^^^^ meta.function.anonymous.parameters.java meta.group.java - meta.function meta.function
+//     ^^^^^^^^ meta.function.anonymous.parameters.java meta.group.java - meta.function.anonymous meta.function.anonymous
 //      ^^^ storage.type.primitive
 //          ^ variable.parameter.java
 //           ^ punctuation.separator.comma.java
         Foo<Integer>[] b
-//     ^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java meta.group.java - meta.function meta.function
+//     ^^^^^^^^^^^^^^^^^^ meta.function.anonymous.parameters.java meta.group.java - meta.function.anonymous meta.function.anonymous
 //      ^^^ support.class.java
 //         ^ punctuation.definition.generic.begin.java
 //          ^^^^^^^ support.class.java
 //                 ^ punctuation.definition.generic.end.java
 //                     ^ variable.parameter.java
     )
-//  ^ meta.function.anonymous.parameters.java meta.group.java punctuation.section.group.end.java - meta.function meta.function
-//   ^ meta.function.anonymous.java - meta.function meta.function
+//  ^ meta.function.anonymous.parameters.java meta.group.java punctuation.section.group.end.java - meta.function.anonymous meta.function.anonymous
+//   ^ meta.function.anonymous.java - meta.function.anonymous meta.function.anonymous
      ->
-//  ^^^ meta.function.anonymous.java - meta.function meta.function
+//  ^^^ meta.function.anonymous.java - meta.function.anonymous meta.function.anonymous
 //   ^^ keyword.declaration.function.anonymous.java
      42;
-//  ^^^ meta.function.anonymous.java - meta.function meta.function
+//  ^^^ meta.function.anonymous.java - meta.function.anonymous meta.function.anonymous
 //   ^^ meta.number.integer.decimal.java constant.numeric.value.java
 //     ^ punctuation.terminator.java
 
