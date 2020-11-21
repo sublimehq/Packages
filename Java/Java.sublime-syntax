@@ -1333,9 +1333,8 @@ contexts:
   catch-parameters-end:
     - meta_scope: meta.group.java
     - include: group-end
-    - match: \S
-      scope: invalid.illegal.missing-parameter-end
-      pop: 1
+    - match: '[^\s\)]+'
+      scope: invalid.illegal.unexpected-token.java
 
   finally-meta:
     - meta_include_prototype: false

@@ -5727,6 +5727,15 @@ class TryStatementTests {
 //                         ^^^ invalid.illegal.unexpected-keyword.java
 //                             ^ variable.parameter.java
 //                              ^ punctuation.section.group.end.java
+
+    catch (5 + 10)
+//  ^^^^^^^^^^^^^^ meta.catch.java
+//  ^^^^^ keyword.control.exception.catch.java
+//        ^ punctuation.section.group.begin.java
+//         ^ invalid.illegal.unexpected-token.java
+//           ^ invalid.illegal.unexpected-token.java
+//             ^^ invalid.illegal.unexpected-token.java
+//               ^ punctuation.section.group.end.java
   }
 
   void testFinally() {
