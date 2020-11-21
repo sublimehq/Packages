@@ -74,29 +74,29 @@ contexts:
   javadoc-block-tag:
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#param
     - match: \@param\b
-      scope: entity.name.tag.documentation.javadoc
+      scope: meta.tag.block.javadoc entity.name.tag.documentation.javadoc
       set:
         - javadoc-block-tag-common
         - javadoc-block-tag-param-args
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#see
     - match: \@see\b
-      scope: entity.name.tag.documentation.javadoc
+      scope: meta.tag.block.javadoc entity.name.tag.documentation.javadoc
       set:
         - javadoc-block-tag-common
         - javadoc-block-tag-reference
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#throws
     - match: \@(throws|exception)\b
-      scope: entity.name.tag.documentation.javadoc
+      scope: meta.tag.block.javadoc entity.name.tag.documentation.javadoc
       set:
         - javadoc-block-tag-common
         - javadoc-block-tag-reference
     - match: \@(uses|provides)\b
-      scope: entity.name.tag.documentation.javadoc
+      scope: meta.tag.block.javadoc entity.name.tag.documentation.javadoc
       set:
         - javadoc-block-tag-common
         - javadoc-block-tag-reference
     - match: \@(return|deprecated|author|version|since|apiNote|impl(?:Note|Spec)|moduleGraph|serial(?:Field|Data)?)\b
-      scope: entity.name.tag.documentation.javadoc
+      scope: meta.tag.block.javadoc entity.name.tag.documentation.javadoc
       set: javadoc-block-tag-common
     - match: (?=\S)|$
       pop: 1
