@@ -255,10 +255,8 @@ contexts:
             - match: \)
               pop: 1
             - include: javadoc-inline-tag-continuation-2
-        - match: ''
-          pop: 1
-    - match: (?=\S)
-      pop: 1
+        - include: immediately-pop
+    - include: else-pop
 
 ###[ JAVADOC HTML TAGS ]#######################################################
 
