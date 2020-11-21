@@ -2748,22 +2748,6 @@ contexts:
     - match: ''
       pop: 4
 
-  reserved-pop:
-    - match: (?={{reserved_words}}{{break}})
-      pop: 1
-
-  reserved-pop2:
-    - match: (?={{reserved_words}}{{break}})
-      pop: 2
-
-  reserved-pop3:
-    - match: (?={{reserved_words}}{{break}})
-      pop: 3
-
-  reserved-pop4:
-    - match: (?={{reserved_words}}{{break}})
-      pop: 4
-
 ###[ ILLEGALS ]################################################################
 
   maybe-illegal-array-modifiers:
