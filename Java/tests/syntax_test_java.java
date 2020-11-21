@@ -123,17 +123,15 @@
 //   ^ punctuation.definition.tag.begin.javadoc
 //    ^^^^^ entity.name.tag.documentation.javadoc
 //         ^ - markup.raw.javadoc
-//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.raw.javadoc
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.raw.code-fence.javadoc
 //                                         ^ punctuation.definition.tag.end.javadoc
    *
    * Multiline, line break in content: {@code x + y
 //                                     ^^^^^^^^^^^^ meta.tag.inline.javadoc
-//                                            ^^^^^ markup.raw.javadoc
-//                                                 ^ - meta.tag - markup.raw.javadoc
+//                                            ^^^^^ markup.raw.code-fence.javadoc
    * = z}
 // ^ comment.block.documentation.java punctuation.definition.comment.java
-//^^^ - meta.tag - markup.raw.javadoc
-//   ^^^ meta.tag.inline.javadoc markup.raw.javadoc
+//   ^^^ meta.tag.inline.javadoc markup.raw.code-fence.javadoc
 //      ^ meta.tag.inline.javadoc - markup.raw
    *
    * Multiline, line break before content: {@literal
@@ -146,18 +144,16 @@
    *
    * Bracket balancing: {@code int[][] a = {{1, 2, 3}, {4, 5}}}
 //                      ^ punctuation.definition.tag.begin.javadoc
-//                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.raw.javadoc
+//                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.raw.code-fence.javadoc
 //                                                            ^ punctuation.definition.tag.end.javadoc
    *
    * Bracket balancing with line break: {@code int[][] a = {
 //                                      ^^^^^^^^^^^^^^^^^^^^ meta.tag.inline.javadoc
 //                                      ^ punctuation.definition.tag.begin.javadoc
-//                                             ^^^^^^^^^^^^^ markup.raw.javadoc
-//                                                          ^ - markup.raw.javadoc
+//                                             ^^^^^^^^^^^^^ markup.raw.code-fence.javadoc
    * {1, 2, 3}, {4, 5}}}
 // ^ comment.block.documentation.java punctuation.definition.comment.java
-//^^^ - meta.tag - markup.raw.javadoc
-//   ^^^^^^^^^^^^^^^^^^ meta.tag.inline.javadoc markup.raw.javadoc
+//   ^^^^^^^^^^^^^^^^^^ meta.tag.inline.javadoc markup.raw.code-fence.javadoc
 //                     ^ meta.tag.inline.javadoc - markup.raw
 //                      ^ - meta.tag
 //                     ^ punctuation.definition.tag.end.javadoc

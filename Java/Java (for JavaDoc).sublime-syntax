@@ -1,0 +1,14 @@
+%YAML 1.2
+---
+scope: source.java.embedded.javadoc
+hidden: true
+version: 2
+
+extends: Java.sublime-syntax
+
+contexts:
+  prototype:
+    - match: ^(?:\s*(\*)\s?)
+      captures:
+        1: punctuation.definition.comment.java
+    - include: line-comments
