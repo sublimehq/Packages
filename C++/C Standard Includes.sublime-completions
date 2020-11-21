@@ -5,34 +5,193 @@
     // Update as needed.
     "completions":
     [
-        { "trigger": "assert.h\tstandard header", "contents": "assert.h" }, // Conditionally compiled macro that compares its argument to zero
-        { "trigger": "complex.h\tstandard header (since c99)", "contents": "complex.h" }, // (since C99) Complex number arithmetic
-        { "trigger": "ctype.h\tstandard header", "contents": "ctype.h" }, // Functions to determine the type contained in character data
-        { "trigger": "errno.h\tstandard header", "contents": "errno.h" }, // Macros reporting error conditions
-        { "trigger": "fenv.h\tstandard header (since c99)", "contents": "fenv.h" }, // (since C99)    Floating-point environment
-        { "trigger": "float.h\tstandard header", "contents": "float.h" }, //   Limits of float types
-        { "trigger": "inttypes.h\tstandard header (since c99)", "contents": "inttypes.h" }, // (since C99) Format conversion of integer types
-        { "trigger": "iso646.h\tstandard header (since c95)", "contents": "iso646.h" }, // (since C95) Alternative operator spellings
-        { "trigger": "limits.h\tstandard header", "contents": "limits.h" }, // Sizes of basic types
-        { "trigger": "locale.h\tstandard header", "contents": "locale.h" }, // Localization utilities
-        { "trigger": "math.h\tstandard header", "contents": "math.h" }, // Common mathematics functions
-        { "trigger": "setjmp.h\tstandard header", "contents": "setjmp.h" }, // Nonlocal jumps
-        { "trigger": "signal.h\tstandard header", "contents": "signal.h" }, // Signal handling
-        { "trigger": "stdalign.h\tstandard header (since c11)", "contents": "stdalign.h" }, // (since C11) alignas and alignof convenience macros
-        { "trigger": "stdarg.h\tstandard header", "contents": "stdarg.h" }, //  Variable arguments
-        { "trigger": "stdatomic.h\tstandard header (since c11)", "contents": "stdatomic.h" }, // (since C11 Atomic types
-        { "trigger": "stdbool.h\tstandard header (since c99)", "contents": "stdbool.h" }, // (since C99) Boolean type
-        { "trigger": "stddef.h\tstandard header", "contents": "stddef.h" }, //  Common macro definitions
-        { "trigger": "stdint.h\tstandard header (since c99)", "contents": "stdint.h" }, // (since C99)  Fixed-width integer types
-        { "trigger": "stdio.h\tstandard header", "contents": "stdio.h" }, // Input/output
-        { "trigger": "stdlib.h\tstandard header", "contents": "stdlib.h" }, // General utilities: memory management, program utilities, string conversions, random numbers
-        { "trigger": "stdnoreturn.h\tstandard header (since c11)", "contents": "stdnoreturn.h" }, // (since C11) noreturn convenience macros
-        { "trigger": "string.h\tstandard header", "contents": "string.h" }, // String handling
-        { "trigger": "tgmath.h\tstandard header (since c99)", "contents": "tgmath.h" }, // (since C99) Type-generic math (macros wrapping math.h and complex.h)
-        { "trigger": "threads.h\tstandard header (since c11)", "contents": "threads.h" }, // (since C11) Thread library
-        { "trigger": "time.h\tstandard header", "contents": "time.h" }, // Time/date utilities
-        { "trigger": "uchar.h\tstandard header (since c11)", "contents": "uchar.h" }, // (since C11) UTF-16 and UTF-32 character utilities
-        { "trigger": "wchar.h\tstandard header (since c95)", "contents": "wchar.h" }, // (since C95) Extended multibyte and wide character utilities
-        { "trigger": "wctype.h\tstandard header (since c95)", "contents": "wctype.h" }, // (since C95) Wide character classification and mapping utilities
+        {
+            // Conditionally compiled macro that compares its argument to zero
+            "trigger": "assert.h",
+            "contents": "assert.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C99) Complex number arithmetic
+            "trigger": "complex.h",
+            "details": "Added in C99",
+            "contents": "complex.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Functions to determine the type contained in character data
+            "trigger": "ctype.h",
+            "contents": "ctype.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Macros reporting error conditions
+            "trigger": "errno.h",
+            "contents": "errno.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C99)    Floating-point environment
+            "trigger": "fenv.h",
+            "details": "Added in C99",
+            "contents": "fenv.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            //   Limits of float types
+            "trigger": "float.h",
+            "contents": "float.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C99) Format conversion of integer types
+            "trigger": "inttypes.h",
+            "details": "Added in C99",
+            "contents": "inttypes.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C95) Alternative operator spellings
+            "trigger": "iso646.h",
+            "details": "Added in C95",
+            "contents": "iso646.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Sizes of basic types
+            "trigger": "limits.h",
+            "contents": "limits.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Localization utilities
+            "trigger": "locale.h",
+            "contents": "locale.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Common mathematics functions
+            "trigger": "math.h",
+            "contents": "math.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Nonlocal jumps
+            "trigger": "setjmp.h",
+            "contents": "setjmp.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Signal handling
+            "trigger": "signal.h",
+            "contents": "signal.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C11) alignas and alignof convenience macros
+            "trigger": "stdalign.h",
+            "details": "Added in C11",
+            "contents": "stdalign.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            //  Variable arguments
+            "trigger": "stdarg.h",
+            "contents": "stdarg.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C11 Atomic types
+            "trigger": "stdatomic.h",
+            "details": "Added in C11",
+            "contents": "stdatomic.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C99) Boolean type
+            "trigger": "stdbool.h",
+            "details": "Added in C99",
+            "contents": "stdbool.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            //  Common macro definitions
+            "trigger": "stddef.h",
+            "contents": "stddef.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C99)  Fixed-width integer types
+            "trigger": "stdint.h",
+            "details": "Added in C99",
+            "contents": "stdint.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Input/output
+            "trigger": "stdio.h",
+            "contents": "stdio.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // General utilities: memory management, program utilities, string conversions, random numbers
+            "trigger": "stdlib.h",
+            "contents": "stdlib.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C11) noreturn convenience macros
+            "trigger": "stdnoreturn.h",
+            "details": "Added in C11",
+            "contents": "stdnoreturn.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // String handling
+            "trigger": "string.h",
+            "contents": "string.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C99) Type-generic math (macros wrapping math.h and complex.h)
+            "trigger": "tgmath.h",
+            "details": "Added in C99",
+            "contents": "tgmath.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C11) Thread library
+            "trigger": "threads.h",
+            "details": "Added in C11",
+            "contents": "threads.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // Time/date utilities
+            "trigger": "time.h",
+            "contents": "time.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C11) UTF-16 and UTF-32 character utilities
+            "trigger": "uchar.h",
+            "details": "Added in C11",
+            "contents": "uchar.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C95) Extended multibyte and wide character utilities
+            "trigger": "wchar.h",
+            "details": "Added in C95",
+            "contents": "wchar.h",
+            "kind": ["namespace", "h", "Header"]
+        },
+        {
+            // (since C95) Wide character classification and mapping utilities
+            "trigger": "wctype.h",
+            "details": "Added in C95",
+            "contents": "wctype.h",
+            "kind": ["namespace", "h", "Header"]
+        },
     ]
 }

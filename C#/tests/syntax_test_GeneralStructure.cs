@@ -71,7 +71,7 @@ namespace YourNamespace
 ///                         ^^^^ support.type
 ///                              ^^^^^ variable.parameter
 ///                                   ^ punctuation.section.parameters.end
-///                                     ^^ storage.type.function
+///                                     ^^ keyword.declaration.function.anonymous.cs
 ///                                        ^^^^ variable.language
 ///                                             ^^ keyword.operator.reflection
 ///                                                ^^^^^ support.type
@@ -120,7 +120,7 @@ namespace YourNamespace
 ///                     ^^^^^^^^^^^^^^^^^^^^ meta.method
 ///                     ^^^^^^^^^ entity.name.function
 ///                              ^^ meta.method.parameters
-///                                 ^^ storage.type.function
+///                                 ^^ keyword.declaration.function.anonymous.cs
 ///                                    ^^^^^ constant.language
     }
 
@@ -587,17 +587,17 @@ namespace TestNamespace.Test
 ///         ^^^ storage.type.variable
 ///             ^ variable.other
 ///                 ^^^^ constant.numeric
-///                     ^ storage.type.numeric
+///                     ^ constant.numeric.suffix
             var l = 11545L;
 ///         ^^^ storage.type.variable
 ///             ^ variable.other
 ///                 ^^^^^ constant.numeric
-///                      ^ storage.type.numeric
+///                      ^ constant.numeric.suffix
             var d = 11545D;
 ///         ^^^ storage.type.variable
 ///             ^ variable.other
 ///                 ^^^^^ constant.numeric
-///                      ^ storage.type.numeric
+///                      ^ constant.numeric.suffix
             int x = 1, y = 0;
 ///         ^^^ storage.type
 ///             ^ variable.other
@@ -849,7 +849,7 @@ namespace TestNamespace.Test
 ///                                                             ^^ storage.type.function.lambda.cs
 ///                                                                ^ variable.other.cs
 ///                                                                  ^ keyword.operator.cs
-///                                                                    ^ constant.numeric.integer.decimal.cs
+///                                                                    ^ meta.number.integer.decimal.cs
 ///                                                                     ^ - meta.function.anonymous
 
             var shortDigits = digits.Where((digit, index) => digit.Length < index);
@@ -1100,12 +1100,17 @@ namespace TestNamespace.Test
                 goto case 'b';
 ///             ^^^^ keyword.control.flow.goto
 ///                  ^^^^ keyword.control.switch.case
-///                       ^^^ constant.character
+///                       ^^^ meta.string string.quoted.single
+///                       ^ punctuation.definition.string.begin
+///                        ^ constant.character.literal
+///                         ^ punctuation.definition.string.end
 ///                          ^ punctuation.terminator.statement
             case 'b':
 ///         ^^^^ keyword.control.switch.case - invalid
-///              ^^^ constant.character
-///                 ^ punctuation.separator.case-statement
+///              ^^^ meta.string string.quoted.single
+///              ^ punctuation.definition.string.begin
+///               ^ constant.character.literal
+///                ^ punctuation.definition.string.end
                 result += 6;
                 break;
             case 'c':
@@ -1182,6 +1187,12 @@ namespace TestNamespace.Test
 ///                            ^^^^^^^ constant.other.placeholder
 ///                                   ^ - constant
 ///                                    ^^^^^^^^ constant.other.placeholder
+
+        for (; ctr < names.Length; ctr++)
+///          ^ punctuation.terminator.statement
+///                              ^ punctuation.terminator.statement
+            continue;
+///         ^^^^^^^^ keyword.control.flow.break
 
         int MyInt = 100;
         Console.WriteLine("{0:C}", MyInt);
@@ -1324,4 +1335,40 @@ public class AfterTopLevelMethod {
 ///              ^^^^^^^^^^^^^^^^^^ support.type
 ///                                 ^^^^^^^^^^^ variable.other.member
 ///                                            ^ punctuation.terminator.statement
+
+    public static implicit operator AfterTopLevelMethod(int[] some_ints)
+///        ^^^^^^ storage.modifier
+///               ^^^^^^^^ storage.modifier
+///                        ^^^^^^^^ storage.modifier
+///                                                     ^^^ meta.method.parameters storage.type
+///                                                           ^^^^^^^^^ meta.method.parameters variable.parameter
+    {
+        return new AfterTopLevelMethod(some_ints);
+    }
+    
+    Action<float> actionDelegate = delegate { };
+///                              ^ keyword.operator.assignment.variable
+///                                ^^^^^^^^ keyword.other
+///                                         ^ punctuation.section.block.begin
+///                                           ^ punctuation.section.block.end
+    event Action<float> eventAction;
+/// ^^^^^ storage.modifier
+    event Action<float> eventActionDelegate = delegate { };
+///                                         ^ keyword.operator.assignment.variable
+///                                           ^^^^^^^^ keyword.other
+///                                                    ^ punctuation.section.block.begin
+///                                                      ^ punctuation.section.block.end
+}
+
+struct Example
+{
+    // https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/struct#readonly-instance-members
+    private int counter;
+    public int Counter
+    {
+        readonly get => counter;
+///     ^^^^^^^^ storage.modifier
+///              ^^^ storage.type.function.accessor.get
+        set => counter = value;
+    }
 }

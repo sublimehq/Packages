@@ -477,7 +477,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.integer.decimal.objc
+        3: meta.number.integer.decimal.objc constant.numeric.value.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -503,7 +503,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.integer.decimal.objc
+        3: meta.number.integer.decimal.objc constant.numeric.value.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -549,7 +549,7 @@ contexts:
           )
         )
       captures:
-        1: storage.type.objc
+        1: keyword.declaration.objc
       set: global-maybe-function
     # The previous match handles return types of struct/enum/etc from a func,
     # there this one exits the context to allow matching an actual struct/union
@@ -651,15 +651,15 @@ contexts:
   data-structures:
     # Detect variable type definitions using struct/enum/union followed by a tag
     - match: '\b({{before_tag}})(?=\s+{{identifier}}\s+{{identifier}}\s*[=;\[])'
-      scope: storage.type.objc
+      scope: keyword.declaration.objc
     - match: '\bstruct\b'
-      scope: storage.type.objc
+      scope: keyword.declaration.struct.objc
       set: data-structures-struct-definition
     - match: '\benum\b'
-      scope: storage.type.objc
+      scope: keyword.declaration.enum.objc
       set: data-structures-enum-definition
     - match: '\bunion\b'
-      scope: storage.type.objc
+      scope: keyword.declaration.union.objc
       set: data-structures-union-definition
     - match: '(?=\S)'
       pop: true
@@ -873,7 +873,7 @@ contexts:
 
   typedef:
     - match: \btypedef\b
-      scope: storage.type.objc
+      scope: keyword.declaration.type.objc
       push:
         - match: ({{identifier}})?\s*(?=;)
           captures:
@@ -881,7 +881,7 @@ contexts:
           pop: true
         - match: \b(struct)\s+({{identifier}})
           captures:
-            1: storage.type.objc
+            1: keyword.declaration.struct.objc
         - include: expressions
 
   function-call:
@@ -911,7 +911,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.integer.decimal.objc
+        3: meta.number.integer.decimal.objc constant.numeric.value.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -937,7 +937,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.integer.decimal.objc
+        3: meta.number.integer.decimal.objc constant.numeric.value.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -981,7 +981,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.integer.decimal.objc
+        3: meta.number.integer.decimal.objc constant.numeric.value.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1008,7 +1008,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.integer.decimal.objc
+        3: meta.number.integer.decimal.objc constant.numeric.value.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1113,7 +1113,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.integer.decimal.objc
+        3: meta.number.integer.decimal.objc constant.numeric.value.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:
@@ -1139,7 +1139,7 @@ contexts:
       captures:
         1: meta.preprocessor.objc
         2: keyword.control.import.objc
-        3: constant.numeric.integer.decimal.objc
+        3: meta.number.integer.decimal.objc constant.numeric.value.objc
       push:
         - match: ^\s*(#\s*endif)\b
           captures:

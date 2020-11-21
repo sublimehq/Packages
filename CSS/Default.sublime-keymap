@@ -1,27 +1,55 @@
 [
-	{ "keys": [":"], "command": "insert_snippet", "args": {"contents": ":$0;"}, "context":
+	// Add a colon followed by space and semicolon after a property name,
+	// if the next following token doesn't look like a value.
+	{ "keys": [":"], "command": "insert_snippet", "args": {"contents": ": $0;"}, "context":
 		[
 			{ "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
 			{ "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
 			{ "key": "selector", "operator": "equal", "operand": "source.css - meta.selector.css", "match_all": true },
-			{ "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\}|$)", "match_all": true }
+			{ "key": "preceding_text", "operator": "regex_contains", "operand": "\\w$", "match_all": false },
+			{ "key": "following_text", "operator": "regex_contains", "operand": "^\\s*($|[^:;}]+:)", "match_all": false }
 		]
 	},
+	// Add a colon followed by space after a property name,
+	// if the next character is a semicolon or the following token looks like a value.
+	{ "keys": [":"], "command": "insert_snippet", "args": {"contents": ": $0"}, "context":
+		[
+			{ "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
+			{ "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
+			{ "key": "selector", "operator": "equal", "operand": "source.css - meta.selector.css", "match_all": true },
+			{ "key": "preceding_text", "operator": "regex_contains", "operand": "\\w$", "match_all": false },
+			{ "key": "following_text", "operator": "regex_contains", "operand": "^;|^[^\\s:;][^:]*($|[;}]|//|/\\*)", "match_all": true }
+		]
+	},
+	// Move the cursor to prevent adding a duplicated semicolon.
 	{ "keys": [";"], "command": "move", "args": {"by": "characters", "forward": true}, "context":
 		[
 			{ "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
 			{ "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
 			{ "key": "selector", "operator": "equal", "operand": "source.css - meta.selector.css", "match_all": true },
-			{ "key": "following_text", "operator": "regex_contains", "operand": "^;", "match_all": true }
+			{ "key": "following_text", "operator": "regex_contains", "operand": "^;", "match_all": false }
 		]
 	},
+	// Delete both the colon on the left and a semicolon on the right.
 	{ "keys": ["backspace"], "command": "run_macro_file", "args": {"file": "res://Packages/Default/Delete Left Right.sublime-macro"}, "context":
 		[
 			{ "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
 			{ "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
 			{ "key": "selector", "operator": "equal", "operand": "source.css - meta.selector.css", "match_all": true },
-			{ "key": "preceding_text", "operator": "regex_contains", "operand": ":$", "match_all": true },
-			{ "key": "following_text", "operator": "regex_contains", "operand": "^;", "match_all": true }
+			{ "key": "preceding_text", "operator": "regex_contains", "operand": ":$", "match_all": false },
+			{ "key": "following_text", "operator": "regex_contains", "operand": "^;", "match_all": false }
+		]
+	},
+	// Move the caret to the next line and leave the terminating semicolon untouched.
+	// This is to not bother with semicolons even though completions end up with the caret directy in front of it.
+	{ "keys": ["enter"], "command": "run_macro_file", "args": {"file": "res://Packages/Default/Add Line.sublime-macro"} , "context":
+		[
+			{ "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
+			{ "key": "auto_complete_visible", "operator": "equal", "operand": false },
+			{ "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
+			{ "key": "selector", "operator": "equal", "operand": "source.css - meta.selector.css", "match_all": true },
+			{ "key": "preceding_text", "operator": "not_regex_contains", "operand": ";\\s*$", "match_all": false },
+			{ "key": "following_text", "operator": "regex_contains", "operand": "^\\s*;", "match_all": false }
 		]
 	},
 
@@ -32,7 +60,7 @@
 			{ "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
 			{ "key": "selector", "operator": "equal", "operand": "source.css - meta.selector.css", "match_all": true },
 			{ "key": "preceding_text", "operator": "regex_contains", "operand": "\\{$", "match_all": true },
-			{ "key": "following_text", "operator": "regex_contains", "operand": "^\\}", "match_all": true },
+			{ "key": "following_text", "operator": "regex_contains", "operand": "^\\}", "match_all": true }
 		]
 	},
 	{ "keys": ["backspace"], "command": "run_macro_file", "args": {"file": "res://Packages/Default/Delete Left Right.sublime-macro"}, "context":
@@ -44,4 +72,30 @@
 			{ "key": "following_text", "operator": "regex_contains", "operand": "^ \\}", "match_all": true }
 		]
 	},
+
+	// Auto-pair double quotes (also if followed by comma or semicolon)
+	// Example: key: |; -> key: "|";
+	{ "keys": ["\""], "command": "insert_snippet", "args": {"contents": "\"$0\""}, "context":
+		[
+			{ "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
+			{ "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
+			{ "key": "selector", "operator": "equal", "operand": "source.css - string", "match_all": true },
+			{ "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|]|\\}|>|,|;|$)", "match_all": true },
+			{ "key": "preceding_text", "operator": "not_regex_contains", "operand": "[\"a-zA-Z0-9_]$", "match_all": true },
+			{ "key": "eol_selector", "operator": "not_equal", "operand": "string.quoted.double - punctuation.definition.string.end", "match_all": true }
+		]
+	},
+
+	// Auto-pair single quotes (also if followed by comma or semicolon)
+	// Example: key: |; -> key: '|';
+	{ "keys": ["'"], "command": "insert_snippet", "args": {"contents": "'$0'"}, "context":
+		[
+			{ "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
+			{ "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
+			{ "key": "selector", "operator": "equal", "operand": "source.css - string", "match_all": true },
+			{ "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|]|\\}|>|,|;|$)", "match_all": true },
+			{ "key": "preceding_text", "operator": "not_regex_contains", "operand": "['a-zA-Z0-9_]$", "match_all": true },
+			{ "key": "eol_selector", "operator": "not_equal", "operand": "string.quoted.single - punctuation.definition.string.end", "match_all": true }
+		]
+	}
 ]

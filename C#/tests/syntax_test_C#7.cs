@@ -26,7 +26,7 @@ class Foo {
 ///     ^^^ storage.type
 ///         ^ - entity.name
 ///           ^ keyword.operator.assignment
-///             ^^ constant.numeric.integer.decimal
+///             ^^ meta.number.integer.decimal constant.numeric.value
 ///               ^ punctuation.terminator
 
         // simple nested function
@@ -138,43 +138,51 @@ class Foo {
 ///                       ^^^ variable.function
 ///                          ^^^ meta.group meta.group
 ///                          ^ punctuation.section.group.begin
-///                           ^ constant.numeric.integer.decimal
+///                           ^ meta.number.integer.decimal constant.numeric.value
 ///                            ^ punctuation.section.group.end
 ///                             ^ punctuation.section.group.end
 
         // https://github.com/dotnet/roslyn/pull/2950
         int bin = 0b1001_1010_0001_0100;
-///               ^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.binary
-///               ^^ punctuation.definition.numeric.base
+///               ^^^^^^^^^^^^^^^^^^^^^ meta.number.integer.binary.cs
+///               ^^ constant.numeric.base.cs
+///                 ^^^^^^^^^^^^^^^^^^^ constant.numeric.value.cs
         int hex = 0x1b_a0_44_fe;
-///               ^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
-///               ^^ punctuation.definition.numeric.base
+///               ^^^^^^^^^^^^^ meta.number.integer.hexadecimal.cs
+///               ^^ constant.numeric.base.cs
+///                 ^^^^^^^^^^^ constant.numeric.value.cs
         int dec = 33_554_432;
-///               ^^^^^^^^^^ constant.numeric.integer.decimal
+///               ^^^^^^^^^^ meta.number.integer.decimal.cs constant.numeric.value.cs
         int weird = 1_2__3___4____5_____6______7_______8________9;
-///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.decimal
+///                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number.integer.decimal.cs constant.numeric.value.cs
         double real = 1_000.111_1e-1_000;
-///                   ^^^^^^^^^^^^^^^^^^ constant.numeric.float.decimal
+///                   ^^^^^^^^^^^^^^^^^^ meta.number.float.decimal.cs
+///                   ^^^^^^^^^^^ constant.numeric.value.cs
 ///                        ^ punctuation.separator.decimal.cs
+///                              ^^^^^^^ constant.numeric.value.exponent.cs
         double real = 1_000e-1_000;
-///                   ^^^^^^^^^^^^ constant.numeric.float.decimal
+///                   ^^^^^^^^^^^^ meta.number.float.decimal.cs
+///                   ^^^^^ constant.numeric.value.cs
+///                        ^^^^^^^ constant.numeric.value.exponent.cs
         double dbl = 33_554_432.5_2;
-///                  ^^^^^^^^^^^^^^ constant.numeric.float.decimal
+///                  ^^^^^^^^^^^^^^ meta.number.float.decimal.cs constant.numeric.value.cs
+///                            ^ punctuation.separator.decimal.cs
         long lng = 33_554_4321L;
-///                ^^^^^^^^^^^ constant.numeric.integer.decimal
-///                           ^ storage.type.numeric
+///                ^^^^^^^^^^^ meta.number.integer.decimal.cs
+///                ^^^^^^^^^^^ constant.numeric.value.cs
+///                           ^ constant.numeric.suffix.cs
         bin = _0b1001_1010_0001_0100;
 ///           ^^^^^^^^^^^^^^^^^^^^^^ variable.other
         bin = 0b1001_1010_0001_0100_;
-///                                ^ - constant.numeric.integer.binary
+///                                ^ - meta.number.integer.binary
         bin = 0b_1001_1010_0001_0100;
-///           ^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.binary
+///           ^^^^^^^^^^^^^^^^^^^^^^ meta.number.integer.binary
         bin = 0b__1001__1010__0001__0_1_0_0;
-///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.numeric.integer.binary
+///           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.number.integer.binary
         hex = _0x1b_a0_44_fe;
 ///           ^^^^^^^^^^^^^^ variable.other
         hex = 0x_1b_a0_44_fe;
-///           ^^^^^^^^^^^^^^ constant.numeric.integer.hexadecimal
+///           ^^^^^^^^^^^^^^ meta.number.integer.hexadecimal
         int abc = _123;
 ///               ^^^^ variable.other
 
@@ -188,7 +196,7 @@ class Foo {
 ///                                 ^ punctuation.accessor.dot
 ///                                  ^^^^ variable.other
 ///                                       ^^ keyword.operator
-///                                          ^ constant.numeric.integer.decimal
+///                                          ^ meta.number.integer.decimal constant.numeric.value
 ///                                           ^ punctuation.separator.case-statement
                 Console.WriteLine($"The shape: {sh.GetType().Name} with no dimensions");
                 break;
@@ -200,7 +208,7 @@ class Foo {
 ///                           ^^^^ keyword.control.switch.case.when
 ///                                ^^^^^^^ variable.other
 ///                                        ^^ keyword.operator
-///                                           ^ constant.numeric.integer.decimal
+///                                           ^ meta.number.integer.decimal constant.numeric.value
 ///                                            ^ punctuation.separator.case-statement
             case Shape<Shape> shape when shape.Area > 0:
 ///         ^^^^ keyword.control.switch.case
@@ -214,7 +222,7 @@ class Foo {
 ///                                           ^ punctuation.accessor.dot
 ///                                            ^^^^ variable.other
 ///                                                 ^ keyword.operator
-///                                                   ^ constant.numeric.integer.decimal
+///                                                   ^ meta.number.integer.decimal constant.numeric.value
 ///                                                    ^ punctuation.separator.case-statement
         }
 
@@ -325,7 +333,7 @@ class Foo {
 ///              ^ punctuation.separator.tuple
 ///                   ^ keyword.operator.assignment - meta.group
 ///                     ^^^^^^^^^ meta.group.tuple
-///                      ^ constant.numeric.integer.decimal
+///                      ^ meta.number.integer.decimal constant.numeric.value
 ///                       ^ punctuation.separator.tuple
         (string Alpha, string Beta) namedLetters = ("a", "b");
 ///     ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.tuple
@@ -442,7 +450,7 @@ class Foo {
 ///                                            ^ meta.group.tuple punctuation.section.group.begin
 ///                                             ^^^^^^^^^^^^^^^^ meta.function.anonymous
 ///                                                             ^ punctuation.separator.tuple - meta.function.anonymous
-///                                                               ^ constant.numeric.integer.decimal
+///                                                               ^ meta.number.integer.decimal constant.numeric.value
 ///                                                                ^ punctuation.accessor.dot
 ///                                                                 ^^^^^^^^ variable.function
 ///                                                                         ^ punctuation.section.group.begin
@@ -452,7 +460,7 @@ class Foo {
 ///               ^^^ keyword.operator.new
 ///                   ^^^^^^ support.type
 ///                                  ^ punctuation.separator.tuple
-///                                    ^^ meta.group.tuple constant.numeric.integer.decimal
+///                                    ^^ meta.group.tuple meta.number.integer.decimal constant.numeric.value
 ///                                      ^ punctuation.section.group.end
 
         var dic = new Dictionary<string, int> { ["Bob"] = 32, ["Alice"] = 17 };
@@ -485,6 +493,24 @@ class Foo {
         {
             Console.WriteLine($"x={x} y={y}");
         }
+
+        foreach ((var a, var b) in positions)
+///     ^^^^^^^ meta.class.body meta.block meta.method.body meta.block keyword.control.loop.foreach
+///             ^ punctuation.section.group.begin - meta.group.tuple
+///              ^^^^^^^^^^^^^^ meta.group.tuple
+///              ^ punctuation.section.group.begin
+///               ^^^ support.type
+///                   ^ variable.other
+///                    ^ punctuation.separator.tuple
+///                      ^^^ support.type
+///                          ^ variable.other
+///                           ^ punctuation.section.group.end
+///                             ^^ keyword.control.flow
+///                                ^^^^^^^^^ variable.other
+///                                         ^ punctuation.section.group.end
+        ; // empty statement
+///     ^ punctuation.terminator.statement
+
     }
 
     private static (int Max, int Min) Range(IEnumerable<int> numbers)
@@ -654,9 +680,16 @@ void Foo (in string s, in int x, in Point point)
 void TestFoo() => Foo ("hello", 123, new Point (2, 3));
 
 // https://msdn.microsoft.com/en-us/magazine/mt814808.aspx
-Span<byte> bytes = length <= 128 ? stackalloc byte[length] : new byte[length];
-///                                ^^^^^^^^^^ keyword.other
-///                                           ^^^^ variable.other
+Span<byte> bytes = length > 128 ? new byte[length] : stackalloc byte[length];
+///                             ^ keyword.operator.ternary
+///                               ^^^ keyword.operator.new
+///                               ^^^^^^^^^^^^^^^^ meta.instance
+///                                                ^ keyword.operator.ternary - meta.instance
+///                                                  ^^^^^^^^^^ storage.modifier
+///                                                             ^^^^ storage.type
+///                                                                 ^ punctuation.section.brackets.begin
+///                                                                  ^^^^^^ variable.other
+///                                                                        ^ punctuation.section.brackets.end
 bytes[0] = 42;
 bytes[1] = 43;
 Assert.Equal(42, bytes[0]);
@@ -693,7 +726,7 @@ public delegate void SpanAction<T, in TArg>(Span<T> span, TArg arg);
 void Test ()
 {
     int[] array = { 1, 15, -39, 0, 7, 14, -12 };
-///                 ^ constant.numeric.integer.decimal
+///                 ^ meta.number.integer.decimal constant.numeric.value
 ///                  ^ punctuation.separator.array-element
 ///                                            ^ punctuation.terminator.statement
     ref int place = ref Find (7, array); // aliases 7's place in the array
@@ -731,7 +764,7 @@ public class MyClass {
     public MyClass () => obj = null;
 ///        ^^^^^^^ meta.method.constructor entity.name.function.constructor
 ///               ^^^^^^^^^^^^^^^^^ meta.class.body meta.block meta.method
-///                   ^^ storage.type.function
+///                   ^^ keyword.declaration.function.anonymous.cs
 ///                      ^^^ variable.other
 ///                          ^ keyword.operator.assignment
 ///                            ^^^^ constant.language
@@ -756,7 +789,7 @@ public class Person // https://stackoverflow.com/a/41974829/4473405
 ///                                ^^^ variable.parameter
 ///                                   ^ punctuation.section.parameters.end
 ///                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
-///                                     ^^ storage.type.function
+///                                     ^^ keyword.declaration.function.anonymous.cs
 ///                                        ^ meta.group punctuation.section.group.begin
 ///                                         ^^^^ meta.group variable.other
 ///                                             ^ meta.group punctuation.separator.tuple
@@ -770,3 +803,11 @@ public class Person // https://stackoverflow.com/a/41974829/4473405
 ///                                                                ^ meta.group punctuation.section.group.end
 ///                                                                 ^ punctuation.terminator.statement
 }
+
+// https://docs.microsoft.com/en-us/dotnet/csharp/whats-new/csharp-7#pattern-matching
+if (input is int count)
+/// ^^^^^ variable.other
+///       ^^ keyword.operator.reflection
+///          ^^^ storage.type
+///              ^^^^^ variable.other
+    sum += count;

@@ -34,7 +34,10 @@
 # HEREDOC with indented end tag containing an interpolated string
 puts <<~EOF; # comment
 #^^^^ - meta.string - string.unquoted
-#    ^^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+#    ^^^ meta.string.heredoc.ruby - meta.tag
+#       ^^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby
+#    ^^^ punctuation.definition.heredoc.ruby
+#       ^^^ entity.name.tag.ruby
 #          ^ punctuation.terminator.statement.ruby - meta.string - string
 #            ^ comment.line.number-sign.ruby punctuation.definition.comment.ruby - meta.string - string
   Indented string!
@@ -51,13 +54,18 @@ puts <<~EOF; # comment
 #            ^^ punctuation.definition.variable.ruby
 #            ^^^^^ variable.other.readwrite.instance.ruby
   EOF
-# ^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.end.ruby
+# ^^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 #    ^ - meta.string - string.unquoted
 
 # HEREDOC with indented end tag containing a plain string
 puts <<~'EOF'; # comment
 #^^^^ - meta.string - string.unquoted
-#    ^^^^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+#    ^^^ meta.string.heredoc.ruby - meta.tag
+#       ^^^^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby
+#    ^^^ punctuation.definition.heredoc.ruby
+#       ^ punctuation.definition.tag.begin.ruby
+#        ^^^ entity.name.tag.ruby
+#           ^ punctuation.definition.tag.end.ruby
 #            ^ punctuation.terminator.statement.ruby - meta.string - string
 #              ^ comment.line.number-sign.ruby punctuation.definition.comment.ruby - meta.string - string
   Indented string!
@@ -65,13 +73,16 @@ puts <<~'EOF'; # comment
     #{ sym } #@var
 # ^^^^^^^^^^^^^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby - meta.interpolation
   EOF
-# ^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.end.ruby
+# ^^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 #    ^ - meta.string - string.unquoted
 
 # HEREDOC with unindented end tag containing an interpolated string
 puts <<EOF; # comment
 #^^^^ - meta.string - string.unquoted
-#    ^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+#    ^^ meta.string.heredoc.ruby - meta.tag
+#      ^^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby
+#    ^^ punctuation.definition.heredoc.ruby
+#      ^^^ entity.name.tag.ruby
 #         ^ punctuation.terminator.statement.ruby - meta.string - string
 #           ^ comment.line.number-sign.ruby punctuation.definition.comment.ruby - meta.string - string
   Indented string!
@@ -90,13 +101,18 @@ puts <<EOF; # comment
   EOF
 #^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby
 EOF
-#^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.end.ruby
+#^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 #  ^ - meta.string - string.unquoted
 
 # HEREDOC with unindented end tag containing a plain string
 puts <<'EOF'; # comment
 #^^^^ - meta.string - string.unquoted
-#    ^^^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+#    ^^ meta.string.heredoc.ruby - meta.tag
+#      ^^^^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby
+#    ^^ punctuation.definition.heredoc.ruby
+#      ^ punctuation.definition.tag.begin.ruby
+#       ^^^ entity.name.tag.ruby
+#          ^ punctuation.definition.tag.end.ruby
 #           ^ punctuation.terminator.statement.ruby - meta.string - string
 #             ^ comment.line.number-sign.ruby punctuation.definition.comment.ruby - meta.string - string
   Indented string!
@@ -106,12 +122,15 @@ puts <<'EOF'; # comment
   EOF
 #^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby
 EOF
-#^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.end.ruby
+#^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 #  ^ - meta.string - string.unquoted
 
 puts <<-HTML; # comment
 #^^^^ - meta.string - string.unquoted
-#    ^^^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+#    ^^^ meta.string.heredoc.ruby - meta.tag
+#       ^^^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby
+#    ^^^ punctuation.definition.heredoc.ruby
+#       ^^^^ entity.name.tag.ruby
 #           ^ punctuation.terminator.statement.ruby - meta.string
 #             ^ comment.line.number-sign.ruby punctuation.definition.comment.ruby - meta.string - string
   <body>
@@ -130,7 +149,7 @@ puts <<-HTML; # comment
   </body>
 # ^^^^^^^ meta.string.heredoc.ruby text.html.embedded.ruby meta.tag.structure.any.html
   HTML
-# ^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.end.ruby
+# ^^^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 #     ^ - meta.string - string.unquoted
 
 class_eval <<-RUBY, __FILE__, __LINE__ + 1
@@ -143,22 +162,37 @@ class_eval <<-RUBY, __FILE__, __LINE__ + 1
     custom(Mime[:#{sym}], *args, &block)
   end
 RUBY
-#^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.end.ruby
+#^^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 #   ^ - meta.string - string.unquoted
 
 puts <<-SH; # comment
-#    ^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.begin.ruby
+#    ^^^^^ meta.string.heredoc.ruby
+#    ^^^ punctuation.definition.heredoc.ruby
+#       ^^ entity.name.tag.ruby
 #         ^ punctuation.terminator.statement.ruby - meta.string - string
 #           ^ comment.line.number-sign.ruby punctuation.definition.comment.ruby - meta.string - string
   git log
 # ^^^^^^^ meta.string.heredoc.ruby source.shell.embedded.ruby
   SH
-# ^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.end.ruby
+# ^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 #   ^ - meta.string - string.unquoted
+
+puts <<-SHELL; # comment
+#    ^^^ meta.string.heredoc.ruby punctuation.definition.heredoc.ruby
+#       ^^^^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
+#            ^ punctuation.terminator.statement.ruby - meta.string - string
+#              ^ comment.line.number-sign.ruby punctuation.definition.comment.ruby - meta.string - string
+  git log
+# ^^^^^^^ meta.string.heredoc.ruby source.shell.embedded.ruby
+  SHELL
+# ^^^^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
+#      ^ - meta.string - string.unquoted
 
 DB.fetch(<<-SQL, conn).name
 #^^^^^^^^^^^^^^^^^^^^^^^^^^ source.ruby
-#        ^^^^^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby
+#        ^^^^^^ meta.string.heredoc.ruby
+#        ^^^ punctuation.definition.heredoc.ruby
+#           ^^^ entity.name.tag.ruby
 #              ^^^^^^^^^^^^ - meta.string - string
 #              ^ punctuation.separator
 #                    ^ punctuation.definition.group.end
@@ -167,17 +201,20 @@ SELECT * FROM #$users;
 #             ^^^^^^^ meta.string.heredoc.ruby source.sql.embedded.ruby meta.interpolation.ruby variable.other.readwrite.global
 #                    ^ meta.string.heredoc.ruby source.sql.embedded.ruby - meta.interpolation
 SQL
-#^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.end.ruby
+#^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 #  ^ - meta.string - string.unquoted
 
 foo, bar = <<BAR, 2
 #^^^^^^^^^^^^^^^^^^ source.ruby
-#          ^^^^^ string.unquoted
-#               ^^^ - string
+#          ^^ meta.string.heredoc.ruby - meta.tag
+#            ^^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby
+#               ^^^ - meta.string.heredoc
+#          ^^ punctuation.definition.heredoc.ruby
+#            ^^^ entity.name.tag.ruby
 #               ^ punctuation.separator
 #                 ^ constant.numeric
 BAR
-#^^ meta.string.heredoc.ruby string.unquoted.heredoc.ruby punctuation.definition.string.end.ruby
+#^^ meta.string.heredoc.ruby meta.tag.heredoc.ruby entity.name.tag.ruby
 #  ^ - meta.string - string.unquoted
 
 ##################
@@ -185,190 +222,192 @@ BAR
 ##################
 
  1234
-#^^^^ constant.numeric.integer.decimal
+#^^^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
  1_234
-#^^^^^ constant.numeric.integer.decimal
+#^^^^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
  0d170
-#^^^^^ constant.numeric.integer.decimal
-#^^ punctuation.definition.numeric.base
+#^^ meta.number.integer.decimal.ruby constant.numeric.base.ruby
+#  ^^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
  0D170
-#^^^^^ constant.numeric.integer.decimal
-#^^ punctuation.definition.numeric.base
+#^^ meta.number.integer.decimal.ruby constant.numeric.base.ruby
+#  ^^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
  0xAa
-#^^^^ constant.numeric.integer.hexadecimal
-#^^ punctuation.definition.numeric.base
+#^^ meta.number.integer.hexadecimal.ruby constant.numeric.base.ruby
+#  ^^ meta.number.integer.hexadecimal.ruby constant.numeric.value.ruby
  0XAa
-#^^^^ constant.numeric.integer.hexadecimal
-#^^ punctuation.definition.numeric.base
+#^^ meta.number.integer.hexadecimal.ruby constant.numeric.base.ruby
+#  ^^ meta.number.integer.hexadecimal.ruby constant.numeric.value.ruby
  0252
-#^^^^ constant.numeric.integer.octal
-#^ punctuation.definition.numeric.base
+#^ meta.number.integer.octal.ruby constant.numeric.base.ruby
+# ^^^ meta.number.integer.octal.ruby constant.numeric.value.ruby
  0o252
-#^^^^^ constant.numeric.integer.octal
-#^^ punctuation.definition.numeric.base
+#^^ meta.number.integer.octal.ruby constant.numeric.base.ruby
+#  ^^^ meta.number.integer.octal.ruby constant.numeric.value.ruby
  0O252
-#^^^^^ constant.numeric.integer.octal
-#^^ punctuation.definition.numeric.base
+#^^ meta.number.integer.octal.ruby constant.numeric.base.ruby
+#  ^^^ meta.number.integer.octal.ruby constant.numeric.value.ruby
  0b10101010
-#^^^^^^^^^^ constant.numeric.integer.binary
-#^^ punctuation.definition.numeric.base
+#^^ meta.number.integer.binary.ruby constant.numeric.base.ruby
+#  ^^^^^^^^ meta.number.integer.binary.ruby constant.numeric.value.ruby
  0B10101010
-#^^^^^^^^^^ constant.numeric.integer.binary
-#^^ punctuation.definition.numeric.base
+#^^ meta.number.integer.binary.ruby constant.numeric.base.ruby
+#  ^^^^^^^^ meta.number.integer.binary.ruby constant.numeric.value.ruby
  12.
-#^^ constant.numeric.integer.decimal
+#^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
 #  ^ punctuation.accessor - constant.numeric - invalid.illegal
  12.ir
-#^^ constant.numeric.integer.decimal
+#^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
 #  ^ punctuation.accessor - constant.numeric - invalid.illegal
 #   ^^ - constant.numeric - invalid.illegal - storage.type.numeric
 
  12.34
-#^^^^^ constant.numeric.float.decimal
+#^^^^^ meta.number.float.decimal.ruby constant.numeric.value.ruby
 #  ^ punctuation.separator.decimal
  1234e-2
-#^^^^^^^ constant.numeric.float.decimal
+#^^^^^^^ meta.number.float.decimal.ruby constant.numeric.value.ruby
  1.234E1
-#^^^^^^^ constant.numeric.float.decimal
+#^^^^^^^ meta.number.float.decimal.ruby constant.numeric.value.ruby
 # ^ punctuation.separator.decimal
  12e3r
-#^^^^^ constant.numeric.float.decimal
-#    ^ invalid.illegal.numeric
+#^^^^ meta.number.float.decimal.ruby constant.numeric.value.ruby
+#    ^ meta.number.float.decimal.ruby constant.numeric.suffix.ruby invalid.illegal.numeric.rational.ruby
  1.2e3r
-#^^^^^^ constant.numeric.float.decimal
+#^^^^^ meta.number.float.decimal.ruby constant.numeric.value.ruby
 # ^ punctuation.separator.decimal
-#     ^ invalid.illegal.numeric
+#     ^ meta.number.float.decimal.ruby constant.numeric.suffix.ruby invalid.illegal.numeric.rational.ruby
 
  12r
-#^^^ constant.numeric.rational.decimal
-#  ^ storage.type.numeric
+#^^ meta.number.rational.decimal.ruby constant.numeric.value.ruby
+#  ^ meta.number.rational.decimal.ruby constant.numeric.suffix.ruby
  12.3r
-#^^^^^ constant.numeric.rational.decimal
+#^^^^ meta.number.rational.decimal.ruby constant.numeric.value.ruby
 #  ^ punctuation.separator.decimal
-#    ^ storage.type.numeric
+#    ^ meta.number.rational.decimal.ruby constant.numeric.suffix.ruby
  0d170r
-#^^^^^^ constant.numeric.rational.decimal
-#^^ punctuation.definition.numeric.base
-#     ^ storage.type.numeric
+#^^ meta.number.rational.decimal.ruby constant.numeric.base.ruby
+#  ^^^ meta.number.rational.decimal.ruby constant.numeric.value.ruby
+#     ^ meta.number.rational.decimal.ruby constant.numeric.suffix.ruby
  0xAar
-#^^^^^ constant.numeric.rational.hexadecimal
-#^^ punctuation.definition.numeric.base
-#    ^ storage.type.numeric
+#^^ meta.number.rational.hexadecimal.ruby constant.numeric.base.ruby
+#  ^^ meta.number.rational.hexadecimal.ruby constant.numeric.value.ruby
+#    ^ meta.number.rational.hexadecimal.ruby constant.numeric.suffix.ruby
  0o252r
-#^^^^^^ constant.numeric.rational.octal
-#^^ punctuation.definition.numeric.base
-#     ^ storage.type.numeric
+#^^ meta.number.rational.octal.ruby constant.numeric.base.ruby
+#  ^^^ meta.number.rational.octal.ruby constant.numeric.value.ruby
+#     ^ meta.number.rational.octal.ruby constant.numeric.suffix.ruby
  0b10101010r
-#^^^^^^^^^^^ constant.numeric.rational.binary
-#^^ punctuation.definition.numeric.base
-#          ^ storage.type.numeric
+#^^ meta.number.rational.binary.ruby constant.numeric.base.ruby
+#  ^^^^^^^^ meta.number.rational.binary.ruby constant.numeric.value.ruby
+#          ^ meta.number.rational.binary.ruby constant.numeric.suffix.ruby
 
  12i
-#^^^ constant.numeric.imaginary.decimal
-#  ^ storage.type.numeric
+#^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#  ^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
  12.3i
-#^^^^^ constant.numeric.imaginary.decimal
+#^^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
 #  ^ punctuation.separator.decimal
-#    ^ storage.type.numeric
+#    ^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
  12e3i
-#^^^^^ constant.numeric.imaginary.decimal
-#    ^ storage.type.numeric
+#^^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#    ^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
  12e-3i
-#^^^^^^ constant.numeric.imaginary.decimal
-#     ^ storage.type.numeric
+#^^^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#     ^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
  1.2e3i
-#^^^^^^ constant.numeric.imaginary.decimal
+#^^^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
 # ^ punctuation.separator.decimal
-#     ^ storage.type.numeric
+#     ^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
  1.2e-3i
-#^^^^^^^ constant.numeric.imaginary.decimal
+#^^^^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
 # ^ punctuation.separator.decimal
-#      ^ storage.type.numeric
+#      ^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
  12ri
-#^^^^ constant.numeric.imaginary.decimal
-#  ^^ storage.type.numeric
+#^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#  ^^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
  12.3ri
-#^^^^^^ constant.numeric.imaginary.decimal
+#^^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
 #  ^ punctuation.separator.decimal
-#    ^^ storage.type.numeric
+#    ^^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
  0d170i
-#^^^^^^ constant.numeric.imaginary.decimal
-#^^ punctuation.definition.numeric.base
-#     ^ storage.type.numeric
+#^^ meta.number.imaginary.decimal.ruby constant.numeric.base.ruby
+#  ^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#     ^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
  0d170ri
-#^^^^^^^ constant.numeric.imaginary.decimal
-#^^ punctuation.definition.numeric.base
-#     ^^ storage.type.numeric
+#^^ meta.number.imaginary.decimal.ruby constant.numeric.base.ruby
+#  ^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#     ^^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
  0xAai
-#^^^^^ constant.numeric.imaginary.hexadecimal
-#^^ punctuation.definition.numeric.base
-#    ^ storage.type.numeric
+#^^ meta.number.imaginary.hexadecimal.ruby constant.numeric.base.ruby
+#  ^^ meta.number.imaginary.hexadecimal.ruby constant.numeric.value.ruby
+#    ^ meta.number.imaginary.hexadecimal.ruby constant.numeric.suffix.ruby
  0xAari
-#^^^^^^ constant.numeric.imaginary.hexadecimal
-#^^ punctuation.definition.numeric.base
-#    ^^ storage.type.numeric
+#^^ meta.number.imaginary.hexadecimal.ruby constant.numeric.base.ruby
+#  ^^ meta.number.imaginary.hexadecimal.ruby constant.numeric.value.ruby
+#    ^^ meta.number.imaginary.hexadecimal.ruby constant.numeric.suffix.ruby
  0o252i
-#^^^^^^ constant.numeric.imaginary.octal
-#^^ punctuation.definition.numeric.base
-#     ^ storage.type.numeric
+#^^ meta.number.imaginary.octal.ruby constant.numeric.base.ruby
+#  ^^^ meta.number.imaginary.octal.ruby constant.numeric.value.ruby
+#     ^ meta.number.imaginary.octal.ruby constant.numeric.suffix.ruby
  0o252ri
-#^^^^^^^ constant.numeric.imaginary.octal
-#^^ punctuation.definition.numeric.base
-#     ^^ storage.type.numeric
+#^^ meta.number.imaginary.octal.ruby constant.numeric.base.ruby
+#  ^^^ meta.number.imaginary.octal.ruby constant.numeric.value.ruby
+#     ^^ meta.number.imaginary.octal.ruby constant.numeric.suffix.ruby
  0b10101010i
-#^^^^^^^^^^^ constant.numeric.imaginary.binary
-#^^ punctuation.definition.numeric.base
-#          ^ storage.type.numeric
+#^^ meta.number.imaginary.binary.ruby constant.numeric.base.ruby
+#  ^^^^^^^^ meta.number.imaginary.binary.ruby constant.numeric.value.ruby
+#          ^ meta.number.imaginary.binary.ruby constant.numeric.suffix.ruby
  0b10101010ri
-#^^^^^^^^^^^^ constant.numeric.imaginary.binary
-#^^ punctuation.definition.numeric.base
-#          ^^ storage.type.numeric
+#^^ meta.number.imaginary.binary.ruby constant.numeric.base.ruby
+#  ^^^^^^^^ meta.number.imaginary.binary.ruby constant.numeric.value.ruby
+#          ^^ meta.number.imaginary.binary.ruby constant.numeric.suffix.ruby
  12e3ri
-#^^^^^^ constant.numeric.imaginary.decimal
+#^^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#    ^^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
 #    ^ invalid.illegal.numeric
-#     ^ storage.type.numeric
  1.2e3ri
-#^^^^^^^ constant.numeric.imaginary.decimal
-# ^ punctuation.separator.decimal
-#     ^ invalid.illegal.numeric
-#      ^ storage.type.numeric
+#^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#   ^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#     ^ invalid.illegal.numeric.ruby
+#     ^^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
  12ir
-#^^^^ constant.numeric.imaginary.decimal
-#  ^ storage.type.numeric
+#^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#  ^^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
 #   ^ invalid.illegal.numeric
  12.3ir
-#^^^^^^ constant.numeric.imaginary.decimal
+#^^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
 #  ^ punctuation.separator.decimal
-#    ^ storage.type.numeric
+#    ^^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
 #     ^ invalid.illegal.numeric
  12e3ir
-#^^^^^^ constant.numeric.imaginary.decimal
-#    ^ storage.type.numeric
+#^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#  ^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#    ^^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
 #     ^ invalid.illegal.numeric
  1.2e3ir
-#^^^^^^^ constant.numeric.imaginary.decimal
+#^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
 # ^ punctuation.separator.decimal
-#     ^ storage.type.numeric
+#   ^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#     ^^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
 #      ^ invalid.illegal.numeric
  0d170ir
-#^^^^^^^ constant.numeric.imaginary.decimal
-#^^ punctuation.definition.numeric.base
-#     ^ storage.type.numeric
+#^^ meta.number.imaginary.decimal.ruby constant.numeric.base.ruby
+#  ^^^ meta.number.imaginary.decimal.ruby constant.numeric.value.ruby
+#     ^^ meta.number.imaginary.decimal.ruby constant.numeric.suffix.ruby
 #      ^ invalid.illegal.numeric
  0xAair
-#^^^^^^ constant.numeric.imaginary.hexadecimal
-#^^ punctuation.definition.numeric.base
-#    ^ storage.type.numeric
+#^^ meta.number.imaginary.hexadecimal.ruby constant.numeric.base.ruby
+#  ^^ meta.number.imaginary.hexadecimal.ruby constant.numeric.value.ruby
+#    ^^ meta.number.imaginary.hexadecimal.ruby constant.numeric.suffix.ruby
 #     ^ invalid.illegal.numeric
  0o252ir
-#^^^^^^^ constant.numeric.imaginary.octal
-#^^ punctuation.definition.numeric.base
-#     ^ storage.type.numeric
+#^^ meta.number.imaginary.octal.ruby constant.numeric.base.ruby
+#  ^^^ meta.number.imaginary.octal.ruby constant.numeric.value.ruby
+#     ^^ meta.number.imaginary.octal.ruby constant.numeric.suffix.ruby
 #      ^ invalid.illegal.numeric
  0b10101010ir
-#^^^^^^^^^^^^ constant.numeric.imaginary.binary
-#^^ punctuation.definition.numeric.base
-#          ^ storage.type.numeric
+#^^ meta.number.imaginary.binary.ruby constant.numeric.base.ruby
+#  ^^^^^^^^ meta.number.imaginary.binary.ruby constant.numeric.value.ruby
+#          ^^ meta.number.imaginary.binary.ruby constant.numeric.suffix.ruby
 #           ^ invalid.illegal.numeric
 
 ##################
@@ -489,9 +528,9 @@ str = sprintf("%1$*2$s %2$d", "hello", -8)
 #      ^^^^^^^^^^^^^^^ meta.environment-variable.ruby
 #          ^^^^^^^^^^ meta.string.ruby meta.interpolation.ruby meta.string.ruby
 #                    ^^ meta.string.ruby meta.interpolation.ruby - string
-#                      ^^^^^^^ meta.string.ruby - meta.interpolation
+#                       ^^^^^ constant.other.symbol.ruby
 #                             ^^^^^^^^^^^^^^^^ meta.string.ruby meta.interpolation.ruby - string
-#                                             ^^^^^^^ meta.string.ruby - meta.interpolation
+#                                              ^^^^^^ constant.other.symbol.ruby
 # ^^^ punctuation.definition.string.begin.ruby
 # ^^^ string.quoted.other.literal.upper.ruby
 #    ^^ punctuation.section.interpolation.begin.ruby
@@ -683,15 +722,15 @@ Symbol === :foo
 #    ^^^^ meta.constant.ruby meta.braces.ruby - constant.character.ruby
 # ^ punctuation.definition.constant.ruby
 #    ^ punctuation.section.braces.begin.ruby
-#     ^^ constant.numeric.integer.hexadecimal.ruby
+#     ^^ meta.number.integer.hexadecimal.ruby constant.numeric.value.ruby
 #       ^ punctuation.section.braces.end.ruby
   ?\u{012ACF 0gxs}
 # ^^^ meta.constant.ruby - meta.braces.ruby constant.character.ruby
 #    ^^^^^^^^^^^^^ meta.constant.ruby meta.braces.ruby - constant.character.ruby
 # ^ punctuation.definition.constant.ruby
 #    ^ punctuation.section.braces.begin.ruby
-#     ^^^^^^ constant.numeric.integer.hexadecimal.ruby
-#            ^ constant.numeric.integer.hexadecimal.ruby
+#     ^^^^^^ meta.number.integer.hexadecimal.ruby constant.numeric.value.ruby
+#            ^ meta.number.integer.hexadecimal.ruby constant.numeric.value.ruby
 #             ^^^ invalid.illegal.escape.ruby
 #                ^ punctuation.section.braces.end.ruby
 
@@ -709,7 +748,7 @@ Symbol === :foo
 #       ^^ constant.character.ruby
 #         ^ - constant
 #          ^ keyword.operator.conditional.ruby
-#           ^^ constant.numeric.integer.decimal.ruby
+#           ^^ meta.number.integer.decimal.ruby constant.numeric.value.ruby
   ?a ?A ?あ ?abc ?a0
 #^ - constant
 # ^ punctuation.definition.constant.ruby
@@ -926,17 +965,17 @@ do |&bl| end
 
 module MyModule
 #^^^^^^^^^^^^^^ meta.namespace
-# <- meta.namespace storage.type.namespace keyword.declaration.namespace
-#^^^^^ storage.type.namespace keyword.declaration.namespace
+# <- meta.namespace keyword.declaration.namespace
+#^^^^^ keyword.declaration.namespace
 #     ^ - entity - keyword - storage
 #      ^^^^^^^^ entity.name.namespace
 end
 
 module MyModule::OtherModule
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.namespace
-# <- meta.namespace storage.type.namespace keyword.declaration.namespace
+# <- meta.namespace keyword.declaration.namespace
 #      ^^^^^^^^^^^^^^^^^^^^^ entity.name.namespace
-#^^^^^ storage.type.namespace keyword.declaration.namespace
+#^^^^^ keyword.declaration.namespace
 #     ^ - entity - keyword - storage
 #      ^^^^^^^^ support.other.namespace
 #              ^^ punctuation.accessor.double-colon
@@ -945,8 +984,8 @@ end
 
 class ::MyModule::MyClass < MyModule::InheritedClass
 #^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
-# <- meta.class storage.type.class keyword.declaration.class
-#^^^^ storage.type.class keyword.declaration.class
+# <- meta.class keyword.declaration.class
+#^^^^ keyword.declaration.class
 #    ^ - entity - keyword - storage - punctuation
 #     ^^ punctuation.accessor.double-colon
 #       ^^^^^^^^ support.other.namespace
@@ -958,7 +997,7 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 
   def my_method(param1, param2)
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-# ^^^ storage.type.function keyword.declaration.function
+# ^^^ keyword.declaration.function
 #     ^^^^^^^^^ entity.name.function
 #              ^^^^^^^^^^^^^^^^ meta.function.parameters
 #              ^ punctuation.definition.group.begin
@@ -968,7 +1007,7 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 
   def self.my_second_method *arg_without_parens # comment
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-# ^^^ storage.type.function keyword.declaration.function
+# ^^^ keyword.declaration.function
 #     ^^^^ variable.language
 #         ^ punctuation.accessor.dot
 #          ^^^^^^^^^^^^^^^^ entity.name.function
@@ -980,7 +1019,7 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 
   def self.my_third_method(a, b="foo", c=[], d=foo(), *args)
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-# ^^^ storage.type.function keyword.declaration.function
+# ^^^ keyword.declaration.function
 #     ^^^^ variable.language
 #         ^ punctuation.accessor.dot
 #          ^^^^^^^^^^^^^^^ entity.name.function
@@ -1008,7 +1047,7 @@ class ::MyModule::MyClass < MyModule::InheritedClass
 
   def nested((a, b), c, (d, *e))
 # ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function
-# ^^^ storage.type.function keyword.declaration.function
+# ^^^ keyword.declaration.function
 #     ^^^^^^ entity.name.function
 #           ^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 #           ^ punctuation.definition.group.begin
@@ -1029,7 +1068,7 @@ class ::MyModule::MyClass < MyModule::InheritedClass
   end
 
   def block_param(&block)
-# ^^^ storage.type.function keyword.declaration.function
+# ^^^ keyword.declaration.function
 #                ^^^^^^^^ meta.function.parameters
 #                 ^ keyword.operator
 #                  ^^^^^ variable.parameter
@@ -1082,7 +1121,7 @@ def f.my_instance_method
 end
 
 class MyClass
-# ^ meta.class.ruby storage.type.class.ruby
+# ^ meta.class.ruby keyword.declaration.class.ruby
 #     ^ meta.class.ruby entity.name.class.ruby
 
   prepend Module.new
@@ -1090,11 +1129,6 @@ class MyClass
 #         ^ support.class.ruby
 #                 ^ keyword.other.special-method.ruby
 
-  FIELDS = %i[a b c]
-# ^ meta.constant.ruby entity.name.constant.ruby
-#        ^ keyword.operator.assignment.ruby
-#          ^^^ punctuation.definition.string.begin.ruby
-#             ^^^^^ string.quoted.other.literal.lower.ruby
 
   A, B, C = :a, :b, :c
 # ^ meta.constant.ruby entity.name.constant.ruby
@@ -1118,7 +1152,52 @@ abort "Ending"
 exit! 2
 #^^^^ support.function.builtin
 
+get :name, -> { "John" }
+#          ^^ meta.function.ruby keyword.declaration.function.anonymous.ruby
 
+##################
+# Symbol literals
+##################
+
+  FIELDS = %i[a b c]
+# ^^^^^^ meta.constant.ruby entity.name.constant.ruby
+#        ^ keyword.operator.assignment.ruby
+#          ^^^ punctuation.definition.string.begin.ruby
+#             ^      constant.other.symbol.ruby
+#               ^    constant.other.symbol.ruby
+#                 ^  constant.other.symbol.ruby
+#                  ^  punctuation.definition.string.end.ruby
+
+  %i(a b c)
+# ^^^ punctuation.definition.string.begin.ruby
+#    ^      constant.other.symbol.ruby
+#      ^    constant.other.symbol.ruby
+#        ^  constant.other.symbol.ruby
+#         ^  punctuation.definition.string.end.ruby
+
+  %I[#{'a'} b #@c#@@d e]
+# ^^^ meta.string.ruby - meta.interpolation
+#    ^^ source.ruby meta.string.ruby meta.interpolation.ruby punctuation.section.interpolation.begin.ruby
+#      ^^^ meta.string.ruby meta.interpolation.ruby meta.string.ruby
+#         ^ source.ruby meta.string.ruby meta.interpolation.ruby punctuation.section.interpolation.end.ruby
+#           ^ constant.other.symbol.ruby
+#             ^^^^^^^ meta.string.ruby meta.interpolation.ruby - string
+#                     ^ constant.other.symbol.ruby
+#                      ^  punctuation.definition.string.end.ruby
+
+##################
+# String literals
+##################
+
+  %w[a b c]
+# ^^^ punctuation.definition.string.begin.ruby
+#    ^^^^^ string.quoted.other.literal.lower.ruby
+#         ^  punctuation.definition.string.end.ruby
+
+  %w(a b c)
+# ^^^ punctuation.definition.string.begin.ruby
+#    ^^^^^ string.quoted.other.literal.lower.ruby
+#         ^  punctuation.definition.string.end.ruby
 
 ##################
 # Tokens with Multiple Meanings
@@ -1270,7 +1349,7 @@ def huh?(a, b=def huh?(a); "h?"; end)
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.parameters
 #             ^^^^^^^^^^^ meta.function meta.function
 #                     ^^^ meta.function.parameters meta.function.parameters
-#^^ storage.type.function keyword.declaration.function
+#^^ keyword.declaration.function
 #                      ^ variable.parameter
   a
 end

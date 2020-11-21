@@ -3,8 +3,8 @@
 <dict>
 	<key>scope</key>
 	<string>
-		source.erlang meta.function.name constant.other.macro,
-		source.erlang meta.function.name entity.name.function
+		source.erlang meta.function.identifier constant.other.macro,
+		source.erlang meta.function.identifier entity.name.function
 	</string>
 	<key>settings</key>
 	<dict>

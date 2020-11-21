@@ -2,13 +2,15 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.css entity.other.attribute-name.class, source.css entity.other.attribute-name.id</string>
+	<string>
+		source.css entity.other.attribute-name.class - source.css entity.other.attribute-name punctuation.definition,
+		source.css entity.other.attribute-name.id - source.css entity.other.attribute-name punctuation.definition,
+		source.css entity.other.custom-property
+	</string>
 	<key>settings</key>
 	<dict>
 		<key>showInIndexedSymbolList</key>
 		<string>1</string>
-		<key>symbolIndexTransformation</key>
-		<string>/[#.]([A-Za-z0-9_~]+)/$1/;</string>
 	</dict>
 </dict>
 </plist>

@@ -21,12 +21,12 @@ shared int b = 5000;
 //              ^ constant.numeric
 
 int c = 0x0;
-//      ^^ punctuation.definition.numeric.base
-//        ^ constant.numeric
+//      ^^ constant.numeric.base
+//        ^ constant.numeric.value
 int d = 0x0_00;
-//          ^ constant.numeric
+//          ^ constant.numeric.value
 float e = .0_0;
-//           ^ constant.numeric
+//           ^ constant.numeric.value
 
 template testTemplate(X)
 {
@@ -195,7 +195,7 @@ extern(C):
 struct the_c_struct;
 
 class MyClass {
-// <- storage.type
+// <- keyword.declaration.class
 }
 
 string sA = r"$";

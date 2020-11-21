@@ -100,23 +100,6 @@ variables:
   # Binary counterpart to dec_digits.
   bin_digits: (?:_?[01]+(?:_[01]+)*)
 
-  # Matches a digit with any number of numeric separators, while
-  # not allowing a numeric separator as the last or first character.
-  ddigits: (?:\d+(?:_\d+)*)
-
-  # Hexadecimal counterpart to ddigits.
-  hdigits: _?(?:\h+(?:_\h+)*)
-
-  # Same as hdigits, except the leading hex character
-  # coefficient is optional in this case.
-  ohdigits: _?(?:\h*(?:_\h+)*)
-
-  # Octal counterpart to ddigits.
-  odigits: _?(?:[0-7]+(?:_[0-7]+)*)
-
-  # Binary counterpart to ddigits.
-  bdigits: _?(?:[01]+(?:_[01]+)*)
-
 contexts:
   main:
     - include: match-any
@@ -299,44 +282,25 @@ contexts:
         - include: pop-before-nonblank
 
   # https://golang.org/ref/spec#Operators_and_punctuation
-  match-operators: [
-    {match: \!=  , scope: keyword.operator.go},
-    {match: \!   , scope: keyword.operator.go},
-    {match: \%=  , scope: keyword.operator.assignment.go},
-    {match: \%   , scope: keyword.operator.go},
-    {match: \&&  , scope: keyword.operator.go},
-    {match: \&=  , scope: keyword.operator.assignment.go},
-    {match: \&^= , scope: keyword.operator.assignment.go},
-    {match: \&^  , scope: keyword.operator.go},
-    {match: \&   , scope: keyword.operator.go},
-    {match: \*=  , scope: keyword.operator.assignment.go},
-    {match: \*   , scope: keyword.operator.go},
-    {match: \+\+ , scope: keyword.operator.go},
-    {match: \+=  , scope: keyword.operator.assignment.go},
-    {match: \+   , scope: keyword.operator.go},
-    {match: --   , scope: keyword.operator.assignment.go},
-    {match: -=   , scope: keyword.operator.assignment.go},
-    {match: \-   , scope: keyword.operator.go},
-    {match: /=   , scope: keyword.operator.assignment.go},
-    {match: /    , scope: keyword.operator.go},
-    {match: :=   , scope: keyword.operator.assignment.go},
-    {match: <-   , scope: keyword.operator.go},
-    {match: <    , scope: keyword.operator.go},
-    {match: <<=  , scope: keyword.operator.assignment.go},
-    {match: \<<  , scope: keyword.operator.go},
-    {match: <=   , scope: keyword.operator.go},
-    {match: ==   , scope: keyword.operator.go},
-    {match: \=   , scope: keyword.operator.assignment.go},
-    {match: \>=  , scope: keyword.operator.assignment.go},
-    {match: \>>= , scope: keyword.operator.assignment.go},
-    {match: \>>  , scope: keyword.operator.go},
-    {match: \>   , scope: keyword.operator.go},
-    {match: \^=  , scope: keyword.operator.assignment.go},
-    {match: \^   , scope: keyword.operator.go},
-    {match: \|=  , scope: keyword.operator.assignment.go},
-    {match: \|\| , scope: keyword.operator.go},
-    {match: \|   , scope: keyword.operator.go},
-  ]
+  match-operators:
+    - match: '<<=|>>=|&\^=|&=|\^=|\|=|%=|\+=|-=|\*=|/=|\+\+|--'
+      scope: keyword.operator.assignment.augmented.go
+    - match: '<-|:='
+      scope: keyword.operator.assignment.go
+    - match: '&\^|<<|>>'
+      scope: keyword.operator.bitwise.go
+    - match: '==|!=|<=|>=|<|>'
+      scope: keyword.operator.comparison.go
+    - match: '='
+      scope: keyword.operator.assignment.go
+    - match: '&&|\|\||!'
+      scope: keyword.operator.logical.go
+    - match: '[|^]'
+      scope: keyword.operator.bitwise.go
+    - match: '[-+/%]'
+      scope: keyword.operator.arithmetic.go
+    - match: '[*&]'
+      scope: keyword.operator.go
 
   match-star:
     - match: \*
@@ -435,48 +399,65 @@ contexts:
 
   match-imaginary:
     # Decimal imaginary numbers
-    - match: '{{dec_digits}}(?:(\.){{dec_digits}}?)?{{dec_exponent}}?(i)'
-      scope: constant.numeric.imaginary.decimal.go
+    - match: '({{dec_digits}})(?:(\.)({{dec_digits}})?)?({{dec_exponent}})?(i)'
+      scope: meta.number.imaginary.decimal.go
       captures:
-        1: punctuation.separator.decimal.go
-        2: storage.type.numeric.go
-    # Hexadecimal imaginary numbers
-    - match: (0[xX]){{hex_digits}}?(?:(\.){{hex_digits}}?)?{{hex_exponent}}?(i)
-      scope: constant.numeric.imaginary.hexadecimal.go
-      captures:
-        1: punctuation.definition.numeric.base.go
+        1: constant.numeric.value.go
         2: punctuation.separator.decimal.go
-        3: storage.type.numeric.go
+        3: constant.numeric.value.go
+        4: constant.numeric.value.exponent.go
+        5: constant.numeric.suffix.go
+    # Hexadecimal imaginary numbers
+    - match: (0[xX])({{hex_digits}})?(?:(\.)({{hex_digits}})?)?({{hex_exponent}})?(i)
+      scope: meta.number.imaginary.hexadecimal.go
+      captures:
+        1: constant.numeric.base.go
+        2: constant.numeric.value.go
+        3: punctuation.separator.decimal.go
+        4: constant.numeric.value.go
+        5: constant.numeric.value.exponent.go
+        6: constant.numeric.suffix.go
     # Octal imaginary numbers
-    - match: (0[oO]){{oct_digits}}(i)
-      scope: constant.numeric.imaginary.octal.go
+    - match: (0[oO])({{oct_digits}})(i)
+      scope: meta.number.imaginary.octal.go
       captures:
-        1: punctuation.definition.numeric.base.go
-        2: storage.type.numeric.go
+        1: constant.numeric.base.go
+        2: constant.numeric.value.go
+        3: constant.numeric.suffix.go
     # Binary imaginary numbers
-    - match: (0[bB]){{bin_digits}}(i)
-      scope: constant.numeric.imaginary.binary.go
+    - match: (0[bB])({{bin_digits}})(i)
+      scope: meta.number.imaginary.binary.go
       captures:
-        1: punctuation.definition.numeric.base.go
-        2: storage.type.numeric.go
+        1: constant.numeric.base.go
+        2: constant.numeric.value.go
+        3: constant.numeric.suffix.go
 
   match-floats:
     # Decimal float literal
     - match: |-
         (?x:
-         {{dec_digits}}(?:(\.){{dec_digits}}?{{dec_exponent}}?|{{dec_exponent}})
-         | (\.){{dec_digits}}{{dec_exponent}}?
+         ({{dec_digits}})(?:(\.)({{dec_digits}})?({{dec_exponent}})?|({{dec_exponent}}))
+         | (\.)({{dec_digits}})({{dec_exponent}})?
         )
-      scope: constant.numeric.float.decimal.go
+      scope: meta.number.float.decimal.go
       captures:
-        1: punctuation.separator.decimal.go
+        1: constant.numeric.value.go
         2: punctuation.separator.decimal.go
+        3: constant.numeric.value.go
+        4: constant.numeric.value.exponent.go
+        5: constant.numeric.value.exponent.go
+        6: punctuation.separator.decimal.go
+        7: constant.numeric.value.go
+        8: constant.numeric.value.exponent.go
     # Hexadecimal float literal
-    - match: (0[xX]){{hex_digits}}?(?:(\.){{hex_digits}}?)?{{hex_exponent}}
-      scope: constant.numeric.float.hexadecimal.go
+    - match: (0[xX])({{hex_digits}})?(?:(\.)({{hex_digits}})?)?({{hex_exponent}})
+      scope: meta.number.float.hexadecimal.go
       captures:
-        1: punctuation.definition.numeric.base.go
-        2: punctuation.separator.decimal.go
+        1: constant.numeric.base.go
+        2: constant.numeric.value.go
+        3: punctuation.separator.decimal.go
+        4: constant.numeric.value.go
+        5: constant.numeric.value.exponent.go
 
   match-integers:
     - include: match-octal-integer
@@ -485,41 +466,48 @@ contexts:
     - include: match-decimal-integer
 
   match-octal-integer:
-    - match: (0){{oct_digits}}(?=\D)
-      scope: constant.numeric.integer.octal.go
+    - match: (0)({{oct_digits}})(?=\D)
+      scope: meta.number.integer.octal.go
       captures:
-        1: punctuation.definition.numeric.base.go
+        1: constant.numeric.base.go
+        2: constant.numeric.value.go
     - match: 0[0-7]*[8-9]+
       scope: invalid.illegal.go
-    - match: (0[oO]){{oct_digits}}
-      scope: constant.numeric.integer.octal.go
+    - match: (0[oO])({{oct_digits}})
+      scope: meta.number.integer.octal.go
       captures:
-        1: punctuation.definition.numeric.base.go
+        1: constant.numeric.base.go
+        2: constant.numeric.value.go
 
   match-hex-integer:
-    - match: (0[xX]){{hex_digits}}
-      scope: constant.numeric.integer.hexadecimal.go
+    - match: (0[xX])({{hex_digits}})
+      scope: meta.number.integer.hexadecimal.go
       captures:
-        1: punctuation.definition.numeric.base.go
+        1: constant.numeric.base.go
+        2: constant.numeric.value.go
 
   match-binary-integer:
-    - match: (0[bB]){{bin_digits}}
-      scope: constant.numeric.integer.binary.go
+    - match: (0[bB])({{bin_digits}})
+      scope: meta.number.integer.binary.go
       captures:
-        1: punctuation.definition.numeric.base.go
+        1: constant.numeric.base.go
+        2: constant.numeric.value.go
 
   match-decimal-integer:
-    - match: '{{dec_digits}}'
-      scope: constant.numeric.integer.decimal.go
+    - match: '({{dec_digits}})'
+      scope: meta.number.integer.decimal.go constant.numeric.value.go
 
   # https://golang.org/ref/spec#Rune_literals
   match-runes:
-    - match: \'({{char_escape}})'
-      scope: constant.character.go
+    # Note: Scope constants as `string` to prevent ST' bracket matching from
+    #       failing in case the character contains '{', '}', '[', ']', etc.
+    - match: (\')(?:({{char_escape}})|([^']*))(\')
+      scope: meta.string.go string.quoted.single.go
       captures:
-        1: constant.character.escape.go
-    - match: \'[^']*'
-      scope: constant.character.go
+        1: punctuation.definition.string.begin.go
+        2: constant.character.escape.go
+        3: constant.character.literal.go
+        4: punctuation.definition.string.end.go
 
   match-strings:
     - include: match-raw-string
@@ -726,7 +714,13 @@ contexts:
 
   match-keyword-package:
     - match: \bpackage\b
-      scope: keyword.other.package.go
+      scope: storage.type.namespace.go keyword.declaration.namespace.go
+      push:
+        - meta_scope: meta.namespace.go
+        - match: '{{ident}}'
+          scope: entity.name.namespace.go
+          pop: true
+        - include: pop-before-nonblank
 
   match-keyword-range:
     - match: \brange\b
@@ -1160,7 +1154,7 @@ contexts:
       set:
         - include: pop-on-terminator
         - match: \biota\b
-          scope: constant.numeric.integer.decimal.go
+          scope: constant.language.go
         - include: match-any
 
   pop-var-type-and-or-assignment:

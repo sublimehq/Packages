@@ -36,17 +36,18 @@ variables:
       [:@\x{2190}\x{21D2}#]{{operator_character}}+
     )
 
-  # {{operator_character}}+ \ {:, =, =>, <-, @, ←, ⇒, #, <%, <:, :<}
+  # {{operator_character}}+ \ {:, =, =>, <-, @, ←, ⇒, #, <%, <:, >:}
   typeop: |-
     (?x:
-      [[^:=<@\x{2190}\x{21D2}#]&&{{operator_character}}]{{operator_character}}*|
+      [[^:=<>@\x{2190}\x{21D2}#]&&{{operator_character}}]{{operator_character}}*|
       =[[^>]&&{{operator_character}}]{{operator_character}}*|
       =>{{operator_character}}+|
       <(?!{{operator_character}}|[[:alpha:]])|
       <[[^\-%:]&&{{operator_character}}]+|
       <[:%\-]{{operator_character}}+|
-      :[[^<]&&{{operator_character}}]+|
-      :<{{operator_character}}+|
+      :[{{operator_character}}]+|
+      >[[^:]&&{{operator_character}}]+|
+      >:{{operator_character}}+|
       [@\x{2190}\x{21D2}#]{{operator_character}}+
     )
 
@@ -273,27 +274,35 @@ contexts:
     - match: |-
         (?x:
           # 1.1, 1.1e1, 1.1e-1, 1.1d, 1.1e1d, 1.1e-1d, 1.e1d | 1e1 1e1d | 1d
-          \b\d+ (?: (?: (\.) \d+ (?:[eE][-+]?\d+)? | (?:[eE][-+]?\d+) ) ([dDfF])? | ([dDfF]) )
+          \b(\d+) (?: (?: (\.) (\d+) ([eE][-+]?\d+)? | ([eE][-+]?\d+) ) ([dDfF])? | ([dDfF]) )
           # .1, .1e1, .1e-1
-          | (\.) \d+ (?:[eE][-+]?\d+)? ([dDfF])?
+          | (\.) (\d+) ([eE][-+]?\d+)? ([dDfF])?
         )\b
-      scope: constant.numeric.float.decimal.scala
+      scope: meta.number.float.decimal.scala
       captures:
-        1: punctuation.separator.decimal.scala
-        2: storage.type.numeric.scala
-        3: storage.type.numeric.scala
-        4: punctuation.separator.decimal.scala
-        5: storage.type.numeric.scala
+        1: constant.numeric.value.scala
+        2: punctuation.separator.decimal.scala
+        3: constant.numeric.value.scala
+        4: constant.numeric.value.exponent.scala
+        5: constant.numeric.value.exponent.scala
+        6: constant.numeric.suffix.scala
+        7: constant.numeric.suffix.scala
+        8: punctuation.separator.decimal.scala
+        9: constant.numeric.value.scala
+        10: constant.numeric.value.exponent.scala
+        11: constant.numeric.suffix.scala
     # source: http://www.scala-lang.org/files/archive/spec/2.11/01-lexical-syntax.html#integer-literals
-    - match: \b(0[xX])\h+([lL]?)\b
-      scope: constant.numeric.integer.hexadecimal.scala
+    - match: \b(0[xX])(\h+)([lL]?)\b
+      scope: meta.number.integer.hexadecimal.scala
       captures:
-        1: punctuation.definition.numeric.base.scala
-        2: storage.type.numeric.scala
-    - match: \b(?:0|[1-9][0-9]*)([lL]?)\b
-      scope: constant.numeric.integer.decimal.scala
+        1: constant.numeric.base.scala
+        2: constant.numeric.value.scala
+        3: constant.numeric.suffix.scala
+    - match: \b(0|[1-9][0-9]*)([lL]?)\b
+      scope: meta.number.integer.decimal.scala
       captures:
-        1: storage.type.numeric.scala
+        1: constant.numeric.value.scala
+        2: constant.numeric.suffix.scala
     - match: \(\)
       scope: constant.language.scala
   base-constants:
@@ -338,7 +347,7 @@ contexts:
         1: storage.type.function.scala
         2: entity.name.function.scala
       push: function-type-parameter-list
-    - match: '\b(case\s+)?(class|trait|object)(\s+({{id}}))'
+    - match: '\b(?:(case)\s+)?(class|trait|object)(?:\s+({{id}}))'
       scope: meta.class.identifier.scala
       captures:
         1: storage.type.class.scala
@@ -927,6 +936,8 @@ contexts:
           set:
             - match: '(?=\s+with\b)'
               set: initialization-body
+            - match: '(?=\s*\()'    # this catches multi-parameter-block constructors
+              set: initialization-term-tail
             - match: '(?=.)'
               pop: true
         - include: main
@@ -1048,6 +1059,7 @@ contexts:
       scope: keyword.operator.assignment.scala
     - match: '_'
       scope: variable.language.underscore.scala
+      push: try-dispatch
     - match: '\.'
       scope: punctuation.accessor.scala
     - match: ','
@@ -1510,6 +1522,10 @@ contexts:
           pop: true
     - match: '\b{{varid}}'
       scope: variable.parameter.scala   # not indexed!
+    - match: \.
+      scope: punctuation.accessor.scala
+    - match: '\|'
+      scope: keyword.operator.or.scala
     - match: '{{op}}'   # let it fall through
     - match: \[
       push:
@@ -1532,7 +1548,7 @@ contexts:
       captures:
         1: punctuation.ascription.scala
       push:
-        - match: '(?=[,\)@])'
+        - match: '(?=[,\)@|])'
           pop: true
         - include: delimited-type-expression
     - match: \(
@@ -1593,8 +1609,10 @@ contexts:
   delimited-type-expression:
     - include: annotation
     # kind-projector support
-    - match: '\?|\*'
-      scope: variable.language.hole.scala
+    - match: '([+-])?([?*])'
+      captures:
+        1: keyword.operator.bound.scala
+        2: variable.language.hole.scala
     # \x{03BB} = λ
     - match: '\bLambda\b|\x{03BB}'
       scope: keyword.operator.type-lambda.scala
@@ -1623,6 +1641,8 @@ contexts:
       scope: variable.language.underscore.scala
     - match: '{{typeid}}'
       scope: support.type.scala
+    - match: '(<:|>:)'
+      scope: keyword.operator.bound.scala
     - include: base-type-expression
 
   # single-type is a type expression with semicolon inference
@@ -1667,6 +1687,9 @@ contexts:
       scope: keyword.other.scala
     - match: \b(?:Unit|Boolean|Byte|Char|Short|Int|Float|Long|Double)\b
       scope: storage.type.primitive.scala
+      set: single-type-expression-tail
+    - match: '_(?!\s*\*)'
+      scope: variable.language.underscore.scala
       set: single-type-expression-tail
     - match: '\b(?:forSome)\b'
       scope: keyword.declaration.scala
@@ -1771,9 +1794,11 @@ contexts:
       pop: true
 
   single-type-expression-tail:
-    - match: (?=@{{plainid}})
+    - match: (?=@{{alphaplainid}})
       set:
         - include: annotation
+        - match: \n
+          pop: true
         - match: '(?=\S)'
           set: single-type-expression-tail
     - match: '[\.#]'

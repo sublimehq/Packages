@@ -2,12 +2,15 @@
 ---
 name: PHP Source
 hidden: true
+version: 2
 scope: source.php
 variables:
   identifier_start: '[[:alpha:]_]'
   identifier: '\b{{identifier_start}}[[:alnum:]_]*\b'
   path: '\\?({{identifier}}\\)*{{identifier}}'
+  regex_modifier: '[eimsuxADJSUX]*'
   sql_indicator: \s*(?:SELECT|INSERT|UPDATE|DELETE|CREATE|REPLACE|ALTER)\b
+  visibility_modifier: '\b(?:var|public|private|protected)\b'
 
 contexts:
   main:
@@ -34,11 +37,11 @@ contexts:
                   captures:
                     1: punctuation.separator.namespace.php
                 - match: ''
-                  pop: true
+                  pop: 1
             - match: '(?=\S)'
-              pop: true
+              pop: 1
         - match: '(?=\S)'
-          pop: true
+          pop: 1
     - match: '(?i)^\s*(namespace)\b\s*'
       captures:
         1: keyword.other.namespace.php
@@ -50,11 +53,12 @@ contexts:
           captures:
             1: punctuation.separator.namespace.php
         - match: ''
-          pop: true
+          pop: 1
     - match: '(?i)^\s*(trait)\s+({{identifier}})\s*'
       captures:
         1: storage.type.trait.php
         2: entity.name.trait.php
+    - include: typed-property
     - include: function
     - match: '^\s*((?!default|else){{identifier}})\s*(:)(?!:)'
       captures:
@@ -67,10 +71,10 @@ contexts:
     - include: expressions
 
   block:
-    - match: '\}'
+    - match: \}
       scope: punctuation.section.block.end.php
-      pop: true
-    - match: '\{'
+      pop: 1
+    - match: \{
       scope: punctuation.section.block.begin.php
       push: block
     - include: embedded-html
@@ -87,12 +91,12 @@ contexts:
         - clear_scopes: true
         - match: <\?(?i:php)?
           scope: meta.embedded.block.php punctuation.section.embedded.begin.php
-          pop: true
+          pop: 1
         - match: ''
           with_prototype:
             - include: single-line-php-tag
             - match: (?=<\?(?i:php)?)
-              pop: true
+              pop: 1
           push: scope:text.html.basic
 
   single-line-php-tag:
@@ -105,10 +109,11 @@ contexts:
           captures:
             1: punctuation.section.embedded.end.php
             2: meta.html-newline-after-php.php
-          pop: true
+          pop: 1
         - include: statements
 
   expressions:
+    - include: attributes
     - include: comments
     - match: (?i)\b((?:require|include)(?:_once)?)\b\s*
       captures:
@@ -117,7 +122,7 @@ contexts:
         - meta_scope: meta.include.php
         # "\s*\?>" is for fixing one-liner ( https://github.com/sublimehq/Packages/issues/1545 )
         - match: (?=;|\)|\]|\s*\?>)
-          pop: true
+          pop: 1
         - include: expressions
     # yield from ( http://php.net/manual/en/language.generators.syntax.php#control-structures.yield.from )
     - match: \byield\b
@@ -125,34 +130,38 @@ contexts:
       push:
         - match: \bfrom\b
           scope: keyword.control.php
-          pop: true
+          pop: 1
         - match: (?=\S)
-          pop: true
+          pop: 1
     - match: |-
         \b(?xi:
           break | case | continue | declare | default | die | do | else |
           elseif | enddeclare | endfor | endforeach | endif | endswitch | endwhile | exit |
-          for | foreach | if | return | switch | use | while
+          for | foreach | if | match | return | switch | use | while
         )\b
       scope: keyword.control.php
-    - match: \b(catch)\b\s*\(\s*
+    - match: \b(catch)\b\s*(\()
       captures:
         1: keyword.control.exception.catch.php
+        2: punctuation.section.group.begin.php
       push:
         - meta_scope: meta.catch.php
+        - include: attributes
         - include: comments
         - include: identifier-parts-as-path
-        - match: '(\\)'
+        - match: \)
+          scope: punctuation.section.group.end.php
+          pop: 1
+        - match: \|
+          scope: punctuation.separator.catch.php
+        - match: \\
           scope: meta.path.php punctuation.separator.namespace.php
-        - match: '({{identifier}})\s*(\|)?'
-          captures:
-            1: meta.path.php support.class.exception.php
-            2: punctuation.separator.catch.php
-        - match: '((\$+){{identifier}})\s*\)'
+        - match: '{{identifier}}'
+          scope: meta.path.php support.class.exception.php
+        - match: '((\$){{identifier}})'
           captures:
             1: variable.other.php
             2: punctuation.definition.variable.php
-          pop: true
     - match: \b(catch|try|throw|finally)\b
       scope: keyword.control.exception.php
     - include: arrow-function
@@ -174,7 +183,7 @@ contexts:
           set:
             - include: function-call-static
             - match: ''
-              pop: true
+              pop: 1
         - match: |-
             (?x)(::)
             (?:
@@ -211,7 +220,7 @@ contexts:
         - meta_scope: meta.array.php
         - match: \)
           scope: punctuation.section.array.end.php
-          pop: true
+          pop: 1
         - include: expressions
     - match: (?i)\s*\(\s*(array|real|double|float|int(eger)?|bool(ean)?|string|object|binary|unset)\s*\)
       captures:
@@ -259,10 +268,19 @@ contexts:
     - match: (?i)(!)|\b(and|or|xor|as)\b
       scope: keyword.operator.logical.php
     - include: function-call
+    - match: \?\?
+      scope: keyword.operator.null-coalescing.php
     - match: \.\.\.
       scope: keyword.operator.spread.php
     - match: \.
       scope: keyword.operator.string.php
+    - match: \?
+      scope: keyword.operator.ternary.php
+      push:
+        - include: expressions
+        - match: ':'
+          scope: keyword.operator.ternary.php
+          pop: 1
     - match: "="
       scope: keyword.operator.assignment.php
     - match: '(?i)\b(instanceof)\s+(?=[[:alpha:]\\$_])'
@@ -270,7 +288,7 @@ contexts:
         1: keyword.operator.type.php
       push:
         - match: '(?=[^[:alnum:]_\\$])'
-          pop: true
+          pop: 1
         - include: class-name
         - include: variables
     - include: instantiation
@@ -290,7 +308,7 @@ contexts:
         - meta_scope: meta.array.php
         - match: '\]'
           scope: punctuation.section.array.end.php
-          pop: true
+          pop: 1
         - include: expressions
     - include: constants
     - match: \(
@@ -299,18 +317,18 @@ contexts:
         - meta_scope: meta.group.php
         - match: \)
           scope: punctuation.section.group.end.php
-          pop: true
+          pop: 1
         - include: expressions
 
   after-identifier:
     - include: item-access
     - match: '(?=\S)'
-      pop: true
+      pop: 1
 
   after-function-call:
     - include: item-access
     - match: '(?=\S)'
-      pop: true
+      pop: 1
 
   item-access:
     - match: '\['
@@ -319,28 +337,83 @@ contexts:
         - meta_content_scope: meta.item-access.arguments.php
         - match: '\]'
           scope: meta.item-access.php punctuation.section.brackets.end.php
-          pop: true
+          pop: 1
         - include: expressions
+
+  type-hint:
+    # https://wiki.php.net/rfc/union_types_v2
+    - match: '(?=(?:\?\s*)?{{path}})'
+      push:
+        - match: \?
+          scope: storage.type.nullable.php
+        - match: \|
+          scope: punctuation.separator.type.php
+        # note that
+        #   - "callable" and "void" are not allowed in property type
+        #   - "false" and "null" are only working in unioned type
+        # but we allow them as general types for simplifying syntax definition
+        - match: |-
+            \b(?xi:
+              array | bool | callable | double | float | int | iterable |
+              object | string | false | null | void | parent | self | static | mixed
+            )\b
+          scope: storage.type.php
+        - include: class-builtin
+        - include: identifier-parts-as-path
+        - match: '(\\)?({{identifier}})(?!\\)'
+          scope: meta.path.php
+          captures:
+            1: punctuation.separator.namespace.php
+            2: support.class.php
+        - match: ''
+          pop: 1
+
+  attributes:
+    # https://wiki.php.net/rfc/attributes_v2
+    # https://wiki.php.net/rfc/attribute_amendments
+    # https://wiki.php.net/rfc/shorter_attribute_syntax
+    # https://wiki.php.net/rfc/shorter_attribute_syntax_change
+    - match: '#\['
+      scope: punctuation.definition.attribute.begin.php
+      push:
+        - meta_scope: meta.attribute.php
+        - include: class-name
+        - match: \(
+          scope: punctuation.section.group.begin.php
+          push:
+            - meta_scope: meta.attribute.php meta.function-call.php meta.group.php
+            - match: \)
+              scope: meta.function-call.php meta.group.php punctuation.section.group.end.php
+              pop: 1
+            - match: ','
+              scope: punctuation.separator.php
+            - include: function-call-named-parameters
+            - include: expressions
+        - match: \]
+          scope: punctuation.definition.attribute.end.php
+          pop: 1
+        - match: ','
+          scope: punctuation.separator.php
 
   class-builtin:
     - match: |-
         (?xi)(\\)?\b(
-          AMQPConnection | AMQPExchange | AMQPQueue | APCIterator | AppendIterator | ArrayAccess | ArrayIterator | ArrayObject |
-          BadFunctionCallException | BadMethodCallException | CachingIterator | Collator | Countable | DOMAttr | DOMCharacterData | DOMComment |
+          AMQPConnection | AMQPExchange | AMQPQueue | APCIterator | AppendIterator | ArgumentCountError | ArithmeticError | ArrayAccess | ArrayIterator | ArrayObject |
+          AssertionError | Attribute | BadFunctionCallException | BadMethodCallException | CachingIterator | Collator | CompileError | Countable | DivisionByZeroError | DOMAttr | DOMCharacterData | DOMComment |
           DOMDocument | DOMDocumentFragment | DOMElement | DOMEntityReference | DOMImplementation | DOMNamedNodeMap | DOMNode | DOMNodelist |
-          DOMProcessingInstruction | DOMText | DOMXPath | DateInterval | DatePeriod | DateTime | DateTimeZone | DirectoryIterator |
+          DOMProcessingInstruction | DOMText | DOMXPath | DateInterval | DatePeriod | DateTime | DateTimeImmutable | DateTimeInterface | DateTimeZone | DirectoryIterator |
           DomAttribute | DomDocument | DomDocumentType | DomElement | DomNode | DomProcessingInstruction | DomXsltStylesheet | DomainException |
-          EmptyIterator | ErrorException | Exception | FilesystemIterator | FilterIterator | GlobIterator | Gmagick | GmagickDraw |
+          EmptyIterator | Error | ErrorException | Exception | FilesystemIterator | FilterIterator | GlobIterator | Gmagick | GmagickDraw |
           GmagickPixel | HaruAnnotation | HaruDestination | HaruDoc | HaruEncoder | HaruFont | HaruImage | HaruOutline |
           HaruPage | HttpDeflateStream | HttpInflateStream | HttpMessage | HttpQueryString | HttpRequest | HttpRequestPool | HttpResponse |
-          Imagick | ImagickDraw | ImagickPixel | ImagickPixelIterator | InfiniteIterator | IntlDateFormatter | InvalidArgumentException | Iterator |
+          Imagick | ImagickDraw | ImagickPixel | ImagickPixelIterator | InfiniteIterator | InternalIterator | IntlDateFormatter | InvalidArgumentException | Iterator |
           IteratorAggregate | IteratorIterator | JsonException | JsonSerializable | KTaglib_ID3v2_AttachedPictureFrame | KTaglib_ID3v2_Frame | KTaglib_ID3v2_Tag | KTaglib_MPEG_AudioProperties |
           KTaglib_MPEG_File | KTaglib_Tag | LengthException | LimitIterator | Locale | LogicException | Memcache | Memcached |
           MessageFormatter | Mongo | MongoBinData | MongoCode | MongoCollection | MongoCursor | MongoDB | MongoDBRef |
           MongoDate | MongoGridFS | MongoGridFSCursor | MongoGridFSFile | MongoGridfsFile | MongoId | MongoInt32 | MongoInt64 |
           MongoRegex | MongoTimestamp | MultipleIterator | NoRewindIterator | Normalizer | NumberFormatter | OCI-Collection | OCI-Lob |
-          OutOfBoundsException | OutOfRangeException | OuterIterator | OverflowException | PDO | PDOStatement | ParentIterator | Phar |
-          PharData | PharFileInfo | RRDCreator | RRDGraph | RRDUpdater | RangeException | RecursiveArrayIterator | RecursiveCachingIterator |
+          OutOfBoundsException | OutOfRangeException | OuterIterator | OverflowException | PDO | PDOStatement | ParentIterator | ParseError | Phar |
+          PharData | PharFileInfo  | PhpCompilerAttribute | PhpToken | RRDCreator | RRDGraph | RRDUpdater | RangeException | RecursiveArrayIterator | RecursiveCachingIterator |
           RecursiveDirectoryIterator | RecursiveFilterIterator | RecursiveIterator | RecursiveIteratorIterator | RecursiveRegexIterator | RecursiveTreeIterator | Reflection | ReflectionClass |
           ReflectionExtension | ReflectionFunction | ReflectionFunctionAbstract | ReflectionMethod | ReflectionObject | ReflectionParameter | ReflectionProperty | Reflector |
           RegexIterator | ResourceBundle | RuntimeException | SAMConnection | SAMMessage | SCA | SCA_LocalProxy | SCA_SoapProxy |
@@ -350,11 +423,10 @@ contexts:
           SeekableIterator | Serializable | SimpleXMLElement | SimpleXMLIterator | SoapClient | SoapFault | SoapHeader | SoapParam |
           SoapServer | SoapVar | SphinxClient | SplBool | SplDoublyLinkedList | SplEnum | SplFileInfo | SplFileObject |
           SplFixedArray | SplFloat | SplHeap | SplInt | SplMaxHeap | SplMinHeap | SplObjectStorage | SplObserver |
-          SplPriorityQueue | SplQueue | SplStack | SplString | SplSubject | SplTempFileObject | Swish | SwishResult |
-          SwishResults | SwishSearch | TokyoTyrant | TokyoTyrantQuery | TokyoTyrantTable | Transliterator | Traversable | UnderflowException |
-          UnexpectedValueException | V8Js | V8JsException | XMLReader | XMLWriter | XSLTProcessor | ZipArchive | finfo |
-          mysqli | mysqli_driver | mysqli_result | mysqli_stmt | mysqli_warning | stdClass | streamWrapper | tidy |
-          tidyNode
+          SplPriorityQueue | SplQueue | SplStack | SplString | SplSubject | SplTempFileObject | Stringable | Swish | SwishResult |
+          SwishResults | SwishSearch | TokyoTyrant | TokyoTyrantQuery | TokyoTyrantTable | Transliterator | Traversable | TypeError | UnderflowException |
+          UnexpectedValueException | UnhandledMatchError | V8Js | V8JsException | ValueError | WeakMap | WeakReference | XMLReader | XMLWriter | XSLTProcessor | ZipArchive |
+          finfo | mysqli | mysqli_driver | mysqli_result | mysqli_stmt | mysqli_warning | stdClass | streamWrapper | tidy | tidyNode
         )\b
       captures:
         1: punctuation.separator.namespace.php
@@ -376,9 +448,10 @@ contexts:
           set: use-statement-ns-class
         # Escape during typing
         - match: '(?=$\n)'
-          pop: true
+          pop: 1
 
   use-statement-common:
+    - include: attributes
     - include: comments
     - match: (?i)\bas\b
       scope: keyword.other.use-as.php
@@ -388,6 +461,7 @@ contexts:
   use-statement-identifier-class-def:
     - match: '(?={{path}})'
       push:
+        - include: attributes
         - include: comments
         # We are going to assume the alias is for a class so that the identifier
         # gets put into the index. This will be incorrect sometimes (because it
@@ -396,12 +470,13 @@ contexts:
         - match: '(?i)\b(as)\b'
           scope: keyword.other.use-as.php
           push:
+            - include: attributes
             - include: comments
             - match: '{{identifier}}'
               scope: entity.name.class.php
-              pop: true
+              pop: 1
             - match: '(?=\S|$\n)'
-              pop: true
+              pop: 1
         - include: identifier-parts-as-path
         # We don't mark this as entity.name.class since the name is pulled
         # verbatim and the indexer should find the name in the original source
@@ -412,18 +487,18 @@ contexts:
             1: punctuation.separator.namespace.php
             2: support.class.php
         - match: '(?=\S|$\n)'
-          pop: true
+          pop: 1
 
   use-statement-ns-class:
     - meta_content_scope: meta.use.php
     - match: (?=;|$\n)
-      pop: true
-    - match: '\{'
-      scope: punctuation.section.block.php
+      pop: 1
+    - match: \{
+      scope: punctuation.section.block.begin.php
       push:
-        - match: '\}'
-          scope: punctuation.section.block.php
-          pop: true
+        - match: \}
+          scope: punctuation.section.block.end.php
+          pop: 1
         - include: use-statement-common
         - include: use-statement-identifier-class-def
     - include: use-statement-common
@@ -432,16 +507,18 @@ contexts:
   use-statement-identifier-function-def:
     - match: '(?={{path}})'
       push:
+        - include: attributes
         - include: comments
         - match: '(?i)\b(as)\b'
           scope: keyword.other.use-as.php
           push:
+            - include: attributes
             - include: comments
             - match: '{{identifier}}'
               scope: entity.name.function.php
-              pop: true
+              pop: 1
             - match: '(?=\S|$\n)'
-              pop: true
+              pop: 1
         - include: identifier-parts-as-path
         # We don't mark this as entity.name.function since the name is pulled
         # verbatim and the indexer should find the name in the original source
@@ -452,18 +529,18 @@ contexts:
             1: punctuation.separator.namespace.php
             2: support.function.php
         - match: '(?=\S|$\n)'
-          pop: true
+          pop: 1
 
   use-statement-function:
     - meta_content_scope: meta.use.php
     - match: (?=;|$\n)
-      pop: true
-    - match: '\{'
-      scope: punctuation.section.block.php
+      pop: 1
+    - match: \{
+      scope: punctuation.section.block.begin.php
       push:
-        - match: '\}'
-          scope: punctuation.section.block.php
-          pop: true
+        - match: \}
+          scope: punctuation.section.block.end.php
+          pop: 1
         - include: use-statement-common
         - include: use-statement-identifier-function-def
     - include: use-statement-common
@@ -472,13 +549,13 @@ contexts:
   use-statement-const:
     - meta_content_scope: meta.use.php
     - match: (?=;|$\n)
-      pop: true
-    - match: '\{'
-      scope: punctuation.section.block.php
+      pop: 1
+    - match: \{
+      scope: punctuation.section.block.begin.php
       push:
-        - match: '\}'
-          scope: punctuation.section.block.php
-          pop: true
+        - match: \}
+          scope: punctuation.section.block.end.php
+          pop: 1
         - include: use-statement-common
         - include: identifier-constant-pop
     - include: use-statement-common
@@ -493,19 +570,20 @@ contexts:
       push: class-definition
 
   class-definition:
-    - meta_scope: meta.class.php
     - match: "(?=;)"
-      pop: true
-    - match: '\{'
-      scope: meta.block.php punctuation.section.block.php
+      pop: 1
+    - match: \{
+      scope: meta.block.php punctuation.section.block.begin.php
       set: class-body
+    - include: attributes
     - include: comments
     - match: (?i)(extends)\b\s*
       captures:
         1: storage.modifier.extends.php
       push:
         - match: '(?=implements)'
-          pop: true
+          pop: 1
+        - include: attributes
         - include: comments
         - match: '(?={{path}})'
           set:
@@ -517,13 +595,14 @@ contexts:
               captures:
                 1: punctuation.separator.namespace.php
             - match: ''
-              pop: true
+              pop: 1
         - match: '(?=\S)'
-          pop: true
+          pop: 1
     - match: (?i)(implements)\b\s*
       captures:
         1: storage.modifier.implements.php
       push:
+        - include: attributes
         - include: comments
         - match: '(?={{path}})'
           push:
@@ -535,32 +614,34 @@ contexts:
               captures:
                 1: punctuation.separator.namespace.php
             - match: ''
-              pop: true
+              pop: 1
         - match: ','
           scope: punctuation.separator.php
         - match: '(?=\S)'
-          pop: true
+          pop: 1
 
   class-body:
-    - meta_content_scope: meta.class.php meta.block.php
+    - meta_scope: meta.class.php meta.block.php
+    - include: attributes
     - include: comments
-    - match: '\}'
-      scope: meta.class.php meta.block.php punctuation.section.block.php
-      pop: true
+    - match: \}
+      scope: punctuation.section.block.end.php
+      pop: 1
     - match: (?i)\b(use)\b\s*
       captures:
         1: keyword.other.use.php
       push:
         - meta_scope: meta.use.php
         - match: (?=;|(?:^\s*$))
-          pop: true
-        - match: '\{'
-          scope: punctuation.section.block.php
+          pop: 1
+        - match: \{
+          scope: punctuation.section.block.begin.php
           set:
             - meta_scope: meta.use.php meta.block.php
-            - match: '}'
-              scope: punctuation.section.block.php
-              pop: true
+            - match: \}
+              scope: punctuation.section.block.end.php
+              pop: 1
+            - include: attributes
             - include: comments
             - match: \b(as)\b
               scope: keyword.other.use-as.php
@@ -577,7 +658,8 @@ contexts:
                   captures:
                     1: punctuation.separator.namespace.php
                 - match: ''
-                  pop: true
+                  pop: 1
+        - include: attributes
         - include: comments
         - include: class-builtin
         - match: (?={{path}})
@@ -588,37 +670,52 @@ contexts:
               captures:
                 1: punctuation.separator.namespace.php
             - match: ''
-              pop: true
+              pop: 1
         - match: ','
           scope: punctuation.separator.php
-    # https://wiki.php.net/rfc/typed_properties_v2
-    - match: (?=\b(?:var|public|private|protected|static)\b)
-      push:
-        - match: (?=\b(?:const|function)\b)
-          pop: true
-        - match: \b(?:var|public|private|protected|static)\b
-          scope: storage.modifier.php
-        - match: '(?:(\?)\s*)?({{identifier}})'
-          captures:
-            1: storage.type.nullable.php
-            2: support.class.php
-          pop: true
-        # Exit on unexpected content
-        - match: (?=\S)
-          pop: true
     - include: statements
 
+  typed-property:
+    # https://wiki.php.net/rfc/typed_properties_v2
+    - match: (?=\b(?:{{visibility_modifier}}|static)\b)
+      push:
+        - match: (?=\b(?:const|function)\b)
+          pop: 1
+        - match: \b(?:{{visibility_modifier}}|static)\b
+          scope: storage.modifier.php
+        - include: type-hint
+        # Exit on unexpected content
+        - match: (?=\S)
+          pop: 1
+
   function:
-    - match: (?i)(?=(?:\b(?:final|abstract|var|public|private|protected|static)\s+)*\bfunction\b\s*(&\s*)?{{identifier_start}})
+    - match: (?i)(?=(?:\b(?:final|abstract|{{visibility_modifier}}|static)\s+)*\bfunction\b\s*(&\s*)?{{identifier_start}})
       push:
         - meta_content_scope: meta.function.php
+        - include: attributes
         - include: comments
-        - match: '(?i)\b(final|abstract|var|public|private|protected|static)\b'
+        - match: '(?i)\b(final|abstract|{{visibility_modifier}}|static)\b'
           scope: storage.modifier.php
         - match: (?i)\bfunction\b
           scope: storage.type.function.php
         - match: '&'
           scope: storage.modifier.reference.php
+        # https://wiki.php.net/rfc/constructor_promotion
+        - match: __construct\b
+          scope: entity.name.function.php support.function.magic.php
+          push:
+            - match: (?=\()
+              set:
+                - match: \(
+                  scope: punctuation.section.group.begin.php
+                  set:
+                    - meta_scope: meta.function.parameters.php meta.group.php
+                    - match: '{{visibility_modifier}}'
+                      scope: storage.modifier.php
+                    - include: function-parameters
+            # Exit on unexpected content
+            - match: (?=\S)
+              pop: 1
         - match: '(__(?:callStatic|call|construct|destruct|get|set|isset|unset|toString|clone|set_state|sleep|wakeup|autoload|invoke|debugInfo))\b'
           scope: entity.name.function.php support.function.magic.php
         - match: '{{identifier}}'
@@ -631,7 +728,7 @@ contexts:
               set: function-parameters
         # Exit on unexpected content
         - match: (?=\S)
-          pop: true
+          pop: 1
 
   # https://wiki.php.net/rfc/arrow_functions_v2
   arrow-function:
@@ -661,6 +758,7 @@ contexts:
             - match: '(?=;|,|\)|\s*\?>)'
               pop: 2
             - include: expressions
+        - include: attributes
         - include: comments
         - match: (?=\S)
           fail: arrow-function-branch
@@ -668,7 +766,7 @@ contexts:
   fn-function-call:
     - include: function-call
     - match: ''
-      pop: true
+      pop: 1
 
   closure:
     - match: (?i)\b(function)\s*(&)?\s*(?=\()
@@ -682,35 +780,33 @@ contexts:
           set: function-parameters
 
   function-parameters:
-    - meta_content_scope: meta.function.parameters.php meta.group.php
-    - match: '\)'
+    - meta_scope: meta.function.parameters.php meta.group.php
+    - match: \)
       scope: punctuation.section.group.end.php
       set:
-        - meta_content_scope: meta.function.php
+        - meta_scope: meta.function.php
         - match: '\b(use)\b\s*(\()'
           scope: meta.function.closure.use.php
           captures:
             1: keyword.other.function.use.php
             2: punctuation.section.group.begin.php
           set: function-use
-        - match: '(?=:)'
+        - match: (?=:)
           set: function-return-type
         - match: \{
           scope: meta.block.php punctuation.section.block.begin.php
           set: function-body
         # Exit on unexpected content
         - match: (?=\S)
-          pop: true
+          pop: 1
+    - include: attributes
     - include: comments
     - match: \b(array|callable|int|string|bool|float|object)\b
       scope: storage.type.php
     # Class name type hint
-    - match: '{{identifier}}'
-      scope: meta.path.php support.class.php
+    - include: type-hint
     - match: '\.\.\.'
       scope: keyword.operator.spread.php
-    - match: '\?'
-      scope: storage.type.nullable.php
     - match: '&'
       scope: storage.modifier.reference.php
     - match: (\$+){{identifier}}
@@ -722,17 +818,18 @@ contexts:
     - match: '='
       scope: keyword.operator.assignment.php
       push:
-        - match: '(?=,|\))'
-          pop: true
+        - match: (?=,|\))
+          pop: 1
         - include: expressions
 
   function-use:
-    - meta_content_scope: meta.function.closure.use.php
+    - meta_scope: meta.function.closure.use.php
+    - include: attributes
     - include: comments
-    - match: '\)'
+    - match: \)
       scope: punctuation.section.group.end.php
       set:
-        - meta_content_scope: meta.function.php
+        - meta_scope: meta.function.php
         - match: '(?=:)'
           set: function-return-type
         - match: \{
@@ -740,7 +837,7 @@ contexts:
           set: function-body
         # Exit on unexpected content
         - match: (?=\S)
-          pop: true
+          pop: 1
     - match: '&'
       scope: storage.modifier.reference.php
     - match: '(\$+){{identifier}}'
@@ -751,36 +848,26 @@ contexts:
       scope: punctuation.separator.php
 
   function-return-type:
-    - meta_content_scope: meta.function.return-type.php
+    - meta_scope: meta.function.return-type.php
     - match: '(?=;)'
-      pop: true
+      pop: 1
     - match: \{
       scope: meta.block.php punctuation.section.block.begin.php
       set: function-body
     - match: ':'
       scope: punctuation.separator.php
-    - match: '\?'
-      scope: storage.type.nullable.php
-    - match: \b(array|callable|int|string|bool|float|object)\b
-      scope: storage.type.php
-    - include: class-builtin
-    - include: identifier-parts-as-path
-    - match: '(\\)?({{identifier}})(?!\\)'
-      scope: meta.path.php
-      captures:
-        1: punctuation.separator.namespace.php
-        2: support.class.php
+    - include: type-hint
     # Exit on unexpected content
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   function-body:
-    - meta_content_scope: meta.function.php meta.block.php
+    - meta_scope: meta.function.php meta.block.php
     - match: \}
-      scope: meta.function.php meta.block.php punctuation.section.block.end.php
-      pop: true
+      scope: punctuation.section.block.end.php
+      pop: 1
     - include: embedded-html
-    - match: '\{'
+    - match: \{
       scope: punctuation.section.block.begin.php
       push: block
     - include: statements
@@ -795,9 +882,9 @@ contexts:
           captures:
             1: punctuation.separator.namespace.php
             2: support.class.php
-          pop: true
+          pop: 1
         - match: ''
-          pop: true
+          pop: 1
   comments:
     # This only highlights a docblock if the first line contains only /** or
     # /**#@+ (which is used for docblock templates). Otherwise block-level
@@ -813,7 +900,7 @@ contexts:
         - meta_scope: comment.block.documentation.phpdoc.php
         - match: \*/
           scope: punctuation.definition.comment.end.php
-          pop: true
+          pop: 1
         - include: php-doc
     - match: /\*
       scope: punctuation.definition.comment.begin.php
@@ -821,25 +908,25 @@ contexts:
         - meta_scope: comment.block.php
         - match: \*/
           scope: punctuation.definition.comment.end.php
-          pop: true
+          pop: 1
     - match: //
       scope: punctuation.definition.comment.php
       push:
         - meta_scope: comment.line.double-slash.php
         - match: '(?=\?>)'
-          pop: true
+          pop: 1
         # Consume the newline so that completions aren't shown at the end of the line
         - match: \n
-          pop: true
+          pop: 1
     - match: '#'
       scope: punctuation.definition.comment.php
       push:
         - meta_scope: comment.line.number-sign.php
         - match: '(?=\?>)'
-          pop: true
+          pop: 1
         # Consume the newline so that completions aren't shown at the end of the line
         - match: \n
-          pop: true
+          pop: 1
   constants:
     - match: |-
         \b(?xi:
@@ -855,11 +942,11 @@ contexts:
           captures:
             1: punctuation.separator.namespace.php
             2: constant.other.php
-          pop: true
+          pop: 1
     - match: '(?=\\?[[:alpha:]_])'
       push:
         - match: '(?=[^\\_[:alnum:]])'
-          pop: true
+          pop: 1
         - match: |-
             (\\)?\b(?x:
               DEFAULT_INCLUDE_PATH | E_ALL | E_COMPILE_ERROR | E_COMPILE_WARNING | E_CORE_ERROR | E_CORE_WARNING | E_DEPRECATED | E_ERROR |
@@ -900,7 +987,7 @@ contexts:
               M_PI_4 | M_SQRT1_2 | M_SQRT2 | M_SQRT3 | M_SQRTPI | NAN | NEGATIVE_SIGN | NOEXPR |
               NOSTR | N_CS_PRECEDES | N_SEP_BY_SPACE | N_SIGN_POSN | PATHINFO_BASENAME | PATHINFO_DIRNAME | PATHINFO_EXTENSION | PATHINFO_FILENAME |
               PATH_SEPARATOR | PM_STR | POSITIVE_SIGN | P_CS_PRECEDES | P_SEP_BY_SPACE | P_SIGN_POSN | RADIXCHAR | SEEK_CUR |
-              SEEK_END | SEEK_SET | SORT_ASC | SORT_DESC | SORT_LOCALE_STRING | SORT_NUMERIC | SORT_REGULAR | SORT_STRING |
+              SEEK_END | SEEK_SET | SORT_ASC | SORT_DESC | SORT_FLAG_CASE | SORT_LOCALE_STRING | SORT_NATURAL | SORT_NUMERIC | SORT_REGULAR | SORT_STRING |
               STR_PAD_BOTH | STR_PAD_LEFT | STR_PAD_RIGHT | THOUSANDS_SEP | THOUSEP | T_FMT | T_FMT_AMPM | UPLOAD_ERR_CANT_WRITE |
               UPLOAD_ERR_EXTENSION | UPLOAD_ERR_FORM_SIZE | UPLOAD_ERR_INI_SIZE | UPLOAD_ERR_NO_FILE | UPLOAD_ERR_NO_TMP_DIR | UPLOAD_ERR_OK | UPLOAD_ERR_PARTIAL | YESEXPR |
               YESSTR | __COMPILER_HALT_OFFSET__
@@ -944,7 +1031,7 @@ contexts:
               CURLSSH_AUTH_NONE | CURLSSH_AUTH_PASSWORD | CURLSSH_AUTH_PUBLICKEY | CURLVERSION_NOW | CURL_HTTP_VERSION_1_0 | CURL_HTTP_VERSION_1_1 | CURL_HTTP_VERSION_NONE | CURL_IPRESOLVE_V4 |
               CURL_IPRESOLVE_V6 | CURL_IPRESOLVE_WHATEVER | CURL_NETRC_IGNORED | CURL_NETRC_OPTIONAL | CURL_NETRC_REQUIRED | CURL_PUSH_DENY | CURL_PUSH_OK | CURL_TIMECOND_IFMODSINCE |
               CURL_TIMECOND_IFUNMODSINCE | CURL_TIMECOND_LASTMOD | CURL_VERSION_IPV6 | CURL_VERSION_KERBEROS4 | CURL_VERSION_LIBZ | CURL_VERSION_SSL | DNS_A | DNS_A6 |
-              DNS_AAAA | DNS_ALL | DNS_ANY | DNS_CNAME | DNS_HINFO | DNS_MX | DNS_NAPTR | DNS_NS |
+              DNS_AAAA | DNS_ALL | DNS_ANY | DNS_CAA | DNS_CNAME | DNS_HINFO | DNS_MX | DNS_NAPTR | DNS_NS |
               DNS_PTR | DNS_SOA | DNS_SRV | DNS_TXT | DOMSTRING_SIZE_ERR | DOM_HIERARCHY_REQUEST_ERR | DOM_INDEX_SIZE_ERR | DOM_INUSE_ATTRIBUTE_ERR |
               DOM_INVALID_ACCESS_ERR | DOM_INVALID_CHARACTER_ERR | DOM_INVALID_MODIFICATION_ERR | DOM_INVALID_STATE_ERR | DOM_NAMESPACE_ERR | DOM_NOT_FOUND_ERR | DOM_NOT_SUPPORTED_ERR | DOM_NO_DATA_ALLOWED_ERR |
               DOM_NO_MODIFICATION_ALLOWED_ERR | DOM_PHP_ERR | DOM_SYNTAX_ERR | DOM_VALIDATION_ERR | DOM_WRONG_DOCUMENT_ERR | FILEINFO_CONTINUE | FILEINFO_DEVICES | FILEINFO_MIME |
@@ -954,7 +1041,7 @@ contexts:
               FILTER_FLAG_ENCODE_LOW | FILTER_FLAG_HOST_REQUIRED | FILTER_FLAG_IPV4 | FILTER_FLAG_IPV6 | FILTER_FLAG_NONE | FILTER_FLAG_NO_ENCODE_QUOTES | FILTER_FLAG_NO_PRIV_RANGE | FILTER_FLAG_NO_RES_RANGE |
               FILTER_FLAG_PATH_REQUIRED | FILTER_FLAG_QUERY_REQUIRED | FILTER_FLAG_SCHEME_REQUIRED | FILTER_FLAG_STRIP_BACKTICK | FILTER_FLAG_STRIP_HIGH | FILTER_FLAG_STRIP_LOW | FILTER_FORCE_ARRAY | FILTER_NULL_ON_FAILURE |
               FILTER_REQUIRE_ARRAY | FILTER_REQUIRE_SCALAR | FILTER_SANITIZE_EMAIL | FILTER_SANITIZE_ENCODED | FILTER_SANITIZE_FULL_SPECIAL_CHARS | FILTER_SANITIZE_MAGIC_QUOTES | FILTER_SANITIZE_NUMBER_FLOAT | FILTER_SANITIZE_NUMBER_INT |
-              FILTER_SANITIZE_SPECIAL_CHARS | FILTER_SANITIZE_STRING | FILTER_SANITIZE_STRIPPED | FILTER_SANITIZE_URL | FILTER_UNSAFE_RAW | FILTER_VALIDATE_BOOLEAN | FILTER_VALIDATE_EMAIL | FILTER_VALIDATE_FLOAT |
+              FILTER_SANITIZE_SPECIAL_CHARS | FILTER_SANITIZE_STRING | FILTER_SANITIZE_STRIPPED | FILTER_SANITIZE_URL | FILTER_UNSAFE_RAW | FILTER_VALIDATE_BOOL | FILTER_VALIDATE_BOOLEAN | FILTER_VALIDATE_EMAIL | FILTER_VALIDATE_FLOAT |
               FILTER_VALIDATE_INT | FILTER_VALIDATE_IP | FILTER_VALIDATE_REGEXP | FILTER_VALIDATE_URL | FNM_CASEFOLD | FNM_NOESCAPE | FNM_PATHNAME | FNM_PERIOD |
               FORCE_DEFLATE | FORCE_GZIP | GLOB_AVAILABLE_FLAGS | GLOB_BRACE | GLOB_ERR | GLOB_MARK | GLOB_NOCHECK | GLOB_NOESCAPE |
               GLOB_NOSORT | GLOB_ONLYDIR | ICONV_IMPL | ICONV_MIME_DECODE_CONTINUE_ON_ERROR | ICONV_MIME_DECODE_STRICT | ICONV_VERSION | IMAGETYPE_BMP | IMAGETYPE_COUNT |
@@ -1022,7 +1109,7 @@ contexts:
             1: punctuation.separator.namespace.php
         - match: |-
             (\\)?\b(?x:
-              T_ABSTRACT | T_AND_EQUAL | T_ARRAY | T_ARRAY_CAST | T_AS | T_BAD_CHARACTER | T_BOOLEAN_AND | T_BOOLEAN_OR |
+              T_ABSTRACT | T_AND_EQUAL | T_ARRAY | T_ARRAY_CAST | T_AS | T_ATTRIBUTE | T_BAD_CHARACTER | T_BOOLEAN_AND | T_BOOLEAN_OR |
               T_BOOL_CAST | T_BREAK | T_CASE | T_CATCH | T_CHARACTER | T_CLASS | T_CLASS_C | T_CLONE |
               T_CLOSE_TAG | T_COMMENT | T_CONCAT_EQUAL | T_CONST | T_CONSTANT_ENCAPSED_STRING | T_CONTINUE | T_CURLY_OPEN | T_DEC |
               T_DECLARE | T_DEFAULT | T_DIR | T_DIV_EQUAL | T_DNUMBER | T_DO | T_DOC_COMMENT | T_DOLLAR_OPEN_CURLY_BRACES |
@@ -1052,8 +1139,7 @@ contexts:
     # any built-in function names should not be highlighted specially
     - match: '(?={{path}}\\{{identifier}}\s*\()'
       push:
-        - meta_scope: meta.function-call.php
-        - meta_content_scope: meta.path.php
+        - meta_scope: meta.function-call.php meta.path.php
         - include: identifier-parts
         - match: '{{identifier}}(?=\s*\()'
           scope: variable.function.php
@@ -1084,18 +1170,27 @@ contexts:
         - match: '{{identifier}}'
           scope: variable.function.php
   function-call-parameters:
-    - match: \s*(\()
-      scope: meta.function-call.php
-      captures:
-        1: meta.group.php punctuation.section.group.begin.php
+    - match: \(
+      scope: punctuation.section.group.begin.php
       set:
-        - meta_content_scope: meta.function-call.php meta.group.php
+        - meta_scope: meta.function-call.php meta.group.php
         - match: \)
-          scope: meta.function-call.php meta.group.php punctuation.section.group.end.php
+          scope: punctuation.section.group.end.php
           set: after-function-call
         - match: ','
           scope: punctuation.separator.php
+        - include: function-call-named-parameters
         - include: expressions
+  function-call-named-parameters:
+    # https://wiki.php.net/rfc/named_params
+    - match: ({{identifier}})\s*(:)(?!:)
+      captures:
+        1: variable.parameter.named.php
+        2: punctuation.definition.variable.php
+      push:
+        - include: expressions
+        - match: ''
+          pop: 1
   heredoc:
     - match: (?=<<<\s*'?({{identifier}})'?\s*$)
       push:
@@ -1104,7 +1199,7 @@ contexts:
             1: punctuation.section.embedded.end.php keyword.operator.heredoc.php
             2: punctuation.terminator.expression.php
             3: meta.heredoc-end.php
-          pop: true
+          pop: 1
         - match: <<<\s*(HTML)\s*$\n?
           scope: punctuation.section.embedded.begin.php punctuation.definition.string.php
           captures:
@@ -1196,7 +1291,7 @@ contexts:
           push:
             - meta_scope: string.unquoted.heredoc.php
             - match: (?=^\s*\1\b)
-              pop: true
+              pop: 1
             - include: interpolation
         - match: <<<\s*('({{identifier}})')
           scope: punctuation.definition.string.php
@@ -1205,7 +1300,7 @@ contexts:
           push:
             - meta_scope: string.unquoted.nowdoc.php
             - match: (?=^\s*\2\b)
-              pop: true
+              pop: 1
   heredoc-html:
     - meta_include_prototype: false
     - match: ''
@@ -1258,7 +1353,7 @@ contexts:
         1: keyword.other.new.php
       push:
         - match: '(?=[^[:alnum:]$_\\])'
-          pop: true
+          pop: 1
         - match: '(parent|static|self)\b'
           scope: variable.language.php
         - include: class-name
@@ -1279,7 +1374,7 @@ contexts:
         - match: '(\})'
           captures:
             1: punctuation.definition.expression.php
-          pop: true
+          pop: 1
         - include: expressions
     # Handles: "foo${bar}baz"
     - match: '(\$\{){{identifier}}(\})'
@@ -1294,7 +1389,7 @@ contexts:
         - match: '(\})'
           captures:
             1: punctuation.definition.variable.php
-          pop: true
+          pop: 1
         - include: expressions
     # Handles: $foo, $foo[0], $foo[$bar], $foo->bar
     - match: |-
@@ -1302,25 +1397,26 @@ contexts:
           (?=
             \${{identifier}}
             (?:
-                ->{{identifier}}
+                \??->{{identifier}}
                 |
                 \[ ( \d+ | \$?{{identifier}} ) \]
             )
           )
         )
       push:
-        - match: (->)({{identifier}})
+        - match: (\??)(->)({{identifier}})
           captures:
-            1: punctuation.accessor.arrow.php
-            2: variable.other.member.php
-          pop: true
+            1: punctuation.accessor.nullsafe.php
+            2: punctuation.accessor.arrow.php
+            3: variable.other.member.php
+          pop: 1
         - match: '\['
-          scope: meta.item-access.php punctuation.section.brackets.begin.php
+          scope: punctuation.section.brackets.begin.php
           set:
-            - meta_content_scope: meta.item-access.arguments.php
+            - meta_scope: meta.item-access.arguments.php
             - match: '\]'
-              scope: meta.item-access.php punctuation.section.brackets.end.php
-              pop: true
+              scope: punctuation.section.brackets.end.php
+              pop: 1
             - include: numbers
             - include: variables
             - match: '{{identifier}}'
@@ -1337,53 +1433,61 @@ contexts:
   # Trailing underscores are allowed to prevent numbers from flickering while typing
   # The underscore is for PHP 7.4: https://wiki.php.net/rfc/numeric_literal_separator
   numbers:
-    - match: '\b(0[bB])(?!_)([01]|_(?!_))*\b'
-      scope: constant.numeric.integer.binary.php
+    - match: '\b(0[bB])((?!_)(?:[01]|_(?!_))*)\b'
+      scope: meta.number.integer.binary.php
       captures:
-        1: punctuation.definition.numeric.binary.php
-    - match: '\b(0[xX])(?!_)(\h|_(?!_))*\b'
-      scope: constant.numeric.integer.hexadecimal.php
+        1: constant.numeric.base.php
+        2: constant.numeric.value.php
+    - match: '\b(0[xX])((?!_)(?:\h|_(?!_))*)\b'
+      scope: meta.number.integer.hexadecimal.php
       captures:
-        1: punctuation.definition.numeric.hexadecimal.php
+        1: constant.numeric.base.php
+        2: constant.numeric.value.php
     - match: |-
         (?x:
           (?:
             (?# such as 123.4 or .123)
-            (?:\b(?!_)(?:\d|_(?!_))+|\B)\.(?!_)(?:\d|_(?!_))+
+            (?:\b(?!_)(?:\d|_(?!_))+|\B)(\.)(?!_)(?:\d|_(?!_))+
             |
             (?# such as 123.)
-            \b(?!_)(?:\d|_(?!_))+\.
+            \b(?!_)(?:\d|_(?!_))+(\.)
           )(?:[eE][+-]?(?!_)(?:\d|_(?!_))+)?\b
           |
           (?# such as 123e-4)
           \b(?!_)(?:\d|_(?!_))+(?:[eE][+-]?(?!_)(?:\d|_(?!_))+)\b
         )
-      scope: constant.numeric.float.decimal.php
-    - match: '\b(?!_)(?:\d|_(?!_))+\b'
-      scope: constant.numeric.integer.decimal.php
-  object:
-    - match: '(->)(\$?\{)'
+      scope: meta.number.float.decimal.php constant.numeric.value.php
       captures:
-        1: punctuation.accessor.arrow.php
-        2: punctuation.definition.variable.php
+        1: punctuation.separator.decimal.php
+        2: punctuation.separator.decimal.php
+    - match: '\b(?!_)(?:\d|_(?!_))+\b'
+      scope: meta.number.integer.decimal.php constant.numeric.value.php
+  object:
+    - match: (\??)(->)(\$?\{)
+      captures:
+        1: punctuation.accessor.nullsafe.php
+        2: punctuation.accessor.arrow.php
+        3: punctuation.definition.variable.php
       push:
         - match: '(\})'
           captures:
             1: punctuation.definition.variable.php
           set: after-identifier
         - include: expressions
-    - match: (->)({{identifier}})(?=\s*\()
+    - match: (\??)(->)({{identifier}})(?=\s*\()
       scope: meta.function-call.method.php
       captures:
-        1: punctuation.accessor.arrow.php
-        2: variable.function.php
+        1: punctuation.accessor.nullsafe.php
+        2: punctuation.accessor.arrow.php
+        3: variable.function.php
       push: function-call-parameters
     - include: function-call-static
-    - match: (->)((\$+)?{{identifier}})?
+    - match: (\??)(->)((\$+)?{{identifier}})?
       captures:
-        1: punctuation.accessor.arrow.php
-        2: variable.other.member.php
-        3: punctuation.definition.variable.php
+        1: punctuation.accessor.nullsafe.php
+        2: punctuation.accessor.arrow.php
+        3: variable.other.member.php
+        4: punctuation.definition.variable.php
       push: after-identifier
     - match: '(::)({{identifier}})?'
       captures:
@@ -1409,7 +1513,7 @@ contexts:
         - meta_scope: meta.array.php
         - match: \)
           scope: punctuation.section.array.end.php
-          pop: true
+          pop: 1
         - include: parameter-default-types
     - include: instantiation
     - match: \s*(?={{path}}(::)({{identifier}})?)
@@ -1418,7 +1522,7 @@ contexts:
           captures:
             1: punctuation.accessor.double-colon.php
             2: constant.other.class.php
-          pop: true
+          pop: 1
         - include: class-name
     - include: constants
   php-doc:
@@ -1431,8 +1535,8 @@ contexts:
         - meta_scope: comment.block.php
         - match: \*/
           scope: punctuation.definition.comment.end.php
-          pop: true
-    - match: ^\s*(\*)\s*(@access)\s+((var|public|private|protected)|(.+))\s*$
+          pop: 1
+    - match: ^\s*(\*)\s*(@access)\s+(({{visibility_modifier}})|(.+))\s*$
       captures:
         1: punctuation.definition.comment.php
         2: keyword.other.phpdoc.php
@@ -1459,43 +1563,75 @@ contexts:
       scope: meta.tag.inline.phpdoc.php
       captures:
         1: keyword.other.phpdoc.php
-  regex-double-quoted:
-    - match: (?="/(\\.|[^"/])+/[eimsuxADJSUX]*")
+  regex-double-quoted-branch:
+    - match: (")(/)
+      captures:
+        1: punctuation.definition.string.begin.php
+        2: punctuation.definition.string.regex-delimiter.begin.php
       push:
         - meta_scope: meta.string.php string.quoted.double.php
-        - match: (")(/)
-          captures:
-            1: punctuation.definition.string.begin.php
-            2: punctuation.definition.string.regex-delimiter.begin.php
-        - match: (/)([eimsuxADJSUX]*)(")
+        - match: (/)({{regex_modifier}})(")
           captures:
             1: punctuation.definition.string.regex-delimiter.end.php
             2: meta.regex.modifier.php
             3: punctuation.definition.string.end.php
-          pop: true
+          pop: 2 # branch successful matched
+        - match: (?=")
+          pop: 1
         - match: ''
           push: scope:source.regexp.php
           with_prototype:
-            - match: (?=(/)([eimsuxADJSUX]*)("))
-              pop: true
+            - match: (?=(/)({{regex_modifier}})(")|")
+              pop: 1
+            # workaround for greedy scope "$" as punctuation.definition.variable
+            # dangling "$" in regex means EOL, but not variable definition...
+            - match: \$+(?!{{identifier}})
+              scope: keyword.control.anchor.regexp
             - include: interpolation
-  regex-single-quoted:
-    - match: (?='/(\\.|[^'/])+/[eimsuxADJSUX]*')
+            - match: \\"
+              scope: constant.character.escape
+            - match: \s(#)([^"]*)$
+              captures:
+                1: comment.regexp.php punctuation.definition.comment.regexp.php
+                2: comment.regexp.php
+    - match: ''
+      fail: branch-point-double-quoted
+  regex-single-quoted-branch:
+    - match: (')(/)
+      captures:
+        1: punctuation.definition.string.begin.php
+        2: punctuation.definition.string.regex-delimiter.begin.php
       push:
         - meta_scope: meta.string.php string.quoted.single.php
-        - match: (')(/)
-          captures:
-            1: punctuation.definition.string.begin.php
-            2: punctuation.definition.string.regex-delimiter.begin.php
-        - match: (/)([eimsuxADJSUX]*)(')
+        - match: (/)({{regex_modifier}})(')
           captures:
             1: punctuation.definition.string.regex-delimiter.end.php
             2: meta.regex.modifier.php
             3: punctuation.definition.string.end.php
-          pop: true
+          pop: 2 # branch successful matched
+        - match: (?=')
+          pop: 1
         - match: ''
-          embed: scope:source.regexp.php
-          escape: (?=(/)([eimsuxADJSUX]*)('))
+          push: scope:source.regexp.php
+          with_prototype:
+            - match: (?=(/)({{regex_modifier}})(')|')
+              pop: 1
+            - match: \\'
+              scope: constant.character.escape
+            - match: \s(#)([^']*)$
+              captures:
+                1: comment.regexp.php punctuation.definition.comment.regexp.php
+                2: comment.regexp.php
+    - match: ''
+      fail: branch-point-single-quoted
+  string-double-quoted-branch:
+    - include: string-double-quoted
+    - match: ''
+      pop: 1
+  string-single-quoted-branch:
+    - include: string-single-quoted
+    - match: ''
+      pop: 1
   string-backtick:
     - match: "`"
       scope: punctuation.definition.string.begin.php
@@ -1503,7 +1639,7 @@ contexts:
         - meta_scope: string.interpolated.php
         - match: "`"
           scope: punctuation.definition.string.end.php
-          pop: true
+          pop: 1
         - match: \\.
           scope: constant.character.escape.php
         - include: interpolation
@@ -1519,11 +1655,11 @@ contexts:
             - meta_content_scope: meta.string-contents.quoted.double.php
             - match: '"'
               scope: punctuation.definition.string.end.php
-              pop: true
+              pop: 1
             - match: ''
               with_prototype:
                 - match: '(?=")'
-                  pop: true
+                  pop: 1
                 - include: interpolation
               push: 'scope:source.sql'
         - match: '(?=\S)'
@@ -1532,7 +1668,7 @@ contexts:
             - meta_content_scope: meta.string-contents.quoted.double.php
             - match: '"'
               scope: punctuation.definition.string.end.php
-              pop: true
+              pop: 1
             - include: interpolation
   string-single-quoted:
     - match: "'"
@@ -1546,11 +1682,11 @@ contexts:
             - meta_content_scope: meta.string-contents.quoted.single.php
             - match: "'"
               scope: punctuation.definition.string.end.php
-              pop: true
+              pop: 1
             - match: ''
               with_prototype:
                 - match: "(?=')"
-                  pop: true
+                  pop: 1
                 - match: '\\[\\'']'
                   scope: constant.character.escape.php
               push: 'scope:source.sql'
@@ -1560,15 +1696,21 @@ contexts:
             - meta_content_scope: meta.string-contents.quoted.single.php
             - match: "'"
               scope: punctuation.definition.string.end.php
-              pop: true
+              pop: 1
             - match: '\\[\\'']'
               scope: constant.character.escape.php
 
   strings:
-    - include: regex-double-quoted
-    - include: string-double-quoted
-    - include: regex-single-quoted
-    - include: string-single-quoted
+    - match: (?=")
+      branch_point: branch-point-double-quoted
+      branch:
+        - regex-double-quoted-branch
+        - string-double-quoted-branch
+    - match: (?=')
+      branch_point: branch-point-single-quoted
+      branch:
+        - regex-single-quoted-branch
+        - string-single-quoted-branch
   support:
     - match: |-
         \b(?xi:
@@ -1882,7 +2024,7 @@ contexts:
         \b(?xi:
           abs | acos | acosh | asin | asinh | atan | atan2 | atanh |
           base_convert | bindec | ceil | cos | cosh | decbin | dechex | decoct |
-          deg2rad | exp | expm1 | floor | fmod | getrandmax | hexdec | hypot |
+          deg2rad | exp | expm1 | fdiv | floor | fmod | getrandmax | hexdec | hypot |
           intdiv | is_finite | is_infinite | is_nan | lcg_value | log | log10 | log1p |
           max | min | mt_getrandmax | mt_rand | mt_srand | octdec | pi | pow |
           rad2deg | rand | round | sin | sinh | sqrt | srand | tan |
@@ -2235,8 +2377,8 @@ contexts:
           lcfirst | levenshtein | localeconv | ltrim | md5 | md5_file | metaphone | money_format |
           nl2br | nl_langinfo | number_format | ord | parse_str | print | printf | quoted_printable_decode |
           quoted_printable_encode | quotemeta | rtrim | setlocale | sha1 | sha1_file | similar_text | soundex |
-          sprintf | sscanf | str_getcsv | str_ireplace | str_pad | str_repeat | str_replace | str_rot13 |
-          str_shuffle | str_split | str_word_count | strcasecmp | strchr | strcmp | strcoll | strcspn |
+          sprintf | sscanf | str_contains | str_ends_with | str_getcsv | str_ireplace | str_pad | str_repeat | str_replace | str_rot13 |
+          str_shuffle | str_split | str_starts_with | str_word_count | strcasecmp | strchr | strcmp | strcoll | strcspn |
           strip_tags | stripcslashes | stripos | stripslashes | stristr | strlen | strnatcasecmp | strnatcmp |
           strncasecmp | strncmp | strpbrk | strpos | strrchr | strrev | strripos | strrpos |
           strspn | strstr | strtok | strtolower | strtoupper | strtr | substr | substr_compare |
@@ -2273,7 +2415,7 @@ contexts:
       scope: support.function.url.php
     - match: |-
         \b(?xi:
-          boolval | debug_zval_dump | doubleval | empty | floatval | get_defined_vars | get_resource_type | gettype |
+          boolval | debug_zval_dump | doubleval | empty | floatval | get_debug_type | get_defined_vars | get_resource_id | get_resource_type | gettype |
           import_request_variables | intval | is_array | is_bool | is_callable | is_countable | is_double | is_float |
           is_int | is_integer | is_iterable | is_long | is_null | is_numeric | is_object | is_real |
           is_resource | is_scalar | is_string | isset | print_r | serialize | settype | strval |
@@ -2354,6 +2496,9 @@ contexts:
       captures:
         1: punctuation.definition.variable.php
       push: after-identifier
+    # resolves https://github.com/sublimehq/Packages/issues/2585
+    - match: \$+
+      scope: punctuation.definition.variable.php
 
   variables-no-item-access:
     - match: (\$)((_(COOKIE|FILES|GET|POST|REQUEST))|arg(v|c))\b
@@ -2399,4 +2544,4 @@ contexts:
             2: constant.other.php
           set: after-identifier
         - match: ''
-          pop: true
+          pop: 1

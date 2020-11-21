@@ -41,7 +41,7 @@ x = [ 1.76 ]
 % <- source.matlab meta.variable.other.valid.matlab
 % ^ source.matlab keyword.operator.symbols.matlab
 %   ^ source.matlab punctuation.section.brackets.begin.matlab
-%     ^^^^ source.matlab meta.brackets.matlab constant.numeric.matlab
+%     ^^^^ source.matlab meta.brackets.matlab meta.number.float.decimal.matlab constant.numeric.value.matlab
 %          ^ source.matlab punctuation.section.brackets.end.matlab
 
 
@@ -52,6 +52,46 @@ xAprox = fMetodoDeNewton( xi )
 %                       ^ source.matlab punctuation.section.parens.begin.matlab
 %                         ^ source.matlab meta.parens.matlab meta.variable.other.valid.matlab
 %                            ^ source.matlab punctuation.section.parens.end.matlab
+
+
+%---------------------------------------------
+% Line comment test
+
+%
+%<- comment.line.percentage.matlab punctuation.definition.comment.matlab
+%^ comment.line.percentage.matlab - punctuation
+
+% comment % comment
+%<- comment.line.percentage.matlab punctuation.definition.comment.matlab
+%^^^^^^^^^^^^^^^^^^^ comment.line.percentage.matlab - punctuation
+
+%%
+%<- comment.line.double-percentage.matlab punctuation.definition.comment.matlab
+%^ comment.line.double-percentage.matlab punctuation.definition.comment.matlab
+% ^ comment.line.double-percentage.matlab - punctuation
+
+%% comment % comment
+%<- comment.line.double-percentage.matlab punctuation.definition.comment.matlab
+%^ comment.line.double-percentage.matlab punctuation.definition.comment.matlab
+% ^^^^^^^^^^^^^^^^^^^ comment.line.double-percentage.matlab - punctuation
+
+%%%
+%<- comment.line.percentage.matlab punctuation.definition.comment.matlab
+%^^ comment.line.percentage.matlab punctuation.definition.comment.matlab
+%  ^ comment.line.percentage.matlab - punctuation
+
+%%%%% comment % comment %%%%
+%<- comment.line.percentage.matlab punctuation.definition.comment.matlab
+%^^^^ comment.line.percentage.matlab punctuation.definition.comment.matlab
+%    ^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.percentage.matlab - punctuation
+
+a = b % doc
+%     ^ comment.line.percentage.matlab punctuation.definition.comment.matlab
+%      ^^^^^ comment.line.percentage.matlab - punctuation
+
+a = b %% doc
+%     ^^ comment.line.double-percentage.matlab punctuation.definition.comment.matlab
+%       ^^^^^ comment.line.double-percentage.matlab - punctuation
 
 
 %---------------------------------------------
@@ -79,8 +119,29 @@ x = 5
 x = 5 %{ not block comment
 % ^ keyword.operator.symbols.matlab
 x = 5
-%   ^ constant.numeric.matlab
+%   ^ meta.number.float.decimal.matlab constant.numeric.value.matlab
 
+header = ['Last Name, ',      ... comment
+%        ^^^^^^^^^^^^^^^^^^^^^ meta.brackets.matlab - comment
+%                             ^^^ meta.brackets.matlab punctuation.separator.continuation.matlab
+%                                ^ meta.brackets.matlab - punctuation - comment
+%                                 ^^^^^^^^ meta.brackets.matlab comment.line.matlab - punctuation
+          'First Name, ',     ... comment
+%        ^^^^^^^^^^^^^^^^^^^^^ meta.brackets.matlab - comment
+%                             ^^^ punctuation.separator.continuation.matlab
+%                                ^ meta.brackets.matlab - punctuation - comment
+%                                 ^^^^^^^^ meta.brackets.matlab comment.line.matlab - punctuation
+          'Alias Name, ',     ...
+%        ^^^^^^^^^^^^^^^^^^^^^ meta.brackets.matlab - comment
+%                             ^^^ punctuation.separator.continuation.matlab
+%                                ^ meta.brackets.matlab - punctuation - comment
+      ... 'Middle Initial, ', ...
+%^^^^^ meta.brackets.matlab - comment
+%     ^^^ meta.brackets.matlab punctuation.separator.continuation.matlab
+%        ^ meta.brackets.matlab - punctuation - comment
+%         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets.matlab comment.line.matlab - punctuation
+          'Title']
+%^^^^^^^^^^^^^^^^^ meta.brackets.matlab - comment
 
 %---------------------------------------------
 % Function
@@ -145,25 +206,63 @@ end
 %---------------------------------------------
 % Numbers
 
-1
-% <- constant.numeric.matlab
-.1
-% <- constant.numeric.matlab
-1.1
-% <- constant.numeric.matlab
-.1e1
-% <- constant.numeric.matlab
-1.1e1
-% <- constant.numeric.matlab
-1e1
-% <- constant.numeric.matlab
-1i - (4i)
-% <- constant.numeric.matlab
-%     ^^ constant.numeric.matlab
-1j
-% <- constant.numeric.matlab
-1e2j
-% <- constant.numeric.matlab
+ 1
+%^ meta.number.float.decimal.matlab constant.numeric.value.matlab
+ .1
+%^^ meta.number.float.decimal.matlab constant.numeric.value.matlab
+%^ punctuation.separator.decimal.matlab
+ 1.1
+%^^^ meta.number.float.decimal.matlab constant.numeric.value.matlab
+% ^ punctuation.separator.decimal.matlab
+ .1e1
+%^^^^ meta.number.float.decimal.matlab constant.numeric.value.matlab
+%^ punctuation.separator.decimal.matlab
+ 1.1e1
+%^^^^^ meta.number.float.decimal.matlab constant.numeric.value.matlab
+% ^ punctuation.separator.decimal.matlab
+ 1e1
+%^^^ meta.number.float.decimal.matlab constant.numeric.value.matlab
+ 1i - (4i)
+%^^ meta.number.imaginary.decimal.matlab constant.numeric
+%^ constant.numeric.value.matlab
+% ^ constant.numeric.suffix.matlab
+%      ^^ meta.number.imaginary.decimal.matlab constant.numeric
+%      ^ constant.numeric.value.matlab
+%       ^ constant.numeric.suffix.matlab
+ 1j
+%^^ meta.number.imaginary.decimal.matlab constant.numeric
+%^ constant.numeric.value.matlab
+% ^ constant.numeric.suffix.matlab
+ 1e2j
+%^^^^ meta.number.imaginary.decimal.matlab constant.numeric
+%^^^ constant.numeric.value.matlab
+%   ^ constant.numeric.suffix.matlab
+ 0x2A
+%^^^^ meta.number.integer.hexadecimal.matlab constant.numeric
+%^^ constant.numeric.base.matlab
+%  ^^ constant.numeric.value.matlab
+ 0X2A
+%^^^^ meta.number.integer.hexadecimal.matlab constant.numeric
+%^^ constant.numeric.base.matlab
+%  ^^ constant.numeric.value.matlab
+ 0b101010
+%^^^^^^^^ meta.number.integer.binary.matlab constant.numeric
+%^^ constant.numeric.base.matlab
+%  ^^^^^^ constant.numeric.value.matlab
+ 0B101010
+%^^^^^^^^ meta.number.integer.binary.matlab constant.numeric
+%^^ constant.numeric.base.matlab
+%  ^^^^^^ constant.numeric.value.matlab
+ 0x2Au8
+%^^^^^^ meta.number.integer.hexadecimal.matlab constant.numeric
+%^^ constant.numeric.base.matlab
+%  ^^ constant.numeric.value.matlab
+%    ^^ constant.numeric.suffix.matlab
+ 0x2As32
+%^^^^^^^ meta.number.integer.hexadecimal.matlab constant.numeric
+%^^ constant.numeric.base.matlab
+%  ^^ constant.numeric.value.matlab
+%    ^^^ constant.numeric.suffix.matlab
 
 
 %---------------------------------------------

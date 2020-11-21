@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+	<key>scope</key>
+	<string>source.ocaml</string>
+	<key>settings</key>
+	<dict>
+		<key>decreaseIndentPattern</key>
+		<string>^\s*(end|done|with|in|else)\b|^\s*;;|^[^\("]*\)</string>
+		<key>increaseIndentPattern</key>
+		<string><![CDATA[^.*(\([^)"\n]*|begin)$|\bobject\s*$|\blet [a-zA-Z0-9_-]+( [^ ]+)+ =\s*$|method[ \t]+.*=[ \t]*$|->[ \t]*$|\b(for|while)[ \t]+.*[ \t]+do[ \t]*$|(\btry$|\bif\s+.*\sthen$|\belse|[:=]\s*sig|=\s*struct)\s*$]]></string>
+		<key>indentNextLinePattern</key>
+		<string>(?!\bif.*then.*(else.*|(;|[ \t]in)[ \t]*$))\bif|\bthen[ \t]*$|\belse[ \t]*$$</string>
+	</dict>
+</dict>
+</plist>

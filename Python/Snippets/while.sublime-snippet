@@ -1,9 +1,9 @@
 <snippet>
-	<tabTrigger>while</tabTrigger>
-	<scope>source.python</scope>
-	<description>While Loop</description>
 	<content><![CDATA[
 while ${1:$SELECTION}:
 	${0:pass}
 ]]></content>
+	<tabTrigger>while</tabTrigger>
+	<scope>source.python - meta.function.parameters - meta.function-call - meta.statement - meta.mapping - meta.sequence - meta.set - comment - string</scope>
+	<description>While Loop</description>
 </snippet>

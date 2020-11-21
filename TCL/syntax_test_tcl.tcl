@@ -85,6 +85,11 @@ set res "[join [lrange [split $res ","] 0 end-1] ","] ..."
 regexp {instance="?([^" \t]+)"?} $counter matchedstring instance; # comment
 #       ^^^^^^^^^^^^^^^^^^^^^^^ string.regexp
 
+regexp -- tralla(lla) $text allMatched var1
+#      ^^ punctuation.separator
+#         ^^^^^^^^^^^ string.regexp
+#                     ^ variable.other punctuation.definition.variable
+
 set check1 [regexp {^'(.){0,32}'$} $param]
 #                   ^^^^^^^^^^^^^ string.regexp
 
@@ -275,8 +280,8 @@ proc test {} {
             set ifoid $paroid
             set eaoid [elm_oid_by_iface $ifoid]
             set earole [objectGetField -oid $eaoid -fieldname role]
-		}
-	}
+        }
+    }
 }
 
 # https://github.com/sublimehq/Packages/issues/1145
@@ -382,14 +387,14 @@ if { $mpv(radar) eq "VHF" } {
 #      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.substitution
 #                                   ^ meta.block meta.block punctuation.section.block.begin
         set imf -1
-#               ^ keyword.operator
-#                ^ constant.numeric
+#               ^ keyword.operator.tcl
+#                ^ meta.number.float.decimal.tcl constant.numeric.value.tcl
 
         if { $mpv(ifmon_errcount) < 5 } {
 #       ^ keyword.control
 #          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block meta.block meta.block
 #                                 ^ keyword.operator
-#                                   ^ constant.numeric
+#                                   ^ meta.number.float.decimal.tcl constant.numeric.value.tcl
             EngineMsg [list $msg] [Utime]
 #           ^ variable.function
             incr mpv(ifmon,errcount)

@@ -1,0 +1,21 @@
+%YAML 1.2
+---
+scope: source.shell.embedded.makefile
+version: 2
+hidden: true
+
+extends: Packages/ShellScript/Shell-Unix-Generic.sublime-syntax
+
+contexts:
+
+  expansions-parameter:
+    - meta_prepend: true
+    - include: Packages/Makefile/Makefile.sublime-syntax#variable-substitutions
+
+  string-ansi-c-body:
+    - meta_append: true
+    - include: Packages/Makefile/Makefile.sublime-syntax#variable-substitutions
+
+  string-quoted-single-body:
+    - meta_append: true
+    - include: Packages/Makefile/Makefile.sublime-syntax#variable-substitutions

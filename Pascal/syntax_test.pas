@@ -12,7 +12,7 @@
 
 // comment
 procedure foo;
-// ^ meta.function.pascal
+// ^ meta.function.pascal keyword.declaration.function
 begin
 	// comment
 end;
@@ -20,7 +20,7 @@ end;
 
 -- comment
 procedure bar;
-// ^ meta.function.pascal
+// ^ meta.function.pascal keyword.declaration.function
 begin
 	-- comment
 end;

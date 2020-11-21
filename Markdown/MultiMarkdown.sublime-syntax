@@ -1,6 +1,7 @@
 %YAML 1.2
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
+version: 2
 name: MultiMarkdown
 first_line_match: (?i)^format:\s*complete\s*$
 scope: text.html.markdown.multimarkdown
@@ -24,5 +25,5 @@ contexts:
           scope: string.unquoted.multimarkdown
     - match: ''
       push:
-        - meta_scope: meta.content.multimarkdown
-        - include: scope:text.html.markdown
+        - - meta_scope: meta.content.multimarkdown
+        - scope:text.html.markdown
