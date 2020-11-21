@@ -1,8 +1,35 @@
 %YAML 1.2
 ---
-# https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#documentation
-# https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#documentationcomments
-# http://www.sublimetext.com/docs/syntax.html
+###############################################################################
+# Notes:
+#
+#   The comment block is part of Java Syntax and thus scoped
+#   `comment.block.documentation.java`.
+#
+#   The comment's content followed by the first `*` of each line contains the
+#   JavaDoc content itself.
+#
+#   JavaDoc is pure HTML with some specific JavaDoc Tags being supported for
+#   easier authoring. A JavaDoc may contain:
+#
+#     - HTML tags            : <tag>content</tag>  :  meta.tag.html
+#     - JavaDoc Inline Tags  : {@tag content}      :  meta.tag.inline.javadoc
+#     - JavaDoc Block Tags   : @tag content        :  meta.tag.block.javadoc
+#
+#   While `HTML Tags` and `JavaDoc Inline Tags` are supported everywhere,
+#   `JavaDoc Block Tags` form the block tag section following the description
+#   section. Each tag terminates a former block tag's content (if one) and
+#   starts a new block section. Only the first token after `*` is matched as
+#   `JavaDoc Block Tag`.
+#
+# References:
+#
+#   https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#documentation
+#   https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#documentationcomments
+#   http://www.sublimetext.com/docs/syntax.html
+#
+###############################################################################
+
 name: Javadoc
 scope: text.html.javadoc
 version: 2
