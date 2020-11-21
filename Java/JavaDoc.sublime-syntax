@@ -28,14 +28,14 @@ contexts:
   main:
     - match: /\*\*+
       scope:
-        comment.block.documentation.javadoc
-        punctuation.definition.comment.begin.javadoc
+        comment.block.documentation.java
+        punctuation.definition.comment.begin.java
       embed: javadoc
-      embed_scope: comment.block.documentation.javadoc
+      embed_scope: comment.block.documentation.java
       escape: \*+/
       escape_captures:
-        0: comment.block.documentation.javadoc
-           punctuation.definition.comment.end.javadoc
+        0: comment.block.documentation.java
+           punctuation.definition.comment.end.java
 
   # The javadoc context can be used to embed JavaDoc content.
   #
@@ -59,14 +59,14 @@ contexts:
   javadoc-body:
     - match: ^\s*(\*)?\s*
       captures:
-        1: punctuation.definition.comment.javadoc
+        1: punctuation.definition.comment.java
       push: javadoc-block-tag
     - include: javadoc-inline-formatting
 
   javadoc-asterisk:
     - match: ^(?:\s*(\*)\s?)?
       captures:
-        1: punctuation.definition.comment.javadoc
+        1: punctuation.definition.comment.java
       pop: 1
 
 ###[ JAVADOC BLOCK TAGS ]######################################################
@@ -131,7 +131,7 @@ contexts:
       pop: 1
     - match: ^\s*(\*)\s*
       captures:
-        1: punctuation.definition.comment.javadoc
+        1: punctuation.definition.comment.java
 
 ###[ JAVADOC INLINE TAGS ]#####################################################
 

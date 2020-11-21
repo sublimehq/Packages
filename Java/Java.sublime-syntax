@@ -150,14 +150,14 @@ contexts:
     # documentation block comments
     - match: /\*\*+
       scope:
-        comment.block.documentation.javadoc
-        punctuation.definition.comment.begin.javadoc
+        comment.block.documentation.java
+        punctuation.definition.comment.begin.java
       embed: Packages/Java/JavaDoc.sublime-syntax#javadoc
-      embed_scope: comment.block.documentation.javadoc
+      embed_scope: comment.block.documentation.java
       escape: \*+/
       escape_captures:
-        0: comment.block.documentation.javadoc
-           punctuation.definition.comment.end.javadoc
+        0: comment.block.documentation.java
+           punctuation.definition.comment.end.java
     # normal block comments
     - match: /\*
       scope: punctuation.definition.comment.begin.java

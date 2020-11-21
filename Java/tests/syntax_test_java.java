@@ -25,25 +25,25 @@
  *****************************************************************************/
 
   /** This is javadoc, not a simple comment */
-//^^^ punctuation.definition.comment.begin.javadoc
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.javadoc
-//                                          ^^ punctuation.definition.comment.end.javadoc
+//^^^ punctuation.definition.comment.begin.java
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.java
+//                                          ^^ punctuation.definition.comment.end.java
 
   /**
-//^^^ comment.block.documentation.javadoc punctuation.definition.comment.begin.javadoc
+//^^^ comment.block.documentation.java punctuation.definition.comment.begin.java
    * Description of some sort.
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.javadoc
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.java
    */
-// ^^ comment.block.documentation.javadoc punctuation.definition.comment.end.javadoc
+// ^^ comment.block.documentation.java punctuation.definition.comment.end.java
 
   /**
    * <p>Description that starts with tag
-//   ^^^ comment.block.documentation.javadoc meta.tag
+//   ^^^ comment.block.documentation.java meta.tag
    */
 
   /** <b>One-liner with tags</b> */
-//    ^^^ comment.block.documentation.javadoc meta.tag
-//                          ^^^ comment.block.documentation.javadoc meta.tag
+//    ^^^ comment.block.documentation.java meta.tag
+//                          ^^^ comment.block.documentation.java meta.tag
 
   /** @param onFirstLine     @param
 //    ^^^^^^ entity.name.tag.documentation.param.javadoc
@@ -67,7 +67,7 @@
 //                    ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-tag.javadoc
 //                               ^^^ meta.tag
 //                                         ^^^^ meta.tag
-// ^ punctuation.definition.comment.javadoc
+// ^ punctuation.definition.comment.java
    *
    * @param
    * paramName1
@@ -84,10 +84,10 @@
    * paramName3
 //   ^^^^^^^^^^ variable.parameter.javadoc
    */
-// ^^ punctuation.definition.comment.end.javadoc
+// ^^ punctuation.definition.comment.end.java
 
   /** Not a @param tag */
-// ^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.javadoc
+// ^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.java
 //          ^^^^^^ - entity.name.tag.documentation.param.javadoc
 
   /**
@@ -163,21 +163,21 @@
    * {@link Class#method(Type,
    * Type, Type) label}
 //^^^ - meta.inline-tag - markup.underline
-// ^ comment.block.documentation.javadoc punctuation.definition.comment.javadoc
+// ^ comment.block.documentation.java punctuation.definition.comment.java
 //   ^^^^^^^^^^^^^^^^^^ meta.inline-tag.javadoc
 //   ^^^^^^^^^^^ markup.underline.link.javadoc
 //               ^^^^^ meta.label.javadoc
    * {@link
    * Class#method(Type, Type, Type) label}
 //^^^ - meta.inline-tag - markup.underline
-// ^ comment.block.documentation.javadoc punctuation.definition.comment.javadoc
+// ^ comment.block.documentation.java punctuation.definition.comment.java
 //   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inline-tag.javadoc
 //   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.javadoc
 //                                  ^^^^^ meta.label.javadoc
    * {@link Class#method(Type, Type, Type)
    * label}
 //^^^ - meta.inline-tag - markup.underline
-// ^ comment.block.documentation.javadoc punctuation.definition.comment.javadoc
+// ^ comment.block.documentation.java punctuation.definition.comment.java
 //   ^^^^^^ meta.inline-tag.javadoc
 //   ^^^^^ meta.label.javadoc
    *
@@ -224,22 +224,22 @@
 //                       ^^^^^^^^^^^^^^^^^^^ - markup.underline.link.javadoc
    *
    * @unknown {@code test}
-// ^ punctuation.definition.comment.javadoc
+// ^ punctuation.definition.comment.java
 //   ^^^^^^^^ - keyword
 //            ^^^^^^^^^^^^ meta.inline-tag.javadoc
    */
 
   /**
    * Leading asterisk with space
-// ^ punctuation.definition.comment.javadoc
+// ^ punctuation.definition.comment.java
    *Without space
-// ^ punctuation.definition.comment.javadoc
+// ^ punctuation.definition.comment.java
    *<p>Before tag
-// ^ punctuation.definition.comment.javadoc
+// ^ punctuation.definition.comment.java
    *{@value} Before inline tag
-// ^ punctuation.definition.comment.javadoc
+// ^ punctuation.definition.comment.java
    *@return Before block tag
-// ^ punctuation.definition.comment.javadoc
+// ^ punctuation.definition.comment.java
    */
 
   /**
@@ -254,40 +254,40 @@
 //                                       ^^ meta.tag
 //                                        ^ entity.name.tag
    * href="http://www.merriampark.com/ld.htm"
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.javadoc
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.java
 //^^^ - meta.tag
-// ^ punctuation.definition.comment.javadoc
+// ^ punctuation.definition.comment.java
 //   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag meta.attribute-with-value.html
    * onclick="goto()"
-//^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.javadoc
+//^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.java
 //^^^ - meta.tag
-// ^ punctuation.definition.comment.javadoc
+// ^ punctuation.definition.comment.java
 //   ^^^^^^^^^^^^^^^^ meta.tag meta.attribute-with-value.html
    * >http://www.merriampark.com/ld.htm</a>
-//^^^ comment.block.documentation.javadoc - meta.tag
-// ^ punctuation.definition.comment.javadoc
+//^^^ comment.block.documentation.java - meta.tag
+// ^ punctuation.definition.comment.java
 //   ^ meta.tag punctuation.definition.tag.end.html
    * <script>
-//^^^^^^^^^^^^ comment.block.documentation.javadoc
-// ^ punctuation.definition.comment.javadoc
+//^^^^^^^^^^^^ comment.block.documentation.java
+// ^ punctuation.definition.comment.java
 //   ^^^^^^^^ meta.tag
    *   let me = 10;
-// ^ punctuation.definition.comment.javadoc
+// ^ punctuation.definition.comment.java
    * </script>
-//^^^^^^^^^^^^^ comment.block.documentation.javadoc
-// ^ punctuation.definition.comment.javadoc
+//^^^^^^^^^^^^^ comment.block.documentation.java
+// ^ punctuation.definition.comment.java
 //   ^^^^^^^^^ meta.tag
    */
 
   /**
    * Unclosed html tag: <li
    */
-// ^^ comment.block.documentation.javadoc punctuation.definition.comment.end.javadoc
+// ^^ comment.block.documentation.java punctuation.definition.comment.end.java
 
   /**
    * Unclosed javadoc tag: {@link
    */
-// ^^ comment.block.documentation.javadoc punctuation.definition.comment.end.javadoc
+// ^^ comment.block.documentation.java punctuation.definition.comment.end.java
 
 
 /******************************************************************************
