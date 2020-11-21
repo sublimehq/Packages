@@ -1071,7 +1071,7 @@ contexts:
         - case-label-expression
     - match: default{{break}}
       scope: keyword.control.conditional.default.java
-      push: default-end
+      push: case-default-end
     - match: switch{{break}}
       scope: keyword.control.conditional.switch.java
       push:
@@ -1084,10 +1084,15 @@ contexts:
     - meta_scope: meta.switch.java
     - include: immediately-pop
 
+  case-default-end:
+    - meta_scope: meta.case.default.java
+    - include: case-label-end
+    - include: else-pop
+
   case-label-constant:
     - meta_scope: meta.case.java
-    - match: ''
-      push:
+    - match: (?=\S)
+      set:
         - case-label-constant-end
         - case-label-constant-identifier
 
@@ -1096,27 +1101,27 @@ contexts:
     - include: else-pop
 
   case-label-constant-end:
-    - match: ':'
-      scope: punctuation.separator.expressions.java
-      pop: 2
+    - meta_content_scope: meta.case.label.java
+    - include: case-label-end
     - match: (?=[;{}]|{{reserved_words}})
-      pop: 2
+      pop: 1
     - match: (?=\S)
       fail: case-label
 
   case-label-expression:
     - meta_scope: meta.case.java
-    - match: ':'
-      scope: punctuation.separator.expressions.java
-      pop: 1
+    - match: (?=\S)
+      set: case-label-expression-common
+
+  case-label-expression-common:
+    - meta_content_scope: meta.case.label.java
+    - include: case-label-end
     - include: expression
 
-  default-end:
-    - meta_scope: meta.default.java
+  case-label-end:
     - match: ':'
-      scope: punctuation.separator.expressions.java
+      scope: meta.case.java punctuation.separator.expressions.java
       pop: 1
-    - include: else-pop
 
 ###[ DO WHILE STATEMENTS ]#####################################################
 
