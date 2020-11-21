@@ -73,40 +73,30 @@ contexts:
 
   javadoc-block-tag:
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#param
-    - match: (@)param\b
+    - match: \@param\b
       scope: entity.name.tag.documentation.javadoc
-      captures:
-        1: punctuation.definition.tag.javadoc
       set:
         - javadoc-block-tag-common
         - javadoc-block-tag-param-args
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#see
-    - match: (@)see\b
+    - match: \@see\b
       scope: entity.name.tag.documentation.javadoc
-      captures:
-        1: punctuation.definition.tag.javadoc
       set:
         - javadoc-block-tag-common
         - javadoc-block-tag-reference
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#throws
-    - match: (@)(throws|exception)\b
+    - match: \@(throws|exception)\b
       scope: entity.name.tag.documentation.javadoc
-      captures:
-        1: punctuation.definition.tag.javadoc
       set:
         - javadoc-block-tag-common
         - javadoc-block-tag-reference
-    - match: (@)(uses|provides)\b
+    - match: \@(uses|provides)\b
       scope: entity.name.tag.documentation.javadoc
-      captures:
-        1: punctuation.definition.tag.javadoc
       set:
         - javadoc-block-tag-common
         - javadoc-block-tag-reference
-    - match: (@)(return|deprecated|author|version|since|apiNote|impl(?:Note|Spec)|moduleGraph|serial(?:Field|Data)?)\b
+    - match: \@(return|deprecated|author|version|since|apiNote|impl(?:Note|Spec)|moduleGraph|serial(?:Field|Data)?)\b
       scope: entity.name.tag.documentation.javadoc
-      captures:
-        1: punctuation.definition.tag.javadoc
       set: javadoc-block-tag-common
     - match: (?=\S)|$
       pop: 1
@@ -141,52 +131,47 @@ contexts:
   javadoc-inline-tags:
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#code
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#literal
-    - match: ({)((@)(?:code|literal))(?:\s+|(?=\}))
+    - match: ({)(@(?:code|literal))(?:\s+|(?=\}))
       captures:
-        1: punctuation.section.inline-tag.begin.javadoc
+        1: punctuation.definition.tag.begin.javadoc
         2: entity.name.tag.documentation.javadoc
-        3: punctuation.definition.tag.javadoc
       push: javadoc-inline-tag-raw
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#link
-    - match: ({)((@)link(?:plain)?)\b
+    - match: ({)(@link(?:plain)?)\b
       captures:
-        1: punctuation.section.inline-tag.begin.javadoc
+        1: punctuation.definition.tag.begin.javadoc
         2: entity.name.tag.documentation.javadoc
-        3: punctuation.definition.tag.javadoc
       push:
         - javadoc-inline-tag-common
         - javadoc-inline-tag-label
         - javadoc-inline-tag-reference
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#value
-    - match: ({)((@)value)\b
+    - match: ({)(@value)\b
       captures:
-        1: punctuation.section.inline-tag.begin.javadoc
+        1: punctuation.definition.tag.begin.javadoc
         2: entity.name.tag.documentation.javadoc
-        3: punctuation.definition.tag.javadoc
       push:
         - javadoc-inline-tag-common
         - javadoc-inline-tag-reference
     # http://openjdk.java.net/jeps/225
     # https://bugs.openjdk.java.net/browse/JDK-8178725
-    - match: ({)((@)(?:index|extLink))\b
+    - match: ({)(@(?:index|extLink))\b
       captures:
-        1: punctuation.section.inline-tag.begin.javadoc
+        1: punctuation.definition.tag.begin.javadoc
         2: entity.name.tag.documentation.javadoc
-        3: punctuation.definition.tag.javadoc
       push: javadoc-inline-tag-common
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#inheritDoc
-    - match: ({)((@)inheritDoc)(})
-      scope: meta.inline-tag.javadoc
+    - match: ({)(@inheritDoc)(})
+      scope: meta.tag.inline.javadoc
       captures:
-        1: punctuation.section.inline-tag.begin.javadoc
+        1: punctuation.definition.tag.begin.javadoc
         2: entity.name.tag.documentation.javadoc
-        3: punctuation.definition.tag.javadoc
-        4: punctuation.section.inline-tag.end.javadoc
+        3: punctuation.definition.tag.end.javadoc
 
   javadoc-inline-tag-common:
-    - meta_scope: meta.inline-tag.javadoc
+    - meta_scope: meta.tag.inline.javadoc
     - match: \}
-      scope: punctuation.section.inline-tag.end.javadoc
+      scope: punctuation.definition.tag.end.javadoc
       pop: 1
     - include: javadoc-inline-tag-continuation-1
 
@@ -195,7 +180,7 @@ contexts:
     # Blanks preceding the initial asterisk (*) characters are also discarded.
     - match: $
       push:
-        - clear_scopes: 1  # clear `meta.inline-tag`
+        - clear_scopes: 1  # clear `meta.tag.inline`
         - include: javadoc-inline-tag-continuation-body
 
   javadoc-inline-tag-continuation-2:
@@ -203,7 +188,7 @@ contexts:
     # Blanks preceding the initial asterisk (*) characters are also discarded.
     - match: $
       push:
-        - clear_scopes: 2  # clear `meta.inline-tag markup.[raw|reference]`
+        - clear_scopes: 2  # clear `meta.tag.inline markup.[raw|reference]`
         - include: javadoc-inline-tag-continuation-body
 
   javadoc-inline-tag-continuation-body:
@@ -212,10 +197,10 @@ contexts:
     - include: javadoc-asterisk
 
   javadoc-inline-tag-raw:
-    - meta_scope: meta.inline-tag.javadoc
+    - meta_scope: meta.tag.inline.javadoc
     - meta_content_scope: markup.raw.javadoc
     - match: \}
-      scope: punctuation.section.inline-tag.end.javadoc
+      scope: punctuation.definition.tag.end.javadoc
       pop: 1
     - include: javadoc-inline-tag-raw-braces
 

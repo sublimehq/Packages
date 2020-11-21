@@ -91,24 +91,36 @@
    * Code blocks
    *
    * {@code} {@literal}
+//  ^ - meta.tag
+//   ^^^^^^^ meta.tag.inline.javadoc
+//          ^ - meta.tag
+//           ^^^^^^^^^^ meta.tag.inline.javadoc
+//                     ^ - meta.tag
+//   ^ punctuation.definition.tag.begin.javadoc
 //    ^^^^^ entity.name.tag.documentation.javadoc
-//    ^ punctuation.definition.tag.javadoc
+//         ^ punctuation.definition.tag.end.javadoc
+//           ^ punctuation.definition.tag.begin.javadoc
 //            ^^^^^^^^ entity.name.tag.documentation.javadoc
-//            ^ punctuation.definition.tag.javadoc
+//                    ^ punctuation.definition.tag.end.javadoc
 
    * {@code List<T> lst = new ArrayList<>()}
-//   ^ punctuation.section.inline-tag.begin.javadoc
+//  ^ - meta.tag
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.inline.javadoc
+//                                          ^ - meta.tag
+//   ^ punctuation.definition.tag.begin.javadoc
 //    ^^^^^ entity.name.tag.documentation.javadoc
 //         ^ - markup.raw.javadoc
-//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.raw.javadoc -meta.tag
-//                                         ^ punctuation.section.inline-tag.end.javadoc
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.raw.javadoc
+//                                         ^ punctuation.definition.tag.end.javadoc
 
    * Multiline, line break in content: {@code x + y
+//                                     ^^^^^^^^^^^^ meta.tag.inline.javadoc
 //                                            ^^^^^ markup.raw.javadoc
-//                                                 ^ - markup.raw.javadoc
+//                                                 ^ - meta.tag - markup.raw.javadoc
    * = z}
-//^^^ - markup.raw.javadoc
-//   ^^^ markup.raw.javadoc
+//^^^ - meta.tag - markup.raw.javadoc
+//   ^^^ meta.tag.inline.javadoc markup.raw.javadoc
+//      ^ meta.tag.inline.javadoc - markup.raw
 
    * Multiline, line break before content: {@literal
 //                                                  ^ - markup.raw.javadoc
@@ -117,18 +129,18 @@
 //   ^^^^^^^^^ markup.raw.javadoc
 
    * Bracket balancing: {@code int[][] a = {{1, 2, 3}, {4, 5}}}
-//                      ^ punctuation.section.inline-tag.begin.javadoc
+//                      ^ punctuation.definition.tag.begin.javadoc
 //                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.raw.javadoc
-//                                                            ^ punctuation.section.inline-tag.end.javadoc
+//                                                            ^ punctuation.definition.tag.end.javadoc
 
    * Bracket balancing with line break: {@code int[][] a = {
-//                                      ^ punctuation.section.inline-tag.begin.javadoc
+//                                      ^ punctuation.definition.tag.begin.javadoc
 //                                             ^^^^^^^^^^^^^ markup.raw.javadoc
 //                                                          ^ - markup.raw.javadoc
    * {1, 2, 3}, {4, 5}}}
 //^^^ - markup.raw.javadoc
 //   ^^^^^^^^^^^^^^^^^^ markup.raw.javadoc
-//                     ^ punctuation.section.inline-tag.end.javadoc
+//                     ^ punctuation.definition.tag.end.javadoc
    */
 
   /**
@@ -159,23 +171,23 @@
    * Line breaks:
    * {@link Class#method(Type,
    * Type, Type) label}
-//^^^ - meta.inline-tag - markup.underline
+//^^^ - meta.tag.inline - markup.underline
 // ^ comment.block.documentation.java punctuation.definition.comment.java
-//   ^^^^^^^^^^^^^^^^^^ meta.inline-tag.javadoc
+//   ^^^^^^^^^^^^^^^^^^ meta.tag.inline.javadoc
 //   ^^^^^^^^^^^ markup.underline.link.javadoc
 //               ^^^^^ meta.label.javadoc
    * {@link
    * Class#method(Type, Type, Type) label}
-//^^^ - meta.inline-tag - markup.underline
+//^^^ - meta.tag.inline - markup.underline
 // ^ comment.block.documentation.java punctuation.definition.comment.java
-//   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.inline-tag.javadoc
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.inline.javadoc
 //   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ markup.underline.link.javadoc
 //                                  ^^^^^ meta.label.javadoc
    * {@link Class#method(Type, Type, Type)
    * label}
-//^^^ - meta.inline-tag - markup.underline
+//^^^ - meta.tag.inline - markup.underline
 // ^ comment.block.documentation.java punctuation.definition.comment.java
-//   ^^^^^^ meta.inline-tag.javadoc
+//   ^^^^^^ meta.tag.inline.javadoc
 //   ^^^^^ meta.label.javadoc
    *
    * Tags in label:
@@ -223,7 +235,7 @@
    * @unknown {@code test}
 // ^ punctuation.definition.comment.java
 //   ^^^^^^^^ - keyword
-//            ^^^^^^^^^^^^ meta.inline-tag.javadoc
+//            ^^^^^^^^^^^^ meta.tag.inline.javadoc
    */
 
   /**
@@ -241,9 +253,9 @@
 
   /**
    * class <code>{@literal Set<char<?>>}</code>
-//         ^^^^^^ meta.tag
-//               ^^^^^^^^^^^^^^^^^^^^^^^ - meta.tag
-//                                      ^^^^^^^ meta.tag
+//         ^^^^^^ meta.tag.html
+//               ^^^^^^^^^^^^^^^^^^^^^^^ - meta.tag.html
+//                                      ^^^^^^^ meta.tag.html
    */
 
   /**
