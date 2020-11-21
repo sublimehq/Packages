@@ -112,7 +112,6 @@ contexts:
       pop: 1
 
   javadoc-block-tag-common:
-    - meta_scope: meta.block-tag.javadoc
     - include: javadoc-block-tag-terminator
     - include: javadoc-inline-formatting
 

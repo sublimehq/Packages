@@ -61,10 +61,8 @@
    * Parameters
    *
    * @param paramName Some description
-//   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-tag.javadoc
 //          ^^^^^^^^^ variable.parameter.javadoc
    *                  that spans <i>several</i> lines.
-//                    ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block-tag.javadoc
 //                               ^^^ meta.tag
 //                                         ^^^^ meta.tag
 // ^ punctuation.definition.comment.java
@@ -73,7 +71,6 @@
    * paramName1
 //   ^^^^^^^^^^ variable.parameter.javadoc
    * Parameter description
-//   ^^^^^^^^^^^^^^^^^^^^^ meta.block-tag.javadoc
    *
    * @param
    * paramName2
