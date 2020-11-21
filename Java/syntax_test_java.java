@@ -1,6 +1,26 @@
 // SYNTAX TEST "Packages/Java/Java.sublime-syntax"
 
 /******************************************************************************
+ * Comment Tests
+ *****************************************************************************/
+
+// Comment
+// <- comment.line.double-slash.java punctuation.definition.comment.java
+ // <- comment.line.double-slash.java punctuation.definition.comment.java
+//^^^^^^^^^ comment.line.double-slash.java - punctuation
+
+///////////////////////////////////////////////////////////////////////////////
+// <- comment.line.double-slash.java punctuation.definition.comment.java
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.java punctuation.definition.comment.java
+
+/// Comment ///////////////////////////////////////////////////////////////////
+// <- comment.line.double-slash.java punctuation.definition.comment.java
+//^ comment.line.double-slash.java punctuation.definition.comment.java
+// ^^^^^^^^^ comment.line.double-slash.java - punctuation
+//          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.java punctuation.definition.comment.java
+
+
+/******************************************************************************
  * Package Declaration Tests
  *****************************************************************************/
 

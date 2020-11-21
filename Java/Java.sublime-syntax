@@ -151,12 +151,14 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.end.java
           pop: 1
-    - match: //
+    - match: //+
       scope: punctuation.definition.comment.java
       push:
         - meta_include_prototype: false
         - meta_scope: comment.line.double-slash.java
-        - match: \n
+        - match: (//+)?\n
+          captures:
+            1: punctuation.definition.comment.java
           pop: 1
 
 ###[ ANNOTATIONS ]#############################################################
