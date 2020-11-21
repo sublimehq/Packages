@@ -140,9 +140,25 @@ contexts:
 ###[ COMMENTS ]################################################################
 
   comments:
+    - include: line-comments
+    - include: block-comments
+
+  block-comments:
+    # empty block comments
     - match: /\*\*/
       scope: comment.block.empty.java punctuation.definition.comment.java
-    - include: scope:text.html.javadoc
+    # documentation block comments
+    - match: /\*\*+
+      scope:
+        comment.block.documentation.javadoc
+        punctuation.definition.comment.begin.javadoc
+      embed: Packages/Java/JavaDoc.sublime-syntax#javadoc
+      embed_scope: comment.block.documentation.javadoc
+      escape: \*+/
+      escape_captures:
+        0: comment.block.documentation.javadoc
+           punctuation.definition.comment.end.javadoc
+    # normal block comments
     - match: /\*
       scope: punctuation.definition.comment.begin.java
       push:
@@ -151,6 +167,8 @@ contexts:
         - match: \*/
           scope: punctuation.definition.comment.end.java
           pop: 1
+
+  line-comments:
     - match: //+
       scope: punctuation.definition.comment.java
       push:

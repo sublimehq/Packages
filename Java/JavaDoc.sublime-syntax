@@ -1,5 +1,7 @@
 %YAML 1.2
 ---
+# https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#documentation
+# https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#documentationcomments
 # http://www.sublimetext.com/docs/syntax.html
 name: Javadoc
 scope: text.html.javadoc
@@ -17,6 +19,12 @@ variables:
 
 contexts:
 
+  # The main context can be included directly by a 3rd-party syntax.
+  #
+  # Example:
+  #
+  #   - include: scope:text.html.javadoc
+  #
   main:
     - match: /\*\*+
       scope:
@@ -29,9 +37,24 @@ contexts:
         0: comment.block.documentation.javadoc
            punctuation.definition.comment.end.javadoc
 
+  # The javadoc context can be used to embed JavaDoc content.
+  #
+  # Example:
+  #
+  #   - match: /\*\*+
+  #     scope:
+  #       comment.block.documentation.java
+  #       punctuation.definition.comment.begin.java
+  #     embed: scope:text.html.javadoc#javadoc
+  #     embed_scope: comment.block.documentation.java
+  #     escape: \*+/
+  #     escape_captures:
+  #       0: comment.block.documentation.java
+  #          punctuation.definition.comment.end.java
+  #
   javadoc:
     - match: ''
-      push: [javadoc-body, javadoc-block-tag]
+      set: [javadoc-body, javadoc-block-tag]
 
   javadoc-body:
     - match: ^\s*(\*)?\s*
