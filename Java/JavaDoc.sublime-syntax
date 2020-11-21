@@ -30,7 +30,7 @@
 #
 ###############################################################################
 
-name: Javadoc
+name: JavaDoc
 scope: text.html.javadoc
 version: 2
 hidden: true
