@@ -168,11 +168,14 @@ contexts:
         2: entity.name.tag.documentation.javadoc
         3: punctuation.definition.tag.end.javadoc
 
-  javadoc-inline-tag-common:
-    - meta_scope: meta.tag.inline.javadoc
+  javadoc-inline-tag-end:
     - match: \}
       scope: punctuation.definition.tag.end.javadoc
       pop: 1
+
+  javadoc-inline-tag-common:
+    - meta_scope: meta.tag.inline.javadoc
+    - include: javadoc-inline-tag-end
     - include: javadoc-inline-tag-continuation-1
 
   javadoc-inline-tag-continuation-1:
@@ -199,9 +202,7 @@ contexts:
   javadoc-inline-tag-raw:
     - meta_scope: meta.tag.inline.javadoc
     - meta_content_scope: markup.raw.javadoc
-    - match: \}
-      scope: punctuation.definition.tag.end.javadoc
-      pop: 1
+    - include: javadoc-inline-tag-end
     - include: javadoc-inline-tag-raw-braces
 
   javadoc-inline-tag-raw-braces:
