@@ -74,7 +74,7 @@ contexts:
   javadoc-block-tag:
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#param
     - match: (@)param\b
-      scope: entity.name.tag.documentation.param.javadoc
+      scope: entity.name.tag.documentation.javadoc
       captures:
         1: punctuation.definition.tag.javadoc
       set:
@@ -82,7 +82,7 @@ contexts:
         - javadoc-block-tag-param-args
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#see
     - match: (@)see\b
-      scope: entity.name.tag.documentation.see.javadoc
+      scope: entity.name.tag.documentation.javadoc
       captures:
         1: punctuation.definition.tag.javadoc
       set:
@@ -90,14 +90,14 @@ contexts:
         - javadoc-block-tag-reference
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#throws
     - match: (@)(throws|exception)\b
-      scope: entity.name.tag.documentation.throws.javadoc
+      scope: entity.name.tag.documentation.javadoc
       captures:
         1: punctuation.definition.tag.javadoc
       set:
         - javadoc-block-tag-common
         - javadoc-block-tag-reference
     - match: (@)(uses|provides)\b
-      scope: entity.name.tag.documentation.uses-or-provides.javadoc
+      scope: entity.name.tag.documentation.javadoc
       captures:
         1: punctuation.definition.tag.javadoc
       set:
@@ -145,14 +145,14 @@ contexts:
     - match: ({)((@)(?:code|literal))(?:\s+|(?=\}))
       captures:
         1: punctuation.section.inline-tag.begin.javadoc
-        2: entity.name.tag.documentation.code-or-literal.javadoc
+        2: entity.name.tag.documentation.javadoc
         3: punctuation.definition.tag.javadoc
       push: javadoc-inline-tag-raw
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#link
     - match: ({)((@)link(?:plain)?)\b
       captures:
         1: punctuation.section.inline-tag.begin.javadoc
-        2: entity.name.tag.documentation.link.javadoc
+        2: entity.name.tag.documentation.javadoc
         3: punctuation.definition.tag.javadoc
       push:
         - javadoc-inline-tag-common
@@ -162,7 +162,7 @@ contexts:
     - match: ({)((@)value)\b
       captures:
         1: punctuation.section.inline-tag.begin.javadoc
-        2: entity.name.tag.documentation.value.javadoc
+        2: entity.name.tag.documentation.javadoc
         3: punctuation.definition.tag.javadoc
       push:
         - javadoc-inline-tag-common
