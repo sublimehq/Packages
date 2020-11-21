@@ -8,11 +8,11 @@
 		<key>showInSymbolList</key>
 		<integer>1</integer>
 		<key>symbolTransformation</key>
-        <string>
-            s/\/\*.*?\*\///g;  # remove block comments
-            s/\/\/[^\n]*\n//g; # remove line comments
-            s/\s+//g;          # remove whitespace
-        </string>
+		<string>
+			s/\/\*.*?\*\///g;  # remove block comments
+			s/\/\/[^\n]*\n//g; # remove line comments
+			s/\s+//g;          # remove whitespace
+		</string>
 	</dict>
 </dict>
 </plist>
