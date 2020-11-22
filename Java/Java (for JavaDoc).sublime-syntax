@@ -1,5 +1,13 @@
 %YAML 1.2
 ---
+###############################################################################
+# This intermediate syntax is used by `JavaDoc.sublime-syntax`
+#
+# It powers Java highlighting within JavaDoc {@code ...} tags.
+#
+# The primary task is to ensure highlighting of comments' leading `*`.
+###############################################################################
+
 scope: source.java.embedded.javadoc
 hidden: true
 version: 2
