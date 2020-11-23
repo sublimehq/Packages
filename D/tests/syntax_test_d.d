@@ -233,19 +233,17 @@ imag = 123_45i + 0_.1_i + 12_.e1i;
 //           ^ constant.numeric.suffix.d
 //             ^ keyword.operator.arithmetic.d
 //               ^^^^^^ meta.number.imaginary.decimal.d
-//               ^^ constant.numeric.value.d
+//               ^^^^^ constant.numeric.value.d
 //                 ^ punctuation.separator.decimal.d
-//                  ^^ constant.numeric.value.d
 //                    ^ constant.numeric.suffix.d
 //                        ^^^^^^^ meta.number.imaginary.decimal.d
-//                        ^^^ constant.numeric.value.d
-//                           ^ punctuation.separator.decimal.d
-//                            ^^ constant.numeric.value.exponent.d
-//                              ^ constant.numeric.suffix.d
+//                        ^^^ constant.numeric.value.d - punctuation
+//                           ^ constant.numeric.value.d punctuation.separator.decimal.d
+//                            ^^ constant.numeric.value.d - punctuation
+//                              ^ constant.numeric.suffix.d - punctuation
 imag = 23134723__742e1i;
 //     ^^^^^^^^^^^^^^^^ meta.number.imaginary.decimal.d
-//     ^^^^^^^^^^^^^ constant.numeric.value.d
-//                  ^^ constant.numeric.value.exponent.d
+//     ^^^^^^^^^^^^^^^ constant.numeric.value.d
 //                    ^ constant.numeric.suffix.d
 imag = 0x_3472389742f_i;
 //     ^^^^^^^^^^^^^^^^ meta.number.imaginary.hexadecimal.d
@@ -257,8 +255,7 @@ imag = 0x_34723897p-34i;
 //     ^^^^^^^^^^^^^^^^ meta.number.imaginary.hexadecimal.d
 //     ^^ constant.numeric.base.d
 //       ^ invalid.illegal.numeric.d
-//        ^^^^^^^^ constant.numeric.value.d
-//                ^^^^ constant.numeric.value.exponent.d
+//        ^^^^^^^^^^^^ constant.numeric.value.d
 //                    ^ constant.numeric.suffix.d
 imag = 0x347._23897p-34i;
 //     ^^^^^ meta.number.integer.hexadecimal.d
@@ -277,17 +274,16 @@ imag = 0b_0100_010_00_i;
 
 auto f = 0_.0_;
 //       ^^^^^ meta.number.float.decimal.d
-//       ^^ constant.numeric.value.d
+//       ^^^^^ constant.numeric.value.d
 //         ^ punctuation.separator.decimal.d
-//          ^^ constant.numeric.value.d
 f = 0_.;
 //  ^^^ meta.number.float.decimal.d
-//  ^^ constant.numeric.value.d
-//    ^ punctuation.separator.decimal.d
+//  ^^ constant.numeric.value.d - punctuation
+//    ^ constant.numeric.value.d punctuation.separator.decimal.d
 f = .123_1243;
 //  ^^^^^^^^^ meta.number.float.decimal.d
-//  ^ punctuation.separator.decimal.d
-//   ^^^^^^^^ constant.numeric.value.d
+//  ^ constant.numeric.value.d punctuation.separator.decimal.d
+//   ^^^^^^^^ constant.numeric.value.d - punctuation
 f = ._123_1243 + 1._123;
 //  ^ punctuation.accessor.dot.d
 //   ^^^^^^^^^ variable.other.d
@@ -297,20 +293,18 @@ f = ._123_1243 + 1._123;
 //                 ^^^^ variable.other.d
 f = 3423.2e-45;
 //  ^^^^^^^^^^ meta.number.float.decimal.d
-//  ^^^^ constant.numeric.value.d
-//      ^ punctuation.separator.decimal.d
-//       ^ constant.numeric.value.d
-//        ^^^^ constant.numeric.value.exponent.d
+//  ^^^^ constant.numeric.value.d - punctuation
+//      ^ constant.numeric.value.d punctuation.separator.decimal.d
+//       ^^^^^ constant.numeric.value.d - punctuation
 f = 2.e-45;
 //  ^^^^^^ meta.number.float.decimal.d
-//  ^ constant.numeric.value.d
-//   ^ punctuation.separator.decimal.d
-//    ^^^^ constant.numeric.value.exponent.d
+//  ^ constant.numeric.value.d - punctuation
+//   ^ constant.numeric.value.d punctuation.separator.decimal.d
+//    ^^^^ constant.numeric.value.d - punctuation
 f = .4E+4L;
 //  ^^^^^^ meta.number.float.decimal.d
-//  ^ punctuation.separator.decimal.d
-//   ^ constant.numeric.value.d
-//    ^^^ constant.numeric.value.exponent.d
+//  ^ constant.numeric.value.d punctuation.separator.decimal.d
+//   ^^^^ constant.numeric.value.d - punctuation
 //       ^ constant.numeric.suffix.d
 f =  1f;
 //   ^^ meta.number.float.decimal.d
@@ -319,8 +313,7 @@ f =  1f;
 f = 0x123p2f;
 //  ^^^^^^^^ meta.number.float.hexadecimal.d
 //  ^^ constant.numeric.base.d
-//    ^^^ constant.numeric.value.d
-//       ^^ constant.numeric.value.exponent.d
+//    ^^^^^ constant.numeric.value.d
 //         ^ constant.numeric.suffix.d
 f = 0b10101101f;
 //  ^^^^^^^^^^^ meta.number.float.binary.d
@@ -330,17 +323,14 @@ f = 0b10101101f;
 f = 0x.1aFp2;
 //  ^^^^^^^^ meta.number.float.hexadecimal.d
 //  ^^ constant.numeric.base.d
-//    ^ punctuation.separator.decimal.d
-//     ^ constant.numeric.value.d
-//      ^^ constant.numeric.value.d
-//        ^^ constant.numeric.value.exponent.d
+//    ^ constant.numeric.value.d punctuation.separator.decimal.d
+//     ^^^^^ constant.numeric.value.d - punctuation
 f = 0xF.AP-2f;
 //  ^^^^^^^^^ meta.number.float.hexadecimal.d
 //  ^^ constant.numeric.base.d
-//    ^ constant.numeric.value.d
-//     ^ punctuation.separator.decimal.d
-//      ^ constant.numeric.value.d
-//       ^^^ constant.numeric.value.exponent.d
+//    ^ constant.numeric.value.d - punctuation
+//     ^ constant.numeric.value.d punctuation.separator.decimal.d
+//      ^^^^ constant.numeric.value.d - punctuation
 //          ^ constant.numeric.suffix.d
 
   @foo:
