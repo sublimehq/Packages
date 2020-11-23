@@ -677,6 +677,9 @@ contexts:
     - include: literal-string
     - include: literal-number
 
+    - match: '-'
+      scope: keyword.operator.arithmetic.js
+
     - include: else-pop
 
   ts-type-tuple:

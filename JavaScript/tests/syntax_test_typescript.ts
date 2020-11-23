@@ -544,7 +544,21 @@ let x: 'a string';
 //     ^ meta.type meta.string string.quoted.single
 
 let x: 42;
-//     ^^ meta.number.integer.decimal.js constant.numeric.value.js
+//     ^^ meta.type meta.number.integer.decimal constant.numeric.value
+
+let x: -42;
+//     ^^^ meta.type
+//     ^ keyword.operator.arithmetic
+//      ^^ meta.number.integer.decimal constant.numeric.value
+
+let x: 1.5;
+//     ^^^ meta.type meta.number.float.decimal constant.numeric.value
+
+let x: 1e10;
+//     ^^^^ meta.type meta.number.float.decimal constant.numeric.value
+
+let x: 0xabc;
+//     ^^^^^ meta.type meta.number.integer.hexadecimal
 
 let x: typeof Foo;
 //     ^^^^^^^^^^ meta.type
