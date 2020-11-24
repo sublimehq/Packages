@@ -24,6 +24,17 @@ variables:
       \(
     ))
 
+  arrow_func_lookahead: |-
+    (?x:
+      (?:async\s*)?
+      (?:
+        {{identifier}}
+        | \( ( [^()] | \( [^()]* \) )* \)
+      )
+      \s*
+      (?:=>|:)
+    )
+
 contexts:
   detect-parenthesized-arrow:
     - meta_prepend: true
