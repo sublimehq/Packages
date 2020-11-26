@@ -1846,53 +1846,36 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 // ## Floats
 
     000.000; 123.456; .0; 1.;
-//  ^^^^^^^ meta.number.float.decimal.go
-//  ^^^ constant.numeric.value.go
+//  ^^^^^^^ meta.number.float.decimal.go constant.numeric.value.go
 //     ^ punctuation.separator.decimal.go
-//      ^^^ constant.numeric.value.go
-//           ^^^^^^^ meta.number.float.decimal.go
-//           ^^^ constant.numeric.value.go
+//           ^^^^^^^ meta.number.float.decimal.go constant.numeric.value.go
 //              ^ punctuation.separator.decimal.go
-//               ^^^ constant.numeric.value.go
-//                    ^^ meta.number.float.decimal.go
+//                    ^^ meta.number.float.decimal.go constant.numeric.value.go
 //                    ^ punctuation.separator.decimal.go
-//                     ^ constant.numeric.value.go
-//                        ^^ meta.number.float.decimal.go
-//                        ^ constant.numeric.value.go
+//                        ^^ meta.number.float.decimal.go constant.numeric.value.go
 //                         ^ punctuation.separator.decimal.go
 
     0_1.0_1; 1_23.4_6;
-//  ^^^^^^^ meta.number.float.decimal.go
-//  ^^^ constant.numeric.value.go
+//  ^^^^^^^ meta.number.float.decimal.go constant.numeric.value.go
 //     ^ punctuation.separator.decimal.go
-//      ^^^ constant.numeric.value.go
-//           ^^^^^^^^ meta.number.float.decimal.go
-//           ^^^^ constant.numeric.value.go
+//           ^^^^^^^^ meta.number.float.decimal.go constant.numeric.value.go
 //               ^ punctuation.separator.decimal.go
-//                ^^^ constant.numeric.value.go
 
     -000.000; -123.456; -.0; -1. -1.. ;
 //  ^ keyword.operator.arithmetic.go
-//   ^^^^^^^ meta.number.float.decimal.go
-//   ^^^ constant.numeric.value.go
+//   ^^^^^^^ meta.number.float.decimal.go constant.numeric.value.go
 //      ^ punctuation.separator.decimal.go
-//       ^^^ constant.numeric.value.go
 //            ^ keyword.operator.arithmetic.go
-//             ^^^^^^^ meta.number.float.decimal.go
-//             ^^^ constant.numeric.value.go
+//             ^^^^^^^ meta.number.float.decimal.go constant.numeric.value.go
 //                ^ punctuation.separator.decimal.go
-//                 ^^^ constant.numeric.value.go
 //                      ^ keyword.operator.arithmetic.go
-//                       ^^ meta.number.float.decimal.go
+//                       ^^ meta.number.float.decimal.go constant.numeric.value.go
 //                       ^ punctuation.separator.decimal.go
-//                        ^ constant.numeric.value.go
 //                           ^ keyword.operator.arithmetic.go
-//                            ^^ meta.number.float.decimal.go
-//                            ^ constant.numeric.value.go
+//                            ^^ meta.number.float.decimal.go constant.numeric.value.go
 //                             ^ punctuation.separator.decimal.go
 //                               ^ keyword.operator.arithmetic.go
-//                                ^^ meta.number.float.decimal.go
-//                                ^ constant.numeric.value.go
+//                                ^^ meta.number.float.decimal.go constant.numeric.value.go
 //                                 ^ punctuation.separator.decimal.go
 //                                  ^ punctuation.accessor.dot.go - meta.number
 
@@ -1904,19 +1887,16 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //        ^ constant.numeric.value.go
 //         ^^^ constant.numeric.value.exponent.go
 //              ^^^^^^ meta.number.float.decimal.go
-//              ^ constant.numeric.value.go
+//              ^^^ constant.numeric.value.go
 //               ^ punctuation.separator.decimal.go
-//                ^ constant.numeric.value.go
 //                 ^^^ constant.numeric.value.exponent.go
 //                      ^^^^^^ meta.number.float.decimal.go
-//                      ^ constant.numeric.value.go
+//                      ^^^ constant.numeric.value.go
 //                       ^ punctuation.separator.decimal.go
-//                        ^ constant.numeric.value.go
 //                         ^^^ constant.numeric.value.exponent.go
 //                              ^^^^^^^^^^^^ meta.number.float.decimal.go
-//                              ^^^ constant.numeric.value.go
+//                              ^^^^^^^ constant.numeric.value.go
 //                                 ^ punctuation.separator.decimal.go
-//                                  ^^^ constant.numeric.value.go
 //                                     ^^^^^ constant.numeric.value.exponent.go
 
     1_2e+0; 1E+0_1; 0.1_2e2; 1_23.4_56e+78_9;
@@ -1924,13 +1904,11 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //     ^^^ meta.number.float.decimal.go constant.numeric.value.exponent.go
 //          ^ meta.number.float.decimal.go constant.numeric.value.go
 //           ^^^^^ meta.number.float.decimal.go constant.numeric.value.exponent.go
-//                  ^ meta.number.float.decimal.go constant.numeric.value.go
-//                   ^ meta.number.float.decimal.go punctuation.separator.decimal.go
-//                    ^^^ meta.number.float.decimal.go constant.numeric.value.go
+//                  ^^^^^ meta.number.float.decimal.go constant.numeric.value.go
+//                   ^ punctuation.separator.decimal.go
 //                       ^^ meta.number.float.decimal.go constant.numeric.value.exponent.go
-//                           ^^^^ meta.number.float.decimal.go constant.numeric.value.go
-//                               ^ meta.number.float.decimal.go punctuation.separator.decimal.go
-//                                ^^^^ meta.number.float.decimal.go constant.numeric.value.go
+//                           ^^^^^^^^^ meta.number.float.decimal.go constant.numeric.value.go
+//                               ^ punctuation.separator.decimal.go
 //                                    ^^^^^^ meta.number.float.decimal.go constant.numeric.value.exponent.go
 
     0e-0; 0E-0; 0.0e-0; 0.0E-0; 123.456e-789;
@@ -1938,35 +1916,32 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //   ^^^ meta.number.float.decimal.go constant.numeric.value.exponent.go
 //        ^ meta.number.float.decimal.go constant.numeric.value.go
 //         ^^^ meta.number.float.decimal.go constant.numeric.value.exponent.go
-//              ^ meta.number.float.decimal.go constant.numeric.value.go
-//               ^ meta.number.float.decimal.go punctuation.separator.decimal.go
-//                ^ meta.number.float.decimal.go constant.numeric.value.go
+//              ^^^ meta.number.float.decimal.go constant.numeric.value.go
+//               ^ punctuation.separator.decimal.go
 //                 ^^^ meta.number.float.decimal.go constant.numeric.value.exponent.go
-//                      ^ meta.number.float.decimal.go constant.numeric.value.go
-//                       ^ meta.number.float.decimal.go punctuation.separator.decimal.go
-//                        ^ meta.number.float.decimal.go constant.numeric.value.go
+//                      ^^^ meta.number.float.decimal.go constant.numeric.value.go
+//                       ^ punctuation.separator.decimal.go
 //                         ^^^ meta.number.float.decimal.go constant.numeric.value.exponent.go
-//                              ^^^ meta.number.float.decimal.go constant.numeric.value.go
-//                                 ^ meta.number.float.decimal.go punctuation.separator.decimal.go
-//                                  ^^^ meta.number.float.decimal.go constant.numeric.value.go
+//                              ^^^^^^^ meta.number.float.decimal.go constant.numeric.value.go
+//                                 ^ punctuation.separator.decimal.go
 //                                     ^^^^^ meta.number.float.decimal.go constant.numeric.value.exponent.go
 
     0.e+0; .0e+0; 0.e-0; .0e-0;
 //  ^^^^^ meta.number.float.decimal.go
-//  ^ constant.numeric.value.go
+//  ^^ constant.numeric.value.go
 //   ^ punctuation.separator.decimal.go
 //    ^^^ constant.numeric.value.exponent.go
 //         ^^^^^ meta.number.float.decimal.go
+//         ^^ constant.numeric.value.go
 //         ^ punctuation.separator.decimal.go
-//          ^ constant.numeric.value.go
 //           ^^^ constant.numeric.value.exponent.go
 //                ^^^^^ meta.number.float.decimal.go
-//                ^ constant.numeric.value.go
+//                ^^ constant.numeric.value.go
 //                 ^ punctuation.separator.decimal.go
 //                  ^^^ constant.numeric.value.exponent.go
 //                       ^^^^^ meta.number.float.decimal.go
+//                       ^^ constant.numeric.value.go
 //                       ^ punctuation.separator.decimal.go
-//                        ^ constant.numeric.value.go
 //                         ^^^ constant.numeric.value.exponent.go
 
     0x1p-2; 0X1P+2; 0x1p2;
@@ -1993,36 +1968,32 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 
     0x1.0P-1021; 0X1.0p-1021;
 //  ^^ meta.number.float.hexadecimal.go constant.numeric.base.go
-//    ^ meta.number.float.hexadecimal.go constant.numeric.value.go
-//     ^ meta.number.float.hexadecimal.go punctuation.separator.decimal.go
-//      ^ meta.number.float.hexadecimal.go constant.numeric.value.go
+//    ^^^ meta.number.float.hexadecimal.go constant.numeric.value.go
+//     ^ punctuation.separator.decimal.go
 //       ^^^^^^ meta.number.float.hexadecimal.go constant.numeric.value.exponent.go
 //               ^^ meta.number.float.hexadecimal.go constant.numeric.base.go
-//                 ^ meta.number.float.hexadecimal.go constant.numeric.value.go
-//                  ^ meta.number.float.hexadecimal.go punctuation.separator.decimal.go
-//                   ^ meta.number.float.hexadecimal.go constant.numeric.value.go
+//                 ^^^ meta.number.float.hexadecimal.go constant.numeric.value.go
+//                  ^ punctuation.separator.decimal.go
 //                    ^^^^^^ meta.number.float.hexadecimal.go constant.numeric.value.exponent.go
 
     0x_1_1.0_7P-1_021;
 //  ^^ meta.number.float.hexadecimal.go constant.numeric.base.go
-//    ^^^^ meta.number.float.hexadecimal.go constant.numeric.value.go
-//        ^ meta.number.float.hexadecimal.go punctuation.separator.decimal.go
-//         ^^^ meta.number.float.hexadecimal.go constant.numeric.value.go
+//    ^^^^^^^^ meta.number.float.hexadecimal.go constant.numeric.value.go
+//        ^ punctuation.separator.decimal.go
 //            ^^^^^^^ meta.number.float.hexadecimal.go constant.numeric.value.exponent.go
 
     0x2.p10; 0x1.Fp+0; 0X.8p-0;
 //  ^^ meta.number.float.hexadecimal.go constant.numeric.base.go
-//    ^ meta.number.float.hexadecimal.go constant.numeric.value.go
-//     ^ meta.number.float.hexadecimal.go punctuation.separator.decimal.go
+//    ^^ meta.number.float.hexadecimal.go constant.numeric.value.go
+//     ^ punctuation.separator.decimal.go
 //      ^^^ meta.number.float.hexadecimal.go constant.numeric.value.exponent.go
 //           ^^ meta.number.float.hexadecimal.go constant.numeric.base.go
-//             ^ meta.number.float.hexadecimal.go constant.numeric.value.go
-//              ^ meta.number.float.hexadecimal.go punctuation.separator.decimal.go
-//               ^ meta.number.float.hexadecimal.go constant.numeric.value.go
+//             ^^^ meta.number.float.hexadecimal.go constant.numeric.value.go
+//              ^ punctuation.separator.decimal.go
 //                ^^^ meta.number.float.hexadecimal.go constant.numeric.value.exponent.go
 //                     ^^ meta.number.float.hexadecimal.go constant.numeric.base.go
-//                       ^ meta.number.float.hexadecimal.go punctuation.separator.decimal.go
-//                        ^ meta.number.float.hexadecimal.go constant.numeric.value.go
+//                       ^^ meta.number.float.hexadecimal.go constant.numeric.value.go
+//                       ^ punctuation.separator.decimal.go
 //                         ^^^ meta.number.float.hexadecimal.go constant.numeric.value.exponent.go
 
 // ## Imaginary
@@ -2044,20 +2015,17 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 
     123.456i; -123.456i; 1_23.45_6i;
 //  ^^^^^^^^ meta.number.imaginary.decimal.go
-//  ^^^ constant.numeric.value.go
+//  ^^^^^^^ constant.numeric.value.go
 //     ^ punctuation.separator.decimal.go
-//      ^^^ constant.numeric.value.go
 //         ^ constant.numeric.suffix.go
 //            ^ keyword.operator.arithmetic.go
 //             ^^^^^^^^ meta.number.imaginary.decimal.go
-//             ^^^ constant.numeric.value.go
+//             ^^^^^^^ constant.numeric.value.go
 //                ^ punctuation.separator.decimal.go
-//                 ^^^ constant.numeric.value.go
 //                    ^ constant.numeric.suffix.go
 //                       ^^^^^^^^^^ meta.number.imaginary.decimal.go
-//                       ^^^^ constant.numeric.value.go
+//                       ^^^^^^^^^ constant.numeric.value.go
 //                           ^ punctuation.separator.decimal.go
-//                            ^^^^ constant.numeric.value.go
 //                                ^ constant.numeric.suffix.go
 
     1e+2i; 1e-2i; 1.2e+3i; 1.2e-3i; 1E+2i; 1E-2i; 1.2E+3i; 1.2E-3i;
@@ -2069,15 +2037,13 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //          ^^^ meta.number.imaginary.decimal.go constant.numeric.value.exponent.go
 //             ^ meta.number.imaginary.decimal.go constant.numeric.suffix.go
 //              ^ punctuation.terminator.go
-//                ^ meta.number.imaginary.decimal.go constant.numeric.value.go
-//                 ^ meta.number.imaginary.decimal.go punctuation.separator.decimal.go
-//                  ^ meta.number.imaginary.decimal.go constant.numeric.value.go
+//                ^^^ meta.number.imaginary.decimal.go constant.numeric.value.go
+//                 ^ punctuation.separator.decimal.go
 //                   ^^^ meta.number.imaginary.decimal.go constant.numeric.value.exponent.go
 //                      ^ meta.number.imaginary.decimal.go constant.numeric.suffix.go
 //                       ^ punctuation.terminator.go
-//                         ^ meta.number.imaginary.decimal.go constant.numeric.value.go
-//                          ^ meta.number.imaginary.decimal.go punctuation.separator.decimal.go
-//                           ^ meta.number.imaginary.decimal.go constant.numeric.value.go
+//                         ^^^ meta.number.imaginary.decimal.go constant.numeric.value.go
+//                          ^ punctuation.separator.decimal.go
 //                            ^^^ meta.number.imaginary.decimal.go constant.numeric.value.exponent.go
 //                               ^ meta.number.imaginary.decimal.go constant.numeric.suffix.go
 //                                ^ punctuation.terminator.go
@@ -2089,15 +2055,13 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //                                          ^^^ meta.number.imaginary.decimal.go constant.numeric.value.exponent.go
 //                                             ^ meta.number.imaginary.decimal.go constant.numeric.suffix.go
 //                                              ^ punctuation.terminator.go
-//                                                ^ meta.number.imaginary.decimal.go constant.numeric.value.go
-//                                                 ^ meta.number.imaginary.decimal.go punctuation.separator.decimal.go
-//                                                  ^ meta.number.imaginary.decimal.go constant.numeric.value.go
+//                                                ^^^ meta.number.imaginary.decimal.go constant.numeric.value.go
+//                                                 ^ punctuation.separator.decimal.go
 //                                                   ^^^ meta.number.imaginary.decimal.go constant.numeric.value.exponent.go
 //                                                      ^ meta.number.imaginary.decimal.go constant.numeric.suffix.go
 //                                                       ^ punctuation.terminator.go
-//                                                         ^ meta.number.imaginary.decimal.go constant.numeric.value.go
-//                                                          ^ meta.number.imaginary.decimal.go punctuation.separator.decimal.go
-//                                                           ^ meta.number.imaginary.decimal.go constant.numeric.value.go
+//                                                         ^^^ meta.number.imaginary.decimal.go constant.numeric.value.go
+//                                                          ^ punctuation.separator.decimal.go
 //                                                            ^^^ meta.number.imaginary.decimal.go constant.numeric.value.exponent.go
 //                                                               ^ meta.number.imaginary.decimal.go constant.numeric.suffix.go
 //                                                                ^ punctuation.terminator.go
@@ -2106,9 +2070,8 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //      ^^^ meta.number.imaginary.decimal.go constant.numeric.value.go
 //         ^^^^^ meta.number.imaginary.decimal.go constant.numeric.value.exponent.go
 //              ^ meta.number.imaginary.decimal.go constant.numeric.suffix.go
-//                 ^ meta.number.imaginary.decimal.go constant.numeric.value.go
-//                  ^ meta.number.imaginary.decimal.go punctuation.separator.decimal.go
-//                   ^^^ meta.number.imaginary.decimal.go constant.numeric.value.go
+//                 ^^^^^ meta.number.imaginary.decimal.go constant.numeric.value.go
+//                  ^ punctuation.separator.decimal.go
 //                      ^^^^^ meta.number.imaginary.decimal.go constant.numeric.value.exponent.go
 //                           ^ meta.number.imaginary.decimal.go constant.numeric.suffix.go
 
@@ -2157,15 +2120,13 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //     ^^^ meta.number.imaginary.hexadecimal.go constant.numeric.value.exponent.go
 //        ^ meta.number.imaginary.hexadecimal.go constant.numeric.suffix.go
 //           ^^ meta.number.imaginary.hexadecimal.go constant.numeric.base.go
-//             ^ meta.number.imaginary.hexadecimal.go constant.numeric.value.go
-//              ^ meta.number.imaginary.hexadecimal.go punctuation.separator.decimal.go
-//               ^ meta.number.imaginary.hexadecimal.go constant.numeric.value.go
+//             ^^^ meta.number.imaginary.hexadecimal.go constant.numeric.value.go
+//              ^ punctuation.separator.decimal.go
 //                ^^^^^^ meta.number.imaginary.hexadecimal.go constant.numeric.value.exponent.go
 //                      ^ meta.number.imaginary.hexadecimal.go constant.numeric.suffix.go
 //                         ^^ meta.number.imaginary.hexadecimal.go constant.numeric.base.go
-//                           ^ meta.number.imaginary.hexadecimal.go constant.numeric.value.go
-//                            ^ meta.number.imaginary.hexadecimal.go punctuation.separator.decimal.go
-//                             ^ meta.number.imaginary.hexadecimal.go constant.numeric.value.go
+//                           ^^^ meta.number.imaginary.hexadecimal.go constant.numeric.value.go
+//                            ^ punctuation.separator.decimal.go
 //                              ^^^ meta.number.imaginary.hexadecimal.go constant.numeric.value.exponent.go
 //                                 ^ meta.number.imaginary.hexadecimal.go constant.numeric.suffix.go
 
@@ -2175,9 +2136,8 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 //      ^^^ meta.number.imaginary.hexadecimal.go constant.numeric.value.exponent.go
 //         ^ meta.number.imaginary.hexadecimal.go constant.numeric.suffix.go
 //            ^^ meta.number.imaginary.hexadecimal.go constant.numeric.base.go
-//              ^^^ meta.number.imaginary.hexadecimal.go constant.numeric.value.go
-//                 ^ meta.number.imaginary.hexadecimal.go punctuation.separator.decimal.go
-//                  ^^^ meta.number.imaginary.hexadecimal.go constant.numeric.value.go
+//              ^^^^^^^ meta.number.imaginary.hexadecimal.go constant.numeric.value.go
+//                 ^ punctuation.separator.decimal.go
 //                     ^^^^^^^ meta.number.imaginary.hexadecimal.go constant.numeric.value.exponent.go
 //                            ^ meta.number.imaginary.hexadecimal.go constant.numeric.suffix.go
 
