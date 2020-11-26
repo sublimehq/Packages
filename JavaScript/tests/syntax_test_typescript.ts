@@ -809,3 +809,6 @@ if (a < b || c < d) {}
 //    ^ keyword.operator.logical
 //        ^^ keyword.operator.logical
 //             ^ keyword.operator.logical
+
+    a != b;
+//    ^^ keyword.operator.comparison
