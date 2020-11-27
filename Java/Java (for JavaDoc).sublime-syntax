@@ -16,7 +16,7 @@ extends: Java.sublime-syntax
 
 contexts:
   prototype:
-    - match: ^(?:\s*(\*)\s?)
+    - match: ^\s*(\*)
       captures:
         1: punctuation.definition.comment.java
     - include: line-comments
