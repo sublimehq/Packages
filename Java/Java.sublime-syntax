@@ -274,7 +274,6 @@ contexts:
         - declaration-maybe-enum
         - declaration-maybe-interface
         - declaration-maybe-variable
-        - expression
 
   declaration-else-fail:
     - match: (?=\S)
