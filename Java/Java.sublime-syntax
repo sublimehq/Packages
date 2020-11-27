@@ -199,24 +199,23 @@ contexts:
 
   annotation-unqualified-parameters:
     # fail: looks like a qualified annotation
-    - match: \s*{{accessor_dot}}
+    - match: (?=\s*{{accessor_dot}})
       fail: annotation-identifier
     - include: annotation-parameters
 
   annotation-qualified-identifier:
     - meta_scope: meta.annotation.identifier.java meta.path.java
-    - match: (?={{id_first_char}})
+    - match: ''
       branch_point: annotation-qualified-identifier
       branch:
         - annotation-qualified-identifier-path
         - annotation-qualified-identifier-name
-    - include: else-pop
 
   annotation-qualified-identifier-path:
     - match: '{{identifier}}'
       scope: variable.annotation.namespace.java
       set: annotation-qualified-identifier-accessor
-    - include: immediately-pop2
+    - include: else-pop2
 
   annotation-qualified-identifier-accessor:
     - include: punctuation-accessor-dot-pop
@@ -227,7 +226,7 @@ contexts:
     - match: '{{identifier}}'
       scope: variable.annotation.java
       set: annotation-parameters
-    - include: immediately-pop2
+    - include: else-pop2
 
   annotation-parameters:
     # annotation ends with arguments
@@ -267,7 +266,7 @@ contexts:
 ###[ DECLARATIONS ]############################################################
 
   declarations:
-    - match: (?={{id_first_char}}|[@<])
+    - match: (?=[{{id_first_char}}@<])
       branch_point: declarations
       branch:
         - declaration-maybe-class
@@ -786,7 +785,7 @@ contexts:
 ###[ MEMBER DECLARATIONS ]#####################################################
 
   member-declarations:
-    - match: (?={{id_first_char}}|[@<])
+    - match: (?=[{{id_first_char}}@<])
       branch_point: class-members
       branch:
         - member-maybe-constructor
@@ -1609,7 +1608,7 @@ contexts:
     # - `~`     : unary operator
     # - `(`     : cast, lambda or group expression
     # - literal : variable, type or method
-    - match: (?={{id_first_char}}|[!~(])
+    - match: (?=[{{id_first_char}}!~(])
       pop: 1
     - include: group-else-fail
 
@@ -1643,7 +1642,7 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.java
       set: lambda-meta
-    - match: (?={{id_first_char}}|[@<])
+    - match: (?=[{{id_first_char}}@<])
       branch_point: lambda-parameter-declaration
       branch:
         - lambda-implicit-parameter
@@ -1689,7 +1688,7 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
     # The first parameter of a method or constructor declaration may be a
     # receiver parameter which represents the object to invoke the method for.
-    - match: (?={{id_first_char}}|<)
+    - match: (?=[{{id_first_char}}<])
       branch_point: receiver-or-parameter
       branch:
         - receiver
