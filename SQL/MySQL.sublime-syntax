@@ -1,0 +1,80 @@
+%YAML 1.2
+---
+name: MySQL
+scope: source.sql.mysql
+version: 2
+
+extends: Packages/SQL/SQL.sublime-syntax
+
+contexts:
+  main:
+    - meta_append: true
+    - match: (?i)\b(AGAINST|ASCII|BIN|BIT_LENGTH|CAST|CHAR_LENGTH|CHARACTER_LENGTH|CHR|CONCAT|CONCAT_WS|ELT|EXPORT_SET|EXTRACTVALUE|FIELD|FIND_IN_SET|FORMAT|FROM_BASE64|HEX|INSTR|LCASE|LEFT|LENGTH|LENGTHB|LOAD_FILE|LOCATE|LPAD|LPAD_ORACLE|LTRIM|LTRIM_ORACLE|MAKE_SET|MATCH|MID|OCTET_LENGTH|ORD|POSITION|QUOTE|REPEAT|REPLACE|REVERSE|RIGHT|RPAD|RTRIM|SOUNDEX|SPACE|STRCMP|SUBSTR|SUBSTRING_INDEX|TO_BASE64|TRIM_ORACLE|UCASE|UNHEX|UPDATEXML|WEIGHT_STRING)(?=\s*\()
+      comment: List of built-in functions for MariaDB/MySQL from https://mariadb.com/kb/en/string-functions/
+      scope: support.function.string.sql
+    - match: (?i)\b(REGEXP_INSTR|REGEXP_REPLACE|REGEXP_SUBSTR)(?=\s*\()
+      comment: List of built-in functions for MariaDB/MySQL from https://mariadb.com/kb/en/regular-expressions-functions/
+      scope: support.function.string.regexp.sql
+    - match: (?i)\b(ADDDATE|ADDTIME|CONVERT_TZ|CURDATE|CURTIME|DATE_ADD|DATE_FORMAT|DATE_SUB|DATEDIFF|DAY|DAYNAME|DAYOFMONTH|DAYOFWEEK|DAYOFYEAR|EXTRACT|FROM_DAYS|FROM_UNIXTIME|GET_FORMAT|HOUR|LAST_DAY|LOCALTIME|LOCALTIMESTAMP|MAKEDATE|MAKETIME|MICROSECOND|MINUTE|MONTH|MONTHNAME|NOW|PERIOD_ADD|PERIOD_DIFF|QUARTER|SEC_TO_TIME|SECOND|STR_TO_DATE|SUBDATE|SUBTIME|TIME_FORMAT|TIME_TO_SEC|TIMEDIFF|TIMESTAMPADD|TIMESTAMPDIFF|TO_DAYS|TO_SECONDS|UNIX_TIMESTAMP|UTC_DATE|UTC_TIME|UTC_TIMESTAMP|WEEK|WEEKDAY|WEEKOFYEAR|YEAR|YEARWEEK)(?=\s*\()
+      comment: List of built-in functions for MariaDB/MySQL from https://mariadb.com/kb/en/date-time-functions/
+      scope: support.function.time.sql
+    - match: (?i)\b(BIT_AND|BIT_OR|BIT_XOR|GROUP_CONCAT|JSON_ARRAYAGG|JSON_OBJECTAGG|STD|STDDEV|STDDEV_POP|STDDEV_SAMP|VAR_POP|VAR_SAMP|VARIANCE)(?=\s*\()
+      comment: List of built-in functions for MariaDB/MySQL from https://mariadb.com/kb/en/aggregate-functions/
+      scope: support.function.aggregate.sql
+    - match: (?i)\b(ABS|ACOS|ASIN|ATAN|ATAN2|CEIL|CEILING|CONV|COS|COT|CRC32|DEGREES|EXP|FLOOR|GREATEST|LEAST|LN|LOG|LOG10|LOG2|MOD|OCT|PI|POW|POWER|RADIANS|RAND|ROUND|SIGN|SIN|SQRT|TAN)(?=\s*\()
+      comment: List of built-in functions for MariaDB/MySQL from https://mariadb.com/kb/en/numeric-functions/
+      scope: support.function.numeric.sql
+    - match: (?i)\b(IFNULL|NULLIF)(?=\s*\()
+      comment: List of built-in functions for MariaDB/MySQL from https://mariadb.com/kb/en/control-flow-functions/
+      scope: support.function.controlflow.sql
+    - match: (?i)\b(BIT_COUNT)(?=\s*\()
+      comment: List of built-in functions for MariaDB/MySQL from https://mariadb.com/kb/en/bit-functions-and-operators/
+      scope: support.function.bit.sql
+    - match: (?i)\b(AES_DECRYPT|AES_ENCRYPT|COMPRESS|DECODE|DES_DECRYPT|DES_ENCRYPT|ENCODE|ENCRYPT|MD5|OLD_PASSWORD|PASSWORD|SHA1|SHA2|UNCOMPRESS|UNCOMPRESSED_LENGTH)(?=\s*\()
+      comment: List of built-in functions for MariaDB/MySQL from https://mariadb.com/kb/en/encryption-hashing-and-compression-functions/
+      scope: support.function.encryption.sql
+    - match: (?i)\b(BENCHMARK|BINLOG_GTID_POS|CHARSET|COERCIBILITY|COLLATION|CONNECTION_ID|CURRENT_ROLE|DATABASE|DECODE_HISTOGRAM|FOUND_ROWS|LAST_INSERT_ID|LAST_VALUE|ROW_COUNT|SCHEMA|USER|VERSION)(?=\s*\()
+      comment: List of built-in functions for MariaDB/MySQL from https://mariadb.com/kb/en/information-functions/
+      scope: support.function.information.sql
+    - match: (?i)\b(GET_LOCK|INET6_ATON|INET6_NTOA|INET_ATON|INET_NTOA|IS_FREE_LOCK|IS_IPV4|IS_IPV4_COMPAT|IS_IPV4_MAPPED|IS_IPV6|IS_USED_LOCK|MASTER_GTID_WAIT|MASTER_POS_WAIT|NAME_CONST|RELEASE_ALL_LOCKS|RELEASE_LOCK|SLEEP|UUID|UUID_SHORT)(?=\s*\()
+      comment: List of built-in functions for MariaDB/MySQL from https://mariadb.com/kb/en/miscellaneous-functions/
+      scope: support.function.other.sql
+    - match: (?i)\b(COLUMN_ADD|COLUMN_CHECK|COLUMN_CREATE|COLUMN_DELETE|COLUMN_EXISTS|COLUMN_GET|COLUMN_JSON|COLUMN_LIST)(?=\s*\()
+      comment: List of built-in functions for MariaDB/MySQL from https://mariadb.com/kb/en/dynamic-columns-functions/
+      scope: support.function.columns.sql
+    - match: (?i)\b(JSON_ARRAY|JSON_ARRAY_APPEND|JSON_ARRAY_INSERT|JSON_COMPACT|JSON_CONTAINS|JSON_CONTAINS_PATH|JSON_DEPTH|JSON_DETAILED|JSON_EXISTS|JSON_EXTRACT|JSON_INSERT|JSON_KEYS|JSON_LENGTH|JSON_LOOSE|JSON_MERGE|JSON_MERGE_PATCH|JSON_MERGE_PRESERVE|JSON_OBJECT|JSON_QUERY|JSON_QUOTE|JSON_REMOVE|JSON_REPLACE|JSON_SEARCH|JSON_SET|JSON_TYPE|JSON_UNQUOTE|JSON_VALID|JSON_VALUE)(?=\s*\()
+      comment: List of built-in functions for MariaDB/MySQL from https://mariadb.com/kb/en/json-functions/
+      scope: support.function.json.sql
+    - match: (?i)\b(SPIDER_BG_DIRECT_SQL|SPIDER_COPY_TABLES|SPIDER_DIRECT_SQL|SPIDER_FLUSH_TABLE_MON_CACHE)(?=\s*\()
+      comment: List of built-in functions for MariaDB/MySQL from https://mariadb.com/kb/en/spider-functions/
+      scope: support.function.spider.sql
+    - match: (?i)\b(CUME_DIST|DENSE_RANK|FIRST_VALUE|LAG|LEAD|MEDIAN|NTH_VALUE|NTILE|PERCENT_RANK|PERCENTILE_CONT|PERCENTILE_DISC|RANK|ROW_NUMBER)(?=\s*\()
+      comment: List of built-in functions for MariaDB/MySQL from https://mariadb.com/kb/en/window-functions/
+      scope: support.function.window.sql
+    - match: (?i)\b(BUFFER|ConvexHull|GeometryCollection|LineString|MultiLineString|MultiPoint|MultiPolygon|PointOnSurface|ST_BUFFER|ST_ConvexHull|ST_PointOnSurface|ST_INTERSECTION|ST_SYMDIFFERENCE|ST_UNION)(?=\s*\()
+      comment: List of built-in functions for MariaDB/MySQL from https://mariadb.com/kb/en/geometry-constructors/
+      scope: support.function.geographic.geometry.constructor.sql
+    - match: (?i)\b(BOUNDARY|DIMENSION|ENVELOPE|GeometryN|GeometryType|IsClosed|IsEmpty|IsRing|IsSimple|NumGeometries|SRID|ST_BOUNDARY|ST_DIMENSION|ST_ENVELOPE|ST_GeometryN|ST_GeometryType|ST_IsClosed|ST_IsEmpty|ST_IsRing|ST_IsSimple|ST_NumGeometries|ST_Relate|ST_SRID)(?=\s*\()
+      comment: List of built-in functions for MariaDB/MySQL from https://mariadb.com/kb/en/geometry-properties/
+      scope: support.function.geographic.property.geometry.sql
+    - match: (?i)\b(CONTAINS|CROSSES|DISJOINT|EQUALS|INTERSECTS|OVERLAPS|ST_CONTAINS|ST_CROSSES|ST_DIFFERENCE|ST_DISJOINT|ST_DISTANCE|ST_EQUALS|ST_INTERSECTS|ST_LENGTH|ST_OVERLAPS|ST_TOUCHES|ST_WITHIN|TOUCHES|WITHIN)(?=\s*\()
+      comment: List of built-in functions for MariaDB/MySQL from https://mariadb.com/kb/en/geometry-relations/
+      scope: support.function.geographic.geometry.relation.sql
+    - match: (?i)\b(EndPoint|GLength|NumPoints|PointN|ST_EndPoint|ST_NumPoints|ST_PointN|ST_StartPoint|StartPoint)(?=\s*\()
+      comment: List of built-in functions for MariaDB/MySQL from https://mariadb.com/kb/en/linestring-properties/
+      scope: support.function.geographic.linestring.sql
+    - match: (?i)\b(MBRContains|MBRDisjoint|MBREqual|MBRIntersects|MBROverlaps|MBRTouches|MBRWithin)(?=\s*\()
+      comment: List of built-in functions for MariaDB/MySQL from https://mariadb.com/kb/en/mbr-minimum-bounding-rectangle/
+      scope: support.function.geographic.mbr.sql
+    - match: (?i)\b(ST_X|ST_Y|X|Y)(?=\s*\()
+      comment: List of built-in functions for MariaDB/MySQL from https://mariadb.com/kb/en/point-properties/
+      scope: support.function.geographic.property.point.sql
+    - match: (?i)\b(Area|Centroid|ExteriorRing|InteriorRingN|NumInteriorRings|ST_Area|ST_Centroid|ST_ExteriorRing|ST_InteriorRingN|ST_NumInteriorRings)(?=\s*\()
+      comment: List of built-in functions for MariaDB/MySQL from https://mariadb.com/kb/en/polygon-properties/
+      scope: support.function.geographic.property.polygon.sql
+    - match: (?i)\b(AsBinary|AsWKB|GeomCollFromWKB|GeometryCollectionFromWKB|GeometryFromWKB|GeomFromWKB|LineFromWKB|LineStringFromWKB|MLineFromWKB|MPointFromWKB|MPolyFromWKB|MultiLineStringFromWKB|MultiPointFromWKB|MultiPolygonFromWKB|PointFromWKB|PolyFromWKB|PolygonFromWKB|ST_AsBinary|ST_AsWKB|ST_GeomCollFromWKB|ST_GeometryCollectionFromWKB|ST_GeometryFromWKB|ST_GeomFromWKB|ST_LineFromWKB|ST_LineStringFromWKB|ST_PointFromWKB|ST_PolyFromWKB|ST_PolygonFromWKB)(?=\s*\()
+      comment: List of built-in functions for MariaDB/MySQL from https://mariadb.com/kb/en/wkb/
+      scope: support.function.geographic.wkb.sql
+    - match: (?i)\b(AsText|AsWKT|GeomCollFromText|GeometryCollectionFromText|GeometryFromText|GeomFromText|LineFromText|LineStringFromText|MLineFromText|MPointFromText|MPolyFromText|MultiLineStringFromText|MultiPointFromText|MultiPolygonFromText|PointFromText|PolyFromText|PolygonFromText|ST_AsText|ST_AsWKT|ST_GeomCollFromText|ST_GeometryCollectionFromText|ST_GeometryFromText|ST_GeomFromText|ST_LineFromText|ST_LineStringFromText|ST_PointFromText|ST_PolyFromText|ST_PolygonFromText)(?=\s*\()
+      comment: List of built-in functions for MariaDB/MySQL from https://mariadb.com/kb/en/wkt/
+      scope: support.function.geographic.wkt.sql
