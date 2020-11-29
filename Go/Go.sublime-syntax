@@ -399,22 +399,20 @@ contexts:
 
   match-imaginary:
     # Decimal imaginary numbers
-    - match: '({{dec_digits}}(?:(\.){{dec_digits}}?)?)({{dec_exponent}})?(i)'
+    - match: '({{dec_digits}}(?:(\.){{dec_digits}}?)?{{dec_exponent}}?)(i)'
       scope: meta.number.imaginary.decimal.go
       captures:
         1: constant.numeric.value.go
         2: punctuation.separator.decimal.go
-        3: constant.numeric.value.exponent.go
-        4: constant.numeric.suffix.go
+        3: constant.numeric.suffix.go
     # Hexadecimal imaginary numbers
-    - match: (0[xX])({{hex_digits}}?(?:(\.){{hex_digits}}?)?)({{hex_exponent}})?(i)
+    - match: (0[xX])({{hex_digits}}?(?:(\.){{hex_digits}}?)?{{hex_exponent}}?)(i)
       scope: meta.number.imaginary.hexadecimal.go
       captures:
         1: constant.numeric.base.go
         2: constant.numeric.value.go
         3: punctuation.separator.decimal.go
-        4: constant.numeric.value.exponent.go
-        5: constant.numeric.suffix.go
+        4: constant.numeric.suffix.go
     # Octal imaginary numbers
     - match: (0[oO])({{oct_digits}})(i)
       scope: meta.number.imaginary.octal.go
@@ -435,30 +433,23 @@ contexts:
     - match: |-
         (?x:
           # 1.1, 1., 1.1e1, 1.e1
-          ({{dec_digits}}(\.){{dec_digits}}?)({{dec_exponent}})?
+          {{dec_digits}}(\.){{dec_digits}}?{{dec_exponent}}?
           # 1e1
-          | ({{dec_digits}})({{dec_exponent}})
+          | {{dec_digits}}{{dec_exponent}}
           # .1, .1e1
-          | ((\.){{dec_digits}})({{dec_exponent}})?
+          | (\.){{dec_digits}}{{dec_exponent}}?
         )
-      scope: meta.number.float.decimal.go
+      scope: meta.number.float.decimal.go constant.numeric.value.go
       captures:
-        1: constant.numeric.value.go
+        1: punctuation.separator.decimal.go
         2: punctuation.separator.decimal.go
-        3: constant.numeric.value.exponent.go
-        4: constant.numeric.value.go
-        5: constant.numeric.value.exponent.go
-        6: constant.numeric.value.go
-        7: punctuation.separator.decimal.go
-        8: constant.numeric.value.exponent.go
     # Hexadecimal float literal
-    - match: (0[xX])({{hex_digits}}?(?:(\.){{hex_digits}}?)?)({{hex_exponent}})
+    - match: (0[xX])({{hex_digits}}?(?:(\.){{hex_digits}}?)?{{hex_exponent}})
       scope: meta.number.float.hexadecimal.go
       captures:
         1: constant.numeric.base.go
         2: constant.numeric.value.go
         3: punctuation.separator.decimal.go
-        4: constant.numeric.value.exponent.go
 
   match-integers:
     - include: match-octal-integer
