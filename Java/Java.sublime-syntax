@@ -2014,35 +2014,41 @@ contexts:
       captures:
         1: punctuation.definition.string.begin.java
         2: invalid.illegal.unexpected-content.java
-      push:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.triple.java
-        - match: \"{3}
-          scope: punctuation.definition.string.end.java
-          pop: 1
-        - include: string-escapes
+      push: string-quoted-triple-body
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.5
     - match: \"
       scope: punctuation.definition.string.begin.java
-      push:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.double.java
-        - match: \"
-          scope: punctuation.definition.string.end.java
-          pop: 1
-        - include: illegal-newline
-        - include: string-escapes
+      push: string-quoted-double-body
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.4
     - match: \'
       scope: punctuation.definition.string.begin.java
-      push:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.single.java
-        - match: \'
-          scope: punctuation.definition.string.end.java
-          pop: 1
-        - include: illegal-newline
-        - include: string-escapes
+      push: string-quoted-single-body
+
+  string-quoted-triple-body:
+    - meta_include_prototype: false
+    - meta_scope: string.quoted.triple.java
+    - match: \"{3}
+      scope: punctuation.definition.string.end.java
+      pop: 1
+    - include: string-escapes
+
+  string-quoted-double-body:
+    - meta_include_prototype: false
+    - meta_scope: string.quoted.double.java
+    - match: \"
+      scope: punctuation.definition.string.end.java
+      pop: 1
+    - include: illegal-newline
+    - include: string-escapes
+
+  string-quoted-single-body:
+    - meta_include_prototype: false
+    - meta_scope: string.quoted.single.java
+    - match: \'
+      scope: punctuation.definition.string.end.java
+      pop: 1
+    - include: illegal-newline
+    - include: string-escapes
 
   string-escapes:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.3
