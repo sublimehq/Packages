@@ -1841,16 +1841,15 @@ contexts:
 ###[ VARIABLES ]###############################################################
 
   variables:
+    # Note: `variable-other` should be the first branch to highlight the last
+    # identifier not followed by `(` or `->` as variable in embedded code.
     - match: (?={{id_first_char}})
       branch_point: variables
       branch:
+        - variable-other
         - method-call-identifier
         - lambda-parameter
-        - variable-other
-
-  variable-else-fail:
-    - match: (?=\S)
-      fail: variables
+    - include: variable-item-access
 
   method-call-identifier:
     - match: '{{id}}'
@@ -1865,7 +1864,8 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.java
       set: method-call-arguments-common
-    - include: variable-else-fail
+    - match: (?=\S)
+      fail: variables
 
   method-call-arguments-common:
     - meta_scope: meta.function-call.arguments.java meta.group.java
@@ -1881,29 +1881,38 @@ contexts:
 
   lambda-parameter-end:
     - meta_content_scope: meta.function.anonymous.java
-    - match: (?=->)
-      pop: 1
-    - include: variable-else-fail
+    - include: else-pop
 
   variable-other:
     - match: '{{id}}'
       scope:
         meta.variable.identifier.java
         variable.other.readwrite.java
-      set: variable-maybe-item-access
+      set: variable-other-end
     - include: immediately-pop
 
-  variable-maybe-item-access:
-    - meta_content_scope: meta.variable.item-access.java
+  variable-other-end:
+    - meta_content_scope: meta.variable.identifier.java
+    - match: \s*(\(|->)
+      fail: variables
+    - include: variable-item-access-end
+
+  variable-item-access:
     - match: \[
       scope: punctuation.section.brackets.begin.java
-      push:
-        - meta_scope: meta.brackets.java
-        - match: \]
-          scope: punctuation.section.brackets.end.java
-          pop: 1
-        - include: group-body
-    - match: (?!\s*\[)
+      push: variable-item-access-body
+
+  variable-item-access-body:
+    - meta_scope: meta.variable.item-access.java meta.brackets.java
+    - match: \]
+      scope: punctuation.section.brackets.end.java
+      set: variable-item-access-end
+    - include: group-body
+
+  variable-item-access-end:
+    - meta_content_scope: meta.variable.item-access.java
+    - match: \s*(?=/\*|\[)
+    - match: (?=\s*\S)
       pop: 1
 
   variable-language-class:

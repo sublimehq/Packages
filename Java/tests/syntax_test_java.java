@@ -8578,6 +8578,7 @@ public class Foo {
 //                 ^ variable.other.readwrite.java
 
     a[0] = true;
+//  ^^^^ - meta.variable meta.variable
 //  ^ meta.variable.identifier.java
 //   ^^^ meta.variable.item-access.java meta.brackets.java
 //  ^ variable.other.readwrite.java
@@ -8587,6 +8588,77 @@ public class Foo {
 //       ^ keyword.operator.assignment.java
 //         ^^^^ constant.language.boolean.java
 //             ^ punctuation.terminator.java
+
+    a[0][0] = true;
+//  ^^^^^^^ - meta.variable meta.variable
+//  ^ meta.variable.identifier.java
+//   ^^^^^^ meta.variable.item-access.java meta.brackets.java
+//  ^ variable.other.readwrite.java
+//   ^ punctuation.section.brackets.begin.java
+//    ^ constant.numeric.value.java
+//     ^ punctuation.section.brackets.end.java
+//      ^ punctuation.section.brackets.begin.java
+//       ^ constant.numeric.value.java
+//        ^ punctuation.section.brackets.end.java
+//          ^ keyword.operator.assignment.java
+//            ^^^^ constant.language.boolean.java
+//                ^ punctuation.terminator.java
+
+    a [ 0 ] [ 0 ] = true;
+//  ^^^^^^^^^^^^^ - meta.variable meta.variable
+//  ^^ meta.variable.identifier.java
+//    ^^^^^ meta.variable.item-access.java meta.brackets.java
+//         ^ meta.variable.item-access.java - meta.brackets
+//          ^^^^^ meta.variable.item-access.java meta.brackets.java
+//               ^^^^^^^^^ - meta.variable
+//  ^ variable.other.readwrite.java
+//    ^ punctuation.section.brackets.begin.java
+//      ^ constant.numeric.value.java
+//        ^ punctuation.section.brackets.end.java
+//          ^ punctuation.section.brackets.begin.java
+//            ^ constant.numeric.value.java
+//              ^ punctuation.section.brackets.end.java
+//                ^ keyword.operator.assignment.java
+//                  ^^^^ constant.language.boolean.java
+//                      ^ punctuation.terminator.java
+
+    a /**/ [ /**/ 0 /**/ ] /**/ [ /**/ 0 /**/ ] /**/ = /**/ true;
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.variable meta.variable
+//  ^^^^^^^ meta.variable.identifier.java
+//         ^^^^^^^^^^^^^^^ meta.variable.item-access.java meta.brackets.java
+//                        ^^^^^^ meta.variable.item-access.java - meta.brackets
+//                              ^^^^^^^^^^^^^^^ meta.variable.item-access.java meta.brackets.java
+//                                             ^^^^^ meta.variable.item-access.java - meta.brackets
+//                                                  ^^^^^^^^^^^^^ - meta.variable
+//  ^ variable.other.readwrite.java
+//         ^ punctuation.section.brackets.begin.java
+//                ^ constant.numeric.value.java
+//                       ^ punctuation.section.brackets.end.java
+//                              ^ punctuation.section.brackets.begin.java
+//                                     ^ constant.numeric.value.java
+//                                            ^ punctuation.section.brackets.end.java
+//                                                   ^ keyword.operator.assignment.java
+//                                                          ^^^^ constant.language.boolean.java
+//                                                              ^ punctuation.terminator.java
+
+    a
+//  ^^ meta.variable.identifier.java
+//  ^ variable.other.readwrite.java
+    [
+//^^ meta.variable.identifier.java
+//  ^^ meta.variable.item-access.java meta.brackets.java
+//  ^ punctuation.section.brackets.begin.java
+    0
+// ^^^ meta.variable.item-access.java meta.brackets.java
+//  ^ constant.numeric.value.java
+    ]
+// ^^ meta.variable.item-access.java meta.brackets.java
+//  ^ punctuation.section.brackets.end.java
+    =
+//  ^ keyword.operator.assignment.java
+    true;
+//  ^^^^ constant.language.boolean.java
+//      ^ punctuation.terminator.java
 
     a.c = true;
 // ^ - meta.variable
