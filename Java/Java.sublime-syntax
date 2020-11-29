@@ -1506,9 +1506,11 @@ contexts:
   ternary-initializers:
     - match: \?
       scope: keyword.operator.ternary.java
-      push:
-        - include: operator-ternary-colon
-        - include: variable-initializer
+      push: ternary-initializer-body
+
+  ternary-initializer-body:
+    - include: operator-ternary-colon
+    - include: variable-initializer
 
 ###[ BLOCKS ]##################################################################
 
@@ -2082,9 +2084,7 @@ contexts:
       scope: keyword.operator.bitwise.java
     - match: '\?'
       scope: keyword.operator.ternary.java
-      push:
-        - include: operator-ternary-colon
-        - include: expression
+      push: ternary-expression
     - match: instanceof{{break}}
       scope: keyword.other.storage.instanceof.java
 
@@ -2092,6 +2092,10 @@ contexts:
     - match: ':'
       scope: keyword.operator.ternary.java
       pop: 1
+
+  ternary-expression:
+    - include: operator-ternary-colon
+    - include: expression
 
 ###[ PUNCTUATIONS ]############################################################
 
