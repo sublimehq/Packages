@@ -315,7 +315,7 @@ contexts:
             - match: \b(Abstract|AllowedSubclasses|ConstructOnLoad|HandleCompatible|Hidden|InferiorClasses|Sealed)\s*(=)
               captures:
                 1: variable.parameter.matlab
-                2: keyword.operator.symbols.matlab
+                2: keyword.operator.assignment.matlab
             - match: \b(false|true)\b
               scope: constant.language.matlab
         - match : \b(\w+)\b(?:\s*(<)\s*(\w+))?
@@ -337,7 +337,7 @@ contexts:
         - match: \b(AbortSet|Abstract|Access|Constant|Dependent|GetAccess|GetObservable|Hidden|NonCopyable|SetAccess|SetObservable|Transient)\s*(=)
           captures:
             1: variable.parameter.matlab
-            2: keyword.operator.symbols.matlab
+            2: keyword.operator.assignment.matlab
         - match: \b(false|true|public|protected|private)\b
           scope: constant.language.matlab
     - match: \b(properties|events|enumeration)\b
@@ -369,10 +369,18 @@ contexts:
       scope: meta.number.float.decimal.matlab constant.numeric.value.matlab
       captures:
         1: punctuation.separator.decimal.matlab
+  # https://www.mathworks.com/help/matlab/matlab_prog/matlab-operators-and-special-characters.html
   operators:
-    # Operator symbols
-    - match: \s*(==|~=|~|>|>=|<|<=|=|&|&&|:|\||\|\||\+|-|\*|\.\*|/|\./|\\|\.\\|\^|\.\^)\s*
-      scope: keyword.operator.symbols.matlab
+    - match: '\+|-|\*|\.\*|/|\./|\\|\.\\|\^|\.\^'
+      scope: keyword.operator.arithmetic.matlab
+    - match: '==|~=|>=|>|<=|<'
+      scope: keyword.operator.comparison.matlab
+    - match: '~|&&|&|\|\||\|'
+      scope: keyword.operator.logical.matlab
+    - match: ':'
+      scope: keyword.operator.colon.matlab
+    - match: '='
+      scope: keyword.operator.assignment.matlab
   parens:
     - match: \(
       scope: punctuation.section.parens.begin.matlab

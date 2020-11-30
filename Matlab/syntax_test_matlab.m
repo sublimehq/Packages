@@ -7,7 +7,7 @@
 classdef (Sealed = false) classname < baseclass
 % <- keyword.other
 %         ^ variable.parameter
-%                ^ keyword.operator.symbols
+%                ^ keyword.operator.assignment
 %                  ^ constant.language
 %                         ^ entity.name.class
 %                                     ^ entity.other.inherited-class
@@ -39,7 +39,7 @@ end
 
 x = [ 1.76 ]
 % <- source.matlab meta.variable.other.valid.matlab
-% ^ source.matlab keyword.operator.symbols.matlab
+% ^ source.matlab keyword.operator.assignment.matlab
 %   ^ source.matlab punctuation.section.brackets.begin.matlab
 %     ^^^^ source.matlab meta.brackets.matlab meta.number.float.decimal.matlab constant.numeric.value.matlab
 %          ^ source.matlab punctuation.section.brackets.end.matlab
@@ -47,7 +47,7 @@ x = [ 1.76 ]
 
 xAprox = fMetodoDeNewton( xi )
 %  <- source.matlab meta.variable.other.valid.matlab
-%      ^ source.matlab keyword.operator.symbols.matlab
+%      ^ source.matlab keyword.operator.assignment.matlab
 %        ^ source.matlab meta.variable.other.valid.matlab
 %                       ^ source.matlab punctuation.section.parens.begin.matlab
 %                         ^ source.matlab meta.parens.matlab meta.variable.other.valid.matlab
@@ -107,7 +107,7 @@ x = 5
 %{           Not start of block comment
 %            ^ comment.line.percentage.matlab
 x = 5
-% ^ keyword.operator.symbols.matlab
+% ^ keyword.operator.assignment.matlab
 %}
 
   %{
@@ -117,7 +117,7 @@ x = 5
 % ^ comment.block.percentage.matlab
   %}
 x = 5 %{ not block comment
-% ^ keyword.operator.symbols.matlab
+% ^ keyword.operator.assignment.matlab
 x = 5
 %   ^ meta.number.float.decimal.matlab constant.numeric.value.matlab
 
@@ -152,7 +152,7 @@ function y = average(x)
 %            ^^^^^^^ entity.name.function.matlab
 %                    ^ variable.parameter.input.function.matlab
    if ~isvector(x)
-%     ^ keyword.operator.symbols.matlab
+%     ^ keyword.operator.logical.matlab
        error('Input must be a vector')
    end
    y = sum(x)/length(x);
@@ -209,7 +209,7 @@ end
   ans
 % ^^^ variable.language.matlab
 
-X(1:2:end)
+X(1:2:end) 
 %     ^^^ variable.language.matlab
 
 
@@ -274,15 +274,64 @@ X(1:2:end)
 %  ^^ constant.numeric.value.matlab
 %    ^^^ constant.numeric.suffix.matlab
 
-
 %---------------------------------------------
-% transpose
-a = a' % is the conjugate and transpose
-%   ^ -keyword.operator.transpose.matlab
-%    ^ keyword.operator.transpose.matlab
-a = a.' % is the transpose
-%   ^ -keyword.operator.transpose.matlab
+% Operators
+% https://www.mathworks.com/help/matlab/matlab_prog/matlab-operators-and-special-characters.html
+
+C = A + B       % Addition
+%     ^ keyword.operator.arithmetic.matlab
+C = +A          % Unary plus
+%   ^ keyword.operator.arithmetic.matlab
+C = A - B       % Subtraction
+%     ^ keyword.operator.arithmetic.matlab
+C = -A          % Unary minus
+%   ^ keyword.operator.arithmetic.matlab
+C = A.*B        % Element-wise multiplication
+%    ^^ keyword.operator.arithmetic.matlab
+C = A*B         % Matrix multiplication
+%    ^ keyword.operator.arithmetic.matlab
+x = A./B        % Element-wise right division
+%    ^^ keyword.operator.arithmetic.matlab
+x = B/A         % Matrix right division
+%    ^ keyword.operator.arithmetic.matlab
+x = B.\A        % Element-wise left division
+%    ^^ keyword.operator.arithmetic.matlab
+x = A\B         % Matrix left division
+%    ^ keyword.operator.arithmetic.matlab
+C = A.^B        % Element-wise power
+%    ^^ keyword.operator.arithmetic.matlab
+C = A^B         % Matrix power
+%    ^ keyword.operator.arithmetic.matlab
+B = A.'         % Transpose
 %    ^^ keyword.operator.transpose.matlab
+B = A'          % Complex conjugate transpose
+%    ^ keyword.operator.transpose.matlab
+A == B          % Equal to
+% ^^ keyword.operator.comparison.matlab
+A ~= B          % Not equal to
+% ^^ keyword.operator.comparison.matlab
+A > B           % Greater than
+% ^ keyword.operator.comparison.matlab
+A >= B          % Greater than or equal to
+% ^^ keyword.operator.comparison.matlab
+A < B           % Less than
+% ^ keyword.operator.comparison.matlab
+A <= B          % Less than or equal to
+% ^^ keyword.operator.comparison.matlab
+A & B           % Logical AND
+% ^ keyword.operator.logical.matlab
+A | B           % Logical OR
+% ^ keyword.operator.logical.matlab
+expr1 && expr2  % Logical AND with short-circuiting
+%     ^^ keyword.operator.logical.matlab
+expr1 || expr2  % Logical OR with short-circuiting
+%     ^^ keyword.operator.logical.matlab
+x = j:k         % Vector creation
+%    ^ keyword.operator.colon.matlab
+A(:,n)          % Array subscripting
+% ^ keyword.operator.colon.matlab
+
+
 c = a.b' % is the conjugate and transpose of the field b of structure a
 %    ^ punctuation.accessor.dot.matlab
 %      ^ keyword.operator.transpose.matlab
