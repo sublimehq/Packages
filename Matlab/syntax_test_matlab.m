@@ -204,6 +204,16 @@ end
 
 
 %---------------------------------------------
+% Built-in variables
+
+  ans
+% ^^^ variable.language.matlab
+
+X(1:2:end)
+%     ^^^ variable.language.matlab
+
+
+%---------------------------------------------
 % Numbers
 
  1

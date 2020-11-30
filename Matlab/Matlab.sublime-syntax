@@ -53,7 +53,7 @@ contexts:
     - include: matlab_oop
     - include: builtin_functions
     - include: matlab_constant_language
-    - include: matlab_variable_function
+    - include: builtin_variables
     - include: matlab_keyword_desktop
     - include: toolbox_functions
   allofem:
@@ -99,7 +99,7 @@ contexts:
   end_in_parens:
     # end as operator symbol
     - match: \bend\b
-      scope: keyword.operator.symbols.matlab
+      scope: variable.language.matlab
   escaped_quote:
     - match: "''"
       scope: constant.character.escape.matlab
@@ -145,7 +145,7 @@ contexts:
   # Matlab keywords
   matlab_constant_language:
     # MATLAB constants
-    - match: \b(ans|eps|false|Inf|inf|intmax|intmin|namelengthmax|NaN|nan|on|off|realmax|realmin|true|i|j|pi)\b
+    - match: \b(eps|false|Inf|inf|intmax|intmin|namelengthmax|NaN|nan|on|off|realmax|realmin|true|i|j|pi)\b
       scope: constant.language.matlab
   matlab_keyword_control:
     # Control keywords
@@ -295,10 +295,9 @@ contexts:
     # Matlab wavelet toolbox
     - match: \b(wvarchg|wtreemgr|wthrmngr|wthresh|wthcoef2|wthcoef|wtbxmngr|wtbo|wscalogram|write|wrev|wrcoef2|wrcoef|wpviewcf|wptree|wpthcoef|wpsplt|wprec2|wprec|wprcoef|wpjoin|wpfun|wpdencmp|wpdec2|wpdec|wpcutree|wpcoef|wpbmpen|wp2wtree|wnoisest|wnoise|wmulden|wmspca|wmaxlev|wkeep|wfusmat|wfusimg|wfilters|wfbmesti|wfbm|wextend|wentropy|wenergy2|wenergy|wdencmp|wden|wdcenergy|wdcbm2|wdcbm|wcodemat|wbmpen|waverec2|waverec|wavenames|wavemngr|wavemenu|waveinfo|wavefun2|wavefun|wavedemo|wavedec2|wavedec|wave2lp|upwlev2|upwlev|upcoef2|upcoef|treeord|treedpth|tnodes|thselect|symwavf|symaux|swt2|swt|shanwavf|set|scal2frq|readtree|read|rbiowavf|qmf|plot|pat2cwav|orthfilt|ntree|ntnode|noleaves|nodesplt|nodepar|nodejoin|nodedesc|nodeasc|mswthresh|mswden|mswcmptp|mswcmpscr|mswcmp|morlet|meyeraux|meyer|mexihat|mdwtrec|mdwtdec|mdwtcluster|lwtcoef2|lwtcoef|lwt2|lwt|lsinfo|ls2filt|liftwave|liftfilt|leaves|laurpoly|laurmat|iswt2|iswt|istnode|isnode|intwave|ind2depo|ilwt2|ilwt|idwt2|idwt|get|gauswavf|filt2ls|fbspwavf|entrupd|dyadup|dyaddown|dwtmode|dwt2|dwt|dtree|drawtree|displs|disp|detcoef2|detcoef|depo2ind|ddencmp|dbwavf|dbaux|cwt|coifwavf|cmorwavf|chgwdeccfs|cgauwavf|cfs2wpt|centfrq|bswfun|biorwavf|biorfilt|besttree|bestlevt|appcoef2|appcoef|allnodes|addlift)\b
       scope: support.function.toolbox.wavelet.matlab
-  matlab_variable_function:
-    # MATLAB variables
-    - match: \b(nargin|nargout|varargin|varargout)\b
-      scope: variable.other.function.matlab
+  builtin_variables:
+    - match: \b(ans|nargin|nargout|varargin|varargout)\b
+      scope: variable.language.matlab
   matlab_oop:
     - match: \b(classdef)\b
       scope: keyword.other.oop.matlab
