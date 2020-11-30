@@ -120,10 +120,10 @@ contexts:
     - match: \|\|
       scope: keyword.operator.concatenator.sql
     - match: (?i)\b(CURRENT_(DATE|TIME(STAMP)?|USER)|(SESSION|SYSTEM)_USER)\b
-      comment: List of SQL99 built-in functions from http://www.oreilly.com/catalog/sqlnut/chapter/ch04.html
+      # List of SQL99 built-in functions from http://www.oreilly.com/catalog/sqlnut/chapter/ch04.html
       scope: support.function.scalar.sql
     - match: (?i)\b(AVG|COUNT|MIN|MAX|SUM)(?=\s*\()
-      comment: List of SQL99 built-in functions from http://www.oreilly.com/catalog/sqlnut/chapter/ch04.html
+      # List of SQL99 built-in functions from http://www.oreilly.com/catalog/sqlnut/chapter/ch04.html
       scope: support.function.aggregate.sql
     - match: (?i)\b(CONCATENATE|CONVERT|LOWER|SUBSTRING|TRANSLATE|TRIM|UPPER)\b
       scope: support.function.string.sql
@@ -134,7 +134,7 @@ contexts:
     - include: strings
     - include: regexps
     - match: (\()(\))
-      comment: Allow for special ↩ behavior
+      # Allow for special ↩ behavior
       scope: meta.block.sql
       captures:
         1: punctuation.section.scope.begin.sql
@@ -173,7 +173,7 @@ contexts:
         - match: \\/
           scope: constant.character.escape.slash.sql
     - match: '%r\{'
-      comment: We should probably handle nested bracket pairs!?! -- Allan
+      # We should probably handle nested bracket pairs!?! -- Allan
       scope: punctuation.definition.string.begin.sql
       push:
         - meta_scope: string.regexp.modr.sql

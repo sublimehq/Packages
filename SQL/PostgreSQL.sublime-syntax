@@ -10,62 +10,62 @@ contexts:
   main:
     - meta_append: true
     - match: (?i)\b(abs|cbrt|ceil|ceiling|degrees|div|exp|floor|ln|log|mod|pi|power|radians|round|sign|sqrt|trunc|width_bucket)(?=\s*\()
-      comment: List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-math.html
+      # List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-math.html
       scope: support.function.numeric.sql
     - match: (?i)\b(random|setseed)(?=\s*\()
-      comment: List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-math.html
+      # List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-math.html
       scope: support.function.numeric.random.sql
     - match: (?i)\b(acos|asin|atan|atan2|cos|cot|sin|tan)(?=\s*\()
-      comment: List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-math.html
+      # List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-math.html
       scope: support.function.numeric.trigonometric.sql
     - match: (?i)\b(bit_length|char_length|octet_length|overlay|position)(?=\s*\()
-      comment: List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-string.html
+      # List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-string.html
       scope: support.function.string.sql
     - match: (?i)\b(ascii|btrim|chr|concat|concat_ws|convert_from|convert_to|decode|encode|format|get_bit|get_byte|initcap|left|length|lpad|ltrim|md5|pg_client_encoding|quote_ident|quote_literal|quote_nullable|regexp_matches|regexp_replace|regexp_split_to_array|regexp_split_to_table|repeat|replace|reverse|right|rpad|rtrim|set_bit|set_byte|split_part|strpos|substr|to_ascii|to_hex)(?=\s*\()
-      comment: List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-string.html and https://www.postgresql.org/docs/9.4/functions-binarystring.html
+      # List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-string.html and https://www.postgresql.org/docs/9.4/functions-binarystring.html
       scope: support.function.string.other.sql
     - match: (?i)\b(age|clock_timestamp|date_part|date_trunc|extract|isfinite|justify_days|justify_hours|justify_interval|localtime|localtimestamp|make_date|make_interval|make_time|make_timestamp|make_timestamptz|now|statement_timestamp|timeofday|to_char|to_date|to_number|to_timestamp|transaction_timestamp)(?=\s*\()
-      comment: List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-formatting.html and https://www.postgresql.org/docs/9.4/functions-datetime.html
+      # List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-formatting.html and https://www.postgresql.org/docs/9.4/functions-datetime.html
       scope: support.function.time.sql
     - match: (?i)\b(enum_first|enum_last|enum_range|enum_range)(?=\s*\()
-      comment: List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-enum.html
+      # List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-enum.html
       scope: support.function.enum.sql
     - match: (?i)\b(area|center|diameter|height|isclosed|isopen|length|npoints|pclose|popen|radius|width)(?=\s*\()
-      comment: List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-geometry.html
+      # List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-geometry.html
       scope: support.function.geographic.geometry.sql
     - match: (?i)\b(abbrev|broadcast|family|host|hostmask|masklen|netmask|network|set_masklen)(?=\s*\()
-      comment: List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-net.html
+      # List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-net.html
       scope: support.function.network.sql
     - match: (?i)\b(cursor_to_xml|cursor_to_xmlschema|database_to_xml|database_to_xml_and_xmlschema|database_to_xmlschema|query_to_xml|query_to_xml_and_xmlschema|query_to_xmlschema|schema_to_xml|schema_to_xml_and_xmlschema|schema_to_xmlschema|table_to_xml|table_to_xml_and_xmlschema|table_to_xmlschema|xml_is_well_formed|xmlagg|xmlcomment|xmlconcat|xmlelement|xmlexists|xmlforest|xmlpi|xmlroot|xpath)(?=\s*\()
-      comment: List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-xml.html
+      # List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-xml.html
       scope: support.function.xml.sql
     - match: (?i)\b(array_to_json|json_array_elements|json_array_elements_text|json_array_length|json_build_array|json_build_object|json_each|json_each_text|json_extract_path|json_extract_path_text|json_object|json_object_keys|json_populate_record|json_populate_recordset|json_to_record|json_to_recordset|json_typeof|row_to_json|to_json)(?=\s*\()
-      comment: List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-json.html
+      # List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-json.html
       scope: support.function.json.sql
     - match: (?i)\b(currval|lastval|nextval|setval)(?=\s*\()
-      comment: List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-sequence.html
+      # List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-sequence.html
       scope: support.function.sequence.sql
     - match: (?i)\b(coalesce|greatest|least|nullif)(?=\s*\()
-      comment: List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-conditional.html
+      # List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-conditional.html
       scope: support.function.controlflow.sql
     - match: (?i)\b(array_append|array_cat|array_dims|array_fill|array_length|array_lower|array_ndims|array_prepend|array_remove|array_replace|array_to_string|array_upper|cardinality|string_to_array|unnest|unnest)(?=\s*\()
-      comment: List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-array.html
+      # List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-array.html
       scope: support.function.array.sql
     - match: (?i)\b(isempty|lower_inc|lower_inf|upper_inc|upper_inf)(?=\s*\()
-      comment: List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-range.html
+      # List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-range.html
       scope: support.function.range.sql
     - match: (?i)\b(array_agg|bit_and|bit_or|bool_and|bool_or|corr|covar_pop|covar_samp|cume_dist|dense_rank|every|json_agg|json_object_agg|mode|percent_rank|percentile_cont|percentile_disc|rank|regr_avgx|regr_avgy|regr_count|regr_intercept|regr_r2|regr_slope|regr_sxx|regr_sxy|regr_syy|stddev|stddev_pop|stddev_samp|string_agg|var_pop|var_samp|variance)(?=\s*\()
-      comment: List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-aggregate.html
+      # List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-aggregate.html
       scope: support.function.aggregate.sql
     - match: (?i)\b(first_value|lag|last_value|lead|nth_value|ntile|row_number)(?=\s*\()
-      comment: List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-window.html
+      # List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-window.html
       scope: support.function.window.sql
     - match: (?i)\b(generate_series|generate_subscripts)(?=\s*\()
-      comment: List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-srf.html
+      # List of built-in functions for PostgreSQL from https://www.postgresql.org/docs/9.4/functions-srf.html
       scope: support.function.set.sql
     - match: (?i)\b(col_description|current_catalog|current_database|current_query|current_role|current_schema|current_schemas|format_type|has_any_column_privilege|has_column_privilege|has_database_privilege|has_foreign_data_wrapper_privilege|has_function_privilege|has_language_privilege|has_schema_privilege|has_sequence_privilege|has_server_privilege|has_table_privilege|has_tablespace_privilege|has_type_privilege|inet_client_addr|inet_client_port|inet_server_addr|inet_server_port|obj_description|pg_backend_pid|pg_collation_is_visible|pg_conf_load_time|pg_conversion_is_visible|pg_describe_object|pg_function_is_visible|pg_get_constraintdef|pg_get_expr|pg_get_function_arguments|pg_get_function_identity_arguments|pg_get_function_result|pg_get_functiondef|pg_get_indexdef|pg_get_keywords|pg_get_ruledef|pg_get_serial_sequence|pg_get_triggerdef|pg_get_userbyid|pg_get_viewdef|pg_has_role|pg_identify_object|pg_is_other_temp_schema|pg_listening_channels|pg_my_temp_schema|pg_opclass_is_visible|pg_operator_is_visible|pg_opfamily_is_visible|pg_options_to_table|pg_postmaster_start_time|pg_table_is_visible|pg_tablespace_databases|pg_tablespace_location|pg_trigger_depth|pg_ts_config_is_visible|pg_ts_dict_is_visible|pg_ts_parser_is_visible|pg_ts_template_is_visible|pg_type_is_visible|pg_typeof|shobj_description|to_regclass|to_regoper|to_regoperator|to_regproc|to_regprocedure|to_regtype|txid_current|txid_current_snapshot|txid_snapshot_xip|txid_snapshot_xmax|txid_snapshot_xmin|txid_visible_in_snapshot|user|version|xip_list|xmax|xmin)(?=\s*\()
-      comment: List of built-in functions for PostgreSQL
+      # List of built-in functions for PostgreSQL
       scope: support.function.information.sql
     - match: (?i)\b(current_setting|pg_advisory_lock|pg_advisory_lock_shared|pg_advisory_unlock|pg_advisory_unlock_all|pg_advisory_unlock_shared|pg_advisory_xact_lock|pg_advisory_xact_lock_shared|pg_backup_start_time|pg_cancel_backend|pg_column_size|pg_create_logical_replication_slot|pg_create_physical_replication_slot|pg_create_restore_point|pg_current_xlog_insert_location|pg_current_xlog_location|pg_database_size|pg_drop_replication_slot|pg_export_snapshot|pg_filenode_relation|pg_indexes_size|pg_is_in_backup|pg_is_in_recovery|pg_is_xlog_replay_paused|pg_last_xact_replay_timestamp|pg_last_xlog_receive_location|pg_last_xlog_replay_location|pg_logical_slot_get_binary_changes|pg_logical_slot_get_changes|pg_logical_slot_peek_binary_changes|pg_logical_slot_peek_changes|pg_ls_dir|pg_read_binary_file|pg_read_file|pg_relation_filenode|pg_relation_filepath|pg_relation_size|pg_reload_conf|pg_rotate_logfile|pg_size_pretty|pg_start_backup|pg_stat_file|pg_stop_backup|pg_switch_xlog|pg_table_size|pg_tablespace_size|pg_terminate_backend|pg_total_relation_size|pg_try_advisory_lock|pg_try_advisory_lock_shared|pg_try_advisory_xact_lock|pg_try_advisory_xact_lock_shared|pg_xlog_location_diff|pg_xlog_replay_pause|pg_xlog_replay_resume|pg_xlogfile_name|pg_xlogfile_name_offset|set_config)(?=\s*\()
-      comment: List of built-in functions for PostgreSQL https://www.postgresql.org/docs/9.4/functions-admin.html
+      # List of built-in functions for PostgreSQL https://www.postgresql.org/docs/9.4/functions-admin.html
       scope: support.function.admin.sql
