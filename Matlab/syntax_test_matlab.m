@@ -2,36 +2,79 @@
 
 
 %---------------------------------------------
-% Matlab OOP test
+% Matlab OOP
 
-classdef (Sealed = false) classname < baseclass
+classdef ClassName  % comment
+%^^^^^^^^^^^^^^^^^ meta.class.matlab
 %^^^^^^^ keyword.declaration.class.matlab
-%         ^ variable.parameter
-%                ^ keyword.operator.assignment
-%                  ^ constant.language
-%                         ^ entity.name.class
-%                                     ^ entity.other.inherited-class
-   properties (SetAccess = private, GetAccess = true)
+%        ^^^^^^^^^ entity.name.class.matlab
+%                   ^^^^^^^^^^ comment.line.percentage.matlab
+end
+
+classdef (Sealed = false, ~Hidden) ClassName < SuperClass1 & SuperClass2  % comment
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.matlab
+%^^^^^^^ keyword.declaration.class.matlab
+%        ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attributes.matlab
+%        ^ punctuation.section.parens.begin.matlab
+%         ^^^^^^ variable.parameter.attribute.matlab
+%                ^ keyword.operator.assignment.matlab
+%                  ^^^^^ constant.language.matlab
+%                       ^ punctuation.separator.sequence.matlab
+%                         ^ keyword.operator.logical.matlab
+%                          ^^^^^^ variable.parameter.attribute.matlab
+%                                ^ punctuation.section.parens.end.matlab
+%                                  ^^^^^^^^^ entity.name.class.matlab
+%                                            ^ punctuation.separator.inheritance.matlab
+%                                              ^^^^^^^^^^^ entity.other.inherited-class.matlab
+%                                                          ^ punctuation.separator.sequence.matlab
+%                                                            ^^^^^^^^^^^ entity.other.inherited-class.matlab
+%                                                                         ^^^^^^^^^^ comment.line.percentage.matlab
+
+   properties (SetAccess = private, GetAccess = true)  % comment
+%  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.properties.matlab
 %  ^^^^^^^^^^ keyword.declaration.properties.matlab
-%              ^ variable.parameter
-%                          ^ constant.language
-%                                   ^ variable.parameter
+%             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attributes.matlab
+%             ^ punctuation.section.parens.begin.matlab
+%              ^^^^^^^^^ variable.parameter.attribute.matlab
+%                        ^ keyword.operator.assignment.matlab
+%                          ^^^^^^^ storage.modifier.matlab
+%                                 ^ punctuation.separator.sequence.matlab
+%                                   ^^^^^^^^^ variable.parameter.attribute.matlab
+%                                             ^ keyword.operator.assignment.matlab
+%                                               ^^^^ constant.language.matlab
+%                                                   ^ punctuation.section.parens.end.matlab
+%                                                      ^^^^^^^^^^ comment.line.percentage.matlab
       PropName
    end
 %  ^^^ keyword.control.matlab
 
-   methods
+   methods (Static)  % comment
+%  ^^^^^^^^^^^^^^^^ meta.methods.matlab
 %  ^^^^^^^ keyword.declaration.methods.matlab
+%          ^^^^^^^^ meta.attributes.matlab
+%          ^ punctuation.section.parens.begin.matlab
+%           ^^^^^^ variable.parameter.attribute.matlab
+%                 ^ punctuation.section.parens.end.matlab
+%                    ^^^^^^^^^^ comment.line.percentage.matlab
       methodName
    end
 
-   events
+   events (ListenAccess = protected)  % comment
+%  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.events.matlab
 %  ^^^^^^ keyword.declaration.events.matlab
+%         ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attributes.matlab
+%         ^ punctuation.section.parens.begin.matlab
+%          ^^^^^^^^^^^^ variable.parameter.attribute.matlab
+%                       ^ keyword.operator.assignment.matlab
+%                         ^^^^^^^^^ storage.modifier.matlab
+%                                  ^ punctuation.section.parens.end.matlab
+%                                     ^^^^^^^^^^ comment.line.percentage.matlab
       EventName
    end
 
-   enumeration
-%  ^^^^^^^^^^^ keyword.declaration.enumeration.matlab
+   enumeration  % comment
+%  ^^^^^^^^^^^ meta.enumeration.matlab keyword.declaration.enumeration.matlab
+%               ^^^^^^^^^^ comment.line.percentage.matlab
       EnumName
    end
 end

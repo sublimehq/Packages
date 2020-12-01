@@ -50,7 +50,7 @@ contexts:
         1: punctuation.definition.comment.matlab
   all_matlab_keywords:
     - include: keywords
-    - include: matlab_oop
+    - include: class_declaration
     - include: builtin_constants
     - include: builtin_variables
     - include: builtin_functions
@@ -311,56 +311,121 @@ contexts:
   builtin_variables:
     - match: \b(ans|nargin|nargout|varargin|varargout)\b
       scope: variable.language.matlab
-  matlab_oop:
-    - match: \b(classdef)\b
+  class_declaration:
+    - match: \bclassdef\b
       scope: keyword.declaration.class.matlab
       push:
-        - meta_scope: meta.classdef.matlab
+        - meta_scope: meta.class.matlab
+        - include: eol-pop
         - match: \(
-          scope: punctuation.definition.properties.begin.matlab
+          scope: punctuation.section.parens.begin.matlab
           push:
-            - meta_scope: meta.properties.matlab
+            - meta_scope: meta.attributes.matlab
             - match: \)
-              scope: punctuation.definition.properties.end.matlab
+              scope: punctuation.section.parens.end.matlab
               pop: true
-            - match: ','
-              scope: punctuation.separator.matlab
-            - match: \b(Abstract|AllowedSubclasses|ConstructOnLoad|HandleCompatible|Hidden|InferiorClasses|Sealed)\s*(=)
-              captures:
-                1: variable.parameter.matlab
-                2: keyword.operator.assignment.matlab
-            - match: \b(false|true)\b
+            - match: \,
+              scope: punctuation.separator.sequence.matlab
+            # https://www.mathworks.com/help/matlab/matlab_oop/class-attributes.html
+            - match: \b(?:Abstract|AllowedSubclasses|ConstructOnLoad|HandleCompatible|Hidden|InferiorClasses|Sealed)\b
+              scope: variable.parameter.attribute.matlab
+            - match: =
+              scope: keyword.operator.assignment.matlab
+            - match: ~
+              scope: keyword.operator.logical.matlab
+            - match: \b(?:false|true)\b
               scope: constant.language.matlab
-        - match : \b(\w+)\b(?:\s*(<)\s*(\w+))?
-          captures:
-            1: entity.name.class.matlab
-            2: punctuation.definition.inheritance.matlab
-            3: entity.other.inherited-class.matlab
-          pop: true
-    - match: \b(properties)\s+(\()
-      captures:
-        1: keyword.declaration.properties.matlab
-        2: punctuation.definition.properties.begin.matlab
-      push:
-        - match: \)
-          scope: punctuation.definition.properties.end.matlab
-          pop: true
-        - match: ','
-          scope: punctuation.separator.matlab
-        - match: \b(AbortSet|Abstract|Access|Constant|Dependent|GetAccess|GetObservable|Hidden|NonCopyable|SetAccess|SetObservable|Transient)\s*(=)
-          captures:
-            1: variable.parameter.matlab
-            2: keyword.operator.assignment.matlab
-        - match: \b(false|true|public|protected|private)\b
-          scope: constant.language.matlab
-    - match: \bproperties\b
+        - match : \w+
+          scope: entity.name.class.matlab
+          set:
+            - meta_content_scope: meta.class.matlab
+            - include: eol-pop
+            - match: <
+              scope: punctuation.separator.inheritance.matlab
+              set:
+                - meta_content_scope: meta.class.matlab
+                - include: eol-pop
+                - match: \w+
+                  scope: entity.other.inherited-class.matlab
+                - match: \&
+                  scope: punctuation.separator.sequence.matlab
+    - match: \bproperties\b(?!\()
       scope: keyword.declaration.properties.matlab
-    - match: \bmethods\b
+      push:
+        - meta_scope: meta.properties.matlab
+        - include: eol-pop
+        - match: \(
+          scope: punctuation.section.parens.begin.matlab
+          push:
+            - meta_scope: meta.attributes.matlab
+            - match: \)
+              scope: punctuation.section.parens.end.matlab
+              pop: true
+            - match: \,
+              scope: punctuation.separator.sequence.matlab
+            # https://www.mathworks.com/help/matlab/matlab_oop/property-attributes.html
+            - match: \b(?:AbortSet|Abstract|Access|Constant|Dependent|GetAccess|GetObservable|Hidden|NonCopyable|PartialMatchPriority|SetAccess|SetObservable|Transient)\b
+              scope: variable.parameter.attribute.matlab
+            - match: =
+              scope: keyword.operator.assignment.matlab
+            - match: ~
+              scope: keyword.operator.logical.matlab
+            - match: \b(?:false|true)\b
+              scope: constant.language.matlab
+            - match: \b(?:public|protected|private)\b
+              scope: storage.modifier.matlab
+            - match: \b\d+\b
+              scope: meta.number.integer.decimal.matlab constant.numeric.value.matlab
+    - match: \bmethods\b(?!\()
       scope: keyword.declaration.methods.matlab
-    - match: \bevents\b
+      push:
+        - meta_scope: meta.methods.matlab
+        - include: eol-pop
+        - match: \(
+          scope: punctuation.section.parens.begin.matlab
+          push:
+            - meta_scope: meta.attributes.matlab
+            - match: \)
+              scope: punctuation.section.parens.end.matlab
+              pop: true
+            - match: \,
+              scope: punctuation.separator.sequence.matlab
+            # https://www.mathworks.com/help/matlab/matlab_oop/method-attributes.html
+            - match: \b(?:Abstract|Access|Hidden|Sealed|Static)\b
+              scope: variable.parameter.attribute.matlab
+            - match: =
+              scope: keyword.operator.assignment.matlab
+            - match: ~
+              scope: keyword.operator.logical.matlab
+            - match: \b(?:false|true)\b
+              scope: constant.language.matlab
+            - match: \b(?:public|protected|private)\b
+              scope: storage.modifier.matlab
+    - match: \bevents\b(?!\()
       scope: keyword.declaration.events.matlab
-    - match: \benumeration\b
-      scope: keyword.declaration.enumeration.matlab
+      push:
+        - meta_scope: meta.events.matlab
+        - include: eol-pop
+        - match: \(
+          scope: punctuation.section.parens.begin.matlab
+          push:
+            - meta_scope: meta.attributes.matlab
+            - match: \)
+              scope: punctuation.section.parens.end.matlab
+              pop: true
+            - match: \,
+              scope: punctuation.separator.sequence.matlab
+            # https://www.mathworks.com/help/matlab/matlab_oop/event-attributes.html
+            - match: \b(?:Hidden|ListenAccess|NotifyAccess)\b
+              scope: variable.parameter.attribute.matlab
+            - match: =
+              scope: keyword.operator.assignment.matlab
+            - match: \b(?:false|true)\b
+              scope: constant.language.matlab
+            - match: \b(?:public|protected|private)\b
+              scope: storage.modifier.matlab
+    - match: \benumeration\b(?!\()
+      scope: meta.enumeration.matlab keyword.declaration.enumeration.matlab
   not_equal_invalid:
     # Not equal is written ~= not !=.
     - match: \s*!=\s*
@@ -460,3 +525,6 @@ contexts:
     # No variables or function names can start with a number or an underscore.
     - match: '\b(_\w|\d+[_a-df-zA-DF-Z])\w*\b'
       scope: invalid.illegal.invalid-variable-name.matlab
+  eol-pop:
+    - match: (?=\s*[%\n])
+      pop: true
