@@ -51,9 +51,9 @@ contexts:
   all_matlab_keywords:
     - include: matlab_keyword_control
     - include: matlab_oop
-    - include: builtin_functions
-    - include: matlab_constant_language
+    - include: builtin_constants
     - include: builtin_variables
+    - include: builtin_functions
     - include: matlab_keyword_desktop
     - include: toolbox_functions
   allofem:
@@ -142,10 +142,8 @@ contexts:
           captures:
             1: entity.name.function.matlab
           pop: true
-  # Matlab keywords
-  matlab_constant_language:
-    # MATLAB constants
-    - match: \b(eps|false|Inf|inf|intmax|intmin|namelengthmax|NaN|nan|on|off|realmax|realmin|true|i|j|pi)\b
+  builtin_constants:
+    - match: \b(eps|false|Inf|inf|intmax|intmin|namelengthmax|NaN|nan|on|off|realmax|realmin|true|pi)\b
       scope: constant.language.matlab
   matlab_keyword_control:
     # Control keywords

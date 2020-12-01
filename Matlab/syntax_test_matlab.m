@@ -204,6 +204,35 @@ end
 
 
 %---------------------------------------------
+% Built-in constants
+
+  true; false
+% ^^^^ constant.language.matlab
+%       ^^^^^ constant.language.matlab
+  Inf; inf; NaN; nan
+% ^^^ constant.language.matlab
+%      ^^^ constant.language.matlab
+%           ^^^ constant.language.matlab
+%                ^^^ constant.language.matlab
+  eps; pi
+% ^^^ constant.language.matlab
+%      ^^ constant.language.matlab
+
+  intmax; intmin; realmax; realmin; namelengthmax
+% ^^^^^^ constant.language.matlab
+%         ^^^^^^ constant.language.matlab
+%                 ^^^^^^^ constant.language.matlab
+%                          ^^^^^^^ constant.language.matlab
+%                                   ^^^^^^^^^^^^^ constant.language.matlab
+
+% A single i or j should not be highlighted as built-in constant, because they
+% usually refer to index or loop variables. For the imaginary unit use 1i instead.
+  i; j
+% ^ - constant.language
+%    ^ - constant.language
+
+
+%---------------------------------------------
 % Built-in variables
 
   ans
