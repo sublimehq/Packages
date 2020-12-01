@@ -5,30 +5,33 @@
 % Matlab OOP test
 
 classdef (Sealed = false) classname < baseclass
-% <- keyword.other
+%^^^^^^^ keyword.declaration.class.matlab
 %         ^ variable.parameter
 %                ^ keyword.operator.assignment
 %                  ^ constant.language
 %                         ^ entity.name.class
 %                                     ^ entity.other.inherited-class
    properties (SetAccess = private, GetAccess = true)
-%  ^ keyword.other
+%  ^^^^^^^^^^ keyword.declaration.properties.matlab
 %              ^ variable.parameter
 %                          ^ constant.language
 %                                   ^ variable.parameter
       PropName
    end
-%  ^ keyword.control
+%  ^^^ keyword.control.matlab
+
    methods
-%  ^ keyword.other
+%  ^^^^^^^ keyword.declaration.methods.matlab
       methodName
    end
+
    events
-%  ^ keyword.other
+%  ^^^^^^ keyword.declaration.events.matlab
       EventName
    end
+
    enumeration
-%  ^ keyword.other
+%  ^^^^^^^^^^^ keyword.declaration.enumeration.matlab
       EnumName
    end
 end
@@ -147,7 +150,7 @@ header = ['Last Name, ',      ... comment
 % Function
 
 function y = average(x)
-% <- keyword.other
+%^^^^^^^ keyword.declaration.function.matlab
 %        ^ variable.parameter.output.function.matlab
 %            ^^^^^^^ entity.name.function.matlab
 %                    ^ variable.parameter.input.function.matlab
@@ -159,7 +162,7 @@ function y = average(x)
 end
 
 function [m,s] = stat(x)
-% <- keyword.other
+%^^^^^^^ keyword.declaration.function.matlab
 %         ^ variable.parameter.output.function.matlab
 %          ^ -variable.parameter.output.function.matlab
 %           ^ variable.parameter.output.function.matlab
@@ -180,25 +183,25 @@ function m = avg(x,n)
 end
 
 function foo(bar)
-% <- keyword.other.matlab
+%^^^^^^^ keyword.declaration.function.matlab
 %        ^^^ entity.name.function.matlab
 %            ^^^ meta.function.parameters.matlab variable.parameter.input.function.matlab
 end
 
 function x = foo
-% <- keyword.other.matlab
+%^^^^^^^ keyword.declaration.function.matlab
 %        ^ variable.parameter.output.function.matlab
 %          ^ keyword.operator.assignment.matlab
 %            ^^^ entity.name.function.matlab
 end
 
 function foo
-% <- keyword.other.matlab
+%^^^^^^^ keyword.declaration.function.matlab
 %        ^^^ entity.name.function.matlab
 end
 
 function foo % with comment
-% <- keyword.other.matlab
+%^^^^^^^ keyword.declaration.function.matlab
 %        ^^^ entity.name.function.matlab
 end
 
@@ -399,5 +402,5 @@ s1="00:06:57";
 
 %---------------------------------------------
 parfor x = 1:10
-%^ keyword.control.matlab
+%^^^^^ keyword.control.loop.matlab
 end

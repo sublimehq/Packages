@@ -49,7 +49,7 @@ contexts:
       captures:
         1: punctuation.definition.comment.matlab
   all_matlab_keywords:
-    - include: matlab_keyword_control
+    - include: keywords
     - include: matlab_oop
     - include: builtin_constants
     - include: builtin_variables
@@ -108,7 +108,7 @@ contexts:
   function:
     - match: '^\s*(function)\b'
       captures:
-        1 : keyword.other.matlab
+        1 : keyword.declaration.function.matlab
       push:
         - match: \b(\w+)\s+(=)
           captures:
@@ -145,15 +145,30 @@ contexts:
   builtin_constants:
     - match: \b(eps|false|Inf|inf|intmax|intmin|namelengthmax|NaN|nan|on|off|realmax|realmin|true|pi)\b
       scope: constant.language.matlab
-  matlab_keyword_control:
-    # Control keywords
-    - match: \b(break|case|catch|continue|else|elseif|end|for|parfor|if|otherwise|pause|rethrow|return|start|startat|stop|switch|try|wait|while)\b
+  # all MATLAB keywords: break|case|catch|classdef|continue|else|elseif|end|for|function|global|if|otherwise|parfor|persistent|return|spmd|switch|try|while
+  # https://www.mathworks.com/help/matlab/ref/iskeyword.html
+  keywords:
+    - match: \b(?:if|else|elseif|switch|case|otherwise)\b
+      scope: keyword.control.conditional.matlab
+    - match: \b(?:for|parfor|while)\b
+      scope: keyword.control.loop.matlab
+    - match: \b(?:break|continue|return|pause)\b
+      scope: keyword.control.flow.matlab
+    - match: \b(?:try|catch)\b
+      scope: keyword.control.exception.matlab
+    - match: \bspmd\b
+      scope: keyword.control.parallel.matlab
+    - match: \bend\b
       scope: keyword.control.matlab
+    - match: \b(?:global|persistent)\b
+      scope: storage.modifier.matlab
   matlab_keyword_desktop:
     # Desktop Tools and Development
     - match: \b(addpath|assignin|builddocsearchdb|cd|checkin|checkout|clc|clear|clipboard|cmopts|commandhistory|commandwindow|computer|copyfile|customverctrl|dbclear|dbcont|dbdown|dbquit|dbstack|dbstatus|dbstep|dbstop|dbtype|dbup|debug|demo|diary|dir|doc|docopt|docsearch|dos|echodemo|edit|exit|fileattrib|filebrowser|finish|format|genpath|getenv|grabcode|help|helpbrowser|helpwin|home|hostid|info|keyboard|license|lookfor|ls|matlab|matlabrc|matlabroot|memory|mkdir|mlint|mlintrpt|more|movefile|notebook|openvar|pack|partialpath|path|path2rc|pathdef|pathsep|pathtool|perl|playshow|prefdir|preferences|profile|profsave|publish|pwd|quit|recycle|rehash|restoredefaultpath|rmdir|rmpath|savepath|setenv|startup|support|system|toolboxdir|type|undocheckout|unix|ver|verctrl|verLessThan|version|web|what|whatsnew|which|winqueryreg|workspace)\b|(^\s*!.*$)
       scope: keyword.desktop.matlab
   builtin_functions:
+    - match: \b(rethrow|start|startat|stop|wait)\b
+      scope: keyword.control.matlab
     # Operator keywords
     - match: \b(all|and|any|bitand|bitcmp|bitget|bitmax|bitor|bitset|bitshift|bitxor|eq|ge|gt|isa|isappdata|iscell|iscellstr|ischar|iscom|isdir|isempty|isequal|isequalwithequalnans|isevent|isfield|isfinite|isfloat|isglobal|ishandle|ishold|isinf|isinteger|isinterface|isjava|iskeyword|isletter|islogical|ismac|ismember|ismethod|isnan|isnumeric|isobject|ispc|ispref|isprime|isprop|isreal|isscalar|issorted|isspace|issparse|isstrprop|isstruct|isstudent|isunix|isvarname|isvector|le|lt|mislocked|or|ne|not|setxor|union|unique|xor)\b
       scope: keyword.operator.matlab
@@ -161,7 +176,7 @@ contexts:
     - match: \b(addOptional|addParamValue|addRequired|addtodate|arrayfun|assert|blanks|builtin|calendar|cell|celldisp|cellfun|cellplot|clock|cputime|createCopy|datatipinfo|date|datenum|datestr|datevec|dbmex|deal|deblank|depdir|depfun|echo|eomday|error|etime|eval|evalc|evalin|exist|feval|fieldnames|findstr|func2str|genvarname|getfield|global|inferiorto|inmem|intersect|intwarning|lasterr|lasterror|lastwarn|loadobj|lower|methods|methodsview|mex|mexext|mfilename|mlock|munlock|nargchk|nargoutchk|now|orderfields|parse|pcode|regexp|regexpi|regexprep|regexptranslate|rmfield|run|saveobj|setdiff|setfield|sprintf|sscanf|strcat|strcmp|strcmpi|strfind|strings|strjust|strmatch|strncmp|strncmpi|strread|strrep|strtok|strtrim|structfun|strvcat|subsasgn|subsindex|subsref|substruct|superiorto|swapbytes|symvar|tic|timer|timerfind|timerfindall|toc|typecast|upper|warning|weekday|who|whos)\b
       scope: keyword.other.matlab
     # Storage types
-    - match: \b(class|double|function|functions|input|inputname|inputParser|int16|int32|int64|int8|logical|single|struct|uint16|uint32|uint64|uint8)\b
+    - match: \b(class|double|functions|input|inputname|inputParser|int16|int32|int64|int8|logical|single|struct|uint16|uint32|uint64|uint8)\b
       scope: storage.type.matlab
     # Storage modifiers
     - match: \b(base2dec|bin2dec|cast|cell2mat|cell2struct|cellstr|char|dec2base|dec2bin|dec2hex|hex2dec|hex2num|int2str|mat2cell|mat2str|num2cell|native2unicode|num2hex|num2str|persistent|str2double|str2func|str2mat|str2num|struct2cell|unicode2native)\b
@@ -298,7 +313,7 @@ contexts:
       scope: variable.language.matlab
   matlab_oop:
     - match: \b(classdef)\b
-      scope: keyword.other.oop.matlab
+      scope: keyword.declaration.class.matlab
       push:
         - meta_scope: meta.classdef.matlab
         - match: \(
@@ -324,7 +339,7 @@ contexts:
           pop: true
     - match: \b(properties)\s+(\()
       captures:
-        1: keyword.other.oop.matlab
+        1: keyword.declaration.properties.matlab
         2: punctuation.definition.properties.begin.matlab
       push:
         - match: \)
@@ -338,8 +353,14 @@ contexts:
             2: keyword.operator.assignment.matlab
         - match: \b(false|true|public|protected|private)\b
           scope: constant.language.matlab
-    - match: \b(properties|events|enumeration)\b
-      scope: keyword.other.oop.matlab
+    - match: \bproperties\b
+      scope: keyword.declaration.properties.matlab
+    - match: \bmethods\b
+      scope: keyword.declaration.methods.matlab
+    - match: \bevents\b
+      scope: keyword.declaration.events.matlab
+    - match: \benumeration\b
+      scope: keyword.declaration.enumeration.matlab
   not_equal_invalid:
     # Not equal is written ~= not !=.
     - match: \s*!=\s*
