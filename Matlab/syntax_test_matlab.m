@@ -302,7 +302,7 @@ function parentfun
 %           ^ variable.parameter.output.matlab
 %             ^ keyword.operator.assignment.matlab
 %               ^^^^^^^^^ entity.name.function.matlab
-   end 
+   end
 end
 
 function myFunction(x)
@@ -348,8 +348,11 @@ end
   ans
 % ^^^ variable.language.matlab
 
-X(1:2:end) 
+X(1:2:end)
 %     ^^^ variable.language.matlab
+
+C{end}
+% ^^^ variable.language.matlab
 
 
 %---------------------------------------------

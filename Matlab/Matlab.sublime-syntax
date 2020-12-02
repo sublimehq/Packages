@@ -63,7 +63,6 @@ contexts:
   allofem:
     - include: parens
     - include: braces
-    - include: end_in_parens
     - include: brackets
     - include: string
     - include: all_matlab_keywords
@@ -94,9 +93,10 @@ contexts:
         - match: \}
           scope: punctuation.section.braces.end.matlab
           set: transpose
+        - include: end_in_parens
         - include: allofem
   end_in_parens:
-    # end as operator symbol
+    # end as index variable
     - match: \bend\b
       scope: variable.language.matlab
   escaped_quote:
@@ -473,8 +473,8 @@ contexts:
           scope: punctuation.section.parens.end.matlab
           # pop: true
           set: transpose
-        - include: allofem
         - include: end_in_parens
+        - include: allofem
   special_characters:
     # Operator symbols
     - match: '((\%([\+\-0]?\d{0,3}(\.\d{1,3})?)(c|d|e|E|f|g|G|s|((b|t)?(o|u|x|X))))|\%\%|\\(b|f|n|r|t|\\))'
