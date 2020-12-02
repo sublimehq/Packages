@@ -14,7 +14,6 @@ contexts:
     - include: brackets
     - include: braces
     - include: parens
-    - include: transpose
     - include: string
     - include: members
     - include: all_matlab_keywords
@@ -29,7 +28,7 @@ contexts:
     - match: ({{id}})(\.)({{id}})
       captures:
         2: punctuation.accessor.dot.matlab
-      push: transpose_post_parens
+      push: transpose
   all_matlab_comments:
     - match: ^\s*(%\{)\s*\n
       captures:
@@ -66,7 +65,6 @@ contexts:
     - include: braces
     - include: end_in_parens
     - include: brackets
-    - include: transpose
     - include: string
     - include: all_matlab_keywords
     - include: all_matlab_comments
@@ -82,7 +80,7 @@ contexts:
         - meta_scope: meta.brackets.matlab
         - match: '\]'
           scope: punctuation.section.brackets.end.matlab
-          set: transpose_post_parens
+          set: transpose
         - include: allofem
   constants_override:
     # The user is trying to override MATLAB constants and functions.
@@ -95,7 +93,7 @@ contexts:
         - meta_scope: meta.braces.matlab
         - match: \}
           scope: punctuation.section.braces.end.matlab
-          set: transpose_post_parens
+          set: transpose
         - include: allofem
   end_in_parens:
     # end as operator symbol
@@ -474,7 +472,7 @@ contexts:
         - match: \)
           scope: punctuation.section.parens.end.matlab
           # pop: true
-          set: transpose_post_parens
+          set: transpose
         - include: allofem
         - include: end_in_parens
   special_characters:
@@ -500,16 +498,8 @@ contexts:
           scope: punctuation.definition.string.end.matlab
           pop: true
   transpose:
-    - match: '\b({{id}})(\.?'')'
-      captures:
-        1 : meta.variable.other.valid.matlab
-        2 : keyword.operator.transpose.matlab
-  transpose_post_parens:
-    - match: '(\.?'')'
-      captures:
-        1 : keyword.operator.transpose.matlab
-      pop: true
-    - match: ''
+    - match: (?:\.?\')?
+      scope: keyword.operator.transpose.matlab
       pop: true
   unescaped_quote:
     - match: "'(?=.)"
@@ -518,6 +508,7 @@ contexts:
     # Valid variable. Added meta to disable highlighting
     - match: '\b{{id}}\b'
       scope: meta.variable.other.valid.matlab
+      push: transpose
   variable_assignment:
     # Incomplete variable assignment.
     - match: '=\s*\.{0,2}\s*;?\s*$\n?'
