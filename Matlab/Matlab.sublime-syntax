@@ -12,7 +12,7 @@ contexts:
     - include: function_declaration
     - include: constants_override
     - include: brackets
-    - include: curlybrackets
+    - include: braces
     - include: parens
     - include: transpose
     - include: string
@@ -63,7 +63,7 @@ contexts:
     - include: toolbox_functions
   allofem:
     - include: parens
-    - include: curlybrackets
+    - include: braces
     - include: end_in_parens
     - include: brackets
     - include: transpose
@@ -88,16 +88,15 @@ contexts:
     # The user is trying to override MATLAB constants and functions.
     - match: '(^|\;)\s*(ans|i|j|inf|Inf|nan|NaN|eps|end)\s*=[^=]'
       scope: meta.inappropriate.matlab
-  curlybrackets:
-    - match: '\{'
-      scope: meta.brackets.curly.matlab
+  braces:
+    - match: \{
+      scope: punctuation.section.braces.begin.matlab
       push:
-        - meta_content_scope: meta.brackets.curly.matlab
-        - match: '\}'
-          scope: meta.brackets.curly.matlab
+        - meta_scope: meta.braces.matlab
+        - match: \}
+          scope: punctuation.section.braces.end.matlab
           set: transpose_post_parens
         - include: allofem
-        - include: end_in_parens
   end_in_parens:
     # end as operator symbol
     - match: \bend\b

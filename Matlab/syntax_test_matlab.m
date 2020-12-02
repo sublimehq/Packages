@@ -81,7 +81,7 @@ end
 
 
 %---------------------------------------------
-% Syntax brackets/parens punctuation test
+% Parens, brackets, braces, punctuation
 
 x = [ 1.76 ]
 % <- source.matlab meta.variable.other.valid.matlab
@@ -90,6 +90,12 @@ x = [ 1.76 ]
 %     ^^^^ source.matlab meta.brackets.matlab meta.number.float.decimal.matlab constant.numeric.value.matlab
 %          ^ source.matlab punctuation.section.brackets.end.matlab
 
+C = {1, 2; 'text', {11; 22; 33}}  % 2x2 cell array
+%   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.braces.matlab
+%   ^ punctuation.section.braces.begin.matlab
+%                  ^^^^^^^^^^^^ meta.braces.matlab meta.braces.matlab
+%                  ^ punctuation.section.braces.begin.matlab
+%                             ^^ punctuation.section.braces.end.matlab
 
 xAprox = fMetodoDeNewton( xi )
 %  <- source.matlab meta.variable.other.valid.matlab
