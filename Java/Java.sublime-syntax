@@ -939,18 +939,29 @@ contexts:
     - include: annotation-else-pop
 
   method-signature:
+    - include: method-void-signature
+    - include: method-result-signature
+
+  method-void-signature:
     # void indicates a method for sure
     - match: (?=void{{break}})
       set:
         - method-maybe-parameters
-        - method-identifier
+        - method-maybe-identifier
         - method-result-modifier
         - method-void-type
+
+  method-void-type:
+    - match: void
+      scope: storage.type.void.java
+      pop: 1
+
+  method-result-signature:
     # a method only if parameter list found
     - match: (?=\S)
       set:
         - method-expect-parameters
-        - method-identifier
+        - method-expect-identifier
         - method-result-modifier
         - method-result-type
 
@@ -958,23 +969,25 @@ contexts:
     - include: primitive-type
     - include: object-type
     - include: illegal-var-type
-    - include: member-else-fail
-
-  method-void-type:
-    - match: void{{break}}
-      scope: storage.type.void.java
-      pop: 1
+    - include: else-pop
 
   method-result-modifier:
     - clear_scopes: 1
     - meta_scope: meta.function.return-type.java
     - include: maybe-array-modifiers
 
+  method-expect-identifier:
+    - include: method-identifier
+    - include: member-else-fail
+
+  method-maybe-identifier:
+    - include: method-identifier
+    - include: else-pop
+
   method-identifier:
     - match: '{{identifier}}'
       scope: entity.name.function.java
       pop: 1
-    - include: else-pop
 
   method-expect-parameters:
     - meta_content_scope: meta.function.identifier.java
