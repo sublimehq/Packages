@@ -169,83 +169,141 @@ x = 5
 
 header = ['Last Name, ',      ... comment
 %        ^^^^^^^^^^^^^^^^^^^^^ meta.brackets.matlab - comment
-%                             ^^^ meta.brackets.matlab punctuation.separator.continuation.matlab
+%                             ^^^ meta.brackets.matlab punctuation.separator.continuation.line.matlab
 %                                ^ meta.brackets.matlab - punctuation - comment
 %                                 ^^^^^^^^ meta.brackets.matlab comment.line.matlab - punctuation
           'First Name, ',     ... comment
 %        ^^^^^^^^^^^^^^^^^^^^^ meta.brackets.matlab - comment
-%                             ^^^ punctuation.separator.continuation.matlab
+%                             ^^^ punctuation.separator.continuation.line.matlab
 %                                ^ meta.brackets.matlab - punctuation - comment
 %                                 ^^^^^^^^ meta.brackets.matlab comment.line.matlab - punctuation
           'Alias Name, ',     ...
 %        ^^^^^^^^^^^^^^^^^^^^^ meta.brackets.matlab - comment
-%                             ^^^ punctuation.separator.continuation.matlab
+%                             ^^^ punctuation.separator.continuation.line.matlab
 %                                ^ meta.brackets.matlab - punctuation - comment
       ... 'Middle Initial, ', ...
 %^^^^^ meta.brackets.matlab - comment
-%     ^^^ meta.brackets.matlab punctuation.separator.continuation.matlab
+%     ^^^ meta.brackets.matlab punctuation.separator.continuation.line.matlab
 %        ^ meta.brackets.matlab - punctuation - comment
 %         ^^^^^^^^^^^^^^^^^^^^^^^^ meta.brackets.matlab comment.line.matlab - punctuation
           'Title']
 %^^^^^^^^^^^^^^^^^ meta.brackets.matlab - comment
 
+
 %---------------------------------------------
-% Function
+% Function declaration
 
-function y = average(x)
+function myOutput = myFunction(x)  % function with one output
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.matlab
+%                             ^^^ meta.function.parameters.matlab
 %^^^^^^^ keyword.declaration.function.matlab
-%        ^ variable.parameter.output.function.matlab
-%            ^^^^^^^ entity.name.function.matlab
-%                    ^ variable.parameter.input.function.matlab
-   if ~isvector(x)
-%     ^ keyword.operator.logical.matlab
-       error('Input must be a vector')
+%        ^^^^^^^^ variable.parameter.output.matlab
+%                 ^ keyword.operator.assignment.matlab
+%                   ^^^^^^^^^^ entity.name.function.matlab
+%                             ^ punctuation.section.parens.begin.matlab
+%                              ^ variable.parameter.input.matlab
+%                               ^ punctuation.section.parens.end.matlab
+%                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.percentage.matlab
+end
+
+function [one, two, three] = myFunction(x)  % funtion with more than one output
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.matlab
+%                                      ^^^ meta.function.parameters.matlab
+%^^^^^^^ keyword.declaration.function.matlab
+%        ^ punctuation.section.brackets.begin.matlab
+%         ^^^ variable.parameter.output.matlab
+%            ^ punctuation.separator.sequence.matlab
+%              ^^^ variable.parameter.output.matlab
+%                 ^ punctuation.separator.sequence.matlab
+%                   ^^^^^ variable.parameter.output.matlab
+%                        ^ punctuation.section.brackets.end.matlab
+%                          ^ keyword.operator.assignment.matlab
+%                            ^^^^^^^^^^ entity.name.function.matlab
+%                                      ^ punctuation.section.parens.begin.matlab
+%                                       ^ variable.parameter.input.matlab
+%                                        ^ punctuation.section.parens.end.matlab
+%                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.percentage.matlab
+end
+
+function myOutput = myFunction(x, y, z)  % function with one output and more than one input
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.matlab
+%                             ^^^^^^^^^ meta.function.parameters.matlab
+%^^^^^^^ keyword.declaration.function.matlab
+%        ^^^^^^^^ variable.parameter.output.matlab
+%                 ^ keyword.operator.assignment.matlab
+%                   ^^^^^^^^^^ entity.name.function.matlab
+%                             ^ punctuation.section.parens.begin.matlab
+%                              ^ variable.parameter.input.matlab
+%                               ^ punctuation.separator.sequence.matlab
+%                                 ^ variable.parameter.input.matlab
+%                                  ^ punctuation.separator.sequence.matlab
+%                                    ^ variable.parameter.input.matlab
+%                                     ^ punctuation.section.parens.end.matlab
+%                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.percentage.matlab
+end
+
+function myOutput = myFunction(x, ... function with line continuation in input arguments
+   y, ... comment
+   z  ... comment
+)
+end
+
+function myOutput = myFunction  % function without input
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.matlab
+%^^^^^^^ keyword.declaration.function.matlab
+%        ^^^^^^^^ variable.parameter.output.matlab
+%                 ^ keyword.operator.assignment.matlab
+%                   ^^^^^^^^^^ entity.name.function.matlab
+%                               ^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.percentage.matlab
+end
+
+function myFunction(x)  % function without output
+%^^^^^^^^^^^^^^^^^^ meta.function.matlab
+%                  ^^^ meta.function.parameters.matlab
+%^^^^^^^ keyword.declaration.function.matlab
+%        ^^^^^^^^^^ entity.name.function.matlab
+%                  ^ punctuation.section.parens.begin.matlab
+%                   ^ variable.parameter.input.matlab
+%                    ^ punctuation.section.parens.end.matlab
+%                       ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.percentage.matlab
+end
+
+function [] = myFunction(x)  % function without output
+%^^^^^^^^^^^^^^^^^^^^^^^ meta.function.matlab
+%                       ^^^ meta.function.parameters.matlab
+%^^^^^^^ keyword.declaration.function.matlab
+%        ^ punctuation.section.brackets.begin.matlab
+%         ^ punctuation.section.brackets.end.matlab
+%           ^ keyword.operator.assignment.matlab
+%             ^^^^^^^^^^ entity.name.function.matlab
+%                       ^ punctuation.section.parens.begin.matlab
+%                        ^ variable.parameter.input.matlab
+%                         ^ punctuation.section.parens.end.matlab
+%                            ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.percentage.matlab
+end
+
+function myFunction  % function without output and without input
+%^^^^^^^^^^^^^^^^^^ meta.function.matlab
+%^^^^^^^ keyword.declaration.function.matlab
+%        ^^^^^^^^^^ entity.name.function.matlab
+%                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.percentage.matlab
+end
+
+function parentfun
+   function y = nestedfun  % nested function
+%  ^^^^^^^^^^^^^^^^^^^^^^ meta.function.matlab
+%  ^^^^^^^^ keyword.declaration.function.matlab
+%           ^ variable.parameter.output.matlab
+%             ^ keyword.operator.assignment.matlab
+%               ^^^^^^^^^ entity.name.function.matlab
+   end 
+end
+
+function myFunction(x)
+   arguments  % function argument validation block
+%  ^^^^^^^^^ keyword.other.arguments.matlab
+      x (1,1) double {mustBePositive} = 1.0
    end
-   y = sum(x)/length(x);
-end
-
-function [m,s] = stat(x)
-%^^^^^^^ keyword.declaration.function.matlab
-%         ^ variable.parameter.output.function.matlab
-%          ^ -variable.parameter.output.function.matlab
-%           ^ variable.parameter.output.function.matlab
-%              ^ keyword.operator.assignment.matlab
-%                ^^^^ entity.name.function.matlab
-%                     ^ variable.parameter.input.function.matlab
-   n = length(x);
-   m = sum(x)/n;
-   s = sqrt(sum((x-m).^2/n));
-end
-
-function m = avg(x,n)
-%        ^ variable.parameter.output.function.matlab
-%            ^^^ entity.name.function.matlab
-%                ^ variable.parameter.input.function.matlab
-%                  ^ variable.parameter.input.function.matlab
-   m = sum(x)/n;
-end
-
-function foo(bar)
-%^^^^^^^ keyword.declaration.function.matlab
-%        ^^^ entity.name.function.matlab
-%            ^^^ meta.function.parameters.matlab variable.parameter.input.function.matlab
-end
-
-function x = foo
-%^^^^^^^ keyword.declaration.function.matlab
-%        ^ variable.parameter.output.function.matlab
-%          ^ keyword.operator.assignment.matlab
-%            ^^^ entity.name.function.matlab
-end
-
-function foo
-%^^^^^^^ keyword.declaration.function.matlab
-%        ^^^ entity.name.function.matlab
-end
-
-function foo % with comment
-%^^^^^^^ keyword.declaration.function.matlab
-%        ^^^ entity.name.function.matlab
 end
 
 

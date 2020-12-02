@@ -9,7 +9,7 @@ variables:
   id: '[A-Za-z_]\w*'
 contexts:
   main:
-    - include: function
+    - include: function_declaration
     - include: constants_override
     - include: brackets
     - include: curlybrackets
@@ -48,6 +48,11 @@ contexts:
       scope: comment.line.percentage.matlab
       captures:
         1: punctuation.definition.comment.matlab
+  line_continuation:
+    - match: (\.{3})\s*(\S.*\n?)?
+      captures:
+        1: punctuation.separator.continuation.line.matlab
+        2: comment.line.matlab
   all_matlab_keywords:
     - include: keywords
     - include: class_declaration
@@ -69,10 +74,7 @@ contexts:
     - include: number
     - include: variable_invalid
     - include: operators
-    - match: (\.\.\.)\s*(\S.*\n?)?
-      captures:
-        1: punctuation.separator.continuation.matlab
-        2: comment.line.matlab
+    - include: line_continuation
   brackets:
     - match: '\['
       scope: punctuation.section.brackets.begin.matlab
@@ -103,45 +105,45 @@ contexts:
   escaped_quote:
     - match: "''"
       scope: constant.character.escape.matlab
-
-  # Function
-  function:
-    - match: '^\s*(function)\b'
-      captures:
-        1 : keyword.declaration.function.matlab
+  function_declaration:
+    - match: \bfunction\b
+      scope: keyword.declaration.function.matlab
       push:
-        - match: \b(\w+)\s+(=)
+        - meta_scope: meta.function.matlab
+        - include: eol-pop
+        - match: (\w+)\s+(=)
           captures:
-            1: variable.parameter.output.function.matlab
+            1: variable.parameter.output.matlab
             2: keyword.operator.assignment.matlab
         - match: '\['
-          scope: punctuation.section.brackets.matlab
+          scope: punctuation.section.brackets.begin.matlab
           push:
-            - match: \b\w+\b
-              scope: variable.parameter.output.function.matlab
+            - match: \w+
+              scope: variable.parameter.output.matlab
             - match: ','
-              scope: punctuation.separator.matlab
+              scope: punctuation.separator.sequence.matlab
             - match: '\]'
-              scope: punctuation.section.brackets.matlab
+              scope: punctuation.section.brackets.end.matlab
               pop: true
-        - match: '(=)?\s*\b(\w+)\s*(\()'
-          captures:
-            1: keyword.operator.assignment.matlab
-            2: entity.name.function.matlab
-            3: punctuation.section.parens.begin.matlab
+        - match: =
+          scope: keyword.operator.assignment.matlab
+        - match: \w+
+          scope: entity.name.function.matlab
+        - match: (?=\()
           set:
             - meta_scope: meta.function.parameters.matlab
-            - match: \b\w+\b
-              scope: variable.parameter.input.function.matlab
-            - match: ','
-              scope: punctuation.separator.matlab
-            - match: '\)'
+            - include: line_continuation
+            - match: \(
+              scope: punctuation.section.parens.begin.matlab
+            - match: \w+
+              scope: variable.parameter.input.matlab
+            - match: \,
+              scope: punctuation.separator.sequence.matlab
+            - match: \)
               scope: punctuation.section.parens.end.matlab
               pop: true
-        - match: \b(\w+)\s*(?=%|$)
-          captures:
-            1: entity.name.function.matlab
-          pop: true
+    - match: \barguments\b
+      scope: keyword.other.arguments.matlab
   builtin_constants:
     - match: \b(eps|false|Inf|inf|intmax|intmin|namelengthmax|NaN|nan|on|off|realmax|realmin|true|pi)\b
       scope: constant.language.matlab
