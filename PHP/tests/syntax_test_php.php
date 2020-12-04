@@ -1755,7 +1755,7 @@ echo <<< JAVASCRIPT
 //       ^^^^^^^^^^ keyword.operator.heredoc
 var foo = 1;
 //^^^^^^^^^^ meta.embedded.js source.js
-// <- storage.type
+// <- keyword.declaration
 //  ^^^ variable.other.readwrite
 //        ^ constant.numeric
 $var
