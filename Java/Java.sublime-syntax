@@ -307,7 +307,7 @@ contexts:
     - match: ''
       set:
         - declaration-list
-        - declaration-assignment
+        - declaration-maybe-assignment
         - declaration-expect-identifier
         - maybe-array-modifiers
         - declaration-type
@@ -329,7 +329,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.comma.java
       push:
-        - declaration-assignment
+        - declaration-maybe-assignment
         - declaration-maybe-identifier
     - include: else-pop
 
@@ -350,9 +350,32 @@ contexts:
       scope: variable.other.readwrite.java
       set: [illegal-members, maybe-array-modifiers]
 
-  declaration-assignment:
+  declaration-maybe-assignment:
     - include: variable-initializer-assignment
     - include: else-pop
+
+###[ LOCAL VARIABLE DECLARATION OR ASSIGNMENT ]################################
+
+  local-variable-declarations:
+    - match: (?=[{{id_first_char}}@<])
+      branch_point: local-variable-declarations
+      branch:
+        - local-variable-declaration
+        - local-variable-declaration-identifier
+
+  local-variable-declaration:
+    - match: ''
+      set:
+        - declaration-list
+        - declaration-maybe-assignment
+        - local-variable-declaration-identifier
+        - maybe-array-modifiers
+        - declaration-type
+
+  local-variable-declaration-identifier:
+    - include: declaration-identifier
+    - match: (?=\S)
+      fail: local-variable-declarations
 
 ###[ PACKAGE DECLARATIONS ]####################################################
 
@@ -1214,7 +1237,7 @@ contexts:
     - match: ';'
       scope: punctuation.terminator.java
       set: for-parameters-condition
-    - include: declarations
+    - include: local-variable-declarations
     - include: expressions
     - include: expression-terminator
 
@@ -1386,8 +1409,8 @@ contexts:
   try-parameters-common:
     - meta_scope: meta.group.java
     - include: group-end
+    - include: local-variable-declarations
     - include: punctuation-terminator-semicolon
-    - include: declarations
     - include: expressions
     - include: expression-terminator
 
@@ -2089,6 +2112,7 @@ contexts:
       scope: keyword.operator.comparison.java
     - match: '='
       scope: keyword.operator.assignment.java
+      push: variable-initializer
     - match: '\+\+?|\-\-?|[*/%]'
       scope: keyword.operator.arithmetic.java
     - match: '!|&&|\|\|'
