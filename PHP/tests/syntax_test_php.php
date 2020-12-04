@@ -2041,7 +2041,7 @@ var_dump(new C(42));
 
 <script>
     var foo = 4;
-//  ^ storage.type
+//  ^ keyword.declaration
 //      ^^^ variable.other.readwrite
 //          ^ keyword.operator
 //            ^ constant.numeric
