@@ -509,7 +509,7 @@ contexts:
 
   variable-declaration:
     - match: (?:const|let|var){{identifier_break}}
-      scope: storage.type.js
+      scope: keyword.declaration.js
       set:
         - expect-semicolon
         - variable-binding-list-top
