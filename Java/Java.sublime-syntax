@@ -1036,7 +1036,7 @@ contexts:
       scope: punctuation.separator.comma.java
       push:
         - parameter-maybe-identifier
-        - parameter-variadic
+        - parameter-maybe-variadic
         - maybe-array-modifiers
         - parameter-type
     - include: expression-terminator
@@ -1692,7 +1692,7 @@ contexts:
     - match: ''
       set:
         - lambda-parameter-declaration-identifier
-        - parameter-variadic
+        - parameter-maybe-variadic
         - maybe-array-modifiers
         - declaration-type
 
@@ -1844,7 +1844,7 @@ contexts:
       set:
         - immediately-pop2
         - parameter-maybe-identifier
-        - parameter-variadic
+        - parameter-maybe-variadic
         - maybe-array-modifiers
         - parameter-type
 
@@ -1855,7 +1855,7 @@ contexts:
     - include: illegal-var-type
     - include: maybe-object-type
 
-  parameter-variadic:
+  parameter-maybe-variadic:
     - match: \.\.\.
       scope: keyword.operator.variadic.java
       pop: 1
