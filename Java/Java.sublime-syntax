@@ -1748,7 +1748,7 @@ contexts:
 
   receiver-unqualified-type:
     - match: '{{identifier}}'
-      scope: support.class.java
+      scope: storage.type.class.java
       push:
         - receiver-unqualified-type-end
         - maybe-array-modifiers
@@ -1766,7 +1766,7 @@ contexts:
   receiver-qualified-type:
     - meta_scope: meta.path.java
     - match: '{{identifier}}'
-      scope: support.class.java
+      scope: storage.type.class.java
       push:
         - receiver-qualified-type-end
         - qualified-object-type-arguments
@@ -1811,7 +1811,7 @@ contexts:
   receiver-qualified-identifier-path:
     - meta_scope: meta.path.java
     - match: '{{id}}'
-      scope: support.class.java
+      scope: storage.type.class.java
       push:
         - receiver-qualified-identifier-accessor
         - maybe-type-argument
@@ -2225,7 +2225,7 @@ contexts:
 
   qualified-constant-class:
     - match: '{{identifier}}'
-      scope: support.class.java
+      scope: storage.type.class.java
       set:
         - qualified-constant-class-accessor
         - maybe-type-argument
@@ -2394,14 +2394,14 @@ contexts:
   uppercase-identifiers:
     # Popular JDK classes
     - match: (?:UUID|UR[LI]){{break}}
-      scope: support.class.java
+      scope: storage.type.class.java
       push:
         - object-types-child
         - maybe-array-modifiers
         - maybe-type-argument
     # Generic type variable
     - match: \p{Lu}{{break}}
-      scope: support.class.java
+      scope: storage.type.class.java
       push:
         - object-types-child
         - maybe-array-modifiers
@@ -2423,7 +2423,7 @@ contexts:
         - include: punctuation-accessor-dot
         - include: object-types-no-fqn
     - match: '{{classcase_id}}'
-      scope: support.class.java
+      scope: storage.type.class.java
       push:
         - object-types-child
         - maybe-array-modifiers
@@ -2431,7 +2431,7 @@ contexts:
 
   object-types-no-fqn:
     - match: '{{classcase_id}}'
-      scope: support.class.java
+      scope: storage.type.class.java
       set:
         - object-types-child
         - maybe-array-modifiers
@@ -2471,7 +2471,7 @@ contexts:
 
   unqualified-object-type:
     - match: '{{identifier}}'
-      scope: support.class.java
+      scope: storage.type.class.java
       push:
         - unqualiefied-object-type-end
         - maybe-type-argument
@@ -2502,7 +2502,7 @@ contexts:
 
   qualified-object-type-class:
     - match: '{{identifier}}'
-      scope: support.class.java
+      scope: storage.type.class.java
       push:
         - qualified-object-type-end
         - qualified-object-type-arguments
