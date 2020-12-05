@@ -1035,7 +1035,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.comma.java
       push:
-        - parameter-identifier
+        - parameter-maybe-identifier
         - parameter-variadic
         - maybe-array-modifiers
         - parameter-type
@@ -1365,7 +1365,7 @@ contexts:
       scope: punctuation.section.group.begin.java
       set:
         - catch-parameters-end
-        - parameter-identifier
+        - parameter-maybe-identifier
         - catch-parameters-typelist
         - maybe-illegal-array-modifiers
         - catch-parameter-type
@@ -1683,29 +1683,23 @@ contexts:
     - match: (?=[{{id_first_char}}@<])
       branch_point: lambda-parameter-declaration
       branch:
-        - lambda-implicit-parameter
-        - lambda-explicit-parameter
+        - lambda-parameter-declaration
+        - lambda-parameter-declaration-identifier
     - include: punctuation-separator-comma
     - include: expect-expression-terminator
 
-  lambda-implicit-parameter:
-    - match: '{{identifier}}'
-      scope: variable.parameter.java
-      push:
-        - match: (?=[=,:;)}])
-          pop: 2
-        - match: (?=\S)
-          fail: lambda-parameter-declaration
-    - match: (?=\S)
-      fail: lambda-parameter-declaration
-
-  lambda-explicit-parameter:
+  lambda-parameter-declaration:
     - match: ''
       set:
-        - parameter-identifier
+        - lambda-parameter-declaration-identifier
         - parameter-variadic
         - maybe-array-modifiers
         - declaration-type
+
+  lambda-parameter-declaration-identifier:
+    - include: parameter-identifier
+    - match: (?=\S)
+      fail: lambda-parameter-declaration
 
   lambdas:
     - match: ->
@@ -1849,7 +1843,7 @@ contexts:
     - match: ''
       set:
         - immediately-pop2
-        - parameter-identifier
+        - parameter-maybe-identifier
         - parameter-variadic
         - maybe-array-modifiers
         - parameter-type
@@ -1867,6 +1861,10 @@ contexts:
       pop: 1
     - include: annotation-else-pop
 
+  parameter-maybe-identifier:
+    - include: parameter-identifier
+    - include: else-pop
+
   parameter-identifier:
     - match: '{{identifier}}'
       scope: variable.parameter.java
@@ -1874,7 +1872,6 @@ contexts:
     - match: '{{variables}}{{break}}'
       scope: invalid.illegal.identifier.java
       set: [illegal-members, maybe-array-modifiers]
-    - include: else-pop
 
 ###[ VARIABLES ]###############################################################
 
