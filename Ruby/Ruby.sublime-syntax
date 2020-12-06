@@ -647,12 +647,10 @@ contexts:
         - match: '\]'
           pop: true
         - include: expressions
-    - match: '(::)?(\b[[:upper:]]\w*)(?=((\.|::)[[:alpha:]_]|\[))'
+    - match: '(::)?(\b[[:upper:]]\w*)(?=((\.|::)[[:alpha:]_]|\[))*'
       captures:
         1: punctuation.accessor.double-colon.ruby
-        2: support.class.ruby
-    - match: '\b[[:upper:]]\w*\b'
-      scope: variable.other.constant.ruby
+        2: support.class.ruby variable.other.constant.ruby
 
   well-known-methods:
     # exceptions
