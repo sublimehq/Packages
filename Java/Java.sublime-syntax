@@ -1798,12 +1798,14 @@ contexts:
       push: receiver-identifier-end
     - match: '{{identifier}}'
       scope: variable.parameter.java
-      push:
-        - match: (?={{accessor_dot}})
-          fail: receiver-identifier
-        - match: (?=\S)
-          fail: receiver-or-parameter
+      set: receiver-unqualified-identifier-end
     - include: annotation-else-pop2
+
+  receiver-unqualified-identifier-end:
+    - match: (?={{accessor_dot}})
+      fail: receiver-identifier
+    - match: (?=\S)
+      fail: receiver-or-parameter
 
   receiver-qualified-identifier:
     - match: ''
