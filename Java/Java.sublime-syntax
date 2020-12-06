@@ -161,23 +161,27 @@ contexts:
     # normal block comments
     - match: /\*
       scope: punctuation.definition.comment.begin.java
-      push:
-        - meta_include_prototype: false
-        - meta_scope: comment.block.java
-        - match: \*/
-          scope: punctuation.definition.comment.end.java
-          pop: 1
+      push: block-comment-common
+
+  block-comment-common:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.java
+    - match: \*/
+      scope: punctuation.definition.comment.end.java
+      pop: 1
 
   line-comments:
     - match: //+
       scope: punctuation.definition.comment.java
-      push:
-        - meta_include_prototype: false
-        - meta_scope: comment.line.double-slash.java
-        - match: (//+)?\n
-          captures:
-            1: punctuation.definition.comment.java
-          pop: 1
+      push: line-comment-common
+
+  line-comment-common:
+    - meta_include_prototype: false
+    - meta_scope: comment.line.double-slash.java
+    - match: (//+)?\n
+      captures:
+        1: punctuation.definition.comment.java
+      pop: 1
 
 ###[ ANNOTATIONS ]#############################################################
 
