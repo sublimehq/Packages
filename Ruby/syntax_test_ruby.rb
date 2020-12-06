@@ -1129,6 +1129,11 @@ class MyClass
 #         ^ support.class.ruby
 #                 ^ keyword.other.special-method.ruby
 
+  prepend ::Module.new
+# ^ keyword.other.special-method.ruby
+#         ^ punctuation.accessor.double-colon.ruby
+#           ^ support.class.ruby
+#                  ^ keyword.other.special-method.ruby
 
   A, B, C = :a, :b, :c
 # ^ meta.constant.ruby entity.name.constant.ruby
