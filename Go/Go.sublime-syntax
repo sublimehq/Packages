@@ -126,7 +126,7 @@ contexts:
         3: meta.punctuation.accessor.colon.go
         4: meta.variable.function.go
       push:
-        - meta_scope: comment.line.go meta.annotation.go
+        - meta_scope: meta.annotation.go comment.line.go
         - match: \S+
           scope: meta.variable.parameter.go
         # End the annotation scope at EOL, but stretch the comment scope
@@ -614,7 +614,7 @@ contexts:
 
   match-keyword-const:
     - match: \bconst\b
-      scope: storage.type.keyword.const.go
+      scope: keyword.declaration.const.go
       push:
         - match: \(
           scope: punctuation.section.parens.begin.go
@@ -680,7 +680,7 @@ contexts:
 
   match-keyword-func:
     - match: \bfunc\b
-      scope: storage.type.keyword.function.go
+      scope: keyword.declaration.function.go
       push:
         - include: match-comments
 
@@ -721,7 +721,6 @@ contexts:
 
   match-keyword-interface:
     - match: (?=\binterface\b)
-      scope: storage.type.keyword.interface.go
       push: pop-interface
 
   match-keyword-map:
@@ -760,7 +759,7 @@ contexts:
 
   match-keyword-type:
     - match: \btype\b
-      scope: storage.type.keyword.type.go
+      scope: keyword.declaration.type.go
       push:
         - include: match-comments
 
@@ -795,7 +794,7 @@ contexts:
 
   match-keyword-var:
     - match: \bvar\b
-      scope: storage.type.keyword.var.go
+      scope: keyword.declaration.var.go
       push:
         - match: \(
           scope: punctuation.section.parens.begin.go
@@ -985,7 +984,7 @@ contexts:
     - match: (?=\bstruct\b)
       set: pop-struct
     - match: \bfunc\b
-      scope: storage.type.keyword.function.go
+      scope: keyword.declaration.function.go
       set: pop-func-parameter-and-return-lists
     - match: (?={{ident}})
       set: pop-named-type
@@ -1000,7 +999,7 @@ contexts:
 
   pop-struct:
     - match: \bstruct\b
-      scope: storage.type.keyword.struct.go
+      scope: keyword.declaration.struct.go
       set:
         - include: match-comments
         - match: \{
@@ -1042,7 +1041,7 @@ contexts:
 
   pop-interface:
     - match: \binterface\b
-      scope: storage.type.keyword.interface.go
+      scope: keyword.declaration.interface.go
       set:
         - include: match-comments
         - match: \{
@@ -1079,7 +1078,7 @@ contexts:
     # Note: newlines between `map` and `[` are ok, but newlines after `]`
     # terminate the type.
     - match: \bmap\b
-      scope: storage.type.keyword.map.go
+      scope: keyword.declaration.map.go
       set:
         - include: match-comments
         - include: pop-on-semicolon
@@ -1103,7 +1102,7 @@ contexts:
   # perfectly ok.
   pop-chan:
     - match: \bchan\b
-      scope: storage.type.keyword.chan.go
+      scope: keyword.declaration.chan.go
       set: pop-type
 
   pop-named-type:
