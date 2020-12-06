@@ -2,7 +2,7 @@
 ---
 # http://www.sublimetext.com/docs/3/syntax.html
 
-# The structure and terminology of this syntax reflects the spec:
+# The structure and lexicon of this syntax reflects the Go spec:
 # https://golang.org/ref/spec
 
 # The following is a simplified model of Sublime Text's syntax engine, reverse-
@@ -161,6 +161,9 @@ contexts:
       pop: true
 
   # https://golang.org/ref/spec#Tokens
+  #
+  # Nominally, this should include `match-call-or-type-conversion`; instead,
+  # it's specified in `match-parens` to ensure proper ordering.
   match-tokens:
     - include: match-keywords
     - include: match-identifiers
@@ -199,7 +202,7 @@ contexts:
   # See `match-selector` for field scoping.
   match-identifiers:
     - include: match-predeclared-constants
-    - include: match-call-or-cast
+    - include: match-call-or-type-conversion
     - include: match-short-variable-declarations
     - match: \b_\b
       scope: variable.language.blank.go
@@ -218,12 +221,13 @@ contexts:
     - match: \b(?:true|false|nil)\b
       scope: constant.language.go
 
-  # Note: in Go, calls and casts are syntactically identical. Detecting casts
-  # and scoping them as types is beyond the capabilities of this syntax engine.
+  # Reference: https://golang.org/ref/spec#Predeclared_identifiers
   #
-  # https://golang.org/ref/spec#Predeclared_identifiers
+  # Note: in Go, calls and type conversions are syntactically identical.
+  # Detecting type conversions and scoping them as types is beyond the
+  # capabilities of this syntax engine.
   #
-  # Notes on built-in functions
+  # # Notes on built-in functions
   #
   # Most built-in functions don't need special syntactic support. We scope them
   # for the benefit of the users who prefer to distinguish them from
@@ -237,13 +241,14 @@ contexts:
   # built-in functions ONLY in a function call position. This helps minimize
   # false positives.
   #
-  # Notes on built-in types
+  # # Notes on built-in types
   #
-  # Unlike casts involving a user-defined type, casts involving a built-in
-  # types could be scoped purely as types rather than function calls. However,
-  # we stick to `variable.function.go` to make the treatment of built-ins
-  # purely additive, allowing the user to opt out.
-  match-call-or-cast:
+  # Unlike type conversions involving a user-defined type, type conversions
+  # involving built-in types could be scoped purely as types rather than
+  # function calls, hoping that they haven't been redefined as functions.
+  # However, we stick to `variable.function.go` to make the treatment of
+  # built-ins purely additive, allowing the user to opt out.
+  match-call-or-type-conversion:
     - match: \b(?:make|new)\b(?=(?:{{noise}}\))*{{noise}}\()
       scope: variable.function.go support.function.builtin.go
       push: pop-arguments-starting-with-type
@@ -254,8 +259,8 @@ contexts:
     - match: '{{ident}}(?=(?:{{noise}}\))*{{noise}}\()'
       scope: variable.function.go
 
-  # See notes on `match-call-or-cast`.
-  pop-call-or-cast:
+  # See notes on `match-call-or-type-conversion`.
+  pop-call-or-type-conversion:
     - match: \b(?:make|new)\b(?=(?:{{noise}}\))*{{noise}}\()
       scope: variable.function.go support.function.builtin.go
       set: pop-arguments-starting-with-type
@@ -340,13 +345,15 @@ contexts:
         - include: match-comments
         - include: pop-type-assertion
 
-        # Note: calls and casts are syntactically identical.
+        # Note: we can't syntactically distinguish calls from type conversions.
+        # It's also not always possible to distinguish function calls from
+        # method calls.
         - match: '{{ident}}(?=(?:{{noise}}\))*{{noise}}\()'
           scope: variable.function.go
           pop: true
 
         - include: pop-member
-        # Note: newlines between dot and assertion/field are ok
+        # Note: newlines between dot and assertion/field are ok.
         - include: pop-before-nonblank
 
   match-parens:
@@ -356,7 +363,7 @@ contexts:
         - match: \)
           scope: punctuation.section.parens.end.go
           pop: true
-        - include: pop-call-or-cast
+        - include: pop-call-or-type-conversion
         - include: match-any
     - match: \)
       scope: punctuation.section.parens.end.go
@@ -378,6 +385,15 @@ contexts:
         - include: pop-type-identifier
         - include: pop-before-nonblank
 
+  # TODO: consider detecting composite literals. In principle, it should allow
+  # us to drop the erroneous "meta.block" from composite literals, detect field
+  # names, and also detect labeled statements by disambiguating them from field
+  # names.
+  #
+  # For future reference:
+  #
+  #   https://golang.org/ref/spec#Composite_literals
+  #   https://golang.org/ref/spec#Labeled_statements
   match-braces:
     - match: \{
       scope: punctuation.section.braces.begin.go
@@ -1202,6 +1218,8 @@ contexts:
 
   pop-arguments-starting-with-type:
     - include: match-comments
+    # Go allows functions and types to be wrapped in an arbitrary number of
+    # parens. These are not part of the call.
     - match: \)
       scope: punctuation.section.parens.end.go
     - match: \(

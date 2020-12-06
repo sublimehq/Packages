@@ -2562,7 +2562,7 @@ Note: built-ins are tested separately. Search for "# Built-in Types".
 
 // ## Parens
 
-// Note: we can't syntactically disambiguate calls and casts.
+// Note: we can't syntactically disambiguate calls and type conversions.
 
     ident()
 //  ^^^^ variable.function.go
