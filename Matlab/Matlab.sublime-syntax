@@ -57,8 +57,8 @@ contexts:
     - include: class_declaration
     - include: builtin_constants
     - include: builtin_variables
+    - include: commands
     - include: builtin_functions
-    - include: matlab_keyword_desktop
     - include: toolbox_functions
   allofem:
     - include: parens
@@ -141,17 +141,19 @@ contexts:
               pop: true
     - match: \barguments\b
       scope: keyword.other.arguments.matlab
+  # Functions that are usually used without parameters and return a constant
   builtin_constants:
-    - match: \b(eps|false|Inf|inf|intmax|intmin|namelengthmax|NaN|nan|on|off|realmax|realmin|true|pi)\b
+    - match: \b(true|false|eps|pi|Inf|NaN|NaT|flintmax|intmax|intmin|realmax|realmin|namelengthmax)\b
       scope: constant.language.matlab
   # all MATLAB keywords: break|case|catch|classdef|continue|else|elseif|end|for|function|global|if|otherwise|parfor|persistent|return|spmd|switch|try|while
   # https://www.mathworks.com/help/matlab/ref/iskeyword.html
+  # https://www.mathworks.com/help/matlab/control-flow.html
   keywords:
     - match: \b(?:if|else|elseif|switch|case|otherwise)\b
       scope: keyword.control.conditional.matlab
     - match: \b(?:for|parfor|while)\b
       scope: keyword.control.loop.matlab
-    - match: \b(?:break|continue|return|pause)\b
+    - match: \b(?:break|continue|return)\b
       scope: keyword.control.flow.matlab
     - match: \b(?:try|catch)\b
       scope: keyword.control.exception.matlab
@@ -161,43 +163,195 @@ contexts:
       scope: keyword.control.matlab
     - match: \b(?:global|persistent)\b
       scope: storage.modifier.matlab
-  matlab_keyword_desktop:
-    # Desktop Tools and Development
-    - match: \b(addpath|assignin|builddocsearchdb|cd|checkin|checkout|clc|clear|clipboard|cmopts|commandhistory|commandwindow|computer|copyfile|customverctrl|dbclear|dbcont|dbdown|dbquit|dbstack|dbstatus|dbstep|dbstop|dbtype|dbup|debug|demo|diary|dir|doc|docopt|docsearch|dos|echodemo|edit|exit|fileattrib|filebrowser|finish|format|genpath|getenv|grabcode|help|helpbrowser|helpwin|home|hostid|info|keyboard|license|lookfor|ls|matlab|matlabrc|matlabroot|memory|mkdir|mlint|mlintrpt|more|movefile|notebook|openvar|pack|partialpath|path|path2rc|pathdef|pathsep|pathtool|perl|playshow|prefdir|preferences|profile|profsave|publish|pwd|quit|recycle|rehash|restoredefaultpath|rmdir|rmpath|savepath|setenv|startup|support|system|toolboxdir|type|undocheckout|unix|ver|verctrl|verLessThan|version|web|what|whatsnew|which|winqueryreg|workspace)\b|(^\s*!.*$)
-      scope: keyword.desktop.matlab
+  # Functions that are usually used only in command syntax form, i.e. without paramaters or
+  # with string parameters but omitted parentheses:  functionName input1 ... inputN
+  commands:
+    - match: \b(?:clc|clearvars|clock|commandwindow|copyfile|date|figure|gca|gcbf|gcbo|gcf|gco|groot|home|mkdir|movefile|now|restoredefaultpath|rmdir|tic|toc|type|waitforbuttonpress)\b
+      scope: keyword.other.command.matlab
+    # Commands that are usually only used in the MATLAB command window (REPL)
+    # - match: \b(?:commandhistory|demo|doc|docsearch|edit|filebrowser|finish|help|helpbrowser|helpdesk|helpwin|info|lookfor|preferences|support|startup|ver|whatsnew)\b
+    #   scope: keyword.other.command.matlab
+    # https://www.mathworks.com/help/matlab/ref/axis.html
+    - match: \b(axis)(?:\s+(manual|auto|tight|padded|equal|image|square|fill|vis3d|normal|xy|ij|on|off))?\b
+      captures:
+        1: keyword.other.command.matlab
+        2: support.constant.matlab
+    # https://www.mathworks.com/help/matlab/ref/beep.html
+    - match: \b(beep)(?:\s+(on|off))?\b
+      captures:
+        1: keyword.other.command.matlab
+        2: support.constant.matlab
+    # https://www.mathworks.com/help/matlab/ref/box.html
+    - match: \b(box)(?:\s+(on|off))?\b
+      captures:
+        1: keyword.other.command.matlab
+        2: support.constant.matlab
+    # https://www.mathworks.com/help/matlab/ref/matlab.graphics.interaction.internal.brush.html
+    - match: \b(brush)(?:\s+(on|off))?\b
+      captures:
+        1: keyword.other.command.matlab
+        2: support.constant.matlab
+    # https://www.mathworks.com/help/matlab/ref/cla.html
+    - match: \b(cla)(?:\s+(reset))?\b
+      captures:
+        1: keyword.other.command.matlab
+        2: support.constant.matlab
+    # https://www.mathworks.com/help/matlab/ref/clear.html
+    - match: \b(clear)(?:\s+(all|classes|functions|global|import|java|mex|variables))?\b
+      captures:
+        1: keyword.other.command.matlab
+        2: support.constant.matlab
+    # https://www.mathworks.com/help/matlab/ref/close.html
+    - match: \b(close)(?:\s+(all)(?:\s+(hidden|force))?)?\b
+      captures:
+        1: keyword.other.command.matlab
+        2: support.constant.matlab
+        3: support.constant.matlab
+    # https://www.mathworks.com/help/matlab/ref/diary.html
+    - match: \b(diary)(?:\s+(on|off))?\b
+      captures:
+        1: keyword.other.command.matlab
+        2: support.constant.matlab
+    # https://www.mathworks.com/help/matlab/ref/drawnow.html
+    - match: \b(drawnow)(?:\s+(limitrate|nocallbacks|update|expose))?\b
+      captures:
+        1: keyword.other.command.matlab
+        2: support.constant.matlab
+    # https://www.mathworks.com/help/matlab/ref/echo.html
+    - match: \b(echo)(?:\s+(?:(on|off)(?:\s+(all))?|(filename)(?:\s+(on|off))?))?\b
+      captures:
+        1: keyword.other.command.matlab
+        2: support.constant.matlab
+        3: support.constant.matlab
+        4: support.constant.matlab
+        5: support.constant.matlab
+    # https://www.mathworks.com/help/matlab/ref/exist.html
+    - match: \b(exist)(?:\s+(\w+)(?:\s+(builtin|class|dir|file|var))?)?\b
+      captures:
+        1: keyword.other.command.matlab
+        2: variable.other.matlab
+        3: storage.type.matlab
+    # https://www.mathworks.com/help/matlab/ref/exit.html
+    # https://www.mathworks.com/help/matlab/ref/quit.html
+    - match: \b(exit|quit)(?:\s+(cancel|force))?\b
+      captures:
+        1: keyword.other.command.matlab
+        2: support.constant.matlab
+    # https://www.mathworks.com/help/matlab/ref/format.html
+    - match: \b(format)(?:\s+(short|long|shortE|longE|shortG|longG|shortEng|longEng|bank|hex|rational|compact|loose))?\b
+      captures:
+        1: keyword.other.command.matlab
+        2: support.constant.matlab
+    # https://www.mathworks.com/help/matlab/ref/grid.html
+    - match: \b(grid)(?:\s+(on|off|minor))?\b
+      captures:
+        1: keyword.other.command.matlab
+        2: support.constant.matlab
+    # https://www.mathworks.com/help/matlab/ref/hidden.html
+    - match: \b(hidden)(?:\s+(on|off))?\b
+      captures:
+        1: keyword.other.command.matlab
+        2: support.constant.matlab
+    # https://www.mathworks.com/help/matlab/ref/hold.html
+    - match: \b(hold)(?:\s+(on|off|all))?\b
+      captures:
+        1: keyword.other.command.matlab
+        2: support.constant.matlab
+    # https://www.mathworks.com/help/matlab/ref/import.html
+    - match: \b(import)\b(?:\s+((?:\w+\.)*(?:\w+|\*)?))?
+      captures:
+        1: keyword.other.import.matlab
+        2: meta.path.import.matlab
+    # https://www.mathworks.com/help/matlab/ref/material.html
+    - match: \b(material)(?:\s+(shiny|dull|metal|default))?\b
+      captures:
+        1: keyword.other.command.matlab
+        2: support.constant.matlab
+    # https://www.mathworks.com/help/matlab/ref/mex.html
+    - match: \bmex\b(?!\.)
+      scope: keyword.other.command.matlab
+    # https://www.mathworks.com/help/matlab/ref/more.html
+    - match: \b(more)(?:\s+(on|off))?\b
+      captures:
+        1: keyword.other.command.matlab
+        2: support.constant.matlab
+    # https://www.mathworks.com/help/matlab/ref/opengl.html
+    - match: \b(opengl)(?:\s+(info|software|hardware|hardwarebasic))?\b
+      captures:
+        1: keyword.other.command.matlab
+        2: support.constant.matlab
+    # https://www.mathworks.com/help/matlab/ref/who.html
+    # https://www.mathworks.com/help/matlab/ref/whos.html
+    - match: \b(who|whos)(?:\s+(global))?\b
+      captures:
+        1: keyword.other.command.matlab
+        2: storage.modifier.matlab
+  # Parentheses are usually omitted when functions are used without parameters.
+  # This command syntax is also possible for functions with string parameters.
+  # Only the function names are matched here to allow both command syntax and function syntax form.
+  # https://www.mathworks.com/help/matlab/matlab_prog/command-vs-function-syntax.html
   builtin_functions:
-    - match: \b(rethrow|start|startat|stop|wait)\b
-      scope: keyword.control.matlab
-    # Operator keywords
-    - match: \b(all|and|any|bitand|bitcmp|bitget|bitmax|bitor|bitset|bitshift|bitxor|eq|ge|gt|isa|isappdata|iscell|iscellstr|ischar|iscom|isdir|isempty|isequal|isequalwithequalnans|isevent|isfield|isfinite|isfloat|isglobal|ishandle|ishold|isinf|isinteger|isinterface|isjava|iskeyword|isletter|islogical|ismac|ismember|ismethod|isnan|isnumeric|isobject|ispc|ispref|isprime|isprop|isreal|isscalar|issorted|isspace|issparse|isstrprop|isstruct|isstudent|isunix|isvarname|isvector|le|lt|mislocked|or|ne|not|setxor|union|unique|xor)\b
-      scope: keyword.operator.matlab
-    # Other keywords
-    - match: \b(addOptional|addParamValue|addRequired|addtodate|arrayfun|assert|blanks|builtin|calendar|cell|celldisp|cellfun|cellplot|clock|cputime|createCopy|datatipinfo|date|datenum|datestr|datevec|dbmex|deal|deblank|depdir|depfun|echo|eomday|error|etime|eval|evalc|evalin|exist|feval|fieldnames|findstr|func2str|genvarname|getfield|global|inferiorto|inmem|intersect|intwarning|lasterr|lasterror|lastwarn|loadobj|lower|methods|methodsview|mex|mexext|mfilename|mlock|munlock|nargchk|nargoutchk|now|orderfields|parse|pcode|regexp|regexpi|regexprep|regexptranslate|rmfield|run|saveobj|setdiff|setfield|sprintf|sscanf|strcat|strcmp|strcmpi|strfind|strings|strjust|strmatch|strncmp|strncmpi|strread|strrep|strtok|strtrim|structfun|strvcat|subsasgn|subsindex|subsref|substruct|superiorto|swapbytes|symvar|tic|timer|timerfind|timerfindall|toc|typecast|upper|warning|weekday|who|whos)\b
-      scope: keyword.other.matlab
-    # Storage types
-    - match: \b(class|double|functions|input|inputname|inputParser|int16|int32|int64|int8|logical|single|struct|uint16|uint32|uint64|uint8)\b
-      scope: storage.type.matlab
-    # Storage modifiers
-    - match: \b(base2dec|bin2dec|cast|cell2mat|cell2struct|cellstr|char|dec2base|dec2bin|dec2hex|hex2dec|hex2num|int2str|mat2cell|mat2str|num2cell|native2unicode|num2hex|num2str|persistent|str2double|str2func|str2mat|str2num|struct2cell|unicode2native)\b
-      scope: storage.modifier.matlab
+    # Language Fundamentals
+    - match: \b(?:double|single|int8|int16|int32|int64|uint8|uint16|uint32|uint64)\b
+      scope: support.function.builtin.matlab storage.type.matlab
+    - match: \bnewline\b
+      scope: support.constant.matlab
+    - match: \b(?:and|ctranspose|eq|ge|gt|ldivide|le|lt|minus|mldivide|mpower|mrdivide|mtimes|ne|not|or|plus|power|rdivide|times|transpose|uminus|uplus)\b
+      scope: support.function.builtin.matlab
+    - match: \b(?:addcats|addevent|addprop|addsample|addsampletocollection|addtodate|addts|addvars|all|alphanumericBoundary|alphanumericsPattern|any|append|array2table|array2timetable|arrayfun|asFewOfPattern|asManyOfPattern|base2dec|between|bin2dec|bitand|bitcmp|bitget|bitor|bitset|bitshift|bitxor|blanks|blkdiag|bsxfun|caldays|caldiff|calendar|calendarDuration|calmonths|calquarters|calweeks|calyears|caseInsensitivePattern|caseSensitivePattern|cast|cat|categorical|categories|ceil|cell|cell2mat|cell2struct|cell2table|celldisp|cellfun|cellplot|cellstr|char|characterListPattern|circshift|class|colon|compose|contains|containsrange|convertCharsToStrings|convertContainedStringsToChars|convertStringsToChars|convertTo|convertvars|count|countcats|cumprod|cumsum|datenum|dateshift|datestr|datetime|datevec|day|days|deal|deblank|dec2base|dec2bin|dec2hex|delevent|delsample|delsamplefromcollection|detectImportOptions|detrend|diag|diff|digitBoundary|digitsPattern|discretize|duration|endsWith|eomday|erase|eraseBetween|etime|exceltime|extract|extractAfter|extractBefore|extractBetween|eye|feval|fieldnames|fillmissing|filter|find|findEvent|findgroups|fix|flip|fliplr|flipud|floor|freqspace|func2str|functions|get|getabstime|getdatasamples|getdatasamplesize|getfield|getinterpmethod|getqualitydesc|getsamples|getsampleusingtime|gettimeseriesnames|getTimeStr|gettsafteratevent|gettsafterevent|gettsatevent|gettsbeforeatevent|gettsbeforeevent|gettsbetweenevents|getvaropts|groupsummary|head|height|hex2dec|hex2num|hms|horzcat|hour|hours|idealfilter|idivide|ind2sub|inf|inner2outer|innerjoin|insertAfter|insertBefore|int2str|intersect|ipermute|iqr|isa|isbetween|iscalendarduration|iscategorical|iscategory|iscell|iscellstr|ischar|iscolumn|isdatetime|isdst|isduration|isempty|isenum|isequal|isequaln|isequalwithequalnans|isfield|isfinite|isfloat|isgraphics|isinf|isinteger|isjava|isKey|iskeyword|isletter|islogical|ismatrix|ismember|ismembertol|ismissing|isnan|isnat|isnumeric|isobject|isordinal|isprotected|isreal|isregular|isrow|isscalar|issorted|issortedrows|isspace|issparse|isstring|isStringScalar|isstrprop|isstruct|istable|istimetable|isundefined|isUnderlyingType|isvector|isweekend|join|juliandate|keys|lag|leapseconds|length|letterBoundary|lettersPattern|lineBoundary|linspace|localfunctions|logical|logspace|lookAheadBoundary|lookBehindBoundary|lower|maskedPattern|mat2cell|mat2str|matches|max|mean|median|mergecats|mergevars|meshgrid|milliseconds|min|minute|minutes|mod|month|movevars|movsum|namedPattern|nan|native2unicode|ndgrid|ndims|num2cell|num2hex|num2str|numel|ones|optionalPattern|orderfields|outerjoin|overlapsrange|pad|pagectranspose|pagemtimes|pagetranspose|pause|permute|plot|posixtime|possessivePattern|preview|prod|quarter|rand|readtable|readtimetable|regexp|regexpi|regexpPattern|regexprep|regexptranslate|rem|remove|removecats|removets|removevars|renamecats|renamevars|reordercats|repelem|replace|replaceBetween|repmat|resample|reshape|retime|reverse|rmfield|rmmissing|rmprop|rot90|round|rowfun|rows2vars|second|seconds|set|setabstime|setcats|setdiff|setfield|setinterpmethod|settimeseriesnames|setuniformtime|setvaropts|setvartype|setxor|shiftdim|size|sort|sortrows|split|splitapply|splitlines|splitvars|spreadsheetImportOptions|sprintf|squeeze|sscanf|stack|stackedplot|standardizeMissing|startsWith|std|str2double|str2func|str2num|strcat|strcmp|strcmpi|strfind|string|strings|strip|strjoin|strjust|strlength|strncmp|strncmpi|strrep|strsplit|strtok|strtrim|struct|struct2cell|struct2table|structfun|sub2ind|sum|summary|swapbytes|symvar|synchronize|table|table2array|table2cell|table2struct|table2timetable|tail|textBoundary|time|timeofday|timerange|timeseries|timetable|timetable2table|timezones|topkrows|tscollection|typecast|tzoffset|underlyingType|unicode2native|union|unique|uniquetol|unstack|upper|validateattributes|values|var|varfun|vartype|vertcat|week|weekday|whitespaceBoundary|whitespacePattern|width|wildcardPattern|withinrange|withtol|writetable|writetimetable|xor|year|years|ymd|yyyymmdd|zeros)\b
+      scope: support.function.builtin.matlab
+    # - match: \b(?:findstr|flipdim|inline|isstr|setstr|str2mat|strmatch|strread|strvcat|vectorize)\b
+    #   scope: support.function.builtin.matlab invalid.deprecated.matlab
+    # Data Import and Analysis
+    - match: \b(?:cdflib|H5|H5A|H5D|H5DS|H5E|H5F|H5G|H5I|H5L|H5ML|H5O|H5P|H5R|H5S|H5T|H5Z|netcdf|Tiff)\b
+      scope: support.class.builtin.matlab
+    - match: \b(?:accumarray|add|addmulti|addToolbarExplorationButtons|arrayDatastore|ascii|audiodevinfo|audiodevreset|audioinfo|audioplayer|audioread|audiorecorder|audiowrite|aviinfo|axtoolbar|axtoolbarbtn|binary|ble|blelist|bluetooth|bluetoothlist|bounds|cd|cdfepoch|cdfinfo|cdfread|cdfwrite|characteristic|classUnderlying|clearvars|closeFile|combine|CombinedDatastore|configureCallback|configureTerminator|copyHDU|corrcoef|countEachLabel|cov|createFile|createImg|createTbl|csvread|csvwrite|cummax|cummin|currentFileIndexComparator|daqread|datacursormode|datastore|datatip|dataTipInteraction|dataTipTextRow|delete|deleteCol|deleteFile|deleteHDU|deleteKey|deleteRecord|deleteRows|delimitedTextImportOptions|descriptor|detectImportOptions|detrend|dir|disableDefaultInteractivity|discretize|disp|dlmread|dlmwrite|echotcpip|enableDefaultInteractivity|enableLegacyExplorationModes|fclose|feof|ferror|fgetl|fgets|figurepalette|fileDatastore|fileMode|fileName|fileread|fillmissing|filloutliers|findgroups|fitsdisp|fitsinfo|fitsread|fitswrite|fixedWidthImportOptions|flush|fopen|fprintf|fread|frewind|fscanf|fseek|ftell|ftp|fwrite|gather|gcmr|getAColParms|getaudiodata|getBColParms|getColName|getColType|getConstantValue|getCurrentFilename|getEqColType|getFileFormats|getFiles|getFolders|getHdrSpace|getHDUnum|getHDUtype|getImgSize|getImgType|getLocation|getnext|getNumCols|getNumHDUs|getNumRows|getOpenFiles|getpinstatus|getplayer|getProfiles|getvaropts|getVersion|groupcounts|groupfilter|groupsummary|grouptransform|h5create|h5disp|h5info|h5read|h5readatt|h5write|h5writeatt|hasdata|hasfile|hasFrame|hasnext|hasNextBlock|hasNextFile|hasPreviousBlock|hasPreviousFile|hdf5info|hdf5read|hdf5write|hdfan|hdfdf24|hdfdfr8|hdfh|hdfhd|hdfhe|hdfhx|hdfinfo|hdfml|hdfpt|hdfread|hdftool|hdfv|hdfvf|hdfvh|hdfvs|histcounts|histcounts2|im2java|imageDatastore|imfinfo|imgCompress|importdata|imread|imwrite|initializeDatastore|insertATbl|insertBTbl|insertCol|insertImg|insertRows|isaUnderlying|ischange|isCompressedImg|isfullfile|islocalmax|islocalmin|ismissing|isoutlier|isPartitionable|isplaying|isrecording|isShuffleable|istall|jsondecode|KeyValueDatastore|KeyValueStore|lin2mu|linkaxes|linkdata|linkprop|load|mapreduce|mapreducer|matfile|maxk|maxpartitions|memmapfile|mget|mink|missing|mmfileinfo|mode|movAbsHDU|movmad|movmax|movmean|movmedian|movmin|movNamHDU|movprod|movRelHDU|movstd|movvar|mput|mu2lin|multibandread|multibandwrite|nccreate|ncdisp|ncinfo|ncread|ncreadatt|ncwrite|ncwriteatt|ncwriteschema|nextblock|nextfile|normalize|numpartitions|open|openDiskFile|openFile|openvar|pan|panInteraction|parquetDatastore|parquetinfo|parquetread|parquetwrite|partition|play|playblocking|plotbrowser|plotedit|plottools|populateFoldersFromLocation|previousblock|previousfile|progress|propedit|propertyeditor|read|readall|readATblHdr|readBTblHdr|readCard|readcell|readCol|readFrame|readimage|readImg|readKey|readKeyCmplx|readKeyDbl|readKeyLongLong|readKeyLongStr|readKeyUnit|readline|readlines|readmatrix|readRecord|readstruct|readtable|readtimetable|readvars|record|recordblocking|refreshdata|regionZoomInteraction|removeToolbarExplorationButtons|rename|rescale|reset|resolve|resume|rmmissing|rmoutliers|rotate3d|rotateInteraction|rowfun|rulerPanInteraction|save|seek|selectmoveresize|sendmail|serialport|serialportlist|setBscale|setCompressionType|setDTR|setHCompScale|setHCompSmooth|setRTS|setTileDim|setTscale|setvaropts|setvartype|sheetnames|showplottool|shuffle|smoothdata|sound|soundsc|splitapply|splitEachLabel|spreadsheetDatastore|spreadsheetImportOptions|standardizeMissing|stop|subscribe|subset|tabularTextDatastore|tall|TallDatastore|tallrng|tcpclient|textread|textscan|thingSpeakRead|thingSpeakWrite|todatenum|topkrows|transform|TransformedDatastore|unsubscribe|urlread|urlwrite|validateOutputLocation|ValueIterator|VideoReader|VideoWriter|web|weboptions|webread|websave|webwrite|write|writeall|writecell|writeChecksum|writeCol|writeComment|writeDate|writeHistory|writeImg|writeKey|writeKeyUnit|writeline|writematrix|writestruct|writetable|writetimetable|writeVideo|xcorr|xcov|xlsfinfo|xlsread|xlswrite|xmlread|xmlwrite|xslt|zoom|zoomInteraction)\b
+      scope: support.function.builtin.matlab
+    # - match: \b(?:instrcallback|instrfind|instrfindall|readasync|serial|serialbreak|seriallist|stopasync)\b
+    #   scope: support.function.builtin.matlab invalid.deprecated.matlab
     # Mathematics
-    - match: \b(accumarray|acos|acosd|acosh|acot|acotd|acoth|acsc|acscd|acsch|airy|amd|asec|asecd|asech|asin|asind|asinh|atan|atan2|atand|atanh|balance|besselh|besseli|besselj|besselk|bessely|beta|betainc|betaln|bicg|bicgstab|blkdiag|bsxfun|bvp4c|bvpget|bvpinit|bvpset|bvpxtend|cart2pol|cart2sph|cat|cdf2rdf|ceil|cgs|chol|cholinc|cholupdate|circshift|colamd|colperm|compan|complex|cond|condeig|condest|conj|convhull|convhulln|cos|cosd|cosh|cot|cotd|coth|cross|csc|cscd|csch|cumprod|cumsum|dblquad|dde23|ddeget|ddesd|ddeset|decic|det|deval|diag|disp|display|dmperm|dot|eig|eigs|ellipj|ellipke|erf|erfc|erfcinv|erfcx|erfinv|etree|etreeplot|exp|expint|expm|expm1|eye|factor|factorial|find|fix|flipdim|fliplr|flipud|floor|fminbnd|fminsearch|freqspace|full|funm|fzero|gallery|gamma|gammainc|gammaln|gcd|gmres|gplot|griddata|griddata3|griddatan|gsvd|hadamard|hankel|hess|hilb|horzcat|hypot|idivide|ilu|imag|ind2sub|Inf|inline|interp1|interp1q|interp2|interp3|interpft|interpn|inv|invhilb|ipermute|kron|lcm|ldl|legendre|length|linsolve|linspace|log|log10|log1p|log2|logm|logspace|lscov|lsqnonneg|lsqr|lu|luinc|magic|meshgrid|minres|mkpp|mod|NaN|nchoosek|ndgrid|ndims|nextpow2|nnz|nonzeros|norm|normest|nthroot|null|numel|nzmax|ode113|ode15i|ode15s|ode23|ode23s|ode23t|ode23tb|ode45|odefile|odeget|odeset|odextend|ones|optimget|optimset|ordeig|ordqz|ordschur|orth|pascal|pcg|pchip|pdepe|pdeval|perms|permute|pinv|planerot|pol2cart|poly|polyder|polyeig|polyfit|polyint|polyval|polyvalm|pow2|ppval|primes|prod|psi|qmr|qr|qrdelete|qrinsert|qrupdate|quad|quadl|quadv|qz|rand|randn|randperm|rank|rat|rats|rcond|real|reallog|realpow|realsqrt|rem|repmat|reshape|residue|roots|rosser|rot90|round|rref|rsf2csf|schur|sec|secd|sech|shiftdim|sign|sin|sind|sinh|size|sort|sortrows|spalloc|sparse|spaugment|spconvert|spdiags|speye|spfun|sph2cart|spline|spones|spparms|sprand|sprandn|sprandsym|sprank|spy|sqrt|sqrtm|squeeze|ss2tf|sub2ind|subspace|sum|svd|svds|symamd|symbfact|symmlq|symrcm|tan|tand|tanh|toeplitz|trace|treelayout|treeplot|tril|triplequad|triu|unmkpp|unwrap|vander|vectorize|vertcat|wilkinson|zeros)\b
-      scope: keyword.mathematics.matlab
-    # Data Analysis
-    - match: \b(abs|addevent|addsample|addsampletocollection|addts|angle|conv|conv2|convn|corrcoef|cov|cplxpair|ctranspose|cumtrapz|deconv|del2|delevent|delsample|delsamplefromcollection|detrend|diff|fft|fft2|fftn|fftshift|fftw|filter|filter2|getabstime|getdatasamplesize|getinterpmethod|getqualitydesc|getsampleusingtime|gettimeseriesnames|gettsafteratevent|gettsafterevent|gettsatevent|gettsbeforeatevent|gettsbeforeevent|gettsbetweenevents|gradient|idealfilter|ifft|ifft2|ifftn|ifftshift|iqr|max|mean|median|min|mldivide|mode|mrdivide|removets|resample|setabstime|setinterpmethod|settimeseriesnames|std|synchronize|timeseries|trapz|tscollection|tsdata.event|tsprops|tstool|var)\b
-      scope: keyword.analysis.matlab
-    # File I/O
-    - match: \b(addframe|ascii|audioplayer|audiorecorder|aufinfo|auread|auwrite|avifile|aviinfo|aviread|beep|binary|cdfepoch|cdfinfo|cdfread|cdfwrite|csvread|csvwrite|daqread|dlmread|dlmwrite|exifread|feof|ferror|fgetl|fgets|filehandle|filemarker|fileparts|filesep|fitsinfo|fitsread|fopen|fprintf|fread|frewind|fscanf|fseek|ftell|ftp|fullfile|fwrite|gunzip|gzip|hdf|hdf5|hdf5info|hdf5read|hdf5write|hdfinfo|hdfread|hdftool|imfinfo|importdata|imread|imwrite|lin2mu|load|memmapfile|mget|mmfileinfo|movie2avi|mput|mu2lin|multibandread|multibandwrite|open|rename|save|sendmail|sound|soundsc|tar|tempdir|tempname|textread|textscan|todatenum|uiimport|untar|unzip|urlread|urlwrite|wavfinfo|wavplay|wavread|wavrecord|wavwrite|winopen|wk1finfo|wk1read|wk1write|xlsfinfo|xlsread|xlswrite|xmlread|xmlwrite|xslt|zip)\b
-      scope: storage.control.matlab
+    - match: \bRandStream\b
+      scope: support.class.builtin.matlab
+    - match: \b(?:abs|acos|acosd|acosh|acot|acotd|acoth|acsc|acscd|acsch|addboundary|addedge|addnode|adjacency|airy|alphaShape|alphaSpectrum|alphaTriangulation|amd|angle|area|asec|asecd|asech|asin|asind|asinh|atan|atan2|atan2d|atand|atanh|balance|bandwidth|barycentricToCartesian|bctree|besselh|besseli|besselj|besselk|bessely|beta|betainc|betaincinv|betaln|bfsearch|bicg|bicgstab|bicgstabl|biconncomp|boundary|boundaryFacets|boundaryshape|boundingbox|bvp4c|bvp5c|bvpget|bvpinit|bvpset|bvpxtend|cart2pol|cart2sph|cartesianToBarycentric|cdf2rdf|centrality|centroid|cgs|chol|cholupdate|circumcenter|colamd|colperm|compan|complex|cond|condeig|condensation|condest|conj|conncomp|conv|conv2|convexHull|convhull|convhulln|convn|cos|cosd|cosh|cospi|cot|cotd|coth|cplxpair|criticalAlpha|cross|csc|cscd|csch|cumtrapz|dde23|ddeget|ddensd|ddesd|ddeset|decic|decomposition|deconv|deg2rad|degree|del2|delaunay|delaunayn|delaunayTriangulation|det|deval|dfsearch|digraph|dissect|distances|dmperm|dot|dsearchn|edgeAttachments|edgecount|edges|eig|eigs|ellipj|ellipke|equilibrate|erf|erfc|erfcinv|erfcx|erfinv|etree|etreeplot|exp|expint|expm|expm1|faceNormal|factor|factorial|featureEdges|fft|fft2|fftn|fftshift|fftw|filter2|findedge|findnode|flipedge|fminbnd|fminsearch|freeBoundary|full|funm|fzero|gallery|gamma|gammainc|gammaincinv|gammaln|gcd|gmres|gplot|gradient|graph|GraphPlot|griddata|griddatan|griddedInterpolant|gsvd|hadamard|hankel|hess|highlight|hilb|holes|hypot|ichol|ifft|ifft2|ifftn|ifftshift|ilu|imag|incenter|incidence|indegree|inedges|inpolygon|inShape|integral|integral2|integral3|interp1|interp1q|interp2|interp3|interpft|interpn|intersect|inv|invhilb|isbanded|isConnected|isdag|isdiag|ishermitian|ishole|isIllConditioned|isInterior|isinterior|isisomorphic|ismultigraph|isomorphism|issimplified|issymmetric|istril|istriu|kron|labeledge|labelnode|laplacian|layout|lcm|ldl|legendre|linsolve|log|log10|log1p|log2|logm|lscov|lsqminnorm|lsqnonneg|lsqr|lu|magic|makima|matchpairs|maxflow|minres|minspantree|mkpp|nchoosek|nearest|nearestNeighbor|nearestvertex|neighbors|nextpow2|nnz|nonzeros|norm|normest|nsidedpoly|nthroot|nufft|nufftn|null|numboundaries|numedges|numnodes|numRegions|numsides|nzmax|ode113|ode15i|ode15s|ode23|ode23s|ode23t|ode23tb|ode45|odeget|odeset|odextend|optimget|optimset|ordeig|ordqz|ordschur|orth|outdegree|outedges|overlaps|padecoef|pagectranspose|pagemtimes|pagetranspose|pascal|patch|pcg|pchip|pdepe|pdeval|perimeter|perms|pinv|planerot|pointLocation|pol2cart|poly|polyarea|polybuffer|polyder|polyeig|polyfit|polyint|polyshape|polyval|polyvalm|pow2|ppval|predecessors|primes|psi|qmr|qr|qrdelete|qrinsert|qrupdate|quad2d|quadgk|qz|rad2deg|randi|randn|randperm|rank|rat|rats|rcond|real|reallog|realpow|realsqrt|rectint|regions|rem|reordernodes|residue|rmboundary|rmedge|rmholes|rmnode|rmslivers|rng|roots|rosser|rotate|rref|rsf2csf|scale|scatteredInterpolant|schur|sec|secd|sech|shortestpath|shortestpathtree|sign|simplify|sin|sind|sinh|sinpi|sortboundaries|sortregions|spalloc|sparse|spaugment|spconvert|spdiags|speye|spfun|sph2cart|spline|spones|spparms|sprand|sprandn|sprandsym|sprank|spy|sqrt|sqrtm|ss2tf|stlread|stlwrite|subgraph|subspace|subtract|successors|surfaceArea|svd|svds|svdsketch|sylvester|symamd|symbfact|symmlq|symrcm|tan|tand|tanh|tetramesh|tfqmr|toeplitz|toposort|trace|transclosure|translate|transreduction|trapz|treelayout|treeplot|triangulation|tril|trimesh|triplot|trisurf|triu|tsearchn|turningdist|unmesh|unmkpp|unwrap|vander|vecnorm|vertexAttachments|vertexNormal|volume|voronoi|voronoiDiagram|voronoin|wilkinson)\b
+      scope: support.function.builtin.matlab
+    # - match: \b(?:baryToCart|cartToBary|circumcenters|dblquad|DelaunayTri|faceNormals|incenters|inOutStatus|isEdge|quad|quadl|quadv|triplequad|TriRep|TriScatteredInterp)\b
+    #   scope: support.function.builtin.matlab invalid.deprecated.matlab
     # Graphics
-    - match: \b(alim|allchild|alpha|alphamap|ancestor|annotation|area|axes|axis|bar|bar3|bar3h|barh|box|brighten|camdolly|cameratoolbar|camlight|camlookat|camorbit|campan|campos|camproj|camroll|camtarget|camup|camva|camzoom|caxis|cla|clabel|clf|close|closereq|colorbar|colordef|colormap|colormapeditor|ColorSpec|comet|comet3|compass|coneplot|contour|contour3|contourc|contourf|contourslice|contrast|copyobj|curl|cylinder|daspect|datacursormode|datetick|delaunay|delaunay3|delaunayn|delete|diffuse|divergence|dragrect|drawnow|dsearch|dsearchn|ellipsoid|errorbar|ezcontour|ezcontourf|ezmesh|ezmeshc|ezplot|ezplot3|ezpolar|ezsurf|ezsurfc|feather|figure|figurepalette|fill|fill3|findall|findfigs|findobj|flow|fplot|frame2im|frameedit|gca|gcbf|gcbo|gcf|gco|get|getframe|graymon|grid|gtext|hgexport|hggroup|hgload|hgsave|hgtransform|hidden|hist|histc|hold|hsv2rgb|im2frame|im2java|image|imagesc|imformats|ind2rgb|inpolygon|interpstreamspeed|isocaps|isocolors|isonormals|isosurface|legend|light|lightangle|lighting|line|LineSpec|linkaxes|linkprop|loglog|makehgtform|material|mesh|meshc|meshz|movie|newplot|noanimate|opengl|orient|pan|pareto|patch|pbaspect|pcolor|peaks|pie|pie3|plot|plot3|plotbrowser|plotedit|plotmatrix|plottools|plotyy|polar|polyarea|print|printopt|propedit|propertyeditor|quiver|quiver3|rbbox|rectangle|rectint|reducepatch|reducevolume|refresh|refreshdata|reset|rgb2hsv|rgbplot|ribbon|rose|rotate|rotate3d|saveas|scatter|scatter3|semilogx|semilogy|set|shading|showplottool|shrinkfaces|slice|smooth3|specular|sphere|spinmap|stairs|stem|stem3|stream2|stream3|streamline|streamparticles|streamribbon|streamslice|streamtube|subplot|subvolume|surf|surf2patch|surface|surfc|surfl|surfnorm|tetramesh|texlabel|text|title|trimesh|triplot|trisurf|tsearch|tsearchn|view|viewmtx|volumebounds|voronoi|voronoin|waterfall|whitebg|xlabel|xlim|ylabel|ylim|zlabel|zlim|zoom)\b
-      scope: support.function.graphics.matlab
-    # Creating Graphical User Interfaces
-    - match: \b(addpref|align|dialog|errordlg|export2wsdlg|getappdata|getpixelposition|getpref|ginput|guidata|guide|guihandles|helpdlg|inputdlg|inspect|listdlg|listfonts|menu|movegui|msgbox|openfig|printdlg|printpreview|questdlg|rmappdata|rmpref|selectmoveresize|setappdata|setpixelposition|setpref|textwrap|uibuttongroup|uicontextmenu|uicontrol|uigetdir|uigetfile|uigetpref|uimenu|uiopen|uipanel|uipushtool|uiputfile|uiresume|uisave|uisetcolor|uisetfont|uisetpref|uistack|uitoggletool|uitoolbar|uiwait|waitbar|waitfor|waitforbuttonpress|warndlg)\b
-      scope: support.function.matlab
-    # External Interfaces
-    - match: \b(actxcontrol|actxcontrollist|actxcontrolselect|actxGetRunningServer|actxserver|addproperty|calllib|callSoapService|createClassFromWsdl|createSoapMessage|ddeadv|ddeexec|ddeinit|ddepoke|ddereq|ddeterm|ddeunadv|deleteproperty|enableservice|eventlisteners|events|Execute|GetCharArray|GetFullMatrix|GetVariable|GetWorkspaceData|import|instrcallback|instrfind|instrfindall|interfaces|invoke|javaaddpath|javaArray|javachk|javaclasspath|javaMethod|javaObject|javarmpath|libfunctions|libfunctionsview|libisloaded|libpointer|libstruct|loadlibrary|MaximizeCommandWindow|MinimizeCommandWindow|move|parseSoapResponse|PutCharArray|PutFullMatrix|PutWorkspaceData|readasync|record|registerevent|release|send|serial|serialbreak|stopasync|unloadlibrary|unregisterallevents|unregisterevent|usejava)\b
-      scope: support.external.matlab
+    - match: \b(?:addpoints|alim|allchild|alpha|alphamap|ancestor|animatedline|annotation|area|autumn|axes|bar|bar3|bar3h|barh|binscatter|bone|box|boxchart|brighten|bubblechart|bubblechart3|bubblelegend|bubblelim|bubblesize|camdolly|cameratoolbar|camlight|camlookat|camorbit|campan|campos|camproj|camroll|camtarget|camup|camva|camzoom|caxis|clabel|clearpoints|clf|cmap2gray|cmpermute|cmunique|colorbar|colorcube|colordef|colormap|colororder|comet|comet3|compass|coneplot|contour|contour3|contourc|contourf|contourslice|contrast|cool|copper|copygraphics|copyobj|curl|cylinder|daspect|datatip|datetick|diffuse|dither|divergence|dragrect|ellipsoid|errorbar|exportapp|exportgraphics|eye|ezpolar|fcontour|feather|fewerbins|fill|fill3|fimplicit|fimplicit3|findall|findfigs|findobj|flag|flow|fmesh|fplot|fplot3|frame2im|fsurf|geoaxes|geobasemap|geobubble|geodensityplot|geolimits|geoplot|geoscatter|geotickformat|getAxes|getColorbar|getframe|getLayout|getLegend|getpoints|getrangefromclass|ginput|gobjects|gray|graymon|groot|gtext|heatmap|hgexport|hggroup|hgload|hgsave|hgtransform|histcounts|histcounts2|histogram|histogram2|hot|hsv|hsv2rgb|im2double|im2frame|im2gray|im2java|image|imagesc|imapprox|imfinfo|imformats|imread|imresize|imshow|imtile|imwrite|ind2rgb|interpstreamspeed|ishandle|ishghandle|ishold|isocaps|isocolors|isonormals|isosurface|jet|legend|light|lightangle|lighting|line|lines|loglog|makehgtform|mesh|meshc|meshz|morebins|movie|newplot|nexttile|num2ruler|openfig|orient|pagesetupdlg|parallelplot|pareto|parula|patch|pbaspect|pcolor|peaks|pie|pie3|pink|plot3|plotmatrix|polaraxes|polarbubblechart|polarhistogram|polarplot|polarscatter|print|printopt|prism|quiver|quiver3|rbbox|rectangle|reducepatch|reducevolume|refresh|refreshdata|rendererinfo|reset|rgb2gray|rgb2hsv|rgb2ind|rgbplot|ribbon|rlim|rose|rtickangle|rtickformat|rticklabels|rticks|ruler2num|saveas|savefig|scatter|scatter3|scatterhistogram|semilogx|semilogy|setup|sgtitle|shading|shg|shrinkfaces|slice|smooth3|sortx|sorty|specular|sphere|spinmap|spring|stairs|stem|stem3|stream2|stream3|streamline|streamparticles|streamribbon|streamslice|streamtube|subplot|subtitle|subvolume|summer|surf|surf2patch|surface|surfc|surfl|surfnorm|swarmchart|swarmchart3|texlabel|text|thetalim|thetatickformat|thetaticklabels|thetaticks|tiledlayout|title|turbo|uicontextmenu|uimenu|update|view|viewmtx|volumebounds|waterfall|whitebg|winter|wordcloud|xlabel|xlim|xline|xtickangle|xtickformat|xticklabels|xticks|ylabel|ylim|yline|ytickangle|ytickformat|yticklabels|yticks|yyaxis|zlabel|zlim|ztickangle|ztickformat|zticklabels|zticks)\b
+      scope: support.function.builtin.matlab
+    # - match: \b(?:ezcontour|ezcontourf|ezmesh|ezmeshc|ezplot|ezplot3|ezsurf|ezsurfc|hist|histc|plotyy|polar)\b
+    #   scope: support.function.builtin.matlab invalid.deprecated.matlab
+    # Programming
+    - match: \b(?:event|inputParser|MException)\b
+      scope: support.class.builtin.matlab
+    - match: \b(?:matlabroot|pathsep|pwd|tempdir)\b
+      scope: support.constant.builtin.matlab
+    - match: \b(?:addCause|addCorrection|addlistener|addOptional|addParameter|addpath|addRequired|allowModelReferenceDiscreteSampleTimeInheritanceImpl|assert|assignin|builtin|clone|copy|copyElement|createSampleTime|details|display|displayEmptyObject|displayNonScalarObject|displayScalarHandleToDeletedObject|displayScalarObject|dynamicprops|edit|empty|eq|error|eval|evalc|evalin|events|feval|fileattrib|filemarker|fileparts|filesep|findprop|fullfile|genpath|genvarname|getCurrentTime|getDiscreteStateImpl|getDiscreteStateSpecificationImpl|getdisp|getFooter|getGlobalNamesImpl|getHeader|getHeaderImpl|getIconImpl|getImpulseResponseLengthImpl|getInputDimensionConstraintImpl|getInputNamesImpl|getNumInputs|getNumInputsImpl|getNumOutputs|getNumOutputsImpl|getOutputDataTypeImpl|getOutputDimensionConstraintImpl|getOutputNamesImpl|getOutputSizeImpl|getPropertyGroups|getPropertyGroupsImpl|getReport|getSampleTime|getSampleTimeImpl|getSimulateUsingImpl|getSimulinkFunctionNamesImpl|grabcode|gunzip|gzip|hgsetget|infoImpl|input|inputname|isDiscreteStateSpecificationMutableImpl|isDone|isDoneImpl|isfile|isfolder|isInactivePropertyImpl|isInputComplexityMutableImpl|isInputDataTypeMutableImpl|isInputDirectFeedthroughImpl|isInputSizeLockedImpl|isInputSizeMutableImpl|isLocked|ismethod|isOutputComplexImpl|isOutputFixedSizeImpl|isprop|isTunablePropertyDataTypeMutableImpl|isvalid|isvarname|lasterr|lasterror|lastwarn|listener|loadobj|loadObjectImpl|ls|maxNumCompThreads|metaclass|methods|mfilename|mislocked|mlock|munlock|mustBeA|mustBeFile|mustBeFinite|mustBeFloat|mustBeFolder|mustBeGreaterThan|mustBeGreaterThanOrEqual|mustBeInRange|mustBeInteger|mustBeLessThan|mustBeLessThanOrEqual|mustBeMember|mustBeNegative|mustBeNonempty|mustBeNonmissing|mustBeNonNan|mustBeNonnegative|mustBeNonpositive|mustBeNonsparse|mustBeNonzero|mustBeNonzeroLengthText|mustBeNumeric|mustBeNumericOrLogical|mustBePositive|mustBeReal|mustBeScalarOrEmpty|mustBeText|mustBeTextScalar|mustBeUnderlyingType|mustBeValidVariableName|mustBeVector|namedargs2cell|namelengthmax|nargchk|narginchk|nargoutchk|notify|numArgumentsFromSubscript|onCleanup|outputImpl|parse|path|path2rc|pathtool|pcode|persistent|processInputSpecificationChangeImpl|processTunedPropertiesImpl|propagatedInputComplexity|propagatedInputDataType|propagatedInputFixedSize|propagatedInputSize|properties|publish|recycle|rehash|relationaloperators|release|releaseImpl|resetImpl|rethrow|rmpath|run|saveobj|saveObjectImpl|savepath|setdisp|setProperties|setupImpl|showFiSettingsImpl|showSimulateUsingImpl|snapnow|start|startat|step|stepImpl|subsasgn|subsindex|subsref|substruct|superclasses|supportsMultipleInstanceImpl|sysobjupdate|tar|tempname|throw|throwAsCaller|timer|timerfind|timerfindall|toolboxdir|untar|unzip|updateImpl|userpath|validateattributes|validatecolor|validateInputsImpl|validatePropertiesImpl|validatestring|visdiff|wait|warning|what|which|winopen|zip)\b
+      scope: support.function.builtin.matlab
+    # - match: \b(?:addParamValue|isdir)\b
+    #   scope: support.function.builtin.matlab invalid.deprecated.matlab
+    # App Building
+    - match: \b(?:addStyle|align|appdesigner|closereq|collapse|dialog|errordlg|expand|export2wsdlg|exportsetupdlg|geoaxes|getappdata|getpixelposition|guidata|guihandles|helpdlg|inputdlg|isappdata|listdlg|listfonts|move|movegui|msgbox|printdlg|printpreview|questdlg|removeStyle|rmappdata|scroll|setappdata|setpixelposition|textwrap|uialert|uiaxes|uibutton|uibuttongroup|uicheckbox|uiconfirm|uicontextmenu|uicontrol|uidatepicker|uidropdown|uieditfield|uifigure|uigauge|uigetdir|uigetfile|uigetpref|uigridlayout|uihtml|uiimage|uiknob|uilabel|uilamp|uilistbox|uimenu|uiopen|uipanel|uiprogressdlg|uipushtool|uiputfile|uiradiobutton|uiresume|uisave|uisetcolor|uisetfont|uisetpref|uislider|uispinner|uistack|uistyle|uiswitch|uitab|uitabgroup|uitable|uitextarea|uitogglebutton|uitoggletool|uitoolbar|uitree|uitreenode|uiwait|waitbar|waitfor|warndlg)\b
+      scope: support.function.builtin.matlab
+    # - match: \b(?:guide|menu)\b
+    #   scope: support.function.builtin.matlab invalid.deprecated.matlab
+    # Software Development Tools
+    - match: \b(?:cputime|currentProject|memory)\b
+      scope: support.constant.builtin.matlab
+    - match: \b(?:addCondition|addConditionsFrom|addFile|addFolderIncludingChildFiles|addGroup|addLabel|addPlugin|addReference|addSetting|addShortcut|addShutdownFile|addStartupFile|addTeardown|analyzeCodeCompatibility|applyFixture|assertAccessed|assertCalled|assertClass|assertEmpty|assertEqual|assertError|assertFail|assertFalse|assertGreaterThan|assertGreaterThanOrEqual|assertInstanceOf|assertLength|assertLessThan|assertLessThanOrEqual|assertMatches|assertNotAccessed|assertNotCalled|assertNotEmpty|assertNotEqual|assertNotSameHandle|assertNotSet|assertNumElements|assertReturnsTrue|assertSameHandle|assertSet|assertSize|assertSubstring|assertThat|assertTrue|assertUsing|assertWarning|assertWarningFree|assignOutputsWhen|assumeAccessed|assumeCalled|assumeClass|assumeEmpty|assumeEqual|assumeError|assumeFail|assumeFalse|assumeGreaterThan|assumeGreaterThanOrEqual|assumeInstanceOf|assumeLength|assumeLessThan|assumeLessThanOrEqual|assumeMatches|assumeNotAccessed|assumeNotCalled|assumeNotEmpty|assumeNotEqual|assumeNotSameHandle|assumeNotSet|assumeNumElements|assumeReturnsTrue|assumeSameHandle|assumeSet|assumeSize|assumeSubstring|assumeThat|assumeTrue|assumeUsing|assumeWarning|assumeWarningFree|bench|builddocsearchdb|checkcode|choose|chooseContextMenu|clearAllMemoizedCaches|clearCache|clearMockHistory|close|CodeCompatibilityAnalysis|codeCompatibilityReport|comparisonPlot|copyTo|createCategory|createLabel|createMock|createSharedTestFixture|createTestClassInstance|createTestMethodInstance|dbclear|dbcont|dbdown|dbquit|dbstack|dbstatus|dbstep|dbstop|dbtype|dbup|diagnose|drag|export|fatalAssertAccessed|fatalAssertCalled|fatalAssertClass|fatalAssertEmpty|fatalAssertEqual|fatalAssertError|fatalAssertFail|fatalAssertFalse|fatalAssertGreaterThan|fatalAssertGreaterThanOrEqual|fatalAssertInstanceOf|fatalAssertLength|fatalAssertLessThan|fatalAssertLessThanOrEqual|fatalAssertMatches|fatalAssertNotAccessed|fatalAssertNotCalled|fatalAssertNotEmpty|fatalAssertNotEqual|fatalAssertNotSameHandle|fatalAssertNotSet|fatalAssertNumElements|fatalAssertReturnsTrue|fatalAssertSameHandle|fatalAssertSet|fatalAssertSize|fatalAssertSubstring|fatalAssertThat|fatalAssertTrue|fatalAssertUsing|fatalAssertWarning|fatalAssertWarningFree|findCategory|findFile|findLabel|functiontests|getDiagnosticFor|getMockHistory|getNegativeDiagnosticFor|getPostActValString|getPostConditionString|getPostDescriptionString|getPostExpValString|getPreDescriptionString|getSharedTestFixtures|hover|inmem|isCompatible|isLoaded|keepMeasuring|keyboard|listModifiedFiles|listRequiredFiles|memoize|mlint|mlintrpt|move|needsReset|onFailure|openProject|pack|press|profile|profsave|refreshSourceControl|reload|removeCategory|removeFile|removeLabel|removePath|removeReference|removeShortcut|removeShutdownFile|removeStartupFile|repeat|reportFinalizedResult|reportFinalizedSuite|retrieveFrom|returnStoredValueWhen|runChecks|runInParallel|runperf|runSession|runTest|runTestClass|runTestMethod|runtests|runTestSuite|samplefun|sampleSummary|satisfiedBy|selectFailed|selectIf|selectIncomplete|selectLogged|selectPassed|setToValue|setupSharedTestFixture|setupTestClass|setupTestMethod|sortByFixtures|startMeasuring|stats|stopMeasuring|storeIn|storeValueWhen|supports|supportsParallel|teardown|teardownSharedTestFixture|teardownTestClass|teardownTestMethod|testsuite|then|throwExceptionWhen|timeit|updateDependencies|validateFunctionSignaturesJSON|verifyAccessed|verifyCalled|verifyClass|verifyEmpty|verifyEqual|verifyError|verifyFail|verifyFalse|verifyGreaterThan|verifyGreaterThanOrEqual|verifyInstanceOf|verifyLength|verifyLessThan|verifyLessThanOrEqual|verifyMatches|verifyNotAccessed|verifyNotCalled|verifyNotEmpty|verifyNotEqual|verifyNotSameHandle|verifyNotSet|verifyNumElements|verifyReturnsTrue|verifySameHandle|verifySet|verifySize|verifySubstring|verifyThat|verifyTrue|verifyUsing|verifyWarning|verifyWarningFree|VersionResults|when|withAnyInputs|withExactInputs|withNargout)\b
+      scope: support.function.builtin.matlab
+    # External Language Interfaces
+    - match: \b(?:mex|NET)\b
+      scope: support.class.builtin.matlab
+    - match: \b(?:actxGetRunningServer|actxserver|addClass|addConstructor|addEnumeration|addFields|addFunction|addMethod|addProperty|BeginInvoke|bitnot|build|calllib|cancel|cancelled|changeFields|char|clibArray|clibConvertArray|clibgen.buildInterface|clibgen.ClassDefinition|clibgen.ConstructorDefinition|clibgen.EnumDefinition|clibgen.FunctionDefinition|clibgen.generateLibraryDefinition|clibgen.LibraryDefinition|clibgen.MethodDefinition|clibgen.PropertyDefinition|clibIsNull|clibIsReadOnly|clibRelease|Combine|complete|comserver|convert|convertLike|dbmex|defineArgument|defineOutput|delegateTo|deleteproperty|disp|done|enableservice|EndInvoke|eq|eventlisteners|Execute|expectedContentLength|feval|Feval|GetCharArray|getClass|getData|getFields|GetFullMatrix|getParameter|getReasonPhrase|GetVariable|GetWorkspaceData|initialize|invoke|iscom|isevent|isinterface|isjava|isNull|javaaddpath|javaArray|javachk|javaclasspath|javaMethod|javaMethodEDT|javaObject|javaObjectEDT|javarmpath|libfunctions|libfunctionsview|libisloaded|libpointer|libstruct|loadlibrary|MaximizeCommandWindow|methodsview|mexext|mexhost|MinimizeCommandWindow|move|preferredBufferSize|propedit|PutCharArray|putData|PutFullMatrix|PutWorkspaceData|pyargs|pyenv|Quit|registerevent|regmatlabserver|Remove|RemoveAll|removeFields|removeParameter|replaceFields|restartable|result|reusable|send|setdatatype|setParameter|show|start|terminate|underlyingValue|unloadlibrary|unregisterallevents|unregisterevent|usejava|validate)\b
+      scope: support.function.builtin.matlab
+    # - match: \b(?:pyversion)\b
+    #   scope: support.constant.builtin.matlab invalid.deprecated.matlab
+    # Environment and Settings
+    - match: \b(?:computer|ismac|ispc|isstudent|isunix|matlabRelease)\b
+      scope: support.constant.builtin.matlab
+    - match: \b(?:addpref|batchStartupOptionUsed|canUseGPU|canUseParallelPool|clearPersonalValue|clearTemporaryValue|clipboard|dos|getenv|getpref|hasFactoryValue|hasGroup|hasPersonalValue|hasSetting|hasTemporaryValue|isMATLABReleaseOlderThan|ispref|javachk|license|perl|prefdir|removeGroup|removeSetting|rmpref|setenv|setpref|settings|system|unix|upgradePreviouslyInstalledSupportPackages|usejava|verLessThan|version|winqueryreg)\b
+      scope: support.function.builtin.matlab
   toolbox_functions:
     # Matlab aerospace toolbox
     - match: \b(wrldmagm|updateNodes|updateCamera|updateBodies|update|show|saveas|rrtheta|rrsigma|rrdelta|removeViewpoint|removeNode|removeBody|read|quatrotate|quatnormalize|quatnorm|quatmultiply|quatmod|quatinv|quatdivide|quatconj|quat2dcm|quat2angle|play|nodeInfo|moveBody|move|mjuliandate|machnumber|load|lla2ecef|leapyear|juliandate|initialize|initIfNeeded|hide|gravitywgs84|geoidegm96|geod2geoc|geocradius|geoc2geod|generatePatches|findstartstoptimes|fganimation|ecef2lla|dpressure|delete|decyear|dcmecef2ned|dcmbody2wind|dcm2quat|dcm2latlon|dcm2angle|dcm2alphabeta|datcomimport|createBody|correctairspeed|convvel|convtemp|convpres|convmass|convlength|convforce|convdensity|convangvel|convangacc|convang|convacc|atmospalt|atmosnrlmsise00|atmosnonstd|atmoslapse|atmosisa|atmoscoesa|atmoscira|angle2quat|angle2dcm|alphabeta|airspeed|addViewpoint|addRoute|addNode|addBody|VirtualRealityAnimation|Viewpoint|Node|Geometry|GenerateRunScript|Camera|Body|Animation)\b

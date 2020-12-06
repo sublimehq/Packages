@@ -319,21 +319,21 @@ end
   true; false
 % ^^^^ constant.language.matlab
 %       ^^^^^ constant.language.matlab
-  Inf; inf; NaN; nan
+  Inf; NaN
 % ^^^ constant.language.matlab
 %      ^^^ constant.language.matlab
-%           ^^^ constant.language.matlab
-%                ^^^ constant.language.matlab
+
   eps; pi
 % ^^^ constant.language.matlab
 %      ^^ constant.language.matlab
 
-  intmax; intmin; realmax; realmin; namelengthmax
+  intmax; intmin; realmax; realmin; namelengthmax; flintmax
 % ^^^^^^ constant.language.matlab
 %         ^^^^^^ constant.language.matlab
 %                 ^^^^^^^ constant.language.matlab
 %                          ^^^^^^^ constant.language.matlab
 %                                   ^^^^^^^^^^^^^ constant.language.matlab
+%                                                  ^^^^^^^^ constant.language.matlab
 
 % A single i or j should not be highlighted as built-in constant, because they
 % usually refer to index or loop variables. For the imaginary unit use 1i instead.
@@ -468,6 +468,8 @@ expr1 && expr2  % Logical AND with short-circuiting
 %     ^^ keyword.operator.logical.matlab
 expr1 || expr2  % Logical OR with short-circuiting
 %     ^^ keyword.operator.logical.matlab
+B = ~A
+%   ^ keyword.operator.logical.matlab
 x = j:k         % Vector creation
 %    ^ keyword.operator.colon.matlab
 A(:,n)          % Array subscripting
@@ -514,3 +516,57 @@ s1="00:06:57";
 parfor x = 1:10
 %^^^^^ keyword.control.loop.matlab
 end
+
+
+%---------------------------------------------
+% Built-in commands and functions
+
+   import matlab.io.hdf4.*
+%  ^^^^^^ keyword.other.import.matlab
+%         ^^^^^^^^^^^^^^^^ meta.path.import.matlab
+%                        ^ - keyword.operator
+
+   clear all
+%  ^^^^^ keyword.other.command.matlab
+%        ^^^ support.constant.matlab
+   clear on
+%        ^^ - support
+   clc
+%  ^^^ keyword.other.command.matlab
+
+   figure
+%  ^^^^^^ keyword.other.command.matlab
+   grid on
+%  ^^^^ keyword.other.command.matlab
+%       ^^ support.constant.matlab
+   axis equal
+%  ^^^^ keyword.other.command.matlab
+%       ^^^^^ support.constant.matlab
+
+   tic
+%  ^^^ keyword.other.command.matlab
+   pause(1)
+%  ^^^^^ support.function.builtin.matlab
+   toc
+%  ^^^ keyword.other.command.matlab
+
+tEnd = cputime - tStart
+%      ^^^^^^^ support.constant.builtin.matlab
+
+X = zeros
+%   ^^^^^ support.function.builtin.matlab
+X = zeros(2)
+%   ^^^^^ support.function.builtin.matlab
+
+   not(and(A, B))
+%  ^^^ support.function.builtin.matlab - keyword.operator
+%      ^^^ support.function.builtin.matlab - keyword.operator
+
+y = int32(10)
+%   ^^^^^ support.function.builtin.matlab storage.type.matlab
+
+X = inf(n)
+%   ^^^ support.function.builtin.matlab
+
+X = nan(n)
+%   ^^^ support.function.builtin.matlab
