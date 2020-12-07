@@ -80,6 +80,8 @@ contexts:
           set: transpose
         - include: separator_comma
         - include: separator_semicolon
+        - match: ~
+          scope: variable.language.blank.matlab
         - include: allofem
   constants_override:
     # The user is trying to override MATLAB constants and functions.
@@ -136,6 +138,8 @@ contexts:
             - match: \w+
               scope: variable.parameter.input.matlab
             - include: separator_comma
+            - match: ~
+              scope: variable.language.blank.matlab
             - match: \)
               scope: punctuation.section.parens.end.matlab
               pop: true

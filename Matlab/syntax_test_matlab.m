@@ -284,6 +284,15 @@ function myFunction(x)  % function without output
 %                       ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.percentage.matlab
 end
 
+function myFunction(myInput,~,~)
+%                  ^^^^^^^^^^^^^ meta.function.parameters.matlab
+%                   ^^^^^^^ variable.parameter.input.matlab
+%                          ^ punctuation.separator.sequence.matlab
+%                           ^ variable.language.blank.matlab - keyword.operator
+%                            ^ punctuation.separator.sequence.matlab
+%                             ^ variable.language.blank.matlab - keyword.operator
+end
+
 function [] = myFunction(x)  % function without output
 %^^^^^^^^^^^^^^^^^^^^^^^ meta.function.matlab
 %                       ^^^ meta.function.parameters.matlab
@@ -363,6 +372,13 @@ X(1:2:end)
 
 C{end}
 % ^^^ variable.language.matlab
+
+[~,~,iB] = union(A,B)
+%^ variable.language.blank.matlab - keyword.operator
+% ^ punctuation.separator.sequence.matlab
+%  ^ variable.language.blank.matlab - keyword.operator
+%   ^ punctuation.separator.sequence.matlab
+%    ^^ meta.variable.other.valid.matlab
 
 
 %---------------------------------------------
