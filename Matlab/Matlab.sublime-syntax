@@ -11,6 +11,7 @@ variables:
 contexts:
   main:
     - include: function_declaration
+    - include: class_declaration
     - include: constants_override
     - include: brackets
     - include: braces
@@ -19,6 +20,7 @@ contexts:
     - include: separator_comma
     - include: string
     - include: structure
+    - include: keywords
     - include: all_matlab_keywords
     - include: all_matlab_comments
     - include: number
@@ -51,8 +53,6 @@ contexts:
         1: punctuation.separator.continuation.line.matlab
         2: comment.line.matlab
   all_matlab_keywords:
-    - include: keywords
-    - include: class_declaration
     - include: builtin_constants
     - include: builtin_variables
     - include: commands
