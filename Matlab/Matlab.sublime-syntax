@@ -19,7 +19,6 @@ contexts:
     - include: function-declaration
     - include: class-declaration
     - include: keywords
-    - include: constants-override
     - include: statements
 
   statements:
@@ -612,8 +611,3 @@ contexts:
     # No variables or function names can start with a number or an underscore.
     - match: '\b(_\w|\d+[_a-df-zA-DF-Z])\w*\b'
       scope: invalid.illegal.invalid-variable-name.matlab
-
-  constants-override:
-    # The user is trying to override MATLAB constants and functions.
-    - match: '(^|\;)\s*(ans|i|j|inf|Inf|nan|NaN|eps|end)\s*=[^=]'
-      scope: meta.inappropriate.matlab
