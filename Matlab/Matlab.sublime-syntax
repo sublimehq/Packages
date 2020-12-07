@@ -385,6 +385,8 @@ contexts:
       scope: keyword.operator.colon.matlab
     - match: '='
       scope: keyword.operator.assignment.matlab
+    - match: \?(?=[A-Za-z])
+      scope: keyword.operator.metaclass.matlab
 
   transpose:
     - match: (?:\.?\')?

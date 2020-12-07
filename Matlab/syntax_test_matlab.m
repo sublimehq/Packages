@@ -494,12 +494,14 @@ expr1 && expr2  % Logical AND with short-circuiting
 %     ^^ keyword.operator.logical.matlab
 expr1 || expr2  % Logical OR with short-circuiting
 %     ^^ keyword.operator.logical.matlab
-B = ~A
+B = ~A          % Logical NOT
 %   ^ keyword.operator.logical.matlab
 x = j:k         % Vector creation
 %    ^ keyword.operator.colon.matlab
 A(:,n)          % Array subscripting
 % ^ keyword.operator.colon.matlab
+mc = ?ClassName % Obtain meta.class object
+%    ^ keyword.operator.metaclass.matlab
 
 
 %---------------------------------------------
