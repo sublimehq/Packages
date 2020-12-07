@@ -15,6 +15,8 @@ contexts:
     - include: brackets
     - include: braces
     - include: parens
+    - include: terminator
+    - include: separator_comma
     - include: string
     - include: structure
     - include: all_matlab_keywords
@@ -76,6 +78,8 @@ contexts:
         - match: '\]'
           scope: punctuation.section.brackets.end.matlab
           set: transpose
+        - include: separator_comma
+        - include: separator_semicolon
         - include: allofem
   constants_override:
     # The user is trying to override MATLAB constants and functions.
@@ -89,6 +93,8 @@ contexts:
         - match: \}
           scope: punctuation.section.braces.end.matlab
           set: transpose
+        - include: separator_comma
+        - include: separator_semicolon
         - include: end_in_parens
         - include: allofem
   end_in_parens:
@@ -113,8 +119,7 @@ contexts:
           push:
             - match: \w+
               scope: variable.parameter.output.matlab
-            - match: ','
-              scope: punctuation.separator.sequence.matlab
+            - include: separator_comma
             - match: '\]'
               scope: punctuation.section.brackets.end.matlab
               pop: true
@@ -130,8 +135,7 @@ contexts:
               scope: punctuation.section.parens.begin.matlab
             - match: \w+
               scope: variable.parameter.input.matlab
-            - match: \,
-              scope: punctuation.separator.sequence.matlab
+            - include: separator_comma
             - match: \)
               scope: punctuation.section.parens.end.matlab
               pop: true
@@ -364,8 +368,7 @@ contexts:
             - match: \)
               scope: punctuation.section.parens.end.matlab
               pop: true
-            - match: \,
-              scope: punctuation.separator.sequence.matlab
+            - include: separator_comma
             # https://www.mathworks.com/help/matlab/matlab_oop/class-attributes.html
             - match: \b(?:Abstract|AllowedSubclasses|ConstructOnLoad|HandleCompatible|Hidden|InferiorClasses|Sealed)\b
               scope: variable.parameter.attribute.matlab
@@ -401,8 +404,7 @@ contexts:
             - match: \)
               scope: punctuation.section.parens.end.matlab
               pop: true
-            - match: \,
-              scope: punctuation.separator.sequence.matlab
+            - include: separator_comma
             # https://www.mathworks.com/help/matlab/matlab_oop/property-attributes.html
             - match: \b(?:AbortSet|Abstract|Access|Constant|Dependent|GetAccess|GetObservable|Hidden|NonCopyable|PartialMatchPriority|SetAccess|SetObservable|Transient)\b
               scope: variable.parameter.attribute.matlab
@@ -428,8 +430,7 @@ contexts:
             - match: \)
               scope: punctuation.section.parens.end.matlab
               pop: true
-            - match: \,
-              scope: punctuation.separator.sequence.matlab
+            - include: separator_comma
             # https://www.mathworks.com/help/matlab/matlab_oop/method-attributes.html
             - match: \b(?:Abstract|Access|Hidden|Sealed|Static)\b
               scope: variable.parameter.attribute.matlab
@@ -514,8 +515,18 @@ contexts:
           scope: punctuation.section.parens.end.matlab
           # pop: true
           set: transpose
+        - include: separator_comma
         - include: end_in_parens
         - include: allofem
+  terminator:
+    - match: \;
+      scope: punctuation.terminator.matlab
+  separator_comma:
+    - match: \,
+      scope: punctuation.separator.sequence.matlab
+  separator_semicolon:
+    - match: \;
+      scope: punctuation.separator.sequence.matlab
   special_characters:
     # Operator symbols
     - match: '((\%([\+\-0]?\d{0,3}(\.\d{1,3})?)(c|d|e|E|f|g|G|s|((b|t)?(o|u|x|X))))|\%\%|\\(b|f|n|r|t|\\))'
