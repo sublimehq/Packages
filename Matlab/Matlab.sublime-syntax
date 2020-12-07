@@ -239,6 +239,16 @@ contexts:
               pop: true
     - match: \barguments\b
       scope: keyword.other.arguments.matlab
+      push:
+        - meta_scope: meta.arguments.matlab
+        - match: \bend\b
+          scope: keyword.control.matlab
+          pop: true
+        - match: \b\.\?
+          scope: keyword.operator.properties.matlab
+        - include: terminator
+        - include: separator-comma
+        - include: allofem
 
   class-declaration:
     - match: \bclassdef\b

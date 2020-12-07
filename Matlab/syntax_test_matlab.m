@@ -328,6 +328,14 @@ function myFunction(x)
    arguments  % function argument validation block
 %  ^^^^^^^^^ keyword.other.arguments.matlab
       x (1,1) double {mustBePositive} = 1.0
+      propArgs.?matlab.graphics.chart.primitive.Bar
+%     ^^^^^^^^ meta.variable.other.valid.matlab
+%             ^^ keyword.operator.properties.matlab - meta.variable.other.valid.matlab - punctuation
+%               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.variable.other.valid.matlab
+%                     ^ punctuation.accessor.dot.matlab
+%                              ^ punctuation.accessor.dot.matlab
+%                                    ^ punctuation.accessor.dot.matlab
+%                                              ^ punctuation.accessor.dot.matlab
    end
 end
 
