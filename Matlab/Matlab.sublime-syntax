@@ -21,7 +21,6 @@ contexts:
     - include: keywords
     - include: constants-override
     - include: statements
-    - include: invalid-not-equal
     - include: invalid-assignment
 
   statements:
@@ -614,11 +613,6 @@ contexts:
     # No variables or function names can start with a number or an underscore.
     - match: '\b(_\w|\d+[_a-df-zA-DF-Z])\w*\b'
       scope: invalid.illegal.invalid-variable-name.matlab
-
-  invalid-not-equal:
-    # Not equal is written ~= not !=.
-    - match: \s*!=\s*
-      scope: invalid.illegal.invalid-inequality.matlab
 
   invalid-assignment:
     # Incomplete variable assignment.
