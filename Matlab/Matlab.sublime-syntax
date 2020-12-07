@@ -6,7 +6,8 @@ file_extensions:
   - matlab
 scope: source.matlab
 variables:
-  id: '[A-Za-z_]\w*'
+  # https://www.mathworks.com/help/matlab/matlab_prog/variable-names.html
+  identifier: '[A-Za-z]\w*'
 contexts:
   main:
     - include: function_declaration
@@ -15,7 +16,7 @@ contexts:
     - include: braces
     - include: parens
     - include: string
-    - include: members
+    - include: structure
     - include: all_matlab_keywords
     - include: all_matlab_comments
     - include: number
@@ -24,11 +25,6 @@ contexts:
     - include: variable_invalid
     - include: not_equal_invalid
     - include: variable_assignment
-  members:
-    - match: ({{id}})(\.)({{id}})
-      captures:
-        2: punctuation.accessor.dot.matlab
-      push: transpose
   all_matlab_comments:
     - match: ^\s*(%\{)\s*\n
       captures:
@@ -64,6 +60,7 @@ contexts:
     - include: braces
     - include: brackets
     - include: string
+    - include: structure
     - include: all_matlab_keywords
     - include: all_matlab_comments
     - include: variable
@@ -548,10 +545,22 @@ contexts:
   unescaped_quote:
     - match: "'(?=.)"
       scope: invalid.illegal.unescaped-quote.matlab
+  structure:
+    - match: '\b{{identifier}}(\.)\b'
+      captures:
+        1: punctuation.accessor.dot.matlab
+      push:
+        - meta_scope: meta.variable.other.valid.matlab
+        - match: '{{identifier}}(\.)\b'
+          captures:
+            1: punctuation.accessor.dot.matlab
+        - match: '{{identifier}}'
+          set: transpose
   variable:
-    # Valid variable. Added meta to disable highlighting
-    - match: '\b{{id}}\b'
+    - match: '\b{{identifier}}\b'
       scope: meta.variable.other.valid.matlab
+      captures:
+        1: punctuation.accessor.dot.matlab
       push: transpose
   variable_assignment:
     # Incomplete variable assignment.

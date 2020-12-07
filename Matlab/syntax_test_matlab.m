@@ -476,17 +476,67 @@ A(:,n)          % Array subscripting
 % ^ keyword.operator.colon.matlab
 
 
-c = a.b' % is the conjugate and transpose of the field b of structure a
+%---------------------------------------------
+% Variables, structure arrays and transpose operator
+
+x = a
+%   ^ meta.variable.other.valid.matlab
+x = _a
+%   ^^ invalid.illegal.invalid-variable-name.matlab
+x = 6x
+%   ^^ invalid.illegal.invalid-variable-name.matlab
+x = a.b.c
+%   ^^^^^ meta.variable.other.valid.matlab
+%    ^ punctuation.accessor.dot.matlab
+%      ^ punctuation.accessor.dot.matlab
+X = zeros.*eye
+%   ^^^^^ support.function.builtin.matlab
+%        ^^ keyword.operator.arithmetic.matlab
+%          ^^^ support.function.builtin.matlab
+X = data.zeros.*eye
+%   ^^^^^^^^^^ meta.variable.other.valid.matlab - support.function
+%       ^ punctuation.accessor.dot.matlab
+%             ^^ keyword.operator.arithmetic.matlab - punctuation.accessor
+x = zeros.eye
+%   ^^^^^^^^^ meta.variable.other.valid.matlab - support.function
+%        ^ punctuation.accessor.dot.matlab
+x = A(n)
+%     ^ meta.variable.other.valid.matlab
+x = A(a.b.c)
+%     ^^^^^ meta.variable.other.valid.matlab
+%      ^ punctuation.accessor.dot.matlab
+%        ^ punctuation.accessor.dot.matlab
+x = [1, 2, n]
+%          ^ meta.variable.other.valid.matlab
+x = [1, 2, a.b]
+%          ^^^ meta.variable.other.valid.matlab
+%           ^ punctuation.accessor.dot.matlab
+x = a.b'
+%   ^^^ meta.variable.other.valid.matlab
 %    ^ punctuation.accessor.dot.matlab
 %      ^ keyword.operator.transpose.matlab
-c = a.b.' % is the transpose of the field b of structure a
+x = a.b.'
+%   ^^^ meta.variable.other.valid.matlab
 %    ^ punctuation.accessor.dot.matlab
 %      ^^ keyword.operator.transpose.matlab
-x = a[3]' + b(4)' % is the conjugate and transpose
+x = a.b.c'
+%   ^^^^^ meta.variable.other.valid.matlab
+%    ^ punctuation.accessor.dot.matlab
+%      ^ punctuation.accessor.dot.matlab
+%        ^ keyword.operator.transpose.matlab
+x = a.b.c.'
+%   ^^^^^ meta.variable.other.valid.matlab
+%    ^ punctuation.accessor.dot.matlab
+%      ^ punctuation.accessor.dot.matlab
+%        ^^ keyword.operator.transpose.matlab
+x = a[3]' + b(4)'
+%   ^ meta.variable.other.valid.matlab
 %       ^ keyword.operator.transpose.matlab
+%           ^ meta.variable.other.valid.matlab
 %               ^ keyword.operator.transpose.matlab
-
 l = {l.n}';
+%    ^^^ meta.variable.other.valid.matlab
+%     ^ punctuation.accessor.dot.matlab
 %        ^ keyword.operator.transpose.matlab
 
 %---------------------------------------------
