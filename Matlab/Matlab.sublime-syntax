@@ -1,35 +1,68 @@
 %YAML 1.2
 ---
-# http://www.sublimetext.com/docs/3/syntax.html
+# https://www.sublimetext.com/docs/syntax.html
+# https://www.mathworks.com/help/matlab/index.html
 name: MATLAB
+scope: source.matlab
+
 file_extensions:
   - matlab
-scope: source.matlab
+
 variables:
-  # https://www.mathworks.com/help/matlab/matlab_prog/variable-names.html
-  identifier: '[A-Za-z]\w*'
+  identifier: '[A-Za-z]\w*' # https://www.mathworks.com/help/matlab/matlab_prog/variable-names.html
+
+##############################################################################
+
 contexts:
+
   main:
-    - include: function_declaration
-    - include: class_declaration
-    - include: constants_override
+    - include: function-declaration
+    - include: class-declaration
+    - include: constants-override
     - include: brackets
     - include: braces
     - include: parens
     - include: terminator
-    - include: separator_comma
+    - include: separator-comma
     - include: string
     - include: structure
     - include: keywords
-    - include: all_matlab_keywords
-    - include: all_matlab_comments
-    - include: number
+    - include: builtin-constants
+    - include: builtin-variables
+    - include: builtin-commands
+    - include: builtin-functions
+    - include: comments
+    - include: numbers
     - include: operators
     - include: variable
-    - include: variable_invalid
-    - include: not_equal_invalid
-    - include: variable_assignment
-  all_matlab_comments:
+    - include: invalid-variable
+    - include: invalid-not-equal
+    - include: invalid-assignment
+
+  allofem:
+    - include: parens
+    - include: braces
+    - include: brackets
+    - include: string
+    - include: structure
+    - include: builtin-constants
+    - include: builtin-variables
+    - include: builtin-commands
+    - include: builtin-functions
+    - include: comments
+    - include: variable
+    - include: numbers
+    - include: invalid-variable
+    - include: operators
+    - include: line-continuation
+
+  eol-pop:
+    - match: (?=\s*[%\n])
+      pop: true
+
+###[ COMMENTS ]###############################################################
+
+  comments:
     - match: ^\s*(%\{)\s*\n
       captures:
         1: punctuation.definition.comment.matlab
@@ -47,29 +80,97 @@ contexts:
       scope: comment.line.percentage.matlab
       captures:
         1: punctuation.definition.comment.matlab
-  line_continuation:
+
+  line-continuation:
     - match: (\.{3})\s*(\S.*\n?)?
       captures:
         1: punctuation.separator.continuation.line.matlab
         2: comment.line.matlab
-  all_matlab_keywords:
-    - include: builtin_constants
-    - include: builtin_variables
-    - include: commands
-    - include: builtin_functions
-  allofem:
-    - include: parens
-    - include: braces
-    - include: brackets
-    - include: string
-    - include: structure
-    - include: all_matlab_keywords
-    - include: all_matlab_comments
-    - include: variable
-    - include: number
-    - include: variable_invalid
-    - include: operators
-    - include: line_continuation
+
+###[ LANGUAGE FUNDAMENTALS ]##################################################
+
+  numbers:
+    - match: '\b(0[xX])(\h+)(u8|u16|u32|u64|s8|s16|s32|s64)?\b'
+      scope: meta.number.integer.hexadecimal.matlab
+      captures:
+        1: constant.numeric.base.matlab
+        2: constant.numeric.value.matlab
+        3: constant.numeric.suffix.matlab
+    - match: '\b(0[bB])([01]+)(u8|u16|u32|u64|s8|s16|s32|s64)?\b'
+      scope: meta.number.integer.binary.matlab
+      captures:
+        1: constant.numeric.base.matlab
+        2: constant.numeric.value.matlab
+        3: constant.numeric.suffix.matlab
+    - match: '((?:\d*(\.))?\d+(?:[Ee][-+]?\d+)?)(i|j)\b'
+      scope: meta.number.imaginary.decimal.matlab
+      captures:
+        1: constant.numeric.value.matlab
+        2: punctuation.separator.decimal.matlab
+        3: constant.numeric.suffix.matlab
+    - match: '(?:\d*(\.))?\d+(?:[Ee][-+]?\d+)?\b'
+      scope: meta.number.float.decimal.matlab constant.numeric.value.matlab
+      captures:
+        1: punctuation.separator.decimal.matlab
+
+  string:
+    - match: ''''
+      scope: punctuation.definition.string.begin.matlab
+      push:
+        - meta_scope: string.quoted.single.matlab
+        - match: '''(?=(\]|\)|\}|=|~|<|>|&|\||-|\+|\*|\.|\^|\||\s|;|:|,))'
+          scope: punctuation.definition.string.end.matlab
+          pop: true
+        # escaped quote
+        - match: "''"
+          scope: constant.character.escape.matlab
+        # unescaped quote
+        - match: "'(?=.)"
+          scope: invalid.illegal.unescaped-quote.matlab
+        - match: '((\%([\+\-0]?\d{0,3}(\.\d{1,3})?)(c|d|e|E|f|g|G|s|((b|t)?(o|u|x|X))))|\%\%|\\(b|f|n|r|t|\\))'
+          scope: constant.character.escape.matlab
+    - match: '"'
+      scope: punctuation.definition.string.begin.matlab
+      push:
+        - meta_scope: string.quoted.double.matlab
+        - match: '"'
+          scope: punctuation.definition.string.end.matlab
+          pop: true
+
+  variable:
+    - match: '\b{{identifier}}\b'
+      scope: meta.variable.other.valid.matlab
+      captures:
+        1: punctuation.accessor.dot.matlab
+      push: transpose
+
+  structure:
+    - match: '\b{{identifier}}(\.)\b'
+      captures:
+        1: punctuation.accessor.dot.matlab
+      push:
+        - meta_scope: meta.variable.other.valid.matlab
+        - match: '{{identifier}}(\.)\b'
+          captures:
+            1: punctuation.accessor.dot.matlab
+        - match: '{{identifier}}'
+          set: transpose
+
+###[ PARENS/BRACKETS/BRACES BLOCKS ]##########################################
+
+  parens:
+    - match: \(
+      scope: punctuation.section.parens.begin.matlab
+      push:
+        - meta_scope: meta.parens.matlab
+        - match: \)
+          scope: punctuation.section.parens.end.matlab
+          # pop: true
+          set: transpose
+        - include: separator-comma
+        - include: last-index
+        - include: allofem
+
   brackets:
     - match: '\['
       scope: punctuation.section.brackets.begin.matlab
@@ -78,15 +179,12 @@ contexts:
         - match: '\]'
           scope: punctuation.section.brackets.end.matlab
           set: transpose
-        - include: separator_comma
-        - include: separator_semicolon
+        - include: separator-comma
+        - include: separator-semicolon
         - match: ~
           scope: variable.language.blank.matlab
         - include: allofem
-  constants_override:
-    # The user is trying to override MATLAB constants and functions.
-    - match: '(^|\;)\s*(ans|i|j|inf|Inf|nan|NaN|eps|end)\s*=[^=]'
-      scope: meta.inappropriate.matlab
+
   braces:
     - match: \{
       scope: punctuation.section.braces.begin.matlab
@@ -95,18 +193,14 @@ contexts:
         - match: \}
           scope: punctuation.section.braces.end.matlab
           set: transpose
-        - include: separator_comma
-        - include: separator_semicolon
-        - include: end_in_parens
+        - include: separator-comma
+        - include: separator-semicolon
+        - include: last-index
         - include: allofem
-  end_in_parens:
-    # end as index variable
-    - match: \bend\b
-      scope: variable.language.matlab
-  escaped_quote:
-    - match: "''"
-      scope: constant.character.escape.matlab
-  function_declaration:
+
+###[ DECLARATION BLOCKS ]#####################################################
+
+  function-declaration:
     - match: \bfunction\b
       scope: keyword.declaration.function.matlab
       push:
@@ -121,7 +215,7 @@ contexts:
           push:
             - match: \w+
               scope: variable.parameter.output.matlab
-            - include: separator_comma
+            - include: separator-comma
             - match: '\]'
               scope: punctuation.section.brackets.end.matlab
               pop: true
@@ -132,12 +226,12 @@ contexts:
         - match: (?=\()
           set:
             - meta_scope: meta.function.parameters.matlab
-            - include: line_continuation
+            - include: line-continuation
             - match: \(
               scope: punctuation.section.parens.begin.matlab
             - match: \w+
               scope: variable.parameter.input.matlab
-            - include: separator_comma
+            - include: separator-comma
             - match: ~
               scope: variable.language.blank.matlab
             - match: \)
@@ -145,11 +239,122 @@ contexts:
               pop: true
     - match: \barguments\b
       scope: keyword.other.arguments.matlab
-  # Functions that are usually used without parameters and return a constant
-  builtin_constants:
-    - match: \b(true|false|eps|pi|Inf|NaN|NaT|flintmax|intmax|intmin|realmax|realmin|namelengthmax)\b
-      scope: constant.language.matlab
-  # all MATLAB keywords: break|case|catch|classdef|continue|else|elseif|end|for|function|global|if|otherwise|parfor|persistent|return|spmd|switch|try|while
+
+  class-declaration:
+    - match: \bclassdef\b
+      scope: keyword.declaration.class.matlab
+      push:
+        - meta_scope: meta.class.matlab
+        - include: eol-pop
+        - match: \(
+          scope: punctuation.section.parens.begin.matlab
+          push:
+            - meta_scope: meta.attributes.matlab
+            - match: \)
+              scope: punctuation.section.parens.end.matlab
+              pop: true
+            - include: separator-comma
+            # https://www.mathworks.com/help/matlab/matlab_oop/class-attributes.html
+            - match: \b(?:Abstract|AllowedSubclasses|ConstructOnLoad|HandleCompatible|Hidden|InferiorClasses|Sealed)\b
+              scope: variable.parameter.attribute.matlab
+            - match: =
+              scope: keyword.operator.assignment.matlab
+            - match: ~
+              scope: keyword.operator.logical.matlab
+            - match: \b(?:false|true)\b
+              scope: constant.language.matlab
+        - match : \w+
+          scope: entity.name.class.matlab
+          set:
+            - meta_content_scope: meta.class.matlab
+            - include: eol-pop
+            - match: <
+              scope: punctuation.separator.inheritance.matlab
+              set:
+                - meta_content_scope: meta.class.matlab
+                - include: eol-pop
+                - match: \w+
+                  scope: entity.other.inherited-class.matlab
+                - match: \&
+                  scope: punctuation.separator.sequence.matlab
+    - match: \bproperties\b(?!\()
+      scope: keyword.declaration.properties.matlab
+      push:
+        - meta_scope: meta.properties.matlab
+        - include: eol-pop
+        - match: \(
+          scope: punctuation.section.parens.begin.matlab
+          push:
+            - meta_scope: meta.attributes.matlab
+            - match: \)
+              scope: punctuation.section.parens.end.matlab
+              pop: true
+            - include: separator-comma
+            # https://www.mathworks.com/help/matlab/matlab_oop/property-attributes.html
+            - match: \b(?:AbortSet|Abstract|Access|Constant|Dependent|GetAccess|GetObservable|Hidden|NonCopyable|PartialMatchPriority|SetAccess|SetObservable|Transient)\b
+              scope: variable.parameter.attribute.matlab
+            - match: =
+              scope: keyword.operator.assignment.matlab
+            - match: ~
+              scope: keyword.operator.logical.matlab
+            - match: \b(?:false|true)\b
+              scope: constant.language.matlab
+            - match: \b(?:public|protected|private)\b
+              scope: storage.modifier.matlab
+            - match: \b\d+\b
+              scope: meta.number.integer.decimal.matlab constant.numeric.value.matlab
+    - match: \bmethods\b(?!\()
+      scope: keyword.declaration.methods.matlab
+      push:
+        - meta_scope: meta.methods.matlab
+        - include: eol-pop
+        - match: \(
+          scope: punctuation.section.parens.begin.matlab
+          push:
+            - meta_scope: meta.attributes.matlab
+            - match: \)
+              scope: punctuation.section.parens.end.matlab
+              pop: true
+            - include: separator-comma
+            # https://www.mathworks.com/help/matlab/matlab_oop/method-attributes.html
+            - match: \b(?:Abstract|Access|Hidden|Sealed|Static)\b
+              scope: variable.parameter.attribute.matlab
+            - match: =
+              scope: keyword.operator.assignment.matlab
+            - match: ~
+              scope: keyword.operator.logical.matlab
+            - match: \b(?:false|true)\b
+              scope: constant.language.matlab
+            - match: \b(?:public|protected|private)\b
+              scope: storage.modifier.matlab
+    - match: \bevents\b(?!\()
+      scope: keyword.declaration.events.matlab
+      push:
+        - meta_scope: meta.events.matlab
+        - include: eol-pop
+        - match: \(
+          scope: punctuation.section.parens.begin.matlab
+          push:
+            - meta_scope: meta.attributes.matlab
+            - match: \)
+              scope: punctuation.section.parens.end.matlab
+              pop: true
+            - match: \,
+              scope: punctuation.separator.sequence.matlab
+            # https://www.mathworks.com/help/matlab/matlab_oop/event-attributes.html
+            - match: \b(?:Hidden|ListenAccess|NotifyAccess)\b
+              scope: variable.parameter.attribute.matlab
+            - match: =
+              scope: keyword.operator.assignment.matlab
+            - match: \b(?:false|true)\b
+              scope: constant.language.matlab
+            - match: \b(?:public|protected|private)\b
+              scope: storage.modifier.matlab
+    - match: \benumeration\b(?!\()
+      scope: meta.enumeration.matlab keyword.declaration.enumeration.matlab
+
+###[ KEYWORDS AND OPERATOR SYMBOLS ]##########################################
+
   # https://www.mathworks.com/help/matlab/ref/iskeyword.html
   # https://www.mathworks.com/help/matlab/control-flow.html
   keywords:
@@ -167,9 +372,57 @@ contexts:
       scope: keyword.control.matlab
     - match: \b(?:global|persistent)\b
       scope: storage.modifier.matlab
+
+  # https://www.mathworks.com/help/matlab/matlab_prog/matlab-operators-and-special-characters.html
+  operators:
+    - match: '\+|-|\*|\.\*|/|\./|\\|\.\\|\^|\.\^'
+      scope: keyword.operator.arithmetic.matlab
+    - match: '==|~=|>=|>|<=|<'
+      scope: keyword.operator.comparison.matlab
+    - match: '~|&&|&|\|\||\|'
+      scope: keyword.operator.logical.matlab
+    - match: ':'
+      scope: keyword.operator.colon.matlab
+    - match: '='
+      scope: keyword.operator.assignment.matlab
+
+  transpose:
+    - match: (?:\.?\')?
+      scope: keyword.operator.transpose.matlab
+      pop: true
+
+  terminator:
+    - match: \;
+      scope: punctuation.terminator.matlab
+
+  separator-comma:
+    - match: \,
+      scope: punctuation.separator.sequence.matlab
+
+  separator-semicolon:
+    - match: \;
+      scope: punctuation.separator.sequence.matlab
+
+###[ BUILTIN CONSTANTS AND VARIABLES ]########################################
+
+  # Functions that are usually used without parameters and return a constant
+  builtin-constants:
+    - match: \b(true|false|eps|pi|Inf|NaN|NaT|flintmax|intmax|intmin|realmax|realmin|namelengthmax)\b
+      scope: constant.language.matlab
+
+  builtin-variables:
+    - match: \b(ans|nargin|nargout|varargin|varargout)\b
+      scope: variable.language.matlab
+
+  last-index:
+    - match: \bend\b
+      scope: variable.language.matlab
+
+###[ BUILTIN COMMANDS AND FUNCTIONS ]#########################################
+
   # Functions that are usually used only in command syntax form, i.e. without paramaters or
   # with string parameters but omitted parentheses:  functionName input1 ... inputN
-  commands:
+  builtin-commands:
     - match: \b(?:clc|clearvars|clock|commandwindow|copyfile|date|figure|gca|gcbf|gcbo|gcf|gco|groot|home|mkdir|movefile|now|restoredefaultpath|rmdir|tic|toc|type|waitforbuttonpress)\b
       scope: keyword.other.command.matlab
     # Commands that are usually only used in the MATLAB command window (REPL)
@@ -290,12 +543,13 @@ contexts:
       captures:
         1: keyword.other.command.matlab
         2: storage.modifier.matlab
+
   # Parentheses are usually omitted when functions are used without parameters.
   # This command syntax is also possible for functions with string parameters.
   # Only the function names are matched here to allow both command syntax and function syntax form.
   # https://www.mathworks.com/help/matlab/matlab_prog/command-vs-function-syntax.html
-  builtin_functions:
-    # Language Fundamentals
+  builtin-functions:
+    ###[ Language Fundamentals ]###
     - match: \b(?:double|single|int8|int16|int32|int64|uint8|uint16|uint32|uint64)\b
       scope: support.function.builtin.matlab storage.type.matlab
     - match: \bnewline\b
@@ -306,26 +560,26 @@ contexts:
       scope: support.function.builtin.matlab
     # - match: \b(?:findstr|flipdim|inline|isstr|setstr|str2mat|strmatch|strread|strvcat|vectorize)\b
     #   scope: support.function.builtin.matlab invalid.deprecated.matlab
-    # Data Import and Analysis
+    ###[ Data Import and Analysis ]###
     - match: \b(?:cdflib|H5|H5A|H5D|H5DS|H5E|H5F|H5G|H5I|H5L|H5ML|H5O|H5P|H5R|H5S|H5T|H5Z|netcdf|Tiff)\b
       scope: support.class.builtin.matlab
     - match: \b(?:accumarray|add|addmulti|addToolbarExplorationButtons|arrayDatastore|ascii|audiodevinfo|audiodevreset|audioinfo|audioplayer|audioread|audiorecorder|audiowrite|aviinfo|axtoolbar|axtoolbarbtn|binary|ble|blelist|bluetooth|bluetoothlist|bounds|cd|cdfepoch|cdfinfo|cdfread|cdfwrite|characteristic|classUnderlying|clearvars|closeFile|combine|CombinedDatastore|configureCallback|configureTerminator|copyHDU|corrcoef|countEachLabel|cov|createFile|createImg|createTbl|csvread|csvwrite|cummax|cummin|currentFileIndexComparator|daqread|datacursormode|datastore|datatip|dataTipInteraction|dataTipTextRow|delete|deleteCol|deleteFile|deleteHDU|deleteKey|deleteRecord|deleteRows|delimitedTextImportOptions|descriptor|detectImportOptions|detrend|dir|disableDefaultInteractivity|discretize|disp|dlmread|dlmwrite|echotcpip|enableDefaultInteractivity|enableLegacyExplorationModes|fclose|feof|ferror|fgetl|fgets|figurepalette|fileDatastore|fileMode|fileName|fileread|fillmissing|filloutliers|findgroups|fitsdisp|fitsinfo|fitsread|fitswrite|fixedWidthImportOptions|flush|fopen|fprintf|fread|frewind|fscanf|fseek|ftell|ftp|fwrite|gather|gcmr|getAColParms|getaudiodata|getBColParms|getColName|getColType|getConstantValue|getCurrentFilename|getEqColType|getFileFormats|getFiles|getFolders|getHdrSpace|getHDUnum|getHDUtype|getImgSize|getImgType|getLocation|getnext|getNumCols|getNumHDUs|getNumRows|getOpenFiles|getpinstatus|getplayer|getProfiles|getvaropts|getVersion|groupcounts|groupfilter|groupsummary|grouptransform|h5create|h5disp|h5info|h5read|h5readatt|h5write|h5writeatt|hasdata|hasfile|hasFrame|hasnext|hasNextBlock|hasNextFile|hasPreviousBlock|hasPreviousFile|hdf5info|hdf5read|hdf5write|hdfan|hdfdf24|hdfdfr8|hdfh|hdfhd|hdfhe|hdfhx|hdfinfo|hdfml|hdfpt|hdfread|hdftool|hdfv|hdfvf|hdfvh|hdfvs|histcounts|histcounts2|im2java|imageDatastore|imfinfo|imgCompress|importdata|imread|imwrite|initializeDatastore|insertATbl|insertBTbl|insertCol|insertImg|insertRows|isaUnderlying|ischange|isCompressedImg|isfullfile|islocalmax|islocalmin|ismissing|isoutlier|isPartitionable|isplaying|isrecording|isShuffleable|istall|jsondecode|KeyValueDatastore|KeyValueStore|lin2mu|linkaxes|linkdata|linkprop|load|mapreduce|mapreducer|matfile|maxk|maxpartitions|memmapfile|mget|mink|missing|mmfileinfo|mode|movAbsHDU|movmad|movmax|movmean|movmedian|movmin|movNamHDU|movprod|movRelHDU|movstd|movvar|mput|mu2lin|multibandread|multibandwrite|nccreate|ncdisp|ncinfo|ncread|ncreadatt|ncwrite|ncwriteatt|ncwriteschema|nextblock|nextfile|normalize|numpartitions|open|openDiskFile|openFile|openvar|pan|panInteraction|parquetDatastore|parquetinfo|parquetread|parquetwrite|partition|play|playblocking|plotbrowser|plotedit|plottools|populateFoldersFromLocation|previousblock|previousfile|progress|propedit|propertyeditor|read|readall|readATblHdr|readBTblHdr|readCard|readcell|readCol|readFrame|readimage|readImg|readKey|readKeyCmplx|readKeyDbl|readKeyLongLong|readKeyLongStr|readKeyUnit|readline|readlines|readmatrix|readRecord|readstruct|readtable|readtimetable|readvars|record|recordblocking|refreshdata|regionZoomInteraction|removeToolbarExplorationButtons|rename|rescale|reset|resolve|resume|rmmissing|rmoutliers|rotate3d|rotateInteraction|rowfun|rulerPanInteraction|save|seek|selectmoveresize|sendmail|serialport|serialportlist|setBscale|setCompressionType|setDTR|setHCompScale|setHCompSmooth|setRTS|setTileDim|setTscale|setvaropts|setvartype|sheetnames|showplottool|shuffle|smoothdata|sound|soundsc|splitapply|splitEachLabel|spreadsheetDatastore|spreadsheetImportOptions|standardizeMissing|stop|subscribe|subset|tabularTextDatastore|tall|TallDatastore|tallrng|tcpclient|textread|textscan|thingSpeakRead|thingSpeakWrite|todatenum|topkrows|transform|TransformedDatastore|unsubscribe|urlread|urlwrite|validateOutputLocation|ValueIterator|VideoReader|VideoWriter|web|weboptions|webread|websave|webwrite|write|writeall|writecell|writeChecksum|writeCol|writeComment|writeDate|writeHistory|writeImg|writeKey|writeKeyUnit|writeline|writematrix|writestruct|writetable|writetimetable|writeVideo|xcorr|xcov|xlsfinfo|xlsread|xlswrite|xmlread|xmlwrite|xslt|zoom|zoomInteraction)\b
       scope: support.function.builtin.matlab
     # - match: \b(?:instrcallback|instrfind|instrfindall|readasync|serial|serialbreak|seriallist|stopasync)\b
     #   scope: support.function.builtin.matlab invalid.deprecated.matlab
-    # Mathematics
+    ###[ Mathematics ]###
     - match: \bRandStream\b
       scope: support.class.builtin.matlab
     - match: \b(?:abs|acos|acosd|acosh|acot|acotd|acoth|acsc|acscd|acsch|addboundary|addedge|addnode|adjacency|airy|alphaShape|alphaSpectrum|alphaTriangulation|amd|angle|area|asec|asecd|asech|asin|asind|asinh|atan|atan2|atan2d|atand|atanh|balance|bandwidth|barycentricToCartesian|bctree|besselh|besseli|besselj|besselk|bessely|beta|betainc|betaincinv|betaln|bfsearch|bicg|bicgstab|bicgstabl|biconncomp|boundary|boundaryFacets|boundaryshape|boundingbox|bvp4c|bvp5c|bvpget|bvpinit|bvpset|bvpxtend|cart2pol|cart2sph|cartesianToBarycentric|cdf2rdf|centrality|centroid|cgs|chol|cholupdate|circumcenter|colamd|colperm|compan|complex|cond|condeig|condensation|condest|conj|conncomp|conv|conv2|convexHull|convhull|convhulln|convn|cos|cosd|cosh|cospi|cot|cotd|coth|cplxpair|criticalAlpha|cross|csc|cscd|csch|cumtrapz|dde23|ddeget|ddensd|ddesd|ddeset|decic|decomposition|deconv|deg2rad|degree|del2|delaunay|delaunayn|delaunayTriangulation|det|deval|dfsearch|digraph|dissect|distances|dmperm|dot|dsearchn|edgeAttachments|edgecount|edges|eig|eigs|ellipj|ellipke|equilibrate|erf|erfc|erfcinv|erfcx|erfinv|etree|etreeplot|exp|expint|expm|expm1|faceNormal|factor|factorial|featureEdges|fft|fft2|fftn|fftshift|fftw|filter2|findedge|findnode|flipedge|fminbnd|fminsearch|freeBoundary|full|funm|fzero|gallery|gamma|gammainc|gammaincinv|gammaln|gcd|gmres|gplot|gradient|graph|GraphPlot|griddata|griddatan|griddedInterpolant|gsvd|hadamard|hankel|hess|highlight|hilb|holes|hypot|ichol|ifft|ifft2|ifftn|ifftshift|ilu|imag|incenter|incidence|indegree|inedges|inpolygon|inShape|integral|integral2|integral3|interp1|interp1q|interp2|interp3|interpft|interpn|intersect|inv|invhilb|isbanded|isConnected|isdag|isdiag|ishermitian|ishole|isIllConditioned|isInterior|isinterior|isisomorphic|ismultigraph|isomorphism|issimplified|issymmetric|istril|istriu|kron|labeledge|labelnode|laplacian|layout|lcm|ldl|legendre|linsolve|log|log10|log1p|log2|logm|lscov|lsqminnorm|lsqnonneg|lsqr|lu|magic|makima|matchpairs|maxflow|minres|minspantree|mkpp|nchoosek|nearest|nearestNeighbor|nearestvertex|neighbors|nextpow2|nnz|nonzeros|norm|normest|nsidedpoly|nthroot|nufft|nufftn|null|numboundaries|numedges|numnodes|numRegions|numsides|nzmax|ode113|ode15i|ode15s|ode23|ode23s|ode23t|ode23tb|ode45|odeget|odeset|odextend|optimget|optimset|ordeig|ordqz|ordschur|orth|outdegree|outedges|overlaps|padecoef|pagectranspose|pagemtimes|pagetranspose|pascal|patch|pcg|pchip|pdepe|pdeval|perimeter|perms|pinv|planerot|pointLocation|pol2cart|poly|polyarea|polybuffer|polyder|polyeig|polyfit|polyint|polyshape|polyval|polyvalm|pow2|ppval|predecessors|primes|psi|qmr|qr|qrdelete|qrinsert|qrupdate|quad2d|quadgk|qz|rad2deg|randi|randn|randperm|rank|rat|rats|rcond|real|reallog|realpow|realsqrt|rectint|regions|rem|reordernodes|residue|rmboundary|rmedge|rmholes|rmnode|rmslivers|rng|roots|rosser|rotate|rref|rsf2csf|scale|scatteredInterpolant|schur|sec|secd|sech|shortestpath|shortestpathtree|sign|simplify|sin|sind|sinh|sinpi|sortboundaries|sortregions|spalloc|sparse|spaugment|spconvert|spdiags|speye|spfun|sph2cart|spline|spones|spparms|sprand|sprandn|sprandsym|sprank|spy|sqrt|sqrtm|ss2tf|stlread|stlwrite|subgraph|subspace|subtract|successors|surfaceArea|svd|svds|svdsketch|sylvester|symamd|symbfact|symmlq|symrcm|tan|tand|tanh|tetramesh|tfqmr|toeplitz|toposort|trace|transclosure|translate|transreduction|trapz|treelayout|treeplot|triangulation|tril|trimesh|triplot|trisurf|triu|tsearchn|turningdist|unmesh|unmkpp|unwrap|vander|vecnorm|vertexAttachments|vertexNormal|volume|voronoi|voronoiDiagram|voronoin|wilkinson)\b
       scope: support.function.builtin.matlab
     # - match: \b(?:baryToCart|cartToBary|circumcenters|dblquad|DelaunayTri|faceNormals|incenters|inOutStatus|isEdge|quad|quadl|quadv|triplequad|TriRep|TriScatteredInterp)\b
     #   scope: support.function.builtin.matlab invalid.deprecated.matlab
-    # Graphics
+    ###[ Graphics ]###
     - match: \b(?:addpoints|alim|allchild|alpha|alphamap|ancestor|animatedline|annotation|area|autumn|axes|bar|bar3|bar3h|barh|binscatter|bone|box|boxchart|brighten|bubblechart|bubblechart3|bubblelegend|bubblelim|bubblesize|camdolly|cameratoolbar|camlight|camlookat|camorbit|campan|campos|camproj|camroll|camtarget|camup|camva|camzoom|caxis|clabel|clearpoints|clf|cmap2gray|cmpermute|cmunique|colorbar|colorcube|colordef|colormap|colororder|comet|comet3|compass|coneplot|contour|contour3|contourc|contourf|contourslice|contrast|cool|copper|copygraphics|copyobj|curl|cylinder|daspect|datatip|datetick|diffuse|dither|divergence|dragrect|ellipsoid|errorbar|exportapp|exportgraphics|eye|ezpolar|fcontour|feather|fewerbins|fill|fill3|fimplicit|fimplicit3|findall|findfigs|findobj|flag|flow|fmesh|fplot|fplot3|frame2im|fsurf|geoaxes|geobasemap|geobubble|geodensityplot|geolimits|geoplot|geoscatter|geotickformat|getAxes|getColorbar|getframe|getLayout|getLegend|getpoints|getrangefromclass|ginput|gobjects|gray|graymon|groot|gtext|heatmap|hgexport|hggroup|hgload|hgsave|hgtransform|histcounts|histcounts2|histogram|histogram2|hot|hsv|hsv2rgb|im2double|im2frame|im2gray|im2java|image|imagesc|imapprox|imfinfo|imformats|imread|imresize|imshow|imtile|imwrite|ind2rgb|interpstreamspeed|ishandle|ishghandle|ishold|isocaps|isocolors|isonormals|isosurface|jet|legend|light|lightangle|lighting|line|lines|loglog|makehgtform|mesh|meshc|meshz|morebins|movie|newplot|nexttile|num2ruler|openfig|orient|pagesetupdlg|parallelplot|pareto|parula|patch|pbaspect|pcolor|peaks|pie|pie3|pink|plot3|plotmatrix|polaraxes|polarbubblechart|polarhistogram|polarplot|polarscatter|print|printopt|prism|quiver|quiver3|rbbox|rectangle|reducepatch|reducevolume|refresh|refreshdata|rendererinfo|reset|rgb2gray|rgb2hsv|rgb2ind|rgbplot|ribbon|rlim|rose|rtickangle|rtickformat|rticklabels|rticks|ruler2num|saveas|savefig|scatter|scatter3|scatterhistogram|semilogx|semilogy|setup|sgtitle|shading|shg|shrinkfaces|slice|smooth3|sortx|sorty|specular|sphere|spinmap|spring|stairs|stem|stem3|stream2|stream3|streamline|streamparticles|streamribbon|streamslice|streamtube|subplot|subtitle|subvolume|summer|surf|surf2patch|surface|surfc|surfl|surfnorm|swarmchart|swarmchart3|texlabel|text|thetalim|thetatickformat|thetaticklabels|thetaticks|tiledlayout|title|turbo|uicontextmenu|uimenu|update|view|viewmtx|volumebounds|waterfall|whitebg|winter|wordcloud|xlabel|xlim|xline|xtickangle|xtickformat|xticklabels|xticks|ylabel|ylim|yline|ytickangle|ytickformat|yticklabels|yticks|yyaxis|zlabel|zlim|ztickangle|ztickformat|zticklabels|zticks)\b
       scope: support.function.builtin.matlab
     # - match: \b(?:ezcontour|ezcontourf|ezmesh|ezmeshc|ezplot|ezplot3|ezsurf|ezsurfc|hist|histc|plotyy|polar)\b
     #   scope: support.function.builtin.matlab invalid.deprecated.matlab
-    # Programming
+    ###[ Programming ]###
     - match: \b(?:event|inputParser|MException)\b
       scope: support.class.builtin.matlab
     - match: \b(?:matlabroot|pathsep|pwd|tempdir)\b
@@ -334,257 +588,47 @@ contexts:
       scope: support.function.builtin.matlab
     # - match: \b(?:addParamValue|isdir)\b
     #   scope: support.function.builtin.matlab invalid.deprecated.matlab
-    # App Building
+    ###[ App Building ]###
     - match: \b(?:addStyle|align|appdesigner|closereq|collapse|dialog|errordlg|expand|export2wsdlg|exportsetupdlg|geoaxes|getappdata|getpixelposition|guidata|guihandles|helpdlg|inputdlg|isappdata|listdlg|listfonts|move|movegui|msgbox|printdlg|printpreview|questdlg|removeStyle|rmappdata|scroll|setappdata|setpixelposition|textwrap|uialert|uiaxes|uibutton|uibuttongroup|uicheckbox|uiconfirm|uicontextmenu|uicontrol|uidatepicker|uidropdown|uieditfield|uifigure|uigauge|uigetdir|uigetfile|uigetpref|uigridlayout|uihtml|uiimage|uiknob|uilabel|uilamp|uilistbox|uimenu|uiopen|uipanel|uiprogressdlg|uipushtool|uiputfile|uiradiobutton|uiresume|uisave|uisetcolor|uisetfont|uisetpref|uislider|uispinner|uistack|uistyle|uiswitch|uitab|uitabgroup|uitable|uitextarea|uitogglebutton|uitoggletool|uitoolbar|uitree|uitreenode|uiwait|waitbar|waitfor|warndlg)\b
       scope: support.function.builtin.matlab
     # - match: \b(?:guide|menu)\b
     #   scope: support.function.builtin.matlab invalid.deprecated.matlab
-    # Software Development Tools
+    ###[ Software Development Tools ]###
     - match: \b(?:cputime|currentProject|memory)\b
       scope: support.constant.builtin.matlab
     - match: \b(?:addCondition|addConditionsFrom|addFile|addFolderIncludingChildFiles|addGroup|addLabel|addPlugin|addReference|addSetting|addShortcut|addShutdownFile|addStartupFile|addTeardown|analyzeCodeCompatibility|applyFixture|assertAccessed|assertCalled|assertClass|assertEmpty|assertEqual|assertError|assertFail|assertFalse|assertGreaterThan|assertGreaterThanOrEqual|assertInstanceOf|assertLength|assertLessThan|assertLessThanOrEqual|assertMatches|assertNotAccessed|assertNotCalled|assertNotEmpty|assertNotEqual|assertNotSameHandle|assertNotSet|assertNumElements|assertReturnsTrue|assertSameHandle|assertSet|assertSize|assertSubstring|assertThat|assertTrue|assertUsing|assertWarning|assertWarningFree|assignOutputsWhen|assumeAccessed|assumeCalled|assumeClass|assumeEmpty|assumeEqual|assumeError|assumeFail|assumeFalse|assumeGreaterThan|assumeGreaterThanOrEqual|assumeInstanceOf|assumeLength|assumeLessThan|assumeLessThanOrEqual|assumeMatches|assumeNotAccessed|assumeNotCalled|assumeNotEmpty|assumeNotEqual|assumeNotSameHandle|assumeNotSet|assumeNumElements|assumeReturnsTrue|assumeSameHandle|assumeSet|assumeSize|assumeSubstring|assumeThat|assumeTrue|assumeUsing|assumeWarning|assumeWarningFree|bench|builddocsearchdb|checkcode|choose|chooseContextMenu|clearAllMemoizedCaches|clearCache|clearMockHistory|close|CodeCompatibilityAnalysis|codeCompatibilityReport|comparisonPlot|copyTo|createCategory|createLabel|createMock|createSharedTestFixture|createTestClassInstance|createTestMethodInstance|dbclear|dbcont|dbdown|dbquit|dbstack|dbstatus|dbstep|dbstop|dbtype|dbup|diagnose|drag|export|fatalAssertAccessed|fatalAssertCalled|fatalAssertClass|fatalAssertEmpty|fatalAssertEqual|fatalAssertError|fatalAssertFail|fatalAssertFalse|fatalAssertGreaterThan|fatalAssertGreaterThanOrEqual|fatalAssertInstanceOf|fatalAssertLength|fatalAssertLessThan|fatalAssertLessThanOrEqual|fatalAssertMatches|fatalAssertNotAccessed|fatalAssertNotCalled|fatalAssertNotEmpty|fatalAssertNotEqual|fatalAssertNotSameHandle|fatalAssertNotSet|fatalAssertNumElements|fatalAssertReturnsTrue|fatalAssertSameHandle|fatalAssertSet|fatalAssertSize|fatalAssertSubstring|fatalAssertThat|fatalAssertTrue|fatalAssertUsing|fatalAssertWarning|fatalAssertWarningFree|findCategory|findFile|findLabel|functiontests|getDiagnosticFor|getMockHistory|getNegativeDiagnosticFor|getPostActValString|getPostConditionString|getPostDescriptionString|getPostExpValString|getPreDescriptionString|getSharedTestFixtures|hover|inmem|isCompatible|isLoaded|keepMeasuring|keyboard|listModifiedFiles|listRequiredFiles|memoize|mlint|mlintrpt|move|needsReset|onFailure|openProject|pack|press|profile|profsave|refreshSourceControl|reload|removeCategory|removeFile|removeLabel|removePath|removeReference|removeShortcut|removeShutdownFile|removeStartupFile|repeat|reportFinalizedResult|reportFinalizedSuite|retrieveFrom|returnStoredValueWhen|runChecks|runInParallel|runperf|runSession|runTest|runTestClass|runTestMethod|runtests|runTestSuite|samplefun|sampleSummary|satisfiedBy|selectFailed|selectIf|selectIncomplete|selectLogged|selectPassed|setToValue|setupSharedTestFixture|setupTestClass|setupTestMethod|sortByFixtures|startMeasuring|stats|stopMeasuring|storeIn|storeValueWhen|supports|supportsParallel|teardown|teardownSharedTestFixture|teardownTestClass|teardownTestMethod|testsuite|then|throwExceptionWhen|timeit|updateDependencies|validateFunctionSignaturesJSON|verifyAccessed|verifyCalled|verifyClass|verifyEmpty|verifyEqual|verifyError|verifyFail|verifyFalse|verifyGreaterThan|verifyGreaterThanOrEqual|verifyInstanceOf|verifyLength|verifyLessThan|verifyLessThanOrEqual|verifyMatches|verifyNotAccessed|verifyNotCalled|verifyNotEmpty|verifyNotEqual|verifyNotSameHandle|verifyNotSet|verifyNumElements|verifyReturnsTrue|verifySameHandle|verifySet|verifySize|verifySubstring|verifyThat|verifyTrue|verifyUsing|verifyWarning|verifyWarningFree|VersionResults|when|withAnyInputs|withExactInputs|withNargout)\b
       scope: support.function.builtin.matlab
-    # External Language Interfaces
+    ###[ External Language Interfaces ]###
     - match: \b(?:mex|NET)\b
       scope: support.class.builtin.matlab
     - match: \b(?:actxGetRunningServer|actxserver|addClass|addConstructor|addEnumeration|addFields|addFunction|addMethod|addProperty|BeginInvoke|bitnot|build|calllib|cancel|cancelled|changeFields|char|clibArray|clibConvertArray|clibgen.buildInterface|clibgen.ClassDefinition|clibgen.ConstructorDefinition|clibgen.EnumDefinition|clibgen.FunctionDefinition|clibgen.generateLibraryDefinition|clibgen.LibraryDefinition|clibgen.MethodDefinition|clibgen.PropertyDefinition|clibIsNull|clibIsReadOnly|clibRelease|Combine|complete|comserver|convert|convertLike|dbmex|defineArgument|defineOutput|delegateTo|deleteproperty|disp|done|enableservice|EndInvoke|eq|eventlisteners|Execute|expectedContentLength|feval|Feval|GetCharArray|getClass|getData|getFields|GetFullMatrix|getParameter|getReasonPhrase|GetVariable|GetWorkspaceData|initialize|invoke|iscom|isevent|isinterface|isjava|isNull|javaaddpath|javaArray|javachk|javaclasspath|javaMethod|javaMethodEDT|javaObject|javaObjectEDT|javarmpath|libfunctions|libfunctionsview|libisloaded|libpointer|libstruct|loadlibrary|MaximizeCommandWindow|methodsview|mexext|mexhost|MinimizeCommandWindow|move|preferredBufferSize|propedit|PutCharArray|putData|PutFullMatrix|PutWorkspaceData|pyargs|pyenv|Quit|registerevent|regmatlabserver|Remove|RemoveAll|removeFields|removeParameter|replaceFields|restartable|result|reusable|send|setdatatype|setParameter|show|start|terminate|underlyingValue|unloadlibrary|unregisterallevents|unregisterevent|usejava|validate)\b
       scope: support.function.builtin.matlab
     # - match: \b(?:pyversion)\b
     #   scope: support.constant.builtin.matlab invalid.deprecated.matlab
-    # Environment and Settings
+    ###[ Environment and Settings ]###
     - match: \b(?:computer|ismac|ispc|isstudent|isunix|matlabRelease)\b
       scope: support.constant.builtin.matlab
     - match: \b(?:addpref|batchStartupOptionUsed|canUseGPU|canUseParallelPool|clearPersonalValue|clearTemporaryValue|clipboard|dos|getenv|getpref|hasFactoryValue|hasGroup|hasPersonalValue|hasSetting|hasTemporaryValue|isMATLABReleaseOlderThan|ispref|javachk|license|perl|prefdir|removeGroup|removeSetting|rmpref|setenv|setpref|settings|system|unix|upgradePreviouslyInstalledSupportPackages|usejava|verLessThan|version|winqueryreg)\b
       scope: support.function.builtin.matlab
-  builtin_variables:
-    - match: \b(ans|nargin|nargout|varargin|varargout)\b
-      scope: variable.language.matlab
-  class_declaration:
-    - match: \bclassdef\b
-      scope: keyword.declaration.class.matlab
-      push:
-        - meta_scope: meta.class.matlab
-        - include: eol-pop
-        - match: \(
-          scope: punctuation.section.parens.begin.matlab
-          push:
-            - meta_scope: meta.attributes.matlab
-            - match: \)
-              scope: punctuation.section.parens.end.matlab
-              pop: true
-            - include: separator_comma
-            # https://www.mathworks.com/help/matlab/matlab_oop/class-attributes.html
-            - match: \b(?:Abstract|AllowedSubclasses|ConstructOnLoad|HandleCompatible|Hidden|InferiorClasses|Sealed)\b
-              scope: variable.parameter.attribute.matlab
-            - match: =
-              scope: keyword.operator.assignment.matlab
-            - match: ~
-              scope: keyword.operator.logical.matlab
-            - match: \b(?:false|true)\b
-              scope: constant.language.matlab
-        - match : \w+
-          scope: entity.name.class.matlab
-          set:
-            - meta_content_scope: meta.class.matlab
-            - include: eol-pop
-            - match: <
-              scope: punctuation.separator.inheritance.matlab
-              set:
-                - meta_content_scope: meta.class.matlab
-                - include: eol-pop
-                - match: \w+
-                  scope: entity.other.inherited-class.matlab
-                - match: \&
-                  scope: punctuation.separator.sequence.matlab
-    - match: \bproperties\b(?!\()
-      scope: keyword.declaration.properties.matlab
-      push:
-        - meta_scope: meta.properties.matlab
-        - include: eol-pop
-        - match: \(
-          scope: punctuation.section.parens.begin.matlab
-          push:
-            - meta_scope: meta.attributes.matlab
-            - match: \)
-              scope: punctuation.section.parens.end.matlab
-              pop: true
-            - include: separator_comma
-            # https://www.mathworks.com/help/matlab/matlab_oop/property-attributes.html
-            - match: \b(?:AbortSet|Abstract|Access|Constant|Dependent|GetAccess|GetObservable|Hidden|NonCopyable|PartialMatchPriority|SetAccess|SetObservable|Transient)\b
-              scope: variable.parameter.attribute.matlab
-            - match: =
-              scope: keyword.operator.assignment.matlab
-            - match: ~
-              scope: keyword.operator.logical.matlab
-            - match: \b(?:false|true)\b
-              scope: constant.language.matlab
-            - match: \b(?:public|protected|private)\b
-              scope: storage.modifier.matlab
-            - match: \b\d+\b
-              scope: meta.number.integer.decimal.matlab constant.numeric.value.matlab
-    - match: \bmethods\b(?!\()
-      scope: keyword.declaration.methods.matlab
-      push:
-        - meta_scope: meta.methods.matlab
-        - include: eol-pop
-        - match: \(
-          scope: punctuation.section.parens.begin.matlab
-          push:
-            - meta_scope: meta.attributes.matlab
-            - match: \)
-              scope: punctuation.section.parens.end.matlab
-              pop: true
-            - include: separator_comma
-            # https://www.mathworks.com/help/matlab/matlab_oop/method-attributes.html
-            - match: \b(?:Abstract|Access|Hidden|Sealed|Static)\b
-              scope: variable.parameter.attribute.matlab
-            - match: =
-              scope: keyword.operator.assignment.matlab
-            - match: ~
-              scope: keyword.operator.logical.matlab
-            - match: \b(?:false|true)\b
-              scope: constant.language.matlab
-            - match: \b(?:public|protected|private)\b
-              scope: storage.modifier.matlab
-    - match: \bevents\b(?!\()
-      scope: keyword.declaration.events.matlab
-      push:
-        - meta_scope: meta.events.matlab
-        - include: eol-pop
-        - match: \(
-          scope: punctuation.section.parens.begin.matlab
-          push:
-            - meta_scope: meta.attributes.matlab
-            - match: \)
-              scope: punctuation.section.parens.end.matlab
-              pop: true
-            - match: \,
-              scope: punctuation.separator.sequence.matlab
-            # https://www.mathworks.com/help/matlab/matlab_oop/event-attributes.html
-            - match: \b(?:Hidden|ListenAccess|NotifyAccess)\b
-              scope: variable.parameter.attribute.matlab
-            - match: =
-              scope: keyword.operator.assignment.matlab
-            - match: \b(?:false|true)\b
-              scope: constant.language.matlab
-            - match: \b(?:public|protected|private)\b
-              scope: storage.modifier.matlab
-    - match: \benumeration\b(?!\()
-      scope: meta.enumeration.matlab keyword.declaration.enumeration.matlab
-  not_equal_invalid:
-    # Not equal is written ~= not !=.
-    - match: \s*!=\s*
-      scope: invalid.illegal.invalid-inequality.matlab
-  number:
-    - match: '\b(0[xX])(\h+)(u8|u16|u32|u64|s8|s16|s32|s64)?\b'
-      scope: meta.number.integer.hexadecimal.matlab
-      captures:
-        1: constant.numeric.base.matlab
-        2: constant.numeric.value.matlab
-        3: constant.numeric.suffix.matlab
-    - match: '\b(0[bB])([01]+)(u8|u16|u32|u64|s8|s16|s32|s64)?\b'
-      scope: meta.number.integer.binary.matlab
-      captures:
-        1: constant.numeric.base.matlab
-        2: constant.numeric.value.matlab
-        3: constant.numeric.suffix.matlab
-    - match: '((?:\d*(\.))?\d+(?:[Ee][-+]?\d+)?)(i|j)\b'
-      scope: meta.number.imaginary.decimal.matlab
-      captures:
-        1: constant.numeric.value.matlab
-        2: punctuation.separator.decimal.matlab
-        3: constant.numeric.suffix.matlab
-    - match: '(?:\d*(\.))?\d+(?:[Ee][-+]?\d+)?\b'
-      scope: meta.number.float.decimal.matlab constant.numeric.value.matlab
-      captures:
-        1: punctuation.separator.decimal.matlab
-  # https://www.mathworks.com/help/matlab/matlab_prog/matlab-operators-and-special-characters.html
-  operators:
-    - match: '\+|-|\*|\.\*|/|\./|\\|\.\\|\^|\.\^'
-      scope: keyword.operator.arithmetic.matlab
-    - match: '==|~=|>=|>|<=|<'
-      scope: keyword.operator.comparison.matlab
-    - match: '~|&&|&|\|\||\|'
-      scope: keyword.operator.logical.matlab
-    - match: ':'
-      scope: keyword.operator.colon.matlab
-    - match: '='
-      scope: keyword.operator.assignment.matlab
-  parens:
-    - match: \(
-      scope: punctuation.section.parens.begin.matlab
-      push:
-        - meta_scope: meta.parens.matlab
-        - match: \)
-          scope: punctuation.section.parens.end.matlab
-          # pop: true
-          set: transpose
-        - include: separator_comma
-        - include: end_in_parens
-        - include: allofem
-  terminator:
-    - match: \;
-      scope: punctuation.terminator.matlab
-  separator_comma:
-    - match: \,
-      scope: punctuation.separator.sequence.matlab
-  separator_semicolon:
-    - match: \;
-      scope: punctuation.separator.sequence.matlab
-  special_characters:
-    # Operator symbols
-    - match: '((\%([\+\-0]?\d{0,3}(\.\d{1,3})?)(c|d|e|E|f|g|G|s|((b|t)?(o|u|x|X))))|\%\%|\\(b|f|n|r|t|\\))'
-      scope: constant.character.escape.matlab
-  string:
-    - match: ''''
-      scope: punctuation.definition.string.begin.matlab
-      push:
-        - meta_scope: string.quoted.single.matlab
-        - match: '''(?=(\]|\)|\}|=|~|<|>|&|\||-|\+|\*|\.|\^|\||\s|;|:|,))'
-          scope: punctuation.definition.string.end.matlab
-          pop: true
-        - include: escaped_quote
-        - include: unescaped_quote
-        - include: special_characters
-    - match: '"'
-      scope: punctuation.definition.string.begin.matlab
-      push:
-        - meta_scope: string.quoted.double.matlab
-        - match: '"'
-          scope: punctuation.definition.string.end.matlab
-          pop: true
-  transpose:
-    - match: (?:\.?\')?
-      scope: keyword.operator.transpose.matlab
-      pop: true
-  unescaped_quote:
-    - match: "'(?=.)"
-      scope: invalid.illegal.unescaped-quote.matlab
-  structure:
-    - match: '\b{{identifier}}(\.)\b'
-      captures:
-        1: punctuation.accessor.dot.matlab
-      push:
-        - meta_scope: meta.variable.other.valid.matlab
-        - match: '{{identifier}}(\.)\b'
-          captures:
-            1: punctuation.accessor.dot.matlab
-        - match: '{{identifier}}'
-          set: transpose
-  variable:
-    - match: '\b{{identifier}}\b'
-      scope: meta.variable.other.valid.matlab
-      captures:
-        1: punctuation.accessor.dot.matlab
-      push: transpose
-  variable_assignment:
-    # Incomplete variable assignment.
-    - match: '=\s*\.{0,2}\s*;?\s*$\n?'
-      scope: invalid.illegal.incomplete-variable-assignment.matlab
-  variable_invalid:
+
+###[ INVALID ]################################################################
+
+  invalid-variable:
     # No variables or function names can start with a number or an underscore.
     - match: '\b(_\w|\d+[_a-df-zA-DF-Z])\w*\b'
       scope: invalid.illegal.invalid-variable-name.matlab
-  eol-pop:
-    - match: (?=\s*[%\n])
-      pop: true
+
+  invalid-not-equal:
+    # Not equal is written ~= not !=.
+    - match: \s*!=\s*
+      scope: invalid.illegal.invalid-inequality.matlab
+
+  invalid-assignment:
+    # Incomplete variable assignment.
+    - match: '=\s*\.{0,2}\s*;?\s*$\n?'
+      scope: invalid.illegal.incomplete-variable-assignment.matlab
+
+  constants-override:
+    # The user is trying to override MATLAB constants and functions.
+    - match: '(^|\;)\s*(ans|i|j|inf|Inf|nan|NaN|eps|end)\s*=[^=]'
+      scope: meta.inappropriate.matlab
