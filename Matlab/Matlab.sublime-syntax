@@ -18,43 +18,30 @@ contexts:
   main:
     - include: function-declaration
     - include: class-declaration
-    - include: constants-override
-    - include: brackets
-    - include: braces
-    - include: parens
-    - include: terminator
-    - include: separator-comma
-    - include: string
-    - include: structure
     - include: keywords
-    - include: builtin-constants
-    - include: builtin-variables
-    - include: builtin-commands
-    - include: builtin-functions
-    - include: comments
-    - include: numbers
-    - include: operators
-    - include: variable
-    - include: invalid-variable
+    - include: constants-override
+    - include: statements
     - include: invalid-not-equal
     - include: invalid-assignment
 
-  allofem:
+  statements:
+    - include: comments
+    - include: line-continuation
     - include: parens
-    - include: braces
     - include: brackets
+    - include: braces
+    - include: numbers
     - include: string
+    - include: operators
+    - include: terminator
+    - include: separator-comma
     - include: structure
     - include: builtin-constants
     - include: builtin-variables
     - include: builtin-commands
     - include: builtin-functions
-    - include: comments
     - include: variable
-    - include: numbers
     - include: invalid-variable
-    - include: operators
-    - include: line-continuation
 
   eol-pop:
     - match: (?=\s*[%\n])
@@ -165,11 +152,10 @@ contexts:
         - meta_scope: meta.parens.matlab
         - match: \)
           scope: punctuation.section.parens.end.matlab
-          # pop: true
           set: transpose
-        - include: separator-comma
+        - include: argument-placeholder
         - include: last-index
-        - include: allofem
+        - include: statements
 
   brackets:
     - match: '\['
@@ -179,11 +165,9 @@ contexts:
         - match: '\]'
           scope: punctuation.section.brackets.end.matlab
           set: transpose
-        - include: separator-comma
         - include: separator-semicolon
-        - match: ~
-          scope: variable.language.blank.matlab
-        - include: allofem
+        - include: argument-placeholder
+        - include: statements
 
   braces:
     - match: \{
@@ -193,10 +177,9 @@ contexts:
         - match: \}
           scope: punctuation.section.braces.end.matlab
           set: transpose
-        - include: separator-comma
         - include: separator-semicolon
         - include: last-index
-        - include: allofem
+        - include: statements
 
 ###[ DECLARATION BLOCKS ]#####################################################
 
@@ -246,9 +229,7 @@ contexts:
           pop: true
         - match: \b\.\?
           scope: keyword.operator.properties.matlab
-        - include: terminator
-        - include: separator-comma
-        - include: allofem
+        - include: statements
 
   class-declaration:
     - match: \bclassdef\b
@@ -429,6 +410,10 @@ contexts:
   last-index:
     - match: \bend\b
       scope: variable.language.matlab
+
+  argument-placeholder:
+    - match: \~
+      scope: variable.language.blank.matlab
 
 ###[ BUILTIN COMMANDS AND FUNCTIONS ]#########################################
 
