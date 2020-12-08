@@ -2400,14 +2400,14 @@ contexts:
     - match: (?:UUID|UR[LI]){{break}}
       scope: storage.type.class.java
       push:
-        - object-types-child
+        - maybe-object-type-child
         - maybe-array-modifiers
         - maybe-type-argument
     # Generic type variable
     - match: \p{Lu}{{break}}
       scope: storage.type.class.java
       push:
-        - object-types-child
+        - maybe-object-type-child
         - maybe-array-modifiers
         - maybe-type-argument
     # Uppercase constants
@@ -2429,7 +2429,7 @@ contexts:
     - match: '{{classcase_id}}'
       scope: storage.type.class.java
       push:
-        - object-types-child
+        - maybe-object-type-child
         - maybe-array-modifiers
         - maybe-type-argument
 
@@ -2437,21 +2437,23 @@ contexts:
     - match: '{{classcase_id}}'
       scope: storage.type.class.java
       set:
-        - object-types-child
+        - maybe-object-type-child
         - maybe-array-modifiers
         - maybe-type-argument
     - include: annotation-else-pop
 
-  object-types-child:
+  maybe-object-type-child:
     - match: '{{accessor_dot}}'
       scope: punctuation.accessor.dot.java
-      set:
-        - include: variable-language-class
-        - match: '{{uppercase_id}}'
-          scope: constant.other.java
-          pop: 1
-        - include: object-types-no-fqn
+      set: object-types-child-identifier
     - include: else-pop
+
+  object-types-child-identifier:
+    - include: variable-language-class
+    - match: '{{uppercase_id}}'
+      scope: constant.other.java
+      pop: 1
+    - include: object-types-no-fqn
 
 ###[ OBJECT TYPE ]#############################################################
 
