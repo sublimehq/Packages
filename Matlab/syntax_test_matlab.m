@@ -294,6 +294,17 @@ end
 %^^ meta.function.matlab keyword.control.end.function.matlab
 %  ^ - meta.function
 
+function myOutput=myFunction  % function without input
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.matlab
+%^^^^^^^ keyword.declaration.function.matlab
+%        ^^^^^^^^ variable.parameter.output.matlab
+%                ^ keyword.operator.assignment.matlab
+%                 ^^^^^^^^^^ entity.name.function.matlab
+%                             ^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.percentage.matlab
+end
+%^^ meta.function.matlab keyword.control.end.function.matlab
+%  ^ - meta.function
+
 function myFunction(x)  % function without output
 %^^^^^^^^^^^^^^^^^^ meta.function.matlab
 %                  ^^^ meta.function.parameters.matlab - meta.function meta.function

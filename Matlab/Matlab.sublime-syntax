@@ -186,7 +186,7 @@ contexts:
         - meta_scope: meta.function.matlab
         - match: (?=\s*[%\n])
           set: function-body-arguments
-        - match: ({{identifier}})\s+(=)
+        - match: ({{identifier}})\s*(=)
           captures:
             1: variable.parameter.output.matlab
             2: keyword.operator.assignment.matlab
