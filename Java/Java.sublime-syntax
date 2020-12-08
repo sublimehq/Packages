@@ -2497,10 +2497,12 @@ contexts:
   qualified-object-type-package:
     - match: '{{lowercase_id}}'
       scope: variable.namespace.java
-      set:
-        - include: punctuation-accessor-dot-pop
-        - match: (?=\S)
-          fail: qualified-object-type
+      set: qualified-object-type-accessor
+    - match: (?=\S)
+      fail: qualified-object-type
+
+  qualified-object-type-accessor:
+    - include: punctuation-accessor-dot-pop
     - match: (?=\S)
       fail: qualified-object-type
 
@@ -2615,10 +2617,12 @@ contexts:
   qualified-inherited-object-type-package:
     - match: '{{lowercase_id}}'
       scope: variable.namespace.java
-      set:
-        - include: punctuation-accessor-dot-pop
-        - match: (?=\S)
-          fail: qualified-inherited-object-type
+      set: qualified-inherited-object-type-accessor
+    - match: (?=\S)
+      fail: qualified-inherited-object-type
+
+  qualified-inherited-object-type-accessor:
+    - include: punctuation-accessor-dot-pop
     - match: (?=\S)
       fail: qualified-inherited-object-type
 
