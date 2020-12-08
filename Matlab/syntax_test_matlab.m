@@ -571,6 +571,10 @@ A(:,n)          % Array subscripting
 mc = ?ClassName % Obtain meta.class object
 %    ^ keyword.operator.metaclass.matlab
 
+   !echo abc % this isn't a comment - it's passed to system command
+%  ^ keyword.operator.shell-escape.matlab - meta.shell-escape
+%   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.shell-escape.matlab string.unquoted.matlab - comment
+
 
 %---------------------------------------------
 % Variables, structure arrays and transpose operator

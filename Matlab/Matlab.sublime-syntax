@@ -547,6 +547,13 @@ contexts:
       scope: keyword.operator.assignment.matlab
     - match: \?(?=[A-Za-z])
       scope: keyword.operator.metaclass.matlab
+    - match: \!
+      scope: keyword.operator.shell-escape.matlab
+      push:
+        - meta_content_scope: meta.shell-escape.matlab string.unquoted.matlab
+        - match: \n
+          scope: meta.shell-escape.matlab string.unquoted.matlab
+          pop: true
 
   transpose:
     - match: (?:\.?\')?
