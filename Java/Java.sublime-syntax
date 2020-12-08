@@ -349,10 +349,10 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-VariableDeclaratorId
     - match: '{{uppercase_id}}'
       scope: entity.name.constant.java
-      set: [illegal-members, maybe-array-modifiers]
+      set: maybe-only-array-modifiers
     - match: '{{identifier}}'
       scope: variable.other.readwrite.java
-      set: [illegal-members, maybe-array-modifiers]
+      set: maybe-only-array-modifiers
 
   declaration-maybe-assignment:
     - include: variable-initializer-assignment
@@ -925,13 +925,13 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-VariableDeclaratorId
     - match: '{{uppercase_id}}'
       scope: entity.name.constant.java
-      set: [illegal-members, maybe-array-modifiers]
+      set: maybe-only-array-modifiers
     - match: '{{identifier}}'
       scope: variable.other.member.java
-      set: [illegal-members, maybe-array-modifiers]
+      set: maybe-only-array-modifiers
     - match: '{{variables}}{{break}}'
       scope: invalid.illegal.identifier.java
-      set: [illegal-members, maybe-array-modifiers]
+      set: maybe-only-array-modifiers
     - include: else-pop
 
   field-value-assignment:
@@ -1839,10 +1839,8 @@ contexts:
     - include: annotation-else-pop3
 
   receiver-identifier-end:
-    - match: '{{accessor_dot}}'
-      scope: invalid.illegal.unexpected-accessor.java
-      push: illegal-member
     - include: illegal-array-modifiers
+    - include: illegal-members
     - include: annotation-else-pop3
 
   parameter:
@@ -1874,10 +1872,10 @@ contexts:
   parameter-identifier:
     - match: '{{identifier}}'
       scope: variable.parameter.java
-      set: [illegal-members, maybe-array-modifiers]
+      set: maybe-only-array-modifiers
     - match: '{{variables}}{{break}}'
       scope: invalid.illegal.identifier.java
-      set: [illegal-members, maybe-array-modifiers]
+      set: maybe-only-array-modifiers
 
 ###[ VARIABLES ]###############################################################
 
@@ -2767,6 +2765,12 @@ contexts:
     - include: array-modifiers
     - include: annotation-else-pop
 
+  maybe-only-array-modifiers:
+    - include: array-modifiers
+    - include: annotations
+    - include: illegal-members
+    - include: else-pop
+
   array-modifiers:
     - match: \[\s*\]
       scope: storage.modifier.array.java
@@ -2857,10 +2861,9 @@ contexts:
       scope: invalid.illegal.unexpected-accessor.java
       push:
         - maybe-illegal-array-modifiers
-        - illegal-member
-    - include: else-pop
+        - maybe-illegal-member
 
-  illegal-member:
+  maybe-illegal-member:
     - match: '{{id}}'
       scope: invalid.illegal.unexpected-member.java
       pop: 1
