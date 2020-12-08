@@ -10,6 +10,8 @@ classdef ClassName  % comment
 %        ^^^^^^^^^ entity.name.class.matlab
 %                   ^^^^^^^^^^ comment.line.percentage.matlab
 end
+%^^ meta.class.matlab keyword.control.end.class.matlab
+%  ^ - meta.class
 
 classdef (Sealed = false, ~Hidden) ClassName < SuperClass1 & SuperClass2  % comment
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.matlab
@@ -31,7 +33,7 @@ classdef (Sealed = false, ~Hidden) ClassName < SuperClass1 & SuperClass2  % comm
 %                                                                         ^^^^^^^^^^ comment.line.percentage.matlab
 
    properties (SetAccess = private, GetAccess = true)  % comment
-%  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.properties.matlab
+%  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.matlab meta.properties.matlab
 %  ^^^^^^^^^^ keyword.declaration.properties.matlab
 %             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attributes.matlab
 %             ^ punctuation.section.parens.begin.matlab
@@ -46,10 +48,11 @@ classdef (Sealed = false, ~Hidden) ClassName < SuperClass1 & SuperClass2  % comm
 %                                                      ^^^^^^^^^^ comment.line.percentage.matlab
       PropName
    end
-%  ^^^ keyword.control.matlab
+%  ^^^ meta.class.matlab meta.properties.matlab keyword.control.end.properties.matlab
+%     ^ meta.class.matlab - meta.properties
 
    methods (Static)  % comment
-%  ^^^^^^^^^^^^^^^^ meta.methods.matlab
+%  ^^^^^^^^^^^^^^^^ meta.class.matlab meta.methods.matlab
 %  ^^^^^^^ keyword.declaration.methods.matlab
 %          ^^^^^^^^ meta.attributes.matlab
 %          ^ punctuation.section.parens.begin.matlab
@@ -58,9 +61,11 @@ classdef (Sealed = false, ~Hidden) ClassName < SuperClass1 & SuperClass2  % comm
 %                    ^^^^^^^^^^ comment.line.percentage.matlab
       methodName
    end
+%  ^^^ meta.class.matlab meta.methods.matlab keyword.control.end.methods.matlab
+%     ^ meta.class.matlab - meta.methods
 
    events (ListenAccess = protected)  % comment
-%  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.events.matlab
+%  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.matlab meta.events.matlab
 %  ^^^^^^ keyword.declaration.events.matlab
 %         ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attributes.matlab
 %         ^ punctuation.section.parens.begin.matlab
@@ -71,13 +76,19 @@ classdef (Sealed = false, ~Hidden) ClassName < SuperClass1 & SuperClass2  % comm
 %                                     ^^^^^^^^^^ comment.line.percentage.matlab
       EventName
    end
+%  ^^^ meta.class.matlab meta.events.matlab keyword.control.end.events.matlab
+%     ^ meta.class.matlab - meta.events
 
    enumeration  % comment
-%  ^^^^^^^^^^^ meta.enumeration.matlab keyword.declaration.enumeration.matlab
+%  ^^^^^^^^^^^ meta.class.matlab meta.enumeration.matlab keyword.declaration.enumeration.matlab
 %               ^^^^^^^^^^ comment.line.percentage.matlab
       EnumName
    end
+%  ^^^ meta.class.matlab meta.enumeration.matlab keyword.control.end.enumeration.matlab
+%     ^ meta.class.matlab - meta.enumeration
 end
+%^^ meta.class.matlab keyword.control.end.class.matlab
+%  ^ - meta.class
 
 
 %---------------------------------------------
@@ -211,7 +222,7 @@ header = ['Last Name, ',      ... comment
 
 function myOutput = myFunction(x)  % function with one output
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.matlab
-%                             ^^^ meta.function.parameters.matlab
+%                             ^^^ meta.function.parameters.matlab - meta.function meta.function
 %^^^^^^^ keyword.declaration.function.matlab
 %        ^^^^^^^^ variable.parameter.output.matlab
 %                 ^ keyword.operator.assignment.matlab
@@ -221,10 +232,12 @@ function myOutput = myFunction(x)  % function with one output
 %                               ^ punctuation.section.parens.end.matlab
 %                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.percentage.matlab
 end
+%^^ meta.function.matlab keyword.control.end.function.matlab
+%  ^ - meta.function
 
 function [one, two, three] = myFunction(x)  % funtion with more than one output
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.matlab
-%                                      ^^^ meta.function.parameters.matlab
+%                                      ^^^ meta.function.parameters.matlab - meta.function meta.function
 %^^^^^^^ keyword.declaration.function.matlab
 %        ^ punctuation.section.brackets.begin.matlab
 %         ^^^ variable.parameter.output.matlab
@@ -240,10 +253,12 @@ function [one, two, three] = myFunction(x)  % funtion with more than one output
 %                                        ^ punctuation.section.parens.end.matlab
 %                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.percentage.matlab
 end
+%^^ meta.function.matlab keyword.control.end.function.matlab
+%  ^ - meta.function
 
 function myOutput = myFunction(x, y, z)  % function with one output and more than one input
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.matlab
-%                             ^^^^^^^^^ meta.function.parameters.matlab
+%                             ^^^^^^^^^ meta.function.parameters.matlab - meta.function meta.function
 %^^^^^^^ keyword.declaration.function.matlab
 %        ^^^^^^^^ variable.parameter.output.matlab
 %                 ^ keyword.operator.assignment.matlab
@@ -257,12 +272,16 @@ function myOutput = myFunction(x, y, z)  % function with one output and more tha
 %                                     ^ punctuation.section.parens.end.matlab
 %                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.percentage.matlab
 end
+%^^ meta.function.matlab keyword.control.end.function.matlab
+%  ^ - meta.function
 
 function myOutput = myFunction(x, ... function with line continuation in input arguments
    y, ... comment
    z  ... comment
 )
 end
+%^^ meta.function.matlab keyword.control.end.function.matlab
+%  ^ - meta.function
 
 function myOutput = myFunction  % function without input
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.matlab
@@ -272,10 +291,12 @@ function myOutput = myFunction  % function without input
 %                   ^^^^^^^^^^ entity.name.function.matlab
 %                               ^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.percentage.matlab
 end
+%^^ meta.function.matlab keyword.control.end.function.matlab
+%  ^ - meta.function
 
 function myFunction(x)  % function without output
 %^^^^^^^^^^^^^^^^^^ meta.function.matlab
-%                  ^^^ meta.function.parameters.matlab
+%                  ^^^ meta.function.parameters.matlab - meta.function meta.function
 %^^^^^^^ keyword.declaration.function.matlab
 %        ^^^^^^^^^^ entity.name.function.matlab
 %                  ^ punctuation.section.parens.begin.matlab
@@ -283,19 +304,23 @@ function myFunction(x)  % function without output
 %                    ^ punctuation.section.parens.end.matlab
 %                       ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.percentage.matlab
 end
+%^^ meta.function.matlab keyword.control.end.function.matlab
+%  ^ - meta.function
 
 function myFunction(myInput,~,~)
-%                  ^^^^^^^^^^^^^ meta.function.parameters.matlab
+%                  ^^^^^^^^^^^^^ meta.function.parameters.matlab - meta.function meta.function
 %                   ^^^^^^^ variable.parameter.input.matlab
 %                          ^ punctuation.separator.sequence.matlab
 %                           ^ variable.language.blank.matlab - keyword.operator
 %                            ^ punctuation.separator.sequence.matlab
 %                             ^ variable.language.blank.matlab - keyword.operator
 end
+%^^ meta.function.matlab keyword.control.end.function.matlab
+%  ^ - meta.function
 
 function [] = myFunction(x)  % function without output
 %^^^^^^^^^^^^^^^^^^^^^^^ meta.function.matlab
-%                       ^^^ meta.function.parameters.matlab
+%                       ^^^ meta.function.parameters.matlab - meta.function meta.function
 %^^^^^^^ keyword.declaration.function.matlab
 %        ^ punctuation.section.brackets.begin.matlab
 %         ^ punctuation.section.brackets.end.matlab
@@ -306,6 +331,8 @@ function [] = myFunction(x)  % function without output
 %                         ^ punctuation.section.parens.end.matlab
 %                            ^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.percentage.matlab
 end
+%^^ meta.function.matlab keyword.control.end.function.matlab
+%  ^ - meta.function
 
 function myFunction  % function without output and without input
 %^^^^^^^^^^^^^^^^^^ meta.function.matlab
@@ -313,20 +340,25 @@ function myFunction  % function without output and without input
 %        ^^^^^^^^^^ entity.name.function.matlab
 %                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.percentage.matlab
 end
+%^^ meta.function.matlab keyword.control.end.function.matlab
+%  ^ - meta.function
 
 function parentfun
    function y = nestedfun  % nested function
-%  ^^^^^^^^^^^^^^^^^^^^^^ meta.function.matlab
+%  ^^^^^^^^^^^^^^^^^^^^^^ meta.function.matlab meta.function.matlab
 %  ^^^^^^^^ keyword.declaration.function.matlab
 %           ^ variable.parameter.output.matlab
 %             ^ keyword.operator.assignment.matlab
 %               ^^^^^^^^^ entity.name.function.matlab
    end
+   %^^ meta.function.matlab meta.function.matlab keyword.control.end.function.matlab
 end
+%^^ meta.function.matlab keyword.control.end.function.matlab
+%  ^ - meta.function
 
 function myFunction(x)
    arguments  % function argument validation block
-%  ^^^^^^^^^ keyword.other.arguments.matlab
+%  ^^^^^^^^^ meta.function.matlab meta.arguments.matlab keyword.context.arguments.matlab
       x (1,1) double {mustBePositive} = 1.0
       propArgs.?matlab.graphics.chart.primitive.Bar
 %     ^^^^^^^^ meta.variable.other.valid.matlab
@@ -337,8 +369,25 @@ function myFunction(x)
 %                                    ^ punctuation.accessor.dot.matlab
 %                                              ^ punctuation.accessor.dot.matlab
    end
+%  ^^^ meta.function.matlab meta.arguments.matlab keyword.control.end.arguments.matlab
+%     ^ meta.function.matlab - meta.arguments
 end
+%^^ meta.function.matlab keyword.control.end.function.matlab
+%  ^ - meta.function
 
+function myFunction(x,y)
+   arguments (Repeating)  % function argument validation block
+%  ^^^^^^^^^ meta.function.matlab meta.arguments.matlab keyword.context.arguments.matlab
+%            ^^^^^^^^^^^ meta.function.matlab meta.arguments.matlab meta.attributes.matlab
+%             ^^^^^^^^^ variable.parameter.attribute.matlab
+      x (1,:) double
+      y (1,:) double
+   end
+%  ^^^ meta.function.matlab meta.arguments.matlab keyword.control.end.arguments.matlab
+%     ^ meta.function.matlab - meta.arguments
+end
+%^^ meta.function.matlab keyword.control.end.function.matlab
+%  ^ - meta.function
 
 %---------------------------------------------
 % Built-in constants
@@ -598,10 +647,108 @@ s1="00:06:57";
 %   ^^^^^^^^ string.quoted.double.matlab
 %           ^ punctuation.definition.string.end.matlab
 
+
 %---------------------------------------------
-parfor x = 1:10
-%^^^^^ keyword.control.loop.matlab
-end
+% Loops and conditional statements
+
+   if (x >= minVal) && (x <= maxVal)
+%  ^^ meta.block.if.matlab keyword.control.conditional.if.matlab
+      disp('Value within specified range.')
+   elseif (x > maxVal)
+%  ^^^^^^ meta.block.if.matlab keyword.control.conditional.elseif.matlab
+      disp('Value exceeds maximum value.')
+   else
+%  ^^^^ meta.block.if.matlab keyword.control.conditional.else.matlab
+      disp('Value is below minimum value.')
+   end
+%  ^^^ meta.block.if.matlab keyword.control.end.if.matlab
+%     ^ - meta.block.if
+
+   switch plottype
+%  ^^^^^^ meta.block.switch.matlab keyword.control.conditional.switch.matlab
+      case 'bar'
+%     ^^^^ meta.block.switch.matlab keyword.control.conditional.case.matlab
+         bar(x)
+         title('Bar Graph')
+      case {'pie', 'pie3'}
+%     ^^^^ meta.block.switch.matlab keyword.control.conditional.case.matlab
+         pie3(x)
+         title('Pie Chart')
+      otherwise
+%     ^^^^^^^^^ meta.block.switch.matlab keyword.control.conditional.otherwise.matlab
+         warning('Unexpected plot type. No plot created.')
+   end
+%  ^^^ meta.block.switch.matlab keyword.control.end.switch.matlab
+%     ^ - meta.block.switch
+
+   for v = 1.0:-0.2:0.0
+%  ^^^ meta.block.for.matlab keyword.control.loop.for.matlab
+      disp(v)
+   end
+%  ^^^ meta.block.for.matlab keyword.control.end.for.matlab
+%     ^ - meta.block.for
+
+   parfor i = 1:10
+%  ^^^^^^ meta.block.parfor.matlab keyword.control.loop.parfor.matlab
+      a(i,:) = real(fft(r(i)));
+   end
+%  ^^^ meta.block.parfor.matlab keyword.control.end.parfor.matlab
+%     ^ - meta.block.parfor
+
+   while 1
+%  ^^^^^ meta.block.while.matlab keyword.control.loop.while.matlab
+      tmp = rand;
+      if tmp > limit
+%     ^^ meta.block.while.matlab meta.block.if.matlab keyword.control.conditional.if.matlab
+         break
+%        ^^^^^ meta.block.while.matlab meta.block.if.matlab keyword.control.flow.break.matlab
+      end
+%     ^^^ meta.block.while.matlab meta.block.if.matlab keyword.control.end.if.matlab
+%        ^ meta.block.while.matlab - meta.block.if
+      s = s + tmp;
+   end
+%  ^^^ meta.block.while.matlab keyword.control.end.while.matlab
+%     ^ - meta.block.while
+
+   for n = 1:50
+%  ^^^ meta.block.for.matlab keyword.control.loop.for.matlab
+      if mod(n,7)
+%     ^^ meta.block.for.matlab meta.block.if.matlab keyword.control.conditional.if.matlab
+         continue
+%        ^^^^^^^^ meta.block.for.matlab meta.block.if.matlab keyword.control.flow.continue.matlab
+      end
+%     ^^^ meta.block.for.matlab meta.block.if.matlab keyword.control.end.if.matlab
+%        ^ meta.block.for.matlab - meta.block.if
+      disp(['Divisible by 7: ' num2str(n)])
+   end
+%  ^^^ meta.block.for.matlab keyword.control.end.for.matlab
+
+   try
+%  ^^^ meta.block.try.matlab keyword.control.exception.try.matlab
+      a = notaFunction(5,6);
+   catch ME
+%  ^^^^^ meta.block.try.matlab keyword.control.exception.catch.matlab
+      switch ME.identifier
+%     ^^^^^^ meta.block.try.matlab meta.block.switch.matlab keyword.control.conditional.switch.matlab
+         case 'MATLAB:UndefinedFunction'
+%        ^^^^ meta.block.try.matlab meta.block.switch.matlab keyword.control.conditional.case.matlab
+            warning('Function is undefined. Assigning a value of NaN.');
+            a = NaN;
+         case 'MATLAB:scriptNotAFunction'
+%        ^^^^ meta.block.try.matlab meta.block.switch.matlab keyword.control.conditional.case.matlab
+            warning(['Attempting to execute script as function.'...
+               'Running script and assigning output a value of 0.']);
+            notaFunction;
+            a = 0;
+         otherwise
+%        ^^^^^^^^^ meta.block.try.matlab meta.block.switch.matlab keyword.control.conditional.otherwise.matlab
+            rethrow(ME)
+      end
+%     ^^^ meta.block.try.matlab meta.block.switch.matlab keyword.control.end.switch.matlab
+%        ^ meta.block.try.matlab - meta.block.switch
+   end
+%  ^^^ meta.block.try.matlab keyword.control.end.try.matlab
+%     ^ - meta.block.try
 
 
 %---------------------------------------------
