@@ -649,6 +649,45 @@ l = {l.n}';
 %    ^^^ meta.variable.other.valid.matlab
 %     ^ punctuation.accessor.dot.matlab
 %        ^ keyword.operator.transpose.matlab
+   x .'
+%    ^^ keyword.operator.transpose.matlab
+   42'
+%  ^^ meta.number.float.decimal.matlab constant.numeric.value.matlab
+%    ^ keyword.operator.transpose.matlab
+   42.'
+%  ^^^ meta.number.float.decimal.matlab constant.numeric.value.matlab
+%     ^ keyword.operator.transpose.matlab
+% Note: The notation used above is ambiguous whether it means the transpose of `42` or the complex
+% conjugate transpose of `42.`. But since both numbers and operators would be exactly the same in
+% all cases, we can't decide how Matlab interprets it and are free to choose whether the dot is part
+% of the number or the operator. So in this case, we match the number greedily.
+   42..'
+%  ^^^ meta.number.float.decimal.matlab constant.numeric.value.matlab
+%    ^ punctuation.separator.decimal.matlab
+%     ^^ keyword.operator.transpose - punctuation
+   42. .'
+%  ^^^ meta.number.float.decimal.matlab constant.numeric.value.matlab
+%    ^ punctuation.separator.decimal.matlab
+%      ^^ keyword.operator.transpose - punctuation
+   'character array'.'
+%  ^^^^^^^^ string.quoted.single.matlab
+%                   ^^ keyword.operator.transpose.matlab
+   'character array' .'
+%  ^^^^^^^^ string.quoted.single.matlab
+%                    ^^ keyword.operator.transpose.matlab
+   "string"'
+%  ^^^^^^^^ string.quoted.double.matlab
+%          ^ keyword.operator.transpose.matlab
+   "string".'
+%  ^^^^^^^^ string.quoted.double.matlab
+%          ^^ keyword.operator.transpose.matlab
+   true'
+%  ^^^^ constant.language.matlab
+%      ^ keyword.operator.transpose.matlab
+   true.'
+%  ^^^^ constant.language.matlab
+%      ^^ keyword.operator.transpose.matlab
+
 
 %---------------------------------------------
 % String

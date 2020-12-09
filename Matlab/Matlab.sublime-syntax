@@ -80,12 +80,14 @@ contexts:
         1: constant.numeric.base.matlab
         2: constant.numeric.value.matlab
         3: constant.numeric.suffix.matlab
+      push: transpose
     - match: '\b(0[bB])([01]+)(u8|u16|u32|u64|s8|s16|s32|s64)?\b'
       scope: meta.number.integer.binary.matlab
       captures:
         1: constant.numeric.base.matlab
         2: constant.numeric.value.matlab
         3: constant.numeric.suffix.matlab
+      push: transpose
     - match: '((?:\d+(\.)\d*|(\.)?\d+)(?:[Ee][-+]?\d+)?)(i|j)\b'
       scope: meta.number.imaginary.decimal.matlab
       captures:
@@ -93,11 +95,13 @@ contexts:
         2: punctuation.separator.decimal.matlab
         3: punctuation.separator.decimal.matlab
         4: constant.numeric.suffix.matlab
+      push: transpose
     - match: '(?:\d+(\.)\d*|(\.)?\d+)(?:[Ee][-+]?\d+)?(?!\w)'
       scope: meta.number.float.decimal.matlab constant.numeric.value.matlab
       captures:
         1: punctuation.separator.decimal.matlab
         2: punctuation.separator.decimal.matlab
+      push: transpose
 
   string:
     - match: ''''
@@ -106,7 +110,11 @@ contexts:
         - meta_scope: string.quoted.single.matlab
         - match: '''(?=(\]|\)|\}|=|~|<|>|&|\||-|\+|\*|\.|\^|\||\s|;|:|,))'
           scope: punctuation.definition.string.end.matlab
-          pop: true
+          set:
+            - match: (?:\s*(\.\'))?
+              captures:
+                1: keyword.operator.transpose.matlab
+              pop: true
         # escaped quote
         - match: "''"
           scope: constant.character.escape.matlab
@@ -121,7 +129,7 @@ contexts:
         - meta_scope: string.quoted.double.matlab
         - match: '"'
           scope: punctuation.definition.string.end.matlab
-          pop: true
+          set: transpose
 
   variable:
     - match: '\b{{identifier}}\b'
@@ -558,8 +566,10 @@ contexts:
           pop: true
 
   transpose:
-    - match: (?:\.?\')?
-      scope: keyword.operator.transpose.matlab
+    - match: (?:\s*(\.\')|(\'))?
+      captures:
+        1: keyword.operator.transpose.matlab
+        2: keyword.operator.transpose.matlab
       pop: true
 
   terminator:
@@ -580,14 +590,17 @@ contexts:
   builtin-constants:
     - match: \b(true|false|eps|pi|Inf|NaN|NaT|flintmax|intmax|intmin|realmax|realmin|namelengthmax)\b
       scope: constant.language.matlab
+      push: transpose
 
   builtin-variables:
     - match: \b(ans|nargin|nargout|varargin|varargout)\b
       scope: variable.language.matlab
+      push: transpose
 
   last-index:
     - match: \bend\b
       scope: variable.language.matlab
+      push: transpose
 
   argument-placeholder:
     - match: \~
