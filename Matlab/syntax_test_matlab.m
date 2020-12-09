@@ -90,6 +90,12 @@ end
 %^^ meta.class.matlab keyword.control.end.class.matlab
 %  ^ - meta.class
 
+classdef ClassName ... comment
+   < SuperClass
+%  ^ meta.class.matlab punctuation.separator.inheritance.matlab
+%    ^^^^^^^^^^ meta.class.matlab entity.other.inherited-class.matlab
+end
+
 
 %---------------------------------------------
 % Parens, brackets, braces, punctuation

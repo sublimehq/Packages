@@ -292,12 +292,14 @@ contexts:
           scope: entity.name.class.matlab
           set:
             - meta_content_scope: meta.class.matlab
+            - include: line-continuation
             - match: (?=\s*[%\n])
               set: class-body
             - match: <
               scope: punctuation.separator.inheritance.matlab
               set:
                 - meta_content_scope: meta.class.matlab
+                - include: line-continuation
                 - match: (?=\s*[%\n])
                   set: class-body
                 - match: '{{identifier}}'
