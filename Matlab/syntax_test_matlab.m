@@ -457,12 +457,18 @@ C{end}
  .1
 %^^ meta.number.float.decimal.matlab constant.numeric.value.matlab
 %^ punctuation.separator.decimal.matlab
+ 1.
+%^^ meta.number.float.decimal.matlab constant.numeric.value.matlab
+% ^ punctuation.separator.decimal.matlab
  1.1
 %^^^ meta.number.float.decimal.matlab constant.numeric.value.matlab
 % ^ punctuation.separator.decimal.matlab
  .1e1
 %^^^^ meta.number.float.decimal.matlab constant.numeric.value.matlab
 %^ punctuation.separator.decimal.matlab
+ 1.e1
+%^^^^ meta.number.float.decimal.matlab constant.numeric.value.matlab
+% ^ punctuation.separator.decimal.matlab
  1.1e1
 %^^^^^ meta.number.float.decimal.matlab constant.numeric.value.matlab
 % ^ punctuation.separator.decimal.matlab
@@ -475,6 +481,11 @@ C{end}
 %      ^^ meta.number.imaginary.decimal.matlab constant.numeric
 %      ^ constant.numeric.value.matlab
 %       ^ constant.numeric.suffix.matlab
+ 1.i
+%^^^ meta.number.imaginary.decimal.matlab constant.numeric
+%^^ constant.numeric.value.matlab
+% ^ punctuation.separator.decimal.matlab
+%  ^ constant.numeric.suffix.matlab
  1j
 %^^ meta.number.imaginary.decimal.matlab constant.numeric
 %^ constant.numeric.value.matlab

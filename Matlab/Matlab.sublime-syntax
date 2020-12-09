@@ -86,16 +86,18 @@ contexts:
         1: constant.numeric.base.matlab
         2: constant.numeric.value.matlab
         3: constant.numeric.suffix.matlab
-    - match: '((?:\d*(\.))?\d+(?:[Ee][-+]?\d+)?)(i|j)\b'
+    - match: '((?:\d+(\.)\d*|(\.)?\d+)(?:[Ee][-+]?\d+)?)(i|j)\b'
       scope: meta.number.imaginary.decimal.matlab
       captures:
         1: constant.numeric.value.matlab
         2: punctuation.separator.decimal.matlab
-        3: constant.numeric.suffix.matlab
-    - match: '(?:\d*(\.))?\d+(?:[Ee][-+]?\d+)?\b'
+        3: punctuation.separator.decimal.matlab
+        4: constant.numeric.suffix.matlab
+    - match: '(?:\d+(\.)\d*|(\.)?\d+)(?:[Ee][-+]?\d+)?(?!\w)'
       scope: meta.number.float.decimal.matlab constant.numeric.value.matlab
       captures:
         1: punctuation.separator.decimal.matlab
+        2: punctuation.separator.decimal.matlab
 
   string:
     - match: ''''
