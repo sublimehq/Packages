@@ -19,9 +19,9 @@ contexts:
     - include: function-declaration
     - include: class-declaration
     - include: keywords
-    - include: statements
+    - include: expressions
 
-  statements:
+  expressions:
     - include: comments
     - include: line-continuation
     - include: parens
@@ -161,7 +161,7 @@ contexts:
           scope: punctuation.section.parens.end.matlab
           set: transpose
         - include: last-index
-        - include: statements
+        - include: expressions
 
   brackets:
     - match: '\['
@@ -173,7 +173,7 @@ contexts:
           set: transpose
         - include: separator-semicolon
         - include: argument-placeholder
-        - include: statements
+        - include: expressions
 
   braces:
     - match: \{
@@ -185,7 +185,7 @@ contexts:
           set: transpose
         - include: separator-semicolon
         - include: last-index
-        - include: statements
+        - include: expressions
 
 ###[ DECLARATION BLOCKS ]#####################################################
 
@@ -253,7 +253,7 @@ contexts:
             - match: \b\.\?
               scope: keyword.operator.properties.matlab
             - include: argument-placeholder
-            - include: statements
+            - include: expressions
     - match: (?=\S)
       set: function-body
 
@@ -264,7 +264,7 @@ contexts:
       pop: true
     - include: function-declaration
     - include: keywords
-    - include: statements
+    - include: expressions
 
   class-declaration:
     - match: \bclassdef\b
@@ -279,16 +279,10 @@ contexts:
             - match: \)
               scope: punctuation.section.parens.end.matlab
               pop: true
-            - include: separator-comma
             # https://www.mathworks.com/help/matlab/matlab_oop/class-attributes.html
             - match: \b(?:Abstract|AllowedSubclasses|ConstructOnLoad|HandleCompatible|Hidden|InferiorClasses|Sealed)\b
               scope: variable.parameter.attribute.matlab
-            - match: =
-              scope: keyword.operator.assignment.matlab
-            - match: ~
-              scope: keyword.operator.logical.matlab
-            - match: \b(?:false|true)\b
-              scope: constant.language.matlab
+            - include: expressions
         - match: '{{identifier}}'
           scope: entity.name.class.matlab
           set:
@@ -333,27 +327,19 @@ contexts:
             - match: \)
               scope: punctuation.section.parens.end.matlab
               pop: true
-            - include: separator-comma
             # https://www.mathworks.com/help/matlab/matlab_oop/property-attributes.html
             - match: \b(?:AbortSet|Abstract|Access|Constant|Dependent|GetAccess|GetObservable|Hidden|NonCopyable|PartialMatchPriority|SetAccess|SetObservable|Transient)\b
               scope: variable.parameter.attribute.matlab
-            - match: =
-              scope: keyword.operator.assignment.matlab
-            - match: ~
-              scope: keyword.operator.logical.matlab
-            - match: \b(?:false|true)\b
-              scope: constant.language.matlab
             - match: \b(?:public|protected|private)\b
               scope: storage.modifier.matlab
-            - match: \b\d+\b
-              scope: meta.number.integer.decimal.matlab constant.numeric.value.matlab
+            - include: expressions
 
   class-properties-body:
     - meta_scope: meta.properties.matlab
     - match: \bend\b
       scope: keyword.control.end.properties.matlab
       pop: true
-    - include: statements
+    - include: expressions
 
   class-methods:
     - match: \bmethods\b
@@ -369,18 +355,12 @@ contexts:
             - match: \)
               scope: punctuation.section.parens.end.matlab
               pop: true
-            - include: separator-comma
             # https://www.mathworks.com/help/matlab/matlab_oop/method-attributes.html
             - match: \b(?:Abstract|Access|Hidden|Sealed|Static)\b
               scope: variable.parameter.attribute.matlab
-            - match: =
-              scope: keyword.operator.assignment.matlab
-            - match: ~
-              scope: keyword.operator.logical.matlab
-            - match: \b(?:false|true)\b
-              scope: constant.language.matlab
             - match: \b(?:public|protected|private)\b
               scope: storage.modifier.matlab
+            - include: expressions
 
   class-methods-body:
     - meta_scope: meta.methods.matlab
@@ -404,17 +384,12 @@ contexts:
             - match: \)
               scope: punctuation.section.parens.end.matlab
               pop: true
-            - match: \,
-              scope: punctuation.separator.sequence.matlab
             # https://www.mathworks.com/help/matlab/matlab_oop/event-attributes.html
             - match: \b(?:Hidden|ListenAccess|NotifyAccess)\b
               scope: variable.parameter.attribute.matlab
-            - match: =
-              scope: keyword.operator.assignment.matlab
-            - match: \b(?:false|true)\b
-              scope: constant.language.matlab
             - match: \b(?:public|protected|private)\b
               scope: storage.modifier.matlab
+            - include: expressions
 
   class-events-body:
     - meta_scope: meta.events.matlab
@@ -434,7 +409,7 @@ contexts:
     - match: \bend\b
       scope: keyword.control.end.enumeration.matlab
       pop: true
-    - include: statements
+    - include: expressions
 
 ###[ KEYWORDS AND OPERATOR SYMBOLS ]##########################################
 
@@ -472,7 +447,7 @@ contexts:
           scope: keyword.control.end.if.matlab
           pop: true
         - include: keywords
-        - include: statements
+        - include: expressions
 
   switch:
     - match: \bswitch\b
@@ -487,7 +462,7 @@ contexts:
           scope: keyword.control.end.switch.matlab
           pop: true
         - include: keywords
-        - include: statements
+        - include: expressions
 
   for:
     - match: \bfor\b
@@ -498,7 +473,7 @@ contexts:
           scope: keyword.control.end.for.matlab
           pop: true
         - include: keywords
-        - include: statements
+        - include: expressions
 
   parfor:
     - match: \bparfor\b
@@ -509,7 +484,7 @@ contexts:
           scope: keyword.control.end.parfor.matlab
           pop: true
         - include: keywords
-        - include: statements
+        - include: expressions
 
   while:
     - match: \bwhile\b
@@ -520,7 +495,7 @@ contexts:
           scope: keyword.control.end.while.matlab
           pop: true
         - include: keywords
-        - include: statements
+        - include: expressions
 
   try:
     - match: \btry\b
@@ -533,7 +508,7 @@ contexts:
           scope: keyword.control.end.try.matlab
           pop: true
         - include: keywords
-        - include: statements
+        - include: expressions
 
   spmd:
     - match: \bspmd\b
@@ -544,7 +519,7 @@ contexts:
           scope: keyword.control.end.spmd.matlab
           pop: true
         - include: keywords
-        - include: statements
+        - include: expressions
 
   # https://www.mathworks.com/help/matlab/matlab_prog/matlab-operators-and-special-characters.html
   operators:

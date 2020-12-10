@@ -13,24 +13,30 @@ end
 %^^ meta.class.matlab keyword.control.end.class.matlab
 %  ^ - meta.class
 
-classdef (Sealed = false, ~Hidden) ClassName < SuperClass1 & SuperClass2  % comment
-%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.matlab
+classdef (Sealed = verLessThan('matlab', '8.4'), ~Hidden) ClassName < SuperClass1 & SuperClass2  % comment
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.matlab
 %^^^^^^^ keyword.declaration.class.matlab
-%        ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attributes.matlab
+%        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attributes.matlab
 %        ^ punctuation.section.parens.begin.matlab
 %         ^^^^^^ variable.parameter.attribute.matlab
 %                ^ keyword.operator.assignment.matlab
-%                  ^^^^^ constant.language.matlab
-%                       ^ punctuation.separator.sequence.matlab
-%                         ^ keyword.operator.logical.matlab
-%                          ^^^^^^ variable.parameter.attribute.matlab
-%                                ^ punctuation.section.parens.end.matlab
-%                                  ^^^^^^^^^ entity.name.class.matlab
-%                                            ^ punctuation.separator.inheritance.matlab
-%                                              ^^^^^^^^^^^ entity.other.inherited-class.matlab
-%                                                          ^ punctuation.separator.sequence.matlab
-%                                                            ^^^^^^^^^^^ entity.other.inherited-class.matlab
-%                                                                         ^^^^^^^^^^ comment.line.percentage.matlab
+%                  ^^^^^^^^^^^ support.function.builtin.matlab
+%                             ^^^^^^^^^^^^^^^^^ meta.parens.matlab
+%                             ^ punctuation.section.parens.begin.matlab
+%                              ^^^^^^^^ string.quoted.single.matlab
+%                                      ^ punctuation.separator.sequence.matlab
+%                                        ^^^^^ string.quoted.single.matlab
+%                                             ^ punctuation.section.parens.end.matlab
+%                                              ^ punctuation.separator.sequence.matlab
+%                                                ^ keyword.operator.logical.matlab
+%                                                 ^^^^^^ variable.parameter.attribute.matlab
+%                                                       ^ punctuation.section.parens.end.matlab
+%                                                         ^^^^^^^^^ entity.name.class.matlab
+%                                                                   ^ punctuation.separator.inheritance.matlab
+%                                                                     ^^^^^^^^^^^ entity.other.inherited-class.matlab
+%                                                                                 ^ punctuation.separator.sequence.matlab
+%                                                                                   ^^^^^^^^^^^ entity.other.inherited-class.matlab
+%                                                                                                ^^^^^^^^^^ comment.line.percentage.matlab
 
    properties (SetAccess = private, GetAccess = true)  % comment
 %  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.matlab meta.properties.matlab
