@@ -724,6 +724,12 @@ l = {l.n}';
    true.'
 %  ^^^^ constant.language.matlab
 %      ^^ keyword.operator.transpose.matlab
+   zeros'
+%  ^^^^^ meta.variable.other.valid.matlab - support.function
+%       ^ keyword.operator.transpose.matlab - string
+   zeros.'
+%  ^^^^^ meta.variable.other.valid.matlab - support.function
+%       ^^ keyword.operator.transpose.matlab - string
 
 
 %---------------------------------------------

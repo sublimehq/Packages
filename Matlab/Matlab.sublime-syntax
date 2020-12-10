@@ -35,6 +35,7 @@ contexts:
     - include: structure
     - include: builtin-constants
     - include: builtin-variables
+    - include: transposed-variable
     - include: builtin-commands
     - include: builtin-functions
     - include: variable
@@ -137,6 +138,13 @@ contexts:
       captures:
         1: punctuation.accessor.dot.matlab
       push: transpose
+
+  transposed-variable:
+    - match: \b({{identifier}})(?:\s*(\.\')|(\'))
+      captures:
+        1: meta.variable.other.valid.matlab
+        2: keyword.operator.transpose.matlab
+        3: keyword.operator.transpose.matlab
 
   structure:
     - match: '\b{{identifier}}(\.)\b'
