@@ -406,6 +406,18 @@ end
 %^^ meta.function.matlab keyword.control.end.function.matlab
 %  ^ - meta.function
 
+function myOutput = ... comment
+   myFunction(x)
+%  ^^^^^^^^^^ meta.function.matlab entity.name.function.matlab
+%            ^^^ meta.function.parameters.matlab - meta.function meta.function
+%            ^ punctuation.section.parens.begin.matlab
+%             ^ variable.parameter.input.matlab
+%              ^ punctuation.section.parens.end.matlab
+end
+%^^ meta.function.matlab keyword.control.end.function.matlab
+%  ^ - meta.function
+
+
 %---------------------------------------------
 % Built-in constants
 
