@@ -65,7 +65,10 @@ classdef (Sealed = verLessThan('matlab', '8.4'), ~Hidden) ClassName < SuperClass
 %           ^^^^^^ variable.parameter.attribute.matlab
 %                 ^ punctuation.section.parens.end.matlab
 %                    ^^^^^^^^^^ comment.line.percentage.matlab
-      methodName
+      function funcionName(obj)
+         functionName@SuperClass1(obj)
+%                    ^ punctuation.accessor.at.matlab - keyword.operator
+      end
    end
 %  ^^^ meta.class.matlab meta.methods.matlab keyword.control.end.methods.matlab
 %     ^ meta.class.matlab - meta.methods
@@ -605,6 +608,16 @@ A(:,n)          % Array subscripting
 % ^ keyword.operator.colon.matlab
 mc = ?ClassName % Obtain meta.class object
 %    ^ keyword.operator.metaclass.matlab
+f = @sin;
+%   ^ keyword.operator.at.matlab
+f = @(x,y) (x.^2 - y.^2);
+%   ^ keyword.operator.at.matlab
+%    ^^^^^ meta.function.parameters.matlab
+%    ^ punctuation.section.parens.begin.matlab
+%     ^ variable.parameter.input.matlab
+%      ^ punctuation.separator.sequence.matlab
+%       ^ variable.parameter.input.matlab
+%        ^ punctuation.section.parens.end.matlab
 
    !echo abc % this isn't a comment - it's passed to system command
 %  ^ keyword.operator.shell-escape.matlab - meta.shell-escape

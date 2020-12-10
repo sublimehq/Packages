@@ -542,6 +542,23 @@ contexts:
         - match: \n
           scope: meta.shell-escape.matlab string.unquoted.matlab
           pop: true
+    - match: \b\@
+      scope: punctuation.accessor.at.matlab
+    - match: \@
+      scope: keyword.operator.at.matlab
+      push:
+        - match: \(
+          scope: punctuation.section.parens.begin.matlab
+          set:
+            - meta_scope: meta.function.parameters.matlab
+            - match: '{{identifier}}'
+              scope: variable.parameter.input.matlab
+            - include: separator-comma
+            - match: \)
+              scope: punctuation.section.parens.end.matlab
+              pop: true
+        - match: ''
+          pop: true
 
   transpose:
     - match: (?:\s*(\.\')|(\'))?
