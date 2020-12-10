@@ -730,6 +730,12 @@ l = {l.n}';
    zeros.'
 %  ^^^^^ meta.variable.other.valid.matlab - support.function
 %       ^^ keyword.operator.transpose.matlab - string
+   zeros = "built-in function name as variable identifier"
+%  ^^^^^ meta.variable.other.valid.matlab - support.function
+   zeros == ones
+%  ^^^^^ support.function.builtin.matlab - meta.variable
+   true = false
+%  ^^^^ constant.language.matlab - meta.variable
 
 
 %---------------------------------------------

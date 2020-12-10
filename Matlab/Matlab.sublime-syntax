@@ -36,6 +36,7 @@ contexts:
     - include: builtin-constants
     - include: builtin-variables
     - include: transposed-variable
+    - include: variable-assignment
     - include: builtin-commands
     - include: builtin-functions
     - include: variable
@@ -145,6 +146,12 @@ contexts:
         1: meta.variable.other.valid.matlab
         2: keyword.operator.transpose.matlab
         3: keyword.operator.transpose.matlab
+
+  variable-assignment:
+    - match: '\b({{identifier}})\s*(=)(?!=)'
+      captures:
+        1: meta.variable.other.valid.matlab
+        2: keyword.operator.assignment.matlab
 
   structure:
     - match: '\b{{identifier}}(\.)\b'
