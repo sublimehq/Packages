@@ -821,7 +821,6 @@ contexts:
         - member-maybe-class
         - member-maybe-enum
         - member-maybe-interface
-        - expression
 
   member-else-fail:
     - match: (?=\S)
