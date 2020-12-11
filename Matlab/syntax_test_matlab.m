@@ -779,6 +779,10 @@ s1="00:06:57";
 %   ^^^^^^^^ string.quoted.double.matlab
 %           ^ punctuation.definition.string.end.matlab
 
+fprintf(fileID,'%6.2f %12.8f\r\n',A);
+%                     ^^^^^^ constant.other.placeholder.matlab
+%                           ^^^^ constant.character.escape.matlab
+
 
 %---------------------------------------------
 % Loops and conditional statements

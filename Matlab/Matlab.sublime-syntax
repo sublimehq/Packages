@@ -107,7 +107,7 @@ contexts:
       push: transpose
 
   string:
-    - match: ''''
+    - match: \'
       scope: punctuation.definition.string.begin.matlab
       push:
         - meta_scope: string.quoted.single.matlab
@@ -119,20 +119,32 @@ contexts:
                 1: keyword.operator.transpose.matlab
               pop: true
         # escaped quote
-        - match: "''"
+        - match: \'\'
           scope: constant.character.escape.matlab
         # unescaped quote
-        - match: "'(?=.)"
+        - match: \'(?=.)
           scope: invalid.illegal.unescaped-quote.matlab
-        - match: '((\%([\+\-0]?\d{0,3}(\.\d{1,3})?)(c|d|e|E|f|g|G|s|((b|t)?(o|u|x|X))))|\%\%|\\(b|f|n|r|t|\\))'
-          scope: constant.character.escape.matlab
-    - match: '"'
+        - include: escaped-character
+        - include: format-spec
+    - match: \"
       scope: punctuation.definition.string.begin.matlab
       push:
         - meta_scope: string.quoted.double.matlab
-        - match: '"'
+        - match: \"\"
+          scope: constant.character.escape.matlab
+        - match: \"
           scope: punctuation.definition.string.end.matlab
           set: transpose
+        - include: escaped-character
+        - include: format-spec
+
+  escaped-character:
+    - match: '\%\%|\\\\|\\[abfnrtv]'
+      scope: constant.character.escape.matlab
+
+  format-spec:
+    - match: '\%(?:\d\$)?[-+\s0#]?(?:\d+|\*)?(?:\.\d+|\.\*)?(?:[cdeEfgGis]|[bt]?[ouxX])'
+      scope: constant.other.placeholder.matlab
 
   variable:
     - match: '\b{{identifier}}\b'
