@@ -654,6 +654,8 @@ x = A(a.b.c)
 %     ^^^^^ meta.variable.other.valid.matlab
 %      ^ punctuation.accessor.dot.matlab
 %        ^ punctuation.accessor.dot.matlab
+h(1).LineStyle = '--'
+%   ^ punctuation.accessor.dot.matlab
 x = [1, 2, n]
 %          ^ meta.variable.other.valid.matlab
 x = [1, 2, a.b]
@@ -736,6 +738,22 @@ l = {l.n}';
 %  ^^^^^ support.function.builtin.matlab - meta.variable
    true = false
 %  ^^^^ constant.language.matlab - meta.variable
+
+
+%---------------------------------------------
+% Incomplete expressions
+
+x = a.
+%    ^ punctuation.accessor.dot.matlab
+x = a.b.
+%      ^ punctuation.accessor.dot.matlab
+x = zeros.
+%   ^^^^^ support.function.builtin.matlab - meta.variable
+%        ^ punctuation.accessor.dot.matlab
+x = a .
+%     ^ - punctuation.accessor
+.
+% <- - punctuation.accessor
 
 
 %---------------------------------------------

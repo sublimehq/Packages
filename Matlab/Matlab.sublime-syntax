@@ -30,6 +30,7 @@ contexts:
     - include: numbers
     - include: string
     - include: operators
+    - include: accessor-dot
     - include: terminator
     - include: separator-comma
     - include: structure
@@ -426,7 +427,7 @@ contexts:
       pop: true
     - include: expressions
 
-###[ KEYWORDS AND OPERATOR SYMBOLS ]##########################################
+###[ KEYWORDS AND FLOW CONTROL BLOCKS ]#######################################
 
   # https://www.mathworks.com/help/matlab/ref/iskeyword.html
   # https://www.mathworks.com/help/matlab/control-flow.html
@@ -536,6 +537,8 @@ contexts:
         - include: keywords
         - include: expressions
 
+###[ OPERATORS AND PUNCTUATION ]##############################################
+
   # https://www.mathworks.com/help/matlab/matlab_prog/matlab-operators-and-special-characters.html
   operators:
     - match: '\+|-|\*|\.\*|/|\./|\\|\.\\|\^|\.\^'
@@ -581,6 +584,10 @@ contexts:
         1: keyword.operator.transpose.matlab
         2: keyword.operator.transpose.matlab
       pop: true
+
+  accessor-dot:
+    - match: (?<=\S)\.
+      scope: punctuation.accessor.dot.matlab
 
   terminator:
     - match: \;
