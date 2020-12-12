@@ -386,6 +386,7 @@ function myFunction(x)
    arguments  % function argument validation block
 %  ^^^^^^^^^ meta.function.matlab meta.arguments.matlab keyword.context.arguments.matlab
       x (1,1) double {mustBePositive} = 1.0
+%             ^^^^^^ storage.type.matlab - support.function
       propArgs.?matlab.graphics.chart.primitive.Bar
 %     ^^^^^^^^ meta.variable.other.valid.matlab
 %             ^^ keyword.operator.properties.matlab - meta.variable.other.valid.matlab - punctuation
@@ -932,7 +933,10 @@ X = zeros(2)
 %      ^^^ support.function.builtin.matlab - keyword.operator
 
 y = int32(10)
-%   ^^^^^ support.function.builtin.matlab storage.type.matlab
+%   ^^^^^ support.function.builtin.matlab - storage.type
+
+y = double('a')
+%   ^^^^^^ support.function.builtin.matlab - storage.type
 
 X = inf(n)
 %   ^^^ support.function.builtin.matlab
