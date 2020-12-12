@@ -248,8 +248,10 @@ contexts:
               pop: true
         - match: =
           scope: keyword.operator.assignment.matlab
-        - match: '{{identifier}}'
+        - match: '(?:(?:set|get)(\.))?{{identifier}}'
           scope: entity.name.function.matlab
+          captures:
+            1: punctuation.accessor.dot.matlab
         - match: (?=\()
           set:
             - meta_scope: meta.function.parameters.matlab

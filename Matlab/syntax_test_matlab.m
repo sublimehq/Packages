@@ -69,6 +69,16 @@ classdef (Sealed = verLessThan('matlab', '8.4'), ~Hidden) ClassName < SuperClass
          functionName@SuperClass1(obj)
 %                    ^ punctuation.accessor.at.matlab - keyword.operator
       end
+
+      function set.something(obj, value)
+%              ^^^^^^^^^^^^^ meta.function.matlab entity.name.function.matlab
+%                 ^ punctuation.accessor.dot.matlab
+      end
+
+      function get.something(obj)
+%              ^^^^^^^^^^^^^ meta.function.matlab entity.name.function.matlab
+%                 ^ punctuation.accessor.dot.matlab
+      end
    end
 %  ^^^ meta.class.matlab meta.methods.matlab keyword.control.end.methods.matlab
 %     ^ meta.class.matlab - meta.methods
