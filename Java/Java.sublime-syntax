@@ -1999,7 +1999,7 @@ contexts:
 
   builtins:
     - match: _{{break}}
-      scope: variable.language.blank.java
+      scope: variable.language.anonymous.java
     - match: (?:false|true){{break}}
       scope: constant.language.boolean.java
     - match: null{{break}}
