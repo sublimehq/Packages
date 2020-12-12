@@ -6552,8 +6552,54 @@ class MethodInvocationExpressionsTests {
 //                ^^^^^ variable.other.readwrite.java
 //                     ^ punctuation.section.group.end.java
 //                      ^ punctuation.terminator.java
+
+    some.other.path.
+//  ^^^^^^^^^^^^^^^^ meta.path.java
+//  ^^^^ variable.namespace.java
+//      ^ punctuation.accessor.dot.java
+//       ^^^^^ variable.namespace.java
+//            ^ punctuation.accessor.dot.java
+//             ^^^^ variable.namespace.java
+//                 ^ punctuation.accessor.dot.java
+        foo.MyClass.staticMethod(true);
+//      ^^^^^^^^^^^ meta.path.java
+//                  ^^^^^^^^^^^^ meta.function-call.identifier.java
+//                              ^^^^^^ meta.function-call.arguments.java meta.group.java
+//      ^^^ variable.namespace.java
+//         ^ punctuation.accessor.dot.java
+//          ^^^^^^^ storage.type.class.java
+//                 ^ punctuation.accessor.dot.java
+//                  ^^^^^^^^^^^^ variable.function.java
+//                              ^ punctuation.section.group.begin.java
+//                               ^^^^ constant.language.boolean.java
+//                                   ^ punctuation.section.group.end.java
+//                                    ^ punctuation.terminator.java
+
+    some.other.path
+//  ^^^^^^^^^^^^^^^^ meta.path.java
+//  ^^^^ variable.namespace.java
+//      ^ punctuation.accessor.dot.java
+//       ^^^^^ variable.namespace.java
+//            ^ punctuation.accessor.dot.java
+//             ^^^^ variable.namespace.java
+        .foo.MyClass.staticMethod(true);
+//      ^^^^^^^^^^^^ meta.path.java
+//                   ^^^^^^^^^^^^ meta.function-call.identifier.java
+//                               ^^^^^^ meta.function-call.arguments.java meta.group.java
+//      ^ punctuation.accessor.dot.java
+//       ^^^ variable.namespace.java
+//          ^ punctuation.accessor.dot.java
+//           ^^^^^^^ storage.type.class.java
+//                  ^ punctuation.accessor.dot.java
+//                   ^^^^^^^^^^^^ variable.function.java
+//                               ^ punctuation.section.group.begin.java
+//                                ^^^^ constant.language.boolean.java
+//                                    ^ punctuation.section.group.end.java
+//                                     ^ punctuation.terminator.java
   }
+//^ meta.function.java punctuation.section.block.end.java
 }
+// <- punctuation.section.block.end.java
 
 
 /******************************************************************************
@@ -9369,27 +9415,6 @@ class LiteralsTests {
 //  ^^^^^^ storage.type.class
   }
 }
-
-
-class MiscTests {
-
-  public void someMethod() {
-
-/* We can't support this yet.*/
-    some.other.path.
-/*  ^^^^^^^^^^^^^^^^ storage.type.class.java */
-        foo.MyClass.staticMethod(true);
-/*      ^^^^^^^^^^^ storage.type.class.java */
-
-    some.other.path
-/*  ^^^^^^^^^^^^^^^ storage.type.class.java */
-        .foo.MyClass.staticMethod(true);
-/*      ^^^^^^^^^^^^ storage.type.class.java */
-
-  }
-//^ meta.function.java punctuation.section.block.end.java
-}
-// <- punctuation.section.block.end.java
 
 
 /******************************************************************************

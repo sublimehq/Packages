@@ -133,7 +133,6 @@ contexts:
     - include: primitive-types
     - include: storage-modifiers
     - include: illegal-unexpected-keywords
-    - include: uppercase-identifiers
     - include: object-types
     - include: variables
 
@@ -1884,6 +1883,7 @@ contexts:
     - match: (?={{id_first_char}})
       branch_point: variables
       branch:
+        - variable-namespace
         - variable-other
         - method-call-identifier
         - lambda-parameter
@@ -1920,6 +1920,33 @@ contexts:
   lambda-parameter-end:
     - meta_content_scope: meta.function.anonymous.java
     - include: else-pop
+
+  variable-namespace:
+    - match: '{{lowercase_id}}'
+      scope: variable.namespace.java
+      push: variable-namespace-accessor
+    - match: ''
+      fail: variables
+
+  variable-namespace-accessor:
+    - meta_scope: meta.path.java
+    - match: \.
+      scope: punctuation.accessor.dot.java
+      set:
+        - match: '{{classcase_id}}'
+          scope: storage.type.class.java
+          set:
+            - variable-namespace-meta
+            - maybe-object-type-child
+            - maybe-array-modifiers
+            - maybe-type-argument
+        - include: else-pop
+    - match: (?=\S)
+      fail: variables
+
+  variable-namespace-meta:
+    - meta_scope: meta.path.java
+    - include: immediately-pop2
 
   variable-other:
     - match: '{{id}}'
@@ -2392,18 +2419,9 @@ contexts:
 
 ###[ OBJECT TYPES ]############################################################
 
-  # Stand-along uppercase id, either type or constant.
-  # Should be used only inside blocks.
-  uppercase-identifiers:
-    # Popular JDK classes
-    - match: (?:UUID|UR[LI]){{break}}
-      scope: storage.type.class.java
-      push:
-        - maybe-object-type-child
-        - maybe-array-modifiers
-        - maybe-type-argument
-    # Generic type variable
-    - match: \p{Lu}{{break}}
+  object-types:
+    # Popular JDK classes, generic type variable
+    - match: (?:UUID|UR[LI]|\p{Lu}){{break}}
       scope: storage.type.class.java
       push:
         - maybe-object-type-child
@@ -2412,34 +2430,13 @@ contexts:
     # Uppercase constants
     - match: '{{uppercase_id}}'
       scope: constant.other.java
-
-  # Stand-alone type, maybe type of the variable or class object reference.
-  # Should be used only inside blocks.
-  object-types:
-    # Here the match is more complex than 'before_fqn'.
-    # In blocks we can't simply distinguish package from variable.
-    - match: (?=(?:{{lowercase_id}}\.)+\p{Lu})
-      push:
-        - meta_scope: meta.path.java
-        - match: '{{lowercase_id}}'
-          scope: variable.namespace.java
-        - include: punctuation-accessor-dot
-        - include: object-types-no-fqn
+    # Classes
     - match: '{{classcase_id}}'
       scope: storage.type.class.java
       push:
         - maybe-object-type-child
         - maybe-array-modifiers
         - maybe-type-argument
-
-  object-types-no-fqn:
-    - match: '{{classcase_id}}'
-      scope: storage.type.class.java
-      set:
-        - maybe-object-type-child
-        - maybe-array-modifiers
-        - maybe-type-argument
-    - include: annotation-else-pop
 
   maybe-object-type-child:
     - match: '{{accessor_dot}}'
@@ -2452,7 +2449,13 @@ contexts:
     - match: '{{uppercase_id}}'
       scope: constant.other.java
       pop: 1
-    - include: object-types-no-fqn
+    - match: '{{classcase_id}}'
+      scope: storage.type.class.java
+      set:
+        - maybe-object-type-child
+        - maybe-array-modifiers
+        - maybe-type-argument
+    - include: annotation-else-pop
 
 ###[ OBJECT TYPE ]#############################################################
 
