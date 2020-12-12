@@ -51,6 +51,10 @@ contexts:
 ###[ COMMENTS ]###############################################################
 
   comments:
+    - include: block-comment
+    - include: line-comment
+
+  block-comment:
     - match: ^\s*(%\{)\s*\n
       captures:
         1: punctuation.definition.comment.matlab
@@ -60,6 +64,9 @@ contexts:
           captures:
             1: punctuation.definition.comment.matlab
           pop: true
+        - include: block-comment
+
+  line-comment:
     - match: (%%(?!%)).*\n?
       scope: comment.line.double-percentage.matlab
       captures:

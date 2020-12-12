@@ -209,6 +209,14 @@ x = 5 %{ not block comment
 x = 5
 %   ^ meta.number.float.decimal.matlab constant.numeric.value.matlab
 
+%{
+   %{
+      nested block comment
+   %}
+   this is still a comment
+%  ^^^^^^^^^^^^^^^^^^^^^^^ comment.block.percentage.matlab
+%}
+
 header = ['Last Name, ',      ... comment
 %        ^^^^^^^^^^^^^^^^^^^^^ meta.brackets.matlab - comment
 %                             ^^^ meta.brackets.matlab punctuation.separator.continuation.line.matlab
