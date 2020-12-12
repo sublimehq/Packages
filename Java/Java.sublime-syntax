@@ -661,7 +661,7 @@ contexts:
         - enum-body-block
         - enum-extends
         - enum-name-meta
-        - illegal-type-parameter
+        - maybe-illegal-type-parameter
         - enum-name
 
   enum-modifiers:
@@ -2886,13 +2886,19 @@ contexts:
     - match: '{{storage_modifiers}}{{break}}'
       scope: invalid.illegal.unexpected-keyword.java
 
-  illegal-type-parameter:
+  maybe-illegal-type-parameter:
     - match: \<
-      set:
+      set: illegal-type-parameter-common
+    - include: else-pop
+
+  illegal-type-parameter-common:
         - meta_scope: invalid.illegal.unexpected-type-parameters.java
+        - match: \<
+          push:
+            - match: \>
+              pop: 1
         - match: \>
           pop: 1
-    - include: else-pop
 
   illegal-var-type:
     - match: var{{break}}

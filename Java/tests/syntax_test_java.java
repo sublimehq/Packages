@@ -1591,6 +1591,18 @@ public enum FooBarBazEnum {
 }
 // <- meta.enum.java punctuation.section.block.end.java
 
+protected enum IllegalTypeParam<T<T> & T<? extends B>> {}
+//<- meta.enum.java storage.modifier.java
+//^^^^^^^^^^^^ meta.enum.java
+//            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.enum.identifier.java
+//                                                     ^^ meta.enum.java meta.block.java
+//^^^^^^^ storage.modifier.java
+//        ^^^^ keyword.declaration.enum.java
+//             ^^^^^^^^^^^^^^^^ entity.name.enum.java
+//                             ^^^^^^^^^^^^^^^^^^^^^^^ invalid.illegal.unexpected-type-parameters.java
+//                                                     ^ punctuation.section.block.begin.java
+//                                                      ^ punctuation.section.block.end.java
+
 public enum TokenKind<T> extends MyEnum, FooBaz<? super T<TT>> implements Foo, Bar {
 //<- meta.enum.java storage.modifier.java
 //^^^^^^^^^ meta.enum.java
