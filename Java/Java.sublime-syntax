@@ -123,17 +123,16 @@ contexts:
 
   expressions:
     - include: groups
-    - include: builtins
-    - include: instantiations
-    - include: numbers
     - include: strings
+    - include: numbers
+    - include: punctuations
     - include: lambdas
     - include: operators
-    - include: punctuations
+    - include: builtins
+    - include: instantiations
     - include: primitive-types
     - include: var-types
     - include: storage-modifiers
-    - include: illegal-unexpected-keywords
     - include: object-types
     - include: variables
 
