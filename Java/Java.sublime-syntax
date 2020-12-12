@@ -1930,7 +1930,7 @@ contexts:
 
   variable-namespace-accessor:
     - meta_scope: meta.path.java
-    - match: \.
+    - match: '{{accessor_dot}}'
       scope: punctuation.accessor.dot.java
       set:
         - match: '{{classcase_id}}'
