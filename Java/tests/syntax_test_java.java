@@ -7976,6 +7976,131 @@ class CastExpressionsTests {
 
 
 /******************************************************************************
+ * Instance Type Comparison Expressions Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.20.2
+ *****************************************************************************/
+
+class TypeComparisonExpressionsTests {
+
+ void instanceofPrimitiveTests {
+
+    instanceof
+//  ^^^^^^^^^^ keyword.other.storage.instanceof.java
+
+    instanceof boolean
+//  ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//             ^^^^^^^ storage.type.primitive.java
+
+    instanceof boolean[]
+//  ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//             ^^^^^^^ storage.type.primitive.java
+//                    ^^ storage.modifier.array.java
+
+    instanceof boolean@anno[]
+//  ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//             ^^^^^^^ storage.type.primitive.java
+//                    ^ punctuation.definition.annotation.java
+//                     ^^^^ variable.annotation.java
+//                         ^^ storage.modifier.array.java
+
+    instanceof char
+//  ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//             ^^^^ storage.type.primitive.java
+
+    instanceof char[]
+//  ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//             ^^^^ storage.type.primitive.java
+//                 ^^ storage.modifier.array.java
+
+    instanceof char@anno[]
+//  ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//             ^^^^ storage.type.primitive.java
+//                 ^ punctuation.definition.annotation.java
+//                  ^^^^ variable.annotation.java
+//                      ^^ storage.modifier.array.java
+
+    instanceof int
+//  ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//             ^^^ storage.type.primitive.java
+
+    instanceof int[]
+//  ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//             ^^^ storage.type.primitive.java
+//                ^^ storage.modifier.array.java
+
+    instanceof int@anno[]
+//  ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//             ^^^ storage.type.primitive.java
+//                ^ punctuation.definition.annotation.java
+//                 ^^^^ variable.annotation.java
+//                     ^^ storage.modifier.array.java
+
+    instanceof
+//  ^^^^^^^^^^ keyword.other.storage.instanceof.java
+    int
+//  ^^^ storage.type.primitive.java
+    @anno
+//  ^ punctuation.definition.annotation.java
+//   ^^^^ variable.annotation.java
+    []
+//  ^^ storage.modifier.array.java
+}
+
+ void instanceofClassTests {
+
+    a instanceof b
+//    ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//               ^ storage.type.class.java
+
+    a instanceof b.c
+//    ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//               ^ variable.namespace.java
+//                ^ punctuation.accessor.dot.java
+//                 ^ storage.type.class.java
+
+    a instanceof b.c.d
+//    ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//               ^ variable.namespace.java
+//                ^ punctuation.accessor.dot.java
+//                 ^ variable.namespace.java
+//                  ^ punctuation.accessor.dot.java
+//                   ^ storage.type.class.java
+
+    a instanceof Object
+//    ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//               ^^^^^^ storage.type.class.java
+}
+
+ void instanceofGenericsTests {
+
+    instanceof <T>
+//  ^^^^^^^^^^ keyword.other.storage.instanceof.java
+
+    instanceof X<?>.Y<?>
+//  ^^^^^^^^^^ keyword.other.storage.instanceof.java
+ }
+
+ void instanceofAmbigultyTests {
+
+    a = b instanceof c?1__1:0b11110101;
+//  ^ variable.other.readwrite.java
+//    ^ keyword.operator.assignment.java
+//      ^ variable.other.readwrite.java
+//        ^^^^^^^^^^ keyword.other.storage.instanceof.java
+//                   ^ storage.type.class.java
+//                    ^ keyword.operator.ternary.java
+//                     ^^^^ constant.numeric.value.java
+//                         ^ keyword.operator.ternary.java
+//                          ^^ constant.numeric.base.java
+//                            ^^^^^^^^ constant.numeric.value.java
+//                                    ^ punctuation.terminator.java
+ }
+ // <- meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
+}
+// <- meta.class.java meta.block.java punctuation.section.block.end.java
+
+
+/******************************************************************************
  * Lambda Expressions Tests
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.27
  *****************************************************************************/
@@ -8782,20 +8907,6 @@ public class Foo {
     return foo<bar;
 //  ^^^^^^ keyword.control.flow.return.java
 //            ^ keyword.operator.comparison.java
-
-    boolean inst = a instanceof Object;
-//                   ^^^^^^^^^^ keyword.other.storage.instanceof.java
-//                              ^^^^^^ storage.type.class.java
-
-    b = e instanceof a?1__1:0b11110101;
-//        ^^^^^^^^^^ keyword.other.storage.instanceof.java
-//                   ^ variable.other.readwrite.java
-//                    ^ keyword.operator.ternary.java
-//                     ^^^^ constant.numeric.value.java
-//                         ^ keyword.operator.ternary.java
-//                          ^^ constant.numeric.base.java
-//                            ^^^^^^^^ constant.numeric.value.java
-//                                    ^ punctuation.terminator.java
   }
 //^ meta.function.java punctuation.section.block.end.java
 }

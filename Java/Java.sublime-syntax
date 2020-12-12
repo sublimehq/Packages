@@ -1631,7 +1631,7 @@ contexts:
     - match: ''
       set:
         - cast-expression-group-common
-        - maybe-array-modifiers
+        - maybe-only-array-modifiers
         - cast-expression-type
 
   cast-expression-group-common:
@@ -2149,8 +2149,12 @@ contexts:
     - match: '\?'
       scope: keyword.operator.ternary.java
       push: ternary-expression
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-15.html#jls-15.20.2
     - match: instanceof{{break}}
       scope: keyword.other.storage.instanceof.java
+      push:
+        - maybe-only-array-modifiers
+        - cast-expression-type
 
   operator-ternary-colon:
     - match: ':'
