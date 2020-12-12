@@ -4557,7 +4557,7 @@ class LocalVariableDeclarationTests {
     final var[] y = 10, z[] = 5;
 //  ^^^^^ storage.modifier.java
 //        ^^^ storage.type.var.java
-//           ^^ storage.modifier.array.java
+//           ^^ invalid.illegal.unexpected-modifier.java
 //              ^ variable.other.readwrite.java
 //                ^ keyword.operator.assignment.java
 //                  ^^ meta.number.integer.decimal.java constant.numeric.value.java

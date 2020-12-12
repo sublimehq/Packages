@@ -131,6 +131,7 @@ contexts:
     - include: operators
     - include: punctuations
     - include: primitive-types
+    - include: var-types
     - include: storage-modifiers
     - include: illegal-unexpected-keywords
     - include: object-types
@@ -2755,19 +2756,21 @@ contexts:
     - match: '{{storage_types}}{{break}}'
       scope: storage.type.primitive.java
       push: maybe-array-modifiers
-    - match: var{{break}}
-      scope: storage.type.var.java
-      push: maybe-illegal-array-modifiers
 
   primitive-type:
     - match: '{{storage_types}}{{break}}'
       scope: storage.type.primitive.java
       pop: 1
 
+  var-types:
+    - match: var{{break}}
+      scope: storage.type.var.java
+      push: maybe-illegal-array-modifiers
+
   var-type:
     - match: var{{break}}
       scope: storage.type.var.java
-      pop: 1
+      set: maybe-illegal-array-modifiers
 
   maybe-array-modifiers:
     - include: array-modifiers
