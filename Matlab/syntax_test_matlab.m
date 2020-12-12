@@ -494,6 +494,8 @@ C{end}
 %   ^ punctuation.separator.sequence.matlab
 %    ^^ meta.variable.other.valid.matlab
 
+x = [A, ~B]
+%       ^ keyword.operator.logical.matlab - variable.language
 
 %---------------------------------------------
 % Numbers

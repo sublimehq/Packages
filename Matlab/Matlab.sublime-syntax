@@ -648,7 +648,7 @@ contexts:
       push: transpose
 
   argument-placeholder:
-    - match: \~
+    - match: \~(?![A-Za-z])
       scope: variable.language.blank.matlab
 
 ###[ BUILTIN COMMANDS AND FUNCTIONS ]#########################################
