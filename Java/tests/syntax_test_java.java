@@ -981,7 +981,7 @@ class GenericTest<@Anno A extends @Anno com . @Anno Foo<A, @Anno com . @Anno Bar
 //                                                                      ^^^^ variable.annotation.java
 //                                                                           ^^^ storage.type.class.java
 //                                                                              ^ punctuation.definition.generic.end.java
-//                                                                                ^ keyword.operator.multiple-bounds.java
+//                                                                                ^ keyword.operator.logical.java
 //                                                                                  ^ punctuation.definition.annotation.java
 //                                                                                   ^^^^ variable.annotation.java
 //                                                                                        ^^^ storage.type.class.java
@@ -1034,7 +1034,7 @@ class generictest<@anno a extends @anno com . @anno foo<a, @anno com . @anno bar
 //                                                                      ^^^^ variable.annotation.java
 //                                                                           ^^^ storage.type.class.java
 //                                                                              ^ punctuation.definition.generic.end.java
-//                                                                                ^ keyword.operator.multiple-bounds.java
+//                                                                                ^ keyword.operator.logical.java
 //                                                                                  ^ punctuation.definition.annotation.java
 //                                                                                   ^^^^ variable.annotation.java
 //                                                                                        ^^^ storage.type.class.java
@@ -1120,7 +1120,7 @@ class GenericTest<A> extends @Anno com . @Anno Foo<@Anno ? extends @Anno SuperCl
 //                                                                                    ^ punctuation.definition.annotation.java
 //                                                                                     ^^^^ variable.annotation.java
 //                                                                                          ^^^^^^^^ storage.type.class.java
-//                                                                                                   ^ keyword.operator.multiple-bounds.java
+//                                                                                                   ^ keyword.operator.logical.java
 //                                                                                                     ^ punctuation.definition.annotation.java
 //                                                                                                      ^^^^ variable.annotation.java
 //                                                                                                           ^^^^^^^^^^ storage.type.class.java
@@ -7772,7 +7772,7 @@ class CastExpressionsTests {
 //                          ^^^^ - meta.typecast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^^^^^^^^^ storage.type.class.java
-//             ^ keyword.operator.multiple-bounds.java
+//             ^ keyword.operator.logical.java
 //               ^^^^^^^^^^ storage.type.class.java
 //                         ^ punctuation.section.group.end.java
 //                           ^^^ variable.other.readwrite.java
@@ -7782,7 +7782,7 @@ class CastExpressionsTests {
 //                          ^^^^ - meta.typecast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^^^^^^^^^ storage.type.class.java
-//             ^ keyword.operator.multiple-bounds.java
+//             ^ keyword.operator.logical.java
 //               ^^^^^^^^^^ storage.type.class.java
 //                         ^ punctuation.section.group.end.java
 //                           ^^^ variable.other.readwrite.java
@@ -7793,7 +7793,7 @@ class CastExpressionsTests {
 //  ^ punctuation.section.group.begin.java
 //   ^^^^^ meta.annotation.identifier.java
 //         ^^^^^^^^^ storage.type.class.java
-//                   ^ keyword.operator.multiple-bounds.java
+//                   ^ keyword.operator.logical.java
 //                     ^^^^^ meta.annotation.identifier.java
 //                           ^^^^^^^^^^ storage.type.class.java
 //                                     ^ punctuation.section.group.end.java
@@ -7883,12 +7883,12 @@ class CastExpressionsTests {
 //        ^ storage.type.class.java
 //         ^ punctuation.definition.generic.end.java
 //          ^^ storage.modifier.array.java
-//             ^ keyword.operator.multiple-bounds.java
+//             ^ keyword.operator.logical.java
 //               ^^^^^^^^^ storage.type.class.java
 //                        ^ punctuation.definition.generic.begin.java
 //                         ^ storage.type.class.java
 //                          ^ punctuation.definition.generic.end.java
-//                            ^ keyword.operator.multiple-bounds.java
+//                            ^ keyword.operator.logical.java
 //                              ^^^^ storage.type.class.java
 //                                  ^ punctuation.section.group.end.java
 //                                    ^^^ variable.other.readwrite.java

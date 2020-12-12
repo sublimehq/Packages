@@ -2541,7 +2541,7 @@ contexts:
 
   additional-bounds:
     - match: '&'
-      scope: keyword.operator.multiple-bounds.java
+      scope: keyword.operator.logical.java
       push: maybe-reference-type
 
   maybe-reference-type:
