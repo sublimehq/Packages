@@ -1986,7 +1986,7 @@ contexts:
       scope: variable.language.class.java
       pop: 1
 
-  variable-maybe-function-reference:
+  maybe-function-reference:
     - match: new{{break}}
       scope: keyword.other.storage.new.java
       pop: 1
@@ -2168,7 +2168,7 @@ contexts:
     - match: '::'
       scope: punctuation.accessor.double-colon.java
       push:
-        - variable-maybe-function-reference
+        - maybe-function-reference
         - maybe-type-argument
     - match: '{{accessor_dot}}'
       scope: punctuation.accessor.dot.java
