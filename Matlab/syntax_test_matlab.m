@@ -316,6 +316,13 @@ end
 %^^ meta.function.matlab keyword.control.end.function.matlab
 %  ^ - meta.function
 
+function [one, ... function with line continuation in output arguments
+   two,        ... comment
+   three] = myFunction(x)
+end
+%^^ meta.function.matlab keyword.control.end.function.matlab
+%  ^ - meta.function
+
 function myOutput = myFunction  % function without input
 %^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.matlab
 %^^^^^^^ keyword.declaration.function.matlab

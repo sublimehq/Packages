@@ -242,6 +242,7 @@ contexts:
           push:
             - match: '{{identifier}}'
               scope: variable.parameter.output.matlab
+            - include: line-continuation
             - include: separator-comma
             - match: '\]'
               scope: punctuation.section.brackets.end.matlab
