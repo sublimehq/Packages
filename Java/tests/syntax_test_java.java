@@ -3236,6 +3236,43 @@ class FieldDeclarationTests {
 
 
 /******************************************************************************
+ * Global Method Declaration Tests
+ *   Global methods are not valid in Java, but are supported to maintain
+ *   syntax highlighting in JSP or incomplete code.
+ *
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
+ *****************************************************************************/
+
+void globalMethodDeclarationTests() {}
+// <- meta.function.return-type.java storage.type.void.java
+//^^^ meta.function.return-type.java
+//^^ storage.type.void.java
+//   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.identifier.java entity.name.function.java
+//                               ^^ meta.function.parameters.java meta.group.java
+//                                 ^ meta.function.java - meta.group - meta.block
+//                                  ^^ meta.function.java meta.block.java
+//                               ^ punctuation.section.group.begin.java
+//                                ^ punctuation.section.group.end.java
+//                                  ^ punctuation.section.block.begin.java
+//                                   ^ punctuation.section.block.end.java
+//
+
+int globalMethodDeclarationTests() {}
+// <- meta.function.return-type.java storage.type.primitive.java
+//^^ meta.function.return-type.java
+//^ storage.type.primitive.java
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.identifier.java entity.name.function.java
+//                              ^^ meta.function.parameters.java meta.group.java
+//                                ^ meta.function.java - meta.group - meta.block
+//                                 ^^ meta.function.java meta.block.java
+//                              ^ punctuation.section.group.begin.java
+//                               ^ punctuation.section.group.end.java
+//                                 ^ punctuation.section.block.begin.java
+//                                  ^ punctuation.section.block.end.java
+//
+
+
+/******************************************************************************
  * Method Declaration Tests
  * https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
  *****************************************************************************/
@@ -3352,6 +3389,37 @@ class MethodDelcarationTests {
 //           ^ punctuation.section.group.end.java
 //             ^ punctuation.section.block.begin.java
 //              ^ punctuation.section.block.end.java
+
+  // It looks like a function definition then highlight it as such, even in function bodies.
+  int localMethodTest() { boolean bar() { void baz(); } }
+//^^^^ meta.function.return-type.java
+//    ^^^^^^^^^^^^^^^ meta.function.identifier.java
+//                   ^^ meta.function.parameters.java meta.group.java
+//                     ^ meta.function.java
+//                      ^^ meta.function.java meta.block.java
+//                        ^^^^^^^^ meta.function.java meta.block.java meta.function.return-type.java
+//                                ^^^ meta.function.java meta.block.java meta.function.identifier.java
+//                                   ^^ meta.function.java meta.block.java meta.function.parameters.java meta.group.java
+//                                     ^ meta.function.java meta.block.java meta.function.java
+//                                      ^^^^^^^^^^^^^^^ meta.function.java meta.block.java meta.function.java meta.block.java
+//                                                     ^^ meta.function.java meta.block.java
+//^^^ storage.type.primitive.java
+//    ^^^^^^^^^^^^^^^ entity.name.function.java
+//                   ^ punctuation.section.group.begin.java
+//                    ^ punctuation.section.group.end.java
+//                      ^ punctuation.section.block.begin.java
+//                        ^^^^^^^ storage.type.primitive.java
+//                                ^^^ entity.name.function.java
+//                                   ^ punctuation.section.group.begin.java
+//                                    ^ punctuation.section.group.end.java
+//                                      ^ punctuation.section.block.begin.java
+//                                        ^^^^ storage.type.void.java
+//                                             ^^^ entity.name.function.java
+//                                                ^ punctuation.section.group.begin.java
+//                                                 ^ punctuation.section.group.end.java
+//                                                  ^ punctuation.terminator.java
+//                                                    ^ punctuation.section.block.end.java
+//                                                      ^ punctuation.section.block.end.java
 
   public
 //^^^^^^^ meta.function.modifier.java - meta.function meta.function
@@ -4019,6 +4087,11 @@ class MethodDelcarationTests {
 }
 // <- meta.class.java punctuation.section.block.end.java
 
+
+/******************************************************************************
+ * Method Declaration With Receiver Arguments Tests
+ * https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
+ *****************************************************************************/
 
 class ReceiverArgTests {
 

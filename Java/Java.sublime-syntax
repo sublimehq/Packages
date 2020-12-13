@@ -298,6 +298,19 @@ contexts:
 ###[ DECLARATIONS ]############################################################
 
   declarations:
+    # As per specification separate declarations for globals, members, and
+    # locals are needed, as each of them supports only a subset of declaration
+    # statements:
+    #   - globals: class, enum, interface
+    #   - members: class, enum, interface, constructor, field, method
+    #   - locals:  class, variables
+    #   - try/for: variables
+    #
+    # Member declarations need to be handled differently as constructurs look
+    # exactly like function calls. The other two scopes (global, local) are
+    # merged here to maintain syntax highlighting whenever possible. That's
+    # needed for `incomplete code` scenarios or if contexts are lost due to
+    # embedding Java into JSP.
     - match: (?=[{{id_first_char}}@<])
       branch_point: declarations
       branch:
@@ -305,6 +318,7 @@ contexts:
         - declaration-maybe-enum
         - declaration-maybe-interface
         - declaration-maybe-variable
+        - declaration-maybe-method
 
   declaration-else-fail:
     - match: (?=\S)
@@ -334,6 +348,35 @@ contexts:
     - meta_scope: meta.interface.java
     - include: interface-keyword
     - include: interface-modifiers
+    - include: declaration-else-fail
+
+  declaration-maybe-method:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - method-block
+        - method-attributes
+        - method-array-modifiers
+        - declaration-method-signature
+        - method-modifier
+
+  declaration-method-signature:
+    - include: method-void-signature
+    - match: (?=\S)
+      set:
+        - declaration-method-expect-parameters
+        - declaration-method-expect-identifier
+        - method-result-modifier
+        - method-result-type
+
+  declaration-method-expect-identifier:
+    - include: method-identifier
+    - include: declaration-else-fail
+
+  declaration-method-expect-parameters:
+    - meta_content_scope: meta.function.identifier.java
+    - include: method-parameters
     - include: declaration-else-fail
 
   declaration-maybe-variable:
@@ -1202,6 +1245,9 @@ contexts:
         meta.declaration.java
         keyword.operator.assignment.java
       set: variable-declaration-value-initializer
+    # found parentheses after identifier, appears to be a method declaration
+    - match: (?=\()
+      fail: declarations
     - include: maybe-only-array-modifiers
 
   variable-declaration-value-initializer:
