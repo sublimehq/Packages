@@ -477,11 +477,11 @@ $import ;
 //^^^^^ meta.variable.identifier.java variable.other.readwrite.java
 
 import
-// <- meta.import.java keyword.control.import.java
-//^^^^ keyword.control.import.java
+// <- meta.import.java keyword.declaration.import.java
+//^^^^ keyword.declaration.import.java
 
 import no.terminator
-// <- meta.import.java keyword.control.import.java
+// <- meta.import.java keyword.declaration.import.java
 //^^^^^ meta.import.java - meta.path
 //     ^^^^^^^^^^^^^^ meta.import.java meta.path.java
 //     ^^ variable.namespace.java - punctuation
@@ -491,11 +491,11 @@ import no.terminator
 //  ^^^^^^^^ variable.other - meta.import
 
 import static
-// <- meta.import.java keyword.control.import.java
+// <- meta.import.java keyword.declaration.import.java
 //^^^^^^^^^^^^ meta.import.java - meta.path
 
 import static no.terminator
-// <- meta.import.java keyword.control.import.java
+// <- meta.import.java keyword.declaration.import.java
 //^^^^^^^^^^^^ meta.import.java - meta.path
 //            ^^^^^^^^^^^^^^ meta.import.java meta.path.java
 //            ^^ variable.namespace.java - punctuation
@@ -505,14 +505,14 @@ import static no.terminator
 //  ^^^^^^^^ variable.other - meta.import
 
 import * ;
-// <- meta.import.java keyword.control.import.java
+// <- meta.import.java keyword.declaration.import.java
 //^^^^^ meta.import.java - meta.path
 //     ^ meta.import.java meta.path.java variable.language.wildcard.asterisk.java
 //      ^^ - meta.import - meta.path
 //       ^ punctuation.terminator.java
 
 import *. ;
-// <- meta.import.java keyword.control.import.java
+// <- meta.import.java keyword.declaration.import.java
 //^^^^^ meta.import.java - meta.path
 //     ^ meta.import.java meta.path.java
 //      ^^^ - meta.import - meta.path
@@ -521,7 +521,7 @@ import *. ;
 //        ^ punctuation.terminator.java
 
 import *.* ;
-// <- meta.import.java keyword.control.import.java
+// <- meta.import.java keyword.declaration.import.java
 //^^^^^ meta.import.java - meta.path
 //     ^ meta.import.java meta.path.java
 //      ^^^^ - meta.import - meta.path
@@ -530,7 +530,7 @@ import *.* ;
 //         ^ punctuation.terminator.java
 
 import *.a ;
-// <- meta.import.java keyword.control.import.java
+// <- meta.import.java keyword.declaration.import.java
 //^^^^^ meta.import.java - meta.path
 //     ^ meta.import.java meta.path.java
 //      ^^^^ - meta.import - meta.path
@@ -539,7 +539,7 @@ import *.a ;
 //         ^ punctuation.terminator.java
 
 import a . * . b ;
-// <- meta.import.java keyword.control.import.java
+// <- meta.import.java keyword.declaration.import.java
 //^^^^^ meta.import.java - meta.path
 //     ^^^^^ meta.import.java meta.path.java
 //          ^^^^^^ - meta.import - meta.path
@@ -553,7 +553,7 @@ import a . * . b ;
 //               ^ punctuation.terminator.java
 
 import a . b . * ;
-// <- meta.import.java keyword.control.import.java
+// <- meta.import.java keyword.declaration.import.java
 //^^^^^ meta.import.java - meta.path
 //     ^^^^^^^^^ meta.import.java meta.path.java
 //              ^ - meta.import - meta.path
@@ -569,7 +569,7 @@ import a . b . * ;
 //               ^ punctuation.terminator.java
 
 import a.b.Class;
-// <- meta.import.java keyword.control.import.java
+// <- meta.import.java keyword.declaration.import.java
 //^^^^^ meta.import.java - meta.path
 //     ^^^^^^^^^ meta.import.java meta.path.java
 //     ^ variable.namespace.java - punctuation
@@ -627,7 +627,7 @@ import
 //           ^ punctuation.terminator.java
 
 import java.net.URL;
-// <- meta.import.java keyword.control.import.java
+// <- meta.import.java keyword.declaration.import.java
 //^^^^^ meta.import.java - meta.path
 //     ^^^^^^^^^^^^ meta.import.java meta.path.java
 //     ^^^^ variable.namespace.java
@@ -638,7 +638,7 @@ import java.net.URL;
 //                 ^ punctuation.terminator.java
 
 import static a.b.Class.fooMethod;
-// <- meta.import.java keyword.control.import.java
+// <- meta.import.java keyword.declaration.import.java
 //^^^^^^^^^^^^ meta.import.java - meta.path
 //            ^^^^^^^^^^^^^^^^^^^ meta.import.java meta.path.java
 //     ^^^^^^ storage.modifier.java
@@ -653,7 +653,7 @@ import static a.b.Class.fooMethod;
 //                               ^ punctuation.terminator.java
 
 import static a.b.Class.CONSTANT ;
-// <- meta.import.java keyword.control.import.java
+// <- meta.import.java keyword.declaration.import.java
 //^^^^^^^^^^^^ meta.import.java - meta.path
 //            ^^^^^^^^^^^^^^^^^^ meta.import.java meta.path.java
 //                              ^^ - meta.import - meta.path
@@ -667,7 +667,7 @@ import static a.b.Class.CONSTANT ;
 //                               ^ punctuation.terminator.java
 
 import static /**/ a /**/ . /**/ b /**/ . /**/ Class /**/ . /**/ CONSTANT;
-// <- meta.import.java keyword.control.import.java
+// <- meta.import.java keyword.declaration.import.java
 //^^^^^^^^^^^^^^^^^ meta.import.java - meta.path
 //                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.java meta.path.java
 //                                                                       ^ - meta.import - meta.path
@@ -691,7 +691,7 @@ import static /**/ a /**/ . /**/ b /**/ . /**/ Class /**/ . /**/ CONSTANT;
 //                                                                       ^ punctuation.terminator.java
 
 import
-// <- meta.import.java keyword.control.import.java
+// <- meta.import.java keyword.declaration.import.java
 //^^^^^ meta.import.java - meta.path
     static
 //^^^^^^^^^ meta.import.java - meta.path

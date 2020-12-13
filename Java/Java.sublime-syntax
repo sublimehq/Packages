@@ -498,7 +498,7 @@ contexts:
 
   import:
     - match: import{{break}}
-      scope: keyword.control.import.java
+      scope: keyword.declaration.import.java
       push: import-modifier
 
   import-modifier:
