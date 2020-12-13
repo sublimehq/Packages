@@ -137,6 +137,7 @@ contexts:
     - include: instantiations
     - include: primitive-types
     - include: var-types
+    - include: array-modifiers
     - include: storage-modifiers
     - include: object-types
     - include: variables
@@ -317,7 +318,7 @@ contexts:
         - declaration-list
         - declaration-maybe-assignment
         - declaration-expect-identifier
-        - maybe-array-modifiers
+        - maybe-only-array-modifiers
         - declaration-type
 
 ###[ VARIABLE DECLARATIONS ]###################################################
@@ -353,14 +354,14 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-VariableDeclaratorId
     - match: '{{uppercase_id}}'
       scope: entity.name.constant.java
-      set: maybe-only-array-modifiers
+      pop: 1
     - match: '{{identifier}}'
       scope: variable.other.readwrite.java
-      set: maybe-only-array-modifiers
+      pop: 1
 
   declaration-maybe-assignment:
     - include: variable-initializer-assignment
-    - include: else-pop
+    - include: maybe-only-array-modifiers
 
 ###[ LOCAL VARIABLE DECLARATION OR ASSIGNMENT ]################################
 
@@ -369,6 +370,13 @@ contexts:
       branch_point: local-variable-declarations
       branch:
         - local-variable-declaration
+        - local-variable-assignment
+
+  local-variable-assignment:
+    - match: ''
+      set:
+        - declaration-maybe-assignment
+        - maybe-only-array-modifiers
         - local-variable-declaration-identifier
 
   local-variable-declaration:
@@ -377,7 +385,7 @@ contexts:
         - declaration-list
         - declaration-maybe-assignment
         - local-variable-declaration-identifier
-        - maybe-array-modifiers
+        - maybe-only-array-modifiers
         - declaration-type
 
   local-variable-declaration-identifier:
@@ -932,13 +940,13 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-VariableDeclaratorId
     - match: '{{uppercase_id}}'
       scope: entity.name.constant.java
-      set: maybe-only-array-modifiers
+      pop: 1
     - match: '{{identifier}}'
       scope: variable.other.member.java
-      set: maybe-only-array-modifiers
+      pop: 1
     - match: '{{variables}}{{break}}'
       scope: invalid.illegal.identifier.java
-      set: maybe-only-array-modifiers
+      pop: 1
     - include: else-pop
 
   field-value-assignment:
@@ -948,7 +956,7 @@ contexts:
         meta.field.java
         keyword.operator.assignment.java
       set: field-value-initializer
-    - include: else-pop
+    - include: maybe-only-array-modifiers
 
   field-value-initializer:
     - meta_content_scope: meta.field.value.java

@@ -2264,6 +2264,38 @@ class FieldDeclarationTests {
 //     ^ meta.field.identifier.java
 //      ^ punctuation.terminator.java - meta.field
 
+  int[]
+//^^^^^^ - meta.field meta.field
+//^^^^^^ meta.field.type.java
+//^^^ storage.type.primitive.java
+//   ^^ storage.modifier.array.java
+
+  int []
+//^^^^^^ - meta.field meta.field
+//^^^^^^ meta.field.type.java
+//^^^ storage.type.primitive.java
+//    ^^ storage.modifier.array.java
+
+  int[] foo
+//^^^^^^^^^ - meta.field meta.field
+//^^^^^^ meta.field.type.java
+//      ^^^ meta.field.identifier.java
+//^^^ storage.type.primitive.java
+//   ^^ storage.modifier.array.java
+//      ^^^ variable.other.member.java
+
+  int foo[], []
+//^^^^^^^^^^^^^ - meta.field meta.field
+//^^^^ meta.field.type.java
+//    ^^^^^ meta.field.identifier.java
+//         ^ meta.field.java
+//          ^^^ meta.field.identifier.java
+//^^^ storage.type.primitive.java
+//    ^^^ variable.other.member.java
+//       ^^ storage.modifier.array.java
+//         ^ punctuation.separator.comma.java
+//           ^^ storage.modifier.array.java
+
   public protected private static final transient volatile int foo
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.field meta.field
 //^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.field.modifier.java
@@ -4108,6 +4140,32 @@ class LocalVariableDeclarationTests {
 //                   ^ keyword.operator.assignment.java
 //                     ^^^^^ constant.other.java
 //                          ^ punctuation.terminator.java
+
+   int[]
+// ^^^^^^ - meta.declaration
+// ^^^ storage.type.primitive.java
+//    ^^ storage.modifier.array.java
+
+   int []
+// ^^^^^^^ - meta.declaration
+// ^^^ storage.type.primitive.java
+//     ^^ storage.modifier.array.java
+
+   int[] foo
+// ^^^^^^^^^^ meta.declaration.java
+// ^^^ storage.type.primitive.java
+//    ^^ storage.modifier.array.java
+//       ^^^ variable.other.readwrite.java
+
+   int foo[], [] ;
+// ^^^^^^^^^^^^^^ meta.declaration.java
+//               ^ - meta.declaration
+// ^^^ storage.type.primitive.java
+//     ^^^ variable.other.readwrite.java
+//        ^^ storage.modifier.array.java
+//          ^ punctuation.separator.comma.java
+//            ^^ storage.modifier.array.java
+//               ^ punctuation.terminator.java
 
     final int[] y = 10, z[] = 5;
 // ^ - meta.declaration
@@ -6286,6 +6344,38 @@ class TryStatementTests {
 //                         ^^ punctuation.section.group.end.java
 //                            ^ punctuation.section.block.begin.java
 //                             ^ punctuation.section.block.end.java
+
+    try (foo[], []) {}
+//  ^^^^ meta.try.java - meta.try meta.try
+//      ^^^^^^^^^^^ meta.try.java meta.group.java - meta.try meta.try
+//                 ^ meta.try.java - meta.try meta.try - meta.group
+//                  ^^ meta.try.java meta.block.java
+//  ^^^ keyword.control.exception.try.java
+//      ^ punctuation.section.group.begin.java
+//       ^^^ variable.other.readwrite.java
+//          ^^ storage.modifier.array.java
+//            ^ punctuation.separator.comma.java
+//              ^^ storage.modifier.array.java
+//                ^ punctuation.section.group.end.java
+//                  ^ punctuation.section.block.begin.java
+//                   ^ punctuation.section.block.end.java
+
+    try (foo[] bar[], []) {}
+//  ^^^^ meta.try.java - meta.try meta.try
+//      ^^^^^^^^^^^^^^^^^ meta.try.java meta.group.java - meta.try meta.try
+//                       ^ meta.try.java - meta.try meta.try - meta.group
+//                        ^^ meta.try.java meta.block.java
+//  ^^^ keyword.control.exception.try.java
+//      ^ punctuation.section.group.begin.java
+//       ^^^ storage.type.class.java
+//          ^^ storage.modifier.array.java
+//             ^^^ variable.other.readwrite.java
+//                ^^ storage.modifier.array.java
+//                  ^ punctuation.separator.comma.java
+//                    ^^ storage.modifier.array.java
+//                      ^ punctuation.section.group.end.java
+//                        ^ punctuation.section.block.begin.java
+//                         ^ punctuation.section.block.end.java
 
     try (Stream<String> lines = Files.lines(path)) {
 //  ^^^^ meta.try.java - meta.try meta.try
