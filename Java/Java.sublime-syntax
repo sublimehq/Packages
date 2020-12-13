@@ -713,7 +713,9 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.9.1
     - match: \{
       scope: punctuation.section.block.begin.java
-      set: [enum-body-block-common, enum-constants-list]
+      set:
+        - enum-body-block-common
+        - enum-constants-list
     - include: else-pop
 
   enum-body-block-common:
@@ -732,7 +734,9 @@ contexts:
     - meta_content_scope: meta.constant.identifier.java
     - match: \(
       scope: punctuation.section.group.begin.java
-      set: [enum-constant-body-block, enum-constant-arguments-common]
+      set:
+        - enum-constant-body-block
+        - enum-constant-arguments-common
     - include: enum-constant-body-block
 
   enum-constant-arguments-common:
