@@ -5001,27 +5001,33 @@ class SwitchStatementTests {
 //         ^^^^^^^^ string.quoted.double.java
 //                 ^ punctuation.separator.expressions.java
 
-      case 'string':
+      case 'S':
 //   ^ meta.switch.java meta.block.java - meta.case
 //    ^^^^^ meta.switch.java meta.block.java meta.case.java
-//         ^^^^^^^^ meta.switch.java meta.block.java meta.case.label.java
-//                 ^ meta.switch.java meta.block.java meta.case.java
-//                  ^ meta.switch.java meta.block.java - meta.case
+//         ^^^ meta.switch.java meta.block.java meta.case.label.java
+//            ^ meta.switch.java meta.block.java meta.case.java
+//             ^ meta.switch.java meta.block.java - meta.case
 //    ^^^^ keyword.control.conditional.case.java
-//         ^^^^^^^^ string.quoted.single.java
-//                 ^ punctuation.separator.expressions.java
+//         ^^^ meta.string.java string.quoted.single.java
+//         ^ punctuation.definition.string.begin.java
+//          ^ constant.character.literal.java
+//           ^ punctuation.definition.string.end.java
+//            ^ punctuation.separator.expressions.java
 
-      case 'string' + foo():
+      case '\n' + foo():
 //   ^ meta.switch.java meta.block.java - meta.case
 //    ^^^^^ meta.switch.java meta.block.java meta.case.java
-//         ^^^^^^^^^^^^^^^^ meta.switch.java meta.block.java meta.case.label.java
-//                         ^ meta.switch.java meta.block.java meta.case.java
-//                          ^ meta.switch.java meta.block.java - meta.case
+//         ^^^^^^^^^^^^ meta.switch.java meta.block.java meta.case.label.java
+//                     ^ meta.switch.java meta.block.java meta.case.java
+//                      ^ meta.switch.java meta.block.java - meta.case
 //    ^^^^ keyword.control.conditional.case.java
-//         ^^^^^^^^ string.quoted.single.java
-//                  ^ keyword.operator.arithmetic.java
-//                    ^^^ variable.function.java
-//                         ^ punctuation.separator.expressions.java
+//         ^^^ meta.string.java string.quoted.single.java
+//         ^ punctuation.definition.string.begin.java
+//          ^^ constant.character.escape.other.java
+//            ^ punctuation.definition.string.end.java
+//              ^ keyword.operator.arithmetic.java
+//                ^^^ variable.function.java
+//                     ^ punctuation.separator.expressions.java
 
       case constant + 5:
 //   ^ meta.switch.java meta.block.java - meta.case
@@ -9427,15 +9433,94 @@ class LiteralsTests {
 //          ^ keyword.operator
 //           ^^^^ - constant.numeric
   }
+//^ meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
 
-  String stringAndCharsTests() {
+  void charLiteralTests() {
+
+    char letter = 'x
+//                ^^^ - constant - string
+
+    char letter = 'X' + '1' + '%' + '+';
+//                ^^^ meta.string.java string.quoted.single.java
+//                ^ punctuation.definition.string.begin.java
+//                 ^ constant.character.literal.java
+//                  ^ punctuation.definition.string.end.java
+//                      ^^^ meta.string.java string.quoted.single.java
+//                      ^ punctuation.definition.string.begin.java
+//                       ^ constant.character.literal.java
+//                        ^ punctuation.definition.string.end.java
+//                            ^^^ meta.string.java string.quoted.single.java
+//                            ^ punctuation.definition.string.begin.java
+//                             ^ constant.character.literal.java
+//                              ^ punctuation.definition.string.end.java
+//                                  ^^^ meta.string.java string.quoted.single.java
+//                                  ^ punctuation.definition.string.begin.java
+//                                   ^ constant.character.literal.java
+//                                    ^ punctuation.definition.string.end.java
+
+    char octalEscape = '\0' + '\12' + '\123' + '\077';
+//                     ^^^^ meta.string.java string.quoted.single.java
+//                     ^ punctuation.definition.string.begin.java
+//                      ^^ constant.character.escape.octal.java
+//                        ^ punctuation.definition.string.end.java
+//                            ^^^^^ meta.string.java string.quoted.single.java
+//                            ^ punctuation.definition.string.begin.java
+//                             ^^^ constant.character.escape.octal.java
+//                                ^ punctuation.definition.string.end.java
+//                                    ^^^^^^ meta.string.java string.quoted.single.java
+//                                    ^ punctuation.definition.string.begin.java
+//                                     ^^^^ constant.character.escape.octal.java
+//                                         ^ punctuation.definition.string.end.java
+//                                             ^^^^^^ meta.string.java string.quoted.single.java
+//                                             ^ punctuation.definition.string.begin.java
+//                                              ^^^^ constant.character.escape.octal.java
+//                                                  ^ punctuation.definition.string.end.java
+
+    char otherEscape = '\b' + '\t' + '\n' + '\f' + '\r' + '\"' + '\'' + '\\';
+//                     ^^^^ meta.string.java string.quoted.single.java
+//                      ^^ constant.character.escape.other.java
+//                            ^^^^ meta.string.java string.quoted.single.java
+//                             ^^ constant.character.escape.other.java
+//                                   ^^^^ meta.string.java string.quoted.single.java
+//                                    ^^ constant.character.escape.other.java
+//                                          ^^^^ meta.string.java string.quoted.single.java
+//                                           ^^ constant.character.escape.other.java
+//                                                 ^^^^ meta.string.java string.quoted.single.java
+//                                                  ^^ constant.character.escape.other.java
+//                                                        ^^^^ meta.string.java string.quoted.single.java
+//                                                         ^^ constant.character.escape.other.java
+//                                                               ^^^^ meta.string.java string.quoted.single.java
+//                                                                ^^ constant.character.escape.other.java
+//                                                                      ^^^^ meta.string.java string.quoted.single.java
+//                                                                       ^^ constant.character.escape.other.java
+
+    char unicodeEscape = '\u00e4' + '\uu00E4';
+//                       ^^^^^^^^ meta.string.java string.quoted.single.java
+//                       ^ punctuation.definition.string.begin.java
+//                        ^^^^^^ constant.character.escape.unicode.java
+//                              ^ punctuation.definition.string.end.java
+//                                  ^^^^^^^^^ meta.string.java string.quoted.single.java
+//                                  ^ punctuation.definition.string.begin.java
+//                                   ^^^^^^^ constant.character.escape.unicode.java
+//                                          ^ punctuation.definition.string.end.java
+
+    char illegalEscapes = '\x' + '\+' + '\8' + '\9' + '\0111';
+//                        ^^^^ invalid.illegal.not-a-char.java
+//                               ^^^^ invalid.illegal.not-a-char.java
+//                                      ^^^^ invalid.illegal.not-a-char.java
+//                                             ^^^^ invalid.illegal.not-a-char.java
+//                                                    ^^^^^^^ invalid.illegal.not-a-char.java
+  }
+//^ meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
+
+  String stringLiteralTests() {
 
     String trippleQuotes = """
-//                         ^^^ string.quoted.triple.java punctuation.definition.string.begin.java
+//                         ^^^ meta.string.java string.quoted.triple.java punctuation.definition.string.begin.java
         String with
         several lines.
         """;
-//      ^^^ string.quoted.triple.java punctuation.definition.string.end.java
+//      ^^^ meta.string.java string.quoted.triple.java punctuation.definition.string.end.java
 //         ^ punctuation.terminator.java - string
 
     String trippleQuotes = """illegal content
@@ -9448,96 +9533,63 @@ class LiteralsTests {
 //                       ^ punctuation.terminator.java - string
 
     String doubleQuotes = "String with double quotes";
-//                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
-//                        ^ punctuation.definition.string.begin
-//                                                  ^ punctuation.definition.string.end
+//                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.java string.quoted.double.java
+//                        ^ punctuation.definition.string.begin.java
+//                                                  ^ punctuation.definition.string.end.java
 
-    char singleQuotes = 'x';
-//                      ^^^ string.quoted.single
-//                      ^ punctuation.definition.string.begin
-//                        ^ punctuation.definition.string.end
+    String otherEscapes = "Here \b are \n some \t escaped \'\\' characters \"";
+//                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.java string.quoted.double.java
+//                        ^ punctuation.definition.string.begin.java
+//                              ^^ constant.character.escape.other.java
+//                                     ^^ constant.character.escape.other.java
+//                                                        ^^^^ constant.character.escape.other.java
+//                                                                         ^^ constant.character.escape.other.java
+//                                                                           ^ punctuation.definition.string.end.java
 
-    String escapes = "Here \2 are \n some \t escaped \'\\' characters \"";
-//                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
-//                         ^^ constant.character.escape
-//                                ^^ constant.character.escape
-//                                                   ^^^^ constant.character.escape
-//                                                                    ^^ constant.character.escape
+    String octalEscape = "\0 \7 \8 \77 \377 \477"
+//                       ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.java string.quoted.double.java
+//                       ^ punctuation.definition.string.begin.java
+//                        ^^ constant.character.escape.octal.java
+//                          ^ - constant.character.escape
+//                           ^^ constant.character.escape.octal.java
+//                             ^^^^ - constant.character.escape
+//                                 ^^^ constant.character.escape.octal.java
+//                                    ^ - constant.character.escape
+//                                     ^^^^ constant.character.escape.octal.java
+//                                         ^ - constant.character.escape
+//                                          ^^^ constant.character.escape.octal.java
+//                                             ^ - constant.character.escape
+//                                              ^ punctuation.definition.string.end.java
 
-    String octal = "\0 \7 \8 \77 \377 \477"
-//                  ^^ constant.character.escape.octal.java
-//                    ^ - constant.character.escape
-//                     ^^ constant.character.escape.octal.java
-//                       ^^^^ - constant.character.escape
-//                           ^^^ constant.character.escape.octal.java
-//                              ^ - constant.character.escape
-//                               ^^^^ constant.character.escape.octal.java
-//                                   ^ - constant.character.escape
-//                                    ^^^ constant.character.escape.octal.java
-//                                       ^ - constant.character.escape
+    String unicodeEscape = "\\u2122=\u2122 \uAF \u005cu005a \uu21AF"
+//                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.java string.quoted.double.java
+//                         ^ punctuation.definition.string.begin.java
+//                          ^^^^^^^^ - constant.character.escape.unicode
+//                                  ^^^^^^ constant.character.escape.unicode.java
+//                                        ^^^^^^ - constant.character.escape.unicode
+//                                              ^^^^^^ constant.character.escape.unicode.java
+//                                                    ^^^^^^ - constant.character.escape.unicode
+//                                                          ^^^^^^^ constant.character.escape.unicode.java
+//                                                                 ^ punctuation.definition.string.end.java
+//
 
-    String unicode = "\\u2122=\u2122 \uAF \u005cu005a \uu21AF"
-//                    ^^^^^^^^ - constant.character.escape.unicode
-//                            ^^^^^^ constant.character.escape.unicode.java
-//                                  ^^^^^^ - constant.character.escape.unicode
-//                                        ^^^^^^ constant.character.escape.unicode.java
-//                                              ^^^^^^ - constant.character.escape.unicode
-//                                                    ^^^^^^^ constant.character.escape.unicode.java
-
-    char escape = '\b' + '\t' + '\n' + '\f' + '\r' + '\"' + '\'' + '\\' + '\0' + '\12' + '\123' + '\u00e4' + '\uu00E4';
-//                ^^^^ string.quoted.single
-//                 ^^ constant.character.escape
-//                       ^^^^ string.quoted.single
-//                        ^^ constant.character.escape
-//                              ^^^^ string.quoted.single
-//                               ^^ constant.character.escape
-//                                     ^^^^ string.quoted.single
-//                                      ^^ constant.character.escape
-//                                            ^^^^ string.quoted.single
-//                                             ^^ constant.character.escape
-//                                                   ^^^^ string.quoted.single
-//                                                    ^^ constant.character.escape
-//                                                          ^^^^ string.quoted.single
-//                                                           ^^ constant.character.escape
-//                                                                 ^^^^ string.quoted.single
-//                                                                  ^^ constant.character.escape
-//                                                                        ^^^^ string.quoted.single
-//                                                                         ^^ constant.character.escape.octal
-//                                                                               ^^^^^ string.quoted.single
-//                                                                                ^^^ constant.character.escape.octal
-//                                                                                       ^^^^^^ string.quoted.single
-//                                                                                        ^^^^ constant.character.escape.octal
-//                                                                                                ^^^^^^^^ string.quoted.single
-//                                                                                                 ^^^^^^ constant.character.escape.unicode
-//                                                                                                           ^^^^^^^^^ string.quoted.single
-//                                                                                                            ^^^^^^^ constant.character.escape.unicode
-
-    String illegalEscapes = "\x \+ \8 \9" + '\x' + '\+' + '\8' + '\9'
-//                          ^^^^^^^^^^^^^ string.quoted.double
+    String illegalEscapes = "\x \+ \8 \9"
+//                          ^^^^^^^^^^^^^ meta.string.java string.quoted.double.java
+//                          ^ punctuation.definition.string.begin.java
 //                           ^^ invalid.illegal.escape
 //                              ^^ invalid.illegal.escape
 //                                 ^^ invalid.illegal.escape
 //                                    ^^ invalid.illegal.escape
-//                                          ^^^^ string.quoted.single
-//                                           ^^ invalid.illegal.escape
-//                                                 ^^^^ string.quoted.single
-//                                                  ^^ invalid.illegal.escape
-//                                                        ^^^^ string.quoted.single
-//                                                         ^^ invalid.illegal.escape
-//                                                               ^^^^ string.quoted.single
-//                                                                ^^ invalid.illegal.escape
+//                                      ^ punctuation.definition.string.end.java
 
-    String text = "String without closing quote
-//                                             ^ invalid.illegal.unexpected-newline
-    System.out.println(text);
-//  ^^^^^^ storage.type.class
-
-    char letter = 'z
-//                  ^ invalid.illegal.unexpected-newline
-    System.out.println(letter);
-//  ^^^^^^ storage.type.class
+    String incompleteString = "String without closing quote
+//                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.java string.quoted.double.java
+//                            ^ punctuation.definition.string.begin.java
+//                                                         ^ invalid.illegal.unexpected-newline
   }
+//^ meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
 }
+// <- meta.class.java meta.block.java punctuation.section.block.end.java
 
 
 /******************************************************************************
