@@ -9,7 +9,7 @@ file_extensions:
   - matlab
 
 variables:
-  identifier: '(?:[A-Za-z]\w*)' # https://www.mathworks.com/help/matlab/matlab_prog/variable-names.html
+  identifier: (?:[A-Za-z]\w*) # https://www.mathworks.com/help/matlab/matlab_prog/variable-names.html
 
 ##############################################################################
 
@@ -85,21 +85,21 @@ contexts:
 ###[ LANGUAGE FUNDAMENTALS ]##################################################
 
   numbers:
-    - match: '\b(0[xX])(\h+)(u8|u16|u32|u64|s8|s16|s32|s64)?\b'
+    - match: \b(0[xX])(\h+)(u8|u16|u32|u64|s8|s16|s32|s64)?\b
       scope: meta.number.integer.hexadecimal.matlab
       captures:
         1: constant.numeric.base.matlab
         2: constant.numeric.value.matlab
         3: constant.numeric.suffix.matlab
       push: transpose
-    - match: '\b(0[bB])([01]+)(u8|u16|u32|u64|s8|s16|s32|s64)?\b'
+    - match: \b(0[bB])([01]+)(u8|u16|u32|u64|s8|s16|s32|s64)?\b
       scope: meta.number.integer.binary.matlab
       captures:
         1: constant.numeric.base.matlab
         2: constant.numeric.value.matlab
         3: constant.numeric.suffix.matlab
       push: transpose
-    - match: '((?:\d+(\.)\d*|(\.)?\d+)(?:[Ee][-+]?\d+)?)(i|j)\b'
+    - match: ((?:\d+(\.)\d*|(\.)?\d+)(?:[Ee][-+]?\d+)?)(i|j)\b
       scope: meta.number.imaginary.decimal.matlab
       captures:
         1: constant.numeric.value.matlab
@@ -107,7 +107,7 @@ contexts:
         3: punctuation.separator.decimal.matlab
         4: constant.numeric.suffix.matlab
       push: transpose
-    - match: '(?:\d+(\.)\d*|(\.)?\d+)(?:[Ee][-+]?\d+)?(?!\w)'
+    - match: (?:\d+(\.)\d*|(\.)?\d+)(?:[Ee][-+]?\d+)?(?!\w)
       scope: meta.number.float.decimal.matlab constant.numeric.value.matlab
       captures:
         1: punctuation.separator.decimal.matlab
@@ -119,7 +119,7 @@ contexts:
       scope: punctuation.definition.string.begin.matlab
       push:
         - meta_scope: string.quoted.single.matlab
-        - match: '''(?=(\]|\)|\}|=|~|<|>|&|\||-|\+|\*|\.|\^|\||\s|;|:|,))'
+        - match: \'(?=(\]|\)|\}|=|~|<|>|&|\||-|\+|\*|\.|\^|\||\s|;|:|,))
           scope: punctuation.definition.string.end.matlab
           set:
             - match: (?:\s*(\.\'))?
@@ -147,15 +147,15 @@ contexts:
         - include: format-spec
 
   escaped-character:
-    - match: '\%\%|\\\\|\\[abfnrtv]'
+    - match: \%\%|\\\\|\\[abfnrtv]
       scope: constant.character.escape.matlab
 
   format-spec:
-    - match: '\%(?:\d\$)?[-+\s0#]?(?:\d+|\*)?(?:\.\d+|\.\*)?(?:[cdeEfgGis]|[bt]?[ouxX])'
+    - match: \%(?:\d\$)?[-+\s0#]?(?:\d+|\*)?(?:\.\d+|\.\*)?(?:[cdeEfgGis]|[bt]?[ouxX])
       scope: constant.other.placeholder.matlab
 
   variable:
-    - match: '\b{{identifier}}\b'
+    - match: \b{{identifier}}\b
       scope: meta.variable.other.valid.matlab
       captures:
         1: punctuation.accessor.dot.matlab
@@ -169,13 +169,13 @@ contexts:
         3: keyword.operator.transpose.matlab
 
   variable-assignment:
-    - match: '\b({{identifier}})\s*(=)(?!=)'
+    - match: \b({{identifier}})\s*(=)(?!=)
       captures:
         1: meta.variable.other.valid.matlab
         2: keyword.operator.assignment.matlab
 
   structure:
-    - match: '\b{{identifier}}(\.)\b'
+    - match: \b{{identifier}}(\.)\b
       captures:
         1: punctuation.accessor.dot.matlab
       push:
@@ -200,11 +200,11 @@ contexts:
         - include: expressions
 
   brackets:
-    - match: '\['
+    - match: \[
       scope: punctuation.section.brackets.begin.matlab
       push:
         - meta_scope: meta.brackets.matlab
-        - match: '\]'
+        - match: \]
           scope: punctuation.section.brackets.end.matlab
           set: transpose
         - include: separator-semicolon
@@ -237,7 +237,7 @@ contexts:
           captures:
             1: variable.parameter.output.matlab
             2: keyword.operator.assignment.matlab
-        - match: '\['
+        - match: \[
           scope: punctuation.section.brackets.begin.matlab
           push:
             - match: '{{identifier}}'
@@ -246,12 +246,12 @@ contexts:
             - match: (?=\s*[%\n])
               set: function-body-arguments
             - include: separator-comma
-            - match: '\]'
+            - match: \]
               scope: punctuation.section.brackets.end.matlab
               pop: true
         - match: =
           scope: keyword.operator.assignment.matlab
-        - match: '(?:(?:set|get)(\.))?{{identifier}}'
+        - match: (?:(?:set|get)(\.))?{{identifier}}
           scope: entity.name.function.matlab
           captures:
             1: punctuation.accessor.dot.matlab
