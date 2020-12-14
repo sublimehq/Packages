@@ -243,6 +243,8 @@ contexts:
             - match: '{{identifier}}'
               scope: variable.parameter.output.matlab
             - include: line-continuation
+            - match: (?=\s*[%\n])
+              set: function-body-arguments
             - include: separator-comma
             - match: '\]'
               scope: punctuation.section.brackets.end.matlab
@@ -257,6 +259,8 @@ contexts:
           set:
             - meta_scope: meta.function.parameters.matlab
             - include: line-continuation
+            - match: (?=\s*[%\n])
+              set: function-body-arguments
             - match: \(
               scope: punctuation.section.parens.begin.matlab
             - match: '{{identifier}}'
@@ -278,6 +282,7 @@ contexts:
           scope: punctuation.section.parens.begin.matlab
           push:
             - meta_scope: meta.attributes.matlab
+            - include: eol-pop
             - match: \)
               scope: punctuation.section.parens.end.matlab
               pop: true
@@ -316,6 +321,8 @@ contexts:
           scope: punctuation.section.parens.begin.matlab
           push:
             - meta_scope: meta.attributes.matlab
+            - include: line-continuation
+            - include: eol-pop
             - match: \)
               scope: punctuation.section.parens.end.matlab
               pop: true
@@ -364,6 +371,8 @@ contexts:
           scope: punctuation.section.parens.begin.matlab
           push:
             - meta_scope: meta.attributes.matlab
+            - include: line-continuation
+            - include: eol-pop
             - match: \)
               scope: punctuation.section.parens.end.matlab
               pop: true
@@ -393,6 +402,8 @@ contexts:
           scope: punctuation.section.parens.begin.matlab
           push:
             - meta_scope: meta.attributes.matlab
+            - include: line-continuation
+            - include: eol-pop
             - match: \)
               scope: punctuation.section.parens.end.matlab
               pop: true
@@ -422,6 +433,8 @@ contexts:
           scope: punctuation.section.parens.begin.matlab
           push:
             - meta_scope: meta.attributes.matlab
+            - include: line-continuation
+            - include: eol-pop
             - match: \)
               scope: punctuation.section.parens.end.matlab
               pop: true
@@ -594,6 +607,8 @@ contexts:
           scope: punctuation.section.parens.begin.matlab
           set:
             - meta_scope: meta.function.parameters.matlab
+            - include: line-continuation
+            - include: eol-pop
             - match: '{{identifier}}'
               scope: variable.parameter.input.matlab
             - include: separator-comma
