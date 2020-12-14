@@ -10,6 +10,7 @@ file_extensions:
 
 variables:
   identifier: (?:[A-Za-z]\w*) # https://www.mathworks.com/help/matlab/matlab_prog/variable-names.html
+  eol: (?=\s*[%\n])
 
 ##############################################################################
 
@@ -45,7 +46,7 @@ contexts:
     - include: invalid-variable
 
   eol-pop:
-    - match: (?=\s*[%\n])
+    - match: '{{eol}}'
       pop: true
 
 ###[ COMMENTS ]###############################################################
@@ -231,7 +232,7 @@ contexts:
       push:
         - meta_scope: meta.function.matlab
         - include: line-continuation
-        - match: (?=\s*[%\n])
+        - match: '{{eol}}'
           set: function-body-arguments
         - match: ({{identifier}})\s*(=)
           captures:
@@ -243,7 +244,7 @@ contexts:
             - match: '{{identifier}}'
               scope: variable.parameter.output.matlab
             - include: line-continuation
-            - match: (?=\s*[%\n])
+            - match: '{{eol}}'
               set: function-body-arguments
             - include: separator-comma
             - match: \]
@@ -259,7 +260,7 @@ contexts:
           set:
             - meta_scope: meta.function.parameters.matlab
             - include: line-continuation
-            - match: (?=\s*[%\n])
+            - match: '{{eol}}'
               set: function-body-arguments
             - match: \(
               scope: punctuation.section.parens.begin.matlab
@@ -288,7 +289,7 @@ contexts:
               pop: true
             - match: \bRepeating\b
               scope: variable.parameter.attribute.matlab
-        - match: (?=\s*[%\n])
+        - match: '{{eol}}'
           set:
             - meta_scope: meta.arguments.matlab
             - match: \bend\b
@@ -335,14 +336,14 @@ contexts:
           set:
             - meta_content_scope: meta.class.matlab
             - include: line-continuation
-            - match: (?=\s*[%\n])
+            - match: '{{eol}}'
               set: class-body
             - match: <
               scope: punctuation.separator.inheritance.matlab
               set:
                 - meta_content_scope: meta.class.matlab
                 - include: line-continuation
-                - match: (?=\s*[%\n])
+                - match: '{{eol}}'
                   set: class-body
                 - match: '{{identifier}}'
                   scope: entity.other.inherited-class.matlab
@@ -365,7 +366,7 @@ contexts:
       scope: keyword.declaration.properties.matlab
       push:
         - meta_scope: meta.properties.matlab
-        - match: (?=\s*[%\n])
+        - match: '{{eol}}'
           set: class-properties-body
         - match: \(
           scope: punctuation.section.parens.begin.matlab
@@ -396,7 +397,7 @@ contexts:
       scope: keyword.declaration.methods.matlab
       push:
         - meta_scope: meta.methods.matlab
-        - match: (?=\s*[%\n])
+        - match: '{{eol}}'
           set: class-methods-body
         - match: \(
           scope: punctuation.section.parens.begin.matlab
@@ -427,7 +428,7 @@ contexts:
       scope: keyword.declaration.events.matlab
       push:
         - meta_scope: meta.events.matlab
-        - match: (?=\s*[%\n])
+        - match: '{{eol}}'
           set: class-events-body
         - match: \(
           scope: punctuation.section.parens.begin.matlab
