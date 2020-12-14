@@ -1895,13 +1895,18 @@ contexts:
 ###[ VARIABLES ]###############################################################
 
   variables:
-    # Note: `variable-other` should be the first branch to highlight the last
-    # identifier not followed by `(` or `->` as variable in embedded code.
+    # Note: 
+    # 1) `variable-other` must be the first branch to scope the very last
+    #    identifier before eof or end of embedded section as ordinary variable.
+    # 2) `variable-qualifier` scopes identifiers not followed by ClassCaseIds
+    #    as ordinary variables. Found no easy enough solution by only using
+    #    `variable-other` and `variable-namespace`.
     - match: (?={{id_first_char}})
       branch_point: variables
       branch:
-        - variable-namespace
         - variable-other
+        - variable-namespace
+        - variable-qualifier
         - method-call-identifier
         - lambda-parameter
     - include: variable-item-access
@@ -1974,6 +1979,20 @@ contexts:
     - include: immediately-pop
 
   variable-other-end:
+    - meta_content_scope: meta.variable.identifier.java
+    - match: \s*(\.|\(|->)
+      fail: variables
+    - include: variable-item-access-end
+
+  variable-qualifier:
+    - match: '{{id}}'
+      scope:
+        meta.variable.identifier.java
+        variable.other.readwrite.java
+      set: variable-qualifier-end
+    - include: immediately-pop
+
+  variable-qualifier-end:
     - meta_content_scope: meta.variable.identifier.java
     - match: \s*(\(|->)
       fail: variables
