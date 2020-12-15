@@ -1796,8 +1796,10 @@ contexts:
       captures:
         1: punctuation.accessor.dot.java
       pop: 1
+    # consume comments
+    - match: \s*(?=/[/*])
     # Maintain meta.path boundaries at the end of the type.
-    - match: (?=\s*(?!/[/*])\S)
+    - match: (?=\s*\S)
       pop: 3
 
   receiver-identifier:
@@ -2012,7 +2014,7 @@ contexts:
 
   variable-item-access-end:
     - meta_content_scope: meta.variable.item-access.java
-    - match: \s*(?=/\*|\[)
+    - match: \s*(?=\[|/[/*])
     - match: (?=\s*\S)
       pop: 1
 
