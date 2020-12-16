@@ -313,45 +313,44 @@ contexts:
     - include: declaration-else-fail
 
   declaration-maybe-variable:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.4
     - match: ''
       set:
-        - declaration-list
-        - declaration-maybe-assignment
-        - declaration-expect-identifier
+        - variable-declaration-list
+        - variable-declaration-maybe-assignment
+        - variable-declaration-expect-identifier
         - maybe-only-array-modifiers
-        - declaration-type
+        - variable-declaration-type
 
 ###[ VARIABLE DECLARATIONS ]###################################################
 
-  declaration-type:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.4
-    - include: var-type
+  variable-declaration-type:
     - include: primitive-type
+    - include: var-type
     - include: object-type
     - include: final-modifiers
     - include: annotations
     - include: illegal-storage-modifiers
     - include: else-pop
 
-  declaration-list:
+  variable-declaration-list:
     - meta_scope: meta.declaration.java
     - match: ','
       scope: punctuation.separator.comma.java
       push:
-        - declaration-maybe-assignment
-        - declaration-maybe-identifier
+        - variable-declaration-maybe-assignment
+        - variable-declaration-maybe-identifier
     - include: else-pop
 
-  declaration-expect-identifier:
-    - include: declaration-identifier
+  variable-declaration-expect-identifier:
+    - include: variable-declaration-identifier
     - include: declaration-else-fail
 
-  declaration-maybe-identifier:
-    - include: declaration-identifier
+  variable-declaration-maybe-identifier:
+    - include: variable-declaration-identifier
     - include: else-pop
 
-  declaration-identifier:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-VariableDeclaratorId
+  variable-declaration-identifier:
     - match: '{{uppercase_id}}'
       scope: entity.name.constant.java
       pop: 1
@@ -359,13 +358,14 @@ contexts:
       scope: variable.other.readwrite.java
       pop: 1
 
-  declaration-maybe-assignment:
+  variable-declaration-maybe-assignment:
     - include: variable-initializer-assignment
     - include: maybe-only-array-modifiers
 
 ###[ LOCAL VARIABLE DECLARATION OR ASSIGNMENT ]################################
 
   local-variable-declarations:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.4
     - match: (?=[{{id_first_char}}@<])
       branch_point: local-variable-declarations
       branch:
@@ -375,21 +375,21 @@ contexts:
   local-variable-assignment:
     - match: ''
       set:
-        - declaration-maybe-assignment
+        - variable-declaration-maybe-assignment
         - maybe-only-array-modifiers
         - local-variable-declaration-identifier
 
   local-variable-declaration:
     - match: ''
       set:
-        - declaration-list
-        - declaration-maybe-assignment
+        - variable-declaration-list
+        - variable-declaration-maybe-assignment
         - local-variable-declaration-identifier
         - maybe-only-array-modifiers
-        - declaration-type
+        - variable-declaration-type
 
   local-variable-declaration-identifier:
-    - include: declaration-identifier
+    - include: variable-declaration-identifier
     - match: (?=\S)
       fail: local-variable-declarations
 
@@ -1713,7 +1713,7 @@ contexts:
         - lambda-parameter-declaration-identifier
         - parameter-maybe-variadic
         - maybe-array-modifiers
-        - declaration-type
+        - variable-declaration-type
 
   lambda-parameter-declaration-identifier:
     - include: parameter-identifier
