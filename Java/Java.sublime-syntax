@@ -2035,14 +2035,17 @@ contexts:
 ###[ LITERALS ]################################################################
 
   literal-constants:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.9
     - match: _{{break}}
       scope: variable.language.anonymous.java
-    - match: (?:false|true){{break}}
-      scope: constant.language.boolean.java
-    - match: null{{break}}
-      scope: constant.language.null.java
     - match: (?:super|this){{break}}
       scope: variable.language.java
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.3
+    - match: (?:false|true){{break}}
+      scope: constant.language.boolean.java
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.7
+    - match: null{{break}}
+      scope: constant.language.null.java
 
   literal-numbers:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10
