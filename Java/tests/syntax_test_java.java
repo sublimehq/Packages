@@ -4584,29 +4584,29 @@ class LocalVariableDeclarationTests {
   void declareVarTypes() {
 
     var
-//  ^^^ storage.type.var.java
+//  ^^^ storage.type.variant.java
 
     var x, y;
-//  ^^^ storage.type.var.java
+//  ^^^ storage.type.variant.java
 //      ^ variable.other.readwrite.java
 //       ^ punctuation.separator.comma.java
 //         ^ variable.other.readwrite.java
 //          ^ punctuation.terminator.java
 
     var x = "String";
-//  ^^^ storage.type.var.java
+//  ^^^ storage.type.variant.java
 //      ^ variable.other.readwrite.java
 //        ^ keyword.operator.assignment.java
 
     final var y = 10;
 //  ^^^^^ storage.modifier.java
-//        ^^^ storage.type.var.java
+//        ^^^ storage.type.variant.java
 //            ^ variable.other.readwrite.java
 //              ^ keyword.operator.assignment.java
 
     final var y.b = 10;
 //  ^^^^^ storage.modifier.java
-//        ^^^ storage.type.var.java
+//        ^^^ storage.type.variant.java
 //            ^ variable.other.readwrite.java
 //             ^ invalid.illegal.unexpected-accessor.java
 //              ^ invalid.illegal.unexpected-member.java
@@ -4614,7 +4614,7 @@ class LocalVariableDeclarationTests {
 
     final var[] y = 10, z[] = 5;
 //  ^^^^^ storage.modifier.java
-//        ^^^ storage.type.var.java
+//        ^^^ storage.type.variant.java
 //           ^^ invalid.illegal.unexpected-modifier.java
 //              ^ variable.other.readwrite.java
 //                ^ keyword.operator.assignment.java
@@ -4625,7 +4625,7 @@ class LocalVariableDeclarationTests {
     @Number final var y @Dim1 [] @Dim2 [] = { {10, 1}, {5, 2} };
 //  ^^^^^^^ meta.annotation.identifier.java
 //          ^^^^^ storage.modifier.java
-//                ^^^ storage.type.var.java
+//                ^^^ storage.type.variant.java
 //                    ^ variable.other.readwrite.java
 //                      ^^^^^ meta.annotation.identifier.java
 //                            ^^ storage.modifier.array.java
@@ -5663,7 +5663,7 @@ class ForStatementTests {
 //      ^ punctuation.section.group.begin.java
 //       ^^^^^^^ invalid.illegal.unexpected-keyword.java
 //               ^^^^^ meta.annotation.identifier.java
-//                     ^^^ storage.type.var.java
+//                     ^^^ storage.type.variant.java
 //                         ^^^^ variable.other.readwrite.java
 //                              ^ keyword.operator.assignment.java
 //                                ^^^^ variable.other.readwrite.java
@@ -6488,13 +6488,13 @@ class TryStatementTests {
 //      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.try.java meta.group.java - meta.try meta.try
 //                                     ^ meta.try.java - meta.try meta.try - meta.group
 //                                      ^^ meta.try.java meta.block.java
-//       ^^^ storage.type.var.java
+//       ^^^ storage.type.variant.java
 //           ^^ variable.other.readwrite.java
 //              ^ keyword.operator.assignment.java
 //                ^^^ keyword.other.storage.new.java
 //                    ^^^^^^^^^^^^^^ storage.type.class.java
         var line = in.readLine();
-//      ^^^ storage.type.var.java
+//      ^^^ storage.type.variant.java
 //          ^^^^ variable.other.readwrite.java
 //               ^ keyword.operator.assignment.java
     }
@@ -8383,7 +8383,7 @@ class LambdasExpressionsTests {
 
   Function<String, String> lambda4 = (var foo) -> foo;
 //                                   ^^^^^^^^^ meta.function.anonymous.parameters.java
-//                                    ^^^ storage.type.var.java
+//                                    ^^^ storage.type.variant.java
 //                                        ^^^ variable.parameter.java
 //                                             ^^ keyword.declaration.function.anonymous.java - meta.function.anonymous.parameters.java
 

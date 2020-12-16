@@ -2811,12 +2811,12 @@ contexts:
 
   var-types:
     - match: var{{break}}
-      scope: storage.type.var.java
+      scope: storage.type.variant.java
       push: maybe-illegal-array-modifiers
 
   var-type:
     - match: var{{break}}
-      scope: storage.type.var.java
+      scope: storage.type.variant.java
       set: maybe-illegal-array-modifiers
 
   maybe-array-modifiers:
