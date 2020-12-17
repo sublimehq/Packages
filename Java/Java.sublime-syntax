@@ -168,9 +168,9 @@ contexts:
     # normal block comments
     - match: /\*
       scope: punctuation.definition.comment.begin.java
-      push: block-comment-common
+      push: block-comment-body
 
-  block-comment-common:
+  block-comment-body:
     - meta_include_prototype: false
     - meta_scope: comment.block.java
     - match: \*/
@@ -180,9 +180,9 @@ contexts:
   line-comments:
     - match: //+
       scope: punctuation.definition.comment.java
-      push: line-comment-common
+      push: line-comment-body
 
-  line-comment-common:
+  line-comment-body:
     - meta_include_prototype: false
     - meta_scope: comment.line.double-slash.java
     - match: (//+)?\n
@@ -244,7 +244,7 @@ contexts:
     - match: \s*(?=\()
       pop: 2
       set:
-        - annotation-parameters-common
+        - annotation-parameters-body
         - group-begin
     # consume comments
     - match: \s*(?=/[/*])
@@ -252,7 +252,7 @@ contexts:
     - match: (?=\s*\S)
       pop: 2
 
-  annotation-parameters-common:
+  annotation-parameters-body:
     - meta_scope: meta.annotation.parameters.java meta.group.java
     - include: group-end
     - match: (?={{id_first_char}})
@@ -432,10 +432,10 @@ contexts:
     - meta_content_scope: meta.namespace.module.identifier.java
     - match: \{
       scope: punctuation.section.block.begin.java
-      set: module-block-common
+      set: module-block-body
     - include: else-pop
 
-  module-block-common:
+  module-block-body:
     - meta_scope: meta.namespace.module.java meta.block.java
     - include: block-end
     - include: punctuation-terminator-semicolon
@@ -666,10 +666,10 @@ contexts:
   class-block:
     - match: \{
       scope: punctuation.section.block.begin.java
-      set: class-block-common
+      set: class-block-body
     - include: else-pop
 
-  class-block-common:
+  class-block-body:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.6
     - meta_scope: meta.class.java meta.block.java
     - include: block-end
@@ -734,13 +734,13 @@ contexts:
     - match: \{
       scope: punctuation.section.block.begin.java
       set:
-        - enum-block-common
+        - enum-block-body
         - enum-constants-list
     - include: else-pop
 
-  enum-block-common:
+  enum-block-body:
     - meta_scope: meta.enum.java meta.block.java
-    - include: class-block-common
+    - include: class-block-body
 
   enum-constants-list:
     - meta_content_scope: meta.sequence.constants.java
@@ -756,24 +756,24 @@ contexts:
       scope: punctuation.section.group.begin.java
       set:
         - enum-constant-block
-        - enum-constant-arguments-common
+        - enum-constant-arguments-body
     - include: enum-constant-block
 
-  enum-constant-arguments-common:
+  enum-constant-arguments-body:
     - clear_scopes: 1
     - meta_scope: meta.constant.arguments.java meta.group.java
-    - include: group-common
+    - include: group-body
 
   enum-constant-block:
     - meta_content_scope: meta.constant.java
     - match: \{
       scope: punctuation.section.block.begin.java
-      set: enum-constant-block-common
+      set: enum-constant-block-body
     - include: else-pop
 
-  enum-constant-block-common:
+  enum-constant-block-body:
     - meta_scope: meta.constant.java meta.block.java
-    - include: class-block-common
+    - include: class-block-body
 
 ###[ INTERFACE DECLARATIONS ]##################################################
 
@@ -830,12 +830,12 @@ contexts:
   interface-block:
     - match: \{
       scope: punctuation.section.block.begin.java
-      set: interface-block-common
+      set: interface-block-body
     - include: else-pop
 
-  interface-block-common:
+  interface-block-body:
     - meta_scope: meta.interface.java meta.block.java
-    - include: class-block-common
+    - include: class-block-body
 
 ###[ MEMBER DECLARATIONS ]#####################################################
 
@@ -1057,10 +1057,10 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.java
       set:
-        - method-parameters-common
+        - method-parameters-body
         - receiver-or-parameter
 
-  method-parameters-common:
+  method-parameters-body:
     - meta_scope: meta.function.parameters.java meta.group.java
     - include: group-end
     - match: ','
@@ -1110,12 +1110,12 @@ contexts:
   method-block:
     - match: \{
       scope: punctuation.section.block.begin.java
-      set: method-block-common
+      set: method-block-body
     - include: else-pop
 
-  method-block-common:
+  method-block-body:
     - meta_scope: meta.function.java meta.block.java
-    - include: block-common
+    - include: block-body
 
 ###[ IF ELSE STATEMENTS ]######################################################
 
@@ -1195,9 +1195,9 @@ contexts:
   case-label-expression:
     - meta_scope: meta.case.java
     - match: (?=\S)
-      set: case-label-expression-common
+      set: case-label-expression-body
 
-  case-label-expression-common:
+  case-label-expression-body:
     - meta_content_scope: meta.case.label.java
     - include: case-label-end
     - include: expression
@@ -1433,10 +1433,10 @@ contexts:
   try-parameters:
     - match: \(
       scope: punctuation.section.group.begin.java
-      set: try-parameters-common
+      set: try-parameters-body
     - include: else-pop
 
-  try-parameters-common:
+  try-parameters-body:
     - meta_scope: meta.group.java
     - include: group-end
     - include: local-variable-declarations
@@ -1507,7 +1507,7 @@ contexts:
       scope: punctuation.section.group.begin.java
       set:
         - class-block
-        - group-common
+        - group-body
     - include: array-dimensions
     - include: else-pop
 
@@ -1552,14 +1552,14 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-10.html#jls-10.6
     - match: \{
       scope: punctuation.section.braces.begin.java
-      push: array-initializer-common
+      push: array-initializer-body
 
   array-initializer:
     - match: \{
       scope: punctuation.section.braces.begin.java
-      set: array-initializer-common
+      set: array-initializer-body
 
-  array-initializer-common:
+  array-initializer-body:
     - meta_scope: meta.braces.java
     - match: \}
       scope: punctuation.section.braces.end.java
@@ -1584,20 +1584,20 @@ contexts:
   blocks:
     - match: \{
       scope: punctuation.section.block.begin.java
-      push: block-common
+      push: block-body
     - include: stray-braces
 
   block:
     - match: \{
       scope: punctuation.section.block.begin.java
-      set: block-common
+      set: block-body
 
   block-end:
     - match: \}
       scope: punctuation.section.block.end.java
       pop: 1
 
-  block-common:
+  block-body:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.2
     - meta_scope: meta.block.java
     - include: block-end
@@ -1623,10 +1623,10 @@ contexts:
   maybe-group:
     - match: \(
       scope: punctuation.section.group.begin.java
-      set: group-common
+      set: group-body
     - include: else-pop
 
-  group-common:
+  group-body:
     - meta_scope: meta.group.java
     - include: group-end
     - include: expressions
@@ -1649,11 +1649,11 @@ contexts:
     - meta_scope: meta.typecast.java meta.group.java
     - match: ''
       set:
-        - cast-expression-group-common
+        - cast-expression-group-body
         - maybe-only-array-modifiers
         - cast-expression-type
 
-  cast-expression-group-common:
+  cast-expression-group-body:
     - meta_scope: meta.typecast.java meta.group.java
     - match: \)
       scope: punctuation.section.group.end.java
@@ -1928,13 +1928,13 @@ contexts:
     - meta_content_scope: meta.function-call.identifier.java
     - match: \(
       scope: punctuation.section.group.begin.java
-      set: method-call-arguments-common
+      set: method-call-arguments-body
     - match: (?=\S)
       fail: variables
 
-  method-call-arguments-common:
+  method-call-arguments-body:
     - meta_scope: meta.function-call.arguments.java meta.group.java
-    - include: group-common
+    - include: group-body
 
   lambda-parameter:
     - match: '{{id}}'
@@ -2143,13 +2143,13 @@ contexts:
       captures:
         1: punctuation.definition.string.begin.java
         2: invalid.illegal.unexpected-content.java
-      push: literal-triple-quoted-string-common
+      push: literal-triple-quoted-string-body
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-3.html#jls-3.10.5
     - match: \"
       scope: punctuation.definition.string.begin.java
-      push: literal-double-quoted-string-common
+      push: literal-double-quoted-string-body
 
-  literal-triple-quoted-string-common:
+  literal-triple-quoted-string-body:
     - meta_include_prototype: false
     - meta_scope: meta.string.java string.quoted.triple.java
     - match: \"{3}
@@ -2157,7 +2157,7 @@ contexts:
       pop: 1
     - include: literal-string-escapes
 
-  literal-double-quoted-string-common:
+  literal-double-quoted-string-body:
     - meta_include_prototype: false
     - meta_scope: meta.string.java string.quoted.double.java
     - match: \"
@@ -2709,10 +2709,10 @@ contexts:
     - match: <
       scope: punctuation.definition.generic.begin.java
       set:
-        - type-argument-common
+        - type-argument-body
         - type-argument-reference
 
-  type-argument-common:
+  type-argument-body:
     - meta_scope: meta.generic.java
     - match: ','
       scope: punctuation.separator.comma.java
@@ -2747,7 +2747,7 @@ contexts:
     - match: <
       scope: punctuation.definition.generic.begin.java
       push:
-        - type-parameter-common
+        - type-parameter-body
         - type-parameter-bounds
         - type-parameter-reference
 
@@ -2756,11 +2756,11 @@ contexts:
     - match: <
       scope: punctuation.definition.generic.begin.java
       set:
-        - type-parameter-common
+        - type-parameter-body
         - type-parameter-bounds
         - type-parameter-reference
 
-  type-parameter-common:
+  type-parameter-body:
     - meta_scope: meta.generic.declaration.java
     - match: ','
       scope: punctuation.separator.comma.java
@@ -2945,10 +2945,10 @@ contexts:
 
   maybe-illegal-type-parameter:
     - match: \<
-      set: illegal-type-parameter-common
+      set: illegal-type-parameter-body
     - include: else-pop
 
-  illegal-type-parameter-common:
+  illegal-type-parameter-body:
         - meta_scope: invalid.illegal.unexpected-type-parameters.java
         - match: \<
           push:
