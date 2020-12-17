@@ -1484,7 +1484,7 @@ contexts:
       scope: keyword.other.storage.new.java
       push:
         - instantiation-meta
-        - instantiation-value
+        - instantiation-arguments
         - instantiation-type
         - maybe-type-argument
     - include: annotations
@@ -1502,36 +1502,31 @@ contexts:
     - include: illegal-unexpected-keywords
     - include: else-pop
 
-  instantiation-value:
+  instantiation-arguments:
+    - match: \(
+      scope: punctuation.section.group.begin.java
+      set:
+        - class-block
+        - group-common
     - include: array-dimensions
-    - include: constructor-arguments
+    - include: else-pop
 
   array-dimensions:
     - match: \[
       scope: punctuation.section.brackets.begin.java
-      set:
-        - meta_scope: meta.brackets.java
-        - match: \]
-          scope: punctuation.section.brackets.end.java
-          set:
-            - include: array-dimensions
-            - include: else-pop
-        - include: expressions
-        - include: expression-terminator
+      set: array-dimension-body
     - include: array-initializer
     - include: annotations
 
-  constructor-arguments:
-    - match: \(
-      scope: punctuation.section.group.begin.java
+  array-dimension-body:
+    - meta_scope: meta.brackets.java
+    - match: \]
+      scope: punctuation.section.brackets.end.java
       set:
-        - meta_scope: meta.group.java
-        - match: \)
-          scope: punctuation.section.group.end.java
-          set: class-block
-        - include: expressions
-        - include: expression-terminator
-    - include: else-pop
+        - include: array-dimensions
+        - include: else-pop
+    - include: expressions
+    - include: expression-terminator
 
 ###[ INITIALIZATION EXPRESSIONS ]##############################################
 

@@ -6975,6 +6975,9 @@ class InstanceCreationExpressionsTests {
   public void instantiatePrimitiveArrays() {
 
     new int[]{0, 0, 0};
+// ^ - meta.instantiation
+//  ^^^^^^^^^^^^^^^^^^ meta.instantiation.java
+//                    ^ - meta.instantiation
 //  ^^^ keyword.other.storage.new.java
 //      ^^^ storage.type.primitive.java
 //         ^ punctuation.section.brackets.begin.java
@@ -6988,6 +6991,9 @@ class InstanceCreationExpressionsTests {
 //                   ^ punctuation.section.braces.end.java
 
     new byte[size];
+// ^ - meta.instantiation
+//  ^^^^^^^^^^^^^^ meta.instantiation.java
+//                ^ - meta.instantiation
 //  ^^^ keyword.other.storage.new.java
 //      ^^^^ storage.type.primitive.java
 
@@ -7083,6 +7089,20 @@ class InstanceCreationExpressionsTests {
 //                       ^^^^^ string.quoted.double.java
 //                            ^ punctuation.section.braces.end.java
 //                             ^ punctuation.terminator.java
+
+    new String[]() {"foo", "bar"};
+//  ^^^^^^^^^^^^ meta.instantiation.java - meta.braces
+//              ^^^^^^^^^^^^^^^^^ - meta.instantiation
+//  ^^^ keyword.other.storage.new.java
+//      ^^^^^^ storage.type.class.java
+//            ^ punctuation.section.brackets.begin.java
+//             ^ punctuation.section.brackets.end.java
+//                 ^ punctuation.section.block.begin.java
+//                  ^^^^^ string.quoted.double.java
+//                       ^ punctuation.separator.comma.java
+//                         ^^^^^ string.quoted.double.java
+//                              ^ punctuation.section.block.end.java
+//                               ^ punctuation.terminator.java
 
     new MyObject[1];
 //  ^^^^^^^^^^^^^^^ meta.instantiation.java
