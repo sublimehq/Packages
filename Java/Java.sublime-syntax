@@ -107,7 +107,9 @@ contexts:
     - include: import
     - include: module
     - include: package
-    - include: block-body
+    - include: statements
+    - include: declarations
+    - include: else-expressions
 
   statements:
     - include: member-statements
@@ -1599,12 +1601,9 @@ contexts:
       pop: 1
 
   block-common:
+    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.2
     - meta_scope: meta.block.java
     - include: block-end
-    - include: block-body
-
-  block-body:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.2
     - include: statements
     - include: declarations
     - include: else-expressions
