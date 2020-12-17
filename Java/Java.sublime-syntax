@@ -107,7 +107,7 @@ contexts:
     - include: import
     - include: module
     - include: package
-    - include: blocks-body
+    - include: block-body
 
   statements:
     - include: member-statements
@@ -419,21 +419,21 @@ contexts:
         - meta_scope: meta.namespace.module.java
         - match: (?=\S)
           set:
-            - module-body-block
+            - module-block
             - module-identifier
 
   module-identifier:
     - include: entity-module
     - include: immediately-pop
 
-  module-body-block:
+  module-block:
     - meta_content_scope: meta.namespace.module.identifier.java
     - match: \{
       scope: punctuation.section.block.begin.java
-      set: module-body-common
+      set: module-block-common
     - include: else-pop
 
-  module-body-common:
+  module-block-common:
     - meta_scope: meta.namespace.module.java meta.block.java
     - include: block-end
     - include: punctuation-terminator-semicolon
@@ -615,7 +615,7 @@ contexts:
     - match: class{{break}}
       scope: keyword.declaration.class.java
       set:
-        - class-body-block
+        - class-block
         - class-extends
         - class-name-meta
         - maybe-type-parameter
@@ -661,13 +661,13 @@ contexts:
     - include: inherited-object-type-list
     - include: else-pop
 
-  class-body-block:
+  class-block:
     - match: \{
       scope: punctuation.section.block.begin.java
-      set: class-body-block-common
+      set: class-block-common
     - include: else-pop
 
-  class-body-block-common:
+  class-block-common:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.1.6
     - meta_scope: meta.class.java meta.block.java
     - include: block-end
@@ -681,7 +681,7 @@ contexts:
     - match: enum{{break}}
       scope: keyword.declaration.enum.java
       set:
-        - enum-body-block
+        - enum-block
         - enum-extends
         - enum-name-meta
         - maybe-illegal-type-parameter
@@ -727,18 +727,18 @@ contexts:
     - include: inherited-object-type-list
     - include: else-pop
 
-  enum-body-block:
+  enum-block:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.9.1
     - match: \{
       scope: punctuation.section.block.begin.java
       set:
-        - enum-body-block-common
+        - enum-block-common
         - enum-constants-list
     - include: else-pop
 
-  enum-body-block-common:
+  enum-block-common:
     - meta_scope: meta.enum.java meta.block.java
-    - include: class-body-block-common
+    - include: class-block-common
 
   enum-constants-list:
     - meta_content_scope: meta.sequence.constants.java
@@ -753,25 +753,25 @@ contexts:
     - match: \(
       scope: punctuation.section.group.begin.java
       set:
-        - enum-constant-body-block
+        - enum-constant-block
         - enum-constant-arguments-common
-    - include: enum-constant-body-block
+    - include: enum-constant-block
 
   enum-constant-arguments-common:
     - clear_scopes: 1
     - meta_scope: meta.constant.arguments.java meta.group.java
     - include: group-common
 
-  enum-constant-body-block:
+  enum-constant-block:
     - meta_content_scope: meta.constant.java
     - match: \{
       scope: punctuation.section.block.begin.java
-      set: enum-constant-body-block-common
+      set: enum-constant-block-common
     - include: else-pop
 
-  enum-constant-body-block-common:
+  enum-constant-block-common:
     - meta_scope: meta.constant.java meta.block.java
-    - include: class-body-block-common
+    - include: class-block-common
 
 ###[ INTERFACE DECLARATIONS ]##################################################
 
@@ -779,7 +779,7 @@ contexts:
     - match: (@?)interface{{break}}
       scope: keyword.declaration.interface.java
       set:
-        - interface-body-block
+        - interface-block
         - interface-extends
         - interface-name-meta
         - maybe-type-parameter
@@ -825,15 +825,15 @@ contexts:
     - include: inherited-object-type-list
     - include: else-pop
 
-  interface-body-block:
+  interface-block:
     - match: \{
       scope: punctuation.section.block.begin.java
-      set: interface-body-block-common
+      set: interface-block-common
     - include: else-pop
 
-  interface-body-block-common:
+  interface-block-common:
     - meta_scope: meta.interface.java meta.block.java
-    - include: class-body-block-common
+    - include: class-block-common
 
 ###[ MEMBER DECLARATIONS ]#####################################################
 
@@ -892,7 +892,7 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.8
     - match: ''
       set:
-        - method-body-block
+        - method-block
         - method-attributes
         - method-array-modifiers
         - method-expect-parameters
@@ -903,7 +903,7 @@ contexts:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-8.html#jls-8.4
     - match: ''
       set:
-        - method-body-block
+        - method-block
         - method-attributes
         - method-array-modifiers
         - method-signature
@@ -1105,16 +1105,15 @@ contexts:
         - expect-object-type
     - include: else-pop
 
-  method-body-block:
+  method-block:
     - match: \{
       scope: punctuation.section.block.begin.java
-      set: method-body-common
+      set: method-block-common
     - include: else-pop
 
-  method-body-common:
+  method-block-common:
     - meta_scope: meta.function.java meta.block.java
-    - include: block-end
-    - include: blocks-body
+    - include: block-common
 
 ###[ IF ELSE STATEMENTS ]######################################################
 
@@ -1526,7 +1525,7 @@ contexts:
         - meta_scope: meta.group.java
         - match: \)
           scope: punctuation.section.group.end.java
-          set: class-body-block
+          set: class-block
         - include: group-body
     - include: else-pop
 
@@ -1586,25 +1585,25 @@ contexts:
   blocks:
     - match: \{
       scope: punctuation.section.block.begin.java
-      push: blocks-common
+      push: block-common
     - include: stray-braces
 
   block:
     - match: \{
       scope: punctuation.section.block.begin.java
-      set: blocks-common
+      set: block-common
 
   block-end:
     - match: \}
       scope: punctuation.section.block.end.java
       pop: 1
 
-  blocks-common:
+  block-common:
     - meta_scope: meta.block.java
     - include: block-end
-    - include: blocks-body
+    - include: block-body
 
-  blocks-body:
+  block-body:
     # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.2
     - include: statements
     - include: declarations
