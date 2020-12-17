@@ -782,7 +782,7 @@ class ClassTest {}}
 //             ^ - entity - keyword - storage
 //              ^ punctuation.section.block.begin.java
 //               ^ punctuation.section.block.end.java
-//                ^ invalid.illegal.stray-brace-end
+//                ^ invalid.illegal.stray.java
 
 class ExtendsTest extends
 //^^^ meta.class.java - meta.class meta.class
@@ -5431,6 +5431,7 @@ class ForStatementTests {
 //     ^ - keyword
 //      ^ punctuation.section.group.begin.java
 //       ^^ punctuation.terminator.java
+//         ^^ invalid.illegal.stray.java
 //           ^ punctuation.section.group.end.java
 //             ^ punctuation.section.block.begin.java
 //              ^^^ punctuation.terminator.java

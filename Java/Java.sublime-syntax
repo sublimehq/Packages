@@ -1281,7 +1281,7 @@ contexts:
     - include: group-end
     - include: expressions
     - match: ;
-      scope: invalid.illegal.stray-terminator-end
+      scope: invalid.illegal.stray.java
     - include: expression-terminator
 
 ###[ FLOW CONTROL STATEMENTS ]#################################################
@@ -2964,8 +2964,8 @@ contexts:
 
   stray-braces:
     - match: \}
-      scope: invalid.illegal.stray-brace-end
+      scope: invalid.illegal.stray.java
 
   stray-group:
     - match: \)
-      scope: invalid.illegal.stray-group-end
+      scope: invalid.illegal.stray.java
