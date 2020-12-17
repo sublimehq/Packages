@@ -418,7 +418,9 @@ contexts:
       push:
         - meta_scope: meta.namespace.module.java
         - match: (?=\S)
-          set: [module-body-block, module-identifier]
+          set:
+            - module-body-block
+            - module-identifier
 
   module-identifier:
     - include: entity-module
@@ -437,19 +439,27 @@ contexts:
     - include: punctuation-terminator-semicolon
     - match: exports{{break}}
       scope: keyword.other.module.exports.java
-      push: [module-exports-meta, module-exports-or-opens-body]
+      push:
+        - module-exports-meta
+        - module-exports-or-opens-body
     - match: opens{{break}}
       scope: keyword.other.module.opens.java
-      push: [module-opens-meta, module-exports-or-opens-body]
+      push:
+        - module-opens-meta
+        - module-exports-or-opens-body
     - match: requires{{break}}
       scope: keyword.other.module.requires.java
       push: module-requires-body
     - match: uses{{break}}
       scope: keyword.other.module.uses.java
-      push: [module-uses-meta, module-provides-or-uses-body]
+      push:
+        - module-uses-meta
+        - module-provides-or-uses-body
     - match: provides{{break}}
       scope: keyword.other.module.provides.java
-      push: [module-provides-meta, module-provides-or-uses-body]
+      push:
+        - module-provides-meta
+        - module-provides-or-uses-body
 
   module-exports-meta:
     - meta_include_prototype: false
