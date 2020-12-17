@@ -1516,7 +1516,8 @@ contexts:
           set:
             - include: array-dimensions
             - include: else-pop
-        - include: group-body
+        - include: expressions
+        - include: expression-terminator
     - include: array-initializer
     - include: annotations
 
@@ -1528,7 +1529,8 @@ contexts:
         - match: \)
           scope: punctuation.section.group.end.java
           set: class-block
-        - include: group-body
+        - include: expressions
+        - include: expression-terminator
     - include: else-pop
 
 ###[ INITIALIZATION EXPRESSIONS ]##############################################
@@ -1632,9 +1634,6 @@ contexts:
   group-common:
     - meta_scope: meta.group.java
     - include: group-end
-    - include: group-body
-
-  group-body:
     - include: expressions
     - include: expression-terminator
 
@@ -1691,7 +1690,8 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.java
       set: expression-group-end
-    - include: group-body
+    - include: expressions
+    - include: expression-terminator
 
   expression-group-end:
     # looks like a lambda
@@ -2018,7 +2018,8 @@ contexts:
     - match: \]
       scope: punctuation.section.brackets.end.java
       set: variable-item-access-end
-    - include: group-body
+    - include: expressions
+    - include: expression-terminator
 
   variable-item-access-end:
     - meta_content_scope: meta.variable.item-access.java
