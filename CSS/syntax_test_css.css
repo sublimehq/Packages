@@ -1345,6 +1345,20 @@
 }
 
 .test-operators {
+
+    margin: -1 -1 +1;
+    /*      ^ keyword.operator.arithmetic.css */
+    /*         ^ keyword.operator.arithmetic.css */
+    /*            ^ keyword.operator.arithmetic.css */
+
+    margin: -1px -1px +1px;
+    /*      ^ keyword.operator.arithmetic.css */
+    /*           ^ keyword.operator.arithmetic.css */
+    /*                ^ keyword.operator.arithmetic.css */
+}
+
+.test-operators-in-calc {
+
     top: calc(1px + 1px);
     /*            ^ keyword.operator.arithmetic.css */
     top: calc(+1px+1px);
