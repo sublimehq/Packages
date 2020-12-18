@@ -1087,7 +1087,7 @@ contexts:
       scope: entity.name.constant.java
       pop: 1
     - match: '{{identifier}}'
-      scope: variable.other.readwrite.java
+      scope: variable.other.java
       pop: 1
 
   variable-declaration-maybe-assignment:
@@ -1995,7 +1995,7 @@ contexts:
     - match: '{{id}}'
       scope:
         meta.variable.identifier.java
-        variable.other.readwrite.java
+        variable.other.java
       set: variable-other-end
     - include: immediately-pop
 
@@ -2009,7 +2009,7 @@ contexts:
     - match: '{{id}}'
       scope:
         meta.variable.identifier.java
-        variable.other.readwrite.java
+        variable.other.java
       set: variable-qualifier-end
     - include: immediately-pop
 

@@ -392,12 +392,12 @@
  *****************************************************************************/
 
 package$ ;
-// <- meta.variable.identifier.java variable.other.readwrite.java
-//^^^^^^ meta.variable.identifier.java variable.other.readwrite.java
+// <- meta.variable.identifier.java variable.other.java
+//^^^^^^ meta.variable.identifier.java variable.other.java
 
 $package ;
-// <- meta.variable.identifier.java variable.other.readwrite.java
-//^^^^^^ meta.variable.identifier.java variable.other.readwrite.java
+// <- meta.variable.identifier.java variable.other.java
+//^^^^^^ meta.variable.identifier.java variable.other.java
 
 package
 // <- meta.namespace.package.java keyword.declaration.namespace.package.java
@@ -410,7 +410,7 @@ package apple dot
 //      ^^^^^ meta.namespace.package.identifier.java - meta.path
 //^^^^^ keyword.declaration.namespace.package.java
 //      ^^^^^ entity.name.namespace.package.java
-//            ^^^ variable.other.readwrite.java
+//            ^^^ variable.other.java
 
 package apple;
 // <- meta.namespace.package.java keyword.declaration.namespace.package.java
@@ -469,12 +469,12 @@ package
  *****************************************************************************/
 
 import$ ;
-// <- meta.variable.identifier.java variable.other.readwrite.java
-//^^^^^ meta.variable.identifier.java variable.other.readwrite.java
+// <- meta.variable.identifier.java variable.other.java
+//^^^^^ meta.variable.identifier.java variable.other.java
 
 $import ;
-// <- meta.variable.identifier.java variable.other.readwrite.java
-//^^^^^ meta.variable.identifier.java variable.other.readwrite.java
+// <- meta.variable.identifier.java variable.other.java
+//^^^^^ meta.variable.identifier.java variable.other.java
 
 import
 // <- meta.import.java keyword.declaration.import.java
@@ -750,12 +750,12 @@ import static a.b.Class.*;
  *****************************************************************************/
 
 class$ ;
-// <- meta.variable.identifier.java variable.other.readwrite.java
-//^^^^ meta.variable.identifier.java variable.other.readwrite.java
+// <- meta.variable.identifier.java variable.other.java
+//^^^^ meta.variable.identifier.java variable.other.java
 
 $class ;
-// <- meta.variable.identifier.java variable.other.readwrite.java
-//^^^^ meta.variable.identifier.java variable.other.readwrite.java
+// <- meta.variable.identifier.java variable.other.java
+//^^^^ meta.variable.identifier.java variable.other.java
 
 class
 // <- meta.class.java keyword.declaration.class.java
@@ -1482,12 +1482,12 @@ Bar             // comment
  *****************************************************************************/
 
 enum$ ;
-// <- meta.variable.identifier.java variable.other.readwrite.java
-//^^^ meta.variable.identifier.java variable.other.readwrite.java
+// <- meta.variable.identifier.java variable.other.java
+//^^^ meta.variable.identifier.java variable.other.java
 
 $enum ;
-// <- meta.variable.identifier.java variable.other.readwrite.java
-//^^^ meta.variable.identifier.java variable.other.readwrite.java
+// <- meta.variable.identifier.java variable.other.java
+//^^^ meta.variable.identifier.java variable.other.java
 
 enum
 //<- meta.enum.java keyword.declaration.enum.java
@@ -1884,12 +1884,12 @@ Bar             // comment
  *****************************************************************************/
 
 interface$ ;
-// <- meta.variable.identifier.java variable.other.readwrite.java
-//^^^^^^^^ meta.variable.identifier.java variable.other.readwrite.java
+// <- meta.variable.identifier.java variable.other.java
+//^^^^^^^^ meta.variable.identifier.java variable.other.java
 
 $interface ;
-// <- meta.variable.identifier.java variable.other.readwrite.java
-//^^^^^^^^ meta.variable.identifier.java variable.other.readwrite.java
+// <- meta.variable.identifier.java variable.other.java
+//^^^^^^^^ meta.variable.identifier.java variable.other.java
 
 interface
 //<- meta.interface.java keyword.declaration.interface.java
@@ -2428,7 +2428,7 @@ class FieldDeclarationTests {
 //        ^^^ storage.type.primitive.java
 //            ^^^^^^^^^^ variable.other.member.java
 //                       ^ keyword.operator.assignment.java
-//                         ^^^^^^^^^^^^^ variable.other.readwrite.java
+//                         ^^^^^^^^^^^^^ variable.other.java
 //                                      ^ punctuation.accessor.dot.java
 //                                       ^^^^^^^ variable.function.java
 //                                              ^ punctuation.section.group.begin.java
@@ -2645,7 +2645,7 @@ class FieldDeclarationTests {
 //     ^^^^^^^^^^ variable.other.member.java
 //               ^^ storage.modifier.array.java
 //                  ^ keyword.operator.assignment.java
-//                    ^^^^^^^^^ variable.other.readwrite.java
+//                    ^^^^^^^^^ variable.other.java
 //                              ^ keyword.operator.ternary.java
 //                                ^ punctuation.section.braces.begin.java
 //                                 ^ meta.number.integer.decimal.java constant.numeric.value.java
@@ -2671,7 +2671,7 @@ class FieldDeclarationTests {
 //     ^^^^^^^^^^ variable.other.member.java
 //               ^^ storage.modifier.array.java
 //                  ^ keyword.operator.assignment.java
-//                    ^^^^^^^^^ variable.other.readwrite.java
+//                    ^^^^^^^^^ variable.other.java
 //                              ^ keyword.operator.ternary.java
 //                                ^^^ variable.function.java
 //                                   ^ punctuation.section.group.begin.java
@@ -4097,14 +4097,14 @@ class LocalVariableDeclarationTests {
 //  ^^^^ meta.declaration.type.java
 //      ^^^^ meta.declaration.identifier.java
 //  ^^^ storage.type.primitive.java
-//      ^^^ variable.other.readwrite.java
+//      ^^^ variable.other.java
 
     int foo;
 //  ^^^^ meta.declaration.type.java
 //      ^^^ meta.declaration.identifier.java
 //         ^ - meta.declaration
 //  ^^^ storage.type.primitive.java
-//      ^^^ variable.other.readwrite.java
+//      ^^^ variable.other.java
 //         ^ punctuation.terminator.java
 
     int foo, bar;
@@ -4115,9 +4115,9 @@ class LocalVariableDeclarationTests {
 //          ^^^^ meta.declaration.identifier.java
 //              ^ - meta.declaration
 //  ^^^ storage.type.primitive.java
-//      ^^^ variable.other.readwrite.java
+//      ^^^ variable.other.java
 //         ^ punctuation.separator.comma.java
-//           ^^^ variable.other.readwrite.java
+//           ^^^ variable.other.java
 //              ^ punctuation.terminator.java
 
     int foo =, bar =;
@@ -4129,10 +4129,10 @@ class LocalVariableDeclarationTests {
 //                 ^ meta.declaration.java
 //                  ^ - meta.declaration
 //  ^^^ storage.type.primitive.java
-//      ^^^ variable.other.readwrite.java
+//      ^^^ variable.other.java
 //          ^ keyword.operator.assignment.java
 //           ^ punctuation.separator.comma.java
-//             ^^^ variable.other.readwrite.java
+//             ^^^ variable.other.java
 //                 ^ keyword.operator.assignment.java
 //                  ^ punctuation.terminator.java
 
@@ -4147,11 +4147,11 @@ class LocalVariableDeclarationTests {
 //                    ^^^^^^ meta.declaration.value.java
 //                          ^ - meta.declaration
 //  ^^^ storage.type.primitive.java
-//      ^^^ variable.other.readwrite.java
+//      ^^^ variable.other.java
 //          ^ keyword.operator.assignment.java
 //            ^ constant.numeric.value.java
 //             ^ punctuation.separator.comma.java
-//               ^^^ variable.other.readwrite.java
+//               ^^^ variable.other.java
 //                   ^ keyword.operator.assignment.java
 //                     ^^^^^ constant.other.java
 //                          ^ punctuation.terminator.java
@@ -4171,7 +4171,7 @@ class LocalVariableDeclarationTests {
 //        ^^^^ meta.declaration.identifier.java
 //  ^^^ storage.type.primitive.java
 //     ^^ storage.modifier.array.java
-//        ^^^ variable.other.readwrite.java
+//        ^^^ variable.other.java
 
     int foo[], [] ;
 //  ^^^^ meta.declaration.type.java
@@ -4180,7 +4180,7 @@ class LocalVariableDeclarationTests {
 //            ^^^^ meta.declaration.identifier.java
 //                ^ - meta.declaration
 //  ^^^ storage.type.primitive.java
-//      ^^^ variable.other.readwrite.java
+//      ^^^ variable.other.java
 //         ^^ storage.modifier.array.java
 //           ^ punctuation.separator.comma.java
 //             ^^ storage.modifier.array.java
@@ -4199,11 +4199,11 @@ class LocalVariableDeclarationTests {
 //  ^^^^^ storage.modifier.java
 //        ^^^ storage.type.primitive.java
 //           ^^ storage.modifier.array.java
-//              ^ variable.other.readwrite.java
+//              ^ variable.other.java
 //                ^ keyword.operator.assignment.java
 //                  ^^ meta.number.integer.decimal.java constant.numeric.value.java
 //                    ^ punctuation.separator.comma.java
-//                      ^ variable.other.readwrite.java
+//                      ^ variable.other.java
 //                       ^^ storage.modifier.array.java
 //                          ^ keyword.operator.assignment.java
 //                            ^ meta.number.integer.decimal.java constant.numeric.value.java
@@ -4219,7 +4219,7 @@ class LocalVariableDeclarationTests {
 //  ^^^^^^^ meta.annotation.identifier.java
 //          ^^^^^ storage.modifier.java
 //                ^^^ storage.type.primitive.java
-//                    ^ variable.other.readwrite.java
+//                    ^ variable.other.java
 //                      ^^^^^ meta.annotation.identifier.java
 //                            ^^ storage.modifier.array.java
 //                               ^^^^^ meta.annotation.identifier.java
@@ -4233,7 +4233,7 @@ class LocalVariableDeclarationTests {
     int
 //  ^^^ meta.declaration.type.java storage.type.primitive.java
     foo
-//  ^^^ meta.declaration.identifier.java variable.other.readwrite.java
+//  ^^^ meta.declaration.identifier.java variable.other.java
     @Dim1
 //  ^^^^^^ meta.declaration.identifier.java meta.annotation.identifier.java
     []
@@ -4252,26 +4252,26 @@ class LocalVariableDeclarationTests {
 //  ^^^^^^^^^ storage.type.class.java
 
     testclass ;
-//  ^^^^^^^^^ variable.other.readwrite.java
+//  ^^^^^^^^^ variable.other.java
 
     TestClass foo
 //  ^^^^^^^^^^ meta.declaration.type.java
 //            ^^^^ meta.declaration.identifier.java
 //  ^^^^^^^^^ storage.type.class.java
-//            ^^^ variable.other.readwrite.java
+//            ^^^ variable.other.java
 
     testclass foo
 //  ^^^^^^^^^^ meta.declaration.type.java
 //            ^^^^ meta.declaration.identifier.java
 //  ^^^^^^^^^ storage.type.class.java
-//            ^^^ variable.other.readwrite.java
+//            ^^^ variable.other.java
 
     TestClass foo;
 //  ^^^^^^^^^^ meta.declaration.type.java
 //            ^^^ meta.declaration.identifier.java
 //               ^ - meta.declaration
 //  ^^^^^^^^^ storage.type.class.java
-//            ^^^ variable.other.readwrite.java
+//            ^^^ variable.other.java
 //               ^ punctuation.terminator.java
 
     TestClass foo, bar;
@@ -4282,9 +4282,9 @@ class LocalVariableDeclarationTests {
 //                ^^^^ meta.declaration.identifier.java
 //                    ^ - meta.declaration
 //  ^^^^^^^^^ storage.type.class.java
-//            ^^^ variable.other.readwrite.java
+//            ^^^ variable.other.java
 //               ^ punctuation.separator.comma.java
-//                 ^^^ variable.other.readwrite.java
+//                 ^^^ variable.other.java
 //                    ^ punctuation.terminator.java
 
     TestClass foo =, bar =;
@@ -4296,10 +4296,10 @@ class LocalVariableDeclarationTests {
 //                       ^ meta.declaration.java
 //                        ^ - meta.declaration
 //  ^^^^^^^^^ storage.type.class.java
-//            ^^^ variable.other.readwrite.java
+//            ^^^ variable.other.java
 //                ^ keyword.operator.assignment.java
 //                 ^ punctuation.separator.comma.java
-//                   ^^^ variable.other.readwrite.java
+//                   ^^^ variable.other.java
 //                       ^ keyword.operator.assignment.java
 //                        ^ punctuation.terminator.java
 
@@ -4315,11 +4315,11 @@ class LocalVariableDeclarationTests {
 //                          ^^^ meta.declaration.value.java
 //                             ^ - meta.declaration
 //  ^^^^^^^^^ storage.type.class.java
-//            ^^^ variable.other.readwrite.java
+//            ^^^ variable.other.java
 //                ^ keyword.operator.assignment.java
 //                  ^ constant.numeric.value.java
 //                   ^ punctuation.separator.comma.java
-//                     ^^^ variable.other.readwrite.java
+//                     ^^^ variable.other.java
 //                         ^ keyword.operator.assignment.java
 //                           ^^ constant.numeric.value.java
 //                             ^ punctuation.terminator.java
@@ -4338,11 +4338,11 @@ class LocalVariableDeclarationTests {
 //  ^^^^^ storage.modifier.java
 //        ^^^^^^^^^ storage.type.class.java
 //                 ^^ storage.modifier.array.java
-//                    ^ variable.other.readwrite.java
+//                    ^ variable.other.java
 //                      ^ keyword.operator.assignment.java
 //                        ^^ meta.number.integer.decimal.java constant.numeric.value.java
 //                          ^ punctuation.separator.comma.java
-//                            ^ variable.other.readwrite.java
+//                            ^ variable.other.java
 //                             ^^ storage.modifier.array.java
 //                                ^ keyword.operator.assignment.java
 //                                  ^ meta.number.integer.decimal.java constant.numeric.value.java
@@ -4358,7 +4358,7 @@ class LocalVariableDeclarationTests {
 //  ^^^^^^^ meta.annotation.identifier.java
 //          ^^^^^ storage.modifier.java
 //                ^^^^^^^^^ storage.type.class.java
-//                          ^ variable.other.readwrite.java
+//                          ^ variable.other.java
 //                            ^^^^^ meta.annotation.identifier.java
 //                                  ^^ storage.modifier.array.java
 //                                     ^^^^^ meta.annotation.identifier.java
@@ -4375,7 +4375,7 @@ class LocalVariableDeclarationTests {
 //  ^^^^^^^ meta.annotation.identifier.java
 //          ^^^^^ storage.modifier.java
 //                ^^^^^^^^^ storage.type.class.java
-//                          ^ variable.other.readwrite.java
+//                          ^ variable.other.java
 //                            ^^^^^ meta.annotation.identifier.java
 //                                  ^^ storage.modifier.array.java
 //                                     ^^^^^ meta.annotation.identifier.java
@@ -4391,7 +4391,7 @@ class LocalVariableDeclarationTests {
 //  ^^^ variable.namespace.java
 //     ^ punctuation.accessor.dot.java
 //      ^^^^^^^^^ storage.type.class.java
-//                ^^^ variable.other.readwrite.java
+//                ^^^ variable.other.java
 //                   ^ invalid.illegal.unexpected-accessor.java
 //                    ^^^ invalid.illegal.unexpected-member.java
 
@@ -4404,7 +4404,7 @@ class LocalVariableDeclarationTests {
 //  ^^^ variable.namespace.java
 //     ^ punctuation.accessor.dot.java
 //      ^^^^^^^^^ storage.type.class.java
-//                ^^^ variable.other.readwrite.java
+//                ^^^ variable.other.java
 //                   ^ invalid.illegal.unexpected-accessor.java
 //                    ^^^ invalid.illegal.unexpected-member.java
 
@@ -4417,7 +4417,7 @@ class LocalVariableDeclarationTests {
 //        ^^^^^^^^^ meta.declaration.value.java meta.instantiation.java
 //                 ^ - meta.declaration - meta.instantiation
 //  ^ storage.type.class.java
-//    ^ variable.other.readwrite.java
+//    ^ variable.other.java
 //      ^ keyword.operator.assignment.java
 //        ^^^ keyword.other.storage.new.java
 //            ^ storage.type.class.java
@@ -4442,7 +4442,7 @@ class LocalVariableDeclarationTests {
 //      ^ punctuation.definition.generic.begin.java
 //       ^^^^^^ storage.type.class.java
 //             ^ punctuation.definition.generic.end.java
-//               ^ variable.other.readwrite.java
+//               ^ variable.other.java
 //                ^ punctuation.terminator.java
 
     List<java.lang.String> x;
@@ -4461,7 +4461,7 @@ class LocalVariableDeclarationTests {
 //                ^ punctuation.accessor.dot.java
 //                 ^^^^^^ storage.type.class.java
 //                       ^ punctuation.definition.generic.end.java
-//                         ^ variable.other.readwrite.java
+//                         ^ variable.other.java
 //                          ^ punctuation.terminator.java
 
     List<URI> x;
@@ -4474,7 +4474,7 @@ class LocalVariableDeclarationTests {
 //      ^ punctuation.definition.generic.begin.java
 //       ^^^ storage.type.class.java
 //          ^ punctuation.definition.generic.end.java
-//            ^ variable.other.readwrite.java
+//            ^ variable.other.java
 //             ^ punctuation.terminator.java
 
     List<java.net.URI> x;
@@ -4493,7 +4493,7 @@ class LocalVariableDeclarationTests {
 //               ^ punctuation.accessor.dot.java
 //                ^^^ storage.type.class.java
 //                   ^ punctuation.definition.generic.end.java
-//                     ^ variable.other.readwrite.java
+//                     ^ variable.other.java
 //                      ^ punctuation.terminator.java
 
     List<int[]> x;
@@ -4507,7 +4507,7 @@ class LocalVariableDeclarationTests {
 //       ^^^ storage.type.primitive.java
 //          ^^ storage.modifier.array.java
 //            ^ punctuation.definition.generic.end.java
-//              ^ variable.other.readwrite.java
+//              ^ variable.other.java
 //               ^ punctuation.terminator.java
 
     List<java.lang.String[]> x;
@@ -4527,7 +4527,7 @@ class LocalVariableDeclarationTests {
 //                 ^^^^^^ storage.type.class.java
 //                       ^^ storage.modifier.array.java
 //                         ^ punctuation.definition.generic.end.java
-//                           ^ variable.other.readwrite.java
+//                           ^ variable.other.java
 //                            ^ punctuation.terminator.java
 
     List<URI[]> x;
@@ -4553,7 +4553,7 @@ class LocalVariableDeclarationTests {
 //          ^^^^ storage.modifier.array.java
 //              ^ punctuation.definition.generic.end.java
 //               ^^^^ storage.modifier.array.java
-//                    ^ variable.other.readwrite.java
+//                    ^ variable.other.java
 //                     ^ punctuation.terminator.java
 
     List<? extends int> x;
@@ -4568,7 +4568,7 @@ class LocalVariableDeclarationTests {
 //         ^^^^^^^ storage.modifier.extends.java
 //                 ^^^ invalid.illegal.unexpected-keyword.java
 //                    ^ punctuation.definition.generic.end.java
-//                      ^ variable.other.readwrite.java
+//                      ^ variable.other.java
 //                       ^ punctuation.terminator.java
 
     @anno foo . @anno TestClass<T> @anno . anno [] bar . baz;
@@ -4596,7 +4596,7 @@ class LocalVariableDeclarationTests {
 //                                       ^ punctuation.accessor.dot.java
 //                                         ^^^^ variable.annotation.java
 //                                              ^^ storage.modifier.array.java
-//                                                 ^^^ variable.other.readwrite.java
+//                                                 ^^^ variable.other.java
 //                                                     ^ invalid.illegal.unexpected-accessor.java
 //                                                       ^^^ invalid.illegal.unexpected-member.java
 //                                                          ^ punctuation.terminator.java
@@ -4626,7 +4626,7 @@ class LocalVariableDeclarationTests {
 //                                       ^ punctuation.accessor.dot.java
 //                                         ^^^^ variable.annotation.java
 //                                              ^^ storage.modifier.array.java
-//                                                 ^^^ variable.other.readwrite.java
+//                                                 ^^^ variable.other.java
 //                                                     ^ invalid.illegal.unexpected-accessor.java
 //                                                       ^^^ invalid.illegal.unexpected-member.java
 //                                                          ^ punctuation.terminator.java
@@ -4650,7 +4650,7 @@ class LocalVariableDeclarationTests {
 //     ^ punctuation.definition.generic.begin.java
 //      ^ storage.type.class.java
 //       ^ punctuation.definition.generic.end.java
-//        ^ variable.other.readwrite.java
+//        ^ variable.other.java
 //         ^ punctuation.terminator.java
     }}
 //  ^^ punctuation.section.block.end.java
@@ -4663,26 +4663,26 @@ class LocalVariableDeclarationTests {
 
     var x, y;
 //  ^^^ storage.type.variant.java
-//      ^ variable.other.readwrite.java
+//      ^ variable.other.java
 //       ^ punctuation.separator.comma.java
-//         ^ variable.other.readwrite.java
+//         ^ variable.other.java
 //          ^ punctuation.terminator.java
 
     var x = "String";
 //  ^^^ storage.type.variant.java
-//      ^ variable.other.readwrite.java
+//      ^ variable.other.java
 //        ^ keyword.operator.assignment.java
 
     final var y = 10;
 //  ^^^^^ storage.modifier.java
 //        ^^^ storage.type.variant.java
-//            ^ variable.other.readwrite.java
+//            ^ variable.other.java
 //              ^ keyword.operator.assignment.java
 
     final var y.b = 10;
 //  ^^^^^ storage.modifier.java
 //        ^^^ storage.type.variant.java
-//            ^ variable.other.readwrite.java
+//            ^ variable.other.java
 //             ^ invalid.illegal.unexpected-accessor.java
 //              ^ invalid.illegal.unexpected-member.java
 //                ^ keyword.operator.assignment.java
@@ -4691,7 +4691,7 @@ class LocalVariableDeclarationTests {
 //  ^^^^^ storage.modifier.java
 //        ^^^ storage.type.variant.java
 //           ^^ invalid.illegal.unexpected-modifier.java
-//              ^ variable.other.readwrite.java
+//              ^ variable.other.java
 //                ^ keyword.operator.assignment.java
 //                  ^^ meta.number.integer.decimal.java constant.numeric.value.java
 //                    ^ punctuation.separator.comma.java
@@ -4701,7 +4701,7 @@ class LocalVariableDeclarationTests {
 //  ^^^^^^^ meta.annotation.identifier.java
 //          ^^^^^ storage.modifier.java
 //                ^^^ storage.type.variant.java
-//                    ^ variable.other.readwrite.java
+//                    ^ variable.other.java
 //                      ^^^^^ meta.annotation.identifier.java
 //                            ^^ storage.modifier.array.java
 //                               ^^^^^ meta.annotation.identifier.java
@@ -4751,10 +4751,10 @@ class IfStatementTests {
   void run() {
 
     if$ ;
-//  ^^^ variable.other.readwrite.java - keyword
+//  ^^^ variable.other.java - keyword
 
     $if ;
-//  ^^^ variable.other.readwrite.java - keyword
+//  ^^^ variable.other.java - keyword
 
     if
 //  ^^^ meta.if.java
@@ -4763,7 +4763,7 @@ class IfStatementTests {
     if foo
 //  ^^^^^^^ meta.if.java
 //  ^^ keyword.control.conditional.if.java
-//     ^^^ variable.other.readwrite.java
+//     ^^^ variable.other.java
 
     if (foo)
 //  ^^^ meta.if.java - meta.group
@@ -4771,7 +4771,7 @@ class IfStatementTests {
 //          ^ meta.if.java - meta.group
 //  ^^ keyword.control.conditional.if.java
 //     ^ punctuation.section.group.begin.java
-//      ^^^ variable.other.readwrite.java
+//      ^^^ variable.other.java
 //         ^ punctuation.section.group.end.java
 
     if (foo) {}
@@ -4782,7 +4782,7 @@ class IfStatementTests {
 //             ^ - meta.if
 //  ^^ keyword.control.conditional.if.java
 //     ^ punctuation.section.group.begin.java
-//      ^^^ variable.other.readwrite.java
+//      ^^^ variable.other.java
 //         ^ punctuation.section.group.end.java
 //           ^ punctuation.section.block.begin.java
 //            ^ punctuation.section.block.end.java
@@ -4794,7 +4794,7 @@ class IfStatementTests {
 //            ^ - meta.if
 //  ^^ keyword.control.conditional.if.java
 //     ^ punctuation.section.group.begin.java
-//      ^^^ variable.other.readwrite.java
+//      ^^^ variable.other.java
 //          ^ punctuation.section.block.begin.java
 //           ^ punctuation.section.block.end.java
 
@@ -4816,7 +4816,7 @@ class IfStatementTests {
 //           ^^^^^ meta.else.java - meta.if
 //  ^^ keyword.control.conditional.if.java
 //     ^ punctuation.section.group.begin.java
-//      ^^^ variable.other.readwrite.java
+//      ^^^ variable.other.java
 //         ^ punctuation.section.group.end.java
 //           ^^^^ keyword.control.conditional.else.java
 
@@ -4832,7 +4832,7 @@ class IfStatementTests {
 //                     ^ - meta.if - meta.else
 //  ^^ keyword.control.conditional.if.java
 //     ^ punctuation.section.group.begin.java
-//      ^^^ variable.other.readwrite.java
+//      ^^^ variable.other.java
 //         ^ punctuation.section.group.end.java
 //           ^ punctuation.section.block.begin.java
 //            ^ punctuation.section.block.end.java
@@ -4848,7 +4848,7 @@ class IfStatementTests {
 //           ^^^^^ meta.else.java - meta.if
 //  ^^ keyword.control.conditional.if.java
 //     ^ punctuation.section.group.begin.java
-//      ^^^ variable.other.readwrite.java
+//      ^^^ variable.other.java
 //         ^ punctuation.section.group.end.java
 //           ^^^^ keyword.control.conditional.else.java
 //                ^^^^^^^^^ - meta.else
@@ -4858,7 +4858,7 @@ class IfStatementTests {
 //                         ^^^^^ meta.else.java - meta.if
 //                ^^ keyword.control.conditional.if.java
 //                   ^ punctuation.section.group.begin.java
-//                    ^^^ variable.other.readwrite.java
+//                    ^^^ variable.other.java
 //                       ^ punctuation.section.group.end.java
 //                         ^^^^ keyword.control.conditional.else.java
 
@@ -4895,13 +4895,13 @@ class AssertStatementTests {
   void run() {
 
     assert0;
-//  ^^^^^^^ variable.other.readwrite.java - keyword
+//  ^^^^^^^ variable.other.java - keyword
 
     assert$;
-//  ^^^^^^^ variable.other.readwrite.java - keyword
+//  ^^^^^^^ variable.other.java - keyword
 
     $assert;
-//  ^^^^^^^ variable.other.readwrite.java - keyword
+//  ^^^^^^^ variable.other.java - keyword
 
     assert
 // ^ - meta.assertion
@@ -4968,7 +4968,7 @@ class AssertStatementTests {
 //        ^ - keyword - variable
 //         ^^^ variable.function.java
 //              ^ punctuation.separator.expressions.java
-//               ^^^ variable.other.readwrite.java
+//               ^^^ variable.other.java
 //                  ^ punctuation.accessor.dot.java
 //                   ^^^ variable.function.java
 //                        ^ punctuation.terminator.java
@@ -4976,12 +4976,12 @@ class AssertStatementTests {
     assert scale > -100 : foo == true;
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.assertion.java
 //  ^^^^^^ keyword.control.flow.assert.java
-//         ^^^^^ variable.other.readwrite.java
+//         ^^^^^ variable.other.java
 //               ^ keyword.operator.comparison.java
 //                 ^ keyword.operator.arithmetic.java
 //                  ^^^ constant.numeric.value.java
 //                      ^ punctuation.separator.expressions.java
-//                        ^^^ variable.other.readwrite.java
+//                        ^^^ variable.other.java
 //                            ^^ keyword.operator.comparison.java
 //                               ^^^^ constant.language.boolean.java
 //                                   ^ punctuation.terminator.java
@@ -5016,10 +5016,10 @@ class SwitchStatementTests {
   void run() {
 
     switch$ ;
-//  ^^^^^^^ variable.other.readwrite.java - keyword
+//  ^^^^^^^ variable.other.java - keyword
 
     $switch ;
-//  ^^^^^^^ variable.other.readwrite.java - keyword
+//  ^^^^^^^ variable.other.java - keyword
 
     switch
 //  ^^^^^^^ meta.switch.java
@@ -5028,7 +5028,7 @@ class SwitchStatementTests {
     switch foo
 //  ^^^^^^^^^^^ meta.switch.java
 //  ^^^^^^ keyword.control.conditional.switch.java
-//         ^^^ variable.other.readwrite.java
+//         ^^^ variable.other.java
 
     switch (foo)
 //  ^^^^^^^^^^^^^ - meta.switch meta.switch
@@ -5037,7 +5037,7 @@ class SwitchStatementTests {
 //              ^ meta.switch.java
 //  ^^^^^^ keyword.control.conditional.switch.java
 //         ^ punctuation.section.group.begin.java
-//          ^^^ variable.other.readwrite.java
+//          ^^^ variable.other.java
 //             ^ punctuation.section.group.end.java
 
     switch (foo) {}
@@ -5048,7 +5048,7 @@ class SwitchStatementTests {
 //               ^^ meta.switch.java meta.block.java
 //  ^^^^^^ keyword.control.conditional.switch.java
 //         ^ punctuation.section.group.begin.java
-//          ^^^ variable.other.readwrite.java
+//          ^^^ variable.other.java
 //             ^ punctuation.section.group.end.java
 //               ^ punctuation.section.block.begin.java
 //                ^ punctuation.section.block.end.java
@@ -5060,17 +5060,17 @@ class SwitchStatementTests {
 //              ^^ meta.switch.java meta.block.java
 //  ^^^^^^ keyword.control.conditional.switch.java
 //         ^ punctuation.section.group.begin.java
-//          ^^^ variable.other.readwrite.java
+//          ^^^ variable.other.java
 //              ^ punctuation.section.block.begin.java
 //               ^ punctuation.section.block.end.java
 
     switch (foo%2) {
 
       case$ ;
-//    ^^^^^ variable.other.readwrite.java - keyword
+//    ^^^^^ variable.other.java - keyword
 
       $case ;
-//    ^^^^^ variable.other.readwrite.java - keyword
+//    ^^^^^ variable.other.java - keyword
 
       case
 //   ^ meta.switch.java meta.block.java - meta.case
@@ -5172,7 +5172,7 @@ class SwitchStatementTests {
 //                     ^ meta.switch.java meta.block.java meta.case.java
 //                      ^ meta.switch.java meta.block.java - meta.case
 //    ^^^^ keyword.control.conditional.case.java
-//         ^^^^^^^^ variable.other.readwrite.java
+//         ^^^^^^^^ variable.other.java
 //                  ^ keyword.operator.arithmetic.java
 //                    ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                     ^ punctuation.separator.expressions.java
@@ -5186,7 +5186,7 @@ class SwitchStatementTests {
 //                            ^ meta.switch.java meta.block.java - meta.case
 //    ^^^^ keyword.control.conditional.case.java
 //         ^ punctuation.section.group.begin.java
-//          ^^^^^^^^ variable.other.readwrite.java
+//          ^^^^^^^^ variable.other.java
 //                   ^^ keyword.operator.bitwise.java
 //                      ^^ meta.number.integer.hexadecimal.java constant.numeric.base.java
 //                        ^ meta.number.integer.hexadecimal.java constant.numeric.value.java
@@ -5349,10 +5349,10 @@ class SwitchStatementTests {
 //               ^ punctuation.section.block.end.java
 
       default$ ;
-//    ^^^^^^^^ variable.other.readwrite.java - keyword
+//    ^^^^^^^^ variable.other.java - keyword
 
       $default ;
-//    ^^^^^^^^ variable.other.readwrite.java - keyword
+//    ^^^^^^^^ variable.other.java - keyword
     }
 //  ^ meta.switch.java meta.block.java punctuation.section.block.end.java
   }
@@ -5371,10 +5371,10 @@ class WhileStatementTests {
   void run() {
 
     while$ ;
-//  ^^^^^^ variable.other.readwrite.java - keyword
+//  ^^^^^^ variable.other.java - keyword
 
     $while ;
-//  ^^^^^^ variable.other.readwrite.java - keyword
+//  ^^^^^^ variable.other.java - keyword
 
     while
 //  ^^^^^^ meta.while.java
@@ -5432,10 +5432,10 @@ class ForStatementTests {
   void run() {
 
     for$ ;
-//  ^^^^ variable.other.readwrite.java - keyword
+//  ^^^^ variable.other.java - keyword
 
     $for ;
-//  ^^^^ variable.other.readwrite.java - keyword
+//  ^^^^ variable.other.java - keyword
 
     for
 //  ^^^^ meta.for.java
@@ -5522,15 +5522,15 @@ class ForStatementTests {
 //                              ^^ meta.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
 //      ^ punctuation.section.group.begin.java
-//       ^ variable.other.readwrite.java
+//       ^ variable.other.java
 //         ^ keyword.operator.assignment.java
 //           ^ meta.number.integer.decimal.java constant.numeric.value.java
 //            ^ punctuation.terminator.java
-//              ^ variable.other.readwrite.java
+//              ^ variable.other.java
 //                ^ keyword.operator.comparison.java
 //                  ^^ meta.number.integer.decimal.java constant.numeric.value.java
 //                    ^ punctuation.terminator.java
-//                      ^ variable.other.readwrite.java
+//                      ^ variable.other.java
 //                        ^^ keyword.operator.assignment.augmented.java
 //                           ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                            ^ punctuation.section.group.end.java
@@ -5544,7 +5544,7 @@ class ForStatementTests {
 //                                    ^^ meta.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
 //      ^ punctuation.section.group.begin.java
-//       ^ variable.other.readwrite.java
+//       ^ variable.other.java
 //         ^ keyword.operator.assignment.java
 //           ^ punctuation.separator.comma.java
 //             ^ keyword.operator.assignment.java
@@ -5569,23 +5569,23 @@ class ForStatementTests {
 //                                                   ^^ meta.for.java meta.block.java
 //  ^^^ keyword.control.loop.for.java
 //      ^ punctuation.section.group.begin.java
-//       ^ variable.other.readwrite.java
+//       ^ variable.other.java
 //         ^ keyword.operator.assignment.java
 //           ^ meta.number.integer.decimal.java constant.numeric.value.java
 //            ^ punctuation.separator.comma.java
-//              ^ variable.other.readwrite.java
+//              ^ variable.other.java
 //                ^ keyword.operator.assignment.java
 //                  ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                   ^ punctuation.terminator.java
-//                     ^ variable.other.readwrite.java
+//                     ^ variable.other.java
 //                       ^ keyword.operator.comparison.java
 //                         ^^ meta.number.integer.decimal.java constant.numeric.value.java
 //                            ^^ keyword.operator.logical.java
-//                               ^ variable.other.readwrite.java
+//                               ^ variable.other.java
 //                                 ^ keyword.operator.comparison.java
 //                                   ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                    ^ punctuation.terminator.java
-//                                      ^ variable.other.readwrite.java
+//                                      ^ variable.other.java
 //                                        ^^ keyword.operator.assignment.augmented.java
 //                                           ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                                 ^ punctuation.section.group.end.java
@@ -5599,15 +5599,15 @@ class ForStatementTests {
 //  ^^^ keyword.control.loop.for.java
 //      ^ punctuation.section.group.begin.java
 //       ^^^ storage.type.primitive.java
-//           ^ variable.other.readwrite.java
+//           ^ variable.other.java
 //             ^ keyword.operator.assignment.java
 //               ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                ^ punctuation.terminator.java
-//                  ^ variable.other.readwrite.java
+//                  ^ variable.other.java
 //                    ^ keyword.operator.comparison.java
 //                      ^^ meta.number.integer.decimal.java constant.numeric.value.java
 //                        ^ punctuation.terminator.java
-//                          ^ variable.other.readwrite.java
+//                          ^ variable.other.java
 //                            ^^ keyword.operator.assignment.augmented.java
 //                               ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                ^ punctuation.section.group.end.java
@@ -5621,7 +5621,7 @@ class ForStatementTests {
 //  ^^^ keyword.control.loop.for.java
 //      ^ punctuation.section.group.begin.java
 //       ^^^ storage.type.primitive.java
-//           ^ variable.other.readwrite.java
+//           ^ variable.other.java
 //             ^ keyword.operator.assignment.java
 //               ^ punctuation.separator.comma.java
 //                 ^ keyword.operator.assignment.java
@@ -5647,23 +5647,23 @@ class ForStatementTests {
 //  ^^^ keyword.control.loop.for.java
 //      ^ punctuation.section.group.begin.java
 //       ^^^ storage.type.primitive.java
-//           ^ variable.other.readwrite.java
+//           ^ variable.other.java
 //             ^ keyword.operator.assignment.java
 //               ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                ^ punctuation.separator.comma.java
-//                  ^ variable.other.readwrite.java
+//                  ^ variable.other.java
 //                    ^ keyword.operator.assignment.java
 //                      ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                       ^ punctuation.terminator.java
-//                         ^ variable.other.readwrite.java
+//                         ^ variable.other.java
 //                           ^ keyword.operator.comparison.java
 //                             ^^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                ^^ keyword.operator.logical.java
-//                                   ^ variable.other.readwrite.java
+//                                   ^ variable.other.java
 //                                     ^ keyword.operator.comparison.java
 //                                       ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                        ^ punctuation.terminator.java
-//                                          ^ variable.other.readwrite.java
+//                                          ^ variable.other.java
 //                                            ^^ keyword.operator.assignment.augmented.java
 //                                               ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                                     ^ punctuation.section.group.end.java
@@ -5675,7 +5675,7 @@ class ForStatementTests {
 //  ^^^ keyword.control.loop.for.java
 //       ^^^^^ storage.modifier.java
 //             ^^^ storage.type.primitive.java
-//                 ^ variable.other.readwrite.java
+//                 ^ variable.other.java
 //                   ^ keyword.operator.assignment.java
 //                     ^^ meta.number.integer.decimal.java constant.numeric.value.java
 //                       ^^ punctuation.terminator.java
@@ -5687,7 +5687,7 @@ class ForStatementTests {
 //  ^^^ keyword.control.loop.for.java
 //       ^^^^^^ invalid.illegal.unexpected-keyword.java
 //              ^^^ storage.type.primitive.java
-//                  ^ variable.other.readwrite.java
+//                  ^ variable.other.java
 //                    ^ keyword.operator.assignment.java
 //                      ^^ meta.number.integer.decimal.java constant.numeric.value.java
 //                        ^^ punctuation.terminator.java
@@ -5711,9 +5711,9 @@ class ForStatementTests {
 //       ^^^^^ storage.modifier.java
 //             ^^^^^ meta.annotation.identifier.java
 //                   ^^^^^ storage.type.class.java
-//                         ^^^^ variable.other.readwrite.java
+//                         ^^^^ variable.other.java
 //                              ^ keyword.operator.assignment.java
-//                                ^^^^ variable.other.readwrite.java
+//                                ^^^^ variable.other.java
 //                                     ^ keyword.operator.ternary.java
 //                                       ^^^ keyword.other.storage.new.java
 //                                           ^^^ storage.type.class.java
@@ -5726,7 +5726,7 @@ class ForStatementTests {
 //                                                            ^ punctuation.section.group.end.java
 //                                                              ^^^^ variable.function.java
 //                                                                  ^ punctuation.section.group.begin.java
-//                                                                   ^^^^ variable.other.readwrite.java
+//                                                                   ^^^^ variable.other.java
 //                                                                       ^ punctuation.section.group.end.java
 //                                                                        ^ punctuation.terminator.java
 
@@ -5743,9 +5743,9 @@ class ForStatementTests {
 //       ^^^^^^^ invalid.illegal.unexpected-keyword.java
 //               ^^^^^ meta.annotation.identifier.java
 //                     ^^^ storage.type.variant.java
-//                         ^^^^ variable.other.readwrite.java
+//                         ^^^^ variable.other.java
 //                              ^ keyword.operator.assignment.java
-//                                ^^^^ variable.other.readwrite.java
+//                                ^^^^ variable.other.java
 //                                     ^ keyword.operator.ternary.java
 //                                       ^^^ keyword.other.storage.new.java
 //                                           ^^^ storage.type.class.java
@@ -5758,7 +5758,7 @@ class ForStatementTests {
 //                                                            ^ punctuation.section.group.end.java
 //                                                              ^^^^ variable.function.java
 //                                                                  ^ punctuation.section.group.begin.java
-//                                                                   ^^^^ variable.other.readwrite.java
+//                                                                   ^^^^ variable.other.java
 //                                                                       ^ punctuation.section.group.end.java
 //                                                                        ^ punctuation.terminator.java
 
@@ -5782,10 +5782,10 @@ class BreakStatementTests {
 //       ^ punctuation.separator.colon.java
 
     break$ ;
-//  ^^^^^^ variable.other.readwrite.java - keyword
+//  ^^^^^^ variable.other.java - keyword
 
     $break ;
-//  ^^^^^^ variable.other.readwrite.java - keyword
+//  ^^^^^^ variable.other.java - keyword
 
     break
 // ^ - meta.break
@@ -5840,7 +5840,7 @@ class BreakStatementTests {
 
     goto label;
 //  ^^^^ invalid.illegal
-//       ^^^^^ variable.other.readwrite.java
+//       ^^^^^ variable.other.java
   }
 }
 
@@ -5859,10 +5859,10 @@ class ContinueStatementTests {
 //       ^ punctuation.separator.colon.java
 
     continue$ ;
-//  ^^^^^^^^^ variable.other.readwrite.java - keyword
+//  ^^^^^^^^^ variable.other.java - keyword
 
     $continue ;
-//  ^^^^^^^^^ variable.other.readwrite.java - keyword
+//  ^^^^^^^^^ variable.other.java - keyword
 
     continue
 // ^ - meta.continue
@@ -5928,10 +5928,10 @@ class ReturnStatementTests {
   void run() {
 
     return$ ;
-//  ^^^^^^^ variable.other.readwrite.java - keyword
+//  ^^^^^^^ variable.other.java - keyword
 
     $return ;
-//  ^^^^^^^ variable.other.readwrite.java - keyword
+//  ^^^^^^^ variable.other.java - keyword
 
     return
 // ^ - meta.return - keyword
@@ -5948,13 +5948,13 @@ class ReturnStatementTests {
 // ^ - meta.return - keyword
 //  ^^^^^^^^^^^^^^^^ meta.return.java
 //  ^^^^^^ keyword.control.flow.return.java
-//         ^^^^^^^^ variable.other.readwrite.java
+//         ^^^^^^^^ variable.other.java
 
     return variable + func(10);
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.return.java
 //                            ^ - meta.return
 //  ^^^^^^ keyword.control.flow.return.java
-//         ^^^^^^^^ variable.other.readwrite.java
+//         ^^^^^^^^ variable.other.java
 //                  ^ keyword.operator.arithmetic.java
 //                    ^^^^ variable.function.java
 //                        ^ punctuation.section.group.begin.java
@@ -5968,7 +5968,7 @@ class ReturnStatementTests {
 //  ^^^^^^ keyword.control.flow.return.java
         variable
 //     ^^^^^^^^^^ meta.return.java
-//      ^^^^^^^^ variable.other.readwrite.java
+//      ^^^^^^^^ variable.other.java
         +
 //     ^^^ meta.return.java
 //      ^ keyword.operator.arithmetic.java
@@ -6013,9 +6013,9 @@ class ReturnStatementTests {
 //                 ^ variable.parameter.java
 //                  ^ punctuation.section.group.end.java
 //                    ^^ keyword.declaration.function.anonymous.java
-//                       ^ variable.other.readwrite.java
+//                       ^ variable.other.java
 //                         ^ keyword.operator.arithmetic.java
-//                           ^ variable.other.readwrite.java
+//                           ^ variable.other.java
 //                            ^ punctuation.terminator.java
   }
 //^ meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
@@ -6032,10 +6032,10 @@ class ThrowStatementTests {
   void run() {
 
     throw$ ;
-//  ^^^^^^ variable.other.readwrite.java - keyword
+//  ^^^^^^ variable.other.java - keyword
 
     $throw ;
-//  ^^^^^^ variable.other.readwrite.java - keyword
+//  ^^^^^^ variable.other.java - keyword
 
     throw
 // ^ - meta.throw - keyword
@@ -6052,13 +6052,13 @@ class ThrowStatementTests {
 // ^ - meta.throw - keyword
 //  ^^^^^^^^^^^^^^^ meta.throw.java
 //  ^^^^^ keyword.control.flow.throw.java
-//        ^^^^^^^^ variable.other.readwrite.java
+//        ^^^^^^^^ variable.other.java
 
     throw variable + func(10);
 // ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.throw.java
 //                           ^ - meta.throw
 //  ^^^^^ keyword.control.flow.throw.java
-//        ^^^^^^^^ variable.other.readwrite.java
+//        ^^^^^^^^ variable.other.java
 //                 ^ keyword.operator.arithmetic.java
 //                   ^^^^ variable.function.java
 //                       ^ punctuation.section.group.begin.java
@@ -6072,7 +6072,7 @@ class ThrowStatementTests {
 //  ^^^^^ keyword.control.flow.throw.java
         variable
 //     ^^^^^^^^^^ meta.throw.java
-//      ^^^^^^^^ variable.other.readwrite.java
+//      ^^^^^^^^ variable.other.java
         +
 //     ^^^ meta.throw.java
 //      ^ keyword.operator.arithmetic.java
@@ -6117,9 +6117,9 @@ class ThrowStatementTests {
 //                ^ variable.parameter.java
 //                 ^ punctuation.section.group.end.java
 //                   ^^ keyword.declaration.function.anonymous.java
-//                      ^ variable.other.readwrite.java
+//                      ^ variable.other.java
 //                        ^ keyword.operator.arithmetic.java
-//                          ^ variable.other.readwrite.java
+//                          ^ variable.other.java
 //                           ^ punctuation.terminator.java
   }
 //^ meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
@@ -6159,10 +6159,10 @@ class SynchronizedStatementTests {
 //                                       ^ punctuation.section.block.begin.java
 
     synchronized$ ;
-//  ^^^^^^^^^^^^^ variable.other.readwrite.java - keyword
+//  ^^^^^^^^^^^^^ variable.other.java - keyword
 
     $synchronized ;
-//  ^^^^^^^^^^^^^ variable.other.readwrite.java - keyword
+//  ^^^^^^^^^^^^^ variable.other.java - keyword
 
     synchronized
 // ^ - meta.synchronized - keyword
@@ -6208,10 +6208,10 @@ class TryStatementTests {
   void testTry() {
 
     try$ ;
-//  ^^^^ variable.other.readwrite.java - keyword
+//  ^^^^ variable.other.java - keyword
 
     $try ;
-//  ^^^^ variable.other.readwrite.java - keyword
+//  ^^^^ variable.other.java - keyword
 
     try
 //  ^^^^ meta.try.java
@@ -6221,10 +6221,10 @@ class TryStatementTests {
   void testCatch() {
 
     catch$ ;
-//  ^^^^^^ variable.other.readwrite.java - keyword
+//  ^^^^^^ variable.other.java - keyword
 
     $catch ;
-//  ^^^^^^ variable.other.readwrite.java - keyword
+//  ^^^^^^ variable.other.java - keyword
 
     catch
 //  ^^^^^^ meta.catch.java
@@ -6283,10 +6283,10 @@ class TryStatementTests {
   void testFinally() {
 
     finally$ ;
-//  ^^^^^^^^ variable.other.readwrite.java - keyword
+//  ^^^^^^^^ variable.other.java - keyword
 
     $finally ;
-//  ^^^^^^^^ variable.other.readwrite.java - keyword
+//  ^^^^^^^^ variable.other.java - keyword
 
     finally
 //  ^^^^^^^^ meta.finally.java
@@ -6413,13 +6413,13 @@ class TryStatementTests {
 //                            ^^ meta.try.java meta.block.java
 //  ^^^ keyword.control.exception.try.java
 //      ^ punctuation.section.group.begin.java
-//       ^^^ variable.other.readwrite.java
+//       ^^^ variable.other.java
 //           ^ keyword.operator.assignment.java
 //             ^^^ storage.type.class.java
 //                ^ punctuation.accessor.dot.java
 //                 ^^^ variable.function.java
 //                    ^ punctuation.section.group.begin.java
-//                     ^^^^ variable.other.readwrite.java
+//                     ^^^^ variable.other.java
 //                         ^^ punctuation.section.group.end.java
 //                            ^ punctuation.section.block.begin.java
 //                             ^ punctuation.section.block.end.java
@@ -6431,7 +6431,7 @@ class TryStatementTests {
 //                  ^^ meta.try.java meta.block.java
 //  ^^^ keyword.control.exception.try.java
 //      ^ punctuation.section.group.begin.java
-//       ^^^ variable.other.readwrite.java
+//       ^^^ variable.other.java
 //          ^^ storage.modifier.array.java
 //            ^ punctuation.separator.comma.java
 //              ^^ storage.modifier.array.java
@@ -6448,7 +6448,7 @@ class TryStatementTests {
 //      ^ punctuation.section.group.begin.java
 //       ^^^ storage.type.class.java
 //          ^^ storage.modifier.array.java
-//             ^^^ variable.other.readwrite.java
+//             ^^^ variable.other.java
 //                ^^ storage.modifier.array.java
 //                  ^ punctuation.separator.comma.java
 //                    ^^ storage.modifier.array.java
@@ -6467,13 +6467,13 @@ class TryStatementTests {
 //             ^ punctuation.definition.generic.begin.java
 //              ^^^^^^ storage.type.class.java
 //                    ^ punctuation.definition.generic.end.java
-//                      ^^^^^ variable.other.readwrite.java
+//                      ^^^^^ variable.other.java
 //                            ^ keyword.operator.assignment.java
 //                              ^^^^^ storage.type.class.java
 //                                   ^ punctuation.accessor.dot.java
 //                                    ^^^^^ variable.function.java
 //                                         ^ punctuation.section.group.begin.java
-//                                          ^^^^ variable.other.readwrite.java
+//                                          ^^^^ variable.other.java
 //                                              ^^ punctuation.section.group.end.java
 //                                                 ^ punctuation.section.block.begin.java
 
@@ -6530,12 +6530,12 @@ class TryStatementTests {
 //      ^ punctuation.section.group.begin.java
 //       ^^^^^ storage.modifier.java
 //             ^^^^^^^^^^^ storage.type.class.java
-//                         ^^ variable.other.readwrite.java
+//                         ^^ variable.other.java
 //                            ^ keyword.operator.assignment.java
 //                              ^^^ keyword.other.storage.new.java
 //                                  ^^^^^^^^^^^^^^^ storage.type.class.java
 //                                                 ^ punctuation.section.group.begin.java
-//                                                  ^^^^ variable.other.readwrite.java
+//                                                  ^^^^ variable.other.java
 //                                                      ^ punctuation.section.brackets.begin.java
 //                                                       ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                                        ^ punctuation.section.brackets.end.java
@@ -6547,12 +6547,12 @@ class TryStatementTests {
 //                                                              ^^ meta.try.java meta.block.java
 //       ^^^^^ storage.modifier.java
 //             ^^^^^^^^^^^^ storage.type.class.java
-//                          ^^ variable.other.readwrite.java
+//                          ^^ variable.other.java
 //                             ^ keyword.operator.assignment.java
 //                               ^^^ keyword.other.storage.new.java
 //                                   ^^^^^^^^^^^^^^^^ storage.type.class.java
 //                                                   ^ punctuation.section.group.begin.java
-//                                                    ^^^^ variable.other.readwrite.java
+//                                                    ^^^^ variable.other.java
 //                                                        ^ punctuation.section.brackets.begin.java
 //                                                         ^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                                          ^ punctuation.section.brackets.end.java
@@ -6568,13 +6568,13 @@ class TryStatementTests {
 //                                     ^ meta.try.java - meta.try meta.try - meta.group
 //                                      ^^ meta.try.java meta.block.java
 //       ^^^ storage.type.variant.java
-//           ^^ variable.other.readwrite.java
+//           ^^ variable.other.java
 //              ^ keyword.operator.assignment.java
 //                ^^^ keyword.other.storage.new.java
 //                    ^^^^^^^^^^^^^^ storage.type.class.java
         var line = in.readLine();
 //      ^^^ storage.type.variant.java
-//          ^^^^ variable.other.readwrite.java
+//          ^^^^ variable.other.java
 //               ^ keyword.operator.assignment.java
     }
 //  ^ meta.try.java meta.block.java punctuation.section.block.end.java
@@ -6629,7 +6629,7 @@ class MethodInvocationExpressionsTests {
 //      ^ punctuation.terminator.java
 
      object.foo();
-//   ^^^^^^ variable.other.readwrite.java
+//   ^^^^^^ variable.other.java
 //         ^ punctuation.accessor.dot.java
 //          ^^^ meta.function-call.identifier.java
 //             ^^ meta.function-call.arguments.java meta.group.java
@@ -6736,7 +6736,7 @@ class MethodInvocationExpressionsTests {
 //         ^ punctuation.section.group.begin.java
 //          ^^^^^ variable.function.java
 //               ^ punctuation.section.group.begin.java
-//                ^^^^^ variable.other.readwrite.java
+//                ^^^^^ variable.other.java
 //                     ^ punctuation.section.group.end.java
 //                      ^ punctuation.terminator.java
 
@@ -6801,10 +6801,10 @@ class InstanceCreationExpressionsTests {
   public void instantiateClassesObjects() {
 
     new$ ;
-//  ^^^^ variable.other.readwrite.java - keyword
+//  ^^^^ variable.other.java - keyword
 
     $new ;
-//  ^^^^ variable.other.readwrite.java - keyword
+//  ^^^^ variable.other.java - keyword
 
     new TestClass ;
 //  ^^^^^^^^^^^^^^ meta.instantiation.java
@@ -6836,7 +6836,7 @@ class InstanceCreationExpressionsTests {
 //  ^^^ keyword.other.storage.new.java
 //      ^^^^^^^^^ storage.type.class.java
 //               ^ punctuation.section.group.begin.java
-//                ^^^ variable.other.readwrite.java
+//                ^^^ variable.other.java
 //                    ^ punctuation.terminator.java
 
     new TestClass(foo);
@@ -6846,7 +6846,7 @@ class InstanceCreationExpressionsTests {
 //  ^^^ keyword.other.storage.new.java
 //      ^^^^^^^^^ storage.type.class.java
 //               ^ punctuation.section.group.begin.java
-//                ^^^ variable.other.readwrite.java
+//                ^^^ variable.other.java
 //                   ^ punctuation.section.group.end.java
 //                    ^ punctuation.terminator.java
 
@@ -6857,7 +6857,7 @@ class InstanceCreationExpressionsTests {
 //  ^^^ keyword.other.storage.new.java
 //      ^^^^^^^^^ storage.type.class.java
 //               ^ punctuation.section.group.begin.java
-//                ^^^ variable.other.readwrite.java
+//                ^^^ variable.other.java
 //                   ^ punctuation.section.group.end.java
 
     new @Foo TestClass(foo);
@@ -6870,7 +6870,7 @@ class InstanceCreationExpressionsTests {
 //       ^^^ variable.annotation.java
 //           ^^^^^^^^^ storage.type.class.java
 //                    ^ punctuation.section.group.begin.java
-//                     ^^^ variable.other.readwrite.java
+//                     ^^^ variable.other.java
 //                        ^ punctuation.section.group.end.java
 
     new @foo testclass(foo);
@@ -6883,7 +6883,7 @@ class InstanceCreationExpressionsTests {
 //       ^^^ variable.annotation.java
 //           ^^^^^^^^^ storage.type.class.java
 //                    ^ punctuation.section.group.begin.java
-//                     ^^^ variable.other.readwrite.java
+//                     ^^^ variable.other.java
 //                        ^ punctuation.section.group.end.java
 
     new com.java.TestClass(foo);
@@ -6898,7 +6898,7 @@ class InstanceCreationExpressionsTests {
 //               ^^^^^^^^^ storage.type.class.java
 //                        ^^^^^ meta.group.java
 //                        ^ punctuation.section.group.begin.java
-//                         ^^^ variable.other.readwrite.java
+//                         ^^^ variable.other.java
 //                            ^ punctuation.section.group.end.java
 
     new com.java.testclass(foo);
@@ -6913,7 +6913,7 @@ class InstanceCreationExpressionsTests {
 //               ^^^^^^^^^ storage.type.class.java
 //                        ^^^^^ meta.group.java
 //                        ^ punctuation.section.group.begin.java
-//                         ^^^ variable.other.readwrite.java
+//                         ^^^ variable.other.java
 //                            ^ punctuation.section.group.end.java
 
     new OuterClass.InnerClass();
@@ -6952,7 +6952,7 @@ class InstanceCreationExpressionsTests {
 //                                                    ^^^^^^^^^^ storage.type.class.java
 //                                                              ^^^^^ meta.group.java
 //                                                              ^ punctuation.section.group.begin.java
-//                                                               ^^^ variable.other.readwrite.java
+//                                                               ^^^ variable.other.java
 //                                                                  ^ punctuation.section.group.end.java
 
     new @foo com . @foo java . @foo outerclass . @foo innerclass(foo) { };
@@ -6985,7 +6985,7 @@ class InstanceCreationExpressionsTests {
 //                                                    ^^^^^^^^^^ storage.type.class.java
 //                                                              ^^^^^ meta.group.java
 //                                                              ^ punctuation.section.group.begin.java
-//                                                               ^^^ variable.other.readwrite.java
+//                                                               ^^^ variable.other.java
 //                                                                  ^ punctuation.section.group.end.java
 //                                                                    ^ punctuation.section.block.begin.java
 //                                                                      ^ punctuation.section.block.end.java
@@ -7041,7 +7041,7 @@ class InstanceCreationExpressionsTests {
 //  ^^^ keyword.other.storage.new.java
 //      ^^ invalid.illegal.unexpected-keyword.java
 //         ^ punctuation.section.group.begin.java
-//          ^^^ variable.other.readwrite.java
+//          ^^^ variable.other.java
 //              ^^ keyword.operator.comparison.java
 //                 ^^^^ constant.language.boolean.java
 //                     ^ punctuation.section.group.end.java
@@ -7236,7 +7236,7 @@ class InstanceCreationExpressionsTests {
 //                        ^ punctuation.definition.annotation.java
 //                         ^^^^^ variable.annotation.java
 //                               ^ punctuation.section.brackets.begin.java
-//                                ^^^^ variable.other.readwrite.java
+//                                ^^^^ variable.other.java
 //                                     ^ keyword.operator.arithmetic.java
 //                                       ^^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                         ^ punctuation.section.brackets.end.java
@@ -7264,7 +7264,7 @@ class InstanceCreationExpressionsTests {
 //                        ^ punctuation.definition.annotation.java
 //                         ^^^^^ variable.annotation.java
 //                               ^ punctuation.section.brackets.begin.java
-//                                ^^^^ variable.other.readwrite.java
+//                                ^^^^ variable.other.java
 //                                     ^ keyword.operator.arithmetic.java
 //                                       ^^ meta.number.integer.decimal.java constant.numeric.value.java
 //                                         ^ punctuation.section.brackets.end.java
@@ -7667,7 +7667,7 @@ class MethodReferenceExpressionsTests {
     System.out::println
 //  ^^^^^^ storage.type.class.java
 //        ^ punctuation.accessor.dot.java
-//         ^^^ variable.other.readwrite.java
+//         ^^^ variable.other.java
 //            ^^ punctuation.accessor.double-colon.java
 //              ^^^^^^^ variable.function.reference.java
 
@@ -7677,7 +7677,7 @@ class MethodReferenceExpressionsTests {
 //         ^^^^^^ variable.function.reference.java
 
     foo[x]::bar
-//  ^^^ meta.variable.identifier.java variable.other.readwrite.java
+//  ^^^ meta.variable.identifier.java variable.other.java
 //     ^^^ meta.variable.item-access.java meta.brackets.java
 //        ^^ punctuation.accessor.double-colon.java
 //          ^^^ variable.function.reference.java
@@ -7687,16 +7687,16 @@ class MethodReferenceExpressionsTests {
 //               ^^^^^^^^^^ meta.function-call.identifier.java
 //                         ^^^^^^^^^^^^^^ meta.function-call.arguments.java meta.group.java
 //  ^ punctuation.section.group.begin.java
-//   ^^^^ variable.other.readwrite.java
+//   ^^^^ variable.other.java
 //        ^ keyword.operator.ternary.java
-//          ^^^^ variable.other.readwrite.java
+//          ^^^^ variable.other.java
 //              ^ punctuation.accessor.dot.java
 //               ^^^^^^^^^^ variable.function.java
 //                          ^^^^^^ storage.type.class.java
 //                                ^^ punctuation.accessor.double-colon.java
 //                                  ^^^^ variable.function.reference.java
 //                                        ^ keyword.operator.ternary.java
-//                                          ^^^^ variable.other.readwrite.java
+//                                          ^^^^ variable.other.java
 //                                              ^ punctuation.section.group.end.java
 //                                                ^^ punctuation.accessor.double-colon.java
 //                                                   ^^^^^^^^ variable.function.reference.java
@@ -7771,7 +7771,7 @@ class CastExpressionsTests {
 //    ^^^^ - meta.typecast - meta.group
 //  ^ punctuation.section.group.begin.java
 //   ^ punctuation.section.group.end.java
-//     ^^^ variable.other.readwrite.java
+//     ^^^ variable.other.java
 
     (int) foo;
 //  ^^^^^ meta.typecast.java meta.group.java
@@ -7779,7 +7779,7 @@ class CastExpressionsTests {
 //  ^ punctuation.section.group.begin.java
 //   ^^^ storage.type.primitive.java
 //      ^ punctuation.section.group.end.java
-//        ^^^ variable.other.readwrite.java
+//        ^^^ variable.other.java
 
     (int$) foo;
 //  ^^^^^^ meta.typecast.java meta.group.java
@@ -7787,7 +7787,7 @@ class CastExpressionsTests {
 //  ^ punctuation.section.group.begin.java
 //   ^^^^ storage.type.class.java
 //       ^ punctuation.section.group.end.java
-//         ^^^ variable.other.readwrite.java
+//         ^^^ variable.other.java
 
     (int) foo[10];
 //  ^^^^^ meta.typecast.java meta.group.java
@@ -7797,7 +7797,7 @@ class CastExpressionsTests {
 //  ^ punctuation.section.group.begin.java
 //   ^^^ storage.type.primitive.java
 //      ^ punctuation.section.group.end.java
-//        ^^^ variable.other.readwrite.java
+//        ^^^ variable.other.java
 
     (int) foo();
 //  ^^^^^ meta.typecast.java meta.group.java
@@ -7883,7 +7883,7 @@ class CastExpressionsTests {
 //         ^^^^ storage.type.primitive.java
 //             ^ punctuation.section.group.end.java
 //               ^ punctuation.section.group.begin.java
-//                ^^^ variable.other.readwrite.java
+//                ^^^ variable.other.java
 //                    ^ keyword.operator.arithmetic.java
 //                      ^^ constant.numeric.value.java
 //                        ^ punctuation.section.group.end.java
@@ -7895,7 +7895,7 @@ class CastExpressionsTests {
 //   ^^^ storage.type.primitive.java
 //      ^^ storage.modifier.array.java
 //        ^ punctuation.section.group.end.java
-//          ^^^ variable.other.readwrite.java
+//          ^^^ variable.other.java
 
     (int[]) ! foo;
 //  ^^^^^^^ meta.typecast.java meta.group.java
@@ -7905,7 +7905,7 @@ class CastExpressionsTests {
 //      ^^ storage.modifier.array.java
 //        ^ punctuation.section.group.end.java
 //          ^ keyword.operator.logical.java
-//            ^^^ variable.other.readwrite.java
+//            ^^^ variable.other.java
 
     (int[]) ~ foo;
 //  ^^^^^^^ meta.typecast.java meta.group.java
@@ -7915,7 +7915,7 @@ class CastExpressionsTests {
 //      ^^ storage.modifier.array.java
 //        ^ punctuation.section.group.end.java
 //          ^ keyword.operator.bitwise.java
-//            ^^^ variable.other.readwrite.java
+//            ^^^ variable.other.java
 
     (var) foo;
 //  ^^^^^ meta.typecast.java meta.group.java
@@ -7923,7 +7923,7 @@ class CastExpressionsTests {
 //  ^ punctuation.section.group.begin.java
 //   ^^^ invalid.illegal.unexpected-keyword.java
 //      ^ punctuation.section.group.end.java
-//        ^^^ variable.other.readwrite.java
+//        ^^^ variable.other.java
   }
 
   void classTypeCastExpression() {
@@ -7934,7 +7934,7 @@ class CastExpressionsTests {
 //  ^ punctuation.section.group.begin.java
 //   ^^^^^^^^^ storage.type.class.java
 //            ^ punctuation.section.group.end.java
-//              ^^^ variable.other.readwrite.java
+//              ^^^ variable.other.java
 
     (TestClass[]) foo;
 //  ^^^^^^^^^^^^^ meta.typecast.java meta.group.java
@@ -7943,7 +7943,7 @@ class CastExpressionsTests {
 //   ^^^^^^^^^ storage.type.class.java
 //            ^^ storage.modifier.array.java
 //              ^ punctuation.section.group.end.java
-//                ^^^ variable.other.readwrite.java
+//                ^^^ variable.other.java
 
     (testclass) foo;
 //  ^^^^^^^^^^^ meta.typecast.java meta.group.java
@@ -7951,7 +7951,7 @@ class CastExpressionsTests {
 //  ^ punctuation.section.group.begin.java
 //   ^^^^^^^^^ storage.type.class.java
 //            ^ punctuation.section.group.end.java
-//              ^^^ variable.other.readwrite.java
+//              ^^^ variable.other.java
 
     (testclass[]) foo;
 //  ^^^^^^^^^^^^^ meta.typecast.java meta.group.java
@@ -7960,7 +7960,7 @@ class CastExpressionsTests {
 //   ^^^^^^^^^ storage.type.class.java
 //            ^^ storage.modifier.array.java
 //              ^ punctuation.section.group.end.java
-//                ^^^ variable.other.readwrite.java
+//                ^^^ variable.other.java
 
     (TestClass & OtherClass) foo;
 //  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.typecast.java meta.group.java
@@ -7970,7 +7970,7 @@ class CastExpressionsTests {
 //             ^ keyword.operator.logical.java
 //               ^^^^^^^^^^ storage.type.class.java
 //                         ^ punctuation.section.group.end.java
-//                           ^^^ variable.other.readwrite.java
+//                           ^^^ variable.other.java
 
     (testclass & otherclass) foo;
 //  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.typecast.java meta.group.java
@@ -7980,7 +7980,7 @@ class CastExpressionsTests {
 //             ^ keyword.operator.logical.java
 //               ^^^^^^^^^^ storage.type.class.java
 //                         ^ punctuation.section.group.end.java
-//                           ^^^ variable.other.readwrite.java
+//                           ^^^ variable.other.java
 
     (@anno testclass & @anno otherclass) foo;
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.typecast.java meta.group.java
@@ -7992,7 +7992,7 @@ class CastExpressionsTests {
 //                     ^^^^^ meta.annotation.identifier.java
 //                           ^^^^^^^^^^ storage.type.class.java
 //                                     ^ punctuation.section.group.end.java
-//                                       ^^^ variable.other.readwrite.java
+//                                       ^^^ variable.other.java
   }
 
   void genericTypeCastExpression() {
@@ -8004,7 +8004,7 @@ class CastExpressionsTests {
 //     ^ punctuation.definition.generic.begin.java
 //       ^ storage.type.class.java
 //        ^ punctuation.section.group.end.java
-//          ^^^ variable.other.readwrite.java
+//          ^^^ variable.other.java
 
     (a < b) ~ foo;
 //  ^^^^^^^ meta.group.java
@@ -8014,7 +8014,7 @@ class CastExpressionsTests {
 //       ^ storage.type.class.java
 //        ^ punctuation.section.group.end.java
 //          ^ keyword.operator.bitwise.java
-//            ^^^ variable.other.readwrite.java
+//            ^^^ variable.other.java
 
     (List<T>) foo;
 //  ^^^^^ meta.typecast.java meta.group.java - meta.generic
@@ -8027,7 +8027,7 @@ class CastExpressionsTests {
 //        ^ storage.type.class.java
 //         ^ punctuation.definition.generic.end.java
 //          ^ punctuation.section.group.end.java
-//            ^^^ variable.other.readwrite.java
+//            ^^^ variable.other.java
 
     (List<T>[]) foo;
 //  ^^^^^ meta.typecast.java meta.group.java - meta.generic
@@ -8041,7 +8041,7 @@ class CastExpressionsTests {
 //         ^ punctuation.definition.generic.end.java
 //          ^^ storage.modifier.array.java
 //            ^ punctuation.section.group.end.java
-//              ^^^ variable.other.readwrite.java
+//              ^^^ variable.other.java
 
     (list<t>) foo;
 //  ^^^^^ meta.typecast.java meta.group.java - meta.generic
@@ -8054,7 +8054,7 @@ class CastExpressionsTests {
 //        ^ storage.type.class.java
 //         ^ punctuation.definition.generic.end.java
 //          ^ punctuation.section.group.end.java
-//            ^^^ variable.other.readwrite.java
+//            ^^^ variable.other.java
 
     (list<t>[]) foo;
 //  ^^^^^ meta.typecast.java meta.group.java - meta.generic
@@ -8068,7 +8068,7 @@ class CastExpressionsTests {
 //         ^ punctuation.definition.generic.end.java
 //          ^^ storage.modifier.array.java
 //            ^ punctuation.section.group.end.java
-//              ^^^ variable.other.readwrite.java
+//              ^^^ variable.other.java
 
     (list<t>[] & OtherList<T> & None) foo;
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.typecast.java meta.group.java
@@ -8086,7 +8086,7 @@ class CastExpressionsTests {
 //                            ^ keyword.operator.logical.java
 //                              ^^^^ storage.type.class.java
 //                                  ^ punctuation.section.group.end.java
-//                                    ^^^ variable.other.readwrite.java
+//                                    ^^^ variable.other.java
 
     (<T>) foo;
 //  ^ meta.typecast.java meta.group.java - meta.generic
@@ -8098,7 +8098,7 @@ class CastExpressionsTests {
 //    ^ storage.type.class.java
 //     ^ punctuation.definition.generic.end.java
 //      ^ punctuation.section.group.end.java
-//        ^^^ variable.other.readwrite.java
+//        ^^^ variable.other.java
 
     (<T>[]) foo;
 //  ^ meta.typecast.java meta.group.java - meta.generic
@@ -8111,7 +8111,7 @@ class CastExpressionsTests {
 //     ^ punctuation.definition.generic.end.java
 //      ^^ storage.modifier.array.java
 //        ^ punctuation.section.group.end.java
-//          ^^^ variable.other.readwrite.java
+//          ^^^ variable.other.java
 
     (<t>) foo;
 //  ^ meta.typecast.java meta.group.java - meta.generic
@@ -8123,7 +8123,7 @@ class CastExpressionsTests {
 //    ^ storage.type.class.java
 //     ^ punctuation.definition.generic.end.java
 //      ^ punctuation.section.group.end.java
-//        ^^^ variable.other.readwrite.java
+//        ^^^ variable.other.java
 
     (<t>[]) foo;
 //  ^ meta.typecast.java meta.group.java - meta.generic
@@ -8136,7 +8136,7 @@ class CastExpressionsTests {
 //     ^ punctuation.definition.generic.end.java
 //      ^^ storage.modifier.array.java
 //        ^ punctuation.section.group.end.java
-//          ^^^ variable.other.readwrite.java
+//          ^^^ variable.other.java
   }
 
   void noCastExpressionsTests() {
@@ -8144,28 +8144,28 @@ class CastExpressionsTests {
     (a + b) foo;
 //  ^^^^^^^ meta.group.java
 //  ^ punctuation.section.group.begin.java
-//   ^ variable.other.readwrite.java
+//   ^ variable.other.java
 //     ^ keyword.operator.arithmetic.java
-//       ^ variable.other.readwrite.java
+//       ^ variable.other.java
 //        ^ punctuation.section.group.end.java
-//          ^^^ variable.other.readwrite.java
+//          ^^^ variable.other.java
 
     (a < b) & foo;
 //  ^^^^^^^ meta.group.java
 //  ^ punctuation.section.group.begin.java
-//   ^ variable.other.readwrite.java
+//   ^ variable.other.java
 //     ^ keyword.operator.comparison.java
-//       ^ variable.other.readwrite.java
+//       ^ variable.other.java
 //        ^ punctuation.section.group.end.java
 //          ^ keyword.operator.bitwise.java
-//            ^^^ variable.other.readwrite.java
+//            ^^^ variable.other.java
 
     (0) foo;
 //  ^^^ meta.group.java
 //  ^ punctuation.section.group.begin.java
 //   ^ constant.numeric.value.java
 //    ^ punctuation.section.group.end.java
-//      ^^^ variable.other.readwrite.java
+//      ^^^ variable.other.java
   }
 }
 
@@ -8278,9 +8278,9 @@ class TypeComparisonExpressionsTests {
  void instanceofAmbigultyTests {
 
     a = b instanceof c?1__1:0b11110101;
-//  ^ variable.other.readwrite.java
+//  ^ variable.other.java
 //    ^ keyword.operator.assignment.java
-//      ^ variable.other.readwrite.java
+//      ^ variable.other.java
 //        ^^^^^^^^^^ keyword.other.storage.instanceof.java
 //                   ^ storage.type.class.java
 //                    ^ keyword.operator.ternary.java
@@ -8399,7 +8399,7 @@ class LambdasExpressionsTests {
 //      ^ punctuation.section.group.begin.java
 //       ^^^ storage.type.primitive.java
 //          ^ punctuation.section.group.end.java
-//            ^ variable.other.readwrite.java
+//            ^ variable.other.java
 //              ^ keyword.operator.arithmetic.java
 //                ^ punctuation.section.group.begin.java
 //                 ^ variable.parameter.java
@@ -8410,7 +8410,7 @@ class LambdasExpressionsTests {
 //                           ^^ keyword.declaration.function.anonymous.java
 //                              ^ punctuation.section.block.begin.java
 //                                ^^^^^^ keyword.control.flow.return.java
-//                                       ^ variable.other.readwrite.java
+//                                       ^ variable.other.java
 //                                         ^ punctuation.section.block.end.java
 //                                          ^ punctuation.terminator.java
 
@@ -8426,7 +8426,7 @@ class LambdasExpressionsTests {
 //      ^^ punctuation.section.group.begin.java
 //        ^^^ storage.type.primitive.java
 //           ^ punctuation.section.group.end.java
-//             ^ variable.other.readwrite.java
+//             ^ variable.other.java
 //               ^ keyword.operator.arithmetic.java
 //                 ^ punctuation.section.group.begin.java
 //                  ^ variable.parameter.java
@@ -8437,7 +8437,7 @@ class LambdasExpressionsTests {
 //                            ^^ keyword.declaration.function.anonymous.java
 //                               ^ punctuation.section.block.begin.java
 //                                 ^^^^^^ keyword.control.flow.return.java
-//                                        ^ variable.other.readwrite.java
+//                                        ^ variable.other.java
 //                                          ^ punctuation.section.block.end.java
 //                                           ^ punctuation.section.group.end.java
 //                                            ^ punctuation.terminator.java
@@ -8538,7 +8538,7 @@ class LambdasExpressionsTests {
 //                                ^^^^^^^^ storage.type.class.java
 //                                        ^ punctuation.section.group.begin.java
 //                                        ^^^^^ meta.group.java
-//                                         ^^^ variable.other.readwrite.java
+//                                         ^^^ variable.other.java
 //                                            ^ punctuation.section.group.end.java
 //                                             ^ punctuation.terminator.java
 
@@ -8920,46 +8920,46 @@ public class Foo {
     b=e.a(b<b)> b?b:b;
 //      ^ meta.function-call.identifier.java
 //       ^^^^^ meta.function-call.arguments.java meta.group.java
-//  ^ variable.other.readwrite.java
+//  ^ variable.other.java
 //   ^ keyword.operator.assignment.java
-//    ^ variable.other.readwrite.java
+//    ^ variable.other.java
 //      ^ variable.function.java
 //       ^ punctuation.section.group.begin.java
-//        ^ variable.other.readwrite.java
+//        ^ variable.other.java
 //         ^ keyword.operator.comparison.java
-//          ^ variable.other.readwrite.java
+//          ^ variable.other.java
 //           ^ punctuation.section.group.end.java
 //            ^ keyword.operator.comparison.java
-//              ^ variable.other.readwrite.java
+//              ^ variable.other.java
 //               ^ keyword.operator.ternary.java
-//                ^ variable.other.readwrite.java
+//                ^ variable.other.java
 //                 ^ keyword.operator.ternary.java
-//                  ^ variable.other.readwrite.java
+//                  ^ variable.other.java
 
     b=e.a(b<b)>b?b:b;
 //      ^ meta.function-call.identifier.java
 //       ^^^^^ meta.function-call.arguments.java meta.group.java
-//  ^ variable.other.readwrite.java
+//  ^ variable.other.java
 //   ^ keyword.operator.assignment.java
-//    ^ variable.other.readwrite.java
+//    ^ variable.other.java
 //      ^ variable.function.java
 //       ^ punctuation.section.group.begin.java
-//        ^ variable.other.readwrite.java
+//        ^ variable.other.java
 //         ^ keyword.operator.comparison.java
-//          ^ variable.other.readwrite.java
+//          ^ variable.other.java
 //           ^ punctuation.section.group.end.java
 //            ^ keyword.operator.comparison.java
-//             ^ variable.other.readwrite.java
+//             ^ variable.other.java
 //              ^ keyword.operator.ternary.java
-//               ^ variable.other.readwrite.java
+//               ^ variable.other.java
 //                ^ keyword.operator.ternary.java
-//                 ^ variable.other.readwrite.java
+//                 ^ variable.other.java
 
     a[0] = true;
 //  ^^^^ - meta.variable meta.variable
 //  ^ meta.variable.identifier.java
 //   ^^^ meta.variable.item-access.java meta.brackets.java
-//  ^ variable.other.readwrite.java
+//  ^ variable.other.java
 //   ^ punctuation.section.brackets.begin.java
 //    ^ constant.numeric.value.java
 //     ^ punctuation.section.brackets.end.java
@@ -8971,7 +8971,7 @@ public class Foo {
 //  ^^^^^^^ - meta.variable meta.variable
 //  ^ meta.variable.identifier.java
 //   ^^^^^^ meta.variable.item-access.java meta.brackets.java
-//  ^ variable.other.readwrite.java
+//  ^ variable.other.java
 //   ^ punctuation.section.brackets.begin.java
 //    ^ constant.numeric.value.java
 //     ^ punctuation.section.brackets.end.java
@@ -8989,7 +8989,7 @@ public class Foo {
 //         ^ meta.variable.item-access.java - meta.brackets
 //          ^^^^^ meta.variable.item-access.java meta.brackets.java
 //               ^^^^^^^^^ - meta.variable
-//  ^ variable.other.readwrite.java
+//  ^ variable.other.java
 //    ^ punctuation.section.brackets.begin.java
 //      ^ constant.numeric.value.java
 //        ^ punctuation.section.brackets.end.java
@@ -9008,7 +9008,7 @@ public class Foo {
 //                              ^^^^^^^^^^^^^^^ meta.variable.item-access.java meta.brackets.java
 //                                             ^^^^^ meta.variable.item-access.java - meta.brackets
 //                                                  ^^^^^^^^^^^^^ - meta.variable
-//  ^ variable.other.readwrite.java
+//  ^ variable.other.java
 //         ^ punctuation.section.brackets.begin.java
 //                ^ constant.numeric.value.java
 //                       ^ punctuation.section.brackets.end.java
@@ -9021,7 +9021,7 @@ public class Foo {
 
     a
 //  ^^ meta.variable.identifier.java
-//  ^ variable.other.readwrite.java
+//  ^ variable.other.java
     [
 //^^ meta.variable.identifier.java
 //  ^^ meta.variable.item-access.java meta.brackets.java
@@ -9044,9 +9044,9 @@ public class Foo {
 //   ^ - meta.variable
 //    ^ meta.variable.identifier.java
 //     ^ - meta.variable
-//  ^ variable.other.readwrite.java
+//  ^ variable.other.java
 //   ^ punctuation.accessor.dot.java
-//    ^ variable.other.readwrite.java
+//    ^ variable.other.java
 //      ^ keyword.operator.assignment.java
 //        ^^^^ constant.language.boolean.java
 //            ^ punctuation.terminator.java
@@ -9059,12 +9059,12 @@ public class Foo {
 //       ^ meta.variable.identifier.java
 //        ^^^ meta.variable.item-access.java meta.brackets.java
 //           ^ - meta.variable
-//  ^ variable.other.readwrite.java
+//  ^ variable.other.java
 //   ^ punctuation.section.brackets.begin.java
 //    ^ constant.numeric.value.java
 //     ^ punctuation.section.brackets.end.java
 //      ^ punctuation.accessor.dot.java
-//       ^ variable.other.readwrite.java
+//       ^ variable.other.java
 //        ^ punctuation.section.brackets.begin.java
 //         ^ constant.numeric.value.java
 //          ^ punctuation.section.brackets.end.java
