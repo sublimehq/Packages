@@ -326,100 +326,6 @@ contexts:
         - variable-declaration-type-modifier
         - variable-declaration-type
 
-###[ VARIABLE DECLARATIONS ]###################################################
-
-  variable-declaration-type:
-    - include: primitive-type
-    - include: var-type
-    - include: object-type
-    - include: final-modifiers
-    - include: annotations
-    - include: illegal-storage-modifiers
-    - include: else-pop
-
-  variable-declaration-type-modifier:
-    - clear_scopes: 1
-    - meta_scope: meta.declaration.type.java
-    - include: maybe-only-array-modifiers
-
-  variable-declaration-list:
-    - match: ','
-      scope:
-        meta.declaration.java
-        punctuation.separator.comma.java
-      push:
-        - variable-declaration-maybe-assignment
-        - variable-declaration-maybe-identifier
-    - include: else-pop
-
-  variable-declaration-expect-identifier:
-    - include: variable-declaration-identifier
-    - include: declaration-else-fail
-
-  variable-declaration-maybe-identifier:
-    - include: variable-declaration-identifier
-    - include: else-pop
-
-  variable-declaration-identifier:
-    - match: '{{uppercase_id}}'
-      scope: entity.name.constant.java
-      pop: 1
-    - match: '{{identifier}}'
-      scope: variable.other.readwrite.java
-      pop: 1
-
-  variable-declaration-maybe-assignment:
-    # This context is abused to
-    # 1. assign identifier meta scope
-    # 2. match identifier array modifiers
-    # 3. match value assignment
-    - meta_content_scope: meta.declaration.identifier.java
-    - match: =
-      scope:
-        meta.declaration.java
-        keyword.operator.assignment.java
-      set: variable-declaration-initializer
-    - include: maybe-only-array-modifiers
-
-  variable-declaration-initializer:
-    - meta_content_scope: meta.declaration.value.java
-    - include: variable-initializer
-
-###[ VARIABLE DECLARATIONS OR ASSIGNMENTS ]####################################
-
-  variable-declarations-or-assignments:
-    # A subset of `declarations` to optimize performance in contexts which need
-    # to distinguish between variable declaration and variable assignment only.
-    - match: (?=[{{id_first_char}}@<])
-      branch_point: variable-declarations-or-assignments
-      branch:
-        - variable-maybe-declaration
-        - variable-maybe-assignment
-
-  variable-maybe-assignment:
-    - match: ''
-      set:
-        - variable-maybe-modifier
-        - variable-expect-identifier
-
-  variable-maybe-modifier:
-    - meta_content_scope: meta.variable.identifier.java
-    - include: maybe-only-array-modifiers
-
-  variable-maybe-declaration:
-    - match: ''
-      set:
-        - variable-declaration-list
-        - variable-declaration-maybe-assignment
-        - variable-expect-identifier
-        - variable-declaration-type-modifier
-        - variable-declaration-type
-
-  variable-expect-identifier:
-    - include: variable-declaration-identifier
-    - match: (?=\S)
-      fail: variable-declarations-or-assignments
-
 ###[ PACKAGE DECLARATIONS ]####################################################
 
   package:
@@ -1141,6 +1047,96 @@ contexts:
   method-block-body:
     - meta_scope: meta.function.java meta.block.java
     - include: block-body
+
+###[ VARIABLE DECLARATIONS ]###################################################
+
+  variable-declaration-type:
+    - include: primitive-type
+    - include: var-type
+    - include: object-type
+    - include: final-modifiers
+    - include: annotations
+    - include: illegal-storage-modifiers
+    - include: else-pop
+
+  variable-declaration-type-modifier:
+    - clear_scopes: 1
+    - meta_scope: meta.declaration.type.java
+    - include: maybe-only-array-modifiers
+
+  variable-declaration-list:
+    - match: ','
+      scope:
+        meta.declaration.java
+        punctuation.separator.comma.java
+      push:
+        - variable-declaration-maybe-assignment
+        - variable-declaration-maybe-identifier
+    - include: else-pop
+
+  variable-declaration-expect-identifier:
+    - include: variable-declaration-identifier
+    - include: declaration-else-fail
+
+  variable-declaration-maybe-identifier:
+    - include: variable-declaration-identifier
+    - include: else-pop
+
+  variable-declaration-identifier:
+    - match: '{{uppercase_id}}'
+      scope: entity.name.constant.java
+      pop: 1
+    - match: '{{identifier}}'
+      scope: variable.other.readwrite.java
+      pop: 1
+
+  variable-declaration-maybe-assignment:
+    - meta_content_scope: meta.declaration.identifier.java
+    - match: =
+      scope:
+        meta.declaration.java
+        keyword.operator.assignment.java
+      set: variable-declaration-initializer
+    - include: maybe-only-array-modifiers
+
+  variable-declaration-initializer:
+    - meta_content_scope: meta.declaration.value.java
+    - include: variable-initializer
+
+###[ VARIABLE DECLARATIONS OR ASSIGNMENTS ]####################################
+
+  variable-declarations-or-assignments:
+    # A subset of `declarations` to optimize performance in contexts which need
+    # to distinguish between variable declaration and variable assignment only.
+    - match: (?=[{{id_first_char}}@<])
+      branch_point: variable-declarations-or-assignments
+      branch:
+        - variable-maybe-declaration
+        - variable-maybe-assignment
+
+  variable-maybe-assignment:
+    - match: ''
+      set:
+        - variable-maybe-modifier
+        - variable-expect-identifier
+
+  variable-maybe-modifier:
+    - meta_content_scope: meta.variable.identifier.java
+    - include: maybe-only-array-modifiers
+
+  variable-maybe-declaration:
+    - match: ''
+      set:
+        - variable-declaration-list
+        - variable-declaration-maybe-assignment
+        - variable-expect-identifier
+        - variable-declaration-type-modifier
+        - variable-declaration-type
+
+  variable-expect-identifier:
+    - include: variable-declaration-identifier
+    - match: (?=\S)
+      fail: variable-declarations-or-assignments
 
 ###[ IF ELSE STATEMENTS ]######################################################
 
