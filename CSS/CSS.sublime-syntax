@@ -1013,7 +1013,7 @@ contexts:
 ###[ SELECTORS ]###############################################################
 
   selectors:
-    - match: (?=[:.*#[:alpha:]\[])
+    - match: (?=[:.*#[:alpha:]\[]|{{combinators}})
       push: selector-content
 
   selector-content:
