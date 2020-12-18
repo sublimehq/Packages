@@ -4094,12 +4094,14 @@ class LocalVariableDeclarationTests {
 //  ^^^ storage.type.primitive.java
 
     int foo
-//  ^^^^^^^^ meta.declaration.java
+//  ^^^^ meta.declaration.type.java
+//      ^^^^ meta.declaration.identifier.java
 //  ^^^ storage.type.primitive.java
 //      ^^^ variable.other.readwrite.java
 
     int foo;
-// ^^^^^^^^ meta.declaration.java
+//  ^^^^ meta.declaration.type.java
+//      ^^^ meta.declaration.identifier.java
 //         ^ - meta.declaration
 //  ^^^ storage.type.primitive.java
 //      ^^^ variable.other.readwrite.java
@@ -4107,7 +4109,10 @@ class LocalVariableDeclarationTests {
 
     int foo, bar;
 // ^ - meta.declaration
-//  ^^^^^^^^^^^^ meta.declaration.java
+//  ^^^^ meta.declaration.type.java
+//      ^^^ meta.declaration.identifier.java
+//         ^ meta.declaration.java
+//          ^^^^ meta.declaration.identifier.java
 //              ^ - meta.declaration
 //  ^^^ storage.type.primitive.java
 //      ^^^ variable.other.readwrite.java
@@ -4117,7 +4122,11 @@ class LocalVariableDeclarationTests {
 
     int foo =, bar =;
 // ^ - meta.declaration
-//  ^^^^^^^^^^^^^^^^ meta.declaration.java
+//  ^^^^ meta.declaration.type.java
+//      ^^^^ meta.declaration.identifier.java
+//          ^^ meta.declaration.java
+//            ^^^^^ meta.declaration.identifier.java
+//                 ^ meta.declaration.java
 //                  ^ - meta.declaration
 //  ^^^ storage.type.primitive.java
 //      ^^^ variable.other.readwrite.java
@@ -4129,7 +4138,13 @@ class LocalVariableDeclarationTests {
 
     int foo = 0, bar = CONST;
 // ^ - meta.declaration
-//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.java
+//  ^^^^ meta.declaration.type.java
+//      ^^^^ meta.declaration.identifier.java
+//          ^ meta.declaration.java
+//           ^^ meta.declaration.value.java
+//              ^^^^^ meta.declaration.identifier.java
+//                   ^ meta.declaration.java
+//                    ^^^^^^ meta.declaration.value.java
 //                          ^ - meta.declaration
 //  ^^^ storage.type.primitive.java
 //      ^^^ variable.other.readwrite.java
@@ -4141,35 +4156,45 @@ class LocalVariableDeclarationTests {
 //                     ^^^^^ constant.other.java
 //                          ^ punctuation.terminator.java
 
-   int[]
-// ^^^^^^ - meta.declaration
-// ^^^ storage.type.primitive.java
-//    ^^ storage.modifier.array.java
-
-   int []
-// ^^^^^^^ - meta.declaration
-// ^^^ storage.type.primitive.java
+    int[]
+//  ^^^^^^ - meta.declaration
+//  ^^^ storage.type.primitive.java
 //     ^^ storage.modifier.array.java
 
-   int[] foo
-// ^^^^^^^^^^ meta.declaration.java
-// ^^^ storage.type.primitive.java
-//    ^^ storage.modifier.array.java
-//       ^^^ variable.other.readwrite.java
+    int []
+//  ^^^^^^^ - meta.declaration
+//  ^^^ storage.type.primitive.java
+//      ^^ storage.modifier.array.java
 
-   int foo[], [] ;
-// ^^^^^^^^^^^^^^ meta.declaration.java
-//               ^ - meta.declaration
-// ^^^ storage.type.primitive.java
-//     ^^^ variable.other.readwrite.java
-//        ^^ storage.modifier.array.java
-//          ^ punctuation.separator.comma.java
-//            ^^ storage.modifier.array.java
-//               ^ punctuation.terminator.java
+    int[] foo
+//  ^^^^^^ meta.declaration.type.java
+//        ^^^^ meta.declaration.identifier.java
+//  ^^^ storage.type.primitive.java
+//     ^^ storage.modifier.array.java
+//        ^^^ variable.other.readwrite.java
+
+    int foo[], [] ;
+//  ^^^^ meta.declaration.type.java
+//      ^^^^^ meta.declaration.identifier.java
+//           ^ meta.declaration.java
+//            ^^^^ meta.declaration.identifier.java
+//                ^ - meta.declaration
+//  ^^^ storage.type.primitive.java
+//      ^^^ variable.other.readwrite.java
+//         ^^ storage.modifier.array.java
+//           ^ punctuation.separator.comma.java
+//             ^^ storage.modifier.array.java
+//                ^ punctuation.terminator.java
 
     final int[] y = 10, z[] = 5;
 // ^ - meta.declaration
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.java
+//  ^^^^^^^^^^^^ meta.declaration.type.java
+//              ^^ meta.declaration.identifier.java
+//                ^ meta.declaration.java
+//                 ^^^ meta.declaration.value.java
+//                     ^^^^^ meta.declaration.identifier.java
+//                          ^ meta.declaration.java
+//                           ^^ meta.declaration.value.java
 //                             ^ - meta.declaration
 //  ^^^^^ storage.modifier.java
 //        ^^^ storage.type.primitive.java
@@ -4186,7 +4211,10 @@ class LocalVariableDeclarationTests {
 
     @Number final int y @Dim1 [] @Dim2 [] = { {10, 1}, {5, 2} };
 // ^ - meta.declaration
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.java
+//  ^^^^^^^^^^^^^^^^^^ meta.declaration.type.java
+//                    ^^^^^^^^^^^^^^^^^^^^ meta.declaration.identifier.java
+//                                        ^ meta.declaration.java
+//                                         ^^^^^^^^^^^^^^^^^^^^ meta.declaration.value.java
 //                                                             ^ - meta.declaration
 //  ^^^^^^^ meta.annotation.identifier.java
 //          ^^^^^ storage.modifier.java
@@ -4199,21 +4227,21 @@ class LocalVariableDeclarationTests {
 //                                        ^ keyword.operator.assignment.java
 
     @Number
-//  ^^^^^^^^ meta.declaration.java meta.annotation.identifier.java
+//  ^^^^^^^^ meta.declaration.type.java meta.annotation.identifier.java
     final
-//  ^^^^^ meta.declaration.java storage.modifier.java
+//  ^^^^^ meta.declaration.type.java storage.modifier.java
     int
-//  ^^^ meta.declaration.java storage.type.primitive.java
+//  ^^^ meta.declaration.type.java storage.type.primitive.java
     foo
-//  ^^^ meta.declaration.java variable.other.readwrite.java
+//  ^^^ meta.declaration.identifier.java variable.other.readwrite.java
     @Dim1
-//  ^^^^^^ meta.declaration.java meta.annotation.identifier.java
+//  ^^^^^^ meta.declaration.identifier.java meta.annotation.identifier.java
     []
-//  ^^ meta.declaration.java storage.modifier.array.java
+//  ^^ meta.declaration.identifier.java storage.modifier.array.java
     =
 //  ^ meta.declaration.java keyword.operator.assignment.java
     {0, 1}
-//  ^^^^^^ meta.declaration.java meta.braces.java
+//  ^^^^^^ meta.declaration.value.java meta.braces.java
   }
 //^ meta.class.java meta.block.java meta.function.java meta.block.java punctuation.section.block.end.java
 // ^ meta.class.java meta.block.java - meta.function
@@ -4227,17 +4255,20 @@ class LocalVariableDeclarationTests {
 //  ^^^^^^^^^ variable.other.readwrite.java
 
     TestClass foo
-//  ^^^^^^^^^^^^^^ meta.declaration.java
+//  ^^^^^^^^^^ meta.declaration.type.java
+//            ^^^^ meta.declaration.identifier.java
 //  ^^^^^^^^^ storage.type.class.java
 //            ^^^ variable.other.readwrite.java
 
     testclass foo
-//  ^^^^^^^^^^^^^^ meta.declaration.java
+//  ^^^^^^^^^^ meta.declaration.type.java
+//            ^^^^ meta.declaration.identifier.java
 //  ^^^^^^^^^ storage.type.class.java
 //            ^^^ variable.other.readwrite.java
 
     TestClass foo;
-// ^^^^^^^^^^^^^^ meta.declaration.java
+//  ^^^^^^^^^^ meta.declaration.type.java
+//            ^^^ meta.declaration.identifier.java
 //               ^ - meta.declaration
 //  ^^^^^^^^^ storage.type.class.java
 //            ^^^ variable.other.readwrite.java
@@ -4245,7 +4276,10 @@ class LocalVariableDeclarationTests {
 
     TestClass foo, bar;
 // ^ - meta.declaration
-//  ^^^^^^^^^^^^^^^^^^ meta.declaration.java
+//  ^^^^^^^^^^ meta.declaration.type.java
+//            ^^^ meta.declaration.identifier.java
+//               ^ meta.declaration.java
+//                ^^^^ meta.declaration.identifier.java
 //                    ^ - meta.declaration
 //  ^^^^^^^^^ storage.type.class.java
 //            ^^^ variable.other.readwrite.java
@@ -4255,7 +4289,11 @@ class LocalVariableDeclarationTests {
 
     TestClass foo =, bar =;
 // ^ - meta.declaration
-//  ^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.java
+//  ^^^^^^^^^^ meta.declaration.type.java
+//            ^^^^ meta.declaration.identifier.java
+//                ^^ meta.declaration.java
+//                  ^^^^^ meta.declaration.identifier.java
+//                       ^ meta.declaration.java
 //                        ^ - meta.declaration
 //  ^^^^^^^^^ storage.type.class.java
 //            ^^^ variable.other.readwrite.java
@@ -4267,7 +4305,14 @@ class LocalVariableDeclarationTests {
 
     TestClass foo = 0, bar = 10;
 // ^ - meta.declaration
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.java
+//  ^^^^^^^^^^ meta.declaration.type.java
+//            ^^^^ meta.declaration.identifier.java
+//                ^ meta.declaration.java
+//                 ^^ meta.declaration.value.java
+//                   ^ meta.declaration.java
+//                    ^^^^^ meta.declaration.identifier.java
+//                         ^ meta.declaration.java
+//                          ^^^ meta.declaration.value.java
 //                             ^ - meta.declaration
 //  ^^^^^^^^^ storage.type.class.java
 //            ^^^ variable.other.readwrite.java
@@ -4281,7 +4326,14 @@ class LocalVariableDeclarationTests {
 
     final TestClass[] y = 10, z[] = 5;
 // ^ - meta.declaration
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.java
+//  ^^^^^^^^^^^^^^^^^^ meta.declaration.type.java
+//                    ^^ meta.declaration.identifier.java
+//                      ^ meta.declaration.java
+//                       ^^^ meta.declaration.value.java
+//                          ^ meta.declaration.java
+//                           ^^^^^ meta.declaration.identifier.java
+//                                ^ meta.declaration.java
+//                                 ^^ meta.declaration.value.java
 //                                   ^ - meta.declaration
 //  ^^^^^ storage.modifier.java
 //        ^^^^^^^^^ storage.type.class.java
@@ -4298,7 +4350,10 @@ class LocalVariableDeclarationTests {
 
     @Number final TestClass y @Dim1 [] @Dim2 [] = { {10, 1}, {5, 2} };
 // ^ - meta.declaration
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.java
+//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.java
+//                          ^^^^^^^^^^^^^^^^^^^^ meta.declaration.identifier.java
+//                                              ^ meta.declaration.java
+//                                               ^^^^^^^^^^^^^^^^^^^^ meta.declaration.value.java
 //                                                                   ^ - meta.declaration
 //  ^^^^^^^ meta.annotation.identifier.java
 //          ^^^^^ storage.modifier.java
@@ -4312,7 +4367,10 @@ class LocalVariableDeclarationTests {
 
     @number final testclass y @dim1 [] @dim2 [] = { {10, 1}, {5, 2} };
 // ^ - meta.declaration
-//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.java
+//  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.java
+//                          ^^^^^^^^^^^^^^^^^^^^ meta.declaration.identifier.java
+//                                              ^ meta.declaration.java
+//                                               ^^^^^^^^^^^^^^^^^^^^ meta.declaration.value.java
 //                                                                   ^ - meta.declaration
 //  ^^^^^^^ meta.annotation.identifier.java
 //          ^^^^^ storage.modifier.java
@@ -4326,8 +4384,9 @@ class LocalVariableDeclarationTests {
 
     foo.TestClass bar.baz;
 // ^ - meta.declaration
-//  ^^^^^^^^^^^^^ meta.declaration.java meta.path.java
-//               ^^^^^^^^ meta.declaration.java - meta.path
+//  ^^^^^^^^^^^^^ meta.declaration.type.java meta.path.java
+//               ^ meta.declaration.type.java - meta.path
+//                ^^^^^^^ meta.declaration.identifier.java - meta.path
 //                       ^ - meta.declaration
 //  ^^^ variable.namespace.java
 //     ^ punctuation.accessor.dot.java
@@ -4338,8 +4397,9 @@ class LocalVariableDeclarationTests {
 
     foo.testclass bar.baz;
 // ^ - meta.declaration
-//  ^^^^^^^^^^^^^ meta.declaration.java meta.path.java
-//               ^^^^^^^^ meta.declaration.java - meta.path
+//  ^^^^^^^^^^^^^ meta.declaration.type.java meta.path.java
+//               ^ meta.declaration.type.java - meta.path
+//                ^^^^^^^ meta.declaration.identifier.java - meta.path
 //                       ^ - meta.declaration
 //  ^^^ variable.namespace.java
 //     ^ punctuation.accessor.dot.java
@@ -4349,8 +4409,12 @@ class LocalVariableDeclarationTests {
 //                    ^^^ invalid.illegal.unexpected-member.java
 
     a e = new a(){};
-//  ^^^^^^ meta.declaration.java - meta.instantiation
-//        ^^^^^^^^^ meta.declaration.java meta.instantiation.java
+//  ^^^^^^ - meta.instantiation
+//  ^^ meta.declaration.type.java
+//    ^^ meta.declaration.identifier.java
+//      ^ meta.declaration.java
+//       ^ meta.declaration.value.java
+//        ^^^^^^^^^ meta.declaration.value.java meta.instantiation.java
 //                 ^ - meta.declaration - meta.instantiation
 //  ^ storage.type.class.java
 //    ^ variable.other.readwrite.java
@@ -4368,9 +4432,10 @@ class LocalVariableDeclarationTests {
   void declareGenericTypes() {
 
     List<String> x;
-//  ^^^^ meta.declaration.java - meta.generic - meta.path
-//      ^^^^^^^^ meta.declaration.java meta.generic.java - meta.path
-//              ^^ meta.declaration.java - meta.generic - meta.path
+//  ^^^^ meta.declaration.type.java - meta.generic - meta.path
+//      ^^^^^^^^ meta.declaration.type.java meta.generic.java - meta.path
+//              ^ meta.declaration.type.java - meta.generic - meta.path
+//               ^ meta.declaration.identifier.java - meta.generic - meta.path
 //                ^ - meta.declaration
 //  ^^^^ storage.type.class.java
 //      ^^^^^^^^ meta.generic.java
@@ -4381,11 +4446,12 @@ class LocalVariableDeclarationTests {
 //                ^ punctuation.terminator.java
 
     List<java.lang.String> x;
-//  ^^^^ meta.declaration.java - meta.generic - meta.path
-//      ^ meta.declaration.java meta.generic.java - meta.path
-//       ^^^^^^^^^^^^^^^^ meta.declaration.java meta.generic.java meta.path.java
-//                       ^ meta.declaration.java meta.generic.java - meta.path
-//                        ^^ meta.declaration.java - meta.generic - meta.path
+//  ^^^^ meta.declaration.type.java - meta.generic - meta.path
+//      ^ meta.declaration.type.java meta.generic.java - meta.path
+//       ^^^^^^^^^^^^^^^^ meta.declaration.type.java meta.generic.java meta.path.java
+//                       ^ meta.declaration.type.java meta.generic.java - meta.path
+//                        ^ meta.declaration.type.java - meta.generic - meta.path
+//                         ^ meta.declaration.identifier.java - meta.generic - meta.path
 //                          ^ - meta.declaration
 //  ^^^^ storage.type.class.java
 //      ^ punctuation.definition.generic.begin.java
@@ -4399,9 +4465,10 @@ class LocalVariableDeclarationTests {
 //                          ^ punctuation.terminator.java
 
     List<URI> x;
-//  ^^^^ meta.declaration.java - meta.generic - meta.path
-//      ^^^^^ meta.declaration.java meta.generic.java - meta.path
-//           ^^ meta.declaration.java - meta.generic - meta.path
+//  ^^^^ meta.declaration.type.java - meta.generic - meta.path
+//      ^^^^^ meta.declaration.type.java meta.generic.java - meta.path
+//           ^ meta.declaration.type.java - meta.generic - meta.path
+//            ^ meta.declaration.identifier.java - meta.generic - meta.path
 //             ^ - meta.declaration
 //  ^^^^ storage.type.class.java
 //      ^ punctuation.definition.generic.begin.java
@@ -4411,11 +4478,12 @@ class LocalVariableDeclarationTests {
 //             ^ punctuation.terminator.java
 
     List<java.net.URI> x;
-//  ^^^^ meta.declaration.java - meta.generic - meta.path
-//      ^ meta.declaration.java meta.generic.java - meta.path
-//       ^^^^^^^^^^^^ meta.declaration.java meta.generic.java meta.path.java
-//                   ^ meta.declaration.java meta.generic.java - meta.path
-//                    ^^ meta.declaration.java - meta.generic - meta.path
+//  ^^^^ meta.declaration.type.java - meta.generic - meta.path
+//      ^ meta.declaration.type.java meta.generic.java - meta.path
+//       ^^^^^^^^^^^^ meta.declaration.type.java meta.generic.java meta.path.java
+//                   ^ meta.declaration.type.java meta.generic.java - meta.path
+//                    ^ meta.declaration.type.java - meta.generic - meta.path
+//                     ^ meta.declaration.identifier.java - meta.generic - meta.path
 //                      ^ - meta.declaration
 //  ^^^^ storage.type.class.java
 //      ^ punctuation.definition.generic.begin.java
@@ -4429,9 +4497,10 @@ class LocalVariableDeclarationTests {
 //                      ^ punctuation.terminator.java
 
     List<int[]> x;
-//  ^^^^ meta.declaration.java - meta.generic - meta.path
-//      ^^^^^^^ meta.declaration.java meta.generic.java - meta.path
-//             ^^ meta.declaration.java - meta.generic - meta.path
+//  ^^^^ meta.declaration.type.java - meta.generic - meta.path
+//      ^^^^^^^ meta.declaration.type.java meta.generic.java - meta.path
+//             ^ meta.declaration.type.java - meta.generic - meta.path
+//              ^ meta.declaration.identifier.java - meta.generic - meta.path
 //               ^ - meta.declaration
 //  ^^^^ storage.type.class.java
 //      ^ punctuation.definition.generic.begin.java
@@ -4442,11 +4511,12 @@ class LocalVariableDeclarationTests {
 //               ^ punctuation.terminator.java
 
     List<java.lang.String[]> x;
-//  ^^^^ meta.declaration.java - meta.generic - meta.path
-//      ^ meta.declaration.java meta.generic.java - meta.path
-//       ^^^^^^^^^^^^^^^^ meta.declaration.java meta.generic.java meta.path.java
-//                       ^^^ meta.declaration.java meta.generic.java - meta.path
-//                          ^^ meta.declaration.java - meta.generic - meta.path
+//  ^^^^ meta.declaration.type.java - meta.generic - meta.path
+//      ^ meta.declaration.type.java meta.generic.java - meta.path
+//       ^^^^^^^^^^^^^^^^ meta.declaration.type.java meta.generic.java meta.path.java
+//                       ^^^ meta.declaration.type.java meta.generic.java - meta.path
+//                          ^ meta.declaration.type.java - meta.generic - meta.path
+//                           ^ meta.declaration.identifier.java - meta.generic - meta.path
 //                            ^ - meta.declaration
 //  ^^^^ storage.type.class.java
 //      ^ punctuation.definition.generic.begin.java
@@ -4461,9 +4531,10 @@ class LocalVariableDeclarationTests {
 //                            ^ punctuation.terminator.java
 
     List<URI[]> x;
-//  ^^^^ meta.declaration.java - meta.generic - meta.path
-//      ^^^^^^^ meta.declaration.java meta.generic.java - meta.path
-//             ^^ meta.declaration.java - meta.generic - meta.path
+//  ^^^^ meta.declaration.type.java - meta.generic - meta.path
+//      ^^^^^^^ meta.declaration.type.java meta.generic.java - meta.path
+//             ^ meta.declaration.type.java - meta.generic - meta.path
+//              ^ meta.declaration.identifier.java - meta.generic - meta.path
 //               ^ - meta.declaration
 //  ^^^^ storage.type.class.java
 //      ^^^^^^^ meta.generic.java
@@ -4471,9 +4542,10 @@ class LocalVariableDeclarationTests {
 //          ^^ storage.modifier.array.java
 
     List<int[][]>[][] x;
-//  ^^^^ meta.declaration.java - meta.generic - meta.path
-//      ^^^^^^^^^ meta.declaration.java meta.generic.java - meta.path
-//               ^^^^^^ meta.declaration.java - meta.generic - meta.path
+//  ^^^^ meta.declaration.type.java - meta.generic - meta.path
+//      ^^^^^^^^^ meta.declaration.type.java meta.generic.java - meta.path
+//               ^^^^^ meta.declaration.type.java - meta.generic - meta.path
+//                    ^ meta.declaration.identifier.java - meta.generic - meta.path
 //                     ^ - meta.declaration
 //  ^^^^ storage.type.class.java
 //      ^ punctuation.definition.generic.begin.java
@@ -4485,9 +4557,10 @@ class LocalVariableDeclarationTests {
 //                     ^ punctuation.terminator.java
 
     List<? extends int> x;
-//  ^^^^ meta.declaration.java - meta.generic - meta.path
-//      ^^^^^^^^^^^^^^^ meta.declaration.java meta.generic.java - meta.path
-//                     ^^ meta.declaration.java - meta.generic - meta.path
+//  ^^^^ meta.declaration.type.java - meta.generic - meta.path
+//      ^^^^^^^^^^^^^^^ meta.declaration.type.java meta.generic.java - meta.path
+//                     ^ meta.declaration.type.java - meta.generic - meta.path
+//                      ^ meta.declaration.identifier.java - meta.generic - meta.path
 //                       ^ - meta.declaration
 //  ^^^^ storage.type.class.java
 //      ^ punctuation.definition.generic.begin.java
@@ -4500,12 +4573,13 @@ class LocalVariableDeclarationTests {
 
     @anno foo . @anno TestClass<T> @anno . anno [] bar . baz;
 // ^ - meta.declaration
-//  ^^^^^ meta.declaration.java meta.annotation.identifier.java - meta.path
-//       ^ meta.declaration.java - meta.annotation - meta.path
-//        ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.java meta.path.java
-//                                ^ meta.declaration.java - meta.path
-//                                 ^^^^^^^^^^^^ meta.declaration.java meta.annotation.identifier.java meta.path.java
-//                                             ^^^^^^^^^^^^^ meta.declaration.java - meta.annotation - meta.path
+//  ^^^^^ meta.declaration.type.java meta.annotation.identifier.java - meta.path
+//       ^ meta.declaration.type.java - meta.annotation - meta.path
+//        ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.java meta.path.java
+//                                ^ meta.declaration.type.java - meta.path
+//                                 ^^^^^^^^^^^^ meta.declaration.type.java meta.annotation.identifier.java meta.path.java
+//                                             ^^^^ meta.declaration.type.java - meta.annotation - meta.path
+//                                                 ^^^^^^^^^ meta.declaration.identifier.java - meta.annotation - meta.path
 //                                                          ^ - meta.declaration
 //  ^ punctuation.definition.annotation.java
 //   ^^^^ variable.annotation.java
@@ -4529,12 +4603,13 @@ class LocalVariableDeclarationTests {
 
     @anno foo . @anno testclass<t> @anno . anno [] bar . baz;
 // ^ - meta.declaration
-//  ^^^^^ meta.declaration.java meta.annotation.identifier.java - meta.path
-//       ^ meta.declaration.java - meta.annotation - meta.path
-//        ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.java meta.path.java
-//                                ^ meta.declaration.java - meta.path
-//                                 ^^^^^^^^^^^^ meta.declaration.java meta.annotation.identifier.java meta.path.java
-//                                             ^^^^^^^^^^^^^ meta.declaration.java - meta.annotation - meta.path
+//  ^^^^^ meta.declaration.type.java meta.annotation.identifier.java - meta.path
+//       ^ meta.declaration.type.java - meta.annotation - meta.path
+//        ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.java meta.path.java
+//                                ^ meta.declaration.type.java - meta.path
+//                                 ^^^^^^^^^^^^ meta.declaration.type.java meta.annotation.identifier.java meta.path.java
+//                                             ^^^^ meta.declaration.type.java - meta.annotation - meta.path
+//                                                 ^^^^^^^^^ meta.declaration.identifier.java - meta.annotation - meta.path
 //                                                          ^ - meta.declaration
 //  ^ punctuation.definition.annotation.java
 //   ^^^^ variable.annotation.java
@@ -4568,9 +4643,9 @@ class LocalVariableDeclarationTests {
 //           ^ punctuation.definition.generic.end.java
 //            ^^ punctuation.section.block.begin.java
       a<a>a;
-//    ^ meta.declaration.java - meta.generic
-//     ^^^ meta.declaration.java meta.generic.java
-//        ^ meta.declaration.java - meta.generic
+//    ^ meta.declaration.type.java - meta.generic
+//     ^^^ meta.declaration.type.java meta.generic.java
+//        ^ meta.declaration.identifier.java - meta.generic
 //    ^ storage.type.class.java
 //     ^ punctuation.definition.generic.begin.java
 //      ^ storage.type.class.java
@@ -4913,7 +4988,10 @@ class AssertStatementTests {
 
     assert int foo=0;
 //  ^^^^^^^ meta.assertion.java
-//         ^^^^^^^^^ meta.declaration.java - meta.assertion
+//         ^^^^ meta.declaration.type.java - meta.assertion
+//             ^^^ meta.declaration.identifier.java - meta.assertion
+//                ^ meta.declaration.java - meta.assertion
+//                 ^ meta.declaration.value.java - meta.assertion
 
     assert if (true) {}
 //  ^^^^^^^ meta.assertion.java
