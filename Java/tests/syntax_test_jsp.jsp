@@ -304,7 +304,7 @@
 //      ^ entity.name.tag.html punctuation.separator.namespace.html
 //       ^^^^^^^^^^ entity.name.tag.localname.html
 //                 ^ punctuation.definition.tag.end.html
-//                  ^^^^^^^^ source.java.embedded.html variable.other.readwrite.java - source.java source.java
+//                  ^^^^^^^^ source.java.embedded.html variable.other.java - source.java source.java
 //                          ^^^^^^^^^^^^^^^^^ meta.tag.jsp.expression.end.html
 //                          ^^ punctuation.definition.tag.begin.html
 //                            ^^^ entity.name.tag.namespace.html
