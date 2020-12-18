@@ -4107,6 +4107,14 @@ class LocalVariableDeclarationTests {
 //      ^^^ variable.other.java
 //         ^ punctuation.terminator.java
 
+    int FOO;
+//  ^^^^ meta.declaration.type.java
+//      ^^^ meta.declaration.identifier.java
+//         ^ - meta.declaration
+//  ^^^ storage.type.primitive.java
+//      ^^^ constant.other.java
+//         ^ punctuation.terminator.java
+
     int foo, bar;
 // ^ - meta.declaration
 //  ^^^^ meta.declaration.type.java

@@ -1084,7 +1084,7 @@ contexts:
 
   variable-declaration-identifier:
     - match: '{{uppercase_id}}'
-      scope: entity.name.constant.java
+      scope: constant.other.java
       pop: 1
     - match: '{{identifier}}'
       scope: variable.other.java
