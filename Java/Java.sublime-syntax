@@ -385,39 +385,40 @@ contexts:
     - meta_content_scope: meta.declaration.value.java
     - include: variable-initializer
 
-###[ LOCAL VARIABLE DECLARATION OR ASSIGNMENT ]################################
+###[ VARIABLE DECLARATIONS OR ASSIGNMENTS ]####################################
 
-  local-variable-declarations:
-    # https://docs.oracle.com/javase/specs/jls/se13/html/jls-14.html#jls-14.4
+  variable-declarations-or-assignments:
+    # A subset of `declarations` to optimize performance in contexts which need
+    # to distinguish between variable declaration and variable assignment only.
     - match: (?=[{{id_first_char}}@<])
-      branch_point: local-variable-declarations
+      branch_point: variable-declarations-or-assignments
       branch:
-        - local-variable-declaration
-        - local-variable-assignment
+        - variable-maybe-declaration
+        - variable-maybe-assignment
 
-  local-variable-assignment:
+  variable-maybe-assignment:
     - match: ''
       set:
-        - local-variable-maybe-modifier
-        - local-variable-expect-identifier
+        - variable-maybe-modifier
+        - variable-expect-identifier
 
-  local-variable-maybe-modifier:
+  variable-maybe-modifier:
     - meta_content_scope: meta.variable.identifier.java
     - include: maybe-only-array-modifiers
 
-  local-variable-declaration:
+  variable-maybe-declaration:
     - match: ''
       set:
         - variable-declaration-list
         - variable-declaration-maybe-assignment
-        - local-variable-expect-identifier
+        - variable-expect-identifier
         - variable-declaration-type-modifier
         - variable-declaration-type
 
-  local-variable-expect-identifier:
+  variable-expect-identifier:
     - include: variable-declaration-identifier
     - match: (?=\S)
-      fail: local-variable-declarations
+      fail: variable-declarations-or-assignments
 
 ###[ PACKAGE DECLARATIONS ]####################################################
 
@@ -1291,7 +1292,7 @@ contexts:
     - match: ';'
       scope: punctuation.terminator.java
       set: for-parameters-condition
-    - include: local-variable-declarations
+    - include: variable-declarations-or-assignments
     - include: expressions
     - include: expression-terminator
 
@@ -1463,7 +1464,7 @@ contexts:
   try-parameters-body:
     - meta_scope: meta.group.java
     - include: group-end
-    - include: local-variable-declarations
+    - include: variable-declarations-or-assignments
     - include: punctuation-terminator-semicolon
     - include: expressions
     - include: expression-terminator
