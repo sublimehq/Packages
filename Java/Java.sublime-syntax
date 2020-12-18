@@ -321,7 +321,7 @@ contexts:
     - match: ''
       set:
         - variable-declaration-list
-        - variable-declaration-maybe-assignment
+        - variable-declaration-value-assignment
         - variable-declaration-expect-identifier
         - variable-declaration-type-modifier
         - variable-declaration-type
@@ -1070,7 +1070,7 @@ contexts:
         meta.declaration.java
         punctuation.separator.comma.java
       push:
-        - variable-declaration-maybe-assignment
+        - variable-declaration-value-assignment
         - variable-declaration-maybe-identifier
     - include: else-pop
 
@@ -1090,16 +1090,16 @@ contexts:
       scope: variable.other.java
       pop: 1
 
-  variable-declaration-maybe-assignment:
+  variable-declaration-value-assignment:
     - meta_content_scope: meta.declaration.identifier.java
     - match: =
       scope:
         meta.declaration.java
         keyword.operator.assignment.java
-      set: variable-declaration-initializer
+      set: variable-declaration-value-initializer
     - include: maybe-only-array-modifiers
 
-  variable-declaration-initializer:
+  variable-declaration-value-initializer:
     - meta_content_scope: meta.declaration.value.java
     - include: variable-initializer
 
@@ -1128,7 +1128,7 @@ contexts:
     - match: ''
       set:
         - variable-declaration-list
-        - variable-declaration-maybe-assignment
+        - variable-declaration-value-assignment
         - variable-expect-identifier
         - variable-declaration-type-modifier
         - variable-declaration-type
