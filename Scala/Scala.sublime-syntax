@@ -226,7 +226,7 @@ contexts:
     - match: '(?=({{idorunder}}|{{idorunder}}\s*:(\s*{{id}}\s*{{withinbrackets}}?(\s*[\.#]\s*{{id}}\s*{{withinbrackets}}?)*)+|{{idorunder}}\s*:\s*{{withinparens}}|{{withinparens}})\s*(?:{{rightarrow}})(?:/\*|//|[[[:alpha:]]0-9\s\)\]\}]))'
       push:
         - match: '{{rightarrow}}'
-          scope: storage.type.function.arrow.lambda.scala
+          scope: keyword.declaration.function.arrow.lambda.scala
           pop: true
         - include: lambda-declaration
   lambda-declaration-base:
@@ -344,7 +344,7 @@ contexts:
   declarations:
     - match: '\b(def)\s+({{id}})'
       captures:
-        1: storage.type.function.scala
+        1: keyword.declaration.function.scala
         2: entity.name.function.scala
       push: function-type-parameter-list
     - match: '\b(?:(case)\s+)?(class|trait|object)(?:\s+({{id}}))'
@@ -419,14 +419,14 @@ contexts:
           scope: keyword.control.flow.scala
           set:
             - match: '{{rightarrow}}'
-              scope: storage.type.function.arrow.case.scala
+              scope: keyword.declaration.function.arrow.case.scala
               set: case-body-first
             - include: main-no-lambdas
         # eliminates arrow from the pattern meta scope
         - match: '(?={{rightarrow}})'
           set:
             - match: '{{rightarrow}}'
-              scope: storage.type.function.arrow.case.scala
+              scope: keyword.declaration.function.arrow.case.scala
               set: case-body-first
         - match: '(?=\}|\bcase\b)'    # makes typing more pleasant
           pop: true
@@ -466,14 +466,14 @@ contexts:
           scope: keyword.control.flow.scala
           set:
             - match: '{{rightarrow}}'
-              scope: storage.type.function.arrow.case.scala
+              scope: keyword.declaration.function.arrow.case.scala
               set: case-body-non-first
             - include: main-no-lambdas
         # eliminates arrow from the pattern meta scope
         - match: '(?={{rightarrow}})'
           set:
             - match: '{{rightarrow}}'
-              scope: storage.type.function.arrow.case.scala
+              scope: keyword.declaration.function.arrow.case.scala
               set: case-body-non-first
         - match: '(?=\}|\bcase\b)'    # makes typing more pleasant
           pop: true
@@ -1043,7 +1043,7 @@ contexts:
     - match: '\b(?:(?:case\s+)?class|trait|object)\b'
       scope: storage.type.class.scala
     - match: \bdef\b
-      scope: storage.type.function.scala
+      scope: keyword.declaration.function.scala
     - match: \btype\b
       scope: storage.type.scala
     - match: \bvar\b
