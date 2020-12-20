@@ -350,8 +350,8 @@ contexts:
     - match: '\b(?:(case)\s+)?(class|trait|object)(?:\s+({{id}}))'
       scope: meta.class.identifier.scala
       captures:
-        1: storage.type.class.scala
-        2: storage.type.class.scala
+        1: keyword.declaration.class.scala
+        2: keyword.declaration.class.scala
         3: entity.name.class.scala
       push: class-type-parameter-list
     - match: '\b(type)\s+({{id}})'
@@ -389,7 +389,7 @@ contexts:
     - match: '\b(package)\s+(object)\s+({{id}})'
       captures:
         1: keyword.declaration.namespace.scala
-        2: storage.type.class.scala
+        2: keyword.declaration.class.scala
         3: entity.name.class.scala
       push: class-inheritance-extends
     - match: '\b(package)\s+({{id}}(?:\.{{id}})*)\s*(\{)'
@@ -1040,8 +1040,8 @@ contexts:
       scope: invalid.keyword.dangling-with.scala
     - match: \bforSome\b
       scope: keyword.declaration.scala
-    - match: '\b(?:(?:case\s+)?class|trait|object)\b'
-      scope: storage.type.class.scala
+    - match: \b(?:(?:case\s+)?class|trait|object)\b
+      scope: keyword.declaration.class.scala
     - match: \bdef\b
       scope: keyword.declaration.function.scala
     - match: \btype\b

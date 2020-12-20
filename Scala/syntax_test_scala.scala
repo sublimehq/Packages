@@ -102,7 +102,7 @@ def foo(a: Int, b: Bar): Baz = 42
 
    class Foo[A](a: Bar) extends Baz with Bin
 // ^^^^^^^^^ meta.class.identifier.scala
-// ^^^^^ storage.type.class.scala
+// ^^^^^ keyword.declaration.class.scala
 //      ^ - storage - entity
 //       ^^^ entity.name.class
 //           ^ support.class
@@ -114,7 +114,7 @@ def foo(a: Int, b: Bar): Baz = 42
 //                                       ^^^ entity.other.inherited-class.scala
 
    class Foo private[this] (a: Int)(b: String)
-// ^^^^^ storage.type.class.scala
+// ^^^^^ keyword.declaration.class.scala
 //      ^ - storage - entity
 //       ^^^ entity.name.class
 //          ^ - storage - entity
@@ -134,11 +134,11 @@ def foo(x: Int = 42)
 //               ^^ meta.number
 
 trait Foo
-// ^^ storage.type.class.scala
+// ^^ keyword.declaration.class.scala
 //    ^^^ entity.name.class
 
 object Foo
-// ^^^ storage.type.class.scala
+// ^^^ keyword.declaration.class.scala
 //     ^^^ entity.name.class
 
    type Foo = Bar
@@ -536,13 +536,13 @@ type Foo = Bar[A] forSome { type A }
 // ^^^^ invalid.keyword.dangling-with.scala
 
    class
-// ^^^^^ storage.type.class.scala
+// ^^^^^ keyword.declaration.class.scala
 
    trait
-// ^^^^^ storage.type.class.scala
+// ^^^^^ keyword.declaration.class.scala
 
    object
-// ^^^^^^ storage.type.class.scala
+// ^^^^^^ keyword.declaration.class.scala
 
    def
 // ^^^ keyword.declaration.function.scala
@@ -684,29 +684,29 @@ type Foo = Bar[A] forSome { type A }
 //                   ^ - keyword
 
    case object Thingy extends Other
-// ^^^^ storage.type.class.scala
-//      ^^^^^^ storage.type.class.scala
+// ^^^^ keyword.declaration.class.scala
+//      ^^^^^^ keyword.declaration.class.scala
 //             ^^^^^^ entity.name.class.scala
 //                    ^^^^^^^ keyword.declaration.scala
 //                            ^^^^^ entity.other.inherited-class.scala
 
    case object Thingy extends (Foo => Bar)
-// ^^^^ storage.type.class.scala
-//      ^^^^^^ storage.type.class.scala
+// ^^^^ keyword.declaration.class.scala
+//      ^^^^^^ keyword.declaration.class.scala
 //             ^^^^^^ entity.name.class.scala
 //                    ^^^^^^^ keyword.declaration.scala
 //                             ^^^ support.class
 
 {
    case class
-// ^^^^ storage.type.class.scala
-//      ^^^^^ storage.type.class.scala
+// ^^^^ keyword.declaration.class.scala
+//      ^^^^^ keyword.declaration.class.scala
 }
 
    case class Thingy(abc: Int) extends Other
 // ^^^^^^^^^^^^^^^^^ meta.class.identifier.scala
-// ^^^^ storage.type.class.scala
-//      ^^^^^ storage.type.class.scala
+// ^^^^ keyword.declaration.class.scala
+//      ^^^^^ keyword.declaration.class.scala
 //            ^^^^^^ entity.name.class.scala
 //                   ^^^ variable.parameter
 //                             ^^^^^^^ keyword.declaration.scala
@@ -1286,7 +1286,7 @@ val Stuff(thing, other) = ???
 //              ^^ keyword.declaration.function.arrow.lambda.scala
 
 /** private */ class Foo
-//             ^^^^^ storage.type.class
+//             ^^^^^ keyword.declaration.class.scala
 
    foo
 // ^^^ - comment
@@ -1655,7 +1655,7 @@ class Foo extends Bar[Int]
 //                       ^ punctuation.definition.generic.end.scala
 
    object Underscore_
-// ^^^^^^ storage.type.class.scala
+// ^^^^^^ keyword.declaration.class.scala
 //        ^^^^^^^^^^^ entity.name.class.scala
 
 match {
@@ -1802,7 +1802,7 @@ for {
 //     ^ punctuation.definition.tag.end
 
    case class
-// ^^^^ storage.type.class.scala
+// ^^^^ keyword.declaration.class.scala
 
 new Monad[Catenable] with Traverse
 //       ^ punctuation.definition.generic.begin.scala
@@ -1814,7 +1814,7 @@ new Monad[Catenable] with Traverse
    final class A
    final class B[A[_] <: B](a: B)
 // ^^^^^ storage.modifier.other.scala
-//       ^^^^^ storage.type.class.scala
+//       ^^^^^ keyword.declaration.class.scala
 //             ^ entity.name.class.scala
 //              ^^^^^^^^^^^ meta.generic.scala
 //              ^ punctuation.definition.generic.begin.scala
@@ -1833,7 +1833,7 @@ abc match {
    sealed trait Foo
    sealed trait Bar
 // ^^^^^^ storage.modifier.other.scala
-//        ^^^^^ storage.type.class.scala
+//        ^^^^^ keyword.declaration.class.scala
 //              ^^^ entity.name.class.scala
 
 package object foo extends Bar with Baz
