@@ -388,13 +388,13 @@ contexts:
       push: val-simple-body
     - match: '\b(package)\s+(object)\s+({{id}})'
       captures:
-        1: keyword.control.scala
+        1: keyword.declaration.namespace.scala
         2: storage.type.class.scala
         3: entity.name.class.scala
       push: class-inheritance-extends
     - match: '\b(package)\s+({{id}}(?:\.{{id}})*)\s*(\{)'
       captures:
-        1: keyword.control.scala
+        1: keyword.declaration.namespace.scala
         2: entity.name.namespace.scoped.scala
         3: punctuation.section.block.begin.scala
       push:
@@ -406,7 +406,7 @@ contexts:
     - match: '\b(package)\s+({{id}}(?:\.{{id}})*)'
       scope: meta.namespace.scala
       captures:
-        1: keyword.control.scala
+        1: keyword.declaration.namespace.scala
         2: entity.name.namespace.header.scala
     # what follows is identical to case-pattern, except it goes to case-body-first
     - match: '\bcase\b(?!\s+class\b)'
@@ -1049,7 +1049,7 @@ contexts:
     - match: \bvar\b
       scope: storage.type.volatile.scala
     - match: \bpackage\b
-      scope: keyword.control.scala
+      scope: keyword.declaration.namespace.scala
 
   late-operators:
     # catch all valid identifiers and let them fall through

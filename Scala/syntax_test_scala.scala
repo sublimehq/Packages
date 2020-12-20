@@ -2,11 +2,11 @@
 // <- source.scala comment.line.double-slash.scala
 
 package fubar
-// ^^^^ keyword.control
+// ^^^^ keyword.declaration.namespace.scala
 //      ^^^^^ entity.name.namespace.header.scala
 
 package fubar {
-// ^^^^ keyword.control.scala
+// ^^^^ keyword.declaration.namespace.scala
 //      ^^^^^ entity.name.namespace.scoped.scala
 //            ^ punctuation.section.block.begin.scala
 // <- meta.namespace.scala
@@ -557,7 +557,7 @@ type Foo = Bar[A] forSome { type A }
 // ^^^^^^ keyword.other.import.scala
 
    package
-// ^^^^^^^ keyword.control.scala
+// ^^^^^^^ keyword.declaration.namespace.scala
 
    private
 // ^^^^^^^ storage.modifier.access
