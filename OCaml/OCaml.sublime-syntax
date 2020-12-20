@@ -417,7 +417,7 @@ contexts:
     - match: ({{sign}})(0[xX])(_*)({{hex_integer}})(?:(\.)({{hex_digit}}*)({{hex_exponent}})?|({{hex_exponent}}))
       scope: meta.number.float.hexadecimal.ocaml
       captures:
-        1: punctuation.definition.numeric.sign.ocaml
+        1: keyword.operator.arithmetic.ocaml
         2: constant.numeric.base.ocaml
         3: invalid.illegal.numeric.ocaml
         4: constant.numeric.value.ocaml
@@ -431,7 +431,7 @@ contexts:
     - match: ({{sign}})({{dec_integer}})(?:(\.)({{dec_digit}}*)({{dec_exponent}})?|({{dec_exponent}}))
       scope: meta.number.float.decimal.ocaml
       captures:
-        1: punctuation.definition.numeric.sign.ocaml
+        1: keyword.operator.arithmetic.ocaml
         2: constant.numeric.value.ocaml
         3: punctuation.separator.decimal.ocaml
         4: constant.numeric.value.ocaml
@@ -443,7 +443,7 @@ contexts:
     - match: ({{sign}})(0[xX])(_*)({{hex_integer}}*)({{suffix}})
       scope: meta.number.integer.hexadecimal.ocaml
       captures:
-        1: punctuation.definition.numeric.sign.ocaml
+        1: keyword.operator.arithmetic.ocaml
         2: constant.numeric.base.ocaml
         3: invalid.illegal.numeric.ocaml
         4: constant.numeric.value.ocaml
@@ -452,7 +452,7 @@ contexts:
     - match: ({{sign}})(0[oO])(_*)({{oct_integer}}*)({{suffix}})
       scope: meta.number.integer.octal.ocaml
       captures:
-        1: punctuation.definition.numeric.sign.ocaml
+        1: keyword.operator.arithmetic.ocaml
         2: constant.numeric.base.ocaml
         3: invalid.illegal.numeric.ocaml
         4: constant.numeric.value.ocaml
@@ -461,7 +461,7 @@ contexts:
     - match: ({{sign}})(0[bB])(_*)({{bin_integer}}*)({{suffix}})
       scope: meta.number.integer.binary.ocaml
       captures:
-        1: punctuation.definition.numeric.sign.ocaml
+        1: keyword.operator.arithmetic.ocaml
         2: constant.numeric.base.ocaml
         3: invalid.illegal.numeric.ocaml
         4: constant.numeric.value.ocaml
@@ -470,7 +470,7 @@ contexts:
     - match: ({{sign}})({{dec_integer}})({{suffix}})
       scope: meta.number.integer.decimal.ocaml
       captures:
-        1: punctuation.definition.numeric.sign.ocaml
+        1: keyword.operator.arithmetic.ocaml
         2: constant.numeric.value.ocaml
         3: constant.numeric.suffix.ocaml
     # invalid numbers

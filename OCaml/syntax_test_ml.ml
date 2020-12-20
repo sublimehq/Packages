@@ -48,7 +48,7 @@
 
     -123
 (*  ^^^^ meta.number.integer.decimal.ocaml - keyword.ocaml *)
-(*  ^ punctuation.definition.numeric.sign *)
+(*  ^ keyword.operator.arithmetic.ocaml *)
 (*   ^^^ constant.numeric.value.ocaml *)
 
     0123456789
