@@ -108,9 +108,9 @@ def foo(a: Int, b: Bar): Baz = 42
 //           ^ support.class
 //              ^ variable.parameter
 //                 ^^^ support.class
-//                      ^^^^^^^ keyword.declaration.scala
+//                      ^^^^^^^ storage.modifier.extends.scala
 //                              ^^^ entity.other.inherited-class.scala
-//                                  ^^^^ keyword.declaration.scala
+//                                  ^^^^ storage.modifier.with.scala
 //                                       ^^^ entity.other.inherited-class.scala
 
    class Foo private[this] (a: Int)(b: String)
@@ -687,14 +687,14 @@ type Foo = Bar[A] forSome { type A }
 // ^^^^ keyword.declaration.class.scala
 //      ^^^^^^ keyword.declaration.class.scala
 //             ^^^^^^ entity.name.class.scala
-//                    ^^^^^^^ keyword.declaration.scala
+//                    ^^^^^^^ storage.modifier.extends.scala
 //                            ^^^^^ entity.other.inherited-class.scala
 
    case object Thingy extends (Foo => Bar)
 // ^^^^ keyword.declaration.class.scala
 //      ^^^^^^ keyword.declaration.class.scala
 //             ^^^^^^ entity.name.class.scala
-//                    ^^^^^^^ keyword.declaration.scala
+//                    ^^^^^^^ storage.modifier.extends.scala
 //                             ^^^ support.class
 
 {
@@ -709,7 +709,7 @@ type Foo = Bar[A] forSome { type A }
 //      ^^^^^ keyword.declaration.class.scala
 //            ^^^^^^ entity.name.class.scala
 //                   ^^^ variable.parameter
-//                             ^^^^^^^ keyword.declaration.scala
+//                             ^^^^^^^ storage.modifier.extends.scala
 //                                     ^^^^^ entity.other.inherited-class.scala
 //
 
@@ -888,12 +888,12 @@ new (Foo ~> Bar)
 
   class Foo(val bar: Baz) extends AnyVal
 //          ^^^ storage.type.scala
-//                        ^^^^^^^ keyword.declaration.scala
+//                        ^^^^^^^ storage.modifier.extends.scala
 //                                ^^^^^^ entity.other.inherited-class.scala
 
   class Foo(implicit bar: Baz) extends AnyVal
 //          ^^^^^^^^ storage.modifier.other
-//                             ^^^^^^^ keyword.declaration.scala
+//                             ^^^^^^^ storage.modifier.extends.scala
 //                                     ^^^^^^ entity.other.inherited-class.scala
 
    val Stuff(f1, v1) = ???
@@ -1605,14 +1605,16 @@ class Foo extends Bar[A with B](42)
 class Foo extends Bar { val x = 42 } with Baz
 //                    ^ punctuation.section.braces.begin.scala
 //                                 ^ punctuation.section.braces.end.scala
-//                                   ^^^^ keyword.declaration.scala
+//                                   ^^^^ storage.modifier.with.scala
 //                                        ^^^ entity.other.inherited-class.scala
 
 class Foo { val x = 42 } extends Bar with Baz
 //        ^ punctuation.section.braces.begin.scala
 //                     ^ punctuation.section.braces.end.scala
-//                       ^^^^^^^ keyword.declaration.scala
+//                       ^^^^^^^ storage.modifier.extends.scala
 //                               ^^^ entity.other.inherited-class.scala
+//                                   ^^^^ storage.modifier.with.scala
+//                                        ^^^ entity.other.inherited-class.scala
 
 class Foo {
 
@@ -1683,18 +1685,18 @@ match {
 
 class Foo
     extends Bar
-//  ^^^^^^^ keyword.declaration.scala
+//  ^^^^^^^ storage.modifier.extends.scala
 //          ^^^ entity.other.inherited-class.scala
 
 class Foo extends Bar
     with Baz
-//  ^^^^ keyword.declaration.scala
+//  ^^^^ storage.modifier.with.scala
 //       ^^^ entity.other.inherited-class.scala
 
 class Foo extends Bar
     with Baz
     with Bin
-//  ^^^^ keyword.declaration.scala
+//  ^^^^ storage.modifier.with.scala
 //       ^^^ entity.other.inherited-class.scala
 
 def foo
@@ -1837,9 +1839,9 @@ abc match {
 //              ^^^ entity.name.class.scala
 
 package object foo extends Bar with Baz
-//                 ^^^^^^^ keyword.declaration.scala
+//                 ^^^^^^^ storage.modifier.extends.scala
 //                         ^^^ entity.other.inherited-class.scala
-//                             ^^^^ keyword.declaration.scala
+//                             ^^^^ storage.modifier.with.scala
 //                                  ^^^ entity.other.inherited-class.scala
 
 new RangeColumn(range) with LongColumn { def apply(row: Int) = a + row }
