@@ -104,27 +104,21 @@
     0xa. 0xa.b  0xa.ep1 0xa.ep-_1
 (*  ^^^^ meta.number.float.hexadecimal.ocaml *)
 (*  ^^ constant.numeric.base.ocaml *)
-(*    ^ constant.numeric.value.ocaml *)
+(*    ^^ constant.numeric.value.ocaml *)
 (*     ^ punctuation.separator.decimal *)
 (*       ^^^^^ meta.number.float.hexadecimal.ocaml *)
 (*       ^^ constant.numeric.base.ocaml *)
-(*         ^ constant.numeric.value.ocaml *)
+(*         ^^^ constant.numeric.value.ocaml *)
 (*          ^ punctuation.separator.decimal *)
-(*           ^ constant.numeric.value.ocaml *)
 (*              ^^^^^^^ meta.number.float.hexadecimal.ocaml *)
 (*              ^^ constant.numeric.base.ocaml *)
-(*                ^ constant.numeric.value.ocaml *)
+(*                ^^^^^ constant.numeric.value.ocaml *)
 (*                 ^ punctuation.separator.decimal *)
-(*                  ^ constant.numeric.value.ocaml *)
-(*                   ^^ constant.numeric.value.exponent.ocaml *)
 (*                      ^^^^^^^^^ meta.number.float.hexadecimal.ocaml *)
 (*                      ^^ constant.numeric.base.ocaml *)
-(*                        ^ constant.numeric.value.ocaml *)
+(*                        ^^^^^^^ constant.numeric.value.ocaml *)
 (*                         ^ punctuation.separator.decimal *)
-(*                          ^ constant.numeric.value.ocaml *)
-(*                           ^^ constant.numeric.value.exponent.ocaml *)
 (*                             ^ invalid.illegal.numeric *)
-(*                              ^ constant.numeric.value.exponent.ocaml *)
 
     0b1.foo
 (*  ^^^^^^^ invalid.illegal.numeric *)
@@ -146,12 +140,9 @@
 
     12345e6_7_8
 (*  ^^^^^^^^^^^ meta.number.float.decimal.ocaml *)
-(*  ^^^^^ constant.numeric.value.ocaml *)
-(*       ^^^^^^ constant.numeric.value.exponent.ocaml *)
+(*  ^^^^^^^^^^^ constant.numeric.value.ocaml *)
 
     123.456e+789
 (*  ^^^^^^^^^^^^ meta.number.float.decimal.ocaml *)
-(*  ^^^ constant.numeric.value.ocaml *)
+(*  ^^^^^^^^^^^^ constant.numeric.value.ocaml *)
 (*     ^ punctuation.separator.decimal *)
-(*      ^^^ constant.numeric.value.ocaml *)
-(*         ^^^^^ constant.numeric.value.exponent.ocaml *)
