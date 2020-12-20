@@ -41,9 +41,8 @@ variables:
   bin_suffix: '[2-9a-zA-Z_][[:alnum:]_]*'
   oct_suffix: '[8-9g-zG-Z_][[:alnum:]_]*'
   dec_suffix: '[a-zA-Z_][[:alnum:]_]*'
-  hex_suffix: '[g-zG-Z_][[:alnum:]_]*'
+  hex_suffix: '[g-zG-Z_][[:alnum:]_]*'  
   float_suffix: '[fF]'
-  integer_suffix: '[lL]{1,2}[uU]?|[uU][lL]{0,2}'
 
   identifier: \b[[:alpha:]_][[:alnum:]_]*\b # upper and lowercase
   macro_identifier: \b[[:upper:]_][[:upper:][:digit:]_]{2,}\b # only uppercase, at least 3 chars
@@ -164,39 +163,34 @@ contexts:
         (?x:
           \b({{dec_digits}})
           (?:
-            (?:
-              (\.)
+            ( (\.)
               (?:
                 # 1.1, 1.1e1, 1.1e-1, 1.1f, 1.1e1f, 1.1e-1f, 1.1L, 1.1e1L, 1.1e-1L
-                ({{dec_digits}}) ({{dec_exponent}})?
+                {{dec_digit}}+ {{dec_exponent}}?
                 # 1.e1, 1.e-1, 1.e1f, 1.e-1f, 1.e1L, 1.e-1L
-                | ({{dec_exponent}})
+                | {{dec_exponent}}
                 # 1., 1.f, 1.L # but not `..`
                 | (?!\.)
               )
               # 1e1 1e1f 1e1L
-              | ({{dec_exponent}})
+              | {{dec_exponent}}
             ) ({{dec_suffix}})?
             # 1f
             | ({{float_suffix}})
           )
           # .1, .1e1, .1e-1, .1f, .1e1f, .1e-1f, .1L, .1e1L, .1e-1L
-          | (\.) ({{dec_digits}}) ({{dec_exponent}})? ({{dec_suffix}})?
+          | ( (\.) {{dec_digit}}+ {{dec_exponent}}? ) ({{dec_suffix}})?
         )
       scope: meta.number.float.decimal.c++
       captures:
         1: constant.numeric.value.c++
-        2: punctuation.separator.decimal.c++
-        3: constant.numeric.value.c++
-        4: constant.numeric.value.exponent.c++
-        5: constant.numeric.value.exponent.c++
-        6: constant.numeric.value.exponent.c++
-        7: constant.numeric.suffix.c++
+        2: constant.numeric.value.c++
+        3: punctuation.separator.decimal.c++
+        4: constant.numeric.suffix.c++
+        5: constant.numeric.suffix.c++
+        6: constant.numeric.value.c++
+        7: punctuation.separator.decimal.c++
         8: constant.numeric.suffix.c++
-        9: punctuation.separator.decimal.c++
-        10: constant.numeric.value.c++
-        11: constant.numeric.value.exponent.c++
-        12: constant.numeric.suffix.c++
 
     # hexadecimal float
     - match: \b(0[xX])({{hex_digit}}*(\.){{hex_digit}}*{{hex_exponent}})({{dec_suffix}})?

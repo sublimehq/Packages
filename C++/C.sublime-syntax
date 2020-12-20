@@ -26,6 +26,8 @@ variables:
   oct_suffix: '[8-9g-zG-Z_][[:alnum:]_]*'
   dec_suffix: '[a-zA-Z_][[:alnum:]_]*'
   hex_suffix: '[g-zG-Z_][[:alnum:]_]*'
+  double_suffix: '[fFlL]'
+  float_suffix: '[fF]'
   integer_suffix: '[lL]{1,2}[uU]?|[uU][lL]{0,2}'
 
   identifier: \b[[:alpha:]_][[:alnum:]_]*\b # upper and lowercase
@@ -195,29 +197,39 @@ contexts:
     # decimal floats
     - match: |-
         (?x:
-          \b(\d+)
+          \b({{dec_digits}})
           (?:
-            (?: (\.) (?: (\d+) ({{dec_exponent}})? | ({{dec_exponent}}) | (?=[^.])) | ({{dec_exponent}}) )
-            (?: ([fFlL])\b | ({{dec_suffix}})? ) | ([fF])\b
-          )
-          | (\.) (\d+) ({{dec_exponent}})? (?: ([fFlL])\b | ({{dec_suffix}})? )
+            ( (\.)
+              (?:
+                # 1.1, 1.1e1, 1.1e-1, 1.1f, 1.1e1f, 1.1e-1f, 1.1L, 1.1e1L, 1.1e-1L
+                {{dec_digit}}+ {{dec_exponent}}?
+                # 1.e1, 1.e-1, 1.e1f, 1.e-1f, 1.e1L, 1.e-1L
+                | {{dec_exponent}}
+                # 1., 1.f, 1.L # but not `..`
+                | (?!\.)
+              )
+              # 1e1 1e1f 1e1L
+              | {{dec_exponent}}
+            ) ({{double_suffix}})?
+            # 1f
+            | ({{float_suffix}})
+          ) ({{dec_suffix}})?
+          # .1, .1e1, .1e-1, .1f, .1e1f, .1e-1f, .1L, .1e1L, .1e-1L
+          | ( (\.) {{dec_digit}}+ {{dec_exponent}}? ) (?: ({{double_suffix}}) | ({{dec_suffix}}) )?
         )
       scope: meta.number.float.decimal.c
       captures:
         1: constant.numeric.value.c
-        2: punctuation.separator.decimal.c
-        3: constant.numeric.value.c
-        4: constant.numeric.value.exponent.c
-        5: constant.numeric.value.exponent.c
-        6: constant.numeric.value.exponent.c
-        7: constant.numeric.suffix.c
-        8: invalid.illegal.numeric.suffix.c
+        2: constant.numeric.value.c
+        3: punctuation.separator.decimal.c
+        4: constant.numeric.suffix.c
+        5: constant.numeric.suffix.c
+        6: invalid.illegal.numeric.suffix.c
+        7: constant.numeric.value.c
+        8: punctuation.separator.decimal.c
         9: constant.numeric.suffix.c
-        10: punctuation.separator.decimal.c
-        11: constant.numeric.value.c
-        12: constant.numeric.value.exponent.c
-        13: constant.numeric.suffix.c
-        14: invalid.illegal.numeric.suffix.c
+        10: invalid.illegal.numeric.suffix.c
+
     # hexadecimal float (C99)
     - match: \b(0[xX])({{hex_digit}}*(\.){{hex_digit}}*{{hex_exponent}})(?:([fFlL]\b)|({{dec_suffix}}))?
       scope: meta.number.float.hexadecimal.c
