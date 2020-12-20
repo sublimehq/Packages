@@ -831,7 +831,7 @@ contexts:
 
   imports:
     - match: \bimport\b
-      scope: keyword.other.import.scala
+      scope: keyword.declaration.import.scala
       push:
         - meta_scope: meta.import.scala
         - match: '(,)[ \t]*\n'    # TODO real newline inference

@@ -14,7 +14,7 @@ package fubar {
 // ^ punctuation.section.block.end.scala
 
 import fubar.{Unit, Foo}
-// ^^^ keyword.other.import
+// ^^^ keyword.declaration.import
 // <- meta.import.scala
 //                ^ punctuation.separator.scala
 
@@ -554,7 +554,7 @@ type Foo = Bar[A] forSome { type A }
 // ^^^ storage.type.volatile.scala
 
    import
-// ^^^^^^ keyword.other.import.scala
+// ^^^^^^ keyword.declaration.import.scala
 
    package
 // ^^^^^^^ keyword.declaration.namespace.scala
@@ -1101,7 +1101,7 @@ import foo, bar
 
 import foo; import bar
 //        ^ punctuation.terminator.scala
-//          ^^^^^^ keyword.other.import.scala
+//          ^^^^^^ keyword.declaration.import.scala
 
 import foo.bar
 //        ^ punctuation.accessor.dot.scala
@@ -1717,7 +1717,7 @@ var foo: Thing =42
 
 class Foo extends Bar with {
    import Thing._
-// ^^^^^^ keyword.other.import.scala
+// ^^^^^^ keyword.declaration.import.scala
 }
 
 class Foo extends Bar.Baz with bin.Baz
@@ -2131,7 +2131,7 @@ s"testing '$foo' bar"
 
    new DataCodec {
      import PreciseKeys._
-//   ^^^^^^ meta.import.scala keyword.other.import.scala
+//   ^^^^^^ meta.import.scala keyword.declaration.import.scala
 //          ^^^^^^^^^^^ meta.import.scala
 //                     ^ meta.import.scala punctuation.accessor.dot.scala
 //                      ^ meta.import.scala variable.language.underscore.scala
