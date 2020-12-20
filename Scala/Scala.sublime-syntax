@@ -274,23 +274,20 @@ contexts:
     - match: |-
         (?x:
           # 1.1, 1.1e1, 1.1e-1, 1.1d, 1.1e1d, 1.1e-1d, 1.e1d | 1e1 1e1d | 1d
-          \b(\d+) (?: (?: (\.) (\d+) ([eE][-+]?\d+)? | ([eE][-+]?\d+) ) ([dDfF])? | ([dDfF]) )
+          \b(\d+) (?: ( (\.) \d+ (?:[eE][-+]?\d+)? | [eE][-+]?\d+ ) ([dDfF])? | ([dDfF]) )
           # .1, .1e1, .1e-1
-          | (\.) (\d+) ([eE][-+]?\d+)? ([dDfF])?
+          | ( (\.) \d+ (?:[eE][-+]?\d+)? ) ([dDfF])?
         )\b
       scope: meta.number.float.decimal.scala
       captures:
         1: constant.numeric.value.scala
-        2: punctuation.separator.decimal.scala
-        3: constant.numeric.value.scala
-        4: constant.numeric.value.exponent.scala
-        5: constant.numeric.value.exponent.scala
-        6: constant.numeric.suffix.scala
-        7: constant.numeric.suffix.scala
-        8: punctuation.separator.decimal.scala
-        9: constant.numeric.value.scala
-        10: constant.numeric.value.exponent.scala
-        11: constant.numeric.suffix.scala
+        2: constant.numeric.value.scala
+        3: punctuation.separator.decimal.scala
+        4: constant.numeric.suffix.scala
+        5: constant.numeric.suffix.scala
+        6: constant.numeric.value.scala
+        7: punctuation.separator.decimal.scala
+        8: constant.numeric.suffix.scala
     # source: http://www.scala-lang.org/files/archive/spec/2.11/01-lexical-syntax.html#integer-literals
     - match: \b(0[xX])(\h+)([lL]?)\b
       scope: meta.number.integer.hexadecimal.scala
