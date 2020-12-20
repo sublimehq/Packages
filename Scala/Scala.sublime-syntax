@@ -410,7 +410,7 @@ contexts:
         2: entity.name.namespace.header.scala
     # what follows is identical to case-pattern, except it goes to case-body-first
     - match: '\bcase\b(?!\s+class\b)'
-      scope: keyword.other.declaration.scala
+      scope: keyword.declaration.other.scala
       push:
         - meta_content_scope: meta.pattern.scala
         - match: '(?=\bclass\b)'
@@ -459,7 +459,7 @@ contexts:
   # this exists to clear the meta_scope from first or non-first
   case-pattern:
     - match: '\bcase\b'
-      scope: keyword.other.declaration.scala
+      scope: keyword.declaration.other.scala
       set:
         - meta_content_scope: meta.pattern.scala
         - match: '\bif\b'
@@ -718,7 +718,7 @@ contexts:
       scope: invalid.keyword.with-before-extends.scala
       pop: true
     - match: \bextends\b
-      scope: keyword.declaration.scala
+      scope: storage.modifier.extends.scala
       set: class-inheritance-extends-token
     - match: '(?=\{)'
       pop: true
@@ -817,7 +817,7 @@ contexts:
       scope: invalid.keyword.extends-after-extends.scala
       pop: true
     - match: \bwith\b
-      scope: keyword.declaration.scala
+      scope: storage.modifier.with.scala
       set: class-inheritance-extends-token
     - match: '\n'
       set: class-inheritance-with-newline

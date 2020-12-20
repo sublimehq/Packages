@@ -496,7 +496,7 @@ type Foo = Bar[A] forSome { type A }
 
 {
    case =>
-// ^^^^ keyword.other.declaration.scala
+// ^^^^ keyword.declaration.other.scala
 }
 
    macro
@@ -604,7 +604,7 @@ type Foo = Bar[A] forSome { type A }
 
 {
    case (abc: Foo, cba @ _) =>
-// ^^^^ keyword.other.declaration.scala
+// ^^^^ keyword.declaration.other.scala
 //       ^^^ variable.parameter
 //            ^^^ support.class
 //                 ^^^ variable.parameter
@@ -998,7 +998,7 @@ type Foo >: Bar
 
 {
    case _ if thing =>
-// ^^^^ keyword.other.declaration.scala
+// ^^^^ keyword.declaration.other.scala
 //           ^^^^^ - variable.parameter
 //                 ^^ keyword.declaration.function.arrow
 }
