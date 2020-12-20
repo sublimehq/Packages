@@ -564,7 +564,7 @@ contexts:
       scope: constant.character.escape.url.html
       captures:
         1: punctuation.definition.escape.html
-    - match: '[/&?]|://'
+    - match: '[/&?#]|://'
       scope: punctuation.separator.path.html
 
 ###[ ID ATTRIBUTE ]###########################################################
