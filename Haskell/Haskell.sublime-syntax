@@ -85,6 +85,10 @@ contexts:
       scope: constant.other.haskell
 
   number:
+    - match: \b\d+(?:(\.)\d+(?:[eE][-+]?\d+)?|[eE][-+]?\d+)\b
+      scope: meta.number.float.decimal.haskell constant.numeric.value.haskell
+      captures:
+        1: punctuation.separator.decimal.haskell
     - match: \b(0[oO])([0-7]+)\b
       scope: meta.number.integer.octal.haskell
       captures:
@@ -199,14 +203,6 @@ contexts:
         2: punctuation.definition.function.end.haskell
     - match: '\binfix[lr]?\b'
       scope: keyword.operator.haskell
-    - match: \b(\d+)(?:(\.)(\d+)([eE][-+]?\d+)?|([eE][-+]?\d+))\b
-      scope: meta.number.float.decimal.haskell
-      captures:
-        1: constant.numeric.value.haskell
-        2: punctuation.separator.decimal.haskell
-        3: constant.numeric.value.haskell
-        4: constant.numeric.value.exponent.haskell
-        5: constant.numeric.value.exponent.haskell
     - match: '{{operator_infix}}'
       scope: keyword.operator.haskell
     - include: operator_paren
