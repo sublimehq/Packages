@@ -13,7 +13,7 @@ variables:
   # such as $%^&*.
   operator_char: '[*|!%&$@#?~+:\-.=</>\\]'
   operator_infix: '{{operator_char}}+'
-  operator_parens: '(?:{{operator_infix}}|,+)'
+  operator_parens: '(?:(?!--+\)){{operator_infix}}|,+)'
   module_name: (?:[A-Z][A-Za-z._']*)
   escape_chars: |-
     (?x:NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI
@@ -329,14 +329,10 @@ contexts:
       scope: meta.name.haskell
 
   comment:
-    # As of build 4079 the [:punct:] class is missing some ASCII chars that
-    # Unicode considers part of the Symbol category.
-    - match: '--(?![[:punct:]!-/:-@\[-`{-~])'
-      scope: punctuation.definition.comment.haskell
-      push:
-        - meta_scope: comment.line.double-dash.haskell
-        - match: $\n?
-          pop: true
+    - match: '(--+)(?:[ \t\w"''(),;\[\]`{}].*)?$\n?'
+      scope: comment.line.double-dash.haskell
+      captures:
+        1: punctuation.definition.comment.haskell
     - include: block_comment
 
   block_comment:
