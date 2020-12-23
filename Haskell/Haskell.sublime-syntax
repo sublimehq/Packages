@@ -203,6 +203,8 @@ contexts:
       captures:
         1: punctuation.definition.function.begin.haskell
         2: punctuation.definition.function.end.haskell
+    - match: (`)[^`]*?(?:(`)|{{comment_ahead}})
+      scope: invalid.illegal.operator.haskell
     - match: '\binfix[lr]?\b'
       scope: keyword.operator.haskell
     - match: \b(\d+)(?:(\.)(\d+)([eE][-+]?\d+)?|([eE][-+]?\d+))\b

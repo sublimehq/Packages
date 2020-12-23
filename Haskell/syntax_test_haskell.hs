@@ -242,6 +242,28 @@
 --   ^ punctuation.definition.function.begin.haskell
 --           ^ punctuation.definition.function.end.haskell
 
+   5 `f `7`f`"3 'ab'"
+-- ^ constant.numeric.value.haskell
+--   ^^^^ invalid.illegal.operator.haskell
+--       ^ constant.numeric.value.haskell
+--        ^^^ keyword.operator.function.infix.haskell
+--        ^ punctuation.definition.function.begin.haskell
+--          ^ punctuation.definition.function.end.haskell
+--           ^^^^^^^^ meta.string.haskell string.quoted.double.haskell
+--           ^ punctuation.definition.string.begin.haskell
+--            ^^^^^^ - constant - punctuation
+--                  ^ punctuation.definition.string.end.haskell
+
+   a ` f` b
+--   ^^^^ invalid.illegal.operator.haskell
+
+   a `--` b
+--   ^ invalid.illegal.operator.haskell
+--    ^^^^^^ comment.line.double-dash.haskell
+
+   a `
+--   ^ - keyword - operator - punctuation
+
 
 -- Tests for #1320, #1880.
 
