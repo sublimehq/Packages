@@ -281,8 +281,9 @@
    a `
 --   ^ - keyword - operator - punctuation
 
-   'class
+   'class TooMany where
 --  ^^^^^ keyword.declaration.class.haskell
+-- ^ - punctuation - keyword
 
    class'
 -- ^^^^^^ - keyword
