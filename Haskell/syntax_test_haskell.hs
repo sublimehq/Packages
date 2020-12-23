@@ -244,7 +244,9 @@
 
    5 `f `7`f`"3 'ab'"
 -- ^ constant.numeric.value.haskell
---   ^^^^ invalid.illegal.operator.haskell
+--   ^^^^ keyword.operator.function.infix.haskell
+--   ^ punctuation.definition.function.begin.haskell
+--      ^ punctuation.definition.function.end.haskell
 --       ^ constant.numeric.value.haskell
 --        ^^^ keyword.operator.function.infix.haskell
 --        ^ punctuation.definition.function.begin.haskell
@@ -255,7 +257,9 @@
 --                  ^ punctuation.definition.string.end.haskell
 
    a ` f` b
---   ^^^^ invalid.illegal.operator.haskell
+--   ^^^^ keyword.operator.function.infix.haskell
+--   ^ punctuation.definition.function.begin.haskell
+--      ^ punctuation.definition.function.end.haskell
 
    a `--` b
 --   ^ invalid.illegal.operator.haskell
