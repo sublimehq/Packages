@@ -237,7 +237,7 @@ contexts:
       scope: punctuation.definition.string.begin.haskell
       push:
         - meta_include_prototype: false
-        - meta_scope: string.quoted.double.haskell
+        - meta_scope: meta.string.haskell string.quoted.double.haskell
         - match: \"|$|{{comment_ahead}}
           scope: punctuation.definition.string.end.haskell
           pop: true
@@ -257,7 +257,7 @@ contexts:
         )
         ([^']*?)
         (?:(')|{{comment_ahead}})
-      scope: string.quoted.single.haskell
+      scope: meta.string.haskell string.quoted.single.haskell
       captures:
         1: punctuation.definition.string.begin.haskell
         2: constant.character.escape.haskell
