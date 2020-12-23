@@ -143,10 +143,8 @@ contexts:
               |Eq|Ord|Read|Show|Num|Fractional|Rational|Enum|Bounded
               |Real|RealFrac|RealFloat|Integral|Floating)\b
           scope: support.class.prelude.haskell
-        - match: '{{con_id}}'
-          scope: entity.other.inherited-class.haskell
-        - match: '{{var_id}}'
-          scope: variable.other.generic-type.haskell
+        - include: ident_inherited_class
+        - include: ident_generic_type
         - include: operator_big_arrow
     - match: \binstance\b
       scope: keyword.declaration.haskell
@@ -173,8 +171,7 @@ contexts:
         - meta_scope: meta.deriving.haskell
         - match: \)
           pop: true
-        - match: '{{con_id}}'
-          scope: entity.other.inherited-class.haskell
+        - include: ident_inherited_class
 
   import:
     - match: \bimport\b
@@ -361,6 +358,22 @@ contexts:
     - match: '[[:lower:]][^\s{{operator_char}}),\]{}]+'
       scope: meta.name.haskell
 
+  ident_function:
+    - match: '{{var_id}}'
+      scope: variable.function.haskell
+
+  ident_inherited_class:
+    - match: '{{con_id}}'
+      scope: entity.other.inherited-class.haskell
+
+  ident_generic_type:
+    - match: '{{var_id}}'
+      scope: variable.other.generic-type.haskell
+
+  ident_type:
+    - match: '{{con_id}}'
+      scope: storage.type.haskell
+
   comment:
     - match: '(--+)(?:{{comment_first_char}}.*)?$\n?'
       scope: comment.line.double-dash.haskell
@@ -391,10 +404,8 @@ contexts:
         - match: \)
           scope: punctuation.section.group.end.haskell
           pop: true
-        - match: '{{var_id}}'
-          scope: variable.function.haskell
-        - match: '{{con_id}}'
-          scope: storage.type.haskell
+        - include: ident_function
+        - include: ident_type
         - match: ','
           scope: punctuation.separator.comma.haskell
         - include: operator_paren
@@ -412,10 +423,8 @@ contexts:
     - include: pragma
     - include: operator_arrow
     - include: operator_big_arrow
-    - match: '{{var_id}}'
-      scope: variable.other.generic-type.haskell
-    - match: '{{con_id}}'
-      scope: storage.type.haskell
+    - include: ident_generic_type
+    - include: ident_type
     - match: \(\)
       scope: support.constant.unit.haskell
 
