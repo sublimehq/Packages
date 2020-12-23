@@ -415,6 +415,7 @@ main = do
    'ab'
 -- ^^^^ meta.string.haskell string.quoted.single.haskell
 -- ^ punctuation.definition.string.begin.haskell
+--  ^ constant.character.literal.haskell
 --   ^ invalid.illegal.expected-closing-quotation.haskell
 --    ^ punctuation.definition.string.end.haskell
 
@@ -433,6 +434,7 @@ main = do
    'a--'
 -- ^^ meta.string.haskell string.quoted.single.haskell - comment
 -- ^ punctuation.definition.string.begin.haskell
+--  ^ constant.character.literal.haskell
 --   ^^^^ comment.line.double-dash.haskell - string
 --   ^^ punctuation.definition.comment.haskell
 

@@ -252,7 +252,7 @@ contexts:
         (?x)
         (')
         (?:
-          [\ -\[\]-~]            # Basic Char
+          ([\ -\[\]-~])          # Basic Char
           | {{escape_sequence}}  # Escapes
         )
         ([^']*?)
@@ -260,13 +260,14 @@ contexts:
       scope: meta.string.haskell string.quoted.single.haskell
       captures:
         1: punctuation.definition.string.begin.haskell
-        2: constant.character.escape.haskell
-        3: constant.character.escape.decimal.haskell
-        4: constant.character.escape.octal.haskell
-        5: constant.character.escape.hexadecimal.haskell
-        6: constant.character.escape.control.haskell
-        7: invalid.illegal.expected-closing-quotation.haskell
-        8: punctuation.definition.string.end.haskell
+        2: constant.character.literal.haskell
+        3: constant.character.escape.haskell
+        4: constant.character.escape.decimal.haskell
+        5: constant.character.escape.octal.haskell
+        6: constant.character.escape.hexadecimal.haskell
+        7: constant.character.escape.control.haskell
+        8: invalid.illegal.expected-closing-quotation.haskell
+        9: punctuation.definition.string.end.haskell
 
   splice:
     - match: '\[(?:|e|d|t|p)\|'
