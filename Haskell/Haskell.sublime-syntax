@@ -147,6 +147,7 @@ contexts:
           scope: entity.other.inherited-class.haskell
         - match: '{{var_id}}'
           scope: variable.other.generic-type.haskell
+        - include: operator_big_arrow
     - match: \binstance\b
       scope: keyword.declaration.haskell
       push:
@@ -233,6 +234,14 @@ contexts:
     - match: '{{operator_infix}}'
       scope: keyword.operator.haskell
     - include: operator_paren
+
+  operator_arrow:
+    - match: '(?:->|→)'
+      scope: keyword.other.arrow.haskell
+
+  operator_big_arrow:
+    - match: '(?:=>|⇒)'
+      scope: keyword.other.big-arrow.haskell
 
   operator_paren:
     - match: \(({{operator_parens}})\)
@@ -401,10 +410,8 @@ contexts:
   
   type_signature:
     - include: pragma
-    - match: '(?:->|→)'
-      scope: keyword.other.arrow.haskell
-    - match: '(?:=>|⇒)'
-      scope: keyword.other.big-arrow.haskell
+    - include: operator_arrow
+    - include: operator_big_arrow
     - match: '{{var_id}}'
       scope: variable.other.generic-type.haskell
     - match: '{{con_id}}'

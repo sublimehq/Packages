@@ -132,6 +132,9 @@
    class (Functor t, Foldable t) => Traversable t where
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
 -- ^^^^^ keyword.declaration.class.haskell
+--                               ^^ keyword.other.big-arrow.haskell
+--                                  ^^^^^^^^^^^ support.class.prelude.haskell
+--                                              ^ variable.other.generic-type.haskell
 --                                                ^^^^^ keyword.control.context.haskell
    {-# MINIMAL traverse | sequenceA LANGUAGE #-}
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.haskell
