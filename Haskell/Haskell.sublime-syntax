@@ -7,13 +7,19 @@ file_extensions:
 scope: source.haskell
 
 variables:
+  # Comments
+  no_comment_ahead: '(?!{{comment_begin}})'
+  comment_ahead: '(?={{comment_begin}})'
+  comment_begin: '--+(?:{{comment_first_char}}|$)'
+  comment_first_char: '[ \t\w"''(),;\[\]`{}]'
+
   # In case this regex seems overly general,
   # note that Haskell permits the definition of new operators
   # which can be nearly any string of punctuation characters,
   # such as $%^&*.
   operator_char: '[*|!%&$@#?~+:\-.=</>\\]'
   operator_infix: '{{operator_char}}+'
-  operator_parens: '(?:(?!--+\)){{operator_infix}}|,+)'
+  operator_parens: '(?:{{no_comment_ahead}}{{operator_infix}}|,+)'
   module_name: (?:[A-Z][A-Za-z._']*)
   escape_chars: |-
     (?x:NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI
@@ -227,12 +233,12 @@ contexts:
     - include: pragma
 
   string:
-    - match: '"'
+    - match: \"
       scope: punctuation.definition.string.begin.haskell
       push:
         - meta_include_prototype: false
         - meta_scope: string.quoted.double.haskell
-        - match: $|"
+        - match: \"|$|{{comment_ahead}}
           scope: punctuation.definition.string.end.haskell
           pop: true
         - match: '{{escape_sequence}}'
@@ -249,8 +255,8 @@ contexts:
           [\ -\[\]-~]            # Basic Char
           | {{escape_sequence}}  # Escapes
         )
-        ([^']*)
-        (')
+        ([^']*?)
+        (?:(')|{{comment_ahead}})
       scope: string.quoted.single.haskell
       captures:
         1: punctuation.definition.string.begin.haskell
@@ -329,7 +335,7 @@ contexts:
       scope: meta.name.haskell
 
   comment:
-    - match: '(--+)(?:[ \t\w"''(),;\[\]`{}].*)?$\n?'
+    - match: '(--+)(?:{{comment_first_char}}.*)?$\n?'
       scope: comment.line.double-dash.haskell
       captures:
         1: punctuation.definition.comment.haskell

@@ -418,11 +418,23 @@ main = do
 --   ^ invalid.illegal.expected-closing-quotation.haskell
 --    ^ punctuation.definition.string.end.haskell
 
+   '\''
+-- ^^^^ string.quoted.single.haskell
+-- ^ punctuation.definition.string.begin.haskell
+--  ^^ constant.character.escape.haskell
+--    ^ punctuation.definition.string.end.haskell
+
    '\129x'
 -- ^^^^ string.quoted.single.haskell
 --  ^^^^ constant.character.escape.decimal.haskell
 --      ^ invalid.illegal.expected-closing-quotation.haskell
 --       ^ punctuation.definition.string.end.haskell
+
+   'a--'
+-- ^^ string.quoted.single.haskell - comment
+-- ^ punctuation.definition.string.begin.haskell
+--   ^^^^ comment.line.double-dash.haskell - string
+--   ^^ punctuation.definition.comment.haskell
 
    "\o129x\NUL"
 -- ^^^^^^^^^^^^ string.quoted.double.haskell
@@ -431,8 +443,17 @@ main = do
 --            ^ punctuation.definition.string.end.haskell
 --        ^^^^ constant.character.escape.haskell
 
+   "ok\"()--"'ab'
+-- ^^^^^^^ string.quoted.double.haskell - comment
+--        ^^^^^^^^ comment.line.double-dash.haskell - string
+-- ^ punctuation.definition.string.begin.haskell
+--    ^^ constant.character.escape.haskell
+--        ^^ punctuation.definition.comment.haskell
+
    a' = b'
 -- ^^ meta.name.haskell - string
+--    ^ keyword.operator.haskell
+--      ^^ meta.name.haskell - string
 
 
 -- Infix operators in context
