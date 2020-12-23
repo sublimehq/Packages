@@ -96,13 +96,16 @@ contexts:
         - include: expression
 
   constant:
-    - match: \(\)
-      scope: constant.language.unit.haskell
     - match: \[\]
       scope: constant.language.empty-list.haskell
+    - include: constant_unit
     - include: number
     - match: '{{con_id}}'
       scope: constant.other.haskell
+
+  constant_unit:
+    - match: \(\)
+      scope: constant.language.unit.haskell
 
   number:
     - match: (0[oO])([0-7]+){{break}}
@@ -429,8 +432,7 @@ contexts:
     - include: operator_big_arrow
     - include: ident_generic_type
     - include: ident_type
-    - match: \(\)
-      scope: support.constant.unit.haskell
+    - include: constant_unit
 
   pragma:
     - match: '\{-#'
