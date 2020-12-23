@@ -202,11 +202,12 @@ contexts:
       scope: keyword.control.flow.return.haskell
     - match: \b(?:default|otherwise)\b
       scope: keyword.other.haskell
-    - match: \b(?:(if)|(then)|(else))\b
-      captures:
-        1: keyword.control.conditional.if.haskell
-        2: keyword.control.conditional.then.haskell
-        3: keyword.control.conditional.else.haskell
+    - match: \b(?:if)\b
+      scope: keyword.control.conditional.if.haskell
+    - match: \b(?:then)\b
+      scope: keyword.control.conditional.then.haskell
+    - match: \b(?:else)\b
+      scope: keyword.control.conditional.else.haskell
 
   operator:
     - match: (`)[ \w'.]+(`)
