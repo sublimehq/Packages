@@ -249,10 +249,11 @@ contexts:
   preprocessor:
     # In addition to Haskell's "native" syntax,
     # GHC permits the C preprocessor to be run on a source file.
-    - match: ^\s*(#)\s*\w+
+    - match: ^\s*(#)\s*(\w+)
       scope: meta.preprocessor.c
       captures:
         1: punctuation.definition.preprocessor.c
+        2: keyword.directive.other.c
     - include: pragma
 
   string:
@@ -442,4 +443,4 @@ contexts:
               |SPECIALIZE|SPECIALISE
             )\b
           # https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#pragmas
-          scope: keyword.other.preprocessor.haskell
+          scope: keyword.directive.other.haskell
