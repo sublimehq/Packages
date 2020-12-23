@@ -281,6 +281,14 @@
    a `
 --   ^ - keyword - operator - punctuation
 
+   'class
+--  ^^^^^ keyword.declaration.class.haskell
+
+   class'
+-- ^^^^^^ - keyword
+
+   if'
+-- ^^^ - keyword
 
 -- Tests for #1320, #1880.
 

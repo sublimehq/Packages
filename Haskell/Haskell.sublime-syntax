@@ -22,15 +22,17 @@ variables:
   operator_parens: '(?:{{no_comment_ahead}}{{operator_infix}}|,+)'
 
   # Identifiers
-  con_id: (?:\b[[:upper:]][\w']*)
-  var_id: (?:\b(?!{{reserved_id}})[[:lower:]][\w']*)
+  con_id: (?:[[:upper:]][\w']*)
+  var_id: (?:(?!{{reserved_id}})[[:lower:]][\w']*)
   reserved_id: |-
     (?x:
       case | class | data | default | deriving | do | else
     | foreign | if | import | in | infix | infixl
     | infixr | instance | let | module | newtype | of
     | then | type | where | _
-    )\b
+    ){{break}}
+
+  break: (?![\w'])
 
   # Escaped Characters
   escape_chars: |-
@@ -103,25 +105,25 @@ contexts:
       scope: constant.other.haskell
 
   number:
-    - match: \b(0[oO])([0-7]+)\b
+    - match: (0[oO])([0-7]+){{break}}
       scope: meta.number.integer.octal.haskell
       captures:
         1: constant.numeric.base.haskell
         2: constant.numeric.value.haskell
-    - match: \b(0[xX])(\h+)\b
+    - match: (0[xX])(\h+){{break}}
       scope: meta.number.integer.hexadecimal.haskell
       captures:
         1: constant.numeric.base.haskell
         2: constant.numeric.value.haskell
-    - match: \b\d+\b
+    - match: \d+{{break}}
       scope: meta.number.integer.decimal.haskell constant.numeric.value.haskell
 
   declaration:
-    - match: \bmodule\b
+    - match: module{{break}}
       scope: keyword.declaration.namespace.haskell
       push:
         - meta_scope: meta.declaration.module.haskell
-        - match: \bwhere\b
+        - match: where{{break}}
           scope: keyword.control.context.haskell
           pop: true
         - match: ({{con_id}})(\.)
@@ -131,26 +133,26 @@ contexts:
         - match: '{{con_id}}'
           scope: entity.name.namespace.haskell
         - include: module_exports
-    - match: \bclass\b
+    - match: class{{break}}
       scope: keyword.declaration.class.haskell
       push:
         - meta_scope: meta.declaration.class.haskell
-        - match: \bwhere\b
+        - match: where{{break}}
           scope: keyword.control.context.haskell
           pop: true
         - match: |-
-            \b(?x:Monad|Monadoid|Functor|Applicative|Foldableble|Traversable
+            (?x:Monad|Monadoid|Functor|Applicative|Foldableble|Traversable
               |Eq|Ord|Read|Show|Num|Fractional|Rational|Enum|Bounded
-              |Real|RealFrac|RealFloat|Integral|Floating)\b
+              |Real|RealFrac|RealFloat|Integral|Floating){{break}}
           scope: support.class.prelude.haskell
         - include: ident_inherited_class
         - include: ident_generic_type
         - include: operator_big_arrow
-    - match: \binstance\b
+    - match: instance{{break}}
       scope: keyword.declaration.haskell
       push:
         - meta_scope: meta.declaration.instance.haskell
-        - match: \bwhere\b|$
+        - match: where|$
           scope: keyword.control.context.haskell
           pop: true
         - include: type_signature
@@ -174,39 +176,39 @@ contexts:
         - include: ident_inherited_class
 
   import:
-    - match: \bimport\b
+    - match: import{{break}}
       scope: keyword.control.import.haskell
       push:
         - meta_scope: meta.import.haskell
         - match: ($|;)
           pop: true
-        - match: (qualified|as|hiding)
+        - match: (?:qualified|as|hiding){{break}}
           scope: keyword.control.import.haskell
         - include: module_name
         - include: module_exports
 
   keyword:
-    - match: \b(?:do|in)\b
+    - match: (?:do|in){{break}}
       scope: keyword.control.context.haskell
-    - match: \b(?:newtype|type)\b
+    - match: (?:newtype|type){{break}}
       scope: keyword.declaration.type.haskell
-    - match: \b(?:data)\b
+    - match: (?:data){{break}}
       scope: keyword.declaration.data.haskell
-    - match: \b(?:deriving)\b
+    - match: (?:deriving){{break}}
       scope: keyword.declaration.data.haskell
-    - match: \b(?:case|of)\b
+    - match: (?:case|of){{break}}
       scope: keyword.control.conditional.select.haskell  # the construct is commonly called "select"
-    - match: \b(?:let|where)\b
+    - match: (?:let|where){{break}}
       scope: keyword.declaration.variable.haskell
-    - match: \breturn\b
+    - match: (?:return){{break}}
       scope: keyword.control.flow.return.haskell
-    - match: \b(?:default|otherwise)\b
+    - match: (?:default|otherwise){{break}}
       scope: keyword.other.haskell
-    - match: \b(?:if)\b
+    - match: (?:if){{break}}
       scope: keyword.control.conditional.if.haskell
-    - match: \b(?:then)\b
+    - match: (?:then){{break}}
       scope: keyword.control.conditional.then.haskell
-    - match: \b(?:else)\b
+    - match: (?:else){{break}}
       scope: keyword.control.conditional.else.haskell
 
   operator:
@@ -219,9 +221,9 @@ contexts:
         2: punctuation.definition.function.end.haskell
     - match: (`)[^`]*?(?:(`)|{{comment_ahead}})
       scope: invalid.illegal.operator.haskell
-    - match: '\binfix[lr]?\b'
+    - match: 'infix[lr]?{{break}}'
       scope: keyword.operator.haskell
-    - match: \b(\d+)(?:(\.)(\d+)([eE][-+]?\d+)?|([eE][-+]?\d+))\b
+    - match: (\d+)(?:(\.)(\d+)([eE][-+]?\d+)?|([eE][-+]?\d+)){{break}}
       scope: meta.number.float.decimal.haskell
       captures:
         1: constant.numeric.value.haskell
@@ -328,7 +330,7 @@ contexts:
 
   ident:
     - match: |-
-        (?x) \b
+        (?x)
         (abs|acos|acosh|all|and|any|appendFile|asTypeOf|asin|asinh|atan|atan2|atanh
         |break
         |ceiling|compare|concat|concatMap|const|cos|cosh|curry|cycle
@@ -355,7 +357,7 @@ contexts:
         |undefined|unlines|until|unwords|unzip|unzip3|userError|words
         |writeFile
         |zip|zip3|zipWith|zipWith3
-        ) \b
+        ){{break}}
       scope: support.function.prelude.haskell
     - match: '[[:lower:]][^\s{{operator_char}}),\]{}]+'
       scope: meta.name.haskell
@@ -437,11 +439,11 @@ contexts:
         - match: '#-\}'
           pop: true
         - match: |-
-            \b(?x:
+            (?x:
               LANGUAGE|OPTIONS_GHC|OPTIONS_HADDOCK|INCLUDE|WARNING|DEPRECATED|MINIMAL
               |UNPACK|NOUNPACK|SOURCE|OVERLAPPING|OVERLAPPABLE|OVERLAPS
               |INCOHERENT|INLINE|NOINLINE|INLINABLE|CONLIKE|LINE|RULES
               |SPECIALIZE|SPECIALISE
-            )\b
+            ){{break}}
           # https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#pragmas
           scope: keyword.directive.other.haskell
