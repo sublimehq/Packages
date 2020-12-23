@@ -149,12 +149,12 @@
    #if 0
 -- ^^^ meta.preprocessor.c
 -- ^ punctuation.definition.preprocessor.c
---  ^^ keyword.directive.other.c
+-- ^^^ keyword.directive.other.c
 
    #endif
 -- ^^^^^^ meta.preprocessor.c
 -- ^ punctuation.definition.preprocessor.c
---  ^^^^^ keyword.directive.other.c
+-- ^^^^^^ keyword.directive.other.c
 
 -- | Map each element of a structure to an action,
 -- evaluate these actions from left to right, and
