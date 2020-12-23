@@ -308,6 +308,64 @@ import Data.List.Split (splitOn)
 --                     ^ punctuation.section.group.begin.haskell
 --                      ^^^^^^^ variable.function.haskell
 --                             ^ punctuation.section.group.end.haskell
+import Data.List.Split (())
+-- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+-- ^^^ keyword.control.import.haskell
+--     ^^^^^^^^^^^^^^^ support.other.module.haskell
+--                     ^^^^ meta.declaration.exports.haskell
+--                     ^ punctuation.section.group.begin.haskell
+--                      ^^ meta.other.unknown.haskell
+--                        ^ punctuation.section.group.end.haskell
+import Data.List.Split (--
+-- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+-- ^^^ keyword.control.import.haskell
+--     ^^^^^^^^^^^^^^^ support.other.module.haskell
+--                     ^^^^^ meta.declaration.exports.haskell
+--                     ^ punctuation.section.group.begin.haskell
+--                      ^^^ comment.line.double-dash.haskell
+--                      ^^ punctuation.definition.comment.haskell
+                        )
+--                      ^ punctuation.section.group.end.haskell
+import Data.List.Split (--)
+-- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+-- ^^^ keyword.control.import.haskell
+--     ^^^^^^^^^^^^^^^ support.other.module.haskell
+--                     ^^^^^ meta.declaration.exports.haskell
+--                     ^ punctuation.section.group.begin.haskell
+--                      ^^^^ comment.line.double-dash.haskell
+--                      ^^ punctuation.definition.comment.haskell
+                        )
+--                      ^ punctuation.section.group.end.haskell
+import Data.List.Split ((--))
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+-- ^^^ keyword.control.import.haskell
+--     ^^^^^^^^^^^^^^^ support.other.module.haskell
+--                     ^^^^^^^ meta.declaration.exports.haskell
+--                     ^ punctuation.section.group.begin.haskell
+--                       ^^^^^ comment.line.double-dash.haskell
+--                       ^^ punctuation.definition.comment.haskell
+                        )
+--                      ^ punctuation.section.group.end.haskell
+import Data.List.Split ((--])
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+-- ^^^ keyword.control.import.haskell
+--     ^^^^^^^^^^^^^^^ support.other.module.haskell
+--                     ^^^^^^^ meta.declaration.exports.haskell
+--                     ^ punctuation.section.group.begin.haskell
+--                       ^^^^^ comment.line.double-dash.haskell
+--                       ^^ punctuation.definition.comment.haskell
+                        )
+--                      ^ punctuation.section.group.end.haskell
+import Data.List.Split ((--")
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+-- ^^^ keyword.control.import.haskell
+--     ^^^^^^^^^^^^^^^ support.other.module.haskell
+--                     ^^^^^^^ meta.declaration.exports.haskell
+--                     ^ punctuation.section.group.begin.haskell
+--                       ^^^^^ comment.line.double-dash.haskell
+--                       ^^ punctuation.definition.comment.haskell
+                        )
+--                      ^ punctuation.section.group.end.haskell
 
    deriving instance FromJSON Amount
 -- ^^^^^^^^ keyword.declaration.data.haskell

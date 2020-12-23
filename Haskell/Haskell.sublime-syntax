@@ -372,7 +372,7 @@ contexts:
         - match: ','
           scope: punctuation.separator.comma.haskell
         - include: operator_paren
-        - match: \(.*?\)
+        - match: \({{no_comment_ahead}}.*?\)
           comment: So named because I don't know what to call this.
           scope: meta.other.unknown.haskell
   
