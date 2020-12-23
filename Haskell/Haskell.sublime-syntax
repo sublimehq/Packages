@@ -155,7 +155,7 @@ contexts:
       scope: keyword.declaration.haskell
       push:
         - meta_scope: meta.declaration.instance.haskell
-        - match: where|$
+        - match: where{{break}}|$
           scope: keyword.control.context.haskell
           pop: true
         - include: type_signature
