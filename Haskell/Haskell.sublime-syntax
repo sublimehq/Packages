@@ -20,7 +20,19 @@ variables:
   operator_char: '[*|!%&$@#?~+:\-.=</>\\]'
   operator_infix: '{{operator_char}}+'
   operator_parens: '(?:{{no_comment_ahead}}{{operator_infix}}|,+)'
-  module_name: (?:[A-Z][A-Za-z._']*)
+
+  # Identifiers
+  con_id: (?:\b[[:upper:]][\w']*)
+  var_id: (?:\b(?!{{reserved_id}})[[:lower:]][\w']*)
+  reserved_id: |-
+    (?x:
+      case | class | data | default | deriving | do | else
+    | foreign | if | import | in | infix | infixl
+    | infixr | instance | let | module | newtype | of
+    | then | type | where | _
+    )\b
+
+  # Escaped Characters
   escape_chars: |-
     (?x:NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI
       |DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL
@@ -84,10 +96,10 @@ contexts:
   constant:
     - match: \(\)
       scope: constant.language.unit.haskell
-    - match: '\[\]'
+    - match: \[\]
       scope: constant.language.empty-list.haskell
     - include: number
-    - match: '\b[A-Z]\w*\b'
+    - match: '{{con_id}}'
       scope: constant.other.haskell
 
   number:
@@ -112,7 +124,11 @@ contexts:
         - match: \bwhere\b
           scope: keyword.control.context.haskell
           pop: true
-        - match: \b{{module_name}}\b
+        - match: ({{con_id}})(\.)
+          captures:
+            1: variable.namespace.haskell
+            2: punctuation.accessor.dot.haskell
+        - match: '{{con_id}}'
           scope: entity.name.namespace.haskell
         - include: module_exports
     - match: \bclass\b
@@ -127,9 +143,9 @@ contexts:
               |Eq|Ord|Read|Show|Num|Fractional|Rational|Enum|Bounded
               |Real|RealFrac|RealFloat|Integral|Floating)\b
           scope: support.class.prelude.haskell
-        - match: '[A-Z][A-Za-z_'']*'
+        - match: '{{con_id}}'
           scope: entity.other.inherited-class.haskell
-        - match: '\b[a-z][a-zA-Z0-9_'']*\b'
+        - match: '{{var_id}}'
           scope: variable.other.generic-type.haskell
     - match: \binstance\b
       scope: keyword.declaration.haskell
@@ -139,7 +155,7 @@ contexts:
           scope: keyword.control.context.haskell
           pop: true
         - include: type_signature
-    - match: '^(\s*)([a-z_][a-zA-Z0-9_'']*|\(({{operator_parens}})\))\s*(::|∷)'
+    - match: '^(\s*)({{var_id}}|\(({{operator_parens}})\))\s*(::|∷)'
       captures:
         2: entity.name.function.haskell
         3: keyword.operator.infix.haskell
@@ -156,9 +172,8 @@ contexts:
         - meta_scope: meta.deriving.haskell
         - match: \)
           pop: true
-        - match: '\b[A-Z][a-zA-Z_'']*'
+        - match: '{{con_id}}'
           scope: entity.other.inherited-class.haskell
-
 
   import:
     - match: \bimport\b
@@ -291,7 +306,7 @@ contexts:
     - match: \$\(
       comment: Highlight the beginning of a splice.
       scope: keyword.other.splice.haskell
-    - match: '\[[a-zA-Z0-9_'']*\|'
+    - match: '\[[\w'']*\|'
       scope: keyword.other.quasibracket.haskell
       push:
         - meta_scope: meta.other.quasiquote.haskell
@@ -367,9 +382,9 @@ contexts:
         - match: \)
           scope: punctuation.section.group.end.haskell
           pop: true
-        - match: '\b[a-z][a-zA-Z_''0-9]*'
+        - match: '{{var_id}}'
           scope: variable.function.haskell
-        - match: '\b[A-Z][A-Za-z_''0-9]*'
+        - match: '{{con_id}}'
           scope: storage.type.haskell
         - match: ','
           scope: punctuation.separator.comma.haskell
@@ -379,8 +394,10 @@ contexts:
           scope: meta.other.unknown.haskell
   
   module_name:
-    - match: '\b{{module_name}}\b'
-      scope: support.other.module.haskell
+    - match: ({{con_id}})(\.)?
+      captures:
+        1: variable.namespace.haskell
+        2: punctuation.accessor.dot.haskell
   
   type_signature:
     - include: pragma
@@ -388,9 +405,9 @@ contexts:
       scope: keyword.other.arrow.haskell
     - match: '(?:=>|⇒)'
       scope: keyword.other.big-arrow.haskell
-    - match: '\b[a-z][a-zA-Z0-9_'']*\b'
+    - match: '{{var_id}}'
       scope: variable.other.generic-type.haskell
-    - match: '\b[A-Z][a-zA-Z0-9_'']*\b'
+    - match: '{{con_id}}'
       scope: storage.type.haskell
     - match: \(\)
       scope: support.constant.unit.haskell

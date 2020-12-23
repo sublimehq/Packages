@@ -323,13 +323,21 @@ import qualified Data.Vector.Mutable as MutableVector
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
 -- ^^^ keyword.control.import.haskell
 --     ^^^^^^^^^ keyword.control.import.haskell
---               ^^^^^^^^^^^^^^^^^^^ support.other.module.haskell
+--               ^^^^ variable.namespace.haskell - punctuation
+--                   ^ punctuation.accessor.dot.haskell - variable
+--                    ^^^^^^ variable.namespace.haskell - punctuation
+--                          ^ punctuation.accessor.dot.haskell - variable
+--                           ^^^^^^^ variable.namespace.haskell - punctuation
 --                                   ^^ keyword.control.import.haskell
---                                      ^^^^^^^^^^^^^ support.other.module.haskell
+--                                      ^^^^^^^^^^^^^ variable.namespace.haskell
 import Data.List.Split (splitOn)
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
 -- ^^^ keyword.control.import.haskell
---     ^^^^^^^^^^^^^^^ support.other.module.haskell
+--     ^^^^ variable.namespace.haskell - punctuation
+--         ^ punctuation.accessor.dot.haskell - variable
+--          ^^^^ variable.namespace.haskell - punctuation
+--              ^ punctuation.accessor.dot.haskell - variable
+--               ^^^^^ variable.namespace.haskell - punctuation
 --                     ^^^^^^^^^ meta.declaration.exports.haskell
 --                     ^ punctuation.section.group.begin.haskell
 --                      ^^^^^^^ variable.function.haskell
@@ -337,7 +345,11 @@ import Data.List.Split (splitOn)
 import Data.List.Split (())
 -- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
 -- ^^^ keyword.control.import.haskell
---     ^^^^^^^^^^^^^^^ support.other.module.haskell
+--     ^^^^ variable.namespace.haskell - punctuation
+--         ^ punctuation.accessor.dot.haskell - variable
+--          ^^^^ variable.namespace.haskell - punctuation
+--              ^ punctuation.accessor.dot.haskell - variable
+--               ^^^^^ variable.namespace.haskell - punctuation
 --                     ^^^^ meta.declaration.exports.haskell
 --                     ^ punctuation.section.group.begin.haskell
 --                      ^^ meta.other.unknown.haskell
@@ -345,7 +357,11 @@ import Data.List.Split (())
 import Data.List.Split (--
 -- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
 -- ^^^ keyword.control.import.haskell
---     ^^^^^^^^^^^^^^^ support.other.module.haskell
+--     ^^^^ variable.namespace.haskell - punctuation
+--         ^ punctuation.accessor.dot.haskell - variable
+--          ^^^^ variable.namespace.haskell - punctuation
+--              ^ punctuation.accessor.dot.haskell - variable
+--               ^^^^^ variable.namespace.haskell - punctuation
 --                     ^^^^^ meta.declaration.exports.haskell
 --                     ^ punctuation.section.group.begin.haskell
 --                      ^^^ comment.line.double-dash.haskell
@@ -355,7 +371,11 @@ import Data.List.Split (--
 import Data.List.Split (--)
 -- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
 -- ^^^ keyword.control.import.haskell
---     ^^^^^^^^^^^^^^^ support.other.module.haskell
+--     ^^^^ variable.namespace.haskell - punctuation
+--         ^ punctuation.accessor.dot.haskell - variable
+--          ^^^^ variable.namespace.haskell - punctuation
+--              ^ punctuation.accessor.dot.haskell - variable
+--               ^^^^^ variable.namespace.haskell - punctuation
 --                     ^^^^^ meta.declaration.exports.haskell
 --                     ^ punctuation.section.group.begin.haskell
 --                      ^^^^ comment.line.double-dash.haskell
@@ -365,7 +385,11 @@ import Data.List.Split (--)
 import Data.List.Split ((--))
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
 -- ^^^ keyword.control.import.haskell
---     ^^^^^^^^^^^^^^^ support.other.module.haskell
+--     ^^^^ variable.namespace.haskell - punctuation
+--         ^ punctuation.accessor.dot.haskell - variable
+--          ^^^^ variable.namespace.haskell - punctuation
+--              ^ punctuation.accessor.dot.haskell - variable
+--               ^^^^^ variable.namespace.haskell - punctuation
 --                     ^^^^^^^ meta.declaration.exports.haskell
 --                     ^ punctuation.section.group.begin.haskell
 --                       ^^^^^ comment.line.double-dash.haskell
@@ -375,7 +399,11 @@ import Data.List.Split ((--))
 import Data.List.Split ((--])
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
 -- ^^^ keyword.control.import.haskell
---     ^^^^^^^^^^^^^^^ support.other.module.haskell
+--     ^^^^ variable.namespace.haskell - punctuation
+--         ^ punctuation.accessor.dot.haskell - variable
+--          ^^^^ variable.namespace.haskell - punctuation
+--              ^ punctuation.accessor.dot.haskell - variable
+--               ^^^^^ variable.namespace.haskell - punctuation
 --                     ^^^^^^^ meta.declaration.exports.haskell
 --                     ^ punctuation.section.group.begin.haskell
 --                       ^^^^^ comment.line.double-dash.haskell
@@ -385,7 +413,11 @@ import Data.List.Split ((--])
 import Data.List.Split ((--")
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
 -- ^^^ keyword.control.import.haskell
---     ^^^^^^^^^^^^^^^ support.other.module.haskell
+--     ^^^^ variable.namespace.haskell - punctuation
+--         ^ punctuation.accessor.dot.haskell - variable
+--          ^^^^ variable.namespace.haskell - punctuation
+--              ^ punctuation.accessor.dot.haskell - variable
+--               ^^^^^ variable.namespace.haskell - punctuation
 --                     ^^^^^^^ meta.declaration.exports.haskell
 --                     ^ punctuation.section.group.begin.haskell
 --                       ^^^^^ comment.line.double-dash.haskell
@@ -535,6 +567,11 @@ main = do
 -- ^ punctuation.definition.string.begin.haskell
 --    ^^ constant.character.escape.haskell
 --        ^^ punctuation.definition.comment.haskell
+
+   A' = A'
+-- ^^ constant.other.haskell - string
+--    ^ keyword.operator.haskell
+--      ^^ constant.other.haskell - string
 
    a' = b'
 -- ^^ meta.name.haskell - string
