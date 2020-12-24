@@ -42,6 +42,34 @@ variables:
     | RealFrac | RealFloat | Integral | Floating
     ){{break}}
 
+  function_names: |-
+    (?x:
+      abs | acos | acosh | all | and | any | appendFile | asTypeOf | asin
+    | asinh | atan | atan2 | atanh | break | ceiling | compare | concat
+    | concatMap | const | cos | cosh | curry | cycle | decodeFloat | div
+    | divMod | drop | dropWhile | either | elem | encodeFloat | enumFrom
+    | enumFromThen | enumFromThenTo | enumFromTo | error | errorWithoutStackTrace
+    | even | exp | exponent | fail | filter | flip | floatDigits | floatRadix
+    | floatRange | floor | fmap | foldMap | foldl | foldl1 | foldr | foldr1
+    | fromEnum | fromInteger | fromIntegral | fromRational | fst | gcd | getChar
+    | getContents | getLine | head | id | init | interact | ioError
+    | isDenormalized | isIEEE | isInfinite | isNaN | isNegativeZero | iterate
+    | last | lcm | length | lex | lines | log | logBase | lookup | map | mapM
+    | mapM_ | mappend | max | maxBound | maximum | maybe | mconcat | mempty
+    | min | minBound | minimum | mod | negate | not | notElem | null | odd | or
+    | otherwise | pi | pred | print | product | properFraction | pure | putChar
+    | putStr | putStrLn | quot | quotRem | read | readFile | readIO | readList
+    | readLn | readParen | reads | readsPrec | realToFrac | recip | rem | repeat
+    | replicate | return | reverse | round | scaleFloat | scanl | scanl1 | scanr
+    | scanr1 | seq | sequence | sequenceA | sequence_ | show | showChar
+    | showList | showParen | showString | shows | showsPrec | significand
+    | signum | sin | sinh | snd | span | splitAt | sqrt | subtract | succ | sum
+    | tail | take | takeWhile | tan | tanh | toEnum | toInteger | toRational
+    | traverse | truncate | uncurry | undefined | unlines | until | unwords
+    | unzip | unzip3 | userError | words | writeFile | zip | zip3 | zipWith
+    | zipWith3
+    ){{break}}
+
   # https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#pragmas
   pragma_keys: |-
     (?x:
@@ -90,15 +118,16 @@ contexts:
     - include: splice
     - include: groups
     - include: lists
-    - include: ident
+    - include: ident-builtin-functions
+    - include: ident-variables
     - match: ','
       scope: punctuation.separator.comma.haskell
 
   type-signatures:
     - include: operator_arrow
     - include: operator_big_arrow
-    - include: ident_generic_type
-    - include: ident_type
+    - include: ident-generic-types
+    - include: ident-types
     - include: constant_unit
 
 ###[ COMMENTS ]################################################################
@@ -210,8 +239,9 @@ contexts:
     - match: \)
       scope: punctuation.section.sequence.end.haskell
       pop: true
-    - include: ident_function
-    - include: ident_type
+    - include: ident-builtin-functions
+    - include: ident-functions
+    - include: ident-types
     - match: ','
       scope: punctuation.separator.sequence.haskell
     - include: operator_paren
@@ -237,15 +267,15 @@ contexts:
       pop: true
     - match: '{{class_names}}'
       scope: support.class.prelude.haskell
-    - include: ident_inherited_class
-    - include: ident_generic_type
+    - include: ident-inherited-classs
+    - include: ident-generic-types
     - include: operator_big_arrow
 
   inherited-body:
     - meta_scope: meta.deriving.haskell
     - match: \)
       pop: true
-    - include: ident_inherited_class
+    - include: ident-inherited-classs
 
 ###[ INSTANCE DECLARATIONS ]###################################################
 
@@ -462,53 +492,28 @@ contexts:
         - match: .*
           scope: string.quasiquoted.haskell
 
-  ident:
-    - match: |-
-        (?x)
-        (abs|acos|acosh|all|and|any|appendFile|asTypeOf|asin|asinh|atan|atan2|atanh
-        |break
-        |ceiling|compare|concat|concatMap|const|cos|cosh|curry|cycle
-        |decodeFloat|div|divMod|drop|dropWhile
-        |either|elem|encodeFloat|enumFrom|enumFromThen|enumFromThenTo|enumFromTo|error
-        |errorWithoutStackTrace|even|exp|exponent
-        |fail|filter|flip|floatDigits|floatRadix|floatRange|floor|fmap|foldMap|foldl|foldl1|foldr
-        |foldr1|fromEnum|fromInteger|fromIntegral|fromRational|fst
-        |gcd|getChar|getContents|getLine
-        |head
-        |id|init|interact|ioError|isDenormalized|isIEEE|isInfinite|isNaN|isNegativeZero|iterate
-        |last|lcm|length|lex|lines|log|logBase|lookup
-        |map|mapM|mapM_|mappend|max|maxBound|maximum|maybe|mconcat|mempty|min|minBound|minimum|mod
-        |negate|not|notElem|null
-        |odd|or|otherwise
-        |pi|pred|print|product|properFraction|pure|putChar|putStr|putStrLn
-        |quot|quotRem|read
-        |readFile|readIO|readList|readLn|readParen|reads|readsPrec|realToFrac|recip|rem|repeat
-        |replicate|return|reverse|round|scaleFloat
-        |scanl|scanl1|scanr|scanr1|seq|sequence|sequenceA|sequence_|show|showChar|showList
-        |showParen|showString|shows|showsPrec|significand|signum|sin|sinh|snd|span|splitAt|sqrt
-        |subtract|succ|sum|tail
-        |take|takeWhile|tan|tanh|toEnum|toInteger|toRational|traverse|truncate|uncurry
-        |undefined|unlines|until|unwords|unzip|unzip3|userError|words
-        |writeFile
-        |zip|zip3|zipWith|zipWith3
-        ){{break}}
-      scope: support.function.prelude.haskell
-    - match: '[[:lower:]][^\s{{operator_char}}),\]{}]+'
-      scope: meta.name.haskell
+###[ IDENTIFIERS ]#############################################################
 
-  ident_function:
-    - match: '{{var_id}}'
-      scope: variable.function.haskell
-
-  ident_inherited_class:
+  ident-inherited-classs:
     - match: '{{con_id}}'
       scope: entity.other.inherited-class.haskell
 
-  ident_generic_type:
+  ident-generic-types:
     - match: '{{var_id}}'
       scope: variable.other.generic-type.haskell
 
-  ident_type:
+  ident-types:
     - match: '{{con_id}}'
       scope: storage.type.haskell
 
+  ident-builtin-functions:
+    - match: '{{function_names}}'
+      scope: support.function.prelude.haskell
+
+  ident-functions:
+    - match: '{{var_id}}'
+      scope: variable.function.haskell
+
+  ident-variables:
+    - match: '{{var_id}}'
+      scope: meta.name.haskell
