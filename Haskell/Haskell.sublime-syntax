@@ -158,14 +158,14 @@ contexts:
     - meta_scope: comment.block.haskell
     - match: -\}
       scope: punctuation.definition.comment.end.haskell
-      pop: true
+      pop: 1
     - match: \{-#
       push: block-comment-nested-body
     - include: block-comments
 
   block-comment-nested-body:
     - match: -\}
-      pop: true
+      pop: 1
     - include: block-comments
 
   line-comments:
@@ -192,7 +192,7 @@ contexts:
   preprocessor-pragma-body:
     - meta_scope: meta.preprocessor.haskell
     - match: '#-\}'
-      pop: true
+      pop: 1
     - match: '{{pragma_keys}}'
       scope: keyword.directive.other.haskell
 
@@ -207,7 +207,7 @@ contexts:
     - meta_scope: meta.declaration.module.haskell
     - match: where{{break}}
       scope: keyword.control.context.haskell
-      pop: true
+      pop: 1
     - match: ({{con_id}})(\.)
       captures:
         1: variable.namespace.haskell
@@ -216,7 +216,7 @@ contexts:
       scope: entity.name.namespace.haskell
     - include: symbols
     - match: (?=\S)
-      pop: true
+      pop: 1
 
 ###[ IMPORT DECLARATIONS ]#####################################################
 
@@ -237,7 +237,7 @@ contexts:
       scope: entity.name.namespace.haskell
     - include: symbols
     - match: (?=\S)
-      pop: true
+      pop: 1
 
 ###[ SYMBOL DECLARATIONS ]#####################################################
 
@@ -250,7 +250,7 @@ contexts:
     - meta_scope: meta.sequence.symbols.haskell
     - match: \)
       scope: punctuation.section.sequence.end.haskell
-      pop: true
+      pop: 1
     - include: ident-builtin-functions
     - include: ident-functions
     - include: ident-types
@@ -275,7 +275,7 @@ contexts:
     - meta_scope: meta.declaration.class.haskell
     - match: where{{break}}
       scope: keyword.control.context.haskell
-      pop: true
+      pop: 1
     - match: '{{class_names}}'
       scope: support.class.prelude.haskell
     - include: ident-inherited-classs
@@ -285,7 +285,7 @@ contexts:
   inherited-body:
     - meta_scope: meta.deriving.haskell
     - match: \)
-      pop: true
+      pop: 1
     - include: ident-inherited-classs
 
 ###[ INSTANCE DECLARATIONS ]###################################################
@@ -299,7 +299,7 @@ contexts:
     - meta_scope: meta.declaration.instance.haskell
     - match: where{{break}}|$
       scope: keyword.control.context.haskell
-      pop: true
+      pop: 1
     - include: type-signatures
 
 ###[ FUNCTION DECLARATIONS ]###################################################
@@ -315,7 +315,7 @@ contexts:
   function-body:
     - meta_scope: meta.function.type-declaration.haskell
     - match: ^(?!\s*(?:--|{-|$)|\1\s)
-      pop: true
+      pop: 1
     - include: type-signatures
 
 ###[ GROUPS AND LISTS ]########################################################
@@ -329,7 +329,7 @@ contexts:
     - meta_scope: meta.group.haskell
     - match: \)
       scope: punctuation.section.group.end.haskell
-      pop: true
+      pop: 1
     - include: expressions
 
   lists:
@@ -343,7 +343,7 @@ contexts:
     - meta_scope: meta.sequence.haskell
     - match: \]
       scope: punctuation.section.sequence.end.haskell
-      pop: true
+      pop: 1
     - include: expressions
 
 ###[ LITERALS ]################################################################
@@ -406,7 +406,7 @@ contexts:
     - meta_scope: meta.string.haskell string.quoted.double.haskell
     - match: \"|$|{{comment_ahead}}
       scope: punctuation.definition.string.end.haskell
-      pop: true
+      pop: 1
     - match: '{{escape_sequence}}'
       captures:
         1: constant.character.escape.haskell
@@ -492,7 +492,7 @@ contexts:
           captures:
             1: string.quasiquoted.haskell
             2: keyword.other.quasibracket.haskell
-          pop: true
+          pop: 1
         - match: \$\(
           scope: keyword.other.splice.haskell
         - match: \$
@@ -510,7 +510,7 @@ contexts:
           captures:
             1: string.quasiquoted.haskell
             2: keyword.other.quasibracket.haskell
-          pop: true
+          pop: 1
         - match: .*
           scope: string.quasiquoted.haskell
 
