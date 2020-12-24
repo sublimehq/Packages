@@ -8,6 +8,7 @@ scope: source.haskell
 
 variables:
   # Comments
+  # https://www.haskell.org/onlinereport/haskell2010/haskellch2.html#x7-170002.3
   no_comment_ahead: '(?!{{comment_begin}})'
   comment_ahead: '(?={{comment_begin}})'
   comment_begin: '--+(?:{{comment_first_char}}|$)'
@@ -50,7 +51,7 @@ variables:
 
 contexts:
   prototype:
-    - include: comment
+    - include: comments
     - include: preprocessor
   
   main:
@@ -72,6 +73,38 @@ contexts:
     - include: ident
     - match: ','
       scope: punctuation.separator.comma.haskell
+
+###[ COMMENTS ]################################################################
+
+  comments:
+    # https://www.haskell.org/onlinereport/haskell2010/haskellch2.html#x7-170002.3
+    - include: line-comments
+    - include: block-comments
+
+  block-comments:
+    - match: \{-(?!#)
+      scope: punctuation.definition.comment.begin.haskell
+      push: block-comment-body
+
+  block-comment-body:
+    - meta_scope: comment.block.haskell
+    - match: -\}
+      scope: punctuation.definition.comment.end.haskell
+      pop: true
+    - match: \{-#
+      push: block-comment-nested-body
+    - include: block-comments
+
+  block-comment-nested-body:
+    - match: -\}
+      pop: true
+    - include: block-comments
+
+  line-comments:
+    - match: (--+)(?:{{comment_first_char}}.*)?$\n?
+      scope: comment.line.double-dash.haskell
+      captures:
+        1: punctuation.definition.comment.haskell
 
   group:
     - match: \(
@@ -380,28 +413,6 @@ contexts:
   ident_type:
     - match: '{{con_id}}'
       scope: storage.type.haskell
-
-  comment:
-    - match: '(--+)(?:{{comment_first_char}}.*)?$\n?'
-      scope: comment.line.double-dash.haskell
-      captures:
-        1: punctuation.definition.comment.haskell
-    - include: block_comment
-
-  block_comment:
-    - match: '\{-(?!#)'
-      scope: punctuation.definition.comment.begin.haskell
-      push:
-        - meta_scope: comment.block.haskell
-        - match: '\{-#'
-          push:
-            - match: '-\}'
-              pop: true
-            - include: block_comment
-        - include: block_comment
-        - match: '-\}'
-          scope: punctuation.definition.comment.end.haskell
-          pop: true
 
   module_exports:
     - match: \(
