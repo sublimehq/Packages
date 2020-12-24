@@ -168,35 +168,35 @@
 
 import import
 -- ^^^^^^^^^^^ meta.import.haskell
--- ^^^  keyword.control.import.haskell
---     ^^^^^^ keyword.control.import.haskell
+-- ^^^  keyword.declaration.import.haskell
+--     ^^^^^^ keyword.declaration.import.haskell
 
 import ; import
 -- ^^^^ meta.import.haskell
 --     ^ - meta.import
 --       ^^^^^^^ meta.import.haskell
--- ^^^ keyword.control.import.haskell
+-- ^^^ keyword.declaration.import.haskell
 --     ^ punctuation.terminator.statement.haskell
---       ^^^^^^ meta.import.haskell keyword.control.import.haskell
+--       ^^^^^^ meta.import.haskell keyword.declaration.import.haskell
 
 import qualified Data.Vector.Mutable as MutableVector
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^ keyword.control.import.haskell
---     ^^^^^^^^^ keyword.control.import.haskell
+-- ^^^ keyword.declaration.import.haskell
+--     ^^^^^^^^^ keyword.declaration.import.haskell
 --               ^^^^ variable.namespace.haskell - punctuation
 --                   ^ punctuation.accessor.dot.haskell - variable
 --                    ^^^^^^ variable.namespace.haskell - punctuation
 --                          ^ punctuation.accessor.dot.haskell - variable
 --                           ^^^^^^^ variable.namespace.haskell - punctuation
---                                   ^^ keyword.control.import.haskell
+--                                   ^^ keyword.declaration.import.haskell
 --                                      ^^^^^^^^^^^^^ entity.name.namespace.haskell
 
 import
 -- ^^^^ meta.import.haskell
--- ^^^ keyword.control.import.haskell
+-- ^^^ keyword.declaration.import.haskell
    qualified
 -- ^^^^^^^^^^ meta.import.haskell
--- ^^^^^^^^^ keyword.control.import.haskell
+-- ^^^^^^^^^ keyword.declaration.import.haskell
    Data.Vector.Mutable
 -- ^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
 -- ^^^^ variable.namespace.haskell - punctuation
@@ -206,14 +206,14 @@ import
 --             ^^^^^^^ entity.name.namespace.haskell - punctuation
    as
 -- ^^^ meta.import.haskell
--- ^^ keyword.control.import.haskell
+-- ^^ keyword.declaration.import.haskell
    MutableVector
 -- ^^^^^^^^^^^^^^ meta.import.haskell
 -- ^^^^^^^^^^^^^ entity.name.namespace.haskell
 
 import Data.List.Split (splitOn)
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^ keyword.control.import.haskell
+-- ^^^ keyword.declaration.import.haskell
 --     ^^^^ variable.namespace.haskell - punctuation
 --         ^ punctuation.accessor.dot.haskell - variable
 --          ^^^^ variable.namespace.haskell - punctuation
@@ -226,7 +226,7 @@ import Data.List.Split (splitOn)
 
 import Data.List.Split (())
 -- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^ keyword.control.import.haskell
+-- ^^^ keyword.declaration.import.haskell
 --     ^^^^ variable.namespace.haskell - punctuation
 --         ^ punctuation.accessor.dot.haskell - variable
 --          ^^^^ variable.namespace.haskell - punctuation
@@ -239,7 +239,7 @@ import Data.List.Split (())
 
 import Data.List.Split (--
 -- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^ keyword.control.import.haskell
+-- ^^^ keyword.declaration.import.haskell
 --     ^^^^ variable.namespace.haskell - punctuation
 --         ^ punctuation.accessor.dot.haskell - variable
 --          ^^^^ variable.namespace.haskell - punctuation
@@ -254,7 +254,7 @@ import Data.List.Split (--
 
 import Data.List.Split (--)
 -- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^ keyword.control.import.haskell
+-- ^^^ keyword.declaration.import.haskell
 --     ^^^^ variable.namespace.haskell - punctuation
 --         ^ punctuation.accessor.dot.haskell - variable
 --          ^^^^ variable.namespace.haskell - punctuation
@@ -269,7 +269,7 @@ import Data.List.Split (--)
 
 import Data.List.Split ((--))
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^ keyword.control.import.haskell
+-- ^^^ keyword.declaration.import.haskell
 --     ^^^^ variable.namespace.haskell - punctuation
 --         ^ punctuation.accessor.dot.haskell - variable
 --          ^^^^ variable.namespace.haskell - punctuation
@@ -284,7 +284,7 @@ import Data.List.Split ((--))
 
 import Data.List.Split ((--])
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^ keyword.control.import.haskell
+-- ^^^ keyword.declaration.import.haskell
 --     ^^^^ variable.namespace.haskell - punctuation
 --         ^ punctuation.accessor.dot.haskell - variable
 --          ^^^^ variable.namespace.haskell - punctuation
@@ -299,7 +299,7 @@ import Data.List.Split ((--])
 
 import Data.List.Split ((--")
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^ keyword.control.import.haskell
+-- ^^^ keyword.declaration.import.haskell
 --     ^^^^ variable.namespace.haskell - punctuation
 --         ^ punctuation.accessor.dot.haskell - variable
 --          ^^^^ variable.namespace.haskell - punctuation

@@ -215,13 +215,13 @@ contexts:
 
   imports:
     - match: import{{break}}
-      scope: keyword.control.import.haskell
+      scope: keyword.declaration.import.haskell
       push: import-body
 
   import-body:
     - meta_scope: meta.import.haskell
     - match: (?:qualified|as|hiding){{break}}
-      scope: keyword.control.import.haskell
+      scope: keyword.declaration.import.haskell
     - match: ({{con_id}})\s*(?:(\.)|(?=\(|as{{break}}))
       captures:
         1: variable.namespace.haskell
