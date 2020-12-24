@@ -370,15 +370,82 @@ import Data.List.Split ((--")
 --                      ^ punctuation.section.sequence.end.haskell
 
 
---DECLARATIONS
+--CLASS DECLARATIONS
+
+   class
+-- ^^^^^^ meta.declaration.class.haskell
+-- ^^^^^ keyword.declaration.class.haskell
+
+   class =>
+-- ^^^^^^^^^ meta.declaration.class.haskell
+-- ^^^^^ keyword.declaration.class.haskell
+--       ^^ keyword.other.big-arrow.haskell
+
+   class QTyCls tyVar
+-- ^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
+-- ^^^^^ keyword.declaration.class.haskell
+--       ^^^^^^ storage.type.haskell
+--              ^^^^^ variable.other.generic-type.haskell
+
+   class ModId.QTyCls tyVar1, tyVar2
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
+-- ^^^^^ keyword.declaration.class.haskell
+--       ^^^^^ variable.namespace.haskell
+--            ^ punctuation.accessor.dot.haskell
+--             ^^^^^^ storage.type.haskell
+--                    ^^^^^^ variable.other.generic-type.haskell
+--                          ^ punctuation.separator.sequence.haskell
+--                            ^^^^^^ variable.other.generic-type.haskell
+
+   class ModId.QTyCls tyVar1, tyVar2 =>
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
+-- ^^^^^ keyword.declaration.class.haskell
+--       ^^^^^ variable.namespace.haskell
+--            ^ punctuation.accessor.dot.haskell
+--             ^^^^^^ storage.type.haskell
+--                    ^^^^^^ variable.other.generic-type.haskell
+--                          ^ punctuation.separator.sequence.haskell
+--                            ^^^^^^ variable.other.generic-type.haskell
+--                                   ^^ keyword.other.big-arrow.haskell
+
+   class ModId.QTyCls tyVar1, tyVar2 => Traversable t
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
+-- ^^^^^ keyword.declaration.class.haskell
+--       ^^^^^ variable.namespace.haskell
+--            ^ punctuation.accessor.dot.haskell
+--             ^^^^^^ storage.type.haskell
+--                    ^^^^^^ variable.other.generic-type.haskell
+--                          ^ punctuation.separator.sequence.haskell
+--                            ^^^^^^ variable.other.generic-type.haskell
+--                                   ^^ keyword.other.big-arrow.haskell
+--                                      ^^^^^^^^^^^ support.class.prelude.haskell
+--                                                  ^ variable.other.generic-type.haskell
+
+   class () =>
+-- ^^^^^^^^^^^^ meta.declaration.class.haskell
+-- ^^^^^ keyword.declaration.class.haskell
+--       ^^ meta.sequence.tuple.haskell
+--       ^ punctuation.section.sequence.begin.haskell
+--        ^ punctuation.section.sequence.end.haskell
+--          ^^ keyword.other.big-arrow.haskell
 
    class (Functor t, Foldable t) => Traversable t where
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
 -- ^^^^^ keyword.declaration.class.haskell
+--       ^ punctuation.section.sequence.begin.haskell
+--        ^^^^^^^ support.class.prelude.haskell
+--                ^ variable.other.generic-type.haskell
+--                 ^ punctuation.separator.sequence.haskell
+--                   ^^^^^^^^ storage.type.haskell
+--                            ^ variable.other.generic-type.haskell
+--                             ^ punctuation.section.sequence.end.haskell
 --                               ^^ keyword.other.big-arrow.haskell
 --                                  ^^^^^^^^^^^ support.class.prelude.haskell
 --                                              ^ variable.other.generic-type.haskell
 --                                                ^^^^^ keyword.control.context.haskell
+
+
+--DECLARATIONS
 
 -- | Map each element of a structure to an action,
 -- evaluate these actions from left to right, and
@@ -398,9 +465,9 @@ import Data.List.Split ((--")
 --                                 ^ - meta.deriving - meta.sequence
 --      ^^^^^^^^ storage.modifier.haskell
 --               ^ punctuation.section.sequence.begin.haskell
---                ^^ entity.other.inherited-class.haskell
+--                ^^ support.class.prelude.haskell
 --                  ^ punctuation.separator.sequence.haskell
---                    ^^^ entity.other.inherited-class.haskell
+--                    ^^^ support.class.prelude.haskell
 --                       ^ punctuation.separator.sequence.haskell
 --                         ^^^^^^^ entity.other.inherited-class.haskell
 --                                ^ punctuation.section.sequence.end.haskell
@@ -413,9 +480,9 @@ import Data.List.Split ((--")
 --                                              ^ - meta.deriving - meta.sequence
 --      ^^^^^^^^ storage.modifier.haskell
 --               ^ punctuation.section.sequence.begin.haskell
---                ^^^^ entity.other.inherited-class.haskell
+--                ^^^^ support.class.prelude.haskell
 --                    ^ punctuation.separator.sequence.haskell
---                      ^^^^ entity.other.inherited-class.haskell
+--                      ^^^^ support.class.prelude.haskell
 --                          ^ punctuation.section.sequence.end.haskell
 --                            ^^^ storage.modifier.haskell
 --                                ^ punctuation.section.sequence.begin.haskell
@@ -427,7 +494,7 @@ import Data.List.Split ((--")
    traverse :: Applicative f =>
 -- ^^^^^^^^ entity.name.function.haskell
 --          ^^ keyword.other.double-colon.haskell
---             ^^^^^^^^^^^ storage.type.haskell
+--             ^^^^^^^^^^^ support.class.prelude.haskell
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.type-declaration.haskell
 --                           ^^ keyword.other.big-arrow.haskell
     (a -> f b)
@@ -450,7 +517,7 @@ import Data.List.Split ((--")
    sequenceA ∷ Applicative f ⇒ t (f a) → f (t a)
 -- ^^^^^^^^^ entity.name.function.haskell
 --           ^ keyword.other.double-colon.haskell
---             ^^^^^^^^^^^ storage.type.haskell
+--             ^^^^^^^^^^^ support.class.prelude.haskell
 --                           ^ keyword.other.big-arrow.haskell
 --                                     ^ keyword.other.arrow.haskell
    sequenceA = traverse id

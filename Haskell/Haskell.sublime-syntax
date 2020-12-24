@@ -137,13 +137,6 @@ contexts:
     - include: ident-constants
     - include: ident-variables
 
-  type-signatures:
-    - include: arrow-operators
-    - include: big-arrow-operators
-    - include: ident-generic-types
-    - include: ident-types
-    - include: literal-units
-
 ###[ COMMENTS ]################################################################
 
   comments:
@@ -274,11 +267,8 @@ contexts:
     - match: where{{break}}
       scope: keyword.control.context.haskell
       pop: 1
-    - match: '{{class_names}}'
-      scope: support.class.prelude.haskell
-    - include: ident-inherited-classs
-    - include: ident-generic-types
-    - include: big-arrow-operators
+    - include: type-signatures
+    - include: else-pop
 
 ###[ INHERITED DECLARATIONS ]##################################################
 
@@ -333,6 +323,49 @@ contexts:
       pop: 1
     - include: type-signatures
 
+###[ TYPE SIGNATURES ]#########################################################
+
+  type-signatures:
+    # 4.1.2 Syntax of Types
+    # https://www.haskell.org/onlinereport/haskell2010/haskellch4.html#x10-750004.3
+    - include: big-arrow-operators
+    - include: type-content
+
+  type-content:
+    - include: type-lists
+    - include: type-tuples
+    - include: arrow-operators
+    - include: sequence-separators
+    - include: ident-namespaces
+    - include: ident-types
+    - include: ident-generic-types
+
+  type-lists:
+    - match: \[
+      scope: punctuation.section.sequence.begin.haskell
+      push: type-list-body
+
+  type-list-body:
+    - meta_scope: meta.sequence.list.haskell
+    - match: \]
+      scope: punctuation.section.sequence.end.haskell
+      pop: 1
+    - include: type-content
+
+  type-tuples:
+    # 4.1.3 Syntax of Class Assertions and Contexts
+    # https://www.haskell.org/onlinereport/haskell2010/haskellch4.html#x10-630004.1
+    - match: \(
+      scope: punctuation.section.sequence.begin.haskell
+      push: type-tuple-body
+
+  type-tuple-body:
+    - meta_scope: meta.sequence.tuple.haskell
+    - match: \)
+      scope: punctuation.section.sequence.end.haskell
+      pop: 1
+    - include: type-content
+
 ###[ BLOCKS ]##################################################################
 
   blocks:
@@ -351,6 +384,7 @@ contexts:
 ###[ GROUPS AND LISTS ]########################################################
 
   groups:
+    # https://www.haskell.org/onlinereport/haskell2010/haskellch3.html#x8-380003.9
     - match: \(
       scope: punctuation.section.group.begin.haskell
       push: group-body
@@ -542,7 +576,12 @@ contexts:
 
 ###[ IDENTIFIERS ]#############################################################
 
+  ident-builtin-classes:
+    - match: '{{class_names}}'
+      scope: support.class.prelude.haskell
+
   ident-inherited-classs:
+    - include: ident-builtin-classes
     - match: '{{con_id}}'
       scope: entity.other.inherited-class.haskell
 
@@ -550,7 +589,14 @@ contexts:
     - match: '{{var_id}}'
       scope: variable.other.generic-type.haskell
 
+  ident-namespaces:
+    - match: ({{con_id}})(\.)
+      captures:
+        1: variable.namespace.haskell
+        2: punctuation.accessor.dot.haskell
+
   ident-types:
+    - include: ident-builtin-classes
     - match: '{{con_id}}'
       scope: storage.type.haskell
 
