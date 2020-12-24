@@ -111,8 +111,8 @@ contexts:
     - include: modules
 
   expression:
-    - include: keyword
-    - include: operator
+    - include: keywords
+    - include: operators
     - include: literal-chars
     - include: literal-strings
     - include: literal-numbers
@@ -123,12 +123,10 @@ contexts:
     - include: ident-builtin-functions
     - include: ident-constants
     - include: ident-variables
-    - match: ','
-      scope: punctuation.separator.comma.haskell
 
   type-signatures:
-    - include: operator_arrow
-    - include: operator_big_arrow
+    - include: arrow-operators
+    - include: big-arrow-operators
     - include: ident-generic-types
     - include: ident-types
     - include: literal-units
@@ -245,9 +243,8 @@ contexts:
     - include: ident-builtin-functions
     - include: ident-functions
     - include: ident-types
-    - match: ','
-      scope: punctuation.separator.sequence.haskell
-    - include: operator_paren
+    - include: sequence-separators
+    - include: infix-parens-operators
     - match: \({{no_comment_ahead}}.*?\)
       comment: So named because I don't know what to call this.
       scope: meta.other.unknown.haskell
@@ -272,7 +269,7 @@ contexts:
       scope: support.class.prelude.haskell
     - include: ident-inherited-classs
     - include: ident-generic-types
-    - include: operator_big_arrow
+    - include: big-arrow-operators
 
   inherited-body:
     - meta_scope: meta.deriving.haskell
@@ -336,8 +333,6 @@ contexts:
     - match: \]
       scope: punctuation.section.sequence.end.haskell
       pop: true
-    - match: ','
-      scope: punctuation.separator.sequence.haskell
     - include: expression
 
 ###[ LITERALS ]################################################################
@@ -409,7 +404,9 @@ contexts:
         4: constant.character.escape.hexadecimal.haskell
         5: constant.character.escape.control.haskell
 
-  keyword:
+###[ KEYWORDS AND OPERATORS ]##################################################
+
+  keywords:
     - match: (?:do|in){{break}}
       scope: keyword.control.context.haskell
     - match: (?:newtype|type){{break}}
@@ -433,7 +430,7 @@ contexts:
     - match: (?:else){{break}}
       scope: keyword.control.conditional.else.haskell
 
-  operator:
+  operators:
     - match: (`)[ \w'.]+(`)
       # Haskell allows any ordinary function application (elem 4 [1..10])
       # to be rewritten as an infix expression (4 `elem` [1..10])."
@@ -443,25 +440,30 @@ contexts:
         2: punctuation.definition.function.end.haskell
     - match: (`)[^`]*?(?:(`)|{{comment_ahead}})
       scope: invalid.illegal.operator.haskell
-    - match: 'infix[lr]?{{break}}'
+    - match: infix[lr]?{{break}}
       scope: keyword.operator.haskell
     - match: '{{operator_infix}}'
       scope: keyword.operator.haskell
-    - include: operator_paren
+    - include: infix-parens-operators
+    - include: sequence-separators
 
-  operator_arrow:
-    - match: '(?:->|→)'
+  arrow-operators:
+    - match: (?:->|→)
       scope: keyword.other.arrow.haskell
 
-  operator_big_arrow:
-    - match: '(?:=>|⇒)'
+  big-arrow-operators:
+    - match: (?:=>|⇒)
       scope: keyword.other.big-arrow.haskell
 
-  operator_paren:
+  infix-parens-operators:
     - match: \(({{operator_parens}})\)
       scope: variable.function.infix.haskell
       captures:
         1: keyword.operator.haskell
+
+  sequence-separators:
+    - match: ','
+      scope: punctuation.separator.sequence.haskell
 
   splice:
     - match: '\[(?:|e|d|t|p)\|'
