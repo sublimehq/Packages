@@ -331,7 +331,7 @@ contexts:
     - match: \}
       scope: punctuation.section.block.end.haskell
       pop: 1
-    - include: statements
+    - include: main
 
 ###[ GROUPS AND LISTS ]########################################################
 
@@ -368,14 +368,10 @@ contexts:
       scope: constant.language.unit.haskell
 
   literal-numbers:
-    - match: (\d+)(?:(\.)(\d+)([eE][-+]?\d+)?|([eE][-+]?\d+)){{break}}
-      scope: meta.number.float.decimal.haskell
+    - match: \d+(?:(\.)\d+(?:[eE][-+]?\d+)?|[eE][-+]?\d+){{break}}
+      scope: meta.number.float.decimal.haskell constant.numeric.value.haskell
       captures:
-        1: constant.numeric.value.haskell
-        2: punctuation.separator.decimal.haskell
-        3: constant.numeric.value.haskell
-        4: constant.numeric.value.exponent.haskell
-        5: constant.numeric.value.exponent.haskell
+        1: punctuation.separator.decimal.haskell
     - match: (0[oO])([0-7]+){{break}}
       scope: meta.number.integer.octal.haskell
       captures:

@@ -625,27 +625,18 @@ main = do
 --   ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
 
     12.345
---  ^^^^^^ meta.number.float.decimal.haskell
---  ^^ constant.numeric.value.haskell
+--  ^^^^^^ meta.number.float.decimal.haskell constant.numeric.value.haskell
 --    ^ punctuation.separator.decimal
---     ^^^ constant.numeric.value.haskell
 
     1e10
---  ^^^^ meta.number.float.decimal.haskell
---  ^ constant.numeric.value.haskell
---   ^^^ constant.numeric.value.exponent.haskell
+--  ^^^^ meta.number.float.decimal.haskell constant.numeric.value.haskell
 
     0.5e+0
---  ^^^^^^ meta.number.float.decimal.haskell
---  ^ constant.numeric.value.haskell
+--  ^^^^^^ meta.number.float.decimal.haskell constant.numeric.value.haskell
 --   ^ punctuation.separator.decimal.haskell
---    ^ constant.numeric.value.haskell
---     ^^^ constant.numeric.value.exponent.haskell
 
     9e-1
---  ^^^^ meta.number.float.decimal.haskell
---  ^ constant.numeric.value.haskell
---   ^^^ constant.numeric.value.exponent.haskell
+--  ^^^^ meta.number.float.decimal.haskell constant.numeric.value.haskell
 
     0x0
 --  ^^^ meta.number.integer.hexadecimal.haskell
