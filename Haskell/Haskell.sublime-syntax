@@ -23,14 +23,14 @@ variables:
   operator_parens: '(?:{{no_comment_ahead}}{{operator_infix}}|,+)'
 
   # Identifiers
+  # https://www.haskell.org/onlinereport/haskell2010/haskellch2.html#x7-180002.4
   con_id: (?:[[:upper:]][\w']*)
   var_id: (?:(?!{{reserved_id}})[[:lower:]][\w']*)
   reserved_id: |-
     (?x:
-      case | class | data | default | deriving | do | else
-    | foreign | if | import | in | infix | infixl
-    | infixr | instance | let | module | newtype | of
-    | then | type | where | _
+      case | class | data | default | deriving | do | else | foreign | if
+    | import | in | infix | infixl | infixr | instance | let | module | newtype
+    | of | then | type | where | _
     ){{break}}
 
   break: (?![\w'])
