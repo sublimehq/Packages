@@ -375,7 +375,20 @@
 --       ^^^^ meta.group.haskell support.function.prelude.haskell
 
 
---KEYWORDS
+--IMPORT DECLARATIONS
+
+import import
+-- ^^^^^^^^^^^ meta.import.haskell
+-- ^^^  keyword.control.import.haskell
+--     ^^^^^^ keyword.control.import.haskell
+
+import ; import
+-- ^^^^ meta.import.haskell
+--     ^ - meta.import
+--       ^^^^^^^ meta.import.haskell
+-- ^^^ keyword.control.import.haskell
+--     ^ punctuation.terminator.statement.haskell
+--       ^^^^^^ meta.import.haskell keyword.control.import.haskell
 
 import qualified Data.Vector.Mutable as MutableVector
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
@@ -388,6 +401,27 @@ import qualified Data.Vector.Mutable as MutableVector
 --                           ^^^^^^^ variable.namespace.haskell - punctuation
 --                                   ^^ keyword.control.import.haskell
 --                                      ^^^^^^^^^^^^^ entity.name.namespace.haskell
+
+import
+-- ^^^^ meta.import.haskell
+-- ^^^ keyword.control.import.haskell
+   qualified
+-- ^^^^^^^^^^ meta.import.haskell
+-- ^^^^^^^^^ keyword.control.import.haskell
+   Data.Vector.Mutable
+-- ^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+-- ^^^^ variable.namespace.haskell - punctuation
+--     ^ punctuation.accessor.dot.haskell - variable
+--      ^^^^^^ variable.namespace.haskell - punctuation
+--            ^ punctuation.accessor.dot.haskell - variable
+--             ^^^^^^^ entity.name.namespace.haskell - punctuation
+   as
+-- ^^^ meta.import.haskell
+-- ^^ keyword.control.import.haskell
+   MutableVector
+-- ^^^^^^^^^^^^^^ meta.import.haskell
+-- ^^^^^^^^^^^^^ entity.name.namespace.haskell
+
 import Data.List.Split (splitOn)
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
 -- ^^^ keyword.control.import.haskell
@@ -400,6 +434,7 @@ import Data.List.Split (splitOn)
 --                     ^ punctuation.section.sequence.begin.haskell
 --                      ^^^^^^^ variable.function.haskell
 --                             ^ punctuation.section.sequence.end.haskell
+
 import Data.List.Split (())
 -- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
 -- ^^^ keyword.control.import.haskell
@@ -412,6 +447,7 @@ import Data.List.Split (())
 --                     ^ punctuation.section.sequence.begin.haskell
 --                      ^^ meta.other.unknown.haskell
 --                        ^ punctuation.section.sequence.end.haskell
+
 import Data.List.Split (--
 -- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
 -- ^^^ keyword.control.import.haskell
@@ -426,6 +462,7 @@ import Data.List.Split (--
 --                      ^^ punctuation.definition.comment.haskell
                         )
 --                      ^ punctuation.section.sequence.end.haskell
+
 import Data.List.Split (--)
 -- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
 -- ^^^ keyword.control.import.haskell
@@ -440,6 +477,7 @@ import Data.List.Split (--)
 --                      ^^ punctuation.definition.comment.haskell
                         )
 --                      ^ punctuation.section.sequence.end.haskell
+
 import Data.List.Split ((--))
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
 -- ^^^ keyword.control.import.haskell
@@ -454,6 +492,7 @@ import Data.List.Split ((--))
 --                       ^^ punctuation.definition.comment.haskell
                         )
 --                      ^ punctuation.section.sequence.end.haskell
+
 import Data.List.Split ((--])
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
 -- ^^^ keyword.control.import.haskell
@@ -468,6 +507,7 @@ import Data.List.Split ((--])
 --                       ^^ punctuation.definition.comment.haskell
                         )
 --                      ^ punctuation.section.sequence.end.haskell
+
 import Data.List.Split ((--")
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
 -- ^^^ keyword.control.import.haskell
@@ -482,6 +522,9 @@ import Data.List.Split ((--")
 --                       ^^ punctuation.definition.comment.haskell
                         )
 --                      ^ punctuation.section.sequence.end.haskell
+
+
+--KEYWORDS
 
    deriving instance FromJSON Amount
 -- ^^^^^^^^ keyword.declaration.data.haskell

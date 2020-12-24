@@ -220,8 +220,6 @@ contexts:
 
   import-body:
     - meta_scope: meta.import.haskell
-    - match: $|(?=;)
-      pop: true
     - match: (?:qualified|as|hiding){{break}}
       scope: keyword.control.import.haskell
     - match: ({{con_id}})\s*(?:(\.)|(?=\(|as{{break}}))
@@ -231,6 +229,8 @@ contexts:
     - match: '{{con_id}}'
       scope: entity.name.namespace.haskell
     - include: symbols
+    - match: (?=\S)
+      pop: true
 
 ###[ SYMBOL DECLARATIONS ]#####################################################
 
