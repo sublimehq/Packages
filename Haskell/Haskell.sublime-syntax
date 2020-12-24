@@ -35,6 +35,13 @@ variables:
 
   break: (?![\w'])
 
+  class_names: |-
+    (?x:
+      Monad | Monadoid | Functor | Applicative | Foldableble | Traversable | Eq
+    | Ord | Read | Show | Num | Fractional | Rational | Enum | Bounded | Real
+    | RealFrac | RealFloat | Integral | Floating
+    ){{break}}
+
   # https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#pragmas
   pragma_keys: |-
     (?x:
@@ -69,8 +76,11 @@ contexts:
     - include: expression
 
   statement:
-    - include: declaration
-    - include: import
+    - include: functions
+    - include: instances
+    - include: classes
+    - include: imports
+    - include: modules
 
   expression:
     - include: keyword
@@ -138,6 +148,103 @@ contexts:
     - match: '{{pragma_keys}}'
       scope: keyword.directive.other.haskell
 
+###[ MODULE DECLARATIONS ]#####################################################
+
+  modules:
+    - match: module{{break}}
+      scope: keyword.declaration.namespace.haskell
+      push: module-body
+
+  module-body:
+    - meta_scope: meta.declaration.module.haskell
+    - match: where{{break}}
+      scope: keyword.control.context.haskell
+      pop: true
+    - match: ({{con_id}})(\.)
+      captures:
+        1: variable.namespace.haskell
+        2: punctuation.accessor.dot.haskell
+    - match: '{{con_id}}'
+      scope: entity.name.namespace.haskell
+    - include: module_exports
+
+###[ IMPORT DECLARATIONS ]#####################################################
+
+  imports:
+    - match: import{{break}}
+      scope: keyword.control.import.haskell
+      push: import-body
+
+  import-body:
+    - meta_scope: meta.import.haskell
+    - match: ($|;)
+      pop: true
+    - match: (?:qualified|as|hiding){{break}}
+      scope: keyword.control.import.haskell
+    - match: ({{con_id}})(\.)?
+      captures:
+        1: variable.namespace.haskell
+        2: punctuation.accessor.dot.haskell
+    - include: module_exports
+
+###[ CLASS DECLARATIONS ]######################################################
+
+  classes:
+    - match: class{{break}}
+      scope: keyword.declaration.class.haskell
+      push: class-body
+    - match: (deriving|via)\s*\(
+      captures:
+        1: keyword.other.haskell
+      push: inherited-body
+
+  class-body:
+    - meta_scope: meta.declaration.class.haskell
+    - match: where{{break}}
+      scope: keyword.control.context.haskell
+      pop: true
+    - match: '{{class_names}}'
+      scope: support.class.prelude.haskell
+    - include: ident_inherited_class
+    - include: ident_generic_type
+    - include: operator_big_arrow
+
+  inherited-body:
+    - meta_scope: meta.deriving.haskell
+    - match: \)
+      pop: true
+    - include: ident_inherited_class
+
+###[ INSTANCE DECLARATIONS ]###################################################
+
+  instances:
+    - match: instance{{break}}
+      scope: keyword.declaration.haskell
+      push: instance-body
+
+  instance-body:
+    - meta_scope: meta.declaration.instance.haskell
+    - match: where{{break}}|$
+      scope: keyword.control.context.haskell
+      pop: true
+    - include: type_signature
+
+###[ FUNCTION DECLARATIONS ]###################################################
+
+  functions:
+    - match: '^(\s*)({{var_id}}|\(({{operator_parens}})\))\s*(::|∷)'
+      captures:
+        2: entity.name.function.haskell
+        3: keyword.operator.infix.haskell
+        4: keyword.other.double-colon.haskell
+      push: function-body
+
+  function-body:
+    - meta_scope: meta.function.type-declaration.haskell
+    - match: ^(?!\s*(?:--|{-|$)|\1\s)
+      pop: true
+    - include: type_signature
+
   group:
     - match: \(
       scope: punctuation.section.group.begin.haskell
@@ -185,75 +292,6 @@ contexts:
         2: constant.numeric.value.haskell
     - match: \d+{{break}}
       scope: meta.number.integer.decimal.haskell constant.numeric.value.haskell
-
-  declaration:
-    - match: module{{break}}
-      scope: keyword.declaration.namespace.haskell
-      push:
-        - meta_scope: meta.declaration.module.haskell
-        - match: where{{break}}
-          scope: keyword.control.context.haskell
-          pop: true
-        - match: ({{con_id}})(\.)
-          captures:
-            1: variable.namespace.haskell
-            2: punctuation.accessor.dot.haskell
-        - match: '{{con_id}}'
-          scope: entity.name.namespace.haskell
-        - include: module_exports
-    - match: class{{break}}
-      scope: keyword.declaration.class.haskell
-      push:
-        - meta_scope: meta.declaration.class.haskell
-        - match: where{{break}}
-          scope: keyword.control.context.haskell
-          pop: true
-        - match: |-
-            (?x:Monad|Monadoid|Functor|Applicative|Foldableble|Traversable
-              |Eq|Ord|Read|Show|Num|Fractional|Rational|Enum|Bounded
-              |Real|RealFrac|RealFloat|Integral|Floating){{break}}
-          scope: support.class.prelude.haskell
-        - include: ident_inherited_class
-        - include: ident_generic_type
-        - include: operator_big_arrow
-    - match: instance{{break}}
-      scope: keyword.declaration.haskell
-      push:
-        - meta_scope: meta.declaration.instance.haskell
-        - match: where{{break}}|$
-          scope: keyword.control.context.haskell
-          pop: true
-        - include: type_signature
-    - match: '^(\s*)({{var_id}}|\(({{operator_parens}})\))\s*(::|∷)'
-      captures:
-        2: entity.name.function.haskell
-        3: keyword.operator.infix.haskell
-        4: keyword.other.double-colon.haskell
-      push:
-        - meta_scope: meta.function.type-declaration.haskell
-        - match: ^(?!\s*(?:--|{-|$)|\1\s)
-          pop: true
-        - include: type_signature
-    - match: (deriving|via)\s*\(
-      captures:
-        1: keyword.other.haskell
-      push:
-        - meta_scope: meta.deriving.haskell
-        - match: \)
-          pop: true
-        - include: ident_inherited_class
-
-  import:
-    - match: import{{break}}
-      scope: keyword.control.import.haskell
-      push:
-        - meta_scope: meta.import.haskell
-        - match: ($|;)
-          pop: true
-        - match: (?:qualified|as|hiding){{break}}
-          scope: keyword.control.import.haskell
-        - include: module_name
-        - include: module_exports
 
   keyword:
     - match: (?:do|in){{break}}
@@ -452,12 +490,6 @@ contexts:
         - match: \({{no_comment_ahead}}.*?\)
           comment: So named because I don't know what to call this.
           scope: meta.other.unknown.haskell
-  
-  module_name:
-    - match: ({{con_id}})(\.)?
-      captures:
-        1: variable.namespace.haskell
-        2: punctuation.accessor.dot.haskell
   
   type_signature:
     - include: operator_arrow
