@@ -94,6 +94,13 @@ contexts:
     - match: ','
       scope: punctuation.separator.comma.haskell
 
+  type-signatures:
+    - include: operator_arrow
+    - include: operator_big_arrow
+    - include: ident_generic_type
+    - include: ident_type
+    - include: constant_unit
+
 ###[ COMMENTS ]################################################################
 
   comments:
@@ -252,7 +259,7 @@ contexts:
     - match: where{{break}}|$
       scope: keyword.control.context.haskell
       pop: true
-    - include: type_signature
+    - include: type-signatures
 
 ###[ FUNCTION DECLARATIONS ]###################################################
 
@@ -268,7 +275,7 @@ contexts:
     - meta_scope: meta.function.type-declaration.haskell
     - match: ^(?!\s*(?:--|{-|$)|\1\s)
       pop: true
-    - include: type_signature
+    - include: type-signatures
 
   group:
     - match: \(
@@ -499,10 +506,3 @@ contexts:
     - match: '{{con_id}}'
       scope: storage.type.haskell
 
-
-  type_signature:
-    - include: operator_arrow
-    - include: operator_big_arrow
-    - include: ident_generic_type
-    - include: ident_type
-    - include: constant_unit
