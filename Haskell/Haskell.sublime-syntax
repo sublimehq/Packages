@@ -112,6 +112,7 @@ contexts:
     - include: classes
     - include: imports
     - include: modules
+    - include: statement-terminators
 
   expressions:
     - include: keywords
@@ -219,7 +220,7 @@ contexts:
 
   import-body:
     - meta_scope: meta.import.haskell
-    - match: ($|;)
+    - match: $|(?=;)
       pop: true
     - match: (?:qualified|as|hiding){{break}}
       scope: keyword.control.import.haskell
@@ -463,6 +464,12 @@ contexts:
       scope: variable.function.infix.haskell
       captures:
         1: keyword.operator.haskell
+
+  statement-terminators:
+    # Depending on layout, semicolon may be needed to terminate statements.
+    # https://www.haskell.org/onlinereport/haskell2010/haskellch2.html#x7-210002.7
+    - match: ';'
+      scope: punctuation.terminator.statement.haskell
 
   sequence-separators:
     - match: ','
