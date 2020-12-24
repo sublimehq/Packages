@@ -88,8 +88,8 @@ contexts:
     - include: constant
     - include: string
     - include: splice
-    - include: group
-    - include: list
+    - include: groups
+    - include: lists
     - include: ident
     - match: ','
       scope: punctuation.separator.comma.haskell
@@ -277,27 +277,33 @@ contexts:
       pop: true
     - include: type-signatures
 
-  group:
+###[ GROUPS AND LISTS ]########################################################
+
+  groups:
     - match: \(
       scope: punctuation.section.group.begin.haskell
-      push:
-        - meta_scope: meta.group.haskell
-        - match: \)
-          scope: punctuation.section.group.end.haskell
-          pop: true
-        - include: expression
+      push: group-body
 
-  list:
+  group-body:
+    - meta_scope: meta.group.haskell
+    - match: \)
+      scope: punctuation.section.group.end.haskell
+      pop: true
+    - include: expression
+
+  lists:
     - match: \[
       scope: punctuation.section.sequence.begin.haskell
-      push:
-        - meta_scope: meta.sequence.haskell
-        - match: \]
-          scope: punctuation.section.sequence.end.haskell
-          pop: true
-        - match: ','
-          scope: punctuation.separator.sequence.haskell
-        - include: expression
+      push: list-body
+
+  list-body:
+    - meta_scope: meta.sequence.haskell
+    - match: \]
+      scope: punctuation.section.sequence.end.haskell
+      pop: true
+    - match: ','
+      scope: punctuation.separator.sequence.haskell
+    - include: expression
 
   constant:
     - match: \[\]
