@@ -189,11 +189,13 @@ contexts:
 
   preprocessor-pragmas:
     - match: \{-#
+      scope: punctuation.section.preprocessor.begin.haskell
       push: preprocessor-pragma-body
 
   preprocessor-pragma-body:
     - meta_scope: meta.preprocessor.haskell
     - match: '#-\}'
+      scope: punctuation.section.preprocessor.end.haskell
       pop: 1
     - match: '{{pragma_keys}}'
       scope: keyword.directive.other.haskell

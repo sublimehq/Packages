@@ -121,6 +121,34 @@
 -- ^^^ - comment
 
 
+--PREPROCESSOR
+
+   {-# MINIMAL traverse | sequenceA LANGUAGE #-}
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.haskell
+--                                              ^ - meta.preprocessor.haskell
+-- ^^^ punctuation.section.preprocessor.begin.haskell
+--     ^^^^^^^ keyword.directive.other.haskell
+--                                   ^^^^^^^ keyword.directive.other.haskell
+--                                           ^^^ punctuation.section.preprocessor.end.haskell
+
+   {-# OPTIONS_HADDOCK not-home #-}
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.haskell
+--                                 ^ - meta.preprocessor.haskell
+-- ^^^ punctuation.section.preprocessor.begin.haskell
+--     ^^^^^^^^^^^^^^^ keyword.directive.other.haskell
+--                              ^^^ punctuation.section.preprocessor.end.haskell
+
+   #if 0
+-- ^^^ meta.preprocessor.c
+-- ^ punctuation.definition.preprocessor.c
+-- ^^^ keyword.directive.other.c
+
+   #endif
+-- ^^^^^^ meta.preprocessor.c
+-- ^ punctuation.definition.preprocessor.c
+-- ^^^^^^ keyword.directive.other.c
+
+
 --MODULE DECLARATIONS
 
    module
@@ -351,25 +379,6 @@ import Data.List.Split ((--")
 --                                  ^^^^^^^^^^^ support.class.prelude.haskell
 --                                              ^ variable.other.generic-type.haskell
 --                                                ^^^^^ keyword.control.context.haskell
-   {-# MINIMAL traverse | sequenceA LANGUAGE #-}
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.haskell
---                                              ^ - meta.preprocessor.haskell
---                                   ^^^^^^^ keyword.directive.other.haskell
-
-   {-# OPTIONS_HADDOCK not-home #-}
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.haskell
---                                 ^ - meta.preprocessor.haskell
---     ^^^^^^^^^^^^^^^ keyword.directive.other.haskell
-
-   #if 0
--- ^^^ meta.preprocessor.c
--- ^ punctuation.definition.preprocessor.c
--- ^^^ keyword.directive.other.c
-
-   #endif
--- ^^^^^^ meta.preprocessor.c
--- ^ punctuation.definition.preprocessor.c
--- ^^^^^^ keyword.directive.other.c
 
 -- | Map each element of a structure to an action,
 -- evaluate these actions from left to right, and
