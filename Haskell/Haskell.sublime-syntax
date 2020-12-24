@@ -167,6 +167,8 @@ contexts:
     - match: '{{con_id}}'
       scope: entity.name.namespace.haskell
     - include: symbols
+    - match: (?=\S)
+      pop: true
 
 ###[ IMPORT DECLARATIONS ]#####################################################
 

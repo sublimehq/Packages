@@ -121,13 +121,49 @@
 -- ^^^ - comment
 
 
---DECLARATIONS
+--MODULE DECLARATIONS
+
+   module
+-- ^^^^^^^ meta.declaration.module.haskell
+-- ^^^^^^ keyword.declaration.namespace.haskell
+
+   module Name
+-- ^^^^^^^^^^^^ meta.declaration.module.haskell
+-- ^^^^^^ keyword.declaration.namespace.haskell
+--        ^^^^ entity.name.namespace.haskell
 
    module Name where
 -- ^^^^^^^^^^^^^^^^^ meta.declaration.module.haskell
 -- ^^^^^^ keyword.declaration.namespace.haskell
 --        ^^^^ entity.name.namespace.haskell
 --             ^^^^^ keyword.control.context.haskell
+
+   module ()
+-- ^^^^^^^ meta.declaration.module.haskell - meta.sequence
+--        ^^ meta.declaration.module.haskell meta.sequence.symbols.haskell
+-- ^^^^^^ keyword.declaration.namespace.haskell
+--        ^ punctuation.section.sequence.begin.haskell
+--         ^ punctuation.section.sequence.end.haskell
+
+   module Name ()
+-- ^^^^^^^^^^^^ meta.declaration.module.haskell - meta.sequence
+--             ^^ meta.declaration.module.haskell meta.sequence.symbols.haskell
+-- ^^^^^^ keyword.declaration.namespace.haskell
+--        ^^^^ entity.name.namespace.haskell
+--             ^ punctuation.section.sequence.begin.haskell
+--              ^ punctuation.section.sequence.end.haskell
+
+   module Name () where
+-- ^^^^^^^^^^^^ meta.declaration.module.haskell - meta.sequence
+--             ^^ meta.declaration.module.haskell meta.sequence.symbols.haskell
+--                ^^^^^ meta.declaration.module.haskell - meta.sequence
+-- ^^^^^^ keyword.declaration.namespace.haskell
+--        ^^^^ entity.name.namespace.haskell
+--             ^ punctuation.section.sequence.begin.haskell
+--              ^ punctuation.section.sequence.end.haskell
+--                ^^^^^ keyword.control.context.haskell
+
+--DECLARATIONS
 
    class (Functor t, Foldable t) => Traversable t where
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
