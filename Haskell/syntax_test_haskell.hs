@@ -351,7 +351,7 @@ import qualified Data.Vector.Mutable as MutableVector
 --                          ^ punctuation.accessor.dot.haskell - variable
 --                           ^^^^^^^ variable.namespace.haskell - punctuation
 --                                   ^^ keyword.control.import.haskell
---                                      ^^^^^^^^^^^^^ variable.namespace.haskell
+--                                      ^^^^^^^^^^^^^ entity.name.namespace.haskell
 import Data.List.Split (splitOn)
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
 -- ^^^ keyword.control.import.haskell
