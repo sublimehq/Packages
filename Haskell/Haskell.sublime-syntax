@@ -119,6 +119,7 @@ contexts:
     - include: inherited
     - include: instances
     - include: classes
+    - include: types
     - include: imports
     - include: modules
     - include: statement-terminators
@@ -322,6 +323,18 @@ contexts:
     - match: ^(?!\s*(?:--|{-|$)|\1\s)
       pop: 1
     - include: type-signatures
+
+###[ TYPE DECLARATIONS ]#######################################################
+
+  types:
+    - match: (?:newtype|type){{break}}
+      scope: keyword.declaration.type.haskell
+      push: type-body
+
+  type-body:
+    - meta_scope: meta.declaration.type.haskell
+    - include: type-signatures
+    - include: else-pop
 
 ###[ TYPE SIGNATURES ]#########################################################
 
