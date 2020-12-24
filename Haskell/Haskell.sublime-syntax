@@ -116,6 +116,7 @@ contexts:
   statements:
     - include: blocks
     - include: functions
+    - include: inherited
     - include: instances
     - include: classes
     - include: imports
@@ -265,10 +266,6 @@ contexts:
     - match: class{{break}}
       scope: keyword.declaration.class.haskell
       push: class-body
-    - match: (deriving|via)\s*\(
-      captures:
-        1: keyword.other.haskell
-      push: inherited-body
 
   class-body:
     - meta_scope: meta.declaration.class.haskell
@@ -281,10 +278,26 @@ contexts:
     - include: ident-generic-types
     - include: big-arrow-operators
 
-  inherited-body:
+###[ INHERITED DECLARATIONS ]##################################################
+
+  inherited:
+    - match: (?:deriving|via){{break}}
+      scope: storage.modifier.haskell
+      push: inherited-sequence
+
+  inherited-sequence:
     - meta_scope: meta.deriving.haskell
+    - match: \(
+      scope: punctuation.section.sequence.begin.haskell
+      push: inherited-sequence-body
+    - include: else-pop
+
+  inherited-sequence-body:
+    - meta_scope: meta.sequence.tuple.haskell
     - match: \)
-      pop: 1
+      scope: punctuation.section.sequence.end.haskell
+      pop: 2
+    - include: sequence-separators
     - include: ident-inherited-classs
 
 ###[ INSTANCE DECLARATIONS ]###################################################
@@ -436,7 +449,7 @@ contexts:
     - match: (?:data){{break}}
       scope: keyword.declaration.data.haskell
     - match: (?:deriving){{break}}
-      scope: keyword.declaration.data.haskell
+      scope: storage.modifier.haskell
     - match: (?:case|of){{break}}
       scope: keyword.control.conditional.select.haskell  # the construct is commonly called "select"
     - match: (?:let|where){{break}}

@@ -384,13 +384,36 @@ import Data.List.Split ((--")
       , recordDouble :: Double
       , recordRational :: Rational
       } deriving (Eq, Ord, Generic)
---      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.deriving.haskell
+--      ^^^^^^^^^ meta.deriving.haskell - meta.sequence
+--               ^^^^^^^^^^^^^^^^^^ meta.deriving.haskell meta.sequence.tuple.haskell
+--                                 ^ - meta.deriving - meta.sequence
+--      ^^^^^^^^ storage.modifier.haskell
+--               ^ punctuation.section.sequence.begin.haskell
+--                ^^ entity.other.inherited-class.haskell
+--                  ^ punctuation.separator.sequence.haskell
+--                    ^^^ entity.other.inherited-class.haskell
+--                       ^ punctuation.separator.sequence.haskell
+--                         ^^^^^^^ entity.other.inherited-class.haskell
+--                                ^ punctuation.section.sequence.end.haskell
         deriving (Read, Show) via (Quiet Record)
---                            ^^^ keyword.other.haskell
---                            ^^^^^^^^^^^^^^^^^^ meta.deriving.haskell
+--      ^^^^^^^^^ meta.deriving.haskell - meta.sequence
+--               ^^^^^^^^^^^^ meta.deriving.haskell meta.sequence.tuple.haskell
+--                           ^ - meta.deriving - meta.sequence
+--                            ^^^^ meta.deriving.haskell - meta.sequence
+--                                ^^^^^^^^^^^^^^ meta.deriving.haskell meta.sequence.tuple.haskell
+--                                              ^ - meta.deriving - meta.sequence
+--      ^^^^^^^^ storage.modifier.haskell
+--               ^ punctuation.section.sequence.begin.haskell
+--                ^^^^ entity.other.inherited-class.haskell
+--                    ^ punctuation.separator.sequence.haskell
+--                      ^^^^ entity.other.inherited-class.haskell
+--                          ^ punctuation.section.sequence.end.haskell
+--                            ^^^ storage.modifier.haskell
+--                                ^ punctuation.section.sequence.begin.haskell
 --                                 ^^^^^ entity.other.inherited-class.haskell
 --                                      ^ - entity
 --                                       ^^^^^^ entity.other.inherited-class.haskell
+--                                             ^ punctuation.section.sequence.end.haskell
 
    traverse :: Applicative f =>
 -- ^^^^^^^^ entity.name.function.haskell
@@ -557,7 +580,7 @@ import Data.List.Split ((--")
 --KEYWORDS
 
    deriving instance FromJSON Amount
--- ^^^^^^^^ keyword.declaration.data.haskell
+-- ^^^^^^^^ storage.modifier.haskell
    deriving instance FromJSON Ask
 --          ^^^^^^^^ meta.declaration.instance.haskell keyword.declaration.haskell
 
