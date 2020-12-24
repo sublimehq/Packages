@@ -216,8 +216,7 @@ contexts:
     - match: '{{con_id}}'
       scope: entity.name.namespace.haskell
     - include: symbols
-    - match: (?=\S)
-      pop: 1
+    - include: else-pop
 
 ###[ IMPORT DECLARATIONS ]#####################################################
 
@@ -237,8 +236,7 @@ contexts:
     - match: '{{con_id}}'
       scope: entity.name.namespace.haskell
     - include: symbols
-    - match: (?=\S)
-      pop: 1
+    - include: else-pop
 
 ###[ SYMBOL DECLARATIONS ]#####################################################
 
@@ -298,10 +296,11 @@ contexts:
 
   instance-body:
     - meta_scope: meta.declaration.instance.haskell
-    - match: where{{break}}|$
+    - match: where{{break}}
       scope: keyword.control.context.haskell
       pop: 1
     - include: type-signatures
+    - include: else-pop
 
 ###[ FUNCTION DECLARATIONS ]###################################################
 
@@ -559,3 +558,9 @@ contexts:
   ident-variables:
     - match: '{{var_id}}'
       scope: meta.name.haskell
+
+###[ PROTOTYPES ]##############################################################
+
+  else-pop:
+    - match: (?=\S)
+      pop: 1
