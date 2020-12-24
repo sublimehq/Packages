@@ -35,6 +35,15 @@ variables:
 
   break: (?![\w'])
 
+  # https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#pragmas
+  pragma_keys: |-
+    (?x:
+      LANGUAGE | OPTIONS_GHC | OPTIONS_HADDOCK | INCLUDE | WARNING | DEPRECATED
+    | MINIMAL | UNPACK | NOUNPACK | SOURCE | OVERLAPPING | OVERLAPPABLE
+    | OVERLAPS | INCOHERENT | INLINE | NOINLINE | INLINABLE | CONLIKE | LINE
+    | RULES | SPECIALIZE | SPECIALISE
+    ){{break}}
+
   # Escaped Characters
   escape_chars: |-
     (?x:NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI
@@ -52,8 +61,9 @@ variables:
 contexts:
   prototype:
     - include: comments
-    - include: preprocessor
-  
+    - include: preprocessor-pragmas
+    - include: preprocessor-directives
+
   main:
     - include: statement
     - include: expression
@@ -105,6 +115,28 @@ contexts:
       scope: comment.line.double-dash.haskell
       captures:
         1: punctuation.definition.comment.haskell
+
+###[ PREPROCESSOR ]############################################################
+
+  preprocessor-directives:
+    # In addition to Haskell's "native" syntax,
+    # GHC permits the C preprocessor to be run on a source file.
+    - match: ^\s*((#)\s*\w+)
+      scope: meta.preprocessor.c
+      captures:
+        1: keyword.directive.other.c
+        2: punctuation.definition.preprocessor.c
+
+  preprocessor-pragmas:
+    - match: \{-#
+      push: preprocessor-pragma-body
+
+  preprocessor-pragma-body:
+    - meta_scope: meta.preprocessor.haskell
+    - match: '#-\}'
+      pop: true
+    - match: '{{pragma_keys}}'
+      scope: keyword.directive.other.haskell
 
   group:
     - match: \(
@@ -285,16 +317,6 @@ contexts:
       captures:
         1: keyword.operator.haskell
 
-  preprocessor:
-    # In addition to Haskell's "native" syntax,
-    # GHC permits the C preprocessor to be run on a source file.
-    - match: ^\s*((#)\s*\w+)
-      scope: meta.preprocessor.c
-      captures:
-        1: keyword.directive.other.c
-        2: punctuation.definition.preprocessor.c
-    - include: pragma
-
   string:
     - match: \"
       scope: punctuation.definition.string.begin.haskell
@@ -438,25 +460,8 @@ contexts:
         2: punctuation.accessor.dot.haskell
   
   type_signature:
-    - include: pragma
     - include: operator_arrow
     - include: operator_big_arrow
     - include: ident_generic_type
     - include: ident_type
     - include: constant_unit
-
-  pragma:
-    - match: '\{-#'
-      push:
-        - meta_scope: meta.preprocessor.haskell
-        - match: '#-\}'
-          pop: true
-        - match: |-
-            (?x:
-              LANGUAGE|OPTIONS_GHC|OPTIONS_HADDOCK|INCLUDE|WARNING|DEPRECATED|MINIMAL
-              |UNPACK|NOUNPACK|SOURCE|OVERLAPPING|OVERLAPPABLE|OVERLAPS
-              |INCOHERENT|INLINE|NOINLINE|INLINABLE|CONLIKE|LINE|RULES
-              |SPECIALIZE|SPECIALISE
-            ){{break}}
-          # https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#pragmas
-          scope: keyword.directive.other.haskell
