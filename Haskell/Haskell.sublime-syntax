@@ -32,8 +32,25 @@ variables:
     | import | in | infix | infixl | infixr | instance | let | module | newtype
     | of | then | type | where | _
     ){{break}}
-
   break: (?![\w'])
+
+  # Escaped Characters
+  # https://www.haskell.org/onlinereport/haskell2010/haskellch2.html#x7-200002.6
+  escape_chars: |-
+    (?x:
+      NUL | SOH | STX | ETX | EOT | ENQ | ACK | BEL | BS | HT | LF | VT | FF
+    | CR | SO | SI | DLE | DC1 | DC2 | DC3 | DC4 | NAK | SYN | ETB | CAN | EM
+    | SUB | ESC | FS | GS | RS | US | SP | DEL
+    | [abfnrtv\\\"'\&]
+    )
+  escape_sequence: |-
+    (?x:
+        (\\{{escape_chars}}) # Escapes
+      | (\\[0-9]+)           # Decimal Escapes
+      | (\\o[0-7]+)          # Octal Escapes
+      | (\\x[0-9A-Fa-f]+)    # Hexadecimal Escapes
+      | (\^[A-Z@\[\]\\\^_])  # Control Chars
+    )
 
   class_names: |-
     (?x:
@@ -78,20 +95,6 @@ variables:
     | OVERLAPS | INCOHERENT | INLINE | NOINLINE | INLINABLE | CONLIKE | LINE
     | RULES | SPECIALIZE | SPECIALISE
     ){{break}}
-
-  # Escaped Characters
-  escape_chars: |-
-    (?x:NUL|SOH|STX|ETX|EOT|ENQ|ACK|BEL|BS|HT|LF|VT|FF|CR|SO|SI
-      |DLE|DC1|DC2|DC3|DC4|NAK|SYN|ETB|CAN|EM|SUB|ESC|FS|GS|RS|US|SP|DEL
-      |[abfnrtv\\\"'\&])
-  escape_sequence: |-
-    (?x:
-      (\\{{escape_chars}})   # Escapes
-      | (\\[0-9]+)           # Decimal Escapes
-      | (\\o[0-7]+)          # Octal Escapes
-      | (\\x[0-9A-Fa-f]+)    # Hexadecimal Escapes
-      | (\^[A-Z@\[\]\\\^_])  # Control Chars
-    )
 
 contexts:
   prototype:
