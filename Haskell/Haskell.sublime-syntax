@@ -405,8 +405,6 @@ contexts:
         2: punctuation.section.sequence.end.haskell
 
   lists:
-    - match: \[\]
-      scope: constant.language.empty-list.haskell
     - match: \[
       scope: punctuation.section.sequence.begin.haskell
       push: list-body
