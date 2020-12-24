@@ -163,6 +163,156 @@
 --              ^ punctuation.section.sequence.end.haskell
 --                ^^^^^ keyword.control.context.haskell
 
+
+--IMPORT DECLARATIONS
+
+import import
+-- ^^^^^^^^^^^ meta.import.haskell
+-- ^^^  keyword.control.import.haskell
+--     ^^^^^^ keyword.control.import.haskell
+
+import ; import
+-- ^^^^ meta.import.haskell
+--     ^ - meta.import
+--       ^^^^^^^ meta.import.haskell
+-- ^^^ keyword.control.import.haskell
+--     ^ punctuation.terminator.statement.haskell
+--       ^^^^^^ meta.import.haskell keyword.control.import.haskell
+
+import qualified Data.Vector.Mutable as MutableVector
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+-- ^^^ keyword.control.import.haskell
+--     ^^^^^^^^^ keyword.control.import.haskell
+--               ^^^^ variable.namespace.haskell - punctuation
+--                   ^ punctuation.accessor.dot.haskell - variable
+--                    ^^^^^^ variable.namespace.haskell - punctuation
+--                          ^ punctuation.accessor.dot.haskell - variable
+--                           ^^^^^^^ variable.namespace.haskell - punctuation
+--                                   ^^ keyword.control.import.haskell
+--                                      ^^^^^^^^^^^^^ entity.name.namespace.haskell
+
+import
+-- ^^^^ meta.import.haskell
+-- ^^^ keyword.control.import.haskell
+   qualified
+-- ^^^^^^^^^^ meta.import.haskell
+-- ^^^^^^^^^ keyword.control.import.haskell
+   Data.Vector.Mutable
+-- ^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+-- ^^^^ variable.namespace.haskell - punctuation
+--     ^ punctuation.accessor.dot.haskell - variable
+--      ^^^^^^ variable.namespace.haskell - punctuation
+--            ^ punctuation.accessor.dot.haskell - variable
+--             ^^^^^^^ entity.name.namespace.haskell - punctuation
+   as
+-- ^^^ meta.import.haskell
+-- ^^ keyword.control.import.haskell
+   MutableVector
+-- ^^^^^^^^^^^^^^ meta.import.haskell
+-- ^^^^^^^^^^^^^ entity.name.namespace.haskell
+
+import Data.List.Split (splitOn)
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+-- ^^^ keyword.control.import.haskell
+--     ^^^^ variable.namespace.haskell - punctuation
+--         ^ punctuation.accessor.dot.haskell - variable
+--          ^^^^ variable.namespace.haskell - punctuation
+--              ^ punctuation.accessor.dot.haskell - variable
+--               ^^^^^ variable.namespace.haskell - punctuation
+--                     ^^^^^^^^^ meta.sequence.symbols.haskell
+--                     ^ punctuation.section.sequence.begin.haskell
+--                      ^^^^^^^ variable.function.haskell
+--                             ^ punctuation.section.sequence.end.haskell
+
+import Data.List.Split (())
+-- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+-- ^^^ keyword.control.import.haskell
+--     ^^^^ variable.namespace.haskell - punctuation
+--         ^ punctuation.accessor.dot.haskell - variable
+--          ^^^^ variable.namespace.haskell - punctuation
+--              ^ punctuation.accessor.dot.haskell - variable
+--               ^^^^^ variable.namespace.haskell - punctuation
+--                     ^^^^ meta.sequence.symbols.haskell
+--                     ^ punctuation.section.sequence.begin.haskell
+--                      ^^ meta.other.unknown.haskell
+--                        ^ punctuation.section.sequence.end.haskell
+
+import Data.List.Split (--
+-- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+-- ^^^ keyword.control.import.haskell
+--     ^^^^ variable.namespace.haskell - punctuation
+--         ^ punctuation.accessor.dot.haskell - variable
+--          ^^^^ variable.namespace.haskell - punctuation
+--              ^ punctuation.accessor.dot.haskell - variable
+--               ^^^^^ variable.namespace.haskell - punctuation
+--                     ^^^^^ meta.sequence.symbols.haskell
+--                     ^ punctuation.section.sequence.begin.haskell
+--                      ^^^ comment.line.double-dash.haskell
+--                      ^^ punctuation.definition.comment.haskell
+                        )
+--                      ^ punctuation.section.sequence.end.haskell
+
+import Data.List.Split (--)
+-- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+-- ^^^ keyword.control.import.haskell
+--     ^^^^ variable.namespace.haskell - punctuation
+--         ^ punctuation.accessor.dot.haskell - variable
+--          ^^^^ variable.namespace.haskell - punctuation
+--              ^ punctuation.accessor.dot.haskell - variable
+--               ^^^^^ variable.namespace.haskell - punctuation
+--                     ^^^^^ meta.sequence.symbols.haskell
+--                     ^ punctuation.section.sequence.begin.haskell
+--                      ^^^^ comment.line.double-dash.haskell
+--                      ^^ punctuation.definition.comment.haskell
+                        )
+--                      ^ punctuation.section.sequence.end.haskell
+
+import Data.List.Split ((--))
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+-- ^^^ keyword.control.import.haskell
+--     ^^^^ variable.namespace.haskell - punctuation
+--         ^ punctuation.accessor.dot.haskell - variable
+--          ^^^^ variable.namespace.haskell - punctuation
+--              ^ punctuation.accessor.dot.haskell - variable
+--               ^^^^^ variable.namespace.haskell - punctuation
+--                     ^^^^^^^ meta.sequence.symbols.haskell
+--                     ^ punctuation.section.sequence.begin.haskell
+--                       ^^^^^ comment.line.double-dash.haskell
+--                       ^^ punctuation.definition.comment.haskell
+                        )
+--                      ^ punctuation.section.sequence.end.haskell
+
+import Data.List.Split ((--])
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+-- ^^^ keyword.control.import.haskell
+--     ^^^^ variable.namespace.haskell - punctuation
+--         ^ punctuation.accessor.dot.haskell - variable
+--          ^^^^ variable.namespace.haskell - punctuation
+--              ^ punctuation.accessor.dot.haskell - variable
+--               ^^^^^ variable.namespace.haskell - punctuation
+--                     ^^^^^^^ meta.sequence.symbols.haskell
+--                     ^ punctuation.section.sequence.begin.haskell
+--                       ^^^^^ comment.line.double-dash.haskell
+--                       ^^ punctuation.definition.comment.haskell
+                        )
+--                      ^ punctuation.section.sequence.end.haskell
+
+import Data.List.Split ((--")
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+-- ^^^ keyword.control.import.haskell
+--     ^^^^ variable.namespace.haskell - punctuation
+--         ^ punctuation.accessor.dot.haskell - variable
+--          ^^^^ variable.namespace.haskell - punctuation
+--              ^ punctuation.accessor.dot.haskell - variable
+--               ^^^^^ variable.namespace.haskell - punctuation
+--                     ^^^^^^^ meta.sequence.symbols.haskell
+--                     ^ punctuation.section.sequence.begin.haskell
+--                       ^^^^^ comment.line.double-dash.haskell
+--                       ^^ punctuation.definition.comment.haskell
+                        )
+--                      ^ punctuation.section.sequence.end.haskell
+
+
 --DECLARATIONS
 
    class (Functor t, Foldable t) => Traversable t where
@@ -373,155 +523,6 @@
     map (flip (/)) [1..]
 --  ^^^ support.function.prelude.haskell
 --       ^^^^ meta.group.haskell support.function.prelude.haskell
-
-
---IMPORT DECLARATIONS
-
-import import
--- ^^^^^^^^^^^ meta.import.haskell
--- ^^^  keyword.control.import.haskell
---     ^^^^^^ keyword.control.import.haskell
-
-import ; import
--- ^^^^ meta.import.haskell
---     ^ - meta.import
---       ^^^^^^^ meta.import.haskell
--- ^^^ keyword.control.import.haskell
---     ^ punctuation.terminator.statement.haskell
---       ^^^^^^ meta.import.haskell keyword.control.import.haskell
-
-import qualified Data.Vector.Mutable as MutableVector
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^ keyword.control.import.haskell
---     ^^^^^^^^^ keyword.control.import.haskell
---               ^^^^ variable.namespace.haskell - punctuation
---                   ^ punctuation.accessor.dot.haskell - variable
---                    ^^^^^^ variable.namespace.haskell - punctuation
---                          ^ punctuation.accessor.dot.haskell - variable
---                           ^^^^^^^ variable.namespace.haskell - punctuation
---                                   ^^ keyword.control.import.haskell
---                                      ^^^^^^^^^^^^^ entity.name.namespace.haskell
-
-import
--- ^^^^ meta.import.haskell
--- ^^^ keyword.control.import.haskell
-   qualified
--- ^^^^^^^^^^ meta.import.haskell
--- ^^^^^^^^^ keyword.control.import.haskell
-   Data.Vector.Mutable
--- ^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^^ variable.namespace.haskell - punctuation
---     ^ punctuation.accessor.dot.haskell - variable
---      ^^^^^^ variable.namespace.haskell - punctuation
---            ^ punctuation.accessor.dot.haskell - variable
---             ^^^^^^^ entity.name.namespace.haskell - punctuation
-   as
--- ^^^ meta.import.haskell
--- ^^ keyword.control.import.haskell
-   MutableVector
--- ^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^^^^^^^^^^^ entity.name.namespace.haskell
-
-import Data.List.Split (splitOn)
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^ keyword.control.import.haskell
---     ^^^^ variable.namespace.haskell - punctuation
---         ^ punctuation.accessor.dot.haskell - variable
---          ^^^^ variable.namespace.haskell - punctuation
---              ^ punctuation.accessor.dot.haskell - variable
---               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^^^^^^ meta.sequence.symbols.haskell
---                     ^ punctuation.section.sequence.begin.haskell
---                      ^^^^^^^ variable.function.haskell
---                             ^ punctuation.section.sequence.end.haskell
-
-import Data.List.Split (())
--- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^ keyword.control.import.haskell
---     ^^^^ variable.namespace.haskell - punctuation
---         ^ punctuation.accessor.dot.haskell - variable
---          ^^^^ variable.namespace.haskell - punctuation
---              ^ punctuation.accessor.dot.haskell - variable
---               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^ meta.sequence.symbols.haskell
---                     ^ punctuation.section.sequence.begin.haskell
---                      ^^ meta.other.unknown.haskell
---                        ^ punctuation.section.sequence.end.haskell
-
-import Data.List.Split (--
--- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^ keyword.control.import.haskell
---     ^^^^ variable.namespace.haskell - punctuation
---         ^ punctuation.accessor.dot.haskell - variable
---          ^^^^ variable.namespace.haskell - punctuation
---              ^ punctuation.accessor.dot.haskell - variable
---               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^^ meta.sequence.symbols.haskell
---                     ^ punctuation.section.sequence.begin.haskell
---                      ^^^ comment.line.double-dash.haskell
---                      ^^ punctuation.definition.comment.haskell
-                        )
---                      ^ punctuation.section.sequence.end.haskell
-
-import Data.List.Split (--)
--- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^ keyword.control.import.haskell
---     ^^^^ variable.namespace.haskell - punctuation
---         ^ punctuation.accessor.dot.haskell - variable
---          ^^^^ variable.namespace.haskell - punctuation
---              ^ punctuation.accessor.dot.haskell - variable
---               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^^ meta.sequence.symbols.haskell
---                     ^ punctuation.section.sequence.begin.haskell
---                      ^^^^ comment.line.double-dash.haskell
---                      ^^ punctuation.definition.comment.haskell
-                        )
---                      ^ punctuation.section.sequence.end.haskell
-
-import Data.List.Split ((--))
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^ keyword.control.import.haskell
---     ^^^^ variable.namespace.haskell - punctuation
---         ^ punctuation.accessor.dot.haskell - variable
---          ^^^^ variable.namespace.haskell - punctuation
---              ^ punctuation.accessor.dot.haskell - variable
---               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^^^^ meta.sequence.symbols.haskell
---                     ^ punctuation.section.sequence.begin.haskell
---                       ^^^^^ comment.line.double-dash.haskell
---                       ^^ punctuation.definition.comment.haskell
-                        )
---                      ^ punctuation.section.sequence.end.haskell
-
-import Data.List.Split ((--])
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^ keyword.control.import.haskell
---     ^^^^ variable.namespace.haskell - punctuation
---         ^ punctuation.accessor.dot.haskell - variable
---          ^^^^ variable.namespace.haskell - punctuation
---              ^ punctuation.accessor.dot.haskell - variable
---               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^^^^ meta.sequence.symbols.haskell
---                     ^ punctuation.section.sequence.begin.haskell
---                       ^^^^^ comment.line.double-dash.haskell
---                       ^^ punctuation.definition.comment.haskell
-                        )
---                      ^ punctuation.section.sequence.end.haskell
-
-import Data.List.Split ((--")
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^ keyword.control.import.haskell
---     ^^^^ variable.namespace.haskell - punctuation
---         ^ punctuation.accessor.dot.haskell - variable
---          ^^^^ variable.namespace.haskell - punctuation
---              ^ punctuation.accessor.dot.haskell - variable
---               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^^^^ meta.sequence.symbols.haskell
---                     ^ punctuation.section.sequence.begin.haskell
---                       ^^^^^ comment.line.double-dash.haskell
---                       ^^ punctuation.definition.comment.haskell
-                        )
---                      ^ punctuation.section.sequence.end.haskell
 
 
 --KEYWORDS
