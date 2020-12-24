@@ -163,6 +163,35 @@
 --              ^ punctuation.section.sequence.end.haskell
 --                ^^^^^ keyword.control.context.haskell
 
+   module Ns.Name (sym1, sym2) where { import Ns.Other; import Ns.Other2 }
+-- ^^^^^^^^^^^^^^^ meta.declaration.module.haskell - meta.sequence
+--                ^^^^^^^^^^^^ meta.declaration.module.haskell meta.sequence.symbols.haskell
+--                            ^^^^^^ meta.declaration.module.haskell - meta.sequence
+--                                  ^ - meta.declaration.module - meta.block
+--                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.haskell - meta.declaration.module
+--                                                                        ^ - meta.block
+-- ^^^^^^ keyword.declaration.namespace.haskell
+--        ^^ variable.namespace.haskell
+--          ^ punctuation.accessor.dot.haskell
+--           ^^^^ entity.name.namespace.haskell
+--                ^ punctuation.section.sequence.begin.haskell
+--                 ^^^^ variable.function.haskell
+--                     ^ punctuation.separator.sequence.haskell
+--                       ^^^^ variable.function.haskell
+--                           ^ punctuation.section.sequence.end.haskell
+--                             ^^^^^ keyword.control.context.haskell
+--                                   ^ punctuation.section.block.begin.haskell
+--                                     ^^^^^^ keyword.declaration.import.haskell
+--                                            ^^ variable.namespace.haskell
+--                                              ^ punctuation.accessor.dot.haskell
+--                                               ^^^^^ entity.name.namespace.haskell
+--                                                    ^ punctuation.terminator.statement.haskell
+--                                                      ^^^^^^ keyword.declaration.import.haskell
+--                                                             ^^ variable.namespace.haskell
+--                                                               ^ punctuation.accessor.dot.haskell
+--                                                                ^^^^^^ entity.name.namespace.haskell
+--                                                                       ^ punctuation.section.block.end.haskell
+
 
 --IMPORT DECLARATIONS
 

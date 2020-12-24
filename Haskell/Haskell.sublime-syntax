@@ -114,6 +114,7 @@ contexts:
     - include: expressions
 
   statements:
+    - include: blocks
     - include: functions
     - include: instances
     - include: classes
@@ -317,6 +318,21 @@ contexts:
     - match: ^(?!\s*(?:--|{-|$)|\1\s)
       pop: 1
     - include: type-signatures
+
+###[ BLOCKS ]##################################################################
+
+  blocks:
+    # https://www.haskell.org/onlinereport/haskell2010/haskellch2.html#x7-210002.7
+    - match: \{
+      scope: punctuation.section.block.begin.haskell
+      push: block-body
+
+  block-body:
+    - meta_scope: meta.block.haskell
+    - match: \}
+      scope: punctuation.section.block.end.haskell
+      pop: 1
+    - include: statements
 
 ###[ GROUPS AND LISTS ]########################################################
 
