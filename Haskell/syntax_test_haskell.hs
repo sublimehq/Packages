@@ -360,10 +360,10 @@ import Data.List.Split (splitOn)
 --          ^^^^ variable.namespace.haskell - punctuation
 --              ^ punctuation.accessor.dot.haskell - variable
 --               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^^^^^^ meta.declaration.exports.haskell
---                     ^ punctuation.section.group.begin.haskell
+--                     ^^^^^^^^^ meta.sequence.symbols.haskell
+--                     ^ punctuation.section.sequence.begin.haskell
 --                      ^^^^^^^ variable.function.haskell
---                             ^ punctuation.section.group.end.haskell
+--                             ^ punctuation.section.sequence.end.haskell
 import Data.List.Split (())
 -- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
 -- ^^^ keyword.control.import.haskell
@@ -372,10 +372,10 @@ import Data.List.Split (())
 --          ^^^^ variable.namespace.haskell - punctuation
 --              ^ punctuation.accessor.dot.haskell - variable
 --               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^ meta.declaration.exports.haskell
---                     ^ punctuation.section.group.begin.haskell
+--                     ^^^^ meta.sequence.symbols.haskell
+--                     ^ punctuation.section.sequence.begin.haskell
 --                      ^^ meta.other.unknown.haskell
---                        ^ punctuation.section.group.end.haskell
+--                        ^ punctuation.section.sequence.end.haskell
 import Data.List.Split (--
 -- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
 -- ^^^ keyword.control.import.haskell
@@ -384,12 +384,12 @@ import Data.List.Split (--
 --          ^^^^ variable.namespace.haskell - punctuation
 --              ^ punctuation.accessor.dot.haskell - variable
 --               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^^ meta.declaration.exports.haskell
---                     ^ punctuation.section.group.begin.haskell
+--                     ^^^^^ meta.sequence.symbols.haskell
+--                     ^ punctuation.section.sequence.begin.haskell
 --                      ^^^ comment.line.double-dash.haskell
 --                      ^^ punctuation.definition.comment.haskell
                         )
---                      ^ punctuation.section.group.end.haskell
+--                      ^ punctuation.section.sequence.end.haskell
 import Data.List.Split (--)
 -- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
 -- ^^^ keyword.control.import.haskell
@@ -398,12 +398,12 @@ import Data.List.Split (--)
 --          ^^^^ variable.namespace.haskell - punctuation
 --              ^ punctuation.accessor.dot.haskell - variable
 --               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^^ meta.declaration.exports.haskell
---                     ^ punctuation.section.group.begin.haskell
+--                     ^^^^^ meta.sequence.symbols.haskell
+--                     ^ punctuation.section.sequence.begin.haskell
 --                      ^^^^ comment.line.double-dash.haskell
 --                      ^^ punctuation.definition.comment.haskell
                         )
---                      ^ punctuation.section.group.end.haskell
+--                      ^ punctuation.section.sequence.end.haskell
 import Data.List.Split ((--))
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
 -- ^^^ keyword.control.import.haskell
@@ -412,12 +412,12 @@ import Data.List.Split ((--))
 --          ^^^^ variable.namespace.haskell - punctuation
 --              ^ punctuation.accessor.dot.haskell - variable
 --               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^^^^ meta.declaration.exports.haskell
---                     ^ punctuation.section.group.begin.haskell
+--                     ^^^^^^^ meta.sequence.symbols.haskell
+--                     ^ punctuation.section.sequence.begin.haskell
 --                       ^^^^^ comment.line.double-dash.haskell
 --                       ^^ punctuation.definition.comment.haskell
                         )
---                      ^ punctuation.section.group.end.haskell
+--                      ^ punctuation.section.sequence.end.haskell
 import Data.List.Split ((--])
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
 -- ^^^ keyword.control.import.haskell
@@ -426,12 +426,12 @@ import Data.List.Split ((--])
 --          ^^^^ variable.namespace.haskell - punctuation
 --              ^ punctuation.accessor.dot.haskell - variable
 --               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^^^^ meta.declaration.exports.haskell
---                     ^ punctuation.section.group.begin.haskell
+--                     ^^^^^^^ meta.sequence.symbols.haskell
+--                     ^ punctuation.section.sequence.begin.haskell
 --                       ^^^^^ comment.line.double-dash.haskell
 --                       ^^ punctuation.definition.comment.haskell
                         )
---                      ^ punctuation.section.group.end.haskell
+--                      ^ punctuation.section.sequence.end.haskell
 import Data.List.Split ((--")
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
 -- ^^^ keyword.control.import.haskell
@@ -440,12 +440,12 @@ import Data.List.Split ((--")
 --          ^^^^ variable.namespace.haskell - punctuation
 --              ^ punctuation.accessor.dot.haskell - variable
 --               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^^^^ meta.declaration.exports.haskell
---                     ^ punctuation.section.group.begin.haskell
+--                     ^^^^^^^ meta.sequence.symbols.haskell
+--                     ^ punctuation.section.sequence.begin.haskell
 --                       ^^^^^ comment.line.double-dash.haskell
 --                       ^^ punctuation.definition.comment.haskell
                         )
---                      ^ punctuation.section.group.end.haskell
+--                      ^ punctuation.section.sequence.end.haskell
 
    deriving instance FromJSON Amount
 -- ^^^^^^^^ keyword.declaration.data.haskell

@@ -166,7 +166,7 @@ contexts:
         2: punctuation.accessor.dot.haskell
     - match: '{{con_id}}'
       scope: entity.name.namespace.haskell
-    - include: module_exports
+    - include: symbols
 
 ###[ IMPORT DECLARATIONS ]#####################################################
 
@@ -187,7 +187,28 @@ contexts:
         2: punctuation.accessor.dot.haskell
     - match: '{{con_id}}'
       scope: entity.name.namespace.haskell
-    - include: module_exports
+    - include: symbols
+
+###[ SYMBOL DECLARATIONS ]#####################################################
+
+  symbols:
+    - match: \(
+      scope: punctuation.section.sequence.begin.haskell
+      push: symbol-body
+
+  symbol-body:
+    - meta_scope: meta.sequence.symbols.haskell
+    - match: \)
+      scope: punctuation.section.sequence.end.haskell
+      pop: true
+    - include: ident_function
+    - include: ident_type
+    - match: ','
+      scope: punctuation.separator.sequence.haskell
+    - include: operator_paren
+    - match: \({{no_comment_ahead}}.*?\)
+      comment: So named because I don't know what to call this.
+      scope: meta.other.unknown.haskell
 
 ###[ CLASS DECLARATIONS ]######################################################
 
@@ -476,23 +497,7 @@ contexts:
     - match: '{{con_id}}'
       scope: storage.type.haskell
 
-  module_exports:
-    - match: \(
-      scope: punctuation.section.group.begin.haskell
-      push:
-        - meta_scope: meta.declaration.exports.haskell
-        - match: \)
-          scope: punctuation.section.group.end.haskell
-          pop: true
-        - include: ident_function
-        - include: ident_type
-        - match: ','
-          scope: punctuation.separator.comma.haskell
-        - include: operator_paren
-        - match: \({{no_comment_ahead}}.*?\)
-          comment: So named because I don't know what to call this.
-          scope: meta.other.unknown.haskell
-  
+
   type_signature:
     - include: operator_arrow
     - include: operator_big_arrow
