@@ -103,17 +103,17 @@ contexts:
     - include: preprocessor-directives
 
   main:
-    - include: statement
-    - include: expression
+    - include: statements
+    - include: expressions
 
-  statement:
+  statements:
     - include: functions
     - include: instances
     - include: classes
     - include: imports
     - include: modules
 
-  expression:
+  expressions:
     - include: keywords
     - include: operators
     - include: literal-chars
@@ -322,7 +322,7 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.haskell
       pop: true
-    - include: expression
+    - include: expressions
 
   lists:
     - match: \[\]
@@ -336,7 +336,7 @@ contexts:
     - match: \]
       scope: punctuation.section.sequence.end.haskell
       pop: true
-    - include: expression
+    - include: expressions
 
 ###[ LITERALS ]################################################################
 
