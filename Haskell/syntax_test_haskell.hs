@@ -168,14 +168,14 @@
 
    module ()
 -- ^^^^^^^ meta.declaration.module.haskell - meta.sequence
---        ^^ meta.declaration.module.haskell meta.sequence.symbols.haskell
+--        ^^ meta.declaration.module.haskell meta.sequence.tuple.haskell
 -- ^^^^^^ keyword.declaration.namespace.haskell
 --        ^ punctuation.section.sequence.begin.haskell
 --         ^ punctuation.section.sequence.end.haskell
 
    module Name ()
 -- ^^^^^^^^^^^^ meta.declaration.module.haskell - meta.sequence
---             ^^ meta.declaration.module.haskell meta.sequence.symbols.haskell
+--             ^^ meta.declaration.module.haskell meta.sequence.tuple.haskell
 -- ^^^^^^ keyword.declaration.namespace.haskell
 --        ^^^^ entity.name.namespace.haskell
 --             ^ punctuation.section.sequence.begin.haskell
@@ -183,7 +183,7 @@
 
    module Name () where
 -- ^^^^^^^^^^^^ meta.declaration.module.haskell - meta.sequence
---             ^^ meta.declaration.module.haskell meta.sequence.symbols.haskell
+--             ^^ meta.declaration.module.haskell meta.sequence.tuple.haskell
 --                ^^^^^ meta.declaration.module.haskell - meta.sequence
 -- ^^^^^^ keyword.declaration.namespace.haskell
 --        ^^^^ entity.name.namespace.haskell
@@ -193,7 +193,7 @@
 
    module Ns.Name (sym1, sym2) where { import Ns.Other; import Ns.Other2 }
 -- ^^^^^^^^^^^^^^^ meta.declaration.module.haskell - meta.sequence
---                ^^^^^^^^^^^^ meta.declaration.module.haskell meta.sequence.symbols.haskell
+--                ^^^^^^^^^^^^ meta.declaration.module.haskell meta.sequence.tuple.haskell
 --                            ^^^^^^ meta.declaration.module.haskell - meta.sequence
 --                                  ^ - meta.declaration.module - meta.block
 --                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.haskell - meta.declaration.module
@@ -276,7 +276,7 @@ import Data.List.Split (splitOn)
 --          ^^^^ variable.namespace.haskell - punctuation
 --              ^ punctuation.accessor.dot.haskell - variable
 --               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^^^^^^ meta.sequence.symbols.haskell
+--                     ^^^^^^^^^ meta.sequence.tuple.haskell
 --                     ^ punctuation.section.sequence.begin.haskell
 --                      ^^^^^^^ variable.function.haskell
 --                             ^ punctuation.section.sequence.end.haskell
@@ -289,7 +289,7 @@ import Data.List.Split (())
 --          ^^^^ variable.namespace.haskell - punctuation
 --              ^ punctuation.accessor.dot.haskell - variable
 --               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^ meta.sequence.symbols.haskell
+--                     ^^^^ meta.sequence.tuple.haskell
 --                     ^ punctuation.section.sequence.begin.haskell
 --                      ^^ meta.other.unknown.haskell
 --                        ^ punctuation.section.sequence.end.haskell
@@ -302,7 +302,7 @@ import Data.List.Split (--
 --          ^^^^ variable.namespace.haskell - punctuation
 --              ^ punctuation.accessor.dot.haskell - variable
 --               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^^ meta.sequence.symbols.haskell
+--                     ^^^^^ meta.sequence.tuple.haskell
 --                     ^ punctuation.section.sequence.begin.haskell
 --                      ^^^ comment.line.double-dash.haskell
 --                      ^^ punctuation.definition.comment.haskell
@@ -317,7 +317,7 @@ import Data.List.Split (--)
 --          ^^^^ variable.namespace.haskell - punctuation
 --              ^ punctuation.accessor.dot.haskell - variable
 --               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^^ meta.sequence.symbols.haskell
+--                     ^^^^^ meta.sequence.tuple.haskell
 --                     ^ punctuation.section.sequence.begin.haskell
 --                      ^^^^ comment.line.double-dash.haskell
 --                      ^^ punctuation.definition.comment.haskell
@@ -332,7 +332,7 @@ import Data.List.Split ((--))
 --          ^^^^ variable.namespace.haskell - punctuation
 --              ^ punctuation.accessor.dot.haskell - variable
 --               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^^^^ meta.sequence.symbols.haskell
+--                     ^^^^^^^ meta.sequence.tuple.haskell
 --                     ^ punctuation.section.sequence.begin.haskell
 --                       ^^^^^ comment.line.double-dash.haskell
 --                       ^^ punctuation.definition.comment.haskell
@@ -347,7 +347,7 @@ import Data.List.Split ((--])
 --          ^^^^ variable.namespace.haskell - punctuation
 --              ^ punctuation.accessor.dot.haskell - variable
 --               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^^^^ meta.sequence.symbols.haskell
+--                     ^^^^^^^ meta.sequence.tuple.haskell
 --                     ^ punctuation.section.sequence.begin.haskell
 --                       ^^^^^ comment.line.double-dash.haskell
 --                       ^^ punctuation.definition.comment.haskell
@@ -362,7 +362,7 @@ import Data.List.Split ((--")
 --          ^^^^ variable.namespace.haskell - punctuation
 --              ^ punctuation.accessor.dot.haskell - variable
 --               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^^^^ meta.sequence.symbols.haskell
+--                     ^^^^^^^ meta.sequence.tuple.haskell
 --                     ^ punctuation.section.sequence.begin.haskell
 --                       ^^^^^ comment.line.double-dash.haskell
 --                       ^^ punctuation.definition.comment.haskell

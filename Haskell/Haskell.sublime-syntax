@@ -129,7 +129,7 @@ contexts:
     - include: literal-chars
     - include: literal-strings
     - include: literal-numbers
-    - include: literal-units
+    - include: tuples
     - include: splice
     - include: groups
     - include: lists
@@ -242,7 +242,7 @@ contexts:
       push: symbol-body
 
   symbol-body:
-    - meta_scope: meta.sequence.symbols.haskell
+    - meta_scope: meta.sequence.tuple.haskell
     - match: \)
       scope: punctuation.section.sequence.end.haskell
       pop: 1
@@ -396,6 +396,14 @@ contexts:
       pop: 1
     - include: expressions
 
+  tuples:
+    # https://www.haskell.org/onlinereport/haskell2010/haskellch3.html#x8-380003.9
+    - match: (\()(\))
+      scope: meta.sequence.tuple.haskell
+      captures:
+        1: punctuation.section.sequence.begin.haskell
+        2: punctuation.section.sequence.end.haskell
+
   lists:
     - match: \[\]
       scope: constant.language.empty-list.haskell
@@ -411,10 +419,6 @@ contexts:
     - include: expressions
 
 ###[ LITERALS ]################################################################
-
-  literal-units:
-    - match: \(\)
-      scope: constant.language.unit.haskell
 
   literal-numbers:
     - match: \d+(?:(\.)\d+(?:[eE][-+]?\d+)?|[eE][-+]?\d+){{break}}
