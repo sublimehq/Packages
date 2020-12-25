@@ -1,5 +1,7 @@
 -- SYNTAX TEST "Packages/Haskell/Haskell.sublime-syntax"
 
+-- [ COMMENTS ] ---------------------------------------------------------------
+
 23*36  -- single line comment
 --     ^^ punctuation.definition.comment.haskell
 --     ^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-dash.haskell
@@ -43,7 +45,7 @@
 --                        ^ - comment.block.haskell
 
 
--- COMMENTS STARTING WITH SPECIAL SYMBOL CHARS
+-- [ COMMENTS STARTING WITH SPECIAL SYMBOL CHARS ] ----------------------------
 
    --
 -- ^^^ comment
@@ -75,7 +77,7 @@
 -- ^^^ comment
 
 
--- NO COMMENTS
+-- [ NO COMMENTS ] ------------------------------------------------------------
 
    --!
 -- ^^^ - comment
@@ -121,7 +123,7 @@
 -- ^^^ - comment
 
 
---PREPROCESSOR
+-- [ PREPROCESSOR ] -----------------------------------------------------------
 
    {-# MINIMAL traverse | sequenceA LANGUAGE #-}
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.haskell
@@ -149,7 +151,7 @@
 -- ^^^^^^ keyword.directive.other.c
 
 
---MODULE DECLARATIONS
+-- [ MODULE DECLARATIONS ] ----------------------------------------------------
 
    module
 -- ^^^^^^^ meta.declaration.module.haskell
@@ -221,7 +223,7 @@
 --                                                                       ^ punctuation.section.block.end.haskell
 
 
---IMPORT DECLARATIONS
+-- [ IMPORT DECLARATIONS ] ----------------------------------------------------
 
 import import
 -- ^^^^^^^^^^^ meta.import.haskell
@@ -370,7 +372,7 @@ import Data.List.Split ((--")
 --                      ^ punctuation.section.sequence.end.haskell
 
 
---CLASS DECLARATIONS
+-- [ CLASS DECLARATIONS ] -----------------------------------------------------
 
    class
 -- ^^^^^^ meta.declaration.class.haskell
@@ -444,7 +446,7 @@ import Data.List.Split ((--")
 --                                              ^ variable.other.generic-type.haskell
 --                                                ^^^^^ keyword.control.context.haskell
 
---TYPE DECLARATIONS
+-- [ TYPE DECLARATIONS ] ------------------------------------------------------
 
    type
 -- ^^^^^ meta.declaration.type.haskell
@@ -494,7 +496,8 @@ import Data.List.Split ((--")
 --                                                    ^^^^^^^ entity.other.inherited-class.haskell
 --                                                           ^ punctuation.section.sequence.end.haskell
 
---NEWTYPE DECLARATIONS
+
+-- [ NEWTYPE DECLARATIONS ] ---------------------------------------------------
 
    newtype
 -- ^^^^^^^^ meta.declaration.type.haskell
@@ -540,7 +543,7 @@ import Data.List.Split ((--")
 --                                                                    ^ punctuation.section.sequence.end.haskell
 
 
---DECLARATIONS
+-- [ DECLARATIONS ] -----------------------------------------------------------
 
 -- | Map each element of a structure to an action,
 -- evaluate these actions from left to right, and
@@ -619,7 +622,7 @@ import Data.List.Split ((--")
 --           ^ keyword.operator.haskell
 
 
--- INFIX OPERATORS
+-- [ INFIX OPERATORS ] --------------------------------------------------------
 
    a a = (+) a 2
 --     ^ keyword.operator.haskell
@@ -739,7 +742,7 @@ import Data.List.Split ((--")
    countTheBeforeVowel = undefined
 
 
---IDENTS
+-- [ IDENTS ] -----------------------------------------------------------------
 
     genericIdent
 --  ^ meta.name.haskell
@@ -748,7 +751,7 @@ import Data.List.Split ((--")
 --       ^^^^ meta.group.haskell support.function.prelude.haskell
 
 
---KEYWORDS
+-- [ KEYWORDS ] ---------------------------------------------------------------
 
    deriving instance FromJSON Amount
 -- ^^^^^^^^ storage.modifier.haskell
@@ -781,7 +784,8 @@ main = do
     return ()
 --  ^^^^^^ keyword.control.flow.return.haskell
 
---MISC
+
+-- [ GROUPS / TUPLES / LISTS ] ------------------------------------------------
 
     (group)
 --  ^^^^^^^ meta.group.haskell
@@ -797,7 +801,7 @@ main = do
 --      ^ punctuation.section.sequence.end.haskell
 
 
---NUMBERS
+-- [ LITERAL NUMBERS ] --------------------------------------------------------
 
     0
 --  ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
