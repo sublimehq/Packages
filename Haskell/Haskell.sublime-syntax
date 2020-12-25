@@ -118,6 +118,7 @@ contexts:
     - include: functions
     - include: instances
     - include: classes
+    - include: datas
     - include: defaults
     - include: deriving
     - include: types
@@ -276,6 +277,26 @@ contexts:
       pop: 1
     - include: type-signature-body
 
+###[ DATA DECLARATIONS ]#######################################################
+
+  datas:
+    - match: data{{break}}
+      scope:
+        meta.declaration.data.haskell
+        keyword.declaration.data.haskell
+      push: data-body
+
+  data-body:
+    - meta_content_scope: meta.declaration.data.haskell
+    - match: =
+      scope: keyword.operator.haskell
+      set: data-constructor
+    - include: type-signature-body
+
+  data-constructor:
+    - include: records
+    - include: else-pop
+
 ###[ DEFAULT DECLARATIONS ]####################################################
 
   defaults:
@@ -396,9 +417,7 @@ contexts:
 
   type-list-body:
     - meta_scope: meta.sequence.list.haskell
-    - match: \]
-      scope: punctuation.section.sequence.end.haskell
-      pop: 1
+    - include: list-end
     - include: type-content
 
   type-tuples:
@@ -412,6 +431,23 @@ contexts:
     - meta_scope: meta.sequence.tuple.haskell
     - include: tuple-end
     - include: type-content
+
+###[ RECORD COSTRUCTORS ]######################################################
+
+  records:
+    - match: ({{con_id}})\s*(\{)
+      captures:
+        1: storage.type.haskell
+        2: meta.block.haskell punctuation.section.block.begin.haskell
+      set: record-body
+
+  record-body:
+    - meta_scope: meta.record.haskell
+    - meta_content_scope: meta.block.haskell
+    - match: \}
+      scope: meta.block.haskell punctuation.section.block.end.haskell
+      pop: 1
+    - include: expressions
 
 ###[ BLOCKS / GROUPS / LISTS / TUPLES ]########################################
 

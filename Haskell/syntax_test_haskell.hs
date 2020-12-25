@@ -493,6 +493,133 @@
 --  ^^^^^^ - keyword
 
 
+-- [ DATA DECLARATIONS ] ------------------------------------------------------
+
+    data
+--  ^^^^^ meta.declaration.data.haskell
+--  ^^^^ keyword.declaration.data.haskell
+
+    data'
+--  ^^^^^ meta.name.haskell
+
+    data TyCls
+--  ^^^^^^^^^^^ meta.declaration.data.haskell
+--  ^^^^ keyword.declaration.data.haskell
+--       ^^^^^ storage.type.haskell
+
+    data ModId.QTyCls
+--  ^^^^^^^^^^^^^^^^^^ meta.declaration.data.haskell
+--  ^^^^ keyword.declaration.data.haskell
+--       ^^^^^ variable.namespace.haskell
+--            ^ punctuation.accessor.dot.haskell
+--             ^^^^^^ storage.type.haskell
+
+    data =
+--  ^^^^^ meta.declaration.data.haskell
+--  ^^^^ keyword.declaration.data.haskell
+--       ^ keyword.operator.haskell
+
+    data Record =
+--  ^^^^^^^^^^^^ meta.declaration.data.haskell
+--  ^^^^ keyword.declaration.data.haskell
+--       ^^^^^^ storage.type.haskell
+--              ^ keyword.operator.haskell
+    Record {
+--  ^^^^^^^ meta.record.haskell - meta.block
+--         ^^ meta.record.haskell meta.block.haskell
+--  ^^^^^^ storage.type.haskell
+--         ^ punctuation.section.block.begin.haskell
+        recordInt :: Int
+--      ^^^^^^^^^ meta.name.haskell
+--                ^^ keyword.operator.double-colon.haskell
+--                   ^^^ storage.type.haskell
+      , recordString :: String
+--    ^ punctuation.separator.sequence.haskell
+--      ^^^^^^^^^^^^ meta.name.haskell
+--                   ^^ keyword.operator.double-colon.haskell
+--                      ^^^^^^ storage.type.haskell
+      , recordDouble :: Double
+--    ^ punctuation.separator.sequence.haskell
+--      ^^^^^^^^^^^^ meta.name.haskell
+--                   ^^ keyword.operator.double-colon.haskell
+--                      ^^^^^^ storage.type.haskell
+      , recordRational :: Rational
+--    ^ punctuation.separator.sequence.haskell
+--      ^^^^^^^^^^^^^^ meta.name.haskell
+--                     ^^ keyword.operator.double-colon.haskell
+--                        ^^^^^^^^ support.class.prelude.haskell
+      } deriving (Eq, Ord, Generic)
+--   ^^ meta.record.haskell meta.block.haskell
+--     ^ - meta
+--      ^^^^^^^^^ meta.declaration.deriving.haskell - meta.sequence
+--               ^^^^^^^^^^^^^^^^^^ meta.declaration.deriving.haskell meta.sequence.tuple.haskell
+--                                 ^ - meta.declaration.deriving - meta.sequence
+--      ^^^^^^^^ storage.modifier.haskell
+--               ^ punctuation.section.sequence.begin.haskell
+--                ^^ support.class.prelude.haskell
+--                  ^ punctuation.separator.sequence.haskell
+--                    ^^^ support.class.prelude.haskell
+--                       ^ punctuation.separator.sequence.haskell
+--                         ^^^^^^^ entity.other.inherited-class.haskell
+--                                ^ punctuation.section.sequence.end.haskell
+        deriving (Read, Show) via (Quiet Record)
+--      ^^^^^^^^^ meta.declaration.deriving.haskell - meta.sequence
+--               ^^^^^^^^^^^^ meta.declaration.deriving.haskell meta.sequence.tuple.haskell
+--                           ^ - meta.declaration.deriving - meta.sequence
+--                            ^^^^ meta.declaration.deriving.haskell - meta.sequence
+--                                ^^^^^^^^^^^^^^ meta.declaration.deriving.haskell meta.sequence.tuple.haskell
+--                                              ^ - meta.declaration.deriving - meta.sequence
+--      ^^^^^^^^ storage.modifier.haskell
+--               ^ punctuation.section.sequence.begin.haskell
+--                ^^^^ support.class.prelude.haskell
+--                    ^ punctuation.separator.sequence.haskell
+--                      ^^^^ support.class.prelude.haskell
+--                          ^ punctuation.section.sequence.end.haskell
+--                            ^^^ storage.modifier.haskell
+--                                ^ punctuation.section.sequence.begin.haskell
+--                                 ^^^^^ entity.other.inherited-class.haskell
+--                                      ^ - entity
+--                                       ^^^^^^ entity.other.inherited-class.haskell
+--                                             ^ punctuation.section.sequence.end.haskell
+
+    data Outrageous =
+--  ^^^^^^^^^^^^^^^^ meta.declaration.data.haskell
+--  ^^^^ keyword.declaration.data.haskell
+--       ^^^^^^^^^^ storage.type.haskell
+--                  ^ keyword.operator.haskell
+        Flipper Record
+      | Int :! Int
+--    ^ keyword.operator.haskell
+--          ^^ keyword.operator.haskell
+      | Double :@ Double
+--    ^ keyword.operator.haskell
+--             ^^ keyword.operator.haskell
+      | Int `Quux` Double
+--    ^ keyword.operator.haskell
+--          ^^^^^^ keyword.operator.function.infix.haskell
+      | String :# Record
+--    ^ keyword.operator.haskell
+--             ^^ keyword.operator.haskell
+      | Simple :$ Outrageous
+--    ^ keyword.operator.haskell
+--             ^^ keyword.operator.haskell
+      | DontDoThis { outrageousInt :: Int, outrageousString :: String }
+--    ^ keyword.operator.haskell
+--      ^^^^^^^^^^ constant.other.haskell
+--                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.haskell
+--                 ^ punctuation.section.block.begin.haskell
+--                                 ^^ keyword.operator.double-colon.haskell
+--                                    ^^^ storage.type.haskell
+--                                       ^ punctuation.separator.sequence.haskell
+--                                                          ^^ keyword.operator.double-colon.haskell
+--                                                             ^^^^^^ storage.type.haskell
+--                                                                    ^ punctuation.section.block.end.haskell
+        deriving (Eq, Ord, Generic)
+--      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.deriving.haskell
+        deriving (Read, Show) via (Quiet Outrageous)
+--      ^^^^^^^^^^^^^^^^^^^^^ meta.declaration.deriving.haskell
+--                            ^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.deriving.haskell
+
 -- [ DEFAULT DECLARATIONS ] ---------------------------------------------------
 
     default
@@ -693,50 +820,6 @@
 
 
 -- [ DECLARATIONS ] -----------------------------------------------------------
-
--- | Map each element of a structure to an action,
--- evaluate these actions from left to right, and
--- collect the results. For a version that ignores
--- the results see 'Data.Foldable.traverse_'.
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-dash.haskell
-
-  data Record =
-    Record {
-        recordInt :: Int
-      , recordString :: String
-      , recordDouble :: Double
-      , recordRational :: Rational
-      } deriving (Eq, Ord, Generic)
---      ^^^^^^^^^ meta.declaration.deriving.haskell - meta.sequence
---               ^^^^^^^^^^^^^^^^^^ meta.declaration.deriving.haskell meta.sequence.tuple.haskell
---                                 ^ - meta.declaration.deriving - meta.sequence
---      ^^^^^^^^ storage.modifier.haskell
---               ^ punctuation.section.sequence.begin.haskell
---                ^^ support.class.prelude.haskell
---                  ^ punctuation.separator.sequence.haskell
---                    ^^^ support.class.prelude.haskell
---                       ^ punctuation.separator.sequence.haskell
---                         ^^^^^^^ entity.other.inherited-class.haskell
---                                ^ punctuation.section.sequence.end.haskell
-        deriving (Read, Show) via (Quiet Record)
---      ^^^^^^^^^ meta.declaration.deriving.haskell - meta.sequence
---               ^^^^^^^^^^^^ meta.declaration.deriving.haskell meta.sequence.tuple.haskell
---                           ^ - meta.declaration.deriving - meta.sequence
---                            ^^^^ meta.declaration.deriving.haskell - meta.sequence
---                                ^^^^^^^^^^^^^^ meta.declaration.deriving.haskell meta.sequence.tuple.haskell
---                                              ^ - meta.declaration.deriving - meta.sequence
---      ^^^^^^^^ storage.modifier.haskell
---               ^ punctuation.section.sequence.begin.haskell
---                ^^^^ support.class.prelude.haskell
---                    ^ punctuation.separator.sequence.haskell
---                      ^^^^ support.class.prelude.haskell
---                          ^ punctuation.section.sequence.end.haskell
---                            ^^^ storage.modifier.haskell
---                                ^ punctuation.section.sequence.begin.haskell
---                                 ^^^^^ entity.other.inherited-class.haskell
---                                      ^ - entity
---                                       ^^^^^^ entity.other.inherited-class.haskell
---                                             ^ punctuation.section.sequence.end.haskell
 
    traverse :: Applicative f =>
 -- ^^^^^^^^ entity.name.function.haskell
@@ -1569,19 +1652,6 @@ main = do
 
 
 -- [ INFIX OPERATORS IN CONTEXT ]----------------------------------------------
-
-  data Outrageous =
-      Flipper Record
-    | Int :! Int
-    | Double :@ Double
---            ^ keyword.operator.haskell
-    | Int `Quux` Double
-    | String :# Record
---            ^ keyword.operator.haskell
-    | Simple :$ Outrageous
-    | DontDoThis { outrageousInt :: Int, outrageousString :: String }
-      deriving (Eq, Ord, Generic)
-      deriving (Read, Show) via (Quiet Outrageous)
 
   genOutrageous :: Gen Outrageous
   genOutrageous =
