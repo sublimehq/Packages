@@ -246,8 +246,11 @@ contexts:
   symbol-body:
     - meta_scope: meta.sequence.tuple.haskell
     - include: tuple-end
+    - match: module{{break}}
+      scope: keyword.declaration.namespace.haskell
     - include: ident-builtin-functions
     - include: ident-functions
+    - include: ident-namespaces
     - include: ident-types
     - include: sequence-separators
     - include: infix-parens-operators

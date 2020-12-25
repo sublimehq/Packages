@@ -222,6 +222,30 @@
 --                                                                ^^^^^^ entity.name.namespace.haskell
 --                                                                       ^ punctuation.section.block.end.haskell
 
+    module Name (module Other.Module) where { import Other.Module }
+--  ^^^^^^^^^^^^ meta.declaration.module.haskell - meta.sequence
+--              ^^^^^^^^^^^^^^^^^^^^^ meta.declaration.module.haskell meta.sequence.tuple.haskell
+--                                   ^^^^^^ meta.declaration.module.haskell - meta.sequence
+--                                         ^ - meta.declaration - meta.block
+--                                          ^^ meta.block.haskell - meta.import
+--                                            ^^^^^^^^^^^^^^^^^^^^ meta.block.haskell meta.import.haskell
+--                                                                ^ meta.block.haskell - meta.import
+--                                                                 ^ - meta.declaration - meta.block
+--  ^^^^^^ keyword.declaration.namespace.haskell
+--         ^^^^ entity.name.namespace.haskell
+--              ^ punctuation.section.sequence.begin.haskell
+--               ^^^^^^ keyword.declaration.namespace.haskell
+--                      ^^^^^ variable.namespace.haskell
+--                           ^ punctuation.accessor.dot.haskell
+--                            ^^^^^^ storage.type.haskell
+--                                  ^ punctuation.section.sequence.end.haskell
+--                                    ^^^^^ keyword.control.context.haskell
+--                                          ^ punctuation.section.block.begin.haskell
+--                                            ^^^^^^ keyword.declaration.import.haskell
+--                                                   ^^^^^ variable.namespace.haskell
+--                                                        ^ punctuation.accessor.dot.haskell
+--                                                         ^^^^^^ entity.name.namespace.haskell
+--                                                                ^ punctuation.section.block.end.haskell
 
 -- [ IMPORT DECLARATIONS ] ----------------------------------------------------
 
