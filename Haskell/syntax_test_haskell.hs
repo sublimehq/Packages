@@ -153,6 +153,13 @@
 
 -- [ MODULE DECLARATIONS ] ----------------------------------------------------
 
+    'module
+--  ^ keyword.operator.haskell
+--   ^^^^^^ keyword.declaration.namespace.haskell
+
+    module'
+--  ^^^^^^^ - keyword
+
     module
 --  ^^^^^^^ meta.declaration.module.haskell
 --  ^^^^^^ keyword.declaration.namespace.haskell
@@ -248,6 +255,13 @@
 --                                                                ^ punctuation.section.block.end.haskell
 
 -- [ IMPORT DECLARATIONS ] ----------------------------------------------------
+
+    'import
+--  ^ keyword.operator.haskell
+--   ^^^^^^ keyword.declaration.import.haskell
+
+    import'
+--  ^^^^^^^ - keyword
 
     import import
 -- ^ - meta.import
@@ -471,12 +485,26 @@
 --                                               ^ variable.other.generic-type.haskell
 --                                                 ^^^^^ keyword.control.context.haskell
 
+   'class
+-- ^ keyword.operator.haskell
+--  ^^^^^ keyword.declaration.class.haskell
+
+    class'
+--  ^^^^^^ - keyword
+
 
 -- [ DEFAULT DECLARATIONS ] ---------------------------------------------------
 
     default
 --  ^^^^^^^^ meta.declaration.default.haskell
 --  ^^^^^^^ storage.modifier.haskell
+
+   'default
+-- ^ keyword.operator.haskell
+--  ^^^^^^^ storage.modifier.haskell
+
+    default'
+--  ^^^^^^^^ - keyword
 
     default ()
 --  ^^^^^^^^ meta.declaration.default.haskell - meta.sequence
@@ -503,6 +531,13 @@
     deriving
 --  ^^^^^^^^^ meta.declaration.deriving.haskell
 --  ^^^^^^^^ storage.modifier.haskell
+
+   'deriving
+-- ^ keyword.operator.haskell
+--  ^^^^^^^^ storage.modifier.haskell
+
+    deriving'
+--  ^^^^^^^^^ - keyword
 
     deriving TyCls Const
 --  ^^^^^^^^^^^^^^ meta.declaration.deriving.haskell
@@ -549,6 +584,13 @@
     type
 --  ^^^^^ meta.declaration.type.haskell
 --  ^^^^ keyword.declaration.type.haskell
+
+   'type
+-- ^ keyword.operator.haskell
+--  ^^^^ keyword.declaration.type.haskell
+
+    type'
+--  ^^^^^ - keyword
 
     type QTyCls tyVar
 --  ^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
@@ -601,6 +643,13 @@
     newtype
 --  ^^^^^^^^ meta.declaration.type.haskell
 --  ^^^^^^^ keyword.declaration.type.haskell
+
+   'newtype
+-- ^ keyword.operator.haskell
+--  ^^^^^^^ keyword.declaration.type.haskell
+
+    newtype'
+--  ^^^^^^^^ - keyword
 
     newtype =
 --  ^^^^^^^^ meta.declaration.type.haskell
@@ -720,14 +769,6 @@
 --                                     ^ keyword.operator.arrow.haskell
    sequenceA = traverse id
 --           ^ keyword.operator.haskell
-
-
-   'class TooMany where
---  ^^^^^ keyword.declaration.class.haskell
--- ^ keyword.operator.haskell
-
-   class'
--- ^^^^^^ - keyword
 
    if'
 -- ^^^ - keyword
