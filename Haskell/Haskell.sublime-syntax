@@ -116,10 +116,10 @@ contexts:
   statements:
     - include: blocks
     - include: functions
-    - include: inherited
     - include: instances
     - include: classes
     - include: defaults
+    - include: deriving
     - include: types
     - include: imports
     - include: modules
@@ -290,29 +290,32 @@ contexts:
     - include: type-tuples
     - include: else-pop
 
-###[ INHERITED DECLARATIONS ]##################################################
+###[ DERIVING DECLARATIONS ]###################################################
 
-  inherited:
+  deriving:
     # 4.3.3 Derived Instances
     # https://www.haskell.org/onlinereport/haskell2010/haskellch4.html#x10-750004.3
     - match: (?:deriving|via){{break}}
       scope: storage.modifier.haskell
-      push: inherited-sequence
+      push: deriving-body
 
-  inherited-sequence:
-    - meta_scope: meta.deriving.haskell
+  deriving-body:
+    - meta_scope: meta.declaration.deriving.haskell
     - match: \(
       scope: punctuation.section.sequence.begin.haskell
-      push: inherited-sequence-body
+      push: deriving-tuple-body
+    - include: ident-namespaces
+    - include: ident-inherited-class
     - include: else-pop
 
-  inherited-sequence-body:
+  deriving-tuple-body:
     - meta_scope: meta.sequence.tuple.haskell
     - match: \)
       scope: punctuation.section.sequence.end.haskell
       pop: 2
     - include: sequence-separators
-    - include: ident-inherited-classs
+    - include: ident-namespaces
+    - include: ident-inherited-classes
 
 ###[ INSTANCE DECLARATIONS ]###################################################
 
@@ -658,10 +661,18 @@ contexts:
     - match: '{{class_names}}'
       scope: support.class.prelude.haskell
 
-  ident-inherited-classs:
+  ident-inherited-classes:
     - include: ident-builtin-classes
     - match: '{{con_id}}'
       scope: entity.other.inherited-class.haskell
+
+  ident-inherited-class:
+    - match: '{{class_names}}'
+      scope: support.class.prelude.haskell
+      pop: 1
+    - match: '{{con_id}}'
+      scope: entity.other.inherited-class.haskell
+      pop: 1
 
   ident-generic-types:
     - match: '{{var_id}}'

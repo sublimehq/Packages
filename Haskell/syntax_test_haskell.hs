@@ -498,6 +498,52 @@
 --                              ^ punctuation.section.sequence.end.haskell
 
 
+-- [ DERIVING DECLARATIONS ] --------------------------------------------------
+
+    deriving
+--  ^^^^^^^^^ meta.declaration.deriving.haskell
+--  ^^^^^^^^ storage.modifier.haskell
+
+    deriving TyCls Const
+--  ^^^^^^^^^^^^^^ meta.declaration.deriving.haskell
+--                ^^^^^^ - meta.declaration
+--  ^^^^^^^^ storage.modifier.haskell
+--           ^^^^^ entity.other.inherited-class.haskell
+--                 ^^^^^ constant.other.haskell
+
+    deriving ModId.QTyCls ModId.Const
+--  ^^^^^^^^^^^^^^^^^^^^^ meta.declaration.deriving.haskell
+--                       ^^^^^^^^^^^^ - meta.declaration
+--  ^^^^^^^^ storage.modifier.haskell
+--           ^^^^^ variable.namespace.haskell
+--                ^ punctuation.accessor.dot.haskell
+--                 ^^^^^^ entity.other.inherited-class.haskell
+--                        ^^^^^ variable.namespace.haskell
+--                             ^ punctuation.accessor.dot.haskell
+--                              ^^^^^ constant.other.haskell
+
+    deriving ()
+--  ^^^^^^^^^ meta.declaration.deriving.haskell - meta.sequence
+--           ^^ meta.declaration.deriving.haskell meta.sequence.tuple.haskell
+--             ^ - meta.declaration
+--  ^^^^^^^^ storage.modifier.haskell
+--           ^ punctuation.section.sequence.begin.haskell
+--            ^ punctuation.section.sequence.end.haskell
+
+    deriving (TyCls, ModId.QTyCls)
+--  ^^^^^^^^^ meta.declaration.deriving.haskell - meta.sequence
+--           ^^^^^^^^^^^^^^^^^^^^^ meta.declaration.deriving.haskell meta.sequence.tuple.haskell
+--                                ^ - meta.declaration
+--  ^^^^^^^^ storage.modifier.haskell
+--           ^ punctuation.section.sequence.begin.haskell
+--            ^^^^^ entity.other.inherited-class.haskell
+--                 ^ punctuation.separator.sequence.haskell
+--                   ^^^^^ variable.namespace.haskell
+--                        ^ punctuation.accessor.dot.haskell
+--                         ^^^^^^ entity.other.inherited-class.haskell
+--                               ^ punctuation.section.sequence.end.haskell
+
+
 -- [ TYPE DECLARATIONS ] ------------------------------------------------------
 
     type
@@ -532,6 +578,9 @@
 
     type ModId.QTyCls tyVar1, tyVar2 deriving (Class1, QTyCls2)
 --  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--                                   ^^^^^^^^^ meta.declaration.deriving.haskell - meta.sequence
+--                                            ^^^^^^^^^^^^^^^^^ meta.declaration.deriving.haskell meta.sequence.tuple.haskell
+--                                                             ^ - meta.declaration
 --  ^^^^ keyword.declaration.type.haskell
 --       ^^^^^ variable.namespace.haskell
 --            ^ punctuation.accessor.dot.haskell
@@ -539,8 +588,6 @@
 --                    ^^^^^^ variable.other.generic-type.haskell
 --                          ^ punctuation.separator.sequence.haskell
 --                            ^^^^^^ variable.other.generic-type.haskell
---                                   ^^^^^^^^^ meta.deriving.haskell - meta.sequence
---                                            ^^^^^^^^^^^^^^^^^ meta.deriving.haskell meta.sequence.tuple.haskell
 --                                   ^^^^^^^^ storage.modifier.haskell
 --                                            ^ punctuation.section.sequence.begin.haskell
 --                                             ^^^^^^ entity.other.inherited-class.haskell
@@ -574,6 +621,9 @@
 
     newtype () => ModId.QTyCls tyVar1, tyVar2 deriving (Class1, QTyCls2)
 --  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--                                            ^^^^^^^^^ meta.declaration.deriving.haskell - meta.sequence
+--                                                     ^^^^^^^^^^^^^^^^^ meta.declaration.deriving.haskell meta.sequence.tuple.haskell
+--                                                                      ^ - meta.declaration
 --  ^^^^ keyword.declaration.type.haskell
 --          ^^ meta.sequence.tuple.haskell
 --          ^ punctuation.section.sequence.begin.haskell
@@ -585,8 +635,6 @@
 --                             ^^^^^^ variable.other.generic-type.haskell
 --                                   ^ punctuation.separator.sequence.haskell
 --                                     ^^^^^^ variable.other.generic-type.haskell
---                                            ^^^^^^^^^ meta.deriving.haskell - meta.sequence
---                                                     ^^^^^^^^^^^^^^^^^ meta.deriving.haskell meta.sequence.tuple.haskell
 --                                            ^^^^^^^^ storage.modifier.haskell
 --                                                     ^ punctuation.section.sequence.begin.haskell
 --                                                      ^^^^^^ entity.other.inherited-class.haskell
@@ -610,9 +658,9 @@
       , recordDouble :: Double
       , recordRational :: Rational
       } deriving (Eq, Ord, Generic)
---      ^^^^^^^^^ meta.deriving.haskell - meta.sequence
---               ^^^^^^^^^^^^^^^^^^ meta.deriving.haskell meta.sequence.tuple.haskell
---                                 ^ - meta.deriving - meta.sequence
+--      ^^^^^^^^^ meta.declaration.deriving.haskell - meta.sequence
+--               ^^^^^^^^^^^^^^^^^^ meta.declaration.deriving.haskell meta.sequence.tuple.haskell
+--                                 ^ - meta.declaration.deriving - meta.sequence
 --      ^^^^^^^^ storage.modifier.haskell
 --               ^ punctuation.section.sequence.begin.haskell
 --                ^^ support.class.prelude.haskell
@@ -622,12 +670,12 @@
 --                         ^^^^^^^ entity.other.inherited-class.haskell
 --                                ^ punctuation.section.sequence.end.haskell
         deriving (Read, Show) via (Quiet Record)
---      ^^^^^^^^^ meta.deriving.haskell - meta.sequence
---               ^^^^^^^^^^^^ meta.deriving.haskell meta.sequence.tuple.haskell
---                           ^ - meta.deriving - meta.sequence
---                            ^^^^ meta.deriving.haskell - meta.sequence
---                                ^^^^^^^^^^^^^^ meta.deriving.haskell meta.sequence.tuple.haskell
---                                              ^ - meta.deriving - meta.sequence
+--      ^^^^^^^^^ meta.declaration.deriving.haskell - meta.sequence
+--               ^^^^^^^^^^^^ meta.declaration.deriving.haskell meta.sequence.tuple.haskell
+--                           ^ - meta.declaration.deriving - meta.sequence
+--                            ^^^^ meta.declaration.deriving.haskell - meta.sequence
+--                                ^^^^^^^^^^^^^^ meta.declaration.deriving.haskell meta.sequence.tuple.haskell
+--                                              ^ - meta.declaration.deriving - meta.sequence
 --      ^^^^^^^^ storage.modifier.haskell
 --               ^ punctuation.section.sequence.begin.haskell
 --                ^^^^ support.class.prelude.haskell
