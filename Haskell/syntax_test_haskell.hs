@@ -868,7 +868,7 @@
 
    instance TooMany Int where
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.instance.haskell
--- ^^^^^^^^ keyword.declaration..haskell
+-- ^^^^^^^^ keyword.declaration.instance.haskell
 --                      ^^^^^ keyword.control.context.haskell
      tooMany n = n > 42
 
@@ -948,7 +948,7 @@
    deriving instance FromJSON Amount
 -- ^^^^^^^^ storage.modifier.haskell
    deriving instance FromJSON Ask
---          ^^^^^^^^ meta.declaration.instance.haskell keyword.declaration.haskell
+--          ^^^^^^^^ meta.declaration.instance.haskell keyword.declaration.instance.haskell
 
 test =
 --   ^ keyword.operator.haskell

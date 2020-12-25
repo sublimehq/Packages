@@ -344,7 +344,7 @@ contexts:
     # 4.3.2 Instance Declarations
     # https://www.haskell.org/onlinereport/haskell2010/haskellch4.html#x10-750004.3
     - match: instance{{break}}
-      scope: keyword.declaration.haskell
+      scope: keyword.declaration.instance.haskell
       push: instance-body
 
   instance-body:
