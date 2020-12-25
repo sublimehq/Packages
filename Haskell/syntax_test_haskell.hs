@@ -471,6 +471,33 @@
 --                                               ^ variable.other.generic-type.haskell
 --                                                 ^^^^^ keyword.control.context.haskell
 
+
+-- [ DEFAULT DECLARATIONS ] ---------------------------------------------------
+
+    default
+--  ^^^^^^^^ meta.declaration.default.haskell
+--  ^^^^^^^ storage.modifier.haskell
+
+    default ()
+--  ^^^^^^^^ meta.declaration.default.haskell - meta.sequence
+--          ^^ meta.declaration.default.haskell meta.sequence.tuple.haskell
+--  ^^^^^^^ storage.modifier.haskell
+--          ^ punctuation.section.sequence.begin.haskell
+--           ^ punctuation.section.sequence.end.haskell
+
+    default (TyCls, ModId.QTyCls)
+--  ^^^^^^^^ meta.declaration.default.haskell - meta.sequence
+--          ^^^^^^^^^^^^^^^^^^^^^ meta.declaration.default.haskell meta.sequence.tuple.haskell
+--  ^^^^^^^ storage.modifier.haskell
+--          ^ punctuation.section.sequence.begin.haskell
+--           ^^^^^ storage.type.haskell
+--                ^ punctuation.separator.sequence.haskell
+--                  ^^^^^ variable.namespace.haskell
+--                       ^ punctuation.accessor.dot.haskell
+--                        ^^^^^^ storage.type.haskell
+--                              ^ punctuation.section.sequence.end.haskell
+
+
 -- [ TYPE DECLARATIONS ] ------------------------------------------------------
 
     type

@@ -119,6 +119,7 @@ contexts:
     - include: inherited
     - include: instances
     - include: classes
+    - include: defaults
     - include: types
     - include: imports
     - include: modules
@@ -274,6 +275,20 @@ contexts:
       scope: keyword.control.context.haskell
       pop: 1
     - include: type-signature-body
+
+###[ DEFAULT DECLARATIONS ]####################################################
+
+  defaults:
+    # 4.3.4 Ambiguous Types, and Defaults for Overloaded Numeric Operations
+    # https://www.haskell.org/onlinereport/haskell2010/haskellch4.html#x10-750004.3
+    - match: default{{break}}
+      scope: storage.modifier.haskell
+      push: default-body
+
+  default-body:
+    - meta_scope: meta.declaration.default.haskell
+    - include: type-tuples
+    - include: else-pop
 
 ###[ INHERITED DECLARATIONS ]##################################################
 
@@ -556,7 +571,7 @@ contexts:
       scope: keyword.declaration.variable.haskell
     - match: (?:return){{break}}
       scope: keyword.control.flow.return.haskell
-    - match: (?:default|otherwise){{break}}
+    - match: (?:otherwise){{break}}
       scope: keyword.other.haskell
     - match: (?:if){{break}}
       scope: keyword.control.conditional.if.haskell
