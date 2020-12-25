@@ -128,6 +128,7 @@ contexts:
     - include: literal-chars
     - include: literal-strings
     - include: literal-numbers
+    - include: type-signatures
     - include: operators
     - include: splice
     - include: groups-or-tuples
@@ -272,8 +273,7 @@ contexts:
     - match: where{{break}}
       scope: keyword.control.context.haskell
       pop: 1
-    - include: type-signatures
-    - include: else-pop
+    - include: type-signature-body
 
 ###[ INHERITED DECLARATIONS ]##################################################
 
@@ -313,8 +313,7 @@ contexts:
     - match: where{{break}}
       scope: keyword.control.context.haskell
       pop: 1
-    - include: type-signatures
-    - include: else-pop
+    - include: type-signature-body
 
 ###[ FUNCTION DECLARATIONS ]###################################################
 
@@ -323,14 +322,15 @@ contexts:
       captures:
         2: entity.name.function.haskell
         3: keyword.operator.infix.haskell
-        4: keyword.other.double-colon.haskell
+        4: keyword.operator.double-colon.haskell
       push: function-body
 
   function-body:
     - meta_scope: meta.function.type-declaration.haskell
     - match: ^(?!\s*(?:--|{-|$)|\1\s)
       pop: 1
-    - include: type-signatures
+    - include: big-arrow-operators
+    - include: type-content
 
 ###[ TYPE DECLARATIONS ]#######################################################
 
@@ -341,16 +341,25 @@ contexts:
 
   type-body:
     - meta_scope: meta.declaration.type.haskell
-    - include: type-signatures
-    - include: else-pop
+    - include: type-signature-body
 
 ###[ TYPE SIGNATURES ]#########################################################
 
   type-signatures:
+    # 3 Expressions
+    # https://www.haskell.org/onlinereport/haskell2010/haskellch3.html
+    - match: '::'
+      scope: keyword.operator.double-colon.haskell
+      push: type-signature-body
+
+  type-signature-body:
     # 4.1.2 Syntax of Types
     # https://www.haskell.org/onlinereport/haskell2010/haskellch4.html#x10-750004.3
+    - match: ^(?!\s*(?:--|{-|$))
+      pop: 1
     - include: big-arrow-operators
     - include: type-content
+    - include: else-pop
 
   type-content:
     - include: type-lists
@@ -574,11 +583,11 @@ contexts:
 
   arrow-operators:
     - match: (?:->|→)
-      scope: keyword.other.arrow.haskell
+      scope: keyword.operator.arrow.haskell
 
   big-arrow-operators:
     - match: (?:=>|⇒)
-      scope: keyword.other.big-arrow.haskell
+      scope: keyword.operator.big-arrow.haskell
 
   infix-parens-operators:
     - match: \(({{operator_parens}})\)

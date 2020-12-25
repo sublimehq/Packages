@@ -405,7 +405,7 @@ import Data.List.Split ((--")
    class =>
 -- ^^^^^^^^^ meta.declaration.class.haskell
 -- ^^^^^ keyword.declaration.class.haskell
---       ^^ keyword.other.big-arrow.haskell
+--       ^^ keyword.operator.big-arrow.haskell
 
    class QTyCls tyVar
 -- ^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
@@ -432,7 +432,7 @@ import Data.List.Split ((--")
 --                    ^^^^^^ variable.other.generic-type.haskell
 --                          ^ punctuation.separator.sequence.haskell
 --                            ^^^^^^ variable.other.generic-type.haskell
---                                   ^^ keyword.other.big-arrow.haskell
+--                                   ^^ keyword.operator.big-arrow.haskell
 
    class ModId.QTyCls tyVar1, tyVar2 => Traversable t
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
@@ -443,7 +443,7 @@ import Data.List.Split ((--")
 --                    ^^^^^^ variable.other.generic-type.haskell
 --                          ^ punctuation.separator.sequence.haskell
 --                            ^^^^^^ variable.other.generic-type.haskell
---                                   ^^ keyword.other.big-arrow.haskell
+--                                   ^^ keyword.operator.big-arrow.haskell
 --                                      ^^^^^^^^^^^ support.class.prelude.haskell
 --                                                  ^ variable.other.generic-type.haskell
 
@@ -453,7 +453,7 @@ import Data.List.Split ((--")
 --       ^^ meta.sequence.tuple.haskell
 --       ^ punctuation.section.sequence.begin.haskell
 --        ^ punctuation.section.sequence.end.haskell
---          ^^ keyword.other.big-arrow.haskell
+--          ^^ keyword.operator.big-arrow.haskell
 
    class (Functor t, Foldable t) => Traversable t where
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
@@ -465,7 +465,7 @@ import Data.List.Split ((--")
 --                   ^^^^^^^^ storage.type.haskell
 --                            ^ variable.other.generic-type.haskell
 --                             ^ punctuation.section.sequence.end.haskell
---                               ^^ keyword.other.big-arrow.haskell
+--                               ^^ keyword.operator.big-arrow.haskell
 --                                  ^^^^^^^^^^^ support.class.prelude.haskell
 --                                              ^ variable.other.generic-type.haskell
 --                                                ^^^^^ keyword.control.context.haskell
@@ -535,14 +535,14 @@ import Data.List.Split ((--")
    newtype =>
 -- ^^^^^^^^^^^ meta.declaration.type.haskell
 -- ^^^^^^^ keyword.declaration.type.haskell
---         ^^ keyword.other.big-arrow.haskell
+--         ^^ keyword.operator.big-arrow.haskell
 
    newtype TypCls tyVar =>
 -- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
 -- ^^^^^^^ keyword.declaration.type.haskell
 --         ^^^^^^ storage.type.haskell
 --                ^^^^^ variable.other.generic-type.haskell
---                      ^^ keyword.other.big-arrow.haskell
+--                      ^^ keyword.operator.big-arrow.haskell
 
    newtype () => ModId.QTyCls tyVar1, tyVar2 deriving (Class1, QTyCls2)
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
@@ -550,7 +550,7 @@ import Data.List.Split ((--")
 --         ^^ meta.sequence.tuple.haskell
 --         ^ punctuation.section.sequence.begin.haskell
 --          ^ punctuation.section.sequence.end.haskell
---            ^^ keyword.other.big-arrow.haskell
+--            ^^ keyword.operator.big-arrow.haskell
 --               ^^^^^ variable.namespace.haskell
 --                    ^ punctuation.accessor.dot.haskell
 --                     ^^^^^^ storage.type.haskell
@@ -615,19 +615,19 @@ import Data.List.Split ((--")
 
    traverse :: Applicative f =>
 -- ^^^^^^^^ entity.name.function.haskell
---          ^^ keyword.other.double-colon.haskell
+--          ^^ keyword.operator.double-colon.haskell
 --             ^^^^^^^^^^^ support.class.prelude.haskell
 -- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.type-declaration.haskell
---                           ^^ keyword.other.big-arrow.haskell
+--                           ^^ keyword.operator.big-arrow.haskell
     (a -> f b)
 -- ^^^^^^^^^^^^ meta.function.type-declaration.haskell
---     ^^ keyword.other.arrow.haskell
+--     ^^ keyword.operator.arrow.haskell
     -> t a
 -- ^^^^^^^^ meta.function.type-declaration.haskell
---  ^^ keyword.other.arrow.haskell
+--  ^^ keyword.operator.arrow.haskell
     -> f (t b)
 -- ^^^^^^^^^^^^ meta.function.type-declaration.haskell
---  ^^ keyword.other.arrow.haskell
+--  ^^ keyword.operator.arrow.haskell
    traverse f = sequenceA . fmap f
 --            ^ keyword.operator.haskell
 --                        ^ keyword.operator.haskell
@@ -638,10 +638,10 @@ import Data.List.Split ((--")
 -- 'Data.Foldable.sequenceA_'.
    sequenceA ∷ Applicative f ⇒ t (f a) → f (t a)
 -- ^^^^^^^^^ entity.name.function.haskell
---           ^ keyword.other.double-colon.haskell
+--           ^ keyword.operator.double-colon.haskell
 --             ^^^^^^^^^^^ support.class.prelude.haskell
---                           ^ keyword.other.big-arrow.haskell
---                                     ^ keyword.other.arrow.haskell
+--                           ^ keyword.operator.big-arrow.haskell
+--                                     ^ keyword.operator.arrow.haskell
    sequenceA = traverse id
 --           ^ keyword.operator.haskell
 
