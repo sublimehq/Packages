@@ -622,77 +622,6 @@ import Data.List.Split ((--")
 --           ^ keyword.operator.haskell
 
 
--- [ INFIX OPERATORS ] --------------------------------------------------------
-
-   a a = (+) a 2
---     ^ keyword.operator.haskell
---       ^^^ variable.function.infix.haskell
---        ^ keyword.operator.haskell
---             ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
-   a a = (-) a 2
---     ^ keyword.operator.haskell
---       ^^^ variable.function.infix.haskell
---             ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
-   a a = (*) a 2
---     ^ keyword.operator.haskell
---       ^^^ variable.function.infix.haskell
---             ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
-   a a = (/) a 2
---     ^ keyword.operator.haskell
---       ^^^ variable.function.infix.haskell
---             ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
-
-   a a = (--) a 2
---     ^ keyword.operator.haskell
---       ^^^^ - variable.function.infix
---       ^ punctuation.section.group.begin.haskell
---        ^^^^^^^^ comment.line.double-dash.haskell
-         )
---       ^ punctuation.section.group.end.haskell
-
-   a a = (---) a 2
---     ^ keyword.operator.haskell
---       ^^^^^ - variable.function.infix
---       ^ punctuation.section.group.begin.haskell
---        ^^^^^^^^^ comment.line.double-dash.haskell
-         )
---       ^ punctuation.section.group.end.haskell
-
-   a `member` x
---   ^^^^^^^^ keyword.operator.function.infix.haskell
---   ^ punctuation.definition.function.begin.haskell
---          ^ punctuation.definition.function.end.haskell
-   a `P.atan2` x
---   ^^^^^^^^^ keyword.operator.function.infix.haskell
---   ^ punctuation.definition.function.begin.haskell
---           ^ punctuation.definition.function.end.haskell
-
-   5 `f `7`f`"3 'ab'"
--- ^ constant.numeric.value.haskell
---   ^^^^ keyword.operator.function.infix.haskell
---   ^ punctuation.definition.function.begin.haskell
---      ^ punctuation.definition.function.end.haskell
---       ^ constant.numeric.value.haskell
---        ^^^ keyword.operator.function.infix.haskell
---        ^ punctuation.definition.function.begin.haskell
---          ^ punctuation.definition.function.end.haskell
---           ^^^^^^^^ meta.string.haskell string.quoted.double.haskell
---           ^ punctuation.definition.string.begin.haskell
---            ^^^^^^ - constant - punctuation
---                  ^ punctuation.definition.string.end.haskell
-
-   a ` f` b
---   ^^^^ keyword.operator.function.infix.haskell
---   ^ punctuation.definition.function.begin.haskell
---      ^ punctuation.definition.function.end.haskell
-
-   a `--` b
---   ^ invalid.illegal.operator.haskell
---    ^^^^^^ comment.line.double-dash.haskell
-
-   a `
---   ^ - keyword - operator - punctuation
-
    'class TooMany where
 --  ^^^^^ keyword.declaration.class.haskell
 -- ^ keyword.operator.haskell
@@ -744,8 +673,37 @@ import Data.List.Split ((--")
 
 -- [ IDENTS ] -----------------------------------------------------------------
 
-    genericIdent
+    _
+--  ^ variable.language.anonymous.haskell
+
+    a
 --  ^ meta.name.haskell
+
+    _a
+--  ^^ meta.name.haskell
+
+    _'
+--  ^^ meta.name.haskell
+
+    a'
+--  ^^ meta.name.haskell
+
+    _a'b'c_D'0123456789'
+--  ^^^^^^^^^^^^^^^^^^^^ meta.name.haskell
+
+    genericIdent
+--  ^^^^^^^^^^^^ meta.name.haskell
+
+    ý ĳ ǚ ǣ
+--  ^ meta.name.haskell
+--   ^ - meta.name
+--    ^ meta.name.haskell
+--     ^ - meta.name
+--      ^ meta.name.haskell
+--       ^ - meta.name
+--        ^ meta.name.haskell
+--         ^ - meta.name
+
     map (flip (/)) [1..]
 --  ^^^ support.function.prelude.haskell
 --       ^^^^ meta.group.haskell support.function.prelude.haskell
@@ -1217,6 +1175,78 @@ main = do
 --  ^ punctuation.definition.string.begin.haskell
 --     ^^ constant.character.escape.haskell
 --         ^^ punctuation.definition.comment.haskell
+
+
+-- [ INFIX OPERATORS ] --------------------------------------------------------
+
+    a a = (+) a 2
+--      ^ keyword.operator.haskell
+--        ^^^ variable.function.infix.haskell
+--         ^ keyword.operator.haskell
+--              ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+    a a = (-) a 2
+--      ^ keyword.operator.haskell
+--        ^^^ variable.function.infix.haskell
+--              ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+    a a = (*) a 2
+--      ^ keyword.operator.haskell
+--        ^^^ variable.function.infix.haskell
+--              ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+    a a = (/) a 2
+--      ^ keyword.operator.haskell
+--        ^^^ variable.function.infix.haskell
+--              ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+
+    a a = (--) a 2
+--      ^ keyword.operator.haskell
+--        ^^^^ - variable.function.infix
+--        ^ punctuation.section.group.begin.haskell
+--         ^^^^^^^^ comment.line.double-dash.haskell
+          )
+--        ^ punctuation.section.group.end.haskell
+
+    a a = (---) a 2
+--      ^ keyword.operator.haskell
+--        ^^^^^ - variable.function.infix
+--        ^ punctuation.section.group.begin.haskell
+--         ^^^^^^^^^ comment.line.double-dash.haskell
+          )
+--        ^ punctuation.section.group.end.haskell
+
+    a `member` x
+--    ^^^^^^^^ keyword.operator.function.infix.haskell
+--    ^ punctuation.definition.function.begin.haskell
+--           ^ punctuation.definition.function.end.haskell
+    a `P.atan2` x
+--    ^^^^^^^^^ keyword.operator.function.infix.haskell
+--    ^ punctuation.definition.function.begin.haskell
+--            ^ punctuation.definition.function.end.haskell
+
+    5 `f `7`f`"3 'ab'"
+--  ^ constant.numeric.value.haskell
+--    ^^^^ keyword.operator.function.infix.haskell
+--    ^ punctuation.definition.function.begin.haskell
+--       ^ punctuation.definition.function.end.haskell
+--        ^ constant.numeric.value.haskell
+--         ^^^ keyword.operator.function.infix.haskell
+--         ^ punctuation.definition.function.begin.haskell
+--           ^ punctuation.definition.function.end.haskell
+--            ^^^^^^^^ meta.string.haskell string.quoted.double.haskell
+--            ^ punctuation.definition.string.begin.haskell
+--             ^^^^^^ - constant - punctuation
+--                   ^ punctuation.definition.string.end.haskell
+
+    a ` f` b
+--    ^^^^ keyword.operator.function.infix.haskell
+--    ^ punctuation.definition.function.begin.haskell
+--       ^ punctuation.definition.function.end.haskell
+
+    a `--` b
+--    ^ invalid.illegal.operator.haskell
+--     ^^^^^^ comment.line.double-dash.haskell
+
+    a `
+--    ^ - keyword - operator - punctuation
 
 
 -- [ INFIX OPERATORS IN CONTEXT ]----------------------------------------------
