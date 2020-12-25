@@ -650,28 +650,22 @@ contexts:
 ###[ KEYWORDS AND OPERATORS ]##################################################
 
   keywords:
+    - match: let{{break}}
+      scope: keyword.declaration.variable.haskell
     - match: (?:do|in|where){{break}}
       scope: keyword.control.context.haskell
-    - match: (?:newtype|type){{break}}
-      scope: keyword.declaration.type.haskell
-    - match: (?:data){{break}}
-      scope: keyword.declaration.data.haskell
-    - match: (?:deriving){{break}}
-      scope: storage.modifier.haskell
     - match: (?:case|of){{break}}
       scope: keyword.control.conditional.select.haskell  # the construct is commonly called "select"
-    - match: (?:let){{break}}
-      scope: keyword.declaration.variable.haskell
-    - match: (?:return){{break}}
-      scope: keyword.control.flow.return.haskell
-    - match: (?:otherwise){{break}}
-      scope: keyword.other.haskell
-    - match: (?:if){{break}}
+    - match: if{{break}}
       scope: keyword.control.conditional.if.haskell
-    - match: (?:then){{break}}
+    - match: then{{break}}
       scope: keyword.control.conditional.then.haskell
-    - match: (?:else){{break}}
+    - match: else{{break}}
       scope: keyword.control.conditional.else.haskell
+    - match: otherwise{{break}}
+      scope: keyword.control.conditional.otherwise.haskell
+    - match: return{{break}}
+      scope: keyword.control.flow.return.haskell
 
   operators:
     - match: (`)[ \w'.]+(`)
