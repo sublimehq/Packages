@@ -23,7 +23,7 @@ variables:
   # note that Haskell permits the definition of new operators
   # which can be nearly any string of punctuation characters,
   # such as $%^&*.
-  operator_char: '[*|!%&$@#?~+:\-.=</>\\]'
+  operator_char: '[*|!%&$@#?~+:\-.=</>\\''\^]'
   operator_infix: '{{operator_char}}+'
   operator_parens: '(?:{{no_comment_ahead}}{{operator_infix}}|,+)'
 
@@ -125,15 +125,15 @@ contexts:
     - include: statement-terminators
 
   expressions:
-    - include: keywords
-    - include: operators
     - include: literal-chars
     - include: literal-strings
     - include: literal-numbers
+    - include: operators
     - include: tuples
     - include: splice
     - include: groups
     - include: lists
+    - include: keywords
     - include: ident-builtin-functions
     - include: ident-constants
     - include: ident-variables
@@ -450,15 +450,7 @@ contexts:
       scope: meta.number.integer.decimal.haskell constant.numeric.value.haskell
 
   literal-chars:
-    - match: |-
-        (?x)
-        (')
-        (?:
-          ([\ -\[\]-~])          # Basic Char
-          | {{escape_sequence}}  # Escapes
-        )
-        ([^']*?)
-        (?:(')|{{comment_ahead}})
+    - match: (')(?:([\ -\[\]-~])|{{escape_sequence}})(?:(')|{{comment_ahead}})
       scope: meta.string.haskell string.quoted.single.haskell
       captures:
         1: punctuation.definition.string.begin.haskell
@@ -468,8 +460,7 @@ contexts:
         5: constant.character.escape.octal.haskell
         6: constant.character.escape.hexadecimal.haskell
         7: constant.character.escape.control.haskell
-        8: invalid.illegal.expected-closing-quotation.haskell
-        9: punctuation.definition.string.end.haskell
+        8: punctuation.definition.string.end.haskell
 
   literal-strings:
     - match: \"
