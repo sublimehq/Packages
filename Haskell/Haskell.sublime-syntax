@@ -650,7 +650,7 @@ contexts:
 ###[ KEYWORDS AND OPERATORS ]##################################################
 
   keywords:
-    - match: (?:do|in){{break}}
+    - match: (?:do|in|where){{break}}
       scope: keyword.control.context.haskell
     - match: (?:newtype|type){{break}}
       scope: keyword.declaration.type.haskell
@@ -660,7 +660,7 @@ contexts:
       scope: storage.modifier.haskell
     - match: (?:case|of){{break}}
       scope: keyword.control.conditional.select.haskell  # the construct is commonly called "select"
-    - match: (?:let|where){{break}}
+    - match: (?:let){{break}}
       scope: keyword.declaration.variable.haskell
     - match: (?:return){{break}}
       scope: keyword.control.flow.return.haskell

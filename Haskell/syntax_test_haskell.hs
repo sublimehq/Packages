@@ -908,7 +908,7 @@ test =
 --  ^^^ keyword.declaration.variable.haskell
 --            ^^ keyword.control.context.haskell
     where
---  ^^^^^ keyword.declaration.variable.haskell
+--  ^^^^^ keyword.control.context.haskell
         y = 1
 --        ^ keyword.operator.haskell
 
