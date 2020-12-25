@@ -743,20 +743,186 @@ main = do
 --  ^^^^^^ keyword.control.flow.return.haskell
 
 
--- [ GROUPS / TUPLES / LISTS ] ------------------------------------------------
+-- [ BLOCKS / GROUPS / LISTS / TUPLES ] ---------------------------------------
+
+    {}
+-- ^ - meta.block
+--  ^^ meta.block.haskell
+--    ^ - meta.block
+--  ^ punctuation.section.block.begin.haskell
+--   ^ punctuation.section.block.end.haskell
+
+    {;}
+-- ^ - meta.block
+--  ^^^ meta.block.haskell
+--     ^ - meta.block
+--  ^ punctuation.section.block.begin.haskell
+--   ^ punctuation.terminator.statement.haskell
+--    ^ punctuation.section.block.end.haskell
+
+    []
+-- ^ - meta.sequence
+--  ^^ meta.sequence.list.haskell
+--    ^ - meta.sequence
+--  ^ punctuation.section.sequence.begin.haskell
+--   ^ punctuation.section.sequence.end.haskell
+
+    [,]
+-- ^ - meta.sequence
+--  ^^^ meta.sequence.list.haskell
+--     ^ - meta.sequence
+--  ^ punctuation.section.sequence.begin.haskell
+--   ^ punctuation.separator.sequence.haskell
+--    ^ punctuation.section.sequence.end.haskell
+
+    [,,]
+-- ^ - meta.sequence
+--  ^^^^ meta.sequence.list.haskell
+--      ^ - meta.sequence
+--  ^ punctuation.section.sequence.begin.haskell
+--   ^^ punctuation.separator.sequence.haskell
+--     ^ punctuation.section.sequence.end.haskell
+
+    [1,2,a,b','c',..]
+-- ^ - meta.sequence
+--  ^^^^^^^^^^^^^^^^^ meta.sequence.list.haskell
+--                   ^ - meta.sequence
+--  ^ punctuation.section.sequence.begin.haskell
+--   ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+--    ^ punctuation.separator.sequence.haskell
+--     ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+--      ^ punctuation.separator.sequence.haskell
+--       ^ meta.name.haskell
+--        ^ punctuation.separator.sequence.haskell
+--         ^^ meta.name.haskell
+--           ^ punctuation.separator.sequence.haskell
+--            ^^^ meta.string.haskell string.quoted.single.haskell
+--               ^ punctuation.separator.sequence.haskell
+--                ^^ keyword.operator.haskell
+--                  ^ punctuation.section.sequence.end.haskell
+
+--  List comprehension
+
+    [ x | xs <- [ [(1,2),(3,4)], [(5,4),(3,2)] ], (3,x) <- xs ]
+-- ^ - meta.sequence
+--  ^^^^^^^^^^^^ meta.sequence.list.haskell - meta.sequence meta.sequence
+--              ^^ meta.sequence.list.haskell meta.sequence.list.haskell - meta.sequence meta.sequence meta.sequence
+--                ^ meta.sequence.list.haskell meta.sequence.list.haskell meta.sequence.list.haskell - meta.sequence meta.sequence meta.sequence meta.sequence
+--                 ^^^^^ meta.sequence.list.haskell meta.sequence.list.haskell meta.sequence.list.haskell meta.sequence.tuple.haskell
+--                      ^ meta.sequence.list.haskell meta.sequence.list.haskell meta.sequence.list.haskell - meta.sequence meta.sequence meta.sequence meta.sequence
+--                       ^^^^^ meta.sequence.list.haskell meta.sequence.list.haskell meta.sequence.list.haskell meta.sequence.tuple.haskell
+--                            ^ meta.sequence.list.haskell meta.sequence.list.haskell meta.sequence.list.haskell - meta.sequence meta.sequence meta.sequence meta.sequence
+--                             ^^ meta.sequence.list.haskell meta.sequence.list.haskell - meta.sequence meta.sequence meta.sequence
+--                               ^ meta.sequence.list.haskell meta.sequence.list.haskell meta.sequence.list.haskell - meta.sequence meta.sequence meta.sequence meta.sequence
+--                                ^^^^^ meta.sequence.list.haskell meta.sequence.list.haskell meta.sequence.list.haskell meta.sequence.tuple.haskell
+--                                     ^ meta.sequence.list.haskell meta.sequence.list.haskell meta.sequence.list.haskell - meta.sequence meta.sequence meta.sequence meta.sequence
+--                                      ^^^^^ meta.sequence.list.haskell meta.sequence.list.haskell meta.sequence.list.haskell meta.sequence.tuple.haskell
+--                                           ^ meta.sequence.list.haskell meta.sequence.list.haskell meta.sequence.list.haskell - meta.sequence meta.sequence meta.sequence meta.sequence
+--                                            ^^ meta.sequence.list.haskell meta.sequence.list.haskell - meta.sequence meta.sequence meta.sequence
+--                                              ^^ meta.sequence.list.haskell - meta.sequence meta.sequence
+--                                                ^^^^^ meta.sequence.list.haskell meta.sequence.tuple.haskell
+--                                                     ^^^^^^^^ meta.sequence.list.haskell - meta.sequence meta.sequence
+--                                                             ^ - meta.sequence
+--  ^ punctuation.section.sequence.begin.haskell
+--    ^ meta.name.haskell
+--      ^ keyword.operator.haskell
+--        ^^ meta.name.haskell
+--           ^^ keyword.operator.haskell
+--              ^ punctuation.section.sequence.begin.haskell
+--                ^ punctuation.section.sequence.begin.haskell
+--                 ^ punctuation.section.sequence.begin.haskell
+--                  ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+--                   ^ punctuation.separator.sequence.haskell
+--                    ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+--                     ^ punctuation.section.sequence.end.haskell
+--                      ^ punctuation.separator.sequence.haskell
+--                       ^ punctuation.section.sequence.begin.haskell
+--                        ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+--                         ^ punctuation.separator.sequence.haskell
+--                          ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+--                           ^^ punctuation.section.sequence.end.haskell
+--                             ^ punctuation.separator.sequence.haskell
+--                               ^ punctuation.section.sequence.begin.haskell
+--                                ^ punctuation.section.sequence.begin.haskell
+--                                 ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+--                                  ^ punctuation.separator.sequence.haskell
+--                                   ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+--                                    ^ punctuation.section.sequence.end.haskell
+--                                     ^ punctuation.separator.sequence.haskell
+--                                      ^ punctuation.section.sequence.begin.haskell
+--                                       ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+--                                        ^ punctuation.separator.sequence.haskell
+--                                         ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+--                                          ^^ punctuation.section.sequence.end.haskell
+--                                             ^ punctuation.section.sequence.end.haskell
+--                                              ^ punctuation.separator.sequence.haskell
+--                                                ^ punctuation.section.sequence.begin.haskell
+--                                                 ^ constant.numeric.value.haskell
+--                                                  ^ punctuation.separator.sequence.haskell
+--                                                   ^ meta.name.haskell
+--                                                    ^ punctuation.section.sequence.end.haskell
+--                                                      ^^ keyword.operator.haskell
+--                                                         ^^ meta.name.haskell
+--                                                            ^ punctuation.section.sequence.end.haskell
+--
+
+    ()
+-- ^ - meta.sequence
+--  ^^ meta.sequence.tuple.haskell
+--    ^ - meta.sequence
+--  ^ punctuation.section.sequence.begin.haskell
+--   ^ punctuation.section.sequence.end.haskell
+
+    (,)
+-- ^ - meta.sequence
+--  ^^^ meta.sequence.tuple.haskell
+--     ^ - meta.sequence
+--  ^ punctuation.section.sequence.begin.haskell
+--    ^ punctuation.section.sequence.end.haskell
+
+    (#,#)
+-- ^ - meta.sequence
+--  ^^^^^ meta.sequence.tuple.haskell
+--       ^ - meta.sequence
+--  ^ punctuation.section.sequence.begin.haskell
+--   ^ keyword.operator.haskell
+--     ^ keyword.operator.haskell
+--      ^ punctuation.section.sequence.end.haskell
+
+    ( , , )
+-- ^ - meta.sequence
+--  ^^^^^^^ meta.sequence.tuple.haskell
+--         ^ - meta.sequence
+--  ^ punctuation.section.sequence.begin.haskell
+--        ^ punctuation.section.sequence.end.haskell
+
+    (# , , #)
+-- ^ - meta.sequence
+--  ^^^^^^^^^ meta.sequence.tuple.haskell
+--           ^ - meta.sequence
+--  ^ punctuation.section.sequence.begin.haskell
+--   ^ keyword.operator.haskell
+--         ^ keyword.operator.haskell
+--          ^ punctuation.section.sequence.end.haskell
+
+    (group,)
+--  ^^^^^^^^ meta.sequence.tuple.haskell
+--  ^ punctuation.section.sequence.begin.haskell
+--        ^ punctuation.separator.sequence.haskell
+--         ^ punctuation.section.sequence.end.haskell
+
+    (#group,#)
+--  ^^^^^^^^^^ meta.sequence.tuple.haskell
+--  ^ punctuation.section.sequence.begin.haskell
+--   ^ keyword.operator.haskell
+--         ^ punctuation.separator.sequence.haskell
+--          ^ keyword.operator.haskell
+--           ^ punctuation.section.sequence.end.haskell
 
     (group)
 --  ^^^^^^^ meta.group.haskell
 --  ^ punctuation.section.group.begin.haskell
 --        ^ punctuation.section.group.end.haskell
-
-    [1,2]
---  ^^^^^ meta.sequence.haskell
---  ^ punctuation.section.sequence.begin.haskell
---   ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
---    ^ punctuation.separator.sequence.haskell
---     ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
---      ^ punctuation.section.sequence.end.haskell
 
 
 -- [ LITERAL NUMBERS ] --------------------------------------------------------
@@ -1179,6 +1345,8 @@ main = do
 
 -- [ INFIX OPERATORS ] --------------------------------------------------------
 
+    .. : :: = \ <- | -> @ ~ =>
+
     a a = (+) a 2
 --      ^ keyword.operator.haskell
 --        ^^^ variable.function.infix.haskell
@@ -1270,10 +1438,10 @@ main = do
         Flipper <$> genRecord
       , (:!) <$> genInt <*> genInt
       , (:@) <$> genDouble <*> genDouble
---       ^^ meta.sequence.haskell variable.function.infix.haskell keyword.operator.haskell
+--       ^^ variable.function.infix.haskell keyword.operator.haskell
       , Quux <$> genInt <*> genDouble
       , (:#) <$> genString <*> genRecord
---       ^^ meta.sequence.haskell variable.function.infix.haskell keyword.operator.haskell
+--       ^^ variable.function.infix.haskell keyword.operator.haskell
       , DontDoThis <$> genInt <*> genString
       ] [
         Gen.subtermM genOutrageous (\x -> (:$) <$> genSimple <*> pure x)
