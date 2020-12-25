@@ -8,219 +8,219 @@
 23*36
 -- <- - comment.line.double-dash.haskell
 
-   {- block comment -} 23*36
--- ^^ punctuation.definition.comment.begin.haskell
--- ^^^^^^^^^^^^^^^^^^^ comment.block.haskell
---                  ^^ punctuation.definition.comment.end.haskell
---                    ^ - comment.block.haskell
+    {- block comment -} 23*36
+--  ^^ punctuation.definition.comment.begin.haskell
+--  ^^^^^^^^^^^^^^^^^^^ comment.block.haskell
+--                   ^^ punctuation.definition.comment.end.haskell
+--                     ^ - comment.block.haskell
 
-   {- {-# #-} -} 23*36
--- ^^ punctuation.definition.comment.begin.haskell
--- ^^^^^^^^^^^^^ comment.block.haskell - meta.preprocessor.haskell
+    {- {-# #-} -} 23*36
+--  ^^ punctuation.definition.comment.begin.haskell
+--  ^^^^^^^^^^^^^ comment.block.haskell - meta.preprocessor.haskell
+--             ^^ punctuation.definition.comment.end.haskell
+--               ^ - comment.block.haskell
+
+    {- {- #-} -} 23*36
+--  ^^ punctuation.definition.comment.begin.haskell
+--  ^^^^^^^^^^^^ comment.block.haskell
 --            ^^ punctuation.definition.comment.end.haskell
 --              ^ - comment.block.haskell
 
-   {- {- #-} -} 23*36
--- ^^ punctuation.definition.comment.begin.haskell
--- ^^^^^^^^^^^^ comment.block.haskell
+    {- {- -} -} 23*36
+--  ^^ punctuation.definition.comment.begin.haskell
+--  ^^^^^^^^^^^ comment.block.haskell
 --           ^^ punctuation.definition.comment.end.haskell
 --             ^ - comment.block.haskell
 
-   {- {- -} -} 23*36
--- ^^ punctuation.definition.comment.begin.haskell
--- ^^^^^^^^^^^ comment.block.haskell
---          ^^ punctuation.definition.comment.end.haskell
---            ^ - comment.block.haskell
+    {- {-# -} -} 23*36
+--  ^^ punctuation.definition.comment.begin.haskell
+--  ^^^^^^^^^^^^ comment.block.haskell - meta.preprocessor.haskell
+--            ^^ punctuation.definition.comment.end.haskell
+--              ^ - comment.block.haskell
 
-   {- {-# -} -} 23*36
--- ^^ punctuation.definition.comment.begin.haskell
--- ^^^^^^^^^^^^ comment.block.haskell - meta.preprocessor.haskell
---           ^^ punctuation.definition.comment.end.haskell
---             ^ - comment.block.haskell
-
-   {- {-# {- test -} -} -} 23*36
--- ^^ punctuation.definition.comment.begin.haskell
--- ^^^^^^^^^^^^^^^^^^^^^^^ comment.block.haskell - meta.preprocessor.haskell
---                      ^^ punctuation.definition.comment.end.haskell
---                        ^ - comment.block.haskell
+    {- {-# {- test -} -} -} 23*36
+--  ^^ punctuation.definition.comment.begin.haskell
+--  ^^^^^^^^^^^^^^^^^^^^^^^ comment.block.haskell - meta.preprocessor.haskell
+--                       ^^ punctuation.definition.comment.end.haskell
+--                         ^ - comment.block.haskell
 
 
 -- [ COMMENTS STARTING WITH SPECIAL SYMBOL CHARS ] ----------------------------
 
-   --
--- ^^^ comment
-   --_
--- ^^^ comment
-   --"
--- ^^^ comment
-   --'
--- ^^^ comment
-   --(
--- ^^^ comment
-   --)
--- ^^^ comment
-   --,
--- ^^^ comment
-   ---
--- ^^^ comment
-   --;
--- ^^^ comment
-   --[
--- ^^^ comment
-   --]
--- ^^^ comment
-   --`
--- ^^^ comment
-   --{
--- ^^^ comment
-   --}
--- ^^^ comment
+    --
+--  ^^^ comment
+    --_
+--  ^^^ comment
+    --"
+--  ^^^ comment
+    --'
+--  ^^^ comment
+    --(
+--  ^^^ comment
+    --)
+--  ^^^ comment
+    --,
+--  ^^^ comment
+    ---
+--  ^^^ comment
+    --;
+--  ^^^ comment
+    --[
+--  ^^^ comment
+    --]
+--  ^^^ comment
+    --`
+--  ^^^ comment
+    --{
+--  ^^^ comment
+    --}
+--  ^^^ comment
 
 
 -- [ NO COMMENTS ] ------------------------------------------------------------
 
-   --!
--- ^^^ - comment
-   --#
--- ^^^ - comment
-   --$
--- ^^^ - comment
-   --%
--- ^^^ - comment
-   --&
--- ^^^ - comment
-   --*
--- ^^^ - comment
-   --+
--- ^^^ - comment
-   --.
--- ^^^ - comment
-   --.
--- ^^^ - comment
-   --/
--- ^^^ - comment
-   --:
--- ^^^ - comment
-   --<
--- ^^^ - comment
-   --=
--- ^^^ - comment
-   -->
--- ^^^ - comment
-   --?
--- ^^^ - comment
-   --\
--- ^^^ - comment
-   --\
--- ^^^ - comment
-   --^
--- ^^^ - comment
-   --|
--- ^^^ - comment
-   --~
--- ^^^ - comment
-   --~
--- ^^^ - comment
+    --!
+--  ^^^ - comment
+    --#
+--  ^^^ - comment
+    --$
+--  ^^^ - comment
+    --%
+--  ^^^ - comment
+    --&
+--  ^^^ - comment
+    --*
+--  ^^^ - comment
+    --+
+--  ^^^ - comment
+    --.
+--  ^^^ - comment
+    --.
+--  ^^^ - comment
+    --/
+--  ^^^ - comment
+    --:
+--  ^^^ - comment
+    --<
+--  ^^^ - comment
+    --=
+--  ^^^ - comment
+    -->
+--  ^^^ - comment
+    --?
+--  ^^^ - comment
+    --\
+--  ^^^ - comment
+    --\
+--  ^^^ - comment
+    --^
+--  ^^^ - comment
+    --|
+--  ^^^ - comment
+    --~
+--  ^^^ - comment
+    --~
+--  ^^^ - comment
 
 
 -- [ PREPROCESSOR ] -----------------------------------------------------------
 
-   {-# MINIMAL traverse | sequenceA LANGUAGE #-}
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.haskell
---                                              ^ - meta.preprocessor.haskell
--- ^^^ punctuation.section.preprocessor.begin.haskell
---     ^^^^^^^ keyword.directive.other.haskell
---                                   ^^^^^^^ keyword.directive.other.haskell
---                                           ^^^ punctuation.section.preprocessor.end.haskell
+    {-# MINIMAL traverse | sequenceA LANGUAGE #-}
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.haskell
+--                                               ^ - meta.preprocessor.haskell
+--  ^^^ punctuation.section.preprocessor.begin.haskell
+--      ^^^^^^^ keyword.directive.other.haskell
+--                                    ^^^^^^^ keyword.directive.other.haskell
+--                                            ^^^ punctuation.section.preprocessor.end.haskell
 
-   {-# OPTIONS_HADDOCK not-home #-}
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.haskell
---                                 ^ - meta.preprocessor.haskell
--- ^^^ punctuation.section.preprocessor.begin.haskell
---     ^^^^^^^^^^^^^^^ keyword.directive.other.haskell
---                              ^^^ punctuation.section.preprocessor.end.haskell
+    {-# OPTIONS_HADDOCK not-home #-}
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.haskell
+--                                  ^ - meta.preprocessor.haskell
+--  ^^^ punctuation.section.preprocessor.begin.haskell
+--      ^^^^^^^^^^^^^^^ keyword.directive.other.haskell
+--                               ^^^ punctuation.section.preprocessor.end.haskell
 
-   #if 0
--- ^^^ meta.preprocessor.c
--- ^ punctuation.definition.preprocessor.c
--- ^^^ keyword.directive.other.c
+    #if 0
+--  ^^^ meta.preprocessor.c
+--  ^ punctuation.definition.preprocessor.c
+--  ^^^ keyword.directive.other.c
 
-   #endif
--- ^^^^^^ meta.preprocessor.c
--- ^ punctuation.definition.preprocessor.c
--- ^^^^^^ keyword.directive.other.c
+    #endif
+--  ^^^^^^ meta.preprocessor.c
+--  ^ punctuation.definition.preprocessor.c
+--  ^^^^^^ keyword.directive.other.c
 
 
 -- [ MODULE DECLARATIONS ] ----------------------------------------------------
 
-   module
--- ^^^^^^^ meta.declaration.module.haskell
--- ^^^^^^ keyword.declaration.namespace.haskell
+    module
+--  ^^^^^^^ meta.declaration.module.haskell
+--  ^^^^^^ keyword.declaration.namespace.haskell
 
-   module Name
--- ^^^^^^^^^^^^ meta.declaration.module.haskell
--- ^^^^^^ keyword.declaration.namespace.haskell
---        ^^^^ entity.name.namespace.haskell
+    module Name
+--  ^^^^^^^^^^^^ meta.declaration.module.haskell
+--  ^^^^^^ keyword.declaration.namespace.haskell
+--         ^^^^ entity.name.namespace.haskell
 
-   module Name where
--- ^^^^^^^^^^^^^^^^^ meta.declaration.module.haskell
--- ^^^^^^ keyword.declaration.namespace.haskell
---        ^^^^ entity.name.namespace.haskell
---             ^^^^^ keyword.control.context.haskell
+    module Name where
+--  ^^^^^^^^^^^^^^^^^ meta.declaration.module.haskell
+--  ^^^^^^ keyword.declaration.namespace.haskell
+--         ^^^^ entity.name.namespace.haskell
+--              ^^^^^ keyword.control.context.haskell
 
-   module ()
--- ^^^^^^^ meta.declaration.module.haskell - meta.sequence
---        ^^ meta.declaration.module.haskell meta.sequence.tuple.haskell
--- ^^^^^^ keyword.declaration.namespace.haskell
---        ^ punctuation.section.sequence.begin.haskell
---         ^ punctuation.section.sequence.end.haskell
+    module ()
+--  ^^^^^^^ meta.declaration.module.haskell - meta.sequence
+--         ^^ meta.declaration.module.haskell meta.sequence.tuple.haskell
+--  ^^^^^^ keyword.declaration.namespace.haskell
+--         ^ punctuation.section.sequence.begin.haskell
+--          ^ punctuation.section.sequence.end.haskell
 
-   module Name ()
--- ^^^^^^^^^^^^ meta.declaration.module.haskell - meta.sequence
---             ^^ meta.declaration.module.haskell meta.sequence.tuple.haskell
--- ^^^^^^ keyword.declaration.namespace.haskell
---        ^^^^ entity.name.namespace.haskell
---             ^ punctuation.section.sequence.begin.haskell
---              ^ punctuation.section.sequence.end.haskell
+    module Name ()
+--  ^^^^^^^^^^^^ meta.declaration.module.haskell - meta.sequence
+--              ^^ meta.declaration.module.haskell meta.sequence.tuple.haskell
+--  ^^^^^^ keyword.declaration.namespace.haskell
+--         ^^^^ entity.name.namespace.haskell
+--              ^ punctuation.section.sequence.begin.haskell
+--               ^ punctuation.section.sequence.end.haskell
 
-   module Name () where
--- ^^^^^^^^^^^^ meta.declaration.module.haskell - meta.sequence
---             ^^ meta.declaration.module.haskell meta.sequence.tuple.haskell
---                ^^^^^ meta.declaration.module.haskell - meta.sequence
--- ^^^^^^ keyword.declaration.namespace.haskell
---        ^^^^ entity.name.namespace.haskell
---             ^ punctuation.section.sequence.begin.haskell
---              ^ punctuation.section.sequence.end.haskell
---                ^^^^^ keyword.control.context.haskell
+    module Name () where
+--  ^^^^^^^^^^^^ meta.declaration.module.haskell - meta.sequence
+--              ^^ meta.declaration.module.haskell meta.sequence.tuple.haskell
+--                 ^^^^^ meta.declaration.module.haskell - meta.sequence
+--  ^^^^^^ keyword.declaration.namespace.haskell
+--         ^^^^ entity.name.namespace.haskell
+--              ^ punctuation.section.sequence.begin.haskell
+--               ^ punctuation.section.sequence.end.haskell
+--                 ^^^^^ keyword.control.context.haskell
 
-   module Ns.Name (sym1, sym2) where { import Ns.Other; import Ns.Other2 }
--- ^^^^^^^^^^^^^^^ meta.declaration.module.haskell - meta.sequence
---                ^^^^^^^^^^^^ meta.declaration.module.haskell meta.sequence.tuple.haskell
---                            ^^^^^^ meta.declaration.module.haskell - meta.sequence
---                                  ^ - meta.declaration.module - meta.block
---                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.haskell - meta.declaration.module
---                                                                        ^ - meta.block
--- ^^^^^^ keyword.declaration.namespace.haskell
---        ^^ variable.namespace.haskell
---          ^ punctuation.accessor.dot.haskell
---           ^^^^ entity.name.namespace.haskell
---                ^ punctuation.section.sequence.begin.haskell
---                 ^^^^ variable.function.haskell
---                     ^ punctuation.separator.sequence.haskell
---                       ^^^^ variable.function.haskell
---                           ^ punctuation.section.sequence.end.haskell
---                             ^^^^^ keyword.control.context.haskell
---                                   ^ punctuation.section.block.begin.haskell
---                                     ^^^^^^ keyword.declaration.import.haskell
---                                            ^^ variable.namespace.haskell
---                                              ^ punctuation.accessor.dot.haskell
---                                               ^^^^^ entity.name.namespace.haskell
---                                                    ^ punctuation.terminator.statement.haskell
---                                                      ^^^^^^ keyword.declaration.import.haskell
---                                                             ^^ variable.namespace.haskell
---                                                               ^ punctuation.accessor.dot.haskell
---                                                                ^^^^^^ entity.name.namespace.haskell
---                                                                       ^ punctuation.section.block.end.haskell
+    module Ns.Name (sym1, sym2) where { import Ns.Other; import Ns.Other2 }
+--  ^^^^^^^^^^^^^^^ meta.declaration.module.haskell - meta.sequence
+--                 ^^^^^^^^^^^^ meta.declaration.module.haskell meta.sequence.tuple.haskell
+--                             ^^^^^^ meta.declaration.module.haskell - meta.sequence
+--                                   ^ - meta.declaration.module - meta.block
+--                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.haskell - meta.declaration.module
+--                                                                         ^ - meta.block
+--  ^^^^^^ keyword.declaration.namespace.haskell
+--         ^^ variable.namespace.haskell
+--           ^ punctuation.accessor.dot.haskell
+--            ^^^^ entity.name.namespace.haskell
+--                 ^ punctuation.section.sequence.begin.haskell
+--                  ^^^^ variable.function.haskell
+--                      ^ punctuation.separator.sequence.haskell
+--                        ^^^^ variable.function.haskell
+--                            ^ punctuation.section.sequence.end.haskell
+--                              ^^^^^ keyword.control.context.haskell
+--                                    ^ punctuation.section.block.begin.haskell
+--                                      ^^^^^^ keyword.declaration.import.haskell
+--                                             ^^ variable.namespace.haskell
+--                                               ^ punctuation.accessor.dot.haskell
+--                                                ^^^^^ entity.name.namespace.haskell
+--                                                     ^ punctuation.terminator.statement.haskell
+--                                                       ^^^^^^ keyword.declaration.import.haskell
+--                                                              ^^ variable.namespace.haskell
+--                                                                ^ punctuation.accessor.dot.haskell
+--                                                                 ^^^^^^ entity.name.namespace.haskell
+--                                                                        ^ punctuation.section.block.end.haskell
 
     module Name (module Other.Module) where { import Other.Module }
 --  ^^^^^^^^^^^^ meta.declaration.module.haskell - meta.sequence
@@ -249,322 +249,323 @@
 
 -- [ IMPORT DECLARATIONS ] ----------------------------------------------------
 
-import import
--- ^^^^^^^^^^^ meta.import.haskell
--- ^^^  keyword.declaration.import.haskell
---     ^^^^^^ keyword.declaration.import.haskell
+    import import
+-- ^ - meta.import
+--  ^^^^^^^^^^^^^^ meta.import.haskell
+--  ^^^^^^  keyword.declaration.import.haskell
+--         ^^^^^^ keyword.declaration.import.haskell
 
-import ; import
--- ^^^^ meta.import.haskell
---     ^ - meta.import
---       ^^^^^^^ meta.import.haskell
--- ^^^ keyword.declaration.import.haskell
---     ^ punctuation.terminator.statement.haskell
---       ^^^^^^ meta.import.haskell keyword.declaration.import.haskell
+    import ; import
+--  ^^^^^^^ meta.import.haskell
+--         ^^ - meta.import
+--           ^^^^^^^ meta.import.haskell
+--  ^^^^^^ keyword.declaration.import.haskell
+--         ^ punctuation.terminator.statement.haskell
+--           ^^^^^^ meta.import.haskell keyword.declaration.import.haskell
 
-import qualified Data.Vector.Mutable as MutableVector
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^ keyword.declaration.import.haskell
---     ^^^^^^^^^ keyword.declaration.import.haskell
---               ^^^^ variable.namespace.haskell - punctuation
---                   ^ punctuation.accessor.dot.haskell - variable
---                    ^^^^^^ variable.namespace.haskell - punctuation
---                          ^ punctuation.accessor.dot.haskell - variable
---                           ^^^^^^^ variable.namespace.haskell - punctuation
---                                   ^^ keyword.declaration.import.haskell
---                                      ^^^^^^^^^^^^^ entity.name.namespace.haskell
+    import qualified Data.Vector.Mutable as MutableVector
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+--  ^^^^^^ keyword.declaration.import.haskell
+--         ^^^^^^^^^ keyword.declaration.import.haskell
+--                   ^^^^ variable.namespace.haskell - punctuation
+--                       ^ punctuation.accessor.dot.haskell - variable
+--                        ^^^^^^ variable.namespace.haskell - punctuation
+--                              ^ punctuation.accessor.dot.haskell - variable
+--                               ^^^^^^^ variable.namespace.haskell - punctuation
+--                                       ^^ keyword.declaration.import.haskell
+--                                          ^^^^^^^^^^^^^ entity.name.namespace.haskell
 
-import
--- ^^^^ meta.import.haskell
--- ^^^ keyword.declaration.import.haskell
-   qualified
--- ^^^^^^^^^^ meta.import.haskell
--- ^^^^^^^^^ keyword.declaration.import.haskell
-   Data.Vector.Mutable
--- ^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^^ variable.namespace.haskell - punctuation
---     ^ punctuation.accessor.dot.haskell - variable
---      ^^^^^^ variable.namespace.haskell - punctuation
---            ^ punctuation.accessor.dot.haskell - variable
---             ^^^^^^^ entity.name.namespace.haskell - punctuation
-   as
--- ^^^ meta.import.haskell
--- ^^ keyword.declaration.import.haskell
-   MutableVector
--- ^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^^^^^^^^^^^ entity.name.namespace.haskell
+    import
+--  ^^^^^^^ meta.import.haskell
+--  ^^^^^^ keyword.declaration.import.haskell
+    qualified
+--  ^^^^^^^^^^ meta.import.haskell
+--  ^^^^^^^^^ keyword.declaration.import.haskell
+    Data.Vector.Mutable
+--  ^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+--  ^^^^ variable.namespace.haskell - punctuation
+--      ^ punctuation.accessor.dot.haskell - variable
+--       ^^^^^^ variable.namespace.haskell - punctuation
+--             ^ punctuation.accessor.dot.haskell - variable
+--              ^^^^^^^ entity.name.namespace.haskell - punctuation
+    as
+--  ^^^ meta.import.haskell
+--  ^^ keyword.declaration.import.haskell
+    MutableVector
+--  ^^^^^^^^^^^^^^ meta.import.haskell
+--  ^^^^^^^^^^^^^ entity.name.namespace.haskell
 
-import Data.List.Split (splitOn)
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^ keyword.declaration.import.haskell
---     ^^^^ variable.namespace.haskell - punctuation
---         ^ punctuation.accessor.dot.haskell - variable
---          ^^^^ variable.namespace.haskell - punctuation
---              ^ punctuation.accessor.dot.haskell - variable
---               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^^^^^^ meta.sequence.tuple.haskell
---                     ^ punctuation.section.sequence.begin.haskell
---                      ^^^^^^^ variable.function.haskell
---                             ^ punctuation.section.sequence.end.haskell
+    import Data.List.Split (splitOn)
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+--  ^^^^^^ keyword.declaration.import.haskell
+--         ^^^^ variable.namespace.haskell - punctuation
+--             ^ punctuation.accessor.dot.haskell - variable
+--              ^^^^ variable.namespace.haskell - punctuation
+--                  ^ punctuation.accessor.dot.haskell - variable
+--                   ^^^^^ variable.namespace.haskell - punctuation
+--                         ^^^^^^^^^ meta.sequence.tuple.haskell
+--                         ^ punctuation.section.sequence.begin.haskell
+--                          ^^^^^^^ variable.function.haskell
+--                                 ^ punctuation.section.sequence.end.haskell
 
-import Data.List.Split (())
--- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^ keyword.declaration.import.haskell
---     ^^^^ variable.namespace.haskell - punctuation
---         ^ punctuation.accessor.dot.haskell - variable
---          ^^^^ variable.namespace.haskell - punctuation
---              ^ punctuation.accessor.dot.haskell - variable
---               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^ meta.sequence.tuple.haskell
---                     ^ punctuation.section.sequence.begin.haskell
---                      ^^ meta.other.unknown.haskell
---                        ^ punctuation.section.sequence.end.haskell
+    import Data.List.Split (())
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+--  ^^^^^^ keyword.declaration.import.haskell
+--         ^^^^ variable.namespace.haskell - punctuation
+--             ^ punctuation.accessor.dot.haskell - variable
+--              ^^^^ variable.namespace.haskell - punctuation
+--                  ^ punctuation.accessor.dot.haskell - variable
+--                   ^^^^^ variable.namespace.haskell - punctuation
+--                         ^^^^ meta.sequence.tuple.haskell
+--                         ^ punctuation.section.sequence.begin.haskell
+--                          ^^ meta.other.unknown.haskell
+--                            ^ punctuation.section.sequence.end.haskell
 
-import Data.List.Split (--
--- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^ keyword.declaration.import.haskell
---     ^^^^ variable.namespace.haskell - punctuation
---         ^ punctuation.accessor.dot.haskell - variable
---          ^^^^ variable.namespace.haskell - punctuation
---              ^ punctuation.accessor.dot.haskell - variable
---               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^^ meta.sequence.tuple.haskell
---                     ^ punctuation.section.sequence.begin.haskell
---                      ^^^ comment.line.double-dash.haskell
---                      ^^ punctuation.definition.comment.haskell
-                        )
---                      ^ punctuation.section.sequence.end.haskell
+    import Data.List.Split (--
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+--  ^^^^^^ keyword.declaration.import.haskell
+--         ^^^^ variable.namespace.haskell - punctuation
+--             ^ punctuation.accessor.dot.haskell - variable
+--              ^^^^ variable.namespace.haskell - punctuation
+--                  ^ punctuation.accessor.dot.haskell - variable
+--                   ^^^^^ variable.namespace.haskell - punctuation
+--                         ^^^^^ meta.sequence.tuple.haskell
+--                         ^ punctuation.section.sequence.begin.haskell
+--                          ^^^ comment.line.double-dash.haskell
+--                          ^^ punctuation.definition.comment.haskell
+                            )
+--                          ^ punctuation.section.sequence.end.haskell
 
-import Data.List.Split (--)
--- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^ keyword.declaration.import.haskell
---     ^^^^ variable.namespace.haskell - punctuation
---         ^ punctuation.accessor.dot.haskell - variable
---          ^^^^ variable.namespace.haskell - punctuation
---              ^ punctuation.accessor.dot.haskell - variable
---               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^^ meta.sequence.tuple.haskell
---                     ^ punctuation.section.sequence.begin.haskell
---                      ^^^^ comment.line.double-dash.haskell
---                      ^^ punctuation.definition.comment.haskell
-                        )
---                      ^ punctuation.section.sequence.end.haskell
+    import Data.List.Split (--)
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+--  ^^^^^^ keyword.declaration.import.haskell
+--         ^^^^ variable.namespace.haskell - punctuation
+--             ^ punctuation.accessor.dot.haskell - variable
+--              ^^^^ variable.namespace.haskell - punctuation
+--                  ^ punctuation.accessor.dot.haskell - variable
+--                   ^^^^^ variable.namespace.haskell - punctuation
+--                         ^^^^^ meta.sequence.tuple.haskell
+--                         ^ punctuation.section.sequence.begin.haskell
+--                          ^^^^ comment.line.double-dash.haskell
+--                          ^^ punctuation.definition.comment.haskell
+                            )
+--                          ^ punctuation.section.sequence.end.haskell
 
-import Data.List.Split ((--))
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^ keyword.declaration.import.haskell
---     ^^^^ variable.namespace.haskell - punctuation
---         ^ punctuation.accessor.dot.haskell - variable
---          ^^^^ variable.namespace.haskell - punctuation
---              ^ punctuation.accessor.dot.haskell - variable
---               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^^^^ meta.sequence.tuple.haskell
---                     ^ punctuation.section.sequence.begin.haskell
---                       ^^^^^ comment.line.double-dash.haskell
---                       ^^ punctuation.definition.comment.haskell
-                        )
---                      ^ punctuation.section.sequence.end.haskell
+    import Data.List.Split ((--))
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+--  ^^^^^^ keyword.declaration.import.haskell
+--         ^^^^ variable.namespace.haskell - punctuation
+--             ^ punctuation.accessor.dot.haskell - variable
+--              ^^^^ variable.namespace.haskell - punctuation
+--                  ^ punctuation.accessor.dot.haskell - variable
+--                   ^^^^^ variable.namespace.haskell - punctuation
+--                         ^^^^^^^ meta.sequence.tuple.haskell
+--                         ^ punctuation.section.sequence.begin.haskell
+--                           ^^^^^ comment.line.double-dash.haskell
+--                           ^^ punctuation.definition.comment.haskell
+                            )
+--                          ^ punctuation.section.sequence.end.haskell
 
-import Data.List.Split ((--])
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^ keyword.declaration.import.haskell
---     ^^^^ variable.namespace.haskell - punctuation
---         ^ punctuation.accessor.dot.haskell - variable
---          ^^^^ variable.namespace.haskell - punctuation
---              ^ punctuation.accessor.dot.haskell - variable
---               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^^^^ meta.sequence.tuple.haskell
---                     ^ punctuation.section.sequence.begin.haskell
---                       ^^^^^ comment.line.double-dash.haskell
---                       ^^ punctuation.definition.comment.haskell
-                        )
---                      ^ punctuation.section.sequence.end.haskell
+    import Data.List.Split ((--])
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+--  ^^^^^^ keyword.declaration.import.haskell
+--         ^^^^ variable.namespace.haskell - punctuation
+--             ^ punctuation.accessor.dot.haskell - variable
+--              ^^^^ variable.namespace.haskell - punctuation
+--                  ^ punctuation.accessor.dot.haskell - variable
+--                   ^^^^^ variable.namespace.haskell - punctuation
+--                         ^^^^^^^ meta.sequence.tuple.haskell
+--                         ^ punctuation.section.sequence.begin.haskell
+--                           ^^^^^ comment.line.double-dash.haskell
+--                           ^^ punctuation.definition.comment.haskell
+                            )
+--                          ^ punctuation.section.sequence.end.haskell
 
-import Data.List.Split ((--")
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
--- ^^^ keyword.declaration.import.haskell
---     ^^^^ variable.namespace.haskell - punctuation
---         ^ punctuation.accessor.dot.haskell - variable
---          ^^^^ variable.namespace.haskell - punctuation
---              ^ punctuation.accessor.dot.haskell - variable
---               ^^^^^ variable.namespace.haskell - punctuation
---                     ^^^^^^^ meta.sequence.tuple.haskell
---                     ^ punctuation.section.sequence.begin.haskell
---                       ^^^^^ comment.line.double-dash.haskell
---                       ^^ punctuation.definition.comment.haskell
-                        )
---                      ^ punctuation.section.sequence.end.haskell
+    import Data.List.Split ((--")
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.haskell
+--  ^^^^^^ keyword.declaration.import.haskell
+--         ^^^^ variable.namespace.haskell - punctuation
+--             ^ punctuation.accessor.dot.haskell - variable
+--              ^^^^ variable.namespace.haskell - punctuation
+--                  ^ punctuation.accessor.dot.haskell - variable
+--                   ^^^^^ variable.namespace.haskell - punctuation
+--                         ^^^^^^^ meta.sequence.tuple.haskell
+--                         ^ punctuation.section.sequence.begin.haskell
+--                           ^^^^^ comment.line.double-dash.haskell
+--                           ^^ punctuation.definition.comment.haskell
+                            )
+--                          ^ punctuation.section.sequence.end.haskell
 
 
 -- [ CLASS DECLARATIONS ] -----------------------------------------------------
 
-   class
--- ^^^^^^ meta.declaration.class.haskell
--- ^^^^^ keyword.declaration.class.haskell
+    class
+--  ^^^^^^ meta.declaration.class.haskell
+--  ^^^^^ keyword.declaration.class.haskell
 
-   class =>
--- ^^^^^^^^^ meta.declaration.class.haskell
--- ^^^^^ keyword.declaration.class.haskell
---       ^^ keyword.operator.big-arrow.haskell
+    class =>
+--  ^^^^^^^^^ meta.declaration.class.haskell
+--  ^^^^^ keyword.declaration.class.haskell
+--        ^^ keyword.operator.big-arrow.haskell
 
-   class QTyCls tyVar
--- ^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
--- ^^^^^ keyword.declaration.class.haskell
---       ^^^^^^ storage.type.haskell
---              ^^^^^ variable.other.generic-type.haskell
+    class QTyCls tyVar
+--  ^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
+--  ^^^^^ keyword.declaration.class.haskell
+--        ^^^^^^ storage.type.haskell
+--               ^^^^^ variable.other.generic-type.haskell
 
-   class ModId.QTyCls tyVar1, tyVar2
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
--- ^^^^^ keyword.declaration.class.haskell
---       ^^^^^ variable.namespace.haskell
---            ^ punctuation.accessor.dot.haskell
---             ^^^^^^ storage.type.haskell
---                    ^^^^^^ variable.other.generic-type.haskell
---                          ^ punctuation.separator.sequence.haskell
---                            ^^^^^^ variable.other.generic-type.haskell
+    class ModId.QTyCls tyVar1, tyVar2
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
+--  ^^^^^ keyword.declaration.class.haskell
+--        ^^^^^ variable.namespace.haskell
+--             ^ punctuation.accessor.dot.haskell
+--              ^^^^^^ storage.type.haskell
+--                     ^^^^^^ variable.other.generic-type.haskell
+--                           ^ punctuation.separator.sequence.haskell
+--                             ^^^^^^ variable.other.generic-type.haskell
 
-   class ModId.QTyCls tyVar1, tyVar2 =>
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
--- ^^^^^ keyword.declaration.class.haskell
---       ^^^^^ variable.namespace.haskell
---            ^ punctuation.accessor.dot.haskell
---             ^^^^^^ storage.type.haskell
---                    ^^^^^^ variable.other.generic-type.haskell
---                          ^ punctuation.separator.sequence.haskell
---                            ^^^^^^ variable.other.generic-type.haskell
---                                   ^^ keyword.operator.big-arrow.haskell
+    class ModId.QTyCls tyVar1, tyVar2 =>
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
+--  ^^^^^ keyword.declaration.class.haskell
+--        ^^^^^ variable.namespace.haskell
+--             ^ punctuation.accessor.dot.haskell
+--              ^^^^^^ storage.type.haskell
+--                     ^^^^^^ variable.other.generic-type.haskell
+--                           ^ punctuation.separator.sequence.haskell
+--                             ^^^^^^ variable.other.generic-type.haskell
+--                                    ^^ keyword.operator.big-arrow.haskell
 
-   class ModId.QTyCls tyVar1, tyVar2 => Traversable t
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
--- ^^^^^ keyword.declaration.class.haskell
---       ^^^^^ variable.namespace.haskell
---            ^ punctuation.accessor.dot.haskell
---             ^^^^^^ storage.type.haskell
---                    ^^^^^^ variable.other.generic-type.haskell
---                          ^ punctuation.separator.sequence.haskell
---                            ^^^^^^ variable.other.generic-type.haskell
---                                   ^^ keyword.operator.big-arrow.haskell
---                                      ^^^^^^^^^^^ support.class.prelude.haskell
---                                                  ^ variable.other.generic-type.haskell
+    class ModId.QTyCls tyVar1, tyVar2 => Traversable t
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
+--  ^^^^^ keyword.declaration.class.haskell
+--        ^^^^^ variable.namespace.haskell
+--             ^ punctuation.accessor.dot.haskell
+--              ^^^^^^ storage.type.haskell
+--                     ^^^^^^ variable.other.generic-type.haskell
+--                           ^ punctuation.separator.sequence.haskell
+--                             ^^^^^^ variable.other.generic-type.haskell
+--                                    ^^ keyword.operator.big-arrow.haskell
+--                                       ^^^^^^^^^^^ support.class.prelude.haskell
+--                                                   ^ variable.other.generic-type.haskell
 
-   class () =>
--- ^^^^^^^^^^^^ meta.declaration.class.haskell
--- ^^^^^ keyword.declaration.class.haskell
---       ^^ meta.sequence.tuple.haskell
---       ^ punctuation.section.sequence.begin.haskell
---        ^ punctuation.section.sequence.end.haskell
---          ^^ keyword.operator.big-arrow.haskell
+    class () =>
+--  ^^^^^^^^^^^^ meta.declaration.class.haskell
+--  ^^^^^ keyword.declaration.class.haskell
+--        ^^ meta.sequence.tuple.haskell
+--        ^ punctuation.section.sequence.begin.haskell
+--         ^ punctuation.section.sequence.end.haskell
+--           ^^ keyword.operator.big-arrow.haskell
 
-   class (Functor t, Foldable t) => Traversable t where
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
--- ^^^^^ keyword.declaration.class.haskell
---       ^ punctuation.section.sequence.begin.haskell
---        ^^^^^^^ support.class.prelude.haskell
---                ^ variable.other.generic-type.haskell
---                 ^ punctuation.separator.sequence.haskell
---                   ^^^^^^^^ storage.type.haskell
---                            ^ variable.other.generic-type.haskell
---                             ^ punctuation.section.sequence.end.haskell
---                               ^^ keyword.operator.big-arrow.haskell
---                                  ^^^^^^^^^^^ support.class.prelude.haskell
---                                              ^ variable.other.generic-type.haskell
---                                                ^^^^^ keyword.control.context.haskell
+    class (Functor t, Foldable t) => Traversable t where
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
+--  ^^^^^ keyword.declaration.class.haskell
+--        ^ punctuation.section.sequence.begin.haskell
+--         ^^^^^^^ support.class.prelude.haskell
+--                 ^ variable.other.generic-type.haskell
+--                  ^ punctuation.separator.sequence.haskell
+--                    ^^^^^^^^ storage.type.haskell
+--                             ^ variable.other.generic-type.haskell
+--                              ^ punctuation.section.sequence.end.haskell
+--                                ^^ keyword.operator.big-arrow.haskell
+--                                   ^^^^^^^^^^^ support.class.prelude.haskell
+--                                               ^ variable.other.generic-type.haskell
+--                                                 ^^^^^ keyword.control.context.haskell
 
 -- [ TYPE DECLARATIONS ] ------------------------------------------------------
 
-   type
--- ^^^^^ meta.declaration.type.haskell
--- ^^^^ keyword.declaration.type.haskell
+    type
+--  ^^^^^ meta.declaration.type.haskell
+--  ^^^^ keyword.declaration.type.haskell
 
-   type QTyCls tyVar
--- ^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
--- ^^^^ keyword.declaration.type.haskell
---      ^^^^^^ storage.type.haskell
---             ^^^^^ variable.other.generic-type.haskell
+    type QTyCls tyVar
+--  ^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--  ^^^^ keyword.declaration.type.haskell
+--       ^^^^^^ storage.type.haskell
+--              ^^^^^ variable.other.generic-type.haskell
 
-   type ModId.QTyCls tyVar1, tyVar2
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
--- ^^^^ keyword.declaration.type.haskell
---      ^^^^^ variable.namespace.haskell
---           ^ punctuation.accessor.dot.haskell
---            ^^^^^^ storage.type.haskell
---                   ^^^^^^ variable.other.generic-type.haskell
---                         ^ punctuation.separator.sequence.haskell
---                           ^^^^^^ variable.other.generic-type.haskell
+    type ModId.QTyCls tyVar1, tyVar2
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--  ^^^^ keyword.declaration.type.haskell
+--       ^^^^^ variable.namespace.haskell
+--            ^ punctuation.accessor.dot.haskell
+--             ^^^^^^ storage.type.haskell
+--                    ^^^^^^ variable.other.generic-type.haskell
+--                          ^ punctuation.separator.sequence.haskell
+--                            ^^^^^^ variable.other.generic-type.haskell
 
-   type ModId.QTyCls tyVar1, tyVar2 =
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
--- ^^^^ keyword.declaration.type.haskell
---      ^^^^^ variable.namespace.haskell
---           ^ punctuation.accessor.dot.haskell
---            ^^^^^^ storage.type.haskell
---                   ^^^^^^ variable.other.generic-type.haskell
---                         ^ punctuation.separator.sequence.haskell
---                           ^^^^^^ variable.other.generic-type.haskell
+    type ModId.QTyCls tyVar1, tyVar2 =
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--  ^^^^ keyword.declaration.type.haskell
+--       ^^^^^ variable.namespace.haskell
+--            ^ punctuation.accessor.dot.haskell
+--             ^^^^^^ storage.type.haskell
+--                    ^^^^^^ variable.other.generic-type.haskell
+--                          ^ punctuation.separator.sequence.haskell
+--                            ^^^^^^ variable.other.generic-type.haskell
 
-   type ModId.QTyCls tyVar1, tyVar2 deriving (Class1, QTyCls2)
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
--- ^^^^ keyword.declaration.type.haskell
---      ^^^^^ variable.namespace.haskell
---           ^ punctuation.accessor.dot.haskell
---            ^^^^^^ storage.type.haskell
---                   ^^^^^^ variable.other.generic-type.haskell
---                         ^ punctuation.separator.sequence.haskell
---                           ^^^^^^ variable.other.generic-type.haskell
---                                  ^^^^^^^^^ meta.deriving.haskell - meta.sequence
---                                           ^^^^^^^^^^^^^^^^^ meta.deriving.haskell meta.sequence.tuple.haskell
---                                  ^^^^^^^^ storage.modifier.haskell
---                                           ^ punctuation.section.sequence.begin.haskell
---                                            ^^^^^^ entity.other.inherited-class.haskell
---                                                  ^ punctuation.separator.sequence.haskell
---                                                    ^^^^^^^ entity.other.inherited-class.haskell
---                                                           ^ punctuation.section.sequence.end.haskell
+    type ModId.QTyCls tyVar1, tyVar2 deriving (Class1, QTyCls2)
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--  ^^^^ keyword.declaration.type.haskell
+--       ^^^^^ variable.namespace.haskell
+--            ^ punctuation.accessor.dot.haskell
+--             ^^^^^^ storage.type.haskell
+--                    ^^^^^^ variable.other.generic-type.haskell
+--                          ^ punctuation.separator.sequence.haskell
+--                            ^^^^^^ variable.other.generic-type.haskell
+--                                   ^^^^^^^^^ meta.deriving.haskell - meta.sequence
+--                                            ^^^^^^^^^^^^^^^^^ meta.deriving.haskell meta.sequence.tuple.haskell
+--                                   ^^^^^^^^ storage.modifier.haskell
+--                                            ^ punctuation.section.sequence.begin.haskell
+--                                             ^^^^^^ entity.other.inherited-class.haskell
+--                                                   ^ punctuation.separator.sequence.haskell
+--                                                     ^^^^^^^ entity.other.inherited-class.haskell
+--                                                            ^ punctuation.section.sequence.end.haskell
 
 
 -- [ NEWTYPE DECLARATIONS ] ---------------------------------------------------
 
-   newtype
--- ^^^^^^^^ meta.declaration.type.haskell
--- ^^^^^^^ keyword.declaration.type.haskell
+    newtype
+--  ^^^^^^^^ meta.declaration.type.haskell
+--  ^^^^^^^ keyword.declaration.type.haskell
 
-   newtype =
--- ^^^^^^^^ meta.declaration.type.haskell
--- ^^^^^^^ keyword.declaration.type.haskell
---         ^ keyword.operator.haskell
+    newtype =
+--  ^^^^^^^^ meta.declaration.type.haskell
+--  ^^^^^^^ keyword.declaration.type.haskell
+--          ^ keyword.operator.haskell
 
-   newtype =>
--- ^^^^^^^^^^^ meta.declaration.type.haskell
--- ^^^^^^^ keyword.declaration.type.haskell
---         ^^ keyword.operator.big-arrow.haskell
+    newtype =>
+--  ^^^^^^^^^^^ meta.declaration.type.haskell
+--  ^^^^^^^ keyword.declaration.type.haskell
+--          ^^ keyword.operator.big-arrow.haskell
 
-   newtype TypCls tyVar =>
--- ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
--- ^^^^^^^ keyword.declaration.type.haskell
---         ^^^^^^ storage.type.haskell
---                ^^^^^ variable.other.generic-type.haskell
---                      ^^ keyword.operator.big-arrow.haskell
+    newtype TypCls tyVar =>
+--  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--  ^^^^^^^ keyword.declaration.type.haskell
+--          ^^^^^^ storage.type.haskell
+--                 ^^^^^ variable.other.generic-type.haskell
+--                       ^^ keyword.operator.big-arrow.haskell
 
-   newtype () => ModId.QTyCls tyVar1, tyVar2 deriving (Class1, QTyCls2)
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
--- ^^^^ keyword.declaration.type.haskell
---         ^^ meta.sequence.tuple.haskell
---         ^ punctuation.section.sequence.begin.haskell
---          ^ punctuation.section.sequence.end.haskell
---            ^^ keyword.operator.big-arrow.haskell
---               ^^^^^ variable.namespace.haskell
---                    ^ punctuation.accessor.dot.haskell
---                     ^^^^^^ storage.type.haskell
---                            ^^^^^^ variable.other.generic-type.haskell
---                                  ^ punctuation.separator.sequence.haskell
---                                    ^^^^^^ variable.other.generic-type.haskell
---                                           ^^^^^^^^^ meta.deriving.haskell - meta.sequence
---                                                    ^^^^^^^^^^^^^^^^^ meta.deriving.haskell meta.sequence.tuple.haskell
---                                           ^^^^^^^^ storage.modifier.haskell
---                                                    ^ punctuation.section.sequence.begin.haskell
---                                                     ^^^^^^ entity.other.inherited-class.haskell
---                                                           ^ punctuation.separator.sequence.haskell
---                                                             ^^^^^^^ entity.other.inherited-class.haskell
---                                                                    ^ punctuation.section.sequence.end.haskell
+    newtype () => ModId.QTyCls tyVar1, tyVar2 deriving (Class1, QTyCls2)
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--  ^^^^ keyword.declaration.type.haskell
+--          ^^ meta.sequence.tuple.haskell
+--          ^ punctuation.section.sequence.begin.haskell
+--           ^ punctuation.section.sequence.end.haskell
+--             ^^ keyword.operator.big-arrow.haskell
+--                ^^^^^ variable.namespace.haskell
+--                     ^ punctuation.accessor.dot.haskell
+--                      ^^^^^^ storage.type.haskell
+--                             ^^^^^^ variable.other.generic-type.haskell
+--                                   ^ punctuation.separator.sequence.haskell
+--                                     ^^^^^^ variable.other.generic-type.haskell
+--                                            ^^^^^^^^^ meta.deriving.haskell - meta.sequence
+--                                                     ^^^^^^^^^^^^^^^^^ meta.deriving.haskell meta.sequence.tuple.haskell
+--                                            ^^^^^^^^ storage.modifier.haskell
+--                                                     ^ punctuation.section.sequence.begin.haskell
+--                                                      ^^^^^^ entity.other.inherited-class.haskell
+--                                                            ^ punctuation.separator.sequence.haskell
+--                                                              ^^^^^^^ entity.other.inherited-class.haskell
+--                                                                     ^ punctuation.section.sequence.end.haskell
 
 
 -- [ DECLARATIONS ] -----------------------------------------------------------
