@@ -704,6 +704,16 @@ import Data.List.Split ((--")
 --        ^ meta.name.haskell
 --         ^ - meta.name
 
+    T.a
+--  ^ variable.namespace.haskell
+--   ^ punctuation.accessor.dot.haskell
+--    ^ meta.name.haskell
+
+    T . a
+--  ^ constant.other.haskell
+--    ^ keyword.operator.haskell
+--      ^ meta.name.haskell
+
     map (flip (/)) [1..]
 --  ^^^ support.function.prelude.haskell
 --       ^^^^ meta.group.haskell support.function.prelude.haskell

@@ -135,6 +135,7 @@ contexts:
     - include: keywords
     - include: ident-builtin-functions
     - include: ident-anonymous
+    - include: ident-namespaces
     - include: ident-constants
     - include: ident-variables
 
