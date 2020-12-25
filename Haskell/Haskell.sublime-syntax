@@ -535,6 +535,60 @@ contexts:
     - include: sequence-separators
     - include: expressions
 
+###[ IDENTIFIERS ]#############################################################
+
+  ident-builtin-classes:
+    - match: '{{class_names}}'
+      scope: support.class.prelude.haskell
+
+  ident-inherited-classes:
+    - include: ident-builtin-classes
+    - match: '{{con_id}}'
+      scope: entity.other.inherited-class.haskell
+
+  ident-inherited-class:
+    - match: '{{class_names}}'
+      scope: support.class.prelude.haskell
+      pop: 1
+    - match: '{{con_id}}'
+      scope: entity.other.inherited-class.haskell
+      pop: 1
+
+  ident-generic-types:
+    - match: '{{var_id}}'
+      scope: variable.other.generic-type.haskell
+
+  ident-namespaces:
+    - match: ({{con_id}})(\.)
+      captures:
+        1: variable.namespace.haskell
+        2: punctuation.accessor.dot.haskell
+
+  ident-types:
+    - include: ident-builtin-classes
+    - match: '{{con_id}}'
+      scope: storage.type.haskell
+
+  ident-constants:
+    - match: '{{con_id}}'
+      scope: constant.other.haskell
+
+  ident-builtin-functions:
+    - match: '{{function_names}}'
+      scope: support.function.prelude.haskell
+
+  ident-functions:
+    - match: '{{var_id}}'
+      scope: variable.function.haskell
+
+  ident-anonymous:
+    - match: _{{break}}
+      scope: variable.language.anonymous.haskell
+
+  ident-variables:
+    - match: '{{var_id}}'
+      scope: meta.name.haskell
+
 ###[ LITERALS ]################################################################
 
   literal-numbers:
@@ -690,60 +744,6 @@ contexts:
           pop: 1
         - match: .*
           scope: string.quasiquoted.haskell
-
-###[ IDENTIFIERS ]#############################################################
-
-  ident-builtin-classes:
-    - match: '{{class_names}}'
-      scope: support.class.prelude.haskell
-
-  ident-inherited-classes:
-    - include: ident-builtin-classes
-    - match: '{{con_id}}'
-      scope: entity.other.inherited-class.haskell
-
-  ident-inherited-class:
-    - match: '{{class_names}}'
-      scope: support.class.prelude.haskell
-      pop: 1
-    - match: '{{con_id}}'
-      scope: entity.other.inherited-class.haskell
-      pop: 1
-
-  ident-generic-types:
-    - match: '{{var_id}}'
-      scope: variable.other.generic-type.haskell
-
-  ident-namespaces:
-    - match: ({{con_id}})(\.)
-      captures:
-        1: variable.namespace.haskell
-        2: punctuation.accessor.dot.haskell
-
-  ident-types:
-    - include: ident-builtin-classes
-    - match: '{{con_id}}'
-      scope: storage.type.haskell
-
-  ident-constants:
-    - match: '{{con_id}}'
-      scope: constant.other.haskell
-
-  ident-builtin-functions:
-    - match: '{{function_names}}'
-      scope: support.function.prelude.haskell
-
-  ident-functions:
-    - match: '{{var_id}}'
-      scope: variable.function.haskell
-
-  ident-anonymous:
-    - match: _{{break}}
-      scope: variable.language.anonymous.haskell
-
-  ident-variables:
-    - match: '{{var_id}}'
-      scope: meta.name.haskell
 
 ###[ PROTOTYPES ]##############################################################
 

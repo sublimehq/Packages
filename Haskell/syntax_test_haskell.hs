@@ -895,54 +895,6 @@
    countTheBeforeVowel = undefined
 
 
--- [ IDENTS ] -----------------------------------------------------------------
-
-    _
---  ^ variable.language.anonymous.haskell
-
-    a
---  ^ meta.name.haskell
-
-    _a
---  ^^ meta.name.haskell
-
-    _'
---  ^^ meta.name.haskell
-
-    a'
---  ^^ meta.name.haskell
-
-    _a'b'c_D'0123456789'
---  ^^^^^^^^^^^^^^^^^^^^ meta.name.haskell
-
-    genericIdent
---  ^^^^^^^^^^^^ meta.name.haskell
-
-    ý ĳ ǚ ǣ
---  ^ meta.name.haskell
---   ^ - meta.name
---    ^ meta.name.haskell
---     ^ - meta.name
---      ^ meta.name.haskell
---       ^ - meta.name
---        ^ meta.name.haskell
---         ^ - meta.name
-
-    T.a
---  ^ variable.namespace.haskell
---   ^ punctuation.accessor.dot.haskell
---    ^ meta.name.haskell
-
-    T . a
---  ^ constant.other.haskell
---    ^ keyword.operator.haskell
---      ^ meta.name.haskell
-
-    map (flip (/)) [1..]
---  ^^^ support.function.prelude.haskell
---       ^^^^ meta.group.haskell support.function.prelude.haskell
-
-
 -- [ KEYWORDS ] ---------------------------------------------------------------
 
    deriving instance FromJSON Amount
@@ -1157,6 +1109,54 @@ main = do
 --  ^^^^^^^ meta.group.haskell
 --  ^ punctuation.section.group.begin.haskell
 --        ^ punctuation.section.group.end.haskell
+
+
+-- [ IDENTS ] -----------------------------------------------------------------
+
+    _
+--  ^ variable.language.anonymous.haskell
+
+    a
+--  ^ meta.name.haskell
+
+    _a
+--  ^^ meta.name.haskell
+
+    _'
+--  ^^ meta.name.haskell
+
+    a'
+--  ^^ meta.name.haskell
+
+    _a'b'c_D'0123456789'
+--  ^^^^^^^^^^^^^^^^^^^^ meta.name.haskell
+
+    genericIdent
+--  ^^^^^^^^^^^^ meta.name.haskell
+
+    ý ĳ ǚ ǣ
+--  ^ meta.name.haskell
+--   ^ - meta.name
+--    ^ meta.name.haskell
+--     ^ - meta.name
+--      ^ meta.name.haskell
+--       ^ - meta.name
+--        ^ meta.name.haskell
+--         ^ - meta.name
+
+    T.a
+--  ^ variable.namespace.haskell
+--   ^ punctuation.accessor.dot.haskell
+--    ^ meta.name.haskell
+
+    T . a
+--  ^ constant.other.haskell
+--    ^ keyword.operator.haskell
+--      ^ meta.name.haskell
+
+    map (flip (/)) [1..]
+--  ^^^ support.function.prelude.haskell
+--       ^^^^ meta.group.haskell support.function.prelude.haskell
 
 
 -- [ LITERAL NUMBERS ] --------------------------------------------------------
