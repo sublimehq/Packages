@@ -12,12 +12,19 @@ file_extensions:
 ###############################################################################
 
 variables:
+  # 2.2 Lexical Program Structure
+  # https://www.haskell.org/onlinereport/haskell2010/haskellch2.html#x7-160002.2
+  special: '[(),;\[\]`{}]'
+  symbol: '[\p{S}\p{P}&&[^_"''{{special}}]]'
+  ascii_symbol: '[!#$%&⋆+./<=>?@\\\^|\-~:]'
+  unicode_symbol: '[[:punct:]&&[^:ascii:]]'
+
   # 2.3 Comments
   # https://www.haskell.org/onlinereport/haskell2010/haskellch2.html#x7-170002.3
   no_comment_ahead: '(?!{{comment_begin}})'
   comment_ahead: '(?={{comment_begin}})'
   comment_begin: '--+(?:{{comment_first_char}}|$)'
-  comment_first_char: '[ \t\w"''(),;\[\]`{}]'
+  comment_first_char: '[\s\w"''{{special}}]'
 
   # 2.4 Identifiers and Operators
   # https://www.haskell.org/onlinereport/haskell2010/haskellch2.html#x7-180002.4
@@ -31,13 +38,16 @@ variables:
     ){{break}}
   break: (?![\w'])
 
-  # In case this regex seems overly general,
-  # note that Haskell permits the definition of new operators
-  # which can be nearly any string of punctuation characters,
-  # such as $%^&*.
-  operator_char: '[*|!%&$@#?~+:\-.=</>\\''\^]'
-  operator_infix: '{{operator_char}}+'
-  operator_parens: (?:{{no_comment_ahead}}{{operator_infix}})
+  # In case this regex seems overly general, note that Haskell permits
+  # the definition of new operators which can be nearly any string
+  # of punctuation characters, such as $%^&*.
+  operator_symbol: (?:{{symbol}}+)
+  operator_parens: (?:{{no_comment_ahead}}{{operator_symbol}})
+
+  varsym: (?:[{{symbol}}&&[^:]]{{symbol}}*)
+  consym: (?:(?!{{reserved_op}})[:]{{symbol}}*)
+  reserved_op: |-
+    (?x: .. | :: | : | \\ | \| | <- | -> | @ | ~ | => | = )(?!{{symbol}})
 
   # 2.6 Character and String Literals
   # https://www.haskell.org/onlinereport/haskell2010/haskellch2.html#x7-200002.6
@@ -483,7 +493,6 @@ contexts:
   list-body:
     - meta_scope: meta.sequence.list.haskell
     - include: list-end
-    - include: sequence-separators
     - include: expressions
 
   groups-or-tuples:
@@ -514,10 +523,10 @@ contexts:
 
   group-body:
     - meta_scope: meta.group.haskell
+    - match: ',|:(?!{{symbol}})'
+      fail: groups-or-tuples
     - include: group-end
     - include: expressions
-    - match: ','
-      fail: groups-or-tuples
 
   tuple:
     - match: \(
@@ -532,7 +541,6 @@ contexts:
   tuple-body:
     - meta_scope: meta.sequence.tuple.haskell
     - include: tuple-end
-    - include: sequence-separators
     - include: expressions
 
 ###[ IDENTIFIERS ]#############################################################
@@ -668,6 +676,8 @@ contexts:
       scope: keyword.control.flow.return.haskell
 
   operators:
+    - include: infix-parens-operators
+    - include: sequence-separators
     - match: (`)[ \w'.]+(`)
       # Haskell allows any ordinary function application (elem 4 [1..10])
       # to be rewritten as an infix expression (4 `elem` [1..10])."
@@ -675,13 +685,14 @@ contexts:
       captures:
         1: punctuation.definition.function.begin.haskell
         2: punctuation.definition.function.end.haskell
-    - match: (`)[^`]*?(?:(`)|{{comment_ahead}})
-      scope: invalid.illegal.operator.haskell
     - match: infix[lr]?{{break}}
       scope: keyword.operator.haskell
-    - match: '{{operator_infix}}'
+    # Match all not otherwise matched single quotes as promoition operator
+    # Note: Found in real world code but not in specs so far.
+    - match: \'
       scope: keyword.operator.haskell
-    - include: infix-parens-operators
+    - match: '{{operator_symbol}}'
+      scope: keyword.operator.haskell
 
   arrow-operators:
     - match: (?:->|→)
@@ -692,7 +703,7 @@ contexts:
       scope: keyword.operator.big-arrow.haskell
 
   infix-parens-operators:
-    - match: \(({{operator_parens}})\)
+    - match: \(\s*({{operator_parens}})\s*\)
       scope: variable.function.infix.haskell
       captures:
         1: keyword.operator.haskell

@@ -95,11 +95,7 @@
 --  ^^^ - comment
     --.
 --  ^^^ - comment
-    --.
---  ^^^ - comment
     --/
---  ^^^ - comment
-    --:
 --  ^^^ - comment
     --<
 --  ^^^ - comment
@@ -111,15 +107,13 @@
 --  ^^^ - comment
     --\
 --  ^^^ - comment
-    --\
---  ^^^ - comment
     --^
 --  ^^^ - comment
     --|
 --  ^^^ - comment
     --~
 --  ^^^ - comment
-    --~
+    --:
 --  ^^^ - comment
 
 
@@ -764,6 +758,43 @@
 --                                                     ^^^^^^^ entity.other.inherited-class.haskell
 --                                                            ^ punctuation.section.sequence.end.haskell
 
+    type CmdRoute =
+--  ^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--  ^^^^ keyword.declaration.type.haskell
+--       ^^^^^^^^ storage.type.haskell
+--                ^ keyword.operator.haskell
+      ( ReqBody '[JSON] CmdDto :> PostCreated '[JSON] NoContent
+--    ^^^^^^^^^^^ meta.group.haskell - meta.sequence
+--               ^^^^^^ meta.group.haskell meta.sequence.list.haskell
+--                     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.haskell - meta.sequence
+--                                             ^^^^^^ meta.group.haskell meta.sequence.list.haskell
+--                                                   ^^^^^^^^^^^ meta.group.haskell - meta.sequence
+--    ^ punctuation.section.group.begin.haskell
+--              ^ keyword.operator.haskell
+--               ^ punctuation.section.sequence.begin.haskell
+--                    ^ punctuation.section.sequence.end.haskell
+--                             ^^ keyword.operator.haskell
+--                                            ^ keyword.operator.haskell
+--                                             ^ punctuation.section.sequence.begin.haskell
+--                                                  ^ punctuation.section.sequence.end.haskell
+        :<|> Capture "id" Text :> ReqBody '[JSON] CmdDto :> Put '[JSON] NoContent
+--      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.haskell - meta.sequence
+--                                         ^^^^^^ meta.group.haskell meta.sequence.list.haskell
+--                                               ^^^^^^^^^^^^^^^^ meta.group.haskell - meta.sequence
+--                                                               ^^^^^^ meta.group.haskell meta.sequence.list.haskell
+--                                                                     ^^^^^^^^^^^ meta.group.haskell - meta.sequence
+--      ^^^^ keyword.operator.haskell
+--                             ^^ keyword.operator.haskell
+--                                        ^ keyword.operator.haskell
+--                                         ^ punctuation.section.sequence.begin.haskell
+--                                              ^ punctuation.section.sequence.end.haskell
+--                                                       ^^ keyword.operator.haskell
+--                                                              ^ keyword.operator.haskell
+--                                                               ^ punctuation.section.sequence.begin.haskell
+--                                                                    ^ punctuation.section.sequence.end.haskell
+      )
+--    ^ meta.group.haskell punctuation.section.group.end.haskell
+
 
 -- [ NEWTYPE DECLARATIONS ] ---------------------------------------------------
 
@@ -1104,6 +1135,34 @@ main = do
 --         ^ punctuation.separator.sequence.haskell
 --          ^ keyword.operator.haskell
 --           ^ punctuation.section.sequence.end.haskell
+
+    ('<':'b':'r':_)
+--  ^^^^^^^^^^^^^^^ meta.sequence.tuple.haskell
+--  ^ punctuation.section.sequence.begin.haskell
+--   ^^^ string.quoted.single.haskell
+--      ^ keyword.operator.haskell
+--       ^^^ string.quoted.single.haskell
+--          ^ keyword.operator.haskell
+--           ^^^ string.quoted.single.haskell
+--              ^ keyword.operator.haskell
+--               ^ variable.language.anonymous.haskell
+--                ^ punctuation.section.sequence.end.haskell
+
+    (():(,):[]:[,]:{}:``)
+--  ^^^^^^^^^^^^^^^^^^^^^ meta.sequence.tuple.haskell
+--  ^ punctuation.section.sequence.begin.haskell
+--   ^^ - keyword
+--     ^ keyword.operator.haskell
+--      ^^^ - keyword
+--         ^ keyword.operator.haskell
+--          ^^ - keyword
+--            ^ keyword.operator.haskell
+--             ^^^ - keyword
+--                ^ keyword.operator.haskell
+--                 ^^ - keyword
+--                   ^ keyword.operator.haskell
+--                    ^^ - keyword
+--                      ^ punctuation.section.sequence.end.haskell
 
     (group)
 --  ^^^^^^^ meta.group.haskell
@@ -1579,25 +1638,114 @@ main = do
 
 -- [ INFIX OPERATORS ] --------------------------------------------------------
 
-    .. : :: = \ <- | -> @ ~ =>
+    ! # $ % & ⋆ + . / < = > ? @ \ ^ | - ~ :  -- ascii symbols
+-- ^ - keyword
+--  ^ keyword.operator.haskell
+--   ^ - keyword
+--    ^ keyword.operator.haskell
+--     ^ - keyword
+--      ^ keyword.operator.haskell
+--       ^ - keyword
+--        ^ keyword.operator.haskell
+--         ^ - keyword
+--          ^ keyword.operator.haskell
+--           ^ - keyword
+--            ^ keyword.operator.haskell
+--             ^ - keyword
+--              ^ keyword.operator.haskell
+--               ^ - keyword
+--                ^ keyword.operator.haskell
+--                 ^ - keyword
+--                  ^ keyword.operator.haskell
+--                   ^ - keyword
+--                    ^ keyword.operator.haskell
+--                     ^ - keyword
+--                      ^ keyword.operator.haskell
+--                       ^ - keyword
+--                        ^ keyword.operator.haskell
+--                         ^ - keyword
+--                          ^ keyword.operator.haskell
+--                           ^ - keyword
+--                            ^ keyword.operator.haskell
+--                             ^ - keyword
+--                              ^ keyword.operator.haskell
+--                               ^ - keyword
+--                                ^ keyword.operator.haskell
+--                                 ^ - keyword
+--                                  ^ keyword.operator.haskell
+--                                   ^ - keyword
+--                                    ^ keyword.operator.haskell
+--                                     ^ - keyword
+--                                      ^ keyword.operator.haskell
+--                                       ^ - keyword
+--                                        ^ keyword.operator.haskell
+--                                         ^ - keyword
+
+    .. : :: = \ <- | -> @ ~ =>  -- reserved operators
+--  ^^ keyword.operator.haskell
+--     ^ keyword.operator.haskell
+--       ^^ keyword.operator.double-colon.haskell
+--          ^ keyword.operator.haskell
+--            ^ keyword.operator.haskell
+--              ^^ keyword.operator.haskell
+--                 ^ keyword.operator.haskell
+--                   ^^ keyword.operator.haskell
+--                      ^ keyword.operator.haskell
+--                        ^ keyword.operator.haskell
+--                          ^^ keyword.operator.haskell
+
+    ( ) , ; [ ] ` { }  -- special symbols
+--  ^^^^^^^^^^^^^^^^^ - keyword
+--  ^ punctuation.section.sequence.begin.haskell
+--    ^ punctuation.section.sequence.end.haskell
+--      ^ punctuation.separator.sequence.haskell
+--        ^ punctuation.terminator.statement.haskell
+--          ^ punctuation.section.sequence.begin.haskell
+--            ^ punctuation.section.sequence.end.haskell
+--                ^ punctuation.section.block.begin.haskell
+--                  ^ punctuation.section.block.end.haskell
 
     a a = (+) a 2
 --      ^ keyword.operator.haskell
 --        ^^^ variable.function.infix.haskell
 --         ^ keyword.operator.haskell
 --              ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+
+    a a = ( + ) a 2
+--      ^ keyword.operator.haskell
+--        ^^^^^ variable.function.infix.haskell
+--          ^ keyword.operator.haskell
+--                ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+
     a a = (-) a 2
 --      ^ keyword.operator.haskell
 --        ^^^ variable.function.infix.haskell
 --              ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+
+    a a = ( - ) a 2
+--      ^ keyword.operator.haskell
+--        ^^^^^ variable.function.infix.haskell
+--                ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+
     a a = (*) a 2
 --      ^ keyword.operator.haskell
 --        ^^^ variable.function.infix.haskell
 --              ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+
+    a a = ( * ) a 2
+--      ^ keyword.operator.haskell
+--        ^^^^^ variable.function.infix.haskell
+--                ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+
     a a = (/) a 2
 --      ^ keyword.operator.haskell
 --        ^^^ variable.function.infix.haskell
 --              ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+
+    a a = ( / ) a 2
+--      ^ keyword.operator.haskell
+--        ^^^^^ variable.function.infix.haskell
+--                ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
 
     a a = (--) a 2
 --      ^ keyword.operator.haskell
@@ -1619,6 +1767,7 @@ main = do
 --    ^^^^^^^^ keyword.operator.function.infix.haskell
 --    ^ punctuation.definition.function.begin.haskell
 --           ^ punctuation.definition.function.end.haskell
+
     a `P.atan2` x
 --    ^^^^^^^^^ keyword.operator.function.infix.haskell
 --    ^ punctuation.definition.function.begin.haskell
@@ -1644,11 +1793,11 @@ main = do
 --       ^ punctuation.definition.function.end.haskell
 
     a `--` b
---    ^ invalid.illegal.operator.haskell
+--    ^ - illegal - keyword - operator - punctuation
 --     ^^^^^^ comment.line.double-dash.haskell
 
     a `
---    ^ - keyword - operator - punctuation
+--    ^ - illegal - keyword - operator - punctuation
 
 
 -- [ INFIX OPERATORS IN CONTEXT ]----------------------------------------------
@@ -1674,3 +1823,4 @@ myManageHook = composeAll
   , return True                --> doShift "1"
 --                             ^^^ keyword.operator
   ]
+
