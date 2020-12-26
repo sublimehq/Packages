@@ -1847,6 +1847,19 @@ if test expr -a expr ; then echo "success"; fi
 #                                         ^ punctuation.terminator.statement.shell
 #                                           ^^ keyword.control.conditional.end.shell
 
+if test "$VAR" != ";";then;fi
+# ^ - meta.function-call
+#  ^^^^ meta.function-call.identifier.shell support.function.test.shell
+#      ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
+#       ^^^^^^ meta.string.shell
+#              ^^ keyword.operator.comparison.shell
+#                 ^^^ meta.string.shell string.quoted.double.shell
+#                    ^^^^^^^^ - meta.function-call
+#                    ^ punctuation.terminator.statement.shell
+#                     ^^^^ keyword.control.conditional.then.shell
+#                         ^ punctuation.terminator.statement.shell
+#                          ^^ keyword.control.conditional.end.shell
+
 let test -z $2 && { }
 #^^ meta.function-call.identifier.shell support.function.let.shell
 #  ^ meta.function-call.arguments.shell - meta.function-call mete.function-call
@@ -4227,6 +4240,17 @@ if [[ $- != *i* ]] ; then echo shell is not interactive; fi
 #                         ^^^^ support.function.echo.shell
 #                                                      ^ punctuation.terminator.statement.shell
 #                                                        ^^ keyword.control.conditional.end.shell
+
+if [[ "$ERL_TOP" != ";"; ]];then;fi
+#^ keyword.control.conditional.if.shell
+#  ^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.shell
+#  ^^^^^^^^^^^^^^^^^ - meta.pattern
+#                   ^^^^ meta.pattern.regexp.shell
+#                       ^^^ - meta.pattern
+#                          ^ punctuation.terminator.statement.shell
+#                           ^^^^ keyword.control.conditional.then.shell
+#                               ^ punctuation.terminator.statement.shell
+#                                ^^ keyword.control.conditional.end.shell
 
 if [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; then PLATFORM=docker; fi
 #^ keyword.control.conditional.if
