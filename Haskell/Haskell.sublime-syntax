@@ -622,7 +622,7 @@ contexts:
   literal-chars:
     # 2.6 Character and String Literals
     # https://www.haskell.org/onlinereport/haskell2010/haskellch2.html#x7-200002.6
-    - match: (')(?:([\ -\[\]-~])|{{escape_sequence}})(?:(')|{{comment_ahead}})
+    - match: (')(?:([ [\S&&[^\\'']]])|{{escape_sequence}})?(?:(')|{{comment_ahead}})
       scope: meta.string.haskell string.quoted.single.haskell
       captures:
         1: punctuation.definition.string.begin.haskell

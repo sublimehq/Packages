@@ -1265,6 +1265,16 @@ main = do
 
 -- [ LITERAL CHARACTERS ] -----------------------------------------------------
 
+    ''.' '
+--  ^^ meta.string.haskell string.quoted.single.haskell
+--  ^ punctuation.definition.string.begin.haskell
+--   ^ punctuation.definition.string.end.haskell
+--    ^ keyword.operator.haskell
+--     ^^^ meta.string.haskell string.quoted.single.haskell
+--     ^ punctuation.definition.string.begin.haskell
+--      ^ constant.character.literal.haskell
+--       ^ punctuation.definition.string.end.haskell
+
     'a--'
 --  ^^ meta.string.haskell string.quoted.single.haskell - comment
 --  ^ punctuation.definition.string.begin.haskell
@@ -1284,11 +1294,321 @@ main = do
 --   ^ constant.character.literal.haskell
 --    ^ punctuation.definition.string.end.haskell
 
-    '?'   -- literal symbol character
+    '!'.'#'.'$'.'%'.'&'.'⋆'.'+'.'.'.'/'.'<' -- ascii symbols
 --  ^^^ meta.string.haskell string.quoted.single.haskell
 --  ^ punctuation.definition.string.begin.haskell
 --   ^ constant.character.literal.haskell
 --    ^ punctuation.definition.string.end.haskell
+--     ^ keyword.operator.haskell
+--      ^^^ meta.string.haskell string.quoted.single.haskell
+--      ^ punctuation.definition.string.begin.haskell
+--       ^ constant.character.literal.haskell
+--        ^ punctuation.definition.string.end.haskell
+--         ^ keyword.operator.haskell
+--          ^^^ meta.string.haskell string.quoted.single.haskell
+--          ^ punctuation.definition.string.begin.haskell
+--           ^ constant.character.literal.haskell
+--            ^ punctuation.definition.string.end.haskell
+--             ^ keyword.operator.haskell
+--              ^^^ meta.string.haskell string.quoted.single.haskell
+--              ^ punctuation.definition.string.begin.haskell
+--               ^ constant.character.literal.haskell
+--                ^ punctuation.definition.string.end.haskell
+--                 ^ keyword.operator.haskell
+--                  ^^^ meta.string.haskell string.quoted.single.haskell
+--                  ^ punctuation.definition.string.begin.haskell
+--                   ^ constant.character.literal.haskell
+--                    ^ punctuation.definition.string.end.haskell
+--                     ^ keyword.operator.haskell
+--                      ^^^ meta.string.haskell string.quoted.single.haskell
+--                      ^ punctuation.definition.string.begin.haskell
+--                       ^ constant.character.literal.haskell
+--                        ^ punctuation.definition.string.end.haskell
+--                         ^ keyword.operator.haskell
+--                          ^^^ meta.string.haskell string.quoted.single.haskell
+--                          ^ punctuation.definition.string.begin.haskell
+--                           ^ constant.character.literal.haskell
+--                            ^ punctuation.definition.string.end.haskell
+--                             ^ keyword.operator.haskell
+--                              ^^^ meta.string.haskell string.quoted.single.haskell
+--                              ^ punctuation.definition.string.begin.haskell
+--                               ^ constant.character.literal.haskell
+--                                ^ punctuation.definition.string.end.haskell
+--                                 ^ keyword.operator.haskell
+--                                  ^^^ meta.string.haskell string.quoted.single.haskell
+--                                  ^ punctuation.definition.string.begin.haskell
+--                                   ^ constant.character.literal.haskell
+--                                    ^ punctuation.definition.string.end.haskell
+--                                     ^ keyword.operator.haskell
+--                                      ^^^ meta.string.haskell string.quoted.single.haskell
+--                                      ^ punctuation.definition.string.begin.haskell
+--                                       ^ constant.character.literal.haskell
+--                                        ^ punctuation.definition.string.end.haskell
+
+    '='.'>'.'?'.'@'.'^'.'|'.'-'.'~'.':' -- ascii symbols
+--  ^^^ meta.string.haskell string.quoted.single.haskell
+--  ^ punctuation.definition.string.begin.haskell
+--   ^ constant.character.literal.haskell
+--    ^ punctuation.definition.string.end.haskell
+--     ^ keyword.operator.haskell
+--      ^^^ meta.string.haskell string.quoted.single.haskell
+--      ^ punctuation.definition.string.begin.haskell
+--       ^ constant.character.literal.haskell
+--        ^ punctuation.definition.string.end.haskell
+--         ^ keyword.operator.haskell
+--          ^^^ meta.string.haskell string.quoted.single.haskell
+--          ^ punctuation.definition.string.begin.haskell
+--           ^ constant.character.literal.haskell
+--            ^ punctuation.definition.string.end.haskell
+--             ^ keyword.operator.haskell
+--              ^^^ meta.string.haskell string.quoted.single.haskell
+--              ^ punctuation.definition.string.begin.haskell
+--               ^ constant.character.literal.haskell
+--                ^ punctuation.definition.string.end.haskell
+--                 ^ keyword.operator.haskell
+--                  ^^^ meta.string.haskell string.quoted.single.haskell
+--                  ^ punctuation.definition.string.begin.haskell
+--                   ^ constant.character.literal.haskell
+--                    ^ punctuation.definition.string.end.haskell
+--                     ^ keyword.operator.haskell
+--                      ^^^ meta.string.haskell string.quoted.single.haskell
+--                      ^ punctuation.definition.string.begin.haskell
+--                       ^ constant.character.literal.haskell
+--                        ^ punctuation.definition.string.end.haskell
+--                         ^ keyword.operator.haskell
+--                          ^^^ meta.string.haskell string.quoted.single.haskell
+--                          ^ punctuation.definition.string.begin.haskell
+--                           ^ constant.character.literal.haskell
+--                            ^ punctuation.definition.string.end.haskell
+--                             ^ keyword.operator.haskell
+--                              ^^^ meta.string.haskell string.quoted.single.haskell
+--                              ^ punctuation.definition.string.begin.haskell
+--                               ^ constant.character.literal.haskell
+--                                ^ punctuation.definition.string.end.haskell
+--                                 ^ keyword.operator.haskell
+--                                  ^^^ meta.string.haskell string.quoted.single.haskell
+--                                  ^ punctuation.definition.string.begin.haskell
+--                                   ^ constant.character.literal.haskell
+--                                    ^ punctuation.definition.string.end.haskell
+
+    '('.')'.','.';'.'['.']'.'`'.'{'.'}' -- special symbols
+--  ^^^ meta.string.haskell string.quoted.single.haskell
+--  ^ punctuation.definition.string.begin.haskell
+--   ^ constant.character.literal.haskell
+--    ^ punctuation.definition.string.end.haskell
+--     ^ keyword.operator.haskell
+--      ^^^ meta.string.haskell string.quoted.single.haskell
+--      ^ punctuation.definition.string.begin.haskell
+--       ^ constant.character.literal.haskell
+--        ^ punctuation.definition.string.end.haskell
+--         ^ keyword.operator.haskell
+--          ^^^ meta.string.haskell string.quoted.single.haskell
+--          ^ punctuation.definition.string.begin.haskell
+--           ^ constant.character.literal.haskell
+--            ^ punctuation.definition.string.end.haskell
+--             ^ keyword.operator.haskell
+--              ^^^ meta.string.haskell string.quoted.single.haskell
+--              ^ punctuation.definition.string.begin.haskell
+--               ^ constant.character.literal.haskell
+--                ^ punctuation.definition.string.end.haskell
+--                 ^ keyword.operator.haskell
+--                  ^^^ meta.string.haskell string.quoted.single.haskell
+--                  ^ punctuation.definition.string.begin.haskell
+--                   ^ constant.character.literal.haskell
+--                    ^ punctuation.definition.string.end.haskell
+--                     ^ keyword.operator.haskell
+--                      ^^^ meta.string.haskell string.quoted.single.haskell
+--                      ^ punctuation.definition.string.begin.haskell
+--                       ^ constant.character.literal.haskell
+--                        ^ punctuation.definition.string.end.haskell
+--                         ^ keyword.operator.haskell
+--                          ^^^ meta.string.haskell string.quoted.single.haskell
+--                          ^ punctuation.definition.string.begin.haskell
+--                           ^ constant.character.literal.haskell
+--                            ^ punctuation.definition.string.end.haskell
+--                             ^ keyword.operator.haskell
+--                              ^^^ meta.string.haskell string.quoted.single.haskell
+--                              ^ punctuation.definition.string.begin.haskell
+--                               ^ constant.character.literal.haskell
+--                                ^ punctuation.definition.string.end.haskell
+--                                 ^ keyword.operator.haskell
+--                                  ^^^ meta.string.haskell string.quoted.single.haskell
+--                                  ^ punctuation.definition.string.begin.haskell
+--                                   ^ constant.character.literal.haskell
+--                                    ^ punctuation.definition.string.end.haskell
+
+    '‘'.'’'.'"'.'“'.'”'.'—'.'¯'.'˙'.'´'.'˝'
+--  ^^^ meta.string.haskell string.quoted.single.haskell
+--  ^ punctuation.definition.string.begin.haskell
+--   ^ constant.character.literal.haskell
+--    ^ punctuation.definition.string.end.haskell
+--     ^ keyword.operator.haskell
+--      ^^^ meta.string.haskell string.quoted.single.haskell
+--      ^ punctuation.definition.string.begin.haskell
+--       ^ constant.character.literal.haskell
+--        ^ punctuation.definition.string.end.haskell
+--         ^ keyword.operator.haskell
+--          ^^^ meta.string.haskell string.quoted.single.haskell
+--          ^ punctuation.definition.string.begin.haskell
+--           ^ constant.character.literal.haskell
+--            ^ punctuation.definition.string.end.haskell
+--             ^ keyword.operator.haskell
+--              ^^^ meta.string.haskell string.quoted.single.haskell
+--              ^ punctuation.definition.string.begin.haskell
+--               ^ constant.character.literal.haskell
+--                ^ punctuation.definition.string.end.haskell
+--                 ^ keyword.operator.haskell
+--                  ^^^ meta.string.haskell string.quoted.single.haskell
+--                  ^ punctuation.definition.string.begin.haskell
+--                   ^ constant.character.literal.haskell
+--                    ^ punctuation.definition.string.end.haskell
+--                     ^ keyword.operator.haskell
+--                      ^^^ meta.string.haskell string.quoted.single.haskell
+--                      ^ punctuation.definition.string.begin.haskell
+--                       ^ constant.character.literal.haskell
+--                        ^ punctuation.definition.string.end.haskell
+--                         ^ keyword.operator.haskell
+--                          ^^^ meta.string.haskell string.quoted.single.haskell
+--                          ^ punctuation.definition.string.begin.haskell
+--                           ^ constant.character.literal.haskell
+--                            ^ punctuation.definition.string.end.haskell
+--                             ^ keyword.operator.haskell
+--                              ^^^ meta.string.haskell string.quoted.single.haskell
+--                              ^ punctuation.definition.string.begin.haskell
+--                               ^ constant.character.literal.haskell
+--                                ^ punctuation.definition.string.end.haskell
+--                                 ^ keyword.operator.haskell
+--                                  ^^^ meta.string.haskell string.quoted.single.haskell
+--                                  ^ punctuation.definition.string.begin.haskell
+--                                   ^ constant.character.literal.haskell
+--                                    ^ punctuation.definition.string.end.haskell
+--                                     ^ keyword.operator.haskell
+--                                      ^^^ meta.string.haskell string.quoted.single.haskell
+--                                      ^ punctuation.definition.string.begin.haskell
+--                                       ^ constant.character.literal.haskell
+--                                        ^ punctuation.definition.string.end.haskell
+
+    '←'.'→'.'↔'.'↓'.'↑'.'↕'.'⇐'.'⇒'.'⇔'.'⇓'.'⇑'.'⇕'
+--  ^^^ meta.string.haskell string.quoted.single.haskell
+--  ^ punctuation.definition.string.begin.haskell
+--   ^ constant.character.literal.haskell
+--    ^ punctuation.definition.string.end.haskell
+--     ^ keyword.operator.haskell
+--      ^^^ meta.string.haskell string.quoted.single.haskell
+--      ^ punctuation.definition.string.begin.haskell
+--       ^ constant.character.literal.haskell
+--        ^ punctuation.definition.string.end.haskell
+--         ^ keyword.operator.haskell
+--          ^^^ meta.string.haskell string.quoted.single.haskell
+--          ^ punctuation.definition.string.begin.haskell
+--           ^ constant.character.literal.haskell
+--            ^ punctuation.definition.string.end.haskell
+--             ^ keyword.operator.haskell
+--              ^^^ meta.string.haskell string.quoted.single.haskell
+--              ^ punctuation.definition.string.begin.haskell
+--               ^ constant.character.literal.haskell
+--                ^ punctuation.definition.string.end.haskell
+--                 ^ keyword.operator.haskell
+--                  ^^^ meta.string.haskell string.quoted.single.haskell
+--                  ^ punctuation.definition.string.begin.haskell
+--                   ^ constant.character.literal.haskell
+--                    ^ punctuation.definition.string.end.haskell
+--                     ^ keyword.operator.haskell
+--                      ^^^ meta.string.haskell string.quoted.single.haskell
+--                      ^ punctuation.definition.string.begin.haskell
+--                       ^ constant.character.literal.haskell
+--                        ^ punctuation.definition.string.end.haskell
+--                         ^ keyword.operator.haskell
+--                          ^^^ meta.string.haskell string.quoted.single.haskell
+--                          ^ punctuation.definition.string.begin.haskell
+--                           ^ constant.character.literal.haskell
+--                            ^ punctuation.definition.string.end.haskell
+--                             ^ keyword.operator.haskell
+--                              ^^^ meta.string.haskell string.quoted.single.haskell
+--                              ^ punctuation.definition.string.begin.haskell
+--                               ^ constant.character.literal.haskell
+--                                ^ punctuation.definition.string.end.haskell
+--                                 ^ keyword.operator.haskell
+--                                  ^^^ meta.string.haskell string.quoted.single.haskell
+--                                  ^ punctuation.definition.string.begin.haskell
+--                                   ^ constant.character.literal.haskell
+--                                    ^ punctuation.definition.string.end.haskell
+--                                     ^ keyword.operator.haskell
+--                                      ^^^ meta.string.haskell string.quoted.single.haskell
+--                                      ^ punctuation.definition.string.begin.haskell
+--                                       ^ constant.character.literal.haskell
+--                                        ^ punctuation.definition.string.end.haskell
+--                                         ^ keyword.operator.haskell
+--                                          ^^^ meta.string.haskell string.quoted.single.haskell
+--                                          ^ punctuation.definition.string.begin.haskell
+--                                           ^ constant.character.literal.haskell
+--                                            ^ punctuation.definition.string.end.haskell
+--                                             ^ keyword.operator.haskell
+--                                              ^^^ meta.string.haskell string.quoted.single.haskell
+--                                              ^ punctuation.definition.string.begin.haskell
+--                                               ^ constant.character.literal.haskell
+--                                                ^ punctuation.definition.string.end.haskell
+
+    'α'.'β'.'γ'.'δ'.'ε'.'ζ'.'η'.'θ'.'ι'.'κ'.'λ'.'μ'
+--  ^^^ meta.string.haskell string.quoted.single.haskell
+--  ^ punctuation.definition.string.begin.haskell
+--   ^ constant.character.literal.haskell
+--    ^ punctuation.definition.string.end.haskell
+--     ^ keyword.operator.haskell
+--      ^^^ meta.string.haskell string.quoted.single.haskell
+--      ^ punctuation.definition.string.begin.haskell
+--       ^ constant.character.literal.haskell
+--        ^ punctuation.definition.string.end.haskell
+--         ^ keyword.operator.haskell
+--          ^^^ meta.string.haskell string.quoted.single.haskell
+--          ^ punctuation.definition.string.begin.haskell
+--           ^ constant.character.literal.haskell
+--            ^ punctuation.definition.string.end.haskell
+--             ^ keyword.operator.haskell
+--              ^^^ meta.string.haskell string.quoted.single.haskell
+--              ^ punctuation.definition.string.begin.haskell
+--               ^ constant.character.literal.haskell
+--                ^ punctuation.definition.string.end.haskell
+--                 ^ keyword.operator.haskell
+--                  ^^^ meta.string.haskell string.quoted.single.haskell
+--                  ^ punctuation.definition.string.begin.haskell
+--                   ^ constant.character.literal.haskell
+--                    ^ punctuation.definition.string.end.haskell
+--                     ^ keyword.operator.haskell
+--                      ^^^ meta.string.haskell string.quoted.single.haskell
+--                      ^ punctuation.definition.string.begin.haskell
+--                       ^ constant.character.literal.haskell
+--                        ^ punctuation.definition.string.end.haskell
+--                         ^ keyword.operator.haskell
+--                          ^^^ meta.string.haskell string.quoted.single.haskell
+--                          ^ punctuation.definition.string.begin.haskell
+--                           ^ constant.character.literal.haskell
+--                            ^ punctuation.definition.string.end.haskell
+--                             ^ keyword.operator.haskell
+--                              ^^^ meta.string.haskell string.quoted.single.haskell
+--                              ^ punctuation.definition.string.begin.haskell
+--                               ^ constant.character.literal.haskell
+--                                ^ punctuation.definition.string.end.haskell
+--                                 ^ keyword.operator.haskell
+--                                  ^^^ meta.string.haskell string.quoted.single.haskell
+--                                  ^ punctuation.definition.string.begin.haskell
+--                                   ^ constant.character.literal.haskell
+--                                    ^ punctuation.definition.string.end.haskell
+--                                     ^ keyword.operator.haskell
+--                                      ^^^ meta.string.haskell string.quoted.single.haskell
+--                                      ^ punctuation.definition.string.begin.haskell
+--                                       ^ constant.character.literal.haskell
+--                                        ^ punctuation.definition.string.end.haskell
+--                                         ^ keyword.operator.haskell
+--                                          ^^^ meta.string.haskell string.quoted.single.haskell
+--                                          ^ punctuation.definition.string.begin.haskell
+--                                           ^ constant.character.literal.haskell
+--                                            ^ punctuation.definition.string.end.haskell
+--                                             ^ keyword.operator.haskell
+--                                              ^^^ meta.string.haskell string.quoted.single.haskell
+--                                              ^ punctuation.definition.string.begin.haskell
+--                                               ^ constant.character.literal.haskell
+--                                                ^ punctuation.definition.string.end.haskell
 
     '\'' . '\"' . '\&' . '\\'  -- escape characters
 --  ^^^^ meta.string.haskell string.quoted.single.haskell
