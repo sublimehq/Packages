@@ -32,7 +32,7 @@ echo hello #a-comment
 #          ^^^^^^^^^^^ comment.line.number-sign.shell
 
 echo hello#not-a-comment
-#         ^^^^^^^^^^^^^^ meta.function-call.arguments - comment.line - variable.function
+#         ^^^^^^^^^^^^^^ meta.function-call.arguments.shell - comment.line - variable.function
 
 foo | `# get quarks ` \
 # <- variable.function
@@ -40,9 +40,9 @@ foo | `# get quarks ` \
 #     ^^^^^^^^^^^^^^^ meta.interpolation.command.shell
 #                    ^^^ - meta.interpolation
 #     ^ punctuation.section.interpolation.begin.shell
-#      ^^^^^^^^^^^^^ comment.line.number-sign
+#      ^^^^^^^^^^^^^ comment.line.number-sign.shell
 #                   ^ punctuation.section.interpolation.end.shell - comment
-#                     ^^ punctuation.separator.continuation.line - comment
+#                     ^^ punctuation.separator.continuation.line.shell - comment
 
 foo | ` # get quarks ` \
 bar   ` # important; this and that ` "${USELESS_TEXT}" | ` # match text` \
@@ -51,18 +51,18 @@ bar   ` # important; this and that ` "${USELESS_TEXT}" | ` # match text` \
 #                                   ^^^^^^^^^^^^^^^^^^^^^ - meta.interpolation.command
 #                                                        ^^^^^^^^^^^^^^^ meta.interpolation.command.shell
 #     ^^ - comment
-#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign
+#       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.number-sign.shell
 #                                  ^^^^^^^^^^^^^^^^^^^^^^^^ - comment
-#                                                          ^^^^^^^^^^^^ comment.line.number-sign
+#                                                          ^^^^^^^^^^^^ comment.line.number-sign.shell
 #                                                                      ^^^ - comment
 #     ^ punctuation.section.interpolation.begin.shell
 #                                  ^ punctuation.section.interpolation.end.shell
-#                                    ^ meta.string string.quoted.double punctuation.definition.string.begin
-#                                     ^^^^^^^^^^^^^^^ meta.string meta.interpolation.parameter.shell - string
-#                                                    ^ meta.string string.quoted.double punctuation.definition.string.end
+#                                    ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.begin.shell
+#                                     ^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.parameter.shell - string
+#                                                    ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.end.shell
 #                                                      ^ keyword.operator.assignment.pipe.shell
 #                                                        ^ punctuation.section.interpolation.begin.shell
-#                                                                        ^^ punctuation.separator.continuation.line
+#                                                                        ^^ punctuation.separator.continuation.line.shell
 
 
 ####################################################################
@@ -322,7 +322,7 @@ e"\" \t ${ch} "o
 # expansions
 ch=ch
 e${ch}"o" hello, world!
-# <- meta.function-call.identifier.shell variable.function
+# <- meta.function-call.identifier.shell variable.function.shell
 #^^^^^ meta.function-call.identifier.shell meta.interpolation.parameter.shell
 #     ^^^ meta.function-call.identifier.shell meta.string.shell - meta.interpolation
 #        ^^^^^^^^^^^^^^ meta.function-call.arguments.shell
@@ -366,35 +366,35 @@ $e'ch'o Hello, world!
 ####################################################################
 
 set -e -
-#   ^ variable.parameter.option punctuation
-#    ^ variable.parameter.option - punctuation
+#   ^ variable.parameter.option.shell punctuation.definition.parameter.shell
+#    ^ variable.parameter.option.shell - punctuation
 #      ^ - keyword - punctuation
 set -e=10
-#   ^ variable.parameter.option punctuation
-#    ^ variable.parameter.option - punctuation
+#   ^ variable.parameter.option.shell punctuation.definition.parameter.shell
+#    ^ variable.parameter.option.shell - punctuation
 set +e
-#   ^ variable.parameter.option punctuation
-#    ^ variable.parameter.option - punctuation
+#   ^ variable.parameter.option.shell punctuation.definition.parameter.shell
+#    ^ variable.parameter.option.shell - punctuation
 set -o pipefail
-#   ^ variable.parameter.option punctuation
-#    ^ variable.parameter.option - punctuation
+#   ^ variable.parameter.option.shell punctuation.definition.parameter.shell
+#    ^ variable.parameter.option.shell - punctuation
 set +o pipefail
-#   ^ variable.parameter.option punctuation
-#    ^ variable.parameter.option - punctuation
+#   ^ variable.parameter.option.shell punctuation.definition.parameter.shell
+#    ^ variable.parameter.option.shell - punctuation
 set -Euo pipefail
-#   ^ variable.parameter.option punctuation
-#    ^^^ variable.parameter.option - punctuation
+#   ^ variable.parameter.option.shell punctuation.definition.parameter.shell
+#    ^^^ variable.parameter.option.shell - punctuation
 set +Euo pipefail
-#   ^ variable.parameter.option punctuation
-#    ^^^ variable.parameter.option - punctuation
+#   ^ variable.parameter.option.shell punctuation.definition.parameter.shell
+#    ^^^ variable.parameter.option.shell - punctuation
 set +Eou pipefail
-#   ^ variable.parameter.option punctuation
-#    ^^ variable.parameter.option - punctuation
+#   ^ variable.parameter.option.shell punctuation.definition.parameter.shell
+#    ^^ variable.parameter.option.shell - punctuation
 #      ^ - variable.parameter.option - punctuation
 set -e -- -o {string}
-#   ^^ variable.parameter.option
+#   ^^ variable.parameter.option.shell
 #     ^ - variable - keyword
-#      ^^ keyword.operator.end-of-options
+#      ^^ keyword.operator.end-of-options.shell
 #        ^ - variable - keyword
 #         ^^ - variable.parameter.option
 #            ^^^^^^^^ meta.interpolation.brace.shell
@@ -535,7 +535,7 @@ foo --opt1=\
 
 foo --opt1 arg1 -- --not-an-option
 #              ^ - variable - keyword
-#               ^^ keyword.operator
+#               ^^ keyword.operator.end-of-options.shell
 #                 ^ - variable - keyword
 #                  ^^ - variable.parameter punctuation
 
@@ -544,17 +544,17 @@ foo --opt1 arg1----not-an-option
 
 `foo --opt1 arg1 -- --not-an-option`
 #               ^ - variable - keyword
-#                ^^ keyword.operator
+#                ^^ keyword.operator.end-of-options.shell
 #                  ^ - variable - keyword
 #                   ^^ - variable.parameter punctuation
 
 `foo --opt1 arg1 --`
 #               ^ - variable - keyword
-#                ^^ keyword.operator
+#                ^^ keyword.operator.end-of-options.shell
 #                  ^ - variable.parameter punctuation
 
 f#-o+o ar%g --opt1 --opt2=value +x -y &>/dev/null
-# <- meta.function-call.identifier.shell variable.function - meta.function-call.arguments
+# <- meta.function-call.identifier.shell variable.function.shell - meta.function-call.arguments
 #^^^^^ meta.function-call.identifier.shell variable.function.shell - meta.function-call.arguments
 #     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.shell - meta.function-call.identifier
 #                                                ^ - meta.function-call
@@ -881,12 +881,12 @@ coproc foobar {
 #        ^ punctuation.section.parameters.end.shell
 #         ^ - punctuation
 #          ^ punctuation.section.compound.begin.shell
-#            ^^ support.function.double-brace.begin
-#               ^ punctuation.definition.variable
-#                ^ variable.language
-#                  ^^ keyword.operator.comparison
-#                       ^^ support.function.double-brace.end
-#                          ^^ keyword.operator.logical
+#            ^^ support.function.double-brace.begin.shell
+#               ^ punctuation.definition.variable.shell
+#               ^^ variable.language.shell
+#                  ^^ keyword.operator.comparison.shell
+#                       ^^ support.function.double-brace.end.shell
+#                          ^^ keyword.operator.logical.shell
 
 logExit ( ) {
 # <- meta.function.identifier.shell entity.name.function.shell
@@ -908,8 +908,8 @@ logExit ( ) {
   #<- meta.conditional.shell support.function.double-brace.begin.shell
   #^ meta.conditional.shell support.function.double-brace.begin.shell
   #            ^^ meta.conditional.shell support.function.double-brace.end.shell
-  #               ^^ meta.function keyword.operator.logical
-  #                  ^^^^ meta.function meta.function-call support.function.echo
+  #               ^^ keyword.operator.logical.shell
+  #                  ^^^^ meta.function-call.identifier.shell support.function.echo.shell
   tput setaf 15;
   # <- meta.function meta.function-call variable.function
   #            ^ meta.function punctuation.terminator.statement
@@ -917,8 +917,8 @@ logExit ( ) {
   #<- meta.conditional.shell support.function.double-brace.begin.shell
   #^ meta.conditional.shell support.function.double-brace.begin.shell
   #            ^^ meta.conditional.shell support.function.double-brace.end.shell
-  #               ^^ meta.function keyword.operator.logical
-  #                  ^^^^ meta.function keyword.control.flow.exit.shell
+  #               ^^ keyword.operator.logical.shell
+  #                  ^^^^  keyword.control.flow.exit.shell
   #                       ^ keyword.operator.arithmetic.shell
   #                        ^ meta.number.integer.decimal.shell constant.numeric.value.shell
 }
@@ -947,8 +947,8 @@ function foo
 {
 # <- meta.function.shell meta.compound.shell punctuation.section.compound.begin.shell
     foo bar
-    # <- variable.function
-    # <- meta.function meta.function-call
+    # <- meta.function.shell meta.compound.shell meta.function-call.identifier.shell
+    # <- variable.function.shell
 
     return 0
     # <- keyword.control.flow.return.shell
@@ -972,14 +972,14 @@ function foo (     ) {
 #            ^^^^^^^ meta.function.parameters.shell
 #                   ^^^ meta.function.shell
 #       ^ - entity.name.function
-#        ^^^ entity.name.function
+#        ^^^ entity.name.function.shell
 #           ^ - entity.name.function
 #            ^ punctuation.section.parameters.begin.shell
 #                  ^ punctuation.section.parameters.end.shell
 #                    ^ punctuation.section.compound.begin.shell
     echo 'hello from foo'
-    # <- support.function
-    # <- meta.function meta.function-call
+    # <- meta.function.shell meta.compound.shell meta.function-call.identifier.shell
+    # <- support.function.echo.shell
 }
 # <- meta.function.shell meta.compound.shell punctuation.section.compound.end.shell
 #^ - meta.function
@@ -993,7 +993,8 @@ f () (
 #   ^ meta.function.shell - meta.compound
 #    ^ meta.function.shell meta.compound.shell punctuation.section.compound.begin.shell
   echo hello
-  # <- meta.function.shell meta.compound.shell meta.function-call.identifier.shell support.function.echo.shell
+  # <- meta.function.shell meta.compound.shell meta.function-call.identifier.shell
+  # <- support.function.echo.shell
 )
 # <- meta.function.shell meta.compound.shell punctuation.section.compound.end.shell
 #^ - meta.function
@@ -1074,13 +1075,13 @@ foo:foo () {
     echo "this is ^"
 }
 ^
-# <- meta.function-call.identifier.shell variable.function
+# <- meta.function-call.identifier.shell variable.function.shell
 @ () {
 # <- meta.function entity.name.function
     echo "this is @"
 }
 @
-# <- meta.function-call.identifier.shell variable.function
+# <- meta.function-call.identifier.shell variable.function.shell
 
 function () ()
 # <- meta.function.identifier.shell entity.name.function.shell
@@ -1130,7 +1131,7 @@ function [[]] () {
   echo "Hello from [[]]"
 }
 [[]]
-# <- meta.function-call.identifier.shell variable.function
+# <- meta.function-call.identifier.shell variable.function.shell
 #^^^ meta.function-call.identifier.shell variable.function.shell
 
 function {} () {
@@ -1164,7 +1165,7 @@ function {{}} () {
   echo "Hello from {{}}"
 }
 {{}}
-# <- meta.function-call.identifier.shell variable.function
+# <- meta.function-call.identifier.shell variable.function.shell
 #^^^ meta.function-call.identifier.shell variable.function.shell
 
 function -foo () {
@@ -1181,7 +1182,7 @@ function -foo () {
   echo "Hello from -foo"
 }
 -foo
-# <- meta.function-call.identifier.shell variable.function
+# <- meta.function-call.identifier.shell variable.function.shell
 #^^^ meta.function-call.identifier.shell variable.function.shell
 
 function +foo () {
@@ -1198,7 +1199,7 @@ function +foo () {
   echo "Hello from +foo"
 }
 +foo
-# <- meta.function-call.identifier.shell variable.function
+# <- meta.function-call.identifier.shell variable.function.shell
 #^^^ meta.function-call.identifier.shell variable.function.shell 
 
 function =foo () {
@@ -1215,7 +1216,7 @@ function =foo () {
   echo "Hello from =foo"
 }
 =foo
-# <- meta.function-call.identifier.shell variable.function
+# <- meta.function-call.identifier.shell variable.function.shell
 #^^^ meta.function-call.identifier.shell variable.function.shell
 
 function fo${bar}'baz' () {}
@@ -1250,7 +1251,7 @@ __git_aliased_command ()
         case "$word" in
         {)  : skip start of shell helper function ;;
 #       ^ - punctuation.section.interpolation.begin
-#        ^ keyword.control.conditional.patterns
+#        ^ keyword.control.conditional.patterns.end.shell
         \'*)    : skip opening quote after sh -c ;;
         *)
             echo "$word"
@@ -1468,12 +1469,12 @@ declare -f _init_completion > /dev/null && complete -F _upto upto
 #                                                   ^^ variable.parameter.option.shell
 
 printFunction "$variableString1" "$(declare -p variableArray)"
-#             ^ meta.string string.quoted.double punctuation.definition.string.begin
-#              ^^^^^^^^^^^^^^^^ meta.string meta.interpolation.parameter.shell - string
-#                              ^ meta.string string.quoted.double punctuation.definition.string.end
-#                                ^ meta.string string.quoted.double punctuation.definition.string.begin
-#                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string meta.interpolation.command.shell - string
-#                                                            ^ meta.string string.quoted.double punctuation.definition.string.end
+#             ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.begin.shell
+#              ^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.parameter.shell - string
+#                              ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.end.shell
+#                                ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.begin.shell
+#                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.command.shell - string
+#                                                            ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.end.shell
 #                                  ^ punctuation.section.interpolation.begin.shell
 #                                   ^^^^^^^ keyword.declaration.variable.shell
 #                                           ^^ variable.parameter.option
@@ -1482,12 +1483,12 @@ printFunction "$variableString1" "$(declare -p variableArray)"
 
 # <- - variable.other
 printFunction "$variableString1" "`declare -p variableArray`"
-#             ^ meta.string string.quoted.double punctuation.definition.string.begin
-#              ^^^^^^^^^^^^^^^^ meta.string meta.interpolation.parameter.shell - string
-#                              ^ meta.string string.quoted.double punctuation.definition.string.end
-#                                ^ meta.string string.quoted.double punctuation.definition.string.begin
-#                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string meta.interpolation.command.shell - string
-#                                                           ^ meta.string string.quoted.double punctuation.definition.string.end
+#             ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.begin.shell
+#              ^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.parameter.shell - string
+#                              ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.end.shell
+#                                ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.begin.shell
+#                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell meta.interpolation.command.shell - string
+#                                                           ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.end.shell
 #                                 ^ punctuation.section.interpolation.begin.shell
 #                                  ^^^^^^^ keyword.declaration.variable.shell
 #                                          ^^ variable.parameter.option
@@ -1661,28 +1662,32 @@ f() {
             $1)
                 local "$x"'+=(1)' ;;&
                 # <- keyword.declaration.variable.shell
-                #                 ^^^ punctuation
+                #                 ^^^ punctuation.terminator.case.clause.shell
             $2)
                 local "$x"'+=(2)' ;&
                 # <- keyword.declaration.variable.shell
-                #                 ^^ punctuation
+                #                 ^^ punctuation.terminator.case.clause.shell
             $3)
                 local "$x"'+=(3)' ;;
                 # <- keyword.declaration.variable.shell
-                #                 ^^ punctuation
+                #                 ^^ punctuation.terminator.case.clause.shell
             $1|$2)
                 local "$x"'+=(4)'
                 # <- keyword.declaration.variable.shell
         esac
-        # <- meta.function keyword.control.conditional.end
+        # <- meta.function.shell meta.compound.shell meta.conditional.case.shell
+        # <- keyword.control.conditional.end.shell
 
         IFS=, local -a "$x"'=("${x}: ${'"$x"'[*]}")'
-        # ^ variable.other.readwrite
-        #  ^ keyword.operator.assignment
-        #   ^ meta.string string.unquoted
+        # ^ variable.other.readwrite.shell
+        #  ^ keyword.operator.assignment.shell
+        #   ^ meta.string.shell string.unquoted.shell
         #     ^ keyword.declaration.variable.shell
     done
+    # <- meta.function.shell meta.compound.shell
+    # <- keyword.control.loop.end.shell
 }
+# <- meta.function.shell meta.compound.shell punctuation.section.compound.end.shell
 
 
 ####################################################################
@@ -2145,7 +2150,7 @@ x= # some comment
 x=a
 # <- variable.other.readwrite
 #^ keyword.operator.assignment.shell
-# ^ meta.string string.unquoted
+# ^ meta.string.shell string.unquoted.shell
 x=a # some comment
 #^ keyword.operator.assignment.shell
 #  ^ - string.unquoted
@@ -2153,12 +2158,12 @@ x=a#not-a-comment
 #^ keyword.operator.assignment.shell
 #  ^ meta.string string.unquoted - comment
 foo=bar baz=qux
-#   ^^^ meta.string string.unquoted
-#           ^^^ meta.string string.unquoted
+#   ^^^ meta.string.shell string.unquoted.shell
+#           ^^^ meta.string.shell string.unquoted.shell
 foo=bar\
 qux
 #<- meta.string.shell string.unquoted.shell
-#^^ meta.string string.unquoted
+#^^ meta.string.shell string.unquoted.shell
 foo=bar"baz"qux
 #<- variable.other.readwrite.shell
 #^^ variable.other.readwrite.shell
@@ -2205,17 +2210,17 @@ x="a b" pwd
 #       ^^^ meta.function-call support.function
 x=a y=b pwd
 #^ keyword.operator.assignment.shell
-# ^ meta.string string.unquoted
+# ^ meta.string.shell string.unquoted.shell
 #  ^ - string.unquoted
 #    ^ keyword.operator.assignment.shell
-#     ^ meta.string string.unquoted
+#     ^ meta.string.shell string.unquoted.shell
 #      ^ - string.unquoted
 #       ^^^ meta.function-call support.function
 x=${foo} y=${baz}"asdf" pwd
 #^ keyword.operator.assignment.shell
-# ^^^^^^ meta.string meta.interpolation - string
+# ^^^^^^ meta.string.shell meta.interpolation.parameter.shell - string
 #       ^^^ - meta.string - mete.interpolation - string
-#          ^^^^^^ meta.string meta.interpolation - string
+#          ^^^^^^ meta.string.shell meta.interpolation.parameter.shell - string
 #                ^^^^^^ meta.string.shell string.quoted.double.shell - meta.interpolation
 #                      ^^^^ - meta.string - mete.interpolation - string
 # ^ punctuation.definition.variable.shell
@@ -4229,53 +4234,53 @@ if [[ $- != *i* ]] ; then echo shell is not interactive; fi
 #                                                        ^^ keyword.control.conditional.end.shell
 
 if [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; then PLATFORM=docker; fi
-#^ keyword.control.conditional.if
+#^ keyword.control.conditional.if.shell
 #     ^ keyword.operator.logical.shell
-#                         ^^ keyword.operator.logical
+#                         ^^ keyword.operator.logical.shell
 #                            ^ keyword.operator.logical.shell
-#                              ^^^ meta.function-call.identifier.shell variable.function
+#                              ^^^ meta.function-call.identifier.shell variable.function.shell
 #                                  ^^ keyword.operator.logical.shell
 #                                     ^ keyword.operator.logical.shell
 #                                       ^^^^ meta.function-call.identifier.shell variable.function.shell
-#                                           ^ punctuation.terminator.statement
-#                                             ^^^^ keyword.control.conditional.then
-#                                                         ^ variable.other.readwrite
-#                                                          ^ keyword.operator.assignment
-#                                                           ^ meta.string string.unquoted
+#                                           ^ punctuation.terminator.statement.shell
+#                                             ^^^^ keyword.control.conditional.then.shell
+#                                                         ^ variable.other.readwrite.shell
+#                                                          ^ keyword.operator.assignment.shell
+#                                                           ^ meta.string string.unquoted.shell
 
 if { [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2; }; then PLATFORM=docker; fi
-#^ keyword.control.conditional.if
+#^ keyword.control.conditional.if.shell
 #  ^ punctuation.section.compound.begin.shell
 #       ^ keyword.operator.logical.shell
-#                           ^^ keyword.operator.logical
+#                           ^^ keyword.operator.logical.shell
 #                              ^ keyword.operator.logical.shell
-#                                ^^^ meta.function-call.identifier.shell variable.function
+#                                ^^^ meta.function-call.identifier.shell variable.function.shell
 #                                    ^^ keyword.operator.logical.shell
 #                                       ^ keyword.operator.logical.shell
 #                                         ^^^^ meta.function-call.identifier.shell variable.function.shell
 #                                               ^ punctuation.section.compound.end.shell
-#                                                ^ punctuation.terminator.statement
-#                                                  ^^^^ keyword.control.conditional.then
-#                                                              ^ variable.other.readwrite
-#                                                               ^ keyword.operator.assignment
-#                                                                ^ meta.string string.unquoted
+#                                                ^ punctuation.terminator.statement.shell
+#                                                  ^^^^ keyword.control.conditional.then.shell
+#                                                              ^ variable.other.readwrite.shell
+#                                                               ^ keyword.operator.assignment.shell
+#                                                                ^ meta.string string.unquoted.shell
 
 if ( [[ ! -z "$PLATFORM" ]] && ! cmd || ! cmd2 ); then PLATFORM=docker; fi
-#^ keyword.control.conditional.if
+#^ keyword.control.conditional.if.shell
 #  ^ punctuation.section.compound.begin.shell
 #       ^ keyword.operator.logical.shell
-#                           ^^ keyword.operator.logical
+#                           ^^ keyword.operator.logical.shell
 #                              ^ keyword.operator.logical.shell
-#                                ^^^ meta.function-call.identifier.shell variable.function
+#                                ^^^ meta.function-call.identifier.shell variable.function.shell
 #                                    ^^ keyword.operator.logical.shell
 #                                       ^ keyword.operator.logical.shell
 #                                         ^^^^ meta.function-call.identifier.shell variable.function.shell
 #                                              ^ punctuation.section.compound.end.shell
-#                                               ^ punctuation.terminator.statement
-#                                                 ^^^^ keyword.control.conditional.then
-#                                                             ^ variable.other.readwrite
-#                                                              ^ keyword.operator.assignment
-#                                                               ^ meta.string string.unquoted
+#                                               ^ punctuation.terminator.statement.shell
+#                                                 ^^^^ keyword.control.conditional.then.shell
+#                                                             ^ variable.other.readwrite.shell
+#                                                              ^ keyword.operator.assignment.shell
+#                                                               ^ meta.string string.unquoted.shell
 
 if [ ! -f q4m-$Q4MVER.tar.gz ]; then
 #  ^ support.function.test.begin.shell
@@ -4325,76 +4330,106 @@ if [ "$1" != "" -a "$2" != "" ]; then
 #                                ^^^^ keyword.control.conditional.then.shell
     local DIR=$1
     # <- keyword.declaration.variable.shell
-    #     ^^^ variable.other.readwrite
-    #        ^ keyword.operator.assignment
+    #     ^^^ variable.other.readwrite.shell
+    #        ^ keyword.operator.assignment.shell
+    #         ^^ variable.other.readwrite.shell
     local TARGET=$2
     # <- keyword.declaration.variable.shell
-    #     ^^^^^^ variable.other.readwrite
-    #           ^ keyword.operator.assignment
+    #     ^^^^^^ variable.other.readwrite.shell
+    #           ^ keyword.operator.assignment.shell
+    #            ^^ variable.other.readwrite.shell
 elif [ "$1" ]; then
-# <- keyword.control.conditional.elseif
-#              ^^^^ keyword.control.conditional.then
+# <- keyword.control.conditional.elseif.shell
+#    ^^^^^^^^ meta.conditional.shell
+#            ^ punctuation.terminator.statement.shell
+#              ^^^^ keyword.control.conditional.then.shell
     local DIR=$PWD
     # <- keyword.declaration.variable.shell
-    #     ^^^ variable.other.readwrite
-    #        ^ keyword.operator.assignment
+    #     ^^^ variable.other.readwrite.shell
+    #        ^ keyword.operator.assignment.shell
+    #         ^^^^ variable.other.readwrite.shell
     local TARGET=$1
     # <- keyword.declaration.variable.shell
-    #     ^^^^^^ variable.other.readwrite
-    #           ^ keyword.operator.assignment
+    #     ^^^^^^ variable.other.readwrite.shell
+    #           ^ keyword.operator.assignment.shell
+    #            ^^ variable.other.readwrite.shell
 fi
-# <- keyword.control.conditional.end
+# <- keyword.control.conditional.end.shell
 
 asdf foo && FOO=some-value pwd
-# <- meta.function-call.identifier.shell variable.function
-#        ^^ keyword.operator.logical
-#           ^^^ variable.other.readwrite
-#              ^ keyword.operator.assignment
-#               ^^^^^^^^^^ meta.string string.unquoted
-#                          ^^^ meta.function-call support.function.pwd
+# <- meta.function-call.identifier.shell variable.function.shell
+#        ^^ keyword.operator.logical.shell
+#           ^^^ variable.other.readwrite.shell
+#              ^ keyword.operator.assignment.shell
+#               ^^^^^^^^^^ meta.string.shell string.unquoted.shell
+#                          ^^^ meta.function-call.identifier.shell support.function.pwd.shell
 
 (cd Layer1-linux  && PLATFORM=${PLATFORM} ./build ) &&
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.shell
 # <- punctuation.section.compound.begin.shell
+#                 ^^ keyword.operator.logical.shell
+#                           ^ variable.other.readwrite.shell
+#                            ^ keyword.operator.assignment.shell
+#                             ^ meta.string.shell meta.interpolation.parameter.shell - string
+#                                         ^^^^^^^ variable.function.shell
 #                                                 ^ punctuation.section.compound.end.shell
-#                           ^ variable.other.readwrite
-#                            ^ keyword.operator.assignment
-#                             ^ meta.string meta.interpolation - string
-#                                           ^ variable.function
+#                                                   ^^ keyword.operator.logical.shell
 (cd Layer2-nodejs && PLATFORM=${PLATFORM} ./build ) &&
-#                           ^ variable.other.readwrite
-#                            ^ keyword.operator.assignment
-#                             ^ meta.string meta.interpolation - string
-#                                           ^ variable.function
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.shell
+# <- punctuation.section.compound.begin.shell
+#                 ^^ keyword.operator.logical.shell
+#                           ^ variable.other.readwrite.shell
+#                            ^ keyword.operator.assignment.shell
+#                             ^ meta.string.shell meta.interpolation.parameter.shell - string
+#                                         ^^^^^^^ variable.function.shell
+#                                                 ^ punctuation.section.compound.end.shell
+#                                                   ^^ keyword.operator.logical.shell
 (cd Layer3-base   && PLATFORM=${PLATFORM} ./build ) &&
-#                           ^ variable.other.readwrite
-#                            ^ keyword.operator.assignment
-#                             ^ meta.string meta.interpolation - string
-#                                           ^ variable.function
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.shell
+# <- punctuation.section.compound.begin.shell
+#                 ^^ keyword.operator.logical.shell
+#                           ^ variable.other.readwrite.shell
+#                            ^ keyword.operator.assignment.shell
+#                             ^ meta.string.shell meta.interpolation.parameter.shell - string
+#                                         ^^^^^^^ variable.function.shell
+#                                                 ^ punctuation.section.compound.end.shell
+#                                                   ^^ keyword.operator.logical.shell
 (cd Layer4-custom && PLATFORM=${PLATFORM} name=${NOSN} ./build ) || err $?
-#                           ^ variable.other.readwrite
-#                            ^ keyword.operator.assignment
-#                             ^ meta.string meta.interpolation - string
-#                                            ^ variable.other.readwrite
-#                                             ^ keyword.operator.assignment
-#                                              ^ meta.string meta.interpolation - string
-#                                                        ^ variable.function
-
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.compound.shell
+# <- punctuation.section.compound.begin.shell
+#                 ^^ keyword.operator.logical.shell
+#                           ^ variable.other.readwrite.shell
+#                            ^ keyword.operator.assignment.shell
+#                             ^^^^^^^^^^^ meta.string.shell meta.interpolation.parameter.shell - string
+#                                         ^^^^ variable.other.readwrite.shell
+#                                             ^ keyword.operator.assignment.shell
+#                                              ^^^^^^^ meta.string.shell meta.interpolation.parameter.shell - string
+#                                                      ^^^^^^^ variable.function.shell
+#                                                              ^ punctuation.section.compound.end.shell
+#                                                                ^^ keyword.operator.logical.shell
+#                                                                   ^^^ meta.function-call.identifier.shell variable.function.shell
+#                                                                      ^^^ meta.function-call.arguments.shell
+#                                                                       ^^ variable.language.shell
 
 ####################################################################
 # Case Statements                                                  #
 ####################################################################
 
 case-
-#^ - keyword
+# <- - keyword
+#^^^^ - keyword
 
 esac
-#^ keyword.control.conditional.end - meta.conditional.case
+# <- keyword.control.conditional.end.shell
+#^^^ keyword.control.conditional.end.shell - meta.conditional.case
 
 case
-#^ meta.conditional.case keyword.control.conditional.case
+# <- meta.conditional.case.shell keyword.control.conditional.case.shell
+#^^^ meta.conditional.case.shell keyword.control.conditional.case.shell
 
 esac
-#^ meta.conditional.case keyword.control.conditional.end
+# <- meta.conditional.case.shell keyword.control.conditional.end.shell
+#^^^ meta.conditional.case.shell keyword.control.conditional.end.shell
 
 case var in
   ( patt ( esac
@@ -4425,41 +4460,42 @@ case   # comment
 #         ^^^^^^^^^^^ meta.conditional.case.clause.commands.shell
 #          ^^^^^^^^^^ comment.line.number-sign.shell
 esac
-#<- meta.conditional.case.shell keyword.control.conditional.end.shell
+# <- meta.conditional.case.shell keyword.control.conditional.end.shell
 #^^^ meta.conditional.case.shell keyword.control.conditional.end.shell
 
 
 case "$1" in
-# <- keyword.control.conditional.case
-#    ^ meta.string string.quoted.double punctuation.definition.string.begin
-#     ^ meta.string meta.interpolation punctuation.definition.variable
-#      ^ meta.string meta.interpolation variable.other.readwrite
-#       ^ meta.string string.quoted.double punctuation.definition.string.end
-#         ^^ keyword.control.in
+# <- keyword.control.conditional.case.shell
+#^^^ keyword.control.conditional.case.shell
+#    ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.begin.shell
+#     ^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell punctuation.definition.variable.shell
+#      ^ meta.string.shell meta.interpolation.parameter.shell variable.other.readwrite.shell
+#       ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.end.shell
+#         ^^ keyword.control.in.shell
 setup )
 # <- - variable.function - support.function - meta.function-call
-#     ^ keyword.control.conditional.patterns
+#     ^ keyword.control.conditional.patterns.end.shell
 echo Preparing the server...
 # <- meta.function-call support.function.echo
 #   ^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments
 ;;
-# <- punctuation.terminator.case.clause
-#^ punctuation.terminator.case.clause
+# <- punctuation.terminator.case.clause.shell
+#^ punctuation.terminator.case.clause.shell
 dep\
 loy )
 # <- - variable.function - support.function - meta.function-call
-#   ^ keyword.control.conditional.patterns
+#   ^ keyword.control.conditional.patterns.end.shell
 echo Deploying...
 # <- meta.function-call support.function.echo
 #   ^^^^^^^^^^^^^ meta.function-call.arguments
 ;;
-# <- punctuation.terminator.case.clause
-#^ punctuation.terminator.case.clause
+# <- punctuation.terminator.case.clause.shell
+#^ punctuation.terminator.case.clause.shell
 * )
 # <- keyword.operator.quantifier.regexp.shell
-# ^ keyword.control.conditional.patterns
+# ^ keyword.control.conditional.patterns.end.shell
 cat <<'ENDCAT'
-# <- meta.function-call.identifier.shell variable.function
+# <- meta.function-call.identifier.shell variable.function.shell
 #   ^^ meta.function-call.arguments.shell - meta.string - meta.tag
 #     ^^^^^^^^ meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell - string.unquoted.heredoc
 #             ^ meta.function-call.arguments.shell meta.string.heredoc.shell - meta.tag - string.unquoted.heredoc
@@ -4473,56 +4509,58 @@ foo
 ENDCAT
 # <- meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
 ;;
-# <- punctuation.terminator.case.clause
-#^ punctuation.terminator.case.clause
+# <- punctuation.terminator.case.clause.shell
+#^ punctuation.terminator.case.clause.shell
 esac
-# <- keyword.control.conditional.end
+# <- meta.conditional.case.shell keyword.control.conditional.end.shell
+#^^^ meta.conditional.case.shell keyword.control.conditional.end.shell
 
 
 case "${foo}" in- in_ in=10 in
-#^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.case.shell
-# <- keyword.control.conditional.case
+#^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.conditional.case.shell
+# <- keyword.control.conditional.case.shell
+#^^^ keyword.control.conditional.case.shell
 #             ^^ - keyword.control.in
 #                 ^^ - keyword.control.in
 #                     ^^ - keyword.control.in
 #                           ^^ keyword.control.in
     ( help | h ) bar ;;
 #^^^ meta.conditional.case.shell - meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands
-#   ^^^^^^^^^^^^ meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands - meta.conditional.case.shell
-#               ^^^^^^^ meta.conditional.case.clause.commands - meta.conditional.case.clause.patterns - meta.conditional.case.shell
+#   ^^^^^^^^^^^^ meta.conditional.case.clause.patterns.shell - meta.conditional.case.clause.commands - meta.conditional.case.shell
+#               ^^^^^^^ meta.conditional.case.clause.commands.shell - meta.conditional.case.clause.patterns - meta.conditional.case.shell
 #                      ^ meta.conditional.case.shell - meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands
-    # <- keyword.control.conditional.patterns.begin
-    #          ^ keyword.control.conditional.patterns.end
-    #                ^^ punctuation.terminator.case.clause
+    # <- keyword.control.conditional.patterns.begin.shell
+    #          ^ keyword.control.conditional.patterns.end.shell
+    #                ^^ punctuation.terminator.case.clause.shell
     do1 ) foo1 ;&
 #^^^ meta.conditional.case.shell - meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands
-#   ^^^^^ meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands - meta.conditional.case.shell
-#        ^^^^^^^^ meta.conditional.case.clause.commands - meta.conditional.case.clause.patterns - meta.conditional.case.shell
+#   ^^^^^ meta.conditional.case.clause.patterns.shell - meta.conditional.case.clause.commands - meta.conditional.case.shell
+#        ^^^^^^^^ meta.conditional.case.clause.commands.shell - meta.conditional.case.clause.patterns - meta.conditional.case.shell
 #                ^ meta.conditional.case.shell - meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands
-    #   ^ keyword.control.conditional.patterns.end
-    #          ^^ punctuation.terminator.case.clause
+    #   ^ keyword.control.conditional.patterns.end.shell
+    #          ^^ punctuation.terminator.case.clause.shell
     (do2 ) foo2 ;;&
 #^^^ meta.conditional.case.shell - meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands
-#   ^^^^^^ meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands - meta.conditional.case.shell
-#         ^^^^^^^^^ meta.conditional.case.clause.commands - meta.conditional.case.clause.patterns - meta.conditional.case.shell
+#   ^^^^^^ meta.conditional.case.clause.patterns.shell - meta.conditional.case.clause.commands - meta.conditional.case.shell
+#         ^^^^^^^^^ meta.conditional.case.clause.commands.shell - meta.conditional.case.clause.patterns - meta.conditional.case.shell
 #                  ^ meta.conditional.case.shell - meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands
-    # <- keyword.control.conditional.patterns.begin
-    #    ^ keyword.control.conditional.patterns.end
-    #           ^^^ punctuation.terminator.case.clause
+    # <- keyword.control.conditional.patterns.begin.shell
+    #    ^ keyword.control.conditional.patterns.end.shell
+    #           ^^^ punctuation.terminator.case.clause.shell
     *) bar
 #^^^ meta.conditional.case.shell - meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands
-#   ^^ meta.conditional.case.clause.patterns - meta.conditional.case.clause.commands - meta.conditional.case.shell
-#     ^^^^^ meta.conditional.case.clause.commands - meta.conditional.case.clause.patterns - meta.conditional.case.shell
-    #^ keyword.control.conditional.patterns.end
+#   ^^ meta.conditional.case.clause.patterns.shell - meta.conditional.case.clause.commands - meta.conditional.case.shell
+#     ^^^^^ meta.conditional.case.clause.commands.shell - meta.conditional.case.clause.patterns - meta.conditional.case.shell
+    #^ keyword.control.conditional.patterns.end.shell
 esac
-# <- keyword.control.conditional.end
+# <- keyword.control.conditional.end.shell
 
 case $TERM in
     sun-cmd)
-        #  ^ keyword.control.conditional.patterns
+        #  ^ keyword.control.conditional.patterns.end.shell
         update_terminal_cwd() { print -Pn "\e]l%~\e\\" };;
-        #                                              ^ meta.function punctuation.section.compound.end
-        #                                               ^^ punctuation.terminator.case.clause
+        #                                              ^ meta.function punctuation.section.compound.end.shell
+        #                                               ^^ punctuation.terminator.case.clause.shell
     *xterm*|rxvt|(dt|k|E)term)
         # ^ keyword.operator.quantifier.regexp.shell
         #  ^ keyword.operator.logical.regexp.shell
@@ -4533,18 +4571,19 @@ case $TERM in
         #               ^ punctuation.definition.group.end.regexp.shell
         #                    ^ keyword.control.conditional.patterns.end.shell
         update_terminal_cwd() { print -Pn "\e]2;%~\a" };;
-        #                                             ^ meta.function punctuation.section.compound.end
-        #                                              ^^ punctuation.terminator.case.clause
+        #                                             ^ meta.function punctuation.section.compound.end.shell
+        #                                              ^^ punctuation.terminator.case.clause.shell
     *)
     # <- keyword.operator.quantifier.regexp.shell
-    #^ keyword.control.conditional.patterns
+    #^ keyword.control.conditional.patterns.end.shell
         update_terminal_cwd() {};;
-        #                      ^ meta.function punctuation.section.compound.end
-        #                       ^^ punctuation.terminator.case.clause
+        #                      ^ meta.function punctuation.section.compound.end.shell
+        #                       ^^ punctuation.terminator.case.clause.shell
 esac
+# <- keyword.control.conditional.end.shell
 
 case $SERVER in
-# <- keyword.control.conditional.case
+# <- keyword.control.conditional.case.shell
 ws-+([0-9]).host.com) echo "Web Server"
 #^^^ meta.conditional.case.clause.patterns.shell meta.pattern.regexp.shell - meta.group
 #   ^^^^^^^ meta.conditional.case.clause.patterns.shell meta.pattern.regexp.shell meta.group.regexp.shell
@@ -4555,10 +4594,10 @@ ws-+([0-9]).host.com) echo "Web Server"
 #      ^ punctuation.separator.range.regexp.shell
 #        ^ punctuation.definition.set.end.regexp.shell
 #         ^ punctuation.definition.group.end.regexp.shell
-#                   ^ keyword.control.conditional.patterns
+#                   ^ keyword.control.conditional.patterns.end.shell
 ;;
-# <- punctuation.terminator.case.clause
- # <- punctuation.terminator.case.clause
+# <- punctuation.terminator.case.clause.shell
+#^ punctuation.terminator.case.clause.shell
 db-+([0-9])\.host\.com) echo "DB server"
 #^^^ meta.conditional.case.clause.patterns.shell meta.pattern.regexp.shell - meta.group
 #   ^^^^^^^ meta.conditional.case.clause.patterns.shell meta.pattern.regexp.shell meta.group.regexp.shell
@@ -4569,10 +4608,10 @@ db-+([0-9])\.host\.com) echo "DB server"
 #      ^ punctuation.separator.range.regexp.shell
 #        ^ punctuation.definition.set.end.regexp.shell
 #         ^ punctuation.definition.group.end.regexp.shell
-#                     ^ keyword.control.conditional.patterns
+#                     ^ keyword.control.conditional.patterns.end.shell
 ;;
-# <- punctuation.terminator.case.clause
- # <- punctuation.terminator.case.clause
+# <- punctuation.terminator.case.clause.shell
+#^ punctuation.terminator.case.clause.shell
 bk-+([0-9])\.host\.com) echo "Backup server"
 #  ^ keyword.operator.quantifier.regexp.shell
 #   ^ punctuation.definition.group.begin.regexp.shell
@@ -4580,24 +4619,26 @@ bk-+([0-9])\.host\.com) echo "Backup server"
 #      ^ punctuation.separator.range.regexp.shell
 #        ^ punctuation.definition.set.end.regexp.shell
 #         ^ punctuation.definition.group.end.regexp.shell
-#                     ^ keyword.control.conditional.patterns
+#                     ^ keyword.control.conditional.patterns.end.shell
+#                       ^^^^ support.function.echo.shell
 ;;
-# <- punctuation.terminator.case.clause
- # <- punctuation.terminator.case.clause
+# <- punctuation.terminator.case.clause.shell
+#^ punctuation.terminator.case.clause.shell
 *)echo "Unknown server"
 # <- keyword.operator.quantifier.regexp.shell
- # <- keyword.control.conditional.patterns
+#^ keyword.control.conditional.patterns.end.shell
+# ^^^^ support.function.echo.shell
 ;;
-# <- punctuation.terminator.case.clause
- # <- punctuation.terminator.case.clause
+# <- punctuation.terminator.case.clause.shell
+#^ punctuation.terminator.case.clause.shell
 esac
-# <- keyword.control.conditional.end
-
+# <- keyword.control.conditional.end.shell
+#^^^ keyword.control.conditional.end.shell
 
 case $_G_unquoted_arg in
 *[\[\~\#\&\*\(\)\{\}\|\;\<\>\?\'\ ]*|*]*|"")
 #^ punctuation.definition.set.begin.regexp.shell
-# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.character.escape
+# ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ constant.character.escape.shell
 #                                 ^ punctuation.definition.set.end.regexp.shell
 #                                     ^ - keyword.control
   _G_quoted_arg=\"$_G_unquoted_arg\"
@@ -4609,7 +4650,7 @@ esac
 case $1 in
 *[\\\`\"\$]*)
 #^ punctuation.definition.set.begin.regexp.shell
-# ^^^^^^^^ constant.character.escape
+# ^^^^^^^^ constant.character.escape.shell
 #         ^ punctuation.definition.set.end.regexp.shell
   _G_unquoted_arg=`printf '%s\n' "$1" |$SED "$sed_quote_subst"` ;;
 *)
@@ -4987,7 +5028,7 @@ WHAT
 # <- meta.function-call.arguments.shell meta.string.heredoc.shell meta.tag.heredoc.shell entity.name.tag.heredoc.shell
 
 cat <<< "A wild herestring appears" ; cat more stuff | bar | qux
-# <- meta.function-call.identifier.shell variable.function
+# <- meta.function-call.identifier.shell variable.function.shell
 #   ^^^ meta.function-call.arguments keyword.operator.herestring
 #       ^ meta.function-call.arguments string.quoted.double punctuation.definition.string.begin
 #        ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments string.quoted.double
@@ -5214,12 +5255,12 @@ EOF
 function clk {
     typeset base=/sys/class/drm/card0/device
     #<- keyword.declaration.variable.shell
-    #       ^^^^ variable.other.readwrite
-    #           ^ keyword.operator.assignment
-    #            ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string string.unquoted
+    #       ^^^^ variable.other.readwrite.shell
+    #           ^ keyword.operator.assignment.shell
+    #            ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.shell string.unquoted.shell
     [[ -r ${base}/hwmon/hwmon0/temp1_input && -r ${base}/power_profile ]] || return 1
-    # <- support.function.double-brace.begin
-    #                                                                  ^^ support.function.double-brace.end
+    # <- support.function.double-brace.begin.shell
+    #                                                                  ^^ support.function.double-brace.end.shell
     case $1 in
         low|high|default)
             printf '%s\n' "temp: $(<${base}/hwmon/hwmon0/temp1_input)C" "old profile: $(<${base}/power_profile)"
@@ -5230,35 +5271,34 @@ function clk {
             echo "Usage: $FUNCNAME [ low | high | default ]"
             printf '%s\n' "temp: $(<${base}/hwmon/hwmon0/temp1_input)C" "current profile: $(<${base}/power_profile)"
     esac
-    # <- meta.function keyword.control.conditional.end
+    # <- meta.function keyword.control.conditional.end.shell
 }
-# <- punctuation
+# <- punctuation.section.compound.end.shell
 
 if   [ "$*" = '*' ]
 then remotefilter="cat"
-#               ^ variable.other.readwrite
-#                ^ keyword.operator.assignment
+#               ^ variable.other.readwrite.shell
+#                ^ keyword.operator.assignment.shell
 else remotefilter="grep"
-#               ^ variable.other.readwrite
-#                 ^ meta.string string.quoted.double punctuation.definition.string.begin
+#               ^ variable.other.readwrite.shell
+#                 ^ meta.string.shell string.quoted.double.shell punctuation.definition.string.begin.shell
      for glob in "$@"
      do  glob=$(
      # ^^^^^^^ - meta.string - meta.interpolation
      #        ^^^ meta.string.shell meta.interpolation.command.shell
-     #      ^ variable.other.readwrite
-     #       ^ keyword.operator.assignment
+     #      ^ variable.other.readwrite.shell
+     #       ^ keyword.operator.assignment.shell
      #        ^ punctuation.definition.variable.shell
      #         ^ punctuation.section.interpolation.begin.shell
            echo "$glob" |
            sed -e 's@\*@[^ ]*@g' -e 's/\?/[^ ]/g'
-           # <- meta.string meta.interpolation meta.function-call variable.function - string
+           # <- meta.string.shell meta.interpolation.command.shell meta.function-call.identifier.shell variable.function.shell - string
          )
-         # <- meta.string meta.interpolation punctuation.section.interpolation.end.shell - string
+         # <- meta.string.shell meta.interpolation.command.shell punctuation.section.interpolation.end.shell - string
          remotefilter="$remotefilter -e '^$glob ' -e ' $glob\$'"
-         #          ^ variable.other.readwrite
-         #           ^ keyword.operator.assignment
+         #          ^ variable.other.readwrite.shell
+         #           ^ keyword.operator.assignment.shell
      done
-     # <- keyword.control.loop.end
+     # <- keyword.control.loop.end.shell
 fi
-# <- keyword.control.conditional.end
-
+# <- keyword.control.conditional.end.shell
