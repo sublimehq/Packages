@@ -277,15 +277,55 @@ contexts:
     # 4.3.1 Class Declarations
     # https://www.haskell.org/onlinereport/haskell2010/haskellch4.html#x10-750004.3
     - match: class{{break}}
-      scope: keyword.declaration.class.haskell
-      push: class-body
+      scope:
+        meta.declaration.class.haskell
+        keyword.declaration.class.haskell
+      branch_point: classes
+      branch:
+        - class-context
+        - class-signature
 
-  class-body:
-    - meta_scope: meta.declaration.class.haskell
+  class-else-fail:
+    - match: (?=\S)
+      fail: classes
+
+  class-context:
+    # The context specifies the superclasses
+    - meta_content_scope: meta.declaration.class.context.haskell
+    - match: =>
+      scope:
+        meta.declaration.class.haskell
+        keyword.operator.big-arrow.haskell
+      set: class-signature
+    - include: class-context-decls
+    - include: class-else-fail
+
+  class-context-decls:
+    - include: class-context-tuples
+    - include: sequence-separators
+    - include: ident-anonymous
+    - include: ident-namespaces
+    - include: ident-types
+    - include: ident-generic-types
+
+  class-context-tuples:
+    - match: \(
+      scope: punctuation.section.sequence.begin.haskell
+      push: class-context-tuple-body
+
+  class-context-tuple-body:
+    - meta_scope: meta.sequence.tuple.haskell
+    - include: tuple-end
+    - include: class-context-decls
+    - include: else-pop
+
+  class-signature:
+    - meta_content_scope: meta.declaration.class.signature.haskell
     - match: where{{break}}
       scope: keyword.control.context.haskell
       pop: 1
-    - include: type-signature-body
+    - include: type-content
+    - include: else-pop
 
 ###[ DATA DECLARATIONS ]#######################################################
 
