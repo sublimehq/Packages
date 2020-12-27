@@ -1127,7 +1127,8 @@
 -- ^^^^^^^^^^^^^ meta.function.type-declaration.haskell
 
    instance TooMany Int where
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.instance.haskell
+-- ^^^^^^^^^^^^^^^^^^^^^ meta.declaration.instance.haskell
+--                      ^^^^^ - meta.declaration.instance
 -- ^^^^^^^^ keyword.declaration.instance.haskell
 --                      ^^^^^ keyword.control.context.haskell
      tooMany n = n > 42

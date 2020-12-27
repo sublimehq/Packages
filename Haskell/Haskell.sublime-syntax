@@ -350,9 +350,6 @@ contexts:
 
   class-signature:
     - meta_content_scope: meta.declaration.class.signature.haskell
-    - match: where{{break}}
-      scope: keyword.control.context.haskell
-      pop: 1
     - include: type-content
     - include: else-pop
 
@@ -428,9 +425,6 @@ contexts:
 
   instance-body:
     - meta_scope: meta.declaration.instance.haskell
-    - match: where{{break}}
-      scope: keyword.control.context.haskell
-      pop: 1
     - include: type-signature-body
 
 ###[ FUNCTION DECLARATIONS ]###################################################
