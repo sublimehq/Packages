@@ -531,7 +531,7 @@ contexts:
 ###[ FUNCTION DECLARATIONS ]###################################################
 
   functions:
-    - match: '^(\s*)({{var_id}}|\(({{operator_parens}})\))\s*(::|∷)'
+    - match: ^(\s*)({{var_id}}|\(({{operator_parens}})\))\s*(::|∷)
       captures:
         2: entity.name.function.haskell
         3: keyword.operator.infix.haskell
@@ -540,7 +540,7 @@ contexts:
 
   function-body:
     - meta_scope: meta.function.type-declaration.haskell
-    - match: ^(?!\s*(?:--|{-|$)|\1\s)
+    - match: ^(?:(?!\s*(?:--|{-|$)|\1\s)|(?=\s*\2))
       pop: 1
     - include: big-arrow-operators
     - include: type-content
