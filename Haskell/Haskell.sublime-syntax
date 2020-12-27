@@ -155,6 +155,7 @@ contexts:
 ###[ COMMENTS ]################################################################
 
   comments:
+    # 2.3 Comments
     # https://www.haskell.org/onlinereport/haskell2010/haskellch2.html#x7-170002.3
     - include: line-comments
     - include: block-comments
@@ -165,6 +166,7 @@ contexts:
       push: block-comment-body
 
   block-comment-body:
+    - meta_include_prototype: false
     - meta_scope: comment.block.haskell
     - match: -\}
       scope: punctuation.definition.comment.end.haskell
@@ -174,6 +176,7 @@ contexts:
     - include: block-comments
 
   block-comment-nested-body:
+    - meta_include_prototype: false
     - match: -\}
       pop: 1
     - include: block-comments
