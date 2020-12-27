@@ -476,11 +476,19 @@ contexts:
     # https://www.haskell.org/onlinereport/haskell2010/haskellch4.html#x10-750004.3
     - match: default{{break}}
       scope: storage.modifier.haskell
-      push: default-body
+      push:
+        - default-meta
+        - default-body
+
+  default-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.declaration.default.haskell
+    - include: immediatelly-pop
 
   default-body:
-    - meta_scope: meta.declaration.default.haskell
-    - include: type-tuples
+    - match: \(
+      scope: punctuation.section.sequence.begin.haskell
+      set: type-tuple-body
     - include: else-pop
 
 ###[ DERIVING DECLARATIONS ]###################################################
