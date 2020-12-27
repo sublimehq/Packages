@@ -427,7 +427,6 @@ contexts:
 
   class-context-decls:
     - include: class-context-tuples
-    - include: sequence-separators
     - include: ident-anonymous
     - include: ident-namespaces
     - include: ident-types
@@ -441,6 +440,7 @@ contexts:
   class-context-tuple-body:
     - meta_scope: meta.sequence.tuple.haskell
     - include: tuple-end
+    - include: sequence-separators
     - include: class-context-decls
     - include: else-pop
 
@@ -578,10 +578,9 @@ contexts:
     - include: type-lists
     - include: type-tuples
     - include: arrow-operators
-    - include: sequence-separators
+    - include: ident-anonymous
     - include: ident-namespaces
     - include: ident-types
-    - include: ident-anonymous
     - include: ident-generic-types
 
   type-lists:
@@ -592,7 +591,9 @@ contexts:
   type-list-body:
     - meta_scope: meta.sequence.list.haskell
     - include: list-end
+    - include: sequence-separators
     - include: type-content
+    - include: else-pop
 
   type-tuples:
     # 4.1.3 Syntax of Class Assertions and Contexts
@@ -604,7 +605,9 @@ contexts:
   type-tuple-body:
     - meta_scope: meta.sequence.tuple.haskell
     - include: tuple-end
+    - include: sequence-separators
     - include: type-content
+    - include: else-pop
 
 ###[ RECORD COSTRUCTORS ]######################################################
 

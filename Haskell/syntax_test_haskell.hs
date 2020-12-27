@@ -604,30 +604,31 @@
 --        ^^^^^^ storage.type.haskell
 --               ^^^^^ variable.other.generic-type.haskell
 
-    class ModId.QTyCls tyVar1, tyVar2
+    class ModId.QTyCls tyVar1 tyVar2, ident
 --  ^^^^^ meta.declaration.class.haskell
---       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.signature.haskell
+--       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.signature.haskell
+--                                  ^^^^^^^ - meta.declaration
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^^^^^ variable.namespace.haskell
 --             ^ punctuation.accessor.dot.haskell
 --              ^^^^^^ storage.type.haskell
 --                     ^^^^^^ variable.other.generic-type.haskell
---                           ^ punctuation.separator.sequence.haskell
---                             ^^^^^^ variable.other.generic-type.haskell
+--                            ^^^^^^ variable.other.generic-type.haskell
+--                                  ^ punctuation.separator.sequence.haskell
+--                                    ^^^^^ meta.name.haskell
 
-    class ModId.QTyCls tyVar1, tyVar2 =>
+    class ModId.QTyCls tyVar1 tyVar2 =>
 --  ^^^^^ meta.declaration.class.haskell
---       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.context.haskell
---                                    ^^ meta.declaration.class.haskell
---                                      ^ meta.declaration.class.signature.haskell
+--       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.context.haskell
+--                                   ^^ meta.declaration.class.haskell
+--                                     ^ meta.declaration.class.signature.haskell
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^^^^^ variable.namespace.haskell
 --             ^ punctuation.accessor.dot.haskell
 --              ^^^^^^ storage.type.haskell
 --                     ^^^^^^ variable.other.generic-type.haskell
---                           ^ punctuation.separator.sequence.haskell
---                             ^^^^^^ variable.other.generic-type.haskell
---                                    ^^ keyword.operator.big-arrow.haskell
+--                            ^^^^^^ variable.other.generic-type.haskell
+--                                   ^^ keyword.operator.big-arrow.haskell
 
     class ModId.QTyCls (tyVar1 tyVar2) =>
 --  ^^^^^ meta.declaration.class.haskell
@@ -661,21 +662,20 @@
 --                             ^^^^^^ variable.other.generic-type.haskell
 --                                     ^^ keyword.operator.big-arrow.haskell
 
-    class ModId.QTyCls tyVar1, tyVar2 => Traversable t
+    class ModId.QTyCls tyVar1 tyVar2 => Traversable t
 --  ^^^^^ meta.declaration.class.haskell
---       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.context.haskell
---                                    ^^ meta.declaration.class.haskell
---                                      ^^^^^^^^^^^^^^^ meta.declaration.class.signature.haskell
+--       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.context.haskell
+--                                   ^^ meta.declaration.class.haskell
+--                                     ^^^^^^^^^^^^^^^ meta.declaration.class.signature.haskell
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^^^^^ variable.namespace.haskell
 --             ^ punctuation.accessor.dot.haskell
 --              ^^^^^^ storage.type.haskell
 --                     ^^^^^^ variable.other.generic-type.haskell
---                           ^ punctuation.separator.sequence.haskell
---                             ^^^^^^ variable.other.generic-type.haskell
---                                    ^^ keyword.operator.big-arrow.haskell
---                                       ^^^^^^^^^^^ support.class.prelude.haskell
---                                                   ^ variable.other.generic-type.haskell
+--                            ^^^^^^ variable.other.generic-type.haskell
+--                                   ^^ keyword.operator.big-arrow.haskell
+--                                      ^^^^^^^^^^^ support.class.prelude.haskell
+--                                                  ^ variable.other.generic-type.haskell
 
     class () =>
 --  ^^^^^ meta.declaration.class.haskell
@@ -895,9 +895,11 @@
 --      ^^^^^^^^^^ constant.other.haskell
 --                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.haskell
 --                 ^ punctuation.section.block.begin.haskell
+--                   ^^^^^^^^^^^^^ meta.block.haskell meta.name.haskell
 --                                 ^^ keyword.operator.double-colon.haskell
 --                                    ^^^ storage.type.haskell
 --                                       ^ punctuation.separator.sequence.haskell
+--                                         ^^^^^^^^^^^^^^^^ meta.block.haskell meta.name.haskell
 --                                                          ^^ keyword.operator.double-colon.haskell
 --                                                             ^^^^^^ storage.type.haskell
 --                                                                    ^ punctuation.section.block.end.haskell
@@ -1243,11 +1245,11 @@
 --                 ^^^^^ variable.other.generic-type.haskell
 --                       ^^ keyword.operator.big-arrow.haskell
 
-    newtype () => ModId.QTyCls tyVar1, tyVar2 deriving (Class1, QTyCls2)
---  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
---                                            ^^^^^^^^^ meta.declaration.deriving.haskell - meta.sequence
---                                                     ^^^^^^^^^^^^^^^^^ meta.declaration.deriving.haskell meta.sequence.tuple.haskell
---                                                                      ^ - meta.declaration
+    newtype () => ModId.QTyCls tyVar1 tyVar2 deriving (Class1, QTyCls2)
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--                                           ^^^^^^^^^ meta.declaration.deriving.haskell - meta.sequence
+--                                                    ^^^^^^^^^^^^^^^^^ meta.declaration.deriving.haskell meta.sequence.tuple.haskell
+--                                                                     ^ - meta.declaration
 --  ^^^^ keyword.declaration.type.haskell
 --          ^^ meta.sequence.tuple.haskell
 --          ^ punctuation.section.sequence.begin.haskell
@@ -1257,14 +1259,13 @@
 --                     ^ punctuation.accessor.dot.haskell
 --                      ^^^^^^ storage.type.haskell
 --                             ^^^^^^ variable.other.generic-type.haskell
---                                   ^ punctuation.separator.sequence.haskell
---                                     ^^^^^^ variable.other.generic-type.haskell
---                                            ^^^^^^^^ storage.modifier.haskell
---                                                     ^ punctuation.section.sequence.begin.haskell
---                                                      ^^^^^^ entity.other.inherited-class.haskell
---                                                            ^ punctuation.separator.sequence.haskell
---                                                              ^^^^^^^ entity.other.inherited-class.haskell
---                                                                     ^ punctuation.section.sequence.end.haskell
+--                                    ^^^^^^ variable.other.generic-type.haskell
+--                                           ^^^^^^^^ storage.modifier.haskell
+--                                                    ^ punctuation.section.sequence.begin.haskell
+--                                                     ^^^^^^ entity.other.inherited-class.haskell
+--                                                           ^ punctuation.separator.sequence.haskell
+--                                                             ^^^^^^^ entity.other.inherited-class.haskell
+--                                                                    ^ punctuation.section.sequence.end.haskell
 
 
 -- [ TYPE DECLARATIONS ] ------------------------------------------------------
@@ -1286,44 +1287,42 @@
 --       ^^^^^^ storage.type.haskell
 --              ^^^^^ variable.other.generic-type.haskell
 
-    type ModId.QTyCls tyVar1, tyVar2
---  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+    type ModId.QTyCls tyVar1 tyVar2
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
 --  ^^^^ keyword.declaration.type.haskell
 --       ^^^^^ variable.namespace.haskell
 --            ^ punctuation.accessor.dot.haskell
 --             ^^^^^^ storage.type.haskell
 --                    ^^^^^^ variable.other.generic-type.haskell
---                          ^ punctuation.separator.sequence.haskell
---                            ^^^^^^ variable.other.generic-type.haskell
+--                           ^^^^^^ variable.other.generic-type.haskell
 
-    type ModId.QTyCls tyVar1, tyVar2 =
---  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+    type ModId.QTyCls tyVar1 tyVar2 =
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--                                  ^ - meta.declaration
 --  ^^^^ keyword.declaration.type.haskell
 --       ^^^^^ variable.namespace.haskell
 --            ^ punctuation.accessor.dot.haskell
 --             ^^^^^^ storage.type.haskell
 --                    ^^^^^^ variable.other.generic-type.haskell
---                          ^ punctuation.separator.sequence.haskell
---                            ^^^^^^ variable.other.generic-type.haskell
+--                           ^^^^^^ variable.other.generic-type.haskell
 
-    type ModId.QTyCls tyVar1, tyVar2 deriving (Class1, QTyCls2)
---  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
---                                   ^^^^^^^^^ meta.declaration.deriving.haskell - meta.sequence
---                                            ^^^^^^^^^^^^^^^^^ meta.declaration.deriving.haskell meta.sequence.tuple.haskell
---                                                             ^ - meta.declaration
+    type ModId.QTyCls tyVar1 tyVar2 deriving (Class1, QTyCls2)
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--                                  ^^^^^^^^^ meta.declaration.deriving.haskell - meta.sequence
+--                                           ^^^^^^^^^^^^^^^^^ meta.declaration.deriving.haskell meta.sequence.tuple.haskell
+--                                                            ^ - meta.declaration
 --  ^^^^ keyword.declaration.type.haskell
 --       ^^^^^ variable.namespace.haskell
 --            ^ punctuation.accessor.dot.haskell
 --             ^^^^^^ storage.type.haskell
 --                    ^^^^^^ variable.other.generic-type.haskell
---                          ^ punctuation.separator.sequence.haskell
---                            ^^^^^^ variable.other.generic-type.haskell
---                                   ^^^^^^^^ storage.modifier.haskell
---                                            ^ punctuation.section.sequence.begin.haskell
---                                             ^^^^^^ entity.other.inherited-class.haskell
---                                                   ^ punctuation.separator.sequence.haskell
---                                                     ^^^^^^^ entity.other.inherited-class.haskell
---                                                            ^ punctuation.section.sequence.end.haskell
+--                           ^^^^^^ variable.other.generic-type.haskell
+--                                  ^^^^^^^^ storage.modifier.haskell
+--                                           ^ punctuation.section.sequence.begin.haskell
+--                                            ^^^^^^ entity.other.inherited-class.haskell
+--                                                  ^ punctuation.separator.sequence.haskell
+--                                                    ^^^^^^^ entity.other.inherited-class.haskell
+--                                                           ^ punctuation.section.sequence.end.haskell
 
     type CmdRoute =
 --  ^^^^^^^^^^^^^^ meta.declaration.type.haskell
