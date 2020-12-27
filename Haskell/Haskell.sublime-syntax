@@ -211,65 +211,94 @@ contexts:
 ###[ MODULE DECLARATIONS ]#####################################################
 
   modules:
+    # 5.1 Module Structure
+    # https://www.haskell.org/onlinereport/haskell2010/haskellch5.html#x11-990005.1
     - match: module{{break}}
       scope: keyword.declaration.namespace.haskell
-      push: module-body
+      push:
+        - module-meta
+        - module-body
+
+  module-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.declaration.module.haskell
+    - include: immediatelly-pop
 
   module-body:
-    - meta_scope: meta.declaration.module.haskell
-    - match: where{{break}}
-      scope: keyword.control.context.haskell
-      pop: 1
     - match: ({{con_id}})(\.)
       captures:
         1: variable.namespace.haskell
         2: punctuation.accessor.dot.haskell
     - match: '{{con_id}}'
       scope: entity.name.namespace.haskell
-    - include: symbols
-    - include: else-pop
-
-###[ IMPORT DECLARATIONS ]#####################################################
-
-  imports:
-    - match: import{{break}}
-      scope: keyword.declaration.import.haskell
-      push: import-body
-
-  import-body:
-    - meta_scope: meta.import.haskell
-    - match: (?:qualified|as|hiding){{break}}
-      scope: keyword.declaration.import.haskell
-    - match: ({{con_id}})\s*(?:(\.)|(?=\(|as{{break}}))
-      captures:
-        1: variable.namespace.haskell
-        2: punctuation.accessor.dot.haskell
-    - match: '{{con_id}}'
-      scope: entity.name.namespace.haskell
-    - include: symbols
-    - include: else-pop
-
-###[ SYMBOL DECLARATIONS ]#####################################################
-
-  symbols:
     - match: \(
       scope: punctuation.section.sequence.begin.haskell
-      push: symbol-body
+      set: module-tuple-body
+    - include: else-pop
 
-  symbol-body:
+  module-tuple-body:
     - meta_scope: meta.sequence.tuple.haskell
     - include: tuple-end
+    - include: range-tuples
+    - include: infix-parens-operators
+    - include: sequence-separators
+    - match: \(
+      scope: punctuation.section.sequence.begin.haskell
+      push: module-tuple-body
     - match: module{{break}}
       scope: keyword.declaration.namespace.haskell
     - include: ident-builtin-functions
     - include: ident-functions
     - include: ident-namespaces
     - include: ident-types
-    - include: sequence-separators
+    - include: else-pop
+
+###[ IMPORT DECLARATIONS ]#####################################################
+
+  imports:
+    # 5.3 Import Declarations
+    # https://www.haskell.org/onlinereport/haskell2010/haskellch5.html#x11-1010005.3
+    - match: import{{break}}
+      scope: keyword.declaration.import.haskell
+      push:
+        - import-meta
+        - import-body
+
+  import-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.import.haskell
+    - include: immediatelly-pop
+
+  import-body:
+    - match: (?:qualified|as|hiding){{break}}
+      scope: storage.modifier.import.haskell
+    - match: ({{con_id}})\s*(?:(\.)|(?=\(|as{{break}}))
+      captures:
+        1: variable.namespace.haskell
+        2: punctuation.accessor.dot.haskell
+    - match: '{{con_id}}'
+      scope: entity.name.namespace.haskell
+    - match: \(
+      scope: punctuation.section.sequence.begin.haskell
+      set: import-tuple-body
+    - include: else-pop
+
+  import-tuple-body:
+    - meta_scope: meta.sequence.tuple.haskell
+    - include: tuple-end
+    - include: range-tuples
     - include: infix-parens-operators
-    - match: \({{no_comment_ahead}}.*?\)
-      comment: So named because I don't know what to call this.
-      scope: meta.other.unknown.haskell
+    - include: sequence-separators
+    - match: \(
+      scope: punctuation.section.sequence.begin.haskell
+      push: import-tuple-body
+    - match: \.
+      scope: invalid.illegal.accessor.haskell
+    - match: module{{break}}
+      scope: invalid.illegal.unexpected-keyword.haskell
+    - include: ident-functions
+    - include: ident-types
+    - include: else-pop
 
 ###[ CLASS DECLARATIONS ]######################################################
 
@@ -583,6 +612,14 @@ contexts:
     - include: tuple-end
     - include: expressions
 
+  range-tuples:
+    - match: (\()(\.\.)(\))
+      scope: meta.sequence.tuple.haskell
+      captures:
+        1: punctuation.section.sequence.begin.haskell
+        2: keyword.operator.range.haskell
+        3: punctuation.section.sequence.end.haskell
+
 ###[ IDENTIFIERS ]#############################################################
 
   ident-builtin-classes:
@@ -794,4 +831,8 @@ contexts:
 
   else-pop:
     - match: (?=\S)
+      pop: 1
+
+  immediatelly-pop:
+    - match: ''
       pop: 1
