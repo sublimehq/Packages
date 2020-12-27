@@ -394,25 +394,30 @@ contexts:
     # https://www.haskell.org/onlinereport/haskell2010/haskellch4.html#x10-750004.3
     - match: (?:deriving|via){{break}}
       scope: storage.modifier.haskell
-      push: deriving-body
+      push:
+        - deriving-meta
+        - deriving-body
+
+  deriving-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.declaration.deriving.haskell
+    - include: immediatelly-pop
 
   deriving-body:
-    - meta_scope: meta.declaration.deriving.haskell
     - match: \(
       scope: punctuation.section.sequence.begin.haskell
-      push: deriving-tuple-body
+      set: deriving-tuple-body
     - include: ident-namespaces
     - include: ident-inherited-class
     - include: else-pop
 
   deriving-tuple-body:
     - meta_scope: meta.sequence.tuple.haskell
-    - match: \)
-      scope: punctuation.section.sequence.end.haskell
-      pop: 2
+    - include: tuple-end
     - include: sequence-separators
     - include: ident-namespaces
     - include: ident-inherited-classes
+    - include: else-pop
 
 ###[ INSTANCE DECLARATIONS ]###################################################
 
