@@ -17,6 +17,7 @@
     {- {-# #-} -} 23*36
 --  ^^ punctuation.definition.comment.begin.haskell
 --  ^^^^^^^^^^^^^ comment.block.haskell - meta.preprocessor.haskell
+--     ^^^^^^^ - meta.preprocessor
 --             ^^ punctuation.definition.comment.end.haskell
 --               ^ - comment.block.haskell
 
@@ -120,19 +121,82 @@
 -- [ PREPROCESSOR ] -----------------------------------------------------------
 
     {-# MINIMAL traverse | sequenceA LANGUAGE #-}
---  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.haskell
+--  ^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
+--             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.value.other.haskell
+--                                            ^^^ meta.preprocessor.pragma.value.haskell
 --                                               ^ - meta.preprocessor.haskell
 --  ^^^ punctuation.section.preprocessor.begin.haskell
---      ^^^^^^^ keyword.directive.other.haskell
---                                    ^^^^^^^ keyword.directive.other.haskell
+--      ^^^^^^^ keyword.directive.builtin.haskell
+--              ^^^^^^^^ constant.other.pragma.haskell
+--                       ^ punctuation.separator.sequence.haskell
+--                         ^^^^^^^^^ constant.other.pragma.haskell
+--                                   ^^^^^^^^ constant.other.pragma.haskell
+--                                   ^^^^^^^^ - keyword.directive
 --                                            ^^^ punctuation.section.preprocessor.end.haskell
 
+    {-# OPTIONS_GHC -Drelease #-}
+--  ^^^^^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
+--                 ^^^^^^^^^^^ meta.preprocessor.pragma.value.other.haskell
+--                            ^^^ meta.preprocessor.pragma.value.haskell
+--                               ^ - meta.preprocessor.haskell
+--  ^^^ punctuation.section.preprocessor.begin.haskell
+--      ^^^^^^^^^^^ keyword.directive.builtin.haskell
+--                  ^^^^^^^^^ constant.other.pragma.haskell
+--                  ^ punctuation.definition.constant.haskell
+--                            ^^^ punctuation.section.preprocessor.end.haskell
+
     {-# OPTIONS_HADDOCK not-home #-}
---  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.haskell
+--  ^^^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
+--                     ^^^^^^^^^^ meta.preprocessor.pragma.value.other.haskell
+--                               ^^^ meta.preprocessor.pragma.value.haskell
 --                                  ^ - meta.preprocessor.haskell
 --  ^^^ punctuation.section.preprocessor.begin.haskell
---      ^^^^^^^^^^^^^^^ keyword.directive.other.haskell
+--      ^^^^^^^^^^^^^^^ keyword.directive.builtin.haskell
+--                      ^^^^^^^^ constant.other.pragma.haskell
 --                               ^^^ punctuation.section.preprocessor.end.haskell
+
+    {-# LANGUAGE
+--  ^^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
+--              ^ meta.preprocessor.pragma.value.language.haskell
+--  ^^^ punctuation.section.preprocessor.begin.haskell
+--      ^^^^^^^^ keyword.directive.language.haskell
+        -- Type level programming
+--      ^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-dash.haskell
+        DataKinds, PolyKinds,
+--      ^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.value.language.haskell
+--      ^^^^^^^^^ constant.language.extension.haskell
+--               ^ punctuation.separator.sequence.haskell
+--                 ^^^^^^^^^ constant.language.extension.haskell
+--                          ^ punctuation.separator.sequence.haskell
+        -- Generics
+--      ^^^^^^^^^^^ comment.line.double-dash.haskell
+        DeriveGeneric, DeriveAnyClass, DerivingVia
+--      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.value.language.haskell
+--      ^^^^^^^^^^^^^ constant.language.extension.haskell
+--                   ^ punctuation.separator.sequence.haskell
+--                     ^^^^^^^^^^^^^^ constant.language.extension.haskell
+--                                   ^ punctuation.separator.sequence.haskell
+--                                     ^^^^^^^^^^^ constant.language.extension.haskell
+        {- Type applications -}
+--      ^^^^^^^^^^^^^^^^^^^^^^^ comment.block.haskell
+        , TypeApplications, AllowAmbiguousTypes
+--      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.value.language.haskell
+--      ^ punctuation.separator.sequence.haskell
+--        ^^^^^^^^^^^^^^^^ constant.language.extension.haskell
+--                        ^ punctuation.separator.sequence.haskell
+--                          ^^^^^^^^^^^^^^^^^^^ constant.language.extension.haskell
+    #-}
+--  ^^^ meta.preprocessor.pragma.value.haskell punctuation.section.preprocessor.end.haskell
+
+    {-# WARNING "Not supported" #-}
+--  ^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
+--             ^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.value.other.haskell
+--                              ^^^ meta.preprocessor.pragma.value.haskell
+--                                 ^ - meta.preprocessor.haskell
+--  ^^^ punctuation.section.preprocessor.begin.haskell
+--      ^^^^^^^ keyword.directive.builtin.haskell
+--              ^^^^^^^^^^^^^^^ meta.string.haskell string.quoted.double.haskell
+--                              ^^^ punctuation.section.preprocessor.end.haskell
 
     #if 0
 --  ^^^ meta.preprocessor.c

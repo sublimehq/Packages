@@ -114,6 +114,52 @@ variables:
     | RULES | SPECIALIZE | SPECIALISE
     ){{break}}
 
+  # https://wiki.haskell.org/Language_extensions
+  # https://github.com/JustusAdam/language-haskell
+  pragma_deprecated_constants: |-
+    (?:No)?(?x:
+      AutoDeriveTypeable | DatatypeContexts | DoRec | IncoherentInstances
+    | MonadFailDesugaring | MonoPatBinds | NullaryTypeClasses
+    | OverlappingInstances | PatternSignatures | RecordPuns | RelaxedPolyRec
+    ){{break}}
+
+  # https://wiki.haskell.org/Language_extensions
+  # https://github.com/JustusAdam/language-haskell
+  pragma_extension_constants: |-
+    (?:No)?(?x:
+      AllowAmbiguousTypes | AlternativeLayoutRule
+    | AlternativeLayoutRuleTransitional | Arrows | BangPatterns | BinaryLiterals
+    | CApiFFI | CPP | CUSKs | ConstrainedClassMethods | ConstraintKinds
+    | DataKinds | DefaultSignatures | DeriveAnyClass | DeriveDataTypeable
+    | DeriveFoldable | DeriveFunctor | DeriveGeneric | DeriveLift
+    | DeriveTraversable | DerivingStrategies | DerivingVia
+    | DisambiguateRecordFields | DoAndIfThenElse | BlockArguments
+    | DuplicateRecordFields | EmptyCase | EmptyDataDecls | EmptyDataDeriving
+    | ExistentialQuantification | ExplicitForAll | ExplicitNamespaces
+    | ExtendedDefaultRules | FlexibleContexts | FlexibleInstances
+    | ForeignFunctionInterface | FunctionalDependencies | GADTSyntax | GADTs
+    | GHCForeignImportPrim | Generali(?:s | z)edNewtypeDeriving | ImplicitParams
+    | ImplicitPrelude | ImportQualifiedPost | ImpredicativeTypes
+    | TypeFamilyDependencies | InstanceSigs | ApplicativeDo | InterruptibleFFI
+    | JavaScriptFFI | KindSignatures | LambdaCase | LiberalTypeSynonyms | MagicHash
+    | MonadComprehensions | MonoLocalBinds | MonomorphismRestriction
+    | MultiParamTypeClasses | MultiWayIf | NumericUnderscores | NPlusKPatterns
+    | NamedFieldPuns | NamedWildCards | NegativeLiterals | HexFloatLiterals
+    | NondecreasingIndentation | NumDecimals | OverloadedLabels | OverloadedLists
+    | OverloadedStrings | PackageImports | ParallelArrays | ParallelListComp
+    | PartialTypeSignatures | PatternGuards | PatternSynonyms | PolyKinds
+    | PolymorphicComponents | QuantifiedConstraints | PostfixOperators
+    | QuasiQuotes | Rank2Types | RankNTypes | RebindableSyntax | RecordWildCards
+    | RecursiveDo | RelaxedLayout | RoleAnnotations | ScopedTypeVariables
+    | StandaloneDeriving | StarIsType | StaticPointers | Strict | StrictData
+    | TemplateHaskell | TemplateHaskellQuotes | StandaloneKindSignatures
+    | TraditionalRecordSyntax | TransformListComp | TupleSections
+    | TypeApplications | TypeInType | TypeFamilies | TypeOperators
+    | TypeSynonymInstances | UnboxedTuples | UnboxedSums
+    | UndecidableInstances | UndecidableSuperClasses | UnicodeSyntax
+    | UnliftedFFITypes | UnliftedNewtypes | ViewPatterns
+    ){{break}}
+
 ###############################################################################
 
 contexts:
@@ -204,17 +250,57 @@ contexts:
         2: punctuation.definition.preprocessor.c
 
   preprocessor-pragmas:
+    # 12 Compiler Pragmas
+    # https://www.haskell.org/onlinereport/haskell2010/haskellch12.html#x19-18800012
     - match: \{-#
       scope: punctuation.section.preprocessor.begin.haskell
       push: preprocessor-pragma-body
 
   preprocessor-pragma-body:
-    - meta_scope: meta.preprocessor.haskell
-    - match: '#-\}'
-      scope: punctuation.section.preprocessor.end.haskell
-      pop: 1
+    - meta_include_prototype: false
+    - meta_scope: meta.preprocessor.pragma.directive.haskell
+    - include: comments
+    # known directives
+    - match: LANGUAGE{{break}}
+      scope: keyword.directive.language.haskell
+      set: preprocessor-pragma-language-value
     - match: '{{pragma_keys}}'
-      scope: keyword.directive.other.haskell
+      scope: keyword.directive.builtin.haskell
+      set: preprocessor-pragma-other-value
+    # maybe incomplete directive
+    # maintain meta scope to support completions
+    - match: \p{Lu}+|(?=\S)
+      set: preprocessor-pragma-other-value
+
+  preprocessor-pragma-language-value:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.preprocessor.pragma.value.language.haskell
+    - include: preprocessor-pragma-common
+    - match: '{{pragma_extension_constants}}'
+      scope: constant.language.extension.haskell
+    - match: '{{pragma_deprecated_constants}}'
+      scope: constant.language.extension.haskell invalid.deprecated.haskell
+
+  preprocessor-pragma-other-value:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.preprocessor.pragma.value.other.haskell
+    - include: preprocessor-pragma-common
+    - include: constructor-separators
+    - include: literal-numbers
+    - include: literal-strings
+    - match: (-*)[-\w]+
+      scope: constant.other.pragma.haskell
+      captures:
+        1: punctuation.definition.constant.haskell
+
+  preprocessor-pragma-common:
+    - match: '#-\}'
+      scope:
+        meta.preprocessor.pragma.value.haskell
+        punctuation.section.preprocessor.end.haskell
+      pop: 1
+    - include: comments
+    - include: sequence-separators
 
 ###[ MODULE DECLARATIONS ]#####################################################
 
