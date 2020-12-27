@@ -700,6 +700,60 @@
 --                               ^ punctuation.section.sequence.end.haskell
 
 
+-- [ NEWTYPE DECLARATIONS ] ---------------------------------------------------
+
+    newtype
+--  ^^^^^^^^ meta.declaration.type.haskell
+--  ^^^^^^^ keyword.declaration.type.haskell
+
+   'newtype
+-- ^ keyword.operator.haskell
+--  ^^^^^^^ keyword.declaration.type.haskell
+
+    newtype'
+--  ^^^^^^^^ - keyword
+
+    newtype =
+--  ^^^^^^^^ meta.declaration.type.haskell
+--  ^^^^^^^ keyword.declaration.type.haskell
+--          ^ keyword.operator.haskell
+
+    newtype =>
+--  ^^^^^^^^^^^ meta.declaration.type.haskell
+--  ^^^^^^^ keyword.declaration.type.haskell
+--          ^^ keyword.operator.big-arrow.haskell
+
+    newtype TypCls tyVar =>
+--  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--  ^^^^^^^ keyword.declaration.type.haskell
+--          ^^^^^^ storage.type.haskell
+--                 ^^^^^ variable.other.generic-type.haskell
+--                       ^^ keyword.operator.big-arrow.haskell
+
+    newtype () => ModId.QTyCls tyVar1, tyVar2 deriving (Class1, QTyCls2)
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--                                            ^^^^^^^^^ meta.declaration.deriving.haskell - meta.sequence
+--                                                     ^^^^^^^^^^^^^^^^^ meta.declaration.deriving.haskell meta.sequence.tuple.haskell
+--                                                                      ^ - meta.declaration
+--  ^^^^ keyword.declaration.type.haskell
+--          ^^ meta.sequence.tuple.haskell
+--          ^ punctuation.section.sequence.begin.haskell
+--           ^ punctuation.section.sequence.end.haskell
+--             ^^ keyword.operator.big-arrow.haskell
+--                ^^^^^ variable.namespace.haskell
+--                     ^ punctuation.accessor.dot.haskell
+--                      ^^^^^^ storage.type.haskell
+--                             ^^^^^^ variable.other.generic-type.haskell
+--                                   ^ punctuation.separator.sequence.haskell
+--                                     ^^^^^^ variable.other.generic-type.haskell
+--                                            ^^^^^^^^ storage.modifier.haskell
+--                                                     ^ punctuation.section.sequence.begin.haskell
+--                                                      ^^^^^^ entity.other.inherited-class.haskell
+--                                                            ^ punctuation.separator.sequence.haskell
+--                                                              ^^^^^^^ entity.other.inherited-class.haskell
+--                                                                     ^ punctuation.section.sequence.end.haskell
+
+
 -- [ TYPE DECLARATIONS ] ------------------------------------------------------
 
     type
@@ -794,60 +848,6 @@
 --                                                                    ^ punctuation.section.sequence.end.haskell
       )
 --    ^ meta.group.haskell punctuation.section.group.end.haskell
-
-
--- [ NEWTYPE DECLARATIONS ] ---------------------------------------------------
-
-    newtype
---  ^^^^^^^^ meta.declaration.type.haskell
---  ^^^^^^^ keyword.declaration.type.haskell
-
-   'newtype
--- ^ keyword.operator.haskell
---  ^^^^^^^ keyword.declaration.type.haskell
-
-    newtype'
---  ^^^^^^^^ - keyword
-
-    newtype =
---  ^^^^^^^^ meta.declaration.type.haskell
---  ^^^^^^^ keyword.declaration.type.haskell
---          ^ keyword.operator.haskell
-
-    newtype =>
---  ^^^^^^^^^^^ meta.declaration.type.haskell
---  ^^^^^^^ keyword.declaration.type.haskell
---          ^^ keyword.operator.big-arrow.haskell
-
-    newtype TypCls tyVar =>
---  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
---  ^^^^^^^ keyword.declaration.type.haskell
---          ^^^^^^ storage.type.haskell
---                 ^^^^^ variable.other.generic-type.haskell
---                       ^^ keyword.operator.big-arrow.haskell
-
-    newtype () => ModId.QTyCls tyVar1, tyVar2 deriving (Class1, QTyCls2)
---  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
---                                            ^^^^^^^^^ meta.declaration.deriving.haskell - meta.sequence
---                                                     ^^^^^^^^^^^^^^^^^ meta.declaration.deriving.haskell meta.sequence.tuple.haskell
---                                                                      ^ - meta.declaration
---  ^^^^ keyword.declaration.type.haskell
---          ^^ meta.sequence.tuple.haskell
---          ^ punctuation.section.sequence.begin.haskell
---           ^ punctuation.section.sequence.end.haskell
---             ^^ keyword.operator.big-arrow.haskell
---                ^^^^^ variable.namespace.haskell
---                     ^ punctuation.accessor.dot.haskell
---                      ^^^^^^ storage.type.haskell
---                             ^^^^^^ variable.other.generic-type.haskell
---                                   ^ punctuation.separator.sequence.haskell
---                                     ^^^^^^ variable.other.generic-type.haskell
---                                            ^^^^^^^^ storage.modifier.haskell
---                                                     ^ punctuation.section.sequence.begin.haskell
---                                                      ^^^^^^ entity.other.inherited-class.haskell
---                                                            ^ punctuation.separator.sequence.haskell
---                                                              ^^^^^^^ entity.other.inherited-class.haskell
---                                                                     ^ punctuation.section.sequence.end.haskell
 
 
 -- [ DECLARATIONS ] -----------------------------------------------------------
