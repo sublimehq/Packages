@@ -909,6 +909,44 @@
 --      ^^^^^^^^^^^^^^^^^^^^^ meta.declaration.deriving.haskell
 --                            ^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.deriving.haskell
 
+    data BuilderType = Builder
+        { (>>=)  :: forall m a b. Unrestricted.Monad     m => m a -> (a -> m b) -> m b
+--        ^^^^^ variable.function.infix.haskell
+--               ^^ keyword.operator.double-colon.haskell
+--                  ^^^^^^ keyword.control.forall.haskell
+--                              ^ keyword.operator.haskell
+--                                ^^^^^^^^^^^^ variable.namespace.haskell
+--                                            ^ punctuation.accessor.dot.haskell
+--                                             ^^^^^ support.class.prelude.haskell
+        , (>>)   :: forall m b  . Unrestricted.Monad     m => m() -> m b -> m b
+--      ^ punctuation.separator.sequence.haskell
+--        ^^^^ variable.function.infix.haskell
+--               ^^ keyword.operator.double-colon.haskell
+--                  ^^^^^^ keyword.control.forall.haskell
+--                              ^ keyword.operator.haskell
+--                                ^^^^^^^^^^^^ variable.namespace.haskell
+--                                            ^ punctuation.accessor.dot.haskell
+--                                             ^^^^^ support.class.prelude.haskell
+        , fail   :: ∀ m a       . Unrestricted.MonadFail m => String -> m a
+--      ^ punctuation.separator.sequence.haskell
+--        ^^^^ support.function.prelude.haskell
+--               ^^ keyword.operator.double-colon.haskell
+--                  ^ keyword.operator.forall.haskell
+--                              ^ keyword.operator.haskell
+--                                ^^^^^^^^^^^^ variable.namespace.haskell
+--                                            ^ punctuation.accessor.dot.haskell
+--                                             ^^^^^^^^^ storage.type.haskell
+        , return :: forall m a  . Unrestricted.Monad     m => a -> m a
+--      ^ punctuation.separator.sequence.haskell
+--        ^^^^^^ keyword.control.flow.return.haskell
+--               ^^ keyword.operator.double-colon.haskell
+--                  ^^^^^^ keyword.control.forall.haskell
+--                              ^ keyword.operator.haskell
+--                                ^^^^^^^^^^^^ variable.namespace.haskell
+--                                            ^ punctuation.accessor.dot.haskell
+--                                             ^^^^^ support.class.prelude.haskell
+        }
+
 -- [ DEFAULT DECLARATIONS ] ---------------------------------------------------
 
     default

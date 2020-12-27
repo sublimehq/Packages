@@ -191,6 +191,7 @@ contexts:
     - include: literal-chars
     - include: literal-strings
     - include: literal-numbers
+    - include: type-forall
     - include: type-signatures
     - include: operators
     - include: splice
@@ -583,6 +584,7 @@ contexts:
     - include: else-pop
 
   type-content:
+    - include: type-forall
     - include: type-lists
     - include: type-tuples
     - include: arrow-operators
@@ -590,6 +592,22 @@ contexts:
     - include: ident-namespaces
     - include: ident-types
     - include: ident-generic-types
+
+  type-forall:
+    - match: ∀(?!{{symbol}})
+      scope: keyword.operator.forall.haskell
+      push: type-forall-body
+    - match: forall{{break}}
+      scope: keyword.control.forall.haskell
+      push: type-forall-body
+
+  type-forall-body:
+    - match: \.
+      scope: keyword.operator.haskell
+      pop: 1
+    - include: ident-anonymous
+    - include: ident-generic-types
+    - include: else-pop
 
   type-lists:
     - match: \[
@@ -616,6 +634,7 @@ contexts:
     - include: sequence-separators
     - include: type-content
     - include: else-pop
+
 
 ###[ RECORD COSTRUCTORS ]######################################################
 
