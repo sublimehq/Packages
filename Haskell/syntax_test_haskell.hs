@@ -1443,6 +1443,18 @@ main = do
 --    ^ keyword.operator.haskell
 --      ^ meta.name.haskell
 
+    Just
+--  ^^^^ constant.language.haskell
+
+    Nothing
+--  ^^^^^^^ constant.language.haskell
+
+    False
+--  ^^^^^ constant.language.haskell
+
+    True
+--  ^^^^ constant.language.haskell
+
     map (flip (/)) [1..]
 --  ^^^ support.function.prelude.haskell
 --       ^^^^ meta.group.haskell support.function.prelude.haskell

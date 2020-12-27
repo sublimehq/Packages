@@ -74,6 +74,9 @@ variables:
     | RealFrac | RealFloat | Integral | Floating
     ){{break}}
 
+  constant_names: |-
+    (?x: Just | Nothing | Left | Right | True | False | LT | EQ | GT ){{break}}
+
   function_names: |-
     (?x:
       abs | acos | acosh | all | and | any | appendFile | asTypeOf | asin
@@ -146,9 +149,11 @@ contexts:
     - include: groups-or-tuples
     - include: lists
     - include: keywords
-    - include: ident-builtin-functions
     - include: ident-anonymous
     - include: ident-namespaces
+    - include: ident-builtin-classes
+    - include: ident-builtin-constants
+    - include: ident-builtin-functions
     - include: ident-constants
     - include: ident-variables
 
@@ -655,6 +660,10 @@ contexts:
     - include: ident-builtin-classes
     - match: '{{con_id}}'
       scope: storage.type.haskell
+
+  ident-builtin-constants:
+    - match: '{{constant_names}}'
+      scope: constant.language.haskell
 
   ident-constants:
     - match: '{{con_id}}'
