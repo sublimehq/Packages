@@ -1118,7 +1118,7 @@
 --                ^^^^^^ - meta.declaration
 --  ^^^^^^^^ storage.modifier.haskell
 --           ^^^^^ entity.other.inherited-class.haskell
---                 ^^^^^ constant.other.haskell
+--                 ^^^^^ storage.type.haskell
 
     deriving ModId.QTyCls ModId.Const
 --  ^^^^^^^^^^^^^^^^^^^^^ meta.declaration.deriving.haskell
@@ -1129,7 +1129,7 @@
 --                 ^^^^^^ entity.other.inherited-class.haskell
 --                        ^^^^^ variable.namespace.haskell
 --                             ^ punctuation.accessor.dot.haskell
---                              ^^^^^ constant.other.haskell
+--                              ^^^^^ storage.type.haskell
 
     deriving ()
 --  ^^^^^^^^^ meta.declaration.deriving.haskell - meta.sequence
@@ -1933,7 +1933,7 @@ main = do
 --    ^ meta.name.haskell
 
     T . a
---  ^ constant.other.haskell
+--  ^ storage.type.haskell
 --    ^ keyword.operator.haskell
 --      ^ meta.name.haskell
 
@@ -2628,9 +2628,9 @@ main = do
 
     A' = A'
 --  ^^^^^^^ - meta.string - string
---  ^^ constant.other.haskell - string
+--  ^^ storage.type.haskell
 --     ^ keyword.operator.haskell
---       ^^ constant.other.haskell - string
+--       ^^ storage.type.haskell
 
     a' = b'
 --  ^^^^^^^ - meta.string - string

@@ -201,10 +201,9 @@ contexts:
     - include: keywords
     - include: ident-anonymous
     - include: ident-namespaces
-    - include: ident-builtin-classes
     - include: ident-builtin-constants
     - include: ident-builtin-functions
-    - include: ident-constants
+    - include: ident-types
     - include: ident-variables
 
 ###[ COMMENTS ]################################################################
@@ -841,10 +840,6 @@ contexts:
   ident-builtin-constants:
     - match: '{{constant_names}}'
       scope: constant.language.haskell
-
-  ident-constants:
-    - match: '{{con_id}}'
-      scope: constant.other.haskell
 
   ident-builtin-functions:
     - match: '{{function_names}}'
