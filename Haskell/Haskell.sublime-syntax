@@ -319,10 +319,22 @@ contexts:
         - module-block
         - module-meta
         - module-name
+    # https://wiki.haskell.org/Module_signature
+    - match: signature{{break}}
+      scope: keyword.declaration.namespace.haskell
+      push:
+        - module-block
+        - signature-meta
+        - module-name
 
   module-meta:
     - meta_include_prototype: false
     - meta_scope: meta.declaration.module.haskell
+    - include: immediatelly-pop
+
+  signature-meta:
+    - meta_include_prototype: false
+    - meta_scope: meta.declaration.signature.haskell
     - include: immediatelly-pop
 
   module-name:

@@ -315,6 +315,109 @@
 --                                                         ^^^^^^ entity.name.namespace.haskell
 --                                                                ^ punctuation.section.block.end.haskell
 
+
+-- [ MODULE SIGNATURE DECLARATIONS ] ------------------------------------------
+
+    'signature
+--  ^ keyword.operator.haskell
+--   ^^^^^^^^^ keyword.declaration.namespace.haskell
+
+    signature'
+--  ^^^^^^^^^^ - keyword
+
+    signature
+--  ^^^^^^^^^^ meta.declaration.signature.haskell
+--  ^^^^^^^^^ keyword.declaration.namespace.haskell
+
+    signature Name
+--  ^^^^^^^^^^^^^^^ meta.declaration.signature.haskell
+--  ^^^^^^^^^ keyword.declaration.namespace.haskell
+--            ^^^^ entity.name.namespace.haskell
+
+    signature Name where
+--  ^^^^^^^^^^^^^^^ meta.declaration.signature.haskell
+--                 ^^^^^ - meta.declaration.signature
+--  ^^^^^^^^^ keyword.declaration.namespace.haskell
+--            ^^^^ entity.name.namespace.haskell
+--                 ^^^^^ keyword.control.context.haskell
+
+    signature ()
+--  ^^^^^^^^^^ meta.declaration.signature.haskell - meta.sequence
+--            ^^ meta.declaration.signature.haskell meta.sequence.tuple.haskell
+--  ^^^^^^^^^ keyword.declaration.namespace.haskell
+--            ^ punctuation.section.sequence.begin.haskell
+--             ^ punctuation.section.sequence.end.haskell
+
+    signature Name ()
+--  ^^^^^^^^^^^^^^^ meta.declaration.signature.haskell - meta.sequence
+--                 ^^ meta.declaration.signature.haskell meta.sequence.tuple.haskell
+--  ^^^^^^^^^ keyword.declaration.namespace.haskell
+--            ^^^^ entity.name.namespace.haskell
+--                 ^ punctuation.section.sequence.begin.haskell
+--                  ^ punctuation.section.sequence.end.haskell
+
+    signature Name () where
+--  ^^^^^^^^^^^^^^^ meta.declaration.signature.haskell - meta.sequence
+--                 ^^ meta.declaration.signature.haskell meta.sequence.tuple.haskell
+--                   ^^^^^^^ - meta.declaration.signature
+--  ^^^^^^^^^ keyword.declaration.namespace.haskell
+--            ^^^^ entity.name.namespace.haskell
+--                 ^ punctuation.section.sequence.begin.haskell
+--                  ^ punctuation.section.sequence.end.haskell
+--                    ^^^^^ keyword.control.context.haskell
+
+    signature Ns.Name (sym1, sym2) where { import Ns.Other; import Ns.Other2 }
+--  ^^^^^^^^^^^^^^^^^^ meta.declaration.signature.haskell - meta.sequence
+--                    ^^^^^^^^^^^^ meta.declaration.signature.haskell meta.sequence.tuple.haskell
+--                                ^^^^^^ - meta.declaration.signature - meta.block - meta.sequence
+--                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.haskell - meta.declaration.signature
+--                                                                            ^ - meta.block
+--  ^^^^^^^^^ keyword.declaration.namespace.haskell
+--            ^^ variable.namespace.haskell
+--              ^ punctuation.accessor.dot.haskell
+--               ^^^^ entity.name.namespace.haskell
+--                    ^ punctuation.section.sequence.begin.haskell
+--                     ^^^^ variable.function.haskell
+--                         ^ punctuation.separator.sequence.haskell
+--                           ^^^^ variable.function.haskell
+--                               ^ punctuation.section.sequence.end.haskell
+--                                 ^^^^^ keyword.control.context.haskell
+--                                       ^ punctuation.section.block.begin.haskell
+--                                         ^^^^^^ keyword.declaration.import.haskell
+--                                                ^^ variable.namespace.haskell
+--                                                  ^ punctuation.accessor.dot.haskell
+--                                                   ^^^^^ entity.name.namespace.haskell
+--                                                        ^ punctuation.terminator.statement.haskell
+--                                                          ^^^^^^ keyword.declaration.import.haskell
+--                                                                 ^^ variable.namespace.haskell
+--                                                                   ^ punctuation.accessor.dot.haskell
+--                                                                    ^^^^^^ entity.name.namespace.haskell
+--                                                                           ^ punctuation.section.block.end.haskell
+
+    signature Name (module Other.Module) where { import Other.Module }
+--  ^^^^^^^^^^^^^^^ meta.declaration.signature.haskell - meta.sequence
+--                 ^^^^^^^^^^^^^^^^^^^^^ meta.declaration.signature.haskell meta.sequence.tuple.haskell
+--                                      ^^^^^^^ - meta.declaration - meta.block - meta.sequence
+--                                             ^^ meta.block.haskell - meta.import
+--                                               ^^^^^^^^^^^^^^^^^^^^ meta.block.haskell meta.import.haskell
+--                                                                   ^ meta.block.haskell - meta.import
+--                                                                    ^ - meta.declaration - meta.block
+--  ^^^^^^^^^ keyword.declaration.namespace.haskell
+--            ^^^^ entity.name.namespace.haskell
+--                 ^ punctuation.section.sequence.begin.haskell
+--                  ^^^^^^ keyword.declaration.namespace.haskell
+--                         ^^^^^ variable.namespace.haskell
+--                              ^ punctuation.accessor.dot.haskell
+--                               ^^^^^^ storage.type.haskell
+--                                     ^ punctuation.section.sequence.end.haskell
+--                                       ^^^^^ keyword.control.context.haskell
+--                                             ^ punctuation.section.block.begin.haskell
+--                                               ^^^^^^ keyword.declaration.import.haskell
+--                                                      ^^^^^ variable.namespace.haskell
+--                                                           ^ punctuation.accessor.dot.haskell
+--                                                            ^^^^^^ entity.name.namespace.haskell
+--                                                                   ^ punctuation.section.block.end.haskell
+
 -- [ IMPORT DECLARATIONS ] ----------------------------------------------------
 
     'import
