@@ -900,7 +900,7 @@ contexts:
   literal-string-body:
     - meta_include_prototype: false
     - meta_scope: meta.string.haskell string.quoted.double.haskell
-    - match: \"|$|{{comment_ahead}}
+    - match: \"|$
       scope: punctuation.definition.string.end.haskell
       pop: 1
     - match: '{{escape_sequence}}'
