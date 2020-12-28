@@ -919,7 +919,7 @@
 --       ^^^^^^ storage.type.haskell
 --              ^ keyword.operator.haskell
     Record {
---  ^^^^^^^ meta.record.haskell - meta.block
+--  ^^^^^^^ - meta.record
 --         ^^ meta.record.haskell meta.block.haskell
 --  ^^^^^^ storage.type.haskell
 --         ^ punctuation.section.block.begin.haskell
@@ -981,25 +981,38 @@
 --  ^^^^ keyword.declaration.data.haskell
 --       ^^^^^^^^^^ storage.type.haskell
 --                  ^ keyword.operator.haskell
-        Flipper Record
+        Flipper !Record
+--      ^^^^^^^ storage.type.haskell
+--              ^ keyword.operator.haskell
+--               ^^^^^^ storage.type.haskell
       | Int :! Int
---    ^ keyword.operator.haskell
+--    ^ punctuation.separator.sequence.haskell
+--      ^^^ storage.type.haskell
 --          ^^ keyword.operator.haskell
+--             ^^^ storage.type.haskell
       | Double :@ Double
---    ^ keyword.operator.haskell
+--    ^ punctuation.separator.sequence.haskell
+--      ^^^^^^ storage.type.haskell
 --             ^^ keyword.operator.haskell
+--                ^^^^^^ storage.type.haskell
       | Int `Quux` Double
---    ^ keyword.operator.haskell
+--    ^ punctuation.separator.sequence.haskell
+--      ^^^ storage.type.haskell
 --          ^^^^^^ keyword.operator.function.infix.haskell
+--                 ^^^^^^ storage.type.haskell
       | String :# Record
---    ^ keyword.operator.haskell
+--    ^ punctuation.separator.sequence.haskell
+--      ^^^^^^ storage.type.haskell
 --             ^^ keyword.operator.haskell
+--                ^^^^^^ storage.type.haskell
       | Simple :$ Outrageous
---    ^ keyword.operator.haskell
+--    ^ punctuation.separator.sequence.haskell
+--      ^^^^^^ storage.type.haskell
 --             ^^ keyword.operator.haskell
+--                ^^^^^^^^^^ storage.type.haskell
       | DontDoThis { outrageousInt :: Int, outrageousString :: String }
---    ^ keyword.operator.haskell
---      ^^^^^^^^^^ constant.other.haskell
+--    ^ punctuation.separator.sequence.haskell
+--      ^^^^^^^^^^ storage.type.haskell
 --                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.haskell
 --                 ^ punctuation.section.block.begin.haskell
 --                   ^^^^^^^^^^^^^ meta.block.haskell meta.name.haskell
@@ -1624,7 +1637,7 @@
    foldBoolGuard x y z
 -- ^^^^^^^^^^^^^^^^^^^ source.haskell
      | z         = y
---   ^ keyword.operator.haskell
+--   ^ punctuation.separator.sequence.haskell
      | otherwise = x
 
    countTheBeforeVowel :: String
@@ -1753,7 +1766,7 @@ main = do
 --                                                             ^ - meta.sequence
 --  ^ punctuation.section.sequence.begin.haskell
 --    ^ meta.name.haskell
---      ^ keyword.operator.haskell
+--      ^ punctuation.separator.sequence.haskell
 --        ^^ meta.name.haskell
 --           ^^ keyword.operator.haskell
 --              ^ punctuation.section.sequence.begin.haskell
@@ -2715,7 +2728,7 @@ main = do
 --                               ^ - keyword
 --                                ^ keyword.operator.haskell
 --                                 ^ - keyword
---                                  ^ keyword.operator.haskell
+--                                  ^ punctuation.separator.sequence.haskell
 --                                   ^ - keyword
 --                                    ^ keyword.operator.haskell
 --                                     ^ - keyword
@@ -2731,7 +2744,7 @@ main = do
 --          ^ keyword.operator.haskell
 --            ^ keyword.operator.haskell
 --              ^^ keyword.operator.haskell
---                 ^ keyword.operator.haskell
+--                 ^ punctuation.separator.sequence.haskell
 --                   ^^ keyword.operator.haskell
 --                      ^ keyword.operator.haskell
 --                        ^ keyword.operator.haskell
@@ -2747,6 +2760,10 @@ main = do
 --            ^ punctuation.section.sequence.end.haskell
 --                ^ punctuation.section.block.begin.haskell
 --                  ^ punctuation.section.block.end.haskell
+
+    a a = a || b
+--      ^ keyword.operator.haskell
+--          ^^ keyword.operator.haskell
 
     a a = (+) a 2
 --      ^ keyword.operator.haskell
