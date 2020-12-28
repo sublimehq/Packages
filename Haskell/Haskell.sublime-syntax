@@ -855,7 +855,7 @@ contexts:
 
   ident-variables:
     - match: '{{var_id}}'
-      scope: meta.name.haskell
+      scope: variable.other.haskell
 
 ###[ LITERALS ]################################################################
 

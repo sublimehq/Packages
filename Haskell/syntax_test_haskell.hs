@@ -722,7 +722,7 @@
 --                     ^^^^^^ variable.other.generic-type.haskell
 --                            ^^^^^^ variable.other.generic-type.haskell
 --                                  ^ punctuation.separator.sequence.haskell
---                                    ^^^^^ meta.name.haskell
+--                                    ^^^^^ variable.other.haskell
 
     class ModId.QTyCls tyVar1 tyVar2 =>
 --  ^^^^^ meta.declaration.class.haskell
@@ -894,7 +894,7 @@
 --  ^^^^ keyword.declaration.data.haskell
 
     data'
---  ^^^^^ meta.name.haskell
+--  ^^^^^ variable.other.haskell
 
     data TyCls
 --  ^^^^^^^^^^^ meta.declaration.data.haskell
@@ -924,22 +924,22 @@
 --  ^^^^^^ storage.type.haskell
 --         ^ punctuation.section.block.begin.haskell
         recordInt :: Int
---      ^^^^^^^^^ meta.name.haskell
+--      ^^^^^^^^^ variable.other.haskell
 --                ^^ keyword.operator.double-colon.haskell
 --                   ^^^ storage.type.haskell
       , recordString :: String
 --    ^ punctuation.separator.sequence.haskell
---      ^^^^^^^^^^^^ meta.name.haskell
+--      ^^^^^^^^^^^^ variable.other.haskell
 --                   ^^ keyword.operator.double-colon.haskell
 --                      ^^^^^^ storage.type.haskell
       , recordDouble :: Double
 --    ^ punctuation.separator.sequence.haskell
---      ^^^^^^^^^^^^ meta.name.haskell
+--      ^^^^^^^^^^^^ variable.other.haskell
 --                   ^^ keyword.operator.double-colon.haskell
 --                      ^^^^^^ storage.type.haskell
       , recordRational :: Rational
 --    ^ punctuation.separator.sequence.haskell
---      ^^^^^^^^^^^^^^ meta.name.haskell
+--      ^^^^^^^^^^^^^^ variable.other.haskell
 --                     ^^ keyword.operator.double-colon.haskell
 --                        ^^^^^^^^ support.class.prelude.haskell
       } deriving (Eq, Ord, Generic)
@@ -1015,11 +1015,11 @@
 --      ^^^^^^^^^^ storage.type.haskell
 --                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.haskell
 --                 ^ punctuation.section.block.begin.haskell
---                   ^^^^^^^^^^^^^ meta.block.haskell meta.name.haskell
+--                   ^^^^^^^^^^^^^ meta.block.haskell variable.other.haskell
 --                                 ^^ keyword.operator.double-colon.haskell
 --                                    ^^^ storage.type.haskell
 --                                       ^ punctuation.separator.sequence.haskell
---                                         ^^^^^^^^^^^^^^^^ meta.block.haskell meta.name.haskell
+--                                         ^^^^^^^^^^^^^^^^ meta.block.haskell variable.other.haskell
 --                                                          ^^ keyword.operator.double-colon.haskell
 --                                                             ^^^^^^ storage.type.haskell
 --                                                                    ^ punctuation.section.block.end.haskell
@@ -1733,9 +1733,9 @@ main = do
 --    ^ punctuation.separator.sequence.haskell
 --     ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
 --      ^ punctuation.separator.sequence.haskell
---       ^ meta.name.haskell
+--       ^ variable.other.haskell
 --        ^ punctuation.separator.sequence.haskell
---         ^^ meta.name.haskell
+--         ^^ variable.other.haskell
 --           ^ punctuation.separator.sequence.haskell
 --            ^^^ meta.string.haskell string.quoted.single.haskell
 --               ^ punctuation.separator.sequence.haskell
@@ -1765,9 +1765,9 @@ main = do
 --                                                     ^^^^^^^^ meta.sequence.list.haskell - meta.sequence meta.sequence
 --                                                             ^ - meta.sequence
 --  ^ punctuation.section.sequence.begin.haskell
---    ^ meta.name.haskell
+--    ^ variable.other.haskell
 --      ^ punctuation.separator.sequence.haskell
---        ^^ meta.name.haskell
+--        ^^ variable.other.haskell
 --           ^^ keyword.operator.haskell
 --              ^ punctuation.section.sequence.begin.haskell
 --                ^ punctuation.section.sequence.begin.haskell
@@ -1800,10 +1800,10 @@ main = do
 --                                                ^ punctuation.section.sequence.begin.haskell
 --                                                 ^ constant.numeric.value.haskell
 --                                                  ^ punctuation.separator.sequence.haskell
---                                                   ^ meta.name.haskell
+--                                                   ^ variable.other.haskell
 --                                                    ^ punctuation.section.sequence.end.haskell
 --                                                      ^^ keyword.operator.haskell
---                                                         ^^ meta.name.haskell
+--                                                         ^^ variable.other.haskell
 --                                                            ^ punctuation.section.sequence.end.haskell
 --
 
@@ -1900,42 +1900,42 @@ main = do
 --  ^ variable.language.anonymous.haskell
 
     a
---  ^ meta.name.haskell
+--  ^ variable.other.haskell
 
     _a
---  ^^ meta.name.haskell
+--  ^^ variable.other.haskell
 
     _'
---  ^^ meta.name.haskell
+--  ^^ variable.other.haskell
 
     a'
---  ^^ meta.name.haskell
+--  ^^ variable.other.haskell
 
     _a'b'c_D'0123456789'
---  ^^^^^^^^^^^^^^^^^^^^ meta.name.haskell
+--  ^^^^^^^^^^^^^^^^^^^^ variable.other.haskell
 
     genericIdent
---  ^^^^^^^^^^^^ meta.name.haskell
+--  ^^^^^^^^^^^^ variable.other.haskell
 
     ý ĳ ǚ ǣ
---  ^ meta.name.haskell
+--  ^ variable.other.haskell
 --   ^ - meta.name
---    ^ meta.name.haskell
+--    ^ variable.other.haskell
 --     ^ - meta.name
---      ^ meta.name.haskell
+--      ^ variable.other.haskell
 --       ^ - meta.name
---        ^ meta.name.haskell
+--        ^ variable.other.haskell
 --         ^ - meta.name
 
     T.a
 --  ^ variable.namespace.haskell
 --   ^ punctuation.accessor.dot.haskell
---    ^ meta.name.haskell
+--    ^ variable.other.haskell
 
     T . a
 --  ^ storage.type.haskell
 --    ^ keyword.operator.haskell
---      ^ meta.name.haskell
+--      ^ variable.other.haskell
 
     Just
 --  ^^^^ constant.language.haskell
@@ -2619,12 +2619,12 @@ main = do
     'a
 --  ^^ - meta.string - string
 --  ^ keyword.operator.haskell
---   ^ meta.name.haskell
+--   ^ variable.other.haskell
 
     'ab'
 --  ^^^^ - meta.string - string
 --  ^ keyword.operator.haskell
---   ^^^ meta.name.haskell
+--   ^^^ variable.other.haskell
 
     A' = A'
 --  ^^^^^^^ - meta.string - string
@@ -2634,17 +2634,17 @@ main = do
 
     a' = b'
 --  ^^^^^^^ - meta.string - string
---  ^^ meta.name.haskell - string
+--  ^^ variable.other.haskell - string
 --     ^ keyword.operator.haskell
---       ^^ meta.name.haskell - string
+--       ^^ variable.other.haskell - string
 
     '\c' . '\z'
 --  ^^^^^^^^^^^ - meta.string - string
 --  ^^ keyword.operator.haskell
---    ^^ meta.name.haskell
+--    ^^ variable.other.haskell
 --       ^ keyword.operator.haskell
 --         ^^ keyword.operator.haskell
---           ^^ meta.name.haskell
+--           ^^ variable.other.haskell
 
     '\?'
 --  ^^^^ keyword.operator.haskell - string
@@ -2656,21 +2656,21 @@ main = do
     '\o8' '\o9'
 --  ^^^^^^^^^^^ - meta.string - string - constant.character
 --  ^^ keyword.operator.haskell
---    ^^^ meta.name.haskell
+--    ^^^ variable.other.haskell
 --        ^^ keyword.operator.haskell
---          ^^^ meta.name.haskell
+--          ^^^ variable.other.haskell
 
     '\xG' '\xh'
 --  ^^^^^^^^^^^ - meta.string - string - constant.character
 --  ^^ keyword.operator.haskell
---    ^^^ meta.name.haskell
+--    ^^^ variable.other.haskell
 --        ^^ keyword.operator.haskell
---          ^^^ meta.name.haskell
+--          ^^^ variable.other.haskell
 
     '^a' '^)'
 --  ^^^^^^^^^ - meta.string - string - constant.character
 --  ^^ keyword.operator.haskell
---    ^^ meta.name.haskell
+--    ^^ variable.other.haskell
 --       ^^ keyword.operator.haskell
 --          ^ keyword.operator.haskell
 
