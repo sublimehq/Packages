@@ -171,21 +171,24 @@ contexts:
     - include: preprocessor-directives
 
   main:
+    - include: modules
+    - include: declarations
     - include: statements
     - include: expressions
 
-  statements:
-    - include: blocks
-    - include: functions
-    - include: instances
+  declarations:
     - include: classes
     - include: datas
-    - include: defaults
-    - include: deriving
+    - include: functions
+    - include: imports
+    - include: instances
     - include: newtypes
     - include: types
-    - include: imports
-    - include: modules
+
+  statements:
+    - include: blocks
+    - include: defaults
+    - include: deriving
     - include: statement-terminators
 
   expressions:
@@ -313,15 +316,16 @@ contexts:
     - match: module{{break}}
       scope: keyword.declaration.namespace.haskell
       push:
+        - module-block
         - module-meta
-        - module-body
+        - module-name
 
   module-meta:
     - meta_include_prototype: false
     - meta_scope: meta.declaration.module.haskell
     - include: immediatelly-pop
 
-  module-body:
+  module-name:
     - match: ({{con_id}})(\.)
       captures:
         1: variable.namespace.haskell
@@ -330,10 +334,10 @@ contexts:
       scope: entity.name.namespace.haskell
     - match: \(
       scope: punctuation.section.sequence.begin.haskell
-      set: module-tuple-body
+      set: module-exports-body
     - include: else-pop
 
-  module-tuple-body:
+  module-exports-body:
     - meta_scope: meta.sequence.tuple.haskell
     - include: tuple-end
     - include: range-tuples
@@ -341,7 +345,7 @@ contexts:
     - include: sequence-separators
     - match: \(
       scope: punctuation.section.sequence.begin.haskell
-      push: module-tuple-body
+      push: module-exports-body
     - match: module{{break}}
       scope: keyword.declaration.namespace.haskell
     - include: ident-builtin-functions
@@ -349,6 +353,23 @@ contexts:
     - include: ident-namespaces
     - include: ident-types
     - include: else-pop
+
+  module-block:
+    # The module body may be wrapped into braces, which still needs to be
+    # handled as top-level block containing top-level declarations.
+    - match: \{
+      scope: punctuation.section.block.begin.haskell
+      set: module-block-body
+    - match: where{{break}}
+      scope: keyword.control.context.haskell
+    - include: else-pop
+
+  module-block-body:
+    - meta_scope: meta.block.haskell
+    - include: block-end
+    - include: declarations
+    - include: statements
+    - include: expressions
 
 ###[ IMPORT DECLARATIONS ]#####################################################
 
@@ -693,7 +714,9 @@ contexts:
   block-body:
     - meta_scope: meta.block.haskell
     - include: block-end
-    - include: main
+    - include: statements
+    - include: expressions
+    - include: else-pop
 
   lists:
     # 3.7 Lists
