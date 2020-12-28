@@ -182,6 +182,7 @@ contexts:
     - include: datas
     - include: defaults
     - include: deriving
+    - include: newtypes
     - include: types
     - include: imports
     - include: modules
@@ -191,7 +192,6 @@ contexts:
     - include: literal-chars
     - include: literal-strings
     - include: literal-numbers
-    - include: type-forall
     - include: type-signatures
     - include: operators
     - include: splice
@@ -554,16 +554,39 @@ contexts:
     - include: big-arrow-operators
     - include: type-content
 
+###[ NEWTYPE DECLARATIONS ]####################################################
+
+  newtypes:
+    - match: newtype{{break}}
+      scope: keyword.declaration.newtype.haskell
+      push: newtype-body
+
+  newtype-body:
+    - meta_scope: meta.declaration.newtype.haskell
+    - match: ^(?!\s*(?:--|{-|$))
+      pop: 1
+    - match: =(?!>)
+      scope: keyword.operator.haskell
+    - include: big-arrow-operators
+    - include: type-content
+    - include: else-pop
+
 ###[ TYPE DECLARATIONS ]#######################################################
 
   types:
-    - match: (?:newtype|type){{break}}
+    - match: type{{break}}
       scope: keyword.declaration.type.haskell
       push: type-body
-
+ 
   type-body:
     - meta_scope: meta.declaration.type.haskell
-    - include: type-signature-body
+    - match: ^(?!\s*(?:--|{-|$))
+      pop: 1
+    - match: =(?!>)
+      scope: keyword.operator.haskell
+    - include: big-arrow-operators
+    - include: type-content
+    - include: else-pop
 
 ###[ TYPE SIGNATURES ]#########################################################
 

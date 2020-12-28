@@ -1256,39 +1256,39 @@
 -- [ NEWTYPE DECLARATIONS ] ---------------------------------------------------
 
     newtype
---  ^^^^^^^^ meta.declaration.type.haskell
---  ^^^^^^^ keyword.declaration.type.haskell
+--  ^^^^^^^^ meta.declaration.newtype.haskell
+--  ^^^^^^^ keyword.declaration.newtype.haskell
 
    'newtype
 -- ^ keyword.operator.haskell
---  ^^^^^^^ keyword.declaration.type.haskell
+--  ^^^^^^^ keyword.declaration.newtype.haskell
 
     newtype'
 --  ^^^^^^^^ - keyword
 
     newtype =
---  ^^^^^^^^ meta.declaration.type.haskell
---  ^^^^^^^ keyword.declaration.type.haskell
+--  ^^^^^^^^ meta.declaration.newtype.haskell
+--  ^^^^^^^ keyword.declaration.newtype.haskell
 --          ^ keyword.operator.haskell
 
     newtype =>
---  ^^^^^^^^^^^ meta.declaration.type.haskell
---  ^^^^^^^ keyword.declaration.type.haskell
+--  ^^^^^^^^^^^ meta.declaration.newtype.haskell
+--  ^^^^^^^ keyword.declaration.newtype.haskell
 --          ^^ keyword.operator.big-arrow.haskell
 
     newtype TypCls tyVar =>
---  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
---  ^^^^^^^ keyword.declaration.type.haskell
+--  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.newtype.haskell
+--  ^^^^^^^ keyword.declaration.newtype.haskell
 --          ^^^^^^ storage.type.haskell
 --                 ^^^^^ variable.other.generic-type.haskell
 --                       ^^ keyword.operator.big-arrow.haskell
 
     newtype () => ModId.QTyCls tyVar1 tyVar2 deriving (Class1, QTyCls2)
---  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.newtype.haskell
 --                                           ^^^^^^^^^ meta.declaration.deriving.haskell - meta.sequence
 --                                                    ^^^^^^^^^^^^^^^^^ meta.declaration.deriving.haskell meta.sequence.tuple.haskell
 --                                                                     ^ - meta.declaration
---  ^^^^ keyword.declaration.type.haskell
+--  ^^^^ keyword.declaration.newtype.haskell
 --          ^^ meta.sequence.tuple.haskell
 --          ^ punctuation.section.sequence.begin.haskell
 --           ^ punctuation.section.sequence.end.haskell
@@ -1335,8 +1335,7 @@
 --                           ^^^^^^ variable.other.generic-type.haskell
 
     type ModId.QTyCls tyVar1 tyVar2 =
---  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
---                                  ^ - meta.declaration
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
 --  ^^^^ keyword.declaration.type.haskell
 --       ^^^^^ variable.namespace.haskell
 --            ^ punctuation.accessor.dot.haskell
@@ -1361,6 +1360,65 @@
 --                                                  ^ punctuation.separator.sequence.haskell
 --                                                    ^^^^^^^ entity.other.inherited-class.haskell
 --                                                           ^ punctuation.section.sequence.end.haskell
+
+    type Id a = a
+--  ^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--            ^ keyword.operator.haskell
+--              ^ variable.other.generic-type.haskell
+
+    type Const a b = a
+--  ^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--                 ^ keyword.operator.haskell
+--                   ^ variable.other.generic-type.haskell
+
+    type FunctionTo a b = b -> a
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--                      ^ keyword.operator.haskell
+--                        ^ variable.other.generic-type.haskell
+--                          ^^ keyword.operator.arrow.haskell
+--                             ^ variable.other.generic-type.haskell
+
+    type Indexed f g = forall i. f i -> g i
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--                   ^ keyword.operator.haskell
+--                     ^^^^^^ keyword.control.forall.haskell
+--                            ^ variable.other.generic-type.haskell
+--                             ^ keyword.operator.haskell
+--                               ^ variable.other.generic-type.haskell
+--                                 ^ variable.other.generic-type.haskell
+--                                   ^^ keyword.operator.arrow.haskell
+--                                      ^ variable.other.generic-type.haskell
+--                                        ^ variable.other.generic-type.haskell
+
+    type ShowIndexed f g = forall i. (Show i) => f i -> g i
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--                       ^ keyword.operator.haskell
+--                         ^^^^^^ keyword.control.forall.haskell
+--                                ^ variable.other.generic-type.haskell
+--                                 ^ keyword.operator.haskell
+--                                   ^^^^^^^^ meta.sequence.tuple.haskell
+--                                   ^ punctuation.section.sequence.begin.haskell
+--                                    ^^^^ support.class.prelude.haskell
+--                                         ^ variable.other.generic-type.haskell
+--                                          ^ punctuation.section.sequence.end.haskell
+--                                            ^^ keyword.operator.big-arrow.haskell
+--                                               ^ variable.other.generic-type.haskell
+--                                                 ^ variable.other.generic-type.haskell
+--                                                   ^^ keyword.operator.arrow.haskell
+--                                                      ^ variable.other.generic-type.haskell
+--                                                        ^ variable.other.generic-type.haskell
+
+    type ShowConstrained f a = (Show a) => f a
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--                           ^ keyword.operator.haskell
+--                             ^^^^^^^^ meta.sequence.tuple.haskell
+--                             ^ punctuation.section.sequence.begin.haskell
+--                              ^^^^ support.class.prelude.haskell
+--                                   ^ variable.other.generic-type.haskell
+--                                    ^ punctuation.section.sequence.end.haskell
+--                                      ^^ keyword.operator.big-arrow.haskell
+--                                         ^ variable.other.generic-type.haskell
+--                                           ^ variable.other.generic-type.haskell
 
     type CmdRoute =
 --  ^^^^^^^^^^^^^^ meta.declaration.type.haskell
