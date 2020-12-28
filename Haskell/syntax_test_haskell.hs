@@ -583,12 +583,12 @@ main = do
 --            ^ punctuation.definition.string.end.haskell
 --        ^^^^ constant.character.escape.haskell
 
-   "ok\"()--"'ab'
--- ^^^^^^^ meta.string.haskell string.quoted.double.haskell - comment
---        ^^^^^^^^ comment.line.double-dash.haskell - string
--- ^ punctuation.definition.string.begin.haskell
---    ^^ constant.character.escape.haskell
---        ^^ punctuation.definition.comment.haskell
+    "ok\"()--"'b'
+--  ^^^^^^^^^^ meta.string.haskell string.quoted.double.haskell - comment
+--            ^^^ meta.string.haskell string.quoted.single.haskell
+--  ^ punctuation.definition.string.begin.haskell
+--     ^^ constant.character.escape.haskell
+--         ^^ - punctuation
 
    A' = A'
 -- ^^ constant.other.haskell - string
