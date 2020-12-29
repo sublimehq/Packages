@@ -534,7 +534,6 @@ contexts:
   generic-angles-contents:
     - include: comments
     - include: attribute
-    - include: type-slice-or-array
     - match: '(?=>)'
       pop: true
     - match: '<'
@@ -544,7 +543,17 @@ contexts:
           scope: punctuation.definition.generic.end.rust
           pop: true
         - include: generic-angles-contents
+    - include: bool
+    # byte must be before type-any-identifier since it doesn't know about byte tokens
+    - include: byte
     - include: type-any-identifier
+    # char must be after type-any-identifier to deal with conflict with lifetimes
+    - include: char
+    # Handle negative integers (technically unary negative expression with a literal expression)
+    - match: '-'
+      scope: keyword.operator.arithmetic.rust
+    - include: integers
+    - include: block
     - match: '{{identifier}}'
     - match: ':|,'
       scope: punctuation.separator.rust
@@ -1501,11 +1510,14 @@ contexts:
     - match: '[:;,]'
       scope: punctuation.separator.rust
 
+  bool:
+    - match: \b(true|false)\b
+      scope: constant.language.rust
+
   keywords:
     # All keywords.  Note in `statements` some of these are superseded by more
     # specific rules.
-    - match: \b(true|false)\b
-      scope: constant.language.rust
+    - include: bool
 
     - match: \b(let|const|static)\b
       scope: storage.type.rust

@@ -350,3 +350,97 @@ fn factory() -> Box<Fn(i32) -> i32> {
 //                             ^^^ storage.type
     Box::new(|x| x + 1)
 }
+
+// Const generics.
+trait Foo<const N: usize> {
+//       ^^^^^^^^^^^^^^^^ meta.trait meta.generic
+//       ^ punctuation.definition.generic.begin
+//        ^^^^^ storage.modifier
+//               ^ meta.trait meta.generic punctuation.separator
+//                 ^^^^^ storage.type
+//                      ^ punctuation.definition.generic.end
+    fn method<const M: usize>(&mut self, arr: [[u8; M]; N]);
+//           ^^^^^^^^^^^^^^^^ meta.generic
+//           ^ punctuation.definition.generic.begin
+//            ^^^^^ storage.modifier
+//                   ^ punctuation.separator
+//                     ^^^^^ storage.type
+//                          ^ punctuation.definition.generic.end
+}
+
+struct Bar<T, const N: usize> {
+//        ^^^^^^^^^^^^^^^^^^^ meta.struct meta.generic
+//        ^ punctuation.definition.generic.begin
+//          ^ punctuation.separator
+//            ^^^^^ storage.modifier
+//                   ^ punctuation.separator
+//                     ^^^^^ storage.type
+//                          ^ punctuation.definition.generic.end
+    inner: [T; N],
+}
+
+impl<const N: usize> Foo<N> for Bar<u8, N> {
+//  ^^^^^^^^^^^^^^^^ meta.impl meta.generic
+//  ^ punctuation.definition.generic.begin
+//   ^^^^^ storage.modifier
+//          ^ punctuation.separator
+//            ^^^^^ storage.type
+//                 ^ punctuation.definition.generic.end
+    fn method<const M: usize>(&mut self, arr: [[u8; M]; N]) {}
+}
+
+struct Bool<const N: bool>;
+//         ^^^^^^^^^^^^^^^ meta.struct meta.generic
+//         ^ punctuation.definition.generic.begin
+//          ^^^^^ storage.modifier
+//                 ^ punctuation.separator
+//                   ^^^^ storage.type
+//                       ^ punctuation.definition.generic.end
+struct Char<const N: char>;
+struct Int<const N: i32>;
+struct Byte<const N: u8>;
+
+fn function<const N: u16>() {
+    const fn foo(x: bool) -> usize { 2 }
+    let x: Bar<i32, 1> = Bar { inner: [1; 1] };
+//            ^^^^^^^^ meta.function meta.block meta.generic
+//            ^ meta.function meta.block meta.generic punctuation.definition.generic.begin
+//             ^^^ meta.function meta.block meta.generic storage.type
+//                ^ meta.function meta.block meta.generic punctuation.separator
+//                  ^ meta.function meta.block meta.generic constant.numeric.integer.decimal
+//                   ^ meta.function meta.block meta.generic punctuation.definition.generic.end
+    let y: Bar<i32, { foo(1 > 2) / 2 }> = Bar { inner: [1; 1] };
+//            ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function meta.block meta.generic
+//            ^ punctuation.definition.generic.begin
+//                  ^^^^^^^^^^^^^^^^^^ meta.block
+//                    ^^^ support.function
+//                       ^ meta.group punctuation.section.group.begin
+//                          ^ keyword.operator.comparison
+//                             ^ punctuation.section.group.end
+//                               ^ keyword.operator.arithmetic
+//                                 ^ constant.numeric.integer.decimal
+//                                   ^ punctuation.section.block.end
+//                                    ^ punctuation.definition.generic.end
+    let b: Bool<true>;
+//              ^^^^ meta.function meta.block meta.generic constant.language
+    let c: Char<'∂'>;
+//              ^^^ meta.function meta.block meta.generic string.quoted.single
+//              ^ punctuation.definition.string.begin
+//                ^ punctuation.definition.string.end
+    let i: Int<-1>;
+//            ^^^^ meta.function meta.block meta.generic
+//             ^ keyword.operator.arithmetic
+//              ^ constant.numeric.integer.decimal
+    let i: Int<0b1011>;
+//             ^^^^^^ meta.function meta.block meta.generic constant.numeric.integer.binary
+    let i: Int<4i32>;
+//            ^^^^^^ meta.function meta.block meta.generic
+//             ^ constant.numeric.integer.decimal
+//              ^^^ storage.type.numeric
+    let b: Byte<b'a'>;
+//             ^^^^^^ meta.function meta.block meta.generic
+//              ^^^^ string.quoted.single.rust
+//              ^ storage.type.string
+//               ^ punctuation.definition.string.begin
+//                 ^ punctuation.definition.string.end
+}
