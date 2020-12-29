@@ -189,6 +189,7 @@ contexts:
   declarations:
     - include: classes
     - include: datas
+    - include: foreigns
     - include: functions
     - include: imports
     - include: instances
@@ -427,6 +428,47 @@ contexts:
       scope: invalid.illegal.unexpected-keyword.haskell
     - include: ident-functions
     - include: ident-types
+    - include: else-pop
+
+###[ FOREIGN DECLARATIONS ]####################################################
+
+  foreigns:
+    # 8.4 Foreign Declarations
+    # https://www.haskell.org/onlinereport/haskell2010/haskellch8.html#x15-1490008
+    - match: foreign{{break}}
+      scope: storage.modifier.foreign.haskell
+      branch_point: foreign
+      branch:
+        - foreign-import
+        - foreign-export
+
+  foreign-import:
+    # 8.4.3 Import Declarations
+    - meta_scope: meta.declaration.foreign.import.haskell
+    - match: export{{break}}
+      fail: foreign
+    - match: import{{break}}
+      scope: keyword.declaration.import.haskell
+    - match: (?:unsafe|safe){{break}}
+      scope: storage.modifier.import.haskell
+    - include: foreign-common
+
+  foreign-export:
+    # 8.4.4 Export Declarations
+    - meta_scope: meta.declaration.foreign.export.haskell
+    - match: export{{break}}
+      scope: keyword.declaration.export.haskell
+    - match: (?:unsafe|safe){{break}}
+      scope: invalid.illegal.unexpected-keyword.haskell
+    - include: foreign-common
+
+  foreign-common:
+    - include: literal-strings
+    - include: infix-parens-operators
+    - match: (?:ccall|cplusplus|dotnet|jvm|stdcall){{break}}
+      scope: constant.language.convention.haskell
+    - match: '{{var_id}}'
+      scope: entity.name.function.haskell
     - include: else-pop
 
 ###[ CLASS DECLARATIONS ]######################################################

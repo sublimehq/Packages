@@ -683,6 +683,132 @@
 --                          ^ punctuation.section.sequence.end.haskell
 
 
+-- [ FOREIGN EXPORT DECLARATIONS ]---------------------------------------------
+
+    foreign export
+--  ^^^^^^^^^^^^^^^ meta.declaration.foreign.export.haskell
+--  ^^^^^^^ storage.modifier.foreign.haskell
+--          ^^^^^^ keyword.declaration.export.haskell
+
+    foreign export ccall
+--  ^^^^^^^^^^^^^^^^^^^^^ meta.declaration.foreign.export.haskell
+--  ^^^^^^^ storage.modifier.foreign.haskell
+--          ^^^^^^ keyword.declaration.export.haskell
+--                 ^^^^^ constant.language.convention.haskell
+
+    foreign export ccall triple :: Int -> Int
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.foreign.export.haskell
+--  ^^^^^^^ storage.modifier.foreign.haskell
+--          ^^^^^^ keyword.declaration.export.haskell
+--                 ^^^^^ constant.language.convention.haskell
+--                       ^^^^^^ entity.name.function.haskell
+--                              ^^ keyword.operator.double-colon.haskell
+--                                 ^^^ support.type.prelude.haskell
+--                                     ^^ keyword.operator.arrow.haskell
+--                                        ^^^ support.type.prelude.haskell
+
+    foreign
+--  ^^^^^^^^ meta.declaration.foreign.export.haskell
+--  ^^^^^^^ storage.modifier.foreign.haskell
+    export
+-- ^^^^^^^^ meta.declaration.foreign.export.haskell
+--  ^^^^^^ keyword.declaration.export.haskell
+    ccall
+-- ^^^^^^^ meta.declaration.foreign.export.haskell
+--  ^^^^^ constant.language.convention.haskell
+    safe
+-- ^^^^^^ meta.declaration.foreign.export.haskell
+--  ^^^^ invalid.illegal.unexpected-keyword.haskell
+    triple
+-- ^^^^^^^^ meta.declaration.foreign.export.haskell
+--  ^^^^^^ entity.name.function.haskell
+    :: Int -> Int
+-- ^ meta.declaration.foreign.export.haskell
+--  ^^ keyword.operator.double-colon.haskell
+--     ^^^ support.type.prelude.haskell
+--         ^^ keyword.operator.arrow.haskell
+--            ^^^ support.type.prelude.haskell
+
+    foreign export ccall "addInt" (+) :: Int->Int->Int
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.foreign.export.haskell
+--  ^^^^^^^ storage.modifier.foreign.haskell
+--          ^^^^^^ keyword.declaration.export.haskell
+--                 ^^^^^ constant.language.convention.haskell
+--                       ^^^^^^^^ meta.string.haskell string.quoted.double.haskell
+--                                ^^^ variable.function.infix.haskell
+--                                    ^^ keyword.operator.double-colon.haskell
+--                                       ^^^ support.type.prelude.haskell
+--                                          ^^ keyword.operator.arrow.haskell
+--                                            ^^^ support.type.prelude.haskell
+--                                               ^^ keyword.operator.arrow.haskell
+--                                                 ^^^ support.type.prelude.haskell
+
+
+-- [ FOREIGN IMPORT DECLARATIONS ]---------------------------------------------
+
+    foreign
+--  ^^^^^^^^ meta.declaration.foreign.import.haskell
+--  ^^^^^^^ storage.modifier.foreign.haskell
+
+    foreign import
+--  ^^^^^^^^^^^^^^^ meta.declaration.foreign.import.haskell
+--  ^^^^^^^ storage.modifier.foreign.haskell
+--          ^^^^^^ keyword.declaration.import.haskell
+
+    foreign import ccall
+--  ^^^^^^^^^^^^^^^^^^^^^ meta.declaration.foreign.import.haskell
+--  ^^^^^^^ storage.modifier.foreign.haskell
+--          ^^^^^^ keyword.declaration.import.haskell
+--                 ^^^^^ constant.language.convention.haskell
+
+    foreign import ccall "exp"
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.foreign.import.haskell
+--  ^^^^^^^ storage.modifier.foreign.haskell
+--          ^^^^^^ keyword.declaration.import.haskell
+--                 ^^^^^ constant.language.convention.haskell
+--                       ^^^^^ meta.string.haskell string.quoted.double.haskell
+--
+
+    foreign import ccall "exp" c_exp :: Double -> Double
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.foreign.import.haskell
+--  ^^^^^^^ storage.modifier.foreign.haskell
+--          ^^^^^^ keyword.declaration.import.haskell
+--                 ^^^^^ constant.language.convention.haskell
+--                       ^^^^^ meta.string.haskell string.quoted.double.haskell
+--                             ^^^^^ entity.name.function.haskell
+--                                   ^^ keyword.operator.double-colon.haskell
+--                                      ^^^^^^ support.type.prelude.haskell
+--                                             ^^ keyword.operator.arrow.haskell
+--                                                ^^^^^^ support.type.prelude.haskell
+
+    foreign import dotnet safe "func" func :: String -> Bool
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.foreign.import.haskell
+--  ^^^^^^^ storage.modifier.foreign.haskell
+--          ^^^^^^ keyword.declaration.import.haskell
+--                 ^^^^^^ constant.language.convention.haskell
+--                        ^^^^ storage.modifier.import.haskell
+--                             ^^^^^^ meta.string.haskell string.quoted.double.haskell
+--                                    ^^^^ entity.name.function.haskell
+--                                         ^^ keyword.operator.double-colon.haskell
+--                                            ^^^^^^ support.type.prelude.haskell
+--                                                   ^^ keyword.operator.arrow.haskell
+--                                                      ^^^^ support.type.prelude.haskell
+
+    foreign import ccall "addInt" (+) :: Int->Int->Int
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.foreign.import.haskell
+--  ^^^^^^^ storage.modifier.foreign.haskell
+--          ^^^^^^ keyword.declaration.import.haskell
+--                 ^^^^^ constant.language.convention.haskell
+--                       ^^^^^^^^ meta.string.haskell string.quoted.double.haskell
+--                                ^^^ variable.function.infix.haskell
+--                                    ^^ keyword.operator.double-colon.haskell
+--                                       ^^^ support.type.prelude.haskell
+--                                          ^^ keyword.operator.arrow.haskell
+--                                            ^^^ support.type.prelude.haskell
+--                                               ^^ keyword.operator.arrow.haskell
+--                                                 ^^^ support.type.prelude.haskell
+
+
 -- [ CLASS DECLARATIONS ] -----------------------------------------------------
 
    'class
