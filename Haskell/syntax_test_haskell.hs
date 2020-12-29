@@ -1012,24 +1012,6 @@
 --                                                        ^^ keyword.operator.arrow.haskell
 --                                                           ^^^^ support.type.prelude.haskell
 
-    class Name where {
---  ^^^^^ keyword.declaration.class.haskell
---        ^^^^ storage.type.haskell
---             ^^^^^ keyword.control.context.haskell
---                   ^^ meta.block.haskell
---                   ^ punctuation.section.block.begin.haskell
-    method :: Bool -> Bool
---  ^^^^^^ entity.name.function.haskell
---         ^^ keyword.operator.double-colon.haskell
---            ^^^^ support.type.prelude.haskell
---                 ^^ keyword.operator.arrow.haskell
---                    ^^^^ support.type.prelude.haskell
-    method = True
---  ^^^^^^ variable.other.haskell
---         ^ keyword.operator.haskell
---           ^^^^ support.constant.prelude.haskell
-    }
-
 
 -- [ DATA DECLARATIONS ] ------------------------------------------------------
 
@@ -1765,81 +1747,165 @@
 --    ^ meta.group.haskell punctuation.section.group.end.haskell
 
 
--- [ DECLARATIONS ] -----------------------------------------------------------
+-- [ FUNCTION DECLARATIONS ] --------------------------------------------------
 
-   traverse :: Applicative f =>
--- ^^^^^^^^ entity.name.function.haskell
---          ^^ keyword.operator.double-colon.haskell
---             ^^^^^^^^^^^ support.class.prelude.haskell
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.type-declaration.haskell
---                           ^^ keyword.operator.big-arrow.haskell
-    (a -> f b)
--- ^^^^^^^^^^^^ meta.function.type-declaration.haskell
---     ^^ keyword.operator.arrow.haskell
-    -> t a
--- ^^^^^^^^ meta.function.type-declaration.haskell
---  ^^ keyword.operator.arrow.haskell
-    -> f (t b)
--- ^^^^^^^^^^^^ meta.function.type-declaration.haskell
---  ^^ keyword.operator.arrow.haskell
-   traverse f = sequenceA . fmap f
+    {- infix operator declaration -}
+    (<:>)
+--  ^^^^^^ meta.function.identifier.haskell
+--  ^^^^^ entity.name.function.infix.haskell
+--   ^^^ keyword.operator.haskell
+        :: a -> Bool
+--     ^ meta.function.identifier.haskell
+--      ^^^^^^^^^^^^^ - meta.function
+--      ^^ keyword.operator.double-colon.haskell
+--         ^ variable.other.haskell
+--           ^^ keyword.operator.arrow.haskell
+--              ^^^^ support.type.prelude.haskell
+
+    {- function declaration list -}
+    isNaN,, isInfinite
+-- ^ - meta.function
+--  ^^^^^^^^^^^^^^^^^^^ meta.function.identifier.haskell
+--  ^^^^^ entity.name.function.haskell
+--       ^^ punctuation.separator.sequence.haskell
+--          ^^^^^^^^^^ entity.name.function.haskell
+        :: a -> Bool
+--     ^ meta.function.identifier.haskell
+--      ^^^^^^^^^^^^^ - meta.function
+--      ^^ keyword.operator.double-colon.haskell
+--         ^ variable.other..haskell
+--           ^^ keyword.operator.arrow.haskell
+--              ^^^^ support.type.prelude.haskell
+
+    {- function declaration with context and unicode operators -}
+    sequenceA ∷ Applicative f ⇒ t (f a) → f (t a)
+--  ^^^^^^^^^^ meta.function.identifier.haskell
+--  ^^^^^^^^^ entity.name.function.haskell
+--            ^ keyword.operator.double-colon.haskell
+--              ^^^^^^^^^^^ support.class.prelude.haskell
+--                          ^ variable.other.haskell
+--                            ^ keyword.operator.big-arrow.haskell
+--                              ^ variable.other.haskell
+--                                ^ punctuation.section.sequence.begin.haskell
+--                                 ^ variable.other.haskell
+--                                   ^ variable.other.haskell
+--                                    ^ punctuation.section.sequence.end.haskell
+--                                      ^ keyword.operator.arrow.haskell
+--                                        ^ variable.other.haskell
+--                                          ^ punctuation.section.sequence.begin.haskell
+--                                           ^ variable.other.haskell
+--                                             ^ variable.other.haskell
+--                                              ^ punctuation.section.sequence.end.haskell
+    {- function body -}
+    sequenceA = traverse id
+--  ^^^^^^^^^ support.function.prelude.haskell
 --            ^ keyword.operator.haskell
---                        ^ keyword.operator.haskell
+--              ^^^^^^^^ support.function.prelude.haskell
+--                       ^^ support.function.prelude.haskell
 
--- | Evaluate each action in the structure from
--- left to right, and collect the results.
--- For a version that ignores the results see
--- 'Data.Foldable.sequenceA_'.
-   sequenceA ∷ Applicative f ⇒ t (f a) → f (t a)
--- ^^^^^^^^^ entity.name.function.haskell
---           ^ keyword.operator.double-colon.haskell
---             ^^^^^^^^^^^ support.class.prelude.haskell
---                           ^ keyword.operator.big-arrow.haskell
---                                     ^ keyword.operator.arrow.haskell
-   sequenceA = traverse id
+    {- function declaration with context and ascii operators -}
+    traverse :: Applicative f =>
+--  ^^^^^^^^^ meta.function.identifier.haskell
+--           ^^^^^^^^^^^^^^^^^^^^ - meta.function
+--  ^^^^^^^^ entity.name.function.haskell
+--           ^^ keyword.operator.double-colon.haskell
+--              ^^^^^^^^^^^ support.class.prelude.haskell
+--                          ^ variable.other.haskell
+--                            ^^ keyword.operator.big-arrow.haskell
+      (a -> f b)
+--       ^^ keyword.operator.arrow.haskell
+      -> t a
+--    ^^ keyword.operator.arrow.haskell
+      -> f (t b)
+--    ^^ keyword.operator.arrow.haskell
+
+    {- function body -}
+    traverse f = sequenceA . fmap f
+--  ^^^^^^^^ support.function.prelude.haskell
+--           ^ variable.other.haskell
+--             ^ keyword.operator.haskell
+--               ^^^^^^^^^ support.function.prelude.haskell
+--                         ^ keyword.operator.haskell
+--                           ^^^^ support.function.prelude.haskell
+--                                ^ variable.other.haskell
+
+    {- Module Level Function Declarations -}
+    module ModId.ModName (fun) where
+    fun :: Bool -> Bool
+--  ^^^^ meta.function.identifier.haskell
+--  ^^^ entity.name.function.haskell
+--      ^^ keyword.operator.double-colon.haskell
+
+    {- Module Level Function Declarations with Block Layout -}
+    module ModId.ModName (fun1, fun2) where { fun1 :: Bool -> Bool ; fun2 :: }
+--                       ^^^^^^^^^^^^ meta.declaration.module.haskell meta.sequence.tuple.haskell
+--                       ^ punctuation.section.sequence.begin.haskell
+--                        ^^^^ variable.function.haskell
+--                            ^ punctuation.separator.sequence.haskell
+--                              ^^^^ variable.function.haskell
+--                                  ^ punctuation.section.sequence.end.haskell
+--                                    ^^^^^ keyword.control.context.haskell
+--                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.haskell
+--                                          ^ punctuation.section.block.begin.haskell
+--                                            ^^^^^ meta.function.identifier.haskell
+--                                            ^^^^ entity.name.function.haskell
+--                                                 ^^ keyword.operator.double-colon.haskell
+--                                                    ^^^^ support.type.prelude.haskell
+--                                                         ^^ keyword.operator.arrow.haskell
+--                                                            ^^^^ support.type.prelude.haskell
+--                                                                 ^ punctuation.terminator.statement.haskell
+--                                                                   ^^^^ entity.name.function.haskell
+--                                                                        ^^ keyword.operator.double-colon.haskell
+--                                                                           ^ punctuation.section.block.end.haskell
+
+    {- Class Method Declarations -}
+    class TyCls a where
+      nethod1 :: a -> Bool
+--    ^^^^^^^^ meta.function.identifier.haskell
+--    ^^^^^^^ entity.name.function.haskell
+--            ^^ keyword.operator.double-colon.haskell
+--               ^ variable.other.haskell
+--                 ^^ keyword.operator.arrow.haskell
+--                    ^^^^ support.type.prelude.haskell
+      method' ::
+--    ^^^^^^^^ meta.function.identifier.haskell
+--    ^^^^^^^ entity.name.function.haskell
+        a -> Bool
+--      ^ variable.other.haskell 
+--        ^^ keyword.operator.arrow.haskell
+--           ^^^^ support.type.prelude.haskell
+
+    {- Class Method Declarations with Block Layout -}
+    class TyCls a where {
+      method :: Bool -> Bool;
+--    ^^^^^^^ meta.block.haskell meta.function.identifier.haskell
+--           ^^^^^^^^^^^^^^^^^ meta.block.haskell - meta.function
+--    ^^^^^^ entity.name.function.haskell
+--           ^^ keyword.operator.double-colon.haskell
+--              ^^^^ support.type.prelude.haskell
+--                   ^^ keyword.operator.arrow.haskell
+--                      ^^^^ support.type.prelude.haskell
+--                          ^ punctuation.terminator.statement.haskell
+      method = True;
+--    ^^^^^^^^^^^^^^^ meta.block.haskell
+--    ^^^^^^ variable.other.haskell
 --           ^ keyword.operator.haskell
+--             ^^^^ support.constant.prelude.haskell
+--                 ^ punctuation.terminator.statement.haskell
 
-   if'
--- ^^^ - keyword
-
--- Tests for #1320, #1880.
-
-   class TooMany a where
-     tooMany :: a -> Bool
--- ^^^^^^^^^^^^^^^^^^^^^^ meta.function.type-declaration.haskell
-     tooManyToo ::
--- ^^^^^^^^^^^^^^^ meta.function.type-declaration.haskell
-       a -> Bool
--- ^^^^^^^^^^^^^ meta.function.type-declaration.haskell
-
-   instance TooMany Int where
--- ^^^^^^^^^^^^^^^^^^^^^ meta.declaration.instance.haskell
---                      ^^^^^ - meta.declaration.instance
--- ^^^^^^^^ keyword.declaration.instance.haskell
---                      ^^^^^ keyword.control.context.haskell
-     tooMany n = n > 42
-
-   foldBoolGuard :: a -> a -> Bool -> a
--- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.type-declaration.haskell
-   foldBoolGuard x y z
--- ^^^^^^^^^^^^^^^^^^^ source.haskell
-     | z         = y
---   ^ punctuation.separator.sequence.haskell
-     | otherwise = x
-
-   countTheBeforeVowel :: String
-   -- This comment should not interrupt the type signature.
-
-   -- The blank line above should not interrupt the type signature.
-
-   {-
-      This multiline comment should
-      not interrupt the type signature.
-   -}
-
-     -> Integer
--- ^^^^^^^^^^^^ meta.function.type-declaration.haskell
-   countTheBeforeVowel = undefined
+     {- preceeded by statement terminator -}
+     ;method :: Bool -> Bool;
+--   ^ meta.block.haskell - meta.function
+--    ^^^^^^^ meta.block.haskell meta.function.identifier.haskell
+--           ^^^^^^^^^^^^^^^^^ meta.block.haskell - meta.function
+--   ^ punctuation.terminator.statement.haskell
+--    ^^^^^^ entity.name.function.haskell
+--           ^^ keyword.operator.double-colon.haskell
+--              ^^^^ support.type.prelude.haskell
+--                   ^^ keyword.operator.arrow.haskell
+--                      ^^^^ support.type.prelude.haskell
+--                          ^ punctuation.terminator.statement.haskell
+    }
 
 
 -- [ KEYWORDS ] ---------------------------------------------------------------

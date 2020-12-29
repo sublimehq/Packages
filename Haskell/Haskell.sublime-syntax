@@ -195,11 +195,11 @@ contexts:
     - include: classes
     - include: datas
     - include: foreigns
-    - include: functions
     - include: imports
     - include: instances
     - include: newtypes
     - include: types
+    - include: functions
 
   statements:
     - include: blocks
@@ -644,19 +644,47 @@ contexts:
 ###[ FUNCTION DECLARATIONS ]###################################################
 
   functions:
-    - match: ^(\s*)({{var_id}}|\(({{operator_parens}})\))\s*(::|∷)
-      captures:
-        2: entity.name.function.haskell
-        3: keyword.operator.infix.haskell
-        4: keyword.operator.double-colon.haskell
-      push: function-body
+    - match: (?={{var_id}}|\(\s*{{operator_parens}}\s*\))
+      branch_point: functions
+      branch:
+        - variable-name
+        - function-name
 
-  function-body:
-    - meta_scope: meta.function.type-declaration.haskell
-    - match: ^(?:(?!\s*(?:--|{-|$)|\1\s)|(?=\s*\2))
+  function-name:
+    - meta_content_scope: meta.function.identifier.haskell
+    - match: '{{operator_double_colon}}'
+      scope: keyword.operator.double-colon.haskell
       pop: 1
-    - include: big-arrow-operators
-    - include: type-content
+    - match: '{{var_id}}'
+      scope: entity.name.function.haskell
+    - match: \(\s*({{operator_parens}})\s*\)
+      scope: entity.name.function.infix.haskell
+      captures:
+        1: keyword.operator.haskell
+    - include: sequence-separators
+
+  variable-name:
+    - match: \(\s*({{operator_parens}})\s*\)
+      scope: variable.function.infix.haskell
+      captures:
+        1: keyword.operator.haskell
+      push: variable-name-end
+    - match: '{{builtin_functions}}'
+      scope: support.function.prelude.haskell
+      push: variable-name-end
+    - match: '{{var_id}}'
+      scope: variable.other.haskell
+      push: variable-name-end
+    - include: sequence-separators
+    - include: else-pop
+
+  variable-name-end:
+    - match: (?={{operator_double_colon}})
+      fail: functions
+    - match: (?=,)
+      pop: 1
+    - match: (?=\S)
+      pop: 2
 
 ###[ NEWTYPE DECLARATIONS ]####################################################
 
