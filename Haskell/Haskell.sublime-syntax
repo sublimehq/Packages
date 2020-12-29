@@ -498,6 +498,9 @@ contexts:
     - match: =
       scope: keyword.operator.haskell
       set: data-constructor
+    # https://wiki.haskell.org/GHC/Type_families
+    - match: (?:family|instance){{break}}
+      scope: storage.modifier.family.haskell
     - include: type-signature-body
 
   data-constructor:

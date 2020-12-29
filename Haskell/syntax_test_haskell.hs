@@ -913,6 +913,49 @@
 --  ^^^^ keyword.declaration.data.haskell
 --       ^ keyword.operator.haskell
 
+    -- Declare a list-like data family
+    data family XList a
+--  ^^^^^^^^^^^^^^^^^^^^ meta.declaration.data.haskell
+--  ^^^^ keyword.declaration.data.haskell
+--       ^^^^^^ storage.modifier.family.haskell
+--              ^^^^^ storage.type.haskell
+--                    ^ variable.other.haskell
+
+    -- Declare a list-like instance for Char
+    data instance XList Char = XCons !Char !(XList Char) | XNil
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.data.haskell
+--                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.declaration
+--                                          ^^^^^^^^^^^^ meta.group.haskell
+--  ^^^^ keyword.declaration.data.haskell
+--       ^^^^^^^^ storage.modifier.family.haskell
+--                ^^^^^ storage.type.haskell
+--                      ^^^^ support.type.prelude.haskell
+--                           ^ keyword.operator.haskell
+--                             ^^^^^ storage.type.haskell
+--                                   ^ keyword.operator.haskell
+--                                    ^^^^ support.type.prelude.haskell
+--                                         ^ keyword.operator.haskell
+--                                          ^ punctuation.section.group.begin.haskell
+--                                           ^^^^^ storage.type.haskell
+--                                                 ^^^^ support.type.prelude.haskell
+--                                                     ^ punctuation.section.group.end.haskell
+--                                                       ^ punctuation.separator.sequence.haskell
+--                                                         ^^^^ storage.type.haskell
+
+    -- Declare a number-like instance for ()
+    data instance XList () = XListUnit !Int
+--  ^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.data.haskell
+--                         ^^^^^^^^^^^^^^^^^ - meta.declaration
+--  ^^^^ keyword.declaration.data.haskell
+--       ^^^^^^^^ storage.modifier.family.haskell
+--                ^^^^^ storage.type.haskell
+--                      ^ punctuation.section.sequence.begin.haskell
+--                       ^ punctuation.section.sequence.end.haskell
+--                         ^ keyword.operator.haskell
+--                           ^^^^^^^^^ storage.type.haskell
+--                                     ^ keyword.operator.haskell
+--                                      ^^^ support.type.prelude.haskell
+
     data Record =
 --  ^^^^^^^^^^^^ meta.declaration.data.haskell
 --  ^^^^ keyword.declaration.data.haskell
