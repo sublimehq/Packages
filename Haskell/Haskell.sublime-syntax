@@ -34,9 +34,9 @@ variables:
   var_id: (?:(?!{{reserved_id}})[[:lower:]_][\w']*)
   reserved_id: |-
     (?x:
-      case | class | data | default | deriving | do | else | foreign | if
-    | import | in | infix | infixl | infixr | instance | let | module | newtype
-    | of | then | type | where | _
+      _ | case | class | data | default | deriving | do | else | family | forall
+    | foreign | if | import | in | infix | infixl | infixr | instance | let | mdo
+    | module | newtype | of | proc | rec | signature | then | type | via | where
     ){{break}}
   break: (?![\w'])
 
@@ -67,17 +67,29 @@ variables:
       | (\^[A-Z@\[\]\\\^_])  # Control Chars
     )
 
-  class_names: |-
+  builtin_classes: |-
     (?x:
-      Monad | Monadoid | Functor | Applicative | Foldableble | Traversable | Eq
-    | Ord | Read | Show | Num | Fractional | Rational | Enum | Bounded | Real
-    | RealFrac | RealFloat | Integral | Floating
+    # 9 Standard Prelude
+      Applicative | Bounded | Enum | Eq | Floating | Foldableble | Fractional
+    | Functor | Integral | Monad | Monadoid | Num | Ord | Rational | Read
+    | Real | RealFloat | RealFrac | Show | Traversable
     ){{break}}
 
-  constant_names: |-
+  builtin_constants: |-
     (?x: Just | Nothing | Left | Right | True | False | LT | EQ | GT ){{break}}
 
-  function_names: |-
+  builtin_types: |-
+    (?x:
+    # 9 Standard Prelude
+      Bool | Char | Double | Either | FilePath | Float | Int | Integer | IO
+    | IOError | Maybe | Ordering | ReadS | ShowS | String | Word
+    # 24 Foreign
+    # https://www.haskell.org/onlinereport/haskell2010/haskellch24.html#x32-26200024
+    | Int8 | Int16 | Int32 | Int64 | Word8 | Word16 | Word32 | Word64
+    | Ptr | FunPtr | StablePtr
+    ){{break}}
+
+  builtin_functions: |-
     (?x:
       abs | acos | acosh | all | and | any | appendFile | asTypeOf | asin
     | asinh | atan | atan2 | atanh | break | ceiling | compare | concat
@@ -201,7 +213,6 @@ contexts:
     - include: keywords
     - include: ident-anonymous
     - include: ident-namespaces
-    - include: ident-builtin-constants
     - include: ident-builtin-functions
     - include: ident-types
     - include: ident-variables
@@ -357,7 +368,6 @@ contexts:
       push: module-exports-body
     - match: module{{break}}
       scope: keyword.declaration.namespace.haskell
-    - include: ident-builtin-functions
     - include: ident-functions
     - include: ident-namespaces
     - include: ident-types
@@ -805,22 +815,26 @@ contexts:
 
 ###[ IDENTIFIERS ]#############################################################
 
+  ident-anonymous:
+    - match: _{{break}}
+      scope: variable.language.anonymous.haskell
+
   ident-builtin-classes:
-    - match: '{{class_names}}'
+    # Prelude Class Types
+    - match: '{{builtin_classes}}'
       scope: support.class.prelude.haskell
 
-  ident-inherited-classes:
-    - include: ident-builtin-classes
-    - match: '{{con_id}}'
-      scope: entity.other.inherited-class.haskell
+  ident-builtin-types:
+    # Prelude Data Types of special meaning
+    - match: '{{builtin_constants}}'
+      scope: support.constant.prelude.haskell
+    # Prelude Data Types
+    - match: '{{builtin_types}}'
+      scope: support.type.prelude.haskell
 
-  ident-inherited-class:
-    - match: '{{class_names}}'
-      scope: support.class.prelude.haskell
-      pop: 1
-    - match: '{{con_id}}'
-      scope: entity.other.inherited-class.haskell
-      pop: 1
+  ident-builtin-functions:
+    - match: '{{builtin_functions}}'
+      scope: support.function.prelude.haskell
 
   ident-namespaces:
     - match: ({{con_id}})(\.)
@@ -828,26 +842,32 @@ contexts:
         1: variable.namespace.haskell
         2: punctuation.accessor.dot.haskell
 
+  ident-inherited-classes:
+    - include: ident-builtin-classes
+    - match: '{{con_id}}'
+      scope: entity.other.inherited-class.haskell
+
+  ident-inherited-class:
+    - match: '{{builtin_classes}}'
+      scope: support.class.prelude.haskell
+      pop: 1
+    - match: '{{builtin_types}}'
+      scope: support.type.prelude.haskell
+      pop: 1
+    - match: '{{con_id}}'
+      scope: entity.other.inherited-class.haskell
+      pop: 1
+
   ident-types:
     - include: ident-builtin-classes
+    - include: ident-builtin-types
     - match: '{{con_id}}'
       scope: storage.type.haskell
 
-  ident-builtin-constants:
-    - match: '{{constant_names}}'
-      scope: constant.language.haskell
-
-  ident-builtin-functions:
-    - match: '{{function_names}}'
-      scope: support.function.prelude.haskell
-
   ident-functions:
+    - include: ident-builtin-functions
     - match: '{{var_id}}'
       scope: variable.function.haskell
-
-  ident-anonymous:
-    - match: _{{break}}
-      scope: variable.language.anonymous.haskell
 
   ident-variables:
     - match: '{{var_id}}'
@@ -914,9 +934,7 @@ contexts:
 ###[ KEYWORDS AND OPERATORS ]##################################################
 
   keywords:
-    - match: let{{break}}
-      scope: keyword.declaration.variable.haskell
-    - match: (?:do|in|where){{break}}
+    - match: (?:mdo|do|in|rec|where){{break}}
       scope: keyword.control.context.haskell
     - match: (?:case|of){{break}}
       scope: keyword.control.conditional.select.haskell  # the construct is commonly called "select"
@@ -926,10 +944,10 @@ contexts:
       scope: keyword.control.conditional.then.haskell
     - match: else{{break}}
       scope: keyword.control.conditional.else.haskell
-    - match: otherwise{{break}}
-      scope: keyword.control.conditional.otherwise.haskell
-    - match: return{{break}}
-      scope: keyword.control.flow.return.haskell
+    - match: let{{break}}
+      scope: keyword.declaration.variable.haskell
+    - match: proc{{break}}
+      scope: keyword.declaration.function.haskell
 
   operators:
     - include: constructor-separators

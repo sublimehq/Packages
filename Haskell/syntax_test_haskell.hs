@@ -848,7 +848,7 @@
 --                                    ^^ keyword.operator.arrow.haskell
 --                                        ^ variable.other.haskell
 --                                           ^^ keyword.operator.arrow.haskell
---                                              ^^^^^^ storage.type.haskell
+--                                              ^^^^^^ support.type.prelude.haskell
 
     class (Eq (f a), Functor f) => (a -> b) -> f a -> f b -> Bool
 --  ^^^^^ meta.declaration.class.haskell
@@ -884,7 +884,7 @@
 --                                                    ^ variable.other.haskell
 --                                                      ^ variable.other.haskell
 --                                                        ^^ keyword.operator.arrow.haskell
---                                                           ^^^^ storage.type.haskell
+--                                                           ^^^^ support.type.prelude.haskell
 
 
 -- [ DATA DECLARATIONS ] ------------------------------------------------------
@@ -926,17 +926,17 @@
         recordInt :: Int
 --      ^^^^^^^^^ variable.other.haskell
 --                ^^ keyword.operator.double-colon.haskell
---                   ^^^ storage.type.haskell
+--                   ^^^ support.type.prelude.haskell
       , recordString :: String
 --    ^ punctuation.separator.sequence.haskell
 --      ^^^^^^^^^^^^ variable.other.haskell
 --                   ^^ keyword.operator.double-colon.haskell
---                      ^^^^^^ storage.type.haskell
+--                      ^^^^^^ support.type.prelude.haskell
       , recordDouble :: Double
 --    ^ punctuation.separator.sequence.haskell
 --      ^^^^^^^^^^^^ variable.other.haskell
 --                   ^^ keyword.operator.double-colon.haskell
---                      ^^^^^^ storage.type.haskell
+--                      ^^^^^^ support.type.prelude.haskell
       , recordRational :: Rational
 --    ^ punctuation.separator.sequence.haskell
 --      ^^^^^^^^^^^^^^ variable.other.haskell
@@ -987,22 +987,22 @@
 --               ^^^^^^ storage.type.haskell
       | Int :! Int
 --    ^ punctuation.separator.sequence.haskell
---      ^^^ storage.type.haskell
+--      ^^^ support.type.prelude.haskell
 --          ^^ keyword.operator.haskell
---             ^^^ storage.type.haskell
+--             ^^^ support.type.prelude.haskell
       | Double :@ Double
 --    ^ punctuation.separator.sequence.haskell
---      ^^^^^^ storage.type.haskell
+--      ^^^^^^ support.type.prelude.haskell
 --             ^^ keyword.operator.haskell
---                ^^^^^^ storage.type.haskell
+--                ^^^^^^ support.type.prelude.haskell
       | Int `Quux` Double
 --    ^ punctuation.separator.sequence.haskell
---      ^^^ storage.type.haskell
+--      ^^^ support.type.prelude.haskell
 --          ^^^^^^ keyword.operator.function.infix.haskell
---                 ^^^^^^ storage.type.haskell
+--                 ^^^^^^ support.type.prelude.haskell
       | String :# Record
 --    ^ punctuation.separator.sequence.haskell
---      ^^^^^^ storage.type.haskell
+--      ^^^^^^ support.type.prelude.haskell
 --             ^^ keyword.operator.haskell
 --                ^^^^^^ storage.type.haskell
       | Simple :$ Outrageous
@@ -1017,11 +1017,11 @@
 --                 ^ punctuation.section.block.begin.haskell
 --                   ^^^^^^^^^^^^^ meta.block.haskell variable.other.haskell
 --                                 ^^ keyword.operator.double-colon.haskell
---                                    ^^^ storage.type.haskell
+--                                    ^^^ support.type.prelude.haskell
 --                                       ^ punctuation.separator.sequence.haskell
 --                                         ^^^^^^^^^^^^^^^^ meta.block.haskell variable.other.haskell
 --                                                          ^^ keyword.operator.double-colon.haskell
---                                                             ^^^^^^ storage.type.haskell
+--                                                             ^^^^^^ support.type.prelude.haskell
 --                                                                    ^ punctuation.section.block.end.haskell
         deriving (Eq, Ord, Generic)
 --      ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.deriving.haskell
@@ -1058,7 +1058,7 @@
 --                                             ^^^^^^^^^ storage.type.haskell
         , return :: forall m a  . Unrestricted.Monad     m => a -> m a
 --      ^ punctuation.separator.sequence.haskell
---        ^^^^^^ keyword.control.flow.return.haskell
+--        ^^^^^^ support.function.prelude.haskell
 --               ^^ keyword.operator.double-colon.haskell
 --                  ^^^^^^ keyword.control.forall.haskell
 --                              ^ keyword.operator.haskell
@@ -1681,7 +1681,7 @@ test a = case a of
 main = do
 --     ^^ keyword.control.context.haskell
     return ()
---  ^^^^^^ keyword.control.flow.return.haskell
+--  ^^^^^^ support.function.prelude.haskell
 
 
 -- [ BLOCKS / GROUPS / LISTS / TUPLES ] ---------------------------------------
@@ -1938,16 +1938,16 @@ main = do
 --      ^ variable.other.haskell
 
     Just
---  ^^^^ constant.language.haskell
+--  ^^^^ support.constant.prelude.haskell
 
     Nothing
---  ^^^^^^^ constant.language.haskell
+--  ^^^^^^^ support.constant.prelude.haskell
 
     False
---  ^^^^^ constant.language.haskell
+--  ^^^^^ support.constant.prelude.haskell
 
     True
---  ^^^^ constant.language.haskell
+--  ^^^^ support.constant.prelude.haskell
 
     map (flip (/)) [1..]
 --  ^^^ support.function.prelude.haskell
