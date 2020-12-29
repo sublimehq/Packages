@@ -2,6 +2,6 @@
 	<content><![CDATA[instance ${1:Class} ${2:Data} where
 	${3:func} = $0]]></content>
 	<tabTrigger>instance</tabTrigger>
-	<scope>source.haskell</scope>
+	<scope>source.haskell - comment - string - meta.declaration</scope>
 	<description>Instance</description>
 </snippet>
