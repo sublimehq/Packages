@@ -40,7 +40,7 @@ match n {
 // Binding
 match my_func() {
 // ^^ keyword.control
-//    ^^^^^^^ support.function
+//    ^^^^^^^ variable.function
 //              ^ meta.block punctuation.section.block.begin
     0 => println!("None"),
 //  ^ constant.numeric.integer.decimal

@@ -215,7 +215,7 @@ contexts:
       push: after-operator
 
     - match: '\b[[:lower:]_][[:lower:][:digit:]_]*(?=\()'
-      scope: support.function.rust
+      scope: variable.function.rust
 
     - match: '{{identifier}}'
 

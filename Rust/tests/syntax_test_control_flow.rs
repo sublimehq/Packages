@@ -93,6 +93,6 @@ while let BasicStruct(k) = j {
 // <- meta.block punctuation.section.block.end
 
 continue_running();
-//^^^^^^^^^^^^^^ support.function
+//^^^^^^^^^^^^^^ variable.function
 break_things();
-//^^^^^^^^^^ support.function
+//^^^^^^^^^^ variable.function

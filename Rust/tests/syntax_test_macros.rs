@@ -84,7 +84,7 @@ my_var = format!("Hello {name}, how are you?",
         write!(get_writer(), "{}", "{}")
 //      ^^^^^^ support.macro
 //            ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
-//             ^^^^^^^^^^ support.function
+//             ^^^^^^^^^^ variable.function
 //                           ^^^^ string.quoted.double
 //                            ^^ constant.other.placeholder
 //                                 ^^^^ string.quoted.double

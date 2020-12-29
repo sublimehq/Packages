@@ -29,7 +29,7 @@ let w = Message::WriteString("Some string".to_string());
 //               ^^^^^^^^^^^ storage.type.source
 //                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 //                           ^^^^^^^^^^^^^ string.quoted.double
-//                                         ^^^^^^^^^ support.function
+//                                         ^^^^^^^^^ variable.function
 let m = Message::Move { x: 50, y: 200 };
 //                    ^^^^^^^^^^^^^^^^^ meta.block
 //                         ^^ constant.numeric.integer.decimal

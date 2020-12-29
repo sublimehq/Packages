@@ -242,7 +242,7 @@ fn collect_vec() {
 //                                   ^^ constant.numeric.integer.decimal
 //                                     ^ punctuation.section.group.end
 //                                      ^ punctuation.accessor.dot
-//                                       ^^^^^^^^^ support.function
+//                                       ^^^^^^^^^ variable.function
 //                                                ^^ punctuation.section.group
 //                                                  ^ punctuation.accessor.dot
 //                                                          ^^ punctuation.accessor
@@ -413,7 +413,7 @@ fn function<const N: u16>() {
 //            ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function meta.block meta.generic
 //            ^ punctuation.definition.generic.begin
 //                  ^^^^^^^^^^^^^^^^^^ meta.block
-//                    ^^^ support.function
+//                    ^^^ variable.function
 //                       ^ meta.group punctuation.section.group.begin
 //                          ^ keyword.operator.comparison
 //                             ^ punctuation.section.group.end
