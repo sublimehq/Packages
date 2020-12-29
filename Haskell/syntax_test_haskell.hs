@@ -709,7 +709,7 @@
 --       ^^^^^^^^^^^^^^ meta.declaration.class.signature.haskell
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^^^^^^ storage.type.haskell
---               ^^^^^ variable.other.generic-type.haskell
+--               ^^^^^ variable.other.haskell
 
     class ModId.QTyCls tyVar1 tyVar2, ident
 --  ^^^^^ meta.declaration.class.haskell
@@ -719,8 +719,8 @@
 --        ^^^^^ variable.namespace.haskell
 --             ^ punctuation.accessor.dot.haskell
 --              ^^^^^^ storage.type.haskell
---                     ^^^^^^ variable.other.generic-type.haskell
---                            ^^^^^^ variable.other.generic-type.haskell
+--                     ^^^^^^ variable.other.haskell
+--                            ^^^^^^ variable.other.haskell
 --                                  ^ punctuation.separator.sequence.haskell
 --                                    ^^^^^ variable.other.haskell
 
@@ -733,8 +733,8 @@
 --        ^^^^^ variable.namespace.haskell
 --             ^ punctuation.accessor.dot.haskell
 --              ^^^^^^ storage.type.haskell
---                     ^^^^^^ variable.other.generic-type.haskell
---                            ^^^^^^ variable.other.generic-type.haskell
+--                     ^^^^^^ variable.other.haskell
+--                            ^^^^^^ variable.other.haskell
 --                                   ^^ keyword.operator.big-arrow.haskell
 
     class ModId.QTyCls (tyVar1 tyVar2) =>
@@ -749,8 +749,8 @@
 --             ^ punctuation.accessor.dot.haskell
 --              ^^^^^^ storage.type.haskell
 --                     ^ punctuation.section.sequence.begin.haskell
---                      ^^^^^^ variable.other.generic-type.haskell
---                             ^^^^^^ variable.other.generic-type.haskell
+--                      ^^^^^^ variable.other.haskell
+--                             ^^^^^^ variable.other.haskell
 --                                   ^ punctuation.section.sequence.end.haskell
 --                                     ^^ keyword.operator.big-arrow.haskell
 
@@ -765,8 +765,8 @@
 --             ^ punctuation.accessor.dot.haskell
 --              ^^^^^^ storage.type.haskell
 --                     ^ punctuation.section.sequence.begin.haskell
---                      ^^^^^^ variable.other.generic-type.haskell
---                             ^^^^^^ variable.other.generic-type.haskell
+--                      ^^^^^^ variable.other.haskell
+--                             ^^^^^^ variable.other.haskell
 --                                     ^^ keyword.operator.big-arrow.haskell
 
     class ModId.QTyCls tyVar1 tyVar2 => Traversable t
@@ -778,11 +778,11 @@
 --        ^^^^^ variable.namespace.haskell
 --             ^ punctuation.accessor.dot.haskell
 --              ^^^^^^ storage.type.haskell
---                     ^^^^^^ variable.other.generic-type.haskell
---                            ^^^^^^ variable.other.generic-type.haskell
+--                     ^^^^^^ variable.other.haskell
+--                            ^^^^^^ variable.other.haskell
 --                                   ^^ keyword.operator.big-arrow.haskell
 --                                      ^^^^^^^^^^^ support.class.prelude.haskell
---                                                  ^ variable.other.generic-type.haskell
+--                                                  ^ variable.other.haskell
 
     class () =>
 --  ^^^^^ meta.declaration.class.haskell
@@ -806,14 +806,14 @@
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^ punctuation.section.sequence.begin.haskell
 --         ^^^^^^^ support.class.prelude.haskell
---                 ^ variable.other.generic-type.haskell
+--                 ^ variable.other.haskell
 --                  ^ punctuation.separator.sequence.haskell
 --                    ^^^^^^^^ storage.type.haskell
---                             ^ variable.other.generic-type.haskell
+--                             ^ variable.other.haskell
 --                              ^ punctuation.section.sequence.end.haskell
 --                                ^^ keyword.operator.big-arrow.haskell
 --                                   ^^^^^^^^^^^ support.class.prelude.haskell
---                                               ^ variable.other.generic-type.haskell
+--                                               ^ variable.other.haskell
 --                                                 ^^^^^ keyword.control.context.haskell
 
 --  A class declaration with no where part may be useful for combining
@@ -827,11 +827,11 @@
 --               ^^^^^^^^ meta.declaration.class.signature.haskell
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^^ support.class.prelude.haskell
---           ^ variable.other.generic-type.haskell
+--           ^ variable.other.haskell
 --             ^^ keyword.operator.big-arrow.haskell
---                ^ variable.other.generic-type.haskell
+--                ^ variable.other.haskell
 --                  ^^ keyword.operator.arrow.haskell
---                     ^ variable.other.generic-type.haskell
+--                     ^ variable.other.haskell
 
     class (Eq a, Show a, Eq b) => [a] -> [b] -> String
 --  ^^^^^ meta.declaration.class.haskell
@@ -842,11 +842,11 @@
 --                               ^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.signature.haskell
 --  ^^^^^ keyword.declaration.class.haskell
 --         ^^ support.class.prelude.haskell
---            ^ variable.other.generic-type.haskell
+--            ^ variable.other.haskell
 --                             ^^ keyword.operator.big-arrow.haskell
---                                 ^ variable.other.generic-type.haskell
+--                                 ^ variable.other.haskell
 --                                    ^^ keyword.operator.arrow.haskell
---                                        ^ variable.other.generic-type.haskell
+--                                        ^ variable.other.haskell
 --                                           ^^ keyword.operator.arrow.haskell
 --                                              ^^^^^^ storage.type.haskell
 
@@ -864,25 +864,25 @@
 --  ^^^^^ keyword.declaration.class.haskell
 --         ^^ support.class.prelude.haskell
 --            ^ punctuation.section.sequence.begin.haskell
---             ^ variable.other.generic-type.haskell
---               ^ variable.other.generic-type.haskell
+--             ^ variable.other.haskell
+--               ^ variable.other.haskell
 --                ^ punctuation.section.sequence.end.haskell
 --                 ^ punctuation.separator.sequence.haskell
 --                   ^^^^^^^ support.class.prelude.haskell
---                           ^ variable.other.generic-type.haskell
+--                           ^ variable.other.haskell
 --                            ^ punctuation.section.sequence.end.haskell
 --                              ^^ keyword.operator.big-arrow.haskell
 --                                 ^ punctuation.section.sequence.begin.haskell
---                                  ^ variable.other.generic-type.haskell
+--                                  ^ variable.other.haskell
 --                                    ^^ keyword.operator.arrow.haskell
---                                       ^ variable.other.generic-type.haskell
+--                                       ^ variable.other.haskell
 --                                        ^ punctuation.section.sequence.end.haskell
 --                                          ^^ keyword.operator.arrow.haskell
---                                             ^ variable.other.generic-type.haskell
---                                               ^ variable.other.generic-type.haskell
+--                                             ^ variable.other.haskell
+--                                               ^ variable.other.haskell
 --                                                 ^^ keyword.operator.arrow.haskell
---                                                    ^ variable.other.generic-type.haskell
---                                                      ^ variable.other.generic-type.haskell
+--                                                    ^ variable.other.haskell
+--                                                      ^ variable.other.haskell
 --                                                        ^^ keyword.operator.arrow.haskell
 --                                                           ^^^^ storage.type.haskell
 
@@ -1218,7 +1218,7 @@
 --           ^^^^^ variable.namespace.haskell
 --                ^ punctuation.accessor.dot.haskell
 --                 ^^^^^^ storage.type.haskell
---                        ^ variable.other.generic-type.haskell
+--                        ^ variable.other.haskell
 
     instance ModId.QTyCls [a]
 --  ^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.instance.haskell - meta.sequence
@@ -1229,7 +1229,7 @@
 --                ^ punctuation.accessor.dot.haskell
 --                 ^^^^^^ storage.type.haskell
 --                        ^ punctuation.section.sequence.begin.haskell
---                         ^ variable.other.generic-type.haskell
+--                         ^ variable.other.haskell
 --                          ^ punctuation.section.sequence.end.haskell
 
     instance ModId.QTyCls (a, b)
@@ -1241,9 +1241,9 @@
 --                ^ punctuation.accessor.dot.haskell
 --                 ^^^^^^ storage.type.haskell
 --                        ^ punctuation.section.sequence.begin.haskell
---                         ^ variable.other.generic-type.haskell
+--                         ^ variable.other.haskell
 --                          ^ punctuation.separator.sequence.haskell
---                            ^ variable.other.generic-type.haskell
+--                            ^ variable.other.haskell
 --                             ^ punctuation.section.sequence.end.haskell
 
     instance ModId.QTyCls (a -> b)
@@ -1255,9 +1255,9 @@
 --                ^ punctuation.accessor.dot.haskell
 --                 ^^^^^^ storage.type.haskell
 --                        ^ punctuation.section.sequence.begin.haskell
---                         ^ variable.other.generic-type.haskell
+--                         ^ variable.other.haskell
 --                           ^^ keyword.operator.arrow.haskell
---                              ^ variable.other.generic-type.haskell
+--                              ^ variable.other.haskell
 --                               ^ punctuation.section.sequence.end.haskell
 
     instance ModId.QTyCls ([] a b)
@@ -1272,8 +1272,8 @@
 --                 ^^^^^^ storage.type.haskell
 --                        ^^ punctuation.section.sequence.begin.haskell
 --                          ^ punctuation.section.sequence.end.haskell
---                            ^ variable.other.generic-type.haskell
---                              ^ variable.other.generic-type.haskell
+--                            ^ variable.other.haskell
+--                              ^ variable.other.haskell
 --                               ^ punctuation.section.sequence.end.haskell
 
     instance ModId.QTyCls (() a b)
@@ -1288,8 +1288,8 @@
 --                 ^^^^^^ storage.type.haskell
 --                        ^^ punctuation.section.sequence.begin.haskell
 --                          ^ punctuation.section.sequence.end.haskell
---                            ^ variable.other.generic-type.haskell
---                              ^ variable.other.generic-type.haskell
+--                            ^ variable.other.haskell
+--                              ^ variable.other.haskell
 --                               ^ punctuation.section.sequence.end.haskell
 
     instance ModId.QTyCls ((,) a b)
@@ -1305,8 +1305,8 @@
 --                        ^^ punctuation.section.sequence.begin.haskell
 --                          ^ punctuation.separator.sequence.haskell
 --                           ^ punctuation.section.sequence.end.haskell
---                             ^ variable.other.generic-type.haskell
---                               ^ variable.other.generic-type.haskell
+--                             ^ variable.other.haskell
+--                               ^ variable.other.haskell
 --                                ^ punctuation.section.sequence.end.haskell
 
     instance ModId.QTyCls ((->) a b)
@@ -1322,8 +1322,8 @@
 --                        ^^ punctuation.section.sequence.begin.haskell
 --                          ^^ keyword.operator.arrow.haskell
 --                            ^ punctuation.section.sequence.end.haskell
---                              ^ variable.other.generic-type.haskell
---                                ^ variable.other.generic-type.haskell
+--                              ^ variable.other.haskell
+--                                ^ variable.other.haskell
 --                                 ^ punctuation.section.sequence.end.haskell
 
     instance Num a => Bar [a] where ...
@@ -1332,11 +1332,11 @@
 --                           ^ meta.declaration.instance.haskell - meta.sequence
 --  ^^^^^^^^ keyword.declaration.instance.haskell
 --           ^^^ support.class.prelude.haskell
---               ^ variable.other.generic-type.haskell
+--               ^ variable.other.haskell
 --                 ^^ keyword.operator.big-arrow.haskell
 --                    ^^^ storage.type.haskell
 --                        ^ punctuation.section.sequence.begin.haskell
---                         ^ variable.other.generic-type.haskell
+--                         ^ variable.other.haskell
 --                          ^ punctuation.section.sequence.end.haskell
 --                            ^^^^^ keyword.control.context.haskell
 
@@ -1349,15 +1349,15 @@
 --  ^^^^^^^^ keyword.declaration.instance.haskell
 --           ^ punctuation.section.sequence.begin.haskell
 --            ^^ support.class.prelude.haskell
---               ^ variable.other.generic-type.haskell
+--               ^ variable.other.haskell
 --                ^ punctuation.separator.sequence.haskell
 --                  ^^^^ support.class.prelude.haskell
---                       ^ variable.other.generic-type.haskell
+--                       ^ variable.other.haskell
 --                        ^ punctuation.section.sequence.end.haskell
 --                          ^^ keyword.operator.big-arrow.haskell
 --                             ^^^ storage.type.haskell
 --                                 ^ punctuation.section.sequence.begin.haskell
---                                  ^ variable.other.generic-type.haskell
+--                                  ^ variable.other.haskell
 --                                   ^ punctuation.section.sequence.end.haskell
 --                                     ^^^^^ keyword.control.context.haskell
 
@@ -1400,7 +1400,7 @@
 --  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.newtype.haskell
 --  ^^^^^^^ keyword.declaration.newtype.haskell
 --          ^^^^^^ storage.type.haskell
---                 ^^^^^ variable.other.generic-type.haskell
+--                 ^^^^^ variable.other.haskell
 --                       ^^ keyword.operator.big-arrow.haskell
 
     newtype () => ModId.QTyCls tyVar1 tyVar2 deriving (Class1, QTyCls2)
@@ -1416,8 +1416,8 @@
 --                ^^^^^ variable.namespace.haskell
 --                     ^ punctuation.accessor.dot.haskell
 --                      ^^^^^^ storage.type.haskell
---                             ^^^^^^ variable.other.generic-type.haskell
---                                    ^^^^^^ variable.other.generic-type.haskell
+--                             ^^^^^^ variable.other.haskell
+--                                    ^^^^^^ variable.other.haskell
 --                                           ^^^^^^^^ storage.modifier.haskell
 --                                                    ^ punctuation.section.sequence.begin.haskell
 --                                                     ^^^^^^ entity.other.inherited-class.haskell
@@ -1443,7 +1443,7 @@
 --  ^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
 --  ^^^^ keyword.declaration.type.haskell
 --       ^^^^^^ storage.type.haskell
---              ^^^^^ variable.other.generic-type.haskell
+--              ^^^^^ variable.other.haskell
 
     type ModId.QTyCls tyVar1 tyVar2
 --  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
@@ -1451,8 +1451,8 @@
 --       ^^^^^ variable.namespace.haskell
 --            ^ punctuation.accessor.dot.haskell
 --             ^^^^^^ storage.type.haskell
---                    ^^^^^^ variable.other.generic-type.haskell
---                           ^^^^^^ variable.other.generic-type.haskell
+--                    ^^^^^^ variable.other.haskell
+--                           ^^^^^^ variable.other.haskell
 
     type ModId.QTyCls tyVar1 tyVar2 =
 --  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
@@ -1460,8 +1460,8 @@
 --       ^^^^^ variable.namespace.haskell
 --            ^ punctuation.accessor.dot.haskell
 --             ^^^^^^ storage.type.haskell
---                    ^^^^^^ variable.other.generic-type.haskell
---                           ^^^^^^ variable.other.generic-type.haskell
+--                    ^^^^^^ variable.other.haskell
+--                           ^^^^^^ variable.other.haskell
 
     type ModId.QTyCls tyVar1 tyVar2 deriving (Class1, QTyCls2)
 --  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
@@ -1472,8 +1472,8 @@
 --       ^^^^^ variable.namespace.haskell
 --            ^ punctuation.accessor.dot.haskell
 --             ^^^^^^ storage.type.haskell
---                    ^^^^^^ variable.other.generic-type.haskell
---                           ^^^^^^ variable.other.generic-type.haskell
+--                    ^^^^^^ variable.other.haskell
+--                           ^^^^^^ variable.other.haskell
 --                                  ^^^^^^^^ storage.modifier.haskell
 --                                           ^ punctuation.section.sequence.begin.haskell
 --                                            ^^^^^^ entity.other.inherited-class.haskell
@@ -1484,49 +1484,49 @@
     type Id a = a
 --  ^^^^^^^^^^^^^^ meta.declaration.type.haskell
 --            ^ keyword.operator.haskell
---              ^ variable.other.generic-type.haskell
+--              ^ variable.other.haskell
 
     type Const a b = a
 --  ^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
 --                 ^ keyword.operator.haskell
---                   ^ variable.other.generic-type.haskell
+--                   ^ variable.other.haskell
 
     type FunctionTo a b = b -> a
 --  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
 --                      ^ keyword.operator.haskell
---                        ^ variable.other.generic-type.haskell
+--                        ^ variable.other.haskell
 --                          ^^ keyword.operator.arrow.haskell
---                             ^ variable.other.generic-type.haskell
+--                             ^ variable.other.haskell
 
     type Indexed f g = forall i. f i -> g i
 --  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
 --                   ^ keyword.operator.haskell
 --                     ^^^^^^ keyword.control.forall.haskell
---                            ^ variable.other.generic-type.haskell
+--                            ^ variable.other.haskell
 --                             ^ keyword.operator.haskell
---                               ^ variable.other.generic-type.haskell
---                                 ^ variable.other.generic-type.haskell
+--                               ^ variable.other.haskell
+--                                 ^ variable.other.haskell
 --                                   ^^ keyword.operator.arrow.haskell
---                                      ^ variable.other.generic-type.haskell
---                                        ^ variable.other.generic-type.haskell
+--                                      ^ variable.other.haskell
+--                                        ^ variable.other.haskell
 
     type ShowIndexed f g = forall i. (Show i) => f i -> g i
 --  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
 --                       ^ keyword.operator.haskell
 --                         ^^^^^^ keyword.control.forall.haskell
---                                ^ variable.other.generic-type.haskell
+--                                ^ variable.other.haskell
 --                                 ^ keyword.operator.haskell
 --                                   ^^^^^^^^ meta.sequence.tuple.haskell
 --                                   ^ punctuation.section.sequence.begin.haskell
 --                                    ^^^^ support.class.prelude.haskell
---                                         ^ variable.other.generic-type.haskell
+--                                         ^ variable.other.haskell
 --                                          ^ punctuation.section.sequence.end.haskell
 --                                            ^^ keyword.operator.big-arrow.haskell
---                                               ^ variable.other.generic-type.haskell
---                                                 ^ variable.other.generic-type.haskell
+--                                               ^ variable.other.haskell
+--                                                 ^ variable.other.haskell
 --                                                   ^^ keyword.operator.arrow.haskell
---                                                      ^ variable.other.generic-type.haskell
---                                                        ^ variable.other.generic-type.haskell
+--                                                      ^ variable.other.haskell
+--                                                        ^ variable.other.haskell
 
     type ShowConstrained f a = (Show a) => f a
 --  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
@@ -1534,11 +1534,11 @@
 --                             ^^^^^^^^ meta.sequence.tuple.haskell
 --                             ^ punctuation.section.sequence.begin.haskell
 --                              ^^^^ support.class.prelude.haskell
---                                   ^ variable.other.generic-type.haskell
+--                                   ^ variable.other.haskell
 --                                    ^ punctuation.section.sequence.end.haskell
 --                                      ^^ keyword.operator.big-arrow.haskell
---                                         ^ variable.other.generic-type.haskell
---                                           ^ variable.other.generic-type.haskell
+--                                         ^ variable.other.haskell
+--                                           ^ variable.other.haskell
 
     type CmdRoute =
 --  ^^^^^^^^^^^^^^ meta.declaration.type.haskell

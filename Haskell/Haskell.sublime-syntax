@@ -461,7 +461,7 @@ contexts:
     - include: ident-anonymous
     - include: ident-namespaces
     - include: ident-types
-    - include: ident-generic-types
+    - include: ident-variables
 
   class-context-tuples:
     - match: \(
@@ -649,7 +649,7 @@ contexts:
     - include: ident-anonymous
     - include: ident-namespaces
     - include: ident-types
-    - include: ident-generic-types
+    - include: ident-variables
 
   type-forall:
     - match: ∀(?!{{symbol}})
@@ -664,7 +664,7 @@ contexts:
       scope: keyword.operator.haskell
       pop: 1
     - include: ident-anonymous
-    - include: ident-generic-types
+    - include: ident-variables
     - include: else-pop
 
   type-lists:
@@ -821,10 +821,6 @@ contexts:
     - match: '{{con_id}}'
       scope: entity.other.inherited-class.haskell
       pop: 1
-
-  ident-generic-types:
-    - match: '{{var_id}}'
-      scope: variable.other.generic-type.haskell
 
   ident-namespaces:
     - match: ({{con_id}})(\.)
