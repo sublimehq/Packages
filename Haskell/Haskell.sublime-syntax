@@ -522,7 +522,24 @@ contexts:
   class-signature:
     - meta_content_scope: meta.declaration.class.signature.haskell
     - include: type-content
+    - match: where{{break}}
+      scope: keyword.control.context.haskell
+      set: class-block
     - include: else-pop
+
+  class-block:
+    - match: \{
+      scope: punctuation.section.block.begin.haskell
+      set: class-block-body
+    - match: ^(?!\s*(?:--|{-?|$))
+      pop: 1
+
+  class-block-body:
+    - meta_scope: meta.block.haskell
+    - include: block-end
+    - include: functions
+    - include: statements
+    - include: expressions
 
 ###[ DATA DECLARATIONS ]#######################################################
 

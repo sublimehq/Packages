@@ -1012,6 +1012,24 @@
 --                                                        ^^ keyword.operator.arrow.haskell
 --                                                           ^^^^ support.type.prelude.haskell
 
+    class Name where {
+--  ^^^^^ keyword.declaration.class.haskell
+--        ^^^^ storage.type.haskell
+--             ^^^^^ keyword.control.context.haskell
+--                   ^^ meta.block.haskell
+--                   ^ punctuation.section.block.begin.haskell
+    method :: Bool -> Bool
+--  ^^^^^^ entity.name.function.haskell
+--         ^^ keyword.operator.double-colon.haskell
+--            ^^^^ support.type.prelude.haskell
+--                 ^^ keyword.operator.arrow.haskell
+--                    ^^^^ support.type.prelude.haskell
+    method = True
+--  ^^^^^^ variable.other.haskell
+--         ^ keyword.operator.haskell
+--           ^^^^ support.constant.prelude.haskell
+    }
+
 
 -- [ DATA DECLARATIONS ] ------------------------------------------------------
 
