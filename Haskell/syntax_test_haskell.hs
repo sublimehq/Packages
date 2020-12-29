@@ -1955,7 +1955,7 @@ main = do
 --    ^ variable.other.haskell
 --      ^ punctuation.separator.sequence.haskell
 --        ^^ variable.other.haskell
---           ^^ keyword.operator.haskell
+--           ^^ keyword.operator.arrow.haskell
 --              ^ punctuation.section.sequence.begin.haskell
 --                ^ punctuation.section.sequence.begin.haskell
 --                 ^ punctuation.section.sequence.begin.haskell
@@ -1989,7 +1989,7 @@ main = do
 --                                                  ^ punctuation.separator.sequence.haskell
 --                                                   ^ variable.other.haskell
 --                                                    ^ punctuation.section.sequence.end.haskell
---                                                      ^^ keyword.operator.haskell
+--                                                      ^^ keyword.operator.arrow.haskell
 --                                                         ^^ variable.other.haskell
 --                                                            ^ punctuation.section.sequence.end.haskell
 --
@@ -2930,12 +2930,12 @@ main = do
 --       ^^ keyword.operator.double-colon.haskell
 --          ^ keyword.operator.haskell
 --            ^ keyword.operator.haskell
---              ^^ keyword.operator.haskell
+--              ^^ keyword.operator.arrow.haskell
 --                 ^ punctuation.separator.sequence.haskell
---                   ^^ keyword.operator.haskell
+--                   ^^ keyword.operator.arrow.haskell
 --                      ^ keyword.operator.haskell
 --                        ^ keyword.operator.haskell
---                          ^^ keyword.operator.haskell
+--                          ^^ keyword.operator.big-arrow.haskell
 
     ( ) , ; [ ] ` { }  -- special symbols
 --  ^^^^^^^^^^^^^^^^^ - keyword

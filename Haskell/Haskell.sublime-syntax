@@ -46,6 +46,11 @@ variables:
   operator_symbol: (?:{{symbol}}+)
   operator_parens: (?:{{no_comment_ahead}}{{operator_symbol}})
 
+  operator_double_colon: (?:::|∷)
+  operator_big_arrow: (?:=>|⇒)
+  operator_left_arrow: (?:<-|←)
+  operator_right_arrow: (?:->|→)
+
   consym: (?:[:]{{varsym}})
   varsym: (?:[{{symbol}}&&[^:]]{{symbol}}*)
 
@@ -492,7 +497,7 @@ contexts:
   class-context:
     # The context specifies the superclasses
     - meta_content_scope: meta.declaration.class.context.haskell
-    - match: =>
+    - match: '{{operator_big_arrow}}'
       scope:
         meta.declaration.class.haskell
         keyword.operator.big-arrow.haskell
@@ -692,7 +697,7 @@ contexts:
   type-signatures:
     # 3 Expressions
     # https://www.haskell.org/onlinereport/haskell2010/haskellch3.html
-    - match: '::'
+    - match: '{{operator_double_colon}}'
       scope: keyword.operator.double-colon.haskell
       push: type-signature-body
 
@@ -709,7 +714,7 @@ contexts:
     - include: type-forall
     - include: type-lists
     - include: type-tuples
-    - include: arrow-operators
+    - include: right-arrow-operators
     - include: ident-anonymous
     - include: ident-namespaces
     - include: ident-types
@@ -1010,6 +1015,9 @@ contexts:
   operators:
     - include: constructor-separators
     - include: sequence-separators
+    - include: big-arrow-operators
+    - include: left-arrow-operators
+    - include: right-arrow-operators
     - include: infix-parens-operators
     - match: (`)[ \w'.]+(`)
       scope: keyword.operator.function.infix.haskell
@@ -1025,13 +1033,17 @@ contexts:
     - match: '{{operator_symbol}}'
       scope: keyword.operator.haskell
 
-  arrow-operators:
-    - match: (?:->|→)
+  big-arrow-operators:
+    - match: '{{operator_big_arrow}}'
+      scope: keyword.operator.big-arrow.haskell
+
+  left-arrow-operators:
+    - match: '{{operator_left_arrow}}'
       scope: keyword.operator.arrow.haskell
 
-  big-arrow-operators:
-    - match: (?:=>|⇒)
-      scope: keyword.operator.big-arrow.haskell
+  right-arrow-operators:
+    - match: '{{operator_right_arrow}}'
+      scope: keyword.operator.arrow.haskell
 
   constructor-operators:
     - match: (`)\s*{{con_id}}\s*(`)
