@@ -346,12 +346,8 @@ contexts:
     - include: immediatelly-pop
 
   module-name:
-    - match: ({{con_id}})(\.)
-      captures:
-        1: variable.namespace.haskell
-        2: punctuation.accessor.dot.haskell
-    - match: '{{con_id}}'
-      scope: entity.name.namespace.haskell
+    - include: ident-namespaces
+    - include: ident-modules
     - match: \(
       scope: punctuation.section.sequence.begin.haskell
       set: module-exports-body
@@ -409,12 +405,8 @@ contexts:
   import-body:
     - match: (?:qualified|as|hiding){{break}}
       scope: storage.modifier.import.haskell
-    - match: ({{con_id}})\s*(?:(\.)|(?=\(|as{{break}}))
-      captures:
-        1: variable.namespace.haskell
-        2: punctuation.accessor.dot.haskell
-    - match: '{{con_id}}'
-      scope: entity.name.namespace.haskell
+    - include: ident-namespaces
+    - include: ident-modules
     - match: \(
       scope: punctuation.section.sequence.begin.haskell
       set: import-tuple-body
@@ -841,6 +833,10 @@ contexts:
       captures:
         1: variable.namespace.haskell
         2: punctuation.accessor.dot.haskell
+
+  ident-modules:
+    - match: '{{con_id}}'
+      scope: entity.name.namespace.haskell
 
   ident-inherited-classes:
     - include: ident-builtin-classes

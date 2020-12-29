@@ -449,7 +449,7 @@
 --                       ^ punctuation.accessor.dot.haskell - variable
 --                        ^^^^^^ variable.namespace.haskell - punctuation
 --                              ^ punctuation.accessor.dot.haskell - variable
---                               ^^^^^^^ variable.namespace.haskell - punctuation
+--                               ^^^^^^^ entity.name.namespace.haskell - punctuation
 --                                       ^^ storage.modifier.import.haskell
 --                                          ^^^^^^^^^^^^^ entity.name.namespace.haskell
 
@@ -482,7 +482,7 @@
 --             ^ punctuation.accessor.dot.haskell - variable
 --              ^^^^ variable.namespace.haskell - punctuation
 --                  ^ punctuation.accessor.dot.haskell - variable
---                   ^^^^^^ variable.namespace.haskell - punctuation
+--                   ^^^^^^ entity.name.namespace.haskell - punctuation
 --                          ^^^^^^^^^^ meta.sequence.tuple.haskell
 --                          ^ punctuation.section.sequence.begin.haskell
 --                           ^^^^^^^^ variable.function.haskell
@@ -499,7 +499,7 @@
 --             ^ punctuation.accessor.dot.haskell - variable
 --              ^^^^ variable.namespace.haskell - punctuation
 --                  ^ punctuation.accessor.dot.haskell - variable
---                   ^^^^^^ variable.namespace.haskell - punctuation
+--                   ^^^^^^ entity.name.namespace.haskell - punctuation
 --                          ^ punctuation.section.sequence.begin.haskell
 --                           ^^^^^^^^^ storage.type.haskell
 --                                    ^ punctuation.section.sequence.begin.haskell
@@ -517,7 +517,7 @@
 --             ^ punctuation.accessor.dot.haskell - variable
 --              ^^^^ variable.namespace.haskell - punctuation
 --                  ^ punctuation.accessor.dot.haskell - variable
---                   ^^^^^^ variable.namespace.haskell - punctuation
+--                   ^^^^^^ entity.name.namespace.haskell - punctuation
 --                          ^ punctuation.section.sequence.begin.haskell
 --                           ^^^^^^^^^ storage.type.haskell
 --                                     ^ punctuation.section.sequence.begin.haskell
@@ -538,7 +538,7 @@
 --             ^ punctuation.accessor.dot.haskell - variable
 --              ^^^^ variable.namespace.haskell - punctuation
 --                  ^ punctuation.accessor.dot.haskell - variable
---                   ^^^^^^ variable.namespace.haskell - punctuation
+--                   ^^^^^^ entity.name.namespace.haskell - punctuation
 --                          ^ punctuation.section.sequence.begin.haskell
 --                           ^^^^^^^^^ storage.type.haskell
 --                                     ^ punctuation.section.sequence.begin.haskell
@@ -559,7 +559,7 @@
 --             ^ punctuation.accessor.dot.haskell - variable
 --              ^^^^ variable.namespace.haskell - punctuation
 --                  ^ punctuation.accessor.dot.haskell - variable
---                   ^^^^^^ variable.namespace.haskell - punctuation
+--                   ^^^^^^ entity.name.namespace.haskell - punctuation
 --                          ^ punctuation.section.sequence.begin.haskell
 --                           ^^^^^^^^^ storage.type.haskell
 --                                     ^ punctuation.section.sequence.begin.haskell
@@ -602,7 +602,7 @@
 --             ^ punctuation.accessor.dot.haskell - variable
 --              ^^^^ variable.namespace.haskell - punctuation
 --                  ^ punctuation.accessor.dot.haskell - variable
---                   ^^^^^^ variable.namespace.haskell - punctuation
+--                   ^^^^^^ entity.name.namespace.haskell - punctuation
 --                          ^^^^ meta.sequence.tuple.haskell
 --                          ^^ punctuation.section.sequence.begin.haskell
 --                            ^^ punctuation.section.sequence.end.haskell
@@ -614,7 +614,7 @@
 --             ^ punctuation.accessor.dot.haskell - variable
 --              ^^^^ variable.namespace.haskell - punctuation
 --                  ^ punctuation.accessor.dot.haskell - variable
---                   ^^^^^^ variable.namespace.haskell - punctuation
+--                   ^^^^^^ entity.name.namespace.haskell - punctuation
 --                          ^^^^^ meta.sequence.tuple.haskell
 --                          ^ punctuation.section.sequence.begin.haskell
 --                           ^^^ comment.line.double-dash.haskell
@@ -629,7 +629,7 @@
 --             ^ punctuation.accessor.dot.haskell - variable
 --              ^^^^ variable.namespace.haskell - punctuation
 --                  ^ punctuation.accessor.dot.haskell - variable
---                   ^^^^^^ variable.namespace.haskell - punctuation
+--                   ^^^^^^ entity.name.namespace.haskell - punctuation
 --                          ^^^^^ meta.sequence.tuple.haskell
 --                          ^ punctuation.section.sequence.begin.haskell
 --                           ^^^^ comment.line.double-dash.haskell
@@ -644,7 +644,7 @@
 --             ^ punctuation.accessor.dot.haskell - variable
 --              ^^^^ variable.namespace.haskell - punctuation
 --                  ^ punctuation.accessor.dot.haskell - variable
---                   ^^^^^^ variable.namespace.haskell - punctuation
+--                   ^^^^^^ entity.name.namespace.haskell - punctuation
 --                          ^^^^^^^ meta.sequence.tuple.haskell
 --                          ^ punctuation.section.sequence.begin.haskell
 --                            ^^^^^ comment.line.double-dash.haskell
@@ -659,7 +659,7 @@
 --             ^ punctuation.accessor.dot.haskell - variable
 --              ^^^^ variable.namespace.haskell - punctuation
 --                  ^ punctuation.accessor.dot.haskell - variable
---                   ^^^^^^ variable.namespace.haskell - punctuation
+--                   ^^^^^^ entity.name.namespace.haskell - punctuation
 --                          ^^^^^^^ meta.sequence.tuple.haskell
 --                          ^ punctuation.section.sequence.begin.haskell
 --                            ^^^^^ comment.line.double-dash.haskell
@@ -674,7 +674,7 @@
 --             ^ punctuation.accessor.dot.haskell - variable
 --              ^^^^ variable.namespace.haskell - punctuation
 --                  ^ punctuation.accessor.dot.haskell - variable
---                   ^^^^^^ variable.namespace.haskell - punctuation
+--                   ^^^^^^ entity.name.namespace.haskell - punctuation
 --                          ^^^^^^^ meta.sequence.tuple.haskell
 --                          ^ punctuation.section.sequence.begin.haskell
 --                            ^^^^^ comment.line.double-dash.haskell
