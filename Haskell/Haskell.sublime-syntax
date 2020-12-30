@@ -212,7 +212,7 @@ contexts:
     - include: literal-numbers
     - include: type-forall
     - include: operators
-    - include: splice
+    - include: quasi-quotes
     - include: parens
     - include: lists
     - include: keywords
@@ -737,7 +737,7 @@ contexts:
     - include: type-content
     - include: else-pop
 
-###[ BLOCKS / RECORDS / GROUPS / LISTS / TUPLES ]##############################
+###[ BRACES ]##################################################################
 
   blocks:
     # 2.7 Layout
@@ -769,6 +769,8 @@ contexts:
     - include: expressions
     - include: else-pop
 
+###[ BRACKETS ]################################################################
+
   lists:
     # 3.7 Lists
     # https://www.haskell.org/onlinereport/haskell2010/haskellch3.html#x8-340003.7
@@ -787,6 +789,24 @@ contexts:
     - include: records
     - include: expressions
     - include: else-pop
+
+  quasi-quotes:
+    # https://wiki.haskell.org/Quasiquotation
+    - match: (\[)([\w'']+)(\|)
+      captures:
+        1: punctuation.section.quasi-quotes.begin.haskell
+        2: variable.function.quasi-quoter.haskell
+        3: punctuation.section.quasi-quotes.haskell
+      push: quasi-quotes-body
+
+  quasi-quotes-body:
+    - meta_scope: meta.quasi-quotes.haskell
+    - meta_content_scope: meta.string.haskell string.unquoted.haskell
+    - match: \|\]
+      scope: punctuation.section.quasi-quotes.end.haskell
+      pop: 1
+
+###[ PARENTHESES ]#############################################################
 
   parens:
     # 3.8 Tuples
@@ -1044,38 +1064,6 @@ contexts:
   sequence-separators:
     - match: ','
       scope: punctuation.separator.sequence.haskell
-
-  splice:
-    - match: '\[(?:|e|d|t|p)\|'
-      comment: Points out splices in ast quotes
-      scope: keyword.other.quasibracket.haskell
-      push:
-        - meta_scope: meta.other.quasiquote.haskell
-        - match: '(.*)(\|\])'
-          captures:
-            1: string.quasiquoted.haskell
-            2: keyword.other.quasibracket.haskell
-          pop: 1
-        - match: \$\(
-          scope: keyword.other.splice.haskell
-        - match: \$
-          scope: string.quasiquoted.haskell
-        - match: '[^$]*'
-          scope: string.quasiquoted.haskell
-    - match: \$\(
-      comment: Highlight the beginning of a splice.
-      scope: keyword.other.splice.haskell
-    - match: '\[[\w'']*\|'
-      scope: keyword.other.quasibracket.haskell
-      push:
-        - meta_scope: meta.other.quasiquote.haskell
-        - match: '(.*)(\|\])'
-          captures:
-            1: string.quasiquoted.haskell
-            2: keyword.other.quasibracket.haskell
-          pop: 1
-        - match: .*
-          scope: string.quasiquoted.haskell
 
 ###[ PROTOTYPES ]##############################################################
 

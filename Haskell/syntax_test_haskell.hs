@@ -2232,6 +2232,31 @@ main = do
 --                                                      ^ - meta.group
 
 
+-- [ QUASI QUOTATIONS ]--------------------------------------------------------
+
+    {- Custom Syntax -}
+    [expr|$x + $y|]
+--  ^^^^^^ meta.quasi-quotes.haskell - meta.string
+--        ^^^^^^^ meta.quasi-quotes.haskell meta.string.haskell
+--               ^^ meta.quasi-quotes.haskell - meta.string
+--  ^ punctuation.section.quasi-quotes.begin.haskell
+--   ^^^^ variable.function.quasi-quoter
+--       ^ punctuation.section.quasi-quotes.haskell
+--        ^^^^^^^ string.unquoted.haskell
+--               ^^ punctuation.section.quasi-quotes.end.haskell
+
+    {- Raw Strings -}
+    [r|\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}|]
+--  ^^^ meta.quasi-quotes.haskell - meta.string
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.quasi-quotes.haskell meta.string.haskell
+--                                   ^^ meta.quasi-quotes.haskell - meta.string
+--  ^ punctuation.section.quasi-quotes.begin.haskell
+--   ^ variable.function.quasi-quoter
+--    ^ punctuation.section.quasi-quotes.haskell
+--     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.haskell
+--                                   ^^ punctuation.section.quasi-quotes.end.haskell
+
+
 -- [ IDENTS ] -----------------------------------------------------------------
 
     _
