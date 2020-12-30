@@ -3130,15 +3130,29 @@ main = do
           )
 --        ^ punctuation.section.group.end.haskell
 
+    {- unqualified infix variable operator id -}
     a `member` x
 --    ^^^^^^^^ keyword.operator.function.infix.haskell
 --    ^ punctuation.definition.function.begin.haskell
 --           ^ punctuation.definition.function.end.haskell
 
+    {- qualified infix variable operator id -}
     a `P.atan2` x
 --    ^^^^^^^^^ keyword.operator.function.infix.haskell
 --    ^ punctuation.definition.function.begin.haskell
 --            ^ punctuation.definition.function.end.haskell
+
+    {- unqualified infix constructor operator id -}
+    a `Quux` x
+--    ^^^^^^ keyword.operator.function.infix.haskell
+--    ^ punctuation.definition.function.begin.haskell
+--         ^ punctuation.definition.function.end.haskell
+
+    {- qualified infix constructor operator id -}
+    a `Monad.Quux` x
+--    ^^^^^^^^^^^^ keyword.operator.function.infix.haskell
+--    ^ punctuation.definition.function.begin.haskell
+--               ^ punctuation.definition.function.end.haskell
 
     5 `f `7`f`"3 'ab'"
 --  ^ constant.numeric.value.haskell

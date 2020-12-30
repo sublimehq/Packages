@@ -996,11 +996,7 @@ contexts:
     - include: left-arrow-operators
     - include: right-arrow-operators
     - include: infix-parens-operators
-    - match: (`)[ \w'.]*(`)
-      scope: keyword.operator.function.infix.haskell
-      captures:
-        1: punctuation.definition.function.begin.haskell
-        2: punctuation.definition.function.end.haskell
+    - include: infix-quoted-operators
     # Match all not otherwise matched single quotes as promoition operator
     # Note: Found in real world code but not in specs so far.
     - match: \'
@@ -1031,6 +1027,13 @@ contexts:
       scope: variable.function.infix.haskell
       captures:
         1: keyword.operator.haskell
+
+  infix-quoted-operators:
+    - match: (`)[ \w'.]*(`)
+      scope: keyword.operator.function.infix.haskell
+      captures:
+        1: punctuation.definition.function.begin.haskell
+        2: punctuation.definition.function.end.haskell
 
   statement-terminators:
     # Depending on layout, semicolon may be needed to terminate statements.
