@@ -1592,7 +1592,7 @@
 --                           ^^^^^^ variable.other.haskell
 
     type ModId.QTyCls tyVar1 tyVar2 =
---  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
 --  ^^^^ keyword.declaration.type.haskell
 --       ^^^^^ variable.namespace.haskell
 --            ^ punctuation.accessor.dot.haskell
@@ -1619,24 +1619,24 @@
 --                                                           ^ punctuation.section.sequence.end.haskell
 
     type Id a = a
---  ^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--  ^^^^^^^^^^ meta.declaration.type.haskell
 --            ^ keyword.operator.haskell
 --              ^ variable.other.haskell
 
     type Const a b = a
---  ^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--  ^^^^^^^^^^^^^^^ meta.declaration.type.haskell
 --                 ^ keyword.operator.haskell
 --                   ^ variable.other.haskell
 
     type FunctionTo a b = b -> a
---  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--  ^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
 --                      ^ keyword.operator.haskell
 --                        ^ variable.other.haskell
 --                          ^^ keyword.operator.arrow.haskell
 --                             ^ variable.other.haskell
 
     type Indexed f g = forall i. f i -> g i
---  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--  ^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
 --                   ^ keyword.operator.haskell
 --                     ^^^^^^ keyword.control.forall.haskell
 --                            ^ variable.other.haskell
@@ -1648,16 +1648,16 @@
 --                                        ^ variable.other.haskell
 
     type ShowIndexed f g = forall i. (Show i) => f i -> g i
---  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--  ^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
 --                       ^ keyword.operator.haskell
 --                         ^^^^^^ keyword.control.forall.haskell
 --                                ^ variable.other.haskell
 --                                 ^ keyword.operator.haskell
---                                   ^^^^^^^^ meta.sequence.tuple.haskell
---                                   ^ punctuation.section.sequence.begin.haskell
+--                                   ^^^^^^^^ meta.group.haskell
+--                                   ^ punctuation.section.group.begin.haskell
 --                                    ^^^^ support.class.prelude.haskell
 --                                         ^ variable.other.haskell
---                                          ^ punctuation.section.sequence.end.haskell
+--                                          ^ punctuation.section.group.end.haskell
 --                                            ^^ keyword.operator.big-arrow.haskell
 --                                               ^ variable.other.haskell
 --                                                 ^ variable.other.haskell
@@ -1666,13 +1666,13 @@
 --                                                        ^ variable.other.haskell
 
     type ShowConstrained f a = (Show a) => f a
---  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
 --                           ^ keyword.operator.haskell
---                             ^^^^^^^^ meta.sequence.tuple.haskell
---                             ^ punctuation.section.sequence.begin.haskell
+--                             ^^^^^^^^ meta.group.haskell
+--                             ^ punctuation.section.group.begin.haskell
 --                              ^^^^ support.class.prelude.haskell
 --                                   ^ variable.other.haskell
---                                    ^ punctuation.section.sequence.end.haskell
+--                                    ^ punctuation.section.group.end.haskell
 --                                      ^^ keyword.operator.big-arrow.haskell
 --                                         ^ variable.other.haskell
 --                                           ^ variable.other.haskell
@@ -1754,16 +1754,16 @@
 --                          ^ variable.other.haskell
 --                            ^ keyword.operator.big-arrow.haskell
 --                              ^ variable.other.haskell
---                                ^ punctuation.section.sequence.begin.haskell
+--                                ^ punctuation.section.group.begin.haskell
 --                                 ^ variable.other.haskell
 --                                   ^ variable.other.haskell
---                                    ^ punctuation.section.sequence.end.haskell
+--                                    ^ punctuation.section.group.end.haskell
 --                                      ^ keyword.operator.arrow.haskell
 --                                        ^ variable.other.haskell
---                                          ^ punctuation.section.sequence.begin.haskell
+--                                          ^ punctuation.section.group.begin.haskell
 --                                           ^ variable.other.haskell
 --                                             ^ variable.other.haskell
---                                              ^ punctuation.section.sequence.end.haskell
+--                                              ^ punctuation.section.group.end.haskell
     {- function body -}
     sequenceA = traverse id
 --  ^^^^^^^^^ support.function.prelude.haskell

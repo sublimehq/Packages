@@ -646,10 +646,6 @@ contexts:
 
   newtype-body:
     - meta_scope: meta.declaration.newtype.haskell
-    - match: ^(?!\s*(?:--|{-|$))
-      pop: 1
-    - match: =(?!>)
-      scope: keyword.operator.haskell
     - include: type-content
     - include: else-pop
 
@@ -662,10 +658,6 @@ contexts:
  
   type-body:
     - meta_scope: meta.declaration.type.haskell
-    - match: ^(?!\s*(?:--|{-|$))
-      pop: 1
-    - match: =(?!>)
-      scope: keyword.operator.haskell
     - include: type-content
     - include: else-pop
 
@@ -676,16 +668,7 @@ contexts:
     # https://www.haskell.org/onlinereport/haskell2010/haskellch3.html
     - match: '{{operator_double_colon}}'
       scope: keyword.operator.double-colon.haskell
-      push: type-signature-body
-
-  type-signature-body:
-    # 4.1.2 Syntax of Types
-    # https://www.haskell.org/onlinereport/haskell2010/haskellch4.html#x10-750004.3
-    - meta_scope: meta.type.haskell
-    - match: ^(?!\s*(?:--|{-|$|{{symbol}}))
-      pop: 1
-    - include: type-content
-    - include: else-pop
+    - include: type-forall
 
   type-content:
     - include: big-arrow-operators
