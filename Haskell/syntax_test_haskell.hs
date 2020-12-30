@@ -819,27 +819,22 @@
 --  ^^^^^^ - keyword
 
     class
---  ^^^^^ meta.declaration.class.haskell
---       ^ meta.declaration.class.signature.haskell
+--  ^^^^^^ meta.declaration.class.haskell
 --  ^^^^^ keyword.declaration.class.haskell
 
     class =>
---  ^^^^^ meta.declaration.class.haskell
---       ^ meta.declaration.class.context.haskell
---        ^^ meta.declaration.class.haskell
+--  ^^^^^^^^^ meta.declaration.class.haskell
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^^ keyword.operator.big-arrow.haskell
 
     class QTyCls tyVar
---  ^^^^^ meta.declaration.class.haskell
---       ^^^^^^^^^^^^^^ meta.declaration.class.signature.haskell
+--  ^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^^^^^^ storage.type.haskell
 --               ^^^^^ variable.other.haskell
 
     class ModId.QTyCls tyVar1 tyVar2, ident
---  ^^^^^ meta.declaration.class.haskell
---       ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.signature.haskell
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
 --                                  ^^^^^^^ - meta.declaration
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^^^^^ variable.namespace.haskell
@@ -851,10 +846,7 @@
 --                                    ^^^^^ variable.other.haskell
 
     class ModId.QTyCls tyVar1 tyVar2 =>
---  ^^^^^ meta.declaration.class.haskell
---       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.context.haskell
---                                   ^^ meta.declaration.class.haskell
---                                     ^ meta.declaration.class.signature.haskell
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^^^^^ variable.namespace.haskell
 --             ^ punctuation.accessor.dot.haskell
@@ -864,12 +856,9 @@
 --                                   ^^ keyword.operator.big-arrow.haskell
 
     class ModId.QTyCls (tyVar1 tyVar2) =>
---  ^^^^^ meta.declaration.class.haskell
---       ^^^^^^^^^^^^^^ meta.declaration.class.context.haskell
---                     ^^^^^^^^^^^^^^^ meta.declaration.class.context.haskell meta.sequence.tuple.haskell
---                                    ^ meta.declaration.class.context.haskell - meta.sequence
---                                     ^^ meta.declaration.class.haskell
---                                       ^ meta.declaration.class.signature.haskell
+--  ^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell - meta.sequence
+--                     ^^^^^^^^^^^^^^^ meta.declaration.class.haskell meta.sequence.tuple.haskell
+--                                    ^^^^ meta.declaration.class.haskell - meta.sequence
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^^^^^ variable.namespace.haskell
 --             ^ punctuation.accessor.dot.haskell
@@ -880,12 +869,9 @@
 --                                   ^ punctuation.section.sequence.end.haskell
 --                                     ^^ keyword.operator.big-arrow.haskell
 
-    class ModId.QTyCls (tyVar1 tyVar2  =>
---  ^^^^^ meta.declaration.class.haskell
---       ^^^^^^^^^^^^^^ meta.declaration.class.context.haskell
---                     ^^^^^^^^^^^^^^^^ meta.declaration.class.context.haskell meta.sequence.tuple.haskell
---                                     ^^ meta.declaration.class.haskell
---                                       ^ meta.declaration.class.signature.haskell
+    class ModId.QTyCls (tyVar1 tyVar2  => )
+--  ^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell - meta.sequence
+--                     ^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell meta.sequence.tuple.haskell
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^^^^^ variable.namespace.haskell
 --             ^ punctuation.accessor.dot.haskell
@@ -894,12 +880,10 @@
 --                      ^^^^^^ variable.other.haskell
 --                             ^^^^^^ variable.other.haskell
 --                                     ^^ keyword.operator.big-arrow.haskell
+--                                        ^ punctuation.section.sequence.end.haskell
 
     class ModId.QTyCls tyVar1 tyVar2 => Traversable t
---  ^^^^^ meta.declaration.class.haskell
---       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.context.haskell
---                                   ^^ meta.declaration.class.haskell
---                                     ^^^^^^^^^^^^^^^ meta.declaration.class.signature.haskell
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^^^^^ variable.namespace.haskell
 --             ^ punctuation.accessor.dot.haskell
@@ -911,11 +895,7 @@
 --                                                  ^ variable.other.haskell
 
     class () =>
---  ^^^^^ meta.declaration.class.haskell
---       ^ meta.declaration.class.context.haskell - meta.sequence
---        ^^ meta.declaration.class.context.haskell meta.sequence.tuple.haskell
---          ^ meta.declaration.class.context.haskell - meta.sequence
---           ^^ meta.declaration.class.haskell
+--  ^^^^^^^^^^^^ meta.declaration.class.haskell
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^^ meta.sequence.tuple.haskell
 --        ^ punctuation.section.sequence.begin.haskell
@@ -923,12 +903,9 @@
 --           ^^ keyword.operator.big-arrow.haskell
 
     class (Functor t, Foldable t) => Traversable t where
---  ^^^^^ meta.declaration.class.haskell
---       ^ meta.declaration.class.context.haskell - meta.sequence
---        ^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.context.haskell meta.sequence.tuple.haskell
---                               ^ meta.declaration.class.context.haskell - meta.sequence
---                                ^^ meta.declaration.class.haskell
---                                  ^^^^^^^^^^^^^^^ meta.declaration.class.signature.haskell
+--  ^^^^^^ meta.declaration.class.haskell - meta.sequence
+--        ^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell meta.sequence.tuple.haskell
+--                               ^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell - meta.sequence
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^ punctuation.section.sequence.begin.haskell
 --         ^^^^^^^ support.class.prelude.haskell
@@ -947,10 +924,7 @@
 --  methods in the original ones.
 
     class Eq a => a -> a
---  ^^^^^ meta.declaration.class.haskell
---       ^^^^^^ meta.declaration.class.context.haskell
---             ^^ meta.declaration.class.haskell
---               ^^^^^^^^ meta.declaration.class.signature.haskell
+--  ^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^^ support.class.prelude.haskell
 --           ^ variable.other.haskell
@@ -960,12 +934,9 @@
 --                     ^ variable.other.haskell
 
     class (Eq a, Show a, Eq b) => [a] -> [b] -> String
---  ^^^^^ meta.declaration.class.haskell
---       ^ meta.declaration.class.context.haskell - meta.sequence
---        ^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.context.haskell meta.sequence.tuple.haskell
---                            ^ meta.declaration.class.context.haskell - meta.sequence
---                             ^^ meta.declaration.class.haskell
---                               ^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.signature.haskell
+--  ^^^^^^ meta.declaration.class.haskell - meta.sequence
+--        ^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell meta.sequence.tuple.haskell
+--                            ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
 --  ^^^^^ keyword.declaration.class.haskell
 --         ^^ support.class.prelude.haskell
 --            ^ variable.other.haskell
@@ -977,16 +948,13 @@
 --                                              ^^^^^^ support.type.prelude.haskell
 
     class (Eq (f a), Functor f) => (a -> b) -> f a -> f b -> Bool
---  ^^^^^ meta.declaration.class.haskell
---       ^ meta.declaration.class.context.haskell - meta.sequence
---        ^^^^ meta.declaration.class.context.haskell meta.sequence.tuple.haskell - meta.sequence meta.sequence
---            ^^^^^ meta.declaration.class.context.haskell meta.sequence.tuple.haskell meta.sequence.tuple.haskell
---                 ^^^^^^^^^^^^ meta.declaration.class.context.haskell meta.sequence.tuple.haskell - meta.sequence meta.sequence
---                             ^ meta.declaration.class.context.haskell - meta.sequence
---                              ^^ meta.declaration.class.haskell
---                                ^ meta.declaration.class.signature.haskell - meta.group
---                                 ^^^^^^^^ meta.declaration.class.signature.haskell meta.sequence.tuple.haskell
---                                         ^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.signature.haskell - meta.group
+--  ^^^^^^ meta.declaration.class.haskell - meta.sequence
+--        ^^^^ meta.declaration.class.haskell meta.sequence.tuple.haskell - meta.sequence meta.sequence
+--            ^^^^^ meta.declaration.class.haskell meta.sequence.tuple.haskell meta.sequence.tuple.haskell
+--                 ^^^^^^^^^^^^ meta.declaration.class.haskell meta.sequence.tuple.haskell - meta.sequence meta.sequence
+--                             ^^^^ meta.declaration.class.haskell - meta.sequence
+--                                 ^^^^^^^^ meta.declaration.class.haskell meta.sequence.tuple.haskell
+--                                         ^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell - meta.group
 --  ^^^^^ keyword.declaration.class.haskell
 --         ^^ support.class.prelude.haskell
 --            ^ punctuation.section.sequence.begin.haskell

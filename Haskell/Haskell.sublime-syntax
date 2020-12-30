@@ -196,7 +196,6 @@ contexts:
     - include: datas
     - include: foreigns
     - include: imports
-    - include: instances
     - include: newtypes
     - include: types
     - include: functions
@@ -485,47 +484,22 @@ contexts:
       scope:
         meta.declaration.class.haskell
         keyword.declaration.class.haskell
-      branch_point: classes
-      branch:
-        - class-context
-        - class-signature
+      push: class-body
+    # 4.3.2 Instance Declarations
+    # https://www.haskell.org/onlinereport/haskell2010/haskellch4.html#x10-750004.3
+    - match: instance{{break}}
+      scope: keyword.declaration.instance.haskell
+      push: instance-body
 
-  class-else-fail:
-    - match: (?=\S)
-      fail: classes
+  class-body:
+    - meta_content_scope: meta.declaration.class.haskell
+    - include: class-type
 
-  class-context:
-    # The context specifies the superclasses
-    - meta_content_scope: meta.declaration.class.context.haskell
-    - match: '{{operator_big_arrow}}'
-      scope:
-        meta.declaration.class.haskell
-        keyword.operator.big-arrow.haskell
-      set: class-signature
-    - include: class-context-decls
-    - include: class-else-fail
+  instance-body:
+    - meta_scope: meta.declaration.instance.haskell
+    - include: class-type
 
-  class-context-decls:
-    - include: class-context-tuples
-    - include: ident-anonymous
-    - include: ident-namespaces
-    - include: ident-types
-    - include: ident-variables
-
-  class-context-tuples:
-    - match: \(
-      scope: punctuation.section.sequence.begin.haskell
-      push: class-context-tuple-body
-
-  class-context-tuple-body:
-    - meta_scope: meta.sequence.tuple.haskell
-    - include: tuple-end
-    - include: sequence-separators
-    - include: class-context-decls
-    - include: else-pop
-
-  class-signature:
-    - meta_content_scope: meta.declaration.class.signature.haskell
+  class-type:
     - match: where{{break}}
       scope: keyword.control.context.haskell
       set: class-block
@@ -536,8 +510,7 @@ contexts:
     - match: \{
       scope: punctuation.section.block.begin.haskell
       set: class-block-body
-    - match: ^(?!\s*(?:--|{-?|$))
-      pop: 1
+    - include: else-pop
 
   class-block-body:
     - meta_scope: meta.block.haskell
@@ -627,19 +600,6 @@ contexts:
     - include: ident-namespaces
     - include: ident-inherited-classes
     - include: else-pop
-
-###[ INSTANCE DECLARATIONS ]###################################################
-
-  instances:
-    # 4.3.2 Instance Declarations
-    # https://www.haskell.org/onlinereport/haskell2010/haskellch4.html#x10-750004.3
-    - match: instance{{break}}
-      scope: keyword.declaration.instance.haskell
-      push: instance-body
-
-  instance-body:
-    - meta_scope: meta.declaration.instance.haskell
-    - include: type-signature-body
 
 ###[ FUNCTION DECLARATIONS ]###################################################
 
