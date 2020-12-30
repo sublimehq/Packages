@@ -213,7 +213,7 @@ contexts:
     - include: type-signatures
     - include: operators
     - include: splice
-    - include: groups-or-tuples
+    - include: parens
     - include: lists
     - include: keywords
     - include: ident-anonymous
@@ -673,9 +673,9 @@ contexts:
   type-content:
     - include: big-arrow-operators
     - include: right-arrow-operators
-    - include: type-forall
     - include: type-lists
-    - include: type-tuples
+    - include: type-parens
+    - include: type-forall
     - include: ident-anonymous
     - include: ident-namespaces
     - include: ident-types
@@ -709,12 +709,33 @@ contexts:
     - include: type-content
     - include: else-pop
 
-  type-tuples:
+  type-parens:
     # 4.1.3 Syntax of Class Assertions and Contexts
     # https://www.haskell.org/onlinereport/haskell2010/haskellch4.html#x10-630004.1
+    - include: empty-tuples
+    - match: (?=\()
+      branch_point: type-parens
+      branch:
+        - type-group
+        - type-tuple
+
+  type-group:
+    - match: \(
+      scope: punctuation.section.group.begin.haskell
+      set: type-group-body
+
+  type-group-body:
+    - meta_scope: meta.group.haskell
+    - match: ',|:(?!{{symbol}})'
+      fail: type-parens
+    - include: group-end
+    - include: type-content
+    - include: else-pop
+
+  type-tuple:
     - match: \(
       scope: punctuation.section.sequence.begin.haskell
-      push: type-tuple-body
+      set: type-tuple-body
 
   type-tuple-body:
     - meta_scope: meta.sequence.tuple.haskell
@@ -774,18 +795,12 @@ contexts:
     - include: expressions
     - include: else-pop
 
-  groups-or-tuples:
+  parens:
     # 3.8 Tuples
     # https://www.haskell.org/onlinereport/haskell2010/haskellch3.html#x8-360003.8
-    # 3.9 Unit Expressions and Parenthesized Expressions
-    # https://www.haskell.org/onlinereport/haskell2010/haskellch3.html#x8-380003.9
-    - match: (\()\s*(\))
-      scope: meta.sequence.tuple.haskell
-      captures:
-        1: punctuation.section.sequence.begin.haskell
-        2: punctuation.section.sequence.end.haskell
+    - include: empty-tuples
     - match: (?=\()
-      branch_point: groups-or-tuples
+      branch_point: parens
       branch:
         - group
         - tuple
@@ -803,7 +818,7 @@ contexts:
   group-body:
     - meta_scope: meta.group.haskell
     - match: ',|:(?!{{symbol}})'
-      fail: groups-or-tuples
+      fail: parens
     - include: group-end
     - include: records
     - include: expressions
@@ -826,8 +841,17 @@ contexts:
     - include: expressions
     - include: else-pop
 
+  empty-tuples:
+    # 3.9 Unit Expressions and Parenthesized Expressions
+    # https://www.haskell.org/onlinereport/haskell2010/haskellch3.html#x8-380003.9
+    - match: (\()\s*(\))
+      scope: meta.sequence.tuple.haskell
+      captures:
+        1: punctuation.section.sequence.begin.haskell
+        2: punctuation.section.sequence.end.haskell
+
   range-tuples:
-    - match: (\()(\.\.)(\))
+    - match: (\()\s*(\.\.)\s*(\))
       scope: meta.sequence.tuple.haskell
       captures:
         1: punctuation.section.sequence.begin.haskell
