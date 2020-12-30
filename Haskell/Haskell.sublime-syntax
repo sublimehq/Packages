@@ -840,6 +840,7 @@ contexts:
     - include: list-end
     - include: records
     - include: expressions
+    - include: else-pop
 
   groups-or-tuples:
     # 3.8 Tuples
@@ -874,6 +875,7 @@ contexts:
     - include: group-end
     - include: records
     - include: expressions
+    - include: else-pop
 
   tuple:
     - match: \(
@@ -890,6 +892,7 @@ contexts:
     - include: tuple-end
     - include: records
     - include: expressions
+    - include: else-pop
 
   range-tuples:
     - match: (\()(\.\.)(\))
@@ -1046,7 +1049,7 @@ contexts:
     - include: left-arrow-operators
     - include: right-arrow-operators
     - include: infix-parens-operators
-    - match: (`)[ \w'.]+(`)
+    - match: (`)[ \w'.]*(`)
       scope: keyword.operator.function.infix.haskell
       captures:
         1: punctuation.definition.function.begin.haskell

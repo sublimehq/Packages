@@ -2138,7 +2138,7 @@ main = do
 --                ^ keyword.operator.haskell
 --                 ^^ - keyword
 --                   ^ keyword.operator.haskell
---                    ^^ - keyword
+--                    ^^ keyword.operator.function.infix.haskell
 --                      ^ punctuation.section.sequence.end.haskell
 
     (group)
