@@ -1718,6 +1718,40 @@
 --    ^ meta.group.haskell punctuation.section.group.end.haskell
 
 
+-- [ FIXITY DECLARATIONS ] ----------------------------------------------------
+
+    infix
+--  ^^^^^ keyword.declaration.fixity.haskell
+
+    infix'
+--  ^^^^^^ variable.other.haskell
+
+    infixl
+--  ^^^^^^ keyword.declaration.fixity.haskell
+
+    infixr
+--  ^^^^^^ keyword.declaration.fixity.haskell
+
+    infix 0 :$
+--  ^^^^^ keyword.declaration.fixity.haskell
+--        ^ constant.numeric.value.haskell
+--          ^^ keyword.operator.haskell
+
+    infix 1 `ConId`
+--  ^^^^^ keyword.declaration.fixity.haskell
+--        ^ constant.numeric.value.haskell
+--          ^^^^^^^ keyword.operator.function.infix.haskell
+
+    infixl 7  ⋆, /, `quot`
+--  ^^^^^^ keyword.declaration.fixity.haskell
+--         ^ constant.numeric.value.haskell
+--            ^ keyword.operator.haskell
+--             ^ punctuation.separator.sequence.haskell
+--               ^ keyword.operator.haskell
+--                ^ punctuation.separator.sequence.haskell
+--                  ^^^^^^ keyword.operator.function.infix.haskell
+
+
 -- [ FUNCTION DECLARATIONS ] --------------------------------------------------
 
     {- infix operator declaration -}

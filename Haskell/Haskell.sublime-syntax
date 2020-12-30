@@ -985,6 +985,9 @@ contexts:
       scope: keyword.declaration.variable.haskell
     - match: proc{{break}}
       scope: keyword.declaration.function.haskell
+    # 4.4.2 Fixity Declarations
+    - match: infix[lr]?{{break}}
+      scope: keyword.declaration.fixity.haskell
 
   operators:
     - include: constructor-separators
@@ -998,8 +1001,6 @@ contexts:
       captures:
         1: punctuation.definition.function.begin.haskell
         2: punctuation.definition.function.end.haskell
-    - match: infix[lr]?{{break}}
-      scope: keyword.operator.haskell
     # Match all not otherwise matched single quotes as promoition operator
     # Note: Found in real world code but not in specs so far.
     - match: \'
