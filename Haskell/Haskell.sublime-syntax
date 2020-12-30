@@ -304,7 +304,7 @@ contexts:
     - meta_include_prototype: false
     - meta_content_scope: meta.preprocessor.pragma.value.other.haskell
     - include: preprocessor-pragma-common
-    - include: constructor-separators
+    - include: sequence-separators
     - include: literal-numbers
     - include: literal-strings
     - match: (-*)[-\w]+
@@ -1010,7 +1010,6 @@ contexts:
       scope: keyword.declaration.fixity.haskell
 
   operators:
-    - include: constructor-separators
     - include: sequence-separators
     - include: big-arrow-operators
     - include: left-arrow-operators
@@ -1038,10 +1037,6 @@ contexts:
     - match: '{{operator_right_arrow}}'
       scope: keyword.operator.arrow.haskell
 
-  constructor-separators:
-    - match: \|(?!\|)
-      scope: punctuation.separator.sequence.haskell
-
   infix-parens-operators:
     - match: \(\s*({{operator_parens}})\s*\)
       scope: variable.function.infix.haskell
@@ -1062,7 +1057,7 @@ contexts:
       scope: punctuation.terminator.statement.haskell
 
   sequence-separators:
-    - match: ','
+    - match: ',|\|(?!\|)'
       scope: punctuation.separator.sequence.haskell
 
 ###[ PROTOTYPES ]##############################################################
