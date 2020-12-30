@@ -740,20 +740,7 @@ contexts:
     - include: type-content
     - include: else-pop
 
-###[ RECORD CONSTRUCTORS ]#####################################################
-
-  records:
-    - match: \{
-      scope: punctuation.section.block.begin.haskell
-      push: record-body
-
-  record-body:
-    - meta_scope: meta.record.haskell meta.block.haskell
-    - include: block-end
-    - include: expressions
-    - include: else-pop
-
-###[ BLOCKS / GROUPS / LISTS / TUPLES ]########################################
+###[ BLOCKS / RECORDS / GROUPS / LISTS / TUPLES ]##############################
 
   blocks:
     # 2.7 Layout
@@ -771,6 +758,17 @@ contexts:
     - meta_scope: meta.block.haskell
     - include: block-end
     - include: statements
+    - include: expressions
+    - include: else-pop
+
+  records:
+    - match: \{
+      scope: punctuation.section.block.begin.haskell
+      push: record-body
+
+  record-body:
+    - meta_scope: meta.block.haskell
+    - include: block-end
     - include: expressions
     - include: else-pop
 
