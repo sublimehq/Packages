@@ -1091,7 +1091,7 @@
 --                  ^ punctuation.separator.sequence.haskell
 --                    ^^^ support.class.prelude.haskell
 --                       ^ punctuation.separator.sequence.haskell
---                         ^^^^^^^ entity.other.inherited-class.haskell
+--                         ^^^^^^^ storage.type.haskell
 --                                ^ punctuation.section.sequence.end.haskell
         deriving (Read, Show) via (Quiet Record)
 --      ^^^^^^^^^ meta.declaration.deriving.haskell - meta.sequence
@@ -1108,9 +1108,9 @@
 --                          ^ punctuation.section.sequence.end.haskell
 --                            ^^^ storage.modifier.haskell
 --                                ^ punctuation.section.sequence.begin.haskell
---                                 ^^^^^ entity.other.inherited-class.haskell
+--                                 ^^^^^ storage.type.haskell
 --                                      ^ - entity
---                                       ^^^^^^ entity.other.inherited-class.haskell
+--                                       ^^^^^^ storage.type.haskell
 --                                             ^ punctuation.section.sequence.end.haskell
 
     data Outrageous =
@@ -1254,7 +1254,7 @@
 --  ^^^^^^^^^^^^^^ meta.declaration.deriving.haskell
 --                ^^^^^^ - meta.declaration
 --  ^^^^^^^^ storage.modifier.haskell
---           ^^^^^ entity.other.inherited-class.haskell
+--           ^^^^^ storage.type.haskell
 --                 ^^^^^ storage.type.haskell
 
     deriving ModId.QTyCls ModId.Const
@@ -1263,7 +1263,7 @@
 --  ^^^^^^^^ storage.modifier.haskell
 --           ^^^^^ variable.namespace.haskell
 --                ^ punctuation.accessor.dot.haskell
---                 ^^^^^^ entity.other.inherited-class.haskell
+--                 ^^^^^^ storage.type.haskell
 --                        ^^^^^ variable.namespace.haskell
 --                             ^ punctuation.accessor.dot.haskell
 --                              ^^^^^ storage.type.haskell
@@ -1282,11 +1282,11 @@
 --                                ^ - meta.declaration
 --  ^^^^^^^^ storage.modifier.haskell
 --           ^ punctuation.section.sequence.begin.haskell
---            ^^^^^ entity.other.inherited-class.haskell
+--            ^^^^^ storage.type.haskell
 --                 ^ punctuation.separator.sequence.haskell
 --                   ^^^^^ variable.namespace.haskell
 --                        ^ punctuation.accessor.dot.haskell
---                         ^^^^^^ entity.other.inherited-class.haskell
+--                         ^^^^^^ storage.type.haskell
 --                               ^ punctuation.section.sequence.end.haskell
 
 
@@ -1557,9 +1557,9 @@
 --                                    ^^^^^^ variable.other.haskell
 --                                           ^^^^^^^^ storage.modifier.haskell
 --                                                    ^ punctuation.section.sequence.begin.haskell
---                                                     ^^^^^^ entity.other.inherited-class.haskell
+--                                                     ^^^^^^ storage.type.haskell
 --                                                           ^ punctuation.separator.sequence.haskell
---                                                             ^^^^^^^ entity.other.inherited-class.haskell
+--                                                             ^^^^^^^ storage.type.haskell
 --                                                                    ^ punctuation.section.sequence.end.haskell
 
 
@@ -1613,9 +1613,9 @@
 --                           ^^^^^^ variable.other.haskell
 --                                  ^^^^^^^^ storage.modifier.haskell
 --                                           ^ punctuation.section.sequence.begin.haskell
---                                            ^^^^^^ entity.other.inherited-class.haskell
+--                                            ^^^^^^ storage.type.haskell
 --                                                  ^ punctuation.separator.sequence.haskell
---                                                    ^^^^^^^ entity.other.inherited-class.haskell
+--                                                    ^^^^^^^ storage.type.haskell
 --                                                           ^ punctuation.section.sequence.end.haskell
 
     type Id a = a

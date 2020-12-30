@@ -581,7 +581,7 @@ contexts:
       scope: punctuation.section.sequence.begin.haskell
       set: deriving-tuple-body
     - include: ident-namespaces
-    - include: ident-inherited-class
+    - include: ident-type
     - include: else-pop
 
   deriving-tuple-body:
@@ -589,7 +589,7 @@ contexts:
     - include: tuple-end
     - include: sequence-separators
     - include: ident-namespaces
-    - include: ident-inherited-classes
+    - include: ident-types
     - include: else-pop
 
 ###[ FUNCTION DECLARATIONS ]###################################################
@@ -886,12 +886,13 @@ contexts:
     - match: '{{con_id}}'
       scope: entity.name.namespace.haskell
 
-  ident-inherited-classes:
+  ident-types:
     - include: ident-builtin-classes
+    - include: ident-builtin-types
     - match: '{{con_id}}'
-      scope: entity.other.inherited-class.haskell
+      scope: storage.type.haskell
 
-  ident-inherited-class:
+  ident-type:
     - match: '{{builtin_classes}}'
       scope: support.class.prelude.haskell
       pop: 1
@@ -899,14 +900,8 @@ contexts:
       scope: support.type.prelude.haskell
       pop: 1
     - match: '{{con_id}}'
-      scope: entity.other.inherited-class.haskell
-      pop: 1
-
-  ident-types:
-    - include: ident-builtin-classes
-    - include: ident-builtin-types
-    - match: '{{con_id}}'
       scope: storage.type.haskell
+      pop: 1
 
   ident-functions:
     - include: ident-builtin-functions
