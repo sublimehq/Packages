@@ -503,7 +503,7 @@ contexts:
     - match: where{{break}}
       scope: keyword.control.context.haskell
       set: class-block
-    - include: type-content
+    - include: type-expressions
     - include: else-pop
 
   class-block:
@@ -535,7 +535,7 @@ contexts:
     # https://wiki.haskell.org/GHC/Type_families
     - match: (?:family|instance){{break}}
       scope: storage.modifier.family.haskell
-    - include: type-content
+    - include: type-expressions
     - include: else-pop
 
 ###[ DEFAULT DECLARATIONS ]####################################################
@@ -646,7 +646,7 @@ contexts:
 
   newtype-body:
     - meta_scope: meta.declaration.newtype.haskell
-    - include: type-content
+    - include: type-expressions
     - include: else-pop
 
 ###[ TYPE DECLARATIONS ]#######################################################
@@ -658,12 +658,12 @@ contexts:
  
   type-body:
     - meta_scope: meta.declaration.type.haskell
-    - include: type-content
+    - include: type-expressions
     - include: else-pop
 
-###[ TYPE SIGNATURES ]#########################################################
+###[ TYPE EXPRESSIONS ]########################################################
 
-  type-content:
+  type-expressions:
     - include: big-arrow-operators
     - include: right-arrow-operators
     - include: type-lists
@@ -699,7 +699,7 @@ contexts:
     - meta_scope: meta.sequence.list.haskell
     - include: list-end
     - include: sequence-separators
-    - include: type-content
+    - include: type-expressions
     - include: else-pop
 
   type-parens:
@@ -722,7 +722,7 @@ contexts:
     - match: ',|:(?!{{symbol}})'
       fail: type-parens
     - include: group-end
-    - include: type-content
+    - include: type-expressions
     - include: else-pop
 
   type-tuple:
@@ -734,7 +734,7 @@ contexts:
     - meta_scope: meta.sequence.tuple.haskell
     - include: tuple-end
     - include: sequence-separators
-    - include: type-content
+    - include: type-expressions
     - include: else-pop
 
 ###[ BRACES ]##################################################################
