@@ -683,6 +683,7 @@ contexts:
       push: type-forall-body
 
   type-forall-body:
+    # Note: This is the only situation a dot is allowed within type expressions.
     - match: \.
       scope: keyword.operator.haskell
       pop: 1
