@@ -2048,6 +2048,18 @@ main = do
 --               ^ punctuation.separator.sequence.haskell
 --                ^^ keyword.operator.haskell
 --                  ^ punctuation.section.sequence.end.haskell
+    [ x :: a
+--  ^^^^^^^^^ meta.sequence.list.haskell
+--  ^ punctuation.section.sequence.begin.haskell
+--    ^ variable.other.haskell
+--      ^^ keyword.operator.double-colon.haskell
+--         ^ variable.other.haskell
+     B c ]
+--  ^^^^^^ meta.sequence.list.haskell
+--        ^ - meta.sequence
+--   ^ storage.type.haskell
+--     ^ variable.other.haskell
+--       ^ punctuation.section.sequence.end.haskell
 
 --  List comprehension
 
@@ -2199,6 +2211,25 @@ main = do
 --  ^^^^^^^ meta.group.haskell
 --  ^ punctuation.section.group.begin.haskell
 --        ^ punctuation.section.group.end.haskell
+
+    (\arg opt ->
+--  ^^^^^^^^^^^^^ meta.group.haskell
+--  ^ punctuation.section.group.begin.haskell
+        case arg of
+          "auto" -> return opt{ optWrap = WrapAuto }
+--       ^^^^^^^^^^^^^^^^^^^^^ meta.group.haskell - meta.block
+--                            ^^^^^^^^^^^^^^^^^^^^^^ meta.group.haskell meta.block.haskell
+          "none" -> return opt{ optWrap = WrapNone }
+--       ^^^^^^^^^^^^^^^^^^^^^ meta.group.haskell - meta.block
+--                            ^^^^^^^^^^^^^^^^^^^^^^ meta.group.haskell meta.block.haskell
+          "preserve" -> return opt{ optWrap = WrapPreserve }
+--       ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.haskell - meta.block
+--                                ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.haskell meta.block.haskell
+          _ -> E.throwIO $ PandocOptionError
+               "--wrap must be auto, none, or preserve")
+--             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.haskell meta.string.haskell string.quoted.double.haskell
+--                                                     ^ meta.group.haskell punctuation.section.group.end.haskell
+--                                                      ^ - meta.group
 
 
 -- [ IDENTS ] -----------------------------------------------------------------
