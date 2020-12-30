@@ -1056,8 +1056,8 @@
 --       ^^^^^^ storage.type.haskell
 --              ^ keyword.operator.haskell
     Record {
---  ^^^^^^^ - meta.record
---         ^^ meta.record.haskell meta.block.haskell
+--  ^^^^^^^ - meta.block
+--         ^^ meta.block.haskell
 --  ^^^^^^ storage.type.haskell
 --         ^ punctuation.section.block.begin.haskell
         recordInt :: Int
@@ -1080,7 +1080,7 @@
 --                     ^^ keyword.operator.double-colon.haskell
 --                        ^^^^^^^^ support.class.prelude.haskell
       } deriving (Eq, Ord, Generic)
---   ^^ meta.record.haskell meta.block.haskell
+--   ^^ meta.block.haskell
 --     ^ - meta
 --      ^^^^^^^^^ meta.declaration.deriving.haskell - meta.sequence
 --               ^^^^^^^^^^^^^^^^^^ meta.declaration.deriving.haskell meta.sequence.tuple.haskell
