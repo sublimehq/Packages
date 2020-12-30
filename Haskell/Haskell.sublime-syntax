@@ -72,56 +72,6 @@ variables:
       | (\^[A-Z@\[\]\\\^_])  # Control Chars
     )
 
-  builtin_classes: |-
-    (?x:
-    # 9 Standard Prelude
-      Applicative | Bounded | Enum | Eq | Floating | Foldableble | Fractional
-    | Functor | Integral | Monad | Monadoid | Num | Ord | Rational | Read
-    | Real | RealFloat | RealFrac | Show | Traversable
-    ){{break}}
-
-  builtin_constants: |-
-    (?x: Just | Nothing | Left | Right | True | False | LT | EQ | GT ){{break}}
-
-  builtin_types: |-
-    (?x:
-    # 9 Standard Prelude
-      Bool | Char | Double | Either | FilePath | Float | Int | Integer | IO
-    | IOError | Maybe | Ordering | ReadS | ShowS | String | Word
-    # 24 Foreign
-    # https://www.haskell.org/onlinereport/haskell2010/haskellch24.html#x32-26200024
-    | Int8 | Int16 | Int32 | Int64 | Word8 | Word16 | Word32 | Word64
-    | Ptr | FunPtr | StablePtr
-    ){{break}}
-
-  builtin_functions: |-
-    (?x:
-      abs | acos | acosh | all | and | any | appendFile | asTypeOf | asin
-    | asinh | atan | atan2 | atanh | break | ceiling | compare | concat
-    | concatMap | const | cos | cosh | curry | cycle | decodeFloat | div
-    | divMod | drop | dropWhile | either | elem | encodeFloat | enumFrom
-    | enumFromThen | enumFromThenTo | enumFromTo | error | errorWithoutStackTrace
-    | even | exp | exponent | fail | filter | flip | floatDigits | floatRadix
-    | floatRange | floor | fmap | foldMap | foldl | foldl1 | foldr | foldr1
-    | fromEnum | fromInteger | fromIntegral | fromRational | fst | gcd | getChar
-    | getContents | getLine | head | id | init | interact | ioError
-    | isDenormalized | isIEEE | isInfinite | isNaN | isNegativeZero | iterate
-    | last | lcm | length | lex | lines | log | logBase | lookup | map | mapM
-    | mapM_ | mappend | max | maxBound | maximum | maybe | mconcat | mempty
-    | min | minBound | minimum | mod | negate | not | notElem | null | odd | or
-    | otherwise | pi | pred | print | product | properFraction | pure | putChar
-    | putStr | putStrLn | quot | quotRem | read | readFile | readIO | readList
-    | readLn | readParen | reads | readsPrec | realToFrac | recip | rem | repeat
-    | replicate | return | reverse | round | scaleFloat | scanl | scanl1 | scanr
-    | scanr1 | seq | sequence | sequenceA | sequence_ | show | showChar
-    | showList | showParen | showString | shows | showsPrec | significand
-    | signum | sin | sinh | snd | span | splitAt | sqrt | subtract | succ | sum
-    | tail | take | takeWhile | tan | tanh | toEnum | toInteger | toRational
-    | traverse | truncate | uncurry | undefined | unlines | until | unwords
-    | unzip | unzip3 | userError | words | writeFile | zip | zip3 | zipWith
-    | zipWith3
-    ){{break}}
-
   # https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#pragmas
   pragma_keys: |-
     (?x:
@@ -175,6 +125,56 @@ variables:
     | TypeSynonymInstances | UnboxedTuples | UnboxedSums
     | UndecidableInstances | UndecidableSuperClasses | UnicodeSyntax
     | UnliftedFFITypes | UnliftedNewtypes | ViewPatterns
+    ){{break}}
+
+  prelude_classes: |-
+    (?x:
+    # 9 Standard Prelude
+      Applicative | Bounded | Enum | Eq | Floating | Foldableble | Fractional
+    | Functor | Integral | Monad | Monadoid | Num | Ord | Rational | Read
+    | Real | RealFloat | RealFrac | Show | Traversable
+    ){{break}}
+
+  prelude_constants: |-
+    (?x: Just | Nothing | Left | Right | True | False | LT | EQ | GT ){{break}}
+
+  prelude_types: |-
+    (?x:
+    # 9 Standard Prelude
+      Bool | Char | Double | Either | FilePath | Float | Int | Integer | IO
+    | IOError | Maybe | Ordering | ReadS | ShowS | String | Word
+    # 24 Foreign
+    # https://www.haskell.org/onlinereport/haskell2010/haskellch24.html#x32-26200024
+    | Int8 | Int16 | Int32 | Int64 | Word8 | Word16 | Word32 | Word64
+    | Ptr | FunPtr | StablePtr
+    ){{break}}
+
+  prelude_functions: |-
+    (?x:
+      abs | acos | acosh | all | and | any | appendFile | asTypeOf | asin
+    | asinh | atan | atan2 | atanh | break | ceiling | compare | concat
+    | concatMap | const | cos | cosh | curry | cycle | decodeFloat | div
+    | divMod | drop | dropWhile | either | elem | encodeFloat | enumFrom
+    | enumFromThen | enumFromThenTo | enumFromTo | error | errorWithoutStackTrace
+    | even | exp | exponent | fail | filter | flip | floatDigits | floatRadix
+    | floatRange | floor | fmap | foldMap | foldl | foldl1 | foldr | foldr1
+    | fromEnum | fromInteger | fromIntegral | fromRational | fst | gcd | getChar
+    | getContents | getLine | head | id | init | interact | ioError
+    | isDenormalized | isIEEE | isInfinite | isNaN | isNegativeZero | iterate
+    | last | lcm | length | lex | lines | log | logBase | lookup | map | mapM
+    | mapM_ | mappend | max | maxBound | maximum | maybe | mconcat | mempty
+    | min | minBound | minimum | mod | negate | not | notElem | null | odd | or
+    | otherwise | pi | pred | print | product | properFraction | pure | putChar
+    | putStr | putStrLn | quot | quotRem | read | readFile | readIO | readList
+    | readLn | readParen | reads | readsPrec | realToFrac | recip | rem | repeat
+    | replicate | return | reverse | round | scaleFloat | scanl | scanl1 | scanr
+    | scanr1 | seq | sequence | sequenceA | sequence_ | show | showChar
+    | showList | showParen | showString | shows | showsPrec | significand
+    | signum | sin | sinh | snd | span | splitAt | sqrt | subtract | succ | sum
+    | tail | take | takeWhile | tan | tanh | toEnum | toInteger | toRational
+    | traverse | truncate | uncurry | undefined | unlines | until | unwords
+    | unzip | unzip3 | userError | words | writeFile | zip | zip3 | zipWith
+    | zipWith3
     ){{break}}
 
 ###############################################################################
@@ -620,7 +620,7 @@ contexts:
       captures:
         1: keyword.operator.haskell
       push: variable-name-end
-    - match: '{{builtin_functions}}'
+    - match: '{{prelude_functions}}'
       scope: support.function.prelude.haskell
       push: variable-name-end
     - match: '{{var_id}}'
@@ -879,19 +879,19 @@ contexts:
 
   ident-builtin-classes:
     # Prelude Class Types
-    - match: '{{builtin_classes}}'
+    - match: '{{prelude_classes}}'
       scope: support.class.prelude.haskell
 
   ident-builtin-types:
     # Prelude Data Types of special meaning
-    - match: '{{builtin_constants}}'
+    - match: '{{prelude_constants}}'
       scope: support.constant.prelude.haskell
     # Prelude Data Types
-    - match: '{{builtin_types}}'
+    - match: '{{prelude_types}}'
       scope: support.type.prelude.haskell
 
   ident-builtin-functions:
-    - match: '{{builtin_functions}}'
+    - match: '{{prelude_functions}}'
       scope: support.function.prelude.haskell
 
   ident-namespaces:
@@ -911,10 +911,10 @@ contexts:
       scope: storage.type.haskell
 
   ident-type:
-    - match: '{{builtin_classes}}'
+    - match: '{{prelude_classes}}'
       scope: support.class.prelude.haskell
       pop: 1
-    - match: '{{builtin_types}}'
+    - match: '{{prelude_types}}'
       scope: support.type.prelude.haskell
       pop: 1
     - match: '{{con_id}}'
