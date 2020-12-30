@@ -1,0 +1,146 @@
+{
+	"scope": "source.haskell - comment - string",
+	"completions":
+	[
+		{
+			"trigger": "case",
+			"contents": "case",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "class",
+			"contents": "class",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "default",
+			"contents": "default",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "deriving",
+			"contents": "deriving",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "do",
+			"contents": "do",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "else",
+			"contents": "else",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "family",
+			"contents": "family",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "forall",
+			"contents": "forall",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "foreign",
+			"contents": "foreign",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "if",
+			"contents": "if",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "import",
+			"contents": "import",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "in",
+			"contents": "in",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "infix",
+			"contents": "infix",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "infixl",
+			"contents": "infixl",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "infixr",
+			"contents": "infixr",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "instance",
+			"contents": "instance",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "let",
+			"contents": "let",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "mdo",
+			"contents": "mdo",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "module",
+			"contents": "module",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "newtype",
+			"contents": "newtype",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "of",
+			"contents": "of",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "proc",
+			"contents": "proc",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "rec",
+			"contents": "rec",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "signature",
+			"contents": "signature",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "then",
+			"contents": "then",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "type",
+			"contents": "type",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "via",
+			"contents": "via",
+			"kind": "keyword"
+		},
+		{
+			"trigger": "where",
+			"contents": "where",
+			"kind": "keyword"
+		}
+	]
+}

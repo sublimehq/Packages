@@ -1,0 +1,906 @@
+{
+	"scope": "source.haskell - comment - string",
+	"completions":
+	[
+		{
+			"trigger": "abs",
+			"contents": "abs",
+			"kind": "function"
+		},
+		{
+			"trigger": "acos",
+			"contents": "acos",
+			"kind": "function"
+		},
+		{
+			"trigger": "acosh",
+			"contents": "acosh",
+			"kind": "function"
+		},
+		{
+			"trigger": "all",
+			"contents": "all",
+			"kind": "function"
+		},
+		{
+			"trigger": "and",
+			"contents": "and",
+			"kind": "function"
+		},
+		{
+			"trigger": "any",
+			"contents": "any",
+			"kind": "function"
+		},
+		{
+			"trigger": "appendFile",
+			"contents": "appendFile",
+			"kind": "function"
+		},
+		{
+			"trigger": "asin",
+			"contents": "asin",
+			"kind": "function"
+		},
+		{
+			"trigger": "asinh",
+			"contents": "asinh",
+			"kind": "function"
+		},
+		{
+			"trigger": "asTypeOf",
+			"contents": "asTypeOf",
+			"kind": "function"
+		},
+		{
+			"trigger": "atan",
+			"contents": "atan",
+			"kind": "function"
+		},
+		{
+			"trigger": "atan2",
+			"contents": "atan2",
+			"kind": "function"
+		},
+		{
+			"trigger": "atanh",
+			"contents": "atanh",
+			"kind": "function"
+		},
+		{
+			"trigger": "break",
+			"contents": "break",
+			"kind": "function"
+		},
+		{
+			"trigger": "ceiling",
+			"contents": "ceiling",
+			"kind": "function"
+		},
+		{
+			"trigger": "compare",
+			"contents": "compare",
+			"kind": "function"
+		},
+		{
+			"trigger": "concat",
+			"contents": "concat",
+			"kind": "function"
+		},
+		{
+			"trigger": "concatMap",
+			"contents": "concatMap",
+			"kind": "function"
+		},
+		{
+			"trigger": "const",
+			"contents": "const",
+			"kind": "function"
+		},
+		{
+			"trigger": "cos",
+			"contents": "cos",
+			"kind": "function"
+		},
+		{
+			"trigger": "cosh",
+			"contents": "cosh",
+			"kind": "function"
+		},
+		{
+			"trigger": "curry",
+			"contents": "curry",
+			"kind": "function"
+		},
+		{
+			"trigger": "cycle",
+			"contents": "cycle",
+			"kind": "function"
+		},
+		{
+			"trigger": "decodeFloat",
+			"contents": "decodeFloat",
+			"kind": "function"
+		},
+		{
+			"trigger": "div",
+			"contents": "div",
+			"kind": "function"
+		},
+		{
+			"trigger": "divMod",
+			"contents": "divMod",
+			"kind": "function"
+		},
+		{
+			"trigger": "drop",
+			"contents": "drop",
+			"kind": "function"
+		},
+		{
+			"trigger": "dropWhile",
+			"contents": "dropWhile",
+			"kind": "function"
+		},
+		{
+			"trigger": "either",
+			"contents": "either",
+			"kind": "function"
+		},
+		{
+			"trigger": "elem",
+			"contents": "elem",
+			"kind": "function"
+		},
+		{
+			"trigger": "encodeFloat",
+			"contents": "encodeFloat",
+			"kind": "function"
+		},
+		{
+			"trigger": "enumFrom",
+			"contents": "enumFrom",
+			"kind": "function"
+		},
+		{
+			"trigger": "enumFromThen",
+			"contents": "enumFromThen",
+			"kind": "function"
+		},
+		{
+			"trigger": "enumFromThenTo",
+			"contents": "enumFromThenTo",
+			"kind": "function"
+		},
+		{
+			"trigger": "enumFromTo",
+			"contents": "enumFromTo",
+			"kind": "function"
+		},
+		{
+			"trigger": "error",
+			"contents": "error",
+			"kind": "function"
+		},
+		{
+			"trigger": "errorWithoutStackTrace",
+			"contents": "errorWithoutStackTrace",
+			"kind": "function"
+		},
+		{
+			"trigger": "even",
+			"contents": "even",
+			"kind": "function"
+		},
+		{
+			"trigger": "exp",
+			"contents": "exp",
+			"kind": "function"
+		},
+		{
+			"trigger": "exponent",
+			"contents": "exponent",
+			"kind": "function"
+		},
+		{
+			"trigger": "fail",
+			"contents": "fail",
+			"kind": "function"
+		},
+		{
+			"trigger": "filter",
+			"contents": "filter",
+			"kind": "function"
+		},
+		{
+			"trigger": "flip",
+			"contents": "flip",
+			"kind": "function"
+		},
+		{
+			"trigger": "floatDigits",
+			"contents": "floatDigits",
+			"kind": "function"
+		},
+		{
+			"trigger": "floatRadix",
+			"contents": "floatRadix",
+			"kind": "function"
+		},
+		{
+			"trigger": "floatRange",
+			"contents": "floatRange",
+			"kind": "function"
+		},
+		{
+			"trigger": "floor",
+			"contents": "floor",
+			"kind": "function"
+		},
+		{
+			"trigger": "fmap",
+			"contents": "fmap",
+			"kind": "function"
+		},
+		{
+			"trigger": "foldl",
+			"contents": "foldl",
+			"kind": "function"
+		},
+		{
+			"trigger": "foldl1",
+			"contents": "foldl1",
+			"kind": "function"
+		},
+		{
+			"trigger": "foldMap",
+			"contents": "foldMap",
+			"kind": "function"
+		},
+		{
+			"trigger": "foldr",
+			"contents": "foldr",
+			"kind": "function"
+		},
+		{
+			"trigger": "foldr1",
+			"contents": "foldr1",
+			"kind": "function"
+		},
+		{
+			"trigger": "fromEnum",
+			"contents": "fromEnum",
+			"kind": "function"
+		},
+		{
+			"trigger": "fromInteger",
+			"contents": "fromInteger",
+			"kind": "function"
+		},
+		{
+			"trigger": "fromIntegral",
+			"contents": "fromIntegral",
+			"kind": "function"
+		},
+		{
+			"trigger": "fromRational",
+			"contents": "fromRational",
+			"kind": "function"
+		},
+		{
+			"trigger": "fst",
+			"contents": "fst",
+			"kind": "function"
+		},
+		{
+			"trigger": "gcd",
+			"contents": "gcd",
+			"kind": "function"
+		},
+		{
+			"trigger": "getChar",
+			"contents": "getChar",
+			"kind": "function"
+		},
+		{
+			"trigger": "getContents",
+			"contents": "getContents",
+			"kind": "function"
+		},
+		{
+			"trigger": "getLine",
+			"contents": "getLine",
+			"kind": "function"
+		},
+		{
+			"trigger": "head",
+			"contents": "head",
+			"kind": "function"
+		},
+		{
+			"trigger": "id",
+			"contents": "id",
+			"kind": "function"
+		},
+		{
+			"trigger": "init",
+			"contents": "init",
+			"kind": "function"
+		},
+		{
+			"trigger": "interact",
+			"contents": "interact",
+			"kind": "function"
+		},
+		{
+			"trigger": "ioError",
+			"contents": "ioError",
+			"kind": "function"
+		},
+		{
+			"trigger": "isDenormalized",
+			"contents": "isDenormalized",
+			"kind": "function"
+		},
+		{
+			"trigger": "isIEEE",
+			"contents": "isIEEE",
+			"kind": "function"
+		},
+		{
+			"trigger": "isInfinite",
+			"contents": "isInfinite",
+			"kind": "function"
+		},
+		{
+			"trigger": "isNaN",
+			"contents": "isNaN",
+			"kind": "function"
+		},
+		{
+			"trigger": "isNegativeZero",
+			"contents": "isNegativeZero",
+			"kind": "function"
+		},
+		{
+			"trigger": "iterate",
+			"contents": "iterate",
+			"kind": "function"
+		},
+		{
+			"trigger": "last",
+			"contents": "last",
+			"kind": "function"
+		},
+		{
+			"trigger": "lcm",
+			"contents": "lcm",
+			"kind": "function"
+		},
+		{
+			"trigger": "length",
+			"contents": "length",
+			"kind": "function"
+		},
+		{
+			"trigger": "lex",
+			"contents": "lex",
+			"kind": "function"
+		},
+		{
+			"trigger": "lines",
+			"contents": "lines",
+			"kind": "function"
+		},
+		{
+			"trigger": "log",
+			"contents": "log",
+			"kind": "function"
+		},
+		{
+			"trigger": "logBase",
+			"contents": "logBase",
+			"kind": "function"
+		},
+		{
+			"trigger": "lookup",
+			"contents": "lookup",
+			"kind": "function"
+		},
+		{
+			"trigger": "map",
+			"contents": "map",
+			"kind": "function"
+		},
+		{
+			"trigger": "mapM",
+			"contents": "mapM",
+			"kind": "function"
+		},
+		{
+			"trigger": "mapM_",
+			"contents": "mapM_",
+			"kind": "function"
+		},
+		{
+			"trigger": "mappend",
+			"contents": "mappend",
+			"kind": "function"
+		},
+		{
+			"trigger": "max",
+			"contents": "max",
+			"kind": "function"
+		},
+		{
+			"trigger": "maxBound",
+			"contents": "maxBound",
+			"kind": "function"
+		},
+		{
+			"trigger": "maximum",
+			"contents": "maximum",
+			"kind": "function"
+		},
+		{
+			"trigger": "maybe",
+			"contents": "maybe",
+			"kind": "function"
+		},
+		{
+			"trigger": "mconcat",
+			"contents": "mconcat",
+			"kind": "function"
+		},
+		{
+			"trigger": "mempty",
+			"contents": "mempty",
+			"kind": "function"
+		},
+		{
+			"trigger": "min",
+			"contents": "min",
+			"kind": "function"
+		},
+		{
+			"trigger": "minBound",
+			"contents": "minBound",
+			"kind": "function"
+		},
+		{
+			"trigger": "minimum",
+			"contents": "minimum",
+			"kind": "function"
+		},
+		{
+			"trigger": "mod",
+			"contents": "mod",
+			"kind": "function"
+		},
+		{
+			"trigger": "negate",
+			"contents": "negate",
+			"kind": "function"
+		},
+		{
+			"trigger": "not",
+			"contents": "not",
+			"kind": "function"
+		},
+		{
+			"trigger": "notElem",
+			"contents": "notElem",
+			"kind": "function"
+		},
+		{
+			"trigger": "null",
+			"contents": "null",
+			"kind": "function"
+		},
+		{
+			"trigger": "odd",
+			"contents": "odd",
+			"kind": "function"
+		},
+		{
+			"trigger": "or",
+			"contents": "or",
+			"kind": "function"
+		},
+		{
+			"trigger": "otherwise",
+			"contents": "otherwise",
+			"kind": "function"
+		},
+		{
+			"trigger": "pi",
+			"contents": "pi",
+			"kind": "function"
+		},
+		{
+			"trigger": "pred",
+			"contents": "pred",
+			"kind": "function"
+		},
+		{
+			"trigger": "print",
+			"contents": "print",
+			"kind": "function"
+		},
+		{
+			"trigger": "product",
+			"contents": "product",
+			"kind": "function"
+		},
+		{
+			"trigger": "properFraction",
+			"contents": "properFraction",
+			"kind": "function"
+		},
+		{
+			"trigger": "pure",
+			"contents": "pure",
+			"kind": "function"
+		},
+		{
+			"trigger": "putChar",
+			"contents": "putChar",
+			"kind": "function"
+		},
+		{
+			"trigger": "putStr",
+			"contents": "putStr",
+			"kind": "function"
+		},
+		{
+			"trigger": "putStrLn",
+			"contents": "putStrLn",
+			"kind": "function"
+		},
+		{
+			"trigger": "quot",
+			"contents": "quot",
+			"kind": "function"
+		},
+		{
+			"trigger": "quotRem",
+			"contents": "quotRem",
+			"kind": "function"
+		},
+		{
+			"trigger": "read",
+			"contents": "read",
+			"kind": "function"
+		},
+		{
+			"trigger": "readFile",
+			"contents": "readFile",
+			"kind": "function"
+		},
+		{
+			"trigger": "readIO",
+			"contents": "readIO",
+			"kind": "function"
+		},
+		{
+			"trigger": "readList",
+			"contents": "readList",
+			"kind": "function"
+		},
+		{
+			"trigger": "readLn",
+			"contents": "readLn",
+			"kind": "function"
+		},
+		{
+			"trigger": "readParen",
+			"contents": "readParen",
+			"kind": "function"
+		},
+		{
+			"trigger": "reads",
+			"contents": "reads",
+			"kind": "function"
+		},
+		{
+			"trigger": "readsPrec",
+			"contents": "readsPrec",
+			"kind": "function"
+		},
+		{
+			"trigger": "realToFrac",
+			"contents": "realToFrac",
+			"kind": "function"
+		},
+		{
+			"trigger": "recip",
+			"contents": "recip",
+			"kind": "function"
+		},
+		{
+			"trigger": "rem",
+			"contents": "rem",
+			"kind": "function"
+		},
+		{
+			"trigger": "repeat",
+			"contents": "repeat",
+			"kind": "function"
+		},
+		{
+			"trigger": "replicate",
+			"contents": "replicate",
+			"kind": "function"
+		},
+		{
+			"trigger": "return",
+			"contents": "return",
+			"kind": "function"
+		},
+		{
+			"trigger": "reverse",
+			"contents": "reverse",
+			"kind": "function"
+		},
+		{
+			"trigger": "round",
+			"contents": "round",
+			"kind": "function"
+		},
+		{
+			"trigger": "scaleFloat",
+			"contents": "scaleFloat",
+			"kind": "function"
+		},
+		{
+			"trigger": "scanl",
+			"contents": "scanl",
+			"kind": "function"
+		},
+		{
+			"trigger": "scanl1",
+			"contents": "scanl1",
+			"kind": "function"
+		},
+		{
+			"trigger": "scanr",
+			"contents": "scanr",
+			"kind": "function"
+		},
+		{
+			"trigger": "scanr1",
+			"contents": "scanr1",
+			"kind": "function"
+		},
+		{
+			"trigger": "seq",
+			"contents": "seq",
+			"kind": "function"
+		},
+		{
+			"trigger": "sequence",
+			"contents": "sequence",
+			"kind": "function"
+		},
+		{
+			"trigger": "sequence_",
+			"contents": "sequence_",
+			"kind": "function"
+		},
+		{
+			"trigger": "sequenceA",
+			"contents": "sequenceA",
+			"kind": "function"
+		},
+		{
+			"trigger": "show",
+			"contents": "show",
+			"kind": "function"
+		},
+		{
+			"trigger": "showChar",
+			"contents": "showChar",
+			"kind": "function"
+		},
+		{
+			"trigger": "showList",
+			"contents": "showList",
+			"kind": "function"
+		},
+		{
+			"trigger": "showParen",
+			"contents": "showParen",
+			"kind": "function"
+		},
+		{
+			"trigger": "shows",
+			"contents": "shows",
+			"kind": "function"
+		},
+		{
+			"trigger": "showsPrec",
+			"contents": "showsPrec",
+			"kind": "function"
+		},
+		{
+			"trigger": "showString",
+			"contents": "showString",
+			"kind": "function"
+		},
+		{
+			"trigger": "significand",
+			"contents": "significand",
+			"kind": "function"
+		},
+		{
+			"trigger": "signum",
+			"contents": "signum",
+			"kind": "function"
+		},
+		{
+			"trigger": "sin",
+			"contents": "sin",
+			"kind": "function"
+		},
+		{
+			"trigger": "sinh",
+			"contents": "sinh",
+			"kind": "function"
+		},
+		{
+			"trigger": "snd",
+			"contents": "snd",
+			"kind": "function"
+		},
+		{
+			"trigger": "span",
+			"contents": "span",
+			"kind": "function"
+		},
+		{
+			"trigger": "splitAt",
+			"contents": "splitAt",
+			"kind": "function"
+		},
+		{
+			"trigger": "sqrt",
+			"contents": "sqrt",
+			"kind": "function"
+		},
+		{
+			"trigger": "subtract",
+			"contents": "subtract",
+			"kind": "function"
+		},
+		{
+			"trigger": "succ",
+			"contents": "succ",
+			"kind": "function"
+		},
+		{
+			"trigger": "sum",
+			"contents": "sum",
+			"kind": "function"
+		},
+		{
+			"trigger": "tail",
+			"contents": "tail",
+			"kind": "function"
+		},
+		{
+			"trigger": "take",
+			"contents": "take",
+			"kind": "function"
+		},
+		{
+			"trigger": "takeWhile",
+			"contents": "takeWhile",
+			"kind": "function"
+		},
+		{
+			"trigger": "tan",
+			"contents": "tan",
+			"kind": "function"
+		},
+		{
+			"trigger": "tanh",
+			"contents": "tanh",
+			"kind": "function"
+		},
+		{
+			"trigger": "toEnum",
+			"contents": "toEnum",
+			"kind": "function"
+		},
+		{
+			"trigger": "toInteger",
+			"contents": "toInteger",
+			"kind": "function"
+		},
+		{
+			"trigger": "toRational",
+			"contents": "toRational",
+			"kind": "function"
+		},
+		{
+			"trigger": "traverse",
+			"contents": "traverse",
+			"kind": "function"
+		},
+		{
+			"trigger": "truncate",
+			"contents": "truncate",
+			"kind": "function"
+		},
+		{
+			"trigger": "uncurry",
+			"contents": "uncurry",
+			"kind": "function"
+		},
+		{
+			"trigger": "undefined",
+			"contents": "undefined",
+			"kind": "function"
+		},
+		{
+			"trigger": "unlines",
+			"contents": "unlines",
+			"kind": "function"
+		},
+		{
+			"trigger": "until",
+			"contents": "until",
+			"kind": "function"
+		},
+		{
+			"trigger": "unwords",
+			"contents": "unwords",
+			"kind": "function"
+		},
+		{
+			"trigger": "unzip",
+			"contents": "unzip",
+			"kind": "function"
+		},
+		{
+			"trigger": "unzip3",
+			"contents": "unzip3",
+			"kind": "function"
+		},
+		{
+			"trigger": "userError",
+			"contents": "userError",
+			"kind": "function"
+		},
+		{
+			"trigger": "words",
+			"contents": "words",
+			"kind": "function"
+		},
+		{
+			"trigger": "writeFile",
+			"contents": "writeFile",
+			"kind": "function"
+		},
+		{
+			"trigger": "zip",
+			"contents": "zip",
+			"kind": "function"
+		},
+		{
+			"trigger": "zip3",
+			"contents": "zip3",
+			"kind": "function"
+		},
+		{
+			"trigger": "zipWith",
+			"contents": "zipWith",
+			"kind": "function"
+		},
+		{
+			"trigger": "zipWith3",
+			"contents": "zipWith3",
+			"kind": "function"
+		}
+	]
+}

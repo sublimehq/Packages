@@ -1,0 +1,131 @@
+{
+	"scope": "meta.preprocessor.pragma.directive.haskell",
+	"completions": [
+		{
+			"trigger": "LANGUAGE",
+			"contents": "LANGUAGE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "OPTIONS_GHC",
+			"contents": "OPTIONS_GHC",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "OPTIONS_HADDOCK",
+			"contents": "OPTIONS_HADDOCK",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "INCLUDE",
+			"contents": "INCLUDE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "WARNING",
+			"contents": "WARNING",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "DEPRECATED",
+			"contents": "DEPRECATED",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "MINIMAL",
+			"contents": "MINIMAL",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "UNPACK",
+			"contents": "UNPACK",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "NOUNPACK",
+			"contents": "NOUNPACK",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "SOURCE",
+			"contents": "SOURCE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "OVERLAPPING",
+			"contents": "OVERLAPPING",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "OVERLAPPABLE",
+			"contents": "OVERLAPPABLE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "OVERLAPS",
+			"contents": "OVERLAPS",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "INCOHERENT",
+			"contents": "INCOHERENT",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "INLINE",
+			"contents": "INLINE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "NOINLINE",
+			"contents": "NOINLINE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "INLINABLE",
+			"contents": "INLINABLE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "CONLIKE",
+			"contents": "CONLIKE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "LINE",
+			"contents": "LINE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "RULES",
+			"contents": "RULES",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "SPECIALIZE",
+			"contents": "SPECIALIZE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		}
+	]
+}
