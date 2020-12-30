@@ -210,7 +210,7 @@ contexts:
     - include: literal-chars
     - include: literal-strings
     - include: literal-numbers
-    - include: type-signatures
+    - include: type-forall
     - include: operators
     - include: splice
     - include: parens
@@ -663,13 +663,6 @@ contexts:
 
 ###[ TYPE SIGNATURES ]#########################################################
 
-  type-signatures:
-    # 3 Expressions
-    # https://www.haskell.org/onlinereport/haskell2010/haskellch3.html
-    - match: '{{operator_double_colon}}'
-      scope: keyword.operator.double-colon.haskell
-    - include: type-forall
-
   type-content:
     - include: big-arrow-operators
     - include: right-arrow-operators
@@ -1011,6 +1004,8 @@ contexts:
     # Note: Found in real world code but not in specs so far.
     - match: \'
       scope: keyword.operator.haskell
+    - match: '{{operator_double_colon}}'
+      scope: keyword.operator.double-colon.haskell
     - match: '{{operator_symbol}}'
       scope: keyword.operator.haskell
 
