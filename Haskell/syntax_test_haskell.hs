@@ -1875,6 +1875,55 @@
 --                          ^ punctuation.terminator.statement.haskell
     }
 
+    {- Instance Method Declarations -}
+    instance TyCls a where
+      nethod1 :: a -> Bool
+--    ^^^^^^^^ meta.function.identifier.haskell
+--    ^^^^^^^ entity.name.function.haskell
+--            ^^ keyword.operator.double-colon.haskell
+--               ^ variable.other.haskell
+--                 ^^ keyword.operator.arrow.haskell
+--                    ^^^^ support.type.prelude.haskell
+      method' ::
+--    ^^^^^^^^ meta.function.identifier.haskell
+--    ^^^^^^^ entity.name.function.haskell
+        a -> Bool
+--      ^ variable.other.haskell
+--        ^^ keyword.operator.arrow.haskell
+--           ^^^^ support.type.prelude.haskell
+
+    {- Instance Method Declarations with Block Layout -}
+    instance TyCls a where {
+      method :: Bool -> Bool;
+--    ^^^^^^^ meta.block.haskell meta.function.identifier.haskell
+--           ^^^^^^^^^^^^^^^^^ meta.block.haskell - meta.function
+--    ^^^^^^ entity.name.function.haskell
+--           ^^ keyword.operator.double-colon.haskell
+--              ^^^^ support.type.prelude.haskell
+--                   ^^ keyword.operator.arrow.haskell
+--                      ^^^^ support.type.prelude.haskell
+--                          ^ punctuation.terminator.statement.haskell
+      method = True;
+--    ^^^^^^^^^^^^^^^ meta.block.haskell
+--    ^^^^^^ variable.other.haskell
+--           ^ keyword.operator.haskell
+--             ^^^^ support.constant.prelude.haskell
+--                 ^ punctuation.terminator.statement.haskell
+
+     {- preceeded by statement terminator -}
+     ;method :: Bool -> Bool;
+--   ^ meta.block.haskell - meta.function
+--    ^^^^^^^ meta.block.haskell meta.function.identifier.haskell
+--           ^^^^^^^^^^^^^^^^^ meta.block.haskell - meta.function
+--   ^ punctuation.terminator.statement.haskell
+--    ^^^^^^ entity.name.function.haskell
+--           ^^ keyword.operator.double-colon.haskell
+--              ^^^^ support.type.prelude.haskell
+--                   ^^ keyword.operator.arrow.haskell
+--                      ^^^^ support.type.prelude.haskell
+--                          ^ punctuation.terminator.statement.haskell
+    }
+
 
 -- [ KEYWORDS ] ---------------------------------------------------------------
 
