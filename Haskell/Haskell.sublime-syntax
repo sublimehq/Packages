@@ -351,11 +351,11 @@ contexts:
     - include: immediatelly-pop
 
   module-name:
-    - include: ident-namespaces
-    - include: ident-modules
     - match: \(
       scope: punctuation.section.sequence.begin.haskell
       set: module-exports-body
+    - include: ident-namespaces
+    - include: ident-modules
     - include: else-pop
 
   module-exports-body:
@@ -408,13 +408,13 @@ contexts:
     - include: immediatelly-pop
 
   import-body:
+    - match: \(
+      scope: punctuation.section.sequence.begin.haskell
+      set: import-tuple-body
     - match: (?:qualified|as|hiding){{break}}
       scope: storage.modifier.import.haskell
     - include: ident-namespaces
     - include: ident-modules
-    - match: \(
-      scope: punctuation.section.sequence.begin.haskell
-      set: import-tuple-body
     - include: else-pop
 
   import-tuple-body:
