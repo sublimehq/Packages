@@ -2307,7 +2307,7 @@ main = do
 --      ^ variable.other.haskell
 
     Just
---  ^^^^ support.constant.prelude.haskell
+--  ^^^^ support.type.prelude.haskell
 
     Nothing
 --  ^^^^^^^ support.constant.prelude.haskell

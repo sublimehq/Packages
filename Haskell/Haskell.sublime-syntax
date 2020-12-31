@@ -136,16 +136,16 @@ variables:
     ){{break}}
 
   prelude_constants: |-
-    (?x: Just | Nothing | Left | Right | True | False | LT | EQ | GT ){{break}}
+    (?x: Nothing | True | False | LT | EQ | GT ){{break}}
 
   prelude_types: |-
     (?x:
     # 9 Standard Prelude
-      Bool | Char | Double | Either | FilePath | Float | Int | Integer | IO
-    | IOError | Maybe | Ordering | ReadS | ShowS | String | Word
+      Bool | Char | Double | Either | FilePath | Float | Integer | IO | IOError
+    | Maybe | Just | Left | Ordering | ReadS | Right | ShowS | String
     # 24 Foreign
     # https://www.haskell.org/onlinereport/haskell2010/haskellch24.html#x32-26200024
-    | Int8 | Int16 | Int32 | Int64 | Word8 | Word16 | Word32 | Word64
+    | Int | Int8 | Int16 | Int32 | Int64 | Word | Word8 | Word16 | Word32 | Word64
     | Ptr | FunPtr | StablePtr
     ){{break}}
 
