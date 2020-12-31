@@ -264,7 +264,7 @@
 --               ^ punctuation.section.sequence.end.haskell
 --                 ^^^^^ keyword.control.context.haskell
 
-    module Ns.Name (sym1, sym2) where { import Ns.Other; import Ns.Other2 }
+    module Ns.Name (sym1, Sym2) where { import Ns.Other; import Ns.Other2 }
 --  ^^^^^^^^^^^^^^^ meta.declaration.module.haskell - meta.sequence
 --                 ^^^^^^^^^^^^ meta.declaration.module.haskell meta.sequence.tuple.haskell
 --                             ^ meta.declaration.module.haskell - meta.sequence
@@ -278,7 +278,7 @@
 --                 ^ punctuation.section.sequence.begin.haskell
 --                  ^^^^ variable.function.haskell
 --                      ^ punctuation.separator.sequence.haskell
---                        ^^^^ variable.function.haskell
+--                        ^^^^ storage.type.haskell
 --                            ^ punctuation.section.sequence.end.haskell
 --                              ^^^^^ keyword.control.context.haskell
 --                                    ^ punctuation.section.block.begin.haskell
@@ -370,7 +370,7 @@
 --                  ^ punctuation.section.sequence.end.haskell
 --                    ^^^^^ keyword.control.context.haskell
 
-    signature Ns.Name (sym1, sym2) where { import Ns.Other; import Ns.Other2 }
+    signature Ns.Name (sym1, Sym2) where { import Ns.Other; import Ns.Other2 }
 --  ^^^^^^^^^^^^^^^^^^ meta.declaration.signature.haskell - meta.sequence
 --                    ^^^^^^^^^^^^ meta.declaration.signature.haskell meta.sequence.tuple.haskell
 --                                ^ meta.declaration.signature.haskell - meta.sequence
@@ -384,7 +384,7 @@
 --                    ^ punctuation.section.sequence.begin.haskell
 --                     ^^^^ variable.function.haskell
 --                         ^ punctuation.separator.sequence.haskell
---                           ^^^^ variable.function.haskell
+--                           ^^^^ storage.type.haskell
 --                               ^ punctuation.section.sequence.end.haskell
 --                                 ^^^^^ keyword.control.context.haskell
 --                                       ^ punctuation.section.block.begin.haskell
