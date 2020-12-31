@@ -1878,6 +1878,13 @@
 --               ^ variable.other.haskell
 --                 ^^ keyword.operator.arrow.haskell
 --                    ^^^^ support.type.prelude.haskell
+
+      {- maybe function or pattern binding -}
+      method1 = True
+--    ^^^^^^^ variable.other.haskell
+--            ^ keyword.operator.haskell
+--              ^^^^ support.constant.prelude.haskell
+
       method' ::
 --    ^^^^^^^^ meta.function.identifier.haskell
 --    ^^^^^^^ entity.name.function.haskell
@@ -1897,6 +1904,8 @@
 --                   ^^ keyword.operator.arrow.haskell
 --                      ^^^^ support.type.prelude.haskell
 --                          ^ punctuation.terminator.statement.haskell
+
+      {- maybe function or pattern binding -}
       method = True;
 --    ^^^^^^^^^^^^^^^ meta.block.haskell
 --    ^^^^^^ variable.other.haskell
@@ -1927,6 +1936,13 @@
 --               ^ variable.other.haskell
 --                 ^^ keyword.operator.arrow.haskell
 --                    ^^^^ support.type.prelude.haskell
+
+      {- maybe function or pattern binding -}
+      method1 = True
+--    ^^^^^^^ variable.other.haskell
+--            ^ keyword.operator.haskell
+--              ^^^^ support.constant.prelude.haskell
+
       method' ::
 --    ^^^^^^^^ meta.function.identifier.haskell
 --    ^^^^^^^ entity.name.function.haskell
@@ -1946,6 +1962,8 @@
 --                   ^^ keyword.operator.arrow.haskell
 --                      ^^^^ support.type.prelude.haskell
 --                          ^ punctuation.terminator.statement.haskell
+
+      {- maybe function or pattern binding -}
       method = True;
 --    ^^^^^^^^^^^^^^^ meta.block.haskell
 --    ^^^^^^ variable.other.haskell
