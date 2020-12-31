@@ -256,7 +256,8 @@
     module Name () where
 --  ^^^^^^^^^^^^ meta.declaration.module.haskell - meta.sequence
 --              ^^ meta.declaration.module.haskell meta.sequence.tuple.haskell
---                ^^^^^^^ - meta.declaration.module
+--                ^ meta.declaration.module.haskell - meta.sequence
+--                 ^^^^^^ - meta.declaration.module
 --  ^^^^^^ keyword.declaration.namespace.haskell
 --         ^^^^ entity.name.namespace.haskell
 --              ^ punctuation.section.sequence.begin.haskell
@@ -266,7 +267,8 @@
     module Ns.Name (sym1, sym2) where { import Ns.Other; import Ns.Other2 }
 --  ^^^^^^^^^^^^^^^ meta.declaration.module.haskell - meta.sequence
 --                 ^^^^^^^^^^^^ meta.declaration.module.haskell meta.sequence.tuple.haskell
---                             ^^^^^^ - meta.declaration.module - meta.block - meta.sequence
+--                             ^ meta.declaration.module.haskell - meta.sequence
+--                              ^^^^^ - meta.declaration.module - meta.block - meta.sequence
 --                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.haskell - meta.declaration.module
 --                                                                         ^ - meta.block
 --  ^^^^^^ keyword.declaration.namespace.haskell
@@ -294,7 +296,8 @@
     module Name (module Other.Module) where { import Other.Module }
 --  ^^^^^^^^^^^^ meta.declaration.module.haskell - meta.sequence
 --              ^^^^^^^^^^^^^^^^^^^^^ meta.declaration.module.haskell meta.sequence.tuple.haskell
---                                   ^^^^^^^ - meta.declaration - meta.block - meta.sequence
+--                                   ^ meta.declaration.module.haskell - meta.sequence
+--                                    ^^^^^^ - meta.declaration - meta.block - meta.sequence
 --                                          ^^ meta.block.haskell - meta.import
 --                                            ^^^^^^^^^^^^^^^^^^^^ meta.block.haskell meta.import.haskell
 --                                                                ^ meta.block.haskell - meta.import
@@ -359,7 +362,8 @@
     signature Name () where
 --  ^^^^^^^^^^^^^^^ meta.declaration.signature.haskell - meta.sequence
 --                 ^^ meta.declaration.signature.haskell meta.sequence.tuple.haskell
---                   ^^^^^^^ - meta.declaration.signature
+--                   ^ meta.declaration.signature.haskell - meta.sequence
+--                    ^^^^^^ - meta.declaration.signature
 --  ^^^^^^^^^ keyword.declaration.namespace.haskell
 --            ^^^^ entity.name.namespace.haskell
 --                 ^ punctuation.section.sequence.begin.haskell
@@ -369,7 +373,8 @@
     signature Ns.Name (sym1, sym2) where { import Ns.Other; import Ns.Other2 }
 --  ^^^^^^^^^^^^^^^^^^ meta.declaration.signature.haskell - meta.sequence
 --                    ^^^^^^^^^^^^ meta.declaration.signature.haskell meta.sequence.tuple.haskell
---                                ^^^^^^ - meta.declaration.signature - meta.block - meta.sequence
+--                                ^ meta.declaration.signature.haskell - meta.sequence
+--                                 ^^^^^ - meta.declaration.signature - meta.block - meta.sequence
 --                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.haskell - meta.declaration.signature
 --                                                                            ^ - meta.block
 --  ^^^^^^^^^ keyword.declaration.namespace.haskell
@@ -397,7 +402,8 @@
     signature Name (module Other.Module) where { import Other.Module }
 --  ^^^^^^^^^^^^^^^ meta.declaration.signature.haskell - meta.sequence
 --                 ^^^^^^^^^^^^^^^^^^^^^ meta.declaration.signature.haskell meta.sequence.tuple.haskell
---                                      ^^^^^^^ - meta.declaration - meta.block - meta.sequence
+--                                      ^ meta.declaration.signature.haskell - meta.sequence
+--                                       ^^^^^^ - meta.declaration - meta.block - meta.sequence
 --                                             ^^ meta.block.haskell - meta.import
 --                                               ^^^^^^^^^^^^^^^^^^^^ meta.block.haskell meta.import.haskell
 --                                                                   ^ meta.block.haskell - meta.import

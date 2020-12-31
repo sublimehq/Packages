@@ -327,30 +327,22 @@ contexts:
     # 5.1 Module Structure
     # https://www.haskell.org/onlinereport/haskell2010/haskellch5.html#x11-990005.1
     - match: module{{break}}
-      scope: keyword.declaration.namespace.haskell
+      scope:
+        meta.declaration.module.haskell
+        keyword.declaration.namespace.haskell
       push:
-        - module-block
-        - module-meta
+        - module-where
         - module-export
         - module-name
     # https://wiki.haskell.org/Module_signature
     - match: signature{{break}}
-      scope: keyword.declaration.namespace.haskell
+      scope:
+        meta.declaration.signature.haskell
+        keyword.declaration.namespace.haskell
       push:
-        - module-block
-        - signature-meta
+        - signature-where
         - module-export
         - module-name
-
-  module-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.declaration.module.haskell
-    - include: immediatelly-pop
-
-  signature-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.declaration.signature.haskell
-    - include: immediatelly-pop
 
   module-name:
     - include: ident-namespaces
@@ -380,14 +372,23 @@ contexts:
     - include: ident-types
     - include: else-pop
 
+  signature-where:
+    - meta_content_scope: meta.declaration.signature.haskell
+    - include: module-where
+
+  module-where:
+    - meta_content_scope: meta.declaration.module.haskell
+    - match: where{{break}}
+      scope: keyword.control.context.haskell
+      set: module-block
+    - include: else-pop
+
   module-block:
     # The module body may be wrapped into braces, which still needs to be
     # handled as top-level block containing top-level declarations.
     - match: \{
       scope: punctuation.section.block.begin.haskell
       set: module-block-body
-    - match: where{{break}}
-      scope: keyword.control.context.haskell
     - include: else-pop
 
   module-block-body:
