@@ -331,6 +331,7 @@ contexts:
       push:
         - module-block
         - module-meta
+        - module-export
         - module-name
     # https://wiki.haskell.org/Module_signature
     - match: signature{{break}}
@@ -338,6 +339,7 @@ contexts:
       push:
         - module-block
         - signature-meta
+        - module-export
         - module-name
 
   module-meta:
@@ -351,14 +353,17 @@ contexts:
     - include: immediatelly-pop
 
   module-name:
-    - match: \(
-      scope: punctuation.section.sequence.begin.haskell
-      set: module-exports-body
     - include: ident-namespaces
-    - include: ident-modules
+    - include: ident-module
     - include: else-pop
 
-  module-exports-body:
+  module-export:
+    - match: \(
+      scope: punctuation.section.sequence.begin.haskell
+      set: module-export-body
+    - include: else-pop
+
+  module-export-body:
     - meta_scope: meta.sequence.tuple.haskell
     - include: tuple-end
     - include: range-tuples
@@ -366,9 +371,10 @@ contexts:
     - include: sequence-separators
     - match: \(
       scope: punctuation.section.sequence.begin.haskell
-      push: module-exports-body
+      push: module-export-body
     - match: module{{break}}
       scope: keyword.declaration.namespace.haskell
+      push: module-name
     - include: ident-functions
     - include: ident-namespaces
     - include: ident-types
@@ -904,6 +910,11 @@ contexts:
   ident-modules:
     - match: '{{con_id}}'
       scope: entity.name.namespace.haskell
+
+  ident-module:
+    - match: '{{con_id}}'
+      scope: entity.name.namespace.haskell
+      pop: 1
 
   ident-types:
     - include: ident-builtin-classes

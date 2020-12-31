@@ -305,7 +305,7 @@
 --               ^^^^^^ keyword.declaration.namespace.haskell
 --                      ^^^^^ variable.namespace.haskell
 --                           ^ punctuation.accessor.dot.haskell
---                            ^^^^^^ storage.type.haskell
+--                            ^^^^^^ entity.name.namespace.haskell
 --                                  ^ punctuation.section.sequence.end.haskell
 --                                    ^^^^^ keyword.control.context.haskell
 --                                          ^ punctuation.section.block.begin.haskell
@@ -408,7 +408,7 @@
 --                  ^^^^^^ keyword.declaration.namespace.haskell
 --                         ^^^^^ variable.namespace.haskell
 --                              ^ punctuation.accessor.dot.haskell
---                               ^^^^^^ storage.type.haskell
+--                               ^^^^^^ entity.name.namespace.haskell
 --                                     ^ punctuation.section.sequence.end.haskell
 --                                       ^^^^^ keyword.control.context.haskell
 --                                             ^ punctuation.section.block.begin.haskell
