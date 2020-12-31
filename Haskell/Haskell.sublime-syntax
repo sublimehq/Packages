@@ -366,7 +366,6 @@ contexts:
   module-export-body:
     - meta_scope: meta.sequence.tuple.haskell
     - include: tuple-end
-    - include: range-tuples
     - include: infix-parens-operators
     - include: sequence-separators
     - match: \(
@@ -435,7 +434,6 @@ contexts:
   import-tuple-body:
     - meta_scope: meta.sequence.tuple.haskell
     - include: tuple-end
-    - include: range-tuples
     - include: infix-parens-operators
     - include: sequence-separators
     - match: \(
@@ -623,17 +621,16 @@ contexts:
       pop: 1
     - match: '{{var_id}}'
       scope: entity.name.function.haskell
-    - match: \(\s*({{operator_parens}})\s*\)
-      scope: entity.name.function.infix.haskell
-      captures:
-        1: keyword.operator.haskell
+    - include: infix-parens-operators
     - include: sequence-separators
 
   variable-name:
-    - match: \(\s*({{operator_parens}})\s*\)
-      scope: variable.function.infix.haskell
+    - match: (\()\s*({{operator_parens}})\s*(\))
+      scope: meta.group.haskell
       captures:
-        1: keyword.operator.haskell
+        1: punctuation.section.group.begin.haskell
+        2: keyword.operator.haskell
+        3: punctuation.section.group.end.haskell
       push: variable-name-end
     - match: '{{prelude_functions}}'
       scope: support.function.prelude.haskell
@@ -879,14 +876,6 @@ contexts:
         1: punctuation.section.sequence.begin.haskell
         2: punctuation.section.sequence.end.haskell
 
-  range-tuples:
-    - match: (\()\s*(\.\.)\s*(\))
-      scope: meta.sequence.tuple.haskell
-      captures:
-        1: punctuation.section.sequence.begin.haskell
-        2: keyword.operator.range.haskell
-        3: punctuation.section.sequence.end.haskell
-
 ###[ IDENTIFIERS ]#############################################################
 
   ident-anonymous:
@@ -1035,7 +1024,6 @@ contexts:
     - include: big-arrow-operators
     - include: left-arrow-operators
     - include: right-arrow-operators
-    - include: infix-parens-operators
     - include: infix-quoted-operators
     # Match all not otherwise matched single quotes as promoition operator
     # Note: Found in real world code but not in specs so far.
@@ -1059,10 +1047,12 @@ contexts:
       scope: keyword.operator.arrow.haskell
 
   infix-parens-operators:
-    - match: \(\s*({{operator_parens}})\s*\)
-      scope: variable.function.infix.haskell
+    - match: (\()\s*({{operator_parens}})\s*(\))
+      scope: meta.group.haskell
       captures:
-        1: keyword.operator.haskell
+        1: punctuation.section.group.begin.haskell
+        2: keyword.operator.haskell
+        3: punctuation.section.group.end.haskell
 
   infix-quoted-operators:
     - match: (`)[ \w'.]*(`)
