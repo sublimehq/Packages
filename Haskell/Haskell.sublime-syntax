@@ -283,6 +283,9 @@ contexts:
     - match: LANGUAGE{{break}}
       scope: keyword.directive.language.haskell
       set: preprocessor-pragma-language-value
+    - match: (?:OPTIONS_GHC|OPTIONS_HADDOCK){{break}}
+      scope: keyword.directive.options.haskell
+      set: preprocessor-pragma-options-value
     - match: '{{pragma_keys}}'
       scope: keyword.directive.builtin.haskell
       set: preprocessor-pragma-other-value
@@ -300,6 +303,15 @@ contexts:
     - match: '{{pragma_deprecated_constants}}'
       scope: constant.language.extension.haskell invalid.deprecated.haskell
 
+  preprocessor-pragma-options-value:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.preprocessor.pragma.value.options.haskell
+    - include: preprocessor-pragma-common
+    - match: (-*)[-\w]+
+      scope: constant.other.pragma.haskell
+      captures:
+        1: punctuation.definition.constant.haskell
+
   preprocessor-pragma-other-value:
     - meta_include_prototype: false
     - meta_content_scope: meta.preprocessor.pragma.value.other.haskell
@@ -307,10 +319,6 @@ contexts:
     - include: sequence-separators
     - include: literal-numbers
     - include: literal-strings
-    - match: (-*)[-\w]+
-      scope: constant.other.pragma.haskell
-      captures:
-        1: punctuation.definition.constant.haskell
 
   preprocessor-pragma-common:
     - match: '#-\}'

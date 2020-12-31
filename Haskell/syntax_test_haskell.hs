@@ -124,6 +124,13 @@
 
 -- [ PREPROCESSOR ] -----------------------------------------------------------
 
+
+    {-# INLINABLE unless #-}
+--  ^^^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
+--               ^^^^^^^^ meta.preprocessor.pragma.value.other.haskell
+--                       ^^^ meta.preprocessor.pragma.value.haskell
+--                          ^ - meta.preprocessor.haskell
+
     {-# MINIMAL traverse | sequenceA LANGUAGE #-}
 --  ^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
 --             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.value.other.haskell
@@ -131,33 +138,9 @@
 --                                               ^ - meta.preprocessor.haskell
 --  ^^^ punctuation.section.preprocessor.begin.haskell
 --      ^^^^^^^ keyword.directive.builtin.haskell
---              ^^^^^^^^ constant.other.pragma.haskell
+--              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - constant - keyword
 --                       ^ punctuation.separator.sequence.haskell
---                         ^^^^^^^^^ constant.other.pragma.haskell
---                                   ^^^^^^^^ constant.other.pragma.haskell
---                                   ^^^^^^^^ - keyword.directive
 --                                            ^^^ punctuation.section.preprocessor.end.haskell
-
-    {-# OPTIONS_GHC -Drelease #-}
---  ^^^^^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
---                 ^^^^^^^^^^^ meta.preprocessor.pragma.value.other.haskell
---                            ^^^ meta.preprocessor.pragma.value.haskell
---                               ^ - meta.preprocessor.haskell
---  ^^^ punctuation.section.preprocessor.begin.haskell
---      ^^^^^^^^^^^ keyword.directive.builtin.haskell
---                  ^^^^^^^^^ constant.other.pragma.haskell
---                  ^ punctuation.definition.constant.haskell
---                            ^^^ punctuation.section.preprocessor.end.haskell
-
-    {-# OPTIONS_HADDOCK not-home #-}
---  ^^^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
---                     ^^^^^^^^^^ meta.preprocessor.pragma.value.other.haskell
---                               ^^^ meta.preprocessor.pragma.value.haskell
---                                  ^ - meta.preprocessor.haskell
---  ^^^ punctuation.section.preprocessor.begin.haskell
---      ^^^^^^^^^^^^^^^ keyword.directive.builtin.haskell
---                      ^^^^^^^^ constant.other.pragma.haskell
---                               ^^^ punctuation.section.preprocessor.end.haskell
 
     {-# LANGUAGE
 --  ^^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
@@ -191,6 +174,35 @@
 --                          ^^^^^^^^^^^^^^^^^^^ constant.language.extension.haskell
     #-}
 --  ^^^ meta.preprocessor.pragma.value.haskell punctuation.section.preprocessor.end.haskell
+
+    {-# OPTIONS_GHC -Drelease #-}
+--  ^^^^^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
+--                 ^^^^^^^^^^^ meta.preprocessor.pragma.value.options.haskell
+--                            ^^^ meta.preprocessor.pragma.value.haskell
+--                               ^ - meta.preprocessor.haskell
+--  ^^^ punctuation.section.preprocessor.begin.haskell
+--      ^^^^^^^^^^^ keyword.directive.options.haskell
+--                  ^^^^^^^^^ constant.other.pragma.haskell
+--                  ^ punctuation.definition.constant.haskell
+--                            ^^^ punctuation.section.preprocessor.end.haskell
+
+    {-# OPTIONS_HADDOCK not-home #-}
+--  ^^^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
+--                     ^^^^^^^^^^ meta.preprocessor.pragma.value.options.haskell
+--                               ^^^ meta.preprocessor.pragma.value.haskell
+--                                  ^ - meta.preprocessor.haskell
+--  ^^^ punctuation.section.preprocessor.begin.haskell
+--      ^^^^^^^^^^^^^^^ keyword.directive.options.haskell
+--                      ^^^^^^^^ constant.other.pragma.haskell
+--                               ^^^ punctuation.section.preprocessor.end.haskell
+
+    {-# SPECIALISE unless :: Bool -> IO () -> IO () #-}
+--  ^^^^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
+--                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.value.other.haskell
+--                                                  ^^^ meta.preprocessor.pragma.value.haskell
+--  ^^^ punctuation.section.preprocessor.begin.haskell
+--      ^^^^^^^^^^ keyword.directive.builtin.haskell
+--                                                  ^^^ punctuation.section.preprocessor.end.haskell
 
     {-# WARNING "Not supported" #-}
 --  ^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
