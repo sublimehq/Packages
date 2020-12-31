@@ -1,4 +1,0 @@
-{
-    // Default word boundaries except: '
-    "word_separators": "./\\()\"-:,.;<>~!@#$%^&*|+=[]{}`~?",
-}
