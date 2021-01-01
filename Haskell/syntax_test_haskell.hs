@@ -281,13 +281,13 @@
 --               ^ punctuation.section.sequence.end.haskell
 --                 ^^^^^ keyword.control.context.haskell
 
-    module Ns.Name (sym1, Sym2) where { import Ns.Other; import Ns.Other2 }
+    module Ns.Name (sym1, Sym2, sym2#, Sym3#) where { import Ns.Other; import Ns.Other2 }
 --  ^^^^^^^^^^^^^^^ meta.declaration.module.haskell - meta.sequence
---                 ^^^^^^^^^^^^ meta.declaration.module.haskell meta.sequence.tuple.haskell
---                             ^ meta.declaration.module.haskell - meta.sequence
---                              ^^^^^ - meta.declaration.module - meta.block - meta.sequence
---                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.haskell - meta.declaration.module
---                                                                         ^ - meta.block
+--                 ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.module.haskell meta.sequence.tuple.haskell
+--                                           ^ meta.declaration.module.haskell - meta.sequence
+--                                            ^^^^^ - meta.declaration.module - meta.block - meta.sequence
+--                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.haskell - meta.declaration.module
+--                                                                                       ^ - meta.block
 --  ^^^^^^ keyword.declaration.namespace.haskell
 --         ^^ variable.namespace.haskell
 --           ^ punctuation.accessor.dot.haskell
@@ -296,19 +296,25 @@
 --                  ^^^^ entity.name.export.haskell
 --                      ^ punctuation.separator.sequence.haskell
 --                        ^^^^ entity.name.export.haskell
---                            ^ punctuation.section.sequence.end.haskell
---                              ^^^^^ keyword.control.context.haskell
---                                    ^ punctuation.section.block.begin.haskell
---                                      ^^^^^^ keyword.declaration.import.haskell
---                                             ^^ variable.namespace.haskell
---                                               ^ punctuation.accessor.dot.haskell
---                                                ^^^^^ variable.namespace.haskell
---                                                     ^ punctuation.terminator.statement.haskell
---                                                       ^^^^^^ keyword.declaration.import.haskell
---                                                              ^^ variable.namespace.haskell
---                                                                ^ punctuation.accessor.dot.haskell
---                                                                 ^^^^^^ variable.namespace.haskell
---                                                                        ^ punctuation.section.block.end.haskell
+--                            ^ punctuation.separator.sequence.haskell
+--                              ^^^^^ entity.name.export.haskell
+--                                  ^ storage.modifier.unboxed.haskell
+--                                   ^ punctuation.separator.sequence.haskell
+--                                     ^^^^^ entity.name.export.haskell
+--                                         ^ storage.modifier.unboxed.haskell
+--                                          ^ punctuation.section.sequence.end.haskell
+--                                            ^^^^^ keyword.control.context.haskell
+--                                                  ^ punctuation.section.block.begin.haskell
+--                                                    ^^^^^^ keyword.declaration.import.haskell
+--                                                           ^^ variable.namespace.haskell
+--                                                             ^ punctuation.accessor.dot.haskell
+--                                                              ^^^^^ variable.namespace.haskell
+--                                                                   ^ punctuation.terminator.statement.haskell
+--                                                                     ^^^^^^ keyword.declaration.import.haskell
+--                                                                            ^^ variable.namespace.haskell
+--                                                                              ^ punctuation.accessor.dot.haskell
+--                                                                               ^^^^^^ variable.namespace.haskell
+--                                                                                      ^ punctuation.section.block.end.haskell
 
     module Name (module Other.Module) where { import Other.Module }
 --  ^^^^^^^^^^^^ meta.declaration.module.haskell - meta.sequence
@@ -388,13 +394,13 @@
 --                  ^ punctuation.section.sequence.end.haskell
 --                    ^^^^^ keyword.control.context.haskell
 
-    signature Ns.Name (sym1, Sym2) where { import Ns.Other; import Ns.Other2 }
+    signature Ns.Name (sym1, Sym2, sym2#, Sym3#) where { import Ns.Other; import Ns.Other2 }
 --  ^^^^^^^^^^^^^^^^^^ meta.declaration.signature.haskell - meta.sequence
---                    ^^^^^^^^^^^^ meta.declaration.signature.haskell meta.sequence.tuple.haskell
---                                ^ meta.declaration.signature.haskell - meta.sequence
---                                 ^^^^^ - meta.declaration.signature - meta.block - meta.sequence
---                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.haskell - meta.declaration.signature
---                                                                            ^ - meta.block
+--                    ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.signature.haskell meta.sequence.tuple.haskell
+--                                              ^ meta.declaration.signature.haskell - meta.sequence
+--                                               ^^^^^ - meta.declaration.signature - meta.block - meta.sequence
+--                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.haskell - meta.declaration.signature
+--                                                                                          ^ - meta.block
 --  ^^^^^^^^^ keyword.declaration.namespace.haskell
 --            ^^ variable.namespace.haskell
 --              ^ punctuation.accessor.dot.haskell
@@ -403,19 +409,25 @@
 --                     ^^^^ entity.name.export.haskell
 --                         ^ punctuation.separator.sequence.haskell
 --                           ^^^^ entity.name.export.haskell
---                               ^ punctuation.section.sequence.end.haskell
---                                 ^^^^^ keyword.control.context.haskell
---                                       ^ punctuation.section.block.begin.haskell
---                                         ^^^^^^ keyword.declaration.import.haskell
---                                                ^^ variable.namespace.haskell
---                                                  ^ punctuation.accessor.dot.haskell
---                                                   ^^^^^ variable.namespace.haskell
---                                                        ^ punctuation.terminator.statement.haskell
---                                                          ^^^^^^ keyword.declaration.import.haskell
---                                                                 ^^ variable.namespace.haskell
---                                                                   ^ punctuation.accessor.dot.haskell
---                                                                    ^^^^^^ variable.namespace.haskell
---                                                                           ^ punctuation.section.block.end.haskell
+--                               ^ punctuation.separator.sequence.haskell
+--                                 ^^^^^ entity.name.export.haskell
+--                                     ^ storage.modifier.unboxed.haskell
+--                                      ^ punctuation.separator.sequence.haskell
+--                                        ^^^^^ entity.name.export.haskell
+--                                            ^ storage.modifier.unboxed.haskell
+--                                             ^ punctuation.section.sequence.end.haskell
+--                                               ^^^^^ keyword.control.context.haskell
+--                                                     ^ punctuation.section.block.begin.haskell
+--                                                       ^^^^^^ keyword.declaration.import.haskell
+--                                                              ^^ variable.namespace.haskell
+--                                                                ^ punctuation.accessor.dot.haskell
+--                                                                 ^^^^^ variable.namespace.haskell
+--                                                                      ^ punctuation.terminator.statement.haskell
+--                                                                        ^^^^^^ keyword.declaration.import.haskell
+--                                                                               ^^ variable.namespace.haskell
+--                                                                                 ^ punctuation.accessor.dot.haskell
+--                                                                                  ^^^^^^ variable.namespace.haskell
+--                                                                                         ^ punctuation.section.block.end.haskell
 
     signature Name (module Other.Module) where { import Other.Module }
 --  ^^^^^^^^^^^^^^^ meta.declaration.signature.haskell - meta.sequence
@@ -503,11 +515,11 @@
 --  ^^^^^^^^^^^^^ meta.import.alias.haskell entity.name.import.namespace.haskell
 --               ^ - meta.import - entity
 
-    import Mod1.Mod2.Module (funcName)
+    import Mod1.Mod2.Module (funcName, unboxed#, Type#)
 --  ^^^^^^ meta.import.haskell - meta.sequence
 --        ^^^^^^^^^^^^^^^^^^ meta.import.module.haskell - meta.sequence
---                          ^^^^^^^^^^ meta.import.filter.haskell meta.sequence.tuple.haskell
---                                    ^ - meta.import
+--                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.filter.haskell meta.sequence.tuple.haskell
+--                                                     ^ - meta.import
 --  ^^^^^^ keyword.declaration.import.haskell
 --         ^^^^ variable.namespace.haskell - punctuation
 --             ^ punctuation.accessor.dot.haskell - variable
@@ -517,7 +529,13 @@
 --                          ^^^^^^^^^^ meta.sequence.tuple.haskell
 --                          ^ punctuation.section.sequence.begin.haskell
 --                           ^^^^^^^^ entity.name.import.haskell
---                                   ^ punctuation.section.sequence.end.haskell
+--                                   ^ punctuation.separator.sequence.haskell
+--                                     ^^^^^^^^ entity.name.import.haskell
+--                                            ^ storage.modifier.unboxed.haskell
+--                                             ^ punctuation.separator.sequence.haskell
+--                                               ^^^^^ entity.name.import.haskell
+--                                                   ^ storage.modifier.unboxed.haskell
+--                                                    ^ punctuation.section.sequence.end.haskell
 
     import Mod1.Mod2.Module (ClassName(..))
 --  ^^^^^^ meta.import.haskell - meta.sequence
@@ -783,6 +801,18 @@
 --         ^^ keyword.operator.arrow.haskell
 --            ^^^ support.type.prelude.haskell
 
+    foreign export ccall triple# :: Int -> Int
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.foreign.export.haskell
+--  ^^^^^^^ storage.modifier.foreign.haskell
+--          ^^^^^^ keyword.declaration.export.haskell
+--                 ^^^^^ constant.language.convention.haskell
+--                       ^^^^^^^ entity.name.function.haskell
+--                             ^ storage.modifier.unboxed.haskell
+--                               ^^ keyword.operator.double-colon.haskell
+--                                  ^^^ support.type.prelude.haskell
+--                                      ^^ keyword.operator.arrow.haskell
+--                                         ^^^ support.type.prelude.haskell
+
     foreign export ccall "addInt" (+) :: Int->Int->Int
 --  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.foreign.export.haskell
 --  ^^^^^^^ storage.modifier.foreign.haskell
@@ -838,18 +868,19 @@
 --                                             ^^ keyword.operator.arrow.haskell
 --                                                ^^^^^^ support.type.prelude.haskell
 
-    foreign import dotnet safe "func" func :: String -> Bool
---  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.foreign.import.haskell
+    foreign import dotnet safe "func" func# :: String -> Bool
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.foreign.import.haskell
 --  ^^^^^^^ storage.modifier.foreign.haskell
 --          ^^^^^^ keyword.declaration.import.haskell
 --                 ^^^^^^ constant.language.convention.haskell
 --                        ^^^^ storage.modifier.import.haskell
 --                             ^^^^^^ meta.string.haskell string.quoted.double.haskell
---                                    ^^^^ entity.name.function.haskell
---                                         ^^ keyword.operator.double-colon.haskell
---                                            ^^^^^^ support.type.prelude.haskell
---                                                   ^^ keyword.operator.arrow.haskell
---                                                      ^^^^ support.type.prelude.haskell
+--                                    ^^^^^ entity.name.function.haskell
+--                                        ^ storage.modifier.unboxed.haskell
+--                                          ^^ keyword.operator.double-colon.haskell
+--                                             ^^^^^^ support.type.prelude.haskell
+--                                                    ^^ keyword.operator.arrow.haskell
+--                                                       ^^^^ support.type.prelude.haskell
 
     foreign import ccall "addInt" (+) :: Int->Int->Int
 --  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.foreign.import.haskell
@@ -893,6 +924,14 @@
 --        ^^^^^^ storage.type.haskell
 --               ^^^^^ variable.other.haskell
 
+    class QTyCls# tyVar#
+--  ^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
+--  ^^^^^ keyword.declaration.class.haskell
+--        ^^^^^^^ storage.type.haskell
+--              ^ storage.modifier.unboxed.haskell
+--                ^^^^^^ variable.other.haskell
+--                     ^ storage.modifier.unboxed.haskell
+
     class ModId.QTyCls tyVar1 tyVar2, ident
 --  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
 --                                  ^^^^^^^ - meta.declaration
@@ -915,19 +954,20 @@
 --                            ^^^^^^ variable.other.haskell
 --                                   ^^ keyword.operator.big-arrow.haskell
 
-    class ModId.QTyCls (tyVar1 tyVar2) =>
+    class ModId.QTyCls (tyVar1 tyVar2#) =>
 --  ^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell - meta.group
---                     ^^^^^^^^^^^^^^^ meta.declaration.class.haskell meta.group.haskell
---                                    ^^^^ meta.declaration.class.haskell - meta.group
+--                     ^^^^^^^^^^^^^^^^ meta.declaration.class.haskell meta.group.haskell
+--                                     ^^^^ meta.declaration.class.haskell - meta.group
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^^^^^ variable.namespace.haskell
 --             ^ punctuation.accessor.dot.haskell
 --              ^^^^^^ storage.type.haskell
 --                     ^ punctuation.section.group.begin.haskell
 --                      ^^^^^^ variable.other.haskell
---                             ^^^^^^ variable.other.haskell
---                                   ^ punctuation.section.group.end.haskell
---                                     ^^ keyword.operator.big-arrow.haskell
+--                             ^^^^^^^ variable.other.haskell
+--                                   ^ storage.modifier.unboxed.haskell
+--                                    ^ punctuation.section.group.end.haskell
+--                                      ^^ keyword.operator.big-arrow.haskell
 
     class ModId.QTyCls (tyVar1 tyVar2  => )
 --  ^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell - meta.group
@@ -1129,11 +1169,12 @@
 --      ^^^^^^^^^^^^ variable.other.haskell
 --                   ^^ keyword.operator.double-colon.haskell
 --                      ^^^^^^ support.type.prelude.haskell
-      , recordDouble :: Double
+      , recordDouble :: Double#
 --    ^ punctuation.separator.sequence.haskell
 --      ^^^^^^^^^^^^ variable.other.haskell
 --                   ^^ keyword.operator.double-colon.haskell
---                      ^^^^^^ support.type.prelude.haskell
+--                      ^^^^^^^ support.type.unboxed.haskell
+--                            ^ storage.modifier.unboxed.haskell
       , recordRational :: Rational
 --    ^ punctuation.separator.sequence.haskell
 --      ^^^^^^^^^^^^^^ variable.other.haskell
@@ -2391,8 +2432,8 @@ main = do
 --  ^^^^^ meta.sequence.tuple.haskell
 --       ^ - meta.sequence
 --  ^ punctuation.section.sequence.begin.haskell
---   ^ keyword.operator.haskell
---     ^ keyword.operator.haskell
+--   ^ storage.modifier.unboxed.haskell
+--     ^ storage.modifier.unboxed.haskell
 --      ^ punctuation.section.sequence.end.haskell
 
     ( , , )
@@ -2407,8 +2448,8 @@ main = do
 --  ^^^^^^^^^ meta.sequence.tuple.haskell
 --           ^ - meta.sequence
 --  ^ punctuation.section.sequence.begin.haskell
---   ^ keyword.operator.haskell
---         ^ keyword.operator.haskell
+--   ^ storage.modifier.unboxed.haskell
+--         ^ storage.modifier.unboxed.haskell
 --          ^ punctuation.section.sequence.end.haskell
 
     (group,)
@@ -2420,9 +2461,9 @@ main = do
     (#group,#)
 --  ^^^^^^^^^^ meta.sequence.tuple.haskell
 --  ^ punctuation.section.sequence.begin.haskell
---   ^ keyword.operator.haskell
+--   ^ storage.modifier.unboxed.haskell
 --         ^ punctuation.separator.sequence.haskell
---          ^ keyword.operator.haskell
+--          ^ storage.modifier.unboxed.haskell
 --           ^ punctuation.section.sequence.end.haskell
 
     ('<':'b':'r':_)
@@ -2520,6 +2561,14 @@ main = do
     a'
 --  ^^ variable.other.haskell
 
+    a#
+--  ^ variable.other.haskell - storage.modifer
+--   ^ variable.other.haskell storage.modifier.unboxed.haskell
+
+    a'#
+--  ^^ variable.other.haskell - storage.modifer
+--    ^ variable.other.haskell storage.modifier.unboxed.haskell
+
     _a'b'c_D'0123456789'
 --  ^^^^^^^^^^^^^^^^^^^^ variable.other.haskell
 
@@ -2541,13 +2590,30 @@ main = do
 --   ^ punctuation.accessor.dot.haskell
 --    ^ variable.other.haskell
 
+    T#.a#
+--  ^ variable.namespace.haskell - storage.modifier
+--   ^ variable.namespace.haskell storage.modifier.haskell
+--    ^ punctuation.accessor.dot.haskell - variable
+--     ^ variable.other.haskell - storage.modifier
+--      ^ variable.other.haskell storage.modifier.unboxed.haskell
+
     T . a
 --  ^ storage.type.haskell
 --    ^ keyword.operator.haskell
 --      ^ variable.other.haskell
 
+    T# . a
+--  ^ storage.type.haskell - storage.modifier
+--   ^ storage.type.haskell storage.modifier.unboxed.haskell
+--     ^ keyword.operator.haskell
+--       ^ variable.other.haskell
+
     Just
 --  ^^^^ support.type.prelude.haskell
+
+    Just#
+--  ^^^^ storage.type.haskell - storage.modifier
+--      ^ storage.type.haskell storage.modifier.unboxed.haskell
 
     Nothing
 --  ^^^^^^^ support.constant.prelude.haskell
@@ -2568,25 +2634,57 @@ main = do
     0
 --  ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
 
+    0#
+--  ^^ meta.number.integer.decimal.haskell
+--  ^ constant.numeric.value.haskell
+--   ^ constant.numeric.suffix.haskell
+
     1234567890
 --  ^^^^^^^^^^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+
+    1234567890##
+--  ^^^^^^^^^^^^ meta.number.integer.decimal.haskell
+--  ^^^^^^^^^^ constant.numeric.value.haskell
+--            ^^ constant.numeric.suffix.haskell
 
     0o1234567
 --  ^^^^^^^^^ meta.number.integer.octal.haskell
 --  ^^ constant.numeric.base.haskell
 --    ^^^^^^^ constant.numeric.value.haskell
 
+    0o1234567#
+--  ^^^^^^^^^^ meta.number.integer.octal.haskell
+--  ^^ constant.numeric.base.haskell
+--    ^^^^^^^ constant.numeric.value.haskell
+--           ^ constant.numeric.suffix.haskell
+
     1.
 --  ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
 --   ^ keyword.operator.haskell
+
+    1.#
+--  ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+--   ^^ keyword.operator.haskell
 
     .2
 --  ^ keyword.operator.haskell
 --   ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
 
+    .2#
+--  ^ keyword.operator.haskell
+--   ^^ meta.number.integer.decimal.haskell
+--   ^ constant.numeric.value.haskell
+--    ^ constant.numeric.suffix.haskell
+
     12.345
 --  ^^^^^^ meta.number.float.decimal.haskell constant.numeric.value.haskell
 --    ^ punctuation.separator.decimal
+
+    12.345#
+--  ^^^^^^^ meta.number.float.decimal.haskell
+--  ^^^^^^ constant.numeric.value.haskell
+--    ^ punctuation.separator.decimal
+--        ^ constant.numeric.suffix.haskell
 
     1e10
 --  ^^^^ meta.number.float.decimal.haskell constant.numeric.value.haskell
@@ -2594,6 +2692,12 @@ main = do
     0.5e+0
 --  ^^^^^^ meta.number.float.decimal.haskell constant.numeric.value.haskell
 --   ^ punctuation.separator.decimal.haskell
+
+    0.5e+0#
+--  ^^^^^^^ meta.number.float.decimal.haskell
+--  ^^^^^^ constant.numeric.value.haskell
+--   ^ punctuation.separator.decimal.haskell
+--        ^ constant.numeric.suffix.haskell
 
     9e-1
 --  ^^^^ meta.number.float.decimal.haskell constant.numeric.value.haskell
@@ -2606,6 +2710,12 @@ main = do
 --  ^^^^^^^^^^^^ meta.number.integer.hexadecimal.haskell
 --  ^^ constant.numeric.base.haskell
 --    ^^^^^^^^^^ constant.numeric.value.haskell
+
+    0XdeafBEEF42##
+--  ^^^^^^^^^^^^^^ meta.number.integer.hexadecimal.haskell
+--  ^^ constant.numeric.base.haskell
+--    ^^^^^^^^^^ constant.numeric.value.haskell
+--              ^^ constant.numeric.suffix.haskell
 
 
 -- [ LITERAL CHARACTERS ] -----------------------------------------------------
@@ -2632,6 +2742,13 @@ main = do
 --  ^ punctuation.definition.string.begin.haskell
 --   ^ constant.character.literal.haskell
 --    ^ punctuation.definition.string.end.haskell
+
+    'a'#  -- unboxed literal character
+--  ^^^^ meta.string.haskell string.quoted.single.haskell
+--  ^ punctuation.definition.string.begin.haskell
+--   ^ constant.character.literal.haskell
+--    ^ punctuation.definition.string.end.haskell
+--     ^ storage.modifier.unboxed.haskell
 
     '5'   -- literal digit character
 --  ^^^ meta.string.haskell string.quoted.single.haskell
@@ -3299,6 +3416,19 @@ main = do
 --  ^ punctuation.definition.string.begin.haskell
 --     ^^ constant.character.escape.haskell
 --         ^^ - punctuation
+
+    "string"# -- unboxed literal string
+--  ^^^^^^^^^ meta.string.haskell string.quoted.double.haskell
+--  ^ punctuation.definition.string.begin.haskell
+--         ^ punctuation.definition.string.end.haskell
+--          ^ storage.modifier.unboxed.haskell
+
+    "string" #
+--  ^^^^^^^^ meta.string.haskell string.quoted.double.haskell
+--          ^^^ - meta.string - string
+--  ^ punctuation.definition.string.begin.haskell
+--         ^ punctuation.definition.string.end.haskell
+--           ^ keyword.operator.haskell
 
 
 -- [ INFIX OPERATORS ] --------------------------------------------------------
