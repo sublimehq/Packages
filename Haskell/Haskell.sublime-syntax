@@ -300,11 +300,11 @@ contexts:
     - match: (?:OPTIONS_GHC|OPTIONS_HADDOCK){{break}}
       scope: keyword.directive.options.haskell
       set: preprocessor-pragma-options-value
-    - match: (?:SPECIALISE|SPECIALIZE){{break}}
+    - match: (?:INLINE|INLINABLE|MINIMAL|NOINLINE|SPECIALISE|SPECIALIZE){{break}}
       scope:
         meta.preprocessor.pragma.directive.haskell
         keyword.directive.builtin.haskell
-      embed: preprocessor-pragma-specialize-value
+      embed: preprocessor-pragma-signature-value
       pop: 1
       escape: '#-\}'
       escape_captures:
@@ -336,10 +336,11 @@ contexts:
       captures:
         1: punctuation.definition.constant.haskell
 
-  preprocessor-pragma-specialize-value:
+  preprocessor-pragma-signature-value:
     - meta_include_prototype: false
-    - meta_content_scope: meta.preprocessor.pragma.value.specialize.haskell
+    - meta_content_scope: meta.preprocessor.pragma.value.signature.haskell
     - include: comments
+    - include: sequence-separators
     - include: functions
     - include: type-expressions
 

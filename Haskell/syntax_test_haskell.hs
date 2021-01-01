@@ -127,13 +127,13 @@
 
     {-# INLINABLE unless #-}
 --  ^^^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
---               ^^^^^^^^ meta.preprocessor.pragma.value.other.haskell
+--               ^^^^^^^^ meta.preprocessor.pragma.value.signature.haskell
 --                       ^^^ meta.preprocessor.pragma.value.haskell
 --                          ^ - meta.preprocessor.haskell
 
     {-# MINIMAL traverse | sequenceA LANGUAGE #-}
 --  ^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
---             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.value.other.haskell
+--             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.value.signature.haskell
 --                                            ^^^ meta.preprocessor.pragma.value.haskell
 --                                               ^ - meta.preprocessor.haskell
 --  ^^^ punctuation.section.preprocessor.begin.haskell
@@ -175,6 +175,16 @@
     #-}
 --  ^^^ meta.preprocessor.pragma.value.haskell punctuation.section.preprocessor.end.haskell
 
+    {-# LINE 42 "Foo.vhs" #-}
+--  ^^^^^^^^ meta.preprocessor.pragma.directive.haskell
+--          ^^^^^^^^^^^^^^ meta.preprocessor.pragma.value.other.haskell
+--                        ^^^ meta.preprocessor.pragma.value.haskell
+--  ^^^ punctuation.section.preprocessor.begin.haskell
+--      ^^^^ keyword.directive.builtin.haskell
+--           ^^ constant.numeric.value.haskell
+--              ^^^^^^^^^ meta.string.haskell string.quoted.double.haskell
+--                        ^^^ punctuation.section.preprocessor.end.haskell
+
     {-# OPTIONS_GHC -Drelease #-}
 --  ^^^^^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
 --                 ^^^^^^^^^^^ meta.preprocessor.pragma.value.options.haskell
@@ -198,7 +208,7 @@
 
     {-# SPECIALISE unless :: Bool -> IO () -> IO () #-}
 --  ^^^^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
---                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.value.specialize.haskell
+--                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.value.signature.haskell
 --                                                  ^^^ meta.preprocessor.pragma.value.haskell
 --  ^^^ punctuation.section.preprocessor.begin.haskell
 --      ^^^^^^^^^^ keyword.directive.builtin.haskell
@@ -218,6 +228,15 @@
 --      ^^^^^^^ keyword.directive.builtin.haskell
 --              ^^^^^^^^^^^^^^^ meta.string.haskell string.quoted.double.haskell
 --                              ^^^ punctuation.section.preprocessor.end.haskell
+
+    module Wibble {-# DEPRECATED "Use Wobble instead" #-} where
+--                ^^^^^^^^^^^^^^ meta.declaration.module.haskell meta.preprocessor.pragma.directive.haskell
+--                               ^^^^^^^^^^^^^^^^^^^^^ meta.declaration.module.haskell meta.preprocessor.pragma.value.other.haskell
+--                                                    ^^^ meta.declaration.module.haskell meta.preprocessor.pragma.value.haskell
+--                ^^^ punctuation.section.preprocessor.begin.haskell
+--                    ^^^^^^^^^^ keyword.directive.builtin.haskell
+--                               ^^^^^^^^^^^^^^^^^^^^ string.quoted.double.haskell
+--                                                    ^^^ punctuation.section.preprocessor.end.haskell
 
     #if 0
 --  ^^^ meta.preprocessor.c
