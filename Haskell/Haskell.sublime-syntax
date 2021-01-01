@@ -1163,11 +1163,13 @@ contexts:
         3: punctuation.section.group.end.haskell
 
   infix-quoted-operators:
-    - match: (`)[ \w'.]*(`)
-      scope: keyword.operator.function.infix.haskell
+    - match: (`)\s*([\w'.]*(#*))\s*(`)
+      scope: meta.infix.haskell
       captures:
-        1: punctuation.definition.function.begin.haskell
-        2: punctuation.definition.function.end.haskell
+        1: punctuation.definition.infix.begin.haskell
+        2: keyword.operator.function.infix.haskell
+        3: storage.modifier.unboxed.haskell
+        4: punctuation.definition.infix.end.haskell
 
   statement-terminators:
     # Depending on layout, semicolon may be needed to terminate statements.

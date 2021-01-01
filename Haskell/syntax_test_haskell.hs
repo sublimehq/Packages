@@ -1236,7 +1236,9 @@
       | Int `Quux` Double
 --    ^ punctuation.separator.sequence.haskell
 --      ^^^ support.type.prelude.haskell
---          ^^^^^^ keyword.operator.function.infix.haskell
+--          ^ meta.infix.haskell punctuation.definition.infix.begin.haskell
+--           ^^^^ meta.infix.haskell keyword.operator.function.infix.haskell
+--               ^ meta.infix.haskell punctuation.definition.infix.end.haskell
 --                 ^^^^^^ support.type.prelude.haskell
       | String :# Record
 --    ^ punctuation.separator.sequence.haskell
@@ -1847,7 +1849,9 @@
     infix 1 `ConId`
 --  ^^^^^ keyword.declaration.fixity.haskell
 --        ^ constant.numeric.value.haskell
---          ^^^^^^^ keyword.operator.function.infix.haskell
+--          ^ meta.infix.haskell punctuation.definition.infix.begin.haskell
+--           ^^^^^ meta.infix.haskell keyword.operator.function.infix.haskell
+--                ^ meta.infix.haskell punctuation.definition.infix.end.haskell
 
     infixl 7  ⋆, /, `quot`
 --  ^^^^^^ keyword.declaration.fixity.haskell
@@ -1856,7 +1860,9 @@
 --             ^ punctuation.separator.sequence.haskell
 --               ^ keyword.operator.haskell
 --                ^ punctuation.separator.sequence.haskell
---                  ^^^^^^ keyword.operator.function.infix.haskell
+--                  ^ meta.infix.haskell punctuation.definition.infix.begin.haskell
+--                   ^^^^ meta.infix.haskell keyword.operator.function.infix.haskell
+--                       ^ meta.infix.haskell punctuation.definition.infix.end.haskell
 
 
 -- [ FUNCTION DECLARATIONS ] --------------------------------------------------
@@ -2502,7 +2508,7 @@ main = do
 --                ^ keyword.operator.haskell
 --                 ^^ - keyword
 --                   ^ keyword.operator.haskell
---                    ^^ keyword.operator.function.infix.haskell
+--                    ^^ meta.infix.haskell
 --                      ^ punctuation.section.sequence.end.haskell
 
     (group)
@@ -3605,46 +3611,54 @@ main = do
 
     {- unqualified infix variable operator id -}
     a `member` x
---    ^^^^^^^^ keyword.operator.function.infix.haskell
---    ^ punctuation.definition.function.begin.haskell
---           ^ punctuation.definition.function.end.haskell
+--    ^^^^^^^^ meta.infix.haskell
+--    ^ punctuation.definition.infix.begin.haskell - keyword
+--     ^^^^^^ keyword.operator.function.infix.haskell
+--           ^ punctuation.definition.infix.end.haskell - keyword
 
     {- qualified infix variable operator id -}
     a `P.atan2` x
---    ^^^^^^^^^ keyword.operator.function.infix.haskell
---    ^ punctuation.definition.function.begin.haskell
---            ^ punctuation.definition.function.end.haskell
+--    ^^^^^^^^^ meta.infix.haskell
+--    ^ punctuation.definition.infix.begin.haskell - keyword
+--     ^^^^^^^ keyword.operator.function.infix.haskell
+--            ^ punctuation.definition.infix.end.haskell - keyword
 
     {- unqualified infix constructor operator id -}
     a `Quux` x
---    ^^^^^^ keyword.operator.function.infix.haskell
---    ^ punctuation.definition.function.begin.haskell
---         ^ punctuation.definition.function.end.haskell
+--    ^^^^^^ meta.infix.haskell
+--    ^ punctuation.definition.infix.begin.haskell - keyword
+--     ^^^^ keyword.operator.function.infix.haskell
+--         ^ punctuation.definition.infix.end.haskell - keyword
 
     {- qualified infix constructor operator id -}
     a `Monad.Quux` x
---    ^^^^^^^^^^^^ keyword.operator.function.infix.haskell
---    ^ punctuation.definition.function.begin.haskell
---               ^ punctuation.definition.function.end.haskell
+--    ^^^^^^^^^^^^ meta.infix.haskell
+--    ^ punctuation.definition.infix.begin.haskell - keyword
+--     ^^^^^^^^^^ keyword.operator.function.infix.haskell
+--               ^ punctuation.definition.infix.end.haskell - keyword
 
     5 `f `7`f`"3 'ab'"
 --  ^ constant.numeric.value.haskell
---    ^^^^ keyword.operator.function.infix.haskell
---    ^ punctuation.definition.function.begin.haskell
---       ^ punctuation.definition.function.end.haskell
+--    ^^^^ meta.infix.haskell
+--    ^ punctuation.definition.infix.begin.haskell - keyword
+--     ^ keyword.operator.function.infix.haskell
+--      ^ - keyword - punctuation
+--       ^ punctuation.definition.infix.end.haskell - keyword
 --        ^ constant.numeric.value.haskell
---         ^^^ keyword.operator.function.infix.haskell
---         ^ punctuation.definition.function.begin.haskell
---           ^ punctuation.definition.function.end.haskell
+--         ^^^ meta.infix.haskell
+--         ^ punctuation.definition.infix.begin.haskell - keyword
+--          ^ keyword.operator.function.infix.haskell
+--           ^ punctuation.definition.infix.end.haskell - keyword
 --            ^^^^^^^^ meta.string.haskell string.quoted.double.haskell
 --            ^ punctuation.definition.string.begin.haskell
 --             ^^^^^^ - constant - punctuation
 --                   ^ punctuation.definition.string.end.haskell
 
     a ` f` b
---    ^^^^ keyword.operator.function.infix.haskell
---    ^ punctuation.definition.function.begin.haskell
---       ^ punctuation.definition.function.end.haskell
+--    ^^^^ meta.infix.haskell
+--    ^ punctuation.definition.infix.begin.haskell - keyword
+--      ^ keyword.operator.function.infix.haskell
+--       ^ punctuation.definition.infix.end.haskell - keyword
 
     a `--` b
 --    ^ - illegal - keyword - operator - punctuation
@@ -3652,6 +3666,34 @@ main = do
 
     a `
 --    ^ - illegal - keyword - operator - punctuation
+
+    a `shiftL#` b
+--    ^^^^^^^^^ meta.infix.haskell
+--    ^ punctuation.definition.infix.begin.haskell - keyword
+--     ^^^^^^^ keyword.operator.function.infix.haskell
+--           ^ storage.modifier.unboxed.haskell
+--            ^ punctuation.definition.infix.end.haskell - keyword
+
+    a ` shiftL# ` b
+--    ^^^^^^^^^^^ meta.infix.haskell
+--    ^ punctuation.definition.infix.begin.haskell - keyword
+--      ^^^^^^^ keyword.operator.function.infix.haskell
+--            ^ storage.modifier.unboxed.haskell
+--              ^ punctuation.definition.infix.end.haskell - keyword
+
+    a `Ns.shiftL#` b
+--    ^^^^^^^^^^^^ meta.infix.haskell
+--    ^ punctuation.definition.infix.begin.haskell - keyword
+--     ^^^^^^^^^^ keyword.operator.function.infix.haskell
+--              ^ storage.modifier.unboxed.haskell
+--               ^ punctuation.definition.infix.end.haskell - keyword
+
+    a `Unboxed#` b
+--    ^^^^^^^^^^ meta.infix.haskell
+--    ^ punctuation.definition.infix.begin.haskell - keyword
+--     ^^^^^^^^ keyword.operator.function.infix.haskell
+--            ^ storage.modifier.unboxed.haskell
+--             ^ punctuation.definition.infix.end.haskell - keyword
 
 
 -- [ INFIX OPERATORS IN CONTEXT ]----------------------------------------------
@@ -3705,3 +3747,7 @@ myManageHook = composeAll
 --                             ^^^ keyword.operator
   ]
 
+
+shiftL# :: Word# -> Int# -> Word#
+a `shiftL#` b   | isTrue# (b >=# WORD_SIZE_IN_BITS#) = 0##
+                | otherwise                          = a `uncheckedShiftL#` b
