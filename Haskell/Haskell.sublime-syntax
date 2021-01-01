@@ -859,8 +859,15 @@ contexts:
     - meta_scope: meta.sequence.list.haskell
     - include: list-end
     - include: records
+    - include: list-keywords
     - include: expressions
     - include: else-pop
+
+  list-keywords:
+    # 6.2.7. Generalised (SQL-like) List Comprehensions
+    # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/generalised_list_comprehensions.html
+    - match: (?:group|by|using){{break}}
+      scope: keyword.control.list.haskell
 
   quasi-quotes:
     # https://wiki.haskell.org/Quasiquotation

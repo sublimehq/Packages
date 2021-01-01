@@ -2436,6 +2436,61 @@ main = do
 --                                                            ^ punctuation.section.sequence.end.haskell
 --
 
+    {- Generalised (SQL-like) List Comprehensions -}
+    a = [ (the dept, sum salary)
+--      ^^ meta.sequence.list.haskell
+--        ^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.list.haskell meta.sequence.tuple.haskell
+--                              ^ meta.sequence.list.haskell - meta.sequence meta.sequence
+--      ^ punctuation.section.sequence.begin.haskell
+--        ^ punctuation.section.sequence.begin.haskell
+--         ^^^ variable.other.haskell
+--             ^^^^ variable.other.haskell
+--                 ^ punctuation.separator.sequence.haskell
+--                   ^^^ support.function.prelude.haskell
+--                       ^^^^^^ variable.other.haskell
+--                             ^ punctuation.section.sequence.end.haskell
+        | (name, dept, salary) <- employees
+--      ^^ meta.sequence.list.haskell
+--        ^^^^^^^^^^^^^^^^^^^^ meta.sequence.list.haskell meta.sequence.tuple.haskell
+--                            ^^^^^^^^^^^^^^ meta.sequence.list.haskell
+--      ^ punctuation.separator.sequence.haskell
+--        ^ punctuation.section.sequence.begin.haskell
+--         ^^^^ variable.other.haskell
+--             ^ punctuation.separator.sequence.haskell
+--               ^^^^ variable.other.haskell
+--                   ^ punctuation.separator.sequence.haskell
+--                     ^^^^^^ variable.other.haskell
+--                           ^ punctuation.section.sequence.end.haskell
+--                             ^^ keyword.operator.arrow.haskell
+--                                ^^^^^^^^^ variable.other.haskell
+        , then group by dept using groupWith
+--      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.list.haskell
+--      ^ punctuation.separator.sequence.haskell
+--        ^^^^ keyword.control.conditional.then.haskell
+--             ^^^^^ keyword.control.list.haskell
+--                   ^^ keyword.control.list.haskell
+--                      ^^^^ variable.other.haskell
+--                           ^^^^^ keyword.control.list.haskell
+--                                 ^^^^^^^^^ variable.other.haskell
+        , then sortWith by (sum salary)
+--      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.sequence.list.haskell
+--      ^ punctuation.separator.sequence.haskell
+--        ^^^^ keyword.control.conditional.then.haskell
+--             ^^^^^^^^ variable.other.haskell
+--                      ^^ keyword.control.list.haskell
+--                         ^ punctuation.section.group.begin.haskell
+--                          ^^^ support.function.prelude.haskell
+--                              ^^^^^^ variable.other.haskell
+--                                    ^ punctuation.section.group.end.haskell
+        , then take 5 ]
+--      ^^^^^^^^^^^^^^^ meta.sequence.list.haskell
+--                     ^ - meta.sequence
+--      ^ punctuation.separator.sequence.haskell
+--        ^^^^ keyword.control.conditional.then.haskell
+--             ^^^^ support.function.prelude.haskell
+--                  ^ constant.numeric.value.haskell
+--                    ^ punctuation.section.sequence.end.haskell
+
     ()
 -- ^ - meta.sequence
 --  ^^ meta.sequence.tuple.haskell
