@@ -7,6 +7,8 @@
     <dict>
         <key>showInSymbolList</key>
         <string>1</string>
+        <key>showInIndexedSymbolList</key>
+        <string>1</string>
     </dict>
 </dict>
 </plist>
