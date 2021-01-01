@@ -87,7 +87,7 @@ variables:
       LANGUAGE | OPTIONS_GHC | OPTIONS_HADDOCK | INCLUDE | WARNING | DEPRECATED
     | MINIMAL | UNPACK | NOUNPACK | SOURCE | OVERLAPPING | OVERLAPPABLE
     | OVERLAPS | INCOHERENT | INLINE | NOINLINE | INLINABLE | CONLIKE | LINE
-    | RULES | SPECIALIZE | SPECIALISE
+    | RULES | SPECIALIZE | SPECIALISE | COMPLETE
     ){{break}}
 
   # https://wiki.haskell.org/Language_extensions
@@ -300,7 +300,7 @@ contexts:
     - match: (?:OPTIONS_GHC|OPTIONS_HADDOCK){{break}}
       scope: keyword.directive.options.haskell
       set: preprocessor-pragma-options-value
-    - match: (?:INLINE|INLINABLE|MINIMAL|NOINLINE){{break}}
+    - match: (?:COMPLETE|INLINE|INLINABLE|MINIMAL|NOINLINE){{break}}
       scope:
         meta.preprocessor.pragma.directive.haskell
         keyword.directive.builtin.haskell
