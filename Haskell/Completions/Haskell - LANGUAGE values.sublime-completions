@@ -536,6 +536,12 @@
 			"details": "Enable language extension"
 		},
 		{
+			"trigger": "Safe",
+			"contents": "Safe",
+			"kind": "variable",
+			"details": "Enable language extension"
+		},
+		{
 			"trigger": "ScopedTypeVariables",
 			"contents": "ScopedTypeVariables",
 			"kind": "variable",

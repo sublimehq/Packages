@@ -4,7 +4,7 @@
 		{
 			"trigger": "as",
 			"contents": "as",
-			"kind": ["type", "m", "Modifier"],
+			"kind": "keyword",
 			"details": "Module alias to add to scope."
 		},
 		{
@@ -18,6 +18,12 @@
 			"contents": "qualified",
 			"kind": ["type", "m", "Modifier"],
 			"details": "Module not added to scope."
+		},
+		{
+			"trigger": "safe",
+			"contents": "safe",
+			"kind": ["type", "m", "Modifier"],
+			"details": "Import as safe module."
 		}
 	]
 }

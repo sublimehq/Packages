@@ -38,6 +38,12 @@
 			"details": "Compiler Pragma"
 		},
 		{
+			"trigger": "COMPLETE",
+			"contents": "COMPLETE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
 			"trigger": "MINIMAL",
 			"contents": "MINIMAL",
 			"kind": ["keyword", "#", "pragma"],
@@ -116,6 +122,12 @@
 			"details": "Compiler Pragma"
 		},
 		{
+			"trigger": "COLUMN",
+			"contents": "COLUMN",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
 			"trigger": "RULES",
 			"contents": "RULES",
 			"kind": ["keyword", "#", "pragma"],
@@ -124,6 +136,24 @@
 		{
 			"trigger": "SPECIALIZE",
 			"contents": "SPECIALIZE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "SPECIALIZE INLINE",
+			"contents": "SPECIALIZE INLINE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "SPECIALIZE NOINLINE",
+			"contents": "SPECIALIZE NOINLINE",
+			"kind": ["keyword", "#", "pragma"],
+			"details": "Compiler Pragma"
+		},
+		{
+			"trigger": "SPECIALIZE instance",
+			"contents": "SPECIALIZE instance",
 			"kind": ["keyword", "#", "pragma"],
 			"details": "Compiler Pragma"
 		}
