@@ -1047,7 +1047,7 @@ contexts:
 ###[ LITERALS ]################################################################
 
   literal-numbers:
-    # 2.5 Numeric Literals
+    # 2.5 Decimal floating point literals
     # https://www.haskell.org/onlinereport/haskell2010/haskellch2.html#x7-190002.5
     - match: (\d+(?:(\.)\d+(?:[eE][-+]?\d+)?|[eE][-+]?\d+))(#*){{break}}
       scope: meta.number.float.decimal.haskell
@@ -1055,6 +1055,25 @@ contexts:
         1: constant.numeric.value.haskell
         2: punctuation.separator.decimal.haskell
         3: constant.numeric.suffix.haskell
+    # 6.9.3. Hexadecimal floating point literals
+    # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/hex_float_literals.html
+    - match: (0[xX])(\h+(\.)\h+(?:[pP][-+]?\d+)?)(#*){{break}}
+      scope: meta.number.float.hexadecimal.haskell
+      captures:
+        1: constant.numeric.base.haskell
+        2: constant.numeric.value.haskell
+        3: punctuation.separator.decimal.haskell
+        4: constant.numeric.suffix.haskell
+    # 6.9.2. Binary integer literals
+    # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/binary_literals.html
+    - match: (0[bB])([01]+)(#*){{break}}
+      scope: meta.number.integer.binary.haskell
+      captures:
+        1: constant.numeric.base.haskell
+        2: constant.numeric.value.haskell
+        3: constant.numeric.suffix.haskell
+    # 2.5 Numeric Literals
+    # https://www.haskell.org/onlinereport/haskell2010/haskellch2.html#x7-190002.5
     - match: (0[oO])([0-7]+)(#*){{break}}
       scope: meta.number.integer.octal.haskell
       captures:
