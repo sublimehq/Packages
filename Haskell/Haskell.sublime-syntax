@@ -1,5 +1,6 @@
 %YAML 1.2
 ---
+# https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts.html
 # https://www.haskell.org/onlinereport/haskell2010
 # https://www.sublimetext.com/docs/syntax.html
 name: Haskell
@@ -286,6 +287,16 @@ contexts:
     - match: (?:OPTIONS_GHC|OPTIONS_HADDOCK){{break}}
       scope: keyword.directive.options.haskell
       set: preprocessor-pragma-options-value
+    - match: (?:SPECIALISE|SPECIALIZE){{break}}
+      scope:
+        meta.preprocessor.pragma.directive.haskell
+        keyword.directive.builtin.haskell
+      embed: preprocessor-pragma-specialize-value
+      pop: 1
+      escape: '#-\}'
+      escape_captures:
+        0: meta.preprocessor.pragma.value.haskell
+           punctuation.section.preprocessor.end.haskell
     - match: '{{pragma_keys}}'
       scope: keyword.directive.builtin.haskell
       set: preprocessor-pragma-other-value
@@ -312,11 +323,17 @@ contexts:
       captures:
         1: punctuation.definition.constant.haskell
 
+  preprocessor-pragma-specialize-value:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.preprocessor.pragma.value.specialize.haskell
+    - include: comments
+    - include: functions
+    - include: type-expressions
+
   preprocessor-pragma-other-value:
     - meta_include_prototype: false
     - meta_content_scope: meta.preprocessor.pragma.value.other.haskell
     - include: preprocessor-pragma-common
-    - include: sequence-separators
     - include: literal-numbers
     - include: literal-strings
 
