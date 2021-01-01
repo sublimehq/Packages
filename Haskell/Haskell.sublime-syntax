@@ -41,6 +41,14 @@ variables:
     ){{break}}
   break: (?![\w'#])
 
+  # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/numeric_underscores.html
+  bin_digit: '[01_]'
+  dec_digit: '[\d_]'
+  hex_digit: '[\h_]'
+  oct_digit: '[0-7_]'
+  dec_exponent: (?:[eE][-+]?\d+)
+  hex_exponent: (?:[pP][-+]?\d+)
+
   # In case this regex seems overly general, note that Haskell permits
   # the definition of new operators which can be nearly any string
   # of punctuation characters, such as $%^&*.
@@ -1049,7 +1057,7 @@ contexts:
   literal-numbers:
     # 2.5 Decimal floating point literals
     # https://www.haskell.org/onlinereport/haskell2010/haskellch2.html#x7-190002.5
-    - match: (\d+(?:(\.)\d+(?:[eE][-+]?\d+)?|[eE][-+]?\d+))(#*){{break}}
+    - match: (\d{{dec_digit}}*(?:(\.){{dec_digit}}+{{dec_exponent}}?|{{dec_exponent}}))(#*){{break}}
       scope: meta.number.float.decimal.haskell
       captures:
         1: constant.numeric.value.haskell
@@ -1057,7 +1065,7 @@ contexts:
         3: constant.numeric.suffix.haskell
     # 6.9.3. Hexadecimal floating point literals
     # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/hex_float_literals.html
-    - match: (0[xX])(\h+(\.)\h+(?:[pP][-+]?\d+)?)(#*){{break}}
+    - match: (0[xX])({{hex_digit}}+(\.){{hex_digit}}+{{hex_exponent}}?)(#*){{break}}
       scope: meta.number.float.hexadecimal.haskell
       captures:
         1: constant.numeric.base.haskell
@@ -1066,7 +1074,7 @@ contexts:
         4: constant.numeric.suffix.haskell
     # 6.9.2. Binary integer literals
     # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/binary_literals.html
-    - match: (0[bB])([01]+)(#*){{break}}
+    - match: (0[bB])({{bin_digit}}+)(#*){{break}}
       scope: meta.number.integer.binary.haskell
       captures:
         1: constant.numeric.base.haskell
@@ -1074,19 +1082,19 @@ contexts:
         3: constant.numeric.suffix.haskell
     # 2.5 Numeric Literals
     # https://www.haskell.org/onlinereport/haskell2010/haskellch2.html#x7-190002.5
-    - match: (0[oO])([0-7]+)(#*){{break}}
+    - match: (0[oO])({{oct_digit}}+)(#*){{break}}
       scope: meta.number.integer.octal.haskell
       captures:
         1: constant.numeric.base.haskell
         2: constant.numeric.value.haskell
         3: constant.numeric.suffix.haskell
-    - match: (0[xX])(\h+)(#*){{break}}
+    - match: (0[xX])({{hex_digit}}+)(#*){{break}}
       scope: meta.number.integer.hexadecimal.haskell
       captures:
         1: constant.numeric.base.haskell
         2: constant.numeric.value.haskell
         3: constant.numeric.suffix.haskell
-    - match: (\d+)(#*){{break}}
+    - match: (\d{{dec_digit}}*)(#*){{break}}
       scope: meta.number.integer.decimal.haskell
       captures:
         1: constant.numeric.value.haskell

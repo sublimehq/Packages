@@ -2722,10 +2722,21 @@ main = do
     1234567890
 --  ^^^^^^^^^^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
 
+    1_2_34__567890_
+--  ^^^^^^^^^^^^^^^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
+
+    _1234
+--  ^^^^^ - constant.numeric
+
     1234567890##
 --  ^^^^^^^^^^^^ meta.number.integer.decimal.haskell
 --  ^^^^^^^^^^ constant.numeric.value.haskell
 --            ^^ constant.numeric.suffix.haskell
+
+    1_234_567_890_##
+--  ^^^^^^^^^^^^^^^^ meta.number.integer.decimal.haskell
+--  ^^^^^^^^^^^^^^ constant.numeric.value.haskell
+--                ^^ constant.numeric.suffix.haskell
 
     {- Octal integer literals -}
 
@@ -2734,11 +2745,22 @@ main = do
 --  ^^ constant.numeric.base.haskell
 --    ^^^^^^^ constant.numeric.value.haskell
 
+    0o_1234_567_
+--  ^^^^^^^^^^^^ meta.number.integer.octal.haskell
+--  ^^ constant.numeric.base.haskell
+--    ^^^^^^^^^^ constant.numeric.value.haskell
+
     0o1234567#
 --  ^^^^^^^^^^ meta.number.integer.octal.haskell
 --  ^^ constant.numeric.base.haskell
 --    ^^^^^^^ constant.numeric.value.haskell
 --           ^ constant.numeric.suffix.haskell
+
+    0o_1_234__567_#
+--  ^^^^^^^^^^^^^^^ meta.number.integer.octal.haskell
+--  ^^ constant.numeric.base.haskell
+--    ^^^^^^^^^^^^ constant.numeric.value.haskell
+--                ^ constant.numeric.suffix.haskell
 
     {- Decimal floating point literals -}
 
@@ -2769,6 +2791,12 @@ main = do
 --  ^^^^^^ constant.numeric.value.haskell
 --    ^ punctuation.separator.decimal
 --        ^ constant.numeric.suffix.haskell
+
+    1_2_._34___5_#
+--  ^^^^^^^^^^^^^^ meta.number.float.decimal.haskell
+--  ^^^^^^^^^^^^^ constant.numeric.value.haskell
+--      ^ punctuation.separator.decimal
+--               ^ constant.numeric.suffix.haskell
 
     1e10
 --  ^^^^ meta.number.float.decimal.haskell constant.numeric.value.haskell
@@ -2802,6 +2830,11 @@ main = do
 --  ^^ constant.numeric.base.haskell
 --    ^^^^^^^^^^^ constant.numeric.value.haskell
 
+    0b_10___1110_
+--  ^^^^^^^^^^^^^ meta.number.integer.binary.haskell
+--  ^^ constant.numeric.base.haskell
+--    ^^^^^^^^^^^ constant.numeric.value.haskell
+
     0b0#
 --  ^^^^ meta.number.integer.binary.haskell
 --  ^^ constant.numeric.base.haskell
@@ -2820,6 +2853,12 @@ main = do
 --    ^^^^^^^^^^^ constant.numeric.value.haskell
 --               ^ constant.numeric.suffix.haskell
 
+    0b_10___1110_#
+--  ^^^^^^^^^^^^^^ meta.number.integer.binary.haskell
+--  ^^ constant.numeric.base.haskell
+--    ^^^^^^^^^^^ constant.numeric.value.haskell
+--               ^ constant.numeric.suffix.haskell
+
     {- Hexadecimal integer literals -}
 
     0x0
@@ -2831,7 +2870,18 @@ main = do
 --  ^^ constant.numeric.base.haskell
 --    ^^^^^^^^^^ constant.numeric.value.haskell
 
+    0x__af_EEF4_
+--  ^^^^^^^^^^^^ meta.number.integer.hexadecimal.haskell
+--  ^^ constant.numeric.base.haskell
+--    ^^^^^^^^^^ constant.numeric.value.haskell
+
     0XdeafBEEF42##
+--  ^^^^^^^^^^^^^^ meta.number.integer.hexadecimal.haskell
+--  ^^ constant.numeric.base.haskell
+--    ^^^^^^^^^^ constant.numeric.value.haskell
+--              ^^ constant.numeric.suffix.haskell
+
+    0Xd___BEEF4_##
 --  ^^^^^^^^^^^^^^ meta.number.integer.hexadecimal.haskell
 --  ^^ constant.numeric.base.haskell
 --    ^^^^^^^^^^ constant.numeric.value.haskell
@@ -2868,6 +2918,12 @@ main = do
 --  ^^^^^^^^ meta.number.float.hexadecimal.haskell
 --  ^^ constant.numeric.base.haskell
 --    ^^^^^^ constant.numeric.value.haskell
+
+    0xA_0._1_p12#
+--  ^^^^^^^^^^^^^ meta.number.float.hexadecimal.haskell
+--  ^^ constant.numeric.base.haskell
+--    ^^^^^^^^^^ constant.numeric.value.haskell
+--              ^ constant.numeric.suffix.haskell
 
 
 -- [ LITERAL CHARACTERS ] -----------------------------------------------------
