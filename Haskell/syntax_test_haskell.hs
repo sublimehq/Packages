@@ -1873,6 +1873,17 @@
 --         ^ variable.other.haskell
 --           ^^ keyword.operator.arrow.haskell
 --              ^^^^ support.type.prelude.haskell
+    {- infix operator body -}
+    (<:>) = do a <:> b
+--  ^^^^^ meta.group.haskell
+--  ^ punctuation.section.group.begin.haskell
+--   ^^^ keyword.operator.haskell
+--      ^ punctuation.section.group.end.haskell
+--        ^ keyword.operator.haskell
+--          ^^ keyword.control.context.haskell
+--             ^ variable.other.haskell
+--               ^^^ keyword.operator.haskell
+--                   ^ variable.other.haskell
 
     {- function declaration list -}
     isNaN,, isInfinite
