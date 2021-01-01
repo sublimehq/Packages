@@ -754,7 +754,7 @@ contexts:
   type-forall-body:
     # Note: This is the only situation a dot is allowed within type expressions.
     - match: \.
-      scope: keyword.operator.haskell
+      scope: punctuation.separator.sequence.haskell
       pop: 1
     - include: ident-anonymous
     - include: ident-variables

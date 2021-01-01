@@ -1277,7 +1277,7 @@
 --            ^ punctuation.section.group.end.haskell
 --               ^^ keyword.operator.double-colon.haskell
 --                  ^^^^^^ keyword.control.forall.haskell
---                              ^ keyword.operator.haskell
+--                              ^ punctuation.separator.sequence.haskell
 --                                ^^^^^^^^^^^^ variable.namespace.haskell
 --                                            ^ punctuation.accessor.dot.haskell
 --                                             ^^^^^ support.class.prelude.haskell
@@ -1289,7 +1289,7 @@
 --           ^ punctuation.section.group.end.haskell
 --               ^^ keyword.operator.double-colon.haskell
 --                  ^^^^^^ keyword.control.forall.haskell
---                              ^ keyword.operator.haskell
+--                              ^ punctuation.separator.sequence.haskell
 --                                ^^^^^^^^^^^^ variable.namespace.haskell
 --                                            ^ punctuation.accessor.dot.haskell
 --                                             ^^^^^ support.class.prelude.haskell
@@ -1298,7 +1298,7 @@
 --        ^^^^ support.function.prelude.haskell
 --               ^^ keyword.operator.double-colon.haskell
 --                  ^ keyword.control.forall.haskell
---                              ^ keyword.operator.haskell
+--                              ^ punctuation.separator.sequence.haskell
 --                                ^^^^^^^^^^^^ variable.namespace.haskell
 --                                            ^ punctuation.accessor.dot.haskell
 --                                             ^^^^^^^^^ storage.type.haskell
@@ -1307,7 +1307,7 @@
 --        ^^^^^^ support.function.prelude.haskell
 --               ^^ keyword.operator.double-colon.haskell
 --                  ^^^^^^ keyword.control.forall.haskell
---                              ^ keyword.operator.haskell
+--                              ^ punctuation.separator.sequence.haskell
 --                                ^^^^^^^^^^^^ variable.namespace.haskell
 --                                            ^ punctuation.accessor.dot.haskell
 --                                             ^^^^^ support.class.prelude.haskell
@@ -1752,7 +1752,7 @@
 --                   ^ keyword.operator.haskell
 --                     ^^^^^^ keyword.control.forall.haskell
 --                            ^ variable.other.haskell
---                             ^ keyword.operator.haskell
+--                             ^ punctuation.separator.sequence.haskell
 --                               ^ variable.other.haskell
 --                                 ^ variable.other.haskell
 --                                   ^^ keyword.operator.arrow.haskell
@@ -1764,7 +1764,7 @@
 --                       ^ keyword.operator.haskell
 --                         ^^^^^^ keyword.control.forall.haskell
 --                                ^ variable.other.haskell
---                                 ^ keyword.operator.haskell
+--                                 ^ punctuation.separator.sequence.haskell
 --                                   ^^^^^^^^ meta.group.haskell
 --                                   ^ punctuation.section.group.begin.haskell
 --                                    ^^^^ support.class.prelude.haskell
