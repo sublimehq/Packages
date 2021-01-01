@@ -2017,17 +2017,142 @@
     }
 
 
--- [ KEYWORDS ] ---------------------------------------------------------------
+-- [ LET EXPRESSIONS ]---------------------------------------------------------
+
+    let a
+--  ^^^ keyword.declaration.variable.haskell
+--      ^ variable.other.haskell
+
+    let a = 5
+--  ^^^ keyword.declaration.variable.haskell
+--      ^ variable.other.haskell
+--        ^ keyword.operator.haskell
+--          ^ constant.numeric.value.haskell
+
+    let (a, b) = split arg
+--  ^^^ keyword.declaration.variable.haskell
+--      ^ punctuation.section.sequence.begin.haskell
+--       ^ variable.other.haskell
+--        ^ punctuation.separator.sequence.haskell
+--          ^ variable.other.haskell
+--           ^ punctuation.section.sequence.end.haskell
+--             ^ keyword.operator.haskell
+--               ^^^^^ variable.other.haskell
+--                     ^^^ variable.other.haskell
+
+    let a = 2 in a * b where b = 1
+--  ^^^ keyword.declaration.variable.haskell
+--      ^ variable.other.haskell
+--        ^ keyword.operator.haskell
+--          ^ constant.numeric.value.haskell
+--            ^^ keyword.control.context.haskell
+--               ^ variable.other.haskell
+--                 ^ keyword.operator.haskell
+--                   ^ variable.other.haskell
+--                     ^^^^^ keyword.control.context.haskell
+--                           ^ variable.other.haskell
+--                             ^ keyword.operator.haskell
+--                               ^ constant.numeric.value.haskell
+
+    let
+--  ^^^ keyword.declaration.variable.haskell
+        a = 2 ; d = 5
+--      ^ variable.other.haskell
+--        ^ keyword.operator.haskell
+--          ^ constant.numeric.value.haskell
+--            ^ punctuation.terminator.statement.haskell
+--              ^ variable.other.haskell
+--                ^ keyword.operator.haskell
+--                  ^ constant.numeric.value.haskell
+        b = 4
+--      ^ variable.other.haskell
+--        ^ keyword.operator.haskell
+--          ^ constant.numeric.value.haskell
+        in
+--      ^^ keyword.control.context.haskell
+            a * b + c
+--          ^ variable.other.haskell
+--            ^ keyword.operator.haskell
+--              ^ variable.other.haskell
+--                ^ keyword.operator.haskell
+--                  ^ variable.other.haskell
+        where
+--      ^^^^^ keyword.control.context.haskell
+            c = 4
+--          ^ variable.other.haskell
+--            ^ keyword.operator.haskell
+--              ^ constant.numeric.value.haskell
+
+    let { a = 2 ; b = 4 } in { a * b + c } where { c = 4 ; d = 5 }
+--  ^^^ keyword.declaration.variable.haskell
+--      ^ punctuation.section.block.begin.haskell
+--        ^ variable.other.haskell
+--          ^ keyword.operator.haskell
+--            ^ constant.numeric.value.haskell
+--              ^ punctuation.terminator.statement.haskell
+--                ^ variable.other.haskell
+--                  ^ keyword.operator.haskell
+--                    ^ constant.numeric.value.haskell
+--                      ^ punctuation.section.block.end.haskell
+--                        ^^ keyword.control.context.haskell
+--                           ^ punctuation.section.block.begin.haskell
+--                             ^ variable.other.haskell
+--                               ^ keyword.operator.haskell
+--                                 ^ variable.other.haskell
+--                                   ^ keyword.operator.haskell
+--                                     ^ variable.other.haskell
+--                                       ^ punctuation.section.block.end.haskell
+--                                         ^^^^^ keyword.control.context.haskell
+--                                               ^ punctuation.section.block.begin.haskell
+--                                                 ^ variable.other.haskell
+--                                                   ^ keyword.operator.haskell
+--                                                     ^ constant.numeric.value.haskell
+--                                                       ^ punctuation.terminator.statement.haskell
+--                                                         ^ variable.other.haskell
+--                                                           ^ keyword.operator.haskell
+--                                                             ^ constant.numeric.value.haskell
+--                                                               ^ punctuation.section.block.end.haskell
 
 test =
+-- <- variable.other.haskell
 --   ^ keyword.operator.haskell
     let x = 2 in x * y
 --  ^^^ keyword.declaration.variable.haskell
+--      ^ variable.other.haskell
+--        ^ keyword.operator.haskell
+--          ^ constant.numeric.value.haskell
 --            ^^ keyword.control.context.haskell
+--               ^ variable.other.haskell
+--                 ^ keyword.operator.haskell
+--                   ^ variable.other.haskell
     where
 --  ^^^^^ keyword.control.context.haskell
         y = 1
+--      ^ variable.other.haskell
 --        ^ keyword.operator.haskell
+--          ^ constant.numeric.value.haskell
+
+  let runIO' :: PandocIO a -> IO a
+--^^^ keyword.declaration.variable.haskell
+--    ^^^^^^^ meta.function.identifier.haskell
+--    ^^^^^^ entity.name.function.haskell
+--           ^^ keyword.operator.double-colon.haskell
+      runIO' f = do
+        let isWarning msg = messageVerbosity msg == WARNING
+--      ^^^ keyword.declaration.variable.haskell
+--          ^^^^^^^^^ variable.other.haskell
+--                    ^^^ variable.other.haskell
+--                        ^ keyword.operator.haskell
+--                          ^^^^^^^^^^^^^^^^ variable.other.haskell
+--                                           ^^^ variable.other.haskell
+--                                               ^^ keyword.operator.haskell
+--                                                  ^^^^^^^ storage.type.haskell
+        when (optFailIfWarnings opts && any isWarning reports) $
+            E.throwIO PandocFailOnWarningError
+        return res
+
+
+-- [ KEYWORDS ] ---------------------------------------------------------------
 
 test a = case a of
 --       ^^^^ keyword.control.conditional.select.haskell
