@@ -487,19 +487,20 @@
 --         ^ punctuation.terminator.statement.haskell
 --           ^^^^^^ meta.import.haskell keyword.declaration.import.haskell
 
-    import qualified Data.Vector.Mutable as MutableVector
+    import safe qualified Data.Vector.Mutable as MutableVector
 --  ^^^^^^ meta.import.haskell
---        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.module.haskell
---                                       ^^^^^^^^^^^^^^^^ meta.import.alias.haskell
+--        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.module.haskell
+--                                            ^^^^^^^^^^^^^^^^ meta.import.alias.haskell
 --  ^^^^^^ keyword.declaration.import.haskell
---         ^^^^^^^^^ storage.modifier.import.haskell
---                   ^^^^ variable.namespace.haskell - punctuation
---                       ^ punctuation.accessor.dot.haskell - variable
---                        ^^^^^^ variable.namespace.haskell - punctuation
---                              ^ punctuation.accessor.dot.haskell - variable
---                               ^^^^^^^ variable.namespace.haskell - punctuation
---                                       ^^ keyword.declaration.import.as.haskell
---                                          ^^^^^^^^^^^^^ entity.name.import.namespace.haskell
+--         ^^^^ storage.modifier.import.haskell
+--              ^^^^^^^^^ storage.modifier.import.haskell
+--                        ^^^^ variable.namespace.haskell - punctuation
+--                            ^ punctuation.accessor.dot.haskell - variable
+--                             ^^^^^^ variable.namespace.haskell - punctuation
+--                                   ^ punctuation.accessor.dot.haskell - variable
+--                                    ^^^^^^^ variable.namespace.haskell - punctuation
+--                                            ^^ keyword.declaration.import.as.haskell
+--                                               ^^^^^^^^^^^^^ entity.name.import.namespace.haskell
 
     import
 --  ^^^^^^ meta.import.haskell keyword.declaration.import.haskell

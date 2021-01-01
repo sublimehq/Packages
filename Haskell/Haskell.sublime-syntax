@@ -447,6 +447,8 @@ contexts:
   imports:
     # 5.3 Import Declarations
     # https://www.haskell.org/onlinereport/haskell2010/haskellch5.html#x11-1010005.3
+    # 6.18.3. Safe Imports
+    # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/safe_haskell.html#safe-imports
     - match: import{{break}}
       scope: meta.import.haskell keyword.declaration.import.haskell
       push:
@@ -458,7 +460,7 @@ contexts:
     - match: as{{break}}
       scope: keyword.declaration.import.as.haskell
       set: import-alias
-    - match: (?:qualified|hiding){{break}}
+    - match: (?:qualified|hiding|safe){{break}}
       scope: storage.modifier.import.haskell
     - match: ({{con_id}})(\.)?
       captures:
