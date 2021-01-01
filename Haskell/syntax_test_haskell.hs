@@ -1871,6 +1871,43 @@
 --                           ^^^^ support.function.prelude.haskell
 --                                ^ variable.other.haskell
 
+    {- guarded function declarations -}
+    toAsciiChar :: Char -> Maybe Char
+    toAsciiChar c | isAscii c = Just c
+--  ^^^^^^^^^^^ variable.other.haskell
+--              ^ variable.other.haskell
+--                ^ punctuation.separator.sequence.haskell
+--                  ^^^^^^^ variable.other.haskell
+--                          ^ variable.other.haskell
+--                            ^ keyword.operator.haskell
+--                              ^^^^ support.type.prelude.haskell
+--                                   ^ variable.other.haskell
+                  | otherwise = M.lookup c asciiMap
+--                ^ punctuation.separator.sequence.haskell
+--                  ^^^^^^^^^ support.function.prelude.haskell
+--                            ^ keyword.operator.haskell
+--                              ^ variable.namespace.haskell
+--                               ^ punctuation.accessor.dot.haskell
+--                                ^^^^^^ support.function.prelude.haskell
+--                                       ^ variable.other.haskell
+--                                         ^^^^^^^^ variable.other.haskell
+
+    fromEntities' :: Text -> String
+--  ^^^^^^^^^^^^^ entity.name.function.haskell
+    fromEntities' (T.uncons -> Just ('&', xs)) =
+--  ^^^^^^^^^^^^^ variable.other.haskell
+--                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group.haskell
+--                                             ^ keyword.operator.haskell
+      case lookupEntity $ T.unpack ent' of
+            Just c  -> c <> fromEntities' rest
+            Nothing -> "&" <> fromEntities' xs
+    fromEntities' t = case T.uncons t of
+--  ^^^^^^^^^^^^^ variable.other.haskell
+--                ^ variable.other.haskell
+--                  ^ keyword.operator.haskell
+      Just (x, xs) -> x : fromEntities' xs
+      Nothing      -> ""
+
     {- Module Level Function Declarations -}
     module ModId.ModName (fun) where
     fun :: Bool -> Bool
