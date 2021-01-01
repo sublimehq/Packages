@@ -293,9 +293,9 @@
 --           ^ punctuation.accessor.dot.haskell
 --            ^^^^ entity.name.namespace.haskell
 --                 ^ punctuation.section.sequence.begin.haskell
---                  ^^^^ variable.function.haskell
+--                  ^^^^ entity.name.export.haskell
 --                      ^ punctuation.separator.sequence.haskell
---                        ^^^^ storage.type.haskell
+--                        ^^^^ entity.name.export.haskell
 --                            ^ punctuation.section.sequence.end.haskell
 --                              ^^^^^ keyword.control.context.haskell
 --                                    ^ punctuation.section.block.begin.haskell
@@ -325,7 +325,7 @@
 --               ^^^^^^ keyword.declaration.namespace.haskell
 --                      ^^^^^ variable.namespace.haskell
 --                           ^ punctuation.accessor.dot.haskell
---                            ^^^^^^ entity.name.namespace.haskell
+--                            ^^^^^^ entity.name.export.haskell
 --                                  ^ punctuation.section.sequence.end.haskell
 --                                    ^^^^^ keyword.control.context.haskell
 --                                          ^ punctuation.section.block.begin.haskell
@@ -399,9 +399,9 @@
 --              ^ punctuation.accessor.dot.haskell
 --               ^^^^ entity.name.namespace.haskell
 --                    ^ punctuation.section.sequence.begin.haskell
---                     ^^^^ variable.function.haskell
+--                     ^^^^ entity.name.export.haskell
 --                         ^ punctuation.separator.sequence.haskell
---                           ^^^^ storage.type.haskell
+--                           ^^^^ entity.name.export.haskell
 --                               ^ punctuation.section.sequence.end.haskell
 --                                 ^^^^^ keyword.control.context.haskell
 --                                       ^ punctuation.section.block.begin.haskell
@@ -431,7 +431,7 @@
 --                  ^^^^^^ keyword.declaration.namespace.haskell
 --                         ^^^^^ variable.namespace.haskell
 --                              ^ punctuation.accessor.dot.haskell
---                               ^^^^^^ entity.name.namespace.haskell
+--                               ^^^^^^ entity.name.export.haskell
 --                                     ^ punctuation.section.sequence.end.haskell
 --                                       ^^^^^ keyword.control.context.haskell
 --                                             ^ punctuation.section.block.begin.haskell
@@ -1924,9 +1924,9 @@
     module ModId.ModName (fun1, fun2) where { fun1 :: Bool -> Bool ; fun2 :: }
 --                       ^^^^^^^^^^^^ meta.declaration.module.haskell meta.sequence.tuple.haskell
 --                       ^ punctuation.section.sequence.begin.haskell
---                        ^^^^ variable.function.haskell
+--                        ^^^^ entity.name.export.haskell
 --                            ^ punctuation.separator.sequence.haskell
---                              ^^^^ variable.function.haskell
+--                              ^^^^ entity.name.export.haskell
 --                                  ^ punctuation.section.sequence.end.haskell
 --                                    ^^^^^ keyword.control.context.haskell
 --                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.haskell

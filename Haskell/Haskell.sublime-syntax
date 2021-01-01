@@ -385,15 +385,18 @@ contexts:
     - include: tuple-end
     - include: infix-parens-operators
     - include: sequence-separators
+    - include: ident-namespaces
     - match: \(
       scope: punctuation.section.sequence.begin.haskell
       push: module-export-body
     - match: module{{break}}
       scope: keyword.declaration.namespace.haskell
-      push: module-name
-    - include: ident-functions
-    - include: ident-namespaces
-    - include: ident-types
+    # class / constructor / data / module / type
+    - match: '{{con_id}}'
+      scope: entity.name.export.haskell
+    # function / pattern / variable
+    - match: '{{var_id}}'
+      scope: entity.name.export.haskell
     - include: else-pop
 
   signature-where:
