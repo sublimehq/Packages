@@ -126,7 +126,7 @@ variables:
     | PartialTypeSignatures | PatternGuards | PatternSynonyms | PolyKinds
     | PolymorphicComponents | QuantifiedConstraints | PostfixOperators
     | QuasiQuotes | Rank2Types | RankNTypes | RebindableSyntax | RecordWildCards
-    | RecursiveDo | RelaxedLayout | RoleAnnotations | ScopedTypeVariables
+    | RecursiveDo | RelaxedLayout | RoleAnnotations | Safe | ScopedTypeVariables
     | StandaloneDeriving | StarIsType | StaticPointers | Strict | StrictData
     | TemplateHaskell | TemplateHaskellQuotes | StandaloneKindSignatures
     | TraditionalRecordSyntax | TransformListComp | TupleSections
