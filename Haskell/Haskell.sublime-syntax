@@ -283,8 +283,8 @@ contexts:
         2: punctuation.definition.preprocessor.c
 
   preprocessor-pragmas:
-    # 12 Compiler Pragmas
-    # https://www.haskell.org/onlinereport/haskell2010/haskellch12.html#x19-18800012
+    # GHC 6.20 Pragmas
+    # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/pragmas.html
     - match: \{-#
       scope: punctuation.section.preprocessor.begin.haskell
       push: preprocessor-pragma-body
@@ -300,10 +300,21 @@ contexts:
     - match: (?:OPTIONS_GHC|OPTIONS_HADDOCK){{break}}
       scope: keyword.directive.options.haskell
       set: preprocessor-pragma-options-value
-    - match: (?:INLINE|INLINABLE|MINIMAL|NOINLINE|SPECIALISE|SPECIALIZE){{break}}
+    - match: (?:INLINE|INLINABLE|MINIMAL|NOINLINE){{break}}
       scope:
         meta.preprocessor.pragma.directive.haskell
         keyword.directive.builtin.haskell
+      embed: preprocessor-pragma-signature-value
+      pop: 1
+      escape: '#-\}'
+      escape_captures:
+        0: meta.preprocessor.pragma.value.haskell
+           punctuation.section.preprocessor.end.haskell
+    - match: (SPECIALISE|SPECIALIZE)(?:\s+(INLINE|NOINLINE))?{{break}}
+      scope: meta.preprocessor.pragma.directive.haskell
+      captures:
+        1: keyword.directive.builtin.haskell
+        2: keyword.directive.builtin.haskell
       embed: preprocessor-pragma-signature-value
       pop: 1
       escape: '#-\}'

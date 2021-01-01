@@ -206,18 +206,19 @@
 --                      ^^^^^^^^ constant.other.pragma.haskell
 --                               ^^^ punctuation.section.preprocessor.end.haskell
 
-    {-# SPECIALISE unless :: Bool -> IO () -> IO () #-}
---  ^^^^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
---                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.value.signature.haskell
---                                                  ^^^ meta.preprocessor.pragma.value.haskell
+    {-# SPECIALISE INLINE unless :: Bool -> IO () -> IO () #-}
+--  ^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
+--                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.value.signature.haskell
+--                                                         ^^^ meta.preprocessor.pragma.value.haskell
 --  ^^^ punctuation.section.preprocessor.begin.haskell
 --      ^^^^^^^^^^ keyword.directive.builtin.haskell
---                 ^^^^^^ entity.name.function.haskell
---                        ^^ keyword.operator.double-colon.haskell
---                           ^^^^ support.type.prelude.haskell
---                                ^^ keyword.operator.arrow.haskell
---                                   ^^ support.type.prelude.haskell
---                                                  ^^^ punctuation.section.preprocessor.end.haskell
+--                 ^^^^^^ keyword.directive.builtin.haskell
+--                        ^^^^^^ entity.name.function.haskell
+--                               ^^ keyword.operator.double-colon.haskell
+--                                  ^^^^ support.type.prelude.haskell
+--                                       ^^ keyword.operator.arrow.haskell
+--                                          ^^ support.type.prelude.haskell
+--                                                         ^^^ punctuation.section.preprocessor.end.haskell
 
     {-# WARNING "Not supported" #-}
 --  ^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
