@@ -310,11 +310,12 @@ contexts:
       escape_captures:
         0: meta.preprocessor.pragma.value.haskell
            punctuation.section.preprocessor.end.haskell
-    - match: (SPECIALISE|SPECIALIZE)(?:\s+(INLINE|NOINLINE))?{{break}}
+    - match: (SPECIALISE|SPECIALIZE)(?:\s+(?:(INLINE|NOINLINE)|(instance)))?{{break}}
       scope: meta.preprocessor.pragma.directive.haskell
       captures:
         1: keyword.directive.builtin.haskell
         2: keyword.directive.builtin.haskell
+        3: keyword.declaration.instance.haskell
       embed: preprocessor-pragma-signature-value
       pop: 1
       escape: '#-\}'

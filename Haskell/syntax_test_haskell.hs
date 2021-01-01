@@ -220,6 +220,15 @@
 --                                          ^^ support.type.prelude.haskell
 --                                                         ^^^ punctuation.section.preprocessor.end.haskell
 
+    {-# SPECIALIZE instance Eq (Foo [(Int, Bar)]) #-}
+--  ^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
+--                         ^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.value.signature.haskell
+--                                                ^^^ meta.preprocessor.pragma.value.haskell
+--  ^^^ punctuation.section.preprocessor.begin.haskell
+--      ^^^^^^^^^^ keyword.directive.builtin.haskell
+--                 ^^^^^^^^ keyword.declaration.instance.haskell
+--                                                ^^^ punctuation.section.preprocessor.end.haskell
+
     {-# WARNING "Not supported" #-}
 --  ^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
 --             ^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.value.other.haskell
