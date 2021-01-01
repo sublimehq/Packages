@@ -178,8 +178,10 @@ variables:
     | zipWith3
     ){{break}}
 
+  # 6.2.2. The magic hash
+  # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/magic_hash.html
   unboxed_types: |-
-    (?x: Addr | Array | Double | Float | Int )(#+)
+    (?x: Addr | Array | Char | Double | Float | Int | Word )(#){{break}}
 
 ###############################################################################
 
