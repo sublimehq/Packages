@@ -431,25 +431,41 @@ contexts:
     # 5.3 Import Declarations
     # https://www.haskell.org/onlinereport/haskell2010/haskellch5.html#x11-1010005.3
     - match: import{{break}}
-      scope: keyword.declaration.import.haskell
+      scope: meta.import.haskell keyword.declaration.import.haskell
       push:
-        - import-meta
-        - import-body
+        - import-filter
+        - import-module
 
-  import-meta:
-    - meta_include_prototype: false
-    - meta_scope: meta.import.haskell
-    - include: immediatelly-pop
+  import-module:
+    - meta_content_scope: meta.import.module.haskell
+    - match: as{{break}}
+      scope: keyword.declaration.import.as.haskell
+      set: import-alias
+    - match: (?:qualified|hiding){{break}}
+      scope: storage.modifier.import.haskell
+    - match: ({{con_id}})(\.)?
+      captures:
+        1: variable.namespace.haskell
+        2: punctuation.accessor.dot.haskell
+    - include: else-pop
 
-  import-body:
+  import-alias:
+    - meta_scope: meta.import.alias.haskell
+    - include: ident-namespaces
+    - match: '{{con_id}}'
+      scope: entity.name.import.namespace.haskell
+      pop: 1
+    - include: else-pop
+
+  import-filter:
     - match: \(
       scope: punctuation.section.sequence.begin.haskell
-      set: import-tuple-body
-    - match: (?:qualified|as|hiding){{break}}
-      scope: storage.modifier.import.haskell
-    - include: ident-namespaces
-    - include: ident-modules
+      set: import-filter-body
     - include: else-pop
+
+  import-filter-body:
+    - meta_scope: meta.import.filter.haskell meta.sequence.tuple.haskell
+    - include: import-tuple-body
 
   import-tuple-body:
     - meta_scope: meta.sequence.tuple.haskell
@@ -463,8 +479,12 @@ contexts:
       scope: invalid.illegal.accessor.haskell
     - match: module{{break}}
       scope: invalid.illegal.unexpected-keyword.haskell
-    - include: ident-functions
-    - include: ident-types
+    # class / constructor / data / module / type
+    - match: '{{con_id}}'
+      scope: entity.name.import.haskell
+    # function / pattern / variable
+    - match: '{{var_id}}'
+      scope: entity.name.import.haskell
     - include: else-pop
 
 ###[ FOREIGN DECLARATIONS ]####################################################
@@ -924,10 +944,6 @@ contexts:
       captures:
         1: variable.namespace.haskell
         2: punctuation.accessor.dot.haskell
-
-  ident-modules:
-    - match: '{{con_id}}'
-      scope: entity.name.namespace.haskell
 
   ident-module:
     - match: '{{con_id}}'
