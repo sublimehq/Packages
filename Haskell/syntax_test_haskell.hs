@@ -1297,7 +1297,7 @@
 --      ^ punctuation.separator.sequence.haskell
 --        ^^^^ support.function.prelude.haskell
 --               ^^ keyword.operator.double-colon.haskell
---                  ^ keyword.operator.forall.haskell
+--                  ^ keyword.control.forall.haskell
 --                              ^ keyword.operator.haskell
 --                                ^^^^^^^^^^^^ variable.namespace.haskell
 --                                            ^ punctuation.accessor.dot.haskell

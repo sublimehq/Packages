@@ -747,10 +747,7 @@ contexts:
     - include: ident-variables
 
   type-forall:
-    - match: ∀(?!{{symbol}})
-      scope: keyword.operator.forall.haskell
-      push: type-forall-body
-    - match: forall{{break}}
+    - match: forall{{break}}|∀(?!{{symbol}})
       scope: keyword.control.forall.haskell
       push: type-forall-body
 
