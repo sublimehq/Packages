@@ -1138,6 +1138,18 @@
 --            ^ punctuation.accessor.dot.haskell
 --             ^^^^^^ entity.name.type.haskell
 
+    data CtxCls ctx => ModId.QTyCls
+--  ^^^^ meta.declaration.data.haskell
+--      ^^^^^^^^^^^^ meta.declaration.data.context.haskell
+--                  ^^^^^^^^^^^^^^^^ meta.declaration.data.haskell
+--  ^^^^ keyword.declaration.data.haskell
+--       ^^^^^^ storage.type.haskell
+--              ^^^ variable.other.haskell
+--                  ^^ keyword.operator.big-arrow.haskell
+--                     ^^^^^ variable.namespace.haskell
+--                          ^ punctuation.accessor.dot.haskell
+--                           ^^^^^^ entity.name.type.haskell
+
     data =
 --  ^^^^^ meta.declaration.data.haskell
 --  ^^^^ keyword.declaration.data.haskell
@@ -1150,6 +1162,18 @@
 --       ^^^^^^ storage.modifier.family.haskell
 --              ^^^^^ entity.name.type.haskell
 --                    ^ variable.other.haskell
+
+    data family CtxCls par => XList a
+--  ^^^^^^^^^^^ meta.declaration.data.haskell
+--             ^^^^^^^^^^^^ meta.declaration.data.context.haskell
+--                         ^^^^^^^^^^^ meta.declaration.data.haskell
+--  ^^^^ keyword.declaration.data.haskell
+--       ^^^^^^ storage.modifier.family.haskell
+--              ^^^^^^ storage.type.haskell
+--                     ^^^ variable.other.haskell
+--                         ^^ keyword.operator.big-arrow.haskell
+--                            ^^^^^ entity.name.type.haskell
+--                                  ^ variable.other.haskell
 
     -- Declare a list-like instance for Char
     data instance XList Char = XCons !Char !(XList Char) | XNil

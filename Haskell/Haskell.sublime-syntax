@@ -630,22 +630,36 @@ contexts:
   datas:
     # 4.2.1 Algebraic Datatype Declarations
     # https://www.haskell.org/onlinereport/haskell2010/haskellch4.html#x10-680004.2
-    - match: data{{break}}
+    - match: (data)(?:\s+(family|instance))?{{break}}
+      scope: meta.declaration.data.haskell
+      captures:
+        1: keyword.declaration.data.haskell
+        2: storage.modifier.family.haskell
+      branch_point: data-declaration
+      branch:
+        - data-signature
+        - data-context
+
+  data-context:
+    - meta_content_scope: meta.declaration.data.context.haskell
+    - match: '{{operator_big_arrow}}'
       scope:
         meta.declaration.data.haskell
-        keyword.declaration.data.haskell
-      push:
-        - data-body
-        - data-name
+        keyword.operator.big-arrow.haskell
+      set: data-signature
+    - include: type-expressions
 
-  data-name:
-    # https://wiki.haskell.org/GHC/Type_families
-    - match: (?:family|instance){{break}}
-      scope: storage.modifier.family.haskell
-    - include: type-name
+  data-signature:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - data-args
+        - type-name
 
-  data-body:
+  data-args:
     - meta_content_scope: meta.declaration.data.haskell
+    - match: (?={{operator_big_arrow}})
+      fail: data-declaration
     - include: type-expressions
     - include: else-pop
 
