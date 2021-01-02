@@ -88,7 +88,7 @@ variables:
       LANGUAGE | OPTIONS_GHC | OPTIONS_HADDOCK | INCLUDE | WARNING | DEPRECATED
     | MINIMAL | INLINE | NOINLINE | INLINABLE | CONLIKE | LINE | COLUMN | RULES
     | SPECIALIZE | UNPACK | NOUNPACK | SOURCE | COMPLETE | OVERLAPPING 
-    | OVERLAPPABLE | OVERLAPS | INCOHERENT
+    | OVERLAPPABLE | OVERLAPS | INCOHERENT | CTYPE
     ){{break}}
 
   # https://wiki.haskell.org/Language_extensions
@@ -187,10 +187,16 @@ variables:
     | zipWith3
     ){{break}}
 
-  # 6.2.2. The magic hash
-  # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/magic_hash.html
   unboxed_types: |-
-    (?x: Addr | Array | Char | Double | Float | Int | Word )(#){{break}}
+    (?x:
+    # GHC 6.2.2. The magic hash
+    # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/magic_hash.html
+      Addr | Array | Char | Double | Float | Int | Word 
+    # GHC 6.17.2.1. Unlifted FFI Types
+    # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/ffi.html
+    | ArrayArray | ByteArray | SmallArray | StablePtr
+    | Mutable (?: ArrayArray | ByteArray | SmallArray)
+    )(#){{break}}
 
 ###############################################################################
 
@@ -532,6 +538,8 @@ contexts:
   foreigns:
     # 8.4 Foreign Declarations
     # https://www.haskell.org/onlinereport/haskell2010/haskellch8.html#x15-1490008
+    # GHC 6.17. Foreign function interface (FFI)
+    # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/ffi.html
     - match: foreign{{break}}
       scope: storage.modifier.foreign.haskell
       branch_point: foreign
@@ -546,7 +554,7 @@ contexts:
       fail: foreign
     - match: import{{break}}
       scope: keyword.declaration.import.haskell
-    - match: (?:unsafe|safe){{break}}
+    - match: (?:interruptible|unsafe|safe){{break}}
       scope: storage.modifier.import.haskell
     - include: foreign-common
 
@@ -555,14 +563,14 @@ contexts:
     - meta_scope: meta.declaration.foreign.export.haskell
     - match: export{{break}}
       scope: keyword.declaration.export.haskell
-    - match: (?:unsafe|safe){{break}}
+    - match: (?:interruptible|unsafe|safe){{break}}
       scope: invalid.illegal.unexpected-keyword.haskell
     - include: foreign-common
 
   foreign-common:
     - include: literal-strings
     - include: infix-parens-operators
-    - match: (?:ccall|cplusplus|dotnet|jvm|stdcall){{break}}
+    - match: (?:capi|ccall|cplusplus|dotnet|jvm|stdcall){{break}}
       scope: constant.language.convention.haskell
     - match: '{{var_id}}'
       scope: entity.name.function.haskell
