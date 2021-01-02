@@ -25,11 +25,11 @@ variables:
   compiler_tags: |-
     (?x: tested-with )
   dependency_tags: |-
-    (?x: build-depends )
+    (?x: (?:{{identifier}}-)? depends )
   module_tags: |-
-    (?x: exposed-modules | other-modules | virtual-modules | modules )
+    (?x: (?:{{identifier}}-)? modules )
   option_tags: |-
-    (?x: flags | (?:{{identifier}}-)? options )
+    (?x: (?:{{identifier}}-)? options | flags )
   path_tags: |-
     (?x: (?:{{identifier}}-)? (?: dir | file | path ) s? )
   url_tags: |-
