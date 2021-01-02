@@ -1,0 +1,267 @@
+-- SYNTAX TEST "Packages/Haskell/Cabal.sublime-syntax"
+
+cabal-version:   2.2
+-- <- meta.versions.cabal meta.mapping.key.cabal entity.name.tag.cabal
+-- ^^^^^^^^^^ meta.versions.cabal meta.mapping.key.cabal
+--           ^ meta.versions.cabal meta.mapping.cabal
+--            ^^^^^^^ meta.versions.cabal meta.mapping.value.cabal
+-- ^^^^^^^^^^ entity.name.tag.cabal
+--           ^ punctuation.separator.mapping.key-value.cabal
+--               ^^^ meta.number.version.cabal constant.numeric.value.cabal
+--                ^ punctuation.separator.decimal.cabal
+
+name:            pandoc
+-- <- meta.mapping.key.cabal entity.name.tag.cabal
+-- ^ meta.mapping.key.cabal
+--  ^ meta.mapping.cabal
+--   ^^^^^^^^^^^^^^^^^^^ meta.mapping.value.cabal
+-- ^ entity.name.tag.cabal
+--  ^ punctuation.separator.mapping.key-value.cabal
+
+version:         2.11.3.1
+-- <- meta.versions.cabal meta.mapping.key.cabal entity.name.tag.cabal
+-- ^^^^ meta.versions.cabal meta.mapping.key.cabal
+--     ^ meta.versions.cabal meta.mapping.cabal
+--      ^^^^^^^^^^^^^^^^^^ meta.versions.cabal meta.mapping.value.cabal
+-- ^^^^ entity.name.tag.cabal
+--     ^ punctuation.separator.mapping.key-value.cabal
+--               ^^^^^^^^ meta.number.version.cabal constant.numeric.value.cabal
+--                ^ punctuation.separator.decimal.cabal
+--                   ^ punctuation.separator.decimal.cabal
+--                     ^ punctuation.separator.decimal.cabal
+
+build-type:      Simple
+-- <- meta.mapping.key.cabal entity.name.tag.cabal
+-- ^^^^^^^ meta.mapping.key.cabal
+--        ^ meta.mapping.cabal
+--         ^^^^^^^^^^^^^ meta.mapping.value.cabal
+-- ^^^^^^^ entity.name.tag.cabal
+--        ^ punctuation.separator.mapping.key-value.cabal
+
+bug-reports:     https://github.com/sublime%20hq/Packages/issues?action=new
+-- <- meta.urls.cabal meta.mapping.key.cabal entity.name.tag.cabal
+-- ^^^^^^^^ meta.urls.cabal meta.mapping.key.cabal
+--         ^ meta.urls.cabal meta.mapping.cabal
+--          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.urls.cabal meta.mapping.value.cabal
+-- ^^^^^^^^ entity.name.tag.cabal
+--         ^ punctuation.separator.mapping.key-value.cabal
+--               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.url.cabal meta.string.cabal string.unquoted.cabal
+--                    ^^^ punctuation.separator.path.cabal
+--                                 ^ punctuation.separator.path.cabal
+--                                         ^^^ constant.character.escape.url.cabal
+--                                              ^ punctuation.separator.path.cabal
+--                                                       ^ punctuation.separator.path.cabal
+--                                                              ^ punctuation.separator.path.cabal
+
+homepage:
+-- <- meta.urls.cabal meta.mapping.key.cabal entity.name.tag.cabal
+-- ^^^^^ meta.urls.cabal meta.mapping.key.cabal
+--      ^ meta.urls.cabal meta.mapping.cabal
+--       ^ meta.urls.cabal meta.mapping.value.cabal
+-- ^^^^^ entity.name.tag.cabal
+--      ^ punctuation.separator.mapping.key-value.cabal
+    https://sublimehq.com
+-- ^ meta.urls.cabal meta.mapping.value.cabal - meta.string - string
+--  ^^^^^^^^^^^^^^^^^^^^^ meta.urls.cabal meta.mapping.value.cabal meta.path.url.cabal meta.string.cabal string.unquoted.cabal
+--                       ^ meta.urls.cabal meta.mapping.value.cabal - meta.string - string
+--       ^^^ punctuation.separator.path.cabal
+
+flags: +embed_data_files -trypandoc
+-- <- meta.options.cabal meta.mapping.key.cabal entity.name.tag.cabal
+--^^^ meta.options.cabal meta.mapping.key.cabal
+--   ^ meta.options.cabal meta.mapping.cabal
+--    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.options.cabal meta.mapping.value.cabal
+--^^^ entity.name.tag.cabal
+--   ^ punctuation.separator.mapping.key-value.cabal
+--     ^ variable.parameter.option.haskell punctuation.definition.variable.haskell
+--      ^^^^^^^^^^^^^^^^ variable.parameter.option.haskell - punctuation
+--                       ^ variable.parameter.option.haskell punctuation.definition.variable.haskell
+--                        ^^^^^^^^^ variable.parameter.option.haskell - punctuation
+
+ghc-options: -j +RTS -A64m -RTS
+-- <- meta.options.cabal meta.mapping.key.cabal entity.name.tag.cabal
+--^^^^^^^^^ meta.options.cabal meta.mapping.key.cabal
+--         ^ meta.options.cabal meta.mapping.cabal
+--          ^^^^^^^^^^^^^^^^^^^^ meta.options.cabal meta.mapping.value.cabal
+--^^^^^^^^^ entity.name.tag.cabal
+--         ^ punctuation.separator.mapping.key-value.cabal
+--           ^ variable.parameter.option.haskell punctuation.definition.variable.haskell
+--            ^ variable.parameter.option.haskell - punctuation
+--              ^ variable.parameter.option.haskell punctuation.definition.variable.haskell
+--               ^^^ variable.parameter.option.haskell - punctuation
+--                   ^ variable.parameter.option.haskell punctuation.definition.variable.haskell
+--                    ^^^^ variable.parameter.option.haskell - punctuation
+--                         ^ variable.parameter.option.haskell punctuation.definition.variable.haskell
+--                          ^^^ variable.parameter.option.haskell - punctuation
+
+exposed-modules: ,
+-- <- meta.modules.cabal meta.mapping.key.cabal entity.name.tag.cabal
+-- ^^^^^^^^^^^^ meta.modules.cabal meta.mapping.key.cabal
+--             ^ meta.modules.cabal meta.mapping.cabal
+--              ^^^ meta.modules.cabal meta.mapping.value.cabal
+-- ^^^^^^^^^^^^ entity.name.tag.cabal
+--             ^ punctuation.separator.mapping.key-value.cabal
+--               ^ punctuation.separator.sequence.cabal
+
+exposed-modules: ModId.ModName,
+-- <- meta.modules.cabal meta.mapping.key.cabal entity.name.tag.cabal
+-- ^^^^^^^^^^^^ meta.modules.cabal meta.mapping.key.cabal
+--             ^ meta.modules.cabal meta.mapping.cabal
+--               ^^^^^^^^^^^^^^ meta.modules.cabal meta.mapping.value.cabal
+-- ^^^^^^^^^^^^ entity.name.tag.cabal
+--             ^ punctuation.separator.mapping.key-value.cabal
+--               ^^^^^ variable.namespace.haskell
+--                    ^ punctuation.accessor.dot.haskell
+--                     ^^^^^^^ variable.namespace.haskell
+--                            ^ punctuation.separator.sequence.cabal
+     ModId.ModId.ModName
+-- <- meta.modules.cabal meta.mapping.value.cabal
+-- ^^^^^^^^^^^^^^^^^^^^^^ meta.modules.cabal meta.mapping.value.cabal
+--   ^^^^^ variable.namespace.haskell
+--        ^ punctuation.accessor.dot.haskell
+--         ^^^^^ variable.namespace.haskell
+--              ^ punctuation.accessor.dot.haskell
+--               ^^^^^^^ variable.namespace.haskell
+
+exposed-modules: ModId.ModName
+-- ^^^^^^^^^^^^ meta.modules.cabal meta.mapping.key.cabal
+--             ^ meta.modules.cabal meta.mapping.cabal
+--              ^^^^^^^^^^^^^^^ meta.modules.cabal meta.mapping.value.cabal
+-- ^^^^^^^^^^^^ entity.name.tag.cabal
+--             ^ punctuation.separator.mapping.key-value.cabal
+--               ^^^^^ variable.namespace.haskell
+--                    ^ punctuation.accessor.dot.haskell
+--                     ^^^^^^^ variable.namespace.haskell
+        ModId.ModId.ModName
+-- <- meta.modules.cabal meta.mapping.value.cabal
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.modules.cabal meta.mapping.value.cabal
+--      ^^^^^ variable.namespace.haskell
+--           ^ punctuation.accessor.dot.haskell
+--            ^^^^^ variable.namespace.haskell
+--                 ^ punctuation.accessor.dot.haskell
+--                  ^^^^^^^ variable.namespace.haskell
+NoModule
+-- <- - meta.modules - meta.mapping
+
+other-modules: ModId.ModName
+-- ^^^^^^^^^^ meta.modules.cabal meta.mapping.key.cabal
+--           ^ meta.modules.cabal meta.mapping.cabal
+--            ^^^^^^^^^^^^^^^ meta.modules.cabal meta.mapping.value.cabal
+-- ^^^^^^^^^^ entity.name.tag.cabal
+--           ^ punctuation.separator.mapping.key-value.cabal
+--             ^^^^^ variable.namespace.haskell
+--                  ^ punctuation.accessor.dot.haskell
+--                   ^^^^^^^ variable.namespace.haskell
+        ModId.ModId.ModName
+-- <- meta.modules.cabal meta.mapping.value.cabal
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.modules.cabal meta.mapping.value.cabal
+--      ^^^^^ variable.namespace.haskell
+--           ^ punctuation.accessor.dot.haskell
+--            ^^^^^ variable.namespace.haskell
+--                 ^ punctuation.accessor.dot.haskell
+--                  ^^^^^^^ variable.namespace.haskell
+NoModule
+-- <- - meta.modules - meta.mapping
+
+data-files:
+-- <- meta.paths.cabal meta.mapping.key.cabal entity.name.tag.cabal
+-- ^^^^^^^ meta.paths.cabal meta.mapping.key.cabal entity.name.tag.cabal
+--        ^ meta.paths.cabal meta.mapping.cabal punctuation.separator.mapping.key-value.cabal
+--         ^ meta.paths.cabal meta.mapping.value.cabal
+                 -- documentation
+                 INSTALL.md, AUTHORS.md, README.md,
+--              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paths.cabal meta.mapping.value.cabal
+--              ^ - meta.path - meta.string - string
+--               ^^^^^^^^^^ meta.path.file.cabal
+--                         ^^ - meta.path - meta.string - string
+--                         ^ punctuation.separator.sequence.cabal
+--                           ^^^^^^^^^^ meta.path.file.cabal
+--                                     ^^ - meta.path - meta.string - string
+--                                     ^ punctuation.separator.sequence.cabal
+--                                       ^^^^^^^^^ meta.path.file.cabal
+--                                                ^^ - meta.path - meta.string - string
+--                                                ^ punctuation.separator.sequence.cabal
+
+                 -- templates
+                 data/templates/styles.html
+--              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paths.cabal meta.mapping.value.cabal
+--              ^ - meta.path - meta.string - string
+--               ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.file.cabal
+--                   ^ punctuation.separator.path.cabal
+--                             ^ punctuation.separator.path.cabal
+--                                         ^ - meta.path - meta.string - string
+
+build-depends:  pandoc,
+-- <- meta.dependencies.cabal meta.mapping.key.cabal entity.name.tag.cabal
+-- ^^^^^^^^^^ meta.dependencies.cabal meta.mapping.key.cabal
+--           ^ meta.dependencies.cabal meta.mapping.cabal
+--            ^^^^^^^^^^ meta.dependencies.cabal meta.mapping.value.cabal
+-- ^^^^^^^^^^ entity.name.tag.cabal
+--           ^ punctuation.separator.mapping.key-value.cabal
+        base    >= 4.8 && < 5,
+--      ^^^^^^^^^^^^^^^^^^^^^^^ meta.dependencies.cabal meta.mapping.value.cabal
+--              ^^ keyword.operator.comparison.cabal
+--                 ^^^ meta.number.version.cabal constant.numeric.value.cabal
+--                     ^^ keyword.operator.logical.cabal
+--                        ^ keyword.operator.comparison.cabal
+--                          ^ meta.number.version.cabal constant.numeric.value.cabal
+--                           ^ punctuation.separator.sequence.cabal
+        containers >= 0.4.2.1 && < 0.7,
+--      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.dependencies.cabal meta.mapping.value.cabal
+--                 ^^ keyword.operator.comparison.cabal
+--                    ^^^^^^^ meta.number.version.cabal constant.numeric.value.cabal
+--                            ^^ keyword.operator.logical.cabal
+--                               ^ keyword.operator.comparison.cabal
+--                                 ^^^ meta.number.version.cabal constant.numeric.value.cabal
+--                                    ^ punctuation.separator.sequence.cabal
+
+executable
+-- <- keyword.declaration.section.cabal
+-- ^^^^^^^ keyword.declaration.section.cabal
+
+executable pandoc
+-- <- keyword.declaration.section.cabal
+-- ^^^^^^^ keyword.declaration.section.cabal
+--         ^^^^^^ entity.name.section.cabal
+
+  build-depends: pandoc, base >= 4.8 && < 5
+  -- <- meta.dependencies.cabal meta.mapping.key.cabal entity.name.tag.cabal
+  --^^^^^^^^^^^ meta.dependencies.cabal meta.mapping.key.cabal
+  --           ^ meta.dependencies.cabal meta.mapping.cabal
+  --            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.dependencies.cabal meta.mapping.value.cabal
+  --^^^^^^^^^^^ entity.name.tag.cabal
+  --           ^ punctuation.separator.mapping.key-value.cabal
+  --                   ^ punctuation.separator.sequence.cabal
+  --                          ^^ keyword.operator.comparison.cabal
+  --                             ^^^ meta.number.version.cabal constant.numeric.value.cabal
+
+  if impl(ghc < 8.*)
+  -- <- keyword.control.conditional.cabal
+  -- ^^^^ meta.function-call.identifier.cabal
+  --     ^^^^^^^^^^^ meta.function-call.arguments.cabal meta.group.cabal
+  -- ^^^^ variable.function.cabal
+  --     ^ punctuation.section.group.begin.cabal
+  --      ^^^ constant.language.compiler.cabal
+  --          ^ keyword.operator.comparison.cabal
+  --            ^^^ meta.number.version.cabal constant.numeric.value.cabal
+  --              ^ keyword.operator.wildcard.cabal
+  --               ^ punctuation.section.group.end.cabal
+     hs-source-dirs: prelude
+     -- <- meta.mapping.key.cabal entity.name.tag.cabal
+     other-modules:  Prelude
+     -- <- meta.modules.cabal meta.mapping.key.cabal entity.name.tag.cabal
+     build-depends:  base-compat >= 0.9
+     -- <- meta.dependencies.cabal meta.mapping.key.cabal entity.name.tag.cabal
+  default-language: Haskell2010
+  -- <- meta.mapping.key.cabal entity.name.tag.cabal
+  other-extensions: NoImplicitPrelude
+  -- <- meta.mapping.key.cabal entity.name.tag.cabal
+
+library
+-- <- keyword.declaration.section.cabal
+--^^^^^ keyword.declaration.section.cabal
+
+library name
+-- <- keyword.declaration.section.cabal
+--^^^^^ keyword.declaration.section.cabal
+--      ^^^^ entity.name.section.cabal

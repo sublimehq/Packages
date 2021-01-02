@@ -1,0 +1,301 @@
+%YAML 1.2
+---
+# https://cabal.readthedocs.io/en/3.4/cabal-package.html
+# https://www.sublimetext.com/docs/syntax.html
+name: Cabal
+scope: source.cabal
+version: 2
+
+file_extensions:
+  - cabal
+  - cabal.project
+
+###############################################################################
+
+variables:
+  identifier: (?:[[:alpha:]][-_[:alnum:]]*)
+  module_identifier: (?:[[:upper:]][\w']*)
+
+  section_tags: |-
+    (?x:
+      executable | benchmark | custom-setup | flag | library | package
+    | source-repository | test-suite
+    )
+
+  compiler_tags: |-
+    (?x: tested-with )
+  dependency_tags: |-
+    (?x: build-depends )
+  module_tags: |-
+    (?x: exposed-modules | other-modules | virtual-modules | modules )
+  option_tags: |-
+    (?x: flags | (?:{{identifier}}-)? options )
+  path_tags: |-
+    (?x: (?:{{identifier}}-)? (?: dir | file | path ) s? )
+  url_tags: |-
+    (?x: bug-reports | homepage | location | package-url )
+  version_tags: |-
+    (?x: cabal-version | version )
+
+  compiler_values: |-
+    (?xi: GHC | UHC | LHC )
+
+###############################################################################
+
+contexts:
+  prototype:
+    - include: comments
+
+  main:
+    # sections
+    - include: compilers
+    - include: dependencies
+    - include: modules
+    - include: options
+    - include: paths
+    - include: urls
+    - include: versions
+    - include: other-tags
+    # expressions
+    - include: function-calls
+    - include: keywords
+    - include: operators
+
+###[ COMMENTS ]################################################################
+
+  comments:
+    - match: (--+).*\n?
+      scope: comment.line.double-dash.cabal
+      captures:
+        1: punctuation.definition.comment.cabal
+
+###[ COMPILERS ]###############################################################
+
+  compilers:
+    - match: ^(\s*)({{compiler_tags}})(:)
+      captures:
+        2: meta.mapping.key.cabal entity.name.tag.cabal
+        3: meta.mapping.cabal punctuation.separator.mapping.key-value.cabal
+      push: compiler-values
+
+  compiler-values:
+    - meta_scope: meta.compilers.cabal
+    - meta_content_scope: meta.mapping.value.cabal
+    - include: common-values
+    - include: operators
+    - include: numbers
+    - include: ident-compilers
+    - include: ident-other
+
+###[ DEPENDENCIES ]############################################################
+
+  dependencies:
+    - match: ^(\s*)({{dependency_tags}})(:)
+      captures:
+        2: meta.mapping.key.cabal entity.name.tag.cabal
+        3: meta.mapping.cabal punctuation.separator.mapping.key-value.cabal
+      push: dependency-values
+
+  dependency-values:
+    - meta_scope: meta.dependencies.cabal
+    - meta_content_scope: meta.mapping.value.cabal
+    - include: common-values
+    - include: sequence-separators
+    - include: operators
+    - include: numbers
+    - include: ident-other
+
+###[ MODULES ]#################################################################
+
+  modules:
+    - match: ^(\s*)({{module_tags}})(:)
+      captures:
+        2: meta.mapping.key.cabal entity.name.tag.cabal
+        3: meta.mapping.cabal punctuation.separator.mapping.key-value.cabal
+      push: modules-values
+
+  modules-values:
+    - meta_scope: meta.modules.cabal
+    - meta_content_scope: meta.mapping.value.cabal
+    - include: common-values
+    - include: sequence-separators
+    - include: ident-modules
+
+###[ OPTIONS ]#################################################################
+
+  options:
+    - match: ^(\s*)({{option_tags}})(:)
+      captures:
+        2: meta.mapping.key.cabal entity.name.tag.cabal
+        3: meta.mapping.cabal punctuation.separator.mapping.key-value.cabal
+      push: option-values
+
+  option-values:
+    - meta_scope: meta.options.cabal
+    - meta_content_scope: meta.mapping.value.cabal
+    - include: common-values
+    - include: numbers
+    - match: ([-+]*)[-\w]+
+      scope: variable.parameter.option.haskell
+      captures:
+        1: punctuation.definition.variable.haskell
+
+###[ PATHS ]###################################################################
+
+  paths:
+    - match: ^(\s*)({{path_tags}})(:)
+      captures:
+        2: meta.mapping.key.cabal entity.name.tag.cabal
+        3: meta.mapping.cabal punctuation.separator.mapping.key-value.cabal
+      push: paths-values
+
+  paths-values:
+    - meta_scope: meta.paths.cabal
+    - meta_content_scope: meta.mapping.value.cabal
+    - include: common-values
+    - include: sequence-separators
+    - include: unquoted-path
+
+  unquoted-path:
+    - match: (?=[[:alnum:]/])
+      push: unquoted-path-content
+
+  unquoted-path-content:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.path.file.cabal
+    - match: (?=[,\s])
+      pop: 1
+    - match: '[/&?#]|://'
+      scope: punctuation.separator.path.cabal
+
+###[ URLS ]####################################################################
+
+  urls:
+    - match: ^(\s*)({{url_tags}})(:)
+      captures:
+        2: meta.mapping.key.cabal entity.name.tag.cabal
+        3: meta.mapping.cabal punctuation.separator.mapping.key-value.cabal
+      push: urls-values
+
+  urls-values:
+    - meta_scope: meta.urls.cabal
+    - meta_content_scope: meta.mapping.value.cabal
+    - include: common-values
+    - include: sequence-separators
+    - include: unquoted-urls
+
+  unquoted-urls:
+    - match: (?=[[:alnum:]/])
+      push: unquoted-url-content
+
+  unquoted-url-content:
+    - meta_include_prototype: false
+    - meta_content_scope:
+        meta.path.url.cabal
+        meta.string.cabal string.unquoted.cabal
+    - match: (?=\s)
+      pop: 1
+    - match: (%)\h{2}
+      scope: constant.character.escape.url.cabal
+      captures:
+        1: punctuation.definition.escape.cabal
+    - match: '[/&?#]|://'
+      scope: punctuation.separator.path.cabal
+
+###[ VERSIONS ]################################################################
+
+  versions:
+    - match: ^(\s*)({{version_tags}})(:)
+      captures:
+        2: meta.mapping.key.cabal entity.name.tag.cabal
+        3: meta.mapping.cabal punctuation.separator.mapping.key-value.cabal
+      push: versions-values
+
+  versions-values:
+    - meta_scope: meta.versions.cabal
+    - meta_content_scope: meta.mapping.value.cabal
+    - include: common-values
+    - include: numbers
+
+###[ OTHER TAGS ]##############################################################
+
+  other-tags:
+    - match: ^(\s*)({{identifier}})(:)
+      captures:
+        2: meta.mapping.key.cabal entity.name.tag.cabal
+        3: meta.mapping.cabal punctuation.separator.mapping.key-value.cabal
+      push: common-values
+
+  common-values:
+    - meta_content_scope: meta.mapping.value.cabal
+    - match: ^(?!\s*(?:--|$)|\1\s)
+      pop: 1
+
+###[ FUNCTION CALLS ]##########################################################
+
+  function-calls:
+    - match: '{{identifier}}(?=\()'
+      scope: meta.function-call.identifier.cabal variable.function.cabal
+      set:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.cabal
+          set: function-call-arguments
+
+  function-call-arguments:
+    - meta_scope: meta.function-call.arguments.cabal meta.group.cabal
+    - match: \)
+      scope: punctuation.section.group.end.cabal
+      pop: 1
+    - include: numbers
+    - include: operators
+    - include: ident-compilers
+    - include: ident-other
+
+###[ IDENTIFIERS ]#############################################################
+
+  ident-compilers:
+    - match: \b{{compiler_values}}\b
+      scope: constant.language.compiler.cabal
+
+  ident-namespaces:
+    - match: ({{module_identifier}})(\.)
+      captures:
+        1: variable.namespace.haskell
+        2: punctuation.accessor.dot.haskell
+
+  ident-modules:
+    - match: ({{module_identifier}})(\.)?
+      captures:
+        1: variable.namespace.haskell
+        2: punctuation.accessor.dot.haskell
+
+  ident-other:
+    - match: '{{identifier}}'
+
+###[ KEYWORDS AND OPERATORS ]##################################################
+
+  keywords:
+    - match: ^({{section_tags}})(?:\s+([^\s,]+))?\s*$
+      captures:
+        1: keyword.declaration.section.cabal
+        2: entity.name.section.cabal
+    - match: (if|else)\b
+      scope: keyword.control.conditional.cabal
+
+  numbers:
+    - match: (?:\d+|(\*))(\.(?=[*\d]))?
+      scope: meta.number.version.cabal constant.numeric.value.cabal
+      captures:
+        1: keyword.operator.wildcard.cabal
+        2: punctuation.separator.decimal.cabal
+
+  operators:
+    - match: '&&|\|\|'
+      scope: keyword.operator.logical.cabal
+    - match: '>=|<=|==|[<>]'
+      scope: keyword.operator.comparison.cabal
+
+  sequence-separators:
+    - match: ','
+      scope: punctuation.separator.sequence.cabal
