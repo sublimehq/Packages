@@ -769,13 +769,34 @@ contexts:
 
   newtypes:
     - match: newtype{{break}}
-      scope: keyword.declaration.newtype.haskell
-      push:
-        - newtype-body
+      scope:
+        meta.declaration.newtype.haskell
+        keyword.declaration.newtype.haskell
+      branch_point: newtype-declaration
+      branch:
+        - newtype-signature
+        - newtype-context
+
+  newtype-context:
+    - meta_content_scope: meta.declaration.newtype.context.haskell
+    - match: '{{operator_big_arrow}}'
+      scope:
+        meta.declaration.newtype.haskell
+        keyword.operator.big-arrow.haskell
+      set: newtype-signature
+    - include: type-expressions
+
+  newtype-signature:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - newtype-args
         - type-name
 
-  newtype-body:
-    - meta_scope: meta.declaration.newtype.haskell
+  newtype-args:
+    - meta_content_scope: meta.declaration.newtype.haskell
+    - match: (?={{operator_big_arrow}})
+      fail: newtype-declaration
     - include: type-expressions
     - include: else-pop
 
@@ -783,11 +804,30 @@ contexts:
 
   types:
     - match: type{{break}}
-      scope: keyword.declaration.type.haskell
-      push:
-        - type-body
+      scope:
+        meta.declaration.type.haskell
+        keyword.declaration.type.haskell
+      branch_point: type-declaration
+      branch:
+        - type-signature
+        - type-context
+
+  type-context:
+    - meta_content_scope: meta.declaration.type.context.haskell
+    - match: '{{operator_big_arrow}}'
+      scope:
+        meta.declaration.type.haskell
+        keyword.operator.big-arrow.haskell
+      set: type-signature
+    - include: type-expressions
+
+  type-signature:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - type-args
         - type-name
- 
+
   type-name:
     - include: ident-namespaces
     - match: '{{con_id}}'
@@ -797,8 +837,10 @@ contexts:
       pop: 1
     - include: else-pop
 
-  type-body:
-    - meta_scope: meta.declaration.type.haskell
+  type-args:
+    - meta_content_scope: meta.declaration.type.haskell
+    - match: (?={{operator_big_arrow}})
+      fail: type-declaration
     - include: type-expressions
     - include: else-pop
 

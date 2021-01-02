@@ -1702,19 +1702,25 @@
 --          ^ keyword.operator.haskell
 
     newtype =>
---  ^^^^^^^^^^^ meta.declaration.newtype.haskell
+--  ^^^^^^^ meta.declaration.newtype.haskell
+--         ^ meta.declaration.newtype.context.haskell
+--          ^^^ meta.declaration.newtype.haskell
 --  ^^^^^^^ keyword.declaration.newtype.haskell
 --          ^^ keyword.operator.big-arrow.haskell
 
-    newtype TypCls tyVar =>
---  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.newtype.haskell
+    newtype CtxCls tyVar =>
+--  ^^^^^^^ meta.declaration.newtype.haskell
+--         ^^^^^^^^^^^^^^ meta.declaration.newtype.context.haskell
+--                       ^^^ meta.declaration.newtype.haskell
 --  ^^^^^^^ keyword.declaration.newtype.haskell
---          ^^^^^^ entity.name.type.haskell
+--          ^^^^^^ storage.type.haskell
 --                 ^^^^^ variable.other.haskell
 --                       ^^ keyword.operator.big-arrow.haskell
 
     newtype () => ModId.QTyCls tyVar1 tyVar2 deriving (Class1, QTyCls2)
---  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.newtype.haskell
+--  ^^^^^^^ meta.declaration.newtype.haskell
+--         ^^^^ meta.declaration.newtype.context.haskell
+--             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.newtype.haskell
 --                                           ^^^^^^^^^ meta.declaration.deriving.haskell - meta.sequence
 --                                                    ^^^^^^^^^^^^^^^^^ meta.declaration.deriving.haskell meta.sequence.tuple.haskell
 --                                                                     ^ - meta.declaration
@@ -1725,7 +1731,7 @@
 --             ^^ keyword.operator.big-arrow.haskell
 --                ^^^^^ variable.namespace.haskell
 --                     ^ punctuation.accessor.dot.haskell
---                      ^^^^^^ storage.type.haskell
+--                      ^^^^^^ entity.name.type.haskell
 --                             ^^^^^^ variable.other.haskell
 --                                    ^^^^^^ variable.other.haskell
 --                                           ^^^^^^^^ storage.modifier.haskell
@@ -1790,6 +1796,20 @@
 --                                                  ^ punctuation.separator.sequence.haskell
 --                                                    ^^^^^^^ storage.type.haskell
 --                                                           ^ punctuation.section.sequence.end.haskell
+
+    type ModId.CtxCls tyVar => ModId.QTyCls
+--  ^^^^ meta.declaration.type.haskell
+--      ^^^^^^^^^^^^^^^^^^^^ meta.declaration.type.context.haskell
+--                          ^^^^^^^^^^^^^^^^ meta.declaration.type
+--  ^^^^ keyword.declaration.type.haskell
+--       ^^^^^ variable.namespace.haskell
+--            ^ punctuation.accessor.dot.haskell
+--             ^^^^^^ storage.type.haskell
+--                    ^^^^^ variable.other.haskell
+--                          ^^ keyword.operator.big-arrow.haskell
+--                             ^^^^^ variable.namespace.haskell
+--                                  ^ punctuation.accessor.dot.haskell
+--                                   ^^^^^^ entity.name.type.haskell
 
     type Id a = a
 --  ^^^^^^^^^^ meta.declaration.type.haskell
