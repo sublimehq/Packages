@@ -634,13 +634,18 @@ contexts:
       scope:
         meta.declaration.data.haskell
         keyword.declaration.data.haskell
-      push: data-body
+      push:
+        - data-body
+        - data-name
 
-  data-body:
-    - meta_content_scope: meta.declaration.data.haskell
+  data-name:
     # https://wiki.haskell.org/GHC/Type_families
     - match: (?:family|instance){{break}}
       scope: storage.modifier.family.haskell
+    - include: type-name
+
+  data-body:
+    - meta_content_scope: meta.declaration.data.haskell
     - include: type-expressions
     - include: else-pop
 

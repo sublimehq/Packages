@@ -1129,14 +1129,14 @@
     data TyCls
 --  ^^^^^^^^^^^ meta.declaration.data.haskell
 --  ^^^^ keyword.declaration.data.haskell
---       ^^^^^ storage.type.haskell
+--       ^^^^^ entity.name.type.haskell
 
     data ModId.QTyCls
 --  ^^^^^^^^^^^^^^^^^^ meta.declaration.data.haskell
 --  ^^^^ keyword.declaration.data.haskell
 --       ^^^^^ variable.namespace.haskell
 --            ^ punctuation.accessor.dot.haskell
---             ^^^^^^ storage.type.haskell
+--             ^^^^^^ entity.name.type.haskell
 
     data =
 --  ^^^^^ meta.declaration.data.haskell
@@ -1148,7 +1148,7 @@
 --  ^^^^^^^^^^^^^^^^^^^^ meta.declaration.data.haskell
 --  ^^^^ keyword.declaration.data.haskell
 --       ^^^^^^ storage.modifier.family.haskell
---              ^^^^^ storage.type.haskell
+--              ^^^^^ entity.name.type.haskell
 --                    ^ variable.other.haskell
 
     -- Declare a list-like instance for Char
@@ -1158,7 +1158,7 @@
 --                                          ^^^^^^^^^^^^ meta.group.haskell
 --  ^^^^ keyword.declaration.data.haskell
 --       ^^^^^^^^ storage.modifier.family.haskell
---                ^^^^^ storage.type.haskell
+--                ^^^^^ entity.name.type.haskell
 --                      ^^^^ support.type.prelude.haskell
 --                           ^ keyword.operator.haskell
 --                             ^^^^^ storage.type.haskell
@@ -1178,7 +1178,7 @@
 --                         ^^^^^^^^^^^^^^^^^ - meta.declaration
 --  ^^^^ keyword.declaration.data.haskell
 --       ^^^^^^^^ storage.modifier.family.haskell
---                ^^^^^ storage.type.haskell
+--                ^^^^^ entity.name.type.haskell
 --                      ^ punctuation.section.sequence.begin.haskell
 --                       ^ punctuation.section.sequence.end.haskell
 --                         ^ keyword.operator.haskell
@@ -1189,7 +1189,7 @@
     data Record =
 --  ^^^^^^^^^^^^ meta.declaration.data.haskell
 --  ^^^^ keyword.declaration.data.haskell
---       ^^^^^^ storage.type.haskell
+--       ^^^^^^ entity.name.type.haskell
 --              ^ keyword.operator.haskell
     Record {
 --  ^^^^^^^ - meta.block
@@ -1253,7 +1253,7 @@
     data Outrageous =
 --  ^^^^^^^^^^^^^^^^ meta.declaration.data.haskell
 --  ^^^^ keyword.declaration.data.haskell
---       ^^^^^^^^^^ storage.type.haskell
+--       ^^^^^^^^^^ entity.name.type.haskell
 --                  ^ keyword.operator.haskell
         Flipper !Record
 --      ^^^^^^^ storage.type.haskell
