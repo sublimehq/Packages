@@ -518,7 +518,7 @@ contexts:
     - match: \b(?i:seconds|minutes|hours|days)\b
       scope: support.class.built-in.time.applescript
   comments:
-    - match: ^\s*(#!).*$\n?
+    - match: ^\s*(#).*$\n?
       scope: comment.line.number-sign.applescript
       captures:
         1: punctuation.definition.comment.applescript
