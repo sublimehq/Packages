@@ -1685,7 +1685,7 @@
     newtype TypCls tyVar =>
 --  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.newtype.haskell
 --  ^^^^^^^ keyword.declaration.newtype.haskell
---          ^^^^^^ storage.type.haskell
+--          ^^^^^^ entity.name.type.haskell
 --                 ^^^^^ variable.other.haskell
 --                       ^^ keyword.operator.big-arrow.haskell
 
@@ -1728,7 +1728,7 @@
     type QTyCls tyVar
 --  ^^^^^^^^^^^^^^^^^^ meta.declaration.type.haskell
 --  ^^^^ keyword.declaration.type.haskell
---       ^^^^^^ storage.type.haskell
+--       ^^^^^^ entity.name.type.haskell
 --              ^^^^^ variable.other.haskell
 
     type ModId.QTyCls tyVar1 tyVar2
@@ -1736,7 +1736,7 @@
 --  ^^^^ keyword.declaration.type.haskell
 --       ^^^^^ variable.namespace.haskell
 --            ^ punctuation.accessor.dot.haskell
---             ^^^^^^ storage.type.haskell
+--             ^^^^^^ entity.name.type.haskell
 --                    ^^^^^^ variable.other.haskell
 --                           ^^^^^^ variable.other.haskell
 
@@ -1745,7 +1745,7 @@
 --  ^^^^ keyword.declaration.type.haskell
 --       ^^^^^ variable.namespace.haskell
 --            ^ punctuation.accessor.dot.haskell
---             ^^^^^^ storage.type.haskell
+--             ^^^^^^ entity.name.type.haskell
 --                    ^^^^^^ variable.other.haskell
 --                           ^^^^^^ variable.other.haskell
 
@@ -1757,7 +1757,7 @@
 --  ^^^^ keyword.declaration.type.haskell
 --       ^^^^^ variable.namespace.haskell
 --            ^ punctuation.accessor.dot.haskell
---             ^^^^^^ storage.type.haskell
+--             ^^^^^^ entity.name.type.haskell
 --                    ^^^^^^ variable.other.haskell
 --                           ^^^^^^ variable.other.haskell
 --                                  ^^^^^^^^ storage.modifier.haskell
@@ -1829,7 +1829,7 @@
     type CmdRoute =
 --  ^^^^^^^^^^^^^^ meta.declaration.type.haskell
 --  ^^^^ keyword.declaration.type.haskell
---       ^^^^^^^^ storage.type.haskell
+--       ^^^^^^^^ entity.name.type.haskell
 --                ^ keyword.operator.haskell
       ( ReqBody '[JSON] CmdDto :> PostCreated '[JSON] NoContent
 --    ^^^^^^^^^^^ meta.group.haskell - meta.sequence

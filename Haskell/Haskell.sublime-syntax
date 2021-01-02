@@ -751,7 +751,9 @@ contexts:
   newtypes:
     - match: newtype{{break}}
       scope: keyword.declaration.newtype.haskell
-      push: newtype-body
+      push:
+        - newtype-body
+        - type-name
 
   newtype-body:
     - meta_scope: meta.declaration.newtype.haskell
@@ -763,8 +765,19 @@ contexts:
   types:
     - match: type{{break}}
       scope: keyword.declaration.type.haskell
-      push: type-body
+      push:
+        - type-body
+        - type-name
  
+  type-name:
+    - include: ident-namespaces
+    - match: '{{con_id}}'
+      scope: entity.name.type.haskell
+      captures:
+        1: storage.modifier.unboxed.haskell
+      pop: 1
+    - include: else-pop
+
   type-body:
     - meta_scope: meta.declaration.type.haskell
     - include: type-expressions

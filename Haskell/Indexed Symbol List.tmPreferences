@@ -3,6 +3,7 @@
 <dict>
 	<key>scope</key>
 	<string>
+		source.haskell entity.name.type,
 		source.haskell meta.function.identifier meta.prefix keyword.operator
 	</string>
 	<key>settings</key>
