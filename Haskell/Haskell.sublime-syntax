@@ -41,6 +41,7 @@ variables:
     ){{break}}
   break: (?![\w'#])
 
+  # GHC 6.9.5 Numeric underscores
   # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/numeric_underscores.html
   bin_digit: '[01_]'
   dec_digit: '[\d_]'
@@ -81,7 +82,7 @@ variables:
       | (\^[A-Z@\[\]\\\^_])  # Control Chars
     )
 
-  # GHC 6.20. Pragmas
+  # GHC 6.20 Pragmas
   # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/pragmas.html
   pragma_directives: |-
     (?x:
@@ -189,10 +190,10 @@ variables:
 
   unboxed_types: |-
     (?x:
-    # GHC 6.2.2. The magic hash
+    # GHC 6.2.2 The magic hash
     # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/magic_hash.html
       Addr | Array | Char | Double | Float | Int | Word 
-    # GHC 6.17.2.1. Unlifted FFI Types
+    # GHC 6.17.2.1 Unlifted FFI Types
     # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/ffi.html
     | ArrayArray | ByteArray | SmallArray | StablePtr
     | Mutable (?: ArrayArray | ByteArray | SmallArray)
@@ -467,7 +468,7 @@ contexts:
   imports:
     # 5.3 Import Declarations
     # https://www.haskell.org/onlinereport/haskell2010/haskellch5.html#x11-1010005.3
-    # 6.18.3. Safe Imports
+    # GHC 6.18.3 Safe Imports
     # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/safe_haskell.html#safe-imports
     - match: import{{break}}
       scope: meta.import.haskell keyword.declaration.import.haskell
@@ -538,7 +539,7 @@ contexts:
   foreigns:
     # 8.4 Foreign Declarations
     # https://www.haskell.org/onlinereport/haskell2010/haskellch8.html#x15-1490008
-    # GHC 6.17. Foreign function interface (FFI)
+    # GHC 6.17 Foreign function interface (FFI)
     # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/ffi.html
     - match: foreign{{break}}
       scope: storage.modifier.foreign.haskell
@@ -976,7 +977,7 @@ contexts:
         2: punctuation.section.sequence.end.haskell
 
   unboxed-tuples:
-    # 6.16.3. Unboxed tuples
+    # GHC 6.16.3 Unboxed tuples
     # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/primitives.html#unboxed-tuples
     - match: (\()(#)
       captures:
@@ -1080,7 +1081,7 @@ contexts:
         1: constant.numeric.value.haskell
         2: punctuation.separator.decimal.haskell
         3: constant.numeric.suffix.haskell
-    # 6.9.3. Hexadecimal floating point literals
+    # GHC 6.9.3 Hexadecimal floating point literals
     # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/hex_float_literals.html
     - match: (0[xX])({{hex_digit}}+(\.){{hex_digit}}+{{hex_exponent}}?)(#*){{break}}
       scope: meta.number.float.hexadecimal.haskell
@@ -1089,7 +1090,7 @@ contexts:
         2: constant.numeric.value.haskell
         3: punctuation.separator.decimal.haskell
         4: constant.numeric.suffix.haskell
-    # 6.9.2. Binary integer literals
+    # GHC 6.9.2 Binary integer literals
     # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/binary_literals.html
     - match: (0[bB])({{bin_digit}}+)(#*){{break}}
       scope: meta.number.integer.binary.haskell
