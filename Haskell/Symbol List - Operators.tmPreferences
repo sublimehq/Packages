@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <plist version="1.0">
 <dict>
-    <key>scope</key>
-    <string>
-        meta.declaration.module.haskell meta.sequence keyword.operator
-        meta.function.identifier.haskell meta.group keyword.operator
-    </string>
-    <key>settings</key>
-    <dict>
-        <key>showInSymbolList</key>
-        <string>1</string>
-        <key>showInIndexedSymbolList</key>
-        <string>1</string>
-    </dict>
+	<key>scope</key>
+	<string>source.haskell meta.function.identifier meta.group keyword.operator</string>
+	<key>settings</key>
+	<dict>
+		<key>showInSymbolList</key>
+		<string>1</string>
+	</dict>
 </dict>
 </plist>

@@ -2037,9 +2037,12 @@
 --  ^^^^ meta.function.identifier.haskell
 --  ^^^ entity.name.function.haskell
 --      ^^ keyword.operator.double-colon.haskell
+    fun = print "Hello"
+--  ^^^ variable.other.haskell
+--      ^ keyword.operator.haskell
 
     {- Module Level Function Declarations with Block Layout -}
-    module ModId.ModName (fun1, fun2) where { fun1 :: Bool -> Bool ; fun2 :: }
+    module ModId.ModName (fun1, fun2) where { fun1 :: Bool -> Bool ; fun1 = False ; fun2 :: }
 --                       ^^^^^^^^^^^^ meta.declaration.module.haskell meta.sequence.tuple.haskell
 --                       ^ punctuation.section.sequence.begin.haskell
 --                        ^^^^ entity.name.export.haskell
@@ -2047,7 +2050,7 @@
 --                              ^^^^ entity.name.export.haskell
 --                                  ^ punctuation.section.sequence.end.haskell
 --                                    ^^^^^ keyword.control.context.haskell
---                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.haskell
+--                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.haskell
 --                                          ^ punctuation.section.block.begin.haskell
 --                                            ^^^^^ meta.function.identifier.haskell
 --                                            ^^^^ entity.name.function.haskell
@@ -2056,9 +2059,13 @@
 --                                                         ^^ keyword.operator.arrow.haskell
 --                                                            ^^^^ support.type.prelude.haskell
 --                                                                 ^ punctuation.terminator.statement.haskell
---                                                                   ^^^^ entity.name.function.haskell
---                                                                        ^^ keyword.operator.double-colon.haskell
---                                                                           ^ punctuation.section.block.end.haskell
+--                                                                   ^^^^ variable.other.haskell
+--                                                                        ^ keyword.operator.haskell
+--                                                                          ^^^^^ support.constant.prelude.haskell
+--                                                                                ^ punctuation.terminator.statement.haskell
+--                                                                                  ^^^^ entity.name.function.haskell
+--                                                                                       ^^ keyword.operator.double-colon.haskell
+--                                                                                          ^ punctuation.section.block.end.haskell
 
     {- Class Method Declarations -}
     class TyCls a where

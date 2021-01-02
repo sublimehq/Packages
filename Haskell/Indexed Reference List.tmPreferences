@@ -2,10 +2,13 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.haskell entity.name.export</string>
+	<string>
+		source.haskell keyword.operator - meta.function.identifier,
+		source.haskell variable.other
+	</string>
 	<key>settings</key>
 	<dict>
-		<key>showInSymbolList</key>
+		<key>showInIndexedReferenceList</key>
 		<string>1</string>
 	</dict>
 </dict>
