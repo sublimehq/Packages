@@ -112,9 +112,9 @@ contexts:
       captures:
         2: meta.mapping.key.cabal entity.name.tag.cabal
         3: meta.mapping.cabal punctuation.separator.mapping.key-value.cabal
-      push: modules-values
+      push: module-values
 
-  modules-values:
+  module-values:
     - meta_scope: meta.modules.cabal
     - meta_content_scope: meta.mapping.value.cabal
     - include: common-values
@@ -147,9 +147,9 @@ contexts:
       captures:
         2: meta.mapping.key.cabal entity.name.tag.cabal
         3: meta.mapping.cabal punctuation.separator.mapping.key-value.cabal
-      push: paths-values
+      push: path-values
 
-  paths-values:
+  path-values:
     - meta_scope: meta.paths.cabal
     - meta_content_scope: meta.mapping.value.cabal
     - include: common-values
@@ -175,9 +175,9 @@ contexts:
       captures:
         2: meta.mapping.key.cabal entity.name.tag.cabal
         3: meta.mapping.cabal punctuation.separator.mapping.key-value.cabal
-      push: urls-values
+      push: url-values
 
-  urls-values:
+  url-values:
     - meta_scope: meta.urls.cabal
     - meta_content_scope: meta.mapping.value.cabal
     - include: common-values
@@ -209,9 +209,9 @@ contexts:
       captures:
         2: meta.mapping.key.cabal entity.name.tag.cabal
         3: meta.mapping.cabal punctuation.separator.mapping.key-value.cabal
-      push: versions-values
+      push: version-values
 
-  versions-values:
+  version-values:
     - meta_scope: meta.versions.cabal
     - meta_content_scope: meta.mapping.value.cabal
     - include: common-values
