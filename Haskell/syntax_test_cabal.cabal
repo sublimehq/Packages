@@ -216,11 +216,12 @@ build-depends:  pandoc,
 --                                    ^ punctuation.separator.sequence.cabal
 
 executable
--- <- keyword.declaration.section.cabal
--- ^^^^^^^ keyword.declaration.section.cabal
+-- <- meta.toc-list.sections.cabal keyword.declaration.section.cabal
+-- ^^^^^^^ meta.toc-list.sections.cabal keyword.declaration.section.cabal
 
 executable pandoc
--- <- keyword.declaration.section.cabal
+-- <- meta.toc-list.sections.cabal keyword.declaration.section.cabal
+-- ^^^^^^^^^^^^^^ meta.toc-list.sections.cabal
 -- ^^^^^^^ keyword.declaration.section.cabal
 --         ^^^^^^ entity.name.section.cabal
 

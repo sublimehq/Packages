@@ -276,10 +276,11 @@ contexts:
 ###[ KEYWORDS AND OPERATORS ]##################################################
 
   keywords:
-    - match: ^({{section_tags}})(?:\s+([^\s,]+))?\s*$
+    - match: ^(({{section_tags}})(?:\s+([^\s,]+))?)\s*$
       captures:
-        1: keyword.declaration.section.cabal
-        2: entity.name.section.cabal
+        1: meta.toc-list.sections.cabal
+        2: keyword.declaration.section.cabal
+        3: entity.name.section.cabal
     - match: (if|else)\b
       scope: keyword.control.conditional.cabal
 
