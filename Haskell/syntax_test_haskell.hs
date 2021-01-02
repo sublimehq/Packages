@@ -206,7 +206,7 @@
 --                      ^^^^^^^^ constant.other.pragma.haskell
 --                               ^^^ punctuation.section.preprocessor.end.haskell
 
-    {-# SPECIALISE INLINE unless :: Bool -> IO () -> IO () #-}
+    {-# SPECIALIZE INLINE unless :: Bool -> IO () -> IO () #-}
 --  ^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.directive.haskell
 --                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.preprocessor.pragma.value.signature.haskell
 --                                                         ^^^ meta.preprocessor.pragma.value.haskell

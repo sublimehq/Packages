@@ -81,13 +81,14 @@ variables:
       | (\^[A-Z@\[\]\\\^_])  # Control Chars
     )
 
-  # https://downloads.haskell.org/~ghc/latest/docs/html/users_guide/glasgow_exts.html#pragmas
-  pragma_keys: |-
+  # GHC 6.20. Pragmas
+  # https://ghc.gitlab.haskell.org/ghc/doc/users_guide/exts/pragmas.html
+  pragma_directives: |-
     (?x:
       LANGUAGE | OPTIONS_GHC | OPTIONS_HADDOCK | INCLUDE | WARNING | DEPRECATED
-    | MINIMAL | UNPACK | NOUNPACK | SOURCE | OVERLAPPING | OVERLAPPABLE
-    | OVERLAPS | INCOHERENT | INLINE | NOINLINE | INLINABLE | CONLIKE | LINE
-    | RULES | SPECIALIZE | SPECIALISE | COMPLETE | COLUMN
+    | MINIMAL | INLINE | NOINLINE | INLINABLE | CONLIKE | LINE | COLUMN | RULES
+    | SPECIALIZE | UNPACK | NOUNPACK | SOURCE | COMPLETE | OVERLAPPING 
+    | OVERLAPPABLE | OVERLAPS | INCOHERENT
     ){{break}}
 
   # https://wiki.haskell.org/Language_extensions
@@ -310,7 +311,7 @@ contexts:
       escape_captures:
         0: meta.preprocessor.pragma.value.haskell
            punctuation.section.preprocessor.end.haskell
-    - match: (SPECIALISE|SPECIALIZE)(?:\s+(?:(INLINE|NOINLINE)|(instance)))?{{break}}
+    - match: (SPECIALIZE)(?:\s+(?:(INLINE|NOINLINE)|(instance)))?{{break}}
       scope: meta.preprocessor.pragma.directive.haskell
       captures:
         1: keyword.directive.builtin.haskell
@@ -322,7 +323,7 @@ contexts:
       escape_captures:
         0: meta.preprocessor.pragma.value.haskell
            punctuation.section.preprocessor.end.haskell
-    - match: '{{pragma_keys}}'
+    - match: '{{pragma_directives}}'
       scope: keyword.directive.builtin.haskell
       set: preprocessor-pragma-other-value
     # maybe incomplete directive
