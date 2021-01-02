@@ -215,6 +215,7 @@ contexts:
 
   declarations:
     - include: classes
+    - include: instances
     - include: datas
     - include: foreigns
     - include: imports
@@ -590,19 +591,40 @@ contexts:
       scope:
         meta.declaration.class.haskell
         keyword.declaration.class.haskell
-      push: class-body
-    # 4.3.2 Instance Declarations
-    # https://www.haskell.org/onlinereport/haskell2010/haskellch4.html#x10-750004.3
-    - match: instance{{break}}
-      scope: keyword.declaration.instance.haskell
-      push: instance-body
+      branch_point: class-declaration
+      branch:
+        - class-signature
+        - class-context
 
-  class-body:
+  class-context:
+    - meta_content_scope: meta.declaration.class.context.haskell
+    - match: '{{operator_big_arrow}}'
+      scope:
+        meta.declaration.class.haskell
+        keyword.operator.big-arrow.haskell
+      set: class-signature
+    - include: type-expressions
+
+  class-signature:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - class-args
+        - class-name
+
+  class-name:
+    - include: ident-namespaces
+    - match: '{{con_id}}'
+      scope: entity.name.class.haskell
+      captures:
+        1: storage.modifier.unboxed.haskell
+      pop: 1
+    - include: else-pop
+
+  class-args:
     - meta_content_scope: meta.declaration.class.haskell
-    - include: class-type
-
-  instance-body:
-    - meta_scope: meta.declaration.instance.haskell
+    - match: (?={{operator_big_arrow}})
+      fail: class-declaration
     - include: class-type
 
   class-type:
@@ -624,6 +646,42 @@ contexts:
     - include: functions
     - include: statements
     - include: expressions
+
+###[ INSTANCE DECLARATIONS ]###################################################
+
+  instances:
+    # 4.3.2 Instance Declarations
+    # https://www.haskell.org/onlinereport/haskell2010/haskellch4.html#x10-750004.3
+    - match: instance{{break}}
+      scope:
+        meta.declaration.instance.haskell
+        keyword.declaration.instance.haskell
+      branch_point: instance-declaration
+      branch:
+        - instance-signature
+        - instance-context
+
+  instance-context:
+    - meta_content_scope: meta.declaration.instance.context.haskell
+    - match: '{{operator_big_arrow}}'
+      scope:
+        meta.declaration.instance.haskell
+        keyword.operator.big-arrow.haskell
+      set: instance-signature
+    - include: type-expressions
+
+  instance-signature:
+    - meta_include_prototype: false
+    - match: ''
+      set:
+        - instance-args
+        - class-name
+
+  instance-args:
+    - meta_content_scope: meta.declaration.instance.haskell
+    - match: (?={{operator_big_arrow}})
+      fail: instance-declaration
+    - include: class-type
 
 ###[ DATA DECLARATIONS ]#######################################################
 

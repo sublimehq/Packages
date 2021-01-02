@@ -950,20 +950,22 @@
 --  ^^^^^ keyword.declaration.class.haskell
 
     class =>
---  ^^^^^^^^^ meta.declaration.class.haskell
+--  ^^^^^ meta.declaration.class.haskell
+--       ^ meta.declaration.class.context.haskell
+--        ^^^ meta.declaration.class.haskell
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^^ keyword.operator.big-arrow.haskell
 
     class QTyCls tyVar
 --  ^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
 --  ^^^^^ keyword.declaration.class.haskell
---        ^^^^^^ storage.type.haskell
+--        ^^^^^^ entity.name.class.haskell
 --               ^^^^^ variable.other.haskell
 
     class QTyCls# tyVar#
 --  ^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
 --  ^^^^^ keyword.declaration.class.haskell
---        ^^^^^^^ storage.type.haskell
+--        ^^^^^^^ entity.name.class.haskell
 --              ^ storage.modifier.unboxed.haskell
 --                ^^^^^^ variable.other.haskell
 --                     ^ storage.modifier.unboxed.haskell
@@ -974,14 +976,16 @@
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^^^^^ variable.namespace.haskell
 --             ^ punctuation.accessor.dot.haskell
---              ^^^^^^ storage.type.haskell
+--              ^^^^^^ entity.name.class.haskell
 --                     ^^^^^^ variable.other.haskell
 --                            ^^^^^^ variable.other.haskell
 --                                  ^ punctuation.separator.sequence.haskell
 --                                    ^^^^^ variable.other.haskell
 
     class ModId.QTyCls tyVar1 tyVar2 =>
---  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
+--  ^^^^^ meta.declaration.class.haskell
+--       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.context.haskell
+--                                   ^^^ meta.declaration.class.haskell
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^^^^^ variable.namespace.haskell
 --             ^ punctuation.accessor.dot.haskell
@@ -991,9 +995,11 @@
 --                                   ^^ keyword.operator.big-arrow.haskell
 
     class ModId.QTyCls (tyVar1 tyVar2#) =>
---  ^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell - meta.group
---                     ^^^^^^^^^^^^^^^^ meta.declaration.class.haskell meta.group.haskell
---                                     ^^^^ meta.declaration.class.haskell - meta.group
+--  ^^^^^ meta.declaration.class.haskell
+--       ^^^^^^^^^^^^^^ meta.declaration.class.context.haskell - meta.group
+--                     ^^^^^^^^^^^^^^^^ meta.declaration.class.context.haskell meta.group.haskell
+--                                     ^ meta.declaration.class.context.haskell - meta.group
+--                                      ^^^ meta.declaration.class.haskell - meta.group
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^^^^^ variable.namespace.haskell
 --             ^ punctuation.accessor.dot.haskell
@@ -1011,7 +1017,7 @@
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^^^^^ variable.namespace.haskell
 --             ^ punctuation.accessor.dot.haskell
---              ^^^^^^ storage.type.haskell
+--              ^^^^^^ entity.name.class.haskell
 --                     ^ punctuation.section.group.begin.haskell
 --                      ^^^^^^ variable.other.haskell
 --                             ^^^^^^ variable.other.haskell
@@ -1019,7 +1025,9 @@
 --                                        ^ punctuation.section.group.end.haskell
 
     class ModId.QTyCls tyVar1 tyVar2 => Traversable t
---  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
+--  ^^^^^ meta.declaration.class.haskell
+--       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.context.haskell
+--                                   ^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^^^^^ variable.namespace.haskell
 --             ^ punctuation.accessor.dot.haskell
@@ -1027,11 +1035,13 @@
 --                     ^^^^^^ variable.other.haskell
 --                            ^^^^^^ variable.other.haskell
 --                                   ^^ keyword.operator.big-arrow.haskell
---                                      ^^^^^^^^^^^ support.class.prelude.haskell
+--                                      ^^^^^^^^^^^ entity.name.class.haskell
 --                                                  ^ variable.other.haskell
 
     class () =>
---  ^^^^^^^^^^^^ meta.declaration.class.haskell
+--  ^^^^^ meta.declaration.class.haskell
+--       ^^^^ meta.declaration.class.context.haskell
+--           ^^^ meta.declaration.class.haskell
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^^ meta.sequence.tuple.haskell
 --        ^ punctuation.section.sequence.begin.haskell
@@ -1039,9 +1049,11 @@
 --           ^^ keyword.operator.big-arrow.haskell
 
     class (Functor t, Foldable t) => Traversable t where
---  ^^^^^^ meta.declaration.class.haskell - meta.sequence
---        ^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell meta.sequence.tuple.haskell
---                               ^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell - meta.sequence
+--  ^^^^^ meta.declaration.class.haskell - meta.sequence
+--       ^ meta.declaration.class.context.haskell - meta.sequence
+--        ^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.context.haskell meta.sequence.tuple.haskell
+--                               ^ meta.declaration.class.context.haskell - meta.sequence
+--                                ^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell - meta.sequence
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^ punctuation.section.sequence.begin.haskell
 --         ^^^^^^^ support.class.prelude.haskell
@@ -1051,7 +1063,7 @@
 --                             ^ variable.other.haskell
 --                              ^ punctuation.section.sequence.end.haskell
 --                                ^^ keyword.operator.big-arrow.haskell
---                                   ^^^^^^^^^^^ support.class.prelude.haskell
+--                                   ^^^^^^^^^^^ entity.name.class.haskell
 --                                               ^ variable.other.haskell
 --                                                 ^^^^^ keyword.control.context.haskell
 
@@ -1060,7 +1072,9 @@
 --  methods in the original ones.
 
     class Eq a => a -> a
---  ^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
+--  ^^^^^ meta.declaration.class.haskell
+--       ^^^^^^ meta.declaration.class.context.haskell
+--             ^^^^^^^^^^ meta.declaration.class.haskell
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^^ support.class.prelude.haskell
 --           ^ variable.other.haskell
@@ -1070,9 +1084,11 @@
 --                     ^ variable.other.haskell
 
     class (Eq a, Show a, Eq b) => [a] -> [b] -> String
---  ^^^^^^ meta.declaration.class.haskell - meta.sequence
---        ^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell meta.sequence.tuple.haskell
---                            ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
+--  ^^^^^ meta.declaration.class.haskell - meta.sequence
+--       ^ meta.declaration.class.context.haskell - meta.sequence
+--        ^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.context.haskell meta.sequence.tuple.haskell
+--                            ^ meta.declaration.class.context.haskell - meta.sequence
+--                             ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
 --  ^^^^^ keyword.declaration.class.haskell
 --         ^^ support.class.prelude.haskell
 --            ^ variable.other.haskell
@@ -1084,11 +1100,13 @@
 --                                              ^^^^^^ support.type.prelude.haskell
 
     class (Eq (f a), Functor f) => (a -> b) -> f a -> f b -> Bool
---  ^^^^^^ meta.declaration.class.haskell - meta.sequence - meta.group
---        ^^^^ meta.declaration.class.haskell meta.sequence.tuple.haskell - meta.sequence meta.group
---            ^^^^^ meta.declaration.class.haskell meta.sequence.tuple.haskell meta.group.haskell
---                 ^^^^^^^^^^^^ meta.declaration.class.haskell meta.sequence.tuple.haskell - meta.sequence meta.group
---                             ^^^^ meta.declaration.class.haskell - meta.sequence - meta.group
+--  ^^^^^ meta.declaration.class.haskell - meta.sequence - meta.group
+--       ^ meta.declaration.class.context.haskell - meta.sequence
+--        ^^^^ meta.declaration.class.context.haskell meta.sequence.tuple.haskell - meta.sequence meta.group
+--            ^^^^^ meta.declaration.class.context.haskell meta.sequence.tuple.haskell meta.group.haskell
+--                 ^^^^^^^^^^^^ meta.declaration.class.context.haskell meta.sequence.tuple.haskell - meta.sequence meta.group
+--                             ^ meta.declaration.class.context.haskell - meta.sequence
+--                              ^^^ meta.declaration.class.haskell - meta.sequence - meta.group
 --                                 ^^^^^^^^ meta.declaration.class.haskell meta.group.haskell
 --                                         ^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell - meta.group
 --  ^^^^^ keyword.declaration.class.haskell
@@ -1470,7 +1488,7 @@
 --  ^^^^^^^^ keyword.declaration.instance.haskell
 --           ^^^^^ variable.namespace.haskell
 --                ^ punctuation.accessor.dot.haskell
---                 ^^^^^^ storage.type.haskell
+--                 ^^^^^^ entity.name.class.haskell
 
     instance ModId.QTyCls []
 --  ^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.instance.haskell - meta.sequence
@@ -1479,7 +1497,7 @@
 --  ^^^^^^^^ keyword.declaration.instance.haskell
 --           ^^^^^ variable.namespace.haskell
 --                ^ punctuation.accessor.dot.haskell
---                 ^^^^^^ storage.type.haskell
+--                 ^^^^^^ entity.name.class.haskell
 --                        ^ punctuation.section.sequence.begin.haskell
 --                         ^ punctuation.section.sequence.end.haskell
 
@@ -1490,7 +1508,7 @@
 --  ^^^^^^^^ keyword.declaration.instance.haskell
 --           ^^^^^ variable.namespace.haskell
 --                ^ punctuation.accessor.dot.haskell
---                 ^^^^^^ storage.type.haskell
+--                 ^^^^^^ entity.name.class.haskell
 --                        ^ punctuation.section.sequence.begin.haskell
 --                         ^ punctuation.section.sequence.end.haskell
 
@@ -1501,7 +1519,7 @@
 --  ^^^^^^^^ keyword.declaration.instance.haskell
 --           ^^^^^ variable.namespace.haskell
 --                ^ punctuation.accessor.dot.haskell
---                 ^^^^^^ storage.type.haskell
+--                 ^^^^^^ entity.name.class.haskell
 --                        ^ punctuation.section.sequence.begin.haskell
 --                         ^ punctuation.separator.sequence.haskell
 --                          ^ punctuation.section.sequence.end.haskell
@@ -1513,7 +1531,7 @@
 --  ^^^^^^^^ keyword.declaration.instance.haskell
 --           ^^^^^ variable.namespace.haskell
 --                ^ punctuation.accessor.dot.haskell
---                 ^^^^^^ storage.type.haskell
+--                 ^^^^^^ entity.name.class.haskell
 --                        ^ punctuation.definition.prefix.begin.haskell
 --                         ^^ keyword.operator.haskell
 --                           ^ punctuation.definition.prefix.end.haskell
@@ -1523,7 +1541,7 @@
 --  ^^^^^^^^ keyword.declaration.instance.haskell
 --           ^^^^^ variable.namespace.haskell
 --                ^ punctuation.accessor.dot.haskell
---                 ^^^^^^ storage.type.haskell
+--                 ^^^^^^ entity.name.class.haskell
 --                        ^ variable.other.haskell
 
     instance ModId.QTyCls [a]
@@ -1533,7 +1551,7 @@
 --  ^^^^^^^^ keyword.declaration.instance.haskell
 --           ^^^^^ variable.namespace.haskell
 --                ^ punctuation.accessor.dot.haskell
---                 ^^^^^^ storage.type.haskell
+--                 ^^^^^^ entity.name.class.haskell
 --                        ^ punctuation.section.sequence.begin.haskell
 --                         ^ variable.other.haskell
 --                          ^ punctuation.section.sequence.end.haskell
@@ -1545,7 +1563,7 @@
 --  ^^^^^^^^ keyword.declaration.instance.haskell
 --           ^^^^^ variable.namespace.haskell
 --                ^ punctuation.accessor.dot.haskell
---                 ^^^^^^ storage.type.haskell
+--                 ^^^^^^ entity.name.class.haskell
 --                        ^ punctuation.section.sequence.begin.haskell
 --                         ^ variable.other.haskell
 --                          ^ punctuation.separator.sequence.haskell
@@ -1559,7 +1577,7 @@
 --  ^^^^^^^^ keyword.declaration.instance.haskell
 --           ^^^^^ variable.namespace.haskell
 --                ^ punctuation.accessor.dot.haskell
---                 ^^^^^^ storage.type.haskell
+--                 ^^^^^^ entity.name.class.haskell
 --                        ^ punctuation.section.group.begin.haskell
 --                         ^ variable.other.haskell
 --                           ^^ keyword.operator.arrow.haskell
@@ -1575,7 +1593,7 @@
 --  ^^^^^^^^ keyword.declaration.instance.haskell
 --           ^^^^^ variable.namespace.haskell
 --                ^ punctuation.accessor.dot.haskell
---                 ^^^^^^ storage.type.haskell
+--                 ^^^^^^ entity.name.class.haskell
 --                        ^ punctuation.section.group.begin.haskell
 --                         ^ punctuation.section.sequence.begin.haskell
 --                          ^ punctuation.section.sequence.end.haskell
@@ -1592,7 +1610,7 @@
 --  ^^^^^^^^ keyword.declaration.instance.haskell
 --           ^^^^^ variable.namespace.haskell
 --                ^ punctuation.accessor.dot.haskell
---                 ^^^^^^ storage.type.haskell
+--                 ^^^^^^ entity.name.class.haskell
 --                        ^ punctuation.section.group.begin.haskell
 --                         ^ punctuation.section.sequence.begin.haskell
 --                          ^ punctuation.section.sequence.end.haskell
@@ -1609,7 +1627,7 @@
 --  ^^^^^^^^ keyword.declaration.instance.haskell
 --           ^^^^^ variable.namespace.haskell
 --                ^ punctuation.accessor.dot.haskell
---                 ^^^^^^ storage.type.haskell
+--                 ^^^^^^ entity.name.class.haskell
 --                        ^ punctuation.section.group.begin.haskell
 --                         ^ punctuation.section.sequence.begin.haskell
 --                          ^ punctuation.separator.sequence.haskell
@@ -1627,7 +1645,7 @@
 --  ^^^^^^^^ keyword.declaration.instance.haskell
 --           ^^^^^ variable.namespace.haskell
 --                ^ punctuation.accessor.dot.haskell
---                 ^^^^^^ storage.type.haskell
+--                 ^^^^^^ entity.name.class.haskell
 --                        ^ punctuation.section.group.begin.haskell
 --                         ^ punctuation.definition.prefix.begin.haskell
 --                          ^^ keyword.operator.haskell
@@ -1637,23 +1655,27 @@
 --                                 ^ punctuation.section.group.end.haskell
 
     instance Num a => Bar [a] where ...
---  ^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.instance.haskell - meta.sequence
+--  ^^^^^^^^ meta.declaration.instance.haskell
+--          ^^^^^^^ meta.declaration.instance.context.haskell
+--                 ^^^^^^^ meta.declaration.instance.haskell - meta.sequence
 --                        ^^^ meta.declaration.instance.haskell meta.sequence.list.haskell
 --                           ^ meta.declaration.instance.haskell - meta.sequence
 --  ^^^^^^^^ keyword.declaration.instance.haskell
 --           ^^^ support.class.prelude.haskell
 --               ^ variable.other.haskell
 --                 ^^ keyword.operator.big-arrow.haskell
---                    ^^^ storage.type.haskell
+--                    ^^^ entity.name.class.haskell
 --                        ^ punctuation.section.sequence.begin.haskell
 --                         ^ variable.other.haskell
 --                          ^ punctuation.section.sequence.end.haskell
 --                            ^^^^^ keyword.control.context.haskell
 
     instance (Eq a, Show a) => Foo [a] where ...
---  ^^^^^^^^^ meta.declaration.instance.haskell - meta.sequence
---           ^^^^^^^^^^^^^^ meta.declaration.instance.haskell meta.sequence.tuple.haskell
---                         ^^^^^^^^ meta.declaration.instance.haskell - meta.sequence
+--  ^^^^^^^^ meta.declaration.instance.haskell - meta.sequence
+--          ^ meta.declaration.instance.context.haskell - meta.sequence
+--           ^^^^^^^^^^^^^^ meta.declaration.instance.context.haskell meta.sequence.tuple.haskell
+--                         ^ meta.declaration.instance.context.haskell - meta.sequence
+--                          ^^^^^^^ meta.declaration.instance.haskell - meta.sequence
 --                                 ^^^ meta.declaration.instance.haskell meta.sequence.list.haskell
 --                                    ^ meta.declaration.instance.haskell - meta.sequence
 --  ^^^^^^^^ keyword.declaration.instance.haskell
@@ -1665,7 +1687,7 @@
 --                       ^ variable.other.haskell
 --                        ^ punctuation.section.sequence.end.haskell
 --                          ^^ keyword.operator.big-arrow.haskell
---                             ^^^ storage.type.haskell
+--                             ^^^ entity.name.class.haskell
 --                                 ^ punctuation.section.sequence.begin.haskell
 --                                  ^ variable.other.haskell
 --                                   ^ punctuation.section.sequence.end.haskell
