@@ -3,7 +3,7 @@
 <dict>
 	<key>scope</key>
 	<string>
-		source.haskell meta.function.identifier meta.group keyword.operator
+		source.haskell meta.function.identifier meta.prefix keyword.operator
 	</string>
 	<key>settings</key>
 	<dict>

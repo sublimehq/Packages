@@ -417,7 +417,8 @@ contexts:
   module-export-body:
     - meta_scope: meta.sequence.tuple.haskell
     - include: tuple-end
-    - include: infix-parens-operators
+    - include: range-tuples
+    - include: prefix-parens-operators
     - include: sequence-separators
     - include: ident-namespaces
     - match: \(
@@ -513,7 +514,8 @@ contexts:
   import-tuple-body:
     - meta_scope: meta.sequence.tuple.haskell
     - include: tuple-end
-    - include: infix-parens-operators
+    - include: range-tuples
+    - include: prefix-parens-operators
     - include: sequence-separators
     - match: \(
       scope: punctuation.section.sequence.begin.haskell
@@ -570,7 +572,7 @@ contexts:
 
   foreign-common:
     - include: literal-strings
-    - include: infix-parens-operators
+    - include: prefix-parens-operators
     - match: (?:capi|ccall|cplusplus|dotnet|jvm|stdcall){{break}}
       scope: constant.language.convention.haskell
     - match: '{{var_id}}'
@@ -714,16 +716,16 @@ contexts:
       scope: entity.name.function.haskell
       captures:
         1: storage.modifier.unboxed.haskell
-    - include: infix-parens-operators
+    - include: prefix-parens-operators
     - include: sequence-separators
 
   variable-name:
     - match: (\()\s*({{operator_parens}})\s*(\))
-      scope: meta.group.haskell
+      scope: meta.prefix.haskell
       captures:
-        1: punctuation.section.group.begin.haskell
+        1: punctuation.definition.prefix.begin.haskell
         2: keyword.operator.haskell
-        3: punctuation.section.group.end.haskell
+        3: punctuation.definition.prefix.end.haskell
       push: variable-name-end
     - match: '{{prelude_functions}}'
       scope: support.function.prelude.haskell
@@ -811,6 +813,7 @@ contexts:
     # 4.1.3 Syntax of Class Assertions and Contexts
     # https://www.haskell.org/onlinereport/haskell2010/haskellch4.html#x10-630004.1
     - include: empty-tuples
+    - include: prefix-parens-operators
     - match: (?=\()
       branch_point: type-parens
       branch:
@@ -925,6 +928,7 @@ contexts:
     # https://www.haskell.org/onlinereport/haskell2010/haskellch3.html#x8-360003.8
     - include: empty-tuples
     - include: unboxed-tuples
+    - include: prefix-parens-operators
     - match: (?=\()
       branch_point: parens
       branch:
@@ -975,6 +979,14 @@ contexts:
       captures:
         1: punctuation.section.sequence.begin.haskell
         2: punctuation.section.sequence.end.haskell
+
+  range-tuples:
+    - match: (\()\s*(\.\.)\s*(\))
+      scope: meta.sequence.tuple.haskell
+      captures:
+        1: punctuation.section.sequence.begin.haskell
+        2: keyword.operator.haskell
+        3: punctuation.section.sequence.end.haskell
 
   unboxed-tuples:
     # GHC 6.16.3 Unboxed tuples
@@ -1183,6 +1195,7 @@ contexts:
     - include: big-arrow-operators
     - include: left-arrow-operators
     - include: right-arrow-operators
+    - include: prefix-parens-operators
     - include: infix-quoted-operators
     # Match all not otherwise matched single quotes as promoition operator
     # Note: Found in real world code but not in specs so far.
@@ -1205,13 +1218,13 @@ contexts:
     - match: '{{operator_right_arrow}}'
       scope: keyword.operator.arrow.haskell
 
-  infix-parens-operators:
+  prefix-parens-operators:
     - match: (\()\s*({{operator_parens}})\s*(\))
-      scope: meta.group.haskell
+      scope: meta.prefix.haskell
       captures:
-        1: punctuation.section.group.begin.haskell
+        1: punctuation.definition.prefix.begin.haskell
         2: keyword.operator.haskell
-        3: punctuation.section.group.end.haskell
+        3: punctuation.definition.prefix.end.haskell
 
   infix-quoted-operators:
     - match: (`)\s*([\w'.]*(#*))\s*(`)

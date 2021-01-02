@@ -312,9 +312,9 @@
 
     module Ns.Name (sym1, Sym2, sym2#, Sym3#, (<:>)) where { import Ns.Other; import Ns.Other2 }
 --  ^^^^^^^^^^^^^^^ meta.declaration.module.haskell - meta.sequence
---                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.module.haskell meta.sequence.tuple.haskell - meta.group
---                                            ^^^^^ meta.declaration.module.haskell meta.sequence.tuple.haskell meta.group.haskell
---                                                 ^ meta.declaration.module.haskell meta.sequence.tuple.haskell - meta.group
+--                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.module.haskell meta.sequence.tuple.haskell - meta.prefix
+--                                            ^^^^^ meta.declaration.module.haskell meta.sequence.tuple.haskell meta.prefix.haskell
+--                                                 ^ meta.declaration.module.haskell meta.sequence.tuple.haskell - meta.prefix
 --                                                  ^ meta.declaration.module.haskell - meta.sequence
 --                                                   ^^^^^ - meta.declaration.module - meta.block - meta.sequence
 --                                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.haskell - meta.declaration.module
@@ -334,9 +334,9 @@
 --                                     ^^^^^ entity.name.export.haskell
 --                                         ^ storage.modifier.unboxed.haskell
 --                                          ^ punctuation.separator.sequence.haskell
---                                            ^ punctuation.section.group.begin.haskell
+--                                            ^ punctuation.definition.prefix.begin.haskell
 --                                             ^^^ keyword.operator.haskell
---                                                ^ punctuation.section.group.end.haskell
+--                                                ^ punctuation.definition.prefix.end.haskell
 --                                                 ^ punctuation.section.sequence.end.haskell
 --                                                   ^^^^^ keyword.control.context.haskell
 --                                                         ^ punctuation.section.block.begin.haskell
@@ -577,7 +577,7 @@
 --  ^^^^^^ meta.import.haskell - meta.sequence
 --        ^^^^^^^^^^^^^^^^^^ meta.import.module.haskell - meta.sequence
 --                          ^^^^^^^^^^ meta.import.filter.haskell meta.sequence.tuple.haskell - meta.sequence meta.sequence
---                                    ^^^^ meta.import.filter.haskell meta.sequence.tuple.haskell meta.group.haskell
+--                                    ^^^^ meta.import.filter.haskell meta.sequence.tuple.haskell meta.sequence.tuple.haskell
 --                                        ^ meta.import.filter.haskell meta.sequence.tuple.haskell - meta.sequence meta.sequence
 --                                         ^ - meta.import
 --  ^^^^^^ keyword.declaration.import.haskell
@@ -588,9 +588,9 @@
 --                   ^^^^^^ variable.namespace.haskell - punctuation
 --                          ^ punctuation.section.sequence.begin.haskell
 --                           ^^^^^^^^^ entity.name.import.haskell
---                                    ^ punctuation.section.group.begin.haskell
+--                                    ^ punctuation.section.sequence.begin.haskell
 --                                     ^^ keyword.operator.haskell
---                                       ^ punctuation.section.group.end.haskell
+--                                       ^ punctuation.section.sequence.end.haskell
 --                                        ^ punctuation.section.sequence.end.haskell
 
     import Mod1.Mod2.Module (ClassName (SubClass), funcName)
@@ -666,15 +666,15 @@
 --        ^^^^^^^^^^^^^^^^^^ meta.import.module.haskell - meta.sequence
 --                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.import.filter.haskell meta.sequence.tuple.haskell - meta.sequence meta.sequence
 --                          ^ punctuation.section.sequence.begin.haskell
---                           ^^^^^ meta.group.haskell
---                           ^ punctuation.section.group.begin.haskell
+--                           ^^^^^ meta.prefix.haskell
+--                           ^ punctuation.definition.prefix.begin.haskell
 --                            ^^^ keyword.operator.haskell
---                               ^ punctuation.section.group.end.haskell
+--                               ^ punctuation.definition.prefix.end.haskell
 --                                ^ punctuation.separator.sequence.haskell
---                                  ^^^^^ meta.group.haskell
---                                  ^ punctuation.section.group.begin.haskell
+--                                  ^^^^^ meta.prefix.haskell
+--                                  ^ punctuation.definition.prefix.begin.haskell
 --                                   ^^^ keyword.operator.haskell
---                                      ^ punctuation.section.group.end.haskell
+--                                      ^ punctuation.definition.prefix.end.haskell
 --                                       ^ punctuation.separator.sequence.haskell
 --                                         ^^^^ entity.name.import.haskell
 --                                             ^ punctuation.separator.sequence.haskell
@@ -855,10 +855,10 @@
 --          ^^^^^^ keyword.declaration.export.haskell
 --                 ^^^^^ constant.language.convention.haskell
 --                       ^^^^^^^^ meta.string.haskell string.quoted.double.haskell
---                                ^^^ meta.group.haskell
---                                ^ punctuation.section.group.begin.haskell
+--                                ^^^ meta.prefix.haskell
+--                                ^ punctuation.definition.prefix.begin.haskell
 --                                 ^ keyword.operator.haskell
---                                  ^ punctuation.section.group.end.haskell
+--                                  ^ punctuation.definition.prefix.end.haskell
 --                                    ^^ keyword.operator.double-colon.haskell
 --                                       ^^^ support.type.prelude.haskell
 --                                          ^^ keyword.operator.arrow.haskell
@@ -924,10 +924,10 @@
 --          ^^^^^^ keyword.declaration.import.haskell
 --                 ^^^^^ constant.language.convention.haskell
 --                       ^^^^^^^^ meta.string.haskell string.quoted.double.haskell
---                                ^^^ meta.group.haskell
---                                ^ punctuation.section.group.begin.haskell
+--                                ^^^ meta.prefix.haskell
+--                                ^ punctuation.definition.prefix.begin.haskell
 --                                 ^ keyword.operator.haskell
---                                  ^ punctuation.section.group.end.haskell
+--                                  ^ punctuation.definition.prefix.end.haskell
 --                                    ^^ keyword.operator.double-colon.haskell
 --                                       ^^^ support.type.prelude.haskell
 --                                          ^^ keyword.operator.arrow.haskell
@@ -1307,10 +1307,10 @@
 
     data BuilderType = Builder
         { (>>=)  :: forall m a b. Unrestricted.Monad     m => m a -> (a -> m b) -> m b
---        ^^^^^ meta.block.haskell meta.group.haskell
---        ^ punctuation.section.group.begin.haskell
+--        ^^^^^ meta.block.haskell meta.prefix.haskell
+--        ^ punctuation.definition.prefix.begin.haskell
 --         ^^^ keyword.operator.haskell
---            ^ punctuation.section.group.end.haskell
+--            ^ punctuation.definition.prefix.end.haskell
 --               ^^ keyword.operator.double-colon.haskell
 --                  ^^^^^^ keyword.control.forall.haskell
 --                              ^ punctuation.separator.sequence.haskell
@@ -1319,10 +1319,10 @@
 --                                             ^^^^^ support.class.prelude.haskell
         , (>>)   :: forall m b  . Unrestricted.Monad     m => m() -> m b -> m b
 --      ^ punctuation.separator.sequence.haskell
---        ^^^^ meta.block.haskell meta.group.haskell
---        ^ punctuation.section.group.begin.haskell
+--        ^^^^ meta.block.haskell meta.prefix.haskell
+--        ^ punctuation.definition.prefix.begin.haskell
 --         ^^ keyword.operator.haskell
---           ^ punctuation.section.group.end.haskell
+--           ^ punctuation.definition.prefix.end.haskell
 --               ^^ keyword.operator.double-colon.haskell
 --                  ^^^^^^ keyword.control.forall.haskell
 --                              ^ punctuation.separator.sequence.haskell
@@ -1483,16 +1483,16 @@
 --                          ^ punctuation.section.sequence.end.haskell
 
     instance ModId.QTyCls (->)
---  ^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.instance.haskell - meta.group
---                        ^^^^ meta.declaration.instance.haskell meta.group.haskell
---                            ^ meta.declaration.instance.haskell - meta.group
+--  ^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.instance.haskell - meta.prefix
+--                        ^^^^ meta.declaration.instance.haskell meta.prefix.haskell
+--                            ^ meta.declaration.instance.haskell - meta.prefix
 --  ^^^^^^^^ keyword.declaration.instance.haskell
 --           ^^^^^ variable.namespace.haskell
 --                ^ punctuation.accessor.dot.haskell
 --                 ^^^^^^ storage.type.haskell
---                        ^ punctuation.section.group.begin.haskell
---                         ^^ keyword.operator.arrow.haskell
---                           ^ punctuation.section.group.end.haskell
+--                        ^ punctuation.definition.prefix.begin.haskell
+--                         ^^ keyword.operator.haskell
+--                           ^ punctuation.definition.prefix.end.haskell
 
     instance ModId.QTyCls a
 --  ^^^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.instance.haskell
@@ -1597,16 +1597,17 @@
     instance ModId.QTyCls ((->) a b)
 --  ^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.instance.haskell - meta.group
 --                        ^ meta.declaration.instance.haskell meta.group.haskell
---                         ^^^^ meta.declaration.instance.haskell meta.group.haskell meta.group.haskell
+--                         ^^^^ meta.declaration.instance.haskell meta.group.haskell meta.prefix.haskell
 --                             ^^^^^ meta.declaration.instance.haskell meta.group.haskell
 --                                  ^ meta.declaration.instance.haskell - meta.group
 --  ^^^^^^^^ keyword.declaration.instance.haskell
 --           ^^^^^ variable.namespace.haskell
 --                ^ punctuation.accessor.dot.haskell
 --                 ^^^^^^ storage.type.haskell
---                        ^^ punctuation.section.group.begin.haskell
---                          ^^ keyword.operator.arrow.haskell
---                            ^ punctuation.section.group.end.haskell
+--                        ^ punctuation.section.group.begin.haskell
+--                         ^ punctuation.definition.prefix.begin.haskell
+--                          ^^ keyword.operator.haskell
+--                            ^ punctuation.definition.prefix.end.haskell
 --                              ^ variable.other.haskell
 --                                ^ variable.other.haskell
 --                                 ^ punctuation.section.group.end.haskell
@@ -1905,9 +1906,11 @@
 
     {- infix operator declaration -}
     (<:>)
---  ^^^^^ meta.function.identifier.haskell meta.group.haskell
---       ^ meta.function.identifier.haskell - meta.group
+--  ^^^^^ meta.function.identifier.haskell meta.prefix.haskell
+--       ^ meta.function.identifier.haskell - meta.prefix
+--  ^ punctuation.definition.prefix.begin.haskell
 --   ^^^ keyword.operator.haskell
+--      ^ punctuation.definition.prefix.end.haskell
         :: a -> Bool
 --     ^ meta.function.identifier.haskell
 --      ^^^^^^^^^^^^^ - meta.function
@@ -1917,10 +1920,10 @@
 --              ^^^^ support.type.prelude.haskell
     {- infix operator body -}
     (<:>) = do a <:> b
---  ^^^^^ meta.group.haskell
---  ^ punctuation.section.group.begin.haskell
+--  ^^^^^ meta.prefix.haskell
+--  ^ punctuation.definition.prefix.begin.haskell
 --   ^^^ keyword.operator.haskell
---      ^ punctuation.section.group.end.haskell
+--      ^ punctuation.definition.prefix.end.haskell
 --        ^ keyword.operator.haskell
 --          ^^ keyword.control.context.haskell
 --             ^ variable.other.haskell
@@ -3751,74 +3754,74 @@ main = do
 
     a a = (+) a 2
 --      ^ keyword.operator.haskell
---        ^^^ meta.group.haskell
---        ^ punctuation.section.group.begin.haskell
+--        ^^^ meta.prefix.haskell
+--        ^ punctuation.definition.prefix.begin.haskell
 --         ^ keyword.operator.haskell
---          ^ punctuation.section.group.end.haskell
+--          ^ punctuation.definition.prefix.end.haskell
 --              ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
 
     a a = ( + ) a 2
 --      ^ keyword.operator.haskell
---        ^^^^^ meta.group.haskell
---        ^ punctuation.section.group.begin.haskell
+--        ^^^^^ meta.prefix.haskell
+--        ^ punctuation.definition.prefix.begin.haskell
 --         ^ - punctuation - keyword
 --          ^ keyword.operator.haskell
 --           ^ - punctuation - keyword
---            ^ punctuation.section.group.end.haskell
+--            ^ punctuation.definition.prefix.end.haskell
 --                ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
 
     a a = (-) a 2
 --      ^ keyword.operator.haskell
---        ^^^ meta.group.haskell
---        ^ punctuation.section.group.begin.haskell
+--        ^^^ meta.prefix.haskell
+--        ^ punctuation.definition.prefix.begin.haskell
 --         ^ keyword.operator.haskell
---          ^ punctuation.section.group.end.haskell
+--          ^ punctuation.definition.prefix.end.haskell
 --              ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
 
     a a = ( - ) a 2
 --      ^ keyword.operator.haskell
---        ^^^^^ meta.group.haskell
---        ^ punctuation.section.group.begin.haskell
+--        ^^^^^ meta.prefix.haskell
+--        ^ punctuation.definition.prefix.begin.haskell
 --         ^ - punctuation - keyword
 --          ^ keyword.operator.haskell
 --           ^ - punctuation - keyword
---            ^ punctuation.section.group.end.haskell
+--            ^ punctuation.definition.prefix.end.haskell
 --                ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
 
     a a = (*) a 2
 --      ^ keyword.operator.haskell
---        ^^^ meta.group.haskell
---        ^ punctuation.section.group.begin.haskell
+--        ^^^ meta.prefix.haskell
+--        ^ punctuation.definition.prefix.begin.haskell
 --         ^ keyword.operator.haskell
---          ^ punctuation.section.group.end.haskell
+--          ^ punctuation.definition.prefix.end.haskell
 --              ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
 
     a a = ( * ) a 2
 --      ^ keyword.operator.haskell
---        ^^^^^ meta.group.haskell
---        ^ punctuation.section.group.begin.haskell
+--        ^^^^^ meta.prefix.haskell
+--        ^ punctuation.definition.prefix.begin.haskell
 --         ^ - punctuation - keyword
 --          ^ keyword.operator.haskell
 --           ^ - punctuation - keyword
---            ^ punctuation.section.group.end.haskell
+--            ^ punctuation.definition.prefix.end.haskell
 --                ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
 
     a a = (/) a 2
 --      ^ keyword.operator.haskell
---        ^^^ meta.group.haskell
---        ^ punctuation.section.group.begin.haskell
+--        ^^^ meta.prefix.haskell
+--        ^ punctuation.definition.prefix.begin.haskell
 --         ^ keyword.operator.haskell
---          ^ punctuation.section.group.end.haskell
+--          ^ punctuation.definition.prefix.end.haskell
 --              ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
 
     a a = ( / ) a 2
 --      ^ keyword.operator.haskell
---        ^^^^^ meta.group.haskell
---        ^ punctuation.section.group.begin.haskell
+--        ^^^^^ meta.prefix.haskell
+--        ^ punctuation.definition.prefix.begin.haskell
 --         ^ - punctuation - keyword
 --          ^ keyword.operator.haskell
 --           ^ - punctuation - keyword
---            ^ punctuation.section.group.end.haskell
+--            ^ punctuation.definition.prefix.end.haskell
 --                ^ meta.number.integer.decimal.haskell constant.numeric.value.haskell
 
     a a = (--) a 2
@@ -3933,18 +3936,18 @@ main = do
 --              ^^^ keyword.operator.haskell
       , (:!) <$> genInt <*> genInt
 --    ^ punctuation.separator.sequence.haskell
---      ^^^^ meta.sequence.list.haskell meta.group.haskell
---      ^ punctuation.section.group.begin.haskell
+--      ^^^^ meta.sequence.list.haskell meta.prefix.haskell
+--      ^ punctuation.definition.prefix.begin.haskell
 --       ^^ keyword.operator.haskell
---         ^ punctuation.section.group.end.haskell
+--         ^ punctuation.definition.prefix.end.haskell
 --           ^^^ keyword.operator.haskell
 --                      ^^^ keyword.operator.haskell
       , (:@) <$> genDouble <*> genDouble
 --    ^ punctuation.separator.sequence.haskell
---      ^^^^ meta.sequence.list.haskell meta.group.haskell
---      ^ punctuation.section.group.begin.haskell
+--      ^^^^ meta.sequence.list.haskell meta.prefix.haskell
+--      ^ punctuation.definition.prefix.begin.haskell
 --       ^^ keyword.operator.haskell
---         ^ punctuation.section.group.end.haskell
+--         ^ punctuation.definition.prefix.end.haskell
 --           ^^^ keyword.operator.haskell
 --                         ^^^ keyword.operator.haskell
       , Quux <$> genInt <*> genDouble
@@ -3954,10 +3957,10 @@ main = do
 --                      ^^^ keyword.operator.haskell
       , (:#) <$> genString <*> genRecord
 --    ^ punctuation.separator.sequence.haskell
---      ^^^^ meta.sequence.list.haskell meta.group.haskell
---      ^ punctuation.section.group.begin.haskell
+--      ^^^^ meta.sequence.list.haskell meta.prefix.haskell
+--      ^ punctuation.definition.prefix.begin.haskell
 --       ^^ keyword.operator.haskell
---         ^ punctuation.section.group.end.haskell
+--         ^ punctuation.definition.prefix.end.haskell
 --           ^^^ keyword.operator.haskell
 --                         ^^^ keyword.operator.haskell
       , DontDoThis <$> genInt <*> genString

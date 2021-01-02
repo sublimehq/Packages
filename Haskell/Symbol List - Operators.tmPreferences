@@ -2,7 +2,7 @@
 <plist version="1.0">
 <dict>
 	<key>scope</key>
-	<string>source.haskell meta.function.identifier meta.group keyword.operator</string>
+	<string>source.haskell meta.function.identifier meta.prefix keyword.operator</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
