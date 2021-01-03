@@ -49,6 +49,7 @@ contexts:
     - include: comments
 
   main:
+    - include: sections
     # mappings
     - include: boolean-keys
     - include: compiler-keys
@@ -71,6 +72,15 @@ contexts:
       scope: comment.line.double-dash.cabal
       captures:
         1: punctuation.definition.comment.cabal
+
+###[ SECTIONS ]################################################################
+
+  sections:
+    - match: ^(({{section_tags}})(?:\s+([^\s,]+))?)\s*$
+      captures:
+        1: meta.toc-list.sections.cabal
+        2: keyword.declaration.section.cabal
+        3: entity.name.section.cabal
 
 ###[ BOOLEANS ]################################################################
 
@@ -296,11 +306,6 @@ contexts:
 ###[ KEYWORDS AND OPERATORS ]##################################################
 
   keywords:
-    - match: ^(({{section_tags}})(?:\s+([^\s,]+))?)\s*$
-      captures:
-        1: meta.toc-list.sections.cabal
-        2: keyword.declaration.section.cabal
-        3: entity.name.section.cabal
     - match: (if|else)\b
       scope: keyword.control.conditional.cabal
 
