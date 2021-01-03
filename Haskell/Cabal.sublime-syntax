@@ -18,7 +18,7 @@ variables:
 
   section_tags: |-
     (?x:
-      executable | benchmark | custom-setup | flag | library | package
+      common | executable | benchmark | custom-setup | flag | library | package
     | source-repository | test-suite
     )
 
@@ -31,7 +31,7 @@ variables:
   option_tags: |-
     (?x: (?:{{identifier}}-)? options | flags )
   path_tags: |-
-    (?x: (?:{{identifier}}-)? (?: dir | file | path ) s? )
+    (?x: (?:{{identifier}}-)? (?: dir | file | path ) s? | main-is | packages )
   url_tags: |-
     (?x: bug-reports | homepage | location | package-url )
   version_tags: |-
