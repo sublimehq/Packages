@@ -157,13 +157,8 @@ contexts:
 
   javadoc-inline-tags:
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#code
-    - match: ({)(@code)(?:\s+|(?=\}))
-      captures:
-        1: punctuation.definition.tag.begin.javadoc
-        2: entity.name.tag.documentation.javadoc
-      push: javadoc-inline-tag-code
     # https://docs.oracle.com/javase/7/docs/technotes/tools/windows/javadoc.html#literal
-    - match: ({)(@literal)(?:\s+|(?=\}))
+    - match: ({)(@(?:code|literal))(?:\s+|(?=\}))
       captures:
         1: punctuation.definition.tag.begin.javadoc
         2: entity.name.tag.documentation.javadoc
@@ -230,12 +225,6 @@ contexts:
     - match: (?=\})
       pop: 1
     - include: javadoc-asterisk
-
-  javadoc-inline-tag-code:
-    - meta_scope: meta.tag.inline.javadoc
-    - meta_content_scope: markup.raw.code-fence.javadoc
-    - include: javadoc-inline-tag-end
-    - include: Java (for JavaDoc).sublime-syntax
 
   javadoc-inline-tag-raw:
     - meta_scope: meta.tag.inline.javadoc
