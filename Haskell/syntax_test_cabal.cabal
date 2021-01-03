@@ -31,6 +31,33 @@ version:         2.11.3.1
 --                   ^ punctuation.separator.decimal.cabal
 --                     ^ punctuation.separator.decimal.cabal
 
+author: Jon Doe <jon.doe@nowhere.com>
+-- <- meta.mapping.key.cabal entity.name.tag.cabal
+--^^^^ meta.mapping.key.cabal
+--    ^ meta.mapping.cabal
+--     ^^^^^^^^^ meta.mapping.value.cabal
+--              ^ meta.mapping.value.cabal meta.path.email.cabal - meta.string
+--               ^^^^^^^^^^^^^^^^^^^ meta.mapping.value.cabal meta.path.email.cabal meta.string.cabal
+--                                  ^ meta.mapping.value.cabal meta.path.email.cabal - meta.string
+--                                   ^ meta.mapping.value.cabal - meta.path
+--^^^^ entity.name.tag.cabal
+--    ^ punctuation.separator.mapping.key-value.cabal
+--              ^ punctuation.definition.path.begin.cabal
+--                      ^ punctuation.separator.path.email.cabal
+--                              ^ punctuation.separator.path.domain.cabal
+--                                  ^ punctuation.definition.path.end.cabal
+
+maintainer: cabal-devel@haskell.org
+-- <- meta.mapping.key.cabal entity.name.tag.cabal
+--^^^^^^^^ meta.mapping.key.cabal
+--        ^ meta.mapping.cabal
+--         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.cabal
+--          ^^^^^^^^^^^^^^^^^^^^^^^ meta.path.email.cabal meta.string.cabal string.unquoted.cabal
+--^^^^ entity.name.tag.cabal
+--        ^ punctuation.separator.mapping.key-value.cabal
+--                     ^ punctuation.separator.path.email.cabal
+--                             ^ punctuation.separator.path.domain.cabal
+
 tests: True
 -- <- meta.flags.cabal meta.mapping.key.cabal entity.name.tag.cabal
 --^^^ meta.flags.cabal meta.mapping.key.cabal

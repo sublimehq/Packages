@@ -94,7 +94,7 @@ contexts:
   boolean-values:
     - meta_scope: meta.flags.cabal
     - meta_content_scope: meta.mapping.value.cabal
-    - include: common-values
+    - include: value-end
     - match: \b(?:False|True)\b
       scope: constant.language.boolean.cabal
 
@@ -110,9 +110,9 @@ contexts:
   compiler-values:
     - meta_scope: meta.compilers.cabal
     - meta_content_scope: meta.mapping.value.cabal
-    - include: common-values
+    - include: value-end
     - include: operators
-    - include: numbers
+    - include: literal-versions
     - include: ident-compilers
     - include: ident-other
 
@@ -128,10 +128,10 @@ contexts:
   dependency-values:
     - meta_scope: meta.dependencies.cabal
     - meta_content_scope: meta.mapping.value.cabal
-    - include: common-values
+    - include: value-end
     - include: sequence-separators
     - include: operators
-    - include: numbers
+    - include: literal-versions
     - include: ident-other
 
 ###[ MODULES ]#################################################################
@@ -146,7 +146,7 @@ contexts:
   module-values:
     - meta_scope: meta.modules.cabal
     - meta_content_scope: meta.mapping.value.cabal
-    - include: common-values
+    - include: value-end
     - include: sequence-separators
     - include: ident-modules
 
@@ -162,8 +162,8 @@ contexts:
   option-values:
     - meta_scope: meta.options.cabal
     - meta_content_scope: meta.mapping.value.cabal
-    - include: common-values
-    - include: numbers
+    - include: value-end
+    - include: literal-versions
     - match: ([-+]*)[-\w]+
       scope: variable.parameter.option.haskell
       captures:
@@ -181,7 +181,7 @@ contexts:
   path-values:
     - meta_scope: meta.paths.cabal
     - meta_content_scope: meta.mapping.value.cabal
-    - include: common-values
+    - include: value-end
     - include: sequence-separators
     - include: unquoted-path
 
@@ -209,7 +209,7 @@ contexts:
   url-values:
     - meta_scope: meta.urls.cabal
     - meta_content_scope: meta.mapping.value.cabal
-    - include: common-values
+    - include: value-end
     - include: sequence-separators
     - include: unquoted-urls
 
@@ -243,9 +243,9 @@ contexts:
   version-values:
     - meta_scope: meta.versions.cabal
     - meta_content_scope: meta.mapping.value.cabal
-    - include: common-values
+    - include: value-end
     - include: operators
-    - include: numbers
+    - include: literal-versions
 
 ###[ OTHER TAGS ]##############################################################
 
@@ -254,10 +254,14 @@ contexts:
       captures:
         2: meta.mapping.key.cabal entity.name.tag.cabal
         3: meta.mapping.cabal punctuation.separator.mapping.key-value.cabal
-      push: common-values
+      push: other-values
 
-  common-values:
+  other-values:
     - meta_content_scope: meta.mapping.value.cabal
+    - include: value-end
+    - include: literal-emails
+
+  value-end:
     - match: ^(?!\s*(?:--|$)|\1\s)
       pop: 1
 
@@ -277,7 +281,7 @@ contexts:
     - match: \)
       scope: punctuation.section.group.end.cabal
       pop: 1
-    - include: numbers
+    - include: literal-versions
     - include: operators
     - include: ident-compilers
     - include: ident-other
@@ -309,13 +313,6 @@ contexts:
     - match: (if|else)\b
       scope: keyword.control.conditional.cabal
 
-  numbers:
-    - match: (?:\d+|(\*))(\.(?=[*\d]))?
-      scope: meta.number.version.cabal constant.numeric.value.cabal
-      captures:
-        1: keyword.operator.wildcard.cabal
-        2: punctuation.separator.decimal.cabal
-
   operators:
     - match: \|\||&&||!
       scope: keyword.operator.logical.cabal
@@ -325,3 +322,31 @@ contexts:
   sequence-separators:
     - match: ','
       scope: punctuation.separator.sequence.cabal
+
+###[ LITERALS ]################################################################
+
+  literal-emails:
+    - match: <?(?=\w\S*?@\S+?\.\S+?)
+      scope: punctuation.definition.path.begin.cabal
+      push: [literal-email-domain, literal-email-name]
+
+  literal-email-name:
+    - match: '@'
+      scope: punctuation.separator.path.email.cabal
+      pop: 1
+
+  literal-email-domain:
+    - meta_scope: meta.path.email.cabal
+    - meta_content_scope: meta.string.cabal string.unquoted.cabal
+    - match: (?=\s)|>
+      scope: punctuation.definition.path.end.cabal
+      pop: 1
+    - match: \.
+      scope: punctuation.separator.path.domain.cabal
+
+  literal-versions:
+    - match: (?:\d+|(\*))(\.(?=[*\d]))?
+      scope: meta.number.version.cabal constant.numeric.value.cabal
+      captures:
+        1: keyword.operator.wildcard.cabal
+        2: punctuation.separator.decimal.cabal
