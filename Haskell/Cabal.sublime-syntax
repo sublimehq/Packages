@@ -49,16 +49,16 @@ contexts:
     - include: comments
 
   main:
-    # sections
-    - include: booleans
-    - include: compilers
-    - include: dependencies
-    - include: modules
-    - include: options
-    - include: paths
-    - include: urls
-    - include: versions
-    - include: other-tags
+    # mappings
+    - include: boolean-keys
+    - include: compiler-keys
+    - include: dependency-keys
+    - include: module-keys
+    - include: option-keys
+    - include: path-keys
+    - include: url-keys
+    - include: version-keys
+    - include: other-keys
     # expressions
     - include: function-calls
     - include: keywords
@@ -74,7 +74,7 @@ contexts:
 
 ###[ BOOLEANS ]################################################################
 
-  booleans:
+  boolean-keys:
     - match: ^(\s*)({{boolean_tags}})(:)
       captures:
         2: meta.mapping.key.cabal entity.name.tag.cabal
@@ -90,7 +90,7 @@ contexts:
 
 ###[ COMPILERS ]###############################################################
 
-  compilers:
+  compiler-keys:
     - match: ^(\s*)({{compiler_tags}})(:)
       captures:
         2: meta.mapping.key.cabal entity.name.tag.cabal
@@ -108,7 +108,7 @@ contexts:
 
 ###[ DEPENDENCIES ]############################################################
 
-  dependencies:
+  dependency-keys:
     - match: ^(\s*)({{dependency_tags}})(:)
       captures:
         2: meta.mapping.key.cabal entity.name.tag.cabal
@@ -126,7 +126,7 @@ contexts:
 
 ###[ MODULES ]#################################################################
 
-  modules:
+  module-keys:
     - match: ^(\s*)({{module_tags}})(:)
       captures:
         2: meta.mapping.key.cabal entity.name.tag.cabal
@@ -142,7 +142,7 @@ contexts:
 
 ###[ OPTIONS ]#################################################################
 
-  options:
+  option-keys:
     - match: ^(\s*)({{option_tags}})(:)
       captures:
         2: meta.mapping.key.cabal entity.name.tag.cabal
@@ -161,7 +161,7 @@ contexts:
 
 ###[ PATHS ]###################################################################
 
-  paths:
+  path-keys:
     - match: ^(\s*)({{path_tags}})(:)
       captures:
         2: meta.mapping.key.cabal entity.name.tag.cabal
@@ -189,7 +189,7 @@ contexts:
 
 ###[ URLS ]####################################################################
 
-  urls:
+  url-keys:
     - match: ^(\s*)({{url_tags}})(:)
       captures:
         2: meta.mapping.key.cabal entity.name.tag.cabal
@@ -223,7 +223,7 @@ contexts:
 
 ###[ VERSIONS ]################################################################
 
-  versions:
+  version-keys:
     - match: ^(\s*)({{version_tags}})(:)
       captures:
         2: meta.mapping.key.cabal entity.name.tag.cabal
@@ -239,7 +239,7 @@ contexts:
 
 ###[ OTHER TAGS ]##############################################################
 
-  other-tags:
+  other-keys:
     - match: ^(\s*)({{identifier}})(:)
       captures:
         2: meta.mapping.key.cabal entity.name.tag.cabal
