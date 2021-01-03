@@ -22,6 +22,8 @@ variables:
     | source-repository | test-suite
     )
 
+  boolean_tags: |-
+    (?x: benchmarks | default | optimization | tests )
   compiler_tags: |-
     (?x: tested-with )
   dependency_tags: |-
@@ -48,6 +50,7 @@ contexts:
 
   main:
     # sections
+    - include: booleans
     - include: compilers
     - include: dependencies
     - include: modules
@@ -68,6 +71,22 @@ contexts:
       scope: comment.line.double-dash.cabal
       captures:
         1: punctuation.definition.comment.cabal
+
+###[ BOOLEANS ]################################################################
+
+  booleans:
+    - match: ^(\s*)({{boolean_tags}})(:)
+      captures:
+        2: meta.mapping.key.cabal entity.name.tag.cabal
+        3: meta.mapping.cabal punctuation.separator.mapping.key-value.cabal
+      push: boolean-values
+
+  boolean-values:
+    - meta_scope: meta.flags.cabal
+    - meta_content_scope: meta.mapping.value.cabal
+    - include: common-values
+    - match: \b(?:False|True)\b
+      scope: constant.language.boolean.cabal
 
 ###[ COMPILERS ]###############################################################
 

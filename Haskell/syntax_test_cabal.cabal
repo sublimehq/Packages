@@ -30,6 +30,24 @@ version:         2.11.3.1
 --                   ^ punctuation.separator.decimal.cabal
 --                     ^ punctuation.separator.decimal.cabal
 
+tests: True
+-- <- meta.flags.cabal meta.mapping.key.cabal entity.name.tag.cabal
+--^^^ meta.flags.cabal meta.mapping.key.cabal
+--   ^ meta.flags.cabal meta.mapping.cabal
+--    ^^^^^^ meta.flags.cabal meta.mapping.value.cabal
+--^^^ entity.name.tag.cabal
+--   ^ punctuation.separator.mapping.key-value.cabal
+--     ^^^^ constant.language.boolean.cabal
+
+optimization: False
+-- <- meta.flags.cabal meta.mapping.key.cabal entity.name.tag.cabal
+--^^^^^^^^^^ meta.flags.cabal meta.mapping.key.cabal
+--          ^ meta.flags.cabal meta.mapping.cabal
+--           ^^^^^^^ meta.flags.cabal meta.mapping.value.cabal
+--^^^^^^^^^^ entity.name.tag.cabal
+--          ^ punctuation.separator.mapping.key-value.cabal
+--            ^^^^ constant.language.boolean.cabal
+
 build-type:      Simple
 -- <- meta.mapping.key.cabal entity.name.tag.cabal
 -- ^^^^^^^ meta.mapping.key.cabal
