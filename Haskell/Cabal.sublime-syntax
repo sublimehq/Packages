@@ -180,14 +180,8 @@ contexts:
     - meta_content_scope: meta.mapping.value.cabal
     - include: value-end
     - include: literal-strings
+    - include: literal-options
     - include: literal-versions
-    - include: unquoted-options
-
-  unquoted-options:
-    - match: ([-+]*)[-\w]+
-      scope: variable.parameter.option.haskell
-      captures:
-        1: punctuation.definition.variable.haskell
 
 ###[ PATHS ]###################################################################
 
@@ -203,19 +197,7 @@ contexts:
     - meta_content_scope: meta.mapping.value.cabal
     - include: value-end
     - include: sequence-separators
-    - include: unquoted-path
-
-  unquoted-path:
-    - match: (?=[[:alnum:]/])
-      push: unquoted-path-content
-
-  unquoted-path-content:
-    - meta_include_prototype: false
-    - meta_content_scope: meta.path.file.cabal
-    - match: (?=[,\s])
-      pop: 1
-    - match: '[/&?#]|://'
-      scope: punctuation.separator.path.cabal
+    - include: literal-paths
 
 ###[ URLS ]####################################################################
 
@@ -231,25 +213,7 @@ contexts:
     - meta_content_scope: meta.mapping.value.cabal
     - include: value-end
     - include: sequence-separators
-    - include: unquoted-urls
-
-  unquoted-urls:
-    - match: (?=[[:alnum:]/])
-      push: unquoted-url-content
-
-  unquoted-url-content:
-    - meta_include_prototype: false
-    - meta_content_scope:
-        meta.path.url.cabal
-        meta.string.cabal string.unquoted.cabal
-    - match: (?=\s)
-      pop: 1
-    - match: (%)\h{2}
-      scope: constant.character.escape.url.cabal
-      captures:
-        1: punctuation.definition.escape.cabal
-    - match: '[/&?#]|://'
-      scope: punctuation.separator.path.cabal
+    - include: literal-urls
 
 ###[ VERSIONS ]################################################################
 
@@ -363,6 +327,44 @@ contexts:
       pop: 1
     - match: \.
       scope: punctuation.separator.path.domain.cabal
+
+  literal-options:
+    - match: ([-+]*)[-\w]+
+      scope: variable.parameter.option.haskell
+      captures:
+        1: punctuation.definition.variable.haskell
+
+  literal-paths:
+    - match: (?=[[:alnum:]/])
+      push: literal-path-content
+
+  literal-path-content:
+    - meta_include_prototype: false
+    - meta_content_scope:
+        meta.path.file.cabal
+        meta.string.cabal string.unquoted.cabal
+    - match: (?=[,\s])
+      pop: 1
+    - match: '[/&?#]|://'
+      scope: punctuation.separator.path.cabal
+
+  literal-urls:
+    - match: (?=[[:alnum:]/])
+      push: literal-url-content
+
+  literal-url-content:
+    - meta_include_prototype: false
+    - meta_content_scope:
+        meta.path.url.cabal
+        meta.string.cabal string.unquoted.cabal
+    - match: (?=\s)
+      pop: 1
+    - match: (%)\h{2}
+      scope: constant.character.escape.url.cabal
+      captures:
+        1: punctuation.definition.escape.cabal
+    - match: '[/&?#]|://'
+      scope: punctuation.separator.path.cabal
 
   literal-strings:
     - match: \"
