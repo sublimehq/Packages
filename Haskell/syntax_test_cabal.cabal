@@ -112,17 +112,18 @@ homepage:
 --                       ^ meta.urls.cabal meta.mapping.value.cabal - meta.string - string
 --       ^^^ punctuation.separator.path.cabal
 
-flags: +embed_data_files -trypandoc
+flags: +embed_data_files -trypandoc "+Dkey: value"
 -- <- meta.options.cabal meta.mapping.key.cabal entity.name.tag.cabal
 --^^^ meta.options.cabal meta.mapping.key.cabal
 --   ^ meta.options.cabal meta.mapping.cabal
---    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.options.cabal meta.mapping.value.cabal
+--    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.options.cabal meta.mapping.value.cabal
 --^^^ entity.name.tag.cabal
 --   ^ punctuation.separator.mapping.key-value.cabal
 --     ^ variable.parameter.option.haskell punctuation.definition.variable.haskell
 --      ^^^^^^^^^^^^^^^^ variable.parameter.option.haskell - punctuation
 --                       ^ variable.parameter.option.haskell punctuation.definition.variable.haskell
 --                        ^^^^^^^^^ variable.parameter.option.haskell - punctuation
+--                                  ^^^^^^^^^^^^^^ meta.string.cabal string.quoted.double.cabal
 
 ghc-options: -j +RTS -A64m -RTS
 -- <- meta.options.cabal meta.mapping.key.cabal entity.name.tag.cabal
