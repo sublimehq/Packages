@@ -335,8 +335,8 @@ contexts:
         1: punctuation.definition.variable.haskell
 
   literal-paths:
-    - match: (?=[[:alnum:]/])
-      push: literal-path-content
+    - match: (?=[[:alnum:]_/\\.?*])
+      push: [literal-path-content, literal-path-dir-pattern]
 
   literal-path-content:
     - meta_include_prototype: false
@@ -345,8 +345,21 @@ contexts:
         meta.string.cabal string.unquoted.cabal
     - match: (?=[,\s])
       pop: 1
-    - match: '[/&?#]|://'
+    - match: '[/\\]'
       scope: punctuation.separator.path.cabal
+      push: literal-path-dir-pattern
+    - match: '[?*]'
+      scope: keyword.operator.wildcard.cabal
+
+  literal-path-dir-pattern:
+    - match: \.\.(?=[\\/])
+      scope: constant.language.path.parent.cabal
+      pop: 1
+    - match: \.(?=[\\/])
+      scope: constant.language.path.self.cabal
+      pop: 1
+    - match: ''
+      pop: 1
 
   literal-urls:
     - match: (?=[[:alnum:]/])

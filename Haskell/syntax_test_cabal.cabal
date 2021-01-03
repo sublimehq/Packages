@@ -230,13 +230,19 @@ data-files:
 --                                                ^ punctuation.separator.sequence.cabal
 
                  -- templates
-                 data/templates/styles.html
---              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paths.cabal meta.mapping.value.cabal
+                 ../data/template?.../**/styles.html
+--              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paths.cabal meta.mapping.value.cabal
 --              ^ - meta.path - meta.string - string
---               ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.file.cabal
---                   ^ punctuation.separator.path.cabal
---                             ^ punctuation.separator.path.cabal
---                                         ^ - meta.path - meta.string - string
+--               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.file.cabal
+--               ^^ constant.language.path.parent.cabal
+--                 ^ punctuation.separator.path.cabal
+--                      ^ punctuation.separator.path.cabal
+--                               ^ keyword.operator.wildcard.cabal
+--                                ^^^ - constant
+--                                   ^ punctuation.separator.path.cabal
+--                                    ^^ keyword.operator.wildcard.cabal
+--                                      ^ punctuation.separator.path.cabal
+--                                                  ^ - meta.path - meta.string - string
 
 build-depends:  pandoc,
 -- <- meta.dependencies.cabal meta.mapping.key.cabal entity.name.tag.cabal
