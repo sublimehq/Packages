@@ -310,7 +310,7 @@ contexts:
 ###[ LITERALS ]################################################################
 
   literal-emails:
-    - match: <?(?=\w\S*?@\S+?\.\S+?)
+    - match: <?(?=\w\S*?@\S+?\.\S)
       scope: punctuation.definition.path.begin.cabal
       push: [literal-email-domain, literal-email-name]
 
