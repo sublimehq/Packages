@@ -234,6 +234,7 @@ contexts:
     - meta_scope: meta.versions.cabal
     - meta_content_scope: meta.mapping.value.cabal
     - include: common-values
+    - include: operators
     - include: numbers
 
 ###[ OTHER TAGS ]##############################################################
@@ -311,9 +312,9 @@ contexts:
         2: punctuation.separator.decimal.cabal
 
   operators:
-    - match: '&&|\|\|'
+    - match: \|\||&&||!
       scope: keyword.operator.logical.cabal
-    - match: '>=|<=|==|[<>]'
+    - match: \^?(>=|<=|==|[<>])
       scope: keyword.operator.comparison.cabal
 
   sequence-separators:

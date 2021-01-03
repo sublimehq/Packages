@@ -1,14 +1,15 @@
 -- SYNTAX TEST "Packages/Haskell/Cabal.sublime-syntax"
 
-cabal-version:   2.2
+cabal-version:   >=2.2
 -- <- meta.versions.cabal meta.mapping.key.cabal entity.name.tag.cabal
 -- ^^^^^^^^^^ meta.versions.cabal meta.mapping.key.cabal
 --           ^ meta.versions.cabal meta.mapping.cabal
---            ^^^^^^^ meta.versions.cabal meta.mapping.value.cabal
+--            ^^^^^^^^^ meta.versions.cabal meta.mapping.value.cabal
 -- ^^^^^^^^^^ entity.name.tag.cabal
 --           ^ punctuation.separator.mapping.key-value.cabal
---               ^^^ meta.number.version.cabal constant.numeric.value.cabal
---                ^ punctuation.separator.decimal.cabal
+--               ^^ keyword.operator.comparison.cabal
+--                 ^^^ meta.number.version.cabal constant.numeric.value.cabal
+--                  ^ punctuation.separator.decimal.cabal
 
 name:            pandoc
 -- <- meta.mapping.key.cabal entity.name.tag.cabal
@@ -224,14 +225,14 @@ build-depends:  pandoc,
 --                        ^ keyword.operator.comparison.cabal
 --                          ^ meta.number.version.cabal constant.numeric.value.cabal
 --                           ^ punctuation.separator.sequence.cabal
-        containers >= 0.4.2.1 && < 0.7,
+        containers ^>= 0.4.2.1 && < 0.7,
 --      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.dependencies.cabal meta.mapping.value.cabal
---                 ^^ keyword.operator.comparison.cabal
---                    ^^^^^^^ meta.number.version.cabal constant.numeric.value.cabal
---                            ^^ keyword.operator.logical.cabal
---                               ^ keyword.operator.comparison.cabal
---                                 ^^^ meta.number.version.cabal constant.numeric.value.cabal
---                                    ^ punctuation.separator.sequence.cabal
+--                 ^^^ keyword.operator.comparison.cabal
+--                     ^^^^^^^ meta.number.version.cabal constant.numeric.value.cabal
+--                             ^^ keyword.operator.logical.cabal
+--                                ^ keyword.operator.comparison.cabal
+--                                  ^^^ meta.number.version.cabal constant.numeric.value.cabal
+--                                     ^ punctuation.separator.sequence.cabal
 
 executable
 -- <- meta.toc-list.sections.cabal keyword.declaration.section.cabal
@@ -254,23 +255,31 @@ executable pandoc
   --                          ^^ keyword.operator.comparison.cabal
   --                             ^^^ meta.number.version.cabal constant.numeric.value.cabal
 
-  if impl(ghc < 8.*)
+  if !impl(ghc < 8.*)
   -- <- keyword.control.conditional.cabal
-  -- ^^^^ meta.function-call.identifier.cabal
-  --     ^^^^^^^^^^^ meta.function-call.arguments.cabal meta.group.cabal
-  -- ^^^^ variable.function.cabal
-  --     ^ punctuation.section.group.begin.cabal
-  --      ^^^ constant.language.compiler.cabal
-  --          ^ keyword.operator.comparison.cabal
-  --            ^^^ meta.number.version.cabal constant.numeric.value.cabal
-  --              ^ keyword.operator.wildcard.cabal
-  --               ^ punctuation.section.group.end.cabal
+  --  ^^^^ meta.function-call.identifier.cabal
+  --      ^^^^^^^^^^^ meta.function-call.arguments.cabal meta.group.cabal
+  -- ^ keyword.operator.logical.cabal
+  --  ^^^^ variable.function.cabal
+  --      ^ punctuation.section.group.begin.cabal
+  --       ^^^ constant.language.compiler.cabal
+  --           ^ keyword.operator.comparison.cabal
+  --             ^^^ meta.number.version.cabal constant.numeric.value.cabal
+  --               ^ keyword.operator.wildcard.cabal
+  --                ^ punctuation.section.group.end.cabal
      hs-source-dirs: prelude
      -- <- meta.mapping.key.cabal entity.name.tag.cabal
      other-modules:  Prelude
      -- <- meta.modules.cabal meta.mapping.key.cabal entity.name.tag.cabal
      build-depends:  base-compat >= 0.9
      -- <- meta.dependencies.cabal meta.mapping.key.cabal entity.name.tag.cabal
+  else
+--^^^^ keyword.control.conditional.cabal
+     build-depends:  base-compat ^>= 1.*
+     -- <- meta.dependencies.cabal meta.mapping.key.cabal entity.name.tag.cabal
+     --                          ^^^ keyword.operator.comparison.cabal
+     --                              ^^^ meta.number.version.cabal constant.numeric.value.cabal
+
   default-language: Haskell2010
   -- <- meta.mapping.key.cabal entity.name.tag.cabal
   other-extensions: NoImplicitPrelude
