@@ -103,7 +103,7 @@ contexts:
     - include: variables
     - include: switches
     - match: (?=[^\s|{{command_terminator_chars}}]*?[.:?*\\])
-      push: path-patterns
+      push: path-pattern
 
 ###[ PROTOTYPES ]#############################################################
 
@@ -275,7 +275,7 @@ contexts:
       set: [expect-operand, maybe-operator-equal]
     - match: (?i:exist)\b
       scope: support.function.builtin.dosbatch
-      set: [path-patterns, else-pop]
+      set: [path-pattern, else-pop]
     - match: (?i:defined)\b
       scope: support.function.builtin.dosbatch
       set: [else-pop, expect-operand, else-pop]
@@ -366,7 +366,7 @@ contexts:
       scope: variable.parameter.recursive.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
-      push: path-patterns
+      push: path-pattern
     - match: (?i:/\S+)\b
       scope: invalid.illegal.parameter.dosbatch
       pop: true
@@ -421,7 +421,7 @@ contexts:
           - include: embedded
           - include: variables
           - match: (?=\S)
-            push: path-patterns
+            push: path-pattern
     - include: else-pop
 
   control-for-do:
@@ -534,17 +534,17 @@ contexts:
           - match: \"
             scope: punctuation.definition.variable.end.dosbatch
             set: function-arguments
-          - include: path-patterns-common
+          - include: path-pattern-common
           - include: illegal-eol-pop
-        - path-patterns-relative
+        - path-pattern-relative
     - match: (?=[^&<|>\s])
       push:
         - - meta_scope: meta.function-call.name.dosbatch variable.function.dosbatch
           - match: (?=\s)
             set: function-arguments
-          - include: path-patterns-common
+          - include: path-pattern-common
           - include: eoc-pop
-        - path-patterns-relative
+        - path-pattern-relative
 
   function-arguments:
     - meta_content_scope: meta.function-call.arguments.dosbatch
@@ -1013,41 +1013,41 @@ contexts:
     - match: \d\b
       scope: constant.numeric.integer.decimal.dosbatch
       pop: true
-    - include: path-patterns
+    - include: path-pattern
 
-  path-patterns:
+  path-pattern:
     - match: \"
       scope: punctuation.definition.string.begin.dosbatch
       set:
-        - - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
+        - - meta_scope: meta.path.dosbatch meta.string.dosbatch string.quoted.double.dosbatch
           - match: \"
             scope: punctuation.definition.string.end.dosbatch
             pop: true
           - include: illegal-eol-pop
-          - include: path-patterns-common
-        - path-patterns-relative
+          - include: path-pattern-common
+        - path-pattern-relative
     - match: (?=(?!%%)\S)
       set:
-        - - meta_scope: meta.string.dosbatch string.unquoted.dosbatch
+        - - meta_scope: meta.path.dosbatch meta.string.dosbatch string.unquoted.dosbatch
           - match: (?=[\s,;"])
             pop: true
           - include: eoc-pop
-          - include: path-patterns-common
-        - path-patterns-relative
+          - include: path-pattern-common
+        - path-pattern-relative
     - include: else-pop
 
-  path-patterns-common:
+  path-pattern-common:
     - include: escaped-characters
     - include: variables-interpolation
     - match: '[.:\\/]'
       scope: punctuation.separator.path.dosbatch
-      push: path-patterns-relative
+      push: path-pattern-relative
     - match: \.
       scope: punctuation.separator.path.dosbatch
     - match: '[*?]'
       scope: constant.other.placeholder.dosbatch
 
-  path-patterns-relative:
+  path-pattern-relative:
     - match: \.\.(?=[\\/])
       scope: constant.language.path.parent.dosbatch
       pop: true
@@ -1085,6 +1085,8 @@ contexts:
       push:
         - clear_scopes: 1
         - meta_scope: meta.interpolation.dosbatch
+        - match: (?=%%(?!\w))
+          pop: 1
         - include: variables
         - include: immediatelly-pop
 
