@@ -16,6 +16,19 @@ REM This follows a REM command
 :: <- keyword.declaration.rem.dosbatch - comment
 :: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
 
+
+:1:
+:: <- comment.block.documentation.dosbatch punctuation.definition.comment.begin.dosbatch
+ :: <- comment.block.documentation.dosbatch punctuation.definition.comment.begin.dosbatch
+
+This is a block comment
+::^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.dosbatch
+
+:1:
+:: <- comment.block.documentation.dosbatch punctuation.definition.comment.end.dosbatch
+ :: <- comment.block.documentation.dosbatch punctuation.definition.comment.end.dosbatch
+
+
    :: Me too!
 :: ^^ punctuation.definition.comment.dosbatch
 :: ^^^^^^^^^^ comment.line.colon.dosbatch
@@ -48,16 +61,6 @@ REM This follows a REM command
    Me too!
 :: ^^^^^^^ comment.line.colon.dosbatch
 
-
-ECHO : Not a comment ^
-::   ^^^^^^^^^^^^^^^ - comment
-::                   ^^ punctuation.separator.continuation.line.dosbatch
-
-ECHO : Not a comment ^
-  do not break out of an echo with an escaped newline
-::   ^^^ - keyword.operator
-::       ^^^^^ - support.function
-
 ECHO &&:: A comment
 ::   ^^ keyword.operator.conditional.dosbatch
 ::     ^^ punctuation.definition.comment.dosbatch
@@ -77,16 +80,21 @@ ECHO |:: Not a comment
 ::   ^ keyword.operator.pipe.dosbatch
 ::    ^^^^^^^^^^^^^^^^ invalid.illegal.unexpected.dosbatch
 
-:1:
-:: <- comment.block.documentation.dosbatch punctuation.definition.comment.begin.dosbatch
- :: <- comment.block.documentation.dosbatch punctuation.definition.comment.begin.dosbatch
+ECHO : Not a comment ^
+::   ^^^^^^^^^^^^^^^ - comment
+::                   ^^ punctuation.separator.continuation.line.dosbatch
 
-This is a block comment
-::^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.dosbatch
+ECHO : Not a comment ^
+:: Me not, too
+:: <- - comment
+::^^^^^^^^^^^^  - comment
 
-:1:
-:: <- comment.block.documentation.dosbatch punctuation.definition.comment.end.dosbatch
- :: <- comment.block.documentation.dosbatch punctuation.definition.comment.end.dosbatch
+ECHO ^
+  do not break out of an echo with an escaped newline
+:: <- string.unquoted.dosbatch
+::^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
+::   ^^^ - keyword.operator
+::       ^^^^^ - support.function
 
 ECHO "foo"
 ::   ^ punctuation.definition.string.begin.dosbatch
