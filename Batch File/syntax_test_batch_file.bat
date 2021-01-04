@@ -238,7 +238,7 @@ ECHO "^
 ::            ^ punctuation.separator.path.dosbatch
 ::                ^ punctuation.separator.path.dosbatch
 ::                     ^ punctuation.definition.variable.dosbatch
-::                     ^^^^^^ variable.parameter.switch.dosbatch
+::                     ^^^^^^ variable.parameter.option.dosbatch
 ::                           ^ punctuation.separator.mapping.key-value.dosbatch
 ::                            ^^ constant.numeric.integer.decimal.dosbatch
 
@@ -259,7 +259,7 @@ ECHO "^
 ::              ^ punctuation.separator.path.dosbatch
 ::                  ^ punctuation.separator.path.dosbatch
 ::                       ^ punctuation.definition.variable.dosbatch
-::                       ^^^^^^ variable.parameter.switch.dosbatch
+::                       ^^^^^^ variable.parameter.option.dosbatch
 ::                             ^ punctuation.separator.mapping.key-value.dosbatch
 
    CALL foo\bar.exe /pa_am:%var%
@@ -273,7 +273,7 @@ ECHO "^
 ::         ^ punctuation.separator.path.dosbatch
 ::             ^ punctuation.separator.path.dosbatch
 ::                  ^ punctuation.definition.variable.dosbatch
-::                  ^^^^^^ variable.parameter.switch.dosbatch
+::                  ^^^^^^ variable.parameter.option.dosbatch
 ::                        ^ punctuation.separator.mapping.key-value.dosbatch
 
    CALL %foo%\bar.exe /pa-am:-10
@@ -290,7 +290,7 @@ ECHO "^
 ::           ^ punctuation.separator.path.dosbatch
 ::               ^ punctuation.separator.path.dosbatch
 ::                    ^ punctuation.definition.variable.dosbatch
-::                    ^^^^^^ variable.parameter.switch.dosbatch
+::                    ^^^^^^ variable.parameter.option.dosbatch
 ::                          ^ punctuation.separator.mapping.key-value.dosbatch
 
    CALL "d:\foo %bar%\baz.exe" /par-am=10 /D
@@ -311,7 +311,7 @@ ECHO "^
 ::                       ^ punctuation.separator.path.dosbatch
 ::                           ^ punctuation.definition.variable.end.dosbatch
 ::                             ^ punctuation.definition.variable.dosbatch
-::                             ^^^^^^^ variable.parameter.switch.dosbatch
+::                             ^^^^^^^ variable.parameter.option.dosbatch
 ::                                    ^ punctuation.separator.mapping.key-value.dosbatch
 
 
