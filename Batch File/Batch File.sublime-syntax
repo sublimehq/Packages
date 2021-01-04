@@ -922,14 +922,8 @@ contexts:
     - match: (?=\S)
       set:
         - meta_content_scope: meta.string.dosbatch string.unquoted.dosbatch
-        - match: '<&?|>[&>]?'
-          scope: keyword.operator.redirection.dosbatch
-          push:
-            - - clear_scopes: 1
-              - meta_scope: meta.redirection.dosbatch
-              - include: immediatelly-pop
-            - path-redirection
         - include: escaped-characters
+        - include: redirection-interpolations
         - include: variables-interpolation
         - include: eoc-pop
     - include: eol-pop
@@ -950,12 +944,7 @@ contexts:
     - match: '\|'
       scope: keyword.operator.pipe.dosbatch
       push: illegal-comment-pop
-    - include: operators-redirction
-
-  operators-redirction:
-    - match: '<&?|>[&>]?'
-      scope: keyword.operator.redirection.dosbatch
-      push: path-redirection
+    - include: redirections
 
   separator-comma:
     - match: ','
@@ -989,7 +978,35 @@ contexts:
 
 ###[ PATH PATTERNS ]##########################################################
 
-  path-redirection:
+  redirection-interpolations:
+    - match: \s*(?=(<&?|>[&>]?))
+      push: redirection-interpolation
+
+  redirection-interpolation:
+    - match: '<&?|>[&>]?'
+      scope: keyword.operator.redirection.dosbatch
+      set:
+        - redirection-interpolation-meta
+        - redirection-path
+
+  redirection-interpolation-meta:
+    - clear_scopes: 1
+    - meta_scope: meta.interpolation.dosbatch meta.redirection.dosbatch
+    - include: immediatelly-pop
+
+  redirections:
+    - match: '<&?|>[&>]?'
+      scope: keyword.operator.redirection.dosbatch
+      push:
+        - redirection-meta
+        - redirection-path
+
+  redirection-meta:
+    - clear_scopes: 1
+    - meta_scope: meta.redirection.dosbatch
+    - include: immediatelly-pop
+
+  redirection-path:
     - match: (?i:nul)\b
       scope: constant.language.dosbatch
       pop: true
