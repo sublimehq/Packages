@@ -672,11 +672,11 @@ contexts:
       scope: invalid.illegal.parameter.dosbatch
     # SET "variable=string"
     # SET "variable="
-    # SET variable
-    # SET variable=string
     - match: \"
       scope: punctuation.definition.string.begin.dosbatch
       set: [command-set-quoted, command-set-variable]
+    # SET variable
+    # SET variable=string
     - match: (?=\S)
       scope: punctuation.definition.string.begin.dosbatch
       set: [command-set-unquoted, command-set-variable]
@@ -703,10 +703,12 @@ contexts:
         - include: illegal-eol-pop
 
   command-set-unquoted:
-    - include: eoc-pop
-    - include: escaped-characters
     - match: (?=\S)
-      push: path-patterns
+      set:
+        - meta_content_scope: meta.string.dosbatch string.unquoted.dosbatch
+        - include: escaped-characters
+        - include: variables-interpolation
+        - include: eoc-pop
 
   command-set-variable:
     - include: eoc-pop
