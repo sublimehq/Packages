@@ -108,8 +108,7 @@ contexts:
       push: boolean-values
 
   boolean-values:
-    - meta_scope: meta.flags.cabal
-    - meta_content_scope: meta.mapping.value.cabal
+    - meta_content_scope: meta.mapping.value.boolean.cabal
     - include: value-end
     - match: \b(?:False|True)\b
       scope: constant.language.boolean.cabal
@@ -124,8 +123,7 @@ contexts:
       push: compiler-values
 
   compiler-values:
-    - meta_scope: meta.compilers.cabal
-    - meta_content_scope: meta.mapping.value.cabal
+    - meta_content_scope: meta.mapping.value.compiler.cabal
     - include: value-end
     - include: operators
     - include: literal-versions
@@ -142,8 +140,7 @@ contexts:
       push: dependency-values
 
   dependency-values:
-    - meta_scope: meta.dependencies.cabal
-    - meta_content_scope: meta.mapping.value.cabal
+    - meta_content_scope: meta.mapping.value.dependencies.cabal
     - include: value-end
     - include: sequence-separators
     - include: operators
@@ -160,8 +157,7 @@ contexts:
       push: module-values
 
   module-values:
-    - meta_scope: meta.modules.cabal
-    - meta_content_scope: meta.mapping.value.cabal
+    - meta_content_scope: meta.mapping.value.modules.cabal
     - include: value-end
     - include: sequence-separators
     - include: ident-modules
@@ -176,8 +172,7 @@ contexts:
       push: option-values
 
   option-values:
-    - meta_scope: meta.options.cabal
-    - meta_content_scope: meta.mapping.value.cabal
+    - meta_content_scope: meta.mapping.value.options.cabal
     - include: value-end
     - include: literal-strings
     - include: literal-options
@@ -193,8 +188,7 @@ contexts:
       push: path-values
 
   path-values:
-    - meta_scope: meta.paths.cabal
-    - meta_content_scope: meta.mapping.value.cabal
+    - meta_content_scope: meta.mapping.value.paths.cabal
     - include: value-end
     - include: sequence-separators
     - include: literal-paths
@@ -209,8 +203,7 @@ contexts:
       push: url-values
 
   url-values:
-    - meta_scope: meta.urls.cabal
-    - meta_content_scope: meta.mapping.value.cabal
+    - meta_content_scope: meta.mapping.value.urls.cabal
     - include: value-end
     - include: sequence-separators
     - include: literal-urls
@@ -225,8 +218,7 @@ contexts:
       push: version-values
 
   version-values:
-    - meta_scope: meta.versions.cabal
-    - meta_content_scope: meta.mapping.value.cabal
+    - meta_content_scope: meta.mapping.value.version.cabal
     - include: value-end
     - include: operators
     - include: literal-versions
@@ -241,7 +233,7 @@ contexts:
       push: other-values
 
   other-values:
-    - meta_content_scope: meta.mapping.value.cabal
+    - meta_content_scope: meta.mapping.value.other.cabal
     - include: value-end
     - include: literal-emails
 

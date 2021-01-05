@@ -1,10 +1,10 @@
 -- SYNTAX TEST "Packages/Haskell/Cabal.sublime-syntax"
 
 cabal-version:   >=2.2
--- <- meta.versions.cabal meta.mapping.key.cabal entity.name.tag.cabal
--- ^^^^^^^^^^ meta.versions.cabal meta.mapping.key.cabal
---           ^ meta.versions.cabal meta.mapping.cabal
---            ^^^^^^^^^ meta.versions.cabal meta.mapping.value.cabal
+-- <- meta.mapping.key.cabal entity.name.tag.cabal
+-- ^^^^^^^^^^ meta.mapping.key.cabal
+--           ^ meta.mapping.cabal
+--            ^^^^^^^^^ meta.mapping.value.version.cabal
 -- ^^^^^^^^^^ entity.name.tag.cabal
 --           ^ punctuation.separator.mapping.key-value.cabal
 --               ^^ keyword.operator.comparison.cabal
@@ -15,15 +15,15 @@ name:            pandoc
 -- <- meta.mapping.key.cabal entity.name.tag.cabal
 -- ^ meta.mapping.key.cabal
 --  ^ meta.mapping.cabal
---   ^^^^^^^^^^^^^^^^^^^ meta.mapping.value.cabal
+--   ^^^^^^^^^^^^^^^^^^^ meta.mapping.value.other.cabal
 -- ^ entity.name.tag.cabal
 --  ^ punctuation.separator.mapping.key-value.cabal
 
 version:         2.11.3.1
--- <- meta.versions.cabal meta.mapping.key.cabal entity.name.tag.cabal
--- ^^^^ meta.versions.cabal meta.mapping.key.cabal
---     ^ meta.versions.cabal meta.mapping.cabal
---      ^^^^^^^^^^^^^^^^^^ meta.versions.cabal meta.mapping.value.cabal
+-- <- meta.mapping.key.cabal entity.name.tag.cabal
+-- ^^^^ meta.mapping.key.cabal
+--     ^ meta.mapping.cabal
+--      ^^^^^^^^^^^^^^^^^^ meta.mapping.value.version.cabal
 -- ^^^^ entity.name.tag.cabal
 --     ^ punctuation.separator.mapping.key-value.cabal
 --               ^^^^^^^^ meta.number.version.cabal constant.numeric.value.cabal
@@ -35,11 +35,11 @@ author: Jon Doe <jon.doe@nowhere.com>
 -- <- meta.mapping.key.cabal entity.name.tag.cabal
 --^^^^ meta.mapping.key.cabal
 --    ^ meta.mapping.cabal
---     ^^^^^^^^^ meta.mapping.value.cabal
---              ^ meta.mapping.value.cabal meta.path.email.cabal - meta.string
---               ^^^^^^^^^^^^^^^^^^^ meta.mapping.value.cabal meta.path.email.cabal meta.string.cabal
---                                  ^ meta.mapping.value.cabal meta.path.email.cabal - meta.string
---                                   ^ meta.mapping.value.cabal - meta.path
+--     ^^^^^^^^^ meta.mapping.value.other.cabal
+--              ^ meta.mapping.value.other.cabal meta.path.email.cabal - meta.string
+--               ^^^^^^^^^^^^^^^^^^^ meta.mapping.value.other.cabal meta.path.email.cabal meta.string.cabal
+--                                  ^ meta.mapping.value.other.cabal meta.path.email.cabal - meta.string
+--                                   ^ meta.mapping.value.other.cabal - meta.path
 --^^^^ entity.name.tag.cabal
 --    ^ punctuation.separator.mapping.key-value.cabal
 --              ^ punctuation.definition.path.begin.cabal
@@ -51,7 +51,7 @@ maintainer: cabal-devel@haskell.org
 -- <- meta.mapping.key.cabal entity.name.tag.cabal
 --^^^^^^^^ meta.mapping.key.cabal
 --        ^ meta.mapping.cabal
---         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.cabal
+--         ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.other.cabal
 --          ^^^^^^^^^^^^^^^^^^^^^^^ meta.path.email.cabal meta.string.cabal string.unquoted.cabal
 --^^^^ entity.name.tag.cabal
 --        ^ punctuation.separator.mapping.key-value.cabal
@@ -59,19 +59,19 @@ maintainer: cabal-devel@haskell.org
 --                             ^ punctuation.separator.path.domain.cabal
 
 tests: True
--- <- meta.flags.cabal meta.mapping.key.cabal entity.name.tag.cabal
---^^^ meta.flags.cabal meta.mapping.key.cabal
---   ^ meta.flags.cabal meta.mapping.cabal
---    ^^^^^^ meta.flags.cabal meta.mapping.value.cabal
+-- <- meta.mapping.key.cabal entity.name.tag.cabal
+--^^^ meta.mapping.key.cabal
+--   ^ meta.mapping.cabal
+--    ^^^^^^ meta.mapping.value.boolean.cabal
 --^^^ entity.name.tag.cabal
 --   ^ punctuation.separator.mapping.key-value.cabal
 --     ^^^^ constant.language.boolean.cabal
 
 optimization: False
--- <- meta.flags.cabal meta.mapping.key.cabal entity.name.tag.cabal
---^^^^^^^^^^ meta.flags.cabal meta.mapping.key.cabal
---          ^ meta.flags.cabal meta.mapping.cabal
---           ^^^^^^^ meta.flags.cabal meta.mapping.value.cabal
+-- <- meta.mapping.key.cabal entity.name.tag.cabal
+--^^^^^^^^^^ meta.mapping.key.cabal
+--          ^ meta.mapping.cabal
+--           ^^^^^^^ meta.mapping.value.boolean.cabal
 --^^^^^^^^^^ entity.name.tag.cabal
 --          ^ punctuation.separator.mapping.key-value.cabal
 --            ^^^^ constant.language.boolean.cabal
@@ -80,15 +80,15 @@ build-type:      Simple
 -- <- meta.mapping.key.cabal entity.name.tag.cabal
 -- ^^^^^^^ meta.mapping.key.cabal
 --        ^ meta.mapping.cabal
---         ^^^^^^^^^^^^^ meta.mapping.value.cabal
+--         ^^^^^^^^^^^^^ meta.mapping.value.other.cabal
 -- ^^^^^^^ entity.name.tag.cabal
 --        ^ punctuation.separator.mapping.key-value.cabal
 
 bug-reports:     https://github.com/sublime%20hq/Packages/issues?action=new
--- <- meta.urls.cabal meta.mapping.key.cabal entity.name.tag.cabal
--- ^^^^^^^^ meta.urls.cabal meta.mapping.key.cabal
---         ^ meta.urls.cabal meta.mapping.cabal
---          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.urls.cabal meta.mapping.value.cabal
+-- <- meta.mapping.key.cabal entity.name.tag.cabal
+-- ^^^^^^^^ meta.mapping.key.cabal
+--         ^ meta.mapping.cabal
+--          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.urls.cabal
 -- ^^^^^^^^ entity.name.tag.cabal
 --         ^ punctuation.separator.mapping.key-value.cabal
 --               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.url.cabal meta.string.cabal string.unquoted.cabal
@@ -100,23 +100,23 @@ bug-reports:     https://github.com/sublime%20hq/Packages/issues?action=new
 --                                                              ^ punctuation.separator.path.cabal
 
 homepage:
--- <- meta.urls.cabal meta.mapping.key.cabal entity.name.tag.cabal
--- ^^^^^ meta.urls.cabal meta.mapping.key.cabal
---      ^ meta.urls.cabal meta.mapping.cabal
---       ^ meta.urls.cabal meta.mapping.value.cabal
+-- <- meta.mapping.key.cabal entity.name.tag.cabal
+-- ^^^^^ meta.mapping.key.cabal
+--      ^ meta.mapping.cabal
+--       ^ meta.mapping.value.urls.cabal
 -- ^^^^^ entity.name.tag.cabal
 --      ^ punctuation.separator.mapping.key-value.cabal
     https://sublimehq.com
--- ^ meta.urls.cabal meta.mapping.value.cabal - meta.string - string
---  ^^^^^^^^^^^^^^^^^^^^^ meta.urls.cabal meta.mapping.value.cabal meta.path.url.cabal meta.string.cabal string.unquoted.cabal
---                       ^ meta.urls.cabal meta.mapping.value.cabal - meta.string - string
+-- ^ meta.mapping.value.urls.cabal - meta.string - string
+--  ^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.urls.cabal meta.path.url.cabal meta.string.cabal string.unquoted.cabal
+--                       ^ meta.mapping.value.urls.cabal - meta.string - string
 --       ^^^ punctuation.separator.path.cabal
 
 flags: +embed_data_files -trypandoc "+Dkey: value"
--- <- meta.options.cabal meta.mapping.key.cabal entity.name.tag.cabal
---^^^ meta.options.cabal meta.mapping.key.cabal
---   ^ meta.options.cabal meta.mapping.cabal
---    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.options.cabal meta.mapping.value.cabal
+-- <- meta.mapping.key.cabal entity.name.tag.cabal
+--^^^ meta.mapping.key.cabal
+--   ^ meta.mapping.cabal
+--    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.options.cabal
 --^^^ entity.name.tag.cabal
 --   ^ punctuation.separator.mapping.key-value.cabal
 --     ^ variable.parameter.option.haskell punctuation.definition.variable.haskell
@@ -126,10 +126,10 @@ flags: +embed_data_files -trypandoc "+Dkey: value"
 --                                  ^^^^^^^^^^^^^^ meta.string.cabal string.quoted.double.cabal
 
 ghc-options: -j +RTS -A64m -RTS
--- <- meta.options.cabal meta.mapping.key.cabal entity.name.tag.cabal
---^^^^^^^^^ meta.options.cabal meta.mapping.key.cabal
---         ^ meta.options.cabal meta.mapping.cabal
---          ^^^^^^^^^^^^^^^^^^^^ meta.options.cabal meta.mapping.value.cabal
+-- <- meta.mapping.key.cabal entity.name.tag.cabal
+--^^^^^^^^^ meta.mapping.key.cabal
+--         ^ meta.mapping.cabal
+--          ^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.options.cabal
 --^^^^^^^^^ entity.name.tag.cabal
 --         ^ punctuation.separator.mapping.key-value.cabal
 --           ^ variable.parameter.option.haskell punctuation.definition.variable.haskell
@@ -142,19 +142,19 @@ ghc-options: -j +RTS -A64m -RTS
 --                          ^^^ variable.parameter.option.haskell - punctuation
 
 exposed-modules: ,
--- <- meta.modules.cabal meta.mapping.key.cabal entity.name.tag.cabal
--- ^^^^^^^^^^^^ meta.modules.cabal meta.mapping.key.cabal
---             ^ meta.modules.cabal meta.mapping.cabal
---              ^^^ meta.modules.cabal meta.mapping.value.cabal
+-- <- meta.mapping.key.cabal entity.name.tag.cabal
+-- ^^^^^^^^^^^^ meta.mapping.key.cabal
+--             ^ meta.mapping.cabal
+--              ^^^ meta.mapping.value.modules.cabal
 -- ^^^^^^^^^^^^ entity.name.tag.cabal
 --             ^ punctuation.separator.mapping.key-value.cabal
 --               ^ punctuation.separator.sequence.cabal
 
 exposed-modules: ModId.ModName,
--- <- meta.modules.cabal meta.mapping.key.cabal entity.name.tag.cabal
--- ^^^^^^^^^^^^ meta.modules.cabal meta.mapping.key.cabal
---             ^ meta.modules.cabal meta.mapping.cabal
---               ^^^^^^^^^^^^^^ meta.modules.cabal meta.mapping.value.cabal
+-- <- meta.mapping.key.cabal entity.name.tag.cabal
+-- ^^^^^^^^^^^^ meta.mapping.key.cabal
+--             ^ meta.mapping.cabal
+--               ^^^^^^^^^^^^^^ meta.mapping.value.modules.cabal
 -- ^^^^^^^^^^^^ entity.name.tag.cabal
 --             ^ punctuation.separator.mapping.key-value.cabal
 --               ^^^^^ variable.namespace.haskell
@@ -162,8 +162,8 @@ exposed-modules: ModId.ModName,
 --                     ^^^^^^^ variable.namespace.haskell
 --                            ^ punctuation.separator.sequence.cabal
      ModId.ModId.ModName
--- <- meta.modules.cabal meta.mapping.value.cabal
--- ^^^^^^^^^^^^^^^^^^^^^^ meta.modules.cabal meta.mapping.value.cabal
+-- <- meta.mapping.value.modules.cabal
+-- ^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.modules.cabal
 --   ^^^^^ variable.namespace.haskell
 --        ^ punctuation.accessor.dot.haskell
 --         ^^^^^ variable.namespace.haskell
@@ -171,17 +171,17 @@ exposed-modules: ModId.ModName,
 --               ^^^^^^^ variable.namespace.haskell
 
 exposed-modules: ModId.ModName
--- ^^^^^^^^^^^^ meta.modules.cabal meta.mapping.key.cabal
---             ^ meta.modules.cabal meta.mapping.cabal
---              ^^^^^^^^^^^^^^^ meta.modules.cabal meta.mapping.value.cabal
+-- ^^^^^^^^^^^^ meta.mapping.key.cabal
+--             ^ meta.mapping.cabal
+--              ^^^^^^^^^^^^^^^ meta.mapping.value.modules.cabal
 -- ^^^^^^^^^^^^ entity.name.tag.cabal
 --             ^ punctuation.separator.mapping.key-value.cabal
 --               ^^^^^ variable.namespace.haskell
 --                    ^ punctuation.accessor.dot.haskell
 --                     ^^^^^^^ variable.namespace.haskell
         ModId.ModId.ModName
--- <- meta.modules.cabal meta.mapping.value.cabal
--- ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.modules.cabal meta.mapping.value.cabal
+-- <- meta.mapping.value.modules.cabal
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.modules.cabal
 --      ^^^^^ variable.namespace.haskell
 --           ^ punctuation.accessor.dot.haskell
 --            ^^^^^ variable.namespace.haskell
@@ -191,17 +191,17 @@ NoModule
 -- <- - meta.modules - meta.mapping
 
 other-modules: ModId.ModName
--- ^^^^^^^^^^ meta.modules.cabal meta.mapping.key.cabal
---           ^ meta.modules.cabal meta.mapping.cabal
---            ^^^^^^^^^^^^^^^ meta.modules.cabal meta.mapping.value.cabal
+-- ^^^^^^^^^^ meta.mapping.key.cabal
+--           ^ meta.mapping.cabal
+--            ^^^^^^^^^^^^^^^ meta.mapping.value.modules.cabal
 -- ^^^^^^^^^^ entity.name.tag.cabal
 --           ^ punctuation.separator.mapping.key-value.cabal
 --             ^^^^^ variable.namespace.haskell
 --                  ^ punctuation.accessor.dot.haskell
 --                   ^^^^^^^ variable.namespace.haskell
         ModId.ModId.ModName
--- <- meta.modules.cabal meta.mapping.value.cabal
--- ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.modules.cabal meta.mapping.value.cabal
+-- <- meta.mapping.value.modules.cabal
+-- ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.modules.cabal
 --      ^^^^^ variable.namespace.haskell
 --           ^ punctuation.accessor.dot.haskell
 --            ^^^^^ variable.namespace.haskell
@@ -211,13 +211,13 @@ NoModule
 -- <- - meta.modules - meta.mapping
 
 data-files:
--- <- meta.paths.cabal meta.mapping.key.cabal entity.name.tag.cabal
--- ^^^^^^^ meta.paths.cabal meta.mapping.key.cabal entity.name.tag.cabal
---        ^ meta.paths.cabal meta.mapping.cabal punctuation.separator.mapping.key-value.cabal
---         ^ meta.paths.cabal meta.mapping.value.cabal
+-- <- meta.mapping.key.cabal entity.name.tag.cabal
+-- ^^^^^^^ meta.mapping.key.cabal entity.name.tag.cabal
+--        ^ meta.mapping.cabal punctuation.separator.mapping.key-value.cabal
+--         ^ meta.mapping.value.paths.cabal
                  -- documentation
                  INSTALL.md, AUTHORS.md, README.md,
---              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paths.cabal meta.mapping.value.cabal
+--              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.paths.cabal
 --              ^ - meta.path - meta.string - string
 --               ^^^^^^^^^^ meta.path.file.cabal
 --                         ^^ - meta.path - meta.string - string
@@ -231,7 +231,7 @@ data-files:
 
                  -- templates
                  ../data/template?.../**/styles.html
---              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.paths.cabal meta.mapping.value.cabal
+--              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.paths.cabal
 --              ^ - meta.path - meta.string - string
 --               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.file.cabal
 --               ^^ constant.language.path.parent.cabal
@@ -245,14 +245,14 @@ data-files:
 --                                                  ^ - meta.path - meta.string - string
 
 build-depends:  pandoc,
--- <- meta.dependencies.cabal meta.mapping.key.cabal entity.name.tag.cabal
--- ^^^^^^^^^^ meta.dependencies.cabal meta.mapping.key.cabal
---           ^ meta.dependencies.cabal meta.mapping.cabal
---            ^^^^^^^^^^ meta.dependencies.cabal meta.mapping.value.cabal
+-- <- meta.mapping.key.cabal entity.name.tag.cabal
+-- ^^^^^^^^^^ meta.mapping.key.cabal
+--           ^ meta.mapping.cabal
+--            ^^^^^^^^^^ meta.mapping.value.dependencies.cabal
 -- ^^^^^^^^^^ entity.name.tag.cabal
 --           ^ punctuation.separator.mapping.key-value.cabal
         base    >= 4.8 && < 5,
---      ^^^^^^^^^^^^^^^^^^^^^^^ meta.dependencies.cabal meta.mapping.value.cabal
+--      ^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.dependencies.cabal
 --              ^^ keyword.operator.comparison.cabal
 --                 ^^^ meta.number.version.cabal constant.numeric.value.cabal
 --                     ^^ keyword.operator.logical.cabal
@@ -260,7 +260,7 @@ build-depends:  pandoc,
 --                          ^ meta.number.version.cabal constant.numeric.value.cabal
 --                           ^ punctuation.separator.sequence.cabal
         containers ^>= 0.4.2.1 && < 0.7,
---      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.dependencies.cabal meta.mapping.value.cabal
+--      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.dependencies.cabal
 --                 ^^^ keyword.operator.comparison.cabal
 --                     ^^^^^^^ meta.number.version.cabal constant.numeric.value.cabal
 --                             ^^ keyword.operator.logical.cabal
@@ -279,10 +279,10 @@ executable pandoc
 --         ^^^^^^ entity.name.section.cabal
 
   build-depends: pandoc, base >= 4.8 && < 5
-  -- <- meta.dependencies.cabal meta.mapping.key.cabal entity.name.tag.cabal
-  --^^^^^^^^^^^ meta.dependencies.cabal meta.mapping.key.cabal
-  --           ^ meta.dependencies.cabal meta.mapping.cabal
-  --            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.dependencies.cabal meta.mapping.value.cabal
+  -- <- meta.mapping.key.cabal entity.name.tag.cabal
+  --^^^^^^^^^^^ meta.mapping.key.cabal
+  --           ^ meta.mapping.cabal
+  --            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.value.dependencies.cabal
   --^^^^^^^^^^^ entity.name.tag.cabal
   --           ^ punctuation.separator.mapping.key-value.cabal
   --                   ^ punctuation.separator.sequence.cabal
@@ -304,13 +304,13 @@ executable pandoc
      hs-source-dirs: prelude
      -- <- meta.mapping.key.cabal entity.name.tag.cabal
      other-modules:  Prelude
-     -- <- meta.modules.cabal meta.mapping.key.cabal entity.name.tag.cabal
+     -- <- meta.mapping.key.cabal entity.name.tag.cabal
      build-depends:  base-compat >= 0.9
-     -- <- meta.dependencies.cabal meta.mapping.key.cabal entity.name.tag.cabal
+     -- <- meta.mapping.key.cabal entity.name.tag.cabal
   else
 --^^^^ keyword.control.conditional.cabal
      build-depends:  base-compat ^>= 1.*
-     -- <- meta.dependencies.cabal meta.mapping.key.cabal entity.name.tag.cabal
+     -- <- meta.mapping.key.cabal entity.name.tag.cabal
      --                          ^^^ keyword.operator.comparison.cabal
      --                              ^^^ meta.number.version.cabal constant.numeric.value.cabal
 
