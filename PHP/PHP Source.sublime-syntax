@@ -1190,7 +1190,7 @@ contexts:
       push:
         - include: expressions
         - match: ''
-          pop: 1
+          pop: true
   heredoc:
     - match: (?=<<<\s*'?({{identifier}})'?\s*$)
       push:
