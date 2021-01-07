@@ -1021,22 +1021,28 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.begin.dosbatch
       set:
-        - - meta_scope: meta.path.dosbatch meta.string.dosbatch string.quoted.double.dosbatch
-          - match: \"
-            scope: punctuation.definition.string.end.dosbatch
-            pop: true
-          - include: illegal-eol-pop
-          - include: path-pattern-common
+        - path-pattern-quoted-body
         - path-pattern-relative
     - match: (?=(?!%%)\S)
       set:
-        - - meta_scope: meta.path.dosbatch meta.string.dosbatch string.unquoted.dosbatch
-          - match: (?=[\s,;"])
-            pop: true
-          - include: eoc-pop
-          - include: path-pattern-common
+        - path-pattern-unquoted-body
         - path-pattern-relative
     - include: else-pop
+
+  path-pattern-quoted-body:
+    - meta_scope: meta.path.dosbatch meta.string.dosbatch string.quoted.double.dosbatch
+    - match: \"
+      scope: punctuation.definition.string.end.dosbatch
+      pop: true
+    - include: illegal-eol-pop
+    - include: path-pattern-common
+
+  path-pattern-unquoted-body:
+    - meta_scope: meta.path.dosbatch meta.string.dosbatch string.unquoted.dosbatch
+    - match: (?=[\s,;"])
+      pop: true
+    - include: eoc-pop
+    - include: path-pattern-common
 
   path-pattern-common:
     - include: escaped-characters
@@ -1056,8 +1062,7 @@ contexts:
     - match: \.(?=[\\/])
       scope: constant.language.path.self.dosbatch
       pop: true
-    - match: ''
-      pop: true
+    - include: immediatelly-pop
 
 ###[ STRINGS ]################################################################
 
