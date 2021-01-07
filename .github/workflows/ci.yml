@@ -5,9 +5,17 @@ on:
       - '*'
     tags-ignore:
       - '*'
+    paths-ignore:
+      - './LICENSE'
+      - './README.md'
+      - '.github/**'
   pull_request:
     branches:
       - '*'
+    paths-ignore:
+      - './LICENSE'
+      - './README.md'
+      - '.github/**'
 
 jobs:
   build:
