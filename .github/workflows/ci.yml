@@ -5,17 +5,15 @@ on:
       - '*'
     tags-ignore:
       - '*'
-    paths-ignore:
-      - './LICENSE'
-      - './README.md'
-      - '.github/**'
+    paths:
+      - '**/syntax_test_*'
+      - '**/*.sublime-syntax'
   pull_request:
     branches:
       - '*'
-    paths-ignore:
-      - './LICENSE'
-      - './README.md'
-      - '.github/**'
+    paths:
+      - '**/syntax_test_*'
+      - '**/*.sublime-syntax'
 
 jobs:
   build:
