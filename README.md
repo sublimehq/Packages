@@ -11,6 +11,16 @@ If you want to make changes to these packages and test them locally, fork this r
 
 *Replace `Python` in the following commands with the name of the syntax to install.*
 
+### Sublime Text 3 Users
+
+Please use the `st3` branch:
+
+<https://github.com/sublimehq/Packages/tree/st3>
+
+and change the paths below accordingly as described in the README there:
+
+<https://github.com/sublimehq/Packages/tree/st3#readme>
+
 ### OS X
 
 ```bash
