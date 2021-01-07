@@ -3,7 +3,7 @@
 # Sublime Packages
 
 > **These packages are developed against the latest [Sublime Text Dev Build](http://sublimetext.com/).**
-> **Bugs may exist on older builds, and the format used is not compatible with builds older than 4075.**
+> **Bugs may exist on older builds or even cause crashes, and the format used is not compatible with builds older than 4094.**
 
 ## Installation
 
