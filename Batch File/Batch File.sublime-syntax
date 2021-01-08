@@ -298,28 +298,30 @@ contexts:
       scope: invalid.illegal.stray.dosbatch
 
   control-if-meta:
-      - meta_scope: meta.if.dosbatch
-      - include: immediatelly-pop
+    - meta_scope: meta.if.dosbatch
+    - include: immediatelly-pop
 
   control-if-condition:
-      - include: eoc-pop
-      - match: (?i:(/)i)\b
-        scope: variable.parameter.dosbatch
-        captures:
-          1: punctuation.definition.variable.dosbatch
-        set:
-          - expect-operand
-          - expect-operator-comparison
-          - expect-operand
-          - maybe-operator-not
-      - match: (?=\S)
-        set:
-          - control-if-checks
-          - maybe-operator-not
+    - include: eoc-pop
+    - match: (?i:(/)i)\b
+      scope: variable.parameter.dosbatch
+      captures:
+        1: punctuation.definition.variable.dosbatch
+      set:
+        - maybe-operand
+        - expect-operator-comparison
+        - maybe-operand
+        - maybe-operator-not
+    - match: (?=\S)
+      set:
+        - control-if-checks
+        - maybe-operator-not
 
   control-if-block:
     - match: (?=\()
-      set: [control-else, control-block]
+      set:
+        - control-else
+        - control-block
     - include: eoc-pop
     - include: statements
 
@@ -327,24 +329,32 @@ contexts:
     - include: eoc-pop
     - match: (?i:errorlevel|cmdextversion)\b
       scope: variable.language.dosbatch
-      set: [expect-operand, maybe-operator-equal]
+      set:
+        - maybe-operand
+        - maybe-operator-equal
     - match: (?i:exist)\b
       scope: support.function.builtin.dosbatch
-      set: [path-pattern, else-pop]
+      set: path-pattern
     - match: (?i:defined)\b
       scope: support.function.builtin.dosbatch
-      set: [else-pop, expect-operand, else-pop]
+      set: maybe-operand
     - match: (?=\S)
-      set: [expect-operand, expect-operator-comparison, expect-operand]
+      set:
+        - maybe-operand
+        - expect-operator-comparison
+        - maybe-operand
 
-  expect-operand:
-    - match: (?={{operator_comparison}}|==)
-      pop: 1
+  maybe-operand:
+    - include: eol-pop
+    - match: (?=\S)
+      set: operand-body
+
+  operand-body:
     - include: groups
     - include: numbers
     - include: strings
     - include: variables
-    - match: '[^-+*\s{{command_terminator_chars}})][^\s{{command_terminator_chars}}]*'
+    - match: '[^-+*=\s{{command_terminator_chars}})][^=\s{{command_terminator_chars}}]*'
       scope: variable.other.readwrite.dosbatch
       pop: 1
     - include: immediatelly-pop
@@ -352,22 +362,22 @@ contexts:
   expect-operator-comparison:
     - match: '{{operator_comparison}}|=='
       scope: keyword.operator.comparison.dosbatch
-      set: else-pop
+      pop: 1
     - include: illegal-token-pop
 
   maybe-operator-equal:
     - match: ==
       scope: keyword.operator.comparison.dosbatch
-      set: else-pop
+      pop: 1
     - match: '{{operator_comparison}}'
       scope: invalid.illegal.unexpected.dosbatch
-      set: else-pop
+      pop: 1
     - include: else-pop
 
   maybe-operator-not:
     - match: (?i:not)\b
       scope: keyword.operator.logical.dosbatch
-      set: else-pop
+      pop: 1
     - include: else-pop
 
   control-else:
@@ -1038,6 +1048,23 @@ contexts:
     - match: \b(?:0|[1-9][0-9]*)\b
       scope: meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 
+  number:
+    - match: \b(0[xX])(\h*)\b
+      scope: meta.number.integer.hexadecimal.dosbatch
+      captures:
+        1: constant.numeric.base.dosbatch
+        2: constant.numeric.value.dosbatch
+      pop: 1
+    - match: \b(0)([0-7]+)\b
+      scope: meta.number.integer.octal.dosbatch
+      captures:
+        1: constant.numeric.base.dosbatch
+        2: constant.numeric.value.dosbatch
+      pop: 1
+    - match: \b(?:0|[1-9][0-9]*)\b
+      scope: meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
+      pop: 1
+
 ###[ PATH PATTERNS ]##########################################################
 
   redirection-interpolations:
@@ -1078,6 +1105,7 @@ contexts:
     - include: path-pattern
 
   path-pattern:
+    - include: eol-pop
     - match: \"
       scope: punctuation.definition.string.begin.dosbatch
       set:
@@ -1087,7 +1115,7 @@ contexts:
       set:
         - path-pattern-unquoted-body
         - path-pattern-relative
-    - include: else-pop
+    - include: any-pop
 
   path-pattern-quoted-body:
     - meta_scope: meta.path.dosbatch meta.string.dosbatch string.quoted.double.dosbatch

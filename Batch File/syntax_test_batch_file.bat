@@ -381,6 +381,20 @@ ECHO : Not a comment ^
 ::                ^^^ variable.other.readwrite.dosbatch
 ::                    ^^^^ support.function.builtin.dosbatch
 
+   IF NEQ == NEQ echo "equal"
+:: ^^ keyword.control.conditional.if.dosbatch
+::    ^^^ variable.other.readwrite.dosbatch
+::        ^^ keyword.operator.comparison.dosbatch
+::           ^^^ variable.other.readwrite.dosbatch
+::               ^^^^ support.function.builtin.dosbatch
+
+   IF NEQ NEQ NEQ echo "equal"
+:: ^^ keyword.control.conditional.if.dosbatch
+::    ^^^ variable.other.readwrite.dosbatch
+::        ^^^ keyword.operator.comparison.dosbatch
+::            ^^^ variable.other.readwrite.dosbatch
+::                ^^^^ support.function.builtin.dosbatch
+
    IF foo == bar echo "equal"
 :: ^^ keyword.control.conditional.if.dosbatch
 ::    ^^^ variable.other.readwrite.dosbatch
