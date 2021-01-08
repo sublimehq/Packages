@@ -3,12 +3,17 @@
 # TODO:
 # - if 1 (echo str()) else ()
 
-# http://www.sublimetext.com/docs/3/syntax.html
+# https://www.sublimetext.com/docs/syntax.html
 name: Batch File
+scope: source.dosbatch
+version: 2
+
 file_extensions:
   - bat
   - cmd
-scope: source.dosbatch
+
+###############################################################################
+
 variables:
   colon_comment_start: ':[+=,;: ]'
   command_terminator_chars: '&<|>\)'
@@ -64,6 +69,8 @@ variables:
 
   operator_comparison: (?i:equ|neq|lss|leq|gtr|geq)\b
 
+###############################################################################
+
 contexts:
   main:
     - include: comments
@@ -109,16 +116,16 @@ contexts:
 
   any-pop:
     - match: (?=\S)
-      pop: true
+      pop: 1
 
   eoc-pop:
     - match: '{{command_terminators}}'
-      pop: true
+      pop: 1
     - include: line-continuation
 
   eol-pop:
     - match: $
-      pop: true
+      pop: 1
     - include: line-continuation
 
   else-pop:
@@ -127,7 +134,7 @@ contexts:
 
   immediatelly-pop:
     - match: ''
-      pop: true
+      pop: 1
 
   expect-eoc-pop:
     - include: eoc-pop
@@ -137,7 +144,7 @@ contexts:
   illegal-eol-pop:
     - match: \n
       scope: invalid.illegal.newline.dosbatch
-      pop: true
+      pop: 1
 
   illegal-comment-pop:
     - match: '{{colon_comment_start}}'
@@ -157,7 +164,7 @@ contexts:
       scope: punctuation.separator.continuation.line.dosbatch
       push:
         - match: ^
-          pop: true
+          pop: 1
 
 ###[ COMMENTS ]###############################################################
 
@@ -169,7 +176,7 @@ contexts:
         - meta_scope: comment.line.colon.dosbatch
         - include: line-continuation
         - match: \n
-          pop: true
+          pop: 1
     # block comments
     - match: (^:\d+:$)
       scope: punctuation.definition.comment.begin.dosbatch
@@ -177,7 +184,7 @@ contexts:
         - meta_scope: comment.block.documentation.dosbatch
         - match: \1
           scope: punctuation.definition.comment.end.dosbatch
-          pop: true
+          pop: 1
 
 ###[ LABELS ]#################################################################
 
@@ -214,7 +221,7 @@ contexts:
     - meta_scope: meta.group.dosbatch
     - match: \)
       scope: punctuation.section.group.end.dosbatch
-      pop: true
+      pop: 1
     - include: main
 
   groups:
@@ -224,7 +231,7 @@ contexts:
         - meta_scope: meta.group.dosbatch
         - match: \)
           scope: punctuation.section.group.end.dosbatch
-          pop: true
+          pop: 1
         - include: separator-semicolon
         - include: separator-comma
         - include: expressions
@@ -284,14 +291,14 @@ contexts:
 
   expect-operand:
     - match: (?={{operator_comparison}}|==)
-      pop: true
+      pop: 1
     - include: groups
     - include: numbers
     - include: strings
     - include: variables
     - match: '[^-+*\s{{command_terminator_chars}})][^\s{{command_terminator_chars}}]*'
       scope: variable.other.readwrite.dosbatch
-      pop: true
+      pop: 1
     - include: immediatelly-pop
 
   expect-operator-comparison:
@@ -320,7 +327,7 @@ contexts:
       scope: keyword.control.conditional.else.dosbatch
       set: control-block
     - match: $|(?=[&<|>])
-      pop: true
+      pop: 1
     - include: line-continuation
     - match: \S
       scope: invalid.illegal.dosbatch
@@ -369,7 +376,7 @@ contexts:
       push: path-pattern
     - match: (?i:/\S+)\b
       scope: invalid.illegal.parameter.dosbatch
-      pop: true
+      pop: 1
     - include: else-pop
 
   control-for-switches-f-body:
@@ -389,12 +396,12 @@ contexts:
 
   control-for-parameter:
     - match: (?=(?i:in|do)\b|\()
-      pop: true
+      pop: 1
     - match: (%%?)\w+\b
       scope: meta.variable.dosbatch variable.other.readwrite.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
-      pop: true
+      pop: 1
     - match: \S
       scope: invalid.illegal.parameter.dosbatch
     - include: eol-pop
@@ -402,7 +409,7 @@ contexts:
   control-for-in:
     - match: \b(?i:in)\b
       scope: keyword.operator.logical.dosbatch
-      pop: true
+      pop: 1
     - include: else-pop
 
   control-for-set:
@@ -413,7 +420,7 @@ contexts:
           - include: immediatelly-pop
         - - match: \)
             scope: punctuation.section.set.end.dosbatch
-            pop: true
+            pop: 1
           - include: invalid-operators
           - include: separator-comma
           - include: constants
@@ -427,7 +434,7 @@ contexts:
   control-for-do:
     - match: \b(?i:do)\b
       scope: keyword.control.loop.do.dosbatch
-      pop: true
+      pop: 1
     - include: else-pop
 
 ###[ CONTROL FLOW ]###########################################################
@@ -477,7 +484,7 @@ contexts:
           captures:
             1: punctuation.definition.variable.dosbatch
             2: keyword.control.flow.return.dosbatch
-          pop: true
+          pop: 1
         - match: (:)?(?=\S)
           scope: variable.label.dosbatch punctuation.definition.variable.dosbatch
           set:
@@ -577,7 +584,7 @@ contexts:
         1: constant.language.dosbatch
         2: variable.parameter.help.dosbatch
         3: punctuation.definition.variable.dosbatch
-      pop: true
+      pop: 1
     - match: '[.:]'
       scope: punctuation.separator.arguments.dosbatch
       set: command-echo-output
@@ -610,7 +617,7 @@ contexts:
         - include: line-continuation
         - match: \n
           scope: comment.line.rem.dosbatch
-          pop: true
+          pop: 1
 
 ###[ COMMAND SET ]############################################################
 
@@ -626,7 +633,7 @@ contexts:
   command-set-end:
     - include: line-continuation
     - match: $|(?=[&<|>])
-      pop: true
+      pop: 1
 
   command-set-comment:
     - include: eoc-pop
@@ -685,7 +692,7 @@ contexts:
     - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
     - match: '{{set_quoted_end}}'
       scope: punctuation.definition.string.end.dosbatch
-      pop: true
+      pop: 1
     - include: command-set-nested-quotes
     - include: escaped-characters
     - include: variables-interpolation
@@ -697,7 +704,7 @@ contexts:
         # Consume quotation mark, if it is in the middle of the string
         # Otherwise let the parent context do.
         - match: (?={{set_quoted_end}})|\"
-          pop: true
+          pop: 1
         - include: escaped-characters
         - include: variables-interpolation
         - include: illegal-eol-pop
@@ -714,7 +721,7 @@ contexts:
     - include: eoc-pop
     - match: =
       scope: keyword.operator.assignment.dosbatch
-      pop: true
+      pop: 1
     - match: .
       scope: variable.other.readwrite.dosbatch
 
@@ -731,7 +738,7 @@ contexts:
           - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
           - match: '"(?=\s*(?:$|[{{command_terminator_chars}}]))'
             scope: punctuation.definition.string.end.dosbatch
-            pop: true
+            pop: 1
           - include: line-continuation
           - include: escaped-characters
           - include: variables
@@ -790,7 +797,7 @@ contexts:
     - meta_scope: meta.group.dosbatch
     - match: \)
       scope: punctuation.section.group.end.dosbatch
-      pop: true
+      pop: 1
     - match: \"
       scope: punctuation.definition.string.begin.dosbatch
       set: command-set-group-newly-quoted
@@ -823,7 +830,7 @@ contexts:
     - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
     - match: \"
       scope: punctuation.definition.string.end.dosbatch
-      pop: true
+      pop: 1
     - match: \(
       scope: punctuation.section.group.begin.dosbatch
       set:
@@ -838,7 +845,7 @@ contexts:
     - meta_scope: meta.group.dosbatch
     - match: \)
       scope: punctuation.section.group.end.dosbatch
-      pop: true
+      pop: 1
     - match: \"
       scope: punctuation.definition.string.end.dosbatch
       set:
@@ -898,7 +905,7 @@ contexts:
           scope:
             punctuation.definition.prompt.end.dosbatch
             punctuation.definition.string.end.dosbatch
-          pop: true
+          pop: 1
         - include: command-set-prompt-output
     # unquoted value in quoted prompt
     - match: (?=\S)
@@ -906,7 +913,7 @@ contexts:
         - meta_content_scope: meta.string.dosbatch string.unquoted.dosbatch
         - match: \"
           scope: punctuation.definition.prompt.end.dosbatch
-          pop: true
+          pop: 1
         - include: command-set-prompt-output
     - include: eol-pop
 
@@ -918,7 +925,7 @@ contexts:
         - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
         - match: \"
           scope: punctuation.definition.string.end.dosbatch
-          pop: true
+          pop: 1
         - include: command-set-prompt-output
     # unquoted value in unquoted prompt
     - match: (?=\S)
@@ -1011,10 +1018,10 @@ contexts:
   redirection-path:
     - match: (?i:nul)\b
       scope: constant.language.dosbatch
-      pop: true
+      pop: 1
     - match: \d\b
       scope: constant.numeric.integer.decimal.dosbatch
-      pop: true
+      pop: 1
     - include: path-pattern
 
   path-pattern:
@@ -1033,14 +1040,14 @@ contexts:
     - meta_scope: meta.path.dosbatch meta.string.dosbatch string.quoted.double.dosbatch
     - match: \"
       scope: punctuation.definition.string.end.dosbatch
-      pop: true
+      pop: 1
     - include: illegal-eol-pop
     - include: path-pattern-common
 
   path-pattern-unquoted-body:
     - meta_scope: meta.path.dosbatch meta.string.dosbatch string.unquoted.dosbatch
     - match: (?=[\s,;"])
-      pop: true
+      pop: 1
     - include: eoc-pop
     - include: path-pattern-common
 
@@ -1058,10 +1065,10 @@ contexts:
   path-pattern-relative:
     - match: \.\.(?=[\\/])
       scope: constant.language.path.parent.dosbatch
-      pop: true
+      pop: 1
     - match: \.(?=[\\/])
       scope: constant.language.path.self.dosbatch
-      pop: true
+      pop: 1
     - include: immediatelly-pop
 
 ###[ STRINGS ]################################################################
@@ -1076,7 +1083,7 @@ contexts:
   strings-common:
     - match: \"
       scope: punctuation.definition.string.end.dosbatch
-      pop: true
+      pop: 1
     - include: illegal-eol-pop
     - include: escaped-characters
     - include: variables-interpolation
@@ -1115,7 +1122,7 @@ contexts:
         - meta_scope: meta.variable.dosbatch
         - match: '%'
           scope: punctuation.definition.variable.end.dosbatch
-          pop: true
+          pop: 1
           # substring expansion
         - match: ':~'
           scope: punctuation.separator.dosbatch
@@ -1131,7 +1138,7 @@ contexts:
             - match: '='
               scope: punctuation.separator.dosbatch
               set:
-                - meta_content_scope: meta.substitution.dosbatch
+                - meta_scope: meta.substitution.dosbatch
                 - include: variable-expansion-substitution
             - include: variable-expansion-substitution
         - include: variable-name
@@ -1143,7 +1150,7 @@ contexts:
 
   variable-expansion-end:
     - match: (?=%)
-      pop: true
+      pop: 1
     - include: eol-pop
 
   variable-delayed:
@@ -1153,7 +1160,7 @@ contexts:
         - meta_scope: meta.variable.dosbatch
         - match: '!'
           scope: punctuation.definition.variable.end.dosbatch
-          pop: true
+          pop: 1
           # substring expansion
         - match: ':~'
           scope: punctuation.separator.dosbatch
@@ -1169,7 +1176,7 @@ contexts:
             - match: '='
               scope: punctuation.separator.dosbatch
               set:
-                - meta_content_scope: meta.substitution.dosbatch
+                - meta_scope: meta.substitution.dosbatch
                 - include: variable-delayed-substitution
             - include: variable-delayed-substitution
         - include: variable-name
@@ -1181,7 +1188,7 @@ contexts:
 
   variable-delayed-end:
     - match: (?=!)
-      pop: true
+      pop: 1
     - include: eol-pop
 
   variable-name:
