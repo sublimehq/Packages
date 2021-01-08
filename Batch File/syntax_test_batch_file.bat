@@ -89,29 +89,6 @@ ECHO : Not a comment ^
 :: <- - comment
 ::^^^^^^^^^^^^  - comment
 
-ECHO ^
-  do not break out of an echo with an escaped newline
-:: <- string.unquoted.dosbatch
-::^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
-::   ^^^ - keyword.operator
-::       ^^^^^ - support.function
-
-ECHO "foo"
-::   ^ punctuation.definition.string.begin.dosbatch
-::   ^^^^^ string.quoted.double.dosbatch
-::       ^ punctuation.definition.string.end.dosbatch
-
-ECHO "
-::    ^ invalid.illegal.newline.dosbatch
-
-ECHO "^
-::     ^ invalid.illegal.newline.dosbatch
-
-ECHO "^
-   no string"
-:: ^^^^^^^^^ - string.quoted.double
-::          ^ string.quoted.double.dosbatch punctuation.definition.string.begin.dosbatch
-::           ^ string.quoted.double.dosbatch invalid.illegal.newline.dosbatch
 
    @ECHO OFF
 :: ^ keyword.operator.at.dosbatch
@@ -437,7 +414,7 @@ ECHO "^
 ::             ^^ constant.numeric.integer.decimal.dosbatch
 ::               ^ punctuation.section.group.end.dosbatch
 ::                 ^^^^ support.function.builtin.dosbatch
-::                      ^^^^^^^^ string.quoted.double.dosbatch
+::                      ^^^^^^^^ string.unquoted.dosbatch
 
    IF "2" GEQ "15" echo "bigger"
 :: ^^ keyword.control.conditional.if.dosbatch
@@ -445,14 +422,14 @@ ECHO "^
 ::        ^^^ keyword.operator.comparison.dosbatch
 ::            ^^^^ string.quoted.double.dosbatch
 ::                 ^^^^ support.function.builtin.dosbatch
-::                      ^^^^^^^^ string.quoted.double.dosbatch
+::                      ^^^^^^^^ string.unquoted.dosbatch
 
    IF errorlevel 0 echo "ok"
 :: ^^ keyword.control.conditional.if.dosbatch
 ::    ^^^^^^^^^^ variable.language.dosbatch
 ::               ^ constant.numeric.integer.decimal.dosbatch
 ::                 ^^^^ support.function.builtin.dosbatch
-::                      ^^^^ string.quoted.double.dosbatch
+::                      ^^^^ string.unquoted.dosbatch
 
    IF errorlevel==0 echo "ok"
 :: ^^ keyword.control.conditional.if.dosbatch
@@ -460,7 +437,7 @@ ECHO "^
 ::              ^^ keyword.operator.comparison.dosbatch
 ::                ^ constant.numeric.integer.decimal.dosbatch
 ::                  ^^^^ support.function.builtin.dosbatch
-::                       ^^^^ string.quoted.double.dosbatch
+::                       ^^^^ string.unquoted.dosbatch
 
    IF not errorlevel == 0 echo "error"
 :: ^^ keyword.control.conditional.if.dosbatch
@@ -469,7 +446,7 @@ ECHO "^
 ::                   ^^ keyword.operator.comparison.dosbatch
 ::                      ^ constant.numeric.integer.decimal.dosbatch
 ::                        ^^^^ support.function.builtin.dosbatch
-::                             ^^^^^^^ string.quoted.double.dosbatch
+::                             ^^^^^^^ string.unquoted.dosbatch
 
    IF errorlevel NEQ 0 echo "ok"
 :: ^^ keyword.control.conditional.if.dosbatch
@@ -477,7 +454,7 @@ ECHO "^
 ::               ^^^ invalid.illegal.unexpected.dosbatch
 ::                   ^ constant.numeric.integer.decimal.dosbatch
 ::                     ^^^^ support.function.builtin.dosbatch
-::                          ^^^^ string.quoted.double.dosbatch
+::                          ^^^^ string.unquoted.dosbatch
 
    IF %ERRORLEVEL% NEQ 0 EXIT /B 1
 :: ^^ keyword.control.conditional.if.dosbatch
@@ -836,7 +813,8 @@ ECHO "^
    setlocal endlocal & echo hello & endlocal illegal
 :: ^^^^^^^^^^^^^^^^^ meta.command.setlocal.dosbatch
 ::                  ^^^ - meta.command
-::                     ^^^^^^^^^^ meta.command.echo.dosbatch
+::                     ^^^^^ meta.command.echo.dosbatch
+::                          ^^^^^ meta.command.echo.output.dosbatch
 ::                               ^^^ - meta.command
 ::                                  ^^^^^^^^^^^^^^^^ meta.command.endlocal.dosbatch
 ::                                                  ^ - meta.command
@@ -911,7 +889,8 @@ ECHO "^
 
    @ECHO OFF
 :: ^ - meta.command
-::  ^^^^^^^^ meta.command.echo.dosbatch
+::  ^^^^ meta.command.echo.dosbatch
+::      ^^^^ meta.command.echo.arguments.dosbatch
 ::          ^ - meta.command
 :: ^ keyword.operator.at.dosbatch
 ::  ^^^^ support.function.builtin.dosbatch
@@ -920,8 +899,8 @@ ECHO "^
    @ECHO OFF :: no (comment) & :: comment
 :: ^ - meta.command
 ::  ^^^^^ meta.command.echo.dosbatch - meta.string - string
-::       ^^^^^^^^^^^^^^^^^ meta.command.echo.dosbatch meta.string.dosbatch string.unquoted.dosbatch
-::                        ^^^^^^^^^^^^^ - meta.command
+::       ^^^^^^^^^^^^^^^^^^^ meta.command.echo.output.dosbatch meta.string.dosbatch string.unquoted.dosbatch
+::                          ^^^^^^^^^^^^^ - meta.command
 :: ^ keyword.operator.at.dosbatch
 ::  ^^^^ support.function.builtin.dosbatch
 ::       ^^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
@@ -930,7 +909,8 @@ ECHO "^
 
    @ECHO ON & :: comment
 :: ^ - meta.command
-::  ^^^^^^^ meta.command.echo.dosbatch
+::  ^^^^ meta.command.echo.dosbatch
+::      ^^^ meta.command.echo.arguments.dosbatch
 ::         ^^^^^^^^^^^^^ - meta.command
 :: ^ keyword.operator.at.dosbatch
 ::  ^^^^ support.function.builtin.dosbatch
@@ -939,24 +919,73 @@ ECHO "^
 ::            ^^ comment.line.colon.dosbatch punctuation.definition.comment.dosbatch
 
    ECHO /?
-:: ^^^^^^^ meta.command.echo.dosbatch
+:: ^^^^ meta.command.echo.dosbatch
+::     ^^^ meta.command.echo.arguments.dosbatch
 :: ^^^^ support.function.builtin.dosbatch
 ::      ^ punctuation.definition.variable.dosbatch
 ::      ^^ variable.parameter.help.dosbatch
 
-   ECHO /? illegal
+   ECHO /? ignored
 ::^ - meta.command
-:: ^^^^^ meta.command.echo.dosbatch - meta.string - string
+:: ^^^^ meta.command.echo.dosbatch - meta.string
+::     ^^^ meta.command.echo.arguments.dosbatch
+::        ^^^^^^^^ - meta.command
 :: ^^^^ support.function.builtin.dosbatch
-::      ^^^^^^^^^^ meta.command.echo.dosbatch meta.string.dosbatch string.unquoted.dosbatch
-::                 ^ - meta.command
+::      ^ punctuation.definition.variable.dosbatch
+::      ^^ variable.parameter.help.dosbatch
+::        ^ - variable - comment
+::         ^^^^^^^ comment.line.ignored.dosbatch
+::                ^ - comment
+
+   ECHO /? :: comment
+::^ - meta.command
+:: ^^^^ meta.command.echo.dosbatch - meta.string
+::     ^^^ meta.command.echo.arguments.dosbatch
+::        ^^^^^^^^^^^ - meta.command
+:: ^^^^ support.function.builtin.dosbatch
+::      ^ punctuation.definition.variable.dosbatch
+::      ^^ variable.parameter.help.dosbatch
+::        ^ - variable - comment
+::         ^^^^^^^^^^ comment.line.colon.dosbatch
+::         ^^ punctuation.definition.comment.dosbatch
+::                   ^ - comment
+
+   ECHO /? rem comment
+::^ - meta.command
+:: ^^^^ meta.command.echo.dosbatch - meta.string
+::     ^^^ meta.command.echo.arguments.dosbatch
+::        ^ - meta.command
+::         ^^^ meta.command.rem.dosbatch - comment
+::            ^^^^^^^^ meta.command.rem.dosbatch comment.line.rem.dosbatch
+:: ^^^^ support.function.builtin.dosbatch
+::      ^ punctuation.definition.variable.dosbatch
+::      ^^ variable.parameter.help.dosbatch
+::        ^ - keyword - variable - comment
+::                    ^ - comment
+
+   ECHO^
+:: ^^^^ meta.command.echo.dosbatch support.function.builtin.dosbatch
+::     ^^ meta.command.echo.arguments.dosbatch
+::     ^ punctuation.separator.continuation.line.dosbatch
+
+   ECHO^
+   /? ignored
+::^^^ meta.command.echo.arguments.dosbatch
+::   ^^^^^^^^ - meta.command
+:: ^ punctuation.definition.variable.dosbatch
+:: ^^ variable.parameter.help.dosbatch
+::   ^ - variable - comment
+::    ^^^^^^^ comment.line.ignored.dosbatch
+::           ^ - comment
 
    ECHO .
 ::^ - meta.command
-:: ^^^^^^ meta.command.echo.dosbatch
-::       ^ - meta.command
+:: ^^^^^ meta.command.echo.dosbatch - meta.string
+::      ^ meta.command.echo.output.dosbatch meta.string.dosbatch
+::       ^ - meta.command - meta.string
 :: ^^^^ support.function.builtin.dosbatch
-::      ^ meta.string.dosbatch string.unquoted.dosbatch
+::      ^ string.unquoted.dosbatch
+::       ^ - string
 
    ECHO.
 ::^ - meta.command
@@ -967,18 +996,22 @@ ECHO "^
 
    ECHO./? will display help
 ::^ - meta.command
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.echo.dosbatch
-::      ^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch
-::                          ^ - meta.command
+:: ^^^^^ meta.command.echo.dosbatch
+::      ^^^^^^^^^^^^^^^^^^^^ meta.command.echo.output.dosbatch meta.string.dosbatch
+::                          ^ - meta.command - meta.string
 :: ^^^^ support.function.builtin.dosbatch
 ::     ^ punctuation.separator.arguments.dosbatch
+::      ^^^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
+::                          ^ - string
 
    ECHO :
 ::^ - meta.command
-:: ^^^^^^ meta.command.echo.dosbatch
-::       ^ - meta.command
+:: ^^^^^ meta.command.echo.dosbatch
+::      ^ meta.command.echo.output.dosbatch meta.string.dosbatch
+::       ^ - meta.command - meta.string
 :: ^^^^ support.function.builtin.dosbatch
-::      ^ meta.string.dosbatch string.unquoted.dosbatch
+::      ^ string.unquoted.dosbatch
+::       ^ - string
 
    ECHO:
 ::^ - meta.command
@@ -989,38 +1022,90 @@ ECHO "^
 
    ECHO:/? will display help
 ::^ - meta.command
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.echo.dosbatch
-::      ^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch
-::                          ^ - meta.command
+:: ^^^^^ meta.command.echo.dosbatch
+::      ^^^^^^^^^^^^^^^^^^^^ meta.command.echo.output.dosbatch meta.string.dosbatch
+::                          ^ - meta.command - meta.string
 :: ^^^^ support.function.builtin.dosbatch
 ::     ^ punctuation.separator.arguments.dosbatch
+::      ^^^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
+::                          ^ - string
 
-   ECHO "foo"bar"baz"
-::      ^ punctuation.definition.string.begin.dosbatch
-::      ^^^^^ string.quoted.double.dosbatch
-::           ^^^ string.unquoted.dosbatch
-::              ^^^^^ string.quoted.double.dosbatch
-::          ^ punctuation.definition.string.end.dosbatch
+   ECHO ^
+   do not break out of an echo with an escaped newline
+:: <- string.unquoted.dosbatch
+::^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.echo.output.dosbatch meta.string.dosbatch string.unquoted.dosbatch
+::                                                    ^ - meta.string - string
+::    ^^^ - keyword.operator
+::        ^^^^^ - support.function
 
    ECHO "
-::       ^ invalid.illegal.newline.dosbatch
+::      ^ meta.string.dosbatch string.unquoted.dosbatch - constant - puntuation
+::       ^ - meta.string - string
 
    ECHO "^
-::        ^ invalid.illegal.newline.dosbatch
+::      ^^ meta.string.dosbatch string.unquoted.dosbatch - constant - puntuation
+::        ^ - meta.string - string
 
    ECHO "^
    no string"
-:: ^^^^^^^^^ - string.quoted.double
-::          ^ string.quoted.double.dosbatch punctuation.definition.string.begin.dosbatch
-::           ^ string.quoted.double.dosbatch invalid.illegal.newline.dosbatch
+:: ^^^^^^^^^^ - meta.command.echo - string.quoted
+
+   ECHO ""^
+   continued string
+:: ^^^^^^^^^^^^^^^^ meta.command.echo.output.dosbatch meta.string.dosbatch string.unquoted.dosbatch
+::                 ^ - meta.command - meta.string - string
+
+   ECHO """^
+   no string"
+:: ^^^^^^^^^^ - meta.command.echo - string.quoted
+
+   ECHO """"^
+   continued string
+:: ^^^^^^^^^^^^^^^^ meta.command.echo.output.dosbatch meta.string.dosbatch string.unquoted.dosbatch
+::                 ^ - meta.command - meta.string - string
+
+   ECHO "foo^
+   no string"
+:: ^^^^^^^^^^ - meta.command.echo - string.quoted
+
+   ECHO "foo"^
+   continued string
+:: ^^^^^^^^^^^^^^^^ meta.command.echo.output.dosbatch meta.string.dosbatch string.unquoted.dosbatch
+::                 ^ - meta.command - meta.string - string
+
+   ECHO "foo"
+::      ^^^^^ string.unquoted.dosbatch - constant - puntuation
+::           ^ - meta.command - meta.string - string
+
+   ECHO "foo"bar"baz"
+::     ^ - meta.string - string
+::      ^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant - puntuation
+::                   ^ - meta.string - string
+
+   ECHO foo"bar>nul && echo baz
+::     ^ - meta.string - string
+::      ^^^^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant - puntuation
+::                             ^ - meta.string - string
+
+   ECHO foo"bar">nul && echo baz
+::     ^ - meta.string - string
+::      ^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant - puntuation
+::              ^ keyword.operator.redirection.dosbatch
+::               ^^^ constant.language.dosbatch
+::                   ^^ keyword.operator.conditional.dosbatch
+::                      ^^^^ support.function.builtin.dosbatch
+::                           ^^^ meta.string.dosbatch string.unquoted.dosbatch
+::                              ^ - meta.command - meta.string - string
 
 
 :: Escape Characters
 
    ECHO %% ^^! ^& ^| ^( ^)
-:: ^^^^^^^^^^^^^^^^^^^^^^^ meta.command.echo.dosbatch
+:: ^^^^^ meta.command.echo.dosbatch - meta.string
+::      ^^^^^^^^^^^^^^^^^^ meta.command.echo.output.dosbatch meta.string.dosbatch
+::                        ^ - meta.command - meta.string - string
 :: ^^^^ support.function.builtin.dosbatch
-::      ^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch
+::      ^^^^^^^^^^^^^^^^^^ string.unquoted.dosbatch
 ::      ^^ constant.character.escape.dosbatch
 ::         ^^^ constant.character.escape.dosbatch
 ::             ^^ constant.character.escape.dosbatch
@@ -1028,18 +1113,28 @@ ECHO "^
 ::                   ^^ constant.character.escape.dosbatch
 ::                      ^^ constant.character.escape.dosbatch
 
-   ECHO "%% ^^! ^& ^| ^( ^)"
-:: ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.echo.dosbatch
-:: ^^^^ support.function.builtin.dosbatch
-::      ^ punctuation.definition.string.begin.dosbatch
-::      ^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.quoted.double.dosbatch
-::       ^^ constant.character.escape.dosbatch
-::          ^^^ constant.character.escape.dosbatch
-::              ^^ constant.character.escape.dosbatch
-::                 ^^ constant.character.escape.dosbatch
-::                    ^^ constant.character.escape.dosbatch
-::                       ^^ constant.character.escape.dosbatch
-::                         ^ punctuation.definition.string.end.dosbatch
+   ECHO ^^escaped ^continuation
+::      ^^ meta.string.dosbatch string.unquoted.dosbatch constant.character.escape.dosbatch
+::        ^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant
+::                ^^ meta.string.dosbatch string.unquoted.dosbatch constant.character.escape.dosbatch
+::                  ^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant
+
+   ECHO ^^^escaped ^^^conti^nuation
+::      ^^^^ meta.string.dosbatch string.unquoted.dosbatch constant.character.escape.dosbatch
+::          ^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant
+::                 ^^^^ meta.string.dosbatch string.unquoted.dosbatch constant.character.escape.dosbatch
+::                     ^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant
+::                         ^^ meta.string.dosbatch string.unquoted.dosbatch constant.character.escape.dosbatch
+::                           ^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant
+
+   ECHO ^escaped "^no ^escape" ^escaped
+::      ^^ meta.string.dosbatch string.unquoted.dosbatch constant.character.escape.dosbatch
+::        ^^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant
+::                             ^^ meta.string.dosbatch string.unquoted.dosbatch constant.character.escape.dosbatch
+::                               ^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant
+
+   ECHO "^no ^escape %% ^^! ^& ^| ^( ^)"
+::      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant - punctuation
 
 
 :: Variables
@@ -1237,7 +1332,8 @@ ECHO "^
    set "foo"="bar" & echo !foo"!
 :: ^^^^^^^^^^^^^^^ meta.command.set.dosbatch
 ::                ^^^ - meta.command
-::                   ^^^^^^^^^^^ meta.command.echo.dosbatch
+::                   ^^^^^ meta.command.echo.dosbatch
+::                        ^^^^^^ meta.command.echo.output.dosbatch
 :: ^^^ support.function.builtin.dosbatch
 ::     ^ - variable.other.readwrite
 ::      ^^^^ variable.other.readwrite
@@ -1253,7 +1349,8 @@ ECHO "^
    set "foo"=bar" & echo !foo"!
 :: ^^^^^^^^^^^^^^ meta.command.set.dosbatch
 ::               ^^^ - meta.command
-::                  ^^^^^^^^^^^ meta.command.echo.dosbatch
+::                  ^^^^^ meta.command.echo.dosbatch
+::                       ^^^^^^ meta.command.echo.output.dosbatch
 :: ^^^ support.function.builtin.dosbatch
 ::     ^ - variable.other.readwrite
 ::      ^^^^ variable.other.readwrite
@@ -1268,7 +1365,8 @@ ECHO "^
    set "foo"="bar & echo !foo"!
 :: ^^^^^^^^^^^ meta.command.set.dosbatch
 ::            ^^^^^^ - meta.command
-::                  ^^^^^^^^^^^ meta.command.echo.dosbatch
+::                  ^^^^^ meta.command.echo.dosbatch
+::                       ^^^^^^ meta.command.echo.output.dosbatch
 :: ^^^ support.function.builtin.dosbatch
 ::     ^ - variable.other.readwrite
 ::      ^^^^ variable.other.readwrite
@@ -1282,7 +1380,8 @@ ECHO "^
    set "foo"=ba"r & echo !foo"!
 :: ^^^^^^^^^^^^^ meta.command.set.dosbatch
 ::              ^^^^ - meta.command
-::                  ^^^^^^^^^^^ meta.command.echo.dosbatch
+::                  ^^^^^ meta.command.echo.dosbatch
+::                       ^^^^^^ meta.command.echo.output.dosbatch
 :: ^^^ support.function.builtin.dosbatch
 ::     ^ - variable.other.readwrite
 ::      ^^^^ variable.other.readwrite
@@ -1297,7 +1396,8 @@ ECHO "^
    set "foo"=b"ar ba"z & echo !foo"!
 :: ^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
 ::                   ^^ - meta.command
-::                       ^^^^^^^^^^^ meta.command.echo.dosbatch
+::                       ^^^^^ meta.command.echo.dosbatch
+::                            ^^^^^^ meta.command.echo.output.dosbatch
 :: ^^^ support.function.builtin.dosbatch
 ::     ^ - variable.other.readwrite
 ::      ^^^^ variable.other.readwrite
@@ -1312,7 +1412,8 @@ ECHO "^
    set "foo"=b"ar "ba"z & echo !foo"!
 :: ^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
 ::                    ^^ - meta.command
-::                        ^^^^^^^^^^^ meta.command.echo.dosbatch
+::                        ^^^^^ meta.command.echo.dosbatch
+::                             ^^^^^^ meta.command.echo.output.dosbatch
 :: ^^^ support.function.builtin.dosbatch
 ::     ^ - variable.other.readwrite
 ::      ^^^^ variable.other.readwrite
@@ -1327,7 +1428,8 @@ ECHO "^
    set "foo"=b"ar^
     b)a"z & echo !foo"!
 :: ^^^^^^^^^ - meta.command.set - string
-::          ^^^^^^^^^^^ meta.command.echo.dosbatch
+::          ^^^^^ meta.command.echo.dosbatch
+::               ^^^^^^ meta.command.echo.output.dosbatch
 ::        ^ keyword.operator.conditional.dosbatch
 ::          ^^^^ support.function.builtin.dosbatch
 
@@ -1814,8 +1916,11 @@ ECHO "^
 ::              ^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
 ::                       ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch
 ::                             ^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
-::                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.command
-::                                                            ^^^^^^^^^^^^ meta.command.echo.dosbatch
+::                                ^ - meta.command
+::                                 ^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.rem.dosbatch
+::                                                         ^^^ - meta.command
+::                                                            ^^^^^ meta.command.echo.dosbatch
+::                                                                 ^^^^^^^ meta.command.echo.output.dosbatch
 ::                                                                        ^ - meta.command
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
@@ -1829,8 +1934,9 @@ ECHO "^
 ::                       ^^^^^^ - string
 ::                             ^^^ string.quoted.double.dosbatch
 ::                               ^ punctuation.definition.string.end.dosbatch
-::                                 ^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
 ::                                 ^^^ keyword.declaration.rem.dosbatch
+::                                    ^^^^^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
+::                                                         ^^^^^^^^^^^^^^^^ - comment
 ::                                                          ^ keyword.operator.conditional - comment
 ::                                                            ^^^^ support.function.builtin.dosbatch
 ::                                                                 ^^^^^^^ meta.variable.dosbatch
@@ -1842,7 +1948,8 @@ ECHO "^
 ::                       ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch
 ::                             ^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
 ::                                ^^^^^^^^^^^^^^^^^^^^^ - meta.command
-::                                                     ^^^^^^^^^^^^ meta.command.echo.dosbatch
+::                                                     ^^^^^ meta.command.echo.dosbatch
+::                                                          ^^^^^^^ meta.command.echo.output.dosbatch
 ::                                                                 ^ - meta.command
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
@@ -1856,7 +1963,8 @@ ECHO "^
 ::                       ^^^^^^ - string
 ::                             ^^^ string.quoted.double.dosbatch
 ::                               ^ punctuation.definition.string.end.dosbatch
-::                                 ^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                                 ^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                                                  ^^^^^^^^^^^^^^^^ - comment
 ::                                                   ^ keyword.operator.conditional - comment
 ::                                                     ^^^^ support.function.builtin.dosbatch
 ::                                                          ^^^^^^^ meta.variable.dosbatch
@@ -1868,7 +1976,9 @@ ECHO "^
 ::                              ^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
 ::                                               ^ - meta.command
 :: ^^^^^^^ string.quoted.double.dosbatch - comment
-::         ^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::        ^ - comment - string
+::         ^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                          ^^^^^^^^^^^^^^^^^^^^^^ - comment
 ::                           ^^ keyword.operator.conditional - comment
 ::                              ^^^ support.function.builtin.dosbatch
 
@@ -1878,7 +1988,8 @@ ECHO "^
 :: ^^^^^^^^^^^^^ - meta.command
 ::              ^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
 ::                               ^ - meta.command
-:: ^^^^^^^^^^ comment.line.ignored.dosbatch
+:: ^^^^^^^^^ comment.line.ignored.dosbatch
+::          ^^^^^^^^^^^^^^^^^^^^^^ - comment
 ::           ^^ keyword.operator.conditional - comment
 ::              ^^^ support.function.builtin.dosbatch
 
@@ -1888,8 +1999,11 @@ ECHO "^
 ::                ^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
 ::                          ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch
 ::                                ^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
-::                                   ^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.command
-::                                                            ^^^^^^^^^^^^ meta.command.echo.dosbatch
+::                                   ^ - meta.command
+::                                    ^^^^^^^^^^^^^^^^^^^^^ meta.command.rem.dosbatch
+::                                                         ^^^ - meta.command
+::                                                            ^^^^^ meta.command.echo.dosbatch
+::                                                                 ^^^^^^^ meta.command.echo.output.dosbatch
 ::                                                                        ^ - meta.command
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
@@ -1903,8 +2017,9 @@ ECHO "^
 ::                          ^^^^^^ - string
 ::                                ^^^ string.quoted.double.dosbatch
 ::                                  ^ punctuation.definition.prompt.end.dosbatch punctuation.definition.string.end.dosbatch
-::                                    ^^^^^^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
 ::                                    ^^^ keyword.declaration.rem.dosbatch
+::                                       ^^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
+::                                                         ^^^^^^^^^^^^^^^^ - comment
 ::                                                          ^ keyword.operator.conditional - comment
 ::                                                            ^^^^ support.function.builtin.dosbatch
 ::                                                                 ^^^^^^^ meta.variable.dosbatch
@@ -1916,7 +2031,8 @@ ECHO "^
 ::                      ^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
 ::                               ^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
 ::                                ^^^^^^^^^^^^^^^^^^^^^ - meta.command
-::                                                     ^^^^^^^^^^^^ meta.command.echo.dosbatch
+::                                                     ^^^^^ meta.command.echo.dosbatch
+::                                                          ^^^^^^^ meta.command.echo.output.dosbatch
 ::                                                                 ^ - meta.command
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
@@ -1928,7 +2044,8 @@ ECHO "^
 ::               ^^^^^^^ - string
 ::                      ^^^^^^^^^ string.unquoted.dosbatch
 ::                               ^ punctuation.definition.prompt.end.dosbatch
-::                                 ^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                                 ^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                                                  ^^^^^^^^^^^^^^^^ - comment
 ::                                                   ^ keyword.operator.conditional - comment
 ::                                                     ^^^^ support.function.builtin.dosbatch
 ::                                                          ^^^^^^^ meta.variable.dosbatch
@@ -1937,7 +2054,8 @@ ECHO "^
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
 ::                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.command
-::                                                    ^^^^^^^^^^^^ meta.command.echo.dosbatch
+::                                                    ^^^^^ meta.command.echo.dosbatch
+::                                                         ^^^^^^^ meta.command.echo.output.dosbatch
 ::                                                                ^ - meta.command
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
@@ -1947,7 +2065,8 @@ ECHO "^
 ::         ^^^^^ variable.other.readwrite.dosbatch
 ::              ^ keyword.operator.assignment.dosbatch
 ::               ^ punctuation.definition.prompt.end.dosbatch
-::                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                                                 ^^^^^^^^^^^^^^^^ - comment
 ::                                                  ^ keyword.operator.conditional - comment
 ::                                                    ^^^^ support.function.builtin.dosbatch
 ::                                                         ^^^^^^^ meta.variable.dosbatch
@@ -1982,7 +2101,8 @@ ECHO "^
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
 ::              ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
-::                    ^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.redirection.dosbatch
+::                    ^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.interpolation.dosbatch meta.redirection.dosbatch
+::                      ^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch meta.redirection.dosbatch meta.path.dosbatch meta.string.dosbatch
 ::                                     ^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
 :: ^^^ support.function.builtin.dosbatch
 ::    ^ - keyword - variable
@@ -2035,7 +2155,9 @@ ECHO "^
 ::         ^^^^^ variable.other.readwrite.dosbatch
 ::              ^ keyword.operator.assignment.dosbatch
 ::               ^ punctuation.definition.prompt.end.dosbatch
-::                 ^^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                ^ - comment - string
+::                 ^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
+::                                ^ - comment - keyword
 ::                                 ^ keyword.operator.redirection.dosbatch
 
    set /p "today="<"c:\this week\to day.txt"

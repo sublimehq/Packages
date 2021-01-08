@@ -199,6 +199,32 @@ contexts:
     - match: \n
       pop: 1
 
+  ignored-tail:
+    - include: eoc-pop
+    - match: '{{colon_comment_start}}'
+      scope: punctuation.definition.comment.dosbatch
+      set: ignored-tail-comment
+    - match: (?i:rem)\b
+      scope: keyword.declaration.rem.dosbatch
+      set: ignored-tail-rem
+    - match: (?=\S)
+      set: ignored-tail-other
+
+  ignored-tail-comment:
+    - meta_scope: comment.line.colon.dosbatch
+    - include: eoc-pop
+
+  ignored-tail-rem:
+    - meta_scope: meta.command.rem.dosbatch
+    # meta_content_scope is used since rem should not be
+    # highlighted as a comment, but a command
+    - meta_content_scope: comment.line.rem.dosbatch
+    - include: eoc-pop
+
+  ignored-tail-other:
+    - meta_scope: comment.line.ignored.dosbatch
+    - include: eoc-pop
+
 ###[ LABELS ]#################################################################
 
   labels:
@@ -595,38 +621,56 @@ contexts:
   command-echo:
     # https://ss64.com/nt/echo.html
     - match: \b(?i:echo)\b
-      scope: support.function.builtin.dosbatch
-      push: [command-echo-meta, command-echo-body]
+      scope:
+        meta.command.echo.dosbatch
+        support.function.builtin.dosbatch
+      push: command-echo-args
 
-  command-echo-meta:
-    - meta_scope: meta.command.echo.dosbatch
-    - include: immediatelly-pop
-
-  command-echo-body:
-    - match: |-
-        (?x: \s* (?i: (on|off) | ((/)\?) ) {{command_terminators}})
+  command-echo-args:
+    - meta_content_scope: meta.command.echo.arguments.dosbatch
+    - include: eoc-pop
+    - match: \s*((/)\?)
+      scope: meta.command.echo.arguments.dosbatch
+      captures:
+        1: variable.parameter.help.dosbatch
+        2: punctuation.definition.variable.dosbatch
+      set: ignored-tail
+    - match: \s*((?i:on|off)){{command_terminators}}
+      scope: meta.command.echo.arguments.dosbatch
       captures:
         1: constant.language.dosbatch
-        2: variable.parameter.help.dosbatch
-        3: punctuation.definition.variable.dosbatch
-      pop: 1
+      set: ignored-tail
     - match: '[.:]'
-      scope: punctuation.separator.arguments.dosbatch
+      scope:
+        meta.command.echo.dosbatch
+        punctuation.separator.arguments.dosbatch
       set: command-echo-output
     - match: \s+
+      scope: meta.command.echo.dosbatch
       set: command-echo-output
 
   command-echo-output:
-    - meta_content_scope: meta.string.dosbatch string.unquoted.dosbatch
+    - meta_content_scope:
+        meta.command.echo.output.dosbatch
+        meta.string.dosbatch string.unquoted.dosbatch
     - match: \"
-      scope: punctuation.definition.string.begin.dosbatch
-      push:
-        - clear_scopes: 1
-        - meta_scope: string.quoted.double.dosbatch
-        - include: strings-common
+      push: command-echo-output-quoted
     - include: escaped-characters
     - include: variables-interpolation
     - include: eoc-pop
+
+  command-echo-output-quoted:
+    # Note: echo "text" outputs the quotation marks no matter where they are
+    #       located. Hence `punctuation` scopes and `string.quoted` feel not
+    #       correct in this situation. Distinction is needed anyway as escaped
+    #       chars and line continuation are ignored within quotes.
+    - meta_include_prototype: false
+    - match: \"
+      pop: 1
+    - match: $
+      pop: 2
+    - match: \^\^!|%% # prevent variable interpolation
+    - include: variables-interpolation
 
 ###[ COMMAND REM ]############################################################
 
@@ -651,7 +695,7 @@ contexts:
     - match: \b(?i:set)\b
       scope: support.function.builtin.dosbatch
       push:
-        - command-set-comment
+        - ignored-tail
         - command-set-meta
         - command-set-type
 
@@ -659,23 +703,6 @@ contexts:
     - include: line-continuation
     - match: $|(?=[&<|>])
       pop: 1
-
-  command-set-comment:
-    - include: eoc-pop
-    - match: '{{colon_comment_start}}'
-      scope: punctuation.definition.comment.dosbatch
-      set:
-        - meta_scope: comment.line.colon.dosbatch
-        - include: eoc-pop
-    - match: (?i:rem)\b
-      scope: keyword.declaration.rem.dosbatch
-      set:
-        - meta_scope: comment.line.rem.dosbatch
-        - include: eoc-pop
-    - match: (?=\S)
-      set:
-        - meta_scope: comment.line.ignored.dosbatch
-        - include: eoc-pop
 
   command-set-meta:
     - meta_scope: meta.command.set.dosbatch
@@ -782,7 +809,7 @@ contexts:
             push:
               - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
               - clear_scopes: 1
-              - include: strings-common
+              - include: string-common
       - include: numbers
       - include: groups
       - match: \b([^ ][^=\n]*)$
@@ -1098,28 +1125,29 @@ contexts:
 ###[ STRINGS ]################################################################
 
   strings:
-    - match: \"
+    - match: \"(?=.*\")
       scope: punctuation.definition.string.begin.dosbatch
-      push:
-        - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
-        - include: strings-common
+      push: string-common
 
-  strings-common:
+  string-common:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
     - match: \"
       scope: punctuation.definition.string.end.dosbatch
       pop: 1
-    - include: illegal-eol-pop
+    - match: $
+      pop: 1
     - include: escaped-characters
     - include: variables-interpolation
 
   escaped-characters:
-  - match: '%%|\^\^!|\^.'
-    scope: constant.character.escape.dosbatch
+    - match: '%%|\^\^!|\^.'
+      scope: constant.character.escape.dosbatch
 
 ###[ VARIABLES ]##############################################################
 
   variables-interpolation:
-    - match: (?=[!%][^%])
+    - match: (?=[!%])
       push:
         - clear_scopes: 1
         - meta_scope: meta.interpolation.dosbatch
