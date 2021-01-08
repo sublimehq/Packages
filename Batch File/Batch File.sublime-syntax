@@ -210,11 +210,18 @@ contexts:
 ###[ BLOCKS ]#################################################################
 
   embedded:
-    - match: (['`])
+    - match: \'
       scope: meta.embedded.dosbatch punctuation.section.embedded.begin.dosbatch
       embed: commands
       embed_scope: meta.embedded.dosbatch source.dosbatch.embedded
-      escape: \1(?=\s*($|['`{{command_terminator_chars}}]))
+      escape: \'(?=\s*($|['{{command_terminator_chars}}]))
+      escape_captures:
+        0: meta.embedded.dosbatch punctuation.section.embedded.end.dosbatch
+    - match: \`
+      scope: meta.embedded.dosbatch punctuation.section.embedded.begin.dosbatch
+      embed: commands
+      embed_scope: meta.embedded.dosbatch source.dosbatch.embedded
+      escape: \`(?=\s*($|[`{{command_terminator_chars}}]))
       escape_captures:
         0: meta.embedded.dosbatch punctuation.section.embedded.end.dosbatch
 
@@ -698,7 +705,6 @@ contexts:
     # SET variable
     # SET variable=string
     - match: (?=\S)
-      scope: punctuation.definition.string.begin.dosbatch
       set: [command-set-unquoted, command-set-variable]
 
   command-set-quoted:
