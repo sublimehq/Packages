@@ -86,7 +86,7 @@ contexts:
     - include: statements
 
   statements:
-    - include: block
+    - include: blocks
     - include: labels
     - include: operators
     - include: control
@@ -232,7 +232,7 @@ contexts:
     - include: eoc-pop
     - include: statements
 
-  block:
+  blocks:
     - match: \(
       scope: punctuation.section.group.begin.dosbatch
       push: block-common
@@ -247,14 +247,16 @@ contexts:
   groups:
     - match: \(
       scope: punctuation.section.group.begin.dosbatch
-      push:
-        - meta_scope: meta.group.dosbatch
-        - match: \)
-          scope: punctuation.section.group.end.dosbatch
-          pop: 1
-        - include: separator-semicolon
-        - include: separator-comma
-        - include: expressions
+      push: group-common
+
+  group-common:
+    - meta_scope: meta.group.dosbatch
+    - match: \)
+      scope: punctuation.section.group.end.dosbatch
+      pop: 1
+    - include: separator-semicolon
+    - include: separator-comma
+    - include: expressions
 
 ###[ CONTROL CONDITIONAL ]####################################################
 
