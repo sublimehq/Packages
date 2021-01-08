@@ -146,7 +146,7 @@ ECHO : Not a comment ^
 :: ^^^^ keyword.control.flow.call.dosbatch
 ::      ^ punctuation.definition.variable.dosbatch
 ::      ^^^^ variable.label.dosbatch - keyword
-::           ^^ constant.numeric.integer.decimal.dosbatch
+::           ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::              ^^ variable.parameter.dosbatch
 
    CALL :foo%bar% 10
@@ -158,7 +158,7 @@ ECHO : Not a comment ^
 :: ^^^^ keyword.control.flow.call.dosbatch
 ::      ^ punctuation.definition.variable.dosbatch
 ::      ^^^^ variable.label.dosbatch - keyword
-::                ^^ constant.numeric.integer.decimal.dosbatch
+::                ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 
    CALL :foo %bar% 10
 ::^ - meta.command - meta.function-call
@@ -170,7 +170,7 @@ ECHO : Not a comment ^
 ::      ^ punctuation.definition.variable.dosbatch
 ::      ^^^^ variable.label.dosbatch - keyword
 ::           ^^^^^ meta.variable.dosbatch - variable.label - keyword
-::                 ^^ constant.numeric.integer.decimal.dosbatch
+::                 ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 
    CALL foo %bar%
 ::^ - meta.command - meta.function-call
@@ -217,7 +217,7 @@ ECHO : Not a comment ^
 ::                     ^ punctuation.definition.variable.dosbatch
 ::                     ^^^^^^ variable.parameter.option.dosbatch
 ::                           ^ punctuation.separator.mapping.key-value.dosbatch
-::                            ^^ constant.numeric.integer.decimal.dosbatch
+::                            ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 
    CALL ..\%foo%\bar.exe /param:str
 ::^ - meta.command - meta.function-call
@@ -300,7 +300,7 @@ ECHO : Not a comment ^
 :: ^^^^ keyword.control.flow.exit.dosbatch
 ::      ^ punctuation.definition.variable.dosbatch
 ::      ^^ variable.parameter.dosbatch
-::         ^^ constant.numeric.integer.decimal.dosbatch
+::         ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::            ^^^^^^^ invalid.illegal.expect-end-of-command.dosbatch
 
    EXIT /b %var% illegal
@@ -406,12 +406,12 @@ ECHO : Not a comment ^
 :: ^^ keyword.control.conditional.if.dosbatch
 ::    ^^^ meta.group.dosbatch
 ::    ^ punctuation.section.group.begin.dosbatch
-::     ^ constant.numeric.integer.decimal.dosbatch
+::     ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::      ^ punctuation.section.group.end.dosbatch
 ::        ^^^ keyword.operator.comparison.dosbatch
 ::            ^^^^ meta.group.dosbatch
 ::            ^ punctuation.section.group.begin.dosbatch
-::             ^^ constant.numeric.integer.decimal.dosbatch
+::             ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::               ^ punctuation.section.group.end.dosbatch
 ::                 ^^^^ support.function.builtin.dosbatch
 ::                      ^^^^^^^^ string.unquoted.dosbatch
@@ -427,7 +427,7 @@ ECHO : Not a comment ^
    IF errorlevel 0 echo "ok"
 :: ^^ keyword.control.conditional.if.dosbatch
 ::    ^^^^^^^^^^ variable.language.dosbatch
-::               ^ constant.numeric.integer.decimal.dosbatch
+::               ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::                 ^^^^ support.function.builtin.dosbatch
 ::                      ^^^^ string.unquoted.dosbatch
 
@@ -435,7 +435,7 @@ ECHO : Not a comment ^
 :: ^^ keyword.control.conditional.if.dosbatch
 ::    ^^^^^^^^^^ variable.language.dosbatch
 ::              ^^ keyword.operator.comparison.dosbatch
-::                ^ constant.numeric.integer.decimal.dosbatch
+::                ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::                  ^^^^ support.function.builtin.dosbatch
 ::                       ^^^^ string.unquoted.dosbatch
 
@@ -444,7 +444,7 @@ ECHO : Not a comment ^
 ::    ^^^ keyword.operator.logical.dosbatch
 ::        ^^^^^^^^^^ variable.language.dosbatch
 ::                   ^^ keyword.operator.comparison.dosbatch
-::                      ^ constant.numeric.integer.decimal.dosbatch
+::                      ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::                        ^^^^ support.function.builtin.dosbatch
 ::                             ^^^^^^^ string.unquoted.dosbatch
 
@@ -452,7 +452,7 @@ ECHO : Not a comment ^
 :: ^^ keyword.control.conditional.if.dosbatch
 ::    ^^^^^^^^^^ variable.language.dosbatch
 ::               ^^^ invalid.illegal.unexpected.dosbatch
-::                   ^ constant.numeric.integer.decimal.dosbatch
+::                   ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::                     ^^^^ support.function.builtin.dosbatch
 ::                          ^^^^ string.unquoted.dosbatch
 
@@ -526,7 +526,7 @@ ECHO : Not a comment ^
 ::        ^^^ keyword.operator.comparison.dosbatch
 ::            ^^^ meta.group.dosbatch
 ::            ^ punctuation.section.group.begin.dosbatch
-::             ^ constant.numeric.integer.decimal.dosbatch
+::             ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::              ^ punctuation.section.group.end.dosbatch
 ::                ^^^^^^^^^^ meta.group.dosbatch
 ::                ^ punctuation.section.group.begin.dosbatch
@@ -603,9 +603,9 @@ ECHO : Not a comment ^
 ::     ^^^ variable.other.readwrite.dosbatch
 ::         ^^ keyword.operator.logical.dosbatch
 ::            ^ punctuation.section.set.begin.dosbatch
-::             ^ constant.numeric.integer.decimal.dosbatch
+::             ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::              ^ punctuation.separator.comma.dosbatch
-::               ^ constant.numeric.integer.decimal.dosbatch
+::               ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::                ^ punctuation.section.set.end.dosbatch
 ::                  ^^ keyword.control.loop.do.dosbatch
 
@@ -741,11 +741,11 @@ ECHO : Not a comment ^
 ::           ^^ keyword.operator.logical.dosbatch
 ::              ^ punctuation.section.set.begin.dosbatch
 ::              ^^^^^^^^^ meta.set.dosbatch
-::               ^ constant.numeric.integer.decimal.dosbatch
+::               ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::                ^ punctuation.separator.comma.dosbatch
-::                 ^ constant.numeric.integer.decimal.dosbatch
+::                 ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::                  ^ punctuation.separator.comma.dosbatch
-::                   ^^^ constant.numeric.integer.decimal.dosbatch
+::                   ^^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::                      ^ punctuation.section.set.end.dosbatch
 ::                        ^^ keyword.control.loop.do.dosbatch
 ::                           ^^^^ support.function.builtin.dosbatch
@@ -1200,16 +1200,18 @@ ECHO : Not a comment ^
 ::      ^ punctuation.definition.variable.begin.dosbatch
 ::       ^^^^^^ variable.other.readwrite.dosbatch
 ::             ^^ punctuation.separator.dosbatch
-::               ^ constant.numeric.integer.decimal.dosbatch
+::               ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::                ^ punctuation.separator.comma.dosbatch
-::                 ^^ constant.numeric.integer.decimal.dosbatch
+::                 ^ meta.number.integer.decimal.dosbatch keyword.operator.arithmetic.dosbatch
+::                  ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::                   ^ punctuation.definition.variable.end.dosbatch
 ::                     ^ punctuation.definition.variable.begin.dosbatch
 ::                      ^^^^^^ variable.other.readwrite.dosbatch
 ::                            ^^ punctuation.separator.dosbatch
-::                              ^ constant.numeric.integer.decimal.dosbatch
+::                              ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::                               ^ punctuation.separator.comma.dosbatch
-::                                ^^ constant.numeric.integer.decimal.dosbatch
+::                                ^ meta.number.integer.decimal.dosbatch keyword.operator.arithmetic.dosbatch
+::                                 ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::                                  ^ punctuation.definition.variable.end.dosbatch
 
    ECHO %b:~-5% !b:~+5!
@@ -1225,12 +1227,14 @@ ECHO : Not a comment ^
 ::      ^ punctuation.definition.variable.begin.dosbatch
 ::       ^ variable.other.readwrite.dosbatch
 ::        ^^ punctuation.separator.dosbatch
-::          ^^ constant.numeric.integer.decimal.dosbatch
+::          ^ meta.number.integer.decimal.dosbatch keyword.operator.arithmetic.dosbatch
+::           ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::            ^ punctuation.definition.variable.end.dosbatch
 ::              ^ punctuation.definition.variable.begin.dosbatch
 ::               ^ variable.other.readwrite.dosbatch
 ::                ^^ punctuation.separator.dosbatch
-::                  ^^ constant.numeric.integer.decimal.dosbatch
+::                  ^ meta.number.integer.decimal.dosbatch keyword.operator.arithmetic.dosbatch
+::                   ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::                    ^ punctuation.definition.variable.end.dosbatch
 
    ECHO !t:%foo%=%bar:~0,-4%!
@@ -1252,9 +1256,10 @@ ECHO : Not a comment ^
 ::               ^ punctuation.definition.variable.begin.dosbatch
 ::                ^^^ variable.other.readwrite.dosbatch
 ::                   ^^ punctuation.separator.dosbatch
-::                     ^ constant.numeric.integer.decimal.dosbatch
+::                     ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::                      ^ punctuation.separator.comma.dosbatch
-::                       ^^ constant.numeric.integer.decimal.dosbatch
+::                       ^ meta.number.integer.decimal.dosbatch keyword.operator.arithmetic.dosbatch
+::                        ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::                         ^^ punctuation.definition.variable.end.dosbatch
 
    ECHO %t:!foo!=!bar:~0,-4!%
@@ -1276,9 +1281,10 @@ ECHO : Not a comment ^
 ::               ^ punctuation.definition.variable.begin.dosbatch
 ::                ^^^ variable.other.readwrite.dosbatch
 ::                   ^^ punctuation.separator.dosbatch
-::                     ^ constant.numeric.integer.decimal.dosbatch
+::                     ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::                      ^ punctuation.separator.comma.dosbatch
-::                       ^^ constant.numeric.integer.decimal.dosbatch
+::                       ^ meta.number.integer.decimal.dosbatch keyword.operator.arithmetic.dosbatch
+::                        ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::                         ^^ punctuation.definition.variable.end.dosbatch
 
    ECHO Not% a variable
@@ -1511,11 +1517,11 @@ ECHO : Not a comment ^
 ::                   ^ - meta.expression.dosbatch
 
    SET /A r = 010 + 0x20 - 24
-::            ^^^ constant.numeric.integer.octal.dosbatch
-::            ^ punctuation.definition.numeric.octal.dosbatch
-::                  ^^^^ constant.numeric.integer.hexadecimal.dosbatch
-::                  ^^ punctuation.definition.numeric.hexadecimal.dosbatch
-::                         ^^ constant.numeric.integer.decimal.dosbatch
+::            ^ meta.number.integer.octal.dosbatch constant.numeric.base.dosbatch
+::             ^^ meta.number.integer.octal.dosbatch constant.numeric.value.dosbatch
+::                  ^^ meta.number.integer.hexadecimal.dosbatch constant.numeric.base.dosbatch
+::                    ^^ meta.number.integer.hexadecimal.dosbatch constant.numeric.value.dosbatch
+::                         ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 
    set /a "num%%=5"
 ::        ^^^^^^^^^ meta.expression.dosbatch
@@ -1624,7 +1630,7 @@ ECHO : Not a comment ^
 ::             ^^ keyword.operator.assignment.augmented
 ::               ^^^ variable.other.readwrite
 ::                  ^^ keyword.operator.assignment.augmented
-::                    ^ constant.numeric.integer.decimal
+::                    ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 
    set /A "hello*=wow"
 ::        ^^^^^^^^^^^^ meta.expression.dosbatch string.quoted.double
@@ -1654,7 +1660,7 @@ ECHO : Not a comment ^
 ::                ^ keyword.operator.arithmetic
 
    set /A 1+"%hello%"
-::        ^ constant.numeric.integer.decimal
+::        ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::         ^ keyword.operator.arithmetic
 ::          ^^^^^^^^^ string.quoted.double
 ::          ^ punctuation.definition.string.begin
@@ -1668,19 +1674,19 @@ ECHO : Not a comment ^
    set /a %a12b%*=2
 ::         ^^^^ variable.other.readwrite
 ::              ^^ keyword.operator.assignment.augmented
-::                ^ constant.numeric.integer.decimal
+::                ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 
    set /a a12b*=2
 ::        ^^^^ variable.other.readwrite
 ::            ^^ keyword.operator.assignment.augmented
-::              ^ constant.numeric.integer.decimal
+::              ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 
    set /a  a12b *= 2
 ::        ^ - variable
 ::         ^^^^ variable.other.readwrite
 ::             ^ - variable
 ::              ^^ meta.expression.dosbatch keyword.operator.assignment.augmented
-::                 ^ constant.numeric.integer.decimal
+::                 ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 
    set /a ! a12b
 ::        ^ keyword.operator.logical
@@ -1726,37 +1732,37 @@ ECHO : Not a comment ^
 ::          ^^^^^ variable.other.readwrite
 ::               ^ punctuation.definition.string.end
 ::                ^ keyword.operator.assignment
-::                 ^^ constant.numeric.integer.decimal
+::                 ^^ meta.number.integer.decimal constant.numeric.value.dosbatch
 
    set /a "wow"+="2"
 ::        ^^^^^  string.quoted.double
 ::         ^^^ variable.other.readwrite
 ::             ^^ keyword.operator.assignment.augmented - string
 ::               ^^^ string.quoted.double
-::                ^ constant.numeric.integer.decimal
+::                ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 
    set /a wow"+="2
 ::        ^^^ variable.other.readwrite
 ::           ^^^^ string.quoted.double
 ::            ^^ keyword.operator.assignment.augmented
-::               ^ constant.numeric.integer.decimal - string
+::               ^ meta.number.integer.decimal - string constant.numeric.value.dosbatch
 
    set /a 4*"2+-wow+(3"-2)
 ::        ^^^^^^^^^^^^^^^^ meta.expression.dosbatch - string string - meta.group meta.group
-::        ^ constant.numeric.integer.decimal
+::        ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::         ^ keyword.operator.arithmetic
 ::          ^^^^^^^^^^^ string.quoted.double
 ::          ^ punctuation.definition.string.begin
-::           ^ constant.numeric.integer.decimal
+::           ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::            ^^ keyword.operator.arithmetic
 ::              ^^^ variable.other.readwrite
 ::                 ^ keyword.operator.arithmetic
 ::                  ^^^^^^ meta.group
 ::                  ^ punctuation.section.group.begin
-::                   ^ constant.numeric.integer.decimal
+::                   ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::                    ^ punctuation.definition.string.end
 ::                     ^ keyword.operator.arithmetic
-::                      ^ constant.numeric.integer.decimal
+::                      ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::                       ^ punctuation.section.group.end
 ::                     ^^^ - string
 ::                  ^^^ string.quoted.double meta.group
@@ -1764,33 +1770,33 @@ ECHO : Not a comment ^
    set /a (8"2")
 ::        ^^^^^^ meta.group
 ::        ^ punctuation.section.group.begin
-::         ^ constant.numeric.integer.decimal
+::         ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::          ^ punctuation.definition.string.begin
 ::          ^^^ string.quoted.double
-::           ^ constant.numeric.integer.decimal
+::           ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::            ^ punctuation.definition.string.end
 ::             ^ punctuation.section.group.end
 
    set /a 4*"2+1"1
-::        ^ constant.numeric.integer.decimal
+::        ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::         ^ keyword.operator.arithmetic
 ::          ^^^^^ string.quoted.double
-::           ^ constant.numeric.integer.decimal
+::           ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::            ^ keyword.operator.arithmetic
-::             ^ constant.numeric.integer.decimal
-::               ^ constant.numeric.integer.decimal
+::             ^ meta.number.integer.decimal constant.numeric.value.dosbatch
+::               ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 
    set /a 4*"2++1"
-::        ^ constant.numeric.integer.decimal
+::        ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::         ^ keyword.operator.arithmetic
 ::          ^^^^^^ string.quoted.double
-::           ^ constant.numeric.integer.decimal
+::           ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::            ^^ keyword.operator.arithmetic
-::              ^ constant.numeric.integer.decimal
+::              ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 
    set /a 4*"2++w"ow
 ::          ^^^^^^ string.quoted.double
-::           ^ constant.numeric.integer.decimal
+::           ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::            ^^ keyword.operator.arithmetic
 ::              ^ variable.other.readwrite
 ::                ^^ variable.other.readwrite
@@ -1815,18 +1821,18 @@ ECHO : Not a comment ^
 ::              ^^^ variable.other.readwrite
 ::                 ^ keyword.operator.arithmetic
 ::                  ^ punctuation.section.group.begin
-::                   ^ constant.numeric.integer.decimal
+::                   ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::                    ^ punctuation.section.group.end
 ::                     ^ punctuation.section.group.end
 ::                      ^ keyword.operator.arithmetic
-::                       ^ constant.numeric.integer.decimal
+::                       ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::                        ^ punctuation.section.group.end
 ::                         ^^^^^^^^ string.quoted.double
 ::                         ^ punctuation.definition.string.begin
 ::                          ^ keyword.operator.arithmetic
 ::                           ^ meta.group punctuation.section.group.begin
 ::                            ^ meta.group meta.group punctuation.section.group.begin
-::                             ^ meta.group meta.group constant.numeric.integer.decimal
+::                             ^ meta.group meta.group meta.number.integer.decimal constant.numeric.value.dosbatch
 ::                              ^ meta.group meta.group punctuation.section.group.end
 ::                               ^ meta.group punctuation.section.group.end
 ::                                ^ punctuation.definition.string.end - meta.group
@@ -1855,10 +1861,10 @@ ECHO : Not a comment ^
 ::            ^ variable.other.readwrite
 ::             ^ punctuation.section.group.end
 ::              ^ keyword.operator.arithmetic - meta.group
-::               ^ constant.numeric.integer.decimal
+::               ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 ::                ^ punctuation.definition.string.end
 ::                 ^ keyword.operator.arithmetic - meta.group
-::                  ^ constant.numeric.integer.decimal
+::                  ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 
 
 :: command SET /P variable=[promptString]

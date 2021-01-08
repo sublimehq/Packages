@@ -1025,16 +1025,18 @@ contexts:
       scope: constant.language.dosbatch
 
   numbers:
-    - match: \b(0[xX])\h*\b
-      scope: constant.numeric.integer.hexadecimal.dosbatch
+    - match: \b(0[xX])(\h*)\b
+      scope: meta.number.integer.hexadecimal.dosbatch
       captures:
-        1: punctuation.definition.numeric.hexadecimal.dosbatch
-    - match: \b(0)[0-7]+\b
-      scope: constant.numeric.integer.octal.dosbatch
+        1: constant.numeric.base.dosbatch
+        2: constant.numeric.value.dosbatch
+    - match: \b(0)([0-7]+)\b
+      scope: meta.number.integer.octal.dosbatch
       captures:
-        1: punctuation.definition.numeric.octal.dosbatch
+        1: constant.numeric.base.dosbatch
+        2: constant.numeric.value.dosbatch
     - match: \b(?:0|[1-9][0-9]*)\b
-      scope: constant.numeric.integer.decimal.dosbatch
+      scope: meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 
 ###[ PATH PATTERNS ]##########################################################
 
@@ -1071,7 +1073,7 @@ contexts:
       scope: constant.language.dosbatch
       pop: 1
     - match: \d\b
-      scope: constant.numeric.integer.decimal.dosbatch
+      scope: meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
       pop: 1
     - include: path-pattern
 
@@ -1255,6 +1257,9 @@ contexts:
       scope: string.unquoted.dosbatch
 
   variable-substring:
-    - match: '[-+]?(?:0|[1-9][0-9]*)'
-      scope: constant.numeric.integer.decimal.dosbatch
+    - match: '([-+]?)(0|[1-9][0-9]*)'
+      scope: meta.number.integer.decimal.dosbatch
+      captures:
+        1: keyword.operator.arithmetic.dosbatch
+        2: constant.numeric.value.dosbatch
     - include: separator-comma
