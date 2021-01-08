@@ -387,7 +387,7 @@ contexts:
     # https://ss64.com/nt/for_f.html
     - match: (?i:(/)f)\b
       scope: variable.parameter.files.dosbatch
-      push: control-for-switches-f-body
+      push: control-for-maybe-f-args
       captures:
         1: punctuation.definition.variable.dosbatch
     # https://ss64.com/nt/for_r.html
@@ -401,20 +401,22 @@ contexts:
       pop: 1
     - include: else-pop
 
-  control-for-switches-f-body:
+  control-for-maybe-f-args:
     - match: \"
       scope: punctuation.definition.string.begin.dosbatch
-      set:
-        - meta_include_prototype: false
-        - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
-        - include: strings-common
-        - match: =
-          scope: punctuation.separator.mapping.key-value.dosbatch
-        - match: \b(delims|eol|skip|tokens)\b
-          scope: constant.language.dosbatch
-        - match: \busebackq\b
-          scope: constant.language.dosbatch
+      set: control-for-f-args
     - include: else-pop
+
+  control-for-f-args:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.dosbatch string.quoted.double.dosbatch
+    - include: string-common
+    - match: =
+      scope: punctuation.separator.mapping.key-value.dosbatch
+    - match: \b(delims|eol|skip|tokens)\b
+      scope: constant.language.dosbatch
+    - match: \busebackq\b
+      scope: constant.language.dosbatch
 
   control-for-parameter:
     - match: (?=(?i:in|do)\b|\()
@@ -437,21 +439,22 @@ contexts:
   control-for-set:
     - match: \(
       scope: punctuation.section.set.begin.dosbatch
-      set:
-        - - meta_scope: meta.set.dosbatch
-          - include: immediatelly-pop
-        - - match: \)
-            scope: punctuation.section.set.end.dosbatch
-            pop: 1
-          - include: invalid-operators
-          - include: separator-comma
-          - include: constants
-          - include: numbers
-          - include: embedded
-          - include: variables
-          - match: (?=\S)
-            push: path-pattern
+      set: control-for-set-body
     - include: else-pop
+
+  control-for-set-body:
+    - meta_scope: meta.set.dosbatch
+    - match: \)
+      scope: punctuation.section.set.end.dosbatch
+      pop: 1
+    - include: invalid-operators
+    - include: separator-comma
+    - include: constants
+    - include: numbers
+    - include: embedded
+    - include: variables
+    - match: (?=\S)
+      push: path-pattern
 
   control-for-do:
     - match: \b(?i:do)\b
