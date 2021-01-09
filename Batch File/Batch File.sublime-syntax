@@ -842,6 +842,7 @@ contexts:
         - include: illegal-eol-pop
 
   command-set-unquoted:
+    - include: eoc-pop
     - match: (?=\S)
       set:
         - meta_content_scope: meta.string.dosbatch string.unquoted.dosbatch

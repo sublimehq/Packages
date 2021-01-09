@@ -1778,6 +1778,13 @@ ECHO : Not a comment ^
 :: ^^^ support.function.builtin.dosbatch
 ::     ^^^^^^^ variable.other.readwrite.dosbatch
 
+   set foo=
+:: ^^^^^^^^ meta.command.set.dosbatch
+::         ^ - meta.command
+:: ^^^ support.function.builtin.dosbatch
+::     ^^^ variable.other.readwrite.dosbatch
+::        ^ keyword.operator.assignment.dosbatch
+
    set rem=bar
 :: ^^^^^^^^^^^ meta.command.set.dosbatch
 ::            ^ - meta.command
