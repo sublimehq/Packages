@@ -119,6 +119,7 @@ contexts:
     - include: blocks
     - include: labels
     - include: operators
+    - include: redirections
     - include: control
     - include: commands
 
@@ -648,6 +649,7 @@ contexts:
 
   function-arguments:
     - meta_content_scope: meta.function-call.arguments.dosbatch
+    - include: redirections
     - include: expressions
     - include: eoc-pop
 
@@ -1111,7 +1113,6 @@ contexts:
     - match: '\|'
       scope: keyword.operator.pipe.dosbatch
       push: illegal-comment-pop
-    - include: redirections
 
   separator-comma:
     - match: ','
@@ -1165,30 +1166,46 @@ contexts:
 ###[ PATH PATTERNS ]##########################################################
 
   redirection-interpolations:
-    - match: \s*(?=(<&?|>[&>]?))
-      push: redirection-interpolation
+    - match: \s*(?=\d*(?:<&?|>[&>]?))
+      push: redirection-interpolations-body
 
-  redirection-interpolation:
-    - match: '<&?|>[&>]?'
-      scope: keyword.operator.redirection.dosbatch
+  redirection-interpolations-body:
+    - match: (\d*)(<&?|>[&>]?)
+      captures:
+        1: meta.number.integer.decimal.dosbatch
+           constant.numeric.value.dosbatch
+        2: keyword.operator.assignment.redirection.dosbatch
       set:
-        - redirection-interpolation-meta
+        - redirection-interpolations-meta
         - redirection-path
 
-  redirection-interpolation-meta:
-    - clear_scopes: 1
-    - meta_scope: meta.interpolation.dosbatch meta.redirection.dosbatch
-    - include: immediatelly-pop
+  redirection-interpolations-meta:
+        - clear_scopes: 1
+        - meta_scope: meta.interpolation.dosbatch meta.redirection.dosbatch
+        - include: immediatelly-pop
 
   redirections:
-    - match: '<&?|>[&>]?'
-      scope: keyword.operator.redirection.dosbatch
+    - match: (?=\d*(<&?|>[&>]?))
+      push: redirection-body
+
+  redirection:
+    - match: (?=\d*(<&?|>[&>]?))
+      set: redirection-body
+
+  redirection-body:
+    - match: (\d*)(<&?|>[&>]?)
+      captures:
+        1: meta.number.integer.decimal.dosbatch
+           constant.numeric.value.dosbatch
+        2: keyword.operator.assignment.redirection.dosbatch
       push:
         - redirection-meta
         - redirection-path
+    - include: strings
+    - include: variables
+    - include: else-pop
 
   redirection-meta:
-    - clear_scopes: 1
     - meta_scope: meta.redirection.dosbatch
     - include: immediatelly-pop
 

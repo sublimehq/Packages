@@ -880,16 +880,142 @@ ECHO : Not a comment ^
 :::: [ Redirections ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
    ECHO Hello World! > hello.txt
-:: ^^^^                support.function.builtin.dosbatch
-::                   ^ keyword.operator.redirection.dosbatch
+::                  ^ - meta.redirection
+::                   ^^ meta.redirection.dosbatch - meta.path
+::                     ^^^^^^^^^ meta.redirection.dosbatch meta.path.dosbatch
+::                              ^ - meta.redirection
+::                   ^ keyword.operator.assignment.redirection.dosbatch
 
    ECHO >> NUL
-::      ^^     keyword.operator.redirection.dosbatch
-::         ^^^ constant.language
+::     ^ - meta.redirection
+::      ^^^^^^ meta.redirection.dosbatch
+::            ^ - meta.redirection
+::      ^^ keyword.operator.assignment.redirection.dosbatch
+::         ^^^ constant.language.dosbatch
 
    dir > f.txt 2>&1
-::     ^ keyword.operator.redirection.dosbatch
-::              ^^ keyword.operator.redirection.dosbatch
+::    ^ - meta.redirection
+::     ^^^^^^^ meta.redirection.dosbatch
+::            ^ - meta.redirection
+::             ^^^^ meta.redirection.dosbatch
+::                 ^ - meta.redirection
+::     ^ keyword.operator.assignment.redirection.dosbatch
+::       ^^^^^ string.unquoted.dosbatch
+::             ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
+::              ^^ keyword.operator.assignment.redirection.dosbatch
+::                ^ meta.number.integer.decimal.dosbatch  constant.numeric.value.dosbatch
+
+   dir foo 1>nul 2>nul
+::        ^ - meta.redirection
+::         ^^^^^ meta.redirection.dosbatch
+::              ^ - meta.redirection
+::               ^^^^^ meta.redirection.dosbatch
+::                    ^ - meta.redirection
+::         ^ meta.number.integer.decimal.dosbatch  constant.numeric.value.dosbatch
+::          ^ keyword.operator.assignment.redirection.dosbatch
+::           ^^^ constant.language.dosbatch
+::               ^ meta.number.integer.decimal.dosbatch  constant.numeric.value.dosbatch
+::                ^ keyword.operator.assignment.redirection.dosbatch
+::                 ^^^ constant.language.dosbatch
+
+:: Redirect any error message into a file
+   command 2> filename
+:: ^^^^^^^ variable.function.dosbatch
+::         ^ constant.numeric.value.dosbatch
+::          ^ keyword.operator.assignment.redirection.dosbatch
+::            ^^^^^^^^ string.unquoted.dosbatch
+
+:: Append any error message into a file
+   command 2>> filename
+:: ^^^^^^^ variable.function.dosbatch
+::         ^ constant.numeric.value.dosbatch
+::          ^^ keyword.operator.assignment.redirection.dosbatch
+::             ^^^^^^^^ string.unquoted.dosbatch
+
+:: Redirect any CMD.exe error into a file
+  (command)2> filename
+:: ^^^^^^^ variable.function.dosbatch
+::         ^ constant.numeric.value.dosbatch
+::          ^ keyword.operator.assignment.redirection.dosbatch
+::            ^^^^^^^^ string.unquoted.dosbatch
+
+:: Redirect errors and output to one file
+   command > file 2>&1
+:: ^^^^^^^ variable.function.dosbatch
+::         ^ keyword.operator.assignment.redirection.dosbatch
+::           ^^^^ string.unquoted.dosbatch
+::                ^ constant.numeric.value.dosbatch
+::                 ^^ keyword.operator.assignment.redirection.dosbatch
+::                   ^ constant.numeric.value.dosbatch
+
+:: Redirect output and errors to separate files
+   command > fileA 2> fileB
+:: ^^^^^^^ variable.function.dosbatch
+::         ^ keyword.operator.assignment.redirection.dosbatch
+::           ^^^^^ string.unquoted.dosbatch
+::                 ^ constant.numeric.value.dosbatch
+::                  ^ keyword.operator.assignment.redirection.dosbatch
+::                    ^^^^^ string.unquoted.dosbatch
+
+:: This will fail!
+   command 2>&1 >filename
+:: ^^^^^^^ variable.function.dosbatch
+::         ^ constant.numeric.value.dosbatch
+::          ^^ keyword.operator.assignment.redirection.dosbatch
+::            ^ constant.numeric.value.dosbatch
+::              ^ keyword.operator.assignment.redirection.dosbatch
+::               ^^^^^^^^ string.unquoted.dosbatch
+
+:: Redirect error messages to NUL
+   command 2> nul
+:: ^^^^^^^ variable.function.dosbatch
+::         ^ constant.numeric.value.dosbatch
+::          ^ keyword.operator.assignment.redirection.dosbatch
+::            ^^^ constant.language.dosbatch
+
+:: Redirect error and output to NUL
+   command >nul 2>&1
+:: ^^^^^^^ variable.function.dosbatch
+::         ^ keyword.operator.assignment.redirection.dosbatch
+::          ^^^ constant.language.dosbatch
+::              ^ constant.numeric.value.dosbatch
+::               ^^ keyword.operator.assignment.redirection.dosbatch
+::                 ^ constant.numeric.value.dosbatch
+
+:: Redirect output to file but suppress error
+   command >filename 2> nul
+:: ^^^^^^^ variable.function.dosbatch
+::         ^ keyword.operator.assignment.redirection.dosbatch
+::           ^^^^^^^ string.unquoted.dosbatch
+::                   ^ constant.numeric.value.dosbatch
+::                    ^ keyword.operator.assignment.redirection.dosbatch
+::                      ^^^ constant.language.dosbatch
+
+:: Redirect output to file but suppress CMD.exe errors
+  (command)>filename 2> nul
+:: ^^^^^^^ variable.function.dosbatch
+::         ^ keyword.operator.assignment.redirection.dosbatch
+::           ^^^^^^^ string.unquoted.dosbatch
+::                   ^ constant.numeric.value.dosbatch
+::                    ^ keyword.operator.assignment.redirection.dosbatch
+::                      ^^^ constant.language.dosbatch
+
+:: Redirect all output to stdout using variables
+   command >%STDOUT% %STDERR%>&%STDOUT%
+:: ^^^^^^^^ - meta.redirection
+::         ^^^^^^^^^ meta.redirection.dosbatch
+::                  ^^^^^^^^^ - meta.redirection
+::                           ^^^^^^^^^^ meta.redirection.dosbatch
+:: ^^^^^^^^^ - meta.interpolation
+::          ^^^^^^^^ meta.interpolation.dosbatch
+::                  ^ - meta.interpolation
+::                   ^^^^^^^^ meta.interpolation.dosbatch
+::                           ^^ - meta.interpolation
+::                             ^^^^^^^^ meta.interpolation.dosbatch
+::                                     ^ - meta.interpolation
+:: ^^^^^^^ variable.function.dosbatch
+::         ^ keyword.operator.assignment.redirection.dosbatch
+::                           ^^ keyword.operator.assignment.redirection.dosbatch
 
 
 :::: [ ECHO Command ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -1108,7 +1234,7 @@ ECHO : Not a comment ^
    ECHO foo"bar">nul && echo baz
 ::     ^ - meta.string - string
 ::      ^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant - puntuation
-::              ^ keyword.operator.redirection.dosbatch
+::              ^ keyword.operator.assignment.redirection.dosbatch
 ::               ^^^ constant.language.dosbatch
 ::                   ^^ keyword.operator.conditional.dosbatch
 ::                      ^^^^ support.function.builtin.dosbatch
@@ -2431,7 +2557,7 @@ ECHO : Not a comment ^
 ::     ^^ variable.parameter.prompt.dosbatch
 ::        ^^^^^ variable.other.readwrite.dosbatch
 ::             ^ keyword.operator.assignment.dosbatch
-::              ^ keyword.operator.redirection.dosbatch
+::              ^ keyword.operator.assignment.redirection.dosbatch
 
    set /p today=Enter <today.txt a date
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
@@ -2445,7 +2571,7 @@ ECHO : Not a comment ^
 ::     ^^ variable.parameter.prompt.dosbatch
 ::        ^^^^^ variable.other.readwrite.dosbatch
 ::             ^ keyword.operator.assignment.dosbatch
-::                    ^ keyword.operator.redirection.dosbatch
+::                    ^ keyword.operator.assignment.redirection.dosbatch
 
    set /p today=Enter < "..\to day.txt" a date
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
@@ -2460,7 +2586,7 @@ ECHO : Not a comment ^
 ::     ^^ variable.parameter.prompt.dosbatch
 ::        ^^^^^ variable.other.readwrite.dosbatch
 ::             ^ keyword.operator.assignment.dosbatch
-::                    ^ keyword.operator.redirection.dosbatch
+::                    ^ keyword.operator.assignment.redirection.dosbatch
 
    set /p "today=<today.txt"
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
@@ -2491,7 +2617,7 @@ ECHO : Not a comment ^
 ::         ^^^^^ variable.other.readwrite.dosbatch
 ::              ^ keyword.operator.assignment.dosbatch
 ::               ^ punctuation.definition.prompt.end.dosbatch
-::                ^ keyword.operator.redirection.dosbatch
+::                ^ keyword.operator.assignment.redirection.dosbatch
 
    set /p "today=" this is ignored <today.txt
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
@@ -2508,7 +2634,7 @@ ECHO : Not a comment ^
 ::                ^ - comment - string
 ::                 ^^^^^^^^^^^^^^^ comment.line.ignored.dosbatch
 ::                                ^ - comment - keyword
-::                                 ^ keyword.operator.redirection.dosbatch
+::                                 ^ keyword.operator.assignment.redirection.dosbatch
 
    set /p "today="<"c:\this week\to day.txt"
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
@@ -2522,7 +2648,7 @@ ECHO : Not a comment ^
 ::         ^^^^^ variable.other.readwrite.dosbatch
 ::              ^ keyword.operator.assignment.dosbatch
 ::               ^ punctuation.definition.prompt.end.dosbatch
-::                ^ keyword.operator.redirection.dosbatch
+::                ^ keyword.operator.assignment.redirection.dosbatch
 ::                 ^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.dosbatch
 
 
