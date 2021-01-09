@@ -1,5 +1,8 @@
 :: SYNTAX TEST "Packages/Batch File/Batch File.sublime-syntax"
 
+
+:::: [ Comments ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
    REM I'm a (com|ment)
 :: ^^^ keyword.declaration.rem.dosbatch - comment
 ::    ^^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
@@ -97,7 +100,7 @@ ECHO : Not a comment ^
 :: ^ - keyword.operator.at.dosbatch
 
 
-:: Labels
+:::: [ Labels ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
   :This is a #@$虎 strange label
 ::^ punctuation.definition.label.dosbatch
@@ -108,7 +111,7 @@ ECHO : Not a comment ^
 ::^^^^ entity.name.label.dosbatch
 
 
-:: Control Flow
+:::: [ Control Flow ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
    CALL:This is a #@$虎 strange label
 ::^ - meta.command - meta.function-call
@@ -364,7 +367,7 @@ ECHO : Not a comment ^
 ::      ^^^^^ meta.command.goto.dosbatch meta.variable.dosbatch
 
 
-:: Conditionals
+:::: [ Conditionals ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
    IF foo EQU bar echo "equal"
 :: ^^  keyword.control.conditional.if.dosbatch
@@ -609,7 +612,7 @@ ECHO : Not a comment ^
 :: ^^ variable.parameter.dosbatch
 
 
-:: Loops
+:::: [ Loops ] ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
    FOR %%G IN (0,9) DO (md %%G)
 :: ^^^ keyword.control.loop.for.dosbatch
@@ -817,7 +820,8 @@ ECHO : Not a comment ^
 ::                                      ^^ invalid.illegal.operator.dosbatch
 ::                                            ^^ invalid.illegal.operator.dosbatch
 
-:: setlocal
+
+:::: [ SETLOCAL ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
    SETLOCAL
 :: ^^^^^^^^ meta.command.setlocal.dosbatch keyword.control.namespace.setlocal.dosbatch
@@ -867,13 +871,13 @@ ECHO : Not a comment ^
 ::                       ^^^^^^^^^ meta.variable.dosbatch
 
 
-:: Commands
+:::: [ Commands ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
    FIND "a" |
 ::          ^ keyword.operator.pipe.dosbatch
 
 
-:: Redirection
+:::: [ Redirections ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
    ECHO Hello World! > hello.txt
 :: ^^^^                support.function.builtin.dosbatch
@@ -888,7 +892,7 @@ ECHO : Not a comment ^
 ::              ^^ keyword.operator.redirection.dosbatch
 
 
-:: Command ECHO
+:::: [ ECHO Command ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
    @
 :: ^ - keyword.operator.at.dosbatch
@@ -1112,7 +1116,7 @@ ECHO : Not a comment ^
 ::                              ^ - meta.command - meta.string - string
 
 
-:: Escape Characters
+:::: [ ECHO escaped characters ]:::::::::::::::::::::::::::::::::::::::::::::::
 
    ECHO %% ^^! ^& ^| ^( ^)
 :: ^^^^^ meta.command.echo.dosbatch - meta.string
@@ -1151,7 +1155,7 @@ ECHO : Not a comment ^
 ::      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - constant - punctuation
 
 
-:: Variables
+:::: [ ECHO variables ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
    ECHO %1 %* %~dpf$PATH:5 %~1
 ::      ^ punctuation.definition.variable.dosbatch
@@ -1324,7 +1328,7 @@ ECHO : Not a comment ^
 ::                                       ^ - constant.character.escape.dosbatch
 
 
-:: command SET variable=string
+:::: [ SET variable=string ]:::::::::::::::::::::::::::::::::::::::::::::::::::
 
    set foo_bar
 :: ^^^^^^^^^^^ meta.command.set.dosbatch
@@ -1523,7 +1527,7 @@ ECHO : Not a comment ^
 ::         ^ - string
 
 
-:: command SET /A "variable=expression"
+:::: [ SET /A "variable=expression" ]::::::::::::::::::::::::::::::::::::::::::
 
    set /A hello_world
 :: ^^^ support.function.builtin.dosbatch
@@ -1881,7 +1885,7 @@ ECHO : Not a comment ^
 ::                  ^ meta.number.integer.decimal constant.numeric.value.dosbatch
 
 
-:: command SET /P variable=[promptString]
+:::: [ SET /P variable=[promptString ]:::::::::::::::::::::::::::::::::::::::::
 
    set /p today=
 :: ^^^ support.function.builtin.dosbatch
