@@ -688,15 +688,17 @@ contexts:
     # https://ss64.com/nt/rem.html
     - match: \b(?i:rem)\b
       scope: keyword.declaration.rem.dosbatch
-      push:
-        - meta_scope: meta.command.rem.dosbatch
-        # meta_content_scope is used since rem should not be
-        # highlighted as a comment, but a command
-        - meta_content_scope: comment.line.rem.dosbatch
-        - include: line-continuation
-        - match: \n
-          scope: comment.line.rem.dosbatch
-          pop: 1
+      push: command-rem-body
+
+  command-rem-body:
+    - meta_scope: meta.command.rem.dosbatch
+    # meta_content_scope is used since rem should not be
+    # highlighted as a comment, but a command
+    - meta_content_scope: comment.line.rem.dosbatch
+    - include: line-continuation
+    - match: \n
+      scope: comment.line.rem.dosbatch
+      pop: 1
 
 ###[ COMMAND SET ]############################################################
 
