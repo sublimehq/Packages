@@ -126,6 +126,7 @@ contexts:
     - include: command-echo
     - include: command-rem
     - include: command-set
+    - include: command-title
     - include: command-builtin
     - include: command-other
 
@@ -1035,6 +1036,34 @@ contexts:
     - include: variable-interpolations
     - include: line-continuation
     - include: illegal-eol-pop
+
+###[ COMMAND TITLE ]##########################################################
+
+  command-title:
+    - match: \b(?i:title)\b
+      scope:
+        meta.command.title.dosbatch
+        support.function.builtin.dosbatch
+      push: command-title-args
+
+  command-title-args:
+    - meta_content_scope: meta.command.title.arguments.dosbatch
+    - include: eoc-pop
+    - match: \s*((/)\?)
+      scope: meta.command.title.arguments.dosbatch
+      captures:
+        1: variable.parameter.help.dosbatch
+        2: punctuation.definition.variable.dosbatch
+      set: ignored-tail
+    - match: \s*
+      scope: meta.command.title.dosbatch
+      set: command-title-output
+
+  command-title-output:
+    - meta_content_scope:
+        meta.command.title.arguments.dosbatch
+        meta.string.dosbatch string.unquoted.dosbatch
+    - include: eoc-pop
 
 ###[ OPERATORS ]##############################################################
 
