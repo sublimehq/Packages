@@ -172,7 +172,7 @@ ECHO : Not a comment ^
 :: ^^^^ keyword.control.flow.call.dosbatch
 ::      ^ punctuation.definition.variable.dosbatch
 ::      ^^^^ variable.label.dosbatch - keyword
-::           ^^^^^ meta.variable.dosbatch - variable.label - keyword
+::           ^^^^^ meta.interpolation.dosbatch - variable.label - keyword
 ::                 ^^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 
    CALL foo %bar%
@@ -184,7 +184,7 @@ ECHO : Not a comment ^
 :: ^^^^ keyword.control.flow.call.dosbatch
 ::      ^^^ meta.function-call.name.dosbatch variable.function.dosbatch
 ::         ^^^^^^ meta.function-call.arguments.dosbatch
-::          ^^^^^ meta.variable.dosbatch
+::          ^^^^^ meta.interpolation.dosbatch
 
    CALL ^
    foo
@@ -198,12 +198,12 @@ ECHO : Not a comment ^
 ::              ^ keyword.operator.assignment.dosbatch
 ::               ^^^^^^^^ meta.string.dosbatch string.unquoted.dosbatch
 ::               ^^ constant.character.escape.dosbatch
-::                       ^ punctuation.definition.variable.begin.dosbatch
-::                       ^^^^^^^^ meta.variable.dosbatch
-::                              ^ punctuation.definition.variable.end.dosbatch
-::                                ^ punctuation.definition.variable.begin.dosbatch
-::                                ^^^^^^^^^ meta.variable.dosbatch
-::                                        ^ punctuation.definition.variable.end.dosbatch
+::                       ^ punctuation.section.interpolation.begin.dosbatch
+::                       ^^^^^^^^ meta.interpolation.dosbatch
+::                              ^ punctuation.section.interpolation.end.dosbatch
+::                                ^ punctuation.section.interpolation.begin.dosbatch
+::                                ^^^^^^^^^ meta.interpolation.dosbatch
+::                                        ^ punctuation.section.interpolation.end.dosbatch
 ::                                         ^^ constant.character.escape.dosbatch
 
    CALL ..\foo\bar.exe /param:10
@@ -226,16 +226,16 @@ ECHO : Not a comment ^
 ::^ - meta.command - meta.function-call
 :: ^^^^^ meta.command.call.dosbatch - meta.function-call
 ::      ^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch variable.function.dosbatch - meta.interpolation
-::         ^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch
+::         ^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch meta.interpolation.dosbatch
 ::              ^^^^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch variable.function.dosbatch - meta.interpolation
 ::                      ^^^^^^^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch
 ::                                 ^ - meta.command - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
 ::      ^^ constant.language.path.parent.dosbatch
 ::        ^ punctuation.separator.path.dosbatch
-::         ^ punctuation.definition.variable.begin.dosbatch
+::         ^ punctuation.section.interpolation.begin.dosbatch
 ::          ^^^ variable.other.readwrite.dosbatch
-::             ^ punctuation.definition.variable.end.dosbatch
+::             ^ punctuation.section.interpolation.end.dosbatch
 ::              ^ punctuation.separator.path.dosbatch
 ::                  ^ punctuation.separator.path.dosbatch
 ::                       ^ punctuation.definition.variable.dosbatch
@@ -246,8 +246,8 @@ ECHO : Not a comment ^
 ::^ - meta.command - meta.function-call
 :: ^^^^^ meta.command.call.dosbatch - meta.function-call
 ::      ^^^^^^^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch variable.function.dosbatch
-::                 ^^^^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch - meta.variable
-::                         ^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch meta.variable.dosbatch
+::                 ^^^^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch - meta.interpolation
+::                         ^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch meta.interpolation.dosbatch
 ::                              ^ - meta.command - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
 ::         ^ punctuation.separator.path.dosbatch
@@ -259,14 +259,14 @@ ECHO : Not a comment ^
    CALL %foo%\bar.exe /pa-am:-10
 ::^ - meta.command - meta.function-call
 :: ^^^^^ meta.command.call.dosbatch - meta.function-call
-::      ^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch
+::      ^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch meta.interpolation.dosbatch
 ::           ^^^^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch variable.function.dosbatch - meta.interpolation
 ::                   ^^^^^^^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch
 ::                              ^ - meta.command - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
-::      ^ punctuation.definition.variable.begin.dosbatch
+::      ^ punctuation.section.interpolation.begin.dosbatch
 ::       ^^^ variable.other.readwrite.dosbatch
-::          ^ punctuation.definition.variable.end.dosbatch
+::          ^ punctuation.section.interpolation.end.dosbatch
 ::           ^ punctuation.separator.path.dosbatch
 ::               ^ punctuation.separator.path.dosbatch
 ::                    ^ punctuation.definition.variable.dosbatch
@@ -277,16 +277,16 @@ ECHO : Not a comment ^
 ::^ - meta.command - meta.function-call
 :: ^^^^^ meta.command.call.dosbatch - meta.function-call
 ::      ^^^^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch variable.function.dosbatch - meta.interpolation
-::              ^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch
+::              ^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch meta.interpolation.dosbatch
 ::                   ^^^^^^^^^ meta.command.call.dosbatch meta.function-call.name.dosbatch variable.function.dosbatch - meta.interpolation
 ::                            ^^^^^^^^^^^^^^ meta.command.call.dosbatch meta.function-call.arguments.dosbatch
 ::                                          ^ - meta.command - meta.function-call
 :: ^^^^ keyword.control.flow.call.dosbatch
 ::      ^ punctuation.definition.variable.begin.dosbatch
 ::        ^^ punctuation.separator.path.dosbatch
-::              ^ punctuation.definition.variable.begin.dosbatch
+::              ^ punctuation.section.interpolation.begin.dosbatch
 ::               ^^^ variable.other.readwrite.dosbatch
-::                  ^ punctuation.definition.variable.end.dosbatch
+::                  ^ punctuation.section.interpolation.end.dosbatch
 ::                   ^ punctuation.separator.path.dosbatch
 ::                       ^ punctuation.separator.path.dosbatch
 ::                           ^ punctuation.definition.variable.end.dosbatch
@@ -311,7 +311,7 @@ ECHO : Not a comment ^
 :: ^^^^ keyword.control.flow.exit.dosbatch
 ::      ^ punctuation.definition.variable.dosbatch
 ::      ^^ variable.parameter.dosbatch
-::         ^^^^^ meta.variable.dosbatch
+::         ^^^^^ meta.interpolation.dosbatch
 ::               ^^^^^^^ invalid.illegal.expect-end-of-command.dosbatch
 
    GOTO:EOF
@@ -356,15 +356,15 @@ ECHO : Not a comment ^
 :: ^^^^^^^^^^^^^^^^^^^^^ meta.command.goto.dosbatch variable.label.dosbatch - keyword
 
    GOTO %%i
-:: ^^^^ meta.command.goto.dosbatch keyword.control.flow.goto.dosbatch - meta.variable
-::     ^ meta.command.goto.dosbatch - keyword - meta.variable
+:: ^^^^ meta.command.goto.dosbatch keyword.control.flow.goto.dosbatch - meta.interpolation
+::     ^ meta.command.goto.dosbatch - keyword - meta.interpolation
 ::      ^^ meta.command.goto.dosbatch constant.character.escape.dosbatch
 ::        ^ meta.command.goto.dosbatch variable.label.dosbatch
 
    GOTO %var%
-:: ^^^^ meta.command.goto.dosbatch keyword.control.flow.goto.dosbatch - meta.variable
-::     ^ meta.command.goto.dosbatch - keyword - meta.variable
-::      ^^^^^ meta.command.goto.dosbatch meta.variable.dosbatch
+:: ^^^^ meta.command.goto.dosbatch keyword.control.flow.goto.dosbatch - meta.interpolation
+::     ^ meta.command.goto.dosbatch - keyword - meta.interpolation
+::      ^^^^^ meta.command.goto.dosbatch meta.interpolation.dosbatch
 
 
 :::: [ Conditionals ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -414,7 +414,7 @@ ECHO : Not a comment ^
 
    IF %foo%=="bar" echo "equal"
 :: ^^ keyword.control.conditional.if.dosbatch
-::    ^^^^^ meta.variable.dosbatch
+::    ^^^^^ meta.interpolation.dosbatch
 ::         ^^ keyword.operator.comparison.dosbatch
 ::           ^^^^^ string.quoted.double.dosbatch
 ::                 ^^^^ support.function.builtin.dosbatch
@@ -475,10 +475,10 @@ ECHO : Not a comment ^
 
    IF %ERRORLEVEL% NEQ 0 EXIT /B 1
 :: ^^ keyword.control.conditional.if.dosbatch
-::    ^^^^^^^^^^^^ meta.variable.dosbatch
-::    ^ punctuation.definition.variable.begin.dosbatch - variable
+::    ^^^^^^^^^^^^ meta.interpolation.dosbatch
+::    ^ punctuation.section.interpolation.begin.dosbatch - variable
 ::     ^^^^^^^^^^ variable.language.dosbatch
-::               ^ punctuation.definition.variable.end.dosbatch - variable
+::               ^ punctuation.section.interpolation.end.dosbatch - variable
 
    IF EXIST "C:\file.log"
 :: ^^ keyword.control.conditional.if.dosbatch
@@ -861,14 +861,14 @@ ECHO : Not a comment ^
 ::                                          ^ punctuation.definition.string.end.dosbatch
 ::                                            ^ keyword.operator.conditional.dosbatch - string
 ::                                              ^^^^ support.function.builtin.dosbatch
-::                                                                      ^^^^^^^^^ meta.variable.dosbatch
+::                                                                      ^^^^^^^^^ meta.interpolation.dosbatch
    ENDLOCAL & set return=%example%
 :: ^^^^^^^^ keyword.control.namespace.endlocal.dosbatch
 ::          ^ keyword.operator.conditional.dosbatch
 ::            ^^^ support.function.builtin.dosbatch
 ::                ^^^^^^ variable.other.readwrite.dosbatch
 ::                      ^ keyword.operator.assignment.dosbatch
-::                       ^^^^^^^^^ meta.variable.dosbatch
+::                       ^^^^^^^^^ meta.interpolation.dosbatch
 
 
 :::: [ Commands ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
@@ -1158,165 +1158,389 @@ ECHO : Not a comment ^
 :::: [ ECHO variables ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
    ECHO %1 %* %~dpf$PATH:5 %~1
-::      ^ punctuation.definition.variable.dosbatch
-::      ^^ variable.parameter.dosbatch
-::         ^ punctuation.definition.variable.dosbatch
-::         ^^ variable.parameter.dosbatch
-::            ^ punctuation.definition.variable.dosbatch
-::            ^^^^^^^^^^^ variable.parameter.dosbatch
-::                         ^ punctuation.definition.variable.dosbatch
-::                         ^^^ variable.parameter.dosbatch
+::     ^ - meta.string - meta.interpolation
+::      ^^ meta.string.dosbatch meta.interpolation.dosbatch
+::        ^ meta.command.echo.output.dosbatch meta.string.dosbatch - meta.interpolation
+::         ^^ meta.string.dosbatch meta.interpolation.dosbatch
+::           ^ meta.command.echo.output.dosbatch meta.string.dosbatch - meta.interpolation
+::            ^^^^^^^^^^^^ meta.string.dosbatch meta.interpolation.dosbatch
+::                        ^ meta.command.echo.output.dosbatch meta.string.dosbatch - meta.interpolation
+::                         ^^^ meta.string.dosbatch meta.interpolation.dosbatch
+::                            ^ - meta.string - meta.interpolation
+::      ^ variable.parameter.dosbatch punctuation.definition.variable.dosbatch
+::       ^ variable.parameter.dosbatch - punctuation
+::        ^ string.unquoted.dosbatch - variable
+::         ^ variable.parameter.dosbatch punctuation.definition.variable.dosbatch
+::          ^ variable.parameter.dosbatch - punctuation
+::           ^ string.unquoted.dosbatch - variable
+::            ^ variable.parameter.dosbatch punctuation.definition.variable.dosbatch
+::             ^^^^^^^^^^^ variable.parameter.dosbatch - punctuation
+::                        ^ string.unquoted.dosbatch - variable
+::                         ^ variable.parameter.dosbatch punctuation.definition.variable.dosbatch
+::                          ^^ variable.parameter.dosbatch - punctuation
+::                            ^ - string - variable
+
+   ECHO %errorlevel% !errorlevel!
+::     ^ - meta.interpolation
+::      ^^^^^^^^^^^^ meta.interpolation.dosbatch
+::                  ^ - meta.interpolation
+::                   ^^^^^^^^^^^^ meta.interpolation.dosbatch
+::                               ^ - meta.interpolation
+::      ^ punctuation.section.interpolation.begin.dosbatch
+::       ^^^^^^^^^^ variable.language.dosbatch
+::                 ^ punctuation.section.interpolation.end.dosbatch
+::                   ^ punctuation.section.interpolation.begin.dosbatch
+::                    ^^^^^^^^^^ variable.language.dosbatch
+::                              ^ punctuation.section.interpolation.end.dosbatch
+
+   ECHO %errorlevel:~0,2% !errorlevel:~0,2!
+::     ^ - meta.interpolation
+::      ^^^^^^^^^^^^^^^^^ - meta.interpolation meta.interpolation
+::      ^^^^^^^^^^^ meta.interpolation.dosbatch
+::                 ^^^^^ meta.interpolation.substring.dosbatch
+::                      ^ meta.interpolation.dosbatch
+::                       ^ - meta.interpolation
+::                        ^^^^^^^^^^^^^^^^^ - meta.interpolation meta.interpolation
+::                        ^^^^^^^^^^^ meta.interpolation.dosbatch
+::                                   ^^^^^ meta.interpolation.substring.dosbatch
+::                                        ^ meta.interpolation.dosbatch
+::                                         ^ - meta.interpolation
+::      ^ punctuation.section.interpolation.begin.dosbatch
+::       ^^^^^^^^^^ variable.language.dosbatch
+::                 ^^ punctuation.separator.dosbatch
+::                   ^ constant.numeric.value.dosbatch
+::                    ^ punctuation.separator.comma.dosbatch
+::                     ^ constant.numeric.value.dosbatch
+::                      ^ punctuation.section.interpolation.end.dosbatch
+::                        ^ punctuation.section.interpolation.begin.dosbatch
+::                         ^^^^^^^^^^ variable.language.dosbatch
+::                                   ^^ punctuation.separator.dosbatch
+::                                     ^ constant.numeric.value.dosbatch
+::                                      ^ punctuation.separator.comma.dosbatch
+::                                       ^ constant.numeric.value.dosbatch
+::                                        ^ punctuation.section.interpolation.end.dosbatch
 
    ECHO %variable^% !variable^!
-::      ^ meta.variable.dosbatch punctuation.definition.variable.begin.dosbatch - variable
-::       ^^^^^^^^^ meta.variable.dosbatch variable.other.readwrite.dosbatch
-::                ^ meta.variable.dosbatch punctuation.definition.variable.end.dosbatch - variable
-::                  ^ meta.variable.dosbatch punctuation.definition.variable.begin.dosbatch - variable
-::                   ^^^^^^^^^ meta.variable.dosbatch variable.other.readwrite.dosbatch
-::                            ^ meta.variable.dosbatch punctuation.definition.variable.end.dosbatch - variable
+::      ^ meta.interpolation.dosbatch punctuation.section.interpolation.begin.dosbatch - variable
+::       ^^^^^^^^^ meta.interpolation.dosbatch variable.other.readwrite.dosbatch
+::                ^ meta.interpolation.dosbatch punctuation.section.interpolation.end.dosbatch - variable
+::                  ^ meta.interpolation.dosbatch punctuation.section.interpolation.begin.dosbatch - variable
+::                   ^^^^^^^^^ meta.interpolation.dosbatch variable.other.readwrite.dosbatch
+::                            ^ meta.interpolation.dosbatch punctuation.section.interpolation.end.dosbatch - variable
 
-   ECHO %^
-   variable%
-:: ^^^^^^^^ meta.variable.dosbatch variable.other.readwrite.dosbatch
-::         ^ meta.variable.dosbatch punctuation.definition.variable.end.dosbatch
+   ECHO^
+   %variable^% !variable^!
+:: ^ meta.interpolation.dosbatch punctuation.section.interpolation.begin.dosbatch - variable
+::  ^^^^^^^^^ meta.interpolation.dosbatch variable.other.readwrite.dosbatch
+::           ^ meta.interpolation.dosbatch punctuation.section.interpolation.end.dosbatch - variable
+::             ^ meta.interpolation.dosbatch punctuation.section.interpolation.begin.dosbatch - variable
+::              ^^^^^^^^^ meta.interpolation.dosbatch variable.other.readwrite.dosbatch
+::                       ^ meta.interpolation.dosbatch punctuation.section.interpolation.end.dosbatch - variable
 
    ECHO %sub:str1=str2% !sub:str1=str2!
-::     ^ - meta.variable
-::      ^^^^^ meta.variable.dosbatch - meta.substitution - meta.substring
-::           ^^^^^^^^^ meta.variable.dosbatch meta.substitution.dosbatch - meta.substring
-::                    ^ meta.variable.dosbatch - meta.substitution - meta.substring
-::                     ^ - meta.variable
-::                      ^^^^^ meta.variable.dosbatch - meta.substitution - meta.substring
-::                           ^^^^^^^^^ meta.variable.dosbatch meta.substitution.dosbatch - meta.substring
-::                                    ^ meta.variable.dosbatch - meta.substitution - meta.substring
-::                                     ^ - meta.variable
-::      ^ punctuation.definition.variable.begin.dosbatch
+::     ^ - meta.interpolation
+::      ^^^^^^^^^^^^^^^ - meta.interpolation meta.interpolation
+::      ^^^^ meta.interpolation.dosbatch
+::          ^ meta.interpolation.substitution.dosbatch
+::           ^^^^ meta.interpolation.substitution.pattern.dosbatch
+::               ^ meta.interpolation.substitution.dosbatch
+::                ^^^^ meta.interpolation.substitution.replacement.dosbatch
+::                    ^ meta.interpolation.dosbatch
+::                     ^ - meta.interpolation
+::                      ^^^^^^^^^^^^^^^ - meta.interpolation meta.interpolation
+::                      ^^^^ meta.interpolation.dosbatch
+::                          ^ meta.interpolation.substitution.dosbatch
+::                           ^^^^ meta.interpolation.substitution.pattern.dosbatch
+::                               ^ meta.interpolation.substitution.dosbatch
+::                                ^^^^ meta.interpolation.substitution.replacement.dosbatch
+::                                    ^ meta.interpolation.dosbatch
+::                                     ^ - meta.interpolation
+::      ^ punctuation.section.interpolation.begin.dosbatch
 ::       ^^^ variable.other.readwrite.dosbatch
 ::          ^ punctuation.separator.dosbatch
 ::           ^^^^ string.unquoted.dosbatch
-::               ^ punctuation.separator.dosbatch
+::               ^ keyword.operator.asignment.dosbatch
 ::                ^^^^ string.unquoted.dosbatch
-::                    ^ punctuation.definition.variable.end.dosbatch
-::                      ^ punctuation.definition.variable.begin.dosbatch
+::                    ^ punctuation.section.interpolation.end.dosbatch
+::                      ^ punctuation.section.interpolation.begin.dosbatch
 ::                       ^^^ variable.other.readwrite.dosbatch
 ::                          ^ punctuation.separator.dosbatch
 ::                           ^^^^ string.unquoted.dosbatch
-::                               ^ punctuation.separator.dosbatch
+::                               ^ keyword.operator.asignment.dosbatch
 ::                                ^^^^ string.unquoted.dosbatch
-::                                    ^ punctuation.definition.variable.end.dosbatch
+::                                    ^ punctuation.section.interpolation.end.dosbatch
 
    ECHO %substr:~0,-2% !substr:~0,-2!
-::     ^ - meta.variable
-::      ^^^^^^^^^ meta.variable.dosbatch - meta.substring - meta.substitution
-::               ^^^^ meta.variable.dosbatch meta.substring.dosbatch - meta.substitution
-::                   ^ meta.variable.dosbatch - meta.substring - meta.substitution
-::                    ^ - meta.variable
-::                      ^^^^^^^^ meta.variable.dosbatch - meta.substring - meta.substitution
-::                              ^^^^ meta.variable.dosbatch meta.substring.dosbatch - meta.substitution
-::                                  ^ meta.variable.dosbatch - meta.substring - meta.substitution
-::                                   ^ - meta.variable
-::      ^ punctuation.definition.variable.begin.dosbatch
+::     ^ - meta.interpolation
+::      ^^^^^^^^^^^^^^ - meta.interpolation meta.interpolation
+::      ^^^^^^^ meta.interpolation.dosbatch
+::             ^^^^^^ meta.interpolation.substring.dosbatch
+::                   ^ meta.interpolation.dosbatch
+::                    ^ - meta.interpolation
+::                     ^^^^^^^^^^^^^^ - meta.interpolation meta.interpolation
+::                      ^^^^^^ meta.interpolation.dosbatch
+::                            ^^^^^^ meta.interpolation.substring.dosbatch
+::                                  ^ meta.interpolation.dosbatch
+::                                   ^ - meta.interpolation
+::      ^ punctuation.section.interpolation.begin.dosbatch
 ::       ^^^^^^ variable.other.readwrite.dosbatch
 ::             ^^ punctuation.separator.dosbatch
 ::               ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::                ^ punctuation.separator.comma.dosbatch
 ::                 ^ meta.number.integer.decimal.dosbatch keyword.operator.arithmetic.dosbatch
 ::                  ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
-::                   ^ punctuation.definition.variable.end.dosbatch
-::                     ^ punctuation.definition.variable.begin.dosbatch
+::                   ^ punctuation.section.interpolation.end.dosbatch
+::                     ^ punctuation.section.interpolation.begin.dosbatch
 ::                      ^^^^^^ variable.other.readwrite.dosbatch
 ::                            ^^ punctuation.separator.dosbatch
 ::                              ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::                               ^ punctuation.separator.comma.dosbatch
 ::                                ^ meta.number.integer.decimal.dosbatch keyword.operator.arithmetic.dosbatch
 ::                                 ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
-::                                  ^ punctuation.definition.variable.end.dosbatch
+::                                  ^ punctuation.section.interpolation.end.dosbatch
 
    ECHO %b:~-5% !b:~+5!
-::     ^ - meta.variable
-::      ^^^^ meta.variable.dosbatch - meta.substring
-::          ^^ meta.variable.dosbatch meta.substring.dosbatch
-::            ^ meta.variable.dosbatch - meta.substring
-::             ^ - meta.variable
-::               ^^^ meta.variable.dosbatch - meta.substring
-::                  ^^ meta.variable.dosbatch meta.substring.dosbatch
-::                    ^ meta.variable.dosbatch - meta.substring
-::                     ^ - meta.variable
-::      ^ punctuation.definition.variable.begin.dosbatch
+::     ^ - meta.interpolation
+::      ^^^^^^^ - meta.interpolation meta.interpolation
+::      ^^ meta.interpolation.dosbatch
+::        ^^^^ meta.interpolation.substring.dosbatch
+::            ^ meta.interpolation.dosbatch
+::             ^ - meta.interpolation
+::              ^^^^^^^ - meta.interpolation meta.interpolation
+::              ^^ meta.interpolation.dosbatch
+::                ^^^^ meta.interpolation.substring.dosbatch
+::                    ^ meta.interpolation.dosbatch
+::                     ^ - meta.interpolation
+::      ^ punctuation.section.interpolation.begin.dosbatch
 ::       ^ variable.other.readwrite.dosbatch
 ::        ^^ punctuation.separator.dosbatch
 ::          ^ meta.number.integer.decimal.dosbatch keyword.operator.arithmetic.dosbatch
 ::           ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
-::            ^ punctuation.definition.variable.end.dosbatch
-::              ^ punctuation.definition.variable.begin.dosbatch
+::            ^ punctuation.section.interpolation.end.dosbatch
+::              ^ punctuation.section.interpolation.begin.dosbatch
 ::               ^ variable.other.readwrite.dosbatch
 ::                ^^ punctuation.separator.dosbatch
 ::                  ^ meta.number.integer.decimal.dosbatch keyword.operator.arithmetic.dosbatch
 ::                   ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
-::                    ^ punctuation.definition.variable.end.dosbatch
+::                    ^ punctuation.section.interpolation.end.dosbatch
+
+   :: Only one of substitution or substring is performed at a time!
+   ECHO %foo:bar=baz:~5,2% !foo:bar=baz:~5,2!
+::               ^^^^^^^^ meta.interpolation.substitution.replacement.dosbatch string.unquoted.dosbatch - constant - punctuation
+::                       ^ meta.interpolation.dosbatch punctuation.section.interpolation.end.dosbatch
+::                        ^ - meta.interpolation
+::                                  ^^^^^^^^ meta.interpolation.substitution.replacement.dosbatch string.unquoted.dosbatch - constant - punctuation
+::                                          ^ meta.interpolation.dosbatch punctuation.section.interpolation.end.dosbatch
+::                                           ^ - meta.interpolation
+
+   :: Only one of substitution or substring is performed at a time!
+   :: Note: The whole expansion is printed as plain text, but it is scoped illegal
+   ::       to helpf to see the error instead.
+   ECHO %foo:~5,2:bar=baz% !foo:~5,2:bar=baz!
+::          ^^^^^^^^^^^^^ meta.interpolation.substring.dosbatch
+::                       ^ meta.interpolation.dosbatch punctuation.section.interpolation.end.dosbatch
+::                        ^ - meta.interpolation
+::                             ^^^^^^^^^^^^^ meta.interpolation.substring.dosbatch
+::                                          ^ meta.interpolation.dosbatch punctuation.section.interpolation.end.dosbatch
+::                                           ^ - meta.interpolation
+::               ^^^^^^^^ invalid.illegal.unexpected.dosbatch
+::                       ^ punctuation.section.interpolation.end.dosbatch
+::                                  ^^^^^^^^ invalid.illegal.unexpected.dosbatch
+::                                          ^ punctuation.section.interpolation.end.dosbatch
 
    ECHO !t:%foo%=%bar:~0,-4%!
-::     ^ - meta.variable
-::      ^^^ meta.variable.dosbatch - meta.substring - meta.substitution - meta.variable meta.variable
-::         ^^^^^ meta.variable.dosbatch meta.substitution.dosbatch meta.variable.dosbatch
-::              ^ meta.variable.dosbatch meta.substitution.dosbatch - meta.variable meta.variable
-::               ^^^^^^ meta.variable.dosbatch meta.substitution.dosbatch meta.variable.dosbatch
-::                     ^^^^ meta.variable.dosbatch meta.substitution.dosbatch meta.variable.dosbatch meta.substring.dosbatch
-::                         ^ meta.variable.dosbatch meta.substitution.dosbatch meta.variable.dosbatch
-::                          ^ meta.variable.dosbatch - meta.substring - meta.substitution
-::                           ^ - meta.variable
-::      ^ punctuation.definition.variable.begin.dosbatch
+::     ^ - meta.interpolation
+::      ^^ meta.interpolation.dosbatch - meta.interpolation meta.interpolation
+::        ^ meta.interpolation.substitution.dosbatch - meta.interpolation meta.interpolation
+::         ^^^^^ meta.interpolation.substitution.pattern.dosbatch meta.interpolation.dosbatch
+::              ^ meta.interpolation.substitution.dosbatch - meta.interpolation meta.interpolation
+::               ^^^^ meta.interpolation.substitution.replacement.dosbatch meta.interpolation.dosbatch
+::                   ^^^^^^ meta.interpolation.substitution.replacement.dosbatch meta.interpolation.substring.dosbatch
+::                         ^ meta.interpolation.substitution.replacement.dosbatch meta.interpolation.dosbatch
+::                          ^ meta.interpolation.dosbatch - meta.interpolation meta.interpolation
+::                           ^ - meta.interpolation
+::      ^ punctuation.section.interpolation.begin.dosbatch
 ::       ^ variable.other.readwrite.dosbatch
 ::        ^ punctuation.separator.dosbatch
-::         ^ punctuation.definition.variable.begin.dosbatch
-::             ^ punctuation.definition.variable.end.dosbatch
-::              ^ punctuation.separator.dosbatch
-::               ^ punctuation.definition.variable.begin.dosbatch
+::         ^ punctuation.section.interpolation.begin.dosbatch
+::             ^ punctuation.section.interpolation.end.dosbatch
+::              ^ keyword.operator.asignment.dosbatch
+::               ^ punctuation.section.interpolation.begin.dosbatch
 ::                ^^^ variable.other.readwrite.dosbatch
 ::                   ^^ punctuation.separator.dosbatch
 ::                     ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::                      ^ punctuation.separator.comma.dosbatch
 ::                       ^ meta.number.integer.decimal.dosbatch keyword.operator.arithmetic.dosbatch
 ::                        ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
-::                         ^^ punctuation.definition.variable.end.dosbatch
+::                         ^^ punctuation.section.interpolation.end.dosbatch
 
    ECHO %t:!foo!=!bar:~0,-4!%
-::     ^ - meta.variable
-::      ^^^ meta.variable.dosbatch - meta.substring - meta.substitution - meta.variable meta.variable
-::         ^^^^^ meta.variable.dosbatch meta.substitution.dosbatch meta.variable.dosbatch
-::              ^ meta.variable.dosbatch meta.substitution.dosbatch - meta.variable meta.variable
-::               ^^^^^^ meta.variable.dosbatch meta.substitution.dosbatch meta.variable.dosbatch
-::                     ^^^^ meta.variable.dosbatch meta.substitution.dosbatch meta.variable.dosbatch meta.substring.dosbatch
-::                         ^ meta.variable.dosbatch meta.substitution.dosbatch meta.variable.dosbatch
-::                          ^ meta.variable.dosbatch - meta.substring - meta.substitution
-::                           ^ - meta.variable
-::      ^ punctuation.definition.variable.begin.dosbatch
+::     ^ - meta.interpolation
+::      ^^ meta.interpolation.dosbatch - meta.interpolation meta.interpolation
+::        ^ meta.interpolation.substitution.dosbatch - meta.interpolation meta.interpolation
+::         ^^^^^ meta.interpolation.substitution.pattern.dosbatch meta.interpolation.dosbatch
+::              ^ meta.interpolation.substitution.dosbatch - meta.interpolation meta.interpolation
+::               ^^^^ meta.interpolation.substitution.replacement.dosbatch meta.interpolation.dosbatch
+::                   ^^^^^^ meta.interpolation.substitution.replacement.dosbatch meta.interpolation.substring.dosbatch
+::                         ^ meta.interpolation.substitution.replacement.dosbatch meta.interpolation.dosbatch
+::                          ^ meta.interpolation.dosbatch - meta.interpolation meta.interpolation
+::                           ^ - meta.interpolation
+::      ^ punctuation.section.interpolation.begin.dosbatch
 ::       ^ variable.other.readwrite.dosbatch
 ::        ^ punctuation.separator.dosbatch
-::         ^ punctuation.definition.variable.begin.dosbatch
-::             ^ punctuation.definition.variable.end.dosbatch
-::              ^ punctuation.separator.dosbatch
-::               ^ punctuation.definition.variable.begin.dosbatch
+::         ^ punctuation.section.interpolation.begin.dosbatch
+::             ^ punctuation.section.interpolation.end.dosbatch
+::              ^ keyword.operator.asignment.dosbatch
+::               ^ punctuation.section.interpolation.begin.dosbatch
 ::                ^^^ variable.other.readwrite.dosbatch
 ::                   ^^ punctuation.separator.dosbatch
 ::                     ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
 ::                      ^ punctuation.separator.comma.dosbatch
 ::                       ^ meta.number.integer.decimal.dosbatch keyword.operator.arithmetic.dosbatch
 ::                        ^ meta.number.integer.decimal.dosbatch constant.numeric.value.dosbatch
-::                         ^^ punctuation.definition.variable.end.dosbatch
+::                         ^^ punctuation.section.interpolation.end.dosbatch
+
+   ECHO %(% %)% %[% %]% %{% %}% %"% %'%
+::     ^ - meta.interpolation
+::      ^^^ meta.interpolation.dosbatch
+::         ^ - meta.interpolation
+::          ^^^ meta.interpolation.dosbatch
+::             ^ - meta.interpolation
+::              ^^^ meta.interpolation.dosbatch
+::                 ^ - meta.interpolation
+::                  ^^^ meta.interpolation.dosbatch
+::                     ^ - meta.interpolation
+::                      ^^^ meta.interpolation.dosbatch
+::                         ^ - meta.interpolation
+::                          ^^^ meta.interpolation.dosbatch
+::                             ^ - meta.interpolation
+::                              ^^^ meta.interpolation.dosbatch
+::                                 ^ - meta.interpolation
+::                                  ^^^ meta.interpolation.dosbatch
+::                                     ^ - meta.interpolation
+
+   ECHO %&%  %&:~ 1, -2%  %&:~ !&!, -2%
+::      ^^^ meta.interpolation.dosbatch
+::         ^^ - meta.interpolation
+::           ^^ meta.interpolation.dosbatch
+::             ^^^^^^^^ meta.interpolation.substring.dosbatch
+::                     ^ meta.interpolation.dosbatch
+::                      ^^ - meta.interpolation
+::                        ^^ meta.interpolation.dosbatch
+::                          ^^^ meta.interpolation.substring.dosbatch - meta.interpolation meta.interpolation
+::                             ^^^ meta.interpolation.substring.dosbatch meta.interpolation
+::                                ^^^^ meta.interpolation.substring.dosbatch - meta.interpolation meta.interpolation
+::                                    ^ meta.interpolation.dosbatch
+::                                     ^ - meta.interpolation
+
+   ECHO !&!  !&:~ 1, -2!  !&:~ %&%, -2!
+::      ^^^ meta.interpolation.dosbatch
+::         ^^ - meta.interpolation
+::           ^^ meta.interpolation.dosbatch
+::             ^^^^^^^^ meta.interpolation.substring.dosbatch
+::                     ^ meta.interpolation.dosbatch
+::                      ^^ - meta.interpolation
+::                        ^^ meta.interpolation.dosbatch
+::                          ^^^ meta.interpolation.substring.dosbatch - meta.interpolation meta.interpolation
+::                             ^^^ meta.interpolation.substring.dosbatch meta.interpolation
+::                                ^^^^ meta.interpolation.substring.dosbatch - meta.interpolation meta.interpolation
+::                                    ^ meta.interpolation.dosbatch
+::                                     ^ - meta.interpolation
+
+   ECHO %&%  %&:foo=b&r%  %&: !%! = b!%!r %
+::      ^^^ meta.interpolation.dosbatch
+::         ^^ - meta.interpolation
+::           ^^ meta.interpolation.dosbatch
+::             ^ meta.interpolation.substitution.dosbatch
+::              ^^^ meta.interpolation.substitution.pattern.dosbatch
+::                 ^ meta.interpolation.substitution.dosbatch
+::                  ^^^ meta.interpolation.substitution.replacement.dosbatch
+::                     ^ meta.interpolation.dosbatch
+::                      ^^ - meta.interpolation
+::                        ^^ meta.interpolation.dosbatch
+::                          ^ meta.interpolation.substitution.dosbatch - meta.interpolation meta.interpolation
+::                           ^ meta.interpolation.substitution.pattern.dosbatch - meta.interpolation meta.interpolation
+::                            ^^^ meta.interpolation.substitution.pattern.dosbatch meta.interpolation
+::                               ^ meta.interpolation.substitution.pattern.dosbatch - meta.interpolation meta.interpolation
+::                                ^ meta.interpolation.substitution.dosbatch - meta.interpolation meta.interpolation
+::                                 ^^ meta.interpolation.substitution.replacement.dosbatch - meta.interpolation meta.interpolation
+::                                   ^^^ meta.interpolation.substitution.replacement.dosbatch meta.interpolation
+::                                      ^^ meta.interpolation.substitution.replacement.dosbatch - meta.interpolation meta.interpolation
+::                                        ^ meta.interpolation.dosbatch
+::                                         ^ - meta.interpolation
+
+   ECHO !&!  !&:foo=b&r!  !&: %!% = b%!%r !
+::      ^^^ meta.interpolation.dosbatch
+::         ^^ - meta.interpolation
+::           ^^ meta.interpolation.dosbatch
+::             ^ meta.interpolation.substitution.dosbatch
+::              ^^^ meta.interpolation.substitution.pattern.dosbatch
+::                 ^ meta.interpolation.substitution.dosbatch
+::                  ^^^ meta.interpolation.substitution.replacement.dosbatch
+::                     ^ meta.interpolation.dosbatch
+::                      ^^ - meta.interpolation
+::                        ^^ meta.interpolation.dosbatch
+::                          ^ meta.interpolation.substitution.dosbatch - meta.interpolation meta.interpolation
+::                           ^ meta.interpolation.substitution.pattern.dosbatch - meta.interpolation meta.interpolation
+::                            ^^^ meta.interpolation.substitution.pattern.dosbatch meta.interpolation
+::                               ^ meta.interpolation.substitution.pattern.dosbatch - meta.interpolation meta.interpolation
+::                                ^ meta.interpolation.substitution.dosbatch - meta.interpolation meta.interpolation
+::                                 ^^ meta.interpolation.substitution.replacement.dosbatch - meta.interpolation meta.interpolation
+::                                   ^^^ meta.interpolation.substitution.replacement.dosbatch meta.interpolation
+::                                      ^^ meta.interpolation.substitution.replacement.dosbatch - meta.interpolation meta.interpolation
+::                                        ^ meta.interpolation.dosbatch
+::                                         ^ - meta.interpolation
+
+   ECHO %&echo %echo%
+::      ^^ - meta.interpolation - punctuation - variable
+::             ^^^^^^ meta.interpolation.dosbatch
+::       ^ keyword.operator.conditional.dosbatch
+::        ^^^^ support.function.builtin.dosbatch
+::             ^ punctuation.section.interpolation.begin.dosbatch
+::              ^^^^ variable.other.readwrite.dosbatch
+::                  ^ punctuation.section.interpolation.end.dosbatch
+
+   ECHO %& echo %echo%
+::      ^^ - meta.interpolation - punctuation - variable
+::              ^^^^^^ meta.interpolation.dosbatch
+::       ^ keyword.operator.conditional.dosbatch
+::         ^^^^ support.function.builtin.dosbatch
+::              ^ punctuation.section.interpolation.begin.dosbatch
+::               ^^^^ variable.other.readwrite.dosbatch
+::                   ^ punctuation.section.interpolation.end.dosbatch
+
+   ECHO %foo & ECHO !bar
+::      ^^^^ - meta.interpolation - keyword - punctuation - variable
+::           ^ keyword.operator.conditional.dosbatch
+::             ^^^^ support.function.builtin.dosbatch
+::                  ^^^^ - meta.interpolation - keyword - punctuation - variable
 
    ECHO Not% a variable
-::      ^^^ - keyword.operator
-::         ^^^^^^^^^^^^ - variable.other
+::      ^^^^^^^^^^^^^^^ - meta.interpolation - keyword - punctuation - variable
 
    ECHO Not! a variable
-::      ^^^ - keyword.operator
-::         ^^^^^^^^^^^^ - variable.other
+::      ^^^^^^^^^^^^^^^ - meta.interpolation - keyword - punctuation - variable
+
+   ECHO %^
+::      ^^^ meta.string.dosbatch string.unquoted.dosbatch - meta.interpolation
+::       ^ punctuation.separator.continuation.line.dosbatch
+
+   ECHO %^
+   foo%
+:: ^^^^ meta.string.dosbatch string.unquoted.dosbatch - meta.interpolation - punctuation
+
+   ECHO %foo^
+::      ^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - meta.interpolation
+::          ^ punctuation.separator.continuation.line.dosbatch
+
+   ECHO %foo^
+   :~0,5%
+:: ^^^^^^ meta.string.dosbatch string.unquoted.dosbatch - meta.interpolation - punctuation
 
    ren example.txt example_%today%.txt
-::                         ^ punctuation.definition.variable.begin.dosbatch
-::                         ^^^^^^^ meta.variable.dosbatch
-::                               ^ punctuation.definition.variable.end.dosbatch
+::                         ^ punctuation.section.interpolation.begin.dosbatch
+::                         ^^^^^^^ meta.interpolation.dosbatch
+::                               ^ punctuation.section.interpolation.end.dosbatch
 
    powershell get-date -uformat "%%Y%%m%%d" > today.txt
 ::                              ^^^^^^^^^^^ string.quoted.double.dosbatch
@@ -1344,7 +1568,7 @@ ECHO : Not a comment ^
 ::        ^ keyword.operator.assignment
 ::         ^^^ string.unquoted
 
-   set rem bar = baz
+   set rem bar = baz & echo %rem bar %
 :: ^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
 ::                  ^ - meta.command
 :: ^^^ support.function.builtin.dosbatch
@@ -1352,6 +1576,9 @@ ECHO : Not a comment ^
 ::     ^^^^^^^^ variable.other.readwrite
 ::             ^ keyword.operator.assignment
 ::               ^^^ string.unquoted
+::                   ^ keyword.operator.conditional.dosbatch
+::                     ^^^^ support.function.builtin.dosbatch
+::                          ^^^^^^^^^^ meta.interpolation.dosbatch
 
    set "foo"="bar" & echo !foo"!
 :: ^^^^^^^^^^^^^^^ meta.command.set.dosbatch
@@ -1475,14 +1702,21 @@ ECHO : Not a comment ^
 
    SET T=%TIME: =0%
 :: ^^^^^^^^^^^^^^^^ meta.command.set.dosbatch
-::       ^^^^^^^^^^ meta.variable.dosbatch
-::                 ^ - meta.command
+::      ^ - meta.interpolation
+::       ^^^^^^^^^^ - meta.interpolation meta.interpolation
+::       ^^^^^ meta.interpolation.dosbatch
+::            ^ meta.interpolation.substitution.dosbatch
+::             ^ meta.interpolation.substitution.pattern.dosbatch
+::              ^ meta.interpolation.substitution.dosbatch
+::               ^ meta.interpolation.substitution.replacement.dosbatch
+::                ^ meta.interpolation.dosbatch
+::                 ^ - meta.command - meta.interpolation
 :: ^^^ support.function.builtin.dosbatch
 ::     ^ variable.other.readwrite
 ::      ^ keyword.operator.assignment
-::       ^ punctuation.definition.variable.begin.dosbatch
+::       ^ punctuation.section.interpolation.begin.dosbatch
 ::        ^^^^ variable.other.readwrite.dosbatch
-::                ^ punctuation.definition.variable.end.dosbatch
+::                ^ punctuation.section.interpolation.end.dosbatch
 
    set abc /a = 1+2
 :: ^^^ support.function.builtin.dosbatch
@@ -1495,16 +1729,16 @@ ECHO : Not a comment ^
    set "XML=<foo bar="%ATTR1%" baz="prefix-%ATTR2%" />"
 ::     ^ punctuation.definition.string.begin
 ::                   ^ - punctuation
-::                    ^^^^^^^ meta.variable.dosbatch
+::                    ^^^^^^^ meta.interpolation.dosbatch
 ::                           ^ - punctuation
 ::                                 ^ - punctuation
-::                                         ^^^^^^^ meta.variable.dosbatch
+::                                         ^^^^^^^ meta.interpolation.dosbatch
 ::                                                ^ - punctuation
 ::                                                    ^ punctuation.definition.string.end
 
    set folder=%TEMP%\subfolder\
 ::     ^^^^^^ variable.other.readwrite.dosbatch
-::            ^^^^^^ meta.variable.dosbatch
+::            ^^^^^^ meta.interpolation.dosbatch
 ::                  ^^^^^^^^^^^ string.unquoted - variable.other
 
    set test="c:\program files (x86)\%example%_%%test"abc
@@ -1512,7 +1746,7 @@ ECHO : Not a comment ^
 ::         ^ keyword.operator.assignment.dosbatch
 ::          ^ punctuation.definition.string.begin.dosbatch
 ::          ^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.dosbatch string.quoted.double.dosbatch - meta.interpolation
-::                                  ^^^^^^^^^ meta.string.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch - string
+::                                  ^^^^^^^^^ meta.string.dosbatch meta.interpolation.dosbatch - string
 ::                                           ^^^^^^^^ meta.string.dosbatch string.quoted.double.dosbatch - meta.interpolation
 ::                                            ^^ constant.character.escape.dosbatch
 ::                                                  ^ punctuation.definition.string.end.dosbatch
@@ -1660,21 +1894,21 @@ ECHO : Not a comment ^
    set /A "%hello%+%wow%"
 ::        ^^^^^^^^^^^^^^^ meta.expression.dosbatch string.quoted.double
 ::        ^ punctuation.definition.string.begin
-::         ^^^^^^^ meta.variable.dosbatch
-::         ^ punctuation.definition.variable.begin
-::               ^ punctuation.definition.variable.end
+::         ^^^^^^^ meta.interpolation.dosbatch
+::         ^ punctuation.section.interpolation.begin
+::               ^ punctuation.section.interpolation.end
 ::                ^ keyword.operator.arithmetic
-::                 ^^^^^ meta.variable.dosbatch
-::                 ^ punctuation.definition.variable.begin
+::                 ^^^^^ meta.interpolation.dosbatch
+::                 ^ punctuation.section.interpolation.begin
 ::                  ^^^ variable.other.readwrite
-::                     ^ punctuation.definition.variable.end
+::                     ^ punctuation.section.interpolation.end
 ::                      ^ punctuation.definition.string.end
 
    set /A "%hello%+wow"
 ::        ^^^^^^^^^^^^^ meta.expression.dosbatch string.quoted.double
-::         ^^^^^^^ meta.variable.dosbatch
-::         ^ punctuation.definition.variable.begin
-::               ^ punctuation.definition.variable.end
+::         ^^^^^^^ meta.interpolation.dosbatch
+::         ^ punctuation.section.interpolation.begin
+::               ^ punctuation.section.interpolation.end
 ::                ^ keyword.operator.arithmetic
 
    set /A 1+"%hello%"
@@ -1682,9 +1916,9 @@ ECHO : Not a comment ^
 ::         ^ keyword.operator.arithmetic
 ::          ^^^^^^^^^ string.quoted.double
 ::          ^ punctuation.definition.string.begin
-::           ^ punctuation.definition.variable.begin
-::           ^^^^^^^ meta.variable.dosbatch
-::                 ^ punctuation.definition.variable.end
+::           ^ punctuation.section.interpolation.begin
+::           ^^^^^^^ meta.interpolation.dosbatch
+::                 ^ punctuation.section.interpolation.end
 ::                  ^ punctuation.definition.string.end
 
    set a12b=21
@@ -1725,9 +1959,9 @@ ECHO : Not a comment ^
 ::        ^^^^^^^^^^ meta.expression.dosbatch string.quoted.double
 ::        ^ punctuation.definition.string.begin
 ::         ^ keyword.operator.logical
-::           ^^^^^^ meta.variable.dosbatch
-::           ^ punctuation.definition.variable.begin
-::                ^ punctuation.definition.variable.end
+::           ^^^^^^ meta.interpolation.dosbatch
+::           ^ punctuation.section.interpolation.begin
+::                ^ punctuation.section.interpolation.end
 ::                 ^ punctuation.definition.string.end
 
    set /a ! "a12b"
@@ -1739,7 +1973,7 @@ ECHO : Not a comment ^
    set /a !"%a12b%"
 ::        ^ keyword.operator.logical
 ::         ^ punctuation.definition.string.begin
-::          ^^^^^^ meta.variable.dosbatch
+::          ^^^^^^ meta.interpolation.dosbatch
 ::                ^ punctuation.definition.string.end
 
    set /a a&=a12b
@@ -1919,7 +2153,7 @@ ECHO : Not a comment ^
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
 ::              ^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
-::                      ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch
+::                      ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
 ::                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
 ::                                                        ^ - meta.command
 :: ^^^ support.function.builtin.dosbatch
@@ -1938,7 +2172,7 @@ ECHO : Not a comment ^
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
 ::              ^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
-::                       ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch
+::                       ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
 ::                             ^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
 ::                                ^ - meta.command
 ::                                 ^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.rem.dosbatch
@@ -1963,13 +2197,13 @@ ECHO : Not a comment ^
 ::                                                         ^^^^^^^^^^^^^^^^ - comment
 ::                                                          ^ keyword.operator.conditional - comment
 ::                                                            ^^^^ support.function.builtin.dosbatch
-::                                                                 ^^^^^^^ meta.variable.dosbatch
+::                                                                 ^^^^^^^ meta.interpolation.dosbatch
 
    set /p today="enter a !date!: " this is a comment & echo !today!
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
 ::              ^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
-::                       ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch
+::                       ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
 ::                             ^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
 ::                                ^^^^^^^^^^^^^^^^^^^^^ - meta.command
 ::                                                     ^^^^^ meta.command.echo.dosbatch
@@ -1991,7 +2225,7 @@ ECHO : Not a comment ^
 ::                                                  ^^^^^^^^^^^^^^^^ - comment
 ::                                                   ^ keyword.operator.conditional - comment
 ::                                                     ^^^^ support.function.builtin.dosbatch
-::                                                          ^^^^^^^ meta.variable.dosbatch
+::                                                          ^^^^^^^ meta.interpolation.dosbatch
 
    set /p today="enter a^
    date: " this is a comment || set today=nothing
@@ -2021,7 +2255,7 @@ ECHO : Not a comment ^
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
 ::                ^^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
-::                          ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch
+::                          ^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
 ::                                ^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
 ::                                   ^ - meta.command
 ::                                    ^^^^^^^^^^^^^^^^^^^^^ meta.command.rem.dosbatch
@@ -2046,12 +2280,12 @@ ECHO : Not a comment ^
 ::                                                         ^^^^^^^^^^^^^^^^ - comment
 ::                                                          ^ keyword.operator.conditional - comment
 ::                                                            ^^^^ support.function.builtin.dosbatch
-::                                                                 ^^^^^^^ meta.variable.dosbatch
+::                                                                 ^^^^^^^ meta.interpolation.dosbatch
 
    set /p "today=%enter% a date: " this is a comment & echo !today!
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
 ::        ^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
-::               ^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch meta.variable.dosbatch
+::               ^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch meta.interpolation.dosbatch
 ::                      ^^^^^^^^^ meta.command.set.dosbatch meta.prompt.dosbatch meta.string.dosbatch
 ::                               ^ meta.command.set.dosbatch meta.prompt.dosbatch - meta.string
 ::                                ^^^^^^^^^^^^^^^^^^^^^ - meta.command
@@ -2072,7 +2306,7 @@ ECHO : Not a comment ^
 ::                                                  ^^^^^^^^^^^^^^^^ - comment
 ::                                                   ^ keyword.operator.conditional - comment
 ::                                                     ^^^^ support.function.builtin.dosbatch
-::                                                          ^^^^^^^ meta.variable.dosbatch
+::                                                          ^^^^^^^ meta.interpolation.dosbatch
 
    set /p "today="%enter% a date: this is a comment & echo !today!
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string
@@ -2093,7 +2327,7 @@ ECHO : Not a comment ^
 ::                                                 ^^^^^^^^^^^^^^^^ - comment
 ::                                                  ^ keyword.operator.conditional - comment
 ::                                                    ^^^^ support.function.builtin.dosbatch
-::                                                         ^^^^^^^ meta.variable.dosbatch
+::                                                         ^^^^^^^ meta.interpolation.dosbatch
 
    set /p today=<today.txt
 :: ^^^^^^^ meta.command.set.dosbatch - meta.string

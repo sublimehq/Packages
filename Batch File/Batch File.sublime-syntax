@@ -23,6 +23,36 @@ variables:
   set_arithmetic_operators_quoted: (?:\||<<|>>|&|\^)
   set_quoted_end: \"(?![^&|]*(\"|\^$))
 
+  expansion_begin: |-
+    (?x:
+      %
+      (?=
+        # anything but no colon, percentage or command terminator char
+        ( [^:%{{command_terminator_chars}}]
+        # otherwise must not look like followed by a command
+        | [{{command_terminator_chars}}](?!\s*\w+[\s{{command_terminator_chars}}])
+        )+
+        # don't check substrings and substitutions
+        (:~?[^%]*)? %
+      )
+    )
+
+  delayed_expansion_begin: |-
+    (?x:
+      !
+      (?=
+        # anything but no colon, exclamation mark or command terminator char
+        ( [^:!{{command_terminator_chars}}]
+        # otherwise must not look like followed by a command
+        | [{{command_terminator_chars}}](?!\s*\w+[\s{{command_terminator_chars}}])
+        )+
+        # don't check substrings and substitutions
+        (:~?[^!]*)? !
+      )
+    )
+
+  parameter: (%)(?:(?:~([fdpnxsatz]|\$PATH:)*)?\d|\*)
+
   commands: (?:{{builtin_commands}}|{{external_commands}})
 
   builtin_commands: |-
@@ -458,7 +488,7 @@ contexts:
     - match: (?=(?i:in|do)\b|\()
       pop: 1
     - match: (%%?)\w+\b
-      scope: meta.variable.dosbatch variable.other.readwrite.dosbatch
+      scope: meta.interpolation.dosbatch variable.other.readwrite.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
       pop: 1
@@ -514,7 +544,7 @@ contexts:
               - meta_scope: meta.function-call.name.dosbatch variable.label.dosbatch
               - match: (?=\s)
                 set: function-arguments
-              - include: variables-interpolation
+              - include: variable-interpolations
               - include: eoc-pop
           - include: commands
           - include: command-other
@@ -666,7 +696,7 @@ contexts:
     - match: \"
       push: command-echo-output-quoted
     - include: escaped-characters
-    - include: variables-interpolation
+    - include: variable-interpolations
     - include: eoc-pop
 
   command-echo-output-quoted:
@@ -680,7 +710,7 @@ contexts:
     - match: $
       pop: 2
     - match: \^\^!|%% # prevent variable interpolation
-    - include: variables-interpolation
+    - include: variable-interpolations
 
 ###[ COMMAND REM ]############################################################
 
@@ -758,7 +788,7 @@ contexts:
       pop: 1
     - include: command-set-nested-quotes
     - include: escaped-characters
-    - include: variables-interpolation
+    - include: variable-interpolations
     - include: eol-pop
 
   command-set-nested-quotes:
@@ -769,7 +799,7 @@ contexts:
         - match: (?={{set_quoted_end}})|\"
           pop: 1
         - include: escaped-characters
-        - include: variables-interpolation
+        - include: variable-interpolations
         - include: illegal-eol-pop
 
   command-set-unquoted:
@@ -777,7 +807,7 @@ contexts:
       set:
         - meta_content_scope: meta.string.dosbatch string.unquoted.dosbatch
         - include: escaped-characters
-        - include: variables-interpolation
+        - include: variable-interpolations
         - include: eoc-pop
 
   command-set-variable:
@@ -996,13 +1026,13 @@ contexts:
         - meta_content_scope: meta.string.dosbatch string.unquoted.dosbatch
         - include: escaped-characters
         - include: redirection-interpolations
-        - include: variables-interpolation
+        - include: variable-interpolations
         - include: eoc-pop
     - include: eol-pop
 
   command-set-prompt-output:
     - include: escaped-characters
-    - include: variables-interpolation
+    - include: variable-interpolations
     - include: line-continuation
     - include: illegal-eol-pop
 
@@ -1136,7 +1166,7 @@ contexts:
 
   path-pattern-common:
     - include: escaped-characters
-    - include: variables-interpolation
+    - include: variable-interpolations
     - match: '[.:\\/]'
       scope: punctuation.separator.path.dosbatch
       push: path-pattern-relative
@@ -1170,7 +1200,7 @@ contexts:
     - match: $
       pop: 1
     - include: escaped-characters
-    - include: variables-interpolation
+    - include: variable-interpolations
 
   escaped-characters:
     - match: '%%|\^\^!|\^.'
@@ -1178,118 +1208,179 @@ contexts:
 
 ###[ VARIABLES ]##############################################################
 
-  variables-interpolation:
-    - match: (?=[!%])
+  # NOTE: To be used in strings to remove `string` scope.
+  variable-interpolations:
+    # parameters
+    - match: '{{parameter}}'
+      scope:
+        meta.interpolation.dosbatch
+        variable.parameter.dosbatch
+      captures:
+        1: punctuation.definition.variable.dosbatch
+      push: clear-string-scope
+    # variable expansions
+    - match: '{{expansion_begin}}'
+      scope:
+        meta.interpolation.dosbatch
+        punctuation.section.interpolation.begin.dosbatch
       push:
-        - clear_scopes: 1
-        - meta_scope: meta.interpolation.dosbatch
-        - match: (?=%%(?!\w))
-          pop: 1
-        - include: variables
-        - include: immediatelly-pop
+        - clear-string-scope
+        - variable-expansion-name
+    # delayed variable expansions
+    - match: '{{delayed_expansion_begin}}'
+      scope:
+        meta.interpolation.dosbatch
+        punctuation.section.interpolation.begin.dosbatch
+      push:
+        - clear-string-scope
+        - variable-delayed-name
+
+  clear-string-scope:
+    - clear_scopes: 1
+    - include: immediatelly-pop
 
   variables:
-    - include: variable-parameter
-    - include: variable-expansion
+    - include: variable-parameters
+    - include: variable-expansions
     - include: variable-delayed
 
-  variable-parameter:
-    - match: (%)(?:(?:~([fdpnxsatz]|\$PATH:)*)?\d|\*)
-      scope: variable.parameter.dosbatch
+  variable-parameters:
+    - match: '{{parameter}}'
+      scope:
+        meta.interpolation.dosbatch
+        variable.parameter.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
 
-  variable-expansion:
-    - match: '%(?=[^{{command_terminator_chars}}%]*(?:%|\^$))'
-      scope: punctuation.definition.variable.begin.dosbatch
-      push:
-        - meta_scope: meta.variable.dosbatch
-        - match: '%'
-          scope: punctuation.definition.variable.end.dosbatch
-          pop: 1
-          # substring expansion
-        - match: ':~'
-          scope: punctuation.separator.dosbatch
-          push:
-            - meta_content_scope: meta.substring.dosbatch
-            - include: variable-expansion-end
-            - include: variable-substring
-          # string substitution
-        - match: ':'
-          scope: punctuation.separator.dosbatch
-          push:
-            - meta_content_scope: meta.substitution.dosbatch
-            - match: '='
-              scope: punctuation.separator.dosbatch
-              set:
-                - meta_scope: meta.substitution.dosbatch
-                - include: variable-expansion-substitution
-            - include: variable-expansion-substitution
-        - include: variable-name
+  variable-expansions:
+    - match: '{{expansion_begin}}'
+      scope:
+        meta.interpolation.dosbatch
+        punctuation.section.interpolation.begin.dosbatch
+      push: variable-expansion-name
 
-  variable-expansion-substitution:
+  variable-expansion-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.dosbatch
+    - include: variable-expansion-end
+    - include: variable-names
+    - match: ':~'
+      scope:
+        meta.interpolation.substring.dosbatch
+        punctuation.separator.dosbatch
+      set: variable-expansion-substring
+    - match: ':'
+      scope:
+        meta.interpolation.substitution.dosbatch
+        punctuation.separator.dosbatch
+      set: variable-expansion-substitution-pattern
+
+  variable-expansion-substring:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.substring.dosbatch
     - include: variable-expansion-end
     - include: variable-delayed
-    - include: variable-substitution
+    - include: variable-substrings
 
-  variable-expansion-end:
-    - match: (?=%)
-      pop: 1
-    - include: eol-pop
-
-  variable-delayed:
-    - match: '!(?=[^{{command_terminator_chars}}!]*(?:!|\^$))'
-      scope: punctuation.definition.variable.begin.dosbatch
-      push:
-        - meta_scope: meta.variable.dosbatch
-        - match: '!'
-          scope: punctuation.definition.variable.end.dosbatch
-          pop: 1
-          # substring expansion
-        - match: ':~'
-          scope: punctuation.separator.dosbatch
-          push:
-            - meta_content_scope: meta.substring.dosbatch
-            - include: variable-delayed-end
-            - include: variable-substring
-          # string substitution
-        - match: ':'
-          scope: punctuation.separator.dosbatch
-          push:
-            - meta_content_scope: meta.substitution.dosbatch
-            - match: '='
-              scope: punctuation.separator.dosbatch
-              set:
-                - meta_scope: meta.substitution.dosbatch
-                - include: variable-delayed-substitution
-            - include: variable-delayed-substitution
-        - include: variable-name
-
-  variable-delayed-substitution:
-    - include: variable-delayed-end
-    - include: variable-expansion
-    - include: variable-substitution
-
-  variable-delayed-end:
-    - match: (?=!)
-      pop: 1
-    - include: eol-pop
-
-  variable-name:
-    - include: eol-pop
-    - match: \b(?i:errorlevel)\b
-      scope: variable.language.dosbatch
-    - match: .
-      scope: variable.other.readwrite.dosbatch
-
-  variable-substitution:
-    - match: .
+  variable-expansion-substitution-pattern:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.substitution.pattern.dosbatch
+    - include: variable-expansion-end
+    - include: variable-delayed
+    - match: =
+      scope:
+        meta.interpolation.substitution.dosbatch
+        keyword.operator.asignment.dosbatch
+      set: variable-expansion-substitution-replacement
+    - match: '[^=%!]+'
       scope: string.unquoted.dosbatch
 
-  variable-substring:
-    - match: '([-+]?)(0|[1-9][0-9]*)'
+  variable-expansion-substitution-replacement:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.substitution.replacement.dosbatch
+    - include: variable-expansion-end
+    - include: variable-delayed
+    - match: '[^%!]+'
+      scope: string.unquoted.dosbatch
+
+  variable-expansion-end:
+    - match: '%'
+      scope:
+        meta.interpolation.dosbatch
+        punctuation.section.interpolation.end.dosbatch
+      pop: 1
+
+  variable-delayed:
+    - match: '{{delayed_expansion_begin}}'
+      scope:
+        meta.interpolation.dosbatch
+        punctuation.section.interpolation.begin.dosbatch
+      push: variable-delayed-name
+
+  variable-delayed-name:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.dosbatch
+    - include: variable-delayed-end
+    - include: variable-names
+    - match: ':~'
+      scope:
+        meta.interpolation.substring.dosbatch
+        punctuation.separator.dosbatch
+      set: variable-delayed-substring
+    - match: ':'
+      scope:
+        meta.interpolation.substitution.dosbatch
+        punctuation.separator.dosbatch
+      set: variable-delayed-substitution-pattern
+
+  variable-delayed-substring:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.substring.dosbatch
+    - include: variable-delayed-end
+    - include: variable-expansions
+    - include: variable-substrings
+
+  variable-delayed-substitution-pattern:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.substitution.pattern.dosbatch
+    - include: variable-delayed-end
+    - include: variable-expansions
+    - match: =
+      scope:
+        meta.interpolation.substitution.dosbatch
+        keyword.operator.asignment.dosbatch
+      set: variable-delayed-substitution-replacement
+    - match: '[^=%!]+'
+      scope: string.unquoted.dosbatch
+
+  variable-delayed-substitution-replacement:
+    - meta_include_prototype: false
+    - meta_content_scope: meta.interpolation.substitution.replacement.dosbatch
+    - include: variable-delayed-end
+    - include: variable-expansions
+    - match: '[^%!]+'
+      scope: string.unquoted.dosbatch
+
+  variable-delayed-end:
+    - match: '!'
+      scope:
+        meta.interpolation.dosbatch
+        punctuation.section.interpolation.end.dosbatch
+      pop: 1
+
+  variable-names:
+    - match: (?i:errorlevel)\b
+      scope: variable.language.dosbatch
+    - match: '[^:~%!]+'
+      scope: variable.other.readwrite.dosbatch
+
+  variable-substrings:
+    - include: separator-comma
+    - match: ([-+]?)(0|[1-9][0-9]*)
       scope: meta.number.integer.decimal.dosbatch
       captures:
         1: keyword.operator.arithmetic.dosbatch
         2: constant.numeric.value.dosbatch
-    - include: separator-comma
+    # Note: This makes the whole expansion being handled as plain text.
+    - match: ':[^%!{{command_terminator_chars}}]*'
+      scope: invalid.illegal.unexpected.dosbatch
