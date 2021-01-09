@@ -1552,7 +1552,99 @@ ECHO : Not a comment ^
 ::                                       ^ - constant.character.escape.dosbatch
 
 
-:::: [ SET variable=string ]:::::::::::::::::::::::::::::::::::::::::::::::::::
+:::: [ MODE command ] :::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+   mode
+:: ^^^^ meta.command.mode.dosbatch support.function.external.dosbatch
+::     ^ - meta.command
+
+   mode /? ignored
+:: ^^^^ meta.command.mode.dosbatch
+::     ^^^ meta.command.mode.arguments.dosbatch
+::        ^^^^^^^^^ - meta.command
+:: ^^^^ support.function.external.dosbatch
+::      ^ variable.parameter.help.dosbatch punctuation.definition.variable.dosbatch
+::       ^ variable.parameter.help.dosbatch - punctuation
+
+   mode con
+:: ^^^^ meta.command.mode.dosbatch
+::     ^^^^ meta.command.mode.arguments.dosbatch
+::         ^ - meta.command
+:: ^^^^ support.function.external.dosbatch
+
+   mode con:
+:: ^^^^ meta.command.mode.dosbatch
+::     ^^^^^ meta.command.mode.arguments.dosbatch
+::          ^ - meta.command
+:: ^^^^ support.function.external.dosbatch
+
+   mode com1=lpt1
+:: ^^^^ meta.command.mode.dosbatch
+::     ^^^^^^^^^^ meta.command.mode.arguments.dosbatch
+::               ^ - meta.command
+:: ^^^^ support.function.external.dosbatch
+::      ^^^^ variable.language.device.dosbatch
+::          ^ keyword.operator.assignment.dosbatch
+::           ^^^^ variable.language.device.dosbatch
+
+   mode com1:=lpt1:
+:: ^^^^ meta.command.mode.dosbatch
+::     ^^^^^^^^^^^^ meta.command.mode.arguments.dosbatch
+::                 ^ - meta.command
+:: ^^^^ support.function.external.dosbatch
+::      ^^^^^ variable.language.device.dosbatch
+::           ^ keyword.operator.assignment.dosbatch
+::            ^^^^^ variable.language.device.dosbatch
+
+   mode com1: /status
+:: ^^^^ meta.command.mode.dosbatch
+::     ^^^^^^^^^^^^^^ meta.command.mode.arguments.dosbatch
+::                   ^ - meta.command
+:: ^^^^ support.function.external.dosbatch
+::      ^^^^^ variable.language.device.dosbatch
+::            ^ variable.parameter.option.dosbatch punctuation.definition.variable.dosbatch
+::             ^^^^^^ variable.parameter.option.dosbatch - punctuation
+
+   mode com1: baud=9600 parity=1 xon=on dtr=hs
+:: ^^^^ meta.command.mode.dosbatch
+::     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.mode.arguments.dosbatch
+::                                            ^ - meta.command
+:: ^^^^ support.function.external.dosbatch
+::      ^^^^^ variable.language.device.dosbatch
+::            ^^^^ variable.parameter.option.dosbatch
+::                ^ keyword.operator.assignment.dosbatch
+::                 ^^^^ constant.numeric.value.dosbatch
+::                      ^^^^^^ variable.parameter.option.dosbatch
+::                            ^ keyword.operator.assignment.dosbatch
+::                             ^ constant.numeric.value.dosbatch
+::                               ^^^ variable.parameter.option.dosbatch
+::                                  ^ keyword.operator.assignment.dosbatch
+::                                   ^^ constant.language.dosbatch
+::                                      ^^^ variable.parameter.option.dosbatch
+::                                         ^ keyword.operator.assignment.dosbatch
+::                                          ^^ constant.language.dosbatch
+
+   mode con cols=98 lines=30 rate=40 delay=20
+:: ^^^^ meta.command.mode.dosbatch
+::     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.command.mode.arguments.dosbatch
+::                                           ^ - meta.command
+:: ^^^^ support.function.external.dosbatch
+::      ^^^ variable.language.device.dosbatch
+::          ^^^^ variable.parameter.option.dosbatch
+::              ^ keyword.operator.assignment.dosbatch
+::               ^^ constant.numeric.value.dosbatch
+::                  ^^^^^ variable.parameter.option.dosbatch
+::                       ^ keyword.operator.assignment.dosbatch
+::                        ^^ constant.numeric.value.dosbatch
+::                           ^^^^ variable.parameter.option.dosbatch
+::                               ^ keyword.operator.assignment.dosbatch
+::                                ^^ constant.numeric.value.dosbatch
+::                                   ^^^^^ variable.parameter.option.dosbatch
+::                                        ^ keyword.operator.assignment.dosbatch
+::                                         ^^ constant.numeric.value.dosbatch
+
+
+:::: [ SET variable=string ] ::::::::::::::::::::::::::::::::::::::::::::::::::
 
    set foo_bar
 :: ^^^^^^^^^^^ meta.command.set.dosbatch

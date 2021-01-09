@@ -126,6 +126,7 @@ contexts:
     - include: command-echo
     - include: command-rem
     - include: command-set
+    - include: command-mode
     - include: command-title
     - include: command-builtin
     - include: command-other
@@ -712,6 +713,41 @@ contexts:
       pop: 2
     - match: \^\^!|%% # prevent variable interpolation
     - include: variable-interpolations
+
+###[ COMMAND MODE ]###########################################################
+
+  command-mode:
+    - match: \b(?i:mode)\b
+      scope:
+        meta.command.mode.dosbatch
+        support.function.external.dosbatch
+      push: command-mode-args
+
+  command-mode-args:
+    - meta_content_scope: meta.command.mode.arguments.dosbatch
+    - include: eoc-pop
+    - match: \s*((/)\?)
+      scope: meta.command.mode.arguments.dosbatch
+      captures:
+        1: variable.parameter.help.dosbatch
+        2: punctuation.definition.variable.dosbatch
+      set: ignored-tail
+    - match: \b(?i:COM\d+|CON|LPT\d+)(:|\b)
+      scope: variable.language.device.dosbatch
+    # known option values
+    - match: \b(?i:on|off|hs|tg)\b
+      scope: constant.language.dosbatch
+    # COM/LPT options
+    - match: \b(?i:BAUD|PARITY|DATA|STOP|to|xon|odsr|octs|dtr|rts|idsr)\b
+      scope: variable.parameter.option.dosbatch
+    # CON options
+    - match: \b(?i:CP|SELECT|COLS|LINES|RATE|DELAY)\b
+      scope: variable.parameter.option.dosbatch
+    - match: =
+      scope: keyword.operator.assignment.dosbatch
+    - include: numbers
+    - include: switches
+    - include: variables
 
 ###[ COMMAND REM ]############################################################
 
