@@ -1772,7 +1772,60 @@ ECHO : Not a comment ^
 
 :::: [ SET variable=string ] ::::::::::::::::::::::::::::::::::::::::::::::::::
 
-   set foo_bar
+   set # & echo %#%
+::     ^ variable.other.readwrite.dosbatch
+::       ^ keyword.operator.conditional.dosbatch
+::              ^^^ meta.interpolation.dosbatch
+
+   set % & echo !%!
+::     ^ variable.other.readwrite.dosbatch
+::       ^ keyword.operator.conditional.dosbatch
+::              ^^^ meta.interpolation.dosbatch
+
+   set ! & echo %!%
+::     ^ variable.other.readwrite.dosbatch
+::       ^ keyword.operator.conditional.dosbatch
+::              ^^^ meta.interpolation.dosbatch
+
+   set ^& & echo %&%
+::     ^^ variable.other.readwrite.dosbatch
+::        ^ keyword.operator.conditional.dosbatch
+::               ^^^ meta.interpolation.dosbatch
+
+   set &
+::     ^ keyword.operator.conditional.dosbatch
+
+   set ^| & echo %|%
+::     ^^ variable.other.readwrite.dosbatch
+::        ^ keyword.operator.conditional.dosbatch
+::               ^^^ meta.interpolation.dosbatch
+
+   set |
+::     ^ keyword.operator.pipe.dosbatch
+
+   set ^> & echo %>%
+::     ^^ variable.other.readwrite.dosbatch
+::        ^ keyword.operator.conditional.dosbatch
+::               ^^^ meta.interpolation.dosbatch
+
+   set >
+::     ^ keyword.operator.assignment.redirection.dosbatch
+
+   set ^< & echo %<%
+::     ^^ variable.other.readwrite.dosbatch
+::        ^ keyword.operator.conditional.dosbatch
+::               ^^^ meta.interpolation.dosbatch
+
+   set <
+::     ^ keyword.operator.assignment.redirection.dosbatch
+
+   set =
+::     ^ keyword.operator.assignment.dosbatch
+
+   set ^=
+::     ^^ invalid.illegal.parameter.dosbatch
+
+   set foo_bar & echo %foo_bar%
 :: ^^^^^^^^^^^ meta.command.set.dosbatch
 ::            ^ - meta.command
 :: ^^^ support.function.builtin.dosbatch

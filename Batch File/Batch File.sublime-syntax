@@ -851,12 +851,18 @@ contexts:
         - include: eoc-pop
 
   command-set-variable:
-    - include: eoc-pop
+    - match: ''
+      set: command-set-variable-chars
+
+  command-set-variable-chars:
+    - meta_content_scope: variable.other.readwrite.dosbatch
     - match: =
       scope: keyword.operator.assignment.dosbatch
       pop: 1
-    - match: .
-      scope: variable.other.readwrite.dosbatch
+    - match: \^=
+      scope: invalid.illegal.parameter.dosbatch
+    - match: \^\S
+    - include: eoc-pop
 
   inside-command-set:
       - include: eoc-pop
