@@ -221,19 +221,9 @@ contexts:
     # https://ss64.com/nt/rem.html
     - match: '{{colon_comment_start}}'
       scope: punctuation.definition.comment.dosbatch
-      push: line-comment-body
-    # block comments
-    - match: (^:\d+:$)
-      scope: punctuation.definition.comment.begin.dosbatch
-      push: block-comment-body
+      push: comment-body
 
-  block-comment-body:
-    - meta_scope: comment.block.documentation.dosbatch
-    - match: \1
-      scope: punctuation.definition.comment.end.dosbatch
-      pop: 1
-
-  line-comment-body:
+  comment-body:
     - meta_scope: comment.line.colon.dosbatch
     - include: line-continuation
     - match: \n

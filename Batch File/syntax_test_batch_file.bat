@@ -19,19 +19,6 @@ REM This follows a REM command
 :: <- keyword.declaration.rem.dosbatch - comment
 :: ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.rem.dosbatch
 
-
-:1:
-:: <- comment.block.documentation.dosbatch punctuation.definition.comment.begin.dosbatch
- :: <- comment.block.documentation.dosbatch punctuation.definition.comment.begin.dosbatch
-
-This is a block comment
-::^^^^^^^^^^^^^^^^^^^^^^ comment.block.documentation.dosbatch
-
-:1:
-:: <- comment.block.documentation.dosbatch punctuation.definition.comment.end.dosbatch
- :: <- comment.block.documentation.dosbatch punctuation.definition.comment.end.dosbatch
-
-
    :: Me too!
 :: ^^ punctuation.definition.comment.dosbatch
 :: ^^^^^^^^^^ comment.line.colon.dosbatch
