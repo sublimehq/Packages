@@ -2534,13 +2534,19 @@ contexts:
 
   # https://www.w3.org/TR/css3-values/#numeric-constantss
   numeric-constants:
-    - include: angle-constants
-    - include: frequency-constants
-    - include: length-constants
-    - include: resolution-constants
-    - include: percentage-constants
-    - include: time-constants
-    - include: scalar-constants
+    - match: '{{float}}({{units}})?'
+      scope: meta.number.float.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: punctuation.separator.decimal.css
+        4: constant.numeric.suffix.css
+    - match: '{{integer}}({{units}})?'
+      scope: meta.number.integer.decimal.css
+      captures:
+        1: keyword.operator.arithmetic.css
+        2: constant.numeric.value.css
+        3: constant.numeric.suffix.css
 
   # Make sure `scalar-constants` is included after any other numeric values
   # as `scalar-constants` will consume all numeric values.
