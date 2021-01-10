@@ -176,6 +176,8 @@ contexts:
     - match: \*/
       scope: punctuation.definition.comment.end.java
       pop: 1
+    - match: ^\s*(\*)(?![*/])
+      scope: punctuation.definition.comment.java
 
   line-comments:
     - match: //+

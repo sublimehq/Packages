@@ -19,6 +19,17 @@
 // ^^^^^^^^^ comment.line.double-slash.java - punctuation
 //          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.line.double-slash.java punctuation.definition.comment.java
 
+   /*
+//^ - comment
+// ^^ comment.block.java punctuation.definition.comment.begin.java
+//   ^ comment.block.java - punctuation
+    *
+//  ^ comment.block.java punctuation.definition.comment.java
+//   ^ comment.block.java - punctuation
+    */
+// ^ comment.block.java - punctuation
+//  ^^ comment.block.java punctuation.definition.comment.end.java
+//    ^ - comment
 
 /******************************************************************************
  * JavaDoc Tests
