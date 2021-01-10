@@ -2337,16 +2337,7 @@ contexts:
     - meta_scope: meta.function-call.arguments.css meta.group.css
     - include: function-arguments-common
     - include: comma-delimiters
-    - match: |-
-        \b(?x:
-            {{font_relative_lengths}}
-          | {{viewport_percentage_lengths}}
-          | {{absolute_lengths}}
-          | {{angle_units}}
-          | {{duration_units}}
-          | {{frequency_units}}
-          | {{resolution_units}}
-        ){{break}}
+    - match: '{{units}}'
       scope: keyword.other.unit.css
     - include: color-values
     - include: common-constants
