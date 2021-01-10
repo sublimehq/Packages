@@ -614,6 +614,62 @@ ECHO : Not a comment ^
 
 :::: [ Loops ] ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
+   FOR %%# IN (0,1) DO md %%#
+::     ^^^ variable.other.readwrite.dosbatch
+::                        ^^^ variable.other.readwrite.dosbatch
+
+   FOR %%% IN (0,1) DO md %%%
+::     ^^^ variable.other.readwrite.dosbatch
+::                        ^^^ variable.other.readwrite.dosbatch
+
+   FOR %%! IN (0,1) DO md %%!
+::     ^^^ variable.other.readwrite.dosbatch
+::                        ^^^ variable.other.readwrite.dosbatch
+
+   FOR %%^& IN (0,1) DO md %%^&
+::     ^^^^ variable.other.readwrite.dosbatch
+::                         ^^^^ variable.other.readwrite.dosbatch
+
+   FOR %%& IN (0,1) DO md %%&
+::     ^^^ invalid.illegal.parameter.dosbatch
+::                        ^^^ - variable
+::                          ^ keyword.operator.conditional.dosbatch
+
+   FOR %%^| IN (0,1) DO md %%^|
+::     ^^^^ variable.other.readwrite.dosbatch
+::                         ^^^^ variable.other.readwrite.dosbatch
+
+   FOR %%| IN (0,1) DO md %%|
+::     ^^^ invalid.illegal.parameter.dosbatch
+::                        ^^^ - variable
+::                          ^ keyword.operator.pipe.dosbatch
+
+   FOR %%^> IN (0,1) DO md %%^>
+::     ^^^^ variable.other.readwrite.dosbatch
+::                         ^^^^ variable.other.readwrite.dosbatch
+
+   FOR %%> IN (0,1) DO md %%>
+::     ^^^ invalid.illegal.parameter.dosbatch
+::                        ^^^ - variable
+::                          ^ keyword.operator.assignment.redirection.dosbatch
+
+   FOR %%^< IN (0,1) DO md %%^<
+::     ^^^^ variable.other.readwrite.dosbatch
+::                         ^^^^ variable.other.readwrite.dosbatch
+
+   FOR %%< IN (0,1) DO md %%<
+::     ^^^ invalid.illegal.parameter.dosbatch
+::                        ^^^ - variable
+::                          ^ keyword.operator.assignment.redirection.dosbatch
+
+   FOR %%= IN (0,1) DO md %%=
+::     ^^^ invalid.illegal.parameter.dosbatch
+::                        ^^^ - variable
+
+   FOR %%^= IN (0,1) DO md %%^=
+::     ^^^^ invalid.illegal.parameter.dosbatch
+::                         ^^^^ - variable
+
    FOR %%G IN (0,9) DO (md %%G)
 :: ^^^ keyword.control.loop.for.dosbatch
 ::     ^^ punctuation.definition.variable.dosbatch
@@ -626,7 +682,7 @@ ECHO : Not a comment ^
 ::                ^ punctuation.section.set.end.dosbatch
 ::                  ^^ keyword.control.loop.do.dosbatch
 
-   FOR /D /r %%foo IN (folder1, ..\folder2, C:\folder) DO command
+   FOR /D /r %%foo IN (folder1, ..\folder2, C:\folder) DO command %%foo
 :: ^^^ keyword.control.loop.for.dosbatch
 ::     ^ punctuation.definition.variable.dosbatch
 ::     ^^ variable.parameter.dir.dosbatch
@@ -753,8 +809,7 @@ ECHO : Not a comment ^
 :: ^^^ keyword.control.loop.for.dosbatch
 ::     ^ punctuation.definition.variable.dosbatch
 ::     ^^ variable.parameter.range.dosbatch
-::        ^ punctuation.definition.variable.dosbatch
-::        ^^ variable.other.readwrite.dosbatch
+::        ^^ invalid.illegal.parameter.dosbatch
 ::           ^^ keyword.operator.logical.dosbatch
 ::              ^ punctuation.section.set.begin.dosbatch
 ::              ^^^^^^^^^ meta.set.dosbatch

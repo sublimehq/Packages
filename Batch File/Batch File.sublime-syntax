@@ -53,6 +53,13 @@ variables:
 
   parameter: (%)(?:(?:~([fdpnxsatz]|\$PATH:)*)?\d|\*)
 
+  # variables
+  variable: '{{varchars}}+{{varbreak}}'
+  varbreak: (?![^="\s])
+  varchars:  (?:{{varchar}}|{{varescape}})
+  varchar: '[^="\^\s{{command_terminator_chars}}]'
+  varescape: \^[^=\s]
+
   commands: (?:{{builtin_commands}}|{{external_commands}})
 
   builtin_commands: |-
@@ -147,9 +154,9 @@ contexts:
     - include: constants
     - include: numbers
     - include: strings
-    - include: escaped-characters
-    - include: line-continuation
     - include: variables
+    - include: line-continuation
+    - include: escaped-characters
     - include: switches
     - match: (?=[^\s|{{command_terminator_chars}}]*?[.:?*\\])
       push: path-pattern
@@ -490,7 +497,7 @@ contexts:
   control-for-parameter:
     - match: (?=(?i:in|do)\b|\()
       pop: 1
-    - match: (%%?)\w+\b
+    - match: (%%){{variable}}
       scope: meta.interpolation.dosbatch variable.other.readwrite.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
@@ -1338,6 +1345,12 @@ contexts:
       scope:
         meta.interpolation.dosbatch
         variable.parameter.dosbatch
+      captures:
+        1: punctuation.definition.variable.dosbatch
+    - match: (%%){{variable}}
+      scope:
+        meta.interpolation.dosbatch
+        variable.other.readwrite.dosbatch
       captures:
         1: punctuation.definition.variable.dosbatch
 
