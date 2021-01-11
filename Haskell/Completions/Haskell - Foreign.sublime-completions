@@ -2,6 +2,12 @@
 	"scope": "meta.declaration.foreign.haskell",
 	"completions": [
 		{
+			"trigger": "capi",
+			"contents": "capi",
+			"kind": ["keyword", "C", "Convention"],
+			"details": "standard C"
+		},
+		{
 			"trigger": "ccall",
 			"contents": "ccall",
 			"kind": ["keyword", "C", "Convention"],
