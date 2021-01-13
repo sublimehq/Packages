@@ -1745,7 +1745,7 @@ contexts:
     - match: ->
       scope:
         meta.function.anonymous.java
-        keyword.declaration.function.anonymous.java
+        keyword.declaration.function.arrow.java
       push:
         - lambda-meta
         - block-or-expression
