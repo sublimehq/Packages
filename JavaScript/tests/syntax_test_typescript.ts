@@ -831,3 +831,6 @@ if (a < b || c < d) {}
 //    ^ keyword.operator.logical
 //        ^^ keyword.operator.logical
 //             ^ keyword.operator.logical
+
+const f = (): any => {};
+//    ^ entity.name.function meta.binding.name variable.other.readwrite
