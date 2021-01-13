@@ -557,7 +557,7 @@ contexts:
       scope: keyword.operator.word.js
       push: [ts-type-expression-end-no-line-terminator, ts-type-expression-begin]
     - match: \.
-      scope: punctuation.separator.accessor.js
+      scope: punctuation.accessor.js
       push:
         - match: '{{identifier_name}}'
           scope: support.class.js

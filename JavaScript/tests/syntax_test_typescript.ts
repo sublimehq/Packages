@@ -572,7 +572,7 @@ let x: keyof Foo;
 let x: Foo.bar;
 //     ^^^^^^^ meta.type
 //     ^^^ support.class
-//        ^ punctuation.separator.accessor
+//        ^ punctuation.accessor
 //         ^^^ support.class
 
 let x: {
@@ -793,7 +793,7 @@ let x: import ( "foo" ) . Bar ;
 //            ^ punctuation.section.group.begin
 //              ^^^^^ meta.string string.quoted.double
 //                    ^ punctuation.section.group.end
-//                      ^ punctuation.separator.accessor
+//                      ^ punctuation.accessor
 //                        ^^^ support.class
 
     foo < bar > ();
