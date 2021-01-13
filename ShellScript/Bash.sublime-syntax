@@ -1611,6 +1611,13 @@ contexts:
         2: keyword.operator.match.shell
 
   expansions-parameter:
+    - match: (\$)(\{)(#)(\})
+      captures:
+        0: meta.interpolation.parameter.shell
+        1: punctuation.definition.variable.shell
+        2: punctuation.section.interpolation.begin.shell
+        3: variable.language.shell
+        4: punctuation.section.interpolation.end.shell
     - match: (\$)(\{)
       captures:
         1: punctuation.definition.variable.shell

@@ -2873,6 +2873,13 @@ ${foo:=bar}
 #           ^ keyword.operator.substitution.shell
 #               ^ punctuation.section.interpolation.end.shell
 
+
+: ${#}  # is the same as $#
+# ^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ variable.language.shell
+#    ^ punctuation.section.interpolation.end.shell
 : ${#*}
 # ^^^^^ meta.interpolation.parameter.shell
 # ^ punctuation.definition.variable.shell
