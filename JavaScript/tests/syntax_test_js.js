@@ -470,6 +470,9 @@ var obj = {
 //            ^^^^^^^^^^^^ meta.function
     },
 
+    class: null, // Keys are IdentifierNames, not merely Identifiers
+//  ^^^^^ meta.mapping.key
+
     [true==false ? 'one' : 'two']: false,
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.mapping.key
 //  ^ punctuation.section.brackets.begin
@@ -1561,6 +1564,14 @@ return/*
 const abc = new Set
 if (true) {};
 // <- keyword.control.conditional
+
+    const x =
+    const y = 1; // Better highlighting while typing.
+//  ^^^^^ storage.type
+
+    let x =
+    const y = 1; // Better highlighting while typing.
+//  ^^^^^ storage.type
 
 var o = {
     a,
