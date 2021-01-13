@@ -154,7 +154,7 @@ string Frag
 {
 /// <- punctuation.section.block.begin
     get
-/// ^^^ - storage.type.function
+/// ^^^ - keyword.declaration.function
     {
 /// ^ punctuation.section.block.begin
         var list = new List<string>();

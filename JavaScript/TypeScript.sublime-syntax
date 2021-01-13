@@ -12,7 +12,7 @@ variables:
 
   function_call_lookahead: >-
     (?x:(?=
-      {{identifier}}
+      {{identifier_name}}
       \s*
       (?:
         <
@@ -23,6 +23,17 @@ variables:
       (?:{{dot_accessor}})?
       \(
     ))
+
+  arrow_func_lookahead: |-
+    (?x:
+      (?:async\s*)?
+      (?:
+        {{identifier}}
+        | \( ( [^()] | \( [^()]* \) )* \)
+      )
+      \s*
+      (?:=>|:)
+    )
 
 contexts:
   detect-parenthesized-arrow:
@@ -93,7 +104,7 @@ contexts:
     - match: \!\.
       scope: punctuation.accessor.js
       push:
-        - match: '(?={{identifier}}\s*(?:\.\?)?\()'
+        - match: '(?={{identifier_name}}\s*(?:\.\?)?\()'
           set:
             - call-method-meta
             - function-call-arguments
@@ -189,7 +200,7 @@ contexts:
     - include: immediately-pop
 
   ts-interface-name:
-    - match: '{{identifier}}'
+    - match: '{{identifier_name}}'
       scope: entity.name.interface.js
       pop: true
     - include: else-pop
@@ -233,7 +244,7 @@ contexts:
           - match: \]
             scope: punctuation.section.brackets.end.js
             pop: true
-          - match: '{{identifier}}'
+          - match: '{{identifier_name}}'
             scope: variable.other.readwrite.js
             push:
               - match: in{{identifier_break}}
@@ -251,7 +262,7 @@ contexts:
         - function-declaration-expect-parameters
         - ts-type-parameter-list
 
-    - match: '{{identifier}}'
+    - match: '{{identifier_name}}'
       scope: variable.other.readwrite.js
       push:
         - - match: (?=[<(])
@@ -277,7 +288,7 @@ contexts:
     - include: immediately-pop
 
   ts-enum-name:
-    - match: '{{identifier}}'
+    - match: '{{identifier_name}}'
       scope: entity.name.enum.js
       pop: true
     - include: else-pop
@@ -293,7 +304,7 @@ contexts:
         - include: comma-separator
         - match: (?=['"])
           push: literal-string
-        - match: '{{identifier}}'
+        - match: '{{identifier_name}}'
           scope: variable.other.readwrite.js
           push: initializer
 
@@ -303,7 +314,7 @@ contexts:
     - include: immediately-pop
 
   ts-type-alias-name:
-    - match: '{{identifier}}'
+    - match: '{{identifier_name}}'
       scope: entity.name.type.js
       pop: true
     - include: else-pop
@@ -331,7 +342,7 @@ contexts:
     - include: immediately-pop
 
   ts-namespace-name:
-    - match: '{{identifier}}'
+    - match: '{{identifier_name}}'
       scope: entity.name.namespace.js
       pop: true
     - include: else-pop
@@ -369,7 +380,7 @@ contexts:
         - match: \>
           scope: punctuation.definition.generic.end.js
           pop: true
-        - match: '{{identifier}}'
+        - match: '{{identifier_name}}'
           scope: variable.parameter.generic.js
           push:
             - ts-type-parameter-default
@@ -557,9 +568,9 @@ contexts:
       scope: keyword.operator.word.js
       push: [ts-type-expression-end-no-line-terminator, ts-type-expression-begin]
     - match: \.
-      scope: punctuation.separator.accessor.js
+      scope: punctuation.accessor.js
       push:
-        - match: '{{identifier}}'
+        - match: '{{identifier_name}}'
           scope: support.class.js
           set: ts-type-expression-end-no-line-terminator
 
@@ -677,6 +688,9 @@ contexts:
     - include: literal-string
     - include: literal-number
 
+    - match: '-'
+      scope: keyword.operator.arithmetic.js
+
     - include: else-pop
 
   ts-type-tuple:
@@ -708,7 +722,7 @@ contexts:
         - include: comma-separator
         - match: ;
           scope: punctuation.separator.semicolon.js
-        - match: '{{identifier}}'
+        - match: '{{identifier_name}}'
           scope: variable.other.readwrite.js
           push:
             - ts-type-annotation
@@ -755,7 +769,7 @@ contexts:
       pop: true
 
   ts-type-basic:
-    - match: '{{identifier}}'
+    - match: '{{identifier_name}}'
       scope: support.class.js
       pop: true
 
@@ -790,8 +804,10 @@ contexts:
                 - ts-type-expression-begin
             - include: else-pop
         - include: comma-separator
-        - match: '{{identifier}}'
-          scope: variable.other.readwrite.js
+        - match: '\.\.\.'
+          scope: keyword.operator.spread.js
+        - match: '{{identifier_name}}'
+          scope: variable.parameter.js
           push:
             - ts-type-annotation
             - ts-type-annotation-optional

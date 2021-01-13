@@ -4,6 +4,7 @@
 name: ASP
 file_extensions:
   - asa # asp is handled by HTML-ASP.sublime-syntax
+  - vbs # Visual Basic Script
 scope: source.asp
 variables:
   apostrophe_comment_begin: "'"

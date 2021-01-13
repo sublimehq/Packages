@@ -14,14 +14,13 @@
 #   ^ punctuation.definition.comment.shell
 
 # This is a \
-#^^^^^^^^^^^ comment.line.number-sign.shell - punctuation
-#           ^^ comment.line.number-sign.shell punctuation.separator.continuation.line.shell
+#^^^^^^^^^^^^^ comment.line.number-sign.shell - punctuation
   command.
-#^^^^^^^^^^ - comment.line
+#^^^^^^^^^^ - comment
 
 # This is a \
   comment.
-#^^^^^^^^^^ comment.line.number-sign.shell - punctuation
+#^^^^^^^^^^ - comment
 
 ### \\ \. \a \b \f \n \r
 # <- comment.line.number-sign.shell punctuation.definition.comment.shell
@@ -33,6 +32,12 @@ echo hello #a-comment
 
 echo hello#not-a-comment
 #         ^^^^^^^^^^^^^^ meta.function-call.arguments - comment.line - variable.function
+
+curl -s \
+  # This is comment \
+  --request POST
+# ^^^^^^^^^ meta.function-call.identifier.shell variable.function.shell
+#          ^^^^^ meta.function-call.arguments.shell
 
 foo | `# get quarks ` \
 # <- variable.function
@@ -864,6 +869,46 @@ coproc foobar {
 ####################################################################
 # 3.3 Shell Functions                                              #
 ####################################################################
+
+   ()
+#^^ - meta.function
+#  ^ meta.function.parameters.shell
+#   ^ meta.function.parameters.shell
+#    ^ meta.function.shell
+
+   ()
+   {}
+# ^ meta.function.shell - meta.compound
+#  ^^ meta.function.shell meta.compound.shell
+#    ^ - meta.function
+#  ^ punctuation.section.compound.begin.shell
+#   ^ punctuation.section.compound.end.shell
+
+   () \
+   {}
+# ^ meta.function.shell - meta.compound
+#  ^^ meta.function.shell meta.compound.shell
+#    ^ - meta.function
+#  ^ punctuation.section.compound.begin.shell
+#   ^ punctuation.section.compound.end.shell
+
+   () { [[ $# == 2 ]] && tput setaf $2 || tput setaf 3; echo -e "$1"; tput setaf 15; }
+#^^ - meta.function
+#  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function meta.function
+#  ^ meta.function.parameters.shell
+#   ^ meta.function.parameters.shell
+#    ^ meta.function.shell - meta.function.identifier - meta.compound
+#     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function.shell meta.compound.shell
+#  ^ punctuation.section.parameters.begin.shell
+#   ^ punctuation.section.parameters.end.shell
+#    ^ - punctuation
+#     ^ punctuation.section.compound.begin.shell
+#       ^^ support.function.double-brace.begin
+#          ^ punctuation.definition.variable
+#           ^ variable.language
+#             ^^ keyword.operator.comparison
+#                  ^^ support.function.double-brace.end
+#                     ^^ keyword.operator.logical
 
    logC () { [[ $# == 2 ]] && tput setaf $2 || tput setaf 3; echo -e "$1"; tput setaf 15; }
 #^^ - meta.function
@@ -2828,6 +2873,13 @@ ${foo:=bar}
 #           ^ keyword.operator.substitution.shell
 #               ^ punctuation.section.interpolation.end.shell
 
+
+: ${#}  # is the same as $#
+# ^^^^ meta.interpolation.parameter.shell
+# ^ punctuation.definition.variable.shell
+#  ^ punctuation.section.interpolation.begin.shell
+#   ^ variable.language.shell
+#    ^ punctuation.section.interpolation.end.shell
 : ${#*}
 # ^^^^^ meta.interpolation.parameter.shell
 # ^ punctuation.definition.variable.shell
