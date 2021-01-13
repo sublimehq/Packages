@@ -564,7 +564,7 @@ class Foo {
 ///                                                   ^^^^ variable.other
 ///                                                        ^ keyword.operator.assignment.variable
 ///                                                          ^ variable.parameter
-///                                                            ^^ storage.type.function.lambda
+///                                                            ^^ keyword.declaration.function.anonymous
 ///                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 ///                                                               ^ punctuation.section.group.begin
 ///                                                                ^^^^^^^^ variable.other
