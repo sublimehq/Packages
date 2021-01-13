@@ -28,7 +28,7 @@ variables:
     (?x:
       (?:async\s*)?
       (?:
-        {{identifier}}
+        {{identifier_name}}
         | \( ( [^()] | \( [^()]* \) )* \)
       )
       \s*
