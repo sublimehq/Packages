@@ -512,7 +512,7 @@ contexts:
         - ts-type-expression-begin
 
   ts-type-assertion:
-    - match: '!(?!\.)'
+    - match: '!(?![.=])'
       scope: keyword.operator.type.js
 
     - match: as{{identifier_break}}

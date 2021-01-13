@@ -834,3 +834,6 @@ if (a < b || c < d) {}
 
 const f = (): any => {};
 //    ^ entity.name.function meta.binding.name variable.other.readwrite
+
+    a != b;
+//    ^^ keyword.operator.comparison
