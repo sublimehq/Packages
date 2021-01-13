@@ -172,7 +172,6 @@ contexts:
     # comment).
     - match: \n
       pop: 1
-    - include: line-continuations
 
   shebang:
     - match: ^\#!
@@ -188,7 +187,6 @@ contexts:
       scope: constant.language.shebang.shell
     - match: \n
       pop: 1
-    - include: line-continuations
 
 ###[ FUNCTION DEFINITIONS ]####################################################
 
