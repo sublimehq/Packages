@@ -725,13 +725,21 @@ let x: ( foo ? : any ) => bar;
 //     ^^^^^^^^^^^^^^^^^^^^^^ meta.type
 //     ^^^^^^^^^^^^^^^ meta.group
 //     ^ punctuation.section.group.begin
-//       ^^^ variable.other.readwrite - support.class
+//       ^^^ variable.parameter - support.class
 //           ^ storage.modifier.optional
 //             ^ punctuation.separator.type
 //               ^^^ support.type.any
 //                   ^ punctuation.section.group.end
 //                     ^^ keyword.declaration.function
 //                        ^^^ support.class
+
+let x: ( ... foo : any ) => any;
+//     ^^^^^^^^^^^^^^^^^^^^^^^^ meta.type
+//     ^^^^^^^^^^^^^^^^^ meta.group
+//       ^^^ keyword.operator.spread
+//           ^^^ variable.parameter
+//               ^ punctuation.separator.type
+//                 ^^^ support.type.any
 
 let x: () => T
     U
