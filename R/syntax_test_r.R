@@ -477,19 +477,19 @@ print.foo()
 # ^^^^ support.function.r
 
 #' @param xyz abcde
-#^^^^^^^^^^^^^^^^^^ comment.line.roxygen.r
+#^^^^^^^^^^^^^^^^^^ comment.line.documentation.r
 #  ^^^^^^ keyword.other.r
 #         ^^^ variable.parameter.r
 
 
     #' @param xyz abcde
-#   ^^^^^^^^^^^^^^^^^^^ comment.line.roxygen.r
+#   ^^^^^^^^^^^^^^^^^^^ comment.line.documentation.r
 #      ^^^^^^ keyword.other.r
 #             ^^^ variable.parameter.r
 
 
 #' "@param xyz abcde"
-#  ^^^^^^^^^ comment.line.roxygen.r
+#  ^^^^^^^^^ comment.line.documentation.r
 #   ^^^^^^ -keyword.other.r
 
 
