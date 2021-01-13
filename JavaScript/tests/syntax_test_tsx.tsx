@@ -22,7 +22,7 @@
 let x : T.U<V>;
 //      ^^^^^^ meta.type
 //      ^ support.class
-//       ^ punctuation.separator.accessor
+//       ^ punctuation.accessor
 //        ^ support.class
 //         ^^^ meta.generic
 //          ^ support.class
