@@ -729,7 +729,7 @@ contexts:
       scope: storage.modifier.other.cs
       push: type_constraint
     - match: (=>)
-      scope: keyword.declaration.function.anonymous.cs
+      scope: keyword.declaration.function.arrow.cs
       set:
         - meta_content_scope: meta.method.cs
         - include: line_of_code_in
@@ -780,7 +780,7 @@ contexts:
           scope: storage.modifier.access.cs
         - include: attribute
     - match: '=>'
-      scope: keyword.declaration.function.anonymous.cs
+      scope: keyword.declaration.function.arrow.cs
       set:
         - meta_content_scope: meta.method.cs
         - include: line_of_code_in
@@ -979,7 +979,7 @@ contexts:
     - match: ({{name}})\s+(=>)\s*
       captures:
         1: variable.parameter.cs
-        2: keyword.declaration.function.anonymous.cs
+        2: keyword.declaration.function.arrow.cs
       push:
         - meta_scope: meta.function.anonymous.cs
         - match: '(?=;)'
@@ -999,7 +999,7 @@ contexts:
         - match: (\))\s*(=>)
           captures:
             1: meta.group.cs punctuation.section.group.end.cs
-            2: keyword.declaration.function.anonymous.cs
+            2: keyword.declaration.function.arrow.cs
           set:
             - meta_content_scope: meta.function.anonymous.cs
             - match: '(?=;)'
