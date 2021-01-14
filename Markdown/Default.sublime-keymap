@@ -38,4 +38,4 @@
             { "key": "selection_empty", "operator": "equal", "operand": false, "match_all": true },
         ]
     }
-
+]
