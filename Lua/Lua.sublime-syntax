@@ -646,7 +646,7 @@ contexts:
           set:
             - match: |-
                 (?x:
-                  create|isyieldable|resume|running|status|wrap|yield
+                  create|isyieldable|resume|running|status|wrap|yield|close
                 ){{identifier_break}}
               scope: meta.property.lua support.function.builtin.lua
               pop: true
