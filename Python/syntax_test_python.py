@@ -1264,6 +1264,9 @@ mydict = { 'a' : xform, 'b' : form, 'c' : frm }
 #                                 ^ meta.mapping.python punctuation.separator.mapping.python
 #                                       ^ punctuation.separator.mapping.key-value.python
 
+mydict = { a : b async for b in range(1, 2) }
+#                ^^^^^ storage.modifier.async.python
+
 myset = {"key", True, key2, [-1], {}:1}
 #       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.set
 #       ^ punctuation.section.set.begin.python
