@@ -24,7 +24,7 @@ someFunction({
 //  ^ meta.function meta.block
 
     var bar = function() {
-//  ^^^ storage.type
+//  ^^^ keyword.declaration
 //      ^^^ entity.name.function variable.other.readwrite
 //            ^^^^^^^^^^^^ meta.function - meta.function meta.function
 //            ^^^^^^^^ keyword.declaration.function
@@ -165,7 +165,7 @@ not_a_comment;
 
 var str = '\':';
 var str2 = NaN;
-// <- storage.type
+// <- keyword.declaration
 //   ^ variable.other.readwrite
 //       ^ keyword.operator.assignment
 //         ^^^ constant.language.nan
@@ -433,7 +433,7 @@ baz = "";
 //    ^^ meta.string string.quoted.double
 
 var qux = 100;
-// <- storage.type
+// <- keyword.declaration
 //   ^ variable.other.readwrite
 //         ^ constant.numeric
 
@@ -928,7 +928,7 @@ new FooBar(function(){
 {
 // <- meta.block punctuation.section.block.begin
     let foo = 1;
-//  ^^^ meta.block storage.type
+//  ^^^ meta.block keyword.declaration
 //      ^^^ variable.other.readwrite
 }
 // <- meta.block punctuation.section.block.end
@@ -1046,11 +1046,11 @@ const abc = new Set
 
     const x =
     const y = 1; // Better highlighting while typing.
-//  ^^^^^ storage.type
+//  ^^^^^ keyword.declaration
 
     let x =
     const y = 1; // Better highlighting while typing.
-//  ^^^^^ storage.type
+//  ^^^^^ keyword.declaration
 
 var o = {
     a,

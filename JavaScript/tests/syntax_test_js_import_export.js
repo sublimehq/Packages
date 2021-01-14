@@ -45,18 +45,18 @@ export { name1, name2 as name3 };
 export let name1, name2;
 //^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
-//     ^^^ storage.type
+//     ^^^ keyword.declaration
 //              ^ punctuation.separator.comma
 
 export var name3;
 //^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
-//     ^^^ storage.type
+//     ^^^ keyword.declaration
 
 export const name1 = 5;
 //^^^^^^^^^^^^^^^^^^^^^ meta.export
 //^ keyword.control.import-export
-//     ^^^^^ storage.type
+//     ^^^^^ keyword.declaration
 //                 ^ keyword.operator.assignment
 
 export let foo = 123 // No semicolon

@@ -888,7 +888,7 @@ $var = <<JAVASCRIPT;
 #                   ^ - source.js.embedded.perl
   var basic;
 # <- meta.string.heredoc.perl source.js.embedded.perl source.js
-# ^^^ meta.string.heredoc.perl source.js.embedded.perl source.js storage.type.js
+# ^^^ meta.string.heredoc.perl source.js.embedded.perl source.js keyword.declaration
 JAVASCRIPT
 # <- meta.string.heredoc.perl entity.name.tag.heredoc.js.perl
 #^^^^^^^^^ meta.string.heredoc.perl entity.name.tag.heredoc.js.perl
