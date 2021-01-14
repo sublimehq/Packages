@@ -226,7 +226,7 @@ contexts:
     - match: '(?=({{idorunder}}|{{idorunder}}\s*:(\s*{{id}}\s*{{withinbrackets}}?(\s*[\.#]\s*{{id}}\s*{{withinbrackets}}?)*)+|{{idorunder}}\s*:\s*{{withinparens}}|{{withinparens}})\s*(?:{{rightarrow}})(?:/\*|//|[[[:alpha:]]0-9\s\)\]\}]))'
       push:
         - match: '{{rightarrow}}'
-          scope: storage.type.function.arrow.lambda.scala
+          scope: keyword.declaration.function.arrow.lambda.scala
           pop: true
         - include: lambda-declaration
   lambda-declaration-base:
@@ -341,14 +341,14 @@ contexts:
   declarations:
     - match: '\b(def)\s+({{id}})'
       captures:
-        1: storage.type.function.scala
+        1: keyword.declaration.function.scala
         2: entity.name.function.scala
       push: function-type-parameter-list
     - match: '\b(?:(case)\s+)?(class|trait|object)(?:\s+({{id}}))'
       scope: meta.class.identifier.scala
       captures:
-        1: storage.type.class.scala
-        2: storage.type.class.scala
+        1: keyword.declaration.class.scala
+        2: keyword.declaration.class.scala
         3: entity.name.class.scala
       push: class-type-parameter-list
     - match: '\b(type)\s+({{id}})'
@@ -385,13 +385,13 @@ contexts:
       push: val-simple-body
     - match: '\b(package)\s+(object)\s+({{id}})'
       captures:
-        1: keyword.control.scala
-        2: storage.type.class.scala
+        1: keyword.declaration.namespace.scala
+        2: keyword.declaration.class.scala
         3: entity.name.class.scala
       push: class-inheritance-extends
     - match: '\b(package)\s+({{id}}(?:\.{{id}})*)\s*(\{)'
       captures:
-        1: keyword.control.scala
+        1: keyword.declaration.namespace.scala
         2: entity.name.namespace.scoped.scala
         3: punctuation.section.block.begin.scala
       push:
@@ -403,11 +403,11 @@ contexts:
     - match: '\b(package)\s+({{id}}(?:\.{{id}})*)'
       scope: meta.namespace.scala
       captures:
-        1: keyword.control.scala
+        1: keyword.declaration.namespace.scala
         2: entity.name.namespace.header.scala
     # what follows is identical to case-pattern, except it goes to case-body-first
     - match: '\bcase\b(?!\s+class\b)'
-      scope: keyword.other.declaration.scala
+      scope: keyword.declaration.other.scala
       push:
         - meta_content_scope: meta.pattern.scala
         - match: '(?=\bclass\b)'
@@ -416,14 +416,14 @@ contexts:
           scope: keyword.control.flow.scala
           set:
             - match: '{{rightarrow}}'
-              scope: storage.type.function.arrow.case.scala
+              scope: keyword.declaration.function.arrow.case.scala
               set: case-body-first
             - include: main-no-lambdas
         # eliminates arrow from the pattern meta scope
         - match: '(?={{rightarrow}})'
           set:
             - match: '{{rightarrow}}'
-              scope: storage.type.function.arrow.case.scala
+              scope: keyword.declaration.function.arrow.case.scala
               set: case-body-first
         - match: '(?=\}|\bcase\b)'    # makes typing more pleasant
           pop: true
@@ -456,21 +456,21 @@ contexts:
   # this exists to clear the meta_scope from first or non-first
   case-pattern:
     - match: '\bcase\b'
-      scope: keyword.other.declaration.scala
+      scope: keyword.declaration.other.scala
       set:
         - meta_content_scope: meta.pattern.scala
         - match: '\bif\b'
           scope: keyword.control.flow.scala
           set:
             - match: '{{rightarrow}}'
-              scope: storage.type.function.arrow.case.scala
+              scope: keyword.declaration.function.arrow.case.scala
               set: case-body-non-first
             - include: main-no-lambdas
         # eliminates arrow from the pattern meta scope
         - match: '(?={{rightarrow}})'
           set:
             - match: '{{rightarrow}}'
-              scope: storage.type.function.arrow.case.scala
+              scope: keyword.declaration.function.arrow.case.scala
               set: case-body-non-first
         - match: '(?=\}|\bcase\b)'    # makes typing more pleasant
           pop: true
@@ -715,7 +715,7 @@ contexts:
       scope: invalid.keyword.with-before-extends.scala
       pop: true
     - match: \bextends\b
-      scope: keyword.declaration.scala
+      scope: storage.modifier.extends.scala
       set: class-inheritance-extends-token
     - match: '(?=\{)'
       pop: true
@@ -814,7 +814,7 @@ contexts:
       scope: invalid.keyword.extends-after-extends.scala
       pop: true
     - match: \bwith\b
-      scope: keyword.declaration.scala
+      scope: storage.modifier.with.scala
       set: class-inheritance-extends-token
     - match: '\n'
       set: class-inheritance-with-newline
@@ -828,7 +828,7 @@ contexts:
 
   imports:
     - match: \bimport\b
-      scope: keyword.other.import.scala
+      scope: keyword.declaration.import.scala
       push:
         - meta_scope: meta.import.scala
         - match: '(,)[ \t]*\n'    # TODO real newline inference
@@ -1037,16 +1037,16 @@ contexts:
       scope: invalid.keyword.dangling-with.scala
     - match: \bforSome\b
       scope: keyword.declaration.scala
-    - match: '\b(?:(?:case\s+)?class|trait|object)\b'
-      scope: storage.type.class.scala
+    - match: \b(?:(?:case\s+)?class|trait|object)\b
+      scope: keyword.declaration.class.scala
     - match: \bdef\b
-      scope: storage.type.function.scala
+      scope: keyword.declaration.function.scala
     - match: \btype\b
       scope: storage.type.scala
     - match: \bvar\b
       scope: storage.type.volatile.scala
     - match: \bpackage\b
-      scope: keyword.control.scala
+      scope: keyword.declaration.namespace.scala
 
   late-operators:
     # catch all valid identifiers and let them fall through
