@@ -491,34 +491,50 @@ contexts:
       pop: true
 
   string:
+    - include: single-quoted-string
+    - include: double-quoted-string
+    - include: multiline-string
+
+  single-quoted-string:
     - match: \'
       scope: punctuation.definition.string.begin.lua
       set:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.single.lua
-        - include: string-content
-        - match: \'
-          scope: punctuation.definition.string.end.lua
-          pop: true
+        - single-quoted-string-body
 
+  single-quoted-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.lua string.quoted.single.lua
+    - include: string-content
+    - match: \'
+      scope: punctuation.definition.string.end.lua
+      pop: 1
+
+  double-quoted-string:
     - match: \"
       scope: punctuation.definition.string.begin.lua
       set:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.double.lua
-        - include: string-content
-        - match: \"
-          scope: punctuation.definition.string.end.lua
-          pop: true
+        - double-quoted-string-body
 
+  double-quoted-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.lua string.quoted.double.lua
+    - include: string-content
+    - match: \"
+      scope: punctuation.definition.string.end.lua
+      pop: 1
+
+  multiline-string:
     - match: \[(=*)\[
       scope: punctuation.definition.string.begin.lua
       set:
-        - meta_scope: string.quoted.multiline.lua
-        - meta_include_prototype: false
-        - match: \]\1\]
-          scope: punctuation.definition.string.end.lua
-          pop: true
+        - multiline-string-body
+
+  multiline-string-body:
+    - meta_scope: meta.string.lua string.quoted.multiline.lua
+    - meta_include_prototype: false
+    - match: \]\1\]
+      scope: punctuation.definition.string.end.lua
+      pop: 1
 
   string-content:
     - match: \\[abfnrtv\\'"\[\]\n]

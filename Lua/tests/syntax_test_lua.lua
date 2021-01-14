@@ -131,34 +131,34 @@
 --                       ^ punctuation.separator.decimal
 
     'foo';
---  ^^^^^ string.quoted.single
+--  ^^^^^ meta.string string.quoted.single
 --  ^ punctuation.definition.string.begin
 --      ^ punctuation.definition.string.end
 
 --STRINGS
 
     'foo';
---  ^^^^^ string.quoted.single
+--  ^^^^^ meta.string string.quoted.single
 --  ^ punctuation.definition.string.begin
 --      ^ punctuation.definition.string.end
 
     '-- [[';
---  ^^^^^^^ string.quoted.single - comment
+--  ^^^^^^^ meta.string string.quoted.single - comment
 
     "foo";
---  ^^^^^ string.quoted.double
+--  ^^^^^ meta.string string.quoted.double
 --  ^ punctuation.definition.string.begin
 --      ^ punctuation.definition.string.end
 
     "-- [[";
---  ^^^^^^^ string.quoted.double - comment
+--  ^^^^^^^ meta.string string.quoted.double - comment
 
     '\a\b\f\n\r\t\v\\\'\"\[\]';
---  ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string string.quoted.single
 --   ^^^^^^^^^^^^^^^^^^^^^^^^ constant.character.escape
 
     '\x1ff';
---   ^^^^ constant.character.escape.hexadecimal
+--   ^^^^ meta.string constant.character.escape.hexadecimal
 --       ^ - constant
 
     '\0 \123 \1234';
@@ -196,39 +196,39 @@
 --   ^ invalid.illegal.unclosed-string
 
     "foo\"\'";
---  ^^^^^^^^^ string.quoted.double
+--  ^^^^^^^^^ meta.string string.quoted.double
 --  ^ punctuation.definition.string.begin
 --      ^^^^ constant.character.escape
 --          ^ punctuation.definition.string.end
 
     [[ Foo! ]];
---  ^^^^^^^^^^ string.quoted.multiline
+--  ^^^^^^^^^^ meta.string string.quoted.multiline
 --  ^^ punctuation.definition.string.begin
 --          ^^ punctuation.definition.string.end
 
     [[ -- [[ ]];
---  ^^^^^^^^^^^ string.quoted.multiline - comment
+--  ^^^^^^^^^^^ meta.string string.quoted.multiline - comment
 
     [[ Foo! \a \]];
---  ^^^^^^^^^^^^^^ string.quoted.multiline
+--  ^^^^^^^^^^^^^^ meta.string string.quoted.multiline
 --  ^^ punctuation.definition.string.begin
 --          ^^^^ - constant
 --              ^^ punctuation.definition.string.end
 
     [=[ Foo! ]] ]=];
---  ^^^^^^^^^^^^^^^ string.quoted.multiline
+--  ^^^^^^^^^^^^^^^ meta.string string.quoted.multiline
 --  ^^^ punctuation.definition.string.begin
 --           ^^ - punctuation
 --              ^^^ punctuation.definition.string.end
 
     [=[
---  ^^^ string.quoted.multiline punctuation.definition.string.begin
+--  ^^^ meta.string string.quoted.multiline punctuation.definition.string.begin
         ]]
---      ^^^ string.quoted.multiline - punctuation
+--      ^^^ meta.string string.quoted.multiline - punctuation
         ]==]
---      ^^^^ string.quoted.multiline - punctuation
+--      ^^^^ meta.string string.quoted.multiline - punctuation
     ]=];
---  ^^^ string.quoted.multiline punctuation.definition.string.end
+--  ^^^ meta.string string.quoted.multiline punctuation.definition.string.end
 
 --OPERATORS
 
@@ -313,7 +313,7 @@
 --                ^ meta.mapping variable.other
 
     {[[actually a string]], [=[this too]=]}
---   ^^ meta.mapping.lua string.quoted.multiline.lua punctuation.definition.string.begin.lua
+--   ^^ meta.mapping.lua meta.string string.quoted.multiline.lua punctuation.definition.string.begin.lua
 --                          ^^^ meta.mapping.lua string.quoted.multiline.lua punctuation.definition.string.begin.lua
 
     {some = 2}, {some == 2}
@@ -408,15 +408,15 @@
 
     f "argument";
 --  ^ meta.function-call variable.function
---    ^^^^^^^^^^ meta.function-call.arguments string.quoted.double
+--    ^^^^^^^^^^ meta.function-call.arguments meta.string string.quoted.double
 
     f
     'argument';
---  ^^^^^^^^^^ meta.function-call.arguments string.quoted.single
+--  ^^^^^^^^^^ meta.function-call.arguments meta.string string.quoted.single
 
     f [[ foo ]];
 --  ^ meta.function-call variable.function
---    ^^^^^^^^^ meta.function-call.arguments string.quoted.multiline
+--    ^^^^^^^^^ meta.function-call.arguments meta.string string.quoted.multiline
 
     f {};
 --  ^ meta.function-call variable.function
@@ -644,6 +644,6 @@
 --                       ^^^^ meta.property.lua support.function.builtin.lua
 --                           ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.lua meta.group.lua
 --                           ^ punctuation.section.group.begin.lua
---                            ^^^^^^^^^^^^ string.quoted.double.lua
+--                            ^^^^^^^^^^^^ meta.string string.quoted.double.lua
 --                                        ^ punctuation.separator.comma.lua
 --                                             ^ punctuation.section.group.end.lua
