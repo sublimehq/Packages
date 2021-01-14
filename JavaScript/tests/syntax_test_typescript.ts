@@ -31,7 +31,7 @@
 //  ^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //  ^^^^^^ keyword.control.import-export
 //         ^^^^^^^^^^^^^^^^ meta.interface
-//         ^^^^^^^^^ storage.type
+//         ^^^^^^^^^ keyword.declaration
 //                   ^^^ entity.name.interface
 //                       ^^ meta.block
 
@@ -39,7 +39,7 @@
 //  ^^^^^^^^^^^^^^^^^^^^^^^ meta.export
 //  ^^^^^^ keyword.control.import-export
 //         ^^^^^^^^^^^^^^^^ meta.namespace
-//         ^^^^^^^^^ storage.type
+//         ^^^^^^^^^ keyword.declaration
 //                   ^^^ entity.name.namespace
 //                       ^^ meta.block
 
@@ -47,7 +47,7 @@
 
     interface Foo {
 //  ^^^^^^^^^^^^^^^^ meta.interface
-//  ^^^^^^^^^ storage.type
+//  ^^^^^^^^^ keyword.declaration
 //            ^^^ entity.name.interface
 //                ^ meta.block punctuation.section.block.begin
         foo: any;
@@ -68,7 +68,7 @@
 
     interface Foo < T > extends Bar < T > {}
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface
-//  ^^^^^^^^^ storage.type
+//  ^^^^^^^^^ keyword.declaration
 //            ^^^ entity.name.interface
 //                ^^^^^ meta.generic
 //                ^ punctuation.definition.generic.begin
@@ -237,7 +237,7 @@
 
     namespace Foo {
 //  ^^^^^^^^^^^^^^^^ meta.namespace
-//  ^^^^^^^^^ storage.type
+//  ^^^^^^^^^ keyword.declaration
 //            ^^^ entity.name.namespace
 //                ^ meta.block punctuation.section.block.begin
     }

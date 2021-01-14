@@ -186,7 +186,7 @@ contexts:
 
   ts-interface-declaration:
     - match: interface{{identifier_break}}
-      scope: storage.type.js
+      scope: keyword.declaration.js
       set:
         - ts-interface-meta
         - ts-type-body
@@ -330,7 +330,7 @@ contexts:
 
   ts-namespace-declaration:
     - match: namespace{{identifier_break}}
-      scope: storage.type.js
+      scope: keyword.declaration.js
       set:
         - ts-namespace-meta
         - block

@@ -1,7 +1,7 @@
 // SYNTAX TEST "Packages/JavaScript/JavaScript.sublime-syntax"
 
 class MyClass extends TheirClass {
-// <- storage.type.class
+// <- keyword.declaration.class
 //    ^^^^^^^ entity.name.class
 //            ^^^^^^^ storage.modifier.extends
 //                    ^^^^^^^^^^ entity.other.inherited-class
@@ -261,12 +261,12 @@ class Foo extends getSomeClass() {}
 //   ^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
 //         ^^^^^^^ storage.modifier.extends
 //                 ^^^^^^^^ meta.class meta.class
-//                 ^^^^^ storage.type.class
+//                 ^^^^^ keyword.declaration.class
 
 // Better highlighting while typing.
 class
 class
-// <- storage.type.class - entity.name.class
+// <- keyword.declaration.class - entity.name.class
 
 class{}/**/
 //     ^ - meta.class
@@ -275,17 +275,17 @@ class{}/**/
 //  ^^^^ meta.annotation
 //  ^ punctuation.definition.annotation
 //   ^^^ variable.annotation
-//       ^^^^^ storage.type.class
+//       ^^^^^ keyword.declaration.class
 
     @foo.bar class Foo {}
 //  ^^^^^^^^ meta.annotation
 //  ^ punctuation.definition.annotation
 //   ^^^ variable.other.readwrite - variable.annotation
 //       ^^^ variable.annotation
-//           ^^^^^ storage.type.class
+//           ^^^^^ keyword.declaration.class
 
     @(whatever) class Foo {}
 //  ^^^^^^^^^^^ meta.annotation
 //  ^ punctuation.definition.annotation
 //   ^^^^^^^^^^ meta.group
-//              ^^^^^ storage.type.class
+//              ^^^^^ keyword.declaration.class
