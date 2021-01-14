@@ -1423,10 +1423,30 @@
 /*          ^^^^^^^^^^ keyword.other.important.css */
 }
 
+.test:has(> .class) {}
+/*^^^^^^^^^^^^^^^^^ meta.selector.css */
+/*                 ^^^ - meta.selector.css */
+/*    ^^^ meta.function-call.identifier.css - meta.function-call meta.function-call - meta.group*/
+/*       ^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*       ^ punctuation.section.group.begin.css */
+/*        ^ keyword.operator.combinator.css */
+/*          ^^^^^^ entity.other.attribute-name.class.css */
+/*                ^ punctuation.section.group.end.css */
+
+.test:has(>> .class) {}
+/*^^^^^^^^^^^^^^^^^^ meta.selector.css */
+/*                  ^^^ - meta.selector.css */
+/*    ^^^ meta.function-call.identifier.css - meta.function-call meta.function-call - meta.group*/
+/*       ^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*       ^ punctuation.section.group.begin.css */
+/*        ^^ keyword.operator.combinator.css */
+/*           ^^^^^^ entity.other.attribute-name.class.css */
+/*                 ^ punctuation.section.group.end.css */
+
 /* Test Functional Pseudo Class Meta Scopes */
 .test:nth-child(even) {}
 /*^^^^^^^^^^^^^^^^^^^ meta.selector.css */
-/*                   ^^ - meta.selector.css */
+/*                   ^^^ - meta.selector.css */
 /*    ^^^^^^^^^ meta.function-call.identifier.css - meta.function-call meta.function-call - meta.group*/
 /*             ^^^^^^ meta.function-call.arguments.css meta.group.css */
 /*             ^ punctuation.section.group.begin.css */
