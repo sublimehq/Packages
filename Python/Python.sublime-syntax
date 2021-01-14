@@ -1071,7 +1071,7 @@ contexts:
         - match: ','
           scope: punctuation.separator.mapping.python
           set: inside-dictionary
-    - match: (?=for\b)
+    - match: (?=(?:async|for)\b)
       push:
         - match: (?=\})
           pop: true
@@ -1084,7 +1084,7 @@ contexts:
       push:
         - clear_scopes: 1
         - meta_content_scope: meta.mapping.value.python
-        - match: (?=\s*(\}|,|for\b))
+        - match: (?=\s*(\}|,|(?:async|for)\b))
           pop: true
         - include: expression-in-a-group
 
