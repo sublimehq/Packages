@@ -2,9 +2,10 @@
     // Auto-pair asterisks
     { "keys": ["*"], "command": "insert_snippet", "args": {"contents": "*$0*"}, "context":
         [
-            { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
-            { "key": "selector", "operator": "equal", "operand": "text.html.markdown" },
-            { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
+            { "key": "setting.auto_match_enabled"},
+            { "key": "selector", "operand": "text.html.markdown - markup.raw" },
+            { "key": "selection_empty", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "\\w", "match_all": true },
             { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|]|\\}|>|$)", "match_all": true },
         ]
     },
@@ -13,18 +14,19 @@
         "command": "insert_snippet",
         "args": {"contents": "*${0:$SELECTION}*"},
         "context": [
-            { "key": "selector", "operator": "equal", "operand": "text.html.markdown" },
-            { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
-            { "key": "selection_empty", "operator": "equal", "operand": false, "match_all": true },
+            { "key": "selector", "operand": "text.html.markdown - markup.raw" },
+            { "key": "setting.auto_match_enabled"},
+            { "key": "selection_empty", "operand": false, "match_all": true },
         ]
     },
 
     // Auto-pair backticks
     { "keys": ["`"], "command": "insert_snippet", "args": {"contents": "`$0`"}, "context":
         [
-            { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
-            { "key": "selector", "operator": "equal", "operand": "text.html.markdown" },
-            { "key": "selection_empty", "operator": "equal", "operand": true, "match_all": true },
+            { "key": "setting.auto_match_enabled"},
+            { "key": "selector", "operand": "text.html.markdown - markup.raw" },
+            { "key": "selection_empty", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "\\w", "match_all": true },
             { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|]|\\}|>|$)", "match_all": true },
         ]
     },
@@ -33,9 +35,9 @@
         "command": "insert_snippet",
         "args": {"contents": "`${0:$SELECTION}`"},
         "context": [
-            { "key": "selector", "operator": "equal", "operand": "text.html.markdown" },
-            { "key": "setting.auto_match_enabled", "operator": "equal", "operand": true },
-            { "key": "selection_empty", "operator": "equal", "operand": false, "match_all": true },
+            { "key": "selector", "operand": "text.html.markdown - markup.raw" },
+            { "key": "setting.auto_match_enabled"},
+            { "key": "selection_empty", "operand": false, "match_all": true },
         ]
     }
 ]
