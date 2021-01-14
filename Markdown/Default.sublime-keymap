@@ -5,8 +5,7 @@
             { "key": "setting.auto_match_enabled"},
             { "key": "selector", "operand": "text.html.markdown - markup.raw" },
             { "key": "selection_empty", "match_all": true },
-            { "key": "preceding_text", "operator": "regex_contains", "operand": "\\w", "match_all": true },
-            { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|]|\\}|>|$)", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "\\S" },
         ]
     },
     {
@@ -26,8 +25,7 @@
             { "key": "setting.auto_match_enabled"},
             { "key": "selector", "operand": "text.html.markdown - markup.raw" },
             { "key": "selection_empty", "match_all": true },
-            { "key": "preceding_text", "operator": "regex_contains", "operand": "\\w", "match_all": true },
-            { "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |\\)|]|\\}|>|$)", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "\\S" },
         ]
     },
     {
