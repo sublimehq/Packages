@@ -612,3 +612,38 @@
 --                 ^ keyword.operator.assignment
 --                   ^ meta.number.integer.decimal constant.numeric.value
 --                    ^ punctuation.terminator.statement
+
+    local x <const> = 1, y <const> = 2;
+--  ^^^^^ storage.modifier.lua
+--        ^ variable.other.lua
+--          ^^^^^^^ meta.modifier.lua
+--          ^ punctuation.definition.modifier.begin.lua
+--                ^ punctuation.definition.modifier.end.lua
+--           ^^^^^ storage.modifier.lua
+--                  ^ keyword.operator.assignment.lua
+--                    ^ meta.number.integer.decimal.lua constant.numeric.value.lua
+--                     ^ punctuation.separator.comma.lua
+--                       ^ variable.other.lua
+--                         ^^^^^^^ meta.modifier.lua
+--                         ^ punctuation.definition.modifier.begin.lua
+--                          ^^^^^ storage.modifier.lua
+--                               ^ punctuation.definition.modifier.end.lua
+--                                 ^ keyword.operator.assignment.lua
+--                                   ^ meta.number.integer.decimal.lua constant.numeric.value.lua
+
+    local f <close> = io.open("/etc/fstab", "r")
+--  ^^^^^ storage.modifier.lua
+--        ^ variable.other.lua
+--          ^^^^^^^ meta.modifier.lua
+--          ^ punctuation.definition.modifier.begin.lua
+--           ^^^^^ storage.modifier.lua
+--                ^ punctuation.definition.modifier.end.lua
+--                  ^ keyword.operator.assignment.lua
+--                    ^^ support.constant.builtin.lua
+--                      ^ punctuation.accessor.lua
+--                       ^^^^ meta.property.lua support.function.builtin.lua
+--                           ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.lua meta.group.lua
+--                           ^ punctuation.section.group.begin.lua
+--                            ^^^^^^^^^^^^ string.quoted.double.lua
+--                                        ^ punctuation.separator.comma.lua
+--                                             ^ punctuation.section.group.end.lua

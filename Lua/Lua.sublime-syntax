@@ -272,6 +272,7 @@ contexts:
         - function-arguments-meta
         - function-arguments
 
+    - include: variable-modifier
     - include: infix-operator
     - include: accessor
 
@@ -302,6 +303,20 @@ contexts:
     - include: function-literal
 
     - include: else-pop
+
+  variable-modifier:
+    - match: \<(?=\b(?:const|close)\b)
+      scope: punctuation.definition.modifier.begin.lua
+      push:
+        - variable-modifier-body
+
+  variable-modifier-body:
+    - meta_scope: meta.modifier.lua
+    - match: \>
+      scope: punctuation.definition.modifier.end.lua
+      pop: 1
+    - match: (?:const|close){{identifier_break}}
+      scope: storage.modifier.lua
 
   infix-operator:
     - match: (?:[=<>~]=)
