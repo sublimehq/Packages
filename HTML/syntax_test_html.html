@@ -711,12 +711,17 @@ class="foo"></div>
 ##      ^^^^ - constant.character.entity
 
 
-        <a href="http://google%20api.com/?one=1&amp;two=2"></a>
+        <a href="http://google%20api.com/?one=1&amp;two=2#anchor"></a>
+        ##           ^^^ punctuation.separator.path.html
         ##                    ^^^ constant.character.escape.url
-        ##                                     ^^^^^ constant.character.entity
-        <a href="http://google.com/?one=1&two=2"></a>
-        ##                               ^ - constant.character.entity
-        ##                               ^ - invalid.illegal
+        ##                              ^^ punctuation.separator.path.html
+        ##                                     ^^^^^ constant.character.entity - punctuation.separator
+        ##                                               ^ punctuation.separator.path.html
+        <a href="http://google.com/?one=1&two=2#anchor"></a>
+        ##           ^^^ punctuation.separator.path.html
+        ##                        ^^ punctuation.separator.path.html
+        ##                               ^ punctuation.separator.path.html - constant.character.entity
+        ##                                     ^ punctuation.separator.path.html
 
         <hr/><hr />
         ## ^^ meta.tag.block.any punctuation.definition.tag.end

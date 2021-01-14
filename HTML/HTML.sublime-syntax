@@ -559,11 +559,13 @@ contexts:
     - include: tag-attribute-value-unquoted-invalid-char
 
   tag-href-attribute-value-content:
+    - include: tag-attribute-value-content
     - match: (%)\h{2}
       scope: constant.character.escape.url.html
       captures:
         1: punctuation.definition.escape.html
-    - include: tag-attribute-value-content
+    - match: '[/&?#]|://'
+      scope: punctuation.separator.path.html
 
 ###[ ID ATTRIBUTE ]###########################################################
 
