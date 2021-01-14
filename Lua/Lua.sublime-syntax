@@ -417,10 +417,10 @@ contexts:
 
   builtin:
     - match: true{{identifier_break}}
-      scope: constant.language.boolean.true.lua
+      scope: constant.language.boolean.lua
       pop: true
     - match: false{{identifier_break}}
-      scope: constant.language.boolean.true.lua
+      scope: constant.language.boolean.lua
       pop: true
     - match: nil{{identifier_break}}
       scope: constant.language.null.lua

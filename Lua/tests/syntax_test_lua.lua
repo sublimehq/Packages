@@ -49,10 +49,10 @@
 --CONSTANTS
 
     true;
---  ^^^^ constant.language.boolean.true
+--  ^^^^ constant.language.boolean.lua
 
     false;
---  ^^^^^ constant.language.boolean.true
+--  ^^^^^ constant.language.boolean.lua
 
     nil;
 --  ^^^ constant.language.null
@@ -245,7 +245,7 @@
 
     not true;
 --  ^^^ keyword.operator.logical
---      ^^^^ constant.language.boolean.true
+--      ^^^^ constant.language.boolean.lua
 
     2 + 2 - 2 * 2 / 2 // 2 % 2 ^ 2;
 --    ^ keyword.operator.arithmetic
@@ -393,7 +393,7 @@
     foo[return] foo[false]
 --      ^^^^^^ invalid.unexpected-keyword.lua
 --            ^ - meta.brackets
---                  ^^^^^ constant.language.boolean.true.lua
+--                  ^^^^^ constant.language.boolean.lua
 
     some.return
 --       ^^^^^^ invalid.unexpected-keyword.lua
@@ -551,7 +551,7 @@
 --      ^^^ invalid.illegal.unexpected-end
     until true;
 --  ^^^^^ keyword.control.loop
---        ^^^^ constant.language.boolean.true
+--        ^^^^ constant.language.boolean.lua
 
     for x = 1, y, z do end
 --  ^^^ keyword.control.loop
