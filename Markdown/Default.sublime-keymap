@@ -19,7 +19,7 @@
             { "key": "selection_empty", "operand": false, "match_all": true },
         ]
     },
-    // If we have two asterisks with the cursor betweem them, then a backspace removes both
+    // If we have two asterisks with the cursor between them, then a backspace removes both
     { "keys": ["backspace"], "command": "run_macro_file", "args": {"file": "res://Packages/Default/Delete Left Right.sublime-macro"}, "context":
         [
             { "key": "setting.auto_match_enabled" },
@@ -49,7 +49,7 @@
             { "key": "selection_empty", "operand": false, "match_all": true },
         ]
     },
-    // If we have two underscores with the cursor betweem them, then a backspace removes both
+    // If we have two underscores with the cursor between them, then a backspace removes both
     { "keys": ["backspace"], "command": "run_macro_file", "args": {"file": "res://Packages/Default/Delete Left Right.sublime-macro"}, "context":
         [
             { "key": "setting.auto_match_enabled" },
@@ -80,7 +80,7 @@
             { "key": "selection_empty", "operand": false, "match_all": true },
         ]
     },
-    // If we have two backticks with the cursor betweem them, then a backspace removes both
+    // If we have two backticks with the cursor between them, then a backspace removes both
     { "keys": ["backspace"], "command": "run_macro_file", "args": {"file": "res://Packages/Default/Delete Left Right.sublime-macro"}, "context":
         [
             { "key": "setting.auto_match_enabled" },
