@@ -8,8 +8,6 @@ version: 2
 
 file_extensions:
   - xml
-  - xsd
-  - xslt
   - tld
   - dtml
   - rng
