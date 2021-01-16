@@ -6,7 +6,10 @@
 	<key>settings</key>
 	<dict>
 		<key>cancelCompletion</key>
-		<string>^\s*(\}?\s*(else|do|finally)|(class|package|enum)\s*[a-zA-Z_0-9]+*)$</string>
+		<string><![CDATA[(?x)
+			# prevent completions for class/enum/package names
+			^ (.*\*/)? \s* (class|enum|interface|package)\s*[\w$]*$
+		]]></string>
 	</dict>
 </dict>
 </plist>
