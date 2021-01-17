@@ -307,8 +307,7 @@ contexts:
   variable-modifier:
     - match: '<'
       scope: punctuation.definition.modifier.begin.lua
-      push:
-        - variable-modifier-body
+      push: variable-modifier-body
 
   variable-modifier-body:
     - meta_scope: meta.modifier.lua
@@ -417,10 +416,7 @@ contexts:
       pop: true
 
   builtin:
-    - match: true{{identifier_break}}
-      scope: constant.language.boolean.lua
-      pop: true
-    - match: false{{identifier_break}}
+    - match: (?:true|false){{identifier_break}}
       scope: constant.language.boolean.lua
       pop: true
     - match: nil{{identifier_break}}
