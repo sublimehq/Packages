@@ -293,7 +293,7 @@ contexts:
           set:
             - meta_scope: meta.arguments.matlab
             - match: \bend\b
-              scope: keyword.control.end.arguments.matlab
+              scope: keyword.context.arguments.end.matlab
               pop: true
             - match: \b\.\?
               scope: keyword.operator.properties.matlab
@@ -306,7 +306,7 @@ contexts:
   function-body:
     - meta_scope: meta.function.matlab
     - match: \bend\b
-      scope: keyword.control.end.function.matlab
+      scope: keyword.declaration.function.end.matlab
       pop: true
     - include: function-declarations
     - include: keywords
@@ -353,7 +353,7 @@ contexts:
   class-body:
     - meta_scope: meta.class.matlab
     - match: \bend\b
-      scope: keyword.control.end.class.matlab
+      scope: keyword.declaration.class.end.matlab
       pop: true
     - include: comments
     - include: class-properties-blocks
@@ -387,14 +387,14 @@ contexts:
   class-properties-block-body:
     - meta_scope: meta.properties.matlab
     - match: \bend\b
-      scope: keyword.control.end.properties.matlab
+      scope: keyword.declaration.properties.end.matlab
       pop: true
     - include: builtin-types
     - include: expressions
 
   class-methods-blocks:
     - match: \bmethods\b
-      scope: keyword.declaration.methods.matlab
+      scope: keyword.context.methods.matlab
       push:
         - meta_scope: meta.methods.matlab
         - match: '{{eol}}'
@@ -418,7 +418,7 @@ contexts:
   class-methods-block-body:
     - meta_scope: meta.methods.matlab
     - match: \bend\b
-      scope: keyword.control.end.methods.matlab
+      scope: keyword.context.methods.end.matlab
       pop: true
     - include: comments
     - include: function-declarations
@@ -449,7 +449,7 @@ contexts:
   class-events-block-body:
     - meta_scope: meta.events.matlab
     - match: \bend\b
-      scope: keyword.control.end.events.matlab
+      scope: keyword.declaration.events.end.matlab
       pop: true
     - include: comments
     - include: variables
@@ -462,7 +462,7 @@ contexts:
   class-enumeration-block-body:
     - meta_scope: meta.enumeration.matlab
     - match: \bend\b
-      scope: keyword.control.end.enumeration.matlab
+      scope: keyword.declaration.enumeration.end.matlab
       pop: true
     - include: expressions
 
@@ -499,7 +499,7 @@ contexts:
         - match: \belse\b
           scope: keyword.control.conditional.else.matlab
         - match: \bend\b
-          scope: keyword.control.end.if.matlab
+          scope: keyword.control.conditional.end.matlab
           pop: true
         - include: keywords
         - include: expressions
@@ -514,7 +514,7 @@ contexts:
         - match: \botherwise\b
           scope: keyword.control.conditional.otherwise.matlab
         - match: \bend\b
-          scope: keyword.control.end.switch.matlab
+          scope: keyword.control.conditional.end.matlab
           pop: true
         - include: keywords
         - include: expressions
@@ -525,7 +525,7 @@ contexts:
       push:
         - meta_scope: meta.block.for.matlab
         - match: \bend\b
-          scope: keyword.control.end.for.matlab
+          scope: keyword.control.loop.end.matlab
           pop: true
         - include: keywords
         - include: expressions
@@ -536,7 +536,7 @@ contexts:
       push:
         - meta_scope: meta.block.parfor.matlab
         - match: \bend\b
-          scope: keyword.control.end.parfor.matlab
+          scope: keyword.control.loop.end.matlab
           pop: true
         - include: keywords
         - include: expressions
@@ -547,7 +547,7 @@ contexts:
       push:
         - meta_scope: meta.block.while.matlab
         - match: \bend\b
-          scope: keyword.control.end.while.matlab
+          scope: keyword.control.loop.end.matlab
           pop: true
         - include: keywords
         - include: expressions
@@ -560,18 +560,18 @@ contexts:
         - match: \bcatch\b
           scope: keyword.control.exception.catch.matlab
         - match: \bend\b
-          scope: keyword.control.end.try.matlab
+          scope: keyword.control.exception.end.matlab
           pop: true
         - include: keywords
         - include: expressions
 
   spmd-blocks:
     - match: \bspmd\b
-      scope: keyword.control.parallel.spmd.matlab
+      scope: keyword.context.spmd.matlab
       push:
         - meta_scope: meta.block.spmd.matlab
         - match: \bend\b
-          scope: keyword.control.end.spmd.matlab
+          scope: keyword.context.spmd.end.matlab
           pop: true
         - include: keywords
         - include: expressions
