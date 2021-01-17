@@ -119,7 +119,7 @@ contexts:
     - match: \'
       scope: punctuation.definition.string.begin.matlab
       push:
-        - meta_scope: string.quoted.single.matlab
+        - meta_scope: meta.string.matlab string.quoted.single.matlab
         - match: \'(?=(\]|\)|\}|=|~|<|>|&|\||-|\+|\*|\.|\^|\||\s|;|:|,))
           scope: punctuation.definition.string.end.matlab
           set:
@@ -138,7 +138,7 @@ contexts:
     - match: \"
       scope: punctuation.definition.string.begin.matlab
       push:
-        - meta_scope: string.quoted.double.matlab
+        - meta_scope: meta.string.matlab string.quoted.double.matlab
         - match: \"\"
           scope: constant.character.escape.matlab
         - match: \"

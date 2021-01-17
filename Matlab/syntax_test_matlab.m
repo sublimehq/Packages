@@ -737,16 +737,16 @@ l = {l.n}';
 %    ^ punctuation.separator.decimal.matlab
 %      ^^ keyword.operator.transpose - punctuation
    'character array'.'
-%  ^^^^^^^^ string.quoted.single.matlab
+%  ^^^^^^^^^^^^^^^^^ meta.string.matlab string.quoted.single.matlab
 %                   ^^ keyword.operator.transpose.matlab
    'character array' .'
-%  ^^^^^^^^ string.quoted.single.matlab
+%  ^^^^^^^^^^^^^^^^^ meta.string.matlab string.quoted.single.matlab
 %                    ^^ keyword.operator.transpose.matlab
    "string"'
-%  ^^^^^^^^ string.quoted.double.matlab
+%  ^^^^^^^^ meta.string.matlab string.quoted.double.matlab
 %          ^ keyword.operator.transpose.matlab
    "string".'
-%  ^^^^^^^^ string.quoted.double.matlab
+%  ^^^^^^^^ meta.string.matlab string.quoted.double.matlab
 %          ^^ keyword.operator.transpose.matlab
    true'
 %  ^^^^ constant.language.matlab
