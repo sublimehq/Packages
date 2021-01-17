@@ -22,4 +22,13 @@
             { "key": "eol_selector", "operator": "not_equal", "operand": "string.quoted.single - punctuation.definition.string.end", "match_all": true }
         ]
     },
+
+    // Helper keybinding for interpolation.
+    { "keys": ["{"], "command": "insert_snippet", "args": {"contents": "{$0}"}, "context":
+        [
+            { "key": "setting.auto_match_enabled" },
+            { "key": "selection_empty", "match_all": true },
+            { "key": "selector", "operator": "equal", "operand": "source.python, meta.string", "match_all": true },
+        ]
+    },
 ]
