@@ -362,9 +362,9 @@ function myFunction(myInput,~,~)
 %                  ^^^^^^^^^^^^^ meta.function.parameters.matlab - meta.function meta.function
 %                   ^^^^^^^ variable.parameter.input.matlab
 %                          ^ punctuation.separator.sequence.matlab
-%                           ^ variable.language.blank.matlab - keyword.operator
+%                           ^ variable.language.anonymous.matlab - keyword.operator
 %                            ^ punctuation.separator.sequence.matlab
-%                             ^ variable.language.blank.matlab - keyword.operator
+%                             ^ variable.language.anonymous.matlab - keyword.operator
 end
 %^^ meta.function.matlab keyword.declaration.function.end.matlab
 %  ^ - meta.function
@@ -495,9 +495,9 @@ C{end}
 % ^^^ variable.language.matlab
 
 [~,~,iB] = union(A,B)
-%^ variable.language.blank.matlab - keyword.operator
+%^ variable.language.anonymous.matlab - keyword.operator
 % ^ punctuation.separator.sequence.matlab
-%  ^ variable.language.blank.matlab - keyword.operator
+%  ^ variable.language.anonymous.matlab - keyword.operator
 %   ^ punctuation.separator.sequence.matlab
 %    ^^ variable.other.matlab
 

@@ -666,7 +666,7 @@ contexts:
 
   argument-placeholders:
     - match: \~(?![A-Za-z])
-      scope: variable.language.blank.matlab
+      scope: variable.language.anonymous.matlab
 
 ###[ BUILTIN COMMANDS AND FUNCTIONS ]#########################################
 
