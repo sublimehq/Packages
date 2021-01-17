@@ -613,23 +613,33 @@
 --                   ^ meta.number.integer.decimal constant.numeric.value
 --                    ^ punctuation.terminator.statement
 
-    local x <const> = 1, y <const> = 2;
+    local x <const>, y <  const  > = 1, 2;
 --  ^^^^^ storage.modifier.lua
 --        ^ variable.other.lua
 --          ^^^^^^^ meta.modifier.lua
 --          ^ punctuation.definition.modifier.begin.lua
 --                ^ punctuation.definition.modifier.end.lua
 --           ^^^^^ storage.modifier.lua
---                  ^ keyword.operator.assignment.lua
---                    ^ meta.number.integer.decimal.lua constant.numeric.value.lua
---                     ^ punctuation.separator.comma.lua
---                       ^ variable.other.lua
---                         ^^^^^^^ meta.modifier.lua
---                         ^ punctuation.definition.modifier.begin.lua
---                          ^^^^^ storage.modifier.lua
---                               ^ punctuation.definition.modifier.end.lua
 --                                 ^ keyword.operator.assignment.lua
 --                                   ^ meta.number.integer.decimal.lua constant.numeric.value.lua
+--                 ^ punctuation.separator.comma.lua
+--                   ^ variable.other.lua
+--                     ^^^^^^^^^^^ meta.modifier.lua
+--                     ^ punctuation.definition.modifier.begin.lua
+--                        ^^^^^ storage.modifier.lua
+--                               ^ punctuation.definition.modifier.end.lua
+--                                 ^ keyword.operator.assignment.lua
+--                                      ^ meta.number.integer.decimal.lua constant.numeric.value.lua
+
+    local text <const = "Hello, World";
+--  ^^^^^ storage.modifier.lua
+--        ^^^^ variable.other.lua
+--             ^^^^^^ meta.modifier.lua
+--                    ^ keyword.operator.assignment.lua - meta.modifier
+--                      ^ punctuation.definition.string.begin.lua - meta.modifier
+--                       ^^^^^^^^^^^^ meta.string.lua string.quoted.double.lua
+--                                   ^ punctuation.definition.string.end.lua
+--                                    ^ punctuation.terminator.statement.lua
 
     local f <close> = io.open("/etc/fstab", "r")
 --  ^^^^^ storage.modifier.lua

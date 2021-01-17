@@ -272,7 +272,6 @@ contexts:
         - function-arguments-meta
         - function-arguments
 
-    - include: variable-modifier
     - include: infix-operator
     - include: accessor
 
@@ -286,6 +285,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.comma.lua
       push: expression-begin
+    - include: variable-modifier
     - include: expression-end
 
   expression-begin:
@@ -305,18 +305,19 @@ contexts:
     - include: else-pop
 
   variable-modifier:
-    - match: \<(?=\b(?:const|close)\b)
+    - match: '<'
       scope: punctuation.definition.modifier.begin.lua
       push:
         - variable-modifier-body
 
   variable-modifier-body:
     - meta_scope: meta.modifier.lua
-    - match: \>
+    - match: '>'
       scope: punctuation.definition.modifier.end.lua
       pop: 1
     - match: (?:const|close){{identifier_break}}
       scope: storage.modifier.lua
+    - include: else-pop
 
   infix-operator:
     - match: (?:[=<>~]=)
@@ -498,8 +499,7 @@ contexts:
   single-quoted-string:
     - match: \'
       scope: punctuation.definition.string.begin.lua
-      set:
-        - single-quoted-string-body
+      set: single-quoted-string-body
 
   single-quoted-string-body:
     - meta_include_prototype: false
@@ -512,8 +512,7 @@ contexts:
   double-quoted-string:
     - match: \"
       scope: punctuation.definition.string.begin.lua
-      set:
-        - double-quoted-string-body
+      set: double-quoted-string-body
 
   double-quoted-string-body:
     - meta_include_prototype: false
@@ -526,8 +525,7 @@ contexts:
   multiline-string:
     - match: \[(=*)\[
       scope: punctuation.definition.string.begin.lua
-      set:
-        - multiline-string-body
+      set: multiline-string-body
 
   multiline-string-body:
     - meta_scope: meta.string.lua string.quoted.multiline.lua
