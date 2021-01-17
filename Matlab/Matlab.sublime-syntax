@@ -157,7 +157,7 @@ contexts:
 
   variable:
     - match: \b{{identifier}}\b
-      scope: meta.variable.other.valid.matlab
+      scope: variable.other.matlab
       captures:
         1: punctuation.accessor.dot.matlab
       push: transpose
@@ -165,14 +165,14 @@ contexts:
   transposed-variable:
     - match: \b({{identifier}})(?:\s*(\.\')|(\'))
       captures:
-        1: meta.variable.other.valid.matlab
+        1: variable.other.matlab
         2: keyword.operator.transpose.matlab
         3: keyword.operator.transpose.matlab
 
   variable-assignment:
     - match: \b({{identifier}})\s*(=)(?!=)
       captures:
-        1: meta.variable.other.valid.matlab
+        1: variable.other.matlab
         2: keyword.operator.assignment.matlab
 
   structure:
@@ -180,7 +180,7 @@ contexts:
       captures:
         1: punctuation.accessor.dot.matlab
       push:
-        - meta_scope: meta.variable.other.valid.matlab
+        - meta_scope: variable.other.matlab
         - match: '{{identifier}}(\.)\b'
           captures:
             1: punctuation.accessor.dot.matlab

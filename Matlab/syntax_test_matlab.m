@@ -120,7 +120,7 @@ end
 % Parens, brackets, braces, punctuation
 
 x = [ 1.76 ]
-% <- source.matlab meta.variable.other.valid.matlab
+% <- source.matlab variable.other.matlab
 % ^ source.matlab keyword.operator.assignment.matlab
 %   ^ source.matlab punctuation.section.brackets.begin.matlab
 %     ^^^^ source.matlab meta.brackets.matlab meta.number.float.decimal.matlab constant.numeric.value.matlab
@@ -144,11 +144,11 @@ C = {1, 2; 'text', {11; 22; 33}};  % 2x2 cell array
 %     ^ punctuation.separator.sequence.matlab
 
 xAprox = fMetodoDeNewton( xi )
-%  <- source.matlab meta.variable.other.valid.matlab
+%  <- source.matlab variable.other.matlab
 %      ^ source.matlab keyword.operator.assignment.matlab
-%        ^ source.matlab meta.variable.other.valid.matlab
+%        ^ source.matlab variable.other.matlab
 %                       ^ source.matlab punctuation.section.parens.begin.matlab
-%                         ^ source.matlab meta.parens.matlab meta.variable.other.valid.matlab
+%                         ^ source.matlab meta.parens.matlab variable.other.matlab
 %                            ^ source.matlab punctuation.section.parens.end.matlab
 
 
@@ -413,9 +413,9 @@ function myFunction(x)
       x (1,1) double {mustBePositive} = 1.0
 %             ^^^^^^ storage.type.matlab - support.function
       propArgs.?matlab.graphics.chart.primitive.Bar
-%     ^^^^^^^^ meta.variable.other.valid.matlab
-%             ^^ keyword.operator.properties.matlab - meta.variable.other.valid.matlab - punctuation
-%               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.variable.other.valid.matlab
+%     ^^^^^^^^ variable.other.matlab
+%             ^^ keyword.operator.properties.matlab - variable.other.matlab - punctuation
+%               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ variable.other.matlab
 %                     ^ punctuation.accessor.dot.matlab
 %                              ^ punctuation.accessor.dot.matlab
 %                                    ^ punctuation.accessor.dot.matlab
@@ -499,7 +499,7 @@ C{end}
 % ^ punctuation.separator.sequence.matlab
 %  ^ variable.language.blank.matlab - keyword.operator
 %   ^ punctuation.separator.sequence.matlab
-%    ^^ meta.variable.other.valid.matlab
+%    ^^ variable.other.matlab
 
 x = [A, ~B]
 %       ^ keyword.operator.logical.matlab - variable.language
@@ -656,13 +656,13 @@ f = @(x,y) (x.^2 - y.^2);
 % Variables, structure arrays and transpose operator
 
 x = a
-%   ^ meta.variable.other.valid.matlab
+%   ^ variable.other.matlab
 x = _a
 %   ^^ invalid.illegal.invalid-variable-name.matlab
 x = 6x
 %   ^^ invalid.illegal.invalid-variable-name.matlab
 x = a.b.c
-%   ^^^^^ meta.variable.other.valid.matlab
+%   ^^^^^ variable.other.matlab
 %    ^ punctuation.accessor.dot.matlab
 %      ^ punctuation.accessor.dot.matlab
 X = zeros.*eye
@@ -670,50 +670,50 @@ X = zeros.*eye
 %        ^^ keyword.operator.arithmetic.matlab
 %          ^^^ support.function.builtin.matlab
 X = data.zeros.*eye
-%   ^^^^^^^^^^ meta.variable.other.valid.matlab - support.function
+%   ^^^^^^^^^^ variable.other.matlab - support.function
 %       ^ punctuation.accessor.dot.matlab
 %             ^^ keyword.operator.arithmetic.matlab - punctuation.accessor
 x = zeros.eye
-%   ^^^^^^^^^ meta.variable.other.valid.matlab - support.function
+%   ^^^^^^^^^ variable.other.matlab - support.function
 %        ^ punctuation.accessor.dot.matlab
 x = A(n)
-%     ^ meta.variable.other.valid.matlab
+%     ^ variable.other.matlab
 x = A(a.b.c)
-%     ^^^^^ meta.variable.other.valid.matlab
+%     ^^^^^ variable.other.matlab
 %      ^ punctuation.accessor.dot.matlab
 %        ^ punctuation.accessor.dot.matlab
 h(1).LineStyle = '--'
 %   ^ punctuation.accessor.dot.matlab
 x = [1, 2, n]
-%          ^ meta.variable.other.valid.matlab
+%          ^ variable.other.matlab
 x = [1, 2, a.b]
-%          ^^^ meta.variable.other.valid.matlab
+%          ^^^ variable.other.matlab
 %           ^ punctuation.accessor.dot.matlab
 x = a.b'
-%   ^^^ meta.variable.other.valid.matlab
+%   ^^^ variable.other.matlab
 %    ^ punctuation.accessor.dot.matlab
 %      ^ keyword.operator.transpose.matlab
 x = a.b.'
-%   ^^^ meta.variable.other.valid.matlab
+%   ^^^ variable.other.matlab
 %    ^ punctuation.accessor.dot.matlab
 %      ^^ keyword.operator.transpose.matlab
 x = a.b.c'
-%   ^^^^^ meta.variable.other.valid.matlab
+%   ^^^^^ variable.other.matlab
 %    ^ punctuation.accessor.dot.matlab
 %      ^ punctuation.accessor.dot.matlab
 %        ^ keyword.operator.transpose.matlab
 x = a.b.c.'
-%   ^^^^^ meta.variable.other.valid.matlab
+%   ^^^^^ variable.other.matlab
 %    ^ punctuation.accessor.dot.matlab
 %      ^ punctuation.accessor.dot.matlab
 %        ^^ keyword.operator.transpose.matlab
 x = a[3]' + b(4)'
-%   ^ meta.variable.other.valid.matlab
+%   ^ variable.other.matlab
 %       ^ keyword.operator.transpose.matlab
-%           ^ meta.variable.other.valid.matlab
+%           ^ variable.other.matlab
 %               ^ keyword.operator.transpose.matlab
 l = {l.n}';
-%    ^^^ meta.variable.other.valid.matlab
+%    ^^^ variable.other.matlab
 %     ^ punctuation.accessor.dot.matlab
 %        ^ keyword.operator.transpose.matlab
    x .'
@@ -755,17 +755,17 @@ l = {l.n}';
 %  ^^^^ constant.language.matlab
 %      ^^ keyword.operator.transpose.matlab
    zeros'
-%  ^^^^^ meta.variable.other.valid.matlab - support.function
+%  ^^^^^ variable.other.matlab - support.function
 %       ^ keyword.operator.transpose.matlab - string
    zeros.'
-%  ^^^^^ meta.variable.other.valid.matlab - support.function
+%  ^^^^^ variable.other.matlab - support.function
 %       ^^ keyword.operator.transpose.matlab - string
    zeros = "built-in function name as variable identifier"
-%  ^^^^^ meta.variable.other.valid.matlab - support.function
+%  ^^^^^ variable.other.matlab - support.function
    zeros == ones
-%  ^^^^^ support.function.builtin.matlab - meta.variable
+%  ^^^^^ support.function.builtin.matlab - variable.other
    true = false
-%  ^^^^ constant.language.matlab - meta.variable
+%  ^^^^ constant.language.matlab - variable.other
 
 
 %---------------------------------------------
@@ -776,7 +776,7 @@ x = a.
 x = a.b.
 %      ^ punctuation.accessor.dot.matlab
 x = zeros.
-%   ^^^^^ support.function.builtin.matlab - meta.variable
+%   ^^^^^ support.function.builtin.matlab - variable.other
 %        ^ punctuation.accessor.dot.matlab
 x = a .
 %     ^ - punctuation.accessor
