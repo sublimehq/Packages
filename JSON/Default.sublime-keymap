@@ -1,0 +1,43 @@
+[
+	// Auto-pair quotations: "key": '|',
+	{ "keys": ["'"], "command": "insert_snippet", "args": {"contents": "'$0'"}, "context":
+		[
+			{ "key": "setting.auto_match_enabled" },
+			{ "key": "selector", "operand": "source.json" },
+			{ "key": "selection_empty", "match_all": true },
+			{ "key": "preceding_text", "operator": "not_regex_contains", "operand": "['\\w]$", "match_all": true },
+			{ "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |]|,|:|\\}|$)", "match_all": true }
+		]
+	},
+
+	// Auto-pair quotations: "key": "|",
+	{ "keys": ["\""], "command": "insert_snippet", "args": {"contents": "\"$0\""}, "context":
+		[
+			{ "key": "setting.auto_match_enabled" },
+			{ "key": "selector", "operand": "source.json" },
+			{ "key": "selection_empty", "match_all": true },
+			{ "key": "preceding_text", "operator": "not_regex_contains", "operand": "[\"\\w]$", "match_all": true },
+			{ "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |]|,|:|\\}|$)", "match_all": true }
+		]
+	},
+
+	// Auto-pair braces: "key": {|},
+	{ "keys": ["{"], "command": "insert_snippet", "args": {"contents": "{$0}"}, "context":
+		[
+			{ "key": "setting.auto_match_enabled" },
+			{ "key": "selector", "operand": "source.json" },
+			{ "key": "selection_empty", "match_all": true },
+			{ "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |]|,|:|\\}|$)", "match_all": true }
+		]
+	},
+
+	// Auto-pair square brackets: "key": [|],
+	{ "keys": ["["], "command": "insert_snippet", "args": {"contents": "[$0]"}, "context":
+		[
+			{ "key": "setting.auto_match_enabled" },
+			{ "key": "selector", "operand": "source.json" },
+			{ "key": "selection_empty", "match_all": true },
+			{ "key": "following_text", "operator": "regex_contains", "operand": "^(?:\t| |]|,|:|\\}|$)", "match_all": true }
+		]
+	},
+]
