@@ -797,14 +797,8 @@ x = a .
 %---------------------------------------------
 % String
 a = '%'
-a = '.' % .'
-%         ^^^ comment.line.percentage.matlab
-
- 'a'a'
-%  ^ string.quoted.single.matlab invalid.illegal.unescaped-quote.matlab
-%^ string.quoted.single.matlab punctuation.definition.string.begin.matlab
-% ^ string.quoted.single.matlab
-%    ^ string.quoted.single.matlab punctuation.definition.string.end.matlab
+a = '.'% .'
+%      ^^^^ comment.line.percentage.matlab - string
 
 regexprep(outloc,'.+\\','')
 %                ^ punctuation.definition.string.begin.matlab

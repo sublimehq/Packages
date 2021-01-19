@@ -121,19 +121,15 @@ contexts:
       scope: punctuation.definition.string.begin.matlab
       push:
         - meta_scope: meta.string.matlab string.quoted.single.matlab
-        - match: \'(?=(\]|\)|\}|=|~|<|>|&|\||-|\+|\*|\.|\^|\||\s|;|:|,))
+        - match: \'\'
+          scope: constant.character.escape.matlab
+        - match: \'
           scope: punctuation.definition.string.end.matlab
           set:
             - match: (?:\s*(\.\'))?
               captures:
                 1: keyword.operator.transpose.matlab
               pop: true
-        # escaped quote
-        - match: \'\'
-          scope: constant.character.escape.matlab
-        # unescaped quote
-        - match: \'(?=.)
-          scope: invalid.illegal.unescaped-quote.matlab
         - include: escaped-characters
         - include: format-specs
     - match: \"
