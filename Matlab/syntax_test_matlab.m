@@ -929,33 +929,52 @@ fprintf(fileID,'%6.2f %12.8f\r\n',A);
 % Built-in commands and functions
 
    import matlab.io.hdf4.*
-%  ^^^^^^ keyword.other.import.matlab
-%         ^^^^^^^^^^^^^^^^ meta.path.import.matlab
+%  ^^^^^^ support.function.builtin.matlab
+%         ^^^^^^^^^^^^^^^^ meta.path.import.matlab string.unquoted.matlab
 %                        ^ - keyword.operator
 
+   clear
+%  ^^^^^ support.function.builtin.matlab
    clear all
-%  ^^^^^ keyword.other.command.matlab
-%        ^^^ support.constant.matlab
+%  ^^^^^ support.function.builtin.matlab
+%        ^^^ string.unquoted.matlab support.constant.matlab
    clear on
-%        ^^ - support
+%  ^^^^^ support.function.builtin.matlab
+%        ^^ string.unquoted.matlab - support
+   clear name1 name2 name3
+%  ^^^^^ support.function.builtin.matlab
+%        ^^^^^ string.unquoted.matlab
+%              ^^^^^ string.unquoted.matlab
+%                    ^^^^^ string.unquoted.matlab
+   clear -regexp ^Mon ^Tue ^Wed
+%  ^^^^^ support.function.builtin.matlab
+%        ^^^^^^^ string.unquoted.matlab support.constant.matlab
+%                ^^^^ string.regexp.matlab
+%                     ^^^^ string.regexp.matlab
+%                          ^^^^ string.regexp.matlab
+   clear('name1')
+%  ^^^^^ support.function.builtin.matlab
+%       ^^^^^^^^^ meta.parens.matlab
+%        ^^^^^^^ meta.string.matlab string.quoted.single.matlab
+
    clc
-%  ^^^ keyword.other.command.matlab
+%  ^^^ support.function.builtin.matlab
 
    figure
-%  ^^^^^^ keyword.other.command.matlab
+%  ^^^^^^ support.function.builtin.matlab
    grid on
-%  ^^^^ keyword.other.command.matlab
-%       ^^ support.constant.matlab
+%  ^^^^ support.function.builtin.matlab
+%       ^^ string.unquoted.matlab support.constant.matlab
    axis equal
-%  ^^^^ keyword.other.command.matlab
-%       ^^^^^ support.constant.matlab
+%  ^^^^ support.function.builtin.matlab
+%       ^^^^^ string.unquoted.matlab support.constant.matlab
 
    tic
-%  ^^^ keyword.other.command.matlab
+%  ^^^ support.function.builtin.matlab
    pause(1)
 %  ^^^^^ support.function.builtin.matlab
    toc
-%  ^^^ keyword.other.command.matlab
+%  ^^^ support.function.builtin.matlab
 
 tEnd = cputime - tStart
 %      ^^^^^^^ support.constant.builtin.matlab

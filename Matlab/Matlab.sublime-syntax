@@ -10,6 +10,7 @@ file_extensions:
 
 variables:
   identifier: (?:[A-Za-z]\w*) # https://www.mathworks.com/help/matlab/matlab_prog/variable-names.html
+  filename: (?:[^;,\s]+)
   eol: (?=\s*[%\n])
 
 ##############################################################################
@@ -668,132 +669,179 @@ contexts:
 
 ###[ BUILTIN COMMANDS AND FUNCTIONS ]#########################################
 
-  # Functions that are usually used only in command syntax form, i.e. without paramaters or
-  # with string parameters but omitted parentheses:  functionName input1 ... inputN
+  # Functions that are mostly used in command syntax form, i.e. without parameters or
+  # with character array parameters but omitted parentheses:  functionName input1 ... inputN
+  # Some functions accept predefined parameters with a special meaning and they are highlighted differently.
   builtin-commands:
-    - match: \b(?:clc|clearvars|clock|commandwindow|copyfile|date|figure|gca|gcbf|gcbo|gcf|gco|groot|home|mkdir|movefile|now|restoredefaultpath|rmdir|tic|toc|type|waitforbuttonpress)\b
-      scope: keyword.other.command.matlab
+    - match: \b(?:clc|clearvars|clock|commandwindow|copyfile|date|figure|gca|gcbf|gcbo|gcf|gco|groot|home|now|restoredefaultpath|tic|toc|type|waitforbuttonpress)\b
+      scope: support.function.builtin.matlab
     # Commands that are usually only used in the MATLAB command window (REPL)
     # - match: \b(?:commandhistory|demo|doc|docsearch|edit|filebrowser|finish|help|helpbrowser|helpdesk|helpwin|info|lookfor|preferences|support|startup|ver|whatsnew)\b
-    #   scope: keyword.other.command.matlab
+    #   scope: support.function.builtin.matlab
     # https://www.mathworks.com/help/matlab/ref/axis.html
     - match: \b(axis)(?:\s+(manual|auto|tight|padded|equal|image|square|fill|vis3d|normal|xy|ij|on|off))?\b
       captures:
-        1: keyword.other.command.matlab
-        2: support.constant.matlab
+        1: support.function.builtin.matlab
+        2: string.unquoted.matlab support.constant.matlab
     # https://www.mathworks.com/help/matlab/ref/beep.html
     - match: \b(beep)(?:\s+(on|off))?\b
       captures:
-        1: keyword.other.command.matlab
-        2: support.constant.matlab
+        1: support.function.builtin.matlab
+        2: string.unquoted.matlab support.constant.matlab
     # https://www.mathworks.com/help/matlab/ref/box.html
     - match: \b(box)(?:\s+(on|off))?\b
       captures:
-        1: keyword.other.command.matlab
-        2: support.constant.matlab
+        1: support.function.builtin.matlab
+        2: string.unquoted.matlab support.constant.matlab
     # https://www.mathworks.com/help/matlab/ref/matlab.graphics.interaction.internal.brush.html
     - match: \b(brush)(?:\s+(on|off))?\b
       captures:
-        1: keyword.other.command.matlab
-        2: support.constant.matlab
+        1: support.function.builtin.matlab
+        2: string.unquoted.matlab support.constant.matlab
     # https://www.mathworks.com/help/matlab/ref/cla.html
     - match: \b(cla)(?:\s+(reset))?\b
       captures:
-        1: keyword.other.command.matlab
-        2: support.constant.matlab
+        1: support.function.builtin.matlab
+        2: string.unquoted.matlab support.constant.matlab
     # https://www.mathworks.com/help/matlab/ref/clear.html
-    - match: \b(clear)(?:\s+(all|classes|functions|global|import|java|mex|variables))?\b
+    - match: \b(clear)\s+(all|classes|functions|global|import|java|mex|variables)\b
       captures:
-        1: keyword.other.command.matlab
-        2: support.constant.matlab
+        1: support.function.builtin.matlab
+        2: string.unquoted.matlab support.constant.matlab
+    - match: \b(clear)\s+(-regexp)\b
+      captures:
+        1: support.function.builtin.matlab
+        2: string.unquoted.matlab support.constant.matlab
+      push:
+        - include: eol-pop
+        - match: (?=[;,])
+          pop: true
+        - match: '[^;,\s]+'
+          scope: string.regexp.matlab
+    - match: \bclear\b
+      scope: support.function.builtin.matlab
+      push:
+        - include: eol-pop
+        - match: \b{{identifier}}\b
+          scope: string.unquoted.matlab
+        - match: (?=\S)
+          pop: true
     # https://www.mathworks.com/help/matlab/ref/close.html
     - match: \b(close)(?:\s+(all)(?:\s+(hidden|force))?)?\b
       captures:
-        1: keyword.other.command.matlab
-        2: support.constant.matlab
-        3: support.constant.matlab
+        1: support.function.builtin.matlab
+        2: string.unquoted.matlab support.constant.matlab
+        3: string.unquoted.matlab support.constant.matlab
+    # https://www.mathworks.com/help/matlab/ref/delete.html
+    - match: \bdelete\b(?!\()
+      scope: support.function.builtin.matlab
+      push:
+        - include: eol-pop
+        - match: (?=[;,])
+          pop: true
+        - match: '{{filename}}'
+          scope: string.unquoted.matlab
     # https://www.mathworks.com/help/matlab/ref/diary.html
     - match: \b(diary)(?:\s+(on|off))?\b
       captures:
-        1: keyword.other.command.matlab
-        2: support.constant.matlab
+        1: support.function.builtin.matlab
+        2: string.unquoted.matlab support.constant.matlab
     # https://www.mathworks.com/help/matlab/ref/drawnow.html
     - match: \b(drawnow)(?:\s+(limitrate|nocallbacks|update|expose))?\b
       captures:
-        1: keyword.other.command.matlab
-        2: support.constant.matlab
+        1: support.function.builtin.matlab
+        2: string.unquoted.matlab support.constant.matlab
     # https://www.mathworks.com/help/matlab/ref/echo.html
-    - match: \b(echo)(?:\s+(?:(on|off)(?:\s+(all))?|(filename)(?:\s+(on|off))?))?\b
+    - match: \b(echo)(?:\s+(?:(on|off)(?:\s+(all))?|({{filename}})(?:\s+(on|off))?))?\b
       captures:
-        1: keyword.other.command.matlab
-        2: support.constant.matlab
-        3: support.constant.matlab
-        4: support.constant.matlab
-        5: support.constant.matlab
+        1: support.function.builtin.matlab
+        2: string.unquoted.matlab support.constant.matlab
+        3: string.unquoted.matlab support.constant.matlab
+        4: string.unquoted.matlab
+        5: string.unquoted.matlab support.constant.matlab
     # https://www.mathworks.com/help/matlab/ref/exist.html
-    - match: \b(exist)(?:\s+(\w+)(?:\s+(builtin|class|dir|file|var))?)?\b
+    - match: \b(exist)(?:\s+({{filename}})(?:\s+(builtin|class|dir|file|var))?)?\b
       captures:
-        1: keyword.other.command.matlab
-        2: variable.other.matlab
-        3: storage.type.matlab
+        1: support.function.builtin.matlab
+        2: string.unquoted.matlab
+        3: string.unquoted.matlab support.constant.matlab
     # https://www.mathworks.com/help/matlab/ref/exit.html
     # https://www.mathworks.com/help/matlab/ref/quit.html
     - match: \b(exit|quit)(?:\s+(cancel|force))?\b
       captures:
-        1: keyword.other.command.matlab
-        2: support.constant.matlab
+        1: support.function.builtin.matlab
+        2: string.unquoted.matlab support.constant.matlab
     # https://www.mathworks.com/help/matlab/ref/format.html
     - match: \b(format)(?:\s+(short|long|shortE|longE|shortG|longG|shortEng|longEng|bank|hex|rational|compact|loose))?\b
       captures:
-        1: keyword.other.command.matlab
-        2: support.constant.matlab
+        1: support.function.builtin.matlab
+        2: string.unquoted.matlab support.constant.matlab
     # https://www.mathworks.com/help/matlab/ref/grid.html
     - match: \b(grid)(?:\s+(on|off|minor))?\b
       captures:
-        1: keyword.other.command.matlab
-        2: support.constant.matlab
+        1: support.function.builtin.matlab
+        2: string.unquoted.matlab support.constant.matlab
     # https://www.mathworks.com/help/matlab/ref/hidden.html
     - match: \b(hidden)(?:\s+(on|off))?\b
       captures:
-        1: keyword.other.command.matlab
-        2: support.constant.matlab
+        1: support.function.builtin.matlab
+        2: string.unquoted.matlab support.constant.matlab
     # https://www.mathworks.com/help/matlab/ref/hold.html
     - match: \b(hold)(?:\s+(on|off|all))?\b
       captures:
-        1: keyword.other.command.matlab
-        2: support.constant.matlab
+        1: support.function.builtin.matlab
+        2: string.unquoted.matlab support.constant.matlab
     # https://www.mathworks.com/help/matlab/ref/import.html
     - match: \b(import)\b(?:\s+((?:\w+\.)*(?:\w+|\*)?))?
       captures:
-        1: keyword.other.import.matlab
-        2: meta.path.import.matlab
+        1: support.function.builtin.matlab
+        2: meta.path.import.matlab string.unquoted.matlab
     # https://www.mathworks.com/help/matlab/ref/material.html
     - match: \b(material)(?:\s+(shiny|dull|metal|default))?\b
       captures:
-        1: keyword.other.command.matlab
-        2: support.constant.matlab
+        1: support.function.builtin.matlab
+        2: string.unquoted.matlab support.constant.matlab
     # https://www.mathworks.com/help/matlab/ref/mex.html
     - match: \bmex\b(?!\.)
-      scope: keyword.other.command.matlab
+      scope: support.function.builtin.matlab
+    # https://www.mathworks.com/help/matlab/ref/mkdir.html
+    - match: \b(mkdir)(?:\s+({{filename}})(?:\s+({{filename}}))?)?\b
+      captures:
+        1: support.function.builtin.matlab
+        2: string.unquoted.matlab
+        3: string.unquoted.matlab
     # https://www.mathworks.com/help/matlab/ref/more.html
     - match: \b(more)(?:\s+(on|off))?\b
       captures:
-        1: keyword.other.command.matlab
-        2: support.constant.matlab
+        1: support.function.builtin.matlab
+        2: string.unquoted.matlab support.constant.matlab
+    # https://www.mathworks.com/help/matlab/ref/movefile.html
+    - match: \b(movefile)(?:\s+({{filename}})(?:\s+({{filename}})(?:\s+(f))?)?)?\b
+      captures:
+        1: support.function.builtin.matlab
+        2: string.unquoted.matlab
+        3: string.unquoted.matlab
+        4: string.unquoted.matlab support.constant.matlab
     # https://www.mathworks.com/help/matlab/ref/opengl.html
     - match: \b(opengl)(?:\s+(info|software|hardware|hardwarebasic))?\b
       captures:
-        1: keyword.other.command.matlab
-        2: support.constant.matlab
+        1: support.function.builtin.matlab
+        2: string.unquoted.matlab support.constant.matlab
+    # https://www.mathworks.com/help/matlab/ref/rmdir.html
+    - match: \b(rmdir)(?:\s+({{filename}})(?:\s+(s))?)?\b
+      captures:
+        1: support.function.builtin.matlab
+        2: string.unquoted.matlab
+        3: string.unquoted.matlab support.constant.matlab
     # https://www.mathworks.com/help/matlab/ref/who.html
     # https://www.mathworks.com/help/matlab/ref/whos.html
     - match: \b(who|whos)(?:\s+(global))?\b
       captures:
-        1: keyword.other.command.matlab
-        2: storage.modifier.matlab
+        1: support.function.builtin.matlab
+        2: string.unquoted.matlab storage.modifier.matlab
 
   # Parentheses are usually omitted when functions are used without parameters.
-  # This command syntax is also possible for functions with string parameters.
+  # This command syntax is also possible for functions if all parameters are character arrays.
   # Only the function names are matched here to allow both command syntax and function syntax form.
   # https://www.mathworks.com/help/matlab/matlab_prog/command-vs-function-syntax.html
   builtin-functions:
