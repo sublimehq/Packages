@@ -233,7 +233,7 @@ contexts:
         - meta_scope: meta.function.matlab
         - include: line-continuations
         - match: '{{eol}}'
-          set: function-body-argument-block
+          set: function-body-arguments-block
         - match: ({{identifier}})\s*(=)
           captures:
             1: variable.parameter.output.matlab
@@ -245,7 +245,7 @@ contexts:
               scope: variable.parameter.output.matlab
             - include: line-continuations
             - match: '{{eol}}'
-              set: function-body-argument-block
+              set: function-body-arguments-block
             - include: separator-commas
             - match: \]
               scope: punctuation.section.brackets.end.matlab
@@ -261,7 +261,7 @@ contexts:
             - meta_scope: meta.function.parameters.matlab
             - include: line-continuations
             - match: '{{eol}}'
-              set: function-body-argument-block
+              set: function-body-arguments-block
             - match: \(
               scope: punctuation.section.parens.begin.matlab
             - match: '{{identifier}}'
@@ -270,9 +270,9 @@ contexts:
             - include: argument-placeholders
             - match: \)
               scope: punctuation.section.parens.end.matlab
-              set: function-body-argument-block
+              set: function-body-arguments-block
 
-  function-body-argument-block:
+  function-body-arguments-block:
     - meta_content_scope: meta.function.matlab
     - include: comments
     - match: \barguments\b
