@@ -233,7 +233,7 @@ contexts:
         - meta_scope: meta.function.matlab
         - include: line-continuations
         - match: '{{eol}}'
-          set: function-body-arguments-block
+          set: maybe-function-arguments-block
         - match: ({{identifier}})\s*(=)
           captures:
             1: variable.parameter.output.matlab
@@ -241,38 +241,36 @@ contexts:
         - match: \[
           scope: punctuation.section.brackets.begin.matlab
           push:
-            - match: '{{identifier}}'
-              scope: variable.parameter.output.matlab
             - include: line-continuations
-            - match: '{{eol}}'
-              set: function-body-arguments-block
+            - include: eol-pop
             - include: separator-commas
             - match: \]
               scope: punctuation.section.brackets.end.matlab
               pop: true
+            - match: '{{identifier}}'
+              scope: variable.parameter.output.matlab
         - match: =
           scope: keyword.operator.assignment.matlab
         - match: (?:(?:set|get)(\.))?{{identifier}}
           scope: entity.name.function.matlab
           captures:
             1: punctuation.accessor.dot.matlab
-        - match: (?=\()
-          set:
+        - match: \(
+          scope: punctuation.section.parens.begin.matlab
+          push:
+            - clear_scopes: 1
             - meta_scope: meta.function.parameters.matlab
             - include: line-continuations
-            - match: '{{eol}}'
-              set: function-body-arguments-block
-            - match: \(
-              scope: punctuation.section.parens.begin.matlab
-            - match: '{{identifier}}'
-              scope: variable.parameter.input.matlab
+            - include: eol-pop
             - include: separator-commas
             - include: argument-placeholders
             - match: \)
               scope: punctuation.section.parens.end.matlab
-              set: function-body-arguments-block
+              pop: true
+            - match: '{{identifier}}'
+              scope: variable.parameter.input.matlab
 
-  function-body-arguments-block:
+  maybe-function-arguments-block:
     - meta_content_scope: meta.function.matlab
     - include: comments
     - match: \barguments\b
