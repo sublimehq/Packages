@@ -433,10 +433,20 @@ function myFunction(x,y)
 %            ^^^^^^^^^^^ meta.function.matlab meta.arguments.matlab meta.attributes.matlab
 %             ^^^^^^^^^ variable.parameter.attribute.matlab
       x (1,:) double
+   end
+%  ^^^ meta.function.matlab meta.arguments.matlab keyword.context.arguments.end.matlab
+%     ^ meta.function.matlab - meta.arguments
+
+   arguments
+%  ^^^^^^^^^ meta.function.matlab meta.arguments.matlab keyword.context.arguments.matlab
       y (1,:) double
    end
 %  ^^^ meta.function.matlab meta.arguments.matlab keyword.context.arguments.end.matlab
 %     ^ meta.function.matlab - meta.arguments
+
+   z = 1
+   arguments  % argument validation blocks must appear before the first executable line of the function
+%  ^^^^^^^^^ - keyword.context.arguments
 end
 %^^ meta.function.matlab keyword.declaration.function.end.matlab
 %  ^ - meta.function
