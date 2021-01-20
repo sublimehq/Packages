@@ -28,7 +28,8 @@
         [
             { "key": "setting.auto_match_enabled" },
             { "key": "selection_empty", "match_all": true },
-            { "key": "selector", "operator": "equal", "operand": "source.python, meta.string", "match_all": true },
+            { "key": "selector", "operator": "equal", "operand": "source.python string", "match_all": true },
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "(?<![\\\\])([\\\\]{2})*$", "match_all": true },
         ]
     },
 ]
