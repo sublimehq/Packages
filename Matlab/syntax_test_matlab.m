@@ -658,8 +658,8 @@ f = @(x,y) (x.^2 - y.^2);
 %        ^ punctuation.section.parens.end.matlab
 
    !echo abc % this isn't a comment - it's passed to system command
-%  ^ keyword.operator.shell-escape.matlab - meta.shell-escape
-%   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.shell-escape.matlab string.unquoted.matlab - comment
+%  ^ keyword.operator.shell-escape.matlab - meta.string
+%   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string.matlab string.unquoted.matlab - comment
 
 
 %---------------------------------------------
@@ -924,28 +924,25 @@ fprintf(fileID,'%6.2f %12.8f\r\n',A);
 
    import matlab.io.hdf4.*
 %  ^^^^^^ support.function.builtin.matlab
-%         ^^^^^^^^^^^^^^^^ meta.path.import.matlab string.unquoted.matlab
+%         ^^^^^^^^^^^^^^^^ meta.string.matlab string.unquoted.matlab
 %                        ^ - keyword.operator
 
    clear
 %  ^^^^^ support.function.builtin.matlab
    clear all
 %  ^^^^^ support.function.builtin.matlab
-%        ^^^ string.unquoted.matlab support.constant.matlab
+%        ^^^ meta.string.matlab support.constant.matlab
    clear on
 %  ^^^^^ support.function.builtin.matlab
-%        ^^ string.unquoted.matlab - support
+%        ^^ - support
    clear name1 name2 name3
 %  ^^^^^ support.function.builtin.matlab
-%        ^^^^^ string.unquoted.matlab
-%              ^^^^^ string.unquoted.matlab
-%                    ^^^^^ string.unquoted.matlab
    clear -regexp ^Mon ^Tue ^Wed
 %  ^^^^^ support.function.builtin.matlab
-%        ^^^^^^^ string.unquoted.matlab support.constant.matlab
-%                ^^^^ string.regexp.matlab
-%                     ^^^^ string.regexp.matlab
-%                          ^^^^ string.regexp.matlab
+%        ^^^^^^^ meta.string.matlab support.constant.matlab
+%                ^^^^ meta.string.matlab string.regexp.matlab
+%                     ^^^^ meta.string.matlab string.regexp.matlab
+%                          ^^^^ meta.string.matlab string.regexp.matlab
    clear('name1')
 %  ^^^^^ support.function.builtin.matlab
 %       ^^^^^^^^^ meta.parens.matlab
@@ -958,10 +955,10 @@ fprintf(fileID,'%6.2f %12.8f\r\n',A);
 %  ^^^^^^ support.function.builtin.matlab
    grid on
 %  ^^^^ support.function.builtin.matlab
-%       ^^ string.unquoted.matlab support.constant.matlab
+%       ^^ meta.string.matlab support.constant.matlab
    axis equal
 %  ^^^^ support.function.builtin.matlab
-%       ^^^^^ string.unquoted.matlab support.constant.matlab
+%       ^^^^^ meta.string.matlab support.constant.matlab
 
    tic
 %  ^^^ support.function.builtin.matlab
@@ -971,7 +968,7 @@ fprintf(fileID,'%6.2f %12.8f\r\n',A);
 %  ^^^ support.function.builtin.matlab
 
 tEnd = cputime - tStart
-%      ^^^^^^^ support.constant.builtin.matlab
+%      ^^^^^^^ support.function.builtin.matlab
 
 X = zeros
 %   ^^^^^ support.function.builtin.matlab
