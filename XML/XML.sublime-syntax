@@ -534,17 +534,15 @@ contexts:
         3: entity.other.attribute-name.xml punctuation.separator.namespace.xml
         4: entity.other.attribute-name.localname.xml
         5: invalid.illegal.bad-attribute-name.xml
-      push: tag-attribute-separator-key-value
-
-  tag-attribute-separator-key-value:
     - match: =
       scope: punctuation.separator.key-value.xml
-      set:
-        - include: string-quoted-pop
-        - match: '[^?/<>\s]+'
-          scope: invalid.illegal.bad-attribute-value.xml
-          pop: 1
-        - include: tag-else-pop
+      push: tag-attribute-value
+
+  tag-attribute-value:
+    - include: string-quoted-pop
+    - match: '[^?/<>\s]+'
+      scope: invalid.illegal.bad-attribute-value.xml
+      pop: 1
     - include: tag-else-pop
 
   tag-else-pop:

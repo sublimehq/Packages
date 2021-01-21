@@ -1305,6 +1305,20 @@
 ##                            ^ punctuation.definition.string.end
 ##                             ^ punctuation.definition.tag.end
 
+     <ns:tagname ="uri">
+##  ^ - meta.tag
+##   ^^^^^^^^^^^^^^^^^^^ meta.tag
+##                      ^ - meta.tag
+##   ^ punctuation.definition.tag.begin
+##      ^ punctuation.separator.namespace
+##       ^^^^^^^ entity.name.tag.localname
+##              ^ - entity
+##               ^ punctuation.separator.key-value
+##                ^ punctuation.definition.string.begin
+##                ^^^^^ string.quoted
+##                    ^ punctuation.definition.string.end
+##                     ^ punctuation.definition.tag.end
+
      <ns:tagname
 ##  ^ - meta.tag - invalid.illegal
 ##   ^ punctuation.definition.tag.begin
