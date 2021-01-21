@@ -225,7 +225,7 @@ contexts:
     - include: dtd-notation
     - include: dtd-subset
     - include: dtd-unknown
-    - include: entity-parameter
+    - include: dtd-constants
     - include: preprocessor
 
 ###[ DTD ENTITY ]#############################################################
@@ -293,7 +293,7 @@ contexts:
     - match: \(
       scope: punctuation.definition.group.begin.xml
       set: dtd-element-parens
-    - include: entity-parameter
+    - include: dtd-constants
     - include: dtd-content-quoted
 
   dtd-element-parens:
@@ -308,7 +308,7 @@ contexts:
       scope: keyword.operator.xml
     - match: '[,|]'
       scope: punctuation.separator.xml
-    - include: entity-parameter
+    - include: dtd-constants
     - include: entity
     - include: should-be-entity
     - include: string-unquoted
@@ -336,7 +336,7 @@ contexts:
     - include: dtd-end
 
   dtd-attlist-content:
-    - include: entity-parameter
+    - include: dtd-constants
     - include: dtd-attlist-parens
     - match: \b(?:CDATA|ENTITY|ENTITIES|IDREFS?|ID|NMTOKENS?|NOTATION)\b
       scope: storage.type.attribute.xml
@@ -360,7 +360,7 @@ contexts:
       pop: 1
     - match: \|
       scope: punctuation.separator.logical.xml
-    - include: entity-parameter
+    - include: dtd-constants
     - include: entity
     - include: should-be-entity
     - include: string-unquoted
@@ -454,6 +454,17 @@ contexts:
       pop: 1
     - include: dtd-else-pop
 
+  dtd-constants:
+    - match: (#)P?CDATA
+      scope: constant.other.placeholder.xml
+      captures:
+        1: punctuation.definition.constant.xml
+    - match: (%){{name}}(;)
+      scope: variable.parameter.xml
+      captures:
+        1: punctuation.definition.parameter.xml
+        2: punctuation.terminator.parameter.xml
+
   dtd-content-unquoted:
     - include: string-unquoted
     - include: dtd-else-pop
@@ -487,17 +498,6 @@ contexts:
       pop: 1
     - match: \S
       scope: invalid.illegal.unexpected.xml
-
-  entity-parameter:
-    - match: (#)P?CDATA
-      scope: constant.other.placeholder.xml
-      captures:
-        1: punctuation.definition.constant.xml
-    - match: (%){{name}}(;)
-      scope: variable.parameter.xml
-      captures:
-        1: punctuation.definition.parameter.xml
-        2: punctuation.terminator.parameter.xml
 
 ###[ XML PREPROCESSOR ]#######################################################
 
