@@ -1,7 +1,52 @@
 %YAML 1.2
 ---
+###############################################################################
+#
+# NOTES
+#
+#  1 STRING INTERPOLATION
+#
+#    The syntax definition excludes prototypes from quoted strings by default
+#    to kindly ask an inherited syntax definition to explicitly handle string
+#    interpolation.
+#
+#    An inherited syntax might most likely want to define a `prototype` to
+#    inject its templating patterns in all (appropriate) contexts which are
+#    already defined by this base syntax definition. That's basically fine.
+#
+#    What we want is replacing `string` scope by `meta.interpolation` in case
+#    of injecting template patterns into a string, which can't be achieved
+#    using prototype context. Interpolation requires special patterns which
+#    push into contexts with `- clear_scope: 1`.
+#
+#    Example:
+#
+#      prototype:
+#        - meta_prepend: true
+#        - include: jspx-tags
+#
+#      string-common-content:
+#        - meta_prepend: true
+#        - include: jspx-interpolations
+#
+#      jspx-interpolations:
+#        - match: <%
+#          scope: punctuation.section.embedded.begin.xml
+#          push: jspx-tag-content
+#
+#      jspx-tag-content:
+#        - clear_scopes: 1
+#        - meta_scope: meta.interpolation.xml
+#        - meta_content_scope: source.jspx.embedded.xml
+#        - match: '%>'
+#          scope: punctuation.section.embedded.end.xml
+#          pop: 1
+#        - ...
+#
+###############################################################################
 # https://www.sublimetext.com/docs/syntax.html
 # https://www.w3.org/XML/
+###############################################################################
 name: XML
 scope: text.xml
 version: 2
@@ -114,8 +159,9 @@ contexts:
         2: keyword.declaration.cdata.xml
         3: punctuation.definition.tag.begin.xml
       push:
+        - meta_include_prototype: false
         - meta_scope: meta.tag.sgml.cdata.xml
-        - meta_content_scope: string.unquoted.cdata.xml
+        - meta_content_scope: meta.string.xml string.unquoted.cdata.xml
         - match: ']]>'
           scope: punctuation.definition.tag.end.xml
           pop: 1
@@ -126,6 +172,7 @@ contexts:
     - match: <!--
       scope: punctuation.definition.comment.begin.xml
       push:
+        - meta_include_prototype: false
         - meta_scope: comment.block.xml
         - match: -->
           scope: punctuation.definition.comment.end.xml
@@ -584,11 +631,11 @@ contexts:
 
   string-unquoted:
     - match: '{{name}}'
-      scope: string.unquoted.xml
+      scope: meta.string.xml string.unquoted.xml
 
   string-unquoted-pop:
     - match: '{{name}}'
-      scope: string.unquoted.xml
+      scope: meta.string.xml string.unquoted.xml
       pop: 1
 
   string-quoted:
@@ -610,13 +657,12 @@ contexts:
       set: string-double-quoted-body
 
   string-double-quoted-body:
-    - meta_scope: string.quoted.double.xml
+    - meta_include_prototype: false
+    - meta_scope: meta.string.xml string.quoted.double.xml
     - match: \"
       scope: punctuation.definition.string.end.xml
       pop: 1
-    - include: tag-end-missing-pop
-    - include: entity
-    - include: should-be-entity
+    - include: string-common-content
 
   string-single-quoted:
     - match: \'
@@ -629,10 +675,14 @@ contexts:
       set: string-single-quoted-body
 
   string-single-quoted-body:
-    - meta_scope: string.quoted.single.xml
+    - meta_include_prototype: false
+    - meta_scope: meta.string.xml string.quoted.single.xml
     - match: \'
       scope: punctuation.definition.string.end.xml
       pop: 1
+    - include: string-common-content
+
+  string-common-content:
     - include: tag-end-missing-pop
     - include: entity
     - include: should-be-entity
