@@ -1849,10 +1849,10 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
-            - match: \b(?i:rgb|hsl|hwb){{break}}
-              scope: keyword.other.color-space.css
             - include: color-values
             - include: percentage-constants
+            - match: \b(?i:rgb|hsl|hwb){{break}}
+              scope: keyword.other.color-space.css
 
 ###[ BUILTIN FILTER FUNCTIONS ]################################################
 
