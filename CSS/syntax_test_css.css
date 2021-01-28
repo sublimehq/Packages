@@ -2195,6 +2195,23 @@
 /*             ^^^ meta.number.float.decimal.css constant.numeric.value.css */
 /*                ^ meta.number.float.decimal.css constant.numeric.suffix.css */
 
+    top: blend(hsl(219, 10%, 6%) 50%);
+/*       ^^^^^ support.function.color.css */
+/*            ^ punctuation.section.group.begin.css */
+/*             ^^^ support.function.color.css */
+/*                ^ punctuation.section.group.begin.css */
+/*                 ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                    ^ punctuation.separator.sequence.css */
+/*                      ^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                        ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
+/*                         ^ punctuation.separator.sequence.css */
+/*                           ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                            ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
+/*                             ^ punctuation.section.group.end.css */
+/*                               ^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                                 ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
+/*                                  ^ punctuation.section.group.end.css */
+
     top: blenda(red 50% hsl);
 /*       ^^^^^^ support.function.color.css */
 /*              ^^^ support.constant.color.w3c.standard.css */
