@@ -285,6 +285,7 @@ contexts:
     - match: ','
       scope: punctuation.separator.comma.lua
       push: expression-begin
+    - include: variable-modifier
     - include: expression-end
 
   expression-begin:
@@ -301,6 +302,20 @@ contexts:
     - include: table-constructor
     - include: function-literal
 
+    - include: else-pop
+
+  variable-modifier:
+    - match: '<'
+      scope: punctuation.definition.modifier.begin.lua
+      push: variable-modifier-body
+
+  variable-modifier-body:
+    - meta_scope: meta.modifier.lua
+    - match: '>'
+      scope: punctuation.definition.modifier.end.lua
+      pop: 1
+    - match: (?:const|close){{identifier_break}}
+      scope: storage.modifier.lua
     - include: else-pop
 
   infix-operator:
@@ -401,11 +416,8 @@ contexts:
       pop: true
 
   builtin:
-    - match: true{{identifier_break}}
-      scope: constant.language.boolean.true.lua
-      pop: true
-    - match: false{{identifier_break}}
-      scope: constant.language.boolean.true.lua
+    - match: (?:true|false){{identifier_break}}
+      scope: constant.language.boolean.lua
       pop: true
     - match: nil{{identifier_break}}
       scope: constant.language.null.lua
@@ -476,34 +488,47 @@ contexts:
       pop: true
 
   string:
+    - include: single-quoted-string
+    - include: double-quoted-string
+    - include: multiline-string
+
+  single-quoted-string:
     - match: \'
       scope: punctuation.definition.string.begin.lua
-      set:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.single.lua
-        - include: string-content
-        - match: \'
-          scope: punctuation.definition.string.end.lua
-          pop: true
+      set: single-quoted-string-body
 
+  single-quoted-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.lua string.quoted.single.lua
+    - include: string-content
+    - match: \'
+      scope: punctuation.definition.string.end.lua
+      pop: 1
+
+  double-quoted-string:
     - match: \"
       scope: punctuation.definition.string.begin.lua
-      set:
-        - meta_include_prototype: false
-        - meta_scope: string.quoted.double.lua
-        - include: string-content
-        - match: \"
-          scope: punctuation.definition.string.end.lua
-          pop: true
+      set: double-quoted-string-body
 
+  double-quoted-string-body:
+    - meta_include_prototype: false
+    - meta_scope: meta.string.lua string.quoted.double.lua
+    - include: string-content
+    - match: \"
+      scope: punctuation.definition.string.end.lua
+      pop: 1
+
+  multiline-string:
     - match: \[(=*)\[
       scope: punctuation.definition.string.begin.lua
-      set:
-        - meta_scope: string.quoted.multiline.lua
-        - meta_include_prototype: false
-        - match: \]\1\]
-          scope: punctuation.definition.string.end.lua
-          pop: true
+      set: multiline-string-body
+
+  multiline-string-body:
+    - meta_scope: meta.string.lua string.quoted.multiline.lua
+    - meta_include_prototype: false
+    - match: \]\1\]
+      scope: punctuation.definition.string.end.lua
+      pop: 1
 
   string-content:
     - match: \\[abfnrtv\\'"\[\]\n]
@@ -615,7 +640,7 @@ contexts:
           set:
             - match: |-
                 (?x:
-                  create|isyieldable|resume|running|status|wrap|yield
+                  create|isyieldable|resume|running|status|wrap|yield|close
                 ){{identifier_break}}
               scope: meta.property.lua support.function.builtin.lua
               pop: true
