@@ -2076,7 +2076,7 @@
 --                                   ^ variable.other.haskell
                   | otherwise = M.lookup c asciiMap
 --                ^ punctuation.separator.sequence.haskell
---                  ^^^^^^^^^ support.function.prelude.haskell
+--                  ^^^^^^^^^ support.constant.prelude.haskell
 --                            ^ keyword.operator.haskell
 --                              ^ variable.namespace.haskell
 --                               ^ punctuation.accessor.dot.haskell

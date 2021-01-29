@@ -147,7 +147,7 @@ variables:
     ){{break}}
 
   prelude_constants: |-
-    (?x: Nothing | True | False | LT | EQ | GT ){{break}}
+    (?x: otherwise | Nothing | True | False | LT | EQ | GT ){{break}}
 
   prelude_types: |-
     (?x:
@@ -175,7 +175,7 @@ variables:
     | last | lcm | length | lex | lines | log | logBase | lookup | map | mapM
     | mapM_ | mappend | max | maxBound | maximum | maybe | mconcat | mempty
     | min | minBound | minimum | mod | negate | not | notElem | null | odd | or
-    | otherwise | pi | pred | print | product | properFraction | pure | putChar
+    | pi | pred | print | product | properFraction | pure | putChar
     | putStr | putStrLn | quot | quotRem | read | readFile | readIO | readList
     | readLn | readParen | reads | readsPrec | realToFrac | recip | rem | repeat
     | replicate | return | reverse | round | scaleFloat | scanl | scanl1 | scanr
@@ -803,6 +803,9 @@ contexts:
         1: punctuation.definition.prefix.begin.haskell
         2: keyword.operator.haskell
         3: punctuation.definition.prefix.end.haskell
+      push: variable-name-end
+    - match: '{{prelude_constants}}'
+      scope: support.constant.prelude.haskell
       push: variable-name-end
     - match: '{{prelude_functions}}'
       scope: support.function.prelude.haskell
