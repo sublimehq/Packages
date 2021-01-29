@@ -3917,7 +3917,9 @@ main = do
     a `P.atan2` x
 --    ^^^^^^^^^ meta.infix.haskell
 --    ^ punctuation.definition.infix.begin.haskell - keyword
---     ^^^^^^^ keyword.operator.function.infix.haskell
+--     ^ variable.namespace.haskell
+--      ^ punctuation.accessor.dot.haskell - keyword - variale
+--       ^^^^^ keyword.operator.function.infix.haskell
 --            ^ punctuation.definition.infix.end.haskell - keyword
 
     {- unqualified infix constructor operator id -}
@@ -3931,7 +3933,9 @@ main = do
     a `Monad.Quux` x
 --    ^^^^^^^^^^^^ meta.infix.haskell
 --    ^ punctuation.definition.infix.begin.haskell - keyword
---     ^^^^^^^^^^ keyword.operator.function.infix.haskell
+--     ^^^^^ variable.namespace.haskell
+--          ^ punctuation.accessor.dot.haskell - keyword - variale
+--           ^^^^ keyword.operator.function.infix.haskell
 --               ^ punctuation.definition.infix.end.haskell - keyword
 
     5 `f `7`f`"3 'ab'"
@@ -3981,9 +3985,22 @@ main = do
     a `Ns.shiftL#` b
 --    ^^^^^^^^^^^^ meta.infix.haskell
 --    ^ punctuation.definition.infix.begin.haskell - keyword
---     ^^^^^^^^^^ keyword.operator.function.infix.haskell
+--     ^^ variable.namespace.haskell
+--       ^ punctuation.accessor.dot.haskell - keyword - variale
+--        ^^^^^^^ keyword.operator.function.infix.haskell
 --              ^ storage.modifier.unboxed.haskell
 --               ^ punctuation.definition.infix.end.haskell - keyword
+
+    a `ModId.Ns.shiftL#` b
+--    ^^^^^^^^^^^^^^^^^^ meta.infix.haskell
+--    ^ punctuation.definition.infix.begin.haskell - keyword
+--     ^^^^^ variable.namespace.haskell
+--          ^ punctuation.accessor.dot.haskell - variable
+--           ^^ variable.namespace.haskell
+--             ^ punctuation.accessor.dot.haskell - keyword - variale
+--              ^^^^^^^ keyword.operator.function.infix.haskell
+--                    ^ storage.modifier.unboxed.haskell
+--                     ^ punctuation.definition.infix.end.haskell - keyword
 
     a `Unboxed#` b
 --    ^^^^^^^^^^ meta.infix.haskell

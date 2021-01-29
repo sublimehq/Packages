@@ -31,6 +31,7 @@ variables:
 
   # 2.4 Identifiers and Operators
   # https://www.haskell.org/onlinereport/haskell2010/haskellch2.html#x7-180002.4
+  id: (?:(?!{{reserved_id}})[\w']*(#)*)
   con_id: (?:[[:upper:]][\w']*(#)*)
   var_id: (?:(?!{{reserved_id}})[[:lower:]_][\w']*(#)*)
   reserved_id: |-
@@ -1362,13 +1363,31 @@ contexts:
         3: punctuation.definition.prefix.end.haskell
 
   infix-quoted-operators:
-    - match: (`)\s*([\w'.]*(#*))\s*(`)
-      scope: meta.infix.haskell
+    - match: (?=\`)
+      branch_point: infix-quoted-operators
+      branch:
+        - infix-quoded-operators-begin
+        - immediatelly-pop
+
+  infix-quoded-operators-begin:
+    - match: (\`)\s*
       captures:
         1: punctuation.definition.infix.begin.haskell
-        2: keyword.operator.function.infix.haskell
-        3: storage.modifier.unboxed.haskell
-        4: punctuation.definition.infix.end.haskell
+      set: infix-quoded-operators-body
+
+  infix-quoded-operators-body:
+    - meta_scope: meta.infix.haskell
+    - match: \s*(\`)
+      captures:
+        1: punctuation.definition.infix.end.haskell
+      pop: 1
+    - include: ident-namespaces
+    - match: '{{id}}'
+      scope: keyword.operator.function.infix.haskell
+      captures:
+        1: storage.modifier.unboxed.haskell
+    - match: ''
+      fail: infix-quoted-operators
 
   statement-terminators:
     # Depending on layout, semicolon may be needed to terminate statements.
