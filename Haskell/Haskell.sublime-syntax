@@ -934,6 +934,7 @@ contexts:
     - include: else-pop
 
   type-lists:
+    - include: list-constructors
     - match: \[
       scope: punctuation.section.sequence.begin.haskell
       push: type-list-body
@@ -948,7 +949,7 @@ contexts:
   type-parens:
     # 4.1.3 Syntax of Class Assertions and Contexts
     # https://www.haskell.org/onlinereport/haskell2010/haskellch4.html#x10-630004.1
-    - include: empty-tuples
+    - include: tuple-constructors
     - include: prefix-parens-operators
     - match: (?=\()
       branch_point: type-parens
@@ -1018,6 +1019,7 @@ contexts:
   lists:
     # 3.7 Lists
     # https://www.haskell.org/onlinereport/haskell2010/haskellch3.html#x8-340003.7
+    - include: list-constructors
     - match: \[
       scope: punctuation.section.sequence.begin.haskell
       push: list-body
@@ -1041,6 +1043,10 @@ contexts:
     - match: (?:group|by|using){{break}}
       scope: keyword.control.list.haskell
 
+  list-constructors:
+    - match: \[\]
+      scope: meta.sequence.list.haskell constant.language.list.haskell
+
   quasi-quotes:
     # https://wiki.haskell.org/Quasiquotation
     - match: (\[)([\w'']+)(\|)
@@ -1062,7 +1068,7 @@ contexts:
   parens:
     # 3.8 Tuples
     # https://www.haskell.org/onlinereport/haskell2010/haskellch3.html#x8-360003.8
-    - include: empty-tuples
+    - include: tuple-constructors
     - include: unboxed-tuples
     - include: prefix-parens-operators
     - match: (?=\()
@@ -1107,14 +1113,15 @@ contexts:
     - include: expressions
     - include: else-pop
 
-  empty-tuples:
-    # 3.9 Unit Expressions and Parenthesized Expressions
-    # https://www.haskell.org/onlinereport/haskell2010/haskellch3.html#x8-380003.9
-    - match: (\()\s*(\))
-      scope: meta.sequence.tuple.haskell
-      captures:
-        1: punctuation.section.sequence.begin.haskell
-        2: punctuation.section.sequence.end.haskell
+  tuple-constructors:
+    # 6.1.4 Tuple Data Type
+    # https://www.haskell.org/onlinereport/haskell2010/haskellch6.html#x13-1200006.1.4
+    - match: \(,+\)
+      scope: meta.sequence.tuple.haskell constant.language.tuple.haskell
+    # 6.1.5 Unit Data Type
+    # https://www.haskell.org/onlinereport/haskell2010/haskellch6.html#x13-1200006.1.5
+    - match: \(\)
+      scope: meta.sequence.tuple.haskell constant.language.unit.haskell
 
   range-tuples:
     - match: (\()\s*(\.\.)\s*(\))
