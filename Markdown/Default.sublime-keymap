@@ -77,7 +77,7 @@
         "context": [
             { "key": "setting.auto_match_enabled"},
             { "key": "selection_empty", "match_all": true },
-            { "key": "selector", "operand": "text.html.markdown - markup.raw" },
+            { "key": "selector", "operand": "text.html.markdown - markup.raw - meta.code-fence" },
             { "key": "preceding_text", "operator": "regex_contains", "operand": "(?<![\\\\])([\\\\]{2})*$", "match_all": true }
         ]
     },
@@ -88,7 +88,7 @@
         "context": [
             { "key": "setting.auto_match_enabled"},
             { "key": "selection_empty", "operand": false, "match_all": true },
-            { "key": "selector", "operand": "text.html.markdown - markup.raw" }
+            { "key": "selector", "operand": "text.html.markdown - markup.raw - meta.code-fence" }
         ]
     },
     {
@@ -98,7 +98,7 @@
         "context": [
             { "key": "setting.auto_match_enabled" },
             { "key": "selection_empty", "operand": true, "match_all": true },
-            { "key": "selector", "operand": "text.html.markdown markup.raw - markup.raw.code-fence" },
+            { "key": "selector", "operand": "text.html.markdown markup.raw - markup.raw.code-fence - meta.code-fence" },
             { "key": "following_text", "operator": "regex_contains", "operand": "^`", "match_all": true }
         ]
     },
@@ -112,6 +112,20 @@
             { "key": "selector", "operator": "equal", "operand": "punctuation.definition.raw.begin.markdown" },
             { "key": "preceding_text", "operator": "regex_contains", "operand": "`$", "match_all": true },
             { "key": "following_text", "operator": "regex_contains", "operand": "^`", "match_all": true }
+        ]
+    },
+
+    // Add fenced code block
+    {
+        "keys": ["`", "`"],
+        "command": "insert_snippet",
+        "args": {"contents": "```${1:language}\n$0\n```"},
+        "context": [
+            { "key": "setting.auto_match_enabled"},
+            { "key": "selection_empty", "match_all": true },
+            { "key": "selector", "operand": "text.html.markdown - markup.raw.code-fence - meta.code-fence" },
+            { "key": "preceding_text", "operator": "regex_match", "operand": "^[ \t]*`?$" },
+            { "key": "following_text", "operator": "regex_match", "operand": "^$" }
         ]
     }
 ]
