@@ -947,6 +947,8 @@ fprintf(fileID,'%6.2f %12.8f\r\n',A);
 %  ^^^^^ support.function.builtin.matlab
 %       ^^^^^^^^^ meta.parens.matlab
 %        ^^^^^^^ meta.string.matlab string.quoted.single.matlab
+   exist ('file.m')
+%        ^ - string.unquoted
 
    clc
 %  ^^^ support.function.builtin.matlab

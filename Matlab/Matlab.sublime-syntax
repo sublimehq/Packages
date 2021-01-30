@@ -11,7 +11,7 @@ file_extensions:
 variables:
   # https://www.mathworks.com/help/matlab/matlab_prog/variable-names.html
   identifier: (?:[A-Za-z]\w*)
-  filename: (?:[^;,\s]+)
+  filename: (?:[^;,(\s]+)
   eol: (?=\s*[%\n])
   # https://www.mathworks.com/help/matlab/referencelist.html?type=function&listtype=alpha
   matlab_functions: |-
