@@ -85,7 +85,7 @@ variables:
       countEachLabel|cov|cplxpair|cputime|createCategory|createFile|createImg|
       createLabel|createMock|createSampleTime|createSharedTestFixture|createTbl|
       createTestClassInstance|createTestMethodInstance|criticalAlpha|cross|csc|
-      cscd|csch|csvread|csvwrite|ctranspose|ctranspose|cummax|cummin|cumprod|
+      cscd|csch|csvread|csvwrite|ctranspose|cummax|cummin|cumprod|
       cumsum|cumtrapz|curl|currentFileIndexComparator|currentProject|
       customverctrl|cylinder|daqread|daspect|datacursormode|datastore|datatip|
       dataTipInteraction|dataTipTextRow|date|datenum|dateshift|datestr|datetick|
@@ -105,7 +105,7 @@ variables:
       double|drag|dragrect|drawnow|dsearchn|duration|dynamicprops|echo|echodemo|
       echotcpip|edgeAttachments|edgecount|edges|edit|eig|eigs|ellipj|ellipke|
       ellipsoid|empty|enableDefaultInteractivity|enableLegacyExplorationModes|
-      enableservice|endsWith|enumeration|eomday|eps|eq|eq|equilibrate|erase|
+      enableservice|endsWith|enumeration|eomday|eps|eq|equilibrate|erase|
       eraseBetween|erf|erfc|erfcinv|erfcx|erfinv|error|errorbar|errordlg|etime|
       etree|etreeplot|eval|evalc|evalin|eventlisteners|events|exceltime|exist|
       exit|exp|expand|expectedContentLength|expint|expm|expm1|export|
@@ -246,7 +246,7 @@ variables:
       pathsep|pathtool|pattern|pause|pbaspect|pcg|pchip|pcode|pcolor|pdepe|
       pdeval|peaks|perimeter|perl|perms|permute|persistent|pi|pie|pie3|pink|
       pinv|planerot|play|playblocking|plot|plot3|plotbrowser|plotedit|
-      plotmatrix|plottools|plus|plus|pointLocation|pol2cart|polaraxes|
+      plotmatrix|plottools|plus|pointLocation|pol2cart|polaraxes|
       polarbubblechart|polarhistogram|polarplot|polarscatter|poly|polyarea|
       polybuffer|polyder|polyeig|polyfit|polyint|polyshape|polyval|polyvalm|
       populateFoldersFromLocation|posixtime|possessivePattern|pow2|power|ppval|
@@ -333,11 +333,11 @@ variables:
       uipanel|uiprogressdlg|uipushtool|uiputfile|uiradiobutton|uiresume|uisave|
       uisetcolor|uisetfont|uisetpref|uislider|uispinner|uistack|uistyle|
       uiswitch|uitab|uitabgroup|uitable|uitextarea|uitogglebutton|uitoggletool|
-      uitoolbar|uitree|uitreenode|uiwait|uminus|uminus|underlyingType|
+      uitoolbar|uitree|uitreenode|uiwait|uminus|underlyingType|
       underlyingValue|undocheckout|unicode2native|union|unique|uniquetol|unix|
       unloadlibrary|unmesh|unmkpp|unregisterallevents|unregisterevent|unstack|
       unsubscribe|untar|unwrap|unzip|update|updateDependencies|updateImpl|
-      upgradePreviouslyInstalledSupportPackages|uplus|uplus|upper|urlread|
+      upgradePreviouslyInstalledSupportPackages|uplus|upper|urlread|
       urlwrite|usejava|userpath|validate|validateattributes|validatecolor|
       validateFunctionSignaturesJSON|validateInputsImpl|validateOutputLocation|
       validatePropertiesImpl|validatestring|values|vander|var|varargin|
