@@ -3,17 +3,6 @@
     {
         "keys": ["*"],
         "command": "insert_snippet",
-        "args": {"contents": "*$0*"},
-        "context": [
-            { "key": "setting.auto_match_enabled"},
-            { "key": "selection_empty", "match_all": true },
-            { "key": "selector", "operand": "text.html.markdown - markup.raw" },
-            { "key": "preceding_text", "operator": "regex_contains", "operand": "(?<![\\\\])([\\\\]{2})*$", "match_all": true }
-        ]
-    },
-    {
-        "keys": ["*"],
-        "command": "insert_snippet",
         "args": {"contents": "*${0:$SELECTION}*"},
         "context": [
             { "key": "setting.auto_match_enabled"},
@@ -35,17 +24,6 @@
     },
 
     // Auto-pair underscore
-    {
-        "keys": ["_"],
-        "command": "insert_snippet",
-        "args": {"contents": "_$0_"},
-        "context": [
-            { "key": "setting.auto_match_enabled"},
-            { "key": "selection_empty", "match_all": true },
-            { "key": "selector", "operand": "text.html.markdown - markup.raw" },
-            { "key": "preceding_text", "operator": "regex_contains", "operand": "(?<![\\\\])([\\\\]{2})*$", "match_all": true }
-        ]
-    },
     {
         "keys": ["_"],
         "command": "insert_snippet",
