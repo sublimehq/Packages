@@ -8,8 +8,7 @@
             { "key": "setting.auto_match_enabled"},
             { "key": "selection_empty", "match_all": true },
             { "key": "selector", "operand": "text.html.markdown - markup.raw" },
-            { "key": "preceding_text", "operator": "regex_contains", "operand": "\\S", "match_all": true },
-            { "key": "preceding_text", "operator": "not_regex_contains", "operand": "\\\\$", "match_all": true }
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "(?<![\\\\])([\\\\]{2})*$", "match_all": true }
         ]
     },
     {
@@ -44,7 +43,7 @@
             { "key": "setting.auto_match_enabled"},
             { "key": "selection_empty", "match_all": true },
             { "key": "selector", "operand": "text.html.markdown - markup.raw" },
-            { "key": "preceding_text", "operator": "not_regex_contains", "operand": "\\\\$", "match_all": true }
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "(?<![\\\\])([\\\\]{2})*$", "match_all": true }
         ]
     },
     {
@@ -79,8 +78,7 @@
             { "key": "setting.auto_match_enabled"},
             { "key": "selection_empty", "match_all": true },
             { "key": "selector", "operand": "text.html.markdown - markup.raw" },
-            { "key": "preceding_text", "operator": "regex_contains", "operand": "\\S", "match_all": true },
-            { "key": "preceding_text", "operator": "not_regex_contains", "operand": "\\\\$", "match_all": true }
+            { "key": "preceding_text", "operator": "regex_contains", "operand": "(?<![\\\\])([\\\\]{2})*$", "match_all": true }
         ]
     },
     {
