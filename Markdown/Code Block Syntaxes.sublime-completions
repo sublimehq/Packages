@@ -1,0 +1,362 @@
+{
+	"scope": "text.html.markdown meta.code-fence.definition.begin",
+	"completions": [
+		{
+			"trigger": "bash",
+			"contents": "bash",
+			"annotation": "Bourne Against Shell",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>ShellScript</code> code highlighting"
+		},
+		{
+			"trigger": "c",
+			"contents": "c",
+			"annotation": "C",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>C</code> code highlighting"
+		},
+		{
+			"trigger": "c#",
+			"contents": "c#",
+			"annotation": "C#",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>C#</code> code highlighting"
+		},
+		{
+			"trigger": "c++",
+			"contents": "c++",
+			"annotation": "C++",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>C++</code> code highlighting"
+		},
+		{
+			"trigger": "clj",
+			"contents": "clj",
+			"annotation": "Clojure",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Clojure</code> code highlighting"
+		},
+		{
+			"trigger": "clojure",
+			"contents": "clojure",
+			"annotation": "Clojure",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Clojure</code> code highlighting"
+		},
+		{
+			"trigger": "cpp",
+			"contents": "cpp",
+			"annotation": "C++",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>C++</code> code highlighting"
+		},
+		{
+			"trigger": "cs",
+			"contents": "cs",
+			"annotation": "C#",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>C#</code> code highlighting"
+		},
+		{
+			"trigger": "csharp",
+			"contents": "csharp",
+			"annotation": "C#",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>C#</code> code highlighting"
+		},
+		{
+			"trigger": "erlang",
+			"contents": "erlang",
+			"annotation": "Erlang",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Erlang</code> code highlighting"
+		},
+		{
+			"trigger": "escript",
+			"contents": "escript",
+			"annotation": "Erlang Script",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Erlang</code> code highlighting"
+		},
+		{
+			"trigger": "golang",
+			"contents": "golang",
+			"annotation": "Go",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Go</code> code highlighting"
+		},
+		{
+			"trigger": "graphviz",
+			"contents": "graphviz",
+			"annotation": "GraphViz",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>GraphViz</code> code highlighting"
+		},
+		{
+			"trigger": "html+php",
+			"contents": "html+php",
+			"annotation": "PHP",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>PHP</code> code highlighting"
+		},
+		{
+			"trigger": "inc",
+			"contents": "inc",
+			"annotation": "PHP",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>PHP</code> code highlighting"
+		},
+		{
+			"trigger": "java",
+			"contents": "java",
+			"annotation": "Java",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Java</code> code highlighting"
+		},
+		{
+			"trigger": "javascript",
+			"contents": "javascript",
+			"annotation": "JavaScript",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>JavaScript</code> code highlighting"
+		},
+		{
+			"trigger": "js",
+			"contents": "js",
+			"annotation": "JavaScript",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>JavaScript</code> code highlighting"
+		},
+		{
+			"trigger": "json",
+			"contents": "json",
+			"annotation": "JSON",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>JSON</code> code highlighting"
+		},
+		{
+			"trigger": "jsonc",
+			"contents": "jsonc",
+			"annotation": "JSON with Comments",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>JSON with Comments</code> code highlighting"
+		},
+		{
+			"trigger": "jsp",
+			"contents": "jsp",
+			"annotation": "Java Server Pages",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Java Server Pages</code> code highlighting"
+		},
+		{
+			"trigger": "jspx",
+			"contents": "jspx",
+			"annotation": "Java Server Pages",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Java Server Pages</code> code highlighting"
+		},
+		{
+			"trigger": "obj-c",
+			"contents": "obj-c",
+			"annotation": "Objective-C",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Objective-C</code> code highlighting"
+		},
+		{
+			"trigger": "obj-c++",
+			"contents": "obj-c++",
+			"annotation": "Objective-C++",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Objective-C++</code> code highlighting"
+		},
+		{
+			"trigger": "objc",
+			"contents": "objc",
+			"annotation": "Objective-C",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Objective-C</code> code highlighting"
+		},
+		{
+			"trigger": "objc++",
+			"contents": "objc++",
+			"annotation": "Objective-C++",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Objective-C++</code> code highlighting"
+		},
+		{
+			"trigger": "objective-c",
+			"contents": "objective-c",
+			"annotation": "Objective-C",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code></code> code highlighting"
+		},
+		{
+			"trigger": "objective-c++",
+			"contents": "objective-c++",
+			"annotation": "Objective-C++",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Objective-C++</code> code highlighting"
+		},
+		{
+			"trigger": "objectivec",
+			"contents": "objectivec",
+			"annotation": "Objective-C",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Objective-C++</code> code highlighting"
+		},
+		{
+			"trigger": "objectivec++",
+			"contents": "objectivec++",
+			"annotation": "Objective-C++",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Objective-C++</code> code highlighting"
+		},
+		{
+			"trigger": "perl",
+			"contents": "perl",
+			"annotation": "Perl 5",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Perl 5</code> code highlighting"
+		},
+		{
+			"trigger": "php",
+			"contents": "php",
+			"annotation": "PHP",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>PHP</code> code highlighting"
+		},
+		{
+			"trigger": "py",
+			"contents": "py",
+			"annotation": "Python",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Python</code> code highlighting"
+		},
+		{
+			"trigger": "python",
+			"contents": "python",
+			"annotation": "Python",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Python</code> code highlighting"
+		},
+		{
+			"trigger": "r",
+			"contents": "r",
+			"annotation": "R",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>R</code> code highlighting"
+		},
+		{
+			"trigger": "rb",
+			"contents": "rb",
+			"annotation": "Ruby",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Ruby</code> code highlighting"
+		},
+		{
+			"trigger": "rbx",
+			"contents": "rbx",
+			"annotation": "Ruby on Rails",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Ruby on Rails</code> code highlighting"
+		},
+		{
+			"trigger": "regex",
+			"contents": "regex",
+			"annotation": "Regular Expressions",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Regular Expressions</code> code highlighting"
+		},
+		{
+			"trigger": "regexp",
+			"contents": "regexp",
+			"annotation": "Regular Expressions",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Regular Expressions</code> code highlighting"
+		},
+		{
+			"trigger": "rscript",
+			"contents": "rscript",
+			"annotation": "R Script",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>R Script</code> code highlighting"
+		},
+		{
+			"trigger": "ruby",
+			"contents": "ruby",
+			"annotation": "Ruby",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Ruby</code> code highlighting"
+		},
+		{
+			"trigger": "rust",
+			"contents": "rust",
+			"annotation": "Rust",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>Rust</code> code highlighting"
+		},
+		{
+			"trigger": "sh",
+			"contents": "sh",
+			"annotation": "ShellScript",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>ShellScript</code> code highlighting"
+		},
+		{
+			"trigger": "shell-script",
+			"contents": "shell-script",
+			"annotation": "ShellScript",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>ShellScript</code> code highlighting"
+		},
+		{
+			"trigger": "splus",
+			"contents": "splus",
+			"annotation": "R",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>R</code> code highlighting"
+		},
+		{
+			"trigger": "sql",
+			"contents": "sql",
+			"annotation": "SQL",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>SQL</code> code highlighting"
+		},
+		{
+			"trigger": "ts",
+			"contents": "ts",
+			"annotation": "TypeScript",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>TypeScript</code> code highlighting"
+		},
+		{
+			"trigger": "typescript",
+			"contents": "typescript",
+			"annotation": "TypeScript",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>TypeScript</code> code highlighting"
+		},
+		{
+			"trigger": "xml",
+			"contents": "xml",
+			"annotation": "XML",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>XML</code> code highlighting"
+		},
+		{
+			"trigger": "yaml",
+			"contents": "yaml",
+			"annotation": "YAML",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>YAML</code> code highlighting"
+		},
+		{
+			"trigger": "zsh",
+			"contents": "zsh",
+			"annotation": "ShellScript",
+			"kind": ["markup", "s", "Syntax"],
+			"details": "Specifies <code>ShellScript</code> code highlighting"
+		},
+	],
+}
