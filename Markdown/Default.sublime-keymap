@@ -97,7 +97,7 @@
     {
         "keys": ["`", "`"],
         "command": "insert_snippet",
-        "args": {"contents": "```${1:language}\n$0\n```"},
+        "args": {"contents": "```${0:language}\n\n```"},
         "context": [
             { "key": "setting.auto_match_enabled"},
             { "key": "selection_empty", "match_all": true },
