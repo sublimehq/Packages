@@ -485,11 +485,6 @@ contexts:
     - include: else-pop
 
   variable-binding-top:
-    - match: (?={{identifier_name}}{{function_assignment_lookahead}})
-      set:
-        - initializer
-        - function-name-meta
-        - variable-binding-pattern
     - match: (?={{binding_pattern_lookahead}})
       set:
         - initializer
@@ -1970,6 +1965,11 @@ contexts:
   literal-variable:
     - include: special-identifier
     - include: support
+
+    - match: '(?={{identifier_name}}{{function_assignment_lookahead}})'
+      set:
+        - function-name-meta
+        - literal-variable-base
 
     - match: '{{constant_identifier}}(?=\s*(?:{{dot_accessor}}|\[))'
       scope: support.class.js
