@@ -426,8 +426,9 @@ contexts:
   variable-binding-name:
     - match: (?={{non_reserved_identifier}})
       set:
-        - meta_scope: meta.binding.name.js
-        - include: literal-variable
+        - - meta_scope: meta.binding.name.js
+          - include: immediately-pop
+        - literal-variable
 
   variable-binding-array-destructuring:
     - match: '\['
