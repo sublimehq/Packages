@@ -602,7 +602,7 @@ contexts:
     - match: '{{operator_big_arrow}}'
       scope:
         meta.declaration.class.haskell
-        keyword.operator.big-arrow.haskell
+        punctuation.separator.type.context.haskell
       set: class-signature
     - include: type-expressions
 
@@ -667,7 +667,7 @@ contexts:
     - match: '{{operator_big_arrow}}'
       scope:
         meta.declaration.instance.haskell
-        keyword.operator.big-arrow.haskell
+        punctuation.separator.type.context.haskell
       set: instance-signature
     - include: type-expressions
 
@@ -704,7 +704,7 @@ contexts:
     - match: '{{operator_big_arrow}}'
       scope:
         meta.declaration.data.haskell
-        keyword.operator.big-arrow.haskell
+        punctuation.separator.type.context.haskell
       set: data-signature
     - include: type-expressions
 
@@ -844,7 +844,7 @@ contexts:
     - match: '{{operator_big_arrow}}'
       scope:
         meta.declaration.newtype.haskell
-        keyword.operator.big-arrow.haskell
+        punctuation.separator.type.context.haskell
       set: newtype-signature
     - include: type-expressions
 
@@ -879,7 +879,7 @@ contexts:
     - match: '{{operator_big_arrow}}'
       scope:
         meta.declaration.type.haskell
-        keyword.operator.big-arrow.haskell
+        punctuation.separator.type.context.haskell
       set: type-signature
     - include: type-expressions
 
@@ -1353,7 +1353,7 @@ contexts:
 
   big-arrow-operators:
     - match: '{{operator_big_arrow}}'
-      scope: keyword.operator.big-arrow.haskell
+      scope: punctuation.separator.type.context.haskell
 
   left-arrow-operators:
     - match: '{{operator_left_arrow}}'

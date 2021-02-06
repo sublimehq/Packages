@@ -954,7 +954,7 @@
 --       ^ meta.declaration.class.context.haskell
 --        ^^^ meta.declaration.class.haskell
 --  ^^^^^ keyword.declaration.class.haskell
---        ^^ keyword.operator.big-arrow.haskell
+--        ^^ punctuation.separator.type.context.haskell
 
     class QTyCls tyVar
 --  ^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell
@@ -992,7 +992,7 @@
 --              ^^^^^^ storage.type.haskell
 --                     ^^^^^^ variable.other.haskell
 --                            ^^^^^^ variable.other.haskell
---                                   ^^ keyword.operator.big-arrow.haskell
+--                                   ^^ punctuation.separator.type.context.haskell
 
     class ModId.QTyCls (tyVar1 tyVar2#) =>
 --  ^^^^^ meta.declaration.class.haskell
@@ -1009,7 +1009,7 @@
 --                             ^^^^^^^ variable.other.haskell
 --                                   ^ storage.modifier.unboxed.haskell
 --                                    ^ punctuation.section.group.end.haskell
---                                      ^^ keyword.operator.big-arrow.haskell
+--                                      ^^ punctuation.separator.type.context.haskell
 
     class ModId.QTyCls (tyVar1 tyVar2  => )
 --  ^^^^^^^^^^^^^^^^^^^ meta.declaration.class.haskell - meta.group
@@ -1021,7 +1021,7 @@
 --                     ^ punctuation.section.group.begin.haskell
 --                      ^^^^^^ variable.other.haskell
 --                             ^^^^^^ variable.other.haskell
---                                     ^^ keyword.operator.big-arrow.haskell
+--                                     ^^ punctuation.separator.type.context.haskell
 --                                        ^ punctuation.section.group.end.haskell
 
     class ModId.QTyCls tyVar1 tyVar2 => Traversable t
@@ -1034,7 +1034,7 @@
 --              ^^^^^^ storage.type.haskell
 --                     ^^^^^^ variable.other.haskell
 --                            ^^^^^^ variable.other.haskell
---                                   ^^ keyword.operator.big-arrow.haskell
+--                                   ^^ punctuation.separator.type.context.haskell
 --                                      ^^^^^^^^^^^ entity.name.class.haskell
 --                                                  ^ variable.other.haskell
 
@@ -1046,7 +1046,7 @@
 --        ^^ meta.sequence.tuple.empty.haskell
 --        ^ punctuation.section.sequence.begin.haskell
 --         ^ punctuation.section.sequence.end.haskell
---           ^^ keyword.operator.big-arrow.haskell
+--           ^^ punctuation.separator.type.context.haskell
 
     class (Functor t, Foldable t) => Traversable t where
 --  ^^^^^ meta.declaration.class.haskell - meta.sequence
@@ -1062,7 +1062,7 @@
 --                    ^^^^^^^^ storage.type.haskell
 --                             ^ variable.other.haskell
 --                              ^ punctuation.section.sequence.end.haskell
---                                ^^ keyword.operator.big-arrow.haskell
+--                                ^^ punctuation.separator.type.context.haskell
 --                                   ^^^^^^^^^^^ entity.name.class.haskell
 --                                               ^ variable.other.haskell
 --                                                 ^^^^^ keyword.control.context.haskell
@@ -1078,7 +1078,7 @@
 --  ^^^^^ keyword.declaration.class.haskell
 --        ^^ support.class.prelude.haskell
 --           ^ variable.other.haskell
---             ^^ keyword.operator.big-arrow.haskell
+--             ^^ punctuation.separator.type.context.haskell
 --                ^ variable.other.haskell
 --                  ^^ keyword.operator.arrow.haskell
 --                     ^ variable.other.haskell
@@ -1092,7 +1092,7 @@
 --  ^^^^^ keyword.declaration.class.haskell
 --         ^^ support.class.prelude.haskell
 --            ^ variable.other.haskell
---                             ^^ keyword.operator.big-arrow.haskell
+--                             ^^ punctuation.separator.type.context.haskell
 --                                 ^ variable.other.haskell
 --                                    ^^ keyword.operator.arrow.haskell
 --                                        ^ variable.other.haskell
@@ -1119,7 +1119,7 @@
 --                   ^^^^^^^ support.class.prelude.haskell
 --                           ^ variable.other.haskell
 --                            ^ punctuation.section.sequence.end.haskell
---                              ^^ keyword.operator.big-arrow.haskell
+--                              ^^ punctuation.separator.type.context.haskell
 --                                 ^ punctuation.section.group.begin.haskell
 --                                  ^ variable.other.haskell
 --                                    ^^ keyword.operator.arrow.haskell
@@ -1163,7 +1163,7 @@
 --  ^^^^ keyword.declaration.data.haskell
 --       ^^^^^^ storage.type.haskell
 --              ^^^ variable.other.haskell
---                  ^^ keyword.operator.big-arrow.haskell
+--                  ^^ punctuation.separator.type.context.haskell
 --                     ^^^^^ variable.namespace.haskell
 --                          ^ punctuation.accessor.dot.haskell
 --                           ^^^^^^ entity.name.type.haskell
@@ -1189,7 +1189,7 @@
 --       ^^^^^^ storage.modifier.family.haskell
 --              ^^^^^^ storage.type.haskell
 --                     ^^^ variable.other.haskell
---                         ^^ keyword.operator.big-arrow.haskell
+--                         ^^ punctuation.separator.type.context.haskell
 --                            ^^^^^ entity.name.type.haskell
 --                                  ^ variable.other.haskell
 
@@ -1663,7 +1663,7 @@
 --  ^^^^^^^^ keyword.declaration.instance.haskell
 --           ^^^ support.class.prelude.haskell
 --               ^ variable.other.haskell
---                 ^^ keyword.operator.big-arrow.haskell
+--                 ^^ punctuation.separator.type.context.haskell
 --                    ^^^ entity.name.class.haskell
 --                        ^ punctuation.section.sequence.begin.haskell
 --                         ^ variable.other.haskell
@@ -1686,7 +1686,7 @@
 --                  ^^^^ support.class.prelude.haskell
 --                       ^ variable.other.haskell
 --                        ^ punctuation.section.sequence.end.haskell
---                          ^^ keyword.operator.big-arrow.haskell
+--                          ^^ punctuation.separator.type.context.haskell
 --                             ^^^ entity.name.class.haskell
 --                                 ^ punctuation.section.sequence.begin.haskell
 --                                  ^ variable.other.haskell
@@ -1728,7 +1728,7 @@
 --         ^ meta.declaration.newtype.context.haskell
 --          ^^^ meta.declaration.newtype.haskell
 --  ^^^^^^^ keyword.declaration.newtype.haskell
---          ^^ keyword.operator.big-arrow.haskell
+--          ^^ punctuation.separator.type.context.haskell
 
     newtype CtxCls tyVar =>
 --  ^^^^^^^ meta.declaration.newtype.haskell
@@ -1737,7 +1737,7 @@
 --  ^^^^^^^ keyword.declaration.newtype.haskell
 --          ^^^^^^ storage.type.haskell
 --                 ^^^^^ variable.other.haskell
---                       ^^ keyword.operator.big-arrow.haskell
+--                       ^^ punctuation.separator.type.context.haskell
 
     newtype () => ModId.QTyCls tyVar1 tyVar2 deriving (Class1, QTyCls2)
 --  ^^^^^^^ meta.declaration.newtype.haskell
@@ -1750,7 +1750,7 @@
 --          ^^ meta.sequence.tuple.empty.haskell
 --          ^ punctuation.section.sequence.begin.haskell
 --           ^ punctuation.section.sequence.end.haskell
---             ^^ keyword.operator.big-arrow.haskell
+--             ^^ punctuation.separator.type.context.haskell
 --                ^^^^^ variable.namespace.haskell
 --                     ^ punctuation.accessor.dot.haskell
 --                      ^^^^^^ entity.name.type.haskell
@@ -1828,7 +1828,7 @@
 --            ^ punctuation.accessor.dot.haskell
 --             ^^^^^^ storage.type.haskell
 --                    ^^^^^ variable.other.haskell
---                          ^^ keyword.operator.big-arrow.haskell
+--                          ^^ punctuation.separator.type.context.haskell
 --                             ^^^^^ variable.namespace.haskell
 --                                  ^ punctuation.accessor.dot.haskell
 --                                   ^^^^^^ entity.name.type.haskell
@@ -1873,7 +1873,7 @@
 --                                    ^^^^ support.class.prelude.haskell
 --                                         ^ variable.other.haskell
 --                                          ^ punctuation.section.group.end.haskell
---                                            ^^ keyword.operator.big-arrow.haskell
+--                                            ^^ punctuation.separator.type.context.haskell
 --                                               ^ variable.other.haskell
 --                                                 ^ variable.other.haskell
 --                                                   ^^ keyword.operator.arrow.haskell
@@ -1888,7 +1888,7 @@
 --                              ^^^^ support.class.prelude.haskell
 --                                   ^ variable.other.haskell
 --                                    ^ punctuation.section.group.end.haskell
---                                      ^^ keyword.operator.big-arrow.haskell
+--                                      ^^ punctuation.separator.type.context.haskell
 --                                         ^ variable.other.haskell
 --                                           ^ variable.other.haskell
 
@@ -2018,7 +2018,7 @@
 --            ^ punctuation.separator.type.haskell
 --              ^^^^^^^^^^^ support.class.prelude.haskell
 --                          ^ variable.other.haskell
---                            ^ keyword.operator.big-arrow.haskell
+--                            ^ punctuation.separator.type.context.haskell
 --                              ^ variable.other.haskell
 --                                ^ punctuation.section.group.begin.haskell
 --                                 ^ variable.other.haskell
@@ -2045,7 +2045,7 @@
 --           ^^ punctuation.separator.type.haskell
 --              ^^^^^^^^^^^ support.class.prelude.haskell
 --                          ^ variable.other.haskell
---                            ^^ keyword.operator.big-arrow.haskell
+--                            ^^ punctuation.separator.type.context.haskell
       (a -> f b)
 --       ^^ keyword.operator.arrow.haskell
       -> t a
@@ -3801,7 +3801,7 @@ main = do
 --                   ^^ keyword.operator.arrow.haskell
 --                      ^ keyword.operator.haskell
 --                        ^ keyword.operator.haskell
---                          ^^ keyword.operator.big-arrow.haskell
+--                          ^^ punctuation.separator.type.context.haskell
 
     ( ) , ; [ ] ` { }  -- special symbols
 --  ^^^^^^^^^^^^^^^^^ - keyword
