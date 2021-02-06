@@ -1043,7 +1043,9 @@
 --       ^^^^ meta.declaration.class.context.haskell
 --           ^^^ meta.declaration.class.haskell
 --  ^^^^^ keyword.declaration.class.haskell
---        ^^ constant.language.unit.haskell
+--        ^^ meta.sequence.tuple.empty.haskell
+--        ^ punctuation.section.sequence.begin.haskell
+--         ^ punctuation.section.sequence.end.haskell
 --           ^^ keyword.operator.big-arrow.haskell
 
     class (Functor t, Foldable t) => Traversable t where
@@ -1219,7 +1221,8 @@
 --  ^^^^ keyword.declaration.data.haskell
 --       ^^^^^^^^ storage.modifier.family.haskell
 --                ^^^^^ entity.name.type.haskell
---                      ^^ constant.language.unit.haskell
+--                      ^ punctuation.section.sequence.begin.haskell
+--                       ^ punctuation.section.sequence.end.haskell
 --                         ^ keyword.operator.haskell
 --                           ^^^^^^^^^ storage.type.haskell
 --                                     ^ keyword.operator.haskell
@@ -1489,23 +1492,25 @@
 
     instance ModId.QTyCls []
 --  ^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.instance.haskell - meta.sequence
---                        ^^ meta.declaration.instance.haskell meta.sequence.list.haskell
+--                        ^^ meta.declaration.instance.haskell meta.sequence.list.empty.haskell
 --                          ^ meta.declaration.instance.haskell - meta.sequence
 --  ^^^^^^^^ keyword.declaration.instance.haskell
 --           ^^^^^ variable.namespace.haskell
 --                ^ punctuation.accessor.dot.haskell
 --                 ^^^^^^ entity.name.class.haskell
---                        ^^ constant.language.list.haskell
+--                        ^ punctuation.section.sequence.begin.haskell
+--                         ^ punctuation.section.sequence.end.haskell
 
     instance ModId.QTyCls ()
 --  ^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.instance.haskell - meta.sequence
---                        ^^ meta.declaration.instance.haskell meta.sequence.tuple.haskell
+--                        ^^ meta.declaration.instance.haskell meta.sequence.tuple.empty.haskell
 --                          ^ meta.declaration.instance.haskell - meta.sequence
 --  ^^^^^^^^ keyword.declaration.instance.haskell
 --           ^^^^^ variable.namespace.haskell
 --                ^ punctuation.accessor.dot.haskell
 --                 ^^^^^^ entity.name.class.haskell
---                        ^^ constant.language.unit.haskell
+--                        ^ punctuation.section.sequence.begin.haskell
+--                         ^ punctuation.section.sequence.end.haskell
 
     instance ModId.QTyCls (,)
 --  ^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.instance.haskell - meta.sequence
@@ -1515,7 +1520,9 @@
 --           ^^^^^ variable.namespace.haskell
 --                ^ punctuation.accessor.dot.haskell
 --                 ^^^^^^ entity.name.class.haskell
---                        ^^^ constant.language.tuple.haskell
+--                        ^ punctuation.section.sequence.begin.haskell
+--                         ^ punctuation.separator.sequence.haskell
+--                          ^ punctuation.section.sequence.end.haskell
 
     instance ModId.QTyCls (->)
 --  ^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.instance.haskell - meta.prefix
@@ -1580,7 +1587,7 @@
     instance ModId.QTyCls ([] a b)
 --  ^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.instance.haskell - meta.group
 --                        ^ meta.declaration.instance.haskell meta.group.haskell
---                         ^^ meta.declaration.instance.haskell meta.group.haskell meta.sequence.list.haskell
+--                         ^^ meta.declaration.instance.haskell meta.group.haskell meta.sequence.list.empty.haskell
 --                           ^^^^^ meta.declaration.instance.haskell meta.group.haskell
 --                                ^ meta.declaration.instance.haskell - meta.group
 --  ^^^^^^^^ keyword.declaration.instance.haskell
@@ -1588,7 +1595,8 @@
 --                ^ punctuation.accessor.dot.haskell
 --                 ^^^^^^ entity.name.class.haskell
 --                        ^ punctuation.section.group.begin.haskell
---                         ^^ constant.language.list.haskell
+--                         ^ punctuation.section.sequence.begin.haskell
+--                          ^ punctuation.section.sequence.end.haskell
 --                            ^ variable.other.haskell
 --                              ^ variable.other.haskell
 --                               ^ punctuation.section.group.end.haskell
@@ -1596,7 +1604,7 @@
     instance ModId.QTyCls (() a b)
 --  ^^^^^^^^^^^^^^^^^^^^^^ meta.declaration.instance.haskell - meta.group
 --                        ^ meta.declaration.instance.haskell meta.group.haskell
---                         ^^ meta.declaration.instance.haskell meta.group.haskell meta.sequence.tuple.haskell
+--                         ^^ meta.declaration.instance.haskell meta.group.haskell meta.sequence.tuple.empty.haskell
 --                           ^^^^^ meta.declaration.instance.haskell meta.group.haskell
 --                                ^ meta.declaration.instance.haskell - meta.group
 --  ^^^^^^^^ keyword.declaration.instance.haskell
@@ -1604,7 +1612,8 @@
 --                ^ punctuation.accessor.dot.haskell
 --                 ^^^^^^ entity.name.class.haskell
 --                        ^ punctuation.section.group.begin.haskell
---                         ^^ constant.language.unit.haskell
+--                         ^ punctuation.section.sequence.begin.haskell
+--                          ^ punctuation.section.sequence.end.haskell
 --                            ^ variable.other.haskell
 --                              ^ variable.other.haskell
 --                               ^ punctuation.section.group.end.haskell
@@ -1620,7 +1629,9 @@
 --                ^ punctuation.accessor.dot.haskell
 --                 ^^^^^^ entity.name.class.haskell
 --                        ^ punctuation.section.group.begin.haskell
---                         ^^^ constant.language.tuple.haskell
+--                         ^ punctuation.section.sequence.begin.haskell
+--                          ^ punctuation.separator.sequence.haskell
+--                           ^ punctuation.section.sequence.end.haskell
 --                             ^ variable.other.haskell
 --                               ^ variable.other.haskell
 --                                ^ punctuation.section.group.end.haskell
@@ -1736,7 +1747,9 @@
 --                                                    ^^^^^^^^^^^^^^^^^ meta.declaration.deriving.haskell meta.sequence.tuple.haskell
 --                                                                     ^ - meta.declaration
 --  ^^^^ keyword.declaration.newtype.haskell
---          ^^ meta.sequence.tuple.haskell constant.language.unit.haskell
+--          ^^ meta.sequence.tuple.empty.haskell
+--          ^ punctuation.section.sequence.begin.haskell
+--           ^ punctuation.section.sequence.end.haskell
 --             ^^ keyword.operator.big-arrow.haskell
 --                ^^^^^ variable.namespace.haskell
 --                     ^ punctuation.accessor.dot.haskell
@@ -2413,9 +2426,10 @@ main = do
 
     []
 -- ^ - meta.sequence
---  ^^ meta.sequence.list.haskell
+--  ^^ meta.sequence.list.empty.haskell
 --    ^ - meta.sequence
---  ^^ constant.language.list.haskell
+--  ^ punctuation.section.sequence.begin.haskell
+--   ^ punctuation.section.sequence.end.haskell
 
     [,]
 -- ^ - meta.sequence
@@ -2585,21 +2599,17 @@ main = do
 
     ()
 -- ^ - meta.sequence
---  ^^ meta.sequence.tuple.haskell
+--  ^^ meta.sequence.tuple.empty.haskell
 --    ^ - meta.sequence
---  ^^ constant.language.unit.haskell
+--  ^ punctuation.section.sequence.begin.haskell
+--   ^ punctuation.section.sequence.end.haskell
 
     (,)
 -- ^ - meta.sequence
 --  ^^^ meta.sequence.tuple.haskell
 --     ^ - meta.sequence
---  ^^^ constant.language.tuple.haskell
-
-    (,,)
--- ^ - meta.sequence
---  ^^^^ meta.sequence.tuple.haskell
---      ^ - meta.sequence
---  ^^^^ constant.language.tuple.haskell
+--  ^ punctuation.section.sequence.begin.haskell
+--    ^ punctuation.section.sequence.end.haskell
 
     (#,#)
 -- ^ - meta.sequence
