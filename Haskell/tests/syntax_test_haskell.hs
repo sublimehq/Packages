@@ -214,7 +214,7 @@
 --      ^^^^^^^^^^ keyword.directive.builtin.haskell
 --                 ^^^^^^ keyword.directive.builtin.haskell
 --                        ^^^^^^ entity.name.function.haskell
---                               ^^ keyword.operator.double-colon.haskell
+--                               ^^ punctuation.separator.type.haskell
 --                                  ^^^^ support.type.prelude.haskell
 --                                       ^^ keyword.operator.arrow.haskell
 --                                          ^^ support.type.prelude.haskell
@@ -810,7 +810,7 @@
 --          ^^^^^^ keyword.declaration.export.haskell
 --                 ^^^^^ constant.language.convention.haskell
 --                       ^^^^^^ entity.name.function.haskell
---                              ^^ keyword.operator.double-colon.haskell
+--                              ^^ punctuation.separator.type.haskell
 --                                 ^^^ support.type.prelude.haskell
 --                                     ^^ keyword.operator.arrow.haskell
 --                                        ^^^ support.type.prelude.haskell
@@ -832,7 +832,7 @@
 --  ^^^^^^ entity.name.function.haskell
     :: Int -> Int
 -- ^ meta.declaration.foreign.export.haskell
---  ^^ keyword.operator.double-colon.haskell
+--  ^^ punctuation.separator.type.haskell
 --     ^^^ support.type.prelude.haskell
 --         ^^ keyword.operator.arrow.haskell
 --            ^^^ support.type.prelude.haskell
@@ -844,7 +844,7 @@
 --                 ^^^^^ constant.language.convention.haskell
 --                       ^^^^^^^ entity.name.function.haskell
 --                             ^ storage.modifier.unboxed.haskell
---                               ^^ keyword.operator.double-colon.haskell
+--                               ^^ punctuation.separator.type.haskell
 --                                  ^^^ support.type.prelude.haskell
 --                                      ^^ keyword.operator.arrow.haskell
 --                                         ^^^ support.type.prelude.haskell
@@ -859,7 +859,7 @@
 --                                ^ punctuation.definition.prefix.begin.haskell
 --                                 ^ keyword.operator.haskell
 --                                  ^ punctuation.definition.prefix.end.haskell
---                                    ^^ keyword.operator.double-colon.haskell
+--                                    ^^ punctuation.separator.type.haskell
 --                                       ^^^ support.type.prelude.haskell
 --                                          ^^ keyword.operator.arrow.haskell
 --                                            ^^^ support.type.prelude.haskell
@@ -899,7 +899,7 @@
 --                 ^^^^^ constant.language.convention.haskell
 --                       ^^^^^ meta.string.haskell string.quoted.double.haskell
 --                             ^^^^^ entity.name.function.haskell
---                                   ^^ keyword.operator.double-colon.haskell
+--                                   ^^ punctuation.separator.type.haskell
 --                                      ^^^^^^ support.type.prelude.haskell
 --                                             ^^ keyword.operator.arrow.haskell
 --                                                ^^^^^^ support.type.prelude.haskell
@@ -913,7 +913,7 @@
 --                             ^^^^^^ meta.string.haskell string.quoted.double.haskell
 --                                    ^^^^^ entity.name.function.haskell
 --                                        ^ storage.modifier.unboxed.haskell
---                                          ^^ keyword.operator.double-colon.haskell
+--                                          ^^ punctuation.separator.type.haskell
 --                                             ^^^^^^ support.type.prelude.haskell
 --                                                    ^^ keyword.operator.arrow.haskell
 --                                                       ^^^^ support.type.prelude.haskell
@@ -928,7 +928,7 @@
 --                                ^ punctuation.definition.prefix.begin.haskell
 --                                 ^ keyword.operator.haskell
 --                                  ^ punctuation.definition.prefix.end.haskell
---                                    ^^ keyword.operator.double-colon.haskell
+--                                    ^^ punctuation.separator.type.haskell
 --                                       ^^^ support.type.prelude.haskell
 --                                          ^^ keyword.operator.arrow.haskell
 --                                            ^^^ support.type.prelude.haskell
@@ -1240,23 +1240,23 @@
 --         ^ punctuation.section.block.begin.haskell
         recordInt :: Int
 --      ^^^^^^^^^ variable.other.haskell
---                ^^ keyword.operator.double-colon.haskell
+--                ^^ punctuation.separator.type.haskell
 --                   ^^^ support.type.prelude.haskell
       , recordString :: String
 --    ^ punctuation.separator.sequence.haskell
 --      ^^^^^^^^^^^^ variable.other.haskell
---                   ^^ keyword.operator.double-colon.haskell
+--                   ^^ punctuation.separator.type.haskell
 --                      ^^^^^^ support.type.prelude.haskell
       , recordDouble :: Double#
 --    ^ punctuation.separator.sequence.haskell
 --      ^^^^^^^^^^^^ variable.other.haskell
---                   ^^ keyword.operator.double-colon.haskell
+--                   ^^ punctuation.separator.type.haskell
 --                      ^^^^^^^ support.type.unboxed.haskell
 --                            ^ storage.modifier.unboxed.haskell
       , recordRational :: Rational
 --    ^ punctuation.separator.sequence.haskell
 --      ^^^^^^^^^^^^^^ variable.other.haskell
---                     ^^ keyword.operator.double-colon.haskell
+--                     ^^ punctuation.separator.type.haskell
 --                        ^^^^^^^^ support.class.prelude.haskell
       } deriving (Eq, Ord, Generic)
 --   ^^ meta.block.haskell
@@ -1334,11 +1334,11 @@
 --                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.haskell
 --                 ^ punctuation.section.block.begin.haskell
 --                   ^^^^^^^^^^^^^ meta.block.haskell variable.other.haskell
---                                 ^^ keyword.operator.double-colon.haskell
+--                                 ^^ punctuation.separator.type.haskell
 --                                    ^^^ support.type.prelude.haskell
 --                                       ^ punctuation.separator.sequence.haskell
 --                                         ^^^^^^^^^^^^^^^^ meta.block.haskell variable.other.haskell
---                                                          ^^ keyword.operator.double-colon.haskell
+--                                                          ^^ punctuation.separator.type.haskell
 --                                                             ^^^^^^ support.type.prelude.haskell
 --                                                                    ^ punctuation.section.block.end.haskell
         deriving (Eq, Ord, Generic)
@@ -1353,7 +1353,7 @@
 --        ^ punctuation.definition.prefix.begin.haskell
 --         ^^^ keyword.operator.haskell
 --            ^ punctuation.definition.prefix.end.haskell
---               ^^ keyword.operator.double-colon.haskell
+--               ^^ punctuation.separator.type.haskell
 --                  ^^^^^^ keyword.control.forall.haskell
 --                              ^ punctuation.separator.sequence.haskell
 --                                ^^^^^^^^^^^^ variable.namespace.haskell
@@ -1365,7 +1365,7 @@
 --        ^ punctuation.definition.prefix.begin.haskell
 --         ^^ keyword.operator.haskell
 --           ^ punctuation.definition.prefix.end.haskell
---               ^^ keyword.operator.double-colon.haskell
+--               ^^ punctuation.separator.type.haskell
 --                  ^^^^^^ keyword.control.forall.haskell
 --                              ^ punctuation.separator.sequence.haskell
 --                                ^^^^^^^^^^^^ variable.namespace.haskell
@@ -1374,7 +1374,7 @@
         , fail   :: ∀ m a       . Unrestricted.MonadFail m => String -> m a
 --      ^ punctuation.separator.sequence.haskell
 --        ^^^^ support.function.prelude.haskell
---               ^^ keyword.operator.double-colon.haskell
+--               ^^ punctuation.separator.type.haskell
 --                  ^ keyword.control.forall.haskell
 --                              ^ punctuation.separator.sequence.haskell
 --                                ^^^^^^^^^^^^ variable.namespace.haskell
@@ -1383,7 +1383,7 @@
         , return :: forall m a  . Unrestricted.Monad     m => a -> m a
 --      ^ punctuation.separator.sequence.haskell
 --        ^^^^^^ support.function.prelude.haskell
---               ^^ keyword.operator.double-colon.haskell
+--               ^^ punctuation.separator.type.haskell
 --                  ^^^^^^ keyword.control.forall.haskell
 --                              ^ punctuation.separator.sequence.haskell
 --                                ^^^^^^^^^^^^ variable.namespace.haskell
@@ -1980,7 +1980,7 @@
         :: a -> Bool
 --     ^ meta.function.identifier.haskell
 --      ^^^^^^^^^^^^^ - meta.function
---      ^^ keyword.operator.double-colon.haskell
+--      ^^ punctuation.separator.type.haskell
 --         ^ variable.other.haskell
 --           ^^ keyword.operator.arrow.haskell
 --              ^^^^ support.type.prelude.haskell
@@ -2006,7 +2006,7 @@
         :: a -> Bool
 --     ^ meta.function.identifier.haskell
 --      ^^^^^^^^^^^^^ - meta.function
---      ^^ keyword.operator.double-colon.haskell
+--      ^^ punctuation.separator.type.haskell
 --         ^ variable.other..haskell
 --           ^^ keyword.operator.arrow.haskell
 --              ^^^^ support.type.prelude.haskell
@@ -2015,7 +2015,7 @@
     sequenceA ∷ Applicative f ⇒ t (f a) → f (t a)
 --  ^^^^^^^^^^ meta.function.identifier.haskell
 --  ^^^^^^^^^ entity.name.function.haskell
---            ^ keyword.operator.double-colon.haskell
+--            ^ punctuation.separator.type.haskell
 --              ^^^^^^^^^^^ support.class.prelude.haskell
 --                          ^ variable.other.haskell
 --                            ^ keyword.operator.big-arrow.haskell
@@ -2042,7 +2042,7 @@
 --  ^^^^^^^^^ meta.function.identifier.haskell
 --           ^^^^^^^^^^^^^^^^^^^^ - meta.function
 --  ^^^^^^^^ entity.name.function.haskell
---           ^^ keyword.operator.double-colon.haskell
+--           ^^ punctuation.separator.type.haskell
 --              ^^^^^^^^^^^ support.class.prelude.haskell
 --                          ^ variable.other.haskell
 --                            ^^ keyword.operator.big-arrow.haskell
@@ -2105,7 +2105,7 @@
     fun :: Bool -> Bool
 --  ^^^^ meta.function.identifier.haskell
 --  ^^^ entity.name.function.haskell
---      ^^ keyword.operator.double-colon.haskell
+--      ^^ punctuation.separator.type.haskell
     fun = print "Hello"
 --  ^^^ variable.other.haskell
 --      ^ keyword.operator.haskell
@@ -2123,7 +2123,7 @@
 --                                          ^ punctuation.section.block.begin.haskell
 --                                            ^^^^^ meta.function.identifier.haskell
 --                                            ^^^^ entity.name.function.haskell
---                                                 ^^ keyword.operator.double-colon.haskell
+--                                                 ^^ punctuation.separator.type.haskell
 --                                                    ^^^^ support.type.prelude.haskell
 --                                                         ^^ keyword.operator.arrow.haskell
 --                                                            ^^^^ support.type.prelude.haskell
@@ -2133,7 +2133,7 @@
 --                                                                          ^^^^^ support.constant.prelude.haskell
 --                                                                                ^ punctuation.terminator.statement.haskell
 --                                                                                  ^^^^ entity.name.function.haskell
---                                                                                       ^^ keyword.operator.double-colon.haskell
+--                                                                                       ^^ punctuation.separator.type.haskell
 --                                                                                          ^ punctuation.section.block.end.haskell
 
     {- Class Method Declarations -}
@@ -2141,7 +2141,7 @@
       nethod1 :: a -> Bool
 --    ^^^^^^^^ meta.function.identifier.haskell
 --    ^^^^^^^ entity.name.function.haskell
---            ^^ keyword.operator.double-colon.haskell
+--            ^^ punctuation.separator.type.haskell
 --               ^ variable.other.haskell
 --                 ^^ keyword.operator.arrow.haskell
 --                    ^^^^ support.type.prelude.haskell
@@ -2166,7 +2166,7 @@
 --    ^^^^^^^ meta.block.haskell meta.function.identifier.haskell
 --           ^^^^^^^^^^^^^^^^^ meta.block.haskell - meta.function
 --    ^^^^^^ entity.name.function.haskell
---           ^^ keyword.operator.double-colon.haskell
+--           ^^ punctuation.separator.type.haskell
 --              ^^^^ support.type.prelude.haskell
 --                   ^^ keyword.operator.arrow.haskell
 --                      ^^^^ support.type.prelude.haskell
@@ -2187,7 +2187,7 @@
 --           ^^^^^^^^^^^^^^^^^ meta.block.haskell - meta.function
 --   ^ punctuation.terminator.statement.haskell
 --    ^^^^^^ entity.name.function.haskell
---           ^^ keyword.operator.double-colon.haskell
+--           ^^ punctuation.separator.type.haskell
 --              ^^^^ support.type.prelude.haskell
 --                   ^^ keyword.operator.arrow.haskell
 --                      ^^^^ support.type.prelude.haskell
@@ -2199,7 +2199,7 @@
       nethod1 :: a -> Bool
 --    ^^^^^^^^ meta.function.identifier.haskell
 --    ^^^^^^^ entity.name.function.haskell
---            ^^ keyword.operator.double-colon.haskell
+--            ^^ punctuation.separator.type.haskell
 --               ^ variable.other.haskell
 --                 ^^ keyword.operator.arrow.haskell
 --                    ^^^^ support.type.prelude.haskell
@@ -2224,7 +2224,7 @@
 --    ^^^^^^^ meta.block.haskell meta.function.identifier.haskell
 --           ^^^^^^^^^^^^^^^^^ meta.block.haskell - meta.function
 --    ^^^^^^ entity.name.function.haskell
---           ^^ keyword.operator.double-colon.haskell
+--           ^^ punctuation.separator.type.haskell
 --              ^^^^ support.type.prelude.haskell
 --                   ^^ keyword.operator.arrow.haskell
 --                      ^^^^ support.type.prelude.haskell
@@ -2245,7 +2245,7 @@
 --           ^^^^^^^^^^^^^^^^^ meta.block.haskell - meta.function
 --   ^ punctuation.terminator.statement.haskell
 --    ^^^^^^ entity.name.function.haskell
---           ^^ keyword.operator.double-colon.haskell
+--           ^^ punctuation.separator.type.haskell
 --              ^^^^ support.type.prelude.haskell
 --                   ^^ keyword.operator.arrow.haskell
 --                      ^^^^ support.type.prelude.haskell
@@ -2372,7 +2372,7 @@ test =
 --^^^ keyword.declaration.variable.haskell
 --    ^^^^^^^ meta.function.identifier.haskell
 --    ^^^^^^ entity.name.function.haskell
---           ^^ keyword.operator.double-colon.haskell
+--           ^^ punctuation.separator.type.haskell
       runIO' f = do
         let isWarning msg = messageVerbosity msg == WARNING
 --      ^^^ keyword.declaration.variable.haskell
@@ -2468,7 +2468,7 @@ main = do
 --  ^^^^^^^^^ meta.sequence.list.haskell
 --  ^ punctuation.section.sequence.begin.haskell
 --    ^ variable.other.haskell
---      ^^ keyword.operator.double-colon.haskell
+--      ^^ punctuation.separator.type.haskell
 --         ^ variable.other.haskell
      B c ]
 --  ^^^^^^ meta.sequence.list.haskell
@@ -3793,7 +3793,7 @@ main = do
     .. : :: = \ <- | -> @ ~ =>  -- reserved operators
 --  ^^ keyword.operator.haskell
 --     ^ keyword.operator.haskell
---       ^^ keyword.operator.double-colon.haskell
+--       ^^ punctuation.separator.type.haskell
 --          ^ keyword.operator.haskell
 --            ^ keyword.operator.haskell
 --              ^^ keyword.operator.arrow.haskell
