@@ -662,11 +662,8 @@ contexts:
       scope: constant.other.placeholder.matlab
 
   variables:
-    - match: \b{{identifier}}\b
+    - match: \b{{identifier}}
       scope: variable.other.matlab
-      captures:
-        1: punctuation.accessor.dot.matlab
-      push: transpose
 
   transposed-variables:
     - match: \b({{identifier}})(?:\s*(\.\')|(\'))
@@ -682,15 +679,17 @@ contexts:
         2: keyword.operator.assignment.matlab
 
   structures:
-    - match: \b{{identifier}}(\.)\b
+    - match: \b({{identifier}})(\.)(?={{identifier}})
       captures:
-        1: punctuation.accessor.dot.matlab
+        1: variable.other.matlab
+        2: punctuation.accessor.dot.matlab
       push:
-        - meta_scope: variable.other.matlab
-        - match: '{{identifier}}(\.)\b'
+        - match: ({{identifier}})(\.)(?={{identifier}})
           captures:
-            1: punctuation.accessor.dot.matlab
+            1: variable.other.member.matlab
+            2: punctuation.accessor.dot.matlab
         - match: '{{identifier}}'
+          scope: variable.other.member.matlab
           set: transpose
 
 ###[ PARENS/BRACKETS/BRACES BLOCKS ]############################################
@@ -702,7 +701,12 @@ contexts:
         - meta_scope: meta.parens.matlab
         - match: \)
           scope: punctuation.section.parens.end.matlab
-          set: transpose
+          set:
+            - match: (\.)({{identifier}})
+              captures:
+                1: punctuation.accessor.dot.matlab
+                2: variable.other.member.matlab
+            - include: transpose
         - include: last-indices
         - include: expressions
 
@@ -725,7 +729,12 @@ contexts:
         - meta_scope: meta.braces.matlab
         - match: \}
           scope: punctuation.section.braces.end.matlab
-          set: transpose
+          set:
+            - match: (\.)({{identifier}})
+              captures:
+                1: punctuation.accessor.dot.matlab
+                2: variable.other.member.matlab
+            - include: transpose
         - include: separator-semicolons
         - include: last-indices
         - include: expressions
