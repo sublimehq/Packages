@@ -163,6 +163,17 @@ contexts:
   ts-class-implements:
     - match: implements{{identifier_break}}
       scope: storage.modifier.implements.js
+      set: ts-inherited-class-expression-list
+    - include: else-pop
+
+  ts-interface-extends:
+    - match: extends{{identifier_break}}
+      scope: storage.modifier.extends.js
+      set: ts-inherited-class-expression-list
+    - include: else-pop
+
+  ts-inherited-class-expression-list:
+    - match: ''
       set:
         - - match: \,
             scope: punctuation.separator.comma.js
@@ -172,7 +183,6 @@ contexts:
           - include: else-pop
         - inherited-class-expression-end
         - inherited-class-expression-begin
-    - include: else-pop
 
   inherited-class-expression-end:
     - meta_prepend: true
@@ -190,7 +200,7 @@ contexts:
       set:
         - ts-interface-meta
         - ts-type-body
-        - class-extends
+        - ts-interface-extends
         - ts-type-parameter-list
         - ts-interface-name
 
