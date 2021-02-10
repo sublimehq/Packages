@@ -808,6 +808,8 @@ x = a(1).
 %       ^ punctuation.accessor.dot.matlab
 x = a{1}.
 %       ^ punctuation.accessor.dot.matlab
+x = a{1}.*B
+%       ^^ - punctuation.accessor
 x = zeros.
 %   ^^^^^ support.function.builtin.matlab - variable.other
 %        ^ punctuation.accessor.dot.matlab

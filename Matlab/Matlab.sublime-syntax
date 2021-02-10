@@ -706,6 +706,9 @@ contexts:
               captures:
                 1: punctuation.accessor.dot.matlab
                 2: variable.other.member.matlab
+            - match: \.(?!['*/\\^])
+              scope: punctuation.accessor.dot.matlab
+              pop: true
             - include: transpose
         - include: last-indices
         - include: expressions
@@ -734,6 +737,9 @@ contexts:
               captures:
                 1: punctuation.accessor.dot.matlab
                 2: variable.other.member.matlab
+            - match: \.(?!['*/\\^])
+              scope: punctuation.accessor.dot.matlab
+              pop: true
             - include: transpose
         - include: separator-semicolons
         - include: last-indices
@@ -1139,7 +1145,7 @@ contexts:
       pop: true
 
   accessor-dots:
-    - match: (?<=\S)\.
+    - match: \b\.
       scope: punctuation.accessor.dot.matlab
 
   terminators:
