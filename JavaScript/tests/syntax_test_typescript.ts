@@ -81,6 +81,13 @@
 //                                    ^ support.class
 //                                      ^ punctuation.definition.generic.end
 
+    interface Foo extends Bar, Baz {}
+//  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.interface
+//                ^^^^^^^ storage.modifier.extends
+//                        ^^^ entity.other.inherited-class
+//                           ^ punctuation.separator.comma
+//                             ^^^ entity.other.inherited-class
+
     enum Foo {
 //  ^^^^^^^^^^^ meta.enum
 //  ^^^^ storage.type
