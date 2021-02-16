@@ -765,6 +765,7 @@ contexts:
     - include: pkgcomment
     - include: beamer
     - include: pkgarray
+    - include: gnuplottex
 
   # listings package
   pkglistings:
@@ -1700,3 +1701,29 @@ contexts:
                   pop: true
             - match: ''
               pop: true
+
+
+  gnuplottex:
+    - match: ((\\)begin)(\{)(gnuplot)(\})
+      captures:
+        1: support.function.begin.latex keyword.control.flow.begin.latex
+        2: punctuation.definition.backslash.latex
+        3: punctuation.definition.group.brace.begin.latex
+        4: variable.parameter.function.latex
+        5: punctuation.definition.group.brace.end.latex
+      push:
+        - meta_include_prototype: false
+        - include: general-optional-arguments
+        - meta_scope: meta.environment.verbatim.gnuplottex.latex
+        - match: '((\\)end)(\{)(gnuplot)(\})'
+          captures:
+            1: support.function.end.latex keyword.control.flow.end.latex
+            2: punctuation.definition.backslash.latex
+            3: punctuation.definition.group.brace.begin.latex
+            4: variable.parameter.function.latex
+            5: punctuation.definition.group.brace.end.latex
+          pop: true
+        - match: ''
+          embed:  scope:source.gnuplot
+          embed_scope: meta.environment.embedded.gnuplot.latex source.gnuplot.embedded
+          escape: '(?=\\end\{gnuplot\})'

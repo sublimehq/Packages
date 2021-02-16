@@ -520,6 +520,27 @@ a & b
 \end{tabular}
 
 
+% PACKAGE: gnuplottex
+% The gnuplottex package is used to produce graphs from verbatim
+% gnuplot scripts that are embedded in a gnuplot enviroment.
+
+\begin{gnuplot}[terminal=cairolatex]
+plot sin(x)
+% <- meta.environment.verbatim.gnuplottex.latex
+% <- meta.environment.embedded.gnuplot.latex
+% <- source.gnuplot.embedded
+% <- source.gnuplot
+
+% This is not a tex comment.
+% ^^^^^^^^^^^^^^^^^^^^^^^^^^ - comment.line.percentage.tex
+
+# This is single $, to check that it doesn't start a math enviroment.
+#
+% <- - meta.environment.math.block.dollar.latex 
+\end{gnuplot}
+
+
+
 
 \AnyDeclarationCommand{\eq}{\begin{equation}}
 
