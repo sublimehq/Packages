@@ -1993,9 +1993,9 @@ var_dump(new C(42));
 //                                                   ^^ punctuation.section.embedded.end
 
   <tag-<?php $bar ?>na<?php $baz ?>me att<?php $bar ?>rib=false />
-//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.custom.html
+//^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.tag.other.html
 //^ punctuation.definition.tag.begin.html
-// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.tag.custom.html
+// ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.tag.other.html
 //     ^^^^^ punctuation.section.embedded.begin.php
 //     ^^^^^^^^^^^^^ meta.embedded.line.php
 //                ^^ punctuation.section.embedded.end
