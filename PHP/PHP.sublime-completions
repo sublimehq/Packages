@@ -1,10 +1,8 @@
 {
 	"scope": "source.php - variable.other.php - source.php meta.embedded.html",
-
 	"completions":
 	[
 		"php",
-
 		{
 			"trigger": "abs()",
 			"contents": "abs(${1:number})",
@@ -529,6 +527,12 @@
 			"contents": "array_intersect_ukey(${1:array1}, ${2:array2})",
 			"kind": "function",
 			"details": "Computes the intersection of arrays using a callback function on the keys for comparison"
+		},
+		{
+			"trigger": "array_is_list()",
+			"contents": "array_is_list(${1:array})",
+			"kind": "function",
+			"details": "Checks if the given array is a list"
 		},
 		{
 			"trigger": "array_key_exists()",
