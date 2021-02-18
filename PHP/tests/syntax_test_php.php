@@ -1447,6 +1447,11 @@ $var3 = 0x0f;
 //      ^^ constant.numeric.base.php
 //        ^^ constant.numeric.value
 
+$var3 = 0o0766;
+//      ^^^^^^ meta.number.integer.octal
+//      ^^ constant.numeric.base.php
+//        ^^^^ constant.numeric.value
+
 $var3 = 0x0_f;
 //      ^^^^ meta.number.integer.hexadecimal
 //      ^^ constant.numeric.base.php

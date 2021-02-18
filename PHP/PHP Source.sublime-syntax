@@ -1438,6 +1438,11 @@ contexts:
       captures:
         1: constant.numeric.base.php
         2: constant.numeric.value.php
+    - match: '\b(0[oO])((?!_)(?:\h|_(?!_))*)\b'
+      scope: meta.number.integer.octal.php
+      captures:
+        1: constant.numeric.base.php
+        2: constant.numeric.value.php
     - match: '\b(0[xX])((?!_)(?:\h|_(?!_))*)\b'
       scope: meta.number.integer.hexadecimal.php
       captures:
