@@ -769,6 +769,46 @@ $f3 = #[ExampleAttribute] fn () => 1;
 //              ^^ punctuation.definition.comment.end
 //                ^ - comment
 
+enum Suit {
+// ^ storage.type.enum
+//   ^^^^ entity.name.enum
+    case Hearts;
+//  ^^^^ keyword.control
+//       ^^^^^^ constant.other
+    case Diamonds;
+    case Clubs;
+    case Spades;
+}
+
+enum Suit: string implements Colorful {
+// ^ storage.type.enum
+//   ^^^^ entity.name.enum
+//       ^ punctuation.separator
+//         ^^^^^^ storage.type
+//                ^^^^^^^^^^ storage.modifier.implements
+//                           ^^^^^^^^ entity.other.inherited-class
+    case Hearts = 'H';
+//  ^^^^ keyword.control
+//       ^^^^^^ constant.other
+//              ^ keyword.operator.assignment
+//                ^^^ string.quoted.single
+    case Diamonds = 'D';
+    case Clubs = 'C';
+    case Spades = 'S';
+
+    public function color(): string {
+//  ^^^^^^ storage.modifier
+//         ^^^^^^^^ storage.type.function
+//                  ^^^^^ entity.name.function
+//                         ^ punctuation.separator
+//                           ^^^^^^ storage.type.php
+        return match($this) {
+            Suit::Hearts, Suit::Diamonds => 'Red',
+            Suit::Clubs, Suit::Spaces => 'Black',
+        };
+    }
+}
+
     class Test1 extends stdClass implements Countable {}
 //  ^ storage.type.class.php
 //        ^ entity.name.class.php

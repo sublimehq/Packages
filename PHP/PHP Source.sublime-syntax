@@ -18,6 +18,7 @@ contexts:
 
   statements:
     - include: class
+    - include: enum
     - include: use-statement
     - match: '(?i)^\s*(interface)\s+({{identifier}})\s*'
       captures:
@@ -415,8 +416,8 @@ contexts:
           OutOfBoundsException | OutOfRangeException | OuterIterator | OverflowException | PDO | PDOStatement | ParentIterator | ParseError | Phar |
           PharData | PharFileInfo  | PhpCompilerAttribute | PhpToken | RRDCreator | RRDGraph | RRDUpdater | RangeException | RecursiveArrayIterator | RecursiveCachingIterator |
           RecursiveDirectoryIterator | RecursiveFilterIterator | RecursiveIterator | RecursiveIteratorIterator | RecursiveRegexIterator | RecursiveTreeIterator | Reflection | ReflectionClass |
-          ReflectionExtension | ReflectionFunction | ReflectionFunctionAbstract | ReflectionMethod | ReflectionObject | ReflectionParameter | ReflectionProperty | Reflector |
-          RegexIterator | ResourceBundle | RuntimeException | SAMConnection | SAMMessage | SCA | SCA_LocalProxy | SCA_SoapProxy |
+          ReflectionEnum | ReflectionEnumBackedCase | ReflectionEnumUnitCase | ReflectionExtension | ReflectionFunction | ReflectionFunctionAbstract | ReflectionMethod | ReflectionObject | 
+          ReflectionParameter | ReflectionProperty | Reflector | RegexIterator | ResourceBundle | RuntimeException | SAMConnection | SAMMessage | SCA | SCA_LocalProxy | SCA_SoapProxy |
           SDO_DAS_ChangeSummary | SDO_DAS_DataFactory | SDO_DAS_DataObject | SDO_DAS_Relational | SDO_DAS_Setting | SDO_DAS_XML | SDO_DAS_XML_Document | SDO_DataFactory |
           SDO_DataObject | SDO_Exception | SDO_List | SDO_Model_Property | SDO_Model_ReflectionDataObject | SDO_Model_Type | SDO_Sequence | SNMP |
           SQLite3 | SQLite3Result | SQLite3Stmt | SQLiteDatabase | SQLiteResult | SQLiteUnbuffered | SVM | SVMModel |
@@ -560,6 +561,55 @@ contexts:
         - include: identifier-constant-pop
     - include: use-statement-common
     - include: identifier-constant-pop
+  enum:
+    - match: '(?i)\b(enum)\s+({{identifier}})\s*'
+      captures:
+        1: storage.type.enum.php
+        2: entity.name.enum.php
+      push: enum-definition
+
+  enum-definition:
+    - match: "(?=;)"
+      pop: 1
+    - match: "(?=:)"
+      push:
+        - match: ':'
+          scope: punctuation.separator.php
+          set:
+            - match: '(?={{path}})'
+              set:
+                - meta_scope: meta.path.php
+                - include: type-hint
+                - match: ''
+                  pop: 1
+        - match: '(?=\S)'
+          pop: 1
+    - match: \{
+      scope: meta.block.php punctuation.section.block.begin.php
+      set: class-body
+    - include: attributes
+    - include: comments
+    - match: (?i)(implements)\b\s*
+      captures:
+        1: storage.modifier.implements.php
+      push:
+        - include: attributes
+        - include: comments
+        - match: '(?={{path}})'
+          push:
+            - meta_scope: meta.path.php
+            - meta_content_scope: entity.other.inherited-class.php
+            - include: class-builtin
+            - include: identifier-parts
+            - match: '(\\)?{{identifier}}(?!\\)'
+              captures:
+                1: punctuation.separator.namespace.php
+            - match: ''
+              pop: 1
+        - match: ','
+          scope: punctuation.separator.php
+        - match: '(?=\S)'
+          pop: 1
 
   class:
     - match: '(?i)(\b(?:abstract|final)\s+)?\b(class)\s+({{identifier}})\s*'

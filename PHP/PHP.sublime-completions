@@ -4073,6 +4073,12 @@
 			"details": "Set the internal pointer of an array to its last element"
 		},
 		{
+			"trigger": "enum_exists()",
+			"contents": "enum_exists(${1:enum_name})",
+			"kind": "function",
+			"details": "Checks if the enum has been defined"
+		},
+		{
 			"trigger": "ereg()",
 			"contents": "ereg(${1:pattern}, ${2:string})",
 			"kind": "function",
