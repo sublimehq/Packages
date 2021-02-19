@@ -519,27 +519,19 @@ class="foo"></div>
         ##                      ^ punctuation.definition.tag.end.html
 
         <form-custom-tag><div-custom-tag><span-custom-tag></span-custom-tag></div-custom-tag></form-custom-tag>
-        ##^^^^^^^^^^^^^^ entity.name.tag.custom.html
-        ##                ^^^^^^^^^^^^^^ entity.name.tag.custom.html
-        ##                                ^^^^^^^^^^^^^^^ entity.name.tag.custom.html
-        ##                                                  ^^^^^^^^^^^^^^^ entity.name.tag.custom.html
-        ##                                                                    ^^^^^^^^^^^^^^ entity.name.tag.custom.html
+        ##^^^^^^^^^^^^^^ entity.name.tag.other.html
+        ##                ^^^^^^^^^^^^^^ entity.name.tag.other.html
+        ##                                ^^^^^^^^^^^^^^^ entity.name.tag.other.html
+        ##                                                  ^^^^^^^^^^^^^^^ entity.name.tag.other.html
+        ##                                                                    ^^^^^^^^^^^^^^ entity.name.tag.other.html
 
         <test-custom-tag/>
-        ##^^^^^^^^^^^^^^^^ meta.tag.custom.html
+        ##^^^^^^^^^^^^^^^^ meta.tag.other.html
         ##              ^^ punctuation.definition.tag.end.html
-        ##                ^ - meta.tag.custom.html - punctuation.definition.tag.end.html
+        ##                ^ - meta.tag.other.html - punctuation.definition.tag.end.html
 
         <body-custom·tag₡name/>
-        ## ^^^^^^^^^^^^^^^^^^ entity.name.tag.custom.html
-
-        <INVALID-custom-TAG></INVALID-CUSTOM-TAG>
-        ## ^^^^^ invalid.illegal.custom-tag-name.html
-        ##       ^^^^^^ - invalid.illegal.custom-tag-name.html
-        ##              ^^^ invalid.illegal.custom-tag-name.html
-        ##                    ^^^^^^^ invalid.illegal.custom-tag-name.html
-        ##                            ^^^^^^ invalid.illegal.custom-tag-name.html
-        ##                                   ^^^ invalid.illegal.custom-tag-name.html
+        ## ^^^^^^^^^^^^^^^^^^ entity.name.tag.other.html
 
         <form name="formName" type="post">
         ## ^ entity.name.tag.block.form.html
