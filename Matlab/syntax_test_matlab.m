@@ -14,7 +14,7 @@ end
 %  ^ - meta.class
 
 classdef (Sealed = verLessThan('matlab', '8.4'), ~Hidden) ClassName < SuperClass1 & SuperClass2  % comment
-%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.matlab
+%^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class.matlab - meta.class meta.class
 %^^^^^^^ keyword.declaration.class.matlab
 %        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.attributes.matlab
 %        ^ punctuation.section.parens.begin.matlab

@@ -4,6 +4,7 @@
 # https://www.mathworks.com/help/matlab/index.html
 name: MATLAB
 scope: source.matlab
+version: 2
 
 file_extensions:
   - matlab
@@ -557,7 +558,7 @@ contexts:
 
   eol-pop:
     - match: '{{eol}}'
-      pop: true
+      pop: 1
 
 ###[ COMMENTS AND LINE CONTINUATION ]###########################################
 
@@ -574,7 +575,7 @@ contexts:
         - match: ^\s*(%\})\s*$\n?
           captures:
             1: punctuation.definition.comment.matlab
-          pop: true
+          pop: 1
         - include: block-comments
 
   line-comments:
@@ -638,7 +639,7 @@ contexts:
             - match: (?:\s*(\.\'))?
               captures:
                 1: keyword.operator.transpose.matlab
-              pop: true
+              pop: 1
         - include: escaped-characters
         - include: format-specs
     - match: \"
@@ -708,7 +709,7 @@ contexts:
                 2: variable.other.member.matlab
             - match: \.(?!['*/\\^])
               scope: punctuation.accessor.dot.matlab
-              pop: true
+              pop: 1
             - include: transpose
         - include: last-indices
         - include: expressions
@@ -739,7 +740,7 @@ contexts:
                 2: variable.other.member.matlab
             - match: \.(?!['*/\\^])
               scope: punctuation.accessor.dot.matlab
-              pop: true
+              pop: 1
             - include: transpose
         - include: separator-semicolons
         - include: last-indices
@@ -767,7 +768,7 @@ contexts:
             - include: separator-commas
             - match: \]
               scope: punctuation.section.brackets.end.matlab
-              pop: true
+              pop: 1
             - match: '{{identifier}}'
               scope: variable.parameter.output.matlab
         - match: =
@@ -787,7 +788,7 @@ contexts:
             - include: argument-placeholders
             - match: \)
               scope: punctuation.section.parens.end.matlab
-              pop: true
+              pop: 1
             - match: '{{identifier}}'
               scope: variable.parameter.input.matlab
 
@@ -805,7 +806,7 @@ contexts:
             - include: eol-pop
             - match: \)
               scope: punctuation.section.parens.end.matlab
-              pop: true
+              pop: 1
             - match: \bRepeating\b
               scope: variable.parameter.attribute.matlab
         - match: '{{eol}}'
@@ -813,7 +814,7 @@ contexts:
             - meta_scope: meta.arguments.matlab
             - match: \bend\b
               scope: keyword.context.arguments.end.matlab
-              pop: true
+              pop: 1
             - match: \b\.\?
               scope: keyword.operator.properties.matlab
             - include: argument-placeholders
@@ -826,7 +827,7 @@ contexts:
     - meta_scope: meta.function.matlab
     - match: \bend\b
       scope: keyword.declaration.function.end.matlab
-      pop: true
+      pop: 1
     - include: function-declarations
     - include: keywords
     - include: expressions
@@ -845,7 +846,7 @@ contexts:
             - include: eol-pop
             - match: \)
               scope: punctuation.section.parens.end.matlab
-              pop: true
+              pop: 1
             # https://www.mathworks.com/help/matlab/matlab_oop/class-attributes.html
             - match: \b(?:Abstract|AllowedSubclasses|ConstructOnLoad|HandleCompatible|Hidden|InferiorClasses|Sealed)\b
               scope: variable.parameter.attribute.matlab
@@ -860,7 +861,7 @@ contexts:
             - match: <
               scope: punctuation.separator.inheritance.matlab
               set:
-                - meta_content_scope: meta.class.matlab
+                - meta_scope: meta.class.matlab
                 - include: line-continuations
                 - match: '{{eol}}'
                   set: class-body
@@ -873,7 +874,7 @@ contexts:
     - meta_scope: meta.class.matlab
     - match: \bend\b
       scope: keyword.declaration.class.end.matlab
-      pop: true
+      pop: 1
     - include: comments
     - include: class-properties-blocks
     - include: class-methods-blocks
@@ -895,7 +896,7 @@ contexts:
             - include: eol-pop
             - match: \)
               scope: punctuation.section.parens.end.matlab
-              pop: true
+              pop: 1
             # https://www.mathworks.com/help/matlab/matlab_oop/property-attributes.html
             - match: \b(?:AbortSet|Abstract|Access|Constant|Dependent|GetAccess|GetObservable|Hidden|NonCopyable|PartialMatchPriority|SetAccess|SetObservable|Transient)\b
               scope: variable.parameter.attribute.matlab
@@ -907,7 +908,7 @@ contexts:
     - meta_scope: meta.properties.matlab
     - match: \bend\b
       scope: keyword.declaration.properties.end.matlab
-      pop: true
+      pop: 1
     - include: builtin-types
     - include: expressions
 
@@ -926,7 +927,7 @@ contexts:
             - include: eol-pop
             - match: \)
               scope: punctuation.section.parens.end.matlab
-              pop: true
+              pop: 1
             # https://www.mathworks.com/help/matlab/matlab_oop/method-attributes.html
             - match: \b(?:Abstract|Access|Hidden|Sealed|Static)\b
               scope: variable.parameter.attribute.matlab
@@ -938,7 +939,7 @@ contexts:
     - meta_scope: meta.methods.matlab
     - match: \bend\b
       scope: keyword.context.methods.end.matlab
-      pop: true
+      pop: 1
     - include: comments
     - include: function-declarations
 
@@ -957,7 +958,7 @@ contexts:
             - include: eol-pop
             - match: \)
               scope: punctuation.section.parens.end.matlab
-              pop: true
+              pop: 1
             # https://www.mathworks.com/help/matlab/matlab_oop/event-attributes.html
             - match: \b(?:Hidden|ListenAccess|NotifyAccess)\b
               scope: variable.parameter.attribute.matlab
@@ -969,7 +970,7 @@ contexts:
     - meta_scope: meta.events.matlab
     - match: \bend\b
       scope: keyword.declaration.events.end.matlab
-      pop: true
+      pop: 1
     - include: comments
     - include: variables
 
@@ -982,7 +983,7 @@ contexts:
     - meta_scope: meta.enumeration.matlab
     - match: \bend\b
       scope: keyword.declaration.enumeration.end.matlab
-      pop: true
+      pop: 1
     - include: expressions
 
 ###[ KEYWORDS AND FLOW CONTROL BLOCKS ]#########################################
@@ -1019,7 +1020,7 @@ contexts:
           scope: keyword.control.conditional.else.matlab
         - match: \bend\b
           scope: keyword.control.conditional.end.matlab
-          pop: true
+          pop: 1
         - include: keywords
         - include: expressions
 
@@ -1034,7 +1035,7 @@ contexts:
           scope: keyword.control.conditional.otherwise.matlab
         - match: \bend\b
           scope: keyword.control.conditional.end.matlab
-          pop: true
+          pop: 1
         - include: keywords
         - include: expressions
 
@@ -1045,7 +1046,7 @@ contexts:
         - meta_scope: meta.block.for.matlab
         - match: \bend\b
           scope: keyword.control.loop.end.matlab
-          pop: true
+          pop: 1
         - include: keywords
         - include: expressions
 
@@ -1056,7 +1057,7 @@ contexts:
         - meta_scope: meta.block.parfor.matlab
         - match: \bend\b
           scope: keyword.control.loop.end.matlab
-          pop: true
+          pop: 1
         - include: keywords
         - include: expressions
 
@@ -1067,7 +1068,7 @@ contexts:
         - meta_scope: meta.block.while.matlab
         - match: \bend\b
           scope: keyword.control.loop.end.matlab
-          pop: true
+          pop: 1
         - include: keywords
         - include: expressions
 
@@ -1080,7 +1081,7 @@ contexts:
           scope: keyword.control.exception.catch.matlab
         - match: \bend\b
           scope: keyword.control.exception.end.matlab
-          pop: true
+          pop: 1
         - include: keywords
         - include: expressions
 
@@ -1091,7 +1092,7 @@ contexts:
         - meta_scope: meta.block.spmd.matlab
         - match: \bend\b
           scope: keyword.context.spmd.end.matlab
-          pop: true
+          pop: 1
         - include: keywords
         - include: expressions
 
@@ -1116,7 +1117,7 @@ contexts:
       push:
         - meta_content_scope: meta.string.matlab string.unquoted.matlab
         - match: \n
-          pop: true
+          pop: 1
     - match: \b\@
       scope: punctuation.accessor.at.matlab
     - match: \@
@@ -1133,16 +1134,16 @@ contexts:
             - include: separator-commas
             - match: \)
               scope: punctuation.section.parens.end.matlab
-              pop: true
+              pop: 1
         - match: ''
-          pop: true
+          pop: 1
 
   transpose:
     - match: (?:\s*(\.\')|(\'))?
       captures:
         1: keyword.operator.transpose.matlab
         2: keyword.operator.transpose.matlab
-      pop: true
+      pop: 1
 
   accessor-dots:
     - match: \b\.
@@ -1227,7 +1228,7 @@ contexts:
       push:
         - include: eol-pop
         - match: (?=[;,])
-          pop: true
+          pop: 1
         - match: '[^;,\s]+'
           scope: meta.string.matlab string.regexp.matlab
     # https://www.mathworks.com/help/matlab/ref/close.html
