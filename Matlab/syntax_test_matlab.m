@@ -783,18 +783,24 @@ l = {l.n}';
    true.'
 %  ^^^^ constant.language.matlab
 %      ^^ keyword.operator.transpose.matlab
-   zeros'
+
+% If a built-in function is followed by a transpose operator, we assume that the
+% identifier was redefined beforehand for usage as a variable. This heuristic
+% results in wrong highlighting for the very few cases when it may actually be
+% intended to transpose a built-in function result, but it leads to better
+% highlighting in general due to the large number of built-in functions.
+   start'
 %  ^^^^^ variable.other.matlab - support.function
 %       ^ keyword.operator.transpose.matlab - string
-   zeros.'
+   start.'
 %  ^^^^^ variable.other.matlab - support.function
 %       ^^ keyword.operator.transpose.matlab - string
-   zeros = "built-in function name as variable identifier"
+   start = "built-in function name as variable identifier"
 %  ^^^^^ variable.other.matlab - support.function
    zeros == ones
 %  ^^^^^ support.function.builtin.matlab - variable.other
-   true = false
-%  ^^^^ constant.language.matlab - variable.other
+   eps = 1e-6
+%  ^^^ constant.language.matlab - variable.other
 
 
 %---------------------------------------------
@@ -997,10 +1003,10 @@ fprintf(fileID,'%6.2f %12.8f\r\n',A);
 tEnd = cputime - tStart
 %      ^^^^^^^ support.function.builtin.matlab
 
-X = zeros
-%   ^^^^^ support.function.builtin.matlab
-X = zeros(2)
-%   ^^^^^ support.function.builtin.matlab
+X = rand
+%   ^^^^ support.function.builtin.matlab
+X = rand(2)
+%   ^^^^ support.function.builtin.matlab
 
    not(and(A, B))
 %  ^^^ support.function.builtin.matlab - keyword.operator
