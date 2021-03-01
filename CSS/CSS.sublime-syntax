@@ -436,7 +436,7 @@ variables:
     | avoid(-column|-page|-region)?
     | background(-color|-image|-position|-size)?
     | backwards|balance|baseline|below|bevel|bicubic|bidi-override|blink
-    | block(-line-height)?
+    | block-line-height
     | blur
     | border(-bottom|-left|-right|-top)?-(color|radius|width|style)
     | border-(bottom|top)-(left|right)-radius
@@ -586,7 +586,7 @@ variables:
   # https://www.w3.org/TR/css-fonts-4/#font-display-desc
   font_display_constants: |-
     \b(?xi:
-    auto | block | swap | fallback | optional
+    block | swap | fallback | optional
     ){{break}}
 
   # Generic Font Families
