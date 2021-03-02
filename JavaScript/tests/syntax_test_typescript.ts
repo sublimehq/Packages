@@ -813,7 +813,7 @@ let x: import ( "foo" ) . Bar ;
 
     foo < bar
 //  ^^^ variable.other.readwrite
-//      ^ keyword.operator.logical
+//      ^ keyword.operator.relational
 //        ^^^ variable.other.readwrite
     ;
 
@@ -834,10 +834,10 @@ var foo = 1 << 0 /x/g;
 //                 ^ keyword.operator.arithmetic
 //                  ^ variable.other.readwrite
 
-if (a < b || c < d) {}
-//    ^ keyword.operator.logical
+if (a < b || c <= d) {}
+//    ^ keyword.operator.relational
 //        ^^ keyword.operator.logical
-//             ^ keyword.operator.logical
+//             ^^ keyword.operator.relational
 
 const f = (): any => {};
 //    ^ meta.binding.name entity.name.function variable.other.readwrite

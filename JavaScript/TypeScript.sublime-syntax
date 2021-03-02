@@ -503,8 +503,8 @@ contexts:
         - ts-type-expression-begin
 
   ts-less-than:
-    - match: '<'
-      scope: keyword.operator.logical.js
+    - match: '<=?'
+      scope: keyword.operator.relational.js
       set: expression-begin
 
   expression-begin:
