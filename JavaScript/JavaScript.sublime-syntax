@@ -1227,11 +1227,11 @@ contexts:
       push: expression-begin
     - match: |-
         (?x)
-        <=   | # relational      left-to-right   both
-        >=   | # relational      left-to-right   both
-        <    | # relational      left-to-right   both
-        >      # relational      left-to-right   both
-      scope: keyword.operator.relational.js
+        <=   | # comparison      left-to-right   both
+        >=   | # comparison      left-to-right   both
+        <    | # comparison      left-to-right   both
+        >      # comparison      left-to-right   both
+      scope: keyword.operator.comparison.js
       push: expression-begin
     - match: |-
         (?x)

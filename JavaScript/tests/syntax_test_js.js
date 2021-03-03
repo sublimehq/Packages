@@ -70,7 +70,7 @@ function foo(){}/**/
 
 x --> y;
 //^^ keyword.operator.arithmetic.js
-//  ^ keyword.operator.relational.js
+//  ^ keyword.operator.comparison.js
 
 #! /usr/bin/env node
 // <- comment.line.shebang punctuation.definition.comment

@@ -504,7 +504,7 @@ contexts:
 
   ts-less-than:
     - match: '<=?'
-      scope: keyword.operator.relational.js
+      scope: keyword.operator.comparison.js
       set: expression-begin
 
   expression-begin:
