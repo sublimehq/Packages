@@ -2734,6 +2734,13 @@
 }
 
 .test-gradient-functions {
+    top: conic-gradient(from 0.25turn at 50% 30%, #f69d3c, 10deg, #3f87a6, 350deg, #ebf8e1);
+/*       ^^^^^^^^^^^^^^ support.function.gradient.css */
+/*                      ^^^^ keyword.other.gradient.css */
+/*                           ^^^^ meta.number.float.decimal.css constant.numeric.value.css */
+/*                               ^^^^ meta.number.float.decimal.css constant.numeric.suffix.css */
+/*                                    ^^ keyword.other.gradient.css */
+
     top: linear-gradient();
 /*       ^^^^^^^^^^^^^^^ support.function.gradient.css */
 

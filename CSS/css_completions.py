@@ -126,6 +126,14 @@ def get_properties():
         'generic_name': [
             'serif', 'sans-serif', 'cursive', 'fantasy', 'monospace'
         ],
+        'gradient': [
+            ['conic-gradient()', 'conic-gradient($1)'],
+            ['linear-gradient()', 'linear-gradient($1)'],
+            ['radial-gradient()', 'radial-gradient($1)'],
+            ['repeating-conic-gradient()', 'repeating-conic-gradient($1)'],
+            ['repeating-linear-gradient()', 'repeating-linear-gradient($1)'],
+            ['repeating-radial-gradient()', 'repeating-radial-gradient($1)']
+        ],
         'grid': [
             ['repeat()', 'repeat(${1:2}, ${2:1fr})'],
             ['minmax()', 'minmax(${1:100px}, ${2:1fr})'],
@@ -199,8 +207,8 @@ def get_properties():
         'animation-play-state': ['running', 'paused'],
         'backface-visibility': ['visible', 'hidden'],
         'background': [
-            '<color>', '<uri>', 'repeat', 'repeat-x', 'repeat-y', 'no-repeat',
-            'scroll', 'fixed', '<position>'
+            '<color>', '<gradient>', '<position>', '<uri>',
+            'repeat', 'repeat-x', 'repeat-y', 'no-repeat', 'scroll', 'fixed'
         ],
         'background-attachment': ['fixed', 'local', 'scroll'],
         'background-blend-mode': ['<blend_mode>'],

@@ -2094,10 +2094,33 @@ contexts:
   # Gradient Functions
   # https://drafts.csswg.org/css-images-3/#gradients
   gradient-functions:
+    # conic-gradient()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/conic-gradient()
+    # repeating-conic-gradient()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/repeating-conic-gradient()
+    - match: \b((?:repeating-)?conic-gradient)(?=\()
+      scope: meta.function-call.identifier.css support.function.gradient.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: function-arguments-common
+            - include: comma-delimiters
+            - match: \b(?i:at|from){{break}}
+              scope: keyword.other.gradient.css
+            - match: \b(?i:bottom|center|left|right|top){{break}}
+              scope: support.constant.property-value.css
+            - include: color-values
+            - include: angle-constants
+            - include: length-constants
+            - include: percentage-constants
+
     # linear-gradient()
-    # https://drafts.csswg.org/css-images-3/#linear-gradients
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/linear-gradient()
     # repeating-linear-gradient()
-    # https://drafts.csswg.org/css-images-3/#funcdef-repeating-linear-gradient
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/repeating-linear-gradient()
     - match: \b((?:repeating-)?linear-gradient)(?=\()
       scope: meta.function-call.identifier.css support.function.gradient.css
       push:
@@ -2110,7 +2133,7 @@ contexts:
             - include: comma-delimiters
             - match: \b(?i:to){{break}}
               scope: keyword.other.gradient.css
-            - match: \b(?i:top|right|bottom|left){{break}}
+            - match: \b(?i:bottom|left|right|top){{break}}
               scope: support.constant.property-value.css
             - include: color-values
             - include: angle-constants
@@ -2118,9 +2141,9 @@ contexts:
             - include: percentage-constants
 
     # radial-gradient()
-    # https://drafts.csswg.org/css-images-3/#radial-gradients
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/radial-gradient()
     # repeating-radial-gradient()
-    # https://drafts.csswg.org/css-images-3/#funcdef-repeating-radial-gradient
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/repeating-radial-gradient()
     - match: \b((?:repeating-)?radial-gradient)(?=\()
       scope: meta.function-call.identifier.css support.function.gradient.css
       push:
@@ -2133,7 +2156,7 @@ contexts:
             - include: comma-delimiters
             - match: \b(?i:at|circle|ellipse){{break}}
               scope: keyword.other.gradient.css
-            - match: \b(?i:left|center|right|top|bottom|(closest|farthest)-(corner|side)){{break}}
+            - match: \b(?i:bottom|center|left|right|top|(closest|farthest)-(corner|side)){{break}}
               scope: support.constant.property-value.css
             - include: color-values
             - include: length-constants
