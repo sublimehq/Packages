@@ -473,8 +473,6 @@ contexts:
   expression-end:
     - meta_prepend: true
     - include: ts-type-assertion
-      scope: keyword.operator.bitwise.js
-      push: expression-begin
     - match: (?=<(?![<=]))
       branch_point: ts-function-type-arguments
       branch:
