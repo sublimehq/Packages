@@ -473,10 +473,9 @@ contexts:
   expression-end:
     - meta_prepend: true
     - include: ts-type-assertion
-    - match: '<<'
       scope: keyword.operator.bitwise.js
       push: expression-begin
-    - match: (?=<)
+    - match: (?=<(?![<=]))
       branch_point: ts-function-type-arguments
       branch:
         - ts-function-type-arguments
@@ -503,7 +502,7 @@ contexts:
         - ts-type-expression-begin
 
   ts-less-than:
-    - match: '<=?'
+    - match: '<'
       scope: keyword.operator.comparison.js
       set: expression-begin
 
