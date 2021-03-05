@@ -811,6 +811,12 @@ const int XYZ = 2;
 constexpr int ABC = 3 + 5;
 /* <- storage.modifier */
 
+consteval int f() { return 42; }
+/* <- storage.modifier */
+
+constinit const int i = f();
+/* <- storage.modifier */
+
 thread_local int x;
 /* <- storage.modifier */
 
