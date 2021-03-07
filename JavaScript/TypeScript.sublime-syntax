@@ -660,6 +660,8 @@ contexts:
       scope: keyword.operator.type.js
     - match: infer{{identifier_break}}
       scope: keyword.operator.type.js
+    - match: new{{identifier_break}}
+      scope: keyword.operator.new.js
 
     - match: unique{{identifier_break}}
       scope: storage.modifier.unique.js
@@ -667,6 +669,8 @@ contexts:
       scope: storage.modifier.readonly.js
     - match: asserts{{identifier_break}}
       scope: storage.modifier.asserts.js
+    - match: abstract{{identifier_break}}
+      scope: storage.modifier.abstract.js
 
     - match: import{{identifier_break}}
       scope: keyword.operator.type.js
