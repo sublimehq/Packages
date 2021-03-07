@@ -1787,6 +1787,15 @@ debugger
     a ?? b;
 //    ^^ keyword.operator.logical
 
+    a &&= b;
+//    ^^^ keyword.operator.assignment.augmented
+
+    a ||= b;
+//    ^^^ keyword.operator.assignment.augmented
+
+    a ??= b;
+//    ^^^ keyword.operator.assignment.augmented
+
     a ?.5 : .7;
 //    ^ keyword.operator.ternary
 //     ^^ constant.numeric
