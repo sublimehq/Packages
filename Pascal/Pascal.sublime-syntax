@@ -7,23 +7,235 @@ file_extensions:
   - p
   - dpr
 scope: source.pascal
+
+variables:
+  identifier: (?:\w+(?:\.\w+)*)
+  identifier_real: (?i:[a-z][a-z0-9]*)
+
 contexts:
+  else-pop:
+    - match: (?=\S)
+      pop: true
+  immediately-pop:
+    - match: ''
+      pop: true
+
   main:
-    - match: \b(?i:(absolute|abstract|all|and|and_then|array|as|asm|attribute|begin|bindable|case|class|const|constructor|destructor|div|do|do|else|end|except|export|exports|external|far|file|finalization|finally|for|forward|goto|if|implementation|import|in|inherited|initialization|interface|interrupt|is|label|library|mod|module|name|near|nil|not|object|of|only|operator|or|or_else|otherwise|packed|pow|private|program|property|protected|public|published|qualified|record|repeat|resident|restricted|segment|set|shl|shr|then|to|try|type|unit|until|uses|value|var|view|virtual|while|with|xor))\b
-      scope: keyword.control.pascal
     - match: \b(?i:(function|procedure))\b\s+(\w+(\.\w+)?)(\(.*?\))?;\s*(?=(?i:attribute|forward|external))
       scope: meta.function.prototype.pascal
       captures:
         1: keyword.declaration.function.pascal
         2: entity.name.function.pascal
-    - match: \b(?i:(function|procedure))\b\s+(\w+(\.\w+)?)
-      scope: meta.function.pascal
+    - include: functions
+    - include: constructors
+    - include: statements
+
+  keywords:
+    - match: \b(?i:published|public|protected|private|strict\s+private)\b
+      scope: storage.modifier.pascal
+    - match: \b(?i:(absolute|abstract|all|and_then|array|as|asm|attribute|begin|bindable|case|class|const|destructor|div|do|do|else|end|except|export|exports|external|far|file|finalization|finally|for|forward|goto|if|implementation|import|in|inherited|initialization|interface|interrupt|is|label|library|mod|module|name|near|object|of|only|operator|or_else|otherwise|packed|pow|program|property|qualified|record|repeat|resident|restricted|segment|set|then|to|try|type|unit|until|uses|value|var|view|virtual|while|with))\b
+      scope: keyword.control.pascal
+
+  statements:
+    - include: comments
+    - include: blocks
+    - include: keywords
+    - include: numerics
+    - include: constants
+    - include: operators
+    - include: strings
+    - include: flow
+    # - match: '({{identifier_real}})(\.)'
+
+    - include: function-call-no-arg
+
+  function-call-no-arg:
+    - match: '({{identifier_real}})(;)'
+      captures:
+        1: meta.function-call.pascal
+           variable.function.pascal
+        2: punctuation.terminator.pascal
+
+  blocks:
+    - match: \b(?i:begin)\b
+      scope: keyword.context.block.begin.pascal
+      push:
+        - meta_scope: meta.block.pascal
+        - match: \b((?i:end))\b(;)?
+          captures:
+            1: keyword.context.block.end.pascal
+            2: punctuation.terminator.pascal
+          pop: true
+        - include: statements
+
+  flow:
+    - match: \b(?i:continue)\b
+      scope: keyword.control.flow.continue.pascal
+    - match: \b(?i:break)\b
+      scope: keyword.control.flow.break.pascal
+    - match: \b(?i:goto)\b
+      scope: keyword.control.flow.goto.pascal
+
+  functions:
+    - match: \b(function|procedure)\s+({{identifier}})
       captures:
         1: keyword.declaration.function.pascal
         2: entity.name.function.pascal
+      push: [function-body, function-variables, function-params]
+
+  constructors:
+    - match: \b(constructor)\s+({{identifier}})
+      captures:
+        1: keyword.declaration.function.pascal
+        2: entity.name.function.constructor.pascal
+      push: [function-body, function-variables, function-params]
+
+  function-params:
+    - match: \(
+      scope: punctuation.section.parameters.begin.pascal
+      push:
+        - meta_scope: meta.function.parameters.pascal
+        - match: \)
+          scope: punctuation.section.parameters.end.pascal
+          pop: true
+        - match: (?:\b(var|const)\s+)?({{identifier}})
+          captures:
+            1: storage.type.pascal
+            2: variable.parameter.pascal
+          push:
+            - match: ','
+              scope: punctuation.separator.pascal
+            - match: '{{identifier}}'
+              scope: variable.parameter.pascal
+            - match: ':'
+              scope: punctuation.separator.type.pascal
+              set:
+                - include: types
+                - include: types-for-anything
+                - include: function-pop-param
+                - match: =
+                  scope: keyword.operator.assignment.pascal
+                  set:
+                    - include: constants
+                    - include: function-pop-param
+    - match: ':'
+      scope: punctuation.separator.type.pascal
+      push:
+        - include: types
+        - include: types-for-anything
+        - include: else-pop
+    - match: ;
+      scope: punctuation.terminator.pascal
+      pop: true
+    - include: else-pop
+
+  function-pop-param:
+    - match: (?=\))
+      pop: true
+    - match: ;
+      scope: punctuation.separator.sequence.pascal
+      pop: true
+
+  function-variables:
+    - match: \b(?i:var)\b
+      scope: storage.type.pascal
+      push:
+        - include: comments
+        - match: (?=\b(?i:begin)\b)
+          pop: true
+        - match: (?={{identifier}}\s*[^ \t\w:,])
+          pop: true
+        - match: '{{identifier}}'
+          scope: variable.other.readwrite.pascal
+          push:
+            - match: ','
+              scope: punctuation.separator.pascal
+            - match: '{{identifier}}'
+              scope: variable.other.readwrite.pascal
+            - match: ':'
+              scope: punctuation.separator.type.pascal
+              set:
+                - include: types
+                - include: types-for-anything
+                - match: ;
+                  scope: punctuation.terminator.pascal
+                  pop: true
+                - match: =
+                  scope: keyword.operator.assignment.pascal
+                  set:
+                    - match: ;
+                      scope: punctuation.terminator.pascal
+                      pop: true
+                    - include: constants
+            - include: else-pop
+    - include: else-pop
+
+  function-body:
+    - meta_scope: meta.function.pascal
+    - match: \b(?i:begin)\b
+      scope: keyword.context.block.begin.pascal
+      push:
+        - match: \b((?i:end))\b(;)?
+          captures:
+            1: keyword.context.block.end.pascal
+            2: punctuation.terminator.pascal
+          pop: true
+        - include: statements
+    - include: else-pop
+
+  types:
+    - match: \b(?i:boolean|real|character|char|string)\b
+      scope: support.type.primitive.pascal
+    - match: \b(?i:integer|cardinal|shortint|smallint|longint|int64|byte|word|longword)\b
+      scope: support.type.primitive.pascal
+
+  types-for-anything:
+    - match: '{{identifier}}'
+      scope: support.type.pascal
+
+  operators:
+    - match: ':='
+      scope: keyword.operator.assignment.pascal
+    - match: \b(?i:and|or|xor|not)\b
+      scope: keyword.operator.logical.pascal
+    - match: \+|-|\*|/|%
+      scope: keyword.operator.arithmetic.pascal
+    - match: '!|&|\||~|<<|>>|shl|shr'
+      scope: keyword.operator.bitwise.pascal
+    - match: =|<>|>=?|<=?
+      scope: keyword.operator.comparison.pascal
+
+  constants:
+    - match: \b(?i:true|false|nil)\b
+      scope: constant.language.pascal
+
+  numerics:
     - match: '\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\b'
       scope: constant.numeric.pascal
-    - match: '(^[ \t]+)?(--)'
+
+  strings:
+    # Double quoted strings are an extension and (generally) support C-style escape sequences.
+    - match: '"'
+      scope: punctuation.definition.string.begin.pascal
+      push:
+        - meta_scope: string.quoted.double.pascal
+        - match: '"'
+          scope: punctuation.definition.string.end.pascal
+          pop: true
+        - match: \\.
+          scope: constant.character.escape.pascal
+    - match: "'"
+      scope: punctuation.definition.string.begin.pascal
+      push:
+        - meta_scope: string.quoted.single.pascal
+        - match: "''"
+          scope: constant.character.escape.apostrophe.pascal
+        - match: "'"
+          scope: punctuation.definition.string.end.pascal
+          pop: true
+
+  comments:
+    - match: (^[ \t]+)?(--)
       captures:
         1: punctuation.whitespace.comment.leading.pascal
         2: punctuation.definition.comment.pascal
@@ -31,7 +243,7 @@ contexts:
         - meta_scope: comment.line.double-dash.pascal.one
         - match: \n
           pop: true
-    - match: '(^[ \t]+)?(//)'
+    - match: (^[ \t]+)?(//)
       captures:
         1: punctuation.whitespace.comment.leading.pascal
         2: punctuation.definition.comment.pascal
@@ -40,43 +252,17 @@ contexts:
         - match: \n
           pop: true
     - match: \(\*
-      captures:
-        0: punctuation.definition.comment.pascal
+      scope: punctuation.definition.comment.pascal
       push:
         - meta_scope: comment.block.pascal.one
         - match: \*\)
           captures:
             0: punctuation.definition.comment.pascal
           pop: true
-    - match: '\{'
-      captures:
-        0: punctuation.definition.comment.pascal
+    - match: \{
+      scope: punctuation.definition.comment.pascal
       push:
         - meta_scope: comment.block.pascal.two
-        - match: '\}'
-          captures:
-            0: punctuation.definition.comment.pascal
-          pop: true
-    - match: '"'
-      comment: Double quoted strings are an extension and (generally) support C-style escape sequences.
-      captures:
-        0: punctuation.definition.string.begin.pascal
-      push:
-        - meta_scope: string.quoted.double.pascal
-        - match: '"'
-          captures:
-            0: punctuation.definition.string.end.pascal
-          pop: true
-        - match: \\.
-          scope: constant.character.escape.pascal
-    - match: "'"
-      captures:
-        0: punctuation.definition.string.begin.pascal
-      push:
-        - meta_scope: string.quoted.single.pascal
-        - match: "''"
-          scope: constant.character.escape.apostrophe.pascal
-        - match: "'"
-          captures:
-            0: punctuation.definition.string.end.pascal
+        - match: \}
+          scope: punctuation.definition.comment.pascal
           pop: true
