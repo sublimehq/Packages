@@ -697,6 +697,7 @@ contexts:
 
     - include: literal-string
     - include: literal-number
+    - include: ts-type-template-string
 
     - match: '-'
       scope: keyword.operator.arithmetic.js
@@ -782,6 +783,31 @@ contexts:
     - match: '{{identifier_name}}'
       scope: support.class.js
       pop: true
+
+  ts-type-template-string:
+    - match: '`'
+      scope: punctuation.definition.string.begin.js
+      set:
+        - meta_include_prototype: false
+        - meta_scope: meta.string.js string.quoted.other.js
+        - match: "`"
+          scope: punctuation.definition.string.end.js
+          pop: true
+        - match: '\$\{'
+          scope: punctuation.section.interpolation.begin.js
+          push:
+            - clear_scopes: 1
+            - meta_scope: meta.interpolation.js
+            - meta_content_scope: source.js.embedded
+            - match: '\}'
+              scope: punctuation.section.interpolation.end.js
+              pop: true
+            - match: (?=\S)
+              push:
+              - ts-type-expression-end
+              - ts-type-expression-end-no-line-terminator
+              - ts-type-expression-begin
+        - include: string-content
 
   ts-type-parenthesized:
     - match: \(
