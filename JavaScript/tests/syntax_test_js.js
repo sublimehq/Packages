@@ -437,7 +437,6 @@ var qux = 100;
 //   ^ variable.other.readwrite
 //         ^ constant.numeric
 
-<<<<<<< HEAD
 {}/**/
 //^ - meta.block
 
