@@ -574,6 +574,12 @@ contexts:
     - match: is{{identifier_break}}
       scope: keyword.operator.word.js
       push: [ts-type-expression-end-no-line-terminator, ts-type-expression-begin]
+    - match: as{{identifier_break}}
+      scope: keyword.operator.type.js
+      push:
+        - ts-type-expression-end
+        - ts-type-expression-end-no-line-terminator
+        - ts-type-expression-begin
     - match: \.
       scope: punctuation.accessor.js
       push:
