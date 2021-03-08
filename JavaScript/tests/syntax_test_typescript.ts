@@ -550,6 +550,16 @@ let x: "a string";
 let x: 'a string';
 //     ^ meta.type meta.string string.quoted.single
 
+let x: `a string${any}`;
+//     ^^^^^^^^^^^^^^^^ meta.type meta.string
+//     ^^^^^^^^^ string.quoted.other
+//     ^ punctuation.definition.string.begin
+//              ^^^^^^ meta.interpolation - string
+//              ^^ punctuation.section.interpolation.begin
+//                ^^^ source.js.embedded support.type.any
+//                   ^ punctuation.section.interpolation.end
+//                    ^ string.quoted.other punctuation.definition.string.end
+
 let x: 42;
 //     ^^ meta.type meta.number.integer.decimal constant.numeric.value
 
