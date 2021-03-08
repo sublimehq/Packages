@@ -483,6 +483,10 @@ contexts:
     - match: \<(?!<)
       scope: punctuation.definition.generic.begin.js
       set:
+        - - match: (?=[\]()};,`])
+            pop: true
+          - match: (?=\S)
+            fail: ts-function-type-arguments
         - - meta_scope: meta.generic.js
           - match: \>
             scope: punctuation.definition.generic.end.js
