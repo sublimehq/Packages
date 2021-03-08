@@ -9,14 +9,14 @@
 
     foo < T > bar;
 //  ^^^ variable.other.readwrite
-//      ^ keyword.operator.logical
+//      ^ keyword.operator.comparison
 //        ^ variable.other.constant
-//          ^ keyword.operator.logical
+//          ^ keyword.operator.comparison
 //            ^^^ variable.other.readwrite
 
     foo
     < T > bar;
-//  ^ keyword.operator.logical
+//  ^ keyword.operator.comparison
 //    ^ variable.other.constant
-//      ^ keyword.operator.logical
+//      ^ keyword.operator.comparison
 //        ^^^ variable.other.readwrite
