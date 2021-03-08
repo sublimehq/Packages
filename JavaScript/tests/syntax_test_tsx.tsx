@@ -35,7 +35,7 @@ let strLength: number = (<string>someValue).length; // </string> );
 var foo = 1 << 0;
 //          ^^ keyword.operator.bitwise
 
-if (a < b || c < d) {}
-//    ^ keyword.operator.logical
+if (a < b || c <= d) {}
+//    ^ keyword.operator.comparison
 //        ^^ keyword.operator.logical
-//             ^ keyword.operator.logical
+//             ^^ keyword.operator.comparison
