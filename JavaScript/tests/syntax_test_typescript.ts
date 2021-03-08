@@ -787,6 +787,21 @@ let x: () => T
     U
 //  ^ variable.other.constant - meta.type
 
+let x: new () => T;
+//     ^^^^^^^^^^^ meta.type
+//     ^^^ keyword.operator.new
+//         ^^ meta.group
+//            ^^ keyword.declaration.function
+//               ^ support.class
+
+let x: abstract new () => T;
+//     ^^^^^^^^^^^^^^^^^^^^ meta.type
+//     ^^^^^^^^ storage.modifier.abstract
+//              ^^^ keyword.operator.new
+//                  ^^ meta.group
+//                     ^^ keyword.declaration.function
+//                        ^ support.class
+
 let x: ( foo );
 //     ^^^^^^^ meta.type meta.group
 //     ^ punctuation.section.group.begin
