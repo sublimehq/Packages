@@ -59,7 +59,7 @@ contexts:
 
   async-arrow-function:
     - match: async{{identifier_break}}
-      scope: storage.type.js
+      scope: keyword.declaration.async.js
       set:
         - function-meta
         - arrow-function-expect-body
@@ -76,7 +76,6 @@ contexts:
         - arrow-function-expect-arrow
         - ts-type-annotation
         - arrow-function-expect-parameters
-        - function-declaration-expect-async
 
   ts-import-type:
     - match: type{{identifier_break}}
@@ -129,7 +128,7 @@ contexts:
     - include: ts-namespace-declaration
 
     - match: const{{identifier_break}}
-      scope: storage.type.js
+      scope: keyword.declaration.js
       set:
         - include: ts-enum
         - match: (?=\S)
@@ -152,7 +151,7 @@ contexts:
 
   class:
     - match: class{{identifier_break}}
-      scope: storage.type.class.js
+      scope: keyword.declaration.class.js
       set:
         - class-meta
         - class-body

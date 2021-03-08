@@ -110,7 +110,7 @@
 //  ^ meta.enum meta.block punctuation.section.block.end
 
     const enum Foo {}
-//  ^^^^^ storage.type
+//  ^^^^^ keyword.declaration
 //        ^^^^^^^^^^^ meta.enum
 //        ^^^^ storage.type
 //             ^^^ entity.name.enum
@@ -204,7 +204,7 @@
 
     abstract class Foo {
 //  ^^^^^^^^ storage.modifier
-//           ^^^^^ meta.class storage.type.class
+//           ^^^^^ meta.class keyword.declaration.class
 
         abstract foo;
 //      ^^^^^^^^ storage.modifier
@@ -214,7 +214,7 @@
 
     class Foo < T > extends Bar implements Baz, Xyzzy { }
 //  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.class
-//  ^^^^^ storage.type.class
+//  ^^^^^ keyword.declaration.class
 //        ^^^ entity.name.class
 //            ^^^^^ meta.generic
 //            ^ punctuation.definition.generic.begin
@@ -387,7 +387,7 @@ function f(this : any) {}
 
     async (x): T => y;
 //  ^^^^^^^^^^^^^^^^^ meta.function
-//  ^^^^^ storage.type
+//  ^^^^^ keyword.declaration.async
 //         ^ meta.binding.name variable.parameter.function
 //           ^ punctuation.separator.type
 //             ^ meta.type support.class
