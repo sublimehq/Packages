@@ -1194,9 +1194,6 @@ contexts:
     - match: in{{identifier_break}}
       scope: keyword.operator.js
       push: expression-begin
-    - match: '&&|\|\||\?\?'
-      scope: keyword.operator.logical.js
-      push: expression-begin
     - match: '=(?![=>])'
       scope: keyword.operator.assignment.js
       push: expression-begin
@@ -1212,8 +1209,14 @@ contexts:
         \|=  | # assignment      right-to-left   both
         <<=  | # assignment      right-to-left   both
         >>=  | # assignment      right-to-left   both
-        >>>=   # assignment      right-to-left   both
+        >>>= | # assignment      right-to-left   both
+        &&=   |
+        \|\|= |
+        \?\?=
       scope: keyword.operator.assignment.augmented.js
+      push: expression-begin
+    - match: '&&|\|\||\?\?'
+      scope: keyword.operator.logical.js
       push: expression-begin
     - match: |-
         (?x)
