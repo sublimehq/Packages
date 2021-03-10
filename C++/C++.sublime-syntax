@@ -57,11 +57,12 @@ variables:
   before_tag: 'struct|union|enum\s+class|enum\s+struct|enum|class'
   declspec: '__declspec\(\s*\w+(?:\([^)]+\))?\s*\)'
   storage_classes: 'static|export|extern|friend|explicit|virtual|register|thread_local'
-  type_qualifier: 'const|constexpr|mutable|typename|volatile'
+  type_qualifier: 'const|mutable|typename|volatile'
+  constant_expression_specifiers: 'consteval|constexpr|constinit'
   compiler_directive: 'inline|restrict|__restrict__|__restrict'
   visibility_modifiers: 'private|protected|public'
   other_keywords: 'typedef|nullptr|{{visibility_modifiers}}|static_assert|sizeof|using|typeid|alignof|alignas|namespace|template'
-  modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
+  modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}|{{constant_expression_specifiers}}'
   non_angle_brackets: '(?=<<|<=)'
 
   regular: '[^(){}&;*^%=<>-]*'
@@ -139,7 +140,7 @@ contexts:
       scope: keyword.operator.word.c++
 
   unique-types:
-    - match: \b(char16_t|char32_t|wchar_t|nullptr_t)\b
+    - match: \b(char8_t|char16_t|char32_t|wchar_t|nullptr_t)\b
       scope: storage.type.c++
     - match: \bclass\b
       scope: keyword.declaration.class.c++
