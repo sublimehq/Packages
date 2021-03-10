@@ -334,6 +334,7 @@ def get_properties():
             'caption', 'icon', 'italic', 'menu', 'message-box', 'oblique',
             'small-caps', 'small-caption', 'status-bar'
         ],
+        'font-display': ['auto', 'block', 'swap', 'fallback', 'optional'],
         'font-family': ['<generic_name>'],
         'font-feature-settings': ['normal', '<string>'],
         'font-kerning': ['auto', 'normal', 'none'],
