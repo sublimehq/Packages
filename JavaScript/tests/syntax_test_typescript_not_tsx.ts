@@ -20,3 +20,8 @@
 //    ^ variable.other.constant
 //      ^ keyword.operator.comparison
 //        ^^^ variable.other.readwrite
+
+// This is a type assertion that is incompatible with JSX
+let strLength: number = (<string>someValue).length; // </string>
+//                       ^^^^^^^^ meta.assertion - meta.tag
+//                                                     ^^^^^^^^^ comment - meta.tag
