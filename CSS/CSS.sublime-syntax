@@ -1778,6 +1778,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: percentage-constants
             - include: scalar-constants
 
@@ -1795,6 +1796,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: angle-constants
             - include: percentage-constants
             - include: scalar-constants
@@ -1811,6 +1813,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: percentage-constants
             - include: scalar-constants
 
@@ -1826,6 +1829,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: color-adjuster-functions # must be included before `color-values`
             - include: color-values
             - include: percentage-constants
@@ -1843,6 +1847,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: color-adjuster-functions # must be included before `color-values`
             - include: color-values
             - include: angle-constants
@@ -1861,6 +1866,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: calc-functions
             - include: color-adjuster-operators
             - include: percentage-constants
             - include: scalar-constants
@@ -1875,6 +1881,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: calc-functions
             - include: color-adjuster-operators
             - include: angle-constants
 
@@ -1888,6 +1895,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: calc-functions
             - include: color-adjuster-operators
             - include: percentage-constants
 
@@ -1903,6 +1911,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: calc-functions
             - include: percentage-constants
 
     # blend(), blenda() - Not yet implemented by browsers
@@ -1915,6 +1924,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: calc-functions
             - include: color-values
             - include: percentage-constants
             - match: \b(?i:rgb|hsl|hwb){{break}}
@@ -1953,6 +1963,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: calc-functions
             - include: length-constants
 
     # brightness(), contrast(), grayscale(), invert(), opacity(), saturate(), sepia()
@@ -1966,6 +1977,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: calc-functions
             - include: percentage-constants
             - include: scalar-constants
 
@@ -1980,6 +1992,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: calc-functions
             - include: color-values
             - include: length-constants
 
@@ -1994,6 +2007,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: calc-functions
             - include: angle-constants
 
 ###[ BUILTIN GRID FUNCTIONS ]##################################################
@@ -2011,6 +2025,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: grid-constants
             - include: length-constants
             - include: percentage-constants
@@ -2030,6 +2045,7 @@ contexts:
             - include: comma-delimiters
             - match: \b(?i:auto-fill|auto-fit){{break}}
               scope: keyword.other.grid.css
+            - include: calc-functions
             - include: minmax-functions
             - include: grid-constants
             - include: length-constants
@@ -2187,6 +2203,7 @@ contexts:
             - include: function-arguments-common
             - match: \b(?i:auto){{break}}
               scope: support.constant.property-value.css
+            - include: calc-functions
             - include: length-constants
 
     # inset()
@@ -2202,6 +2219,7 @@ contexts:
             - include: function-arguments-common
             - match: \b(?i:round){{break}}
               scope: keyword.other.shape.css
+            - include: calc-functions
             - include: length-constants
             - include: percentage-constants
 
@@ -2222,6 +2240,7 @@ contexts:
               scope: keyword.other.shape.css
             - match: \b(?i:top|right|bottom|left|center|closest-side|farthest-side){{break}}
               scope: support.constant.property-value.css
+            - include: calc-functions
             - include: length-constants
             - include: percentage-constants
 
@@ -2260,6 +2279,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: scalar-constants
 
     # steps()
@@ -2274,6 +2294,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - match: \b(?i:end|middle|start){{break}}
               scope: keyword.other.timing.css
             - include: scalar-integer-constants
@@ -2295,6 +2316,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: scalar-constants
 
     # transform functions with comma separated <number> or <length> types
@@ -2309,6 +2331,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: percentage-constants
             - include: length-constants
             - include: scalar-constants
@@ -2324,6 +2347,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: calc-functions
             - include: percentage-constants
             - include: length-constants
             - include: scalar-constants
@@ -2339,6 +2363,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: calc-functions
             - include: angle-constants
 
     # transform functions with comma separated <angle> types
@@ -2353,6 +2378,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: angle-constants
 
     # transform functions with a single <length> type
@@ -2366,6 +2392,7 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
+            - include: calc-functions
             - include: length-constants
 
     # transform functions with a comma separated <number> or <angle> types
@@ -2380,6 +2407,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: angle-constants
             - include: scalar-constants
 
@@ -2395,6 +2423,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: scalar-constants
 
 ###[ BUILTIN VALUE FUNCTIONS ]#################################################
@@ -2433,9 +2462,9 @@ contexts:
     - include: generic-font-names
     - include: numeric-constants
 
-  # calc()
-  # https://www.w3.org/TR/css3-values/#funcdef-calc
   calc-functions:
+    # calc()
+    # https://www.w3.org/TR/css3-values/#funcdef-calc
     - match: \b(?i:calc)(?=\()
       scope: meta.function-call.identifier.css support.function.calc.css
       push:
@@ -2445,6 +2474,23 @@ contexts:
           set:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: calc-function-arguments-content
+
+    # clamp()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/clamp()
+    # max()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/max()
+    # min()
+    # https://developer.mozilla.org/en-US/docs/Web/CSS/min()
+    - match: \b(?i:clamp|max|min)(?=\()
+      scope: meta.function-call.identifier.css support.function.calc.css
+      push:
+        - meta_include_prototype: false
+        - match: \(
+          scope: punctuation.section.group.begin.css
+          set:
+            - meta_scope: meta.function-call.arguments.css meta.group.css
+            - include: calc-function-arguments-content
+            - include: comma-delimiters
 
   calc-function-arguments-content:
     - meta_scope: meta.group.css
@@ -2490,6 +2536,7 @@ contexts:
             - meta_scope: meta.function-call.arguments.css meta.group.css
             - include: function-arguments-common
             - include: comma-delimiters
+            - include: calc-functions
             - include: vendor-prefixes
             - include: color-values
             - include: common-constants
@@ -2559,6 +2606,8 @@ contexts:
       set:
         - meta_scope: meta.function-call.arguments.css meta.group.css
         - include: function-arguments-common
+        - include: comma-delimiters
+        - include: calc-functions
         - include: quoted-strings
         - include: numeric-constants
         - include: other-constants
