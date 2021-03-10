@@ -47,7 +47,7 @@
 ##         ^^^^^^^ entity.other.attribute-name
 ##                ^ punctuation.separator.key-value
 ##                 ^ punctuation.definition.string.begin
-##                 ^^^^^ string.quoted
+##                 ^^^^^ meta.string string.quoted
 ##                     ^ punctuation.definition.string.end
 
      <?xml version="1.0" ?>
@@ -58,7 +58,7 @@
 ##         ^^^^^^^ entity.other.attribute-name
 ##                ^ punctuation.separator.key-value
 ##                 ^ punctuation.definition.string.begin
-##                 ^^^^^ string.quoted
+##                 ^^^^^ meta.string string.quoted
 ##                     ^ punctuation.definition.string.end
 ##                       ^^ punctuation.definition.tag.end
 ##                         ^ - meta.tag.preprocessor
@@ -171,7 +171,7 @@
 ##      ^^^^^^^ entity.other.attribute-name
 ##             ^ punctuation.separator.key-value
 ##              ^ punctuation.definition.string.begin
-##              ^^^^^ string.quoted
+##              ^^^^^ meta.string string.quoted
 ##                  ^ punctuation.definition.string.end
       ?>
 ##    ^^ punctuation.definition.tag.end
@@ -207,7 +207,7 @@
 ##         ^^^^^^^ entity.other.attribute-name
 ##                ^ punctuation.separator.key-value
 ##                 ^ punctuation.definition.string.begin
-##                 ^^^^^ string.quoted
+##                 ^^^^^ meta.string string.quoted
 ##                     ^ punctuation.definition.string.end
 ##                       ^^ punctuation.definition.tag.end
 
@@ -239,7 +239,7 @@
 ##                    ^^^^ entity.other.attribute-name.localname
 ##                        ^ punctuation.separator.key-value
 ##                         ^ punctuation.definition.string.begin
-##                         ^^^^^^^^^^ string.quoted.single
+##                         ^^^^^^^^^^ meta.string string.quoted.single
 ##                                  ^ punctuation.definition.string.end
 ##                                   ^ - string
 
@@ -263,7 +263,7 @@
 ##      ^^^^ entity.other.attribute-name.localname
 ##          ^ punctuation.separator.key-value
 ##           ^ punctuation.definition.string.begin
-##           ^^^^^^^^^^ string.quoted.single
+##           ^^^^^^^^^^ meta.string string.quoted.single
 ##                    ^ punctuation.definition.string.end
 ##                     ^ - string
         href = 'freb.xsl'
@@ -272,7 +272,7 @@
 ##      ^^^^ entity.other.attribute-name.localname
 ##           ^ punctuation.separator.key-value
 ##             ^ punctuation.definition.string.begin
-##             ^^^^^^^^^^ string.quoted.single
+##             ^^^^^^^^^^ meta.string string.quoted.single
 ##                      ^ punctuation.definition.string.end
 ##                       ^ - string
      ?>
@@ -294,7 +294,7 @@
 ##                    ^^^^ entity.other.attribute-name.localname
 ##                        ^ punctuation.separator.key-value
 ##                         ^ punctuation.definition.string.begin
-##                         ^^^^^^^^^^ string.quoted.single
+##                         ^^^^^^^^^^ meta.string string.quoted.single
 ##                                  ^ punctuation.definition.string.end
 ##                                   ^ - string
 
@@ -325,7 +325,7 @@
 ##              ^ - entity
 ##               ^^^^ entity.other.attribute-name.localname
 ##                   ^ punctuation.separator.key-value
-##                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+##                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string string.quoted.double
 ##                                                                                                                                     ^^ punctuation.definition.tag.end
 
      <?xml-model
@@ -336,7 +336,7 @@
         href="http://www.oxygenxml.com/docbook/xml/5.0/rng/dbmathmlsvg.rng"
 ##      ^^^^ entity.other.attribute-name.localname
 ##          ^ punctuation.separator.key-value
-##           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+##           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string string.quoted.double
         schematypens="http://relaxng.org/ns/structure/1.0"?>
 ##                                                        ^^ punctuation.definition.tag.end
 ##                                                          ^ - meta.tag.preprocessor
@@ -364,7 +364,7 @@
 ##     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ entity.name.tag
 ##                                  ^^^^ entity.other.attribute-name
 ##                                       ^ punctuation.separator.key-value
-##                                         ^^^^^ string.quoted.double
+##                                         ^^^^^ meta.string string.quoted.double
 ##                                               ^^ punctuation.definition.tag.end
 
 
@@ -393,7 +393,7 @@
 ##     ^^^^^^^ keyword.declaration.doctype
 ##            ^ - entity - constant - keyword
 ##             ^^^^^^ variable.other.documentroot
-##                    ^^^^^ string.quoted.double
+##                    ^^^^^ meta.string string.quoted.double
 
      <!DOCTYPE SYSTEM SYSTEM
 ##  ^ meta.tag.sgml.doctype invalid.illegal.missing-tag-end
@@ -414,7 +414,7 @@
 ##             ^^^^^^ variable.other.documentroot
 ##                   ^ - constant - keyword
 ##                    ^^^^^^ storage.type.external-content
-##                           ^^^^^ string.quoted.double
+##                           ^^^^^ meta.string string.quoted.double
 
      <!DOCTYPE ns:tag
 ##  ^ meta.tag.sgml.doctype invalid.illegal.missing-tag-end
@@ -449,7 +449,7 @@
 ##                ^^^ variable.other.documentroot.localname
 ##                   ^ - constant - keyword
 ##                    ^^^^^^ storage.type.external-content
-##                           ^^^^^^^^^^^^^ string.quoted.double
+##                           ^^^^^^^^^^^^^ meta.string string.quoted.double
 
      <!DOCTYPE root PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/1999/xhtml">
 ##  ^ meta.tag.sgml.doctype string.quoted.double invalid.illegal.missing-tag-end
@@ -462,9 +462,9 @@
 ##                 ^ - constant - keyword
 ##                  ^^^^^^ storage.type.external-content
 ##                        ^ - keyword - string
-##                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+##                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string string.quoted.double
 ##                                                    ^ - string
-##                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double
+##                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string string.quoted.double
 ##                                                                                   ^ punctuation.definition.tag.end - string
 
      <!DOCTYPE root SYSTEM "url" />
@@ -481,9 +481,9 @@
 ##                                                 ^ - meta.brackets - meta.internal-subset
 ##                                                  ^^^^^^^^^^^^ meta.brackets meta.internal-subset
 ##                                                              ^ - meta.brackets - meta.internal-subset
-##                           ^ string.quoted.double
-##                                 ^ string.quoted.double
-##                                       ^ string.quoted.double
+##                           ^ meta.string string.quoted.double
+##                                 ^ meta.string string.quoted.double
+##                                       ^ meta.string string.quoted.double
 ##                                                  ^ punctuation.section.brackets.begin
 ##                                                             ^ punctuation.section.brackets.end
 ##                                                              ^ punctuation.definition.tag.end
@@ -496,8 +496,8 @@
 ##                                            ^^^^^^^^^^^ meta.brackets meta.internal-subset
 ##                                                       ^ - meta.brackets - meta.internal-subset
 ##                                                        ^ - meta.tag.sgml.doctype
-##                           ^ string.quoted.double
-##                                 ^ string.quoted.double
+##                           ^ meta.string string.quoted.double
+##                                 ^ meta.string string.quoted.double
 ##                                            ^ punctuation.section.brackets.begin
 ##                                                      ^ punctuation.section.brackets.end
 ##                                                       ^ punctuation.definition.tag.end
@@ -552,7 +552,7 @@
 ##  ^^ punctuation.definition.tag.begin
 ##    ^^^^^^ keyword.declaration.entity
 ##           ^^^^ variable.other.entity
-##                ^^^^^^^^ string.quoted.double
+##                ^^^^^^^^ meta.string string.quoted.double
 ##                        ^ punctuation.definition.tag.end
 
     <!ENTITY<!ENTITY <!ENTITY
@@ -626,7 +626,7 @@
 ##           ^ punctuation.definition.entity
 ##             ^^^^^^^^^^ variable.other.entity
 ##                        ^^^^^^ storage.type.external-content
-##                               ^^^^^ string.quoted.double
+##                               ^^^^^ meta.string string.quoted.double
 
     <!ENTITY % enity-name PUBLIC "URL" "uri" NDATA jpeg>
 ## ^ meta.tag.sgml.entity invalid.illegal.missing-tag-end
@@ -637,10 +637,10 @@
 ##           ^ punctuation.definition.entity
 ##             ^^^^^^^^^^ variable.other.entity
 ##                        ^^^^^^ storage.type.external-content
-##                               ^^^^^ string.quoted.double
-##                                     ^^^^^ string.quoted.double
+##                               ^^^^^ meta.string string.quoted.double
+##                                     ^^^^^ meta.string string.quoted.double
 ##                                           ^^^^^ storage.type.ndata
-##                                                 ^^^^ string.unquoted
+##                                                 ^^^^ meta.string string.unquoted
 ##                                                     ^ punctuation.definition.tag.end
 
 
@@ -713,7 +713,7 @@
 ##     ^^^^^^^ keyword.declaration.element
 ##            ^ - keyword - variable
 ##             ^^^^^^^^^ variable.other.element
-##                       ^^^^^^^^^^^^^^^^ string.quoted.double
+##                       ^^^^^^^^^^^^^^^^ meta.string string.quoted.double
 ##                                       ^ punctuation.definition.tag.end
 
      <!ELEMENT elem.name %author.content;>
@@ -743,10 +743,10 @@
 ##                       ^ punctuation.definition.group.begin
 ##                        ^^^^^^^ constant.other.placeholder
 ##                               ^ punctuation.separator
-##                                ^^^ string.unquoted
+##                                ^^^ meta.string string.unquoted
 ##                                   ^ keyword.operator
 ##                                    ^ punctuation.separator
-##                                     ^^^ string.unquoted
+##                                     ^^^ meta.string string.unquoted
 ##                                        ^ keyword.operator
 ##                                         ^ punctuation.separator
 ##                                          ^ punctuation.definition.parameter
@@ -960,7 +960,7 @@
 ##     ^^^^^^^^ keyword.declaration.notation
 ##             ^ - keyword - variable - storage
 ##              ^^^^^^ variable.other.notation
-##                     ^^^^^^^^ string.quoted.double
+##                     ^^^^^^^^ meta.string string.quoted.double
 
      <!NOTATION PUBLIC PUBLIC "public
 ##  ^ meta.tag.sgml.notation invalid.illegal.missing-tag-end
@@ -971,7 +971,7 @@
 ##              ^^^^^^ variable.other.notation
 ##                    ^ - variable - storage
 ##                     ^^^^^^ storage.type.external-content
-##                            ^^^^^^^^ string.quoted.double
+##                            ^^^^^^^^ meta.string string.quoted.double
 
      <!NOTATION name
 ##  ^ meta.tag.sgml.notation invalid.illegal.missing-tag-end
@@ -1000,7 +1000,7 @@
 ##              ^^^^ variable.other.notation
 ##                  ^ - variable - storage
 ##                   ^^^^^^ storage.type.external-content
-##                          ^^^^^^^^ string.quoted.double
+##                          ^^^^^^^^ meta.string string.quoted.double
 
      <!NOTATION m$me PUBLIC "public
 ##  ^ meta.tag.sgml.notation invalid.illegal.missing-tag-end
@@ -1010,7 +1010,7 @@
 ##             ^ - keyword - variable - storage
 ##              ^^^^ invalid.illegal.bad-identifier
 ##                   ^^^^^^ storage.type.external-content
-##                          ^^^^^^^^ string.quoted.double
+##                          ^^^^^^^^ meta.string string.quoted.double
 
      <!NOTATION name PUBLIC "public_ID" "URI">
 ##  ^ meta.tag.sgml.notation invalid.illegal.missing-tag-end
@@ -1019,8 +1019,8 @@
 ##   ^^ punctuation.definition.tag.begin
 ##     ^^^^^^^^ keyword.declaration.notation
 ##                   ^^^^^^ storage.type.external-content
-##                          ^^^^^^^^^^^ string.quoted.double
-##                                      ^^^^^ string.quoted.double
+##                          ^^^^^^^^^^^ meta.string string.quoted.double
+##                                      ^^^^^ meta.string string.quoted.double
 ##                                           ^ punctuation.definition.tag.end
 
 
@@ -1109,7 +1109,7 @@
 ##                     ^^^^^^^ keyword.declaration.element
 ##                             ^^^^^^^^^^^^ variable.other.element
 ##                                          ^ punctuation.definition.string.begin
-##                                          ^^^^^^ string.quoted.single
+##                                          ^^^^^^ meta.string string.quoted.single
 ##                                                ^ punctuation.definition.string.end
 ##                                                 ^ punctuation.definition.tag.end
 ##                                                  ^^^^^^^^^^^^^^^^ comment.block
@@ -1284,7 +1284,7 @@
 ##                     ^^ entity.other.attribute-name.localname
 ##                       ^ punctuation.separator.key-value
 ##                        ^ punctuation.definition.string.begin
-##                        ^^^^^ string.quoted
+##                        ^^^^^ meta.string string.quoted
 ##                            ^ punctuation.definition.string.end
 
      <ns:tagname xmlns:ns="uri">
@@ -1301,9 +1301,23 @@
 ##                     ^^ entity.other.attribute-name.localname
 ##                       ^ punctuation.separator.key-value
 ##                        ^ punctuation.definition.string.begin
-##                        ^^^^^ string.quoted
+##                        ^^^^^ meta.string string.quoted
 ##                            ^ punctuation.definition.string.end
 ##                             ^ punctuation.definition.tag.end
+
+     <ns:tagname ="uri">
+##  ^ - meta.tag
+##   ^^^^^^^^^^^^^^^^^^^ meta.tag
+##                      ^ - meta.tag
+##   ^ punctuation.definition.tag.begin
+##      ^ punctuation.separator.namespace
+##       ^^^^^^^ entity.name.tag.localname
+##              ^ - entity
+##               ^ punctuation.separator.key-value
+##                ^ punctuation.definition.string.begin
+##                ^^^^^ meta.string string.quoted
+##                    ^ punctuation.definition.string.end
+##                     ^ punctuation.definition.tag.end
 
      <ns:tagname
 ##  ^ - meta.tag - invalid.illegal
@@ -1375,7 +1389,7 @@
       =
       "uri"
 ##    ^ punctuation.definition.string.begin
-##    ^^^^^ string.quoted
+##    ^^^^^ meta.string string.quoted
 ##        ^ punctuation.definition.string.end
      >
 ##   ^ punctuation.definition.tag.end
@@ -1448,7 +1462,7 @@
 ##    ^^^ entity.name.tag.localname
 ##        ^^^ entity.other.attribute-name.localname
 ##           ^ punctuation.separator.key-value
-##            ^^^^^ string.quoted.double
+##            ^^^^^ meta.string string.quoted.double
 ##                ^ invalid.illegal.missing-tag-end
 ##                 ^^^^ punctuation.definition.comment.begin
 ##                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block
@@ -1466,7 +1480,7 @@
 ##    ^^^ entity.name.tag.localname
 ##        ^^^ entity.other.attribute-name.localname
 ##           ^ punctuation.separator.key-value
-##            ^^^^^ string.quoted.double
+##            ^^^^^ meta.string string.quoted.double
 ##                 ^ invalid.illegal.missing-tag-end
 ##                  ^^^^ punctuation.definition.comment.begin
 ##                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ comment.block
@@ -1519,7 +1533,7 @@
        bar="baz"
 ##     ^^^ entity.other.attribute-name.localname
 ##        ^ punctuation.separator.key-value
-##         ^^^^^ string.quoted.double
+##         ^^^^^ meta.string string.quoted.double
        <!-- a comment is a next tag -->
 ##    ^ invalid.illegal.missing-tag-end
 ##     ^^^^ punctuation.definition.comment.begin
@@ -1543,7 +1557,7 @@
 ##   ^^^ punctuation.definition.tag.begin
 ##      ^^^^^ keyword.declaration.cdata
 ##           ^ punctuation.definition.tag.begin
-##            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata
+##            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string string.unquoted.cdata
 ##                                          ^ - string.unquoted.cdata
 ##                                          ^^^ punctuation.definition.tag.end
      <![CDATA[
@@ -1552,14 +1566,14 @@
 ##      ^^^^^ keyword.declaration.cdata
 ##           ^ punctuation.definition.tag.begin
         <!DOCTYPE catalog plist "dtd">
-##      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata
+##      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string string.unquoted.cdata
     ]]>
 ##  ^ - string.unquoted.cdata
 ##  ^^^ punctuation.definition.tag.end
 
      <![CDATA[
         <![CDATA[ unparsed! ]]>
-##      ^^^^^^^^^^^^^^^^^^^^ string.unquoted.cdata
+##      ^^^^^^^^^^^^^^^^^^^^ meta.string string.unquoted.cdata
 ##      ^^^ - punctuation.definition.tag.begin
 ##         ^^^^^ - keyword.declaration.cdata
 ##              ^ - punctuation.definition.tag.begin
@@ -1581,7 +1595,7 @@
 ##           ^ - entity.name.tag.localname
 ##            ^^^^ entity.other.attribute-name.localname
 ##                ^ punctuation.separator.key-value - entity.other.attribute-name.localname
-##                 ^^^^^^^ string.quoted
+##                 ^^^^^^^ meta.string string.quoted
 ##                        ^ - string.quoted - punctuation.definition
 ##                         ^ punctuation.definition.tag.end
 ##                          ^^^^^^^^ text - meta.tag
@@ -1600,7 +1614,7 @@
 ##              ^ entity.other.attribute-name punctuation.separator.namespace
 ##               ^^^^ entity.other.attribute-name.localname
 ##                    ^ punctuation.separator.key-value
-##                     ^^^^^^^^ string.quoted.single
+##                     ^^^^^^^^ meta.string string.quoted.single
 ##                     ^ punctuation.definition.string.begin
 ##                            ^ punctuation.definition.string.end
 ##                       ^^^^^ constant.character.entity
@@ -1671,12 +1685,12 @@
 ##            ^^^^^^^^^^^^^^^ entity.other.attribute-name.localname
 ##                            ^ punctuation.separator.key-value
 ##                              ^ punctuation.definition.string.begin
-##                              ^^^^^^^ string.quoted.double
+##                              ^^^^^^^ meta.string string.quoted.double
 ##                                    ^ punctuation.definition.string.end
 ##                                      ^^ punctuation.definition.tag.end
 
      <element validinattr="a > b ]]> c"/>
-##                         ^^^^^^^^^^^ string.quoted - punctuation - illegal
+##                         ^^^^^^^^^^^ meta.string string.quoted - punctuation - illegal
 
      <foo
 ##  ^ - meta.tag
@@ -1687,7 +1701,7 @@ bar="baz" />
 ##^^^^^^^^^^ meta.tag
 ##          ^ - meta.tag
 ##^ entity.other.attribute-name.localname
-##  ^^^^^ string.quoted.double
+##  ^^^^^ meta.string string.quoted.double
 ##       ^ - string.quoted.double
 
      <foo
@@ -1699,7 +1713,7 @@ bar="baz" />
 ##^^^^^^^^^^^^^^^^^^ meta.tag
 ##                  ^ - meta.tag
 ##    ^^^ entity.other.attribute-name.localname
-##          ^^^^^ string.quoted.double
+##          ^^^^^ meta.string string.quoted.double
 ##               ^ - string.quoted.double
 ##                ^^ punctuation.definition.tag.end
 
@@ -1715,7 +1729,7 @@ bar="baz" />
       "baz"
 ##^^^^^^^^^^ meta.tag
 ##   ^ - string.quoted.double
-##    ^^^^^ string.quoted.double
+##    ^^^^^ meta.string string.quoted.double
 ##         ^ - string.quoted.double
       />
 ##^^^^^^ meta.tag
@@ -1775,7 +1789,7 @@ bar="baz" />
 ##        ^ - punctuation.definition.entity
 
      <example attr="&quot;test&quot;" />
-##                 ^^^^^^^^^^^^^^^^^^ string.quoted.double
+##                 ^^^^^^^^^^^^^^^^^^ meta.string string.quoted.double
 ##                                   ^ - string.quoted.double
 ##                  ^^^^^^ constant.character.entity
 ##                            ^^^^^^ constant.character.entity
@@ -1804,9 +1818,9 @@ bar="baz" />
 ##        ^^^^^^^^^^^^ - invalid.illegal - entity.name.tag
 ##         ^^^^^ entity.other.attribute-name.localname
 ##              ^ punctuation.separator.key-value
-##               ^^^^ string.quoted
+##               ^^^^ meta.string string.quoted
 ##                    ^^^^^ invalid.illegal - entity.other.attribute-name.localname
-##                          ^^^^^ string.quoted
+##                          ^^^^^ meta.string string.quoted
 ##                                ^ punctuation.definition.tag.end
 ##                                 ^^ punctuation.definition.tag.begin
 ##                                   ^^^^ invalid.illegal - entity.name.tag
@@ -1830,12 +1844,12 @@ bar="baz" />
 ##              ^ entity.other.attribute-name.xml punctuation.separator.namespace.xml
 ##               ^^^^^^ invalid.illegal.bad-attribute-name - entity.other.attribute-name
 ##                     ^ punctuation.separator.key-value
-##                      ^^^^ string.quoted
+##                      ^^^^ meta.string string.quoted
 ##                           ^^ entity.other.attribute-name.namespace
 ##                             ^ entity.other.attribute-name.xml punctuation.separator.namespace.xml
 ##                              ^^^^^ invalid.illegal.bad-attribute-name - entity.other.attribute-name
 ##                                    ^ punctuation.separator.key-value
-##                                      ^^^^^^ string.quoted
+##                                      ^^^^^^ meta.string string.quoted
 ##                                            ^ punctuation.definition.tag.end
 ##                                             ^^ punctuation.definition.tag.begin
 ##                                               ^^ entity.name.tag.namespace

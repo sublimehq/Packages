@@ -1,7 +1,52 @@
 %YAML 1.2
 ---
+###############################################################################
+#
+# NOTES
+#
+#  1 STRING INTERPOLATION
+#
+#    The syntax definition excludes prototypes from quoted strings by default
+#    to kindly ask an inherited syntax definition to explicitly handle string
+#    interpolation.
+#
+#    An inherited syntax might most likely want to define a `prototype` to
+#    inject its templating patterns in all (appropriate) contexts which are
+#    already defined by this base syntax definition. That's basically fine.
+#
+#    What we want is replacing `string` scope by `meta.interpolation` in case
+#    of injecting template patterns into a string, which can't be achieved
+#    using prototype context. Interpolation requires special patterns which
+#    push into contexts with `- clear_scope: 1`.
+#
+#    Example:
+#
+#      prototype:
+#        - meta_prepend: true
+#        - include: jspx-tags
+#
+#      string-common-content:
+#        - meta_prepend: true
+#        - include: jspx-interpolations
+#
+#      jspx-interpolations:
+#        - match: <%
+#          scope: punctuation.section.embedded.begin.xml
+#          push: jspx-tag-content
+#
+#      jspx-tag-content:
+#        - clear_scopes: 1
+#        - meta_scope: meta.interpolation.xml
+#        - meta_content_scope: source.jspx.embedded.xml
+#        - match: '%>'
+#          scope: punctuation.section.embedded.end.xml
+#          pop: 1
+#        - ...
+#
+###############################################################################
 # https://www.sublimetext.com/docs/syntax.html
 # https://www.w3.org/XML/
+###############################################################################
 name: XML
 scope: text.xml
 version: 2
@@ -113,25 +158,31 @@ contexts:
         1: punctuation.definition.tag.begin.xml
         2: keyword.declaration.cdata.xml
         3: punctuation.definition.tag.begin.xml
-      push:
-        - meta_scope: meta.tag.sgml.cdata.xml
-        - meta_content_scope: string.unquoted.cdata.xml
-        - match: ']]>'
-          scope: punctuation.definition.tag.end.xml
-          pop: true
+      push: cdata-content
+
+  cdata-content:
+    - meta_include_prototype: false
+    - meta_scope: meta.tag.sgml.cdata.xml
+    - meta_content_scope: meta.string.xml string.unquoted.cdata.xml
+    - match: ']]>'
+      scope: punctuation.definition.tag.end.xml
+      pop: 1
 
 ###[ COMMENT ]################################################################
 
   comment:
     - match: <!--
       scope: punctuation.definition.comment.begin.xml
-      push:
-        - meta_scope: comment.block.xml
-        - match: -->
-          scope: punctuation.definition.comment.end.xml
-          pop: true
-        - match: -{2,}
-          scope: invalid.illegal.double-hyphen-within-comment.xml
+      push: comment-content
+
+  comment-content:
+    - meta_include_prototype: false
+    - meta_scope: comment.block.xml
+    - match: -->
+      scope: punctuation.definition.comment.end.xml
+      pop: 1
+    - match: -{2,}
+      scope: invalid.illegal.double-hyphen-within-comment.xml
 
 ###[ DOCTYPE DECLARATION ]####################################################
 
@@ -160,7 +211,7 @@ contexts:
         3: variable.other.documentroot.xml punctuation.separator.namespace.xml
         4: variable.other.documentroot.localname.xml
         5: invalid.illegal.bad-tag-name.xml
-      pop: true
+      pop: 1
     - include: dtd-else-pop
 
 ###[ DTD TAGS ]###############################################################
@@ -174,7 +225,7 @@ contexts:
     - include: dtd-notation
     - include: dtd-subset
     - include: dtd-unknown
-    - include: entity-parameter
+    - include: dtd-constants
     - include: preprocessor
 
 ###[ DTD ENTITY ]#############################################################
@@ -198,13 +249,13 @@ contexts:
   dtd-entity-punctuation:
     - match: '%'
       scope: punctuation.definition.entity.xml
-      pop: true
+      pop: 1
     - include: dtd-else-pop
 
   dtd-entity-name:
     - match: '{{qualified_dtd_name}}'
       scope: variable.other.entity.xml
-      pop: true
+      pop: 1
     - include: dtd-common-name
 
   dtd-entity-content:
@@ -232,28 +283,24 @@ contexts:
   dtd-element-name:
     - match: '{{qualified_dtd_name}}'
       scope: variable.other.element.xml
-      pop: true
+      pop: 1
     - include: dtd-common-name
 
   dtd-element-content:
     - match: \b(?:EMPTY|ANY)\b
       scope: constant.other.xml
-      pop: true
+      pop: 1
     - match: \(
       scope: punctuation.definition.group.begin.xml
       set: dtd-element-parens
-    - include: entity-parameter
+    - include: dtd-constants
     - include: dtd-content-quoted
 
   dtd-element-parens:
     - meta_scope: meta.group.xml
     - match: \)
       scope: punctuation.definition.group.end.xml
-      set:
-        - match: '[*?+]'
-          scope: keyword.operator.xml
-          pop: true
-        - include: dtd-else-pop
+      set: dtd-element-operator
     - match: \(
       scope: punctuation.definition.group.begin.xml
       push: dtd-element-parens
@@ -261,10 +308,16 @@ contexts:
       scope: keyword.operator.xml
     - match: '[,|]'
       scope: punctuation.separator.xml
-    - include: entity-parameter
+    - include: dtd-constants
     - include: entity
     - include: should-be-entity
     - include: string-unquoted
+
+  dtd-element-operator:
+    - match: '[*?+]'
+      scope: keyword.operator.xml
+      pop: 1
+    - include: dtd-else-pop
 
 ###[ DTD ATTLIST ]############################################################
 
@@ -283,7 +336,7 @@ contexts:
     - include: dtd-end
 
   dtd-attlist-content:
-    - include: entity-parameter
+    - include: dtd-constants
     - include: dtd-attlist-parens
     - match: \b(?:CDATA|ENTITY|ENTITIES|IDREFS?|ID|NMTOKENS?|NOTATION)\b
       scope: storage.type.attribute.xml
@@ -298,17 +351,19 @@ contexts:
   dtd-attlist-parens:
     - match: \(
       scope: punctuation.definition.group.begin.xml
-      push:
-        - meta_scope: meta.group.enumerated.xml
-        - match: \)
-          scope: punctuation.definition.group.end.xml
-          pop: true
-        - match: \|
-          scope: punctuation.separator.logical.xml
-        - include: entity-parameter
-        - include: entity
-        - include: should-be-entity
-        - include: string-unquoted
+      push: dtd-attlist-parens-content
+
+  dtd-attlist-parens-content:
+    - meta_scope: meta.group.enumerated.xml
+    - match: \)
+      scope: punctuation.definition.group.end.xml
+      pop: 1
+    - match: \|
+      scope: punctuation.separator.logical.xml
+    - include: dtd-constants
+    - include: entity
+    - include: should-be-entity
+    - include: string-unquoted
 
 ###[ DTD NOTATION ]###########################################################
 
@@ -330,7 +385,7 @@ contexts:
   dtd-notation-name:
     - match: '{{qualified_dtd_name}}'
       scope: variable.other.notation.xml
-      pop: true
+      pop: 1
     - include: dtd-common-name
 
 ###[ DTD SUBSET ]#############################################################
@@ -347,28 +402,30 @@ contexts:
     - meta_scope: meta.tag.sgml.subset.xml
     - match: \]>
       scope: punctuation.definition.tag.end.xml
-      pop: true
+      pop: 1
     - match: '[/\?]?>'
       scope: invalid.illegal.bad-tag-end.xml
-      pop: true
+      pop: 1
     - include: tag-end-missing-pop
 
   dtd-subset-name:
     - match: '{{qualified_dtd_name}}'
       scope: variable.other.subset.xml
-      pop: true
+      pop: 1
     - include: dtd-common-name
 
   dtd-subset-brackets:
     - match: \[
       scope: punctuation.section.brackets.begin.xml
-      set:
-        - meta_scope: meta.brackets.xml meta.internal-subset.xml
-        - match: \]
-          scope: punctuation.section.brackets.end.xml
-          pop: true
-        - include: dtd
+      set: dtd-subset-brackets-content
     - include: dtd-else-pop
+
+  dtd-subset-brackets-content:
+    - meta_scope: meta.brackets.xml meta.internal-subset.xml
+    - match: \]
+      scope: punctuation.section.brackets.end.xml
+      pop: 1
+    - include: dtd
 
 ###[ DTD UNKNOWN ]############################################################
 
@@ -377,9 +434,11 @@ contexts:
       captures:
         1: punctuation.definition.tag.begin.xml
         2: invalid.illegal.bad-tag-name.xml
-      push:
-        - meta_scope: meta.tag.sgml.unknown.xml
-        - include: dtd-end
+      push: dtd-unknown-content
+
+  dtd-unknown-content:
+    - meta_scope: meta.tag.sgml.unknown.xml
+    - include: dtd-end
 
 ###[ DTD PROTOTYPES ]#########################################################
 
@@ -389,11 +448,22 @@ contexts:
       captures:
         1: punctuation.definition.parameter.xml
         2: punctuation.terminator.parameter.xml
-      pop: true
+      pop: 1
     - match: '{{invalid_dtd_name}}'
       scope: invalid.illegal.bad-identifier.xml
-      pop: true
+      pop: 1
     - include: dtd-else-pop
+
+  dtd-constants:
+    - match: (#)P?CDATA
+      scope: constant.other.placeholder.xml
+      captures:
+        1: punctuation.definition.constant.xml
+    - match: (%){{name}}(;)
+      scope: variable.parameter.xml
+      captures:
+        1: punctuation.definition.parameter.xml
+        2: punctuation.terminator.parameter.xml
 
   dtd-content-unquoted:
     - include: string-unquoted
@@ -406,39 +476,28 @@ contexts:
   dtd-content-type:
     - match: (?:PUBLIC|SYSTEM)\b
       scope: storage.type.external-content.xml
-      pop: true
+      pop: 1
     - include: dtd-else-pop
 
   dtd-else-pop:
     # try to keep one whitespace if the end of a subset is detected
     # in order to scope it as `invalid.illegal.missing-tag-end`
     - match: (?=\s?\])
-      pop: true
+      pop: 1
     - include: tag-else-pop
 
   dtd-end:
     - match: '>'
       scope: punctuation.definition.tag.end.xml
-      pop: true
+      pop: 1
     - match: \s?(?=[<\]])
       scope: invalid.illegal.missing-tag-end.xml
-      pop: true
+      pop: 1
     - match: '[/\?]>'
       scope: invalid.illegal.bad-tag-end.xml
-      pop: true
+      pop: 1
     - match: \S
       scope: invalid.illegal.unexpected.xml
-
-  entity-parameter:
-    - match: (#)P?CDATA
-      scope: constant.other.placeholder.xml
-      captures:
-        1: punctuation.definition.constant.xml
-    - match: (%){{name}}(;)
-      scope: variable.parameter.xml
-      captures:
-        1: punctuation.definition.parameter.xml
-        2: punctuation.terminator.parameter.xml
 
 ###[ XML PREPROCESSOR ]#######################################################
 
@@ -463,25 +522,29 @@ contexts:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.xml
         3: invalid.illegal.bad-tag-name.xml
-      push:
-        - meta_scope: meta.tag.preprocessor.xml
-        - include: preprocessor-end
-        - include: tag-end-missing-pop
-        - include: tag-attribute
+      push: prolog-content
     # Processing instructions like <?...?>
     # meta tag without internal highlighting
     - match: (<\?)({{name}})\b
       captures:
         1: punctuation.definition.tag.begin.xml
         2: entity.name.tag.xml
-      push:
-        - meta_scope: meta.tag.preprocessor.xml
-        - include: preprocessor-end
+      push: preprocessor-content
+
+  prolog-content:
+    - meta_scope: meta.tag.preprocessor.xml
+    - include: preprocessor-end
+    - include: tag-end-missing-pop
+    - include: tag-attribute
+
+  preprocessor-content:
+    - meta_scope: meta.tag.preprocessor.xml
+    - include: preprocessor-end
 
   preprocessor-end:
     - match: \?>
       scope: punctuation.definition.tag.end.xml
-      pop: true
+      pop: 1
 
 ###[ XML TAGS ]###############################################################
 
@@ -495,17 +558,7 @@ contexts:
         4: entity.name.tag.xml punctuation.separator.namespace.xml
         5: entity.name.tag.localname.xml
         6: invalid.illegal.bad-tag-name.xml
-      push:
-        - meta_scope: meta.tag.xml
-        - match: '>'
-          scope: punctuation.definition.tag.end.xml
-          pop: true
-        - include: tag-end-missing-pop
-        - match: '[/\?]>'
-          scope: invalid.illegal.bad-tag-end.xml
-          pop: true
-        - match: \S
-          scope: invalid.illegal.unexpected-attribute.xml
+      push: end-tag-content
     # opening maybe self-closing tag with optional attributes
     - match: (<){{qualified_tag_name}}
       captures:
@@ -515,16 +568,30 @@ contexts:
         4: entity.name.tag.xml punctuation.separator.namespace.xml
         5: entity.name.tag.localname.xml
         6: invalid.illegal.bad-tag-name.xml
-      push:
-        - meta_scope: meta.tag.xml
-        - match: /?>
-          scope: punctuation.definition.tag.end.xml
-          pop: true
-        - match: \?>
-          scope: invalid.illegal.bad-tag-end.xml
-          pop: true
-        - include: tag-end-missing-pop
-        - include: tag-attribute
+      push: begin-tag-content
+
+  begin-tag-content:
+    - meta_scope: meta.tag.xml
+    - match: /?>
+      scope: punctuation.definition.tag.end.xml
+      pop: 1
+    - match: \?>
+      scope: invalid.illegal.bad-tag-end.xml
+      pop: 1
+    - include: tag-end-missing-pop
+    - include: tag-attribute
+
+  end-tag-content:
+    - meta_scope: meta.tag.xml
+    - match: '>'
+      scope: punctuation.definition.tag.end.xml
+      pop: 1
+    - include: tag-end-missing-pop
+    - match: '[/\?]>'
+      scope: invalid.illegal.bad-tag-end.xml
+      pop: 1
+    - match: \S
+      scope: invalid.illegal.unexpected-attribute.xml
 
   tag-attribute:
     - match: '{{qualified_attribute_name}}'
@@ -534,30 +601,28 @@ contexts:
         3: entity.other.attribute-name.xml punctuation.separator.namespace.xml
         4: entity.other.attribute-name.localname.xml
         5: invalid.illegal.bad-attribute-name.xml
-      push: tag-attribute-separator-key-value
-
-  tag-attribute-separator-key-value:
     - match: =
       scope: punctuation.separator.key-value.xml
-      set:
-        - include: string-quoted-pop
-        - match: '[^?/<>\s]+'
-          scope: invalid.illegal.bad-attribute-value.xml
-          pop: true
-        - include: tag-else-pop
+      push: tag-attribute-value
+
+  tag-attribute-value:
+    - include: string-quoted-pop
+    - match: '[^?/<>\s]+'
+      scope: invalid.illegal.bad-attribute-value.xml
+      pop: 1
     - include: tag-else-pop
 
   tag-else-pop:
     # pop, if nothing else matched and ensure `tag-end-missing-pop` works
     - match: (?=\s?<|\S)
-      pop: true
+      pop: 1
 
   tag-end-missing-pop:
     # pop, if the next opening tag is following, while scoping the
     # preceding space to give a hint about the unclosed tag
     - match: \s?(?=<)
       scope: invalid.illegal.missing-tag-end.xml
-      pop: true
+      pop: 1
 
 ###[ CONSTANTS ]##############################################################
 
@@ -586,12 +651,12 @@ contexts:
 
   string-unquoted:
     - match: '{{name}}'
-      scope: string.unquoted.xml
+      scope: meta.string.xml string.unquoted.xml
 
   string-unquoted-pop:
     - match: '{{name}}'
-      scope: string.unquoted.xml
-      pop: true
+      scope: meta.string.xml string.unquoted.xml
+      pop: 1
 
   string-quoted:
     - include: string-double-quoted
@@ -612,13 +677,12 @@ contexts:
       set: string-double-quoted-body
 
   string-double-quoted-body:
-    - meta_scope: string.quoted.double.xml
+    - meta_include_prototype: false
+    - meta_scope: meta.string.xml string.quoted.double.xml
     - match: \"
       scope: punctuation.definition.string.end.xml
-      pop: true
-    - include: tag-end-missing-pop
-    - include: entity
-    - include: should-be-entity
+      pop: 1
+    - include: string-common-content
 
   string-single-quoted:
     - match: \'
@@ -631,10 +695,14 @@ contexts:
       set: string-single-quoted-body
 
   string-single-quoted-body:
-    - meta_scope: string.quoted.single.xml
+    - meta_include_prototype: false
+    - meta_scope: meta.string.xml string.quoted.single.xml
     - match: \'
       scope: punctuation.definition.string.end.xml
-      pop: true
+      pop: 1
+    - include: string-common-content
+
+  string-common-content:
     - include: tag-end-missing-pop
     - include: entity
     - include: should-be-entity
