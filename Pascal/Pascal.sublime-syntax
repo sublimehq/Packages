@@ -208,6 +208,23 @@ contexts:
       scope: support.type.primitive.pascal
     - match: \b(?i:integer|cardinal|shortint|smallint|longint|int64|byte|word|longword)\b
       scope: support.type.primitive.pascal
+    - match: \b(?i:array)\b
+      scope: support.type.pascal
+      push:
+        - match: \[
+          scope: punctuation.section.brackets.begin.pascal
+          push:
+            - meta_scope: meta.brackets.pascal
+            - match: \]
+              scope: punctuation.section.brackets.end.pascal
+              pop: true
+        - match: \b(?i:of)\b
+          scope: keyword.other.pascal
+          push:
+            - include: types-for-anything
+            - match: (?=[,;])
+              pop: true
+        - include: else-pop
 
   types-for-anything:
     - match: '{{identifier}}'
