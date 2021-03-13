@@ -48,6 +48,9 @@ contexts:
     # - match: '({{identifier_real}})(\.)'
 
     # - include: function-call-no-arg
+    - include: function-call
+    - match: ;
+      scope: punctuation.terminator.pascal
 
   # function-call-no-arg:
   #   - match: '({{identifier_real}})(;)'
@@ -55,6 +58,23 @@ contexts:
   #       1: meta.function-call.pascal
   #          variable.function.pascal
   #       2: punctuation.terminator.pascal
+
+  function-call:
+    - match: '({{identifier_real}})(\()'
+      captures:
+        1: meta.function-call.pascal
+           variable.function.pascal
+        2: meta.function-call.arguments.pascal
+           punctuation.section.arguments.begin.pascal
+      push:
+        - meta_content_scope: meta.function-call.arguments.pascal
+        - match: \)
+          scope: meta.function-call.arguments.pascal
+                 punctuation.section.arguments.end.pascal
+          pop: true
+        - match: ','
+          scope: punctuation.separator.sequence.pascal
+        - include: statements
 
   blocks:
     - match: \b(?i:begin)\b
@@ -204,6 +224,8 @@ contexts:
       scope: keyword.operator.bitwise.pascal
     - match: =|<>|>=?|<=?
       scope: keyword.operator.comparison.pascal
+    - match: \^
+      scope: keyword.operator.pointer.pascal
 
   constants:
     - match: \b(?i:true|false|nil)\b
