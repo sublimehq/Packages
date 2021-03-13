@@ -100,7 +100,7 @@ contexts:
           pop: true
         - match: (?:\b(var|const)\s+)?({{identifier}})
           captures:
-            1: storage.type.pascal
+            1: keyword.declaration.pascal
             2: variable.parameter.pascal
           push:
             - match: ','
@@ -138,7 +138,7 @@ contexts:
 
   function-variables:
     - match: \b(?i:var)\b
-      scope: storage.type.pascal
+      scope: keyword.declaration.pascal
       push:
         - include: comments
         - match: (?=\b(?i:begin)\b)
@@ -210,8 +210,46 @@ contexts:
       scope: constant.language.pascal
 
   numerics:
-    - match: '\b((0(x|X)[0-9a-fA-F]*)|(([0-9]+\.?[0-9]*)|(\.[0-9]+))((e|E)(\+|-)?[0-9]+)?)(L|l|UL|ul|u|U|F|f|ll|LL|ull|ULL)?\b'
-      scope: constant.numeric.pascal
+    - match: \b(?i:(0x)(\h+))\b
+      scope: meta.number.integer.hexadecimal.pascal
+      captures:
+        1: constant.numeric.base.pascal
+        2: constant.numeric.value.pascal
+    - match: \b(?i:([0-9]+)(f))\b
+      scope: meta.number.float.decimal.pascal
+      captures:
+        1: constant.numeric.value.pascal
+        2: constant.numeric.suffix.pascal
+    - match: \b(?i:([0-9]+)(u?l?l?))\b
+      scope: meta.number.integer.decimal.pascal
+      captures:
+        1: constant.numeric.value.pascal
+        2: constant.numeric.suffix.pascal
+    - match: |-
+        \b(?xi:
+          [0-9]+\.             # float without int cast
+          (\B|(?:[0-9]*)
+            (?:e[+-]?[0-9]+)?
+            (?!l|ull)
+            (f)?\b
+          )
+        )
+      scope: meta.number.float.decimal.pascal
+      captures:
+        1: constant.numeric.value.pascal
+        2: constant.numeric.suffix.pascal
+    - match: |-
+        \b(?xi:
+          (
+            [0-9]+\.(?:[0-9]*)  # coerced int
+            (?:e[+-]?[0-9]+)?
+          )
+          (l|ull)
+        )\b
+      scope: meta.number.integer.decimal.pascal
+      captures:
+        1: constant.numeric.value.pascal
+        2: constant.numeric.suffix.pascal
 
   strings:
     # Double quoted strings are an extension and (generally) support C-style escape sequences.
@@ -259,10 +297,10 @@ contexts:
           captures:
             0: punctuation.definition.comment.pascal
           pop: true
-    - match: \{
+    - match: '{'
       scope: punctuation.definition.comment.pascal
       push:
         - meta_scope: comment.block.pascal.two
-        - match: \}
+        - match: '}'
           scope: punctuation.definition.comment.pascal
           pop: true
