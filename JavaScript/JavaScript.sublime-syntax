@@ -627,7 +627,7 @@ contexts:
       set:
         - do-while-meta
         - do-while-condition
-        - block-scope
+        - statement
 
     - match: for{{identifier_break}}
       scope: keyword.control.loop.for.js
@@ -655,21 +655,21 @@ contexts:
       scope: keyword.control.conditional.if.js
       set:
         - conditional-meta
-        - block-scope
+        - statement
         - expect-parenthesized-expression
 
     - match: else\s+if{{identifier_break}}
       scope: keyword.control.conditional.elseif.js
       set:
         - conditional-meta
-        - block-scope
+        - statement
         - expect-parenthesized-expression
 
     - match: else{{identifier_break}}
       scope: keyword.control.conditional.else.js
       set:
         - conditional-meta
-        - block-scope
+        - statement
 
     - match: try{{identifier_break}}
       scope: keyword.control.exception.try.js
