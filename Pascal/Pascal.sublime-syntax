@@ -47,14 +47,14 @@ contexts:
     - include: flow
     # - match: '({{identifier_real}})(\.)'
 
-    - include: function-call-no-arg
+    # - include: function-call-no-arg
 
-  function-call-no-arg:
-    - match: '({{identifier_real}})(;)'
-      captures:
-        1: meta.function-call.pascal
-           variable.function.pascal
-        2: punctuation.terminator.pascal
+  # function-call-no-arg:
+  #   - match: '({{identifier_real}})(;)'
+  #     captures:
+  #       1: meta.function-call.pascal
+  #          variable.function.pascal
+  #       2: punctuation.terminator.pascal
 
   blocks:
     - match: \b(?i:begin)\b
