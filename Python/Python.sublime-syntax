@@ -560,6 +560,8 @@ contexts:
       scope: keyword.operator.logical.python
     - match: '@'
       scope: keyword.operator.matrix.python
+    - match: ','
+      scope: punctuation.separator.sequence.python
 
   allow-unpack-operators:
     # Match unpacking operators, if present
