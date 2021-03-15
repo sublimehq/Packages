@@ -1345,6 +1345,20 @@
 }
 
 .test-operators {
+
+    margin: -1 -1 +1;
+    /*      ^ keyword.operator.arithmetic.css */
+    /*         ^ keyword.operator.arithmetic.css */
+    /*            ^ keyword.operator.arithmetic.css */
+
+    margin: -1px -1px +1px;
+    /*      ^ keyword.operator.arithmetic.css */
+    /*           ^ keyword.operator.arithmetic.css */
+    /*                ^ keyword.operator.arithmetic.css */
+}
+
+.test-operators-in-calc {
+
     top: calc(1px + 1px);
     /*            ^ keyword.operator.arithmetic.css */
     top: calc(+1px+1px);
@@ -1402,6 +1416,40 @@
     /*           ^ keyword.operator.arithmetic.css */
 }
 
+.text-calc-clamp-max-min {
+    top: clamp(1*5pt, calc(12/5), 100rem);
+/*       ^^^^^ support.function.calc.css */
+/*             ^ constant.numeric.value.css */
+/*              ^ keyword.operator.arithmetic.css */
+/*               ^ constant.numeric.value.css */
+/*                ^^ constant.numeric.suffix.css */
+/*                  ^ punctuation.separator.sequence.css */
+/*                    ^^^^ support.function.calc.css */
+/*                         ^^ constant.numeric.value.css */
+/*                           ^ keyword.operator.arithmetic.css */
+/*                            ^ constant.numeric.value.css */
+/*                              ^ punctuation.separator.sequence.css */
+/*                                ^^^ constant.numeric.value.css */
+/*                                   ^^^ constant.numeric.suffix.css */
+
+    top: max(5*6, min(10 + 5, calc(var(--size) / 5)));
+/*       ^^^ support.function.calc.css */
+/*           ^ constant.numeric.value.css */
+/*            ^ keyword.operator.arithmetic.css */
+/*             ^ constant.numeric.value.css */
+/*              ^ punctuation.separator.sequence.css */
+/*                ^^^ support.function.calc.css */
+/*                    ^^ constant.numeric.value.css */
+/*                       ^ keyword.operator.arithmetic.css */
+/*                         ^ constant.numeric.value.css */
+/*                          ^ punctuation.separator.sequence.css */
+/*                            ^^^^ support.function.calc.css */
+/*                                 ^^^ support.function.var.css */
+/*                                             ^ keyword.operator.arithmetic.css */
+/*                                               ^ constant.numeric.value.css */
+}
+
+
 .test-important {
     top: 1px !important;
 /*           ^^^^^^^^^^ keyword.other.important.css */
@@ -1409,10 +1457,30 @@
 /*          ^^^^^^^^^^ keyword.other.important.css */
 }
 
+.test:has(> .class) {}
+/*^^^^^^^^^^^^^^^^^ meta.selector.css */
+/*                 ^^^ - meta.selector.css */
+/*    ^^^ meta.function-call.identifier.css - meta.function-call meta.function-call - meta.group*/
+/*       ^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*       ^ punctuation.section.group.begin.css */
+/*        ^ keyword.operator.combinator.css */
+/*          ^^^^^^ entity.other.attribute-name.class.css */
+/*                ^ punctuation.section.group.end.css */
+
+.test:has(>> .class) {}
+/*^^^^^^^^^^^^^^^^^^ meta.selector.css */
+/*                  ^^^ - meta.selector.css */
+/*    ^^^ meta.function-call.identifier.css - meta.function-call meta.function-call - meta.group*/
+/*       ^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*       ^ punctuation.section.group.begin.css */
+/*        ^^ keyword.operator.combinator.css */
+/*           ^^^^^^ entity.other.attribute-name.class.css */
+/*                 ^ punctuation.section.group.end.css */
+
 /* Test Functional Pseudo Class Meta Scopes */
 .test:nth-child(even) {}
 /*^^^^^^^^^^^^^^^^^^^ meta.selector.css */
-/*                   ^^ - meta.selector.css */
+/*                   ^^^ - meta.selector.css */
 /*    ^^^^^^^^^ meta.function-call.identifier.css - meta.function-call meta.function-call - meta.group*/
 /*             ^^^^^^ meta.function-call.arguments.css meta.group.css */
 /*             ^ punctuation.section.group.begin.css */
@@ -2161,6 +2229,23 @@
 /*             ^^^ meta.number.float.decimal.css constant.numeric.value.css */
 /*                ^ meta.number.float.decimal.css constant.numeric.suffix.css */
 
+    top: blend(hsl(219, 10%, 6%) 50%);
+/*       ^^^^^ support.function.color.css */
+/*            ^ punctuation.section.group.begin.css */
+/*             ^^^ support.function.color.css */
+/*                ^ punctuation.section.group.begin.css */
+/*                 ^^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                    ^ punctuation.separator.sequence.css */
+/*                      ^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                        ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
+/*                         ^ punctuation.separator.sequence.css */
+/*                           ^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                            ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
+/*                             ^ punctuation.section.group.end.css */
+/*                               ^^ meta.number.integer.decimal.css constant.numeric.value.css */
+/*                                 ^ meta.number.integer.decimal.css constant.numeric.suffix.css */
+/*                                  ^ punctuation.section.group.end.css */
+
     top: blenda(red 50% hsl);
 /*       ^^^^^^ support.function.color.css */
 /*              ^^^ support.constant.color.w3c.standard.css */
@@ -2484,16 +2569,16 @@
 /*       ^^^ support.function.url.css */
 /*           ^ meta.string.css string.unquoted.css */
 
-    top: url("foo/bar%20baz.php?page=10&func=test()");
-/*       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function-call meta.function-call */
+    top: url("foo/bar%20baz.php?page=10&func=test()#ancor");
+/*       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function-call meta.function-call */
 /*       ^^^ meta.function-call.identifier.css */
-/*          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
-/*                                                   ^ - meta.function-call */
+/*          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.css meta.group.css */
+/*                                                         ^ - meta.function-call */
 /*          ^ - meta.string - meta.path */
 /*           ^ meta.string.css - meta.path */
-/*            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.url.css meta.string.css */
-/*                                                 ^ meta.string.css - meta.path */
-/*                                                  ^ - meta.string - meta.path */
+/*            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.path.url.css meta.string.css */
+/*                                                       ^ meta.string.css - meta.path */
+/*                                                        ^ - meta.string - meta.path */
 /*       ^^^ support.function.url.css */
 /*          ^ punctuation.section.group.begin.css */
 /*           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.double.css */
@@ -2503,9 +2588,10 @@
 /*                    ^^ constant.character.escape.url.css - punctuation */
 /*                             ^ punctuation.separator.path.css */
 /*                                     ^ punctuation.separator.path.css */
-/*                                                 ^ punctuation.definition.string.end.css */
-/*                                                  ^ punctuation.section.group.end.css */
-/*                                                   ^ punctuation.terminator.rule.css */
+/*                                                 ^ punctuation.separator.path.css */
+/*                                                       ^ punctuation.definition.string.end.css */
+/*                                                        ^ punctuation.section.group.end.css */
+/*                                                         ^ punctuation.terminator.rule.css */
 
     top: url('foo/bar%20baz.php?page=10&func=test()');
 /*       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ - meta.function-call meta.function-call */
@@ -2543,8 +2629,13 @@
 /*              ^ punctuation.separator.path.css */
 /*                  ^ constant.character.escape.url.css punctuation.definition.escape.css */
 /*                   ^^ constant.character.escape.url.css - punctuation */
+/*                     ^^^^^^^ - punctuation.separator.path */
 /*                            ^ punctuation.separator.path.css */
+/*                             ^^^^^^^ - punctuation.separator.path */
 /*                                    ^ punctuation.separator.path.css */
+/*                                     ^^^^^^^^^^^^^^ - punctuation.separator.path */
+/*                                                   ^ punctuation.separator.path.css */
+/*                                                    ^^ - punctuation.separator.path */
 /*                                                      ^^^^ constant.character.escape.css */
 /*                                                                  ^ invalid.illegal.unexpected-token.css */
 /*                                                                          ^^ constant.character.escape.css */
@@ -2677,6 +2768,13 @@
 }
 
 .test-gradient-functions {
+    top: conic-gradient(from 0.25turn at 50% 30%, #f69d3c, 10deg, #3f87a6, 350deg, #ebf8e1);
+/*       ^^^^^^^^^^^^^^ support.function.gradient.css */
+/*                      ^^^^ keyword.other.gradient.css */
+/*                           ^^^^ meta.number.float.decimal.css constant.numeric.value.css */
+/*                               ^^^^ meta.number.float.decimal.css constant.numeric.suffix.css */
+/*                                    ^^ keyword.other.gradient.css */
+
     top: linear-gradient();
 /*       ^^^^^^^^^^^^^^^ support.function.gradient.css */
 

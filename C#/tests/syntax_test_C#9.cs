@@ -10,16 +10,16 @@ public record Person
 {
     private readonly string lastName;
     public string FirstName { get; init; }
-///                           ^^^ storage.type.function.accessor.get
+///                           ^^^ keyword.declaration.function.accessor.get
 ///                              ^ punctuation.terminator
-///                                ^^^^ storage.type.function.accessor.set
+///                                ^^^^ keyword.declaration.function.accessor.set
 ///                                    ^ punctuation.terminator
     public string LastName
     {
         get => lastName;
         init => lastName = (value ?? throw new ArgumentNullException(nameof(LastName)));
-///     ^^^^ storage.type.function.accessor.set
-///          ^^ keyword.declaration.function.anonymous
+///     ^^^^ keyword.declaration.function.accessor.set
+///          ^^ keyword.declaration.function.arrow
 ///             ^^^^^^^^ variable.other
     }
 }

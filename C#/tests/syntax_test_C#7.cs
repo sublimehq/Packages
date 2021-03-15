@@ -564,7 +564,7 @@ class Foo {
 ///                                                   ^^^^ variable.other
 ///                                                        ^ keyword.operator.assignment.variable
 ///                                                          ^ variable.parameter
-///                                                            ^^ storage.type.function.lambda
+///                                                            ^^ keyword.declaration.function.arrow
 ///                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.group
 ///                                                               ^ punctuation.section.group.begin
 ///                                                                ^^^^^^^^ variable.other
@@ -764,7 +764,7 @@ public class MyClass {
     public MyClass () => obj = null;
 ///        ^^^^^^^ meta.method.constructor entity.name.function.constructor
 ///               ^^^^^^^^^^^^^^^^^ meta.class.body meta.block meta.method
-///                   ^^ keyword.declaration.function.anonymous.cs
+///                   ^^ keyword.declaration.function.arrow.cs
 ///                      ^^^ variable.other
 ///                          ^ keyword.operator.assignment
 ///                            ^^^^ constant.language
@@ -789,7 +789,7 @@ public class Person // https://stackoverflow.com/a/41974829/4473405
 ///                                ^^^ variable.parameter
 ///                                   ^ punctuation.section.parameters.end
 ///                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.method
-///                                     ^^ keyword.declaration.function.anonymous.cs
+///                                     ^^ keyword.declaration.function.arrow.cs
 ///                                        ^ meta.group punctuation.section.group.begin
 ///                                         ^^^^ meta.group variable.other
 ///                                             ^ meta.group punctuation.separator.tuple

@@ -10,5 +10,6 @@ $0
 </body>
 </html>]]></content>
 	<tabTrigger>html</tabTrigger>
-	<scope>text.html &amp; (- meta.tag | punctuation.definition.tag.begin)</scope>
+	<scope>text.html - (meta.tag | meta.character.less-than)</scope>
+	<description>html</description>
 </snippet>

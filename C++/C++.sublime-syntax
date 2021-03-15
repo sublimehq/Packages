@@ -21,19 +21,28 @@ first_line_match: '-\*- C\+\+ -\*-'
 scope: source.c++
 variables:
   # number digits
-  dec_digits: '(?:\d(?:[\d'']*\d)?)'
+  bin_digit: '[01'']'
+  oct_digit: '[0-7'']'
+  dec_digit: '[\d'']'
+  hex_digit: '[\h'']'
+
+  dec_digits: '(?:\d(?:{{dec_digit}}*\d)?)'
 
   # number exponents
-  dec_exponent: '(?:[eE][-+]??{{dec_digits}})'
-  hex_exponent: '(?:[pP][-+]??{{dec_digits}})'
+  dec_exponent: '(?:[eE][-+]?{{dec_digit}}*)'
+  hex_exponent: '(?:[pP][-+]?{{dec_digit}}*)'
 
   # number suffixes
-  # note: nearly everything can be defined as suffix via `operator` keyword
-  #  see: https://en.cppreference.com/w/cpp/numeric/complex/operator%22%22i
-  dec_suffix: '(?:[a-zA-Z_][[:alnum:]_]*|(?=[^[:alnum:]_'']))'
-  hex_suffix: '(?:[g-zG-Z_][[:alnum:]_]*|(?=[^[:alnum:]_'']))'
+  # note: nearly everything can be defined as suffix 
+  # a) see user literals
+  #    https://en.cppreference.com/w/cpp/language/user_literal
+  # b) see complex `operator` keyword
+  #    https://en.cppreference.com/w/cpp/numeric/complex/operator%22%22i
+  bin_suffix: '[2-9a-zA-Z_][[:alnum:]_]*'
+  oct_suffix: '[8-9g-zG-Z_][[:alnum:]_]*'
+  dec_suffix: '[a-zA-Z_][[:alnum:]_]*'
+  hex_suffix: '[g-zG-Z_][[:alnum:]_]*'  
   float_suffix: '[fF]'
-  integer_suffix: '[lL]{1,2}[uU]?|[uU][lL]{0,2}'
 
   identifier: \b[[:alpha:]_][[:alnum:]_]*\b # upper and lowercase
   macro_identifier: \b[[:upper:]_][[:upper:][:digit:]_]{2,}\b # only uppercase, at least 3 chars
@@ -48,11 +57,12 @@ variables:
   before_tag: 'struct|union|enum\s+class|enum\s+struct|enum|class'
   declspec: '__declspec\(\s*\w+(?:\([^)]+\))?\s*\)'
   storage_classes: 'static|export|extern|friend|explicit|virtual|register|thread_local'
-  type_qualifier: 'const|constexpr|mutable|typename|volatile'
+  type_qualifier: 'const|mutable|typename|volatile'
+  constant_expression_specifiers: 'consteval|constexpr|constinit'
   compiler_directive: 'inline|restrict|__restrict__|__restrict'
   visibility_modifiers: 'private|protected|public'
   other_keywords: 'typedef|nullptr|{{visibility_modifiers}}|static_assert|sizeof|using|typeid|alignof|alignas|namespace|template'
-  modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}'
+  modifiers: '{{storage_classes}}|{{type_qualifier}}|{{compiler_directive}}|{{constant_expression_specifiers}}'
   non_angle_brackets: '(?=<<|<=)'
 
   regular: '[^(){}&;*^%=<>-]*'
@@ -130,7 +140,7 @@ contexts:
       scope: keyword.operator.word.c++
 
   unique-types:
-    - match: \b(char16_t|char32_t|wchar_t|nullptr_t)\b
+    - match: \b(char8_t|char16_t|char32_t|wchar_t|nullptr_t)\b
       scope: storage.type.c++
     - match: \bclass\b
       scope: keyword.declaration.class.c++
@@ -154,110 +164,76 @@ contexts:
         (?x:
           \b({{dec_digits}})
           (?:
-            (?:
-              (\.)
+            ( (\.)
               (?:
                 # 1.1, 1.1e1, 1.1e-1, 1.1f, 1.1e1f, 1.1e-1f, 1.1L, 1.1e1L, 1.1e-1L
-                ({{dec_digits}}) ({{dec_exponent}})?
+                {{dec_digit}}+ {{dec_exponent}}?
                 # 1.e1, 1.e-1, 1.e1f, 1.e-1f, 1.e1L, 1.e-1L
-                | ({{dec_exponent}})
+                | {{dec_exponent}}
                 # 1., 1.f, 1.L # but not `..`
                 | (?!\.)
               )
               # 1e1 1e1f 1e1L
-              | ({{dec_exponent}})
+              | {{dec_exponent}}
             ) ({{dec_suffix}})?
             # 1f
             | ({{float_suffix}})
           )
           # .1, .1e1, .1e-1, .1f, .1e1f, .1e-1f, .1L, .1e1L, .1e-1L
-          | (\.) ({{dec_digits}}) ({{dec_exponent}})? ({{dec_suffix}})?
+          | ( (\.) {{dec_digit}}+ {{dec_exponent}}? ) ({{dec_suffix}})?
         )
       scope: meta.number.float.decimal.c++
       captures:
         1: constant.numeric.value.c++
-        2: punctuation.separator.decimal.c++
-        3: constant.numeric.value.c++
-        4: constant.numeric.value.exponent.c++
-        5: constant.numeric.value.exponent.c++
-        6: constant.numeric.value.exponent.c++
-        7: constant.numeric.suffix.c++
+        2: constant.numeric.value.c++
+        3: punctuation.separator.decimal.c++
+        4: constant.numeric.suffix.c++
+        5: constant.numeric.suffix.c++
+        6: constant.numeric.value.c++
+        7: punctuation.separator.decimal.c++
         8: constant.numeric.suffix.c++
-        9: punctuation.separator.decimal.c++
-        10: constant.numeric.value.c++
-        11: constant.numeric.value.exponent.c++
-        12: constant.numeric.suffix.c++
 
-    # hexadecimal float (C99)
-    - match: \b0[xX](?=[[:alnum:]_''.]+?[pP])
-      scope: constant.numeric.base.c++
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.number.float.hexadecimal.c++
-        - match: '({{hex_exponent}})([fFlL]\b)?'
-          captures:
-            1: constant.numeric.value.exponent.c++
-            2: constant.numeric.suffix.c++
-          pop: true
-        - match: \.
-          scope: punctuation.separator.decimal.c++
-        - match: \h
-          scope: constant.numeric.value.c++
-        - match: .
-          scope: invalid.illegal.numeric.digit.c++
+    # hexadecimal float
+    - match: \b(0[xX])({{hex_digit}}*(\.){{hex_digit}}*{{hex_exponent}})({{dec_suffix}})?
+      scope: meta.number.float.hexadecimal.c++
+      captures:
+        1: constant.numeric.base.c++
+        2: constant.numeric.value.c++
+        3: punctuation.separator.decimal.c++
+        4: constant.numeric.suffix.c++
 
-    # https://en.cppreference.com/w/c/language/integer_constant
+    # https://en.cppreference.com/w/cpp/language/integer_literal
 
-    # binary integer
-    - match: \b0[bB]
-      scope: constant.numeric.base.c++
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.number.integer.binary.c++
-        - include: decimal-suffix
-        - match: '[2-9]'
-          scope: invalid.illegal.numeric.digit.c++
-        - match: .
-          scope: constant.numeric.value.c++
     # hexadecimal integer
-    - match: \b0[xX]
-      scope: constant.numeric.base.c++
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.number.integer.hexadecimal.c++
-        - include: hexadecimal-suffix
-        - match: .
-          scope: constant.numeric.value.c++
+    - match: \b(0[xX])({{hex_digit}}*)({{hex_suffix}})?
+      scope: meta.number.integer.hexadecimal.c++
+      captures:
+        1: constant.numeric.base.c++
+        2: constant.numeric.value.c++
+        3: constant.numeric.suffix.c++
+
+    # binary integer (C++14)
+    - match: \b(0[bB])({{bin_digit}}*)({{bin_suffix}})?
+      scope: meta.number.integer.binary.c++
+      captures:
+        1: constant.numeric.base.c++
+        2: constant.numeric.value.c++
+        3: constant.numeric.suffix.c++
+
     # octal integer
-    - match: \b0(?=[\d''])
-      scope: constant.numeric.base.c++
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.number.integer.octal.c++
-        - include: decimal-suffix
-        - match: '[89]'
-          scope: invalid.illegal.numeric.digit.c++
-        - match: .
-          scope: constant.numeric.value.c++
+    - match: \b(0)({{oct_digit}}+)({{oct_suffix}})?
+      scope: meta.number.integer.octal.c++
+      captures:
+        1: constant.numeric.base.c++
+        2: constant.numeric.value.c++
+        3: constant.numeric.suffix.c++
+
     # decimal integer
-    - match: \b\d+
-      scope: constant.numeric.value.c++
-      push:
-        - meta_include_prototype: false
-        - meta_scope: meta.number.integer.decimal.c++
-        - include: decimal-suffix
-        - match: .
-          scope: constant.numeric.value.c++
-
-  decimal-suffix:
-    - match: '{{dec_suffix}}'
-      scope: constant.numeric.suffix.c++
-      pop: true
-
-  hexadecimal-suffix:
-    - match: '{{hex_suffix}}'
-      scope: constant.numeric.suffix.c++
-      pop: true
+    - match: \b({{dec_digits}})({{dec_suffix}})?
+      scope: meta.number.integer.decimal.c++
+      captures:
+        1: constant.numeric.value.c++
+        2: constant.numeric.suffix.c++
 
   identifiers:
     - match: '(?:(::)\s*)?{{identifier}}\s*(::)\s*'

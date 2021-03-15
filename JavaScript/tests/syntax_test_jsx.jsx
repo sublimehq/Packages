@@ -43,9 +43,9 @@
     <foo></foo><bar>
 //  ^^^^^^^^^^^ meta.jsx
 //             ^^^^^ - meta.jsx
-//             ^ keyword.operator.relational
+//             ^ keyword.operator.comparison
 //              ^^^ variable
-//                 ^ keyword.operator.relational
+//                 ^ keyword.operator.comparison
 0;
 
     <>Hello!</>;
@@ -61,9 +61,9 @@
     <foo></foo>
     <bar>
 //  ^^^^^ - meta.jsx
-//  ^ keyword.operator.relational
+//  ^ keyword.operator.comparison
 //   ^^^ variable
-//      ^ keyword.operator.relational
+//      ^ keyword.operator.comparison
 0;
 
     </foo>;
@@ -181,4 +181,7 @@
 //     ^ - punctuation
     }
 //  ^ punctuation.definition.interpolation.end
-</foo>
+</foo>;
+
+    <class />;
+//   ^^^^^ entity.name.tag

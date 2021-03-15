@@ -3,6 +3,6 @@
 	${0:print(i)}
 end]]></content>
 	<tabTrigger>for</tabTrigger>
-	<scope>source.lua</scope>
+	<scope>source.lua - comment - string</scope>
 	<description>for i=1,10</description>
 </snippet>

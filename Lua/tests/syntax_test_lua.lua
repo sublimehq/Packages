@@ -49,10 +49,10 @@
 --CONSTANTS
 
     true;
---  ^^^^ constant.language.boolean.true
+--  ^^^^ constant.language.boolean.lua
 
     false;
---  ^^^^^ constant.language.boolean.true
+--  ^^^^^ constant.language.boolean.lua
 
     nil;
 --  ^^^ constant.language.null
@@ -131,34 +131,34 @@
 --                       ^ punctuation.separator.decimal
 
     'foo';
---  ^^^^^ string.quoted.single
+--  ^^^^^ meta.string string.quoted.single
 --  ^ punctuation.definition.string.begin
 --      ^ punctuation.definition.string.end
 
 --STRINGS
 
     'foo';
---  ^^^^^ string.quoted.single
+--  ^^^^^ meta.string string.quoted.single
 --  ^ punctuation.definition.string.begin
 --      ^ punctuation.definition.string.end
 
     '-- [[';
---  ^^^^^^^ string.quoted.single - comment
+--  ^^^^^^^ meta.string string.quoted.single - comment
 
     "foo";
---  ^^^^^ string.quoted.double
+--  ^^^^^ meta.string string.quoted.double
 --  ^ punctuation.definition.string.begin
 --      ^ punctuation.definition.string.end
 
     "-- [[";
---  ^^^^^^^ string.quoted.double - comment
+--  ^^^^^^^ meta.string string.quoted.double - comment
 
     '\a\b\f\n\r\t\v\\\'\"\[\]';
---  ^^^^^^^^^^^^^^^^^^^^^^^^^^ string.quoted.single
+--  ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.string string.quoted.single
 --   ^^^^^^^^^^^^^^^^^^^^^^^^ constant.character.escape
 
     '\x1ff';
---   ^^^^ constant.character.escape.hexadecimal
+--   ^^^^ meta.string constant.character.escape.hexadecimal
 --       ^ - constant
 
     '\0 \123 \1234';
@@ -196,39 +196,39 @@
 --   ^ invalid.illegal.unclosed-string
 
     "foo\"\'";
---  ^^^^^^^^^ string.quoted.double
+--  ^^^^^^^^^ meta.string string.quoted.double
 --  ^ punctuation.definition.string.begin
 --      ^^^^ constant.character.escape
 --          ^ punctuation.definition.string.end
 
     [[ Foo! ]];
---  ^^^^^^^^^^ string.quoted.multiline
+--  ^^^^^^^^^^ meta.string string.quoted.multiline
 --  ^^ punctuation.definition.string.begin
 --          ^^ punctuation.definition.string.end
 
     [[ -- [[ ]];
---  ^^^^^^^^^^^ string.quoted.multiline - comment
+--  ^^^^^^^^^^^ meta.string string.quoted.multiline - comment
 
     [[ Foo! \a \]];
---  ^^^^^^^^^^^^^^ string.quoted.multiline
+--  ^^^^^^^^^^^^^^ meta.string string.quoted.multiline
 --  ^^ punctuation.definition.string.begin
 --          ^^^^ - constant
 --              ^^ punctuation.definition.string.end
 
     [=[ Foo! ]] ]=];
---  ^^^^^^^^^^^^^^^ string.quoted.multiline
+--  ^^^^^^^^^^^^^^^ meta.string string.quoted.multiline
 --  ^^^ punctuation.definition.string.begin
 --           ^^ - punctuation
 --              ^^^ punctuation.definition.string.end
 
     [=[
---  ^^^ string.quoted.multiline punctuation.definition.string.begin
+--  ^^^ meta.string string.quoted.multiline punctuation.definition.string.begin
         ]]
---      ^^^ string.quoted.multiline - punctuation
+--      ^^^ meta.string string.quoted.multiline - punctuation
         ]==]
---      ^^^^ string.quoted.multiline - punctuation
+--      ^^^^ meta.string string.quoted.multiline - punctuation
     ]=];
---  ^^^ string.quoted.multiline punctuation.definition.string.end
+--  ^^^ meta.string string.quoted.multiline punctuation.definition.string.end
 
 --OPERATORS
 
@@ -245,7 +245,7 @@
 
     not true;
 --  ^^^ keyword.operator.logical
---      ^^^^ constant.language.boolean.true
+--      ^^^^ constant.language.boolean.lua
 
     2 + 2 - 2 * 2 / 2 // 2 % 2 ^ 2;
 --    ^ keyword.operator.arithmetic
@@ -313,7 +313,7 @@
 --                ^ meta.mapping variable.other
 
     {[[actually a string]], [=[this too]=]}
---   ^^ meta.mapping.lua string.quoted.multiline.lua punctuation.definition.string.begin.lua
+--   ^^ meta.mapping.lua meta.string string.quoted.multiline.lua punctuation.definition.string.begin.lua
 --                          ^^^ meta.mapping.lua string.quoted.multiline.lua punctuation.definition.string.begin.lua
 
     {some = 2}, {some == 2}
@@ -393,7 +393,7 @@
     foo[return] foo[false]
 --      ^^^^^^ invalid.unexpected-keyword.lua
 --            ^ - meta.brackets
---                  ^^^^^ constant.language.boolean.true.lua
+--                  ^^^^^ constant.language.boolean.lua
 
     some.return
 --       ^^^^^^ invalid.unexpected-keyword.lua
@@ -408,15 +408,15 @@
 
     f "argument";
 --  ^ meta.function-call variable.function
---    ^^^^^^^^^^ meta.function-call.arguments string.quoted.double
+--    ^^^^^^^^^^ meta.function-call.arguments meta.string string.quoted.double
 
     f
     'argument';
---  ^^^^^^^^^^ meta.function-call.arguments string.quoted.single
+--  ^^^^^^^^^^ meta.function-call.arguments meta.string string.quoted.single
 
     f [[ foo ]];
 --  ^ meta.function-call variable.function
---    ^^^^^^^^^ meta.function-call.arguments string.quoted.multiline
+--    ^^^^^^^^^ meta.function-call.arguments meta.string string.quoted.multiline
 
     f {};
 --  ^ meta.function-call variable.function
@@ -551,7 +551,7 @@
 --      ^^^ invalid.illegal.unexpected-end
     until true;
 --  ^^^^^ keyword.control.loop
---        ^^^^ constant.language.boolean.true
+--        ^^^^ constant.language.boolean.lua
 
     for x = 1, y, z do end
 --  ^^^ keyword.control.loop
@@ -612,3 +612,48 @@
 --                 ^ keyword.operator.assignment
 --                   ^ meta.number.integer.decimal constant.numeric.value
 --                    ^ punctuation.terminator.statement
+
+    local x <const>, y <  const  > = 1, 2;
+--  ^^^^^ storage.modifier.lua
+--        ^ variable.other.lua
+--          ^^^^^^^ meta.modifier.lua
+--          ^ punctuation.definition.modifier.begin.lua
+--                ^ punctuation.definition.modifier.end.lua
+--           ^^^^^ storage.modifier.lua
+--                                 ^ keyword.operator.assignment.lua
+--                                   ^ meta.number.integer.decimal.lua constant.numeric.value.lua
+--                 ^ punctuation.separator.comma.lua
+--                   ^ variable.other.lua
+--                     ^^^^^^^^^^^ meta.modifier.lua
+--                     ^ punctuation.definition.modifier.begin.lua
+--                        ^^^^^ storage.modifier.lua
+--                               ^ punctuation.definition.modifier.end.lua
+--                                 ^ keyword.operator.assignment.lua
+--                                      ^ meta.number.integer.decimal.lua constant.numeric.value.lua
+
+    local text <const = "Hello, World";
+--  ^^^^^ storage.modifier.lua
+--        ^^^^ variable.other.lua
+--             ^^^^^^ meta.modifier.lua
+--                    ^ keyword.operator.assignment.lua - meta.modifier
+--                      ^ punctuation.definition.string.begin.lua - meta.modifier
+--                       ^^^^^^^^^^^^ meta.string.lua string.quoted.double.lua
+--                                   ^ punctuation.definition.string.end.lua
+--                                    ^ punctuation.terminator.statement.lua
+
+    local f <close> = io.open("/etc/fstab", "r")
+--  ^^^^^ storage.modifier.lua
+--        ^ variable.other.lua
+--          ^^^^^^^ meta.modifier.lua
+--          ^ punctuation.definition.modifier.begin.lua
+--           ^^^^^ storage.modifier.lua
+--                ^ punctuation.definition.modifier.end.lua
+--                  ^ keyword.operator.assignment.lua
+--                    ^^ support.constant.builtin.lua
+--                      ^ punctuation.accessor.lua
+--                       ^^^^ meta.property.lua support.function.builtin.lua
+--                           ^^^^^^^^^^^^^^^^^^^ meta.function-call.arguments.lua meta.group.lua
+--                           ^ punctuation.section.group.begin.lua
+--                            ^^^^^^^^^^^^ meta.string string.quoted.double.lua
+--                                        ^ punctuation.separator.comma.lua
+--                                             ^ punctuation.section.group.end.lua

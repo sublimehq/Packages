@@ -22,7 +22,7 @@ variables:
   identifier_part: (?:[_$\p{L}\p{Nl}\p{Mn}\p{Mc}\p{Nd}\p{Pc}\x{200C}\x{200D}]|{{identifier_escape}})
   identifier_break: (?!{{identifier_part}})
 
-  identifier: (?:{{identifier_start}}{{identifier_part}}*{{identifier_break}})
+  identifier_name: (?:{{identifier_start}}{{identifier_part}}*{{identifier_break}})
   constant_identifier: (?:[[:upper:]]{{identifier_part}}*{{identifier_break}})
   dollar_only_identifier: (?:\${{identifier_break}})
   dollar_identifier: '(?:(\$){{identifier_part}}*{{identifier_break}})'
@@ -42,17 +42,17 @@ variables:
       null|true|false
     ){{identifier_break}}
 
-  non_reserved_identifier: (?:(?!{{reserved_word}}){{identifier}})
+  non_reserved_identifier: (?:(?!{{reserved_word}}){{identifier_name}})
 
   either_func_lookahead: (?:{{func_lookahead}}|{{arrow_func_lookahead}})
-  binding_pattern_lookahead: (?:{{identifier}}|\[|\{)
+  binding_pattern_lookahead: (?:{{identifier_name}}|\[|\{)
   left_expression_end_lookahead: (?!\s*[.\[\(])
 
   dot_accessor: (?:\??\.)
 
   property_name: >-
     (?x:
-      {{identifier}}
+      {{identifier_name}}
       | [0-9]+
       | '(?:[^\\']|\\.)*'
       | "(?:[^\\"]|\\.)*"
@@ -62,7 +62,7 @@ variables:
   class_element_name: |-
     (?x:
       {{property_name}}
-      | \#{{identifier}}
+      | \#{{identifier_name}}
     )
 
   # Newline not permitted between `async` and `function`.
@@ -76,7 +76,7 @@ variables:
     (?x:
       (?:async\s*)?
       (?:
-        {{identifier}}
+        {{identifier_name}}
         | \( ( [^()] | \( [^()]* \) )* \)
       )
       \s*
@@ -93,7 +93,7 @@ variables:
       )
     ))
 
-  function_call_lookahead: (?={{identifier}}\s*(?:{{dot_accessor}})?\()
+  function_call_lookahead: (?={{identifier_name}}\s*(?:{{dot_accessor}})?\()
 
   function_assignment_lookahead: |-
     (?x:(?=
@@ -222,7 +222,7 @@ contexts:
         - match: default{{identifier_break}}
           scope: keyword.control.import-export.js
           pop: true
-        - match: '{{identifier}}'
+        - match: '{{identifier_name}}'
           scope: variable.other.readwrite.js
           pop: true
         - include: else-pop
@@ -269,7 +269,7 @@ contexts:
     - match: '\}'
       scope: punctuation.section.block.end.js
       pop: true
-    - match: '{{identifier}}'
+    - match: '{{identifier_name}}'
       scope: variable.other.readwrite.js
       push: import-export-alias
     - match: '\*'
@@ -329,7 +329,7 @@ contexts:
     - match: '\}'
       scope: punctuation.section.block.end.js
       pop: true
-    - match: '{{identifier}}'
+    - match: '{{identifier_name}}'
       scope: variable.other.readwrite.js
       push: import-export-alias
     - match: '\*'
@@ -396,12 +396,12 @@ contexts:
 
   expect-label:
     - meta_include_prototype: false
-    - match: '(?={{nothing}}{{identifier}})'
+    - match: '(?={{nothing}}{{identifier_name}})'
       set:
         - match: '{{non_reserved_identifier}}'
           scope: variable.label.js
           pop: true
-        - match: '{{identifier}}'
+        - match: '{{identifier_name}}'
           scope: invalid.illegal.identifier.js variable.label.js
           pop: true
         - include: else-pop
@@ -426,8 +426,9 @@ contexts:
   variable-binding-name:
     - match: (?={{non_reserved_identifier}})
       set:
-        - meta_scope: meta.binding.name.js
-        - include: literal-variable
+        - - meta_scope: meta.binding.name.js
+          - include: immediately-pop
+        - literal-variable
 
   variable-binding-array-destructuring:
     - match: '\['
@@ -449,7 +450,7 @@ contexts:
           scope: punctuation.section.block.end.js
           pop: true
         - include: variable-binding-spread
-        - match: (?={{identifier}}|\[|'|")
+        - match: (?={{identifier_start}}|\[|'|")
           push:
             - initializer
             - variable-binding-object-alias
@@ -464,7 +465,7 @@ contexts:
     - include: else-pop
 
   variable-binding-object-key:
-    - match: '{{identifier}}(?=\s*:)'
+    - match: '{{identifier_name}}(?=\s*:)'
       pop: true
     - include: literal-string
     - include: computed-property-name
@@ -485,11 +486,6 @@ contexts:
     - include: else-pop
 
   variable-binding-top:
-    - match: (?={{identifier}}{{function_assignment_lookahead}})
-      set:
-        - initializer
-        - function-name-meta
-        - variable-binding-pattern
     - match: (?={{binding_pattern_lookahead}})
       set:
         - initializer
@@ -509,7 +505,7 @@ contexts:
 
   variable-declaration:
     - match: (?:const|let|var){{identifier_break}}
-      scope: storage.type.js
+      scope: keyword.declaration.js
       set:
         - expect-semicolon
         - variable-binding-list-top
@@ -524,7 +520,7 @@ contexts:
   function-parameter-binding-name:
     - match: '{{non_reserved_identifier}}'
       scope: meta.binding.name.js variable.parameter.function.js
-    - match: '{{identifier}}'
+    - match: '{{identifier_name}}'
       scope: invalid.illegal.identifier.js meta.binding.name.js variable.parameter.function.js
 
   function-parameter-binding-array-destructuring:
@@ -548,7 +544,7 @@ contexts:
           scope: punctuation.section.block.end.js
           pop: true
         - include: function-parameter-binding-spread
-        - match: (?={{identifier}}|\[|'|")
+        - match: (?={{identifier_start}}|\[|'|")
           push:
             - initializer
             - function-parameter-binding-object-alias
@@ -562,7 +558,7 @@ contexts:
     - include: else-pop
 
   function-parameter-binding-object-key:
-    - match: '{{identifier}}(?=\s*:)'
+    - match: '{{identifier_name}}(?=\s*:)'
       pop: true
     - include: literal-string
     - include: computed-property-name
@@ -853,7 +849,7 @@ contexts:
     - include: immediately-pop
 
   decorator-name:
-    - match: '{{identifier}}{{left_expression_end_lookahead}}'
+    - match: '{{identifier_name}}{{left_expression_end_lookahead}}'
       scope: variable.annotation.js
       pop: true
 
@@ -936,14 +932,18 @@ contexts:
     - include: import-meta-expression
 
     - include: class
-    - include: constants
+    - include: special-name
 
-    - match: (?={{identifier}}{{function_assignment_lookahead}})
+    - include: regular-function
+
+    - match: (?={{reserved_word}})
+      pop: true
+
+    - match: (?={{identifier_name}}{{function_assignment_lookahead}})
       set:
         - function-name-meta
         - literal-variable
 
-    - include: regular-function
     - include: object-literal
 
     # Newline not allowed between `async` and parameters.
@@ -1059,7 +1059,7 @@ contexts:
         - include: string-content
 
   tagged-template:
-    - match: '{{identifier}}(?=\s*`)'
+    - match: '{{identifier_name}}(?=\s*`)'
       scope: variable.function.tagged-template.js
       pop: true
 
@@ -1153,7 +1153,7 @@ contexts:
           captures:
             1: punctuation.dollar.js
           pop: true
-        - match: '{{identifier}}'
+        - match: '{{identifier_name}}'
           scope: variable.type.js
           pop: true
         - include: else-pop
@@ -1194,9 +1194,6 @@ contexts:
     - match: in{{identifier_break}}
       scope: keyword.operator.js
       push: expression-begin
-    - match: '&&|\|\||\?\?'
-      scope: keyword.operator.logical.js
-      push: expression-begin
     - match: '=(?![=>])'
       scope: keyword.operator.assignment.js
       push: expression-begin
@@ -1212,8 +1209,14 @@ contexts:
         \|=  | # assignment      right-to-left   both
         <<=  | # assignment      right-to-left   both
         >>=  | # assignment      right-to-left   both
-        >>>=   # assignment      right-to-left   both
+        >>>= | # assignment      right-to-left   both
+        &&=   |
+        \|\|= |
+        \?\?=
       scope: keyword.operator.assignment.augmented.js
+      push: expression-begin
+    - match: '&&|\|\||\?\?'
+      scope: keyword.operator.logical.js
       push: expression-begin
     - match: |-
         (?x)
@@ -1227,11 +1230,11 @@ contexts:
       push: expression-begin
     - match: |-
         (?x)
-        <=   | # relational      left-to-right   both
-        >=   | # relational      left-to-right   both
-        <    | # relational      left-to-right   both
-        >      # relational      left-to-right   both
-      scope: keyword.operator.relational.js
+        <=   | # comparison      left-to-right   both
+        >=   | # comparison      left-to-right   both
+        <    | # comparison      left-to-right   both
+        >      # comparison      left-to-right   both
+      scope: keyword.operator.comparison.js
       push: expression-begin
     - match: |-
         (?x)
@@ -1291,7 +1294,7 @@ contexts:
 
   class:
     - match: class{{identifier_break}}
-      scope: storage.type.class.js
+      scope: keyword.declaration.class.js
       set:
         - class-meta
         - class-body
@@ -1334,7 +1337,7 @@ contexts:
 
     - match: |-
         (?x)(?=
-          \#? {{identifier}}
+          \#? {{identifier_name}}
           \s* = \s*
           {{either_func_lookahead}}
         )
@@ -1443,7 +1446,7 @@ contexts:
       fail: class-field
     - include: else-pop
 
-  constants:
+  special-name:
     - match: true{{identifier_break}}
       scope: constant.language.boolean.true.js
       pop: true
@@ -1452,6 +1455,12 @@ contexts:
       pop: true
     - match: null{{identifier_break}}
       scope: constant.language.null.js
+      pop: true
+    - match: super{{identifier_break}}
+      scope: variable.language.super.js
+      pop: true
+    - match: this{{identifier_break}}
+      scope: variable.language.this.js
       pop: true
 
   function-name-meta:
@@ -1539,7 +1548,7 @@ contexts:
       set:
         - clear_scopes: 1
         - meta_scope: meta.function.parameters.js
-        - match: '{{identifier}}'
+        - match: '{{identifier_name}}'
           scope: variable.parameter.function.js
           pop: true
     - include: function-declaration-parameters
@@ -1567,7 +1576,7 @@ contexts:
         - include: function-parameter-binding-list
 
   label:
-    - match: '({{identifier}})\s*(:)'
+    - match: '({{identifier_name}})\s*(:)'
       captures:
         1: entity.name.label.js
         2: punctuation.separator.js
@@ -1600,7 +1609,7 @@ contexts:
     - match: (?=\*)
       push: method-declaration
 
-    - match: '{{identifier}}(?=\s*(?:[},]|$|//|/\*))'
+    - match: '{{identifier_name}}(?=\s*(?:[},]|$|//|/\*))'
       scope: variable.other.readwrite.js
 
     - match: (?=(?:get|set|async){{identifier_break}})
@@ -1645,7 +1654,7 @@ contexts:
     - include: literal-string
     - include: literal-number
 
-    - match: '{{identifier}}'
+    - match: '{{identifier_name}}'
       pop: true
 
     - include: else-pop
@@ -1675,10 +1684,10 @@ contexts:
       captures:
         1: punctuation.dollar.js
       pop: true
-    - match: '{{identifier}}'
+    - match: '{{identifier_name}}'
       scope: entity.name.function.js
       pop: true
-    - match: '(#){{identifier}}'
+    - match: '(#){{identifier_name}}'
       scope: entity.name.function.js
       captures:
         1: punctuation.definition.js
@@ -1721,7 +1730,7 @@ contexts:
       captures:
         1: punctuation.dollar.js
       pop: true
-    - match: '{{identifier}}'
+    - match: '{{identifier_name}}'
       scope: variable.other.readwrite.js
       pop: true
     - match: "'"
@@ -1750,7 +1759,7 @@ contexts:
           scope: invalid.illegal.newline.js
           pop: true
         - include: string-content
-    - match: (#)({{identifier}})
+    - match: (#)({{identifier_name}})
       captures:
         1: punctuation.definition.variable.js
         2: variable.other.readwrite.js
@@ -1827,7 +1836,7 @@ contexts:
     - match: '{{dot_accessor}}'
       scope: punctuation.accessor.js
       push:
-        - match: '(?={{identifier}}\s*(?:{{dot_accessor}})?\()'
+        - match: '(?={{identifier_name}}\s*(?:{{dot_accessor}})?\()'
           set:
             - call-method-meta
             - function-call-arguments
@@ -1907,13 +1916,13 @@ contexts:
       pop: true
 
   literal-call:
-    - match: (?={{identifier}}\s*(?:{{dot_accessor}})?\()
+    - match: (?={{identifier_name}}\s*(?:{{dot_accessor}})?\()
       set:
         - call-function-meta
         - function-call-arguments
         - literal-variable
 
-    - match: (?={{identifier}}\s*(?:{{dot_accessor}}\s*#?{{identifier}}\s*)+(?:{{dot_accessor}})?\()
+    - match: (?={{identifier_name}}\s*(?:{{dot_accessor}}\s*#?{{identifier_name}}\s*)+(?:{{dot_accessor}})?\()
       set:
         - call-method-meta
         - function-call-arguments
@@ -1940,17 +1949,17 @@ contexts:
     - match: '{{dollar_only_identifier}}'
       scope: variable.function.js variable.other.dollar.only.js punctuation.dollar.js
       pop: true
-    - match: '{{identifier}}'
+    - match: '{{identifier_name}}'
       scope: variable.function.js
       pop: true
     - include: else-pop
 
   call-method-name:
     - include: support-property
-    - match: '{{identifier}}'
+    - match: '{{identifier_name}}'
       scope: variable.function.js
       pop: true
-    - match: '(#){{identifier}}'
+    - match: '(#){{identifier_name}}'
       scope: variable.function.js
       captures:
         1: punctuation.definition.js
@@ -1958,8 +1967,13 @@ contexts:
     - include: else-pop
 
   literal-variable:
-    - include: language-identifiers
+    - include: special-identifier
     - include: support
+
+    - match: '(?={{identifier_name}}{{function_assignment_lookahead}})'
+      set:
+        - function-name-meta
+        - literal-variable-base
 
     - match: '{{constant_identifier}}(?=\s*(?:{{dot_accessor}}|\[))'
       scope: support.class.js
@@ -1982,33 +1996,26 @@ contexts:
     - match: '{{constant_identifier}}'
       scope: variable.other.constant.js
       pop: true
-    - match: '{{identifier}}'
+    - match: '{{identifier_name}}'
       scope: variable.other.readwrite.js
       pop: true
     - include: literal-private-variable
 
   literal-private-variable:
-    - match: (#)({{identifier}})
+    - match: (#)({{identifier_name}})
       captures:
         1: punctuation.definition.variable.js
         2: variable.other.readwrite.js
       pop: true
 
-  language-identifiers:
+  special-identifier:
+    # These are ordinary identifiers, not reserved words
     - match: arguments{{identifier_break}}
       scope: variable.language.arguments.js
-      pop: true
-    - match: super{{identifier_break}}
-      scope: variable.language.super.js
-      pop: true
-    - match: this{{identifier_break}}
-      scope: variable.language.this.js
       pop: true
     - match: globalThis{{identifier_break}}
       scope: variable.language.global.js
       pop: true
-
-    # These three are ordinary variables, not literals!
     - match: undefined{{identifier_break}}
       scope: constant.language.undefined.js
       pop: true
@@ -2381,12 +2388,12 @@ contexts:
   object-property:
     - include: support-property
 
-    - match: (?=\#?{{identifier}}{{function_assignment_lookahead}})
+    - match: (?=\#?{{identifier_name}}{{function_assignment_lookahead}})
       set:
         - function-name-meta
         - object-property-base
 
-    - match: '(?=#?{{identifier}}\s*(?:{{dot_accessor}})?\()'
+    - match: '(?=#?{{identifier_name}}\s*(?:{{dot_accessor}})?\()'
       set: call-method-name
 
     - include: object-property-base
@@ -2401,13 +2408,13 @@ contexts:
       captures:
         1: punctuation.dollar.js
       pop: true
-    - match: '{{identifier}}'
+    - match: '{{identifier_name}}'
       scope: meta.property.object.js
       pop: true
     - match: '{{identifier_part}}+{{identifier_break}}'
       scope: invalid.illegal.illegal-identifier.js
       pop: true
-    - match: (#)({{identifier}})
+    - match: (#)({{identifier_name}})
       captures:
         1: punctuation.definition.variable.js
         2: meta.property.object.js
