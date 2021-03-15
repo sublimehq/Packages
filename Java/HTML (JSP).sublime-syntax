@@ -20,7 +20,7 @@ contexts:
 
 ###[ HTML CUSTOM TAGS ]#######################################################
 
-  tag-custom:
+  tag-other:
     - meta_prepend: true
     - include: tag-jsp-declaration
     - include: tag-jsp-directive
