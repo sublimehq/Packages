@@ -376,6 +376,16 @@ var obj = {
 
     get: 42,
 //  ^^^ meta.mapping.key
+
+    async() {}
+//  ^^^^^^^^^^ meta.function
+//  ^^^^^ entity.name.function
+//       ^^ meta.function.parameters
+//       ^ punctuation.section.group.begin
+//        ^ punctuation.section.group.end
+//          ^^ meta.block
+//          ^ punctuation.section.block.begin
+//           ^ punctuation.section.block.end
 }
 // <- meta.mapping - meta.block
 

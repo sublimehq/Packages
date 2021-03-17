@@ -220,6 +220,16 @@ class MyClass extends TheirClass {
 
     static async foo() {}
 //         ^^^^^ keyword.declaration.async
+
+    async() {}
+//  ^^^^^^^^^^ meta.function
+//  ^^^^^ entity.name.function
+//       ^^ meta.function.parameters
+//       ^ punctuation.section.group.begin
+//        ^ punctuation.section.group.end
+//          ^^ meta.block
+//          ^ punctuation.section.block.begin
+//           ^ punctuation.section.block.end
 }
 // <- meta.block punctuation.section.block.end
 
